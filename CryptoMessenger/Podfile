@@ -1,0 +1,26 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'CryptoMessenger' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for CryptoMessenger
+
+  # Firebase
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Messaging'
+  pod 'Firebase/DynamicLinks'
+  pod 'Firebase/RemoteConfig'
+
+  # Layout
+  pod 'SnapKit'
+
+  # Image loading/caching
+  pod 'Kingfisher'
+
+  # Code style
+  pod 'SwiftLint'
+
+end
