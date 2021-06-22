@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: UserDefaultSettings
+// MARK: - UserDefaultSettings
 
 @propertyWrapper
 struct UserDefaultSettings<Type> {
@@ -24,7 +24,7 @@ struct UserDefaultSettings<Type> {
     }
 }
 
-// MARK: UserDefaultsLayer
+// MARK: - UserDefaultsLayer
 
 final class UserDefaultsLayer {
 

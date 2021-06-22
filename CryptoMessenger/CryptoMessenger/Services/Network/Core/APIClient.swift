@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: APIClientService
+// MARK: - APIClientService
 
 protocol APIClientManager {
     @discardableResult
@@ -11,7 +11,7 @@ protocol APIClientManager {
     ) -> URLSessionDataTask
 }
 
-// MARK: APIClient
+// MARK: - APIClient
 
 final class APIClient: NSObject, APIClientManager {
 

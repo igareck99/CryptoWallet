@@ -2,7 +2,7 @@ import AVFoundation
 import Photos
 import UIKit
 
-// MARK: PhotoLibraryManager
+// MARK: - PhotoLibraryManager
 
 final class PhotoLibraryManager: NSObject {
 

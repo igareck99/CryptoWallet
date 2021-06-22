@@ -1,10 +1,14 @@
 import Foundation
 
+// MARK: - UserCredentialsStorage
+
 protocol UserCredentialsStorage: AnyObject {
     var isUserAuthenticated: Bool { get set }
     var token: String { get set }
     var userId: String { get set }
 }
+
+// MARK: - UserCredentialsStorageService
 
 final class UserCredentialsStorageService {
 

@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: RequestBuilder
+// MARK: - RequestBuilder
 
 final class RequestBuilder {
 

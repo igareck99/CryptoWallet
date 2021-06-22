@@ -19,6 +19,7 @@ final class OnboardingView: UIView {
     // MARK: - Private Properties
 
     private lazy var titleLabel: UILabel = .init()
+    private lazy var descriptionLabel: UILabel = .init()
 
 
     // MARK: - Lifecycle
@@ -26,6 +27,7 @@ final class OnboardingView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addTitleLabel()
+        addDescriptionLabel()
     }
 
     @available(*, unavailable)
@@ -45,7 +47,19 @@ final class OnboardingView: UIView {
         titleLabel.snap(parent: self) {
             $0.text = "Title"
         } layout: {
-            $0.center.equalTo($1)
+            $0.top.equalTo($1).offset(44)
+            $0.leading.equalTo($1).offset(15)
+            $0.trailing.equalTo($1).offset(-15)
+        }
+    }
+
+    private func addDescriptionLabel() {
+        descriptionLabel.snap(parent: self) {
+            $0.text = "Description"
+        } layout: {
+            $0.top.equalTo(self.titleLabel.snp.bottom).offset(8)
+            $0.leading.equalTo($1).offset(15)
+            $0.trailing.equalTo($1).offset(-15)
         }
     }
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: HTTPURLResponse ()
+// MARK: - HTTPURLResponse ()
 
 extension HTTPURLResponse {
 

@@ -2,7 +2,7 @@ import Firebase
 import FirebaseMessaging
 import UserNotifications
 
-// MARK: PushNotificationsManager
+// MARK: - PushNotificationsManager
 
 final class PushNotificationsManager: NSObject {
 

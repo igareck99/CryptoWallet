@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: APIError
+// MARK: - APIError
 
 struct APIError: Error {
 

@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: Endpoint
+// MARK: - Endpoint
 
 final class Endpoint<Response> {
 

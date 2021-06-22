@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: URLRequestConvertible
+// MARK: - URLRequestConvertible
 
 protocol URLRequestConvertible {
     func asURLRequest() throws -> URLRequest

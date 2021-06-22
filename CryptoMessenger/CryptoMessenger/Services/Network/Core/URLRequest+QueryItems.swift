@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: URLRequest ()
+// MARK: - URLRequest ()
 
 extension URLRequest {
 
