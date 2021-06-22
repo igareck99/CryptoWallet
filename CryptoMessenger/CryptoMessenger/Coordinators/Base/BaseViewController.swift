@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: BaseViewController
+// MARK: - BaseViewController
 
 class BaseViewController: UIViewController {
 
@@ -29,8 +29,6 @@ class BaseViewController: UIViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9803921569, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "back-button").withRenderingMode(.alwaysOriginal)
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "back-button").withRenderingMode(.alwaysOriginal)
         navigationController?.navigationBar.layer.masksToBounds = false
         navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
         navigationController?.navigationBar.layer.shadowOpacity = 0.25

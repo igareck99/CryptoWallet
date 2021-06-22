@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: Alertable
+// MARK: - Alertable
 
 protocol Alertable {
     func presentAlert(title: String?, message: String?, defaultButtonTitle: String?, completion: (() -> Void)?)

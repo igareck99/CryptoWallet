@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: AppPushNotificationsService
+// MARK: - AppPushNotificationsService
 
 final class AppPushNotificationsService: NSObject, UIApplicationDelegate {
 

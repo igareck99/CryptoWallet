@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: SceneDelegateService
+// MARK: - SceneDelegateService
 
 final class SceneDelegateService: NSObject, UIWindowSceneDelegate {
 

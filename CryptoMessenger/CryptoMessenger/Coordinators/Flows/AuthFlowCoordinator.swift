@@ -1,19 +1,19 @@
 import UIKit
 
-// MARK: AuthFlowCoordinatorDelegate
+// MARK: - AuthFlowCoordinatorDelegate
 
 protocol AuthFlowCoordinatorDelegate: AnyObject {
     func userPerformedAuthentication(coordinator: Coordinator)
 }
 
-// MARK: AuthFlowCoordinatorSceneDelegate
+// MARK: - AuthFlowCoordinatorSceneDelegate
 
 protocol AuthFlowCoordinatorSceneDelegate: AnyObject {
     func handleNextScene(_ scene: AuthFlowCoordinator.Scene)
     func switchFlow()
 }
 
-// MARK: AuthFlowCoordinator
+// MARK: - AuthFlowCoordinator
 
 public final class AuthFlowCoordinator: Coordinator {
 
@@ -37,7 +37,7 @@ public final class AuthFlowCoordinator: Coordinator {
     }
 
     func showOnboardingScene() {
-        let viewController = UIViewController()
+        let viewController = OnboardingConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
     }
 
@@ -74,5 +74,3 @@ extension AuthFlowCoordinator: OnboardingSceneDelegate {}
 // MARK: - AuthFlowCoordinator (NextSceneDelegate)
 
 //extension AuthFlowCoordinator: NextSceneDelegate {}
-
-

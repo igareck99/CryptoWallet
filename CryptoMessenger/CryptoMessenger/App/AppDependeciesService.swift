@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: AppDependenciesService
+// MARK: - AppDependenciesService
 
 final class AppDependenciesService: NSObject, UIApplicationDelegate {
 

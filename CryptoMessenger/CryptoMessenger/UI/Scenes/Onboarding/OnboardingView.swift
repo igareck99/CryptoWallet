@@ -8,7 +8,7 @@
 
 import UIKit
 
-// MARK: OnboardingView
+// MARK: - OnboardingView
 
 final class OnboardingView: UIView {
 
@@ -21,11 +21,11 @@ final class OnboardingView: UIView {
     private lazy var titleLabel: UILabel = .init()
     private lazy var descriptionLabel: UILabel = .init()
 
-
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        background(.white())
         addTitleLabel()
         addDescriptionLabel()
     }

@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: Injectable
+// MARK: - Injectable
 
 @propertyWrapper
 struct Injectable<Dependency> {

@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: AppCoordinator
+// MARK: - AppCoordinator
 
 final class AppCoordinator: Coordinator {
 
@@ -20,7 +20,6 @@ final class AppCoordinator: Coordinator {
 
     func start() {
         let flow: AppFlow = .authentication
-        
         switch flow {
         case .authentication:
             showAuthenticationFlow()
@@ -62,6 +61,5 @@ extension AppCoordinator: StartPresenterDelegate {
 extension AppCoordinator: AuthFlowCoordinatorDelegate {
     func userPerformedAuthentication(coordinator: Coordinator) {
         removeChildCoordinator(coordinator)
-        //showNextFlow()
     }
 }

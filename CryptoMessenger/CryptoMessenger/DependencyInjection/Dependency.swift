@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: Dependency
+// MARK: - Dependency
 
 struct Dependency {
 

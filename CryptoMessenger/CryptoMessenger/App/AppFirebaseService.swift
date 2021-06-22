@@ -1,6 +1,6 @@
 import FirebaseCore
 
-// MARK: AppFirebaseService
+// MARK: - AppFirebaseService
 
 final class AppFirebaseService: NSObject, UIApplicationDelegate {
 

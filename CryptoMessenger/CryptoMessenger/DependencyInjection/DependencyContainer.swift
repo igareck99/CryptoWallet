@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: DependencyContainer
+// MARK: - DependencyContainer
 
 @dynamicMemberLookup
 class DependencyContainer: Sequence {

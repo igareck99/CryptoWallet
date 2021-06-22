@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: Coordinator
+// MARK: - Coordinator
 
 protocol Coordinator: AnyObject {
     var childCoordinators: [String: Coordinator] { get set }
@@ -15,7 +15,7 @@ protocol Coordinator: AnyObject {
 
 extension Coordinator {
 
-    // MARK: - Public Methods
+    // MARK: - Internal Methods
 
     func addChildCoordinator(_ coordinator: Coordinator) {
         let name = String(describing: coordinator)

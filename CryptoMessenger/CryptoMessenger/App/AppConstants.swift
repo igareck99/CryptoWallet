@@ -1,5 +1,5 @@
 import Foundation
 
-// MARK: AppConstants
+// MARK: - AppConstants
 
 enum AppConstants {}
