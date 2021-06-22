@@ -46,6 +46,9 @@ final class OnboardingView: UIView {
     private func addTitleLabel() {
         titleLabel.snap(parent: self) {
             $0.text = "Title"
+            $0.textAlignment = .center
+            $0.textColor(.black())
+            $0.font(.regular(22))
         } layout: {
             $0.top.equalTo($1).offset(44)
             $0.leading.equalTo($1).offset(15)
@@ -56,6 +59,9 @@ final class OnboardingView: UIView {
     private func addDescriptionLabel() {
         descriptionLabel.snap(parent: self) {
             $0.text = "Description"
+            $0.textAlignment = .center
+            $0.textColor(.blue())
+            $0.font(.medium(18))
         } layout: {
             $0.top.equalTo(self.titleLabel.snp.bottom).offset(8)
             $0.leading.equalTo($1).offset(15)

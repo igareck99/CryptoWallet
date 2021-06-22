@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		590AF15B51B95CD18AFB64E3 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF05F2D70F4A4EE1E148305A /* Pods_CryptoMessenger.framework */; };
 		5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DBE26806EF8001957D3 /* AppDelegate.swift */; };
 		5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DC026806EF8001957D3 /* SceneDelegate.swift */; };
 		5A187DC826806EF9001957D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A187DC726806EF9001957D3 /* Assets.xcassets */; };
@@ -102,9 +101,15 @@
 		5AA6410926822C3A008922B4 /* ViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640FC26822C39008922B4 /* ViewStyle.swift */; };
 		5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640FD26822C3A008922B4 /* ButtonStyle.swift */; };
 		5AA6410C268233CA008922B4 /* ButtonDecor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA6410B268233CA008922B4 /* ButtonDecor.swift */; };
+		5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6410F26825E6A008922B4 /* Rubik-Light.ttf */; };
+		5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411026825E6A008922B4 /* Rubik-Bold.ttf */; };
+		5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */; };
+		5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */; };
+		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A187DBB26806EF8001957D3 /* CryptoMessenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoMessenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A187DBE26806EF8001957D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A187DC026806EF8001957D3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -201,9 +206,12 @@
 		5AA640FC26822C39008922B4 /* ViewStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewStyle.swift; sourceTree = "<group>"; };
 		5AA640FD26822C3A008922B4 /* ButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
 		5AA6410B268233CA008922B4 /* ButtonDecor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDecor.swift; sourceTree = "<group>"; };
-		DF05F2D70F4A4EE1E148305A /* Pods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E6D1F9E4ACEC31171F584BF5 /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
-		F1F5D8525B09811510F350CF /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
+		5AA6410F26825E6A008922B4 /* Rubik-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Light.ttf"; sourceTree = "<group>"; };
+		5AA6411026825E6A008922B4 /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
+		5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
+		5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
+		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
+		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,20 +219,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				590AF15B51B95CD18AFB64E3 /* Pods_CryptoMessenger.framework in Frameworks */,
+				C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3317E261A1E9E98DBBA1CBEB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5A187DB226806EF8001957D3 = {
 			isa = PBXGroup;
 			children = (
 				5A187DBD26806EF8001957D3 /* CryptoMessenger */,
 				5A187DBC26806EF8001957D3 /* Products */,
 				C48D3F6781FE772D12943E74 /* Pods */,
-				C9E2D84FE7F7A184D04EA4A3 /* Frameworks */,
+				3317E261A1E9E98DBBA1CBEB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -439,7 +455,8 @@
 		5A187ED82680CD3C001957D3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5A187DC726806EF9001957D3 /* Assets.xcassets */,
+				5AA6410E26825C79008922B4 /* Assets */,
+				5AA6410D26825C38008922B4 /* Typography */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -602,21 +619,32 @@
 			path = StyleGuide;
 			sourceTree = "<group>";
 		};
+		5AA6410D26825C38008922B4 /* Typography */ = {
+			isa = PBXGroup;
+			children = (
+				5AA6410F26825E6A008922B4 /* Rubik-Light.ttf */,
+				5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */,
+				5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */,
+				5AA6411026825E6A008922B4 /* Rubik-Bold.ttf */,
+			);
+			path = Typography;
+			sourceTree = "<group>";
+		};
+		5AA6410E26825C79008922B4 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				5A187DC726806EF9001957D3 /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F1F5D8525B09811510F350CF /* Pods-CryptoMessenger.debug.xcconfig */,
-				E6D1F9E4ACEC31171F584BF5 /* Pods-CryptoMessenger.release.xcconfig */,
+				E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */,
+				D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		C9E2D84FE7F7A184D04EA4A3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				DF05F2D70F4A4EE1E148305A /* Pods_CryptoMessenger.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -626,12 +654,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5A187DCF26806EF9001957D3 /* Build configuration list for PBXNativeTarget "CryptoMessenger" */;
 			buildPhases = (
-				1F8908CF29B0F0AAB8882A76 /* [CP] Check Pods Manifest.lock */,
+				6A9ACC994C362096620D0EAB /* [CP] Check Pods Manifest.lock */,
 				5A187F422680D241001957D3 /* SwiftLint */,
 				5A187DB726806EF8001957D3 /* Sources */,
 				5A187DB826806EF8001957D3 /* Frameworks */,
 				5A187DB926806EF8001957D3 /* Resources */,
-				C0A1B09064099C433B0470CA /* [CP] Embed Pods Frameworks */,
+				EC8CF24613DB1380ED4F8B0E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -680,14 +708,36 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A187DCB26806EF9001957D3 /* LaunchScreen.storyboard in Resources */,
+				5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */,
+				5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */,
+				5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */,
 				5A187DC826806EF9001957D3 /* Assets.xcassets in Resources */,
+				5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1F8908CF29B0F0AAB8882A76 /* [CP] Check Pods Manifest.lock */ = {
+		5A187F422680D241001957D3 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# skip merge\nGIT_ROOT=$(git rev-parse --git-dir)\nif [ -e \"${GIT_ROOT}/MERGE_MODE\" ]; then\n    exit 0\nfi\n\n# files\nfiles=$(git diff --diff-filter=d HEAD --name-only | grep -e '\\(.*\\).swift$')\n skip if no files\nif [ -z \"$files\" ]; then\n    echo \"Nothing to lint\"\n    exit 0\nfi\n\nIFS=$'\\n'\ncounter=0\nfor line in $files; do\n    export SCRIPT_INPUT_FILE_${counter}=\"../${line}\"\n    counter=$((counter + 1))\ndone\nunset IFS\n\nif (( counter > 0 )); then\n    export SCRIPT_INPUT_FILE_COUNT=${counter}\n    ${PODS_ROOT}/SwiftLint/swiftlint lint --use-script-input-files --config swiftlint.yml\nfi\n";
+		};
+		6A9ACC994C362096620D0EAB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -709,25 +759,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5A187F422680D241001957D3 /* SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftLint;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# skip merge\nGIT_ROOT=$(git rev-parse --git-dir)\nif [ -e \"${GIT_ROOT}/MERGE_MODE\" ]; then\n    exit 0\nfi\n\n# files\nfiles=$(git diff --diff-filter=d HEAD --name-only | grep -e '\\(.*\\).swift$')\n skip if no files\nif [ -z \"$files\" ]; then\n    echo \"Nothing to lint\"\n    exit 0\nfi\n\nIFS=$'\\n'\ncounter=0\nfor line in $files; do\n    export SCRIPT_INPUT_FILE_${counter}=\"../${line}\"\n    counter=$((counter + 1))\ndone\nunset IFS\n\nif (( counter > 0 )); then\n    export SCRIPT_INPUT_FILE_COUNT=${counter}\n    ${PODS_ROOT}/SwiftLint/swiftlint lint --use-script-input-files --config swiftlint.yml\nfi\n";
-		};
-		C0A1B09064099C433B0470CA /* [CP] Embed Pods Frameworks */ = {
+		EC8CF24613DB1380ED4F8B0E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -978,7 +1010,7 @@
 		};
 		5A187DD026806EF9001957D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F1F5D8525B09811510F350CF /* Pods-CryptoMessenger.debug.xcconfig */;
+			baseConfigurationReference = E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1000,7 +1032,7 @@
 		};
 		5A187DD126806EF9001957D3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6D1F9E4ACEC31171F584BF5 /* Pods-CryptoMessenger.release.xcconfig */;
+			baseConfigurationReference = D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
