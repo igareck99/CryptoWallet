@@ -1,4 +1,4 @@
-import FirebaseCore
+import UIKit
 
 // MARK: - AppFirebaseService
 
