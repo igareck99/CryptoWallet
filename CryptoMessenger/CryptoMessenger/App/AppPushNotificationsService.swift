@@ -10,7 +10,6 @@ final class AppPushNotificationsService: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        PushNotificationsManager.shared.resetBadge()
         return true
     }
 

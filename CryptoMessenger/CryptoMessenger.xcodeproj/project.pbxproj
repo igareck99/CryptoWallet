@@ -65,7 +65,6 @@
 		5A187F112680CF49001957D3 /* UserCredentialsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EDD2680CF49001957D3 /* UserCredentialsStorage.swift */; };
 		5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EDE2680CF49001957D3 /* UserDefaultsLayer.swift */; };
 		5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EE02680CF49001957D3 /* PhotoLibraryManager.swift */; };
-		5A187F142680CF49001957D3 /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EE22680CF49001957D3 /* PushNotificationsManager.swift */; };
 		5A187F262680CF49001957D3 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EF92680CF49001957D3 /* APIError.swift */; };
 		5A187F272680CF49001957D3 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EFA2680CF49001957D3 /* Environment.swift */; };
 		5A187F282680CF49001957D3 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EFB2680CF49001957D3 /* APIClient.swift */; };
@@ -170,7 +169,6 @@
 		5A187EDD2680CF49001957D3 /* UserCredentialsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCredentialsStorage.swift; sourceTree = "<group>"; };
 		5A187EDE2680CF49001957D3 /* UserDefaultsLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsLayer.swift; sourceTree = "<group>"; };
 		5A187EE02680CF49001957D3 /* PhotoLibraryManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryManager.swift; sourceTree = "<group>"; };
-		5A187EE22680CF49001957D3 /* PushNotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 		5A187EF92680CF49001957D3 /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		5A187EFA2680CF49001957D3 /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		5A187EFB2680CF49001957D3 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
@@ -475,7 +473,6 @@
 			children = (
 				5A187EDB2680CF49001957D3 /* UserDefaults */,
 				5A187EDF2680CF49001957D3 /* PhotoLibraryManager */,
-				5A187EE12680CF49001957D3 /* PushNotificationsManager */,
 				5A187EF72680CF49001957D3 /* Network */,
 				5A187F0B2680CF49001957D3 /* ContactsManager */,
 				5A187F0E2680CF49001957D3 /* Keyboard */,
@@ -499,14 +496,6 @@
 				5A187EE02680CF49001957D3 /* PhotoLibraryManager.swift */,
 			);
 			path = PhotoLibraryManager;
-			sourceTree = "<group>";
-		};
-		5A187EE12680CF49001957D3 /* PushNotificationsManager */ = {
-			isa = PBXGroup;
-			children = (
-				5A187EE22680CF49001957D3 /* PushNotificationsManager.swift */,
-			);
-			path = PushNotificationsManager;
 			sourceTree = "<group>";
 		};
 		5A187EF72680CF49001957D3 /* Network */ = {
@@ -818,7 +807,6 @@
 				5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */,
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
 				5A187ED22680BCD1001957D3 /* OnboardingProtocols.swift in Sources */,
-				5A187F142680CF49001957D3 /* PushNotificationsManager.swift in Sources */,
 				5A187E9B2680708D001957D3 /* ListSeparatorStyle.swift in Sources */,
 				5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */,
 				5A187F402680CFAF001957D3 /* StartProtocols.swift in Sources */,
