@@ -14,6 +14,9 @@ target 'CryptoMessenger' do
   #pod 'Firebase/DynamicLinks'
   #pod 'Firebase/RemoteConfig'
 
+  # Resources
+  pod 'R.swift'
+
   # Layout
   pod 'SnapKit'
 
@@ -22,5 +25,8 @@ target 'CryptoMessenger' do
 
   # Code style
   pod 'SwiftLint'
+
+  # Phone formatter
+  pod 'PhoneNumberKit'
 
 end

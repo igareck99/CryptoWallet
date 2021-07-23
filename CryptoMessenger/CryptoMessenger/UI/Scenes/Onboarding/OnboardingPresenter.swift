@@ -1,14 +1,6 @@
-//
-//  OnboardingPresenter.swift
-//  CryptoMessenger
-//
-//  Created by Dmitrii Ziablikov on 21.06.2021
-//  
-//
-
 import Foundation
 
-// MARK: OnboardingPresenter
+// MARK: - OnboardingPresenter
 
 final class OnboardingPresenter {
 
@@ -46,7 +38,5 @@ final class OnboardingPresenter {
 // MARK: - OnboardingPresenter (OnboardingPresentation)
 
 extension OnboardingPresenter: OnboardingPresentation {
-    func handleNextScene() {
-        delegate?.handleNextScene(.nextScene)
-    }
+    func handleNextScene() {}
 }

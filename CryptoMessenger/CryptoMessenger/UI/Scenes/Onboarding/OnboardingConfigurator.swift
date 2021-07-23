@@ -1,14 +1,6 @@
-//
-//  OnboardingConfigurator.swift
-//  CryptoMessenger
-//
-//  Created by Dmitrii Ziablikov on 21.06.2021
-//  
-//
-
 import Foundation
 
-// MARK: OnboardingConfigurator
+// MARK: - OnboardingConfigurator
 
 enum OnboardingConfigurator {
     static func configuredViewController(delegate: OnboardingSceneDelegate?) -> OnboardingViewController {

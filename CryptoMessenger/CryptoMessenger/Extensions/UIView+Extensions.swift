@@ -50,10 +50,12 @@ extension UIView {
     final func animateScaleEffect(_ completion: (() -> Void)? = nil) {
         layer.removeAllAnimations()
 
-        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseInOut, .autoreverse]) {
-            self.transform = .init(scaleX: 1.06, y: 1.06)
+        UIView.animate(withDuration: 0.15, delay: 0, options: [.curveEaseInOut]) {
+            self.transform = .init(scaleX: 1.03, y: 1.03)
         } completion: { _ in
-            self.transform = .identity
+            UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseInOut]) {
+                self.transform = .identity
+            }
             completion?()
         }
     }

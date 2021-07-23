@@ -66,12 +66,11 @@ final class RequestBuilder {
         self.method = method
         self.requestType = requestType
 
-        let apiVersion = "/" + EnvironmentConfiguration.apiVersion.rawValue
-        if let components = URLComponents(string: apiVersion + path), let params = components.queryItems {
+        if let components = URLComponents(string: path), let params = components.queryItems {
             self.path = components.path
             self.queryParameters = QueryParams(uniqueKeysWithValues: params.map({ ($0.name, $0.value) }))
         } else {
-            self.path = apiVersion + path
+            self.path = path
         }
     }
 

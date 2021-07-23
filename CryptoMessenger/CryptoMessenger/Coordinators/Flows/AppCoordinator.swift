@@ -26,12 +26,6 @@ final class AppCoordinator: Coordinator {
         }
     }
 
-    func showStartScene() {
-        navigationController.pushViewController(
-            StartConfigurator.configuredViewController(delegate: self), animated: false
-        )
-    }
-
     func showAuthenticationFlow() {
         let authFlowCoordinator = AuthFlowCoordinator(navigationController: navigationController)
         authFlowCoordinator.delegate = self
@@ -41,18 +35,6 @@ final class AppCoordinator: Coordinator {
 
     enum AppFlow {
         case authentication
-    }
-}
-
-// MARK: - AppCoordinator (StartPresenterDelegate)
-
-extension AppCoordinator: StartPresenterDelegate {
-    func userNeedsToAuthenticate() {
-        showAuthenticationFlow()
-    }
-
-    func userIsAuthenticated() {
-        showAuthenticationFlow()
     }
 }
 

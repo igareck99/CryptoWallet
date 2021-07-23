@@ -33,7 +33,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.onboarding)
+        handleNextScene(.registration)
     }
 
     func showOnboardingScene() {
@@ -41,14 +41,28 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    func showNextScene() {
-        let viewController = UIViewController()
+    func showRegistrationScene() {
+        let viewController = RegistrationConfigurator.configuredViewController(delegate: self)
         setViewWith(viewController)
     }
 
+    func showVerificationScene() {
+        let viewController = VerificationConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    func showCountryCodeScene(_ countryCodeDelegate: CountryCodePickerDelegate) {
+        let viewController = CountryCodePickerViewController()
+        viewController.delegate = countryCodeDelegate
+        let nvc = BaseNavigationController(rootViewController: viewController)
+        navigationController.viewControllers.last?.present(nvc, animated: true)
+    }
+
     enum Scene {
+        case registration
+        case verification
         case onboarding
-        case nextScene
+        case countryCode(CountryCodePickerDelegate)
     }
 }
 
@@ -57,10 +71,14 @@ public final class AuthFlowCoordinator: Coordinator {
 extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
     func handleNextScene(_ scene: Scene) {
         switch scene {
+        case .registration:
+            showRegistrationScene()
+        case .verification:
+            showVerificationScene()
         case .onboarding:
             showOnboardingScene()
-        case .nextScene:
-            showNextScene()
+        case .countryCode(let delegate):
+            showCountryCodeScene(delegate)
         }
     }
 
@@ -71,6 +89,10 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
 
 extension AuthFlowCoordinator: OnboardingSceneDelegate {}
 
-// MARK: - AuthFlowCoordinator (NextSceneDelegate)
+// MARK: - AuthFlowCoordinator (RegistrationSceneDelegate)
 
-//extension AuthFlowCoordinator: NextSceneDelegate {}
+extension AuthFlowCoordinator: RegistrationSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (VerificationSceneDelegate)
+
+extension AuthFlowCoordinator: VerificationSceneDelegate {}

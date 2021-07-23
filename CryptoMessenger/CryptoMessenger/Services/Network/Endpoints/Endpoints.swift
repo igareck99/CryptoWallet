@@ -6,21 +6,11 @@ enum Endpoints {
 
     // MARK: - Types
 
-    enum RelationshipType {
-        static func get() -> Endpoint<RelationshipResponse> {
-            let endpoint = Endpoint<RelationshipResponse>(
+    enum Registration {
+        static func get(_ phone: String) -> Endpoint<EmptyResponse> {
+            let endpoint = Endpoint<EmptyResponse>(
                 method: .get,
-                path: "/templates/relationship-types"
-            )
-            return endpoint
-        }
-    }
-
-    enum Occasions {
-        static func get() -> Endpoint<OccasionResponse> {
-            let endpoint = Endpoint<OccasionResponse>(
-                method: .get,
-                path: "/templates/occasions"
+                path: "/api/sms?phone=\(phone)"
             )
             return endpoint
         }

@@ -19,6 +19,7 @@ final class APIClient: NSObject, APIClientManager {
 
     private var additionalHeaders: [String: String] = [:]
     private var session = URLSession(configuration: .default)
+    @Injectable private var userCredentials: UserCredentialsStorageService
 
     // MARK: - Lifecycle
 
@@ -70,8 +71,8 @@ final class APIClient: NSObject, APIClientManager {
             httpRequest.addValue(value, forHTTPHeaderField: header)
         }
 
-        if UserDefaultsLayer.storage.auth.isUserAuthenticated {
-            httpRequest.addValue("\(UserDefaultsLayer.storage.auth.token)", forHTTPHeaderField: "X-TN")
+        if userCredentials.isUserAuthenticated {
+            httpRequest.addValue("\(userCredentials.token)", forHTTPHeaderField: "Bearer")
         }
 
         let task: URLSessionDataTask = session.dataTask(with: httpRequest) { data, response, error in
