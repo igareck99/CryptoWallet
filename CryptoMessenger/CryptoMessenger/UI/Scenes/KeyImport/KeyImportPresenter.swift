@@ -9,6 +9,10 @@ final class KeyImportPresenter {
     weak var delegate: KeyImportSceneDelegate?
     weak var view: KeyImportViewInterface?
 
+    // MARK: - Private Properties
+
+    @Injectable private var userFlows: UserFlowsStorageService
+
     private var state = KeyImportFlow.ViewState.sending {
         didSet {
             updateView(state)
@@ -36,7 +40,8 @@ final class KeyImportPresenter {
 
     private func sendKey() {
         delay(1.4) {
-            self.delegate?.handleNextScene(.verification)
+            self.userFlows.isAuthFlowFinished = true
+            self.delegate?.handleNextScene(.main)
         }
     }
 }

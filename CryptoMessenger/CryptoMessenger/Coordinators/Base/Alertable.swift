@@ -9,7 +9,7 @@ protocol Alertable {
 // MARK: - Alertable (UIViewController)
 extension Alertable where Self: UIViewController {
 
-    // MARK: - Public Methods
+    // MARK: - Internal Methods
 
     func presentAlert(
         title: String?,

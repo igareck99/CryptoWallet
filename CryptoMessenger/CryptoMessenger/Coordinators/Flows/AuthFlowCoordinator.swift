@@ -33,7 +33,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.generationInfo)
+        handleNextScene(.registration)
     }
 
     func showOnboardingScene() {
@@ -74,11 +74,12 @@ public final class AuthFlowCoordinator: Coordinator {
         case generationInfo
         case onboarding
         case keyImport
+        case main
         case countryCode(CountryCodePickerDelegate)
     }
 }
 
-// MARK: - AuthFlowCoordinatorSceneDelegate
+// MARK: - AuthFlowCoordinator (AuthFlowCoordinatorSceneDelegate)
 
 extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
     func handleNextScene(_ scene: Scene) {
@@ -95,10 +96,14 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showCountryCodeScene(delegate)
         case .keyImport:
             showKeyImportScene()
+        case .main:
+            switchFlow()
         }
     }
 
-    func switchFlow() {}
+    func switchFlow() {
+        delegate?.userPerformedAuthentication(coordinator: self)
+    }
 }
 
 // MARK: - AuthFlowCoordinator (RegistrationSceneDelegate)

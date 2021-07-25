@@ -11,7 +11,7 @@ final class OnboardingPresenter {
         let image: UIImage?
     }
 
-    // MARK: - Public Properties
+    // MARK: - Internal Properties
 
     weak var delegate: OnboardingSceneDelegate?
     weak var view: OnboardingViewInterface?
@@ -44,6 +44,7 @@ extension OnboardingPresenter: OnboardingPresentation {
     }
 
     func handleContinueButtonTap() {
+        userFlows.isOnboardingFlowFinished = true
         delegate?.handleNextScene(.keyImport)
     }
 }
