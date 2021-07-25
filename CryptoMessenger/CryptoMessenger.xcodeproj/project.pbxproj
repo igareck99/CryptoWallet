@@ -133,6 +133,11 @@
 		5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8636626ADCB9B004A417C /* KeyImportView.swift */; };
 		5AF8636D26ADCB9B004A417C /* KeyImportConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8636726ADCB9B004A417C /* KeyImportConfigurator.swift */; };
 		5AF8636E26ADCB9B004A417C /* KeyImportFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8636826ADCB9B004A417C /* KeyImportFlow.swift */; };
+		5AF8637026ADD9BB004A417C /* MainFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8636F26ADD9BB004A417C /* MainFlowCoordinator.swift */; };
+		5AF8637226ADDDCE004A417C /* AppLaunchInstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637126ADDDCE004A417C /* AppLaunchInstructor.swift */; };
+		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
+		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
+		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -266,6 +271,11 @@
 		5AF8636626ADCB9B004A417C /* KeyImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImportView.swift; sourceTree = "<group>"; };
 		5AF8636726ADCB9B004A417C /* KeyImportConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImportConfigurator.swift; sourceTree = "<group>"; };
 		5AF8636826ADCB9B004A417C /* KeyImportFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImportFlow.swift; sourceTree = "<group>"; };
+		5AF8636F26ADD9BB004A417C /* MainFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinator.swift; sourceTree = "<group>"; };
+		5AF8637126ADDDCE004A417C /* AppLaunchInstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLaunchInstructor.swift; sourceTree = "<group>"; };
+		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
+		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
+		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -363,7 +373,9 @@
 			isa = PBXGroup;
 			children = (
 				5A187DE826807011001957D3 /* AppCoordinator.swift */,
+				5AF8637126ADDDCE004A417C /* AppLaunchInstructor.swift */,
 				5A187DE926807011001957D3 /* AuthFlowCoordinator.swift */,
+				5AF8636F26ADD9BB004A417C /* MainFlowCoordinator.swift */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -372,8 +384,10 @@
 			isa = PBXGroup;
 			children = (
 				5A187DEC26807011001957D3 /* BaseViewController.swift */,
-				5A187DED26807011001957D3 /* Alertable.swift */,
 				5A187DEE26807011001957D3 /* BaseNavigationController.swift */,
+				5AF8637326ADE236004A417C /* BaseTabBarController.swift */,
+				5AF8637526ADE25F004A417C /* BaseTabBar.swift */,
+				5A187DED26807011001957D3 /* Alertable.swift */,
 				5A187DEF26807011001957D3 /* Coordinator.swift */,
 			);
 			path = Base;
@@ -697,6 +711,7 @@
 				5AA6410B268233CA008922B4 /* ButtonDecor.swift */,
 				5AA640F126822C39008922B4 /* NavigationBarStyle.swift */,
 				5AA640F226822C39008922B4 /* ImageStyle.swift */,
+				5AF8637726ADE922004A417C /* TabBarStyle.swift */,
 				5AA640F426822C39008922B4 /* TextViewStyle.swift */,
 				5AA640F526822C39008922B4 /* TextAttributes.swift */,
 				5AA640F626822C39008922B4 /* CGContextStyle.swift */,
@@ -978,11 +993,13 @@
 				5A187E9E2680708D001957D3 /* ObservableArray.swift in Sources */,
 				5AF8636D26ADCB9B004A417C /* KeyImportConfigurator.swift in Sources */,
 				5A187DD826806F35001957D3 /* Dependency.swift in Sources */,
+				5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */,
 				5A187EA32680708D001957D3 /* CollectionViewProvider.swift in Sources */,
 				5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
 				5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */,
+				5AF8637026ADD9BB004A417C /* MainFlowCoordinator.swift in Sources */,
 				5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
@@ -1026,6 +1043,7 @@
 				5AA6410126822C3A008922B4 /* TextViewStyle.swift in Sources */,
 				5AA6410626822C3A008922B4 /* FontDecor.swift in Sources */,
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
+				5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */,
 				5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */,
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
@@ -1045,6 +1063,7 @@
 				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
 				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
+				5AF8637226ADDDCE004A417C /* AppLaunchInstructor.swift in Sources */,
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
 				5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
@@ -1059,6 +1078,7 @@
 				5A187EA22680708D001957D3 /* TableViewProviderViewModel.swift in Sources */,
 				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
+				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
 				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,

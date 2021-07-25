@@ -4,7 +4,7 @@ import Foundation
 
 protocol UserFlowsStorage {
     var isAuthFlowFinished: Bool { get set }
-    var isNewFlowFinished: Bool { get set }
+    var isOnboardingFlowFinished: Bool { get set }
 }
 
 // MARK: - UserFlowsStorageService
@@ -30,10 +30,10 @@ final class UserFlowsStorageService {
         }
     }
 
-    var isNewFlowFinished: Bool {
-        get { storage.isNewFlowFinished }
+    var isOnboardingFlowFinished: Bool {
+        get { storage.isOnboardingFlowFinished }
         set {
-            storage.isNewFlowFinished = newValue
+            storage.isOnboardingFlowFinished = newValue
         }
     }
 }

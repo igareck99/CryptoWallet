@@ -7,6 +7,7 @@ final class KeyImportView: UIView {
     // MARK: - Internal Properties
 
     var didTapImportButton: VoidBlock?
+    var didTapInfoButton: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -28,6 +29,7 @@ final class KeyImportView: UIView {
         background(.white())
         addTitleLabel()
         addKeyTextView()
+        addInfoButton()
         addImportButton()
         addLineView()
     }
@@ -35,6 +37,25 @@ final class KeyImportView: UIView {
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
+    }
+
+    // MARK: - Actions
+
+    @objc private func infoButtonTap() {
+        vibrate()
+        infoButton.animateScaleEffect {
+            self.didTapInfoButton?()
+        }
+    }
+
+    @objc private func importButtonTap() {
+        vibrate()
+
+        importButton.indicator = MaterialLoadingIndicator(color: .blue())
+        importButton.animateScaleEffect {
+            self.startLoading()
+            self.didTapImportButton?()
+        }
     }
 
     // MARK: - Internal Methods
@@ -75,18 +96,6 @@ final class KeyImportView: UIView {
             $0.bottom.equalTo(self.snp_bottomMargin).offset(-offset)
         }
         UIView.animate(withDuration: 0.25) { self.layoutIfNeeded() }
-    }
-
-    // MARK: - Actions
-
-    @objc private func importButtonTap() {
-        vibrate()
-
-        importButton.indicator = MaterialLoadingIndicator(color: .blue())
-        importButton.animateScaleEffect {
-            self.startLoading()
-            self.didTapImportButton?()
-        }
     }
 
     // MARK: - Private Methods
@@ -130,10 +139,27 @@ final class KeyImportView: UIView {
             $0.layer.borderColor = #colorLiteral(red: 0.9019607843, green: 0.9176470588, blue: 0.9294117647, alpha: 1).cgColor
             $0.selectedTextRange = $0.textRange(from: $0.beginningOfDocument, to: $0.beginningOfDocument)
         } layout: {
-            $0.top.equalTo(self.titleLabel.snp_bottomMargin).offset(160)
+            $0.top.equalTo(self.titleLabel.snp_bottomMargin).offset(130)
             $0.leading.equalTo($1).offset(16)
             $0.trailing.equalTo($1).offset(-16)
             $0.height.greaterThanOrEqualTo(100)
+        }
+    }
+
+    private func addInfoButton() {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.24
+        paragraphStyle.alignment = .center
+
+        let title = R.string.localizable.keyGenerationInformation()
+
+        infoButton.snap(parent: self) {
+            $0.titleAttributes(text: title, [.color(.blue()), .font(.regular(15)), .paragraph(paragraphStyle)])
+            $0.addTarget(self, action: #selector(self.infoButtonTap), for: .touchUpInside)
+        } layout: {
+            $0.top.equalTo(self.keyTextView.snp.bottom).offset(24)
+            $0.leading.equalTo($1).offset(24)
+            $0.trailing.equalTo($1).offset(-24)
         }
     }
 

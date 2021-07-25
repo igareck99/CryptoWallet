@@ -38,7 +38,7 @@ struct UserDefaultsLayer {
     private static let authUserIdKey = "authUserIdKey"
     private static let userPhoneNumberKey = "userPhoneNumberKey"
     private static let isAuthFlowFinishedKey = "isAuthFlowFinishedKey"
-    private static let isNewFlowFinishedKey = "isWorkerFlowFinishedKey"
+    private static let isOnboardingFlowFinishedKey = "isOnboardingFlowFinishedKey"
 
     // MARK: - Internal Properties
 
@@ -57,8 +57,8 @@ struct UserDefaultsLayer {
     @UserDefaultSettings(isAuthFlowFinishedKey, value: false)
     var isAuthFlowFinished: Bool
 
-    @UserDefaultSettings(isNewFlowFinishedKey, value: false)
-    var isNewFlowFinished: Bool
+    @UserDefaultSettings(isOnboardingFlowFinishedKey, value: false)
+    var isOnboardingFlowFinished: Bool
 }
 
 // MARK: - UserDefaultsLayer (UserCredentialsStorage)

@@ -10,6 +10,10 @@ final class AppCoordinator: Coordinator {
 
     private(set) var navigationController: UINavigationController
 
+    // MARK: - Private Properties
+
+    @Injectable private var userFlows: UserFlowsStorageService
+
     // MARK: - Lifecycle
 
     init(navigationController: UINavigationController) {
@@ -19,10 +23,15 @@ final class AppCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        let flow: AppFlow = .authentication
+        let flow = AppLaunchInstructor.configure(
+            isOnboardingShown: userFlows.isOnboardingFlowFinished,
+            isAuthorized: userFlows.isAuthFlowFinished
+        )
         switch flow {
-        case .authentication:
+        case .authentication, .onboarding:
             showAuthenticationFlow()
+        case .main:
+            showMainFlow()
         }
     }
 
@@ -33,8 +42,11 @@ final class AppCoordinator: Coordinator {
         authFlowCoordinator.start()
     }
 
-    enum AppFlow {
-        case authentication
+    func showMainFlow() {
+        let mainFlowCoordinator = MainFlowCoordinator(navigationController: navigationController)
+        mainFlowCoordinator.delegate = self
+        addChildCoordinator(mainFlowCoordinator)
+        mainFlowCoordinator.start()
     }
 }
 
@@ -43,5 +55,15 @@ final class AppCoordinator: Coordinator {
 extension AppCoordinator: AuthFlowCoordinatorDelegate {
     func userPerformedAuthentication(coordinator: Coordinator) {
         removeChildCoordinator(coordinator)
+        showMainFlow()
+    }
+}
+
+// MARK: - AppCoordinator (MainFlowCoordinatorDelegate)
+
+extension AppCoordinator: MainFlowCoordinatorDelegate {
+    func userPerformedLogout(coordinator: Coordinator) {
+        removeChildCoordinator(coordinator)
+        showAuthenticationFlow()
     }
 }
