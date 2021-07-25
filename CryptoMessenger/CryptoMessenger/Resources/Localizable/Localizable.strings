@@ -23,3 +23,12 @@
 "KeyGeneration.CreateButton" = "Создать новый ключ";
 "KeyGeneration.UseButton" = "Уже есть, импортировать";
 
+
+"Onboarding.Title" = "Генерация ключа";
+"Onboarding.Page1" = "Если пользуешься приложением, помогаешь сети работать - Получаешь токены";
+"Onboarding.Page2" = "Здесь можно посмотреть текущий баланс AURA";
+"Onboarding.ContinueButton" = "Хорошо";
+"Onboarding.Information" = "AURA не собирает и не извлекает выгоду из ваших личных данных. Продолжая, Вы соглашаетесь с ";
+"Onboarding.Policy" = "политикой конфиденциальности";
+
+

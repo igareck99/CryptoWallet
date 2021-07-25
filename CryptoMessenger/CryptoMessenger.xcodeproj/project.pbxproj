@@ -55,12 +55,6 @@
 		5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EB2268070B3001957D3 /* View+Extensions.swift */; };
 		5A187EC0268070B3001957D3 /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EB3268070B3001957D3 /* UITableView+Extensions.swift */; };
 		5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EB4268070B3001957D3 /* CGSize+Transform.swift */; };
-		5A187ED02680BCD1001957D3 /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187ECA2680BCD1001957D3 /* OnboardingPresenter.swift */; };
-		5A187ED12680BCD1001957D3 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187ECB2680BCD1001957D3 /* OnboardingViewController.swift */; };
-		5A187ED22680BCD1001957D3 /* OnboardingProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187ECC2680BCD1001957D3 /* OnboardingProtocols.swift */; };
-		5A187ED32680BCD1001957D3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187ECD2680BCD1001957D3 /* OnboardingView.swift */; };
-		5A187ED42680BCD1001957D3 /* OnboardingConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187ECE2680BCD1001957D3 /* OnboardingConfigurator.swift */; };
-		5A187ED52680BCD1001957D3 /* OnboardingFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187ECF2680BCD1001957D3 /* OnboardingFlow.swift */; };
 		5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EDC2680CF49001957D3 /* UserFlowsStorage.swift */; };
 		5A187F112680CF49001957D3 /* UserCredentialsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EDD2680CF49001957D3 /* UserCredentialsStorage.swift */; };
 		5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EDE2680CF49001957D3 /* UserDefaultsLayer.swift */; };
@@ -127,6 +121,12 @@
 		5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634D26AD9FE5004A417C /* GenerationInfoView.swift */; };
 		5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634E26AD9FE5004A417C /* GenerationInfoConfigurator.swift */; };
 		5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634F26AD9FE5004A417C /* GenerationInfoFlow.swift */; };
+		5AF8635C26ADB691004A417C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8635626ADB691004A417C /* OnboardingViewController.swift */; };
+		5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8635726ADB691004A417C /* OnboardingProtocols.swift */; };
+		5AF8635E26ADB691004A417C /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8635826ADB691004A417C /* OnboardingPageViewController.swift */; };
+		5AF8635F26ADB691004A417C /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8635926ADB691004A417C /* OnboardingPageView.swift */; };
+		5AF8636026ADB691004A417C /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8635A26ADB691004A417C /* OnboardingPresenter.swift */; };
+		5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8635B26ADB691004A417C /* OnboardingConfigurator.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -182,12 +182,6 @@
 		5A187EB2268070B3001957D3 /* View+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		5A187EB3268070B3001957D3 /* UITableView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		5A187EB4268070B3001957D3 /* CGSize+Transform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Transform.swift"; sourceTree = "<group>"; };
-		5A187ECA2680BCD1001957D3 /* OnboardingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
-		5A187ECB2680BCD1001957D3 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
-		5A187ECC2680BCD1001957D3 /* OnboardingProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingProtocols.swift; sourceTree = "<group>"; };
-		5A187ECD2680BCD1001957D3 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		5A187ECE2680BCD1001957D3 /* OnboardingConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingConfigurator.swift; sourceTree = "<group>"; };
-		5A187ECF2680BCD1001957D3 /* OnboardingFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlow.swift; sourceTree = "<group>"; };
 		5A187EDC2680CF49001957D3 /* UserFlowsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFlowsStorage.swift; sourceTree = "<group>"; };
 		5A187EDD2680CF49001957D3 /* UserCredentialsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCredentialsStorage.swift; sourceTree = "<group>"; };
 		5A187EDE2680CF49001957D3 /* UserDefaultsLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsLayer.swift; sourceTree = "<group>"; };
@@ -254,6 +248,12 @@
 		5AF8634D26AD9FE5004A417C /* GenerationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoView.swift; sourceTree = "<group>"; };
 		5AF8634E26AD9FE5004A417C /* GenerationInfoConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoConfigurator.swift; sourceTree = "<group>"; };
 		5AF8634F26AD9FE5004A417C /* GenerationInfoFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoFlow.swift; sourceTree = "<group>"; };
+		5AF8635626ADB691004A417C /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		5AF8635726ADB691004A417C /* OnboardingProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingProtocols.swift; sourceTree = "<group>"; };
+		5AF8635826ADB691004A417C /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
+		5AF8635926ADB691004A417C /* OnboardingPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPageView.swift; sourceTree = "<group>"; };
+		5AF8635A26ADB691004A417C /* OnboardingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
+		5AF8635B26ADB691004A417C /* OnboardingConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingConfigurator.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -491,12 +491,12 @@
 		5A187EC326807220001957D3 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				5A187ECE2680BCD1001957D3 /* OnboardingConfigurator.swift */,
-				5A187ECC2680BCD1001957D3 /* OnboardingProtocols.swift */,
-				5A187ECB2680BCD1001957D3 /* OnboardingViewController.swift */,
-				5A187ECD2680BCD1001957D3 /* OnboardingView.swift */,
-				5A187ECA2680BCD1001957D3 /* OnboardingPresenter.swift */,
-				5A187ECF2680BCD1001957D3 /* OnboardingFlow.swift */,
+				5AF8635B26ADB691004A417C /* OnboardingConfigurator.swift */,
+				5AF8635726ADB691004A417C /* OnboardingProtocols.swift */,
+				5AF8635626ADB691004A417C /* OnboardingViewController.swift */,
+				5AF8635926ADB691004A417C /* OnboardingPageView.swift */,
+				5AF8635826ADB691004A417C /* OnboardingPageViewController.swift */,
+				5AF8635A26ADB691004A417C /* OnboardingPresenter.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -941,10 +941,10 @@
 				5AA6410926822C3A008922B4 /* ViewStyle.swift in Sources */,
 				5A187EA52680708D001957D3 /* CollectionViewProviderViewModel.swift in Sources */,
 				5A187F2F2680CF49001957D3 /* Endpoints.swift in Sources */,
-				5A187ED02680BCD1001957D3 /* OnboardingPresenter.swift in Sources */,
 				5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */,
 				5AF8633626AA994E004A417C /* VerificationViewController.swift in Sources */,
 				5A187EC0268070B3001957D3 /* UITableView+Extensions.swift in Sources */,
+				5AF8635F26ADB691004A417C /* OnboardingPageView.swift in Sources */,
 				5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
@@ -955,6 +955,7 @@
 				5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
+				5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */,
 				5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
@@ -971,8 +972,8 @@
 				5AF8633926AA994E004A417C /* VerificationConfigurator.swift in Sources */,
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
-				5A187ED22680BCD1001957D3 /* OnboardingProtocols.swift in Sources */,
 				5A4267FE26A83494000C51DD /* R.generated.swift in Sources */,
+				5AF8635C26ADB691004A417C /* OnboardingViewController.swift in Sources */,
 				5A187E9B2680708D001957D3 /* ListSeparatorStyle.swift in Sources */,
 				5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */,
 				5A42680A26A83554000C51DD /* RegistrationFlow.swift in Sources */,
@@ -981,7 +982,6 @@
 				5A187DE226806F62001957D3 /* AppDependeciesService.swift in Sources */,
 				5A187EB6268070B3001957D3 /* UIColor+Extension.swift in Sources */,
 				5A187F112680CF49001957D3 /* UserCredentialsStorage.swift in Sources */,
-				5A187ED52680BCD1001957D3 /* OnboardingFlow.swift in Sources */,
 				5A187EB5268070B3001957D3 /* UIViewController+Extensions.swift in Sources */,
 				5A187F302680CF49001957D3 /* EmptyResponse.swift in Sources */,
 				5A187DF626807011001957D3 /* Coordinator.swift in Sources */,
@@ -989,7 +989,7 @@
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
 				5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */,
 				5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */,
-				5A187ED42680BCD1001957D3 /* OnboardingConfigurator.swift in Sources */,
+				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
 				5AF8633826AA994E004A417C /* VerificationView.swift in Sources */,
 				5A187F2C2680CF49001957D3 /* URLRequest+QueryItems.swift in Sources */,
 				5A187F312680CF49001957D3 /* RelationshipResponse.swift in Sources */,
@@ -1021,6 +1021,7 @@
 				5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */,
 				5A42680726A83554000C51DD /* RegistrationProtocols.swift in Sources */,
 				5A187EB9268070B3001957D3 /* UIImageView+Kingfisher.swift in Sources */,
+				5AF8636026ADB691004A417C /* OnboardingPresenter.swift in Sources */,
 				5A187F2E2680CF49001957D3 /* Endpoint.swift in Sources */,
 				5A187EBD268070B3001957D3 /* NSObject+Extensions.swift in Sources */,
 				5A187EA22680708D001957D3 /* TableViewProviderViewModel.swift in Sources */,
@@ -1029,9 +1030,7 @@
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
 				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
-				5A187ED32680BCD1001957D3 /* OnboardingView.swift in Sources */,
 				5A187E992680708D001957D3 /* ActivityView.swift in Sources */,
-				5A187ED12680BCD1001957D3 /* OnboardingViewController.swift in Sources */,
 				5AA6410C268233CA008922B4 /* ButtonDecor.swift in Sources */,
 				5A187F282680CF49001957D3 /* APIClient.swift in Sources */,
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
@@ -1039,6 +1038,7 @@
 				5A187DE326806F62001957D3 /* AppPushNotificationsService.swift in Sources */,
 				5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */,
 				5A187DE126806F62001957D3 /* SceneDelegateService.swift in Sources */,
+				5AF8635E26ADB691004A417C /* OnboardingPageViewController.swift in Sources */,
 				5AA6410026822C3A008922B4 /* Palette.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

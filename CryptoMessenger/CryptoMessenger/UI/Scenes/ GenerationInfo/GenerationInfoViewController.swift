@@ -27,11 +27,11 @@ final class GenerationInfoViewController: BaseViewController {
     // MARK: - Private Methods
 
     private func subscribeOnCustomViewActions() {
-        customView.didTapNewKeyButton = { [unowned self] in
-
+        customView.didTapCreateButton = { [unowned self] in
+            self.presenter.handleCreateButtonTap()
         }
-        customView.didTapUseKeyButton = { [unowned self] in
-
+        customView.didTapImportButton = { [unowned self] in
+            self.presenter.handleImportButtonTap()
         }
     }
 }

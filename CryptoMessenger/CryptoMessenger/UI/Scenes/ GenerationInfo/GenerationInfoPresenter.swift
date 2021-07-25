@@ -38,7 +38,11 @@ final class GenerationInfoPresenter {
 // MARK: - GenerationInfoPresenter (GenerationInfoPresentation)
 
 extension GenerationInfoPresenter: KeyGenerationPresentation {
-    func handleButtonTap() {
+    func handleCreateButtonTap() {
+        delegate?.handleNextScene(.onboarding)
+    }
+
+    func handleImportButtonTap() {
 
     }
 }
