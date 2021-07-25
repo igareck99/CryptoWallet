@@ -127,6 +127,12 @@
 		5AF8635F26ADB691004A417C /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8635926ADB691004A417C /* OnboardingPageView.swift */; };
 		5AF8636026ADB691004A417C /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8635A26ADB691004A417C /* OnboardingPresenter.swift */; };
 		5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8635B26ADB691004A417C /* OnboardingConfigurator.swift */; };
+		5AF8636926ADCB9B004A417C /* KeyImportPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8636326ADCB9B004A417C /* KeyImportPresenter.swift */; };
+		5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8636426ADCB9B004A417C /* KeyImportViewController.swift */; };
+		5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8636526ADCB9B004A417C /* KeyImportProtocols.swift */; };
+		5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8636626ADCB9B004A417C /* KeyImportView.swift */; };
+		5AF8636D26ADCB9B004A417C /* KeyImportConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8636726ADCB9B004A417C /* KeyImportConfigurator.swift */; };
+		5AF8636E26ADCB9B004A417C /* KeyImportFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8636826ADCB9B004A417C /* KeyImportFlow.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -254,6 +260,12 @@
 		5AF8635926ADB691004A417C /* OnboardingPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPageView.swift; sourceTree = "<group>"; };
 		5AF8635A26ADB691004A417C /* OnboardingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
 		5AF8635B26ADB691004A417C /* OnboardingConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingConfigurator.swift; sourceTree = "<group>"; };
+		5AF8636326ADCB9B004A417C /* KeyImportPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImportPresenter.swift; sourceTree = "<group>"; };
+		5AF8636426ADCB9B004A417C /* KeyImportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImportViewController.swift; sourceTree = "<group>"; };
+		5AF8636526ADCB9B004A417C /* KeyImportProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImportProtocols.swift; sourceTree = "<group>"; };
+		5AF8636626ADCB9B004A417C /* KeyImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImportView.swift; sourceTree = "<group>"; };
+		5AF8636726ADCB9B004A417C /* KeyImportConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImportConfigurator.swift; sourceTree = "<group>"; };
+		5AF8636826ADCB9B004A417C /* KeyImportFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImportFlow.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -384,6 +396,7 @@
 				5AF8632E26AA9906004A417C /* Verification */,
 				5AF8634926AD9FC2004A417C /*  GenerationInfo */,
 				5A187EC326807220001957D3 /* Onboarding */,
+				5AF8636226ADCABE004A417C /* KeyImport */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -760,6 +773,19 @@
 			path = " GenerationInfo";
 			sourceTree = "<group>";
 		};
+		5AF8636226ADCABE004A417C /* KeyImport */ = {
+			isa = PBXGroup;
+			children = (
+				5AF8636726ADCB9B004A417C /* KeyImportConfigurator.swift */,
+				5AF8636526ADCB9B004A417C /* KeyImportProtocols.swift */,
+				5AF8636426ADCB9B004A417C /* KeyImportViewController.swift */,
+				5AF8636626ADCB9B004A417C /* KeyImportView.swift */,
+				5AF8636326ADCB9B004A417C /* KeyImportPresenter.swift */,
+				5AF8636826ADCB9B004A417C /* KeyImportFlow.swift */,
+			);
+			path = KeyImport;
+			sourceTree = "<group>";
+		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -950,6 +976,7 @@
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
 				5A187E9E2680708D001957D3 /* ObservableArray.swift in Sources */,
+				5AF8636D26ADCB9B004A417C /* KeyImportConfigurator.swift in Sources */,
 				5A187DD826806F35001957D3 /* Dependency.swift in Sources */,
 				5A187EA32680708D001957D3 /* CollectionViewProvider.swift in Sources */,
 				5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */,
@@ -963,6 +990,7 @@
 				5A187EA42680708D001957D3 /* CollectionViewProviderType.swift in Sources */,
 				5A187F262680CF49001957D3 /* APIError.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
+				5AF8636E26ADCB9B004A417C /* KeyImportFlow.swift in Sources */,
 				5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */,
 				5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */,
 				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
@@ -990,6 +1018,7 @@
 				5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */,
 				5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
+				5AF8636926ADCB9B004A417C /* KeyImportPresenter.swift in Sources */,
 				5AF8633826AA994E004A417C /* VerificationView.swift in Sources */,
 				5A187F2C2680CF49001957D3 /* URLRequest+QueryItems.swift in Sources */,
 				5A187F312680CF49001957D3 /* RelationshipResponse.swift in Sources */,
@@ -1003,6 +1032,7 @@
 				5A187DD726806F35001957D3 /* Injectable.swift in Sources */,
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A187DE426806F62001957D3 /* AppFirebaseService.swift in Sources */,
+				5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */,
 				5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */,
 				5A187DF426807011001957D3 /* Alertable.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
@@ -1013,8 +1043,10 @@
 				5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
 				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
+				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
+				5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
 				5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */,
 				5A187F332680CF49001957D3 /* MultipartFileData.swift in Sources */,

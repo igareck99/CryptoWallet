@@ -56,6 +56,11 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
+    func showKeyImportScene() {
+        let viewController = KeyImportConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
     func showCountryCodeScene(_ countryCodeDelegate: CountryCodePickerDelegate) {
         let viewController = CountryCodePickerViewController()
         viewController.delegate = countryCodeDelegate
@@ -68,6 +73,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case verification
         case generationInfo
         case onboarding
+        case keyImport
         case countryCode(CountryCodePickerDelegate)
     }
 }
@@ -87,6 +93,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showOnboardingScene()
         case .countryCode(let delegate):
             showCountryCodeScene(delegate)
+        case .keyImport:
+            showKeyImportScene()
         }
     }
 
@@ -108,3 +116,7 @@ extension AuthFlowCoordinator: GenerationInfoSceneDelegate {}
 // MARK: - AuthFlowCoordinator (OnboardingSceneDelegate)
 
 extension AuthFlowCoordinator: OnboardingSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (KeyImportSceneDelegate)
+
+extension AuthFlowCoordinator: KeyImportSceneDelegate {}

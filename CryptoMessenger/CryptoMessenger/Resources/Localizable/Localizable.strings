@@ -32,3 +32,8 @@
 "Onboarding.Policy" = "политикой конфиденциальности";
 
 
+"KeyImport.ScreenTitle" = "Шаг 2 из 2";
+"KeyImport.Title" = "Импорт Вашего ключа";
+"KeyImport.TextPlaceholder" = "Введите Вашу seed фразу";
+"KeyImport.Information" = "Как правильно импортировать ключи?";
+"KeyImport.ImportButton" = "Импортировать";

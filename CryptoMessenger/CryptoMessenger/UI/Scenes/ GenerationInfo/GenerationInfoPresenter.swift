@@ -43,6 +43,6 @@ extension GenerationInfoPresenter: KeyGenerationPresentation {
     }
 
     func handleImportButtonTap() {
-
+        delegate?.handleNextScene(.keyImport)
     }
 }

@@ -44,6 +44,6 @@ extension OnboardingPresenter: OnboardingPresentation {
     }
 
     func handleContinueButtonTap() {
-        delegate?.handleNextScene(.generationInfo)
+        delegate?.handleNextScene(.keyImport)
     }
 }
