@@ -118,6 +118,15 @@
 		5AF8633926AA994E004A417C /* VerificationConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633326AA994E004A417C /* VerificationConfigurator.swift */; };
 		5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633426AA994E004A417C /* VerificationFlow.swift */; };
 		5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633C26AADF0F004A417C /* CountdownTimer.swift */; };
+		5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633E26AC0204004A417C /* LoadingButton.swift */; };
+		5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634326AC0536004A417C /* IndicatorProtocol.swift */; };
+		5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634726AC0B82004A417C /* MaterialLoadingIndicator.swift */; };
+		5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634A26AD9FE5004A417C /* GenerationInfoPresenter.swift */; };
+		5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634B26AD9FE5004A417C /* GenerationInfoViewController.swift */; };
+		5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634C26AD9FE5004A417C /* GenerationInfoProtocols.swift */; };
+		5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634D26AD9FE5004A417C /* GenerationInfoView.swift */; };
+		5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634E26AD9FE5004A417C /* GenerationInfoConfigurator.swift */; };
+		5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634F26AD9FE5004A417C /* GenerationInfoFlow.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -236,6 +245,15 @@
 		5AF8633326AA994E004A417C /* VerificationConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationConfigurator.swift; sourceTree = "<group>"; };
 		5AF8633426AA994E004A417C /* VerificationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationFlow.swift; sourceTree = "<group>"; };
 		5AF8633C26AADF0F004A417C /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
+		5AF8633E26AC0204004A417C /* LoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
+		5AF8634326AC0536004A417C /* IndicatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorProtocol.swift; sourceTree = "<group>"; };
+		5AF8634726AC0B82004A417C /* MaterialLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialLoadingIndicator.swift; sourceTree = "<group>"; };
+		5AF8634A26AD9FE5004A417C /* GenerationInfoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoPresenter.swift; sourceTree = "<group>"; };
+		5AF8634B26AD9FE5004A417C /* GenerationInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoViewController.swift; sourceTree = "<group>"; };
+		5AF8634C26AD9FE5004A417C /* GenerationInfoProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoProtocols.swift; sourceTree = "<group>"; };
+		5AF8634D26AD9FE5004A417C /* GenerationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoView.swift; sourceTree = "<group>"; };
+		5AF8634E26AD9FE5004A417C /* GenerationInfoConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoConfigurator.swift; sourceTree = "<group>"; };
+		5AF8634F26AD9FE5004A417C /* GenerationInfoFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoFlow.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -364,6 +382,7 @@
 			children = (
 				5A879F5326A5C25E002407F9 /* Registration */,
 				5AF8632E26AA9906004A417C /* Verification */,
+				5AF8634926AD9FC2004A417C /*  GenerationInfo */,
 				5A187EC326807220001957D3 /* Onboarding */,
 			);
 			path = Scenes;
@@ -382,6 +401,7 @@
 		5A187E3E2680708D001957D3 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				5AF8634226AC0521004A417C /* LoadingButton */,
 				5A187E442680708D001957D3 /* InputTextField.swift */,
 				5A187E452680708D001957D3 /* ActivityViewDisplayable.swift */,
 				5A187E462680708D001957D3 /* GradientView.swift */,
@@ -717,6 +737,29 @@
 			path = CountdownTimer;
 			sourceTree = "<group>";
 		};
+		5AF8634226AC0521004A417C /* LoadingButton */ = {
+			isa = PBXGroup;
+			children = (
+				5AF8633E26AC0204004A417C /* LoadingButton.swift */,
+				5AF8634326AC0536004A417C /* IndicatorProtocol.swift */,
+				5AF8634726AC0B82004A417C /* MaterialLoadingIndicator.swift */,
+			);
+			path = LoadingButton;
+			sourceTree = "<group>";
+		};
+		5AF8634926AD9FC2004A417C /*  GenerationInfo */ = {
+			isa = PBXGroup;
+			children = (
+				5AF8634E26AD9FE5004A417C /* GenerationInfoConfigurator.swift */,
+				5AF8634C26AD9FE5004A417C /* GenerationInfoProtocols.swift */,
+				5AF8634B26AD9FE5004A417C /* GenerationInfoViewController.swift */,
+				5AF8634D26AD9FE5004A417C /* GenerationInfoView.swift */,
+				5AF8634A26AD9FE5004A417C /* GenerationInfoPresenter.swift */,
+				5AF8634F26AD9FE5004A417C /* GenerationInfoFlow.swift */,
+			);
+			path = " GenerationInfo";
+			sourceTree = "<group>";
+		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -885,6 +928,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A187EBB268070B3001957D3 /* NSMutableData+Extensions.swift in Sources */,
+				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				5A187E9F2680708D001957D3 /* ScalableButtonView.swift in Sources */,
 				5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */,
@@ -901,6 +945,7 @@
 				5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */,
 				5AF8633626AA994E004A417C /* VerificationViewController.swift in Sources */,
 				5A187EC0268070B3001957D3 /* UITableView+Extensions.swift in Sources */,
+				5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
@@ -918,6 +963,8 @@
 				5A187F262680CF49001957D3 /* APIError.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
 				5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */,
+				5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */,
+				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
 				5AF8633726AA994E004A417C /* VerificationProtocols.swift in Sources */,
 				5A187EA62680708D001957D3 /* NibLoadableView.swift in Sources */,
 				5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */,
@@ -941,6 +988,7 @@
 				5A187F322680CF49001957D3 /* OccasionResponse.swift in Sources */,
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
 				5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */,
+				5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */,
 				5A187ED42680BCD1001957D3 /* OnboardingConfigurator.swift in Sources */,
 				5AF8633826AA994E004A417C /* VerificationView.swift in Sources */,
 				5A187F2C2680CF49001957D3 /* URLRequest+QueryItems.swift in Sources */,
@@ -964,16 +1012,19 @@
 				5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */,
 				5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
+				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
 				5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */,
 				5A187F332680CF49001957D3 /* MultipartFileData.swift in Sources */,
+				5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */,
 				5A42680726A83554000C51DD /* RegistrationProtocols.swift in Sources */,
 				5A187EB9268070B3001957D3 /* UIImageView+Kingfisher.swift in Sources */,
 				5A187F2E2680CF49001957D3 /* Endpoint.swift in Sources */,
 				5A187EBD268070B3001957D3 /* NSObject+Extensions.swift in Sources */,
 				5A187EA22680708D001957D3 /* TableViewProviderViewModel.swift in Sources */,
+				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
 				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
@@ -986,6 +1037,7 @@
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
 				5A187DF326807011001957D3 /* BaseViewController.swift in Sources */,
 				5A187DE326806F62001957D3 /* AppPushNotificationsService.swift in Sources */,
+				5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */,
 				5A187DE126806F62001957D3 /* SceneDelegateService.swift in Sources */,
 				5AA6410026822C3A008922B4 /* Palette.swift in Sources */,
 			);

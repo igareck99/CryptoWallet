@@ -32,6 +32,7 @@ final class RegistrationViewController: BaseViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        customView.stopLoading()
         customView.unsubscribeKeyboardNotifications()
     }
 
@@ -55,6 +56,7 @@ extension RegistrationViewController: RegistrationViewInterface {
     }
 
     func showAlert(title: String?, message: String?) {
+        customView.stopLoading()
         presentAlert(title: title, message: message)
     }
 }

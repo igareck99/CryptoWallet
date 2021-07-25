@@ -28,8 +28,11 @@ final class VerificationViewController: BaseViewController {
     // MARK: - Private Methods
 
     private func subscribeOnCustomViewActions() {
-        customView.didTapNextScene = { [unowned self] _ in
-            //self.presenter.handleNextScene(phone)
+        customView.didTapResendButton = { [unowned self] in
+            self.presenter.handleResendCode()
+        }
+        customView.didTapNextScene = { [unowned self] code in
+            self.presenter.handleNextScene(code)
         }
     }
 }
@@ -37,6 +40,14 @@ final class VerificationViewController: BaseViewController {
 // MARK: - VerificationViewInterface
 
 extension VerificationViewController: VerificationViewInterface {
+    func setCountdownTime(_ time: String) {
+        customView.setCountdownTime(time)
+    }
+
+    func resetCountdownTime() {
+        customView.resetCountdownTime()
+    }
+
     func setPhoneNumber(_ phone: String) {
         customView.setPhoneNumber(phone)
     }

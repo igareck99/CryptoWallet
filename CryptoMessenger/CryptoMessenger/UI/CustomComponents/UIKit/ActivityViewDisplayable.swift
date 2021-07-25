@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: ActivityViewDisplayable
+// MARK: - ActivityViewDisplayable
 
 protocol ActivityViewDisplayable {
     func showActivity(animated: Bool)
@@ -58,4 +58,5 @@ extension ActivityViewDisplayable where Self: UIView {
 }
 
 // MARK: - UIView (ActivityViewDisplayable)
+
 extension UIView: ActivityViewDisplayable {}

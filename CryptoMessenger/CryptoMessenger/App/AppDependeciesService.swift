@@ -21,6 +21,7 @@ final class AppDependenciesService: NSObject, UIApplicationDelegate {
             Dependency { APIClient() }
             Dependency { UserFlowsStorageService() }
             Dependency { UserCredentialsStorageService() }
+            Dependency { CountdownTimer(seconds: PhoneHelper.verificationResendTime) }
         }.build()
     }
 }

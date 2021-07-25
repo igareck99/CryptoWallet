@@ -7,7 +7,7 @@ typealias GenericBlock<T> = (T) -> Void
 typealias StringBlock = (String) -> Void
 typealias NotificationBlock = (NSNotification) -> Void
 
-// MARK: - Internal Methods
+// MARK: - Global Methods
 
 func delay(_ delay: Double, closure: @escaping VoidBlock) {
     let when: DispatchTime = .now() + delay

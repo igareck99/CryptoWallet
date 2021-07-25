@@ -7,6 +7,7 @@ final class VerificationView: UIView {
     // MARK: - Internal Properties
 
     var didTapNextScene: StringBlock?
+    var didTapResendButton: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -16,6 +17,7 @@ final class VerificationView: UIView {
     private lazy var dotesStackView = UIStackView()
     private lazy var dotes: [UILabel] = []
     private lazy var timerLabel = UILabel()
+    private lazy var resendButton = LoadingButton()
 
     // MARK: - Lifecycle
 
@@ -27,6 +29,7 @@ final class VerificationView: UIView {
         addCodeTextField()
         addDotes()
         addTimerLabel()
+        addResendButton()
     }
 
     @available(*, unavailable)
@@ -37,16 +40,87 @@ final class VerificationView: UIView {
     // MARK: - Internal Methods
 
     func setPhoneNumber(_ phone: String) {
-        descriptionLabel.text = R.string.localizable.verificationDescription(phone)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.24
+        paragraphStyle.alignment = .center
+
+        descriptionLabel.titleAttributes(
+            text: R.string.localizable.verificationDescription(phone),
+            [
+                .paragraph(paragraphStyle),
+                .font(.regular(15)),
+                .color(.gray())
+            ]
+        )
+    }
+
+    func setCountdownTime(_ time: String) {
+        if timerLabel.isHidden {
+            timerLabel.snp.updateConstraints {
+                $0.height.greaterThanOrEqualTo(43)
+            }
+            timerLabel.isHidden = false
+            resendButton.isHidden = true
+        }
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.24
+        paragraphStyle.alignment = .center
+
+        timerLabel.titleAttributes(
+                text: R.string.localizable.verificationResendTitle(time),
+                [
+                    .paragraph(paragraphStyle),
+                    .font(.regular(15)),
+                    .color(.blue())
+                ]
+            )
+    }
+
+    func resetCountdownTime() {
+        timerLabel.snp.updateConstraints {
+            $0.height.greaterThanOrEqualTo(0)
+        }
+        timerLabel.isHidden = true
+        resendButton.isHidden = false
+    }
+
+    func startLoading() {
+        resendButton.showLoader(userInteraction: false)
+    }
+
+    func stopLoading() {
+        resendButton.hideLoader()
+    }
+
+    // MARK: - Actions
+
+    @objc private func continueButtonTap() {
+        vibrate()
+
+        resendButton.indicator = MaterialLoadingIndicator(color: .blue())
+        resendButton.animateScaleEffect {
+            self.startLoading()
+            self.didTapResendButton?()
+        }
     }
 
     // MARK: - Private Methods
 
     private func addTitleLabel() {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.15
+        paragraphStyle.alignment = .center
+
         titleLabel.snap(parent: self) {
-            $0.text = R.string.localizable.verificationTitle()
-            $0.font(.medium(22))
-            $0.textColor(.black())
+            $0.titleAttributes(
+                text: R.string.localizable.verificationTitle(),
+                [
+                    .paragraph(paragraphStyle),
+                    .font(.medium(22)),
+                    .color(.black())
+                ]
+            )
             $0.textAlignment = .center
             $0.numberOfLines = 0
         } layout: {
@@ -59,8 +133,6 @@ final class VerificationView: UIView {
 
     private func addDescriptionLabel() {
         descriptionLabel.snap(parent: self) {
-            $0.font(.regular(15))
-            $0.textColor(.gray())
             $0.textAlignment = .center
             $0.numberOfLines = 0
         } layout: {
@@ -83,7 +155,7 @@ final class VerificationView: UIView {
     }
 
     private func addDotes() {
-        (0..<PhoneHelper.maxVerificationCodeLength).forEach { _ in
+        (0..<PhoneHelper.verificationCodeRequiredLength).forEach { _ in
             let label = UILabel()
             label.font(.medium(22))
             label.textAlignment = .center
@@ -111,10 +183,21 @@ final class VerificationView: UIView {
     }
 
     private func addTimerLabel() {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.24
+        paragraphStyle.alignment = .center
+
+        let time = Int(PhoneHelper.verificationResendTime).description
+
         timerLabel.snap(parent: self) {
-            $0.text = R.string.localizable.verificationResendTitle("30")
-            $0.font(.regular(15))
-            $0.textColor(.blue())
+            $0.titleAttributes(
+                text: R.string.localizable.verificationResendTitle(time),
+                [
+                    .paragraph(paragraphStyle),
+                    .font(.regular(15)),
+                    .color(.blue())
+                ]
+            )
             $0.textAlignment = .center
             $0.numberOfLines = 0
         } layout: {
@@ -122,6 +205,22 @@ final class VerificationView: UIView {
             $0.leading.equalTo($1).offset(47)
             $0.height.greaterThanOrEqualTo(43)
             $0.trailing.equalTo($1).offset(-47)
+        }
+    }
+
+    private func addResendButton() {
+        resendButton.snap(parent: self) {
+            let title = R.string.localizable.verificationResendButton()
+            $0.titleAttributes(text: title, [.color(.blue()), .font(.medium(15))])
+            $0.background(.lightBlue())
+            $0.clipCorners(radius: 8)
+            $0.isHidden = true
+            $0.addTarget(self, action: #selector(self.continueButtonTap), for: .touchUpInside)
+        } layout: {
+            $0.top.equalTo(self.timerLabel.snp_bottomMargin).offset(8)
+            $0.leading.equalTo($1).offset(80)
+            $0.trailing.equalTo($1).offset(-80)
+            $0.height.equalTo(44)
         }
     }
 }
@@ -134,9 +233,12 @@ extension VerificationView: UITextFieldDelegate {
         shouldChangeCharactersIn range: NSRange, replacementString string: String
     ) -> Bool {
         let newString = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string)
+
+        guard newString.count <= PhoneHelper.verificationCodeRequiredLength else { return false }
+
         textField.text = newString
 
-        (newString.count..<PhoneHelper.maxVerificationCodeLength).forEach { index in
+        (newString.count..<PhoneHelper.verificationCodeRequiredLength).forEach { index in
             dotes[index].text = "-"
         }
 
@@ -144,8 +246,8 @@ extension VerificationView: UITextFieldDelegate {
             dotes[result.offset].text = result.element.description
         }
 
-        if newString.count == PhoneHelper.maxVerificationCodeLength {
-            // send request
+        if newString.count == PhoneHelper.verificationCodeRequiredLength {
+            didTapNextScene?(newString)
         }
 
         return false

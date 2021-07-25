@@ -33,7 +33,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.registration)
+        handleNextScene(.generationInfo)
     }
 
     func showOnboardingScene() {
@@ -51,6 +51,11 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
+    func showGenerationInfoScene() {
+        let viewController = GenerationInfoConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
     func showCountryCodeScene(_ countryCodeDelegate: CountryCodePickerDelegate) {
         let viewController = CountryCodePickerViewController()
         viewController.delegate = countryCodeDelegate
@@ -61,6 +66,7 @@ public final class AuthFlowCoordinator: Coordinator {
     enum Scene {
         case registration
         case verification
+        case generationInfo
         case onboarding
         case countryCode(CountryCodePickerDelegate)
     }
@@ -75,6 +81,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showRegistrationScene()
         case .verification:
             showVerificationScene()
+        case .generationInfo:
+            showGenerationInfoScene()
         case .onboarding:
             showOnboardingScene()
         case .countryCode(let delegate):
@@ -85,10 +93,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
     func switchFlow() {}
 }
 
-// MARK: - AuthFlowCoordinator (OnboardingSceneDelegate)
-
-extension AuthFlowCoordinator: OnboardingSceneDelegate {}
-
 // MARK: - AuthFlowCoordinator (RegistrationSceneDelegate)
 
 extension AuthFlowCoordinator: RegistrationSceneDelegate {}
@@ -96,3 +100,11 @@ extension AuthFlowCoordinator: RegistrationSceneDelegate {}
 // MARK: - AuthFlowCoordinator (VerificationSceneDelegate)
 
 extension AuthFlowCoordinator: VerificationSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (GenerationInfoSceneDelegate)
+
+extension AuthFlowCoordinator: GenerationInfoSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (OnboardingSceneDelegate)
+
+extension AuthFlowCoordinator: OnboardingSceneDelegate {}

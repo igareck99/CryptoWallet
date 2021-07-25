@@ -1,15 +1,13 @@
 import Foundation
 
-// MARK: - VerificationFlow
+// MARK: - GenerationInfoFlow
 
-enum VerificationFlow {
+enum GenerationInfoFlow {
 
     // MARK: - Types
 
     enum ViewState {
-        case idle(String)
         case sending
-        case resend(String, Bool)
         case result
         case error(message: String)
     }

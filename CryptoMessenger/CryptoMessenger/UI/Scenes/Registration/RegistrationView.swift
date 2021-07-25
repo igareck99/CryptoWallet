@@ -25,7 +25,7 @@ final class RegistrationView: UIView {
     private lazy var phoneView = UIView()
     private lazy var phoneTextField = CountryPhoneNumberTextField()
     private lazy var lineView = UIView()
-    private lazy var continueButton = UIButton()
+    private lazy var continueButton = LoadingButton()
 
     private var continueButtonDefaultOffset = CGFloat(28)
     private var keyboardObserver: KeyboardObserver?
@@ -62,13 +62,24 @@ final class RegistrationView: UIView {
 
     @objc private func continueButtonTap() {
         vibrate()
+
+        continueButton.indicator = MaterialLoadingIndicator(color: .blue())
         continueButton.animateScaleEffect {
+            self.startLoading()
             let phone = self.phoneTextField.phoneNumber?.numberString ?? ""
             self.didTapNextScene?(phone)
         }
     }
 
     // MARK: - Internal Methods
+
+    func startLoading() {
+        continueButton.showLoader(userInteraction: false)
+    }
+
+    func stopLoading() {
+        continueButton.hideLoader()
+    }
 
     func setCountryCode(_ country: CountryCodePickerViewController.Country) {
         phoneTextField.didSelectCountry(country)
@@ -109,10 +120,19 @@ final class RegistrationView: UIView {
     // MARK: - Private Methods
 
     private func addTitleLabel() {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.15
+        paragraphStyle.alignment = .center
+
         titleLabel.snap(parent: self) {
-            $0.text = R.string.localizable.registrationTitle()
-            $0.font(.medium(22))
-            $0.textColor(.black())
+            $0.titleAttributes(
+                text: R.string.localizable.registrationTitle(),
+                [
+                    .paragraph(paragraphStyle),
+                    .font(.medium(22)),
+                    .color(.black())
+                ]
+            )
             $0.textAlignment = .center
             $0.numberOfLines = 0
         } layout: {
@@ -124,10 +144,19 @@ final class RegistrationView: UIView {
     }
 
     private func addDescriptionLabel() {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.24
+        paragraphStyle.alignment = .center
+
         descriptionLabel.snap(parent: self) {
-            $0.text = R.string.localizable.registrationDescription()
-            $0.font(.regular(15))
-            $0.textColor(.gray())
+            $0.titleAttributes(
+                text: R.string.localizable.registrationDescription(),
+                [
+                    .paragraph(paragraphStyle),
+                    .font(.regular(15)),
+                    .color(.gray())
+                ]
+            )
             $0.textAlignment = .center
             $0.numberOfLines = 0
         } layout: {

@@ -5,8 +5,8 @@ enum PhoneHelper {
     private static let phoneNumberKit = PhoneNumberKit()
 
     static var userRegionCode: String { Locale.current.regionCode ?? "RU" }
-
-    static var maxVerificationCodeLength: Int { 4 }
+    static var verificationCodeRequiredLength: Int { 4 }
+    static var verificationResendTime: Double { 30 }
 
     static func validatePhoneNumber(_ text: String, forRegion region: String) -> Bool {
         phoneNumberKit.isValidPhoneNumber(text, withRegion: region, ignoreType: true)

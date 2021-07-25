@@ -21,9 +21,9 @@ final class OnboardingPresenter {
         self.view = view
     }
 
-    // MARK: - Internal Methods
+    // MARK: - Private Methods
 
-    func updateView(_ state: OnboardingFlow.ViewState) {
+    private func updateView(_ state: OnboardingFlow.ViewState) {
         switch state {
         case .sending:
             print("sending..")

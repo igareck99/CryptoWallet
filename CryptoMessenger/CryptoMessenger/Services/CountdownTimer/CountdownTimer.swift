@@ -49,7 +49,6 @@ final class CountdownTimer {
     }
 
     func start() {
-        timerDone()
         setupDisplayLink()
         displayLink?.isPaused = false
     }
