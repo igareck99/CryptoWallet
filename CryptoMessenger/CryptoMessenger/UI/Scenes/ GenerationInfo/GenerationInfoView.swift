@@ -7,8 +7,8 @@ final class GenerationInfoView: UIView {
     // MARK: - Internal Properties
 
     var didTapInfoButton: VoidBlock?
-    var didTapNewKeyButton: VoidBlock?
-    var didTapUseKeyButton: VoidBlock?
+    var didTapCreateButton: VoidBlock?
+    var didTapImportButton: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -17,7 +17,7 @@ final class GenerationInfoView: UIView {
     private lazy var infoImageView = UIImageView()
     private lazy var infoButton = UIButton()
     private lazy var createButton = UIButton()
-    private lazy var useButton = UIButton()
+    private lazy var importButton = UIButton()
 
     // MARK: - Lifecycle
 
@@ -29,7 +29,7 @@ final class GenerationInfoView: UIView {
         addInfoImageView()
         addInfoButton()
         addCreateButton()
-        addUseButton()
+        addImportButton()
     }
 
     @available(*, unavailable)
@@ -49,14 +49,14 @@ final class GenerationInfoView: UIView {
     @objc private func createButtonTap() {
         vibrate()
         createButton.animateScaleEffect {
-            self.didTapNewKeyButton?()
+            self.didTapCreateButton?()
         }
     }
 
-    @objc private func useButtonTap() {
+    @objc private func importButtonTap() {
         vibrate()
-        useButton.animateScaleEffect {
-            self.didTapUseKeyButton?()
+        importButton.animateScaleEffect {
+            self.didTapImportButton?()
         }
     }
 
@@ -151,18 +151,18 @@ final class GenerationInfoView: UIView {
         }
     }
 
-    private func addUseButton() {
-        useButton.snap(parent: self) {
+    private func addImportButton() {
+        importButton.snap(parent: self) {
             let title = R.string.localizable.keyGenerationUseButton()
             $0.titleAttributes(text: title, [.color(.blue()), .font(.medium(15))])
             $0.background(.clear)
             $0.clipCorners(radius: 8)
-            $0.addTarget(self, action: #selector(self.useButtonTap), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(self.importButtonTap), for: .touchUpInside)
         } layout: {
             $0.leading.equalTo($1).offset(80)
             $0.trailing.equalTo($1).offset(-80)
             $0.height.equalTo(44)
-            $0.bottom.equalTo(self.snp_bottomMargin).offset(-28)
+            $0.bottom.equalTo(self.snp_bottomMargin).offset(-18)
         }
     }
 }

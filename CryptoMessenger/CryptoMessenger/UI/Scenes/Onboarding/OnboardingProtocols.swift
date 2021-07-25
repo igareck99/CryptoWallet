@@ -15,5 +15,9 @@ protocol OnboardingViewInterface: AnyObject {
 // MARK: - OnboardingPresentation
 
 protocol OnboardingPresentation: AnyObject {
-    func handleNextScene()
+    typealias OnboardingPage = OnboardingPresenter.OnboardingPage
+
+    var pages: [OnboardingPage] { get }
+
+    func handleContinueButtonTap()
 }

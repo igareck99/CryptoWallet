@@ -15,5 +15,6 @@ protocol KeyGenerationViewInterface: AnyObject {
 // MARK: - KeyGenerationPresentation
 
 protocol KeyGenerationPresentation: AnyObject {
-    func handleButtonTap()
+    func handleCreateButtonTap()
+    func handleImportButtonTap()
 }

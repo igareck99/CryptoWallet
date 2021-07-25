@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - OnboardingFlow
+// MARK: - KeyImportFlow
 
-enum OnboardingFlow {
+enum KeyImportFlow {
 
     // MARK: - Types
 

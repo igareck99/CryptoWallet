@@ -23,3 +23,17 @@
 "KeyGeneration.CreateButton" = "Создать новый ключ";
 "KeyGeneration.UseButton" = "Уже есть, импортировать";
 
+
+"Onboarding.Title" = "Генерация ключа";
+"Onboarding.Page1" = "Если пользуешься приложением, помогаешь сети работать - Получаешь токены";
+"Onboarding.Page2" = "Здесь можно посмотреть текущий баланс AURA";
+"Onboarding.ContinueButton" = "Хорошо";
+"Onboarding.Information" = "AURA не собирает и не извлекает выгоду из ваших личных данных. Продолжая, Вы соглашаетесь с ";
+"Onboarding.Policy" = "политикой конфиденциальности";
+
+
+"KeyImport.ScreenTitle" = "Шаг 2 из 2";
+"KeyImport.Title" = "Импорт Вашего ключа";
+"KeyImport.TextPlaceholder" = "Введите Вашу seed фразу";
+"KeyImport.Information" = "Как правильно импортировать ключи?";
+"KeyImport.ImportButton" = "Импортировать";

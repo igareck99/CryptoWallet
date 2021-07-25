@@ -3,10 +3,10 @@ import Foundation
 // MARK: - OnboardingConfigurator
 
 enum OnboardingConfigurator {
+
+    // MARK: - Internal Methods
+
     static func configuredViewController(delegate: OnboardingSceneDelegate?) -> OnboardingViewController {
-
-        // MARK: - Internal Methods
-
         let viewController = OnboardingViewController()
         let presenter = OnboardingPresenter(view: viewController)
         presenter.delegate = delegate
