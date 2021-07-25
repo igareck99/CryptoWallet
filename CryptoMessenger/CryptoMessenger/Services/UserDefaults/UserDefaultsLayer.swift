@@ -4,68 +4,67 @@ import UIKit
 
 @propertyWrapper
 struct UserDefaultSettings<Type> {
+
+    // MARK: - Private Properties
+
     private let key: String
     private let value: Type
     private let defaults: UserDefaults
+
+    // MARK: - Internal Properties
+
+    var wrappedValue: Type {
+        get { defaults.object(forKey: key) as? Type ?? value }
+        set { defaults.set(newValue, forKey: key) }
+    }
+
+    // MARK: - Lifecycle
 
     init(_ key: String, value: Type, for defaults: UserDefaults = .standard) {
         self.key = key
         self.value = value
         self.defaults = defaults
     }
-
-    var wrappedValue: Type {
-        get {
-            defaults.object(forKey: key) as? Type ?? value
-        }
-        set {
-            defaults.set(newValue, forKey: key)
-        }
-    }
 }
 
 // MARK: - UserDefaultsLayer
 
-final class UserDefaultsLayer {
+struct UserDefaultsLayer {
 
-    // MARK: - Public Properties
+    // MARK: - Private Properties
 
-    static let storage = UserDefaultsLayer()
+    private static let isUserAuthenticatedKey = "isUserAuthenticatedKey"
+    private static let authTokenKey = "authTokenKey"
+    private static let authUserIdKey = "authUserIdKey"
+    private static let userPhoneNumberKey = "userPhoneNumberKey"
+    private static let isAuthFlowFinishedKey = "isAuthFlowFinishedKey"
+    private static let isNewFlowFinishedKey = "isWorkerFlowFinishedKey"
 
-    let auth = AuthDefaultsLayer()
-    let flows = FlowsDefaultsLayer()
+    // MARK: - Internal Properties
+
+    @UserDefaultSettings(isUserAuthenticatedKey, value: true)
+    var isUserAuthenticated: Bool
+
+    @UserDefaultSettings(authTokenKey, value: "")
+    var token: String
+
+    @UserDefaultSettings(authUserIdKey, value: "")
+    var userId: String
+
+    @UserDefaultSettings(userPhoneNumberKey, value: "")
+    var userPhoneNumber: String
+
+    @UserDefaultSettings(isAuthFlowFinishedKey, value: false)
+    var isAuthFlowFinished: Bool
+
+    @UserDefaultSettings(isNewFlowFinishedKey, value: false)
+    var isNewFlowFinished: Bool
 }
 
-// MARK: UserDefaultsLayer (AuthUserDefaultsLayer)
+// MARK: - UserDefaultsLayer (UserCredentialsStorage)
 
-extension UserDefaultsLayer {
-    final class AuthDefaultsLayer: UserCredentialsStorage {
-        private static let isUserAuthenticatedKey = "isUserAuthenticatedKey"
-        private static let authTokenKey = "authTokenKey"
-        private static let authUserIdKey = "authUserIdKey"
+extension UserDefaultsLayer: UserCredentialsStorage {}
 
-        @UserDefaultSettings(isUserAuthenticatedKey, value: true)
-        var isUserAuthenticated: Bool
+// MARK: - UserDefaultsLayer (UserFlowsStorage)
 
-        @UserDefaultSettings(authTokenKey, value: "d8874a6f-a45a-4fa8-8b3b-9a11b2805034")
-        var token: String
-
-        @UserDefaultSettings(authUserIdKey, value: "123")
-        var userId: String
-    }
-}
-
-// MARK: UserDefaultsLayer (AuthUserDefaultsLayer)
-
-extension UserDefaultsLayer {
-    final class FlowsDefaultsLayer: UserFlowsStorage {
-        private static let isAuthFlowFinishedKey = "isAuthFlowFinishedKey"
-        private static let isNewFlowFinishedKey = "isWorkerFlowFinishedKey"
-
-        @UserDefaultSettings(isAuthFlowFinishedKey, value: false)
-        var isAuthFlowFinished: Bool
-
-        @UserDefaultSettings(isNewFlowFinishedKey, value: false)
-        var isNewFlowFinished: Bool
-    }
-}
+extension UserDefaultsLayer: UserFlowsStorage {}

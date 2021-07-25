@@ -8,6 +8,7 @@ class BaseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        showNavigationBar()
         setupDefaultNavigationBar()
     }
 
@@ -23,17 +24,17 @@ class BaseViewController: UIViewController {
 
     func setupDefaultNavigationBar() {
         setNeedsStatusBarAppearanceUpdate()
-        navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9803921569, alpha: 1)
-        navigationController?.navigationBar.backItem?.backBarButtonItem?.title = nil
-        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9803921569, alpha: 1)
+        navigationController?.navigationBar.background(.white())
+        navigationController?.navigationBar.tintColor(.black())
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.9764705882, green: 0.9764705882, blue: 0.9803921569, alpha: 1)
+        navigationController?.navigationBar.barTintColor(.white())
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.layer.masksToBounds = false
-        navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
-        navigationController?.navigationBar.layer.shadowOpacity = 0.25
-        navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 1)
-        navigationController?.navigationBar.layer.shadowRadius = 1
+        navigationController?.navigationBar.titleAttributes([
+            .color(.gray()),
+            .font(.regular(15))
+        ])
+
+        setupBackButton()
     }
 
     func setupClearNavigationBar() {
@@ -45,5 +46,30 @@ class BaseViewController: UIViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.barTintColor = .clear
         navigationController?.navigationBar.isTranslucent = false
+
+        setupBackButton()
+    }
+
+    // MARK: - Private Methods
+
+    private func setupBackButton() {
+        let backImage = R.image.navigation.backButton()
+        navigationController?.navigationBar.backIndicatorImage = backImage
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
+        navigationController?.navigationBar.backItem?.backBarButtonItem?.title = nil
+        navigationController?.navigationBar.backItem?.backButtonTitle = nil
+        navigationController?.navigationItem.backBarButtonItem?.title = ""
+
+        let BarButtonItemAppearance = UIBarButtonItem.appearance()
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 0.1),
+            .foregroundColor: UIColor.clear
+        ]
+
+        BarButtonItemAppearance.setTitleTextAttributes(attributes, for: .normal)
+        BarButtonItemAppearance.setTitleTextAttributes(attributes, for: .highlighted)
+
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
+            .setTitleTextAttributes([.foregroundColor: UIColor.clear], for: .normal)
     }
 }

@@ -82,11 +82,18 @@
 		5A187F342680CF49001957D3 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0C2680CF49001957D3 /* ContactsManager.swift */; };
 		5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0D2680CF49001957D3 /* PhoneContact.swift */; };
 		5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */; };
-		5A187F3D2680CFAF001957D3 /* StartConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F382680CFAF001957D3 /* StartConfigurator.swift */; };
-		5A187F3E2680CFAF001957D3 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F392680CFAF001957D3 /* StartView.swift */; };
-		5A187F3F2680CFAF001957D3 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F3A2680CFAF001957D3 /* StartViewController.swift */; };
-		5A187F402680CFAF001957D3 /* StartProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F3B2680CFAF001957D3 /* StartProtocols.swift */; };
-		5A187F412680CFAF001957D3 /* StartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F3C2680CFAF001957D3 /* StartPresenter.swift */; };
+		5A4267FE26A83494000C51DD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FD26A83494000C51DD /* R.generated.swift */; };
+		5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */; };
+		5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680026A83554000C51DD /* RegistrationViewController.swift */; };
+		5A42680726A83554000C51DD /* RegistrationProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680126A83554000C51DD /* RegistrationProtocols.swift */; };
+		5A42680826A83554000C51DD /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680226A83554000C51DD /* RegistrationView.swift */; };
+		5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680326A83554000C51DD /* RegistrationConfigurator.swift */; };
+		5A42680A26A83554000C51DD /* RegistrationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680426A83554000C51DD /* RegistrationFlow.swift */; };
+		5A42680F26A8393A000C51DD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5A42680E26A8393A000C51DD /* Localizable.strings */; };
+		5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681026A8B73A000C51DD /* TextFieldStyle.swift */; };
+		5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681426A8BE9E000C51DD /* CountryCodePickerViewController.swift */; };
+		5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681626A988B9000C51DD /* UITableViewCell+Extensions.swift */; };
+		5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681926A9C079000C51DD /* PhoneHelper.swift */; };
 		5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F126822C39008922B4 /* NavigationBarStyle.swift */; };
 		5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F226822C39008922B4 /* ImageStyle.swift */; };
 		5AA6410026822C3A008922B4 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F326822C39008922B4 /* Palette.swift */; };
@@ -104,6 +111,22 @@
 		5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411026825E6A008922B4 /* Rubik-Bold.ttf */; };
 		5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */; };
 		5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */; };
+		5AF8633526AA994E004A417C /* VerificationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8632F26AA994E004A417C /* VerificationPresenter.swift */; };
+		5AF8633626AA994E004A417C /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633026AA994E004A417C /* VerificationViewController.swift */; };
+		5AF8633726AA994E004A417C /* VerificationProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633126AA994E004A417C /* VerificationProtocols.swift */; };
+		5AF8633826AA994E004A417C /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633226AA994E004A417C /* VerificationView.swift */; };
+		5AF8633926AA994E004A417C /* VerificationConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633326AA994E004A417C /* VerificationConfigurator.swift */; };
+		5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633426AA994E004A417C /* VerificationFlow.swift */; };
+		5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633C26AADF0F004A417C /* CountdownTimer.swift */; };
+		5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633E26AC0204004A417C /* LoadingButton.swift */; };
+		5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634326AC0536004A417C /* IndicatorProtocol.swift */; };
+		5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634726AC0B82004A417C /* MaterialLoadingIndicator.swift */; };
+		5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634A26AD9FE5004A417C /* GenerationInfoPresenter.swift */; };
+		5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634B26AD9FE5004A417C /* GenerationInfoViewController.swift */; };
+		5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634C26AD9FE5004A417C /* GenerationInfoProtocols.swift */; };
+		5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634D26AD9FE5004A417C /* GenerationInfoView.swift */; };
+		5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634E26AD9FE5004A417C /* GenerationInfoConfigurator.swift */; };
+		5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634F26AD9FE5004A417C /* GenerationInfoFlow.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -186,11 +209,18 @@
 		5A187F0C2680CF49001957D3 /* ContactsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
 		5A187F0D2680CF49001957D3 /* PhoneContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneContact.swift; sourceTree = "<group>"; };
 		5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
-		5A187F382680CFAF001957D3 /* StartConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartConfigurator.swift; sourceTree = "<group>"; };
-		5A187F392680CFAF001957D3 /* StartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
-		5A187F3A2680CFAF001957D3 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
-		5A187F3B2680CFAF001957D3 /* StartProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartProtocols.swift; sourceTree = "<group>"; };
-		5A187F3C2680CFAF001957D3 /* StartPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartPresenter.swift; sourceTree = "<group>"; };
+		5A4267FD26A83494000C51DD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = R.generated.swift; path = Generated/R.generated.swift; sourceTree = SOURCE_ROOT; };
+		5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPresenter.swift; sourceTree = "<group>"; };
+		5A42680026A83554000C51DD /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		5A42680126A83554000C51DD /* RegistrationProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationProtocols.swift; sourceTree = "<group>"; };
+		5A42680226A83554000C51DD /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
+		5A42680326A83554000C51DD /* RegistrationConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationConfigurator.swift; sourceTree = "<group>"; };
+		5A42680426A83554000C51DD /* RegistrationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationFlow.swift; sourceTree = "<group>"; };
+		5A42680E26A8393A000C51DD /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		5A42681026A8B73A000C51DD /* TextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStyle.swift; sourceTree = "<group>"; };
+		5A42681426A8BE9E000C51DD /* CountryCodePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodePickerViewController.swift; sourceTree = "<group>"; };
+		5A42681626A988B9000C51DD /* UITableViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extensions.swift"; sourceTree = "<group>"; };
+		5A42681926A9C079000C51DD /* PhoneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneHelper.swift; sourceTree = "<group>"; };
 		5AA640F126822C39008922B4 /* NavigationBarStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarStyle.swift; sourceTree = "<group>"; };
 		5AA640F226822C39008922B4 /* ImageStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageStyle.swift; sourceTree = "<group>"; };
 		5AA640F326822C39008922B4 /* Palette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
@@ -208,6 +238,22 @@
 		5AA6411026825E6A008922B4 /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
 		5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
 		5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
+		5AF8632F26AA994E004A417C /* VerificationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationPresenter.swift; sourceTree = "<group>"; };
+		5AF8633026AA994E004A417C /* VerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
+		5AF8633126AA994E004A417C /* VerificationProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProtocols.swift; sourceTree = "<group>"; };
+		5AF8633226AA994E004A417C /* VerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
+		5AF8633326AA994E004A417C /* VerificationConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationConfigurator.swift; sourceTree = "<group>"; };
+		5AF8633426AA994E004A417C /* VerificationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationFlow.swift; sourceTree = "<group>"; };
+		5AF8633C26AADF0F004A417C /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
+		5AF8633E26AC0204004A417C /* LoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
+		5AF8634326AC0536004A417C /* IndicatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorProtocol.swift; sourceTree = "<group>"; };
+		5AF8634726AC0B82004A417C /* MaterialLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialLoadingIndicator.swift; sourceTree = "<group>"; };
+		5AF8634A26AD9FE5004A417C /* GenerationInfoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoPresenter.swift; sourceTree = "<group>"; };
+		5AF8634B26AD9FE5004A417C /* GenerationInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoViewController.swift; sourceTree = "<group>"; };
+		5AF8634C26AD9FE5004A417C /* GenerationInfoProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoProtocols.swift; sourceTree = "<group>"; };
+		5AF8634D26AD9FE5004A417C /* GenerationInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoView.swift; sourceTree = "<group>"; };
+		5AF8634E26AD9FE5004A417C /* GenerationInfoConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoConfigurator.swift; sourceTree = "<group>"; };
+		5AF8634F26AD9FE5004A417C /* GenerationInfoFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationInfoFlow.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -260,6 +306,7 @@
 				5A187EDA2680CF49001957D3 /* Services */,
 				5A187EA7268070B3001957D3 /* Extensions */,
 				5A187DF72680708D001957D3 /* UI */,
+				5A4267FC26A8336E000C51DD /* Generated */,
 				5A187ED82680CD3C001957D3 /* Resources */,
 				5A187ED92680CD51001957D3 /* SupportingFiles */,
 			);
@@ -281,12 +328,12 @@
 			children = (
 				5A187DBE26806EF8001957D3 /* AppDelegate.swift */,
 				5A187DC026806EF8001957D3 /* SceneDelegate.swift */,
-				5A187DDF26806F62001957D3 /* AppConstants.swift */,
+				5A187DDB26806F62001957D3 /* SceneDelegateService.swift */,
 				5A187DDC26806F62001957D3 /* AppDependeciesService.swift */,
 				5A187DDE26806F62001957D3 /* AppFirebaseService.swift */,
-				5A187DDA26806F62001957D3 /* AppHelpers.swift */,
 				5A187DDD26806F62001957D3 /* AppPushNotificationsService.swift */,
-				5A187DDB26806F62001957D3 /* SceneDelegateService.swift */,
+				5A187DDF26806F62001957D3 /* AppConstants.swift */,
+				5A187DDA26806F62001957D3 /* AppHelpers.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -333,7 +380,9 @@
 		5A187DF82680708D001957D3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				5A187F372680CFAF001957D3 /* Start */,
+				5A879F5326A5C25E002407F9 /* Registration */,
+				5AF8632E26AA9906004A417C /* Verification */,
+				5AF8634926AD9FC2004A417C /*  GenerationInfo */,
 				5A187EC326807220001957D3 /* Onboarding */,
 			);
 			path = Scenes;
@@ -352,6 +401,7 @@
 		5A187E3E2680708D001957D3 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				5AF8634226AC0521004A417C /* LoadingButton */,
 				5A187E442680708D001957D3 /* InputTextField.swift */,
 				5A187E452680708D001957D3 /* ActivityViewDisplayable.swift */,
 				5A187E462680708D001957D3 /* GradientView.swift */,
@@ -432,6 +482,7 @@
 				5A187EB0268070B3001957D3 /* NSObject+Extensions.swift */,
 				5A187EB2268070B3001957D3 /* View+Extensions.swift */,
 				5A187EB3268070B3001957D3 /* UITableView+Extensions.swift */,
+				5A42681626A988B9000C51DD /* UITableViewCell+Extensions.swift */,
 				5A187EB4268070B3001957D3 /* CGSize+Transform.swift */,
 			);
 			path = Extensions;
@@ -453,6 +504,7 @@
 		5A187ED82680CD3C001957D3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5A42680B26A838B1000C51DD /* Localizable */,
 				5AA6410E26825C79008922B4 /* Assets */,
 				5AA6410D26825C38008922B4 /* Typography */,
 			);
@@ -476,6 +528,9 @@
 				5A187EF72680CF49001957D3 /* Network */,
 				5A187F0B2680CF49001957D3 /* ContactsManager */,
 				5A187F0E2680CF49001957D3 /* Keyboard */,
+				5A42681326A8BE85000C51DD /* CountryCodePicker */,
+				5A42681826A9C063000C51DD /* PhoneHelper */,
+				5AF8633B26AADEF5004A417C /* CountdownTimer */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -576,16 +631,49 @@
 			path = Keyboard;
 			sourceTree = "<group>";
 		};
-		5A187F372680CFAF001957D3 /* Start */ = {
+		5A4267FC26A8336E000C51DD /* Generated */ = {
 			isa = PBXGroup;
 			children = (
-				5A187F382680CFAF001957D3 /* StartConfigurator.swift */,
-				5A187F392680CFAF001957D3 /* StartView.swift */,
-				5A187F3A2680CFAF001957D3 /* StartViewController.swift */,
-				5A187F3B2680CFAF001957D3 /* StartProtocols.swift */,
-				5A187F3C2680CFAF001957D3 /* StartPresenter.swift */,
+				5A4267FD26A83494000C51DD /* R.generated.swift */,
 			);
-			path = Start;
+			path = Generated;
+			sourceTree = "<group>";
+		};
+		5A42680B26A838B1000C51DD /* Localizable */ = {
+			isa = PBXGroup;
+			children = (
+				5A42680E26A8393A000C51DD /* Localizable.strings */,
+			);
+			path = Localizable;
+			sourceTree = "<group>";
+		};
+		5A42681326A8BE85000C51DD /* CountryCodePicker */ = {
+			isa = PBXGroup;
+			children = (
+				5A42681426A8BE9E000C51DD /* CountryCodePickerViewController.swift */,
+			);
+			path = CountryCodePicker;
+			sourceTree = "<group>";
+		};
+		5A42681826A9C063000C51DD /* PhoneHelper */ = {
+			isa = PBXGroup;
+			children = (
+				5A42681926A9C079000C51DD /* PhoneHelper.swift */,
+			);
+			path = PhoneHelper;
+			sourceTree = "<group>";
+		};
+		5A879F5326A5C25E002407F9 /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				5A42680326A83554000C51DD /* RegistrationConfigurator.swift */,
+				5A42680126A83554000C51DD /* RegistrationProtocols.swift */,
+				5A42680026A83554000C51DD /* RegistrationViewController.swift */,
+				5A42680226A83554000C51DD /* RegistrationView.swift */,
+				5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */,
+				5A42680426A83554000C51DD /* RegistrationFlow.swift */,
+			);
+			path = Registration;
 			sourceTree = "<group>";
 		};
 		5AA640F026822C39008922B4 /* StyleGuide */ = {
@@ -601,6 +689,7 @@
 				5AA640F626822C39008922B4 /* CGContextStyle.swift */,
 				5AA640F726822C39008922B4 /* SwitchStyle.swift */,
 				5AA640F826822C39008922B4 /* LabelStyle.swift */,
+				5A42681026A8B73A000C51DD /* TextFieldStyle.swift */,
 				5AA640FA26822C39008922B4 /* CALayerStyle.swift */,
 				5AA640FC26822C39008922B4 /* ViewStyle.swift */,
 				5AA640FD26822C3A008922B4 /* ButtonStyle.swift */,
@@ -627,6 +716,50 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
+		5AF8632E26AA9906004A417C /* Verification */ = {
+			isa = PBXGroup;
+			children = (
+				5AF8633326AA994E004A417C /* VerificationConfigurator.swift */,
+				5AF8633126AA994E004A417C /* VerificationProtocols.swift */,
+				5AF8633026AA994E004A417C /* VerificationViewController.swift */,
+				5AF8633226AA994E004A417C /* VerificationView.swift */,
+				5AF8632F26AA994E004A417C /* VerificationPresenter.swift */,
+				5AF8633426AA994E004A417C /* VerificationFlow.swift */,
+			);
+			path = Verification;
+			sourceTree = "<group>";
+		};
+		5AF8633B26AADEF5004A417C /* CountdownTimer */ = {
+			isa = PBXGroup;
+			children = (
+				5AF8633C26AADF0F004A417C /* CountdownTimer.swift */,
+			);
+			path = CountdownTimer;
+			sourceTree = "<group>";
+		};
+		5AF8634226AC0521004A417C /* LoadingButton */ = {
+			isa = PBXGroup;
+			children = (
+				5AF8633E26AC0204004A417C /* LoadingButton.swift */,
+				5AF8634326AC0536004A417C /* IndicatorProtocol.swift */,
+				5AF8634726AC0B82004A417C /* MaterialLoadingIndicator.swift */,
+			);
+			path = LoadingButton;
+			sourceTree = "<group>";
+		};
+		5AF8634926AD9FC2004A417C /*  GenerationInfo */ = {
+			isa = PBXGroup;
+			children = (
+				5AF8634E26AD9FE5004A417C /* GenerationInfoConfigurator.swift */,
+				5AF8634C26AD9FE5004A417C /* GenerationInfoProtocols.swift */,
+				5AF8634B26AD9FE5004A417C /* GenerationInfoViewController.swift */,
+				5AF8634D26AD9FE5004A417C /* GenerationInfoView.swift */,
+				5AF8634A26AD9FE5004A417C /* GenerationInfoPresenter.swift */,
+				5AF8634F26AD9FE5004A417C /* GenerationInfoFlow.swift */,
+			);
+			path = " GenerationInfo";
+			sourceTree = "<group>";
+		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -644,6 +777,7 @@
 			buildConfigurationList = 5A187DCF26806EF9001957D3 /* Build configuration list for PBXNativeTarget "CryptoMessenger" */;
 			buildPhases = (
 				6A9ACC994C362096620D0EAB /* [CP] Check Pods Manifest.lock */,
+				5A4267FB26A83315000C51DD /* R.swift */,
 				5A187F422680D241001957D3 /* SwiftLint */,
 				5A187DB726806EF8001957D3 /* Sources */,
 				5A187DB826806EF8001957D3 /* Frameworks */,
@@ -699,6 +833,7 @@
 				5A187DCB26806EF9001957D3 /* LaunchScreen.storyboard in Resources */,
 				5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */,
 				5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */,
+				5A42680F26A8393A000C51DD /* Localizable.strings in Resources */,
 				5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */,
 				5A187DC826806EF9001957D3 /* Assets.xcassets in Resources */,
 				5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */,
@@ -725,6 +860,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# skip merge\nGIT_ROOT=$(git rev-parse --git-dir)\nif [ -e \"${GIT_ROOT}/MERGE_MODE\" ]; then\n    exit 0\nfi\n\n# files\nfiles=$(git diff --diff-filter=d HEAD --name-only | grep -e '\\(.*\\).swift$')\n skip if no files\nif [ -z \"$files\" ]; then\n    echo \"Nothing to lint\"\n    exit 0\nfi\n\nIFS=$'\\n'\ncounter=0\nfor line in $files; do\n    export SCRIPT_INPUT_FILE_${counter}=\"../${line}\"\n    counter=$((counter + 1))\ndone\nunset IFS\n\nif (( counter > 0 )); then\n    export SCRIPT_INPUT_FILE_COUNT=${counter}\n    ${PODS_ROOT}/SwiftLint/swiftlint lint --use-script-input-files --config swiftlint.yml\nfi\n";
+		};
+		5A4267FB26A83315000C51DD /* R.swift */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$TEMP_DIR/rswift-lastrun",
+			);
+			name = R.swift;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				$SRCROOT/Generated/R.generated.swift,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/Generated/R.generated.swift\"\n";
 		};
 		6A9ACC994C362096620D0EAB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -773,9 +928,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A187EBB268070B3001957D3 /* NSMutableData+Extensions.swift in Sources */,
+				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
-				5A187F412680CFAF001957D3 /* StartPresenter.swift in Sources */,
 				5A187E9F2680708D001957D3 /* ScalableButtonView.swift in Sources */,
+				5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */,
 				5A187F292680CF49001957D3 /* RequestBuilder.swift in Sources */,
 				5A187F2A2680CF49001957D3 /* URLResponseCapable.swift in Sources */,
 				5A187E972680708D001957D3 /* ActivityViewDisplayable.swift in Sources */,
@@ -786,13 +942,17 @@
 				5A187EA52680708D001957D3 /* CollectionViewProviderViewModel.swift in Sources */,
 				5A187F2F2680CF49001957D3 /* Endpoints.swift in Sources */,
 				5A187ED02680BCD1001957D3 /* OnboardingPresenter.swift in Sources */,
+				5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */,
+				5AF8633626AA994E004A417C /* VerificationViewController.swift in Sources */,
 				5A187EC0268070B3001957D3 /* UITableView+Extensions.swift in Sources */,
+				5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
 				5A187E9E2680708D001957D3 /* ObservableArray.swift in Sources */,
 				5A187DD826806F35001957D3 /* Dependency.swift in Sources */,
 				5A187EA32680708D001957D3 /* CollectionViewProvider.swift in Sources */,
+				5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
 				5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */,
@@ -803,13 +963,20 @@
 				5A187F262680CF49001957D3 /* APIError.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
 				5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */,
+				5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */,
+				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
+				5AF8633726AA994E004A417C /* VerificationProtocols.swift in Sources */,
 				5A187EA62680708D001957D3 /* NibLoadableView.swift in Sources */,
 				5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */,
+				5AF8633926AA994E004A417C /* VerificationConfigurator.swift in Sources */,
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
+				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
 				5A187ED22680BCD1001957D3 /* OnboardingProtocols.swift in Sources */,
+				5A4267FE26A83494000C51DD /* R.generated.swift in Sources */,
 				5A187E9B2680708D001957D3 /* ListSeparatorStyle.swift in Sources */,
 				5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */,
-				5A187F402680CFAF001957D3 /* StartProtocols.swift in Sources */,
+				5A42680A26A83554000C51DD /* RegistrationFlow.swift in Sources */,
+				5A42680826A83554000C51DD /* RegistrationView.swift in Sources */,
 				5A187E962680708D001957D3 /* InputTextField.swift in Sources */,
 				5A187DE226806F62001957D3 /* AppDependeciesService.swift in Sources */,
 				5A187EB6268070B3001957D3 /* UIColor+Extension.swift in Sources */,
@@ -820,15 +987,17 @@
 				5A187DF626807011001957D3 /* Coordinator.swift in Sources */,
 				5A187F322680CF49001957D3 /* OccasionResponse.swift in Sources */,
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
-				5A187F3E2680CFAF001957D3 /* StartView.swift in Sources */,
 				5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */,
+				5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */,
 				5A187ED42680BCD1001957D3 /* OnboardingConfigurator.swift in Sources */,
+				5AF8633826AA994E004A417C /* VerificationView.swift in Sources */,
 				5A187F2C2680CF49001957D3 /* URLRequest+QueryItems.swift in Sources */,
 				5A187F312680CF49001957D3 /* RelationshipResponse.swift in Sources */,
 				5A187F342680CF49001957D3 /* ContactsManager.swift in Sources */,
 				5AA6410126822C3A008922B4 /* TextViewStyle.swift in Sources */,
 				5AA6410626822C3A008922B4 /* FontDecor.swift in Sources */,
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
+				5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */,
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
 				5A187DD726806F35001957D3 /* Injectable.swift in Sources */,
@@ -837,30 +1006,38 @@
 				5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */,
 				5A187DF426807011001957D3 /* Alertable.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
+				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
 				5A187F272680CF49001957D3 /* Environment.swift in Sources */,
+				5AF8633526AA994E004A417C /* VerificationPresenter.swift in Sources */,
+				5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */,
+				5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
+				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
-				5A187F3D2680CFAF001957D3 /* StartConfigurator.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
 				5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */,
 				5A187F332680CF49001957D3 /* MultipartFileData.swift in Sources */,
+				5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */,
+				5A42680726A83554000C51DD /* RegistrationProtocols.swift in Sources */,
 				5A187EB9268070B3001957D3 /* UIImageView+Kingfisher.swift in Sources */,
 				5A187F2E2680CF49001957D3 /* Endpoint.swift in Sources */,
 				5A187EBD268070B3001957D3 /* NSObject+Extensions.swift in Sources */,
 				5A187EA22680708D001957D3 /* TableViewProviderViewModel.swift in Sources */,
+				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
+				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
 				5A187ED32680BCD1001957D3 /* OnboardingView.swift in Sources */,
 				5A187E992680708D001957D3 /* ActivityView.swift in Sources */,
 				5A187ED12680BCD1001957D3 /* OnboardingViewController.swift in Sources */,
-				5A187F3F2680CFAF001957D3 /* StartViewController.swift in Sources */,
 				5AA6410C268233CA008922B4 /* ButtonDecor.swift in Sources */,
 				5A187F282680CF49001957D3 /* APIClient.swift in Sources */,
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
 				5A187DF326807011001957D3 /* BaseViewController.swift in Sources */,
 				5A187DE326806F62001957D3 /* AppPushNotificationsService.swift in Sources */,
+				5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */,
 				5A187DE126806F62001957D3 /* SceneDelegateService.swift in Sources */,
 				5AA6410026822C3A008922B4 /* Palette.swift in Sources */,
 			);
@@ -884,6 +1061,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -945,6 +1123,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

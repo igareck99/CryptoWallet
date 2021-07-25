@@ -1,0 +1,25 @@
+"Registration.ScreenTitle" = "Шаг 1 из 2";
+"Registration.Title" = "Введите номер телефона";
+"Registration.Description" = "Телефон нужен, чтобы ваши друзья могли видеть вас в контактах";
+"Registration.ContinueButton" = "Выслать код";
+
+
+"CountryCodePicker.ScreenTitle" = "Выберите страну";
+"CountryCodePicker.Cancel" = "Отменить";
+"CountryCodePicker.Search" = "Поиск";
+
+
+"Verification.ScreenTitle" = "Шаг 1 из 2";
+"Verification.Title" = "Введите код из СМС";
+"Verification.Description" = "СМС с кодом была отправлена\nна %@";
+"Verification.ResendTitle" = "Не получили смс?\nОтправить повторно %@ сек";
+"Verification.ResendButton" = "Отправить повторно";
+
+
+"KeyGeneration.ScreenTitle" = "Шаг 2 из 2";
+"KeyGeneration.Title" = "Генерация ключа";
+"KeyGeneration.Description" = "Ключ - это доступ к Вашему кошельку Aura и его балансу. Только вы можете его использовать.";
+"KeyGeneration.Information" = "Что такое ключ и секретная фраза?";
+"KeyGeneration.CreateButton" = "Создать новый ключ";
+"KeyGeneration.UseButton" = "Уже есть, импортировать";
+

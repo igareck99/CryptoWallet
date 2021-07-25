@@ -1,11 +1,3 @@
-//
-//  OnboardingView.swift
-//  CryptoMessenger
-//
-//  Created by Dmitrii Ziablikov on 21.06.2021
-//  
-//
-
 import UIKit
 
 // MARK: - OnboardingView
@@ -33,12 +25,6 @@ final class OnboardingView: UIView {
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
-    }
-
-    // MARK: - Public Methods
-
-    func publicMethod() {
-
     }
 
     // MARK: - Private Methods

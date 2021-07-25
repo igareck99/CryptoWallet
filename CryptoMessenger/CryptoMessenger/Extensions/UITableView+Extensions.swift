@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: UITableView ()
+// MARK: - UITableView ()
 
 extension UITableView {
 
@@ -11,7 +11,7 @@ extension UITableView {
     }
 
     func dequeue<T: UITableViewCell>(_ cell: T.Type) -> T {
-        return dequeueReusableCell(withIdentifier: cell.className) as! T
+        dequeueReusableCell(withIdentifier: cell.className) as! T
     }
 
     func dequeue<T: UITableViewCell>(_ cell: T.Type, indexPath: IndexPath) -> T {
@@ -23,6 +23,6 @@ extension UITableView {
     }
 
     func dequeueHeaderFooter<T: UITableViewHeaderFooterView>(_ headerFooter: T.Type) -> T {
-        return dequeueReusableHeaderFooterView(withIdentifier: headerFooter.className) as! T
+        dequeueReusableHeaderFooterView(withIdentifier: headerFooter.className) as! T
     }
 }

@@ -10,7 +10,7 @@ class BaseNavigationController: UINavigationController {
         super.viewDidLoad()
     }
 
-    // MARK: - Public Methods
+    // MARK: - Internal Methods
 
     func makeNotTranslucent() {
         navigationBar.isTranslucent = true

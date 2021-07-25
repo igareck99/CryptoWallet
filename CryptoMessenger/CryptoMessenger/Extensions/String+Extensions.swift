@@ -8,6 +8,7 @@ extension String {
 
     var firstUppercased: String { prefix(1).uppercased() + dropFirst() }
     var firstCapitalized: String { prefix(1).capitalized + dropFirst() }
+    var firstLetter: String { first.map(String.init) ?? "" }
     var numbers: String { filter { "0"..."9" ~= $0 } }
 
     // MARK: - Internal Methods

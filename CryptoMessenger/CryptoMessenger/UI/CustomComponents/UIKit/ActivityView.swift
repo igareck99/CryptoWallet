@@ -17,7 +17,7 @@ final class ActivityView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         addActivityIndicatorView()
         self.backgroundColor = backgroundColor ?? UIColor.black.withAlphaComponent(0.2)
-        activityIndicatorView.color = tintColor ?? .white
+        activityIndicatorView.color = .custom(tintColor ?? .white)
     }
 
     @available(*, unavailable)

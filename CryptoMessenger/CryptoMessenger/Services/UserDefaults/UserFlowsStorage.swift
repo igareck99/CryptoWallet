@@ -1,23 +1,23 @@
 import Foundation
 
-// MARK: UserFlowsStorage
+// MARK: - UserFlowsStorage
 
-protocol UserFlowsStorage: AnyObject {
+protocol UserFlowsStorage {
     var isAuthFlowFinished: Bool { get set }
     var isNewFlowFinished: Bool { get set }
 }
 
-// MARK: UserFlowsStorageService
+// MARK: - UserFlowsStorageService
 
 final class UserFlowsStorageService {
 
     // MARK: - Private Properties
 
-    private let storage: UserFlowsStorage
+    private var storage: UserFlowsStorage
 
     // MARK: - Lifecycle
 
-    init(storage: UserFlowsStorage = UserDefaultsLayer.storage.flows) {
+    init(storage: UserFlowsStorage = UserDefaultsLayer()) {
         self.storage = storage
     }
 
