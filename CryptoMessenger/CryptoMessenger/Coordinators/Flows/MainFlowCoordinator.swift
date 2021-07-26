@@ -40,6 +40,7 @@ public final class MainFlowCoordinator: Coordinator {
         ]
 
         let tabBarController = BaseTabBarController(viewControllers: tabs)
+        tabBarController.selectedIndex = Tabs.profile.index
 
         setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
     }
@@ -71,8 +72,7 @@ public final class MainFlowCoordinator: Coordinator {
     }
 
     private func buildProfileTab() -> UIViewController {
-        let viewController = UIViewController()
-        viewController.view.background(.white())
+        let viewController = ProfileConfigurator.configuredViewController(delegate: nil)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.profile.item
         return navigation
