@@ -1,8 +1,10 @@
 import Foundation
+import UIKit
 
 // MARK: - ProfilePresenter
 
 final class ProfilePresenter {
+    // MARK: - Types
 
     // MARK: - Internal Properties
 
@@ -14,7 +16,8 @@ final class ProfilePresenter {
             updateView(state)
         }
     }
-
+    // MARK: - Private Properties
+    
     // MARK: - Lifecycle
 
     init(view: ProfileViewInterface) {
