@@ -17,7 +17,9 @@ final class ProfileView: UIView {
     private lazy var siteButton = UIButton()
     private lazy var facebookButton = UIButton()
     private lazy var instagramButton = UIButton()
-
+    private lazy var infoLabel = UILabel()
+    private lazy var urlButton = UIButton()
+    private lazy var addPhotoButton = UIButton()
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
@@ -30,6 +32,9 @@ final class ProfileView: UIView {
         addFacebookButton()
         addInstButton()
         addPhoneLabel()
+        addInfoLabel()
+        addUrlButton()
+        addaddPhotoButton()
     }
 
     @available(*, unavailable)
@@ -138,6 +143,56 @@ final class ProfileView: UIView {
             $0.top.equalTo(self.snp_topMargin).offset(101)
             $0.leading.equalTo(self.profileImage.snp.trailing).offset(16)
             $0.trailing.equalTo($1).offset(-45)
+        }
+    }
+    private func addInfoLabel() {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.15
+        paragraphStyle.alignment = .left
+
+        infoLabel.snap(parent: self) {
+            $0.titleAttributes(
+                text: "Вдохновение и дизайнерские решения для вашего дома.",
+                [
+                    .paragraph(paragraphStyle),
+                    .font(.regular(15)),
+                    .color(.black())
+                ]
+            )
+            $0.textAlignment = .left
+            $0.numberOfLines = 0
+        } layout: {
+            $0.top.equalTo(self.phoneLabel.snp.bottom).offset(29)
+            $0.leading.equalTo($1).offset(16)
+            $0.trailing.equalTo($1).offset(-16)
+        }
+    }
+    private func addUrlButton() {
+        urlButton.snap(parent: self) {
+            $0.setTitleColor(.blue, for: .normal)
+            $0.setTitle("www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70", for: .normal)
+            $0.titleLabel?.textAlignment = NSTextAlignment.left
+            $0.titleLabel?.font = UIFont(name: "Rubik-Regular", size: 15)
+            $0.titleLabel?.lineBreakMode = NSLineBreakMode.byCharWrapping
+            $0.titleLabel?.numberOfLines = 2
+        } layout: {
+            $0.top.equalTo(self.infoLabel.snp.bottom).offset(1)
+            $0.leading.equalTo($1).offset(16)
+            $0.trailing.equalTo($1).offset(-16)
+        }
+    }
+    private func addaddPhotoButton() {
+        addPhotoButton.snap(parent: self) {
+            $0.setTitleColor(UIColor(62, 154, 226), for: .normal)
+            $0.setTitle("Добавить фото / видео", for: .normal)
+            $0.backgroundColor = UIColor(235, 245, 252)
+            $0.titleLabel?.font = UIFont(name: "Rubik-Regular", size: 15)
+            $0.clipCorners(radius: 8)
+        } layout: {
+            $0.height.equalTo(44)
+            $0.top.equalTo(self.urlButton.snp.bottom).offset(24)
+            $0.leading.equalTo($1).offset(16)
+            $0.trailing.equalTo($1).offset(-16)
         }
     }
 }
