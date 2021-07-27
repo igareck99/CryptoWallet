@@ -18,7 +18,7 @@ final class ProfileView: UIView {
         background(.white())
         addProfileImage()
         addTitleLabel()
-        //addTwitterButton()
+        addTwitterButton()
         addMobileLabel()
     }
 
@@ -54,7 +54,7 @@ final class ProfileView: UIView {
             }
     private func addProfileImage() {
         ProfileImage.snap(parent: self) {
-                $0.image = UIImage(named: "Oval")
+            $0.image = R.image.profile.userAvatar()
                 $0.layer.masksToBounds = false
                 $0.contentMode = .scaleAspectFit
                 $0.frame.size = CGSize(width: 100, height: 100) // размеры новой картинки
@@ -90,18 +90,13 @@ final class ProfileView: UIView {
     }
     private func addTwitterButton() {
         SocButton.snap(parent: self) {
-            // открыть картинку, отмасштабировать, закрыть
-            // $0.backgroundColor = UIColor(
-            $0.layer.cornerRadius = 0.5 * $0.bounds.size.width
-            $0.clipsToBounds = true
-            $0.frame.size = CGSize(width: 32, height: 32)
-            let image = UIImage(named: "Vector")
+            let image = R.image.profile.twitter()
             $0.setImage(image, for: .normal)
-                } layout: {
-                    $0.top.equalTo($1).offset(200)
-                    $0.leading.equalTo($1).offset(16)
-                    $0.trailing.equalTo($1).offset(-259)
-                }
+        } layout: {
+            $0.height.width.equalTo(32)
+            $0.top.equalTo($1).offset(200)
+            $0.leading.equalTo($1).offset(16)
+        }
     }
 
 }
