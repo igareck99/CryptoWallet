@@ -11,15 +11,21 @@ final class ProfileView: UIView {
     private lazy var TitleLabel = UILabel()
     private lazy var MobileLabel = UILabel()
     private lazy var ProfileImage = UIImageView()
-    private lazy var SocButton = UIButton(type: .custom)
+    private lazy var twitterButton = UIButton(type: .custom)
+    private lazy var siteButton = UIButton(type: .custom)
+    private lazy var facebookButton = UIButton(type: .custom)
+    private lazy var instagramButton = UIButton(type: .custom)
     // MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
         addProfileImage()
         addTitleLabel()
+        //addMobileLabel()
         addTwitterButton()
-        addMobileLabel()
+        addsiteButton()
+        addfacebookButton()
+        addinstButton()
     }
 
     @available(*, unavailable)
@@ -48,8 +54,8 @@ final class ProfileView: UIView {
                     $0.textAlignment = .center
                     $0.numberOfLines = 0
                 } layout: {
-                    $0.top.equalTo($1).offset(27)
-                    $0.leading.equalTo(self.ProfileImage.snp.trailing).offset(16)
+                    $0.top.equalTo(self.snp_topMargin).offset(27)
+                    $0.leading.equalTo($1).offset(132)
                 }
             }
     private func addProfileImage() {
@@ -83,19 +89,49 @@ final class ProfileView: UIView {
                     $0.textAlignment = .center
                     $0.numberOfLines = 0
                 } layout: {
-                    $0.top.equalTo(self.TitleLabel.snp.bottom).offset(56)
+                    $0.top.equalTo($1).offset(56)
                     $0.leading.equalTo(self.ProfileImage.snp.trailing).offset(16)
                     $0.trailing.equalTo($1).offset(-45)
                 }
     }
     private func addTwitterButton() {
-        SocButton.snap(parent: self) {
+        twitterButton.snap(parent: self) {
             let image = R.image.profile.twitter()
             $0.setImage(image, for: .normal)
         } layout: {
+            $0.top.equalTo($1).offset(57)
+            $0.leading.equalTo($1).offset(132)
             $0.height.width.equalTo(32)
-            $0.top.equalTo($1).offset(200)
-            $0.leading.equalTo($1).offset(16)
+        }
+    }
+    private func addsiteButton() {
+        twitterButton.snap(parent: self) {
+            let image = R.image.profile.website()
+            $0.setImage(image, for: .normal)
+        } layout: {
+            $0.height.width.equalTo(32)
+            $0.top.equalTo($1).offset(57)
+            $0.leading.equalTo($1).offset(181)
+        }
+    }
+    private func addinstButton() {
+        twitterButton.snap(parent: self) {
+            let image = R.image.profile.instagram()
+            $0.setImage(image, for: .normal)
+        } layout: {
+            $0.height.width.equalTo(32)
+            $0.top.equalTo($1).offset(57)
+            $0.leading.equalTo($1).offset(252)
+        }
+    }
+    private func addfacebookButton() {
+        twitterButton.snap(parent: self) {
+            let image = R.image.profile.facebook()
+            $0.setImage(image, for: .normal)
+        } layout: {
+            $0.height.width.equalTo(32)
+            $0.top.equalTo($1).offset(57)
+            $0.leading.equalTo($1).offset(212)
         }
     }
 
