@@ -62,7 +62,7 @@ final class ProfileView: UIView {
 
         titleLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: "ИКЕА Россия",
+                text: R.string.localizable.profileTitle(),
                 [
                     .paragraph(paragraphStyle),
                     .font(.medium(15)),
@@ -131,7 +131,7 @@ final class ProfileView: UIView {
 
         phoneLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: "8 (925) 851-39-11",
+                text: R.string.localizable.profileMobile(),
                 [
                     .paragraph(paragraphStyle),
                     .font(.regular(15)),
@@ -152,7 +152,7 @@ final class ProfileView: UIView {
 
         infoLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: "Вдохновение и дизайнерские решения для вашего дома.",
+                text: R.string.localizable.profileInfo(),
                 [
                     .paragraph(paragraphStyle),
                     .font(.regular(15)),
@@ -169,8 +169,8 @@ final class ProfileView: UIView {
     }
     private func addUrlButton() {
         urlButton.snap(parent: self) {
-            $0.setTitleColor(.blue, for: .normal)
-            $0.setTitle("www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70", for: .normal)
+            $0.setTitleColor(UIColor(104, 175, 223), for: .normal)
+            $0.setTitle(R.string.localizable.profileUrl(), for: .normal)
             $0.titleLabel?.textAlignment = NSTextAlignment.left
             $0.titleLabel?.font = UIFont(name: "Rubik-Regular", size: 15)
             $0.titleLabel?.lineBreakMode = NSLineBreakMode.byCharWrapping
@@ -183,9 +183,9 @@ final class ProfileView: UIView {
     }
     private func addaddPhotoButton() {
         addPhotoButton.snap(parent: self) {
-            $0.setTitleColor(UIColor(62, 154, 226), for: .normal)
-            $0.setTitle("Добавить фото / видео", for: .normal)
-            $0.backgroundColor = UIColor(235, 245, 252)
+            $0.setTitleColor(UIColor(29, 150, 233), for: .normal)
+            $0.setTitle(R.string.localizable.profileAdd(), for: .normal)
+            $0.backgroundColor = UIColor(233, 245, 253)
             $0.titleLabel?.font = UIFont(name: "Rubik-Regular", size: 15)
             $0.clipCorners(radius: 8)
         } layout: {
