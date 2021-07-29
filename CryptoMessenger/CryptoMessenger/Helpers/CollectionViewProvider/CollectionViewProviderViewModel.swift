@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: CollectionViewProviderViewModel
+// MARK: - CollectionViewProviderViewModel
 
 protocol CollectionViewProviderViewModel {
     func numberOfItemsIn(section: Int) -> Int

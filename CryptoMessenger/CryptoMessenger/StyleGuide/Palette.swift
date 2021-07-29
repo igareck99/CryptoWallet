@@ -10,6 +10,7 @@ enum Palette: Hashable {
          gray(_ alpha: CGFloat = 1),
          white(_ alpha: CGFloat = 1),
          blue(_ alpha: CGFloat = 1),
+         green(_ alpha: CGFloat = 1),
          lightBlue(_ alpha: CGFloat = 1),
          tintBlue(_ alpha: CGFloat = 1),
          red(_ alpha: CGFloat = 1),
@@ -31,6 +32,8 @@ enum Palette: Hashable {
             return #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(alpha)
         case let .blue(alpha):
             return #colorLiteral(red: 0.05490196078, green: 0.5568627451, blue: 0.9529411765, alpha: 1).withAlphaComponent(alpha)
+        case let .green(alpha):
+            return #colorLiteral(red: 0.01176470588, green: 0.8549019608, blue: 0.7725490196, alpha: 1).withAlphaComponent(alpha)
         case let .lightBlue(alpha):
             return #colorLiteral(red: 0.8117647059, green: 0.9098039216, blue: 0.9921568627, alpha: 1).withAlphaComponent(alpha)
         case let .tintBlue(alpha):

@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: CollectionViewProvider
+// MARK: - CollectionViewProvider
 
 final class CollectionViewProvider: NSObject, CollectionViewProviderType {
 
@@ -61,7 +61,7 @@ final class CollectionViewProvider: NSObject, CollectionViewProviderType {
 
 extension CollectionViewProvider: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfItemsIn(section: section)
+        viewModel.numberOfItemsIn(section: section)
     }
 
     func collectionView(

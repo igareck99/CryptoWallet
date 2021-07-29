@@ -62,8 +62,7 @@ public final class MainFlowCoordinator: Coordinator {
     }
 
     private func buildWalletTab() -> UIViewController {
-        let viewController = UIViewController()
-        viewController.view.background(.white())
+        let viewController = WalletConfigurator.configuredViewController(delegate: nil)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.wallet.item
         return navigation

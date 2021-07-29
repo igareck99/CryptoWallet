@@ -17,7 +17,7 @@ extension UIViewController {
     func setupDefaultNavigationBar() {
         setNeedsStatusBarAppearanceUpdate()
         navigationController?.navigationBar.background(.white())
-        navigationController?.navigationBar.tintColor(.white())
+        navigationController?.navigationBar.tintColor(.black())
         navigationController?.navigationBar.barTintColor(.white())
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.layer.masksToBounds = false
@@ -25,11 +25,30 @@ extension UIViewController {
         navigationController?.navigationBar.layer.shadowOpacity = 0.4
         navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 0.5)
         navigationController?.navigationBar.layer.shadowRadius = 0.5
+        navigationController?.navigationBar.backItem?.backBarButtonItem?.title = nil
 
-        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.clear], for: .normal)
-        UIBarButtonItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.clear], for: .highlighted)
+        var paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .left
 
-        let paragraph = NSMutableParagraphStyle()
+        UIBarButtonItem.appearance().titleAttributes(
+            [
+                .color(.black()),
+                .font(.semibold(17)),
+                .paragraph(paragraph)
+            ],
+            for: .normal
+        )
+        UIBarButtonItem.appearance().titleAttributes(
+            [
+                .color(.black()),
+                .font(.semibold(17)),
+                .paragraph(paragraph)
+            ],
+            for: .highlighted
+        )
+
+        paragraph = NSMutableParagraphStyle()
         paragraph.lineHeightMultiple = 1.09
         paragraph.alignment = .center
 
@@ -71,6 +90,14 @@ extension UIViewController {
     // MARK: - Private Methods
 
     private func setupBackButton(_ color: Palette = .black()) {
+        navigationItem.leftItemsSupplementBackButton = true
+        navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(
+            title: "",
+            style: .plain,
+            target: self,
+            action: nil
+        )
+
         let backImage = R.image.navigation.backButton()?
             .withRenderingMode(.alwaysOriginal)
             .withTintColor(color.uiColor)

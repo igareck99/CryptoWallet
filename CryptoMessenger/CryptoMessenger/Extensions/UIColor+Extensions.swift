@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: UIColor ()
+// MARK: - UIColor ()
 
 extension UIColor {
     convenience init(r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat = 1) {
