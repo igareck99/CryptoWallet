@@ -145,6 +145,7 @@ final class ProfileView: UIView {
             $0.trailing.equalTo($1).offset(-45)
         }
     }
+
     private func addInfoLabel() {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.15
@@ -167,13 +168,14 @@ final class ProfileView: UIView {
             $0.trailing.equalTo($1).offset(-16)
         }
     }
+
     private func addUrlButton() {
         urlButton.snap(parent: self) {
-            $0.setTitleColor(UIColor(104, 175, 223), for: .normal)
-            $0.setTitle(R.string.localizable.profileUrl(), for: .normal)
+            $0.setTitleColor(.systemBlue, for: .normal)
+            $0.setTitle(R.string.localizable.profileSite(), for: .normal)
             $0.titleLabel?.textAlignment = NSTextAlignment.left
-            $0.titleLabel?.font = UIFont(name: "Rubik-Regular", size: 15)
-            $0.titleLabel?.lineBreakMode = NSLineBreakMode.byCharWrapping
+            $0.titleLabel?.font(.regular(15))
+            $0.titleLabel?.lineBreakMode = .byCharWrapping
             $0.titleLabel?.numberOfLines = 2
         } layout: {
             $0.top.equalTo(self.infoLabel.snp.bottom).offset(1)
@@ -181,12 +183,15 @@ final class ProfileView: UIView {
             $0.trailing.equalTo($1).offset(-16)
         }
     }
+
     private func addaddPhotoButton() {
         addPhotoButton.snap(parent: self) {
             $0.setTitleColor(UIColor(29, 150, 233), for: .normal)
             $0.setTitle(R.string.localizable.profileAdd(), for: .normal)
-            $0.backgroundColor = UIColor(233, 245, 253)
-            $0.titleLabel?.font = UIFont(name: "Rubik-Regular", size: 15)
+            $0.backgroundColor = .clear
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor.systemBlue.cgColor
+            $0.titleLabel?.font(.regular(15))
             $0.clipCorners(radius: 8)
         } layout: {
             $0.height.equalTo(44)
