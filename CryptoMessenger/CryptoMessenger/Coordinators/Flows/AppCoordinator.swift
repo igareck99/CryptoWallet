@@ -23,9 +23,6 @@ final class AppCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        showMainFlow()
-        return
-        
         let flow = AppLaunchInstructor.configure(
             isOnboardingShown: userFlows.isOnboardingFlowFinished,
             isAuthorized: userFlows.isAuthFlowFinished

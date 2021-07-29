@@ -97,6 +97,12 @@
 		5A26CD3E26B32F6900118D4B /* TransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD3D26B32F6900118D4B /* TransactionTableViewCell.swift */; };
 		5A26CD4026B3305600118D4B /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD3F26B3305600118D4B /* Transaction.swift */; };
 		5A26CD4226B3363E00118D4B /* TransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD4126B3363E00118D4B /* TransactionViewModel.swift */; };
+		5A26CD4B26B356F600118D4B /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD4526B356F600118D4B /* ProfilePresenter.swift */; };
+		5A26CD4C26B356F600118D4B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD4626B356F600118D4B /* ProfileView.swift */; };
+		5A26CD4D26B356F600118D4B /* ProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD4726B356F600118D4B /* ProfileProtocols.swift */; };
+		5A26CD4E26B356F600118D4B /* ProfileConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD4826B356F600118D4B /* ProfileConfigurator.swift */; };
+		5A26CD4F26B356F600118D4B /* ProfileFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD4926B356F600118D4B /* ProfileFlow.swift */; };
+		5A26CD5026B356F600118D4B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD4A26B356F600118D4B /* ProfileViewController.swift */; };
 		5A4267FE26A83494000C51DD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FD26A83494000C51DD /* R.generated.swift */; };
 		5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */; };
 		5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680026A83554000C51DD /* RegistrationViewController.swift */; };
@@ -159,12 +165,6 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
-		5AF8638126AEA070004A417C /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637B26AEA070004A417C /* ProfilePresenter.swift */; };
-		5AF8638226AEA070004A417C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637C26AEA070004A417C /* ProfileViewController.swift */; };
-		5AF8638326AEA070004A417C /* ProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637D26AEA070004A417C /* ProfileProtocols.swift */; };
-		5AF8638426AEA070004A417C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637E26AEA070004A417C /* ProfileView.swift */; };
-		5AF8638526AEA070004A417C /* ProfileConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637F26AEA070004A417C /* ProfileConfigurator.swift */; };
-		5AF8638626AEA070004A417C /* ProfileFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8638026AEA070004A417C /* ProfileFlow.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -262,6 +262,12 @@
 		5A26CD3D26B32F6900118D4B /* TransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTableViewCell.swift; sourceTree = "<group>"; };
 		5A26CD3F26B3305600118D4B /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		5A26CD4126B3363E00118D4B /* TransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionViewModel.swift; sourceTree = "<group>"; };
+		5A26CD4526B356F600118D4B /* ProfilePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
+		5A26CD4626B356F600118D4B /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		5A26CD4726B356F600118D4B /* ProfileProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileProtocols.swift; sourceTree = "<group>"; };
+		5A26CD4826B356F600118D4B /* ProfileConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileConfigurator.swift; sourceTree = "<group>"; };
+		5A26CD4926B356F600118D4B /* ProfileFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileFlow.swift; sourceTree = "<group>"; };
+		5A26CD4A26B356F600118D4B /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		5A4267FD26A83494000C51DD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = R.generated.swift; path = Generated/R.generated.swift; sourceTree = SOURCE_ROOT; };
 		5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPresenter.swift; sourceTree = "<group>"; };
 		5A42680026A83554000C51DD /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -324,12 +330,6 @@
 		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
-		5AF8637B26AEA070004A417C /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
-		5AF8637C26AEA070004A417C /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		5AF8637D26AEA070004A417C /* ProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileProtocols.swift; sourceTree = "<group>"; };
-		5AF8637E26AEA070004A417C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		5AF8637F26AEA070004A417C /* ProfileConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileConfigurator.swift; sourceTree = "<group>"; };
-		5AF8638026AEA070004A417C /* ProfileFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFlow.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -361,6 +361,7 @@
 				5A187DBC26806EF8001957D3 /* Products */,
 				C48D3F6781FE772D12943E74 /* Pods */,
 				3317E261A1E9E98DBBA1CBEB /* Frameworks */,
+				5A26CD4326B356C400118D4B /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -466,6 +467,7 @@
 				5AF8634926AD9FC2004A417C /*  GenerationInfo */,
 				5AF8636226ADCABE004A417C /* KeyImport */,
 				5A26CD1326B2B88100118D4B /* Wallet */,
+				5A26CD4426B356F600118D4B /* Profile */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -764,6 +766,26 @@
 			path = TableView;
 			sourceTree = "<group>";
 		};
+		5A26CD4326B356C400118D4B /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		5A26CD4426B356F600118D4B /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				5A26CD4826B356F600118D4B /* ProfileConfigurator.swift */,
+				5A26CD4726B356F600118D4B /* ProfileProtocols.swift */,
+				5A26CD4A26B356F600118D4B /* ProfileViewController.swift */,
+				5A26CD4626B356F600118D4B /* ProfileView.swift */,
+				5A26CD4526B356F600118D4B /* ProfilePresenter.swift */,
+				5A26CD4926B356F600118D4B /* ProfileFlow.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		5A4267FC26A8336E000C51DD /* Generated */ = {
 			isa = PBXGroup;
 			children = (
@@ -906,19 +928,6 @@
 				5AF8636826ADCB9B004A417C /* KeyImportFlow.swift */,
 			);
 			path = KeyImport;
-			sourceTree = "<group>";
-		};
-		5AF8637926AEA051004A417C /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				5AF8637F26AEA070004A417C /* ProfileConfigurator.swift */,
-				5AF8637D26AEA070004A417C /* ProfileProtocols.swift */,
-				5AF8637C26AEA070004A417C /* ProfileViewController.swift */,
-				5AF8637E26AEA070004A417C /* ProfileView.swift */,
-				5AF8637B26AEA070004A417C /* ProfilePresenter.swift */,
-				5AF8638026AEA070004A417C /* ProfileFlow.swift */,
-			);
-			path = Profile;
 			sourceTree = "<group>";
 		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
@@ -1092,6 +1101,7 @@
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
 				5A26CD2A26B2FF9900118D4B /* CarouselFlowLayout.swift in Sources */,
 				5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */,
+				5A26CD4F26B356F600118D4B /* ProfileFlow.swift in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				5A187E9F2680708D001957D3 /* ScalableButtonView.swift in Sources */,
 				5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */,
@@ -1159,7 +1169,6 @@
 				5A187EB6268070B3001957D3 /* UIColor+Extensions.swift in Sources */,
 				5A187F112680CF49001957D3 /* UserCredentialsStorage.swift in Sources */,
 				5A187EB5268070B3001957D3 /* UIViewController+Extensions.swift in Sources */,
-				5AF8638226AEA070004A417C /* ProfileViewController.swift in Sources */,
 				5A187F302680CF49001957D3 /* EmptyResponse.swift in Sources */,
 				5A187DF626807011001957D3 /* Coordinator.swift in Sources */,
 				5A187F322680CF49001957D3 /* OccasionResponse.swift in Sources */,
@@ -1170,6 +1179,7 @@
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
 				5A26CD3526B31B4000118D4B /* CardCollectionViewCell.swift in Sources */,
 				5AF8636926ADCB9B004A417C /* KeyImportPresenter.swift in Sources */,
+				5A26CD4C26B356F600118D4B /* ProfileView.swift in Sources */,
 				5AF8633826AA994E004A417C /* VerificationView.swift in Sources */,
 				5A187F2C2680CF49001957D3 /* URLRequest+QueryItems.swift in Sources */,
 				5A187F312680CF49001957D3 /* RelationshipResponse.swift in Sources */,
@@ -1186,12 +1196,12 @@
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A187DE426806F62001957D3 /* AppFirebaseService.swift in Sources */,
 				5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */,
+				5A26CD4D26B356F600118D4B /* ProfileProtocols.swift in Sources */,
 				5A26CD1D26B2EECA00118D4B /* WalletViewController.swift in Sources */,
 				5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */,
 				5A26CD4026B3305600118D4B /* Transaction.swift in Sources */,
 				5A187DF426807011001957D3 /* Alertable.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
-				5AF8638426AEA070004A417C /* ProfileView.swift in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
 				5A187F272680CF49001957D3 /* Environment.swift in Sources */,
 				5AF8633526AA994E004A417C /* VerificationPresenter.swift in Sources */,
@@ -1201,11 +1211,13 @@
 				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
 				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
+				5A26CD5026B356F600118D4B /* ProfileViewController.swift in Sources */,
 				5AF8637226ADDDCE004A417C /* AppLaunchInstructor.swift in Sources */,
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
 				5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
 				5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */,
+				5A26CD4E26B356F600118D4B /* ProfileConfigurator.swift in Sources */,
 				5A187F332680CF49001957D3 /* MultipartFileData.swift in Sources */,
 				5A26CD2E26B3114400118D4B /* BarButtonStyle.swift in Sources */,
 				5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */,
@@ -1216,13 +1228,13 @@
 				5A187EBD268070B3001957D3 /* NSObject+Extensions.swift in Sources */,
 				5A187EA22680708D001957D3 /* TableViewProviderViewModel.swift in Sources */,
 				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
-				5AF8638526AEA070004A417C /* ProfileConfigurator.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				5A26CD3126B3195900118D4B /* CardViewModel.swift in Sources */,
 				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
 				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
+				5A26CD4B26B356F600118D4B /* ProfilePresenter.swift in Sources */,
 				5A187E992680708D001957D3 /* ActivityView.swift in Sources */,
 				5A26CD2926B2FF9900118D4B /* CarouselAnimatableFlowLayout.swift in Sources */,
 				5AA6410C268233CA008922B4 /* ButtonDecor.swift in Sources */,

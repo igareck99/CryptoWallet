@@ -39,7 +39,7 @@ public final class MainFlowCoordinator: Coordinator {
         ]
 
         let tabBarController = BaseTabBarController(viewControllers: tabs)
-        tabBarController.selectedIndex = Tabs.profile.index
+        tabBarController.selectedIndex = Tabs.wallet.index
 
         setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
     }
@@ -89,11 +89,11 @@ public final class MainFlowCoordinator: Coordinator {
             case .services:
                 return 0
             case .chat:
-                return 1
+                return 0
             case .wallet:
-                return 2
+                return 1
             case .profile:
-                return 3
+                return 2
             }
         }
 

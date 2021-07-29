@@ -20,9 +20,30 @@ final class ProfileViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "My profile"
+        addLeftBarButtonItem()
+        addRightBarButtonItem()
     }
-    
+
+    private func addLeftBarButtonItem() {
+        let title = UIBarButtonItem(title: "@ikea_rus", style: .plain, target: nil, action: nil)
+        navigationItem.leftBarButtonItem = title
+    }
+
+    private func addRightBarButtonItem() {
+        let settings = UIBarButtonItem(
+            image: R.image.profile.settings(),
+            style: .done,
+            target: self,
+            action: #selector(rightButtonTap)
+        )
+        navigationItem.rightBarButtonItem = settings
+    }
+
+    // MARK: - Actions
+
+    @objc private func rightButtonTap() {
+
+    }
 }
 
 // MARK: - ProfileViewInterface
