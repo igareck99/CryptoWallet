@@ -138,6 +138,12 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
+		5AF8638126AEA070004A417C /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637B26AEA070004A417C /* ProfilePresenter.swift */; };
+		5AF8638226AEA070004A417C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637C26AEA070004A417C /* ProfileViewController.swift */; };
+		5AF8638326AEA070004A417C /* ProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637D26AEA070004A417C /* ProfileProtocols.swift */; };
+		5AF8638426AEA070004A417C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637E26AEA070004A417C /* ProfileView.swift */; };
+		5AF8638526AEA070004A417C /* ProfileConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637F26AEA070004A417C /* ProfileConfigurator.swift */; };
+		5AF8638626AEA070004A417C /* ProfileFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8638026AEA070004A417C /* ProfileFlow.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -276,6 +282,12 @@
 		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
+		5AF8637B26AEA070004A417C /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
+		5AF8637C26AEA070004A417C /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		5AF8637D26AEA070004A417C /* ProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileProtocols.swift; sourceTree = "<group>"; };
+		5AF8637E26AEA070004A417C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		5AF8637F26AEA070004A417C /* ProfileConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileConfigurator.swift; sourceTree = "<group>"; };
+		5AF8638026AEA070004A417C /* ProfileFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFlow.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -411,6 +423,7 @@
 				5AF8634926AD9FC2004A417C /*  GenerationInfo */,
 				5A187EC326807220001957D3 /* Onboarding */,
 				5AF8636226ADCABE004A417C /* KeyImport */,
+				5AF8637926AEA051004A417C /* Profile */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -801,6 +814,19 @@
 			path = KeyImport;
 			sourceTree = "<group>";
 		};
+		5AF8637926AEA051004A417C /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				5AF8637F26AEA070004A417C /* ProfileConfigurator.swift */,
+				5AF8637D26AEA070004A417C /* ProfileProtocols.swift */,
+				5AF8637C26AEA070004A417C /* ProfileViewController.swift */,
+				5AF8637E26AEA070004A417C /* ProfileView.swift */,
+				5AF8637B26AEA070004A417C /* ProfilePresenter.swift */,
+				5AF8638026AEA070004A417C /* ProfileFlow.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1007,6 +1033,7 @@
 				5A187EA42680708D001957D3 /* CollectionViewProviderType.swift in Sources */,
 				5A187F262680CF49001957D3 /* APIError.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
+				5AF8638626AEA070004A417C /* ProfileFlow.swift in Sources */,
 				5AF8636E26ADCB9B004A417C /* KeyImportFlow.swift in Sources */,
 				5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */,
 				5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */,
@@ -1028,6 +1055,7 @@
 				5A187EB6268070B3001957D3 /* UIColor+Extension.swift in Sources */,
 				5A187F112680CF49001957D3 /* UserCredentialsStorage.swift in Sources */,
 				5A187EB5268070B3001957D3 /* UIViewController+Extensions.swift in Sources */,
+				5AF8638226AEA070004A417C /* ProfileViewController.swift in Sources */,
 				5A187F302680CF49001957D3 /* EmptyResponse.swift in Sources */,
 				5A187DF626807011001957D3 /* Coordinator.swift in Sources */,
 				5A187F322680CF49001957D3 /* OccasionResponse.swift in Sources */,
@@ -1044,6 +1072,7 @@
 				5AA6410626822C3A008922B4 /* FontDecor.swift in Sources */,
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
 				5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */,
+				5AF8638326AEA070004A417C /* ProfileProtocols.swift in Sources */,
 				5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */,
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
@@ -1054,6 +1083,7 @@
 				5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */,
 				5A187DF426807011001957D3 /* Alertable.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
+				5AF8638426AEA070004A417C /* ProfileView.swift in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
 				5A187F272680CF49001957D3 /* Environment.swift in Sources */,
 				5AF8633526AA994E004A417C /* VerificationPresenter.swift in Sources */,
@@ -1077,6 +1107,7 @@
 				5A187EBD268070B3001957D3 /* NSObject+Extensions.swift in Sources */,
 				5A187EA22680708D001957D3 /* TableViewProviderViewModel.swift in Sources */,
 				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
+				5AF8638526AEA070004A417C /* ProfileConfigurator.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
@@ -1086,6 +1117,7 @@
 				5AA6410C268233CA008922B4 /* ButtonDecor.swift in Sources */,
 				5A187F282680CF49001957D3 /* APIClient.swift in Sources */,
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
+				5AF8638126AEA070004A417C /* ProfilePresenter.swift in Sources */,
 				5A187DF326807011001957D3 /* BaseViewController.swift in Sources */,
 				5A187DE326806F62001957D3 /* AppPushNotificationsService.swift in Sources */,
 				5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */,
