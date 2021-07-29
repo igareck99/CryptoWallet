@@ -55,8 +55,7 @@ public final class MainFlowCoordinator: Coordinator {
     }
 
     private func buildChatTab() -> UIViewController {
-        let viewController = UIViewController()
-        viewController.view.background(.white())
+        let viewController = ChatConfigurator.configuredViewController(delegate: nil)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.chat.item
         return navigation
