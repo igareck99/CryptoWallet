@@ -76,6 +76,7 @@
 		5A187F342680CF49001957D3 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0C2680CF49001957D3 /* ContactsManager.swift */; };
 		5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0D2680CF49001957D3 /* PhoneContact.swift */; };
 		5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */; };
+		5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */; };
 		5A4267FE26A83494000C51DD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FD26A83494000C51DD /* R.generated.swift */; };
 		5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */; };
 		5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680026A83554000C51DD /* RegistrationViewController.swift */; };
@@ -214,6 +215,7 @@
 		5A187F0C2680CF49001957D3 /* ContactsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
 		5A187F0D2680CF49001957D3 /* PhoneContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneContact.swift; sourceTree = "<group>"; };
 		5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
+		5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
 		5A4267FD26A83494000C51DD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = R.generated.swift; path = Generated/R.generated.swift; sourceTree = SOURCE_ROOT; };
 		5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPresenter.swift; sourceTree = "<group>"; };
 		5A42680026A83554000C51DD /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -406,11 +408,12 @@
 		5A187DF82680708D001957D3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				5A187EC326807220001957D3 /* Onboarding */,
 				5A879F5326A5C25E002407F9 /* Registration */,
 				5AF8632E26AA9906004A417C /* Verification */,
 				5AF8634926AD9FC2004A417C /*  GenerationInfo */,
-				5A187EC326807220001957D3 /* Onboarding */,
 				5AF8636226ADCABE004A417C /* KeyImport */,
+				5A26CD1326B2B88100118D4B /* Wallet */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 			isa = PBXGroup;
 			children = (
 				5A187EA8268070B3001957D3 /* UIViewController+Extensions.swift */,
+				5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */,
 				5A187EA9268070B3001957D3 /* UIColor+Extension.swift */,
 				5A187EAA268070B3001957D3 /* UIView+Extensions.swift */,
 				5A187EAB268070B3001957D3 /* String+Extensions.swift */,
@@ -656,6 +660,13 @@
 				5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */,
 			);
 			path = Keyboard;
+			sourceTree = "<group>";
+		};
+		5A26CD1326B2B88100118D4B /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Wallet;
 			sourceTree = "<group>";
 		};
 		5A4267FC26A8336E000C51DD /* Generated */ = {
@@ -987,6 +998,7 @@
 				5A187EC0268070B3001957D3 /* UITableView+Extensions.swift in Sources */,
 				5AF8635F26ADB691004A417C /* OnboardingPageView.swift in Sources */,
 				5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */,
+				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,

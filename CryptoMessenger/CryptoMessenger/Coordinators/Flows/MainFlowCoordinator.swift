@@ -33,7 +33,6 @@ public final class MainFlowCoordinator: Coordinator {
 
     func start() {
         let tabs = [
-            buildServicesTab(),
             buildChatTab(),
             buildWalletTab(),
             buildProfileTab()

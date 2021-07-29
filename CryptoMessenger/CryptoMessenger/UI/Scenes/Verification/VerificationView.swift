@@ -157,7 +157,7 @@ final class VerificationView: UIView {
     private func addDotes() {
         (0..<PhoneHelper.verificationCodeRequiredLength).forEach { _ in
             let label = UILabel()
-            label.font(.medium(22))
+            label.font(.regular(28))
             label.textAlignment = .center
             label.text = "—"
             label.textColor(.black())
@@ -209,10 +209,21 @@ final class VerificationView: UIView {
     }
 
     private func addResendButton() {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .center
+        
         resendButton.snap(parent: self) {
             let title = R.string.localizable.verificationResendButton()
-            $0.titleAttributes(text: title, [.color(.blue()), .font(.medium(15))])
-            $0.background(.lightBlue())
+            $0.titleAttributes(
+                text: title,
+                [
+                    .color(.white()),
+                    .font(.semibold(15)),
+                    .paragraph(paragraph)
+                ]
+            )
+            $0.background(.blue())
             $0.clipCorners(radius: 8)
             $0.isHidden = true
             $0.addTarget(self, action: #selector(self.continueButtonTap), for: .touchUpInside)
@@ -234,6 +245,8 @@ extension VerificationView: UITextFieldDelegate {
     ) -> Bool {
         let newString = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string)
 
+        dotes.forEach { $0.textColor(.black()) }
+
         guard newString.count <= PhoneHelper.verificationCodeRequiredLength else { return false }
 
         textField.text = newString
@@ -247,7 +260,14 @@ extension VerificationView: UITextFieldDelegate {
         }
 
         if newString.count == PhoneHelper.verificationCodeRequiredLength {
-            didTapNextScene?(newString)
+            if newString == PhoneHelper.verificationCodeForTest {
+                dotes.forEach { $0.textColor(.blue()) }
+                delay(0.3) {
+                    self.didTapNextScene?(newString)
+                }
+            } else {
+                dotes.forEach { $0.textColor(.red()) }
+            }
         }
 
         return false

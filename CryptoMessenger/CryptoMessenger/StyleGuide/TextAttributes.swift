@@ -6,6 +6,7 @@ enum TextAttributes: Hashable {
     case color(Palette)
     case font(FontDecor)
     case paragraph(NSMutableParagraphStyle)
+    case kern(Double)
 
     // MARK: - Internal Properties
 
@@ -17,6 +18,8 @@ enum TextAttributes: Hashable {
             return .font
         case .paragraph:
             return .paragraphStyle
+        case .kern:
+            return .kern
         }
     }
 
@@ -27,6 +30,8 @@ enum TextAttributes: Hashable {
         case let .font(font):
             return font.uiFont
         case let .paragraph(value):
+            return value
+        case let .kern(value):
             return value
         }
     }

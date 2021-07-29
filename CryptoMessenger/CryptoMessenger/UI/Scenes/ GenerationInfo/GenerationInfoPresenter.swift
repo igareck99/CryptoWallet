@@ -39,7 +39,7 @@ final class GenerationInfoPresenter {
 
 extension GenerationInfoPresenter: KeyGenerationPresentation {
     func handleCreateButtonTap() {
-        delegate?.handleNextScene(.onboarding)
+        delegate?.handleNextScene(.keyImport)
     }
 
     func handleImportButtonTap() {

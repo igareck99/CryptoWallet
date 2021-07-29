@@ -71,7 +71,8 @@ final class CountryCodePickerViewController: UITableViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.background(.white())
-        searchController.searchBar.searchTextField.background(.lightGray(0.2))
+        searchController.searchBar.searchTextField.background(.tintBlue())
+        searchController.searchBar.searchTextField.clearButtonMode = .never
         searchController.searchBar.setValue(R.string.localizable.countryCodePickerCancel(), forKey: "cancelButtonText")
         searchController.searchBar.placeholder = R.string.localizable.countryCodePickerSearch()
         searchController.searchBar.sizeToFit()
@@ -147,7 +148,7 @@ extension CountryCodePickerViewController {
         guard !isFiltering else { return nil }
 
         let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 24))
-        header.background(.lightGray())
+        header.background(.tintBlue())
         let title = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.frame.width - 16, height: 24))
         title.text = countries[section].first?.name.firstLetter
         title.font(.medium(15))

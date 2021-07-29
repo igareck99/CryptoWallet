@@ -26,8 +26,8 @@ final class GenerationInfoView: UIView {
         background(.white())
         addTitleLabel()
         addDescriptionLabel()
-        addInfoImageView()
         addInfoButton()
+        addInfoImageView()
         addCreateButton()
         addImportButton()
     }
@@ -103,19 +103,9 @@ final class GenerationInfoView: UIView {
                 ]
             )
         } layout: {
-            $0.top.equalTo(self.titleLabel.snp.bottom).offset(12)
+            $0.top.equalTo(self.titleLabel.snp_bottomMargin).offset(16)
             $0.leading.equalTo($1).offset(24)
             $0.trailing.equalTo($1).offset(-24)
-        }
-    }
-
-    private func addInfoImageView() {
-        infoImageView.snap(parent: self) {
-            $0.image = R.image.keyGeneration.keyInfo()
-            $0.contentMode = .scaleAspectFill
-        } layout: {
-            $0.top.equalTo(self.descriptionLabel.snp.bottom).offset(24)
-            $0.centerX.equalTo($1)
         }
     }
 
@@ -127,42 +117,80 @@ final class GenerationInfoView: UIView {
         let title = R.string.localizable.keyGenerationInformation()
 
         infoButton.snap(parent: self) {
-            $0.titleAttributes(text: title, [.color(.blue()), .font(.regular(15)), .paragraph(paragraphStyle)])
+            $0.titleAttributes(
+                text: title,
+                [
+                    .color(.blue()),
+                    .font(.regular(15)),
+                    .paragraph(paragraphStyle)
+                ]
+            )
             $0.addTarget(self, action: #selector(self.infoButtonTap), for: .touchUpInside)
         } layout: {
-            $0.top.equalTo(self.infoImageView.snp.bottom).offset(24)
+            $0.top.equalTo(self.descriptionLabel.snp_bottomMargin).offset(24)
             $0.leading.equalTo($1).offset(24)
             $0.trailing.equalTo($1).offset(-24)
         }
     }
 
+    private func addInfoImageView() {
+        infoImageView.snap(parent: self) {
+            $0.image = R.image.keyGeneration.keyInfo()
+            $0.contentMode = .scaleAspectFill
+        } layout: {
+            $0.top.equalTo(self.infoButton.snp_bottomMargin).offset(30)
+            $0.centerX.equalTo($1)
+        }
+    }
+
     private func addCreateButton() {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .center
+
         createButton.snap(parent: self) {
             let title = R.string.localizable.keyGenerationCreateButton()
-            $0.titleAttributes(text: title, [.color(.blue()), .font(.medium(15))])
-            $0.background(.lightBlue())
+            $0.titleAttributes(
+                text: title,
+                [
+                    .color(.white()),
+                    .font(.semibold(15)),
+                    .paragraph(paragraph)
+                ]
+            )
+            $0.background(.blue())
             $0.clipCorners(radius: 8)
             $0.addTarget(self, action: #selector(self.createButtonTap), for: .touchUpInside)
         } layout: {
-            $0.bottom.equalTo($1).offset(-102)
-            $0.leading.equalTo($1).offset(80)
-            $0.trailing.equalTo($1).offset(-80)
+            $0.bottom.equalTo($1).offset(-100)
+            $0.leading.equalTo($1).offset(67)
+            $0.trailing.equalTo($1).offset(-67)
             $0.height.equalTo(44)
         }
     }
 
     private func addImportButton() {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .center
+
         importButton.snap(parent: self) {
             let title = R.string.localizable.keyGenerationUseButton()
-            $0.titleAttributes(text: title, [.color(.blue()), .font(.medium(15))])
+            $0.titleAttributes(
+                text: title,
+                [
+                    .color(.blue()),
+                    .font(.semibold(15)),
+                    .paragraph(paragraph)
+                ]
+            )
             $0.background(.clear)
             $0.clipCorners(radius: 8)
             $0.addTarget(self, action: #selector(self.importButtonTap), for: .touchUpInside)
         } layout: {
-            $0.leading.equalTo($1).offset(80)
-            $0.trailing.equalTo($1).offset(-80)
-            $0.height.equalTo(44)
-            $0.bottom.equalTo(self.snp_bottomMargin).offset(-18)
+            $0.top.equalTo(self.createButton.snp.bottom).offset(21)
+            $0.centerX.equalTo($1)
+            $0.height.equalTo(19)
         }
     }
 }

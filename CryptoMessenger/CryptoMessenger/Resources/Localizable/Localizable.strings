@@ -1,3 +1,13 @@
+"Onboarding.Title" = "Генерация ключа";
+"Onboarding.Page1" = "Возможность зарабатывать,\nактивно пользуясь приложением";
+"Onboarding.Page2" = "Cквозное шифрование сообщений\nпри помощи децентрализованного\nпротокола Matrix";
+"Onboarding.Page3" = "Простые операции с криптовалютами, безопасные платежи";
+"Onboarding.ContinueButton" = "Регистрация";
+"Onboarding.TutorialButton" = "Посмотреть обучающее видео";
+"Onboarding.Information" = "AURA не собирает и не извлекает выгоду из ваших личных данных. Продолжая, Вы соглашаетесь с ";
+"Onboarding.Policy" = "политикой конфиденциальности";
+
+
 "Registration.ScreenTitle" = "Шаг 1 из 2";
 "Registration.Title" = "Введите номер телефона";
 "Registration.Description" = "Телефон нужен, чтобы ваши друзья могли видеть вас в контактах";
@@ -22,14 +32,6 @@
 "KeyGeneration.Information" = "Что такое ключ и секретная фраза?";
 "KeyGeneration.CreateButton" = "Создать новый ключ";
 "KeyGeneration.UseButton" = "Уже есть, импортировать";
-
-
-"Onboarding.Title" = "Генерация ключа";
-"Onboarding.Page1" = "Если пользуешься приложением, помогаешь сети работать - Получаешь токены";
-"Onboarding.Page2" = "Здесь можно посмотреть текущий баланс AURA";
-"Onboarding.ContinueButton" = "Хорошо";
-"Onboarding.Information" = "AURA не собирает и не извлекает выгоду из ваших личных данных. Продолжая, Вы соглашаетесь с ";
-"Onboarding.Policy" = "политикой конфиденциальности";
 
 
 "KeyImport.ScreenTitle" = "Шаг 2 из 2";

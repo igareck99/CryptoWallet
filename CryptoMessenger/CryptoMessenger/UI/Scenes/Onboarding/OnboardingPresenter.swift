@@ -39,12 +39,16 @@ extension OnboardingPresenter: OnboardingPresentation {
             .init(
                 title: R.string.localizable.onboardingPage2(),
                 image: R.image.onboarding.page2()
+            ),
+            .init(
+                title: R.string.localizable.onboardingPage3(),
+                image: R.image.onboarding.page3()
             )
         ]
     }
 
     func handleContinueButtonTap() {
         userFlows.isOnboardingFlowFinished = true
-        delegate?.handleNextScene(.keyImport)
+        delegate?.handleNextScene(.registration)
     }
 }

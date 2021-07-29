@@ -11,6 +11,8 @@ enum Palette: Hashable {
          white(_ alpha: CGFloat = 1),
          blue(_ alpha: CGFloat = 1),
          lightBlue(_ alpha: CGFloat = 1),
+         tintBlue(_ alpha: CGFloat = 1),
+         red(_ alpha: CGFloat = 1),
          custom(_ color: UIColor)
 
     // MARK: - Internal Properties
@@ -20,17 +22,21 @@ enum Palette: Hashable {
         case .clear:
             return .clear
         case let .black(alpha):
-            return #colorLiteral(red: 0.1333333333, green: 0.1333333333, blue: 0.1333333333, alpha: 1).withAlphaComponent(alpha)
+            return #colorLiteral(red: 0.1019607843, green: 0.1803921569, blue: 0.2078431373, alpha: 1).withAlphaComponent(alpha)
         case let .gray(alpha):
-            return #colorLiteral(red: 0.6705882353, green: 0.6941176471, blue: 0.7254901961, alpha: 1).withAlphaComponent(alpha)
+            return #colorLiteral(red: 0.7019607843, green: 0.7019607843, blue: 0.7019607843, alpha: 1).withAlphaComponent(alpha)
         case let .lightGray(alpha):
             return #colorLiteral(red: 0.9607843137, green: 0.9647058824, blue: 0.9725490196, alpha: 1).withAlphaComponent(alpha)
         case let .white(alpha):
             return #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(alpha)
         case let .blue(alpha):
-            return #colorLiteral(red: 0.2431372549, green: 0.6039215686, blue: 0.8862745098, alpha: 1).withAlphaComponent(alpha)
+            return #colorLiteral(red: 0.05490196078, green: 0.5568627451, blue: 0.9529411765, alpha: 1).withAlphaComponent(alpha)
         case let .lightBlue(alpha):
-            return #colorLiteral(red: 0.9215686275, green: 0.9607843137, blue: 0.9882352941, alpha: 1).withAlphaComponent(alpha)
+            return #colorLiteral(red: 0.8117647059, green: 0.9098039216, blue: 0.9921568627, alpha: 1).withAlphaComponent(alpha)
+        case let .tintBlue(alpha):
+            return #colorLiteral(red: 0.9333333333, green: 0.9568627451, blue: 0.9843137255, alpha: 1).withAlphaComponent(alpha)
+        case let .red(alpha):
+            return #colorLiteral(red: 0.9098039216, green: 0.1176470588, blue: 0.3843137255, alpha: 1).withAlphaComponent(alpha)
         case let .custom(color):
             return color
         }

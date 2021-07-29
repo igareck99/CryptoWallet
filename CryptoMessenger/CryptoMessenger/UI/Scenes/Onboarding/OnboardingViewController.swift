@@ -15,6 +15,7 @@ final class OnboardingViewController: BaseViewController {
     // MARK: - Private Properties
 
     private lazy var continueButton = UIButton()
+    private lazy var tutorialButton = UIButton()
     private lazy var infoLabel = UILabel()
     private lazy var policyButton = UIButton()
 
@@ -30,23 +31,43 @@ final class OnboardingViewController: BaseViewController {
         }
     }
 
+    private lazy var dotesStackView = UIStackView()
+    private lazy var dotes: [UIView] = []
+
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.background(.white())
+        showNavigationBar()
         hideNavigationBar()
         setupPageView()
         addContinueButton()
+        addTutorialButton()
         addInfoLabel()
         addPolicyButton()
+        addDotesStackView()
         setViewControllers()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupTranslucentNavigationBar()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        decorateControls(currentPage)
     }
 
     // MARK: - Actions
 
     @objc private func continueButtonTap() {
         nextButtonTap()
+    }
+
+    @objc private func tutorialButtonTap() {
+
     }
 
     @objc private func policyButtonTap() {
@@ -57,22 +78,60 @@ final class OnboardingViewController: BaseViewController {
 
     private func addContinueButton() {
         continueButton.snap(parent: view) {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineHeightMultiple = 1.09
+            paragraphStyle.alignment = .center
+
             let title = R.string.localizable.onboardingContinueButton()
-            $0.titleAttributes(text: title, [.color(.blue()), .font(.medium(15))])
-            $0.background(.lightBlue())
+            $0.titleAttributes(
+                text: title,
+                [
+                    .color(.white()),
+                    .font(.semibold(15)),
+                    .paragraph(paragraphStyle)
+                ]
+            )
+            $0.isHidden = true
+            $0.background(.blue())
             $0.clipCorners(radius: 8)
             $0.addTarget(self, action: #selector(self.continueButtonTap), for: .touchUpInside)
         } layout: {
-            $0.bottom.equalTo($1).offset(-122)
-            $0.leading.equalTo($1).offset(80)
-            $0.trailing.equalTo($1).offset(-80)
+            $0.bottom.equalTo($1).offset(-100)
+            $0.leading.equalTo($1).offset(67)
+            $0.trailing.equalTo($1).offset(-67)
+            $0.height.equalTo(44)
+        }
+    }
+
+    private func addTutorialButton() {
+        tutorialButton.snap(parent: view) {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineHeightMultiple = 1.09
+            paragraphStyle.alignment = .center
+
+            let title = R.string.localizable.onboardingTutorialButton()
+            $0.titleAttributes(
+                text: title,
+                [
+                    .color(.blue()),
+                    .font(.semibold(15)),
+                    .paragraph(paragraphStyle)
+                ]
+            )
+            $0.isHidden = true
+            $0.background(.clear)
+            $0.addTarget(self, action: #selector(self.tutorialButtonTap), for: .touchUpInside)
+        } layout: {
+            $0.top.equalTo(self.continueButton.snp_bottomMargin).offset(21)
+            $0.leading.equalTo($1).offset(67)
+            $0.trailing.equalTo($1).offset(-67)
             $0.height.equalTo(44)
         }
     }
 
     private func addInfoLabel() {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.04
+        paragraphStyle.lineHeightMultiple = 1.09
         paragraphStyle.alignment = .center
 
         infoLabel.snap(parent: view) {
@@ -87,7 +146,7 @@ final class OnboardingViewController: BaseViewController {
                 ]
             )
         } layout: {
-            $0.top.equalTo(self.continueButton.snp.bottom).offset(24)
+            $0.bottom.equalTo($1).offset(-66)
             $0.leading.equalTo($1).offset(24)
             $0.trailing.equalTo($1).offset(-24)
         }
@@ -95,16 +154,52 @@ final class OnboardingViewController: BaseViewController {
 
     private func addPolicyButton() {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.04
+        paragraphStyle.lineHeightMultiple = 1.09
         paragraphStyle.alignment = .center
 
         policyButton.snap(parent: view) {
             let title = R.string.localizable.onboardingPolicy()
-            $0.titleAttributes(text: title, [.color(.blue()), .font(.regular(13)), .paragraph(paragraphStyle)])
+            $0.titleAttributes(
+                text: title,
+                [
+                    .color(.blue()),
+                    .font(.regular(13)),
+                    .paragraph(paragraphStyle)
+                ]
+            )
             $0.addTarget(self, action: #selector(self.policyButtonTap), for: .touchUpInside)
         } layout: {
-            $0.top.equalTo(self.infoLabel.snp_bottomMargin)
+            $0.top.equalTo(self.infoLabel.snp_bottomMargin).offset(2)
             $0.centerX.equalTo($1)
+        }
+    }
+
+    private func addDotesStackView() {
+        dotesStackView.snap(parent: view) {
+            $0.axis = .horizontal
+            $0.spacing = 11
+            $0.alignment = .fill
+        } layout: {
+            $0.bottom.equalTo($1).offset(-173)
+            $0.height.equalTo(9)
+            $0.centerX.equalTo($1)
+        }
+
+        (0..<presenter.pages.count).forEach { index in
+            let dote = UIView()
+            dote.clipCorners(radius: 4.5)
+            if index == 0 {
+                dote.background(.blue())
+            } else {
+                dote.layer.borderWidth(1)
+                dote.layer.borderColor(.blue())
+            }
+
+            dote.snp.makeConstraints {
+                $0.width.height.equalTo(9)
+            }
+            dotes.append(dote)
+            dotesStackView.addArrangedSubview(dote)
         }
     }
 
@@ -160,6 +255,25 @@ final class OnboardingViewController: BaseViewController {
 
     private func decorateControls(_ oldValue: Int) {
         isLastShown = currentPage == controllers.count - 1
+
+        continueButton.isHidden = !isLastShown
+        tutorialButton.isHidden = !isLastShown
+        infoLabel.isHidden = isLastShown
+        policyButton.isHidden = isLastShown
+
+        UIView.transition(with: dotesStackView, duration: 0.2, options: .transitionCrossDissolve) {
+            self.dotes.enumerated().forEach { result in
+                if result.offset == self.currentPage {
+                    result.element.background(.blue())
+                    result.element.layer.borderWidth(0)
+                    result.element.layer.borderColor(.clear)
+                } else {
+                    result.element.background(.white())
+                    result.element.layer.borderWidth(1)
+                    result.element.layer.borderColor(.blue())
+                }
+            }
+        }
     }
 }
 
