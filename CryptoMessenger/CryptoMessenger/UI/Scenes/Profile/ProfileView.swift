@@ -20,6 +20,7 @@ final class ProfileView: UIView {
     private lazy var infoLabel = UILabel()
     private lazy var urlButton = UIButton()
     private lazy var addPhotoButton = UIButton()
+
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
@@ -171,10 +172,15 @@ final class ProfileView: UIView {
 
     private func addUrlButton() {
         urlButton.snap(parent: self) {
-            $0.setTitleColor(.systemBlue, for: .normal)
-            $0.setTitle(R.string.localizable.profileSite(), for: .normal)
             $0.titleLabel?.textAlignment = NSTextAlignment.left
-            $0.titleLabel?.font(.regular(15))
+            $0.titleAttributes(
+                            text: R.string.localizable.profileSite(),
+                            [
+                                .font(.regular(15)),
+                                .color(.blue())
+
+                            ]
+                        )
             $0.titleLabel?.lineBreakMode = .byCharWrapping
             $0.titleLabel?.numberOfLines = 2
         } layout: {
@@ -186,12 +192,16 @@ final class ProfileView: UIView {
 
     private func addaddPhotoButton() {
         addPhotoButton.snap(parent: self) {
-            $0.setTitleColor(UIColor(29, 150, 233), for: .normal)
-            $0.setTitle(R.string.localizable.profileAdd(), for: .normal)
             $0.backgroundColor = .clear
             $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor.systemBlue.cgColor
-            $0.titleLabel?.font(.regular(15))
+            $0.layer.borderColor = UIColor.blue.cgColor
+            $0.titleAttributes(
+                           text: R.string.localizable.profileAdd(),
+                           [
+                            .font(.medium(15)),
+                               .color(.blue())
+                           ]
+                       )
             $0.clipCorners(radius: 8)
         } layout: {
             $0.height.equalTo(44)
