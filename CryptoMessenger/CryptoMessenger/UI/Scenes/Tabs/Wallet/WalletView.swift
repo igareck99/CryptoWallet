@@ -19,7 +19,7 @@ final class WalletView: UIView {
     private lazy var sendButton = LoadingButton()
     private lazy var transactionTitleLabel = UILabel()
     private lazy var allTransactionButton = UIButton()
-    private lazy var tableView: UITableView = .init(frame: .zero, style: .plain)
+    private lazy var tableView = UITableView(frame: .zero, style: .plain)
 
     private var tableProvider: TableViewProvider?
     private var collectionProvider: CollectionViewProvider?

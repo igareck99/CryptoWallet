@@ -30,11 +30,19 @@ struct TransactionViewModel {
 // MARK: - TransactionViewModel (TableViewProviderViewModel)
 
 extension TransactionViewModel: TableViewProviderViewModel {
-    func heightForHeader(atIndex index: Int) -> Float { Constants.heightForHeader }
+    func heightForHeader(atIndex index: Int) -> Float {
+        Constants.heightForHeader
+    }
 
-    func numberOfTableSections() -> Int { items.count }
+    func numberOfTableSections() -> Int {
+        items.count
+    }
 
-    func numberOfTableRowsInSection(_ section: Int) -> Int { Constants.numberRows }
+    func numberOfTableRowsInSection(_ section: Int) -> Int {
+        Constants.numberRows
+    }
 
-    func heightForRow(atIndex index: Int) -> Float { Constants.rowHeight }
+    func heightForRow(atIndex index: Int) -> Float {
+        Constants.rowHeight
+    }
 }
