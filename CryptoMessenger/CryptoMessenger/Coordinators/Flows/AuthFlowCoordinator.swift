@@ -33,46 +33,50 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.registration)
+        handleNextScene(.onboarding)
     }
 
-    func showOnboardingScene() {
+    // MARK: - Private Methods
+
+    private func showOnboardingScene() {
         let viewController = OnboardingConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    func showRegistrationScene() {
-        let viewController = RegistrationConfigurator.configuredViewController(delegate: self)
         setViewWith(viewController)
     }
 
-    func showVerificationScene() {
+    private func showRegistrationScene() {
+        let viewController = RegistrationConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showVerificationScene() {
         let viewController = VerificationConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    func showGenerationInfoScene() {
+    private func showGenerationInfoScene() {
         let viewController = GenerationInfoConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    func showKeyImportScene() {
+    private func showKeyImportScene() {
         let viewController = KeyImportConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    func showCountryCodeScene(_ countryCodeDelegate: CountryCodePickerDelegate) {
+    private func showCountryCodeScene(_ countryCodeDelegate: CountryCodePickerDelegate) {
         let viewController = CountryCodePickerViewController()
         viewController.delegate = countryCodeDelegate
         let nvc = BaseNavigationController(rootViewController: viewController)
         navigationController.viewControllers.last?.present(nvc, animated: true)
     }
 
+    // MARK: - Scene
+
     enum Scene {
+        case onboarding
         case registration
         case verification
         case generationInfo
-        case onboarding
         case keyImport
         case main
         case countryCode(CountryCodePickerDelegate)
@@ -84,14 +88,14 @@ public final class AuthFlowCoordinator: Coordinator {
 extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
     func handleNextScene(_ scene: Scene) {
         switch scene {
+        case .onboarding:
+            showOnboardingScene()
         case .registration:
             showRegistrationScene()
         case .verification:
             showVerificationScene()
         case .generationInfo:
             showGenerationInfoScene()
-        case .onboarding:
-            showOnboardingScene()
         case .countryCode(let delegate):
             showCountryCodeScene(delegate)
         case .keyImport:

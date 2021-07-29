@@ -6,6 +6,7 @@ enum PhoneHelper {
 
     static var userRegionCode: String { Locale.current.regionCode ?? "RU" }
     static var verificationCodeRequiredLength: Int { 4 }
+    static var verificationCodeForTest: String { "1234" }
     static var verificationResendTime: Double { 30 }
 
     static func validatePhoneNumber(_ text: String, forRegion region: String) -> Bool {
