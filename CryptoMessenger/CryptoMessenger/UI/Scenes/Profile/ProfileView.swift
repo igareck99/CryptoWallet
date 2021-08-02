@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - ProfileView
 
-final class ProfileView: UIView {
+final class ProfileView: UIView, UIImagePickerControllerDelegate {
 
     // MARK: - Internal Properties
 
@@ -20,13 +20,12 @@ final class ProfileView: UIView {
     private lazy var infoLabel = UILabel()
     private lazy var urlButton = UIButton()
     private lazy var addPhotoButton = UIButton()
-
-    var profiles: [PhotoProfile] = [
-            PhotoProfile(image: R.image.profile.testpicture2()!),
-            PhotoProfile(image: R.image.profile.testpicture3()!),
-            PhotoProfile(image: R.image.profile.testpicture5()!),
-            PhotoProfile(image: R.image.profile.testpicture4()!)
-                ]
+    private var clearButton1 = UIButton()
+    private var clearButton2 = UIButton()
+    private var clearButton3 = UIButton()
+    private var clearButton4 = UIButton()
+    private var choosePhoto = UIButton()
+    var profiles: [PhotoProfile] = []
     private let photocollectionView: UICollectionView = {
         let viewLayout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewLayout)
@@ -39,6 +38,7 @@ final class ProfileView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
+        initProfiles()
         addProfileImage()
         addTitleLabel()
         addTwitterButton()
@@ -51,6 +51,8 @@ final class ProfileView: UIView {
         addaddPhotoButton()
         setupphotocollectionView()
         addphotocollectionView()
+        choosePhoto.addTarget(self, action: #selector(self.chooseImageFromGallery), for: .touchUpInside)
+        photocollectionView.reloadData()
 
     }
 
@@ -60,6 +62,24 @@ final class ProfileView: UIView {
     }
 
     // MARK: - Private Methods
+
+    private func initProfiles() {
+        profiles = [
+                PhotoProfile(image: R.image.profile.testpicture2()!, button: clearButton1 ),
+                PhotoProfile(image: R.image.profile.testpicture3()!, button: clearButton2),
+                PhotoProfile(image: R.image.profile.testpicture4()!, button: clearButton3),
+                PhotoProfile(image: R.image.profile.testpicture5()!, button: clearButton4),
+                PhotoProfile(image: R.image.profile.toUpload()!, button: choosePhoto)
+                    ]
+    }
+
+    @objc private func chooseImageFromGallery() {
+        let image = R.image.profile.toUploadImage()
+        choosePhoto.setImage(image, for: .normal)
+        var imagePicker = UIImagePickerController()
+        print("chooseImageFromGallery was called")
+
+    }
 
     private func addProfileImage() {
         profileImage.snap(parent: self) {
@@ -251,7 +271,8 @@ extension ProfileView: UICollectionViewDataSource {
         return profiles.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) ->
+    UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
         let profile = profiles[indexPath.row]
         cell.setup(with: profile)
@@ -285,16 +306,19 @@ extension ProfileView: UICollectionViewDelegateFlowLayout {
         }
 
         func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+                            layout collectionViewLayout: UICollectionViewLayout,
+                            minimumLineSpacingForSectionAt section: Int)
+        -> CGFloat {
             return LayoutConstant.spacing
         }
 
         func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+                            layout collectionViewLayout: UICollectionViewLayout,
+                            minimumInteritemSpacingForSectionAt section: Int)
+        -> CGFloat {
             return LayoutConstant.spacing
         }
 }
-
 
 private enum LayoutConstant {
     static let spacing: CGFloat = 1.04
@@ -303,4 +327,5 @@ private enum LayoutConstant {
 
 struct PhotoProfile {
     var image: UIImage
+    var button: UIButton
 }

@@ -23,6 +23,11 @@ final class ProfileCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
+    let photoButton: UIButton = {
+        let button = UIButton()
+        button.contentMode = .center
+        return button
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -35,16 +40,15 @@ final class ProfileCell: UICollectionViewCell {
         contentView.addSubview(profileImageView)
 
     }
-
     private func setupLayouts() {
         profileImageView.snap(parent: self) {
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
-            $0.top.equalTo(self.snp_topMargin).offset(1.04)
+            $0.top.equalTo(self.snp.topMargin).offset(1.04)
             $0.leading.equalTo($1)
             $0.trailing.equalTo($1)
             $0.height.equalTo(Constants.imageHeight)
-            }
+        }
     }
 
     required init?(coder: NSCoder) {
