@@ -112,6 +112,7 @@
 		5A26CD6126B35C9B00118D4B /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD6026B35C9B00118D4B /* Chat.swift */; };
 		5A26CD6326B35EB700118D4B /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD6226B35EB600118D4B /* ChatTableViewCell.swift */; };
 		5A26CD6526B35F7A00118D4B /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD6426B35F7A00118D4B /* ChatViewModel.swift */; };
+		5A26CD6A26B4016000118D4B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A26CD6926B4016000118D4B /* GoogleService-Info.plist */; };
 		5A4267FE26A83494000C51DD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FD26A83494000C51DD /* R.generated.swift */; };
 		5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */; };
 		5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680026A83554000C51DD /* RegistrationViewController.swift */; };
@@ -286,6 +287,7 @@
 		5A26CD6026B35C9B00118D4B /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		5A26CD6226B35EB600118D4B /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		5A26CD6426B35F7A00118D4B /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		5A26CD6926B4016000118D4B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5A4267FD26A83494000C51DD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = R.generated.swift; path = Generated/R.generated.swift; sourceTree = SOURCE_ROOT; };
 		5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPresenter.swift; sourceTree = "<group>"; };
 		5A42680026A83554000C51DD /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 		5A187DB226806EF8001957D3 = {
 			isa = PBXGroup;
 			children = (
+				5A26CD6926B4016000118D4B /* GoogleService-Info.plist */,
 				5A187DBD26806EF8001957D3 /* CryptoMessenger */,
 				5A187DBC26806EF8001957D3 /* Products */,
 				C48D3F6781FE772D12943E74 /* Pods */,
@@ -1052,6 +1055,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A187DCB26806EF9001957D3 /* LaunchScreen.storyboard in Resources */,
+				5A26CD6A26B4016000118D4B /* GoogleService-Info.plist in Resources */,
 				5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */,
 				5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */,
 				5A42680F26A8393A000C51DD /* Localizable.strings in Resources */,
@@ -1449,7 +1453,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1460,6 +1466,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ms.aura.app-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1471,7 +1478,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1482,6 +1491,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ms.aura.app-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -1,4 +1,4 @@
-import UIKit
+import Firebase
 
 // MARK: - AppFirebaseService
 
@@ -10,6 +10,7 @@ final class AppFirebaseService: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        FirebaseApp.configure()
         return true
     }
 }
