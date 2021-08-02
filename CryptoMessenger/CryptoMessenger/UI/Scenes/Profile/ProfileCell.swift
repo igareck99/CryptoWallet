@@ -15,6 +15,9 @@ final class ProfileCell: UICollectionViewCell {
     private enum Constants {
         // MARK: profileImageView layout constants
         static let imageHeight: CGFloat = 123.96
+        // MARK: photoButton layout constants
+        static let buttonWidth: CGFloat = 25
+        static let buttonHeight: CGFloat = 20
 
     }
 
@@ -23,7 +26,7 @@ final class ProfileCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    let photoButton: UIButton = {
+    private var photoButton: UIButton = {
         let button = UIButton()
         button.contentMode = .center
         return button
@@ -38,6 +41,7 @@ final class ProfileCell: UICollectionViewCell {
     private func setupViews() {
         contentView.backgroundColor = .white
         contentView.addSubview(profileImageView)
+        contentView.addSubview(photoButton)
 
     }
     private func setupLayouts() {
@@ -49,6 +53,13 @@ final class ProfileCell: UICollectionViewCell {
             $0.trailing.equalTo($1)
             $0.height.equalTo(Constants.imageHeight)
         }
+        photoButton.snap(parent: self) {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        } layout: {
+            $0.height.equalTo(Constants.buttonHeight)
+            $0.width.equalTo(Constants.buttonWidth)
+            $0.center.equalTo($1.profileImageView).offset(0)
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -57,6 +68,7 @@ final class ProfileCell: UICollectionViewCell {
 
     func setup(with profile: PhotoProfile) {
         profileImageView.image = profile.image
+        photoButton = profile.button
     }
 }
 

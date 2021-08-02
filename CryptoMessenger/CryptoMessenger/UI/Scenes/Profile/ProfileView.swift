@@ -24,12 +24,12 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
     private var clearButton2 = UIButton()
     private var clearButton3 = UIButton()
     private var clearButton4 = UIButton()
-    private var choosePhoto = UIButton()
+    private var choosePhotoButton = UIButton()
     var profiles: [PhotoProfile] = []
     private let photocollectionView: UICollectionView = {
         let viewLayout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewLayout)
-        collectionView.backgroundColor = .green
+        collectionView.backgroundColor = .clear
         return collectionView
     }()
 
@@ -51,7 +51,7 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
         addaddPhotoButton()
         setupphotocollectionView()
         addphotocollectionView()
-        choosePhoto.addTarget(self, action: #selector(self.chooseImageFromGallery), for: .touchUpInside)
+        choosePhotoButton.addTarget(self, action: #selector(self.chooseImageFromGallery), for: .touchUpInside)
         photocollectionView.reloadData()
 
     }
@@ -64,18 +64,18 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
     // MARK: - Private Methods
 
     private func initProfiles() {
+        let image = R.image.profile.toUploadImage()
+        choosePhotoButton.setImage(image, for: .normal)
         profiles = [
-                PhotoProfile(image: R.image.profile.testpicture2()!, button: clearButton1 ),
+                PhotoProfile(image: R.image.profile.testpicture2()!, button: clearButton1),
                 PhotoProfile(image: R.image.profile.testpicture3()!, button: clearButton2),
                 PhotoProfile(image: R.image.profile.testpicture4()!, button: clearButton3),
                 PhotoProfile(image: R.image.profile.testpicture5()!, button: clearButton4),
-                PhotoProfile(image: R.image.profile.toUpload()!, button: choosePhoto)
+                PhotoProfile(image: R.image.profile.toUpload()!, button: choosePhotoButton)
                     ]
     }
 
     @objc private func chooseImageFromGallery() {
-        let image = R.image.profile.toUploadImage()
-        choosePhoto.setImage(image, for: .normal)
         var imagePicker = UIImagePickerController()
         print("chooseImageFromGallery was called")
 
@@ -289,7 +289,7 @@ extension ProfileView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let width = itemWidth(for: view.frame.width, spacing: 0)
+        let width = itemWidth(for: view.frame.width, spacing: LayoutConstant.spacing)
         return CGSize(width: width, height: LayoutConstant.itemHeight)
     }
 
