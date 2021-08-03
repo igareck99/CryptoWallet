@@ -1,9 +1,3 @@
-//
-//  ProfileCell.swift
-//  CryptoMessenger
-//
-//  Created by Игорь Коноваленко on 30.07.2021.
-//
 import UIKit
 
 protocol ReusableView: AnyObject {
@@ -12,18 +6,19 @@ protocol ReusableView: AnyObject {
 
 final class ProfileCell: UICollectionViewCell {
 
-    private var profileImageView: UIImageView = {
-        let imageView = UIImageView(frame: .zero)
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }()
+    private lazy var profileImageView = UIImageView()
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        setupLayouts()
+        addProfileImageView()
     }
 
-    private func setupLayouts() {
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("not implemented")
+    }
+
+    private func addProfileImageView() {
         profileImageView.snap(parent: self) {
             $0.contentMode = .scaleAspectFill
         } layout: {
@@ -31,10 +26,6 @@ final class ProfileCell: UICollectionViewCell {
             $0.leading.equalTo($1)
             $0.trailing.equalTo($1)
             }
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     func setup(with profile: PhotoProfile) {
