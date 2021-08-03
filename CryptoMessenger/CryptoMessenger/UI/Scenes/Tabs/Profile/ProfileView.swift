@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - ProfileView
 
-final class ProfileView: UIView, UIImagePickerControllerDelegate {
+final class ProfileView: UIView {
 
     // MARK: - Internal Properties
 
@@ -27,7 +27,6 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
         layout.minimumInteritemSpacing = LayoutConstant.spacing
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
-    
     private var profiles: [PhotoProfile] = [
         PhotoProfile(image: R.image.profile.testpicture2()),
         PhotoProfile(image: R.image.profile.testpicture3()),
@@ -66,6 +65,12 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
     }
 
     // MARK: - Private Methods
+
+    private func itemWidth(for width: CGFloat, spacing: CGFloat) -> CGFloat {
+        let itemsInRow: CGFloat = 3
+        let finalWidth: CGFloat = width / itemsInRow - LayoutConstant.spacing * 2
+        return finalWidth
+    }
 
     private func addProfileImage() {
         profileImage.snap(parent: self) {
@@ -276,11 +281,6 @@ extension ProfileView: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: width)
     }
 
-    func itemWidth(for width: CGFloat, spacing: CGFloat) -> CGFloat {
-        let itemsInRow: CGFloat = 3
-        let finalWidth: CGFloat = width / itemsInRow - LayoutConstant.spacing * 2
-        return finalWidth
-    }
 }
 
 // MARK: - ProfileView (UICollectionViewDelegate)
