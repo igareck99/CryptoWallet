@@ -76,7 +76,6 @@
 		5A187F342680CF49001957D3 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0C2680CF49001957D3 /* ContactsManager.swift */; };
 		5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0D2680CF49001957D3 /* PhoneContact.swift */; };
 		5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */; };
-		5A18EF8B26B94FE80038E991 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A18EF8A26B94FE70038E991 /* ProfileCell.swift */; };
 		5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A18EF8D26B988EA0038E991 /* ImagePicker.swift */; };
 		5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */; };
 		5A26CD1C26B2EECA00118D4B /* WalletPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1626B2EECA00118D4B /* WalletPresenter.swift */; };
@@ -176,6 +175,7 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
+		7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7896226B26B992AD00033B3B /* ProfileCell.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -252,7 +252,6 @@
 		5A187F0C2680CF49001957D3 /* ContactsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
 		5A187F0D2680CF49001957D3 /* PhoneContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneContact.swift; sourceTree = "<group>"; };
 		5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
-		5A18EF8A26B94FE70038E991 /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileCell.swift; path = CryptoMessenger/UI/Scenes/Profile/ProfileCell.swift; sourceTree = SOURCE_ROOT; };
 		5A18EF8D26B988EA0038E991 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
 		5A26CD1626B2EECA00118D4B /* WalletPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPresenter.swift; sourceTree = "<group>"; };
@@ -352,6 +351,7 @@
 		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
+		7896226B26B992AD00033B3B /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -806,11 +806,11 @@
 		5A26CD4426B356F600118D4B /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				7896226B26B992AD00033B3B /* ProfileCell.swift */,
 				5A26CD4826B356F600118D4B /* ProfileConfigurator.swift */,
 				5A26CD4726B356F600118D4B /* ProfileProtocols.swift */,
 				5A26CD4A26B356F600118D4B /* ProfileViewController.swift */,
 				5A26CD4626B356F600118D4B /* ProfileView.swift */,
-				5A18EF8A26B94FE70038E991 /* ProfileCell.swift */,
 				5A26CD4526B356F600118D4B /* ProfilePresenter.swift */,
 				5A26CD4926B356F600118D4B /* ProfileFlow.swift */,
 			);
@@ -1249,6 +1249,7 @@
 				5A26CD6126B35C9B00118D4B /* Chat.swift in Sources */,
 				5A26CD5926B3599800118D4B /* ChatViewController.swift in Sources */,
 				5A26CD3B26B3211100118D4B /* TapAnimator.swift in Sources */,
+				7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */,
 				5A26CD5B26B3599800118D4B /* ChatView.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
 				5A26CD3526B31B4000118D4B /* CardCollectionViewCell.swift in Sources */,
@@ -1281,7 +1282,6 @@
 				5AF8633526AA994E004A417C /* VerificationPresenter.swift in Sources */,
 				5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */,
 				5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */,
-				5A18EF8B26B94FE80038E991 /* ProfileCell.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
 				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
 				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,

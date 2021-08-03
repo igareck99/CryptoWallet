@@ -53,6 +53,7 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
         addAddPhotoButton()
         addPhotoCollectionView()
     }
+    
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
@@ -292,7 +293,7 @@ extension ProfileView: UICollectionViewDelegate {
     }
 }
 
-// MARK: - LayoutConstantStruct
+// MARK: - PhotoProfileStruct
 
 struct PhotoProfile {
     var image: UIImage?
