@@ -53,8 +53,6 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
         addAddPhotoButton()
         addPhotoCollectionView()
     }
-    
-
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
