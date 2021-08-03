@@ -1,12 +1,18 @@
 import UIKit
 
+// MARK: - ProfileCell (AnyObject)
+
 protocol ReusableView: AnyObject {
     static var identifier: String { get }
 }
 
 final class ProfileCell: UICollectionViewCell {
 
+    // MARK: - Private Properties
+
     private lazy var profileImageView = UIImageView()
+
+    // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -17,6 +23,8 @@ final class ProfileCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
     }
+
+    // MARK: - Private Methods
 
     private func addProfileImageView() {
         profileImageView.snap(parent: self) {
@@ -32,6 +40,8 @@ final class ProfileCell: UICollectionViewCell {
         profileImageView.image = profile.image
     }
 }
+
+// MARK: - ProfileCell (ReusableView)
 
 extension ProfileCell: ReusableView {
     static var identifier: String {

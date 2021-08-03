@@ -259,6 +259,8 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
     }
 }
 
+// MARK: - ProfileView (UICollectionViewDataSource)
+
 extension ProfileView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return profiles.count
@@ -275,9 +277,13 @@ extension ProfileView: UICollectionViewDataSource {
 
 }
 
+// MARK: - ProfileView (UICollectionViewDelegate)
+
 extension ProfileView: UICollectionViewDelegate {
 
 }
+
+// MARK: - ProfileView (UICollectionViewDelegateFlowLayout)
 
 extension ProfileView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -314,10 +320,14 @@ extension ProfileView: UICollectionViewDelegateFlowLayout {
         }
 }
 
+// MARK: - LayoutConstantEnum
+
 private enum LayoutConstant {
     static let spacing: CGFloat = 1.04
     static let itemHeight: CGFloat = 123.96
 }
+
+// MARK: - LayoutConstantStruct
 
 struct PhotoProfile {
     var image: UIImage
