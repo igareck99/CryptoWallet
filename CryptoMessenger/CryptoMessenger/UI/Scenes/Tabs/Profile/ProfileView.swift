@@ -48,9 +48,9 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
         addPhoneLabel()
         addInfoLabel()
         addUrlButton()
-        addaddPhotoButton()
-        setupphotocollectionView()
-        addphotocollectionView()
+        addAddPhotoButton()
+        setupPhotoCollectionView()
+        addPhotoCollectionView()
         photocollectionView.reloadData()
 
     }
@@ -73,11 +73,11 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
         let image = R.image.profile.toUploadImage()
         choosePhotoButton.setImage(image, for: .normal)
         profiles = [
-                PhotoProfile(image: R.image.profile.testpicture2()!, button: clearButton1),
-                PhotoProfile(image: R.image.profile.testpicture3()!, button: clearButton2),
-                PhotoProfile(image: R.image.profile.testpicture4()!, button: clearButton3),
-                PhotoProfile(image: R.image.profile.testpicture5()!, button: clearButton4),
-                PhotoProfile(image: R.image.profile.toUpload()!, button: choosePhotoButton)
+                PhotoProfile(image: R.image.profile.testpicture2(), button: clearButton1),
+                PhotoProfile(image: R.image.profile.testpicture3(), button: clearButton2),
+                PhotoProfile(image: R.image.profile.testpicture4(), button: clearButton3),
+                PhotoProfile(image: R.image.profile.testpicture5(), button: clearButton4),
+                PhotoProfile(image: R.image.profile.toUpload(), button: choosePhotoButton)
                     ]
     }
 
@@ -226,7 +226,7 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
         }
     }
 
-    private func addaddPhotoButton() {
+    private func addAddPhotoButton() {
         addPhotoButton.snap(parent: self) {
             $0.backgroundColor = .clear
             $0.layer.borderWidth = 1
@@ -247,14 +247,14 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
         }
     }
 
-    private func setupphotocollectionView() {
+    private func setupPhotoCollectionView() {
         photocollectionView.backgroundColor = .clear
         photocollectionView.dataSource = self
         photocollectionView.delegate = self
         photocollectionView.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
     }
 
-    private func addphotocollectionView() {
+    private func addPhotoCollectionView() {
         photocollectionView.snap(parent: self) {
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
@@ -331,6 +331,6 @@ extension ProfileView: UICollectionViewDelegateFlowLayout {
 // MARK: - LayoutConstantStruct
 
 struct PhotoProfile {
-    var image: UIImage
+    var image: UIImage?
     var button: UIButton
 }
