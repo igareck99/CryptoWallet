@@ -20,25 +20,27 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
     private lazy var infoLabel = UILabel()
     private lazy var urlButton = UIButton()
     private lazy var addPhotoButton = UIButton()
-    private var clearButton1 = UIButton()
-    private var clearButton2 = UIButton()
-    private var clearButton3 = UIButton()
-    private var clearButton4 = UIButton()
-    private var choosePhotoButton = UIButton()
-    var profiles: [PhotoProfile] = []
-    private let photocollectionView: UICollectionView = {
-        let viewLayout = UICollectionViewFlowLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewLayout)
-        collectionView.backgroundColor = .clear
-        return collectionView
+    private lazy var photoCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = LayoutConstant.spacing
+        layout.minimumInteritemSpacing = LayoutConstant.spacing
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
+    
+    private var profiles: [PhotoProfile] = [
+        PhotoProfile(image: R.image.profile.testpicture2()),
+        PhotoProfile(image: R.image.profile.testpicture3()),
+        PhotoProfile(image: R.image.profile.testpicture4()),
+        PhotoProfile(image: R.image.profile.testpicture5()),
+        PhotoProfile(image: R.image.profile.toUpload())
+    ]
 
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
-        initProfiles()
         addProfileImage()
         addTitleLabel()
         addTwitterButton()
@@ -49,10 +51,7 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
         addInfoLabel()
         addUrlButton()
         addAddPhotoButton()
-        setupPhotoCollectionView()
         addPhotoCollectionView()
-        photocollectionView.reloadData()
-
     }
 
     @available(*, unavailable)
@@ -68,18 +67,6 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
     }
 
     // MARK: - Private Methods
-
-    private func initProfiles() {
-        let image = R.image.profile.toUploadImage()
-        choosePhotoButton.setImage(image, for: .normal)
-        profiles = [
-                PhotoProfile(image: R.image.profile.testpicture2(), button: clearButton1),
-                PhotoProfile(image: R.image.profile.testpicture3(), button: clearButton2),
-                PhotoProfile(image: R.image.profile.testpicture4(), button: clearButton3),
-                PhotoProfile(image: R.image.profile.testpicture5(), button: clearButton4),
-                PhotoProfile(image: R.image.profile.toUpload(), button: choosePhotoButton)
-                    ]
-    }
 
     private func addProfileImage() {
         profileImage.snap(parent: self) {
@@ -208,15 +195,15 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
 
     private func addUrlButton() {
         urlButton.snap(parent: self) {
-            $0.titleLabel?.textAlignment = NSTextAlignment.left
+            $0.titleLabel?.textAlignment = .left
             $0.titleAttributes(
-                            text: R.string.localizable.profileSite(),
-                            [
-                                .font(.regular(15)),
-                                .color(.blue())
+                text: R.string.localizable.profileSite(),
+                [
+                    .font(.regular(15)),
+                    .color(.blue())
 
-                            ]
-                        )
+                ]
+            )
             $0.titleLabel?.lineBreakMode = .byCharWrapping
             $0.titleLabel?.numberOfLines = 2
         } layout: {
@@ -229,15 +216,15 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
     private func addAddPhotoButton() {
         addPhotoButton.snap(parent: self) {
             $0.backgroundColor = .clear
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor.blue.cgColor
+            $0.layer.borderWidth(1)
+            $0.layer.borderColor(.blue())
             $0.titleAttributes(
-                           text: R.string.localizable.profileAdd(),
-                           [
-                            .font(.medium(15)),
-                               .color(.blue())
-                           ]
-                       )
+                text: R.string.localizable.profileAdd(),
+                [
+                    .font(.medium(15)),
+                    .color(.blue())
+                ]
+            )
             $0.clipCorners(radius: 8)
         } layout: {
             $0.height.equalTo(44)
@@ -247,22 +234,19 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
         }
     }
 
-    private func setupPhotoCollectionView() {
-        photocollectionView.backgroundColor = .clear
-        photocollectionView.dataSource = self
-        photocollectionView.delegate = self
-        photocollectionView.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
-    }
-
     private func addPhotoCollectionView() {
-        photocollectionView.snap(parent: self) {
-            $0.translatesAutoresizingMaskIntoConstraints = false
+        photoCollectionView.snap(parent: self) {
+            $0.background(.clear)
+            $0.dataSource = self
+            $0.delegate = self
+            $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
         } layout: {
             $0.top.equalTo(self.addPhotoButton.snp.bottom).offset(24)
             $0.leading.equalTo($1)
             $0.trailing.equalTo($1)
             $0.bottom.equalTo($1)
         }
+        photoCollectionView.reloadData()
     }
 }
 
@@ -283,6 +267,23 @@ extension ProfileView: UICollectionViewDataSource {
     }
 }
 
+// MARK: - ProfileView (UICollectionViewDelegateFlowLayout)
+
+extension ProfileView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let width = itemWidth(for: view.frame.width, spacing: LayoutConstant.spacing)
+        return CGSize(width: width, height: width)
+    }
+
+    func itemWidth(for width: CGFloat, spacing: CGFloat) -> CGFloat {
+        let itemsInRow: CGFloat = 3
+        let finalWidth: CGFloat = width / itemsInRow - LayoutConstant.spacing * 2
+        return finalWidth
+    }
+}
+
 // MARK: - ProfileView (UICollectionViewDelegate)
 
 extension ProfileView: UICollectionViewDelegate {
@@ -291,46 +292,8 @@ extension ProfileView: UICollectionViewDelegate {
     }
 }
 
-// MARK: - ProfileView (UICollectionViewDelegateFlowLayout)
-
-extension ProfileView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        let width = itemWidth(for: view.frame.width, spacing: LayoutConstant.spacing)
-        return CGSize(width: width, height: LayoutConstant.itemHeight)
-    }
-
-    func itemWidth(for width: CGFloat, spacing: CGFloat) -> CGFloat {
-        let itemsInRow: CGFloat = 3
-        let totalSpacing: CGFloat = 2 * spacing + (itemsInRow - 1) * spacing
-        let finalWidth = (width - totalSpacing) / itemsInRow
-        return finalWidth - 5.0
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-            return UIEdgeInsets(top: LayoutConstant.spacing, left: LayoutConstant.spacing,
-                                bottom: LayoutConstant.spacing, right: LayoutConstant.spacing)
-        }
-
-        func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            minimumLineSpacingForSectionAt section: Int)
-        -> CGFloat {
-            return LayoutConstant.spacing
-        }
-
-        func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            minimumInteritemSpacingForSectionAt section: Int)
-        -> CGFloat {
-            return LayoutConstant.spacing
-        }
-}
-
 // MARK: - LayoutConstantStruct
 
 struct PhotoProfile {
     var image: UIImage?
-    var button: UIButton
 }
