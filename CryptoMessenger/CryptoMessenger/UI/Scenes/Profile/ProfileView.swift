@@ -51,7 +51,6 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
         addaddPhotoButton()
         setupphotocollectionView()
         addphotocollectionView()
-        choosePhotoButton.addTarget(self, action: #selector(self.chooseImageFromGallery), for: .touchUpInside)
         photocollectionView.reloadData()
 
     }
@@ -73,12 +72,6 @@ final class ProfileView: UIView, UIImagePickerControllerDelegate {
                 PhotoProfile(image: R.image.profile.testpicture5()!, button: clearButton4),
                 PhotoProfile(image: R.image.profile.toUpload()!, button: choosePhotoButton)
                     ]
-    }
-
-    @objc private func chooseImageFromGallery() {
-        var imagePicker = UIImagePickerController()
-        print("chooseImageFromGallery was called")
-
     }
 
     private func addProfileImage() {
@@ -273,7 +266,8 @@ extension ProfileView: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) ->
     UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath)
+                                                    as! ProfileCell
         let profile = profiles[indexPath.row]
         cell.setup(with: profile)
         return cell
