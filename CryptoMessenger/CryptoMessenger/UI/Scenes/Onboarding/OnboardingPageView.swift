@@ -30,7 +30,19 @@ final class OnboardingPageView: UIView {
     // MARK: - Internal Methods
 
     func setPage(_ page: OnboardingPage) {
-        titleLabel.text = page.title
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.42
+        paragraph.alignment = .center
+
+        titleLabel.titleAttributes(
+            text: page.title.uppercased(),
+            [
+                .font(.bold(15)),
+                .paragraph(paragraph),
+                .color(.black()),
+                .kern(0.07)
+            ]
+        )
         iconImageView.image = page.image
     }
 
@@ -40,7 +52,7 @@ final class OnboardingPageView: UIView {
         iconImageView.snap(parent: self) {
             $0.contentMode = .scaleAspectFill
         } layout: {
-            $0.top.equalTo($1).offset(210)
+            $0.top.equalTo($1).offset(60)
             $0.centerX.equalTo($1)
         }
     }
@@ -52,9 +64,9 @@ final class OnboardingPageView: UIView {
             $0.font(.medium(17))
             $0.textColor(.black())
         } layout: {
-            $0.top.equalTo(self.iconImageView.snp.bottom).offset(24)
-            $0.leading.equalTo($1).offset(44)
-            $0.trailing.equalTo($1).offset(-44)
+            $0.top.equalTo(self.iconImageView.snp.bottom).offset(16)
+            $0.leading.equalTo($1).offset(20)
+            $0.trailing.equalTo($1).offset(-20)
         }
     }
 }

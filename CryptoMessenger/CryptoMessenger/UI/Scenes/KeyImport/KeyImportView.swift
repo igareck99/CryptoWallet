@@ -130,13 +130,13 @@ final class KeyImportView: UIView {
             $0.text = self.keyPlaceholder
             $0.font(.regular(15))
             $0.textColor(.gray())
-            $0.background(.lightGray())
+            $0.background(.custom(#colorLiteral(red: 0.9333333333, green: 0.9568627451, blue: 0.9843137255, alpha: 1)))
             $0.clipCorners(radius: 8)
             $0.textContainerInset = .init(top: 16, left: 16, bottom: 16, right: 16)
             $0.autocorrectionType = .no
             $0.textAlignment = .left
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = #colorLiteral(red: 0.9019607843, green: 0.9176470588, blue: 0.9294117647, alpha: 1).cgColor
+            $0.layer.borderWidth(1)
+            $0.layer.borderColor(.lightGray())
             $0.selectedTextRange = $0.textRange(from: $0.beginningOfDocument, to: $0.beginningOfDocument)
         } layout: {
             $0.top.equalTo(self.titleLabel.snp_bottomMargin).offset(130)
@@ -164,9 +164,20 @@ final class KeyImportView: UIView {
     }
 
     private func addImportButton() {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .center
+
         importButton.snap(parent: self) {
             let title = R.string.localizable.keyImportImportButton()
-            $0.titleAttributes(text: title, [.color(.gray()), .font(.medium(15))])
+            $0.titleAttributes(
+                text: title,
+                [
+                    .color(.gray()),
+                    .font(.medium(15)),
+                    .paragraph(paragraph)
+                ]
+            )
             $0.background(.lightGray())
             $0.clipCorners(radius: 8)
             $0.isUserInteractionEnabled = false
@@ -213,12 +224,15 @@ extension KeyImportView: UITextViewDelegate {
         textView.text = newString
 
         let title = R.string.localizable.keyImportImportButton()
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .center
         if !newString.isEmpty {
-            importButton.background(.lightBlue())
-            importButton.titleAttributes(text: title, [.color(.blue()), .font(.medium(15))])
+            importButton.background(.blue())
+            importButton.titleAttributes(text: title, [.color(.white()), .font(.semibold(15)), .paragraph(paragraph)])
         } else {
             importButton.background(.lightGray())
-            importButton.titleAttributes(text: title, [.color(.gray()), .font(.medium(15))])
+            importButton.titleAttributes(text: title, [.color(.gray()), .font(.semibold(15)), .paragraph(paragraph)])
         }
         importButton.isUserInteractionEnabled = !newString.isEmpty
 

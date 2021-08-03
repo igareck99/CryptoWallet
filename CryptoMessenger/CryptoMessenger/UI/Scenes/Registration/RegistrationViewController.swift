@@ -25,6 +25,12 @@ final class RegistrationViewController: BaseViewController {
         presenter.viewDidLoad()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupDefaultNavigationBar()
+        showNavigationBar()
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         customView.subscribeOnKeyboardNotifications()

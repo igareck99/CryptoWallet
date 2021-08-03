@@ -33,14 +33,13 @@ public final class MainFlowCoordinator: Coordinator {
 
     func start() {
         let tabs = [
-            buildServicesTab(),
             buildChatTab(),
             buildWalletTab(),
             buildProfileTab()
         ]
 
         let tabBarController = BaseTabBarController(viewControllers: tabs)
-        tabBarController.selectedIndex = Tabs.profile.index
+        tabBarController.selectedIndex = Tabs.wallet.index
 
         setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
     }
@@ -56,16 +55,14 @@ public final class MainFlowCoordinator: Coordinator {
     }
 
     private func buildChatTab() -> UIViewController {
-        let viewController = UIViewController()
-        viewController.view.background(.white())
+        let viewController = ChatConfigurator.configuredViewController(delegate: nil)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.chat.item
         return navigation
     }
 
     private func buildWalletTab() -> UIViewController {
-        let viewController = UIViewController()
-        viewController.view.background(.white())
+        let viewController = WalletConfigurator.configuredViewController(delegate: nil)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.wallet.item
         return navigation
@@ -91,11 +88,11 @@ public final class MainFlowCoordinator: Coordinator {
             case .services:
                 return 0
             case .chat:
-                return 1
+                return 0
             case .wallet:
-                return 2
+                return 1
             case .profile:
-                return 3
+                return 2
             }
         }
 

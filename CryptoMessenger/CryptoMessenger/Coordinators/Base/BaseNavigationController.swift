@@ -8,6 +8,7 @@ class BaseNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupDefaultNavigationBar()
     }
 
     // MARK: - Internal Methods

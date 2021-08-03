@@ -103,6 +103,8 @@ final class RegistrationView: UIView {
         keyboardObserver?.keyboardWillHideHandler = { [weak self] _ in
             self?.updateContinueButtonConstraints(nil)
         }
+        phoneTextField.becomeFirstResponder()
+        styleControls()
     }
 
     func unsubscribeKeyboardNotifications() {
@@ -168,7 +170,7 @@ final class RegistrationView: UIView {
 
     private func addCountryView() {
         countryView.snap(parent: self) {
-            $0.background(.lightGray())
+            $0.background(.tintBlue())
             $0.clipCorners(radius: 8)
         } layout: {
             $0.top.equalTo(self.descriptionLabel.snp.bottom).offset(50)
@@ -211,7 +213,7 @@ final class RegistrationView: UIView {
 
     private func addPhoneView() {
         phoneView.snap(parent: self) {
-            $0.background(.lightGray())
+            $0.background(.tintBlue())
             $0.clipCorners(radius: 8)
         } layout: {
             $0.top.equalTo(self.countryView.snp.bottom).offset(32)
@@ -235,23 +237,15 @@ final class RegistrationView: UIView {
             $0.leading.equalTo($1).offset(16)
             $0.trailing.equalTo($1).offset(-16)
         }
-        phoneTextField.didNumberChanged = { isValid in
-            let title = R.string.localizable.registrationContinueButton()
-            self.continueButton.isEnabled = isValid
-            if isValid {
-                self.continueButton.background(.lightBlue())
-                self.continueButton.titleAttributes(text: title, [.color(.blue()), .font(.medium(15))])
-            } else {
-                self.continueButton.background(.lightGray())
-                self.continueButton.titleAttributes(text: title, [.color(.gray()), .font(.medium(15))])
-            }
+        phoneTextField.didNumberChanged = { [weak self] in
+            self?.styleControls()
         }
     }
 
     private func addContinueButton() {
         continueButton.snap(parent: self) {
             let title = R.string.localizable.registrationContinueButton()
-            $0.titleAttributes(text: title, [.color(.gray()), .font(.medium(15))])
+            $0.titleAttributes(text: title, [.color(.gray()), .font(.semibold(15))])
             $0.background(.lightGray())
             $0.clipCorners(radius: 8)
             $0.isEnabled = false
@@ -274,13 +268,31 @@ final class RegistrationView: UIView {
         }
     }
 
+    private func styleControls() {
+        let isValid = PhoneHelper.validatePhoneNumber(
+            phoneTextField.text ?? "",
+            forRegion: phoneTextField.defaultRegion
+        )
+
+        let title = R.string.localizable.registrationContinueButton()
+        continueButton.isEnabled = isValid
+
+        if isValid {
+            continueButton.background(.blue())
+            continueButton.titleAttributes(text: title, [.color(.white()), .font(.semibold(15))])
+        } else {
+            continueButton.background(.lightGray())
+            continueButton.titleAttributes(text: title, [.color(.gray()), .font(.semibold(15))])
+        }
+    }
+
     // MARK: - CountryPhoneNumberTextField
 
     final class CountryPhoneNumberTextField: PhoneNumberTextField {
 
         // MARK: - Internal Properties
 
-        var didNumberChanged: ((Bool) -> Void)?
+        var didNumberChanged: VoidBlock?
 
         override var defaultRegion: String {
             get { PhoneHelper.userRegionCode }
@@ -294,8 +306,8 @@ final class RegistrationView: UIView {
                 if let country = selectedCountry {
                     defaultRegion = country.code
                 }
-                didNumberChanged?(PhoneHelper.validatePhoneNumber(finalText ?? "", forRegion: defaultRegion))
                 super.text = finalText
+                didNumberChanged?()
             }
         }
 
