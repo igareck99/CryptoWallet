@@ -27,6 +27,7 @@ final class ProfileView: UIView {
         layout.minimumInteritemSpacing = LayoutConstant.spacing
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
+    private var imagePicker = ImagePicker(fromController: ProfileViewController())
     private var profiles: [PhotoProfile] = [
         PhotoProfile(image: R.image.profile.testpicture2()),
         PhotoProfile(image: R.image.profile.testpicture3()),
@@ -51,11 +52,30 @@ final class ProfileView: UIView {
         addUrlButton()
         addAddPhotoButton()
         addPhotoCollectionView()
+        addPhotoButton.addTarget(self, action: #selector(uploadFromGallery), for: .touchUpInside)
     }
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
     }
+
+    @objc func uploadFromGallery(sender: UIButton!) {
+        print("AAAAAA")
+        imagePicker.setState(.camera)
+        print("BBBBBBBB")
+//        let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
+//            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+//                print("dckmdckmdckmd")
+//            }))
+//
+//            alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
+//                //self.openGallary()
+//                print("dckmdckmllkdckmd")
+//            }))
+//
+//            alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+//        self.present(alert, animated: true, completion: nil)
+        }
 
     // MARK: - LayoutConstant
 
@@ -65,6 +85,19 @@ final class ProfileView: UIView {
     }
 
     // MARK: - Private Methods
+
+//    private func openCamera() {
+//        if (UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
+//            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+//            imagePicker.allowsEditing = true
+//            self.present(imagePicker, animated: true, completion: nil)
+//        }
+//        else {
+//            let alert = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//            self.present(alert, animated: true, completion: nil)
+//        }
+//    }
 
     private func itemWidth(for width: CGFloat, spacing: CGFloat) -> CGFloat {
         let itemsInRow: CGFloat = 3
@@ -243,6 +276,7 @@ final class ProfileView: UIView {
             $0.background(.clear)
             $0.dataSource = self
             $0.delegate = self
+            $0.isUserInteractionEnabled = true
             $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
         } layout: {
             $0.top.equalTo(self.addPhotoButton.snp.bottom).offset(24)
@@ -269,6 +303,10 @@ extension ProfileView: UICollectionViewDataSource {
         cell.configure(profiles[indexPath.row])
         return cell
     }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        print("Selected Cell: \(indexPath.row)")
+    }
 }
 
 // MARK: - ProfileView (UICollectionViewDelegateFlowLayout)
@@ -290,6 +328,9 @@ extension ProfileView: UICollectionViewDelegate {
 
     }
 }
+// MARK: - ProfileView (UIImagePickerControllerDelegate)
+
+
 
 // MARK: - PhotoProfileStruct
 

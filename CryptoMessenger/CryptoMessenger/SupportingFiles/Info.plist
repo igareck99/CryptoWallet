@@ -18,6 +18,8 @@
 		<string>Rubik-Medium.ttf</string>
 		<string>Rubik-Bold.ttf</string>
 	</array>
+    <key>NSCameraUsageDescription</key>
+    <string>This app requires to access your photo library to show image on profile and send via chat</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
