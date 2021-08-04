@@ -1,12 +1,18 @@
 import UIKit
 
+// MARK: - PhotoProfile
+
+struct PhotoProfile {
+    var image: UIImage?
+}
+
 // MARK: - ProfileView
 
 final class ProfileView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTap: (() -> Void)?
+    var didTapAddPhoto: VoidBlock?
 
     // MARK: - Private Properties
     private lazy var view = ProfileView(frame: UIScreen.main.bounds)
@@ -20,15 +26,15 @@ final class ProfileView: UIView {
     private lazy var infoLabel = UILabel()
     private lazy var urlButton = UIButton()
     private lazy var addPhotoButton = UIButton()
+    private let spacing: CGFloat = 1.04
     private lazy var photoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = LayoutConstant.spacing
-        layout.minimumInteritemSpacing = LayoutConstant.spacing
+        layout.minimumLineSpacing = spacing
+        layout.minimumInteritemSpacing = spacing
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
-    private var imagePicker = ImagePicker(fromController: ProfileViewController())
-    private var profiles: [PhotoProfile] = [
+    private var photos: [PhotoProfile] = [
         PhotoProfile(image: R.image.profile.testpicture2()),
         PhotoProfile(image: R.image.profile.testpicture3()),
         PhotoProfile(image: R.image.profile.testpicture4()),
@@ -52,56 +58,30 @@ final class ProfileView: UIView {
         addUrlButton()
         addAddPhotoButton()
         addPhotoCollectionView()
-        addPhotoButton.addTarget(self, action: #selector(uploadFromGallery), for: .touchUpInside)
     }
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
     }
 
-    @objc func uploadFromGallery(sender: UIButton!) {
-        print("AAAAAA")
-        imagePicker.setState(.camera)
-        print("BBBBBBBB")
-//        let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
-//            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
-//                print("dckmdckmdckmd")
-//            }))
-//
-//            alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
-//                //self.openGallary()
-//                print("dckmdckmllkdckmd")
-//            }))
-//
-//            alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
-//        self.present(alert, animated: true, completion: nil)
-        }
+    // MARK: - Internal Methods
 
-    // MARK: - LayoutConstant
+    func addImage(_ image: UIImage) {
+  
+    }
 
-    private enum LayoutConstant {
-        static let spacing: CGFloat = 1.04
-        static let itemHeight: CGFloat = 123.96
+    // MARK: - Actions
+
+    @objc private func addPhotoButtonTap() {
+        didTapAddPhoto?()
     }
 
     // MARK: - Private Methods
 
-//    private func openCamera() {
-//        if (UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
-//            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
-//            imagePicker.allowsEditing = true
-//            self.present(imagePicker, animated: true, completion: nil)
-//        }
-//        else {
-//            let alert = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
-//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//            self.present(alert, animated: true, completion: nil)
-//        }
-//    }
-
     private func itemWidth(for width: CGFloat, spacing: CGFloat) -> CGFloat {
         let itemsInRow: CGFloat = 3
-        let finalWidth: CGFloat = width / itemsInRow - LayoutConstant.spacing * 2
+        let finalWidth: CGFloat = width / itemsInRow - spacing * 2
         return finalWidth
     }
 
@@ -252,7 +232,7 @@ final class ProfileView: UIView {
 
     private func addAddPhotoButton() {
         addPhotoButton.snap(parent: self) {
-            $0.backgroundColor = .clear
+            $0.background(.clear)
             $0.layer.borderWidth(1)
             $0.layer.borderColor(.blue())
             $0.titleAttributes(
@@ -263,6 +243,7 @@ final class ProfileView: UIView {
                 ]
             )
             $0.clipCorners(radius: 8)
+            $0.addTarget(self, action: #selector(self.addPhotoButtonTap), for: .touchUpInside)
         } layout: {
             $0.height.equalTo(44)
             $0.top.equalTo(self.urlButton.snp.bottom).offset(24)
@@ -292,7 +273,7 @@ final class ProfileView: UIView {
 
 extension ProfileView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return profiles.count
+        return photos.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) ->
@@ -300,7 +281,7 @@ extension ProfileView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else {
             return .init()
         }
-        cell.configure(profiles[indexPath.row])
+        cell.configure(photos[indexPath.row])
         return cell
     }
 
@@ -315,10 +296,9 @@ extension ProfileView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let width = itemWidth(for: view.frame.width, spacing: LayoutConstant.spacing)
+        let width = itemWidth(for: view.frame.width, spacing: spacing)
         return CGSize(width: width, height: width)
     }
-
 }
 
 // MARK: - ProfileView (UICollectionViewDelegate)
@@ -327,13 +307,4 @@ extension ProfileView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
     }
-}
-// MARK: - ProfileView (UIImagePickerControllerDelegate)
-
-
-
-// MARK: - PhotoProfileStruct
-
-struct PhotoProfile {
-    var image: UIImage?
 }
