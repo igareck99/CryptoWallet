@@ -38,8 +38,7 @@ final class ProfileView: UIView {
         PhotoProfile(image: R.image.profile.testpicture2()),
         PhotoProfile(image: R.image.profile.testpicture3()),
         PhotoProfile(image: R.image.profile.testpicture4()),
-        PhotoProfile(image: R.image.profile.testpicture5()),
-        PhotoProfile(image: R.image.profile.toUpload())
+        PhotoProfile(image: R.image.profile.testpicture5())
     ]
 
     // MARK: - Lifecycle
@@ -68,7 +67,12 @@ final class ProfileView: UIView {
     // MARK: - Internal Methods
 
     func addImage(_ image: UIImage) {
-  
+        print("Func was called")
+        let resize_im = UIImageView(image: image)
+        resize_im.contentMode = .scaleAspectFill
+        resize_im.clipsToBounds = true
+        photos.append(PhotoProfile(image: resize_im.image))
+        photoCollectionView.reloadData()
     }
 
     // MARK: - Actions
@@ -83,6 +87,7 @@ final class ProfileView: UIView {
         let itemsInRow: CGFloat = 3
         let finalWidth: CGFloat = width / itemsInRow - spacing * 2
         return finalWidth
+        
     }
 
     private func addProfileImage() {
