@@ -806,11 +806,11 @@
 		5A26CD4426B356F600118D4B /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				7896226B26B992AD00033B3B /* ProfileCell.swift */,
 				5A26CD4826B356F600118D4B /* ProfileConfigurator.swift */,
 				5A26CD4726B356F600118D4B /* ProfileProtocols.swift */,
 				5A26CD4A26B356F600118D4B /* ProfileViewController.swift */,
 				5A26CD4626B356F600118D4B /* ProfileView.swift */,
+				7896226B26B992AD00033B3B /* ProfileCell.swift */,
 				5A26CD4526B356F600118D4B /* ProfilePresenter.swift */,
 				5A26CD4926B356F600118D4B /* ProfileFlow.swift */,
 			);

@@ -26,12 +26,14 @@ final class ProfileView: UIView {
     private lazy var infoLabel = UILabel()
     private lazy var urlButton = UIButton()
     private lazy var addPhotoButton = UIButton()
-    private let spacing: CGFloat = 1.04
+    private let spacing: CGFloat = 1
     private lazy var photoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = spacing
-        layout.minimumInteritemSpacing = spacing
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        let width: CGFloat = bounds.width / 3 - 2 * spacing
+        layout.itemSize = CGSize(width: width, height: width + spacing)
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     private var photos: [PhotoProfile] = [
@@ -82,13 +84,6 @@ final class ProfileView: UIView {
     }
 
     // MARK: - Private Methods
-
-    private func itemWidth(for width: CGFloat, spacing: CGFloat) -> CGFloat {
-        let itemsInRow: CGFloat = 3
-        let finalWidth: CGFloat = width / itemsInRow - spacing * 2
-        return finalWidth
-        
-    }
 
     private func addProfileImage() {
         profileImage.snap(parent: self) {
@@ -262,7 +257,6 @@ final class ProfileView: UIView {
             $0.background(.clear)
             $0.dataSource = self
             $0.delegate = self
-            $0.isUserInteractionEnabled = true
             $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
         } layout: {
             $0.top.equalTo(self.addPhotoButton.snp.bottom).offset(24)
@@ -281,29 +275,16 @@ extension ProfileView: UICollectionViewDataSource {
         return photos.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) ->
-    UICollectionViewCell {
-        guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else {
-            return .init()
-        }
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else { return .init() }
         cell.configure(photos[indexPath.row])
         return cell
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print("Selected Cell: \(indexPath.row)")
-    }
-}
-
-// MARK: - ProfileView (UICollectionViewDelegateFlowLayout)
-
-extension ProfileView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        let width = itemWidth(for: view.frame.width, spacing: spacing)
-        return CGSize(width: width, height: width)
-    }
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {}
 }
 
 // MARK: - ProfileView (UICollectionViewDelegate)
