@@ -69,11 +69,7 @@ final class ProfileView: UIView {
     // MARK: - Internal Methods
 
     func addImage(_ image: UIImage) {
-        print("Func was called")
-        let resize_im = UIImageView(image: image)
-        resize_im.contentMode = .scaleAspectFill
-        resize_im.clipsToBounds = true
-        photos.append(PhotoProfile(image: resize_im.image))
+        photos.append(PhotoProfile(image: image))
         photoCollectionView.reloadData()
     }
 
