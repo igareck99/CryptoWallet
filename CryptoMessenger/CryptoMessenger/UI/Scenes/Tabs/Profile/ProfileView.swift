@@ -1,12 +1,18 @@
 import UIKit
 
+// MARK: - PhotoProfile
+
+struct PhotoProfile {
+    var image: UIImage?
+}
+
 // MARK: - ProfileView
 
 final class ProfileView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTap: (() -> Void)?
+    var didTapAddPhoto: VoidBlock?
 
     // MARK: - Private Properties
     private lazy var view = ProfileView(frame: UIScreen.main.bounds)
@@ -20,19 +26,21 @@ final class ProfileView: UIView {
     private lazy var infoLabel = UILabel()
     private lazy var urlButton = UIButton()
     private lazy var addPhotoButton = UIButton()
+    private let spacing: CGFloat = 1
     private lazy var photoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = LayoutConstant.spacing
-        layout.minimumInteritemSpacing = LayoutConstant.spacing
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        let width: CGFloat = bounds.width / 3 - 2 * spacing
+        layout.itemSize = CGSize(width: width, height: width + spacing)
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
-    private var profiles: [PhotoProfile] = [
+    private var photos: [PhotoProfile] = [
         PhotoProfile(image: R.image.profile.testpicture2()),
         PhotoProfile(image: R.image.profile.testpicture3()),
         PhotoProfile(image: R.image.profile.testpicture4()),
-        PhotoProfile(image: R.image.profile.testpicture5()),
-        PhotoProfile(image: R.image.profile.toUpload())
+        PhotoProfile(image: R.image.profile.testpicture5())
     ]
 
     // MARK: - Lifecycle
@@ -52,25 +60,26 @@ final class ProfileView: UIView {
         addAddPhotoButton()
         addPhotoCollectionView()
     }
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
     }
 
-    // MARK: - LayoutConstant
+    // MARK: - Internal Methods
 
-    private enum LayoutConstant {
-        static let spacing: CGFloat = 1.04
-        static let itemHeight: CGFloat = 123.96
+    func addImage(_ image: UIImage) {
+        photos.append(PhotoProfile(image: image))
+        photoCollectionView.reloadData()
+    }
+
+    // MARK: - Actions
+
+    @objc private func addPhotoButtonTap() {
+        didTapAddPhoto?()
     }
 
     // MARK: - Private Methods
-
-    private func itemWidth(for width: CGFloat, spacing: CGFloat) -> CGFloat {
-        let itemsInRow: CGFloat = 3
-        let finalWidth: CGFloat = width / itemsInRow - LayoutConstant.spacing * 2
-        return finalWidth
-    }
 
     private func addProfileImage() {
         profileImage.snap(parent: self) {
@@ -219,7 +228,7 @@ final class ProfileView: UIView {
 
     private func addAddPhotoButton() {
         addPhotoButton.snap(parent: self) {
-            $0.backgroundColor = .clear
+            $0.background(.clear)
             $0.layer.borderWidth(1)
             $0.layer.borderColor(.blue())
             $0.titleAttributes(
@@ -230,6 +239,7 @@ final class ProfileView: UIView {
                 ]
             )
             $0.clipCorners(radius: 8)
+            $0.addTarget(self, action: #selector(self.addPhotoButtonTap), for: .touchUpInside)
         } layout: {
             $0.height.equalTo(44)
             $0.top.equalTo(self.urlButton.snp.bottom).offset(24)
@@ -258,29 +268,19 @@ final class ProfileView: UIView {
 
 extension ProfileView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return profiles.count
+        return photos.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) ->
-    UICollectionViewCell {
-        guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else {
-            return .init()
-        }
-        cell.configure(profiles[indexPath.row])
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else { return .init() }
+        cell.configure(photos[indexPath.row])
         return cell
     }
-}
 
-// MARK: - ProfileView (UICollectionViewDelegateFlowLayout)
-
-extension ProfileView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        let width = itemWidth(for: view.frame.width, spacing: LayoutConstant.spacing)
-        return CGSize(width: width, height: width)
-    }
-
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {}
 }
 
 // MARK: - ProfileView (UICollectionViewDelegate)
@@ -289,10 +289,4 @@ extension ProfileView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
     }
-}
-
-// MARK: - PhotoProfileStruct
-
-struct PhotoProfile {
-    var image: UIImage?
 }

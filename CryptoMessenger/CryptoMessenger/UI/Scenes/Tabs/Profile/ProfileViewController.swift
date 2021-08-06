@@ -11,6 +11,7 @@ final class ProfileViewController: BaseViewController {
     // MARK: - Private Properties
 
     private lazy var customView = ProfileView(frame: UIScreen.main.bounds)
+    private lazy var imagePicker = ImagePicker(fromController: self)
 
     // MARK: - Lifecycle
 
@@ -20,8 +21,22 @@ final class ProfileViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupImagePicker()
+        subscribeOnCustomViewActions()
         addLeftBarButtonItem()
         addRightBarButtonItem()
+    }
+
+    // MARK: - Private Methods
+
+    private func setupImagePicker() {
+        imagePicker.delegate = self
+    }
+
+    private func subscribeOnCustomViewActions() {
+        customView.didTapAddPhoto = { [unowned self] in
+            self.imagePicker.open()
+        }
     }
 
     private func addLeftBarButtonItem() {
@@ -43,6 +58,19 @@ final class ProfileViewController: BaseViewController {
 
     @objc private func rightButtonTap() {
 
+    }
+}
+
+// MARK: - ProfileViewController (ImagePickerDelegate)
+
+extension ProfileViewController: ImagePickerDelegate {
+    func didFinish(with result: ImagePicker.PickerResult) {
+        switch result {
+        case let .success(image):
+            customView.addImage(image)
+        default:
+            break
+        }
     }
 }
 
