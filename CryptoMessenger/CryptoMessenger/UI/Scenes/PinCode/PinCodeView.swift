@@ -12,30 +12,21 @@ final class PinCodeView: UIView {
 
     private lazy var auraLabel = UIButton()
     private lazy var passwordLabel = UILabel()
-    private lazy var zeroButton = UIButton()
-    private lazy var oneButton = UIButton()
-    private lazy var twoButton = UIButton()
-    private lazy var threeButton = UIButton()
-    private lazy var fourButton = UIButton()
-    private lazy var fiveButton = UIButton()
-    private lazy var sixButton = UIButton()
-    private lazy var sevenButton = UIButton()
-    private lazy var eightButton = UIButton()
-    private lazy var nineButton = UIButton()
-    private lazy var faceidButton = UIButton()
-    private lazy var deleteNumberButton = UIButton()
     private lazy var EnterLabel = UILabel()
-    private lazy var stackView = UIStackView()
+    private lazy var buttonsArray : [UIButton] = []
+    private lazy var firstStackView = UIStackView()
 
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
+        initButtons()
         addauraLabel()
         addPasswordLabel()
         createFirstStack()
         addcantEnterLabel()
+        createFirstStack()
     }
 
     @available(*, unavailable)
@@ -50,6 +41,40 @@ final class PinCodeView: UIView {
     }
 
     // MARK: - Private Methods
+
+    private func createButton(image: UIImage!, text: String = "") -> UIButton {
+        let button = UIButton()
+        if text.isEmpty == false {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineHeightMultiple = 1.15
+            paragraphStyle.alignment = .center
+            button.titleAttributes(text: text, [
+                .font(.medium(24)),
+                .color(.black())
+            ])
+        }
+        button.setImage(image, for: .normal)
+        print(button.imageView!.image)
+        return button
+
+    }
+
+    private func initButtons() {
+        buttonsArray = [
+            createButton(image: R.image.pinCode.backgroundbutton(), text: "1"),
+            createButton(image: R.image.pinCode.backgroundbutton(), text: "2"),
+            createButton(image: R.image.pinCode.backgroundbutton(), text: "3"),
+            createButton(image: R.image.pinCode.backgroundbutton(), text: "4"),
+            createButton(image: R.image.pinCode.backgroundbutton(), text: "5"),
+            createButton(image: R.image.pinCode.backgroundbutton(), text: "6"),
+            createButton(image: R.image.pinCode.backgroundbutton(), text: "7"),
+            createButton(image: R.image.pinCode.backgroundbutton(), text: "8"),
+            createButton(image: R.image.pinCode.backgroundbutton(), text: "9"),
+            createButton(image: R.image.pinCode.faceid()),
+            createButton(image: R.image.pinCode.backgroundbutton(), text: "0"),
+            createButton(image: R.image.pinCode.delete())
+        ]
+    }
 
     private func addauraLabel() {
         auraLabel.snap(parent: self) {
@@ -83,45 +108,15 @@ final class PinCodeView: UIView {
     }
 
     private func createFirstStack() {
-        twoButton.setImage(R.image.pinCode.backgroundbutton(), for: .normal)
-        threeButton.setImage(R.image.pinCode.backgroundbutton(), for: .normal)
-        stackView.addSubview(oneButton)
-        stackView.addSubview(twoButton)
-        threeButton.translatesAutoresizingMaskIntoConstraints = false
-        threeButton.titleAttributes(text: "3", [
-            .font(.medium(24)),
-            .color(.black())
-        ])
-        oneButton.snap(parent: self) {
-            $0.setImage(R.image.pinCode.backgroundbutton(), for: .normal)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.contentMode = .scaleAspectFit
-            $0.titleLabel?.textAlignment = .center
-            $0.titleAttributes(text: "1", [
-                .font(.medium(24)),
-                .color(.black())
-            ])
-
-        } layout: {
-            $0.width.height.equalTo(67)
-            $0.leading.equalTo($1).offset(0)
-            $0.trailing.equalTo($1).offset(33)
-        }
-        twoButton.snap(parent: self) {
-            $0.setImage(R.image.pinCode.backgroundbutton(), for: .normal)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.contentMode = .scaleAspectFit
-            $0.titleAttributes(text: "2", [
-                .font(.medium(24)),
-                .color(.black())
-            ])
-        } layout: {
-            $0.leading.equalTo($1).offset(33)
-        }
-        stackView.snap(parent: self) {
+        firstStackView.addSubview(buttonsArray[0])
+        firstStackView.addSubview(buttonsArray[1])
+        firstStackView.addSubview(buttonsArray[2])
+        firstStackView.snap(parent: self) {
             $0.axis = NSLayoutConstraint.Axis.horizontal
             $0.spacing = 33
             $0.distribution = .fillEqually
+            $0.alignment = .fill
+            $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
             $0.leading.trailing.equalTo($1).offset(54)
             $0.top.equalTo(self.passwordLabel.snp.bottom).offset(106)
