@@ -17,6 +17,12 @@ final class PinCodeView: UIView {
     private lazy var twoStackView = UIStackView(arrangedSubviews: [buttonsArray[3], buttonsArray[4], buttonsArray[5]])
     private lazy var thirdStackView = UIStackView(arrangedSubviews: [buttonsArray[6], buttonsArray[7], buttonsArray[8]])
     private lazy var fourStackView = UIStackView(arrangedSubviews: [buttonsArray[9], buttonsArray[10], buttonsArray[11]])
+    private lazy var unionStackView = UIStackView(arrangedSubviews: [
+                                                    settingsStackView(stackView: firstStackView),
+                                                    settingsStackView(stackView: twoStackView),
+                                                    settingsStackView(stackView: thirdStackView),
+                                                    settingsStackView(stackView: fourStackView)
+                                                    ])
     private lazy var buttonsArray : [UIButton] = [
         createButton(image: R.image.pinCode.backgroundbutton(), text: "1"),
         createButton(image: R.image.pinCode.backgroundbutton(), text: "2"),
@@ -38,10 +44,8 @@ final class PinCodeView: UIView {
         background(.white())
         addauraLabel()
         addPasswordLabel()
-        createFirstStack()
+        addUnionStack()
         addcantEnterLabel()
-        createFirstStack()
-        createSecondStack()
     }
 
     @available(*, unavailable)
@@ -79,6 +83,15 @@ final class PinCodeView: UIView {
         return button
         }
 
+    private func settingsStackView(stackView: UIStackView) -> UIStackView {
+        stackView.axis = NSLayoutConstraint.Axis.horizontal
+        stackView.spacing = 33
+        stackView.distribution = .fillEqually
+        stackView.alignment = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }
+
     private func addauraLabel() {
         auraLabel.snap(parent: self) {
             $0.setImage(R.image.pinCode.aura(), for: .normal)
@@ -110,32 +123,17 @@ final class PinCodeView: UIView {
         }
     }
 
-    private func createFirstStack() {
-        firstStackView.snap(parent: self) {
-            $0.axis = NSLayoutConstraint.Axis.horizontal
-            $0.spacing = 33
+    private func addUnionStack() {
+        unionStackView.snap(parent: self) {
+            $0.axis = NSLayoutConstraint.Axis.vertical
+            $0.spacing = 25
             $0.distribution = .fillEqually
             $0.alignment = .fill
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
             $0.leading.equalTo($1).offset(54)
             $0.trailing.equalTo($1).offset(-54)
-            $0.top.equalTo(self.passwordLabel.snp.bottom).offset(106)
-            $0.height.equalTo(67)
-        }
-    }
-
-    private func createSecondStack() {
-        firstStackView.snap(parent: self) {
-            $0.axis = NSLayoutConstraint.Axis.horizontal
-            $0.spacing = 33
-            $0.distribution = .equalCentering
-            $0.alignment = .fill
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        } layout: {
-            $0.leading.equalTo($1).offset(54)
-            $0.trailing.equalTo($1).offset(-54)
-            $0.top.equalTo(self.firstStackView.snp.bottom).offset(25)
+            $0.top.equalTo(self.auraLabel.snp.bottom).offset(106)
         }
     }
 
@@ -155,7 +153,7 @@ final class PinCodeView: UIView {
             $0.textAlignment = .center
         } layout: {
             $0.centerX.equalTo($1)
-            $0.bottom.equalTo(self.snp_bottomMargin).offset(-40.14)
+            $0.bottom.equalTo(self.unionStackView.snp.bottom).offset(80)
         }
     }
 }
