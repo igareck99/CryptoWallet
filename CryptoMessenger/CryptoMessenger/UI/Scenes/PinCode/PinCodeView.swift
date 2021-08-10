@@ -34,9 +34,9 @@ final class PinCodeView: UIView {
         createButton(image: R.image.pinCode.backgroundbutton(), text: "7"),
         createButton(image: R.image.pinCode.backgroundbutton(), text: "8"),
         createButton(image: R.image.pinCode.backgroundbutton(), text: "9"),
-        createCustomButton(image: R.image.pinCode.faceId()),
+        createButton(image: R.image.pinCode.faceId()),
         createButton(image: R.image.pinCode.backgroundbutton(), text: "0"),
-        createCustomButton(image: R.image.pinCode.delete())
+        createButton(image: R.image.pinCode.delete())
     ]
     // MARK: - Lifecycle
 
@@ -85,15 +85,7 @@ final class PinCodeView: UIView {
         return button
         }
 
-    private func createCustomButton(image: UIImage!) -> UIButton {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.contentMode = .scaleAspectFill
-        button.imageView?.contentMode = .scaleAspectFit
-        button.setBackgroundImage(image, for: .normal)
-        return button
 
-    }
 
     private func settingsStackView(stackView: UIStackView) -> UIStackView {
         stackView.axis = NSLayoutConstraint.Axis.horizontal
