@@ -17,12 +17,13 @@ final class PinCodeView: UIView {
     private lazy var twoStackView = UIStackView(arrangedSubviews: [buttonsArray[3], buttonsArray[4], buttonsArray[5]])
     private lazy var thirdStackView = UIStackView(arrangedSubviews: [buttonsArray[6], buttonsArray[7], buttonsArray[8]])
     private lazy var fourStackView = UIStackView(arrangedSubviews: [buttonsArray[9], buttonsArray[10], buttonsArray[11]])
+    private lazy var dotes: [UIButton] = []
+    private lazy var dotesStackView = UIStackView()
     private lazy var unionStackView = UIStackView(arrangedSubviews: [
                                                     settingsStackView(stackView: firstStackView),
                                                     settingsStackView(stackView: twoStackView),
                                                     settingsStackView(stackView: thirdStackView),
-                                                    settingsStackView(stackView: fourStackView)
-                                                    ])
+                                                    settingsStackView(stackView: fourStackView)])
     private lazy var buttonsArray : [UIButton] = [
         createButton(image: R.image.pinCode.backgroundbutton(), text: "1"),
         createButton(image: R.image.pinCode.backgroundbutton(), text: "2"),
@@ -33,9 +34,9 @@ final class PinCodeView: UIView {
         createButton(image: R.image.pinCode.backgroundbutton(), text: "7"),
         createButton(image: R.image.pinCode.backgroundbutton(), text: "8"),
         createButton(image: R.image.pinCode.backgroundbutton(), text: "9"),
-        createButton(image: R.image.pinCode.faceid()),
+        createCustomButton(image: R.image.pinCode.faceId()),
         createButton(image: R.image.pinCode.backgroundbutton(), text: "0"),
-        createButton(image: R.image.pinCode.delete())
+        createCustomButton(image: R.image.pinCode.delete())
     ]
     // MARK: - Lifecycle
 
@@ -44,6 +45,7 @@ final class PinCodeView: UIView {
         background(.white())
         addauraLabel()
         addPasswordLabel()
+        addDotes()
         addUnionStack()
         addcantEnterLabel()
     }
@@ -77,11 +79,21 @@ final class PinCodeView: UIView {
         }
         button.setTitle(text, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.contentMode = .scaleAspectFill
+        button.imageView?.contentMode = .scaleAspectFit
         button.frame.size = CGSize(width: 67, height: 67)
         button.setBackgroundImage(image, for: .normal)
         return button
         }
+
+    private func createCustomButton(image: UIImage!) -> UIButton {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.contentMode = .scaleAspectFill
+        button.imageView?.contentMode = .scaleAspectFit
+        button.setBackgroundImage(image, for: .normal)
+        return button
+
+    }
 
     private func settingsStackView(stackView: UIStackView) -> UIStackView {
         stackView.axis = NSLayoutConstraint.Axis.horizontal
@@ -133,9 +145,30 @@ final class PinCodeView: UIView {
         } layout: {
             $0.leading.equalTo($1).offset(54)
             $0.trailing.equalTo($1).offset(-54)
-            $0.top.equalTo(self.auraLabel.snp.bottom).offset(106)
+            $0.top.equalTo(self.dotesStackView.snp.bottom).offset(60)
         }
     }
+
+    private func addDotes() {
+        (0..<5).forEach { _ in
+            let label = UIButton()
+            label.setImage(R.image.pinCode.waitdote(), for: .normal)
+            label.snp.makeConstraints {
+                $0.width.height.equalTo(14)
+            }
+            dotes.append(label)
+            dotesStackView.addArrangedSubview(label)
+        }
+            dotesStackView.snap(parent: self) {
+                $0.alignment = .fill
+                $0.axis = .horizontal
+                $0.spacing = 16
+            } layout: {
+                $0.top.equalTo(self.passwordLabel.snp.bottom).offset(32)
+                $0.centerX.equalTo($1)
+                $0.height.equalTo(25)
+            }
+        }
 
     private func addcantEnterLabel() {
         let paragraphStyle = NSMutableParagraphStyle()
