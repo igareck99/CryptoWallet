@@ -151,8 +151,8 @@ final class PinCodeView: UIView {
             $0.alignment = .fill
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
-            $0.leading.equalTo($1).offset(54)
-            $0.trailing.equalTo($1).offset(-54)
+            $0.centerX.equalTo($1)
+            $0.width.equalTo(67 * 3 + 66)
             $0.top.equalTo(self.dotesStackView.snp.bottom).offset(60)
         }
     }
