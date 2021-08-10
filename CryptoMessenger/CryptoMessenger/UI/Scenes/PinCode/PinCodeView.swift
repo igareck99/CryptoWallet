@@ -4,6 +4,14 @@ import UIKit
 
 final class PinCodeView: UIView {
 
+    // MARK: - ButtonType
+
+    enum ButtonType {
+        case number(Int)
+        case faceId
+        case delete
+    }
+
     // MARK: - Internal Properties
 
     var didTap: (() -> Void)?
@@ -13,36 +21,26 @@ final class PinCodeView: UIView {
     private lazy var auraLabel = UIButton()
     private lazy var passwordLabel = UILabel()
     private lazy var EnterLabel = UILabel()
-    private lazy var firstStackView = UIStackView(arrangedSubviews: [buttonsArray[0], buttonsArray[1], buttonsArray[2]])
-    private lazy var twoStackView = UIStackView(arrangedSubviews: [buttonsArray[3], buttonsArray[4], buttonsArray[5]])
-    private lazy var thirdStackView = UIStackView(arrangedSubviews: [buttonsArray[6], buttonsArray[7], buttonsArray[8]])
-    private lazy var fourStackView = UIStackView(arrangedSubviews: [buttonsArray[9], buttonsArray[10], buttonsArray[11]])
-    private lazy var dotes: [UIButton] = []
+    private lazy var firstStackView = UIStackView(arrangedSubviews: [buttons[0], buttons[1], buttons[2]])
+    private lazy var twoStackView = UIStackView(arrangedSubviews: [buttons[3], buttons[4], buttons[5]])
+    private lazy var thirdStackView = UIStackView(arrangedSubviews: [buttons[6], buttons[7], buttons[8]])
+    private lazy var fourStackView = UIStackView(arrangedSubviews: [buttons[9], buttons[10], buttons[11]])
+    private lazy var dotes: [UIView] = []
     private lazy var dotesStackView = UIStackView()
     private lazy var unionStackView = UIStackView(arrangedSubviews: [
                                                     settingsStackView(stackView: firstStackView),
                                                     settingsStackView(stackView: twoStackView),
                                                     settingsStackView(stackView: thirdStackView),
                                                     settingsStackView(stackView: fourStackView)])
-    private lazy var buttonsArray : [UIButton] = [
-        createButton(image: R.image.pinCode.backgroundbutton(), text: "1"),
-        createButton(image: R.image.pinCode.backgroundbutton(), text: "2"),
-        createButton(image: R.image.pinCode.backgroundbutton(), text: "3"),
-        createButton(image: R.image.pinCode.backgroundbutton(), text: "4"),
-        createButton(image: R.image.pinCode.backgroundbutton(), text: "5"),
-        createButton(image: R.image.pinCode.backgroundbutton(), text: "6"),
-        createButton(image: R.image.pinCode.backgroundbutton(), text: "7"),
-        createButton(image: R.image.pinCode.backgroundbutton(), text: "8"),
-        createButton(image: R.image.pinCode.backgroundbutton(), text: "9"),
-        createButton(image: R.image.pinCode.faceId()),
-        createButton(image: R.image.pinCode.backgroundbutton(), text: "0"),
-        createButton(image: R.image.pinCode.delete())
-    ]
+    private var buttonTypes: [ButtonType] = []
+    private var buttons: [UIButton] = []
+
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
+        createButtons()
         addauraLabel()
         addPasswordLabel()
         addDotes()
@@ -63,29 +61,46 @@ final class PinCodeView: UIView {
 
     // MARK: - Private Methods
 
-    private func createButton(image: UIImage!, text: String = "") -> UIButton {
-        let button = UIButton()
+    private func createButtons() {
+        (1...9).forEach { number in
+            buttons.append(createButton(.number(number)))
+        }
+
+        buttons.append(createButton(.faceId))
+        buttons.append(createButton(.number(0)))
+        buttons.append(createButton(.delete))
+    }
+
+    private func createButton(_ type: ButtonType) -> UIButton {
+        buttonTypes.append(type)
+
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
+        paragraphStyle.lineHeightMultiple = 0.98
         paragraphStyle.alignment = .center
-        if text.isEmpty == false {
-            button.titleAttributes(text: text,
-                                   [
-                                    .font(.medium(24)),
-                                    .color(.black()),
-                                    .paragraph(paragraphStyle)
-                                   ]
-            )
-        }
-        button.setTitle(text, for: .normal)
+
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 67, height: 67))
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.imageView?.contentMode = .scaleAspectFit
-        button.frame.size = CGSize(width: 67, height: 67)
-        button.setBackgroundImage(image, for: .normal)
-        return button
+
+        switch type {
+        case let .number(value):
+            button.titleAttributes(
+                text: value.description,
+                [
+                    .font(.regular(24)),
+                    .color(.black()),
+                    .paragraph(paragraphStyle)
+                ]
+            )
+            button.background(.paleBlue())
+            button.clipCorners(radius: button.frame.height * 0.5)
+        case .faceId:
+            button.setImage(R.image.pinCode.faceId(), for: .normal)
+        case .delete:
+            button.setImage(R.image.pinCode.delete(), for: .normal)
         }
 
-
+        return button
+    }
 
     private func settingsStackView(stackView: UIStackView) -> UIStackView {
         stackView.axis = NSLayoutConstraint.Axis.horizontal
@@ -111,6 +126,7 @@ final class PinCodeView: UIView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.15
         paragraphStyle.alignment = .center
+
         passwordLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.pinCodePassword(),
