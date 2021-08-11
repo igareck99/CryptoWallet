@@ -20,7 +20,7 @@ final class PinCodeView: UIView {
 
     private lazy var auraImage = UIImageView()
     private lazy var passwordLabel = UILabel()
-    private lazy var EnterLabel = UILabel()
+    private lazy var enterButon = UIButton()
     private lazy var firstStackView = UIStackView(arrangedSubviews: [buttons[0], buttons[1], buttons[2]])
     private lazy var twoStackView = UIStackView(arrangedSubviews: [buttons[3], buttons[4], buttons[5]])
     private lazy var thirdStackView = UIStackView(arrangedSubviews: [buttons[6], buttons[7], buttons[8]])
@@ -43,7 +43,7 @@ final class PinCodeView: UIView {
         super.init(frame: frame)
         background(.white())
         createButtons()
-        addauraLabel()
+        addauraImage()
         addPasswordLabel()
         addDotes()
         addUnionStack()
@@ -53,15 +53,6 @@ final class PinCodeView: UIView {
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
-    }
-
-    // MARK: - Internal Methods
-
-    func setDotesColors() {
-        for item in 0..<code_list.count {
-            dotes[item].backgroundColor = .blue
-            reloadInputViews()
-        }
     }
 
     // MARK: - Actions
@@ -150,7 +141,7 @@ final class PinCodeView: UIView {
         return stackView
     }
 
-    private func addauraLabel() {
+    private func addauraImage() {
         auraImage.snap(parent: self) {
             $0.image = R.image.pinCode.aura()
             $0.contentMode = .scaleAspectFill
@@ -223,7 +214,7 @@ final class PinCodeView: UIView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.15
         paragraphStyle.alignment = .center
-        EnterLabel.snap(parent: self) {
+        enterButon.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.pinCodeEnter(),
                 [
@@ -232,9 +223,9 @@ final class PinCodeView: UIView {
                     .color(.blue())
                 ]
             )
-            $0.textAlignment = .center
         } layout: {
             $0.centerX.equalTo($1)
+            $0.height.equalTo(21.87)
             $0.bottom.equalTo(self.unionStackView.snp.bottom).offset(80)
         }
     }
