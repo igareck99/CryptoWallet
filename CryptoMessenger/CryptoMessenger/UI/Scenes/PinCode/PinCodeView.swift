@@ -18,14 +18,14 @@ final class PinCodeView: UIView {
 
     // MARK: - Private Properties
 
-    private lazy var auraLabel = UIButton()
+    private lazy var auraImage = UIImageView()
     private lazy var passwordLabel = UILabel()
     private lazy var EnterLabel = UILabel()
     private lazy var firstStackView = UIStackView(arrangedSubviews: [buttons[0], buttons[1], buttons[2]])
     private lazy var twoStackView = UIStackView(arrangedSubviews: [buttons[3], buttons[4], buttons[5]])
     private lazy var thirdStackView = UIStackView(arrangedSubviews: [buttons[6], buttons[7], buttons[8]])
     private lazy var fourStackView = UIStackView(arrangedSubviews: [buttons[9], buttons[10], buttons[11]])
-    private lazy var dotes: [UIView] = []
+    private lazy var dotes: [UIImageView] = []
     private lazy var dotesStackView = UIStackView()
     private lazy var unionStackView = UIStackView(arrangedSubviews: [
                                                     settingsStackView(stackView: firstStackView),
@@ -34,6 +34,8 @@ final class PinCodeView: UIView {
                                                     settingsStackView(stackView: fourStackView)])
     private var buttonTypes: [ButtonType] = []
     private var buttons: [UIButton] = []
+    private var code_list: [Int] = []
+    private var rightCode: [Int] = [1, 2, 3, 4, 5]
 
     // MARK: - Lifecycle
 
@@ -55,8 +57,43 @@ final class PinCodeView: UIView {
 
     // MARK: - Internal Methods
 
-    func internalMethod() {
+    func setDotesColors() {
+        for item in 0..<code_list.count {
+            dotes[item].backgroundColor = .blue
+            reloadInputViews()
+        }
+    }
 
+    // MARK: - Actions
+
+    @objc private func numberButton(sender: UIButton) {
+        if code_list.count < 5 {
+            code_list.append(Int((sender.titleLabel?.text)!)!)
+            for item in 0..<code_list.count {
+                dotes[item].background(.blue())
+            }
+        }
+        if code_list.count == 5 {
+            for x in 0..<code_list.count {
+                if code_list[x] != rightCode[x] {
+                    for item in 0..<code_list.count {
+                        dotes[item].background(.red())
+                    }
+                }
+            }
+        }
+    }
+
+    @objc private func deleteButton(sender: UIButton) {
+        if code_list.isEmpty == false {
+            code_list.removeLast()
+        }
+        for item in dotes {
+            item.background(.lightBlue())
+        }
+        for item in 0..<code_list.count {
+            dotes[item].background(.blue())
+        }
     }
 
     // MARK: - Private Methods
@@ -93,10 +130,12 @@ final class PinCodeView: UIView {
             )
             button.background(.paleBlue())
             button.clipCorners(radius: button.frame.height * 0.5)
+            button.addTarget(self, action: #selector(numberButton), for: .touchUpInside)
         case .faceId:
             button.setImage(R.image.pinCode.faceId(), for: .normal)
         case .delete:
             button.setImage(R.image.pinCode.delete(), for: .normal)
+            button.addTarget(self, action: #selector(deleteButton), for: .touchUpInside)
         }
 
         return button
@@ -112,9 +151,9 @@ final class PinCodeView: UIView {
     }
 
     private func addauraLabel() {
-        auraLabel.snap(parent: self) {
-            $0.setImage(R.image.pinCode.aura(), for: .normal)
-            $0.imageView?.contentMode = .scaleAspectFill
+        auraImage.snap(parent: self) {
+            $0.image = R.image.pinCode.aura()
+            $0.contentMode = .scaleAspectFill
         } layout: {
             $0.top.equalTo(self.snp_topMargin).offset(66.82)
             $0.width.height.equalTo(58.38)
@@ -138,7 +177,7 @@ final class PinCodeView: UIView {
             )
             $0.textAlignment = .center
         } layout: {
-            $0.top.equalTo(self.auraLabel.snp.bottom).offset(32.8)
+            $0.top.equalTo(self.auraImage.snp.bottom).offset(32.8)
             $0.centerX.equalTo($1)
         }
     }
@@ -159,13 +198,16 @@ final class PinCodeView: UIView {
 
     private func addDotes() {
         (0..<5).forEach { _ in
-            let label = UIButton()
-            label.setImage(R.image.pinCode.waitdote(), for: .normal)
-            label.snp.makeConstraints {
+            let view = UIImageView()
+            view.layer.masksToBounds = true
+            view.background(.lightBlue())
+            view.layer.cornerRadius = view.frame.height * 0.5
+            view.clipsToBounds = true
+            view.snp.makeConstraints {
                 $0.width.height.equalTo(14)
             }
-            dotes.append(label)
-            dotesStackView.addArrangedSubview(label)
+            dotes.append(view)
+            dotesStackView.addArrangedSubview(view)
         }
             dotesStackView.snap(parent: self) {
                 $0.alignment = .fill
@@ -174,7 +216,6 @@ final class PinCodeView: UIView {
             } layout: {
                 $0.top.equalTo(self.passwordLabel.snp.bottom).offset(32)
                 $0.centerX.equalTo($1)
-                $0.height.equalTo(25)
             }
         }
 
