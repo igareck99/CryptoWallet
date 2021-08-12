@@ -20,7 +20,7 @@ final class PinCodeView: UIView {
 
     private lazy var auraImage = UIImageView()
     private lazy var passwordLabel = UILabel()
-    private lazy var enterButon = UIButton()
+    private lazy var enterButton = UIButton()
     private lazy var firstStackView = UIStackView(arrangedSubviews: [buttons[0], buttons[1], buttons[2]])
     private lazy var twoStackView = UIStackView(arrangedSubviews: [buttons[3], buttons[4], buttons[5]])
     private lazy var thirdStackView = UIStackView(arrangedSubviews: [buttons[6], buttons[7], buttons[8]])
@@ -34,8 +34,9 @@ final class PinCodeView: UIView {
                                                     createStackView(stackView: fourStackView)])
     private var buttonTypes: [ButtonType] = []
     private var buttons: [UIButton] = []
-    private var code_list: [Int] = []
+    private var userCode: [Int] = []
     private var rightCode: [Int] = [1, 2, 3, 4, 5]
+    private let dotesNumber = 5
 
     // MARK: - Lifecycle
 
@@ -58,15 +59,15 @@ final class PinCodeView: UIView {
     // MARK: - Actions
 
     @objc private func numberButtonAction(sender: UIButton) {
-        if code_list.count < 5 {
-            code_list.append(Int((sender.titleLabel?.text)!)!)
-            for item in 0..<code_list.count {
+        if userCode.count < dotesNumber {
+            userCode.append(Int((sender.titleLabel?.text)!)!)
+            for item in 0..<userCode.count {
                 dotes[item].background(.blue())
             }
         }
-        if code_list.count == 5 {
-            for x in 0..<code_list.count where code_list[x] != rightCode[x] {
-                    for item in 0..<code_list.count {
+        if userCode.count == dotesNumber {
+            for x in 0..<userCode.count where userCode[x] != rightCode[x] {
+                    for item in 0..<userCode.count {
                         dotes[item].background(.red())
                     }
             }
@@ -74,13 +75,13 @@ final class PinCodeView: UIView {
     }
 
     @objc private func deleteButtonAction(sender: UIButton) {
-        if code_list.isEmpty == false {
-            code_list.removeLast()
+        if userCode.isEmpty == false {
+            userCode.removeLast()
         }
         for item in dotes {
             item.background(.lightBlue())
         }
-        for item in 0..<code_list.count {
+        for item in 0..<userCode.count {
             dotes[item].background(.blue())
         }
     }
@@ -144,8 +145,8 @@ final class PinCodeView: UIView {
             $0.image = R.image.pinCode.aura()
             $0.contentMode = .scaleAspectFill
         } layout: {
-            $0.top.equalTo(self.snp_topMargin).offset(66.82)
-            $0.width.height.equalTo(58.38)
+            $0.top.equalTo(self.snp_topMargin).offset(67)
+            $0.width.height.equalTo(58)
             $0.centerX.equalTo($1)
         }
     }
@@ -166,7 +167,7 @@ final class PinCodeView: UIView {
             )
             $0.textAlignment = .center
         } layout: {
-            $0.top.equalTo(self.auraImage.snp.bottom).offset(32.8)
+            $0.top.equalTo(self.auraImage.snp.bottom).offset(33)
             $0.centerX.equalTo($1)
         }
     }
@@ -210,7 +211,7 @@ final class PinCodeView: UIView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.15
         paragraphStyle.alignment = .center
-        enterButon.snap(parent: self) {
+        enterButton.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.pinCodeEnter(),
                 [
@@ -221,7 +222,7 @@ final class PinCodeView: UIView {
             )
         } layout: {
             $0.centerX.equalTo($1)
-            $0.height.equalTo(21.87)
+            $0.height.equalTo(22)
             $0.bottom.equalTo(self.unionStackView.snp.bottom).offset(80)
         }
     }
