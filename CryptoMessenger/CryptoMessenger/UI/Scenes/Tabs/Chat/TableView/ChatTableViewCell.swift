@@ -47,12 +47,16 @@ final class ChatTableViewCell: UITableViewCell {
     // MARK: - Internal Methods
 
     func configure(_ message: Message) {
-        iconBackView.background(.custom(#colorLiteral(red: 0.07450980392, green: 0.7215686275, blue: 0.9882352941, alpha: 1)))
-        iconImageView.image = message.icon
-        nameLabel.text = message.name
-        dateLabel.text = message.date
-        messageLabel.text = message.message
-        unreadCountLabel.text = message.unreadMessagesCount.description
+        switch message.type {
+        case let .text(text):
+            iconImageView.image = message.avatar
+            nameLabel.text = message.name
+            messageLabel.text = text
+            dateLabel.text = message.date
+            unreadCountLabel.text = message.unreadCount.description
+        default:
+            break
+        }
     }
 
     // MARK: - Private Methods

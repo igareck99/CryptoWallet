@@ -6,16 +6,23 @@ struct Message {
 
     // MARK: - Internal Properties
 
+    let type: MessageType
+    let status: MessageStatus
     let name: String
-    let icon: UIImage?
-    let message: String
+    let avatar: UIImage?
     let date: String
-    let status: Status = .online
-    let unreadMessagesCount: Int
+    let unreadCount: Int
 
-    // MARK: - Status
+    // MARK: - MessageType
 
-    enum Status {
+    enum MessageType {
+        case text(String)
+        case image(UIImage?)
+    }
+
+    // MARK: - MessageStatus
+
+    enum MessageStatus {
         case online
         case offline
 
@@ -24,7 +31,7 @@ struct Message {
             case .online:
                 return .green()
             case .offline:
-                return .lightGray()
+                return .gray()
             }
         }
     }
