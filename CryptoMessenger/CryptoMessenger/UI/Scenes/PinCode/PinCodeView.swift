@@ -28,10 +28,10 @@ final class PinCodeView: UIView {
     private lazy var dotes: [UIImageView] = []
     private lazy var dotesStackView = UIStackView()
     private lazy var unionStackView = UIStackView(arrangedSubviews: [
-                                                    settingsStackView(stackView: firstStackView),
-                                                    settingsStackView(stackView: twoStackView),
-                                                    settingsStackView(stackView: thirdStackView),
-                                                    settingsStackView(stackView: fourStackView)])
+                                                    createStackView(stackView: firstStackView),
+                                                    createStackView(stackView: twoStackView),
+                                                    createStackView(stackView: thirdStackView),
+                                                    createStackView(stackView: fourStackView)])
     private var buttonTypes: [ButtonType] = []
     private var buttons: [UIButton] = []
     private var code_list: [Int] = []
@@ -43,7 +43,7 @@ final class PinCodeView: UIView {
         super.init(frame: frame)
         background(.white())
         createButtons()
-        addauraImage()
+        addAuraImage()
         addPasswordLabel()
         addDotes()
         addUnionStack()
@@ -57,7 +57,7 @@ final class PinCodeView: UIView {
 
     // MARK: - Actions
 
-    @objc private func numberButton(sender: UIButton) {
+    @objc private func numberButtonAction(sender: UIButton) {
         if code_list.count < 5 {
             code_list.append(Int((sender.titleLabel?.text)!)!)
             for item in 0..<code_list.count {
@@ -75,7 +75,7 @@ final class PinCodeView: UIView {
         }
     }
 
-    @objc private func deleteButton(sender: UIButton) {
+    @objc private func deleteButtonAction(sender: UIButton) {
         if code_list.isEmpty == false {
             code_list.removeLast()
         }
@@ -121,18 +121,18 @@ final class PinCodeView: UIView {
             )
             button.background(.paleBlue())
             button.clipCorners(radius: button.frame.height * 0.5)
-            button.addTarget(self, action: #selector(numberButton), for: .touchUpInside)
+            button.addTarget(self, action: #selector(numberButtonAction), for: .touchUpInside)
         case .faceId:
             button.setImage(R.image.pinCode.faceId(), for: .normal)
         case .delete:
             button.setImage(R.image.pinCode.delete(), for: .normal)
-            button.addTarget(self, action: #selector(deleteButton), for: .touchUpInside)
+            button.addTarget(self, action: #selector(deleteButtonAction), for: .touchUpInside)
         }
 
         return button
     }
 
-    private func settingsStackView(stackView: UIStackView) -> UIStackView {
+    private func createStackView(stackView: UIStackView) -> UIStackView {
         stackView.axis = NSLayoutConstraint.Axis.horizontal
         stackView.spacing = 33
         stackView.distribution = .fillEqually
@@ -141,7 +141,7 @@ final class PinCodeView: UIView {
         return stackView
     }
 
-    private func addauraImage() {
+    private func addAuraImage() {
         auraImage.snap(parent: self) {
             $0.image = R.image.pinCode.aura()
             $0.contentMode = .scaleAspectFill
