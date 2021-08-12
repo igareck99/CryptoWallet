@@ -76,6 +76,7 @@
 		5A187F342680CF49001957D3 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0C2680CF49001957D3 /* ContactsManager.swift */; };
 		5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0D2680CF49001957D3 /* PhoneContact.swift */; };
 		5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */; };
+		5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A18EF8D26B988EA0038E991 /* ImagePicker.swift */; };
 		5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */; };
 		5A26CD1C26B2EECA00118D4B /* WalletPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1626B2EECA00118D4B /* WalletPresenter.swift */; };
 		5A26CD1D26B2EECA00118D4B /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1726B2EECA00118D4B /* WalletViewController.swift */; };
@@ -112,6 +113,7 @@
 		5A26CD6126B35C9B00118D4B /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD6026B35C9B00118D4B /* Chat.swift */; };
 		5A26CD6326B35EB700118D4B /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD6226B35EB600118D4B /* ChatTableViewCell.swift */; };
 		5A26CD6526B35F7A00118D4B /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD6426B35F7A00118D4B /* ChatViewModel.swift */; };
+		5A26CD6A26B4016000118D4B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A26CD6926B4016000118D4B /* GoogleService-Info.plist */; };
 		5A4267FE26A83494000C51DD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FD26A83494000C51DD /* R.generated.swift */; };
 		5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */; };
 		5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680026A83554000C51DD /* RegistrationViewController.swift */; };
@@ -174,6 +176,7 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
+		7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7896226B26B992AD00033B3B /* ProfileCell.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -250,6 +253,7 @@
 		5A187F0C2680CF49001957D3 /* ContactsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
 		5A187F0D2680CF49001957D3 /* PhoneContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneContact.swift; sourceTree = "<group>"; };
 		5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
+		5A18EF8D26B988EA0038E991 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
 		5A26CD1626B2EECA00118D4B /* WalletPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPresenter.swift; sourceTree = "<group>"; };
 		5A26CD1726B2EECA00118D4B /* WalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewController.swift; sourceTree = "<group>"; };
@@ -286,6 +290,7 @@
 		5A26CD6026B35C9B00118D4B /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		5A26CD6226B35EB600118D4B /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		5A26CD6426B35F7A00118D4B /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		5A26CD6926B4016000118D4B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5A4267FD26A83494000C51DD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = R.generated.swift; path = Generated/R.generated.swift; sourceTree = SOURCE_ROOT; };
 		5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPresenter.swift; sourceTree = "<group>"; };
 		5A42680026A83554000C51DD /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -348,6 +353,7 @@
 		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
+		7896226B26B992AD00033B3B /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -375,6 +381,7 @@
 		5A187DB226806EF8001957D3 = {
 			isa = PBXGroup;
 			children = (
+				5A26CD6926B4016000118D4B /* GoogleService-Info.plist */,
 				5A187DBD26806EF8001957D3 /* CryptoMessenger */,
 				5A187DBC26806EF8001957D3 /* Products */,
 				C48D3F6781FE772D12943E74 /* Pods */,
@@ -637,6 +644,7 @@
 				5A42681326A8BE85000C51DD /* CountryCodePicker */,
 				5A42681826A9C063000C51DD /* PhoneHelper */,
 				5AF8633B26AADEF5004A417C /* CountdownTimer */,
+				5A18EF8C26B988DB0038E991 /* ImagePicker */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -737,6 +745,14 @@
 			path = Keyboard;
 			sourceTree = "<group>";
 		};
+		5A18EF8C26B988DB0038E991 /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				5A18EF8D26B988EA0038E991 /* ImagePicker.swift */,
+			);
+			path = ImagePicker;
+			sourceTree = "<group>";
+		};
 		5A26CD1326B2B88100118D4B /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
@@ -797,6 +813,7 @@
 				5A26CD4726B356F600118D4B /* ProfileProtocols.swift */,
 				5A26CD4A26B356F600118D4B /* ProfileViewController.swift */,
 				5A26CD4626B356F600118D4B /* ProfileView.swift */,
+				7896226B26B992AD00033B3B /* ProfileCell.swift */,
 				5A26CD4526B356F600118D4B /* ProfilePresenter.swift */,
 				5A26CD4926B356F600118D4B /* ProfileFlow.swift */,
 			);
@@ -1052,6 +1069,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A187DCB26806EF9001957D3 /* LaunchScreen.storyboard in Resources */,
+				5A26CD6A26B4016000118D4B /* GoogleService-Info.plist in Resources */,
 				5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */,
 				5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */,
 				5A42680F26A8393A000C51DD /* Localizable.strings in Resources */,
@@ -1151,6 +1169,7 @@
 				5A187EBB268070B3001957D3 /* NSMutableData+Extensions.swift in Sources */,
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
 				5A26CD2A26B2FF9900118D4B /* CarouselFlowLayout.swift in Sources */,
+				5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */,
 				5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */,
 				5A26CD4F26B356F600118D4B /* ProfileFlow.swift in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
@@ -1234,6 +1253,7 @@
 				5A26CD6126B35C9B00118D4B /* Chat.swift in Sources */,
 				5A26CD5926B3599800118D4B /* ChatViewController.swift in Sources */,
 				5A26CD3B26B3211100118D4B /* TapAnimator.swift in Sources */,
+				7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */,
 				5A26CD5B26B3599800118D4B /* ChatView.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
 				5A26CD3526B31B4000118D4B /* CardCollectionViewCell.swift in Sources */,
@@ -1449,7 +1469,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1460,6 +1482,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ms.aura.app-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1471,7 +1494,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1482,6 +1507,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ms.aura.app-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

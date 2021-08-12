@@ -89,10 +89,11 @@ final class ChatView: UIView {
 
 private var messages: [Message] = [
     .init(
-        name: "AURA Chat Bot",
-        icon: R.image.chat.botLogo(),
-        message: "Привет, давай знакомиться :)",
+        type: .text("Не совсем понял прикола"),
+        status: .online,
+        name: "Данил Даньшин",
+        avatar: R.image.chat.botLogo(),
         date: "21:30",
-        unreadMessagesCount: 2
+        unreadCount: 2
     )
 ]

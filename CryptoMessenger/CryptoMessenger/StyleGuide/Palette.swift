@@ -25,7 +25,7 @@ enum Palette: Hashable {
         case let .black(alpha):
             return #colorLiteral(red: 0.1019607843, green: 0.1803921569, blue: 0.2078431373, alpha: 1).withAlphaComponent(alpha)
         case let .gray(alpha):
-            return #colorLiteral(red: 0.7019607843, green: 0.7019607843, blue: 0.7019607843, alpha: 1).withAlphaComponent(alpha)
+            return #colorLiteral(red: 0.8078431373, green: 0.8274509804, blue: 0.8509803922, alpha: 1).withAlphaComponent(alpha)
         case let .lightGray(alpha):
             return #colorLiteral(red: 0.9607843137, green: 0.9647058824, blue: 0.9725490196, alpha: 1).withAlphaComponent(alpha)
         case let .white(alpha):

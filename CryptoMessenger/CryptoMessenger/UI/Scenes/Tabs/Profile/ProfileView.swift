@@ -1,15 +1,21 @@
 import UIKit
 
+// MARK: - PhotoProfile
+
+struct PhotoProfile {
+    var image: UIImage?
+}
+
 // MARK: - ProfileView
 
 final class ProfileView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTap: (() -> Void)?
+    var didTapAddPhoto: VoidBlock?
 
     // MARK: - Private Properties
-
+    private lazy var view = ProfileView(frame: UIScreen.main.bounds)
     private lazy var titleLabel = UILabel()
     private lazy var profileImage = UIImageView()
     private lazy var phoneLabel = UILabel()
@@ -20,6 +26,22 @@ final class ProfileView: UIView {
     private lazy var infoLabel = UILabel()
     private lazy var urlButton = UIButton()
     private lazy var addPhotoButton = UIButton()
+    private let spacing: CGFloat = 1
+    private lazy var photoCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        let width: CGFloat = bounds.width / 3 - 2 * spacing
+        layout.itemSize = CGSize(width: width, height: width + spacing)
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }()
+    private var photos: [PhotoProfile] = [
+        PhotoProfile(image: R.image.profile.testpicture2()),
+        PhotoProfile(image: R.image.profile.testpicture3()),
+        PhotoProfile(image: R.image.profile.testpicture4()),
+        PhotoProfile(image: R.image.profile.testpicture5())
+    ]
 
     // MARK: - Lifecycle
 
@@ -35,12 +57,26 @@ final class ProfileView: UIView {
         addPhoneLabel()
         addInfoLabel()
         addUrlButton()
-        addaddPhotoButton()
+        addAddPhotoButton()
+        addPhotoCollectionView()
     }
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
+    }
+
+    // MARK: - Internal Methods
+
+    func addImage(_ image: UIImage) {
+        photos.append(PhotoProfile(image: image))
+        photoCollectionView.reloadData()
+    }
+
+    // MARK: - Actions
+
+    @objc private func addPhotoButtonTap() {
+        didTapAddPhoto?()
     }
 
     // MARK: - Private Methods
@@ -172,15 +208,15 @@ final class ProfileView: UIView {
 
     private func addUrlButton() {
         urlButton.snap(parent: self) {
-            $0.titleLabel?.textAlignment = NSTextAlignment.left
+            $0.titleLabel?.textAlignment = .left
             $0.titleAttributes(
-                            text: R.string.localizable.profileSite(),
-                            [
-                                .font(.regular(15)),
-                                .color(.blue())
+                text: R.string.localizable.profileSite(),
+                [
+                    .font(.regular(15)),
+                    .color(.blue())
 
-                            ]
-                        )
+                ]
+            )
             $0.titleLabel?.lineBreakMode = .byCharWrapping
             $0.titleLabel?.numberOfLines = 2
         } layout: {
@@ -190,24 +226,67 @@ final class ProfileView: UIView {
         }
     }
 
-    private func addaddPhotoButton() {
+    private func addAddPhotoButton() {
         addPhotoButton.snap(parent: self) {
-            $0.backgroundColor = .clear
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor.blue.cgColor
+            $0.background(.clear)
+            $0.layer.borderWidth(1)
+            $0.layer.borderColor(.blue())
             $0.titleAttributes(
-                           text: R.string.localizable.profileAdd(),
-                           [
-                            .font(.medium(15)),
-                               .color(.blue())
-                           ]
-                       )
+                text: R.string.localizable.profileAdd(),
+                [
+                    .font(.medium(15)),
+                    .color(.blue())
+                ]
+            )
             $0.clipCorners(radius: 8)
+            $0.addTarget(self, action: #selector(self.addPhotoButtonTap), for: .touchUpInside)
         } layout: {
             $0.height.equalTo(44)
             $0.top.equalTo(self.urlButton.snp.bottom).offset(24)
             $0.leading.equalTo($1).offset(16)
             $0.trailing.equalTo($1).offset(-16)
         }
+    }
+
+    private func addPhotoCollectionView() {
+        photoCollectionView.snap(parent: self) {
+            $0.background(.clear)
+            $0.dataSource = self
+            $0.delegate = self
+            $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
+        } layout: {
+            $0.top.equalTo(self.addPhotoButton.snp.bottom).offset(24)
+            $0.leading.equalTo($1)
+            $0.trailing.equalTo($1)
+            $0.bottom.equalTo($1)
+        }
+        photoCollectionView.reloadData()
+    }
+}
+
+// MARK: - ProfileView (UICollectionViewDataSource)
+
+extension ProfileView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return photos.count
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else { return .init() }
+        cell.configure(photos[indexPath.row])
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {}
+}
+
+// MARK: - ProfileView (UICollectionViewDelegate)
+
+extension ProfileView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
     }
 }
