@@ -190,13 +190,11 @@ final class PinCodeView: UIView {
     private func addDotes() {
         (0..<5).forEach { _ in
             let view = UIImageView()
-            view.layer.masksToBounds = true
             view.background(.lightBlue())
-            view.layer.cornerRadius = view.frame.height * 0.5
-            view.clipsToBounds = true
             view.snp.makeConstraints {
                 $0.width.height.equalTo(14)
             }
+            view.clipCorners(radius: 7)
             dotes.append(view)
             dotesStackView.addArrangedSubview(view)
         }
