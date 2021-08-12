@@ -65,12 +65,10 @@ final class PinCodeView: UIView {
             }
         }
         if code_list.count == 5 {
-            for x in 0..<code_list.count {
-                if code_list[x] != rightCode[x] {
+            for x in 0..<code_list.count where code_list[x] != rightCode[x] {
                     for item in 0..<code_list.count {
                         dotes[item].background(.red())
                     }
-                }
             }
         }
     }
