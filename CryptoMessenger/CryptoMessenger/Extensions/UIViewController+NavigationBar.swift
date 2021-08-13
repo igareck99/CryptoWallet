@@ -84,7 +84,7 @@ extension UIViewController {
         navigationController?.navigationBar.background(.clear)
         navigationController?.navigationBar.barTintColor(.clear)
 
-        setupBackButton(.white())
+        setupBackButton(.clear)
     }
 
     // MARK: - Private Methods

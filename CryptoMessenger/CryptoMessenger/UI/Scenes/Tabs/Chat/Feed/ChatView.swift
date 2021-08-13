@@ -4,6 +4,10 @@ import UIKit
 
 final class ChatView: UIView {
 
+    // MARK: - Internal Properties
+
+    var didTapNextScene: ((Message) -> Void)?
+
     // MARK: - Private Properties
 
     private lazy var footerView = UIView()
@@ -11,7 +15,8 @@ final class ChatView: UIView {
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
 
     private var tableProvider: TableViewProvider?
-    private var tableModel: ChatViewModel = .init(messages) {
+    private var filteredViewModel: ChatViewModel = .init([])
+    private var tableModel: ChatViewModel = .init(sortedMessages) {
         didSet {
             if tableProvider == nil {
                 setupTableProvider()
@@ -25,7 +30,6 @@ final class ChatView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
-        addInviteButton()
         addMessagesTableView()
         setupTableProvider()
     }
@@ -33,6 +37,18 @@ final class ChatView: UIView {
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
+    }
+
+    // MARK: - Internal Methods
+
+    func updateSearchResults(_ text: String) {
+        if text.isEmpty {
+            filteredViewModel = tableModel
+        } else {
+            filteredViewModel = .init(tableModel.items.filter { $0.name.lowercased().contains(text.lowercased()) })
+        }
+        tableProvider?.setViewModel(with: filteredViewModel)
+        tableProvider?.reloadData()
     }
 
     // MARK: - Private Methods
@@ -81,19 +97,55 @@ final class ChatView: UIView {
         tableProvider?.onConfigureCell = { [unowned self] indexPath in
             guard let provider = self.tableProvider else { return .init() }
             let cell: ChatTableViewCell = provider.dequeueReusableCell(for: indexPath)
-            cell.configure(tableModel.items[indexPath.section])
+            let item = filteredViewModel.items.isEmpty
+                ? tableModel.items[indexPath.section]
+                : filteredViewModel.items[indexPath.section]
+            cell.configure(item)
             return cell
+        }
+        tableProvider?.onSelectCell = { [unowned self] indexPath in
+            let item = filteredViewModel.items.isEmpty
+                ? tableModel.items[indexPath.section]
+                : filteredViewModel.items[indexPath.section]
+
+            didTapNextScene?(item)
         }
     }
 }
 
+private var sortedMessages = messages.filter({ $0.isPinned }) + messages.filter({ !$0.isPinned })
 private var messages: [Message] = [
     .init(
         type: .text("Не совсем понял прикола"),
-        status: .online,
-        name: "Данил Даньшин",
-        avatar: R.image.chat.botLogo(),
+        status: .offline,
+        name: "Данил Даньшиншиншиншиншиншиншиншиншиншин",
+        avatar: R.image.chat.mockAvatar1(),
         date: "21:30",
+        unreadCount: 1
+    ),
+    .init(
+        type: .text("Короче, ты мне Ауру, и ??? :)\nИ я твоя!!!"),
+        status: .offline,
+        name: "Марина Антоненко",
+        avatar: R.image.chat.mockAvatar2(),
+        date: "11:08",
         unreadCount: 2
+    ),
+    .init(
+        type: .text("Привет, трудяга!:)"),
+        status: .online,
+        name: "Артем Квач",
+        avatar: R.image.chat.mockAvatar3(),
+        date: "03:40",
+        unreadCount: 0,
+        isPinned: true
+    ),
+    .init(
+        type: .text("Подними кэш на ставках!"),
+        status: .online,
+        name: "Фон Бет",
+        avatar: R.image.chat.mockAvatar4(),
+        date: "22:00",
+        unreadCount: 666
     )
 ]

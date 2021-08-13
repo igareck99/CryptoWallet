@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: TableViewProvider
+// MARK: - TableViewProvider
 
 final class TableViewProvider: NSObject, TableViewProviderType {
 
@@ -13,7 +13,7 @@ final class TableViewProvider: NSObject, TableViewProviderType {
     // MARK: - Private Properties
 
     private let tableView: UITableView
-    private let viewModel: TableViewProviderViewModel
+    private var viewModel: TableViewProviderViewModel
 
     // MARK: - Lifecycle
 
@@ -28,6 +28,10 @@ final class TableViewProvider: NSObject, TableViewProviderType {
     }
 
     // MARK: - Internal Methods
+
+    func setViewModel(with viewModel: TableViewProviderViewModel) {
+        self.viewModel = viewModel
+    }
 
     func registerCells(_ cells: [UITableViewCell.Type]) {
         cells.forEach { registerCell($0) }
