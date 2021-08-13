@@ -28,10 +28,11 @@ final class PinCodeView: UIView {
     private lazy var dotes: [UIImageView] = []
     private lazy var dotesStackView = UIStackView()
     private lazy var unionStackView = UIStackView(arrangedSubviews: [
-                                                    createStackView(stackView: firstStackView),
-                                                    createStackView(stackView: twoStackView),
-                                                    createStackView(stackView: thirdStackView),
-                                                    createStackView(stackView: fourStackView)])
+                                                        createStackView(stackView: firstStackView),
+                                                        createStackView(stackView: twoStackView),
+                                                        createStackView(stackView: thirdStackView),
+                                                        createStackView(stackView: fourStackView)
+                                                    ])
     private var buttonTypes: [ButtonType] = []
     private var buttons: [UIButton] = []
     private var userCode: [Int] = []
@@ -48,7 +49,7 @@ final class PinCodeView: UIView {
         addPasswordLabel()
         addDotes()
         addUnionStack()
-        addcantEnterLabel()
+        addEnterButton()
     }
 
     @available(*, unavailable)
@@ -67,9 +68,9 @@ final class PinCodeView: UIView {
         }
         if userCode.count == dotesNumber {
             for x in 0..<userCode.count where userCode[x] != rightCode[x] {
-                    for item in 0..<userCode.count {
-                        dotes[item].background(.red())
-                    }
+                for item in 0..<userCode.count {
+                    dotes[item].background(.red())
+                }
             }
         }
     }
@@ -105,8 +106,9 @@ final class PinCodeView: UIView {
         paragraphStyle.lineHeightMultiple = 0.98
         paragraphStyle.alignment = .center
 
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 67, height: 67))
-        button.translatesAutoresizingMaskIntoConstraints = false
+        let button = UIButton()
+        button.snp.makeConstraints { $0.width.height.equalTo(67) }
+        button.clipCorners(radius: 33.5)
 
         switch type {
         case let .number(value):
@@ -119,7 +121,6 @@ final class PinCodeView: UIView {
                 ]
             )
             button.background(.paleBlue())
-            button.clipCorners(radius: button.frame.height * 0.5)
             button.addTarget(self, action: #selector(numberButtonAction), for: .touchUpInside)
         case .faceId:
             button.setImage(R.image.pinCode.faceId(), for: .normal)
@@ -127,14 +128,12 @@ final class PinCodeView: UIView {
             button.setImage(R.image.pinCode.delete(), for: .normal)
             button.addTarget(self, action: #selector(deleteButtonAction), for: .touchUpInside)
         }
-
         return button
     }
 
     private func createStackView(stackView: UIStackView) -> UIStackView {
         stackView.axis = .horizontal
-        stackView.spacing = 33
-        stackView.distribution = .fillEqually
+        stackView.distribution = .equalSpacing
         stackView.alignment = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -180,7 +179,8 @@ final class PinCodeView: UIView {
             $0.alignment = .fill
         } layout: {
             $0.centerX.equalTo($1)
-            $0.width.equalTo(67 * 3 + 66)
+            $0.leading.equalTo($1).offset(54)
+            $0.trailing.equalTo($1).offset(-54)
             $0.top.equalTo(self.dotesStackView.snp.bottom).offset(60)
         }
     }
@@ -206,7 +206,7 @@ final class PinCodeView: UIView {
             }
         }
 
-    private func addcantEnterLabel() {
+    private func addEnterButton() {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.15
         paragraphStyle.alignment = .center
