@@ -75,7 +75,7 @@ final class PinCodeView: UIView {
     }
 
     @objc private func deleteButtonAction(sender: UIButton) {
-        if userCode.isEmpty == false {
+        if !userCode.isEmpty {
             userCode.removeLast()
         }
         for item in dotes {
@@ -132,7 +132,7 @@ final class PinCodeView: UIView {
     }
 
     private func createStackView(stackView: UIStackView) -> UIStackView {
-        stackView.axis = NSLayoutConstraint.Axis.horizontal
+        stackView.axis = .horizontal
         stackView.spacing = 33
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
@@ -174,11 +174,10 @@ final class PinCodeView: UIView {
 
     private func addUnionStack() {
         unionStackView.snap(parent: self) {
-            $0.axis = NSLayoutConstraint.Axis.vertical
+            $0.axis = .vertical
             $0.spacing = 25
             $0.distribution = .fillEqually
             $0.alignment = .fill
-            $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
             $0.centerX.equalTo($1)
             $0.width.equalTo(67 * 3 + 66)
