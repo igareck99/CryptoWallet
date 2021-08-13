@@ -21,10 +21,10 @@ final class PinCodeView: UIView {
     private lazy var auraImage = UIImageView()
     private lazy var passwordLabel = UILabel()
     private lazy var enterButton = UIButton()
-    private lazy var firstStackView = UIStackView(arrangedSubviews: [buttons[0], buttons[1], buttons[2]])
-    private lazy var twoStackView = UIStackView(arrangedSubviews: [buttons[3], buttons[4], buttons[5]])
-    private lazy var thirdStackView = UIStackView(arrangedSubviews: [buttons[6], buttons[7], buttons[8]])
-    private lazy var fourStackView = UIStackView(arrangedSubviews: [buttons[9], buttons[10], buttons[11]])
+    private lazy var firstStackView = UIStackView(arrangedSubviews: [buttons[1], buttons[2], buttons[3]])
+    private lazy var twoStackView = UIStackView(arrangedSubviews: [buttons[4], buttons[5], buttons[6]])
+    private lazy var thirdStackView = UIStackView(arrangedSubviews: [buttons[7], buttons[8], buttons[9]])
+    private lazy var fourStackView = UIStackView(arrangedSubviews: [buttons[10], buttons[0], buttons[11]])
     private lazy var dotes: [UIImageView] = []
     private lazy var dotesStackView = UIStackView()
     private lazy var unionStackView = UIStackView(arrangedSubviews: [
@@ -61,7 +61,8 @@ final class PinCodeView: UIView {
 
     @objc private func numberButtonAction(sender: UIButton) {
         if userCode.count < dotesNumber {
-            userCode.append(Int((sender.titleLabel?.text)!)!)
+            guard let index = buttons.firstIndex(of: sender) else { return }
+            userCode.append(index)
             for item in 0..<userCode.count {
                 dotes[item].background(.blue())
             }
@@ -90,12 +91,11 @@ final class PinCodeView: UIView {
     // MARK: - Private Methods
 
     private func createButtons() {
+        buttons.append(createButton(.number(0)))
         (1...9).forEach { number in
             buttons.append(createButton(.number(number)))
         }
-
         buttons.append(createButton(.faceId))
-        buttons.append(createButton(.number(0)))
         buttons.append(createButton(.delete))
     }
 
