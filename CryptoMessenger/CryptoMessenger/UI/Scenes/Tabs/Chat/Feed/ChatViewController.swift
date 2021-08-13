@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 // MARK: - ChatViewController
 
@@ -22,6 +23,7 @@ final class ChatViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        subscribeOnCustomViewActions()
         addLeftBarButtonItems()
         addRightBarButtonItems()
     }
@@ -80,13 +82,27 @@ final class ChatViewController: BaseViewController {
 
         navigationItem.rightBarButtonItems = [settings, write]
     }
+
+    private func subscribeOnCustomViewActions() {
+        customView.didTapNextScene = { [unowned self] message in
+            self.showChatRoomScene(userMessage: message)
+        }
+    }
+
+    private func showChatRoomScene(userMessage: Message) {
+        let chatRoomView = ChatRoomConfigurator.configuredView(userMessage: userMessage, delegate: nil)
+        let viewController = BaseHostingController(rootView: chatRoomView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - ChatViewController (UISearchResultsUpdating)
 
 extension ChatViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-
+        let text = searchController.searchBar.searchTextField.text ?? ""
+        customView.updateSearchResults(text)
     }
 }
 
