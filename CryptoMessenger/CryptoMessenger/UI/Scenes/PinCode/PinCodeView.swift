@@ -1,5 +1,5 @@
 import UIKit
-
+import LocalAuthentication
 // MARK: - PinCodeView
 
 final class PinCodeView: UIView {
@@ -28,11 +28,11 @@ final class PinCodeView: UIView {
     private lazy var dotes: [UIImageView] = []
     private lazy var dotesStackView = UIStackView()
     private lazy var unionStackView = UIStackView(arrangedSubviews: [
-                                                        createStackView(stackView: firstStackView),
-                                                        createStackView(stackView: twoStackView),
-                                                        createStackView(stackView: thirdStackView),
-                                                        createStackView(stackView: fourStackView)
-                                                    ])
+        createStackView(stackView: firstStackView),
+        createStackView(stackView: twoStackView),
+        createStackView(stackView: thirdStackView),
+        createStackView(stackView: fourStackView)
+    ])
     private var buttonTypes: [ButtonType] = []
     private var buttons: [UIButton] = []
     private var userCode: [Int] = []
@@ -88,6 +88,35 @@ final class PinCodeView: UIView {
         }
     }
 
+    @objc private func useBiometrics(sender: UIButton) {
+        let myContext = LAContext()
+        let myLocalizedReasonString = " "
+        var authError: NSError?
+        if #available(iOS 8.0, macOS 10.12.1, *) {
+            if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+                myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
+                                         localizedReason: myLocalizedReasonString) { success, evaluateError in
+                    DispatchQueue.main.async {
+                        if success {
+                            // User authenticated successfully, take appropriate action
+                            print("Awesome!!... User authenticated successfully")
+                            print(evaluateError)
+                        } else {
+                            // User did not authenticate successfully, look at error and take appropriate action
+                            print("Sorry!!... User did not authenticate successfully")
+                        }
+                    }
+                }
+            } else {
+                // Could not evaluate policy; look at authError and present an appropriate message to user
+                print("Sorry!!.. Could not evaluate policy.")
+            }
+        } else {
+            // Fallback on earlier versions
+                print("Ooops!!.. This feature is not supported.")
+        }
+    }
+
     // MARK: - Private Methods
 
     private func createButtons() {
@@ -124,6 +153,7 @@ final class PinCodeView: UIView {
             button.addTarget(self, action: #selector(numberButtonAction), for: .touchUpInside)
         case .faceId:
             button.setImage(R.image.pinCode.faceId(), for: .normal)
+            button.addTarget(self, action: #selector(useBiometrics), for: .touchUpInside)
         case .delete:
             button.setImage(R.image.pinCode.delete(), for: .normal)
             button.addTarget(self, action: #selector(deleteButtonAction), for: .touchUpInside)
@@ -196,15 +226,15 @@ final class PinCodeView: UIView {
             dotes.append(view)
             dotesStackView.addArrangedSubview(view)
         }
-            dotesStackView.snap(parent: self) {
-                $0.alignment = .fill
-                $0.axis = .horizontal
-                $0.spacing = 16
-            } layout: {
-                $0.top.equalTo(self.passwordLabel.snp.bottom).offset(32)
-                $0.centerX.equalTo($1)
-            }
+        dotesStackView.snap(parent: self) {
+            $0.alignment = .fill
+            $0.axis = .horizontal
+            $0.spacing = 16
+        } layout: {
+            $0.top.equalTo(self.passwordLabel.snp.bottom).offset(32)
+            $0.centerX.equalTo($1)
         }
+    }
 
     private func addEnterButton() {
         let paragraphStyle = NSMutableParagraphStyle()
@@ -226,3 +256,4 @@ final class PinCodeView: UIView {
         }
     }
 }
+
