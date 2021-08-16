@@ -98,21 +98,18 @@ final class PinCodeView: UIView {
                                          localizedReason: myLocalizedReasonString) { success, evaluateError in
                     DispatchQueue.main.async {
                         if success {
-                            // User authenticated successfully, take appropriate action
                             print("Awesome!!... User authenticated successfully")
+                            print(myContext.biometryType.rawValue)
                             print(evaluateError)
                         } else {
-                            // User did not authenticate successfully, look at error and take appropriate action
                             print("Sorry!!... User did not authenticate successfully")
                         }
                     }
                 }
             } else {
-                // Could not evaluate policy; look at authError and present an appropriate message to user
                 print("Sorry!!.. Could not evaluate policy.")
             }
         } else {
-            // Fallback on earlier versions
                 print("Ooops!!.. This feature is not supported.")
         }
     }
@@ -152,8 +149,23 @@ final class PinCodeView: UIView {
             button.background(.paleBlue())
             button.addTarget(self, action: #selector(numberButtonAction), for: .touchUpInside)
         case .faceId:
-            button.setImage(R.image.pinCode.faceId(), for: .normal)
-            button.addTarget(self, action: #selector(useBiometrics), for: .touchUpInside)
+            let myContext = LAContext()
+            var authError: NSError?
+            if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+                if myContext.biometryType.rawValue == 1 {
+                    button.setImage(R.image.pinCode.touchId(), for: .normal)
+                    button.addTarget(self, action: #selector(useBiometrics), for: .touchUpInside)
+                    return button
+                }
+                if myContext.biometryType.rawValue == 2 {
+                    button.setImage(R.image.pinCode.faceId(), for: .normal)
+                    button.addTarget(self, action: #selector(useBiometrics), for: .touchUpInside)
+                    return button
+                } else {
+                    return button
+                }
+
+            }
         case .delete:
             button.setImage(R.image.pinCode.delete(), for: .normal)
             button.addTarget(self, action: #selector(deleteButtonAction), for: .touchUpInside)
