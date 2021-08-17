@@ -30,67 +30,27 @@ struct ChatRoomView: View {
             VStack {
                 headerView
 
-                ScrollViewReader { reader in
-                    ScrollView {
+                ScrollViewReader { scrollView in
+                    ScrollView(.vertical, showsIndicators: false) {
                         VStack {
                             ForEach(viewModel.messages) { message in
-                                switch message.type {
-                                case let .text(text):
-                                    HStack {
-                                        if message.isCurrentUser {
-                                            Spacer()
-                                        }
-
-                                        ChatBubble(direction: message.isCurrentUser ? .right : .left) {
-                                            HStack {
-                                                Text(text)
-                                                    .lineLimit(nil)
-
-                                                VStack {
-                                                    Spacer()
-
-                                                    Text(message.date)
-                                                        .frame(height: 10)
-                                                        .font(.light(12))
-                                                        .foreground(.black(0.5))
-                                                        .padding(.bottom, -3)
-                                                }
-
-                                                if message.isCurrentUser {
-                                                    VStack {
-                                                        Spacer()
-
-                                                        Image(R.image.chat.readCheck.name)
-                                                            .resizable()
-                                                            .frame(width: 13.5, height: 10, alignment: .center)
-                                                            .padding(.bottom, -3)
-                                                    }
-
-                                                }
-                                            }
-                                            .modifier(BubbleModifier(isCurrentUser: message.isCurrentUser))
-                                        }
-                                        .padding(
-                                            .top,
-                                            message.isCurrentUser == viewModel.previous(message)?.isCurrentUser ? 12 : 28
-                                        )
-                                        .padding(message.isCurrentUser ? .leading : .trailing, 8)
-                                        .onAppear {
-                                            if message.id == self.viewModel.messages.last?.id && !scrolled {
-                                                reader.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
-                                                scrolled = true
-                                            }
-                                        }.onChange(of: viewModel.messages) { _ in
-                                            reader.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
-                                        }
-
-                                        if !message.isCurrentUser {
-                                            Spacer()
-                                        }
-                                    }
-                                default:
-                                    EmptyView()
+                                ChatRoomRow(
+                                    message: message,
+                                    isCurrentUser: viewModel.previous(message)?.isCurrentUser
+                                )
+                            }
+                            .onChange(of: viewModel.messages) { _ in
+                                withAnimation {
+                                    scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
                                 }
+                            }
+                            .onChange(of: viewModel.keyboardHeight) { _ in
+                                withAnimation {
+                                    scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
+                                }
+                            }
+                            .onAppear {
+                                scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
                             }
                         }
                     }
@@ -207,9 +167,10 @@ struct ChatRoomView: View {
 
             Spacer()
         }
-        .frame(height: viewModel.keyboardHeight > 0 ? viewModel.keyboardHeight + 52 : 80)
+        .frame(height: viewModel.keyboardHeight > 0 ? 52 : 80)
         .background(.white())
         .edgesIgnoringSafeArea(.all)
+        .padding(.bottom, viewModel.keyboardHeight)
         .animation(.default)
     }
 }

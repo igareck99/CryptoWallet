@@ -117,6 +117,31 @@ private var sortedMessages: [RoomMessage] = [
         isCurrentUser: false
     ),
     .init(
+        type: .text("Привет, трудяга!:)"),
+        date: "00:30",
+        isCurrentUser: false
+    ),
+    .init(
+        type: .text("Хей, коллега👋🏼"),
+        date: "00:31",
+        isCurrentUser: true
+    ),
+    .init(
+        type: .text("Ты опять по ночам не спишь? Пилишь проект AURA?)"),
+        date: "00:31",
+        isCurrentUser: false
+    ),
+    .init(
+        type: .text("Ну, да! Классный проект!☺️"),
+        date: "00:31",
+        isCurrentUser: true
+    ),
+    .init(
+        type: .text("Okе, но ты там долго не сиди. Завтра демо:)"),
+        date: "00:32",
+        isCurrentUser: false
+    ),
+    .init(
         type: .text("До завтра"),
         date: "00:32",
         isCurrentUser: true
