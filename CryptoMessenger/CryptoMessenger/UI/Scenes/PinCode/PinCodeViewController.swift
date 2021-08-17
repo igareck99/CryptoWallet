@@ -1,9 +1,9 @@
+import LocalAuthentication
 import UIKit
 
 // MARK: - PinCodeViewController
 
 final class PinCodeViewController: BaseViewController {
-
     // MARK: - Internal Properties
 
     var presenter: PinCodePresentation!
@@ -11,6 +11,13 @@ final class PinCodeViewController: BaseViewController {
     // MARK: - Private Properties
 
     private lazy var customView = PinCodeView(frame: UIScreen.main.bounds)
+    private var localAuth: LocalAuthentication?
+
+    private func subscribeOnCustomViewActions() {
+        customView.didTapAddPhoto = { [unowned self] in
+            self.localAuth?.useBiometrics()
+        }
+    }
 
     // MARK: - Lifecycle
 
@@ -20,6 +27,7 @@ final class PinCodeViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        subscribeOnCustomViewActions()
     }
 
 }

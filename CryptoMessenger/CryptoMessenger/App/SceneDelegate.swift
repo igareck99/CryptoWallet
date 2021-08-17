@@ -20,4 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             _ = $0.scene?(scene, willConnectTo: session, options: connectionOptions)
         }
     }
+
+    func sceneDidEnterBackground(_ scene: UIScene) {
+        print("sceneDidEnterBackground")
+        print(UIApplication.shared.applicationState.rawValue)
+    }
 }

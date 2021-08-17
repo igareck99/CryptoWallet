@@ -1,5 +1,6 @@
-import UIKit
 import LocalAuthentication
+import UIKit
+
 // MARK: - PinCodeView
 
 final class PinCodeView: UIView {
@@ -14,7 +15,7 @@ final class PinCodeView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTap: (() -> Void)?
+    var didTapAddPhoto: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -89,29 +90,8 @@ final class PinCodeView: UIView {
         }
     }
 
-    @objc private func useBiometrics(sender: UIButton) {
-        let myContext = LAContext()
-        let myLocalizedReasonString = " "
-        var authError: NSError?
-        if #available(iOS 8.0, macOS 10.12.1, *) {
-            if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-                myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
-                                         localizedReason: myLocalizedReasonString) { success, evaluateError in
-                    DispatchQueue.main.async {
-                        if success {
-                            print("Awesome!!... User authenticated successfully")
-                            print(evaluateError)
-                        } else {
-                            print("Sorry!!... User did not authenticate successfully")
-                        }
-                    }
-                }
-            } else {
-                print("Sorry!!.. Could not evaluate policy.")
-            }
-        } else {
-                print("Ooops!!.. This feature is not supported.")
-        }
+    @objc private func addPhotoButtonTap() {
+        didTapAddPhoto?()
     }
 
     // MARK: - Private Methods
@@ -154,12 +134,15 @@ final class PinCodeView: UIView {
             if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
                 if myContext.biometryType.rawValue == 1 {
                     button.setImage(R.image.pinCode.touchId(), for: .normal)
-                    button.addTarget(self, action: #selector(useBiometrics), for: .touchUpInside)
+                    button.addTarget(self, action: #selector(self.addPhotoButtonTap), for: .touchUpInside)
                     return button
                 }
                 if myContext.biometryType.rawValue == 2 {
+                    print("SI")
                     button.setImage(R.image.pinCode.faceId(), for: .normal)
-                    button.addTarget(self, action: #selector(useBiometrics), for: .touchUpInside)
+                    print("ASDF")
+                    button.addTarget(self, action: #selector(self.addPhotoButtonTap), for: .touchUpInside)
+                    print("FDSA")
                     return button
                 } else {
                     return button
