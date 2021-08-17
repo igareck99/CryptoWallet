@@ -71,6 +71,7 @@ final class PinCodeView: UIView {
             for x in 0..<userCode.count where userCode[x] != rightCode[x] {
                 for item in 0..<userCode.count {
                     dotes[item].background(.red())
+                    vibrate()
                 }
             }
         }
@@ -99,7 +100,6 @@ final class PinCodeView: UIView {
                     DispatchQueue.main.async {
                         if success {
                             print("Awesome!!... User authenticated successfully")
-                            print(myContext.biometryType.rawValue)
                             print(evaluateError)
                         } else {
                             print("Sorry!!... User did not authenticate successfully")
@@ -269,3 +269,16 @@ final class PinCodeView: UIView {
     }
 }
 
+extension DispatchQueue {
+    static func background(delay: Double = 0.0, background: (() -> Void)? = nil, completion: (() -> Void)? = nil) {
+        DispatchQueue.global(qos: .background).async {
+            background?()
+            if let completion = completion {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
+                    completion()
+                })
+            }
+        }
+    }
+
+}

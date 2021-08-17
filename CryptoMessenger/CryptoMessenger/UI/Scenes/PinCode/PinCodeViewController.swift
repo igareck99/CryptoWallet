@@ -20,7 +20,6 @@ final class PinCodeViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 
 }
