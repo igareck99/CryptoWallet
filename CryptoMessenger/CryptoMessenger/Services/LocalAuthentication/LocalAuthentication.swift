@@ -3,37 +3,51 @@ import LocalAuthentication
 import UIKit
 
 protocol LocalAuthenticationDelegate: AnyObject {
-    func didFinish()
+    func didAuthenticate(_ success: Bool)
 }
 
+// MARK: - LocalAuthentication
+
 final class LocalAuthentication {
+
+    // MARK: - Type
+
+    typealias AvailableBiometrics = (name: String, image: UIImage?)
+
+    // MARK: - Internal Properties
+
     weak var delegate: LocalAuthenticationDelegate?
 
-    // MARK: - Internal Methods
-    func useBiometrics() {
-        print("Func was called")
-        let myContext = LAContext()
-        let myLocalizedReasonString = " "
-        var authError: NSError?
-        if #available(iOS 8.0, macOS 10.12.1, *) {
-            if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-                myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
-                                         localizedReason: myLocalizedReasonString) { success, evaluateError in
-                    DispatchQueue.main.async {
-                        if success {
-                            print("Awesome!!... User authenticated successfully")
-                            print(evaluateError ?? " ")
-                        } else {
-                            print("Sorry!!... User did not authenticate successfully")
-                        }
-                    }
-                }
-            } else {
-                print("Sorry!!.. Could not evaluate policy.")
-            }
-        } else {
-            print("Ooops!!.. This feature is not supported.")
-        }
+    // MARK: - Private Properties
 
+    private var authError: NSError?
+    private let context = LAContext()
+    private let reason = "Authentication is required to continue"
+
+    init() {
+        context.localizedFallbackTitle = "Please use your pin-code"
+    }
+
+    // MARK: - Internal Methods
+
+    func getAvailableBiometrics() -> AvailableBiometrics? {
+        switch context.biometryType {
+        case .faceID:
+            return (name: "Face ID", image: R.image.pinCode.faceId())
+        case .touchID:
+            return (name: "TouchID", image: R.image.pinCode.touchId())
+        default:
+            return nil
+        }
+    }
+
+    func authenticateWithBiometrics() {
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) else { return }
+
+        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
+            DispatchQueue.main.async {
+                self.delegate?.didAuthenticate(success)
+            }
+        }
     }
 }

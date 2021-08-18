@@ -4,6 +4,7 @@ import UIKit
 // MARK: - PinCodeViewController
 
 final class PinCodeViewController: BaseViewController, LocalAuthenticationDelegate {
+
     // MARK: - Internal Properties
 
     var presenter: PinCodePresentation!
@@ -19,7 +20,7 @@ final class PinCodeViewController: BaseViewController, LocalAuthenticationDelega
 
     private func subscribeOnCustomViewActions() {
         customView.didTapAddPhoto = { [unowned self] in
-            self.localAuth?.useBiometrics()
+            self.localAuth?.authenticateWithBiometrics()
         }
     }
 
@@ -35,10 +36,9 @@ final class PinCodeViewController: BaseViewController, LocalAuthenticationDelega
         subscribeOnCustomViewActions()
     }
 
-    func didFinish() {
+    func didAuthenticate(_ success: Bool) {
         customView.NextPage()
     }
-
 }
 
 // MARK: - PinCodeViewInterface
