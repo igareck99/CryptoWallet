@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - PinCodeViewController
 
-final class PinCodeViewController: BaseViewController {
+final class PinCodeViewController: BaseViewController, LocalAuthenticationDelegate {
 
     // MARK: - Internal Properties
 
@@ -13,20 +13,6 @@ final class PinCodeViewController: BaseViewController {
 
     private lazy var customView = PinCodeView(frame: UIScreen.main.bounds)
     private var localAuth = LocalAuthentication()
-
-    // MARK: - Lifecycle
-
-    override func loadView() {
-        view = customView
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupLocalAuth()
-        subscribeOnCustomViewActions()
-    }
-
-    // MARK: - Private Methods
 
     private func setupLocalAuth() {
         localAuth.delegate = self
@@ -38,11 +24,19 @@ final class PinCodeViewController: BaseViewController {
         }
     }
 
-}
+    // MARK: - Lifecycle
 
-// MARK: - LocalAuthenticationDelegate
+    override func loadView() {
+        view = customView
+    }
 
-extension PinCodeViewController: LocalAuthenticationDelegate {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupLocalAuth()
+        subscribeOnCustomViewActions()
+        presenter.checkLocalAuth()
+    }
+
     func didAuthenticate(_ success: Bool) {
         switch success {
         case true:
@@ -51,12 +45,16 @@ extension PinCodeViewController: LocalAuthenticationDelegate {
             break
         }
     }
-
 }
 
 // MARK: - PinCodeViewInterface
 
 extension PinCodeViewController: PinCodeViewInterface {
+    func setLocalAuth() {
+        customView.authState.name = presenter.checkLocalAuth().name
+        customView.authState.image = presenter.checkLocalAuth().image
+    }
+
     func showAlert(title: String?, message: String?) {
         presentAlert(title: title, message: message)
     }

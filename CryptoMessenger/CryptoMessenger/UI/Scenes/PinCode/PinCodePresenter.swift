@@ -1,5 +1,5 @@
 import Foundation
-
+import UIKit
 // MARK: - PinCodePresenter
 
 final class PinCodePresenter {
@@ -8,6 +8,7 @@ final class PinCodePresenter {
 
     weak var delegate: PinCodeSceneDelegate?
     weak var view: PinCodeViewInterface?
+    var localAuth = LocalAuthentication()
 
     private var state = PinCodeFlow.ViewState.sending {
         didSet {
@@ -38,6 +39,13 @@ final class PinCodePresenter {
 // MARK: - PinCodePresenter (PinCodePresentation)
 
 extension PinCodePresenter: PinCodePresentation {
+    func checkLocalAuth() -> AuthState {
+        var authstate = AuthState()
+        authstate.name = localAuth.getAvailableBiometrics()?.name
+        authstate.image = localAuth.getAvailableBiometrics()?.image
+        return authstate
+    }
+
     func handleButtonTap() {
 
     }

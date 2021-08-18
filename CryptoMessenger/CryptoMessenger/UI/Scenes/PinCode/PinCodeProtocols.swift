@@ -10,10 +10,12 @@ protocol PinCodeSceneDelegate: AnyObject {
 
 protocol PinCodeViewInterface: AnyObject {
     func showAlert(title: String?, message: String?)
+    func setLocalAuth()
 }
 
 // MARK: - PinCodePresentation
 
 protocol PinCodePresentation: AnyObject {
     func handleButtonTap()
+    func checkLocalAuth() -> AuthState
 }
