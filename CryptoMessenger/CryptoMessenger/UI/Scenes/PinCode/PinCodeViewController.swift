@@ -12,15 +12,15 @@ final class PinCodeViewController: BaseViewController, LocalAuthenticationDelega
     // MARK: - Private Properties
 
     private lazy var customView = PinCodeView(frame: UIScreen.main.bounds)
-    private var localAuth: LocalAuthentication?
+    private var localAuth = LocalAuthentication()
 
     private func setupLocalAuth() {
-        localAuth?.delegate = self
+        localAuth.delegate = self
     }
 
     private func subscribeOnCustomViewActions() {
         customView.didTapAddPhoto = { [unowned self] in
-            self.localAuth?.authenticateWithBiometrics()
+            self.localAuth.authenticateWithBiometrics()
         }
     }
 
@@ -37,7 +37,12 @@ final class PinCodeViewController: BaseViewController, LocalAuthenticationDelega
     }
 
     func didAuthenticate(_ success: Bool) {
-        customView.NextPage()
+        switch success {
+        case true:
+            customView.NextPage()
+        default:
+            break
+        }
     }
 }
 
