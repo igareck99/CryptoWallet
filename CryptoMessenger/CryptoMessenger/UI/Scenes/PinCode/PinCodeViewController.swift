@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - PinCodeViewController
 
-final class PinCodeViewController: BaseViewController {
+final class PinCodeViewController: BaseViewController, LocalAuthenticationDelegate {
     // MARK: - Internal Properties
 
     var presenter: PinCodePresentation!
@@ -12,6 +12,10 @@ final class PinCodeViewController: BaseViewController {
 
     private lazy var customView = PinCodeView(frame: UIScreen.main.bounds)
     private var localAuth: LocalAuthentication?
+
+    private func setupLocalAuth() {
+        localAuth?.delegate = self
+    }
 
     private func subscribeOnCustomViewActions() {
         customView.didTapAddPhoto = { [unowned self] in
@@ -27,7 +31,12 @@ final class PinCodeViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupLocalAuth()
         subscribeOnCustomViewActions()
+    }
+
+    func didFinish() {
+        customView.NextPage()
     }
 
 }

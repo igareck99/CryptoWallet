@@ -3,12 +3,13 @@ import LocalAuthentication
 import UIKit
 
 protocol LocalAuthenticationDelegate: AnyObject {
-    func useBiometrics()
+    func didFinish()
 }
 
 final class LocalAuthentication {
     weak var delegate: LocalAuthenticationDelegate?
-    
+
+    // MARK: - Internal Methods
     func useBiometrics() {
         print("Func was called")
         let myContext = LAContext()

@@ -58,6 +58,11 @@ final class PinCodeView: UIView {
         fatalError("not implemented")
     }
 
+    // MARK: - Internal Methods
+    func NextPage() {
+        print("Переходим на следующую страницу")
+    }
+
     // MARK: - Actions
 
     @objc private func numberButtonAction(sender: UIButton) {
@@ -138,11 +143,8 @@ final class PinCodeView: UIView {
                     return button
                 }
                 if myContext.biometryType.rawValue == 2 {
-                    print("SI")
                     button.setImage(R.image.pinCode.faceId(), for: .normal)
-                    print("ASDF")
                     button.addTarget(self, action: #selector(self.addPhotoButtonTap), for: .touchUpInside)
-                    print("FDSA")
                     return button
                 } else {
                     return button
