@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - PinCodeViewController
 
-final class PinCodeViewController: BaseViewController, LocalAuthenticationDelegate {
+final class PinCodeViewController: BaseViewController {
 
     // MARK: - Internal Properties
 
@@ -13,16 +13,6 @@ final class PinCodeViewController: BaseViewController, LocalAuthenticationDelega
 
     private lazy var customView = PinCodeView(frame: UIScreen.main.bounds)
     private var localAuth = LocalAuthentication()
-
-    private func setupLocalAuth() {
-        localAuth.delegate = self
-    }
-
-    private func subscribeOnCustomViewActions() {
-        customView.didTapAddPhoto = { [unowned self] in
-            self.localAuth.authenticateWithBiometrics()
-        }
-    }
 
     // MARK: - Lifecycle
 
@@ -36,14 +26,32 @@ final class PinCodeViewController: BaseViewController, LocalAuthenticationDelega
         subscribeOnCustomViewActions()
     }
 
+    // MARK: - Private Methods
+
+    private func setupLocalAuth() {
+        localAuth.delegate = self
+    }
+
+    private func subscribeOnCustomViewActions() {
+        customView.didTapAddPhoto = { [unowned self] in
+            self.localAuth.authenticateWithBiometrics()
+        }
+    }
+
+}
+
+// MARK: - LocalAuthenticationDelegate
+
+extension PinCodeViewController: LocalAuthenticationDelegate {
     func didAuthenticate(_ success: Bool) {
         switch success {
         case true:
-            customView.NextPage()
+            customView.nextPage()
         default:
             break
         }
     }
+
 }
 
 // MARK: - PinCodeViewInterface

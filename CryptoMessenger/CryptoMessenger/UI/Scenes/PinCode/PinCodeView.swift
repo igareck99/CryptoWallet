@@ -59,7 +59,10 @@ final class PinCodeView: UIView {
     }
 
     // MARK: - Internal Methods
-    func NextPage() {
+    func nextPage() {
+        for item in 0..<dotesNumber {
+            dotes[item].background(.blue())
+        }
         print("Переходим на следующую страницу")
     }
 
@@ -112,15 +115,12 @@ final class PinCodeView: UIView {
 
     private func createButton(_ type: ButtonType) -> UIButton {
         buttonTypes.append(type)
-
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 0.98
         paragraphStyle.alignment = .center
-
         let button = UIButton()
         button.snp.makeConstraints { $0.width.height.equalTo(67) }
         button.clipCorners(radius: 33.5)
-
         switch type {
         case let .number(value):
             button.titleAttributes(
@@ -181,7 +181,6 @@ final class PinCodeView: UIView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.15
         paragraphStyle.alignment = .center
-
         passwordLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.pinCodePassword(),
@@ -252,18 +251,4 @@ final class PinCodeView: UIView {
             $0.bottom.equalTo(self.unionStackView.snp.bottom).offset(80)
         }
     }
-}
-
-extension DispatchQueue {
-    static func background(delay: Double = 0.0, background: (() -> Void)? = nil, completion: (() -> Void)? = nil) {
-        DispatchQueue.global(qos: .background).async {
-            background?()
-            if let completion = completion {
-                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
-                    completion()
-                })
-            }
-        }
-    }
-
 }
