@@ -36,18 +36,16 @@ final class PinCodeViewController: BaseViewController {
         subscribeOnCustomViewActions()
         presenter.checkLocalAuth()
     }
-
-    func didAuthenticate(_ success: Bool) {
-        if success == true {
-            customView.nextPage()
-        }
-    }
 }
 
 // MARK: - LocalAuthenticationDelegate
 
 extension PinCodeViewController: LocalAuthenticationDelegate {
-
+    func didAuthenticate(_ success: Bool) {
+        if success {
+            customView.nextPage()
+        }
+    }
 }
 
 // MARK: - PinCodeViewInterface
