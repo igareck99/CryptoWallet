@@ -170,7 +170,7 @@ final class RegistrationView: UIView {
 
     private func addCountryView() {
         countryView.snap(parent: self) {
-            $0.background(.tintBlue())
+            $0.background(.paleBlue())
             $0.clipCorners(radius: 8)
         } layout: {
             $0.top.equalTo(self.descriptionLabel.snp.bottom).offset(50)
@@ -213,7 +213,7 @@ final class RegistrationView: UIView {
 
     private func addPhoneView() {
         phoneView.snap(parent: self) {
-            $0.background(.tintBlue())
+            $0.background(.paleBlue())
             $0.clipCorners(radius: 8)
         } layout: {
             $0.top.equalTo(self.countryView.snp.bottom).offset(32)

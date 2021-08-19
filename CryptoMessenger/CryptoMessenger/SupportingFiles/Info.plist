@@ -2,26 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App requires to access your photo library to show image in profile</string>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>Environment</key>
-	<string>dev</string>
 	<key>Base URL</key>
 	<string>https://matrix.aura.ms</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Rubik-Light.ttf</string>
-		<string>Rubik-Regular.ttf</string>
-		<string>Rubik-Medium.ttf</string>
-		<string>Rubik-Bold.ttf</string>
-	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>App requires to access your camera to pick photos for profile feed</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -37,11 +19,32 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>Environment</key>
+	<string>dev</string>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>Environment</key>
 	<string>dev</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>App requires to access your camera to pick photos for profile feed</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App requires to access your photo library to show image in profile</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Rubik-Light.ttf</string>
+		<string>Rubik-Regular.ttf</string>
+		<string>Rubik-Medium.ttf</string>
+		<string>Rubik-Bold.ttf</string>
+	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

@@ -52,3 +52,7 @@
 "Profile.Add" = "Добавить фото / видео";
 "Profile.Title" = "ИКЕА Россия";
 "Profile.Mobile" = "8 (925) 851-39-11";
+
+
+"PinCode.password" = "Введите пароль";
+"PinCode.enter" = "Не можете войти?";

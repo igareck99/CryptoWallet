@@ -33,7 +33,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.onboarding)
+        handleNextScene(.pinCode)
     }
 
     // MARK: - Private Methods
@@ -70,6 +70,11 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.viewControllers.last?.present(nvc, animated: true)
     }
 
+    private func showPinCodeScene() {
+        let viewController = PinCodeConfigurator.configuredViewController(delegate: self)
+        setViewWith(viewController)
+    }
+
     // MARK: - Scene
 
     enum Scene {
@@ -80,6 +85,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case keyImport
         case main
         case countryCode(CountryCodePickerDelegate)
+        case pinCode
     }
 }
 
@@ -102,6 +108,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showKeyImportScene()
         case .main:
             switchFlow()
+        case .pinCode:
+            showPinCodeScene()
         }
     }
 
@@ -129,3 +137,7 @@ extension AuthFlowCoordinator: OnboardingSceneDelegate {}
 // MARK: - AuthFlowCoordinator (KeyImportSceneDelegate)
 
 extension AuthFlowCoordinator: KeyImportSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (PinCodeSceneDelegate)
+
+extension AuthFlowCoordinator: PinCodeSceneDelegate {}
