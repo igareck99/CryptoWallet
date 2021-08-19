@@ -40,8 +40,6 @@ final class PinCodeView: UIView {
     private var rightCode: [Int] = [1, 2, 3, 4, 5]
     private let dotesNumber = 5
 
-    typealias AvailableBiometrics = (name: String, image: UIImage?)
-
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
@@ -63,11 +61,13 @@ final class PinCodeView: UIView {
     // MARK: - Internal Methods
 
     func setLocalAuth (_ result: AvailableBiometrics? ) {
-        let name = result?.name ?? ""
-        let image = result?.image ?? R.image.pinCode.backgroundbutton()!
-        if name == "Face ID" || name == "TouchID" {
-            buttons[10].setImage(image, for: .normal)
-            buttons[10].addTarget(self, action: #selector(self.AuthButtonTap), for: .touchUpInside)
+        if result != nil {
+            let name = result?.name
+            let image = result?.image
+            if name == "Face ID" || name == "TouchID" {
+                buttons[10].setImage(image, for: .normal)
+                buttons[10].addTarget(self, action: #selector(self.AuthButtonTap), for: .touchUpInside)
+            }
         }
     }
 
