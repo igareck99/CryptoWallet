@@ -38,7 +38,7 @@ final class PinCodeViewController: BaseViewController {
     }
 }
 
-// MARK: - LocalAuthenticationDelegate
+// MARK: - PinCodeViewController (LocalAuthenticationDelegate)
 
 extension PinCodeViewController: LocalAuthenticationDelegate {
     func didAuthenticate(_ success: Bool) {
