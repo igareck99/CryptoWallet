@@ -19,7 +19,7 @@ final class PinCodeViewController: BaseViewController, LocalAuthenticationDelega
     }
 
     private func subscribeOnCustomViewActions() {
-        customView.didTapAddPhoto = { [unowned self] in
+        customView.didTapAuth = { [unowned self] in
             self.localAuth.authenticateWithBiometrics()
         }
     }

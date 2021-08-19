@@ -15,7 +15,7 @@ final class PinCodeView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTapAddPhoto: VoidBlock?
+    var didTapAuth: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -40,6 +40,8 @@ final class PinCodeView: UIView {
     private var rightCode: [Int] = [1, 2, 3, 4, 5]
     private let dotesNumber = 5
 
+    typealias AvailableBiometrics = (name: String, image: UIImage?)
+
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
@@ -60,8 +62,13 @@ final class PinCodeView: UIView {
 
     // MARK: - Internal Methods
 
-    func setLocalAuth(_ result: AvailableBiometrics?) {
-        print(result)
+    func setLocalAuth (_ result: AvailableBiometrics? ) {
+        let name = result?.name ?? ""
+        let image = result?.image ?? R.image.pinCode.backgroundbutton()!
+        if name == "Face ID" || name == "TouchID" {
+            buttons[10].setImage(image, for: .normal)
+            buttons[10].addTarget(self, action: #selector(self.AuthButtonTap), for: .touchUpInside)
+        }
     }
 
     func nextPage() {
@@ -103,8 +110,8 @@ final class PinCodeView: UIView {
         }
     }
 
-    @objc private func addPhotoButtonTap() {
-        didTapAddPhoto?()
+    @objc private func AuthButtonTap() {
+        didTapAuth?()
     }
 
     // MARK: - Private Methods
@@ -118,7 +125,8 @@ final class PinCodeView: UIView {
         buttons.append(createButton(.delete))
     }
 
-    private func createButton(_ type: ButtonType) -> UIButton {
+    private func createButton(_ type: ButtonType, name: String = "",
+                              image: UIImage = R.image.pinCode.backgroundbutton()!) -> UIButton {
         buttonTypes.append(type)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 0.98
@@ -139,15 +147,6 @@ final class PinCodeView: UIView {
             button.background(.paleBlue())
             button.addTarget(self, action: #selector(numberButtonAction), for: .touchUpInside)
         case .faceId:
-//            if authState.name == "Face ID" || authState.name == "TouchID" {
-//                button.setImage(authState.image, for: .normal)
-//                button.addTarget(self, action: #selector(self.addPhotoButtonTap), for: .touchUpInside)
-//                return button
-//
-//            } else {
-//                return button
-//            }
-
             return button
         case .delete:
             button.setImage(R.image.pinCode.delete(), for: .normal)
