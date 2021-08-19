@@ -50,9 +50,8 @@ final class PinCodeViewController: BaseViewController, LocalAuthenticationDelega
 // MARK: - PinCodeViewInterface
 
 extension PinCodeViewController: PinCodeViewInterface {
-    func setLocalAuth() {
-        customView.authState.name = presenter.checkLocalAuth().name
-        customView.authState.image = presenter.checkLocalAuth().image
+    func setLocalAuth(_ result: AvailableBiometrics?) {
+        customView.setLocalAuth(result)
     }
 
     func showAlert(title: String?, message: String?) {

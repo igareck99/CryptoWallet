@@ -6,13 +6,13 @@ protocol LocalAuthenticationDelegate: AnyObject {
     func didAuthenticate(_ success: Bool)
 }
 
+// MARK: - Type
+
+typealias AvailableBiometrics = (name: String, image: UIImage?)
+
 // MARK: - LocalAuthentication
 
 final class LocalAuthentication {
-
-    // MARK: - Type
-
-    typealias AvailableBiometrics = (name: String, image: UIImage?)
 
     // MARK: - Internal Properties
 
@@ -31,6 +31,8 @@ final class LocalAuthentication {
     // MARK: - Internal Methods
 
     func getAvailableBiometrics() -> AvailableBiometrics? {
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) else { return nil }
+
         switch context.biometryType {
         case .faceID:
             return (name: "Face ID", image: R.image.pinCode.faceId())
