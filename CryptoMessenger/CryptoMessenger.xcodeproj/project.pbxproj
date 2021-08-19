@@ -190,6 +190,12 @@
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
 		7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7896226B26B992AD00033B3B /* ProfileCell.swift */; };
+		789B123126CE8906002FCDDF /* CallListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122B26CE8906002FCDDF /* CallListPresenter.swift */; };
+		789B123226CE8906002FCDDF /* CallListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122C26CE8906002FCDDF /* CallListViewController.swift */; };
+		789B123326CE8906002FCDDF /* CallListProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122D26CE8906002FCDDF /* CallListProtocols.swift */; };
+		789B123426CE8906002FCDDF /* CallListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122E26CE8906002FCDDF /* CallListView.swift */; };
+		789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122F26CE8906002FCDDF /* CallListConfigurator.swift */; };
+		789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B123026CE8906002FCDDF /* CallListFlow.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -380,6 +386,12 @@
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
 		7896226B26B992AD00033B3B /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		789B122B26CE8906002FCDDF /* CallListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListPresenter.swift; sourceTree = "<group>"; };
+		789B122C26CE8906002FCDDF /* CallListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListViewController.swift; sourceTree = "<group>"; };
+		789B122D26CE8906002FCDDF /* CallListProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListProtocols.swift; sourceTree = "<group>"; };
+		789B122E26CE8906002FCDDF /* CallListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListView.swift; sourceTree = "<group>"; };
+		789B122F26CE8906002FCDDF /* CallListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListConfigurator.swift; sourceTree = "<group>"; };
+		789B123026CE8906002FCDDF /* CallListFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListFlow.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -513,6 +525,7 @@
 		5A187DF82680708D001957D3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				789B122A26CE889D002FCDDF /* CallList */,
 				5A187EC326807220001957D3 /* Onboarding */,
 				5A879F5326A5C25E002407F9 /* Registration */,
 				5AF8632E26AA9906004A417C /* Verification */,
@@ -1061,6 +1074,19 @@
 			path = KeyImport;
 			sourceTree = "<group>";
 		};
+		789B122A26CE889D002FCDDF /* CallList */ = {
+			isa = PBXGroup;
+			children = (
+				789B122B26CE8906002FCDDF /* CallListPresenter.swift */,
+				789B122C26CE8906002FCDDF /* CallListViewController.swift */,
+				789B122D26CE8906002FCDDF /* CallListProtocols.swift */,
+				789B122E26CE8906002FCDDF /* CallListView.swift */,
+				789B122F26CE8906002FCDDF /* CallListConfigurator.swift */,
+				789B123026CE8906002FCDDF /* CallListFlow.swift */,
+			);
+			path = CallList;
+			sourceTree = "<group>";
+		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1295,6 +1321,7 @@
 				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
 				5AF8633726AA994E004A417C /* VerificationProtocols.swift in Sources */,
 				5A26CD2026B2EECA00118D4B /* WalletConfigurator.swift in Sources */,
+				789B123126CE8906002FCDDF /* CallListPresenter.swift in Sources */,
 				5A26CD6526B35F7A00118D4B /* ChatViewModel.swift in Sources */,
 				5A187EA62680708D001957D3 /* NibLoadableView.swift in Sources */,
 				5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */,
@@ -1327,6 +1354,7 @@
 				7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */,
 				5A26CD5B26B3599800118D4B /* ChatView.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
+				789B123326CE8906002FCDDF /* CallListProtocols.swift in Sources */,
 				5A26CD3526B31B4000118D4B /* CardCollectionViewCell.swift in Sources */,
 				5AF8636926ADCB9B004A417C /* KeyImportPresenter.swift in Sources */,
 				5A26CD4C26B356F600118D4B /* ProfileView.swift in Sources */,
@@ -1355,11 +1383,13 @@
 				5A26CD4026B3305600118D4B /* Transaction.swift in Sources */,
 				5A187DF426807011001957D3 /* Alertable.swift in Sources */,
 				5A9318E626C5E42300645365 /* KeyboardAdaptive.swift in Sources */,
+				789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
 				5A187F272680CF49001957D3 /* Environment.swift in Sources */,
 				5AF8633526AA994E004A417C /* VerificationPresenter.swift in Sources */,
 				5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */,
+				789B123426CE8906002FCDDF /* CallListView.swift in Sources */,
 				5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
 				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
@@ -1369,6 +1399,7 @@
 				5A26CD5026B356F600118D4B /* ProfileViewController.swift in Sources */,
 				5AF8637226ADDDCE004A417C /* AppLaunchInstructor.swift in Sources */,
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
+				789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */,
 				5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
 				5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */,
@@ -1393,6 +1424,7 @@
 				5A187E992680708D001957D3 /* ActivityView.swift in Sources */,
 				5A26CD2926B2FF9900118D4B /* CarouselAnimatableFlowLayout.swift in Sources */,
 				5AA6410C268233CA008922B4 /* ButtonDecor.swift in Sources */,
+				789B123226CE8906002FCDDF /* CallListViewController.swift in Sources */,
 				5A187F282680CF49001957D3 /* APIClient.swift in Sources */,
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
 				5A26CD2726B2FF9900118D4B /* CarouselNonAnimatableFlowLayout.swift in Sources */,
@@ -1548,7 +1580,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = 764W7G7Y88;
+				DEVELOPMENT_TEAM = C392B84957;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1573,7 +1605,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = 764W7G7Y88;
+				DEVELOPMENT_TEAM = C392B84957;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
