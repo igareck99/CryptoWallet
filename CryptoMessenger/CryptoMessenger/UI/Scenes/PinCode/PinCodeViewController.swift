@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - PinCodeViewController
 
-final class PinCodeViewController: BaseViewController, LocalAuthenticationDelegate {
+final class PinCodeViewController: BaseViewController {
 
     // MARK: - Internal Properties
 
@@ -42,6 +42,12 @@ final class PinCodeViewController: BaseViewController, LocalAuthenticationDelega
             customView.nextPage()
         }
     }
+}
+
+// MARK: - LocalAuthenticationDelegate
+
+extension PinCodeViewController: LocalAuthenticationDelegate {
+
 }
 
 // MARK: - PinCodeViewInterface

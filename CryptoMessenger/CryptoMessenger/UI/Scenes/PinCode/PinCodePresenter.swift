@@ -30,7 +30,7 @@ final class PinCodePresenter {
     private func updateView(_ state: PinCodeFlow.ViewState) {
         switch state {
         case .sending:
-            print("sending..")
+            break
         case let .result(result):
             view?.setLocalAuth(result)
         case .error(let message):
