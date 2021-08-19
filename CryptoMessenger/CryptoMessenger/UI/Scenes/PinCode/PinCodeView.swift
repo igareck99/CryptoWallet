@@ -125,8 +125,7 @@ final class PinCodeView: UIView {
         buttons.append(createButton(.delete))
     }
 
-    private func createButton(_ type: ButtonType, name: String = "",
-                              image: UIImage = R.image.pinCode.backgroundbutton()!) -> UIButton {
+    private func createButton(_ type: ButtonType) -> UIButton {
         buttonTypes.append(type)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 0.98
