@@ -48,7 +48,7 @@ extension PinCodeViewController: LocalAuthenticationDelegate {
     }
 }
 
-// MARK: - PinCodeViewInterface
+// MARK: - PinCodeViewController (PinCodeViewInterface)
 
 extension PinCodeViewController: PinCodeViewInterface {
     func setLocalAuth(_ result: AvailableBiometrics?) {
