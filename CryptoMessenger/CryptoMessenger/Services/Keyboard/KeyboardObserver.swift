@@ -1,10 +1,11 @@
+import SwiftUI
 import UIKit
 
-// MARK: KeyboardObserver
+// MARK: - KeyboardObserver
 
 final class KeyboardObserver {
 
-    // MARK: - Public Properties
+    // MARK: - Internal Properties
 
     var keyboardWillShowHandler: NotificationBlock?
     var keyboardWillHideHandler: NotificationBlock?

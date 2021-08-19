@@ -8,11 +8,11 @@ target 'CryptoMessenger' do
   # Pods for CryptoMessenger
 
   # Firebase
-  #pod 'Firebase/Crashlytics'
-  #pod 'Firebase/Analytics'
-  #pod 'Firebase/Messaging'
-  #pod 'Firebase/DynamicLinks'
-  #pod 'Firebase/RemoteConfig'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Messaging'
+  pod 'Firebase/DynamicLinks'
+  pod 'Firebase/RemoteConfig'
 
   # Resources
   pod 'R.swift'

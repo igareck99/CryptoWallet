@@ -22,6 +22,9 @@
 	<string>1</string>
 	<key>Environment</key>
 	<string>dev</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>Environment</key>
+	<string>dev</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -35,6 +38,18 @@
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App requires to access your photo library to show image in profile</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Rubik-Light.ttf</string>
+		<string>Rubik-Regular.ttf</string>
+		<string>Rubik-Medium.ttf</string>
+		<string>Rubik-Bold.ttf</string>
+	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik-Light.ttf</string>
