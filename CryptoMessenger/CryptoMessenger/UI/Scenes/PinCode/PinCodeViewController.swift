@@ -38,11 +38,8 @@ final class PinCodeViewController: BaseViewController, LocalAuthenticationDelega
     }
 
     func didAuthenticate(_ success: Bool) {
-        switch success {
-        case true:
+        if success == true {
             customView.nextPage()
-        default:
-            break
         }
     }
 }
