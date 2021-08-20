@@ -35,7 +35,7 @@ final class ChatViewController: BaseViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.background(.white())
-        searchController.searchBar.searchTextField.background(.tintBlue())
+        searchController.searchBar.searchTextField.background(.paleBlue())
         searchController.searchBar.searchTextField.clearButtonMode = .never
         searchController.searchBar.setValue(R.string.localizable.countryCodePickerCancel(), forKey: "cancelButtonText")
         searchController.searchBar.placeholder = R.string.localizable.countryCodePickerSearch()

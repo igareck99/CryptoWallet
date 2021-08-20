@@ -75,6 +75,11 @@ public final class AuthFlowCoordinator: Coordinator {
             setViewWith(viewController)
         }
 
+    private func showPinCodeScene() {
+        let viewController = PinCodeConfigurator.configuredViewController(delegate: self)
+        setViewWith(viewController)
+    }
+
     // MARK: - Scene
 
     enum Scene {
@@ -86,6 +91,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case main
         case callList
         case countryCode(CountryCodePickerDelegate)
+        case pinCode
     }
 }
 
@@ -108,6 +114,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showKeyImportScene()
         case .main:
             switchFlow()
+        case .pinCode:
+            showPinCodeScene()
         case .callList:
             showCallListScene()
         }
@@ -145,3 +153,7 @@ extension AuthFlowCoordinator: CallListSceneDelegate {
 
     }
 }
+
+// MARK: - AuthFlowCoordinator (PinCodeSceneDelegate)
+
+extension AuthFlowCoordinator: PinCodeSceneDelegate {}
