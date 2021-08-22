@@ -126,6 +126,12 @@
 		5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681426A8BE9E000C51DD /* CountryCodePickerViewController.swift */; };
 		5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681626A988B9000C51DD /* UITableViewCell+Extensions.swift */; };
 		5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681926A9C079000C51DD /* PhoneHelper.swift */; };
+		5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B026BD210400645365 /* PinCodePresenter.swift */; };
+		5A9318B726BD210400645365 /* PinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B126BD210400645365 /* PinCodeViewController.swift */; };
+		5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B226BD210400645365 /* PinCodeProtocols.swift */; };
+		5A9318B926BD210400645365 /* PinCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B326BD210400645365 /* PinCodeView.swift */; };
+		5A9318BA26BD210400645365 /* PinCodeConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B426BD210400645365 /* PinCodeConfigurator.swift */; };
+		5A9318BB26BD210400645365 /* PinCodeFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B526BD210400645365 /* PinCodeFlow.swift */; };
 		5A9318D526C5AAF100645365 /* ChatRoomProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318D026C5AAF100645365 /* ChatRoomProtocols.swift */; };
 		5A9318D626C5AAF100645365 /* ChatRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318D126C5AAF100645365 /* ChatRoomView.swift */; };
 		5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318D226C5AAF100645365 /* ChatRoomViewModel.swift */; };
@@ -139,12 +145,6 @@
 		5A9318E626C5E42300645365 /* KeyboardAdaptive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318E526C5E42200645365 /* KeyboardAdaptive.swift */; };
 		5A9318E826C5E44100645365 /* KeyboardHeightPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318E726C5E44100645365 /* KeyboardHeightPublisher.swift */; };
 		5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318E926C5E45A00645365 /* UIResponder+Current.swift */; };
-		5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B026BD210400645365 /* PinCodePresenter.swift */; };
-		5A9318B726BD210400645365 /* PinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B126BD210400645365 /* PinCodeViewController.swift */; };
-		5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B226BD210400645365 /* PinCodeProtocols.swift */; };
-		5A9318B926BD210400645365 /* PinCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B326BD210400645365 /* PinCodeView.swift */; };
-		5A9318BA26BD210400645365 /* PinCodeConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B426BD210400645365 /* PinCodeConfigurator.swift */; };
-		5A9318BB26BD210400645365 /* PinCodeFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B526BD210400645365 /* PinCodeFlow.swift */; };
 		5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F126822C39008922B4 /* NavigationBarStyle.swift */; };
 		5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F226822C39008922B4 /* ImageStyle.swift */; };
 		5AA6410026822C3A008922B4 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F326822C39008922B4 /* Palette.swift */; };
@@ -195,6 +195,7 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
+		7879F4B526CFC49300D3213F /* CallStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7879F4B426CFC49300D3213F /* CallStruct.swift */; };
 		7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */; };
 		7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7896226B26B992AD00033B3B /* ProfileCell.swift */; };
 		789B123126CE8906002FCDDF /* CallListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122B26CE8906002FCDDF /* CallListPresenter.swift */; };
@@ -329,6 +330,12 @@
 		5A42681426A8BE9E000C51DD /* CountryCodePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodePickerViewController.swift; sourceTree = "<group>"; };
 		5A42681626A988B9000C51DD /* UITableViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extensions.swift"; sourceTree = "<group>"; };
 		5A42681926A9C079000C51DD /* PhoneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneHelper.swift; sourceTree = "<group>"; };
+		5A9318B026BD210400645365 /* PinCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodePresenter.swift; sourceTree = "<group>"; };
+		5A9318B126BD210400645365 /* PinCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeViewController.swift; sourceTree = "<group>"; };
+		5A9318B226BD210400645365 /* PinCodeProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeProtocols.swift; sourceTree = "<group>"; };
+		5A9318B326BD210400645365 /* PinCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeView.swift; sourceTree = "<group>"; };
+		5A9318B426BD210400645365 /* PinCodeConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeConfigurator.swift; sourceTree = "<group>"; };
+		5A9318B526BD210400645365 /* PinCodeFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeFlow.swift; sourceTree = "<group>"; };
 		5A9318D026C5AAF100645365 /* ChatRoomProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomProtocols.swift; sourceTree = "<group>"; };
 		5A9318D126C5AAF100645365 /* ChatRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomView.swift; sourceTree = "<group>"; };
 		5A9318D226C5AAF100645365 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
@@ -342,12 +349,6 @@
 		5A9318E526C5E42200645365 /* KeyboardAdaptive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardAdaptive.swift; sourceTree = "<group>"; };
 		5A9318E726C5E44100645365 /* KeyboardHeightPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHeightPublisher.swift; sourceTree = "<group>"; };
 		5A9318E926C5E45A00645365 /* UIResponder+Current.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Current.swift"; sourceTree = "<group>"; };
-		5A9318B026BD210400645365 /* PinCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodePresenter.swift; sourceTree = "<group>"; };
-		5A9318B126BD210400645365 /* PinCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeViewController.swift; sourceTree = "<group>"; };
-		5A9318B226BD210400645365 /* PinCodeProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeProtocols.swift; sourceTree = "<group>"; };
-		5A9318B326BD210400645365 /* PinCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeView.swift; sourceTree = "<group>"; };
-		5A9318B426BD210400645365 /* PinCodeConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeConfigurator.swift; sourceTree = "<group>"; };
-		5A9318B526BD210400645365 /* PinCodeFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeFlow.swift; sourceTree = "<group>"; };
 		5AA640F126822C39008922B4 /* NavigationBarStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarStyle.swift; sourceTree = "<group>"; };
 		5AA640F226822C39008922B4 /* ImageStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageStyle.swift; sourceTree = "<group>"; };
 		5AA640F326822C39008922B4 /* Palette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
@@ -398,6 +399,7 @@
 		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
+		7879F4B426CFC49300D3213F /* CallStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStruct.swift; sourceTree = "<group>"; };
 		7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthentication.swift; sourceTree = "<group>"; };
 		7896226B26B992AD00033B3B /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		789B122B26CE8906002FCDDF /* CallListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListPresenter.swift; sourceTree = "<group>"; };
@@ -875,6 +877,7 @@
 				7896226B26B992AD00033B3B /* ProfileCell.swift */,
 				5A26CD4526B356F600118D4B /* ProfilePresenter.swift */,
 				5A26CD4926B356F600118D4B /* ProfileFlow.swift */,
+				7879F4B426CFC49300D3213F /* CallStruct.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -965,6 +968,19 @@
 			path = Registration;
 			sourceTree = "<group>";
 		};
+		5A9318AF26BD20F700645365 /* PinCode */ = {
+			isa = PBXGroup;
+			children = (
+				5A9318B426BD210400645365 /* PinCodeConfigurator.swift */,
+				5A9318B226BD210400645365 /* PinCodeProtocols.swift */,
+				5A9318B126BD210400645365 /* PinCodeViewController.swift */,
+				5A9318B326BD210400645365 /* PinCodeView.swift */,
+				5A9318B026BD210400645365 /* PinCodePresenter.swift */,
+				5A9318B526BD210400645365 /* PinCodeFlow.swift */,
+			);
+			path = PinCode;
+			sourceTree = "<group>";
+		};
 		5A9318CE26C5AAB500645365 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -1001,19 +1017,6 @@
 				5A9318DB26C5AD0500645365 /* ChatBubble.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		5A9318AF26BD20F700645365 /* PinCode */ = {
-			isa = PBXGroup;
-			children = (
-				5A9318B426BD210400645365 /* PinCodeConfigurator.swift */,
-				5A9318B226BD210400645365 /* PinCodeProtocols.swift */,
-				5A9318B126BD210400645365 /* PinCodeViewController.swift */,
-				5A9318B326BD210400645365 /* PinCodeView.swift */,
-				5A9318B026BD210400645365 /* PinCodePresenter.swift */,
-				5A9318B526BD210400645365 /* PinCodeFlow.swift */,
-			);
-			path = PinCode;
 			sourceTree = "<group>";
 		};
 		5AA640F026822C39008922B4 /* StyleGuide */ = {
@@ -1294,6 +1297,7 @@
 			files = (
 				5A187EBB268070B3001957D3 /* NSMutableData+Extensions.swift in Sources */,
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
+				7879F4B526CFC49300D3213F /* CallStruct.swift in Sources */,
 				5A26CD2A26B2FF9900118D4B /* CarouselFlowLayout.swift in Sources */,
 				5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */,
 				5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */,
@@ -1624,8 +1628,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = 764W7G7Y88;
-				DEVELOPMENT_TEAM = C392B84957;
 				DEVELOPMENT_TEAM = C392B84957;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -1651,8 +1653,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = 764W7G7Y88;
-				DEVELOPMENT_TEAM = C392B84957;
 				DEVELOPMENT_TEAM = C392B84957;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;

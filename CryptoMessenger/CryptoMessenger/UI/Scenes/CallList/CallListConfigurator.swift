@@ -1,11 +1,3 @@
-//
-//  CallListConfigurator.swift
-//  CryptoMessenger
-//
-//  Created by Игорь Коноваленко on 19.08.2021
-//  
-//
-
 import Foundation
 
 // MARK: - CallListConfigurator

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "blue-phone.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
