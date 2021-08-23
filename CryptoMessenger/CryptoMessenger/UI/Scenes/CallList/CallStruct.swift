@@ -6,6 +6,7 @@ struct CallStruct {
     var name: String
     var dateTime: String
     var image: UIImage!
+    var type: Bool
 }
 
 class CallCell: UITableViewCell {
@@ -16,6 +17,7 @@ class CallCell: UITableViewCell {
     private lazy var date = UILabel()
     private lazy var profileImage = UIImageView()
     private lazy var phonebutton = UIButton()
+    private lazy var callType = UIImageView()
 
     // MARK: - Lifecycle
 
@@ -23,6 +25,7 @@ class CallCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addProfileImage()
         addName()
+        addcallType()
         addDateTime()
         addPhoneButton()
     }
@@ -38,6 +41,11 @@ class CallCell: UITableViewCell {
         date.text = profile.dateTime
         profileImage.image = profile.image
         phonebutton.setImage(R.image.callList.bluePhone(), for: .normal)
+        if profile.type == true {
+            callType.image = R.image.callList.incall()
+        } else {
+            callType.image = R.image.callList.outcall()
+        }
     }
 
     // MARK: - Private Methods
@@ -50,7 +58,7 @@ class CallCell: UITableViewCell {
         } layout: {
             $0.width.height.equalTo(40)
             $0.leading.equalTo($1).offset(16)
-            $0.top.equalTo(self.snp_topMargin).offset(16)
+            $0.centerY.equalTo($1)
         }
     }
 
@@ -60,7 +68,18 @@ class CallCell: UITableViewCell {
             $0.textColor(.black())
         } layout: {
             $0.leading.equalTo($1).offset(68)
-            $0.top.equalTo(self.snp_topMargin).offset(17)
+            $0.top.equalTo($1).offset(17)
+        }
+    }
+
+    private func addcallType() {
+        callType.snap(parent: self) {
+            $0.contentMode = .scaleAspectFill
+            $0.clipsToBounds = true
+        } layout: {
+            $0.width.height.equalTo(8.5)
+            $0.leading.equalTo($1).offset(70)
+            $0.top.equalTo(self.name.snp.bottom).offset(8)
         }
     }
 
@@ -80,8 +99,7 @@ class CallCell: UITableViewCell {
         } layout: {
             $0.width.height.equalTo(24)
             $0.leading.equalTo($1).offset(339)
-            $0.trailing.equalTo($1).offset(-20)
-            $0.top.equalTo(self.snp_topMargin).offset(29)
+            $0.top.equalTo($1).offset(25)
         }
     }
 }
