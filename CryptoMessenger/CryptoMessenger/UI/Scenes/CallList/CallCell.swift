@@ -6,10 +6,10 @@ class CallCell: UITableViewCell {
 
     // MARK: - Private Properties
 
-    private lazy var name = UILabel()
-    private lazy var date = UILabel()
+    private lazy var nameLabel = UILabel()
+    private lazy var dateLabel = UILabel()
     private lazy var profileImage = UIImageView()
-    private lazy var phonebutton = UIButton()
+    private lazy var phoneButton = UIButton()
     private lazy var callType = UIImageView()
 
     // MARK: - Lifecycle
@@ -30,10 +30,10 @@ class CallCell: UITableViewCell {
     // MARK: - Internal Methods
 
     func configure(_ profile: CallStruct) {
-        name.text = profile.name
-        date.text = profile.dateTime
+        nameLabel.text = profile.name
+        dateLabel.text = profile.dateTime
         profileImage.image = profile.image
-        phonebutton.setImage(R.image.callList.bluePhone(), for: .normal)
+        phoneButton.setImage(R.image.callList.bluePhone(), for: .normal)
         if profile.type == true {
             callType.image = R.image.callList.incall()
         } else {
@@ -56,7 +56,7 @@ class CallCell: UITableViewCell {
     }
 
     private func addName() {
-        name.snap(parent: self) {
+        nameLabel.snap(parent: self) {
             $0.font(.medium(15))
             $0.textColor(.black())
         } layout: {
@@ -72,22 +72,22 @@ class CallCell: UITableViewCell {
         } layout: {
             $0.width.height.equalTo(8.5)
             $0.leading.equalTo($1).offset(70)
-            $0.top.equalTo(self.name.snp.bottom).offset(8)
+            $0.top.equalTo(self.nameLabel.snp.bottom).offset(8)
         }
     }
 
     private func addDateTime() {
-        date.snap(parent: self) {
+        dateLabel.snap(parent: self) {
             $0.font(.light(13))
             $0.textColor(.black())
         } layout: {
             $0.leading.equalTo($1).offset(84)
-            $0.top.equalTo(self.name.snp.bottom).offset(4)
+            $0.top.equalTo(self.nameLabel.snp.bottom).offset(4)
         }
     }
 
     private func addPhoneButton() {
-        phonebutton.snap(parent: self) {
+        phoneButton.snap(parent: self) {
             $0.contentMode = .scaleAspectFill
         } layout: {
             $0.width.height.equalTo(24)

@@ -20,6 +20,51 @@ final class CallListViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        addLeftBarButtonItem()
+        addRightBarButtonItem()
+
+    }
+
+    // MARK: - Private Methods
+
+    private func addLeftBarButtonItem() {
+        let settings = UIBarButtonItem(
+            image: R.image.callList.back(),
+            style: .done,
+            target: self,
+            action: #selector(leftButtonTap)
+        )
+        navigationItem.leftBarButtonItem = settings
+    }
+
+    private func addRightBarButtonItem() {
+        let dotes = UIBarButtonItem(
+            image: R.image.callList.dotes(),
+            style: .done,
+            target: self,
+            action: #selector(rightButtonTap)
+        )
+        let phone = UIBarButtonItem(
+            image: R.image.callList.bluePhone(),
+            style: .done,
+            target: self,
+            action: nil
+
+        )
+        navigationItem.rightBarButtonItems = [phone, dotes]
+    }
+
+    // MARK: - Actions
+
+    @objc private func rightButtonTap() {
+
+    }
+
+    @objc private func leftButtonTap() {
+
+    }
+
+    @objc private func newCall() {
 
     }
 
