@@ -34,10 +34,9 @@ final class CallListView: UIView {
     // MARK: - Internal Methods
 
     func createCallListArray() {
-        callList.append(CallStruct(name: "Martin Randolph"))
-        callList.append(CallStruct(name: "Karen Castillo"))
-        callList.append(CallStruct(name: "Kieron Dotson"))
-
+        callList.append(CallStruct(name: "Martin Randolph", dateTime: "19 сен 18:59", image: R.image.callList.user1()))
+        callList.append(CallStruct(name: "Karen Castillo", dateTime: "07 сен 18:36", image: R.image.callList.user2()))
+        callList.append(CallStruct(name: "Kieron Dotson", dateTime: "04 сен 18:11", image: R.image.callList.user3()))
     }
 
     func setTableViewDelegates() {
@@ -49,7 +48,7 @@ final class CallListView: UIView {
 
     private func setupTabelView() {
         tableView.snap(parent: self) {
-            $0.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+            $0.register(CallCell.self, forCellReuseIdentifier: "cellId")
             $0.allowsSelection = true
             $0.isUserInteractionEnabled = true
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -67,10 +66,14 @@ extension CallListView: UITableViewDataSource, UITableViewDelegate {
         return callList.count
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 69
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CallCell
         let currentLastItem = callList[indexPath.row]
-        cell.textLabel?.text = currentLastItem.name
+        cell.configure(currentLastItem)
         return cell
     }
 

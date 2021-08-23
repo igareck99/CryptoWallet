@@ -877,7 +877,6 @@
 				7896226B26B992AD00033B3B /* ProfileCell.swift */,
 				5A26CD4526B356F600118D4B /* ProfilePresenter.swift */,
 				5A26CD4926B356F600118D4B /* ProfileFlow.swift */,
-				7879F4B426CFC49300D3213F /* CallStruct.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1117,6 +1116,7 @@
 		789B122A26CE889D002FCDDF /* CallList */ = {
 			isa = PBXGroup;
 			children = (
+				7879F4B426CFC49300D3213F /* CallStruct.swift */,
 				789B122B26CE8906002FCDDF /* CallListPresenter.swift */,
 				789B122C26CE8906002FCDDF /* CallListViewController.swift */,
 				789B122D26CE8906002FCDDF /* CallListProtocols.swift */,
