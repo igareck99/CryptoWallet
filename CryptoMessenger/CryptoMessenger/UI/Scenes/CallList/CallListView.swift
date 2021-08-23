@@ -49,6 +49,11 @@ final class CallListView: UIView {
         tableView.dataSource = self
     }
 
+    func removeCall(index: Int) {
+        callList.remove(at: index)
+        tableView.reloadData()
+    }
+
     // MARK: - Private Methods
 
     private func setupTabelView() {
@@ -81,6 +86,17 @@ extension CallListView: UITableViewDataSource, UITableViewDelegate {
         let currentLastItem = callList[indexPath.row]
         cell.configure(currentLastItem)
         return cell
+    }
+
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let action = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _  in
+            self.removeCall(index: indexPath[1])
+        }
+        action.backgroundColor = UIColor.red
+        action.image = R.image.callList.deleteimage()
+        return UISwipeActionsConfiguration(actions: [action])
     }
 
 }

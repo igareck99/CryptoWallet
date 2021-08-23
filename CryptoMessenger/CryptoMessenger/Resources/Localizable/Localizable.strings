@@ -56,3 +56,5 @@
 
 "PinCode.password" = "Введите пароль";
 "PinCode.enter" = "Не можете войти?";
+
+"CallList.delete" = "Удалить";
