@@ -204,6 +204,7 @@
 		789B123426CE8906002FCDDF /* CallListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122E26CE8906002FCDDF /* CallListView.swift */; };
 		789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122F26CE8906002FCDDF /* CallListConfigurator.swift */; };
 		789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B123026CE8906002FCDDF /* CallListFlow.swift */; };
+		789FEBD026D3CE580018FE91 /* CallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBCF26D3CE580018FE91 /* CallCell.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -408,6 +409,7 @@
 		789B122E26CE8906002FCDDF /* CallListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListView.swift; sourceTree = "<group>"; };
 		789B122F26CE8906002FCDDF /* CallListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListConfigurator.swift; sourceTree = "<group>"; };
 		789B123026CE8906002FCDDF /* CallListFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListFlow.swift; sourceTree = "<group>"; };
+		789FEBCF26D3CE580018FE91 /* CallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallCell.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1123,6 +1125,7 @@
 				789B122E26CE8906002FCDDF /* CallListView.swift */,
 				789B122F26CE8906002FCDDF /* CallListConfigurator.swift */,
 				789B123026CE8906002FCDDF /* CallListFlow.swift */,
+				789FEBCF26D3CE580018FE91 /* CallCell.swift */,
 			);
 			path = CallList;
 			sourceTree = "<group>";
@@ -1334,6 +1337,7 @@
 				5AF8636D26ADCB9B004A417C /* KeyImportConfigurator.swift in Sources */,
 				5A187DD826806F35001957D3 /* Dependency.swift in Sources */,
 				5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */,
+				789FEBD026D3CE580018FE91 /* CallCell.swift in Sources */,
 				5A187EA32680708D001957D3 /* CollectionViewProvider.swift in Sources */,
 				5A9318D526C5AAF100645365 /* ChatRoomProtocols.swift in Sources */,
 				5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */,
