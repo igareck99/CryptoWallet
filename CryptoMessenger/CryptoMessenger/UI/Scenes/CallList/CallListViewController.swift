@@ -47,34 +47,33 @@ final class CallListViewController: BaseViewController {
     }
 
     private func addRightBarButtonItem() {
-        let dotes = UIBarButtonItem(
-            image: R.image.callList.dotes(),
-            style: .done,
-            target: self,
-            action: #selector(rightButtonTap)
-        )
-        let phone = UIBarButtonItem(
-            image: R.image.callList.bluePhone(),
-            style: .done,
-            target: self,
-            action: #selector(newCall)
-
-        )
-        navigationItem.rightBarButtonItems = [phone, dotes]
+        let dotes = UIButton(type: .system)
+        dotes.setImage(R.image.callList.dotes(), for: .normal)
+        dotes.addTarget(self, action: #selector(rightButtonTap), for: .touchUpInside)
+        let phone = UIButton(type: .system)
+        phone.setImage(R.image.callList.blackPhone(), for: .normal)
+        phone.addTarget(self, action: #selector(newCall), for: .touchUpInside)
+        let stackview = UIStackView(arrangedSubviews: [phone, dotes])
+        stackview.distribution = .equalSpacing
+        stackview.axis = .horizontal
+        stackview.alignment = .center
+        stackview.spacing = 16
+        let rightBarButton = UIBarButtonItem(customView: stackview)
+        navigationItem.rightBarButtonItems = [rightBarButton]
     }
 
     // MARK: - Actions
 
     @objc private func rightButtonTap() {
-
+        print("rightButtonTap")
     }
 
     @objc private func leftButtonTap() {
-
+        print("leftButtonTap")
     }
 
     @objc private func newCall() {
-
+        print("newCall")
     }
 
 }
