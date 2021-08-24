@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: CallListViewController
+// MARK: - CallListViewController
 
 final class CallListViewController: BaseViewController {
 
@@ -23,7 +23,11 @@ final class CallListViewController: BaseViewController {
         addTitleBarButtonItem()
         addLeftBarButtonItem()
         addRightBarButtonItem()
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showNavigationBar()
     }
 
     // MARK: - Private Methods

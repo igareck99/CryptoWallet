@@ -98,5 +98,4 @@ extension CallListView: UITableViewDataSource, UITableViewDelegate {
         action.image = R.image.callList.deleteimage()
         return UISwipeActionsConfiguration(actions: [action])
     }
-
 }
