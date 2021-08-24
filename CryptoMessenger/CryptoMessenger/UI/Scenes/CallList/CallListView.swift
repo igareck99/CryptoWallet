@@ -54,6 +54,11 @@ final class CallListView: UIView {
         tableView.reloadData()
     }
 
+    func removeAllCalls() {
+        callList.removeAll()
+        tableView.reloadData()
+    }
+
     // MARK: - Private Methods
 
     private func setupTabelView() {
