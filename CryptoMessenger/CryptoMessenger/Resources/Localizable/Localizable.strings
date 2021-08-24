@@ -58,3 +58,4 @@
 "PinCode.enter" = "Не можете войти?";
 
 "CallList.delete" = "Удалить";
+"CallList.title" = "Журнал звонков";

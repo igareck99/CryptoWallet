@@ -20,12 +20,17 @@ final class CallListViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        addTitleBarButtonItem()
         addLeftBarButtonItem()
         addRightBarButtonItem()
 
     }
 
     // MARK: - Private Methods
+
+    private func addTitleBarButtonItem() {
+        navigationItem.title = R.string.localizable.callListTitle()
+    }
 
     private func addLeftBarButtonItem() {
         let settings = UIBarButtonItem(
@@ -48,7 +53,7 @@ final class CallListViewController: BaseViewController {
             image: R.image.callList.bluePhone(),
             style: .done,
             target: self,
-            action: nil
+            action: #selector(newCall)
 
         )
         navigationItem.rightBarButtonItems = [phone, dotes]

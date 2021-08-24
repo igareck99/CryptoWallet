@@ -65,7 +65,7 @@ final class CallListView: UIView {
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
             $0.top.equalTo($1).offset(103)
-            $0.leading.trailing.bottom.equalTo($1)
+            $0.leading.trailing.bottom.top.equalTo($1)
         }
     }
 
