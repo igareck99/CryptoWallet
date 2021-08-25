@@ -2,6 +2,10 @@ import UIKit
 
 class SPView: UIView {
 
+    // MARK: - Internal Properties
+
+    var didTapDelete: (() -> Void)?
+
     // MARK: - Private Properties
     private lazy var brushButton = UIButton()
     private lazy var clearButton = UIButton()
@@ -23,8 +27,9 @@ class SPView: UIView {
 
     // MARK: - Internal Methods
 
-    @objc func deleteCalls(sender: UIButton) {
+    @objc private func deleteButtonTap() {
         print("deleteCalls")
+        didTapDelete?()
     }
 
     // MARK: - Private Methods
@@ -34,7 +39,7 @@ class SPView: UIView {
             $0.setImage(R.image.callList.brush(), for: .normal)
             $0.clipCorners(radius: 20)
             $0.background(.red(0.1))
-            $0.addTarget(self, action: #selector(self.deleteCalls), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(self.deleteButtonTap), for: .touchUpInside)
         } layout: {
             $0.width.height.equalTo(40)
             $0.top.equalTo(self.snp_topMargin).offset(28)
@@ -55,7 +60,7 @@ class SPView: UIView {
                     .color(.red())
                 ]
             )
-            $0.addTarget(self, action: #selector(self.deleteCalls), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(self.deleteButtonTap), for: .touchUpInside)
         } layout: {
             $0.top.equalTo(self.snp_topMargin).offset(37)
             $0.leading.equalTo($1).offset(72)

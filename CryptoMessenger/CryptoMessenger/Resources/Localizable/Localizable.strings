@@ -60,3 +60,8 @@
 "CallList.delete" = "Удалить";
 "CallList.title" = "Журнал звонков";
 "CallList.deleteAll" = "Очистить историю звонков";
+"CallList.alertTitle" = "Очистить историю?";
+"CallList.alertText" = "Вы действительно хотите очистить историю звонков?";
+"CallList.alertActionOne" = "Отменить";
+"CallList.alertActionTwo" = "Очистить";
+

@@ -12,7 +12,7 @@ final class CallListViewController: BaseViewController {
     // MARK: - Private Properties
 
     private lazy var customView = CallListView(frame: UIScreen.main.bounds)
-    private lazy var brushButton = UIButton()
+    private var additionalVC = SPViewController()
 
     // MARK: - Lifecycle
 
@@ -31,7 +31,6 @@ final class CallListViewController: BaseViewController {
         super.viewWillAppear(animated)
         showNavigationBar()
     }
-
     // MARK: - Private Methods
 
     private func addTitleBarButtonItem() {

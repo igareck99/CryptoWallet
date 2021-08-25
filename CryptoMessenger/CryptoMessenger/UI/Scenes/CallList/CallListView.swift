@@ -35,13 +35,13 @@ final class CallListView: UIView {
 
     func createCallListArray() {
         callList.append(CallStruct(name: "Martin Randolph", dateTime: "19 сен 18:59", image: R.image.callList.user1(),
-                                   type: false))
+                                   isIncall: false))
         callList.append(CallStruct(name: "Karen Castillo", dateTime: "07 сен 18:36", image: R.image.callList.user2(),
-                                   type: true))
+                                   isIncall: true))
         callList.append(CallStruct(name: "Kieron Dotson", dateTime: "04 сен 18:11", image: R.image.callList.user3(),
-                                   type: true))
+                                   isIncall: true))
         callList.append(CallStruct(name: "Jamie Franco", dateTime: "03 июн 06:27", image: R.image.callList.user4(),
-                                   type: true))
+                                   isIncall: true))
     }
 
     func setTableViewDelegates() {
@@ -69,6 +69,7 @@ final class CallListView: UIView {
             $0.isUserInteractionEnabled = true
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
+            $0.top.equalTo($1).offset(103)
             $0.leading.trailing.bottom.top.equalTo($1)
         }
     }

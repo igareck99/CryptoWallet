@@ -6,5 +6,5 @@ struct CallStruct {
     var name: String
     var dateTime: String
     var image: UIImage!
-    var type: Bool
+    var isIncall: Bool
 }

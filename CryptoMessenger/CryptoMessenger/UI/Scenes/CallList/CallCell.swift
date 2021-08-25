@@ -34,7 +34,7 @@ class CallCell: UITableViewCell {
         dateLabel.text = profile.dateTime
         profileImage.image = profile.image
         phoneButton.setImage(R.image.callList.bluePhone(), for: .normal)
-        if profile.type == true {
+        if profile.isIncall {
             callType.image = R.image.callList.incall()
         } else {
             callType.image = R.image.callList.outcall()
