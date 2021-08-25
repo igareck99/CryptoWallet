@@ -59,3 +59,4 @@
 
 "CallList.delete" = "Удалить";
 "CallList.title" = "Журнал звонков";
+"CallList.deleteAll" = "Очистить историю звонков";

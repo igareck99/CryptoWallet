@@ -205,6 +205,8 @@
 		789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122F26CE8906002FCDDF /* CallListConfigurator.swift */; };
 		789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B123026CE8906002FCDDF /* CallListFlow.swift */; };
 		789FEBD026D3CE580018FE91 /* CallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBCF26D3CE580018FE91 /* CallCell.swift */; };
+		789FEBD326D651430018FE91 /* SPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBD226D651430018FE91 /* SPViewController.swift */; };
+		789FEBD526D651530018FE91 /* SPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBD426D651530018FE91 /* SPView.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -410,6 +412,8 @@
 		789B122F26CE8906002FCDDF /* CallListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListConfigurator.swift; sourceTree = "<group>"; };
 		789B123026CE8906002FCDDF /* CallListFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListFlow.swift; sourceTree = "<group>"; };
 		789FEBCF26D3CE580018FE91 /* CallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallCell.swift; sourceTree = "<group>"; };
+		789FEBD226D651430018FE91 /* SPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPViewController.swift; sourceTree = "<group>"; };
+		789FEBD426D651530018FE91 /* SPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPView.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1118,6 +1122,7 @@
 		789B122A26CE889D002FCDDF /* CallList */ = {
 			isa = PBXGroup;
 			children = (
+				789FEBD126D6511A0018FE91 /* SPDelete */,
 				7879F4B426CFC49300D3213F /* CallStruct.swift */,
 				789B122B26CE8906002FCDDF /* CallListPresenter.swift */,
 				789B122C26CE8906002FCDDF /* CallListViewController.swift */,
@@ -1128,6 +1133,15 @@
 				789FEBCF26D3CE580018FE91 /* CallCell.swift */,
 			);
 			path = CallList;
+			sourceTree = "<group>";
+		};
+		789FEBD126D6511A0018FE91 /* SPDelete */ = {
+			isa = PBXGroup;
+			children = (
+				789FEBD226D651430018FE91 /* SPViewController.swift */,
+				789FEBD426D651530018FE91 /* SPView.swift */,
+			);
+			path = SPDelete;
 			sourceTree = "<group>";
 		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
@@ -1399,6 +1413,7 @@
 				5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */,
 				5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */,
 				5A26CD6126B35C9B00118D4B /* Message.swift in Sources */,
+				789FEBD526D651530018FE91 /* SPView.swift in Sources */,
 				5A26CD5926B3599800118D4B /* ChatViewController.swift in Sources */,
 				5A26CD3B26B3211100118D4B /* TapAnimator.swift in Sources */,
 				7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */,
@@ -1462,6 +1477,7 @@
 				7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */,
 				5AF8636026ADB691004A417C /* OnboardingPresenter.swift in Sources */,
 				5A187F2E2680CF49001957D3 /* Endpoint.swift in Sources */,
+				789FEBD326D651430018FE91 /* SPViewController.swift in Sources */,
 				5A187EBD268070B3001957D3 /* NSObject+Extensions.swift in Sources */,
 				5A187EA22680708D001957D3 /* TableViewProviderViewModel.swift in Sources */,
 				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,

@@ -1,4 +1,5 @@
 import UIKit
+import SPStorkController
 
 // MARK: - CallListViewController
 
@@ -11,6 +12,7 @@ final class CallListViewController: BaseViewController {
     // MARK: - Private Properties
 
     private lazy var customView = CallListView(frame: UIScreen.main.bounds)
+    private lazy var brushButton = UIButton()
 
     // MARK: - Lifecycle
 
@@ -66,6 +68,15 @@ final class CallListViewController: BaseViewController {
 
     @objc private func rightButtonTap() {
         print("rightButtonTap")
+        let controller = SPViewController()
+        let transitionDelegate = SPStorkTransitioningDelegate()
+        controller.transitioningDelegate = transitionDelegate
+        controller.modalPresentationStyle = .custom
+        controller.modalPresentationCapturesStatusBarAppearance = true
+        controller.view.background(.white())
+        transitionDelegate.customHeight = 114
+        transitionDelegate.indicatorMode = .alwaysLine
+        self.present(controller, animated: true, completion: nil)
     }
 
     @objc private func leftButtonTap() {
