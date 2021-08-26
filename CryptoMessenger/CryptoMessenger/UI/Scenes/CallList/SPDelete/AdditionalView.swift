@@ -1,6 +1,6 @@
 import UIKit
 
-final class SPView: UIView {
+final class AdditionalView: UIView {
 
     // MARK: - Internal Properties
 
@@ -16,7 +16,7 @@ final class SPView: UIView {
         super.init(frame: frame)
         background(.white())
         setupbrushButton()
-        setupClearLabel()
+        setupClearButton()
     }
 
     @available(*, unavailable)
@@ -27,7 +27,6 @@ final class SPView: UIView {
     // MARK: - Internal Methods
 
     @objc private func deleteButtonTap() {
-        print("deleteCalls")
         didTapDelete?()
     }
 
@@ -41,12 +40,12 @@ final class SPView: UIView {
             $0.addTarget(self, action: #selector(self.deleteButtonTap), for: .touchUpInside)
         } layout: {
             $0.width.height.equalTo(40)
-            $0.top.equalTo(self.snp_topMargin).offset(28)
+            $0.top.equalTo(self.snp_topMargin).offset(18)
             $0.leading.equalTo($1).offset(16)
         }
     }
 
-    private func setupClearLabel() {
+    private func setupClearButton() {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.15
         paragraphStyle.alignment = .center
@@ -61,7 +60,8 @@ final class SPView: UIView {
             )
             $0.addTarget(self, action: #selector(self.deleteButtonTap), for: .touchUpInside)
         } layout: {
-            $0.top.equalTo(self.snp_topMargin).offset(37)
+            $0.top.equalTo(self.snp_topMargin).offset(27)
+            $0.height.equalTo(22)
             $0.leading.equalTo($1).offset(72)
         }
     }

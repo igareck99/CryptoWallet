@@ -1,5 +1,4 @@
 import UIKit
-import SPStorkController
 
 // MARK: - CallListViewController
 
@@ -41,7 +40,7 @@ final class CallListViewController: BaseViewController {
             image: R.image.callList.back(),
             style: .done,
             target: self,
-            action: #selector(leftButtonTap)
+            action: #selector(backButtonTap)
         )
         navigationItem.leftBarButtonItem = settings
     }
@@ -49,7 +48,7 @@ final class CallListViewController: BaseViewController {
     private func addRightBarButtonItem() {
         let dotes = UIButton(type: .system)
         dotes.setImage(R.image.callList.dotes(), for: .normal)
-        dotes.addTarget(self, action: #selector(rightButtonTap), for: .touchUpInside)
+        dotes.addTarget(self, action: #selector(dotesButtonTap), for: .touchUpInside)
         let phone = UIButton(type: .system)
         phone.setImage(R.image.callList.blackPhone(), for: .normal)
         phone.addTarget(self, action: #selector(newCall), for: .touchUpInside)
@@ -64,12 +63,16 @@ final class CallListViewController: BaseViewController {
 
     // MARK: - Actions
 
-    @objc private func rightButtonTap() {
-        let controller = SPViewController()
+    @objc private func dotesButtonTap() {
+        let controller = AdditionalViewController()
         present(controller, animated: true)
+        controller.didDeleteTap = { [unowned self] in
+            customView.removeAllCalls()
+            controller.dismiss(animated: true)
+        }
     }
 
-    @objc private func leftButtonTap() {
+    @objc private func backButtonTap() {
         print("leftButtonTap")
     }
 

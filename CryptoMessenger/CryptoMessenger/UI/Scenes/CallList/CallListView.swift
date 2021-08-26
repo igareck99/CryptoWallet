@@ -6,12 +6,11 @@ final class CallListView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTap: (() -> Void)?
+    var didTap: (() -> VoidBlock)?
 
     // MARK: - Private Properties
 
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
-    private lazy var testLabel = UILabel()
     var callList: [CallStruct] = []
     let cellId = "cellId"
 
@@ -69,7 +68,6 @@ final class CallListView: UIView {
             $0.isUserInteractionEnabled = true
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
-            $0.top.equalTo($1).offset(103)
             $0.leading.trailing.bottom.top.equalTo($1)
         }
     }

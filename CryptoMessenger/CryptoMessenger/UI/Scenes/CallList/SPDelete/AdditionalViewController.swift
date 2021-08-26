@@ -1,6 +1,6 @@
 import UIKit
 
-final class SPViewController: BaseViewController {
+final class AdditionalViewController: BaseViewController {
 
     // MARK: - Internal Properties
 
@@ -9,7 +9,7 @@ final class SPViewController: BaseViewController {
 
     // MARK: - Private Properties
 
-    private lazy var customView = SPView()
+    private lazy var customView = AdditionalView()
 
     // MARK: - Lifecycle
 
@@ -69,7 +69,14 @@ final class SPViewController: BaseViewController {
             message: R.string.localizable.callListAlertText(),
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: R.string.localizable.callListAlertActionOne(), style: .default))
+        alert.addAction(
+            UIAlertAction(title: R.string.localizable.callListAlertActionOne(),
+                          style: .default,
+                          handler: { _ in
+                            self.didTap()
+                        }
+            )
+        )
         alert.addAction(
             UIAlertAction(
                 title: R.string.localizable.callListAlertActionTwo(),
