@@ -85,7 +85,9 @@ extension CallListView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CallCell
+        let additionalCell = CallCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as?
+                CallCell else { return additionalCell }
         let currentLastItem = callList[indexPath.row]
         cell.configure(currentLastItem)
         return cell
