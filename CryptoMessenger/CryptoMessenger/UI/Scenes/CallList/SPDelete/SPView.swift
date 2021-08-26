@@ -1,6 +1,6 @@
 import UIKit
 
-class SPView: UIView {
+final class SPView: UIView {
 
     // MARK: - Internal Properties
 
@@ -17,7 +17,6 @@ class SPView: UIView {
         background(.white())
         setupbrushButton()
         setupClearLabel()
-
     }
 
     @available(*, unavailable)
@@ -65,7 +64,5 @@ class SPView: UIView {
             $0.top.equalTo(self.snp_topMargin).offset(37)
             $0.leading.equalTo($1).offset(72)
         }
-
     }
-
 }

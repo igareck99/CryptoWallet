@@ -12,7 +12,6 @@ final class CallListViewController: BaseViewController {
     // MARK: - Private Properties
 
     private lazy var customView = CallListView(frame: UIScreen.main.bounds)
-    private var additionalVC = SPViewController()
 
     // MARK: - Lifecycle
 
@@ -66,16 +65,8 @@ final class CallListViewController: BaseViewController {
     // MARK: - Actions
 
     @objc private func rightButtonTap() {
-        print("rightButtonTap")
         let controller = SPViewController()
-        let transitionDelegate = SPStorkTransitioningDelegate()
-        controller.transitioningDelegate = transitionDelegate
-        controller.modalPresentationStyle = .custom
-        controller.modalPresentationCapturesStatusBarAppearance = true
-        controller.view.background(.white())
-        transitionDelegate.customHeight = 114
-        transitionDelegate.indicatorMode = .alwaysLine
-        self.present(controller, animated: true, completion: nil)
+        present(controller, animated: true)
     }
 
     @objc private func leftButtonTap() {
