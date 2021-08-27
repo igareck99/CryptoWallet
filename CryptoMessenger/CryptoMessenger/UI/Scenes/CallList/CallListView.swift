@@ -36,11 +36,15 @@ final class CallListView: UIView {
 
     func removeCall(index: Int) {
         callList.remove(at: index)
-        tableView.reloadData()
+        filteredViewModel = .init(callList)
+        tableProvider?.setViewModel(with: filteredViewModel)
+        tableProvider?.reloadData()
+        print(tableModel.items)
     }
 
     func removeAllCalls() {
         callList.removeAll()
+        filteredViewModel = .init(callList)
         tableProvider?.setViewModel(with: filteredViewModel)
         tableProvider?.reloadData()
     }
@@ -70,6 +74,14 @@ final class CallListView: UIView {
                 : filteredViewModel.items[indexPath.section]
             cell.configure(item)
             return cell
+        }
+        tableProvider?.onSlideCell = { [unowned self] indexPath in
+            let action = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _  in
+                self.removeCall(index: indexPath.section)
+            }
+            action.backgroundColor = .red
+            action.image = R.image.callList.deleteimage()
+            return UISwipeActionsConfiguration(actions: [action])
         }
     }
 
