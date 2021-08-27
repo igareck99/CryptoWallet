@@ -6,7 +6,7 @@ struct CallListViewModel {
 
     // MARK: - Type
 
-    typealias ItemType = CallStruct
+    typealias ItemType = CallItem
 
     // MARK: - Internal Properties
 
@@ -27,7 +27,7 @@ struct CallListViewModel {
     }
 }
 
-// MARK: - ChatViewModel (TableViewProviderViewModel)
+// MARK: - CallListViewModel (TableViewProviderViewModel)
 
 extension CallListViewModel: TableViewProviderViewModel {
     func heightForHeader(atIndex index: Int) -> Float {

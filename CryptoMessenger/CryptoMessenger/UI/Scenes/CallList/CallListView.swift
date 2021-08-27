@@ -78,26 +78,14 @@ final class CallListView: UIView {
             let action = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _  in
                 self.removeCall(index: indexPath.section)
             }
-            action.backgroundColor = .red
+            action.backgroundColor = UIColor(.lightRed(1))
             action.image = R.image.callList.deleteimage()
             return UISwipeActionsConfiguration(actions: [action])
         }
     }
-
-    func tableView(_ tableView: UITableView,
-                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
-        let action = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _  in
-            self.removeCall(index: indexPath[1])
-        }
-        action.backgroundColor = .red
-        action.image = R.image.callList.deleteimage()
-        return UISwipeActionsConfiguration(actions: [action])
-    }
-
 }
 
-private  var callList: [CallStruct] = [
+private  var callList: [CallItem] = [
     .init(name: "Martin Randolph", dateTime: "19 сен 18:59", image: R.image.callList.user1(),
           isIncall: false),
     .init(name: "Karen Castillo", dateTime: "07 сен 18:36", image: R.image.callList.user2(),

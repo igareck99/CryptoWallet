@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - CallStruct
 
-struct CallStruct {
+struct CallItem {
     var name: String
     var dateTime: String
     var image: UIImage?

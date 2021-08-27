@@ -8,20 +8,21 @@ class CallCell: UITableViewCell {
 
     private lazy var nameLabel = UILabel()
     private lazy var dateLabel = UILabel()
-    private lazy var profileImage = UIImageView()
+    private lazy var profileImageView = UIImageView()
     private lazy var phoneButton = UIButton()
-    private lazy var callType = UIImageView()
+    private lazy var сallTypeImageView = UIImageView()
 
     // MARK: - Lifecycle
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addProfileImage()
-        addName()
-        addcallType()
-        addDateTime()
+        addNameLabel()
+        addСallTypeImageView()
+        addDateLabel()
         addPhoneButton()
     }
+
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
@@ -29,22 +30,21 @@ class CallCell: UITableViewCell {
 
     // MARK: - Internal Methods
 
-    func configure(_ profile: CallStruct) {
+    func configure(_ profile: CallItem) {
         nameLabel.text = profile.name
         dateLabel.text = profile.dateTime
-        profileImage.image = profile.image
-        phoneButton.setImage(R.image.callList.bluePhone(), for: .normal)
+        profileImageView.image = profile.image
         if profile.isIncall {
-            callType.image = R.image.callList.incall()
+            сallTypeImageView.image = R.image.callList.incall()
         } else {
-            callType.image = R.image.callList.outcall()
+            сallTypeImageView.image = R.image.callList.outcall()
         }
     }
 
     // MARK: - Private Methods
 
     private func addProfileImage() {
-        profileImage.snap(parent: self) {
+        profileImageView.snap(parent: self) {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
             $0.clipCorners(radius: 20)
@@ -55,7 +55,7 @@ class CallCell: UITableViewCell {
         }
     }
 
-    private func addName() {
+    private func addNameLabel() {
         nameLabel.snap(parent: self) {
             $0.font(.medium(15))
             $0.textColor(.black())
@@ -65,8 +65,8 @@ class CallCell: UITableViewCell {
         }
     }
 
-    private func addcallType() {
-        callType.snap(parent: self) {
+    private func addСallTypeImageView() {
+        сallTypeImageView.snap(parent: self) {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
         } layout: {
@@ -76,7 +76,7 @@ class CallCell: UITableViewCell {
         }
     }
 
-    private func addDateTime() {
+    private func addDateLabel() {
         dateLabel.snap(parent: self) {
             $0.font(.light(13))
             $0.textColor(.black())
@@ -89,6 +89,7 @@ class CallCell: UITableViewCell {
     private func addPhoneButton() {
         phoneButton.snap(parent: self) {
             $0.contentMode = .scaleAspectFill
+            $0.setImage(R.image.callList.bluePhone(), for: .normal)
         } layout: {
             $0.width.height.equalTo(24)
             $0.leading.equalTo($1).offset(339)
