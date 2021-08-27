@@ -39,7 +39,6 @@ final class CallListView: UIView {
         filteredViewModel = .init(callList)
         tableProvider?.setViewModel(with: filteredViewModel)
         tableProvider?.reloadData()
-        print(tableModel.items)
     }
 
     func removeAllCalls() {
