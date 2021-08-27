@@ -4,9 +4,10 @@ final class AdditionalView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTapDelete: (() -> Void)?
+    var didTapDelete: VoidBlock?
 
     // MARK: - Private Properties
+
     private lazy var brushButton = UIButton()
     private lazy var clearButton = UIButton()
 
@@ -15,7 +16,7 @@ final class AdditionalView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
-        setupbrushButton()
+        setupBrushButton()
         setupClearButton()
     }
 
@@ -32,7 +33,7 @@ final class AdditionalView: UIView {
 
     // MARK: - Private Methods
 
-    private func setupbrushButton() {
+    private func setupBrushButton() {
         brushButton.snap(parent: self) {
             $0.setImage(R.image.callList.brush(), for: .normal)
             $0.clipCorners(radius: 20)

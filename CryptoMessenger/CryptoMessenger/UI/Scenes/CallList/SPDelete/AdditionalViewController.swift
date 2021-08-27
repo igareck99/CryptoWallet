@@ -27,7 +27,7 @@ final class AdditionalViewController: BaseViewController {
 
     // MARK: - Actions
 
-    @objc private func didTap() {
+    @objc private func didClose() {
         dismiss(animated: true)
     }
 
@@ -53,7 +53,7 @@ final class AdditionalViewController: BaseViewController {
     }
 
     private func addTapGesture() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didClose))
         view.addGestureRecognizer(tap)
     }
 
@@ -73,7 +73,7 @@ final class AdditionalViewController: BaseViewController {
             UIAlertAction(title: R.string.localizable.callListAlertActionOne(),
                           style: .default,
                           handler: { _ in
-                            self.didTap()
+                            self.didClose()
                         }
             )
         )

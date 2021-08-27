@@ -5,6 +5,6 @@ import UIKit
 struct CallStruct {
     var name: String
     var dateTime: String
-    var image: UIImage!
+    var image: UIImage?
     var isIncall: Bool
 }

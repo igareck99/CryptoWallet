@@ -4,15 +4,10 @@ import UIKit
 
 final class CallListView: UIView {
 
-    // MARK: - Internal Properties
-
-    var didTap: (() -> VoidBlock)?
-
     // MARK: - Private Properties
 
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
-    var callList: [CallStruct] = []
-    let cellId = "cellId"
+    private var callList: [CallStruct] = []
 
     // MARK: - Lifecycle
 
@@ -21,8 +16,7 @@ final class CallListView: UIView {
         background(.white())
         createCallListArray()
         setTableViewDelegates()
-        setupTabelView()
-
+        setupTableView()
     }
 
     @available(*, unavailable)
@@ -32,7 +26,7 @@ final class CallListView: UIView {
 
     // MARK: - Internal Methods
 
-    func createCallListArray() {
+    private func createCallListArray() {
         callList.append(CallStruct(name: "Martin Randolph", dateTime: "19 сен 18:59", image: R.image.callList.user1(),
                                    isIncall: false))
         callList.append(CallStruct(name: "Karen Castillo", dateTime: "07 сен 18:36", image: R.image.callList.user2(),
@@ -60,9 +54,9 @@ final class CallListView: UIView {
 
     // MARK: - Private Methods
 
-    private func setupTabelView() {
+    private func setupTableView() {
         tableView.snap(parent: self) {
-            $0.register(CallCell.self, forCellReuseIdentifier: "cellId")
+            $0.register(CallCell.self, forCellReuseIdentifier: CallCell.identifier)
             $0.separatorInset.left = 68
             $0.allowsSelection = true
             $0.isUserInteractionEnabled = true
@@ -73,6 +67,8 @@ final class CallListView: UIView {
     }
 
 }
+
+// MARK: - CallListView (UITableViewDelegate)
 
 extension CallListView: UITableViewDataSource, UITableViewDelegate {
 
@@ -85,7 +81,7 @@ extension CallListView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as?
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CallCell.identifier, for: indexPath) as?
                 CallCell else { return CallCell() }
         let currentLastItem = callList[indexPath.row]
         cell.configure(currentLastItem)
@@ -98,7 +94,7 @@ extension CallListView: UITableViewDataSource, UITableViewDelegate {
         let action = UIContextualAction(style: .destructive, title: "Удалить") { _, _, _  in
             self.removeCall(index: indexPath[1])
         }
-        action.backgroundColor = UIColor.red
+        action.backgroundColor = .red
         action.image = R.image.callList.deleteimage()
         return UISwipeActionsConfiguration(actions: [action])
     }

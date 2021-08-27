@@ -29,6 +29,7 @@ final class CallListViewController: BaseViewController {
         super.viewWillAppear(animated)
         showNavigationBar()
     }
+
     // MARK: - Private Methods
 
     private func addTitleBarButtonItem() {
@@ -73,11 +74,9 @@ final class CallListViewController: BaseViewController {
     }
 
     @objc private func backButtonTap() {
-        print("leftButtonTap")
     }
 
     @objc private func newCall() {
-        print("newCall")
     }
 
 }

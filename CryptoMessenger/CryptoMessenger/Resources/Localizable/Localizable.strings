@@ -57,11 +57,11 @@
 "PinCode.password" = "Введите пароль";
 "PinCode.enter" = "Не можете войти?";
 
-"CallList.delete" = "Удалить";
-"CallList.title" = "Журнал звонков";
-"CallList.deleteAll" = "Очистить историю звонков";
-"CallList.alertTitle" = "Очистить историю?";
-"CallList.alertText" = "Вы действительно хотите очистить историю звонков?";
-"CallList.alertActionOne" = "Отменить";
-"CallList.alertActionTwo" = "Очистить";
+"CallList.Delete" = "Удалить";
+"CallList.Title" = "Журнал звонков";
+"CallList.DeleteAll" = "Очистить историю звонков";
+"CallList.AlertTitle" = "Очистить историю?";
+"CallList.AlertText" = "Вы действительно хотите очистить историю звонков?";
+"CallList.AlertActionOne" = "Отменить";
+"CallList.AlertActionTwo" = "Очистить";
 
