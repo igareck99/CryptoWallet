@@ -13,6 +13,7 @@ struct ChatRoomView: View {
     // MARK: - Private Properties
 
     @State private var scrolled = false
+    @State private var showActionSheet = false
 
     // MARK: - Lifecycle
 
@@ -30,67 +31,39 @@ struct ChatRoomView: View {
             VStack {
                 headerView
 
-                ScrollViewReader { reader in
-                    ScrollView {
+                ScrollViewReader { scrollView in
+                    ScrollView(.vertical, showsIndicators: false) {
                         VStack {
+                            HStack(alignment: .center) {
+                                Text("Fri, Jul 26")
+                                    .frame(width: 100, height: 24, alignment: .center)
+                                    .background(.lightGray())
+                                    .font(.regular(14))
+                                    .foreground(.black())
+                                    .cornerRadius(8)
+                            }
+
                             ForEach(viewModel.messages) { message in
-                                switch message.type {
-                                case let .text(text):
-                                    HStack {
-                                        if message.isCurrentUser {
-                                            Spacer()
-                                        }
-
-                                        ChatBubble(direction: message.isCurrentUser ? .right : .left) {
-                                            HStack {
-                                                Text(text)
-                                                    .lineLimit(nil)
-
-                                                VStack {
-                                                    Spacer()
-
-                                                    Text(message.date)
-                                                        .frame(height: 10)
-                                                        .font(.light(12))
-                                                        .foreground(.black(0.5))
-                                                        .padding(.bottom, -3)
-                                                }
-
-                                                if message.isCurrentUser {
-                                                    VStack {
-                                                        Spacer()
-
-                                                        Image(R.image.chat.readCheck.name)
-                                                            .resizable()
-                                                            .frame(width: 13.5, height: 10, alignment: .center)
-                                                            .padding(.bottom, -3)
-                                                    }
-
-                                                }
-                                            }
-                                            .modifier(BubbleModifier(isCurrentUser: message.isCurrentUser))
-                                        }
-                                        .padding(
-                                            .top,
-                                            message.isCurrentUser == viewModel.previous(message)?.isCurrentUser ? 12 : 28
-                                        )
-                                        .padding(message.isCurrentUser ? .leading : .trailing, 8)
-                                        .onAppear {
-                                            if message.id == self.viewModel.messages.last?.id && !scrolled {
-                                                reader.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
-                                                scrolled = true
-                                            }
-                                        }.onChange(of: viewModel.messages) { _ in
-                                            reader.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
-                                        }
-
-                                        if !message.isCurrentUser {
-                                            Spacer()
-                                        }
-                                    }
-                                default:
-                                    EmptyView()
+                                ChatRoomRow(
+                                    message: message,
+                                    isCurrentUser: viewModel.previous(message)?.isCurrentUser
+                                )
+                            }
+                            .onChange(of: viewModel.messages) { _ in
+                                withAnimation {
+                                    scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
                                 }
+                            }
+                            .onChange(of: viewModel.keyboardHeight) { _ in
+                                withAnimation {
+                                    scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
+                                }
+                            }
+                            .onAppear {
+                                scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
+                            }
+                            .onDisappear {
+                                print("onDisappear")
                             }
                         }
                     }
@@ -103,6 +76,11 @@ struct ChatRoomView: View {
                 hideKeyboard()
             }
             .edgesIgnoringSafeArea(.all)
+
+            if showActionSheet {
+                ActionSheetView(showActionSheet: $showActionSheet, action: $viewModel.action)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
         }
     }
 
@@ -138,7 +116,7 @@ struct ChatRoomView: View {
                     Text(viewModel.userMessage?.status == .online ? "онлайн" : "оффлайн")
                         .lineLimit(1)
                         .font(.regular(13))
-                        .foreground(.black(0.5))
+                        .foreground(viewModel.userMessage?.status == .online ? .blue() : .black(0.5))
                 }
 
                 Spacer()
@@ -172,7 +150,10 @@ struct ChatRoomView: View {
         VStack {
             HStack(spacing: 8) {
                 Button(action: {
-
+                    hideKeyboard()
+                    withAnimation {
+                        showActionSheet.toggle()
+                    }
                 }, label: {
                     Image(R.image.chat.plus.name)
                         .resizable()
@@ -207,9 +188,10 @@ struct ChatRoomView: View {
 
             Spacer()
         }
-        .frame(height: viewModel.keyboardHeight > 0 ? viewModel.keyboardHeight + 52 : 80)
+        .frame(height: viewModel.keyboardHeight > 0 ? 52 : 80)
         .background(.white())
         .edgesIgnoringSafeArea(.all)
+        .padding(.bottom, viewModel.keyboardHeight)
         .animation(.default)
     }
 }

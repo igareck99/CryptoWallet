@@ -34,6 +34,7 @@ struct ChatBubble<Content>: View where Content: View {
                         shape.stroke(Color(.gray()), lineWidth: 0.5)
                     )
             )
+            .clipped()
 
             if direction == .left {
                 Spacer()
@@ -44,8 +45,8 @@ struct ChatBubble<Content>: View where Content: View {
         .padding([.top, .bottom], 2)
         .transition(isAnimating ? .move(edge: .top) : .identity)
         .opacity(isAnimating ? 1 : 0)
-        .scaleEffect(isAnimating ? 1 : 0.4)
-        .animation(.easeInOut(duration: 0.4))
+        .scaleEffect(isAnimating ? 1 : 0.8)
+        .animation(.easeInOut(duration: 0.3))
         .onAppear {
             if !isAnimating {
                 isAnimating.toggle()

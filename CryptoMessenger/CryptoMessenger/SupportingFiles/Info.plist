@@ -38,6 +38,16 @@
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App requires to access your photo library to show image in profile</string>
+	<key>NSCameraUsageDescription</key>
+	<string>App requires to access your camera to pick photos for profile feed</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>App requires to access your location to send it to friends</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App requires to access your photo library to show image in profile</string>
+	<key>Privacy - Location Always Usage Description </key>
+	<string>App requires to access your location to share it with friends</string>
+	<key>Privacy - Location When in Usage Description</key>
+	<string>App requires to access your location to send it to friends</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik-Light.ttf</string>
@@ -76,6 +86,10 @@
 	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
