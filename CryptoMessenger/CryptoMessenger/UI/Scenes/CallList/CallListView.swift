@@ -7,16 +7,24 @@ final class CallListView: UIView {
     // MARK: - Private Properties
 
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
-    private var callList: [CallStruct] = []
+    private var tableProvider: TableViewProvider?
+    private var filteredViewModel: CallListViewModel = .init([])
+    private var tableModel: CallListViewModel = .init(callList) {
+        didSet {
+            if tableProvider == nil {
+                setupTableProvider()
+            }
+            tableProvider?.reloadData()
+        }
+    }
 
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
-        createCallListArray()
-        setTableViewDelegates()
         setupTableView()
+        setupTableProvider()
     }
 
     @available(*, unavailable)
@@ -26,22 +34,6 @@ final class CallListView: UIView {
 
     // MARK: - Internal Methods
 
-    private func createCallListArray() {
-        callList.append(CallStruct(name: "Martin Randolph", dateTime: "19 сен 18:59", image: R.image.callList.user1(),
-                                   isIncall: false))
-        callList.append(CallStruct(name: "Karen Castillo", dateTime: "07 сен 18:36", image: R.image.callList.user2(),
-                                   isIncall: true))
-        callList.append(CallStruct(name: "Kieron Dotson", dateTime: "04 сен 18:11", image: R.image.callList.user3(),
-                                   isIncall: true))
-        callList.append(CallStruct(name: "Jamie Franco", dateTime: "03 июн 06:27", image: R.image.callList.user4(),
-                                   isIncall: true))
-    }
-
-    func setTableViewDelegates() {
-        tableView.delegate = self
-        tableView.dataSource = self
-    }
-
     func removeCall(index: Int) {
         callList.remove(at: index)
         tableView.reloadData()
@@ -49,7 +41,8 @@ final class CallListView: UIView {
 
     func removeAllCalls() {
         callList.removeAll()
-        tableView.reloadData()
+        tableProvider?.setViewModel(with: filteredViewModel)
+        tableProvider?.reloadData()
     }
 
     // MARK: - Private Methods
@@ -66,26 +59,18 @@ final class CallListView: UIView {
         }
     }
 
-}
-
-// MARK: - CallListView (UITableViewDelegate)
-
-extension CallListView: UITableViewDataSource, UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return callList.count
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CallCell.identifier, for: indexPath) as?
-                CallCell else { return CallCell() }
-        let currentLastItem = callList[indexPath.row]
-        cell.configure(currentLastItem)
-        return cell
+    private func setupTableProvider() {
+        tableProvider = TableViewProvider(for: tableView, with: tableModel)
+        tableProvider?.registerCells([CallCell.self])
+        tableProvider?.onConfigureCell = { [unowned self] indexPath in
+            guard let provider = self.tableProvider else { return .init() }
+            let cell: CallCell = provider.dequeueReusableCell(for: indexPath)
+            let item = filteredViewModel.items.isEmpty
+                ? tableModel.items[indexPath.section]
+                : filteredViewModel.items[indexPath.section]
+            cell.configure(item)
+            return cell
+        }
     }
 
     func tableView(_ tableView: UITableView,
@@ -98,4 +83,16 @@ extension CallListView: UITableViewDataSource, UITableViewDelegate {
         action.image = R.image.callList.deleteimage()
         return UISwipeActionsConfiguration(actions: [action])
     }
+
 }
+
+private  var callList: [CallStruct] = [
+    .init(name: "Martin Randolph", dateTime: "19 сен 18:59", image: R.image.callList.user1(),
+          isIncall: false),
+    .init(name: "Karen Castillo", dateTime: "07 сен 18:36", image: R.image.callList.user2(),
+          isIncall: true),
+    .init(name: "Kieron Dotson", dateTime: "04 сен 18:11", image: R.image.callList.user3(),
+          isIncall: true),
+    .init(name: "Jamie Franco", dateTime: "03 июн 06:27", image: R.image.callList.user4(),
+          isIncall: true)
+]
