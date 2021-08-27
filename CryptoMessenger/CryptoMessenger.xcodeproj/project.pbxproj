@@ -77,6 +77,10 @@
 		5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0D2680CF49001957D3 /* PhoneContact.swift */; };
 		5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */; };
 		5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A18EF8D26B988EA0038E991 /* ImagePicker.swift */; };
+		5A2181E426D80B4E0093AD60 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2181E326D80B4E0093AD60 /* ActionSheetView.swift */; };
+		5A2181E726D82DC40093AD60 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2181E626D82DC40093AD60 /* LocationManager.swift */; };
+		5A2181E926D83FD30093AD60 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2181E826D83FD20093AD60 /* MapKit.framework */; };
+		5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2181EA26D8563D0093AD60 /* MapView.swift */; };
 		5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */; };
 		5A26CD1C26B2EECA00118D4B /* WalletPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1626B2EECA00118D4B /* WalletPresenter.swift */; };
 		5A26CD1D26B2EECA00118D4B /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1726B2EECA00118D4B /* WalletViewController.swift */; };
@@ -268,6 +272,10 @@
 		5A187F0D2680CF49001957D3 /* PhoneContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneContact.swift; sourceTree = "<group>"; };
 		5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		5A18EF8D26B988EA0038E991 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		5A2181E326D80B4E0093AD60 /* ActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
+		5A2181E626D82DC40093AD60 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		5A2181E826D83FD20093AD60 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		5A2181EA26D8563D0093AD60 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
 		5A26CD1626B2EECA00118D4B /* WalletPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPresenter.swift; sourceTree = "<group>"; };
 		5A26CD1726B2EECA00118D4B /* WalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewController.swift; sourceTree = "<group>"; };
@@ -391,6 +399,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A2181E926D83FD30093AD60 /* MapKit.framework in Frameworks */,
 				C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,6 +410,7 @@
 		3317E261A1E9E98DBBA1CBEB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5A2181E826D83FD20093AD60 /* MapKit.framework */,
 				121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */,
 			);
 			name = Frameworks;
@@ -674,6 +684,7 @@
 				5A42681826A9C063000C51DD /* PhoneHelper */,
 				5AF8633B26AADEF5004A417C /* CountdownTimer */,
 				5A18EF8C26B988DB0038E991 /* ImagePicker */,
+				5A2181E526D82D1F0093AD60 /* LocationManager */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -783,6 +794,14 @@
 				5A18EF8D26B988EA0038E991 /* ImagePicker.swift */,
 			);
 			path = ImagePicker;
+			sourceTree = "<group>";
+		};
+		5A2181E526D82D1F0093AD60 /* LocationManager */ = {
+			isa = PBXGroup;
+			children = (
+				5A2181E626D82DC40093AD60 /* LocationManager.swift */,
+			);
+			path = LocationManager;
 			sourceTree = "<group>";
 		};
 		5A26CD1326B2B88100118D4B /* Wallet */ = {
@@ -973,6 +992,8 @@
 				5A9318DD26C5AD0500645365 /* ChatBubbleShape.swift */,
 				5A9318DC26C5AD0500645365 /* BubbleModifier.swift */,
 				5A9318DB26C5AD0500645365 /* ChatBubble.swift */,
+				5A2181E326D80B4E0093AD60 /* ActionSheetView.swift */,
+				5A2181EA26D8563D0093AD60 /* MapView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1242,6 +1263,7 @@
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				5A26CD5826B3599800118D4B /* ChatPresenter.swift in Sources */,
 				5A187E9F2680708D001957D3 /* ScalableButtonView.swift in Sources */,
+				5A2181E426D80B4E0093AD60 /* ActionSheetView.swift in Sources */,
 				5A26CD5C26B3599800118D4B /* ChatConfigurator.swift in Sources */,
 				5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */,
 				5A187F292680CF49001957D3 /* RequestBuilder.swift in Sources */,
@@ -1349,6 +1371,7 @@
 				5A187DD726806F35001957D3 /* Injectable.swift in Sources */,
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
+				5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */,
 				5A187DE426806F62001957D3 /* AppFirebaseService.swift in Sources */,
 				5A9318D626C5AAF100645365 /* ChatRoomView.swift in Sources */,
 				5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */,
@@ -1391,6 +1414,7 @@
 				5A26CD3126B3195900118D4B /* CardViewModel.swift in Sources */,
 				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
+				5A2181E726D82DC40093AD60 /* LocationManager.swift in Sources */,
 				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
 				5A26CD4B26B356F600118D4B /* ProfilePresenter.swift in Sources */,

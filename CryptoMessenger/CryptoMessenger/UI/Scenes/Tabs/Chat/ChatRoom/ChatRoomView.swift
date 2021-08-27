@@ -13,6 +13,7 @@ struct ChatRoomView: View {
     // MARK: - Private Properties
 
     @State private var scrolled = false
+    @State private var showActionSheet = false
 
     // MARK: - Lifecycle
 
@@ -33,6 +34,15 @@ struct ChatRoomView: View {
                 ScrollViewReader { scrollView in
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack {
+                            HStack(alignment: .center) {
+                                Text("Fri, Jul 26")
+                                    .frame(width: 100, height: 24, alignment: .center)
+                                    .background(.lightGray())
+                                    .font(.regular(14))
+                                    .foreground(.black())
+                                    .cornerRadius(8)
+                            }
+
                             ForEach(viewModel.messages) { message in
                                 ChatRoomRow(
                                     message: message,
@@ -52,6 +62,9 @@ struct ChatRoomView: View {
                             .onAppear {
                                 scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
                             }
+                            .onDisappear {
+                                print("onDisappear")
+                            }
                         }
                     }
                 }
@@ -63,6 +76,11 @@ struct ChatRoomView: View {
                 hideKeyboard()
             }
             .edgesIgnoringSafeArea(.all)
+
+            if showActionSheet {
+                ActionSheetView(showActionSheet: $showActionSheet, action: $viewModel.action)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
         }
     }
 
@@ -98,7 +116,7 @@ struct ChatRoomView: View {
                     Text(viewModel.userMessage?.status == .online ? "онлайн" : "оффлайн")
                         .lineLimit(1)
                         .font(.regular(13))
-                        .foreground(.black(0.5))
+                        .foreground(viewModel.userMessage?.status == .online ? .blue() : .black(0.5))
                 }
 
                 Spacer()
@@ -132,7 +150,10 @@ struct ChatRoomView: View {
         VStack {
             HStack(spacing: 8) {
                 Button(action: {
-
+                    hideKeyboard()
+                    withAnimation {
+                        showActionSheet.toggle()
+                    }
                 }, label: {
                     Image(R.image.chat.plus.name)
                         .resizable()

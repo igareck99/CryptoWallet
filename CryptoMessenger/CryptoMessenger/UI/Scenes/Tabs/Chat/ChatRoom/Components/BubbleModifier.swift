@@ -12,9 +12,6 @@ struct BubbleModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .padding([.top, .bottom], 12)
-            .padding(.leading, isCurrentUser ? 22 : 16)
-            .padding(.trailing, isCurrentUser ? 16 : 22)
             .lineLimit(nil)
             .font(.regular(15))
             .background(.clear)

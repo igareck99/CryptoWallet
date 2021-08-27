@@ -10,6 +10,7 @@ final class ChatRoomViewModel: ObservableObject {
     weak var delegate: ChatRoomSceneDelegate?
 
     @Published var inputText: String = ""
+    @Published var action: Action?
     @Published private(set) var keyboardHeight: CGFloat = 0
     @Published private(set) var messages: [RoomMessage] = []
     @Published private(set) var state: ChatRoomFlow.ViewState = .idle
@@ -21,6 +22,8 @@ final class ChatRoomViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<ChatRoomFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     private let keyboardObserver = KeyboardObserver()
+
+    private let locationManager = LocationManager()
 
     // MARK: - Lifecycle
 
@@ -68,7 +71,7 @@ final class ChatRoomViewModel: ObservableObject {
 
     private func bindInput() {
         eventSubject
-            .debounce(for: 0.2, scheduler: RunLoop.main)
+            .debounce(for: 0.2, scheduler: DispatchQueue.main)
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
@@ -78,6 +81,30 @@ final class ChatRoomViewModel: ObservableObject {
                 case let .onSend(type):
                     self?.inputText = ""
                     self?.messages.append(.init(type: type, date: "00:33", isCurrentUser: true))
+                }
+            }
+            .store(in: &subscriptions)
+
+        $action
+            .sink { [weak self] action in
+                switch action {
+                case .location:
+                    if let location = self?.locationManager.getUserLocation() {
+                        let message = RoomMessage(
+                            type: .location(location),
+                            date: "00:31",
+                            isCurrentUser: true
+                        )
+                        self?.messages.append(message)
+                    } else {
+                        do {
+                            try self?.locationManager.requestLocationAccess()
+                        } catch {
+                            self?.locationManager.openAppSettings()
+                        }
+                    }
+                default:
+                    break
                 }
             }
             .store(in: &subscriptions)
@@ -133,6 +160,11 @@ private var sortedMessages: [RoomMessage] = [
     ),
     .init(
         type: .text("Ну, да! Классный проект!☺️"),
+        date: "00:31",
+        isCurrentUser: true
+    ),
+    .init(
+        type: .location((lat: 59.939099, long: 30.315877)),
         date: "00:31",
         isCurrentUser: true
     ),

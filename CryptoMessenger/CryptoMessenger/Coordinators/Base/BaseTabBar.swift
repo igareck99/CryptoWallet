@@ -77,8 +77,8 @@ private extension BaseTabBar {
         let appearance = UITabBarItem.appearance()
         appearance.titleAttributes(
             [
-                .font(.regular(11)),
-                .color(.gray()),
+                .font(.regular(11.5)),
+                .color(.darkGray()),
                 .paragraph(paragraphStyle)
 
             ],
@@ -86,7 +86,7 @@ private extension BaseTabBar {
         )
         appearance.titleAttributes(
             [
-                .font(.regular(11)),
+                .font(.regular(11.5)),
                 .color(.blue()),
                 .paragraph(paragraphStyle)
 
