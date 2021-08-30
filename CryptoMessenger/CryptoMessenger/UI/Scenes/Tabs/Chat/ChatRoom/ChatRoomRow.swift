@@ -45,8 +45,8 @@ struct ChatRoomRow: View {
                                 .onTapGesture {
                                     showMap.toggle()
                                 }
-                        default:
-                            EmptyView()
+                        case let .image(image):
+                            photoRow(image)
                         }
                     }
                     .modifier(BubbleModifier(isCurrentUser: message.isCurrentUser))
@@ -95,8 +95,8 @@ struct ChatRoomRow: View {
     private func mapRow(_ location: Location) -> some View {
         ZStack {
             MapView(place: .init(name: "", latitude: location.lat, longitude: location.long))
-                .border(Color(.custom(#colorLiteral(red: 0.7921568627, green: 0.8117647059, blue: 0.8235294118, alpha: 1))), width: 1)
-                .cornerRadius(12)
+                .border(Color(.lightGray()), width: 1)
+                .cornerRadius(18)
                 .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
 
             ZStack {
@@ -123,5 +123,18 @@ struct ChatRoomRow: View {
             }
         }
         .frame(width: 247, height: 142)
+    }
+
+    private func photoRow(_ uiImage: UIImage) -> some View {
+        ZStack {
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 202, height: 245, alignment: .center)
+                .border(Color(.lightGray()), width: 1)
+                .cornerRadius(18)
+                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+        }
+        .frame(width: 202, height: 245)
     }
 }

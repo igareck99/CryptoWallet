@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-// MARK: PickerView
+// MARK: - PickerView
 
 struct PickerView: UIViewRepresentable {
     @Binding var selectedIndex: Int

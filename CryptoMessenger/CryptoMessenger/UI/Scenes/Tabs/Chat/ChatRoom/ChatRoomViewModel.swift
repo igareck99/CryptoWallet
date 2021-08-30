@@ -15,6 +15,8 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private(set) var messages: [RoomMessage] = []
     @Published private(set) var state: ChatRoomFlow.ViewState = .idle
     @Published private(set) var userMessage: Message?
+    @Published var showPhotoLibrary = false
+    @Published var selectedImage: UIImage?
 
     // MARK: - Private Properties
 
@@ -103,9 +105,19 @@ final class ChatRoomViewModel: ObservableObject {
                             self?.locationManager.openAppSettings()
                         }
                     }
+                case .media:
+                    self?.showPhotoLibrary.toggle()
                 default:
                     break
                 }
+            }
+            .store(in: &subscriptions)
+
+        $selectedImage
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] image in
+                guard let image = image else { return }
+                self?.messages.append(.init(type: .image(image), date: "00:33", isCurrentUser: true))
             }
             .store(in: &subscriptions)
     }

@@ -22,6 +22,14 @@ struct ChatRoomView: View {
             .onAppear {
                 viewModel.send(.onAppear)
             }
+            .sheet(isPresented: $viewModel.showPhotoLibrary) {
+                NavigationView {
+                    ImagePickerView(selectedImage: $viewModel.selectedImage)
+                    .ignoresSafeArea()
+                    .navigationBarTitle(Text("Фото"))
+                    .navigationBarTitleDisplayMode(.inline)
+                }
+            }
     }
 
     private var content: some View {
