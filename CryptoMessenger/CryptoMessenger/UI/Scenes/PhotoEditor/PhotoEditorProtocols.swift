@@ -1,11 +1,3 @@
-//
-//  PhotoEditorProtocols.swift
-//  CryptoMessenger
-//
-//  Created by Игорь Коноваленко on 30.08.2021
-//  
-//
-
 import Foundation
 
 // MARK: - PhotoEditorSceneDelegate

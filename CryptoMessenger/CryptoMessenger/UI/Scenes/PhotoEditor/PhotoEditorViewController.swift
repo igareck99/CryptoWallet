@@ -1,11 +1,3 @@
-//
-//  PhotoEditorViewController.swift
-//  CryptoMessenger
-//
-//  Created by Игорь Коноваленко on 30.08.2021
-//  
-//
-
 import UIKit
 
 // MARK: PhotoEditorViewController
@@ -28,8 +20,49 @@ final class PhotoEditorViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.background(.red())
+        view.background(.darkBlack())
+        addTitleBarButtonItem()
+        addLeftBarButtonItem()
+        addRightBarButtonItem()
 
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupBlackNavigationBar()
+        showNavigationBar()
+    }
+
+    // MARK: - Private Methods
+
+    private func addTitleBarButtonItem() {
+        navigationItem.title = R.string.localizable.photoEditorTitle()
+    }
+
+    private func addLeftBarButtonItem() {
+        let back = UIBarButtonItem(
+            image: R.image.photoEditor.backButton(),
+            style: .done,
+            target: self,
+            action: #selector(backButtonTap)
+        )
+        navigationItem.leftBarButtonItem = back
+    }
+
+    private func addRightBarButtonItem() {
+        let dotes = UIBarButtonItem(
+            image: R.image.photoEditor.dotes(),
+            style: .done,
+            target: self,
+            action: #selector(dotesButtonTap)
+        )
+        navigationItem.rightBarButtonItem = dotes
+    }
+
+    @objc private func backButtonTap() {
+    }
+
+    @objc private func dotesButtonTap() {
     }
 
 }

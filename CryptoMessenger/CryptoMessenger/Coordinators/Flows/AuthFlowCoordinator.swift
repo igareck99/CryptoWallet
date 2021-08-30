@@ -162,6 +162,8 @@ extension AuthFlowCoordinator: CallListSceneDelegate {
     }
 }
 
+// MARK: - AuthFlowCoordinator (PhotoEditorSceneDelegate)
+
 extension AuthFlowCoordinator: PhotoEditorSceneDelegate {
     func handleButtonTap() {
 

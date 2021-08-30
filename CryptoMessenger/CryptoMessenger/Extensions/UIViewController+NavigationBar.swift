@@ -87,6 +87,29 @@ extension UIViewController {
         setupBackButton(.clear)
     }
 
+    func setupBlackNavigationBar() {
+        setNeedsStatusBarAppearanceUpdate()
+        navigationController?.navigationBar.shadowImage = nil
+        navigationController?.navigationBar.background(.darkBlack())
+        navigationController?.navigationBar.backItem?.backBarButtonItem?.title = nil
+        navigationController?.navigationBar.tintColor(.white())
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.barTintColor(.darkBlack())
+        navigationController?.navigationBar.isTranslucent = true
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .left
+
+        navigationController?.navigationBar.titleAttributes(
+            [
+                .font(.semibold(15)),
+                .color(.white()),
+                .paragraph(paragraph)
+            ]
+        )
+
+    }
+
     // MARK: - Private Methods
 
     private func setupBackButton(_ color: Palette = .black()) {
