@@ -213,6 +213,12 @@
 		789FEBD326D651430018FE91 /* AdditionalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBD226D651430018FE91 /* AdditionalViewController.swift */; };
 		789FEBD526D651530018FE91 /* AdditionalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBD426D651530018FE91 /* AdditionalView.swift */; };
 		789FEBD826D8FFD50018FE91 /* CallListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBD726D8FFD50018FE91 /* CallListViewModel.swift */; };
+		789FEBEC26DCE61D0018FE91 /* PhotoEditorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBE626DCE61D0018FE91 /* PhotoEditorPresenter.swift */; };
+		789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBE726DCE61D0018FE91 /* PhotoEditorViewController.swift */; };
+		789FEBEE26DCE61D0018FE91 /* PhotoEditorProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBE826DCE61D0018FE91 /* PhotoEditorProtocols.swift */; };
+		789FEBEF26DCE61D0018FE91 /* PhotoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBE926DCE61D0018FE91 /* PhotoEditorView.swift */; };
+		789FEBF026DCE61D0018FE91 /* PhotoEditorConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */; };
+		789FEBF126DCE61D0018FE91 /* PhotoEditorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -426,6 +432,12 @@
 		789FEBD226D651430018FE91 /* AdditionalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalViewController.swift; sourceTree = "<group>"; };
 		789FEBD426D651530018FE91 /* AdditionalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalView.swift; sourceTree = "<group>"; };
 		789FEBD726D8FFD50018FE91 /* CallListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListViewModel.swift; sourceTree = "<group>"; };
+		789FEBE626DCE61D0018FE91 /* PhotoEditorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorPresenter.swift; sourceTree = "<group>"; };
+		789FEBE726DCE61D0018FE91 /* PhotoEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorViewController.swift; sourceTree = "<group>"; };
+		789FEBE826DCE61D0018FE91 /* PhotoEditorProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorProtocols.swift; sourceTree = "<group>"; };
+		789FEBE926DCE61D0018FE91 /* PhotoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorView.swift; sourceTree = "<group>"; };
+		789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorConfigurator.swift; sourceTree = "<group>"; };
+		789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorFlow.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -561,6 +573,7 @@
 		5A187DF82680708D001957D3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				789FEBE526DCE6090018FE91 /* PhotoEditor */,
 				5A9318AF26BD20F700645365 /* PinCode */,
 				789B122A26CE889D002FCDDF /* CallList */,
 				5A187EC326807220001957D3 /* Onboarding */,
@@ -1179,6 +1192,19 @@
 			path = TableView;
 			sourceTree = "<group>";
 		};
+		789FEBE526DCE6090018FE91 /* PhotoEditor */ = {
+			isa = PBXGroup;
+			children = (
+				789FEBE626DCE61D0018FE91 /* PhotoEditorPresenter.swift */,
+				789FEBE726DCE61D0018FE91 /* PhotoEditorViewController.swift */,
+				789FEBE826DCE61D0018FE91 /* PhotoEditorProtocols.swift */,
+				789FEBE926DCE61D0018FE91 /* PhotoEditorView.swift */,
+				789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */,
+				789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */,
+			);
+			path = PhotoEditor;
+			sourceTree = "<group>";
+		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1347,6 +1373,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				789FEBF026DCE61D0018FE91 /* PhotoEditorConfigurator.swift in Sources */,
 				5A187EBB268070B3001957D3 /* NSMutableData+Extensions.swift in Sources */,
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
 				7879F4B526CFC49300D3213F /* CallStruct.swift in Sources */,
@@ -1392,11 +1419,13 @@
 				5A9318D526C5AAF100645365 /* ChatRoomProtocols.swift in Sources */,
 				5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */,
 				5A26CD1E26B2EECA00118D4B /* WalletProtocols.swift in Sources */,
+				789FEBF126DCE61D0018FE91 /* PhotoEditorFlow.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
 				5A26CD6326B35EB700118D4B /* ChatTableViewCell.swift in Sources */,
 				5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */,
 				5AF8637026ADD9BB004A417C /* MainFlowCoordinator.swift in Sources */,
+				789FEBEF26DCE61D0018FE91 /* PhotoEditorView.swift in Sources */,
 				5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
@@ -1410,6 +1439,7 @@
 				5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
 				5A26CD3E26B32F6900118D4B /* TransactionTableViewCell.swift in Sources */,
+				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
 				5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */,
 				5AF8636E26ADCB9B004A417C /* KeyImportFlow.swift in Sources */,
 				5A9318DE26C5AD0500645365 /* ChatBubble.swift in Sources */,
@@ -1455,6 +1485,7 @@
 				7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */,
 				5A26CD5B26B3599800118D4B /* ChatView.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
+				789FEBEC26DCE61D0018FE91 /* PhotoEditorPresenter.swift in Sources */,
 				789B123326CE8906002FCDDF /* CallListProtocols.swift in Sources */,
 				5A26CD3526B31B4000118D4B /* CardCollectionViewCell.swift in Sources */,
 				5AF8636926ADCB9B004A417C /* KeyImportPresenter.swift in Sources */,
@@ -1532,6 +1563,7 @@
 				5A9318BA26BD210400645365 /* PinCodeConfigurator.swift in Sources */,
 				5A26CD2926B2FF9900118D4B /* CarouselAnimatableFlowLayout.swift in Sources */,
 				5AA6410C268233CA008922B4 /* ButtonDecor.swift in Sources */,
+				789FEBEE26DCE61D0018FE91 /* PhotoEditorProtocols.swift in Sources */,
 				789B123226CE8906002FCDDF /* CallListViewController.swift in Sources */,
 				5A187F282680CF49001957D3 /* APIClient.swift in Sources */,
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
