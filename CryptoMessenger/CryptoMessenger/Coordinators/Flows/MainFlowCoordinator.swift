@@ -103,7 +103,7 @@ public final class MainFlowCoordinator: Coordinator {
                 let image = R.image.tabBar.services()
                 let item = UITabBarItem(
                     title: R.string.localizable.tabServices(),
-                    image: image?.withRenderingMode(.alwaysOriginal),
+                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
                     selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
                 )
                 item.tag = index
@@ -112,7 +112,7 @@ public final class MainFlowCoordinator: Coordinator {
                 let image = R.image.tabBar.chat()
                 let item = UITabBarItem(
                     title: R.string.localizable.tabChat(),
-                    image: image?.withRenderingMode(.alwaysOriginal),
+                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
                     selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
                 )
                 item.tag = index
@@ -121,7 +121,7 @@ public final class MainFlowCoordinator: Coordinator {
                 let image = R.image.tabBar.wallet()
                 let item = UITabBarItem(
                     title: R.string.localizable.tabWallet(),
-                    image: image?.withRenderingMode(.alwaysOriginal),
+                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
                     selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
                 )
                 item.tag = index
@@ -130,7 +130,7 @@ public final class MainFlowCoordinator: Coordinator {
                 let image = R.image.tabBar.profile()
                 let item = UITabBarItem(
                     title: R.string.localizable.tabProfile(),
-                    image: image?.withRenderingMode(.alwaysOriginal),
+                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
                     selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
                 )
                 item.tag = index
