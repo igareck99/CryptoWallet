@@ -33,7 +33,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.pinCode)
+        handleNextScene(.callList)
     }
 
     // MARK: - Private Methods
@@ -70,6 +70,11 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.viewControllers.last?.present(nvc, animated: true)
     }
 
+    private func showCallListScene() {
+            let viewController = CallListConfigurator.configuredViewController(delegate: self)
+            setViewWith(viewController)
+        }
+
     private func showPinCodeScene() {
         let viewController = PinCodeConfigurator.configuredViewController(delegate: self)
         setViewWith(viewController)
@@ -84,6 +89,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case generationInfo
         case keyImport
         case main
+        case callList
         case countryCode(CountryCodePickerDelegate)
         case pinCode
     }
@@ -110,6 +116,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             switchFlow()
         case .pinCode:
             showPinCodeScene()
+        case .callList:
+            showCallListScene()
         }
     }
 
@@ -137,6 +145,14 @@ extension AuthFlowCoordinator: OnboardingSceneDelegate {}
 // MARK: - AuthFlowCoordinator (KeyImportSceneDelegate)
 
 extension AuthFlowCoordinator: KeyImportSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (CallListSceneDelegate)
+
+extension AuthFlowCoordinator: CallListSceneDelegate {
+    func handleButtonTap(_ scene: Scene) {
+
+    }
+}
 
 // MARK: - AuthFlowCoordinator (PinCodeSceneDelegate)
 

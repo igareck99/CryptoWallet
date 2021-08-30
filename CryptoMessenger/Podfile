@@ -28,5 +28,7 @@ target 'CryptoMessenger' do
 
   # Phone formatter
   pod 'PhoneNumberKit'
+  pod 'SPStorkController'
+
 
 end
