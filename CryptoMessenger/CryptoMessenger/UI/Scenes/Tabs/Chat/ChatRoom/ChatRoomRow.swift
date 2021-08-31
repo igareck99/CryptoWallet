@@ -45,8 +45,8 @@ struct ChatRoomRow: View {
                                 .onTapGesture {
                                     showMap.toggle()
                                 }
-                        default:
-                            EmptyView()
+                        case let .image(image):
+                            photoRow(image)
                         }
                     }
                     .modifier(BubbleModifier(isCurrentUser: message.isCurrentUser))
@@ -94,34 +94,53 @@ struct ChatRoomRow: View {
 
     private func mapRow(_ location: Location) -> some View {
         ZStack {
-            MapView(place: .init(name: "", latitude: location.lat, longitude: location.long))
-                .border(Color(.custom(#colorLiteral(red: 0.7921568627, green: 0.8117647059, blue: 0.8235294118, alpha: 1))), width: 1)
-                .cornerRadius(12)
-                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+            MapView(place: .init(name: "", latitude: location.lat, longitude: location.long), true)
 
-            ZStack {
-                VStack {
-                    Spacer()
-
-                    HStack {
-                        Spacer()
-
-                        HStack(alignment: .center, spacing: 4) {
-                            Text("14:47")
-                                .font(.light(12))
-                                .foreground(.white())
-
-                            Image(R.image.chat.readCheckWhite.name)
-                        }
-                        .frame(width: 56, height: 16)
-                        .background(.black(0.4))
-                        .cornerRadius(8)
-                    }
-                    .padding(.bottom, 8)
-                    .padding(.trailing, 8)
-                }
-            }
+            checkReadView()
         }
         .frame(width: 247, height: 142)
+    }
+
+    private func photoRow(_ uiImage: UIImage) -> some View {
+        ZStack {
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 202, height: 245, alignment: .center)
+
+            checkReadView()
+        }
+        .frame(width: 202, height: 245)
+    }
+
+    private func checkReadView() -> some View {
+        ZStack {
+            VStack {
+                Spacer()
+
+                HStack {
+                    if message.isCurrentUser {
+                        Spacer()
+                    }
+
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("14:47")
+                            .font(.light(12))
+                            .foreground(.white())
+
+                        Image(R.image.chat.readCheckWhite.name)
+                    }
+                    .frame(width: 56, height: 16)
+                    .background(.black(0.4))
+                    .cornerRadius(8)
+
+                    if !message.isCurrentUser {
+                        Spacer()
+                    }
+                }
+                .padding(.bottom, 8)
+                .padding(message.isCurrentUser ? .trailing : .leading, 10)
+            }
+        }
     }
 }

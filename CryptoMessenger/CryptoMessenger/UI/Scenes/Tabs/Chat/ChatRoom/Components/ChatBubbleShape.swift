@@ -46,13 +46,12 @@ struct ChatBubbleShape: Shape {
                        control2: CGPoint(x: 0, y: height))
             p.addLine(to: CGPoint(x: -0.05, y: height - 0.01))
             p.addCurve(to: CGPoint(x: 11.0, y: height - 4.0),
-                       control1: CGPoint(x: 4.0, y: height + 0.5),
+                       control1: CGPoint(x: 4, y: height + 0.5),
                        control2: CGPoint(x: 8, y: height - 1))
             p.addCurve(to: CGPoint(x: 25, y: height),
                        control1: CGPoint(x: 16, y: height),
                        control2: CGPoint(x: 20, y: height))
         }
-
         return path
     }
 

@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-// MARK: ScalableButtonView
+// MARK: - ScalableButtonView
 
 struct ScalableButtonView: View {
     private let title: String

@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: CGSize ()
+// MARK: - CGSize ()
 
 extension CGSize {
 

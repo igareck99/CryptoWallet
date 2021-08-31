@@ -15,6 +15,8 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private(set) var messages: [RoomMessage] = []
     @Published private(set) var state: ChatRoomFlow.ViewState = .idle
     @Published private(set) var userMessage: Message?
+    @Published var showPhotoLibrary = false
+    @Published var selectedImage: UIImage?
 
     // MARK: - Private Properties
 
@@ -103,9 +105,19 @@ final class ChatRoomViewModel: ObservableObject {
                             self?.locationManager.openAppSettings()
                         }
                     }
+                case .media:
+                    self?.showPhotoLibrary.toggle()
                 default:
                     break
                 }
+            }
+            .store(in: &subscriptions)
+
+        $selectedImage
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] image in
+                guard let image = image else { return }
+                self?.messages.append(.init(type: .image(image), date: "00:33", isCurrentUser: true))
             }
             .store(in: &subscriptions)
     }
@@ -174,24 +186,18 @@ private var sortedMessages: [RoomMessage] = [
         isCurrentUser: false
     ),
     .init(
-        type: .text("До завтра"),
+        type: .text("Кстати, я фанат Басты!)"),
+        date: "00:32",
+        isCurrentUser: false
+    ),
+    .init(
+        type: .image(R.image.chat.mockFeed3()!),
+        date: "00:32",
+        isCurrentUser: false
+    ),
+    .init(
+        type: .text("Сочувствую!)"),
         date: "00:32",
         isCurrentUser: true
     )
 ]
-
-extension Array where Element: Equatable {
-    func next(item: Element) -> Element? {
-        if let index = firstIndex(of: item), index + 1 <= count {
-            return index + 1 == count ? self[0] : self[index + 1]
-        }
-        return nil
-    }
-
-    func previous(item: Element) -> Element? {
-        if let index = firstIndex(of: item), index >= 0 {
-            return index == 0 ? last : self[index - 1]
-        }
-        return nil
-    }
-}
