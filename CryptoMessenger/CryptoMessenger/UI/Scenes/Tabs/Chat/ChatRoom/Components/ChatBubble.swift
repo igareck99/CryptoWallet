@@ -27,8 +27,15 @@ struct ChatBubble<Content>: View where Content: View {
 
             content()
                 .background(
+                    direction == .right ? Color(.lightBlue()) : Color(.beige())
+                )
+                .clipShape(
                     ChatBubbleShape(direction: direction)
-                        .fill(direction == .right ? Color(.lightBlue()) : Color(.beige()))
+                )
+                .overlay(
+                    ChatBubbleShape(direction: direction)
+                        .stroke(Color(.lightGray()), lineWidth: 0.5)
+                        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
                 )
 
             if direction == .left {

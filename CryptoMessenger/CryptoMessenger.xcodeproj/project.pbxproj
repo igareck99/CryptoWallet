@@ -169,6 +169,7 @@
 		5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */; };
 		5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FA26DCEA49009A1944 /* Resources.swift */; };
 		5AEB80FD26DD123E009A1944 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */; };
+		5AEB80FF26DE138F009A1944 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */; };
 		5AF8633526AA994E004A417C /* VerificationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8632F26AA994E004A417C /* VerificationPresenter.swift */; };
 		5AF8633626AA994E004A417C /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633026AA994E004A417C /* VerificationViewController.swift */; };
 		5AF8633726AA994E004A417C /* VerificationProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633126AA994E004A417C /* VerificationProtocols.swift */; };
@@ -384,6 +385,7 @@
 		5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
 		5AEB80FA26DCEA49009A1944 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		5AF8632F26AA994E004A417C /* VerificationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationPresenter.swift; sourceTree = "<group>"; };
 		5AF8633026AA994E004A417C /* VerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
 		5AF8633126AA994E004A417C /* VerificationProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProtocols.swift; sourceTree = "<group>"; };
@@ -679,6 +681,7 @@
 				5A26CD3626B31C3600118D4B /* UICollectionViewCell+Extensions.swift */,
 				5A26CD3826B31FBA00118D4B /* UICollectionView+Extensions.swift */,
 				5A187EB4268070B3001957D3 /* CGSize+Transform.swift */,
+				5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1484,6 +1487,7 @@
 				5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */,
 				5A187DE426806F62001957D3 /* AppFirebaseService.swift in Sources */,
 				5A9318D626C5AAF100645365 /* ChatRoomView.swift in Sources */,
+				5AEB80FF26DE138F009A1944 /* Array+Extensions.swift in Sources */,
 				5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */,
 				5A26CD4D26B356F600118D4B /* ProfileProtocols.swift in Sources */,
 				5A26CD1D26B2EECA00118D4B /* WalletViewController.swift in Sources */,
@@ -1695,7 +1699,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -1720,7 +1724,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;

@@ -94,33 +94,9 @@ struct ChatRoomRow: View {
 
     private func mapRow(_ location: Location) -> some View {
         ZStack {
-            MapView(place: .init(name: "", latitude: location.lat, longitude: location.long))
-                .border(Color(.lightGray()), width: 1)
-                .cornerRadius(18)
-                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+            MapView(place: .init(name: "", latitude: location.lat, longitude: location.long), true)
 
-            ZStack {
-                VStack {
-                    Spacer()
-
-                    HStack {
-                        Spacer()
-
-                        HStack(alignment: .center, spacing: 4) {
-                            Text("14:47")
-                                .font(.light(12))
-                                .foreground(.white())
-
-                            Image(R.image.chat.readCheckWhite.name)
-                        }
-                        .frame(width: 56, height: 16)
-                        .background(.black(0.4))
-                        .cornerRadius(8)
-                    }
-                    .padding(.bottom, 8)
-                    .padding(.trailing, 8)
-                }
-            }
+            checkReadView()
         }
         .frame(width: 247, height: 142)
     }
@@ -131,10 +107,40 @@ struct ChatRoomRow: View {
                 .resizable()
                 .scaledToFill()
                 .frame(width: 202, height: 245, alignment: .center)
-                .border(Color(.lightGray()), width: 1)
-                .cornerRadius(18)
-                .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+
+            checkReadView()
         }
         .frame(width: 202, height: 245)
+    }
+
+    private func checkReadView() -> some View {
+        ZStack {
+            VStack {
+                Spacer()
+
+                HStack {
+                    if message.isCurrentUser {
+                        Spacer()
+                    }
+
+                    HStack(alignment: .center, spacing: 4) {
+                        Text("14:47")
+                            .font(.light(12))
+                            .foreground(.white())
+
+                        Image(R.image.chat.readCheckWhite.name)
+                    }
+                    .frame(width: 56, height: 16)
+                    .background(.black(0.4))
+                    .cornerRadius(8)
+
+                    if !message.isCurrentUser {
+                        Spacer()
+                    }
+                }
+                .padding(.bottom, 8)
+                .padding(message.isCurrentUser ? .trailing : .leading, 10)
+            }
+        }
     }
 }

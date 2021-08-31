@@ -186,24 +186,18 @@ private var sortedMessages: [RoomMessage] = [
         isCurrentUser: false
     ),
     .init(
-        type: .text("До завтра"),
+        type: .text("Кстати, я фанат Басты!)"),
+        date: "00:32",
+        isCurrentUser: false
+    ),
+    .init(
+        type: .image(R.image.chat.mockFeed3()!),
+        date: "00:32",
+        isCurrentUser: false
+    ),
+    .init(
+        type: .text("Сочувствую!)"),
         date: "00:32",
         isCurrentUser: true
     )
 ]
-
-extension Array where Element: Equatable {
-    func next(item: Element) -> Element? {
-        if let index = firstIndex(of: item), index + 1 <= count {
-            return index + 1 == count ? self[0] : self[index + 1]
-        }
-        return nil
-    }
-
-    func previous(item: Element) -> Element? {
-        if let index = firstIndex(of: item), index >= 0 {
-            return index == 0 ? last : self[index - 1]
-        }
-        return nil
-    }
-}
