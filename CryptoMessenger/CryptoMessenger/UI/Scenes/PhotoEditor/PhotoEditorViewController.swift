@@ -31,6 +31,7 @@ final class PhotoEditorViewController: BaseViewController {
         super.viewWillAppear(animated)
         setupBlackNavigationBar()
         showNavigationBar()
+        subscribeOnCustomViewActions()
     }
 
     // MARK: - Private Methods
@@ -63,6 +64,13 @@ final class PhotoEditorViewController: BaseViewController {
     }
 
     @objc private func dotesButtonTap() {
+    }
+
+    private func subscribeOnCustomViewActions() {
+        customView.didTapShare = { [unowned self] in
+            let controller = UIActivityViewController(activityItems: [R.image.callList.blackPhone()], applicationActivities: nil)
+            present(controller, animated: true, completion: nil)
+        }
     }
 
 }
