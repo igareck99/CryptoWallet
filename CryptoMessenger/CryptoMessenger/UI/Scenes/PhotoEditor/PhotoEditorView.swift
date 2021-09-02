@@ -9,15 +9,28 @@ final class PhotoEditorView: UIView {
     var didTapShare: VoidBlock?
 
     // MARK: - Private Properties
-
     private lazy var shareButton = UIButton()
     private lazy var brushButton = UIButton()
     private lazy var dateLabel = UILabel()
+    var previewCollection: UICollectionView
+    var thumbnailCollection: UICollectionView
+    var synchronizer: ScrollSynchronizer
+    var debugCenterLine: UIView
 
     // MARK: - Lifecycle
 
-    override init(frame: CGRect) {
+    init(frame: CGRect, sizeForIndex: ((Int) -> CGSize)?) {
+        let previewLayout = PreviewLayout()
+        let thumbnailLayout = ThumbnailLayout(dataSource: sizeForIndex)
+        previewCollection = UICollectionView(frame: .zero, collectionViewLayout: previewLayout)
+        thumbnailCollection = UICollectionView(frame: .zero, collectionViewLayout: thumbnailLayout)
+        synchronizer = ScrollSynchronizer(
+            preview: previewLayout,
+            thumbnails: thumbnailLayout)
+        debugCenterLine = UIView()
         super.init(frame: frame)
+        addThumbnailCollection()
+        addPreviewCollection()
         addShareButton()
         addBrushButton()
         addDateLabel()
@@ -35,6 +48,29 @@ final class PhotoEditorView: UIView {
     }
 
     // MARK: - Private Methods
+
+    private func addPreviewCollection() {
+        previewCollection.snap(parent: self) {
+            $0.isPagingEnabled = true
+            $0.showsVerticalScrollIndicator = false
+            $0.showsHorizontalScrollIndicator = false
+        } layout: {
+            $0.top.leading.trailing.equalTo($1)
+            $0.bottom.equalTo(self.thumbnailCollection.snp.top)
+        }
+    }
+
+    func addThumbnailCollection() {
+        thumbnailCollection.snap(parent: self) {
+            $0.showsVerticalScrollIndicator = false
+            $0.showsHorizontalScrollIndicator = false
+        } layout: {
+            $0.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottomMargin)
+            $0.leading.equalTo($1)
+            $0.trailing.equalTo($1)
+            $0.height.equalTo(66)
+        }
+    }
 
     private func addShareButton() {
         shareButton.snap(parent: self) {
@@ -78,5 +114,8 @@ final class PhotoEditorView: UIView {
             $0.centerX.equalTo($1)
             $0.bottom.equalTo($1).offset(-32)
         }
+    }
+    var indexInFocus: Int {
+        return synchronizer.activeIndex
     }
 }

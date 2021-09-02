@@ -7,15 +7,24 @@ final class PhotoEditorViewController: BaseViewController {
     // MARK: - Internal Properties
 
     var presenter: PhotoEditorPresentation!
+    var dataSource: PhotosDataSource?
+    var contentView: PhotoEditorView {
+        return (view as? PhotoEditorView).require()
+    }
 
     // MARK: - Private Properties
-
-    private lazy var customView = PhotoEditorView(frame: UIScreen.main.bounds)
 
     // MARK: - Lifecycle
 
     override func loadView() {
-        view = customView
+        view = PhotoEditorView(frame: UIScreen.main.bounds, sizeForIndex: {
+            if let images = self.dataSource?.images {
+                return images.count > $0 ? images[$0].size : CGSize(width: 1, height: 1)
+            }
+            return CGSize(width: 1, height: 1)
+        })
+        dataSource = PhotosDataSource(preview: contentView.previewCollection,
+                                      thumbnails: contentView.thumbnailCollection)
     }
 
     override func viewDidLoad() {
@@ -32,6 +41,16 @@ final class PhotoEditorViewController: BaseViewController {
         setupBlackNavigationBar()
         showNavigationBar()
         subscribeOnCustomViewActions()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        contentView.synchronizer.layoutState = .ready
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        contentView.synchronizer.layoutState = .configuring
     }
 
     // MARK: - Private Methods
@@ -67,7 +86,7 @@ final class PhotoEditorViewController: BaseViewController {
     }
 
     private func subscribeOnCustomViewActions() {
-        customView.didTapShare = { [unowned self] in
+        contentView.didTapShare = { [unowned self] in
             let controller = UIActivityViewController(activityItems: [R.image.callList.blackPhone()], applicationActivities: nil)
             present(controller, animated: true, completion: nil)
         }
