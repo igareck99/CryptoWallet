@@ -15,7 +15,6 @@ final class PhotoEditorView: UIView {
     var previewCollection: UICollectionView
     var thumbnailCollection: UICollectionView
     var synchronizer: ScrollSynchronizer
-    var debugCenterLine: UIView
 
     // MARK: - Lifecycle
 
@@ -27,7 +26,6 @@ final class PhotoEditorView: UIView {
         synchronizer = ScrollSynchronizer(
             preview: previewLayout,
             thumbnails: thumbnailLayout)
-        debugCenterLine = UIView()
         super.init(frame: frame)
         addThumbnailCollection()
         addPreviewCollection()
