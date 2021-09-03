@@ -235,10 +235,11 @@
 		78E8EF2B26E1120900B5A4D6 /* ProgressAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EF1A26E1120900B5A4D6 /* ProgressAnimator.swift */; };
 		78E8EF2C26E1120900B5A4D6 /* DeleteAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EF1B26E1120900B5A4D6 /* DeleteAnimation.swift */; };
 		78E8EF2D26E1120900B5A4D6 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EF1C26E1120900B5A4D6 /* PhotosDataSource.swift */; };
-		78E8EF3526E1175100B5A4D6 /* UICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EF3426E1175100B5A4D6 /* UICollectionViewCell.swift */; };
-		78E8EF3726E14CB000B5A4D6 /* SnapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EF3626E14CB000B5A4D6 /* SnapView.swift */; };
-		78E8EF3926E14DCA00B5A4D6 /* CGSize+AspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EF3826E14DCA00B5A4D6 /* CGSize+AspectRatio.swift */; };
-		78E8EF3B26E14E1000B5A4D6 /* TimingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EF3A26E14E1000B5A4D6 /* TimingFunctions.swift */; };
+		78E8EFF926E2A44E00B5A4D6 /* TimingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EFF526E2A44D00B5A4D6 /* TimingFunctions.swift */; };
+		78E8EFFA26E2A44E00B5A4D6 /* CGSize+aspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EFF626E2A44D00B5A4D6 /* CGSize+aspectRatio.swift */; };
+		78E8EFFB26E2A44E00B5A4D6 /* SnapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EFF726E2A44D00B5A4D6 /* SnapView.swift */; };
+		78E8EFFC26E2A44E00B5A4D6 /* UICollectionViewCell+reuseId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EFF826E2A44D00B5A4D6 /* UICollectionViewCell+reuseId.swift */; };
+		78E8EFFE26E2A49D00B5A4D6 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 78E8EFFD26E2A49D00B5A4D6 /* Data */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -474,10 +475,11 @@
 		78E8EF1A26E1120900B5A4D6 /* ProgressAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressAnimator.swift; sourceTree = "<group>"; };
 		78E8EF1B26E1120900B5A4D6 /* DeleteAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteAnimation.swift; sourceTree = "<group>"; };
 		78E8EF1C26E1120900B5A4D6 /* PhotosDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
-		78E8EF3426E1175100B5A4D6 /* UICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCell.swift; sourceTree = "<group>"; };
-		78E8EF3626E14CB000B5A4D6 /* SnapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapView.swift; sourceTree = "<group>"; };
-		78E8EF3826E14DCA00B5A4D6 /* CGSize+AspectRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+AspectRatio.swift"; sourceTree = "<group>"; };
-		78E8EF3A26E14E1000B5A4D6 /* TimingFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimingFunctions.swift; sourceTree = "<group>"; };
+		78E8EFF526E2A44D00B5A4D6 /* TimingFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimingFunctions.swift; path = ../TimingFunctions.swift; sourceTree = "<group>"; };
+		78E8EFF626E2A44D00B5A4D6 /* CGSize+aspectRatio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGSize+aspectRatio.swift"; path = "../CGSize+aspectRatio.swift"; sourceTree = "<group>"; };
+		78E8EFF726E2A44D00B5A4D6 /* SnapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapView.swift; path = ../SnapView.swift; sourceTree = "<group>"; };
+		78E8EFF826E2A44D00B5A4D6 /* UICollectionViewCell+reuseId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UICollectionViewCell+reuseId.swift"; path = "../UICollectionViewCell+reuseId.swift"; sourceTree = "<group>"; };
+		78E8EFFD26E2A49D00B5A4D6 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1250,15 +1252,16 @@
 		78E8EF0626E1120900B5A4D6 /* Single Photo Preview */ = {
 			isa = PBXGroup;
 			children = (
+				78E8EFFD26E2A49D00B5A4D6 /* Data */,
 				78E8EF0726E1120900B5A4D6 /* Cells */,
 				78E8EF0B26E1120900B5A4D6 /* Layout */,
 				78E8EF1426E1120900B5A4D6 /* ScrollSynchronizer.swift */,
 				78E8EF1726E1120900B5A4D6 /* Animations */,
 				78E8EF1C26E1120900B5A4D6 /* PhotosDataSource.swift */,
-				78E8EF3426E1175100B5A4D6 /* UICollectionViewCell.swift */,
-				78E8EF3626E14CB000B5A4D6 /* SnapView.swift */,
-				78E8EF3826E14DCA00B5A4D6 /* CGSize+AspectRatio.swift */,
-				78E8EF3A26E14E1000B5A4D6 /* TimingFunctions.swift */,
+				78E8EFF626E2A44D00B5A4D6 /* CGSize+aspectRatio.swift */,
+				78E8EFF726E2A44D00B5A4D6 /* SnapView.swift */,
+				78E8EFF526E2A44D00B5A4D6 /* TimingFunctions.swift */,
+				78E8EFF826E2A44D00B5A4D6 /* UICollectionViewCell+reuseId.swift */,
 			);
 			name = "Single Photo Preview";
 			path = "../../../../../../PhotosApp/PhotosApp/Single Photo Preview";
@@ -1392,6 +1395,7 @@
 				5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */,
 				5A187DC826806EF9001957D3 /* Assets.xcassets in Resources */,
 				5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */,
+				78E8EFFE26E2A49D00B5A4D6 /* Data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1499,6 +1503,7 @@
 				5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */,
 				5A187F292680CF49001957D3 /* RequestBuilder.swift in Sources */,
 				5A26CD3926B31FBA00118D4B /* UICollectionView+Extensions.swift in Sources */,
+				78E8EFF926E2A44E00B5A4D6 /* TimingFunctions.swift in Sources */,
 				5A187F2A2680CF49001957D3 /* URLResponseCapable.swift in Sources */,
 				78E8EF2426E1120900B5A4D6 /* PreviewLayout.swift in Sources */,
 				78E8EF2126E1120900B5A4D6 /* CellUpdate.swift in Sources */,
@@ -1554,6 +1559,7 @@
 				5A187F262680CF49001957D3 /* APIError.swift in Sources */,
 				5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
+				78E8EFFA26E2A44E00B5A4D6 /* CGSize+aspectRatio.swift in Sources */,
 				5A26CD3E26B32F6900118D4B /* TransactionTableViewCell.swift in Sources */,
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
 				5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */,
@@ -1572,7 +1578,6 @@
 				5A187EA62680708D001957D3 /* NibLoadableView.swift in Sources */,
 				5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */,
 				5AF8633926AA994E004A417C /* VerificationConfigurator.swift in Sources */,
-				78E8EF3B26E14E1000B5A4D6 /* TimingFunctions.swift in Sources */,
 				5A26CD1F26B2EECA00118D4B /* WalletView.swift in Sources */,
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
@@ -1582,7 +1587,6 @@
 				78E8EF2226E1120900B5A4D6 /* ThumbnailLayout.swift in Sources */,
 				5A187E9B2680708D001957D3 /* ListSeparatorStyle.swift in Sources */,
 				5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */,
-				78E8EF3726E14CB000B5A4D6 /* SnapView.swift in Sources */,
 				5A42680A26A83554000C51DD /* RegistrationFlow.swift in Sources */,
 				5A42680826A83554000C51DD /* RegistrationView.swift in Sources */,
 				5A187E962680708D001957D3 /* InputTextField.swift in Sources */,
@@ -1623,6 +1627,7 @@
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
 				5A187DD726806F35001957D3 /* Injectable.swift in Sources */,
+				78E8EFFC26E2A44E00B5A4D6 /* UICollectionViewCell+reuseId.swift in Sources */,
 				78B04FA626DF256900684E0A /* ImageData.swift in Sources */,
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
@@ -1660,13 +1665,13 @@
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
 				789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */,
 				5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */,
+				78E8EFFB26E2A44E00B5A4D6 /* SnapView.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
 				5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */,
 				5A26CD4E26B356F600118D4B /* ProfileConfigurator.swift in Sources */,
 				5A187F332680CF49001957D3 /* MultipartFileData.swift in Sources */,
 				5A26CD2E26B3114400118D4B /* BarButtonStyle.swift in Sources */,
 				5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */,
-				78E8EF3526E1175100B5A4D6 /* UICollectionViewCell.swift in Sources */,
 				5A42680726A83554000C51DD /* RegistrationProtocols.swift in Sources */,
 				5A187EB9268070B3001957D3 /* UIImageView+Kingfisher.swift in Sources */,
 				7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */,
@@ -1697,7 +1702,6 @@
 				5A26CD2726B2FF9900118D4B /* CarouselNonAnimatableFlowLayout.swift in Sources */,
 				5A26CD5D26B3599800118D4B /* ChatFlow.swift in Sources */,
 				5A187DF326807011001957D3 /* BaseViewController.swift in Sources */,
-				78E8EF3926E14DCA00B5A4D6 /* CGSize+AspectRatio.swift in Sources */,
 				5A187DE326806F62001957D3 /* AppPushNotificationsService.swift in Sources */,
 				5A26CD3326B319ED00118D4B /* Card.swift in Sources */,
 				5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */,
