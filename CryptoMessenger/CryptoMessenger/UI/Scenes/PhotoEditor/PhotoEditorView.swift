@@ -15,7 +15,6 @@ final class PhotoEditorView: UIView {
     var previewCollection: UICollectionView
     var thumbnailCollection: UICollectionView
     var synchronizer: ScrollSynchronizer
-    var debugCenterLine: UIView
 
     // MARK: - Lifecycle
 
@@ -27,7 +26,6 @@ final class PhotoEditorView: UIView {
         synchronizer = ScrollSynchronizer(
             preview: previewLayout,
             thumbnails: thumbnailLayout)
-        debugCenterLine = UIView()
         super.init(frame: frame)
         addThumbnailCollection()
         addPreviewCollection()
@@ -65,10 +63,10 @@ final class PhotoEditorView: UIView {
             $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
         } layout: {
-            $0.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottomMargin)
+            $0.bottom.equalTo($1).offset(-137)
             $0.leading.equalTo($1)
             $0.trailing.equalTo($1)
-            $0.height.equalTo(66)
+            $0.height.equalTo(48)
         }
     }
 
@@ -115,7 +113,5 @@ final class PhotoEditorView: UIView {
             $0.bottom.equalTo($1).offset(-32)
         }
     }
-    var indexInFocus: Int {
-        return synchronizer.activeIndex
-    }
+
 }
