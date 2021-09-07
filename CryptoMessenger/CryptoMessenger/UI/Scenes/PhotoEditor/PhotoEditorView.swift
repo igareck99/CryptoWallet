@@ -7,6 +7,7 @@ final class PhotoEditorView: UIView {
     // MARK: - Internal Properties
 
     var didTapShare: VoidBlock?
+    var didTapBrush: VoidBlock?
 
     // MARK: - Private Properties
     private lazy var shareButton = UIButton()
@@ -45,6 +46,10 @@ final class PhotoEditorView: UIView {
         didTapShare?()
     }
 
+    @objc private func brushButtonAction() {
+        didTapBrush?()
+    }
+
     // MARK: - Private Methods
 
     private func addPreviewCollection() {
@@ -63,7 +68,7 @@ final class PhotoEditorView: UIView {
             $0.showsVerticalScrollIndicator = false
             $0.showsHorizontalScrollIndicator = false
         } layout: {
-            $0.bottom.equalTo($1).offset(-137)
+            $0.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-137)
             $0.leading.equalTo($1)
             $0.trailing.equalTo($1)
             $0.height.equalTo(48)
@@ -86,6 +91,7 @@ final class PhotoEditorView: UIView {
         brushButton.snap(parent: self) {
             $0.setImage(R.image.callList.deleteimage(), for: .normal)
             $0.contentMode = .scaleAspectFill
+            $0.addTarget(self, action: #selector(self.brushButtonAction), for: .touchUpInside)
         } layout: {
             $0.trailing.equalTo($1).offset(-16)
             $0.bottom.equalTo($1).offset(-32)

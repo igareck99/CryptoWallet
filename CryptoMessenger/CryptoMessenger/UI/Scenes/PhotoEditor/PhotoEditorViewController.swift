@@ -12,8 +12,6 @@ final class PhotoEditorViewController: BaseViewController {
         return (view as? PhotoEditorView).require()
     }
 
-    // MARK: - Private Properties
-
     // MARK: - Lifecycle
 
     override func loadView() {
@@ -33,6 +31,8 @@ final class PhotoEditorViewController: BaseViewController {
         addTitleBarButtonItem()
         addLeftBarButtonItem()
         addRightBarButtonItem()
+        contentView.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
+        contentView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
 
     }
 
@@ -54,6 +54,12 @@ final class PhotoEditorViewController: BaseViewController {
     }
 
     // MARK: - Private Methods
+
+    private func createSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        swipeGestureRecognizer.direction = direction
+        return swipeGestureRecognizer
+    }
 
     private func addTitleBarButtonItem() {
         navigationItem.title = R.string.localizable.photoEditorTitle()
@@ -85,17 +91,38 @@ final class PhotoEditorViewController: BaseViewController {
     @objc private func dotesButtonTap() {
     }
 
-    private func subscribeOnCustomViewActions() {
-        contentView.didTapShare = { [unowned self] in
-            let controller = UIActivityViewController(activityItems: [R.image.callList.blackPhone()], applicationActivities: nil)
-            present(controller, animated: true, completion: nil)
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case .up:
+            print("Тут переходим на экран")
+        case .down:
+            print("Тут переходим на экран тоже")
+        default:
+            break
         }
     }
 
+    private func subscribeOnCustomViewActions() {
+        contentView.didTapShare = { [unowned self] in
+            let controller = UIActivityViewController(activityItems: [dataSource?.images[contentView.synchronizer.activeIndex]],
+                                                      applicationActivities: nil)
+            present(controller, animated: true, completion: nil)
+        }
+        contentView.didTapBrush = { [unowned self] in
+            let alert = UIAlertController(title: "Удалить фото?", message: "Это действие нельзя отменить",
+                                          preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Отмена", style: UIAlertAction.Style.default, handler: { _ in }))
+            alert.addAction(UIAlertAction(title: "Удалить",
+                                          style: UIAlertAction.Style.default,
+                                          handler: {(_: UIAlertAction!) in
+                                            dataSource?.images.remove(at: contentView.synchronizer.activeIndex)
+                                            contentView.synchronizer.reload()
+                                          }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 }
-
 // MARK: - PhotoEditorViewInterface
-
 extension PhotoEditorViewController: PhotoEditorViewInterface {
     func showAlert(title: String?, message: String?) {
         presentAlert(title: title, message: message)
