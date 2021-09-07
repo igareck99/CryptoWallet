@@ -200,6 +200,7 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
+		78296B6126E7A62300BCC543 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 78296B6026E7A62300BCC543 /* Data */; };
 		7879F4B526CFC49300D3213F /* CallStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7879F4B426CFC49300D3213F /* CallStruct.swift */; };
 		7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */; };
 		7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7896226B26B992AD00033B3B /* ProfileCell.swift */; };
@@ -239,7 +240,6 @@
 		78E8EFFA26E2A44E00B5A4D6 /* CGSize+aspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EFF626E2A44D00B5A4D6 /* CGSize+aspectRatio.swift */; };
 		78E8EFFB26E2A44E00B5A4D6 /* SnapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EFF726E2A44D00B5A4D6 /* SnapView.swift */; };
 		78E8EFFC26E2A44E00B5A4D6 /* UICollectionViewCell+reuseId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8EFF826E2A44D00B5A4D6 /* UICollectionViewCell+reuseId.swift */; };
-		78E8EFFE26E2A49D00B5A4D6 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 78E8EFFD26E2A49D00B5A4D6 /* Data */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -440,6 +440,7 @@
 		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
+		78296B6026E7A62300BCC543 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Data; path = ../../../../Downloads/Data; sourceTree = "<group>"; };
 		7879F4B426CFC49300D3213F /* CallStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStruct.swift; sourceTree = "<group>"; };
 		7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthentication.swift; sourceTree = "<group>"; };
 		7896226B26B992AD00033B3B /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
@@ -479,7 +480,6 @@
 		78E8EFF626E2A44D00B5A4D6 /* CGSize+aspectRatio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGSize+aspectRatio.swift"; path = "../CGSize+aspectRatio.swift"; sourceTree = "<group>"; };
 		78E8EFF726E2A44D00B5A4D6 /* SnapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapView.swift; path = ../SnapView.swift; sourceTree = "<group>"; };
 		78E8EFF826E2A44D00B5A4D6 /* UICollectionViewCell+reuseId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UICollectionViewCell+reuseId.swift"; path = "../UICollectionViewCell+reuseId.swift"; sourceTree = "<group>"; };
-		78E8EFFD26E2A49D00B5A4D6 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1252,7 +1252,7 @@
 		78E8EF0626E1120900B5A4D6 /* Single Photo Preview */ = {
 			isa = PBXGroup;
 			children = (
-				78E8EFFD26E2A49D00B5A4D6 /* Data */,
+				78296B6026E7A62300BCC543 /* Data */,
 				78E8EF0726E1120900B5A4D6 /* Cells */,
 				78E8EF0B26E1120900B5A4D6 /* Layout */,
 				78E8EF1426E1120900B5A4D6 /* ScrollSynchronizer.swift */,
@@ -1395,7 +1395,7 @@
 				5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */,
 				5A187DC826806EF9001957D3 /* Assets.xcassets in Resources */,
 				5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */,
-				78E8EFFE26E2A49D00B5A4D6 /* Data in Resources */,
+				78296B6126E7A62300BCC543 /* Data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
