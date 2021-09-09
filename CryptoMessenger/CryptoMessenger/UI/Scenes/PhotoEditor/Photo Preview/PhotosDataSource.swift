@@ -1,46 +1,45 @@
 import UIKit
-import Require
 
-class PhotosDataSource: NSObject {
+// MARK: - PhotosDataSource
 
+final class PhotosDataSource: NSObject {
+
+    // MARK: - Internal Properties
     lazy var images = loadImages()
-
+    var urls: [URL] {
+        Bundle.main.urls(
+            forResourcesWithExtension: .none,
+            subdirectory: "Data") ?? []
+    }
     let preview: UICollectionView
     let thumbnails: UICollectionView
+
+    // MARK: - Lifecycle
 
     init(preview: UICollectionView, thumbnails: UICollectionView) {
         self.preview = preview
         self.thumbnails = thumbnails
-
         super.init()
-
         preview.dataSource = self
         preview.register(
             PreviewCollectionViewCell.self,
             forCellWithReuseIdentifier: PreviewCollectionViewCell.reuseId)
-
         thumbnails.dataSource = self
         thumbnails.register(
             ThumbnailCollectionViewCell.self,
             forCellWithReuseIdentifier: ThumbnailCollectionViewCell.reuseId)
     }
 
-    var urls: [URL] {
-        Bundle.main.urls(
-            forResourcesWithExtension: .none,
-            subdirectory: "Data").require(hint: "No test data found.")
-    }
+    // MARK: - Internal Methods
 
     func loadImages() -> [UIImage] {
         return urls
             .compactMap { try? Data(contentsOf: $0) }
             .compactMap(UIImage.init(data:))
     }
-
-    func randomImage() -> UIImage {
-        return Set(loadImages()).randomElement().require(hint: "No test data found.")
-    }
 }
+
+// MARK: - PhotosDataSource
 
 extension PhotosDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -62,7 +61,7 @@ extension PhotosDataSource: UICollectionViewDataSource {
                 for: indexPath) as? ImageCell
         }
         cell?.imageView.image = images[indexPath.row]
-        return cell.require(hint: "Unexpected cell type.")
+        return cell ?? UICollectionViewCell()
     }
 
 }

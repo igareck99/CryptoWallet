@@ -10,6 +10,7 @@ class PreviewLayout: UICollectionViewFlowLayout {
         commonInit()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -57,7 +58,7 @@ extension PreviewLayout {
         guard let collectionView = self.collectionView else { return attributes }
 
         let width = itemSize.width
-        let centerX = width / 2
+        let centerX = width * 0.5
         let distanceToCenter = attributes.center.x - collectionView.contentOffset.x
         let relativeDistanceToCenter = (distanceToCenter - centerX) / width
 

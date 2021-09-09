@@ -1,9 +1,16 @@
 import UIKit
 
-class ScrollAnimation: NSObject {
+// MARK: - ScrollAnimation
+
+final class ScrollAnimation: NSObject {
+
+    // MARK: - Internal Properties
+
     let preview: PreviewLayout
     let thumbnails: ThumbnailLayout
     let type: Type
+
+    // MARK: - Lifecycle
 
     init(thumbnails: ThumbnailLayout, preview: PreviewLayout, type: Type) {
         self.preview = preview
@@ -11,6 +18,8 @@ class ScrollAnimation: NSObject {
         self.type = type
         super.init()
     }
+
+    // MARK: - Internal Methods
 
     func run(completion: @escaping () -> Void) {
         let toValue: CGFloat = self.type == .beign ? 0 : 1

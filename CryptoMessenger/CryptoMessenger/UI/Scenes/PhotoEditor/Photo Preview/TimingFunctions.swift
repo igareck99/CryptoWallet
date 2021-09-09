@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - Easing
+
 enum Easing<T: FloatingPoint> {
     case linear
     case easeOut
@@ -17,7 +19,7 @@ enum Easing<T: FloatingPoint> {
     }
 }
 
-// swiftlint:disable identifier_name
+// MARK: - Private Methods
 
 private func linear<T: FloatingPoint>(x: T) -> T {
     return x
@@ -34,5 +36,3 @@ private func easeInOut<T: FloatingPoint>(x: T) -> T {
         return (-2 * x * x) + (4 * x) - 1
     }
 }
-
-// swiftlint:enable identifier_name

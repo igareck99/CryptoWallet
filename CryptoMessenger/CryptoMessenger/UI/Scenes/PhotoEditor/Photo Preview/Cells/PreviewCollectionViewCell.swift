@@ -2,9 +2,15 @@ import UIKit
 import SnapKit
 import AVFoundation
 
+// MARK: PreviewCollectionViewCell
+
 class PreviewCollectionViewCell: UICollectionViewCell & ImageCell {
 
+    // MARK: - Private Properties
+
     private(set) var imageView = UIImageView()
+
+    // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,6 +30,7 @@ class PreviewCollectionViewCell: UICollectionViewCell & ImageCell {
         layer.mask = shapeLayer
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

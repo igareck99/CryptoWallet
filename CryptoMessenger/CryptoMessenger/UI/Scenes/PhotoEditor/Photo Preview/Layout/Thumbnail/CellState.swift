@@ -77,7 +77,7 @@ private extension ThumbnailLayout.Cell {
     }
 
     func shift(from direction: ThumbnailLayout.Cell.Direction) -> CGFloat {
-        let symmetricShift = (additionalWidth + dims.insetAsExpanded * state.expanding) / 2 * (1 - state.deleting)
+        let symmetricShift = (additionalWidth + dims.insetAsExpanded * state.expanding) * 0.5 * (1 - state.deleting)
 
         switch direction {
         case .left:
@@ -101,7 +101,7 @@ private extension ThumbnailLayout.Cell {
     }
 
     var center: CGPoint {
-        CGPoint(x: CGFloat(indexPath.row) * (dims.defaultSize.width + dims.inset) + dims.defaultSize.width / 2,
-                y: dims.defaultSize.height / 2)
+        CGPoint(x: CGFloat(indexPath.row) * (dims.defaultSize.width + dims.inset) + dims.defaultSize.width * 0.5,
+                y: dims.defaultSize.height * 0.5)
     }
 }

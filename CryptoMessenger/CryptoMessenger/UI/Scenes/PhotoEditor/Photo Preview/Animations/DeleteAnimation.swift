@@ -1,9 +1,16 @@
 import UIKit
 
+// MARK: - DeleteAnimation
+
 class DeleteAnimation: NSObject {
+
+    // MARK: - Internal Properties
+
     let preview: PreviewLayout
     let thumbnails: ThumbnailLayout
     let indexPath: IndexPath
+
+    // MARK: - Lifecycle
 
     init(thumbnails: ThumbnailLayout, preview: PreviewLayout, index: IndexPath) {
         self.preview = preview
@@ -11,6 +18,8 @@ class DeleteAnimation: NSObject {
         self.indexPath = index
         super.init()
     }
+
+    // MARK: - Internal Properties
 
     func run(with completion: @escaping () -> Void) {
 
@@ -31,6 +40,8 @@ class DeleteAnimation: NSObject {
         }
     }
 }
+
+// MARK: - DeleteAnimation
 
 private extension DeleteAnimation {
 

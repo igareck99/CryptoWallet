@@ -17,6 +17,7 @@ class ThumbnailLayout: UICollectionViewFlowLayout {
         minimumLineSpacing = 0
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -47,7 +48,7 @@ extension ThumbnailLayout {
 
     var farInset: CGFloat {
         guard let collection = collectionView else { return .zero }
-        return (collection.bounds.width - itemSize.width - config.distanceBetween) / 2
+        return (collection.bounds.width - itemSize.width - config.distanceBetween) * 0.5
     }
 
     var relativeOffset: CGFloat {
@@ -59,7 +60,7 @@ extension ThumbnailLayout {
         let offset = relativeOffset
         let floatingIndex = offset * CGFloat(itemsCount) + 0.5
         if floatingIndex.isNaN {
-            return max(0,itemsCount - 1)
+            return max(0, itemsCount - 1)
         }
         return max(0, min(Int(floor(floatingIndex)), itemsCount - 1))
     }
@@ -82,13 +83,13 @@ extension ThumbnailLayout {
         }
     }
 
-    final override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
+    override final func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
         super.prepare(forCollectionViewUpdates: updateItems)
         CATransaction.begin()
         CATransaction.setDisableActions(true)
     }
 
-    final override func finalizeCollectionViewUpdates() {
+    override final func finalizeCollectionViewUpdates() {
         CATransaction.commit()
     }
 
@@ -163,7 +164,7 @@ private extension ThumbnailLayout {
 
         guard let attribute = cell.attributes(from: self, with: []) else { return cell }
 
-        let cellOffset = attribute.center.x - itemSize.width / 2
+        let cellOffset = attribute.center.x - itemSize.width * 0.5
         let widthWithOffset = itemSize.width + config.distanceBetween
         if abs(cellOffset - offsetX) < widthWithOffset {
             let expanding = 1 - abs(cellOffset - offsetX) / widthWithOffset

@@ -1,9 +1,16 @@
 import UIKit
 
-class MoveAnimation: NSObject {
+// MARK: - MoveAnimation
+
+final class MoveAnimation: NSObject {
+
+    // MARK: - Internal Properties
+
     let preview: PreviewLayout
     let thumbnails: ThumbnailLayout
     let indexPath: IndexPath
+
+    // MARK: - Lifecycle
 
     init(thumbnails: ThumbnailLayout, preview: PreviewLayout, index: IndexPath) {
         self.preview = preview
@@ -11,6 +18,8 @@ class MoveAnimation: NSObject {
         self.indexPath = index
         super.init()
     }
+
+    // MARK: - Internal Methods
 
     func run(with completion: @escaping () -> Void) {
         guard let collectionView = thumbnails.collectionView else { return }

@@ -1,17 +1,22 @@
 import UIKit
 
-class Animator {
+// MARK: - Animator
+
+final class Animator {
     var currentProgress: CGFloat = 0
+
+    // MARK: - Internal Properties
 
     fileprivate var displayLink: CADisplayLink?
     fileprivate var fromProgress: CGFloat = 0
     fileprivate var toProgress: CGFloat = 0
     fileprivate var startTimeInterval: TimeInterval = 0
     fileprivate var endTimeInterval: TimeInterval = 0
-
     fileprivate var completion: ((Bool) -> Void)?
     fileprivate let onProgress: (CGFloat, CGFloat) -> Void
     fileprivate let timing: (CGFloat) -> (CGFloat)
+
+    // MARK: - Lifecycle
 
     required init(onProgress: @escaping (CGFloat, CGFloat) -> Void,
                   easing: Easing<CGFloat> = .linear) {

@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - ImageCell
+
 protocol ImageCell: UICollectionViewCell, SnapView {
     var imageView: UIImageView { get }
 }

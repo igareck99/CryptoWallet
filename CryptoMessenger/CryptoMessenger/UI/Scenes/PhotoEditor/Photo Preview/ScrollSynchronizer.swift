@@ -1,14 +1,20 @@
 import UIKit
 
+// MARK: - InteractionState
+
 enum InteractionState {
     case enabled
     case disabled
 }
 
+// MARK: - LayoutState
+
 enum LayoutState {
     case ready
     case configuring
 }
+
+// MARK: - LayoutChangeHandler
 
 protocol LayoutChangeHandler {
     var needsUpdateOffset: Bool { get }
@@ -16,13 +22,19 @@ protocol LayoutChangeHandler {
     var layoutState: LayoutState { get set }
 }
 
+// MARK: - ScrollSynchronizer
+
 class ScrollSynchronizer: NSObject {
+
+    // MARK: - Internal Properties
+
     let preview: PreviewLayout
     let thumbnails: ThumbnailLayout
-
     var activeIndex = 0
     var layoutStateInternal: LayoutState = .configuring
     var interactionState: InteractionState = .enabled
+
+    // MARK: - Lifecycle
 
     init(preview: PreviewLayout, thumbnails: ThumbnailLayout) {
         self.preview = preview
@@ -33,6 +45,8 @@ class ScrollSynchronizer: NSObject {
         bind()
     }
 
+    // MARK: - Internal Methods
+
     func reload() {
         preview.collectionView?.reloadData()
         thumbnails.collectionView?.reloadData()
@@ -40,6 +54,7 @@ class ScrollSynchronizer: NSObject {
 }
 
 // MARK: - UICollectionViewDelegate
+
 extension ScrollSynchronizer: UICollectionViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -93,7 +108,8 @@ extension ScrollSynchronizer: UICollectionViewDelegate {
     }
 }
 
-// MARK: - event handling
+// MARK: - ScrollSynchronizer
+
 extension ScrollSynchronizer {
     enum Event {
         case remove(index: IndexPath, dataSourceUpdate: () -> Void, completion: (() -> Void)?)

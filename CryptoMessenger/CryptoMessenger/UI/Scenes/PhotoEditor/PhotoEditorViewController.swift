@@ -9,7 +9,7 @@ final class PhotoEditorViewController: BaseViewController {
     var presenter: PhotoEditorPresentation!
     var dataSource: PhotosDataSource?
     var contentView: PhotoEditorView {
-        return (view as? PhotoEditorView).require()
+        return (view as! PhotoEditorView)
     }
 
     // MARK: - Lifecycle
@@ -31,6 +31,7 @@ final class PhotoEditorViewController: BaseViewController {
         addTitleBarButtonItem()
         addLeftBarButtonItem()
         addRightBarButtonItem()
+        subscribeOnCustomViewActions()
         contentView.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
         contentView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
 
@@ -40,7 +41,6 @@ final class PhotoEditorViewController: BaseViewController {
         super.viewWillAppear(animated)
         setupBlackNavigationBar()
         showNavigationBar()
-        subscribeOnCustomViewActions()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -55,7 +55,8 @@ final class PhotoEditorViewController: BaseViewController {
 
     // MARK: - Private Methods
 
-    private func createSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
+    private func createSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction)
+                                                -> UISwipeGestureRecognizer {
         let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
         swipeGestureRecognizer.direction = direction
         return swipeGestureRecognizer
@@ -104,24 +105,33 @@ final class PhotoEditorViewController: BaseViewController {
 
     private func subscribeOnCustomViewActions() {
         contentView.didTapShare = { [unowned self] in
-            let controller = UIActivityViewController(activityItems: [dataSource?.images[contentView.synchronizer.activeIndex]],
+            guard let state = dataSource?.images.isEmpty else { return }
+            if state { return }
+            if (dataSource?.images.isEmpty) == nil { return }
+            guard let data = dataSource?.images[contentView.synchronizer.activeIndex] else { return }
+            let controller = UIActivityViewController(activityItems: [data],
                                                       applicationActivities: nil)
             present(controller, animated: true, completion: nil)
         }
         contentView.didTapBrush = { [unowned self] in
-            let alert = UIAlertController(title: "Удалить фото?", message: "Это действие нельзя отменить",
+            let alert = UIAlertController(title: R.string.localizable.photoEditorAlertTitle(),
+                                          message: R.string.localizable.photoEditorAlertMessage(),
                                           preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Отмена", style: UIAlertAction.Style.default, handler: { _ in }))
-            alert.addAction(UIAlertAction(title: "Удалить",
+            alert.addAction(UIAlertAction(title: R.string.localizable.photoEditorAlertCancel(),
+                                          style: UIAlertAction.Style.default, handler: { _ in }))
+            alert.addAction(UIAlertAction(title: R.string.localizable.photoEditorAlertDelete(),
                                           style: UIAlertAction.Style.default,
                                           handler: {(_: UIAlertAction!) in
                                             dataSource?.images.remove(at: contentView.synchronizer.activeIndex)
                                             contentView.synchronizer.reload()
                                           }))
+            guard let state = dataSource?.images.isEmpty else { return }
+            if state { return }
             self.present(alert, animated: true, completion: nil)
         }
     }
 }
+
 // MARK: - PhotoEditorViewInterface
 extension PhotoEditorViewController: PhotoEditorViewInterface {
     func showAlert(title: String?, message: String?) {
