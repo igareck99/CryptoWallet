@@ -4,7 +4,7 @@ import AVFoundation
 
 // MARK: PreviewCollectionViewCell
 
-class PreviewCollectionViewCell: UICollectionViewCell & ImageCell {
+final class PreviewCollectionViewCell: UICollectionViewCell & ImageCell {
 
     // MARK: - Private Properties
 

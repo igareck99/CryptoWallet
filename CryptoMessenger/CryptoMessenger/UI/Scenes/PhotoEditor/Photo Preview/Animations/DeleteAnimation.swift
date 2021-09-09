@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - DeleteAnimation
 
-class DeleteAnimation: NSObject {
+final class DeleteAnimation: NSObject {
 
     // MARK: - Internal Properties
 

@@ -133,6 +133,7 @@ final class PhotoEditorViewController: BaseViewController {
 }
 
 // MARK: - PhotoEditorViewInterface
+
 extension PhotoEditorViewController: PhotoEditorViewInterface {
     func showAlert(title: String?, message: String?) {
         presentAlert(title: title, message: message)
