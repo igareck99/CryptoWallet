@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: PhotoEditorViewController
+// MARK: - PhotoEditorViewController 
 
 final class PhotoEditorViewController: BaseViewController {
 
@@ -106,8 +106,8 @@ final class PhotoEditorViewController: BaseViewController {
     private func subscribeOnCustomViewActions() {
         contentView.didTapShare = { [unowned self] in
             guard let state = dataSource?.images.isEmpty else { return }
-            if state { return }
-            if (dataSource?.images.isEmpty) == nil { return }
+            guard state == false else { return }
+            if dataSource?.images.isEmpty == nil { return }
             guard let data = dataSource?.images[contentView.synchronizer.activeIndex] else { return }
             let controller = UIActivityViewController(activityItems: [data],
                                                       applicationActivities: nil)
@@ -126,7 +126,7 @@ final class PhotoEditorViewController: BaseViewController {
                                             contentView.synchronizer.reload()
                                           }))
             guard let state = dataSource?.images.isEmpty else { return }
-            if state { return }
+            guard state == false else { return }
             self.present(alert, animated: true, completion: nil)
         }
     }

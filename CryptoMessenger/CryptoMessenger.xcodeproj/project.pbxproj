@@ -202,7 +202,6 @@
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
 		7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65126E8BB6200B05984 /* PhotosDataSource.swift */; };
 		7846B65426E8BB8600B05984 /* UICollectionViewCell+reuseId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65326E8BB8600B05984 /* UICollectionViewCell+reuseId.swift */; };
-		7846B65626E8BBA600B05984 /* SnapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65526E8BBA600B05984 /* SnapView.swift */; };
 		7846B65826E8BBBD00B05984 /* CGSize+aspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65726E8BBBD00B05984 /* CGSize+aspectRatio.swift */; };
 		7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */; };
 		7846B65C26E8BBFD00B05984 /* TimingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */; };
@@ -442,7 +441,6 @@
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
 		7846B65126E8BB6200B05984 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		7846B65326E8BB8600B05984 /* UICollectionViewCell+reuseId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+reuseId.swift"; sourceTree = "<group>"; };
-		7846B65526E8BBA600B05984 /* SnapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapView.swift; sourceTree = "<group>"; };
 		7846B65726E8BBBD00B05984 /* CGSize+aspectRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+aspectRatio.swift"; sourceTree = "<group>"; };
 		7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollSynchronizer.swift; sourceTree = "<group>"; };
 		7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimingFunctions.swift; sourceTree = "<group>"; };
@@ -1201,7 +1199,6 @@
 				7846B65D26E8BC2900B05984 /* Animations */,
 				7846B65126E8BB6200B05984 /* PhotosDataSource.swift */,
 				7846B65326E8BB8600B05984 /* UICollectionViewCell+reuseId.swift */,
-				7846B65526E8BBA600B05984 /* SnapView.swift */,
 				7846B65726E8BBBD00B05984 /* CGSize+aspectRatio.swift */,
 				7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */,
 				7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */,
@@ -1662,7 +1659,6 @@
 				5A26CD5026B356F600118D4B /* ProfileViewController.swift in Sources */,
 				5AF8637226ADDDCE004A417C /* AppLaunchInstructor.swift in Sources */,
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
-				7846B65626E8BBA600B05984 /* SnapView.swift in Sources */,
 				789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */,
 				5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,

@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - ImageCell
 
-protocol ImageCell: UICollectionViewCell, SnapView {
+protocol ImageCell: UICollectionViewCell {
     var imageView: UIImageView { get }
 }
 

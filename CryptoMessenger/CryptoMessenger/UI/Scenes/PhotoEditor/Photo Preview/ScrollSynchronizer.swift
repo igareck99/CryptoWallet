@@ -132,7 +132,8 @@ extension ScrollSynchronizer {
     }
 }
 
-// MARK: - event handling impl
+// MARK: - ScrollSynchronizer
+
 private extension ScrollSynchronizer {
 
     func delete(
@@ -169,9 +170,7 @@ private extension ScrollSynchronizer {
 
     func beginScrolling() {
         interactionState = .disabled
-        ScrollAnimation(thumbnails: thumbnails, preview: preview, type: .beign).run {
-
-        }
+        ScrollAnimation(thumbnails: thumbnails, preview: preview, type: .beign).run { }
     }
 
     func endScrolling() {
@@ -181,7 +180,8 @@ private extension ScrollSynchronizer {
     }
 }
 
-// MARK: - layout changes
+// MARK: - LayoutChangeHandler
+
 extension ScrollSynchronizer: LayoutChangeHandler {
     var layoutState: LayoutState {
         get {
@@ -207,7 +207,8 @@ extension ScrollSynchronizer: LayoutChangeHandler {
     }
 }
 
-// MARK: - private
+// MARK: - ScrollSynchronizer
+
 extension ScrollSynchronizer {
     private func bind() {
         preview.collectionView?.delegate = self

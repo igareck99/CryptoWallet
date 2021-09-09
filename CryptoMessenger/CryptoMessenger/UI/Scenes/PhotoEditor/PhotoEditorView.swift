@@ -10,6 +10,7 @@ final class PhotoEditorView: UIView {
     var didTapBrush: VoidBlock?
 
     // MARK: - Private Properties
+
     private lazy var shareButton = UIButton()
     private lazy var brushButton = UIButton()
     private lazy var dateLabel = UILabel()
@@ -40,7 +41,7 @@ final class PhotoEditorView: UIView {
         fatalError("not implemented")
     }
 
-    // MARK: - Internal Methods
+    // MARK: - Private Methods
 
     @objc private func shareButtonAction() {
         didTapShare?()
@@ -49,8 +50,6 @@ final class PhotoEditorView: UIView {
     @objc private func brushButtonAction() {
         didTapBrush?()
     }
-
-    // MARK: - Private Methods
 
     private func addPreviewCollection() {
         previewCollection.snap(parent: self) {
