@@ -1,9 +1,15 @@
 import UIKit
 
+// MARK: - PreviewLayout
+
 class PreviewLayout: UICollectionViewFlowLayout {
+
+    // MARK: - Internal properties
 
     let offsetBetweenCells: CGFloat = 44
     var layoutHandler: LayoutChangeHandler?
+
+    // MARK: - Lifecycle
 
     override init() {
         super.init()
@@ -15,6 +21,8 @@ class PreviewLayout: UICollectionViewFlowLayout {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Internal methods
+
     func commonInit() {
         scrollDirection = .horizontal
         minimumLineSpacing = 0
@@ -22,7 +30,7 @@ class PreviewLayout: UICollectionViewFlowLayout {
     }
 }
 
-// MARK: - UICollectionViewFlowLayout overrides
+// MARK: - UICollectionViewFlowLayout
 extension PreviewLayout {
 
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
