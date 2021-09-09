@@ -1,10 +1,11 @@
 import UIKit
 
+// MARK: - ParallaxLayoutAttributes
+
 class ParallaxLayoutAttributes: UICollectionViewLayoutAttributes {
     var parallaxValue: CGFloat?
 }
 
-// MARK: - NSCopying
 extension ParallaxLayoutAttributes {
 
     override func copy(with zone: NSZone? = nil) -> Any {

@@ -218,7 +218,6 @@
 		7846B67726E8C0AE00B05984 /* CellWithImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B67626E8C0AE00B05984 /* CellWithImage.swift */; };
 		7846B67926E8C0BE00B05984 /* PreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B67826E8C0BE00B05984 /* PreviewCollectionViewCell.swift */; };
 		7846B67B26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B67A26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift */; };
-		7846B69926E8C53F00B05984 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 7846B69826E8C53F00B05984 /* Data */; };
 		7879F4B526CFC49300D3213F /* CallStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7879F4B426CFC49300D3213F /* CallStruct.swift */; };
 		7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */; };
 		7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7896226B26B992AD00033B3B /* ProfileCell.swift */; };
@@ -239,6 +238,7 @@
 		789FEBF026DCE61D0018FE91 /* PhotoEditorConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */; };
 		789FEBF126DCE61D0018FE91 /* PhotoEditorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */; };
 		78B04FA626DF256900684E0A /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B04FA526DF256900684E0A /* ImageData.swift */; };
+		78E404A026EA536200169B18 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 78E4049F26EA536200169B18 /* Data */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -457,7 +457,6 @@
 		7846B67626E8C0AE00B05984 /* CellWithImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellWithImage.swift; sourceTree = "<group>"; };
 		7846B67826E8C0BE00B05984 /* PreviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		7846B67A26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailCollectionViewCell.swift; sourceTree = "<group>"; };
-		7846B69826E8C53F00B05984 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		7879F4B426CFC49300D3213F /* CallStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStruct.swift; sourceTree = "<group>"; };
 		7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthentication.swift; sourceTree = "<group>"; };
 		7896226B26B992AD00033B3B /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
@@ -478,6 +477,7 @@
 		789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorConfigurator.swift; sourceTree = "<group>"; };
 		789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorFlow.swift; sourceTree = "<group>"; };
 		78B04FA526DF256900684E0A /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
+		78E4049F26EA536200169B18 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1193,7 +1193,7 @@
 		7846B65026E8BB4000B05984 /* Photo Preview */ = {
 			isa = PBXGroup;
 			children = (
-				7846B69826E8C53F00B05984 /* Data */,
+				78E4049F26EA536200169B18 /* Data */,
 				7846B67526E8C09B00B05984 /* Cells */,
 				7846B66626E8BCD400B05984 /* Layout */,
 				7846B65D26E8BC2900B05984 /* Animations */,
@@ -1391,7 +1391,7 @@
 				5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */,
 				5A187DC826806EF9001957D3 /* Assets.xcassets in Resources */,
 				5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */,
-				7846B69926E8C53F00B05984 /* Data in Resources */,
+				78E404A026EA536200169B18 /* Data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - ThumbnailLayout
+
 class ThumbnailLayout: UICollectionViewFlowLayout {
 
     var config: Configuration
@@ -27,7 +29,6 @@ class ThumbnailLayout: UICollectionViewFlowLayout {
     }
 }
 
-// MARK: - shortcuts
 extension ThumbnailLayout {
 
     var itemsCount: Int {
@@ -66,7 +67,6 @@ extension ThumbnailLayout {
     }
 }
 
-// MARK: - UICollectionViewFlowLayout overrides
 extension ThumbnailLayout {
 
     override func prepare() {
@@ -148,7 +148,6 @@ extension ThumbnailLayout {
     }
 }
 
-// MARK: - private
 private extension ThumbnailLayout {
 
     func cell(for index: IndexPath, offsetX: CGFloat) -> Cell {

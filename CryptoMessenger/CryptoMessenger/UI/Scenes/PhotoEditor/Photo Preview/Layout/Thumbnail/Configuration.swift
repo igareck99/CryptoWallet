@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - ThumbnailLayout
+
 extension ThumbnailLayout {
 
     struct Configuration {
