@@ -15,6 +15,8 @@ enum ChatRoomFlow {
     enum Event {
         case onAppear
         case onSend(MessageType)
+        case onAddReaction(messageId: String, reactionId: String)
+        case onDeleteReaction(messageId: String, reactionId: String)
         case onNextScene
     }
 }

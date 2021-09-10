@@ -12,6 +12,8 @@ struct ChatRoomView: View {
 
     // MARK: - Private Properties
 
+    @State private var messageId: String = ""
+    @State private var cardPosition: CardPosition = .bottom
     @State private var scrolled = false
     @State private var showActionSheet = false
 
@@ -30,12 +32,12 @@ struct ChatRoomView: View {
                     .navigationBarTitleDisplayMode(.inline)
                 }
             }
+            .background(Color(.custom(#colorLiteral(red: 0.6705882353, green: 0.7647058824, blue: 0.8352941176, alpha: 1))))
+            .ignoresSafeArea()
     }
 
     private var content: some View {
         ZStack {
-            Color(.custom(#colorLiteral(red: 0.6705882353, green: 0.7647058824, blue: 0.8352941176, alpha: 1))).edgesIgnoringSafeArea(.all)
-
             VStack {
                 headerView
 
@@ -54,8 +56,24 @@ struct ChatRoomView: View {
                             ForEach(viewModel.messages) { message in
                                 ChatRoomRow(
                                     message: message,
-                                    isCurrentUser: viewModel.previous(message)?.isCurrentUser
+                                    isCurrentUser: viewModel.previous(message)?.isCurrentUser,
+                                    onReaction: { reactionId in
+                                        vibrate()
+                                        viewModel.send(.onDeleteReaction(messageId: message.id, reactionId: reactionId))
+                                    }
                                 )
+                                .gesture(LongPressGesture(minimumDuration: 0.4)
+                                .onEnded { _ in
+                                    vibrate()
+                                    messageId = message.id
+                                    cardPosition = .middle
+                                })
+//                                .contextMenu(
+//                                    ContextMenu {
+//                                        Button("Yes") {}
+//                                        Button("No") {}
+//                                    }
+//                                )
                             }
                             .onChange(of: viewModel.messages) { _ in
                                 withAnimation {
@@ -74,22 +92,28 @@ struct ChatRoomView: View {
                                 print("onDisappear")
                             }
                         }
+                        .ignoresSafeArea()
                     }
+                    .padding(.top, -8)
+                    .padding(.bottom, -8)
                 }
-                .edgesIgnoringSafeArea(.all)
+                .ignoresSafeArea()
 
                 inputView
             }
             .onTapGesture {
                 hideKeyboard()
             }
-            .edgesIgnoringSafeArea(.all)
+            .ignoresSafeArea()
 
             if showActionSheet {
-                ActionSheetView(showActionSheet: $showActionSheet, action: $viewModel.action)
+                ActionSheetView(showActionSheet: $showActionSheet, attachAction: $viewModel.attachAction)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
             }
+
+            quickMenuView
         }
+        .ignoresSafeArea()
     }
 
     private var headerView: some View {
@@ -152,6 +176,37 @@ struct ChatRoomView: View {
         }
         .frame(height: 106)
         .background(.white())
+    }
+
+    private var quickMenuView: some View {
+        ZStack {
+            SlideCard(position: $cardPosition) {
+                VStack {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 11) {
+                            ForEach(viewModel.emojiStorage) { reaction in
+                                LastReactionItemView(emoji: reaction.emoji, isLastButton: reaction.isLastButton)
+                                    .onTapGesture {
+                                        vibrate()
+                                        viewModel.send(.onAddReaction(messageId: messageId, reactionId: reaction.id))
+                                        cardPosition = .bottom
+                                    }
+                            }
+                        }
+                        .frame(height: 40)
+                        .padding(.top, 22)
+                        .padding([.leading, .trailing], 16)
+                    }
+
+                    Rectangle()
+                        .frame(height: 1)
+                        .foreground(.custom(#colorLiteral(red: 0.9019607843, green: 0.9176470588, blue: 0.9294117647, alpha: 1)))
+                        .padding(.top, 12)
+
+                    QuickMenuView(action: $viewModel.quickAction, cardPosition: $cardPosition)
+                }
+            }
+        }
     }
 
     private var inputView: some View {

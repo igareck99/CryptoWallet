@@ -2,14 +2,19 @@ import SwiftUI
 
 // MARK: - Action
 
-enum Action: CaseIterable, Identifiable {
-    var id: String { UUID().uuidString }
+enum AttachAction: CaseIterable, Identifiable {
+
+    // MARK: - Types
 
     case media
     case document
     case location
     case contact
     case moneyTransfer
+
+    // MARK: - Internal Properties
+
+    var id: String { UUID().uuidString }
 
     var title: String {
         switch self {
@@ -46,9 +51,16 @@ enum Action: CaseIterable, Identifiable {
 
 struct ActionSheetView: View {
 
+    // MARK: - Internal Properties
+
     @Binding var showActionSheet: Bool
-    @Binding var action: Action?
+    @Binding var attachAction: AttachAction?
+
+    // MARK: - Private Properties
+
     @State private var isShown = false
+
+    // MARK: - Body
 
     var body: some View {
         ZStack {
@@ -60,9 +72,10 @@ struct ActionSheetView: View {
 
                     mediaFeedView
 
-                    ForEach(Action.allCases, id: \.id) { act in
+                    ForEach(AttachAction.allCases, id: \.id) { act in
                         Button(action: {
-                            action = act
+                            vibrate()
+                            attachAction = act
                             showActionSheet.toggle()
                         }, label: {
                             HStack(spacing: 16) {
