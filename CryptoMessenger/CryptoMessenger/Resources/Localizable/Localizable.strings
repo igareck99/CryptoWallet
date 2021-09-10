@@ -65,3 +65,9 @@
 "CallList.AlertActionOne" = "Отменить";
 "CallList.AlertActionTwo" = "Очистить";
 
+"PhotoEditor.Title" = "Фото";
+"PhotoEditor.AlertTitle" = "Удалить фото?";
+"PhotoEditor.AlertMessage" = "Это действие нельзя отменить";
+"PhotoEditor.AlertCancel" = "Отмена";
+"PhotoEditor.AlertDelete" = "Удалить";
+

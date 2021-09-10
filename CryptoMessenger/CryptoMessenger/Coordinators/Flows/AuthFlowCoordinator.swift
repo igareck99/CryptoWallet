@@ -21,7 +21,6 @@ public final class AuthFlowCoordinator: Coordinator {
 
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: AuthFlowCoordinatorDelegate?
-
     let navigationController: UINavigationController
 
     // MARK: - Lifecycle
@@ -33,7 +32,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.onboarding)
+        handleNextScene(.photoEditor)
     }
 
     // MARK: - Private Methods
@@ -80,6 +79,11 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
+    private func showPhotoEditorScene() {
+        let viewController = PhotoEditorConfigurator.configuredViewController(delegate: self)
+        setViewWith(viewController)
+    }
+
     // MARK: - Scene
 
     enum Scene {
@@ -92,6 +96,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case callList
         case countryCode(CountryCodePickerDelegate)
         case pinCode
+        case photoEditor
     }
 }
 
@@ -118,6 +123,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showPinCodeScene()
         case .callList:
             showCallListScene()
+        case .photoEditor:
+            showPhotoEditorScene()
         }
     }
 
@@ -150,6 +157,14 @@ extension AuthFlowCoordinator: KeyImportSceneDelegate {}
 
 extension AuthFlowCoordinator: CallListSceneDelegate {
     func handleButtonTap(_ scene: Scene) {
+
+    }
+}
+
+// MARK: - AuthFlowCoordinator (PhotoEditorSceneDelegate)
+
+extension AuthFlowCoordinator: PhotoEditorSceneDelegate {
+    func handleButtonTap() {
 
     }
 }
