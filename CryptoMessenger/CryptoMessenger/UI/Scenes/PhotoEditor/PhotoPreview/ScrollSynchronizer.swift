@@ -24,7 +24,7 @@ protocol LayoutChangeHandler {
 
 // MARK: - ScrollSynchronizer
 
-class ScrollSynchronizer: NSObject {
+final class ScrollSynchronizer: NSObject, LayoutChangeHandler {
 
     // MARK: - Internal Properties
 
@@ -33,6 +33,21 @@ class ScrollSynchronizer: NSObject {
     var activeIndex = 0
     var layoutStateInternal: LayoutState = .configuring
     var interactionState: InteractionState = .enabled
+
+    var layoutState: LayoutState {
+        get { layoutStateInternal }
+        set(value) {
+            switch value {
+            case .ready:
+                bind()
+            case .configuring:
+                unbind()
+            }
+            layoutStateInternal = value
+        }
+    }
+    var needsUpdateOffset: Bool { layoutState == .configuring }
+    var targetIndex: Int { activeIndex }
 
     // MARK: - Lifecycle
 
@@ -51,12 +66,65 @@ class ScrollSynchronizer: NSObject {
         preview.collectionView?.reloadData()
         thumbnails.collectionView?.reloadData()
     }
+
+    // MARK: - Private Methods
+
+    private func bind() {
+        preview.collectionView?.delegate = self
+        thumbnails.collectionView?.delegate = self
+    }
+
+    private func unbind() {
+        preview.collectionView?.delegate = .none
+        thumbnails.collectionView?.delegate = .none
+    }
+
+    private func delete(
+        at indexPath: IndexPath,
+        dataSourceUpdate: @escaping () -> Void,
+        completion: (() -> Void)?) {
+
+        unbind()
+        interactionState = .disabled
+        DeleteAnimation(thumbnails: thumbnails, preview: preview, index: indexPath).run {
+            let previousCount = self.thumbnails.itemsCount
+            if previousCount == indexPath.row + 1 {
+                self.activeIndex = previousCount - 1
+            }
+            dataSourceUpdate()
+            self.thumbnails.collectionView?.deleteItems(at: [indexPath])
+            self.preview.collectionView?.deleteItems(at: [indexPath])
+            print("removed \(indexPath)")
+            self.bind()
+            self.interactionState = .enabled
+            completion?()
+        }
+    }
+
+    private func move(to indexPath: IndexPath, completion: (() -> Void)?) {
+        unbind()
+        interactionState = .disabled
+        MoveAnimation(thumbnails: thumbnails, preview: preview, index: indexPath).run {
+            self.interactionState = .enabled
+            self.bind()
+        }
+    }
+
+    private func beginScrolling() {
+        interactionState = .disabled
+        ScrollAnimation(thumbnails: thumbnails, preview: preview, state: .begin).run {}
+    }
+
+    private func endScrolling() {
+        ScrollAnimation(thumbnails: thumbnails, preview: preview, state: .end).run {
+            self.interactionState = .enabled
+        }
+    }
 }
 
-// MARK: - UICollectionViewDelegate
+// MARK: - ScrollSynchronizer (UICollectionViewDelegate)
 
 extension ScrollSynchronizer: UICollectionViewDelegate {
-
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let collection = scrollView as? UICollectionView else { return }
         unbind()
@@ -108,10 +176,16 @@ extension ScrollSynchronizer: UICollectionViewDelegate {
     }
 }
 
-// MARK: - ScrollSynchronizer
+// MARK: - ScrollSynchronizer ()
 
 extension ScrollSynchronizer {
+
+    // MARK: - Event
+
     enum Event {
+
+        // MARK: - Types
+
         case remove(index: IndexPath, dataSourceUpdate: () -> Void, completion: (() -> Void)?)
         case move(index: IndexPath, completion: (() -> Void)?)
         case beginScrolling
@@ -129,94 +203,5 @@ extension ScrollSynchronizer {
         case .beginScrolling:
             beginScrolling()
         }
-    }
-}
-
-// MARK: - ScrollSynchronizer
-
-private extension ScrollSynchronizer {
-
-    func delete(
-        at indexPath: IndexPath,
-        dataSourceUpdate: @escaping () -> Void,
-        completion: (() -> Void)?) {
-
-        unbind()
-        interactionState = .disabled
-        DeleteAnimation(thumbnails: thumbnails, preview: preview, index: indexPath).run {
-            let previousCount = self.thumbnails.itemsCount
-            if previousCount == indexPath.row + 1 {
-                self.activeIndex = previousCount - 1
-            }
-            dataSourceUpdate()
-            self.thumbnails.collectionView?.deleteItems(at: [indexPath])
-            self.preview.collectionView?.deleteItems(at: [indexPath])
-            print("removed \(indexPath)")
-            self.bind()
-            self.interactionState = .enabled
-            completion?()
-        }
-    }
-
-    func move(to indexPath: IndexPath, completion: (() -> Void)?) {
-
-        unbind()
-        interactionState = .disabled
-        MoveAnimation(thumbnails: thumbnails, preview: preview, index: indexPath).run {
-            self.interactionState = .enabled
-            self.bind()
-        }
-    }
-
-    func beginScrolling() {
-        interactionState = .disabled
-        ScrollAnimation(thumbnails: thumbnails, preview: preview, type: .beign).run { }
-    }
-
-    func endScrolling() {
-        ScrollAnimation(thumbnails: thumbnails, preview: preview, type: .end).run {
-            self.interactionState = .enabled
-        }
-    }
-}
-
-// MARK: - LayoutChangeHandler
-
-extension ScrollSynchronizer: LayoutChangeHandler {
-    var layoutState: LayoutState {
-        get {
-            layoutStateInternal
-        }
-        set(value) {
-            switch value {
-            case .ready:
-                bind()
-            case .configuring:
-                unbind()
-            }
-            layoutStateInternal = value
-        }
-    }
-
-    var needsUpdateOffset: Bool {
-        layoutState == .configuring
-    }
-
-    var targetIndex: Int {
-        activeIndex
-    }
-}
-
-// MARK: - ScrollSynchronizer
-
-extension ScrollSynchronizer {
-    private func bind() {
-        preview.collectionView?.delegate = self
-        thumbnails.collectionView?.delegate = self
-    }
-
-    private func unbind() {
-        preview.collectionView?.delegate = .none
-        thumbnails.collectionView?.delegate = .none
     }
 }

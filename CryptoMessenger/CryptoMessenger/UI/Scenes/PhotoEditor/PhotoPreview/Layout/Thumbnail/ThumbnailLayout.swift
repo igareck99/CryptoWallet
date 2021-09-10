@@ -2,11 +2,36 @@ import UIKit
 
 // MARK: - ThumbnailLayout
 
-class ThumbnailLayout: UICollectionViewFlowLayout {
+final class ThumbnailLayout: UICollectionViewFlowLayout {
+
+    // MARK: - Internal Properties
 
     var config: Configuration
     var dataSource: ((Int) -> CGFloat)
     var layoutHandler: LayoutChangeHandler?
+
+    var itemsCount: Int { collectionView?.numberOfItems(inSection: 0) ?? 0 }
+    var offset: CGPoint { collectionView?.contentOffset ?? .zero }
+    var offsetWithoutInsets: CGPoint { CGPoint(x: offset.x + farInset, y: offset.y) }
+    var insets: UIEdgeInsets { UIEdgeInsets(top: .zero, left: farInset, bottom: .zero, right: farInset) }
+    var farInset: CGFloat {
+        guard let collection = collectionView else { return .zero }
+        return (collection.bounds.width - itemSize.width - config.distanceBetween) * 0.5
+    }
+    var relativeOffset: CGFloat {
+        guard let collection = collectionView else { return .zero }
+        return (collection.contentOffset.x + collection.contentInset.left) / collectionViewContentSize.width
+    }
+    var nearestIndex: Int {
+        let offset = relativeOffset
+        let floatingIndex = offset * CGFloat(itemsCount) + 0.5
+        if floatingIndex.isNaN {
+            return max(0, itemsCount - 1)
+        }
+        return max(0, min(Int(floor(floatingIndex)), itemsCount - 1))
+    }
+
+    // MARK: - Lifecycle
 
     init(dataSource: ((Int) -> CGSize)?, config: Configuration = Configuration()) {
         self.config = config
@@ -24,50 +49,11 @@ class ThumbnailLayout: UICollectionViewFlowLayout {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Internal Methods
+
     func changeOffset(relative offset: CGFloat) {
         collectionView?.contentOffset.x = collectionViewContentSize.width * offset - farInset
     }
-}
-
-extension ThumbnailLayout {
-
-    var itemsCount: Int {
-        collectionView?.numberOfItems(inSection: 0) ?? 0
-    }
-
-    var offset: CGPoint {
-        collectionView?.contentOffset ?? .zero
-    }
-
-    var offsetWithoutInsets: CGPoint {
-        CGPoint(x: offset.x + farInset, y: offset.y)
-    }
-
-    var insets: UIEdgeInsets {
-        UIEdgeInsets(top: .zero, left: farInset, bottom: .zero, right: farInset)
-    }
-
-    var farInset: CGFloat {
-        guard let collection = collectionView else { return .zero }
-        return (collection.bounds.width - itemSize.width - config.distanceBetween) * 0.5
-    }
-
-    var relativeOffset: CGFloat {
-        guard let collection = collectionView else { return .zero }
-        return (collection.contentOffset.x + collection.contentInset.left) / collectionViewContentSize.width
-    }
-
-    var nearestIndex: Int {
-        let offset = relativeOffset
-        let floatingIndex = offset * CGFloat(itemsCount) + 0.5
-        if floatingIndex.isNaN {
-            return max(0, itemsCount - 1)
-        }
-        return max(0, min(Int(floor(floatingIndex)), itemsCount - 1))
-    }
-}
-
-extension ThumbnailLayout {
 
     override func prepare() {
         super.prepare()
@@ -89,12 +75,9 @@ extension ThumbnailLayout {
         CATransaction.setDisableActions(true)
     }
 
-    override final func finalizeCollectionViewUpdates() {
-        CATransaction.commit()
-    }
+    override final func finalizeCollectionViewUpdates() { CATransaction.commit() }
 
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-
         let cells = (0 ..< itemsCount)
             .map { IndexPath(row: $0, section: 0) }
             .map { cell(for: $0, offsetX: offsetWithoutInsets.x) }
@@ -103,7 +86,7 @@ extension ThumbnailLayout {
                     return update(cell)
                 }
                 return cell
-        }
+            }
         return cells.compactMap { $0.attributes(from: self, with: cells) }
     }
 
@@ -138,20 +121,16 @@ extension ThumbnailLayout {
             y: targetOffset.y)
     }
 
-    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        return true
-    }
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool { true }
 
     override var collectionViewContentSize: CGSize {
         let width = CGFloat(itemsCount) * (itemSize.width + config.distanceBetween)
         return CGSize(width: width, height: itemSize.height)
     }
-}
 
-private extension ThumbnailLayout {
+    // MARK: - Private Methods
 
-    func cell(for index: IndexPath, offsetX: CGFloat) -> Cell {
-
+    private func cell(for index: IndexPath, offsetX: CGFloat) -> Cell {
         let cell = Cell(
             indexPath: index,
             dims: Cell.Dimensions(

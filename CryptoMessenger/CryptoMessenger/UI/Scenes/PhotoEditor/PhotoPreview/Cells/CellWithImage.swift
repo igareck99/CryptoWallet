@@ -6,7 +6,7 @@ protocol ImageCell: UICollectionViewCell {
     var imageView: UIImageView { get }
 }
 
-// MARK: - ImageCell
+// MARK: - ImageCell ()
 
 extension ImageCell {
     func createConstraints() {

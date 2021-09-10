@@ -1,10 +1,10 @@
 import UIKit
 
-// MARK: ThumbnailCollectionViewCell
+// MARK: - ThumbnailCollectionViewCell
 
-class ThumbnailCollectionViewCell: UICollectionViewCell & ImageCell {
+final class ThumbnailCollectionViewCell: UICollectionViewCell & ImageCell {
 
-    // MARK: Private Properties
+    // MARK: - Private Properties
 
     private(set) var imageView = UIImageView()
 

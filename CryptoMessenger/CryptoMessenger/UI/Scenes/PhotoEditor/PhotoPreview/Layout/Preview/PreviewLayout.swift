@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - PreviewLayout
 
-class PreviewLayout: UICollectionViewFlowLayout {
+final class PreviewLayout: UICollectionViewFlowLayout {
 
     // MARK: - Internal properties
 
@@ -13,33 +13,24 @@ class PreviewLayout: UICollectionViewFlowLayout {
 
     override init() {
         super.init()
-        commonInit()
+        scrollDirection = .horizontal
+        minimumLineSpacing = 0
+        minimumInteritemSpacing = 0
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    // MARK: - Internal methods
-
-    func commonInit() {
-        scrollDirection = .horizontal
-        minimumLineSpacing = 0
-        minimumInteritemSpacing = 0
-    }
 }
 
-// MARK: - UICollectionViewFlowLayout
+// MARK: - PreviewLayout (UICollectionViewFlowLayout)
+
 extension PreviewLayout {
 
-    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        return true
-    }
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool { true }
 
-    override class var layoutAttributesClass: AnyClass {
-        return ParallaxLayoutAttributes.self
-    }
+    override class var layoutAttributesClass: AnyClass { ParallaxLayoutAttributes.self }
 
     override func prepare() {
         super.prepare()
@@ -82,11 +73,10 @@ extension PreviewLayout {
 
     override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint) -> CGPoint {
         let targetOffset = super.targetContentOffset(forProposedContentOffset: proposedContentOffset)
-        guard let layoutHandler = layoutHandler, layoutHandler.needsUpdateOffset else {
-            return targetOffset
-        }
+        guard let layoutHandler = layoutHandler, layoutHandler.needsUpdateOffset else { return targetOffset }
         return CGPoint(
             x: CGFloat(layoutHandler.targetIndex) * itemSize.width,
-            y: targetOffset.y)
+            y: targetOffset.y
+        )
     }
 }

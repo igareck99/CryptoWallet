@@ -21,7 +21,6 @@ public final class AuthFlowCoordinator: Coordinator {
 
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: AuthFlowCoordinatorDelegate?
-
     let navigationController: UINavigationController
 
     // MARK: - Lifecycle
@@ -33,7 +32,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.onboarding)
+        handleNextScene(.photoEditor)
     }
 
     // MARK: - Private Methods

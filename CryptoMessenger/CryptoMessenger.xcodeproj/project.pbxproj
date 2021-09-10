@@ -1199,7 +1199,7 @@
 			path = KeyImport;
 			sourceTree = "<group>";
 		};
-		7846B65026E8BB4000B05984 /* Photo Preview */ = {
+		7846B65026E8BB4000B05984 /* PhotoPreview */ = {
 			isa = PBXGroup;
 			children = (
 				78E4049F26EA536200169B18 /* Data */,
@@ -1212,7 +1212,7 @@
 				7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */,
 				7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */,
 			);
-			path = "Photo Preview";
+			path = PhotoPreview;
 			sourceTree = "<group>";
 		};
 		7846B65D26E8BC2900B05984 /* Animations */ = {
@@ -1310,7 +1310,7 @@
 		789FEBE526DCE6090018FE91 /* PhotoEditor */ = {
 			isa = PBXGroup;
 			children = (
-				7846B65026E8BB4000B05984 /* Photo Preview */,
+				7846B65026E8BB4000B05984 /* PhotoPreview */,
 				789FEBE626DCE61D0018FE91 /* PhotoEditorPresenter.swift */,
 				789FEBE726DCE61D0018FE91 /* PhotoEditorViewController.swift */,
 				789FEBE826DCE61D0018FE91 /* PhotoEditorProtocols.swift */,

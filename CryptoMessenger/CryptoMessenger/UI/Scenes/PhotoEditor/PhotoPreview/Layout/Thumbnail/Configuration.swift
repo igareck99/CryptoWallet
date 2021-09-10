@@ -1,10 +1,12 @@
 import UIKit
 
-// MARK: - ThumbnailLayout
+// MARK: - ThumbnailLayout.Configuration
 
 extension ThumbnailLayout {
-
     struct Configuration {
+
+        // MARK: - Internal Properties
+
         let maxAspectRatio: CGFloat = 5
         let minAspectRatio: CGFloat = 0.2
         let defaultAspectRatio: CGFloat = 0.5

@@ -17,22 +17,18 @@ enum Easing<T: FloatingPoint> {
             return easeInOut(x:)
         }
     }
-}
 
-// MARK: - Private Methods
+    // MARK: - Private Methods
 
-private func linear<T: FloatingPoint>(x: T) -> T {
-    return x
-}
+    private func linear<T: FloatingPoint>(x: T) -> T { x }
 
-private func easeOut<T: FloatingPoint>(x: T) -> T {
-    return x * x
-}
+    private func easeOut<T: FloatingPoint>(x: T) -> T { x * x }
 
-private func easeInOut<T: FloatingPoint>(x: T) -> T {
-    if x < 1 / 2 {
-        return 2 * x * x
-    } else {
-        return (-2 * x * x) + (4 * x) - 1
+    private func easeInOut<T: FloatingPoint>(x: T) -> T {
+        if x < 1 / 2 {
+            return 2 * x * x
+        } else {
+            return (-2 * x * x) + (4 * x) - 1
+        }
     }
 }

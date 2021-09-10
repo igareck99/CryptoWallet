@@ -1,14 +1,15 @@
 import UIKit
 
+// MARK: - PreviewLayout
+
 extension ThumbnailLayout {
     struct Cell {
         let indexPath: IndexPath
-
         let dims: Dimensions
         let state: State
 
         func updated(new state: State) -> Cell {
-            return Cell(indexPath: indexPath, dims: dims, state: state)
+            Cell(indexPath: indexPath, dims: dims, state: state)
         }
     }
 }

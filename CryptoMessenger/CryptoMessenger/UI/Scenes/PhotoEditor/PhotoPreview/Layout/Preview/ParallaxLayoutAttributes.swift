@@ -3,10 +3,12 @@ import UIKit
 // MARK: - ParallaxLayoutAttributes
 
 class ParallaxLayoutAttributes: UICollectionViewLayoutAttributes {
-    var parallaxValue: CGFloat?
-}
 
-extension ParallaxLayoutAttributes {
+    // MARK: - Internal Properties
+
+    var parallaxValue: CGFloat?
+
+    // MARK: - Internal Methods
 
     override func copy(with zone: NSZone? = nil) -> Any {
         let copy = super.copy(with: zone) as? ParallaxLayoutAttributes
@@ -15,10 +17,8 @@ extension ParallaxLayoutAttributes {
     }
 
     override func isEqual(_ object: Any?) -> Bool {
-        let attrs = object as? ParallaxLayoutAttributes
-        if attrs?.parallaxValue != parallaxValue {
-            return false
-        }
-        return super.isEqual(object)
+        let attributes = object as? ParallaxLayoutAttributes
+        guard attributes?.parallaxValue == parallaxValue else { return super.isEqual(object) }
+        return false
     }
 }

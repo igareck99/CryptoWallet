@@ -5,24 +5,35 @@ internal func+<T>(lhs: @escaping (T) -> T,
     return { lhs(rhs?($0) ?? $0) }
 }
 
+// MARK: - ThumbnailLayout ()
+
 extension ThumbnailLayout {
+
+    // MARK: - Type
 
     typealias CellUpdate = (Cell) -> Cell
 
+    // MARK: - UpdateType
+
     enum UpdateType {
+
+        // MARK: - Types
+
         case expand(CGFloat)
         case collapse(CGFloat)
         case delete(CGFloat, Cell.Direction)
 
+        // MARK: - Internal Properties
+
         var closure: CellUpdate {
-            return { $0.updated(by: self) }
+            { $0.updated(by: self) }
         }
     }
 }
 
-// MARK: - updates api
-extension ThumbnailLayout.Cell {
+// MARK: - ThumbnailLayout.Cell ()
 
+extension ThumbnailLayout.Cell {
     func updated(by update: ThumbnailLayout.UpdateType) -> ThumbnailLayout.Cell {
         switch update {
         case .collapse(let rate):
@@ -35,8 +46,12 @@ extension ThumbnailLayout.Cell {
     }
 }
 
-// MARK: - builders
+// MARK: - ThumbnailLayout.Cell.State ()
+
 private extension ThumbnailLayout.Cell.State {
+
+    // MARK: - Type
+
     typealias State = ThumbnailLayout.Cell.State
 
     func expanded(by rate: CGFloat) -> State {
