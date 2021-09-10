@@ -12,22 +12,29 @@ struct Place: Identifiable {
 }
 
 struct MapView: View {
-    let place: Place
-
     @State private var region: MKCoordinateRegion
 
-    init(place: Place) {
-        self.place = place
+    private let place: Place
+    private let isInteractionModesDisabled: Bool
+
+    init(place: Place, _ isInteractionModesDisabled: Bool = false) {
         region = MKCoordinateRegion(center: place.coordinate, latitudinalMeters: 650, longitudinalMeters: 650)
+        self.place = place
+        self.isInteractionModesDisabled = isInteractionModesDisabled
     }
 
     var body: some View {
-        Map(coordinateRegion: $region, showsUserLocation: false, annotationItems: [place]) { place in
+        Map(
+            coordinateRegion: $region,
+            interactionModes: isInteractionModesDisabled ? [] : .all,
+            showsUserLocation: false,
+            annotationItems: [place]
+        ) { place in
             MapAnnotation(
                 coordinate: place.coordinate,
                 anchorPoint: CGPoint(x: 0.5, y: 1)
             ) {
-                Image(R.image.chat.location.marker.name)
+                R.image.chat.location.marker.image
             }
         }
     }

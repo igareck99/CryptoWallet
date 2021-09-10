@@ -25,16 +25,18 @@ struct ChatBubble<Content>: View where Content: View {
                 Spacer()
             }
 
-            let shape = ChatBubbleShape(direction: direction)
-
-            content().background(
-                shape
-                    .fill(direction == .right ? Color(.lightBlue()) : Color(.beige()))
-                    .overlay(
-                        shape.stroke(Color(.gray()), lineWidth: 0.5)
-                    )
-            )
-            .clipped()
+            content()
+                .background(
+                    direction == .right ? Color(.lightBlue()) : Color(.beige())
+                )
+                .clipShape(
+                    ChatBubbleShape(direction: direction)
+                )
+                .overlay(
+                    ChatBubbleShape(direction: direction)
+                        .stroke(Color(.lightGray()), lineWidth: 0.5)
+                        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+                )
 
             if direction == .left {
                 Spacer()

@@ -29,15 +29,15 @@ enum Action: CaseIterable, Identifiable {
     var image: Image {
         switch self {
         case .media:
-            return Image(R.image.chat.action.media.name)
+            return R.image.chat.action.media.image
         case .document:
-            return Image(R.image.chat.action.document.name)
+            return R.image.chat.action.document.image
         case .location:
-            return Image(R.image.chat.action.location.name)
+            return R.image.chat.action.location.image
         case .contact:
-            return Image(R.image.chat.action.contact.name)
+            return R.image.chat.action.contact.image
         case .moneyTransfer:
-            return Image(R.image.chat.action.transfer.name)
+            return R.image.chat.action.transfer.image
         }
     }
 }
