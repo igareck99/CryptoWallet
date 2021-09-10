@@ -3,10 +3,10 @@ import UIKit
 // MARK: - Animator
 
 final class Animator {
-    var currentProgress: CGFloat = 0
 
     // MARK: - Internal Properties
 
+    var currentProgress: CGFloat = 0
     fileprivate var displayLink: CADisplayLink?
     fileprivate var fromProgress: CGFloat = 0
     fileprivate var toProgress: CGFloat = 0
