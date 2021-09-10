@@ -41,7 +41,7 @@ final class DeleteAnimation: NSObject {
     }
 }
 
-// MARK: - DeleteAnimation
+// MARK: - DeleteAnimation ()
 
 private extension DeleteAnimation {
 

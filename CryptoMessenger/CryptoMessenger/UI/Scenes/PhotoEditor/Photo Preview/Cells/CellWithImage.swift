@@ -6,6 +6,8 @@ protocol ImageCell: UICollectionViewCell {
     var imageView: UIImageView { get }
 }
 
+// MARK: - ImageCell
+
 extension ImageCell {
     func createConstraints() {
         imageView.snp.makeConstraints {

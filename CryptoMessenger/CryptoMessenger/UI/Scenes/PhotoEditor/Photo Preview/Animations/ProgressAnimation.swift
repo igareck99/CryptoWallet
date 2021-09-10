@@ -27,7 +27,8 @@ final class Animator {
     }
 }
 
-// MARK: - ThumbnailFlowLayout.ModeAnimator impl
+// MARK: - Animator ()
+
 extension Animator {
 
     func animate(duration: TimeInterval, completion: ((Bool) -> Void)?) {
@@ -54,7 +55,8 @@ extension Animator {
     }
 }
 
-// MARK: - progress updating timer handler
+// MARK: - Animator ()
+
 extension Animator {
     @objc func onProgressChanged(link: CADisplayLink) {
         let currentTime = CACurrentMediaTime()

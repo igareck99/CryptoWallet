@@ -38,10 +38,7 @@ final class ScrollAnimation: NSObject {
     }
 }
 
-extension ScrollAnimation {
-
-    enum `Type` {
-        case beign
-        case end
-    }
+enum `Type` {
+    case beign
+    case end
 }
