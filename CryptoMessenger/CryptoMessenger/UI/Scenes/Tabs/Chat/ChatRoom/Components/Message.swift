@@ -52,4 +52,5 @@ struct RoomMessage: Identifiable, Equatable {
     let type: MessageType
     let date: String
     let isCurrentUser: Bool
+    var reactions: [Reaction] = []
 }

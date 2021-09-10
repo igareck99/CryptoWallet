@@ -10,9 +10,11 @@ final class ChatRoomViewModel: ObservableObject {
     weak var delegate: ChatRoomSceneDelegate?
 
     @Published var inputText: String = ""
-    @Published var action: Action?
+    @Published var attachAction: AttachAction?
+    @Published var quickAction: QuickAction?
     @Published private(set) var keyboardHeight: CGFloat = 0
     @Published private(set) var messages: [RoomMessage] = []
+    @Published private(set) var emojiStorage: [ReactionStorage] = []
     @Published private(set) var state: ChatRoomFlow.ViewState = .idle
     @Published private(set) var userMessage: Message?
     @Published var showPhotoLibrary = false
@@ -33,6 +35,21 @@ final class ChatRoomViewModel: ObservableObject {
         bindInput()
         bindOutput()
 
+        sortedMessages[sortedMessages.count - 3].reactions = [
+            .init(
+                id: mockEmojiStorage[0].id,
+                sender: "",
+                timestamp: Date(),
+                emoji: "👍"
+            ),
+            .init(
+                id: mockEmojiStorage[2].id,
+                sender: "",
+                timestamp: Date(),
+                emoji: "😄"
+            )
+        ]
+
         self.userMessage = userMessage
         self.messages = sortedMessages
 
@@ -48,6 +65,12 @@ final class ChatRoomViewModel: ObservableObject {
         keyboardObserver.keyboardWillHideHandler = { [weak self] _ in
             self?.keyboardHeight = 0
         }
+
+        if !mockEmojiStorage.contains(where: { $0.isLastButton }) {
+            mockEmojiStorage.append(.init(id: UUID().uuidString, emoji: "", isLastButton: true))
+        }
+
+        emojiStorage = mockEmojiStorage
     }
 
     deinit {
@@ -73,7 +96,7 @@ final class ChatRoomViewModel: ObservableObject {
 
     private func bindInput() {
         eventSubject
-            .debounce(for: 0.2, scheduler: DispatchQueue.main)
+            .debounce(for: 0.15, scheduler: DispatchQueue.main)
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
@@ -83,11 +106,27 @@ final class ChatRoomViewModel: ObservableObject {
                 case let .onSend(type):
                     self?.inputText = ""
                     self?.messages.append(.init(type: type, date: "00:33", isCurrentUser: true))
+                case .onAddReaction(let messageId, let reactionId):
+                        guard
+                            let index = self?.messages.firstIndex(where: { $0.id == messageId }),
+                            let emoji = self?.emojiStorage.first(where: { $0.id == reactionId })?.emoji
+                        else {
+                            return
+                        }
+
+                        if self?.messages[index].reactions.contains(where: { $0.id == reactionId }) == false {
+                            self?.messages[index].reactions.append(
+                                .init(id: reactionId, sender: "", timestamp: Date(), emoji: emoji)
+                            )
+                        }
+                case .onDeleteReaction(let messageId, let reactionId):
+                    guard let index = self?.messages.firstIndex(where: { $0.id == messageId }) else { return }
+                    self?.messages[index].reactions.removeAll(where: { $0.id == reactionId })
                 }
             }
             .store(in: &subscriptions)
 
-        $action
+        $attachAction
             .sink { [weak self] action in
                 switch action {
                 case .location:
@@ -110,6 +149,12 @@ final class ChatRoomViewModel: ObservableObject {
                 default:
                     break
                 }
+            }
+            .store(in: &subscriptions)
+
+        $quickAction
+            .sink { action in
+                print(action)
             }
             .store(in: &subscriptions)
 
@@ -201,3 +246,6 @@ private var sortedMessages: [RoomMessage] = [
         isCurrentUser: true
     )
 ]
+
+private var mockEmojiStorage: [ReactionStorage] = ["👍", "👎", "😄", "🎉", "❤️", "🚀", "👀"]
+    .map { .init(id: UUID().uuidString, emoji: $0) }

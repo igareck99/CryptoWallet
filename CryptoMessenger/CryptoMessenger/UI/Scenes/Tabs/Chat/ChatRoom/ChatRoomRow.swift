@@ -4,15 +4,18 @@ struct ChatRoomRow: View {
 
     private let message: RoomMessage
     private let isCurrentUser: Bool?
+    private var onReaction: StringBlock?
 
     @State private var showMap = false
 
-    init(message: RoomMessage, isCurrentUser: Bool?) {
+    init(message: RoomMessage, isCurrentUser: Bool?, onReaction: StringBlock?) {
         self.message = message
         self.isCurrentUser = isCurrentUser
+        self.onReaction = onReaction
     }
 
     var body: some View {
+        ZStack {
             HStack {
                 if message.isCurrentUser {
                     Spacer()
@@ -61,7 +64,13 @@ struct ChatRoomRow: View {
                     Spacer()
                 }
             }
-            .id(message.id)
+
+            if !message.reactions.isEmpty {
+                reactions()
+                    .padding(.bottom, -16)
+            }
+        }
+        .id(message.id)
     }
 
     private func textRow(_ text: String) -> some View {
@@ -111,6 +120,36 @@ struct ChatRoomRow: View {
             checkReadView()
         }
         .frame(width: 202, height: 245)
+    }
+
+    private func reactions() -> some View {
+        ZStack {
+            VStack {
+                Spacer()
+
+                HStack(spacing: 4) {
+                    if message.isCurrentUser {
+                        Spacer()
+                    }
+
+                    ForEach(message.reactions) { reaction in
+                        ReactionGroupView(
+                            text: reaction.emoji,
+                            count: 1,
+                            backgroundColor: Color(.white())
+                        ).onTapGesture {
+                            onReaction?(reaction.id)
+                        }
+                    }
+
+                    if !message.isCurrentUser {
+                        Spacer()
+                    }
+                }
+                .frame(height: 24)
+                .padding(message.isCurrentUser ? .trailing : .leading, 32)
+            }
+        }
     }
 
     private func checkReadView() -> some View {
