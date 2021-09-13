@@ -57,6 +57,12 @@ final class ProfileViewController: BaseViewController {
     // MARK: - Actions
 
     @objc private func rightButtonTap() {
+        let controller = AdditionalMenuViewController()
+        present(controller, animated: true)
+        controller.didDeleteTap = { [unowned self] in
+            print("AAAAAA")
+            controller.dismiss(animated: true)
+        }
 
     }
 }
