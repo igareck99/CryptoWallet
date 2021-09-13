@@ -1,18 +1,25 @@
 import SwiftUI
 
+// MARK: - ChatRoomRow
+
 struct ChatRoomRow: View {
 
-    private let message: RoomMessage
-    private let isCurrentUser: Bool?
-    private var onReaction: StringBlock?
+    // MARK: - Private Properties
 
+    private let message: RoomMessage
+    private let isPreviousFromCurrentUser: Bool
+    private var onReaction: StringBlock?
     @State private var showMap = false
 
-    init(message: RoomMessage, isCurrentUser: Bool?, onReaction: StringBlock?) {
+    // MARK: - Lifecycle
+
+    init(message: RoomMessage, isPreviousFromCurrentUser: Bool, onReaction: StringBlock?) {
         self.message = message
-        self.isCurrentUser = isCurrentUser
+        self.isPreviousFromCurrentUser = isPreviousFromCurrentUser
         self.onReaction = onReaction
     }
+
+    // MARK: - Body
 
     var body: some View {
         ZStack {
@@ -21,7 +28,7 @@ struct ChatRoomRow: View {
                     Spacer()
                 }
 
-                ChatBubble(direction: message.isCurrentUser ? .right : .left) {
+                BubbleView(direction: message.isCurrentUser ? .right : .left) {
                     HStack {
                         switch message.type {
                         case let .text(text):
@@ -52,11 +59,14 @@ struct ChatRoomRow: View {
                             photoRow(image)
                         }
                     }
-                    .modifier(BubbleModifier(isCurrentUser: message.isCurrentUser))
+                    .background(.clear)
                 }
                 .padding(
                     .top,
-                    message.isCurrentUser == isCurrentUser ? 12 : 28
+                    calculateTopPadding(
+                        isCurrentUser: message.isCurrentUser,
+                        isPreviousFromCurrentUser: isPreviousFromCurrentUser
+                    )
                 )
                 .padding(message.isCurrentUser ? .leading : .trailing, 8)
 
@@ -71,12 +81,27 @@ struct ChatRoomRow: View {
             }
         }
         .id(message.id)
+        .onTapGesture {
+
+        }
+//        .simultaneousGesture(
+//            LongPressGesture(minimumDuration: 0.4)
+//                .onEnded { _ in
+//                    vibrate()
+////                    messageId = message.id
+////                    cardPosition = .middle
+//                }
+//        )
     }
+
+    // MARK: - Private Methods
 
     private func textRow(_ text: String) -> some View {
         HStack {
             Text(text)
                 .lineLimit(nil)
+                .font(.regular(15))
+                .foreground(.black())
 
             VStack {
                 Spacer()
@@ -180,6 +205,14 @@ struct ChatRoomRow: View {
                 .padding(.bottom, 8)
                 .padding(message.isCurrentUser ? .trailing : .leading, 10)
             }
+        }
+    }
+
+    private func calculateTopPadding(isCurrentUser: Bool, isPreviousFromCurrentUser: Bool) -> CGFloat {
+        if isCurrentUser {
+            return isPreviousFromCurrentUser ? 12 : 28
+        } else {
+            return isPreviousFromCurrentUser ? 28 : 12
         }
     }
 }

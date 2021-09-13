@@ -1,18 +1,18 @@
 import SwiftUI
 
-// MARK: - ChatBubble
+// MARK: - BubbleView
 
-struct ChatBubble<Content>: View where Content: View {
+struct BubbleView<Content>: View where Content: View {
 
     // MARK: - Private Properties
 
-    private let direction: ChatBubbleShape.Direction
+    private let direction: BubbleShape.Direction
     private let content: () -> Content
     @State private var isAnimating = false
 
     // MARK: - Lifecycle
 
-    init(direction: ChatBubbleShape.Direction, @ViewBuilder _ content: @escaping () -> Content) {
+    init(direction: BubbleShape.Direction, @ViewBuilder _ content: @escaping () -> Content) {
         self.direction = direction
         self.content = content
     }
@@ -30,13 +30,13 @@ struct ChatBubble<Content>: View where Content: View {
                     direction == .right ? Color(.lightBlue()) : Color(.beige())
                 )
                 .clipShape(
-                    ChatBubbleShape(direction: direction)
+                    BubbleShape(direction: direction)
                 )
-                .overlay(
-                    ChatBubbleShape(direction: direction)
-                        .stroke(Color(.lightGray()), lineWidth: 0.5)
-                        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
-                )
+//                .overlay(
+//                    BubbleShape(direction: direction)
+//                        .stroke(Color(.lightGray()), lineWidth: 0.5)
+//                        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+//                )
 
             if direction == .left {
                 Spacer()

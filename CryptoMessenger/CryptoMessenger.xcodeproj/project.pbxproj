@@ -142,9 +142,8 @@
 		5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318D226C5AAF100645365 /* ChatRoomViewModel.swift */; };
 		5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318D326C5AAF100645365 /* ChatRoomConfigurator.swift */; };
 		5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318D426C5AAF100645365 /* ChatRoomFlow.swift */; };
-		5A9318DE26C5AD0500645365 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318DB26C5AD0500645365 /* ChatBubble.swift */; };
-		5A9318DF26C5AD0500645365 /* BubbleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318DC26C5AD0500645365 /* BubbleModifier.swift */; };
-		5A9318E026C5AD0500645365 /* ChatBubbleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318DD26C5AD0500645365 /* ChatBubbleShape.swift */; };
+		5A9318DE26C5AD0500645365 /* BubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318DB26C5AD0500645365 /* BubbleView.swift */; };
+		5A9318E026C5AD0500645365 /* BubbleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318DD26C5AD0500645365 /* BubbleShape.swift */; };
 		5A9318E226C5B15F00645365 /* ColorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318E126C5B15F00645365 /* ColorStyle.swift */; };
 		5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318E326C5D4D000645365 /* BaseHostingController.swift */; };
 		5A9318E626C5E42300645365 /* KeyboardAdaptive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318E526C5E42200645365 /* KeyboardAdaptive.swift */; };
@@ -390,9 +389,8 @@
 		5A9318D226C5AAF100645365 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
 		5A9318D326C5AAF100645365 /* ChatRoomConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomConfigurator.swift; sourceTree = "<group>"; };
 		5A9318D426C5AAF100645365 /* ChatRoomFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomFlow.swift; sourceTree = "<group>"; };
-		5A9318DB26C5AD0500645365 /* ChatBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
-		5A9318DC26C5AD0500645365 /* BubbleModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleModifier.swift; sourceTree = "<group>"; };
-		5A9318DD26C5AD0500645365 /* ChatBubbleShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBubbleShape.swift; sourceTree = "<group>"; };
+		5A9318DB26C5AD0500645365 /* BubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleView.swift; sourceTree = "<group>"; };
+		5A9318DD26C5AD0500645365 /* BubbleShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleShape.swift; sourceTree = "<group>"; };
 		5A9318E126C5B15F00645365 /* ColorStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyle.swift; sourceTree = "<group>"; };
 		5A9318E326C5D4D000645365 /* BaseHostingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseHostingController.swift; sourceTree = "<group>"; };
 		5A9318E526C5E42200645365 /* KeyboardAdaptive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardAdaptive.swift; sourceTree = "<group>"; };
@@ -910,6 +908,15 @@
 			path = ImagePicker;
 			sourceTree = "<group>";
 		};
+		5A1FE9CE26EFAE99008A649E /* Bubble */ = {
+			isa = PBXGroup;
+			children = (
+				5A9318DD26C5AD0500645365 /* BubbleShape.swift */,
+				5A9318DB26C5AD0500645365 /* BubbleView.swift */,
+			);
+			path = Bubble;
+			sourceTree = "<group>";
+		};
 		5A2181E526D82D1F0093AD60 /* LocationManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1115,13 +1122,11 @@
 		5A9318DA26C5AB8900645365 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5A1FE9CE26EFAE99008A649E /* Bubble */,
 				5A9B471F26EA81CD001CC627 /* AttachActions */,
 				5A9B471E26EA81C5001CC627 /* QuickMenu */,
 				5A9B472226EA9275001CC627 /* Reaction */,
 				5A26CD6026B35C9B00118D4B /* Message.swift */,
-				5A9318DD26C5AD0500645365 /* ChatBubbleShape.swift */,
-				5A9318DC26C5AD0500645365 /* BubbleModifier.swift */,
-				5A9318DB26C5AD0500645365 /* ChatBubble.swift */,
 				5A2181EA26D8563D0093AD60 /* MapView.swift */,
 			);
 			path = Components;
@@ -1619,7 +1624,7 @@
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
 				5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */,
 				5AF8636E26ADCB9B004A417C /* KeyImportFlow.swift in Sources */,
-				5A9318DE26C5AD0500645365 /* ChatBubble.swift in Sources */,
+				5A9318DE26C5AD0500645365 /* BubbleView.swift in Sources */,
 				5A9B472126EA81F5001CC627 /* QuickMenuView.swift in Sources */,
 				5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */,
 				5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */,
@@ -1642,7 +1647,6 @@
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
 				5A4267FE26A83494000C51DD /* R.generated.swift in Sources */,
 				5AF8635C26ADB691004A417C /* OnboardingViewController.swift in Sources */,
-				5A9318DF26C5AD0500645365 /* BubbleModifier.swift in Sources */,
 				7846B65F26E8BC3F00B05984 /* MoveAnimation.swift in Sources */,
 				5A187E9B2680708D001957D3 /* ListSeparatorStyle.swift in Sources */,
 				5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */,
@@ -1720,7 +1724,7 @@
 				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
 				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
-				5A9318E026C5AD0500645365 /* ChatBubbleShape.swift in Sources */,
+				5A9318E026C5AD0500645365 /* BubbleShape.swift in Sources */,
 				7846B67726E8C0AE00B05984 /* CellWithImage.swift in Sources */,
 				5A26CD5026B356F600118D4B /* ProfileViewController.swift in Sources */,
 				5A9B472826EAB6EF001CC627 /* LastReactionItemView.swift in Sources */,

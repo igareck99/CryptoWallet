@@ -45,35 +45,30 @@ struct ChatRoomView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack {
                             HStack(alignment: .center) {
-                                Text("Fri, Jul 26")
-                                    .frame(width: 100, height: 24, alignment: .center)
+                                Text("  пт, 10 сентября  ")
+                                    .frame(height: 24, alignment: .center)
                                     .background(.lightGray())
                                     .font(.regular(14))
                                     .foreground(.black())
                                     .cornerRadius(8)
                             }
+                            .padding(.top, 16)
 
                             ForEach(viewModel.messages) { message in
                                 ChatRoomRow(
                                     message: message,
-                                    isCurrentUser: viewModel.previous(message)?.isCurrentUser,
+                                    isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
                                     onReaction: { reactionId in
                                         vibrate()
                                         viewModel.send(.onDeleteReaction(messageId: message.id, reactionId: reactionId))
                                     }
                                 )
-                                .gesture(LongPressGesture(minimumDuration: 0.4)
-                                .onEnded { _ in
+                                .onLongPressGesture(minimumDuration: 0.4) {
                                     vibrate()
+                                    print("Press")
                                     messageId = message.id
                                     cardPosition = .middle
-                                })
-//                                .contextMenu(
-//                                    ContextMenu {
-//                                        Button("Yes") {}
-//                                        Button("No") {}
-//                                    }
-//                                )
+                                }
                             }
                             .onChange(of: viewModel.messages) { _ in
                                 withAnimation {
@@ -91,11 +86,14 @@ struct ChatRoomView: View {
                             .onDisappear {
                                 print("onDisappear")
                             }
+
+                            Spacer().frame(height: 20)
                         }
                         .ignoresSafeArea()
                     }
                     .padding(.top, -8)
                     .padding(.bottom, -8)
+                    .gesture(DragGesture(minimumDistance: 0), including: .subviews)
                 }
                 .ignoresSafeArea()
 
@@ -180,6 +178,14 @@ struct ChatRoomView: View {
 
     private var quickMenuView: some View {
         ZStack {
+            Color(cardPosition == .bottom ? .clear : .black(0.4))
+                .ignoresSafeArea()
+                .animation(.easeInOut)
+                .onTapGesture {
+                    vibrate()
+                    cardPosition = .bottom
+                }
+
             SlideCard(position: $cardPosition) {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {

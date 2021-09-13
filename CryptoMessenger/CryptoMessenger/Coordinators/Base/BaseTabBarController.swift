@@ -4,11 +4,6 @@ import UIKit
 
 final class BaseTabBarController: UITabBarController {
 
-    // MARK: - Private Properties
-
-    private lazy var defaultTabBarHeight = { tabBar.frame.size.height }()
-    private var selectedPage = 0
-
     // MARK: - Lifecycle
 
     required init(viewControllers: [UIViewController]) {

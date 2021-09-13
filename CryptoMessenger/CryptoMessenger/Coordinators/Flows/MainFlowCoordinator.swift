@@ -1,5 +1,5 @@
-import UIKit
 import SwiftUI
+import UIKit
 
 // MARK: - MainFlowCoordinatorDelegate
 
@@ -40,20 +40,12 @@ public final class MainFlowCoordinator: Coordinator {
         ]
 
         let tabBarController = BaseTabBarController(viewControllers: tabs)
-        tabBarController.selectedIndex = Tabs.wallet.index
+        tabBarController.selectedIndex = Tabs.chat.index
 
         setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
     }
 
     // MARK: - Private Methods
-
-    private func buildServicesTab() -> UIViewController {
-        let viewController = UIViewController()
-        viewController.view.background(.white())
-        let navigation = BaseNavigationController(rootViewController: viewController)
-        navigation.tabBarItem = Tabs.services.item
-        return navigation
-    }
 
     private func buildChatTab() -> UIViewController {
         let viewController = ChatConfigurator.configuredViewController(delegate: nil)
@@ -79,15 +71,12 @@ public final class MainFlowCoordinator: Coordinator {
     // MARK: - Tabs
 
     enum Tabs: Hashable {
-        case services
         case chat
         case wallet
         case profile
 
         var index: Int {
             switch self {
-            case .services:
-                return 0
             case .chat:
                 return 0
             case .wallet:
@@ -99,15 +88,6 @@ public final class MainFlowCoordinator: Coordinator {
 
         var item: UITabBarItem {
             switch self {
-            case .services:
-                let image = R.image.tabBar.services()
-                let item = UITabBarItem(
-                    title: R.string.localizable.tabServices(),
-                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
-                    selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
-                )
-                item.tag = index
-                return item
             case .chat:
                 let image = R.image.tabBar.chat()
                 let item = UITabBarItem(

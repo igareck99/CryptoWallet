@@ -106,15 +106,6 @@ private struct CardModifier: ViewModifier {
     @GestureState private var dragState: DragState = .inactive
     @State private var offset = CGSize.zero
     private let animation = Animation.interpolatingSpring(stiffness: 300.0, damping: 30.0, initialVelocity: 10.0)
-    private var timer: Timer? {
-        .scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in
-            if position == .top && dragState.translation.height == 0 {
-                position = .top
-            } else {
-                timer.invalidate()
-            }
-        }
-    }
 
     // MARK: - Body
 
@@ -180,13 +171,11 @@ private struct CardModifier: ViewModifier {
 
         if dragDirection > 0 {
             position = lowerStop
-            timer?.invalidate()
         } else if dragDirection < 0 {
             position = higherStop
         } else {
             position = nearestPosition
         }
-        _ = timer
     }
 }
 
