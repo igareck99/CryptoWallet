@@ -10,6 +10,7 @@ struct ChatRoomRow: View {
     private let isPreviousFromCurrentUser: Bool
     private var onReaction: StringBlock?
     @State private var showMap = false
+    @State private var isAnimating = false
 
     // MARK: - Lifecycle
 
@@ -33,9 +34,6 @@ struct ChatRoomRow: View {
                         switch message.type {
                         case let .text(text):
                             textRow(text)
-                                .padding([.top, .bottom], 12)
-                                .padding(.leading, message.isCurrentUser ? 22 : 16)
-                                .padding(.trailing, message.isCurrentUser ? 16 : 22)
                         case let .location(location):
                             mapRow(location)
                                 .sheet(isPresented: $showMap) {
@@ -77,21 +75,18 @@ struct ChatRoomRow: View {
 
             if !message.reactions.isEmpty {
                 reactions()
-                    .padding(.bottom, -16)
+                    .padding(.bottom, -18)
+                    .opacity(isAnimating ? 1 : 0)
+                    .animation(.easeInOut)
+            }
+        }
+        .onTapGesture {}
+        .onAppear {
+            if !isAnimating {
+                isAnimating.toggle()
             }
         }
         .id(message.id)
-        .onTapGesture {
-
-        }
-//        .simultaneousGesture(
-//            LongPressGesture(minimumDuration: 0.4)
-//                .onEnded { _ in
-//                    vibrate()
-////                    messageId = message.id
-////                    cardPosition = .middle
-//                }
-//        )
     }
 
     // MARK: - Private Methods
@@ -102,28 +97,30 @@ struct ChatRoomRow: View {
                 .lineLimit(nil)
                 .font(.regular(15))
                 .foreground(.black())
+                .padding(.leading, message.isCurrentUser ? 22 : 16)
+                .padding([.top, .bottom], 12)
 
-            VStack {
+            VStack(alignment: .center) {
                 Spacer()
 
-                Text(message.date)
-                    .frame(height: 10)
-                    .font(.light(12))
-                    .foreground(.black(0.5))
-                    .padding(.bottom, -3)
-            }
+                HStack(spacing: 6) {
+                    Text(message.date)
+                        .frame(width: 40, height: 10)
+                        .font(.light(12))
+                        .foreground(.black(0.5))
+                        .padding(.trailing, !message.isCurrentUser ? 16 : 0)
 
-            if message.isCurrentUser {
-                VStack {
-                    Spacer()
-
-                    Image(R.image.chat.readCheck.name)
-                        .resizable()
-                        .frame(width: 13.5, height: 10, alignment: .center)
-                        .padding(.bottom, -3)
+                    if message.isCurrentUser {
+                        Image(R.image.chat.readCheck.name)
+                            .resizable()
+                            .frame(width: 13.5, height: 10, alignment: .center)
+                            .padding(.trailing, 16)
+                    }
                 }
+                .padding(.bottom, 8)
             }
         }
+        .frame(minHeight: 41, idealHeight: 41, maxHeight: .infinity)
     }
 
     private func mapRow(_ location: Location) -> some View {
@@ -210,9 +207,9 @@ struct ChatRoomRow: View {
 
     private func calculateTopPadding(isCurrentUser: Bool, isPreviousFromCurrentUser: Bool) -> CGFloat {
         if isCurrentUser {
-            return isPreviousFromCurrentUser ? 12 : 28
+            return isPreviousFromCurrentUser ? 14 : 28
         } else {
-            return isPreviousFromCurrentUser ? 28 : 12
+            return isPreviousFromCurrentUser ? 28 : 14
         }
     }
 }

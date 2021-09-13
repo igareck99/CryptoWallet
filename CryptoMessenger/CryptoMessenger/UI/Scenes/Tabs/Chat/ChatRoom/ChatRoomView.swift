@@ -65,7 +65,6 @@ struct ChatRoomView: View {
                                 )
                                 .onLongPressGesture(minimumDuration: 0.4) {
                                     vibrate()
-                                    print("Press")
                                     messageId = message.id
                                     cardPosition = .middle
                                 }
@@ -93,7 +92,6 @@ struct ChatRoomView: View {
                     }
                     .padding(.top, -8)
                     .padding(.bottom, -8)
-                    .gesture(DragGesture(minimumDistance: 0), including: .subviews)
                 }
                 .ignoresSafeArea()
 
