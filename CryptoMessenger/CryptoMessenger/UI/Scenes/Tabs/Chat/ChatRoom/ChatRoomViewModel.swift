@@ -19,6 +19,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private(set) var userMessage: Message?
     @Published var showPhotoLibrary = false
     @Published var selectedImage: UIImage?
+    @Published private var lastLocation: Location?
 
     // MARK: - Private Properties
 
@@ -26,7 +27,6 @@ final class ChatRoomViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<ChatRoomFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     private let keyboardObserver = KeyboardObserver()
-
     private let locationManager = LocationManager()
 
     // MARK: - Lifecycle
@@ -114,7 +114,6 @@ final class ChatRoomViewModel: ObservableObject {
 
     private func bindInput() {
         eventSubject
-            .debounce(for: 0.15, scheduler: DispatchQueue.main)
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
@@ -145,10 +144,11 @@ final class ChatRoomViewModel: ObservableObject {
             .store(in: &subscriptions)
 
         $attachAction
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] action in
                 switch action {
                 case .location:
-                    if let location = self?.locationManager.getUserLocation() {
+                    if let location = self?.lastLocation {
                         let message = RoomMessage(
                             type: .location(location),
                             date: "00:31",
@@ -171,6 +171,7 @@ final class ChatRoomViewModel: ObservableObject {
             .store(in: &subscriptions)
 
         $quickAction
+            .receive(on: DispatchQueue.main)
             .sink { action in
                 print(action)
             }
@@ -182,6 +183,11 @@ final class ChatRoomViewModel: ObservableObject {
                 guard let image = image else { return }
                 self?.messages.append(.init(type: .image(image), date: "00:33", isCurrentUser: true))
             }
+            .store(in: &subscriptions)
+
+        locationManager.$lastLocation
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.lastLocation, on: self)
             .store(in: &subscriptions)
     }
 
@@ -213,11 +219,11 @@ private var sortedMessages: [RoomMessage] = [
         date: "00:31",
         isCurrentUser: true
     ),
-    .init(
-        type: .location((lat: 59.939099, long: 30.315877)),
-        date: "00:31",
-        isCurrentUser: true
-    ),
+//    .init(
+//        type: .location((lat: 59.939099, long: 30.315877)),
+//        date: "00:31",
+//        isCurrentUser: true
+//    ),
     .init(
         type: .text("Okе, но ты там долго не сиди. Завтра демо:)"),
         date: "00:32",

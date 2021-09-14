@@ -1,6 +1,6 @@
-import UIKit
-import SnapKit
 import AVFoundation
+import SnapKit
+import UIKit
 
 // MARK: - PreviewCollectionViewCell
 
@@ -17,6 +17,7 @@ final class PreviewCollectionViewCell: UICollectionViewCell & ImageCell {
         setupUI()
         createConstraints()
         imageView.contentMode = .scaleAspectFit
+        imageView.enableZoom()
     }
 
     @available(*, unavailable)

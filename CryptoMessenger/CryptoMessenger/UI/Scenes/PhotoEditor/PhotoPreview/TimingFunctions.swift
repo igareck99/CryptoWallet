@@ -3,9 +3,14 @@ import UIKit
 // MARK: - Easing
 
 enum Easing<T: FloatingPoint> {
+
+    // MARK: - Types
+
     case linear
     case easeOut
     case easeInOut
+
+    // MARK: - Internal Properties
 
     var function: ((T) -> (T)) {
         switch self {

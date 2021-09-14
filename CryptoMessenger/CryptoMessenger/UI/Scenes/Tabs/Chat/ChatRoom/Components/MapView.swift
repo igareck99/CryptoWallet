@@ -1,27 +1,41 @@
 import MapKit
 import SwiftUI
 
+// MARK: - Place
+
 struct Place: Identifiable {
+
+    // MARK: - Internal Properties
+
     let id = UUID().uuidString
     let name: String
     let latitude: Double
     let longitude: Double
-    var coordinate: CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-    }
 }
 
-struct MapView: View {
-    @State private var region: MKCoordinateRegion
+// MARK: - MapView
 
+struct MapView: View {
+
+    // MARK: - Private Properties
+
+    @State private var region: MKCoordinateRegion
     private let place: Place
     private let isInteractionModesDisabled: Bool
 
+    // MARK: - Lifecycle
+
     init(place: Place, _ isInteractionModesDisabled: Bool = false) {
-        region = MKCoordinateRegion(center: place.coordinate, latitudinalMeters: 650, longitudinalMeters: 650)
+        region = MKCoordinateRegion(
+            center: .init(latitude: place.latitude, longitude: place.longitude),
+            latitudinalMeters: 650,
+            longitudinalMeters: 650
+        )
         self.place = place
         self.isInteractionModesDisabled = isInteractionModesDisabled
     }
+
+    // MARK: - Body
 
     var body: some View {
         Map(
@@ -31,8 +45,8 @@ struct MapView: View {
             annotationItems: [place]
         ) { place in
             MapAnnotation(
-                coordinate: place.coordinate,
-                anchorPoint: CGPoint(x: 0.5, y: 1)
+                coordinate: .init(latitude: place.latitude, longitude: place.longitude),
+                anchorPoint: CGPoint(x: 0.5, y: 0.5)
             ) {
                 R.image.chat.location.marker.image
             }

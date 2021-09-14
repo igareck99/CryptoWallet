@@ -1,11 +1,5 @@
 import UIKit
 
-// MARK: - PhotoProfile
-
-struct PhotoProfile {
-    var image: UIImage?
-}
-
 // MARK: - ProfileView
 
 final class ProfileView: UIView {
@@ -13,6 +7,7 @@ final class ProfileView: UIView {
     // MARK: - Internal Properties
 
     var didTapAddPhoto: VoidBlock?
+    var didTapShowPhoto: VoidBlock?
 
     // MARK: - Private Properties
     private lazy var view = ProfileView(frame: UIScreen.main.bounds)
@@ -27,6 +22,7 @@ final class ProfileView: UIView {
     private lazy var urlButton = UIButton()
     private lazy var addPhotoButton = UIButton()
     private let spacing: CGFloat = 1
+
     private lazy var photoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -36,12 +32,8 @@ final class ProfileView: UIView {
         layout.itemSize = CGSize(width: width, height: width + spacing)
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
-    private var photos: [PhotoProfile] = [
-        PhotoProfile(image: R.image.profile.testpicture2()),
-        PhotoProfile(image: R.image.profile.testpicture3()),
-        PhotoProfile(image: R.image.profile.testpicture4()),
-        PhotoProfile(image: R.image.profile.testpicture5())
-    ]
+
+    private(set) var photos: [UIImage?] = []
 
     // MARK: - Lifecycle
 
@@ -69,7 +61,12 @@ final class ProfileView: UIView {
     // MARK: - Internal Methods
 
     func addImage(_ image: UIImage) {
-        photos.append(PhotoProfile(image: image))
+        photos.append(image)
+        photoCollectionView.reloadData()
+    }
+
+    func setPhotos(_ images: [UIImage?]) {
+        photos.append(contentsOf: images)
         photoCollectionView.reloadData()
     }
 
@@ -276,17 +273,15 @@ extension ProfileView: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else { return .init() }
-        cell.configure(photos[indexPath.row])
+        cell.profileImageView.image = photos[indexPath.row]
         return cell
     }
-
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {}
 }
 
 // MARK: - ProfileView (UICollectionViewDelegate)
 
 extension ProfileView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+        didTapShowPhoto?()
     }
 }

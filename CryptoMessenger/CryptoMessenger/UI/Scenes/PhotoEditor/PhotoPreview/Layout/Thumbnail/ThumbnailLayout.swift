@@ -36,7 +36,8 @@ final class ThumbnailLayout: UICollectionViewFlowLayout {
     init(dataSource: ((Int) -> CGSize)?, config: Configuration = Configuration()) {
         self.config = config
         self.dataSource = { index in
-            dataSource?(index).aspectRatio ?? config.defaultAspectRatio
+            let size = dataSource?(index) ?? .zero
+            return size == .zero ? config.defaultAspectRatio : size.width / size.height
         }
         super.init()
         scrollDirection = .horizontal

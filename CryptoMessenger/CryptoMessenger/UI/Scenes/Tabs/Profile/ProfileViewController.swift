@@ -25,6 +25,7 @@ final class ProfileViewController: BaseViewController {
         subscribeOnCustomViewActions()
         addLeftBarButtonItem()
         addRightBarButtonItem()
+        presenter?.viewDidLoad()
     }
 
     // MARK: - Private Methods
@@ -36,6 +37,10 @@ final class ProfileViewController: BaseViewController {
     private func subscribeOnCustomViewActions() {
         customView.didTapAddPhoto = { [unowned self] in
             self.imagePicker.open()
+        }
+        customView.didTapShowPhoto = { [unowned self] in
+            let viewController = PhotoEditorConfigurator.configuredViewController(delegate: nil)
+            self.present(viewController, animated: true)
         }
     }
 
@@ -77,6 +82,10 @@ extension ProfileViewController: ImagePickerDelegate {
 // MARK: - ProfileViewInterface
 
 extension ProfileViewController: ProfileViewInterface {
+    func setPhotos(_ photos: [UIImage?]) {
+        customView.setPhotos(photos)
+    }
+
     func showAlert(title: String?, message: String?) {
         presentAlert(title: title, message: message)
     }

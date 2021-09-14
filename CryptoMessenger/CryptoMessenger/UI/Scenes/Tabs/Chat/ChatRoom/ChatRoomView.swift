@@ -12,12 +12,12 @@ struct ChatRoomView: View {
 
     // MARK: - Private Properties
 
-    @State private var messageId: String = ""
+    @State private var messageId = ""
     @State private var cardPosition: CardPosition = .bottom
     @State private var scrolled = false
     @State private var showActionSheet = false
 
-    // MARK: - Lifecycle
+    // MARK: - Body
 
     var body: some View {
         content
@@ -63,24 +63,27 @@ struct ChatRoomView: View {
                                         viewModel.send(.onDeleteReaction(messageId: message.id, reactionId: reactionId))
                                     }
                                 )
-                                .onLongPressGesture(minimumDuration: 0.4) {
-                                    vibrate()
+                                .onLongPressGesture(minimumDuration: 0.1, maximumDistance: 0) {
+                                    vibrate(.medium)
                                     messageId = message.id
                                     cardPosition = .middle
                                 }
                             }
                             .onChange(of: viewModel.messages) { _ in
+                                guard let id = viewModel.messages.last?.id else { return }
                                 withAnimation {
-                                    scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
+                                    scrollView.scrollTo(id, anchor: .bottom)
                                 }
                             }
                             .onChange(of: viewModel.keyboardHeight) { _ in
+                                guard let id = viewModel.messages.last?.id else { return }
                                 withAnimation {
-                                    scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
+                                    scrollView.scrollTo(id, anchor: .bottom)
                                 }
                             }
                             .onAppear {
-                                scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
+                                guard let id = viewModel.messages.last?.id else { return }
+                                scrollView.scrollTo(id, anchor: .bottom)
                             }
                             .onDisappear {
                                 print("onDisappear")
