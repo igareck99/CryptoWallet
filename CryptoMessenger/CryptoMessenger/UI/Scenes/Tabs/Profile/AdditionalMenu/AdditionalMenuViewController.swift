@@ -18,8 +18,6 @@ final class AdditionalMenuViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addCustomView()
-        addTapGesture()
-        subscribeOnCustomViewActions()
     }
 
     override func viewDidLayoutSubviews() {
@@ -41,27 +39,6 @@ final class AdditionalMenuViewController: BaseViewController {
             $0.leading.bottom.trailing.equalTo($1)
             $0.height.equalTo(700)
         }
-
-        let indicatorView = UIView()
-        indicatorView.snap(parent: customView) {
-            $0.background(.gray(0.4))
-            $0.clipCorners(radius: 2)
-        } layout: {
-            $0.top.equalTo($1).offset(6)
-            $0.centerX.equalTo($1)
-            $0.width.equalTo(31)
-            $0.height.equalTo(4)
-        }
-    }
-
-    private func addTapGesture() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didClose))
-        view.addGestureRecognizer(tap)
-    }
-
-    private func subscribeOnCustomViewActions() {
-        customView.didTapDelete = { [unowned self] in
-            print("didDeleteTap")
-        }
+        
     }
 }

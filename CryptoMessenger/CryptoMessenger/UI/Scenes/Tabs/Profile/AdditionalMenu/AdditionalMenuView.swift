@@ -14,16 +14,34 @@ final class AdditionalMenuView: UIView {
     private lazy var balanceLabel = UILabel()
     private lazy var firstLineView = UIView()
     private lazy var secondLineView = UIView()
+    private lazy var tableView = UITableView(frame: .zero, style: .plain)
+    private lazy var indicatorView = UIView()
+    private var tableProvider: TableViewProvider?
+    private var filteredViewModel: MenuListViewModel = .init(menuList)
+    private var tableModel: MenuListViewModel = .init(menuList) {
+        didSet {
+            if tableProvider == nil {
+                setupTableProvider()
+            }
+            tableProvider?.reloadData()
+        }
+    }
 
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
+        addindicatorView()
         setupAuraImage()
         setupBalanceLabel()
         addLineView()
+        setupTableView()
+        setupTableProvider()
         addSecondLineView()
+        print(tableModel.items)
+        print(filteredViewModel)
+        print(tableModel.numberOfTableSections())
     }
 
     @available(*, unavailable)
@@ -31,13 +49,19 @@ final class AdditionalMenuView: UIView {
         fatalError("not implemented")
     }
 
-    // MARK: - Internal Methods
-
-    @objc private func deleteButtonTap() {
-        didTapDelete?()
-    }
-
     // MARK: - Private Methods
+
+    private func addindicatorView() {
+        indicatorView.snap(parent: self) {
+            $0.background(.gray(0.4))
+            $0.clipCorners(radius: 2)
+        } layout: {
+            $0.top.equalTo($1).offset(6)
+            $0.centerX.equalTo($1)
+            $0.width.equalTo(31)
+            $0.height.equalTo(4)
+        }
+    }
 
     private func setupAuraImage() {
         auraImage.snap(parent: self) {
@@ -79,6 +103,33 @@ final class AdditionalMenuView: UIView {
         }
     }
 
+    private func setupTableView() {
+        tableView.snap(parent: self) {
+            $0.register(MenuCell.self, forCellReuseIdentifier: MenuCell.identifier)
+            $0.separatorInset.left = 64
+            $0.allowsSelection = true
+            $0.isUserInteractionEnabled = true
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        } layout: {
+            $0.leading.trailing.equalTo($1)
+            $0.top.equalTo(self.firstLineView.snp.topMargin).offset(12)
+        }
+    }
+
+    private func setupTableProvider() {
+        tableProvider = TableViewProvider(for: tableView, with: tableModel)
+        tableProvider?.registerCells([MenuCell.self])
+        tableProvider?.onConfigureCell = { [unowned self] indexPath in
+            guard let provider = self.tableProvider else { return .init() }
+            let cell: MenuCell = provider.dequeueReusableCell(for: indexPath)
+            let item = filteredViewModel.items.isEmpty
+                ? tableModel.items[indexPath.section]
+                : filteredViewModel.items[indexPath.section]
+            cell.configure(item)
+            return cell
+        }
+    }
+
     private func addSecondLineView() {
         secondLineView.snap(parent: self) {
             $0.background(.gray(0.4))
@@ -89,3 +140,16 @@ final class AdditionalMenuView: UIView {
         }
     }
 }
+
+private  var menuList: [MenuItem] = [
+    .init(text: R.string.localizable.additionalMenuProfile(),
+          image: R.image.additionalMenu.profile(), isNotifications: false),
+        .init(text: R.string.localizable.additionalMenuPersonalization(),
+              image: R.image.additionalMenu.personaliztion(), isNotifications: false),
+        .init(text: R.string.localizable.additionalMenuSecurity(),
+              image: R.image.additionalMenu.security(), isNotifications: false),
+        .init(text: R.string.localizable.additionalMenuWallet(),
+              image: R.image.additionalMenu.wallet(), isNotifications: false),
+        .init(text: R.string.localizable.additionalMenuNotification(),
+              image: R.image.additionalMenu.notifications(), isNotifications: false)
+]
