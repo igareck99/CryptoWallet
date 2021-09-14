@@ -17,7 +17,6 @@ final class AdditionalMenuView: UIView {
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private lazy var indicatorView = UIView()
     private var tableProvider: TableViewProvider?
-    private var filteredViewModel: MenuListViewModel = .init(menuList)
     private var tableModel: MenuListViewModel = .init(menuList) {
         didSet {
             if tableProvider == nil {
@@ -40,7 +39,6 @@ final class AdditionalMenuView: UIView {
         setupTableProvider()
         addSecondLineView()
         print(tableModel.items)
-        print(filteredViewModel)
         print(tableModel.numberOfTableSections())
     }
 
@@ -122,9 +120,7 @@ final class AdditionalMenuView: UIView {
         tableProvider?.onConfigureCell = { [unowned self] indexPath in
             guard let provider = self.tableProvider else { return .init() }
             let cell: MenuCell = provider.dequeueReusableCell(for: indexPath)
-            let item = filteredViewModel.items.isEmpty
-                ? tableModel.items[indexPath.section]
-                : filteredViewModel.items[indexPath.section]
+            let item = tableModel.items[indexPath.section]
             cell.configure(item)
             return cell
         }

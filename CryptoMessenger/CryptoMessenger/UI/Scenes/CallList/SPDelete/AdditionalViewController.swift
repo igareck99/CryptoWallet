@@ -17,7 +17,6 @@ final class AdditionalViewController: BaseViewController {
         super.viewDidLoad()
         addCustomView()
         addTapGesture()
-        subscribeOnCustomViewActions()
     }
 
     override func viewDidLayoutSubviews() {
@@ -55,12 +54,6 @@ final class AdditionalViewController: BaseViewController {
     private func addTapGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(didClose))
         view.addGestureRecognizer(tap)
-    }
-
-    private func subscribeOnCustomViewActions() {
-        customView.didTapDelete = { [unowned self] in
-            showAlert()
-        }
     }
 
     private func showAlert() {
