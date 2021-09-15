@@ -77,7 +77,7 @@ final class AdditionalMenuView: UIView {
             $0.contentMode = .scaleAspectFill
         } layout: {
             $0.width.height.equalTo(24)
-            $0.top.equalTo(self.snp_topMargin).offset(18)
+            $0.top.equalTo($1).offset(18)
             $0.leading.equalTo($1).offset(16)
         }
     }
@@ -96,7 +96,7 @@ final class AdditionalMenuView: UIView {
                 ]
             )
         } layout: {
-            $0.top.equalTo(self.snp_topMargin).offset(19.7)
+            $0.top.equalTo($1).offset(19.7)
             $0.leading.equalTo($1).offset(48)
         }
     }
@@ -120,7 +120,7 @@ final class AdditionalMenuView: UIView {
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
             $0.leading.trailing.bottom.equalTo($1)
-            $0.top.equalTo($1).offset(79)
+            $0.top.equalTo($1).offset(70)
         }
     }
 
@@ -155,7 +155,7 @@ final class AdditionalMenuView: UIView {
             $0.isUserInteractionEnabled = false
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
-            $0.leading.trailing.equalTo($1)
+            $0.leading.trailing.bottom.equalTo($1)
             $0.top.equalTo($1).offset(550)
         }
     }
@@ -177,11 +177,11 @@ private  var menuList: [MenuItem] = [
         .init(text: R.string.localizable.additionalMenuPersonalization(),
               image: R.image.additionalMenu.personaliztion(), Notifications: 0),
         .init(text: R.string.localizable.additionalMenuSecurity(),
-              image: R.image.additionalMenu.security(), Notifications: 1),
+              image: R.image.additionalMenu.security(), Notifications: 0),
         .init(text: R.string.localizable.additionalMenuWallet(),
               image: R.image.additionalMenu.wallet(), Notifications: 0),
         .init(text: R.string.localizable.additionalMenuNotification(),
-              image: R.image.additionalMenu.notifications(), Notifications: 0),
+              image: R.image.additionalMenu.notifications(), Notifications: 1),
         .init(text: R.string.localizable.additionalMenuChats(), image: R.image.additionalMenu.chat(),
               Notifications: 0),
         .init(text: R.string.localizable.additionalMenuData(), image: R.image.additionalMenu.dataStorage(),
