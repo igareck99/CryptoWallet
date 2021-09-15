@@ -104,13 +104,13 @@ final class AdditionalMenuView: UIView {
     private func setupTableView() {
         tableView.snap(parent: self) {
             $0.register(MenuCell.self, forCellReuseIdentifier: MenuCell.identifier)
-            $0.separatorInset.left = 64
+            $0.separatorStyle = .none
             $0.allowsSelection = true
             $0.isUserInteractionEnabled = true
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
-            $0.leading.trailing.equalTo($1)
-            $0.top.equalTo(self.firstLineView.snp.topMargin).offset(12)
+            $0.leading.trailing.bottom.equalTo($1)
+            $0.top.equalTo($1).offset(80)
         }
     }
 

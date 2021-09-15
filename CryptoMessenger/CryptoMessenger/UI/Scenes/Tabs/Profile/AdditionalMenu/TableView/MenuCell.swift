@@ -39,12 +39,12 @@ class MenuCell: UITableViewCell {
 
     private func addMenuImage() {
         menuImage.snap(parent: self) {
-            $0.background(.blue())
+            $0.background(.white())
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
             $0.clipCorners(radius: 20)
         } layout: {
-            $0.width.height.equalTo(40)
+            $0.width.height.equalTo(24)
             $0.leading.equalTo($1).offset(16)
             $0.centerY.equalTo($1)
         }
