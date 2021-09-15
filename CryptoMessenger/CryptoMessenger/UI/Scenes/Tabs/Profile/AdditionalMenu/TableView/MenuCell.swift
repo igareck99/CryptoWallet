@@ -39,12 +39,12 @@ class MenuCell: UITableViewCell {
 
     private func addMenuImage() {
         menuImage.snap(parent: self) {
-            $0.background(.white())
-            $0.contentMode = .scaleAspectFill
+            $0.background(.lightBlue())
             $0.clipsToBounds = true
+            $0.contentMode = .center
             $0.clipCorners(radius: 20)
         } layout: {
-            $0.width.height.equalTo(24)
+            $0.width.height.equalTo(40)
             $0.leading.equalTo($1).offset(16)
             $0.centerY.equalTo($1)
         }
@@ -52,7 +52,7 @@ class MenuCell: UITableViewCell {
 
     private func addMenuLabel() {
         menuLabel.snap(parent: self) {
-            $0.font(.medium(15))
+            $0.font(.light(16))
             $0.textColor(.black())
         } layout: {
             $0.leading.equalTo($1).offset(72)
@@ -64,10 +64,11 @@ class MenuCell: UITableViewCell {
         openButton.snap(parent: self) {
             $0.contentMode = .scaleAspectFill
             $0.clipsToBounds = true
+            $0.setImage(R.image.additionalMenu.grayArrow(), for: .normal)
         } layout: {
             $0.width.equalTo(7)
             $0.height.equalTo(12)
-            $0.leading.equalTo($1).offset(344)
+            $0.trailing.equalTo($1).offset(-23)
             $0.top.equalTo($1).offset(28)
         }
     }

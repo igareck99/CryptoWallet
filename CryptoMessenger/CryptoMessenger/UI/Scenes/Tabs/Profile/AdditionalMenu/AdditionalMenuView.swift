@@ -14,8 +14,8 @@ final class AdditionalMenuView: UIView {
     private lazy var balanceLabel = UILabel()
     private lazy var firstLineView = UIView()
     private lazy var secondLineView = UIView()
-    private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private lazy var indicatorView = UIView()
+    private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private var tableProvider: TableViewProvider?
     private var tableModel: MenuListViewModel = .init(menuList) {
         didSet {
@@ -23,6 +23,16 @@ final class AdditionalMenuView: UIView {
                 setupTableProvider()
             }
             tableProvider?.reloadData()
+        }
+    }
+    private lazy var secondTableView = UITableView(frame: .zero, style: .plain)
+    private var secondTableProvider: TableViewProvider?
+    private var secondTableModel: MenuListViewModel = .init(secondMenulist) {
+        didSet {
+            if secondTableProvider == nil {
+                setupSecondTableProvider()
+            }
+            secondTableProvider?.reloadData()
         }
     }
 
@@ -38,8 +48,8 @@ final class AdditionalMenuView: UIView {
         setupTableView()
         setupTableProvider()
         addSecondLineView()
-        print(tableModel.items)
-        print(tableModel.numberOfTableSections())
+        setupSecondTableView()
+        setupSecondTableProvider()
     }
 
     @available(*, unavailable)
@@ -74,7 +84,7 @@ final class AdditionalMenuView: UIView {
 
     private func setupBalanceLabel() {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
+        paragraphStyle.lineHeightMultiple = 1.22
         paragraphStyle.alignment = .center
         balanceLabel.snap(parent: self) {
             $0.titleAttributes(
@@ -106,11 +116,11 @@ final class AdditionalMenuView: UIView {
             $0.register(MenuCell.self, forCellReuseIdentifier: MenuCell.identifier)
             $0.separatorStyle = .none
             $0.allowsSelection = true
-            $0.isUserInteractionEnabled = true
+            $0.isUserInteractionEnabled = false
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
             $0.leading.trailing.bottom.equalTo($1)
-            $0.top.equalTo($1).offset(80)
+            $0.top.equalTo($1).offset(79)
         }
     }
 
@@ -123,6 +133,30 @@ final class AdditionalMenuView: UIView {
             let item = tableModel.items[indexPath.section]
             cell.configure(item)
             return cell
+        }
+    }
+    private func setupSecondTableProvider() {
+        secondTableProvider = TableViewProvider(for: secondTableView, with: secondTableModel)
+        secondTableProvider?.registerCells([MenuCell.self])
+        secondTableProvider?.onConfigureCell = { [unowned self] indexPath in
+            guard let provider = self.secondTableProvider else { return .init() }
+            let cell: MenuCell = provider.dequeueReusableCell(for: indexPath)
+            let item = secondTableModel.items[indexPath.section]
+            cell.configure(item)
+            return cell
+        }
+    }
+
+    private func setupSecondTableView() {
+        secondTableView.snap(parent: self) {
+            $0.register(MenuCell.self, forCellReuseIdentifier: MenuCell.identifier)
+            $0.separatorStyle = .none
+            $0.allowsSelection = true
+            $0.isUserInteractionEnabled = false
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        } layout: {
+            $0.leading.trailing.equalTo($1)
+            $0.top.equalTo($1).offset(550)
         }
     }
 
@@ -147,5 +181,16 @@ private  var menuList: [MenuItem] = [
         .init(text: R.string.localizable.additionalMenuWallet(),
               image: R.image.additionalMenu.wallet(), isNotifications: false),
         .init(text: R.string.localizable.additionalMenuNotification(),
-              image: R.image.additionalMenu.notifications(), isNotifications: false)
+              image: R.image.additionalMenu.notifications(), isNotifications: true),
+        .init(text: R.string.localizable.additionalMenuChats(), image: R.image.additionalMenu.chat(),
+              isNotifications: false),
+        .init(text: R.string.localizable.additionalMenuData(), image: R.image.additionalMenu.dataStorage(),
+              isNotifications: false)
 ]
+
+private var secondMenulist: [MenuItem] = [
+    .init(text: R.string.localizable.additionalMenuQuestions(),
+          image: R.image.additionalMenu.answers(), isNotifications: false),
+    .init(text: R.string.localizable.additionalMenuAbout(),
+          image: R.image.additionalMenu.about(), isNotifications: false)
+    ]
