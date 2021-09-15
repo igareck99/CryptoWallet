@@ -125,7 +125,7 @@ struct ChatRoomRow: View {
 
     private func mapRow(_ location: Location) -> some View {
         ZStack {
-            MapView(place: .init(name: "", latitude: location.lat, longitude: location.long), true)
+            MapSnapshotView(latitude: location.lat, longitude: location.long)
 
             checkReadView()
         }

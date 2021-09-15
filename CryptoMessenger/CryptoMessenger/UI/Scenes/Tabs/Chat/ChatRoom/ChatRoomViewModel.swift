@@ -148,7 +148,7 @@ final class ChatRoomViewModel: ObservableObject {
             .sink { [weak self] action in
                 switch action {
                 case .location:
-                    if let location = self?.lastLocation {
+                    if let location = self?.locationManager.getUserLocation() {
                         let message = RoomMessage(
                             type: .location(location),
                             date: "00:31",
@@ -219,11 +219,6 @@ private var sortedMessages: [RoomMessage] = [
         date: "00:31",
         isCurrentUser: true
     ),
-//    .init(
-//        type: .location((lat: 59.939099, long: 30.315877)),
-//        date: "00:31",
-//        isCurrentUser: true
-//    ),
     .init(
         type: .text("Okе, но ты там долго не сиди. Завтра демо:)"),
         date: "00:32",
