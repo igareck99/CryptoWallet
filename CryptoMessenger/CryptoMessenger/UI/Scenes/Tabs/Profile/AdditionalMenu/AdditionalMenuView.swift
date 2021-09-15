@@ -173,24 +173,24 @@ final class AdditionalMenuView: UIView {
 
 private  var menuList: [MenuItem] = [
     .init(text: R.string.localizable.additionalMenuProfile(),
-          image: R.image.additionalMenu.profile(), isNotifications: false),
+          image: R.image.additionalMenu.profile(), Notifications: 0),
         .init(text: R.string.localizable.additionalMenuPersonalization(),
-              image: R.image.additionalMenu.personaliztion(), isNotifications: false),
+              image: R.image.additionalMenu.personaliztion(), Notifications: 0),
         .init(text: R.string.localizable.additionalMenuSecurity(),
-              image: R.image.additionalMenu.security(), isNotifications: false),
+              image: R.image.additionalMenu.security(), Notifications: 1),
         .init(text: R.string.localizable.additionalMenuWallet(),
-              image: R.image.additionalMenu.wallet(), isNotifications: false),
+              image: R.image.additionalMenu.wallet(), Notifications: 0),
         .init(text: R.string.localizable.additionalMenuNotification(),
-              image: R.image.additionalMenu.notifications(), isNotifications: true),
+              image: R.image.additionalMenu.notifications(), Notifications: 0),
         .init(text: R.string.localizable.additionalMenuChats(), image: R.image.additionalMenu.chat(),
-              isNotifications: false),
+              Notifications: 0),
         .init(text: R.string.localizable.additionalMenuData(), image: R.image.additionalMenu.dataStorage(),
-              isNotifications: false)
+              Notifications: 0)
 ]
 
 private var secondMenulist: [MenuItem] = [
     .init(text: R.string.localizable.additionalMenuQuestions(),
-          image: R.image.additionalMenu.answers(), isNotifications: false),
+          image: R.image.additionalMenu.answers(), Notifications: 0),
     .init(text: R.string.localizable.additionalMenuAbout(),
-          image: R.image.additionalMenu.about(), isNotifications: false)
+          image: R.image.additionalMenu.about(), Notifications: 0)
     ]

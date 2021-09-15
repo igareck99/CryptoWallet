@@ -9,6 +9,7 @@ class MenuCell: UITableViewCell {
     private lazy var menuLabel = UILabel()
     private lazy var menuImage = UIImageView()
     private lazy var notificationsImage = UIImageView()
+    private lazy var notificationsAmount = 0
     private lazy var openButton = UIButton()
 
     // MARK: - Lifecycle
@@ -30,9 +31,7 @@ class MenuCell: UITableViewCell {
     func configure(_ profile: MenuItem) {
         menuImage.image = profile.image
         menuLabel.text = profile.text
-        if profile.isNotifications {
-            notificationsImage.image = R.image.additionalMenu.grayArrow()
-        }
+        notificationsAmount = profile.Notifications
     }
 
     // MARK: - Private Methods
@@ -57,6 +56,32 @@ class MenuCell: UITableViewCell {
         } layout: {
             $0.leading.equalTo($1).offset(72)
             $0.top.equalTo($1).offset(23)
+        }
+    }
+
+    private func addNotificationsView() {
+        if notificationsAmount != 0 {
+            notificationsImage.snap(parent: self) {
+                let label = UILabel()
+                label.titleAttributes(
+                    text: String(self.notificationsAmount),
+                    [
+                        .color(.white()),
+                        .font(.light(13))
+                    ]
+                )
+                $0.image = UIImage(label)
+                $0.contentMode = .scaleAspectFill
+                $0.clipsToBounds = true
+                $0.clipCorners(radius: 10)
+                $0.background(.lightRed())
+            } layout: {
+                $0.width.height.equalTo(20)
+                $0.trailing.equalTo($1).offset(40)
+                $0.top.equalTo($1).offset(28)
+            }
+        } else {
+            return
         }
     }
 

@@ -5,5 +5,5 @@ import UIKit
 struct MenuItem {
     var text: String
     var image: UIImage?
-    var isNotifications: Bool
+    var Notifications: Int
 }
