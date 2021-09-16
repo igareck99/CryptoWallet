@@ -20,7 +20,50 @@ final class FriendProfileViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        addTitleBarButtonItem()
+        addLeftBarButtonItem()
+        addRightBarButtonItem()
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showNavigationBar()
+    }
+
+    // MARK: - Private Methods
+
+    private func addTitleBarButtonItem() {
+        navigationItem.title = basta.nickname
+    }
+
+    private func addLeftBarButtonItem() {
+        let settings = UIBarButtonItem(
+            image: R.image.callList.back(),
+            style: .done,
+            target: self,
+            action: #selector(backButtonTap)
+        )
+        navigationItem.leftBarButtonItem = settings
+    }
+
+    private func addRightBarButtonItem() {
+        let dotes = UIBarButtonItem(
+            image: R.image.callList.dotes(),
+            style: .done,
+            target: self,
+            action: #selector(dotesButtonTap)
+        )
+        navigationItem.rightBarButtonItem = dotes
+    }
+
+    @objc private func backButtonTap() {
+        let controller = ProfileViewController()
+        controller.modalPresentationStyle = .fullScreen
+        present(controller, animated: true)
+    }
+
+    @objc private func dotesButtonTap() {
+        print("In progress")
     }
 
 }
