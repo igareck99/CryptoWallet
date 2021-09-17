@@ -81,3 +81,11 @@
 "AdditionalMenu.Questions" = "Вопросы о Aura";
 "AdditionalMenu.About" = "О приложении";
 
+"FriendProfile.Notifications" = "Отключить уведомления";
+"FriendProfile.ShareContact" = "Поделиться контактом";
+"FriendProfile.AddContact" = "Добавить контакт";
+"FriendProfile.Media" = "Медиа,ссылки и документы";
+"FriendProfile.Notes" = "Добавить заметку";
+"FriendProfile.Complain" = "Пожаловаться";
+"FriendProfile.Block" = "Заблокировать пользователя";
+

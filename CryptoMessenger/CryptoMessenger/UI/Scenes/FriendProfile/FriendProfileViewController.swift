@@ -33,7 +33,7 @@ final class FriendProfileViewController: BaseViewController {
     // MARK: - Private Methods
 
     private func addTitleBarButtonItem() {
-        navigationItem.title = basta.nickname
+        navigationItem.title = profile1.nickname
     }
 
     private func addLeftBarButtonItem() {
@@ -63,7 +63,8 @@ final class FriendProfileViewController: BaseViewController {
     }
 
     @objc private func dotesButtonTap() {
-        print("In progress")
+        let controller = MenuFriendViewController()
+        present(controller, animated: true)
     }
 
 }
