@@ -20,6 +20,16 @@ final class FriendProfileView: UIView {
     private lazy var linksStack = UIStackView()
     private lazy var telephoneLabel = UILabel()
     private lazy var infoLabel = UILabel()
+    private let spacing: CGFloat = 1
+    private lazy var photoCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        let width: CGFloat = bounds.width / 3 - 2 * spacing
+        layout.itemSize = CGSize(width: width, height: width + spacing)
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }()
 
     // MARK: - Lifecycle
 
@@ -32,6 +42,7 @@ final class FriendProfileView: UIView {
         //addLinksStack()
         addTelephoneLabel()
         addInfoLabel()
+        addPhotoCollectionView()
     }
 
     @available(*, unavailable)
@@ -154,5 +165,51 @@ final class FriendProfileView: UIView {
             $0.leading.equalTo($1).offset(16)
             $0.trailing.equalTo($1).offset(-16)
         }
+    }
+
+    private func addPhotoCollectionView() {
+        photoCollectionView.snap(parent: self) {
+            $0.background(.clear)
+            $0.dataSource = self
+            $0.delegate = self
+            $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
+        } layout: {
+            $0.top.equalTo($1).offset(359)
+            $0.leading.equalTo($1)
+            $0.trailing.equalTo($1)
+            $0.bottom.equalTo($1)
+        }
+        photoCollectionView.reloadData()
+    }
+}
+
+// MARK: - FriendProfileView (UICollectionViewDataSource)
+
+extension FriendProfileView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return profile1.images.count
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        var images: [PhotoProfile] = []
+        for x in profile1.images {
+            images.append(PhotoProfile(image: x))
+        }
+        guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else { return .init() }
+        cell.configure(images[indexPath.row])
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {}
+}
+
+// MARK: - FriendProfileView (UICollectionViewDelegate)
+
+extension FriendProfileView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
     }
 }
