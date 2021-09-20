@@ -88,4 +88,7 @@
 "FriendProfile.Notes" = "Добавить заметку";
 "FriendProfile.Complain" = "Пожаловаться";
 "FriendProfile.Block" = "Заблокировать пользователя";
+"FriendProfile.Write" = "Написать";
+"FriendProfile.Call" = "Позвонить";
+
 
