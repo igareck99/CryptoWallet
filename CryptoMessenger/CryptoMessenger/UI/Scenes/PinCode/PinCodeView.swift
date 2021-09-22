@@ -16,6 +16,7 @@ final class PinCodeView: UIView {
     // MARK: - Internal Properties
 
     var didTapAuth: VoidBlock?
+    var didAuthSuccess: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -75,7 +76,7 @@ final class PinCodeView: UIView {
         for item in 0..<dotesNumber {
             dotes[item].background(.blue())
         }
-        print("Переходим на следующую страницу")
+        didAuthSuccess?()
     }
 
     // MARK: - Actions
@@ -89,10 +90,14 @@ final class PinCodeView: UIView {
             }
         }
         if userCode.count == dotesNumber {
-            for x in 0..<userCode.count where userCode[x] != rightCode[x] {
-                for item in 0..<userCode.count {
-                    dotes[item].background(.red())
-                    vibrate()
+            for x in 0..<userCode.count {
+                if userCode[x] != rightCode[x] {
+                    for item in 0..<userCode.count {
+                        dotes[item].background(.red())
+                        vibrate()
+                    }
+                } else {
+                    self.nextPage()
                 }
             }
         }

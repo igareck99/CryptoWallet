@@ -22,6 +22,9 @@ final class PinCodeViewController: BaseViewController {
         customView.didTapAuth = { [unowned self] in
             self.localAuth.authenticateWithBiometrics()
         }
+        customView.didAuthSuccess = { [unowned self] in
+            self.presenter.handleButtonTap()
+        }
     }
 
     // MARK: - Lifecycle

@@ -56,6 +56,11 @@
 
 "PinCode.password" = "Введите пароль";
 "PinCode.enter" = "Не можете войти?";
+"PinCode.AlertTitle" = "Включить фоновую авторизацию?";
+"PinCode.AlertMessage" = "Запрашивать пароль после сворачивания приложения";
+"PinCode.AlertCancel" = "Нет";
+"PinCode.AlertYes" = "Да";
+
 
 "CallList.Delete" = "Удалить";
 "CallList.Title" = "Журнал звонков";

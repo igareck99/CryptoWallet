@@ -39,6 +39,7 @@ struct UserDefaultsLayer {
     private static let userPhoneNumberKey = "userPhoneNumberKey"
     private static let isAuthFlowFinishedKey = "isAuthFlowFinishedKey"
     private static let isOnboardingFlowFinishedKey = "isOnboardingFlowFinishedKey"
+    private static let isLocalAuthKey = "isLocalAuthKey"
 
     // MARK: - Internal Properties
 
@@ -59,6 +60,9 @@ struct UserDefaultsLayer {
 
     @UserDefaultSettings(isOnboardingFlowFinishedKey, value: false)
     var isOnboardingFlowFinished: Bool
+
+    @UserDefaultSettings(isOnboardingFlowFinishedKey, value: false)
+    var isLocalAuth: Bool
 }
 
 // MARK: - UserDefaultsLayer (UserCredentialsStorage)

@@ -23,18 +23,25 @@ final class AppCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        showAuthenticationFlow()
-        return
-
+        // showAuthenticationFlow()
+        // return
+        print("start")
         let flow = AppLaunchInstructor.configure(
             isOnboardingShown: userFlows.isOnboardingFlowFinished,
-            isAuthorized: userFlows.isAuthFlowFinished
+            isAuthorized: userFlows.isAuthFlowFinished,
+            isLocalAuth: userFlows.isLocalAuth
         )
+        print("userFlows.isOnboardingFlowFinished   \(userFlows.isOnboardingFlowFinished)")
+        print("userFlows.isAuthFlowFinished   \(userFlows.isAuthFlowFinished)")
+        print("userFlows.isLocalAuth   \(userFlows.isLocalAuth)")
+        print(flow)
         switch flow {
         case .authentication, .onboarding:
             showAuthenticationFlow()
         case .main:
             showMainFlow()
+        case .localauth:
+            showAuthenticationFlow()
         }
     }
 
