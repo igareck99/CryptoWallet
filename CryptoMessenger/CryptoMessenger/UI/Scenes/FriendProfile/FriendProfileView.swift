@@ -152,7 +152,6 @@ final class FriendProfileView: UIView {
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
             $0.top.equalTo($1).offset(60)
-            $0.trailing.greaterThanOrEqualTo(-100)
             $0.leading.equalTo($1).offset(132)
         }
     }

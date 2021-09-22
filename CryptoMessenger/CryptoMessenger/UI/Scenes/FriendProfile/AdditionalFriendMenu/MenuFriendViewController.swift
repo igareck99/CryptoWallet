@@ -13,6 +13,7 @@ final class MenuFriendViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addCustomView()
+        addTapGesture()
     }
 
     override func viewDidLayoutSubviews() {
@@ -34,5 +35,10 @@ final class MenuFriendViewController: BaseViewController {
             $0.leading.bottom.trailing.equalTo($1)
             $0.height.equalTo(482)
         }
+    }
+
+    private func addTapGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didClose))
+        view.addGestureRecognizer(tap)
     }
 }
