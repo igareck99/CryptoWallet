@@ -134,6 +134,8 @@ final class AdditionalMenuView: UIView {
             cell.configure(item)
             return cell
         }
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 32))
+        header.background(.clear)
     }
     private func setupSecondTableProvider() {
         secondTableProvider = TableViewProvider(for: secondTableView, with: secondTableModel)
@@ -171,26 +173,33 @@ final class AdditionalMenuView: UIView {
     }
 }
 
+// MARK: - AdditionalMenuView (UITableViewDelegate)
+
+
 private  var menuList: [MenuItem] = [
     .init(text: R.string.localizable.additionalMenuProfile(),
-          image: R.image.additionalMenu.profile(), Notifications: 0),
-        .init(text: R.string.localizable.additionalMenuPersonalization(),
-              image: R.image.additionalMenu.personaliztion(), Notifications: 0),
-        .init(text: R.string.localizable.additionalMenuSecurity(),
-              image: R.image.additionalMenu.security(), Notifications: 0),
-        .init(text: R.string.localizable.additionalMenuWallet(),
-              image: R.image.additionalMenu.wallet(), Notifications: 0),
-        .init(text: R.string.localizable.additionalMenuNotification(),
-              image: R.image.additionalMenu.notifications(), Notifications: 1),
-        .init(text: R.string.localizable.additionalMenuChats(), image: R.image.additionalMenu.chat(),
-              Notifications: 0),
-        .init(text: R.string.localizable.additionalMenuData(), image: R.image.additionalMenu.dataStorage(),
-              Notifications: 0)
+          image: R.image.additionalMenu.profile(), notifications: 0),
+    .init(text: R.string.localizable.additionalMenuPersonalization(),
+          image: R.image.additionalMenu.personaliztion(), notifications: 0),
+    .init(text: R.string.localizable.additionalMenuSecurity(),
+          image: R.image.additionalMenu.security(), notifications: 0),
+    .init(text: R.string.localizable.additionalMenuWallet(),
+          image: R.image.additionalMenu.wallet(), notifications: 0),
+    .init(text: R.string.localizable.additionalMenuNotification(),
+          image: R.image.additionalMenu.notifications(), notifications: 1),
+    .init(text: R.string.localizable.additionalMenuChats(), image: R.image.additionalMenu.chat(),
+          notifications: 0),
+    .init(text: R.string.localizable.additionalMenuData(), image: R.image.additionalMenu.dataStorage(),
+          notifications: 0),
+    .init(text: R.string.localizable.additionalMenuQuestions(),
+          image: R.image.additionalMenu.answers(), notifications: 0),
+    .init(text: R.string.localizable.additionalMenuAbout(),
+          image: R.image.additionalMenu.about(), notifications: 0)
 ]
 
 private var secondMenulist: [MenuItem] = [
-    .init(text: R.string.localizable.additionalMenuQuestions(),
-          image: R.image.additionalMenu.answers(), Notifications: 0),
-    .init(text: R.string.localizable.additionalMenuAbout(),
-          image: R.image.additionalMenu.about(), Notifications: 0)
-    ]
+    //    .init(text: R.string.localizable.additionalMenuQuestions(),
+    //          image: R.image.additionalMenu.answers(), notifications: 0),
+    //    .init(text: R.string.localizable.additionalMenuAbout(),
+    //          image: R.image.additionalMenu.about(), notifications: 0)
+]

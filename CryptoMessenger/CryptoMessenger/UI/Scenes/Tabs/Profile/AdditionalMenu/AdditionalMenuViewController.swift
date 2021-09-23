@@ -18,6 +18,7 @@ final class AdditionalMenuViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addCustomView()
+        addTapGesture()
     }
 
     override func viewDidLayoutSubviews() {
@@ -39,5 +40,10 @@ final class AdditionalMenuViewController: BaseViewController {
             $0.leading.bottom.trailing.equalTo($1)
             $0.height.equalTo(700)
         }
+    }
+
+    private func addTapGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didClose))
+        view.addGestureRecognizer(tap)
     }
 }

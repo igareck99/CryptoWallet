@@ -60,7 +60,6 @@ final class ProfileViewController: BaseViewController {
         let controller = AdditionalMenuViewController()
         present(controller, animated: true)
         controller.didDeleteTap = { [unowned self] in
-            print("AAAAAA")
             controller.dismiss(animated: true)
         }
 
