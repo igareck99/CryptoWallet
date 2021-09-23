@@ -22,6 +22,7 @@ public final class AuthFlowCoordinator: Coordinator {
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: AuthFlowCoordinatorDelegate?
     let navigationController: UINavigationController
+    @Injectable private var userFlows: UserFlowsStorageService
 
     // MARK: - Lifecycle
 
