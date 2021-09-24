@@ -61,7 +61,7 @@ struct UserDefaultsLayer {
     @UserDefaultSettings(isOnboardingFlowFinishedKey, value: false)
     var isOnboardingFlowFinished: Bool
 
-    @UserDefaultSettings(isOnboardingFlowFinishedKey, value: false)
+    @UserDefaultSettings(isLocalAuthKey, value: false)
     var isLocalAuth: Bool
 }
 

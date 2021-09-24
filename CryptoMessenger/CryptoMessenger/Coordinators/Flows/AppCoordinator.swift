@@ -23,9 +23,9 @@ final class AppCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        // showAuthenticationFlow()
-        // return
-        print("start")
+        userFlows.isOnboardingFlowFinished = true
+        userFlows.isAuthFlowFinished = true
+        userFlows.isLocalAuth = true
         let flow = AppLaunchInstructor.configure(
             isOnboardingShown: userFlows.isOnboardingFlowFinished,
             isAuthorized: userFlows.isAuthFlowFinished,
@@ -41,7 +41,7 @@ final class AppCoordinator: Coordinator {
         case .main:
             showMainFlow()
         case .localauth:
-            showAuthenticationFlow()
+            showPinCodeFlow()
         }
     }
 
@@ -57,6 +57,13 @@ final class AppCoordinator: Coordinator {
         mainFlowCoordinator.delegate = self
         addChildCoordinator(mainFlowCoordinator)
         mainFlowCoordinator.start()
+    }
+
+    func showPinCodeFlow() {
+        let pinCodeFlowCoordinator = PinCodeFlowCoordinator(navigationController: navigationController)
+        pinCodeFlowCoordinator.delegate = self
+        addChildCoordinator(pinCodeFlowCoordinator)
+        pinCodeFlowCoordinator.start()
     }
 }
 
@@ -75,5 +82,14 @@ extension AppCoordinator: MainFlowCoordinatorDelegate {
     func userPerformedLogout(coordinator: Coordinator) {
         removeChildCoordinator(coordinator)
         showAuthenticationFlow()
+    }
+}
+
+// MARK: - AppCoordinator (PinCodeFlowCoordinatorDelegate)
+
+extension AppCoordinator: PinCodeFlowCoordinatorDelegate {
+    func userApprovedAuthentication(coordinator: Coordinator) {
+        removeChildCoordinator(coordinator)
+        showPinCodeFlow()
     }
 }

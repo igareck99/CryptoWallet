@@ -6,6 +6,10 @@ protocol PinCodeSceneDelegate: AnyObject {
     func handleNextScene(_ scene: AuthFlowCoordinator.Scene)
 }
 
+protocol PinCodeAuthSceneDelegate: AnyObject {
+    func handleNextScene(_ scene: PinCodeFlowCoordinator.Scene)
+}
+
 // MARK: - PinCodeViewInterface
 
 protocol PinCodeViewInterface: AnyObject {

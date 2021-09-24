@@ -247,6 +247,7 @@
 		789FEBF026DCE61D0018FE91 /* PhotoEditorConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */; };
 		789FEBF126DCE61D0018FE91 /* PhotoEditorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */; };
 		78B04FA626DF256900684E0A /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B04FA526DF256900684E0A /* ImageData.swift */; };
+		78D7AA0826FD50A100209796 /* PinCodeFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D7AA0726FD50A100209796 /* PinCodeFlowCoordinator.swift */; };
 		78E404A026EA536200169B18 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 78E4049F26EA536200169B18 /* Data */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
@@ -495,6 +496,7 @@
 		789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorConfigurator.swift; sourceTree = "<group>"; };
 		789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorFlow.swift; sourceTree = "<group>"; };
 		78B04FA526DF256900684E0A /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
+		78D7AA0726FD50A100209796 /* PinCodeFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeFlowCoordinator.swift; sourceTree = "<group>"; };
 		78E4049F26EA536200169B18 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
@@ -602,6 +604,7 @@
 				5AF8637126ADDDCE004A417C /* AppLaunchInstructor.swift */,
 				5A187DE926807011001957D3 /* AuthFlowCoordinator.swift */,
 				5AF8636F26ADD9BB004A417C /* MainFlowCoordinator.swift */,
+				78D7AA0726FD50A100209796 /* PinCodeFlowCoordinator.swift */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -1611,6 +1614,7 @@
 				5A9318B726BD210400645365 /* PinCodeViewController.swift in Sources */,
 				5A187EA42680708D001957D3 /* CollectionViewProviderType.swift in Sources */,
 				5A26CD5A26B3599800118D4B /* ChatProtocols.swift in Sources */,
+				78D7AA0826FD50A100209796 /* PinCodeFlowCoordinator.swift in Sources */,
 				5A9318E826C5E44100645365 /* KeyboardHeightPublisher.swift in Sources */,
 				5A187F262680CF49001957D3 /* APIError.swift in Sources */,
 				5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */,

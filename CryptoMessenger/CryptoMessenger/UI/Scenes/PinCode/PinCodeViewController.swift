@@ -13,6 +13,7 @@ final class PinCodeViewController: BaseViewController {
 
     private lazy var customView = PinCodeView(frame: UIScreen.main.bounds)
     private var localAuth = LocalAuthentication()
+    @Injectable private var userFlows: UserFlowsStorageService
 
     private func setupLocalAuth() {
         localAuth.delegate = self
@@ -22,8 +23,21 @@ final class PinCodeViewController: BaseViewController {
         customView.didTapAuth = { [unowned self] in
             self.localAuth.authenticateWithBiometrics()
         }
-        customView.didAuthSuccess = { [unowned self] in
-            self.presenter.handleButtonTap()
+        customView.didAuthSuccess = { [weak self] in
+            let alert = UIAlertController(title: R.string.localizable.pinCodeAlertTitle(),
+                                          message: R.string.localizable.pinCodeAlertMessage(),
+                                          preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: R.string.localizable.pinCodeAlertCancel(),
+                                          style: UIAlertAction.Style.default,
+                                          handler: { _ in
+                                            self?.userFlows.isAuthFlowFinished = false }))
+            alert.addAction(UIAlertAction(title: R.string.localizable.pinCodeAlertYes(),
+                                          style: UIAlertAction.Style.default,
+                                          handler: {(_: UIAlertAction!) in
+                                                    self?.userFlows.isAuthFlowFinished = true
+                    }))
+            self?.present(alert, animated: true)
+            self?.presenter.handleButtonTap()
         }
     }
 
