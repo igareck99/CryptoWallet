@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - MenuCell
 
-class MenuFriendCell: UITableViewCell {
+final class MenuFriendCell: UITableViewCell {
 
     // MARK: - Private Properties
 

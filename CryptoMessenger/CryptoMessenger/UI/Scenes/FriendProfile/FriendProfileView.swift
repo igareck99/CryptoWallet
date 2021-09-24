@@ -4,9 +4,15 @@ import UIKit
 
 final class FriendProfileView: UIView {
 
+    enum ButtonType {
+        case callButton
+        case writeButton
+        case usual
+    }
+
     // MARK: - Internal Properties
 
-    var didTap: (() -> Void)?
+    var didTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -41,8 +47,8 @@ final class FriendProfileView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
-        createButton(title: R.string.localizable.friendProfileWrite())
-        createButton(title: R.string.localizable.friendProfileCall())
+        createButton(title: R.string.localizable.friendProfileWrite(), buttonType: .writeButton)
+        createButton(title: R.string.localizable.friendProfileCall(), buttonType: .callButton)
         configureButtons()
         addProfileImage()
         addNameLabel()
@@ -52,8 +58,6 @@ final class FriendProfileView: UIView {
         addAdvertisementLabel()
         addStackView()
         addPhotoCollectionView()
-        print(linksStack.arrangedSubviews)
-
     }
 
     @available(*, unavailable)
@@ -78,7 +82,7 @@ final class FriendProfileView: UIView {
         print("Write")
     }
 
-    func createButton(title: String) {
+    func createButton(title: String, buttonType: ButtonType) {
         let button = UIButton()
         button.background(.clear)
         button.layer.borderWidth(1)
@@ -91,10 +95,13 @@ final class FriendProfileView: UIView {
                 .color(.blue())
             ]
         )
-        if title == R.string.localizable.friendProfileCall() {
+        switch buttonType {
+        case .callButton:
             button.addTarget(self, action: #selector(callButtonAction), for: .touchUpInside)
-        } else {
+        case .writeButton:
             button.addTarget(self, action: #selector(writeButtonAction), for: .touchUpInside)
+        case .usual:
+            print("")
         }
         button.snp.makeConstraints { $0.height.equalTo(44) }
         buttons.append(button)
@@ -104,11 +111,7 @@ final class FriendProfileView: UIView {
 
     private func addProfileImage() {
         profileImage.snap(parent: self) {
-            if profile1.photo != nil {
-                $0.image = profile1.photo
-            } else {
-                $0.image = R.image.friendProfile.photoNone()
-            }
+            $0.image = profile1.photo
             $0.contentMode = .scaleAspectFill
             $0.background(.lightBlue())
             $0.clipCorners(radius: 50)
