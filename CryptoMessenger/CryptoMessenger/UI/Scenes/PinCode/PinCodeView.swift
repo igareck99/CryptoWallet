@@ -75,7 +75,6 @@ final class PinCodeView: UIView {
         for item in 0..<dotesNumber {
             dotes[item].background(.blue())
         }
-        print("Переходим на следующую страницу")
     }
 
     // MARK: - Actions

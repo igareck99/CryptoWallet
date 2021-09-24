@@ -25,16 +25,6 @@ final class AdditionalMenuView: UIView {
             tableProvider?.reloadData()
         }
     }
-    private lazy var secondTableView = UITableView(frame: .zero, style: .plain)
-    private var secondTableProvider: TableViewProvider?
-    private var secondTableModel: MenuListViewModel = .init(secondMenulist) {
-        didSet {
-            if secondTableProvider == nil {
-                setupSecondTableProvider()
-            }
-            secondTableProvider?.reloadData()
-        }
-    }
 
     // MARK: - Lifecycle
 
@@ -48,8 +38,6 @@ final class AdditionalMenuView: UIView {
         setupTableView()
         setupTableProvider()
         addSecondLineView()
-        setupSecondTableView()
-        setupSecondTableProvider()
     }
 
     @available(*, unavailable)
@@ -134,32 +122,6 @@ final class AdditionalMenuView: UIView {
             cell.configure(item)
             return cell
         }
-        let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 32))
-        header.background(.clear)
-    }
-    private func setupSecondTableProvider() {
-        secondTableProvider = TableViewProvider(for: secondTableView, with: secondTableModel)
-        secondTableProvider?.registerCells([MenuCell.self])
-        secondTableProvider?.onConfigureCell = { [unowned self] indexPath in
-            guard let provider = self.secondTableProvider else { return .init() }
-            let cell: MenuCell = provider.dequeueReusableCell(for: indexPath)
-            let item = secondTableModel.items[indexPath.section]
-            cell.configure(item)
-            return cell
-        }
-    }
-
-    private func setupSecondTableView() {
-        secondTableView.snap(parent: self) {
-            $0.register(MenuCell.self, forCellReuseIdentifier: MenuCell.identifier)
-            $0.separatorStyle = .none
-            $0.allowsSelection = true
-            $0.isUserInteractionEnabled = false
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        } layout: {
-            $0.leading.trailing.bottom.equalTo($1)
-            $0.top.equalTo($1).offset(550)
-        }
     }
 
     private func addSecondLineView() {
@@ -173,8 +135,15 @@ final class AdditionalMenuView: UIView {
     }
 }
 
-// MARK: - AdditionalMenuView (UITableViewDelegate)
+extension AdditionalMenuView {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 32))
+        header.background(.clear)
+        return header
+    }
+}
 
+// MARK: - AdditionalMenuView (UITableViewDelegate)
 
 private  var menuList: [MenuItem] = [
     .init(text: R.string.localizable.additionalMenuProfile(),
@@ -195,11 +164,4 @@ private  var menuList: [MenuItem] = [
           image: R.image.additionalMenu.answers(), notifications: 0),
     .init(text: R.string.localizable.additionalMenuAbout(),
           image: R.image.additionalMenu.about(), notifications: 0)
-]
-
-private var secondMenulist: [MenuItem] = [
-    //    .init(text: R.string.localizable.additionalMenuQuestions(),
-    //          image: R.image.additionalMenu.answers(), notifications: 0),
-    //    .init(text: R.string.localizable.additionalMenuAbout(),
-    //          image: R.image.additionalMenu.about(), notifications: 0)
 ]
