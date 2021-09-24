@@ -5,14 +5,18 @@ import UIKit
 final class PhotosDataSource: NSObject {
 
     // MARK: - Internal Properties
+
     lazy var images = loadImages()
-    var urls: [URL] {
+
+    // MARK: - Private Properties
+
+    private var urls: [URL] {
         Bundle.main.urls(
             forResourcesWithExtension: .none,
             subdirectory: "Data") ?? []
     }
-    let preview: UICollectionView
-    let thumbnails: UICollectionView
+    private let preview: UICollectionView
+    private let thumbnails: UICollectionView
 
     // MARK: - Lifecycle
 
@@ -23,23 +27,24 @@ final class PhotosDataSource: NSObject {
         preview.dataSource = self
         preview.register(
             PreviewCollectionViewCell.self,
-            forCellWithReuseIdentifier: PreviewCollectionViewCell.reuseId)
+            forCellWithReuseIdentifier: PreviewCollectionViewCell.identifier
+        )
         thumbnails.dataSource = self
         thumbnails.register(
             ThumbnailCollectionViewCell.self,
-            forCellWithReuseIdentifier: ThumbnailCollectionViewCell.reuseId)
+            forCellWithReuseIdentifier: ThumbnailCollectionViewCell.identifier)
     }
 
     // MARK: - Internal Methods
 
     func loadImages() -> [UIImage] {
-        return urls
+        urls
             .compactMap { try? Data(contentsOf: $0) }
             .compactMap(UIImage.init(data:))
     }
 }
 
-// MARK: - PhotosDataSource
+// MARK: - PhotosDataSource (UICollectionViewDataSource)
 
 extension PhotosDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -50,10 +55,10 @@ extension PhotosDataSource: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var reuseId: String?
         if collectionView == preview {
-            reuseId = PreviewCollectionViewCell.reuseId
+            reuseId = PreviewCollectionViewCell.identifier
         }
         if collectionView == thumbnails {
-            reuseId = ThumbnailCollectionViewCell.reuseId
+            reuseId = ThumbnailCollectionViewCell.identifier
         }
         let cell = reuseId.flatMap {
             collectionView.dequeueReusableCell(
@@ -63,5 +68,4 @@ extension PhotosDataSource: UICollectionViewDataSource {
         cell?.imageView.image = images[indexPath.row]
         return cell ?? UICollectionViewCell()
     }
-
 }

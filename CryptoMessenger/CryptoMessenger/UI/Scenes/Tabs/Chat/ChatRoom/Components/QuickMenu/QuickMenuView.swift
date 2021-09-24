@@ -3,9 +3,9 @@ import SwiftUI
 // MARK: - QuickAction
 
 enum QuickAction: CaseIterable, Identifiable {
-
+    
     // MARK: - Types
-
+    
     case reply
     case edit
     case copy
@@ -13,11 +13,11 @@ enum QuickAction: CaseIterable, Identifiable {
     case forward
     case reaction
     case delete
-
+    
     // MARK: - Internal Properties
-
+    
     var id: String { UUID().uuidString }
-
+    
     var title: String {
         switch self {
         case .reply:
@@ -36,7 +36,7 @@ enum QuickAction: CaseIterable, Identifiable {
             return "Удалить сообщение"
         }
     }
-
+    
     var color: Palette {
         switch self {
         case .delete:
@@ -45,7 +45,7 @@ enum QuickAction: CaseIterable, Identifiable {
             return .blue()
         }
     }
-
+    
     var image: Image {
         switch self {
         case .reply:
@@ -69,18 +69,18 @@ enum QuickAction: CaseIterable, Identifiable {
 // MARK: - QuickMenuView
 
 struct QuickMenuView: View {
-
+    
     // MARK: - Internal Properties
-
+    
     @Binding var action: QuickAction?
     @Binding var cardPosition: CardPosition
-
+    
     // MARK: - Private Properties
-
+    
     @State private var isShown = false
-
+    
     // MARK: - Body
-
+    
     var body: some View {
         VStack(spacing: 0) {
             ForEach(QuickAction.allCases, id: \.id) { act in
@@ -96,12 +96,12 @@ struct QuickMenuView: View {
                         .frame(width: 40, height: 40)
                         .background(act == .delete ? Color(.red(0.1)) : Color(.blue(0.1)))
                         .cornerRadius(20)
-
+                        
                         Text(act.title)
                             .font(.regular(17))
                             .foreground(act == .delete ? .red() : .blue())
                             .padding(.leading, 16)
-
+                        
                         Spacer()
                     }
                     .frame(height: 64)

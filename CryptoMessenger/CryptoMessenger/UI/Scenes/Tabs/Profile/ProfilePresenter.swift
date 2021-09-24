@@ -1,4 +1,3 @@
-import Foundation
 import UIKit
 
 // MARK: - ProfilePresenter
@@ -11,13 +10,14 @@ final class ProfilePresenter {
     weak var delegate: ProfileSceneDelegate?
     weak var view: ProfileViewInterface?
 
+    // MARK: - Private Properties
+
     private var state = ProfileFlow.ViewState.sending {
         didSet {
             updateView(state)
         }
     }
-    // MARK: - Private Properties
-    
+
     // MARK: - Lifecycle
 
     init(view: ProfileViewInterface) {
@@ -30,8 +30,8 @@ final class ProfilePresenter {
         switch state {
         case .sending:
             print("sending..")
-        case .result:
-            print("result")
+        case let .result(photos):
+            view?.setPhotos(photos)
         case .error(let message):
             view?.showAlert(title: nil, message: message)
         }
@@ -41,7 +41,18 @@ final class ProfilePresenter {
 // MARK: - ProfilePresenter (ProfilePresentation)
 
 extension ProfilePresenter: ProfilePresentation {
+    func viewDidLoad() {
+        state = .result(mockPhotos)
+    }
+
     func handleButtonTap() {
 
     }
 }
+
+private var mockPhotos: [UIImage?] = [
+    R.image.profile.testpicture2(),
+    R.image.profile.testpicture3(),
+    R.image.profile.testpicture4(),
+    R.image.profile.testpicture5()
+]

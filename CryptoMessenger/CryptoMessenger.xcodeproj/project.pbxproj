@@ -81,6 +81,7 @@
 		5A2181E726D82DC40093AD60 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2181E626D82DC40093AD60 /* LocationManager.swift */; };
 		5A2181E926D83FD30093AD60 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2181E826D83FD20093AD60 /* MapKit.framework */; };
 		5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2181EA26D8563D0093AD60 /* MapView.swift */; };
+		5A24B25426F289F000EFC5E2 /* MapSnapshotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A24B25326F289F000EFC5E2 /* MapSnapshotView.swift */; };
 		5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */; };
 		5A26CD1C26B2EECA00118D4B /* WalletPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1626B2EECA00118D4B /* WalletPresenter.swift */; };
 		5A26CD1D26B2EECA00118D4B /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1726B2EECA00118D4B /* WalletViewController.swift */; };
@@ -142,9 +143,8 @@
 		5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318D226C5AAF100645365 /* ChatRoomViewModel.swift */; };
 		5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318D326C5AAF100645365 /* ChatRoomConfigurator.swift */; };
 		5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318D426C5AAF100645365 /* ChatRoomFlow.swift */; };
-		5A9318DE26C5AD0500645365 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318DB26C5AD0500645365 /* ChatBubble.swift */; };
-		5A9318DF26C5AD0500645365 /* BubbleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318DC26C5AD0500645365 /* BubbleModifier.swift */; };
-		5A9318E026C5AD0500645365 /* ChatBubbleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318DD26C5AD0500645365 /* ChatBubbleShape.swift */; };
+		5A9318DE26C5AD0500645365 /* BubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318DB26C5AD0500645365 /* BubbleView.swift */; };
+		5A9318E026C5AD0500645365 /* BubbleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318DD26C5AD0500645365 /* BubbleShape.swift */; };
 		5A9318E226C5B15F00645365 /* ColorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318E126C5B15F00645365 /* ColorStyle.swift */; };
 		5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318E326C5D4D000645365 /* BaseHostingController.swift */; };
 		5A9318E626C5E42300645365 /* KeyboardAdaptive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318E526C5E42200645365 /* KeyboardAdaptive.swift */; };
@@ -210,8 +210,6 @@
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
 		7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65126E8BB6200B05984 /* PhotosDataSource.swift */; };
-		7846B65426E8BB8600B05984 /* UICollectionViewCell+reuseId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65326E8BB8600B05984 /* UICollectionViewCell+reuseId.swift */; };
-		7846B65826E8BBBD00B05984 /* CGSize+aspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65726E8BBBD00B05984 /* CGSize+aspectRatio.swift */; };
 		7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */; };
 		7846B65C26E8BBFD00B05984 /* TimingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */; };
 		7846B65F26E8BC3F00B05984 /* MoveAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65E26E8BC3F00B05984 /* MoveAnimation.swift */; };
@@ -346,6 +344,7 @@
 		5A2181E626D82DC40093AD60 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5A2181E826D83FD20093AD60 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5A2181EA26D8563D0093AD60 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		5A24B25326F289F000EFC5E2 /* MapSnapshotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSnapshotView.swift; sourceTree = "<group>"; };
 		5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
 		5A26CD1626B2EECA00118D4B /* WalletPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPresenter.swift; sourceTree = "<group>"; };
 		5A26CD1726B2EECA00118D4B /* WalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewController.swift; sourceTree = "<group>"; };
@@ -407,9 +406,8 @@
 		5A9318D226C5AAF100645365 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
 		5A9318D326C5AAF100645365 /* ChatRoomConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomConfigurator.swift; sourceTree = "<group>"; };
 		5A9318D426C5AAF100645365 /* ChatRoomFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomFlow.swift; sourceTree = "<group>"; };
-		5A9318DB26C5AD0500645365 /* ChatBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
-		5A9318DC26C5AD0500645365 /* BubbleModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleModifier.swift; sourceTree = "<group>"; };
-		5A9318DD26C5AD0500645365 /* ChatBubbleShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBubbleShape.swift; sourceTree = "<group>"; };
+		5A9318DB26C5AD0500645365 /* BubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleView.swift; sourceTree = "<group>"; };
+		5A9318DD26C5AD0500645365 /* BubbleShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleShape.swift; sourceTree = "<group>"; };
 		5A9318E126C5B15F00645365 /* ColorStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyle.swift; sourceTree = "<group>"; };
 		5A9318E326C5D4D000645365 /* BaseHostingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseHostingController.swift; sourceTree = "<group>"; };
 		5A9318E526C5E42200645365 /* KeyboardAdaptive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardAdaptive.swift; sourceTree = "<group>"; };
@@ -475,8 +473,6 @@
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
 		7846B65126E8BB6200B05984 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
-		7846B65326E8BB8600B05984 /* UICollectionViewCell+reuseId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+reuseId.swift"; sourceTree = "<group>"; };
-		7846B65726E8BBBD00B05984 /* CGSize+aspectRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+aspectRatio.swift"; sourceTree = "<group>"; };
 		7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollSynchronizer.swift; sourceTree = "<group>"; };
 		7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimingFunctions.swift; sourceTree = "<group>"; };
 		7846B65E26E8BC3F00B05984 /* MoveAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveAnimation.swift; sourceTree = "<group>"; };
@@ -945,12 +941,30 @@
 			path = ImagePicker;
 			sourceTree = "<group>";
 		};
+		5A1FE9CE26EFAE99008A649E /* Bubble */ = {
+			isa = PBXGroup;
+			children = (
+				5A9318DD26C5AD0500645365 /* BubbleShape.swift */,
+				5A9318DB26C5AD0500645365 /* BubbleView.swift */,
+			);
+			path = Bubble;
+			sourceTree = "<group>";
+		};
 		5A2181E526D82D1F0093AD60 /* LocationManager */ = {
 			isa = PBXGroup;
 			children = (
 				5A2181E626D82DC40093AD60 /* LocationManager.swift */,
 			);
 			path = LocationManager;
+			sourceTree = "<group>";
+		};
+		5A24B25226F289DF00EFC5E2 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				5A2181EA26D8563D0093AD60 /* MapView.swift */,
+				5A24B25326F289F000EFC5E2 /* MapSnapshotView.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		5A26CD1326B2B88100118D4B /* Wallet */ = {
@@ -1151,14 +1165,12 @@
 		5A9318DA26C5AB8900645365 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5A1FE9CE26EFAE99008A649E /* Bubble */,
 				5A9B471F26EA81CD001CC627 /* AttachActions */,
 				5A9B471E26EA81C5001CC627 /* QuickMenu */,
 				5A9B472226EA9275001CC627 /* Reaction */,
+				5A24B25226F289DF00EFC5E2 /* Map */,
 				5A26CD6026B35C9B00118D4B /* Message.swift */,
-				5A9318DD26C5AD0500645365 /* ChatBubbleShape.swift */,
-				5A9318DC26C5AD0500645365 /* BubbleModifier.swift */,
-				5A9318DB26C5AD0500645365 /* ChatBubble.swift */,
-				5A2181EA26D8563D0093AD60 /* MapView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1293,8 +1305,6 @@
 				7846B66626E8BCD400B05984 /* Layout */,
 				7846B65D26E8BC2900B05984 /* Animations */,
 				7846B65126E8BB6200B05984 /* PhotosDataSource.swift */,
-				7846B65326E8BB8600B05984 /* UICollectionViewCell+reuseId.swift */,
-				7846B65726E8BBBD00B05984 /* CGSize+aspectRatio.swift */,
 				7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */,
 				7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */,
 			);
@@ -1403,7 +1413,6 @@
 				789FEBE926DCE61D0018FE91 /* PhotoEditorView.swift */,
 				789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */,
 				789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */,
-				78B04FA526DF256900684E0A /* ImageData.swift */,
 			);
 			path = PhotoEditor;
 			sourceTree = "<group>";
@@ -1485,6 +1494,7 @@
 				5A187DB726806EF8001957D3 /* Sources */,
 				5A187DB826806EF8001957D3 /* Frameworks */,
 				5A187DB926806EF8001957D3 /* Resources */,
+				5A1FE9CF26F00058008A649E /* FirebaseCrashlytics */,
 				EC8CF24613DB1380ED4F8B0E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -1565,6 +1575,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# skip merge\nGIT_ROOT=$(git rev-parse --git-dir)\nif [ -e \"${GIT_ROOT}/MERGE_MODE\" ]; then\n    exit 0\nfi\n\n# files\nfiles=$(git diff --diff-filter=d HEAD --name-only | grep -e '\\(.*\\).swift$')\n skip if no files\nif [ -z \"$files\" ]; then\n    echo \"Nothing to lint\"\n    exit 0\nfi\n\nIFS=$'\\n'\ncounter=0\nfor line in $files; do\n    export SCRIPT_INPUT_FILE_${counter}=\"../${line}\"\n    counter=$((counter + 1))\ndone\nunset IFS\n\nif (( counter > 0 )); then\n    export SCRIPT_INPUT_FILE_COUNT=${counter}\n    ${PODS_ROOT}/SwiftLint/swiftlint lint --use-script-input-files --config swiftlint.yml\nfi\n";
+		};
+		5A1FE9CF26F00058008A649E /* FirebaseCrashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = FirebaseCrashlytics;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 		5A4267FB26A83315000C51DD /* R.swift */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1647,6 +1677,7 @@
 				5A26CD4F26B356F600118D4B /* ProfileFlow.swift in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				5A26CD5826B3599800118D4B /* ChatPresenter.swift in Sources */,
+				5A24B25426F289F000EFC5E2 /* MapSnapshotView.swift in Sources */,
 				5A187E9F2680708D001957D3 /* ScalableButtonView.swift in Sources */,
 				5A2181E426D80B4E0093AD60 /* ActionSheetView.swift in Sources */,
 				5A26CD5C26B3599800118D4B /* ChatConfigurator.swift in Sources */,
@@ -1699,7 +1730,6 @@
 				5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
-				7846B65826E8BBBD00B05984 /* CGSize+aspectRatio.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
 				78BB7E1926F49EE700F1D500 /* MenuFrienView.swift in Sources */,
@@ -1714,8 +1744,7 @@
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
 				5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */,
 				5AF8636E26ADCB9B004A417C /* KeyImportFlow.swift in Sources */,
-				5A9318DE26C5AD0500645365 /* ChatBubble.swift in Sources */,
-				78C3CEE626F0700200CF1885 /* MenuStruct.swift in Sources */,
+				5A9318DE26C5AD0500645365 /* BubbleView.swift in Sources */,
 				5A9B472126EA81F5001CC627 /* QuickMenuView.swift in Sources */,
 				5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */,
 				5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */,
@@ -1739,7 +1768,6 @@
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
 				5A4267FE26A83494000C51DD /* R.generated.swift in Sources */,
 				5AF8635C26ADB691004A417C /* OnboardingViewController.swift in Sources */,
-				5A9318DF26C5AD0500645365 /* BubbleModifier.swift in Sources */,
 				7846B65F26E8BC3F00B05984 /* MoveAnimation.swift in Sources */,
 				5A187E9B2680708D001957D3 /* ListSeparatorStyle.swift in Sources */,
 				5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */,
@@ -1776,7 +1804,6 @@
 				7846B67926E8C0BE00B05984 /* PreviewCollectionViewCell.swift in Sources */,
 				5A187F2C2680CF49001957D3 /* URLRequest+QueryItems.swift in Sources */,
 				5A187F312680CF49001957D3 /* RelationshipResponse.swift in Sources */,
-				7846B65426E8BB8600B05984 /* UICollectionViewCell+reuseId.swift in Sources */,
 				5A187F342680CF49001957D3 /* ContactsManager.swift in Sources */,
 				7846B67226E8C04D00B05984 /* ThumbnailLayout.swift in Sources */,
 				5AA6410126822C3A008922B4 /* TextViewStyle.swift in Sources */,
@@ -1789,7 +1816,6 @@
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
 				5A187DD726806F35001957D3 /* Injectable.swift in Sources */,
-				78B04FA626DF256900684E0A /* ImageData.swift in Sources */,
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
 				5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */,
@@ -1821,7 +1847,7 @@
 				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
 				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
-				5A9318E026C5AD0500645365 /* ChatBubbleShape.swift in Sources */,
+				5A9318E026C5AD0500645365 /* BubbleShape.swift in Sources */,
 				7846B67726E8C0AE00B05984 /* CellWithImage.swift in Sources */,
 				5A26CD5026B356F600118D4B /* ProfileViewController.swift in Sources */,
 				5A9B472826EAB6EF001CC627 /* LastReactionItemView.swift in Sources */,
@@ -1932,7 +1958,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -2023,8 +2049,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2048,8 +2075,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (

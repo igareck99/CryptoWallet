@@ -12,12 +12,12 @@ struct ChatRoomView: View {
 
     // MARK: - Private Properties
 
-    @State private var messageId: String = ""
+    @State private var messageId = ""
     @State private var cardPosition: CardPosition = .bottom
     @State private var scrolled = false
     @State private var showActionSheet = false
 
-    // MARK: - Lifecycle
+    // MARK: - Body
 
     var body: some View {
         content
@@ -45,52 +45,51 @@ struct ChatRoomView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack {
                             HStack(alignment: .center) {
-                                Text("Fri, Jul 26")
-                                    .frame(width: 100, height: 24, alignment: .center)
+                                Text("  пт, 10 сентября  ")
+                                    .frame(height: 24, alignment: .center)
                                     .background(.lightGray())
                                     .font(.regular(14))
                                     .foreground(.black())
                                     .cornerRadius(8)
                             }
+                            .padding(.top, 16)
 
                             ForEach(viewModel.messages) { message in
                                 ChatRoomRow(
                                     message: message,
-                                    isCurrentUser: viewModel.previous(message)?.isCurrentUser,
+                                    isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
                                     onReaction: { reactionId in
                                         vibrate()
                                         viewModel.send(.onDeleteReaction(messageId: message.id, reactionId: reactionId))
                                     }
                                 )
-                                .gesture(LongPressGesture(minimumDuration: 0.4)
-                                .onEnded { _ in
-                                    vibrate()
+                                .onLongPressGesture(minimumDuration: 0.1, maximumDistance: 0) {
+                                    vibrate(.medium)
                                     messageId = message.id
                                     cardPosition = .middle
-                                })
-//                                .contextMenu(
-//                                    ContextMenu {
-//                                        Button("Yes") {}
-//                                        Button("No") {}
-//                                    }
-//                                )
+                                }
                             }
                             .onChange(of: viewModel.messages) { _ in
+                                guard let id = viewModel.messages.last?.id else { return }
                                 withAnimation {
-                                    scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
+                                    scrollView.scrollTo(id, anchor: .bottom)
                                 }
                             }
                             .onChange(of: viewModel.keyboardHeight) { _ in
+                                guard let id = viewModel.messages.last?.id else { return }
                                 withAnimation {
-                                    scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
+                                    scrollView.scrollTo(id, anchor: .bottom)
                                 }
                             }
                             .onAppear {
-                                scrollView.scrollTo(viewModel.messages.last?.id, anchor: .bottom)
+                                guard let id = viewModel.messages.last?.id else { return }
+                                scrollView.scrollTo(id, anchor: .bottom)
                             }
                             .onDisappear {
                                 print("onDisappear")
                             }
+
+                            Spacer().frame(height: 20)
                         }
                         .ignoresSafeArea()
                     }
@@ -180,6 +179,14 @@ struct ChatRoomView: View {
 
     private var quickMenuView: some View {
         ZStack {
+            Color(cardPosition == .bottom ? .clear : .black(0.4))
+                .ignoresSafeArea()
+                .animation(.easeInOut)
+                .onTapGesture {
+                    vibrate()
+                    cardPosition = .bottom
+                }
+
             SlideCard(position: $cardPosition) {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {

@@ -118,5 +118,4 @@ final class PhotoEditorView: UIView {
             $0.bottom.equalTo($1).offset(-32)
         }
     }
-
 }

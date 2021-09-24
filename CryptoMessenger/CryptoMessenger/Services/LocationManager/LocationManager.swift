@@ -1,4 +1,5 @@
-import MapKit
+import CoreLocation
+import UIKit.UIApplication
 
 typealias Location = (lat: Double, long: Double)
 
@@ -27,7 +28,7 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
         case .authorizedAlways, .authorizedWhenInUse:
             userIsLocatable = true
         case .denied:
-            self.userIsLocatable = false
+            userIsLocatable = false
         default:
             userIsLocatable = nil
         }
@@ -67,11 +68,8 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
         case LocationRequestNotPossible
     }
 
-    // Geofencing
-    // Accuracy +/- 150m and often time delayed
-
     func getGeofences() -> [CLCircularRegion] {
-        self.locationManager.monitoredRegions.compactMap { region in
+        locationManager.monitoredRegions.compactMap { region in
             region as? CLCircularRegion
         }
     }
@@ -104,25 +102,19 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
     }
 
     func addGeofences(forRegions regions: [CLCircularRegion]) {
-        regions.forEach { region in
-            self.addGeofence(forRegion: region)
-        }
+        regions.forEach { addGeofence(forRegion: $0) }
     }
 
     func removeGeofence(forRegion region: CLCircularRegion) {
-        self.locationManager.stopMonitoring(for: region)
+        locationManager.stopMonitoring(for: region)
     }
 
     func removeGeofence(forRegions regions: [CLCircularRegion]) {
-        regions.forEach { region in
-            self.removeGeofence(forRegion: region)
-        }
+        regions.forEach { removeGeofence(forRegion: $0) }
     }
 
     func clearGeofences() {
-        locationManager.monitoredRegions.forEach { region in
-            self.locationManager.stopMonitoring(for: region)
-        }
+        locationManager.monitoredRegions.forEach { locationManager.stopMonitoring(for: $0) }
     }
 
     func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {

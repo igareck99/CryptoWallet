@@ -8,21 +8,24 @@ final class PhotoEditorViewController: BaseViewController {
 
     var presenter: PhotoEditorPresentation!
     var dataSource: PhotosDataSource?
-    var contentView: PhotoEditorView {
-        return (view as! PhotoEditorView)
-    }
+
+    // MARK: - Private Properties
+
+    private lazy var contentView = PhotoEditorView(frame: UIScreen.main.bounds, sizeForIndex: {
+        if let images = self.dataSource?.images {
+            return images.count > $0 ? images[$0].size : CGSize(width: 1, height: 1)
+        }
+        return CGSize(width: 1, height: 1)
+    })
 
     // MARK: - Lifecycle
 
     override func loadView() {
-        view = PhotoEditorView(frame: UIScreen.main.bounds, sizeForIndex: {
-            if let images = self.dataSource?.images {
-                return images.count > $0 ? images[$0].size : CGSize(width: 1, height: 1)
-            }
-            return CGSize(width: 1, height: 1)
-        })
-        dataSource = PhotosDataSource(preview: contentView.previewCollection,
-                                      thumbnails: contentView.thumbnailCollection)
+        view = contentView
+        dataSource = PhotosDataSource(
+            preview: contentView.previewCollection,
+            thumbnails: contentView.thumbnailCollection
+        )
     }
 
     override func viewDidLoad() {
@@ -34,7 +37,6 @@ final class PhotoEditorViewController: BaseViewController {
         subscribeOnCustomViewActions()
         contentView.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
         contentView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -105,29 +107,34 @@ final class PhotoEditorViewController: BaseViewController {
 
     private func subscribeOnCustomViewActions() {
         contentView.didTapShare = { [unowned self] in
-            guard let state = dataSource?.images.isEmpty else { return }
-            guard state == false else { return }
-            if dataSource?.images.isEmpty == nil { return }
+            guard let isEmpty = dataSource?.images.isEmpty, !isEmpty else { return }
             guard let data = dataSource?.images[contentView.synchronizer.activeIndex] else { return }
-            let controller = UIActivityViewController(activityItems: [data],
-                                                      applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [data], applicationActivities: nil)
             present(controller, animated: true, completion: nil)
         }
         contentView.didTapBrush = { [unowned self] in
-            let alert = UIAlertController(title: R.string.localizable.photoEditorAlertTitle(),
-                                          message: R.string.localizable.photoEditorAlertMessage(),
-                                          preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: R.string.localizable.photoEditorAlertCancel(),
-                                          style: UIAlertAction.Style.default, handler: { _ in }))
-            alert.addAction(UIAlertAction(title: R.string.localizable.photoEditorAlertDelete(),
-                                          style: UIAlertAction.Style.default,
-                                          handler: {(_: UIAlertAction!) in
-                                            dataSource?.images.remove(at: contentView.synchronizer.activeIndex)
-                                            contentView.synchronizer.reload()
-                                          }))
-            guard let state = dataSource?.images.isEmpty else { return }
-            guard state == false else { return }
-            self.present(alert, animated: true, completion: nil)
+            let alert = UIAlertController(
+                title: R.string.localizable.photoEditorAlertTitle(),
+                message: R.string.localizable.photoEditorAlertMessage(),
+                preferredStyle: .alert
+            )
+            alert.addAction(
+                UIAlertAction(
+                    title: R.string.localizable.photoEditorAlertCancel(),
+                    style: .default
+                )
+            )
+            alert.addAction(
+                UIAlertAction(
+                    title: R.string.localizable.photoEditorAlertDelete(),
+                    style: .default,
+                    handler: { _ in
+                        dataSource?.images.remove(at: contentView.synchronizer.activeIndex)
+                        contentView.synchronizer.reload()
+                    })
+            )
+            guard let isEmpty = dataSource?.images.isEmpty, !isEmpty else { return }
+            self.present(alert, animated: true)
         }
     }
 }

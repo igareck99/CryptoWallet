@@ -3,6 +3,9 @@ import UIKit
 // MARK: - MessageType
 
 enum MessageType {
+
+    // MARK: - Types
+
     case text(String)
     case image(UIImage)
     case location((lat: Double, long: Double))
@@ -11,6 +14,9 @@ enum MessageType {
 // MARK: - MessageStatus
 
 enum MessageStatus: Hashable {
+
+    // MARK: - Types
+
     case online
     case offline
 

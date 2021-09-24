@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - MenuCell
 
-class MenuCell: UITableViewCell {
+final class MenuCell: UITableViewCell {
 
     // MARK: - Internal Properties
 
@@ -37,8 +37,8 @@ class MenuCell: UITableViewCell {
     func configure(_ profile: MenuItem) {
         menuImage.image = profile.image
         menuLabel.text = profile.text
-        if profile.Notifications != 0 {
-            notificationsLabel.text = String(profile.Notifications)
+        if profile.notifications != 0 {
+            notificationsLabel.text = String(profile.notifications)
             notificationsLabel.background(.lightRed())
         } else {
             notificationsLabel.text = ""
@@ -76,7 +76,6 @@ class MenuCell: UITableViewCell {
             $0.textColor(.white())
             $0.font(.light(13))
             $0.textAlignment = .center
-            $0.clipsToBounds = true
             $0.clipCorners(radius: 10)
         } layout: {
             $0.width.height.equalTo(20)
@@ -88,7 +87,6 @@ class MenuCell: UITableViewCell {
     private func addOpenButton() {
         openButton.snap(parent: self) {
             $0.contentMode = .center
-            $0.clipsToBounds = true
             $0.setImage(R.image.additionalMenu.grayArrow(), for: .normal)
         } layout: {
             $0.width.equalTo(24)
