@@ -104,7 +104,6 @@ final class AdditionalMenuView: UIView {
             $0.register(MenuCell.self, forCellReuseIdentifier: MenuCell.identifier)
             $0.separatorStyle = .none
             $0.allowsSelection = true
-            $0.isUserInteractionEnabled = false
             $0.translatesAutoresizingMaskIntoConstraints = false
         } layout: {
             $0.leading.trailing.bottom.equalTo($1)
