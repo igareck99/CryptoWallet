@@ -91,7 +91,7 @@ final class ProfileView: UIView {
 
     private func addTitleLabel() {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
+        paragraphStyle.lineHeightMultiple = 1.21
         paragraphStyle.alignment = .left
 
         titleLabel.snap(parent: self) {
