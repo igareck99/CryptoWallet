@@ -71,3 +71,13 @@
 "PhotoEditor.AlertCancel" = "Отмена";
 "PhotoEditor.AlertDelete" = "Удалить";
 
+"AdditionalMenu.Profile" = "Профиль";
+"AdditionalMenu.Personalization" = "Персонализация";
+"AdditionalMenu.Security" = "Безопасность";
+"AdditionalMenu.Wallet" = "Кошелек";
+"AdditionalMenu.Notification" = "Уведомления";
+"AdditionalMenu.Chats" = "Чаты";
+"AdditionalMenu.Data" = "Данные и хранилище";
+"AdditionalMenu.Questions" = "Вопросы о Aura";
+"AdditionalMenu.About" = "О приложении";
+
