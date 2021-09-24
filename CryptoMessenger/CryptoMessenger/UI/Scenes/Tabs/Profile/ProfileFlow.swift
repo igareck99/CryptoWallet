@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 // MARK: - ProfileFlow
 
@@ -8,7 +8,7 @@ enum ProfileFlow {
 
     enum ViewState {
         case sending
-        case result
+        case result([UIImage?])
         case error(message: String)
     }
 }

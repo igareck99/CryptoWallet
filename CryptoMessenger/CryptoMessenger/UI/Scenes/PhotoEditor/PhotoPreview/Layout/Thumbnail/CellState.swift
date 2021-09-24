@@ -70,9 +70,9 @@ extension ThumbnailLayout.Cell {
     }
 }
 
-// MARK: - geometry utils
-private extension ThumbnailLayout.Cell {
+// MARK: - ThumbnailLayout.Cell ()
 
+private extension ThumbnailLayout.Cell {
     var additionalWidth: CGFloat {
         (dims.defaultSize.height * dims.aspectRatio - dims.defaultSize.width) * state.expanding
     }

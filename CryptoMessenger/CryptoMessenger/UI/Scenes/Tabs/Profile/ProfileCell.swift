@@ -6,7 +6,7 @@ final class ProfileCell: UICollectionViewCell {
 
     // MARK: - Private Properties
 
-    private lazy var profileImageView = UIImageView()
+    private(set) lazy var profileImageView = UIImageView()
 
     // MARK: - Lifecycle
 
@@ -18,12 +18,6 @@ final class ProfileCell: UICollectionViewCell {
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
-    }
-
-    // MARK: - Internal Methods
-
-    func configure(_ profile: PhotoProfile) {
-        profileImageView.image = profile.image
     }
 
     // MARK: - Private Methods

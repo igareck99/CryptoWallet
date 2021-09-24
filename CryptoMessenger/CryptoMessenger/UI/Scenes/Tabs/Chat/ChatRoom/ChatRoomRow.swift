@@ -1,18 +1,26 @@
 import SwiftUI
 
+// MARK: - ChatRoomRow
+
 struct ChatRoomRow: View {
 
+    // MARK: - Private Properties
+
     private let message: RoomMessage
-    private let isCurrentUser: Bool?
+    private let isPreviousFromCurrentUser: Bool
     private var onReaction: StringBlock?
-
     @State private var showMap = false
+    @State private var isAnimating = false
 
-    init(message: RoomMessage, isCurrentUser: Bool?, onReaction: StringBlock?) {
+    // MARK: - Lifecycle
+
+    init(message: RoomMessage, isPreviousFromCurrentUser: Bool, onReaction: StringBlock?) {
         self.message = message
-        self.isCurrentUser = isCurrentUser
+        self.isPreviousFromCurrentUser = isPreviousFromCurrentUser
         self.onReaction = onReaction
     }
+
+    // MARK: - Body
 
     var body: some View {
         ZStack {
@@ -21,14 +29,11 @@ struct ChatRoomRow: View {
                     Spacer()
                 }
 
-                ChatBubble(direction: message.isCurrentUser ? .right : .left) {
+                BubbleView(direction: message.isCurrentUser ? .right : .left) {
                     HStack {
                         switch message.type {
                         case let .text(text):
                             textRow(text)
-                                .padding([.top, .bottom], 12)
-                                .padding(.leading, message.isCurrentUser ? 22 : 16)
-                                .padding(.trailing, message.isCurrentUser ? 16 : 22)
                         case let .location(location):
                             mapRow(location)
                                 .sheet(isPresented: $showMap) {
@@ -52,11 +57,14 @@ struct ChatRoomRow: View {
                             photoRow(image)
                         }
                     }
-                    .modifier(BubbleModifier(isCurrentUser: message.isCurrentUser))
+                    .background(.clear)
                 }
                 .padding(
                     .top,
-                    message.isCurrentUser == isCurrentUser ? 12 : 28
+                    calculateTopPadding(
+                        isCurrentUser: message.isCurrentUser,
+                        isPreviousFromCurrentUser: isPreviousFromCurrentUser
+                    )
                 )
                 .padding(message.isCurrentUser ? .leading : .trailing, 8)
 
@@ -67,43 +75,57 @@ struct ChatRoomRow: View {
 
             if !message.reactions.isEmpty {
                 reactions()
-                    .padding(.bottom, -16)
+                    .padding(.bottom, -18)
+                    .opacity(isAnimating ? 1 : 0)
+                    .animation(.easeInOut)
+            }
+        }
+        .onTapGesture {}
+        .onAppear {
+            if !isAnimating {
+                isAnimating.toggle()
             }
         }
         .id(message.id)
     }
 
+    // MARK: - Private Methods
+
     private func textRow(_ text: String) -> some View {
         HStack {
             Text(text)
                 .lineLimit(nil)
+                .font(.regular(15))
+                .foreground(.black())
+                .padding(.leading, message.isCurrentUser ? 22 : 16)
+                .padding([.top, .bottom], 12)
 
-            VStack {
+            VStack(alignment: .center) {
                 Spacer()
 
-                Text(message.date)
-                    .frame(height: 10)
-                    .font(.light(12))
-                    .foreground(.black(0.5))
-                    .padding(.bottom, -3)
-            }
+                HStack(spacing: 6) {
+                    Text(message.date)
+                        .frame(width: 40, height: 10)
+                        .font(.light(12))
+                        .foreground(.black(0.5))
+                        .padding(.trailing, !message.isCurrentUser ? 16 : 0)
 
-            if message.isCurrentUser {
-                VStack {
-                    Spacer()
-
-                    Image(R.image.chat.readCheck.name)
-                        .resizable()
-                        .frame(width: 13.5, height: 10, alignment: .center)
-                        .padding(.bottom, -3)
+                    if message.isCurrentUser {
+                        Image(R.image.chat.readCheck.name)
+                            .resizable()
+                            .frame(width: 13.5, height: 10, alignment: .center)
+                            .padding(.trailing, 16)
+                    }
                 }
+                .padding(.bottom, 8)
             }
         }
+        .frame(minHeight: 41, idealHeight: 41, maxHeight: .infinity)
     }
 
     private func mapRow(_ location: Location) -> some View {
         ZStack {
-            MapView(place: .init(name: "", latitude: location.lat, longitude: location.long), true)
+            MapSnapshotView(latitude: location.lat, longitude: location.long)
 
             checkReadView()
         }
@@ -180,6 +202,14 @@ struct ChatRoomRow: View {
                 .padding(.bottom, 8)
                 .padding(message.isCurrentUser ? .trailing : .leading, 10)
             }
+        }
+    }
+
+    private func calculateTopPadding(isCurrentUser: Bool, isPreviousFromCurrentUser: Bool) -> CGFloat {
+        if isCurrentUser {
+            return isPreviousFromCurrentUser ? 14 : 28
+        } else {
+            return isPreviousFromCurrentUser ? 28 : 14
         }
     }
 }

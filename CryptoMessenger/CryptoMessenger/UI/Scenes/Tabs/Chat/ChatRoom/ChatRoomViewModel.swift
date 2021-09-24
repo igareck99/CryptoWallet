@@ -19,6 +19,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private(set) var userMessage: Message?
     @Published var showPhotoLibrary = false
     @Published var selectedImage: UIImage?
+    @Published private var lastLocation: Location?
 
     // MARK: - Private Properties
 
@@ -26,7 +27,6 @@ final class ChatRoomViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<ChatRoomFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     private let keyboardObserver = KeyboardObserver()
-
     private let locationManager = LocationManager()
 
     // MARK: - Lifecycle
@@ -34,6 +34,15 @@ final class ChatRoomViewModel: ObservableObject {
     init(userMessage: Message) {
         bindInput()
         bindOutput()
+
+        sortedMessages[1].reactions = [
+            .init(
+                id: mockEmojiStorage[5].id,
+                sender: "",
+                timestamp: Date(),
+                emoji: "🚀"
+            )
+        ]
 
         sortedMessages[sortedMessages.count - 3].reactions = [
             .init(
@@ -47,6 +56,15 @@ final class ChatRoomViewModel: ObservableObject {
                 sender: "",
                 timestamp: Date(),
                 emoji: "😄"
+            )
+        ]
+
+        sortedMessages[sortedMessages.count - 2].reactions = [
+            .init(
+                id: mockEmojiStorage[4].id,
+                sender: "",
+                timestamp: Date(),
+                emoji: "❤️"
             )
         ]
 
@@ -96,11 +114,10 @@ final class ChatRoomViewModel: ObservableObject {
 
     private func bindInput() {
         eventSubject
-            .debounce(for: 0.15, scheduler: DispatchQueue.main)
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.objectWillChange.send()
+                    break
                 case .onNextScene:
                     print("Next scene")
                 case let .onSend(type):
@@ -127,6 +144,7 @@ final class ChatRoomViewModel: ObservableObject {
             .store(in: &subscriptions)
 
         $attachAction
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] action in
                 switch action {
                 case .location:
@@ -153,6 +171,7 @@ final class ChatRoomViewModel: ObservableObject {
             .store(in: &subscriptions)
 
         $quickAction
+            .receive(on: DispatchQueue.main)
             .sink { action in
                 print(action)
             }
@@ -164,6 +183,11 @@ final class ChatRoomViewModel: ObservableObject {
                 guard let image = image else { return }
                 self?.messages.append(.init(type: .image(image), date: "00:33", isCurrentUser: true))
             }
+            .store(in: &subscriptions)
+
+        locationManager.$lastLocation
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.lastLocation, on: self)
             .store(in: &subscriptions)
     }
 
@@ -192,36 +216,6 @@ private var sortedMessages: [RoomMessage] = [
     ),
     .init(
         type: .text("Ну, да! Классный проект!☺️"),
-        date: "00:31",
-        isCurrentUser: true
-    ),
-    .init(
-        type: .text("Okе, но ты там долго не сиди. Завтра демо:)"),
-        date: "00:32",
-        isCurrentUser: false
-    ),
-    .init(
-        type: .text("Привет, трудяга!:)"),
-        date: "00:30",
-        isCurrentUser: false
-    ),
-    .init(
-        type: .text("Хей, коллега👋🏼"),
-        date: "00:31",
-        isCurrentUser: true
-    ),
-    .init(
-        type: .text("Ты опять по ночам не спишь? Пилишь проект AURA?)"),
-        date: "00:31",
-        isCurrentUser: false
-    ),
-    .init(
-        type: .text("Ну, да! Классный проект!☺️"),
-        date: "00:31",
-        isCurrentUser: true
-    ),
-    .init(
-        type: .location((lat: 59.939099, long: 30.315877)),
         date: "00:31",
         isCurrentUser: true
     ),
