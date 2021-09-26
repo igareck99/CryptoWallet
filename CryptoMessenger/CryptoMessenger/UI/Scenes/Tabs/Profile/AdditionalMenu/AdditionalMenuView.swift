@@ -31,13 +31,12 @@ final class AdditionalMenuView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
-        addindicatorView()
+        addIndicatorView()
         setupAuraImage()
         setupBalanceLabel()
         addLineView()
         setupTableView()
         setupTableProvider()
-        addSecondLineView()
     }
 
     @available(*, unavailable)
@@ -47,7 +46,7 @@ final class AdditionalMenuView: UIView {
 
     // MARK: - Private Methods
 
-    private func addindicatorView() {
+    private func addIndicatorView() {
         indicatorView.snap(parent: self) {
             $0.background(.gray(0.4))
             $0.clipCorners(radius: 2)
@@ -121,15 +120,15 @@ final class AdditionalMenuView: UIView {
             cell.configure(item)
             return cell
         }
-    }
-
-    private func addSecondLineView() {
-        secondLineView.snap(parent: self) {
-            $0.background(.gray(0.4))
-        } layout: {
-            $0.top.equalTo($1).offset(534)
-            $0.leading.trailing.equalTo($1)
-            $0.height.equalTo(1)
+        tableProvider?.onViewForHeaderInSection = { [unowned self] section in
+            let height = tableModel.heightForHeader(atIndex: section)
+            guard height > 0 else { return nil }
+            let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: CGFloat(height)))
+            let line = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 1))
+            line.background(.gray(0.4))
+            header.addSubview(line)
+            line.center = header.center
+            return header
         }
     }
 }

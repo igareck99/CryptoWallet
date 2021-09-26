@@ -7,6 +7,7 @@ final class TableViewProvider: NSObject, TableViewProviderType {
     // MARK: - Internal Properties
 
     var onConfigureCell: ((IndexPath) -> UITableViewCell)?
+    var onViewForHeaderInSection: ((Int) -> UIView?)?
     var onSelectCell: ((IndexPath) -> Void)?
     var onSlideCell: ((IndexPath) -> UISwipeActionsConfiguration?)?
 
@@ -90,12 +91,7 @@ extension TableViewProvider: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let height = viewModel.heightForHeader(atIndex: section)
-        if height > 0 {
-            return UIView(frame: CGRect(x: 0, y: 0, width: 1, height: Int(height)))
-        } else {
-            return nil
-        }
+        return onViewForHeaderInSection?(section)
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
