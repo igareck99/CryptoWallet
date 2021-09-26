@@ -21,6 +21,9 @@ struct MenuListViewModel {
     // MARK: - Constants
 
     private enum Constants {
+
+        // MARK: - Static Properties
+
         static let heightForHeader = Float(32)
         static let rowHeight = Float(64)
         static let numberRows = 1
@@ -31,10 +34,7 @@ struct MenuListViewModel {
 
 extension MenuListViewModel: TableViewProviderViewModel {
     func heightForHeader(atIndex index: Int) -> Float {
-        if index == 7 {
-            return Constants.heightForHeader
-        }
-        return 0
+        index == 7 ? Constants.heightForHeader : 0
     }
 
     func numberOfTableSections() -> Int {

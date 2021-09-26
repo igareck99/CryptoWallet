@@ -23,7 +23,7 @@ final class RegistrationView: UIView {
     private lazy var arrowImageView = UIImageView()
     private lazy var countryButton = UIButton()
     private lazy var phoneView = UIView()
-    private lazy var phoneTextField = CountryPhoneNumberTextField()
+    private lazy var phoneTextField = CustomTextField()
     private lazy var lineView = UIView()
     private lazy var continueButton = LoadingButton()
 
@@ -71,6 +71,10 @@ final class RegistrationView: UIView {
         }
     }
 
+    @objc private func onTextUpdate(textField: PhoneNumberTextField) {
+        styleControls()
+    }
+
     // MARK: - Internal Methods
 
     func startLoading() {
@@ -82,8 +86,8 @@ final class RegistrationView: UIView {
     }
 
     func setCountryCode(_ country: CountryCodePickerViewController.Country) {
-        phoneTextField.didSelectCountry(country)
-        phoneTextField.defaultRegion = country.code
+        phoneTextField.selectedCountry = country
+        phoneTextField.partialFormatter.defaultRegion = country.code
         countryLabel.text = country.prefix + " " + country.name.firstUppercased
     }
 
@@ -232,13 +236,12 @@ final class RegistrationView: UIView {
             $0.autocorrectionType = .no
             $0.withPrefix = false
             $0.withFlag = false
+            $0.maxDigits = 16
+            $0.addTarget(self, action: #selector(self.onTextUpdate), for: .editingChanged)
         } layout: {
             $0.top.bottom.equalTo($1)
             $0.leading.equalTo($1).offset(16)
             $0.trailing.equalTo($1).offset(-16)
-        }
-        phoneTextField.didNumberChanged = { [weak self] in
-            self?.styleControls()
         }
     }
 
@@ -269,15 +272,10 @@ final class RegistrationView: UIView {
     }
 
     private func styleControls() {
-        let isValid = PhoneHelper.validatePhoneNumber(
-            phoneTextField.text ?? "",
-            forRegion: phoneTextField.defaultRegion
-        )
-
         let title = R.string.localizable.registrationContinueButton()
-        continueButton.isEnabled = isValid
+        continueButton.isEnabled = phoneTextField.isValidNumber
 
-        if isValid {
+        if phoneTextField.isValidNumber {
             continueButton.background(.blue())
             continueButton.titleAttributes(text: title, [.color(.white()), .font(.semibold(15))])
         } else {
@@ -286,55 +284,17 @@ final class RegistrationView: UIView {
         }
     }
 
-    // MARK: - CountryPhoneNumberTextField
+    // MARK: - CustomTextField
 
-    final class CountryPhoneNumberTextField: PhoneNumberTextField {
+    final class CustomTextField: PhoneNumberTextField {
 
         // MARK: - Internal Properties
 
-        var didNumberChanged: VoidBlock?
+        var selectedCountry = CountryCodePickerViewController.baseCountry
 
         override var defaultRegion: String {
-            get { PhoneHelper.userRegionCode }
+            get { selectedCountry?.code ?? PhoneHelper.userRegionCode }
             set {}
-        }
-
-        override var text: String? {
-            get { super.text }
-            set {
-                let finalText = parseInput(input: newValue)
-                if let country = selectedCountry {
-                    defaultRegion = country.code
-                }
-                super.text = finalText
-                didNumberChanged?()
-            }
-        }
-
-        var formattedText: String? {
-            if let text = text, let selectedCountry = selectedCountry {
-                return PhoneHelper.formatToInternationalNumber(text, forRegion: selectedCountry.code)
-            }
-            return nil
-        }
-
-        // MARK: - Private Properties
-
-        private var selectedCountry = CountryCodePickerViewController.baseCountry
-
-        // MARK: - Internal Methods
-
-        func didSelectCountry(_ country: Country) {
-            selectedCountry = country
-            defaultRegion = country.code
-            text = formattedText
-        }
-
-        // MARK: - Private Methods
-
-        private func parseInput(input: String?) -> String? {
-            guard let input = input, let code = selectedCountry?.code else { return nil }
-            return PhoneHelper.formatToNationalNumber(input, forRegion: code) ?? input
         }
     }
 }
