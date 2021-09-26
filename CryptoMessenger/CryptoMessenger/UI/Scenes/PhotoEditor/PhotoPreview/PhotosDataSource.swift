@@ -6,23 +6,19 @@ final class PhotosDataSource: NSObject {
 
     // MARK: - Internal Properties
 
-    lazy var images = loadImages()
+    private(set) var images: [UIImage] = []
 
     // MARK: - Private Properties
 
-    private var urls: [URL] {
-        Bundle.main.urls(
-            forResourcesWithExtension: .none,
-            subdirectory: "Data") ?? []
-    }
     private let preview: UICollectionView
     private let thumbnails: UICollectionView
 
     // MARK: - Lifecycle
 
-    init(preview: UICollectionView, thumbnails: UICollectionView) {
+    init(preview: UICollectionView, thumbnails: UICollectionView, images: [UIImage]) {
         self.preview = preview
         self.thumbnails = thumbnails
+        self.images = images
         super.init()
         preview.dataSource = self
         preview.register(
@@ -37,10 +33,13 @@ final class PhotosDataSource: NSObject {
 
     // MARK: - Internal Methods
 
-    func loadImages() -> [UIImage] {
-        urls
-            .compactMap { try? Data(contentsOf: $0) }
-            .compactMap(UIImage.init(data:))
+    func setImages(_ images: [UIImage]) {
+        self.images = images
+    }
+
+    func removeImage(at index: Int) {
+        guard images.indices.contains(index) else { return }
+        images.remove(at: index)
     }
 }
 

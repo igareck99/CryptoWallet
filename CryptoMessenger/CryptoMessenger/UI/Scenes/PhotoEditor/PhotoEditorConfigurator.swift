@@ -1,14 +1,17 @@
-import Foundation
+import UIKit
 
 // MARK: - PhotoEditorConfigurator
 
 enum PhotoEditorConfigurator {
-    static func configuredViewController(delegate: PhotoEditorSceneDelegate?) -> PhotoEditorViewController {
 
-        // MARK: - Internal Methods
+    // MARK: - Static Methods
 
+    static func configuredViewController(
+        images: [UIImage],
+        delegate: PhotoEditorSceneDelegate?
+    ) -> PhotoEditorViewController {
         let viewController = PhotoEditorViewController()
-        let presenter = PhotoEditorPresenter(view: viewController)
+        let presenter = PhotoEditorPresenter(view: viewController, images: images)
         presenter.delegate = delegate
         viewController.presenter = presenter
         return viewController

@@ -39,7 +39,8 @@ final class ProfileViewController: BaseViewController {
             self.imagePicker.open()
         }
         customView.didTapShowPhoto = { [unowned self] in
-            let viewController = PhotoEditorConfigurator.configuredViewController(delegate: nil)
+            let images = self.customView.photos.compactMap { $0 }
+            let viewController = PhotoEditorConfigurator.configuredViewController(images: images, delegate: nil)
             self.present(viewController, animated: true)
         }
     }
@@ -67,7 +68,6 @@ final class ProfileViewController: BaseViewController {
         controller.didDeleteTap = { [unowned self] in
             controller.dismiss(animated: true)
         }
-
     }
 }
 

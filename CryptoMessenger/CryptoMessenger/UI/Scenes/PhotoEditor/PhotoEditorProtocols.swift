@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 // MARK: - PhotoEditorSceneDelegate
 
@@ -15,5 +15,7 @@ protocol PhotoEditorViewInterface: AnyObject {
 // MARK: - PhotoEditorPresentation
 
 protocol PhotoEditorPresentation: AnyObject {
+    var images: [UIImage] { get }
+
     func handleButtonTap()
 }

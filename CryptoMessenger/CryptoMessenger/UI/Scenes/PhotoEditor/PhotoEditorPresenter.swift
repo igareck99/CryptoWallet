@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 // MARK: - PhotoEditorPresenter
 
@@ -9,6 +9,10 @@ final class PhotoEditorPresenter {
     weak var delegate: PhotoEditorSceneDelegate?
     weak var view: PhotoEditorViewInterface?
 
+    private(set) var images: [UIImage]
+
+    // MARK: - Private Properties
+
     private var state = PhotoEditorFlow.ViewState.sending {
         didSet {
             updateView(state)
@@ -17,8 +21,9 @@ final class PhotoEditorPresenter {
 
     // MARK: - Lifecycle
 
-    init(view: PhotoEditorViewInterface) {
+    init(view: PhotoEditorViewInterface, images: [UIImage]) {
         self.view = view
+        self.images = images
     }
 
     // MARK: - Internal Methods

@@ -261,7 +261,6 @@
 		78C3CEDF26EF6BD200CF1885 /* AdditionalMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3CEDE26EF6BD200CF1885 /* AdditionalMenuView.swift */; };
 		78C3CEE426F06FAF00CF1885 /* MenuListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3CEE326F06FAF00CF1885 /* MenuListViewModel.swift */; };
 		78C3CEE826F0727700CF1885 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3CEE726F0727700CF1885 /* MenuCell.swift */; };
-		78E404A026EA536200169B18 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 78E4049F26EA536200169B18 /* Data */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -523,7 +522,6 @@
 		78C3CEE326F06FAF00CF1885 /* MenuListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListViewModel.swift; sourceTree = "<group>"; };
 		78C3CEE526F0700200CF1885 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		78C3CEE726F0727700CF1885 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
-		78E4049F26EA536200169B18 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1298,7 +1296,6 @@
 		7846B65026E8BB4000B05984 /* PhotoPreview */ = {
 			isa = PBXGroup;
 			children = (
-				78E4049F26EA536200169B18 /* Data */,
 				7846B67526E8C09B00B05984 /* Cells */,
 				7846B66626E8BCD400B05984 /* Layout */,
 				7846B65D26E8BC2900B05984 /* Animations */,
@@ -1549,7 +1546,6 @@
 				5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */,
 				5A187DC826806EF9001957D3 /* Assets.xcassets in Resources */,
 				5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */,
-				78E404A026EA536200169B18 /* Data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

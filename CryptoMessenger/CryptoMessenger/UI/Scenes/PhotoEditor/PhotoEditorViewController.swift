@@ -24,7 +24,8 @@ final class PhotoEditorViewController: BaseViewController {
         view = contentView
         dataSource = PhotosDataSource(
             preview: contentView.previewCollection,
-            thumbnails: contentView.thumbnailCollection
+            thumbnails: contentView.thumbnailCollection,
+            images: presenter.images
         )
     }
 
@@ -110,7 +111,7 @@ final class PhotoEditorViewController: BaseViewController {
             guard let isEmpty = dataSource?.images.isEmpty, !isEmpty else { return }
             guard let data = dataSource?.images[contentView.synchronizer.activeIndex] else { return }
             let controller = UIActivityViewController(activityItems: [data], applicationActivities: nil)
-            present(controller, animated: true, completion: nil)
+            present(controller, animated: true)
         }
         contentView.didTapBrush = { [unowned self] in
             let alert = UIAlertController(
@@ -129,7 +130,7 @@ final class PhotoEditorViewController: BaseViewController {
                     title: R.string.localizable.photoEditorAlertDelete(),
                     style: .default,
                     handler: { _ in
-                        dataSource?.images.remove(at: contentView.synchronizer.activeIndex)
+                        dataSource?.removeImage(at: contentView.synchronizer.activeIndex)
                         contentView.synchronizer.reload()
                     })
             )
