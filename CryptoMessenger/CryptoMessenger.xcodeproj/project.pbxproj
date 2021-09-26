@@ -173,6 +173,7 @@
 		5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411026825E6A008922B4 /* Rubik-Bold.ttf */; };
 		5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */; };
 		5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */; };
+		5ABCCCE32700D76200B93FF1 /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3CEE526F0700200CF1885 /* MenuItem.swift */; };
 		5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FA26DCEA49009A1944 /* Resources.swift */; };
 		5AEB80FD26DD123E009A1944 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */; };
 		5AEB80FF26DE138F009A1944 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */; };
@@ -244,7 +245,6 @@
 		789FEBEF26DCE61D0018FE91 /* PhotoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBE926DCE61D0018FE91 /* PhotoEditorView.swift */; };
 		789FEBF026DCE61D0018FE91 /* PhotoEditorConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */; };
 		789FEBF126DCE61D0018FE91 /* PhotoEditorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */; };
-		78B04FA626DF256900684E0A /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B04FA526DF256900684E0A /* ImageData.swift */; };
 		78BB7E0D26F36B1200F1D500 /* FriendProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E0726F36B1200F1D500 /* FriendProfilePresenter.swift */; };
 		78BB7E0E26F36B1200F1D500 /* FriendProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E0826F36B1200F1D500 /* FriendProfileViewController.swift */; };
 		78BB7E0F26F36B1200F1D500 /* FriendProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E0926F36B1200F1D500 /* FriendProfileProtocols.swift */; };
@@ -260,7 +260,6 @@
 		78C3CEDD26EF6BC700CF1885 /* AdditionalMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3CEDC26EF6BC700CF1885 /* AdditionalMenuViewController.swift */; };
 		78C3CEDF26EF6BD200CF1885 /* AdditionalMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3CEDE26EF6BD200CF1885 /* AdditionalMenuView.swift */; };
 		78C3CEE426F06FAF00CF1885 /* MenuListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3CEE326F06FAF00CF1885 /* MenuListViewModel.swift */; };
-		78C3CEE626F0700200CF1885 /* MenuStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3CEE526F0700200CF1885 /* MenuStruct.swift */; };
 		78C3CEE826F0727700CF1885 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3CEE726F0727700CF1885 /* MenuCell.swift */; };
 		78E404A026EA536200169B18 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 78E4049F26EA536200169B18 /* Data */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
@@ -507,7 +506,6 @@
 		789FEBE926DCE61D0018FE91 /* PhotoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorView.swift; sourceTree = "<group>"; };
 		789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorConfigurator.swift; sourceTree = "<group>"; };
 		789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorFlow.swift; sourceTree = "<group>"; };
-		78B04FA526DF256900684E0A /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		78BB7E0726F36B1200F1D500 /* FriendProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfilePresenter.swift; sourceTree = "<group>"; };
 		78BB7E0826F36B1200F1D500 /* FriendProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileViewController.swift; sourceTree = "<group>"; };
 		78BB7E0926F36B1200F1D500 /* FriendProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileProtocols.swift; sourceTree = "<group>"; };
@@ -523,7 +521,7 @@
 		78C3CEDC26EF6BC700CF1885 /* AdditionalMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalMenuViewController.swift; sourceTree = "<group>"; };
 		78C3CEDE26EF6BD200CF1885 /* AdditionalMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalMenuView.swift; sourceTree = "<group>"; };
 		78C3CEE326F06FAF00CF1885 /* MenuListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListViewModel.swift; sourceTree = "<group>"; };
-		78C3CEE526F0700200CF1885 /* MenuStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuStruct.swift; sourceTree = "<group>"; };
+		78C3CEE526F0700200CF1885 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		78C3CEE726F0727700CF1885 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		78E4049F26EA536200169B18 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
@@ -1466,7 +1464,7 @@
 			isa = PBXGroup;
 			children = (
 				78C3CEE326F06FAF00CF1885 /* MenuListViewModel.swift */,
-				78C3CEE526F0700200CF1885 /* MenuStruct.swift */,
+				78C3CEE526F0700200CF1885 /* MenuItem.swift */,
 				78C3CEE726F0727700CF1885 /* MenuCell.swift */,
 			);
 			path = TableView;
@@ -1826,6 +1824,7 @@
 				5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */,
 				5A26CD4D26B356F600118D4B /* ProfileProtocols.swift in Sources */,
 				5A26CD1D26B2EECA00118D4B /* WalletViewController.swift in Sources */,
+				5ABCCCE32700D76200B93FF1 /* MenuItem.swift in Sources */,
 				5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */,
 				5A26CD4026B3305600118D4B /* Transaction.swift in Sources */,
 				7846B65C26E8BBFD00B05984 /* TimingFunctions.swift in Sources */,
