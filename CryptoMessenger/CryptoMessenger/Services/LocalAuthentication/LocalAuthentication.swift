@@ -56,6 +56,7 @@ final class LocalAuthentication {
 
     init() {
         context.localizedFallbackTitle = "Please use your pin-code"
+        context.touchIDAuthenticationAllowableReuseDuration = 0
     }
 
     // MARK: - Internal Methods

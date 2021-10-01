@@ -37,7 +37,7 @@ final class PinCodeViewController: BaseViewController {
             presenter.localAuth.authenticateWithBiometrics()
         }
         customView.didAuthSuccess = { [unowned self] in
-            guard !presenter.isLocalAuthBackgroundAlertShown else {
+            guard presenter.isLocalAuthBackgroundAlertShown == false else {
                 presenter.handleButtonTap(false)
                 return
             }

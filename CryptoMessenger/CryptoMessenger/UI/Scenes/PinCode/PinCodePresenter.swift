@@ -48,7 +48,7 @@ final class PinCodePresenter {
 
 extension PinCodePresenter: PinCodePresentation {
     func checkLocalAuth() {
-        state = .result(localAuth.getAvailableBiometrics())
+        DispatchQueue.main.async { self.state = .result(self.localAuth.getAvailableBiometrics()) }
     }
 
     func handleButtonTap(_ isBackgroundLocalAuth: Bool) {

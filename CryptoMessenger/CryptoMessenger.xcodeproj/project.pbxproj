@@ -174,6 +174,7 @@
 		5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */; };
 		5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */; };
 		5AB30F152706564300838AFC /* PinCodeFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB30F142706564300838AFC /* PinCodeFlowCoordinator.swift */; };
+		5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */; };
 		5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FA26DCEA49009A1944 /* Resources.swift */; };
 		5AEB80FD26DD123E009A1944 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */; };
 		5AEB80FF26DE138F009A1944 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */; };
@@ -423,6 +424,7 @@
 		5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
 		5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
 		5AB30F142706564300838AFC /* PinCodeFlowCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeFlowCoordinator.swift; sourceTree = "<group>"; };
+		5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		5AEB80FA26DCEA49009A1944 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
@@ -751,6 +753,7 @@
 				5A26CD3826B31FBA00118D4B /* UICollectionView+Extensions.swift */,
 				5A187EB4268070B3001957D3 /* CGSize+Transform.swift */,
 				5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */,
+				5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1593,6 +1596,7 @@
 				789FEBD026D3CE580018FE91 /* CallCell.swift in Sources */,
 				7846B67026E8C00D00B05984 /* CellUpdate.swift in Sources */,
 				5A187EA32680708D001957D3 /* CollectionViewProvider.swift in Sources */,
+				5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */,
 				5A9318D526C5AAF100645365 /* ChatRoomProtocols.swift in Sources */,
 				5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */,
 				5A26CD1E26B2EECA00118D4B /* WalletProtocols.swift in Sources */,
@@ -1919,7 +1923,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -1928,7 +1932,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "ms.aura.app-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "ms.aura.app-ios-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -1944,7 +1948,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -1953,7 +1957,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "ms.aura.app-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "ms.aura.app-ios-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
