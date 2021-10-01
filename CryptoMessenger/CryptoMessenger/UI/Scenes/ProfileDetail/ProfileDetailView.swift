@@ -13,6 +13,7 @@ final class ProfileDetailView: UIView {
 
     // MARK: - Private Properties
 
+    private lazy var view = ProfileDetailView()
     private lazy var scrollView = UIScrollView()
     private lazy var profileImage = UIImageView()
     private lazy var cameraButton = UIButton()
@@ -38,7 +39,7 @@ final class ProfileDetailView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
-        addScrollView()
+        // addScrollView()
         addImageView()
         addCameraButton()
         addStatusLabel()
@@ -57,6 +58,12 @@ final class ProfileDetailView: UIView {
     }
 
     // MARK: - Internal Methods
+
+    func addScrollvIEW() {
+        scrollView.background(.white())
+        self.view.addSubview(scrollView)
+        self.scrollView.contentSize = CGSize(width: 2000, height: 5678)
+    }
 
     func saveData() {
         profileDetail.info = infoView.text
@@ -100,6 +107,7 @@ final class ProfileDetailView: UIView {
         scrollView.snap(parent: self) {
             $0.background(.white())
         } layout: {
+            $0.width.equalTo($1)
             $0.top.bottom.leading.trailing.equalTo($1)
         }
 
@@ -116,7 +124,7 @@ final class ProfileDetailView: UIView {
     }
 
     private func addCameraButton() {
-        cameraButton.snap(parent: self) {
+        cameraButton.snap(parent: scrollView) {
             $0.setImage(R.image.profileDetail.camera(), for: .normal)
             $0.contentMode = .scaleToFill
             $0.clipCorners(radius: 30)

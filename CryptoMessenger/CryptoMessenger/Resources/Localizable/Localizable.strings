@@ -109,4 +109,10 @@
 "ProfileDetail.DeleteAlertCancel" = "Отменить";
 "ProfileDetail.DeleteAlertApprove" = "Удалить";
 
+"ProfileNetworkDetail.Title" = "Социальные сети";
+"ProfileNetworkDetail.Main" = "ОТОБРАЖАЕМ";
+"ProfileNetworkDetail.Message" = "Передвигайте ползунок перемещения по вертикали для смены расположения соц. сети.";
+"ProfileNetworkDetail.NotShowMessage" = "НЕ ОТОБРАЖАЕМ";
+"ProfileNetworkDetail.NotShowLink" = "Другая социальная сеть";
+
 

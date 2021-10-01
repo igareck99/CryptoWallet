@@ -2,11 +2,11 @@ import UIKit
 
 // MARK: - ProfileDetailViewModel
 
-struct ProfileDetailViewModel {
+struct NetworkDetailViewModel {
 
     // MARK: - Type
 
-    typealias ItemType = ProfileDetailItem
+    typealias ItemType = NetworkDetailItem
 
     // MARK: - Internal Properties
 
@@ -24,17 +24,18 @@ struct ProfileDetailViewModel {
 
         // MARK: - Static Properties
 
-        static let heightForHeader = Float(32)
-        static let rowHeight = Float(64)
+        static let heightForHeader = Float(54)
+        static let rowHeight = Float(44)
         static let numberRows = 1
     }
 }
 
-// MARK: - MenuListViewModel (TableViewProviderViewModel)
+// MARK: - NetworkDetailViewModel (TableViewProviderViewModel)
 
-extension ProfileDetailViewModel: TableViewProviderViewModel {
+extension NetworkDetailViewModel: TableViewProviderViewModel {
     func heightForHeader(atIndex index: Int) -> Float {
-        index == 3 ? Constants.heightForHeader : 0
+        let separator_index = tableNetworkList.firstIndex(where: { $0.type == 1 })
+        return index == separator_index ? Constants.heightForHeader : 0
     }
 
     func numberOfTableSections() -> Int {

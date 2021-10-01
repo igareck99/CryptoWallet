@@ -230,6 +230,15 @@
 		787AAEE22703C9B700D734D3 /* ProfileDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787AAEE12703C9B700D734D3 /* ProfileDetailItem.swift */; };
 		787AAEE52703CA4900D734D3 /* ProfileDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787AAEE42703CA4900D734D3 /* ProfileDetailCell.swift */; };
 		787AAEE72703CC2B00D734D3 /* ProfileDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787AAEE62703CC2B00D734D3 /* ProfileDetailViewModel.swift */; };
+		7889064027064F8D0093459C /* ProfileNetworkDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889063A27064F8D0093459C /* ProfileNetworkDetailPresenter.swift */; };
+		7889064127064F8D0093459C /* ProfileNetworkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889063B27064F8D0093459C /* ProfileNetworkDetailViewController.swift */; };
+		7889064227064F8D0093459C /* ProfileNetworkDetailProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889063C27064F8D0093459C /* ProfileNetworkDetailProtocols.swift */; };
+		7889064327064F8D0093459C /* ProfileNetworkDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889063D27064F8D0093459C /* ProfileNetworkDetailView.swift */; };
+		7889064427064F8D0093459C /* ProfileNetworkDetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889063E27064F8D0093459C /* ProfileNetworkDetailConfigurator.swift */; };
+		7889064527064F8D0093459C /* ProfileNetworkDetailFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889063F27064F8D0093459C /* ProfileNetworkDetailFlow.swift */; };
+		78890648270684180093459C /* NetworkDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78890647270684180093459C /* NetworkDetailItem.swift */; };
+		7889064A270684830093459C /* NetworkDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78890649270684830093459C /* NetworkDetailCell.swift */; };
+		7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889064B27068E700093459C /* NetworkDetailViewModel.swift */; };
 		7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */; };
 		7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7896226B26B992AD00033B3B /* ProfileCell.swift */; };
 		789B123126CE8906002FCDDF /* CallListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122B26CE8906002FCDDF /* CallListPresenter.swift */; };
@@ -500,6 +509,15 @@
 		787AAEE12703C9B700D734D3 /* ProfileDetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailItem.swift; sourceTree = "<group>"; };
 		787AAEE42703CA4900D734D3 /* ProfileDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailCell.swift; sourceTree = "<group>"; };
 		787AAEE62703CC2B00D734D3 /* ProfileDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewModel.swift; sourceTree = "<group>"; };
+		7889063A27064F8D0093459C /* ProfileNetworkDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkDetailPresenter.swift; sourceTree = "<group>"; };
+		7889063B27064F8D0093459C /* ProfileNetworkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkDetailViewController.swift; sourceTree = "<group>"; };
+		7889063C27064F8D0093459C /* ProfileNetworkDetailProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkDetailProtocols.swift; sourceTree = "<group>"; };
+		7889063D27064F8D0093459C /* ProfileNetworkDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkDetailView.swift; sourceTree = "<group>"; };
+		7889063E27064F8D0093459C /* ProfileNetworkDetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkDetailConfigurator.swift; sourceTree = "<group>"; };
+		7889063F27064F8D0093459C /* ProfileNetworkDetailFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkDetailFlow.swift; sourceTree = "<group>"; };
+		78890647270684180093459C /* NetworkDetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDetailItem.swift; sourceTree = "<group>"; };
+		78890649270684830093459C /* NetworkDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDetailCell.swift; sourceTree = "<group>"; };
+		7889064B27068E700093459C /* NetworkDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDetailViewModel.swift; sourceTree = "<group>"; };
 		7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthentication.swift; sourceTree = "<group>"; };
 		7896226B26B992AD00033B3B /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		789B122B26CE8906002FCDDF /* CallListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListPresenter.swift; sourceTree = "<group>"; };
@@ -1387,6 +1405,30 @@
 			path = TableView;
 			sourceTree = "<group>";
 		};
+		7889063927064F710093459C /* ProfileNetworkDetail */ = {
+			isa = PBXGroup;
+			children = (
+				78890646270683F70093459C /* TableView */,
+				7889063A27064F8D0093459C /* ProfileNetworkDetailPresenter.swift */,
+				7889063B27064F8D0093459C /* ProfileNetworkDetailViewController.swift */,
+				7889063C27064F8D0093459C /* ProfileNetworkDetailProtocols.swift */,
+				7889063D27064F8D0093459C /* ProfileNetworkDetailView.swift */,
+				7889063E27064F8D0093459C /* ProfileNetworkDetailConfigurator.swift */,
+				7889063F27064F8D0093459C /* ProfileNetworkDetailFlow.swift */,
+			);
+			path = ProfileNetworkDetail;
+			sourceTree = "<group>";
+		};
+		78890646270683F70093459C /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				78890647270684180093459C /* NetworkDetailItem.swift */,
+				78890649270684830093459C /* NetworkDetailCell.swift */,
+				7889064B27068E700093459C /* NetworkDetailViewModel.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
 		7895E6E326CC1B39009CF41D /* LocalAuthentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -1501,6 +1543,7 @@
 		78EFC5F227021E6E00A9BBAA /* ProfileDetail */ = {
 			isa = PBXGroup;
 			children = (
+				7889063927064F710093459C /* ProfileNetworkDetail */,
 				787AAEE32703CA1F00D734D3 /* TableView */,
 				78EFC5F327021E8700A9BBAA /* ProfileDetailPresenter.swift */,
 				78EFC5F427021E8700A9BBAA /* ProfileDetailViewController.swift */,
@@ -1761,6 +1804,7 @@
 				5A26CD1E26B2EECA00118D4B /* WalletProtocols.swift in Sources */,
 				789FEBF126DCE61D0018FE91 /* PhotoEditorFlow.swift in Sources */,
 				78EFC5FB27021E8700A9BBAA /* ProfileDetailProtocols.swift in Sources */,
+				7889064227064F8D0093459C /* ProfileNetworkDetailProtocols.swift in Sources */,
 				7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */,
 				7846B66526E8BCB200B05984 /* DeleteAnimation.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
@@ -1776,6 +1820,7 @@
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
+				7889064127064F8D0093459C /* ProfileNetworkDetailViewController.swift in Sources */,
 				78BB7E1926F49EE700F1D500 /* MenuFrienView.swift in Sources */,
 				5A9318B726BD210400645365 /* PinCodeViewController.swift in Sources */,
 				5A187EA42680708D001957D3 /* CollectionViewProviderType.swift in Sources */,
@@ -1802,6 +1847,7 @@
 				7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */,
 				5AF8633726AA994E004A417C /* VerificationProtocols.swift in Sources */,
 				5A26CD2026B2EECA00118D4B /* WalletConfigurator.swift in Sources */,
+				7889064027064F8D0093459C /* ProfileNetworkDetailPresenter.swift in Sources */,
 				789B123126CE8906002FCDDF /* CallListPresenter.swift in Sources */,
 				5A26CD6526B35F7A00118D4B /* ChatViewModel.swift in Sources */,
 				5A187EA62680708D001957D3 /* NibLoadableView.swift in Sources */,
@@ -1830,6 +1876,7 @@
 				5A187F322680CF49001957D3 /* OccasionResponse.swift in Sources */,
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
 				78EFC60027027A3100A9BBAA /* ProfileStruct.swift in Sources */,
+				7889064327064F8D0093459C /* ProfileNetworkDetailView.swift in Sources */,
 				5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */,
 				7846B66326E8BC8B00B05984 /* ProgressAnimation.swift in Sources */,
 				5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */,
@@ -1840,6 +1887,7 @@
 				7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */,
 				5A26CD5B26B3599800118D4B /* ChatView.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
+				7889064A270684830093459C /* NetworkDetailCell.swift in Sources */,
 				789FEBEC26DCE61D0018FE91 /* PhotoEditorPresenter.swift in Sources */,
 				789B123326CE8906002FCDDF /* CallListProtocols.swift in Sources */,
 				5A26CD3526B31B4000118D4B /* CardCollectionViewCell.swift in Sources */,
@@ -1857,11 +1905,13 @@
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
 				5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */,
 				5A26CD4226B3363E00118D4B /* TransactionViewModel.swift in Sources */,
+				7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */,
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
 				5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */,
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
 				5A187DD726806F35001957D3 /* Injectable.swift in Sources */,
+				7889064527064F8D0093459C /* ProfileNetworkDetailFlow.swift in Sources */,
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
 				5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */,
@@ -1884,6 +1934,7 @@
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
 				5AEB80FD26DD123E009A1944 /* ImagePickerView.swift in Sources */,
 				5A187F272680CF49001957D3 /* Environment.swift in Sources */,
+				7889064427064F8D0093459C /* ProfileNetworkDetailConfigurator.swift in Sources */,
 				5A67791C26C7A64100212580 /* ChatRoomRow.swift in Sources */,
 				5AF8633526AA994E004A417C /* VerificationPresenter.swift in Sources */,
 				5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */,
@@ -1904,6 +1955,7 @@
 				78BB7E0F26F36B1200F1D500 /* FriendProfileProtocols.swift in Sources */,
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
 				789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */,
+				78890648270684180093459C /* NetworkDetailItem.swift in Sources */,
 				78C3CEDD26EF6BC700CF1885 /* AdditionalMenuViewController.swift in Sources */,
 				5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,

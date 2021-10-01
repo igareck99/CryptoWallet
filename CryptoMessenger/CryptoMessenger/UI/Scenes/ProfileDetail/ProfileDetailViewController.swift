@@ -26,6 +26,12 @@ final class ProfileDetailViewController: BaseViewController {
         addRightBarButtonItem()
         subscribeOnCustomViewActions()
         setupImagePicker()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -62,7 +68,7 @@ final class ProfileDetailViewController: BaseViewController {
             text: R.string.localizable.profileDetailRightButton(),
             [
                 .paragraph(paragraphStyle),
-                .font(.semibold(15)),
+                .font(.bold(15)),
                 .color(.blue())
             ]
         )
@@ -122,6 +128,23 @@ final class ProfileDetailViewController: BaseViewController {
     @objc private func saveAction() {
         customView.saveData()
         self.presenter.handleButtonTap()
+    }
+
+    @objc func keyboardWillShow(notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+
+    }
+
+    @objc func keyboardWillHide(notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0 {
+                self.view.frame.origin.y += keyboardSize.height
+            }
+        }
     }
 }
 
