@@ -7,6 +7,7 @@ protocol UserCredentialsStorage {
     var token: String { get set }
     var userId: String { get set }
     var userPhoneNumber: String { get set }
+    var userPinCode: String { get set }
 }
 
 // MARK: - UserCredentialsStorageService
@@ -27,29 +28,26 @@ final class UserCredentialsStorageService {
 
     var isUserAuthenticated: Bool {
         get { storage.isUserAuthenticated }
-        set {
-            storage.isUserAuthenticated = newValue
-        }
+        set { storage.isUserAuthenticated = newValue }
     }
 
     var token: String {
         get { storage.token }
-        set {
-            storage.token = newValue
-        }
+        set { storage.token = newValue }
     }
 
     var userId: String {
         get { storage.userId }
-        set {
-            storage.userId = newValue
-        }
+        set { storage.userId = newValue }
     }
 
     var userPhoneNumber: String {
         get { storage.userPhoneNumber }
-        set {
-            storage.userPhoneNumber = newValue
-        }
+        set { storage.userPhoneNumber = newValue }
+    }
+
+    var userPinCode: String {
+        get { storage.userPinCode }
+        set { storage.userPinCode = newValue }
     }
 }

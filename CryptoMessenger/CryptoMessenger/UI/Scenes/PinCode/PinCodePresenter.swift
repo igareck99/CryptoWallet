@@ -22,6 +22,7 @@ final class PinCodePresenter {
     }
 
     @Injectable private var userFlows: UserFlowsStorageService
+    @Injectable private var userCredentials: UserCredentialsStorageService
 
     // MARK: - Lifecycle
 
@@ -47,6 +48,15 @@ final class PinCodePresenter {
 // MARK: - PinCodePresenter (PinCodePresentation)
 
 extension PinCodePresenter: PinCodePresentation {
+    func viewDidLoad() {
+        let pinCode = userCredentials.userPinCode.map({ Int(String($0)) }).compactMap({ $0 })
+        view?.setPinCode(pinCode)
+    }
+
+    func setNewPinCode(_ pinCode: String) {
+        userCredentials.userPinCode = pinCode
+    }
+
     func checkLocalAuth() {
         DispatchQueue.main.async { self.state = .result(self.localAuth.getAvailableBiometrics()) }
     }

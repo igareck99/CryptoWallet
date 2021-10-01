@@ -21,6 +21,7 @@ final class PinCodeViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.viewDidLoad()
         setupLocalAuth()
         subscribeOnCustomViewActions()
         presenter.checkLocalAuth()
@@ -42,6 +43,10 @@ final class PinCodeViewController: BaseViewController {
                 return
             }
             self.showLocalAuthAlert()
+        }
+        customView.didSetNewPinCode = { [unowned self] pinCode in
+            presenter.setNewPinCode(pinCode)
+            presenter.handleButtonTap(false)
         }
     }
 
@@ -83,6 +88,10 @@ extension PinCodeViewController: LocalAuthenticationDelegate {
 // MARK: - PinCodeViewController (PinCodeViewInterface)
 
 extension PinCodeViewController: PinCodeViewInterface {
+    func setPinCode(_ pinCode: [Int]) {
+        customView.setPinCode(pinCode)
+    }
+
     func setLocalAuth(_ result: AvailableBiometric?) {
         customView.setLocalAuth(result)
     }
