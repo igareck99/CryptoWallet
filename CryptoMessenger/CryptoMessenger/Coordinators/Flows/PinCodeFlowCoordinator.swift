@@ -9,7 +9,6 @@ protocol PinCodeFlowCoordinatorDelegate: AnyObject {
 // MARK: - PinCodeFlowCoordinatorSceneDelegate
 
 protocol PinCodeFlowCoordinatorSceneDelegate: AnyObject {
-    func handleNextScene(_ scene: PinCodeFlowCoordinator.Scene)
     func switchFlow()
 }
 
@@ -33,7 +32,7 @@ public final class PinCodeFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.pinCode)
+        showPinCodeScene()
     }
 
     // MARK: - Private Methods
@@ -42,29 +41,20 @@ public final class PinCodeFlowCoordinator: Coordinator {
         let viewController = PinCodeConfigurator.configuredViewController(delegate: self)
         setViewWith(viewController)
     }
-
-    // MARK: - Scene
-
-    enum Scene {
-        case pinCode
-    }
 }
 
 // MARK: - PinCodeFlowCoordinator (PinCodeFlowCoordinatorSceneDelegate)
 
 extension PinCodeFlowCoordinator: PinCodeFlowCoordinatorSceneDelegate {
-    func handleNextScene(_ scene: PinCodeFlowCoordinator.Scene) {
-        switch scene {
-        case .pinCode:
-            showPinCodeScene()
-        }
-    }
-
     func switchFlow() {
         delegate?.userApprovedAuthentication(coordinator: self)
     }
 }
 
-// MARK: - PinCodeFlowCoordinator (PinCodeAuthSceneDelegate)
+// MARK: - PinCodeFlowCoordinator (PinCodeSceneDelegate)
 
-extension PinCodeFlowCoordinator: PinCodeAuthSceneDelegate {}
+extension PinCodeFlowCoordinator: PinCodeSceneDelegate {
+    func handleNextScene() {
+        switchFlow()
+    }
+}

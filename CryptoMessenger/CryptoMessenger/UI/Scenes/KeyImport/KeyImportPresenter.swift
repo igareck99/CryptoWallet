@@ -30,7 +30,7 @@ final class KeyImportPresenter {
     private func updateView(_ state: KeyImportFlow.ViewState) {
         switch state {
         case .sending:
-            print("sending..")
+            break
         case .result:
             print("result")
         case .error(let message):

@@ -23,25 +23,18 @@ final class AppCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        userFlows.isOnboardingFlowFinished = true
-        userFlows.isAuthFlowFinished = true
-        userFlows.isLocalAuth = true
         let flow = AppLaunchInstructor.configure(
-            isOnboardingShown: userFlows.isOnboardingFlowFinished,
             isAuthorized: userFlows.isAuthFlowFinished,
             isLocalAuth: userFlows.isLocalAuth
         )
-        print("userFlows.isOnboardingFlowFinished   \(userFlows.isOnboardingFlowFinished)")
-        print("userFlows.isAuthFlowFinished   \(userFlows.isAuthFlowFinished)")
-        print("userFlows.isLocalAuth   \(userFlows.isLocalAuth)")
-        print(flow)
+
         switch flow {
-        case .authentication, .onboarding:
+        case .localAuth:
+            showPinCodeFlow()
+        case .authentication:
             showAuthenticationFlow()
         case .main:
             showMainFlow()
-        case .localauth:
-            showPinCodeFlow()
         }
     }
 
@@ -72,7 +65,11 @@ final class AppCoordinator: Coordinator {
 extension AppCoordinator: AuthFlowCoordinatorDelegate {
     func userPerformedAuthentication(coordinator: Coordinator) {
         removeChildCoordinator(coordinator)
-        showMainFlow()
+        if userFlows.isLocalAuth {
+            showMainFlow()
+        } else {
+            showPinCodeFlow()
+        }
     }
 }
 
@@ -90,6 +87,10 @@ extension AppCoordinator: MainFlowCoordinatorDelegate {
 extension AppCoordinator: PinCodeFlowCoordinatorDelegate {
     func userApprovedAuthentication(coordinator: Coordinator) {
         removeChildCoordinator(coordinator)
-        showPinCodeFlow()
+        if userFlows.isAuthFlowFinished {
+            showMainFlow()
+        } else {
+            showAuthenticationFlow()
+        }
     }
 }

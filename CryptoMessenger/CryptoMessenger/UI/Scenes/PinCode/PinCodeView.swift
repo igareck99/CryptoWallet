@@ -61,15 +61,10 @@ final class PinCodeView: UIView {
 
     // MARK: - Internal Methods
 
-    func setLocalAuth (_ result: AvailableBiometrics? ) {
-        if result != nil {
-            let name = result?.name
-            let image = result?.image
-            if name == "Face ID" || name == "TouchID" {
-                buttons[10].setImage(image, for: .normal)
-                buttons[10].addTarget(self, action: #selector(self.AuthButtonTap), for: .touchUpInside)
-            }
-        }
+    func setLocalAuth (_ result: AvailableBiometric? ) {
+        guard let result = result else { return }
+        buttons[10].setImage(result.image, for: .normal)
+        buttons[10].addTarget(self, action: #selector(authButtonTap), for: .touchUpInside)
     }
 
     func nextPage() {
@@ -80,6 +75,10 @@ final class PinCodeView: UIView {
     }
 
     // MARK: - Actions
+
+    @objc private func authButtonTap() {
+        didTapAuth?()
+    }
 
     @objc private func numberButtonAction(sender: UIButton) {
         if userCode.count < dotesNumber {
@@ -113,10 +112,6 @@ final class PinCodeView: UIView {
         for item in 0..<userCode.count {
             dotes[item].background(.blue())
         }
-    }
-
-    @objc private func AuthButtonTap() {
-        didTapAuth?()
     }
 
     // MARK: - Private Methods

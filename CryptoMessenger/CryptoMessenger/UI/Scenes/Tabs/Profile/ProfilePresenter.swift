@@ -29,7 +29,7 @@ final class ProfilePresenter {
     private func updateView(_ state: ProfileFlow.ViewState) {
         switch state {
         case .sending:
-            print("sending..")
+            break
         case .result:
             print("result")
         case .error(let message):

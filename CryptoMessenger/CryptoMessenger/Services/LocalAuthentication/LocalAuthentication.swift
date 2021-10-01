@@ -2,13 +2,41 @@ import Foundation
 import LocalAuthentication
 import UIKit
 
+// MARK: - LocalAuthenticationDelegate
+
 protocol LocalAuthenticationDelegate: AnyObject {
     func didAuthenticate(_ success: Bool)
 }
 
-// MARK: - Type
+// MARK: - AvailableBiometric
 
-typealias AvailableBiometrics = (name: String, image: UIImage?)
+enum AvailableBiometric {
+
+    // MARK: - Types
+
+    case faceID
+    case touchID
+
+    // MARK: - Internal Properties
+
+    var name: String? {
+        switch self {
+        case .faceID:
+            return "Face ID"
+        case .touchID:
+            return "Touch ID"
+        }
+    }
+
+    var image: UIImage? {
+        switch self {
+        case .faceID:
+            return R.image.pinCode.faceId()
+        case .touchID:
+            return R.image.pinCode.touchId()
+        }
+    }
+}
 
 // MARK: - LocalAuthentication
 
@@ -24,20 +52,22 @@ final class LocalAuthentication {
     private let context = LAContext()
     private let reason = "Authentication is required to continue"
 
+    // MARK: - Lifecycle
+
     init() {
         context.localizedFallbackTitle = "Please use your pin-code"
     }
 
     // MARK: - Internal Methods
 
-    func getAvailableBiometrics() -> AvailableBiometrics? {
+    func getAvailableBiometrics() -> AvailableBiometric? {
         guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) else { return nil }
 
         switch context.biometryType {
         case .faceID:
-            return (name: "Face ID", image: R.image.pinCode.faceId())
+            return .faceID
         case .touchID:
-            return (name: "TouchID", image: R.image.pinCode.touchId())
+            return .faceID
         default:
             return nil
         }

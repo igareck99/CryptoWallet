@@ -10,10 +10,11 @@ final class PinCodePresenter {
     weak var delegate: PinCodeSceneDelegate?
     weak var view: PinCodeViewInterface?
     weak var wallet: WalletViewController?
+    private(set) var localAuth = LocalAuthentication()
+    private(set) var isLocalAuthBackgroundAlertShown = false
 
     // MARK: - Private Properties
 
-    private let localAuth = LocalAuthentication()
     private var state = PinCodeFlow.ViewState.sending {
         didSet {
             updateView(state)
@@ -26,6 +27,7 @@ final class PinCodePresenter {
 
     init(view: PinCodeViewInterface) {
         self.view = view
+        isLocalAuthBackgroundAlertShown = userFlows.isLocalAuthBackgroundAlertShown
     }
 
     // MARK: - Private Methods
@@ -40,13 +42,8 @@ final class PinCodePresenter {
             view?.showAlert(title: nil, message: message)
         }
     }
+}
 
-    private func showProfile() {
-        delay(1) {
-            self.delegate?.handleNextScene(.main)
-        }
-}
-}
 // MARK: - PinCodePresenter (PinCodePresentation)
 
 extension PinCodePresenter: PinCodePresentation {
@@ -54,7 +51,11 @@ extension PinCodePresenter: PinCodePresentation {
         state = .result(localAuth.getAvailableBiometrics())
     }
 
-    func handleButtonTap() {
-        showProfile()
+    func handleButtonTap(_ isBackgroundLocalAuth: Bool) {
+        userFlows.isLocalAuth = true
+        userFlows.isAuthFlowFinished = true
+        userFlows.isLocalAuthBackgroundAlertShown = true
+        userFlows.isLocalAuthInBackground = isBackgroundLocalAuth
+        delay(0.1) { self.delegate?.handleNextScene() }
     }
 }

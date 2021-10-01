@@ -3,23 +3,22 @@ import Foundation
 // MARK: - PinCodeSceneDelegate
 
 protocol PinCodeSceneDelegate: AnyObject {
-    func handleNextScene(_ scene: AuthFlowCoordinator.Scene)
-}
-
-protocol PinCodeAuthSceneDelegate: AnyObject {
-    func handleNextScene(_ scene: PinCodeFlowCoordinator.Scene)
+    func handleNextScene()
 }
 
 // MARK: - PinCodeViewInterface
 
 protocol PinCodeViewInterface: AnyObject {
     func showAlert(title: String?, message: String?)
-    func setLocalAuth(_ result: AvailableBiometrics?)
+    func setLocalAuth(_ result: AvailableBiometric?)
 }
 
 // MARK: - PinCodePresentation
 
 protocol PinCodePresentation: AnyObject {
-    func handleButtonTap()
+    var localAuth: LocalAuthentication { get }
+    var isLocalAuthBackgroundAlertShown: Bool { get }
+
+    func handleButtonTap(_ isLocalAuth: Bool)
     func checkLocalAuth()
 }

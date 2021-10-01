@@ -40,6 +40,8 @@ struct UserDefaultsLayer {
     private static let isAuthFlowFinishedKey = "isAuthFlowFinishedKey"
     private static let isOnboardingFlowFinishedKey = "isOnboardingFlowFinishedKey"
     private static let isLocalAuthKey = "isLocalAuthKey"
+    private static let isLocalAuthBackgroundAlertShownKey = "isLocalAuthBackgroundAlertShownKey"
+    private static let isLocalAuthInBackgroundKey = "isLocalAuthInBackgroundKey"
 
     // MARK: - Internal Properties
 
@@ -63,6 +65,12 @@ struct UserDefaultsLayer {
 
     @UserDefaultSettings(isLocalAuthKey, value: false)
     var isLocalAuth: Bool
+
+    @UserDefaultSettings(isLocalAuthBackgroundAlertShownKey, value: false)
+    var isLocalAuthBackgroundAlertShown: Bool
+
+    @UserDefaultSettings(isLocalAuthInBackgroundKey, value: false)
+    var isLocalAuthInBackground: Bool
 }
 
 // MARK: - UserDefaultsLayer (UserCredentialsStorage)

@@ -12,34 +12,6 @@ final class PinCodeViewController: BaseViewController {
     // MARK: - Private Properties
 
     private lazy var customView = PinCodeView(frame: UIScreen.main.bounds)
-    private var localAuth = LocalAuthentication()
-    @Injectable private var userFlows: UserFlowsStorageService
-
-    private func setupLocalAuth() {
-        localAuth.delegate = self
-    }
-
-    private func subscribeOnCustomViewActions() {
-        customView.didTapAuth = { [unowned self] in
-            self.localAuth.authenticateWithBiometrics()
-        }
-        customView.didAuthSuccess = { [weak self] in
-            let alert = UIAlertController(title: R.string.localizable.pinCodeAlertTitle(),
-                                          message: R.string.localizable.pinCodeAlertMessage(),
-                                          preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: R.string.localizable.pinCodeAlertCancel(),
-                                          style: UIAlertAction.Style.default,
-                                          handler: { _ in
-                                            self?.userFlows.isAuthFlowFinished = false }))
-            alert.addAction(UIAlertAction(title: R.string.localizable.pinCodeAlertYes(),
-                                          style: UIAlertAction.Style.default,
-                                          handler: {(_: UIAlertAction!) in
-                                                    self?.userFlows.isAuthFlowFinished = true
-                    }))
-            self?.present(alert, animated: true)
-            self?.presenter.handleButtonTap()
-        }
-    }
 
     // MARK: - Lifecycle
 
@@ -53,22 +25,65 @@ final class PinCodeViewController: BaseViewController {
         subscribeOnCustomViewActions()
         presenter.checkLocalAuth()
     }
+
+    // MARK: - Private Methods
+
+    private func setupLocalAuth() {
+        presenter.localAuth.delegate = self
+    }
+
+    private func subscribeOnCustomViewActions() {
+        customView.didTapAuth = { [unowned self] in
+            presenter.localAuth.authenticateWithBiometrics()
+        }
+        customView.didAuthSuccess = { [unowned self] in
+            guard !presenter.isLocalAuthBackgroundAlertShown else {
+                presenter.handleButtonTap(false)
+                return
+            }
+            self.showLocalAuthAlert()
+        }
+    }
+
+    private func showLocalAuthAlert() {
+        let alert = UIAlertController(
+            title: R.string.localizable.pinCodeAlertTitle(),
+            message: R.string.localizable.pinCodeAlertMessage(),
+            preferredStyle: .alert
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: R.string.localizable.pinCodeAlertCancel(),
+                style: .default
+            ) { _ in
+                self.presenter.handleButtonTap(false)
+            }
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: R.string.localizable.pinCodeAlertYes(),
+                style: .default
+            ) { _ in
+                self.presenter.handleButtonTap(true)
+            }
+        )
+        present(alert, animated: true)
+    }
 }
 
 // MARK: - PinCodeViewController (LocalAuthenticationDelegate)
 
 extension PinCodeViewController: LocalAuthenticationDelegate {
     func didAuthenticate(_ success: Bool) {
-        if success {
-            customView.nextPage()
-        }
+        guard success else { return }
+        customView.nextPage()
     }
 }
 
 // MARK: - PinCodeViewController (PinCodeViewInterface)
 
 extension PinCodeViewController: PinCodeViewInterface {
-    func setLocalAuth(_ result: AvailableBiometrics?) {
+    func setLocalAuth(_ result: AvailableBiometric?) {
         customView.setLocalAuth(result)
     }
 
