@@ -48,38 +48,50 @@ final class LocalAuthentication {
 
     // MARK: - Private Properties
 
-    private var authError: NSError?
-    private let context = LAContext()
-    private let reason = "Authentication is required to continue"
-
-    // MARK: - Lifecycle
-
-    init() {
-        context.localizedFallbackTitle = "Please use your pin-code"
-        context.touchIDAuthenticationAllowableReuseDuration = 0
-    }
+    private var reason = ""
 
     // MARK: - Internal Methods
 
     func getAvailableBiometrics() -> AvailableBiometric? {
-        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) else { return nil }
+        var error: NSError?
+        let context = LAContext()
+
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else { return nil }
 
         switch context.biometryType {
         case .faceID:
+            reason = "Provide Face ID"
             return .faceID
         case .touchID:
+            reason = "Provide Touch ID"
             return .faceID
         default:
             return nil
         }
     }
 
-    func authenticateWithBiometrics() {
-        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) else { return }
+    func checkIfBioMetricAvailable() -> Bool {
+        var error: NSError?
+        let laContext = LAContext()
 
-        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
-            DispatchQueue.main.async {
-                self.delegate?.didAuthenticate(success)
+        let isBiometricAvailable = laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+        if let error = error {
+            print(error.localizedDescription)
+        }
+
+        return isBiometricAvailable
+    }
+
+    func authenticateWithBiometrics() {
+        let context = LAContext()
+        context.touchIDAuthenticationAllowableReuseDuration = 0
+        context.localizedFallbackTitle = "Please use your pin-code"
+
+        if checkIfBioMetricAvailable() {
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
+                DispatchQueue.main.async {
+                    self.delegate?.didAuthenticate(success)
+                }
             }
         }
     }
