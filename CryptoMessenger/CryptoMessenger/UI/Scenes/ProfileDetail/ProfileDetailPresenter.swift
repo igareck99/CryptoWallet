@@ -14,6 +14,7 @@ final class ProfileDetailPresenter {
             updateView(state)
         }
     }
+    private var selectedCountry = CountryCodePickerViewController.baseCountry
 
     // MARK: - Lifecycle
 
@@ -28,7 +29,9 @@ final class ProfileDetailPresenter {
         case .sending:
             print("sending..")
         case .result:
-            print("result")
+            guard let country = selectedCountry else { return }
+            print("Country    \(country)")
+            view?.setCountryCode(country)
         case .error(let message):
             view?.showAlert(title: nil, message: message)
         }
@@ -44,5 +47,33 @@ final class ProfileDetailPresenter {
 extension ProfileDetailPresenter: ProfileDetailPresentation {
     func handleButtonTap() {
         backAction()
+    }
+
+    func viewDidLoad() {
+        guard let country = selectedCountry else { return }
+        view?.setCountryCode(country)
+    }
+
+    func handleNextScene(_ phone: String) {
+        delay(1.4) {
+            let prefix = self.selectedCountry?.prefix ?? ""
+            print("Some pefix   \(prefix)")
+            self.delegate?.handleNextScene(.profileDetail)
+        }
+    }
+
+    func handleCountryCodeScene() {
+        delegate?.handleNextScene(.countryCode(self))
+        
+    }
+}
+
+// MARK: - ProfileDetailPresenter (CountryCodePickerDelegate)
+
+extension ProfileDetailPresenter: CountryCodePickerDelegate {
+    func countryCodePickerViewControllerDidPickCountry(
+        _ controller: CountryCodePickerViewController, country: CountryCodePickerViewController.Country
+    ) {
+        state = .result
     }
 }

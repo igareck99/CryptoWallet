@@ -108,6 +108,7 @@
 "ProfileDetail.DeleteAlertMessage" = "Ваш профиль и данные, хранящиеся на сервере будут удалены";
 "ProfileDetail.DeleteAlertCancel" = "Отменить";
 "ProfileDetail.DeleteAlertApprove" = "Удалить";
+"ProfileDetail.PhonePlaceholder" = "Введите номер";
 
 "ProfileNetworkDetail.Title" = "Социальные сети";
 "ProfileNetworkDetail.Main" = "ОТОБРАЖАЕМ";

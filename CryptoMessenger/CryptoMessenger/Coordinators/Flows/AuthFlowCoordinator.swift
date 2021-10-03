@@ -32,7 +32,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.profileNetwork)
+        handleNextScene(.profileDetail)
     }
 
     // MARK: - Private Methods

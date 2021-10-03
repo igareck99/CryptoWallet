@@ -27,6 +27,7 @@ final class ProfileNetworkDetailView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        // self.tableView.dragDelegate = self
         background(.white())
         addMainLabel()
         addMessageLabel()
@@ -100,6 +101,7 @@ final class ProfileNetworkDetailView: UIView {
             $0.separatorStyle = .none
             $0.allowsSelection = true
             $0.translatesAutoresizingMaskIntoConstraints = false
+            // self.tableView.dragInteractionEnabled = true
         } layout: {
             $0.leading.trailing.bottom.equalTo($1)
             $0.top.equalTo(self.messageLabel.snp.bottom).offset(8)
@@ -147,6 +149,8 @@ final class ProfileNetworkDetailView: UIView {
         }
     }
 }
+
+// extension ProfileNetworkDetailView: UITableViewDragDelegate {}
 
 var tableNetworkList: [NetworkDetailItem] = [
     NetworkDetailItem(text: "twitter.com/arestov_lv",

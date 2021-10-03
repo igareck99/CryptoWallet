@@ -26,17 +26,21 @@ final class ProfileDetailViewController: BaseViewController {
         addRightBarButtonItem()
         subscribeOnCustomViewActions()
         setupImagePicker()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showNavigationBar()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        customView.subscribeOnKeyboardNotifications()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        customView.unsubscribeKeyboardNotifications()
     }
 
     // MARK: - Private Methods
@@ -120,6 +124,9 @@ final class ProfileDetailViewController: BaseViewController {
         customView.didTapAddPhoto = { [unowned self] in
             self.imagePicker.open()
         }
+        customView.didTapCountryScene = { [unowned self] in
+            self.presenter.handleCountryCodeScene()
+        }
     }
     @objc private func backAction() {
         self.presenter.handleButtonTap()
@@ -130,22 +137,6 @@ final class ProfileDetailViewController: BaseViewController {
         self.presenter.handleButtonTap()
     }
 
-    @objc func keyboardWillShow(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
-
-    }
-
-    @objc func keyboardWillHide(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0 {
-                self.view.frame.origin.y += keyboardSize.height
-            }
-        }
-    }
 }
 
 // MARK: - ProfileDetailViewController (ImagePickerDelegate)
@@ -164,6 +155,10 @@ extension ProfileDetailViewController: ImagePickerDelegate {
 // MARK: - ProfileDetailViewInterface
 
 extension ProfileDetailViewController: ProfileDetailViewInterface {
+    func setCountryCode(_ country: CountryCodePickerViewController.Country) {
+        customView.setCountryCode(country)
+    }
+    
     func showAlert(title: String?, message: String?) {
         presentAlert(title: title, message: message)
     }

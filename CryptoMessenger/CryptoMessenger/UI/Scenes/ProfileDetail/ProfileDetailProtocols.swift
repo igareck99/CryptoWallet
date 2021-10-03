@@ -10,10 +10,13 @@ protocol ProfileDetailSceneDelegate: AnyObject {
 
 protocol ProfileDetailViewInterface: AnyObject {
     func showAlert(title: String?, message: String?)
+    func setCountryCode(_ country: CountryCodePickerViewController.Country)
 }
 
 // MARK: - ProfileDetailPresentation
 
 protocol ProfileDetailPresentation: AnyObject {
+    func viewDidLoad()
     func handleButtonTap()
+    func handleCountryCodeScene()
 }
