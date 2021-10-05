@@ -12,7 +12,6 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
     }
 
     override func loadView() {
-        print("loadView")
         webView = WKWebView()
         webView.navigationDelegate = self
         view = webView
@@ -20,9 +19,7 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("viewDidLoad")
         let url = URL(string: self.url)!
-        print("dff d df dfd \(url)")
         webView.load(URLRequest(url: url))
     }
 
