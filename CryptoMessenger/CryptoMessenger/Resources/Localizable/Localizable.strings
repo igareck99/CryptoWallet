@@ -91,4 +91,9 @@
 "FriendProfile.Write" = "Написать";
 "FriendProfile.Call" = "Позвонить";
 
-
+"AboutApp.Title" = "О приложении";
+"AboutApp.AppName" = "AURA Wallet Messenger";
+"AboutApp.Version" = "Версия 1.10.201";
+"AboutApp.License" = "Лицензии";
+"AboutApp.TermsAndPolitics" = "Условия и Политика\nконфиденциальности";
+"AboutApp.AuraAppInc" = "C 2020 AuraApp Inc.";

@@ -32,7 +32,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.registration)
+        handleNextScene(.aboutApp)
     }
 
     // MARK: - Private Methods
@@ -89,6 +89,11 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
+    private func showAboutAppScene() {
+        let viewController = AboutAppConfigurator.configuredViewController(delegate: self)
+        setViewWith(viewController)
+    }
+
     // MARK: - Scene
 
     enum Scene {
@@ -103,6 +108,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case pinCode
         case photoEditor
         case friendProfile
+        case aboutApp
     }
 }
 
@@ -133,6 +139,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showPhotoEditorScene(images: [])
         case .friendProfile:
             showFrienProfileScene()
+        case .aboutApp:
+            showAboutAppScene()
         }
     }
 
@@ -184,3 +192,7 @@ extension AuthFlowCoordinator: FriendProfileSceneDelegate {}
 // MARK: - AuthFlowCoordinator (PinCodeSceneDelegate)
 
 extension AuthFlowCoordinator: PinCodeSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (AboutAppSceneDelegate)
+
+extension AuthFlowCoordinator: AboutAppSceneDelegate {}
