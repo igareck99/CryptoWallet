@@ -8,6 +8,7 @@ final class ProfileView: UIView {
 
     var didTapAddPhoto: VoidBlock?
     var didTapShowPhoto: VoidBlock?
+    var didTapBuyCell: VoidBlock?
 
     // MARK: - Private Properties
     private lazy var view = ProfileView(frame: UIScreen.main.bounds)
@@ -21,6 +22,7 @@ final class ProfileView: UIView {
     private lazy var infoLabel = UILabel()
     private lazy var urlButton = UIButton()
     private lazy var addPhotoButton = UIButton()
+    private lazy var buyButton = UIButton()
     private let spacing: CGFloat = 1
 
     private lazy var photoCollectionView: UICollectionView = {
@@ -51,6 +53,7 @@ final class ProfileView: UIView {
         addUrlButton()
         addAddPhotoButton()
         addPhotoCollectionView()
+        addBuyButton()
     }
 
     @available(*, unavailable)
@@ -74,6 +77,10 @@ final class ProfileView: UIView {
 
     @objc private func addPhotoButtonTap() {
         didTapAddPhoto?()
+    }
+
+    @objc private func BuyButtonTap() {
+        didTapBuyCell?()
     }
 
     // MARK: - Private Methods
@@ -255,9 +262,31 @@ final class ProfileView: UIView {
             $0.top.equalTo(self.addPhotoButton.snp.bottom).offset(24)
             $0.leading.equalTo($1)
             $0.trailing.equalTo($1)
-            $0.bottom.equalTo($1)
+            $0.bottom.equalTo($1).offset(-200)
         }
         photoCollectionView.reloadData()
+    }
+
+    private func addBuyButton() {
+        buyButton.snap(parent: self) {
+            $0.background(.clear)
+            $0.layer.borderWidth(1)
+            $0.layer.borderColor(.blue())
+            $0.titleAttributes(
+                text: R.string.localizable.profileBuyCell(),
+                [
+                    .font(.medium(15)),
+                    .color(.blue())
+                ]
+            )
+            $0.clipCorners(radius: 8)
+            $0.addTarget(self, action: #selector(self.BuyButtonTap), for: .touchUpInside)
+        } layout: {
+            $0.height.equalTo(44)
+            $0.top.equalTo(self.photoCollectionView.snp.bottom).offset(25)
+            $0.leading.equalTo($1).offset(16)
+            $0.trailing.equalTo($1).offset(-16)
+        }
     }
 }
 
