@@ -10,6 +10,7 @@ final class TableViewProvider: NSObject, TableViewProviderType {
     var onViewForHeaderInSection: ((Int) -> UIView?)?
     var onSelectCell: ((IndexPath) -> Void)?
     var onSlideCell: ((IndexPath) -> UISwipeActionsConfiguration?)?
+    var onMoveCell : ((IndexPath, IndexPath) -> Void)?
 
     // MARK: - Private Properties
 
@@ -100,6 +101,21 @@ extension TableViewProvider: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(viewModel.heightForRow(atIndex: indexPath.row))
+    }
+
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        if sourceIndexPath.section == tableNetworkList.count - 1 {
+            print("return")
+            return
+        } else {
+            tableNetworkList.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+
+            // tableView.reloadData()
+        }
     }
 }
 

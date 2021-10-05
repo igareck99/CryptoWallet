@@ -101,7 +101,8 @@ final class ProfileNetworkDetailView: UIView {
             $0.separatorStyle = .none
             $0.allowsSelection = true
             $0.translatesAutoresizingMaskIntoConstraints = false
-            // self.tableView.dragInteractionEnabled = true
+            $0.isScrollEnabled = false
+            $0.setEditing(true, animated: true)
         } layout: {
             $0.leading.trailing.bottom.equalTo($1)
             $0.top.equalTo(self.messageLabel.snp.bottom).offset(8)
@@ -150,7 +151,19 @@ final class ProfileNetworkDetailView: UIView {
     }
 }
 
-// extension ProfileNetworkDetailView: UITableViewDragDelegate {}
+extension ProfileNetworkDetailView {
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        print("Method is called")
+        print(sourceIndexPath)
+        if sourceIndexPath.row == tableNetworkList.count - 1 {
+            return
+        }
+        tableNetworkList.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+        print(tableModel.items)
+        tableModel = .init(tableNetworkList)
+        tableView.reloadData()
+    }
+}
 
 var tableNetworkList: [NetworkDetailItem] = [
     NetworkDetailItem(text: "twitter.com/arestov_lv",

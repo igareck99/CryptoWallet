@@ -210,6 +210,10 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
+		78437EFD270B5EE900371110 /* MainTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437EFC270B5EE900371110 /* MainTableViewModel.swift */; };
+		78437EFF270B5FC300371110 /* MainTableItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437EFE270B5FC300371110 /* MainTableItems.swift */; };
+		78437F01270B65C900371110 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F00270B65C900371110 /* MainTableViewCell.swift */; };
+		78437F03270B769C00371110 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F02270B769C00371110 /* HeaderView.swift */; };
 		7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65126E8BB6200B05984 /* PhotosDataSource.swift */; };
 		7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */; };
 		7846B65C26E8BBFD00B05984 /* TimingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */; };
@@ -489,6 +493,10 @@
 		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
+		78437EFC270B5EE900371110 /* MainTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewModel.swift; sourceTree = "<group>"; };
+		78437EFE270B5FC300371110 /* MainTableItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableItems.swift; sourceTree = "<group>"; };
+		78437F00270B65C900371110 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		78437F02270B769C00371110 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		7846B65126E8BB6200B05984 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollSynchronizer.swift; sourceTree = "<group>"; };
 		7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimingFunctions.swift; sourceTree = "<group>"; };
@@ -1332,6 +1340,17 @@
 			path = KeyImport;
 			sourceTree = "<group>";
 		};
+		78437EFB270B5ED200371110 /* MainTableView */ = {
+			isa = PBXGroup;
+			children = (
+				78437EFC270B5EE900371110 /* MainTableViewModel.swift */,
+				78437EFE270B5FC300371110 /* MainTableItems.swift */,
+				78437F00270B65C900371110 /* MainTableViewCell.swift */,
+				78437F02270B769C00371110 /* HeaderView.swift */,
+			);
+			path = MainTableView;
+			sourceTree = "<group>";
+		};
 		7846B65026E8BB4000B05984 /* PhotoPreview */ = {
 			isa = PBXGroup;
 			children = (
@@ -1544,6 +1563,7 @@
 			isa = PBXGroup;
 			children = (
 				7889063927064F710093459C /* ProfileNetworkDetail */,
+				78437EFB270B5ED200371110 /* MainTableView */,
 				787AAEE32703CA1F00D734D3 /* TableView */,
 				78EFC5F327021E8700A9BBAA /* ProfileDetailPresenter.swift */,
 				78EFC5F427021E8700A9BBAA /* ProfileDetailViewController.swift */,
@@ -1771,6 +1791,7 @@
 				5A26CD3926B31FBA00118D4B /* UICollectionView+Extensions.swift in Sources */,
 				5A187F2A2680CF49001957D3 /* URLResponseCapable.swift in Sources */,
 				5A9318BB26BD210400645365 /* PinCodeFlow.swift in Sources */,
+				78437EFF270B5FC300371110 /* MainTableItems.swift in Sources */,
 				5A187E972680708D001957D3 /* ActivityViewDisplayable.swift in Sources */,
 				5A187EB7268070B3001957D3 /* UIView+Extensions.swift in Sources */,
 				5A187DF126807011001957D3 /* AuthFlowCoordinator.swift in Sources */,
@@ -1808,6 +1829,7 @@
 				7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */,
 				7846B66526E8BCB200B05984 /* DeleteAnimation.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
+				78437F01270B65C900371110 /* MainTableViewCell.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
 				78EFC5FD27021E8700A9BBAA /* ProfileDetailConfigurator.swift in Sources */,
 				5A26CD6326B35EB700118D4B /* ChatTableViewCell.swift in Sources */,
@@ -1854,6 +1876,7 @@
 				5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */,
 				5AF8633926AA994E004A417C /* VerificationConfigurator.swift in Sources */,
 				5A26CD1F26B2EECA00118D4B /* WalletView.swift in Sources */,
+				78437EFD270B5EE900371110 /* MainTableViewModel.swift in Sources */,
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
 				5A4267FE26A83494000C51DD /* R.generated.swift in Sources */,
@@ -1957,6 +1980,7 @@
 				789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */,
 				78890648270684180093459C /* NetworkDetailItem.swift in Sources */,
 				78C3CEDD26EF6BC700CF1885 /* AdditionalMenuViewController.swift in Sources */,
+				78437F03270B769C00371110 /* HeaderView.swift in Sources */,
 				5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
 				5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */,
