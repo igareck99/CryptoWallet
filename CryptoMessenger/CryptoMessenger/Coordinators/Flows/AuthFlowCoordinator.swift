@@ -32,7 +32,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.registration)
+        handleNextScene(.pinCode)
     }
 
     // MARK: - Private Methods
@@ -75,8 +75,10 @@ public final class AuthFlowCoordinator: Coordinator {
         }
 
     private func showPinCodeScene() {
-        let viewController = PinCodeConfigurator.configuredViewController(delegate: self)
-        setViewWith(viewController)
+        let vc = QuestionViewController()
+        setViewWith(vc)
+        //let viewController = PinCodeConfigurator.configuredViewController(delegate: self)
+        //setViewWith(viewController)
     }
 
     private func showPhotoEditorScene(images: [UIImage]) {

@@ -92,3 +92,10 @@
 "FriendProfile.Call" = "Позвонить";
 
 
+"AnswersQuestion.Title" = "Вопросы о Aura";
+"AnswersQuestion.Upload" = "Загрузка и установка AURA";
+"AnswersQuestion.Approve" = "Подтверждение";
+"AnswersQuestion.Status" = "Статус и заметки";
+"AnswersQuestion.Chats" = "Чаты";
+"AnswersQuestion.Contacts" = "Контакты";
+"AnswersQuestion.AudioVideo" = "Аудио и видеозвонки";
