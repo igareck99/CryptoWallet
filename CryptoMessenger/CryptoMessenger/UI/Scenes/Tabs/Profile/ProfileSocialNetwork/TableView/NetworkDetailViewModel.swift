@@ -24,8 +24,8 @@ struct NetworkDetailViewModel {
 
         // MARK: - Static Properties
 
-        static let heightForHeader = Float(54)
-        static let rowHeight = Float(44)
+        static let heightForHeader = CGFloat(54)
+        static let rowHeight = CGFloat(44)
         static let numberRows = 1
     }
 }
@@ -33,7 +33,7 @@ struct NetworkDetailViewModel {
 // MARK: - NetworkDetailViewModel (TableViewProviderViewModel)
 
 extension NetworkDetailViewModel: TableViewProviderViewModel {
-    func heightForHeader(atIndex index: Int) -> Float {
+    func heightForHeader(atIndex index: Int) -> CGFloat {
         let separator_index = tableNetworkList.firstIndex(where: { $0.type == 1 })
         return index == separator_index ? Constants.heightForHeader : 0
     }
@@ -46,7 +46,7 @@ extension NetworkDetailViewModel: TableViewProviderViewModel {
         Constants.numberRows
     }
 
-    func heightForRow(atIndex index: Int) -> Float {
+    func heightForRow(indexPath: IndexPath) -> CGFloat {
         Constants.rowHeight
     }
 }

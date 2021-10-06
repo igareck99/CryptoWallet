@@ -1,10 +1,10 @@
 import UIKit
 
-// MARK: TableViewProviderViewModel
+// MARK: - TableViewProviderViewModel
 
 protocol TableViewProviderViewModel {
     func numberOfTableSections() -> Int
     func numberOfTableRowsInSection(_ section: Int) -> Int
-    func heightForRow(atIndex index: Int) -> Float
-    func heightForHeader(atIndex index: Int) -> Float
+    func heightForRow(indexPath: IndexPath) -> CGFloat
+    func heightForHeader(atIndex index: Int) -> CGFloat
 }

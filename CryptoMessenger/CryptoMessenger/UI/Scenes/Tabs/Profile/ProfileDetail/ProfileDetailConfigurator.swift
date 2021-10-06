@@ -4,9 +4,6 @@ import Foundation
 
 enum ProfileDetailConfigurator {
     static func configuredViewController(delegate: ProfileDetailSceneDelegate?) -> ProfileDetailViewController {
-
-        // MARK: - Internal Methods
-
         let viewController = ProfileDetailViewController()
         let presenter = ProfileDetailPresenter(view: viewController)
         presenter.delegate = delegate

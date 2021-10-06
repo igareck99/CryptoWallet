@@ -9,6 +9,8 @@ final class ProfileDetailPresenter {
     weak var delegate: ProfileDetailSceneDelegate?
     weak var view: ProfileDetailViewInterface?
 
+    // MARK: - Private Properties
+
     private var state = ProfileDetailFlow.ViewState.sending {
         didSet {
             updateView(state)
@@ -27,10 +29,9 @@ final class ProfileDetailPresenter {
     func updateView(_ state: ProfileDetailFlow.ViewState) {
         switch state {
         case .sending:
-            print("sending..")
+            break
         case .result:
             guard let country = selectedCountry else { return }
-            print("Country    \(country)")
             view?.setCountryCode(country)
         case .error(let message):
             view?.showAlert(title: nil, message: message)
@@ -38,7 +39,7 @@ final class ProfileDetailPresenter {
     }
 
     func backAction() {
-        self.delegate?.handleNextScene(.main)
+        delegate?.handleNextScene(.main)
     }
 }
 

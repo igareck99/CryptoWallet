@@ -1,12 +1,12 @@
 import UIKit
 
-// MARK: - ProfileDetailViewModel
+// MARK: - MenuListViewModel
 
-struct ProfileDetailViewModel {
+struct MenuListViewModel {
 
     // MARK: - Type
 
-    typealias ItemType = ProfileDetailItem
+    typealias ItemType = MenuItem
 
     // MARK: - Internal Properties
 
@@ -24,17 +24,17 @@ struct ProfileDetailViewModel {
 
         // MARK: - Static Properties
 
-        static let heightForHeader = Float(32)
-        static let rowHeight = Float(64)
+        static let heightForHeader = CGFloat(32)
+        static let rowHeight = CGFloat(64)
         static let numberRows = 1
     }
 }
 
 // MARK: - MenuListViewModel (TableViewProviderViewModel)
 
-extension ProfileDetailViewModel: TableViewProviderViewModel {
-    func heightForHeader(atIndex index: Int) -> Float {
-        index == 3 ? Constants.heightForHeader : 0
+extension MenuListViewModel: TableViewProviderViewModel {
+    func heightForHeader(atIndex index: Int) -> CGFloat {
+        index == 7 ? Constants.heightForHeader : 0
     }
 
     func numberOfTableSections() -> Int {
@@ -45,7 +45,7 @@ extension ProfileDetailViewModel: TableViewProviderViewModel {
         Constants.numberRows
     }
 
-    func heightForRow(atIndex index: Int) -> Float {
+    func heightForRow(indexPath: IndexPath) -> CGFloat {
         Constants.rowHeight
     }
 }

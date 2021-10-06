@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: ProfileDetailViewController
+// MARK: - ProfileDetailViewController
 
 final class ProfileDetailViewController: BaseViewController {
 
@@ -35,12 +35,10 @@ final class ProfileDetailViewController: BaseViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        customView.subscribeOnKeyboardNotifications()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        customView.unsubscribeKeyboardNotifications()
     }
 
     // MARK: - Private Methods
@@ -50,7 +48,7 @@ final class ProfileDetailViewController: BaseViewController {
     }
 
     private func addTitleBarButtonItem() {
-        navigationItem.title = R.string.localizable.profileDetailTitle()
+        title = R.string.localizable.profileDetailTitle()
     }
 
     private func addLeftBarButtonItem() {
@@ -133,7 +131,6 @@ final class ProfileDetailViewController: BaseViewController {
     }
 
     @objc private func saveAction() {
-        customView.saveData()
         self.presenter.handleButtonTap()
     }
 
@@ -145,7 +142,7 @@ extension ProfileDetailViewController: ImagePickerDelegate {
     func didFinish(with result: ImagePicker.PickerResult) {
         switch result {
         case let .success(image):
-            customView.addImage(image)
+            break
         default:
             break
         }
@@ -156,9 +153,9 @@ extension ProfileDetailViewController: ImagePickerDelegate {
 
 extension ProfileDetailViewController: ProfileDetailViewInterface {
     func setCountryCode(_ country: CountryCodePickerViewController.Country) {
-        customView.setCountryCode(country)
+
     }
-    
+
     func showAlert(title: String?, message: String?) {
         presentAlert(title: title, message: message)
     }
