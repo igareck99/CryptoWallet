@@ -99,3 +99,6 @@
 "AnswersQuestion.Chats" = "Чаты";
 "AnswersQuestion.Contacts" = "Контакты";
 "AnswersQuestion.AudioVideo" = "Аудио и видеозвонки";
+"AnswersQuestion.StatusFirst" = "Как поделиться Aura аккаунтом в других приложениях";
+"AnswersQuestion.StatusSecond" = "О конфиденциальности статусов";
+"AnswersQuestion.StatusThird" = "Как пользоваться функцией “Заметкой";

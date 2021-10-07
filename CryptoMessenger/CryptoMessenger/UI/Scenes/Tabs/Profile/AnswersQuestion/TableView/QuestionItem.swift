@@ -8,4 +8,5 @@ struct QuestionItem {
 
     var text: String
     var type: Int
+    var array: [QuestionItem]
 }

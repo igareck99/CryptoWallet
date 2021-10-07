@@ -52,18 +52,45 @@ final class QuestionView: UIView {
             guard let provider = self.tableProvider else { return .init() }
             let cell: QuestionCell = provider.dequeueReusableCell(for: indexPath)
             let item = tableModel.items[indexPath.section]
+            cell.background(.white())
+            if item.type == 1 || item.type == 2 {
+                cell.background(.lightBlue())
+            }
             cell.configure(item)
             return cell
+        }
+        tableProvider?.onSelectCell = { [unowned self] indexPath in
+            if tableModel.items[indexPath.section].type == 0 {
+                questionList[indexPath.section].type = 1
+                if tableModel.items[indexPath.section].array.isEmpty != true {
+                    for x in tableModel.items[indexPath.section].array {
+                        var index = 1
+                        questionList.insert(x, at: indexPath.section + index)
+                        index += 1
+                    }
+                }
+                tableModel = .init(questionList)
+                setupTableProvider()
+            } else if tableModel.items[indexPath.section].type == 1 {
+                questionList[indexPath.section].type = 0
+                questionList = questionList.filter { $0.type != 2 }
+                tableModel = .init(questionList)
+                setupTableProvider()
+            }
         }
     }
 
 }
 
 var questionList: [QuestionItem] = [
-    QuestionItem(text: R.string.localizable.answersQuestionUpload(), type: 0),
-    QuestionItem(text: R.string.localizable.answersQuestionApprove(), type: 0),
-    QuestionItem(text: R.string.localizable.answersQuestionStatus(), type: 0),
-    QuestionItem(text: R.string.localizable.answersQuestionChats(), type: 0),
-    QuestionItem(text: R.string.localizable.answersQuestionContacts(), type: 0),
-    QuestionItem(text: R.string.localizable.answersQuestionAudioVideo(), type: 0)
+    QuestionItem(text: R.string.localizable.answersQuestionUpload(), type: 0, array: []),
+    QuestionItem(text: R.string.localizable.answersQuestionApprove(), type: 0, array: []),
+    QuestionItem(text: R.string.localizable.answersQuestionStatus(), type: 0, array: [
+                    QuestionItem(text: R.string.localizable.answersQuestionStatusFirst(),
+                                 type: 2, array: []),
+                    QuestionItem(text: R.string.localizable.answersQuestionStatusSecond(),
+                                 type: 2, array: [] )]),
+    QuestionItem(text: R.string.localizable.answersQuestionChats(), type: 0, array: []),
+    QuestionItem(text: R.string.localizable.answersQuestionContacts(), type: 0, array: []),
+    QuestionItem(text: R.string.localizable.answersQuestionAudioVideo(), type: 0, array: [])
 ]

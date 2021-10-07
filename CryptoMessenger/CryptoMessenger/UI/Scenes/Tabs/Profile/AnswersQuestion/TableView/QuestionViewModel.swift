@@ -10,7 +10,7 @@ struct QuestionViewModel {
 
     // MARK: - Internal Properties
 
-    let items: [ItemType]
+    var items: [ItemType]
 
     // MARK: - Lifecycle
 
@@ -42,7 +42,7 @@ extension QuestionViewModel: TableViewProviderViewModel {
     }
 
     func numberOfTableRowsInSection(_ section: Int) -> Int {
-        Constants.numberRows
+        return Constants.numberRows
     }
 
     func heightForRow(atIndex index: Int) -> Float {

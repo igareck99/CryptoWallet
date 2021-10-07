@@ -29,9 +29,15 @@ final class QuestionCell: UITableViewCell {
         questionLabel.text = profile.text
         if profile.type == 0 {
             openButton.setImage(R.image.answersQuestion.downArrow(), for: .normal)
-        } else {
+        } else if profile.type == 1 {
             openButton.setImage(R.image.answersQuestion.upArrow(), for: .normal)
+        } else if profile.type == 2 {
+            openButton.isHidden = true
         }
+    }
+
+    func configureAdditionalCell(_ text: String) {
+        questionLabel.text = text
     }
 
     // MARK: - Private Methods
