@@ -74,9 +74,20 @@ final class ProfileDetailView: UIView {
         tableProvider?.registerCells([ProfileDetailCell.self])
         tableProvider?.onConfigureCell = { [unowned self] indexPath in
             guard let provider = tableProvider else { return .init() }
-            let cell: ProfileDetailCell = provider.dequeueReusableCell(for: indexPath)
-            cell.delegate = self
-            return cell
+
+            let type = ProfileDetailViewModel.SectionType.allCases[indexPath.section]
+            switch type {
+            case .status, .description, .name:
+                let cell: ProfileDetailCell = provider.dequeueReusableCell(for: indexPath)
+                cell.delegate = self
+                return cell
+            case .countryCode, .phoneNumber:
+                // тут своя ячейка
+                return .init()
+            case .socialNetwork, .exit, .removeAccount:
+                // тут своя ячейка
+                return .init()
+            }
         }
         tableProvider?.onViewForHeaderInSection = {
             viewModel.headerView(atIndex: $0)
