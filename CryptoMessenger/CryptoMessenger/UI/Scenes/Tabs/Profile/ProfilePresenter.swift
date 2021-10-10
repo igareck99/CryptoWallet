@@ -29,9 +29,9 @@ final class ProfilePresenter {
     private func updateView(_ state: ProfileFlow.ViewState) {
         switch state {
         case .sending:
-            print("sending..")
         case let .result(photos):
             view?.setPhotos(photos)
+            break
         case .error(let message):
             view?.showAlert(title: nil, message: message)
         }

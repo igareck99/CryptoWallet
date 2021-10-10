@@ -7,38 +7,55 @@ final class PinCodeView: UIView {
 
     // MARK: - ButtonType
 
-    enum ButtonType {
+    enum ButtonType: Hashable {
+
+        // MARK: - Types
+
         case number(Int)
         case faceId
         case delete
     }
 
+    // MARK: - PinButton
+
+    final class PinButton: UIButton {
+
+        // MARK: - Internal Properties
+
+        var type: PinCodeView.ButtonType = .delete
+    }
+
     // MARK: - Internal Properties
 
     var didTapAuth: VoidBlock?
+    var didAuthSuccess: VoidBlock?
+    var didSetNewPinCode: StringBlock?
 
     // MARK: - Private Properties
 
     private lazy var auraImage = UIImageView()
     private lazy var passwordLabel = UILabel()
     private lazy var enterButton = UIButton()
-    private lazy var firstStackView = UIStackView(arrangedSubviews: [buttons[1], buttons[2], buttons[3]])
-    private lazy var twoStackView = UIStackView(arrangedSubviews: [buttons[4], buttons[5], buttons[6]])
-    private lazy var thirdStackView = UIStackView(arrangedSubviews: [buttons[7], buttons[8], buttons[9]])
-    private lazy var fourStackView = UIStackView(arrangedSubviews: [buttons[10], buttons[0], buttons[11]])
-    private lazy var dotes: [UIImageView] = []
+    private lazy var dotes: [UIView] = []
     private lazy var dotesStackView = UIStackView()
+    private lazy var firstStackView = UIStackView()
+    private lazy var secondStackView = UIStackView()
+    private lazy var thirdStackView = UIStackView()
+    private lazy var fourthStackView = UIStackView()
     private lazy var unionStackView = UIStackView(arrangedSubviews: [
         createStackView(stackView: firstStackView),
-        createStackView(stackView: twoStackView),
+        createStackView(stackView: secondStackView),
         createStackView(stackView: thirdStackView),
-        createStackView(stackView: fourStackView)
+        createStackView(stackView: fourthStackView)
     ])
-    private var buttonTypes: [ButtonType] = []
-    private var buttons: [UIButton] = []
+    private var buttons: [PinButton] = []
     private var userCode: [Int] = []
-    private var rightCode: [Int] = [1, 2, 3, 4, 5]
-    private let dotesNumber = 5
+    private var rightCode: [Int] = []
+    private let maxDotesCount = 5
+    private var isNewPassword = true
+    private var isFirstStep = true
+    private var isPasswordNotMatched = false
+    private var isPasswordSuccess = false
 
     // MARK: - Lifecycle
 
@@ -60,76 +77,159 @@ final class PinCodeView: UIView {
 
     // MARK: - Internal Methods
 
-    func setLocalAuth (_ result: AvailableBiometrics? ) {
-        if result != nil {
-            let name = result?.name
-            let image = result?.image
-            if name == "Face ID" || name == "TouchID" {
-                buttons[10].setImage(image, for: .normal)
-                buttons[10].addTarget(self, action: #selector(self.AuthButtonTap), for: .touchUpInside)
-            }
-        }
+    func setLocalAuth(_ result: AvailableBiometric?) {
+        guard let result = result, let button = buttons.first(where: { $0.type == .faceId }) else { return }
+        button.isEnabled = true
+        button.setImage(result.image, for: .normal)
+    }
+
+    func setPinCode(_ pinCode: [Int]) {
+        rightCode = pinCode
+        isNewPassword = pinCode.isEmpty
+        stylePasswordTitle()
     }
 
     func nextPage() {
-        for item in 0..<dotesNumber {
-            dotes[item].background(.blue())
-        }
+        styleDotes()
+        didAuthSuccess?()
     }
 
     // MARK: - Actions
 
-    @objc private func numberButtonAction(sender: UIButton) {
-        if userCode.count < dotesNumber {
-            guard let index = buttons.firstIndex(of: sender) else { return }
-            userCode.append(index)
+    @objc private func authButtonTap() {
+        didTapAuth?()
+    }
+
+    @objc private func numberButtonAction(sender: PinButton) {
+        guard case let .number(number) = sender.type else { return }
+
+        vibrate()
+
+        if userCode.count < maxDotesCount {
+            userCode.append(number)
             for item in 0..<userCode.count {
                 dotes[item].background(.blue())
             }
         }
-        if userCode.count == dotesNumber {
-            for x in 0..<userCode.count where userCode[x] != rightCode[x] {
-                for item in 0..<userCode.count {
-                    dotes[item].background(.red())
-                    vibrate()
+
+        if userCode.count == maxDotesCount {
+            if isNewPassword {
+                processNewPassword()
+                return
+            }
+
+            if userCode != rightCode {
+                dotes.forEach { $0.background(.red()) }
+                delay(0.1) {
+                    self.dotesStackView.shake(duration: 0.4)
+                    vibrate(.heavy)
                 }
+            } else {
+                self.nextPage()
             }
         }
     }
 
     @objc private func deleteButtonAction(sender: UIButton) {
-        if !userCode.isEmpty {
-            userCode.removeLast()
-        }
-        for item in dotes {
-            item.background(.lightBlue())
-        }
-        for item in 0..<userCode.count {
-            dotes[item].background(.blue())
-        }
-    }
-
-    @objc private func AuthButtonTap() {
-        didTapAuth?()
+        if !userCode.isEmpty { userCode.removeLast() }
+        isPasswordNotMatched = false
+        isPasswordSuccess = false
+        stylePasswordTitle()
+        styleDotes()
     }
 
     // MARK: - Private Methods
 
-    private func createButtons() {
-        buttons.append(createButton(.number(0)))
-        (1...9).forEach { number in
-            buttons.append(createButton(.number(number)))
+    private func stylePasswordTitle() {
+        var title = ""
+        if !isNewPassword {
+            title = R.string.localizable.pinCodeEnterPassword()
+        } else {
+            if isFirstStep {
+                title = R.string.localizable.pinCodeNewPassword()
+            } else {
+                title = R.string.localizable.pinCodeRepeatPassword()
+            }
+            if isPasswordNotMatched {
+                title = R.string.localizable.pinCodeNotMatchPassword()
+            }
+            if isPasswordSuccess {
+                title = R.string.localizable.pinCodeSuccessPassword()
+            }
         }
-        buttons.append(createButton(.faceId))
-        buttons.append(createButton(.delete))
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.15
+        paragraphStyle.alignment = .center
+        passwordLabel.titleAttributes(
+            text: title,
+            [
+                .paragraph(paragraphStyle),
+                .font(.medium(21)),
+                .color(.black())
+            ]
+        )
     }
 
-    private func createButton(_ type: ButtonType) -> UIButton {
-        buttonTypes.append(type)
+    private func processNewPassword() {
+        if !isFirstStep {
+            if rightCode == userCode {
+                isPasswordNotMatched = false
+                isPasswordSuccess = true
+                stylePasswordTitle()
+                styleDotes()
+                didSetNewPinCode?(rightCode.reduce("", { result, number in
+                    result + number.description
+                }))
+            } else {
+                isPasswordNotMatched = true
+                isPasswordSuccess = false
+                stylePasswordTitle()
+                dotes.forEach { $0.background(.red()) }
+                delay(0.1) {
+                    self.dotesStackView.shake(duration: 0.4)
+                    vibrate(.heavy)
+                }
+            }
+            return
+        }
+
+        rightCode = userCode
+
+        UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve) {
+            self.dotesStackView.alpha = 0
+        } completion: { _ in
+            UIView.animate(withDuration: 0.1, delay: 0.05, options: .transitionCrossDissolve) {
+                self.dotesStackView.alpha = 1
+            } completion: { _ in
+                self.isFirstStep = false
+                self.userCode = []
+                self.styleDotes()
+                self.stylePasswordTitle()
+            }
+        }
+    }
+
+    private func createButtons() {
+        let firstButtons = (1...3).map { createButton(.number($0)) }
+        firstButtons.forEach { firstStackView.addArrangedSubview($0) }
+        let secondButtons = (4...6).map { createButton(.number($0)) }
+        secondButtons.forEach { secondStackView.addArrangedSubview($0) }
+        let thirdButtons = (7...9).map { createButton(.number($0)) }
+        thirdButtons.forEach { thirdStackView.addArrangedSubview($0) }
+        let fourthButtons = [createButton(.faceId), createButton(.number(0)), createButton(.delete)]
+        fourthButtons.forEach { fourthStackView.addArrangedSubview($0) }
+
+        buttons.append(contentsOf: firstButtons + secondButtons + thirdButtons + fourthButtons)
+    }
+
+    private func createButton(_ type: ButtonType) -> PinButton {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 0.98
         paragraphStyle.alignment = .center
-        let button = UIButton()
+
+        let button = PinButton()
+        button.type = type
         button.snp.makeConstraints { $0.width.height.equalTo(67) }
         button.clipCorners(radius: 33.5)
         switch type {
@@ -142,10 +242,12 @@ final class PinCodeView: UIView {
                     .paragraph(paragraphStyle)
                 ]
             )
-            button.background(.paleBlue())
+            button.setBackgroundColor(color: .paleBlue(), forState: .normal)
+            button.setBackgroundColor(color: .lightBlue(), forState: .highlighted)
             button.addTarget(self, action: #selector(numberButtonAction), for: .touchUpInside)
         case .faceId:
-            return button
+            button.addTarget(self, action: #selector(authButtonTap), for: .touchUpInside)
+            button.isEnabled = false
         case .delete:
             button.setImage(R.image.pinCode.delete(), for: .normal)
             button.addTarget(self, action: #selector(deleteButtonAction), for: .touchUpInside)
@@ -161,6 +263,16 @@ final class PinCodeView: UIView {
         return stackView
     }
 
+    private func styleDotes() {
+        dotes.enumerated().forEach {
+            if (0..<userCode.count).contains($0.offset) {
+                $0.element.background(.blue())
+            } else {
+                $0.element.background(.paleBlue())
+            }
+        }
+    }
+
     private func addAuraImage() {
         auraImage.snap(parent: self) {
             $0.image = R.image.pinCode.aura()
@@ -173,18 +285,7 @@ final class PinCodeView: UIView {
     }
 
     private func addPasswordLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
         passwordLabel.snap(parent: self) {
-            $0.titleAttributes(
-                text: R.string.localizable.pinCodePassword(),
-                [
-                    .paragraph(paragraphStyle),
-                    .font(.medium(21)),
-                    .color(.black())
-                ]
-            )
             $0.textAlignment = .center
         } layout: {
             $0.top.equalTo(self.auraImage.snp.bottom).offset(33)
@@ -208,7 +309,7 @@ final class PinCodeView: UIView {
 
     private func addDotes() {
         (0..<5).forEach { _ in
-            let view = UIImageView()
+            let view = UIView()
             view.background(.lightBlue())
             view.snp.makeConstraints {
                 $0.width.height.equalTo(14)

@@ -8,7 +8,7 @@ enum PinCodeFlow {
 
     enum ViewState {
         case sending
-        case result(AvailableBiometrics?)
+        case result(AvailableBiometric?)
         case error(message: String)
     }
 }
