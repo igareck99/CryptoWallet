@@ -1,12 +1,12 @@
 import UIKit
 
-// MARK: - MenuListViewModel
+// MARK: - ProfileDetailViewModel
 
-struct FriendMenuListViewModel {
+struct NetworkDetailViewModel {
 
     // MARK: - Type
 
-    typealias ItemType = MenuFriendItem
+    typealias ItemType = NetworkDetailItem
 
     // MARK: - Internal Properties
 
@@ -21,17 +21,21 @@ struct FriendMenuListViewModel {
     // MARK: - Constants
 
     private enum Constants {
-        static let heightForHeader = CGFloat(0)
-        static let rowHeight = CGFloat(64)
+
+        // MARK: - Static Properties
+
+        static let heightForHeader = CGFloat(54)
+        static let rowHeight = CGFloat(44)
         static let numberRows = 1
     }
 }
 
-// MARK: - MenuListViewModel (TableViewProviderViewModel)
+// MARK: - NetworkDetailViewModel (TableViewProviderViewModel)
 
-extension FriendMenuListViewModel: TableViewProviderViewModel {
+extension NetworkDetailViewModel: TableViewProviderViewModel {
     func heightForHeader(atIndex index: Int) -> CGFloat {
-        Constants.heightForHeader
+        let separator_index = tableNetworkList.firstIndex(where: { $0.type == 1 })
+        return index == separator_index ? Constants.heightForHeader : 0
     }
 
     func numberOfTableSections() -> Int {

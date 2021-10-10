@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 // MARK: - TransactionViewModel
 
@@ -21,8 +21,8 @@ struct TransactionViewModel {
     // MARK: - Constants
 
     private enum Constants {
-        static let heightForHeader = Float(0)
-        static let rowHeight = Float(72)
+        static let heightForHeader = CGFloat(0)
+        static let rowHeight = CGFloat(72)
         static let numberRows = 1
     }
 }
@@ -30,7 +30,7 @@ struct TransactionViewModel {
 // MARK: - TransactionViewModel (TableViewProviderViewModel)
 
 extension TransactionViewModel: TableViewProviderViewModel {
-    func heightForHeader(atIndex index: Int) -> Float {
+    func heightForHeader(atIndex index: Int) -> CGFloat {
         Constants.heightForHeader
     }
 
@@ -42,7 +42,7 @@ extension TransactionViewModel: TableViewProviderViewModel {
         Constants.numberRows
     }
 
-    func heightForRow(atIndex index: Int) -> Float {
+    func heightForRow(indexPath: IndexPath) -> CGFloat {
         Constants.rowHeight
     }
 }

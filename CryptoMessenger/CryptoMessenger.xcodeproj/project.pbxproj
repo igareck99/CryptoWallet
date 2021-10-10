@@ -132,6 +132,7 @@
 		5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681626A988B9000C51DD /* UITableViewCell+Extensions.swift */; };
 		5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681926A9C079000C51DD /* PhoneHelper.swift */; };
 		5A67791C26C7A64100212580 /* ChatRoomRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A67791B26C7A64100212580 /* ChatRoomRow.swift */; };
+		5A7F452A270E1C1400E44D22 /* ProfileActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7F4529270E1C1400E44D22 /* ProfileActionCell.swift */; };
 		5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B026BD210400645365 /* PinCodePresenter.swift */; };
 		5A9318B726BD210400645365 /* PinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B126BD210400645365 /* PinCodeViewController.swift */; };
 		5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B226BD210400645365 /* PinCodeProtocols.swift */; };
@@ -212,6 +213,7 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
+		78437F03270B769C00371110 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F02270B769C00371110 /* HeaderView.swift */; };
 		7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65126E8BB6200B05984 /* PhotosDataSource.swift */; };
 		7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */; };
 		7846B65C26E8BBFD00B05984 /* TimingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */; };
@@ -229,6 +231,18 @@
 		7846B67926E8C0BE00B05984 /* PreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B67826E8C0BE00B05984 /* PreviewCollectionViewCell.swift */; };
 		7846B67B26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B67A26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift */; };
 		7879F4B526CFC49300D3213F /* CallStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7879F4B426CFC49300D3213F /* CallStruct.swift */; };
+		787AAEE22703C9B700D734D3 /* ProfileDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787AAEE12703C9B700D734D3 /* ProfileDetailItem.swift */; };
+		787AAEE52703CA4900D734D3 /* ProfileDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787AAEE42703CA4900D734D3 /* ProfileDetailCell.swift */; };
+		787AAEE72703CC2B00D734D3 /* ProfileDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787AAEE62703CC2B00D734D3 /* ProfileDetailViewModel.swift */; };
+		7889064027064F8D0093459C /* ProfileNetworkDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889063A27064F8D0093459C /* ProfileNetworkDetailPresenter.swift */; };
+		7889064127064F8D0093459C /* ProfileNetworkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889063B27064F8D0093459C /* ProfileNetworkDetailViewController.swift */; };
+		7889064227064F8D0093459C /* ProfileNetworkDetailProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889063C27064F8D0093459C /* ProfileNetworkDetailProtocols.swift */; };
+		7889064327064F8D0093459C /* ProfileNetworkDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889063D27064F8D0093459C /* ProfileNetworkDetailView.swift */; };
+		7889064427064F8D0093459C /* ProfileNetworkDetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889063E27064F8D0093459C /* ProfileNetworkDetailConfigurator.swift */; };
+		7889064527064F8D0093459C /* ProfileNetworkDetailFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889063F27064F8D0093459C /* ProfileNetworkDetailFlow.swift */; };
+		78890648270684180093459C /* NetworkDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78890647270684180093459C /* NetworkDetailItem.swift */; };
+		7889064A270684830093459C /* NetworkDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78890649270684830093459C /* NetworkDetailCell.swift */; };
+		7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889064B27068E700093459C /* NetworkDetailViewModel.swift */; };
 		7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */; };
 		7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7896226B26B992AD00033B3B /* ProfileCell.swift */; };
 		789B123126CE8906002FCDDF /* CallListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122B26CE8906002FCDDF /* CallListPresenter.swift */; };
@@ -263,6 +277,13 @@
 		78C3CEDF26EF6BD200CF1885 /* AdditionalMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3CEDE26EF6BD200CF1885 /* AdditionalMenuView.swift */; };
 		78C3CEE426F06FAF00CF1885 /* MenuListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3CEE326F06FAF00CF1885 /* MenuListViewModel.swift */; };
 		78C3CEE826F0727700CF1885 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3CEE726F0727700CF1885 /* MenuCell.swift */; };
+		78EFC5F927021E8700A9BBAA /* ProfileDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F327021E8700A9BBAA /* ProfileDetailPresenter.swift */; };
+		78EFC5FA27021E8700A9BBAA /* ProfileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F427021E8700A9BBAA /* ProfileDetailViewController.swift */; };
+		78EFC5FB27021E8700A9BBAA /* ProfileDetailProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F527021E8700A9BBAA /* ProfileDetailProtocols.swift */; };
+		78EFC5FC27021E8700A9BBAA /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F627021E8700A9BBAA /* ProfileDetailView.swift */; };
+		78EFC5FD27021E8700A9BBAA /* ProfileDetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F727021E8700A9BBAA /* ProfileDetailConfigurator.swift */; };
+		78EFC5FE27021E8700A9BBAA /* ProfileDetailFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F827021E8700A9BBAA /* ProfileDetailFlow.swift */; };
+		78EFC60027027A3100A9BBAA /* ProfileStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5FF27027A3100A9BBAA /* ProfileStruct.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -395,6 +416,7 @@
 		5A42681626A988B9000C51DD /* UITableViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extensions.swift"; sourceTree = "<group>"; };
 		5A42681926A9C079000C51DD /* PhoneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneHelper.swift; sourceTree = "<group>"; };
 		5A67791B26C7A64100212580 /* ChatRoomRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomRow.swift; sourceTree = "<group>"; };
+		5A7F4529270E1C1400E44D22 /* ProfileActionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActionCell.swift; sourceTree = "<group>"; };
 		5A9318B026BD210400645365 /* PinCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodePresenter.swift; sourceTree = "<group>"; };
 		5A9318B126BD210400645365 /* PinCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeViewController.swift; sourceTree = "<group>"; };
 		5A9318B226BD210400645365 /* PinCodeProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeProtocols.swift; sourceTree = "<group>"; };
@@ -474,6 +496,7 @@
 		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
+		78437F02270B769C00371110 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		7846B65126E8BB6200B05984 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollSynchronizer.swift; sourceTree = "<group>"; };
 		7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimingFunctions.swift; sourceTree = "<group>"; };
@@ -491,6 +514,18 @@
 		7846B67826E8C0BE00B05984 /* PreviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		7846B67A26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailCollectionViewCell.swift; sourceTree = "<group>"; };
 		7879F4B426CFC49300D3213F /* CallStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallStruct.swift; sourceTree = "<group>"; };
+		787AAEE12703C9B700D734D3 /* ProfileDetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailItem.swift; sourceTree = "<group>"; };
+		787AAEE42703CA4900D734D3 /* ProfileDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailCell.swift; sourceTree = "<group>"; };
+		787AAEE62703CC2B00D734D3 /* ProfileDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewModel.swift; sourceTree = "<group>"; };
+		7889063A27064F8D0093459C /* ProfileNetworkDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkDetailPresenter.swift; sourceTree = "<group>"; };
+		7889063B27064F8D0093459C /* ProfileNetworkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkDetailViewController.swift; sourceTree = "<group>"; };
+		7889063C27064F8D0093459C /* ProfileNetworkDetailProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkDetailProtocols.swift; sourceTree = "<group>"; };
+		7889063D27064F8D0093459C /* ProfileNetworkDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkDetailView.swift; sourceTree = "<group>"; };
+		7889063E27064F8D0093459C /* ProfileNetworkDetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkDetailConfigurator.swift; sourceTree = "<group>"; };
+		7889063F27064F8D0093459C /* ProfileNetworkDetailFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileNetworkDetailFlow.swift; sourceTree = "<group>"; };
+		78890647270684180093459C /* NetworkDetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDetailItem.swift; sourceTree = "<group>"; };
+		78890649270684830093459C /* NetworkDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDetailCell.swift; sourceTree = "<group>"; };
+		7889064B27068E700093459C /* NetworkDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDetailViewModel.swift; sourceTree = "<group>"; };
 		7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthentication.swift; sourceTree = "<group>"; };
 		7896226B26B992AD00033B3B /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		789B122B26CE8906002FCDDF /* CallListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListPresenter.swift; sourceTree = "<group>"; };
@@ -526,6 +561,13 @@
 		78C3CEE326F06FAF00CF1885 /* MenuListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuListViewModel.swift; sourceTree = "<group>"; };
 		78C3CEE526F0700200CF1885 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		78C3CEE726F0727700CF1885 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
+		78EFC5F327021E8700A9BBAA /* ProfileDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailPresenter.swift; sourceTree = "<group>"; };
+		78EFC5F427021E8700A9BBAA /* ProfileDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewController.swift; sourceTree = "<group>"; };
+		78EFC5F527021E8700A9BBAA /* ProfileDetailProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailProtocols.swift; sourceTree = "<group>"; };
+		78EFC5F627021E8700A9BBAA /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
+		78EFC5F727021E8700A9BBAA /* ProfileDetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailConfigurator.swift; sourceTree = "<group>"; };
+		78EFC5F827021E8700A9BBAA /* ProfileDetailFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailFlow.swift; sourceTree = "<group>"; };
+		78EFC5FF27027A3100A9BBAA /* ProfileStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStruct.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1025,14 +1067,9 @@
 		5A26CD4426B356F600118D4B /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				78C3CEDB26EF6B6600CF1885 /* AdditionalMenu */,
-				5A26CD4826B356F600118D4B /* ProfileConfigurator.swift */,
-				5A26CD4726B356F600118D4B /* ProfileProtocols.swift */,
-				5A26CD4A26B356F600118D4B /* ProfileViewController.swift */,
-				5A26CD4626B356F600118D4B /* ProfileView.swift */,
-				7896226B26B992AD00033B3B /* ProfileCell.swift */,
-				5A26CD4526B356F600118D4B /* ProfilePresenter.swift */,
-				5A26CD4926B356F600118D4B /* ProfileFlow.swift */,
+				5A7F4528270E14B000E44D22 /* Initial */,
+				78EFC5F227021E6E00A9BBAA /* ProfileDetail */,
+				7889063927064F710093459C /* ProfileSocialNetwork */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1108,6 +1145,21 @@
 				5A42681926A9C079000C51DD /* PhoneHelper.swift */,
 			);
 			path = PhoneHelper;
+			sourceTree = "<group>";
+		};
+		5A7F4528270E14B000E44D22 /* Initial */ = {
+			isa = PBXGroup;
+			children = (
+				78C3CEDB26EF6B6600CF1885 /* AdditionalMenu */,
+				5A26CD4826B356F600118D4B /* ProfileConfigurator.swift */,
+				5A26CD4726B356F600118D4B /* ProfileProtocols.swift */,
+				5A26CD4A26B356F600118D4B /* ProfileViewController.swift */,
+				5A26CD4626B356F600118D4B /* ProfileView.swift */,
+				7896226B26B992AD00033B3B /* ProfileCell.swift */,
+				5A26CD4526B356F600118D4B /* ProfilePresenter.swift */,
+				5A26CD4926B356F600118D4B /* ProfileFlow.swift */,
+			);
+			path = Initial;
 			sourceTree = "<group>";
 		};
 		5A879F5326A5C25E002407F9 /* Registration */ = {
@@ -1362,6 +1414,42 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		787AAEE32703CA1F00D734D3 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				78437F02270B769C00371110 /* HeaderView.swift */,
+				787AAEE12703C9B700D734D3 /* ProfileDetailItem.swift */,
+				787AAEE42703CA4900D734D3 /* ProfileDetailCell.swift */,
+				5A7F4529270E1C1400E44D22 /* ProfileActionCell.swift */,
+				787AAEE62703CC2B00D734D3 /* ProfileDetailViewModel.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		7889063927064F710093459C /* ProfileSocialNetwork */ = {
+			isa = PBXGroup;
+			children = (
+				78890646270683F70093459C /* TableView */,
+				7889063A27064F8D0093459C /* ProfileNetworkDetailPresenter.swift */,
+				7889063B27064F8D0093459C /* ProfileNetworkDetailViewController.swift */,
+				7889063C27064F8D0093459C /* ProfileNetworkDetailProtocols.swift */,
+				7889063D27064F8D0093459C /* ProfileNetworkDetailView.swift */,
+				7889063E27064F8D0093459C /* ProfileNetworkDetailConfigurator.swift */,
+				7889063F27064F8D0093459C /* ProfileNetworkDetailFlow.swift */,
+			);
+			path = ProfileSocialNetwork;
+			sourceTree = "<group>";
+		};
+		78890646270683F70093459C /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				78890647270684180093459C /* NetworkDetailItem.swift */,
+				78890649270684830093459C /* NetworkDetailCell.swift */,
+				7889064B27068E700093459C /* NetworkDetailViewModel.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
 		7895E6E326CC1B39009CF41D /* LocalAuthentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -1471,6 +1559,21 @@
 				78C3CEE726F0727700CF1885 /* MenuCell.swift */,
 			);
 			path = TableView;
+			sourceTree = "<group>";
+		};
+		78EFC5F227021E6E00A9BBAA /* ProfileDetail */ = {
+			isa = PBXGroup;
+			children = (
+				787AAEE32703CA1F00D734D3 /* TableView */,
+				78EFC5F727021E8700A9BBAA /* ProfileDetailConfigurator.swift */,
+				78EFC5F327021E8700A9BBAA /* ProfileDetailPresenter.swift */,
+				78EFC5F427021E8700A9BBAA /* ProfileDetailViewController.swift */,
+				78EFC5F527021E8700A9BBAA /* ProfileDetailProtocols.swift */,
+				78EFC5F627021E8700A9BBAA /* ProfileDetailView.swift */,
+				78EFC5F827021E8700A9BBAA /* ProfileDetailFlow.swift */,
+				78EFC5FF27027A3100A9BBAA /* ProfileStruct.swift */,
+			);
+			path = ProfileDetail;
 			sourceTree = "<group>";
 		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
@@ -1668,6 +1771,7 @@
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
 				7879F4B526CFC49300D3213F /* CallStruct.swift in Sources */,
 				5A9B471D26EA7D6C001CC627 /* BlurView.swift in Sources */,
+				787AAEE72703CC2B00D734D3 /* ProfileDetailViewModel.swift in Sources */,
 				5A26CD2A26B2FF9900118D4B /* CarouselFlowLayout.swift in Sources */,
 				7846B67B26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift in Sources */,
 				5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */,
@@ -1712,6 +1816,7 @@
 				7846B66E26E8BFF600B05984 /* CellState.swift in Sources */,
 				5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */,
 				7846B66A26E8BFBD00B05984 /* PreviewLayout.swift in Sources */,
+				787AAEE52703CA4900D734D3 /* ProfileDetailCell.swift in Sources */,
 				789FEBD026D3CE580018FE91 /* CallCell.swift in Sources */,
 				7846B67026E8C00D00B05984 /* CellUpdate.swift in Sources */,
 				5A187EA32680708D001957D3 /* CollectionViewProvider.swift in Sources */,
@@ -1720,10 +1825,13 @@
 				5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */,
 				5A26CD1E26B2EECA00118D4B /* WalletProtocols.swift in Sources */,
 				789FEBF126DCE61D0018FE91 /* PhotoEditorFlow.swift in Sources */,
+				78EFC5FB27021E8700A9BBAA /* ProfileDetailProtocols.swift in Sources */,
+				7889064227064F8D0093459C /* ProfileNetworkDetailProtocols.swift in Sources */,
 				7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */,
 				7846B66526E8BCB200B05984 /* DeleteAnimation.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
+				78EFC5FD27021E8700A9BBAA /* ProfileDetailConfigurator.swift in Sources */,
 				5A26CD6326B35EB700118D4B /* ChatTableViewCell.swift in Sources */,
 				5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */,
 				7846B67426E8C07D00B05984 /* Configuration.swift in Sources */,
@@ -1734,6 +1842,7 @@
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
+				7889064127064F8D0093459C /* ProfileNetworkDetailViewController.swift in Sources */,
 				78BB7E1926F49EE700F1D500 /* MenuFrienView.swift in Sources */,
 				5A9318B726BD210400645365 /* PinCodeViewController.swift in Sources */,
 				5A187EA42680708D001957D3 /* CollectionViewProviderType.swift in Sources */,
@@ -1760,6 +1869,7 @@
 				7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */,
 				5AF8633726AA994E004A417C /* VerificationProtocols.swift in Sources */,
 				5A26CD2026B2EECA00118D4B /* WalletConfigurator.swift in Sources */,
+				7889064027064F8D0093459C /* ProfileNetworkDetailPresenter.swift in Sources */,
 				789B123126CE8906002FCDDF /* CallListPresenter.swift in Sources */,
 				5A26CD6526B35F7A00118D4B /* ChatViewModel.swift in Sources */,
 				5A187EA62680708D001957D3 /* NibLoadableView.swift in Sources */,
@@ -1769,6 +1879,7 @@
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
 				5A4267FE26A83494000C51DD /* R.generated.swift in Sources */,
+				787AAEE22703C9B700D734D3 /* ProfileDetailItem.swift in Sources */,
 				5AF8635C26ADB691004A417C /* OnboardingViewController.swift in Sources */,
 				7846B65F26E8BC3F00B05984 /* MoveAnimation.swift in Sources */,
 				5A187E9B2680708D001957D3 /* ListSeparatorStyle.swift in Sources */,
@@ -1786,6 +1897,8 @@
 				5A187DF626807011001957D3 /* Coordinator.swift in Sources */,
 				5A187F322680CF49001957D3 /* OccasionResponse.swift in Sources */,
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
+				78EFC60027027A3100A9BBAA /* ProfileStruct.swift in Sources */,
+				7889064327064F8D0093459C /* ProfileNetworkDetailView.swift in Sources */,
 				5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */,
 				7846B66326E8BC8B00B05984 /* ProgressAnimation.swift in Sources */,
 				5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */,
@@ -1796,6 +1909,7 @@
 				7896226C26B992AD00033B3B /* ProfileCell.swift in Sources */,
 				5A26CD5B26B3599800118D4B /* ChatView.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
+				7889064A270684830093459C /* NetworkDetailCell.swift in Sources */,
 				789FEBEC26DCE61D0018FE91 /* PhotoEditorPresenter.swift in Sources */,
 				789B123326CE8906002FCDDF /* CallListProtocols.swift in Sources */,
 				5A26CD3526B31B4000118D4B /* CardCollectionViewCell.swift in Sources */,
@@ -1813,11 +1927,13 @@
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
 				5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */,
 				5A26CD4226B3363E00118D4B /* TransactionViewModel.swift in Sources */,
+				7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */,
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
 				5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */,
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
 				5A187DD726806F35001957D3 /* Injectable.swift in Sources */,
+				7889064527064F8D0093459C /* ProfileNetworkDetailFlow.swift in Sources */,
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
 				5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */,
@@ -1829,6 +1945,7 @@
 				5A26CD4D26B356F600118D4B /* ProfileProtocols.swift in Sources */,
 				5A26CD1D26B2EECA00118D4B /* WalletViewController.swift in Sources */,
 				5ABCCCE32700D76200B93FF1 /* MenuItem.swift in Sources */,
+				78EFC5F927021E8700A9BBAA /* ProfileDetailPresenter.swift in Sources */,
 				5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */,
 				5A26CD4026B3305600118D4B /* Transaction.swift in Sources */,
 				7846B65C26E8BBFD00B05984 /* TimingFunctions.swift in Sources */,
@@ -1839,6 +1956,7 @@
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
 				5AEB80FD26DD123E009A1944 /* ImagePickerView.swift in Sources */,
 				5A187F272680CF49001957D3 /* Environment.swift in Sources */,
+				7889064427064F8D0093459C /* ProfileNetworkDetailConfigurator.swift in Sources */,
 				5A67791C26C7A64100212580 /* ChatRoomRow.swift in Sources */,
 				5AF8633526AA994E004A417C /* VerificationPresenter.swift in Sources */,
 				5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */,
@@ -1847,6 +1965,7 @@
 				5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */,
 				5A9B472626EAB3D7001CC627 /* ReactionGroupView.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
+				78EFC5FC27021E8700A9BBAA /* ProfileDetailView.swift in Sources */,
 				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
 				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
@@ -1858,10 +1977,13 @@
 				78BB7E0F26F36B1200F1D500 /* FriendProfileProtocols.swift in Sources */,
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
 				789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */,
+				78890648270684180093459C /* NetworkDetailItem.swift in Sources */,
 				78C3CEDD26EF6BC700CF1885 /* AdditionalMenuViewController.swift in Sources */,
+				78437F03270B769C00371110 /* HeaderView.swift in Sources */,
 				5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
 				5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */,
+				78EFC5FA27021E8700A9BBAA /* ProfileDetailViewController.swift in Sources */,
 				78BB7E1426F3703700F1D500 /* FriendStruct.swift in Sources */,
 				5A26CD4E26B356F600118D4B /* ProfileConfigurator.swift in Sources */,
 				5A187F332680CF49001957D3 /* MultipartFileData.swift in Sources */,
@@ -1884,6 +2006,7 @@
 				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,
 				789FEBD826D8FFD50018FE91 /* CallListViewModel.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
+				5A7F452A270E1C1400E44D22 /* ProfileActionCell.swift in Sources */,
 				5A2181E726D82DC40093AD60 /* LocationManager.swift in Sources */,
 				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
@@ -1892,6 +2015,7 @@
 				7846B66126E8BC6600B05984 /* ScrollAnimation.swift in Sources */,
 				78BB7E2126F4AB2600F1D500 /* FriendMenuListViewModel.swift in Sources */,
 				5A187E992680708D001957D3 /* ActivityView.swift in Sources */,
+				78EFC5FE27021E8700A9BBAA /* ProfileDetailFlow.swift in Sources */,
 				5A9318BA26BD210400645365 /* PinCodeConfigurator.swift in Sources */,
 				5A26CD2926B2FF9900118D4B /* CarouselAnimatableFlowLayout.swift in Sources */,
 				5AA6410C268233CA008922B4 /* ButtonDecor.swift in Sources */,

@@ -24,8 +24,8 @@ struct MenuListViewModel {
 
         // MARK: - Static Properties
 
-        static let heightForHeader = Float(32)
-        static let rowHeight = Float(64)
+        static let heightForHeader = CGFloat(32)
+        static let rowHeight = CGFloat(64)
         static let numberRows = 1
     }
 }
@@ -33,7 +33,7 @@ struct MenuListViewModel {
 // MARK: - MenuListViewModel (TableViewProviderViewModel)
 
 extension MenuListViewModel: TableViewProviderViewModel {
-    func heightForHeader(atIndex index: Int) -> Float {
+    func heightForHeader(atIndex index: Int) -> CGFloat {
         index == 7 ? Constants.heightForHeader : 0
     }
 
@@ -45,7 +45,7 @@ extension MenuListViewModel: TableViewProviderViewModel {
         Constants.numberRows
     }
 
-    func heightForRow(atIndex index: Int) -> Float {
+    func heightForRow(indexPath: IndexPath) -> CGFloat {
         Constants.rowHeight
     }
 }
