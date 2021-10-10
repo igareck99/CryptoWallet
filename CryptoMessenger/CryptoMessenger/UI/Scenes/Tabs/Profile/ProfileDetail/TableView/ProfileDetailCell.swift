@@ -47,7 +47,7 @@ final class ProfileDetailCell: UITableViewCell {
             $0.textAlignment = .left
             $0.font(.regular(15))
             $0.textColor(.black())
-            $0.background(.lightBlue())
+            $0.background(.paleBlue())
             $0.clipCorners(radius: 8)
             $0.textContainerInset = .init(top: 12, left: 16, bottom: 12, right: 16)
             $0.delegate = self

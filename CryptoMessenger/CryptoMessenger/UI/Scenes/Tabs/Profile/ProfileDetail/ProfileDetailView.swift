@@ -41,11 +41,11 @@ final class ProfileDetailView: UIView {
 
     // MARK: - Actions
 
-    @objc func deleteAccount() {
+    @objc private func deleteAccount() {
         didDeleteTap?()
     }
 
-    @objc func logout() {
+    @objc private func logout() {
         didLogoutTap?()
     }
 
@@ -71,22 +71,36 @@ final class ProfileDetailView: UIView {
     private func setupTableProvider() {
         let viewModel: ProfileDetailViewModel = .init(ProfileDetailItem())
         tableProvider = TableViewProvider(for: tableView, with: viewModel)
-        tableProvider?.registerCells([ProfileDetailCell.self])
+        tableProvider?.registerCells([ProfileDetailCell.self, ProfileActionCell.self])
         tableProvider?.onConfigureCell = { [unowned self] indexPath in
             guard let provider = tableProvider else { return .init() }
-
             let type = ProfileDetailViewModel.SectionType.allCases[indexPath.section]
             switch type {
-            case .status, .description, .name:
+            case .status, .description, .name, .countryCode, .phoneNumber:
                 let cell: ProfileDetailCell = provider.dequeueReusableCell(for: indexPath)
+                var text = ""
+                switch type {
+                case .status:
+                    text = "AURA Россия"
+                case .description:
+                    text = "Делаю лучший крипто-мессенджер!\nЖиву в Зеленограде! Люблю качалку:)"
+                case .name:
+                    text = "Артём Квач"
+                case .countryCode:
+                    text = "+7  Россия"
+                case .phoneNumber:
+                    text = "(925) 851-15-41"
+                default:
+                    break
+                }
+                cell.configure(text)
                 cell.delegate = self
                 return cell
-            case .countryCode, .phoneNumber:
-                // тут своя ячейка
-                return .init()
-            case .socialNetwork, .exit, .removeAccount:
-                // тут своя ячейка
-                return .init()
+            case .socialNetwork, .exit, .deleteAccount:
+                let cell: ProfileActionCell = provider.dequeueReusableCell(for: indexPath)
+                cell.configure(type)
+                cell.didTap = {}
+                return cell
             }
         }
         tableProvider?.onViewForHeaderInSection = {

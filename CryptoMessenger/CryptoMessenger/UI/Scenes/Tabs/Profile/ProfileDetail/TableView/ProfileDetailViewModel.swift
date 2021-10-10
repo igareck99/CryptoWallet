@@ -25,7 +25,7 @@ struct ProfileDetailViewModel {
         // MARK: - Types
 
         case status, description, name, countryCode, phoneNumber
-        case socialNetwork, exit, removeAccount
+        case socialNetwork, exit, deleteAccount
 
         var title: String? {
             switch self {
@@ -37,6 +37,38 @@ struct ProfileDetailViewModel {
                 return "Имя пользователя"
             case .countryCode:
                 return "Номер телефона"
+            case .socialNetwork:
+                return "Ваши социальные сети"
+            case .exit:
+                return "Выход"
+            case .deleteAccount:
+                return "Удалить учетную запись"
+            default:
+                return nil
+            }
+        }
+
+        var image: UIImage? {
+            switch self {
+            case .socialNetwork:
+                return R.image.profileDetail.socialNetwork()
+            case .exit:
+                return R.image.profileDetail.exit()
+            case .deleteAccount:
+                return R.image.profileDetail.delete()
+            default:
+                return nil
+            }
+        }
+
+        var imageColor: Palette? {
+            switch self {
+            case .socialNetwork:
+                return .blue(0.1)
+            case .exit:
+                return .red(0.1)
+            case .deleteAccount:
+                return .red(0.1)
             default:
                 return nil
             }
@@ -68,7 +100,7 @@ extension ProfileDetailViewModel: TableViewProviderViewModel {
             return 24
         case .exit:
             return 32
-        case .removeAccount:
+        case .deleteAccount:
             return 0
         }
     }
@@ -102,8 +134,12 @@ extension ProfileDetailViewModel: TableViewProviderViewModel {
         case .socialNetwork:
             return view
         case .exit:
+            let line = UIView(frame: CGRect(x: 0, y: 15.5, width: UIScreen.main.bounds.width, height: 1))
+            line.background(.custom(#colorLiteral(red: 0.9019607843, green: 0.9176470588, blue: 0.9294117647, alpha: 1)))
+            view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: CGFloat(height))
+            view.addSubview(line)
             return view
-        case .removeAccount:
+        case .deleteAccount:
             return nil
         }
     }
@@ -123,7 +159,7 @@ extension ProfileDetailViewModel: TableViewProviderViewModel {
             return UITableView.automaticDimension
         case .countryCode, .phoneNumber:
             return 44
-        case .socialNetwork, .exit, .removeAccount:
+        case .socialNetwork, .exit, .deleteAccount:
             return Constants.defaultRowHeight
         }
     }
