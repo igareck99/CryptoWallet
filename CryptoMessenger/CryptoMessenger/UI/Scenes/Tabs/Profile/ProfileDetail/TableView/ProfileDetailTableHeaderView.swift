@@ -37,13 +37,13 @@ final class ProfileDetailTableHeaderView: UIView {
     private func addCameraButton() {
         cameraButton.snap(parent: self) {
             $0.contentMode = .center
-            $0.setImage(R.image.profileDetail.camera(), for: .normal)
             $0.clipCorners(radius: 30)
-            $0.background(.darkBlack(0.4))
+            $0.background(.black(0.4))
+            $0.setImage(R.image.profileDetail.camera(), for: .normal)
         } layout: {
             $0.width.height.equalTo(60)
             $0.trailing.equalTo($1).offset(-16)
-            $0.bottom.equalTo($1).offset(-36)
+            $0.bottom.equalTo($1).offset(-16)
         }
     }
 }
