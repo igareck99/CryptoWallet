@@ -84,7 +84,7 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
-    private func showFrienProfileScene() {
+    private func showFriendProfileScene() {
         let viewController = FriendProfileConfigurator.configuredViewController(delegate: self)
         setViewWith(viewController)
     }
@@ -132,7 +132,7 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
         case .photoEditor:
             showPhotoEditorScene(images: [])
         case .friendProfile:
-            showFrienProfileScene()
+            showFriendProfileScene()
         }
     }
 

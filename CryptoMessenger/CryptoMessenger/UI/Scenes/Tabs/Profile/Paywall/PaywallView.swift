@@ -1,8 +1,8 @@
 import UIKit
 
-// MARK: - BuyCellsMenuView
+// MARK: - PaywallView
 
-final class BuyCellsMenuView: UIView {
+final class PaywallView: UIView {
 
     // MARK: - Internal Properties
 
@@ -38,7 +38,7 @@ final class BuyCellsMenuView: UIView {
 
     // MARK: - Actions
 
-    @objc private func CloseAction() {
+    @objc private func closeAction() {
         didCloseTap?()
     }
 
@@ -52,7 +52,7 @@ final class BuyCellsMenuView: UIView {
         closeButton.snap(parent: self) {
             $0.setImage(R.image.buyCellsMenu.close(), for: .normal)
             $0.contentMode = .scaleAspectFill
-            $0.addTarget(self, action: #selector(self.CloseAction), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(self.closeAction), for: .touchUpInside)
         } layout: {
             $0.top.leading.equalTo($1).offset(16)
             $0.width.height.equalTo(24)

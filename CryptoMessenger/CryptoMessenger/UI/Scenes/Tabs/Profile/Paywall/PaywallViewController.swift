@@ -1,12 +1,12 @@
 import UIKit
 
-// MARK: - BuyCellsMenuViewController
+// MARK: - PaywallViewController
 
-final class BuyCellsMenuViewController: BaseViewController {
+final class PaywallViewController: BaseViewController {
 
     // MARK: - Private Properties
 
-    private lazy var customView = BuyCellsMenuView()
+    private lazy var customView = PaywallView()
 
     // MARK: - Lifecycle
 
@@ -14,6 +14,7 @@ final class BuyCellsMenuViewController: BaseViewController {
         super.viewDidLoad()
         addCustomView()
         addTapGesture()
+        subscribeOnCustomViewActions()
     }
 
     override func viewDidLayoutSubviews() {
@@ -40,5 +41,11 @@ final class BuyCellsMenuViewController: BaseViewController {
     private func addTapGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(didClose))
         view.addGestureRecognizer(tap)
+    }
+
+    private func subscribeOnCustomViewActions() {
+        customView.didCloseTap = { [unowned self] in
+            didClose()
+        }
     }
 }

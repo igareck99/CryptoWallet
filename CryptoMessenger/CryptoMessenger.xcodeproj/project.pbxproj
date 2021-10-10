@@ -210,8 +210,8 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
-		78437F1A270CE94000371110 /* BuyCellsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F19270CE94000371110 /* BuyCellsMenuView.swift */; };
-		78437F1C270CE98800371110 /* BuyCellsMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F1B270CE98800371110 /* BuyCellsMenuViewController.swift */; };
+		78437F1A270CE94000371110 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F19270CE94000371110 /* PaywallView.swift */; };
+		78437F1C270CE98800371110 /* PaywallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F1B270CE98800371110 /* PaywallViewController.swift */; };
 		7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65126E8BB6200B05984 /* PhotosDataSource.swift */; };
 		7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */; };
 		7846B65C26E8BBFD00B05984 /* TimingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */; };
@@ -472,8 +472,8 @@
 		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
-		78437F19270CE94000371110 /* BuyCellsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyCellsMenuView.swift; sourceTree = "<group>"; };
-		78437F1B270CE98800371110 /* BuyCellsMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyCellsMenuViewController.swift; sourceTree = "<group>"; };
+		78437F19270CE94000371110 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		78437F1B270CE98800371110 /* PaywallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewController.swift; sourceTree = "<group>"; };
 		7846B65126E8BB6200B05984 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollSynchronizer.swift; sourceTree = "<group>"; };
 		7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimingFunctions.swift; sourceTree = "<group>"; };
@@ -1023,7 +1023,7 @@
 		5A26CD4426B356F600118D4B /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				78437F18270CA26600371110 /* BuyCellsMenu */,
+				78437F18270CA26600371110 /* Paywall */,
 				78C3CEDB26EF6B6600CF1885 /* AdditionalMenu */,
 				5A26CD4826B356F600118D4B /* ProfileConfigurator.swift */,
 				5A26CD4726B356F600118D4B /* ProfileProtocols.swift */,
@@ -1298,13 +1298,13 @@
 			path = KeyImport;
 			sourceTree = "<group>";
 		};
-		78437F18270CA26600371110 /* BuyCellsMenu */ = {
+		78437F18270CA26600371110 /* Paywall */ = {
 			isa = PBXGroup;
 			children = (
-				78437F19270CE94000371110 /* BuyCellsMenuView.swift */,
-				78437F1B270CE98800371110 /* BuyCellsMenuViewController.swift */,
+				78437F19270CE94000371110 /* PaywallView.swift */,
+				78437F1B270CE98800371110 /* PaywallViewController.swift */,
 			);
-			path = BuyCellsMenu;
+			path = Paywall;
 			sourceTree = "<group>";
 		};
 		7846B65026E8BB4000B05984 /* PhotoPreview */ = {
@@ -1820,7 +1820,7 @@
 				5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */,
 				5A26CD4226B3363E00118D4B /* TransactionViewModel.swift in Sources */,
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
-				78437F1C270CE98800371110 /* BuyCellsMenuViewController.swift in Sources */,
+				78437F1C270CE98800371110 /* PaywallViewController.swift in Sources */,
 				5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */,
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
@@ -1907,7 +1907,7 @@
 				5A187F282680CF49001957D3 /* APIClient.swift in Sources */,
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
 				5A26CD2726B2FF9900118D4B /* CarouselNonAnimatableFlowLayout.swift in Sources */,
-				78437F1A270CE94000371110 /* BuyCellsMenuView.swift in Sources */,
+				78437F1A270CE94000371110 /* PaywallView.swift in Sources */,
 				5A26CD5D26B3599800118D4B /* ChatFlow.swift in Sources */,
 				5A187DF326807011001957D3 /* BaseViewController.swift in Sources */,
 				5A187DE326806F62001957D3 /* AppPushNotificationsService.swift in Sources */,

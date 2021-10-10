@@ -44,7 +44,7 @@ final class ProfileViewController: BaseViewController {
             self.present(viewController, animated: true)
         }
         customView.didTapBuyCell = { [unowned self] in
-            let vc = BuyCellsMenuViewController()
+            let vc = PaywallViewController()
             self.present(vc, animated: true)
         }
     }
