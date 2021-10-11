@@ -55,6 +55,8 @@ struct ChatRoomRow: View {
                                 }
                         case let .image(image):
                             photoRow(image)
+                        case .contact:
+                            contactRow()
                         }
                     }
                     .background(.clear)
@@ -144,6 +146,56 @@ struct ChatRoomRow: View {
         .frame(width: 202, height: 245)
     }
 
+    private func contactRow() -> some View {
+        ZStack {
+            VStack(spacing: 0) {
+                HStack(spacing: 12) {
+                    R.image.chat.mockAvatar2.image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 40, height: 40, alignment: .center)
+
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Виолетта Силенина")
+                            .font(.semibold(15))
+                            .foreground(.black())
+
+                        Spacer()
+
+                        Text("+7(925)813-31-62")
+                            .font(.regular(13))
+                            .foreground(.darkGray())
+                    }
+                }
+                .frame(height: 40)
+
+                Button(action: {
+
+                }, label: {
+                    Text("Просмотр контакта")
+                        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44, alignment: .center)
+                        .font(.bold(15))
+                        .foreground(.blue())
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color(.blue()), lineWidth: 1)
+                        )
+                })
+                .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44, alignment: .center)
+                .padding(.top, 12)
+                .padding(.trailing, 8)
+                .padding(.leading, 24)
+
+                Spacer()
+            }
+            .padding([.top, .trailing], 8)
+            .padding(.leading, -16)
+
+            checkTextReadView()
+        }
+        .frame(width: 244, height: 138)
+    }
+
     private func reactions() -> some View {
         ZStack {
             VStack {
@@ -170,6 +222,40 @@ struct ChatRoomRow: View {
                 }
                 .frame(height: 24)
                 .padding(message.isCurrentUser ? .trailing : .leading, 32)
+            }
+        }
+    }
+
+    private func checkTextReadView() -> some View {
+        ZStack {
+            VStack {
+                Spacer()
+
+                HStack {
+                    if message.isCurrentUser {
+                        Spacer()
+                    }
+
+                    HStack(spacing: 6) {
+                        Text(message.date)
+                            .frame(width: 40, height: 10)
+                            .font(.light(12))
+                            .foreground(.black(0.5))
+                            .padding(.trailing, !message.isCurrentUser ? 16 : 0)
+
+                        if message.isCurrentUser {
+                            Image(R.image.chat.readCheck.name)
+                                .resizable()
+                                .frame(width: 13.5, height: 10, alignment: .center)
+                                .padding(.trailing, 16)
+                        }
+                    }
+
+                    if !message.isCurrentUser {
+                        Spacer()
+                    }
+                }
+                .padding(.bottom, 8)
             }
         }
     }
