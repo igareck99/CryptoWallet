@@ -6,6 +6,7 @@ final class AdditionalMenuViewController: BaseViewController {
 
     // MARK: - Internal Properties
 
+    var didProfileDetailTap: VoidBlock?
     var didDeleteTap: VoidBlock?
     var didCancelTap: VoidBlock?
 
@@ -18,6 +19,7 @@ final class AdditionalMenuViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addCustomView()
+        subscribeOnCustomViewActions()
         addTapGesture()
     }
 
@@ -39,6 +41,12 @@ final class AdditionalMenuViewController: BaseViewController {
         customView.snap(parent: view) {
             $0.leading.bottom.trailing.equalTo($1)
             $0.height.equalTo(700)
+        }
+    }
+
+    private func subscribeOnCustomViewActions() {
+        customView.didTap = { [unowned self] in
+            didProfileDetailTap?()
         }
     }
 

@@ -2,8 +2,7 @@ import UIKit
 
 // MARK: - UserDefaultSettings
 
-@propertyWrapper
-struct UserDefaultSettings<Type> {
+@propertyWrapper struct UserDefaultSettings<Type> {
 
     // MARK: - Private Properties
 
@@ -39,6 +38,10 @@ struct UserDefaultsLayer {
     private static let userPhoneNumberKey = "userPhoneNumberKey"
     private static let isAuthFlowFinishedKey = "isAuthFlowFinishedKey"
     private static let isOnboardingFlowFinishedKey = "isOnboardingFlowFinishedKey"
+    private static let isLocalAuthKey = "isLocalAuthKey"
+    private static let isLocalAuthBackgroundAlertShownKey = "isLocalAuthBackgroundAlertShownKey"
+    private static let isLocalAuthInBackgroundKey = "isLocalAuthInBackgroundKey"
+    private static let userPinCodeKey = "userPinCodeKey"
 
     // MARK: - Internal Properties
 
@@ -59,6 +62,18 @@ struct UserDefaultsLayer {
 
     @UserDefaultSettings(isOnboardingFlowFinishedKey, value: false)
     var isOnboardingFlowFinished: Bool
+
+    @UserDefaultSettings(isLocalAuthKey, value: false)
+    var isLocalAuth: Bool
+
+    @UserDefaultSettings(isLocalAuthBackgroundAlertShownKey, value: false)
+    var isLocalAuthBackgroundAlertShown: Bool
+
+    @UserDefaultSettings(isLocalAuthInBackgroundKey, value: false)
+    var isLocalAuthInBackground: Bool
+
+    @UserDefaultSettings(userPinCodeKey, value: "")
+    var userPinCode: String
 }
 
 // MARK: - UserDefaultsLayer (UserCredentialsStorage)

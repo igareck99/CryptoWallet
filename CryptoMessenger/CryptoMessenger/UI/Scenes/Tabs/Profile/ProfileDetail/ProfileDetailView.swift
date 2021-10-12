@@ -62,6 +62,9 @@ final class ProfileDetailView: UIView {
         tableView.snap(parent: self) {
             $0.separatorStyle = .none
             $0.allowsSelection = true
+            $0.tableHeaderView = ProfileDetailTableHeaderView(
+                frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.width)
+            )
         } layout: {
             $0.leading.trailing.top.bottom.equalTo($1)
         }
@@ -145,10 +148,3 @@ extension ProfileDetailView: ProfileDetailDelegate {
         }
     }
 }
-
-var profileDetail = ProfileItem(image: R.image.profileDetail.mainImage1()!,
-                                status: "На расслабоне на чиле",
-                                info: "Сейчас пойду пивка бахну",
-                                name: "",
-                                code: "+7",
-                                number: "8911324567")

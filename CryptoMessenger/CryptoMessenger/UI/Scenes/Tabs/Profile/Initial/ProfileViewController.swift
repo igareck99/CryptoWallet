@@ -36,12 +36,12 @@ final class ProfileViewController: BaseViewController {
 
     private func subscribeOnCustomViewActions() {
         customView.didTapAddPhoto = { [unowned self] in
-            self.imagePicker.open()
+            imagePicker.open()
         }
         customView.didTapShowPhoto = { [unowned self] in
             let images = self.customView.photos.compactMap { $0 }
             let viewController = PhotoEditorConfigurator.configuredViewController(images: images, delegate: nil)
-            self.present(viewController, animated: true)
+            present(viewController, animated: true)
         }
     }
 
@@ -67,6 +67,12 @@ final class ProfileViewController: BaseViewController {
         present(controller, animated: true)
         controller.didDeleteTap = { [unowned self] in
             controller.dismiss(animated: true)
+        }
+        controller.didProfileDetailTap = { [unowned self] in
+            controller.dismiss(animated: true)
+            let vc = ProfileDetailConfigurator.configuredViewController(delegate: nil)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

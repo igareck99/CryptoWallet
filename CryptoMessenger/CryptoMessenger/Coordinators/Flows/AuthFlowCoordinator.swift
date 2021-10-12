@@ -22,6 +22,7 @@ public final class AuthFlowCoordinator: Coordinator {
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: AuthFlowCoordinatorDelegate?
     let navigationController: UINavigationController
+    @Injectable private var userFlows: UserFlowsStorageService
 
     // MARK: - Lifecycle
 
@@ -32,7 +33,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.profileDetail)
+        handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
     // MARK: - Private Methods
@@ -102,6 +103,9 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Scene
 
     enum Scene {
+
+        // MARK: - Types
+
         case onboarding
         case registration
         case verification
@@ -123,6 +127,8 @@ public final class AuthFlowCoordinator: Coordinator {
 extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
     func handleNextScene(_ scene: Scene) {
         switch scene {
+        case .main:
+            switchFlow()
         case .onboarding:
             showOnboardingScene()
         case .registration:
@@ -135,8 +141,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showCountryCodeScene(delegate)
         case .keyImport:
             showKeyImportScene()
-        case .main:
-            switchFlow()
         case .pinCode:
             showPinCodeScene()
         case .callList:
@@ -199,7 +203,15 @@ extension AuthFlowCoordinator: FriendProfileSceneDelegate {}
 
 // MARK: - AuthFlowCoordinator (PinCodeSceneDelegate)
 
-extension AuthFlowCoordinator: PinCodeSceneDelegate {}
+extension AuthFlowCoordinator: PinCodeSceneDelegate {
+    func handleNextScene() {
+        if userFlows.isAuthFlowFinished {
+            handleNextScene(.main)
+        } else {
+            start()
+        }
+    }
+}
 
 // MARK: - AuthFlowCoordinator (ProfileDetailSceneDelegate)
 

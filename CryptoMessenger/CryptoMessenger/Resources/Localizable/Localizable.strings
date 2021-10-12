@@ -54,8 +54,17 @@
 "Profile.Mobile" = "8 (925) 851-39-11";
 
 
-"PinCode.password" = "Введите пароль";
-"PinCode.enter" = "Не можете войти?";
+"PinCode.EnterPassword" = "Введите пароль";
+"PinCode.NewPassword" = "Установите пароль";
+"PinCode.RepeatPassword" = "Повторите пароль";
+"PinCode.SuccessPassword" = "Пароль установлен";
+"PinCode.NotMatchPassword" = "Пароли не совпадают";
+"PinCode.Enter" = "Не можете войти?";
+"PinCode.AlertTitle" = "Включить фоновую авторизацию?";
+"PinCode.AlertMessage" = "Запрашивать пароль после сворачивания приложения";
+"PinCode.AlertCancel" = "Нет";
+"PinCode.AlertYes" = "Да";
+
 
 "CallList.Delete" = "Удалить";
 "CallList.Title" = "Журнал звонков";

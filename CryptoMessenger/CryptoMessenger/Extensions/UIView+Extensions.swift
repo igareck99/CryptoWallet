@@ -85,18 +85,18 @@ extension UIView {
         }
     }
 
-//    final func centerSubView(_ view: UIView) {
-//        addConstraints(
-//            [
-//                NSLayoutConstraint(item: view, attribute: .centerX,
-//                                   relatedBy: .equal,
-//                                   toItem: self, attribute: .centerX,
-//                                   multiplier: 1.0, constant: 0.0),
-//                NSLayoutConstraint(item: view, attribute: .centerY,
-//                                   relatedBy: .equal,
-//                                   toItem: self, attribute: .centerY,
-//                                   multiplier: 1.0, constant: 0.0)
-//            ]
-//        )
-//    }
+    func shake(duration: CFTimeInterval) {
+        let shakeValues = [-5, 5, -5, 5, -3, 3, -2, 2, 0]
+        let translation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        translation.timingFunction = CAMediaTimingFunction(name: .linear)
+        translation.values = shakeValues
+
+        let rotation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+        rotation.values = shakeValues.map { (Int(Double.pi) * $0) / 180 }
+
+        let shakeGroup = CAAnimationGroup()
+        shakeGroup.animations = [translation, rotation]
+        shakeGroup.duration = duration
+        layer.add(shakeGroup, forKey: "shakeIt")
+    }
 }

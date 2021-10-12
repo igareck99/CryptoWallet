@@ -6,7 +6,7 @@ final class AdditionalMenuView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTapDelete: VoidBlock?
+    var didTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -116,8 +116,11 @@ final class AdditionalMenuView: UIView {
         tableProvider?.onConfigureCell = { [unowned self] indexPath in
             guard let provider = self.tableProvider else { return .init() }
             let cell: MenuCell = provider.dequeueReusableCell(for: indexPath)
-            let item = tableModel.items[indexPath.section]
-            cell.configure(item)
+            cell.configure(tableModel.items[indexPath.section])
+            cell.didTap = {
+                guard indexPath.row == 0 else { return }
+                didTap?()
+            }
             return cell
         }
         tableProvider?.onViewForHeaderInSection = { [unowned self] section in
@@ -133,17 +136,7 @@ final class AdditionalMenuView: UIView {
     }
 }
 
-extension AdditionalMenuView {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 32))
-        header.background(.clear)
-        return header
-    }
-}
-
-// MARK: - AdditionalMenuView (UITableViewDelegate)
-
-private  var menuList: [MenuItem] = [
+private var menuList: [MenuItem] = [
     .init(text: R.string.localizable.additionalMenuProfile(),
           image: R.image.additionalMenu.profile(), notifications: 0),
     .init(text: R.string.localizable.additionalMenuPersonalization(),

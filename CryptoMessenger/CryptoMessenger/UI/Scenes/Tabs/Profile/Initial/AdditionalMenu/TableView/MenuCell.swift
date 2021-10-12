@@ -6,15 +6,15 @@ final class MenuCell: UITableViewCell {
 
     // MARK: - Internal Properties
 
-    weak var delegate: AdditionalMenuView?
+    var didTap: VoidBlock?
 
     // MARK: - Private Properties
 
     private lazy var menuLabel = UILabel()
     private lazy var menuImage = UIImageView()
     private lazy var notificationsLabel = UILabel()
-    private lazy var openButton = UIButton()
-    private lazy var notificationsAmount = 1
+    private lazy var arrowImageView = UIImageView()
+    private lazy var tapButton = UIButton()
 
     // MARK: - Lifecycle
 
@@ -23,8 +23,8 @@ final class MenuCell: UITableViewCell {
         addMenuImage()
         addMenuLabel()
         addNotificationsLabel()
-        addOpenButton()
-
+        addArrowImageView()
+        addTapButton()
     }
 
     @available(*, unavailable)
@@ -46,10 +46,16 @@ final class MenuCell: UITableViewCell {
         }
     }
 
+    // MARK: - Actions
+
+    @objc private func didTapOpen() {
+        didTap?()
+    }
+
     // MARK: - Private Methods
 
     private func addMenuImage() {
-        menuImage.snap(parent: self) {
+        menuImage.snap(parent: contentView) {
             $0.background(.lightBlue())
             $0.clipsToBounds = true
             $0.contentMode = .center
@@ -62,7 +68,7 @@ final class MenuCell: UITableViewCell {
     }
 
     private func addMenuLabel() {
-        menuLabel.snap(parent: self) {
+        menuLabel.snap(parent: contentView) {
             $0.font(.light(16))
             $0.textColor(.black())
         } layout: {
@@ -72,7 +78,7 @@ final class MenuCell: UITableViewCell {
     }
 
     private func addNotificationsLabel() {
-        notificationsLabel.snap(parent: self) {
+        notificationsLabel.snap(parent: contentView) {
             $0.textColor(.white())
             $0.font(.light(13))
             $0.textAlignment = .center
@@ -84,15 +90,22 @@ final class MenuCell: UITableViewCell {
         }
     }
 
-    private func addOpenButton() {
-        openButton.snap(parent: self) {
+    private func addArrowImageView() {
+        arrowImageView.snap(parent: contentView) {
             $0.contentMode = .center
-            $0.setImage(R.image.additionalMenu.grayArrow(), for: .normal)
+            $0.image = R.image.additionalMenu.grayArrow()
         } layout: {
-            $0.width.equalTo(24)
-            $0.height.equalTo(24)
+            $0.width.height.equalTo(24)
             $0.trailing.equalTo($1).offset(-23)
             $0.top.equalTo($1).offset(22)
+        }
+    }
+
+    private func addTapButton() {
+        tapButton.snap(parent: contentView) {
+            $0.addTarget(self, action: #selector(self.didTapOpen), for: .touchUpInside)
+        } layout: {
+            $0.top.leading.trailing.bottom.equalTo($1)
         }
     }
 }
