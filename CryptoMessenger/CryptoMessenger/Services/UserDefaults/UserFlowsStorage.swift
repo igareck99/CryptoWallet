@@ -5,6 +5,9 @@ import Foundation
 protocol UserFlowsStorage {
     var isAuthFlowFinished: Bool { get set }
     var isOnboardingFlowFinished: Bool { get set }
+    var isLocalAuth: Bool { get set }
+    var isLocalAuthBackgroundAlertShown: Bool { get set }
+    var isLocalAuthInBackground: Bool { get set }
 }
 
 // MARK: - UserFlowsStorageService
@@ -25,15 +28,26 @@ final class UserFlowsStorageService {
 
     var isAuthFlowFinished: Bool {
         get { storage.isAuthFlowFinished }
-        set {
-            storage.isAuthFlowFinished = newValue
-        }
+        set { storage.isAuthFlowFinished = newValue }
     }
 
     var isOnboardingFlowFinished: Bool {
         get { storage.isOnboardingFlowFinished }
-        set {
-            storage.isOnboardingFlowFinished = newValue
-        }
+        set { storage.isOnboardingFlowFinished = newValue }
+    }
+
+    var isLocalAuth: Bool {
+        get { storage.isLocalAuth }
+        set { storage.isLocalAuth = newValue }
+    }
+
+    var isLocalAuthBackgroundAlertShown: Bool {
+        get { storage.isLocalAuthBackgroundAlertShown }
+        set { storage.isLocalAuthBackgroundAlertShown = newValue }
+    }
+
+    var isLocalAuthInBackground: Bool {
+        get { storage.isLocalAuthInBackground }
+        set { storage.isLocalAuthInBackground = newValue }
     }
 }
