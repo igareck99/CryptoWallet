@@ -18,7 +18,6 @@ final class ProfileDetailView: UIView {
 
     // MARK: - Private Properties
 
-    private var profileImage = UIImageView()
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private var tableProvider: TableViewProvider?
 
@@ -71,7 +70,7 @@ final class ProfileDetailView: UIView {
     private func setupTableProvider() {
         let viewModel: ProfileDetailViewModel = .init(ProfileDetailItem())
         tableProvider = TableViewProvider(for: tableView, with: viewModel)
-        tableProvider?.registerCells([ProfileDetailCell.self, ProfileActionCell.self])
+        tableProvider?.registerCells([ProfileDetailCell.self, ProfileActionCell.self, HeaderViewCell.self])
         tableProvider?.onConfigureCell = { [unowned self] indexPath in
             guard let provider = tableProvider else { return .init() }
             let type = ProfileDetailViewModel.SectionType.allCases[indexPath.section]
@@ -100,6 +99,14 @@ final class ProfileDetailView: UIView {
                 let cell: ProfileActionCell = provider.dequeueReusableCell(for: indexPath)
                 cell.configure(type)
                 cell.didTap = {}
+                return cell
+            case .profileImage:
+                let cell: HeaderViewCell = provider.dequeueReusableCell(for: indexPath)
+                cell.isUserInteractionEnabled = true
+                cell.configure(type)
+                cell.didTapPhoto = {
+                    print("All come succefully")
+                }
                 return cell
             }
         }

@@ -24,6 +24,7 @@ struct ProfileDetailViewModel {
 
         // MARK: - Types
 
+        case profileImage
         case status, description, name, countryCode, phoneNumber
         case socialNetwork, exit, deleteAccount
 
@@ -50,6 +51,8 @@ struct ProfileDetailViewModel {
 
         var image: UIImage? {
             switch self {
+            case .profileImage:
+                return profileDetail.image
             case .socialNetwork:
                 return R.image.profileDetail.socialNetwork()
             case .exit:
@@ -100,7 +103,7 @@ extension ProfileDetailViewModel: TableViewProviderViewModel {
             return 24
         case .exit:
             return 32
-        case .deleteAccount:
+        case .deleteAccount, .profileImage:
             return 0
         }
     }
@@ -139,7 +142,9 @@ extension ProfileDetailViewModel: TableViewProviderViewModel {
             view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: CGFloat(height))
             view.addSubview(line)
             return view
-        case .deleteAccount:
+        case .deleteAccount :
+            return nil
+        case .profileImage:
             return nil
         }
     }
@@ -155,6 +160,8 @@ extension ProfileDetailViewModel: TableViewProviderViewModel {
     func heightForRow(indexPath: IndexPath) -> CGFloat {
         let type = SectionType.allCases[indexPath.section]
         switch type {
+        case .profileImage:
+            return 377
         case .status, .description, .name:
             return UITableView.automaticDimension
         case .countryCode, .phoneNumber:

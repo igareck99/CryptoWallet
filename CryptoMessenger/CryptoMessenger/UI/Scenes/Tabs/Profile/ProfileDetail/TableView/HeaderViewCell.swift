@@ -1,8 +1,13 @@
 import UIKit
 
-// MARK: - ProfileDetailTableHeaderView
+// MARK: - HeaderViewCell
 
-final class ProfileDetailTableHeaderView: UIView {
+final class HeaderViewCell: UITableViewCell {
+
+    // MARK: - Internal Properties
+
+    weak var delegate: ProfileDetailDelegate?
+    var didTapPhoto: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -11,8 +16,8 @@ final class ProfileDetailTableHeaderView: UIView {
 
     // MARK: - Lifecycle
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         addBackImageView()
         addCameraButton()
     }
@@ -22,12 +27,23 @@ final class ProfileDetailTableHeaderView: UIView {
         fatalError("not implemented")
     }
 
+    // MARK: - Internal Methods
+
+    func configure(_ type: ProfileDetailViewModel.SectionType) {
+        backImageView.image = type.image
+        cameraButton.setImage(R.image.profileDetail.camera(), for: .normal)
+    }
+
+    @objc func PhotoActionAdd(sender: UIButton) {
+        print("soe weong")
+        didTapPhoto?()
+    }
+
     // MARK: - Private Methods
 
     private func addBackImageView() {
         backImageView.snap(parent: self) {
-            $0.image = R.image.profileDetail.mainImage1()
-            $0.contentMode = .scaleToFill
+            $0.contentMode = .scaleAspectFill
         } layout: {
             $0.leading.trailing.top.equalTo($1)
             $0.height.equalTo(self.frame.width)
@@ -40,6 +56,7 @@ final class ProfileDetailTableHeaderView: UIView {
             $0.setImage(R.image.profileDetail.camera(), for: .normal)
             $0.clipCorners(radius: 30)
             $0.background(.darkBlack(0.4))
+            $0.addTarget(self, action: #selector(self.PhotoActionAdd), for: .touchUpInside)
         } layout: {
             $0.width.height.equalTo(60)
             $0.trailing.equalTo($1).offset(-16)
