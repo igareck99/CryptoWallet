@@ -1,10 +1,10 @@
 import UIKit
 import WebKit
 
-class CustomWebViewController: UIViewController, WKNavigationDelegate {
+final class CustomWebViewController: UIViewController {
 
-    var webView: WKWebView!
-    var url: String!
+    private var webView: WKWebView!
+    private var url: String!
 
     convenience init(url: String) {
         self.init(nibName: nil, bundle: nil)
@@ -13,13 +13,12 @@ class CustomWebViewController: UIViewController, WKNavigationDelegate {
 
     override func loadView() {
         webView = WKWebView()
-        webView.navigationDelegate = self
         view = webView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let url = URL(string: self.url)!
+        guard let url = URL(string: self.url) else { return }
         webView.load(URLRequest(url: url))
     }
 

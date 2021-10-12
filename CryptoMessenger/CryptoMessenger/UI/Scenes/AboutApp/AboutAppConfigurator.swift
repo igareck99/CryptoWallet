@@ -3,6 +3,9 @@ import Foundation
 // MARK: - AboutAppConfigurator
 
 enum AboutAppConfigurator {
+
+    // MARK: - Static Methods
+
     static func configuredViewController(delegate: AboutAppSceneDelegate?) -> AboutAppViewController {
 
         // MARK: - Internal Methods
@@ -12,5 +15,6 @@ enum AboutAppConfigurator {
         presenter.delegate = delegate
         viewController.presenter = presenter
         return viewController
+
     }
 }

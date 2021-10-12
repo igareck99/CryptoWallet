@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-// MARK: AboutAppViewController
+// MARK: - AboutAppViewController
 
 final class AboutAppViewController: BaseViewController {
 
@@ -25,7 +25,6 @@ final class AboutAppViewController: BaseViewController {
         subscribeCustomViewActions()
         addTitleBarButtonItem()
         addLeftBarButtonItem()
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -57,11 +56,11 @@ final class AboutAppViewController: BaseViewController {
 
     private func subscribeCustomViewActions() {
         customView.didTapLicense = { [unowned self] in
-            let vc = CustomWebViewController(url: "https://yandex.ru")
+            let vc = CustomWebViewController(url: AppConstants.getConstant(number: 3))
             present(vc, animated: true)
         }
-        customView.didTapPoliticsterms = { [unowned self] in
-            let vc = CustomWebViewController(url: "https://developer.apple.com")
+        customView.didTapPolitics = { [unowned self] in
+            let vc = CustomWebViewController(url: AppConstants.getConstant(number: 4))
             present(vc, animated: true)
         }
     }

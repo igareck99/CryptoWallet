@@ -91,7 +91,7 @@ public final class AuthFlowCoordinator: Coordinator {
 
     private func showAboutAppScene() {
         let viewController = AboutAppConfigurator.configuredViewController(delegate: self)
-        setViewWith(viewController)
+        navigationController.pushViewController(viewController, animated: true)
     }
 
     // MARK: - Scene

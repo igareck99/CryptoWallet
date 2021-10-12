@@ -26,9 +26,9 @@ final class AboutAppPresenter {
     func updateView(_ state: AboutAppFlow.ViewState) {
         switch state {
         case .sending:
-            print("sending..")
+            break
         case .result:
-            print("result")
+            break
         case .error(let message):
             view?.showAlert(title: nil, message: message)
         }

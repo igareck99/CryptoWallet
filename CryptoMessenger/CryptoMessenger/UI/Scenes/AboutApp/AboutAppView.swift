@@ -8,28 +8,28 @@ final class AboutAppView: UIView {
     // MARK: - Internal Properties
 
     var didTapLicense: VoidBlock?
-    var didTapPoliticsterms: VoidBlock?
+    var didTapPolitics: VoidBlock?
 
     // MARK: - Private Properties
 
-    private lazy var auraImage = UIImageView()
-    private lazy var nameLabel = UILabel()
+    private lazy var companyImage = UIImageView()
+    private lazy var companyNameLabel = UILabel()
     private lazy var versionLabel = UILabel()
     private lazy var licenseButton = UIButton()
     private lazy var politicsTermsButton = UIButton()
-    private lazy var auraAppIncLabel = UILabel()
+    private lazy var appIncLabel = UILabel()
 
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
-        addAuraImage()
-        addNameLabel()
+        addCompanyImage()
+        addCompanyNameLabel()
         addVersionLabel()
         addLicenseButton()
         addPoliticsTermsButton()
-        addAuraAppIncLabel()
+        addAppIncLabel()
     }
 
     @available(*, unavailable)
@@ -37,20 +37,18 @@ final class AboutAppView: UIView {
         fatalError("not implemented")
     }
 
-    // MARK: - Internal Methods
+    // MARK: - Private Methods
 
-    @objc func licenseAction() {
+    @objc private func licenseAction() {
         didTapLicense?()
     }
 
-    @objc func politicsTermsAction() {
-        didTapPoliticsterms?()
+    @objc private func politicsTermsAction() {
+        didTapPolitics?()
     }
 
-    // MARK: - Private Methods
-
-    private func addAuraImage() {
-        auraImage.snap(parent: self) {
+    private func addCompanyImage() {
+        companyImage.snap(parent: self) {
             $0.image = R.image.chat.logo()
             $0.contentMode = .scaleAspectFill
         } layout: {
@@ -60,13 +58,13 @@ final class AboutAppView: UIView {
         }
     }
 
-    private func addNameLabel() {
+    private func addCompanyNameLabel() {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.21
         paragraphStyle.alignment = .center
-        nameLabel.snap(parent: self) {
+        companyNameLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: R.string.localizable.aboutAppAppName(),
+                text: AppConstants.getConstant(number: 1),
                 [
                     .paragraph(paragraphStyle),
                     .font(.semibold(15)),
@@ -74,7 +72,7 @@ final class AboutAppView: UIView {
                 ]
             )
         } layout: {
-            $0.top.equalTo(self.auraImage.snp.bottomMargin).offset(22)
+            $0.top.equalTo(self.companyImage.snp.bottomMargin).offset(22)
             $0.height.equalTo(21)
             $0.centerX.equalTo($1)
         }
@@ -86,7 +84,7 @@ final class AboutAppView: UIView {
         paragraphStyle.alignment = .center
         versionLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: R.string.localizable.aboutAppVersion(),
+                text: AppConstants.getConstant(number: 2),
                 [
                     .paragraph(paragraphStyle),
                     .font(.semibold(13)),
@@ -94,7 +92,7 @@ final class AboutAppView: UIView {
                 ]
             )
         } layout: {
-            $0.top.equalTo(self.nameLabel.snp.bottomMargin).offset(7)
+            $0.top.equalTo(self.companyNameLabel.snp.bottomMargin).offset(7)
             $0.height.equalTo(16)
             $0.centerX.equalTo($1)
         }
@@ -144,11 +142,11 @@ final class AboutAppView: UIView {
         }
     }
 
-    private func addAuraAppIncLabel() {
+    private func addAppIncLabel() {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.21
         paragraphStyle.alignment = .center
-        auraAppIncLabel.snap(parent: self) {
+        appIncLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.aboutAppAuraAppInc(),
                 [
