@@ -59,12 +59,14 @@ final class ProfileDetailView: UIView {
     // MARK: - Private Methods
 
     private func addTableView() {
+        let headerView = ProfileDetailTableHeaderView(
+            frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.width)
+        )
+
         tableView.snap(parent: self) {
             $0.separatorStyle = .none
             $0.allowsSelection = true
-            $0.tableHeaderView = ProfileDetailTableHeaderView(
-                frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.width)
-            )
+            $0.tableHeaderView = headerView
         } layout: {
             $0.leading.trailing.top.bottom.equalTo($1)
         }
@@ -73,7 +75,7 @@ final class ProfileDetailView: UIView {
     private func setupTableProvider() {
         let viewModel: ProfileDetailViewModel = .init(ProfileDetailItem())
         tableProvider = TableViewProvider(for: tableView, with: viewModel)
-        tableProvider?.registerCells([ProfileDetailCell.self, ProfileActionCell.self, HeaderViewCell.self])
+        tableProvider?.registerCells([ProfileDetailCell.self, ProfileActionCell.self])
         tableProvider?.onConfigureCell = { [unowned self] indexPath in
             guard let provider = tableProvider else { return .init() }
             let type = ProfileDetailViewModel.SectionType.allCases[indexPath.section]
@@ -102,14 +104,6 @@ final class ProfileDetailView: UIView {
                 let cell: ProfileActionCell = provider.dequeueReusableCell(for: indexPath)
                 cell.configure(type)
                 cell.didTap = {}
-                return cell
-            case .profileImage:
-                let cell: HeaderViewCell = provider.dequeueReusableCell(for: indexPath)
-                cell.isUserInteractionEnabled = true
-                cell.configure(type)
-                cell.didTapPhoto = {
-                    print("All come succefully")
-                }
                 return cell
             }
         }
