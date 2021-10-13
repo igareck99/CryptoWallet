@@ -214,6 +214,7 @@
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
 		78437F03270B769C00371110 /* ProfileDetailTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F02270B769C00371110 /* ProfileDetailTableHeaderView.swift */; };
+		7844ACAA2715DEFD00A34E26 /* ProfileCountryCodeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7844ACA92715DEFD00A34E26 /* ProfileCountryCodeCell.swift */; };
 		7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65126E8BB6200B05984 /* PhotosDataSource.swift */; };
 		7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */; };
 		7846B65C26E8BBFD00B05984 /* TimingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */; };
@@ -497,6 +498,7 @@
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
 		78437F02270B769C00371110 /* ProfileDetailTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailTableHeaderView.swift; sourceTree = "<group>"; };
+		7844ACA92715DEFD00A34E26 /* ProfileCountryCodeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCountryCodeCell.swift; sourceTree = "<group>"; };
 		7846B65126E8BB6200B05984 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		7846B65926E8BBDC00B05984 /* ScrollSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollSynchronizer.swift; sourceTree = "<group>"; };
 		7846B65B26E8BBFD00B05984 /* TimingFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimingFunctions.swift; sourceTree = "<group>"; };
@@ -1422,6 +1424,7 @@
 				787AAEE42703CA4900D734D3 /* ProfileDetailCell.swift */,
 				5A7F4529270E1C1400E44D22 /* ProfileActionCell.swift */,
 				787AAEE62703CC2B00D734D3 /* ProfileDetailViewModel.swift */,
+				7844ACA92715DEFD00A34E26 /* ProfileCountryCodeCell.swift */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -2011,6 +2014,7 @@
 				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
 				78C3CEE426F06FAF00CF1885 /* MenuListViewModel.swift in Sources */,
+				7844ACAA2715DEFD00A34E26 /* ProfileCountryCodeCell.swift in Sources */,
 				5A26CD4B26B356F600118D4B /* ProfilePresenter.swift in Sources */,
 				7846B66126E8BC6600B05984 /* ScrollAnimation.swift in Sources */,
 				78BB7E2126F4AB2600F1D500 /* FriendMenuListViewModel.swift in Sources */,
@@ -2177,7 +2181,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 15;
-				DEVELOPMENT_TEAM = 764W7G7Y88;
+				DEVELOPMENT_TEAM = C392B84957;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
@@ -2203,7 +2207,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 15;
-				DEVELOPMENT_TEAM = 764W7G7Y88;
+				DEVELOPMENT_TEAM = C392B84957;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;

@@ -33,6 +33,9 @@ final class ProfileDetailPresenter {
         case .result:
             guard let country = selectedCountry else { return }
             view?.setCountryCode(country)
+            let prefix = self.selectedCountry?.prefix ?? ""
+            profileDetail.countryCode = prefix
+            print(profileDetail.countryCode)
         case .error(let message):
             view?.showAlert(title: nil, message: message)
         }
@@ -65,7 +68,6 @@ extension ProfileDetailPresenter: ProfileDetailPresentation {
 
     func handleCountryCodeScene() {
         delegate?.handleNextScene(.countryCode(self))
-        
     }
 }
 

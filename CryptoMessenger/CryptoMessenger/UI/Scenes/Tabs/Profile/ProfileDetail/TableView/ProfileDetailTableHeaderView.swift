@@ -29,6 +29,7 @@ final class ProfileDetailTableHeaderView: UIView {
     // MARK: - Actions
 
     @objc private func cameraTap() {
+        print("dkmkdfk")
         didCameraTap?()
     }
 
@@ -36,7 +37,7 @@ final class ProfileDetailTableHeaderView: UIView {
 
     private func addBackImageView() {
         backImageView.snap(parent: self) {
-            $0.image = R.image.profileDetail.mainImage1()
+            $0.image = profileDetail.image
             $0.contentMode = .scaleToFill
         } layout: {
             $0.leading.trailing.top.equalTo($1)
