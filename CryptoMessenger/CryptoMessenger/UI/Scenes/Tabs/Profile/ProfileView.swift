@@ -11,6 +11,7 @@ final class ProfileView: UIView {
     var didTapBuyCell: VoidBlock?
 
     // MARK: - Private Properties
+
     private lazy var view = ProfileView(frame: UIScreen.main.bounds)
     private lazy var titleLabel = UILabel()
     private lazy var profileImage = UIImageView()
