@@ -46,6 +46,10 @@ final class ProfileDetailView: UIView {
         tableView.tableHeaderView = headerView
     }
 
+    func saveData() {
+        print(profileDetail)
+    }
+
     // MARK: - Actions
 
     @objc private func deleteAccount() {
@@ -118,7 +122,8 @@ final class ProfileDetailView: UIView {
             case .socialNetwork, .exit, .deleteAccount:
                 let cell: ProfileActionCell = provider.dequeueReusableCell(for: indexPath)
                 cell.configure(type)
-                cell.didTap = {}
+                cell.didTapDelete = { deleteAccount() }
+                cell.didTapExit = { logout() }
                 return cell
             }
         }
@@ -128,6 +133,11 @@ final class ProfileDetailView: UIView {
             switch type {
             case .countryCode:
                 countryButtonTap()
+            case .deleteAccount:
+                print("delete")
+                deleteAccount()
+            case .exit:
+                logout()
             default:
                 print("")
             }
@@ -144,8 +154,17 @@ extension ProfileDetailView: ProfileDetailDelegate {
             _ = textView.text ?? ""
             let type = ProfileDetailViewModel.SectionType.allCases[indexPath.section]
             switch type {
-            case .status, .description, .name:
-                break
+            case .status:
+                profileDetail.status = textView.text
+            case .description:
+                profileDetail.description = textView.text
+            case .name:
+                profileDetail.name = textView.text
+            case .phoneNumber:
+                profileDetail.phone = textView.text
+            case .countryCode:
+                
+                profileDetail.countryCode = textView.text
             default:
                 break
             }

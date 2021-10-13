@@ -32,6 +32,7 @@ final class ProfileDetailPresenter {
             break
         case .result:
             guard let country = selectedCountry else { return }
+            print("")
             view?.setCountryCode(country)
             let prefix = self.selectedCountry?.prefix ?? ""
             profileDetail.countryCode = prefix

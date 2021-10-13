@@ -80,7 +80,7 @@ final class ProfileView: UIView {
 
     private func addProfileImage() {
         profileImage.snap(parent: self) {
-            $0.image = R.image.profile.userAvatar()
+            $0.image = profileDetail.image
             $0.clipCorners(radius: 50)
         } layout: {
             $0.width.height.equalTo(100)
@@ -96,7 +96,7 @@ final class ProfileView: UIView {
 
         titleLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: R.string.localizable.profileTitle(),
+                text: profileDetail.name,
                 [
                     .paragraph(paragraphStyle),
                     .font(.medium(15)),
@@ -165,7 +165,7 @@ final class ProfileView: UIView {
 
         phoneLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: R.string.localizable.profileMobile(),
+                text: profileDetail.phone,
                 [
                     .paragraph(paragraphStyle),
                     .font(.regular(15)),
@@ -187,7 +187,7 @@ final class ProfileView: UIView {
 
         infoLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: R.string.localizable.profileInfo(),
+                text: profileDetail.description,
                 [
                     .paragraph(paragraphStyle),
                     .font(.regular(15)),

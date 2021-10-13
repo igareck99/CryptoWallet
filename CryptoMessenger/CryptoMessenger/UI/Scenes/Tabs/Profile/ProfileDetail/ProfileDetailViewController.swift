@@ -21,7 +21,6 @@ final class ProfileDetailViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        addLeftBarButtonItem()
         addTitleBarButtonItem()
         addRightBarButtonItem()
         subscribeOnCustomViewActions()
@@ -45,16 +44,6 @@ final class ProfileDetailViewController: BaseViewController {
 
     private func setupImagePicker() {
         imagePicker.delegate = self
-    }
-
-    private func addLeftBarButtonItem() {
-        let back = UIBarButtonItem(
-            image: R.image.photoEditor.backButton(),
-            style: .done,
-            target: self,
-            action: #selector(backAction)
-        )
-        navigationItem.leftBarButtonItem = back
     }
 
     private func addTitleBarButtonItem() {
@@ -129,7 +118,8 @@ final class ProfileDetailViewController: BaseViewController {
     }
 
     @objc private func saveAction() {
-        navigationController?.popViewController(animated: true)
+        customView.saveData()
+        presenter.handleButtonTap()
     }
 }
 
@@ -150,8 +140,7 @@ extension ProfileDetailViewController: ImagePickerDelegate {
 
 extension ProfileDetailViewController: ProfileDetailViewInterface {
     func setCountryCode(_ country: CountryCodePickerViewController.Country) {
-        
-
+        print(country)
     }
 
     func showAlert(title: String?, message: String?) {
