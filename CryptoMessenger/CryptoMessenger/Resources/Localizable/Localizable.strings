@@ -122,5 +122,11 @@
 "BuyCell.Title" = "Купить 3 ячейки";
 "BuyCell.YourBalance" = "Ваш баланс";
 "BuyCell.Buy" = "Купить за — 0.050 AUR";
+"AboutApp.Title" = "О приложении";
+"AboutApp.AppName" = "AURA Wallet Messenger";
+"AboutApp.Version" = "Версия 1.10.201";
+"AboutApp.License" = "Лицензии";
+"AboutApp.TermsAndPolitics" = "Условия и Политика\nконфиденциальности";
+"AboutApp.AuraAppInc" = "C 2020 AuraApp Inc.";
 
 "ProfileNetworkDetail.NotShowMessage" = "НЕ ОТОБРАЖАЕМ";

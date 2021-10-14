@@ -100,6 +100,11 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
+    private func showAboutAppScene() {
+        let viewController = AboutAppConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
     // MARK: - Scene
 
     enum Scene {
@@ -119,6 +124,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case friendProfile
         case profileDetail
         case profileNetwork
+        case aboutApp
     }
 }
 
@@ -153,6 +159,9 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showProfileDetailScene()
         case .profileNetwork:
             showProfileNetworkDetailScene()
+            showFrienProfileScene()
+        case .aboutApp:
+            showAboutAppScene()
         }
     }
 
@@ -220,3 +229,7 @@ extension AuthFlowCoordinator: ProfileDetailSceneDelegate {}
 // MARK: - AuthFlowCoordinator (ProfileDetailSceneDelegate)
 
 extension AuthFlowCoordinator: ProfileNetworkDetailSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (AboutAppSceneDelegate)
+
+extension AuthFlowCoordinator: AboutAppSceneDelegate {}
