@@ -20,6 +20,7 @@ final class ProfileDetailView: UIView {
 
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private var tableProvider: TableViewProvider?
+    var selectedCountry = CountryCodePickerViewController.baseCountry
 
     // MARK: - Lifecycle
 
@@ -122,13 +123,10 @@ final class ProfileDetailView: UIView {
             case .socialNetwork, .exit, .deleteAccount:
                 let cell: ProfileActionCell = provider.dequeueReusableCell(for: indexPath)
                 cell.configure(type)
-                cell.didTapDelete = { deleteAccount() }
-                cell.didTapExit = { logout() }
                 return cell
             }
         }
         tableProvider?.onSelectCell = { [unowned self] indexPath in
-            print(indexPath)
             let type = ProfileDetailViewModel.SectionType.allCases[indexPath.section]
             switch type {
             case .countryCode:
@@ -163,7 +161,6 @@ extension ProfileDetailView: ProfileDetailDelegate {
             case .phoneNumber:
                 profileDetail.phone = textView.text
             case .countryCode:
-                
                 profileDetail.countryCode = textView.text
             default:
                 break
@@ -187,8 +184,8 @@ extension ProfileDetailView: ProfileDetailDelegate {
 }
 
 var profileDetail : ProfileDetailItem = ProfileDetailItem(image: R.image.profileDetail.mainImage1(),
-                                                         status: "AURA Россия",
-                                                         description: "Делаю лучший крипто-мессенджер!\nЖиву в Зеленограде! Люблю качалку:)",
-                                                         name: "Артём Квач",
-                                                         countryCode: "+7  Россия",
-                                                         phone: "(925) 851-15-41")
+                                                          status: "AURA Россия",
+                                                          description: "Делаю лучший крипто-мессенджер!\nЖиву в Зеленограде! Люблю качалку:)",
+                                                          name: "Артём Квач",
+                                                          countryCode: "+7  Россия",
+                                                          phone: "(925) 851-15-41")
