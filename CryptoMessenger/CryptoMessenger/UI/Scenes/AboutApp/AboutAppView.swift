@@ -64,7 +64,7 @@ final class AboutAppView: UIView {
         paragraphStyle.alignment = .center
         companyNameLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: AppConstants.getConstant(number: 1),
+                text: AppConstants.appName.aboutApp,
                 [
                     .paragraph(paragraphStyle),
                     .font(.semibold(15)),
@@ -84,7 +84,7 @@ final class AboutAppView: UIView {
         paragraphStyle.alignment = .center
         versionLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: AppConstants.getConstant(number: 2),
+                text: AppConstants.appVersion.aboutApp,
                 [
                     .paragraph(paragraphStyle),
                     .font(.semibold(13)),

@@ -2,22 +2,24 @@ import Foundation
 
 // MARK: - AppConstants
 
-enum AppConstants {
+enum AppConstants: Hashable {
     case appName
-    case AppVersion
+    case appVersion
+    case licensePage
+    case rulesPage
 
-    static func getConstant(number: Int) -> String {
-        switch number {
-        case 1:
+    // MARK: - Internal Properties
+
+    var aboutApp: String {
+        switch self {
+        case .appName:
             return "AURA Wallet Messenger"
-        case 2:
+        case .appVersion:
             return "Версия 1.10.201"
-        case 3:
+        case .licensePage:
             return "https://yandex.ru"
-        case 4:
+        case .rulesPage:
             return "https://developer.apple.com"
-        default:
-            return "undefined"
         }
     }
 }

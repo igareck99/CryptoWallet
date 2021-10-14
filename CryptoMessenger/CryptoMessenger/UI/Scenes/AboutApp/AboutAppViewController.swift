@@ -56,11 +56,11 @@ final class AboutAppViewController: BaseViewController {
 
     private func subscribeCustomViewActions() {
         customView.didTapLicense = { [unowned self] in
-            let vc = CustomWebViewController(url: AppConstants.getConstant(number: 3))
+            let vc = CustomWebViewController(url: AppConstants.licensePage.aboutApp)
             present(vc, animated: true)
         }
         customView.didTapPolitics = { [unowned self] in
-            let vc = CustomWebViewController(url: AppConstants.getConstant(number: 4))
+            let vc = CustomWebViewController(url: AppConstants.rulesPage.aboutApp)
             present(vc, animated: true)
         }
     }
