@@ -9,20 +9,26 @@ final class PinCodePresenter {
 
     weak var delegate: PinCodeSceneDelegate?
     weak var view: PinCodeViewInterface?
+    weak var wallet: WalletViewController?
+    private(set) var localAuth = LocalAuthentication()
+    private(set) var isLocalAuthBackgroundAlertShown = false
 
     // MARK: - Private Properties
 
-    private let localAuth = LocalAuthentication()
     private var state = PinCodeFlow.ViewState.sending {
         didSet {
             updateView(state)
         }
     }
 
+    @Injectable private var userFlows: UserFlowsStorageService
+    @Injectable private var userCredentials: UserCredentialsStorageService
+
     // MARK: - Lifecycle
 
     init(view: PinCodeViewInterface) {
         self.view = view
+        isLocalAuthBackgroundAlertShown = userFlows.isLocalAuthBackgroundAlertShown
     }
 
     // MARK: - Private Methods
@@ -42,11 +48,24 @@ final class PinCodePresenter {
 // MARK: - PinCodePresenter (PinCodePresentation)
 
 extension PinCodePresenter: PinCodePresentation {
-    func checkLocalAuth() {
-        state = .result(localAuth.getAvailableBiometrics())
+    func viewDidLoad() {
+        let pinCode = userCredentials.userPinCode.map({ Int(String($0)) }).compactMap({ $0 })
+        view?.setPinCode(pinCode)
     }
 
-    func handleButtonTap() {
+    func setNewPinCode(_ pinCode: String) {
+        userCredentials.userPinCode = pinCode
+    }
 
+    func checkLocalAuth() {
+        DispatchQueue.main.async { self.state = .result(self.localAuth.getAvailableBiometrics()) }
+    }
+
+    func handleButtonTap(_ isBackgroundLocalAuth: Bool) {
+        userFlows.isLocalAuth = true
+        userFlows.isAuthFlowFinished = true
+        userFlows.isLocalAuthBackgroundAlertShown = true
+        userFlows.isLocalAuthInBackground = isBackgroundLocalAuth
+        delay(0.1) { self.delegate?.handleNextScene() }
     }
 }

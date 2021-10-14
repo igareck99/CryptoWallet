@@ -55,8 +55,17 @@
 "Profile.BuyCell" = "Купить еще 3 ячейки — 0.050 AUR";
 
 
-"PinCode.password" = "Введите пароль";
-"PinCode.enter" = "Не можете войти?";
+"PinCode.EnterPassword" = "Введите пароль";
+"PinCode.NewPassword" = "Установите пароль";
+"PinCode.RepeatPassword" = "Повторите пароль";
+"PinCode.SuccessPassword" = "Пароль установлен";
+"PinCode.NotMatchPassword" = "Пароли не совпадают";
+"PinCode.Enter" = "Не можете войти?";
+"PinCode.AlertTitle" = "Включить фоновую авторизацию?";
+"PinCode.AlertMessage" = "Запрашивать пароль после сворачивания приложения";
+"PinCode.AlertCancel" = "Нет";
+"PinCode.AlertYes" = "Да";
+
 
 "CallList.Delete" = "Удалить";
 "CallList.Title" = "Журнал звонков";
@@ -92,6 +101,26 @@
 "FriendProfile.Write" = "Написать";
 "FriendProfile.Call" = "Позвонить";
 
+"ProfileDetail.Title" = "Профиль";
+"ProfileDetail.RightButton" = "Готово";
+"ProfileDetail.StatusLabel" = "Статус";
+"ProfileDetail.InfoLabel" = "Статус";
+"ProfileDetail.NameLabel" = "Имя пользователя";
+"ProfileDetail.NamePlaceholder" = "Введите имя пользователя";
+"ProfileDetail.FirstItemCell" = "Ваши социальные сети";
+"ProfileDetail.SecondItemCell" = "Выход";
+"ProfileDetail.ThirdItemCell" = "Удалить учетную запись";
+"ProfileDetail.LogoutAlertTitle" = "Выйти из учетной записи?";
+"ProfileDetail.LogoutAlertMessage" = "Вы действительно хотите выйти из учетной записи? Перед выходом проверьте сохранили ли вы ключ.";
+"ProfileDetail.LogoutAlertCancel" = "Отменить";
+"ProfileDetail.LogoutAlertApprove" = "Выход";
+"ProfileDetail.DeleteAlertTitle" = "Удалить учетную запись?";
+"ProfileDetail.DeleteAlertMessage" = "Ваш профиль и данные, хранящиеся на сервере будут удалены";
+"ProfileDetail.DeleteAlertCancel" = "Отменить";
+"ProfileDetail.DeleteAlertApprove" = "Удалить";
+"ProfileDetail.PhonePlaceholder" = "Введите номер";
 "BuyCell.Title" = "Купить 3 ячейки";
 "BuyCell.YourBalance" = "Ваш баланс";
 "BuyCell.Buy" = "Купить за — 0.050 AUR";
+
+"ProfileNetworkDetail.NotShowMessage" = "НЕ ОТОБРАЖАЕМ";

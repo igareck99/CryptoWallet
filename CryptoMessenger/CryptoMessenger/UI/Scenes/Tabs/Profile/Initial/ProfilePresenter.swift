@@ -3,7 +3,6 @@ import UIKit
 // MARK: - ProfilePresenter
 
 final class ProfilePresenter {
-    // MARK: - Types
 
     // MARK: - Internal Properties
 
@@ -29,7 +28,7 @@ final class ProfilePresenter {
     private func updateView(_ state: ProfileFlow.ViewState) {
         switch state {
         case .sending:
-            print("sending..")
+            break
         case let .result(photos):
             view?.setPhotos(photos)
         case .error(let message):

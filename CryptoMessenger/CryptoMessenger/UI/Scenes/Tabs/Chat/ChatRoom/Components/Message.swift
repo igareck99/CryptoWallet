@@ -9,6 +9,7 @@ enum MessageType {
     case text(String)
     case image(UIImage)
     case location((lat: Double, long: Double))
+    case contact
 }
 
 // MARK: - MessageStatus
