@@ -36,3 +36,16 @@ enum TextAttributes: Hashable {
         }
     }
 }
+
+// MARK: - NSMutableParagraphStyle ()
+
+extension NSMutableParagraphStyle {
+
+    // MARK: - Lifecycle
+
+    convenience init(alignment: NSTextAlignment, _ lineHeightMultiple: CGFloat) {
+        self.init()
+        self.alignment = alignment
+        self.lineHeightMultiple = lineHeightMultiple
+    }
+}

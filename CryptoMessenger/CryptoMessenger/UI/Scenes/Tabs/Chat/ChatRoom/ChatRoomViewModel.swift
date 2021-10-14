@@ -164,6 +164,13 @@ final class ChatRoomViewModel: ObservableObject {
                     }
                 case .media:
                     self?.showPhotoLibrary.toggle()
+                case .contact:
+                    let message = RoomMessage(
+                        type: .contact,
+                        date: "00:32",
+                        isCurrentUser: true
+                    )
+                    self?.messages.append(message)
                 default:
                     break
                 }
@@ -236,6 +243,11 @@ private var sortedMessages: [RoomMessage] = [
     ),
     .init(
         type: .text("Сочувствую!)"),
+        date: "00:32",
+        isCurrentUser: true
+    ),
+    .init(
+        type: .contact,
         date: "00:32",
         isCurrentUser: true
     )

@@ -1,17 +1,12 @@
 import UIKit
 
-// MARK: - AdditionalMenuViewController
+// MARK: - PaywallViewController
 
-final class AdditionalMenuViewController: BaseViewController {
-
-    // MARK: - Internal Properties
-
-    var didDeleteTap: VoidBlock?
-    var didCancelTap: VoidBlock?
+final class PaywallViewController: BaseViewController {
 
     // MARK: - Private Properties
 
-    private lazy var customView = AdditionalMenuView()
+    private lazy var customView = PaywallView()
 
     // MARK: - Lifecycle
 
@@ -19,6 +14,7 @@ final class AdditionalMenuViewController: BaseViewController {
         super.viewDidLoad()
         addCustomView()
         addTapGesture()
+        subscribeOnCustomViewActions()
     }
 
     override func viewDidLayoutSubviews() {
@@ -38,12 +34,18 @@ final class AdditionalMenuViewController: BaseViewController {
         view.background(.clear)
         customView.snap(parent: view) {
             $0.leading.bottom.trailing.equalTo($1)
-            $0.height.equalTo(700)
+            $0.height.equalTo(370)
         }
     }
 
     private func addTapGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(didClose))
         view.addGestureRecognizer(tap)
+    }
+
+    private func subscribeOnCustomViewActions() {
+        customView.didCloseTap = { [unowned self] in
+            didClose()
+        }
     }
 }

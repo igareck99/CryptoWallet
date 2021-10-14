@@ -27,11 +27,14 @@ final class AppCoordinator: Coordinator {
         return
 
         let flow = AppLaunchInstructor.configure(
-            isOnboardingShown: userFlows.isOnboardingFlowFinished,
-            isAuthorized: userFlows.isAuthFlowFinished
+            isAuthorized: userFlows.isAuthFlowFinished,
+            isLocalAuth: userFlows.isLocalAuth
         )
+
         switch flow {
-        case .authentication, .onboarding:
+        case .localAuth:
+            showPinCodeFlow()
+        case .authentication:
             showAuthenticationFlow()
         case .main:
             showMainFlow()
@@ -51,6 +54,13 @@ final class AppCoordinator: Coordinator {
         addChildCoordinator(mainFlowCoordinator)
         mainFlowCoordinator.start()
     }
+
+    func showPinCodeFlow() {
+        let pinCodeFlowCoordinator = PinCodeFlowCoordinator(navigationController: navigationController)
+        pinCodeFlowCoordinator.delegate = self
+        addChildCoordinator(pinCodeFlowCoordinator)
+        pinCodeFlowCoordinator.start()
+    }
 }
 
 // MARK: - AppCoordinator (AuthFlowCoordinatorDelegate)
@@ -58,7 +68,11 @@ final class AppCoordinator: Coordinator {
 extension AppCoordinator: AuthFlowCoordinatorDelegate {
     func userPerformedAuthentication(coordinator: Coordinator) {
         removeChildCoordinator(coordinator)
-        showMainFlow()
+        if userFlows.isLocalAuth {
+            showMainFlow()
+        } else {
+            showPinCodeFlow()
+        }
     }
 }
 
@@ -68,5 +82,18 @@ extension AppCoordinator: MainFlowCoordinatorDelegate {
     func userPerformedLogout(coordinator: Coordinator) {
         removeChildCoordinator(coordinator)
         showAuthenticationFlow()
+    }
+}
+
+// MARK: - AppCoordinator (PinCodeFlowCoordinatorDelegate)
+
+extension AppCoordinator: PinCodeFlowCoordinatorDelegate {
+    func userApprovedAuthentication(coordinator: Coordinator) {
+        removeChildCoordinator(coordinator)
+        if userFlows.isAuthFlowFinished {
+            showMainFlow()
+        } else {
+            showAuthenticationFlow()
+        }
     }
 }
