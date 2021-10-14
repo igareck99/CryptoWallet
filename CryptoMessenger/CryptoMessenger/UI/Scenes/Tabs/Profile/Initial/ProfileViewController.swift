@@ -43,6 +43,10 @@ final class ProfileViewController: BaseViewController {
             let viewController = PhotoEditorConfigurator.configuredViewController(images: images, delegate: nil)
             present(viewController, animated: true)
         }
+        customView.didTapBuyCell = { [unowned self] in
+            let vc = PaywallViewController()
+            self.present(vc, animated: true)
+        }
     }
 
     private func addLeftBarButtonItem() {
