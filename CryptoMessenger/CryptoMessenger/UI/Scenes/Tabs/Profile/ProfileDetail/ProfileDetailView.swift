@@ -144,6 +144,8 @@ final class ProfileDetailView: UIView {
     }
 }
 
+// MARK: - ProfileDetailView (ProfileDetailDelegate)
+
 extension ProfileDetailView: ProfileDetailDelegate {
     func update(_ cell: UITableViewCell, _ textView: UITextView) {
         if let indexPath = tableView.indexPath(for: cell) {

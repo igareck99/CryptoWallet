@@ -3,6 +3,9 @@ import UIKit
 // MARK: - ButtonDecor
 
 enum ButtonDecor {
+
+    // MARK: - Types
+
     case black,
          gray,
          white
