@@ -26,7 +26,7 @@ final class ProfileDetailView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addDismissOnTap(true)
+        addDismissOnTap()
         background(.white())
         addTableView()
         setupTableProvider()
