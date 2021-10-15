@@ -4,6 +4,9 @@ import SwiftUI
 // MARK: - Palette
 
 enum Palette: Hashable {
+
+    // MARK: - Types
+
     case clear,
          black(_ alpha: CGFloat = 1),
          lightGray(_ alpha: CGFloat = 1),

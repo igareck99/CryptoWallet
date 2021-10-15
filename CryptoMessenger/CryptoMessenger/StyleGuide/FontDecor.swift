@@ -4,6 +4,9 @@ import SwiftUI
 // MARK: - FontDecor
 
 enum FontDecor: Hashable {
+
+    // MARK: - Types
+
     case light(CGFloat),
          regular(CGFloat),
          medium(CGFloat),

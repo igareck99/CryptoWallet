@@ -159,7 +159,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showProfileDetailScene()
         case .profileNetwork:
             showProfileNetworkDetailScene()
-            showFrienProfileScene()
         case .aboutApp:
             showAboutAppScene()
         }
