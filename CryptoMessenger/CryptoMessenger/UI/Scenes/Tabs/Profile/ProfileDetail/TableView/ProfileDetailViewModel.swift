@@ -139,7 +139,7 @@ extension ProfileDetailViewModel: TableViewProviderViewModel {
             view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: CGFloat(height))
             view.addSubview(line)
             return view
-        case .deleteAccount:
+        case .deleteAccount :
             return nil
         }
     }

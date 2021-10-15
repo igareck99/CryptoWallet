@@ -8,6 +8,7 @@ final class ProfileDetailPresenter {
 
     weak var delegate: ProfileDetailSceneDelegate?
     weak var view: ProfileDetailViewInterface?
+    weak var mainView: ProfileDetailView?
 
     // MARK: - Private Properties
 
@@ -33,6 +34,8 @@ final class ProfileDetailPresenter {
         case .result:
             guard let country = selectedCountry else { return }
             view?.setCountryCode(country)
+            let prefix = self.selectedCountry?.prefix ?? ""
+            profileDetail.countryCode = prefix
         case .error(let message):
             view?.showAlert(title: nil, message: message)
         }
@@ -57,15 +60,12 @@ extension ProfileDetailPresenter: ProfileDetailPresentation {
 
     func handleNextScene(_ phone: String) {
         delay(1.4) {
-            let prefix = self.selectedCountry?.prefix ?? ""
-            print("Some pefix   \(prefix)")
             self.delegate?.handleNextScene(.profileDetail)
         }
     }
 
     func handleCountryCodeScene() {
         delegate?.handleNextScene(.countryCode(self))
-        
     }
 }
 

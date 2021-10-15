@@ -9,4 +9,5 @@ struct MenuItem {
     var text: String
     var image: UIImage?
     var notifications: Int
+    var type: Int = 0
 }

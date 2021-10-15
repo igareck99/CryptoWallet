@@ -4,6 +4,10 @@ import UIKit
 
 final class ProfileDetailTableHeaderView: UIView {
 
+    // MARK: - Internal Properties
+
+    var didCameraTap: VoidBlock?
+
     // MARK: - Private Properties
 
     private lazy var backImageView = UIImageView()
@@ -22,11 +26,17 @@ final class ProfileDetailTableHeaderView: UIView {
         fatalError("not implemented")
     }
 
+    // MARK: - Actions
+
+    @objc private func cameraTap() {
+        didCameraTap?()
+    }
+
     // MARK: - Private Methods
 
     private func addBackImageView() {
         backImageView.snap(parent: self) {
-            $0.image = R.image.profileDetail.mainImage1()
+            $0.image = profileDetail.image
             $0.contentMode = .scaleToFill
         } layout: {
             $0.leading.trailing.top.equalTo($1)
@@ -40,6 +50,7 @@ final class ProfileDetailTableHeaderView: UIView {
             $0.clipCorners(radius: 30)
             $0.background(.black(0.4))
             $0.setImage(R.image.profileDetail.camera(), for: .normal)
+            $0.addTarget(self, action: #selector(self.cameraTap), for: .touchUpInside)
         } layout: {
             $0.width.height.equalTo(60)
             $0.trailing.equalTo($1).offset(-16)

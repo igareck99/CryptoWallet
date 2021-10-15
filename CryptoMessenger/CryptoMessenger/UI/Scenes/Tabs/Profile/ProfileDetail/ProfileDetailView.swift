@@ -18,15 +18,15 @@ final class ProfileDetailView: UIView {
 
     // MARK: - Private Properties
 
-    private var profileImage = UIImageView()
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private var tableProvider: TableViewProvider?
+    var selectedCountry = CountryCodePickerViewController.baseCountry
 
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addDismissOnTap(true)
+        addDismissOnTap()
         background(.white())
         addTableView()
         setupTableProvider()
@@ -38,6 +38,18 @@ final class ProfileDetailView: UIView {
     }
 
     // MARK: - Internal Methods
+
+    func addImage(image: UIImage) {
+        profileDetail.image = image
+        let headerView = ProfileDetailTableHeaderView(
+            frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.width)
+        )
+        tableView.tableHeaderView = headerView
+    }
+
+    func saveData() {
+        print(profileDetail)
+    }
 
     // MARK: - Actions
 
@@ -54,18 +66,24 @@ final class ProfileDetailView: UIView {
     }
 
     @objc private func countryButtonTap() {
+        didTapCountryScene?()
         vibrate()
     }
 
     // MARK: - Private Methods
 
     private func addTableView() {
+        let headerView = ProfileDetailTableHeaderView(
+            frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.width)
+        )
+        headerView.didCameraTap = {
+            self.addPhoto()
+        }
         tableView.snap(parent: self) {
             $0.separatorStyle = .none
             $0.allowsSelection = true
-            $0.tableHeaderView = ProfileDetailTableHeaderView(
-                frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.width)
-            )
+            $0.isUserInteractionEnabled = true
+            $0.tableHeaderView = headerView
         } layout: {
             $0.leading.trailing.top.bottom.equalTo($1)
         }
@@ -74,36 +92,50 @@ final class ProfileDetailView: UIView {
     private func setupTableProvider() {
         let viewModel: ProfileDetailViewModel = .init(ProfileDetailItem())
         tableProvider = TableViewProvider(for: tableView, with: viewModel)
-        tableProvider?.registerCells([ProfileDetailCell.self, ProfileActionCell.self])
+        tableProvider?.registerCells([ProfileDetailCell.self, ProfileActionCell.self, ProfileCountryCodeCell.self])
         tableProvider?.onConfigureCell = { [unowned self] indexPath in
             guard let provider = tableProvider else { return .init() }
             let type = ProfileDetailViewModel.SectionType.allCases[indexPath.section]
             switch type {
-            case .status, .description, .name, .countryCode, .phoneNumber:
+            case .status, .description, .name, .phoneNumber:
                 let cell: ProfileDetailCell = provider.dequeueReusableCell(for: indexPath)
                 var text = ""
                 switch type {
                 case .status:
-                    text = "AURA Россия"
+                    text = profileDetail.status
                 case .description:
-                    text = "Делаю лучший крипто-мессенджер!\nЖиву в Зеленограде! Люблю качалку:)"
+                    text = profileDetail.description
                 case .name:
-                    text = "Артём Квач"
-                case .countryCode:
-                    text = "+7  Россия"
+                    text = profileDetail.name
                 case .phoneNumber:
-                    text = "(925) 851-15-41"
+                    text = profileDetail.phone
                 default:
                     break
                 }
                 cell.configure(text)
                 cell.delegate = self
                 return cell
+            case .countryCode:
+                let cell: ProfileCountryCodeCell = provider.dequeueReusableCell(for: indexPath)
+                cell.configure(profileDetail.countryCode)
+                return cell
             case .socialNetwork, .exit, .deleteAccount:
                 let cell: ProfileActionCell = provider.dequeueReusableCell(for: indexPath)
                 cell.configure(type)
-                cell.didTap = {}
                 return cell
+            }
+        }
+        tableProvider?.onSelectCell = { [unowned self] indexPath in
+            let type = ProfileDetailViewModel.SectionType.allCases[indexPath.section]
+            switch type {
+            case .countryCode:
+                countryButtonTap()
+            case .deleteAccount:
+                deleteAccount()
+            case .exit:
+                logout()
+            default:
+                print("")
             }
         }
         tableProvider?.onViewForHeaderInSection = {
@@ -120,9 +152,16 @@ extension ProfileDetailView: ProfileDetailDelegate {
             _ = textView.text ?? ""
             let type = ProfileDetailViewModel.SectionType.allCases[indexPath.section]
             switch type {
-            case .status, .description, .name:
-                // тут можно обработать сохранение новых данных
-                break
+            case .status:
+                profileDetail.status = textView.text
+            case .description:
+                profileDetail.description = textView.text
+            case .name:
+                profileDetail.name = textView.text
+            case .phoneNumber:
+                profileDetail.phone = textView.text
+            case .countryCode:
+                profileDetail.countryCode = textView.text
             default:
                 break
             }
@@ -143,3 +182,10 @@ extension ProfileDetailView: ProfileDetailDelegate {
         }
     }
 }
+
+var profileDetail : ProfileDetailItem = ProfileDetailItem(image: R.image.profileDetail.mainImage1(),
+                                                          status: "AURA Россия",
+                                                          description: "Делаю лучший крипто-мессенджер!\nЖиву в Зеленограде! Люблю качалку:)",
+                                                          name: "Артём Квач",
+                                                          countryCode: "+7  Россия",
+                                                          phone: "(925) 851-15-41")

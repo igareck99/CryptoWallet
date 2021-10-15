@@ -86,7 +86,6 @@ final class ProfileDetailViewController: BaseViewController {
             alert.addAction(UIAlertAction(title: R.string.localizable.profileDetailLogoutAlertApprove(),
                                           style: UIAlertAction.Style.default,
                                           handler: {(_: UIAlertAction!) in
-                                            print("uSER logout Succesfully")
                                             alert.dismiss(animated: true, completion: nil)
                                           }))
             self.present(alert, animated: true, completion: nil)
@@ -103,7 +102,6 @@ final class ProfileDetailViewController: BaseViewController {
             alert.addAction(UIAlertAction(title: R.string.localizable.profileDetailDeleteAlertApprove(),
                                           style: UIAlertAction.Style.default,
                                           handler: {(_: UIAlertAction!) in
-                                            print("Account Delete Succefully")
                                             alert.dismiss(animated: true, completion: nil)
                                           }))
             self.present(alert, animated: true, completion: nil)
@@ -115,12 +113,14 @@ final class ProfileDetailViewController: BaseViewController {
             self.presenter.handleCountryCodeScene()
         }
     }
+
     @objc private func backAction() {
         presenter.handleButtonTap()
     }
 
     @objc private func saveAction() {
-        navigationController?.popViewController(animated: true)
+        customView.saveData()
+        presenter.handleButtonTap()
     }
 }
 
@@ -129,8 +129,8 @@ final class ProfileDetailViewController: BaseViewController {
 extension ProfileDetailViewController: ImagePickerDelegate {
     func didFinish(with result: ImagePicker.PickerResult) {
         switch result {
-        case .success:
-            break
+        case let .success(image):
+            customView.addImage(image: image)
         default:
             break
         }
@@ -141,7 +141,7 @@ extension ProfileDetailViewController: ImagePickerDelegate {
 
 extension ProfileDetailViewController: ProfileDetailViewInterface {
     func setCountryCode(_ country: CountryCodePickerViewController.Country) {
-
+        print(country)
     }
 
     func showAlert(title: String?, message: String?) {
