@@ -29,7 +29,6 @@ final class ProfileDetailTableHeaderView: UIView {
     // MARK: - Actions
 
     @objc private func cameraTap() {
-        print("dkmkdfk")
         didCameraTap?()
     }
 
