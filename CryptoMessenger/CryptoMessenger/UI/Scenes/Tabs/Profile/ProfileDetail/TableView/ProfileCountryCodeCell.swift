@@ -49,16 +49,16 @@ final class ProfileCountryCodeCell: UITableViewCell {
         countryLabel.text = text
     }
 
-    @objc func countryButtonTap() {
-        vibrate()
-        countryView.animateScaleEffect { self.didTapCountryScene?() }
-    }
-
     func setCountryCode(_ country: CountryCodePickerViewController.Country) {
         countryLabel.text = country.prefix + " " + country.name.firstUppercased
     }
 
     // MARK: - Private Methods
+
+    @objc private func countryButtonTap() {
+        vibrate()
+        countryView.animateScaleEffect { self.didTapCountryScene?() }
+    }
 
     private func addCountryView() {
         countryView.snap(parent: self) {
@@ -105,7 +105,7 @@ final class ProfileCountryCodeCell: UITableViewCell {
     }
 }
 
-// MARK: - ProfileDetailCell (UITextViewDelegate)
+// MARK: - ProfileCountryCodeCell (UITextViewDelegate)
 
 extension ProfileCountryCodeCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {

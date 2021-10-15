@@ -79,7 +79,6 @@ final class ProfileDetailView: UIView {
         headerView.didCameraTap = {
             self.addPhoto()
         }
-
         tableView.snap(parent: self) {
             $0.separatorStyle = .none
             $0.allowsSelection = true
@@ -132,7 +131,6 @@ final class ProfileDetailView: UIView {
             case .countryCode:
                 countryButtonTap()
             case .deleteAccount:
-                print("delete")
                 deleteAccount()
             case .exit:
                 logout()

@@ -60,7 +60,6 @@ extension ProfileDetailPresenter: ProfileDetailPresentation {
 
     func handleNextScene(_ phone: String) {
         delay(1.4) {
-            let prefix = self.selectedCountry?.prefix ?? ""
             self.delegate?.handleNextScene(.profileDetail)
         }
     }
