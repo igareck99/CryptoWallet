@@ -52,6 +52,7 @@
 "Profile.Add" = "Добавить фото / видео";
 "Profile.Title" = "ИКЕА Россия";
 "Profile.Mobile" = "8 (925) 851-39-11";
+"Profile.BuyCell" = "Купить еще 3 ячейки — 0.050 AUR";
 
 
 "PinCode.EnterPassword" = "Введите пароль";
@@ -118,11 +119,8 @@
 "ProfileDetail.DeleteAlertCancel" = "Отменить";
 "ProfileDetail.DeleteAlertApprove" = "Удалить";
 "ProfileDetail.PhonePlaceholder" = "Введите номер";
+"BuyCell.Title" = "Купить 3 ячейки";
+"BuyCell.YourBalance" = "Ваш баланс";
+"BuyCell.Buy" = "Купить за — 0.050 AUR";
 
-"ProfileNetworkDetail.Title" = "Социальные сети";
-"ProfileNetworkDetail.Main" = "ОТОБРАЖАЕМ";
-"ProfileNetworkDetail.Message" = "Передвигайте ползунок перемещения по вертикали для смены расположения соц. сети.";
 "ProfileNetworkDetail.NotShowMessage" = "НЕ ОТОБРАЖАЕМ";
-"ProfileNetworkDetail.NotShowLink" = "Другая социальная сеть";
-
-

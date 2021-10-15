@@ -25,6 +25,7 @@ final class AppCoordinator: Coordinator {
     func start() {
         showAuthenticationFlow()
         return
+
         let flow = AppLaunchInstructor.configure(
             isAuthorized: userFlows.isAuthFlowFinished,
             isLocalAuth: userFlows.isLocalAuth
