@@ -29,6 +29,8 @@ final class ChatRoomViewModel: ObservableObject {
     private let keyboardObserver = KeyboardObserver()
     private let locationManager = LocationManager()
 
+    @Injectable private var mxStore: MatrixStore
+
     // MARK: - Lifecycle
 
     init(userMessage: Message) {
@@ -117,12 +119,14 @@ final class ChatRoomViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    break
+                    _ = self?.mxStore.rooms
                 case .onNextScene:
                     print("Next scene")
                 case let .onSend(type):
+                    guard case let .text(text) = type else { return }
                     self?.inputText = ""
                     self?.messages.append(.init(type: type, date: "00:33", isCurrentUser: true))
+                    self?.mxStore.rooms.first?.send(text: text)
                 case .onAddReaction(let messageId, let reactionId):
                         guard
                             let index = self?.messages.firstIndex(where: { $0.id == messageId }),

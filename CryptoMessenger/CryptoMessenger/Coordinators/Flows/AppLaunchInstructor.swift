@@ -11,11 +11,11 @@ enum AppLaunchInstructor {
 
     static func configure(isAuthorized: Bool, isLocalAuth: Bool) -> AppLaunchInstructor {
         switch (isAuthorized, isLocalAuth) {
-        case (_, true):
+        case (true, true):
             return .localAuth
-        case (_, false):
+        case (false, _):
             return .authentication
-        case (true, _):
+        case (true, false):
             return .main
         }
     }

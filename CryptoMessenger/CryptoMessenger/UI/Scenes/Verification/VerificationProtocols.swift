@@ -9,6 +9,7 @@ protocol VerificationSceneDelegate: AnyObject {
 // MARK: - VerificationViewInterface
 
 protocol VerificationViewInterface: AnyObject {
+    func setResult(_ isSucceed: Bool)
     func setPhoneNumber(_ phone: String)
     func setCountdownTime(_ time: String)
     func resetCountdownTime()

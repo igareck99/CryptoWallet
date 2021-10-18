@@ -9,7 +9,12 @@ final class RequestBuilder {
     typealias Headers = [String: String]
     typealias QueryParams = [String: Any]
 
+    // MARK: - Method
+
     enum Method: String {
+
+        // MARK: - Types
+
         case get = "GET"
         case post = "POST"
         case put = "PUT"
@@ -17,14 +22,26 @@ final class RequestBuilder {
         case delete = "DELETE"
     }
 
+    // MARK: - RequestType
+
     enum RequestType {
+
+        // MARK: - Types
+
         case request
         case upload
     }
 
+    // MARK: - Encoding
+
     enum Encoding {
+
+        // MARK: - Types
+
         case formUrlEncoded, jsonEncoded
         case multipart(String)
+
+        // MARK: - Internal Properties
 
         var type: String {
             switch self {
@@ -46,7 +63,7 @@ final class RequestBuilder {
 
     // MARK: - Private Properties
 
-    private let environment = EnvironmentConfiguration()
+    private let configuration = Configuration()
     private let method: Method
     private let requestType: RequestType
     private let path: String
@@ -66,11 +83,12 @@ final class RequestBuilder {
         self.method = method
         self.requestType = requestType
 
-        if let components = URLComponents(string: path), let params = components.queryItems {
+        let apiVersion = "/" + Configuration.apiVersion.rawValue
+        if let components = URLComponents(string: apiVersion + path), let params = components.queryItems {
             self.path = components.path
             self.queryParameters = QueryParams(uniqueKeysWithValues: params.map({ ($0.name, $0.value) }))
         } else {
-            self.path = path
+            self.path = apiVersion + path
         }
     }
 
@@ -145,7 +163,6 @@ final class RequestBuilder {
         if headers == nil {
             headers = [:]
         }
-
         self.headers?[header] = value
         return self
     }
@@ -157,16 +174,13 @@ final class RequestBuilder {
 
     func query(_ queryItems: [URLQueryItem]?) -> RequestBuilder {
         guard let queryItems = queryItems else { return self }
-
         guard queryParameters != nil else {
             queryParameters = [:]
             return self
         }
-
         queryItems.forEach {
             queryParameters?[$0.name] = $0.value
         }
-
         return self
     }
 
@@ -175,7 +189,6 @@ final class RequestBuilder {
             queryParameters = [:]
             return self
         }
-
         queryParameters?[query] = value
         return self
     }
@@ -185,27 +198,16 @@ final class RequestBuilder {
 
 extension RequestBuilder: URLRequestConvertible {
     func asURLRequest() throws -> URLRequest {
-        let baseString = EnvironmentConfiguration.baseString
-
-        guard var urlComponents = URLComponents(string: baseString) else {
+        guard var urlComponents = URLComponents(string: Configuration.apiString) else {
             fatalError("URLComponents failed")
         }
         urlComponents.path = path
-
         if let queryParams = queryParameters as? [String: String] {
-            let queryItems = queryParams.map { k, v in
-                URLQueryItem(name: k, value: v)
-            }
-            urlComponents.queryItems = queryItems
+            urlComponents.queryItems = queryParams.map { URLQueryItem(name: $0, value: $1) }
         }
-
         var request = URLRequest(url: urlComponents.url!)
         request.httpMethod = method.rawValue
-
-        headers?.forEach { header, value in
-            request.setValue(value, forHTTPHeaderField: header)
-        }
-
+        headers?.forEach { request.setValue($1, forHTTPHeaderField: $0) }
         request.httpBody = self.body
         return request
     }
