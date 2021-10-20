@@ -33,7 +33,8 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
+        handleNextScene(.main)
+        // handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
     // MARK: - Private Methods
@@ -105,6 +106,11 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
+    private func showPersonalizationScene() {
+        let viewController = PersonalizationConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
     // MARK: - Scene
 
     enum Scene {
@@ -125,6 +131,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case profileDetail
         case profileNetwork
         case aboutApp
+        case personalization
     }
 }
 
@@ -161,6 +168,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showProfileNetworkDetailScene()
         case .aboutApp:
             showAboutAppScene()
+        case .personalization:
+            showPersonalizationScene()
         }
     }
 
@@ -232,3 +241,7 @@ extension AuthFlowCoordinator: ProfileNetworkDetailSceneDelegate {}
 // MARK: - AuthFlowCoordinator (AboutAppSceneDelegate)
 
 extension AuthFlowCoordinator: AboutAppSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (PersonalizationSceneDelegate)
+
+extension AuthFlowCoordinator: PersonalizationSceneDelegate {}
