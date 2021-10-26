@@ -60,14 +60,13 @@ final class AppLanguageView: UIView {
             if current_selected == indexPath.section {
                 return
             }
-            print(current_selected)
-            print(languageList)
             if current_selected != -1 {
-                tableModel.items[current_selected].isSelected = false
+                languageList[current_selected].isSelected = false
             }
-            tableModel.items[indexPath.section].isSelected = true
-            tableProvider?.reloadData()
+            languageList[indexPath.section].isSelected = true
+            tableModel = .init(languageList)
             tableView.reloadData()
+
         }
     }
 }

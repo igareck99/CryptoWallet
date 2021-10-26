@@ -10,7 +10,7 @@ struct LanguageViewModel {
 
     // MARK: - Internal Properties
 
-    var items: [ItemType]
+    let items: [ItemType]
 
     // MARK: - Lifecycle
 
