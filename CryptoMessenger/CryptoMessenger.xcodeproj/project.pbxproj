@@ -324,6 +324,13 @@
 		78DD764B2727499F0094D510 /* ProfileBackgroundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD764A2727499F0094D510 /* ProfileBackgroundViewModel.swift */; };
 		78DD764D27274A030094D510 /* ProfileBackgroundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD764C27274A030094D510 /* ProfileBackgroundCell.swift */; };
 		78DD764F2727765B0094D510 /* ProfileBackgroundCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD764E2727765B0094D510 /* ProfileBackgroundCollectionCell.swift */; };
+		78DD76572728B5670094D510 /* ProfileBackgroundPreviewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD76512728B5670094D510 /* ProfileBackgroundPreviewPresenter.swift */; };
+		78DD76582728B5670094D510 /* ProfileBackgroundPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD76522728B5670094D510 /* ProfileBackgroundPreviewViewController.swift */; };
+		78DD76592728B5670094D510 /* ProfileBackgroundPreviewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD76532728B5670094D510 /* ProfileBackgroundPreviewProtocols.swift */; };
+		78DD765A2728B5670094D510 /* ProfileBackgroundPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD76542728B5670094D510 /* ProfileBackgroundPreviewView.swift */; };
+		78DD765B2728B5670094D510 /* ProfileBackgroundPreviewConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD76552728B5670094D510 /* ProfileBackgroundPreviewConfigurator.swift */; };
+		78DD765C2728B5670094D510 /* ProfileBackgroundPreviewFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD76562728B5670094D510 /* ProfileBackgroundPreviewFlow.swift */; };
+		78DD765E2728C8C00094D510 /* ProfileBackgroundPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD765D2728C8C00094D510 /* ProfileBackgroundPreviewCell.swift */; };
 		78EFC5F927021E8700A9BBAA /* ProfileDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F327021E8700A9BBAA /* ProfileDetailPresenter.swift */; };
 		78EFC5FA27021E8700A9BBAA /* ProfileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F427021E8700A9BBAA /* ProfileDetailViewController.swift */; };
 		78EFC5FB27021E8700A9BBAA /* ProfileDetailProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F527021E8700A9BBAA /* ProfileDetailProtocols.swift */; };
@@ -655,6 +662,13 @@
 		78DD764A2727499F0094D510 /* ProfileBackgroundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundViewModel.swift; sourceTree = "<group>"; };
 		78DD764C27274A030094D510 /* ProfileBackgroundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundCell.swift; sourceTree = "<group>"; };
 		78DD764E2727765B0094D510 /* ProfileBackgroundCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundCollectionCell.swift; sourceTree = "<group>"; };
+		78DD76512728B5670094D510 /* ProfileBackgroundPreviewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundPreviewPresenter.swift; sourceTree = "<group>"; };
+		78DD76522728B5670094D510 /* ProfileBackgroundPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundPreviewViewController.swift; sourceTree = "<group>"; };
+		78DD76532728B5670094D510 /* ProfileBackgroundPreviewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundPreviewProtocols.swift; sourceTree = "<group>"; };
+		78DD76542728B5670094D510 /* ProfileBackgroundPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundPreviewView.swift; sourceTree = "<group>"; };
+		78DD76552728B5670094D510 /* ProfileBackgroundPreviewConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundPreviewConfigurator.swift; sourceTree = "<group>"; };
+		78DD76562728B5670094D510 /* ProfileBackgroundPreviewFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundPreviewFlow.swift; sourceTree = "<group>"; };
+		78DD765D2728C8C00094D510 /* ProfileBackgroundPreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundPreviewCell.swift; sourceTree = "<group>"; };
 		78EFC5F327021E8700A9BBAA /* ProfileDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailPresenter.swift; sourceTree = "<group>"; };
 		78EFC5F427021E8700A9BBAA /* ProfileDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewController.swift; sourceTree = "<group>"; };
 		78EFC5F527021E8700A9BBAA /* ProfileDetailProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailProtocols.swift; sourceTree = "<group>"; };
@@ -1706,6 +1720,7 @@
 		78AF829F2720CFD5003D918D /* Personalization */ = {
 			isa = PBXGroup;
 			children = (
+				78DD76502728B5140094D510 /* ProfileBackgroundPreview */,
 				78DD76392727178F0094D510 /* ProfileBackground */,
 				787AC7B02722E32B000AA434 /* Typography */,
 				787AC79C27220E48000AA434 /* AppLanguage */,
@@ -1788,6 +1803,20 @@
 				78DD764C27274A030094D510 /* ProfileBackgroundCell.swift */,
 			);
 			path = TableView;
+			sourceTree = "<group>";
+		};
+		78DD76502728B5140094D510 /* ProfileBackgroundPreview */ = {
+			isa = PBXGroup;
+			children = (
+				78DD76512728B5670094D510 /* ProfileBackgroundPreviewPresenter.swift */,
+				78DD76522728B5670094D510 /* ProfileBackgroundPreviewViewController.swift */,
+				78DD76532728B5670094D510 /* ProfileBackgroundPreviewProtocols.swift */,
+				78DD76542728B5670094D510 /* ProfileBackgroundPreviewView.swift */,
+				78DD76552728B5670094D510 /* ProfileBackgroundPreviewConfigurator.swift */,
+				78DD76562728B5670094D510 /* ProfileBackgroundPreviewFlow.swift */,
+				78DD765D2728C8C00094D510 /* ProfileBackgroundPreviewCell.swift */,
+			);
+			path = ProfileBackgroundPreview;
 			sourceTree = "<group>";
 		};
 		78EFC5F227021E6E00A9BBAA /* ProfileDetail */ = {
@@ -2116,6 +2145,7 @@
 				5A26CD2126B2EECA00118D4B /* WalletFlow.swift in Sources */,
 				5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */,
 				5A9B471A26EA6DE0001CC627 /* SlideCard.swift in Sources */,
+				78DD76592728B5670094D510 /* ProfileBackgroundPreviewProtocols.swift in Sources */,
 				5A9B472426EAA010001CC627 /* ReactionView.swift in Sources */,
 				78BB7E1726F49E1500F1D500 /* MenuFriendViewController.swift in Sources */,
 				5A9318B926BD210400645365 /* PinCodeView.swift in Sources */,
@@ -2139,6 +2169,7 @@
 				7846B65F26E8BC3F00B05984 /* MoveAnimation.swift in Sources */,
 				5A187E9B2680708D001957D3 /* ListSeparatorStyle.swift in Sources */,
 				5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */,
+				78DD765E2728C8C00094D510 /* ProfileBackgroundPreviewCell.swift in Sources */,
 				787AC7AF27221AA0000AA434 /* LanguageCell.swift in Sources */,
 				5A42680A26A83554000C51DD /* RegistrationFlow.swift in Sources */,
 				5A42680826A83554000C51DD /* RegistrationView.swift in Sources */,
@@ -2164,6 +2195,7 @@
 				5A26CD6126B35C9B00118D4B /* Message.swift in Sources */,
 				789FEBD526D651530018FE91 /* AdditionalView.swift in Sources */,
 				5A26CD5926B3599800118D4B /* ChatViewController.swift in Sources */,
+				78DD765B2728B5670094D510 /* ProfileBackgroundPreviewConfigurator.swift in Sources */,
 				5A26CD3B26B3211100118D4B /* TapAnimator.swift in Sources */,
 				5A26CD5B26B3599800118D4B /* ChatView.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
@@ -2199,6 +2231,7 @@
 				7889064527064F8D0093459C /* ProfileNetworkDetailFlow.swift in Sources */,
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
+				78DD76582728B5670094D510 /* ProfileBackgroundPreviewViewController.swift in Sources */,
 				78437F0E270C76FE00371110 /* AboutAppViewController.swift in Sources */,
 				78437F11270C76FE00371110 /* AboutAppConfigurator.swift in Sources */,
 				5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */,
@@ -2241,9 +2274,11 @@
 				7846B67726E8C0AE00B05984 /* CellWithImage.swift in Sources */,
 				5A9B472826EAB6EF001CC627 /* LastReactionItemView.swift in Sources */,
 				5AF8637226ADDDCE004A417C /* AppLaunchInstructor.swift in Sources */,
+				78DD765A2728B5670094D510 /* ProfileBackgroundPreviewView.swift in Sources */,
 				78BB7E0F26F36B1200F1D500 /* FriendProfileProtocols.swift in Sources */,
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
 				789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */,
+				78DD765C2728B5670094D510 /* ProfileBackgroundPreviewFlow.swift in Sources */,
 				5A430EC227196A08004A1D2E /* ProfilePresenter.swift in Sources */,
 				78890648270684180093459C /* NetworkDetailItem.swift in Sources */,
 				78437F03270B769C00371110 /* ProfileDetailTableHeaderView.swift in Sources */,
@@ -2263,6 +2298,7 @@
 				789FEBD326D651430018FE91 /* AdditionalViewController.swift in Sources */,
 				5A187EBD268070B3001957D3 /* NSObject+Extensions.swift in Sources */,
 				5A187EA22680708D001957D3 /* TableViewProviderViewModel.swift in Sources */,
+				78DD76572728B5670094D510 /* ProfileBackgroundPreviewPresenter.swift in Sources */,
 				7846B66C26E8BFD900B05984 /* ParallaxLayoutAttributes.swift in Sources */,
 				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
 				787AC7A627220E62000AA434 /* AppLanguageView.swift in Sources */,

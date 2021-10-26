@@ -154,3 +154,5 @@
 
 "ProfileBackground.Title" = "Выбрать из галереи фон";
 "ProfileBackground.Wallpaper" = "ОБОИ";
+
+"ProfileBackgroundPreview.SetBackground" = "Установить фон";
