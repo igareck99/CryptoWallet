@@ -33,7 +33,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.main)
+        handleNextScene(.profileBackground)
         // handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
@@ -111,6 +111,21 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
+    private func showAppLanguageScene() {
+        let viewController = AppLanguageConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showTypographyScene() {
+        let viewController = TypographyConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showProfileBackgroundScene() {
+        let viewController = ProfileBackgroundConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
     // MARK: - Scene
 
     enum Scene {
@@ -132,6 +147,9 @@ public final class AuthFlowCoordinator: Coordinator {
         case profileNetwork
         case aboutApp
         case personalization
+        case appLanguage
+        case typography
+        case profileBackground
     }
 }
 
@@ -170,6 +188,12 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showAboutAppScene()
         case .personalization:
             showPersonalizationScene()
+        case .appLanguage:
+            showAppLanguageScene()
+        case .typography:
+            showTypographyScene()
+        case .profileBackground:
+            showProfileBackgroundScene()
         }
     }
 
@@ -245,3 +269,16 @@ extension AuthFlowCoordinator: AboutAppSceneDelegate {}
 // MARK: - AuthFlowCoordinator (PersonalizationSceneDelegate)
 
 extension AuthFlowCoordinator: PersonalizationSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (AppLanguageSceneDelegate)
+
+extension AuthFlowCoordinator: AppLanguageSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (TypographySceneDelegate)
+
+extension AuthFlowCoordinator: TypographySceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (ProfileBackgroundSceneDelegate)
+
+extension AuthFlowCoordinator: ProfileBackgroundSceneDelegate {}
+

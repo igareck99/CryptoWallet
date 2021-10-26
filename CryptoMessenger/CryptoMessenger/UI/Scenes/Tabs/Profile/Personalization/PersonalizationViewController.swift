@@ -22,6 +22,7 @@ final class PersonalizationViewController: BaseViewController {
         super.viewDidLoad()
         addTitleBarButtonItem()
         addRightBarButtonItem()
+        subscribeOnCustomViewActions()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -58,7 +59,65 @@ final class PersonalizationViewController: BaseViewController {
         navigationItem.rightBarButtonItem = item
     }
 
+    private func subscribeOnCustomViewActions() {
+        customView.didTapLanguage = { [unowned self] in
+            let vc = AppLanguageConfigurator.configuredViewController(delegate: nil)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        customView.didTapTheme = {
+            self.showAlertForTheme()
+        }
+        customView.didTapTypography = { [unowned self] in
+            let vc = TypographyConfigurator.configuredViewController(delegate: nil)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        customView.didTapProfileBackground = { [unowned self] in
+            let vc = ProfileBackgroundConfigurator.configuredViewController(delegate: nil)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+
     @objc private func saveAction() {
+    }
+
+    private func showAlertForTheme() {
+        let alert = UIAlertController(title: "",
+                                      message: "",
+                                      preferredStyle: .actionSheet)
+
+        alert.addAction(
+            UIAlertAction(
+                title: R.string.localizable.personalizationSystem(),
+                style: .default,
+                handler: { _ in
+            print("You've pressed system")
+        }))
+
+        alert.addAction(
+            UIAlertAction(
+                title: R.string.localizable.personalizationLight(),
+                style: .default,
+                handler: { _ in
+            print("You've pressed light")
+        }))
+
+        alert.addAction(
+            UIAlertAction(
+                title: R.string.localizable.personalizationDark(),
+                style: .default,
+                handler: { _ in
+            print("You've pressed the dark")
+        }))
+        alert.addAction(
+            UIAlertAction(
+                title: R.string.localizable.personalizationCancel(),
+                style: .cancel,
+                handler: { _ in
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
 
 }

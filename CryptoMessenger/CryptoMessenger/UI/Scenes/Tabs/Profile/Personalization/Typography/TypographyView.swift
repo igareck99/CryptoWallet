@@ -1,21 +1,18 @@
 import UIKit
 
-// MARK: - PersonalizationView
+// MARK: - TypographyView
 
-final class PersonalizationView: UIView {
+final class TypographyView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTapLanguage: VoidBlock?
-    var didTapTheme: VoidBlock?
-    var didTapTypography: VoidBlock?
-    var didTapProfileBackground: VoidBlock?
+    var didTap: (() -> Void)?
 
     // MARK: - Private Properties
 
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private var tableProvider: TableViewProvider?
-    private var tableModel: PersonalizationViewModel = .init(personalizationList) {
+    private var tableModel: TypographyViewModel = .init(typographyList) {
         didSet {
             if tableProvider == nil {
                 setupTableProvider()
@@ -40,11 +37,15 @@ final class PersonalizationView: UIView {
 
     // MARK: - Internal Methods
 
+    func publicMethod() {
+
+    }
+
     // MARK: - Private Methods
 
     private func setupTableView() {
         tableView.snap(parent: self) {
-            $0.register(PersonalizationCell.self, forCellReuseIdentifier: PersonalizationCell.identifier)
+            $0.register(TypographyCell.self, forCellReuseIdentifier: TypographyCell.identifier)
             $0.separatorStyle = .none
             $0.allowsSelection = true
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -56,33 +57,18 @@ final class PersonalizationView: UIView {
 
     private func setupTableProvider() {
         tableProvider = TableViewProvider(for: tableView, with: tableModel)
-        tableProvider?.registerCells([PersonalizationCell.self])
+        tableProvider?.registerCells([TypographyCell.self])
         tableProvider?.onConfigureCell = { [unowned self] indexPath in
             guard let provider = self.tableProvider else { return .init() }
-            let cell: PersonalizationCell = provider.dequeueReusableCell(for: indexPath)
+            let cell: TypographyCell = provider.dequeueReusableCell(for: indexPath)
             cell.configure(tableModel.items[indexPath.section])
             return cell
-        }
-        tableProvider?.onSelectCell = { [unowned self] indexPath in
-            if indexPath.section == 0 {
-                didTapLanguage?()
-            }
-            if indexPath.section == 1 {
-                didTapTheme?()
-            }
-            if indexPath.section == 2 {
-                didTapProfileBackground?()
-            }
-            if indexPath.section == 3 {
-                didTapTypography?()
-            }
         }
     }
 }
 
-private var personalizationList: [PersonalizationItem] = [
-    .init(title: "Язык приложения", currentState: "Русский"),
-    .init(title: "Тема", currentState: "По умолчанию"),
-    .init(title: "Фон профиля", currentState: "По умолчанию"),
-    .init(title: "Типографика", currentState: "Управление...ом шрифта")
+private var typographyList: [TypographyItem] = [
+    .init(name: "Мелкий", size: "80%", type: false),
+    .init(name: "Средний", size: "Как в системе (Русский)", type: true),
+    .init(name: "Большой", size: "120%", type: false)
 ]

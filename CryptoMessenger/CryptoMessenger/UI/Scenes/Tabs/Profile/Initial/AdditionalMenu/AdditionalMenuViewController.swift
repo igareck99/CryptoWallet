@@ -8,6 +8,7 @@ final class AdditionalMenuViewController: BaseViewController {
 
     var didProfileDetailTap: VoidBlock?
     var didPersonalizationTap: VoidBlock?
+    var didTypographyTap: VoidBlock?
     var didDeleteTap: VoidBlock?
     var didCancelTap: VoidBlock?
 

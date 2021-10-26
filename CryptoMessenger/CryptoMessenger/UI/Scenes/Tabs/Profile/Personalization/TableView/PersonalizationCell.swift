@@ -35,12 +35,6 @@ final class PersonalizationCell: UITableViewCell {
         currentStateLabel.text = profile.currentState
     }
 
-    // MARK: - Actions
-
-    @objc private func didTapOpen() {
-        didTap?()
-    }
-
     // MARK: - Private Methods
 
     private func addTitleLabel() {
