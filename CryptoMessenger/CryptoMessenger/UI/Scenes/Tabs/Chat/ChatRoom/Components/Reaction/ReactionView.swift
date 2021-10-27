@@ -13,12 +13,12 @@ struct ReactionStorage: Identifiable {
 
 // MARK: - Reaction
 
-struct Reaction: Identifiable {
-
-    // MARK: - Internal Properties
-
-    var id: String
-    let sender: String
-    let timestamp: Date
-    let emoji: String
-}
+//struct Reaction: Identifiable {
+//
+//    // MARK: - Internal Properties
+//
+//    var id: String
+//    let sender: String
+//    let timestamp: Date
+//    let emoji: String
+//}

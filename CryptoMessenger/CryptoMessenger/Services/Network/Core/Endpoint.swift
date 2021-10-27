@@ -107,7 +107,11 @@ extension Endpoint where Response == String {
 
         self.init(builder: reqBuilder) {
             do {
-                return try jsonDecoder.decode(Response.self, from: $0)
+                if $0.isEmpty {
+                    return ""
+                } else {
+                    return try jsonDecoder.decode(Response.self, from: $0)
+                }
             } catch {
                 throw error
             }

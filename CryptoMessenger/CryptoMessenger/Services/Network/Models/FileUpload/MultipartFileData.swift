@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: MultipartFileData
+// MARK: - MultipartFileData
 
 struct MultipartFileData {
 

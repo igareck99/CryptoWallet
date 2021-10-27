@@ -3,7 +3,7 @@ import Foundation
 // MARK: - DependencyContainer
 
 @dynamicMemberLookup
-class DependencyContainer: Sequence {
+final class DependencyContainer: Sequence {
 
     // MARK: - Internal Properties
 

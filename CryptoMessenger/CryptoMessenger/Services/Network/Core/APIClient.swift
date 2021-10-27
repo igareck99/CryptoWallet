@@ -75,7 +75,7 @@ final class APIClient: NSObject, APIClientManager {
             httpRequest.addValue("\(userCredentials.token)", forHTTPHeaderField: "Bearer")
         }
 
-        let task: URLSessionDataTask = session.dataTask(with: httpRequest) { data, response, error in
+        let task = session.dataTask(with: httpRequest) { data, response, error in
             if let data = data, let httpResponse = response as? HTTPURLResponse {
                 guard httpResponse.isOk else {
                     handler(.failure(APIError(statusCode: httpResponse.statusCode, data: data)))

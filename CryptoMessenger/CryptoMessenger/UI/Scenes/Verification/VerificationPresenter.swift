@@ -14,6 +14,8 @@ final class VerificationPresenter {
     @Injectable private var apiClient: APIClientManager
     @Injectable private var userCredentials: UserCredentialsStorageService
     @Injectable private var countdownTimer: CountdownTimer
+    @Injectable private var configuration: Configuration
+    @Injectable private var mxStore: MatrixStore
 
     private var state = VerificationFlow.ViewState.sending {
         didSet {
@@ -51,9 +53,33 @@ final class VerificationPresenter {
 
     private func resendPhone() {
         let numbers = userCredentials.userPhoneNumber.numbers
-        apiClient.request(Endpoints.Registration.get(numbers)) { [weak self] _ in
+        apiClient.request(Endpoints.Registration.sms(numbers)) { [weak self] _ in
             self?.countdownTimer.start()
         } failure: { [weak self] error in
+            self?.state = .error(message: error.localizedDescription)
+        }
+    }
+
+    private func logIn(_ code: String) {
+        let endpoint = Endpoints.Registration.auth(
+            .init(
+                device: .init(name: configuration.deviceName, unique: configuration.deviceId),
+                phone: userCredentials.userPhoneNumber.numbers,
+                sms: code
+            )
+        )
+
+        let homeServer = configuration.matrixURL
+
+        apiClient.request(endpoint) { [weak self] response in
+            self?.mxStore.login(username: response.userId, password: code, homeServer: homeServer)
+            self?.view?.setResult(true)
+            delay(0.2) {
+                self?.userCredentials.isUserAuthenticated = true
+                self?.delegate?.handleNextScene(.pinCode)
+            }
+        } failure: { [weak self] error in
+            self?.view?.setResult(false)
             self?.state = .error(message: error.localizedDescription)
         }
     }
@@ -68,16 +94,13 @@ extension VerificationPresenter: VerificationPresentation {
     }
 
     func handleResendCode() {
-        //resendPhone()
         countdownTimer.stop()
-        delay(1.4) {
-            self.countdownTimer.start()
-        }
+        resendPhone()
+        countdownTimer.start()
     }
 
     func handleNextScene(_ code: String) {
-        guard code == "1234" else { return }
-        delegate?.handleNextScene(.generationInfo)
+       logIn(code)
     }
 }
 

@@ -45,7 +45,7 @@ struct UserDefaultsLayer {
 
     // MARK: - Internal Properties
 
-    @UserDefaultSettings(isUserAuthenticatedKey, value: true)
+    @UserDefaultSettings(isUserAuthenticatedKey, value: false)
     var isUserAuthenticated: Bool
 
     @UserDefaultSettings(authTokenKey, value: "")
