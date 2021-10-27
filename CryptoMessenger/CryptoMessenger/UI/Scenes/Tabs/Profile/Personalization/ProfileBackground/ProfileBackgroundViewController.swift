@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: ProfileBackgroundViewController
+// MARK: - ProfileBackgroundViewController
 
 final class ProfileBackgroundViewController: BaseViewController {
 

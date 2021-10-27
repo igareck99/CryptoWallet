@@ -71,5 +71,4 @@ final class ProfileBackgroundCell: UITableViewCell {
             $0.centerY.equalTo($1)
         }
     }
-
 }
