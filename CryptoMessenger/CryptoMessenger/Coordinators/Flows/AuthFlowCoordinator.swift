@@ -33,7 +33,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.profilePreview)
+        handleNextScene(.profileBackground)
         // handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 

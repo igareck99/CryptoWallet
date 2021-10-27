@@ -46,7 +46,6 @@ final class AppLanguageView: UIView {
     }
 
     private func setupTableProvider() {
-        print("iscalled")
         tableProvider = TableViewProvider(for: tableView, with: tableModel)
         tableProvider?.registerCells([LanguageCell.self])
         tableProvider?.onConfigureCell = { [unowned self] indexPath in

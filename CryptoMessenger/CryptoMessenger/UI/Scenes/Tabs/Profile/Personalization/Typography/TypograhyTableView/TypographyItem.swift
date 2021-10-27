@@ -8,5 +8,5 @@ struct TypographyItem {
 
     var name: String
     var size: String
-    var type: Bool
+    var isSelected: Bool
 }

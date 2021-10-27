@@ -39,9 +39,9 @@ final class ProfileBackgroundView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
-        setupTableView()
-        setupTableProvider()
-        addWallpaperLabel()
+        //        setupTableView()
+        //        setupTableProvider()
+        //        addWallpaperLabel()
         addPhotoCollectionView()
     }
 
@@ -116,13 +116,16 @@ final class ProfileBackgroundView: UIView {
     }
 
     private func addPhotoCollectionView() {
-        print("called")
         photoCollectionView.snap(parent: self) {
             $0.background(.clear)
             $0.dataSource = self
             $0.delegate = self
             $0.register(ProfileBackgroundCollectionCell.self,
                         forCellWithReuseIdentifier: ProfileBackgroundCollectionCell.identifier)
+            $0.register(ProfileBackgroundHeaderView.self,
+                        forSupplementaryViewOfKind:
+                            UICollectionView.elementKindSectionHeader,
+                        withReuseIdentifier: ProfileBackgroundCollectionCell.identifier)
         } layout: {
             $0.top.equalTo($1).offset(120)
             $0.leading.equalTo($1).offset(16)
@@ -135,9 +138,8 @@ final class ProfileBackgroundView: UIView {
 
 // MARK: - ProfileBackgroundView (UICollectionViewDataSource)
 
-extension ProfileBackgroundView: UICollectionViewDataSource {
+extension ProfileBackgroundView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(photos.count)
         return photos.count
     }
 
@@ -145,17 +147,26 @@ extension ProfileBackgroundView: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeue(ProfileBackgroundCollectionCell.self, indexPath: indexPath) else { return .init() }
+        guard let cell = collectionView.dequeue(ProfileBackgroundCollectionCell.self,
+                                                indexPath: indexPath) else { return .init() }
         cell.profileImageView.image = photos[indexPath.row]
         return cell
     }
-}
 
-// MARK: - ProfileBackgroundView (UICollectionViewDelegate)
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: ProfileBackgroundHeaderView.identifier, for: indexPath)
+            as! ProfileBackgroundHeaderView
+        headerView.configure(backroundList[0])
+        return headerView
+    }
 
-extension ProfileBackgroundView: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("some action")
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.size.width, height: 78)
     }
 }
 

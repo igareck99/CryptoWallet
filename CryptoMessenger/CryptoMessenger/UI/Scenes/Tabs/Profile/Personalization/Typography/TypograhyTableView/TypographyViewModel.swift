@@ -25,7 +25,7 @@ struct TypographyViewModel {
         // MARK: - Static Properties
 
         static let heightForHeader = CGFloat(0)
-        static let rowHeight = CGFloat(66)
+        static let rowHeight = cellSize
         static let numberRows = 1
     }
 }

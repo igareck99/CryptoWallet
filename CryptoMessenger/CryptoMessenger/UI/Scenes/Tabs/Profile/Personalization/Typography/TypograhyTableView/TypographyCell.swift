@@ -33,16 +33,14 @@ final class TypographyCell: UITableViewCell {
     func configure(_ profile: TypographyItem) {
         mainLabel.text = profile.name
         currentLabel.text = profile.size
-        if profile.type == false {
-            selectedImageView.isHidden = true
-        }
+        selectedImageView.isHidden = !profile.isSelected
     }
 
     // MARK: - Private Methods
 
     private func addMainLabel() {
         mainLabel.snap(parent: contentView) {
-            $0.font(.regular(15))
+            $0.font(.regular(mainFont))
             $0.textColor(.black())
         } layout: {
             $0.height.equalTo(21)
@@ -54,7 +52,7 @@ final class TypographyCell: UITableViewCell {
     private func addNativeLabel() {
         currentLabel.snap(parent: contentView) {
             $0.textColor(.gray())
-            $0.font(.light(13))
+            $0.font(.light(nativeFont))
             $0.textAlignment = .left
         } layout: {
             $0.top.equalTo(self.mainLabel.snp.bottom).offset(4)

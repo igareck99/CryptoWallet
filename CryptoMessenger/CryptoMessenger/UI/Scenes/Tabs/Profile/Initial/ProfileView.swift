@@ -256,6 +256,9 @@ final class ProfileView: UIView {
     private func addPhotoCollectionView() {
         photoCollectionView.snap(parent: self) {
             $0.background(.clear)
+            let imageView = UIImageView()
+            imageView.image = R.image.profileBackground.image3()
+            $0.backgroundView = imageView
             $0.dataSource = self
             $0.delegate = self
             $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)

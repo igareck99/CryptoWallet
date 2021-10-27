@@ -56,6 +56,7 @@ final class TypographyView: UIView {
     }
 
     private func setupTableProvider() {
+        setSize()
         tableProvider = TableViewProvider(for: tableView, with: tableModel)
         tableProvider?.registerCells([TypographyCell.self])
         tableProvider?.onConfigureCell = { [unowned self] indexPath in
@@ -64,11 +65,45 @@ final class TypographyView: UIView {
             cell.configure(tableModel.items[indexPath.section])
             return cell
         }
+        tableProvider?.onSelectCell = { [unowned self] indexPath in
+            if let currentIndex = tableModel.items.firstIndex(where: { $0.isSelected }) {
+                typographyList[currentIndex].isSelected = false
+            }
+            typographyList[indexPath.section].isSelected = true
+            setSize()
+            tableModel = .init(typographyList)
+            tableProvider?.setViewModel(with: tableModel)
+            tableView.reloadData()
+        }
+    }
+
+    private func setSize() {
+        let currentIndex = typographyList.firstIndex(where: { $0.isSelected })
+        switch currentIndex {
+        case 0:
+            mainFont = 15
+            nativeFont = 13
+            cellSize = 64
+        case 1:
+            mainFont = 19
+            nativeFont = 17
+            cellSize = 78
+        case 2:
+            mainFont = 23
+            nativeFont = 21
+            cellSize = 90
+        default:
+            break
+        }
     }
 }
 
-private var typographyList: [TypographyItem] = [
-    .init(name: "Мелкий", size: "80%", type: false),
-    .init(name: "Средний", size: "Как в системе (Русский)", type: true),
-    .init(name: "Большой", size: "120%", type: false)
+var mainFont: CGFloat = 0
+var nativeFont: CGFloat = 0
+var cellSize: CGFloat = 0
+
+var typographyList: [TypographyItem] = [
+    .init(name: "Мелкий", size: "80%", isSelected: true),
+    .init(name: "Средний", size: "Как в системе (Русский)", isSelected: false),
+    .init(name: "Большой", size: "120%", isSelected: false)
 ]
