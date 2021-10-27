@@ -18,6 +18,7 @@ final class LanguageCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
         addMainLabel()
         addNativeLabel()
         addArrowImageView()
@@ -33,9 +34,7 @@ final class LanguageCell: UITableViewCell {
     func configure(_ profile: LanguageItem) {
         mainLabel.text = profile.currentLanguage
         nativeLabel.text = profile.nativeLanguage
-        if profile.isSelected == false {
-            selectedImageView.isHidden = true
-        }
+        selectedImageView.isHidden = !profile.isSelected
     }
 
     // MARK: - Private Methods
@@ -72,5 +71,4 @@ final class LanguageCell: UITableViewCell {
             $0.bottom.equalTo($1).offset(-20)
         }
     }
-
 }

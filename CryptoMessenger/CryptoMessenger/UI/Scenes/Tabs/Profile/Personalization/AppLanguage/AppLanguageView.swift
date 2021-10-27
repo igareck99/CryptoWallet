@@ -56,17 +56,13 @@ final class AppLanguageView: UIView {
             return cell
         }
         tableProvider?.onSelectCell = { [unowned self] indexPath in
-            let current_selected = tableModel.items.firstIndex(where: { $0.isSelected == true }) ?? -1
-            if current_selected == indexPath.section {
-                return
-            }
-            if current_selected != -1 {
-                languageList[current_selected].isSelected = false
+            if let currentIndex = tableModel.items.firstIndex(where: { $0.isSelected }) {
+                languageList[currentIndex].isSelected = false
             }
             languageList[indexPath.section].isSelected = true
             tableModel = .init(languageList)
+            tableProvider?.setViewModel(with: tableModel)
             tableView.reloadData()
-
         }
     }
 }
