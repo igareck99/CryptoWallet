@@ -10,16 +10,6 @@ final class ProfileBackgroundView: UIView {
 
     // MARK: - Private Properties
 
-    private lazy var tableView = UITableView(frame: .zero, style: .plain)
-    private var tableProvider: TableViewProvider?
-    private var tableModel: ProfileBackgroundViewModel = .init(backroundList) {
-        didSet {
-            if tableProvider == nil {
-                setupTableProvider()
-            }
-            tableProvider?.reloadData()
-        }
-    }
     private lazy var wallpaperLabel = UILabel()
     private let spacing: CGFloat = 8
     private lazy var photoCollectionView: UICollectionView = {
@@ -39,9 +29,6 @@ final class ProfileBackgroundView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
-        //        setupTableView()
-        //        setupTableProvider()
-        //        addWallpaperLabel()
         addPhotoCollectionView()
     }
 
@@ -64,33 +51,6 @@ final class ProfileBackgroundView: UIView {
     }
 
     // MARK: - Private Methods
-
-    private func setupTableView() {
-        tableView.snap(parent: self) {
-            $0.register(ProfileBackgroundCell.self, forCellReuseIdentifier: ProfileBackgroundCell.identifier)
-            $0.separatorStyle = .none
-            $0.allowsSelection = true
-            $0.isScrollEnabled = false
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        } layout: {
-            $0.leading.trailing.bottom.equalTo($1)
-            $0.top.equalTo($1).offset(12)
-        }
-    }
-
-    private func setupTableProvider() {
-        tableProvider = TableViewProvider(for: tableView, with: tableModel)
-        tableProvider?.registerCells([ProfileBackgroundCell.self])
-        tableProvider?.onConfigureCell = { [unowned self] indexPath in
-            guard let provider = self.tableProvider else { return .init() }
-            let cell: ProfileBackgroundCell = provider.dequeueReusableCell(for: indexPath)
-            cell.configure(tableModel.items[indexPath.section])
-            return cell
-        }
-        tableProvider?.onSelectCell = { [unowned self] _ in
-            didTapAddPhoto?()
-        }
-    }
 
     private func addWallpaperLabel() {
         let paragraphStyle = NSMutableParagraphStyle()
