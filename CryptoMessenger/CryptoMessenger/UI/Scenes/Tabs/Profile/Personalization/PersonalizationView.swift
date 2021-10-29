@@ -69,6 +69,7 @@ final class PersonalizationView: UIView {
             }
             if indexPath.section == 1 {
                 didTapTheme?()
+                tableView.reloadData()
             }
             if indexPath.section == 2 {
                 didTapProfileBackground?()
@@ -80,7 +81,7 @@ final class PersonalizationView: UIView {
     }
 }
 
-private var personalizationList: [PersonalizationItem] = [
+var personalizationList: [PersonalizationItem] = [
     .init(title: "Язык приложения", currentState: "Русский"),
     .init(title: "Тема", currentState: "По умолчанию"),
     .init(title: "Фон профиля", currentState: "По умолчанию"),

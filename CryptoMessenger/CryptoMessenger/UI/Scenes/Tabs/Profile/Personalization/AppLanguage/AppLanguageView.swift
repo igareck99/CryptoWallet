@@ -59,6 +59,7 @@ final class AppLanguageView: UIView {
                 languageList[currentIndex].isSelected = false
             }
             languageList[indexPath.section].isSelected = true
+            personalizationList[0].currentState = languageList[indexPath.section].currentLanguage
             tableModel = .init(languageList)
             tableProvider?.setViewModel(with: tableModel)
             tableView.reloadData()

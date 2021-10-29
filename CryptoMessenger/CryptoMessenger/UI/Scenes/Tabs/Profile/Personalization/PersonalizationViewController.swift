@@ -93,7 +93,7 @@ final class PersonalizationViewController: BaseViewController {
                 title: R.string.localizable.personalizationSystem(),
                 style: .default,
                 handler: { _ in
-            print("You've pressed system")
+                    personalizationList[1].currentState = R.string.localizable.personalizationSystem()
         }))
 
         alert.addAction(
@@ -101,7 +101,7 @@ final class PersonalizationViewController: BaseViewController {
                 title: R.string.localizable.personalizationLight(),
                 style: .default,
                 handler: { _ in
-            print("You've pressed light")
+                    personalizationList[1].currentState = R.string.localizable.personalizationLight()
         }))
 
         alert.addAction(
@@ -109,7 +109,7 @@ final class PersonalizationViewController: BaseViewController {
                 title: R.string.localizable.personalizationDark(),
                 style: .default,
                 handler: { _ in
-            print("You've pressed the dark")
+                    personalizationList[1].currentState = R.string.localizable.personalizationDark()
         }))
         alert.addAction(
             UIAlertAction(
