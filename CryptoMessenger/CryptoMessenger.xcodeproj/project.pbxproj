@@ -278,6 +278,7 @@
 		7889064A270684830093459C /* NetworkDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78890649270684830093459C /* NetworkDetailCell.swift */; };
 		7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7889064B27068E700093459C /* NetworkDetailViewModel.swift */; };
 		7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */; };
+		789693AC272CC53600C0BDB0 /* ProfileBackgroundItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789693AB272CC53600C0BDB0 /* ProfileBackgroundItem.swift */; };
 		789B123126CE8906002FCDDF /* CallListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122B26CE8906002FCDDF /* CallListPresenter.swift */; };
 		789B123226CE8906002FCDDF /* CallListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122C26CE8906002FCDDF /* CallListViewController.swift */; };
 		789B123326CE8906002FCDDF /* CallListProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789B122D26CE8906002FCDDF /* CallListProtocols.swift */; };
@@ -321,9 +322,6 @@
 		78DD7643272717AE0094D510 /* ProfileBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD763D272717AE0094D510 /* ProfileBackgroundView.swift */; };
 		78DD7644272717AE0094D510 /* ProfileBackgroundConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD763E272717AE0094D510 /* ProfileBackgroundConfigurator.swift */; };
 		78DD7645272717AE0094D510 /* ProfileBackgroundFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD763F272717AE0094D510 /* ProfileBackgroundFlow.swift */; };
-		78DD76492727496B0094D510 /* ProfileBackgroundItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD76482727496B0094D510 /* ProfileBackgroundItem.swift */; };
-		78DD764B2727499F0094D510 /* ProfileBackgroundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD764A2727499F0094D510 /* ProfileBackgroundViewModel.swift */; };
-		78DD764D27274A030094D510 /* ProfileBackgroundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD764C27274A030094D510 /* ProfileBackgroundCell.swift */; };
 		78DD764F2727765B0094D510 /* ProfileBackgroundCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD764E2727765B0094D510 /* ProfileBackgroundCollectionCell.swift */; };
 		78DD76572728B5670094D510 /* ProfileBackgroundPreviewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD76512728B5670094D510 /* ProfileBackgroundPreviewPresenter.swift */; };
 		78DD76582728B5670094D510 /* ProfileBackgroundPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD76522728B5670094D510 /* ProfileBackgroundPreviewViewController.swift */; };
@@ -617,6 +615,7 @@
 		78890649270684830093459C /* NetworkDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDetailCell.swift; sourceTree = "<group>"; };
 		7889064B27068E700093459C /* NetworkDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDetailViewModel.swift; sourceTree = "<group>"; };
 		7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthentication.swift; sourceTree = "<group>"; };
+		789693AB272CC53600C0BDB0 /* ProfileBackgroundItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundItem.swift; sourceTree = "<group>"; };
 		789B122B26CE8906002FCDDF /* CallListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListPresenter.swift; sourceTree = "<group>"; };
 		789B122C26CE8906002FCDDF /* CallListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListViewController.swift; sourceTree = "<group>"; };
 		789B122D26CE8906002FCDDF /* CallListProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallListProtocols.swift; sourceTree = "<group>"; };
@@ -660,9 +659,6 @@
 		78DD763D272717AE0094D510 /* ProfileBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundView.swift; sourceTree = "<group>"; };
 		78DD763E272717AE0094D510 /* ProfileBackgroundConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundConfigurator.swift; sourceTree = "<group>"; };
 		78DD763F272717AE0094D510 /* ProfileBackgroundFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundFlow.swift; sourceTree = "<group>"; };
-		78DD76482727496B0094D510 /* ProfileBackgroundItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundItem.swift; sourceTree = "<group>"; };
-		78DD764A2727499F0094D510 /* ProfileBackgroundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundViewModel.swift; sourceTree = "<group>"; };
-		78DD764C27274A030094D510 /* ProfileBackgroundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundCell.swift; sourceTree = "<group>"; };
 		78DD764E2727765B0094D510 /* ProfileBackgroundCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundCollectionCell.swift; sourceTree = "<group>"; };
 		78DD76512728B5670094D510 /* ProfileBackgroundPreviewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundPreviewPresenter.swift; sourceTree = "<group>"; };
 		78DD76522728B5670094D510 /* ProfileBackgroundPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundPreviewViewController.swift; sourceTree = "<group>"; };
@@ -1671,6 +1667,16 @@
 			path = LocalAuthentication;
 			sourceTree = "<group>";
 		};
+		789693A2272C95D700C0BDB0 /* ProfileBackgroundCollection */ = {
+			isa = PBXGroup;
+			children = (
+				787625A4272A0424001DC3A9 /* ProfileBackgroundHeaderView.swift */,
+				78DD764E2727765B0094D510 /* ProfileBackgroundCollectionCell.swift */,
+				789693AB272CC53600C0BDB0 /* ProfileBackgroundItem.swift */,
+			);
+			path = ProfileBackgroundCollection;
+			sourceTree = "<group>";
+		};
 		789B122A26CE889D002FCDDF /* CallList */ = {
 			isa = PBXGroup;
 			children = (
@@ -1785,27 +1791,15 @@
 		78DD76392727178F0094D510 /* ProfileBackground */ = {
 			isa = PBXGroup;
 			children = (
-				78DD7647272749160094D510 /* TableView */,
+				789693A2272C95D700C0BDB0 /* ProfileBackgroundCollection */,
 				78DD763A272717AE0094D510 /* ProfileBackgroundPresenter.swift */,
 				78DD763B272717AE0094D510 /* ProfileBackgroundViewController.swift */,
 				78DD763C272717AE0094D510 /* ProfileBackgroundProtocols.swift */,
 				78DD763D272717AE0094D510 /* ProfileBackgroundView.swift */,
 				78DD763E272717AE0094D510 /* ProfileBackgroundConfigurator.swift */,
 				78DD763F272717AE0094D510 /* ProfileBackgroundFlow.swift */,
-				78DD764E2727765B0094D510 /* ProfileBackgroundCollectionCell.swift */,
 			);
 			path = ProfileBackground;
-			sourceTree = "<group>";
-		};
-		78DD7647272749160094D510 /* TableView */ = {
-			isa = PBXGroup;
-			children = (
-				78DD76482727496B0094D510 /* ProfileBackgroundItem.swift */,
-				78DD764A2727499F0094D510 /* ProfileBackgroundViewModel.swift */,
-				78DD764C27274A030094D510 /* ProfileBackgroundCell.swift */,
-				787625A4272A0424001DC3A9 /* ProfileBackgroundHeaderView.swift */,
-			);
-			path = TableView;
 			sourceTree = "<group>";
 		};
 		78DD76502728B5140094D510 /* ProfileBackgroundPreview */ = {
@@ -2029,7 +2023,6 @@
 				789FEBF026DCE61D0018FE91 /* PhotoEditorConfigurator.swift in Sources */,
 				787AC7BB2722E33E000AA434 /* TypographyConfigurator.swift in Sources */,
 				5A187EBB268070B3001957D3 /* NSMutableData+Extensions.swift in Sources */,
-				78DD764D27274A030094D510 /* ProfileBackgroundCell.swift in Sources */,
 				78437F10270C76FE00371110 /* AboutAppView.swift in Sources */,
 				78BB7E0E26F36B1200F1D500 /* FriendProfileViewController.swift in Sources */,
 				5A430EC527196A08004A1D2E /* ProfileView.swift in Sources */,
@@ -2089,6 +2082,7 @@
 				5A187DD826806F35001957D3 /* Dependency.swift in Sources */,
 				7846B66E26E8BFF600B05984 /* CellState.swift in Sources */,
 				5A430EC127196A08004A1D2E /* ProfileConfigurator.swift in Sources */,
+				789693AC272CC53600C0BDB0 /* ProfileBackgroundItem.swift in Sources */,
 				5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */,
 				7846B66A26E8BFBD00B05984 /* PreviewLayout.swift in Sources */,
 				787AAEE52703CA4900D734D3 /* ProfileDetailCell.swift in Sources */,
@@ -2109,7 +2103,6 @@
 				78437F17270C8FB100371110 /* CustomWebViewController.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
 				5A430EC327196A08004A1D2E /* ProfileFlow.swift in Sources */,
-				78DD764B2727499F0094D510 /* ProfileBackgroundViewModel.swift in Sources */,
 				78EFC5FD27021E8700A9BBAA /* ProfileDetailConfigurator.swift in Sources */,
 				5A26CD6326B35EB700118D4B /* ChatTableViewCell.swift in Sources */,
 				5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */,
@@ -2213,7 +2206,6 @@
 				5AF8633826AA994E004A417C /* VerificationView.swift in Sources */,
 				7846B67926E8C0BE00B05984 /* PreviewCollectionViewCell.swift in Sources */,
 				78DD7640272717AE0094D510 /* ProfileBackgroundPresenter.swift in Sources */,
-				78DD76492727496B0094D510 /* ProfileBackgroundItem.swift in Sources */,
 				5A187F2C2680CF49001957D3 /* URLRequest+QueryItems.swift in Sources */,
 				5A187F312680CF49001957D3 /* RelationshipResponse.swift in Sources */,
 				5A187F342680CF49001957D3 /* ContactsManager.swift in Sources */,

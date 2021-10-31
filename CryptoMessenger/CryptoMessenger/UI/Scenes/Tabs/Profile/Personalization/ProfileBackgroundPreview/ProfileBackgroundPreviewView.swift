@@ -238,7 +238,8 @@ final class ProfileBackgroundPreviewView: UIView {
 
     private func addPhotoCollectionView() {
         photoCollectionView.snap(parent: self) {
-            $0.backgroundView = UIImageView(image: R.image.profileBackground.image2())
+            $0.backgroundView = UIImageView(image: backgroundPreviewImage)
+            $0.backgroundView?.contentMode = .scaleToFill
             $0.dataSource = self
             $0.delegate = self
             $0.register(ProfileBackgroundPreviewCell.self,

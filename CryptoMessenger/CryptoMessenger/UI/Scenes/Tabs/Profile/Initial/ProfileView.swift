@@ -24,7 +24,7 @@ final class ProfileView: UIView {
     private lazy var urlButton = UIButton()
     private lazy var addPhotoButton = UIButton()
     private lazy var buyButton = UIButton()
-    private let spacing: CGFloat = 1
+    private let spacing: CGFloat = 8
 
     private lazy var photoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
