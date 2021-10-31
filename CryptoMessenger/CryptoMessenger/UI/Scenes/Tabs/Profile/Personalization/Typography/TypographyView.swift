@@ -6,7 +6,7 @@ final class TypographyView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTap: (() -> Void)?
+    var didTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -33,12 +33,6 @@ final class TypographyView: UIView {
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("not implemented")
-    }
-
-    // MARK: - Internal Methods
-
-    func publicMethod() {
-
     }
 
     // MARK: - Private Methods

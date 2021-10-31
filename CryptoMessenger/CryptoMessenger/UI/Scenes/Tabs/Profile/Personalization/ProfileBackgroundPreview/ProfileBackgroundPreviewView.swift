@@ -6,7 +6,7 @@ final class ProfileBackgroundPreviewView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTap: (() -> Void)?
+    var didTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -176,7 +176,6 @@ final class ProfileBackgroundPreviewView: UIView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.15
         paragraphStyle.alignment = .left
-
         infoLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: profileDetail.description,

@@ -113,7 +113,6 @@ final class ProfileBackgroundHeaderView: UICollectionReusableView {
             $0.top.equalTo($1)
             $0.leading.equalTo($1)
             $0.trailing.equalTo($1)
-
         }
     }
 }
