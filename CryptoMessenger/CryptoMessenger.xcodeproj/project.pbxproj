@@ -113,6 +113,12 @@
 		5A26CD6326B35EB700118D4B /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD6226B35EB600118D4B /* ChatTableViewCell.swift */; };
 		5A26CD6526B35F7A00118D4B /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD6426B35F7A00118D4B /* ChatViewModel.swift */; };
 		5A26CD6A26B4016000118D4B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A26CD6926B4016000118D4B /* GoogleService-Info.plist */; };
+		5A3721D3272EF0DA0097ABED /* ChatCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721D2272EF0DA0097ABED /* ChatCreateView.swift */; };
+		5A3721D5272F0A290097ABED /* ContactRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721D4272F0A290097ABED /* ContactRow.swift */; };
+		5A3721D7272F2A4D0097ABED /* ChatGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721D6272F2A4D0097ABED /* ChatGroupView.swift */; };
+		5A3721DC272F3A210097ABED /* DynamicHeightTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721DB272F3A210097ABED /* DynamicHeightTextField.swift */; };
+		5A3721DE272F418F0097ABED /* SelectContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721DD272F418F0097ABED /* SelectContactView.swift */; };
+		5A3721E0272F47EA0097ABED /* EmptyNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721DF272F47EA0097ABED /* EmptyNavigationLink.swift */; };
 		5A4267FE26A83494000C51DD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FD26A83494000C51DD /* R.generated.swift */; };
 		5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */; };
 		5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680026A83554000C51DD /* RegistrationViewController.swift */; };
@@ -142,7 +148,7 @@
 		5A4BE4F9271DC32500D03D09 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE4F8271DC32500D03D09 /* AuthResponse.swift */; };
 		5A4BE4FC271DD4E700D03D09 /* MatrixStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE4FB271DD4E700D03D09 /* MatrixStore.swift */; };
 		5A4BE4FF271DD7D700D03D09 /* MatrixConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE4FE271DD7D700D03D09 /* MatrixConfiguration.swift */; };
-		5A4BE516271DD86A00D03D09 /* NIORoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE504271DD86A00D03D09 /* NIORoom.swift */; };
+		5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE504271DD86A00D03D09 /* AuraRoom.swift */; };
 		5A4BE517271DD86A00D03D09 /* EditEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE506271DD86A00D03D09 /* EditEvent.swift */; };
 		5A4BE518271DD86A00D03D09 /* ReactionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE507271DD86A00D03D09 /* ReactionEvent.swift */; };
 		5A4BE519271DD86A00D03D09 /* CustomEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE508271DD86A00D03D09 /* CustomEvent.swift */; };
@@ -424,6 +430,12 @@
 		5A26CD6226B35EB600118D4B /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		5A26CD6426B35F7A00118D4B /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		5A26CD6926B4016000118D4B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5A3721D2272EF0DA0097ABED /* ChatCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateView.swift; sourceTree = "<group>"; };
+		5A3721D4272F0A290097ABED /* ContactRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRow.swift; sourceTree = "<group>"; };
+		5A3721D6272F2A4D0097ABED /* ChatGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupView.swift; sourceTree = "<group>"; };
+		5A3721DB272F3A210097ABED /* DynamicHeightTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicHeightTextField.swift; sourceTree = "<group>"; };
+		5A3721DD272F418F0097ABED /* SelectContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactView.swift; sourceTree = "<group>"; };
+		5A3721DF272F47EA0097ABED /* EmptyNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNavigationLink.swift; sourceTree = "<group>"; };
 		5A4267FD26A83494000C51DD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = R.generated.swift; path = Generated/R.generated.swift; sourceTree = SOURCE_ROOT; };
 		5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPresenter.swift; sourceTree = "<group>"; };
 		5A42680026A83554000C51DD /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -454,7 +466,7 @@
 		5A4BE4FB271DD4E700D03D09 /* MatrixStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixStore.swift; sourceTree = "<group>"; };
 		5A4BE4FD271DD55E00D03D09 /* CryptoMessenger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CryptoMessenger.entitlements; sourceTree = "<group>"; };
 		5A4BE4FE271DD7D700D03D09 /* MatrixConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixConfiguration.swift; sourceTree = "<group>"; };
-		5A4BE504271DD86A00D03D09 /* NIORoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NIORoom.swift; sourceTree = "<group>"; };
+		5A4BE504271DD86A00D03D09 /* AuraRoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuraRoom.swift; sourceTree = "<group>"; };
 		5A4BE506271DD86A00D03D09 /* EditEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditEvent.swift; sourceTree = "<group>"; };
 		5A4BE507271DD86A00D03D09 /* ReactionEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionEvent.swift; sourceTree = "<group>"; };
 		5A4BE508271DD86A00D03D09 /* CustomEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomEvent.swift; sourceTree = "<group>"; };
@@ -817,6 +829,8 @@
 				5A187E4E2680708D001957D3 /* ObservableArray.swift */,
 				5A187E4F2680708D001957D3 /* ScalableButtonView.swift */,
 				5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */,
+				5A3721DB272F3A210097ABED /* DynamicHeightTextField.swift */,
+				5A3721DF272F47EA0097ABED /* EmptyNavigationLink.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -1141,6 +1155,7 @@
 			children = (
 				5A9318CE26C5AAB500645365 /* Feed */,
 				5A9318CF26C5AAD400645365 /* ChatRoom */,
+				5A3721D1272EF0120097ABED /* ChatCreate */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1175,6 +1190,17 @@
 				5AF8634F26AD9FE5004A417C /* GenerationInfoFlow.swift */,
 			);
 			path = GenerationInfo;
+			sourceTree = "<group>";
+		};
+		5A3721D1272EF0120097ABED /* ChatCreate */ = {
+			isa = PBXGroup;
+			children = (
+				5A3721D2272EF0DA0097ABED /* ChatCreateView.swift */,
+				5A3721D4272F0A290097ABED /* ContactRow.swift */,
+				5A3721DD272F418F0097ABED /* SelectContactView.swift */,
+				5A3721D6272F2A4D0097ABED /* ChatGroupView.swift */,
+			);
+			path = ChatCreate;
 			sourceTree = "<group>";
 		};
 		5A4267FC26A8336E000C51DD /* Generated */ = {
@@ -1259,7 +1285,7 @@
 		5A4BE503271DD86A00D03D09 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5A4BE504271DD86A00D03D09 /* NIORoom.swift */,
+				5A4BE504271DD86A00D03D09 /* AuraRoom.swift */,
 				5A4BE505271DD86A00D03D09 /* Custom Events */,
 				5A4BE509271DD86A00D03D09 /* NIORoomSummary.swift */,
 				5A4BE50A271DD86A00D03D09 /* Reaction.swift */,
@@ -1977,7 +2003,7 @@
 				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
-				5A4BE516271DD86A00D03D09 /* NIORoom.swift in Sources */,
+				5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
 				5A187E9E2680708D001957D3 /* ObservableArray.swift in Sources */,
 				5AF8636D26ADCB9B004A417C /* KeyImportConfigurator.swift in Sources */,
@@ -2046,6 +2072,7 @@
 				5A9B472426EAA010001CC627 /* ReactionView.swift in Sources */,
 				78BB7E1726F49E1500F1D500 /* MenuFriendViewController.swift in Sources */,
 				5A9318B926BD210400645365 /* PinCodeView.swift in Sources */,
+				5A3721DC272F3A210097ABED /* DynamicHeightTextField.swift in Sources */,
 				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
 				7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */,
 				5A4BE51E271DD86A00D03D09 /* MXClient+Publisher.swift in Sources */,
@@ -2119,10 +2146,12 @@
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
 				5A187DD726806F35001957D3 /* Injectable.swift in Sources */,
 				7889064527064F8D0093459C /* ProfileNetworkDetailFlow.swift in Sources */,
+				5A3721D5272F0A290097ABED /* ContactRow.swift in Sources */,
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
 				78437F0E270C76FE00371110 /* AboutAppViewController.swift in Sources */,
 				78437F11270C76FE00371110 /* AboutAppConfigurator.swift in Sources */,
+				5A3721DE272F418F0097ABED /* SelectContactView.swift in Sources */,
 				5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */,
 				5A187DE426806F62001957D3 /* AppFirebaseService.swift in Sources */,
 				5A9318D626C5AAF100645365 /* ChatRoomView.swift in Sources */,
@@ -2185,6 +2214,7 @@
 				5A187EBD268070B3001957D3 /* NSObject+Extensions.swift in Sources */,
 				5A187EA22680708D001957D3 /* TableViewProviderViewModel.swift in Sources */,
 				7846B66C26E8BFD900B05984 /* ParallaxLayoutAttributes.swift in Sources */,
+				5A3721D7272F2A4D0097ABED /* ChatGroupView.swift in Sources */,
 				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				5A26CD3126B3195900118D4B /* CardViewModel.swift in Sources */,
@@ -2195,9 +2225,11 @@
 				5A4BE51A271DD86A00D03D09 /* NIORoomSummary.swift in Sources */,
 				5A7F452A270E1C1400E44D22 /* ProfileActionCell.swift in Sources */,
 				5A2181E726D82DC40093AD60 /* LocationManager.swift in Sources */,
+				5A3721E0272F47EA0097ABED /* EmptyNavigationLink.swift in Sources */,
 				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
 				7844ACAA2715DEFD00A34E26 /* ProfileCountryCodeCell.swift in Sources */,
+				5A3721D3272EF0DA0097ABED /* ChatCreateView.swift in Sources */,
 				7846B66126E8BC6600B05984 /* ScrollAnimation.swift in Sources */,
 				78BB7E2126F4AB2600F1D500 /* FriendMenuListViewModel.swift in Sources */,
 				5A187E992680708D001957D3 /* ActivityView.swift in Sources */,

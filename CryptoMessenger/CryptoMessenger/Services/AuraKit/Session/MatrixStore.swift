@@ -148,15 +148,15 @@ final class MatrixStore: ObservableObject {
         }
     }
 
-    private var roomCache: [ObjectIdentifier: NIORoom] = [:]
+    private var roomCache: [ObjectIdentifier: AuraRoom] = [:]
 
-    private func makeRoom(from mxRoom: MXRoom) -> NIORoom {
-        let room = NIORoom(mxRoom)
+    private func makeRoom(from mxRoom: MXRoom) -> AuraRoom {
+        let room = AuraRoom(mxRoom)
         roomCache[mxRoom.id] = room
         return room
     }
 
-    var rooms: [NIORoom] {
+    var rooms: [AuraRoom] {
         guard let session = session else { return [] }
 
         let rooms = session.rooms
@@ -167,7 +167,7 @@ final class MatrixStore: ObservableObject {
         return rooms
     }
 
-    private func updateUserDefaults(with rooms: [NIORoom]) {
+    private func updateUserDefaults(with rooms: [AuraRoom]) {
         let roomItems = rooms.map { RoomItem(room: $0.room) }
         do {
             let data = try JSONEncoder().encode(roomItems)
@@ -179,7 +179,7 @@ final class MatrixStore: ObservableObject {
 
     var listenReferenceRoom: Any?
 
-    func paginate(room: NIORoom, event: MXEvent) {
+    func paginate(room: AuraRoom, event: MXEvent) {
         let timeline = room.room.timeline(onEvent: event.eventId)
         listenReferenceRoom = timeline?.listenToEvents { event, direction, roomState in
             if direction == .backwards {

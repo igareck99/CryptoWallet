@@ -24,7 +24,7 @@ final class AboutAppViewController: BaseViewController {
         super.viewDidLoad()
         subscribeCustomViewActions()
         addTitleBarButtonItem()
-        addLeftBarButtonItem()
+        //addLeftBarButtonItem()
     }
 
     override func viewWillAppear(_ animated: Bool) {

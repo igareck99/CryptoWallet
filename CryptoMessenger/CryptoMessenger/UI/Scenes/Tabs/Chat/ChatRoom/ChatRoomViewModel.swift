@@ -33,7 +33,7 @@ final class ChatRoomViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(userMessage: Message) {
+    init(userMessage: Message, showHistory: Bool = true) {
         bindInput()
         bindOutput()
 
@@ -71,7 +71,9 @@ final class ChatRoomViewModel: ObservableObject {
         ]
 
         self.userMessage = userMessage
-        self.messages = sortedMessages
+        if showHistory {
+            self.messages = sortedMessages
+        }
 
         keyboardObserver.keyboardWillShowHandler = { [weak self] notification in
             guard

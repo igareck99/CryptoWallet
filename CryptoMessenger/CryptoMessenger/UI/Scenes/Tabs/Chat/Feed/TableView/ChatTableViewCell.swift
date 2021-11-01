@@ -19,7 +19,6 @@ final class ChatTableViewCell: UITableViewCell {
     private lazy var pinImageView = UIImageView()
     private lazy var unreadCountView = UIView()
     private lazy var unreadCountLabel = UILabel()
-
     private var animator = TapAnimator()
 
     // MARK: - Internal Properties
@@ -44,6 +43,7 @@ final class ChatTableViewCell: UITableViewCell {
         addNameLabel()
         addDateLabel()
         addBottomStackView()
+        addLineView()
     }
 
     @available(*, unavailable)
@@ -115,14 +115,6 @@ final class ChatTableViewCell: UITableViewCell {
         paragraphStyle.alignment = .left
 
         nameLabel.snap(parent: self) {
-//            $0.titleAttributes(
-//                text: "",
-//                [
-//                    .paragraph(paragraphStyle),
-//                    .font(.semibold(15)),
-//                    .color(.black())
-//                ]
-//            )
             $0.font(.semibold(15))
             $0.textColor(.black())
             $0.textAlignment = .left
@@ -139,14 +131,6 @@ final class ChatTableViewCell: UITableViewCell {
         paragraphStyle.alignment = .right
 
         dateLabel.snap(parent: self) {
-//            $0.titleAttributes(
-//                text: "",
-//                [
-//                    .paragraph(paragraphStyle),
-//                    .font(.regular(15)),
-//                    .color(.black())
-//                ]
-//            )
             $0.font(.regular(15))
             $0.textColor(.black())
             $0.textAlignment = .right
@@ -218,5 +202,16 @@ final class ChatTableViewCell: UITableViewCell {
         bottomStackView.addArrangedSubview(UIView())
         bottomStackView.addArrangedSubview(unreadCountView)
         bottomStackView.addArrangedSubview(pinImageView)
+    }
+
+    private func addLineView() {
+        let lineView = UIView()
+        lineView.background(.gray(0.8))
+        lineView.snap(parent: contentView) {
+            $0.height.equalTo(1)
+            $0.bottom.equalTo($1)
+            $0.leading.equalTo($1).offset(88)
+            $0.trailing.equalTo($1).offset(-16)
+        }
     }
 }

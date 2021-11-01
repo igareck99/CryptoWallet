@@ -15,51 +15,7 @@ extension UIViewController {
     }
 
     func setupDefaultNavigationBar() {
-        setNeedsStatusBarAppearanceUpdate()
-        navigationController?.navigationBar.background(.white())
-        navigationController?.navigationBar.tintColor(.black())
-        navigationController?.navigationBar.barTintColor(.white())
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.layer.masksToBounds = false
-        navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
-        navigationController?.navigationBar.layer.shadowOpacity = 0.4
-        navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 0.5)
-        navigationController?.navigationBar.layer.shadowRadius = 0.5
-        navigationController?.navigationBar.backItem?.backBarButtonItem?.title = nil
-
-        var paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.09
-        paragraph.alignment = .left
-
-        UIBarButtonItem.appearance().titleAttributes(
-            [
-                .color(.black()),
-                .font(.semibold(17)),
-                .paragraph(paragraph)
-            ],
-            for: .normal
-        )
-        UIBarButtonItem.appearance().titleAttributes(
-            [
-                .color(.black()),
-                .font(.semibold(17)),
-                .paragraph(paragraph)
-            ],
-            for: .highlighted
-        )
-
-        paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.09
-        paragraph.alignment = .center
-
-        navigationController?.navigationBar.titleAttributes(
-            [
-                .font(.regular(15)),
-                .color(.black()),
-                .paragraph(paragraph)
-            ]
-        )
-
+        navigationController?.navigationBar.setTranslucent(tintColor: .black(), titleColor: .white())
         setupBackButton()
     }
 
@@ -126,5 +82,75 @@ extension UIViewController {
             .withTintColor(color.uiColor)
         navigationController?.navigationBar.backIndicatorImage = backImage
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
+    }
+}
+
+extension UINavigationBar {
+    func setOpaque(tintColor: Palette, titleColor: Palette) {
+        if #available(iOS 15, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = tintColor.uiColor
+            appearance.titleTextAttributes = [.foregroundColor: tintColor.uiColor]
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        } else {
+            setBackgroundImage(UIImage(), for: .any, barMetrics: .defaultPrompt)
+            shadowImage = UIImage()
+            barTintColor = tintColor.uiColor
+            titleTextAttributes = [.foregroundColor: tintColor.uiColor]
+        }
+        isTranslucent = false
+        self.tintColor = tintColor.uiColor
+    }
+
+    func setTranslucent(tintColor: Palette, titleColor: Palette) {
+        var paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .left
+
+        UIBarButtonItem.appearance().titleAttributes(
+            [
+                .color(.black()),
+                .font(.semibold(17)),
+                .paragraph(paragraph)
+            ],
+            for: .normal
+        )
+        UIBarButtonItem.appearance().titleAttributes(
+            [
+                .color(.black()),
+                .font(.semibold(17)),
+                .paragraph(paragraph)
+            ],
+            for: .highlighted
+        )
+
+        paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .center
+
+        titleAttributes(
+            [
+                .font(.regular(15)),
+                .color(.black()),
+                .paragraph(paragraph)
+            ]
+        )
+
+        background(.white())
+
+        let coloredAppearance = UINavigationBarAppearance()
+        coloredAppearance.configureWithTransparentBackground()
+        coloredAppearance.backgroundColor = .white
+        coloredAppearance.titleTextAttributes = [.foregroundColor: titleColor.uiColor]
+        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: titleColor.uiColor]
+
+        standardAppearance = coloredAppearance
+        compactAppearance = coloredAppearance
+        scrollEdgeAppearance = coloredAppearance
+
+        isTranslucent = true
+        self.tintColor = tintColor.uiColor
     }
 }

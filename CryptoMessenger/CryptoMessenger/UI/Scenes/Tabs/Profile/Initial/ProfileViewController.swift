@@ -12,6 +12,7 @@ final class ProfileViewController: BaseViewController {
 
     private lazy var customView = ProfileView(frame: UIScreen.main.bounds)
     private lazy var imagePicker = ImagePicker(fromController: self)
+    private let controller = AdditionalMenuViewController()
 
     // MARK: - Lifecycle
 
@@ -39,13 +40,29 @@ final class ProfileViewController: BaseViewController {
             imagePicker.open()
         }
         customView.didTapShowPhoto = { [unowned self] in
-            let images = self.customView.photos.compactMap { $0 }
+            let images = customView.photos.compactMap { $0 }
             let viewController = PhotoEditorConfigurator.configuredViewController(images: images, delegate: nil)
             present(viewController, animated: true)
         }
         customView.didTapBuyCell = { [unowned self] in
             let vc = PaywallViewController()
-            self.present(vc, animated: true)
+            present(vc, animated: true)
+        }
+
+        controller.didDeleteTap = { [unowned self] in
+            controller.dismiss(animated: true)
+        }
+        controller.didProfileDetailTap = { [unowned self] in
+            controller.dismiss(animated: true)
+            let vc = ProfileDetailConfigurator.configuredViewController(delegate: nil)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        controller.didAboutAppTap = { [unowned self] in
+            controller.dismiss(animated: true)
+            let vc = AboutAppConfigurator.configuredViewController(delegate: nil)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 
@@ -67,17 +84,7 @@ final class ProfileViewController: BaseViewController {
     // MARK: - Actions
 
     @objc private func rightButtonTap() {
-        let controller = AdditionalMenuViewController()
         present(controller, animated: true)
-        controller.didDeleteTap = { [unowned self] in
-            controller.dismiss(animated: true)
-        }
-        controller.didProfileDetailTap = { [unowned self] in
-            controller.dismiss(animated: true)
-            let vc = ProfileDetailConfigurator.configuredViewController(delegate: nil)
-            vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
-        }
     }
 }
 
