@@ -241,6 +241,11 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
+		78437F20270DAF9900371110 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F1F270DAF9900371110 /* QuestionView.swift */; };
+		78437F22270DAFAF00371110 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F21270DAFAF00371110 /* QuestionViewController.swift */; };
+		78437F24270DB7F200371110 /* QuestionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F23270DB7F200371110 /* QuestionItem.swift */; };
+		78437F26270DB86A00371110 /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F25270DB86A00371110 /* QuestionCell.swift */; };
+		78437F28270DBC7D00371110 /* QuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F27270DBC7D00371110 /* QuestionViewModel.swift */; };
 		78437F03270B769C00371110 /* ProfileDetailTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F02270B769C00371110 /* ProfileDetailTableHeaderView.swift */; };
 		78437F0D270C76FE00371110 /* AboutAppPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F07270C76FE00371110 /* AboutAppPresenter.swift */; };
 		78437F0E270C76FE00371110 /* AboutAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F08270C76FE00371110 /* AboutAppViewController.swift */; };
@@ -559,6 +564,11 @@
 		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
+		78437F1F270DAF9900371110 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		78437F21270DAFAF00371110 /* QuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
+		78437F23270DB7F200371110 /* QuestionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionItem.swift; sourceTree = "<group>"; };
+		78437F25270DB86A00371110 /* QuestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
+		78437F27270DBC7D00371110 /* QuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewModel.swift; sourceTree = "<group>"; };
 		78437F02270B769C00371110 /* ProfileDetailTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailTableHeaderView.swift; sourceTree = "<group>"; };
 		78437F07270C76FE00371110 /* AboutAppPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppPresenter.swift; sourceTree = "<group>"; };
 		78437F08270C76FE00371110 /* AboutAppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppViewController.swift; sourceTree = "<group>"; };
@@ -1146,6 +1156,15 @@
 				78EFC5F227021E6E00A9BBAA /* ProfileDetail */,
 				7889063927064F710093459C /* ProfileSocialNetwork */,
 				78437F18270CA26600371110 /* Paywall */,
+				78437F1D270DAE4E00371110 /* AnswersQuestion */,
+				78C3CEDB26EF6B6600CF1885 /* AdditionalMenu */,
+				5A26CD4826B356F600118D4B /* ProfileConfigurator.swift */,
+				5A26CD4726B356F600118D4B /* ProfileProtocols.swift */,
+				5A26CD4A26B356F600118D4B /* ProfileViewController.swift */,
+				5A26CD4626B356F600118D4B /* ProfileView.swift */,
+				7896226B26B992AD00033B3B /* ProfileCell.swift */,
+				5A26CD4526B356F600118D4B /* ProfilePresenter.swift */,
+				5A26CD4926B356F600118D4B /* ProfileFlow.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1526,6 +1545,26 @@
 				5AF8636826ADCB9B004A417C /* KeyImportFlow.swift */,
 			);
 			path = KeyImport;
+			sourceTree = "<group>";
+		};
+		78437F1D270DAE4E00371110 /* AnswersQuestion */ = {
+			isa = PBXGroup;
+			children = (
+				78437F1E270DAE9C00371110 /* TableView */,
+				78437F1F270DAF9900371110 /* QuestionView.swift */,
+				78437F21270DAFAF00371110 /* QuestionViewController.swift */,
+			);
+			path = AnswersQuestion;
+			sourceTree = "<group>";
+		};
+		78437F1E270DAE9C00371110 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				78437F23270DB7F200371110 /* QuestionItem.swift */,
+				78437F25270DB86A00371110 /* QuestionCell.swift */,
+				78437F27270DBC7D00371110 /* QuestionViewModel.swift */,
+			);
+			path = TableView;
 			sourceTree = "<group>";
 		};
 		78437F06270C76E500371110 /* AboutApp */ = {
@@ -2066,6 +2105,7 @@
 				5A4BE517271DD86A00D03D09 /* EditEvent.swift in Sources */,
 				5A4BE51D271DD86A00D03D09 /* MXEvent+Extensions.swift in Sources */,
 				5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */,
+				78437F28270DBC7D00371110 /* QuestionViewModel.swift in Sources */,
 				5A26CD2126B2EECA00118D4B /* WalletFlow.swift in Sources */,
 				5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */,
 				5A9B471A26EA6DE0001CC627 /* SlideCard.swift in Sources */,
@@ -2127,6 +2167,8 @@
 				5A26CD3526B31B4000118D4B /* CardCollectionViewCell.swift in Sources */,
 				5AF8636926ADCB9B004A417C /* KeyImportPresenter.swift in Sources */,
 				78BB7E1026F36B1200F1D500 /* FriendProfileView.swift in Sources */,
+				78437F24270DB7F200371110 /* QuestionItem.swift in Sources */,
+				5A26CD4C26B356F600118D4B /* ProfileView.swift in Sources */,
 				5AF8633826AA994E004A417C /* VerificationView.swift in Sources */,
 				7846B67926E8C0BE00B05984 /* PreviewCollectionViewCell.swift in Sources */,
 				5A187F2C2680CF49001957D3 /* URLRequest+QueryItems.swift in Sources */,
@@ -2185,6 +2227,7 @@
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
 				78EFC5FC27021E8700A9BBAA /* ProfileDetailView.swift in Sources */,
 				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
+				78437F20270DAF9900371110 /* QuestionView.swift in Sources */,
 				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
 				5A9318E026C5AD0500645365 /* BubbleShape.swift in Sources */,
@@ -2216,6 +2259,7 @@
 				7846B66C26E8BFD900B05984 /* ParallaxLayoutAttributes.swift in Sources */,
 				5A3721D7272F2A4D0097ABED /* ChatGroupView.swift in Sources */,
 				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
+				78437F26270DB86A00371110 /* QuestionCell.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				5A26CD3126B3195900118D4B /* CardViewModel.swift in Sources */,
 				78BB7E1C26F4A11000F1D500 /* FriendMenuCell.swift in Sources */,
@@ -2254,6 +2298,7 @@
 				5A187DE126806F62001957D3 /* SceneDelegateService.swift in Sources */,
 				5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */,
 				5AF8635E26ADB691004A417C /* OnboardingPageViewController.swift in Sources */,
+				78437F22270DAFAF00371110 /* QuestionViewController.swift in Sources */,
 				5AA6410026822C3A008922B4 /* Palette.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
