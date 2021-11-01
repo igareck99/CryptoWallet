@@ -148,7 +148,7 @@
 		5A4BE4F9271DC32500D03D09 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE4F8271DC32500D03D09 /* AuthResponse.swift */; };
 		5A4BE4FC271DD4E700D03D09 /* MatrixStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE4FB271DD4E700D03D09 /* MatrixStore.swift */; };
 		5A4BE4FF271DD7D700D03D09 /* MatrixConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE4FE271DD7D700D03D09 /* MatrixConfiguration.swift */; };
-		5A4BE516271DD86A00D03D09 /* NIORoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE504271DD86A00D03D09 /* NIORoom.swift */; };
+		5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE504271DD86A00D03D09 /* AuraRoom.swift */; };
 		5A4BE517271DD86A00D03D09 /* EditEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE506271DD86A00D03D09 /* EditEvent.swift */; };
 		5A4BE518271DD86A00D03D09 /* ReactionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE507271DD86A00D03D09 /* ReactionEvent.swift */; };
 		5A4BE519271DD86A00D03D09 /* CustomEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE508271DD86A00D03D09 /* CustomEvent.swift */; };
@@ -466,7 +466,7 @@
 		5A4BE4FB271DD4E700D03D09 /* MatrixStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixStore.swift; sourceTree = "<group>"; };
 		5A4BE4FD271DD55E00D03D09 /* CryptoMessenger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CryptoMessenger.entitlements; sourceTree = "<group>"; };
 		5A4BE4FE271DD7D700D03D09 /* MatrixConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixConfiguration.swift; sourceTree = "<group>"; };
-		5A4BE504271DD86A00D03D09 /* NIORoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NIORoom.swift; sourceTree = "<group>"; };
+		5A4BE504271DD86A00D03D09 /* AuraRoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuraRoom.swift; sourceTree = "<group>"; };
 		5A4BE506271DD86A00D03D09 /* EditEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditEvent.swift; sourceTree = "<group>"; };
 		5A4BE507271DD86A00D03D09 /* ReactionEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionEvent.swift; sourceTree = "<group>"; };
 		5A4BE508271DD86A00D03D09 /* CustomEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomEvent.swift; sourceTree = "<group>"; };
@@ -1285,7 +1285,7 @@
 		5A4BE503271DD86A00D03D09 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5A4BE504271DD86A00D03D09 /* NIORoom.swift */,
+				5A4BE504271DD86A00D03D09 /* AuraRoom.swift */,
 				5A4BE505271DD86A00D03D09 /* Custom Events */,
 				5A4BE509271DD86A00D03D09 /* NIORoomSummary.swift */,
 				5A4BE50A271DD86A00D03D09 /* Reaction.swift */,
@@ -2003,7 +2003,7 @@
 				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
-				5A4BE516271DD86A00D03D09 /* NIORoom.swift in Sources */,
+				5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
 				5A187E9E2680708D001957D3 /* ObservableArray.swift in Sources */,
 				5AF8636D26ADCB9B004A417C /* KeyImportConfigurator.swift in Sources */,
