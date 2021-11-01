@@ -105,6 +105,11 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
+    private func showQuestionsScreen() {
+        let vc = QuestionViewController()
+        setViewWith(vc)
+    }
+
     // MARK: - Scene
 
     enum Scene {
@@ -125,6 +130,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case profileDetail
         case profileNetwork
         case aboutApp
+        case question
     }
 }
 
@@ -154,6 +160,9 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
         case .photoEditor:
             showPhotoEditorScene(images: [])
         case .friendProfile:
+            showFrienProfileScene()
+        case .question:
+            showQuestionsScreen()
             showFriendProfileScene()
         case .profileDetail:
             showProfileDetailScene()
