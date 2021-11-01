@@ -2,8 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Base URL</key>
-	<string>https://matrix.aura.ms</string>
+	<key>API URL</key>
+	<string>https://api.aura.ms</string>
+	<key>API Version</key>
+	<string>v0</string>
+	<key>API stand</key>
+	<string>dev</string>
+	<key>AppGroup</key>
+	<string>ms.aura.app-ios</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -20,10 +26,12 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>Environment</key>
-	<string>dev</string>
+	<key>DevelopmentTeam</key>
+	<string>Z123456789</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MATRIX URL</key>
+	<string>https://matrix.aura.ms</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

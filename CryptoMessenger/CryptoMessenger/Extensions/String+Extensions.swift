@@ -1,6 +1,6 @@
 import Foundation
 
-// MARK: String ()
+// MARK: - String ()
 
 extension String {
 
@@ -14,15 +14,15 @@ extension String {
     // MARK: - Internal Methods
 
     subscript(i: Int) -> String {
-        return self[i ..< i + 1]
+        self[i ..< i + 1]
     }
 
     func substring(fromIndex: Int) -> String {
-        return self[min(fromIndex, count) ..< count]
+        self[min(fromIndex, count) ..< count]
     }
 
     func substring(toIndex: Int) -> String {
-        return self[0 ..< max(0, toIndex)]
+        self[0 ..< max(0, toIndex)]
     }
 
     subscript(r: Range<Int>) -> String {

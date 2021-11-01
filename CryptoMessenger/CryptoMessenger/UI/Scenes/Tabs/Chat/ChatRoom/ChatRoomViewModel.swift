@@ -29,9 +29,11 @@ final class ChatRoomViewModel: ObservableObject {
     private let keyboardObserver = KeyboardObserver()
     private let locationManager = LocationManager()
 
+    @Injectable private var mxStore: MatrixStore
+
     // MARK: - Lifecycle
 
-    init(userMessage: Message) {
+    init(userMessage: Message, showHistory: Bool = true) {
         bindInput()
         bindOutput()
 
@@ -69,7 +71,9 @@ final class ChatRoomViewModel: ObservableObject {
         ]
 
         self.userMessage = userMessage
-        self.messages = sortedMessages
+        if showHistory {
+            self.messages = sortedMessages
+        }
 
         keyboardObserver.keyboardWillShowHandler = { [weak self] notification in
             guard
@@ -117,12 +121,14 @@ final class ChatRoomViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    break
+                    _ = self?.mxStore.rooms
                 case .onNextScene:
                     print("Next scene")
                 case let .onSend(type):
+                    guard case let .text(text) = type else { return }
                     self?.inputText = ""
                     self?.messages.append(.init(type: type, date: "00:33", isCurrentUser: true))
+                    self?.mxStore.rooms.first?.send(text: text)
                 case .onAddReaction(let messageId, let reactionId):
                         guard
                             let index = self?.messages.firstIndex(where: { $0.id == messageId }),
@@ -164,6 +170,13 @@ final class ChatRoomViewModel: ObservableObject {
                     }
                 case .media:
                     self?.showPhotoLibrary.toggle()
+                case .contact:
+                    let message = RoomMessage(
+                        type: .contact,
+                        date: "00:32",
+                        isCurrentUser: true
+                    )
+                    self?.messages.append(message)
                 default:
                     break
                 }
@@ -236,6 +249,11 @@ private var sortedMessages: [RoomMessage] = [
     ),
     .init(
         type: .text("Сочувствую!)"),
+        date: "00:32",
+        isCurrentUser: true
+    ),
+    .init(
+        type: .contact,
         date: "00:32",
         isCurrentUser: true
     )

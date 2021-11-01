@@ -3,19 +3,19 @@ import Foundation
 // MARK: - AppLaunchInstructor
 
 enum AppLaunchInstructor {
+    case localAuth
     case authentication
-    case onboarding
     case main
 
     // MARK: - Static Methods
 
-    static func configure(isOnboardingShown: Bool, isAuthorized: Bool) -> AppLaunchInstructor {
-        switch (isOnboardingShown, isAuthorized) {
-        case (true, false), (false, false):
-            return .authentication
-        case (false, true):
-            return .onboarding
+    static func configure(isAuthorized: Bool, isLocalAuth: Bool) -> AppLaunchInstructor {
+        switch (isAuthorized, isLocalAuth) {
         case (true, true):
+            return .localAuth
+        case (false, _):
+            return .authentication
+        case (true, false):
             return .main
         }
     }

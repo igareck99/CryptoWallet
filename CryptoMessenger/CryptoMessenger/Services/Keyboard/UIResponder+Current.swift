@@ -4,7 +4,7 @@ import UIKit
 extension UIResponder {
     static var currentFirstResponder: UIResponder? {
         _currentFirstResponder = nil
-        UIApplication.shared.sendAction(#selector(UIResponder.findFirstResponder(_:)), to: nil, from: nil, for: nil)
+        UIApplication.shared.sendAction(#selector(UIResponder.findFirstResponder), to: nil, from: nil, for: nil)
         return _currentFirstResponder
     }
 

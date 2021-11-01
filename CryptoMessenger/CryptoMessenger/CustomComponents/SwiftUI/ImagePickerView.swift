@@ -8,7 +8,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
     // MARK: - Internal Properties
 
     @Binding var selectedImage: UIImage?
-    @SwiftUI.Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) var presentationMode
 
     // MARK: - Private Properties
 

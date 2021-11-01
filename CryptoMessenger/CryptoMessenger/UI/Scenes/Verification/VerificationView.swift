@@ -54,6 +54,10 @@ final class VerificationView: UIView {
         )
     }
 
+    func setResult(_ isSucceed: Bool) {
+        dotes.forEach { $0.textColor(isSucceed ? .blue() : .red()) }
+    }
+
     func setCountdownTime(_ time: String) {
         if timerLabel.isHidden {
             timerLabel.snp.updateConstraints {
@@ -212,7 +216,7 @@ final class VerificationView: UIView {
         let paragraph = NSMutableParagraphStyle()
         paragraph.lineHeightMultiple = 1.09
         paragraph.alignment = .center
-        
+
         resendButton.snap(parent: self) {
             let title = R.string.localizable.verificationResendButton()
             $0.titleAttributes(
@@ -260,14 +264,7 @@ extension VerificationView: UITextFieldDelegate {
         }
 
         if newString.count == PhoneHelper.verificationCodeRequiredLength {
-            if newString == PhoneHelper.verificationCodeForTest {
-                dotes.forEach { $0.textColor(.blue()) }
-                delay(0.3) {
-                    self.didTapNextScene?(newString)
-                }
-            } else {
-                dotes.forEach { $0.textColor(.red()) }
-            }
+            didTapNextScene?(newString)
         }
 
         return false

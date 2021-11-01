@@ -5,7 +5,7 @@ enum PhoneHelper {
     private static let phoneNumberKit = PhoneNumberKit()
 
     static var userRegionCode: String { Locale.current.regionCode ?? "RU" }
-    static var verificationCodeRequiredLength: Int { 4 }
+    static var verificationCodeRequiredLength: Int { 5 }
     static var verificationCodeForTest: String { "1234" }
     static var verificationResendTime: Double { 30 }
 

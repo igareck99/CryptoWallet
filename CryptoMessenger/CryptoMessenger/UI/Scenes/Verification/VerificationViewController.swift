@@ -40,6 +40,10 @@ final class VerificationViewController: BaseViewController {
 // MARK: - VerificationViewInterface
 
 extension VerificationViewController: VerificationViewInterface {
+    func setResult(_ isSucceed: Bool) {
+
+    }
+
     func setCountdownTime(_ time: String) {
         customView.setCountdownTime(time)
     }
