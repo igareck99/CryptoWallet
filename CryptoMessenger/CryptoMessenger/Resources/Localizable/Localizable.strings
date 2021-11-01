@@ -141,18 +141,3 @@
 "AboutApp.AuraAppInc" = "C 2020 AuraApp Inc.";
 
 "ProfileNetworkDetail.NotShowMessage" = "НЕ ОТОБРАЖАЕМ";
-
-"Personalization.Title" = "Персонализация";
-"Personalization.System" = "Системная";
-"Personalization.Light" = "Светлая";
-"Personalization.Dark" = "Темная";
-"Personalization.Cancel" = "Отмена";
-
-"AppLanguage.Title" = "Язык приложения";
-
-"Typography.Title" = "Типографика";
-
-"ProfileBackground.Title" = "Выбрать из галереи фон";
-"ProfileBackground.Wallpaper" = "ОБОИ";
-
-"ProfileBackgroundPreview.SetBackground" = "Установить фон";
