@@ -24,9 +24,7 @@ public struct ReactionGroup: Identifiable {
     public let count: Int
     public let reactions: [Reaction]
 
-    public var id: String {
-        self.reaction
-    }
+    public var id: String { reaction }
 
     public init(reaction: String, count: Int, reactions: [Reaction]) {
         self.reaction = reaction
@@ -35,6 +33,6 @@ public struct ReactionGroup: Identifiable {
     }
 
     public func containsReaction(from sender: String) -> Bool {
-        self.reactions.contains { $0.sender == sender }
+        reactions.contains { $0.sender == sender }
     }
 }

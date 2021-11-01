@@ -15,7 +15,7 @@ extension UIViewController {
     }
 
     func setupDefaultNavigationBar() {
-        navigationController?.navigationBar.setTranslucent(tintColor: .black(), titleColor: .white())
+        navigationController?.navigationBar.setTranslucent(tintColor: .white(), titleColor: .black())
         setupBackButton()
     }
 
@@ -63,7 +63,6 @@ extension UIViewController {
                 .paragraph(paragraph)
             ]
         )
-
     }
 
     // MARK: - Private Methods
@@ -85,7 +84,12 @@ extension UIViewController {
     }
 }
 
+// MARK: - UINavigationBar ()
+
 extension UINavigationBar {
+
+    // MARK: - Internal Methods
+
     func setOpaque(tintColor: Palette, titleColor: Palette) {
         if #available(iOS 15, *) {
             let appearance = UINavigationBarAppearance()
