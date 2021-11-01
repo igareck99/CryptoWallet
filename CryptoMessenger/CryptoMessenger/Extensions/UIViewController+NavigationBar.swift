@@ -15,7 +15,51 @@ extension UIViewController {
     }
 
     func setupDefaultNavigationBar() {
-        navigationController?.navigationBar.setTranslucent(tintColor: .black(), titleColor: .white())
+        setNeedsStatusBarAppearanceUpdate()
+        navigationController?.navigationBar.background(.white())
+        navigationController?.navigationBar.tintColor(.black())
+        navigationController?.navigationBar.barTintColor(.white())
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.layer.masksToBounds = false
+        navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
+        navigationController?.navigationBar.layer.shadowOpacity = 0.4
+        navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 0.5)
+        navigationController?.navigationBar.layer.shadowRadius = 0.5
+        navigationController?.navigationBar.backItem?.backBarButtonItem?.title = nil
+
+        var paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .left
+
+        UIBarButtonItem.appearance().titleAttributes(
+            [
+                .color(.black()),
+                .font(.semibold(17)),
+                .paragraph(paragraph)
+            ],
+            for: .normal
+        )
+        UIBarButtonItem.appearance().titleAttributes(
+            [
+                .color(.black()),
+                .font(.semibold(17)),
+                .paragraph(paragraph)
+            ],
+            for: .highlighted
+        )
+
+        paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .center
+
+        navigationController?.navigationBar.titleAttributes(
+            [
+                .font(.semibold(15)),
+                .color(.black()),
+                .paragraph(paragraph)
+            ]
+        )
+
         setupBackButton()
     }
 
@@ -63,7 +107,6 @@ extension UIViewController {
                 .paragraph(paragraph)
             ]
         )
-
     }
 
     // MARK: - Private Methods

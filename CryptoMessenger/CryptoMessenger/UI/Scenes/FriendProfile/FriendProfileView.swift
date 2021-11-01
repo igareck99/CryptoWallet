@@ -274,6 +274,7 @@ extension FriendProfileView: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
+        print("dmcmdmkdkm")
         guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else { return .init() }
         cell.profileImageView.image = profile1.images[indexPath.row]
         return cell
