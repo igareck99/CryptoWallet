@@ -1,18 +1,15 @@
 import UIKit
 
-// MARK: - ProfileView
+// MARK: - ProfileBackgroundPreviewView
 
-final class ProfileView: UIView {
+final class ProfileBackgroundPreviewView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTapAddPhoto: VoidBlock?
-    var didTapShowPhoto: VoidBlock?
-    var didTapBuyCell: VoidBlock?
+    var didTap: VoidBlock?
 
     // MARK: - Private Properties
 
-    private lazy var view = ProfileView(frame: UIScreen.main.bounds)
     private lazy var titleLabel = UILabel()
     private lazy var profileImage = UIImageView()
     private lazy var phoneLabel = UILabel()
@@ -23,8 +20,8 @@ final class ProfileView: UIView {
     private lazy var infoLabel = UILabel()
     private lazy var urlButton = UIButton()
     private lazy var addPhotoButton = UIButton()
-    private lazy var buyButton = UIButton()
-    private let spacing: CGFloat = 8
+    private lazy var setBackgroundButton = UIButton()
+    private let spacing: CGFloat = 1
 
     private lazy var photoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -43,6 +40,7 @@ final class ProfileView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
+        addPhotos()
         addProfileImage()
         addTitleLabel()
         addTwitterButton()
@@ -54,7 +52,7 @@ final class ProfileView: UIView {
         addUrlButton()
         addAddPhotoButton()
         addPhotoCollectionView()
-        addBuyButton()
+        addSetBackgroundButton()
     }
 
     @available(*, unavailable)
@@ -64,24 +62,10 @@ final class ProfileView: UIView {
 
     // MARK: - Internal Methods
 
-    func addImage(_ image: UIImage) {
-        photos.append(image)
-        photoCollectionView.reloadData()
-    }
-
-    func setPhotos(_ images: [UIImage?]) {
-        photos.append(contentsOf: images)
-        photoCollectionView.reloadData()
-    }
-
-    // MARK: - Actions
-
-    @objc private func addPhotoButtonTap() {
-        didTapAddPhoto?()
-    }
-
-    @objc private func BuyButtonTap() {
-        didTapBuyCell?()
+    func addPhotos() {
+        for _ in 1...6 {
+            photos.append(R.image.profileBackground.whiteGallery())
+        }
     }
 
     // MARK: - Private Methods
@@ -192,7 +176,6 @@ final class ProfileView: UIView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.15
         paragraphStyle.alignment = .left
-
         infoLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: profileDetail.description,
@@ -244,7 +227,6 @@ final class ProfileView: UIView {
                 ]
             )
             $0.clipCorners(radius: 8)
-            $0.addTarget(self, action: #selector(self.addPhotoButtonTap), for: .touchUpInside)
         } layout: {
             $0.height.equalTo(44)
             $0.top.equalTo(self.urlButton.snp.bottom).offset(24)
@@ -255,48 +237,43 @@ final class ProfileView: UIView {
 
     private func addPhotoCollectionView() {
         photoCollectionView.snap(parent: self) {
-            $0.background(.clear)
-            let imageView = UIImageView()
-            imageView.image = R.image.profileBackground.image3()
-            $0.backgroundView = imageView
+            $0.backgroundView = UIImageView(image: backgroundPreviewImage)
+            $0.backgroundView?.contentMode = .scaleToFill
             $0.dataSource = self
             $0.delegate = self
-            $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
+            $0.register(ProfileBackgroundPreviewCell.self,
+                        forCellWithReuseIdentifier: ProfileBackgroundPreviewCell.identifier)
         } layout: {
             $0.top.equalTo(self.addPhotoButton.snp.bottom).offset(24)
             $0.leading.equalTo($1)
             $0.trailing.equalTo($1)
-            $0.bottom.equalTo($1).offset(-200)
+            $0.bottom.equalTo($1)
         }
         photoCollectionView.reloadData()
     }
 
-    private func addBuyButton() {
-        buyButton.snap(parent: self) {
-            $0.background(.clear)
-            $0.layer.borderWidth(1)
-            $0.layer.borderColor(.blue())
+    private func addSetBackgroundButton() {
+        setBackgroundButton.snap(parent: self) {
+            $0.background(.black())
             $0.titleAttributes(
-                text: R.string.localizable.profileBuyCell(),
+                text: R.string.localizable.profileBackgroundPreviewSetBackground(),
                 [
                     .font(.medium(15)),
-                    .color(.blue())
+                    .color(.white())
                 ]
             )
-            $0.clipCorners(radius: 8)
-            $0.addTarget(self, action: #selector(self.BuyButtonTap), for: .touchUpInside)
         } layout: {
-            $0.height.equalTo(44)
-            $0.top.equalTo(self.photoCollectionView.snp.bottom).offset(25)
-            $0.leading.equalTo($1).offset(16)
-            $0.trailing.equalTo($1).offset(-16)
+            $0.leading.equalTo($1)
+            $0.trailing.equalTo($1)
+            $0.bottom.equalTo($1)
+            $0.height.equalTo(68)
         }
     }
 }
 
-// MARK: - ProfileView (UICollectionViewDataSource)
+// MARK: - ProfileBackgroundPreviewView (UICollectionViewDataSource)
 
-extension ProfileView: UICollectionViewDataSource {
+extension ProfileBackgroundPreviewView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos.count
     }
@@ -305,16 +282,17 @@ extension ProfileView: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else { return .init() }
+        guard let cell = collectionView.dequeue(ProfileBackgroundPreviewCell.self,
+                                                indexPath: indexPath) else { return .init() }
         cell.profileImageView.image = photos[indexPath.row]
         return cell
     }
 }
 
-// MARK: - ProfileView (UICollectionViewDelegate)
+// MARK: - ProfileBackgroundPreviewView (UICollectionViewDelegate)
 
-extension ProfileView: UICollectionViewDelegate {
+extension ProfileBackgroundPreviewView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        didTapShowPhoto?()
+
     }
 }

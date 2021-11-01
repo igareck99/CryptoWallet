@@ -33,7 +33,8 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
+        handleNextScene(.personalization)
+        // handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
     // MARK: - Private Methods
@@ -105,9 +106,29 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showQuestionsScreen() {
-        let vc = QuestionViewController()
-        setViewWith(vc)
+    private func showPersonalizationScene() {
+        let viewController = PersonalizationConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showAppLanguageScene() {
+        let viewController = AppLanguageConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showTypographyScene() {
+        let viewController = TypographyConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showProfileBackgroundScene() {
+        let viewController = ProfileBackgroundConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showProfilePreviewScene() {
+        let viewController = ProfileBackgroundPreviewConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
     }
 
     // MARK: - Scene
@@ -130,7 +151,11 @@ public final class AuthFlowCoordinator: Coordinator {
         case profileDetail
         case profileNetwork
         case aboutApp
-        case question
+        case personalization
+        case appLanguage
+        case typography
+        case profileBackground
+        case profilePreview
     }
 }
 
@@ -160,9 +185,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
         case .photoEditor:
             showPhotoEditorScene(images: [])
         case .friendProfile:
-            showFrienProfileScene()
-        case .question:
-            showQuestionsScreen()
             showFriendProfileScene()
         case .profileDetail:
             showProfileDetailScene()
@@ -170,6 +192,16 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showProfileNetworkDetailScene()
         case .aboutApp:
             showAboutAppScene()
+        case .personalization:
+            showPersonalizationScene()
+        case .appLanguage:
+            showAppLanguageScene()
+        case .typography:
+            showTypographyScene()
+        case .profileBackground:
+            showProfileBackgroundScene()
+        case .profilePreview:
+            showProfilePreviewScene()
         }
     }
 
@@ -241,3 +273,23 @@ extension AuthFlowCoordinator: ProfileNetworkDetailSceneDelegate {}
 // MARK: - AuthFlowCoordinator (AboutAppSceneDelegate)
 
 extension AuthFlowCoordinator: AboutAppSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (PersonalizationSceneDelegate)
+
+extension AuthFlowCoordinator: PersonalizationSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (AppLanguageSceneDelegate)
+
+extension AuthFlowCoordinator: AppLanguageSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (TypographySceneDelegate)
+
+extension AuthFlowCoordinator: TypographySceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (ProfileBackgroundSceneDelegate)
+
+extension AuthFlowCoordinator: ProfileBackgroundSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (ProfileBackgroundPreviewSceneDelegate)
+
+extension AuthFlowCoordinator: ProfileBackgroundPreviewSceneDelegate {}
