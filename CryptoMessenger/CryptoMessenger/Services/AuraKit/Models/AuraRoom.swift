@@ -17,7 +17,7 @@ public struct RoomItem: Codable, Hashable {
     }
 }
 
-public class NIORoom: ObservableObject {
+public class AuraRoom: ObservableObject {
     public var room: MXRoom
 
     @Published var summary: NIORoomSummary
@@ -133,7 +133,7 @@ public class NIORoom: ObservableObject {
     }
 }
 
-extension NIORoom: Identifiable {
+extension AuraRoom: Identifiable {
     public var id: ObjectIdentifier { room.id }
 }
 

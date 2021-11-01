@@ -13,10 +13,6 @@ final class DependencyContainer: Sequence {
 
     fileprivate var dependencies: [String: Dependency] = [:]
 
-    // MARK: - Lifecycle
-
-    fileprivate init() {}
-
     // MARK: - DependencyBuilder
 
     @resultBuilder enum DependencyBuilder {
@@ -27,6 +23,10 @@ final class DependencyContainer: Sequence {
             dependencies
         }
     }
+
+    // MARK: - Lifecycle
+
+    fileprivate init() {}
 
     @discardableResult
     init(@DependencyBuilder _ dependencies: () -> [Dependency]) {
