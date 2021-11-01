@@ -24,7 +24,7 @@ final class ProfileView: UIView {
     private lazy var urlButton = UIButton()
     private lazy var addPhotoButton = UIButton()
     private lazy var buyButton = UIButton()
-    private let spacing: CGFloat = 8
+    private let spacing: CGFloat = 1
 
     private lazy var photoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -256,9 +256,6 @@ final class ProfileView: UIView {
     private func addPhotoCollectionView() {
         photoCollectionView.snap(parent: self) {
             $0.background(.clear)
-            let imageView = UIImageView()
-            imageView.image = R.image.profileBackground.image3()
-            $0.backgroundView = imageView
             $0.dataSource = self
             $0.delegate = self
             $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
