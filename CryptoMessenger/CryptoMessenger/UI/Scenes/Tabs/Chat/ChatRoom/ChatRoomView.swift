@@ -7,11 +7,11 @@ struct ChatRoomView: View {
 
     // MARK: - Internal Properties
 
-    @SwiftUI.Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel: ChatRoomViewModel
 
     // MARK: - Private Properties
 
+    @Environment(\.presentationMode) private var presentationMode
     @State private var messageId = ""
     @State private var cardPosition: CardPosition = .bottom
     @State private var scrolled = false
@@ -21,6 +21,7 @@ struct ChatRoomView: View {
 
     var body: some View {
         content
+            .keyboardAdaptive()
             .onAppear {
                 viewModel.send(.onAppear)
             }
@@ -33,14 +34,72 @@ struct ChatRoomView: View {
                 }
             }
             .background(Color(.custom(#colorLiteral(red: 0.6705882353, green: 0.7647058824, blue: 0.8352941176, alpha: 1))))
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    HStack(spacing: 0) {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }, label: {
+                            R.image.navigation.backButton.image
+                        })
+
+                        Image(uiImage: viewModel.userMessage?.avatar ?? UIImage())
+                            .resizable()
+                            .frame(width: 36, height: 36)
+                            .cornerRadius(18)
+                            .padding(.trailing, 12)
+
+                        VStack(spacing: 0) {
+                            HStack(spacing: 0) {
+                                Text(viewModel.userMessage?.name ?? "")
+                                    .lineLimit(1)
+                                    .font(.semibold(15))
+                                    .foreground(.black())
+                                Spacer()
+                            }
+                            HStack(spacing: 0) {
+                                Text(viewModel.userMessage?.status == .online ? "онлайн" : "оффлайн")
+                                    .lineLimit(1)
+                                    .font(.regular(13))
+                                    .foreground(viewModel.userMessage?.status == .online ? .blue() : .black(0.5))
+                                Spacer()
+                            }
+                        }
+                        .frame(width: 160)
+
+                        Spacer()
+                    }
+                    .padding(.leading, -12)
+                    .padding(.bottom, 8)
+                }
+
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack(spacing: 0) {
+                        Spacer()
+
+                        Button(action: {
+
+                        }, label: {
+                            R.image.navigation.phoneButton.image
+                        })
+
+                        Button(action: {
+
+                        }, label: {
+                            R.image.navigation.settingsButton.image
+                        })
+                    }
+                    .padding(.bottom, 8)
+                }
+            }
             .ignoresSafeArea()
     }
 
     private var content: some View {
         ZStack {
-            VStack {
-                headerView
-
+            VStack(spacing: 0) {
                 ScrollViewReader { scrollView in
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack {
@@ -104,6 +163,7 @@ struct ChatRoomView: View {
                 hideKeyboard()
             }
             .ignoresSafeArea()
+            .padding(.top, 100)
 
             if showActionSheet {
                 ActionSheetView(showActionSheet: $showActionSheet, attachAction: $viewModel.attachAction)
@@ -119,15 +179,13 @@ struct ChatRoomView: View {
         VStack {
             Spacer()
 
-            HStack(alignment: .center) {
+            HStack(spacing: 0) {
                 Spacer().frame(width: 16)
 
                 Button(action: {
-
+                    presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Image(R.image.navigation.backButton.name)
-                        .resizable()
-                        .frame(width: 24, height: 24, alignment: .center)
+                    R.image.navigation.backButton.image
                 })
 
                 Spacer().frame(width: 16)
@@ -232,12 +290,19 @@ struct ChatRoomView: View {
                 .padding(.leading, 8)
 
                 HStack {
-                    TextField("Сообщение...", text: $viewModel.inputText)
-                        .frame(height: 36)
-                        .foreground(.black())
-                        .keyboardType(.default)
-                        .padding([.leading, .trailing], 16)
+                    ZStack {
+                        TextEditor(text: $viewModel.inputText)
+                            .background(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
+                            .foreground(.black())
+                            .colorMultiply(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
+                            .keyboardType(.default)
+                            .padding([.leading, .trailing], 16)
+                        //Text(viewModel.inputText).lineLimit(nil).opacity(0).padding(.all, 8)
+                        //.background(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
+                    }
+                    .background(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
                 }
+                .frame(height: 36)
                 .background(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
                 .clipShape(Capsule())
                 .padding(.trailing, viewModel.inputText.isEmpty ? 8 : 0)
@@ -260,8 +325,8 @@ struct ChatRoomView: View {
         }
         .frame(height: viewModel.keyboardHeight > 0 ? 52 : 80)
         .background(.white())
-        .edgesIgnoringSafeArea(.all)
+        .edgesIgnoringSafeArea(.bottom)
         .padding(.bottom, viewModel.keyboardHeight)
-        .animation(.default)
+        .animation(.linear(duration: 0.25))
     }
 }

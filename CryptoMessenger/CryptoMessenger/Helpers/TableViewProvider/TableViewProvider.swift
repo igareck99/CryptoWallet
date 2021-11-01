@@ -23,6 +23,10 @@ final class TableViewProvider: NSObject, TableViewProviderType {
         self.tableView = tableView
         self.viewModel = viewModel
 
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 0
+        }
+
         super.init()
 
         self.tableView.dataSource = self

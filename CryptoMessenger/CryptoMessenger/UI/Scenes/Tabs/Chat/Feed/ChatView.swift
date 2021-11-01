@@ -13,7 +13,6 @@ final class ChatView: UIView {
     private lazy var footerView = UIView()
     private lazy var inviteButton = UIButton()
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
-
     private var tableProvider: TableViewProvider?
     private var filteredViewModel: ChatViewModel = .init([])
     private var tableModel: ChatViewModel = .init(sortedMessages) {
@@ -81,10 +80,8 @@ final class ChatView: UIView {
     private func addMessagesTableView() {
         footerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 120)
         footerView.background(.white())
-
         tableView.snap(parent: self) {
-            $0.separatorStyle = .singleLine
-            $0.separatorInset = .init(top: 0, left: 88, bottom: 0, right: 16)
+            $0.separatorStyle = .none
             $0.tableFooterView = self.footerView
         } layout: {
             $0.top.leading.trailing.bottom.equalTo($1)

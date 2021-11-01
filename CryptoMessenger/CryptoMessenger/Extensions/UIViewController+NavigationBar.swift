@@ -127,3 +127,73 @@ extension UIViewController {
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
     }
 }
+
+extension UINavigationBar {
+    func setOpaque(tintColor: Palette, titleColor: Palette) {
+        if #available(iOS 15, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = tintColor.uiColor
+            appearance.titleTextAttributes = [.foregroundColor: tintColor.uiColor]
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        } else {
+            setBackgroundImage(UIImage(), for: .any, barMetrics: .defaultPrompt)
+            shadowImage = UIImage()
+            barTintColor = tintColor.uiColor
+            titleTextAttributes = [.foregroundColor: tintColor.uiColor]
+        }
+        isTranslucent = false
+        self.tintColor = tintColor.uiColor
+    }
+
+    func setTranslucent(tintColor: Palette, titleColor: Palette) {
+        var paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .left
+
+        UIBarButtonItem.appearance().titleAttributes(
+            [
+                .color(.black()),
+                .font(.semibold(17)),
+                .paragraph(paragraph)
+            ],
+            for: .normal
+        )
+        UIBarButtonItem.appearance().titleAttributes(
+            [
+                .color(.black()),
+                .font(.semibold(17)),
+                .paragraph(paragraph)
+            ],
+            for: .highlighted
+        )
+
+        paragraph = NSMutableParagraphStyle()
+        paragraph.lineHeightMultiple = 1.09
+        paragraph.alignment = .center
+
+        titleAttributes(
+            [
+                .font(.regular(15)),
+                .color(.black()),
+                .paragraph(paragraph)
+            ]
+        )
+
+        background(.white())
+
+        let coloredAppearance = UINavigationBarAppearance()
+        coloredAppearance.configureWithTransparentBackground()
+        coloredAppearance.backgroundColor = .white
+        coloredAppearance.titleTextAttributes = [.foregroundColor: titleColor.uiColor]
+        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: titleColor.uiColor]
+
+        standardAppearance = coloredAppearance
+        compactAppearance = coloredAppearance
+        scrollEdgeAppearance = coloredAppearance
+
+        isTranslucent = true
+        self.tintColor = tintColor.uiColor
+    }
+}

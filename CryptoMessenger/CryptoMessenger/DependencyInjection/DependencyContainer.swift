@@ -3,7 +3,7 @@ import Foundation
 // MARK: - DependencyContainer
 
 @dynamicMemberLookup
-class DependencyContainer: Sequence {
+final class DependencyContainer: Sequence {
 
     // MARK: - Internal Properties
 
@@ -12,10 +12,6 @@ class DependencyContainer: Sequence {
     // MARK: - Fileprivate Properties
 
     fileprivate var dependencies: [String: Dependency] = [:]
-
-    // MARK: - Lifecycle
-
-    fileprivate init() {}
 
     // MARK: - DependencyBuilder
 
@@ -27,6 +23,10 @@ class DependencyContainer: Sequence {
             dependencies
         }
     }
+
+    // MARK: - Lifecycle
+
+    fileprivate init() {}
 
     @discardableResult
     init(@DependencyBuilder _ dependencies: () -> [Dependency]) {

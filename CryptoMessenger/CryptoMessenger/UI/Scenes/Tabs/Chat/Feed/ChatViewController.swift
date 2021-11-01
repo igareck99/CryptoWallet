@@ -1,5 +1,5 @@
-import UIKit
 import SwiftUI
+import UIKit
 
 // MARK: - ChatViewController
 
@@ -42,9 +42,21 @@ final class ChatViewController: BaseViewController {
         searchController.searchBar.sizeToFit()
         let appearance = UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self])
         appearance.setTitleTextAttributes([.foregroundColor: #colorLiteral(red: 0.2431372549, green: 0.6039215686, blue: 0.8862745098, alpha: 1)], for: .normal)
+        searchController.searchBar.setSearchFieldBackgroundImage(
+            .image(
+                color: .clear,
+                size: searchController.searchBar.intrinsicContentSize
+            ),
+            for: .normal
+        )
+        searchController.searchBar.searchTextField.clipCorners(radius: 8)
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
+    }
+
+    @objc private func settingsTap() {
+        showChatCreateScene()
     }
 
     private func addLeftBarButtonItems() {
@@ -70,7 +82,7 @@ final class ChatViewController: BaseViewController {
             image: R.image.chat.settings(),
             style: .done,
             target: self,
-            action: nil
+            action: #selector(settingsTap)
         )
 
         let write = UIBarButtonItem(
@@ -95,6 +107,26 @@ final class ChatViewController: BaseViewController {
         viewController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(viewController, animated: true)
     }
+
+    private func showChatCreateScene() {
+        var rootView = ChatCreateView()
+        rootView.onCreateGroup = { [unowned self] in
+            self.showSelectContactScene()
+        }
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        viewController.modalPresentationStyle = .pageSheet
+        viewController.setupDefaultNavigationBar()
+        present(viewController, animated: true)
+    }
+
+    private func showSelectContactScene() {
+        let rootView = SelectContactView()
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        viewController.setupDefaultNavigationBar()
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - ChatViewController (UISearchResultsUpdating)
@@ -111,5 +143,19 @@ extension ChatViewController: UISearchResultsUpdating {
 extension ChatViewController: ChatViewInterface {
     func showAlert(title: String?, message: String?) {
         presentAlert(title: title, message: message)
+    }
+}
+
+// MARK: - UIImage ()
+
+private extension UIImage {
+
+    // MARK: - Static Methods
+
+    static func image(color: Palette, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
+        UIGraphicsImageRenderer(size: size).image { rendererContext in
+            color.uiColor.setFill()
+            rendererContext.fill(CGRect(origin: .zero, size: size))
+        }
     }
 }

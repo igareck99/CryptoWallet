@@ -7,6 +7,12 @@ target 'CryptoMessenger' do
 
   # Pods for CryptoMessenger
 
+  # Matrix core
+  pod 'MatrixSDK/SwiftSupport'
+
+  # Keychain helper
+  pod 'KeychainAccess'
+
   # Firebase
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'
@@ -29,6 +35,5 @@ target 'CryptoMessenger' do
   # Phone formatter
   pod 'PhoneNumberKit'
   pod 'SPStorkController'
-
 
 end

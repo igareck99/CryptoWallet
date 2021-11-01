@@ -43,7 +43,7 @@ final class RegistrationPresenter {
     private func sendPhone(_ phone: String) {
         let prefix = selectedCountry?.prefix ?? ""
         let numbers = prefix.numbers + phone.numbers
-        apiClient.request(Endpoints.Registration.get(numbers)) { [weak self] _ in
+        apiClient.request(Endpoints.Registration.sms(numbers)) { [weak self] _ in
             self?.userCredentials.userPhoneNumber = prefix + " " + phone
             self?.delegate?.handleNextScene(.verification)
         } failure: { [weak self] error in
@@ -61,12 +61,12 @@ extension RegistrationPresenter: RegistrationPresentation {
     }
 
     func handleNextScene(_ phone: String) {
-        delay(1.4) {
-            let prefix = self.selectedCountry?.prefix ?? ""
-            self.userCredentials.userPhoneNumber = prefix + " " + phone
-            self.delegate?.handleNextScene(.verification)
-        }
-        //sendPhone(phone)
+//        delay(1.4) {
+//            let prefix = self.selectedCountry?.prefix ?? ""
+//            self.userCredentials.userPhoneNumber = prefix + " " + phone
+//            self.delegate?.handleNextScene(.verification)
+//        }
+        sendPhone(phone)
     }
 
     func handleCountryCodeScene() {
