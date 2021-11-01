@@ -24,8 +24,8 @@ struct QuestionViewModel {
 
         // MARK: - Static Properties
 
-        static let heightForHeader = Float(0)
-        static let rowHeight = Float(64)
+        static let heightForHeader = CGFloat(0)
+        static let rowHeight = CGFloat(64)
         static let numberRows = 1
     }
 }
@@ -33,19 +33,19 @@ struct QuestionViewModel {
 // MARK: - QuestionViewModel (TableViewProviderViewModel)
 
 extension QuestionViewModel: TableViewProviderViewModel {
-    func heightForHeader(atIndex index: Int) -> Float {
+    func numberOfTableRowsInSection(_ section: Int) -> Int {
+        Constants.numberRows
+    }
+
+    func heightForRow(indexPath: IndexPath) -> CGFloat {
+        Constants.rowHeight
+    }
+
+    func heightForHeader(atIndex index: Int) -> CGFloat {
         Constants.heightForHeader
     }
 
     func numberOfTableSections() -> Int {
         items.count
-    }
-
-    func numberOfTableRowsInSection(_ section: Int) -> Int {
-        return Constants.numberRows
-    }
-
-    func heightForRow(atIndex index: Int) -> Float {
-        Constants.rowHeight
     }
 }
