@@ -6,8 +6,8 @@ final class AdditionalMenuView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTapProfile: VoidBlock?
-    var didTapPersonaliztion: VoidBlock?
+    var didProfileDetailTap: VoidBlock?
+    var didPersonalizationTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -120,10 +120,10 @@ final class AdditionalMenuView: UIView {
             cell.configure(tableModel.items[indexPath.section])
             cell.didTap = {
                 if indexPath.section == 0 {
-                    didTapProfile?()
+                    didProfileDetailTap?()
                 }
                 if indexPath.section == 1 {
-                    didTapPersonaliztion?()
+                    didPersonalizationTap?()
                 }
             }
             return cell

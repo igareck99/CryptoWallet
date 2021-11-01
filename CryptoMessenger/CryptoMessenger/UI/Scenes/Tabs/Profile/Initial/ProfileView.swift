@@ -9,6 +9,7 @@ final class ProfileView: UIView {
     var didTapAddPhoto: VoidBlock?
     var didTapShowPhoto: VoidBlock?
     var didTapBuyCell: VoidBlock?
+    var didAboutAppTap: VoidBlock?
 
     // MARK: - Private Properties
 

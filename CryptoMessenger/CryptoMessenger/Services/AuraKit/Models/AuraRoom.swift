@@ -20,8 +20,7 @@ public struct RoomItem: Codable, Hashable {
 public class AuraRoom: ObservableObject {
     public var room: MXRoom
 
-    @Published var summary: NIORoomSummary
-
+    @Published var summary: RoomSummary
     @Published var eventCache: [MXEvent] = []
 
     public var isDirect: Bool { room.isDirect }
@@ -48,7 +47,7 @@ public class AuraRoom: ObservableObject {
 
     public init(_ room: MXRoom) {
         self.room = room
-        self.summary = NIORoomSummary(room.summary)
+        self.summary = RoomSummary(room.summary)
         let enumerator = room.enumeratorForStoredMessages //WithType(in: Self.displayedMessageTypes)
         let currentBatch = enumerator?.nextEventsBatch(200) ?? []
         print("Got \(currentBatch.count) events.")

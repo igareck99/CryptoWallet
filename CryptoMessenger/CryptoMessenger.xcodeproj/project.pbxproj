@@ -152,7 +152,7 @@
 		5A4BE517271DD86A00D03D09 /* EditEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE506271DD86A00D03D09 /* EditEvent.swift */; };
 		5A4BE518271DD86A00D03D09 /* ReactionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE507271DD86A00D03D09 /* ReactionEvent.swift */; };
 		5A4BE519271DD86A00D03D09 /* CustomEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE508271DD86A00D03D09 /* CustomEvent.swift */; };
-		5A4BE51A271DD86A00D03D09 /* NIORoomSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE509271DD86A00D03D09 /* NIORoomSummary.swift */; };
+		5A4BE51A271DD86A00D03D09 /* RoomSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE509271DD86A00D03D09 /* RoomSummary.swift */; };
 		5A4BE51B271DD86A00D03D09 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE50A271DD86A00D03D09 /* Reaction.swift */; };
 		5A4BE51C271DD86A00D03D09 /* EventCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE50B271DD86A00D03D09 /* EventCollection.swift */; };
 		5A4BE51D271DD86A00D03D09 /* MXEvent+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE50D271DD86A00D03D09 /* MXEvent+Extensions.swift */; };
@@ -513,7 +513,7 @@
 		5A4BE506271DD86A00D03D09 /* EditEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditEvent.swift; sourceTree = "<group>"; };
 		5A4BE507271DD86A00D03D09 /* ReactionEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionEvent.swift; sourceTree = "<group>"; };
 		5A4BE508271DD86A00D03D09 /* CustomEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomEvent.swift; sourceTree = "<group>"; };
-		5A4BE509271DD86A00D03D09 /* NIORoomSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NIORoomSummary.swift; sourceTree = "<group>"; };
+		5A4BE509271DD86A00D03D09 /* RoomSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomSummary.swift; sourceTree = "<group>"; };
 		5A4BE50A271DD86A00D03D09 /* Reaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
 		5A4BE50B271DD86A00D03D09 /* EventCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCollection.swift; sourceTree = "<group>"; };
 		5A4BE50D271DD86A00D03D09 /* MXEvent+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MXEvent+Extensions.swift"; sourceTree = "<group>"; };
@@ -1374,7 +1374,7 @@
 			children = (
 				5A4BE504271DD86A00D03D09 /* AuraRoom.swift */,
 				5A4BE505271DD86A00D03D09 /* Custom Events */,
-				5A4BE509271DD86A00D03D09 /* NIORoomSummary.swift */,
+				5A4BE509271DD86A00D03D09 /* RoomSummary.swift */,
 				5A4BE50A271DD86A00D03D09 /* Reaction.swift */,
 				5A4BE50B271DD86A00D03D09 /* EventCollection.swift */,
 			);
@@ -2457,7 +2457,7 @@
 				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,
 				789FEBD826D8FFD50018FE91 /* CallListViewModel.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
-				5A4BE51A271DD86A00D03D09 /* NIORoomSummary.swift in Sources */,
+				5A4BE51A271DD86A00D03D09 /* RoomSummary.swift in Sources */,
 				787AC7A827220E62000AA434 /* AppLanguageFlow.swift in Sources */,
 				5A7F452A270E1C1400E44D22 /* ProfileActionCell.swift in Sources */,
 				5A2181E726D82DC40093AD60 /* LocationManager.swift in Sources */,
