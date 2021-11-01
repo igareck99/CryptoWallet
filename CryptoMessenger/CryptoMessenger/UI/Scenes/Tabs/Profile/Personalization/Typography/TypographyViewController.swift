@@ -21,7 +21,6 @@ final class TypographyViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addTitleBarButtonItem()
-
     }
 
     override func viewWillAppear(_ animated: Bool) {

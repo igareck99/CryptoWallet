@@ -27,7 +27,7 @@ final class PersonalizationViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        showNavigationBar()
+        setupDefaultNavigationBar()
     }
 
     // MARK: - Private Methods

@@ -41,6 +41,7 @@ final class TypographyCell: UITableViewCell {
     private func addMainLabel() {
         mainLabel.snap(parent: contentView) {
             $0.font(.regular(mainFont))
+            print("MainFont   \(mainFont)")
             $0.textColor(.black())
         } layout: {
             $0.height.equalTo(21)
@@ -53,6 +54,7 @@ final class TypographyCell: UITableViewCell {
         currentLabel.snap(parent: contentView) {
             $0.textColor(.gray())
             $0.font(.light(nativeFont))
+            print("nativeFont   \(nativeFont)")
             $0.textAlignment = .left
         } layout: {
             $0.top.equalTo(self.mainLabel.snp.bottom).offset(4)

@@ -54,7 +54,7 @@ extension UIViewController {
 
         navigationController?.navigationBar.titleAttributes(
             [
-                .font(.regular(15)),
+                .font(.semibold(15)),
                 .color(.black()),
                 .paragraph(paragraph)
             ]
@@ -107,7 +107,6 @@ extension UIViewController {
                 .paragraph(paragraph)
             ]
         )
-
     }
 
     // MARK: - Private Methods
