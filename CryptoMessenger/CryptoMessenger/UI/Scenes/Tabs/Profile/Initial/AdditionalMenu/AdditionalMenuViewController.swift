@@ -7,7 +7,8 @@ final class AdditionalMenuViewController: BaseViewController {
     // MARK: - Internal Properties
 
     var didProfileDetailTap: VoidBlock?
-    var didAboutAppTap: VoidBlock?
+    var didPersonalizationTap: VoidBlock?
+    var didTypographyTap: VoidBlock?
     var didDeleteTap: VoidBlock?
     var didCancelTap: VoidBlock?
 
@@ -46,8 +47,12 @@ final class AdditionalMenuViewController: BaseViewController {
     }
 
     private func subscribeOnCustomViewActions() {
-        customView.didProfileDetailTap = didProfileDetailTap
-        customView.didAboutAppTap = didAboutAppTap
+        customView.didTapProfile = { [unowned self] in
+            didProfileDetailTap?()
+        }
+        customView.didTapPersonaliztion = { [unowned self] in
+            didPersonalizationTap?()
+        }
     }
 
     private func addTapGesture() {
