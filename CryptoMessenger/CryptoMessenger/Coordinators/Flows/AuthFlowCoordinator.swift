@@ -32,7 +32,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.pinCode)
+        handleNextScene(.question)
     }
 
     // MARK: - Private Methods
@@ -75,10 +75,8 @@ public final class AuthFlowCoordinator: Coordinator {
         }
 
     private func showPinCodeScene() {
-        let vc = QuestionViewController()
-        setViewWith(vc)
-        //let viewController = PinCodeConfigurator.configuredViewController(delegate: self)
-        //setViewWith(viewController)
+        let viewController = PinCodeConfigurator.configuredViewController(delegate: self)
+        setViewWith(viewController)
     }
 
     private func showPhotoEditorScene(images: [UIImage]) {
@@ -89,6 +87,11 @@ public final class AuthFlowCoordinator: Coordinator {
     private func showFrienProfileScene() {
         let viewController = FriendProfileConfigurator.configuredViewController(delegate: self)
         setViewWith(viewController)
+    }
+
+    private func showQuestionsScreen() {
+        let vc = QuestionViewController()
+        setViewWith(vc)
     }
 
     // MARK: - Scene
@@ -105,6 +108,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case pinCode
         case photoEditor
         case friendProfile
+        case question
     }
 }
 
@@ -135,6 +139,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showPhotoEditorScene(images: [])
         case .friendProfile:
             showFrienProfileScene()
+        case .question:
+            showQuestionsScreen()
         }
     }
 
