@@ -186,9 +186,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showPhotoEditorScene(images: [])
         case .friendProfile:
             showFriendProfileScene()
-        case .question:
-            showQuestionsScreen()
-            showFriendProfileScene()
         case .profileDetail:
             showProfileDetailScene()
         case .profileNetwork:

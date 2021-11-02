@@ -9,23 +9,10 @@ final class ProfileView: UIView {
     var didTapAddPhoto: VoidBlock?
     var didTapShowPhoto: VoidBlock?
     var didTapBuyCell: VoidBlock?
-    var didAboutAppTap: VoidBlock?
 
     // MARK: - Private Properties
 
-    private lazy var view = ProfileView(frame: UIScreen.main.bounds)
-    private lazy var titleLabel = UILabel()
-    private lazy var profileImage = UIImageView()
-    private lazy var phoneLabel = UILabel()
-    private lazy var twitterButton = UIButton()
-    private lazy var siteButton = UIButton()
-    private lazy var facebookButton = UIButton()
-    private lazy var instagramButton = UIButton()
-    private lazy var infoLabel = UILabel()
-    private lazy var urlButton = UIButton()
-    private lazy var addPhotoButton = UIButton()
-    private lazy var buyButton = UIButton()
-    private let spacing: CGFloat = 8
+    private let spacing: CGFloat = 1
 
     private lazy var photoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -44,18 +31,7 @@ final class ProfileView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         background(.white())
-        addProfileImage()
-        addTitleLabel()
-        addTwitterButton()
-        addSiteButton()
-        addFacebookButton()
-        addInstButton()
-        addPhoneLabel()
-        addInfoLabel()
-        addUrlButton()
-        addAddPhotoButton()
         addPhotoCollectionView()
-        addBuyButton()
     }
 
     @available(*, unavailable)
@@ -77,227 +53,36 @@ final class ProfileView: UIView {
 
     // MARK: - Actions
 
-    @objc private func addPhotoButtonTap() {
-        didTapAddPhoto?()
-    }
-
     @objc private func BuyButtonTap() {
         didTapBuyCell?()
     }
 
     // MARK: - Private Methods
 
-    private func addProfileImage() {
-        profileImage.snap(parent: self) {
-            $0.image = profileDetail.image
-            $0.clipCorners(radius: 50)
-        } layout: {
-            $0.width.height.equalTo(100)
-            $0.top.equalTo(self.snp_topMargin).offset(24)
-            $0.leading.equalTo($1).offset(16)
-        }
-    }
-
-    private func addTitleLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.21
-        paragraphStyle.alignment = .left
-
-        titleLabel.snap(parent: self) {
-            $0.titleAttributes(
-                text: profileDetail.name,
-                [
-                    .paragraph(paragraphStyle),
-                    .font(.medium(15)),
-                    .color(.black())
-                ]
-            )
-            $0.lineBreakMode = .byWordWrapping
-            $0.numberOfLines = 0
-            $0.textAlignment = .left
-        } layout: {
-            $0.top.equalTo(self.snp_topMargin).offset(27)
-            $0.height.equalTo(18)
-            $0.leading.equalTo($1).offset(132)
-            $0.trailing.equalTo($1).offset(-45)
-        }
-    }
-
-    private func addTwitterButton() {
-        twitterButton.snap(parent: self) {
-            let image = R.image.profile.twitter()
-            $0.setImage(image, for: .normal)
-        } layout: {
-            $0.top.equalTo($1).offset(57)
-            $0.leading.equalTo($1).offset(132)
-            $0.height.width.equalTo(32)
-        }
-    }
-
-    private func addSiteButton() {
-        siteButton.snap(parent: self) {
-            let image = R.image.profile.website()
-            $0.setImage(image, for: .normal)
-        } layout: {
-            $0.height.width.equalTo(32)
-            $0.top.equalTo($1).offset(57)
-            $0.leading.equalTo($1).offset(172)
-        }
-    }
-
-    private func addFacebookButton() {
-        instagramButton.snap(parent: self) {
-            let image = R.image.profile.facebook()
-            $0.setImage(image, for: .normal)
-        } layout: {
-            $0.height.width.equalTo(32)
-            $0.top.equalTo($1).offset(57)
-            $0.leading.equalTo($1).offset(212)
-        }
-    }
-
-    private func addInstButton() {
-        facebookButton.snap(parent: self) {
-            let image = R.image.profile.instagram()
-            $0.setImage(image, for: .normal)
-        } layout: {
-            $0.height.width.equalTo(32)
-            $0.top.equalTo($1).offset(57)
-            $0.leading.equalTo($1).offset(252)
-        }
-    }
-
-    private func addPhoneLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .left
-
-        phoneLabel.snap(parent: self) {
-            $0.titleAttributes(
-                text: profileDetail.phone,
-                [
-                    .paragraph(paragraphStyle),
-                    .font(.regular(15)),
-                    .color(.black())
-                ]
-            )
-            $0.textAlignment = .left
-        } layout: {
-            $0.top.equalTo(self.snp_topMargin).offset(101)
-            $0.leading.equalTo(self.profileImage.snp.trailing).offset(16)
-            $0.trailing.equalTo($1).offset(-45)
-        }
-    }
-
-    private func addInfoLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .left
-
-        infoLabel.snap(parent: self) {
-            $0.titleAttributes(
-                text: profileDetail.description,
-                [
-                    .paragraph(paragraphStyle),
-                    .font(.regular(15)),
-                    .color(.black())
-                ]
-            )
-            $0.textAlignment = .left
-            $0.numberOfLines = 0
-        } layout: {
-            $0.top.equalTo(self.phoneLabel.snp.bottom).offset(29)
-            $0.leading.equalTo($1).offset(16)
-            $0.trailing.equalTo($1).offset(-16)
-        }
-    }
-
-    private func addUrlButton() {
-        urlButton.snap(parent: self) {
-            $0.titleLabel?.textAlignment = .left
-            $0.titleAttributes(
-                text: R.string.localizable.profileSite(),
-                [
-                    .font(.regular(15)),
-                    .color(.blue())
-
-                ]
-            )
-            $0.titleLabel?.lineBreakMode = .byCharWrapping
-            $0.titleLabel?.numberOfLines = 2
-        } layout: {
-            $0.top.equalTo(self.infoLabel.snp.bottom).offset(1)
-            $0.leading.equalTo($1).offset(16)
-            $0.trailing.equalTo($1).offset(-16)
-        }
-    }
-
-    private func addAddPhotoButton() {
-        addPhotoButton.snap(parent: self) {
-            $0.background(.clear)
-            $0.layer.borderWidth(1)
-            $0.layer.borderColor(.blue())
-            $0.titleAttributes(
-                text: R.string.localizable.profileAdd(),
-                [
-                    .font(.medium(15)),
-                    .color(.blue())
-                ]
-            )
-            $0.clipCorners(radius: 8)
-            $0.addTarget(self, action: #selector(self.addPhotoButtonTap), for: .touchUpInside)
-        } layout: {
-            $0.height.equalTo(44)
-            $0.top.equalTo(self.urlButton.snp.bottom).offset(24)
-            $0.leading.equalTo($1).offset(16)
-            $0.trailing.equalTo($1).offset(-16)
-        }
-    }
-
     private func addPhotoCollectionView() {
         photoCollectionView.snap(parent: self) {
             $0.background(.clear)
             let imageView = UIImageView()
-            imageView.image = R.image.profileBackground.image3()
             $0.backgroundView = imageView
             $0.dataSource = self
             $0.delegate = self
             $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
+            $0.register(ProfileHeaderCollectionReusableView.self,
+                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                        withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier)
+            $0.register(ProfileFooterCollectionReusableView.self,
+                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                        withReuseIdentifier: ProfileFooterCollectionReusableView.identifier)
         } layout: {
-            $0.top.equalTo(self.addPhotoButton.snp.bottom).offset(24)
-            $0.leading.equalTo($1)
-            $0.trailing.equalTo($1)
-            $0.bottom.equalTo($1).offset(-200)
+            $0.top.bottom.leading.trailing.equalTo($1)
         }
         photoCollectionView.reloadData()
-    }
-
-    private func addBuyButton() {
-        buyButton.snap(parent: self) {
-            $0.background(.clear)
-            $0.layer.borderWidth(1)
-            $0.layer.borderColor(.blue())
-            $0.titleAttributes(
-                text: R.string.localizable.profileBuyCell(),
-                [
-                    .font(.medium(15)),
-                    .color(.blue())
-                ]
-            )
-            $0.clipCorners(radius: 8)
-            $0.addTarget(self, action: #selector(self.BuyButtonTap), for: .touchUpInside)
-        } layout: {
-            $0.height.equalTo(44)
-            $0.top.equalTo(self.photoCollectionView.snp.bottom).offset(25)
-            $0.leading.equalTo($1).offset(16)
-            $0.trailing.equalTo($1).offset(-16)
-        }
     }
 }
 
 // MARK: - ProfileView (UICollectionViewDataSource)
 
-extension ProfileView: UICollectionViewDataSource {
+extension ProfileView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos.count
     }
@@ -309,6 +94,46 @@ extension ProfileView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else { return .init() }
         cell.profileImageView.image = photos[indexPath.row]
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            let headerView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier, for: indexPath)
+                as! ProfileHeaderCollectionReusableView
+            headerView.didTapAddPhoto = {
+                self.didTapAddPhoto?()
+            }
+            return headerView
+        case UICollectionView.elementKindSectionFooter:
+            let footer = collectionView.dequeueReusableSupplementaryView(
+                ofKind: UICollectionView.elementKindSectionFooter,
+                withReuseIdentifier: ProfileFooterCollectionReusableView.identifier,
+                for: indexPath) as! ProfileFooterCollectionReusableView
+            footer.didTapBuyCell = {
+                self.didTapBuyCell?()
+            }
+            return footer
+        default:
+            print()
+        }
+        return UICollectionReusableView()
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.size.width, height: 329)
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForFooterInSection: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.size.width, height: 141)
     }
 }
 
