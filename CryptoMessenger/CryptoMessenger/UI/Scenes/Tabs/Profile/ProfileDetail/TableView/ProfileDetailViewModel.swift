@@ -116,15 +116,12 @@ extension ProfileDetailViewModel: TableViewProviderViewModel {
         case .status, .description, .name, .countryCode:
             let label = UILabel(frame: CGRect(x: 16, y: 24, width: UIScreen.main.bounds.width - 32, height: 22))
             label.textAlignment = .left
-            let paragraph = NSMutableParagraphStyle()
-            paragraph.lineHeightMultiple = 1.54
-            paragraph.alignment = .left
             label.titleAttributes(
                 text: type.title?.uppercased() ?? "",
                 [
                     .color(.darkGray()),
                     .font(.semibold(12)),
-                    .paragraph(paragraph)
+                    .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left))
                 ]
             )
             view.addSubview(label)

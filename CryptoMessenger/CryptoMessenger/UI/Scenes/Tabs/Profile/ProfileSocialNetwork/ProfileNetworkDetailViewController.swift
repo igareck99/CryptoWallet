@@ -1,6 +1,6 @@
 import UIKit
 
-// MARK: ProfileNetworkDetailViewController
+// MARK: - ProfileNetworkDetailViewController
 
 final class ProfileNetworkDetailViewController: BaseViewController {
 
@@ -47,26 +47,29 @@ final class ProfileNetworkDetailViewController: BaseViewController {
     }
 
     private func addRightBarButtonItem() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
-        let item = UIBarButtonItem(title: R.string.localizable.profileDetailRightButton(),
-                                   style: .done,
-                                   target: self,
-                                   action: #selector(backAction))
-        item.titleAttributes([.paragraph(paragraphStyle),
-                              .font(.bold(15)),
-                              .color(.blue())], for: .normal    )
+        let item = UIBarButtonItem(
+            title: R.string.localizable.profileDetailRightButton(),
+            style: .done,
+            target: self,
+            action: #selector(backAction)
+        )
+        item.titleAttributes(
+            [
+                .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
+                .font(.bold(15)),
+                .color(.blue())
+            ],
+            for: .normal
+        )
         navigationItem.rightBarButtonItem = item
     }
 
     @objc private func backAction() {
         self.presenter.handleButtonTap()
     }
-
 }
 
-// MARK: - ProfileNetworkDetailViewInterface
+// MARK: - ProfileNetworkDetailViewInterface (ProfileNetworkDetailViewInterface)
 
 extension ProfileNetworkDetailViewController: ProfileNetworkDetailViewInterface {
     func showAlert(title: String?, message: String?) {

@@ -33,6 +33,9 @@ public final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
+        showChatHistoryScene()
+        return
+        
         let tabs = [
             buildChatTab(),
             buildWalletTab(),
@@ -43,6 +46,12 @@ public final class MainFlowCoordinator: Coordinator {
         tabBarController.selectedIndex = Tabs.chat.index
 
         setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+    }
+
+    private func showChatHistoryScene() {
+        let rootView = ChatHistoryConfigurator.configuredView(delegate: nil)
+        let viewController = BaseHostingController(rootView: rootView)
+        setViewWith(viewController)
     }
 
     // MARK: - Private Methods

@@ -158,13 +158,10 @@ final class PinCodeView: UIView {
             }
         }
 
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
         passwordLabel.titleAttributes(
             text: title,
             [
-                .paragraph(paragraphStyle),
+                .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                 .font(.medium(21)),
                 .color(.black())
             ]
@@ -224,10 +221,6 @@ final class PinCodeView: UIView {
     }
 
     private func createButton(_ type: ButtonType) -> PinButton {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 0.98
-        paragraphStyle.alignment = .center
-
         let button = PinButton()
         button.type = type
         button.snp.makeConstraints { $0.width.height.equalTo(67) }
@@ -239,7 +232,7 @@ final class PinCodeView: UIView {
                 [
                     .font(.regular(24)),
                     .color(.black()),
-                    .paragraph(paragraphStyle)
+                    .paragraph(.init(lineHeightMultiple: 0.98, alignment: .center))
                 ]
             )
             button.setBackgroundColor(color: .paleBlue(), forState: .normal)
@@ -329,14 +322,11 @@ final class PinCodeView: UIView {
     }
 
     private func addEnterButton() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
         enterButton.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.pinCodeEnter(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                     .font(.medium(15)),
                     .color(.blue())
                 ]

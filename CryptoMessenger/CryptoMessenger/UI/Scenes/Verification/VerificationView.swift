@@ -40,14 +40,10 @@ final class VerificationView: UIView {
     // MARK: - Internal Methods
 
     func setPhoneNumber(_ phone: String) {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.24
-        paragraphStyle.alignment = .center
-
         descriptionLabel.titleAttributes(
             text: R.string.localizable.verificationDescription(phone),
             [
-                .paragraph(paragraphStyle),
+                .paragraph(.init(lineHeightMultiple: 1.24, alignment: .center)),
                 .font(.regular(15)),
                 .color(.gray())
             ]
@@ -67,14 +63,10 @@ final class VerificationView: UIView {
             resendButton.isHidden = true
         }
 
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.24
-        paragraphStyle.alignment = .center
-
         timerLabel.titleAttributes(
                 text: R.string.localizable.verificationResendTitle(time),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.24, alignment: .center)),
                     .font(.regular(15)),
                     .color(.blue())
                 ]
@@ -112,15 +104,11 @@ final class VerificationView: UIView {
     // MARK: - Private Methods
 
     private func addTitleLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
-
         titleLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.verificationTitle(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                     .font(.medium(22)),
                     .color(.black())
                 ]
@@ -187,17 +175,13 @@ final class VerificationView: UIView {
     }
 
     private func addTimerLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.24
-        paragraphStyle.alignment = .center
-
         let time = Int(PhoneHelper.verificationResendTime).description
 
         timerLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.verificationResendTitle(time),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.24, alignment: .center)),
                     .font(.regular(15)),
                     .color(.blue())
                 ]
@@ -213,10 +197,6 @@ final class VerificationView: UIView {
     }
 
     private func addResendButton() {
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.09
-        paragraph.alignment = .center
-
         resendButton.snap(parent: self) {
             let title = R.string.localizable.verificationResendButton()
             $0.titleAttributes(
@@ -224,7 +204,7 @@ final class VerificationView: UIView {
                 [
                     .color(.white()),
                     .font(.semibold(15)),
-                    .paragraph(paragraph)
+                    .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
                 ]
             )
             $0.background(.blue())

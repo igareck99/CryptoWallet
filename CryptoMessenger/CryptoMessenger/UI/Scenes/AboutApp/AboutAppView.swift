@@ -59,14 +59,11 @@ final class AboutAppView: UIView {
     }
 
     private func addCompanyNameLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.21
-        paragraphStyle.alignment = .center
         companyNameLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: AppConstants.appName.aboutApp,
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center)),
                     .font(.semibold(15)),
                     .color(.black())
                 ]
@@ -79,14 +76,11 @@ final class AboutAppView: UIView {
     }
 
     private func addVersionLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.21
-        paragraphStyle.alignment = .center
         versionLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: AppConstants.appVersion.aboutApp,
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center)),
                     .font(.semibold(13)),
                     .color(.darkGray())
                 ]
@@ -99,14 +93,11 @@ final class AboutAppView: UIView {
     }
 
     private func addLicenseButton() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.23
-        paragraphStyle.alignment = .center
         licenseButton.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.aboutAppLicense(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.23, alignment: .center)),
                     .font(.semibold(15)),
                     .color(.blue())
                 ]
@@ -120,14 +111,11 @@ final class AboutAppView: UIView {
     }
 
     private func addPoliticsTermsButton() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.23
-        paragraphStyle.alignment = .center
         politicsTermsButton.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.aboutAppTermsAndPolitics(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.23, alignment: .center)),
                     .font(.semibold(15)),
                     .color(.blue())
                 ]
@@ -143,14 +131,11 @@ final class AboutAppView: UIView {
     }
 
     private func addAppIncLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.21
-        paragraphStyle.alignment = .center
         appIncLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.aboutAppAuraAppInc(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center)),
                     .font(.semibold(13)),
                     .color(.darkGray())
                 ]

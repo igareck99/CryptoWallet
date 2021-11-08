@@ -3,10 +3,13 @@ import UIKit
 // MARK: - TextAttributes
 
 enum TextAttributes: Hashable {
+
+    // MARK: - Types
+
     case color(Palette)
     case font(FontDecor)
-    case paragraph(NSMutableParagraphStyle)
-    case kern(Double)
+    case paragraph(Paragraph)
+    case kern(CGFloat)
 
     // MARK: - Internal Properties
 
@@ -30,22 +33,41 @@ enum TextAttributes: Hashable {
         case let .font(font):
             return font.uiFont
         case let .paragraph(value):
-            return value
+            return value.nsValue
         case let .kern(value):
             return value
         }
     }
 }
 
-// MARK: - NSMutableParagraphStyle ()
+// MARK: - Paragraph
 
-extension NSMutableParagraphStyle {
+struct Paragraph: Hashable {
+    var nsValue: NSMutableParagraphStyle {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = alignment
+        paragraph.lineHeightMultiple = lineHeightMultiple
+        paragraph.lineBreakMode = .byWordWrapping
+        return paragraph
+    }
+
+    let lineHeightMultiple: CGFloat
+    let alignment: NSTextAlignment
+}
+
+// MARK: - NSAttributedString ()
+
+extension NSAttributedString {
 
     // MARK: - Lifecycle
 
-    convenience init(alignment: NSTextAlignment, _ lineHeightMultiple: CGFloat) {
-        self.init()
-        self.alignment = alignment
-        self.lineHeightMultiple = lineHeightMultiple
+    convenience init(text: String, _ attributes: [TextAttributes]) {
+        self.init(
+            string: text,
+            attributes: attributes
+                    .reduce(into: [NSAttributedString.Key: Any]()) { dictionary, item in
+                        dictionary[item.nsKey] = item.nsValue
+                    }
+        )
     }
 }

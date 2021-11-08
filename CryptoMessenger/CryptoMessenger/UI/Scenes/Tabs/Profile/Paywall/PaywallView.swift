@@ -60,14 +60,11 @@ final class PaywallView: UIView {
     }
 
     private func addBuyLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.24
-        paragraphStyle.alignment = .center
         buyLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.buyCellTitle(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.24, alignment: .center)),
                     .font(.medium(16)),
                     .color(.black())
                 ]
@@ -93,14 +90,11 @@ final class PaywallView: UIView {
     }
 
     private func addBalanceLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.24
-        paragraphStyle.alignment = .center
         balanceLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: "250.41 AUR",
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.24, alignment: .center)),
                     .font(.medium(32)),
                     .color(.black())
                 ]
@@ -112,14 +106,11 @@ final class PaywallView: UIView {
     }
 
     private func addYourBalanceLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 21
-        paragraphStyle.alignment = .center
         yourBalanceLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.buyCellYourBalance(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 21, alignment: .center)),
                     .font(.regular(15)),
                     .color(.darkGray())
                 ]

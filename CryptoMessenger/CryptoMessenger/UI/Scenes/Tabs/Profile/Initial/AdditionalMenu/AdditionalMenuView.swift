@@ -71,14 +71,11 @@ final class AdditionalMenuView: UIView {
     }
 
     private func setupBalanceLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.22
-        paragraphStyle.alignment = .center
         balanceLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: "0.50 AUR",
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .center)),
                     .font(.regular(16)),
                     .color(.black())
                 ]

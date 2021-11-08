@@ -30,15 +30,11 @@ final class OnboardingPageView: UIView {
     // MARK: - Internal Methods
 
     func setPage(_ page: OnboardingPage) {
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.42
-        paragraph.alignment = .center
-
         titleLabel.titleAttributes(
             text: page.title.uppercased(),
             [
                 .font(.bold(15)),
-                .paragraph(paragraph),
+                .paragraph(.init(lineHeightMultiple: 1.42, alignment: .center)),
                 .color(.black()),
                 .kern(0.07)
             ]

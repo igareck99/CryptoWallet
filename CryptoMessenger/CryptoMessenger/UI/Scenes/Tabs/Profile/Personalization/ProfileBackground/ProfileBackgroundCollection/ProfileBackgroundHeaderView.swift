@@ -82,15 +82,11 @@ final class ProfileBackgroundHeaderView: UICollectionReusableView {
     }
 
     private func addWallpaperLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.22
-        paragraphStyle.alignment = .left
-
         wallpaperLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.profileBackgroundWallpaper(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .center)),
                     .font(.regular(12)),
                     .color(.darkGray())
                 ]

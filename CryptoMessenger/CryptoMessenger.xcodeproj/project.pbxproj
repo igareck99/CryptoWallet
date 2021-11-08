@@ -203,6 +203,12 @@
 		5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411026825E6A008922B4 /* Rubik-Bold.ttf */; };
 		5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */; };
 		5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */; };
+		5AABB77B2739816C004D6107 /* ChatHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AABB77A2739816C004D6107 /* ChatHistoryView.swift */; };
+		5AABB7822739821D004D6107 /* ChatHistoryProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AABB77E2739821C004D6107 /* ChatHistoryProtocols.swift */; };
+		5AABB7832739821D004D6107 /* ChatHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AABB77F2739821C004D6107 /* ChatHistoryViewModel.swift */; };
+		5AABB7842739821D004D6107 /* ChatHistoryConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AABB7802739821C004D6107 /* ChatHistoryConfigurator.swift */; };
+		5AABB7852739821D004D6107 /* ChatHistoryFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AABB7812739821C004D6107 /* ChatHistoryFlow.swift */; };
+		5AABB78727398A6E004D6107 /* NavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AABB78627398A6E004D6107 /* NavigationBarModifier.swift */; };
 		5AB30F152706564300838AFC /* PinCodeFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB30F142706564300838AFC /* PinCodeFlowCoordinator.swift */; };
 		5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */; };
 		5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FA26DCEA49009A1944 /* Resources.swift */; };
@@ -564,6 +570,12 @@
 		5AA6411026825E6A008922B4 /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
 		5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
 		5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
+		5AABB77A2739816C004D6107 /* ChatHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryView.swift; sourceTree = "<group>"; };
+		5AABB77E2739821C004D6107 /* ChatHistoryProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryProtocols.swift; sourceTree = "<group>"; };
+		5AABB77F2739821C004D6107 /* ChatHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryViewModel.swift; sourceTree = "<group>"; };
+		5AABB7802739821C004D6107 /* ChatHistoryConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryConfigurator.swift; sourceTree = "<group>"; };
+		5AABB7812739821C004D6107 /* ChatHistoryFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryFlow.swift; sourceTree = "<group>"; };
+		5AABB78627398A6E004D6107 /* NavigationBarModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationBarModifier.swift; path = CryptoMessenger/CustomComponents/SwiftUI/NavigationBarModifier.swift; sourceTree = SOURCE_ROOT; };
 		5AB30F142706564300838AFC /* PinCodeFlowCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeFlowCoordinator.swift; sourceTree = "<group>"; };
 		5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		5AEB80FA26DCEA49009A1944 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
@@ -909,6 +921,7 @@
 			isa = PBXGroup;
 			children = (
 				5A9B471B26EA7CFE001CC627 /* SlideCard */,
+				5AABB78627398A6E004D6107 /* NavigationBarModifier.swift */,
 				5A187E4B2680708D001957D3 /* ListSeparatorStyle.swift */,
 				5A187E4C2680708D001957D3 /* PickerView.swift */,
 				5A187E4D2680708D001957D3 /* KeyboardDismissModifier.swift */,
@@ -1240,7 +1253,7 @@
 		5A26CD5126B3598C00118D4B /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				5A9318CE26C5AAB500645365 /* Feed */,
+				5A9318CE26C5AAB500645365 /* History */,
 				5A9318CF26C5AAD400645365 /* ChatRoom */,
 				5A3721D1272EF0120097ABED /* ChatCreate */,
 			);
@@ -1452,7 +1465,7 @@
 			path = PinCode;
 			sourceTree = "<group>";
 		};
-		5A9318CE26C5AAB500645365 /* Feed */ = {
+		5A9318CE26C5AAB500645365 /* History */ = {
 			isa = PBXGroup;
 			children = (
 				5A26CD5F26B35C9100118D4B /* TableView */,
@@ -1462,8 +1475,13 @@
 				5A26CD5526B3599800118D4B /* ChatView.swift */,
 				5A26CD5226B3599800118D4B /* ChatPresenter.swift */,
 				5A26CD5726B3599800118D4B /* ChatFlow.swift */,
+				5AABB7802739821C004D6107 /* ChatHistoryConfigurator.swift */,
+				5AABB77E2739821C004D6107 /* ChatHistoryProtocols.swift */,
+				5AABB77A2739816C004D6107 /* ChatHistoryView.swift */,
+				5AABB77F2739821C004D6107 /* ChatHistoryViewModel.swift */,
+				5AABB7812739821C004D6107 /* ChatHistoryFlow.swift */,
 			);
-			path = Feed;
+			path = History;
 			sourceTree = "<group>";
 		};
 		5A9318CF26C5AAD400645365 /* ChatRoom */ = {
@@ -2165,6 +2183,7 @@
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
 				5A430ED327196A17004A1D2E /* AdditionalMenuView.swift in Sources */,
 				7879F4B526CFC49300D3213F /* CallStruct.swift in Sources */,
+				5AABB7822739821D004D6107 /* ChatHistoryProtocols.swift in Sources */,
 				5A430EC727196A08004A1D2E /* ProfileProtocols.swift in Sources */,
 				78DD7642272717AE0094D510 /* ProfileBackgroundProtocols.swift in Sources */,
 				5A9B471D26EA7D6C001CC627 /* BlurView.swift in Sources */,
@@ -2215,6 +2234,7 @@
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
 				787AC7A327220E62000AA434 /* AppLanguagePresenter.swift in Sources */,
 				5A187E9E2680708D001957D3 /* ObservableArray.swift in Sources */,
+				5AABB7852739821D004D6107 /* ChatHistoryFlow.swift in Sources */,
 				5AF8636D26ADCB9B004A417C /* KeyImportConfigurator.swift in Sources */,
 				5A187DD826806F35001957D3 /* Dependency.swift in Sources */,
 				7846B66E26E8BFF600B05984 /* CellState.swift in Sources */,
@@ -2245,6 +2265,7 @@
 				78EFC5FD27021E8700A9BBAA /* ProfileDetailConfigurator.swift in Sources */,
 				5A26CD6326B35EB700118D4B /* ChatTableViewCell.swift in Sources */,
 				5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */,
+				5AABB7832739821D004D6107 /* ChatHistoryViewModel.swift in Sources */,
 				7846B67426E8C07D00B05984 /* Configuration.swift in Sources */,
 				5AF8637026ADD9BB004A417C /* MainFlowCoordinator.swift in Sources */,
 				5A430EC627196A08004A1D2E /* ProfileCell.swift in Sources */,
@@ -2274,6 +2295,7 @@
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
 				5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */,
 				5AF8636E26ADCB9B004A417C /* KeyImportFlow.swift in Sources */,
+				5AABB7842739821D004D6107 /* ChatHistoryConfigurator.swift in Sources */,
 				5A9318DE26C5AD0500645365 /* BubbleView.swift in Sources */,
 				5A9B472126EA81F5001CC627 /* QuickMenuView.swift in Sources */,
 				78AF82A82720CFEA003D918D /* PersonalizationProtocols.swift in Sources */,
@@ -2341,6 +2363,7 @@
 				78DD765B2728B5670094D510 /* ProfileBackgroundPreviewConfigurator.swift in Sources */,
 				5A26CD3B26B3211100118D4B /* TapAnimator.swift in Sources */,
 				5A26CD5B26B3599800118D4B /* ChatView.swift in Sources */,
+				5AABB78727398A6E004D6107 /* NavigationBarModifier.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
 				7889064A270684830093459C /* NetworkDetailCell.swift in Sources */,
 				789FEBEC26DCE61D0018FE91 /* PhotoEditorPresenter.swift in Sources */,
@@ -2368,6 +2391,7 @@
 				78437F1C270CE98800371110 /* PaywallViewController.swift in Sources */,
 				5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */,
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
+				5AABB77B2739816C004D6107 /* ChatHistoryView.swift in Sources */,
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
 				5A187DD726806F35001957D3 /* Injectable.swift in Sources */,
 				78AF82A92720CFEA003D918D /* PersonalizationView.swift in Sources */,
@@ -2568,7 +2592,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2624,7 +2648,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -2643,11 +2667,11 @@
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2670,11 +2694,11 @@
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -52,15 +52,11 @@ extension UIViewController {
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.barTintColor(.darkBlack())
         navigationController?.navigationBar.isTranslucent = true
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.09
-        paragraph.alignment = .left
-
         navigationController?.navigationBar.titleAttributes(
             [
                 .font(.semibold(15)),
                 .color(.white()),
-                .paragraph(paragraph)
+                .paragraph(.init(lineHeightMultiple: 1.09, alignment: .left))
             ]
         )
     }
@@ -109,15 +105,11 @@ extension UINavigationBar {
     }
 
     func setTranslucent(tintColor: Palette, titleColor: Palette) {
-        var paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.09
-        paragraph.alignment = .left
-
         UIBarButtonItem.appearance().titleAttributes(
             [
                 .color(.black()),
                 .font(.semibold(17)),
-                .paragraph(paragraph)
+                .paragraph(.init(lineHeightMultiple: 1.09, alignment: .left))
             ],
             for: .normal
         )
@@ -125,20 +117,15 @@ extension UINavigationBar {
             [
                 .color(.black()),
                 .font(.semibold(17)),
-                .paragraph(paragraph)
+                .paragraph(.init(lineHeightMultiple: 1.09, alignment: .left))
             ],
             for: .highlighted
         )
-
-        paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.09
-        paragraph.alignment = .center
-
         titleAttributes(
             [
                 .font(.regular(15)),
                 .color(.black()),
-                .paragraph(paragraph)
+                .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
             ]
         )
 
