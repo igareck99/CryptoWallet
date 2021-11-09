@@ -164,3 +164,7 @@
 
 "BlackList.Title" = "Черный список";
 "BlackList.AlertTitle" = "Разблокировать ";
+
+"ProfileViewing.All" = "Все пользователи";
+"ProfileViewing.Contacts" = "Только контакты";
+"ProfileViewing.Nobody" = "Никто";

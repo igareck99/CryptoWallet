@@ -8,6 +8,7 @@ final class SecurityView: UIView {
 
     var didTap: VoidBlock?
     var didBlackListTap: VoidBlock?
+    var didProfileViewingTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -46,6 +47,13 @@ final class SecurityView: UIView {
 
     func removeCells() {
         securityList.removeSubrange(1...2)
+    }
+
+    func setVisibleProfile(state: String) {
+        guard let index = securityList.firstIndex(where: { $0.title == "Просмотр профиля" }) else { return }
+        securityList[index].currentState = state
+        tableModel = .init(securityList)
+        tableProvider?.reloadData()
     }
 
     // MARK: - Private Methods
@@ -146,10 +154,16 @@ final class SecurityView: UIView {
         }
         tableProvider?.onSelectCell = { [unowned self] indexPath in
             if userFlows.isPinCodeOn == false {
+                if indexPath.section == 1 {
+                    didProfileViewingTap?()
+                }
                 if indexPath.section == 7 {
                     didBlackListTap?()
                 }
             } else {
+                if indexPath.section == 3 {
+                    didProfileViewingTap?()
+                }
                 if indexPath.section == 9 {
                     didBlackListTap?()
                 }
