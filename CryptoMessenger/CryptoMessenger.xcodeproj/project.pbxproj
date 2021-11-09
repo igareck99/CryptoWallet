@@ -362,6 +362,7 @@
 		78EFC5FD27021E8700A9BBAA /* ProfileDetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F727021E8700A9BBAA /* ProfileDetailConfigurator.swift */; };
 		78EFC5FE27021E8700A9BBAA /* ProfileDetailFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F827021E8700A9BBAA /* ProfileDetailFlow.swift */; };
 		78EFC60027027A3100A9BBAA /* ProfileStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5FF27027A3100A9BBAA /* ProfileStruct.swift */; };
+		78FA36A3273A698500B331DC /* ProfileHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36A2273A698500B331DC /* ProfileHeaderCollectionReusableView.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -725,6 +726,7 @@
 		78EFC5F727021E8700A9BBAA /* ProfileDetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailConfigurator.swift; sourceTree = "<group>"; };
 		78EFC5F827021E8700A9BBAA /* ProfileDetailFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailFlow.swift; sourceTree = "<group>"; };
 		78EFC5FF27027A3100A9BBAA /* ProfileStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStruct.swift; sourceTree = "<group>"; };
+		78FA36A2273A698500B331DC /* ProfileHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1428,6 +1430,7 @@
 				5A430EBD27196A08004A1D2E /* ProfileViewController.swift */,
 				782961F6273148C600ABAFBC /* ProfileHeaderCollectionReusableView.swift */,
 				782961F82731996300ABAFBC /* ProfileFooterCollectionReusableView.swift */,
+				78FA36A2273A698500B331DC /* ProfileHeaderCollectionReusableView.swift */,
 			);
 			path = Initial;
 			sourceTree = "<group>";
@@ -2175,6 +2178,7 @@
 				78DD7642272717AE0094D510 /* ProfileBackgroundProtocols.swift in Sources */,
 				5A9B471D26EA7D6C001CC627 /* BlurView.swift in Sources */,
 				787AAEE72703CC2B00D734D3 /* ProfileDetailViewModel.swift in Sources */,
+				78FA36A3273A698500B331DC /* ProfileHeaderCollectionReusableView.swift in Sources */,
 				787AC7B72722E33E000AA434 /* TypographyPresenter.swift in Sources */,
 				5A26CD2A26B2FF9900118D4B /* CarouselFlowLayout.swift in Sources */,
 				7846B67B26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift in Sources */,

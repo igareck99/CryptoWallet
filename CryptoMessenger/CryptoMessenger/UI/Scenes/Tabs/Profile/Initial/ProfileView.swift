@@ -101,19 +101,21 @@ extension ProfileView: UICollectionViewDataSource, UICollectionViewDelegateFlowL
                         at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            let headerView = collectionView.dequeueReusableSupplementaryView(
-                ofKind: UICollectionView.elementKindSectionHeader,
-                withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier, for: indexPath)
-                as! ProfileHeaderCollectionReusableView
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: UICollectionView.elementKindSectionHeader,
+                    withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier, for: indexPath)
+                    as? ProfileHeaderCollectionReusableView else {
+                return UICollectionReusableView()
+            }
             headerView.didTapAddPhoto = {
                 self.didTapAddPhoto?()
             }
             return headerView
         case UICollectionView.elementKindSectionFooter:
-            let footer = collectionView.dequeueReusableSupplementaryView(
-                ofKind: UICollectionView.elementKindSectionFooter,
-                withReuseIdentifier: ProfileFooterCollectionReusableView.identifier,
-                for: indexPath) as! ProfileFooterCollectionReusableView
+            guard let footer = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: UICollectionView.elementKindSectionFooter,
+                    withReuseIdentifier: ProfileFooterCollectionReusableView.identifier,
+                    for: indexPath) as? ProfileFooterCollectionReusableView else { return UICollectionReusableView() }
             footer.didTapBuyCell = {
                 self.didTapBuyCell?()
             }
