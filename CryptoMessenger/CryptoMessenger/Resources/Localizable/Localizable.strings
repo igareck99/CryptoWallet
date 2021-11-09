@@ -161,3 +161,6 @@
 "Security.Title" = "Безопасность";
 "Security.Security" = "БЕЗОПАСНОСТЬ";
 "Security.Privacy" = "КОНФЕДЕНЦИАЛЬНОСТЬ";
+
+"BlackList.Title" = "Черный список";
+"BlackList.AlertTitle" = "Разблокировать ";

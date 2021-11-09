@@ -374,6 +374,15 @@
 		78FA36892739AED200B331DC /* SecurityAdditionalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36882739AED200B331DC /* SecurityAdditionalCell.swift */; };
 		78FA368B2739CA4300B331DC /* BlackListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA368A2739CA4300B331DC /* BlackListCell.swift */; };
 		78FA368D2739CC2800B331DC /* PrivacyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA368C2739CC2800B331DC /* PrivacyCell.swift */; };
+		78FA36952739FCD300B331DC /* BlackListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA368F2739FCD300B331DC /* BlackListPresenter.swift */; };
+		78FA36962739FCD300B331DC /* BlackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36902739FCD300B331DC /* BlackListViewController.swift */; };
+		78FA36972739FCD300B331DC /* BlackListProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36912739FCD300B331DC /* BlackListProtocols.swift */; };
+		78FA36982739FCD300B331DC /* BlackListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36922739FCD300B331DC /* BlackListView.swift */; };
+		78FA36992739FCD300B331DC /* BlackListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36932739FCD300B331DC /* BlackListConfigurator.swift */; };
+		78FA369A2739FCD300B331DC /* BlackListFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36942739FCD300B331DC /* BlackListFlow.swift */; };
+		78FA369D273A2DD800B331DC /* BlackListStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA369C273A2DD800B331DC /* BlackListStruct.swift */; };
+		78FA369F273A2DFA00B331DC /* BlackListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA369E273A2DFA00B331DC /* BlackListViewModel.swift */; };
+		78FA36A1273A2E9C00B331DC /* TableBlackListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36A0273A2E9C00B331DC /* TableBlackListCell.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -749,6 +758,15 @@
 		78FA36882739AED200B331DC /* SecurityAdditionalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityAdditionalCell.swift; sourceTree = "<group>"; };
 		78FA368A2739CA4300B331DC /* BlackListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackListCell.swift; sourceTree = "<group>"; };
 		78FA368C2739CC2800B331DC /* PrivacyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyCell.swift; sourceTree = "<group>"; };
+		78FA368F2739FCD300B331DC /* BlackListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackListPresenter.swift; sourceTree = "<group>"; };
+		78FA36902739FCD300B331DC /* BlackListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackListViewController.swift; sourceTree = "<group>"; };
+		78FA36912739FCD300B331DC /* BlackListProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackListProtocols.swift; sourceTree = "<group>"; };
+		78FA36922739FCD300B331DC /* BlackListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackListView.swift; sourceTree = "<group>"; };
+		78FA36932739FCD300B331DC /* BlackListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackListConfigurator.swift; sourceTree = "<group>"; };
+		78FA36942739FCD300B331DC /* BlackListFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackListFlow.swift; sourceTree = "<group>"; };
+		78FA369C273A2DD800B331DC /* BlackListStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackListStruct.swift; sourceTree = "<group>"; };
+		78FA369E273A2DFA00B331DC /* BlackListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackListViewModel.swift; sourceTree = "<group>"; };
+		78FA36A0273A2E9C00B331DC /* TableBlackListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableBlackListCell.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1998,6 +2016,7 @@
 		78FA366E2737417C00B331DC /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				78FA368E2739FCBC00B331DC /* BlackList */,
 				78FA367B27374A7B00B331DC /* TableView */,
 				78FA366F2737419200B331DC /* SecurityPresenter.swift */,
 				78FA36702737419200B331DC /* SecurityViewController.swift */,
@@ -2020,6 +2039,30 @@
 				78FA36882739AED200B331DC /* SecurityAdditionalCell.swift */,
 				78FA368A2739CA4300B331DC /* BlackListCell.swift */,
 				78FA368C2739CC2800B331DC /* PrivacyCell.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		78FA368E2739FCBC00B331DC /* BlackList */ = {
+			isa = PBXGroup;
+			children = (
+				78FA369B273A2D6D00B331DC /* TableView */,
+				78FA368F2739FCD300B331DC /* BlackListPresenter.swift */,
+				78FA36902739FCD300B331DC /* BlackListViewController.swift */,
+				78FA36912739FCD300B331DC /* BlackListProtocols.swift */,
+				78FA36922739FCD300B331DC /* BlackListView.swift */,
+				78FA36932739FCD300B331DC /* BlackListConfigurator.swift */,
+				78FA36942739FCD300B331DC /* BlackListFlow.swift */,
+			);
+			path = BlackList;
+			sourceTree = "<group>";
+		};
+		78FA369B273A2D6D00B331DC /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				78FA369C273A2DD800B331DC /* BlackListStruct.swift */,
+				78FA369E273A2DFA00B331DC /* BlackListViewModel.swift */,
+				78FA36A0273A2E9C00B331DC /* TableBlackListCell.swift */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -2312,15 +2355,19 @@
 				5A430EC627196A08004A1D2E /* ProfileCell.swift in Sources */,
 				5A4BE51C271DD86A00D03D09 /* EventCollection.swift in Sources */,
 				78437F0D270C76FE00371110 /* AboutAppPresenter.swift in Sources */,
+				78FA369A2739FCD300B331DC /* BlackListFlow.swift in Sources */,
 				789FEBEF26DCE61D0018FE91 /* PhotoEditorView.swift in Sources */,
 				5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */,
 				5A430ED227196A17004A1D2E /* AdditionalMenuViewController.swift in Sources */,
 				787AC7BA2722E33E000AA434 /* TypographyView.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
+				78FA369F273A2DFA00B331DC /* BlackListViewModel.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
+				78FA36992739FCD300B331DC /* BlackListConfigurator.swift in Sources */,
 				7889064127064F8D0093459C /* ProfileNetworkDetailViewController.swift in Sources */,
+				78FA36A1273A2E9C00B331DC /* TableBlackListCell.swift in Sources */,
 				78BB7E1926F49EE700F1D500 /* MenuFrienView.swift in Sources */,
 				5A9318B726BD210400645365 /* PinCodeViewController.swift in Sources */,
 				5A187EA42680708D001957D3 /* CollectionViewProviderType.swift in Sources */,
@@ -2372,6 +2419,7 @@
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
 				5A4267FE26A83494000C51DD /* R.generated.swift in Sources */,
 				787AAEE22703C9B700D734D3 /* ProfileDetailItem.swift in Sources */,
+				78FA36952739FCD300B331DC /* BlackListPresenter.swift in Sources */,
 				5AF8635C26ADB691004A417C /* OnboardingViewController.swift in Sources */,
 				7846B65F26E8BC3F00B05984 /* MoveAnimation.swift in Sources */,
 				5A187E9B2680708D001957D3 /* ListSeparatorStyle.swift in Sources */,
@@ -2396,6 +2444,7 @@
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
 				78EFC60027027A3100A9BBAA /* ProfileStruct.swift in Sources */,
 				7889064327064F8D0093459C /* ProfileNetworkDetailView.swift in Sources */,
+				78FA36962739FCD300B331DC /* BlackListViewController.swift in Sources */,
 				5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */,
 				7846B66326E8BC8B00B05984 /* ProgressAnimation.swift in Sources */,
 				5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */,
@@ -2459,6 +2508,7 @@
 				5A26CD4026B3305600118D4B /* Transaction.swift in Sources */,
 				5A4BE519271DD86A00D03D09 /* CustomEvent.swift in Sources */,
 				7846B65C26E8BBFD00B05984 /* TimingFunctions.swift in Sources */,
+				78FA36982739FCD300B331DC /* BlackListView.swift in Sources */,
 				5A187DF426807011001957D3 /* Alertable.swift in Sources */,
 				5A9318E626C5E42300645365 /* KeyboardAdaptive.swift in Sources */,
 				789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */,
@@ -2496,6 +2546,7 @@
 				5A430EC227196A08004A1D2E /* ProfilePresenter.swift in Sources */,
 				78FA36792737419200B331DC /* SecurityConfigurator.swift in Sources */,
 				78890648270684180093459C /* NetworkDetailItem.swift in Sources */,
+				78FA369D273A2DD800B331DC /* BlackListStruct.swift in Sources */,
 				78437F03270B769C00371110 /* ProfileDetailTableHeaderView.swift in Sources */,
 				5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
@@ -2549,6 +2600,7 @@
 				78AF82B42720DEDD003D918D /* PersonalizationCell.swift in Sources */,
 				5AA6410C268233CA008922B4 /* ButtonDecor.swift in Sources */,
 				5A4BE4F4271DBEC900D03D09 /* URLConvertible.swift in Sources */,
+				78FA36972739FCD300B331DC /* BlackListProtocols.swift in Sources */,
 				789FEBEE26DCE61D0018FE91 /* PhotoEditorProtocols.swift in Sources */,
 				789B123226CE8906002FCDDF /* CallListViewController.swift in Sources */,
 				5A187F282680CF49001957D3 /* APIClient.swift in Sources */,

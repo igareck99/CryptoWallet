@@ -20,6 +20,7 @@ final class SecurityViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        subscribeOnCustomViewActions()
         addTitleBarButtonItem()
     }
 
@@ -32,6 +33,14 @@ final class SecurityViewController: BaseViewController {
 
     private func addTitleBarButtonItem() {
         navigationItem.title = R.string.localizable.securityTitle()
+    }
+
+    private func subscribeOnCustomViewActions() {
+        customView.didBlackListTap = { [unowned self] in
+            let vc = BlackListConfigurator.configuredViewController(delegate: nil)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 
 }

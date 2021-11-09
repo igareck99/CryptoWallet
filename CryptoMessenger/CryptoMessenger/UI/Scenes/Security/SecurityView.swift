@@ -7,6 +7,7 @@ final class SecurityView: UIView {
     // MARK: - Internal Properties
 
     var didTap: VoidBlock?
+    var didBlackListTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -142,6 +143,17 @@ final class SecurityView: UIView {
                 }
             }
             return UITableViewCell()
+        }
+        tableProvider?.onSelectCell = { [unowned self] indexPath in
+            if userFlows.isPinCodeOn == false {
+                if indexPath.section == 7 {
+                    didBlackListTap?()
+                }
+            } else {
+                if indexPath.section == 9 {
+                    didBlackListTap?()
+                }
+            }
         }
         tableProvider?.onViewForHeaderInSection = { [unowned self] section in
             if userFlows.isPinCodeOn == false {
