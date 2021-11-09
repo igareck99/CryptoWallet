@@ -203,7 +203,7 @@ var securityList: [SecurityItem] = [
     .init(title: "Геопозиция", currentState: "Только мои контакты"),
     .init(title: "Номер телефона", currentState: "Только мои контакты"),
     .init(title: "Управление сессиями", currentState: "Показ...устройств"),
-    .init(title: "Черный список", currentState: "3")
+    .init(title: "Черный список", currentState: String(blockedPeople.count))
 ]
 
 var additionalSecurityList: [SecurityItem] = [
