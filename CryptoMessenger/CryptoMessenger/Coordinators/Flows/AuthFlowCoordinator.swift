@@ -33,7 +33,8 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
+        handleNextScene(.security)
+        // handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
     // MARK: - Private Methods
@@ -130,6 +131,11 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
+    private func showSecurityScene() {
+        let viewController = SecurityConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
     // MARK: - Scene
 
     enum Scene {
@@ -155,6 +161,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case typography
         case profileBackground
         case profilePreview
+        case security
     }
 }
 
@@ -201,6 +208,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showProfileBackgroundScene()
         case .profilePreview:
             showProfilePreviewScene()
+        case .security:
+            showSecurityScene()
         }
     }
 
@@ -292,3 +301,7 @@ extension AuthFlowCoordinator: ProfileBackgroundSceneDelegate {}
 // MARK: - AuthFlowCoordinator (ProfileBackgroundPreviewSceneDelegate)
 
 extension AuthFlowCoordinator: ProfileBackgroundPreviewSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (SecuritySceneDelegate)
+
+extension AuthFlowCoordinator: SecuritySceneDelegate {}

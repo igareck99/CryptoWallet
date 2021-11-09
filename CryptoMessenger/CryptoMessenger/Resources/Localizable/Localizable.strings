@@ -156,3 +156,8 @@
 "ProfileBackground.Wallpaper" = "ОБОИ";
 
 "ProfileBackgroundPreview.SetBackground" = "Установить фон";
+
+
+"Security.Title" = "Безопасность";
+"Security.Security" = "БЕЗОПАСНОСТЬ";
+"Security.Privacy" = "КОНФЕДЕНЦИАЛЬНОСТЬ";
