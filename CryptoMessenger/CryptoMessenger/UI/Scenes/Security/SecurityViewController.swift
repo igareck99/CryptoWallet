@@ -44,6 +44,11 @@ final class SecurityViewController: BaseViewController {
         customView.didProfileViewingTap = { [unowned self] in
             createActionSheet()
         }
+        customView.didSessionTap = { [unowned self] in
+            let vc = SessionConfigurator.configuredViewController(delegate: nil)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 
     private func createActionSheet() {

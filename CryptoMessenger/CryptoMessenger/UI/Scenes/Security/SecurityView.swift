@@ -9,6 +9,7 @@ final class SecurityView: UIView {
     var didTap: VoidBlock?
     var didBlackListTap: VoidBlock?
     var didProfileViewingTap: VoidBlock?
+    var didSessionTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -157,12 +158,18 @@ final class SecurityView: UIView {
                 if indexPath.section == 1 {
                     didProfileViewingTap?()
                 }
+                if indexPath.section == 6 {
+                    didSessionTap?()
+                }
                 if indexPath.section == 7 {
                     didBlackListTap?()
                 }
             } else {
                 if indexPath.section == 3 {
                     didProfileViewingTap?()
+                }
+                if indexPath.section == 8 {
+                    didSessionTap?()
                 }
                 if indexPath.section == 9 {
                     didBlackListTap?()

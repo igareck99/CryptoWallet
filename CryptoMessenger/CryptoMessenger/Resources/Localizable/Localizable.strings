@@ -168,3 +168,12 @@
 "ProfileViewing.All" = "Все пользователи";
 "ProfileViewing.Contacts" = "Только контакты";
 "ProfileViewing.Nobody" = "Никто";
+
+"Session.Title" = "Управление сессиями";
+"Session.Description" = "История активности показывает информацию о том, с каких устройств и в какое время заходили в Ваш \nаккаунт.";
+
+"SessionDetail.Place" = "Место";
+"SessionDetail.Time" = "Время";
+"SessionDetail.Apps" = "Приложения";
+"SessionDetail.Ip" = "IP-адрес";
+"SessionDetail.Finish" = "Завершить сеанс";

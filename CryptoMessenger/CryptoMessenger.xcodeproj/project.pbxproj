@@ -383,6 +383,26 @@
 		78FA369D273A2DD800B331DC /* BlackListStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA369C273A2DD800B331DC /* BlackListStruct.swift */; };
 		78FA369F273A2DFA00B331DC /* BlackListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA369E273A2DFA00B331DC /* BlackListViewModel.swift */; };
 		78FA36A1273A2E9C00B331DC /* TableBlackListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36A0273A2E9C00B331DC /* TableBlackListCell.swift */; };
+		78FA36AB273BC22C00B331DC /* SessionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36A5273BC22C00B331DC /* SessionPresenter.swift */; };
+		78FA36AC273BC22C00B331DC /* SessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36A6273BC22C00B331DC /* SessionViewController.swift */; };
+		78FA36AD273BC22C00B331DC /* SessionProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36A7273BC22C00B331DC /* SessionProtocols.swift */; };
+		78FA36AE273BC22C00B331DC /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36A8273BC22C00B331DC /* SessionView.swift */; };
+		78FA36AF273BC22C00B331DC /* SessionConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36A9273BC22C00B331DC /* SessionConfigurator.swift */; };
+		78FA36B0273BC22C00B331DC /* SessionFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36AA273BC22C00B331DC /* SessionFlow.swift */; };
+		78FA36B3273BC4D200B331DC /* SessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36B2273BC4D200B331DC /* SessionItem.swift */; };
+		78FA36B5273BC6FE00B331DC /* SessionProviderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36B4273BC6FE00B331DC /* SessionProviderViewModel.swift */; };
+		78FA36B7273BC73F00B331DC /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36B6273BC73F00B331DC /* SessionCell.swift */; };
+		78FA36BF273BD3A400B331DC /* SessionDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36B9273BD3A400B331DC /* SessionDetailPresenter.swift */; };
+		78FA36C0273BD3A400B331DC /* SessionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36BA273BD3A400B331DC /* SessionDetailViewController.swift */; };
+		78FA36C1273BD3A400B331DC /* SessionDetailProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36BB273BD3A400B331DC /* SessionDetailProtocols.swift */; };
+		78FA36C2273BD3A400B331DC /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36BC273BD3A400B331DC /* SessionDetailView.swift */; };
+		78FA36C3273BD3A400B331DC /* SessionDetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36BD273BD3A400B331DC /* SessionDetailConfigurator.swift */; };
+		78FA36C4273BD3A400B331DC /* SessionDetailFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36BE273BD3A400B331DC /* SessionDetailFlow.swift */; };
+		78FA36C7273BD40E00B331DC /* AdditionalSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36C6273BD40E00B331DC /* AdditionalSessionController.swift */; };
+		78FA36C9273BD45B00B331DC /* AdditionalSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36C8273BD45B00B331DC /* AdditionalSessionView.swift */; };
+		78FA36CC273BDA2500B331DC /* AdditionalSessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36CB273BDA2500B331DC /* AdditionalSessionItem.swift */; };
+		78FA36CE273BDA7600B331DC /* AdditionalSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36CD273BDA7600B331DC /* AdditionalSessionViewModel.swift */; };
+		78FA36D0273BDABB00B331DC /* AdditionalSessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36CF273BDABB00B331DC /* AdditionalSessionCell.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -767,6 +787,26 @@
 		78FA369C273A2DD800B331DC /* BlackListStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackListStruct.swift; sourceTree = "<group>"; };
 		78FA369E273A2DFA00B331DC /* BlackListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackListViewModel.swift; sourceTree = "<group>"; };
 		78FA36A0273A2E9C00B331DC /* TableBlackListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableBlackListCell.swift; sourceTree = "<group>"; };
+		78FA36A5273BC22C00B331DC /* SessionPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPresenter.swift; sourceTree = "<group>"; };
+		78FA36A6273BC22C00B331DC /* SessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewController.swift; sourceTree = "<group>"; };
+		78FA36A7273BC22C00B331DC /* SessionProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProtocols.swift; sourceTree = "<group>"; };
+		78FA36A8273BC22C00B331DC /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
+		78FA36A9273BC22C00B331DC /* SessionConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionConfigurator.swift; sourceTree = "<group>"; };
+		78FA36AA273BC22C00B331DC /* SessionFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionFlow.swift; sourceTree = "<group>"; };
+		78FA36B2273BC4D200B331DC /* SessionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionItem.swift; sourceTree = "<group>"; };
+		78FA36B4273BC6FE00B331DC /* SessionProviderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProviderViewModel.swift; sourceTree = "<group>"; };
+		78FA36B6273BC73F00B331DC /* SessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
+		78FA36B9273BD3A400B331DC /* SessionDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailPresenter.swift; sourceTree = "<group>"; };
+		78FA36BA273BD3A400B331DC /* SessionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailViewController.swift; sourceTree = "<group>"; };
+		78FA36BB273BD3A400B331DC /* SessionDetailProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailProtocols.swift; sourceTree = "<group>"; };
+		78FA36BC273BD3A400B331DC /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
+		78FA36BD273BD3A400B331DC /* SessionDetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailConfigurator.swift; sourceTree = "<group>"; };
+		78FA36BE273BD3A400B331DC /* SessionDetailFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailFlow.swift; sourceTree = "<group>"; };
+		78FA36C6273BD40E00B331DC /* AdditionalSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalSessionController.swift; sourceTree = "<group>"; };
+		78FA36C8273BD45B00B331DC /* AdditionalSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalSessionView.swift; sourceTree = "<group>"; };
+		78FA36CB273BDA2500B331DC /* AdditionalSessionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalSessionItem.swift; sourceTree = "<group>"; };
+		78FA36CD273BDA7600B331DC /* AdditionalSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalSessionViewModel.swift; sourceTree = "<group>"; };
+		78FA36CF273BDABB00B331DC /* AdditionalSessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalSessionCell.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2016,6 +2056,8 @@
 		78FA366E2737417C00B331DC /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				78FA36B8273BD38F00B331DC /* SessionDetail */,
+				78FA36A4273BC1BF00B331DC /* Session */,
 				78FA368E2739FCBC00B331DC /* BlackList */,
 				78FA367B27374A7B00B331DC /* TableView */,
 				78FA366F2737419200B331DC /* SecurityPresenter.swift */,
@@ -2063,6 +2105,64 @@
 				78FA369C273A2DD800B331DC /* BlackListStruct.swift */,
 				78FA369E273A2DFA00B331DC /* BlackListViewModel.swift */,
 				78FA36A0273A2E9C00B331DC /* TableBlackListCell.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		78FA36A4273BC1BF00B331DC /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				78FA36B1273BC4C400B331DC /* TableView */,
+				78FA36A5273BC22C00B331DC /* SessionPresenter.swift */,
+				78FA36A6273BC22C00B331DC /* SessionViewController.swift */,
+				78FA36A7273BC22C00B331DC /* SessionProtocols.swift */,
+				78FA36A8273BC22C00B331DC /* SessionView.swift */,
+				78FA36A9273BC22C00B331DC /* SessionConfigurator.swift */,
+				78FA36AA273BC22C00B331DC /* SessionFlow.swift */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		78FA36B1273BC4C400B331DC /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				78FA36B2273BC4D200B331DC /* SessionItem.swift */,
+				78FA36B4273BC6FE00B331DC /* SessionProviderViewModel.swift */,
+				78FA36B6273BC73F00B331DC /* SessionCell.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		78FA36B8273BD38F00B331DC /* SessionDetail */ = {
+			isa = PBXGroup;
+			children = (
+				78FA36C5273BD3DC00B331DC /* AdditionalSessionController */,
+				78FA36B9273BD3A400B331DC /* SessionDetailPresenter.swift */,
+				78FA36BA273BD3A400B331DC /* SessionDetailViewController.swift */,
+				78FA36BB273BD3A400B331DC /* SessionDetailProtocols.swift */,
+				78FA36BC273BD3A400B331DC /* SessionDetailView.swift */,
+				78FA36BD273BD3A400B331DC /* SessionDetailConfigurator.swift */,
+				78FA36BE273BD3A400B331DC /* SessionDetailFlow.swift */,
+			);
+			path = SessionDetail;
+			sourceTree = "<group>";
+		};
+		78FA36C5273BD3DC00B331DC /* AdditionalSessionController */ = {
+			isa = PBXGroup;
+			children = (
+				78FA36CA273BDA0500B331DC /* TableView */,
+				78FA36C6273BD40E00B331DC /* AdditionalSessionController.swift */,
+				78FA36C8273BD45B00B331DC /* AdditionalSessionView.swift */,
+			);
+			path = AdditionalSessionController;
+			sourceTree = "<group>";
+		};
+		78FA36CA273BDA0500B331DC /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				78FA36CB273BDA2500B331DC /* AdditionalSessionItem.swift */,
+				78FA36CD273BDA7600B331DC /* AdditionalSessionViewModel.swift */,
+				78FA36CF273BDABB00B331DC /* AdditionalSessionCell.swift */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -2261,6 +2361,7 @@
 				787AC7BB2722E33E000AA434 /* TypographyConfigurator.swift in Sources */,
 				5A187EBB268070B3001957D3 /* NSMutableData+Extensions.swift in Sources */,
 				78437F10270C76FE00371110 /* AboutAppView.swift in Sources */,
+				78FA36D0273BDABB00B331DC /* AdditionalSessionCell.swift in Sources */,
 				78BB7E0E26F36B1200F1D500 /* FriendProfileViewController.swift in Sources */,
 				5A430EC527196A08004A1D2E /* ProfileView.swift in Sources */,
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
@@ -2271,6 +2372,7 @@
 				5A9B471D26EA7D6C001CC627 /* BlurView.swift in Sources */,
 				787AAEE72703CC2B00D734D3 /* ProfileDetailViewModel.swift in Sources */,
 				787AC7B72722E33E000AA434 /* TypographyPresenter.swift in Sources */,
+				78FA36C4273BD3A400B331DC /* SessionDetailFlow.swift in Sources */,
 				5A26CD2A26B2FF9900118D4B /* CarouselFlowLayout.swift in Sources */,
 				7846B67B26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift in Sources */,
 				5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */,
@@ -2292,6 +2394,7 @@
 				5A187F292680CF49001957D3 /* RequestBuilder.swift in Sources */,
 				5A26CD3926B31FBA00118D4B /* UICollectionView+Extensions.swift in Sources */,
 				5A187F2A2680CF49001957D3 /* URLResponseCapable.swift in Sources */,
+				78FA36C2273BD3A400B331DC /* SessionDetailView.swift in Sources */,
 				5A9318BB26BD210400645365 /* PinCodeFlow.swift in Sources */,
 				5AB30F152706564300838AFC /* PinCodeFlowCoordinator.swift in Sources */,
 				5A187E972680708D001957D3 /* ActivityViewDisplayable.swift in Sources */,
@@ -2312,6 +2415,7 @@
 				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				78AF82A72720CFEA003D918D /* PersonalizationViewController.swift in Sources */,
+				78FA36C3273BD3A400B331DC /* SessionDetailConfigurator.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
 				5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
@@ -2344,6 +2448,7 @@
 				78FA36892739AED200B331DC /* SecurityAdditionalCell.swift in Sources */,
 				78437F17270C8FB100371110 /* CustomWebViewController.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
+				78FA36B7273BC73F00B331DC /* SessionCell.swift in Sources */,
 				5A430EC327196A08004A1D2E /* ProfileFlow.swift in Sources */,
 				5A4BE4FC271DD4E700D03D09 /* MatrixStore.swift in Sources */,
 				78EFC5FD27021E8700A9BBAA /* ProfileDetailConfigurator.swift in Sources */,
@@ -2359,6 +2464,7 @@
 				789FEBEF26DCE61D0018FE91 /* PhotoEditorView.swift in Sources */,
 				5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */,
 				5A430ED227196A17004A1D2E /* AdditionalMenuViewController.swift in Sources */,
+				78FA36CC273BDA2500B331DC /* AdditionalSessionItem.swift in Sources */,
 				787AC7BA2722E33E000AA434 /* TypographyView.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
@@ -2397,6 +2503,7 @@
 				78DD76592728B5670094D510 /* ProfileBackgroundPreviewProtocols.swift in Sources */,
 				5A9B472426EAA010001CC627 /* ReactionView.swift in Sources */,
 				78BB7E1726F49E1500F1D500 /* MenuFriendViewController.swift in Sources */,
+				78FA36B0273BC22C00B331DC /* SessionFlow.swift in Sources */,
 				5A9318B926BD210400645365 /* PinCodeView.swift in Sources */,
 				5A3721DC272F3A210097ABED /* DynamicHeightTextField.swift in Sources */,
 				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
@@ -2412,6 +2519,7 @@
 				5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */,
 				5A4BE518271DD86A00D03D09 /* ReactionEvent.swift in Sources */,
 				5AF8633926AA994E004A417C /* VerificationConfigurator.swift in Sources */,
+				78FA36AD273BC22C00B331DC /* SessionProtocols.swift in Sources */,
 				5A26CD1F26B2EECA00118D4B /* WalletView.swift in Sources */,
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
 				78FA36872738329F00B331DC /* SecurityCell.swift in Sources */,
@@ -2472,9 +2580,11 @@
 				5A187F342680CF49001957D3 /* ContactsManager.swift in Sources */,
 				7846B67226E8C04D00B05984 /* ThumbnailLayout.swift in Sources */,
 				5AA6410126822C3A008922B4 /* TextViewStyle.swift in Sources */,
+				78FA36AE273BC22C00B331DC /* SessionView.swift in Sources */,
 				5AA6410626822C3A008922B4 /* FontDecor.swift in Sources */,
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
 				5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */,
+				78FA36AC273BC22C00B331DC /* SessionViewController.swift in Sources */,
 				78DD7643272717AE0094D510 /* ProfileBackgroundView.swift in Sources */,
 				5A26CD4226B3363E00118D4B /* TransactionViewModel.swift in Sources */,
 				7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */,
@@ -2500,6 +2610,7 @@
 				787AC7BF27230976000AA434 /* TypographyItem.swift in Sources */,
 				78BB7E1126F36B1200F1D500 /* FriendProfileConfigurator.swift in Sources */,
 				5AEB80FF26DE138F009A1944 /* Array+Extensions.swift in Sources */,
+				78FA36C1273BD3A400B331DC /* SessionDetailProtocols.swift in Sources */,
 				5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */,
 				5A26CD1D26B2EECA00118D4B /* WalletViewController.swift in Sources */,
 				78EFC5F927021E8700A9BBAA /* ProfileDetailPresenter.swift in Sources */,
@@ -2512,6 +2623,7 @@
 				5A187DF426807011001957D3 /* Alertable.swift in Sources */,
 				5A9318E626C5E42300645365 /* KeyboardAdaptive.swift in Sources */,
 				789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */,
+				78FA36AF273BC22C00B331DC /* SessionConfigurator.swift in Sources */,
 				5A4BE522271DD86A00D03D09 /* UserDefaults.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
@@ -2557,8 +2669,10 @@
 				5A26CD2E26B3114400118D4B /* BarButtonStyle.swift in Sources */,
 				5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */,
 				78FA367A2737419200B331DC /* SecurityFlow.swift in Sources */,
+				78FA36B5273BC6FE00B331DC /* SessionProviderViewModel.swift in Sources */,
 				5A42680726A83554000C51DD /* RegistrationProtocols.swift in Sources */,
 				5A187EB9268070B3001957D3 /* UIImageView+Kingfisher.swift in Sources */,
+				78FA36C0273BD3A400B331DC /* SessionDetailViewController.swift in Sources */,
 				7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */,
 				5AF8636026ADB691004A417C /* OnboardingPresenter.swift in Sources */,
 				5A187F2E2680CF49001957D3 /* Endpoint.swift in Sources */,
@@ -2568,11 +2682,13 @@
 				78DD76572728B5670094D510 /* ProfileBackgroundPreviewPresenter.swift in Sources */,
 				7846B66C26E8BFD900B05984 /* ParallaxLayoutAttributes.swift in Sources */,
 				5A3721D7272F2A4D0097ABED /* ChatGroupView.swift in Sources */,
+				78FA36B3273BC4D200B331DC /* SessionItem.swift in Sources */,
 				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
 				787AC7A627220E62000AA434 /* AppLanguageView.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				5A26CD3126B3195900118D4B /* CardViewModel.swift in Sources */,
 				78BB7E1C26F4A11000F1D500 /* FriendMenuCell.swift in Sources */,
+				78FA36AB273BC22C00B331DC /* SessionPresenter.swift in Sources */,
 				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,
 				789FEBD826D8FFD50018FE91 /* CallListViewModel.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
@@ -2580,6 +2696,7 @@
 				787AC7A827220E62000AA434 /* AppLanguageFlow.swift in Sources */,
 				5A7F452A270E1C1400E44D22 /* ProfileActionCell.swift in Sources */,
 				5A2181E726D82DC40093AD60 /* LocationManager.swift in Sources */,
+				78FA36BF273BD3A400B331DC /* SessionDetailPresenter.swift in Sources */,
 				5A3721E0272F47EA0097ABED /* EmptyNavigationLink.swift in Sources */,
 				78AF82AE2720DDB0003D918D /* PersonalizationItem.swift in Sources */,
 				78AF82B22720DE8A003D918D /* PersonalizationViewModel.swift in Sources */,
@@ -2596,6 +2713,7 @@
 				78EFC5FE27021E8700A9BBAA /* ProfileDetailFlow.swift in Sources */,
 				5A4BE4FF271DD7D700D03D09 /* MatrixConfiguration.swift in Sources */,
 				5A9318BA26BD210400645365 /* PinCodeConfigurator.swift in Sources */,
+				78FA36C7273BD40E00B331DC /* AdditionalSessionController.swift in Sources */,
 				5A26CD2926B2FF9900118D4B /* CarouselAnimatableFlowLayout.swift in Sources */,
 				78AF82B42720DEDD003D918D /* PersonalizationCell.swift in Sources */,
 				5AA6410C268233CA008922B4 /* ButtonDecor.swift in Sources */,
@@ -2605,7 +2723,9 @@
 				789B123226CE8906002FCDDF /* CallListViewController.swift in Sources */,
 				5A187F282680CF49001957D3 /* APIClient.swift in Sources */,
 				78DD7645272717AE0094D510 /* ProfileBackgroundFlow.swift in Sources */,
+				78FA36CE273BDA7600B331DC /* AdditionalSessionViewModel.swift in Sources */,
 				78FA36762737419200B331DC /* SecurityViewController.swift in Sources */,
+				78FA36C9273BD45B00B331DC /* AdditionalSessionView.swift in Sources */,
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
 				5A26CD2726B2FF9900118D4B /* CarouselNonAnimatableFlowLayout.swift in Sources */,
 				78437F1A270CE94000371110 /* PaywallView.swift in Sources */,

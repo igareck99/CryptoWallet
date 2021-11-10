@@ -153,7 +153,6 @@ final class ProfileNetworkDetailView: UIView {
 
 extension ProfileNetworkDetailView {
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        print("Method is called")
         print(sourceIndexPath)
         if sourceIndexPath.row == tableNetworkList.count - 1 {
             return
