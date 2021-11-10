@@ -37,9 +37,24 @@ final class SessionViewController: BaseViewController {
 
     private func subscribeOnCustomViewActions() {
         customView.didTap = { [unowned self] in
-            let vc = SessionDetailConfigurator.configuredViewController(delegate: nil)
+            let vc = ProfileConfigurator.configuredViewController(delegate: nil)
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
+            let controller = AdditionalSessionController()
+            sessionInfo[0].text = sessionList[selectedCell].place
+            sessionInfo[1].text = sessionList[selectedCell].time
+            switch sessionList[selectedCell].device {
+            case .iphone:
+                loginDevice = "IPhone"
+            case .android:
+                loginDevice = "Android"
+            }
+            sessionInfo[2].text = sessionList[selectedCell].loginMethod
+            controller.didPopScreen = {
+                self.navigationController?.popViewController(animated: true)
+                controller.dismiss(animated: true, completion: nil)
+            }
+            present(controller, animated: true)
         }
     }
 

@@ -392,12 +392,6 @@
 		78FA36B3273BC4D200B331DC /* SessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36B2273BC4D200B331DC /* SessionItem.swift */; };
 		78FA36B5273BC6FE00B331DC /* SessionProviderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36B4273BC6FE00B331DC /* SessionProviderViewModel.swift */; };
 		78FA36B7273BC73F00B331DC /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36B6273BC73F00B331DC /* SessionCell.swift */; };
-		78FA36BF273BD3A400B331DC /* SessionDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36B9273BD3A400B331DC /* SessionDetailPresenter.swift */; };
-		78FA36C0273BD3A400B331DC /* SessionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36BA273BD3A400B331DC /* SessionDetailViewController.swift */; };
-		78FA36C1273BD3A400B331DC /* SessionDetailProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36BB273BD3A400B331DC /* SessionDetailProtocols.swift */; };
-		78FA36C2273BD3A400B331DC /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36BC273BD3A400B331DC /* SessionDetailView.swift */; };
-		78FA36C3273BD3A400B331DC /* SessionDetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36BD273BD3A400B331DC /* SessionDetailConfigurator.swift */; };
-		78FA36C4273BD3A400B331DC /* SessionDetailFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36BE273BD3A400B331DC /* SessionDetailFlow.swift */; };
 		78FA36C7273BD40E00B331DC /* AdditionalSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36C6273BD40E00B331DC /* AdditionalSessionController.swift */; };
 		78FA36C9273BD45B00B331DC /* AdditionalSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36C8273BD45B00B331DC /* AdditionalSessionView.swift */; };
 		78FA36CC273BDA2500B331DC /* AdditionalSessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36CB273BDA2500B331DC /* AdditionalSessionItem.swift */; };
@@ -796,12 +790,6 @@
 		78FA36B2273BC4D200B331DC /* SessionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionItem.swift; sourceTree = "<group>"; };
 		78FA36B4273BC6FE00B331DC /* SessionProviderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProviderViewModel.swift; sourceTree = "<group>"; };
 		78FA36B6273BC73F00B331DC /* SessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
-		78FA36B9273BD3A400B331DC /* SessionDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailPresenter.swift; sourceTree = "<group>"; };
-		78FA36BA273BD3A400B331DC /* SessionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailViewController.swift; sourceTree = "<group>"; };
-		78FA36BB273BD3A400B331DC /* SessionDetailProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailProtocols.swift; sourceTree = "<group>"; };
-		78FA36BC273BD3A400B331DC /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
-		78FA36BD273BD3A400B331DC /* SessionDetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailConfigurator.swift; sourceTree = "<group>"; };
-		78FA36BE273BD3A400B331DC /* SessionDetailFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailFlow.swift; sourceTree = "<group>"; };
 		78FA36C6273BD40E00B331DC /* AdditionalSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalSessionController.swift; sourceTree = "<group>"; };
 		78FA36C8273BD45B00B331DC /* AdditionalSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalSessionView.swift; sourceTree = "<group>"; };
 		78FA36CB273BDA2500B331DC /* AdditionalSessionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalSessionItem.swift; sourceTree = "<group>"; };
@@ -2056,7 +2044,7 @@
 		78FA366E2737417C00B331DC /* Security */ = {
 			isa = PBXGroup;
 			children = (
-				78FA36B8273BD38F00B331DC /* SessionDetail */,
+				78FA36C5273BD3DC00B331DC /* AdditionalSessionController */,
 				78FA36A4273BC1BF00B331DC /* Session */,
 				78FA368E2739FCBC00B331DC /* BlackList */,
 				78FA367B27374A7B00B331DC /* TableView */,
@@ -2131,20 +2119,6 @@
 				78FA36B6273BC73F00B331DC /* SessionCell.swift */,
 			);
 			path = TableView;
-			sourceTree = "<group>";
-		};
-		78FA36B8273BD38F00B331DC /* SessionDetail */ = {
-			isa = PBXGroup;
-			children = (
-				78FA36C5273BD3DC00B331DC /* AdditionalSessionController */,
-				78FA36B9273BD3A400B331DC /* SessionDetailPresenter.swift */,
-				78FA36BA273BD3A400B331DC /* SessionDetailViewController.swift */,
-				78FA36BB273BD3A400B331DC /* SessionDetailProtocols.swift */,
-				78FA36BC273BD3A400B331DC /* SessionDetailView.swift */,
-				78FA36BD273BD3A400B331DC /* SessionDetailConfigurator.swift */,
-				78FA36BE273BD3A400B331DC /* SessionDetailFlow.swift */,
-			);
-			path = SessionDetail;
 			sourceTree = "<group>";
 		};
 		78FA36C5273BD3DC00B331DC /* AdditionalSessionController */ = {
@@ -2372,7 +2346,6 @@
 				5A9B471D26EA7D6C001CC627 /* BlurView.swift in Sources */,
 				787AAEE72703CC2B00D734D3 /* ProfileDetailViewModel.swift in Sources */,
 				787AC7B72722E33E000AA434 /* TypographyPresenter.swift in Sources */,
-				78FA36C4273BD3A400B331DC /* SessionDetailFlow.swift in Sources */,
 				5A26CD2A26B2FF9900118D4B /* CarouselFlowLayout.swift in Sources */,
 				7846B67B26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift in Sources */,
 				5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */,
@@ -2394,7 +2367,6 @@
 				5A187F292680CF49001957D3 /* RequestBuilder.swift in Sources */,
 				5A26CD3926B31FBA00118D4B /* UICollectionView+Extensions.swift in Sources */,
 				5A187F2A2680CF49001957D3 /* URLResponseCapable.swift in Sources */,
-				78FA36C2273BD3A400B331DC /* SessionDetailView.swift in Sources */,
 				5A9318BB26BD210400645365 /* PinCodeFlow.swift in Sources */,
 				5AB30F152706564300838AFC /* PinCodeFlowCoordinator.swift in Sources */,
 				5A187E972680708D001957D3 /* ActivityViewDisplayable.swift in Sources */,
@@ -2415,7 +2387,6 @@
 				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				78AF82A72720CFEA003D918D /* PersonalizationViewController.swift in Sources */,
-				78FA36C3273BD3A400B331DC /* SessionDetailConfigurator.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
 				5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
@@ -2610,7 +2581,6 @@
 				787AC7BF27230976000AA434 /* TypographyItem.swift in Sources */,
 				78BB7E1126F36B1200F1D500 /* FriendProfileConfigurator.swift in Sources */,
 				5AEB80FF26DE138F009A1944 /* Array+Extensions.swift in Sources */,
-				78FA36C1273BD3A400B331DC /* SessionDetailProtocols.swift in Sources */,
 				5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */,
 				5A26CD1D26B2EECA00118D4B /* WalletViewController.swift in Sources */,
 				78EFC5F927021E8700A9BBAA /* ProfileDetailPresenter.swift in Sources */,
@@ -2672,7 +2642,6 @@
 				78FA36B5273BC6FE00B331DC /* SessionProviderViewModel.swift in Sources */,
 				5A42680726A83554000C51DD /* RegistrationProtocols.swift in Sources */,
 				5A187EB9268070B3001957D3 /* UIImageView+Kingfisher.swift in Sources */,
-				78FA36C0273BD3A400B331DC /* SessionDetailViewController.swift in Sources */,
 				7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */,
 				5AF8636026ADB691004A417C /* OnboardingPresenter.swift in Sources */,
 				5A187F2E2680CF49001957D3 /* Endpoint.swift in Sources */,
@@ -2696,7 +2665,6 @@
 				787AC7A827220E62000AA434 /* AppLanguageFlow.swift in Sources */,
 				5A7F452A270E1C1400E44D22 /* ProfileActionCell.swift in Sources */,
 				5A2181E726D82DC40093AD60 /* LocationManager.swift in Sources */,
-				78FA36BF273BD3A400B331DC /* SessionDetailPresenter.swift in Sources */,
 				5A3721E0272F47EA0097ABED /* EmptyNavigationLink.swift in Sources */,
 				78AF82AE2720DDB0003D918D /* PersonalizationItem.swift in Sources */,
 				78AF82B22720DE8A003D918D /* PersonalizationViewModel.swift in Sources */,

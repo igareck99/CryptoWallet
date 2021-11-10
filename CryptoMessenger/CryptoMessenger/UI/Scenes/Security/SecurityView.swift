@@ -147,8 +147,6 @@ final class SecurityView: UIView {
                         setupTableProvider()
                     }
                     return cell
-                default:
-                    print("")
                 }
             }
             return UITableViewCell()

@@ -6,6 +6,8 @@ final class AdditionalSessionController: BaseViewController {
 
     // MARK: - Internal Properties
 
+    var didPopScreen: VoidBlock?
+
     // MARK: - Private Properties
 
     private lazy var customView = AdditionalSessionView()
@@ -15,6 +17,7 @@ final class AdditionalSessionController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addCustomView()
+        subscribeOnCustomViewActions()
         addTapGesture()
     }
 
@@ -26,7 +29,7 @@ final class AdditionalSessionController: BaseViewController {
     // MARK: - Actions
 
     @objc private func didClose() {
-        dismiss(animated: true)
+        didPopScreen?()
     }
 
     // MARK: - Private Methods

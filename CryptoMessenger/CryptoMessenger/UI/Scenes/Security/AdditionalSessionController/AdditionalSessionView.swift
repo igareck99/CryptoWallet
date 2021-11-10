@@ -70,7 +70,7 @@ final class AdditionalSessionView: UIView {
         paragraphStyle.alignment = .center
         sessionLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: "Сессия iPhone",
+                text: "Сессия " + loginDevice,
                 [
                     .paragraph(paragraphStyle),
                     .font(.bold(15)),
@@ -127,6 +127,7 @@ final class AdditionalSessionView: UIView {
                     .color(.white())
                 ]
             )
+            $0.addTarget(self, action: #selector(self.closeAction), for: .touchUpInside)
             $0.clipCorners(radius: 8)
         } layout: {
             $0.height.equalTo(44)
@@ -148,6 +149,8 @@ final class AdditionalSessionView: UIView {
         }
     }
 }
+
+var loginDevice = "IPhone"
 
 var sessionInfo: [AdditionalSessionItem] = [
     .init(title: R.string.localizable.sessionDetailPlace(), text: "Россия, Москва"),

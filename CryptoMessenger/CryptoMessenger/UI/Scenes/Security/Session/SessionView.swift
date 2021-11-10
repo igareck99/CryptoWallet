@@ -89,12 +89,15 @@ final class SessionView: UIView {
             cell.configure(item)
             return cell
         }
-        tableProvider?.onSelectCell = { [unowned self] _ in
+        tableProvider?.onSelectCell = { [unowned self] indexPath in
+            selectedCell = indexPath.section
             didTap?()
         }
     }
 
 }
+
+var selectedCell = 0
 
 var sessionList: [SessionItem] = [
     .init(device: .iphone, loginMethod: "Приложение Aura", time: "сегодня в 14:11", place: "Москва, Россия"),
