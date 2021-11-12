@@ -51,6 +51,13 @@ class SecurityAdditionalCell: UITableViewCell {
     func configure(_ profile: SecurityItem) {
         titleLabel.text = profile.title
         descriptionLabel.text = profile.currentState
+        if profile.title == "Вход по опечатку/ face ID" {
+            slider.isOn = userFlows.isLocalAuth
+        } else {
+            slider.isOn = userFlows.isFalsePinCodeOn
+            userCredentials.userFalsePinCode = ""
+            falsePasswordCalled = false
+        }
     }
 
     // MARK: - Private Methods

@@ -42,7 +42,8 @@ final class SecurityPinCodePresenter {
 
 extension SecurityPinCodePresenter: SecurityPinCodePresentation {
     func viewDidLoad() {
-        if userFlows.isFalsePinCodeOn {
+        if falsePasswordCalled && userFlows.isFalsePinCodeOn {
+            userCredentials.userFalsePinCode = ""
             let pinCode = userCredentials.userFalsePinCode.map({ Int(String($0)) }).compactMap({ $0 })
             view?.setPinCode(pinCode)
         } else {
@@ -52,7 +53,7 @@ extension SecurityPinCodePresenter: SecurityPinCodePresentation {
     }
 
     func setNewPinCode(_ pinCode: String) {
-        if userFlows.isFalsePinCodeOn {
+        if userFlows.isFalsePinCodeOn && falsePasswordCalled {
             userCredentials.userFalsePinCode = pinCode
         } else {
             userCredentials.userPinCode = pinCode

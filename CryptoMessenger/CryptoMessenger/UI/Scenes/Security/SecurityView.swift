@@ -36,6 +36,8 @@ final class SecurityView: UIView {
         super.init(frame: frame)
         userFlows.isPinCodeOn = false
         userCredentials.userPinCode = ""
+        userCredentials.userFalsePinCode = ""
+        userFlows.isFalsePinCodeOn = false
         setupTableView()
         setupTableProvider()
     }
@@ -156,7 +158,9 @@ final class SecurityView: UIView {
                     }
                     if indexPath.section == 2 {
                         cell.didFalseTap = {
+                            falsePasswordCalled = true
                             userFlows.isFalsePinCodeOn = true
+                            print(userFlows.isFalsePinCodeOn)
                             didCreateFalsePasswordTap?()
                         }
                     }
@@ -229,3 +233,5 @@ var additionalSecurityList: [SecurityItem] = [
     .init(title: "Вход по опечатку/ face ID", currentState: "Разрешить вход по отпечатку / лицу"),
     .init(title: "Ложный пароль", currentState: "Позволяет быстро удалить данные")
 ]
+
+var falsePasswordCalled = false

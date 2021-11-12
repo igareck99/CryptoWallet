@@ -79,6 +79,8 @@ final class SecurityPinCodeView: UIView {
     // MARK: - Internal Methods
 
     func setPinCode(_ pinCode: [Int]) {
+        print("pinCode    \(pinCode)")
+        print(isNewPassword)
         rightCode = pinCode
         isNewPassword = pinCode.isEmpty
         stylePasswordTitle()
@@ -114,6 +116,7 @@ final class SecurityPinCodeView: UIView {
             }
 
             if userCode != rightCode {
+                print("!+ \(rightCode)")
                 dotes.forEach { $0.background(.red()) }
                 delay(0.1) {
                     self.dotesStackView.shake(duration: 0.4)
@@ -139,11 +142,25 @@ final class SecurityPinCodeView: UIView {
         var title = ""
         var text = ""
         if userFlows.isFalsePinCodeOn {
-            isNewPassword = false
             title = R.string.localizable.pinCodeFalseTitle()
             text = R.string.localizable.pinCodeFalseText()
             passwordLabel.numberOfLines = 3
         } else {
+            if isFirstStep {
+                title = R.string.localizable.pinCodeNewPassword()
+            } else {
+                title = R.string.localizable.pinCodeRepeatPassword()
+            }
+            if isPasswordNotMatched {
+                title = R.string.localizable.pinCodeNotMatchPassword()
+            }
+            if isPasswordSuccess {
+                title = R.string.localizable.pinCodeSuccessPassword()
+            }
+        }
+        if userCredentials.userFalsePinCode.isEmpty == true {
+            title = R.string.localizable.pinCodeCreateTitle()
+            text = R.string.localizable.pinCodeCreateText()
             if isFirstStep {
                 title = R.string.localizable.pinCodeNewPassword()
             } else {
