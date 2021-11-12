@@ -10,6 +10,10 @@ final class SecurityView: UIView {
     var didBlackListTap: VoidBlock?
     var didProfileViewingTap: VoidBlock?
     var didSessionTap: VoidBlock?
+    var didFalsePasswordTap: VoidBlock?
+    var didCreateFalsePasswordTap: VoidBlock?
+    var didAuthTap: VoidBlock?
+    var didPinCodeTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -24,12 +28,14 @@ final class SecurityView: UIView {
         }
     }
     @Injectable private var userFlows: UserFlowsStorageService
+    @Injectable private var userCredentials: UserCredentialsStorageService
 
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         userFlows.isPinCodeOn = false
+        userCredentials.userPinCode = ""
         setupTableView()
         setupTableProvider()
     }
@@ -90,6 +96,7 @@ final class SecurityView: UIView {
                     let cell: SecurityCell = provider.dequeueReusableCell(for: indexPath)
                     cell.configure(securityList[indexPath.section])
                     cell.didSwitchTap = {
+                        didPinCodeTap?()
                         self.addCells()
                         tableModel = .init(securityList)
                         setupTableProvider()
@@ -142,9 +149,16 @@ final class SecurityView: UIView {
                 case .additionalSecurity:
                     let cell: SecurityAdditionalCell = provider.dequeueReusableCell(for: indexPath)
                     cell.configure(securityList[indexPath.section])
-                    cell.didSwitchTap = {
-                        tableModel = .init(securityList)
-                        setupTableProvider()
+                    if indexPath.section == 1 {
+                        cell.didAuthTap = {
+                            didAuthTap?()
+                        }
+                    }
+                    if indexPath.section == 2 {
+                        cell.didFalseTap = {
+                            userFlows.isFalsePinCodeOn = true
+                            didCreateFalsePasswordTap?()
+                        }
                     }
                     return cell
                 }

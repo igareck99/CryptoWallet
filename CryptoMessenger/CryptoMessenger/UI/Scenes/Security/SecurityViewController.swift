@@ -1,4 +1,5 @@
 import UIKit
+import LocalAuthentication
 
 // MARK: SecurityViewController
 
@@ -46,6 +47,16 @@ final class SecurityViewController: BaseViewController {
         }
         customView.didSessionTap = { [unowned self] in
             let vc = SessionConfigurator.configuredViewController(delegate: nil)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        customView.didCreateFalsePasswordTap = { [unowned self] in
+            let vc = SecurityPinCodeConfigurator.configuredViewController(delegate: nil)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        customView.didPinCodeTap = { [unowned self] in
+            let vc = SecurityPinCodeConfigurator.configuredViewController(delegate: nil)
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         }

@@ -1,14 +1,14 @@
 import Foundation
 
-// MARK: - SecurityFlow
+// MARK: - SecurityPinCodeFlow
 
-enum SecurityFlow {
+enum SecurityPinCodeFlow {
 
     // MARK: - Types
 
     enum ViewState {
         case sending
-        case result(AvailableBiometric?)
+        case result
         case error(message: String)
     }
 }

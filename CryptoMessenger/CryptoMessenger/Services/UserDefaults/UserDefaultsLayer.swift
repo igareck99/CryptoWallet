@@ -43,6 +43,8 @@ struct UserDefaultsLayer {
     private static let isLocalAuthInBackgroundKey = "isLocalAuthInBackgroundKey"
     private static let userPinCodeKey = "userPinCodeKey"
     private static let isPinCodeOnKey = "isPinCodeOnKey"
+    private static let userFalsePinCodeKey = "userFalsePinCodeKey"
+    private static let isFalsePinCodeOnKey = "isFalsePinCodeOnKey"
 
     // MARK: - Internal Properties
 
@@ -78,6 +80,12 @@ struct UserDefaultsLayer {
 
     @UserDefaultSettings(isPinCodeOnKey, value: false)
     var isPinCodeOn: Bool
+
+    @UserDefaultSettings(isFalsePinCodeOnKey, value: false)
+    var isFalsePinCodeOn: Bool
+
+    @UserDefaultSettings(userFalsePinCodeKey, value: "")
+    var userFalsePinCode: String
 }
 
 // MARK: - UserDefaultsLayer (UserCredentialsStorage)

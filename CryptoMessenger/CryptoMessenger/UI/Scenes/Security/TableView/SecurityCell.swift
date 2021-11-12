@@ -16,6 +16,7 @@ class SecurityCell: UITableViewCell {
     private lazy var slider = UISwitch()
 
     @Injectable private var userFlows: UserFlowsStorageService
+    @Injectable private var userCredentials: UserCredentialsStorageService
 
     // MARK: - Lifecycle
 
@@ -34,6 +35,11 @@ class SecurityCell: UITableViewCell {
 
     @objc private func pinCodeOn() {
         userFlows.isPinCodeOn = slider.isOn
+        if userFlows.isPinCodeOn {
+
+        } else {
+            userCredentials.userPinCode = ""
+        }
         didSwitchTap?()
     }
 
@@ -80,6 +86,7 @@ class SecurityCell: UITableViewCell {
 
     private func addSlider() {
         slider.snap(parent: contentView) {
+            $0.isOn = !self.userCredentials.userPinCode.isEmpty
             $0.contentMode = .center
             $0.onTintColor(.blue())
             $0.addTarget(self, action: #selector(self.pinCodeOn), for: .touchUpInside)

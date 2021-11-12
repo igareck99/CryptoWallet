@@ -65,6 +65,11 @@
 "PinCode.AlertMessage" = "Запрашивать пароль после сворачивания приложения";
 "PinCode.AlertCancel" = "Нет";
 "PinCode.AlertYes" = "Да";
+"PinCode.FalseTitle" = "Ложный PIN-код";
+"PinCode.FalseText" = "Данные приложения будут мгновенно удалены с вашего устройства при вводе\n данного PIN-кода";
+"PinCode.CreateTitle" = "Введите пароль";
+"PinCode.CreateText" = "Придумайте PIN код  для защиты вашего приложения";
+
 
 
 "CallList.Delete" = "Удалить";

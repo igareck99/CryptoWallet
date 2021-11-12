@@ -360,6 +360,12 @@
 		78EFC5FD27021E8700A9BBAA /* ProfileDetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F727021E8700A9BBAA /* ProfileDetailConfigurator.swift */; };
 		78EFC5FE27021E8700A9BBAA /* ProfileDetailFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5F827021E8700A9BBAA /* ProfileDetailFlow.swift */; };
 		78EFC60027027A3100A9BBAA /* ProfileStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EFC5FF27027A3100A9BBAA /* ProfileStruct.swift */; };
+		78F15FE8273DBD9800124F63 /* SecurityPinCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15FE2273DBD9800124F63 /* SecurityPinCodePresenter.swift */; };
+		78F15FE9273DBD9800124F63 /* SecurityPinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15FE3273DBD9800124F63 /* SecurityPinCodeViewController.swift */; };
+		78F15FEA273DBD9800124F63 /* SecurityPinCodeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15FE4273DBD9800124F63 /* SecurityPinCodeProtocols.swift */; };
+		78F15FEB273DBD9800124F63 /* SecurityPinCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15FE5273DBD9800124F63 /* SecurityPinCodeView.swift */; };
+		78F15FEC273DBD9800124F63 /* SecurityPinCodeConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15FE6273DBD9800124F63 /* SecurityPinCodeConfigurator.swift */; };
+		78F15FED273DBD9800124F63 /* SecurityPinCodeFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15FE7273DBD9800124F63 /* SecurityPinCodeFlow.swift */; };
 		78FA36752737419200B331DC /* SecurityPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA366F2737419200B331DC /* SecurityPresenter.swift */; };
 		78FA36762737419200B331DC /* SecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36702737419200B331DC /* SecurityViewController.swift */; };
 		78FA36772737419200B331DC /* SecurityProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36712737419200B331DC /* SecurityProtocols.swift */; };
@@ -758,6 +764,12 @@
 		78EFC5F727021E8700A9BBAA /* ProfileDetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailConfigurator.swift; sourceTree = "<group>"; };
 		78EFC5F827021E8700A9BBAA /* ProfileDetailFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailFlow.swift; sourceTree = "<group>"; };
 		78EFC5FF27027A3100A9BBAA /* ProfileStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStruct.swift; sourceTree = "<group>"; };
+		78F15FE2273DBD9800124F63 /* SecurityPinCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPinCodePresenter.swift; sourceTree = "<group>"; };
+		78F15FE3273DBD9800124F63 /* SecurityPinCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPinCodeViewController.swift; sourceTree = "<group>"; };
+		78F15FE4273DBD9800124F63 /* SecurityPinCodeProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPinCodeProtocols.swift; sourceTree = "<group>"; };
+		78F15FE5273DBD9800124F63 /* SecurityPinCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPinCodeView.swift; sourceTree = "<group>"; };
+		78F15FE6273DBD9800124F63 /* SecurityPinCodeConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPinCodeConfigurator.swift; sourceTree = "<group>"; };
+		78F15FE7273DBD9800124F63 /* SecurityPinCodeFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPinCodeFlow.swift; sourceTree = "<group>"; };
 		78FA366F2737419200B331DC /* SecurityPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPresenter.swift; sourceTree = "<group>"; };
 		78FA36702737419200B331DC /* SecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewController.swift; sourceTree = "<group>"; };
 		78FA36712737419200B331DC /* SecurityProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityProtocols.swift; sourceTree = "<group>"; };
@@ -2041,9 +2053,23 @@
 			path = ProfileDetail;
 			sourceTree = "<group>";
 		};
+		78F15FE1273DBD7A00124F63 /* SecurityPinCode */ = {
+			isa = PBXGroup;
+			children = (
+				78F15FE2273DBD9800124F63 /* SecurityPinCodePresenter.swift */,
+				78F15FE3273DBD9800124F63 /* SecurityPinCodeViewController.swift */,
+				78F15FE4273DBD9800124F63 /* SecurityPinCodeProtocols.swift */,
+				78F15FE5273DBD9800124F63 /* SecurityPinCodeView.swift */,
+				78F15FE6273DBD9800124F63 /* SecurityPinCodeConfigurator.swift */,
+				78F15FE7273DBD9800124F63 /* SecurityPinCodeFlow.swift */,
+			);
+			path = SecurityPinCode;
+			sourceTree = "<group>";
+		};
 		78FA366E2737417C00B331DC /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				78F15FE1273DBD7A00124F63 /* SecurityPinCode */,
 				78FA36C5273BD3DC00B331DC /* AdditionalSessionController */,
 				78FA36A4273BC1BF00B331DC /* Session */,
 				78FA368E2739FCBC00B331DC /* BlackList */,
@@ -2337,6 +2363,7 @@
 				78437F10270C76FE00371110 /* AboutAppView.swift in Sources */,
 				78FA36D0273BDABB00B331DC /* AdditionalSessionCell.swift in Sources */,
 				78BB7E0E26F36B1200F1D500 /* FriendProfileViewController.swift in Sources */,
+				78F15FE8273DBD9800124F63 /* SecurityPinCodePresenter.swift in Sources */,
 				5A430EC527196A08004A1D2E /* ProfileView.swift in Sources */,
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
 				5A430ED327196A17004A1D2E /* AdditionalMenuView.swift in Sources */,
@@ -2384,6 +2411,7 @@
 				5AF8635F26ADB691004A417C /* OnboardingPageView.swift in Sources */,
 				5A9318E226C5B15F00645365 /* ColorStyle.swift in Sources */,
 				5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */,
+				78F15FE9273DBD9800124F63 /* SecurityPinCodeViewController.swift in Sources */,
 				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				78AF82A72720CFEA003D918D /* PersonalizationViewController.swift in Sources */,
@@ -2511,7 +2539,9 @@
 				5A26CD3726B31C3600118D4B /* UICollectionViewCell+Extensions.swift in Sources */,
 				5A187DE226806F62001957D3 /* AppDependeciesService.swift in Sources */,
 				78437F0F270C76FE00371110 /* AboutAppProtocols.swift in Sources */,
+				78F15FEB273DBD9800124F63 /* SecurityPinCodeView.swift in Sources */,
 				78BB7E1226F36B1200F1D500 /* FriendProfileFlow.swift in Sources */,
+				78F15FEA273DBD9800124F63 /* SecurityPinCodeProtocols.swift in Sources */,
 				5A430ECF27196A17004A1D2E /* MenuListViewModel.swift in Sources */,
 				5A187EB6268070B3001957D3 /* UIColor+Extensions.swift in Sources */,
 				5A187F112680CF49001957D3 /* UserCredentialsStorage.swift in Sources */,
@@ -2562,6 +2592,7 @@
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
 				78FA36752737419200B331DC /* SecurityPresenter.swift in Sources */,
 				78437F1C270CE98800371110 /* PaywallViewController.swift in Sources */,
+				78F15FED273DBD9800124F63 /* SecurityPinCodeFlow.swift in Sources */,
 				5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */,
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
@@ -2617,6 +2648,7 @@
 				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
 				5A9318E026C5AD0500645365 /* BubbleShape.swift in Sources */,
+				78F15FEC273DBD9800124F63 /* SecurityPinCodeConfigurator.swift in Sources */,
 				7846B67726E8C0AE00B05984 /* CellWithImage.swift in Sources */,
 				5A9B472826EAB6EF001CC627 /* LastReactionItemView.swift in Sources */,
 				5AF8637226ADDDCE004A417C /* AppLaunchInstructor.swift in Sources */,

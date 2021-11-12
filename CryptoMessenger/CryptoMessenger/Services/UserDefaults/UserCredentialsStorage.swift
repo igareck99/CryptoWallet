@@ -8,6 +8,7 @@ protocol UserCredentialsStorage {
     var userId: String { get set }
     var userPhoneNumber: String { get set }
     var userPinCode: String { get set }
+    var userFalsePinCode: String { get set }
 }
 
 // MARK: - UserCredentialsStorageService
@@ -47,6 +48,11 @@ final class UserCredentialsStorageService {
     }
 
     var userPinCode: String {
+        get { storage.userPinCode }
+        set { storage.userPinCode = newValue }
+    }
+
+    var userFalsePinCode: String {
         get { storage.userPinCode }
         set { storage.userPinCode = newValue }
     }

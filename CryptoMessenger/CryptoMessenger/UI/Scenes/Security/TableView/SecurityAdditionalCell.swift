@@ -7,6 +7,8 @@ class SecurityAdditionalCell: UITableViewCell {
     // MARK: - Internal Properties
 
     var didSwitchTap: VoidBlock?
+    var didFalseTap: VoidBlock?
+    var didAuthTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -16,6 +18,7 @@ class SecurityAdditionalCell: UITableViewCell {
     private lazy var slider = UISwitch()
 
     @Injectable private var userFlows: UserFlowsStorageService
+    @Injectable private var userCredentials: UserCredentialsStorageService
 
     // MARK: - Lifecycle
 
@@ -34,7 +37,15 @@ class SecurityAdditionalCell: UITableViewCell {
     // MARK: - Internal Methods
 
     @objc private func pinCodeOn() {
-        didSwitchTap?()
+        if slider.isOn {
+            didFalseTap?()
+            didAuthTap?()
+        } else {
+            userFlows.isFalsePinCodeOn = false
+            userFlows.isPinCodeOn = false
+            userCredentials.userPinCode = ""
+            userCredentials.userFalsePinCode = ""
+        }
     }
 
     func configure(_ profile: SecurityItem) {

@@ -3,7 +3,7 @@ import Foundation
 // MARK: - SecuritySceneDelegate
 
 protocol SecuritySceneDelegate: AnyObject {
-    func handleButtonTap()
+    func handleNextScene(_ scene: AuthFlowCoordinator.Scene)
 }
 
 // MARK: - SecurityViewInterface
@@ -15,5 +15,9 @@ protocol SecurityViewInterface: AnyObject {
 // MARK: - SecurityPresentation
 
 protocol SecurityPresentation: AnyObject {
-    func handleButtonTap()
+    var localAuth: LocalAuthentication { get }
+    var isLocalAuthBackgroundAlertShown: Bool { get }
+
+    func handleButtonTap(_ isLocalAuth: Bool)
+    func checkLocalAuth()
 }
