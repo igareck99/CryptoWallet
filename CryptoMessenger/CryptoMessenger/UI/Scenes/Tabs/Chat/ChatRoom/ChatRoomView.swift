@@ -20,85 +20,95 @@ struct ChatRoomView: View {
     // MARK: - Body
 
     var body: some View {
-        content
-            .keyboardAdaptive()
-            .onAppear {
-                viewModel.send(.onAppear)
-            }
-            .sheet(isPresented: $viewModel.showPhotoLibrary) {
-                NavigationView {
-                    ImagePickerView(selectedImage: $viewModel.selectedImage)
-                    .ignoresSafeArea()
-                    .navigationBarTitle(Text("Фото"))
-                    .navigationBarTitleDisplayMode(.inline)
+            content
+                .keyboardAdaptive()
+                .onAppear {
+                    viewModel.send(.onAppear)
                 }
-            }
-            .background(Color(.custom(#colorLiteral(red: 0.6705882353, green: 0.7647058824, blue: 0.8352941176, alpha: 1))))
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    HStack(spacing: 0) {
-                        Button(action: {
-                            presentationMode.wrappedValue.dismiss()
-                        }, label: {
-                            R.image.navigation.backButton.image
-                        })
-
-                        Image(uiImage: viewModel.userMessage?.avatar ?? UIImage())
-                            .resizable()
+                .sheet(isPresented: $viewModel.showPhotoLibrary) {
+                    NavigationView {
+                        ImagePickerView(selectedImage: $viewModel.selectedImage)
+                            .ignoresSafeArea()
+                            .navigationBarTitle(Text("Фото"))
+                            .navigationBarTitleDisplayMode(.inline)
+                    }
+                }
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarBackButtonHidden(true)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        HStack(spacing: 0) {
+                            Button(action: {
+                                presentationMode.wrappedValue.dismiss()
+                            }, label: {
+                                R.image.navigation.backButton.image
+                            })
+                            AsyncImage(url: viewModel.room.roomAvatar) { phase in
+                                if let image = phase.image {
+                                    image.resizable()
+                                } else {
+                                    ZStack {
+                                        Color(.lightBlue())
+                                        Text(viewModel.room.summary.displayname?.firstLetter.uppercased() ?? "?")
+                                            .foreground(.white())
+                                            .font(.medium(20))
+                                    }
+                                }
+                            }
+                            .scaledToFill()
                             .frame(width: 36, height: 36)
                             .cornerRadius(18)
                             .padding(.trailing, 12)
 
-                        VStack(spacing: 0) {
-                            HStack(spacing: 0) {
-                                Text(viewModel.userMessage?.name ?? "")
-                                    .lineLimit(1)
-                                    .font(.semibold(15))
-                                    .foreground(.black())
-                                Spacer()
+                            VStack(spacing: 0) {
+                                HStack(spacing: 0) {
+                                    Text(viewModel.room.summary.displayname ?? "")
+                                        .lineLimit(1)
+                                        .font(.semibold(15))
+                                        .foreground(.black())
+                                    Spacer()
+                                }
+                                HStack(spacing: 0) {
+                                    Text(viewModel.room.isOnline ? "онлайн" : "оффлайн")
+                                        .lineLimit(1)
+                                        .font(.regular(13))
+                                        .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
+                                    Spacer()
+                                }
                             }
-                            HStack(spacing: 0) {
-                                Text(viewModel.userMessage?.status == .online ? "онлайн" : "оффлайн")
-                                    .lineLimit(1)
-                                    .font(.regular(13))
-                                    .foreground(viewModel.userMessage?.status == .online ? .blue() : .black(0.5))
-                                Spacer()
-                            }
+                            .frame(width: 160)
+
+                            Spacer()
                         }
-                        .frame(width: 160)
-
-                        Spacer()
+                        .padding(.leading, -12)
+                        .padding(.bottom, 8)
                     }
-                    .padding(.leading, -12)
-                    .padding(.bottom, 8)
-                }
 
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack(spacing: 0) {
-                        Spacer()
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        HStack(spacing: 0) {
+                            Spacer()
 
-                        Button(action: {
+                            Button(action: {
 
-                        }, label: {
-                            R.image.navigation.phoneButton.image
-                        })
+                            }, label: {
+                                R.image.navigation.phoneButton.image
+                            })
 
-                        Button(action: {
+                            Button(action: {
 
-                        }, label: {
-                            R.image.navigation.settingsButton.image
-                        })
+                            }, label: {
+                                R.image.navigation.settingsButton.image
+                            })
+                        }
+                        .padding(.bottom, 8)
                     }
-                    .padding(.bottom, 8)
                 }
-            }
-            .ignoresSafeArea()
     }
 
     private var content: some View {
         ZStack {
+            Color(.blueABC3D5()).ignoresSafeArea()
+
             VStack(spacing: 0) {
                 ScrollViewReader { scrollView in
                     ScrollView(.vertical, showsIndicators: false) {
@@ -122,11 +132,12 @@ struct ChatRoomView: View {
                                         viewModel.send(.onDeleteReaction(messageId: message.id, reactionId: reactionId))
                                     }
                                 )
-                                .onLongPressGesture(minimumDuration: 0.1, maximumDistance: 0) {
-                                    vibrate(.medium)
-                                    messageId = message.id
-                                    cardPosition = .middle
-                                }
+                                    .listRowSeparator(.hidden)
+                                    .onLongPressGesture(minimumDuration: 0.1, maximumDistance: 0) {
+                                        vibrate(.medium)
+                                        messageId = message.id
+                                        cardPosition = .middle
+                                    }
                             }
                             .onChange(of: viewModel.messages) { _ in
                                 guard let id = viewModel.messages.last?.id else { return }
@@ -190,19 +201,30 @@ struct ChatRoomView: View {
 
                 Spacer().frame(width: 16)
 
-                Image(uiImage: viewModel.userMessage?.avatar ?? UIImage())
-                    .resizable()
-                    .frame(width: 36, height: 36)
-                    .cornerRadius(18)
+                AsyncImage(url: viewModel.room.roomAvatar) { phase in
+                    if let image = phase.image {
+                        image.resizable()
+                    } else {
+                        ZStack {
+                            Color(.lightBlue())
+                            Text(viewModel.room.summary.displayname?.firstLetter.uppercased() ?? "?")
+                                .foreground(.white())
+                                .font(.medium(20))
+                        }
+                    }
+                }
+                .scaledToFill()
+                .frame(width: 36, height: 36)
+                .cornerRadius(18)
 
                 Spacer().frame(width: 12)
 
                 VStack(alignment: .leading) {
-                    Text(viewModel.userMessage?.name ?? "")
+                    Text(viewModel.room.summary.displayname ?? "")
                         .lineLimit(1)
                         .font(.semibold(15))
                         .foreground(.black())
-                    Text(viewModel.userMessage?.status == .online ? "онлайн" : "оффлайн")
+                    Text(viewModel.room.isOnline ? "онлайн" : "оффлайн")
                         .lineLimit(1)
                         .font(.regular(13))
                         .foreground(viewModel.userMessage?.status == .online ? .blue() : .black(0.5))
@@ -217,7 +239,7 @@ struct ChatRoomView: View {
                         .resizable()
                         .frame(width: 24, height: 24, alignment: .center)
                 })
-                .padding(.trailing, 12)
+                    .padding(.trailing, 12)
 
                 Button(action: {
 
@@ -287,7 +309,7 @@ struct ChatRoomView: View {
                         .resizable()
                         .frame(width: 24, height: 24)
                 })
-                .padding(.leading, 8)
+                    .padding(.leading, 8)
 
                 HStack {
                     ZStack {
@@ -297,8 +319,6 @@ struct ChatRoomView: View {
                             .colorMultiply(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
                             .keyboardType(.default)
                             .padding([.leading, .trailing], 16)
-                        //Text(viewModel.inputText).lineLimit(nil).opacity(0).padding(.all, 8)
-                        //.background(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
                     }
                     .background(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
                 }
@@ -316,7 +336,7 @@ struct ChatRoomView: View {
                             .frame(width: 24, height: 24)
                             .clipShape(Circle())
                     })
-                    .padding(.trailing, 8)
+                        .padding(.trailing, 8)
                 }
             }
             .padding(.top, 8)

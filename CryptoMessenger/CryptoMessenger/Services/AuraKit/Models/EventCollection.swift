@@ -52,7 +52,7 @@ public struct EventCollection {
 // MARK: Grouping
 
 extension EventCollection {
-    public static let groupeEventTypes = [
+    public static let groupEventTypes = [
         kMXEventTypeStringRoomMessage
     ]
 
@@ -70,10 +70,10 @@ extension EventCollection {
         // state is checked separately.
         let precedingMessageEvent = wrapped[..<idx]
             .reversed()
-            .first { Self.groupeEventTypes.contains($0.type) }
+            .first { Self.groupEventTypes.contains($0.type) }
 
         let succeedingMessageEvent = wrapped[wrapped.index(after: idx)...]
-            .first { Self.groupeEventTypes.contains($0.type) }
+            .first { Self.groupEventTypes.contains($0.type) }
 
         let isPrecedingRedacted = precedingMessageEvent?.isRedactedEvent() ?? false
         let isSucceedingRedacted = succeedingMessageEvent?.isRedactedEvent() ?? false

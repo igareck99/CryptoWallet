@@ -1,31 +1,47 @@
 import Combine
 import MatrixSDK
 
-public struct RoomItem: Codable, Hashable {
-    public static func == (lhs: RoomItem, rhs: RoomItem) -> Bool {
-        lhs.displayName == rhs.displayName && lhs.roomId == rhs.roomId
-    }
+// MARK: - RoomItem
 
-    public let roomId: String
-    public let displayName: String
-    public let messageDate: UInt64
+struct RoomItem: Codable, Hashable {
 
-    public init(room: MXRoom) {
+    // MARK: - Internal Properties
+
+    let roomId: String
+    let displayName: String
+    let messageDate: UInt64
+
+    // MARK: - Lifecycle
+
+    init(room: MXRoom) {
         self.roomId = room.summary.roomId
         self.displayName = room.summary.displayname ?? ""
         self.messageDate = room.summary.lastMessageOriginServerTs
     }
+
+    // MARK: - Static Methods
+
+    static func == (lhs: RoomItem, rhs: RoomItem) -> Bool {
+        lhs.displayName == rhs.displayName && lhs.roomId == rhs.roomId
+    }
 }
 
-public class AuraRoom: ObservableObject {
-    public var room: MXRoom
+// MARK: - AuraRoom
+
+final class AuraRoom: ObservableObject {
+
+    // MARK: - Internal Properties
+
+    var room: MXRoom
+    var isOnline = false
+    var roomAvatar: URL?
 
     @Published var summary: RoomSummary
     @Published var eventCache: [MXEvent] = []
 
-    public var isDirect: Bool { room.isDirect }
+    var isDirect: Bool { room.isDirect }
 
-    public var lastMessage: String {
+    var lastMessage: String {
         if summary.membership == .invite {
             let inviteEvent = eventCache.last {
                 $0.type == kMXEventTypeStringRoomMember && $0.stateKey == room.mxSession.myUserId
@@ -33,29 +49,39 @@ public class AuraRoom: ObservableObject {
             guard let sender = inviteEvent?.sender else { return "" }
             return "Invitation from: \(sender)"
         }
-
-        let lastMessageEvent = eventCache.last {
-            $0.type == kMXEventTypeStringRoomMessage
-        }
+        let lastMessageEvent = eventCache.last { $0.type == kMXEventTypeStringRoomMessage }
+        ?? room.summary.lastMessageEvent
         if lastMessageEvent?.isEdit() ?? false {
-            let newContent = lastMessageEvent?.content["m.new_content"]! as? NSDictionary
+            let newContent = lastMessageEvent?.content["m.new_content"] as? NSDictionary
             return newContent?["body"] as? String ?? ""
+        } else if let lastMessage = lastMessageEvent?.content["body"] as? String {
+            return lastMessage
+        } else if let event = room.outgoingMessages().last(where: { $0.type == kMXEventTypeStringRoomMessage }) {
+            return event.content["body"] as? String ?? ""
         } else {
-            return lastMessageEvent?.content["body"] as? String ?? ""
+            return ""
         }
     }
 
-    public init(_ room: MXRoom) {
+    // MARK: - Lifecycle
+
+    init(_ room: MXRoom) {
         self.room = room
         self.summary = RoomSummary(room.summary)
-        let enumerator = room.enumeratorForStoredMessages //WithType(in: Self.displayedMessageTypes)
+        if let avatar = room.summary.avatar {
+            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+            roomAvatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
+        }
+        let enumerator = room.enumeratorForStoredMessages // WithType(in: Self.displayedMessageTypes)
         let currentBatch = enumerator?.nextEventsBatch(200) ?? []
         print("Got \(currentBatch.count) events.")
 
         self.eventCache.append(contentsOf: currentBatch)
     }
 
-    public func add(event: MXEvent, direction: MXTimelineDirection, roomState: MXRoomState?) {
+    // MARK: - Internal Methods
+
+    func add(event: MXEvent, direction: MXTimelineDirection, roomState: MXRoomState?) {
         print("New event of type: \(event.type!)")
         switch direction {
         case .backwards:
@@ -65,13 +91,11 @@ public class AuraRoom: ObservableObject {
         }
     }
 
-    public func events() -> EventCollection {
+    func events() -> EventCollection {
         return EventCollection(eventCache + room.outgoingMessages())
     }
 
-    // MARK: Sending Events
-
-    public func send(text: String) {
+    func send(text: String) {
         guard !text.isEmpty else { return }
 
         objectWillChange.send()             // room.outgoingMessages() will change
@@ -81,7 +105,7 @@ public class AuraRoom: ObservableObject {
         }
     }
 
-    public func react(toEventId eventId: String, emoji: String) {
+    func react(toEventId eventId: String, emoji: String) {
         // swiftlint:disable:next force_try
         let content = try! ReactionEvent(eventId: eventId, key: emoji).encodeContent()
 
@@ -92,7 +116,7 @@ public class AuraRoom: ObservableObject {
         }
     }
 
-    public func edit(text: String, eventId: String) {
+    func edit(text: String, eventId: String) {
         guard !text.isEmpty else { return }
 
         var localEcho: MXEvent?
@@ -102,11 +126,11 @@ public class AuraRoom: ObservableObject {
         room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
     }
 
-    public func redact(eventId: String, reason: String?) {
+    func redact(eventId: String, reason: String?) {
         room.redactEvent(eventId, reason: reason) { _ in }
     }
 
-    public func sendImage(image: UIImage) {
+    func sendImage(image: UIImage) {
         guard let imageData = image.jpeg(.lowest) else { return }
 
         var localEcho: MXEvent?
@@ -122,28 +146,40 @@ public class AuraRoom: ObservableObject {
         }
     }
 
-    public func markAllAsRead() {
+    func markAllAsRead() {
         room.markAllAsRead()
     }
 
-    public func removeOutgoingMessage(_ event: MXEvent) {
+    func removeOutgoingMessage(_ event: MXEvent) {
         objectWillChange.send()             // room.outgoingMessages() will change
         room.removeOutgoingMessage(event.eventId)
     }
 }
 
+// MARK: - AuraRoom (Identifiable)
+
 extension AuraRoom: Identifiable {
-    public var id: ObjectIdentifier { room.id }
+    var id: ObjectIdentifier { room.id }
 }
 
+// MARK: - UIImage ()
+
 extension UIImage {
+
+    // MARK: - JPEGQuality
+
     enum JPEGQuality: CGFloat {
-        case lowest  = 0
-        case low     = 0.25
-        case medium  = 0.5
-        case high    = 0.75
+
+        // MARK: - Types
+
+        case lowest = 0
+        case low = 0.25
+        case medium = 0.5
+        case high = 0.75
         case highest = 1
     }
+
+    // MARK: - Internal Methods
 
     func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
         jpegData(compressionQuality: jpegQuality.rawValue)

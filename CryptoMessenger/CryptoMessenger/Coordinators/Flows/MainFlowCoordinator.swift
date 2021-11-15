@@ -15,7 +15,7 @@ protocol MainFlowSceneDelegate: AnyObject {
 
 // MARK: - MainFlowCoordinator
 
-public final class MainFlowCoordinator: Coordinator {
+final class MainFlowCoordinator: Coordinator {
 
     // MARK: - Internal Properties
 
@@ -33,9 +33,6 @@ public final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        showChatHistoryScene()
-        return
-        
         let tabs = [
             buildChatTab(),
             buildWalletTab(),
@@ -48,16 +45,11 @@ public final class MainFlowCoordinator: Coordinator {
         setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
     }
 
-    private func showChatHistoryScene() {
-        let rootView = ChatHistoryConfigurator.configuredView(delegate: nil)
-        let viewController = BaseHostingController(rootView: rootView)
-        setViewWith(viewController)
-    }
-
     // MARK: - Private Methods
 
     private func buildChatTab() -> UIViewController {
-        let viewController = ChatConfigurator.configuredViewController(delegate: nil)
+        let rootView = ChatHistoryConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.chat.item
         return navigation
@@ -134,5 +126,15 @@ public final class MainFlowCoordinator: Coordinator {
 extension MainFlowCoordinator: MainFlowSceneDelegate {
     func switchFlow() {
         delegate?.userPerformedLogout(coordinator: self)
+    }
+}
+
+// MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
+
+extension MainFlowCoordinator: ChatHistorySceneDelegate {
+    func handleRoomTap(_ room: AuraRoom) {
+        let rootView = ChatRoomConfigurator.configuredView(room: room, delegate: nil)
+        let viewController = BaseHostingController(rootView: rootView)
+        navigationController.pushViewController(viewController, animated: true)
     }
 }

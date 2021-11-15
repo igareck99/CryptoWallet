@@ -3,23 +3,35 @@ import Foundation
 import KeychainAccess
 import MatrixSDK
 
+// MARK: - MatrixState
+
 enum MatrixState {
+
+    // MARK: - Types
+
     case loggedOut
     case authenticating
     case failure(Error)
     case loggedIn(userId: String)
 }
 
+// MARK: - MatrixStore
+
 final class MatrixStore: ObservableObject {
+
+    // MARK: - Internal Properties
+
+    @Published var loginState: MatrixState = .loggedOut
+
+    // MARK: - Private Properties
 
     private var client: MXRestClient?
     private var session: MXSession?
     private var fileStore: MXFileStore?
     private var credentials: MXCredentials?
-    private let keychain = Keychain(
-        service: "chat.aura.credentials",
-        accessGroup: ((Bundle.main.infoDictionary?["DevelopmentTeam"] as? String) ?? "") + ".aura.keychain"
-    )
+    private let keychain = Keychain(service: "chat.aura.credentials")
+
+    // MARK: - Lifecycle
 
     init() {
         if CommandLine.arguments.contains("-clear-stored-credentials") {
@@ -42,6 +54,7 @@ final class MatrixStore: ObservableObject {
                 case let .success(state):
                     self.loginState = state
                     self.session?.crypto.warnOnUnknowDevices = false
+                    self.startListeningForRoomEvents()
                 }
             }
         }
@@ -52,8 +65,6 @@ final class MatrixStore: ObservableObject {
     }
 
     // MARK: - Login & Sync
-
-    @Published var loginState: MatrixState = .loggedOut
 
     func login(username: String, password: String, homeServer: URL) {
         loginState = .authenticating
@@ -75,6 +86,7 @@ final class MatrixStore: ObservableObject {
                     case .success(let state):
                         self.loginState = state
                         self.session?.crypto.warnOnUnknowDevices = false
+                        self.startListeningForRoomEvents()
                     }
                 }
             }
@@ -148,10 +160,19 @@ final class MatrixStore: ObservableObject {
         }
     }
 
+    func currentlyActive(_ userId: String) -> Bool {
+        session?.user(withUserId: userId).currentlyActive ?? false
+    }
+
+    func fromCurrentSender(_ userId: String) -> Bool {
+        credentials?.userId == userId
+    }
+
     private var roomCache: [ObjectIdentifier: AuraRoom] = [:]
 
     private func makeRoom(from mxRoom: MXRoom) -> AuraRoom {
         let room = AuraRoom(mxRoom)
+        room.isOnline = currentlyActive(mxRoom.directUserId)
         roomCache[mxRoom.id] = room
         return room
     }

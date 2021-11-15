@@ -119,6 +119,8 @@
 		5A3721DC272F3A210097ABED /* DynamicHeightTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721DB272F3A210097ABED /* DynamicHeightTextField.swift */; };
 		5A3721DE272F418F0097ABED /* SelectContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721DD272F418F0097ABED /* SelectContactView.swift */; };
 		5A3721E0272F47EA0097ABED /* EmptyNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721DF272F47EA0097ABED /* EmptyNavigationLink.swift */; };
+		5A39282F27419A7300378ACA /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A39282E27419A7300378ACA /* Date+Extensions.swift */; };
+		5A3928322741A9EA00378ACA /* MXURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3928312741A9EA00378ACA /* MXURL.swift */; };
 		5A4267FE26A83494000C51DD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FD26A83494000C51DD /* R.generated.swift */; };
 		5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */; };
 		5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680026A83554000C51DD /* RegistrationViewController.swift */; };
@@ -211,6 +213,7 @@
 		5AABB78727398A6E004D6107 /* NavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AABB78627398A6E004D6107 /* NavigationBarModifier.swift */; };
 		5AB30F152706564300838AFC /* PinCodeFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB30F142706564300838AFC /* PinCodeFlowCoordinator.swift */; };
 		5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */; };
+		5AB35FAF2740EEBB001FB0DE /* ChatHistoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB35FAE2740EEBB001FB0DE /* ChatHistoryRow.swift */; };
 		5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FA26DCEA49009A1944 /* Resources.swift */; };
 		5AEB80FD26DD123E009A1944 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */; };
 		5AEB80FF26DE138F009A1944 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */; };
@@ -485,6 +488,8 @@
 		5A3721DB272F3A210097ABED /* DynamicHeightTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicHeightTextField.swift; sourceTree = "<group>"; };
 		5A3721DD272F418F0097ABED /* SelectContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactView.swift; sourceTree = "<group>"; };
 		5A3721DF272F47EA0097ABED /* EmptyNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNavigationLink.swift; sourceTree = "<group>"; };
+		5A39282E27419A7300378ACA /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
+		5A3928312741A9EA00378ACA /* MXURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MXURL.swift; sourceTree = "<group>"; };
 		5A4267FD26A83494000C51DD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = R.generated.swift; path = Generated/R.generated.swift; sourceTree = SOURCE_ROOT; };
 		5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPresenter.swift; sourceTree = "<group>"; };
 		5A42680026A83554000C51DD /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -578,6 +583,7 @@
 		5AABB78627398A6E004D6107 /* NavigationBarModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationBarModifier.swift; path = CryptoMessenger/CustomComponents/SwiftUI/NavigationBarModifier.swift; sourceTree = SOURCE_ROOT; };
 		5AB30F142706564300838AFC /* PinCodeFlowCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeFlowCoordinator.swift; sourceTree = "<group>"; };
 		5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
+		5AB35FAE2740EEBB001FB0DE /* ChatHistoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryRow.swift; sourceTree = "<group>"; };
 		5AEB80FA26DCEA49009A1944 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
@@ -993,6 +999,7 @@
 				5A187EB4268070B3001957D3 /* CGSize+Transform.swift */,
 				5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */,
 				5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */,
+				5A39282E27419A7300378ACA /* Date+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1253,7 +1260,7 @@
 		5A26CD5126B3598C00118D4B /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				5A9318CE26C5AAB500645365 /* History */,
+				5A9318CE26C5AAB500645365 /* RecentRooms */,
 				5A9318CF26C5AAD400645365 /* ChatRoom */,
 				5A3721D1272EF0120097ABED /* ChatCreate */,
 			);
@@ -1301,6 +1308,14 @@
 				5A3721D6272F2A4D0097ABED /* ChatGroupView.swift */,
 			);
 			path = ChatCreate;
+			sourceTree = "<group>";
+		};
+		5A3928302741A9DE00378ACA /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				5A3928312741A9EA00378ACA /* MXURL.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		5A4267FC26A8336E000C51DD /* Generated */ = {
@@ -1368,6 +1383,7 @@
 			children = (
 				5A4BE501271DD86A00D03D09 /* Configuration */,
 				5A4BE513271DD86A00D03D09 /* Session */,
+				5A3928302741A9DE00378ACA /* Helpers */,
 				5A4BE503271DD86A00D03D09 /* Models */,
 				5A4BE50C271DD86A00D03D09 /* Extensions */,
 			);
@@ -1465,7 +1481,7 @@
 			path = PinCode;
 			sourceTree = "<group>";
 		};
-		5A9318CE26C5AAB500645365 /* History */ = {
+		5A9318CE26C5AAB500645365 /* RecentRooms */ = {
 			isa = PBXGroup;
 			children = (
 				5A26CD5F26B35C9100118D4B /* TableView */,
@@ -1479,9 +1495,10 @@
 				5AABB77E2739821C004D6107 /* ChatHistoryProtocols.swift */,
 				5AABB77A2739816C004D6107 /* ChatHistoryView.swift */,
 				5AABB77F2739821C004D6107 /* ChatHistoryViewModel.swift */,
+				5AB35FAE2740EEBB001FB0DE /* ChatHistoryRow.swift */,
 				5AABB7812739821C004D6107 /* ChatHistoryFlow.swift */,
 			);
-			path = History;
+			path = RecentRooms;
 			sourceTree = "<group>";
 		};
 		5A9318CF26C5AAD400645365 /* ChatRoom */ = {
@@ -2177,6 +2194,7 @@
 				5A4BE4F9271DC32500D03D09 /* AuthResponse.swift in Sources */,
 				787AC7BB2722E33E000AA434 /* TypographyConfigurator.swift in Sources */,
 				5A187EBB268070B3001957D3 /* NSMutableData+Extensions.swift in Sources */,
+				5AB35FAF2740EEBB001FB0DE /* ChatHistoryRow.swift in Sources */,
 				78437F10270C76FE00371110 /* AboutAppView.swift in Sources */,
 				78BB7E0E26F36B1200F1D500 /* FriendProfileViewController.swift in Sources */,
 				5A430EC527196A08004A1D2E /* ProfileView.swift in Sources */,
@@ -2276,6 +2294,7 @@
 				5A430ED227196A17004A1D2E /* AdditionalMenuViewController.swift in Sources */,
 				787AC7BA2722E33E000AA434 /* TypographyView.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
+				5A3928322741A9EA00378ACA /* MXURL.swift in Sources */,
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
@@ -2437,6 +2456,7 @@
 				787AC7BC2722E33E000AA434 /* TypographyFlow.swift in Sources */,
 				78AF82A62720CFEA003D918D /* PersonalizationPresenter.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
+				5A39282F27419A7300378ACA /* Date+Extensions.swift in Sources */,
 				78EFC5FC27021E8700A9BBAA /* ProfileDetailView.swift in Sources */,
 				78AF82AB2720CFEA003D918D /* PersonalizationFlow.swift in Sources */,
 				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,

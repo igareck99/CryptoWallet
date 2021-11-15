@@ -1,3 +1,4 @@
+import MatrixSDK
 import SwiftUI
 
 // MARK: - ChatRoomRow
@@ -7,6 +8,7 @@ struct ChatRoomRow: View {
     // MARK: - Private Properties
 
     private let message: RoomMessage
+    private let isFromCurrentUser: Bool
     private let isPreviousFromCurrentUser: Bool
     private var onReaction: StringBlock?
     @State private var showMap = false
@@ -16,6 +18,7 @@ struct ChatRoomRow: View {
 
     init(message: RoomMessage, isPreviousFromCurrentUser: Bool, onReaction: StringBlock?) {
         self.message = message
+        self.isFromCurrentUser = message.isCurrentUser
         self.isPreviousFromCurrentUser = isPreviousFromCurrentUser
         self.onReaction = onReaction
     }
@@ -25,15 +28,15 @@ struct ChatRoomRow: View {
     var body: some View {
         ZStack {
             HStack {
-                if message.isCurrentUser {
+                if isFromCurrentUser {
                     Spacer()
                 }
 
-                BubbleView(direction: message.isCurrentUser ? .right : .left) {
+                BubbleView(direction: isFromCurrentUser ? .right : .left) {
                     HStack {
                         switch message.type {
                         case let .text(text):
-                            textRow(text)
+                            textRow(message, text: text)
                         case let .location(location):
                             mapRow(location)
                                 .sheet(isPresented: $showMap) {
@@ -64,23 +67,23 @@ struct ChatRoomRow: View {
                 .padding(
                     .top,
                     calculateTopPadding(
-                        isCurrentUser: message.isCurrentUser,
+                        isCurrentUser: isFromCurrentUser,
                         isPreviousFromCurrentUser: isPreviousFromCurrentUser
                     )
                 )
-                .padding(message.isCurrentUser ? .leading : .trailing, 8)
+                .padding(isFromCurrentUser ? .leading : .trailing, 8)
 
-                if !message.isCurrentUser {
+                if !isFromCurrentUser {
                     Spacer()
                 }
             }
 
-            if !message.reactions.isEmpty {
-                reactions()
-                    .padding(.bottom, -18)
-                    .opacity(isAnimating ? 1 : 0)
-                    .animation(.easeInOut)
-            }
+//            if !message.reactions.isEmpty {
+//                reactions()
+//                    .padding(.bottom, -18)
+//                    .opacity(isAnimating ? 1 : 0)
+//                    .animation(.easeInOut)
+//            }
         }
         .onTapGesture {}
         .onAppear {
@@ -93,13 +96,13 @@ struct ChatRoomRow: View {
 
     // MARK: - Private Methods
 
-    private func textRow(_ text: String) -> some View {
+    private func textRow(_ message: RoomMessage, text: String) -> some View {
         HStack {
             Text(text)
                 .lineLimit(nil)
                 .font(.regular(15))
                 .foreground(.black())
-                .padding(.leading, message.isCurrentUser ? 22 : 16)
+                .padding(.leading, true ? 22 : 16)
                 .padding([.top, .bottom], 12)
 
             VStack(alignment: .center) {
@@ -110,9 +113,9 @@ struct ChatRoomRow: View {
                         .frame(width: 40, height: 10)
                         .font(.light(12))
                         .foreground(.black(0.5))
-                        .padding(.trailing, !message.isCurrentUser ? 16 : 0)
+                        .padding(.trailing, !isFromCurrentUser ? 16 : 0)
 
-                    if message.isCurrentUser {
+                    if isFromCurrentUser {
                         Image(R.image.chat.readCheck.name)
                             .resizable()
                             .frame(width: 13.5, height: 10, alignment: .center)
@@ -196,17 +199,17 @@ struct ChatRoomRow: View {
         .frame(width: 244, height: 138)
     }
 
-    private func reactions() -> some View {
+    private func reactions(_ items: [Reaction]) -> some View {
         ZStack {
             VStack {
                 Spacer()
 
                 HStack(spacing: 4) {
-                    if message.isCurrentUser {
+                    if isFromCurrentUser {
                         Spacer()
                     }
 
-                    ForEach(message.reactions) { reaction in
+                    ForEach(items) { reaction in
                         ReactionGroupView(
                             text: reaction.emoji,
                             count: 1,
@@ -216,12 +219,12 @@ struct ChatRoomRow: View {
                         }
                     }
 
-                    if !message.isCurrentUser {
+                    if !isFromCurrentUser {
                         Spacer()
                     }
                 }
                 .frame(height: 24)
-                .padding(message.isCurrentUser ? .trailing : .leading, 32)
+                .padding(isFromCurrentUser ? .trailing : .leading, 32)
             }
         }
     }
@@ -232,18 +235,18 @@ struct ChatRoomRow: View {
                 Spacer()
 
                 HStack {
-                    if message.isCurrentUser {
+                    if isFromCurrentUser {
                         Spacer()
                     }
 
                     HStack(spacing: 6) {
-                        Text(message.date)
+                        Text(Date().hoursAndMinutes)
                             .frame(width: 40, height: 10)
                             .font(.light(12))
                             .foreground(.black(0.5))
-                            .padding(.trailing, !message.isCurrentUser ? 16 : 0)
+                            .padding(.trailing, !isFromCurrentUser ? 16 : 0)
 
-                        if message.isCurrentUser {
+                        if isFromCurrentUser {
                             Image(R.image.chat.readCheck.name)
                                 .resizable()
                                 .frame(width: 13.5, height: 10, alignment: .center)
@@ -251,7 +254,7 @@ struct ChatRoomRow: View {
                         }
                     }
 
-                    if !message.isCurrentUser {
+                    if !isFromCurrentUser {
                         Spacer()
                     }
                 }
@@ -266,7 +269,7 @@ struct ChatRoomRow: View {
                 Spacer()
 
                 HStack {
-                    if message.isCurrentUser {
+                    if isFromCurrentUser {
                         Spacer()
                     }
 
@@ -281,12 +284,12 @@ struct ChatRoomRow: View {
                     .background(.black(0.4))
                     .cornerRadius(8)
 
-                    if !message.isCurrentUser {
+                    if !isFromCurrentUser {
                         Spacer()
                     }
                 }
                 .padding(.bottom, 8)
-                .padding(message.isCurrentUser ? .trailing : .leading, 10)
+                .padding(isFromCurrentUser ? .trailing : .leading, 10)
             }
         }
     }

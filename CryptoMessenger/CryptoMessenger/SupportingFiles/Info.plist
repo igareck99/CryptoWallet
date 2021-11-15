@@ -10,6 +10,8 @@
 	<string>dev</string>
 	<key>AppGroup</key>
 	<string>ms.aura.app-ios</string>
+	<key>MATRIX URL</key>
+	<string>https://matrix.aura.ms</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -30,8 +32,6 @@
 	<string>Z123456789</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>MATRIX URL</key>
-	<string>https://matrix.aura.ms</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

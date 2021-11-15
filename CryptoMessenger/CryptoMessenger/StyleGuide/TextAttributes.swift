@@ -1,3 +1,4 @@
+import SwiftUI
 import UIKit
 
 // MARK: - TextAttributes
@@ -69,5 +70,29 @@ extension NSAttributedString {
                         dictionary[item.nsKey] = item.nsValue
                     }
         )
+    }
+}
+
+// MARK: - Text ()
+
+extension Text {
+
+    // MARK: - Lifecycle
+
+    init(_ string: String, configure: ((inout AttributedString) -> Void)) {
+        var attributedString = AttributedString(string)
+        configure(&attributedString)
+        self.init(attributedString)
+    }
+
+    init(_ string: String, _ attributes: [TextAttributes]) {
+        var attributedString = AttributedString(string)
+        let attributeContainer = AttributeContainer(
+            attributes.reduce(into: [NSAttributedString.Key: Any]()) { dictionary, item in
+                dictionary[item.nsKey] = item.nsValue
+            }
+        )
+        attributedString.setAttributes(attributeContainer)
+        self.init(attributedString)
     }
 }

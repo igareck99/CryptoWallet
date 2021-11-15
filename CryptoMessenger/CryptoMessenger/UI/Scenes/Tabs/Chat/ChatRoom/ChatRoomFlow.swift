@@ -4,15 +4,24 @@ import Foundation
 
 enum ChatRoomFlow {
 
-    // MARK: - Types
+    // MARK: - ViewState
 
     enum ViewState {
+
+        // MARK: - Types
+
         case idle
         case loading
         case error(message: String)
     }
 
+
+    // MARK: - Event
+
     enum Event {
+        
+        // MARK: - Types
+
         case onAppear
         case onSend(MessageType)
         case onAddReaction(messageId: String, reactionId: String)

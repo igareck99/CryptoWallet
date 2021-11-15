@@ -17,6 +17,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private(set) var emojiStorage: [ReactionStorage] = []
     @Published private(set) var state: ChatRoomFlow.ViewState = .idle
     @Published private(set) var userMessage: Message?
+    @Published private(set) var room: AuraRoom
     @Published var showPhotoLibrary = false
     @Published var selectedImage: UIImage?
     @Published private var lastLocation: Location?
@@ -33,47 +34,14 @@ final class ChatRoomViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(userMessage: Message, showHistory: Bool = true) {
+    init(room: AuraRoom) {
+        self.room = room
+        messages = room.events().renderableEvents.map { $0.message(fromCurrentSender($0.sender))
+        }.compactMap { $0 }
+
+
         bindInput()
         bindOutput()
-
-        sortedMessages[1].reactions = [
-            .init(
-                id: mockEmojiStorage[5].id,
-                sender: "",
-                timestamp: Date(),
-                emoji: "🚀"
-            )
-        ]
-
-        sortedMessages[sortedMessages.count - 3].reactions = [
-            .init(
-                id: mockEmojiStorage[0].id,
-                sender: "",
-                timestamp: Date(),
-                emoji: "👍"
-            ),
-            .init(
-                id: mockEmojiStorage[2].id,
-                sender: "",
-                timestamp: Date(),
-                emoji: "😄"
-            )
-        ]
-
-        sortedMessages[sortedMessages.count - 2].reactions = [
-            .init(
-                id: mockEmojiStorage[4].id,
-                sender: "",
-                timestamp: Date(),
-                emoji: "❤️"
-            )
-        ]
-
-        self.userMessage = userMessage
-        if showHistory {
-            self.messages = sortedMessages
-        }
 
         keyboardObserver.keyboardWillShowHandler = { [weak self] notification in
             guard
@@ -87,12 +55,6 @@ final class ChatRoomViewModel: ObservableObject {
         keyboardObserver.keyboardWillHideHandler = { [weak self] _ in
             self?.keyboardHeight = 0
         }
-
-        if !mockEmojiStorage.contains(where: { $0.isLastButton }) {
-            mockEmojiStorage.append(.init(id: UUID().uuidString, emoji: "", isLastButton: true))
-        }
-
-        emojiStorage = mockEmojiStorage
     }
 
     deinit {
@@ -114,6 +76,10 @@ final class ChatRoomViewModel: ObservableObject {
         messages.previous(item: item)
     }
 
+    func fromCurrentSender(_ userId: String) -> Bool {
+        mxStore.fromCurrentSender(userId)
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -122,13 +88,16 @@ final class ChatRoomViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     _ = self?.mxStore.rooms
+                    self?.room.markAllAsRead()
+                    self?.mxStore.objectWillChange.send()
                 case .onNextScene:
                     print("Next scene")
                 case let .onSend(type):
                     guard case let .text(text) = type else { return }
                     self?.inputText = ""
-                    self?.messages.append(.init(type: type, date: "00:33", isCurrentUser: true))
-                    self?.mxStore.rooms.first?.send(text: text)
+                    self?.messages.append(.init(id: UUID().uuidString, type: type, date: Date().hoursAndMinutes, isCurrentUser: true))
+                    self?.room.send(text: text)
+                    self?.mxStore.objectWillChange.send()
                 case .onAddReaction(let messageId, let reactionId):
                         guard
                             let index = self?.messages.firstIndex(where: { $0.id == messageId }),
@@ -156,6 +125,7 @@ final class ChatRoomViewModel: ObservableObject {
                 case .location:
                     if let location = self?.locationManager.getUserLocation() {
                         let message = RoomMessage(
+                            id: UUID().uuidString,
                             type: .location(location),
                             date: "00:31",
                             isCurrentUser: true
@@ -172,6 +142,7 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.showPhotoLibrary.toggle()
                 case .contact:
                     let message = RoomMessage(
+                        id: UUID().uuidString,
                         type: .contact,
                         date: "00:32",
                         isCurrentUser: true
@@ -194,7 +165,14 @@ final class ChatRoomViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
                 guard let image = image else { return }
-                self?.messages.append(.init(type: .image(image), date: "00:33", isCurrentUser: true))
+                self?.messages.append(
+                    .init(
+                        id: UUID().uuidString,
+                        type: .image(image),
+                        date: "00:33",
+                        isCurrentUser: true
+                    )
+                )
             }
             .store(in: &subscriptions)
 
@@ -210,54 +188,6 @@ final class ChatRoomViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 }
-
-private var sortedMessages: [RoomMessage] = [
-    .init(
-        type: .text("Привет, трудяга!:)"),
-        date: "00:30",
-        isCurrentUser: false
-    ),
-    .init(
-        type: .text("Хей, коллега👋🏼"),
-        date: "00:31",
-        isCurrentUser: true
-    ),
-    .init(
-        type: .text("Ты опять по ночам не спишь? Пилишь проект AURA?)"),
-        date: "00:31",
-        isCurrentUser: false
-    ),
-    .init(
-        type: .text("Ну, да! Классный проект!☺️"),
-        date: "00:31",
-        isCurrentUser: true
-    ),
-    .init(
-        type: .text("Okе, но ты там долго не сиди. Завтра демо:)"),
-        date: "00:32",
-        isCurrentUser: false
-    ),
-    .init(
-        type: .text("Кстати, я фанат Басты!)"),
-        date: "00:32",
-        isCurrentUser: false
-    ),
-    .init(
-        type: .image(R.image.chat.mockFeed3()!),
-        date: "00:32",
-        isCurrentUser: false
-    ),
-    .init(
-        type: .text("Сочувствую!)"),
-        date: "00:32",
-        isCurrentUser: true
-    ),
-    .init(
-        type: .contact,
-        date: "00:32",
-        isCurrentUser: true
-    )
-]
 
 private var mockEmojiStorage: [ReactionStorage] = ["👍", "👎", "😄", "🎉", "❤️", "🚀", "👀"]
     .map { .init(id: UUID().uuidString, emoji: $0) }

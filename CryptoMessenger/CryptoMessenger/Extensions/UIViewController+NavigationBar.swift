@@ -140,6 +140,9 @@ extension UINavigationBar {
         standardAppearance = coloredAppearance
         compactAppearance = coloredAppearance
         scrollEdgeAppearance = coloredAppearance
+        compactScrollEdgeAppearance = coloredAppearance
+
+        prefersLargeTitles = false
 
         isTranslucent = true
         self.tintColor = tintColor.uiColor

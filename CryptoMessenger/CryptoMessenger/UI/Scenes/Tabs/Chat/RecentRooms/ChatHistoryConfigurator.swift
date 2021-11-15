@@ -9,7 +9,8 @@ enum ChatHistoryConfigurator {
     static func configuredView(delegate: ChatHistorySceneDelegate?) -> ChatHistoryView {
         let viewModel = ChatHistoryViewModel()
         viewModel.delegate = delegate
-        let view = ChatHistoryView(viewModel: viewModel)
+        var view = ChatHistoryView(viewModel: viewModel)
+        view.onRoomTap = { delegate?.handleRoomTap($0) }
         return view
     }
 }

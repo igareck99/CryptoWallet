@@ -9,6 +9,7 @@ final class ChatHistoryViewModel: ObservableObject {
 
     weak var delegate: ChatHistorySceneDelegate?
 
+    @Published private(set) var rooms: [AuraRoom] = []
     @Published private(set) var state: ChatHistoryFlow.ViewState = .idle
 
     // MARK: - Private Properties
@@ -16,10 +17,12 @@ final class ChatHistoryViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<ChatHistoryFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ChatHistoryFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
+    @Injectable private var mxStore: MatrixStore
 
     // MARK: - Lifecycle
 
     init() {
+        rooms = mxStore.rooms
         bindInput()
         bindOutput()
     }
@@ -39,7 +42,7 @@ final class ChatHistoryViewModel: ObservableObject {
 
     private func bindInput() {
         eventSubject
-            .debounce(for: 0.2, scheduler: DispatchQueue.main)
+            .debounce(for: 0.05, scheduler: DispatchQueue.main)
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
@@ -47,6 +50,13 @@ final class ChatHistoryViewModel: ObservableObject {
                 case .onNextScene:
                     print("Next scene")
                 }
+            }
+            .store(in: &subscriptions)
+
+        mxStore.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.rooms = self?.mxStore.rooms ?? []
             }
             .store(in: &subscriptions)
     }
