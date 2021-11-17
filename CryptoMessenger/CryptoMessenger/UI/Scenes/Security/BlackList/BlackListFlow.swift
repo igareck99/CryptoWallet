@@ -4,7 +4,7 @@ import Foundation
 
 enum BlackListFlow {
 
-    // MARK: - Types
+    // MARK: - ViewState
 
     enum ViewState {
         case sending

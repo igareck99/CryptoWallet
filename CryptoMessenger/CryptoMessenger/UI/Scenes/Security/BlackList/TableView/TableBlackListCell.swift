@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - UsersBlackCell
 
-class TableBlackListCell: UITableViewCell {
+final class TableBlackListCell: UITableViewCell {
 
     // MARK: - Private Properties
 

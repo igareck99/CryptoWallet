@@ -8,6 +8,8 @@ final class BlackListPresenter {
 
     weak var delegate: BlackListSceneDelegate?
     weak var view: BlackListViewInterface?
+    
+    // MARK: - Private Properties
 
     private var state = BlackListFlow.ViewState.sending {
         didSet {

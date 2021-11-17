@@ -5,7 +5,7 @@ import Foundation
 enum SecurityPinCodeConfigurator {
     static func configuredViewController(delegate: SecurityPinCodeSceneDelegate?) -> SecurityPinCodeViewController {
 
-        // MARK: - Internal Methods
+        // MARK: - Static Methods
 
         let viewController = SecurityPinCodeViewController()
         let presenter = SecurityPinCodePresenter(view: viewController)

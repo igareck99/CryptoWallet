@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - AdditionalSessionCell
 
-class AdditionalSessionCell: UITableViewCell {
+final class AdditionalSessionCell: UITableViewCell {
 
     // MARK: - Private Properties
 

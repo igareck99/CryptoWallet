@@ -4,7 +4,7 @@ import Foundation
 
 enum SecurityPinCodeFlow {
 
-    // MARK: - Types
+    // MARK: - ViewState
 
     enum ViewState {
         case sending

@@ -46,10 +46,10 @@ final class BlackListViewController: BaseViewController {
                                       handler: { _ in        } ))
         alert.addAction(UIAlertAction(title: R.string.localizable.pinCodeAlertYes(),
                                       style: UIAlertAction.Style.default,
-                                      handler: {(_: UIAlertAction!) in
+                                      handler: { _ in
                                         self.customView.unblockUser(index: selectedCellToBlock)
                                       }))
-        self.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true)
     }
 
     private func subscribeOnCustomViewActions() {
