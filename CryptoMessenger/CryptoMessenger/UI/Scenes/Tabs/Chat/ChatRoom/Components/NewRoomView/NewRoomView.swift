@@ -18,7 +18,7 @@ private struct NewConversationView: View {
     let store: MatrixStore?
     @Binding var createdRoomId: ObjectIdentifier?
 
-    @State private var users = ["@maxi:matrix.aura.ms"]
+    @State private var users = [""]
     @State private var editMode = EditMode.inactive
     @State private var roomName = ""
     @State private var isPublic = false
