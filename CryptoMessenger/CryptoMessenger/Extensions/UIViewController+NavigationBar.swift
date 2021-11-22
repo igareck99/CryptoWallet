@@ -15,7 +15,7 @@ extension UIViewController {
     }
 
     func setupDefaultNavigationBar() {
-        navigationController?.navigationBar.setTranslucent(tintColor: .white(), titleColor: .black())
+        navigationController?.navigationBar.setTranslucent(tintColor: .black(), titleColor: .black())
         setupBackButton()
     }
 

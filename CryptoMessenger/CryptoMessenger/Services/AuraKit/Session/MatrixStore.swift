@@ -172,7 +172,9 @@ final class MatrixStore: ObservableObject {
 
     private func makeRoom(from mxRoom: MXRoom) -> AuraRoom {
         let room = AuraRoom(mxRoom)
-        room.isOnline = currentlyActive(mxRoom.directUserId)
+        if mxRoom.isDirect {
+            room.isOnline = currentlyActive(mxRoom.directUserId)
+        }
         roomCache[mxRoom.id] = room
         return room
     }
@@ -181,7 +183,7 @@ final class MatrixStore: ObservableObject {
         guard let session = session else { return [] }
 
         let rooms = session.rooms
-            .map { roomCache[$0.id] ?? makeRoom(from: $0) }
+            .map { makeRoom(from: $0) }
             .sorted { $0.summary.lastMessageDate > $1.summary.lastMessageDate }
 
         updateUserDefaults(with: rooms)
@@ -208,8 +210,25 @@ final class MatrixStore: ObservableObject {
             }
             self.objectWillChange.send()
         }
-        timeline?.resetPaginationAroundInitialEvent(withLimit: 40) { _ in
+        timeline?.resetPaginationAroundInitialEvent(withLimit: 1000) { _ in
             self.objectWillChange.send()
         }
+    }
+
+    func createRoom(parameters: MXRoomCreationParameters, completion: @escaping ( MXResponse<MXRoom>) -> Void) {
+        let room = rooms.first {
+            $0.isDirect && $0.room.directUserId == parameters.inviteArray?.first
+        }
+        if room == nil {
+            session?.createRoom(parameters: parameters, completion: completion)
+        }
+    }
+
+    func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void) {
+        session?.leaveRoom(roomId, completion: completion)
+    }
+
+    func joinRoom(roomId: String, completion: @escaping (MXResponse<MXRoom>) -> Void) {
+        session?.joinRoom(roomId, completion: completion)
     }
 }

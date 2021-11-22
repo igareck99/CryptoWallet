@@ -36,9 +36,10 @@ final class ChatRoomViewModel: ObservableObject {
 
     init(room: AuraRoom) {
         self.room = room
-        messages = room.events().renderableEvents.map { $0.message(fromCurrentSender($0.sender))
-        }.compactMap { $0 }
-
+        messages = room.events().renderableEvents
+            .map { $0.message(fromCurrentSender($0.sender)) }
+            .reversed()
+            .compactMap { $0 }
 
         bindInput()
         bindOutput()
@@ -95,9 +96,13 @@ final class ChatRoomViewModel: ObservableObject {
                 case let .onSend(type):
                     guard case let .text(text) = type else { return }
                     self?.inputText = ""
-                    self?.messages.append(.init(id: UUID().uuidString, type: type, date: Date().hoursAndMinutes, isCurrentUser: true))
                     self?.room.send(text: text)
                     self?.mxStore.objectWillChange.send()
+                case .onJoinRoom:
+                    guard let roomId = self?.room.room.roomId else { return }
+                    self?.mxStore.joinRoom(roomId: roomId) { _ in
+                        self?.room.markAllAsRead()
+                    }
                 case .onAddReaction(let messageId, let reactionId):
                         guard
                             let index = self?.messages.firstIndex(where: { $0.id == messageId }),

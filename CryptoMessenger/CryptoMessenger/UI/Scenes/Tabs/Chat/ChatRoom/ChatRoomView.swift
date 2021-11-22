@@ -8,6 +8,7 @@ struct ChatRoomView: View {
     // MARK: - Internal Properties
 
     @ObservedObject var viewModel: ChatRoomViewModel
+    @ObservedObject var keyboardHandler = KeyboardHandler()
 
     // MARK: - Private Properties
 
@@ -16,93 +17,118 @@ struct ChatRoomView: View {
     @State private var cardPosition: CardPosition = .bottom
     @State private var scrolled = false
     @State private var showActionSheet = false
+    @State private var keyboardShown = false
+    @State private var showJoinAlert = false
+    @State private var height = CGFloat(0)
 
     // MARK: - Body
 
     var body: some View {
-            content
-                .keyboardAdaptive()
-                .onAppear {
-                    viewModel.send(.onAppear)
+        content
+            .onAppear {
+                viewModel.send(.onAppear)
+                hideTabBar()
+
+                switch viewModel.room.summary.membership {
+                case .invite:
+                    showJoinAlert = true
+                case .join:
+                    viewModel.room.markAllAsRead()
+                default:
+                    break
                 }
-                .sheet(isPresented: $viewModel.showPhotoLibrary) {
-                    NavigationView {
-                        ImagePickerView(selectedImage: $viewModel.selectedImage)
-                            .ignoresSafeArea()
-                            .navigationBarTitle(Text("Фото"))
-                            .navigationBarTitleDisplayMode(.inline)
-                    }
+            }
+            .onDisappear {
+                showTabBar()
+            }
+            .sheet(isPresented: $viewModel.showPhotoLibrary) {
+                NavigationView {
+                    ImagePickerView(selectedImage: $viewModel.selectedImage)
+                        .ignoresSafeArea()
+                        .navigationBarTitle(Text("Фото"))
+                        .navigationBarTitleDisplayMode(.inline)
                 }
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden(true)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        HStack(spacing: 0) {
-                            Button(action: {
-                                presentationMode.wrappedValue.dismiss()
-                            }, label: {
-                                R.image.navigation.backButton.image
-                            })
-                            AsyncImage(url: viewModel.room.roomAvatar) { phase in
-                                if let image = phase.image {
-                                    image.resizable()
-                                } else {
-                                    ZStack {
-                                        Color(.lightBlue())
-                                        Text(viewModel.room.summary.displayname?.firstLetter.uppercased() ?? "?")
-                                            .foreground(.white())
-                                            .font(.medium(20))
-                                    }
+            }
+            .alert(isPresented: $showJoinAlert) {
+                let roomName = viewModel.room.summary.displayname ?? "Новый запрос"
+                return Alert(
+                    title: Text("Присоединиться к чату?"),
+                    message: Text("Принять приглашение от \(roomName)"),
+                    primaryButton: .default(
+                        Text("Присоединиться"),
+                        action: { viewModel.send(.onJoinRoom) }
+                    ),
+                    secondaryButton: .cancel(
+                        Text("Отменить"),
+                        action: { presentationMode.wrappedValue.dismiss() }
+                    )
+                )
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarColor(.white(), isBlured: false)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    HStack(spacing: 0) {
+                        AsyncImage(url: viewModel.room.roomAvatar) { phase in
+                            if let image = phase.image {
+                                image.resizable()
+                            } else {
+                                ZStack {
+                                    Color(.lightBlue())
+                                    Text(viewModel.room.summary.displayname?.firstLetter.uppercased() ?? "?")
+                                        .foreground(.white())
+                                        .font(.medium(20))
                                 }
                             }
-                            .scaledToFill()
-                            .frame(width: 36, height: 36)
-                            .cornerRadius(18)
-                            .padding(.trailing, 12)
+                        }
+                        .scaledToFill()
+                        .frame(width: 36, height: 36)
+                        .cornerRadius(18)
+                        .padding(.trailing, 12)
 
-                            VStack(spacing: 0) {
-                                HStack(spacing: 0) {
-                                    Text(viewModel.room.summary.displayname ?? "")
-                                        .lineLimit(1)
-                                        .font(.semibold(15))
-                                        .foreground(.black())
-                                    Spacer()
-                                }
-                                HStack(spacing: 0) {
-                                    Text(viewModel.room.isOnline ? "онлайн" : "оффлайн")
-                                        .lineLimit(1)
-                                        .font(.regular(13))
-                                        .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
-                                    Spacer()
-                                }
+                        VStack(spacing: 0) {
+                            HStack(spacing: 0) {
+                                Text(viewModel.room.summary.displayname ?? "")
+                                    .lineLimit(1)
+                                    .font(.semibold(15))
+                                    .foreground(.black())
+                                Spacer()
                             }
-                            .frame(width: 160)
-
-                            Spacer()
+                            HStack(spacing: 0) {
+                                Text(viewModel.room.isOnline ? "онлайн" : "оффлайн")
+                                    .lineLimit(1)
+                                    .font(.regular(13))
+                                    .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
+                                Spacer()
+                            }
                         }
-                        .padding(.leading, -12)
-                        .padding(.bottom, 8)
+                        .frame(width: 160)
+
+                        Spacer()
                     }
-
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        HStack(spacing: 0) {
-                            Spacer()
-
-                            Button(action: {
-
-                            }, label: {
-                                R.image.navigation.phoneButton.image
-                            })
-
-                            Button(action: {
-
-                            }, label: {
-                                R.image.navigation.settingsButton.image
-                            })
-                        }
-                        .padding(.bottom, 8)
-                    }
+                    .padding(.leading, -12)
+                    .padding(.bottom, 6)
                 }
+
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack(spacing: 0) {
+                        Spacer()
+
+                        Button(action: {
+
+                        }, label: {
+                            R.image.navigation.phoneButton.image
+                        })
+
+                        Button(action: {
+
+                        }, label: {
+                            R.image.navigation.settingsButton.image
+                        })
+                    }
+                    .padding(.bottom, 8)
+                }
+            }
     }
 
     private var content: some View {
@@ -113,15 +139,7 @@ struct ChatRoomView: View {
                 ScrollViewReader { scrollView in
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack {
-                            HStack(alignment: .center) {
-                                Text("  пт, 10 сентября  ")
-                                    .frame(height: 24, alignment: .center)
-                                    .background(.lightGray())
-                                    .font(.regular(14))
-                                    .foreground(.black())
-                                    .cornerRadius(8)
-                            }
-                            .padding(.top, 16)
+                            Spacer().frame(height: 16)
 
                             ForEach(viewModel.messages) { message in
                                 ChatRoomRow(
@@ -132,6 +150,7 @@ struct ChatRoomView: View {
                                         viewModel.send(.onDeleteReaction(messageId: message.id, reactionId: reactionId))
                                     }
                                 )
+                                    .flippedUpsideDown()
                                     .listRowSeparator(.hidden)
                                     .onLongPressGesture(minimumDuration: 0.1, maximumDistance: 0) {
                                         vibrate(.medium)
@@ -140,41 +159,36 @@ struct ChatRoomView: View {
                                     }
                             }
                             .onChange(of: viewModel.messages) { _ in
-                                guard let id = viewModel.messages.last?.id else { return }
+                                viewModel.room.markAllAsRead()
+                                guard let id = viewModel.messages.first?.id else { return }
                                 withAnimation {
                                     scrollView.scrollTo(id, anchor: .bottom)
                                 }
                             }
                             .onChange(of: viewModel.keyboardHeight) { _ in
-                                guard let id = viewModel.messages.last?.id else { return }
+                                guard let id = viewModel.messages.first?.id else { return }
                                 withAnimation {
                                     scrollView.scrollTo(id, anchor: .bottom)
                                 }
                             }
                             .onAppear {
-                                guard let id = viewModel.messages.last?.id else { return }
-                                scrollView.scrollTo(id, anchor: .bottom)
+                                guard let id = viewModel.messages.first?.id else { return }
+                                withAnimation {
+                                    scrollView.scrollTo(id, anchor: .bottom)
+                                }
                             }
                             .onDisappear {
                                 print("onDisappear")
                             }
-
-                            Spacer().frame(height: 20)
                         }
                         .ignoresSafeArea()
                     }
-                    .padding(.top, -8)
-                    .padding(.bottom, -8)
+                    .flippedUpsideDown()
                 }
-                .ignoresSafeArea()
 
                 inputView
             }
-            .onTapGesture {
-                hideKeyboard()
-            }
-            .ignoresSafeArea()
-            .padding(.top, 100)
+            .padding(.bottom, keyboardHandler.keyboardHeight)
 
             if showActionSheet {
                 ActionSheetView(showActionSheet: $showActionSheet, attachAction: $viewModel.attachAction)
@@ -183,7 +197,8 @@ struct ChatRoomView: View {
 
             quickMenuView
         }
-        .ignoresSafeArea()
+        .hideKeyboardOnTap()
+        .edgesIgnoringSafeArea(.bottom)
     }
 
     private var headerView: some View {
@@ -329,7 +344,9 @@ struct ChatRoomView: View {
 
                 if !viewModel.inputText.isEmpty {
                     Button(action: {
-                        viewModel.send(.onSend(.text(viewModel.inputText)))
+                        withAnimation {
+                            viewModel.send(.onSend(.text(viewModel.inputText)))
+                        }
                     }, label: {
                         Image(systemName: "paperplane.fill")
                             .foreground(.blue())
@@ -343,10 +360,8 @@ struct ChatRoomView: View {
 
             Spacer()
         }
-        .frame(height: viewModel.keyboardHeight > 0 ? 52 : 80)
+        .frame(height: keyboardHandler.keyboardHeight > 0 ? 52 : 80)
         .background(.white())
         .edgesIgnoringSafeArea(.bottom)
-        .padding(.bottom, viewModel.keyboardHeight)
-        .animation(.linear(duration: 0.25))
     }
 }

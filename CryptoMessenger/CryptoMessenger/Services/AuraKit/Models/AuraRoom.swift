@@ -76,7 +76,7 @@ final class AuraRoom: ObservableObject {
         let currentBatch = enumerator?.nextEventsBatch(200) ?? []
         print("Got \(currentBatch.count) events.")
 
-        self.eventCache.append(contentsOf: currentBatch)
+        eventCache.append(contentsOf: currentBatch)
     }
 
     // MARK: - Internal Methods

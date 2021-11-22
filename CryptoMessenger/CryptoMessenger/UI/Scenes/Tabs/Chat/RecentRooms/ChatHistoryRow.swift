@@ -31,17 +31,18 @@ struct ChatHistoryRow: View {
                 .frame(width: 60, height: 60)
                 .cornerRadius(30)
 
-                ZStack {
-                    Circle().fill(.white).frame(width: 16, height: 16)
-                    Circle().fill(Color(room.isOnline ? .green() : .gray())).frame(width: 12, height: 12)
-                }.padding([.leading, .top], 48)
+                if room.isDirect {
+                    ZStack {
+                        Circle().fill(.white).frame(width: 16, height: 16)
+                        Circle().fill(Color(room.isOnline ? .green() : .gray())).frame(width: 12, height: 12)
+                    }.padding([.leading, .top], 48)
+                }
             }
             .frame(width: 60, height: 60)
 
             VStack(spacing: 0) {
                 HStack(spacing: 12) {
-                    Text(
-                        room.summary.displayname?.firstUppercased ?? "",
+                    Text(room.summary.displayname?.firstUppercased ?? "",
                         [
                             .font(.semibold(15)),
                             .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),

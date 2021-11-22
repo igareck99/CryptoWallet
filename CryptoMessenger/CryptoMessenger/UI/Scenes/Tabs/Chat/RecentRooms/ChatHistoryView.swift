@@ -13,6 +13,9 @@ struct ChatHistoryView: View {
 
     @State private var searchText = ""
     @State private var searching = false
+    @State private var newRoomSelected = false
+    @State private var selectedRoomId: ObjectIdentifier?
+
     private var searchResults: [AuraRoom] {
         searchText.isEmpty ? viewModel.rooms : viewModel.rooms.filter {
             $0.summary.displayname.lowercased().contains(searchText.lowercased())
@@ -38,7 +41,7 @@ struct ChatHistoryView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: 0) {
                         Button {
-
+                            newRoomSelected.toggle()
                         } label: {
                             R.image.chat.writeMessage.image
                         }
@@ -52,6 +55,9 @@ struct ChatHistoryView: View {
                         Spacer()
                     }
                 }
+            }
+            .sheet(isPresented: $newRoomSelected) {
+                NewRoomView(mxStore: viewModel.mxStore, createdRoomId: $selectedRoomId)
             }
     }
 
@@ -76,32 +82,42 @@ struct ChatHistoryView: View {
             }
             .padding([.leading, .trailing, .bottom], 16)
 
+            if let id = selectedRoomId, let room = viewModel.rooms.first(where: { $0.id == id }) {
+                EmptyView()
+                    .frame(height: 0)
+                    .background(
+                        EmptyNavigationLink(
+                            destination: ChatRoomView(viewModel: .init(room: room)),
+                            selectedItem: $selectedRoomId
+                        )
+                )
+            }
+
             List {
                 ForEach(searchResults) { room in
                     ChatHistoryRow(room: room)
                         .listRowSeparator(.hidden)
                         .listRowInsets(EdgeInsets())
-                        .onTapGesture {
-                            vibrate()
-                            onRoomTap?(room)
+                        .overlay(
+                            NavigationLink(destination: {
+                                ChatRoomView(viewModel: .init(room: room))
+                            }, label: {
+                                EmptyView()
+                            }).opacity(0)
+                        )
+                        .swipeActions(edge: .trailing) {
+                            Button {
+                                viewModel.send(.onDeleteRoom(room.room.roomId))
+                            } label: {
+                                R.image.chat.reaction.delete.image
+                                    .renderingMode(.original)
+                                    .foreground(.blue())
+                            }
+                            .tint(.gray.opacity(0.1))
                         }
-//                        .overlay(
-//                            NavigationLink(destination: {
-//                                ChatRoomView(viewModel: .init(room: room))
-//                            }, label: {
-//                                EmptyView()
-//                            }).opacity(0)
-//                        )
                 }
             }
             .listStyle(.plain)
-            .listRowSeparator(.hidden)
-            .gesture(
-                DragGesture()
-                    .onChanged { _ in
-                        UIApplication.shared.dismissKeyboard()
-                    }
-            )
         }
     }
 }

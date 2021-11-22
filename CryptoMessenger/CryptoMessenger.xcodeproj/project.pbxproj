@@ -121,6 +121,12 @@
 		5A3721E0272F47EA0097ABED /* EmptyNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721DF272F47EA0097ABED /* EmptyNavigationLink.swift */; };
 		5A39282F27419A7300378ACA /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A39282E27419A7300378ACA /* Date+Extensions.swift */; };
 		5A3928322741A9EA00378ACA /* MXURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3928312741A9EA00378ACA /* MXURL.swift */; };
+		5A3C9412274AE93100818060 /* FlippedModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3C9411274AE93100818060 /* FlippedModifier.swift */; };
+		5A3C9414274AEE8400818060 /* KeyboardListenable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3C9413274AEE8400818060 /* KeyboardListenable.swift */; };
+		5A3C9429274AFFDC00818060 /* KeyboardAvoider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3C9425274AFFDC00818060 /* KeyboardAvoider.swift */; };
+		5A3C942A274AFFDC00818060 /* KeyboardAvoiderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3C9426274AFFDC00818060 /* KeyboardAvoiderModifier.swift */; };
+		5A3C942C274AFFDC00818060 /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3C9428274AFFDC00818060 /* KeyboardHandler.swift */; };
+		5A3C942F274BC53400818060 /* NewRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3C942E274BC53400818060 /* NewRoomView.swift */; };
 		5A4267FE26A83494000C51DD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FD26A83494000C51DD /* R.generated.swift */; };
 		5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */; };
 		5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680026A83554000C51DD /* RegistrationViewController.swift */; };
@@ -490,6 +496,12 @@
 		5A3721DF272F47EA0097ABED /* EmptyNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNavigationLink.swift; sourceTree = "<group>"; };
 		5A39282E27419A7300378ACA /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		5A3928312741A9EA00378ACA /* MXURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MXURL.swift; sourceTree = "<group>"; };
+		5A3C9411274AE93100818060 /* FlippedModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlippedModifier.swift; sourceTree = "<group>"; };
+		5A3C9413274AEE8400818060 /* KeyboardListenable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardListenable.swift; sourceTree = "<group>"; };
+		5A3C9425274AFFDC00818060 /* KeyboardAvoider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAvoider.swift; sourceTree = "<group>"; };
+		5A3C9426274AFFDC00818060 /* KeyboardAvoiderModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAvoiderModifier.swift; sourceTree = "<group>"; };
+		5A3C9428274AFFDC00818060 /* KeyboardHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
+		5A3C942E274BC53400818060 /* NewRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRoomView.swift; sourceTree = "<group>"; };
 		5A4267FD26A83494000C51DD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = R.generated.swift; path = Generated/R.generated.swift; sourceTree = SOURCE_ROOT; };
 		5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPresenter.swift; sourceTree = "<group>"; };
 		5A42680026A83554000C51DD /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -1150,6 +1162,7 @@
 		5A187F0E2680CF49001957D3 /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
+				5A3C9423274AFFDC00818060 /* Sources */,
 				5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */,
 				5A9318E526C5E42200645365 /* KeyboardAdaptive.swift */,
 				5A9318E726C5E44100645365 /* KeyboardHeightPublisher.swift */,
@@ -1166,13 +1179,15 @@
 			path = ImagePicker;
 			sourceTree = "<group>";
 		};
-		5A1FE9CE26EFAE99008A649E /* Bubble */ = {
+		5A1FE9CE26EFAE99008A649E /* Core */ = {
 			isa = PBXGroup;
 			children = (
 				5A9318DD26C5AD0500645365 /* BubbleShape.swift */,
 				5A9318DB26C5AD0500645365 /* BubbleView.swift */,
+				5A3C9413274AEE8400818060 /* KeyboardListenable.swift */,
+				5A3C9411274AE93100818060 /* FlippedModifier.swift */,
 			);
-			path = Bubble;
+			path = Core;
 			sourceTree = "<group>";
 		};
 		5A2181E526D82D1F0093AD60 /* LocationManager */ = {
@@ -1316,6 +1331,32 @@
 				5A3928312741A9EA00378ACA /* MXURL.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		5A3C9423274AFFDC00818060 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				5A3C9424274AFFDC00818060 /* KeyboardAvoider */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		5A3C9424274AFFDC00818060 /* KeyboardAvoider */ = {
+			isa = PBXGroup;
+			children = (
+				5A3C9425274AFFDC00818060 /* KeyboardAvoider.swift */,
+				5A3C9426274AFFDC00818060 /* KeyboardAvoiderModifier.swift */,
+				5A3C9428274AFFDC00818060 /* KeyboardHandler.swift */,
+			);
+			path = KeyboardAvoider;
+			sourceTree = "<group>";
+		};
+		5A3C942D274BC51500818060 /* NewRoomView */ = {
+			isa = PBXGroup;
+			children = (
+				5A3C942E274BC53400818060 /* NewRoomView.swift */,
+			);
+			path = NewRoomView;
 			sourceTree = "<group>";
 		};
 		5A4267FC26A8336E000C51DD /* Generated */ = {
@@ -1518,7 +1559,8 @@
 		5A9318DA26C5AB8900645365 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				5A1FE9CE26EFAE99008A649E /* Bubble */,
+				5A3C942D274BC51500818060 /* NewRoomView */,
+				5A1FE9CE26EFAE99008A649E /* Core */,
 				5A9B471F26EA81CD001CC627 /* AttachActions */,
 				5A9B471E26EA81C5001CC627 /* QuickMenu */,
 				5A9B472226EA9275001CC627 /* Reaction */,
@@ -2230,6 +2272,8 @@
 				5A9318BB26BD210400645365 /* PinCodeFlow.swift in Sources */,
 				5AB30F152706564300838AFC /* PinCodeFlowCoordinator.swift in Sources */,
 				5A187E972680708D001957D3 /* ActivityViewDisplayable.swift in Sources */,
+				5A3C9412274AE93100818060 /* FlippedModifier.swift in Sources */,
+				5A3C942A274AFFDC00818060 /* KeyboardAvoiderModifier.swift in Sources */,
 				5A187EB7268070B3001957D3 /* UIView+Extensions.swift in Sources */,
 				5A187DF126807011001957D3 /* AuthFlowCoordinator.swift in Sources */,
 				5AA6410726822C3A008922B4 /* CALayerStyle.swift in Sources */,
@@ -2248,6 +2292,7 @@
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				78AF82A72720CFEA003D918D /* PersonalizationViewController.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
+				5A3C9414274AEE8400818060 /* KeyboardListenable.swift in Sources */,
 				5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
 				787AC7A327220E62000AA434 /* AppLanguagePresenter.swift in Sources */,
@@ -2256,6 +2301,7 @@
 				5AF8636D26ADCB9B004A417C /* KeyImportConfigurator.swift in Sources */,
 				5A187DD826806F35001957D3 /* Dependency.swift in Sources */,
 				7846B66E26E8BFF600B05984 /* CellState.swift in Sources */,
+				5A3C942F274BC53400818060 /* NewRoomView.swift in Sources */,
 				5A430EC127196A08004A1D2E /* ProfileConfigurator.swift in Sources */,
 				5A4BE520271DD86A00D03D09 /* MX+Identifiable.swift in Sources */,
 				789693AC272CC53600C0BDB0 /* ProfileBackgroundItem.swift in Sources */,
@@ -2353,6 +2399,7 @@
 				7846B65F26E8BC3F00B05984 /* MoveAnimation.swift in Sources */,
 				5A187E9B2680708D001957D3 /* ListSeparatorStyle.swift in Sources */,
 				5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */,
+				5A3C9429274AFFDC00818060 /* KeyboardAvoider.swift in Sources */,
 				78DD765E2728C8C00094D510 /* ProfileBackgroundPreviewCell.swift in Sources */,
 				787AC7AF27221AA0000AA434 /* LanguageCell.swift in Sources */,
 				5A42680A26A83554000C51DD /* RegistrationFlow.swift in Sources */,
@@ -2439,6 +2486,7 @@
 				5A187DF426807011001957D3 /* Alertable.swift in Sources */,
 				5A9318E626C5E42300645365 /* KeyboardAdaptive.swift in Sources */,
 				789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */,
+				5A3C942C274AFFDC00818060 /* KeyboardHandler.swift in Sources */,
 				5A4BE522271DD86A00D03D09 /* UserDefaults.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,

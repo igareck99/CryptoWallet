@@ -17,7 +17,7 @@ final class ChatHistoryViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<ChatHistoryFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ChatHistoryFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-    @Injectable private var mxStore: MatrixStore
+    @Injectable private(set) var mxStore: MatrixStore
 
     // MARK: - Lifecycle
 
@@ -49,6 +49,8 @@ final class ChatHistoryViewModel: ObservableObject {
                     self?.objectWillChange.send()
                 case .onNextScene:
                     print("Next scene")
+                case let .onDeleteRoom(roomId):
+                    self?.mxStore.leaveRoom(roomId: roomId, completion: { _ in })
                 }
             }
             .store(in: &subscriptions)

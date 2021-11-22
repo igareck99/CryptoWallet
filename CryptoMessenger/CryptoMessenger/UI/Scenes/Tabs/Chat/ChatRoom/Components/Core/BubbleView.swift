@@ -44,10 +44,7 @@ struct BubbleView<Content>: View where Content: View {
         }
         .padding(direction == .left ? .leading : .trailing, 16)
         .padding(direction == .right ? .leading : .trailing, 22)
-        .transition(isAnimating ? .move(edge: .top) : .identity)
-        .opacity(isAnimating ? 1 : 0)
-        .scaleEffect(isAnimating ? 1 : 0.8)
-        .animation(.easeInOut(duration: 0.3))
+        .transition(isAnimating ? .move(edge: .bottom).animation(.easeIn) : .identity)
         .onAppear {
             if !isAnimating {
                 isAnimating.toggle()

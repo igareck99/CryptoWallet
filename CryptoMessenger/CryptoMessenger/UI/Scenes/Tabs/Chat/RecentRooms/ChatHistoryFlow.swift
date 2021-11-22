@@ -24,5 +24,6 @@ enum ChatHistoryFlow {
 
         case onAppear
         case onNextScene
+        case onDeleteRoom(String)
     }
 }
