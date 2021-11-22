@@ -7,7 +7,8 @@ struct SessionView: View {
             Image(uiImage: session.photo)
                 .resizable()
                 .frame(width: 40, height: 40)
-                .offset(x: 16)
+                .offset(x: -4)
+                .padding(.leading, 16)
                 .padding(.top, 0)
             VStack(alignment: .leading) {
                 Text(session.device + ", Приложение Aura")
@@ -19,43 +20,73 @@ struct SessionView: View {
                     .lineLimit(1)
                 Spacer()
             }
-            .offset(x: 16)
+            .offset(x: 1)
             .padding(.top, 11)
             Image(uiImage: R.image.registration.arrow()!)
                 .resizable()
                 .frame(width: 7, height: 12)
                 .padding(.trailing, -16)
                 .padding(.top, 26)
-            Spacer()
+        }
+    }
+}
+struct ContentView: View {
+    let sessions = sessions_list
+    @State var presentSheet = false
+    var body: some View {
+        NavigationView {
+            VStack {
+                VStack(alignment: .center, spacing: 16) {
+                    Text(R.string.localizable.sessionDescription())
+                        .font(.regular(13))
+                        .foreground(.darkGray())
+                        .padding(.leading, -16)
+                        .lineLimit(3)
+                        .navigationBarTitle(R.string.localizable.sesisonTitle(), displayMode: .inline)
+                    List {
+                        ForEach(sessions) { session in
+                            NavigationLink(destination: SessionDetailView(session: session)) {
+                                SessionView(session: session)
+                            }
+                        }
+                    }
+                    .listSeparatorStyle(style: .none)
+                    .listStyle(.inset)
+                    .padding(.leading, -20)
+                    .padding(.trailing, -20)
+                }
+                Divider()
+                CloseAllSessionsButton()
+            }
         }
     }
 }
 
-struct ContentView: View {
-    let sessions = SessionItem.sessions()
+struct CloseAllSessionsButton: View {
+    let text = R.string.localizable.sessionFinishAll()
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(sessions) { session in
-                    SessionView(session: session)
-                }
-            }
-            .background(.red())
-            .listSeparatorStyle(style: .none)
-            .padding(.leading, -20)
-            .padding(.trailing, -20)
-            .navigationBarTitle(Text("Управление сессиями"))
-        }
+        Button(action: {
+            print("CloseAllSessionsButton")
+        }, label: {
+            Text(R.string.localizable.sessionFinishAll())
+                .font(.bold(15))
+                .foreground(.white())
+        }).frame(width: 225, height: 44, alignment: .center)
+            .background(.blue())
+            .cornerRadius(8)
+    }
+}
+
+struct ScreenView: View {
+    var body: some View {
+        ContentView()
     }
 }
 
 struct SessionView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().background(.red())
+        ScreenView()
     }
 }
 
-var sessionList: [SessionItem] = [
-    .init(id: 1, photo: R.image.session.iphone(), device: "iPhone", place: "Москва, Россия", date: "сегодня в 14:11"),
-    .init(id: 1, photo: R.image.session.iphone(), device: "iPhone", place: "Стамбул, Турция", date: "вчера в 10:09")
-]
+var sessions_list = SessionItem.sessions()

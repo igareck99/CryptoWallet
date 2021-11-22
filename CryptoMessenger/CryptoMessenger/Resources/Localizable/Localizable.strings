@@ -156,3 +156,13 @@
 "ProfileBackground.Wallpaper" = "ОБОИ";
 
 "ProfileBackgroundPreview.SetBackground" = "Установить фон";
+
+"Sesison.Title" = "Управление сессиями";
+"Session.Description" = "История активности показывает информацию о том, с \nкаких устройств и в какое время заходили в Ваш \nаккаунт.";
+"Session.FinishAll" = "Завершить все сессии";
+"Session.AdditionalTitle" = "Сессия iPhone";
+"Session.Place" = "Место";
+"Session.Time" = "Время";
+"Session.App" = "Приложения";
+"Session.Ip" = "IP-адрес";
+"Session.FinishOne" = "Завершить сеанс";

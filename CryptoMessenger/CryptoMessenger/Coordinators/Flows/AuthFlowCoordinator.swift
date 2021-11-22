@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 // MARK: - AuthFlowCoordinatorDelegate
 
@@ -33,7 +34,8 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.main)
+        print("asdfghjkl")
+        handleNextScene(.showSession)
         //handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
@@ -131,6 +133,11 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
+    private func showSession() {
+        let vc = UIHostingController(rootView: ContentView())
+        setViewWith(vc)
+    }
+
     // MARK: - Scene
 
     enum Scene {
@@ -156,6 +163,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case typography
         case profileBackground
         case profilePreview
+        case showSession
     }
 }
 
@@ -202,6 +210,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showProfileBackgroundScene()
         case .profilePreview:
             showProfilePreviewScene()
+        case .showSession:
+            showSession()
         }
     }
 
