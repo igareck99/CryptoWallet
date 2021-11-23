@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 // MARK: - AuthFlowCoordinatorDelegate
 
@@ -33,7 +34,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.main)
+        handleNextScene(.blockedUser)
         //handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
@@ -130,6 +131,11 @@ public final class AuthFlowCoordinator: Coordinator {
         let viewController = ProfileBackgroundPreviewConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    private func showBlockedUserScene() {
+        let viewController = UIHostingController(rootView: BlockedUserContentView())
+        setViewWith(viewController)
+    }
 
     // MARK: - Scene
 
@@ -156,6 +162,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case typography
         case profileBackground
         case profilePreview
+        case blockedUser
     }
 }
 
@@ -202,6 +209,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showProfileBackgroundScene()
         case .profilePreview:
             showProfilePreviewScene()
+        case .blockedUser:
+            showBlockedUserScene()
         }
     }
 
