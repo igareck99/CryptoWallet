@@ -21,34 +21,26 @@ final class KeyboardHandler: NSObject, ObservableObject {
         UIApplication.shared.windows.first?
             .addGestureRecognizer(panRecognizer)
 
-        let keyboardWillShow = NotificationCenter
-            .default
-            .publisher(for: UIResponder.keyboardWillShowNotification)
-            .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
-                as? CGRect }
-            .map { $0.height }
-            .eraseToAnyPublisher()
+        let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification)
+            .map { $0.keyboardHeight }
 
-        let keyboardWillHide = NotificationCenter
-            .default
-            .publisher(for: UIResponder.keyboardWillHideNotification)
+        let willHide = NotificationCenter.default.publisher(for: UIApplication.keyboardWillHideNotification)
             .map { _ in CGFloat(0) }
-            .eraseToAnyPublisher()
 
-        keyboardWillShow.merge(with: keyboardWillHide)
+        Publishers.MergeMany(willShow, willHide)
             .sink { [weak self] height in
                 self?.keyboardHeight = height
                 self?.actualKeyboardHeight = height
-        }
-        .store(in: &subscriptions)
+            }
+            .store(in: &subscriptions)
     }
 
     @objc private func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
         guard
             let window = UIApplication.shared.windows.first,
             let actualKbHeight = actualKeyboardHeight
-            else {
-                return
+        else {
+            return
         }
         let originY = gestureRecognizer.location(in: window).y
         let screenHeight = UIScreen.main.bounds.height

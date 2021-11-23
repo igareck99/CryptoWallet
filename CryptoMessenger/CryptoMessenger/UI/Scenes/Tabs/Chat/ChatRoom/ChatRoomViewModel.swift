@@ -97,6 +97,14 @@ final class ChatRoomViewModel: ObservableObject {
                     guard case let .text(text) = type else { return }
                     self?.inputText = ""
                     self?.room.send(text: text)
+                    self?.messages.append(
+                        .init(
+                            id: UUID().uuidString,
+                            type: .text(text),
+                            date: Date().hoursAndMinutes,
+                            isCurrentUser: true
+                        )
+                    )
                     self?.mxStore.objectWillChange.send()
                 case .onJoinRoom:
                     guard let roomId = self?.room.room.roomId else { return }

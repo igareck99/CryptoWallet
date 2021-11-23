@@ -8,7 +8,7 @@ struct ChatRoomView: View {
     // MARK: - Internal Properties
 
     @ObservedObject var viewModel: ChatRoomViewModel
-    @ObservedObject var keyboardHandler = KeyboardHandler()
+    @StateObject var keyboardHandler = KeyboardHandler()
 
     // MARK: - Private Properties
 
@@ -17,7 +17,6 @@ struct ChatRoomView: View {
     @State private var cardPosition: CardPosition = .bottom
     @State private var scrolled = false
     @State private var showActionSheet = false
-    @State private var keyboardShown = false
     @State private var showJoinAlert = false
     @State private var height = CGFloat(0)
 
@@ -152,7 +151,7 @@ struct ChatRoomView: View {
                                 )
                                     .flippedUpsideDown()
                                     .listRowSeparator(.hidden)
-                                    .onLongPressGesture(minimumDuration: 0.1, maximumDistance: 0) {
+                                    .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
                                         vibrate(.medium)
                                         messageId = message.id
                                         cardPosition = .middle
@@ -362,6 +361,5 @@ struct ChatRoomView: View {
         }
         .frame(height: keyboardHandler.keyboardHeight > 0 ? 52 : 80)
         .background(.white())
-        .edgesIgnoringSafeArea(.bottom)
     }
 }

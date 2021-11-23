@@ -91,7 +91,6 @@ struct ChatRoomRow: View {
                 isAnimating.toggle()
             }
         }
-        .id(message.id)
     }
 
     // MARK: - Private Methods

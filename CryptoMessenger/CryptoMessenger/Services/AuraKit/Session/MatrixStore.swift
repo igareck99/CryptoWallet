@@ -166,6 +166,8 @@ final class MatrixStore: ObservableObject {
 
     func fromCurrentSender(_ userId: String) -> Bool {
         credentials?.userId == userId
+        //session?.crypto.backup
+        //бэкапы ключей чатов
     }
 
     private var roomCache: [ObjectIdentifier: AuraRoom] = [:]
