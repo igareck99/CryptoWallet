@@ -30,24 +30,28 @@ struct SessionView: View {
         }
     }
 }
+
 struct ContentView: View {
-    let sessions = sessions_list
-    @State var presentSheet = false
+
+    @State var selectedSession: SessionItem?
+
     var body: some View {
         NavigationView {
             VStack {
                 VStack(alignment: .center, spacing: 16) {
-                    Text(R.string.localizable.sessionDescription())
-                        .font(.regular(13))
-                        .foreground(.darkGray())
-                        .padding(.leading, -16)
-                        .lineLimit(3)
-                        .navigationBarTitle(R.string.localizable.sesisonTitle(), displayMode: .inline)
                     List {
-                        ForEach(sessions) { session in
-                            NavigationLink(destination: SessionDetailView(session: session)) {
-                                SessionView(session: session)
-                            }
+                        Text(R.string.localizable.sessionDescription())
+                            .lineLimit(nil)
+                            .multilineTextAlignment(.leading)
+                            .font(.regular(13))
+                            .foreground(.darkGray())
+                            .padding([.leading, .trailing], 16)
+
+                        ForEach(SessionItem.sessions()) { session in
+                            SessionView(session: session)
+                                .onTapGesture {
+                                    selectedSession = session
+                                }
                         }
                     }
                     .listSeparatorStyle(style: .none)
@@ -58,6 +62,15 @@ struct ContentView: View {
                 Divider()
                 CloseAllSessionsButton()
             }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(R.string.localizable.sesisonTitle())
+                }
+            }
+            .sheet(item: $selectedSession) { session in
+                SessionView(session: session)
+             }
         }
     }
 }
@@ -88,5 +101,3 @@ struct SessionView_Previews: PreviewProvider {
         ScreenView()
     }
 }
-
-var sessions_list = SessionItem.sessions()

@@ -34,7 +34,6 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        print("asdfghjkl")
         handleNextScene(.showSession)
         //handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
@@ -134,7 +133,7 @@ public final class AuthFlowCoordinator: Coordinator {
     }
 
     private func showSession() {
-        let vc = UIHostingController(rootView: ContentView())
+        let vc = BaseHostingController(rootView: ScreenView())
         setViewWith(vc)
     }
 
