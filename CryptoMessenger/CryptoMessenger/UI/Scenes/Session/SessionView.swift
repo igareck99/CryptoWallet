@@ -1,7 +1,15 @@
 import SwiftUI
 
+// MARK: - SessionView
+
 struct SessionView: View {
+
+    // MARK: - Internal Properties
+
     var session: SessionItem
+
+    // MARK: - Body
+
     var body: some View {
         HStack {
             Image(uiImage: session.photo)
@@ -31,9 +39,17 @@ struct SessionView: View {
     }
 }
 
+// MARK: - ContentView
+
 struct ContentView: View {
 
+    // MARK: - Internal Properties
+
     @State var selectedSession: SessionItem?
+    @State var isSelected = false
+    @ObservedObject var viewModel = SessionViewModel()
+
+    // MARK: - Body
 
     var body: some View {
         NavigationView {
@@ -46,21 +62,42 @@ struct ContentView: View {
                             .font(.regular(13))
                             .foreground(.darkGray())
                             .padding([.leading, .trailing], 16)
-
-                        ForEach(SessionItem.sessions()) { session in
+                        ForEach(viewModel.listData) { session in
                             SessionView(session: session)
-                                .onTapGesture {
+                            .onTapGesture {
                                     selectedSession = session
+                                    isSelected = true
                                 }
                         }
                     }
+                    Divider()
+                    Button(action: {
+                        viewModel.listData.removeAll()
+                    }, label: {
+                        Text(R.string.localizable.sessionFinishAll())
+                            .font(.bold(15))
+                            .foreground(.white())
+                    }).frame(width: 225, height: 44, alignment: .center)
+                        .background(.blue())
+                        .cornerRadius(8)
+                }
+                .popup(isPresented: $isSelected,
+                       type: .toast,
+                       position: .bottom,
+                       closeOnTap: false,
+                       closeOnTapOutside: true,
+                       backgroundColor: Color(.black(0.3))) {
+                    SessionDetailView(session: selectedSession ?? SessionItem.sessionsInfo(id: 2),
+                                      viewModel: viewModel,
+                                      showModal: isSelected)
+                        .frame(width: UIScreen.main.bounds.width, height: 375, alignment: .center)
+                        .cornerRadius(16)
+            }
                     .listSeparatorStyle(style: .none)
                     .listStyle(.inset)
                     .padding(.leading, -20)
                     .padding(.trailing, -20)
                 }
-                Divider()
-                CloseAllSessionsButton()
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -68,36 +105,13 @@ struct ContentView: View {
                     Text(R.string.localizable.sesisonTitle())
                 }
             }
-            .sheet(item: $selectedSession) { session in
-                SessionView(session: session)
-             }
-        }
     }
 }
 
-struct CloseAllSessionsButton: View {
-    let text = R.string.localizable.sessionFinishAll()
-    var body: some View {
-        Button(action: {
-            print("CloseAllSessionsButton")
-        }, label: {
-            Text(R.string.localizable.sessionFinishAll())
-                .font(.bold(15))
-                .foreground(.white())
-        }).frame(width: 225, height: 44, alignment: .center)
-            .background(.blue())
-            .cornerRadius(8)
-    }
-}
-
-struct ScreenView: View {
-    var body: some View {
-        ContentView()
-    }
-}
+// MARK: - SessionView_Previews
 
 struct SessionView_Previews: PreviewProvider {
     static var previews: some View {
-        ScreenView()
+        ContentView()
     }
 }
