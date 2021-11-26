@@ -37,18 +37,8 @@ final class SecurityViewController: BaseViewController {
     }
 
     private func subscribeOnCustomViewActions() {
-        customView.didBlackListTap = { [unowned self] in
-            let vc = BlackListConfigurator.configuredViewController(delegate: nil)
-            vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
-        }
         customView.didProfileViewingTap = { [unowned self] in
             createActionSheet()
-        }
-        customView.didSessionTap = { [unowned self] in
-            let vc = SessionConfigurator.configuredViewController(delegate: nil)
-            vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
         }
         customView.didCreateFalsePasswordTap = { [unowned self] in
             let vc = SecurityPinCodeConfigurator.configuredViewController(delegate: nil)
