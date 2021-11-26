@@ -168,3 +168,9 @@
 "Session.FinishOne" = "Завершить сеанс";
 "Session.AppText" = ", Приложение Aura";
 "Session.Separator" = " • ";
+
+
+"BlackList.Title" = "Черный список";
+"BlockedUser.AlertTitle" = "Разблокировать ";
+"BlockedUser.Cancel" = "Отмена";
+"BlockedUser.Approve" = "Да";
