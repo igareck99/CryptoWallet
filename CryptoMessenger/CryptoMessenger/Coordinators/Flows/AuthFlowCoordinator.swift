@@ -34,7 +34,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.showSession)
+        handleNextScene(.userSession)
         //handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
@@ -162,7 +162,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case typography
         case profileBackground
         case profilePreview
-        case showSession
+        case userSession
     }
 }
 
@@ -209,7 +209,7 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showProfileBackgroundScene()
         case .profilePreview:
             showProfilePreviewScene()
-        case .showSession:
+        case .userSession:
             showSession()
         }
     }

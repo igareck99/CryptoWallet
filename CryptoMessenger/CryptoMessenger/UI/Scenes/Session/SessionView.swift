@@ -45,8 +45,8 @@ struct SessionListView: View {
 
     // MARK: - Internal Properties
 
-    @State var selectedSession: SessionItem?
-    @State var isSelected = false
+    @State private var selectedSession: SessionItem?
+    @State private var isSelected = false
     @ObservedObject var viewModel = SessionViewModel()
 
     // MARK: - Body

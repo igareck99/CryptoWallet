@@ -41,7 +41,9 @@ struct SessionDetailView: View {
             SessionInfoItem(title: R.string.localizable.sessionTime(), info: session.date),
             SessionInfoItem(title: R.string.localizable.sessionPlace(), info: session.place),
             SessionInfoItem(title: R.string.localizable.sessionApp(), info: session.device),
-            SessionInfoItem(title: R.string.localizable.sessionIp(), info: session.IP)]
+            SessionInfoItem(title: R.string.localizable.sessionIp(), info:
+                                session.ip)]
+        GeometryReader { screen in
         VStack {
             HStack(spacing: 73) {
                 Button(action: {
@@ -54,8 +56,7 @@ struct SessionDetailView: View {
                 Text(R.string.localizable.sessionAdditionalTitle())
                     .font(.bold(16))
                     .frame(width: 149, height: 20, alignment: .center)
-            }.padding(.leading, -UIScreen.main.bounds.width / 2 + 32)
-                .padding(.top, 16)
+            }.padding(.leading, -screen.size.width / 2 + 32)
             Spacer()
             VStack {
                 List {
@@ -78,10 +79,10 @@ struct SessionDetailView: View {
                     }).frame(width: 225, height: 44)
                         .background(.blue())
                         .cornerRadius(8)
-                }.padding(.leading, (UIScreen.main
-                                        .bounds.width - 225) / 2 - 100)
+                }.padding(.leading, (screen.size.width - 225) / 2 - 100)
                 Spacer()
             }
         }.background(.white())
+    }
     }
 }
