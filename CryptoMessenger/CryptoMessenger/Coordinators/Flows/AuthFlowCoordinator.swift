@@ -34,8 +34,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.blockedUser)
-        //handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
+        handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
     // MARK: - Private Methods

@@ -43,7 +43,7 @@ struct BlockedUserContentView: View {
 
     @ObservedObject var viewModel = BlockListViewModel()
     @State private var showingAlert = false
-    @State private var currentUser: Int = -1
+    @State private var currentUser = -1
 
     // MARK: - Body
 
