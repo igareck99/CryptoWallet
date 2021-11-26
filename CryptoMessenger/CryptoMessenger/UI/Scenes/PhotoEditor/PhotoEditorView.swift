@@ -99,14 +99,11 @@ final class PhotoEditorView: UIView {
     }
 
     private func addDateLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
         dateLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: "27.05.20",
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                     .font(.semibold(15)),
                     .color(.white())
                 ]

@@ -102,10 +102,10 @@ final class ChatViewController: BaseViewController {
     }
 
     private func showChatRoomScene(userMessage: Message) {
-        let chatRoomView = ChatRoomConfigurator.configuredView(userMessage: userMessage, delegate: nil)
-        let viewController = BaseHostingController(rootView: chatRoomView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(viewController, animated: true)
+//        let chatRoomView = ChatRoomConfigurator.configuredView(userMessage: userMessage, delegate: nil)
+//        let viewController = BaseHostingController(rootView: chatRoomView)
+//        viewController.hidesBottomBarWhenPushed = true
+//        navigationController?.pushViewController(viewController, animated: true)
     }
 
     private func showChatCreateScene() {

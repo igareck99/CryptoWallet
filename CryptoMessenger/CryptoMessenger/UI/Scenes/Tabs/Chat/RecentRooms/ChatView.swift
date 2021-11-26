@@ -54,17 +54,12 @@ final class ChatView: UIView {
 
     private func addInviteButton() {
         inviteButton.snap(parent: footerView) {
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineHeightMultiple = 1.09
-            paragraphStyle.alignment = .center
-
-            let title = "Пригласить друзей"
             $0.titleAttributes(
-                text: title,
+                text: "Пригласить друзей",
                 [
                     .color(.white()),
                     .font(.bold(15)),
-                    .paragraph(paragraphStyle)
+                    .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
                 ]
             )
             $0.background(.blue())

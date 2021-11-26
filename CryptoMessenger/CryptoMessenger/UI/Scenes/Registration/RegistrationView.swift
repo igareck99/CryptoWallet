@@ -126,15 +126,11 @@ final class RegistrationView: UIView {
     // MARK: - Private Methods
 
     private func addTitleLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
-
         titleLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.registrationTitle(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                     .font(.medium(22)),
                     .color(.black())
                 ]
@@ -150,15 +146,11 @@ final class RegistrationView: UIView {
     }
 
     private func addDescriptionLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.24
-        paragraphStyle.alignment = .center
-
         descriptionLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.registrationDescription(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.24, alignment: .center)),
                     .font(.regular(15)),
                     .color(.gray())
                 ]

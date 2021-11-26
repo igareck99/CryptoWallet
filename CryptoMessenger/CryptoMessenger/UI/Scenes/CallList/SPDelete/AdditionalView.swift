@@ -47,14 +47,11 @@ final class AdditionalView: UIView {
     }
 
     private func setupClearButton() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
         clearButton.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.callListDeleteAll(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                     .font(.regular(17)),
                     .color(.lightRed())
                 ]

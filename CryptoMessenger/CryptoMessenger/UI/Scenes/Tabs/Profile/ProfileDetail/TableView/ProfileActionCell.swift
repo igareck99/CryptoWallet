@@ -40,7 +40,7 @@ final class ProfileActionCell: UITableViewCell {
             [
                 .color(.black()),
                 .font(.regular(15)),
-                .paragraph(.init(alignment: .left, 1.17))
+                .paragraph(.init(lineHeightMultiple: 1.17, alignment: .center))
             ]
         )
     }

@@ -103,17 +103,13 @@ final class WalletView: UIView {
     }
 
     private func addBalanceLabel() {
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 0.84
-        paragraph.alignment = .left
-
         balanceLabel.snap(parent: headerView) {
             $0.titleAttributes(
                 text: "$12 5131.53",
                 [
                     .color(.black()),
                     .font(.medium(22)),
-                    .paragraph(paragraph)
+                    .paragraph(.init(lineHeightMultiple: 0.84, alignment: .left))
                 ]
             )
             $0.textAlignment = .left
@@ -126,17 +122,13 @@ final class WalletView: UIView {
     }
 
     private func addDescriptionLabel() {
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.42
-        paragraph.alignment = .left
-
         descriptionLabel.snap(parent: headerView) {
             $0.titleAttributes(
                 text: "Общий баланс",
                 [
                     .color(.black()),
                     .font(.regular(13)),
-                    .paragraph(paragraph)
+                    .paragraph(.init(lineHeightMultiple: 1.42, alignment: .left))
                 ]
             )
             $0.textAlignment = .left
@@ -171,17 +163,12 @@ final class WalletView: UIView {
 
     private func addSendButton() {
         sendButton.snap(parent: headerView) {
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineHeightMultiple = 1.09
-            paragraphStyle.alignment = .center
-
-            let title = "Отправить"
             $0.titleAttributes(
-                text: title,
+                text: "Отправить",
                 [
                     .color(.white()),
                     .font(.bold(15)),
-                    .paragraph(paragraphStyle)
+                    .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
                 ]
             )
             $0.background(.blue())
@@ -196,17 +183,13 @@ final class WalletView: UIView {
     }
 
     private func addTransactionTitleLabel() {
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.117
-        paragraph.alignment = .left
-
         transactionTitleLabel.snap(parent: headerView) {
             $0.titleAttributes(
                 text: "Транзакции",
                 [
                     .color(.black()),
                     .font(.semibold(15)),
-                    .paragraph(paragraph)
+                    .paragraph(.init(lineHeightMultiple: 1.117, alignment: .left))
                 ]
             )
             $0.textAlignment = .left
@@ -219,17 +202,13 @@ final class WalletView: UIView {
 
     private func addAllTransactionButton() {
         allTransactionButton.snap(parent: headerView) {
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineHeightMultiple = 1.09
-            paragraphStyle.alignment = .right
-
             let title = "Все транзакции"
             $0.titleAttributes(
                 text: title,
                 [
                     .color(.blue()),
                     .font(.regular(15)),
-                    .paragraph(paragraphStyle)
+                    .paragraph(.init(lineHeightMultiple: 1.09, alignment: .right))
                 ]
             )
             $0.addTarget(self, action: #selector(self.allTransactionButtonTap), for: .touchUpInside)

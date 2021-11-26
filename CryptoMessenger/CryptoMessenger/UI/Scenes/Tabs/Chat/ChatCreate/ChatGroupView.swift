@@ -84,18 +84,7 @@ struct ChatGroupView: View {
                         .disabled(title.isEmpty)
                         .background(
                             EmptyNavigationLink(
-                                destination: ChatRoomConfigurator.configuredView(
-                                    userMessage: .init(
-                                        type: .text(""),
-                                        status: .online,
-                                        name: title,
-                                        avatar: selectedImage,
-                                        date: "09:33",
-                                        unreadCount: 0
-                                    ),
-                                    showHistory: false,
-                                    delegate: nil
-                                ),
+                                destination: Text("Новый чат"),
                                 isActive: $isActive
                             )
                         )

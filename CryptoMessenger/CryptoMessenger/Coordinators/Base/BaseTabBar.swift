@@ -70,17 +70,12 @@ private extension BaseTabBar {
         tabBarAppearance.shadowImage = UIImage()
         tabBarAppearance.backgroundImage = UIImage()
 
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 0.92
-        paragraphStyle.alignment = .center
-
         let appearance = UITabBarItem.appearance()
         appearance.titleAttributes(
             [
                 .font(.regular(11.5)),
                 .color(.darkGray()),
-                .paragraph(paragraphStyle)
-
+                .paragraph(.init(lineHeightMultiple: 0.92, alignment: .center))
             ],
             for: .normal
         )
@@ -88,8 +83,7 @@ private extension BaseTabBar {
             [
                 .font(.regular(11.5)),
                 .color(.blue()),
-                .paragraph(paragraphStyle)
-
+                .paragraph(.init(lineHeightMultiple: 0.92, alignment: .center))
             ],
             for: .selected
         )

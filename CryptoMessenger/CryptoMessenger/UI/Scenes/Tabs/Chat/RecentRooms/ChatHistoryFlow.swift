@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - ChatRoomFlow
+// MARK: - ChatHistoryFlow
 
-enum ChatRoomFlow {
+enum ChatHistoryFlow {
 
     // MARK: - ViewState
 
@@ -12,21 +12,18 @@ enum ChatRoomFlow {
 
         case idle
         case loading
+        case result([Message])
         case error(message: String)
     }
-
 
     // MARK: - Event
 
     enum Event {
-        
+
         // MARK: - Types
 
         case onAppear
-        case onSend(MessageType)
-        case onJoinRoom
-        case onAddReaction(messageId: String, reactionId: String)
-        case onDeleteReaction(messageId: String, reactionId: String)
         case onNextScene
+        case onDeleteRoom(String)
     }
 }

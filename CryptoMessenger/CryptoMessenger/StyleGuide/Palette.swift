@@ -8,13 +8,21 @@ enum Palette: Hashable {
     // MARK: - Types
 
     case clear,
+         // 1A2E35 black
          black(_ alpha: CGFloat = 1),
+         // 222222 black
+         black222222(_ alpha: CGFloat = 1),
          lightGray(_ alpha: CGFloat = 1),
+         // E6EAED gray
+         grayE6EAED(_ alpha: CGFloat = 1),
+         // CED3D9 gray
          gray(_ alpha: CGFloat = 1),
          darkGray(_ alpha: CGFloat = 1),
          white(_ alpha: CGFloat = 1),
          blue(_ alpha: CGFloat = 1),
+         // 03DAC5 green
          green(_ alpha: CGFloat = 1),
+         blueABC3D5(_ alpha: CGFloat = 1),
          lightBlue(_ alpha: CGFloat = 1),
          paleBlue(_ alpha: CGFloat = 1),
          red(_ alpha: CGFloat = 1),
@@ -32,6 +40,8 @@ enum Palette: Hashable {
             return .clear
         case let .black(alpha):
             return #colorLiteral(red: 0.1019607843, green: 0.1803921569, blue: 0.2078431373, alpha: 1).withAlphaComponent(alpha)
+        case let .black222222(alpha):
+            return #colorLiteral(red: 0.1333333333, green: 0.1333333333, blue: 0.1333333333, alpha: 1).withAlphaComponent(alpha)
         case let .gray(alpha):
             return #colorLiteral(red: 0.8078431373, green: 0.8274509804, blue: 0.8509803922, alpha: 1).withAlphaComponent(alpha)
         case let .lightGray(alpha):
@@ -60,6 +70,10 @@ enum Palette: Hashable {
             return #colorLiteral(red: 0.9843137255, green: 0.6274509804, blue: 0.3019607843, alpha: 1).withAlphaComponent(alpha)
         case let .custom(color):
             return color
+        case let .grayE6EAED(alpha):
+            return #colorLiteral(red: 0.9019607843, green: 0.9176470588, blue: 0.9294117647, alpha: 1).withAlphaComponent(alpha)
+        case let .blueABC3D5(alpha):
+            return #colorLiteral(red: 0.6705882353, green: 0.7647058824, blue: 0.8352941176, alpha: 1).withAlphaComponent(alpha)
         }
     }
 
