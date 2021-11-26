@@ -60,9 +60,11 @@ struct SessionDetailView: View {
             VStack {
                 List {
                     ForEach(session_info) { session in SessionInfoView(sessionInfoItem: session)
+                            .padding([.leading, .trailing], 16)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(.init())
                     }
-                }.padding(.leading, 16)
-                Spacer()
+                }
                 Divider()
                 HStack {
                     Button(action: {
@@ -80,10 +82,6 @@ struct SessionDetailView: View {
                                         .bounds.width - 225) / 2 - 100)
                 Spacer()
             }
-            .listSeparatorStyle(style: .none)
-            .listStyle(.inset)
-            .padding(.leading, -20)
-            .padding(.trailing, -20)
         }.background(.white())
     }
 }

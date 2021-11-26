@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: - SessionView
+// MARK: - SessionListView
 
 struct SessionView: View {
 
@@ -19,10 +19,10 @@ struct SessionView: View {
                 .padding(.leading, 16)
                 .padding(.top, 0)
             VStack(alignment: .leading) {
-                Text(session.device + ", Приложение Aura")
+                Text(session.device + R.string.localizable.sessionAppText())
                     .font(.semibold(15))
                     .lineLimit(1)
-                Text(session.place + " • " + session.date)
+                Text(session.place + R.string.localizable.sessionSeparator() + session.date)
                     .font(.regular(12))
                     .foreground(.darkGray())
                     .lineLimit(1)
@@ -41,7 +41,7 @@ struct SessionView: View {
 
 // MARK: - ContentView
 
-struct ContentView: View {
+struct SessionListView: View {
 
     // MARK: - Internal Properties
 
@@ -53,65 +53,66 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                VStack(alignment: .center, spacing: 16) {
-                    List {
-                        Text(R.string.localizable.sessionDescription())
-                            .lineLimit(nil)
-                            .multilineTextAlignment(.leading)
-                            .font(.regular(13))
-                            .foreground(.darkGray())
+            VStack(alignment: .center, spacing: 16) {
+                List {
+                    Text(R.string.localizable.sessionDescription())
+                        .lineLimit(nil)
+                        .multilineTextAlignment(.leading)
+                        .font(.regular(13))
+                        .foreground(.darkGray())
+                        .padding([.leading, .trailing], 16)
+                    ForEach(viewModel.listData) { session in
+                        SessionView(session: session)
                             .padding([.leading, .trailing], 16)
-                        ForEach(viewModel.listData) { session in
-                            SessionView(session: session)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(.init())
                             .onTapGesture {
-                                    selectedSession = session
-                                    isSelected = true
-                                }
-                        }
+                                selectedSession = session
+                                isSelected = true
+                            }
                     }
-                    Divider()
-                    Button(action: {
-                        viewModel.listData.removeAll()
-                    }, label: {
-                        Text(R.string.localizable.sessionFinishAll())
-                            .font(.bold(15))
-                            .foreground(.white())
-                    }).frame(width: 225, height: 44, alignment: .center)
-                        .background(.blue())
-                        .cornerRadius(8)
                 }
-                .popup(isPresented: $isSelected,
-                       type: .toast,
-                       position: .bottom,
-                       closeOnTap: false,
-                       closeOnTapOutside: true,
-                       backgroundColor: Color(.black(0.3))) {
-                    SessionDetailView(session: selectedSession ?? SessionItem.sessionsInfo(id: 2),
-                                      viewModel: viewModel,
-                                      showModal: isSelected)
-                        .frame(width: UIScreen.main.bounds.width, height: 375, alignment: .center)
-                        .cornerRadius(16)
+                .listRowSeparator(.hidden)
+                .listStyle(.plain)
+                Divider()
+                Button(action: {
+                    viewModel.listData.removeAll()
+                }, label: {
+                    Text(R.string.localizable.sessionFinishAll())
+                        .font(.bold(15))
+                        .foreground(.white())
+                }).frame(width: 225, height: 44, alignment: .center)
+                    .background(.blue())
+                    .cornerRadius(8)
             }
-                    .listSeparatorStyle(style: .none)
-                    .listStyle(.inset)
-                    .padding(.leading, -20)
-                    .padding(.trailing, -20)
-                }
+            .popup(isPresented: $isSelected,
+                   type: .toast,
+                   position: .bottom,
+                   closeOnTap: false,
+                   closeOnTapOutside: true,
+                   backgroundColor: Color(.black(0.3))) {
+                SessionDetailView(session: selectedSession ?? SessionItem.sessionsInfo(id: 2),
+                                  viewModel: viewModel,
+                                  showModal: isSelected)
+                    .frame(width: UIScreen.main.bounds.width, height: 375, alignment: .center)
+                    .cornerRadius(16)
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text(R.string.localizable.sesisonTitle())
-                }
+                   .listSeparatorStyle(style: .none)
+                   .listStyle(.inset)
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text(R.string.localizable.sesisonTitle())
             }
+        }
     }
 }
 
-// MARK: - SessionView_Previews
+// MARK: - SessionListView_Previews
 
 struct SessionView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        SessionListView()
     }
 }

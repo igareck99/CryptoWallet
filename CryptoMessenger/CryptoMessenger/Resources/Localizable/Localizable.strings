@@ -166,3 +166,5 @@
 "Session.App" = "Приложения";
 "Session.Ip" = "IP-адрес";
 "Session.FinishOne" = "Завершить сеанс";
+"Session.AppText" = ", Приложение Aura";
+"Session.Separator" = " • ";

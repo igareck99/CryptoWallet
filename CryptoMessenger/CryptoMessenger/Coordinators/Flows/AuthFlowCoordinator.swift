@@ -133,7 +133,7 @@ public final class AuthFlowCoordinator: Coordinator {
     }
 
     private func showSession() {
-        let vc = BaseHostingController(rootView: ContentView())
+        let vc = BaseHostingController(rootView: SessionListView())
         setViewWith(vc)
     }
 
