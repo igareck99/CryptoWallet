@@ -167,8 +167,6 @@
 "Security.Security" = "БЕЗОПАСНОСТЬ";
 "Security.Privacy" = "КОНФЕДЕНЦИАЛЬНОСТЬ";
 
-"BlackList.Title" = "Черный список";
-"BlackList.AlertTitle" = "Разблокировать ";
 
 "ProfileViewing.All" = "Все пользователи";
 "ProfileViewing.Contacts" = "Только контакты";
@@ -182,3 +180,9 @@
 "SessionDetail.Apps" = "Приложения";
 "SessionDetail.Ip" = "IP-адрес";
 "SessionDetail.Finish" = "Завершить сеанс";
+
+
+"BlackList.Title" = "Черный список";
+"BlockedUser.AlertTitle" = "Разблокировать ";
+"BlockedUser.Cancel" = "Отмена";
+"BlockedUser.Approve" = "Да";
