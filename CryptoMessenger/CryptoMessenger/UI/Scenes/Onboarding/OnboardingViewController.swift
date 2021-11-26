@@ -78,17 +78,12 @@ final class OnboardingViewController: BaseViewController {
 
     private func addContinueButton() {
         continueButton.snap(parent: view) {
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineHeightMultiple = 1.09
-            paragraphStyle.alignment = .center
-
-            let title = R.string.localizable.onboardingContinueButton()
             $0.titleAttributes(
-                text: title,
+                text: R.string.localizable.onboardingContinueButton(),
                 [
                     .color(.white()),
                     .font(.semibold(15)),
-                    .paragraph(paragraphStyle)
+                    .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
                 ]
             )
             $0.isHidden = true
@@ -105,17 +100,12 @@ final class OnboardingViewController: BaseViewController {
 
     private func addTutorialButton() {
         tutorialButton.snap(parent: view) {
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineHeightMultiple = 1.09
-            paragraphStyle.alignment = .center
-
-            let title = R.string.localizable.onboardingTutorialButton()
             $0.titleAttributes(
-                text: title,
+                text: R.string.localizable.onboardingTutorialButton(),
                 [
                     .color(.blue()),
                     .font(.semibold(15)),
-                    .paragraph(paragraphStyle)
+                    .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
                 ]
             )
             $0.isHidden = true
@@ -130,17 +120,13 @@ final class OnboardingViewController: BaseViewController {
     }
 
     private func addInfoLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.09
-        paragraphStyle.alignment = .center
-
         infoLabel.snap(parent: view) {
             $0.textAlignment = .center
             $0.numberOfLines = 0
             $0.titleAttributes(
                 text: R.string.localizable.onboardingInformation(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center)),
                     .font(.regular(13)),
                     .color(.gray())
                 ]
@@ -153,10 +139,6 @@ final class OnboardingViewController: BaseViewController {
     }
 
     private func addPolicyButton() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.09
-        paragraphStyle.alignment = .center
-
         policyButton.snap(parent: view) {
             let title = R.string.localizable.onboardingPolicy()
             $0.titleAttributes(
@@ -164,7 +146,7 @@ final class OnboardingViewController: BaseViewController {
                 [
                     .color(.blue()),
                     .font(.regular(13)),
-                    .paragraph(paragraphStyle)
+                    .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
                 ]
             )
             $0.addTarget(self, action: #selector(self.policyButtonTap), for: .touchUpInside)

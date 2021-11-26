@@ -123,14 +123,11 @@ final class FriendProfileView: UIView {
     }
 
     private func addNameLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.21
-        paragraphStyle.alignment = .center
         nameLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: profile1.name,
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center)),
                     .font(.semibold(15)),
                     .color(.black())
                 ]
@@ -160,16 +157,13 @@ final class FriendProfileView: UIView {
     }
 
     private func addTelephoneLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.21
-        paragraphStyle.alignment = .center
         telephoneLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: profile1.telephone,
                 [
-                    .paragraph(paragraphStyle),
                     .font(.regular(15)),
-                    .color(.black())
+                    .color(.black()),
+                    .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center))
                 ]
             )
             $0.lineBreakMode = .byWordWrapping
@@ -184,16 +178,13 @@ final class FriendProfileView: UIView {
     }
 
     private func addInfoLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.21
-        paragraphStyle.alignment = .left
         infoLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: profile1.info,
                 [
-                    .paragraph(paragraphStyle),
                     .font(.regular(15)),
-                    .color(.black())
+                    .color(.black()),
+                    .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center))
                 ]
             )
             $0.lineBreakMode = .byWordWrapping
@@ -208,14 +199,11 @@ final class FriendProfileView: UIView {
     }
 
     private func addAdvertisementLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.21
-        paragraphStyle.alignment = .center
         advertisementLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: profile1.advertisement,
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center)),
                     .font(.medium(15)),
                     .color(.black())
                 ]
@@ -274,7 +262,6 @@ extension FriendProfileView: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        print("dmcmdmkdkm")
         guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else { return .init() }
         cell.profileImageView.image = profile1.images[indexPath.row]
         return cell

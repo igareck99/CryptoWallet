@@ -1,7 +1,12 @@
 import Combine
 import SwiftUI
 
+// MARK: - KeyboardAdaptive
+
 struct KeyboardAdaptive: ViewModifier {
+
+    // MARK: - Private Properties
+
     @State private var bottomPadding = CGFloat(0)
 
     func body(content: Content) -> some View {
@@ -13,12 +18,17 @@ struct KeyboardAdaptive: ViewModifier {
                     let focusedTextInputBottom = UIResponder.currentFirstResponder?.globalFrame?.maxY ?? 0
                     bottomPadding = max(0, focusedTextInputBottom - keyboardTop - geometry.safeAreaInsets.bottom)
             }
-            .animation(.easeOut(duration: 0.16))
+                .animation(.easeOut, value: 0.16)
         }
     }
 }
 
+// MARK: - View ()
+
 extension View {
+
+    // MARK: - Internal Methods
+
     func keyboardAdaptive() -> some View {
         ModifiedContent(content: self, modifier: KeyboardAdaptive())
     }

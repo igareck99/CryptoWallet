@@ -38,24 +38,28 @@ final class PersonalizationViewController: BaseViewController {
 
     private func addRightBarButtonItem() {
         let button = UIButton()
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
         button.titleAttributes(
             text: R.string.localizable.profileDetailRightButton(),
             [
-                .paragraph(paragraphStyle),
+                .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                 .font(.bold(15)),
                 .color(.blue())
             ]
         )
-        let item = UIBarButtonItem(title: R.string.localizable.profileDetailRightButton(),
-                                   style: .done,
-                                   target: self,
-                                   action: #selector(saveAction))
-        item.titleAttributes([.paragraph(paragraphStyle),
-                              .font(.semibold(15)),
-                              .color(.blue())], for: .normal    )
+        let item = UIBarButtonItem(
+            title: R.string.localizable.profileDetailRightButton(),
+            style: .done,
+            target: self,
+            action: #selector(saveAction)
+        )
+        item.titleAttributes(
+            [
+                .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
+                .font(.semibold(15)),
+                .color(.blue())
+            ],
+            for: .normal
+        )
         navigationItem.rightBarButtonItem = item
     }
 
@@ -80,14 +84,10 @@ final class PersonalizationViewController: BaseViewController {
         }
     }
 
-    @objc private func saveAction() {
-    }
+    @objc private func saveAction() {}
 
     private func showAlertForTheme() {
-        let alert = UIAlertController(title: "",
-                                      message: "",
-                                      preferredStyle: .actionSheet)
-
+        let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
         alert.addAction(
             UIAlertAction(
                 title: R.string.localizable.personalizationSystem(),
@@ -112,12 +112,9 @@ final class PersonalizationViewController: BaseViewController {
                     personalizationList[1].currentState = R.string.localizable.personalizationDark()
         }))
         alert.addAction(
-            UIAlertAction(
-                title: R.string.localizable.personalizationCancel(),
-                style: .cancel,
-                handler: { _ in
-        }))
-        self.present(alert, animated: true, completion: nil)
+            UIAlertAction(title: R.string.localizable.personalizationCancel(), style: .cancel)
+        )
+        present(alert, animated: true, completion: nil)
     }
 
 }

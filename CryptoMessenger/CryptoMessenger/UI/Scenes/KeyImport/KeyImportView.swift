@@ -101,15 +101,11 @@ final class KeyImportView: UIView {
     // MARK: - Private Methods
 
     private func addTitleLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
-
         titleLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.keyImportTitle(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                     .font(.medium(22)),
                     .color(.black())
                 ]
@@ -147,14 +143,15 @@ final class KeyImportView: UIView {
     }
 
     private func addInfoButton() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.24
-        paragraphStyle.alignment = .center
-
-        let title = R.string.localizable.keyGenerationInformation()
-
         infoButton.snap(parent: self) {
-            $0.titleAttributes(text: title, [.color(.blue()), .font(.regular(15)), .paragraph(paragraphStyle)])
+            $0.titleAttributes(
+                text: R.string.localizable.keyGenerationInformation(),
+                [
+                    .color(.blue()),
+                    .font(.regular(15)),
+                    .paragraph(.init(lineHeightMultiple: 1.24, alignment: .center))
+                ]
+            )
             $0.addTarget(self, action: #selector(self.infoButtonTap), for: .touchUpInside)
         } layout: {
             $0.top.equalTo(self.keyTextView.snp.bottom).offset(24)
@@ -164,10 +161,6 @@ final class KeyImportView: UIView {
     }
 
     private func addImportButton() {
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.09
-        paragraph.alignment = .center
-
         importButton.snap(parent: self) {
             let title = R.string.localizable.keyImportImportButton()
             $0.titleAttributes(
@@ -175,7 +168,7 @@ final class KeyImportView: UIView {
                 [
                     .color(.gray()),
                     .font(.medium(15)),
-                    .paragraph(paragraph)
+                    .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
                 ]
             )
             $0.background(.lightGray())
@@ -223,17 +216,15 @@ extension KeyImportView: UITextViewDelegate {
         let newString = ((textView.text ?? "") as NSString).replacingCharacters(in: range, with: text)
         textView.text = newString
 
-        let title = R.string.localizable.keyImportImportButton()
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.09
-        paragraph.alignment = .center
-        if !newString.isEmpty {
-            importButton.background(.blue())
-            importButton.titleAttributes(text: title, [.color(.white()), .font(.semibold(15)), .paragraph(paragraph)])
-        } else {
-            importButton.background(.lightGray())
-            importButton.titleAttributes(text: title, [.color(.gray()), .font(.semibold(15)), .paragraph(paragraph)])
-        }
+        importButton.background(newString.isEmpty ? .lightGray() : .blue())
+        importButton.titleAttributes(
+            text: R.string.localizable.keyImportImportButton(),
+            [
+                .color(newString.isEmpty ? .gray() : .white()),
+                .font(.semibold(15)),
+                .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
+            ]
+        )
         importButton.isUserInteractionEnabled = !newString.isEmpty
 
         return false

@@ -56,27 +56,30 @@ final class ProfileBackgroundViewController: BaseViewController {
 
     private func addRightBarButtonItem() {
         let button = UIButton()
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
         button.titleAttributes(
             text: R.string.localizable.profileDetailRightButton(),
             [
-                .paragraph(paragraphStyle),
+                .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                 .font(.bold(15)),
                 .color(.blue())
             ]
         )
-        let item = UIBarButtonItem(title: R.string.localizable.profileDetailRightButton(),
-                                   style: .done,
-                                   target: self,
-                                   action: nil)
-        item.titleAttributes([.paragraph(paragraphStyle),
-                              .font(.semibold(15)),
-                              .color(.blue())], for: .normal    )
+        let item = UIBarButtonItem(
+            title: R.string.localizable.profileDetailRightButton(),
+            style: .done,
+            target: self,
+            action: nil
+        )
+        item.titleAttributes(
+            [
+                .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
+                .font(.semibold(15)),
+                .color(.blue())
+            ],
+            for: .normal
+        )
         navigationItem.rightBarButtonItem = item
     }
-
 }
 
 // MARK: - ProfileBackgroundViewController (ImagePickerDelegate)

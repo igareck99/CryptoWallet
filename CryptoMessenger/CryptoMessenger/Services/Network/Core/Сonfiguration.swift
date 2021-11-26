@@ -90,7 +90,7 @@ final class Configuration: ConfigType {
 
 // MARK: - Bundle ()
 
-private extension Bundle {
+extension Bundle {
 
     // MARK: - Internal Properties
 
