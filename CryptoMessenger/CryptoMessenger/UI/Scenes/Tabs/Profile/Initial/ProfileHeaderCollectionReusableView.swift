@@ -6,8 +6,8 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
 
     // MARK: - Internal Properties
 
-    var didTap: VoidBlock?
     var didTapAddPhoto: VoidBlock?
+    var didTapBuyCell: VoidBlock?
     static let identifier = "HeaderProfileReusableView"
 
     // MARK: - Private Properties
@@ -40,14 +40,18 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
 
     @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("not implemented")
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Actions
 
     @objc private func addPhotoButtonTap() {
         didTapAddPhoto?()
+    }
+
+    @objc private func BuyButtonTap() {
+        didTapBuyCell?()
     }
 
     // MARK: - Private Methods
@@ -58,8 +62,8 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             $0.clipCorners(radius: 50)
         } layout: {
             $0.width.height.equalTo(100)
+            $0.top.equalTo(self.snp_topMargin).offset(24)
             $0.leading.equalTo($1).offset(16)
-            $0.top.equalTo($1).offset(27)
         }
     }
 
@@ -81,7 +85,7 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             $0.numberOfLines = 0
             $0.textAlignment = .left
         } layout: {
-            $0.top.equalTo($1).offset(29)
+            $0.top.equalTo(self.snp_topMargin).offset(27)
             $0.height.equalTo(18)
             $0.leading.equalTo($1).offset(132)
             $0.trailing.equalTo($1).offset(-45)
@@ -93,7 +97,7 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             let image = R.image.profile.twitter()
             $0.setImage(image, for: .normal)
         } layout: {
-            $0.top.equalTo(self.titleLabel.snp.bottom).offset(10)
+            $0.top.equalTo($1).offset(60)
             $0.leading.equalTo($1).offset(132)
             $0.height.width.equalTo(32)
         }
@@ -105,7 +109,7 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             $0.setImage(image, for: .normal)
         } layout: {
             $0.height.width.equalTo(32)
-            $0.top.equalTo(self.titleLabel.snp.bottom).offset(10)
+            $0.top.equalTo($1).offset(60)
             $0.leading.equalTo($1).offset(172)
         }
     }
@@ -116,7 +120,7 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             $0.setImage(image, for: .normal)
         } layout: {
             $0.height.width.equalTo(32)
-            $0.top.equalTo(self.titleLabel.snp.bottom).offset(10)
+            $0.top.equalTo($1).offset(60)
             $0.leading.equalTo($1).offset(212)
         }
     }
@@ -127,14 +131,14 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             $0.setImage(image, for: .normal)
         } layout: {
             $0.height.width.equalTo(32)
-            $0.top.equalTo(self.titleLabel.snp.bottom).offset(10)
+            $0.top.equalTo($1).offset(60)
             $0.leading.equalTo($1).offset(252)
         }
     }
 
     private func addPhoneLabel() {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
+        paragraphStyle.lineHeightMultiple = 1.21
         paragraphStyle.alignment = .left
 
         phoneLabel.snap(parent: self) {
@@ -148,8 +152,9 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             )
             $0.textAlignment = .left
         } layout: {
+            $0.height.equalTo(21)
             $0.top.equalTo(self.titleLabel.snp.bottom).offset(53)
-            $0.leading.equalTo($1).offset(132)
+            $0.leading.equalTo(self.profileImage.snp.trailing).offset(16)
             $0.trailing.equalTo($1).offset(-45)
         }
     }
@@ -171,7 +176,7 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             $0.textAlignment = .left
             $0.numberOfLines = 0
         } layout: {
-            $0.top.equalTo(self.profileImage.snp.bottom).offset(24)
+            $0.top.equalTo(self.phoneLabel.snp.bottom).offset(29)
             $0.leading.equalTo($1).offset(16)
             $0.trailing.equalTo($1).offset(-16)
         }

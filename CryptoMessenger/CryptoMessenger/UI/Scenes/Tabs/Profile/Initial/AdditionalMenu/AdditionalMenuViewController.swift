@@ -9,7 +9,6 @@ final class AdditionalMenuViewController: BaseViewController {
     var didProfileDetailTap: VoidBlock?
     var didPersonalizationTap: VoidBlock?
     var didTypographyTap: VoidBlock?
-    var didDeleteTap: VoidBlock?
     var didCancelTap: VoidBlock?
     var didAboutAppTap: VoidBlock?
     var didSecurityTap: VoidBlock?
@@ -51,6 +50,7 @@ final class AdditionalMenuViewController: BaseViewController {
     private func subscribeOnCustomViewActions() {
         customView.didProfileDetailTap = didProfileDetailTap
         customView.didPersonalizationTap = didPersonalizationTap
+        customView.didAboutAppTap = didAboutAppTap
         customView.didSecurityTap = didSecurityTap
     }
 

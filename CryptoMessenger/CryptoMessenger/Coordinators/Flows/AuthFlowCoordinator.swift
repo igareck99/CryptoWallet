@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 // MARK: - AuthFlowCoordinatorDelegate
 
@@ -131,6 +132,11 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
+    private func showSession() {
+        let vc = BaseHostingController(rootView: SessionListView())
+        setViewWith(vc)
+    }
+
     private func showSecurityScene() {
         let viewController = SecurityConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
@@ -161,6 +167,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case typography
         case profileBackground
         case profilePreview
+        case userSession
         case security
     }
 }
@@ -208,6 +215,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showProfileBackgroundScene()
         case .profilePreview:
             showProfilePreviewScene()
+        case .userSession:
+            showSession()
         case .security:
             showSecurityScene()
         }

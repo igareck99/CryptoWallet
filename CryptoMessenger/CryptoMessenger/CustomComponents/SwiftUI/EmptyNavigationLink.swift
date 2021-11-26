@@ -30,7 +30,7 @@ struct EmptyNavigationLink<Destination>: View where Destination: View {
             label: { EmptyView() }
         )
             .isDetailLink(false)
-//            .buttonStyle(.plain)
+            // .buttonStyle(.plain)
     }
 }
 

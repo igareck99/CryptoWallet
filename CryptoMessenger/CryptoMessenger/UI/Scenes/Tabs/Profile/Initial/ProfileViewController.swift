@@ -29,6 +29,11 @@ final class ProfileViewController: BaseViewController {
         presenter?.viewDidLoad()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showNavigationBar()
+    }
+
     // MARK: - Private Methods
 
     private func setupImagePicker() {
@@ -49,9 +54,6 @@ final class ProfileViewController: BaseViewController {
             present(vc, animated: true)
         }
 
-        controller.didDeleteTap = { [unowned self] in
-            controller.dismiss(animated: true)
-        }
         controller.didProfileDetailTap = { [unowned self] in
             controller.dismiss(animated: true)
             let vc = ProfileDetailConfigurator.configuredViewController(delegate: nil)

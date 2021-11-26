@@ -73,7 +73,7 @@ final class GenerationInfoView: UIView {
             $0.titleAttributes(
                 text: R.string.localizable.keyGenerationTitle(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                     .font(.medium(22)),
                     .color(.black())
                 ]
@@ -87,17 +87,13 @@ final class GenerationInfoView: UIView {
     }
 
     private func addDescriptionLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.24
-        paragraphStyle.alignment = .center
-
         descriptionLabel.snap(parent: self) {
             $0.textAlignment = .center
             $0.numberOfLines = 0
             $0.titleAttributes(
                 text: R.string.localizable.keyGenerationDescription(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.24, alignment: .center)),
                     .font(.regular(15)),
                     .color(.gray())
                 ]
@@ -110,19 +106,13 @@ final class GenerationInfoView: UIView {
     }
 
     private func addInfoButton() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.24
-        paragraphStyle.alignment = .center
-
-        let title = R.string.localizable.keyGenerationInformation()
-
         infoButton.snap(parent: self) {
             $0.titleAttributes(
-                text: title,
+                text: R.string.localizable.keyGenerationInformation(),
                 [
                     .color(.blue()),
                     .font(.regular(15)),
-                    .paragraph(paragraphStyle)
+                    .paragraph(.init(lineHeightMultiple: 1.24, alignment: .center))
                 ]
             )
             $0.addTarget(self, action: #selector(self.infoButtonTap), for: .touchUpInside)
@@ -144,10 +134,6 @@ final class GenerationInfoView: UIView {
     }
 
     private func addCreateButton() {
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.09
-        paragraph.alignment = .center
-
         createButton.snap(parent: self) {
             let title = R.string.localizable.keyGenerationCreateButton()
             $0.titleAttributes(
@@ -155,7 +141,7 @@ final class GenerationInfoView: UIView {
                 [
                     .color(.white()),
                     .font(.semibold(15)),
-                    .paragraph(paragraph)
+                    .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
                 ]
             )
             $0.background(.blue())
@@ -170,10 +156,6 @@ final class GenerationInfoView: UIView {
     }
 
     private func addImportButton() {
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineHeightMultiple = 1.09
-        paragraph.alignment = .center
-
         importButton.snap(parent: self) {
             let title = R.string.localizable.keyGenerationUseButton()
             $0.titleAttributes(
@@ -181,7 +163,7 @@ final class GenerationInfoView: UIView {
                 [
                     .color(.blue()),
                     .font(.semibold(15)),
-                    .paragraph(paragraph)
+                    .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
                 ]
             )
             $0.background(.clear)

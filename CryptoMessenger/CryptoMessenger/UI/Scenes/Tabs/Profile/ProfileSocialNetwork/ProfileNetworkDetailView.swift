@@ -6,7 +6,7 @@ final class ProfileNetworkDetailView: UIView {
 
     // MARK: - Internal Properties
 
-    var didTap: (() -> Void)?
+    var didTap: VoidBlock?
 
     // MARK: - Private Methods
 
@@ -41,23 +41,14 @@ final class ProfileNetworkDetailView: UIView {
         fatalError("not implemented")
     }
 
-    // MARK: - Internal Methods
-
-    func publicMethod() {
-
-    }
-
     // MARK: - Private Methods
 
     private func addMainLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.22
-        paragraphStyle.alignment = .center
         mainLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.profileNetworkDetailMain(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .center)),
                     .font(.bold(12)),
                     .color(.gray())
                 ]
@@ -73,14 +64,11 @@ final class ProfileNetworkDetailView: UIView {
     }
 
     private func addMessageLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
         messageLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.profileNetworkDetailMessage(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                     .font(.regular(12)),
                     .color(.gray())
                 ]
@@ -126,14 +114,11 @@ final class ProfileNetworkDetailView: UIView {
             let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: CGFloat(height)))
             header.background(.white())
             let label = UILabel()
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineHeightMultiple = 1.22
-            paragraphStyle.alignment = .center
             label.snap(parent: header) {
                 $0.titleAttributes(
                     text: R.string.localizable.profileNetworkDetailNotShowMessage(),
                     [
-                        .paragraph(paragraphStyle),
+                        .paragraph(.init(lineHeightMultiple: 1.22, alignment: .center)),
                         .font(.bold(12)),
                         .color(.gray())
                     ]
@@ -151,14 +136,12 @@ final class ProfileNetworkDetailView: UIView {
     }
 }
 
+// MARK: - ProfileNetworkDetailView ()
+
 extension ProfileNetworkDetailView {
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        print(sourceIndexPath)
-        if sourceIndexPath.row == tableNetworkList.count - 1 {
-            return
-        }
+        guard sourceIndexPath.row != tableNetworkList.count - 1 else { return }
         tableNetworkList.swapAt(sourceIndexPath.row, destinationIndexPath.row)
-        print(tableModel.items)
         tableModel = .init(tableNetworkList)
         tableView.reloadData()
     }

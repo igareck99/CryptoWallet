@@ -9,6 +9,7 @@ final class AdditionalMenuView: UIView {
     var didProfileDetailTap: VoidBlock?
     var didPersonalizationTap: VoidBlock?
     var didSecurityTap: VoidBlock?
+    var didAboutAppTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -72,14 +73,11 @@ final class AdditionalMenuView: UIView {
     }
 
     private func setupBalanceLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.22
-        paragraphStyle.alignment = .center
         balanceLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: "0.50 AUR",
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .center)),
                     .font(.regular(16)),
                     .color(.black())
                 ]
@@ -125,6 +123,9 @@ final class AdditionalMenuView: UIView {
                 }
                 if indexPath.section == 1 {
                     didPersonalizationTap?()
+                }
+                if indexPath.section == 8 {
+                    didAboutAppTap?()
                 }
                 if indexPath.section == 2 {
                     didSecurityTap?()

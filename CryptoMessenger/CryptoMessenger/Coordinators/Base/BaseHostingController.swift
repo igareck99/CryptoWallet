@@ -14,7 +14,7 @@ final class BaseHostingController<ContentView>: UIHostingController<ContentView>
 
     // MARK: - Lifecycle
 
-    init(rootView: ContentView, isTranslucent: Bool = true) {
+    init(rootView: ContentView, isTranslucent: Bool = false) {
         self.isTranslucent = isTranslucent
         super.init(rootView: rootView)
     }
@@ -29,7 +29,6 @@ final class BaseHostingController<ContentView>: UIHostingController<ContentView>
         if !isTranslucent {
             setupDefaultNavigationBar()
         }
-        //addLeftBarButtonItems()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -41,6 +40,5 @@ final class BaseHostingController<ContentView>: UIHostingController<ContentView>
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //setupDefaultNavigationBar()
     }
 }
