@@ -141,6 +141,11 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(vc)
     }
 
+    private func showSecurityScene() {
+        let viewController = SecurityConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
     // MARK: - Scene
 
     enum Scene {
@@ -168,6 +173,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case profilePreview
         case blockedUser
         case userSession
+        case security
     }
 }
 
@@ -216,6 +222,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showProfilePreviewScene()
         case .userSession:
             showSession()
+        case .security:
+            showSecurityScene()
         case .blockedUser:
             showBlockedUserScene()
         }
@@ -309,3 +317,7 @@ extension AuthFlowCoordinator: ProfileBackgroundSceneDelegate {}
 // MARK: - AuthFlowCoordinator (ProfileBackgroundPreviewSceneDelegate)
 
 extension AuthFlowCoordinator: ProfileBackgroundPreviewSceneDelegate {}
+
+// MARK: - AuthFlowCoordinator (SecuritySceneDelegate)
+
+extension AuthFlowCoordinator: SecuritySceneDelegate {}

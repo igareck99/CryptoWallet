@@ -8,6 +8,7 @@ final class AdditionalMenuView: UIView {
 
     var didProfileDetailTap: VoidBlock?
     var didPersonalizationTap: VoidBlock?
+    var didSecurityTap: VoidBlock?
     var didAboutAppTap: VoidBlock?
 
     // MARK: - Private Properties
@@ -125,6 +126,9 @@ final class AdditionalMenuView: UIView {
                 }
                 if indexPath.section == 8 {
                     didAboutAppTap?()
+                }
+                if indexPath.section == 2 {
+                    didSecurityTap?()
                 }
             }
             return cell

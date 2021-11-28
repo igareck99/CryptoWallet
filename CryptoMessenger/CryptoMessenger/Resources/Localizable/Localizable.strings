@@ -65,6 +65,11 @@
 "PinCode.AlertMessage" = "Запрашивать пароль после сворачивания приложения";
 "PinCode.AlertCancel" = "Нет";
 "PinCode.AlertYes" = "Да";
+"PinCode.FalseTitle" = "Ложный PIN-код";
+"PinCode.FalseText" = "Данные приложения будут мгновенно удалены с вашего устройства при вводе\n данного PIN-кода";
+"PinCode.CreateTitle" = "Введите пароль";
+"PinCode.CreateText" = "Придумайте PIN код  для защиты вашего приложения";
+
 
 
 "CallList.Delete" = "Удалить";
@@ -157,17 +162,24 @@
 
 "ProfileBackgroundPreview.SetBackground" = "Установить фон";
 
-"Sesison.Title" = "Управление сессиями";
-"Session.Description" = "История активности показывает информацию о том, с \nкаких устройств и в какое время заходили в Ваш \nаккаунт.";
-"Session.FinishAll" = "Завершить все сессии";
-"Session.AdditionalTitle" = "Сессия iPhone";
-"Session.Place" = "Место";
-"Session.Time" = "Время";
-"Session.App" = "Приложения";
-"Session.Ip" = "IP-адрес";
-"Session.FinishOne" = "Завершить сеанс";
-"Session.AppText" = ", Приложение Aura";
-"Session.Separator" = " • ";
+
+"Security.Title" = "Безопасность";
+"Security.Security" = "БЕЗОПАСНОСТЬ";
+"Security.Privacy" = "КОНФЕДЕНЦИАЛЬНОСТЬ";
+
+
+"ProfileViewing.All" = "Все пользователи";
+"ProfileViewing.Contacts" = "Только контакты";
+"ProfileViewing.Nobody" = "Никто";
+
+"Session.Title" = "Управление сессиями";
+"Session.Description" = "История активности показывает информацию о том, с каких устройств и в какое время заходили в Ваш \nаккаунт.";
+
+"SessionDetail.Place" = "Место";
+"SessionDetail.Time" = "Время";
+"SessionDetail.Apps" = "Приложения";
+"SessionDetail.Ip" = "IP-адрес";
+"SessionDetail.Finish" = "Завершить сеанс";
 
 
 "BlackList.Title" = "Черный список";

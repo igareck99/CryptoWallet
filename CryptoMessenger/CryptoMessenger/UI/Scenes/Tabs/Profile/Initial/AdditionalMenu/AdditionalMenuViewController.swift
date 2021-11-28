@@ -11,6 +11,7 @@ final class AdditionalMenuViewController: BaseViewController {
     var didTypographyTap: VoidBlock?
     var didCancelTap: VoidBlock?
     var didAboutAppTap: VoidBlock?
+    var didSecurityTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -50,6 +51,7 @@ final class AdditionalMenuViewController: BaseViewController {
         customView.didProfileDetailTap = didProfileDetailTap
         customView.didPersonalizationTap = didPersonalizationTap
         customView.didAboutAppTap = didAboutAppTap
+        customView.didSecurityTap = didSecurityTap
     }
 
     private func addTapGesture() {

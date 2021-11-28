@@ -8,6 +8,8 @@ protocol UserFlowsStorage {
     var isLocalAuth: Bool { get set }
     var isLocalAuthBackgroundAlertShown: Bool { get set }
     var isLocalAuthInBackground: Bool { get set }
+    var isPinCodeOn: Bool { get set }
+    var isFalsePinCodeOn: Bool { get set }
 }
 
 // MARK: - UserFlowsStorageService
@@ -49,5 +51,15 @@ final class UserFlowsStorageService {
     var isLocalAuthInBackground: Bool {
         get { storage.isLocalAuthInBackground }
         set { storage.isLocalAuthInBackground = newValue }
+    }
+
+    var isPinCodeOn: Bool {
+        get { storage.isPinCodeOn }
+        set { storage.isPinCodeOn = newValue }
+    }
+
+    var isFalsePinCodeOn: Bool {
+        get { storage.isFalsePinCodeOn }
+        set { storage.isFalsePinCodeOn = newValue }
     }
 }

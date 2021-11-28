@@ -87,7 +87,10 @@ final class PersonalizationViewController: BaseViewController {
     @objc private func saveAction() {}
 
     private func showAlertForTheme() {
-        let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: nil,
+                                      message: nil,
+                                      preferredStyle: .actionSheet)
+
         alert.addAction(
             UIAlertAction(
                 title: R.string.localizable.personalizationSystem(),

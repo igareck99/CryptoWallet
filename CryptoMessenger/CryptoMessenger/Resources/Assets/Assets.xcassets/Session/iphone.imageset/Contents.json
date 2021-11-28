@@ -1,6 +1,19 @@
 {
   "images" : [
     {
+      "filename" : "session.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
+
+{
+  "images" : [
+    {
       "filename" : "iphone.pdf",
       "idiom" : "universal"
     }

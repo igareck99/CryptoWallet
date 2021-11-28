@@ -66,6 +66,12 @@ final class ProfileViewController: BaseViewController {
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         }
+        controller.didSecurityTap = { [unowned self] in
+            controller.dismiss(animated: true)
+            let vc = SecurityConfigurator.configuredViewController(delegate: nil)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
         controller.didAboutAppTap = { [unowned self] in
             controller.dismiss(animated: true)
             let vc = AboutAppConfigurator.configuredViewController(delegate: nil)
@@ -93,6 +99,15 @@ final class ProfileViewController: BaseViewController {
 
     @objc private func rightButtonTap() {
         present(controller, animated: true)
+        controller.didDeleteTap = { [unowned self] in
+            controller.dismiss(animated: true)
+        }
+        controller.didProfileDetailTap = { [unowned self] in
+            controller.dismiss(animated: true)
+            let vc = ProfileDetailConfigurator.configuredViewController(delegate: nil)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
