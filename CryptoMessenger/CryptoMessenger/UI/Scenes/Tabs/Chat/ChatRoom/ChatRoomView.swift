@@ -8,10 +8,10 @@ struct ChatRoomView: View {
     // MARK: - Internal Properties
 
     @ObservedObject var viewModel: ChatRoomViewModel
-    @StateObject var keyboardHandler = KeyboardHandler()
 
     // MARK: - Private Properties
 
+    @StateObject private var keyboardHandler = KeyboardHandler()
     @Environment(\.presentationMode) private var presentationMode
     @State private var messageId = ""
     @State private var cardPosition: CardPosition = .bottom

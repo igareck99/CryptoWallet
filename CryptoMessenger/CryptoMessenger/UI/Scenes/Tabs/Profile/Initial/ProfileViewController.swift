@@ -12,7 +12,7 @@ final class ProfileViewController: BaseViewController {
 
     private lazy var customView = ProfileView(frame: UIScreen.main.bounds)
     private lazy var imagePicker = ImagePicker(fromController: self)
-    private let additionalMenuController = AdditionalMenuViewController()
+    private lazy var additionalMenuController = AdditionalMenuViewController()
 
     // MARK: - Lifecycle
 
