@@ -19,10 +19,10 @@ struct SessionView: View {
                 .padding(.leading, 16)
                 .padding(.top, 0)
             VStack(alignment: .leading) {
-                Text(session.device + R.string.localizable.sessionAppText())
+                Text(session.device + ", Приложение Aura")
                     .font(.semibold(15))
                     .lineLimit(1)
-                Text(session.place + R.string.localizable.sessionSeparator() + session.date)
+                Text(session.place + " • " + session.date)
                     .font(.regular(12))
                     .foreground(.darkGray())
                     .lineLimit(1)
@@ -78,7 +78,7 @@ struct SessionListView: View {
                 Button(action: {
                     viewModel.listData.removeAll()
                 }, label: {
-                    Text(R.string.localizable.sessionFinishAll())
+                    Text("Завершить все сессии")
                         .font(.bold(15))
                         .foreground(.white())
                 }).frame(width: 225, height: 44, alignment: .center)
@@ -103,7 +103,7 @@ struct SessionListView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text(R.string.localizable.sesisonTitle())
+                Text("Управление сессиями")
             }
         }
     }

@@ -189,13 +189,10 @@ final class SecurityPinCodeView: UIView {
             }
         }
 
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .center
         titleLabel.titleAttributes(
             text: title,
             [
-                .paragraph(paragraphStyle),
+                .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                 .font(.bold(30)),
                 .color(.black())
             ]
@@ -203,7 +200,7 @@ final class SecurityPinCodeView: UIView {
         passwordLabel.titleAttributes(
             text: text,
             [
-                .paragraph(paragraphStyle),
+                .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                 .font(.regular(15)),
                 .color(.black())
             ]
@@ -264,10 +261,6 @@ final class SecurityPinCodeView: UIView {
     }
 
     private func createButton(_ type: ButtonType) -> PinButton {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 0.98
-        paragraphStyle.alignment = .center
-
         let button = PinButton()
         button.type = type
         button.snp.makeConstraints { $0.width.height.equalTo(67) }
@@ -279,7 +272,7 @@ final class SecurityPinCodeView: UIView {
                 [
                     .font(.regular(24)),
                     .color(.black()),
-                    .paragraph(paragraphStyle)
+                    .paragraph(.init(lineHeightMultiple: 0.98, alignment: .center))
                 ]
             )
             button.setBackgroundColor(color: .paleBlue(), forState: .normal)

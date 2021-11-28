@@ -42,6 +42,9 @@ struct BlockedUserContentView: View {
     // MARK: - Internal Properties
 
     @ObservedObject var viewModel = BlockListViewModel()
+
+    // MARK: - Private Properties
+
     @State private var showingAlert = false
     @State private var currentUser = -1
 
@@ -50,20 +53,21 @@ struct BlockedUserContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(self.viewModel.listData) {user in
+                ForEach(viewModel.listData) { user in
                     BlockedUserView(item: user).onTapGesture {
-                        self.showingAlert = true
-                        self.currentUser = self.viewModel.listData.firstIndex(
+                        showingAlert.toggle()
+                        currentUser = viewModel.listData.firstIndex(
                             where: { $0.id == user.id }) ?? -1
                     }
                 }
                 .alert(isPresented: $showingAlert) {
-                    Alert(title: Text(R.string.localizable.blockedUserAlertTitle() + self.viewModel.listData[currentUser].name) ,
+                    Alert(title: Text(
+                        R.string.localizable.blockedUserAlertTitle() + viewModel.listData[currentUser].name
+                    ),
                           message: nil,
-                          primaryButton: .default(Text(R.string.localizable.blockedUserApprove()), action: {
-                        print(currentUser)
-                        self.viewModel.listData.remove(at: currentUser)
-                        print(self.viewModel.listData)
+                          primaryButton:
+                                .default(Text(R.string.localizable.blockedUserApprove()), action: {
+                        viewModel.listData.remove(at: currentUser)
                     }),
                           secondaryButton: .default(Text(R.string.localizable.blockedUserCancel())))
                 }
@@ -73,11 +77,5 @@ struct BlockedUserContentView: View {
             .listStyle(.inset)
             .padding([.leading, .trailing], -20)
         }
-    }
-}
-
-struct SessionView_Previews: PreviewProvider {
-    static var previews: some View {
-        BlockedUserContentView()
     }
 }

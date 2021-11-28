@@ -63,20 +63,17 @@ final class AdditionalViewController: BaseViewController {
             preferredStyle: .alert
         )
         alert.addAction(
-            UIAlertAction(title: R.string.localizable.callListAlertActionOne(),
-                          style: .default,
-                          handler: { _ in
-                            self.didClose()
-                        }
+            UIAlertAction(
+                title: R.string.localizable.callListAlertActionOne(),
+                style: .default,
+                handler: { _ in self.didClose() }
             )
         )
         alert.addAction(
             UIAlertAction(
                 title: R.string.localizable.callListAlertActionTwo(),
                 style: .default,
-                handler: { _ in
-                    self.didDeleteTap?()
-                }
+                handler: { _ in self.didDeleteTap?() }
             )
         )
         present(alert, animated: true)

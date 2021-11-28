@@ -68,15 +68,11 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
 
     private func addTitleLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.21
-        paragraphStyle.alignment = .left
-
         titleLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: profileDetail.name,
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.21, alignment: .left)),
                     .font(.medium(15)),
                     .color(.black())
                 ]
@@ -137,15 +133,11 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
 
     private func addPhoneLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.21
-        paragraphStyle.alignment = .left
-
         phoneLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: profileDetail.phone,
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center)),
                     .font(.regular(15)),
                     .color(.black())
                 ]
@@ -160,15 +152,11 @@ final class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
 
     private func addInfoLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
-        paragraphStyle.alignment = .left
-
         infoLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: profileDetail.description,
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
                     .font(.regular(15)),
                     .color(.black())
                 ]
