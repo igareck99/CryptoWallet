@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - BlockListViewModel
 
-class BlockListViewModel: ObservableObject {
+final class BlockListViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 

@@ -12,7 +12,7 @@ final class ProfileViewController: BaseViewController {
 
     private lazy var customView = ProfileView(frame: UIScreen.main.bounds)
     private lazy var imagePicker = ImagePicker(fromController: self)
-    private let controller = AdditionalMenuViewController()
+    private lazy var additionalMenuController = AdditionalMenuViewController()
 
     // MARK: - Lifecycle
 
@@ -22,7 +22,7 @@ final class ProfileViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupImagePicker()
+        delay(0.5) { self.setupImagePicker() }
         subscribeOnCustomViewActions()
         addLeftBarButtonItem()
         addRightBarButtonItem()
@@ -54,26 +54,26 @@ final class ProfileViewController: BaseViewController {
             present(vc, animated: true)
         }
 
-        controller.didProfileDetailTap = { [unowned self] in
-            controller.dismiss(animated: true)
+        additionalMenuController.didProfileDetailTap = { [unowned self] in
+            additionalMenuController.dismiss(animated: true)
             let vc = ProfileDetailConfigurator.configuredViewController(delegate: nil)
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         }
-        controller.didPersonalizationTap = { [unowned self] in
-            controller.dismiss(animated: true)
+        additionalMenuController.didPersonalizationTap = { [unowned self] in
+            additionalMenuController.dismiss(animated: true)
             let vc = PersonalizationConfigurator.configuredViewController(delegate: nil)
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         }
-        controller.didSecurityTap = { [unowned self] in
-            controller.dismiss(animated: true)
+        additionalMenuController.didSecurityTap = { [unowned self] in
+            additionalMenuController.dismiss(animated: true)
             let vc = SecurityConfigurator.configuredViewController(delegate: nil)
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         }
-        controller.didAboutAppTap = { [unowned self] in
-            controller.dismiss(animated: true)
+        additionalMenuController.didAboutAppTap = { [unowned self] in
+            additionalMenuController.dismiss(animated: true)
             let vc = AboutAppConfigurator.configuredViewController(delegate: nil)
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
@@ -81,7 +81,13 @@ final class ProfileViewController: BaseViewController {
     }
 
     private func addLeftBarButtonItem() {
-        let title = UIBarButtonItem(title: "@ikea_rus", style: .plain, target: nil, action: nil)
+        let userMatrixId = UserCredentialsStorageService().userMatrixId
+        let title = UIBarButtonItem(
+            title: userMatrixId,
+            style: .plain,
+            target: self,
+            action: #selector(leftButtonTap)
+        )
         navigationItem.leftBarButtonItem = title
     }
 
@@ -97,17 +103,24 @@ final class ProfileViewController: BaseViewController {
 
     // MARK: - Actions
 
+    @objc private func leftButtonTap() {
+        UIPasteboard.general.string = UserCredentialsStorageService().userMatrixId
+        let alert = UIAlertController(title: nil, message: "Скопировано!", preferredStyle: .alert)
+        present(alert, animated: true)
+        delay(0.7) { alert.dismiss(animated: true) }
+    }
+
     @objc private func rightButtonTap() {
-        present(controller, animated: true)
-        controller.didDeleteTap = { [unowned self] in
-            controller.dismiss(animated: true)
+        additionalMenuController.didDeleteTap = { [unowned self] in
+            additionalMenuController.dismiss(animated: true)
         }
-        controller.didProfileDetailTap = { [unowned self] in
-            controller.dismiss(animated: true)
+        additionalMenuController.didProfileDetailTap = { [unowned self] in
+            additionalMenuController.dismiss(animated: true)
             let vc = ProfileDetailConfigurator.configuredViewController(delegate: nil)
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         }
+        present(additionalMenuController, animated: true)
     }
 }
 

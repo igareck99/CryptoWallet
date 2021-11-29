@@ -10,6 +10,7 @@ final class AdditionalMenuView: UIView {
     var didPersonalizationTap: VoidBlock?
     var didSecurityTap: VoidBlock?
     var didAboutAppTap: VoidBlock?
+    var didDeleteTap: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -150,7 +151,7 @@ private var menuList: [MenuItem] = [
     .init(text: R.string.localizable.additionalMenuProfile(),
           image: R.image.additionalMenu.profile(), notifications: 0),
     .init(text: R.string.localizable.additionalMenuPersonalization(),
-          image: R.image.additionalMenu.personaliztion(), notifications: 0),
+          image: R.image.additionalMenu.personalization(), notifications: 0),
     .init(text: R.string.localizable.additionalMenuSecurity(),
           image: R.image.additionalMenu.security(), notifications: 0),
     .init(text: R.string.localizable.additionalMenuWallet(),

@@ -2,7 +2,11 @@ import Combine
 import Foundation
 import UIKit
 
+// MARK: - KeyboardHandler
+
 final class KeyboardHandler: NSObject, ObservableObject {
+
+    // MARK: - Internal Properties
 
     @Published var keyboardHeight = CGFloat(0)
 
@@ -11,15 +15,22 @@ final class KeyboardHandler: NSObject, ObservableObject {
     var panRecognizer: UIPanGestureRecognizer?
     var subscriptions = Set<AnyCancellable>()
 
+    // MARK: - Lifecycle
+
     override init() {
         super.init()
-        let panRecognizer = UIPanGestureRecognizer(
-            target: self, action: #selector(handlePan))
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
         panRecognizer.delegate = self
         self.panRecognizer = panRecognizer
 
-        UIApplication.shared.windows.first?
-            .addGestureRecognizer(panRecognizer)
+        guard
+            let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let window = scene.windows.first
+        else {
+            return
+        }
+
+        window.addGestureRecognizer(panRecognizer)
 
         let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification)
             .map { $0.keyboardHeight }
@@ -35,9 +46,12 @@ final class KeyboardHandler: NSObject, ObservableObject {
             .store(in: &subscriptions)
     }
 
+    // MARK: - Actions
+
     @objc private func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
         guard
-            let window = UIApplication.shared.windows.first,
+            let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let window = scene.windows.first,
             let actualKbHeight = actualKeyboardHeight
         else {
             return
@@ -49,6 +63,8 @@ final class KeyboardHandler: NSObject, ObservableObject {
         keyboardHeight = screenHeight - originY
     }
 }
+
+// MARK: - KeyboardHandler (UIGestureRecognizerDelegate)
 
 extension KeyboardHandler: UIGestureRecognizerDelegate {
     func gestureRecognizer(

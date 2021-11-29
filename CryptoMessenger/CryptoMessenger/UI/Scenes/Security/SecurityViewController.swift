@@ -55,25 +55,34 @@ final class SecurityViewController: BaseViewController {
     private func createActionSheet() {
         let alert = UIAlertController(title: nil, message: nil,
                                       preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: R.string.localizable.profileViewingAll(),
-                                      style: .default, handler: { _ in
-                                      self.customView.setVisibleProfile(state: R.string.localizable.profileViewingAll())
-        }))
+        alert.addAction(UIAlertAction(
+            title: R.string.localizable.profileViewingAll(),
+            style: .default,
+            handler: { _ in
+                self.customView.setVisibleProfile(state: R.string.localizable.profileViewingAll())
+        })
+        )
 
-        alert.addAction(UIAlertAction(title: R.string.localizable.profileViewingContacts(),
-                                      style: .default, handler: { _ in
-                                      self.customView.setVisibleProfile(state: R.string.localizable.profileViewingContacts())
-        }))
+        alert.addAction(UIAlertAction(
+            title: R.string.localizable.profileViewingContacts(),
+            style: .default,
+            handler: { _ in
+                self.customView.setVisibleProfile(state: R.string.localizable.profileViewingContacts())
+        })
+        )
 
-        alert.addAction(UIAlertAction(title: R.string.localizable.profileViewingNobody(),
-                                      style: .default, handler: { _ in
-                                      self.customView.setVisibleProfile(state:  R.string.localizable.profileViewingNobody())
-        }))
+        alert.addAction(UIAlertAction(
+            title: R.string.localizable.profileViewingNobody(),
+            style: .default,
+            handler: { _ in
+                self.customView.setVisibleProfile(state:  R.string.localizable.profileViewingNobody())
+        })
+        )
 
         alert.addAction(UIAlertAction(title: R.string.localizable.photoEditorAlertCancel(),
-                                      style: .cancel, handler: nil))
+                                      style: .cancel))
 
-        self.present(alert, animated: true, completion: nil )
+        present(alert, animated: true)
     }
 
 }

@@ -17,6 +17,13 @@ final class ProfilePresenter {
         }
     }
 
+    private var mockPhotos: [UIImage?] = [
+        R.image.profile.testpicture2(),
+        R.image.profile.testpicture3(),
+        R.image.profile.testpicture4(),
+        R.image.profile.testpicture5()
+    ]
+
     // MARK: - Lifecycle
 
     init(view: ProfileViewInterface) {
@@ -48,10 +55,3 @@ extension ProfilePresenter: ProfilePresentation {
 
     }
 }
-
-private var mockPhotos: [UIImage?] = [
-    R.image.profile.testpicture2(),
-    R.image.profile.testpicture3(),
-    R.image.profile.testpicture4(),
-    R.image.profile.testpicture5()
-]

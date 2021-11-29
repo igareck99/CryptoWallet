@@ -34,14 +34,11 @@ final class PrivacyHeaderView: UIView {
     }
 
     private func addTitleLabel() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.22
-        paragraphStyle.alignment = .center
         titleLabel.snap(parent: self) {
             $0.titleAttributes(
                 text: R.string.localizable.securityPrivacy(),
                 [
-                    .paragraph(paragraphStyle),
+                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .center)),
                     .font(.bold(12)),
                     .color(.gray())
                 ]

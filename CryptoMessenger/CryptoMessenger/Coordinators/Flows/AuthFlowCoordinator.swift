@@ -1,5 +1,5 @@
-import UIKit
 import SwiftUI
+import UIKit
 
 // MARK: - AuthFlowCoordinatorDelegate
 
@@ -130,9 +130,9 @@ public final class AuthFlowCoordinator: Coordinator {
         let viewController = ProfileBackgroundPreviewConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showBlockedUserScene() {
-        let viewController = UIHostingController(rootView: BlockedUserContentView())
+        let viewController = BaseHostingController(rootView: BlockedUserContentView())
         setViewWith(viewController)
     }
 

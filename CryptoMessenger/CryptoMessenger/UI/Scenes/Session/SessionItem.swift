@@ -16,22 +16,22 @@ struct SessionItem: Identifiable, Equatable {
     // MARK: - Static Methods
 
     static func sessions(id: Int = -1) -> [SessionItem] {
-        let item1 = SessionItem( photo: R.image.session.iphone(),
+        let item1 = SessionItem( photo: R.image.session.ios(),
                                  device: "iPhone",
                                  place: "Москва, Россия",
                                  date: "сегодня в 14:11",
                                  ip: "46.242.16.24")
-        let item2 = SessionItem(photo: R.image.session.iphone(),
+        let item2 = SessionItem(photo: R.image.session.ios(),
                                 device: "iPhone",
                                 place: "Стамбул, Турция",
                                 date: "вчера в 10:09",
                                 ip: "46.242.16.24")
-        let item3 = SessionItem(photo: R.image.session.iphone(),
+        let item3 = SessionItem(photo: R.image.session.ios(),
                                 device: "iPhone",
                                 place: "Тбилиси, Грузия",
                                 date: "23 октября в 11:45",
                                 ip: "46.242.16.24")
-        let item4 = SessionItem(photo: R.image.session.iphone(),
+        let item4 = SessionItem(photo: R.image.session.ios(),
                                 device: "iPhone",
                                 place: "Баутми, Грузия",
                                 date: "20 октября в 11:47",
@@ -48,22 +48,22 @@ struct SessionItem: Identifiable, Equatable {
     }
 
     static func sessionsInfo(id: Int) -> SessionItem {
-        let item1 = SessionItem( photo: R.image.session.iphone(),
+        let item1 = SessionItem( photo: R.image.session.ios(),
                                  device: "iPhone",
                                  place: "Москва, Россия",
                                  date: "сегодня в 14:11",
                                  ip: "46.242.16.24")
-        let item2 = SessionItem(photo: R.image.session.iphone(),
+        let item2 = SessionItem(photo: R.image.session.ios(),
                                 device: "iPhone",
                                 place: "Стамбул, Турция",
                                 date: "вчера в 10:09",
                                 ip: "46.242.16.24")
-        let item3 = SessionItem(photo: R.image.session.iphone(),
+        let item3 = SessionItem(photo: R.image.session.ios(),
                                 device: "iPhone",
                                 place: "Тбилиси, Грузия",
                                 date: "23 октября в 11:45",
                                 ip: "46.242.16.24")
-        let item4 = SessionItem(photo: R.image.session.iphone(),
+        let item4 = SessionItem(photo: R.image.session.ios(),
                                 device: "iPhone",
                                 place: "Баутми, Грузия",
                                 date: "20 октября в 11:47",

@@ -4,20 +4,31 @@ import SwiftUI
 // MARK: - NewRoomView
 
 struct NewRoomView: View {
+
+    // MARK: - Internal Properties
+
     @StateObject var mxStore: MatrixStore
     @Binding var createdRoomId: ObjectIdentifier?
+
+    // MARK: - Body
 
     var body: some View {
         NewConversationView(store: mxStore, createdRoomId: $createdRoomId)
     }
 }
 
+// MARK: - NewConversationView
+
 private struct NewConversationView: View {
-    @Environment(\.presentationMode) private var presentationMode
+
+    // MARK: - Internal Properties
 
     let store: MatrixStore?
     @Binding var createdRoomId: ObjectIdentifier?
 
+    // MARK: - Private Properties
+
+    @Environment(\.presentationMode) private var presentationMode
     @State private var users = [""]
     @State private var editMode = EditMode.inactive
     @State private var roomName = ""
@@ -26,18 +37,54 @@ private struct NewConversationView: View {
     @State private var isWaiting = false
     @State private var errorInfo: ErrorInfo?
 
+    // MARK: - ErrorInfo
+
     struct ErrorInfo: Identifiable {
+
+        // MARK: - Internal Properties
+
         let id = UUID()
         let text: String
     }
 
-    private var usersFooter: some View {
-        Text("For example @username:matrix.aura.ms")
+    // MARK: - Body
+
+    var body: some View {
+        NavigationView {
+          form
+            .environment(\.editMode, $editMode)
+            .onChange(of: users.count) { count in
+                editMode = count > 1 ? editMode : .inactive
+            }
+            .disabled(isWaiting)
+            .navigationTitle(users.count > 1 ? "Новая комната" : "Новый чат")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Отменить") {
+                        presentationMode.wrappedValue.dismiss()
+                    }.foreground(.blue())
+                }
+                ToolbarItem(placement: .automatic) {
+                    if users.count > 1 {
+                        Button(editMode.isEditing
+                                ? "Готово"
+                                : "Редактировать"
+                        ) {
+                            editMode = editMode.isEditing ? .inactive : .active
+                        }
+                        .foreground(.blue())
+                    }
+                }
+            }
+        }
     }
+
+    // MARK: - Form
 
     private var form: some View {
         Form {
-            Section(footer: usersFooter) {
+            Section(footer: Text("For example @username:matrix.aura.ms")) {
                 ForEach(0..<users.count, id: \.self) { index in
                     HStack {
                         TextField("Matrix ID",
@@ -90,36 +137,7 @@ private struct NewConversationView: View {
         }
     }
 
-    var body: some View {
-        NavigationView {
-          form
-            .environment(\.editMode, $editMode)
-            .onChange(of: users.count) { count in
-                editMode = count > 1 ? editMode : .inactive
-            }
-            .disabled(isWaiting)
-            .navigationTitle(users.count > 1 ? "Новая комната" : "Новый чат")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Отменить") {
-                        presentationMode.wrappedValue.dismiss()
-                    }.foreground(.blue())
-                }
-                ToolbarItem(placement: .automatic) {
-                    if users.count > 1 {
-                        Button(editMode.isEditing
-                                ? "Готово"
-                                : "Редактировать"
-                        ) {
-                            editMode = editMode.isEditing ? .inactive : .active
-                        }
-                        .foreground(.blue())
-                    }
-                }
-            }
-        }
-    }
+    // MARK: - Private Methods
 
     private func addUser() {
         withAnimation {

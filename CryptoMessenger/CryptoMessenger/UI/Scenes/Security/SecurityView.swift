@@ -81,7 +81,7 @@ final class SecurityView: UIView {
         tableProvider?.registerCells([SecurityCell.self, BlackListCell.self, PrivacyCell.self,
                                       SecurityAdditionalCell.self])
         tableProvider?.onConfigureCell = { [unowned self] indexPath in
-            if userFlows.isPinCodeOn == false {
+            if !userFlows.isPinCodeOn {
                 guard let provider = self.tableProvider else { return .init() }
                 var type = SecurityProviderViewModel.SectionType.allCases[0]
                 if indexPath.section == 0 {
@@ -90,7 +90,7 @@ final class SecurityView: UIView {
                 if indexPath.section == 7 {
                     type = SecurityProviderViewModel.SectionType.allCases[2]
                 }
-                if (indexPath.section != 0 && indexPath.section != 7) {
+                if indexPath.section != 0 && indexPath.section != 7 {
                     type = SecurityProviderViewModel.SectionType.allCases[1]
                 }
                 switch type {
@@ -127,7 +127,7 @@ final class SecurityView: UIView {
                 if indexPath.section == 9 {
                     type = SecurityProviderViewModel.SectionType.allCases[2]
                 }
-                if (indexPath.section >= 3 && indexPath.section <= 8) {
+                if indexPath.section >= 3 && indexPath.section <= 8 {
                     type = SecurityProviderViewModel.SectionType.allCases[1]
                 }
                 switch type {
@@ -226,12 +226,12 @@ var securityList: [SecurityItem] = [
     .init(title: "Геопозиция", currentState: "Только мои контакты"),
     .init(title: "Номер телефона", currentState: "Только мои контакты"),
     .init(title: "Управление сессиями", currentState: "Показ...устройств"),
-    .init(title: "Черный список", currentState: String(blockedPeople.count))
+    .init(title: "Черный список", currentState: "4")
 ]
 
-var additionalSecurityList: [SecurityItem] = [
-    .init(title: "Вход по опечатку/ face ID", currentState: "Разрешить вход по отпечатку / лицу"),
-    .init(title: "Ложный пароль", currentState: "Позволяет быстро удалить данные")
+var additionalSecurityList = [
+    SecurityItem(title: "Вход по опечатку/ face ID", currentState: "Разрешить вход по отпечатку / лицу"),
+    SecurityItem(title: "Ложный пароль", currentState: "Позволяет быстро удалить данные")
 ]
 
 var falsePasswordCalled = false
