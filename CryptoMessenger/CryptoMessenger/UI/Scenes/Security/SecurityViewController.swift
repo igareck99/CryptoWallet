@@ -1,7 +1,7 @@
-import UIKit
 import LocalAuthentication
+import UIKit
 
-// MARK: SecurityViewController
+// MARK: - SecurityViewController
 
 final class SecurityViewController: BaseViewController {
 
@@ -75,7 +75,7 @@ final class SecurityViewController: BaseViewController {
             title: R.string.localizable.profileViewingNobody(),
             style: .default,
             handler: { _ in
-                self.customView.setVisibleProfile(state:  R.string.localizable.profileViewingNobody())
+                self.customView.setVisibleProfile(state: R.string.localizable.profileViewingNobody())
         })
         )
 
