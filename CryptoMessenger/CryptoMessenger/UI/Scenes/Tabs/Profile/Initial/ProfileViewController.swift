@@ -22,7 +22,7 @@ final class ProfileViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupImagePicker()
+        delay(0.5) { self.setupImagePicker() }
         subscribeOnCustomViewActions()
         addLeftBarButtonItem()
         addRightBarButtonItem()
@@ -81,7 +81,13 @@ final class ProfileViewController: BaseViewController {
     }
 
     private func addLeftBarButtonItem() {
-        let title = UIBarButtonItem(title: "@ikea_rus", style: .plain, target: nil, action: nil)
+        let userMatrixId = UserCredentialsStorageService().userMatrixId
+        let title = UIBarButtonItem(
+            title: userMatrixId,
+            style: .plain,
+            target: self,
+            action: #selector(leftButtonTap)
+        )
         navigationItem.leftBarButtonItem = title
     }
 
@@ -96,6 +102,13 @@ final class ProfileViewController: BaseViewController {
     }
 
     // MARK: - Actions
+
+    @objc private func leftButtonTap() {
+        UIPasteboard.general.string = UserCredentialsStorageService().userMatrixId
+        let alert = UIAlertController(title: nil, message: "Скопировано!", preferredStyle: .alert)
+        present(alert, animated: true)
+        delay(0.7) { alert.dismiss(animated: true) }
+    }
 
     @objc private func rightButtonTap() {
         additionalMenuController.didDeleteTap = { [unowned self] in

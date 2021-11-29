@@ -7,6 +7,7 @@ protocol UserCredentialsStorage {
     var token: String { get set }
     var userId: String { get set }
     var userPhoneNumber: String { get set }
+    var userMatrixId: String { get }
     var userPinCode: String { get set }
     var userFalsePinCode: String { get set }
 }
@@ -56,4 +57,6 @@ final class UserCredentialsStorageService {
         get { storage.userPinCode }
         set { storage.userPinCode = newValue }
     }
+
+    var userMatrixId: String { storage.userMatrixId }
 }

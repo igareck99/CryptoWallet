@@ -1,3 +1,5 @@
+import KeychainAccess
+import MatrixSDK
 import UIKit
 
 // MARK: - UserDefaultSettings
@@ -86,6 +88,10 @@ struct UserDefaultsLayer {
 
     @UserDefaultSettings(userFalsePinCodeKey, value: "")
     var userFalsePinCode: String
+
+    var userMatrixId: String {
+        MXCredentials.from(Keychain(service: "chat.aura.credentials"))?.userId ?? ""
+    }
 }
 
 // MARK: - UserDefaultsLayer (UserCredentialsStorage)

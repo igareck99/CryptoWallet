@@ -61,11 +61,6 @@ extension RegistrationPresenter: RegistrationPresentation {
     }
 
     func handleNextScene(_ phone: String) {
-//        delay(1.4) {
-//            let prefix = self.selectedCountry?.prefix ?? ""
-//            self.userCredentials.userPhoneNumber = prefix + " " + phone
-//            self.delegate?.handleNextScene(.verification)
-//        }
         sendPhone(phone)
     }
 
