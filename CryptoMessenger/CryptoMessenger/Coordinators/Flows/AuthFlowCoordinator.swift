@@ -34,7 +34,8 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
+        handleNextScene(.profile)
+        //handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
     // MARK: - Private Methods
@@ -145,6 +146,11 @@ public final class AuthFlowCoordinator: Coordinator {
         let viewController = SecurityConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    private func showProfile() {
+        let vc = BaseHostingController(rootView: ProfileMainView(profile: ProfileUserItem.getProfile()))
+        setViewWith(vc)
+    }
 
     // MARK: - Scene
 
@@ -174,6 +180,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case blockedUser
         case userSession
         case security
+        case profile
     }
 }
 
@@ -226,6 +233,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showSecurityScene()
         case .blockedUser:
             showBlockedUserScene()
+        case .profile:
+            showProfile()
         }
     }
 
