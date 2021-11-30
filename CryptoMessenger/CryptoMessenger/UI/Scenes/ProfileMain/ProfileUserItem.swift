@@ -1,6 +1,8 @@
 import UIKit
 
-struct ProfileUserItem {
+// MARK: - ProfileUserItem
+
+struct ProfileUserItem: Identifiable {
 
     // MARK: - Internal Properties
 

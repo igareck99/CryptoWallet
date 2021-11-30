@@ -11,7 +11,7 @@ struct ProfileMainView: View {
     // MARK: - Body
 
     var body: some View {
-        GeometryReader { screen in
+        GeometryReader { geometry in
             NavigationView {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
@@ -23,7 +23,7 @@ struct ProfileMainView: View {
                             VStack(alignment: .leading, spacing: 11) {
                                 Text(profile.name)
                                     .font(.medium(15))
-                                Button("Добавить соцсети") {
+                                Button(R.string.localizable.profileAdd()) {
                                     
                                 }.frame(width: 160, height: 32)
                                     .font(.regular(15))
@@ -44,8 +44,7 @@ struct ProfileMainView: View {
                         }
                         VStack(alignment: .center) {
                             Button(R.string.localizable.profileAdd()) {
-                                print("addPhoto")
-                            }.frame(width: screen.size.width
+                            }.frame(width: geometry.size.width
                                     - 32, height: 44, alignment: .center)
                                 .font(.regular(15))
                                 .overlay(
@@ -78,4 +77,3 @@ struct ProfileMainViewPreview: PreviewProvider {
         ProfileMainView(profile: ProfileUserItem.getProfile())
     }
 }
-
