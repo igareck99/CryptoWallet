@@ -6,6 +6,7 @@ struct ProfileMainView: View {
 
     // MARK: - Internal Properties
 
+    @State var showingPopup = false
     var profile: ProfileUserItem
     var gridItems: [GridItem] = [GridItem(), GridItem(), GridItem()]
 
@@ -13,6 +14,7 @@ struct ProfileMainView: View {
 
     var body: some View {
         GeometryReader { geometry in
+        ZStack {
             NavigationView {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
@@ -54,16 +56,16 @@ struct ProfileMainView: View {
                         }.padding(.leading, 16)
                         LazyVGrid(columns: gridItems, alignment: .center, spacing: 1.5) {
                             ForEach((0...profile.photos.count - 1), id: \.self) { number in
-                                        VStack {
-                                            Image(uiImage: profile.photos[number] ?? UIImage())
-                                                .resizable()
-                                                .frame(width: (geometry.size.width - 3) / 3,
-                                                       height: (geometry.size.width - 3) / 3, alignment: .center)
-                                                .scaledToFit()
-                                        }
-                                    }
+                                VStack {
+                                    Image(uiImage: profile.photos[number] ?? UIImage())
+                                        .resizable()
+                                        .frame(width: (geometry.size.width - 3) / 3,
+                                               height: (geometry.size.width - 3) / 3, alignment: .center)
+                                        .scaledToFit()
                                 }
-                        FooterView().padding(.leading, 16)
+                            }
+                        }
+                        FooterView(showingPopup: false).padding(.leading, 16)
                     }
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
@@ -78,6 +80,20 @@ struct ProfileMainView: View {
                     }
                 }
             }
+        }.popup(isPresented: $showingPopup,
+                type: .toast,
+                position: .bottom,
+                closeOnTap: true,
+                closeOnTapOutside: true,
+                backgroundColor: Color(.black(0.9))) {
+            BuyCellView()
+                .padding(.leading, -16)
+                .frame(width: geometry.size.width,
+                       height: 375,
+                       alignment: .center)
+                .cornerRadius(16)
+        }
+
         }
     }
 }
@@ -86,20 +102,36 @@ struct ProfileMainView: View {
 
 struct FooterView: View {
 
+    // MARK: - Internal Properties
+
+    @State var showingPopup: Bool
+
     // MARK: - Body
 
     var body: some View {
         GeometryReader { geometry in
-        Button(R.string.localizable.profileBuyCell()) {
-            print("Buy")
-        }.frame(width: geometry.size.width
-                - 16, height: 44, alignment: .center)
-            .font(.regular(15))
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(.blue, lineWidth: 1)
-            )
-    }
+            Button(R.string.localizable.profileBuyCell()) {
+                showingPopup.toggle()
+                print(showingPopup)
+            }.frame(width: geometry.size.width
+                    - 16, height: 44, alignment: .center)
+                .font(.regular(15))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(.blue, lineWidth: 1)
+                ).popup(isPresented: $showingPopup,
+                        type: .toast,
+                        position: .bottom,
+                        closeOnTap: true,
+                        closeOnTapOutside: true,
+                        backgroundColor: Color(.black(0.9))) {
+                    BuyCellView()
+                        .frame(width: geometry.size.width,
+                               height: 375,
+                               alignment: .center)
+                        .cornerRadius(16)
+                }
+        }
     }
 }
 

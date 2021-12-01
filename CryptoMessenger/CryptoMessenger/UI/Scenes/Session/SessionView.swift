@@ -39,7 +39,7 @@ struct SessionView: View {
     }
 }
 
-// MARK: - ContentView
+// MARK: - SessionListView
 
 struct SessionListView: View {
 
