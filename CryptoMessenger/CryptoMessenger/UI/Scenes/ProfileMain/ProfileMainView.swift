@@ -63,6 +63,7 @@ struct ProfileMainView: View {
                                         }
                                     }
                                 }
+                        FooterView().padding(.leading, 16)
                     }
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
@@ -78,6 +79,27 @@ struct ProfileMainView: View {
                 }
             }
         }
+    }
+}
+
+// MARK: - FooterView
+
+struct FooterView: View {
+
+    // MARK: - Body
+
+    var body: some View {
+        GeometryReader { geometry in
+        Button(R.string.localizable.profileBuyCell()) {
+            print("Buy")
+        }.frame(width: geometry.size.width
+                - 16, height: 44, alignment: .center)
+            .font(.regular(15))
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(.blue, lineWidth: 1)
+            )
+    }
     }
 }
 
