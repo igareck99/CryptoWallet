@@ -8,7 +8,10 @@ struct ProfileMainView: View {
 
     @State var showingPopup = false
     var profile: ProfileUserItem
-    var gridItems: [GridItem] = [GridItem(), GridItem(), GridItem()]
+
+    // MARK: - Private Properties
+
+    var gridItems = [GridItem](repeating: GridItem(), count: 3)
 
     // MARK: - Body
 
@@ -55,7 +58,7 @@ struct ProfileMainView: View {
                                 )
                         }.padding(.leading, 16)
                         LazyVGrid(columns: gridItems, alignment: .center, spacing: 1.5) {
-                            ForEach((0...profile.photos.count - 1), id: \.self) { number in
+                            ForEach((0..<profile.photos.count), id: \.self) { number in
                                 VStack {
                                     Image(uiImage: profile.photos[number] ?? UIImage())
                                         .resizable()
