@@ -76,6 +76,7 @@
 		5A187F352680CF49001957D3 /* PhoneContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0D2680CF49001957D3 /* PhoneContact.swift */; };
 		5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */; };
 		5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A18EF8D26B988EA0038E991 /* ImagePicker.swift */; };
+		5A1D265C275973940085324F /* CornerRadiusStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1D265B275973940085324F /* CornerRadiusStyle.swift */; };
 		5A2181E426D80B4E0093AD60 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2181E326D80B4E0093AD60 /* ActionSheetView.swift */; };
 		5A2181E726D82DC40093AD60 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2181E626D82DC40093AD60 /* LocationManager.swift */; };
 		5A2181E926D83FD30093AD60 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2181E826D83FD20093AD60 /* MapKit.framework */; };
@@ -476,6 +477,7 @@
 		5A187F0D2680CF49001957D3 /* PhoneContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneContact.swift; sourceTree = "<group>"; };
 		5A187F0F2680CF49001957D3 /* KeyboardObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		5A18EF8D26B988EA0038E991 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		5A1D265B275973940085324F /* CornerRadiusStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadiusStyle.swift; sourceTree = "<group>"; };
 		5A2181E326D80B4E0093AD60 /* ActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		5A2181E626D82DC40093AD60 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5A2181E826D83FD20093AD60 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -1003,6 +1005,7 @@
 				5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */,
 				5A3721DB272F3A210097ABED /* DynamicHeightTextField.swift */,
 				5A3721DF272F47EA0097ABED /* EmptyNavigationLink.swift */,
+				5A1D265B275973940085324F /* CornerRadiusStyle.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -1050,15 +1053,15 @@
 			children = (
 				5A187EA8268070B3001957D3 /* UIViewController+Extensions.swift */,
 				5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */,
-				5A187EA9268070B3001957D3 /* UIColor+Extensions.swift */,
 				5A187EAA268070B3001957D3 /* UIView+Extensions.swift */,
+				5A187EB2268070B3001957D3 /* View+Extensions.swift */,
+				5A187EA9268070B3001957D3 /* UIColor+Extensions.swift */,
 				5A187EAB268070B3001957D3 /* String+Extensions.swift */,
 				5A187EAC268070B3001957D3 /* UIImageView+Kingfisher.swift */,
 				5A187EAD268070B3001957D3 /* UIImage+Extensions.swift */,
 				5A187EAE268070B3001957D3 /* NSMutableData+Extensions.swift */,
 				5A187EAF268070B3001957D3 /* UIView+SnapKit.swift */,
 				5A187EB0268070B3001957D3 /* NSObject+Extensions.swift */,
-				5A187EB2268070B3001957D3 /* View+Extensions.swift */,
 				5A187EB3268070B3001957D3 /* UITableView+Extensions.swift */,
 				5A42681626A988B9000C51DD /* UITableViewCell+Extensions.swift */,
 				5A26CD3626B31C3600118D4B /* UICollectionViewCell+Extensions.swift */,
@@ -2493,6 +2496,7 @@
 				78AF82AA2720CFEA003D918D /* PersonalizationConfigurator.swift in Sources */,
 				5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */,
 				5A7EDE75275402F00049DC4A /* BlockedUserItem.swift in Sources */,
+				5A1D265C275973940085324F /* CornerRadiusStyle.swift in Sources */,
 				5A7EDE74275402ED0049DC4A /* BlockListViewModel.swift in Sources */,
 				5A4BE517271DD86A00D03D09 /* EditEvent.swift in Sources */,
 				5A4BE51D271DD86A00D03D09 /* MXEvent+Extensions.swift in Sources */,

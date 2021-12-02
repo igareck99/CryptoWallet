@@ -13,4 +13,11 @@ enum ProfileConfigurator {
         viewController.presenter = presenter
         return viewController
     }
+
+    static func configuredView(delegate: ProfileSceneDelegate?) -> ProfileMainView {
+        //let viewModel = ChatHistoryViewModel()
+        //viewModel.delegate = delegate
+        var view = ProfileMainView(profile: ProfileUserItem.getProfile())
+        return view
+    }
 }
