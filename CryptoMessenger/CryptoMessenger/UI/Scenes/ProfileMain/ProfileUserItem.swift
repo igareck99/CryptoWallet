@@ -14,6 +14,7 @@ struct ProfileUserItem: Identifiable {
     var name: String
     var code: String
     var number: String
+    var photos: [UIImage?]
 
     // MARK: - Static Methods
 
@@ -24,6 +25,11 @@ struct ProfileUserItem: Identifiable {
                                info: "Делаю лучший крипто-мессенджер!\nЖиву в Зеленограде! Люблю качалку:)",
                                name: "Артём Квач",
                                code: "+7  Россия",
-                               number: "(925) 851-15-41")
+                               number: "(925) 851-15-41",
+                               photos: [R.image.profile.testpicture2(),
+                                        R.image.profile.testpicture5(),
+                                        R.image.profile.testpicture3(),
+                                        R.image.profile.testpicture4()]
+        )
     }
 }

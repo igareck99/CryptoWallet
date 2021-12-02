@@ -7,6 +7,7 @@ struct ProfileMainView: View {
     // MARK: - Internal Properties
 
     var profile: ProfileUserItem
+    var gridItems: [GridItem] = [GridItem(), GridItem(), GridItem()]
 
     // MARK: - Body
 
@@ -24,7 +25,6 @@ struct ProfileMainView: View {
                                 Text(profile.name)
                                     .font(.medium(15))
                                 Button(R.string.localizable.profileAdd()) {
-                                    
                                 }.frame(width: 160, height: 32)
                                     .font(.regular(15))
                                     .overlay(
@@ -33,7 +33,7 @@ struct ProfileMainView: View {
                                     )
                                 Text(profile.number)
                             }
-                        }
+                        }.padding(.leading, 16)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(profile.info)
                                 .font(.regular(15))
@@ -41,7 +41,7 @@ struct ProfileMainView: View {
                             Text(R.string.localizable.profileSite())
                                 .font(.regular(15))
                                 .foreground(.blue())
-                        }
+                        }.padding(.leading, 16)
                         VStack(alignment: .center) {
                             Button(R.string.localizable.profileAdd()) {
                             }.frame(width: geometry.size.width
@@ -51,7 +51,19 @@ struct ProfileMainView: View {
                                     RoundedRectangle(cornerRadius: 8)
                                         .stroke(.blue, lineWidth: 1)
                                 )
-                        }
+                        }.padding(.leading, 16)
+                        LazyVGrid(columns: gridItems, alignment: .center, spacing: 1.5) {
+                            ForEach((0...profile.photos.count - 1), id: \.self) { number in
+                                        VStack {
+                                            Image(uiImage: profile.photos[number] ?? UIImage())
+                                                .resizable()
+                                                .frame(width: (geometry.size.width - 3) / 3,
+                                                       height: (geometry.size.width - 3) / 3, alignment: .center)
+                                                .scaledToFit()
+                                        }
+                                    }
+                                }
+                        FooterView().padding(.leading, 16)
                     }
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
@@ -67,6 +79,27 @@ struct ProfileMainView: View {
                 }
             }
         }
+    }
+}
+
+// MARK: - FooterView
+
+struct FooterView: View {
+
+    // MARK: - Body
+
+    var body: some View {
+        GeometryReader { geometry in
+        Button(R.string.localizable.profileBuyCell()) {
+            print("Buy")
+        }.frame(width: geometry.size.width
+                - 16, height: 44, alignment: .center)
+            .font(.regular(15))
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(.blue, lineWidth: 1)
+            )
+    }
     }
 }
 
