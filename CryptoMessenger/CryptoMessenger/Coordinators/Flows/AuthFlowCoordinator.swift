@@ -146,7 +146,7 @@ public final class AuthFlowCoordinator: Coordinator {
         let viewController = SecurityConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showProfile() {
         let vc = BaseHostingController(rootView: ProfileMainView(profile: ProfileUserItem.getProfile()))
         setViewWith(vc)

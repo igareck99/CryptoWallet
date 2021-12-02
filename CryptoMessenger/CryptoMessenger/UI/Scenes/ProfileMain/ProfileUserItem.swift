@@ -6,15 +6,15 @@ struct ProfileUserItem: Identifiable {
 
     // MARK: - Internal Properties
 
-    var id = UUID()
-    var image: UIImage?
-    var nickname: String
-    var status: String
-    var info: String
-    var name: String
-    var code: String
-    var number: String
-    var photos: [UIImage?]
+    let id = UUID()
+    let image: UIImage?
+    let nickname: String
+    let status: String
+    let info: String
+    let name: String
+    let code: String
+    let number: String
+    let photos: [UIImage?]
 
     // MARK: - Static Methods
 
