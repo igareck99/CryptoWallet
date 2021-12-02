@@ -26,7 +26,6 @@ struct BuyPopView: View {
                     .font(.regular(15))
                     .foreground(.darkGray())
                 Button(R.string.localizable.profileBuyCell()) {
-                    print("Buy")
                 }
                 .frame(width: 251, height: 44, alignment: .center)
                     .font(.bold(15))
@@ -44,6 +43,10 @@ struct BuyCellView: View {
 
     // MARK: - Internal Properties
 
+    @State var showingPopup: Bool
+
+    // MARK: - Private Properties
+
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -54,7 +57,7 @@ struct BuyCellView: View {
             VStack(alignment: .leading, spacing: 48) {
                 HStack(spacing: 90) {
                     Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
+                        presentationMode.wrappedValue.dismiss()
                     }, label: {
                         Image(uiImage: R.image.buyCellsMenu.close() ?? UIImage())
                             .frame(width: 24, height: 24)
@@ -62,7 +65,7 @@ struct BuyCellView: View {
                     })
                     Text(R.string.localizable.buyCellTitle())
                         .font(.semibold(16))
-                }.padding(.trailing, -geometry.size.width / 2 + 32)
+                }.padding(.trailing, -geometry.size.width * 0.5 + 32)
                 BuyPopView()
             }
             }
@@ -74,6 +77,6 @@ struct BuyCellView: View {
 
 struct BuyCellViewPreview: PreviewProvider {
     static var previews: some View {
-        BuyCellView()
+        BuyCellView(showingPopup: false)
     }
 }

@@ -65,7 +65,7 @@ struct ProfileMainView: View {
                                 }
                             }
                         }
-                        FooterView(showingPopup: false).padding(.leading, 16)
+                        FooterView(showingPopup: showingPopup).padding(.leading, 16)
                     }
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
@@ -86,7 +86,7 @@ struct ProfileMainView: View {
                 closeOnTap: true,
                 closeOnTapOutside: true,
                 backgroundColor: Color(.black(0.9))) {
-            BuyCellView()
+            BuyCellView(showingPopup: true)
                 .padding(.leading, -16)
                 .frame(width: geometry.size.width,
                        height: 375,
@@ -125,7 +125,7 @@ struct FooterView: View {
                         closeOnTap: true,
                         closeOnTapOutside: true,
                         backgroundColor: Color(.black(0.9))) {
-                    BuyCellView()
+                    BuyCellView(showingPopup: showingPopup)
                         .frame(width: geometry.size.width,
                                height: 375,
                                alignment: .center)
