@@ -1,6 +1,11 @@
 import UIKit
 
+// MARK: - ProfileItem
+
 struct ProfileItem {
+
+    // MARK: - Internal Properties
+
     var image: UIImage
     var status: String
     var info: String

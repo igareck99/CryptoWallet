@@ -11,6 +11,7 @@ struct ProfileMainView: View {
     // MARK: - Private Properties
 
     @State private var popupSelected = false
+    @State private var showMenu = false
     private let gridItems = Array(repeating: GridItem(), count: 3)
 
     // MARK: - Body
@@ -85,10 +86,30 @@ struct ProfileMainView: View {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 Image(uiImage: R.image
                                         .profile.settings() ?? UIImage())
+                                    .onTapGesture {
+                                        showMenu = true
+                                    }
                             }
                         }
                 }
             }
+            .popup(
+                isPresented: $showMenu,
+                type: .toast,
+                position: .bottom,
+                closeOnTap: true,
+                closeOnTapOutside: true,
+                backgroundColor: Color(.gray(0.9)),
+                dismissCallback: { showTabBar() },
+                view: {
+                    ProfileMainAdditional(balance: "0.50", cells: ProfileMainMenuItem.getmenuItems())
+                        .frame(height: 712, alignment: .center)
+                        .background(
+                            CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
+                                .fill(Color(.white()))
+                        )
+                }
+            )
             .popup(
                 isPresented: $popupSelected,
                 type: .toast,

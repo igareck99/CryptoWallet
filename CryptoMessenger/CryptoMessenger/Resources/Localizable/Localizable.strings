@@ -125,6 +125,7 @@
 "ProfileDetail.DeleteAlertCancel" = "Отменить";
 "ProfileDetail.DeleteAlertApprove" = "Удалить";
 "ProfileDetail.PhonePlaceholder" = "Введите номер";
+"ProfileDetail.PhoneEnter" = "Номер телефона";
 
 
 "ProfileNetworkDetail.Title" = "Социальные сети";
