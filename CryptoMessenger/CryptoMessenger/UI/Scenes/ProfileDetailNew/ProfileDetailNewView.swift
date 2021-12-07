@@ -1,11 +1,12 @@
 import SwiftUI
 import PhoneNumberKit
+
 // MARK: - ProfileDetailNewView
 
 struct ProfileDetailNewView: View {
-    
+
     // MARK: - Private Properties
-    
+
     @State private var description = ProfileDetailItem.getProfile().description
     @State private var status = ProfileDetailItem.getProfile().status
     @State private var name = ProfileDetailItem.getProfile().name
@@ -18,7 +19,7 @@ struct ProfileDetailNewView: View {
     var profile: ProfileDetailItem
 
     // MARK: - Body
-    
+
     var body: some View {
         GeometryReader { geometry in
             NavigationView {
@@ -42,16 +43,20 @@ struct ProfileDetailNewView: View {
                                        text: $status,
                                        placeholder: "")
                             .padding([.leading, .trailing], 16)
+                        TextViewStack(label: R.string.localizable.profileDetailStatusLabel(), text: $description,
+                                      descriptionHeight: $descriptionHeight, placeholder: "Enter status")
+                            .padding([.leading, .trailing], 16)
                         TextFieldStack(label: R.string.localizable.profileDetailNameLabel(),
                                        text: $name,
                                        placeholder: R.string.localizable.profileDetailNamePlaceholder())
                             .padding([.leading, .trailing], 16)
-                        TextViewStack(label: R.string.localizable.profileDetailStatusLabel(), text: $status,
-                                      descriptionHeight: $descriptionHeight, placeholder: "Enter status")
-                            .padding(.leading, 16)
                         VStack(spacing: 8) {
                             CountryCodeView(countryCode: $code)
                             PhoneView(phone: $phone)
+                                .background(
+                                    CornerRadiusShape(radius: 8, corners: [.topLeft, .topRight])
+                                        .fill(Color(.white()))
+                                )
                         }
                         ActionView(image: R.image.profileDetail.socialNetwork() ?? UIImage(),
                                    text: R.string.localizable.profileDetailFirstItemCell(), color: .lightBlue())
@@ -122,13 +127,22 @@ struct TextViewStack: View {
     // MARK: - Body
 
     var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
         Text(label)
             .font(.bold(15))
             .foreground(.darkGray())
         ZStack(alignment: .topLeading) {
             DynamicHeightTextField(text: $text,
                                    height: $descriptionHeight)
+                .font(.regular(15))
+                .background(
+                    CornerRadiusShape(radius: 8, corners: [.topLeft, .topRight, .bottomLeft, .bottomRight])
+                        .fill(Color(.lightBlue()))
+                )
+                .frame(height: descriptionHeight)
+                .cornerRadius(8)
         }
+    }
     }
 }
 
@@ -187,8 +201,8 @@ struct PhoneView: View {
                 .frame(height: 44)
                 .background(.lightBlue())
                 .padding([.leading, .trailing], 16)
-                .cornerRadius(8)
-        }.onAppear {
+        }
+        .onAppear {
             self.phoneField = PhoneNumberTextFieldView(phoneNumber: self.$phone)
         }
     }
