@@ -403,7 +403,6 @@
 		8B740147275D360B0045ED32 /* ProfileMainAdditional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B740146275D360B0045ED32 /* ProfileMainAdditional.swift */; };
 		8B740149275D37140045ED32 /* ProfileMainMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B740148275D37140045ED32 /* ProfileMainMenuItem.swift */; };
 		8B74014B275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */; };
-		8B74014D275E875A0045ED32 /* TestNumberKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74014C275E875A0045ED32 /* TestNumberKit.swift */; };
 		8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */; };
 		8BCA91022750FCC200E8E269 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA91012750FCC200E8E269 /* Popup.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
@@ -809,7 +808,6 @@
 		8B740146275D360B0045ED32 /* ProfileMainAdditional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainAdditional.swift; sourceTree = "<group>"; };
 		8B740148275D37140045ED32 /* ProfileMainMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainMenuItem.swift; sourceTree = "<group>"; };
 		8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneNumberKit+SwiftUI.swift"; sourceTree = "<group>"; };
-		8B74014C275E875A0045ED32 /* TestNumberKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNumberKit.swift; sourceTree = "<group>"; };
 		8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		8BCA91012750FCC200E8E269 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		8BE54AD2274C605700D51827 /* BlockedUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserView.swift; sourceTree = "<group>"; };
@@ -1018,7 +1016,6 @@
 				5A3721DB272F3A210097ABED /* DynamicHeightTextField.swift */,
 				5A3721DF272F47EA0097ABED /* EmptyNavigationLink.swift */,
 				5A1D265B275973940085324F /* CornerRadiusStyle.swift */,
-				8B74014C275E875A0045ED32 /* TestNumberKit.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -2384,7 +2381,6 @@
 				78BB7E0E26F36B1200F1D500 /* FriendProfileViewController.swift in Sources */,
 				78F15FE8273DBD9800124F63 /* SecurityPinCodePresenter.swift in Sources */,
 				5A430EC527196A08004A1D2E /* ProfileView.swift in Sources */,
-				8B74014D275E875A0045ED32 /* TestNumberKit.swift in Sources */,
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
 				5A430ED327196A17004A1D2E /* AdditionalMenuView.swift in Sources */,
 				7879F4B526CFC49300D3213F /* CallStruct.swift in Sources */,
