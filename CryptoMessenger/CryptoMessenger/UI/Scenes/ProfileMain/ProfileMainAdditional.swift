@@ -3,21 +3,21 @@ import SwiftUI
 // MARK: - ProfileMainAdditional
 
 struct ProfileMainAdditional: View {
-    
+
     // MARK: - Internal Properties
-    
+
     var balance: String
     var cells: [ProfileMainMenuItem]
-    
+
     // MARK: - Body
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
                 Image(uiImage: R.image.buyCellsMenu.aura() ?? UIImage())
                     .resizable()
                     .frame(width: 24, height: 24)
-                Text(balance + "AUR")
+                Text(balance)
                     .font(.regular(16))
             }.padding()
             Divider()
@@ -84,6 +84,6 @@ struct ProfileMainAdditionalCell: View {
 
 struct ProfileMainViewPreviewView: PreviewProvider {
     static var previews: some View {
-        ProfileMainAdditional(balance: "0.50", cells: ProfileMainMenuItem.getmenuItems())
+        ProfileMainAdditional(balance: "0.50 AUR", cells: ProfileMainMenuItem.getmenuItems())
     }
 }

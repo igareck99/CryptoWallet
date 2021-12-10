@@ -5,18 +5,14 @@ import PhoneNumberKit
 
 struct ProfileDetailNewView: View {
 
-    // MARK: - Private Properties
-
-    @State private var description = ProfileDetailItem.getProfile().description
-    @State private var status = ProfileDetailItem.getProfile().status
-    @State private var name = ProfileDetailItem.getProfile().name
-    @State private var code = ProfileDetailItem.getProfile().countryCode
-    @State private var phone = ProfileDetailItem.getProfile().phone
-    @State private var descriptionHeight = CGFloat(100)
-
     // MARK: - Internal Properties
 
+    @ObservedObject var viewModel = ProfileDetailNewViewModel()
     var profile: ProfileDetailItem
+
+    // MARK: - Private Properties
+
+    @State private var descriptionHeight = CGFloat(100)
 
     // MARK: - Body
 
@@ -39,20 +35,20 @@ struct ProfileDetailNewView: View {
                                     .frame(width: 45, height: 45)
                             }.padding([.trailing, .bottom], 16)
                         }
-                        TextFieldStack(label: R.string.localizable.profileDetailStatusLabel(),
-                                       text: $status,
-                                       placeholder: "")
+                        TextFieldView(label: R.string.localizable.profileDetailStatusLabel(),
+                                      text: viewModel.$status,
+                                      placeholder: "")
                             .padding([.leading, .trailing], 16)
-                        TextViewStack(label: R.string.localizable.profileDetailStatusLabel(), text: $description,
+                        TextViewStack(label: R.string.localizable.profileDetailStatusLabel(), text: viewModel.$description,
                                       descriptionHeight: $descriptionHeight, placeholder: "Enter status")
                             .padding([.leading, .trailing], 16)
-                        TextFieldStack(label: R.string.localizable.profileDetailNameLabel(),
-                                       text: $name,
-                                       placeholder: R.string.localizable.profileDetailNamePlaceholder())
+                        TextFieldView(label: R.string.localizable.profileDetailNameLabel(),
+                                      text: viewModel.$name,
+                                      placeholder: R.string.localizable.profileDetailNamePlaceholder())
                             .padding([.leading, .trailing], 16)
                         VStack(spacing: 8) {
-                            CountryCodeView(countryCode: $code)
-                            PhoneView(phone: $phone)
+                            CountryCodeView(countryCode: viewModel.$code)
+                            PhoneView(phone: viewModel.$phone)
                                 .background(
                                     CornerRadiusShape(radius: 8, corners: [.topLeft, .topRight])
                                         .fill(Color(.white()))
@@ -87,13 +83,13 @@ struct ProfileDetailNewView: View {
     }
 }
 
-// MARK: - TextFieldStack
+// MARK: - TextFieldView
 
-struct TextFieldStack: View {
+struct TextFieldView: View {
 
     // MARK: - Internal Properties
 
-    var label: String = ""
+    var label = ""
     @Binding var text: String
     var placeholder: String
 
@@ -153,10 +149,13 @@ struct CountryCodeView: View {
     // MARK: - Internal Properties
 
     @Binding var countryCode: String
-    @State private var validationError = false
-    @State private var errorDesc = Text("")
-    @State private var countryField: CountryCoderTextFieldView?
     let phoneNumberKit = PhoneNumberKit()
+    
+    // MARK: - Private Properties
+    
+    @State private var validationError = false
+    @State private var errorDesc = ""
+    @State private var countryField: CountryCoderTextFieldView?
 
     // MARK: - Body
 
@@ -237,11 +236,3 @@ struct ActionView: View {
         }
     }
 }
-
-// MARK: - ProfileDetailNewViewPreview
-//
-//struct ProfileDetailNewViewPreview: PreviewProvider {
-//    static var previews: some View {
-//        PhoneView(countryCode: "9511423367")
-//    }
-//}
