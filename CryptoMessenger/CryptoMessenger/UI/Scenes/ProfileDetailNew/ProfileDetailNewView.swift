@@ -27,9 +27,8 @@ struct ProfileDetailNewView: View {
                                 .frame(width: geometry.size.width,
                                        height: 377)
                             ZStack {
-                                Rectangle()
-                                    .foreground(.black(0.4))
-                                    .clipShape(Circle())
+                                Circle()
+                                    .fill(Color(.black(0.4)))
                                     .frame(width: 60, height: 60)
                                 Image(uiImage: R.image.profileDetail.camera() ?? UIImage())
                                     .frame(width: 45, height: 45)
@@ -223,9 +222,8 @@ struct ActionView: View {
         VStack(alignment: .trailing) {
             HStack(spacing: 16) {
                 ZStack {
-                    Rectangle()
-                        .foreground(color)
-                        .clipShape(Circle())
+                    Circle()
+                        .fill(Color(color))
                         .frame(width: 40, height: 40)
                     Image(uiImage: image)
                         .frame(width: 20, height: 20)

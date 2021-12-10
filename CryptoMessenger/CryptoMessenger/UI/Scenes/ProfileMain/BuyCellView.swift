@@ -9,9 +9,8 @@ struct BuyPopView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
             ZStack {
-                Rectangle()
-                    .foreground(.lightBlue())
-                    .clipShape(Circle())
+                Circle()
+                    .fill(Color(.lightBlue()))
                     .frame(width: 80, height: 80)
                 Image(uiImage: R.image.buyCellsMenu.aura() ?? UIImage())
                     .background(.lightBlue())

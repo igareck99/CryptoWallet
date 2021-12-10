@@ -50,9 +50,8 @@ struct ProfileMainAdditionalCell: View {
         HStack {
             HStack(spacing: 16) {
                 ZStack {
-                    Rectangle()
-                        .foreground(.lightBlue())
-                        .clipShape(Circle())
+                    Circle()
+                        .fill(Color(.lightBlue()))
                         .frame(width: 40, height: 40)
                     Image(uiImage: item.image ?? UIImage())
                         .background(.lightBlue())
