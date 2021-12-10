@@ -233,4 +233,20 @@ final class MatrixStore: ObservableObject {
     func joinRoom(roomId: String, completion: @escaping (MXResponse<MXRoom>) -> Void) {
         session?.joinRoom(roomId, completion: completion)
     }
+
+    func setDisplayName(_ displayName: String, completion: @escaping VoidBlock) {
+        session?.myUser.setDisplayName(displayName, success: completion) { error in
+            if let error = error {
+                print(error)
+            }
+        }
+    }
+
+    func setAvatarUrl(_ avatarUrl: String, completion: @escaping VoidBlock) {
+        session?.myUser.setAvatarUrl(avatarUrl, success: completion) { error in
+            if let error = error {
+                print(error)
+            }
+        }
+    }
 }

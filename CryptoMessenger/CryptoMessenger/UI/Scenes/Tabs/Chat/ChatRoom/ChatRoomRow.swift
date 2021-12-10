@@ -27,13 +27,13 @@ struct ChatRoomRow: View {
 
     var body: some View {
         ZStack {
-            HStack {
+            HStack(spacing: 0) {
                 if isFromCurrentUser {
                     Spacer()
                 }
 
                 BubbleView(direction: isFromCurrentUser ? .right : .left) {
-                    HStack {
+                    HStack(spacing: 0) {
                         switch message.type {
                         case let .text(text):
                             textRow(message, text: text)
@@ -96,35 +96,33 @@ struct ChatRoomRow: View {
     // MARK: - Private Methods
 
     private func textRow(_ message: RoomMessage, text: String) -> some View {
-        HStack {
+        HStack(spacing: 2) {
             Text(text)
                 .lineLimit(nil)
                 .font(.regular(15))
                 .foreground(.black())
-                .padding(.leading, true ? 22 : 16)
+                .padding(.leading, !isFromCurrentUser ? 22 : 16)
                 .padding([.top, .bottom], 12)
 
-            VStack(alignment: .center) {
-                Spacer()
+                VStack(alignment: .center) {
+                    Spacer()
+                    HStack(spacing: 8) {
+                        Text(message.date)
+                            .frame(width: 40, height: 10)
+                            .font(.light(12))
+                            .foreground(.black(0.5))
+                            .padding(.trailing, !isFromCurrentUser ? 16 : 0)
 
-                HStack(spacing: 6) {
-                    Text(message.date)
-                        .frame(width: 40, height: 10)
-                        .font(.light(12))
-                        .foreground(.black(0.5))
-                        .padding(.trailing, !isFromCurrentUser ? 16 : 0)
-
-                    if isFromCurrentUser {
-                        Image(R.image.chat.readCheck.name)
-                            .resizable()
-                            .frame(width: 13.5, height: 10, alignment: .center)
-                            .padding(.trailing, 16)
+                        if isFromCurrentUser {
+                            Image(R.image.chat.readCheck.name)
+                                .resizable()
+                                .frame(width: 13.5, height: 10, alignment: .center)
+                                .padding(.trailing, 16)
+                        }
                     }
+                    .padding(.bottom, 8)
                 }
-                .padding(.bottom, 8)
-            }
         }
-        .frame(minHeight: 41, idealHeight: 41, maxHeight: .infinity)
     }
 
     private func mapRow(_ location: Location) -> some View {
@@ -295,9 +293,9 @@ struct ChatRoomRow: View {
 
     private func calculateTopPadding(isCurrentUser: Bool, isPreviousFromCurrentUser: Bool) -> CGFloat {
         if isCurrentUser {
-            return isPreviousFromCurrentUser ? 14 : 28
+            return isPreviousFromCurrentUser ? 8 : 8
         } else {
-            return isPreviousFromCurrentUser ? 28 : 14
+            return isPreviousFromCurrentUser ? 8 : 8
         }
     }
 }
