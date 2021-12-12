@@ -395,10 +395,15 @@
 		78FA36A3273A698500B331DC /* ProfileHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36A2273A698500B331DC /* ProfileHeaderCollectionReusableView.swift */; };
 		8B200FEE2744596300A847D5 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B200FED2744596300A847D5 /* SessionView.swift */; };
 		8B200FF0274459E400A847D5 /* SessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B200FEF274459E400A847D5 /* SessionItem.swift */; };
+		8B28B535276347AA00C3E486 /* ProfileDetailNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B28B534276347AA00C3E486 /* ProfileDetailNewViewModel.swift */; };
 		8B37BF79275799B300602BE0 /* BuyCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B37BF78275799B300602BE0 /* BuyCellView.swift */; };
+		8B3A816A275AC25D00E736E4 /* ProfileDetailNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3A8169275AC25D00E736E4 /* ProfileDetailNewView.swift */; };
 		8B6BEE7F275665D4003A24B6 /* ProfileMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6BEE7E275665D4003A24B6 /* ProfileMainView.swift */; };
 		8B6BEE81275665EC003A24B6 /* ProfileUserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6BEE80275665EC003A24B6 /* ProfileUserItem.swift */; };
 		8B73C1072747A193008ABB22 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B73C1062747A193008ABB22 /* SessionDetailView.swift */; };
+		8B740147275D360B0045ED32 /* ProfileMainAdditional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B740146275D360B0045ED32 /* ProfileMainAdditional.swift */; };
+		8B740149275D37140045ED32 /* ProfileMainMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B740148275D37140045ED32 /* ProfileMainMenuItem.swift */; };
+		8B74014B275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */; };
 		8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */; };
 		8BCA91022750FCC200E8E269 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA91012750FCC200E8E269 /* Popup.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
@@ -795,11 +800,16 @@
 		78FA36A2273A698500B331DC /* ProfileHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		8B200FED2744596300A847D5 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		8B200FEF274459E400A847D5 /* SessionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionItem.swift; sourceTree = "<group>"; };
+		8B28B534276347AA00C3E486 /* ProfileDetailNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailNewViewModel.swift; sourceTree = "<group>"; };
 		8B37BF78275799B300602BE0 /* BuyCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyCellView.swift; sourceTree = "<group>"; };
+		8B3A8169275AC25D00E736E4 /* ProfileDetailNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailNewView.swift; sourceTree = "<group>"; };
 		8B4DC640274D7939001B3998 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
 		8B6BEE7E275665D4003A24B6 /* ProfileMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainView.swift; sourceTree = "<group>"; };
 		8B6BEE80275665EC003A24B6 /* ProfileUserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUserItem.swift; sourceTree = "<group>"; };
 		8B73C1062747A193008ABB22 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
+		8B740146275D360B0045ED32 /* ProfileMainAdditional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainAdditional.swift; sourceTree = "<group>"; };
+		8B740148275D37140045ED32 /* ProfileMainMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainMenuItem.swift; sourceTree = "<group>"; };
+		8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneNumberKit+SwiftUI.swift"; sourceTree = "<group>"; };
 		8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		8BCA91012750FCC200E8E269 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		8BE54AD2274C605700D51827 /* BlockedUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserView.swift; sourceTree = "<group>"; };
@@ -941,6 +951,7 @@
 		5A187DF82680708D001957D3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				8B3A8168275AC24700E736E4 /* ProfileDetailNew */,
 				8B6BEE7D275665C6003A24B6 /* ProfileMain */,
 				78FA366E2737417C00B331DC /* Security */,
 				8B200FEC2744595600A847D5 /* Session */,
@@ -995,6 +1006,7 @@
 		5A187E4A2680708D001957D3 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */,
 				5A9B471B26EA7CFE001CC627 /* SlideCard */,
 				5AABB78627398A6E004D6107 /* NavigationBarModifier.swift */,
 				5A187E4B2680708D001957D3 /* ListSeparatorStyle.swift */,
@@ -2143,12 +2155,23 @@
 			path = Session;
 			sourceTree = "<group>";
 		};
+		8B3A8168275AC24700E736E4 /* ProfileDetailNew */ = {
+			isa = PBXGroup;
+			children = (
+				8B3A8169275AC25D00E736E4 /* ProfileDetailNewView.swift */,
+				8B28B534276347AA00C3E486 /* ProfileDetailNewViewModel.swift */,
+			);
+			path = ProfileDetailNew;
+			sourceTree = "<group>";
+		};
 		8B6BEE7D275665C6003A24B6 /* ProfileMain */ = {
 			isa = PBXGroup;
 			children = (
 				8B6BEE7E275665D4003A24B6 /* ProfileMainView.swift */,
 				8B6BEE80275665EC003A24B6 /* ProfileUserItem.swift */,
 				8B37BF78275799B300602BE0 /* BuyCellView.swift */,
+				8B740146275D360B0045ED32 /* ProfileMainAdditional.swift */,
+				8B740148275D37140045ED32 /* ProfileMainMenuItem.swift */,
 			);
 			path = ProfileMain;
 			sourceTree = "<group>";
@@ -2367,6 +2390,7 @@
 				5AABB7822739821D004D6107 /* ChatHistoryProtocols.swift in Sources */,
 				5A430EC727196A08004A1D2E /* ProfileProtocols.swift in Sources */,
 				78DD7642272717AE0094D510 /* ProfileBackgroundProtocols.swift in Sources */,
+				8B740149275D37140045ED32 /* ProfileMainMenuItem.swift in Sources */,
 				5A9B471D26EA7D6C001CC627 /* BlurView.swift in Sources */,
 				787AAEE72703CC2B00D734D3 /* ProfileDetailViewModel.swift in Sources */,
 				78FA36A3273A698500B331DC /* ProfileHeaderCollectionReusableView.swift in Sources */,
@@ -2480,6 +2504,7 @@
 				5A187EA42680708D001957D3 /* CollectionViewProviderType.swift in Sources */,
 				5A9318E826C5E44100645365 /* KeyboardHeightPublisher.swift in Sources */,
 				5A4BE51B271DD86A00D03D09 /* Reaction.swift in Sources */,
+				8B740147275D360B0045ED32 /* ProfileMainAdditional.swift in Sources */,
 				5A187F262680CF49001957D3 /* APIError.swift in Sources */,
 				5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */,
 				787AC7C1272309DE000AA434 /* TypographyViewModel.swift in Sources */,
@@ -2658,6 +2683,7 @@
 				789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */,
 				78DD765C2728B5670094D510 /* ProfileBackgroundPreviewFlow.swift in Sources */,
 				5A430EC227196A08004A1D2E /* ProfilePresenter.swift in Sources */,
+				8B3A816A275AC25D00E736E4 /* ProfileDetailNewView.swift in Sources */,
 				78FA36792737419200B331DC /* SecurityConfigurator.swift in Sources */,
 				78890648270684180093459C /* NetworkDetailItem.swift in Sources */,
 				78437F03270B769C00371110 /* ProfileDetailTableHeaderView.swift in Sources */,
@@ -2670,6 +2696,7 @@
 				5A187F332680CF49001957D3 /* MultipartFileData.swift in Sources */,
 				8B6BEE7F275665D4003A24B6 /* ProfileMainView.swift in Sources */,
 				5A26CD2E26B3114400118D4B /* BarButtonStyle.swift in Sources */,
+				8B28B535276347AA00C3E486 /* ProfileDetailNewViewModel.swift in Sources */,
 				5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */,
 				78FA367A2737419200B331DC /* SecurityFlow.swift in Sources */,
 				5A42680726A83554000C51DD /* RegistrationProtocols.swift in Sources */,
@@ -2737,6 +2764,7 @@
 				5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */,
 				5AF8635E26ADB691004A417C /* OnboardingPageViewController.swift in Sources */,
 				5AA6410026822C3A008922B4 /* Palette.swift in Sources */,
+				8B74014B275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

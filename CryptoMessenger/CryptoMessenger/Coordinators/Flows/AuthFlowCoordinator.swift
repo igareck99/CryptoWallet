@@ -148,7 +148,7 @@ public final class AuthFlowCoordinator: Coordinator {
     }
 
     private func showProfile() {
-        let vc = BaseHostingController(rootView: ProfileMainView(profile: ProfileUserItem.getProfile()))
+        let vc = BaseHostingController(rootView: ProfileDetailNewView(profile: ProfileDetailItem.getProfile()))
         setViewWith(vc)
     }
 
