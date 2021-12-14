@@ -153,7 +153,7 @@ private struct NewConversationView: View {
             parameters.inviteArray = users
             parameters.isDirect = true
             parameters.visibility = MXRoomDirectoryVisibility.private.identifier
-            parameters.preset = MXRoomPreset.trustedPrivateChat.identifier
+            parameters.preset = MXRoomPreset.privateChat.identifier
         } else {
             parameters.inviteArray = users
             parameters.isDirect = false

@@ -4,14 +4,24 @@ import Foundation
 
 enum ProfileDetailFlow {
 
-    // MARK: - Types
+    // MARK: - ViewState
 
     enum ViewState {
 
         // MARK: - Types
 
-        case sending
-        case result
+        case idle
+        case loading
         case error(message: String)
+    }
+
+    // MARK: - Event
+
+    enum Event {
+
+        // MARK: - Types
+
+        case onAppear
+        case onDone
     }
 }

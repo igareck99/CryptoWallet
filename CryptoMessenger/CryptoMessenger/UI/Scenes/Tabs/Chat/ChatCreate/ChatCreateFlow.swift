@@ -1,19 +1,28 @@
 import Foundation
 
-// MARK: - ProfileFlow
+// MARK: - ChatCreateFlow
 
-enum ProfileFlow {
+enum ChatCreateFlow {
 
-    // MARK: - Types
+    // MARK: - ViewState
 
     enum ViewState {
+
+        // MARK: - Types
+
         case idle
         case loading
         case error(message: String)
     }
 
+    // MARK: - Event
+
     enum Event {
+
+        // MARK: - Types
+
         case onAppear
         case onNextScene
+        case onCreate([String])
     }
 }

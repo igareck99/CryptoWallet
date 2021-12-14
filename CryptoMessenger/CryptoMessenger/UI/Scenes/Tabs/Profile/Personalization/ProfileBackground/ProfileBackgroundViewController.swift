@@ -43,11 +43,7 @@ final class ProfileBackgroundViewController: BaseViewController {
         customView.didTapAddPhoto = { [unowned self] in
             imagePicker.open()
         }
-        customView.didTapSelectPhoto = { [unowned self] in
-            let vc = ProfileBackgroundPreviewConfigurator.configuredViewController(delegate: nil)
-            vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
-        }
+        customView.didTapSelectPhoto = {}
     }
 
     private func addTitleBarButtonItem() {

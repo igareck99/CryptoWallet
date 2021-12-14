@@ -73,9 +73,9 @@ public final class AuthFlowCoordinator: Coordinator {
     }
 
     private func showCallListScene() {
-            let viewController = CallListConfigurator.configuredViewController(delegate: self)
-            setViewWith(viewController)
-        }
+        let viewController = CallListConfigurator.configuredViewController(delegate: self)
+        setViewWith(viewController)
+    }
 
     private func showPinCodeScene() {
         let viewController = PinCodeConfigurator.configuredViewController(delegate: self)
@@ -87,13 +87,8 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
-    private func showFriendProfileScene() {
-        let viewController = FriendProfileConfigurator.configuredViewController(delegate: self)
-        setViewWith(viewController)
-    }
-
     private func showProfileDetailScene() {
-        let viewController = ProfileDetailConfigurator.configuredViewController(delegate: self)
+        let viewController = BaseHostingController(rootView: ProfileDetailView(viewModel: .init()))
         setViewWith(viewController)
     }
 
@@ -127,19 +122,14 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showProfilePreviewScene() {
-        let viewController = ProfileBackgroundPreviewConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
     private func showBlockedUserScene() {
         let viewController = BaseHostingController(rootView: BlockedUserContentView())
         setViewWith(viewController)
     }
 
     private func showSession() {
-        let vc = BaseHostingController(rootView: SessionListView())
-        setViewWith(vc)
+        let viewController = BaseHostingController(rootView: SessionListView())
+        setViewWith(viewController)
     }
 
     private func showSecurityScene() {
@@ -148,8 +138,8 @@ public final class AuthFlowCoordinator: Coordinator {
     }
 
     private func showProfile() {
-        let vc = BaseHostingController(rootView: ProfileDetailNewView(profile: ProfileDetailItem.getProfile()))
-        setViewWith(vc)
+        let viewController = BaseHostingController(rootView: ProfileView(viewModel: .init()))
+        setViewWith(viewController)
     }
 
     // MARK: - Scene
@@ -168,15 +158,12 @@ public final class AuthFlowCoordinator: Coordinator {
         case countryCode(CountryCodePickerDelegate)
         case pinCode
         case photoEditor
-        case friendProfile
         case profileDetail
         case profileNetwork
         case aboutApp
         case personalization
         case appLanguage
         case typography
-        case profileBackground
-        case profilePreview
         case blockedUser
         case userSession
         case security
@@ -209,8 +196,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showCallListScene()
         case .photoEditor:
             showPhotoEditorScene(images: [])
-        case .friendProfile:
-            showFriendProfileScene()
         case .profileDetail:
             showProfileDetailScene()
         case .profileNetwork:
@@ -223,10 +208,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showAppLanguageScene()
         case .typography:
             showTypographyScene()
-        case .profileBackground:
-            showProfileBackgroundScene()
-        case .profilePreview:
-            showProfilePreviewScene()
         case .userSession:
             showSession()
         case .security:
@@ -279,10 +260,6 @@ extension AuthFlowCoordinator: PhotoEditorSceneDelegate {
     }
 }
 
-// MARK: - AuthFlowCoordinator (FriendProfileSceneDelegate)
-
-extension AuthFlowCoordinator: FriendProfileSceneDelegate {}
-
 // MARK: - AuthFlowCoordinator (PinCodeSceneDelegate)
 
 extension AuthFlowCoordinator: PinCodeSceneDelegate {
@@ -322,10 +299,6 @@ extension AuthFlowCoordinator: TypographySceneDelegate {}
 // MARK: - AuthFlowCoordinator (ProfileBackgroundSceneDelegate)
 
 extension AuthFlowCoordinator: ProfileBackgroundSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (ProfileBackgroundPreviewSceneDelegate)
-
-extension AuthFlowCoordinator: ProfileBackgroundPreviewSceneDelegate {}
 
 // MARK: - AuthFlowCoordinator (SecuritySceneDelegate)
 

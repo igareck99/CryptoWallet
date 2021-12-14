@@ -48,11 +48,7 @@ final class AboutAppViewController: BaseViewController {
         navigationItem.title = R.string.localizable.aboutAppTitle()
     }
 
-    @objc private func backButtonTap() {
-        let controller = ProfileViewController()
-        controller.modalPresentationStyle = .fullScreen
-        present(controller, animated: true)
-    }
+    @objc private func backButtonTap() {}
 
     private func subscribeCustomViewActions() {
         customView.didTapLicense = { [unowned self] in

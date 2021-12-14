@@ -12,7 +12,7 @@ struct BuyPopView: View {
                 Circle()
                     .fill(Color(.lightBlue()))
                     .frame(width: 80, height: 80)
-                Image(uiImage: R.image.buyCellsMenu.aura() ?? UIImage())
+                R.image.buyCellsMenu.aura.image
                     .background(.lightBlue())
                     .frame(width: 45, height: 45)
             }
@@ -37,9 +37,9 @@ struct BuyPopView: View {
     }
 }
 
-// MARK: - BuyCellView
+// MARK: - BuyView
 
-struct BuyCellView: View {
+struct BuyView: View {
 
     // MARK: - Private Properties
 
@@ -79,13 +79,5 @@ struct BuyCellView: View {
 
             BuyPopView()
         }
-    }
-}
-
-// MARK: - BuyCellView_Preview
-
-struct BuyCellViewPreview: PreviewProvider {
-    static var previews: some View {
-        BuyCellView()
     }
 }

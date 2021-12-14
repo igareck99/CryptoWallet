@@ -67,8 +67,7 @@ final class MainFlowCoordinator: Coordinator {
     }
 
     private func buildProfileTab() -> UIViewController {
-        let rootView = ProfileConfigurator.configuredView(delegate: nil)
-        let viewController = BaseHostingController(rootView: rootView)
+        let viewController = BaseHostingController(rootView: ProfileView(viewModel: .init()))
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.profile.item
         return navigation

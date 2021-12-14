@@ -110,9 +110,10 @@
 "ProfileDetail.Title" = "Профиль";
 "ProfileDetail.RightButton" = "Готово";
 "ProfileDetail.StatusLabel" = "Статус";
-"ProfileDetail.InfoLabel" = "Статус";
+"ProfileDetail.InfoLabel" = "Дополнительная информация";
 "ProfileDetail.NameLabel" = "Имя пользователя";
 "ProfileDetail.NamePlaceholder" = "Введите имя пользователя";
+"ProfileDetail.PhoneLabel" = "Номер телефона";
 "ProfileDetail.FirstItemCell" = "Ваши социальные сети";
 "ProfileDetail.SecondItemCell" = "Выход";
 "ProfileDetail.ThirdItemCell" = "Удалить учетную запись";

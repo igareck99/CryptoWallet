@@ -58,7 +58,6 @@ extension Message: Equatable {
     static func == (lhs: Message, rhs: Message) -> Bool { lhs.id == rhs.id }
 }
 
-
 // MARK: - RoomMessage
 
 struct RoomMessage: Identifiable {
@@ -67,7 +66,8 @@ struct RoomMessage: Identifiable {
 
     let id: String
     let type: MessageType
-    let date: String
+    let shortDate: String
+    let fullDate: String
     let isCurrentUser: Bool
     var reactions: [Reaction] = []
 }

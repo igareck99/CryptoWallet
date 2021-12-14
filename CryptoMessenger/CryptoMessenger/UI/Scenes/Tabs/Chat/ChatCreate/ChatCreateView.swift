@@ -1,55 +1,56 @@
 import SwiftUI
 
+// MARK: - CreateAction
+
+enum CreateAction: CaseIterable, Identifiable {
+
+    // MARK: - Types
+
+    case createChannel
+    case newContact
+    case groupChat
+
+    // MARK: - Internal Properties
+
+    var id: String { UUID().uuidString }
+
+    var text: Text {
+        switch self {
+        case .createChannel:
+            return Text("Создать канал")
+        case .newContact:
+            return Text("Новый контакт")
+        case .groupChat:
+            return Text("Групповой чат")
+        }
+    }
+
+    var color: Palette {
+        switch self {
+        default:
+            return .black()
+        }
+    }
+
+    var image: Image {
+        switch self {
+        case .createChannel:
+            return R.image.chat.group.channel.image
+        case .newContact:
+            return R.image.chat.group.contact.image
+        case .groupChat:
+            return R.image.chat.group.group.image
+        }
+    }
+}
+
 // MARK: - ChatCreateView
 
 struct ChatCreateView: View {
 
-    // MARK: - CreateAction
-
-    enum CreateAction: CaseIterable, Identifiable {
-
-        // MARK: - Types
-
-        case createСhannel
-        case newContact
-        case groupChat
-
-        // MARK: - Internal Properties
-
-        var id: String { UUID().uuidString }
-
-        var text: Text {
-            switch self {
-            case .createСhannel:
-                return Text("Создать канал")
-            case .newContact:
-                return Text("Новый контакт")
-            case .groupChat:
-                return Text("Групповой чат")
-            }
-        }
-
-        var color: Palette {
-            switch self {
-            default:
-                return .black()
-            }
-        }
-
-        var image: Image {
-            switch self {
-            case .createСhannel:
-                return R.image.chat.group.channel.image
-            case .newContact:
-                return R.image.chat.group.contact.image
-            case .groupChat:
-                return R.image.chat.group.group.image
-            }
-        }
-    }
-
     // MARK: - Internal Properties
 
+    @StateObject var viewModel: ChatCreateViewModel
     var onCreateGroup: VoidBlock?
 
     // MARK: - Private Properties
@@ -61,6 +62,11 @@ struct ChatCreateView: View {
     var body: some View {
         NavigationView {
             content
+                .onReceive(viewModel.$closeScreen) { closed in
+                    if closed {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -110,43 +116,38 @@ struct ChatCreateView: View {
 
                     sectionView("Контакты")
 
-                    ContactRow(
-                        image: R.image.chat.mockAvatar2.image,
-                        name: "Karen Castillo",
-                        status: "Привет, теперь я в Aura"
-                    )
-
-                    ContactRow(
-                        image: R.image.chat.mockAvatar2.image,
-                        name: "Karen Castillo",
-                        status: "Привет, теперь я в Aura"
-                    )
-
-                    ContactRow(
-                        image: R.image.chat.mockAvatar2.image,
-                        name: "Jamie Franco",
-                        status: "",
-                        hideSeparator: true
-                    )
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(viewModel.contacts) { contact in
+                            ContactRow(
+                                avatar: contact.avatar,
+                                name: contact.name,
+                                status: contact.status.isEmpty ? "Привет, теперь я в Aura" : contact.status,
+                                hideSeparator: viewModel.contacts.last?.id == contact.id
+                            ).onTapGesture {
+                                vibrate()
+                                viewModel.send(.onCreate([contact.mxId]))
+                            }
+                        }
+                    }
 
                     sectionView("Пригласить в Aura")
 
                     ContactRow(
-                        image: R.image.chat.mockAvatar2.image,
+                        avatar: nil,
                         name: "Karen Castillo",
                         status: "+7(925)813-31-62",
                         showInviteButton: true
                     ).opacity(0.6)
 
                     ContactRow(
-                        image: R.image.chat.mockAvatar2.image,
+                        avatar: nil,
                         name: "Karen Castillo",
                         status: "+7(925)813-31-62",
                         showInviteButton: true
                     ).opacity(0.6)
 
                     ContactRow(
-                        image: R.image.chat.mockAvatar2.image,
+                        avatar: nil,
                         name: "Karen Castillo",
                         status: "+7(925)813-31-62",
                         showInviteButton: true

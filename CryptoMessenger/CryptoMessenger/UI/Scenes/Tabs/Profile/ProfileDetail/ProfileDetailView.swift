@@ -1,191 +1,386 @@
-import UIKit
+import PhoneNumberKit
+import SwiftUI
 
-// MARK: - ProfileDetailView
+// MARK: - ProfileDetailType
 
-final class ProfileDetailView: UIView {
+enum ProfileDetailType: CaseIterable {
 
-    // MARK: - Type
+    // MARK: - Types
 
-    typealias Country = CountryCodePickerViewController.Country
+    case avatar, status, info, name, phone
+    case socialNetwork, exit, delete
 
     // MARK: - Internal Properties
 
-    var didTapReady: VoidBlock?
-    var didDeleteTap: VoidBlock?
-    var didLogoutTap: VoidBlock?
-    var didTapAddPhoto: VoidBlock?
-    var didTapCountryScene: VoidBlock?
+    var title: String {
+        let strings = R.string.localizable.self
+        switch self {
+        case .status:
+            return strings.profileDetailStatusLabel()
+        case .info:
+            return strings.profileDetailInfoLabel()
+        case .name:
+            return strings.profileDetailNameLabel()
+        case .phone:
+            return strings.profileDetailPhoneLabel()
+        default:
+            return ""
+        }
+    }
+}
+
+// MARK: - ProfileDetailView
+
+struct ProfileDetailView: View {
+
+    // MARK: - Internal Properties
+
+    @ObservedObject var viewModel: ProfileDetailViewModel
 
     // MARK: - Private Properties
 
-    private lazy var tableView = UITableView(frame: .zero, style: .plain)
-    private var tableProvider: TableViewProvider?
-    var selectedCountry = CountryCodePickerViewController.baseCountry
+    @State private var descriptionHeight = CGFloat(100)
+    @Environment(\.presentationMode) private var presentationMode
 
-    // MARK: - Lifecycle
+    // MARK: - Body
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        addDismissOnTap()
-        background(.white())
-        addTableView()
-        setupTableProvider()
-    }
-
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("not implemented")
-    }
-
-    // MARK: - Internal Methods
-
-    func addImage(image: UIImage) {
-        profileDetail.image = image
-        let headerView = ProfileDetailTableHeaderView(
-            frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.width)
-        )
-        tableView.tableHeaderView = headerView
-    }
-
-    func saveData() {
-        print(profileDetail)
-    }
-
-    // MARK: - Actions
-
-    @objc private func deleteAccount() {
-        didDeleteTap?()
-    }
-
-    @objc private func logout() {
-        didLogoutTap?()
-    }
-
-    @objc private func addPhoto() {
-        didTapAddPhoto?()
-    }
-
-    @objc private func countryButtonTap() {
-        didTapCountryScene?()
-        vibrate()
-    }
-
-    // MARK: - Private Methods
-
-    private func addTableView() {
-        let headerView = ProfileDetailTableHeaderView(
-            frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.width)
-        )
-        headerView.didCameraTap = {
-            self.addPhoto()
-        }
-        tableView.snap(parent: self) {
-            $0.separatorStyle = .none
-            $0.allowsSelection = true
-            $0.isUserInteractionEnabled = true
-            $0.tableHeaderView = headerView
-        } layout: {
-            $0.leading.trailing.top.bottom.equalTo($1)
-        }
-    }
-
-    private func setupTableProvider() {
-        let viewModel: ProfileDetailViewModel = .init(ProfileDetailItem())
-        tableProvider = TableViewProvider(for: tableView, with: viewModel)
-        tableProvider?.registerCells([ProfileDetailCell.self, ProfileActionCell.self, ProfileCountryCodeCell.self])
-        tableProvider?.onConfigureCell = { [unowned self] indexPath in
-            guard let provider = tableProvider else { return .init() }
-            let type = ProfileDetailViewModel.SectionType.allCases[indexPath.section]
-            switch type {
-            case .status, .description, .name, .phoneNumber:
-                let cell: ProfileDetailCell = provider.dequeueReusableCell(for: indexPath)
-                var text = ""
-                switch type {
-                case .status:
-                    text = profileDetail.status
-                case .description:
-                    text = profileDetail.description
-                case .name:
-                    text = profileDetail.name
-                case .phoneNumber:
-                    text = profileDetail.phone
-                default:
-                    break
+    var body: some View {
+        content
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Профиль", [
+                        .font(.bold(15)),
+                        .color(.black()),
+                        .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
+                    ])
                 }
-                cell.configure(text)
-                cell.delegate = self
-                return cell
-            case .countryCode:
-                let cell: ProfileCountryCodeCell = provider.dequeueReusableCell(for: indexPath)
-                cell.configure(profileDetail.countryCode)
-                return cell
-            case .socialNetwork, .exit, .deleteAccount:
-                let cell: ProfileActionCell = provider.dequeueReusableCell(for: indexPath)
-                cell.configure(type)
-                return cell
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Text("Готово")
+                        .foreground(.blue())
+                        .font(.semibold(15))
+                        .onTapGesture { viewModel.send(.onDone) }
+                }
+            }
+            .hideKeyboardOnTap()
+            .onReceive(viewModel.$closeScreen) { closed in
+                if closed {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }
+            .onAppear {
+                UITextView.appearance().backgroundColor = .clear
+                UITextView.appearance().textContainerInset = .init(top: 12, left: 0, bottom: 12, right: 0)
+                UITextView.appearance().showsVerticalScrollIndicator = false
+                hideTabBar()
+            }
+            .onDisappear {
+                showTabBar()
+            }
+    }
+
+    var content: some View {
+        GeometryReader { geometry in
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(spacing: 0) {
+                    ForEach(0..<ProfileDetailType.allCases.count, id: \.self) { index in
+                        let type = ProfileDetailType.allCases[index]
+                        switch type {
+                        case .avatar:
+                            avatarView.frame(height: geometry.size.width)
+                        case .status:
+                            TextFieldView(
+                                title: type.title.uppercased(),
+                                text: $viewModel.profile.status,
+                                placeholder: type.title
+                            )
+                                .padding(.top, 24)
+                                .padding([.leading, .trailing], 16)
+                        case .info:
+                            info(type.title)
+                                .padding(.top, 24)
+                                .padding([.leading, .trailing], 16)
+                        case .name:
+                            TextFieldView(
+                                title: type.title.uppercased(),
+                                text: $viewModel.profile.name,
+                                placeholder: type.title
+                            )
+                                .padding(.top, 24)
+                                .padding([.leading, .trailing], 16)
+                        case .phone:
+                            phone(type.title.uppercased())
+                                .padding(.top, 24)
+                                .padding([.leading, .trailing], 16)
+                        case .socialNetwork:
+                            ProfileDetailActionRow(
+                                title: "Ваши социальные сети",
+                                color: .blue(0.1),
+                                image: R.image.profileDetail.socialNetwork.image
+                            )
+                                .frame(height: 64)
+                                .padding(.top, 24)
+                                .padding([.leading, .trailing], 16)
+                        case .exit:
+                            Divider()
+                                .foreground(.grayE6EAED())
+                                .padding(.top, 16)
+
+                            ProfileDetailActionRow(
+                                title: "Выход",
+                                color: .lightRed(0.1),
+                                image: R.image.profileDetail.exit.image
+                            )
+                                .frame(height: 64)
+                                .padding(.top, 16)
+                                .padding([.leading, .trailing], 16)
+                        case .delete:
+                            ProfileDetailActionRow(
+                                title: "Удалить учетную запись",
+                                color: .lightRed(0.1),
+                                image: R.image.profileDetail.delete.image
+                            )
+                                .frame(height: 64)
+                                .padding([.leading, .trailing], 16)
+                        }
+                    }
+                }
             }
         }
-        tableProvider?.onSelectCell = { [unowned self] indexPath in
-            let type = ProfileDetailViewModel.SectionType.allCases[indexPath.section]
-            switch type {
-            case .countryCode:
-                countryButtonTap()
-            case .deleteAccount:
-                deleteAccount()
-            case .exit:
-                logout()
-            default:
-                print("")
+    }
+
+    private var avatarView: some View {
+        GeometryReader { geometry in
+            ZStack {
+                if let url = viewModel.profile.avatar {
+                    AsyncImage(url: url) { phase in
+                        if let image = phase.image {
+                            image.resizable()
+                        } else {
+                            ZStack {
+                                Rectangle()
+                                    .frame(height: geometry.size.width)
+                                    .foreground(.blue(0.1))
+                                R.image.profile.avatarThumbnail.image
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
+                            }
+                        }
+                    }
+                    .scaledToFill()
+                    .frame(width: geometry.size.width, height: geometry.size.width)
+                } else {
+                    ZStack {
+                        Rectangle()
+                            .frame(height: geometry.size.width)
+                            .foreground(.blue(0.1))
+                        R.image.profile.avatarThumbnail.image
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                    }
+                }
+
+                ZStack {
+                    VStack(spacing: 0) {
+                        Spacer()
+                        HStack(spacing: 0) {
+                            Spacer()
+                            ZStack {
+                                Circle()
+                                    .fill(Color(.black(0.4)))
+                                    .frame(width: 60, height: 60)
+                                R.image.profileDetail.camera.image
+                            }
+                            .padding([.trailing, .bottom], 16)
+                        }
+                    }
+                }
             }
         }
-        tableProvider?.onViewForHeaderInSection = {
-            viewModel.headerView(atIndex: $0)
+    }
+
+    private func info(_ title: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title.uppercased(), [
+                .font(.semibold(12)),
+                .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left)),
+                .color(.gray768286())
+
+            ]).frame(height: 22)
+            ZStack(alignment: .leading) {
+                if viewModel.profile.info.isEmpty {
+                    Text(title.firstUppercased)
+                        .foreground(.gray768286(0.7))
+                        .font(.regular(15))
+                        .padding([.leading, .trailing], 16)
+                }
+
+                TextEditor(text: $viewModel.profile.info)
+                    .foreground(.black())
+                    .font(.regular(15))
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 140)
+                    .padding([.leading, .trailing], 14)
+            }
+            .background(.paleBlue())
+            .cornerRadius(8)
+        }
+    }
+
+    private func phone(_ title: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title, [
+                .font(.semibold(12)),
+                .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left)),
+                .color(.gray768286())
+
+            ]).frame(height: 22)
+
+            HStack(spacing: 0) {
+                Text("+7   Россия")
+                    .foreground(.black())
+                    .frame(height: 44)
+                    .font(.regular(15))
+                    .padding(.leading, 16)
+                Spacer()
+                R.image.profileDetail.arrow.image
+                    .padding(.trailing, 16)
+            }
+            .background(.paleBlue())
+            .cornerRadius(8)
+
+            PhoneView(phone: $viewModel.profile.phone)
         }
     }
 }
 
-// MARK: - ProfileDetailView (ProfileDetailDelegate)
+// MARK: - TextFieldView
 
-extension ProfileDetailView: ProfileDetailDelegate {
-    func update(_ cell: UITableViewCell, _ textView: UITextView) {
-        if let indexPath = tableView.indexPath(for: cell) {
-            _ = textView.text ?? ""
-            let type = ProfileDetailViewModel.SectionType.allCases[indexPath.section]
-            switch type {
-            case .status:
-                profileDetail.status = textView.text
-            case .description:
-                profileDetail.description = textView.text
-            case .name:
-                profileDetail.name = textView.text
-            case .phoneNumber:
-                profileDetail.phone = textView.text
-            case .countryCode:
-                profileDetail.countryCode = textView.text
-            default:
-                break
-            }
-        }
+struct TextFieldView: View {
 
-        let size = textView.bounds.size
-        let newSize = tableView.sizeThatFits(
-            CGSize(width: size.width, height: CGFloat.greatestFiniteMagnitude)
-        )
-        if size.height != newSize.height {
-            UIView.setAnimationsEnabled(false)
-            tableView.beginUpdates()
-            tableView.endUpdates()
-            UIView.setAnimationsEnabled(true)
-            if let thisIndexPath = tableView.indexPath(for: cell) {
-                tableView.scrollToRow(at: thisIndexPath, at: .bottom, animated: false)
+    // MARK: - Internal Properties
+
+    var title = ""
+    @Binding var text: String
+    var placeholder: String
+
+    // MARK: - Body
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title, [
+                .font(.semibold(12)),
+                .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left)),
+                .color(.gray768286())
+
+            ]).frame(height: 22)
+            HStack {
+                TextField(placeholder, text: $text)
+                    .foreground(.black())
+                    .frame(height: 44)
+                    .font(.regular(15))
+                    .padding([.leading, .trailing], 16)
             }
+            .background(.paleBlue())
+            .cornerRadius(8)
         }
     }
 }
 
-var profileDetail : ProfileDetailItem = ProfileDetailItem(image: R.image.profileDetail.mainImage1(),
-                                                          status: "AURA Россия",
-                                                          description: "Делаю лучший крипто-мессенджер!\nЖиву в Зеленограде! Люблю качалку:)",
-                                                          name: "Артём Квач",
-                                                          countryCode: "+7  Россия",
-                                                          phone: "(925) 851-15-41")
+// MARK: - CountryCodeView
+
+struct CountryCodeView: View {
+
+    // MARK: - Internal Properties
+
+    @Binding var countryCode: String
+    let phoneNumberKit = PhoneNumberKit()
+
+    // MARK: - Private Properties
+
+    @State private var countryField: CountryCoderTextFieldView?
+
+    // MARK: - Body
+
+    var body: some View {
+        VStack(alignment: .leading,
+               spacing: 8) {
+            Text(R.string.localizable.profileDetailPhonePlaceholder())
+                .padding(.leading, 16)
+                .font(.bold(15))
+                .foreground(.darkGray())
+            HStack {
+                countryField
+                    .frame(height: 44)
+                R.image.additionalMenu.grayArrow.image
+                    .padding(.trailing, 34)
+            }.background(.lightBlue())
+                .padding([.leading, .trailing], 16)
+                .cornerRadius(8)
+        }.onAppear {
+            countryField = CountryCoderTextFieldView(phoneNumber: $countryCode)
+        }
+    }
+}
+
+// MARK: - PhoneView
+
+struct PhoneView: View {
+
+    // MARK: - Internal Properties
+
+    @Binding var phone: String
+    @State private var phoneField: PhoneNumberTextFieldView?
+    let phoneNumberKit = PhoneNumberKit()
+
+    // MARK: - Body
+
+    var body: some View {
+        HStack {
+            phoneField
+                .foreground(.black())
+                .font(.regular(15))
+                .background(.paleBlue())
+                .frame(height: 44)
+                .padding([.leading, .trailing], 16)
+        }
+        .frame(height: 44)
+        .background(.paleBlue())
+        .cornerRadius(8)
+        .onAppear {
+            phoneField = PhoneNumberTextFieldView(phoneNumber: $phone)
+        }
+    }
+}
+
+// MARK: - ProfileDetailActionRow
+
+struct ProfileDetailActionRow: View {
+
+    // MARK: - Internal Properties
+
+    let title: String
+    let color: Palette
+    let image: Image
+
+    // MARK: - Body
+
+    var body: some View {
+        HStack(spacing: 0) {
+            ZStack {
+                Circle()
+                    .fill(Color(color))
+                    .frame(width: 40, height: 40)
+                image
+                    .frame(width: 20, height: 20)
+            }
+
+            Text(title)
+                .font(.regular(15))
+                .padding(.leading, 16)
+
+            Spacer()
+
+            R.image.additionalMenu.grayArrow.image
+        }
+    }
+}
