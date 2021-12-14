@@ -12,6 +12,7 @@ enum Palette: Hashable {
          black(_ alpha: CGFloat = 1),
          // 222222 black
          black222222(_ alpha: CGFloat = 1),
+         // F5F6F8 light gray
          lightGray(_ alpha: CGFloat = 1),
          // E6EAED gray
          grayE6EAED(_ alpha: CGFloat = 1),

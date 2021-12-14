@@ -31,6 +31,7 @@ struct BubbleView<Content>: View where Content: View {
                 )
                 .clipShape(
                     BubbleShape(direction: direction)
+
                 )
                 .overlay(
                     BubbleShape(direction: direction)
@@ -44,7 +45,7 @@ struct BubbleView<Content>: View where Content: View {
         }
         .padding(direction == .left ? .leading : .trailing, 16)
         .padding(direction == .right ? .leading : .trailing, 22)
-        .transition(isAnimating ? .move(edge: .bottom).animation(.easeIn) : .identity)
+        .transition(isAnimating ? .opacity.animation(.easeIn) : .identity)
         .onAppear {
             if !isAnimating {
                 isAnimating.toggle()

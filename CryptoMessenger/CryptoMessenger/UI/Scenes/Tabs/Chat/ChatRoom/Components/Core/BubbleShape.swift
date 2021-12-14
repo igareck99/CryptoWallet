@@ -10,8 +10,7 @@ struct BubbleShape: Shape {
 
         // MARK: - Types
 
-        case left
-        case right
+        case left, right
     }
 
     // MARK: - Internal Properties

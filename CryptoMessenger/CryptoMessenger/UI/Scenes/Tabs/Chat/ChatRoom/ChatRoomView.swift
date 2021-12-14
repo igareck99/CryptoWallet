@@ -156,6 +156,13 @@ struct ChatRoomView: View {
                                         messageId = message.id
                                         cardPosition = .middle
                                     }
+
+                                if viewModel.next(message)?.date != message.date {
+                                    dateView(date: message.date)
+                                        .flippedUpsideDown()
+                                        .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
+                                        .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                }
                             }
                             .onChange(of: viewModel.messages) { _ in
                                 viewModel.room.markAllAsRead()
@@ -176,9 +183,6 @@ struct ChatRoomView: View {
                                     scrollView.scrollTo(id, anchor: .bottom)
                                 }
                             }
-                            .onDisappear {
-                                print("onDisappear")
-                            }
                         }
                         .ignoresSafeArea()
                     }
@@ -198,6 +202,18 @@ struct ChatRoomView: View {
         }
         .hideKeyboardOnTap()
         .edgesIgnoringSafeArea(.bottom)
+    }
+
+    private func dateView(date: String) -> some View {
+        HStack {
+            Text(date)
+                .font(.regular(14))
+                .padding([.leading, .trailing], 17)
+                .padding([.top, .bottom], 3)
+        }
+        .background(.lightGray())
+        .cornerRadius(8)
+        .padding([.bottom, .top], 8)
     }
 
     private var headerView: some View {
@@ -275,7 +291,7 @@ struct ChatRoomView: View {
         ZStack {
             Color(cardPosition == .bottom ? .clear : .black(0.4))
                 .ignoresSafeArea()
-                .animation(.easeInOut)
+                .animation(.easeInOut, value: cardPosition != .bottom)
                 .onTapGesture {
                     vibrate()
                     cardPosition = .bottom

@@ -58,7 +58,6 @@ extension Message: Equatable {
     static func == (lhs: Message, rhs: Message) -> Bool { lhs.id == rhs.id }
 }
 
-
 // MARK: - RoomMessage
 
 struct RoomMessage: Identifiable {
