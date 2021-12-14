@@ -84,13 +84,12 @@ struct ProfileSettingsMenuView: View {
                     }
 
                     ProfileSettingsMenuRow(title: type.result.title, image: type.result.image, notifications: 0)
+                        .background(.white())
                         .frame(height: 64)
                         .listRowInsets(.init())
                         .listRowSeparator(.hidden)
-                        .onTapGesture {
-                            onSelect(type)
-                        }
                         .padding([.leading, .trailing], 16)
+                        .onTapGesture { onSelect(type) }
                 }
             }
             .listStyle(.plain)

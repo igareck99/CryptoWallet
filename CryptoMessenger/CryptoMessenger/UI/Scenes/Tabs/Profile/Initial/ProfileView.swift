@@ -33,7 +33,7 @@ struct ProfileView: View {
                 }
             }
             .background(
-                EmptyNavigationLink(destination: ProfileDetailNewView(profile: .init()), isActive: $showProfileDetail)
+                EmptyNavigationLink(destination: ProfileDetailView(viewModel: .init()), isActive: $showProfileDetail)
             )
             .popup(
                 isPresented: $showMenu,
@@ -104,7 +104,9 @@ struct ProfileView: View {
 
                                     Text(viewModel.profile.phone)
                                 }
-                            }.padding(.leading, 16)
+                            }
+                            .padding(.top, 27)
+                            .padding(.leading, 16)
 
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(viewModel.profile.info)

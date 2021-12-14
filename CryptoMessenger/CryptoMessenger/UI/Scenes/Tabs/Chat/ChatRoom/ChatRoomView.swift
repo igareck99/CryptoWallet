@@ -137,7 +137,7 @@ struct ChatRoomView: View {
             VStack(spacing: 0) {
                 ScrollViewReader { scrollView in
                     ScrollView(.vertical, showsIndicators: false) {
-                        VStack {
+                        VStack(spacing: 0) {
                             Spacer().frame(height: 16)
 
                             ForEach(viewModel.messages) { message in
