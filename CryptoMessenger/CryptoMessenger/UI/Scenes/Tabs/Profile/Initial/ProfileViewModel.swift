@@ -44,6 +44,12 @@ final class ProfileViewModel: ObservableObject {
 
     init() {
         profile.nickname = mxStore.getUserId()
+        if !mxStore.getDisplayName().isEmpty {
+            profile.name = mxStore.getDisplayName()
+        }
+        if !mxStore.getStatus().isEmpty {
+            profile.status = mxStore.getStatus()
+        }
         bindInput()
         bindOutput()
     }

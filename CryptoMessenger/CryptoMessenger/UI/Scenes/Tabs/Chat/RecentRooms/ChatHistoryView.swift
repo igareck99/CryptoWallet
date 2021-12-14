@@ -57,7 +57,7 @@ struct ChatHistoryView: View {
                 }
             }
             .sheet(isPresented: $newRoomSelected) {
-                NewRoomView(mxStore: viewModel.mxStore, createdRoomId: $selectedRoomId)
+                ChatCreateView(viewModel: .init(), onCreateGroup: nil)
             }
     }
 

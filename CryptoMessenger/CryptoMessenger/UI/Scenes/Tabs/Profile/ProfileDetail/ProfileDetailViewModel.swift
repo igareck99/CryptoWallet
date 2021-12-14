@@ -26,6 +26,7 @@ final class ProfileDetailViewModel: ObservableObject {
 
     init() {
         profile.name = mxStore.getDisplayName()
+        profile.status = mxStore.getStatus()
         profile.phone = userCredentialsStorageService.userPhoneNumber
         bindInput()
         bindOutput()
@@ -52,7 +53,9 @@ final class ProfileDetailViewModel: ObservableObject {
                     ()
                 case .onDone:
                     self?.mxStore.setDisplayName(self?.profile.name ?? "") {
-                        self?.closeScreen.toggle()
+                        self?.mxStore.setStatus(self?.profile.status ?? "") {
+                            self?.closeScreen.toggle()
+                        }
                     }
                 }
             }

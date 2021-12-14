@@ -67,7 +67,7 @@ struct SelectContactView: View {
                             }
 
                             ContactRow(
-                                image: R.image.chat.mockAvatar2.image,
+                                avatar: nil,
                                 name: "Karen Castillo",
                                 status: "Привет, теперь я в Aura"
                             )

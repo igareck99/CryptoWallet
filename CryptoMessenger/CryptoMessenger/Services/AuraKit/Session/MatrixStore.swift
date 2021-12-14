@@ -236,9 +236,18 @@ final class MatrixStore: ObservableObject {
 
     func getUserId() -> String { session?.myUser.userId ?? "" }
     func getDisplayName() -> String { session?.myUser.displayname ?? "" }
+    func getStatus() -> String { session?.myUser.statusMsg ?? "" }
 
     func setDisplayName(_ displayName: String, completion: @escaping VoidBlock) {
         session?.myUser.setDisplayName(displayName, success: completion) { error in
+            if let error = error {
+                print(error)
+            }
+        }
+    }
+
+    func setStatus(_ status: String, completion: @escaping VoidBlock) {
+        session?.myUser.setPresence(.init(rawValue: 2), andStatusMessage: status, success: completion) { error in
             if let error = error {
                 print(error)
             }
@@ -252,4 +261,6 @@ final class MatrixStore: ObservableObject {
             }
         }
     }
+
+    func allUsers() -> [MXUser] { session?.users().filter { $0.userId != session?.myUserId } ?? [] }
 }

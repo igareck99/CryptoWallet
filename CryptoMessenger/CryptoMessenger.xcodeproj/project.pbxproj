@@ -138,6 +138,10 @@
 		5A44FEED2768B1E6006F9D92 /* ProfileDetailProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEEA2768B1E6006F9D92 /* ProfileDetailProtocols.swift */; };
 		5A44FEEE2768B1E6006F9D92 /* ProfileDetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEEB2768B1E6006F9D92 /* ProfileDetailConfigurator.swift */; };
 		5A44FEEF2768B1E6006F9D92 /* ProfileDetailFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEEC2768B1E6006F9D92 /* ProfileDetailFlow.swift */; };
+		5A44FEF127693F6F006F9D92 /* ChatCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEF027693F6F006F9D92 /* ChatCreateViewModel.swift */; };
+		5A44FEF5276940E8006F9D92 /* ChatCreateProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEF2276940E8006F9D92 /* ChatCreateProtocols.swift */; };
+		5A44FEF6276940E8006F9D92 /* ChatCreateConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEF3276940E8006F9D92 /* ChatCreateConfigurator.swift */; };
+		5A44FEF7276940E8006F9D92 /* ChatCreateFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEF4276940E8006F9D92 /* ChatCreateFlow.swift */; };
 		5A4BE4F4271DBEC900D03D09 /* URLConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE4F3271DBEC900D03D09 /* URLConvertible.swift */; };
 		5A4BE4F7271DC26700D03D09 /* AuthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE4F6271DC26700D03D09 /* AuthData.swift */; };
 		5A4BE4F9271DC32500D03D09 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE4F8271DC32500D03D09 /* AuthResponse.swift */; };
@@ -503,6 +507,10 @@
 		5A44FEEA2768B1E6006F9D92 /* ProfileDetailProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailProtocols.swift; sourceTree = "<group>"; };
 		5A44FEEB2768B1E6006F9D92 /* ProfileDetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailConfigurator.swift; sourceTree = "<group>"; };
 		5A44FEEC2768B1E6006F9D92 /* ProfileDetailFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailFlow.swift; sourceTree = "<group>"; };
+		5A44FEF027693F6F006F9D92 /* ChatCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateViewModel.swift; sourceTree = "<group>"; };
+		5A44FEF2276940E8006F9D92 /* ChatCreateProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateProtocols.swift; sourceTree = "<group>"; };
+		5A44FEF3276940E8006F9D92 /* ChatCreateConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateConfigurator.swift; sourceTree = "<group>"; };
+		5A44FEF4276940E8006F9D92 /* ChatCreateFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateFlow.swift; sourceTree = "<group>"; };
 		5A4BE4F3271DBEC900D03D09 /* URLConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConvertible.swift; sourceTree = "<group>"; };
 		5A4BE4F6271DC26700D03D09 /* AuthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthData.swift; sourceTree = "<group>"; };
 		5A4BE4F8271DC32500D03D09 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
@@ -1292,10 +1300,14 @@
 		5A3721D1272EF0120097ABED /* ChatCreate */ = {
 			isa = PBXGroup;
 			children = (
+				5A44FEF3276940E8006F9D92 /* ChatCreateConfigurator.swift */,
+				5A44FEF2276940E8006F9D92 /* ChatCreateProtocols.swift */,
 				5A3721D2272EF0DA0097ABED /* ChatCreateView.swift */,
+				5A44FEF4276940E8006F9D92 /* ChatCreateFlow.swift */,
 				5A3721D4272F0A290097ABED /* ContactRow.swift */,
-				5A3721DD272F418F0097ABED /* SelectContactView.swift */,
 				5A3721D6272F2A4D0097ABED /* ChatGroupView.swift */,
+				5A3721DD272F418F0097ABED /* SelectContactView.swift */,
+				5A44FEF027693F6F006F9D92 /* ChatCreateViewModel.swift */,
 			);
 			path = ChatCreate;
 			sourceTree = "<group>";
@@ -2272,6 +2284,7 @@
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
 				5A4BE4FC271DD4E700D03D09 /* MatrixStore.swift in Sources */,
 				78FA36812738171400B331DC /* SecurityHeaderView.swift in Sources */,
+				5A44FEF6276940E8006F9D92 /* ChatCreateConfigurator.swift in Sources */,
 				5A44FEDC276681BD006F9D92 /* ProfileConfigurator.swift in Sources */,
 				5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */,
 				5A44FEDD276681BD006F9D92 /* ProfileFlow.swift in Sources */,
@@ -2298,6 +2311,7 @@
 				5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */,
 				787AC7C1272309DE000AA434 /* TypographyViewModel.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
+				5A44FEF127693F6F006F9D92 /* ChatCreateViewModel.swift in Sources */,
 				5A26CD3E26B32F6900118D4B /* TransactionTableViewCell.swift in Sources */,
 				787AC7B92722E33E000AA434 /* TypographyProtocols.swift in Sources */,
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
@@ -2346,6 +2360,7 @@
 				787AC7AF27221AA0000AA434 /* LanguageCell.swift in Sources */,
 				5A44FED72766816C006F9D92 /* ProfileViewModel.swift in Sources */,
 				5A42680A26A83554000C51DD /* RegistrationFlow.swift in Sources */,
+				5A44FEF5276940E8006F9D92 /* ChatCreateProtocols.swift in Sources */,
 				8BCA91022750FCC200E8E269 /* Popup.swift in Sources */,
 				5A42680826A83554000C51DD /* RegistrationView.swift in Sources */,
 				5A187E962680708D001957D3 /* InputTextField.swift in Sources */,
@@ -2493,6 +2508,7 @@
 				78AF82AE2720DDB0003D918D /* PersonalizationItem.swift in Sources */,
 				78AF82B22720DE8A003D918D /* PersonalizationViewModel.swift in Sources */,
 				787AC7A727220E62000AA434 /* AppLanguageConfigurator.swift in Sources */,
+				5A44FEF7276940E8006F9D92 /* ChatCreateFlow.swift in Sources */,
 				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
 				5A3721D3272EF0DA0097ABED /* ChatCreateView.swift in Sources */,

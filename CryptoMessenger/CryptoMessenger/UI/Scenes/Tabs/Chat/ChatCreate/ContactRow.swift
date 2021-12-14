@@ -6,7 +6,7 @@ struct ContactRow: View {
 
     // MARK: - Internal Properties
 
-    let image: Image
+    let avatar: URL?
     let name: String
     let status: String
     var hideSeparator = false
@@ -18,11 +18,21 @@ struct ContactRow: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 40, height: 40)
-                    .cornerRadius(20)
+                AsyncImage(url: avatar) { phase in
+                    if let image = phase.image {
+                        image.resizable()
+                    } else {
+                        ZStack {
+                            Color(.lightBlue())
+                            Text(name.firstLetter.uppercased())
+                                .foreground(.white())
+                                .font(.medium(22))
+                        }
+                    }
+                }
+                .scaledToFill()
+                .frame(width: 40, height: 40)
+                .cornerRadius(20)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(name)

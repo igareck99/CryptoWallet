@@ -109,7 +109,7 @@ struct ProfileView: View {
                             .padding(.leading, 16)
 
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(viewModel.profile.info)
+                                Text(viewModel.profile.status)
                                     .font(.regular(15))
                                     .foreground(.black())
                                 Text(R.string.localizable.profileSite())
