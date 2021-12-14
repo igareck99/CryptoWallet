@@ -10,7 +10,7 @@ struct ProfileItem: Identifiable {
     let id = UUID()
     var avatar: URL?
     var name = "Имя не заполнено"
-    var nickname = "@dimzfresh"
+    var nickname = ""
     var status = ""
     var info = ""
     var phone = "Номер не заполнен"
@@ -43,6 +43,7 @@ final class ProfileViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init() {
+        profile.nickname = mxStore.getUserId()
         bindInput()
         bindOutput()
     }

@@ -234,6 +234,9 @@ final class MatrixStore: ObservableObject {
         session?.joinRoom(roomId, completion: completion)
     }
 
+    func getUserId() -> String { session?.myUser.userId ?? "" }
+    func getDisplayName() -> String { session?.myUser.displayname ?? "" }
+
     func setDisplayName(_ displayName: String, completion: @escaping VoidBlock) {
         session?.myUser.setDisplayName(displayName, success: completion) { error in
             if let error = error {

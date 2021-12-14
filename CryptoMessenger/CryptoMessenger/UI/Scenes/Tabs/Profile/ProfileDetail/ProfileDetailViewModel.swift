@@ -10,7 +10,7 @@ final class ProfileDetailViewModel: ObservableObject {
     weak var delegate: ProfileDetailSceneDelegate?
 
     @Published var profile = ProfileItem()
-    @Published var closeScreen = false
+    @Published private(set) var closeScreen = false
     @Published private(set) var state: ProfileDetailFlow.ViewState = .idle
 
     // MARK: - Private Properties
@@ -18,11 +18,15 @@ final class ProfileDetailViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<ProfileDetailFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileDetailFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
+
     @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
 
     // MARK: - Lifecycle
 
     init() {
+        profile.name = mxStore.getDisplayName()
+        profile.phone = userCredentialsStorageService.userPhoneNumber
         bindInput()
         bindOutput()
     }
@@ -47,15 +51,10 @@ final class ProfileDetailViewModel: ObservableObject {
                 case .onAppear:
                     ()
                 case .onDone:
-                    print("done")
+                    self?.mxStore.setDisplayName(self?.profile.name ?? "") {
+                        self?.closeScreen.toggle()
+                    }
                 }
-            }
-            .store(in: &subscriptions)
-
-        mxStore.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { _ in
-
             }
             .store(in: &subscriptions)
     }

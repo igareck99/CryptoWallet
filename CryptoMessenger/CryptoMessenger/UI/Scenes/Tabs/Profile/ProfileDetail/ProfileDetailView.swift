@@ -3,7 +3,7 @@ import SwiftUI
 
 // MARK: - ProfileDetailType
 
-enum ProfileDetailType: CaseIterable, Identifiable {
+enum ProfileDetailType: CaseIterable {
 
     // MARK: - Types
 
@@ -12,7 +12,6 @@ enum ProfileDetailType: CaseIterable, Identifiable {
 
     // MARK: - Internal Properties
 
-    var id: UUID { UUID() }
     var title: String {
         let strings = R.string.localizable.self
         switch self {
@@ -36,7 +35,7 @@ struct ProfileDetailView: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel: ProfileDetailViewModel
+    @ObservedObject var viewModel: ProfileDetailViewModel
 
     // MARK: - Private Properties
 
@@ -63,12 +62,16 @@ struct ProfileDetailView: View {
                         .onTapGesture { viewModel.send(.onDone) }
                 }
             }
+            .hideKeyboardOnTap()
             .onReceive(viewModel.$closeScreen) { closed in
                 if closed {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
             .onAppear {
+                UITextView.appearance().backgroundColor = .clear
+                UITextView.appearance().textContainerInset = .init(top: 12, left: 0, bottom: 12, right: 0)
+                UITextView.appearance().showsVerticalScrollIndicator = false
                 hideTabBar()
             }
             .onDisappear {
@@ -80,7 +83,8 @@ struct ProfileDetailView: View {
         GeometryReader { geometry in
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 0) {
-                    ForEach(ProfileDetailType.allCases, id: \.id) { type in
+                    ForEach(0..<ProfileDetailType.allCases.count, id: \.self) { index in
+                        let type = ProfileDetailType.allCases[index]
                         switch type {
                         case .avatar:
                             avatarView.frame(height: geometry.size.width)
@@ -214,9 +218,8 @@ struct ProfileDetailView: View {
                 TextEditor(text: $viewModel.profile.info)
                     .foreground(.black())
                     .font(.regular(15))
-                    .colorMultiply(.clear)
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 132)
-                    .padding([.leading, .trailing], 16)
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 140)
+                    .padding([.leading, .trailing], 14)
             }
             .background(.paleBlue())
             .cornerRadius(8)
