@@ -234,9 +234,9 @@ final class MatrixStore: ObservableObject {
         session?.joinRoom(roomId, completion: completion)
     }
 
-    func getUserId() -> String { session?.myUser.userId ?? "" }
-    func getDisplayName() -> String { session?.myUser.displayname ?? "" }
-    func getStatus() -> String { session?.myUser.statusMsg ?? "" }
+    func getUserId() -> String { session?.myUser?.userId ?? "" }
+    func getDisplayName() -> String { session?.myUser?.displayname ?? "" }
+    func getStatus() -> String { session?.myUser?.statusMsg ?? "" }
 
     func setDisplayName(_ displayName: String, completion: @escaping VoidBlock) {
         session?.myUser.setDisplayName(displayName, success: completion) { error in
