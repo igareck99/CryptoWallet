@@ -1,148 +1,199 @@
-import UIKit
+import SwiftUI
 
 // MARK: - ProfileView
 
-final class ProfileView: UIView {
+struct ProfileView: View {
 
     // MARK: - Internal Properties
 
-    var didTapAddPhoto: VoidBlock?
-    var didTapShowPhoto: VoidBlock?
-    var didTapBuyCell: VoidBlock?
+    @StateObject var viewModel: ProfileViewModel
 
     // MARK: - Private Properties
 
-    private let spacing: CGFloat = 1
+    @State private var popupSelected = false
+    @State private var showMenu = false
+    @State private var showProfileDetail = false
 
-    private lazy var photoCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-        let width: CGFloat = bounds.width / 3 - 2 * spacing
-        layout.itemSize = CGSize(width: width, height: width + spacing)
-        return UICollectionView(frame: .zero, collectionViewLayout: layout)
-    }()
+    // MARK: - Body
 
-    private(set) var photos: [UIImage?] = []
-
-    // MARK: - Lifecycle
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        background(.white())
-        addPhotoCollectionView()
+    var body: some View {
+        content
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Text(viewModel.profile.nickname)
+                        .font(.bold(15))
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    R.image.profile.settings.image
+                        .onTapGesture {
+                            hideTabBar()
+                            showMenu.toggle()
+                        }
+                }
+            }
+            .background(
+                EmptyNavigationLink(destination: ProfileDetailNewView(profile: .init()), isActive: $showProfileDetail)
+            )
+            .popup(
+                isPresented: $showMenu,
+                type: .toast,
+                position: .bottom,
+                closeOnTap: true,
+                closeOnTapOutside: true,
+                backgroundColor: .black.opacity(0.4),
+                dismissCallback: { showTabBar() },
+                view: {
+                    ProfileSettingsMenuView(balance: "0.50 AUR", onSelect: { type in
+                        switch type {
+                        case .profile:
+                            hideTabBar()
+                            showProfileDetail.toggle()
+                        default:
+                            break
+                        }
+                    })
+                        .frame(height: 712, alignment: .center)
+                        .background(
+                            CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
+                                .fill(Color(.white()))
+                        )
+                }
+            )
+            .popup(
+                isPresented: $popupSelected,
+                type: .toast,
+                position: .bottom,
+                closeOnTap: true,
+                closeOnTapOutside: true,
+                backgroundColor: Color(.black(0.4)),
+                dismissCallback: { showTabBar() },
+                view: {
+                    BuyView()
+                        .frame(height: 375, alignment: .center)
+                        .background(
+                            CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
+                                .fill(Color(.white()))
+                        )
+                }
+            )
     }
 
-    @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("not implemented")
-    }
+    private var content: some View {
+        GeometryReader { geometry in
+            ZStack {
+                ScrollView(popupSelected ? [] : .vertical, showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 24) {
+                            HStack(spacing: 16) {
+                                avatarView
 
-    // MARK: - Internal Methods
+                                VStack(alignment: .leading, spacing: 11) {
+                                    Text(viewModel.profile.name)
+                                        .font(.medium(15))
 
-    func addImage(_ image: UIImage) {
-        photos.append(image)
-        photoCollectionView.reloadData()
-    }
+                                    Button(R.string.localizable.profileAddSocial()) {
 
-    func setPhotos(_ images: [UIImage?]) {
-        photos.append(contentsOf: images)
-        photoCollectionView.reloadData()
-    }
+                                    }
+                                    .frame(width: 160, height: 32)
+                                    .font(.regular(15))
+                                    .foreground(.blue())
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 61)
+                                            .stroke(Color(.blue()), lineWidth: 1)
+                                    )
 
-    // MARK: - Actions
+                                    Text(viewModel.profile.phone)
+                                }
+                            }.padding(.leading, 16)
 
-    @objc private func BuyButtonTap() {
-        didTapBuyCell?()
-    }
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(viewModel.profile.info)
+                                    .font(.regular(15))
+                                    .foreground(.black())
+                                Text(R.string.localizable.profileSite())
+                                    .font(.regular(15))
+                                    .foreground(.blue())
+                            }.padding(.leading, 16)
 
-    // MARK: - Private Methods
+                            VStack(alignment: .center) {
+                                Button(R.string.localizable.profileAdd()) {
+                                }.frame(width: geometry.size.width
+                                        - 32, height: 44, alignment: .center)
+                                    .font(.regular(15))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(.blue, lineWidth: 1)
+                                    )
+                            }.padding(.leading, 16)
 
-    private func addPhotoCollectionView() {
-        photoCollectionView.snap(parent: self) {
-            $0.background(.clear)
-            let imageView = UIImageView()
-            $0.backgroundView = imageView
-            $0.dataSource = self
-            $0.delegate = self
-            $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
-            $0.register(ProfileHeaderCollectionReusableView.self,
-                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                        withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier)
-            $0.register(ProfileFooterCollectionReusableView.self,
-                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                        withReuseIdentifier: ProfileFooterCollectionReusableView.identifier)
-        } layout: {
-            $0.top.bottom.leading.trailing.equalTo($1)
+                            photosView
+
+                            FooterView(popupSelected: $popupSelected)
+                                .padding([.leading, .trailing], 16)
+                        }
+                }
+            }
         }
-        photoCollectionView.reloadData()
+    }
+
+    private var avatarView: some View {
+        let thumbnail = ZStack {
+            Circle()
+                .frame(width: 100, height: 100)
+                .foreground(.blue(0.1))
+            R.image.profile.avatarThumbnail.image
+        }
+
+        return ZStack {
+            if let url = viewModel.profile.avatar {
+                AsyncImage(url: url) { phase in
+                    if let image = phase.image {
+                        image.resizable()
+                    } else {
+                        thumbnail
+                    }
+                }
+                .scaledToFill()
+                .frame(width: 100, height: 100)
+                .cornerRadius(50)
+            } else {
+                thumbnail
+            }
+        }
+    }
+
+    private var photosView: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(spacing: 1.5), count: 3), alignment: .center, spacing: 1.5) {
+            ForEach(0..<viewModel.profile.photos.count, id: \.self) { index in
+                VStack(spacing: 0) {
+                    viewModel.profile.photos[index]
+                        .resizable()
+                        .scaledToFill()
+                }
+            }
+        }
     }
 }
 
-// MARK: - ProfileView (UICollectionViewDataSource)
+// MARK: - FooterView
 
-extension ProfileView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
-    }
+struct FooterView: View {
 
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeue(ProfileCell.self, indexPath: indexPath) else { return .init() }
-        cell.profileImageView.image = photos[indexPath.row]
-        return cell
-    }
+    // MARK: - Internal Properties
 
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
-        switch kind {
-        case UICollectionView.elementKindSectionHeader:
-            guard let headerView = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier, for: indexPath)
-                    as? ProfileHeaderCollectionReusableView else {
-                return UICollectionReusableView()
-            }
-            headerView.didTapAddPhoto = {
-                self.didTapAddPhoto?()
-            }
-            return headerView
-        case UICollectionView.elementKindSectionFooter:
-            guard let footer = collectionView.dequeueReusableSupplementaryView(
-                    ofKind: UICollectionView.elementKindSectionFooter,
-                    withReuseIdentifier: ProfileFooterCollectionReusableView.identifier,
-                    for: indexPath) as? ProfileFooterCollectionReusableView else { return UICollectionReusableView() }
-            footer.didTapBuyCell = {
-                self.didTapBuyCell?()
-            }
-            return footer
-        default:
-            print()
+    @Binding var popupSelected: Bool
+
+    // MARK: - Body
+
+    var body: some View {
+        Button(R.string.localizable.profileBuyCell()) {
+            hideTabBar()
+            popupSelected.toggle()
         }
-        return UICollectionReusableView()
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width, height: 329)
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForFooterInSection: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width, height: 141)
-    }
-}
-
-// MARK: - ProfileView (UICollectionViewDelegate)
-
-extension ProfileView: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        didTapShowPhoto?()
+        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+        .font(.regular(15))
+        .overlay(
+            RoundedRectangle(cornerRadius: 8).stroke(.blue, lineWidth: 1)
+        )
     }
 }

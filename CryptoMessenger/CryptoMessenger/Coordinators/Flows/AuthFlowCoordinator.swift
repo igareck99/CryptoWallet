@@ -87,11 +87,6 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
-    private func showFriendProfileScene() {
-        let viewController = FriendProfileConfigurator.configuredViewController(delegate: self)
-        setViewWith(viewController)
-    }
-
     private func showProfileDetailScene() {
         let viewController = ProfileDetailConfigurator.configuredViewController(delegate: self)
         setViewWith(viewController)
@@ -168,7 +163,6 @@ public final class AuthFlowCoordinator: Coordinator {
         case countryCode(CountryCodePickerDelegate)
         case pinCode
         case photoEditor
-        case friendProfile
         case profileDetail
         case profileNetwork
         case aboutApp
@@ -209,8 +203,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showCallListScene()
         case .photoEditor:
             showPhotoEditorScene(images: [])
-        case .friendProfile:
-            showFriendProfileScene()
         case .profileDetail:
             showProfileDetailScene()
         case .profileNetwork:
@@ -278,10 +270,6 @@ extension AuthFlowCoordinator: PhotoEditorSceneDelegate {
 
     }
 }
-
-// MARK: - AuthFlowCoordinator (FriendProfileSceneDelegate)
-
-extension AuthFlowCoordinator: FriendProfileSceneDelegate {}
 
 // MARK: - AuthFlowCoordinator (PinCodeSceneDelegate)
 

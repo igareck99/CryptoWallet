@@ -1,5 +1,5 @@
-import SwiftUI
 import PhoneNumberKit
+import SwiftUI
 
 // MARK: - ProfileDetailNewView
 
@@ -18,7 +18,6 @@ struct ProfileDetailNewView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            NavigationView {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         ZStack(alignment: .bottomTrailing) {
@@ -38,6 +37,7 @@ struct ProfileDetailNewView: View {
                                       text: viewModel.$status,
                                       placeholder: "")
                             .padding([.leading, .trailing], 16)
+                        
                         TextViewStack(label: R.string.localizable.profileDetailStatusLabel(), text: viewModel.$description,
                                       descriptionHeight: $descriptionHeight, placeholder: "Enter status")
                             .padding([.leading, .trailing], 16)
@@ -77,7 +77,6 @@ struct ProfileDetailNewView: View {
                         })
                     }
                 }
-            }
         }
     }
 }
@@ -149,9 +148,9 @@ struct CountryCodeView: View {
 
     @Binding var countryCode: String
     let phoneNumberKit = PhoneNumberKit()
-    
+
     // MARK: - Private Properties
-    
+
     @State private var validationError = false
     @State private var errorDesc = ""
     @State private var countryField: CountryCoderTextFieldView?
@@ -166,7 +165,7 @@ struct CountryCodeView: View {
                 .font(.bold(15))
                 .foreground(.darkGray())
             HStack {
-                self.countryField
+                countryField
                     .frame(height: 44)
                 Image(uiImage: R.image.additionalMenu.grayArrow() ?? UIImage())
                     .padding(.trailing, 34)
@@ -174,7 +173,7 @@ struct CountryCodeView: View {
                 .padding([.leading, .trailing], 16)
                 .cornerRadius(8)
         }.onAppear {
-            self.countryField = CountryCoderTextFieldView(phoneNumber: self.$countryCode)
+            countryField = CountryCoderTextFieldView(phoneNumber: $countryCode)
         }
     }
 }
