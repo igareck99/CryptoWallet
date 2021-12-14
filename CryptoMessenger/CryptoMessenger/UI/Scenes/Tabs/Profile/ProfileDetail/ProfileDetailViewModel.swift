@@ -10,7 +10,7 @@ final class ProfileDetailViewModel: ObservableObject {
     weak var delegate: ProfileDetailSceneDelegate?
 
     @Published var profile = ProfileItem()
-    @Published private(set) var closeScreen = false
+    @Published var closeScreen = false
     @Published private(set) var state: ProfileDetailFlow.ViewState = .idle
 
     // MARK: - Private Properties
@@ -27,7 +27,9 @@ final class ProfileDetailViewModel: ObservableObject {
     init() {
         profile.name = mxStore.getDisplayName()
         profile.status = mxStore.getStatus()
-        profile.phone = userCredentialsStorageService.userPhoneNumber
+        let str = userCredentialsStorageService.userPhoneNumber
+        let suffixIndex = str.index(str.startIndex, offsetBy: 3)
+        profile.phone = String(str[suffixIndex...])
         bindInput()
         bindOutput()
     }

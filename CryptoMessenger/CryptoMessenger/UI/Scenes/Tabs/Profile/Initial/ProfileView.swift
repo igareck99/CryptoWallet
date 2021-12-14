@@ -32,6 +32,7 @@ struct ProfileView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     R.image.profile.settings.image
                         .onTapGesture {
+                            vibrate()
                             hideTabBar()
                             showMenu.toggle()
                         }
@@ -53,6 +54,7 @@ struct ProfileView: View {
                     ProfileSettingsMenuView(balance: "0.50 AUR", onSelect: { type in
                         switch type {
                         case .profile:
+                            vibrate()
                             hideTabBar()
                             showProfileDetail.toggle()
                         default:

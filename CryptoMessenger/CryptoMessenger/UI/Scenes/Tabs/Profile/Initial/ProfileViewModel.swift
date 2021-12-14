@@ -38,7 +38,9 @@ final class ProfileViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<ChatHistoryFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ChatHistoryFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
+
     @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
 
     // MARK: - Lifecycle
 
@@ -50,6 +52,7 @@ final class ProfileViewModel: ObservableObject {
         if !mxStore.getStatus().isEmpty {
             profile.status = mxStore.getStatus()
         }
+        profile.phone = userCredentialsStorageService.userPhoneNumber
         bindInput()
         bindOutput()
     }

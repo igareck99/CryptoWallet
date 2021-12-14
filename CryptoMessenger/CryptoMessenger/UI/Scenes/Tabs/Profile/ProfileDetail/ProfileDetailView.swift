@@ -75,6 +75,7 @@ struct ProfileDetailView: View {
                 hideTabBar()
             }
             .onDisappear {
+                viewModel.closeScreen = false
                 showTabBar()
             }
     }
@@ -248,7 +249,18 @@ struct ProfileDetailView: View {
             .background(.paleBlue())
             .cornerRadius(8)
 
-            PhoneView(phone: $viewModel.profile.phone)
+            HStack(spacing: 0) {
+                Text(viewModel.profile.phone)
+                    .foreground(.black())
+                    .frame(height: 44)
+                    .font(.regular(15))
+                    .padding(.leading, 16)
+                Spacer()
+            }
+            .background(.paleBlue())
+            .cornerRadius(8)
+
+            //PhoneView(phone: $viewModel.profile.phone)
         }
     }
 }
