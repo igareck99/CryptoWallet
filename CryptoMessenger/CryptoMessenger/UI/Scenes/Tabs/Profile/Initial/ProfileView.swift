@@ -13,6 +13,7 @@ struct ProfileView: View {
     @State private var popupSelected = false
     @State private var showMenu = false
     @State private var showProfileDetail = false
+    @State private var showCopyNicknameAlert = false
 
     // MARK: - Body
 
@@ -23,6 +24,10 @@ struct ProfileView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Text(viewModel.profile.nickname)
                         .font(.bold(15))
+                        .onTapGesture {
+                            UIPasteboard.general.string = viewModel.profile.nickname
+                            showCopyNicknameAlert.toggle()
+                        }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     R.image.profile.settings.image
@@ -35,6 +40,7 @@ struct ProfileView: View {
             .background(
                 EmptyNavigationLink(destination: ProfileDetailView(viewModel: .init()), isActive: $showProfileDetail)
             )
+            .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text("Скопировано!")) }
             .popup(
                 isPresented: $showMenu,
                 type: .toast,

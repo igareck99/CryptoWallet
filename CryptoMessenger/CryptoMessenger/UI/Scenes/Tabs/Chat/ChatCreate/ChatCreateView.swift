@@ -62,6 +62,11 @@ struct ChatCreateView: View {
     var body: some View {
         NavigationView {
             content
+                .onReceive(viewModel.$closeScreen) { closed in
+                    if closed {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -118,7 +123,10 @@ struct ChatCreateView: View {
                                 name: contact.name,
                                 status: contact.status.isEmpty ? "Привет, теперь я в Aura" : contact.status,
                                 hideSeparator: viewModel.contacts.last?.id == contact.id
-                            )
+                            ).onTapGesture {
+                                vibrate()
+                                viewModel.send(.onCreate([contact.mxId]))
+                            }
                         }
                     }
 

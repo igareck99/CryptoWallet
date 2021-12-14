@@ -8,6 +8,7 @@ extension Date {
 
     var dayAndMonth: String { Formatter.dayAndMonthFormatter.string(from: self) }
     var dayAndMonthAndYear: String { Formatter.dayFormatter.string(from: self) }
+    var dayOfWeekDayAndMonth: String { Formatter.dayOfWeekFormatter.string(from: self) }
     var iso8601: String { Formatter.iso8601.string(from: self) }
     var is24HoursHavePassed: Bool { (Date().timeIntervalSince(self) / 3600) > 24 }
     var hoursAndMinutes: String { Formatter.timeFormatter.string(from: self) }
@@ -62,6 +63,14 @@ extension Formatter {
         let df = DateFormatter()
         df.locale = .current
         df.dateFormat = "dd.MM.yyyy"
+        df.timeZone = .current
+        return df
+    }
+
+    static var dayOfWeekFormatter: DateFormatter {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "RU")
+        df.dateFormat = "E, MMM d"
         df.timeZone = .current
         return df
     }

@@ -18,6 +18,7 @@ final class ChatCreateViewModel: ObservableObject {
 
     weak var delegate: ChatCreateSceneDelegate?
 
+    @Published private(set) var closeScreen = false
     @Published private(set) var contacts: [Contact] = []
     @Published private(set) var state: ChatCreateFlow.ViewState = .idle
 
@@ -68,8 +69,10 @@ final class ChatCreateViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     self?.objectWillChange.send()
+                case let .onCreate(ids):
+                    self?.createRoom(ids)
                 case .onNextScene:
-                    print("Next scene") 
+                    ()
                 }
             }
             .store(in: &subscriptions)
@@ -86,5 +89,35 @@ final class ChatCreateViewModel: ObservableObject {
         stateValueSubject
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
+    }
+
+    private func createRoom(_ ids: [String]) {
+        let parameters = MXRoomCreationParameters()
+        if ids.count == 1 {
+            parameters.inviteArray = ids
+            parameters.isDirect = true
+            parameters.visibility = MXRoomDirectoryVisibility.private.identifier
+            parameters.preset = MXRoomPreset.privateChat.identifier
+        } else {
+            parameters.inviteArray = []
+            parameters.isDirect = false
+            parameters.name = ""
+//            if isPublic {
+//                parameters.visibility = MXRoomDirectoryVisibility.public.identifier
+//                parameters.preset = MXRoomPreset.publicChat.identifier
+//            } else {
+//                parameters.visibility = MXRoomDirectoryVisibility.private.identifier
+//                parameters.preset = MXRoomPreset.privateChat.identifier
+//            }
+        }
+
+        mxStore.createRoom(parameters: parameters) { [weak self] response in
+            switch response {
+            case .success:
+                self?.closeScreen = true
+            case.failure:
+                self?.closeScreen = true
+            }
+        }
     }
 }

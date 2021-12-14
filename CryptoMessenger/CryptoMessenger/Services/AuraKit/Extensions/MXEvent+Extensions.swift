@@ -33,7 +33,8 @@ extension MXEvent {
         return .init(
             id: eventId,
             type: .text(text),
-            date: timestamp.hoursAndMinutes,
+            shortDate: timestamp.hoursAndMinutes,
+            fullDate: timestamp.dayOfWeekDayAndMonth,
             isCurrentUser: isFromCurrentUser
         )
     }

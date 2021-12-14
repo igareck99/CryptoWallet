@@ -107,7 +107,7 @@ struct ChatRoomRow: View {
                 VStack(alignment: .center) {
                     Spacer()
                     HStack(spacing: 8) {
-                        Text(message.date)
+                        Text(message.shortDate)
                             .frame(width: 40, height: 10)
                             .font(.light(12))
                             .foreground(.black(0.5))

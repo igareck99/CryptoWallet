@@ -66,7 +66,8 @@ struct RoomMessage: Identifiable {
 
     let id: String
     let type: MessageType
-    let date: String
+    let shortDate: String
+    let fullDate: String
     let isCurrentUser: Bool
     var reactions: [Reaction] = []
 }

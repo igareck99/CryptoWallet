@@ -23,5 +23,6 @@ enum ChatCreateFlow {
 
         case onAppear
         case onNextScene
+        case onCreate([String])
     }
 }

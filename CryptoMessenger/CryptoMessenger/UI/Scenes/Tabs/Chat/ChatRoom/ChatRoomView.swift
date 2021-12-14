@@ -157,8 +157,8 @@ struct ChatRoomView: View {
                                         cardPosition = .middle
                                     }
 
-                                if viewModel.next(message)?.date != message.date {
-                                    dateView(date: message.date)
+                                if viewModel.next(message)?.fullDate != message.fullDate {
+                                    dateView(date: message.fullDate)
                                         .flippedUpsideDown()
                                         .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
                                         .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)

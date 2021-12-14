@@ -92,7 +92,7 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.room.markAllAsRead()
                     self?.mxStore.objectWillChange.send()
                 case .onNextScene:
-                    print("Next scene")
+                    ()
                 case let .onSend(type):
                     guard case let .text(text) = type else { return }
                     self?.inputText = ""
@@ -101,7 +101,8 @@ final class ChatRoomViewModel: ObservableObject {
                         .init(
                             id: UUID().uuidString,
                             type: .text(text),
-                            date: Date().hoursAndMinutes,
+                            shortDate: Date().hoursAndMinutes,
+                            fullDate: Date().dayOfWeekDayAndMonth,
                             isCurrentUser: true
                         )
                     )
@@ -140,7 +141,8 @@ final class ChatRoomViewModel: ObservableObject {
                         let message = RoomMessage(
                             id: UUID().uuidString,
                             type: .location(location),
-                            date: "00:31",
+                            shortDate: "00:31",
+                            fullDate: "00:31",
                             isCurrentUser: true
                         )
                         self?.messages.append(message)
@@ -157,7 +159,8 @@ final class ChatRoomViewModel: ObservableObject {
                     let message = RoomMessage(
                         id: UUID().uuidString,
                         type: .contact,
-                        date: "00:32",
+                        shortDate: "00:31",
+                        fullDate: "00:31",
                         isCurrentUser: true
                     )
                     self?.messages.append(message)
@@ -182,7 +185,8 @@ final class ChatRoomViewModel: ObservableObject {
                     .init(
                         id: UUID().uuidString,
                         type: .image(image),
-                        date: "00:33",
+                        shortDate: "00:31",
+                        fullDate: "00:31",
                         isCurrentUser: true
                     )
                 )
