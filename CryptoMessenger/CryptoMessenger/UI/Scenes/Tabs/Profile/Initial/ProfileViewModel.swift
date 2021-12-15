@@ -45,14 +45,6 @@ final class ProfileViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init() {
-        profile.nickname = mxStore.getUserId()
-        if !mxStore.getDisplayName().isEmpty {
-            profile.name = mxStore.getDisplayName()
-        }
-        if !mxStore.getStatus().isEmpty {
-            profile.status = mxStore.getStatus()
-        }
-        profile.phone = userCredentialsStorageService.userPhoneNumber
         bindInput()
         bindOutput()
     }
@@ -75,9 +67,10 @@ final class ProfileViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
+                    self?.updateData()
                     self?.objectWillChange.send()
                 case .onNextScene:
-                    print("Next scene")
+                    ()
                 case let .onDeleteRoom(roomId):
                     self?.mxStore.leaveRoom(roomId: roomId, completion: { _ in })
                 }
@@ -96,5 +89,16 @@ final class ProfileViewModel: ObservableObject {
         stateValueSubject
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
+    }
+
+    private func updateData() {
+        profile.nickname = mxStore.getUserId()
+        if !mxStore.getDisplayName().isEmpty {
+            profile.name = mxStore.getDisplayName()
+        }
+        if !mxStore.getStatus().isEmpty {
+            profile.status = mxStore.getStatus()
+        }
+        profile.phone = userCredentialsStorageService.userPhoneNumber
     }
 }

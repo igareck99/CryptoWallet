@@ -41,6 +41,9 @@ struct ProfileView: View {
             .background(
                 EmptyNavigationLink(destination: ProfileDetailView(viewModel: .init()), isActive: $showProfileDetail)
             )
+            .onAppear {
+                viewModel.send(.onAppear)
+            }
             .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text("Скопировано!")) }
             .popup(
                 isPresented: $showMenu,

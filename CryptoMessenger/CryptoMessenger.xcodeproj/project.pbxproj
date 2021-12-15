@@ -119,6 +119,7 @@
 		5A3C942A274AFFDC00818060 /* KeyboardAvoiderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3C9426274AFFDC00818060 /* KeyboardAvoiderModifier.swift */; };
 		5A3C942C274AFFDC00818060 /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3C9428274AFFDC00818060 /* KeyboardHandler.swift */; };
 		5A3C942F274BC53400818060 /* NewRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3C942E274BC53400818060 /* NewRoomView.swift */; };
+		5A40A2D82769FB2B003AAA79 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A40A2D72769FB2B003AAA79 /* SearchBar.swift */; };
 		5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */; };
 		5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680026A83554000C51DD /* RegistrationViewController.swift */; };
 		5A42680726A83554000C51DD /* RegistrationProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680126A83554000C51DD /* RegistrationProtocols.swift */; };
@@ -488,6 +489,7 @@
 		5A3C9426274AFFDC00818060 /* KeyboardAvoiderModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAvoiderModifier.swift; sourceTree = "<group>"; };
 		5A3C9428274AFFDC00818060 /* KeyboardHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		5A3C942E274BC53400818060 /* NewRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRoomView.swift; sourceTree = "<group>"; };
+		5A40A2D72769FB2B003AAA79 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPresenter.swift; sourceTree = "<group>"; };
 		5A42680026A83554000C51DD /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		5A42680126A83554000C51DD /* RegistrationProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationProtocols.swift; sourceTree = "<group>"; };
@@ -940,6 +942,7 @@
 				5A3721DB272F3A210097ABED /* DynamicHeightTextField.swift */,
 				5A3721DF272F47EA0097ABED /* EmptyNavigationLink.swift */,
 				5A1D265B275973940085324F /* CornerRadiusStyle.swift */,
+				5A40A2D72769FB2B003AAA79 /* SearchBar.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -2297,6 +2300,7 @@
 				5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */,
 				787AC7BA2722E33E000AA434 /* TypographyView.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
+				5A40A2D82769FB2B003AAA79 /* SearchBar.swift in Sources */,
 				5A3928322741A9EA00378ACA /* MXURL.swift in Sources */,
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
@@ -2687,7 +2691,7 @@
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
@@ -2714,7 +2718,7 @@
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;

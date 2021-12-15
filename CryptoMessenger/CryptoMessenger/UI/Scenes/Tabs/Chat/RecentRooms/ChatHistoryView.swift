@@ -66,7 +66,11 @@ struct ChatHistoryView: View {
     private var content: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                SearchBar(searchText: $searchText, searching: $searching)
+                SearchBar(
+                    placeholder: "Поиск по чатам и каналам",
+                    searchText: $searchText,
+                    searching: $searching
+                )
                 if searching {
                     Spacer()
                     Button("Отменить") {
@@ -119,50 +123,5 @@ struct ChatHistoryView: View {
             }
             .listStyle(.plain)
         }
-    }
-}
-
-// MARK: - SearchBar
-
-struct SearchBar: View {
-
-    // MARK: - Internal Properties
-
-    @Binding var searchText: String
-    @Binding var searching: Bool
-
-    // MARK: - Body
-
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .foregroundColor(Color(.paleBlue()))
-            HStack(spacing: 8) {
-                Image(systemName: "magnifyingglass")
-                TextField("Поиск по чатам и каналам", text: $searchText) { startedEditing in
-                    if startedEditing {
-                        withAnimation {
-                            searching = true
-                        }
-                    }
-                } onCommit: {
-                    withAnimation {
-                        searching = false
-                    }
-                }
-            }
-            .foregroundColor(.gray)
-            .padding(.leading, 13)
-        }
-        .frame(height: 36)
-        .cornerRadius(8)
-    }
-}
-
-// MARK: - UIApplication ()
-
-extension UIApplication {
-    func dismissKeyboard() {
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
