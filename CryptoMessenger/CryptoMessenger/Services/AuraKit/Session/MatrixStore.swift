@@ -243,6 +243,7 @@ final class MatrixStore: ObservableObject {
             if let error = error {
                 print(error)
             }
+            self.objectWillChange.send()
         }
     }
 
@@ -251,6 +252,7 @@ final class MatrixStore: ObservableObject {
             if let error = error {
                 print(error)
             }
+            self.objectWillChange.send()
         }
     }
 
@@ -259,8 +261,39 @@ final class MatrixStore: ObservableObject {
             if let error = error {
                 print(error)
             }
+            self.objectWillChange.send()
         }
     }
 
-    func allUsers() -> [MXUser] { session?.users().filter { $0.userId != session?.myUserId } ?? [] }
+    func allUsers() -> [MXUser] {
+        session?.users().filter { $0.userId != session?.myUserId } ?? []
+    }
+
+    func searchUser(_ id: String, completion: @escaping GenericBlock<String?>) {
+//        client?.searchUsers(id, limit: 1000, success: { [weak self] response in
+//            let users = response?.results?.filter { $0.userId != self?.session?.myUserId } ?? []
+//            completion(users)
+//        }, failure: { error in
+//            if let error = error {
+//                print(error)
+//            }
+//            completion([])
+//        })
+        session?.matrixRestClient.profile(forUser: id) { result in
+            switch result {
+            case let .success((name, _)):
+                if let name = name {
+                    completion(name)
+                } else {
+                    completion(id)
+                }
+            default:
+                completion(nil)
+            }
+        }
+    }
+
+    func getUser(_ id: String) -> MXUser? {
+        session?.user(withUserId: id)
+    }
 }

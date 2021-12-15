@@ -18,6 +18,8 @@ final class ChatCreateViewModel: ObservableObject {
 
     weak var delegate: ChatCreateSceneDelegate?
 
+    @Published var searchText = ""
+    @Published var searching = false
     @Published private(set) var closeScreen = false
     @Published private(set) var contacts: [Contact] = []
     @Published private(set) var state: ChatCreateFlow.ViewState = .idle
@@ -32,22 +34,9 @@ final class ChatCreateViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init() {
-        contacts = mxStore.allUsers().map {
-            var contact = Contact(
-                mxId: $0.userId ?? "",
-                avatar: nil,
-                name: $0.displayname ?? "",
-                status: $0.statusMsg ?? ""
-            )
-            if let avatar = $0.avatarUrl {
-                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
-                contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
-            }
-            return contact
-        }
-
         bindInput()
         bindOutput()
+        getContacts(mxStore.allUsers())
     }
 
     deinit {
@@ -81,6 +70,25 @@ final class ChatCreateViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { _ in
 
+            }
+            .store(in: &subscriptions)
+
+        $searchText
+            .debounce(for: 0.05, scheduler: DispatchQueue.main)
+            .sink { [weak self] text in
+                self?.mxStore.searchUser(text) { name in
+                    if let name = name {
+                        self?.contacts.append(
+                            .init(
+                                mxId: text,
+                                avatar: nil,
+                                name: name,
+                                status: ""
+                            )
+                        )
+
+                    }
+                }
             }
             .store(in: &subscriptions)
     }
@@ -118,6 +126,22 @@ final class ChatCreateViewModel: ObservableObject {
             case.failure:
                 self?.closeScreen = true
             }
+        }
+    }
+
+    private func getContacts(_ users: [MXUser]) {
+        contacts = users.map {
+            var contact = Contact(
+                mxId: $0.userId ?? "",
+                avatar: nil,
+                name: $0.displayname ?? "",
+                status: $0.statusMsg ?? ""
+            )
+            if let avatar = $0.avatarUrl {
+                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
+            }
+            return contact
         }
     }
 }
