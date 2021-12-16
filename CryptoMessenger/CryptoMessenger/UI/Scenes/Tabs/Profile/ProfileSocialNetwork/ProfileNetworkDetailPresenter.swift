@@ -35,7 +35,7 @@ final class ProfileNetworkDetailPresenter {
     }
 
     func backAction() {
-        self.delegate?.handleButtonTap(.profileDetail)
+
     }
 }
 

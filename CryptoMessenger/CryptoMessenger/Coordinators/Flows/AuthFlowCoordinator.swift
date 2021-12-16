@@ -86,11 +86,6 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
-    private func showProfileDetailScene() {
-        let viewController = BaseHostingController(rootView: ProfileDetailView(viewModel: .init()))
-        setViewWith(viewController)
-    }
-
     private func showProfileNetworkDetailScene() {
         let viewController = ProfileNetworkDetailConfigurator.configuredViewController(delegate: self)
         setViewWith(viewController)
@@ -136,11 +131,6 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showProfile() {
-        let viewController = BaseHostingController(rootView: ProfileView(viewModel: .init()))
-        setViewWith(viewController)
-    }
-
     // MARK: - Scene
 
     enum Scene {
@@ -157,7 +147,6 @@ public final class AuthFlowCoordinator: Coordinator {
         case countryCode(CountryCodePickerDelegate)
         case pinCode
         case photoEditor
-        case profileDetail
         case profileNetwork
         case aboutApp
         case personalization
@@ -166,7 +155,6 @@ public final class AuthFlowCoordinator: Coordinator {
         case blockedUser
         case userSession
         case security
-        case profile
     }
 }
 
@@ -195,8 +183,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showCallListScene()
         case .photoEditor:
             showPhotoEditorScene(images: [])
-        case .profileDetail:
-            showProfileDetailScene()
         case .profileNetwork:
             showProfileNetworkDetailScene()
         case .aboutApp:
@@ -213,9 +199,11 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showSecurityScene()
         case .blockedUser:
             showBlockedUserScene()
-        case .profile:
-            showProfile()
         }
+    }
+
+    func restartFlow() {
+        start()
     }
 
     func switchFlow() {
@@ -245,19 +233,11 @@ extension AuthFlowCoordinator: KeyImportSceneDelegate {}
 
 // MARK: - AuthFlowCoordinator (CallListSceneDelegate)
 
-extension AuthFlowCoordinator: CallListSceneDelegate {
-    func handleButtonTap(_ scene: Scene) {
-
-    }
-}
+extension AuthFlowCoordinator: CallListSceneDelegate {}
 
 // MARK: - AuthFlowCoordinator (PhotoEditorSceneDelegate)
 
-extension AuthFlowCoordinator: PhotoEditorSceneDelegate {
-    func handleButtonTap() {
-
-    }
-}
+extension AuthFlowCoordinator: PhotoEditorSceneDelegate {}
 
 // MARK: - AuthFlowCoordinator (PinCodeSceneDelegate)
 
@@ -266,16 +246,12 @@ extension AuthFlowCoordinator: PinCodeSceneDelegate {
         if userFlows.isAuthFlowFinished {
             handleNextScene(.main)
         } else {
-            start()
+            restartFlow()
         }
     }
 }
 
-// MARK: - AuthFlowCoordinator (ProfileDetailSceneDelegate)
-
-extension AuthFlowCoordinator: ProfileDetailSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (ProfileDetailSceneDelegate)
+// MARK: - AuthFlowCoordinator (ProfileNetworkDetailSceneDelegate)
 
 extension AuthFlowCoordinator: ProfileNetworkDetailSceneDelegate {}
 

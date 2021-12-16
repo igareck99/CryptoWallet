@@ -23,7 +23,7 @@ enum ChatHistoryFlow {
         // MARK: - Types
 
         case onAppear
-        case onNextScene
+        case onShowRoom(AuraRoom)
         case onDeleteRoom(String)
     }
 }

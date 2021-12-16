@@ -107,12 +107,46 @@ final class MatrixStore: ObservableObject {
     }
 
     func logout() {
-        logout { result in
-            switch result {
+        client?.devices { [weak self] response in
+            switch response {
+            case let .success(devices):
+                let group = DispatchGroup()
+                devices.forEach {
+                    group.enter()
+                    self?.removeDevice($0.deviceId) { group.leave() }
+                }
+                group.notify(queue: .main) {
+                    self?.loginState = .loggedOut
+//                    self?.logout { result in
+//                        switch result {
+//                        case .failure:
+//                            self?.loginState = .loggedOut
+//                        case .success(let state):
+//                            self?.loginState = state
+//                        }
+//                    }
+                }
+            default:
+                break
+            }
+        }
+    }
+
+    private func removeDevice(_ deviceId: String, completion: @escaping VoidBlock) {
+        client?.getSession(toDeleteDevice: deviceId) { res in
+            switch res {
+            case .success:
+                self.client?.deleteDevice(deviceId, authParameters: [:]) { response in
+                    switch response {
+                    case .success:
+                        print("Delete device with ID: " + deviceId)
+                    default:
+                        break
+                    }
+                    completion()
+                }
             case .failure:
-                self.loginState = .loggedOut
-            case .success(let state):
-                self.loginState = state
+                completion()
             }
         }
     }
@@ -161,7 +195,7 @@ final class MatrixStore: ObservableObject {
     }
 
     func currentlyActive(_ userId: String) -> Bool {
-        session?.user(withUserId: userId).currentlyActive ?? false
+        session?.user(withUserId: userId)?.currentlyActive ?? false
     }
 
     func fromCurrentSender(_ userId: String) -> Bool {
@@ -293,7 +327,6 @@ final class MatrixStore: ObservableObject {
         }
     }
 
-    func getUser(_ id: String) -> MXUser? {
-        session?.user(withUserId: id)
-    }
+    func getUser(_ id: String) -> MXUser? { session?.user(withUserId: id) }
+
 }

@@ -3,7 +3,7 @@ import Foundation
 // MARK: - TypographySceneDelegate
 
 protocol TypographySceneDelegate: AnyObject {
-    func handleButtonTap()
+    func handleNextScene(_ scene: AuthFlowCoordinator.Scene)
 }
 
 // MARK: - TypographyViewInterface

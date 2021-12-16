@@ -7,7 +7,6 @@ struct ChatHistoryView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ChatHistoryViewModel
-    var onRoomTap: GenericBlock<AuraRoom>?
 
     // MARK: - Private Properties
 
@@ -86,29 +85,30 @@ struct ChatHistoryView: View {
             }
             .padding([.leading, .trailing, .bottom], 16)
 
-            if let id = selectedRoomId, let room = viewModel.rooms.first(where: { $0.id == id }) {
-                EmptyView()
-                    .frame(height: 0)
-                    .background(
-                        EmptyNavigationLink(
-                            destination: ChatRoomView(viewModel: .init(room: room)),
-                            selectedItem: $selectedRoomId
-                        )
-                )
-            }
+//            if let id = selectedRoomId, let room = viewModel.rooms.first(where: { $0.id == id }) {
+//                EmptyView()
+//                    .frame(height: 0)
+//                    .background(
+//                        EmptyNavigationLink(
+//                            destination: ChatRoomView(viewModel: .init(room: room)),
+//                            selectedItem: $selectedRoomId
+//                        )
+//                )
+//            }
 
             List {
                 ForEach(searchResults) { room in
                     ChatHistoryRow(room: room)
+                        .background(.white())
                         .listRowSeparator(.hidden)
                         .listRowInsets(EdgeInsets())
-                        .overlay(
-                            NavigationLink(destination: {
-                                ChatRoomView(viewModel: .init(room: room))
-                            }, label: {
-                                EmptyView()
-                            }).opacity(0)
-                        )
+//                        .overlay(
+//                            NavigationLink(destination: {
+//                                ChatRoomView(viewModel: .init(room: room))
+//                            }, label: {
+//                                EmptyView()
+//                            }).opacity(0)
+//                        )
                         .swipeActions(edge: .trailing) {
                             Button {
                                 viewModel.send(.onDeleteRoom(room.room.roomId))
@@ -118,6 +118,9 @@ struct ChatHistoryView: View {
                                     .foreground(.blue())
                             }
                             .tint(.gray.opacity(0.1))
+                        }
+                        .onTapGesture {
+                            viewModel.send(.onShowRoom(room))
                         }
                 }
             }
