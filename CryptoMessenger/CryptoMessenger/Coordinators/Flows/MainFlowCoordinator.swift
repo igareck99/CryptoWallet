@@ -10,6 +10,7 @@ protocol MainFlowCoordinatorDelegate: AnyObject {
 // MARK: - MainFlowSceneDelegate
 
 protocol MainFlowSceneDelegate: AnyObject {
+    func handleNextScene(_ scene: MainFlowCoordinator.Scene)
     func switchFlow()
 }
 
@@ -42,11 +43,13 @@ final class MainFlowCoordinator: Coordinator {
         let tabBarController = BaseTabBarController(viewControllers: tabs)
         tabBarController.selectedIndex = Tabs.chat.index
 
-        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
-            window.rootViewController = tabBarController
-        } else {
-            setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
-        }
+        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+
+//        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
+//            window.rootViewController = tabBarController
+//        } else {
+//            setViewWith(navigationController, type: .fade, isRoot: true, isNavBarHidden: false)
+//        }
     }
 
     // MARK: - Private Methods
@@ -67,7 +70,8 @@ final class MainFlowCoordinator: Coordinator {
     }
 
     private func buildProfileTab() -> UIViewController {
-        let viewController = BaseHostingController(rootView: ProfileView(viewModel: .init()))
+        let rootView = ProfileConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.profile.item
         return navigation
@@ -123,22 +127,65 @@ final class MainFlowCoordinator: Coordinator {
             }
         }
     }
+
+    // MARK: - Scene
+
+    enum Scene {
+
+        // MARK: - Types
+
+        case chatRoom(AuraRoom)
+        case profileDetail
+    }
 }
 
 // MARK: - MainFlowCoordinator (MainFlowSceneDelegate)
 
 extension MainFlowCoordinator: MainFlowSceneDelegate {
+    func handleNextScene(_ scene: Scene) {
+        switch scene {
+        case let .chatRoom(room):
+            showChatRoomScene(room: room)
+        case .profileDetail:
+            showProfileDetailScene()
+        }
+    }
+
     func switchFlow() {
         delegate?.userPerformedLogout(coordinator: self)
+    }
+
+    private func showChatRoomScene(room: AuraRoom) {
+        let rootView = ChatRoomConfigurator.configuredView(room: room, delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showProfileDetailScene() {
+        let rootView = ProfileDetailConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
     }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
 
-extension MainFlowCoordinator: ChatHistorySceneDelegate {
-    func handleRoomTap(_ room: AuraRoom) {
-        let rootView = ChatRoomConfigurator.configuredView(room: room, delegate: nil)
-        let viewController = BaseHostingController(rootView: rootView)
-        navigationController.pushViewController(viewController, animated: true)
+extension MainFlowCoordinator: ChatHistorySceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ChatRoomSceneDelegate)
+
+extension MainFlowCoordinator: ChatRoomSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ProfileSceneDelegate)
+
+extension MainFlowCoordinator: ProfileSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
+
+extension MainFlowCoordinator: ProfileDetailSceneDelegate {
+    func restartFlow() {
+        delegate?.userPerformedLogout(coordinator: self)
     }
 }

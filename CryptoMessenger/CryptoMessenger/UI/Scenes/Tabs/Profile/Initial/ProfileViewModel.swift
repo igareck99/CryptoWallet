@@ -31,12 +31,12 @@ final class ProfileViewModel: ObservableObject {
     weak var delegate: ProfileSceneDelegate?
 
     @Published private(set) var profile = ProfileItem()
-    @Published private(set) var state: ChatHistoryFlow.ViewState = .idle
+    @Published private(set) var state: ProfileFlow.ViewState = .idle
 
     // MARK: - Private Properties
 
-    private let eventSubject = PassthroughSubject<ChatHistoryFlow.Event, Never>()
-    private let stateValueSubject = CurrentValueSubject<ChatHistoryFlow.ViewState, Never>(.idle)
+    private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
+    private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private(set) var mxStore: MatrixStore
@@ -56,7 +56,7 @@ final class ProfileViewModel: ObservableObject {
 
     // MARK: - Internal Methods
 
-    func send(_ event: ChatHistoryFlow.Event) {
+    func send(_ event: ProfileFlow.Event) {
         eventSubject.send(event)
     }
 
@@ -69,10 +69,8 @@ final class ProfileViewModel: ObservableObject {
                 case .onAppear:
                     self?.updateData()
                     self?.objectWillChange.send()
-                case .onNextScene:
-                    ()
-                case let .onDeleteRoom(roomId):
-                    self?.mxStore.leaveRoom(roomId: roomId, completion: { _ in })
+                case .onProfileScene:
+                    self?.delegate?.handleNextScene(.profileDetail)
                 }
             }
             .store(in: &subscriptions)

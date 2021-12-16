@@ -3,7 +3,7 @@ import Foundation
 // MARK: - PersonalizationSceneDelegate
 
 protocol PersonalizationSceneDelegate: AnyObject {
-    func handleButtonTap()
+    func handleNextScene(_ scene: AuthFlowCoordinator.Scene)
 }
 
 // MARK: - PersonalizationViewInterface

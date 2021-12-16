@@ -9,7 +9,6 @@ enum ChatRoomConfigurator {
     static func configuredView(room: AuraRoom, delegate: ChatRoomSceneDelegate?) -> ChatRoomView {
         let viewModel = ChatRoomViewModel(room: room)
         viewModel.delegate = delegate
-        let view = ChatRoomView(viewModel: viewModel)
-        return view
+        return ChatRoomView(viewModel: viewModel)
     }
 }

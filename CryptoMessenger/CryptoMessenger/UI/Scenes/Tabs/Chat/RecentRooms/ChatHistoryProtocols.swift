@@ -3,5 +3,5 @@ import Foundation
 // MARK: - ChatHistorySceneDelegate
 
 protocol ChatHistorySceneDelegate: AnyObject {
-    func handleRoomTap(_ room: AuraRoom)
+    func handleNextScene(_ scene: MainFlowCoordinator.Scene)
 }

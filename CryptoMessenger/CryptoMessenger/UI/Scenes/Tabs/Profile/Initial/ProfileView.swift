@@ -38,9 +38,9 @@ struct ProfileView: View {
                         }
                 }
             }
-            .background(
-                EmptyNavigationLink(destination: ProfileDetailView(viewModel: .init()), isActive: $showProfileDetail)
-            )
+//            .background(
+//                EmptyNavigationLink(destination: ProfileDetailView(viewModel: .init()), isActive: $showProfileDetail)
+//            )
             .onAppear {
                 viewModel.send(.onAppear)
             }
@@ -59,7 +59,7 @@ struct ProfileView: View {
                         case .profile:
                             vibrate()
                             hideTabBar()
-                            showProfileDetail.toggle()
+                            viewModel.send(.onProfileScene)
                         default:
                             break
                         }
