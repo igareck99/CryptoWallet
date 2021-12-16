@@ -94,18 +94,7 @@ final class ChatRoomViewModel: ObservableObject {
                 case .onNextScene:
                     ()
                 case let .onSend(type):
-                    guard case let .text(text) = type else { return }
-                    self?.inputText = ""
-                    self?.room.send(text: text)
-                    self?.messages.insert(
-                        .init(
-                            id: UUID().uuidString,
-                            type: .text(text),
-                            shortDate: Date().hoursAndMinutes,
-                            fullDate: Date().dayOfWeekDayAndMonth,
-                            isCurrentUser: true
-                        ), at: 0)
-                    self?.mxStore.objectWillChange.send()
+                    self?.sendMessage(type)
                 case .onJoinRoom:
                     guard let roomId = self?.room.room.roomId else { return }
                     self?.mxStore.joinRoom(roomId: roomId) { _ in
@@ -176,22 +165,6 @@ final class ChatRoomViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
 
-        $selectedImage
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] image in
-                guard let image = image else { return }
-                self?.messages.append(
-                    .init(
-                        id: UUID().uuidString,
-                        type: .image(image),
-                        shortDate: "00:31",
-                        fullDate: "00:31",
-                        isCurrentUser: true
-                    )
-                )
-            }
-            .store(in: &subscriptions)
-
         locationManager.$lastLocation
             .receive(on: DispatchQueue.main)
             .assign(to: \.lastLocation, on: self)
@@ -202,6 +175,32 @@ final class ChatRoomViewModel: ObservableObject {
         stateValueSubject
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
+    }
+
+    private func sendMessage(_ type: MessageType) {
+        inputText = ""
+
+        switch type {
+        case let .text(text):
+            room.send(text: text)
+        case let .image(image):
+            room.sendImage(image: image)
+        default:
+            break
+        }
+
+        messages.insert(
+            .init(
+                id: UUID().uuidString,
+                type: type,
+                shortDate: Date().hoursAndMinutes,
+                fullDate: Date().dayOfWeekDayAndMonth,
+                isCurrentUser: true
+            ),
+            at: 0
+        )
+
+        mxStore.objectWillChange.send()
     }
 }
 

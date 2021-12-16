@@ -98,10 +98,10 @@ final class AuraRoom: ObservableObject {
     func send(text: String) {
         guard !text.isEmpty else { return }
 
-        objectWillChange.send()             // room.outgoingMessages() will change
+        objectWillChange.send()
         var localEcho: MXEvent?
         room.sendTextMessage(text, localEcho: &localEcho) { _ in
-            self.objectWillChange.send()    // localEcho.sentState has(!) changed
+            self.objectWillChange.send()
         }
     }
 
@@ -131,10 +131,10 @@ final class AuraRoom: ObservableObject {
     }
 
     func sendImage(image: UIImage) {
-        guard let imageData = image.jpeg(.lowest) else { return }
+        guard let imageData = image.jpeg(.medium) else { return }
 
         var localEcho: MXEvent?
-        objectWillChange.send()             // room.outgoingMessages() will change
+        objectWillChange.send()
         room.sendImage(
             data: imageData,
             size: image.size,
@@ -142,7 +142,7 @@ final class AuraRoom: ObservableObject {
             thumbnail: image,
             localEcho: &localEcho
         ) { _ in
-            self.objectWillChange.send()    // localEcho.sentState has(!) changed
+            self.objectWillChange.send()
         }
     }
 
@@ -151,7 +151,7 @@ final class AuraRoom: ObservableObject {
     }
 
     func removeOutgoingMessage(_ event: MXEvent) {
-        objectWillChange.send()             // room.outgoingMessages() will change
+        objectWillChange.send()
         room.removeOutgoingMessage(event.eventId)
     }
 }

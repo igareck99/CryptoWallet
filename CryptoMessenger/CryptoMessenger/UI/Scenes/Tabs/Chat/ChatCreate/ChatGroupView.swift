@@ -50,7 +50,7 @@ struct ChatGroupView: View {
         content
             .sheet(isPresented: $showPhotoLibrary) {
                 NavigationView {
-                    ImagePickerView(selectedImage: $selectedImage)
+                    ImagePickerView(selectedImage: $selectedImage, onSelectImage: nil)
                     .ignoresSafeArea()
                     .navigationBarTitle(Text("Фото"))
                     .navigationBarTitleDisplayMode(.inline)
