@@ -128,7 +128,7 @@ struct ImageViewer: View {
                     .background(Color.white.opacity(0.35))
                     .clipShape(Circle())
             })
-                .padding(.top, 90)
+                .padding(.top, 64)
                 .padding(.trailing, 16)
                 .opacity(viewModel.bgOpacity)
 

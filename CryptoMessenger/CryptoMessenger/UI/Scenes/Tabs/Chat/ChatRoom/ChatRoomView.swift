@@ -68,7 +68,7 @@ struct ChatRoomView: View {
                 )
             }
             .navigationBarTitleDisplayMode(.inline)
-            //.navigationBarColor(.white(), isBlured: false)
+            .navigationBarColor(selectedPhoto != nil ? nil : .white(), isBlured: false)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     HStack(spacing: 0) {

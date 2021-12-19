@@ -38,6 +38,8 @@ struct ProfileView: View {
                         }
                 }
             }
+            .navigationBarColor(.white(), isBlured: false)
+
 //            .background(
 //                EmptyNavigationLink(destination: ProfileDetailView(viewModel: .init()), isActive: $showProfileDetail)
 //            )
