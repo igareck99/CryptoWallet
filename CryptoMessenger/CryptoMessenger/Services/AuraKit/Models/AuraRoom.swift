@@ -92,17 +92,7 @@ final class AuraRoom: ObservableObject {
     }
 
     func events() -> EventCollection {
-        return EventCollection(eventCache + room.outgoingMessages())
-    }
-
-    func send(text: String) {
-        guard !text.isEmpty else { return }
-
-        objectWillChange.send()
-        var localEcho: MXEvent?
-        room.sendTextMessage(text, localEcho: &localEcho) { _ in
-            self.objectWillChange.send()
-        }
+        EventCollection(eventCache + room.outgoingMessages())
     }
 
     func react(toEventId eventId: String, emoji: String) {
@@ -130,8 +120,19 @@ final class AuraRoom: ObservableObject {
         room.redactEvent(eventId, reason: reason) { _ in }
     }
 
-    func sendImage(image: UIImage) {
-        guard let imageData = image.jpeg(.medium) else { return }
+    func sendText(_ text: String) {
+        guard !text.isEmpty else { return }
+
+        objectWillChange.send()
+        var localEcho: MXEvent?
+        room.sendTextMessage(text, localEcho: &localEcho) { _ in
+            self.objectWillChange.send()
+        }
+    }
+
+    func sendImage(_ image: UIImage) {
+        let fixedImage = image.fixOrientation()
+        guard let imageData = fixedImage.jpeg(.medium) else { return }
 
         var localEcho: MXEvent?
         objectWillChange.send()

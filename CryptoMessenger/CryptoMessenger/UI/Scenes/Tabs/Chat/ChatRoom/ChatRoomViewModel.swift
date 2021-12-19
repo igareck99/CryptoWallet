@@ -36,10 +36,6 @@ final class ChatRoomViewModel: ObservableObject {
 
     init(room: AuraRoom) {
         self.room = room
-        messages = room.events().renderableEvents
-            .map { $0.message(fromCurrentSender($0.sender)) }
-            .reversed()
-            .compactMap { $0 }
 
         bindInput()
         bindOutput()
@@ -93,8 +89,14 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.mxStore.objectWillChange.send()
                 case .onNextScene:
                     ()
-                case let .onSend(type):
-                    self?.sendMessage(type)
+                case let .onSendText(text):
+                    self?.inputText = ""
+                    self?.room.sendText(text)
+                    self?.mxStore.objectWillChange.send()
+                case let .onSendImage(image):
+                    self?.inputText = ""
+                    self?.room.sendImage(image)
+                    self?.mxStore.objectWillChange.send()
                 case .onJoinRoom:
                     guard let roomId = self?.room.room.roomId else { return }
                     self?.mxStore.joinRoom(roomId: roomId) { _ in
@@ -169,6 +171,11 @@ final class ChatRoomViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .assign(to: \.lastLocation, on: self)
             .store(in: &subscriptions)
+
+        messages = room.events().renderableEvents
+            .map { $0.message(fromCurrentSender($0.sender)) }
+            .reversed()
+            .compactMap { $0 }
     }
 
     private func bindOutput() {
@@ -177,31 +184,31 @@ final class ChatRoomViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func sendMessage(_ type: MessageType) {
-        inputText = ""
-
-        switch type {
-        case let .text(text):
-            room.send(text: text)
-        case let .image(image):
-            room.sendImage(image: image)
-        default:
-            break
-        }
-
-        messages.insert(
-            .init(
-                id: UUID().uuidString,
-                type: type,
-                shortDate: Date().hoursAndMinutes,
-                fullDate: Date().dayOfWeekDayAndMonth,
-                isCurrentUser: true
-            ),
-            at: 0
-        )
-
-        mxStore.objectWillChange.send()
-    }
+//    private func sendMessage(_ type: MessageType) {
+//        inputText = ""
+//
+//        switch type {
+//        case let .text(text):
+//            room.sendText(text)
+//        case let .image(image):
+//            room.sendImage(image)
+//        default:
+//            break
+//        }
+//
+//        messages.insert(
+//            .init(
+//                id: UUID().uuidString,
+//                type: type,
+//                shortDate: Date().hoursAndMinutes,
+//                fullDate: Date().dayOfWeekDayAndMonth,
+//                isCurrentUser: true
+//            ),
+//            at: 0
+//        )
+//
+//        mxStore.objectWillChange.send()
+//    }
 }
 
 private var mockEmojiStorage: [ReactionStorage] = ["👍", "👎", "😄", "🎉", "❤️", "🚀", "👀"]

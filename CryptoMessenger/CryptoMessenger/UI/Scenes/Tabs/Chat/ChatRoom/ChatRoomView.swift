@@ -19,6 +19,7 @@ struct ChatRoomView: View {
     @State private var showActionSheet = false
     @State private var showJoinAlert = false
     @State private var height = CGFloat(0)
+    @State private var selectedPhoto: URL?
 
     // MARK: - Body
 
@@ -44,7 +45,7 @@ struct ChatRoomView: View {
                 NavigationView {
                     ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
                         guard let image = image else { return }
-                        self.viewModel.send(.onSend(.image(image)))
+                        self.viewModel.send(.onSendImage(image))
                     })
                         .ignoresSafeArea()
                         .navigationBarTitle(Text("Фото"))
@@ -67,7 +68,7 @@ struct ChatRoomView: View {
                 )
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarColor(.white(), isBlured: false)
+            //.navigationBarColor(.white(), isBlured: false)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     HStack(spacing: 0) {
@@ -150,7 +151,8 @@ struct ChatRoomView: View {
                                     onReaction: { reactionId in
                                         vibrate()
                                         viewModel.send(.onDeleteReaction(messageId: message.id, reactionId: reactionId))
-                                    }
+                                    },
+                                    onSelectPhoto: { selectedPhoto = $0 }
                                 )
                                     .flippedUpsideDown()
                                     .listRowSeparator(.hidden)
@@ -202,6 +204,18 @@ struct ChatRoomView: View {
             }
 
             quickMenuView
+
+            if selectedPhoto != nil {
+                ZStack {
+                    ImageViewer(
+                        selectedPhoto: $selectedPhoto,
+                        allImages: [],
+                        selectedImageID: ""
+                    )
+                        .navigationBarHidden(true)
+                        .ignoresSafeArea()
+                }
+            }
         }
         .hideKeyboardOnTap()
         .edgesIgnoringSafeArea(.bottom)
@@ -363,7 +377,7 @@ struct ChatRoomView: View {
                 if !viewModel.inputText.isEmpty {
                     Button(action: {
                         withAnimation {
-                            viewModel.send(.onSend(.text(viewModel.inputText)))
+                            viewModel.send(.onSendText(viewModel.inputText))
                         }
                     }, label: {
                         Image(systemName: "paperplane.fill")

@@ -11,16 +11,23 @@ struct ChatRoomRow: View {
     private let isFromCurrentUser: Bool
     private let isPreviousFromCurrentUser: Bool
     private var onReaction: StringBlock?
+    private var onSelectPhoto: GenericBlock<URL?>?
     @State private var showMap = false
     @State private var isAnimating = false
 
     // MARK: - Lifecycle
 
-    init(message: RoomMessage, isPreviousFromCurrentUser: Bool, onReaction: StringBlock?) {
+    init(
+        message: RoomMessage,
+        isPreviousFromCurrentUser: Bool,
+        onReaction: StringBlock?,
+        onSelectPhoto: GenericBlock<URL?>?
+    ) {
         self.message = message
         self.isFromCurrentUser = message.isCurrentUser
         self.isPreviousFromCurrentUser = isPreviousFromCurrentUser
         self.onReaction = onReaction
+        self.onSelectPhoto = onSelectPhoto
     }
 
     // MARK: - Body
@@ -56,8 +63,11 @@ struct ChatRoomRow: View {
                                 .onTapGesture {
                                     showMap.toggle()
                                 }
-                        case let .image(image):
-                            photoRow(image)
+                        case let .image(url):
+                            photoRow(url)
+                                .onTapGesture {
+                                    onSelectPhoto?(url)
+                                }
                         case .contact:
                             contactRow()
                         }
@@ -134,15 +144,14 @@ struct ChatRoomRow: View {
         .frame(width: 247, height: 142)
     }
 
-    private func photoRow(_ uiImage: UIImage) -> some View {
-        ZStack {
-            Image(uiImage: uiImage)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 202, height: 245, alignment: .center)
-
-            checkReadView()
+    private func photoRow(_ url: URL?) -> some View {
+        AsyncImage(url: url) {
+            $0.resizable()
+        } placeholder: {
+            ShimmerView()
+                .frame(width: 202, height: 245)
         }
+        .scaledToFill()
         .frame(width: 202, height: 245)
     }
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A15DDF9276E5C9C00CF7AA4 /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A15DDF8276E5C9C00CF7AA4 /* ShimmerView.swift */; };
+		5A15DDFB276FA1C800CF7AA4 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A15DDFA276FA1C800CF7AA4 /* ImageViewer.swift */; };
 		5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DBE26806EF8001957D3 /* AppDelegate.swift */; };
 		5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DC026806EF8001957D3 /* SceneDelegate.swift */; };
 		5A187DCB26806EF9001957D3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A187DC926806EF9001957D3 /* LaunchScreen.storyboard */; };
@@ -375,6 +377,8 @@
 
 /* Begin PBXFileReference section */
 		121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A15DDF8276E5C9C00CF7AA4 /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
+		5A15DDFA276FA1C800CF7AA4 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
 		5A187DBB26806EF8001957D3 /* CryptoMessenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoMessenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A187DBE26806EF8001957D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A187DC026806EF8001957D3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -943,6 +947,8 @@
 				5A3721DF272F47EA0097ABED /* EmptyNavigationLink.swift */,
 				5A1D265B275973940085324F /* CornerRadiusStyle.swift */,
 				5A40A2D72769FB2B003AAA79 /* SearchBar.swift */,
+				5A15DDF8276E5C9C00CF7AA4 /* ShimmerView.swift */,
+				5A15DDFA276FA1C800CF7AA4 /* ImageViewer.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -2380,6 +2386,7 @@
 				5A187F302680CF49001957D3 /* EmptyResponse.swift in Sources */,
 				5A187DF626807011001957D3 /* Coordinator.swift in Sources */,
 				5A187F322680CF49001957D3 /* OccasionResponse.swift in Sources */,
+				5A15DDF9276E5C9C00CF7AA4 /* ShimmerView.swift in Sources */,
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
 				5A44FEEF2768B1E6006F9D92 /* ProfileDetailFlow.swift in Sources */,
 				7889064327064F8D0093459C /* ProfileNetworkDetailView.swift in Sources */,
@@ -2473,6 +2480,7 @@
 				7846B67726E8C0AE00B05984 /* CellWithImage.swift in Sources */,
 				5A9B472826EAB6EF001CC627 /* LastReactionItemView.swift in Sources */,
 				5AF8637226ADDDCE004A417C /* AppLaunchInstructor.swift in Sources */,
+				5A15DDFB276FA1C800CF7AA4 /* ImageViewer.swift in Sources */,
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
 				789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */,
 				8B3A816A275AC25D00E736E4 /* ProfileDetailView.swift in Sources */,
