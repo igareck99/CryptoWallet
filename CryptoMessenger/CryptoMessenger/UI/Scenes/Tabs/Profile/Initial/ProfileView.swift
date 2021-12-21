@@ -15,6 +15,7 @@ struct ProfileView: View {
     @State private var showProfileDetail = false
     @State private var showCopyNicknameAlert = false
     @State private var showSafari = false
+    @State private var safariAdress = ""
 
     // MARK: - Body
 
@@ -46,7 +47,7 @@ struct ProfileView: View {
                 viewModel.send(.onAppear)
             }
             .fullScreenCover(isPresented: $showSafari, content: {
-                SFSafariViewWrapper(url: R.string.localizable.profileSite())
+                SFSafariViewWrapper(url: $safariAdress)
         })
             .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text("Скопировано!")) }
             .popup(
@@ -105,18 +106,32 @@ struct ProfileView: View {
                                 VStack(alignment: .leading, spacing: 11) {
                                     Text(viewModel.profile.name)
                                         .font(.medium(15))
-
-                                    Button(R.string.localizable.profileAddSocial()) {
-
+                                    HStack(spacing: 8) {
+                                        Button(action: {
+                                            showSafari = true
+                                            safariAdress = "https://telegram.org"
+                                        }, label: {
+                                            Image(uiImage: R.image.profile.twitter() ?? UIImage())
+                                        }).frame(width: 32, height: 32, alignment: .center)
+                                            .background(.blue())
+                                            .cornerRadius(16)
+                                        Button(action: {
+                                            showSafari = true
+                                            safariAdress = "https://www.instagram.com"
+                                        }, label: {
+                                            Image(uiImage: R.image.profile.instagram() ?? UIImage())
+                                        }).frame(width: 32, height: 32, alignment: .center)
+                                            .background(.blue())
+                                            .cornerRadius(16)
+                                        Button(action: {
+                                            showSafari = true
+                                            safariAdress = "https://ru-ru.facebook.com"
+                                        }, label: {
+                                            Image(uiImage: R.image.profile.facebook() ?? UIImage())
+                                        }).frame(width: 32, height: 32, alignment: .center)
+                                            .background(.blue())
+                                            .cornerRadius(16)
                                     }
-                                    .frame(width: 160, height: 32)
-                                    .font(.regular(15))
-                                    .foreground(.blue())
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 61)
-                                            .stroke(Color(.blue()), lineWidth: 1)
-                                    )
-
                                     Text(viewModel.profile.phone)
                                 }
                             }
@@ -131,6 +146,7 @@ struct ProfileView: View {
                                     .font(.regular(15))
                                     .foreground(.blue())
                                     .onTapGesture {
+                                        safariAdress = R.string.localizable.profileSite()
                                         showSafari = true
                                     }
                             }.padding(.leading, 16)

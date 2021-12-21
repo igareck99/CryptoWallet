@@ -122,7 +122,7 @@ public final class AuthFlowCoordinator: Coordinator {
     }
 
     private func showSession() {
-        let viewController = BaseHostingController(rootView: WebViewPreview())
+        let viewController = BaseHostingController(rootView: SessionListView())
         setViewWith(viewController)
     }
 
