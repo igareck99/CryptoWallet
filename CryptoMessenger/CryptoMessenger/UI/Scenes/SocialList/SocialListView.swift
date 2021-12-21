@@ -97,7 +97,7 @@ struct SocialListView: View {
                     AddSocialCellView().onTapGesture {
                     }.listRowSeparator(.hidden)
                 Spacer().listRowSeparator(.hidden)
-                }.id(UUID())
+                }
                 .environment(\.editMode, self.$editMode)
                     .listStyle(.inset)
             .navigationBarTitleDisplayMode(.inline)
