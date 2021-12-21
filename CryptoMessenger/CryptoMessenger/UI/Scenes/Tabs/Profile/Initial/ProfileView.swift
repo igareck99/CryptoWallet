@@ -14,6 +14,7 @@ struct ProfileView: View {
     @State private var showMenu = false
     @State private var showProfileDetail = false
     @State private var showCopyNicknameAlert = false
+    @State private var showSafari = false
 
     // MARK: - Body
 
@@ -44,6 +45,9 @@ struct ProfileView: View {
             .onAppear {
                 viewModel.send(.onAppear)
             }
+            .fullScreenCover(isPresented: $showSafari, content: {
+                SFSafariViewWrapper(url: R.string.localizable.profileSite())
+        })
             .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text("Скопировано!")) }
             .popup(
                 isPresented: $showMenu,
@@ -126,6 +130,9 @@ struct ProfileView: View {
                                 Text(R.string.localizable.profileSite())
                                     .font(.regular(15))
                                     .foreground(.blue())
+                                    .onTapGesture {
+                                        showSafari = true
+                                    }
                             }.padding(.leading, 16)
 
                             VStack(alignment: .center) {

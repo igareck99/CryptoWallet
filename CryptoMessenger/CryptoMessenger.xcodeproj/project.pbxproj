@@ -370,6 +370,7 @@
 		8B74014B275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */; };
 		8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */; };
 		8BCA91022750FCC200E8E269 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA91012750FCC200E8E269 /* Popup.swift */; };
+		8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6DAE22771EC2C00FB4C6C /* WebView.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -741,6 +742,7 @@
 		8BCA91012750FCC200E8E269 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		8BE54AD2274C605700D51827 /* BlockedUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserView.swift; sourceTree = "<group>"; };
 		8BE54AD4274C606400D51827 /* BlockedUserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserItem.swift; sourceTree = "<group>"; };
+		8BE6DAE22771EC2C00FB4C6C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -943,6 +945,7 @@
 				5A3721DF272F47EA0097ABED /* EmptyNavigationLink.swift */,
 				5A1D265B275973940085324F /* CornerRadiusStyle.swift */,
 				5A40A2D72769FB2B003AAA79 /* SearchBar.swift */,
+				8BE6DAE22771EC2C00FB4C6C /* WebView.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -2439,6 +2442,7 @@
 				5A26CD1D26B2EECA00118D4B /* WalletViewController.swift in Sources */,
 				5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */,
 				5A26CD4026B3305600118D4B /* Transaction.swift in Sources */,
+				8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */,
 				5A4BE519271DD86A00D03D09 /* CustomEvent.swift in Sources */,
 				7846B65C26E8BBFD00B05984 /* TimingFunctions.swift in Sources */,
 				5A187DF426807011001957D3 /* Alertable.swift in Sources */,
