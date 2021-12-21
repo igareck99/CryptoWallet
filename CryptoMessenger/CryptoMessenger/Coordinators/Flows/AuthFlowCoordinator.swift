@@ -34,7 +34,8 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
+        //handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
+        handleNextScene(.profile)
     }
 
     // MARK: - Private Methods
@@ -137,7 +138,8 @@ public final class AuthFlowCoordinator: Coordinator {
     }
 
     private func showProfile() {
-        let viewController = BaseHostingController(rootView: ProfileView(viewModel: .init()))
+        // let viewController = BaseHostingController(rootView: ProfileView(viewModel: .init()))
+        let viewController = BaseHostingController(rootView: SocialListView())
         setViewWith(viewController)
     }
 

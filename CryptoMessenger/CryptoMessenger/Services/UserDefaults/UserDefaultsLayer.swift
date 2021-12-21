@@ -47,6 +47,7 @@ struct UserDefaultsLayer {
     private static let isPinCodeOnKey = "isPinCodeOnKey"
     private static let userFalsePinCodeKey = "userFalsePinCodeKey"
     private static let isFalsePinCodeOnKey = "isFalsePinCodeOnKey"
+    private static let socialNetworkList = "socialNetworkList"
 
     // MARK: - Internal Properties
 
@@ -88,6 +89,9 @@ struct UserDefaultsLayer {
 
     @UserDefaultSettings(userFalsePinCodeKey, value: "")
     var userFalsePinCode: String
+    
+    @UserDefaultSettings(socialNetworkList, value: [])
+    var socialNetworkList: [SocialListItem]
 
     var userMatrixId: String {
         MXCredentials.from(Keychain(service: "chat.aura.credentials"))?.userId ?? ""
