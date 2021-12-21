@@ -13,33 +13,12 @@ struct SocialListItemView: View {
     // MARK: - Body
 
     var body: some View {
-        switch viewModel.listData.firstIndex(of: item) == viewModel.getLastShow() - 1 {
-        case true:
-            VStack(alignment: .leading) {
-                ListHeaderView()
-            HStack {
-                Image(uiImage: R.image.profileNetworkDetail.cancelSmall() ?? UIImage())
-                    .frame(width: 16, height: 16)
-                    .offset(x: -4)
-                Text(item.url)
-                        .font(.regular(15))
-                        .lineLimit(1)
-                    Spacer()
-                Image(uiImage: R.image.profileNetworkDetail.dragDrop() ?? UIImage())
-            }
-        }.background(.lightBlue())
-        case false:
-            HStack {
-                Image(uiImage: R.image.profileNetworkDetail.cancelSmall() ?? UIImage())
-                    .frame(width: 16, height: 16)
-                    .offset(x: -4)
-                Text(item.url)
-                        .font(.regular(15))
-                        .lineLimit(1)
-                    Spacer()
-                Image(uiImage: R.image.profileNetworkDetail.dragDrop() ?? UIImage())
+        HStack {
+            Text(item.url)
+                    .font(.regular(15))
+                    .lineLimit(1)
+                Spacer()
             }.background(.lightBlue())
-        }
     }
 }
 
@@ -47,15 +26,14 @@ struct SocialListItemView: View {
 
 struct AddSocialCellView: View {
 
-    // MARK: - Internal Properties
-
     // MARK: - Body
 
     var body: some View {
-            HStack {
+        HStack(spacing: 20) {
                 Image(uiImage: R.image.profileNetworkDetail.approveSmall() ?? UIImage())
-                    .frame(width: 16, height: 16)
-                    .offset(x: -4)
+                    .resizable()
+                    .frame(width: 22, height: 22)
+                    .padding(.leading, 2)
                 Text(R.string.localizable.profileNetworkDetailNotShowLink())
                         .font(.regular(15))
                         .lineLimit(1)
@@ -71,6 +49,8 @@ struct SocialListView: View {
 
     @ObservedObject var viewModel = SocialListViewModel()
     @State var editMode: EditMode = .active
+    @State var sectionSwitch = false
+    @State var headerMode: EditMode = .inactive
 
     // MARK: - Body
 
@@ -87,24 +67,38 @@ struct SocialListView: View {
                     .foreground(.darkGray())
                     .padding(.leading)
                 List {
-                    ForEach(viewModel.listData) { item in
-                        SocialListItemView(item: item)
-                            .listRowSeparator(.hidden)
-                    }.onMove { indexSet, index in
-                        if index > self.viewModel.getLastShow() {
-                            self.viewModel.listData[index].type = .notShow
-                        } else {
-                            self.viewModel.listData[index].type = .show
+                        Section {
+                            ForEach(viewModel.listData) { item in
+                            switch item.type {
+                            case .show:
+                                SocialListItemView(item: item)
+                                    .listRowSeparator(.hidden)
+                            case .notShow:
+                                EmptyView()
+                            }
+                            }
+                            .onDelete(perform: onDelete)
+                            .onMove(perform: onMove)
                         }
-                        self.viewModel.listData.move(fromOffsets: indexSet, toOffset: index)
-                        print(self.viewModel.listData)
-                    }
-                    .onDelete(perform: onDelete)
-                        .listRowSeparator(.hidden)
+                        Section(header: SocialListHeaderView()) {
+                            ForEach(viewModel.listData) { item in
+                            switch item.type {
+                            case .show:
+                                EmptyView()
+                            case .notShow:
+                                SocialListItemView(item: item)
+                                    .listRowSeparator(.hidden)
+                            }
+                            }
+                            .onMove(perform: onMove)
+                            .onDelete(perform: onDelete)
+                                .listRowSeparator(.hidden)
+                        }
                     AddSocialCellView().onTapGesture {
                     }.listRowSeparator(.hidden)
                 Spacer().listRowSeparator(.hidden)
-                }
+                }.id(UUID())
+                .environment(\.editMode, self.$editMode)
                     .listStyle(.inset)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -116,9 +110,12 @@ struct SocialListView: View {
                         Image(uiImage: R.image.callList.back() ?? UIImage())
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                        .font(.bold(15))
-                        .foreground(.blue())
+                    Button(action: {
+                    }, label: {
+                        Text(R.string.localizable.profileDetailRightButton())
+                            .font(.bold(15))
+                            .foreground(.blue())
+                    })
             }
                 }
         }
@@ -138,7 +135,7 @@ struct SocialListView: View {
 
 // MARK: - ListHeaderView
 
-struct ListHeaderView: View {
+struct SocialListHeaderView: View {
 
     // MARK: - Body
 
