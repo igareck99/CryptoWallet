@@ -142,11 +142,11 @@ struct ProfileView: View {
                                 Text(viewModel.profile.status)
                                     .font(.regular(15))
                                     .foreground(.black())
-                                Text(R.string.localizable.profileSite())
+                                Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
                                     .font(.regular(15))
                                     .foreground(.blue())
                                     .onTapGesture {
-                                        safariAdress = R.string.localizable.profileSite()
+                                        safariAdress = "https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70"
                                         showSafari = true
                                     }
                             }.padding(.leading, 16)
