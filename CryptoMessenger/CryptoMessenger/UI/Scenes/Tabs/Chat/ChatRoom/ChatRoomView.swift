@@ -171,7 +171,7 @@ struct ChatRoomView: View {
                                     scrollView.scrollTo(id, anchor: .bottom)
                                 }
                             }
-                            .onChange(of: viewModel.keyboardHeight) { _ in
+                            .onChange(of: keyboardHandler.keyboardHeight) { _ in
                                 guard let id = viewModel.messages.first?.id else { return }
                                 withAnimation {
                                     scrollView.scrollTo(id, anchor: .bottom)

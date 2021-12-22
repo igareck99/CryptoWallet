@@ -12,14 +12,16 @@ extension View {
 
     func hideTabBar() {
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            let tabBarController = scene.windows.first?.rootViewController as? UITabBarController
+            let navigation = scene.windows.first?.rootViewController as? UINavigationController
+            let tabBarController = navigation?.viewControllers.first as? UITabBarController
             tabBarController?.tabBar.isHidden = true
         }
     }
 
     func showTabBar() {
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            let tabBarController = scene.windows.first?.rootViewController as? UITabBarController
+            let navigation = scene.windows.first?.rootViewController as? UINavigationController
+            let tabBarController = navigation?.viewControllers.first as? UITabBarController
             tabBarController?.tabBar.isHidden = false
         }
     }

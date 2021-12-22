@@ -3,7 +3,7 @@ import UIKit
 // MARK: - ProfileBackgroundSceneDelegate
 
 protocol ProfileBackgroundSceneDelegate: AnyObject {
-    func handleButtonTap()
+    func handleNextScene(_ scene: AuthFlowCoordinator.Scene)
 }
 
 // MARK: - ProfileBackgroundViewInterface

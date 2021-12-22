@@ -3,7 +3,7 @@ import UIKit
 // MARK: - PhotoEditorSceneDelegate
 
 protocol PhotoEditorSceneDelegate: AnyObject {
-    func handleButtonTap()
+    func handleNextScene(_ scene: AuthFlowCoordinator.Scene)
 }
 
 // MARK: - PhotoEditorViewInterface

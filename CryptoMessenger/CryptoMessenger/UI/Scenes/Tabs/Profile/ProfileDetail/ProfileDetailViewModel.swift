@@ -21,6 +21,7 @@ final class ProfileDetailViewModel: ObservableObject {
 
     @Injectable private(set) var mxStore: MatrixStore
     @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+    @Injectable private var userFlowsStorageService: UserFlowsStorageService
 
     // MARK: - Lifecycle
 
@@ -59,9 +60,25 @@ final class ProfileDetailViewModel: ObservableObject {
                             self?.closeScreen.toggle()
                         }
                     }
+                case .onLogout:
+                    self?.mxStore.logout()
                 }
             }
             .store(in: &subscriptions)
+
+        mxStore.$loginState.sink { [weak self] status in
+            switch status {
+            case .loggedOut:
+                self?.userFlowsStorageService.isAuthFlowFinished = false
+                self?.userFlowsStorageService.isOnboardingFlowFinished = false
+                self?.userFlowsStorageService.isLocalAuth = false
+                self?.userFlowsStorageService.isPinCodeOn = false
+                self?.delegate?.restartFlow()
+            default:
+                break
+            }
+        }
+        .store(in: &subscriptions)
     }
 
     private func bindOutput() {

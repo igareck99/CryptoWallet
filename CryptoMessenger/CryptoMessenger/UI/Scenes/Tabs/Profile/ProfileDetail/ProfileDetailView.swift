@@ -40,6 +40,7 @@ struct ProfileDetailView: View {
     // MARK: - Private Properties
 
     @State private var descriptionHeight = CGFloat(100)
+    @State private var showLogoutAlert = false
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -67,6 +68,14 @@ struct ProfileDetailView: View {
                 if closed {
                     presentationMode.wrappedValue.dismiss()
                 }
+            }
+            .alert(isPresented: $showLogoutAlert) {
+                return Alert(
+                    title: Text("Выйти из учетной записи?"),
+                    message: Text("Вы действительно хотите выйти из учетной записи? Перед выходом проверьте сохранили ли вы ключ."),
+                    primaryButton: .default(Text("Выход"), action: { viewModel.send(.onLogout) }),
+                    secondaryButton: .cancel(Text("Отменить"))
+                )
             }
             .onAppear {
                 UITextView.appearance().backgroundColor = .clear
@@ -119,6 +128,7 @@ struct ProfileDetailView: View {
                                 color: .blue(0.1),
                                 image: R.image.profileDetail.socialNetwork.image
                             )
+                                .background(.white())
                                 .frame(height: 64)
                                 .padding(.top, 24)
                                 .padding([.leading, .trailing], 16)
@@ -132,15 +142,21 @@ struct ProfileDetailView: View {
                                 color: .lightRed(0.1),
                                 image: R.image.profileDetail.exit.image
                             )
+                                .background(.white())
                                 .frame(height: 64)
                                 .padding(.top, 16)
                                 .padding([.leading, .trailing], 16)
+                                .onTapGesture {
+                                    vibrate()
+                                    showLogoutAlert.toggle()
+                                }
                         case .delete:
                             ProfileDetailActionRow(
                                 title: "Удалить учетную запись",
                                 color: .lightRed(0.1),
                                 image: R.image.profileDetail.delete.image
                             )
+                                .background(.white())
                                 .frame(height: 64)
                                 .padding([.leading, .trailing], 16)
                         }

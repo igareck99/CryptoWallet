@@ -3,5 +3,6 @@ import Foundation
 // MARK: - ProfileDetailSceneDelegate
 
 protocol ProfileDetailSceneDelegate: AnyObject {
-    func handleButtonTap()
+    func handleNextScene(_ scene: MainFlowCoordinator.Scene)
+    func restartFlow()
 }

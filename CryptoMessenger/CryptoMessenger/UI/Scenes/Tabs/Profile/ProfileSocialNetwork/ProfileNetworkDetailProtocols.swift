@@ -3,7 +3,7 @@ import Foundation
 // MARK: - ProfileNetworkDetailSceneDelegate
 
 protocol ProfileNetworkDetailSceneDelegate: AnyObject {
-    func handleButtonTap(_ scene: AuthFlowCoordinator.Scene)
+    func handleNextScene(_ scene: AuthFlowCoordinator.Scene)
 }
 
 // MARK: - ProfileNetworkDetailViewInterface

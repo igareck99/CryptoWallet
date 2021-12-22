@@ -14,6 +14,8 @@ struct ProfileView: View {
     @State private var showMenu = false
     @State private var showProfileDetail = false
     @State private var showCopyNicknameAlert = false
+    @State private var showSafari = false
+    @State private var safariAdress = ""
 
     // MARK: - Body
 
@@ -38,9 +40,15 @@ struct ProfileView: View {
                         }
                 }
             }
-            .background(
-                EmptyNavigationLink(destination: ProfileDetailView(viewModel: .init()), isActive: $showProfileDetail)
-            )
+//            .background(
+//                EmptyNavigationLink(destination: ProfileDetailView(viewModel: .init()), isActive: $showProfileDetail)
+//            )
+            .onAppear {
+                viewModel.send(.onAppear)
+            }
+            .fullScreenCover(isPresented: $showSafari, content: {
+                SFSafariViewWrapper(link: $safariAdress)
+        })
             .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text("Скопировано!")) }
             .popup(
                 isPresented: $showMenu,
@@ -56,7 +64,7 @@ struct ProfileView: View {
                         case .profile:
                             vibrate()
                             hideTabBar()
-                            showProfileDetail.toggle()
+                            viewModel.send(.onProfileScene)
                         default:
                             break
                         }
@@ -98,18 +106,32 @@ struct ProfileView: View {
                                 VStack(alignment: .leading, spacing: 11) {
                                     Text(viewModel.profile.name)
                                         .font(.medium(15))
-
-                                    Button(R.string.localizable.profileAddSocial()) {
-
+                                    HStack(spacing: 8) {
+                                        Button(action: {
+                                            showSafari = true
+                                            safariAdress = "https://telegram.org"
+                                        }, label: {
+                                            R.image.profile.twitter.image
+                                        }).frame(width: 32, height: 32, alignment: .center)
+                                            .background(.blue())
+                                            .cornerRadius(16)
+                                        Button(action: {
+                                            showSafari = true
+                                            safariAdress = "https://www.instagram.com"
+                                        }, label: {
+                                            R.image.profile.instagram.image
+                                        }).frame(width: 32, height: 32, alignment: .center)
+                                            .background(.blue())
+                                            .cornerRadius(16)
+                                        Button(action: {
+                                            showSafari = true
+                                            safariAdress = "https://ru-ru.facebook.com"
+                                        }, label: {
+                                            R.image.profile.facebook.image
+                                        }).frame(width: 32, height: 32, alignment: .center)
+                                            .background(.blue())
+                                            .cornerRadius(16)
                                     }
-                                    .frame(width: 160, height: 32)
-                                    .font(.regular(15))
-                                    .foreground(.blue())
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 61)
-                                            .stroke(Color(.blue()), lineWidth: 1)
-                                    )
-
                                     Text(viewModel.profile.phone)
                                 }
                             }
@@ -120,9 +142,13 @@ struct ProfileView: View {
                                 Text(viewModel.profile.status)
                                     .font(.regular(15))
                                     .foreground(.black())
-                                Text(R.string.localizable.profileSite())
+                                Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
                                     .font(.regular(15))
                                     .foreground(.blue())
+                                    .onTapGesture {
+                                        safariAdress = "https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70"
+                                        showSafari = true
+                                    }
                             }.padding(.leading, 16)
 
                             VStack(alignment: .center) {

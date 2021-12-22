@@ -47,8 +47,8 @@ final class ChatHistoryViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     self?.objectWillChange.send()
-                case .onNextScene:
-                    print("Next scene")
+                case let .onShowRoom(room):
+                    self?.delegate?.handleNextScene(.chatRoom(room))
                 case let .onDeleteRoom(roomId):
                     self?.mxStore.leaveRoom(roomId: roomId, completion: { _ in })
                 }

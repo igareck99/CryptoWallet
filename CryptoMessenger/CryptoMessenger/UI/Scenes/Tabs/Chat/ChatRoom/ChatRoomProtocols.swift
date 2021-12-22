@@ -3,5 +3,5 @@ import Foundation
 // MARK: - ChatRoomSceneDelegate
 
 protocol ChatRoomSceneDelegate: AnyObject {
-    func handleButtonTap()
+    func handleNextScene(_ scene: MainFlowCoordinator.Scene)
 }

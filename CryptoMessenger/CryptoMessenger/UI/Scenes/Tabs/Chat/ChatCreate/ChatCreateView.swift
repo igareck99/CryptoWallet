@@ -67,35 +67,58 @@ struct ChatCreateView: View {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
+                .navigationBarHidden(true)
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: {
-                            presentationMode.wrappedValue.dismiss()
-                        }, label: {
-                            R.image.navigation.backButton.image
-                        })
-                    }
-
-                    ToolbarItem(placement: .principal) {
-                        Text("Чаты")
-                            .font(.bold(15))
-                            .foreground(.black())
-                    }
-
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-
-                        }, label: {
-                            R.image.chat.group.search.image
-                        })
-                    }
-                }
+//                .toolbar {
+//                    ToolbarItem(placement: .navigationBarLeading) {
+//                        Button(action: {
+//                            presentationMode.wrappedValue.dismiss()
+//                        }, label: {
+//                            R.image.navigation.backButton.image
+//                        })
+//                    }
+//
+//                    ToolbarItem(placement: .principal) {
+//                        Text("Чаты")
+//                            .font(.bold(15))
+//                            .foreground(.black())
+//                    }
+//
+//                    ToolbarItem(placement: .navigationBarTrailing) {
+//                        Button(action: {
+//
+//                        }, label: {
+//                            R.image.chat.group.search.image
+//                        })
+//                    }
+//                }
         }
     }
 
     private var content: some View {
-        ZStack {
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                SearchBar(
+                    placeholder: "Поиск по идентификатору",
+                    searchText: $viewModel.searchText,
+                    searching: $viewModel.searching
+                )
+                if viewModel.searching {
+                    Spacer()
+                    Button("Отменить") {
+                        viewModel.searchText = ""
+                        withAnimation {
+                            viewModel.searching = false
+                            UIApplication.shared.dismissKeyboard()
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .foreground(.blue())
+                }
+            }
+            .padding(.top, 16)
+            .padding([.leading, .trailing, .bottom], 16)
+
             ScrollView(.vertical, showsIndicators: false) {
                 Rectangle()
                     .fill(Color(.gray(0.8)))
@@ -114,18 +137,20 @@ struct ChatCreateView: View {
                         }
                     }
 
-                    sectionView("Контакты")
+                    if !viewModel.contacts.isEmpty {
+                        sectionView("Контакты")
 
-                    VStack(alignment: .leading, spacing: 0) {
-                        ForEach(viewModel.contacts) { contact in
-                            ContactRow(
-                                avatar: contact.avatar,
-                                name: contact.name,
-                                status: contact.status.isEmpty ? "Привет, теперь я в Aura" : contact.status,
-                                hideSeparator: viewModel.contacts.last?.id == contact.id
-                            ).onTapGesture {
-                                vibrate()
-                                viewModel.send(.onCreate([contact.mxId]))
+                        VStack(alignment: .leading, spacing: 0) {
+                            ForEach(viewModel.contacts) { contact in
+                                ContactRow(
+                                    avatar: contact.avatar,
+                                    name: contact.name,
+                                    status: contact.status.isEmpty ? "Привет, теперь я в Aura" : contact.status,
+                                    hideSeparator: viewModel.contacts.last?.id == contact.id
+                                ).onTapGesture {
+                                    vibrate()
+                                    viewModel.send(.onCreate([contact.mxId]))
+                                }
                             }
                         }
                     }
