@@ -64,7 +64,7 @@ struct ChatRoomRow: View {
                                     showMap.toggle()
                                 }
                         case let .image(url):
-                            photoRow(url)
+                            photoRow(message, url: url)
                                 .onTapGesture {
                                     onSelectPhoto?(url)
                                 }
@@ -138,20 +138,24 @@ struct ChatRoomRow: View {
     private func mapRow(_ location: Location) -> some View {
         ZStack {
             MapSnapshotView(latitude: location.lat, longitude: location.long)
-
-            checkReadView()
+            checkReadView("04:20")
         }
         .frame(width: 247, height: 142)
     }
 
-    private func photoRow(_ url: URL?) -> some View {
-        AsyncImage(url: url) {
-            $0.resizable()
-        } placeholder: {
-            ShimmerView()
-                .frame(width: 202, height: 245)
+    private func photoRow(_ message: RoomMessage, url: URL?) -> some View {
+        ZStack {
+            AsyncImage(url: url) {
+                $0.resizable()
+            } placeholder: {
+                ShimmerView()
+                    .frame(width: 202, height: 245)
+            }
+            .scaledToFill()
+            .frame(width: 202, height: 245)
+
+            checkReadView(message.shortDate)
         }
-        .scaledToFill()
         .frame(width: 202, height: 245)
     }
 
@@ -269,7 +273,7 @@ struct ChatRoomRow: View {
         }
     }
 
-    private func checkReadView() -> some View {
+    private func checkReadView(_ time: String) -> some View {
         ZStack {
             VStack {
                 Spacer()
@@ -280,7 +284,7 @@ struct ChatRoomRow: View {
                     }
 
                     HStack(alignment: .center, spacing: 4) {
-                        Text("14:47")
+                        Text(time)
                             .font(.light(12))
                             .foreground(.white())
 

@@ -8,6 +8,19 @@ extension MXEvent {
 
     var timestamp: Date { Date(timeIntervalSince1970: TimeInterval(originServerTs / 1000)) }
 
+    var text: String {
+        if !isEdit() {
+            return (content["body"] as? String).map {
+                $0.trimmingCharacters(in: .whitespacesAndNewlines)
+            } ?? "Error: expected string body"
+        } else {
+            let newContent = content["m.new_content"] as? NSDictionary
+            return (newContent?["body"] as? String).map {
+                $0.trimmingCharacters(in: .whitespacesAndNewlines)
+            } ?? "Error: expected string body"
+        }
+    }
+
     // MARK: - Internal Methods
 
     func content<T>(valueFor key: String) -> T? { content?[key] as? T }
@@ -26,19 +39,6 @@ extension MXEvent {
     // MARK: - Private Methods
 
     private func rowItem(_ isFromCurrentUser: Bool) -> RoomMessage {
-        var text: String {
-            if !isEdit() {
-                return (content["body"] as? String).map {
-                    $0.trimmingCharacters(in: .whitespacesAndNewlines)
-                } ?? "Error: expected string body"
-            } else {
-                let newContent = content["m.new_content"] as? NSDictionary
-                return (newContent?["body"] as? String).map {
-                    $0.trimmingCharacters(in: .whitespacesAndNewlines)
-                } ?? "Error: expected string body"
-            }
-        }
-
         let messageType = content["msgtype"] as? String
         var itemType: MessageType
         switch messageType {
