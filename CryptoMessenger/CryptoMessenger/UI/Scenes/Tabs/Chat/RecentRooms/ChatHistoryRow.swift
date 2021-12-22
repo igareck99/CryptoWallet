@@ -40,10 +40,10 @@ struct ChatHistoryRow: View {
             }
             .frame(width: 60, height: 60)
 
-            VStack(spacing: 0) {
+            VStack(spacing: 4) {
                 HStack(spacing: 12) {
                     Text(room.summary.displayname?.firstUppercased ?? "",
-                        [
+                         [
                             .font(.semibold(15)),
                             .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
                             .color(.black())
@@ -64,15 +64,39 @@ struct ChatHistoryRow: View {
                 .padding(.top, 9)
 
                 HStack(spacing: 12) {
-                    Text(
-                        room.lastMessage,
-                        [
-                            .font(.regular(15)),
-                            .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
-                            .color(.black(0.6))
-                        ]
-                    )
-                        .lineLimit(2)
+                    switch room.messageType {
+                    case let .text(text):
+                        Text(
+                            text,
+                            [
+                                .font(.regular(15)),
+                                .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
+                                .color(.black(0.6))
+                            ]
+                        ).lineLimit(2)
+                    case let .image(url):
+                        HStack(spacing: 6) {
+                            AsyncImage(url: url) {
+                                $0.resizable()
+                            } placeholder: {
+                                ShimmerView().frame(width: 20, height: 20)
+                            }
+                            .scaledToFill()
+                            .frame(width: 16, height: 16)
+                            .cornerRadius(2)
+
+                            Text(
+                                "Фото",
+                                [
+                                    .font(.regular(15)),
+                                    .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
+                                    .color(.black(0.6))
+                                ]
+                            )
+                        }
+                    default:
+                        EmptyView()
+                    }
 
                     Spacer()
 

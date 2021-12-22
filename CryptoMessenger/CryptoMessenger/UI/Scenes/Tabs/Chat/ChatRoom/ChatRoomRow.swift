@@ -70,6 +70,8 @@ struct ChatRoomRow: View {
                                 }
                         case .contact:
                             contactRow()
+                        case .none:
+                            EmptyView()
                         }
                     }
                     .background(.clear)

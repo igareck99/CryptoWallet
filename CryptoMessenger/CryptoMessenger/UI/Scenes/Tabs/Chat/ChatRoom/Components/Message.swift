@@ -10,6 +10,7 @@ enum MessageType {
     case image(URL?)
     case location((lat: Double, long: Double))
     case contact
+    case none
 }
 
 // MARK: - MessageStatus

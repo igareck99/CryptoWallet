@@ -162,9 +162,7 @@ final class ChatRoomViewModel: ObservableObject {
 
         $quickAction
             .receive(on: DispatchQueue.main)
-            .sink { action in
-                print(action)
-            }
+            .sink { _ in }
             .store(in: &subscriptions)
 
         locationManager.$lastLocation
@@ -172,10 +170,21 @@ final class ChatRoomViewModel: ObservableObject {
             .assign(to: \.lastLocation, on: self)
             .store(in: &subscriptions)
 
-        messages = room.events().renderableEvents
-            .map { $0.message(fromCurrentSender($0.sender)) }
-            .reversed()
-            .compactMap { $0 }
+        mxStore.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard
+                    let self = self,
+                    let room = self.mxStore.rooms.first(where: { $0.room.id == self.room.id })
+                else {
+                    return
+                }
+                self.messages = room.events().renderableEvents
+                    .map { $0.message(self.fromCurrentSender($0.sender)) }
+                    .reversed()
+                    .compactMap { $0 }
+            }
+            .store(in: &subscriptions)
     }
 
     private func bindOutput() {
