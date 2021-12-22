@@ -47,7 +47,7 @@ struct ProfileView: View {
                 viewModel.send(.onAppear)
             }
             .fullScreenCover(isPresented: $showSafari, content: {
-                SFSafariViewWrapper(url: $safariAdress)
+                SFSafariViewWrapper(link: $safariAdress)
         })
             .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text("Скопировано!")) }
             .popup(
@@ -111,7 +111,7 @@ struct ProfileView: View {
                                             showSafari = true
                                             safariAdress = "https://telegram.org"
                                         }, label: {
-                                            Image(uiImage: R.image.profile.twitter() ?? UIImage())
+                                            R.image.profile.twitter.image
                                         }).frame(width: 32, height: 32, alignment: .center)
                                             .background(.blue())
                                             .cornerRadius(16)
@@ -119,7 +119,7 @@ struct ProfileView: View {
                                             showSafari = true
                                             safariAdress = "https://www.instagram.com"
                                         }, label: {
-                                            Image(uiImage: R.image.profile.instagram() ?? UIImage())
+                                            R.image.profile.instagram.image
                                         }).frame(width: 32, height: 32, alignment: .center)
                                             .background(.blue())
                                             .cornerRadius(16)
@@ -127,7 +127,7 @@ struct ProfileView: View {
                                             showSafari = true
                                             safariAdress = "https://ru-ru.facebook.com"
                                         }, label: {
-                                            Image(uiImage: R.image.profile.facebook() ?? UIImage())
+                                            R.image.profile.facebook.image
                                         }).frame(width: 32, height: 32, alignment: .center)
                                             .background(.blue())
                                             .cornerRadius(16)
