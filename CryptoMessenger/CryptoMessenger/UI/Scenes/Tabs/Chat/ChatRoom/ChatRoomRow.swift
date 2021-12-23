@@ -11,16 +11,23 @@ struct ChatRoomRow: View {
     private let isFromCurrentUser: Bool
     private let isPreviousFromCurrentUser: Bool
     private var onReaction: StringBlock?
+    private var onSelectPhoto: GenericBlock<URL?>?
     @State private var showMap = false
     @State private var isAnimating = false
 
     // MARK: - Lifecycle
 
-    init(message: RoomMessage, isPreviousFromCurrentUser: Bool, onReaction: StringBlock?) {
+    init(
+        message: RoomMessage,
+        isPreviousFromCurrentUser: Bool,
+        onReaction: StringBlock?,
+        onSelectPhoto: GenericBlock<URL?>?
+    ) {
         self.message = message
         self.isFromCurrentUser = message.isCurrentUser
         self.isPreviousFromCurrentUser = isPreviousFromCurrentUser
         self.onReaction = onReaction
+        self.onSelectPhoto = onSelectPhoto
     }
 
     // MARK: - Body
@@ -56,10 +63,15 @@ struct ChatRoomRow: View {
                                 .onTapGesture {
                                     showMap.toggle()
                                 }
-                        case let .image(image):
-                            photoRow(image)
+                        case let .image(url):
+                            photoRow(message, url: url)
+                                .onTapGesture {
+                                    onSelectPhoto?(url)
+                                }
                         case .contact:
                             contactRow()
+                        case .none:
+                            EmptyView()
                         }
                     }
                     .background(.clear)
@@ -128,20 +140,23 @@ struct ChatRoomRow: View {
     private func mapRow(_ location: Location) -> some View {
         ZStack {
             MapSnapshotView(latitude: location.lat, longitude: location.long)
-
-            checkReadView()
+            checkReadView("04:20")
         }
         .frame(width: 247, height: 142)
     }
 
-    private func photoRow(_ uiImage: UIImage) -> some View {
+    private func photoRow(_ message: RoomMessage, url: URL?) -> some View {
         ZStack {
-            Image(uiImage: uiImage)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 202, height: 245, alignment: .center)
+            AsyncImage(url: url) {
+                $0.resizable()
+            } placeholder: {
+                ShimmerView()
+                    .frame(width: 202, height: 245)
+            }
+            .scaledToFill()
+            .frame(width: 202, height: 245)
 
-            checkReadView()
+            checkReadView(message.shortDate)
         }
         .frame(width: 202, height: 245)
     }
@@ -260,7 +275,7 @@ struct ChatRoomRow: View {
         }
     }
 
-    private func checkReadView() -> some View {
+    private func checkReadView(_ time: String) -> some View {
         ZStack {
             VStack {
                 Spacer()
@@ -271,7 +286,7 @@ struct ChatRoomRow: View {
                     }
 
                     HStack(alignment: .center, spacing: 4) {
-                        Text("14:47")
+                        Text(time)
                             .font(.light(12))
                             .foreground(.white())
 

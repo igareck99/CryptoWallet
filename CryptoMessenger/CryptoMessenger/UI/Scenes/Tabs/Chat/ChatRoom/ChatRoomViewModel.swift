@@ -36,10 +36,6 @@ final class ChatRoomViewModel: ObservableObject {
 
     init(room: AuraRoom) {
         self.room = room
-        messages = room.events().renderableEvents
-            .map { $0.message(fromCurrentSender($0.sender)) }
-            .reversed()
-            .compactMap { $0 }
 
         bindInput()
         bindOutput()
@@ -93,18 +89,13 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.mxStore.objectWillChange.send()
                 case .onNextScene:
                     ()
-                case let .onSend(type):
-                    guard case let .text(text) = type else { return }
+                case let .onSendText(text):
                     self?.inputText = ""
-                    self?.room.send(text: text)
-                    self?.messages.insert(
-                        .init(
-                            id: UUID().uuidString,
-                            type: .text(text),
-                            shortDate: Date().hoursAndMinutes,
-                            fullDate: Date().dayOfWeekDayAndMonth,
-                            isCurrentUser: true
-                        ), at: 0)
+                    self?.room.sendText(text)
+                    self?.mxStore.objectWillChange.send()
+                case let .onSendImage(image):
+                    self?.inputText = ""
+                    self?.room.sendImage(image)
                     self?.mxStore.objectWillChange.send()
                 case .onJoinRoom:
                     guard let roomId = self?.room.room.roomId else { return }
@@ -171,30 +162,28 @@ final class ChatRoomViewModel: ObservableObject {
 
         $quickAction
             .receive(on: DispatchQueue.main)
-            .sink { action in
-                print(action)
-            }
-            .store(in: &subscriptions)
-
-        $selectedImage
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] image in
-                guard let image = image else { return }
-                self?.messages.append(
-                    .init(
-                        id: UUID().uuidString,
-                        type: .image(image),
-                        shortDate: "00:31",
-                        fullDate: "00:31",
-                        isCurrentUser: true
-                    )
-                )
-            }
+            .sink { _ in }
             .store(in: &subscriptions)
 
         locationManager.$lastLocation
             .receive(on: DispatchQueue.main)
             .assign(to: \.lastLocation, on: self)
+            .store(in: &subscriptions)
+
+        mxStore.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard
+                    let self = self,
+                    let room = self.mxStore.rooms.first(where: { $0.room.id == self.room.id })
+                else {
+                    return
+                }
+                self.messages = room.events().renderableEvents
+                    .map { $0.message(self.fromCurrentSender($0.sender)) }
+                    .reversed()
+                    .compactMap { $0 }
+            }
             .store(in: &subscriptions)
     }
 
@@ -203,6 +192,32 @@ final class ChatRoomViewModel: ObservableObject {
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
     }
+
+//    private func sendMessage(_ type: MessageType) {
+//        inputText = ""
+//
+//        switch type {
+//        case let .text(text):
+//            room.sendText(text)
+//        case let .image(image):
+//            room.sendImage(image)
+//        default:
+//            break
+//        }
+//
+//        messages.insert(
+//            .init(
+//                id: UUID().uuidString,
+//                type: type,
+//                shortDate: Date().hoursAndMinutes,
+//                fullDate: Date().dayOfWeekDayAndMonth,
+//                isCurrentUser: true
+//            ),
+//            at: 0
+//        )
+//
+//        mxStore.objectWillChange.send()
+//    }
 }
 
 private var mockEmojiStorage: [ReactionStorage] = ["👍", "👎", "😄", "🎉", "❤️", "🚀", "👀"]

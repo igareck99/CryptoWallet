@@ -23,6 +23,17 @@ final class MatrixStore: ObservableObject {
 
     @Published var loginState: MatrixState = .loggedOut
 
+    var rooms: [AuraRoom] {
+        guard let session = session else { return [] }
+
+        let rooms = session.rooms
+            .map { makeRoom(from: $0) }
+            .sorted { $0.summary.lastMessageDate > $1.summary.lastMessageDate }
+
+        updateUserDefaults(with: rooms)
+        return rooms
+    }
+
     // MARK: - Private Properties
 
     private var client: MXRestClient?
@@ -30,6 +41,9 @@ final class MatrixStore: ObservableObject {
     private var fileStore: MXFileStore?
     private var credentials: MXCredentials?
     private let keychain = Keychain(service: "chat.aura.credentials")
+    private var listenReference: Any?
+    private var roomCache: [ObjectIdentifier: AuraRoom] = [:]
+    private var listenReferenceRoom: Any?
 
     // MARK: - Lifecycle
 
@@ -64,7 +78,7 @@ final class MatrixStore: ObservableObject {
         session?.removeListener(listenReference)
     }
 
-    // MARK: - Login & Sync
+    // MARK: - Session
 
     func login(username: String, password: String, homeServer: URL) {
         loginState = .authenticating
@@ -117,14 +131,14 @@ final class MatrixStore: ObservableObject {
                 }
                 group.notify(queue: .main) {
                     self?.loginState = .loggedOut
-//                    self?.logout { result in
-//                        switch result {
-//                        case .failure:
-//                            self?.loginState = .loggedOut
-//                        case .success(let state):
-//                            self?.loginState = state
-//                        }
-//                    }
+                    self?.logout { result in
+                        switch result {
+                        case .failure:
+                            self?.loginState = .loggedOut
+                        case .success(let state):
+                            self?.loginState = state
+                        }
+                    }
                 }
             default:
                 break
@@ -182,71 +196,12 @@ final class MatrixStore: ObservableObject {
 
     // MARK: - Rooms
 
-    var listenReference: Any?
-
     func startListeningForRoomEvents() {
         listenReference = session?.listenToEvents { event, direction, roomState in
             let affectedRooms = self.rooms.filter { $0.summary.roomId == event.roomId }
             affectedRooms.forEach {
                 $0.add(event: event, direction: direction, roomState: roomState as? MXRoomState)
             }
-            self.objectWillChange.send()
-        }
-    }
-
-    func currentlyActive(_ userId: String) -> Bool {
-        session?.user(withUserId: userId)?.currentlyActive ?? false
-    }
-
-    func fromCurrentSender(_ userId: String) -> Bool {
-        credentials?.userId == userId
-        //session?.crypto.backup
-        //бэкапы ключей чатов
-    }
-
-    private var roomCache: [ObjectIdentifier: AuraRoom] = [:]
-
-    private func makeRoom(from mxRoom: MXRoom) -> AuraRoom {
-        let room = AuraRoom(mxRoom)
-        if mxRoom.isDirect {
-            room.isOnline = currentlyActive(mxRoom.directUserId)
-        }
-        roomCache[mxRoom.id] = room
-        return room
-    }
-
-    var rooms: [AuraRoom] {
-        guard let session = session else { return [] }
-
-        let rooms = session.rooms
-            .map { makeRoom(from: $0) }
-            .sorted { $0.summary.lastMessageDate > $1.summary.lastMessageDate }
-
-        updateUserDefaults(with: rooms)
-        return rooms
-    }
-
-    private func updateUserDefaults(with rooms: [AuraRoom]) {
-        let roomItems = rooms.map { RoomItem(room: $0.room) }
-        do {
-            let data = try JSONEncoder().encode(roomItems)
-            UserDefaults.group.set(data, forKey: "roomList")
-        } catch {
-            print("An error occured: \(error)")
-        }
-    }
-
-    var listenReferenceRoom: Any?
-
-    func paginate(room: AuraRoom, event: MXEvent) {
-        let timeline = room.room.timeline(onEvent: event.eventId)
-        listenReferenceRoom = timeline?.listenToEvents { event, direction, roomState in
-            if direction == .backwards {
-                room.add(event: event, direction: direction, roomState: roomState)
-            }
-            self.objectWillChange.send()
-        }
-        timeline?.resetPaginationAroundInitialEvent(withLimit: 1000) { _ in
             self.objectWillChange.send()
         }
     }
@@ -268,6 +223,28 @@ final class MatrixStore: ObservableObject {
         session?.joinRoom(roomId, completion: completion)
     }
 
+    private func makeRoom(from mxRoom: MXRoom) -> AuraRoom {
+        let room = AuraRoom(mxRoom)
+        if mxRoom.isDirect {
+            room.isOnline = currentlyActive(mxRoom.directUserId)
+        }
+        roomCache[mxRoom.id] = room
+        return room
+    }
+
+    // MARK: - Users
+
+    func currentlyActive(_ userId: String) -> Bool {
+        session?.user(withUserId: userId)?.currentlyActive ?? false
+    }
+
+    func fromCurrentSender(_ userId: String) -> Bool {
+        credentials?.userId == userId
+        //session?.crypto.backup
+        //бэкапы ключей чатов
+    }
+
+    func getUser(_ id: String) -> MXUser? { session?.user(withUserId: id) }
     func getUserId() -> String { session?.myUser?.userId ?? "" }
     func getDisplayName() -> String { session?.myUser?.displayname ?? "" }
     func getStatus() -> String { session?.myUser?.statusMsg ?? "" }
@@ -327,6 +304,29 @@ final class MatrixStore: ObservableObject {
         }
     }
 
-    func getUser(_ id: String) -> MXUser? { session?.user(withUserId: id) }
+    private func updateUserDefaults(with rooms: [AuraRoom]) {
+        let roomItems = rooms.map { RoomItem(room: $0.room) }
+        do {
+            let data = try JSONEncoder().encode(roomItems)
+            UserDefaults.group.set(data, forKey: "roomList")
+        } catch {
+            print("An error occurred: \(error)")
+        }
+    }
+
+    // MARK: - Pagination
+
+    func paginate(room: AuraRoom, event: MXEvent) {
+        let timeline = room.room.timeline(onEvent: event.eventId)
+        listenReferenceRoom = timeline?.listenToEvents { event, direction, roomState in
+            if direction == .backwards {
+                room.add(event: event, direction: direction, roomState: roomState)
+            }
+            self.objectWillChange.send()
+        }
+        timeline?.resetPaginationAroundInitialEvent(withLimit: 1000) { _ in
+            self.objectWillChange.send()
+        }
+    }
 
 }

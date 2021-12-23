@@ -8,16 +8,18 @@ struct ImagePickerView: UIViewControllerRepresentable {
     // MARK: - Internal Properties
 
     @Binding var selectedImage: UIImage?
-    @Environment(\.presentationMode) var presentationMode
+    var onSelectImage: GenericBlock<UIImage?>?
 
     // MARK: - Private Properties
 
+    @Environment(\.presentationMode) private var presentationMode
     private var sourceType: UIImagePickerController.SourceType = .photoLibrary
 
     // MARK: - Lifecycle
 
-    init(selectedImage: Binding<UIImage?>) {
+    init(selectedImage: Binding<UIImage?>, onSelectImage: GenericBlock<UIImage?>?) {
         self._selectedImage = selectedImage
+        self.onSelectImage = onSelectImage
     }
 
     // MARK: - Internal Methods
@@ -61,7 +63,9 @@ struct ImagePickerView: UIViewControllerRepresentable {
             _ picker: UIImagePickerController,
             didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
         ) {
-            parent.selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+            let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+            parent.selectedImage = image
+            parent.onSelectImage?(image)
             parent.presentationMode.wrappedValue.dismiss()
         }
     }

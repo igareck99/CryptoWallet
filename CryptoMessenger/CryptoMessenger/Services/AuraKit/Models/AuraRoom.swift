@@ -40,7 +40,7 @@ final class AuraRoom: ObservableObject {
     @Published var eventCache: [MXEvent] = []
 
     var isDirect: Bool { room.isDirect }
-
+    var messageType: MessageType { room.summary.lastMessageEvent.messageType }
     var lastMessage: String {
         if summary.membership == .invite {
             let inviteEvent = eventCache.last {
@@ -92,17 +92,7 @@ final class AuraRoom: ObservableObject {
     }
 
     func events() -> EventCollection {
-        return EventCollection(eventCache + room.outgoingMessages())
-    }
-
-    func send(text: String) {
-        guard !text.isEmpty else { return }
-
-        objectWillChange.send()             // room.outgoingMessages() will change
-        var localEcho: MXEvent?
-        room.sendTextMessage(text, localEcho: &localEcho) { _ in
-            self.objectWillChange.send()    // localEcho.sentState has(!) changed
-        }
+        EventCollection(eventCache + room.outgoingMessages())
     }
 
     func react(toEventId eventId: String, emoji: String) {
@@ -130,11 +120,22 @@ final class AuraRoom: ObservableObject {
         room.redactEvent(eventId, reason: reason) { _ in }
     }
 
-    func sendImage(image: UIImage) {
-        guard let imageData = image.jpeg(.lowest) else { return }
+    func sendText(_ text: String) {
+        guard !text.isEmpty else { return }
+
+        objectWillChange.send()
+        var localEcho: MXEvent?
+        room.sendTextMessage(text, localEcho: &localEcho) { _ in
+            self.objectWillChange.send()
+        }
+    }
+
+    func sendImage(_ image: UIImage) {
+        let fixedImage = image.fixOrientation()
+        guard let imageData = fixedImage.jpeg(.medium) else { return }
 
         var localEcho: MXEvent?
-        objectWillChange.send()             // room.outgoingMessages() will change
+        objectWillChange.send()
         room.sendImage(
             data: imageData,
             size: image.size,
@@ -142,7 +143,7 @@ final class AuraRoom: ObservableObject {
             thumbnail: image,
             localEcho: &localEcho
         ) { _ in
-            self.objectWillChange.send()    // localEcho.sentState has(!) changed
+            self.objectWillChange.send()
         }
     }
 
@@ -151,7 +152,7 @@ final class AuraRoom: ObservableObject {
     }
 
     func removeOutgoingMessage(_ event: MXEvent) {
-        objectWillChange.send()             // room.outgoingMessages() will change
+        objectWillChange.send()
         room.removeOutgoingMessage(event.eventId)
     }
 }
