@@ -14,6 +14,8 @@ struct ProfileView: View {
     @State private var showMenu = false
     @State private var showProfileDetail = false
     @State private var showCopyNicknameAlert = false
+    @State private var showSafari = false
+    @State private var safariAdress = ""
 
     // MARK: - Body
 
@@ -46,6 +48,9 @@ struct ProfileView: View {
             .onAppear {
                 viewModel.send(.onAppear)
             }
+            .fullScreenCover(isPresented: $showSafari, content: {
+                SFSafariViewWrapper(link: $safariAdress)
+        })
             .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text("Скопировано!")) }
             .popup(
                 isPresented: $showMenu,
@@ -99,22 +104,74 @@ struct ProfileView: View {
                         VStack(alignment: .leading, spacing: 24) {
                             HStack(spacing: 16) {
                                 avatarView
-
                                 VStack(alignment: .leading, spacing: 11) {
                                     Text(viewModel.profile.name)
                                         .font(.medium(15))
-
-                                    Button(R.string.localizable.profileAddSocial()) {
+                                    switch viewModel.socialListEmpty {
+                                    case false:
+                                    HStack(spacing: 8) {
+                                        ForEach(viewModel.socialList.listData) { item in
+                                            switch item.networkType {
+                                            case .twitter:
+                                                Button(action: {
+                                                    showSafari = true
+                                                    safariAdress = item.url
+                                                }, label: {
+                                                    R.image.profile.twitter.image
+                                                }).frame(width: 32, height: 32, alignment: .center)
+                                                    .background(.blue())
+                                                    .cornerRadius(16)
+                                            case .instagram:
+                                                Button(action: {
+                                                    showSafari = true
+                                                    safariAdress = item.url
+                                                }, label: {
+                                                    R.image.profile.instagram.image
+                                                }).frame(width: 32, height: 32, alignment: .center)
+                                                    .background(.blue())
+                                                    .cornerRadius(16)
+                                            case .facebook:
+                                                Button(action: {
+                                                    showSafari = true
+                                                    safariAdress = item.url
+                                                }, label: {
+                                                    R.image.profile.facebook.image
+                                                }).frame(width: 32, height: 32, alignment: .center)
+                                                    .background(.blue())
+                                                    .cornerRadius(16)
+                                            case .webSite:
+                                                Button(action: {
+                                                    showSafari = true
+                                                    safariAdress = item.url
+                                                }, label: {
+                                                    R.image.profile.website.image
+                                                }).frame(width: 32, height: 32, alignment: .center)
+                                                    .background(.blue())
+                                                    .cornerRadius(16)
+                                            case .telegram:
+                                                Button(action: {
+                                                    showSafari = true
+                                                    safariAdress = item.url
+                                                }, label: {
+                                                    R.image.profile.website.image
+                                                }).frame(width: 32, height: 32, alignment: .center)
+                                                    .background(.blue())
+                                                    .cornerRadius(16)
+                                            }
+                                        }
+                                    }
+                                    case true:
+                                        Button(R.string.localizable.profileAddSocial()) {
+                                        }
+                                        .frame(width: 160, height: 32)
+                                        .font(.regular(15))
+                                        .foreground(.blue())
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 61)
+                                                .stroke(Color(.blue()), lineWidth: 1)
+                                        )
 
                                     }
-                                    .frame(width: 160, height: 32)
-                                    .font(.regular(15))
-                                    .foreground(.blue())
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 61)
-                                            .stroke(Color(.blue()), lineWidth: 1)
-                                    )
-
                                     Text(viewModel.profile.phone)
                                 }
                             }
@@ -125,9 +182,13 @@ struct ProfileView: View {
                                 Text(viewModel.profile.status)
                                     .font(.regular(15))
                                     .foreground(.black())
-                                Text(R.string.localizable.profileSite())
+                                Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
                                     .font(.regular(15))
                                     .foreground(.blue())
+                                    .onTapGesture {
+                                        safariAdress = "https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70"
+                                        showSafari = true
+                                    }
                             }.padding(.leading, 16)
 
                             VStack(alignment: .center) {

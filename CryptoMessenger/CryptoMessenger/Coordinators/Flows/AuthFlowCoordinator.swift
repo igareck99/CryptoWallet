@@ -131,6 +131,12 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
+    private func showProfile() {
+        // let viewController = BaseHostingController(rootView: ProfileView(viewModel: .init()))
+        let viewController = BaseHostingController(rootView: SocialListView())
+        setViewWith(viewController)
+    }
+
     // MARK: - Scene
 
     enum Scene {

@@ -10,6 +10,7 @@ protocol UserCredentialsStorage {
     var userMatrixId: String { get }
     var userPinCode: String { get set }
     var userFalsePinCode: String { get set }
+    var socialNetworkList: [SocialListItem] { get set }
 }
 
 // MARK: - UserCredentialsStorageService
@@ -59,4 +60,9 @@ final class UserCredentialsStorageService {
     }
 
     var userMatrixId: String { storage.userMatrixId }
+
+    var socialNetworkList: [SocialListItem] {
+        get { storage.socialNetworkList }
+        set { storage.socialNetworkList = newValue }
+    }
 }
