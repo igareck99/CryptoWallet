@@ -14,20 +14,20 @@ struct SocialListItem: Identifiable, Equatable {
     // MARK: - Static Methods
 
     static func socialList() -> [SocialListItem] {
-        let item1 = SocialListItem(url: "twitter.com/arestov_lv",
+        let item1 = SocialListItem(url: "https://twitter.com/?lang=ru",
                                    type: .show,
                                    networkType: .twitter)
-        let item2 = SocialListItem(url: "facebook.com/arestov_design",
+        let item2 = SocialListItem(url: "https://www.instagram.com/igareck99/",
                                    type: .show,
-                                   networkType: .facebook)
-        let item4 = SocialListItem(url: "telegram.com/arestov_lv",
-                                   type: .show,
-                                   networkType: .telegram)
-        let item3 = SocialListItem(url: "instagram.com/arestov_design",
-                                   type: .notShow,
                                    networkType: .instagram
         )
-        let social_List = [item1, item2, item3, item4]
+        let item3 = SocialListItem(url: "https://github.com/igareck99",
+                                   type: .show,
+                                   networkType: .webSite)
+        let item4 = SocialListItem(url: "facebook.com/arestov_lv",
+                                   type: .notShow,
+                                   networkType: .facebook)
+        let social_List = [item1, item3, item2, item4]
         return social_List
     }
 }

@@ -32,6 +32,8 @@ final class ProfileViewModel: ObservableObject {
 
     @Published private(set) var profile = ProfileItem()
     @Published private(set) var state: ProfileFlow.ViewState = .idle
+    @Published private(set) var socialList = SocialListViewModel()
+    @Published private(set) var socialListEmpty = false
 
     // MARK: - Private Properties
 
@@ -98,5 +100,7 @@ final class ProfileViewModel: ObservableObject {
             profile.status = mxStore.getStatus()
         }
         profile.phone = userCredentialsStorageService.userPhoneNumber
+        socialList.listData = userCredentialsStorageService.socialNetworkList.filter { $0.type == .show }
+        socialListEmpty = userCredentialsStorageService.socialNetworkList.filter { $0.type == .show }.isEmpty
     }
 }

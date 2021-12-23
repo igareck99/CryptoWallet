@@ -90,7 +90,7 @@ struct UserDefaultsLayer {
     @UserDefaultSettings(userFalsePinCodeKey, value: "")
     var userFalsePinCode: String
     
-    @UserDefaultSettings(socialNetworkList, value: [])
+    @UserDefaultSettings(socialNetworkList, value: SocialListItem.socialList())
     var socialNetworkList: [SocialListItem]
 
     var userMatrixId: String {
