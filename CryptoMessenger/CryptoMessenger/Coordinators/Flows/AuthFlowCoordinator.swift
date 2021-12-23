@@ -16,10 +16,7 @@ protocol AuthFlowCoordinatorSceneDelegate: AnyObject {
 
 // MARK: - AuthFlowCoordinator
 
-public final class AuthFlowCoordinator: Coordinator, ProfileSceneDelegate {
-    func handleNextScene(_ scene: MainFlowCoordinator.Scene) {
-    }
-    
+public final class AuthFlowCoordinator: Coordinator {
 
     // MARK: - Internal Properties
 
@@ -37,8 +34,7 @@ public final class AuthFlowCoordinator: Coordinator, ProfileSceneDelegate {
     // MARK: - Internal Methods
 
     func start() {
-        //handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
-        handleNextScene(.blockedUser)
+        handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
     // MARK: - Private Methods
@@ -121,10 +117,7 @@ public final class AuthFlowCoordinator: Coordinator, ProfileSceneDelegate {
     }
 
     private func showBlockedUserScene() {
-//        let viewController = BaseHostingController(rootView: BlockedUserContentView())
-//        setViewWith(viewController)
-        let rootView = ProfileConfigurator.configuredView(delegate: self)
-        let viewController = BaseHostingController(rootView: rootView)
+        let viewController = BaseHostingController(rootView: BlockedUserContentView())
         setViewWith(viewController)
     }
 
