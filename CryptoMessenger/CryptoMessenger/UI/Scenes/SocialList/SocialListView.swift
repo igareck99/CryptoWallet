@@ -7,8 +7,11 @@ struct SocialListItemView: View {
     // MARK: - Internal Properties
 
     var item: SocialListItem
-    @State private var editMode = ButtonAddingState.adding
     @ObservedObject var viewModel = SocialListViewModel()
+
+    // MARK: - Private Properties
+
+    @State private var editMode = ButtonAddingState.adding
 
     // MARK: - Body
 
@@ -30,7 +33,7 @@ struct AddSocialCellView: View {
 
     var body: some View {
         HStack(spacing: 20) {
-                Image(uiImage: R.image.profileNetworkDetail.approveSmall() ?? UIImage())
+            R.image.profileNetworkDetail.approveSmall.image
                     .resizable()
                     .frame(width: 22, height: 22)
                     .padding(.leading, 2)
@@ -107,7 +110,7 @@ struct SocialListView: View {
                             .font(.bold(15))
                     }
                     ToolbarItem(placement: .navigationBarLeading) {
-                        Image(uiImage: R.image.callList.back() ?? UIImage())
+                        R.image.callList.back.image
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -151,6 +154,9 @@ struct SocialListHeaderView: View {
 // MARK: - ButtonAddingState
 
 enum ButtonAddingState {
+
+    // MARK: - Types
+
     case show
     case adding
 }

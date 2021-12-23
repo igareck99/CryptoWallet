@@ -6,10 +6,10 @@ struct SocialListItem: Identifiable, Equatable {
 
     // MARK: - Internal Properties
 
-    var id = UUID()
+    let id = UUID()
     var url: String
     var type: SocialItemType
-    var networkType: SocialNetworkType
+    let networkType: SocialNetworkType
 
     // MARK: - Static Methods
 
@@ -35,6 +35,9 @@ struct SocialListItem: Identifiable, Equatable {
 // MARK: - SocialItemType
 
 enum SocialItemType {
+
+    // MARK: - Types
+
     case show
     case notShow
 }
@@ -42,6 +45,9 @@ enum SocialItemType {
 // MARK: - SocialNetworkType
 
 enum SocialNetworkType {
+
+    // MARK: - Types
+
     case twitter
     case facebook
     case telegram
