@@ -6,12 +6,12 @@ struct SocialListItemView: View {
 
     // MARK: - Internal Properties
 
-    var item: SocialListItem
     @ObservedObject var viewModel = SocialListViewModel()
 
     // MARK: - Private Properties
 
     @State private var editMode = ButtonAddingState.adding
+    private(set) var item: SocialListItem
 
     // MARK: - Body
 
