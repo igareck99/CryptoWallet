@@ -154,10 +154,20 @@
 "Personalization.Light" = "Светлая";
 "Personalization.Dark" = "Темная";
 "Personalization.Cancel" = "Отмена";
+"Personalization.Language" = "Язык приложения";
+"Personalization.Theme" = "Тема";
+"Personalization.Background" = "Фон профиля";
+"Personalization.Typography" = "Типографика";
 
 "AppLanguage.Title" = "Язык приложения";
 
 "Typography.Title" = "Типографика";
+"Typography.LittleTitle" = "Мелкий";
+"Typography.LittleSize" = "80 %";
+"Typography.MiddleTitle" = "Средний";
+"Typography.MiddleSize" = "Как в системе (Русский)";
+"Typography.BigTitle" = "Большой";
+"Typography.BigSize" = "120%";
 
 "ProfileBackground.Title" = "Выбрать из галереи фон";
 "ProfileBackground.Wallpaper" = "ОБОИ";

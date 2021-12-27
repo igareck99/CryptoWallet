@@ -34,7 +34,8 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
+        handleNextScene(.test)
+        //handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
     // MARK: - Private Methods
@@ -137,6 +138,11 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
+    private func showTestView() {
+        let vc = BaseHostingController(rootView: PersonalizationNewView())
+        setViewWith(vc)
+    }
+
     // MARK: - Scene
 
     enum Scene {
@@ -161,6 +167,7 @@ public final class AuthFlowCoordinator: Coordinator {
         case blockedUser
         case userSession
         case security
+        case test
     }
 }
 
@@ -205,6 +212,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showSecurityScene()
         case .blockedUser:
             showBlockedUserScene()
+        case .test:
+            showTestView()
         }
     }
 
