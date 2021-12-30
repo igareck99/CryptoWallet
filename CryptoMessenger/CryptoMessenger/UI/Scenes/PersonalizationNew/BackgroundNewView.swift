@@ -95,6 +95,7 @@ struct SelectBackgroundView: View {
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
+                            viewModel.send(.onProfile)
                         }, label: {
                             Text(R.string.localizable.profileDetailRightButton())
                                 .font(.bold(15))
