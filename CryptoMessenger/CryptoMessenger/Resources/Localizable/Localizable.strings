@@ -151,12 +151,14 @@
 
 "Personalization.Title" = "Персонализация";
 "Personalization.System" = "Системная";
+"Pesonalization.ByDefault" = "По умолчанию";
 "Personalization.Light" = "Светлая";
 "Personalization.Dark" = "Темная";
 "Personalization.Cancel" = "Отмена";
 "Personalization.Language" = "Язык приложения";
 "Personalization.Theme" = "Тема";
 "Personalization.Background" = "Фон профиля";
+"Personalization.BackgroundPreview" = "Просмотр";
 "Personalization.Typography" = "Типографика";
 
 "AppLanguage.Title" = "Язык приложения";

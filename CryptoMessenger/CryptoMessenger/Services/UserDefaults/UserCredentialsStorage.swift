@@ -11,6 +11,7 @@ protocol UserCredentialsStorage {
     var userPinCode: String { get set }
     var userFalsePinCode: String { get set }
     var socialNetworkList: [SocialListItem] { get set }
+    var userPersonalization: UserPersonalizationItem { get set }
 }
 
 // MARK: - UserCredentialsStorageService
@@ -64,5 +65,10 @@ final class UserCredentialsStorageService {
     var socialNetworkList: [SocialListItem] {
         get { storage.socialNetworkList }
         set { storage.socialNetworkList = newValue }
+    }
+
+    var userPersonalization: UserPersonalizationItem {
+        get { storage.userPersonalization }
+        set { storage.userPersonalization = newValue }
     }
 }

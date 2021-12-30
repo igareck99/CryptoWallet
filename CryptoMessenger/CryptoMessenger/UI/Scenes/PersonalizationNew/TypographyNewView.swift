@@ -15,9 +15,9 @@ struct TypographyNewCellView: View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text(typography.title.name)
-                    .font(.bold(typography.title.bigSize))
+                    .font(.bold(user.typography.bigSize))
                 Text(typography.title.sizeTitle)
-                    .font(.regular(typography.title.littleSize))
+                    .font(.regular(user.typography.littleSize))
                     .foreground(.gray())
             }
             Spacer()
@@ -34,12 +34,10 @@ struct TypographyNewView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: PersonalizationNewViewModel
-    @Binding var showTypographyScreen: Bool
 
     // MARK: - Body
 
     var body: some View {
-        NavigationView {
             VStack {
                 List {
                     ForEach(viewModel.typographyTitles) { item in
@@ -50,26 +48,13 @@ struct TypographyNewView: View {
                             }
                     }
                 }
-            }
+            }.padding(.top, 16)
             .listStyle(.inset)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(R.string.localizable.typographyTitle())
-                        .font(.bold(15))
-                }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    R.image.callList.back.image
-                        .onTapGesture {
-                            showTypographyScreen = false
-                        }
+                        .font(.bold(viewModel.user.typography.bigSize))
                 }
             }
-        }
     }
 }
-
-//struct TypographyNewViewPreview: PreviewProvider {
-//    static var previews: some View {
-//        TypographyNewView(viewModel: PersonalizationNewViewModel())
-//    }
-//}

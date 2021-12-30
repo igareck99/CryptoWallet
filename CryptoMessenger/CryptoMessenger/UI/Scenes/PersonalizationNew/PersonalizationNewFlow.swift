@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - ProfileFlow
+// MARK: - PersonalizationNewFlow
 
-enum ProfileFlow {
+enum PersonalizationNewFlow {
 
     // MARK: - ViewState
 
@@ -22,7 +22,10 @@ enum ProfileFlow {
         // MARK: - Types
 
         case onAppear
-        case onProfileScene
-        case onPersonalization
+        case onProfile
+        case onLanguage
+        case onTypography
+        case onSelectBackground
+        case backgroundPreview
     }
 }

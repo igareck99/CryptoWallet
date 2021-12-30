@@ -1,6 +1,7 @@
 import KeychainAccess
 import MatrixSDK
 import UIKit
+import SwiftUI
 
 // MARK: - UserDefaultSettings
 
@@ -48,6 +49,7 @@ struct UserDefaultsLayer {
     private static let userFalsePinCodeKey = "userFalsePinCodeKey"
     private static let isFalsePinCodeOnKey = "isFalsePinCodeOnKey"
     private static let socialNetworkList = "socialNetworkList"
+    private static let userPersonalization = "userPersonalization"
 
     // MARK: - Internal Properties
 
@@ -92,6 +94,12 @@ struct UserDefaultsLayer {
     
     @UserDefaultSettings(socialNetworkList, value: SocialListItem.socialList())
     var socialNetworkList: [SocialListItem]
+    
+    @UserDefaultSettings(userPersonalization, value: UserPersonalizationItem(language: .russian,
+                                                                             theme: .system,
+                                                                             backGround: Image(uiImage: UIImage()),
+                                                                             typography: .standart))
+    var userPersonalization: UserPersonalizationItem
 
     var userMatrixId: String {
         MXCredentials.from(Keychain(service: "chat.aura.credentials"))?.userId ?? ""
