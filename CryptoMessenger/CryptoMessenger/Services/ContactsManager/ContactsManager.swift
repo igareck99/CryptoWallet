@@ -1,113 +1,89 @@
 import Contacts
 import ContactsUI
 
-// MARK: ContactManagerInterface
+// MARK: - ContactInfo
 
-protocol ContactManagerInterface {
-    func fetchAll(completionHandler: @escaping (([PhoneContact], Error?) -> Void))
+struct ContactInfo: Identifiable {
+
+    // MARK: - Internal Properties
+
+    let id = UUID().uuidString
+    let firstName: String
+    let lastName: String
+    let phoneNumber: String
+    var imageData: Data?
 }
 
-final class ContactManager: ContactManagerInterface {
+// MARK: - ContactsStore
+
+protocol ContactsStore {
+    func fetch(completionHandler: @escaping GenericBlock<([ContactInfo], Error?)>)
+}
+
+// MARK: - ContactsManager
+
+final class ContactsManager: ContactsStore {
 
     // MARK: - Private Properties
 
     private let contactStore = CNContactStore()
     private let keysToFetch = [
         CNContactGivenNameKey,
-        CNContactDatesKey,
-        CNContactTypeKey,
-        CNContactPhoneNumbersKey,
-        CNContactMiddleNameKey,
         CNContactFamilyNameKey,
+        CNContactPhoneNumbersKey,
         CNContactImageDataKey
     ] as [CNKeyDescriptor]
 
     // MARK: - Internal Methods
 
-    func fetchAll(completionHandler: @escaping (([PhoneContact], Error?) -> Void)) {
-        var phoneContacts: [PhoneContact] = []
-
+    func fetch(completionHandler: @escaping GenericBlock<([ContactInfo], Error?)>) {
         checkAuthorization { isAuthorized in
-            if isAuthorized {
-                let contacts = self.getContacts()
-                for contact in contacts {
-                    if let phoneContact = self.createPhoneContact(contact) {
-                        phoneContacts.append(phoneContact)
-                    } else {
-                        continue
-                    }
-                }
-                completionHandler(phoneContacts, nil)
-            } else {
-                completionHandler(phoneContacts, nil)
+            guard isAuthorized else {
+                completionHandler(([], nil))
+                return
+            }
+
+            do {
+                let contacts = try self.fetchContacts()
+                completionHandler((contacts, nil))
+            } catch {
+                completionHandler(([], error))
             }
         }
     }
 
     // MARK: - Private Methods
 
-    private func createPhoneContact(_ contact: CNContact) -> PhoneContact? {
-        for phoneNumber in contact.phoneNumbers {
-            if let label = phoneNumber.label {
-                let number = phoneNumber.value
-                let localizedLabel = CNLabeledValue<CNPhoneNumber>.localizedString(forLabel: label)
-                return PhoneContact(
-                    identifier: contact.identifier,
-                    givenName: contact.givenName,
-                    familyName: contact.familyName,
-                    image: contact.imageData,
-                    phoneNumber: number.stringValue,
-                    numberLabel: localizedLabel
-                )
-            }
-        }
-
-        return nil
-    }
-
-    private func checkAuthorization(completionHandler: @escaping (( _ isAuthorized: Bool) -> Void)) {
-        let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
-
-        switch authorizationStatus {
+    private func checkAuthorization(completionHandler: @escaping GenericBlock<Bool>) {
+        switch CNContactStore.authorizationStatus(for: .contacts) {
         case .authorized:
             completionHandler(true)
         case .notDetermined:
             contactStore.requestAccess(for: .contacts) { isAuthorized, _ in
                 completionHandler(isAuthorized)
             }
-        case .denied:
-            completionHandler(false)
-        case .restricted:
-            completionHandler(false)
         default:
             completionHandler(false)
         }
     }
 
-    private func getContacts() -> [CNContact] {
-        var results: [CNContact] = []
-        var allContainers: [CNContainer] = []
-
+    private func fetchContacts() throws -> [ContactInfo] {
+        var contacts: [ContactInfo] = []
+        let request = CNContactFetchRequest(keysToFetch: keysToFetch)
         do {
-            allContainers = try contactStore.containers(matching: nil)
-        } catch {
-            return results
-        }
-
-        for container in allContainers {
-            let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: container.identifier)
-
-            do {
-                let containerResults = try contactStore.unifiedContacts(
-                    matching: fetchPredicate,
-                    keysToFetch: self.keysToFetch
+            try contactStore.enumerateContacts(with: request) { info, _ in
+                var contact = ContactInfo(
+                    firstName: info.givenName,
+                    lastName: info.familyName,
+                    phoneNumber: info.phoneNumbers.first?.value.stringValue ?? ""
                 )
-                results.append(contentsOf: containerResults)
-            } catch {
-                return results
+                if info.imageDataAvailable, let imageData = info.imageData {
+                    contact.imageData = imageData
+                }
+                contacts.append(contact)
             }
         }
 
-        return results
+        return contacts
     }
 }

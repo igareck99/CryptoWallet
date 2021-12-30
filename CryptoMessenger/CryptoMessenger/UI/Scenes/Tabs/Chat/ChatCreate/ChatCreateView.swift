@@ -125,7 +125,7 @@ struct ChatCreateView: View {
                     .frame(height: 1)
 
                 VStack(spacing: 0) {
-                    ForEach(CreateAction.allCases) { action in
+                    ForEach(CreateAction.allCases.filter({ $0 == .groupChat })) { action in
                         VStack(spacing: 0) {
                             actionView(action)
                                 .padding([.leading, .trailing], 16)

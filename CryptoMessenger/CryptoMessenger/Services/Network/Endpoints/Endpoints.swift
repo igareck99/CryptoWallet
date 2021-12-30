@@ -29,6 +29,19 @@ enum Endpoints {
         }
     }
 
+    // MARK: - Users
+
+    enum Users {
+
+        // MARK: - Static Methods
+
+        static func users(_ phones: [String]) -> Endpoint<[String: String]> {
+            let endpoint = Endpoint<[String: String]>(method: .post, path: "/user/list")
+            endpoint.modifyRequest { $0.jsonBody(array: phones) }
+            return endpoint
+        }
+    }
+
     // MARK: - Media
 
     enum Media {
