@@ -52,7 +52,7 @@ final class PersonalizationNewViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<PersonalizationNewFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
 
-    @Injectable var userCredentialsStorageService: UserCredentialsStorageService
+    @Injectable var userCredentials: UserCredentialsStorageService
 
     // MARK: - Lifecycle
 
@@ -77,8 +77,10 @@ final class PersonalizationNewViewModel: ObservableObject {
     }
 
     func upadateLanguage(value: LanguageItems) {
+        print(user)
         user.language = value
-        //userCredentialsStorageService.userPersonalization = user
+        print(user)
+        self.userCredentials.userPersonalization = user
     }
 
     // MARK: - Private Methods
@@ -104,7 +106,7 @@ final class PersonalizationNewViewModel: ObservableObject {
     }
 
     private func updateData() {
-        user = userCredentialsStorageService.userPersonalization
+        user = userCredentials.userPersonalization
     }
 
     private func bindOutput() {

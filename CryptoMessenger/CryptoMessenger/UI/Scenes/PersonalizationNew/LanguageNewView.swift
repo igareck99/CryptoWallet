@@ -45,8 +45,8 @@ struct LanguageNewView: View {
                         LanguageNewCellView(language: item, user: viewModel.user)
                             .listRowSeparator(.hidden)
                             .onTapGesture {
-                                viewModel.upadateLanguage(value: item.language)
-                                // viewModel.user.language = item.language
+                                viewModel.user.language = item.language
+                                viewModel.userCredentials.userPersonalization = viewModel.user
                             }
                     }
                 }
