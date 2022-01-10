@@ -76,6 +76,11 @@ final class PersonalizationNewViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
+    func upadateLanguage(value: LanguageItems) {
+        user.language = value
+        //userCredentialsStorageService.userPersonalization = user
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
