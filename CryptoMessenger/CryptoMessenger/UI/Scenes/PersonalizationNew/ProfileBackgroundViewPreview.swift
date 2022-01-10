@@ -69,7 +69,7 @@ struct ProfileBackgroundNewView: View {
                         .scaledToFill()
                 }
             }
-        }.background(personalizationViewModel.user.backGround)
+        }
     }
 
     private var content: some View {
@@ -165,7 +165,13 @@ struct ProfileBackgroundNewView: View {
                                             .stroke(.blue, lineWidth: 1)
                                     )
                             }.padding(.leading, 16)
+                            ZStack {
+                                R.image.profileBackground.image1.image
+                                    .resizable()
+                                    .frame(width: geometry.size.width)
+                                    .ignoresSafeArea()
                                 photosView
+                            }
                             }
                 }
                 Spacer()
