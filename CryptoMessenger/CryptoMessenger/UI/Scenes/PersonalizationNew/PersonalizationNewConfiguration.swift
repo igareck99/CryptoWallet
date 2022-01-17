@@ -1,43 +1,43 @@
 import Foundation
 
-// MARK: - PersonalizationNewConfigurator
+// MARK: - PersonalizationConfigurator
 
-enum PersonalizationNewConfigurator {
+enum PersonalizationConfigurator {
 
     // MARK: - Static Methods
 
-    static func configuredView(delegate: PersonalizationNewSceneDelegate?) -> PersonalizationNewView {
-        let viewModel = PersonalizationNewViewModel()
+    static func configuredView(delegate: PersonalizationSceneDelegate?) -> PersonalizationNewView {
+        let viewModel = PersonalizationViewModel()
         viewModel.delegate = delegate
         let view = PersonalizationNewView(viewModel: viewModel)
         return view
     }
 }
 
-// MARK: - LanguageNewViewConfigurator
+// MARK: - LanguageViewConfigurator
 
-enum LanguageNewViewConfigurator {
+enum LanguageViewConfigurator {
 
     // MARK: - Static Methods
 
-    static func configuredView(delegate: PersonalizationNewSceneDelegate?) -> LanguageNewView {
-        let viewModel = PersonalizationNewViewModel()
+    static func configuredView(delegate: PersonalizationSceneDelegate?) -> LanguageView {
+        let viewModel = PersonalizationViewModel()
         viewModel.delegate = delegate
-        let view = LanguageNewView(viewModel: viewModel)
+        let view = LanguageView(viewModel: viewModel)
         return view
     }
 }
 
-// MARK: - TypographyNewViewConfigurator
+// MARK: - TypographyViewConfigurator
 
-enum TypographyNewViewConfigurator {
+enum TypographyViewConfigurator {
 
     // MARK: - Static Methods
 
-    static func configuredView(delegate: PersonalizationNewSceneDelegate?) -> TypographyNewView {
-        let viewModel = PersonalizationNewViewModel()
+    static func configuredView(delegate: PersonalizationSceneDelegate?) -> TypographyView {
+        let viewModel = PersonalizationViewModel()
         viewModel.delegate = delegate
-        let view = TypographyNewView(viewModel: viewModel)
+        let view = TypographyView(viewModel: viewModel)
         return view
     }
 }
@@ -48,24 +48,24 @@ enum SelectBackgroundConfigurator {
 
     // MARK: - Static Methods
 
-    static func configuredView(delegate: PersonalizationNewSceneDelegate?) -> SelectBackgroundView {
-        let viewModel = PersonalizationNewViewModel()
+    static func configuredView(delegate: PersonalizationSceneDelegate?) -> SelectBackgroundView {
+        let viewModel = PersonalizationViewModel()
         viewModel.delegate = delegate
         let view = SelectBackgroundView(viewModel: viewModel)
         return view
     }
 }
 
-// MARK: - ProfileBackgroundNewViewConfigurator
+// MARK: - ProfileBackgroundViewConfigurator
 
-enum ProfileBackgroundNewViewConfigurator {
+enum ProfileBackgroundViewConfigurator {
 
     // MARK: - Static Methods
 
-    static func configuredView(delegate: PersonalizationNewSceneDelegate?) -> ProfileBackgroundNewView {
-        let viewModel = PersonalizationNewViewModel()
+    static func configuredView(delegate: PersonalizationSceneDelegate?) -> ProfileBackgroundView {
+        let viewModel = PersonalizationViewModel()
         viewModel.delegate = delegate
-        let view = ProfileBackgroundNewView(personalizationViewModel: viewModel)
+        let view = ProfileBackgroundView(personalizationViewModel: viewModel)
         return view
     }
 }

@@ -97,26 +97,6 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showPersonalizationScene() {
-        let viewController = PersonalizationConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showAppLanguageScene() {
-        let viewController = AppLanguageConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showTypographyScene() {
-        let viewController = TypographyConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showProfileBackgroundScene() {
-        let viewController = ProfileBackgroundConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
     private func showBlockedUserScene() {
         let viewController = BaseHostingController(rootView: BlockedUserContentView())
         setViewWith(viewController)
@@ -161,9 +141,6 @@ public final class AuthFlowCoordinator: Coordinator {
         case photoEditor
         case profileNetwork
         case aboutApp
-        case personalization
-        case appLanguage
-        case typography
         case blockedUser
         case userSession
         case security
@@ -200,12 +177,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showProfileNetworkDetailScene()
         case .aboutApp:
             showAboutAppScene()
-        case .personalization:
-            showPersonalizationScene()
-        case .appLanguage:
-            showAppLanguageScene()
-        case .typography:
-            showTypographyScene()
         case .userSession:
             showSession()
         case .security:
@@ -273,22 +244,6 @@ extension AuthFlowCoordinator: ProfileNetworkDetailSceneDelegate {}
 // MARK: - AuthFlowCoordinator (AboutAppSceneDelegate)
 
 extension AuthFlowCoordinator: AboutAppSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (PersonalizationSceneDelegate)
-
-extension AuthFlowCoordinator: PersonalizationSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (AppLanguageSceneDelegate)
-
-extension AuthFlowCoordinator: AppLanguageSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (TypographySceneDelegate)
-
-extension AuthFlowCoordinator: TypographySceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (ProfileBackgroundSceneDelegate)
-
-extension AuthFlowCoordinator: ProfileBackgroundSceneDelegate {}
 
 // MARK: - AuthFlowCoordinator (SecuritySceneDelegate)
 

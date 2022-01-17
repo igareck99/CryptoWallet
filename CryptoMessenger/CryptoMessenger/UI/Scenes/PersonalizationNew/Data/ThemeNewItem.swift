@@ -1,8 +1,8 @@
 import SwiftUI
 
-// MARK: - TypographyItemCase
+// MARK: - ThemeItemCase
 
-enum ThemeNewItemCase: Codable {
+enum ThemeItemCase: Codable {
 
     // MARK: - Types
 
@@ -22,29 +22,29 @@ enum ThemeNewItemCase: Codable {
             return R.string.localizable.personalizationDark()
         }
     }
-    
+
     // MARK: - Static Properties
 
-    static func save(item: String) -> ThemeNewItemCase {
+    static func save(item: String) -> ThemeItemCase {
         switch item {
         case R.string.localizable.personalizationSystem():
-            return ThemeNewItemCase.system
+            return ThemeItemCase.system
         case R.string.localizable.personalizationLight():
-            return ThemeNewItemCase.light
+            return ThemeItemCase.light
         case R.string.localizable.personalizationDark():
-            return ThemeNewItemCase.dark
+            return ThemeItemCase.dark
         default:
-            return ThemeNewItemCase.system
+            return ThemeItemCase.system
         }
     }
 }
 
-// MARK: - ThemeNewItem
+// MARK: - ThemeItem
 
-struct ThemeNewItem: Identifiable {
+struct ThemeItem: Identifiable {
 
     // MARK: - Internal Properties
 
     var id = UUID()
-    var title: ThemeNewItemCase
+    var title: ThemeItemCase
 }

@@ -32,7 +32,7 @@ struct PersonalizationNewView: View {
 
     // MARK: - Internal Properties
 
-    @ObservedObject var viewModel = PersonalizationNewViewModel()
+    @ObservedObject var viewModel = PersonalizationViewModel()
     @State var showTypographyScreen = false
     @State var showThemeScreen = false
 
@@ -114,6 +114,6 @@ struct PersonalizationNewView: View {
 
 struct PersonalizationNewViewPreview: PreviewProvider {
     static var previews: some View {
-        PersonalizationNewView(viewModel: PersonalizationNewViewModel())
+        PersonalizationNewView(viewModel: PersonalizationViewModel())
     }
 }

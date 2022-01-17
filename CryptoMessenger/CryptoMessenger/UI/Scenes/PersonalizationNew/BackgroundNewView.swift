@@ -34,7 +34,7 @@ struct SelectBackgroundView: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel: PersonalizationNewViewModel
+    @StateObject var viewModel: PersonalizationViewModel
     @State var showPhotoLibrary = false
 
     // MARK: - Body

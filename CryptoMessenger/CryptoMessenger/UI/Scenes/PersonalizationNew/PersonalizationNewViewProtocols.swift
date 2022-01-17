@@ -1,7 +1,7 @@
 import Foundation
 
-// MARK: - PersonalizationNewSceneDelegate
+// MARK: - PersonalizationSceneDelegate
 
-protocol PersonalizationNewSceneDelegate: AnyObject {
+protocol PersonalizationSceneDelegate: AnyObject {
     func handleNextScene(_ scene: MainFlowCoordinator.Scene)
 }

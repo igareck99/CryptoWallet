@@ -1,12 +1,12 @@
 import SwiftUI
 
-// MARK: - TypographyNewView
+// MARK: - TypographyCellView
 
-struct TypographyNewCellView: View {
+struct TypographyCellView: View {
 
     // MARK: - Internal Properties
 
-    var typography: TypographyNewItem
+    var typography: TypographyItem
     var user: UserPersonalizationItem
 
     // MARK: - Body
@@ -27,13 +27,13 @@ struct TypographyNewCellView: View {
 
 }
 
-// MARK: - TypographyNewView
+// MARK: - TypographyView
 
-struct TypographyNewView: View {
+struct TypographyView: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel: PersonalizationNewViewModel
+    @StateObject var viewModel: PersonalizationViewModel
 
     // MARK: - Body
 
@@ -41,8 +41,8 @@ struct TypographyNewView: View {
             VStack {
                 List {
                     ForEach(viewModel.typographyTitles) { item in
-                        TypographyNewCellView(typography: item,
-                                              user: viewModel.user)
+                        TypographyCellView(typography: item,
+                                           user: viewModel.user)
                             .onTapGesture {
                                 viewModel.updateTypography(value: item.title)
                             }

@@ -1,12 +1,12 @@
 import SwiftUI
 
-// MARK: - LanguageNewCellView
+// MARK: - LanguageCellView
 
-struct LanguageNewCellView: View {
+struct LanguageCellView: View {
 
     // MARK: - Internal Properties
 
-    var language: LanguageNewItem
+    var language: LanguageItem
     var user: UserPersonalizationItem
 
     // MARK: - Body
@@ -27,13 +27,13 @@ struct LanguageNewCellView: View {
 
 }
 
-// MARK: - LanguageNewView
+// MARK: - LanguageView
 
-struct LanguageNewView: View {
+struct LanguageView: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel: PersonalizationNewViewModel
+    @StateObject var viewModel: PersonalizationViewModel
 
     // MARK: - Body
 
@@ -42,7 +42,7 @@ struct LanguageNewView: View {
                 Divider()
                 List {
                     ForEach(viewModel.languages) { item in
-                        LanguageNewCellView(language: item, user: viewModel.user)
+                        LanguageCellView(language: item, user: viewModel.user)
                             .listRowSeparator(.hidden)
                             .onTapGesture {
                                 viewModel.updateLanguage(value: item.language)

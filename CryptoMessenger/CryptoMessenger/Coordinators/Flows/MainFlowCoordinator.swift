@@ -188,21 +188,21 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
     private func showPersonalizationScene() {
-        let rootView = PersonalizationNewConfigurator.configuredView(delegate: self)
+        let rootView = PersonalizationConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
 
     private func showLanguageScene() {
-        let rootView = LanguageNewViewConfigurator.configuredView(delegate: self)
+        let rootView = LanguageViewConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
 
     private func showTypographyScene() {
-        let rootView = TypographyNewViewConfigurator.configuredView(delegate: self)
+        let rootView = TypographyViewConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -216,7 +216,7 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
     private func showProfilePreviewScene() {
-        let rootView = ProfileBackgroundNewViewConfigurator.configuredView(delegate: self)
+        let rootView = ProfileBackgroundViewConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -235,9 +235,9 @@ extension MainFlowCoordinator: ChatRoomSceneDelegate {}
 
 extension MainFlowCoordinator: ProfileSceneDelegate {}
 
-// MARK: - MainFlowCoordinator (PersonalizationNewSceneDelegate)
+// MARK: - MainFlowCoordinator (PersonalizationSceneDelegate)
 
-extension MainFlowCoordinator: PersonalizationNewSceneDelegate {}
+extension MainFlowCoordinator: PersonalizationSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

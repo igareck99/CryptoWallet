@@ -1,13 +1,13 @@
 import SwiftUI
 
-// MARK: - ProfileBackgroundNewView
+// MARK: - ProfileBackgroundView
 
-struct ProfileBackgroundNewView: View {
+struct ProfileBackgroundView: View {
 
     // MARK: - Internal Properties
 
     @StateObject var viewModel = ProfileViewModel()
-    @StateObject var personalizationViewModel: PersonalizationNewViewModel
+    @StateObject var personalizationViewModel: PersonalizationViewModel
 
     // MARK: - Body
 

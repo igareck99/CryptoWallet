@@ -73,6 +73,8 @@ enum LanguageItems: Codable {
             return LanguageItems.spanish
         case "Arabic":
             return LanguageItems.arabic
+        case "German":
+            return LanguageItems.german
         case "English":
             return LanguageItems.english
         case "中國人":
@@ -83,9 +85,9 @@ enum LanguageItems: Codable {
     }
 }
 
-// MARK: - LanguageNewItem
+// MARK: - LanguageItem
 
-struct LanguageNewItem: Identifiable {
+struct LanguageItem: Identifiable {
 
     // MARK: - Internal Properties
 

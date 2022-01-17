@@ -81,9 +81,9 @@ enum TypographyItemCase: Codable {
     }
 }
 
-// MARK: - TypographyNewItem
+// MARK: - TypographyItem
 
-struct TypographyNewItem: Identifiable {
+struct TypographyItem: Identifiable {
 
     // MARK: - Internal Properties
 

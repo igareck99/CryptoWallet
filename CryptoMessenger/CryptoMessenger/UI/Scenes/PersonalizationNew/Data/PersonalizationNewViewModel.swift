@@ -1,34 +1,34 @@
 import SwiftUI
 import Combine
 
-// MARK: - PersonalizationNewViewModel
+// MARK: - PersonalizationViewModel
 
-final class PersonalizationNewViewModel: ObservableObject {
+final class PersonalizationViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: PersonalizationNewSceneDelegate?
-    @Published var languages = [LanguageNewItem(language: .russian),
-                                LanguageNewItem(language: .system),
-                                LanguageNewItem(language: .french),
-                                LanguageNewItem(language: .spanish),
-                                LanguageNewItem(language: .arabic),
-                                LanguageNewItem(language: .german),
-                                LanguageNewItem(language: .english),
-                                LanguageNewItem(language: .chinese)]
+    weak var delegate: PersonalizationSceneDelegate?
+    @Published var languages = [LanguageItem(language: .russian),
+                                LanguageItem(language: .system),
+                                LanguageItem(language: .french),
+                                LanguageItem(language: .spanish),
+                                LanguageItem(language: .arabic),
+                                LanguageItem(language: .german),
+                                LanguageItem(language: .english),
+                                LanguageItem(language: .chinese)]
     @Published var personalizationTitles = [PersonalitionTitleItem(title: .lagnguage),
                                             PersonalitionTitleItem(title: .theme),
                                             PersonalitionTitleItem(title: .backGround),
                                             PersonalitionTitleItem(title: .typography)]
     @Published var typographyTitles = [
-        TypographyNewItem(title: .little),
-        TypographyNewItem(title: .middle),
-        TypographyNewItem(title: .big)
+        TypographyItem(title: .little),
+        TypographyItem(title: .middle),
+        TypographyItem(title: .big)
     ]
     @Published var themes = [
-        ThemeNewItem(title: .system),
-        ThemeNewItem(title: .light),
-        ThemeNewItem(title: .dark)
+        ThemeItem(title: .system),
+        ThemeItem(title: .light),
+        ThemeItem(title: .dark)
     ]
     @Published var user = UserPersonalizationItem(language: .chinese,
                                                   theme: .system,
@@ -82,6 +82,7 @@ final class PersonalizationNewViewModel: ObservableObject {
     func updateLanguage(value: LanguageItems) {
         user.language = value
         userCredentials.language = value.languageDescription
+        print(userCredentials.language)
     }
 
     func updateTypography(value: TypographyItemCase) {
@@ -89,7 +90,7 @@ final class PersonalizationNewViewModel: ObservableObject {
         userCredentials.typography = value.name
     }
 
-    func updateTheme(value: ThemeNewItemCase) {
+    func updateTheme(value: ThemeItemCase) {
         user.theme = value
         userCredentials.theme = value.name
     }
@@ -132,7 +133,7 @@ final class PersonalizationNewViewModel: ObservableObject {
                              options: .init(rawValue: 0))
         selectedImage = UIImage(data: imageData!)
         user = UserPersonalizationItem(language: LanguageItems.save(item: language),
-                                       theme: ThemeNewItemCase.save(item: theme),
+                                       theme: ThemeItemCase.save(item: theme),
                                        backGround: Image(uiImage: selectedImage ?? UIImage()),
                                        typography: TypographyItemCase.save(item: typography))
     }
