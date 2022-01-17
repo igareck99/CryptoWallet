@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - TypographyItemCase
 
-enum ThemeNewItemCase {
+enum ThemeNewItemCase: Codable {
 
     // MARK: - Types
 
@@ -20,6 +20,21 @@ enum ThemeNewItemCase {
             return R.string.localizable.personalizationLight()
         case .dark:
             return R.string.localizable.personalizationDark()
+        }
+    }
+    
+    // MARK: - Static Properties
+
+    static func save(item: String) -> ThemeNewItemCase {
+        switch item {
+        case R.string.localizable.personalizationSystem():
+            return ThemeNewItemCase.system
+        case R.string.localizable.personalizationLight():
+            return ThemeNewItemCase.light
+        case R.string.localizable.personalizationDark():
+            return ThemeNewItemCase.dark
+        default:
+            return ThemeNewItemCase.system
         }
     }
 }

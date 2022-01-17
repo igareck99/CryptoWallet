@@ -45,10 +45,12 @@ struct LanguageNewView: View {
                         LanguageNewCellView(language: item, user: viewModel.user)
                             .listRowSeparator(.hidden)
                             .onTapGesture {
-                                viewModel.user.language = item.language
-                                viewModel.userCredentials.userPersonalization = viewModel.user
+                                viewModel.updateLanguage(value: item.language)
                             }
                     }
+                }
+                .onAppear {
+                    viewModel.send(.onAppear)
                 }
                 .listStyle(.inset)
                 .toolbar {

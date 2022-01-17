@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - LanguageItems
 
-enum LanguageItems {
+enum LanguageItems: Codable {
 
     // MARK: - Types
 
@@ -57,7 +57,30 @@ enum LanguageItems {
         case .chinese:
             return "中國人"
         }
-}
+    }
+
+    // MARK: - Static Properties
+
+    static func save(item: String) -> LanguageItems {
+        switch item {
+        case "Russian":
+            return LanguageItems.russian
+        case "Как в системе (Русский)":
+            return LanguageItems.system
+        case "French":
+            return LanguageItems.french
+        case "Spanish":
+            return LanguageItems.spanish
+        case "Arabic":
+            return LanguageItems.arabic
+        case "English":
+            return LanguageItems.english
+        case "中國人":
+            return LanguageItems.chinese
+        default:
+            return LanguageItems.system
+        }
+    }
 }
 
 // MARK: - LanguageNewItem

@@ -44,7 +44,7 @@ struct PersonalizationNewView: View {
             List {
                 PersonalizationNewCellView(item:
                                             viewModel.personalizationTitles[0],
-                                           user: String(viewModel.user.language.languageTitle.split(separator: " ")[0]))
+                                           user: viewModel.user.language.languageDescription)
                     .listRowSeparator(.hidden)
                     .onTapGesture {
                         viewModel.send(.onLanguage)
@@ -76,13 +76,13 @@ struct PersonalizationNewView: View {
                     title: Text(""),
                     buttons: [
                         .default(Text(R.string.localizable.personalizationSystem())) {
-                            viewModel.user.theme = .system
+                            viewModel.updateTheme(value: .system)
                         },
                             .default(Text(R.string.localizable.personalizationLight())) {
-                                viewModel.user.theme = .light
+                                viewModel.updateTheme(value: .light)
                             },
                             .default(Text(R.string.localizable.personalizationDark())) {
-                                viewModel.user.theme = .dark
+                                viewModel.updateTheme(value: .dark)
                             },
                         .destructive(Text(R.string.localizable.personalizationCancel()))
                     ]

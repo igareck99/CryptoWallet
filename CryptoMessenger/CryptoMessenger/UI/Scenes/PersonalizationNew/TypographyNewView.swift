@@ -44,7 +44,7 @@ struct TypographyNewView: View {
                         TypographyNewCellView(typography: item,
                                               user: viewModel.user)
                             .onTapGesture {
-                                viewModel.user.typography = item.title
+                                viewModel.updateTypography(value: item.title)
                             }
                     }
                 }

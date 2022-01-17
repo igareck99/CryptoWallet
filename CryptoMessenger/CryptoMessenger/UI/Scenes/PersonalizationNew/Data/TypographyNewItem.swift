@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - TypographyItemCase
 
-enum TypographyItemCase {
+enum TypographyItemCase: Codable {
 
     // MARK: - Types
 
@@ -62,6 +62,21 @@ enum TypographyItemCase {
             return 19
         case .standart:
             return 13
+        }
+    }
+
+    // MARK: - Static Properties
+
+    static func save(item: String) -> TypographyItemCase {
+        switch item {
+        case R.string.localizable.typographyLittleTitle():
+            return TypographyItemCase.little
+        case R.string.localizable.typographyMiddleTitle():
+            return TypographyItemCase.middle
+        case R.string.localizable.typographyBigTitle():
+            return TypographyItemCase.big
+        default:
+            return TypographyItemCase.standart
         }
     }
 }

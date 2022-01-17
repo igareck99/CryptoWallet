@@ -44,6 +44,9 @@ final class PersonalizationNewViewModel: ObservableObject {
         R.image.profileBackground.image7.image
     ]
     @Published var selectedImage: UIImage?
+    @Published var typography = ""
+    @Published var language = ""
+    @Published var theme = ""
 
     // MARK: - Private Properties
 
@@ -76,11 +79,27 @@ final class PersonalizationNewViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
-    func upadateLanguage(value: LanguageItems) {
-        print(user)
+    func updateLanguage(value: LanguageItems) {
         user.language = value
-        print(user)
-        self.userCredentials.userPersonalization = user
+        userCredentials.language = value.languageDescription
+    }
+
+    func updateTypography(value: TypographyItemCase) {
+        user.typography = value
+        userCredentials.typography = value.name
+    }
+
+    func updateTheme(value: ThemeNewItemCase) {
+        user.theme = value
+        userCredentials.theme = value.name
+    }
+
+    func updateImage(image: Image) {
+        guard let selectedImage = selectedImage else {
+            return
+        }
+        userCredentials.profileBackgroundImage = selectedImage.jpegData(
+            compressionQuality: 1)?.base64EncodedString() ?? ""
     }
 
     // MARK: - Private Methods
@@ -106,7 +125,16 @@ final class PersonalizationNewViewModel: ObservableObject {
     }
 
     private func updateData() {
-        user = userCredentials.userPersonalization
+        typography = userCredentials.typography
+        language = userCredentials.language
+        theme = userCredentials.theme
+        let imageData = Data(base64Encoded: userCredentials.profileBackgroundImage,
+                             options: .init(rawValue: 0))
+        selectedImage = UIImage(data: imageData!)
+        user = UserPersonalizationItem(language: LanguageItems.save(item: language),
+                                       theme: ThemeNewItemCase.save(item: theme),
+                                       backGround: Image(uiImage: selectedImage ?? UIImage()),
+                                       typography: TypographyItemCase.save(item: typography))
     }
 
     private func bindOutput() {

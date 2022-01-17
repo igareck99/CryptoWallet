@@ -378,6 +378,7 @@
 		8B5609BE277B38A000AF43F6 /* PersonalizationNewViewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BD277B38A000AF43F6 /* PersonalizationNewViewProtocols.swift */; };
 		8B5609C0277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BF277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift */; };
 		8B6BEE7F275665D4003A24B6 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6BEE7E275665D4003A24B6 /* ProfileView.swift */; };
+		8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */; };
 		8B73C1072747A193008ABB22 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B73C1062747A193008ABB22 /* SessionDetailView.swift */; };
 		8B740147275D360B0045ED32 /* ProfileSettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */; };
 		8B74014B275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */; };
@@ -768,6 +769,7 @@
 		8B5609BD277B38A000AF43F6 /* PersonalizationNewViewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNewViewProtocols.swift; sourceTree = "<group>"; };
 		8B5609BF277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNewConfiguration.swift; sourceTree = "<group>"; };
 		8B6BEE7E275665D4003A24B6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		8B73C1062747A193008ABB22 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuView.swift; sourceTree = "<group>"; };
 		8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneNumberKit+SwiftUI.swift"; sourceTree = "<group>"; };
@@ -1054,6 +1056,7 @@
 				5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */,
 				5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */,
 				5A39282E27419A7300378ACA /* Date+Extensions.swift */,
+				8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2409,6 +2412,7 @@
 				5A26CD3E26B32F6900118D4B /* TransactionTableViewCell.swift in Sources */,
 				787AC7B92722E33E000AA434 /* TypographyProtocols.swift in Sources */,
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
+				8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */,
 				5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */,
 				5AF8636E26ADCB9B004A417C /* KeyImportFlow.swift in Sources */,
 				5AABB7842739821D004D6107 /* ChatHistoryConfigurator.swift in Sources */,

@@ -60,7 +60,8 @@ struct SelectBackgroundView: View {
                                         if viewModel.user.backGround == viewModel.backgroundPhotos[index] {
                                             viewModel.user.backGround = Image(uiImage: UIImage())
                                         } else {
-                                        viewModel.user.backGround = viewModel.backgroundPhotos[index]
+                                            viewModel.user.backGround = viewModel.backgroundPhotos[index]
+                                            viewModel.updateImage(image: viewModel.backgroundPhotos[index])
                                             viewModel.send(.backgroundPreview)
                                     }
                                 }

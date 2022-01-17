@@ -217,7 +217,7 @@ struct ProfileBackgroundNewView: View {
             .ignoresSafeArea()
         }
         .background(
-            R.image.profileBackground.image1.image
+            personalizationViewModel.user.backGround
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
