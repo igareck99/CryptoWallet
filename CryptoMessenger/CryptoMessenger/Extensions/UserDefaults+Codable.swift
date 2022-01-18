@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - JSONDecoder extensions
+// MARK: - JSONDecoder
 
-public extension JSONDecoder {
+extension JSONDecoder {
 
     /// Decode an object, decoded from a JSON object.
     ///
@@ -30,9 +30,9 @@ public extension JSONDecoder {
     }
 }
 
-// MARK: - JSONEncoder extensions
+// MARK: - JSONEncoder
 
-public extension JSONEncoder {
+extension JSONEncoder {
 
     /// Encodable an object
     ///
@@ -61,9 +61,9 @@ public extension JSONEncoder {
     }
 }
 
-// MARK: - NSUserDefaults extensions
+// MARK: - UserDefaults
 
-public extension UserDefaults {
+extension UserDefaults {
 
     /// Set Encodable object in UserDefaults
     ///

@@ -45,6 +45,6 @@ struct ThemeItem: Identifiable {
 
     // MARK: - Internal Properties
 
-    var id = UUID()
+    let id = UUID()
     var title: ThemeItemCase
 }

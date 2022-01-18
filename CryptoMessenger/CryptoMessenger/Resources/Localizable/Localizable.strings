@@ -160,8 +160,29 @@
 "Personalization.Background" = "Фон профиля";
 "Personalization.BackgroundPreview" = "Просмотр";
 "Personalization.Typography" = "Типографика";
+"Personalization.TitleLanguage" = "Язык приложения";
+"Personalization.TitleTheme" = "Тема";
+"Personalization.TitleBackground" = "Фон профиля";
+"Personalization.TitleTypography" = "Типографика";
 
 "AppLanguage.Title" = "Язык приложения";
+"AppLanguage.LanguageTitleRussian" = "Русский язык";
+"AppLanguage.LanguageTitleSystem" = "Как в системе";
+"AppLanguage.LanguageTitleFrench" = "Французский язык";
+"AppLanguage.LanguageTitleSpanish" = "Испанский язык";
+"AppLanguage.LanguageTitleArabic" = "Арабский язык";
+"AppLanguage.LanguageTitleGerman" = "Немецкий язык";
+"AppLanguage.LanguageTitleEnglish" = "Английский язык";
+"AppLanguage.LanguageTitleChiniese" = "Китайский язык";
+"AppLanguage.LanguageDescriptionRussian" = "Russian";
+"AppLanguage.LanguageDescriptionSystem" = "Как в системе (Русский)";
+"AppLanguage.LanguageDescriptionFrench" = "French";
+"AppLanguage.LanguageDescriptionSpanish" = "Spanish";
+"AppLanguage.LanguageDescriptionArabic" = "Arabic";
+"AppLanguage.LanguageDescriptionGerman" = "German";
+"AppLanguage.LanguageDescriptionEnglish" = "English";
+"AppLanguage.LanguageDescriptionChiniese" = "中國人";
+
 
 "Typography.Title" = "Типографика";
 "Typography.LittleTitle" = "Мелкий";
@@ -170,6 +191,8 @@
 "Typography.MiddleSize" = "Как в системе (Русский)";
 "Typography.BigTitle" = "Большой";
 "Typography.BigSize" = "120%";
+"Typography.FontManagment" = "Управление...ом шрифта";
+"Typography.Standart" = "Стандартный";
 
 "ProfileBackground.Title" = "Выбрать из галереи фон";
 "ProfileBackground.Wallpaper" = "ОБОИ";

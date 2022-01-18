@@ -16,13 +16,13 @@ enum PersonalizationTitleCase {
     var text: String {
         switch self {
         case .lagnguage:
-            return "Язык приложения"
+            return R.string.localizable.personalizationTitleLanguage()
         case .theme:
-            return "Тема"
+            return R.string.localizable.personalizationTitleTheme()
         case .backGround:
-            return "Фон профиля"
+            return R.string.localizable.personalizationTitleBackground()
         case .typography:
-            return "Типографика"
+            return R.string.localizable.personalizationTitleTypography()
         }
     }
 }
@@ -33,6 +33,6 @@ struct PersonalitionTitleItem: Identifiable {
 
     // MARK: - Internal Properties
 
-    var id = UUID()
+    let id = UUID()
     var title: PersonalizationTitleCase
 }

@@ -118,11 +118,6 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
-    private func showTestView() {
-        let vc = BaseHostingController(rootView: PersonalizationNewView())
-        setViewWith(vc)
-    }
-
     // MARK: - Scene
 
     enum Scene {
@@ -144,7 +139,6 @@ public final class AuthFlowCoordinator: Coordinator {
         case blockedUser
         case userSession
         case security
-        case test
     }
 }
 
@@ -183,8 +177,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showSecurityScene()
         case .blockedUser:
             showBlockedUserScene()
-        case .test:
-            showTestView()
         }
     }
 

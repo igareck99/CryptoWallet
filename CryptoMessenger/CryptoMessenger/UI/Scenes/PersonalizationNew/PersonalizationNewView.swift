@@ -33,8 +33,11 @@ struct PersonalizationNewView: View {
     // MARK: - Internal Properties
 
     @ObservedObject var viewModel = PersonalizationViewModel()
-    @State var showTypographyScreen = false
-    @State var showThemeScreen = false
+
+    // MARK: - Private Properties
+
+    @State private var showTypographyScreen = false
+    @State private var showThemeScreen = false
 
     // MARK: - Body
 

@@ -22,7 +22,7 @@ enum TypographyItemCase: Codable {
         case .big:
             return R.string.localizable.typographyBigTitle()
         case .standart:
-            return "Управление...ом шрифта"
+            return R.string.localizable.typographyFontManagment()
         }
     }
 
@@ -35,7 +35,7 @@ enum TypographyItemCase: Codable {
         case .big:
             return R.string.localizable.typographyBigSize()
         case .standart:
-            return "Стандартный"
+            return R.string.localizable.typographyStandart()
         }
     }
 
@@ -87,6 +87,6 @@ struct TypographyItem: Identifiable {
 
     // MARK: - Internal Properties
 
-    var id = UUID()
+    let id = UUID()
     var title: TypographyItemCase
 }

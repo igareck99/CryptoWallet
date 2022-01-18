@@ -20,42 +20,42 @@ enum LanguageItems: Codable {
     var languageTitle: String {
         switch self {
         case .russian:
-            return "Русский язык"
+            return R.string.localizable.appLanguageLanguageTitleRussian()
         case .system:
-            return "Как в системе"
+            return R.string.localizable.appLanguageLanguageTitleSystem()
         case .french:
-            return "Французский язык"
+            return R.string.localizable.appLanguageLanguageTitleFrench()
         case .spanish:
-            return "Испанский язык"
+            return R.string.localizable.appLanguageLanguageTitleSpanish()
         case .arabic:
-            return "Арабский язык"
+            return R.string.localizable.appLanguageLanguageTitleArabic()
         case .german:
-            return "Немецкий язык"
+            return R.string.localizable.appLanguageLanguageTitleGerman()
         case .english:
-            return "Английский язык"
+            return R.string.localizable.appLanguageLanguageTitleEnglish()
         case .chinese:
-            return "Китайский язык"
+            return R.string.localizable.appLanguageLanguageTitleChiniese()
         }
     }
 
     var languageDescription: String {
         switch self {
         case .russian:
-            return "Russian"
+            return R.string.localizable.appLanguageLanguageDescriptionRussian()
         case .system:
-            return "Как в системе (Русский)"
+            return R.string.localizable.appLanguageLanguageDescriptionSystem()
         case .french:
-            return "French"
+            return R.string.localizable.appLanguageLanguageDescriptionFrench()
         case .spanish:
-            return "Spanish"
+            return R.string.localizable.appLanguageLanguageDescriptionSpanish()
         case .arabic:
-            return "Arabic"
+            return R.string.localizable.appLanguageLanguageDescriptionArabic()
         case .german:
-            return "German"
+            return R.string.localizable.appLanguageLanguageDescriptionGerman()
         case .english:
-            return "English"
+            return R.string.localizable.appLanguageLanguageDescriptionEnglish()
         case .chinese:
-            return "中國人"
+            return R.string.localizable.appLanguageLanguageDescriptionChiniese()
         }
     }
 
@@ -63,21 +63,21 @@ enum LanguageItems: Codable {
 
     static func save(item: String) -> LanguageItems {
         switch item {
-        case "Russian":
+        case R.string.localizable.appLanguageLanguageDescriptionRussian():
             return LanguageItems.russian
-        case "Как в системе (Русский)":
+        case R.string.localizable.appLanguageLanguageDescriptionSystem():
             return LanguageItems.system
-        case "French":
+        case R.string.localizable.appLanguageLanguageDescriptionFrench():
             return LanguageItems.french
-        case "Spanish":
+        case R.string.localizable.appLanguageLanguageDescriptionSpanish():
             return LanguageItems.spanish
-        case "Arabic":
+        case R.string.localizable.appLanguageLanguageDescriptionArabic():
             return LanguageItems.arabic
-        case "German":
+        case R.string.localizable.appLanguageLanguageDescriptionGerman():
             return LanguageItems.german
-        case "English":
+        case R.string.localizable.appLanguageLanguageDescriptionEnglish():
             return LanguageItems.english
-        case "中國人":
+        case R.string.localizable.appLanguageLanguageDescriptionChiniese():
             return LanguageItems.chinese
         default:
             return LanguageItems.system
@@ -91,7 +91,7 @@ struct LanguageItem: Identifiable {
 
     // MARK: - Internal Properties
 
-    var id = UUID()
+    let id = UUID()
     var language: LanguageItems
 
 }
