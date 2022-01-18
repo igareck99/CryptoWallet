@@ -18,6 +18,10 @@ struct ProfileItem: Identifiable {
         R.image.profile.testpicture2.image,
         R.image.profile.testpicture5.image,
         R.image.profile.testpicture3.image,
+        R.image.profile.testpicture4.image,
+        R.image.profile.testpicture4.image,
+        R.image.profile.testpicture4.image,
+        R.image.profile.testpicture4.image,
         R.image.profile.testpicture4.image
     ]
 }
@@ -73,6 +77,8 @@ final class ProfileViewModel: ObservableObject {
                     self?.objectWillChange.send()
                 case .onProfileScene:
                     self?.delegate?.handleNextScene(.profileDetail)
+                case .onPersonalization:
+                    self?.delegate?.handleNextScene(.personalization)
                 }
             }
             .store(in: &subscriptions)

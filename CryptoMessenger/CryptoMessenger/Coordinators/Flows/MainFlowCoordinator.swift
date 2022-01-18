@@ -136,6 +136,12 @@ final class MainFlowCoordinator: Coordinator {
 
         case chatRoom(AuraRoom)
         case profileDetail
+        case personalization
+        case language
+        case typography
+        case selectBackground
+        case profilePreview
+        case profile
     }
 }
 
@@ -148,6 +154,18 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showChatRoomScene(room: room)
         case .profileDetail:
             showProfileDetailScene()
+        case .personalization:
+            showPersonalizationScene()
+        case .language:
+            showLanguageScene()
+        case .typography:
+            showTypographyScene()
+        case .selectBackground:
+            showSelectBackgroundScene()
+        case .profilePreview:
+            showProfilePreviewScene()
+        case .profile:
+            start()
         }
     }
 
@@ -168,6 +186,41 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+
+    private func showPersonalizationScene() {
+        let rootView = PersonalizationConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showLanguageScene() {
+        let rootView = LanguageViewConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showTypographyScene() {
+        let rootView = TypographyViewConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showSelectBackgroundScene() {
+        let rootView = SelectBackgroundConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showProfilePreviewScene() {
+        let rootView = ProfileBackgroundViewConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -181,6 +234,10 @@ extension MainFlowCoordinator: ChatRoomSceneDelegate {}
 // MARK: - MainFlowCoordinator (ProfileSceneDelegate)
 
 extension MainFlowCoordinator: ProfileSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (PersonalizationSceneDelegate)
+
+extension MainFlowCoordinator: PersonalizationSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

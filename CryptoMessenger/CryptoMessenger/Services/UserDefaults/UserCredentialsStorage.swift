@@ -11,6 +11,10 @@ protocol UserCredentialsStorage {
     var userPinCode: String { get set }
     var userFalsePinCode: String { get set }
     var socialNetworkList: [SocialListItem] { get set }
+    var typography: String { get set }
+    var language: String { get set }
+    var theme: String { get set }
+    var profileBackgroundImage: String { get set }
 }
 
 // MARK: - UserCredentialsStorageService
@@ -64,5 +68,25 @@ final class UserCredentialsStorageService {
     var socialNetworkList: [SocialListItem] {
         get { storage.socialNetworkList }
         set { storage.socialNetworkList = newValue }
+    }
+
+    var typography: String {
+        get { storage.typography }
+        set { storage.typography = newValue }
+    }
+
+    var language: String {
+        get { storage.language }
+        set { storage.language = newValue }
+    }
+
+    var theme: String {
+        get { storage.theme }
+        set { storage.theme = newValue }
+    }
+    
+    var profileBackgroundImage: String {
+        get { storage.profileBackgroundImage }
+        set { storage.profileBackgroundImage = newValue }
     }
 }
