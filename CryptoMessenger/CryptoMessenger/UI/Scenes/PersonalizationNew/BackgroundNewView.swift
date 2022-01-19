@@ -41,9 +41,12 @@ struct SelectBackgroundView: View {
 
     var body: some View {
         GeometryReader { geometry in
+            Divider().padding(.top, 16)
             List {
             VStack(alignment: .leading, spacing: 16) {
                 SelectPhotoBackgroundCellView()
+                    .background(.white())
+                    .listRowSeparator(.hidden)
                     .onTapGesture {
                         showPhotoLibrary = true
                     }
@@ -76,7 +79,7 @@ struct SelectBackgroundView: View {
                     }
                 }
             }
-            }.padding(.top, 16)
+            }.padding(.top, 24)
             .sheet(isPresented: $showPhotoLibrary) {
                 NavigationView {
                     ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
@@ -99,7 +102,7 @@ struct SelectBackgroundView: View {
                             viewModel.send(.onProfile)
                         }, label: {
                             Text(R.string.localizable.profileDetailRightButton())
-                                .font(.bold(15))
+                                .font(.semibold(15))
                                 .foreground(.blue())
                         })
                     }

@@ -15,7 +15,7 @@ struct TypographyCellView: View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text(typography.title.name)
-                    .font(.bold(user.typography.bigSize))
+                    .font(.semibold(user.typography.bigSize))
                 Text(typography.title.sizeTitle)
                     .font(.regular(user.typography.littleSize))
                     .foreground(.gray())
@@ -38,21 +38,26 @@ struct TypographyView: View {
     // MARK: - Body
 
     var body: some View {
+        Divider().padding(.top, 16)
             VStack {
                 List {
                     ForEach(viewModel.typographyTitles) { item in
                         TypographyCellView(typography: item,
                                            user: viewModel.user)
+                            .background(.white())
+                            .listRowSeparator(.visible, edges: .bottom)
+                            .listRowSeparator(item.title == .little ? .hidden : .visible)
                             .onTapGesture {
                                 viewModel.updateTypography(value: item.title)
                             }
                     }
                 }
-            }.padding(.top, 16)
+            }
             .listStyle(.inset)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(R.string.localizable.typographyTitle())
+                        .frame(maxWidth: .infinity)
                         .font(.bold(viewModel.user.typography.bigSize))
                 }
             }

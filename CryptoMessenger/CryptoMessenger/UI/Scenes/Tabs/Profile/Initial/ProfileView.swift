@@ -15,6 +15,7 @@ struct ProfileView: View {
     @State private var showProfileDetail = false
     @State private var showCopyNicknameAlert = false
     @State private var showSafari = false
+    @State private var showImagePicker = false
     @State private var safariAdress = ""
 
     // MARK: - Body
@@ -51,6 +52,17 @@ struct ProfileView: View {
             .fullScreenCover(isPresented: $showSafari, content: {
                 SFSafariViewWrapper(link: $safariAdress)
         })
+            .sheet(isPresented: $showImagePicker) {
+                NavigationView {
+                    ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
+                        guard let image = image else { return }
+                        self.viewModel.addPhoto(image: image)
+                    })
+                        .ignoresSafeArea()
+                        .navigationBarTitle(Text("Фото"))
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+            }
             .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text("Скопировано!")) }
             .popup(
                 isPresented: $showMenu,
@@ -194,9 +206,8 @@ struct ProfileView: View {
                                         showSafari = true
                                     }
                             }.padding(.leading, 16)
-
-                            VStack(alignment: .center) {
                                 Button(R.string.localizable.profileAdd()) {
+                                    showImagePicker = true
                                 }.frame(width: geometry.size.width
                                         - 32, height: 44, alignment: .center)
                                     .font(.regular(15))
@@ -204,13 +215,13 @@ struct ProfileView: View {
                                         RoundedRectangle(cornerRadius: 8)
                                             .stroke(.blue, lineWidth: 1)
                                     )
-                            }.padding(.leading, 16)
-
+                            .background(.white())
+                            .padding(.leading, 16)
                             photosView
 
                             FooterView(popupSelected: $popupSelected)
                                 .padding([.leading, .trailing], 16)
-                        }
+                            }
                 }
             }
         }
@@ -248,6 +259,8 @@ struct ProfileView: View {
                 VStack(spacing: 0) {
                     viewModel.profile.photos[index]
                         .resizable()
+                        .frame(width: (UIScreen.main.bounds.width - 3) / 3,
+                               height: (UIScreen.main.bounds.width - 3) / 3)
                         .scaledToFill()
                 }
             }

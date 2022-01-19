@@ -49,19 +49,22 @@ struct PersonalizationNewView: View {
                                             viewModel.personalizationTitles[0],
                                            user: viewModel.user.language.languageDescription)
                     .listRowSeparator(.hidden)
-                    .onTapGesture {
+                    .background(.white())
+                    .onTapGesture(perform: {
                         viewModel.send(.onLanguage)
-                    }
+                    })
                 PersonalizationNewCellView(item:
                                             viewModel.personalizationTitles[1],
                                            user: viewModel.user.theme.name)
                     .listRowSeparator(.hidden)
+                    .background(.white())
                     .onTapGesture {
                         showThemeScreen = true
                     }
                 PersonalizationNewCellView(item: viewModel.personalizationTitles[2],
                                            user: viewModel.user.backGround == Image(uiImage: UIImage()) ?
                                            R.string.localizable.pesonalizationByDefault() : "Выбрано")
+                    .background(.white())
                     .onTapGesture {
                         viewModel.send(.onSelectBackground)
                     }
@@ -69,6 +72,7 @@ struct PersonalizationNewView: View {
                                             viewModel.personalizationTitles[3],
                                            user: viewModel.user.typography.name)
                     .listRowSeparator(.hidden)
+                    .background(.white())
                     .onTapGesture {
                         viewModel.send(.onTypography)
                     }
