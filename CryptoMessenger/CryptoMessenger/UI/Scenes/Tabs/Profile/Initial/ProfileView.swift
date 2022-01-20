@@ -114,7 +114,7 @@ struct ProfileView: View {
     }
 
     private var content: some View {
-        GeometryReader { geometry in
+        GeometryReader { _ in
             ZStack {
                 ScrollView(popupSelected ? [] : .vertical, showsIndicators: false) {
                         VStack(alignment: .leading, spacing: 24) {
@@ -206,17 +206,21 @@ struct ProfileView: View {
                                         showSafari = true
                                     }
                             }.padding(.leading, 16)
-                                Button(R.string.localizable.profileAdd()) {
-                                    showImagePicker = true
-                                }.frame(width: geometry.size.width
-                                        - 32, height: 44, alignment: .center)
-                                    .font(.regular(15))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .stroke(.blue, lineWidth: 1)
-                                    )
-                            .background(.white())
-                            .padding(.leading, 16)
+                            Button(action: {
+                                showImagePicker = true
+                                }, label: {
+                                    Text(R.string.localizable.profileAdd())
+                                        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+                                        .font(.regular(15))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .stroke(.blue, lineWidth: 1)
+                                        )
+                                })
+                                .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+                                .background(.white())
+                                .padding(.leading, 16)
+                                .padding(.trailing, 16)
                             photosView
 
                             FooterView(popupSelected: $popupSelected)
@@ -279,14 +283,19 @@ struct FooterView: View {
     // MARK: - Body
 
     var body: some View {
-        Button(R.string.localizable.profileBuyCell()) {
+        Button(action: {
             hideTabBar()
             popupSelected.toggle()
-        }
-        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-        .font(.regular(15))
-        .overlay(
-            RoundedRectangle(cornerRadius: 8).stroke(.blue, lineWidth: 1)
-        )
+            }, label: {
+                Text(R.string.localizable.profileBuyCell())
+                    .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+                    .font(.regular(15))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.blue, lineWidth: 1)
+                    )
+            })
+            .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+            .background(.white())
     }
 }
