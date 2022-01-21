@@ -14,6 +14,7 @@ struct SecurityNewView: View {
     @State private var activatePinCode = true
     @State private var activateBiometry = false
     @State private var activateFalsePassword = false
+    @State private var showTelephoneActionSheet = false
 
     // MARK: - Body
 
@@ -43,14 +44,23 @@ struct SecurityNewView: View {
                 .foreground(.darkGray())
                 .listRowSeparator(.hidden)
             ForEach(SecurityCellItem.allCases, id: \.self) { type in
-                if type == .blackList {
+                switch type {
+                case .blackList:
                     SecurityCellView(title: R.string.localizable.securityBlackListTitle(),
                                      font: .blue(),
                                      currentState: String(blockListViewModel.listData.count))
                         .background(.white())
                         .listRowSeparator(.hidden)
                         .onTapGesture { viewModel.send(.onBlockList) }
-                } else {
+                case .telephone:
+                    SecurityCellView(title: type.result.title,
+                                     currentState: viewModel.telephoneSeeState)
+                        .background(.white())
+                    .listRowSeparator(.hidden)
+                    .onTapGesture {
+                        showTelephoneActionSheet = true
+                    }
+                default:
                     SecurityCellView(title: type.result.title,
                                      currentState: type.result.state)
                         .background(.white())
@@ -58,6 +68,35 @@ struct SecurityNewView: View {
                 }
             }
         }
+        .onAppear {
+            viewModel.send(.onAppear)
+        }
+        .confirmationDialog("", isPresented: $showTelephoneActionSheet, titleVisibility: .hidden) {
+            ForEach([R.string.localizable.securityProfileObserveState(),
+                     R.string.localizable.securityContactsAll(),
+                     R.string.localizable.profileViewingNobody()], id: \.self) { item in
+                Button(item) {
+                    viewModel.updateTelephoneState(item: item)
+                }
+            }
+        }
+//        .actionSheet(isPresented: $showTelephoneActionSheet, titleVisibility: .hidden) {
+//            ActionSheet(
+//                title: Text(""),
+//                buttons: [
+//                    .default(Text(R.string.localizable.securityProfileObserveState())) {
+//                        viewModel.updateTelephoneState(item: R.string.localizable.securityProfileObserveState())
+//                    },
+//                        .default(Text(R.string.localizable.securityContactsAll())) {
+//                            viewModel.updateTelephoneState(item: R.string.localizable.securityContactsAll())
+//                        },
+//                        .default(Text(R.string.localizable.profileViewingNobody())) {
+//                            viewModel.updateTelephoneState(item: R.string.localizable.profileViewingNobody())
+//                        },
+//                    .destructive(Text(R.string.localizable.personalizationCancel()))
+//                ]
+//            )
+//        }
         .listStyle(.inset)
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -144,13 +183,13 @@ enum SecurityCellItem: CaseIterable, Identifiable {
             return (R.string.localizable.securityLastSeen(),
                     R.string.localizable.securityLastSeen())
         case .calls:
-            return (R.string.localizable.securityProfileObserve(),
+            return (R.string.localizable.securityCallsTitle(),
                     R.string.localizable.securityContactsAll())
         case .geoposition:
-            return (R.string.localizable.securityProfileObserve(),
+            return (R.string.localizable.securityGeoposition(),
                     R.string.localizable.securityContactsAll())
         case .telephone:
-            return (R.string.localizable.securityCallsTitle(),
+            return (R.string.localizable.securityTelephone(),
                     R.string.localizable.securityContactsAll())
         case .session:
             return (R.string.localizable.securitySessionTitle(),

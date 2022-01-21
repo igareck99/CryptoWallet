@@ -53,6 +53,7 @@ struct UserDefaultsLayer {
     private static let language = "language"
     private static let theme = "theme"
     private static let profileBackgroundImage = "profileBackgroundImage"
+    private static let telephoneSeeState = "telephoneSeeState"
 
     // MARK: - Internal Properties
 
@@ -109,7 +110,10 @@ struct UserDefaultsLayer {
     
     @UserDefaultSettings(profileBackgroundImage, value: "")
     var profileBackgroundImage: String
-
+    
+    @UserDefaultSettings(telephoneSeeState, value: R.string.localizable.securityContactsAll())
+    var telephoneSeeState: String
+    
     var userMatrixId: String {
         MXCredentials.from(Keychain(service: "chat.aura.credentials"))?.userId ?? ""
     }

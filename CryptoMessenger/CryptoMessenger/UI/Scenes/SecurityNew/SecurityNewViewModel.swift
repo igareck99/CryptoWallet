@@ -8,6 +8,7 @@ final class SecurityNewViewModel: ObservableObject {
     weak var delegate: SecurityNewSceneDelegate?
 
     @Published private(set) var state: SecurityNewFlow.ViewState = .idle
+    @Published var telephoneSeeState = ""
 
     // MARK: - Private Properties
 
@@ -34,6 +35,11 @@ final class SecurityNewViewModel: ObservableObject {
 
     func send(_ event: SecurityNewFlow.Event) {
         eventSubject.send(event)
+    }
+    
+    func updateTelephoneState(item: String) {
+        telephoneSeeState = item
+        userCredentialsStorageService.telephoneSeeState = item
     }
 
     // MARK: - Private Methods
@@ -65,5 +71,6 @@ final class SecurityNewViewModel: ObservableObject {
     }
 
     private func updateData() {
+        telephoneSeeState = userCredentialsStorageService.telephoneSeeState
     }
 }
