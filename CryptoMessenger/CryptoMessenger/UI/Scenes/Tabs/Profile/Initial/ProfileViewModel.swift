@@ -79,6 +79,8 @@ final class ProfileViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.profileDetail)
                 case .onPersonalization:
                     self?.delegate?.handleNextScene(.personalization)
+                case .onSecurity:
+                    self?.delegate?.handleNextScene(.security)
                 }
             }
             .store(in: &subscriptions)

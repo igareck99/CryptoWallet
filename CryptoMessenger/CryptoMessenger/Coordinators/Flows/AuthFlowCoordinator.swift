@@ -97,11 +97,6 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showBlockedUserScene() {
-        let viewController = BaseHostingController(rootView: BlockedUserContentView())
-        setViewWith(viewController)
-    }
-
     private func showSession() {
         let viewController = BaseHostingController(rootView: SessionListView())
         setViewWith(viewController)
@@ -136,7 +131,6 @@ public final class AuthFlowCoordinator: Coordinator {
         case photoEditor
         case profileNetwork
         case aboutApp
-        case blockedUser
         case userSession
         case security
     }
@@ -175,8 +169,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showSession()
         case .security:
             showSecurityScene()
-        case .blockedUser:
-            showBlockedUserScene()
         }
     }
 
