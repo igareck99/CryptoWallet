@@ -350,6 +350,8 @@
 		8B6C18C6279ABB1200B85F2A /* SecurityNewFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18C5279ABB1100B85F2A /* SecurityNewFlow.swift */; };
 		8B6C18C8279ABB4800B85F2A /* BlockedListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18C7279ABB4800B85F2A /* BlockedListConfigurator.swift */; };
 		8B6C18CA279ABB5700B85F2A /* BlockedListProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18C9279ABB5700B85F2A /* BlockedListProtocols.swift */; };
+		8B6E5554279F0E44002054CF /* PinCodeCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E5553279F0E44002054CF /* PinCodeCreateView.swift */; };
+		8B6E5556279F0F58002054CF /* PinCodeCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E5555279F0F58002054CF /* PinCodeCreateViewModel.swift */; };
 		8B73C1072747A193008ABB22 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B73C1062747A193008ABB22 /* SessionDetailView.swift */; };
 		8B740147275D360B0045ED32 /* ProfileSettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */; };
 		8B74014B275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */; };
@@ -712,6 +714,8 @@
 		8B6C18C5279ABB1100B85F2A /* SecurityNewFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityNewFlow.swift; sourceTree = "<group>"; };
 		8B6C18C7279ABB4800B85F2A /* BlockedListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedListConfigurator.swift; sourceTree = "<group>"; };
 		8B6C18C9279ABB5700B85F2A /* BlockedListProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedListProtocols.swift; sourceTree = "<group>"; };
+		8B6E5553279F0E44002054CF /* PinCodeCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateView.swift; sourceTree = "<group>"; };
+		8B6E5555279F0F58002054CF /* PinCodeCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateViewModel.swift; sourceTree = "<group>"; };
 		8B73C1062747A193008ABB22 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuView.swift; sourceTree = "<group>"; };
 		8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneNumberKit+SwiftUI.swift"; sourceTree = "<group>"; };
@@ -1890,6 +1894,7 @@
 		8B6C18BC2799A5C500B85F2A /* SecurityNew */ = {
 			isa = PBXGroup;
 			children = (
+				8B6E5552279F0E2E002054CF /* PinCodeCreate */,
 				8B6C18BD2799A5E100B85F2A /* SecurityNewView.swift */,
 				8B6C18BF2799A60D00B85F2A /* SecurityNewViewModel.swift */,
 				8B6C18C12799A87000B85F2A /* SecurityNewConfigurator.swift */,
@@ -1897,6 +1902,15 @@
 				8B6C18C5279ABB1100B85F2A /* SecurityNewFlow.swift */,
 			);
 			path = SecurityNew;
+			sourceTree = "<group>";
+		};
+		8B6E5552279F0E2E002054CF /* PinCodeCreate */ = {
+			isa = PBXGroup;
+			children = (
+				8B6E5553279F0E44002054CF /* PinCodeCreateView.swift */,
+				8B6E5555279F0F58002054CF /* PinCodeCreateViewModel.swift */,
+			);
+			path = PinCodeCreate;
 			sourceTree = "<group>";
 		};
 		8B9B0CC92775394000654C24 /* PersonalizationNew */ = {
@@ -2197,6 +2211,7 @@
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
 				5A3C9414274AEE8400818060 /* KeyboardListenable.swift in Sources */,
+				8B6E5556279F0F58002054CF /* PinCodeCreateViewModel.swift in Sources */,
 				5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
 				5A187E9E2680708D001957D3 /* ObservableArray.swift in Sources */,
@@ -2275,6 +2290,7 @@
 				5A26CD2126B2EECA00118D4B /* WalletFlow.swift in Sources */,
 				5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */,
 				8B5609B2277927B500AF43F6 /* TypographyNewView.swift in Sources */,
+				8B6E5554279F0E44002054CF /* PinCodeCreateView.swift in Sources */,
 				5A9B471A26EA6DE0001CC627 /* SlideCard.swift in Sources */,
 				5A9B472426EAA010001CC627 /* ReactionView.swift in Sources */,
 				5A9318B926BD210400645365 /* PinCodeView.swift in Sources */,

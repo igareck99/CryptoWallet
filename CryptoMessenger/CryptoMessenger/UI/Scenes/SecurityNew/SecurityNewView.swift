@@ -6,12 +6,12 @@ struct SecurityNewView: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel: SecurityNewViewModel
+    @ObservedObject var viewModel = SecurityNewViewModel()
     @StateObject var blockListViewModel = BlockListViewModel()
 
     // MARK: - Private Properties
 
-    @State private var activatePinCode = true
+    @State private var isPinCodeOn = false
     @State private var activateBiometry = false
     @State private var activateFalsePassword = false
     @State private var showProfileObserveSheet = false
@@ -19,6 +19,10 @@ struct SecurityNewView: View {
     @State private var showCallsSheet = false
     @State private var showGeopositionSheet = false
     @State private var showTelephoneActionSheet = false
+
+    init() {
+        self.isPinCodeOn = viewModel.isPinCodeOn
+    }
 
     // MARK: - Body
 
@@ -29,10 +33,13 @@ struct SecurityNewView: View {
                 .font(.bold(12))
                 .foreground(.darkGray())
                 .listRowSeparator(.hidden)
-            Toggle(R.string.localizable.securityPinCodeTitle(), isOn: $activatePinCode)
+            Toggle(R.string.localizable.securityPinCodeTitle(), isOn: $isPinCodeOn)
                 .toggleStyle(SwitchToggleStyle(tint: .blue))
                 .listRowSeparator(.hidden)
-                        if activatePinCode {
+                .onChange(of: isPinCodeOn) { _ in
+                    viewModel.updateIsPinCodeOn()
+                }
+                        if isPinCodeOn {
                             SecurityAdvancedCellView(title: R.string.localizable.securityBiometryEnterTitle(),
                                                      description: R.string.localizable.securityBiometryEnterState(),
                                                      currentState: $activateBiometry)
@@ -103,9 +110,6 @@ struct SecurityNewView: View {
                     .listRowSeparator(.hidden)
                 }
             }
-        }
-        .onAppear {
-            viewModel.send(.onAppear)
         }
         .confirmationDialog("", isPresented: $showProfileObserveSheet, titleVisibility: .hidden) {
             ForEach([R.string.localizable.securityProfileObserveState(),

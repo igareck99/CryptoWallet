@@ -13,6 +13,7 @@ final class SecurityNewViewModel: ObservableObject {
     @Published var callsState = ""
     @Published var geopositionState = ""
     @Published var telephoneSeeState = ""
+    @State var isPinCodeOn = false
 
     // MARK: - Private Properties
 
@@ -22,6 +23,7 @@ final class SecurityNewViewModel: ObservableObject {
 
     @Injectable private(set) var mxStore: MatrixStore
     @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+    @Injectable private var userFlows: UserFlowsStorageService
 
     // MARK: - Lifecycle
 
@@ -66,6 +68,11 @@ final class SecurityNewViewModel: ObservableObject {
         userCredentialsStorageService.telephoneSeeState = item
     }
 
+    func updateIsPinCodeOn() {
+        userFlows.isPinCodeOn.toggle()
+        print(userFlows.isPinCodeOn)
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -95,6 +102,7 @@ final class SecurityNewViewModel: ObservableObject {
     }
 
     private func updateData() {
+        isPinCodeOn = userFlows.isPinCodeOn
         profileObserveState = userCredentialsStorageService.profileObserveState
         lastSeenState = userCredentialsStorageService.lastSeenState
         callsState = userCredentialsStorageService.callsState
