@@ -59,11 +59,11 @@ struct ProfileView: View {
                         self.viewModel.addPhoto(image: image)
                     })
                         .ignoresSafeArea()
-                        .navigationBarTitle(Text("Фото"))
+                        .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                         .navigationBarTitleDisplayMode(.inline)
                 }
             }
-            .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text("Скопировано!")) }
+            .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text(R.string.localizable.profileCopied())) }
             .popup(
                 isPresented: $showMenu,
                 type: .toast,

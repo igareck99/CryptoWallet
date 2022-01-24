@@ -50,9 +50,9 @@ struct PersonalizationNewView: View {
                                            user: viewModel.user.language.languageDescription)
                     .listRowSeparator(.hidden)
                     .background(.white())
-                    .onTapGesture(perform: {
+                    .onTapGesture {
                         viewModel.send(.onLanguage)
-                    })
+                    }
                 PersonalizationNewCellView(item:
                                             viewModel.personalizationTitles[1],
                                            user: viewModel.user.theme.name)
