@@ -14,7 +14,7 @@ protocol UserCredentialsStorage {
     var typography: String { get set }
     var language: String { get set }
     var theme: String { get set }
-    var profileBackgroundImage: String { get set }
+    var profileBackgroundImage: Int { get set }
 }
 
 // MARK: - UserCredentialsStorageService
@@ -85,7 +85,7 @@ final class UserCredentialsStorageService {
         set { storage.theme = newValue }
     }
     
-    var profileBackgroundImage: String {
+    var profileBackgroundImage: Int {
         get { storage.profileBackgroundImage }
         set { storage.profileBackgroundImage = newValue }
     }

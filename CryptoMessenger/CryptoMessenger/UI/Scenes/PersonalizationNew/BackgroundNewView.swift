@@ -41,9 +41,12 @@ struct SelectBackgroundView: View {
 
     var body: some View {
         GeometryReader { geometry in
+            Divider().padding(.top, 16)
             List {
             VStack(alignment: .leading, spacing: 16) {
                 SelectPhotoBackgroundCellView()
+                    .background(.white())
+                    .listRowSeparator(.hidden)
                     .onTapGesture {
                         showPhotoLibrary = true
                     }
@@ -53,15 +56,16 @@ struct SelectBackgroundView: View {
                                 viewModel.backgroundPhotos[index]
                                     .resizable()
                                     .frame(width: (geometry.size.width - 48) / 3, height: 230)
-                                    .overlay(viewModel.user.backGround == viewModel.backgroundPhotos[index] ?
+                                    .overlay(viewModel.dataImage == index ?
                                              Color(.blue(0.4)): Color(.clear))
                                     .scaledToFill()
                                     .onTapGesture {
                                         if viewModel.user.backGround == viewModel.backgroundPhotos[index] {
+                                            viewModel.updateImage(index: -1)
                                             viewModel.user.backGround = Image(uiImage: UIImage())
                                         } else {
                                             viewModel.user.backGround = viewModel.backgroundPhotos[index]
-                                            viewModel.updateImage(image: viewModel.backgroundPhotos[index])
+                                            viewModel.updateImage(index: index)
                                             viewModel.send(.backgroundPreview)
                                     }
                                 }
@@ -71,12 +75,12 @@ struct SelectBackgroundView: View {
                                         .frame(width: 40, height: 40)
                                     R.image.profileBackground.approve.image
                                         .frame(width: 24, height: 24)
-                                }.opacity(viewModel.user.backGround == viewModel.backgroundPhotos[index] ? 1 : 0)
+                                }.opacity(viewModel.dataImage == index ? 1 : 0)
                             }
                     }
                 }
             }
-            }.padding(.top, 16)
+            }.padding(.top, 24)
             .sheet(isPresented: $showPhotoLibrary) {
                 NavigationView {
                     ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
@@ -99,7 +103,7 @@ struct SelectBackgroundView: View {
                             viewModel.send(.onProfile)
                         }, label: {
                             Text(R.string.localizable.profileDetailRightButton())
-                                .font(.bold(15))
+                                .font(.semibold(15))
                                 .foreground(.blue())
                         })
                     }

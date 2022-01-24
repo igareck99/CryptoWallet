@@ -47,6 +47,7 @@ final class PersonalizationViewModel: ObservableObject {
     @Published var typography = ""
     @Published var language = ""
     @Published var theme = ""
+    @Published var dataImage: Int?
 
     // MARK: - Private Properties
 
@@ -82,7 +83,6 @@ final class PersonalizationViewModel: ObservableObject {
     func updateLanguage(value: LanguageItems) {
         user.language = value
         userCredentials.language = value.languageDescription
-        print(userCredentials.language)
     }
 
     func updateTypography(value: TypographyItemCase) {
@@ -95,12 +95,9 @@ final class PersonalizationViewModel: ObservableObject {
         userCredentials.theme = value.name
     }
 
-    func updateImage(image: Image) {
-        guard let selectedImage = selectedImage else {
-            return
-        }
-        userCredentials.profileBackgroundImage = selectedImage.jpegData(
-            compressionQuality: 1)?.base64EncodedString() ?? ""
+    func updateImage(index: Int) {
+        dataImage = index
+        userCredentials.profileBackgroundImage = index
     }
 
     // MARK: - Private Methods
@@ -120,6 +117,7 @@ final class PersonalizationViewModel: ObservableObject {
                 case .onSelectBackground:
                     self?.delegate?.handleNextScene(.selectBackground)
                 case .backgroundPreview:
+                    self?.updateData()
                     self?.delegate?.handleNextScene(.profilePreview)
                 }
         }.store(in: &subscriptions)
@@ -129,12 +127,21 @@ final class PersonalizationViewModel: ObservableObject {
         typography = userCredentials.typography
         language = userCredentials.language
         theme = userCredentials.theme
-        let imageData = Data(base64Encoded: userCredentials.profileBackgroundImage,
-                             options: .init(rawValue: 0))
-        selectedImage = UIImage(data: imageData!)
+        var userImage = Image(uiImage: UIImage())
+        if userCredentials.profileBackgroundImage == -1 {
+            userImage = Image(uiImage: UIImage())
+            dataImage = -1
+        } else if userCredentials.profileBackgroundImage > backgroundPhotos.count {
+            userImage = backgroundPhotos[backgroundPhotos.count - 1]
+            dataImage = backgroundPhotos.count - 1
+        } else {
+            userImage = backgroundPhotos[userCredentials.profileBackgroundImage]
+            dataImage = userCredentials.profileBackgroundImage
+        }
+        print(userCredentials.profileBackgroundImage)
         user = UserPersonalizationItem(language: LanguageItems.save(item: language),
                                        theme: ThemeItemCase.save(item: theme),
-                                       backGround: Image(uiImage: selectedImage ?? UIImage()),
+                                       backGround: userImage,
                                        typography: TypographyItemCase.save(item: typography))
     }
 

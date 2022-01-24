@@ -107,8 +107,8 @@ struct UserDefaultsLayer {
     @UserDefaultSettings(theme, value: "")
     var theme: String
     
-    @UserDefaultSettings(profileBackgroundImage, value: "")
-    var profileBackgroundImage: String
+    @UserDefaultSettings(profileBackgroundImage, value: -1)
+    var profileBackgroundImage: Int
 
     var userMatrixId: String {
         MXCredentials.from(Keychain(service: "chat.aura.credentials"))?.userId ?? ""
