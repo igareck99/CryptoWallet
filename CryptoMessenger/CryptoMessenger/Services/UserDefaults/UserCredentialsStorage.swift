@@ -4,7 +4,8 @@ import Foundation
 
 protocol UserCredentialsStorage {
     var isUserAuthenticated: Bool { get set }
-    var token: String { get set }
+    var accessToken: String { get set }
+    var refreshToken: String { get set }
     var userId: String { get set }
     var userPhoneNumber: String { get set }
     var userMatrixId: String { get }
@@ -34,9 +35,14 @@ final class UserCredentialsStorageService {
         set { storage.isUserAuthenticated = newValue }
     }
 
-    var token: String {
-        get { storage.token }
-        set { storage.token = newValue }
+    var accessToken: String {
+        get { storage.accessToken }
+        set { storage.accessToken = newValue }
+    }
+
+    var refreshToken: String {
+        get { storage.refreshToken }
+        set { storage.refreshToken = newValue }
     }
 
     var userId: String {

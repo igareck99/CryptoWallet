@@ -23,9 +23,16 @@ enum Endpoints {
 
     // MARK: - Logout
 
-    enum Logout {
-        static func post() -> Endpoint<EmptyResponse> {
-            return Endpoint<EmptyResponse>(method: .post, path: "/mobile/auth/logout")
+    enum Session {
+
+        // MARK: - Static Methods
+
+        static func refresh(_ token: String) -> Endpoint<AuthResponse> {
+            Endpoint<AuthResponse>(method: .post, path: "/user/refresh")
+        }
+
+        static func logout() -> Endpoint<EmptyResponse> {
+            Endpoint<EmptyResponse>(method: .post, path: "/mobile/auth/logout")
         }
     }
 

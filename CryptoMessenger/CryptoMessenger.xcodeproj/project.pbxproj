@@ -104,6 +104,8 @@
 		5A26CD4226B3363E00118D4B /* TransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD4126B3363E00118D4B /* TransactionViewModel.swift */; };
 		5A26CD6126B35C9B00118D4B /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD6026B35C9B00118D4B /* Message.swift */; };
 		5A26CD6A26B4016000118D4B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A26CD6926B4016000118D4B /* GoogleService-Info.plist */; };
+		5A2EC772279F3A6C00857248 /* APILogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2EC771279F3A6C00857248 /* APILogger.swift */; };
+		5A2EC774279F410900857248 /* Publishers+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2EC773279F410900857248 /* Publishers+Retry.swift */; };
 		5A3721D3272EF0DA0097ABED /* ChatCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721D2272EF0DA0097ABED /* ChatCreateView.swift */; };
 		5A3721D5272F0A290097ABED /* ContactRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721D4272F0A290097ABED /* ContactRow.swift */; };
 		5A3721D7272F2A4D0097ABED /* ChatGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3721D6272F2A4D0097ABED /* ChatGroupView.swift */; };
@@ -478,6 +480,8 @@
 		5A26CD4126B3363E00118D4B /* TransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionViewModel.swift; sourceTree = "<group>"; };
 		5A26CD6026B35C9B00118D4B /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		5A26CD6926B4016000118D4B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5A2EC771279F3A6C00857248 /* APILogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APILogger.swift; sourceTree = "<group>"; };
+		5A2EC773279F410900857248 /* Publishers+Retry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+Retry.swift"; sourceTree = "<group>"; };
 		5A3721D2272EF0DA0097ABED /* ChatCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateView.swift; sourceTree = "<group>"; };
 		5A3721D4272F0A290097ABED /* ContactRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRow.swift; sourceTree = "<group>"; };
 		5A3721D6272F2A4D0097ABED /* ChatGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupView.swift; sourceTree = "<group>"; };
@@ -1115,6 +1119,8 @@
 				5A187EFF2680CF49001957D3 /* URLRequest+QueryItems.swift */,
 				5A187F002680CF49001957D3 /* HTTPURLResponse+StatusOk.swift */,
 				5A187F012680CF49001957D3 /* Endpoint.swift */,
+				5A2EC771279F3A6C00857248 /* APILogger.swift */,
+				5A2EC773279F410900857248 /* Publishers+Retry.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -2260,6 +2266,7 @@
 				5A187F2F2680CF49001957D3 /* Endpoints.swift in Sources */,
 				8B73C1072747A193008ABB22 /* SessionDetailView.swift in Sources */,
 				5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */,
+				5A2EC772279F3A6C00857248 /* APILogger.swift in Sources */,
 				5AF8633626AA994E004A417C /* VerificationViewController.swift in Sources */,
 				8BD62931276B4ADA000A976A /* SocialListViewModel.swift in Sources */,
 				5A7EDE73275402E90049DC4A /* BlockedUserView.swift in Sources */,
@@ -2399,6 +2406,7 @@
 				5A187EB5268070B3001957D3 /* UIViewController+Extensions.swift in Sources */,
 				78DD764F2727765B0094D510 /* ProfileBackgroundCollectionCell.swift in Sources */,
 				5A187F302680CF49001957D3 /* DefaultResponses.swift in Sources */,
+				5A2EC774279F410900857248 /* Publishers+Retry.swift in Sources */,
 				5A187DF626807011001957D3 /* Coordinator.swift in Sources */,
 				5A15DDF9276E5C9C00CF7AA4 /* ShimmerView.swift in Sources */,
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,

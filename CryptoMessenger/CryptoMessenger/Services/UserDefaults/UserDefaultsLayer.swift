@@ -35,7 +35,8 @@ struct UserDefaultsLayer {
     // MARK: - Private Properties
 
     private static let isUserAuthenticatedKey = "isUserAuthenticatedKey"
-    private static let authTokenKey = "authTokenKey"
+    private static let accessTokenKey = "accessTokenKey"
+    private static let refreshTokenKey = "refreshTokenKey"
     private static let authUserIdKey = "authUserIdKey"
     private static let userPhoneNumberKey = "userPhoneNumberKey"
     private static let isAuthFlowFinishedKey = "isAuthFlowFinishedKey"
@@ -54,8 +55,11 @@ struct UserDefaultsLayer {
     @UserDefaultSettings(isUserAuthenticatedKey, value: false)
     var isUserAuthenticated: Bool
 
-    @UserDefaultSettings(authTokenKey, value: "")
-    var token: String
+    @UserDefaultSettings(accessTokenKey, value: "")
+    var accessToken: String
+
+    @UserDefaultSettings(refreshTokenKey, value: "")
+    var refreshToken: String
 
     @UserDefaultSettings(authUserIdKey, value: "")
     var userId: String
