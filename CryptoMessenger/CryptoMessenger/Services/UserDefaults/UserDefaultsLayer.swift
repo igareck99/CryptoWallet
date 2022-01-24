@@ -53,7 +53,11 @@ struct UserDefaultsLayer {
     private static let language = "language"
     private static let theme = "theme"
     private static let profileBackgroundImage = "profileBackgroundImage"
+    private static let profileObserveState = "profileObserveState"
     private static let telephoneSeeState = "telephoneSeeState"
+    private static let lastSeenState = "lastSeenState"
+    private static let callsState = "lastSeenState"
+    private static let geopositionState = "lastSeenState"
 
     // MARK: - Internal Properties
 
@@ -113,6 +117,18 @@ struct UserDefaultsLayer {
     
     @UserDefaultSettings(telephoneSeeState, value: R.string.localizable.securityContactsAll())
     var telephoneSeeState: String
+    
+    @UserDefaultSettings(profileObserveState, value: R.string.localizable.securityContactsAll())
+    var profileObserveState: String
+    
+    @UserDefaultSettings(lastSeenState, value: R.string.localizable.securityContactsAll())
+    var lastSeenState: String
+    
+    @UserDefaultSettings(callsState, value: R.string.localizable.securityContactsAll())
+    var callsState: String
+    
+    @UserDefaultSettings(geopositionState, value: R.string.localizable.securityContactsAll())
+    var geopositionState: String
     
     var userMatrixId: String {
         MXCredentials.from(Keychain(service: "chat.aura.credentials"))?.userId ?? ""

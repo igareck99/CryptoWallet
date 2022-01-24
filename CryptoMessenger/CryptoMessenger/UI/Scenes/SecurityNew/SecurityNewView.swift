@@ -80,23 +80,6 @@ struct SecurityNewView: View {
                 }
             }
         }
-//        .actionSheet(isPresented: $showTelephoneActionSheet, titleVisibility: .hidden) {
-//            ActionSheet(
-//                title: Text(""),
-//                buttons: [
-//                    .default(Text(R.string.localizable.securityProfileObserveState())) {
-//                        viewModel.updateTelephoneState(item: R.string.localizable.securityProfileObserveState())
-//                    },
-//                        .default(Text(R.string.localizable.securityContactsAll())) {
-//                            viewModel.updateTelephoneState(item: R.string.localizable.securityContactsAll())
-//                        },
-//                        .default(Text(R.string.localizable.profileViewingNobody())) {
-//                            viewModel.updateTelephoneState(item: R.string.localizable.profileViewingNobody())
-//                        },
-//                    .destructive(Text(R.string.localizable.personalizationCancel()))
-//                ]
-//            )
-//        }
         .listStyle(.inset)
         .toolbar {
             ToolbarItem(placement: .principal) {
