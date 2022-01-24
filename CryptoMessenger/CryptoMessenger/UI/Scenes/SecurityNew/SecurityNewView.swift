@@ -14,6 +14,10 @@ struct SecurityNewView: View {
     @State private var activatePinCode = true
     @State private var activateBiometry = false
     @State private var activateFalsePassword = false
+    @State private var showProfileObserveSheet = false
+    @State private var showLastSeenSheet = false
+    @State private var showCallsSheet = false
+    @State private var showGeopositionSheet = false
     @State private var showTelephoneActionSheet = false
 
     // MARK: - Body
@@ -52,6 +56,38 @@ struct SecurityNewView: View {
                         .background(.white())
                         .listRowSeparator(.hidden)
                         .onTapGesture { viewModel.send(.onBlockList) }
+                case .profileObserve:
+                    SecurityCellView(title: type.result.title,
+                                     currentState: viewModel.profileObserveState)
+                        .background(.white())
+                    .listRowSeparator(.hidden)
+                    .onTapGesture {
+                        showProfileObserveSheet = true
+                    }
+                case .lastSeen:
+                    SecurityCellView(title: type.result.title,
+                                     currentState: viewModel.lastSeenState)
+                        .background(.white())
+                    .listRowSeparator(.hidden)
+                    .onTapGesture {
+                        showLastSeenSheet = true
+                    }
+                case .calls:
+                    SecurityCellView(title: type.result.title,
+                                     currentState: viewModel.callsState)
+                        .background(.white())
+                    .listRowSeparator(.hidden)
+                    .onTapGesture {
+                        showCallsSheet = true
+                    }
+                case .geoposition:
+                    SecurityCellView(title: type.result.title,
+                                     currentState: viewModel.geopositionState)
+                        .background(.white())
+                    .listRowSeparator(.hidden)
+                    .onTapGesture {
+                        showGeopositionSheet = true
+                    }
                 case .telephone:
                     SecurityCellView(title: type.result.title,
                                      currentState: viewModel.telephoneSeeState)
@@ -70,6 +106,42 @@ struct SecurityNewView: View {
         }
         .onAppear {
             viewModel.send(.onAppear)
+        }
+        .confirmationDialog("", isPresented: $showProfileObserveSheet, titleVisibility: .hidden) {
+            ForEach([R.string.localizable.securityProfileObserveState(),
+                     R.string.localizable.securityContactsAll(),
+                     R.string.localizable.profileViewingNobody()], id: \.self) { item in
+                Button(item) {
+                    viewModel.updateProfileObserveState(item: item)
+                }
+            }
+        }
+        .confirmationDialog("", isPresented: $showLastSeenSheet, titleVisibility: .hidden) {
+            ForEach([R.string.localizable.securityProfileObserveState(),
+                     R.string.localizable.securityContactsAll(),
+                     R.string.localizable.profileViewingNobody()], id: \.self) { item in
+                Button(item) {
+                    viewModel.updateLastSeenState(item: item)
+                }
+            }
+        }
+        .confirmationDialog("", isPresented: $showCallsSheet, titleVisibility: .hidden) {
+            ForEach([R.string.localizable.securityProfileObserveState(),
+                     R.string.localizable.securityContactsAll(),
+                     R.string.localizable.profileViewingNobody()], id: \.self) { item in
+                Button(item) {
+                    viewModel.updateCallsState(item: item)
+                }
+            }
+        }
+        .confirmationDialog("", isPresented: $showGeopositionSheet, titleVisibility: .hidden) {
+            ForEach([R.string.localizable.securityProfileObserveState(),
+                     R.string.localizable.securityContactsAll(),
+                     R.string.localizable.profileViewingNobody()], id: \.self) { item in
+                Button(item) {
+                    viewModel.updateGeopositionState(item: item)
+                }
+            }
         }
         .confirmationDialog("", isPresented: $showTelephoneActionSheet, titleVisibility: .hidden) {
             ForEach([R.string.localizable.securityProfileObserveState(),
