@@ -47,7 +47,7 @@ final class PersonalizationViewModel: ObservableObject {
     @Published var typography = ""
     @Published var language = ""
     @Published var theme = ""
-    @Published var dataImage = -1
+    @Published var dataImage: Int?
 
     // MARK: - Private Properties
 
@@ -96,7 +96,6 @@ final class PersonalizationViewModel: ObservableObject {
     }
 
     func updateImage(index: Int) {
-        print("updateImage")
         dataImage = index
         userCredentials.profileBackgroundImage = index
     }
@@ -140,7 +139,6 @@ final class PersonalizationViewModel: ObservableObject {
             dataImage = userCredentials.profileBackgroundImage
         }
         print(userCredentials.profileBackgroundImage)
-        print("dataImage     \(dataImage)")
         user = UserPersonalizationItem(language: LanguageItems.save(item: language),
                                        theme: ThemeItemCase.save(item: theme),
                                        backGround: userImage,

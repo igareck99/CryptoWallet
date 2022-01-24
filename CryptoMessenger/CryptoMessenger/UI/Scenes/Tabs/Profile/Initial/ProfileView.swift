@@ -114,7 +114,6 @@ struct ProfileView: View {
     }
 
     private var content: some View {
-        GeometryReader { _ in
             ZStack {
                 ScrollView(popupSelected ? [] : .vertical, showsIndicators: false) {
                         VStack(alignment: .leading, spacing: 24) {
@@ -228,7 +227,6 @@ struct ProfileView: View {
                             }
                 }
             }
-        }
     }
 
     private var avatarView: some View {
