@@ -352,6 +352,8 @@
 		8B6C18CA279ABB5700B85F2A /* BlockedListProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18C9279ABB5700B85F2A /* BlockedListProtocols.swift */; };
 		8B6E5554279F0E44002054CF /* PinCodeCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E5553279F0E44002054CF /* PinCodeCreateView.swift */; };
 		8B6E5556279F0F58002054CF /* PinCodeCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E5555279F0F58002054CF /* PinCodeCreateViewModel.swift */; };
+		8B6E5558279FF922002054CF /* PinCodeCreateConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E5557279FF922002054CF /* PinCodeCreateConfigurator.swift */; };
+		8B6E555A279FF967002054CF /* PinCodeCreateProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E5559279FF967002054CF /* PinCodeCreateProtocols.swift */; };
 		8B73C1072747A193008ABB22 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B73C1062747A193008ABB22 /* SessionDetailView.swift */; };
 		8B740147275D360B0045ED32 /* ProfileSettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */; };
 		8B74014B275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */; };
@@ -716,6 +718,8 @@
 		8B6C18C9279ABB5700B85F2A /* BlockedListProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedListProtocols.swift; sourceTree = "<group>"; };
 		8B6E5553279F0E44002054CF /* PinCodeCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateView.swift; sourceTree = "<group>"; };
 		8B6E5555279F0F58002054CF /* PinCodeCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateViewModel.swift; sourceTree = "<group>"; };
+		8B6E5557279FF922002054CF /* PinCodeCreateConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateConfigurator.swift; sourceTree = "<group>"; };
+		8B6E5559279FF967002054CF /* PinCodeCreateProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateProtocols.swift; sourceTree = "<group>"; };
 		8B73C1062747A193008ABB22 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuView.swift; sourceTree = "<group>"; };
 		8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneNumberKit+SwiftUI.swift"; sourceTree = "<group>"; };
@@ -1909,6 +1913,8 @@
 			children = (
 				8B6E5553279F0E44002054CF /* PinCodeCreateView.swift */,
 				8B6E5555279F0F58002054CF /* PinCodeCreateViewModel.swift */,
+				8B6E5557279FF922002054CF /* PinCodeCreateConfigurator.swift */,
+				8B6E5559279FF967002054CF /* PinCodeCreateProtocols.swift */,
 			);
 			path = PinCodeCreate;
 			sourceTree = "<group>";
@@ -2281,6 +2287,7 @@
 				5A9B472126EA81F5001CC627 /* QuickMenuView.swift in Sources */,
 				5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */,
 				5A7EDE75275402F00049DC4A /* BlockedUserItem.swift in Sources */,
+				8B6E5558279FF922002054CF /* PinCodeCreateConfigurator.swift in Sources */,
 				5A1D265C275973940085324F /* CornerRadiusStyle.swift in Sources */,
 				5A7EDE74275402ED0049DC4A /* BlockListViewModel.swift in Sources */,
 				5A4BE517271DD86A00D03D09 /* EditEvent.swift in Sources */,
@@ -2311,6 +2318,7 @@
 				5AF8633926AA994E004A417C /* VerificationConfigurator.swift in Sources */,
 				5A26CD1F26B2EECA00118D4B /* WalletView.swift in Sources */,
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
+				8B6E555A279FF967002054CF /* PinCodeCreateProtocols.swift in Sources */,
 				78FA36872738329F00B331DC /* SecurityCell.swift in Sources */,
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
 				5AF8635C26ADB691004A417C /* OnboardingViewController.swift in Sources */,

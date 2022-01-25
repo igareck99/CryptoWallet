@@ -9,7 +9,7 @@ enum SecurityNewConfigurator {
     static func configuredView(delegate: SecurityNewSceneDelegate?) -> SecurityNewView {
         let viewModel = SecurityNewViewModel()
         viewModel.delegate = delegate
-        let view = SecurityNewView()
+        let view = SecurityNewView(viewModel: viewModel)
         return view
     }
 }

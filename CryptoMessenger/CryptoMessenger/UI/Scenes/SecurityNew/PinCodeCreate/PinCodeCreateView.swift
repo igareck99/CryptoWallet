@@ -6,21 +6,30 @@ struct PinCodeCreateView: View {
 
     // MARK: - Internal Properties
 
-    private var dotesValues = [0, 0, 0, 0, 0]
-    private var firstStack = [KeyboardButtonType.number(1),
+    @ObservedObject var viewModel: PinCodeCreateViewModel
+    var dotesValues = [0, 0, 0, 0, 0]
+    var enteredPassword = [0]
+    var firstStack = [KeyboardButtonType.number(1),
                                   KeyboardButtonType.number(2),
                                   KeyboardButtonType.number(3)]
-    private var secondStack = [KeyboardButtonType.number(4),
+    var secondStack = [KeyboardButtonType.number(4),
                                   KeyboardButtonType.number(5),
                                   KeyboardButtonType.number(6)]
-    private var thirdStack = [KeyboardButtonType.number(7),
+    var thirdStack = [KeyboardButtonType.number(7),
                                   KeyboardButtonType.number(8),
                                   KeyboardButtonType.number(9)]
+    var fourthStack = [
+        KeyboardButtonType.empty,
+        KeyboardButtonType.number(0),
+        KeyboardButtonType.delete
+    ]
 
     // MARK: - Body
 
     var body: some View {
-        Divider().padding(.top, 20)
+        VStack {
+            VStack(spacing: 34) {
+            Divider().padding(.top, 16)
         VStack(spacing: 60) {
         VStack(spacing: 40) {
         VStack(alignment: .center, spacing: 16) {
@@ -54,7 +63,15 @@ struct PinCodeCreateView: View {
                         KeyboardButtonView(button: item)
                     }
                 }
+                HStack(spacing: 33) {
+                    ForEach(fourthStack, id: \.self) { item in
+                        KeyboardButtonView(button: item)
+                    }
+                    }
             }
+        }
+        }
+            Spacer()
         }
         .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -62,8 +79,6 @@ struct PinCodeCreateView: View {
                         .font(.bold(15))
                 }
             }
-        .listSeparatorStyle(style: .none)
-        .listStyle(.inset)
     }
 
     private var dotes: some View {
@@ -100,14 +115,18 @@ struct KeyboardButtonView: View {
                     .font(.regular(24))
             }
         default:
-            Text("")
+            Circle()
+                .fill(Color(.clear))
+                .frame(width: 67, height: 67)
         }
     }
 }
 
+// MARK: - PinCodeCreateViewPreview
+
 struct PinCodeCreateViewPreview: PreviewProvider {
     static var previews: some View {
-        PinCodeCreateView()
+        PinCodeCreateView(viewModel: PinCodeCreateViewModel())
     }
 }
 

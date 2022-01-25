@@ -6,7 +6,7 @@ struct SecurityNewView: View {
 
     // MARK: - Internal Properties
 
-    @ObservedObject var viewModel = SecurityNewViewModel()
+    @StateObject var viewModel: SecurityNewViewModel
     @StateObject var blockListViewModel = BlockListViewModel()
 
     // MARK: - Private Properties
@@ -20,14 +20,10 @@ struct SecurityNewView: View {
     @State private var showGeopositionSheet = false
     @State private var showTelephoneActionSheet = false
 
-    init() {
-        self.isPinCodeOn = viewModel.isPinCodeOn
-    }
-
     // MARK: - Body
 
     var body: some View {
-        Divider().padding(.top, 20)
+        Divider().padding(.top, 16)
         List {
             Text(R.string.localizable.securitySecurity())
                 .font(.bold(12))
@@ -36,8 +32,11 @@ struct SecurityNewView: View {
             Toggle(R.string.localizable.securityPinCodeTitle(), isOn: $isPinCodeOn)
                 .toggleStyle(SwitchToggleStyle(tint: .blue))
                 .listRowSeparator(.hidden)
-                .onChange(of: isPinCodeOn) { _ in
+                .onChange(of: isPinCodeOn) { item in
                     viewModel.updateIsPinCodeOn()
+                    if item {
+                        viewModel.send(.onCreatePassword)
+                    }
                 }
                         if isPinCodeOn {
                             SecurityAdvancedCellView(title: R.string.localizable.securityBiometryEnterTitle(),
@@ -110,6 +109,9 @@ struct SecurityNewView: View {
                     .listRowSeparator(.hidden)
                 }
             }
+        }
+        .onAppear {
+            viewModel.send(.onAppear)
         }
         .confirmationDialog("", isPresented: $showProfileObserveSheet, titleVisibility: .hidden) {
             ForEach([R.string.localizable.securityProfileObserveState(),

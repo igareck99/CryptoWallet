@@ -144,6 +144,7 @@ final class MainFlowCoordinator: Coordinator {
         case profile
         case security
         case blockList
+        case pinCodeCreate
     }
 }
 
@@ -172,6 +173,9 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showSecurityScene()
         case .blockList:
             showBlockListScene()
+        case .pinCodeCreate:
+            print("showPinCodeCreate")
+            showPinCodeCreate()
         }
     }
 
@@ -234,9 +238,16 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showBlockListScene() {
         let rootView = BlockedListConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showPinCodeCreate() {
+        let rootView = PinCodeCreateConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -266,6 +277,10 @@ extension MainFlowCoordinator: SecurityNewSceneDelegate {}
 // MARK: - MainFlowCoordinator (BlockedListSceneDelegate)
 
 extension MainFlowCoordinator: BlockedListSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (PinCodeCreateSceneDelegate)
+
+extension MainFlowCoordinator: PinCodeCreateSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 
