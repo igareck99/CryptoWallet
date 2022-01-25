@@ -93,7 +93,7 @@ final class APIClient: NSObject, APIClientManager {
         }
 
         if userCredentialsStorage.isUserAuthenticated {
-            httpRequest.addValue("\(userCredentialsStorage.accessToken)", forHTTPHeaderField: "X-TN")
+            httpRequest.addValue("Bearer \(userCredentialsStorage.accessToken)", forHTTPHeaderField: "Authorization")
         }
 
         return dataTaskPublisher(for: httpRequest)
@@ -113,8 +113,8 @@ final class APIClient: NSObject, APIClientManager {
                                     .map { _ in
                                         var newHttpRequest = httpRequest
                                         newHttpRequest.setValue(
-                                            "\(self.userCredentialsStorage.accessToken)",
-                                            forHTTPHeaderField: "X-TN"
+                                            "Bearer \(self.userCredentialsStorage.accessToken)",
+                                            forHTTPHeaderField: "Authorization"
                                         )
                                         return newHttpRequest
                                     }
@@ -221,6 +221,8 @@ final class APIClient: NSObject, APIClientManager {
             if let publisher = self?.refreshPublisher {
                 return publisher
             }
+
+            //userCredentialsStorage.isUserAuthenticated = false
 
             let publisher = publisher(
                 Endpoints.Session.refresh(userCredentialsStorage.refreshToken)

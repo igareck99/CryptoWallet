@@ -28,7 +28,9 @@ enum Endpoints {
         // MARK: - Static Methods
 
         static func refresh(_ token: String) -> Endpoint<AuthResponse> {
-            Endpoint<AuthResponse>(method: .post, path: "/user/refresh")
+            let endpoint = Endpoint<AuthResponse>(method: .post, path: "/user/refresh")
+            endpoint.modifyRequest { $0.jsonBody(dict: ["refresh_token": token]) }
+            return endpoint
         }
 
         static func logout() -> Endpoint<EmptyResponse> {

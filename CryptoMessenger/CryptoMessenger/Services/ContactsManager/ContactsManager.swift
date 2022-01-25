@@ -77,7 +77,7 @@ final class ContactsManager: ContactsStore {
                     lastName: info.familyName,
                     phoneNumber: info.phoneNumbers.first?.value.stringValue ?? ""
                 )
-                if info.imageDataAvailable, let imageData = info.imageData {
+                if info.imageData != nil, let imageData = info.imageData {
                     contact.imageData = imageData
                 }
                 contacts.append(contact)

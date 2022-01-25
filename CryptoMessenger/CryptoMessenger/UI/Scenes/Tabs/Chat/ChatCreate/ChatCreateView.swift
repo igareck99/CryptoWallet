@@ -51,7 +51,7 @@ struct ChatCreateView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ChatCreateViewModel
-    var onCreateGroup: VoidBlock?
+    var onCreateGroup: GenericBlock<[Contact]>?
 
     // MARK: - Private Properties
 
@@ -69,6 +69,9 @@ struct ChatCreateView: View {
                 }
                 .navigationBarHidden(true)
                 .navigationBarTitleDisplayMode(.inline)
+                .onAppear {
+                    viewModel.send(.onAppear)
+                }
 //                .toolbar {
 //                    ToolbarItem(placement: .navigationBarLeading) {
 //                        Button(action: {
@@ -131,17 +134,17 @@ struct ChatCreateView: View {
                                 .padding([.leading, .trailing], 16)
                                 .onTapGesture {
                                     vibrate()
-                                    delay(0.1) { onCreateGroup?() }
+                                    delay(0.1) { onCreateGroup?(viewModel.existingContacts) }
                                     presentationMode.wrappedValue.dismiss()
                                 }
                         }
                     }
 
-                    if !viewModel.contacts.isEmpty {
+                    if !viewModel.existingContacts.isEmpty {
                         sectionView("Контакты")
 
                         VStack(alignment: .leading, spacing: 0) {
-                            ForEach(viewModel.contacts) { contact in
+                            ForEach(viewModel.existingContacts) { contact in
                                 ContactRow(
                                     avatar: contact.avatar,
                                     name: contact.name,
@@ -155,28 +158,20 @@ struct ChatCreateView: View {
                         }
                     }
 
-                    sectionView("Пригласить в Aura")
+                    if !viewModel.waitingContacts.isEmpty {
+                        sectionView("Пригласить в Aura")
 
-                    ContactRow(
-                        avatar: nil,
-                        name: "Karen Castillo",
-                        status: "+7(925)813-31-62",
-                        showInviteButton: true
-                    ).opacity(0.6)
-
-                    ContactRow(
-                        avatar: nil,
-                        name: "Karen Castillo",
-                        status: "+7(925)813-31-62",
-                        showInviteButton: true
-                    ).opacity(0.6)
-
-                    ContactRow(
-                        avatar: nil,
-                        name: "Karen Castillo",
-                        status: "+7(925)813-31-62",
-                        showInviteButton: true
-                    ).opacity(0.6)
+                        VStack(alignment: .leading, spacing: 0) {
+                            ForEach(viewModel.waitingContacts) { contact in
+                                ContactRow(
+                                    avatar: nil,
+                                    name: contact.name,
+                                    status: contact.phone,
+                                    showInviteButton: true
+                                ).opacity(0.6)
+                            }
+                        }
+                    }
                 }
             }
         }

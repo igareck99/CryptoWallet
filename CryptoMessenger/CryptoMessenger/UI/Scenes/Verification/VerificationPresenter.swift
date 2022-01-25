@@ -76,6 +76,8 @@ final class VerificationPresenter {
             self?.view?.setResult(true)
             delay(0.2) {
                 self?.userCredentials.isUserAuthenticated = true
+                self?.userCredentials.accessToken = response.accessToken
+                self?.userCredentials.refreshToken = response.refreshToken
                 self?.delegate?.handleNextScene(.pinCode)
             }
         } failure: { [weak self] error in
