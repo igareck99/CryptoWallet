@@ -33,10 +33,10 @@ struct SecurityNewView: View {
                 .toggleStyle(SwitchToggleStyle(tint: .blue))
                 .listRowSeparator(.hidden)
                 .onChange(of: viewModel.isPinCodeOn) { item in
-                    viewModel.updateIsPinCodeOn()
                     if item {
                         viewModel.send(.onCreatePassword)
                     }
+                    viewModel.updateIsPinCodeOn()
                 }
             if viewModel.isPinCodeOn {
                 SecurityAdvancedCellView(title: R.string.localizable.securityBiometryEnterTitle(),
@@ -51,7 +51,9 @@ struct SecurityNewView: View {
                                          currentState: $activateFalsePassword)
                     .listRowSeparator(.hidden)
                     .onChange(of: activateFalsePassword) { item in
-                        print(item)
+                        if item {
+                            viewModel.send(.onFalsePassword)
+                        }
                     }
             }
             Divider()

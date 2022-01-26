@@ -91,6 +91,8 @@ final class SecurityNewViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.blockList)
                 case .onCreatePassword:
                     self?.delegate?.handleNextScene(.pinCodeCreate)
+                case .onFalsePassword:
+                    self?.delegate?.handleNextScene(.falsePinCode)
                 }
             }
             .store(in: &subscriptions)

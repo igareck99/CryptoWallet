@@ -24,5 +24,6 @@ enum SecurityNewFlow {
         case onBlockList
         case onAppear
         case onCreatePassword
+        case onFalsePassword
     }
 }

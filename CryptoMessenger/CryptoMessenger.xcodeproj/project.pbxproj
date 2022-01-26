@@ -341,6 +341,10 @@
 		8B5609BC277B35A400AF43F6 /* PersonalizationNewFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BB277B35A400AF43F6 /* PersonalizationNewFlow.swift */; };
 		8B5609BE277B38A000AF43F6 /* PersonalizationNewViewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BD277B38A000AF43F6 /* PersonalizationNewViewProtocols.swift */; };
 		8B5609C0277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BF277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift */; };
+		8B6117FC27A1E2F000DF0E0C /* FalsePinCodeConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6117FB27A1E2F000DF0E0C /* FalsePinCodeConfigurator.swift */; };
+		8B6117FE27A1E2FF00DF0E0C /* FalsePinCodeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6117FD27A1E2FF00DF0E0C /* FalsePinCodeProtocols.swift */; };
+		8B61180027A1E34400DF0E0C /* FalsePinCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6117FF27A1E34400DF0E0C /* FalsePinCodeView.swift */; };
+		8B61180227A1E55800DF0E0C /* FalsePinCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B61180127A1E55800DF0E0C /* FalsePinCodeViewModel.swift */; };
 		8B6BEE7F275665D4003A24B6 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6BEE7E275665D4003A24B6 /* ProfileView.swift */; };
 		8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */; };
 		8B6C18BE2799A5E200B85F2A /* SecurityNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BD2799A5E100B85F2A /* SecurityNewView.swift */; };
@@ -707,6 +711,10 @@
 		8B5609BB277B35A400AF43F6 /* PersonalizationNewFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNewFlow.swift; sourceTree = "<group>"; };
 		8B5609BD277B38A000AF43F6 /* PersonalizationNewViewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNewViewProtocols.swift; sourceTree = "<group>"; };
 		8B5609BF277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNewConfiguration.swift; sourceTree = "<group>"; };
+		8B6117FB27A1E2F000DF0E0C /* FalsePinCodeConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FalsePinCodeConfigurator.swift; sourceTree = "<group>"; };
+		8B6117FD27A1E2FF00DF0E0C /* FalsePinCodeProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FalsePinCodeProtocols.swift; sourceTree = "<group>"; };
+		8B6117FF27A1E34400DF0E0C /* FalsePinCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FalsePinCodeView.swift; sourceTree = "<group>"; };
+		8B61180127A1E55800DF0E0C /* FalsePinCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FalsePinCodeViewModel.swift; sourceTree = "<group>"; };
 		8B6BEE7E275665D4003A24B6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		8B6C18BD2799A5E100B85F2A /* SecurityNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityNewView.swift; sourceTree = "<group>"; };
@@ -1895,9 +1903,21 @@
 			path = Session;
 			sourceTree = "<group>";
 		};
+		8B6117FA27A1E2D600DF0E0C /* FalsePinCodeCreate */ = {
+			isa = PBXGroup;
+			children = (
+				8B6117FB27A1E2F000DF0E0C /* FalsePinCodeConfigurator.swift */,
+				8B6117FD27A1E2FF00DF0E0C /* FalsePinCodeProtocols.swift */,
+				8B6117FF27A1E34400DF0E0C /* FalsePinCodeView.swift */,
+				8B61180127A1E55800DF0E0C /* FalsePinCodeViewModel.swift */,
+			);
+			path = FalsePinCodeCreate;
+			sourceTree = "<group>";
+		};
 		8B6C18BC2799A5C500B85F2A /* SecurityNew */ = {
 			isa = PBXGroup;
 			children = (
+				8B6117FA27A1E2D600DF0E0C /* FalsePinCodeCreate */,
 				8B6E5552279F0E2E002054CF /* PinCodeCreate */,
 				8B6C18BD2799A5E100B85F2A /* SecurityNewView.swift */,
 				8B6C18BF2799A60D00B85F2A /* SecurityNewViewModel.swift */,
@@ -2217,6 +2237,7 @@
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
 				5A3C9414274AEE8400818060 /* KeyboardListenable.swift in Sources */,
+				8B6117FC27A1E2F000DF0E0C /* FalsePinCodeConfigurator.swift in Sources */,
 				8B6E5556279F0F58002054CF /* PinCodeCreateViewModel.swift in Sources */,
 				5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
@@ -2274,6 +2295,7 @@
 				5A4BE51B271DD86A00D03D09 /* Reaction.swift in Sources */,
 				8B740147275D360B0045ED32 /* ProfileSettingsMenuView.swift in Sources */,
 				5A187F262680CF49001957D3 /* APIError.swift in Sources */,
+				8B61180027A1E34400DF0E0C /* FalsePinCodeView.swift in Sources */,
 				5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
 				5A44FEF127693F6F006F9D92 /* ChatCreateViewModel.swift in Sources */,
@@ -2287,6 +2309,7 @@
 				5A9B472126EA81F5001CC627 /* QuickMenuView.swift in Sources */,
 				5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */,
 				5A7EDE75275402F00049DC4A /* BlockedUserItem.swift in Sources */,
+				8B6117FE27A1E2FF00DF0E0C /* FalsePinCodeProtocols.swift in Sources */,
 				8B6E5558279FF922002054CF /* PinCodeCreateConfigurator.swift in Sources */,
 				5A1D265C275973940085324F /* CornerRadiusStyle.swift in Sources */,
 				5A7EDE74275402ED0049DC4A /* BlockListViewModel.swift in Sources */,
@@ -2451,6 +2474,7 @@
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
 				5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */,
 				8B37BF79275799B300602BE0 /* BuyView.swift in Sources */,
+				8B61180227A1E55800DF0E0C /* FalsePinCodeViewModel.swift in Sources */,
 				5A187F332680CF49001957D3 /* MultipartFileData.swift in Sources */,
 				8B5609B427792B0000AF43F6 /* TypographyNewItem.swift in Sources */,
 				8B6BEE7F275665D4003A24B6 /* ProfileView.swift in Sources */,
