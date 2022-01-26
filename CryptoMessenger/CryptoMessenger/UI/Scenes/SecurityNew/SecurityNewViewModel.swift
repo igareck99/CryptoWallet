@@ -13,7 +13,7 @@ final class SecurityNewViewModel: ObservableObject {
     @Published var callsState = ""
     @Published var geopositionState = ""
     @Published var telephoneSeeState = ""
-    @State var isPinCodeOn = false
+    @Published var isPinCodeOn = false
 
     // MARK: - Private Properties
 
@@ -69,8 +69,13 @@ final class SecurityNewViewModel: ObservableObject {
     }
 
     func updateIsPinCodeOn() {
-        userFlows.isPinCodeOn.toggle()
-        print(userFlows.isPinCodeOn)
+        if isPinCodeOn {
+            userFlows.isPinCodeOn = false
+            isPinCodeOn = false
+        } else {
+            userFlows.isPinCodeOn = true
+            isPinCodeOn = true
+        }
     }
 
     // MARK: - Private Methods
@@ -85,7 +90,6 @@ final class SecurityNewViewModel: ObservableObject {
                 case .onBlockList:
                     self?.delegate?.handleNextScene(.blockList)
                 case .onCreatePassword:
-                    print("onCreatePassword")
                     self?.delegate?.handleNextScene(.pinCodeCreate)
                 }
             }

@@ -8,7 +8,7 @@ struct PinCodeCreateView: View {
 
     @ObservedObject var viewModel: PinCodeCreateViewModel
     var dotesValues = [0, 0, 0, 0, 0]
-    var enteredPassword = [0]
+    var enteredPassword: [Int] = []
     var firstStack = [KeyboardButtonType.number(1),
                                   KeyboardButtonType.number(2),
                                   KeyboardButtonType.number(3)]
@@ -51,21 +51,33 @@ struct PinCodeCreateView: View {
             HStack(spacing: 33) {
                 ForEach(firstStack, id: \.self) { item in
                     KeyboardButtonView(button: item)
+                        .onTapGesture {
+                            print(item)
+                        }
                 }
                 }
             HStack(spacing: 33) {
                 ForEach(secondStack, id: \.self) { item in
                     KeyboardButtonView(button: item)
+                        .onTapGesture {
+                            print(item)
+                        }
                 }
             }
                 HStack(spacing: 33) {
                     ForEach(thirdStack, id: \.self) { item in
                         KeyboardButtonView(button: item)
+                            .onTapGesture {
+                                print(item)
+                            }
                     }
                 }
                 HStack(spacing: 33) {
                     ForEach(fourthStack, id: \.self) { item in
                         KeyboardButtonView(button: item)
+                            .onTapGesture {
+                                print(item)
+                            }
                     }
                     }
             }
@@ -88,6 +100,25 @@ struct PinCodeCreateView: View {
                     .fill(item == 0 ? Color(.blue(0.1)): Color(.blue()))
                     .frame(width: 14, height: 14)
             }
+        }
+    }
+
+    // MARK: - Private Properties
+
+    mutating func keyboardAction(item: KeyboardButtonType) {
+        switch item {
+        case let .number(value):
+            if enteredPassword.count < 5 {
+                enteredPassword.append(value)
+            }
+            for item in 0...enteredPassword.count {
+                dotesValues[item] = 1
+            }
+        case .delete:
+            guard let index = enteredPassword.lastIndex(of: 1) else { return }
+            enteredPassword.remove(at: index)
+        default:
+            break
         }
     }
 }

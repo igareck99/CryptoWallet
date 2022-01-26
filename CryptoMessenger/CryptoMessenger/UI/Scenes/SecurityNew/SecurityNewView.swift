@@ -29,25 +29,31 @@ struct SecurityNewView: View {
                 .font(.bold(12))
                 .foreground(.darkGray())
                 .listRowSeparator(.hidden)
-            Toggle(R.string.localizable.securityPinCodeTitle(), isOn: $isPinCodeOn)
+            Toggle(R.string.localizable.securityPinCodeTitle(), isOn: $viewModel.isPinCodeOn)
                 .toggleStyle(SwitchToggleStyle(tint: .blue))
                 .listRowSeparator(.hidden)
-                .onChange(of: isPinCodeOn) { item in
+                .onChange(of: viewModel.isPinCodeOn) { item in
                     viewModel.updateIsPinCodeOn()
                     if item {
                         viewModel.send(.onCreatePassword)
                     }
                 }
-                        if isPinCodeOn {
-                            SecurityAdvancedCellView(title: R.string.localizable.securityBiometryEnterTitle(),
-                                                     description: R.string.localizable.securityBiometryEnterState(),
-                                                     currentState: $activateBiometry)
-                                .listRowSeparator(.hidden)
-                            SecurityAdvancedCellView(title: R.string.localizable.securityFalsePasswordTitle(),
-                                                     description: R.string.localizable.securityFalsePasswordState(),
-                                                     currentState: $activateFalsePassword)
-                                .listRowSeparator(.hidden)
-                        }
+            if viewModel.isPinCodeOn {
+                SecurityAdvancedCellView(title: R.string.localizable.securityBiometryEnterTitle(),
+                                         description: R.string.localizable.securityBiometryEnterState(),
+                                         currentState: $activateBiometry)
+                    .listRowSeparator(.hidden)
+                    .onChange(of: activateFalsePassword) { item in
+                        print(item)
+                    }
+                SecurityAdvancedCellView(title: R.string.localizable.securityFalsePasswordTitle(),
+                                         description: R.string.localizable.securityFalsePasswordState(),
+                                         currentState: $activateFalsePassword)
+                    .listRowSeparator(.hidden)
+                    .onChange(of: activateFalsePassword) { item in
+                        print(item)
+                    }
+            }
             Divider()
             Text(R.string.localizable.securityPrivacy())
                 .font(.bold(12))

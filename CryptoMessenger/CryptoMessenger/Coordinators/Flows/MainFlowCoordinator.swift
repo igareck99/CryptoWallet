@@ -174,7 +174,6 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         case .blockList:
             showBlockListScene()
         case .pinCodeCreate:
-            print("showPinCodeCreate")
             showPinCodeCreate()
         }
     }
