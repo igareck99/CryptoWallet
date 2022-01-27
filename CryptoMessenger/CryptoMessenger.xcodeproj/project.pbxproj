@@ -362,6 +362,7 @@
 		8B740147275D360B0045ED32 /* ProfileSettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */; };
 		8B74014B275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */; };
 		8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */; };
+		8B9173B227A342EC0094F625 /* PinCodeCreateFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9173B127A342EB0094F625 /* PinCodeCreateFlow.swift */; };
 		8B9B0CCB2775395400654C24 /* PersonalizationNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCA2775395400654C24 /* PersonalizationNewView.swift */; };
 		8B9B0CCD2775442E00654C24 /* PersonalizationNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCC2775442E00654C24 /* PersonalizationNewViewModel.swift */; };
 		8B9B0CCF277556BD00654C24 /* LanguageNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCE277556BD00654C24 /* LanguageNewView.swift */; };
@@ -732,6 +733,7 @@
 		8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuView.swift; sourceTree = "<group>"; };
 		8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneNumberKit+SwiftUI.swift"; sourceTree = "<group>"; };
 		8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
+		8B9173B127A342EB0094F625 /* PinCodeCreateFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateFlow.swift; sourceTree = "<group>"; };
 		8B9B0CCA2775395400654C24 /* PersonalizationNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNewView.swift; sourceTree = "<group>"; };
 		8B9B0CCC2775442E00654C24 /* PersonalizationNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNewViewModel.swift; sourceTree = "<group>"; };
 		8B9B0CCE277556BD00654C24 /* LanguageNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageNewView.swift; sourceTree = "<group>"; };
@@ -1935,6 +1937,7 @@
 				8B6E5555279F0F58002054CF /* PinCodeCreateViewModel.swift */,
 				8B6E5557279FF922002054CF /* PinCodeCreateConfigurator.swift */,
 				8B6E5559279FF967002054CF /* PinCodeCreateProtocols.swift */,
+				8B9173B127A342EB0094F625 /* PinCodeCreateFlow.swift */,
 			);
 			path = PinCodeCreate;
 			sourceTree = "<group>";
@@ -2288,6 +2291,7 @@
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
+				8B9173B227A342EC0094F625 /* PinCodeCreateFlow.swift in Sources */,
 				7889064127064F8D0093459C /* ProfileNetworkDetailViewController.swift in Sources */,
 				5A9318B726BD210400645365 /* PinCodeViewController.swift in Sources */,
 				5A187EA42680708D001957D3 /* CollectionViewProviderType.swift in Sources */,

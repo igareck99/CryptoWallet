@@ -111,7 +111,7 @@ final class SecurityNewViewModel: ObservableObject {
     }
 
     private func updateData() {
-        isPinCodeOn = userFlows.isPinCodeOn
+        //isPinCodeOn = userFlows.isPinCodeOn
         profileObserveState = userCredentialsStorageService.profileObserveState
         lastSeenState = userCredentialsStorageService.lastSeenState
         callsState = userCredentialsStorageService.callsState
