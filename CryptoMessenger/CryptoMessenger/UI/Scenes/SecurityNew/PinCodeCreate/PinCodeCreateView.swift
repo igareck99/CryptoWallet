@@ -39,6 +39,7 @@ struct PinCodeCreateView: View {
             Text(R.string.localizable.pinCodeEnterPassword())
                 .font(.bold(21))
             Text(descriptionState)
+                .frame(height: 42)
                 .font(.regular(15))
                 .multilineTextAlignment(.center)
         }
@@ -109,6 +110,13 @@ struct PinCodeCreateView: View {
 
     // MARK: - Private Properties
 
+    private func clearPassword() {
+        repeatPassword = []
+        enteredPassword = []
+        dotesValues = Array(repeating: 0, count: 5)
+        repeatState = false
+    }
+
     private func keyboardAction(item: KeyboardButtonType) {
         switch item {
         case let .number(value):
@@ -131,17 +139,18 @@ struct PinCodeCreateView: View {
                     dotesValues[index] = 1
                 }
                 if repeatPassword.count == 5 {
-                    print(repeatPassword)
-                    print(enteredPassword)
                     if repeatPassword == enteredPassword {
                         descriptionState = R.string.localizable.pinCodeSuccessPassword()
+                        let newPassword = enteredPassword
+                            .compactMap { $0.description }
+                            .joined(separator: "")
+                        clearPassword()
+                        viewModel.createPassword(item: newPassword)
                     } else {
                         descriptionState = R.string.localizable.pinCodeNotMatchPassword()
+                        clearPassword()
+                        descriptionState = R.string.localizable.pinCodeCreateText()
                     }
-                    repeatPassword = []
-                    enteredPassword = []
-                    dotesValues = Array(repeating: 0, count: 5)
-                    repeatState = false
                 }
             }
         case .delete:
@@ -151,8 +160,13 @@ struct PinCodeCreateView: View {
                     enteredPassword.removeLast()
                     dotesValues[index] = 0
                 }
+            } else {
+                let index = repeatPassword.count - 1
+                if repeatPassword.count >= 1 {
+                    repeatPassword.removeLast()
+                    dotesValues[index] = 0
+                }
             }
-            print("After dELETE \(enteredPassword)")
         default:
             break
         }

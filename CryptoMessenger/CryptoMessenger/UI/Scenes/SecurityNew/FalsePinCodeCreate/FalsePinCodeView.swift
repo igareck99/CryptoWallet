@@ -7,8 +7,6 @@ struct FalsePinCodeView: View {
     // MARK: - Internal Properties
 
     @ObservedObject var viewModel: FalsePinCodeViewModel
-    var dotesValues = [0, 0, 0, 0, 0]
-    var enteredPassword: [Int] = []
     var firstStack = [KeyboardButtonType.number(1),
                                   KeyboardButtonType.number(2),
                                   KeyboardButtonType.number(3)]
@@ -23,6 +21,11 @@ struct FalsePinCodeView: View {
         KeyboardButtonType.number(0),
         KeyboardButtonType.delete
     ]
+    @State private var descriptionState = R.string.localizable.pinCodeFalseText()
+    @State private var repeatState = false
+    @State private var enteredPassword: [Int] = []
+    @State private var repeatPassword: [Int] = []
+    @State private var dotesValues = Array(repeating: 0, count: 5)
 
     // MARK: - Body
 
@@ -35,11 +38,12 @@ struct FalsePinCodeView: View {
         VStack(alignment: .center, spacing: 16) {
             Text(R.string.localizable.pinCodeFalseTitle())
                 .font(.bold(21))
-            Text(R.string.localizable.pinCodeFalseText())
+            Text(descriptionState)
                 .font(.regular(15))
                 .multilineTextAlignment(.center)
                 .padding(.leading, 24)
                 .padding(.trailing, 6)
+                .frame(height: 64)
         }
             dotes
             .frame(minWidth: 134,
@@ -52,7 +56,7 @@ struct FalsePinCodeView: View {
                 ForEach(firstStack, id: \.self) { item in
                     KeyboardButtonView(button: item)
                         .onTapGesture {
-                            print(item)
+                            keyboardAction(item: item)
                         }
                 }
                 }
@@ -60,7 +64,7 @@ struct FalsePinCodeView: View {
                 ForEach(secondStack, id: \.self) { item in
                     KeyboardButtonView(button: item)
                         .onTapGesture {
-                            print(item)
+                            keyboardAction(item: item)
                         }
                 }
             }
@@ -68,7 +72,7 @@ struct FalsePinCodeView: View {
                     ForEach(thirdStack, id: \.self) { item in
                         KeyboardButtonView(button: item)
                             .onTapGesture {
-                                print(item)
+                                keyboardAction(item: item)
                             }
                     }
                 }
@@ -76,7 +80,7 @@ struct FalsePinCodeView: View {
                     ForEach(fourthStack, id: \.self) { item in
                         KeyboardButtonView(button: item)
                             .onTapGesture {
-                                print(item)
+                                keyboardAction(item: item)
                             }
                     }
                     }
@@ -84,6 +88,9 @@ struct FalsePinCodeView: View {
         }
         }
             Spacer()
+        }
+        .onAppear {
+            viewModel.send(.onAppear)
         }
         .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -105,18 +112,64 @@ struct FalsePinCodeView: View {
 
     // MARK: - Private Properties
 
-    mutating func keyboardAction(item: KeyboardButtonType) {
+    private func clearPassword() {
+        repeatPassword = []
+        enteredPassword = []
+        dotesValues = Array(repeating: 0, count: 5)
+        repeatState = false
+    }
+
+    private func keyboardAction(item: KeyboardButtonType) {
         switch item {
         case let .number(value):
-            if enteredPassword.count < 5 {
-                enteredPassword.append(value)
-            }
-            for item in 0...enteredPassword.count {
-                dotesValues[item] = 1
+            if repeatState == false {
+                if enteredPassword.count < 5 {
+                    enteredPassword.append(value)
+                    guard let index = enteredPassword.lastIndex(of: value) else { return }
+                    dotesValues[index] = 1
+                }
+                if enteredPassword.count == 5 {
+                    descriptionState = R.string.localizable.pinCodeRepeatPassword()
+                    vibrate()
+                    dotesValues = Array(repeating: 0, count: 5)
+                    repeatState = true
+                }
+            } else {
+                if repeatPassword.count < 5 {
+                    repeatPassword.append(value)
+                    guard let index = repeatPassword.lastIndex(of: value) else { return }
+                    dotesValues[index] = 1
+                }
+                if repeatPassword.count == 5 {
+                    if repeatPassword == enteredPassword {
+                        descriptionState = R.string.localizable.pinCodeSuccessPassword()
+                        clearPassword()
+                        let newPassword = enteredPassword
+                            .compactMap { $0.description }
+                            .joined(separator: "")
+                        clearPassword()
+                        viewModel.createPassword(item: newPassword)
+                    } else {
+                        descriptionState = R.string.localizable.pinCodeNotMatchPassword()
+                        clearPassword()
+                        descriptionState = R.string.localizable.pinCodeFalseText()
+                    }
+                }
             }
         case .delete:
-            guard let index = enteredPassword.lastIndex(of: 1) else { return }
-            enteredPassword.remove(at: index)
+            if repeatState == false {
+                let index = enteredPassword.count - 1
+                if enteredPassword.count >= 1 {
+                    enteredPassword.removeLast()
+                    dotesValues[index] = 0
+                }
+            } else {
+                let index = repeatPassword.count - 1
+                if repeatPassword.count >= 1 {
+                    repeatPassword.removeLast()
+                    dotesValues[index] = 0
+                }
+            }
         default:
             break
         }

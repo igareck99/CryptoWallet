@@ -146,6 +146,7 @@ final class MainFlowCoordinator: Coordinator {
         case blockList
         case pinCodeCreate
         case falsePinCode
+        case aboutApp
     }
 }
 
@@ -178,6 +179,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showPinCodeCreate()
         case .falsePinCode:
             showFalsePinCode()
+        case .aboutApp:
+            showAboutAppScene()
         }
     }
 
@@ -254,11 +257,16 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showFalsePinCode() {
         let rootView = FalsePinCodeConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showAboutAppScene() {
+        let viewController = AboutAppConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
     }
 }
@@ -294,6 +302,10 @@ extension MainFlowCoordinator: PinCodeCreateSceneDelegate {}
 // MARK: - MainFlowCoordinator (FalsePinCodeSceneDelegate)
 
 extension MainFlowCoordinator: FalsePinCodeSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (AboutAppSceneDelegate)
+
+extension MainFlowCoordinator: AboutAppSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

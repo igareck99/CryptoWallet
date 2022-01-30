@@ -6,8 +6,6 @@ final class PinCodeCreateViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: PinCodeCreateSceneDelegate?
-    @Published var dotesValues = [0, 0, 0, 0, 0]
-    @Published var enteredPassword: [Int] = []
 
     // MARK: - Private Properties
 
@@ -36,6 +34,11 @@ final class PinCodeCreateViewModel: ObservableObject {
 
     func send(_ event: PinCodeCreateFlow.Event) {
         eventSubject.send(event)
+    }
+
+    func createPassword(item: String) {
+        userCredentialsStorageService.userPinCode = item
+        userFlows.isPinCodeOn = true
     }
 
     // MARK: - Private Methods

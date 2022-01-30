@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - ProfileFlow
+// MARK: - FalsePinCodeCreateFlow
 
-enum ProfileFlow {
+enum FalsePinCodeCreateFlow {
 
     // MARK: - ViewState
 
@@ -22,9 +22,5 @@ enum ProfileFlow {
         // MARK: - Types
 
         case onAppear
-        case onProfileScene
-        case onPersonalization
-        case onSecurity
-        case aboutApp
     }
 }

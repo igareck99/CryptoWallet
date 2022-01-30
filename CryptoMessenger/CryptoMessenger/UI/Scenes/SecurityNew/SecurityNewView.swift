@@ -11,7 +11,6 @@ struct SecurityNewView: View {
 
     // MARK: - Private Properties
 
-    @State private var isPinCodeOn = false
     @State private var activateBiometry = false
     @State private var activateFalsePassword = false
     @State private var showProfileObserveSheet = false
@@ -35,24 +34,27 @@ struct SecurityNewView: View {
                 .onChange(of: viewModel.isPinCodeOn) { item in
                     if item {
                         viewModel.send(.onCreatePassword)
+                    } else {
+                        viewModel.updateIsPinCodeOn(item: false)
                     }
-                    viewModel.updateIsPinCodeOn()
                 }
             if viewModel.isPinCodeOn {
                 SecurityAdvancedCellView(title: R.string.localizable.securityBiometryEnterTitle(),
                                          description: R.string.localizable.securityBiometryEnterState(),
                                          currentState: $activateBiometry)
                     .listRowSeparator(.hidden)
-                    .onChange(of: activateFalsePassword) { item in
+                    .onChange(of: activateBiometry) { item in
                         print(item)
                     }
                 SecurityAdvancedCellView(title: R.string.localizable.securityFalsePasswordTitle(),
                                          description: R.string.localizable.securityFalsePasswordState(),
-                                         currentState: $activateFalsePassword)
+                                         currentState: $viewModel.isFalsePinCodeOn)
                     .listRowSeparator(.hidden)
-                    .onChange(of: activateFalsePassword) { item in
+                    .onChange(of: viewModel.isFalsePinCodeOn) { item in
                         if item {
                             viewModel.send(.onFalsePassword)
+                        } else {
+                            viewModel.updateIsFalsePinCode(item: false)
                         }
                     }
             }

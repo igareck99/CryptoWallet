@@ -13,7 +13,8 @@ final class SecurityNewViewModel: ObservableObject {
     @Published var callsState = ""
     @Published var geopositionState = ""
     @Published var telephoneSeeState = ""
-    @Published var isPinCodeOn = false
+    @Published var isPinCodeOn = true
+    @Published var isFalsePinCodeOn = true
 
     // MARK: - Private Properties
 
@@ -68,14 +69,12 @@ final class SecurityNewViewModel: ObservableObject {
         userCredentialsStorageService.telephoneSeeState = item
     }
 
-    func updateIsPinCodeOn() {
-        if isPinCodeOn {
-            userFlows.isPinCodeOn = false
-            isPinCodeOn = false
-        } else {
-            userFlows.isPinCodeOn = true
-            isPinCodeOn = true
-        }
+    func updateIsPinCodeOn(item: Bool) {
+        userFlows.isPinCodeOn = item
+    }
+
+    func updateIsFalsePinCode(item: Bool) {
+        userFlows.isFalsePinCodeOn = item
     }
 
     // MARK: - Private Methods
@@ -111,7 +110,8 @@ final class SecurityNewViewModel: ObservableObject {
     }
 
     private func updateData() {
-        //isPinCodeOn = userFlows.isPinCodeOn
+        isPinCodeOn = userFlows.isPinCodeOn
+        isFalsePinCodeOn = userFlows.isFalsePinCodeOn
         profileObserveState = userCredentialsStorageService.profileObserveState
         lastSeenState = userCredentialsStorageService.lastSeenState
         callsState = userCredentialsStorageService.callsState
