@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - SecurityNewFlow
+// MARK: - SessionFlow
 
-enum SecurityNewFlow {
+enum SessionFlow {
 
     // MARK: - ViewState
 
@@ -21,10 +21,6 @@ enum SecurityNewFlow {
 
         // MARK: - Types
 
-        case onBlockList
         case onAppear
-        case onCreatePassword
-        case onFalsePassword
-        case onSession
     }
 }

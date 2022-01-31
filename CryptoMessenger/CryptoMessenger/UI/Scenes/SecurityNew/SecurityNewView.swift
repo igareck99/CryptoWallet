@@ -112,11 +112,14 @@ struct SecurityNewView: View {
                     .onTapGesture {
                         showTelephoneActionSheet = true
                     }
-                default:
+                case .session:
                     SecurityCellView(title: type.result.title,
                                      currentState: type.result.state)
                         .background(.white())
                     .listRowSeparator(.hidden)
+                    .onTapGesture {
+                        viewModel.send(.onSession)
+                    }
                 }
             }
         }

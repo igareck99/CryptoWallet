@@ -26,6 +26,7 @@ struct PinCodeCreateView: View {
     @State private var enteredPassword: [Int] = []
     @State private var repeatPassword: [Int] = []
     @State private var dotesValues = Array(repeating: 0, count: 5)
+    @State private var errorPassword = false
 
     // MARK: - Body
 
@@ -100,10 +101,19 @@ struct PinCodeCreateView: View {
 
     private var dotes: some View {
         HStack(spacing: 16) {
-            ForEach(dotesValues, id: \.self) { item in
-                Circle()
-                    .fill(item == 0 ? Color(.blue(0.1)): Color(.blue()))
-                    .frame(width: 14, height: 14)
+            switch errorPassword {
+            case false:
+                ForEach(dotesValues, id: \.self) { item in
+                    Circle()
+                        .fill(item == 0 ? Color(.blue(0.1)): Color(.blue()))
+                        .frame(width: 14, height: 14)
+                }
+            case true:
+                ForEach(dotesValues, id: \.self) { _ in
+                    Circle()
+                        .fill(Color(.red()))
+                        .frame(width: 14, height: 14)
+                }
             }
         }
     }
@@ -128,7 +138,7 @@ struct PinCodeCreateView: View {
                 }
                 if enteredPassword.count == 5 {
                     descriptionState = R.string.localizable.pinCodeRepeatPassword()
-                    vibrate()
+                    vibrate(.heavy)
                     dotesValues = Array(repeating: 0, count: 5)
                     repeatState = true
                 }
@@ -147,9 +157,13 @@ struct PinCodeCreateView: View {
                         clearPassword()
                         viewModel.createPassword(item: newPassword)
                     } else {
+                        errorPassword = true
                         descriptionState = R.string.localizable.pinCodeNotMatchPassword()
-                        clearPassword()
-                        descriptionState = R.string.localizable.pinCodeCreateText()
+                        delay(1) {
+                            errorPassword = false
+                            clearPassword()
+                            descriptionState = R.string.localizable.pinCodeCreateText()
+                        }
                     }
                 }
             }

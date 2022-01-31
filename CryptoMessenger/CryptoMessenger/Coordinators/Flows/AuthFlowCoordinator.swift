@@ -92,11 +92,6 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
-    private func showSession() {
-        let viewController = BaseHostingController(rootView: SessionListView())
-        setViewWith(viewController)
-    }
-
     private func showSecurityScene() {
         let viewController = SecurityConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
@@ -125,7 +120,6 @@ public final class AuthFlowCoordinator: Coordinator {
         case pinCode
         case photoEditor
         case profileNetwork
-        case userSession
         case security
     }
 }
@@ -157,8 +151,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showPhotoEditorScene(images: [])
         case .profileNetwork:
             showProfileNetworkDetailScene()
-        case .userSession:
-            showSession()
         case .security:
             showSecurityScene()
         }

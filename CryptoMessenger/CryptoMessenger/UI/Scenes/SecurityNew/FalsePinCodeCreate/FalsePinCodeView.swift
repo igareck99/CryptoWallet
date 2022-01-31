@@ -26,6 +26,7 @@ struct FalsePinCodeView: View {
     @State private var enteredPassword: [Int] = []
     @State private var repeatPassword: [Int] = []
     @State private var dotesValues = Array(repeating: 0, count: 5)
+    @State private var errorPassword = false
 
     // MARK: - Body
 
@@ -102,13 +103,23 @@ struct FalsePinCodeView: View {
 
     private var dotes: some View {
         HStack(spacing: 16) {
-            ForEach(dotesValues, id: \.self) { item in
-                Circle()
-                    .fill(item == 0 ? Color(.blue(0.1)): Color(.blue()))
-                    .frame(width: 14, height: 14)
+            switch errorPassword {
+            case false:
+                ForEach(dotesValues, id: \.self) { item in
+                    Circle()
+                        .fill(item == 0 ? Color(.blue(0.1)): Color(.blue()))
+                        .frame(width: 14, height: 14)
+                }
+            case true:
+                ForEach(dotesValues, id: \.self) { _ in
+                    Circle()
+                        .fill(Color(.red()))
+                        .frame(width: 14, height: 14)
+                }
             }
         }
     }
+
 
     // MARK: - Private Properties
 
@@ -150,9 +161,13 @@ struct FalsePinCodeView: View {
                         clearPassword()
                         viewModel.createPassword(item: newPassword)
                     } else {
+                        errorPassword = true
                         descriptionState = R.string.localizable.pinCodeNotMatchPassword()
-                        clearPassword()
-                        descriptionState = R.string.localizable.pinCodeFalseText()
+                        delay(1) {
+                            errorPassword = false
+                            clearPassword()
+                            descriptionState = R.string.localizable.pinCodeFalseText()
+                        }
                     }
                 }
             }
