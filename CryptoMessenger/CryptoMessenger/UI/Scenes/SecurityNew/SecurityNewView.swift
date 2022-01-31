@@ -46,7 +46,7 @@ struct SecurityNewView: View {
                     .listRowSeparator(.hidden)
                     .onChange(of: viewModel.isBiometryOn) { item in
                         if item {
-                            showBiometryErrorAlert = true
+                            authenticate()
                         } else {
                             viewModel.updateIsBiometryOn(item: false)
                         }
@@ -132,9 +132,9 @@ struct SecurityNewView: View {
             viewModel.send(.onAppear)
         }
         .alert(isPresented: $showBiometryErrorAlert, content: {
-                    Alert(title: Text("Ошибка"), message: nil,
-                          dismissButton: .default(Text("OK")))
-                })
+            Alert(title: Text("Биометрия недоступна"), message: nil,
+                  dismissButton: .default(Text("OK")))
+        })
         .confirmationDialog("", isPresented: $showProfileObserveSheet, titleVisibility: .hidden) {
             ForEach([R.string.localizable.securityProfileObserveState(),
                      R.string.localizable.securityContactsAll(),
@@ -195,14 +195,15 @@ struct SecurityNewView: View {
         let context = LAContext()
         var error: NSError?
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-                let reason = ""
-                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
+                let reason = "Something"
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
                    DispatchQueue.main.async {
                         if success {
                             viewModel.isBiometryOn = true
                             viewModel.updateIsBiometryOn(item: true)
                         } else {
-                            print(error)
+                            viewModel.isBiometryOn = false
+                            viewModel.updateIsBiometryOn(item: false)
                         }
                     }
                 }

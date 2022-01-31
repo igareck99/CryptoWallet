@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import LocalAuthentication
 
 final class SecurityNewViewModel: ObservableObject {
 
@@ -19,6 +20,7 @@ final class SecurityNewViewModel: ObservableObject {
 
     // MARK: - Private Properties
 
+    private(set) var localAuth = LocalAuthentication()
     private let eventSubject = PassthroughSubject<SecurityNewFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<SecurityNewFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
