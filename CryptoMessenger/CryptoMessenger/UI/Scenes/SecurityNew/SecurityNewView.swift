@@ -1,4 +1,5 @@
 import SwiftUI
+import LocalAuthentication
 
 // MARK: - SecurityNewView
 
@@ -12,12 +13,12 @@ struct SecurityNewView: View {
     // MARK: - Private Properties
 
     @State private var activateBiometry = false
-    @State private var activateFalsePassword = false
     @State private var showProfileObserveSheet = false
     @State private var showLastSeenSheet = false
     @State private var showCallsSheet = false
     @State private var showGeopositionSheet = false
     @State private var showTelephoneActionSheet = false
+    @State private var showBiometryErrorAlert = false
 
     // MARK: - Body
 
@@ -41,10 +42,14 @@ struct SecurityNewView: View {
             if viewModel.isPinCodeOn {
                 SecurityAdvancedCellView(title: R.string.localizable.securityBiometryEnterTitle(),
                                          description: R.string.localizable.securityBiometryEnterState(),
-                                         currentState: $activateBiometry)
+                                         currentState: $viewModel.isBiometryOn)
                     .listRowSeparator(.hidden)
-                    .onChange(of: activateBiometry) { item in
-                        print(item)
+                    .onChange(of: viewModel.isBiometryOn) { item in
+                        if item {
+                            showBiometryErrorAlert = true
+                        } else {
+                            viewModel.updateIsBiometryOn(item: false)
+                        }
                     }
                 SecurityAdvancedCellView(title: R.string.localizable.securityFalsePasswordTitle(),
                                          description: R.string.localizable.securityFalsePasswordState(),
@@ -126,6 +131,10 @@ struct SecurityNewView: View {
         .onAppear {
             viewModel.send(.onAppear)
         }
+        .alert(isPresented: $showBiometryErrorAlert, content: {
+                    Alert(title: Text("Ошибка"), message: nil,
+                          dismissButton: .default(Text("OK")))
+                })
         .confirmationDialog("", isPresented: $showProfileObserveSheet, titleVisibility: .hidden) {
             ForEach([R.string.localizable.securityProfileObserveState(),
                      R.string.localizable.securityContactsAll(),
@@ -178,6 +187,28 @@ struct SecurityNewView: View {
                     .font(.bold(15))
             }
         }
+    }
+
+    // MARK: - Private Properties
+
+    private func authenticate() {
+        let context = LAContext()
+        var error: NSError?
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                let reason = ""
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
+                   DispatchQueue.main.async {
+                        if success {
+                            viewModel.isBiometryOn = true
+                            viewModel.updateIsBiometryOn(item: true)
+                        } else {
+                            print(error)
+                        }
+                    }
+                }
+            } else {
+                showBiometryErrorAlert = true
+            }
     }
 }
 

@@ -58,6 +58,7 @@ struct UserDefaultsLayer {
     private static let lastSeenState = "lastSeenState"
     private static let callsState = "callsState"
     private static let geopositionState = "geopositionState"
+    private static let isBiometryOn = "isBiometryOn"
 
     // MARK: - Internal Properties
 
@@ -129,6 +130,9 @@ struct UserDefaultsLayer {
     
     @UserDefaultSettings(geopositionState, value: R.string.localizable.securityContactsAll())
     var geopositionState: String
+    
+    @UserDefaultSettings(isBiometryOn, value: true)
+    var isBiometryOn: Bool
 
     var userMatrixId: String {
         MXCredentials.from(Keychain(service: "chat.aura.credentials"))?.userId ?? ""

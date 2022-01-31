@@ -342,9 +342,9 @@
 		8B5609B62779C5CA00AF43F6 /* ThemeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B52779C5CA00AF43F6 /* ThemeItem.swift */; };
 		8B5609B82779D2D800AF43F6 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B72779D2D800AF43F6 /* BackgroundView.swift */; };
 		8B5609BA277B14AE00AF43F6 /* ProfileBackgroundViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B9277B14AE00AF43F6 /* ProfileBackgroundViewPreview.swift */; };
-		8B5609BC277B35A400AF43F6 /* PersonalizationNewFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BB277B35A400AF43F6 /* PersonalizationNewFlow.swift */; };
+		8B5609BC277B35A400AF43F6 /* PersonalizationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BB277B35A400AF43F6 /* PersonalizationFlow.swift */; };
 		8B5609BE277B38A000AF43F6 /* PersonalizationProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BD277B38A000AF43F6 /* PersonalizationProtocols.swift */; };
-		8B5609C0277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BF277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift */; };
+		8B5609C0277C6A4000AF43F6 /* PersonalizationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BF277C6A4000AF43F6 /* PersonalizationConfiguration.swift */; };
 		8B6117FC27A1E2F000DF0E0C /* FalsePinCodeConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6117FB27A1E2F000DF0E0C /* FalsePinCodeConfigurator.swift */; };
 		8B6117FE27A1E2FF00DF0E0C /* FalsePinCodeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6117FD27A1E2FF00DF0E0C /* FalsePinCodeProtocols.swift */; };
 		8B61180027A1E34400DF0E0C /* FalsePinCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6117FF27A1E34400DF0E0C /* FalsePinCodeView.swift */; };
@@ -368,7 +368,7 @@
 		8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */; };
 		8B9173B227A342EC0094F625 /* PinCodeCreateFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9173B127A342EB0094F625 /* PinCodeCreateFlow.swift */; };
 		8B9B0CCB2775395400654C24 /* PersonalizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCA2775395400654C24 /* PersonalizationView.swift */; };
-		8B9B0CCD2775442E00654C24 /* PersonalizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCC2775442E00654C24 /* PersonalizationViewModel.swift */; };
+		8B9B0CCD2775442E00654C24 /* PersonalizationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCC2775442E00654C24 /* PersonalizationModel.swift */; };
 		8B9B0CCF277556BD00654C24 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCE277556BD00654C24 /* LanguageView.swift */; };
 		8BCA91022750FCC200E8E269 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA91012750FCC200E8E269 /* Popup.swift */; };
 		8BD6292D276AAC06000A976A /* SocialListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292C276AAC06000A976A /* SocialListView.swift */; };
@@ -717,9 +717,9 @@
 		8B5609B52779C5CA00AF43F6 /* ThemeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeItem.swift; sourceTree = "<group>"; };
 		8B5609B72779D2D800AF43F6 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		8B5609B9277B14AE00AF43F6 /* ProfileBackgroundViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundViewPreview.swift; sourceTree = "<group>"; };
-		8B5609BB277B35A400AF43F6 /* PersonalizationNewFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNewFlow.swift; sourceTree = "<group>"; };
+		8B5609BB277B35A400AF43F6 /* PersonalizationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationFlow.swift; sourceTree = "<group>"; };
 		8B5609BD277B38A000AF43F6 /* PersonalizationProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationProtocols.swift; sourceTree = "<group>"; };
-		8B5609BF277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNewConfiguration.swift; sourceTree = "<group>"; };
+		8B5609BF277C6A4000AF43F6 /* PersonalizationConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationConfiguration.swift; sourceTree = "<group>"; };
 		8B6117FB27A1E2F000DF0E0C /* FalsePinCodeConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FalsePinCodeConfigurator.swift; sourceTree = "<group>"; };
 		8B6117FD27A1E2FF00DF0E0C /* FalsePinCodeProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FalsePinCodeProtocols.swift; sourceTree = "<group>"; };
 		8B6117FF27A1E34400DF0E0C /* FalsePinCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FalsePinCodeView.swift; sourceTree = "<group>"; };
@@ -743,7 +743,7 @@
 		8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		8B9173B127A342EB0094F625 /* PinCodeCreateFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateFlow.swift; sourceTree = "<group>"; };
 		8B9B0CCA2775395400654C24 /* PersonalizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationView.swift; sourceTree = "<group>"; };
-		8B9B0CCC2775442E00654C24 /* PersonalizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationViewModel.swift; sourceTree = "<group>"; };
+		8B9B0CCC2775442E00654C24 /* PersonalizationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationModel.swift; sourceTree = "<group>"; };
 		8B9B0CCE277556BD00654C24 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
 		8BCA91012750FCC200E8E269 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		8BD6292C276AAC06000A976A /* SocialListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListView.swift; sourceTree = "<group>"; };
@@ -891,7 +891,7 @@
 			isa = PBXGroup;
 			children = (
 				8B6C18BC2799A5C500B85F2A /* SecurityNew */,
-				8B9B0CC92775394000654C24 /* PersonalizationNew */,
+				8B9B0CC92775394000654C24 /* Personalization */,
 				8BD6292B276AABF8000A976A /* SocialList */,
 				78FA366E2737417C00B331DC /* Security */,
 				8B200FEC2744595600A847D5 /* Session */,
@@ -1954,11 +1954,11 @@
 			path = PinCodeCreate;
 			sourceTree = "<group>";
 		};
-		8B9B0CC92775394000654C24 /* PersonalizationNew */ = {
+		8B9B0CC92775394000654C24 /* Personalization */ = {
 			isa = PBXGroup;
 			children = (
-				8B5609BF277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift */,
-				8B5609BB277B35A400AF43F6 /* PersonalizationNewFlow.swift */,
+				8B5609BF277C6A4000AF43F6 /* PersonalizationConfiguration.swift */,
+				8B5609BB277B35A400AF43F6 /* PersonalizationFlow.swift */,
 				8B9B0CD027768C6900654C24 /* Data */,
 				8B9B0CCA2775395400654C24 /* PersonalizationView.swift */,
 				8B9B0CCE277556BD00654C24 /* LanguageView.swift */,
@@ -1967,13 +1967,13 @@
 				8B5609B9277B14AE00AF43F6 /* ProfileBackgroundViewPreview.swift */,
 				8B5609BD277B38A000AF43F6 /* PersonalizationProtocols.swift */,
 			);
-			path = PersonalizationNew;
+			path = Personalization;
 			sourceTree = "<group>";
 		};
 		8B9B0CD027768C6900654C24 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				8B9B0CCC2775442E00654C24 /* PersonalizationViewModel.swift */,
+				8B9B0CCC2775442E00654C24 /* PersonalizationModel.swift */,
 				8B5609B327792B0000AF43F6 /* TypographyNewItem.swift */,
 				8B5609B52779C5CA00AF43F6 /* ThemeItem.swift */,
 				8B34D777277DA07E007811C9 /* LanguageItems.swift */,
@@ -2223,7 +2223,7 @@
 				8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */,
 				5A187F292680CF49001957D3 /* RequestBuilder.swift in Sources */,
 				5A26CD3926B31FBA00118D4B /* UICollectionView+Extensions.swift in Sources */,
-				8B5609C0277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift in Sources */,
+				8B5609C0277C6A4000AF43F6 /* PersonalizationConfiguration.swift in Sources */,
 				8BD62933276D2B58000A976A /* AddSocialView.swift in Sources */,
 				5A187F2A2680CF49001957D3 /* URLResponseCapable.swift in Sources */,
 				5A9318BB26BD210400645365 /* PinCodeFlow.swift in Sources */,
@@ -2415,7 +2415,7 @@
 				7846B67226E8C04D00B05984 /* ThumbnailLayout.swift in Sources */,
 				5AA6410126822C3A008922B4 /* TextViewStyle.swift in Sources */,
 				8B24FDD627A820A30021177C /* SessionFlow.swift in Sources */,
-				8B5609BC277B35A400AF43F6 /* PersonalizationNewFlow.swift in Sources */,
+				8B5609BC277B35A400AF43F6 /* PersonalizationFlow.swift in Sources */,
 				5AA6410626822C3A008922B4 /* FontDecor.swift in Sources */,
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
 				5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */,
@@ -2478,7 +2478,7 @@
 				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
 				5A9318E026C5AD0500645365 /* BubbleShape.swift in Sources */,
-				8B9B0CCD2775442E00654C24 /* PersonalizationViewModel.swift in Sources */,
+				8B9B0CCD2775442E00654C24 /* PersonalizationModel.swift in Sources */,
 				78F15FEC273DBD9800124F63 /* SecurityPinCodeConfigurator.swift in Sources */,
 				7846B67726E8C0AE00B05984 /* CellWithImage.swift in Sources */,
 				5A9B472826EAB6EF001CC627 /* LastReactionItemView.swift in Sources */,
@@ -2700,7 +2700,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 22;
-				DEVELOPMENT_TEAM = 764W7G7Y88;
+				DEVELOPMENT_TEAM = C392B84957;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -2727,7 +2727,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 22;
-				DEVELOPMENT_TEAM = 764W7G7Y88;
+				DEVELOPMENT_TEAM = C392B84957;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;

@@ -10,6 +10,7 @@ protocol UserFlowsStorage {
     var isLocalAuthInBackground: Bool { get set }
     var isPinCodeOn: Bool { get set }
     var isFalsePinCodeOn: Bool { get set }
+    var isBiometryOn: Bool { get set }
 }
 
 // MARK: - UserFlowsStorageService
@@ -61,5 +62,10 @@ final class UserFlowsStorageService {
     var isFalsePinCodeOn: Bool {
         get { storage.isFalsePinCodeOn }
         set { storage.isFalsePinCodeOn = newValue }
+    }
+    
+    var isBiometryOn: Bool {
+        get { storage.isBiometryOn }
+        set { storage.isBiometryOn = newValue }
     }
 }

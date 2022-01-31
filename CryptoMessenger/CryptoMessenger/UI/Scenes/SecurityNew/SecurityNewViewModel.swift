@@ -15,6 +15,7 @@ final class SecurityNewViewModel: ObservableObject {
     @Published var telephoneSeeState = ""
     @Published var isPinCodeOn = true
     @Published var isFalsePinCodeOn = true
+    @Published var isBiometryOn = true
 
     // MARK: - Private Properties
 
@@ -77,6 +78,10 @@ final class SecurityNewViewModel: ObservableObject {
         userFlows.isFalsePinCodeOn = item
     }
 
+    func updateIsBiometryOn(item: Bool) {
+        userFlows.isBiometryOn = item
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -114,6 +119,7 @@ final class SecurityNewViewModel: ObservableObject {
     private func updateData() {
         isPinCodeOn = userFlows.isPinCodeOn
         isFalsePinCodeOn = userFlows.isFalsePinCodeOn
+        isBiometryOn = userFlows.isBiometryOn
         profileObserveState = userCredentialsStorageService.profileObserveState
         lastSeenState = userCredentialsStorageService.lastSeenState
         callsState = userCredentialsStorageService.callsState
