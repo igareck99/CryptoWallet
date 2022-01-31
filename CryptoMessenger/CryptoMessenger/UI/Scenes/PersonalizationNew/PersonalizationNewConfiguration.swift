@@ -6,10 +6,10 @@ enum PersonalizationConfigurator {
 
     // MARK: - Static Methods
 
-    static func configuredView(delegate: PersonalizationSceneDelegate?) -> PersonalizationNewView {
+    static func configuredView(delegate: PersonalizationSceneDelegate?) -> PersonalizationView {
         let viewModel = PersonalizationViewModel()
         viewModel.delegate = delegate
-        let view = PersonalizationNewView(viewModel: viewModel)
+        let view = PersonalizationView(viewModel: viewModel)
         return view
     }
 }
