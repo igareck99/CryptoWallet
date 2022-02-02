@@ -248,6 +248,7 @@ final class MatrixStore: ObservableObject {
     func getUserId() -> String { session?.myUser?.userId ?? "" }
     func getDisplayName() -> String { session?.myUser?.displayname ?? "" }
     func getStatus() -> String { session?.myUser?.statusMsg ?? "" }
+    func getAvatarUrl() -> String { session?.myUser.avatarUrl ?? "" }
 
     func setDisplayName(_ displayName: String, completion: @escaping VoidBlock) {
         session?.myUser.setDisplayName(displayName, success: completion) { error in

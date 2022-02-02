@@ -11,6 +11,8 @@ final class ProfileDetailViewModel: ObservableObject {
 
     @Published var profile = ProfileItem()
     @Published var closeScreen = false
+    @Published var selectedImage: UIImage?
+    @Published var selectedImageUrl: String?
     @Published private(set) var state: ProfileDetailFlow.ViewState = .idle
 
     // MARK: - Private Properties
@@ -28,6 +30,8 @@ final class ProfileDetailViewModel: ObservableObject {
     init() {
         profile.name = mxStore.getDisplayName()
         profile.status = mxStore.getStatus()
+        let url = URL(fileURLWithPath: mxStore.getAvatarUrl())
+        profile.avatar = url
         let str = userCredentialsStorageService.userPhoneNumber
         let suffixIndex = str.index(str.startIndex, offsetBy: 3)
         profile.phone = String(str[suffixIndex...])
@@ -46,6 +50,19 @@ final class ProfileDetailViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
+    func addPhoto(image: UIImage) {
+        selectedImage = image
+        guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory())
+                .appendingPathComponent("TempImage.png") else {
+            return
+        }
+        let pngData = image.pngData()
+        do {
+            try pngData?.write(to: imageURL)
+        } catch { }
+        selectedImageUrl = imageURL.absoluteString
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -60,8 +77,17 @@ final class ProfileDetailViewModel: ObservableObject {
                             self?.closeScreen.toggle()
                         }
                     }
+                    guard let image = self?.selectedImageUrl else { return }
+                    self?.mxStore.setAvatarUrl(image, completion: {
+                        print(self?.mxStore.getUser((self?.mxStore.getUserId())!))
+                    })
                 case .onLogout:
                     self?.mxStore.logout()
+                case .onAvatar:
+                    guard let image = self?.selectedImageUrl else { return }
+                    self?.mxStore.setAvatarUrl(image, completion: {
+                        print("")
+                    })
                 }
             }
             .store(in: &subscriptions)

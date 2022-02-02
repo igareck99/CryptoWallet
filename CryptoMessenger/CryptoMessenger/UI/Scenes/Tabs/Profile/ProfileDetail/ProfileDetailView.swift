@@ -41,6 +41,7 @@ struct ProfileDetailView: View {
 
     @State private var descriptionHeight = CGFloat(100)
     @State private var showLogoutAlert = false
+    @State private var showImagePicker = false
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -67,6 +68,18 @@ struct ProfileDetailView: View {
             .onReceive(viewModel.$closeScreen) { closed in
                 if closed {
                     presentationMode.wrappedValue.dismiss()
+                }
+            }
+            .sheet(isPresented: $showImagePicker) {
+                NavigationView {
+                    ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
+                        guard let image = image else { return }
+                        self.viewModel.addPhoto(image: image)
+                        viewModel.send(.onAvatar)
+                    })
+                        .ignoresSafeArea()
+                        .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                        .navigationBarTitleDisplayMode(.inline)
                 }
             }
             .alert(isPresented: $showLogoutAlert) {
@@ -207,6 +220,9 @@ struct ProfileDetailView: View {
                                     .fill(Color(.black(0.4)))
                                     .frame(width: 60, height: 60)
                                 R.image.profileDetail.camera.image
+                            }
+                            .onTapGesture {
+                                showImagePicker = true
                             }
                             .padding([.trailing, .bottom], 16)
                         }
