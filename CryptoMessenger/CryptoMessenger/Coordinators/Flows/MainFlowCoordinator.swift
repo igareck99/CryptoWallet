@@ -144,8 +144,7 @@ final class MainFlowCoordinator: Coordinator {
         case profile
         case security
         case blockList
-        case pinCodeCreate
-        case falsePinCode
+        case pinCode(Bool)
         case session
         case aboutApp
     }
@@ -176,14 +175,17 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showSecurityScene()
         case .blockList:
             showBlockListScene()
-        case .pinCodeCreate:
-            showPinCodeCreate()
-        case .falsePinCode:
-            showFalsePinCode()
         case .aboutApp:
             showAboutAppScene()
         case .session:
             showSessionScene()
+        case let .pinCode(flag):
+            switch flag {
+            case true:
+                showPinCodeCreate()
+            case false:
+                showFalsePinCode()
+            }
         }
     }
 

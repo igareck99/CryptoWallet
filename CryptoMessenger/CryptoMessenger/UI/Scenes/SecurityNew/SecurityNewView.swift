@@ -111,7 +111,7 @@ struct SecurityNewView: View {
                     }
                 case .telephone:
                     SecurityCellView(title: type.result.title,
-                                     currentState: viewModel.telephoneSeeState)
+                                     currentState: viewModel.telephoneState)
                         .background(.white())
                     .listRowSeparator(.hidden)
                     .onTapGesture {
@@ -208,6 +208,7 @@ struct SecurityNewView: View {
                     }
                 }
             } else {
+                viewModel.updateIsBiometryOn(item: false)
                 showBiometryErrorAlert = true
             }
     }

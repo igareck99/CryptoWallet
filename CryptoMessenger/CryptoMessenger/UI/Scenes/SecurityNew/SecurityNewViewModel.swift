@@ -13,7 +13,7 @@ final class SecurityNewViewModel: ObservableObject {
     @Published var lastSeenState = ""
     @Published var callsState = ""
     @Published var geopositionState = ""
-    @Published var telephoneSeeState = ""
+    @Published var telephoneState = ""
     @Published var isPinCodeOn = true
     @Published var isFalsePinCodeOn = true
     @Published var isBiometryOn = true
@@ -68,8 +68,8 @@ final class SecurityNewViewModel: ObservableObject {
     }
 
     func updateTelephoneState(item: String) {
-        telephoneSeeState = item
-        userCredentialsStorageService.telephoneSeeState = item
+        telephoneState = item
+        userCredentialsStorageService.telephoneState = item
     }
 
     func updateIsPinCodeOn(item: Bool) {
@@ -96,9 +96,9 @@ final class SecurityNewViewModel: ObservableObject {
                 case .onBlockList:
                     self?.delegate?.handleNextScene(.blockList)
                 case .onCreatePassword:
-                    self?.delegate?.handleNextScene(.pinCodeCreate)
+                    self?.delegate?.handleNextScene(.pinCode(true))
                 case .onFalsePassword:
-                    self?.delegate?.handleNextScene(.falsePinCode)
+                    self?.delegate?.handleNextScene(.pinCode(false))
                 case .onSession:
                     self?.delegate?.handleNextScene(.session)
                 }
@@ -126,6 +126,6 @@ final class SecurityNewViewModel: ObservableObject {
         lastSeenState = userCredentialsStorageService.lastSeenState
         callsState = userCredentialsStorageService.callsState
         geopositionState = userCredentialsStorageService.geopositionState
-        telephoneSeeState = userCredentialsStorageService.telephoneSeeState
+        telephoneState = userCredentialsStorageService.telephoneState
     }
 }

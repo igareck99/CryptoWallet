@@ -54,7 +54,7 @@ struct UserDefaultsLayer {
     private static let theme = "theme"
     private static let profileBackgroundImage = "profileBackgroundImage"
     private static let profileObserveState = "profileObserveState"
-    private static let telephoneSeeState = "telephoneSeeState"
+    private static let telephoneState = "telephoneState"
     private static let lastSeenState = "lastSeenState"
     private static let callsState = "callsState"
     private static let geopositionState = "geopositionState"
@@ -116,8 +116,8 @@ struct UserDefaultsLayer {
     @UserDefaultSettings(profileBackgroundImage, value: "")
     var profileBackgroundImage: String
     
-    @UserDefaultSettings(telephoneSeeState, value: R.string.localizable.securityContactsAll())
-    var telephoneSeeState: String
+    @UserDefaultSettings(telephoneState, value: R.string.localizable.securityContactsAll())
+    var telephoneState: String
     
     @UserDefaultSettings(profileObserveState, value: R.string.localizable.securityContactsAll())
     var profileObserveState: String

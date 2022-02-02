@@ -7,19 +7,21 @@ struct FalsePinCodeView: View {
     // MARK: - Internal Properties
 
     @ObservedObject var viewModel: FalsePinCodeViewModel
-    var firstStack = [KeyboardButtonType.number(1),
-                                  KeyboardButtonType.number(2),
-                                  KeyboardButtonType.number(3)]
-    var secondStack = [KeyboardButtonType.number(4),
-                                  KeyboardButtonType.number(5),
-                                  KeyboardButtonType.number(6)]
-    var thirdStack = [KeyboardButtonType.number(7),
-                                  KeyboardButtonType.number(8),
-                                  KeyboardButtonType.number(9)]
-    var fourthStack = [
-        KeyboardButtonType.empty,
-        KeyboardButtonType.number(0),
-        KeyboardButtonType.delete
+    var firstStack: [KeyboardButtonType] = [.number(1),
+                                            .number(2),
+                                            .number(3)
+    ]
+    var secondStack: [KeyboardButtonType] = [.number(4),
+                                            .number(5),
+                                            .number(6)
+    ]
+    var thirdStack: [KeyboardButtonType] = [.number(7),
+                                            .number(8),
+                                            .number(9)
+    ]
+    var fourthStack: [KeyboardButtonType] = [.empty,
+                                            .number(0),
+                                            .delete
     ]
     @State private var descriptionState = R.string.localizable.pinCodeFalseText()
     @State private var repeatState = false
