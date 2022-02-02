@@ -144,7 +144,7 @@ final class MainFlowCoordinator: Coordinator {
         case profile
         case security
         case blockList
-        case pinCode(Bool)
+        case pinCode(PinCodeScreenType)
         case session
         case aboutApp
     }
@@ -179,13 +179,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showAboutAppScene()
         case .session:
             showSessionScene()
-        case let .pinCode(flag):
-            switch flag {
-            case true:
-                showPinCodeCreate()
-            case false:
-                showFalsePinCode()
-            }
+        case let .pinCode(screenType):
+            showPinCodeCreate(screenType: screenType)
         }
     }
 
@@ -256,15 +251,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showPinCodeCreate() {
-        let rootView = PinCodeCreateConfigurator.configuredView(delegate: self)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showFalsePinCode() {
-        let rootView = FalsePinCodeConfigurator.configuredView(delegate: self)
+    private func showPinCodeCreate(screenType: PinCodeScreenType) {
+        let rootView = PinCodeCreateConfigurator.configuredView(delegate: self, screenType: screenType)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -310,10 +298,6 @@ extension MainFlowCoordinator: BlockedListSceneDelegate {}
 // MARK: - MainFlowCoordinator (PinCodeCreateSceneDelegate)
 
 extension MainFlowCoordinator: PinCodeCreateSceneDelegate {}
-
-// MARK: - MainFlowCoordinator (FalsePinCodeSceneDelegate)
-
-extension MainFlowCoordinator: FalsePinCodeSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (SessionSceneDelegate)
 

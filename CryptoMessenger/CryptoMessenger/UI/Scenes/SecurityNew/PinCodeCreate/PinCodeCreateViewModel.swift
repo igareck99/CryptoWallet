@@ -7,6 +7,9 @@ final class PinCodeCreateViewModel: ObservableObject {
 
     weak var delegate: PinCodeCreateSceneDelegate?
 
+    @Published var title = ""
+    @Published var description = ""
+
     // MARK: - Private Properties
 
     @Published private(set) var state: PinCodeCreateFlow.ViewState = .idle
@@ -39,6 +42,14 @@ final class PinCodeCreateViewModel: ObservableObject {
     func createPassword(item: String) {
         userCredentialsStorageService.userPinCode = item
         userFlows.isPinCodeOn = true
+    }
+
+    func createFakePassword(item: String) {
+        if userCredentialsStorageService.userPinCode == item {
+            return
+        }
+        userCredentialsStorageService.userFalsePinCode = item
+        userFlows.isFalsePinCodeOn = true
     }
 
     // MARK: - Private Methods
