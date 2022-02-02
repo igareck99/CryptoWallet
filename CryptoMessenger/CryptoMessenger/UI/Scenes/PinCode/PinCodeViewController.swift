@@ -48,6 +48,7 @@ final class PinCodeViewController: BaseViewController {
             presenter.setNewPinCode(pinCode)
             presenter.handleButtonTap(false)
         }
+        
     }
 
     private func showLocalAuthAlert() {
@@ -88,6 +89,7 @@ extension PinCodeViewController: LocalAuthenticationDelegate {
 // MARK: - PinCodeViewController (PinCodeViewInterface)
 
 extension PinCodeViewController: PinCodeViewInterface {
+
     func setPinCode(_ pinCode: [Int]) {
         customView.setPinCode(pinCode)
     }
@@ -98,5 +100,9 @@ extension PinCodeViewController: PinCodeViewInterface {
 
     func showAlert(title: String?, message: String?) {
         presentAlert(title: title, message: message)
+    }
+
+    func setBiometryActive(_ result: Bool) {
+        customView.setBiometryActive(result)
     }
 }

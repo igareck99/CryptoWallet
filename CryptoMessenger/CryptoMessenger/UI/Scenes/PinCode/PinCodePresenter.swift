@@ -50,7 +50,9 @@ final class PinCodePresenter {
 extension PinCodePresenter: PinCodePresentation {
     func viewDidLoad() {
         let pinCode = userCredentials.userPinCode.map({ Int(String($0)) }).compactMap({ $0 })
+        let isBiometryOn = userFlows.isBiometryOn
         view?.setPinCode(pinCode)
+        view?.setBiometryActive(isBiometryOn)
     }
 
     func setNewPinCode(_ pinCode: String) {
