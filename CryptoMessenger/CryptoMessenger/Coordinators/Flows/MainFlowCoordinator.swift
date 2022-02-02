@@ -142,6 +142,7 @@ final class MainFlowCoordinator: Coordinator {
         case selectBackground
         case profilePreview
         case profile
+        case answer
     }
 }
 
@@ -166,6 +167,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showProfilePreviewScene()
         case .profile:
             start()
+        case .answer:
+            showAnswerScene()
         }
     }
 
@@ -221,6 +224,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+
+    private func showAnswerScene() {
+        let rootView = AnswerConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -238,6 +248,10 @@ extension MainFlowCoordinator: ProfileSceneDelegate {}
 // MARK: - MainFlowCoordinator (PersonalizationSceneDelegate)
 
 extension MainFlowCoordinator: PersonalizationSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (AnswersSceneDelegate)
+
+extension MainFlowCoordinator: AnswersSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

@@ -84,6 +84,8 @@ final class ProfileViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.profileDetail)
                 case .onPersonalization:
                     self?.delegate?.handleNextScene(.personalization)
+                case .onAnswer:
+                    self?.delegate?.handleNextScene(.answer)
                 }
             }
             .store(in: &subscriptions)

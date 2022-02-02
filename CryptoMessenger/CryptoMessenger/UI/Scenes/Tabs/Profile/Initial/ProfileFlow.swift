@@ -24,5 +24,6 @@ enum ProfileFlow {
         case onAppear
         case onProfileScene
         case onPersonalization
+        case onAnswer
     }
 }

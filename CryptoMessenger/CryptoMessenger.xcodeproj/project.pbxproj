@@ -343,6 +343,11 @@
 		8B5609C0277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BF277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift */; };
 		8B6BEE7F275665D4003A24B6 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6BEE7E275665D4003A24B6 /* ProfileView.swift */; };
 		8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */; };
+		8B70F81627AB2A1500288BA7 /* AnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B70F81527AB2A1500288BA7 /* AnswerView.swift */; };
+		8B70F81827AB2A3000288BA7 /* AnswerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B70F81727AB2A3000288BA7 /* AnswerItem.swift */; };
+		8B70F81A27AB3A1500288BA7 /* AnswersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B70F81927AB3A1500288BA7 /* AnswersViewModel.swift */; };
+		8B70F81C27AB3F9A00288BA7 /* AnswerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B70F81B27AB3F9A00288BA7 /* AnswerConfigurator.swift */; };
+		8B70F81E27AB3FC200288BA7 /* AnswersProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B70F81D27AB3FC200288BA7 /* AnswersProtocols.swift */; };
 		8B73C1072747A193008ABB22 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B73C1062747A193008ABB22 /* SessionDetailView.swift */; };
 		8B740147275D360B0045ED32 /* ProfileSettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */; };
 		8B74014B275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */; };
@@ -698,6 +703,11 @@
 		8B5609BF277C6A4000AF43F6 /* PersonalizationNewConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationNewConfiguration.swift; sourceTree = "<group>"; };
 		8B6BEE7E275665D4003A24B6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
+		8B70F81527AB2A1500288BA7 /* AnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerView.swift; sourceTree = "<group>"; };
+		8B70F81727AB2A3000288BA7 /* AnswerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerItem.swift; sourceTree = "<group>"; };
+		8B70F81927AB3A1500288BA7 /* AnswersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswersViewModel.swift; sourceTree = "<group>"; };
+		8B70F81B27AB3F9A00288BA7 /* AnswerConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerConfigurator.swift; sourceTree = "<group>"; };
+		8B70F81D27AB3FC200288BA7 /* AnswersProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswersProtocols.swift; sourceTree = "<group>"; };
 		8B73C1062747A193008ABB22 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuView.swift; sourceTree = "<group>"; };
 		8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneNumberKit+SwiftUI.swift"; sourceTree = "<group>"; };
@@ -850,6 +860,7 @@
 		5A187DF82680708D001957D3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				8B70F81427AB2A0600288BA7 /* Answers */,
 				8B9B0CC92775394000654C24 /* PersonalizationNew */,
 				8BD6292B276AABF8000A976A /* SocialList */,
 				78FA366E2737417C00B331DC /* Security */,
@@ -1872,6 +1883,18 @@
 			path = Session;
 			sourceTree = "<group>";
 		};
+		8B70F81427AB2A0600288BA7 /* Answers */ = {
+			isa = PBXGroup;
+			children = (
+				8B70F81527AB2A1500288BA7 /* AnswerView.swift */,
+				8B70F81727AB2A3000288BA7 /* AnswerItem.swift */,
+				8B70F81927AB3A1500288BA7 /* AnswersViewModel.swift */,
+				8B70F81B27AB3F9A00288BA7 /* AnswerConfigurator.swift */,
+				8B70F81D27AB3FC200288BA7 /* AnswersProtocols.swift */,
+			);
+			path = Answers;
+			sourceTree = "<group>";
+		};
 		8B9B0CC92775394000654C24 /* PersonalizationNew */ = {
 			isa = PBXGroup;
 			children = (
@@ -2127,6 +2150,7 @@
 				5A26CD2A26B2FF9900118D4B /* CarouselFlowLayout.swift in Sources */,
 				7846B67B26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift in Sources */,
 				5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */,
+				8B70F81827AB2A3000288BA7 /* AnswerItem.swift in Sources */,
 				5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */,
 				78FA368B2739CA4300B331DC /* BlackListCell.swift in Sources */,
 				5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */,
@@ -2184,6 +2208,7 @@
 				5A187EA32680708D001957D3 /* CollectionViewProvider.swift in Sources */,
 				5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */,
 				5A9318D526C5AAF100645365 /* ChatRoomProtocols.swift in Sources */,
+				8B70F81627AB2A1500288BA7 /* AnswerView.swift in Sources */,
 				5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */,
 				5A26CD1E26B2EECA00118D4B /* WalletProtocols.swift in Sources */,
 				789FEBF126DCE61D0018FE91 /* PhotoEditorFlow.swift in Sources */,
@@ -2208,6 +2233,7 @@
 				5A4BE51C271DD86A00D03D09 /* EventCollection.swift in Sources */,
 				78437F0D270C76FE00371110 /* AboutAppPresenter.swift in Sources */,
 				789FEBEF26DCE61D0018FE91 /* PhotoEditorView.swift in Sources */,
+				8B70F81E27AB3FC200288BA7 /* AnswersProtocols.swift in Sources */,
 				5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
 				5A40A2D82769FB2B003AAA79 /* SearchBar.swift in Sources */,
@@ -2361,6 +2387,7 @@
 				5A44FEED2768B1E6006F9D92 /* ProfileDetailProtocols.swift in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
 				5AEB80FD26DD123E009A1944 /* ImagePickerView.swift in Sources */,
+				8B70F81A27AB3A1500288BA7 /* AnswersViewModel.swift in Sources */,
 				5A187F272680CF49001957D3 /* Сonfiguration.swift in Sources */,
 				7889064427064F8D0093459C /* ProfileNetworkDetailConfigurator.swift in Sources */,
 				5A67791C26C7A64100212580 /* ChatRoomRow.swift in Sources */,
@@ -2410,6 +2437,7 @@
 				5A187EA22680708D001957D3 /* TableViewProviderViewModel.swift in Sources */,
 				7846B66C26E8BFD900B05984 /* ParallaxLayoutAttributes.swift in Sources */,
 				5A3721D7272F2A4D0097ABED /* ChatGroupView.swift in Sources */,
+				8B70F81C27AB3F9A00288BA7 /* AnswerConfigurator.swift in Sources */,
 				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				5A26CD3126B3195900118D4B /* CardViewModel.swift in Sources */,
