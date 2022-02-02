@@ -208,6 +208,7 @@ struct SecurityNewView: View {
                     }
                 }
             } else {
+                viewModel.isBiometryOn = false
                 viewModel.updateIsBiometryOn(item: false)
                 showBiometryErrorAlert = true
             }

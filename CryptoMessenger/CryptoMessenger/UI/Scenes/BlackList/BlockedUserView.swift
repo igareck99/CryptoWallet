@@ -17,8 +17,6 @@ struct BlockedUserView: View {
                 .frame(width: 40, height: 40)
                 .offset(x: -4)
                 .cornerRadius(20)
-                .padding(.leading, 16)
-                .padding(.top, 0)
             VStack(alignment: .leading) {
                 Text(item.name)
                     .font(.bold(15))
@@ -53,7 +51,8 @@ struct BlockedUserContentView: View {
     var body: some View {
             List {
                 ForEach(viewModel.listData) { user in
-                    BlockedUserView(item: user).onTapGesture {
+                    BlockedUserView(item: user)
+                        .onTapGesture {
                         showingAlert.toggle()
                         currentUser = viewModel.listData.firstIndex(
                             where: { $0.id == user.id }) ?? -1
@@ -77,8 +76,6 @@ struct BlockedUserContentView: View {
                         .font(.bold(15))
                 }
             }
-        .listSeparatorStyle(style: .none)
         .listStyle(.inset)
-        .padding([.leading, .trailing], -20)
     }
 }
