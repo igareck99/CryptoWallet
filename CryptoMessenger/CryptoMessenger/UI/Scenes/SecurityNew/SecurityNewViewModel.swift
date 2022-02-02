@@ -96,7 +96,7 @@ final class SecurityNewViewModel: ObservableObject {
                 case .onBlockList:
                     self?.delegate?.handleNextScene(.blockList)
                 case .onCreatePassword:
-                    self?.delegate?.handleNextScene(.pinCode(.pinCode))
+                    self?.delegate?.handleNextScene(.pinCode(.pinCodeCreate))
                 case .onFalsePassword:
                     self?.delegate?.handleNextScene(.pinCode(.fakePinCode))
                 case .onSession:

@@ -168,7 +168,7 @@ struct PinCodeCreateView: View {
                             .joined(separator: "")
                         clearPassword()
                         switch screenType {
-                        case .pinCode:
+                        case .pinCodeCreate:
                             viewModel.createPassword(item: newPassword)
                         case .fakePinCode:
                             viewModel.createFakePassword(item: newPassword)
@@ -249,12 +249,12 @@ enum KeyboardButtonType: Hashable {
 
 enum PinCodeScreenType: Hashable {
 
-    case pinCode
+    case pinCodeCreate
     case fakePinCode
 
     var result: (title: String, description: String) {
         switch self {
-        case .pinCode:
+        case .pinCodeCreate:
             return (R.string.localizable.pinCodeEnterPassword(),
                     R.string.localizable.pinCodeCreateText())
         case .fakePinCode:
