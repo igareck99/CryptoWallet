@@ -52,6 +52,7 @@ struct BlockedUserContentView: View {
             List {
                 ForEach(viewModel.listData) { user in
                     BlockedUserView(item: user)
+                        .background(.white())
                         .onTapGesture {
                         showingAlert.toggle()
                         currentUser = viewModel.listData.firstIndex(

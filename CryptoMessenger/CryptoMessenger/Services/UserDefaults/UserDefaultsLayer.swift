@@ -113,8 +113,8 @@ struct UserDefaultsLayer {
     @UserDefaultSettings(theme, value: "")
     var theme: String
     
-    @UserDefaultSettings(profileBackgroundImage, value: "")
-    var profileBackgroundImage: String
+    @UserDefaultSettings(profileBackgroundImage, value: -1)
+    var profileBackgroundImage: Int
     
     @UserDefaultSettings(telephoneState, value: R.string.localizable.securityContactsAll())
     var telephoneState: String
