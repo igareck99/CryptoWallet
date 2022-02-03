@@ -258,3 +258,13 @@
 
 
 
+
+"Answers.Load" = "Загрузка и установка AURA";
+"Answers.Confirmation" = "Подтверждение";
+"Answers.Notes" = "Статус и заметки";
+"Answers.Contacts" = "Контакты";
+"Answers.AudioVideo" = "Аудио и видеозвонки";
+"Answers.NotesShare" = "Как поделиться Aura аккаунтом в других приложениях";
+"Answers.NotesPrivacy" = "О конфиденциальности статусов";
+"Answers.NotesHowUse" = "Как пользоваться функцией “Заметкой”";
+

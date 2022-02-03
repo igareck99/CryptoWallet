@@ -147,6 +147,7 @@ final class MainFlowCoordinator: Coordinator {
         case pinCode(PinCodeScreenType)
         case session
         case aboutApp
+        case FAQ
     }
 }
 
@@ -181,6 +182,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showSessionScene()
         case let .pinCode(screenType):
             showPinCodeCreate(screenType: screenType)
+        case .FAQ:
+            showAnswerScene()
         }
     }
 
@@ -269,6 +272,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+
+    private func showAnswerScene() {
+        let rootView = AnswerConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -306,6 +316,10 @@ extension MainFlowCoordinator: SessionSceneDelegate {}
 // MARK: - MainFlowCoordinator (AboutAppSceneDelegate)
 
 extension MainFlowCoordinator: AboutAppSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (AnswersSceneDelegate)
+
+extension MainFlowCoordinator: AnswersSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 
