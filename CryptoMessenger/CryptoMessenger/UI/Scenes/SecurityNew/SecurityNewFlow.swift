@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - ProfileFlow
+// MARK: - SecurityNewFlow
 
-enum ProfileFlow {
+enum SecurityNewFlow {
 
     // MARK: - ViewState
 
@@ -21,11 +21,10 @@ enum ProfileFlow {
 
         // MARK: - Types
 
+        case onBlockList
         case onAppear
-        case onProfileScene
-        case onPersonalization
-        case onSecurity
-        case aboutApp
-        case onFAQ
+        case onCreatePassword
+        case onFalsePassword
+        case onSession
     }
 }

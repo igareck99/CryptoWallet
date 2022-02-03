@@ -201,11 +201,6 @@
 "ProfileBackgroundPreview.SetBackground" = "Установить фон";
 
 
-"Security.Title" = "Безопасность";
-"Security.Security" = "БЕЗОПАСНОСТЬ";
-"Security.Privacy" = "КОНФЕДЕНЦИАЛЬНОСТЬ";
-
-
 "ProfileViewing.All" = "Все пользователи";
 "ProfileViewing.Contacts" = "Только контакты";
 "ProfileViewing.Nobody" = "Никто";
@@ -235,6 +230,34 @@
 "Session.App" = "Приложения";
 "Session.Ip" = "IP-адрес";
 "Session.FinishOne" = "Завершить сеанс";
+
+
+"Security.Title" = "Безопасность";
+"Security.Security" = "БЕЗОПАСНОСТЬ";
+"Security.Privacy" = "КОНФЕДЕНЦИАЛЬНОСТЬ";
+"Security.PinCodeTitle" = "PIN-код";
+"Security.ProfileObserve" = "Просмотр профиля";
+"Security.ProfileObserveState" = "Все пользователи";
+"Security.LastSeen" = "Последнее посещение";
+"Security.CallsTitle" = "Звонки";
+"Security.ContactsAll" = "Только мои контакты";
+"Security.LassSeenState" = "Все поль...тели";
+"Security.Geoposition" = "Геопозиция";
+"Security.Telephone" = "Номер телефона";
+"Security.SessionTitle" = "Управление сессиями";
+"Security.SessionState" = "Показ...устройств";
+"Security.BlackListTitle" = "Черный список";
+"Security.BiometryEnterTitle" = "Вход по опечатку/ face ID";
+"Security.BiometryEnterState" = "Разрешить вход по отпечатку / лицу";
+"Security.FalsePasswordTitle" = "Ложный пароль";
+"Security.FalsePasswordState" = "Позволяет быстро удалить данные";
+
+
+
+
+
+
+
 
 "Answers.Load" = "Загрузка и установка AURA";
 "Answers.Confirmation" = "Подтверждение";

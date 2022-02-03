@@ -26,9 +26,9 @@ struct PersonalizationNewCellView: View {
     }
 }
 
-// MARK: - PersonalizationNewView
+// MARK: - PersonalizationView
 
-struct PersonalizationNewView: View {
+struct PersonalizationView: View {
 
     // MARK: - Internal Properties
 
@@ -114,13 +114,5 @@ struct PersonalizationNewView: View {
                     })
                 }
             }
-    }
-}
-
-// MARK: - PersonalizationNewViewPreview
-
-struct PersonalizationNewViewPreview: PreviewProvider {
-    static var previews: some View {
-        PersonalizationNewView(viewModel: PersonalizationViewModel())
     }
 }
