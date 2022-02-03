@@ -8,21 +8,19 @@ final class AnswersViewModel: ObservableObject {
 
     weak var delegate: AnswersSceneDelegate?
 
-    @Published var listData = [AnswerItem(title: R.string.localizable.answersLoad(),
+    @Published var listData = [AnswerItem(title: "Загрузка и установка AURA",
                                           details: []),
-                               AnswerItem(title: R.string.localizable.answersConfirmation(),
+                               AnswerItem(title: "Подтверждение",
                                           details: []),
-                               AnswerItem(title: R.string.localizable.answersNotes(),
-                                          details: [AnswerDetailItem(text: R.string.localizable.answersNotesShare()),
-                                                    AnswerDetailItem(text: R.string.localizable.answersNotesPrivacy()),
-                                                    AnswerDetailItem(text: R.string.localizable.answersNotesHowUse())]),
+                               AnswerItem(title: "Статус и заметки",
+                                          details: [AnswerDetailItem(text: "Как поделиться Aura аккаунтом в других приложениях"),
+                                                    AnswerDetailItem(text: "О конфиденциальности статусов"),
+                                                    AnswerDetailItem(text: "Как пользоваться функцией “Заметкой”")]),
                                AnswerItem(title: R.string.localizable.additionalMenuChats(),
                                           details: []),
-                               AnswerItem(title: R.string.localizable.answersContacts(),
+                               AnswerItem(title: "Контакты",
                                           details: []),
-                               AnswerItem(title: R.string.localizable.answersAudioVideo(),
-                                          details: []),
-                               AnswerItem(title: R.string.localizable.answersLoad(),
+                               AnswerItem(title: "Аудио и видеозвонки",
                                           details: [])
     ]
 }

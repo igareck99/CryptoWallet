@@ -142,7 +142,7 @@ final class MainFlowCoordinator: Coordinator {
         case selectBackground
         case profilePreview
         case profile
-        case answer
+        case FAQ
     }
 }
 
@@ -167,7 +167,7 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showProfilePreviewScene()
         case .profile:
             start()
-        case .answer:
+        case .FAQ:
             showAnswerScene()
         }
     }

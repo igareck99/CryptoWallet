@@ -86,7 +86,7 @@ struct ProfileView: View {
                         case .questions:
                             vibrate()
                             hideTabBar()
-                            viewModel.send(.onAnswer)
+                            viewModel.send(.onFAQ)
                         default:
                             break
                         }
