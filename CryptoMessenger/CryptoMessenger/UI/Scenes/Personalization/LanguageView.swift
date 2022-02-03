@@ -15,7 +15,7 @@ struct LanguageCellView: View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text(language.language.languageTitle)
-                    .font(.bold(15))
+                    .font(.semibold(15))
                 Text(language.language.languageDescription)
                     .font(.regular(13))
                     .foreground(.gray())
@@ -43,6 +43,7 @@ struct LanguageView: View {
                 List {
                     ForEach(viewModel.languages) { item in
                         LanguageCellView(language: item, user: viewModel.user)
+                            .background(.white())
                             .listRowSeparator(.hidden)
                             .onTapGesture {
                                 viewModel.updateLanguage(value: item.language)

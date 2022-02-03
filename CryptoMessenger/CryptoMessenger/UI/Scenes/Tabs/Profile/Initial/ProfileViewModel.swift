@@ -11,7 +11,7 @@ struct ProfileItem: Identifiable {
     var avatar: URL?
     var name = "Имя не заполнено"
     var nickname = ""
-    var status = ""
+    var status = "Всем привет! Я использую AURA!"
     var info = ""
     var phone = "Номер не заполнен"
     var photos: [Image] = [
@@ -34,13 +34,14 @@ final class ProfileViewModel: ObservableObject {
 
     weak var delegate: ProfileSceneDelegate?
 
+    @Published var selectedImage: UIImage?
+
+    // MARK: - Private Properties
+
     @Published private(set) var profile = ProfileItem()
     @Published private(set) var state: ProfileFlow.ViewState = .idle
     @Published private(set) var socialList = SocialListViewModel()
     @Published private(set) var socialListEmpty = false
-
-    // MARK: - Private Properties
-
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
@@ -64,6 +65,10 @@ final class ProfileViewModel: ObservableObject {
 
     func send(_ event: ProfileFlow.Event) {
         eventSubject.send(event)
+    }
+
+    func addPhoto(image: UIImage) {
+        profile.photos.append(Image(uiImage: image))
     }
 
     // MARK: - Private Methods
