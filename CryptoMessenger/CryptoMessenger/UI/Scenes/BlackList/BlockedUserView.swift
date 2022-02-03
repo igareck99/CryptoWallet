@@ -17,8 +17,6 @@ struct BlockedUserView: View {
                 .frame(width: 40, height: 40)
                 .offset(x: -4)
                 .cornerRadius(20)
-                .padding(.leading, 16)
-                .padding(.top, 0)
             VStack(alignment: .leading) {
                 Text(item.name)
                     .font(.bold(15))
@@ -41,7 +39,7 @@ struct BlockedUserContentView: View {
 
     // MARK: - Internal Properties
 
-    @ObservedObject var viewModel = BlockListViewModel()
+    @ObservedObject var viewModel: BlockListViewModel
 
     // MARK: - Private Properties
 
@@ -51,10 +49,11 @@ struct BlockedUserContentView: View {
     // MARK: - Body
 
     var body: some View {
-        NavigationView {
             List {
                 ForEach(viewModel.listData) { user in
-                    BlockedUserView(item: user).onTapGesture {
+                    BlockedUserView(item: user)
+                        .background(.white())
+                        .onTapGesture {
                         showingAlert.toggle()
                         currentUser = viewModel.listData.firstIndex(
                             where: { $0.id == user.id }) ?? -1
@@ -71,11 +70,13 @@ struct BlockedUserContentView: View {
                     }),
                           secondaryButton: .default(Text(R.string.localizable.blockedUserCancel())))
                 }
-            }
-            .navigationBarTitle(R.string.localizable.blackListTitle(), displayMode: .inline)
-            .listSeparatorStyle(style: .none)
-            .listStyle(.inset)
-            .padding([.leading, .trailing], -20)
         }
+        .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(R.string.localizable.blackListTitle())
+                        .font(.bold(15))
+                }
+            }
+        .listStyle(.inset)
     }
 }

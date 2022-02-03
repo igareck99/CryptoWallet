@@ -30,7 +30,11 @@ final class AppCoordinator: Coordinator {
 
         switch flow {
         case .localAuth:
-            showPinCodeFlow()
+            if userFlows.isPinCodeOn {
+                showPinCodeFlow()
+            } else {
+                showMainFlow()
+            }
         case .authentication:
             showAuthenticationFlow()
         case .main:

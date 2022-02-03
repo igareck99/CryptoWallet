@@ -92,21 +92,6 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
-    private func showAboutAppScene() {
-        let viewController = AboutAppConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showBlockedUserScene() {
-        let viewController = BaseHostingController(rootView: BlockedUserContentView())
-        setViewWith(viewController)
-    }
-
-    private func showSession() {
-        let viewController = BaseHostingController(rootView: SessionListView())
-        setViewWith(viewController)
-    }
-
     private func showSecurityScene() {
         let viewController = SecurityConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
@@ -135,9 +120,6 @@ public final class AuthFlowCoordinator: Coordinator {
         case pinCode
         case photoEditor
         case profileNetwork
-        case aboutApp
-        case blockedUser
-        case userSession
         case security
     }
 }
@@ -169,14 +151,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showPhotoEditorScene(images: [])
         case .profileNetwork:
             showProfileNetworkDetailScene()
-        case .aboutApp:
-            showAboutAppScene()
-        case .userSession:
-            showSession()
         case .security:
             showSecurityScene()
-        case .blockedUser:
-            showBlockedUserScene()
         }
     }
 
@@ -232,10 +208,6 @@ extension AuthFlowCoordinator: PinCodeSceneDelegate {
 // MARK: - AuthFlowCoordinator (ProfileNetworkDetailSceneDelegate)
 
 extension AuthFlowCoordinator: ProfileNetworkDetailSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (AboutAppSceneDelegate)
-
-extension AuthFlowCoordinator: AboutAppSceneDelegate {}
 
 // MARK: - AuthFlowCoordinator (SecuritySceneDelegate)
 

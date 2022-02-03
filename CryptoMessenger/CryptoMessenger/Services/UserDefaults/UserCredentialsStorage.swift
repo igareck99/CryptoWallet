@@ -15,6 +15,11 @@ protocol UserCredentialsStorage {
     var language: String { get set }
     var theme: String { get set }
     var profileBackgroundImage: Int { get set }
+    var telephoneState: String { get set }
+    var profileObserveState: String { get set }
+    var lastSeenState: String { get set }
+    var callsState: String { get set }
+    var geopositionState: String { get set }
 }
 
 // MARK: - UserCredentialsStorageService
@@ -84,9 +89,34 @@ final class UserCredentialsStorageService {
         get { storage.theme }
         set { storage.theme = newValue }
     }
-    
+
     var profileBackgroundImage: Int {
         get { storage.profileBackgroundImage }
         set { storage.profileBackgroundImage = newValue }
+    }
+
+    var telephoneState: String {
+        get { storage.telephoneState }
+        set { storage.telephoneState = newValue }
+    }
+
+    var profileObserveState: String {
+        get { storage.profileObserveState }
+        set { storage.profileObserveState = newValue }
+    }
+
+    var lastSeenState: String {
+        get { storage.lastSeenState }
+        set { storage.lastSeenState = newValue }
+    }
+
+    var callsState: String {
+        get { storage.callsState }
+        set { storage.callsState = newValue }
+    }
+
+    var geopositionState: String {
+        get { storage.geopositionState }
+        set { storage.geopositionState = newValue }
     }
 }
