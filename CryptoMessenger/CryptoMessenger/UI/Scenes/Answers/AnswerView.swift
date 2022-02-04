@@ -38,7 +38,7 @@ struct AnswerView: View {
                     if viewModel.listData[index].tapped {
                         AnswerCellView(item: viewModel.listData[index])
                         .background(.white())
-                        .listRowSeparator(.visible, edges: .bottom)
+                        .listRowSeparator(.visible)
                         .onTapGesture {
                             viewModel.listData[index].tapped.toggle()
                         }
