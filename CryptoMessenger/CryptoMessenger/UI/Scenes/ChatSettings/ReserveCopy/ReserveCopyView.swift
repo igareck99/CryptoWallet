@@ -7,6 +7,7 @@ struct ReserveCopyView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ReserveCopyViewModel
+    @State private var showChangeReserveTime = false
 
     // MARK: - Body
 
@@ -16,20 +17,55 @@ struct ReserveCopyView: View {
             ReserveCopyInfoCellView()
                 .listRowSeparator(.hidden)
                 .padding(.top, 20)
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 20) {
                 ReserveCellView(text: R.string.localizable.reserveCopyCreateCopy())
                     .background(.white())
                     .onTapGesture {
-                        print("Открывается окно с google")
+                        print("Создается копия")
                     }
                 Divider()
                 Text(R.string.localizable.reserveCopyAutomaticCopy().uppercased())
                     .font(.bold(12))
                     .foreground(.darkGray())
+                    .padding(.top, 4)
                 SecurityCellView(title: R.string.localizable.reserveCopyDiskCopy(),
-                                 currentState: "Никогда")
+                                 currentState: viewModel.reserveCopyTime)
+                    .background(.white())
+                    .padding(.top, 8)
                     .listRowSeparator(.hidden)
+                    .onTapGesture {
+                        showChangeReserveTime = true
+                    }
             }.listRowSeparator(.hidden)
+                .padding(.top, 16)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(R.string.localizable.reserveCopyAccountCopy())
+                    .font(.regular(16))
+                Text("ddskckmck")
+                    .foreground(.darkGray())
+                    .font(.bold(12))
+            }
+                .listRowSeparator(.hidden)
+                .padding(.top, 16)
+            ReserveCellView(text: R.string.localizable.reserveCopyChangeAccount())
+                .background(.white())
+                .padding(.top, 16)
+                .listRowSeparator(.hidden)
+                .onTapGesture {
+                    print("Открывается окно с google")
+                }
+        }
+        .onAppear {
+            viewModel.send(.onAppear)
+        }
+        .confirmationDialog("", isPresented: $showChangeReserveTime, titleVisibility: .hidden) {
+            ForEach([R.string.localizable.reserveCopyEveryMonth(),
+                     R.string.localizable.reserveCopyEveryDay(),
+                     R.string.localizable.reserveCopyNever()], id: \.self) { item in
+                Button(item) {
+                    viewModel.updateReserveCopyTime(item: item)
+                }
+            }
         }
         .listStyle(.plain)
         .toolbar {

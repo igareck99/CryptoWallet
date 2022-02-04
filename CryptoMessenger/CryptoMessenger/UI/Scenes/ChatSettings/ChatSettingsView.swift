@@ -26,12 +26,8 @@ struct ChatSettingsView: View {
                                      description: R.string.localizable.chatSettingsSaveMediaToDevice(),
                                      currentState: $viewModel.saveToPhotos)
                     .listRowSeparator(.hidden)
-                    .onChange(of: viewModel.saveToPhotos) { item in
-                        if item {
-                            viewModel.updateSaveToPhotos()
-                        } else {
-                            viewModel.updateSaveToPhotos()
-                        }
+                    .onChange(of: viewModel.saveToPhotos) { _ in
+                        viewModel.updateSaveToPhotos()
                     }
             }
             .padding(.top, 16)

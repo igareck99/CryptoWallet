@@ -2,9 +2,8 @@ import SwiftUI
 import Combine
 
 final class ChatSettingsViewModel: ObservableObject {
-    
-    // MARK: - Private Properties
-    
+
+    // MARK: - Private Properties    
     @Published var saveToPhotos = false
     @Published private(set) var state: ChatSettingsFlow.ViewState = .idle
     private let eventSubject = PassthroughSubject<ChatSettingsFlow.Event, Never>()
@@ -13,13 +12,14 @@ final class ChatSettingsViewModel: ObservableObject {
 
     @Injectable private(set) var mxStore: MatrixStore
     @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+    @Injectable private var userFlows: UserFlowsStorageService
 
     // MARK: - Internal Properties
 
     weak var delegate: ChatSettingsSceneDelegate?
 
     // MARK: - Lifecycle
-    
+
     init() {
         bindInput()
         bindOutput()
@@ -43,11 +43,12 @@ final class ChatSettingsViewModel: ObservableObject {
     func deleteChats() {
         print("Удалить чаты")
     }
-    
+
     func updateSaveToPhotos() {
         saveToPhotos.toggle()
+        userFlows.saveToPhotos = saveToPhotos
     }
-    
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -77,7 +78,6 @@ final class ChatSettingsViewModel: ObservableObject {
     }
 
     private func updateData() {
-        
+        saveToPhotos = userFlows.saveToPhotos
     }
-
 }
