@@ -26,5 +26,6 @@ enum ProfileFlow {
         case onPersonalization
         case onSecurity
         case aboutApp
+        case onFAQ
     }
 }
