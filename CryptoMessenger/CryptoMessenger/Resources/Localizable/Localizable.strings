@@ -252,6 +252,14 @@
 "Security.FalsePasswordTitle" = "Ложный пароль";
 "Security.FalsePasswordState" = "Позволяет быстро удалить данные";
 
+"ChatSettings.Media" = "МЕДИА";
+"ChatSettings.SaveToPhotos" = "Сохранять в фотопленку";
+"ChatSettings.SaveMediaToDevice" = "Сохранять медиа на устройство";
+"ChatSettings.ReserveCopy" = "Резервное копирование";
+"ChatSettings.ClearAllChats" = "Очистить все чаты";
+"ChatSettings.DeleteAllChats" = "Удалить все чаты";
+
+
 
 
 

@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - ProfileFlow
+// MARK: - ChatSettingsFlow
 
-enum ProfileFlow {
+enum ChatSettingsFlow {
 
     // MARK: - ViewState
 
@@ -22,10 +22,5 @@ enum ProfileFlow {
         // MARK: - Types
 
         case onAppear
-        case onProfileScene
-        case onPersonalization
-        case onSecurity
-        case aboutApp
-        case onChatSettings
     }
 }

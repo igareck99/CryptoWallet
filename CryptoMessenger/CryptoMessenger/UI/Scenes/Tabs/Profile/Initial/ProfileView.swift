@@ -91,6 +91,10 @@ struct ProfileView: View {
                             vibrate()
                             hideTabBar()
                             viewModel.send(.aboutApp)
+                        case .chat:
+                            vibrate()
+                            hideTabBar()
+                            viewModel.send(.onChatSettings)
                         default:
                             break
                         }
