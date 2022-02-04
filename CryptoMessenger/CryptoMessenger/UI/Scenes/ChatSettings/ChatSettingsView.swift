@@ -24,13 +24,13 @@ struct ChatSettingsView: View {
                     .listRowSeparator(.hidden)
                 SaveToCameraCellView(title: R.string.localizable.chatSettingsSaveToPhotos(),
                                      description: R.string.localizable.chatSettingsSaveMediaToDevice(),
-                                     currentState: $saveToPhotos)
+                                     currentState: $viewModel.saveToPhotos)
                     .listRowSeparator(.hidden)
-                    .onChange(of: saveToPhotos) { item in
+                    .onChange(of: viewModel.saveToPhotos) { item in
                         if item {
-                            print(saveToPhotos)
+                            viewModel.updateSaveToPhotos()
                         } else {
-                            print(saveToPhotos)
+                            viewModel.updateSaveToPhotos()
                         }
                     }
             }
@@ -43,7 +43,7 @@ struct ChatSettingsView: View {
                     ReserveCellView(text: R.string.localizable.chatSettingsReserveCopy())
                         .background(.white())
                         .onTapGesture {
-                            print("reserveCopy")
+                            viewModel.send(.onReserveCopy)
                         }
                 }
                 .padding(.top, 8)

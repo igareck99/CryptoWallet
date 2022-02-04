@@ -263,6 +263,16 @@
 "ChatSettings.ClearAlertText" = "Вы действительно хотите удалить все сообщения в чатах?";
 "ChatSettings.DeleteAlertText" = "Вы действительно хотите удалить все чаты?";
 
+"ReserveCopy.Created" = "Резервная копия создана";
+"ReserveCopy.CreateCopy" = "Создать резервную копию";
+"ReserveCopy.AutomaticCopy" = "Автоматическое копирование";
+"ReserveCopy.DiskCopy" = "Копирование на диск";
+"ReserveCopy.EveryDay" = "Каждый день";
+"ReserveCopy.EveryMonth" = "Каждый месяц";
+"ReserveCopy.Never" = "Никогда";
+"ReserveCopy.AccountCopy" = "Аккаунт для копирования";
+"ReserveCopy.ChangeAccount" = "Сменить аккаунт";
+"ReserveCopy.NotCreated" = "Резервная копия не создавалась";
 
 
 

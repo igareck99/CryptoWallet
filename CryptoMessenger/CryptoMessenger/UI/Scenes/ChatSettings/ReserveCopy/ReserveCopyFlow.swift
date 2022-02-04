@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - ChatSettingsFlow
+// MARK: - ReserveCopyFlow
 
-enum ChatSettingsFlow {
+enum ReserveCopyFlow {
 
     // MARK: - ViewState
 
@@ -22,6 +22,5 @@ enum ChatSettingsFlow {
         // MARK: - Types
 
         case onAppear
-        case onReserveCopy
     }
 }

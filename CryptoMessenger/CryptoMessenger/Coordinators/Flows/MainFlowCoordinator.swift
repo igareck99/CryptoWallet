@@ -148,6 +148,7 @@ final class MainFlowCoordinator: Coordinator {
         case session
         case aboutApp
         case chatSettings
+        case reserveCopy
     }
 }
 
@@ -184,6 +185,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showPinCodeCreate(screenType: screenType)
         case .chatSettings:
             showChatSettings()
+        case .reserveCopy:
+            showReserveCopyScene()
         }
     }
 
@@ -279,6 +282,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    private func showReserveCopyScene() {
+        let rootView = ReserveCopyConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -316,6 +326,10 @@ extension MainFlowCoordinator: SessionSceneDelegate {}
 // MARK: - MainFlowCoordinator (ChatSettingsSceneDelegate)
 
 extension MainFlowCoordinator: ChatSettingsSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ReserveCopySceneDelegate)
+
+extension MainFlowCoordinator: ReserveCopySceneDelegate {}
 
 // MARK: - MainFlowCoordinator (AboutAppSceneDelegate)
 
