@@ -8,6 +8,7 @@ struct ReserveCopyView: View {
 
     @StateObject var viewModel: ReserveCopyViewModel
     @State private var showChangeReserveTime = false
+    @State private var creatingCopy = false
 
     // MARK: - Body
 
@@ -21,7 +22,7 @@ struct ReserveCopyView: View {
                 ReserveCellView(text: R.string.localizable.reserveCopyCreateCopy())
                     .background(.white())
                     .onTapGesture {
-                        print("Создается копия")
+                        creatingCopy = true
                     }
                 Divider()
                 Text(R.string.localizable.reserveCopyAutomaticCopy().uppercased())
