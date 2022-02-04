@@ -258,6 +258,10 @@
 "ChatSettings.ReserveCopy" = "Резервное копирование";
 "ChatSettings.ClearAllChats" = "Очистить все чаты";
 "ChatSettings.DeleteAllChats" = "Удалить все чаты";
+"ChatSettings.ClearAlertTitle" = "Очистка чатов";
+"ChatSettings.DeleteAlertTitle" = "Удаление чатов";
+"ChatSettings.ClearAlertText" = "Вы действительно хотите удалить все сообщения в чатах?";
+"ChatSettings.DeleteAlertText" = "Вы действительно хотите удалить все чаты?";
 
 
 

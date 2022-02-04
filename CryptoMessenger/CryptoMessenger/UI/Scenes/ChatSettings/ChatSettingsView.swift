@@ -8,6 +8,8 @@ struct ChatSettingsView: View {
 
     @StateObject var viewModel: ChatSettingsViewModel
     @State private var saveToPhotos = false
+    @State private var showChatsAlert = false
+    @State private var alertType = AlertType.deleteChats
 
     // MARK: - Body
 
@@ -29,7 +31,6 @@ struct ChatSettingsView: View {
                             print(saveToPhotos)
                         } else {
                             print(saveToPhotos)
-                            // viewModel.updateIsBiometryOn(item: false)
                         }
                     }
             }
@@ -40,6 +41,10 @@ struct ChatSettingsView: View {
                     .font(.bold(12))
                     .foreground(.darkGray())
                     ReserveCellView(text: R.string.localizable.chatSettingsReserveCopy())
+                        .background(.white())
+                        .onTapGesture {
+                            print("reserveCopy")
+                        }
                 }
                 .padding(.top, 8)
                 Divider()
@@ -48,17 +53,44 @@ struct ChatSettingsView: View {
                     ClearChatsCellView(title: R.string.localizable.chatSettingsClearAllChats())
                         .background(.white())
                         .onTapGesture {
-                            print("clearChats")
+                            showChatsAlert = true
+                            alertType = .clearChats
                         }
                     ClearChatsCellView(title: R.string.localizable.chatSettingsDeleteAllChats())
                         .background(.white())
                         .onTapGesture {
-                            print("deleteChats")
+                            showChatsAlert = true
+                            alertType = .deleteChats
                         }
                 }
         }
             .listRowSeparator(.hidden)
         }
+        .onAppear {
+        }
+        .alert(isPresented: $showChatsAlert) { () -> Alert in
+            switch alertType {
+            case .deleteChats:
+                let primaryButton = Alert.Button.default(Text(R.string.localizable.profileDetailDeleteAlertApprove())) {
+                        viewModel.deleteChats()
+                }
+                let secondaryButton = Alert.Button.cancel(Text(R.string.localizable.profileDetailDeleteAlertCancel()))
+                return Alert(title: Text(R.string.localizable.chatSettingsDeleteAlertTitle()),
+                             message: Text(R.string.localizable.chatSettingsDeleteAlertText()),
+                             primaryButton: primaryButton,
+                             secondaryButton: secondaryButton)
+            case .clearChats:
+                let primaryButton = Alert.Button.default(Text(R.string.localizable.profileDetailDeleteAlertApprove())) {
+                        viewModel.clearChats()
+                }
+                let secondaryButton = Alert.Button.cancel(Text(R.string.localizable.profileDetailDeleteAlertCancel()))
+                return Alert(title: Text(R.string.localizable.chatSettingsClearAlertTitle()),
+                             message: Text(R.string.localizable.chatSettingsClearAlertText()),
+                             primaryButton: primaryButton,
+                             secondaryButton: secondaryButton)
+            }
+        }
+
         .listStyle(.plain)
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -138,4 +170,13 @@ struct ClearChatsCellView: View {
             Text("")
         }
     }
+}
+// MARK: - AlertType
+
+enum AlertType {
+
+    // MARK: - Internal Properties
+
+    case clearChats
+    case deleteChats
 }
