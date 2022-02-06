@@ -4,7 +4,7 @@ import Combine
 final class ChatSettingsViewModel: ObservableObject {
 
     // MARK: - Private Properties    
-    @Published var saveToPhotos = false
+    @Published var saveToPhotos = true
     @Published private(set) var state: ChatSettingsFlow.ViewState = .idle
     private let eventSubject = PassthroughSubject<ChatSettingsFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ChatSettingsFlow.ViewState, Never>(.idle)
@@ -44,9 +44,8 @@ final class ChatSettingsViewModel: ObservableObject {
         print("Удалить чаты")
     }
 
-    func updateSaveToPhotos() {
-        saveToPhotos.toggle()
-        userFlows.saveToPhotos = saveToPhotos
+    func updateSaveToPhotos(item: Bool) {
+        userFlows.saveToPhotos = item
     }
 
     // MARK: - Private Methods

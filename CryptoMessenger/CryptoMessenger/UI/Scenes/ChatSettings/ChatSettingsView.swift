@@ -26,8 +26,9 @@ struct ChatSettingsView: View {
                                      description: R.string.localizable.chatSettingsSaveMediaToDevice(),
                                      currentState: $viewModel.saveToPhotos)
                     .listRowSeparator(.hidden)
-                    .onChange(of: viewModel.saveToPhotos) { _ in
-                        viewModel.updateSaveToPhotos()
+                    .onChange(of: viewModel.saveToPhotos) { item in
+                        print(item)
+                        viewModel.updateSaveToPhotos(item: item)
                     }
             }
             .padding(.top, 16)
@@ -63,6 +64,7 @@ struct ChatSettingsView: View {
             .listRowSeparator(.hidden)
         }
         .onAppear {
+            viewModel.send(.onAppear)
         }
         .alert(isPresented: $showChatsAlert) { () -> Alert in
             switch alertType {
@@ -104,6 +106,7 @@ struct ReserveCellView: View {
     // MARK: - Internal Properties
 
     var text: String
+    @State var tapped = false
 
     // MARK: - Body
 
@@ -113,6 +116,7 @@ struct ReserveCellView: View {
                 .font(.regular(15))
             Spacer()
             R.image.registration.arrow.image
+                .opacity(tapped == true ? 0 : 1)
         }
     }
 }

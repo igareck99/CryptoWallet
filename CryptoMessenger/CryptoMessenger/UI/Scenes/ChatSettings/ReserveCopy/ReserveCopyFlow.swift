@@ -22,5 +22,6 @@ enum ReserveCopyFlow {
         // MARK: - Types
 
         case onAppear
+        case onUpload
     }
 }

@@ -1,6 +1,8 @@
 import SwiftUI
 import Combine
 
+// MARK: - ReserveCopyViewModel
+
 final class ReserveCopyViewModel: ObservableObject {
 
     // MARK: - Internal Properties
@@ -10,6 +12,10 @@ final class ReserveCopyViewModel: ObservableObject {
     // MARK: - Private Properties
 
     @Published var reserveCopyTime = ""
+    @Published var progressValue = Float(1)
+    @Published var percent = Float(0)
+    @Published var size_of_data = Float(0)
+    @Published var uploadSpeed = Float(0.1)
     @Published private(set) var state: ReserveCopyFlow.ViewState = .idle
     private let eventSubject = PassthroughSubject<ReserveCopyFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ReserveCopyFlow.ViewState, Never>(.idle)
@@ -42,6 +48,17 @@ final class ReserveCopyViewModel: ObservableObject {
         userCredentialsStorageService.reserveCopyTime = reserveCopyTime
     }
 
+    func reserveCopyProgress() {
+        print(progressValue)
+        self.progressValue += 0.1
+        self.percent = self.progressValue / self.size_of_data
+        if (self.progressValue + self.uploadSpeed) / self.size_of_data > 1 {
+            print("dkmdfj")
+            self.progressValue = self.size_of_data
+            self.percent = 1
+        }
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -51,6 +68,8 @@ final class ReserveCopyViewModel: ObservableObject {
                 case .onAppear:
                     self?.updateData()
                     self?.objectWillChange.send()
+                case .onUpload:
+                    self?.reserveCopyProgress()
                 }
             }
             .store(in: &subscriptions)
@@ -64,5 +83,8 @@ final class ReserveCopyViewModel: ObservableObject {
 
     private func updateData() {
         reserveCopyTime = userCredentialsStorageService.reserveCopyTime
+        size_of_data = 5
+        percent = 0.0
+        progressValue = 0.0
     }
 }
