@@ -148,6 +148,8 @@ final class MainFlowCoordinator: Coordinator {
         case session
         case aboutApp
         case FAQ
+        case chatSettings
+        case reserveCopy
     }
 }
 
@@ -182,6 +184,10 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showSessionScene()
         case let .pinCode(screenType):
             showPinCodeCreate(screenType: screenType)
+        case .chatSettings:
+            showChatSettings()
+        case .reserveCopy:
+            showReserveCopyScene()
         case .FAQ:
             showAnswerScene()
         }
@@ -279,6 +285,20 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    private func showChatSettings() {
+        let rootView = ChatSettingsConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    private func showReserveCopyScene() {
+        let rootView = ReserveCopyConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -312,6 +332,14 @@ extension MainFlowCoordinator: PinCodeCreateSceneDelegate {}
 // MARK: - MainFlowCoordinator (SessionSceneDelegate)
 
 extension MainFlowCoordinator: SessionSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ChatSettingsSceneDelegate)
+
+extension MainFlowCoordinator: ChatSettingsSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ReserveCopySceneDelegate)
+
+extension MainFlowCoordinator: ReserveCopySceneDelegate {}
 
 // MARK: - MainFlowCoordinator (AboutAppSceneDelegate)
 

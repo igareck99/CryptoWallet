@@ -60,6 +60,8 @@ struct UserDefaultsLayer {
     private static let callsState = "callsState"
     private static let geopositionState = "geopositionState"
     private static let isBiometryOn = "isBiometryOn"
+    private static let reserveCopyTime = "reserveCopyTime"
+    private static let saveToPhotos = "saveToPhotos"
 
     // MARK: - Internal Properties
 
@@ -137,6 +139,12 @@ struct UserDefaultsLayer {
     
     @UserDefaultSettings(isBiometryOn, value: true)
     var isBiometryOn: Bool
+    
+    @UserDefaultSettings(reserveCopyTime, value: R.string.localizable.reserveCopyEveryMonth())
+    var reserveCopyTime: String
+    
+    @UserDefaultSettings(saveToPhotos, value: false)
+    var saveToPhotos: Bool
 
     var userMatrixId: String {
         MXCredentials.from(Keychain(service: "chat.aura.credentials"))?.userId ?? ""

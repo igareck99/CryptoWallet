@@ -11,6 +11,7 @@ protocol UserFlowsStorage {
     var isPinCodeOn: Bool { get set }
     var isFalsePinCodeOn: Bool { get set }
     var isBiometryOn: Bool { get set }
+    var saveToPhotos: Bool { get set }
 }
 
 // MARK: - UserFlowsStorageService
@@ -67,5 +68,10 @@ final class UserFlowsStorageService {
     var isBiometryOn: Bool {
         get { storage.isBiometryOn }
         set { storage.isBiometryOn = newValue }
+    }
+
+    var saveToPhotos: Bool {
+        get { storage.saveToPhotos }
+        set { storage.saveToPhotos = newValue }
     }
 }

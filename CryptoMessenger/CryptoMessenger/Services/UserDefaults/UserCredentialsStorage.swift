@@ -21,6 +21,7 @@ protocol UserCredentialsStorage {
     var lastSeenState: String { get set }
     var callsState: String { get set }
     var geopositionState: String { get set }
+    var reserveCopyTime: String { get set }  
 }
 
 // MARK: - UserCredentialsStorageService
@@ -124,5 +125,10 @@ final class UserCredentialsStorageService {
     var geopositionState: String {
         get { storage.geopositionState }
         set { storage.geopositionState = newValue }
+    }
+    
+    var reserveCopyTime: String {
+        get { storage.reserveCopyTime }
+        set { storage.reserveCopyTime = newValue }
     }
 }
