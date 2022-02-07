@@ -49,11 +49,9 @@ final class ReserveCopyViewModel: ObservableObject {
     }
 
     func reserveCopyProgress() {
-        print(progressValue)
         self.progressValue += 0.1
         self.percent = self.progressValue / self.size_of_data
         if (self.progressValue + self.uploadSpeed) / self.size_of_data > 1 {
-            print("dkmdfj")
             self.progressValue = self.size_of_data
             self.percent = 1
         }
