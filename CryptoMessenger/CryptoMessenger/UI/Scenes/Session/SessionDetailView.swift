@@ -29,45 +29,47 @@ struct SessionDetailView: View {
 
     // MARK: - Internal Properties
 
-    @Environment(\.presentationMode) private var presentationMode
     var session: SessionItem
     @ObservedObject var viewModel: SessionViewModel
-    @State var showModal: Bool
+    @Binding var showModal: Bool
 
     // MARK: - Body
 
     var body: some View {
         let session_info: [SessionInfoItem] = [
-            SessionInfoItem(title: R.string.localizable.sessionTime(), info: session.date),
             SessionInfoItem(title: R.string.localizable.sessionPlace(), info: session.place),
+            SessionInfoItem(title: R.string.localizable.sessionTime(), info: session.date),
             SessionInfoItem(title: R.string.localizable.sessionApp(), info: session.device),
             SessionInfoItem(title: R.string.localizable.sessionIp(), info:
                                 session.ip)]
-        GeometryReader { screen in
+        GeometryReader { geometry in
         VStack {
-            HStack(spacing: 73) {
+            HStack(alignment: .center) {
                 Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    showModal = false
                 }, label: {
-                    Image(uiImage: R.image.buyCellsMenu.close() ?? UIImage())
+                    R.image.buyCellsMenu.close.image
                         .frame(width: 24, height: 24)
                         .padding(.leading, 24)
                 })
+                Spacer()
                 Text(R.string.localizable.sessionAdditionalTitle())
                     .font(.bold(16))
-                    .frame(width: 149, height: 20, alignment: .center)
-            }.padding(.leading, -screen.size.width / 2 + 32)
+                Spacer()
+                Text("")
+                    .frame(width: 40)
+            }
+            .offset(x: -10)
+            .padding(.top, 18)
             Spacer()
-            VStack {
-                List {
-                    ForEach(session_info) { session in SessionInfoView(sessionInfoItem: session)
-                            .padding([.leading, .trailing], 16)
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(.init())
-                    }
+            VStack(alignment: .leading) {
+                ForEach(session_info) { session in SessionInfoView(sessionInfoItem: session)
+                        .frame(height: 44)
+                        .padding(.leading, 16)
                 }
                 Divider()
-                HStack {
+                    .padding(.top, 16)
+                VStack(alignment: .center) {
                     Button(action: {
                         let index = viewModel.listData.firstIndex { $0.date == session.date }
                         viewModel.listData.remove(at: index ?? 0)
@@ -79,10 +81,11 @@ struct SessionDetailView: View {
                     }).frame(width: 225, height: 44)
                         .background(.blue())
                         .cornerRadius(8)
-                }.padding(.leading, (screen.size.width - 225) / 2 - 100)
-                Spacer()
-            }
+                        .padding(.leading, (geometry.size.width - 225) / 2)
+                    Spacer()
+                }
+            }.padding(.top, 31)
         }.background(.white())
-    }
+        }
     }
 }

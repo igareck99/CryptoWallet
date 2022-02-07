@@ -53,6 +53,7 @@
 "Profile.Title" = "ИКЕА Россия";
 "Profile.Mobile" = "8 (925) 851-39-11";
 "Profile.BuyCell" = "Купить еще 3 ячейки — 0.050 AUR";
+"Profile.Copied" = "Скопировано!";
 
 
 "PinCode.EnterPassword" = "Введите пароль";
@@ -151,23 +152,53 @@
 
 "Personalization.Title" = "Персонализация";
 "Personalization.System" = "Системная";
+"Pesonalization.ByDefault" = "По умолчанию";
 "Personalization.Light" = "Светлая";
 "Personalization.Dark" = "Темная";
 "Personalization.Cancel" = "Отмена";
+"Personalization.Language" = "Язык приложения";
+"Personalization.Theme" = "Тема";
+"Personalization.Background" = "Фон профиля";
+"Personalization.BackgroundPreview" = "Просмотр";
+"Personalization.Typography" = "Типографика";
+"Personalization.TitleLanguage" = "Язык приложения";
+"Personalization.TitleTheme" = "Тема";
+"Personalization.TitleBackground" = "Фон профиля";
+"Personalization.TitleTypography" = "Типографика";
 
 "AppLanguage.Title" = "Язык приложения";
+"AppLanguage.LanguageTitleRussian" = "Русский язык";
+"AppLanguage.LanguageTitleSystem" = "Как в системе";
+"AppLanguage.LanguageTitleFrench" = "Французский язык";
+"AppLanguage.LanguageTitleSpanish" = "Испанский язык";
+"AppLanguage.LanguageTitleArabic" = "Арабский язык";
+"AppLanguage.LanguageTitleGerman" = "Немецкий язык";
+"AppLanguage.LanguageTitleEnglish" = "Английский язык";
+"AppLanguage.LanguageTitleChiniese" = "Китайский язык";
+"AppLanguage.LanguageDescriptionRussian" = "Russian";
+"AppLanguage.LanguageDescriptionSystem" = "Как в системе (Русский)";
+"AppLanguage.LanguageDescriptionFrench" = "French";
+"AppLanguage.LanguageDescriptionSpanish" = "Spanish";
+"AppLanguage.LanguageDescriptionArabic" = "Arabic";
+"AppLanguage.LanguageDescriptionGerman" = "German";
+"AppLanguage.LanguageDescriptionEnglish" = "English";
+"AppLanguage.LanguageDescriptionChiniese" = "中國人";
+
 
 "Typography.Title" = "Типографика";
+"Typography.LittleTitle" = "Мелкий";
+"Typography.LittleSize" = "80 %";
+"Typography.MiddleTitle" = "Средний";
+"Typography.MiddleSize" = "Как в системе (Русский)";
+"Typography.BigTitle" = "Большой";
+"Typography.BigSize" = "120%";
+"Typography.FontManagment" = "Управление...ом шрифта";
+"Typography.Standart" = "Стандартный";
 
 "ProfileBackground.Title" = "Выбрать из галереи фон";
 "ProfileBackground.Wallpaper" = "ОБОИ";
 
 "ProfileBackgroundPreview.SetBackground" = "Установить фон";
-
-
-"Security.Title" = "Безопасность";
-"Security.Security" = "БЕЗОПАСНОСТЬ";
-"Security.Privacy" = "КОНФЕДЕНЦИАЛЬНОСТЬ";
 
 
 "ProfileViewing.All" = "Все пользователи";
@@ -199,3 +230,31 @@
 "Session.App" = "Приложения";
 "Session.Ip" = "IP-адрес";
 "Session.FinishOne" = "Завершить сеанс";
+
+
+"Security.Title" = "Безопасность";
+"Security.Security" = "БЕЗОПАСНОСТЬ";
+"Security.Privacy" = "КОНФЕДЕНЦИАЛЬНОСТЬ";
+"Security.PinCodeTitle" = "PIN-код";
+"Security.ProfileObserve" = "Просмотр профиля";
+"Security.ProfileObserveState" = "Все пользователи";
+"Security.LastSeen" = "Последнее посещение";
+"Security.CallsTitle" = "Звонки";
+"Security.ContactsAll" = "Только мои контакты";
+"Security.LassSeenState" = "Все поль...тели";
+"Security.Geoposition" = "Геопозиция";
+"Security.Telephone" = "Номер телефона";
+"Security.SessionTitle" = "Управление сессиями";
+"Security.SessionState" = "Показ...устройств";
+"Security.BlackListTitle" = "Черный список";
+"Security.BiometryEnterTitle" = "Вход по опечатку/ face ID";
+"Security.BiometryEnterState" = "Разрешить вход по отпечатку / лицу";
+"Security.FalsePasswordTitle" = "Ложный пароль";
+"Security.FalsePasswordState" = "Позволяет быстро удалить данные";
+
+
+
+
+
+
+

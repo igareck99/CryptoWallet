@@ -11,13 +11,17 @@ struct ProfileItem: Identifiable {
     var avatar: URL?
     var name = "Имя не заполнено"
     var nickname = ""
-    var status = ""
+    var status = "Всем привет! Я использую AURA!"
     var info = ""
     var phone = "Номер не заполнен"
     var photos: [Image] = [
         R.image.profile.testpicture2.image,
         R.image.profile.testpicture5.image,
         R.image.profile.testpicture3.image,
+        R.image.profile.testpicture4.image,
+        R.image.profile.testpicture4.image,
+        R.image.profile.testpicture4.image,
+        R.image.profile.testpicture4.image,
         R.image.profile.testpicture4.image
     ]
 }
@@ -30,13 +34,14 @@ final class ProfileViewModel: ObservableObject {
 
     weak var delegate: ProfileSceneDelegate?
 
+    @Published var selectedImage: UIImage?
+
+    // MARK: - Private Properties
+
     @Published private(set) var profile = ProfileItem()
     @Published private(set) var state: ProfileFlow.ViewState = .idle
     @Published private(set) var socialList = SocialListViewModel()
     @Published private(set) var socialListEmpty = false
-
-    // MARK: - Private Properties
-
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
@@ -62,6 +67,10 @@ final class ProfileViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
+    func addPhoto(image: UIImage) {
+        profile.photos.append(Image(uiImage: image))
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -73,6 +82,14 @@ final class ProfileViewModel: ObservableObject {
                     self?.objectWillChange.send()
                 case .onProfileScene:
                     self?.delegate?.handleNextScene(.profileDetail)
+                case .onPersonalization:
+                    self?.delegate?.handleNextScene(.personalization)
+                case .onSecurity:
+                    self?.delegate?.handleNextScene(.security)
+                case .aboutApp:
+                    self?.delegate?.handleNextScene(.aboutApp)
+                case .onFAQ:
+                    self?.delegate?.handleNextScene(.FAQ)
                 }
             }
             .store(in: &subscriptions)

@@ -51,6 +51,7 @@ final class PinCodeView: UIView {
     private var buttons: [PinButton] = []
     private var userCode: [Int] = []
     private var rightCode: [Int] = []
+    private var biometryActive = true
     private let maxDotesCount = 5
     private var isNewPassword = true
     private var isFirstStep = true
@@ -79,14 +80,20 @@ final class PinCodeView: UIView {
 
     func setLocalAuth(_ result: AvailableBiometric?) {
         guard let result = result, let button = buttons.first(where: { $0.type == .faceId }) else { return }
-        button.isEnabled = true
-        button.setImage(result.image, for: .normal)
+        if biometryActive {
+            button.isEnabled = true
+            button.setImage(result.image, for: .normal)
+        }
     }
 
     func setPinCode(_ pinCode: [Int]) {
         rightCode = pinCode
         isNewPassword = pinCode.isEmpty
         stylePasswordTitle()
+    }
+
+    func setBiometryActive(_ isActive: Bool) {
+        biometryActive = isActive
     }
 
     func nextPage() {
@@ -239,8 +246,12 @@ final class PinCodeView: UIView {
             button.setBackgroundColor(color: .lightBlue(), forState: .highlighted)
             button.addTarget(self, action: #selector(numberButtonAction), for: .touchUpInside)
         case .faceId:
-            button.addTarget(self, action: #selector(authButtonTap), for: .touchUpInside)
-            button.isEnabled = false
+            if biometryActive {
+                button.addTarget(self, action: #selector(authButtonTap), for: .touchUpInside)
+                button.isEnabled = false
+            } else {
+                button.setBackgroundColor(color: .white(), forState: .normal)
+            }
         case .delete:
             button.setImage(R.image.pinCode.delete(), for: .normal)
             button.addTarget(self, action: #selector(deleteButtonAction), for: .touchUpInside)

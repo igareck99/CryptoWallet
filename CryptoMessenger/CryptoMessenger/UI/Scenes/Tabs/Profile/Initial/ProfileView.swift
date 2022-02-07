@@ -15,6 +15,7 @@ struct ProfileView: View {
     @State private var showProfileDetail = false
     @State private var showCopyNicknameAlert = false
     @State private var showSafari = false
+    @State private var showImagePicker = false
     @State private var safariAdress = ""
 
     // MARK: - Body
@@ -51,7 +52,18 @@ struct ProfileView: View {
             .fullScreenCover(isPresented: $showSafari, content: {
                 SFSafariViewWrapper(link: $safariAdress)
         })
-            .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text("Скопировано!")) }
+            .sheet(isPresented: $showImagePicker) {
+                NavigationView {
+                    ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
+                        guard let image = image else { return }
+                        self.viewModel.addPhoto(image: image)
+                    })
+                        .ignoresSafeArea()
+                        .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+            }
+            .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text(R.string.localizable.profileCopied())) }
             .popup(
                 isPresented: $showMenu,
                 type: .toast,
@@ -67,6 +79,22 @@ struct ProfileView: View {
                             vibrate()
                             hideTabBar()
                             viewModel.send(.onProfileScene)
+                        case .personalization:
+                            vibrate()
+                            hideTabBar()
+                            viewModel.send(.onPersonalization)
+                        case .security:
+                            vibrate()
+                            hideTabBar()
+                            viewModel.send(.onSecurity)
+                        case .about:
+                            vibrate()
+                            hideTabBar()
+                            viewModel.send(.aboutApp)
+                        case .questions:
+                            vibrate()
+                            hideTabBar()
+                            viewModel.send(.onFAQ)
                         default:
                             break
                         }
@@ -98,7 +126,6 @@ struct ProfileView: View {
     }
 
     private var content: some View {
-        GeometryReader { geometry in
             ZStack {
                 ScrollView(popupSelected ? [] : .vertical, showsIndicators: false) {
                         VStack(alignment: .leading, spacing: 24) {
@@ -190,26 +217,28 @@ struct ProfileView: View {
                                         showSafari = true
                                     }
                             }.padding(.leading, 16)
-
-                            VStack(alignment: .center) {
-                                Button(R.string.localizable.profileAdd()) {
-                                }.frame(width: geometry.size.width
-                                        - 32, height: 44, alignment: .center)
-                                    .font(.regular(15))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .stroke(.blue, lineWidth: 1)
-                                    )
-                            }.padding(.leading, 16)
-
+                            Button(action: {
+                                showImagePicker = true
+                                }, label: {
+                                    Text(R.string.localizable.profileAdd())
+                                        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+                                        .font(.regular(15))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .stroke(.blue, lineWidth: 1)
+                                        )
+                                })
+                                .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+                                .background(.white())
+                                .padding(.leading, 16)
+                                .padding(.trailing, 16)
                             photosView
 
                             FooterView(popupSelected: $popupSelected)
                                 .padding([.leading, .trailing], 16)
-                        }
+                            }
                 }
             }
-        }
     }
 
     private var avatarView: some View {
@@ -244,6 +273,8 @@ struct ProfileView: View {
                 VStack(spacing: 0) {
                     viewModel.profile.photos[index]
                         .resizable()
+                        .frame(width: (UIScreen.main.bounds.width - 3) / 3,
+                               height: (UIScreen.main.bounds.width - 3) / 3)
                         .scaledToFill()
                 }
             }
@@ -262,14 +293,19 @@ struct FooterView: View {
     // MARK: - Body
 
     var body: some View {
-        Button(R.string.localizable.profileBuyCell()) {
+        Button(action: {
             hideTabBar()
             popupSelected.toggle()
-        }
-        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-        .font(.regular(15))
-        .overlay(
-            RoundedRectangle(cornerRadius: 8).stroke(.blue, lineWidth: 1)
-        )
+            }, label: {
+                Text(R.string.localizable.profileBuyCell())
+                    .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+                    .font(.regular(15))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.blue, lineWidth: 1)
+                    )
+            })
+            .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+            .background(.white())
     }
 }

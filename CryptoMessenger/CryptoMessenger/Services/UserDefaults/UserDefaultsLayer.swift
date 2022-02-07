@@ -1,6 +1,7 @@
 import KeychainAccess
 import MatrixSDK
 import UIKit
+import SwiftUI
 
 // MARK: - UserDefaultSettings
 
@@ -49,6 +50,16 @@ struct UserDefaultsLayer {
     private static let userFalsePinCodeKey = "userFalsePinCodeKey"
     private static let isFalsePinCodeOnKey = "isFalsePinCodeOnKey"
     private static let socialNetworkList = "socialNetworkList"
+    private static let typography = "typography"
+    private static let language = "language"
+    private static let theme = "theme"
+    private static let profileBackgroundImage = "profileBackgroundImage"
+    private static let profileObserveState = "profileObserveState"
+    private static let telephoneState = "telephoneState"
+    private static let lastSeenState = "lastSeenState"
+    private static let callsState = "callsState"
+    private static let geopositionState = "geopositionState"
+    private static let isBiometryOn = "isBiometryOn"
 
     // MARK: - Internal Properties
 
@@ -96,6 +107,36 @@ struct UserDefaultsLayer {
     
     @UserDefaultSettings(socialNetworkList, value: SocialListItem.socialList())
     var socialNetworkList: [SocialListItem]
+    
+    @UserDefaultSettings(typography, value: "")
+    var typography: String
+    
+    @UserDefaultSettings(language, value: "")
+    var language: String
+    
+    @UserDefaultSettings(theme, value: "")
+    var theme: String
+    
+    @UserDefaultSettings(profileBackgroundImage, value: -1)
+    var profileBackgroundImage: Int
+    
+    @UserDefaultSettings(telephoneState, value: R.string.localizable.securityContactsAll())
+    var telephoneState: String
+    
+    @UserDefaultSettings(profileObserveState, value: R.string.localizable.securityContactsAll())
+    var profileObserveState: String
+    
+    @UserDefaultSettings(lastSeenState, value: R.string.localizable.securityContactsAll())
+    var lastSeenState: String
+    
+    @UserDefaultSettings(callsState, value: R.string.localizable.securityContactsAll())
+    var callsState: String
+    
+    @UserDefaultSettings(geopositionState, value: R.string.localizable.securityContactsAll())
+    var geopositionState: String
+    
+    @UserDefaultSettings(isBiometryOn, value: true)
+    var isBiometryOn: Bool
 
     var userMatrixId: String {
         MXCredentials.from(Keychain(service: "chat.aura.credentials"))?.userId ?? ""

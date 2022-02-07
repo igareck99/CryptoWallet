@@ -34,6 +34,7 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
+        // handleNextScene(.test)
         handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
     }
 
@@ -91,41 +92,6 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
-    private func showAboutAppScene() {
-        let viewController = AboutAppConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showPersonalizationScene() {
-        let viewController = PersonalizationConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showAppLanguageScene() {
-        let viewController = AppLanguageConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showTypographyScene() {
-        let viewController = TypographyConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showProfileBackgroundScene() {
-        let viewController = ProfileBackgroundConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showBlockedUserScene() {
-        let viewController = BaseHostingController(rootView: BlockedUserContentView())
-        setViewWith(viewController)
-    }
-
-    private func showSession() {
-        let viewController = BaseHostingController(rootView: SessionListView())
-        setViewWith(viewController)
-    }
-
     private func showSecurityScene() {
         let viewController = SecurityConfigurator.configuredViewController(delegate: self)
         navigationController.pushViewController(viewController, animated: true)
@@ -154,12 +120,6 @@ public final class AuthFlowCoordinator: Coordinator {
         case pinCode
         case photoEditor
         case profileNetwork
-        case aboutApp
-        case personalization
-        case appLanguage
-        case typography
-        case blockedUser
-        case userSession
         case security
     }
 }
@@ -191,20 +151,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showPhotoEditorScene(images: [])
         case .profileNetwork:
             showProfileNetworkDetailScene()
-        case .aboutApp:
-            showAboutAppScene()
-        case .personalization:
-            showPersonalizationScene()
-        case .appLanguage:
-            showAppLanguageScene()
-        case .typography:
-            showTypographyScene()
-        case .userSession:
-            showSession()
         case .security:
             showSecurityScene()
-        case .blockedUser:
-            showBlockedUserScene()
         }
     }
 
@@ -260,26 +208,6 @@ extension AuthFlowCoordinator: PinCodeSceneDelegate {
 // MARK: - AuthFlowCoordinator (ProfileNetworkDetailSceneDelegate)
 
 extension AuthFlowCoordinator: ProfileNetworkDetailSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (AboutAppSceneDelegate)
-
-extension AuthFlowCoordinator: AboutAppSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (PersonalizationSceneDelegate)
-
-extension AuthFlowCoordinator: PersonalizationSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (AppLanguageSceneDelegate)
-
-extension AuthFlowCoordinator: AppLanguageSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (TypographySceneDelegate)
-
-extension AuthFlowCoordinator: TypographySceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (ProfileBackgroundSceneDelegate)
-
-extension AuthFlowCoordinator: ProfileBackgroundSceneDelegate {}
 
 // MARK: - AuthFlowCoordinator (SecuritySceneDelegate)
 
