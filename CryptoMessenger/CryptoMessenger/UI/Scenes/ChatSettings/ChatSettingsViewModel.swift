@@ -37,11 +37,9 @@ final class ChatSettingsViewModel: ObservableObject {
     }
 
     func clearChats() {
-        print("Очистить все чаты")
     }
 
     func deleteChats() {
-        print("Удалить чаты")
     }
 
     func updateSaveToPhotos(item: Bool) {

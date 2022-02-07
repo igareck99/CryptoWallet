@@ -9,6 +9,7 @@ struct ReserveCopyView: View {
     @StateObject var viewModel: ReserveCopyViewModel
     @State private var showChangeReserveTime = false
     @State private var creatingCopy = false
+    @State private var email = "example@gmail.com"
 
     // MARK: - Body
 
@@ -25,13 +26,13 @@ struct ReserveCopyView: View {
                         ReserveCellView(text: R.string.localizable.reserveCopyCreateCopy(),
                                         tapped: creatingCopy)
                             .background(.white())
-                        ProgressBarView(value: $viewModel.progressValue,
+                        ProgressBarView(progressValue: $viewModel.progressValue,
                                         percent: $viewModel.percent,
-                                        size_of_data: $viewModel.size_of_data,
+                                        sizeData: $viewModel.sizeData,
                                         creatingCopy: $creatingCopy)
                             .frame(height: 29)
                             .onAppear {
-                                while viewModel.size_of_data - viewModel.progressValue > 0 {
+                                while viewModel.sizeData - viewModel.progressValue > 0 {
                                     viewModel.send(.onUpload)
                                 }
                             }
@@ -62,7 +63,7 @@ struct ReserveCopyView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(R.string.localizable.reserveCopyAccountCopy())
                     .font(.regular(16))
-                Text("example@gmail.com")
+                Text(email)
                     .foreground(.darkGray())
                     .font(.bold(12))
             }
@@ -73,7 +74,6 @@ struct ReserveCopyView: View {
                 .padding(.top, 16)
                 .listRowSeparator(.hidden)
                 .onTapGesture {
-                    print("Открывается окно с google")
                 }
         }
         .onAppear {
@@ -101,7 +101,9 @@ struct ReserveCopyView: View {
 
 struct ReserveCopyInfoCellView: View {
 
-    // MARK: - Internal Properties
+    // MARK: - Private Properties
+
+    @State private var copyCreateInfo = "Google Диск: \n28 октября 2020, 13:23"
 
     // MARK: - Body
 
@@ -112,7 +114,7 @@ struct ReserveCopyInfoCellView: View {
                 .foreground(.darkGray())
             Text(R.string.localizable.reserveCopyCreated())
                 .padding(.top, 4)
-            Text("Google Диск: \n28 октября 2020, 13:23")
+            Text(copyCreateInfo)
                 .font(.regular(12))
                 .lineLimit(2)
                 .foreground(.darkGray())
@@ -126,9 +128,9 @@ struct ProgressBarView: View {
 
     // MARK: - Internal Properties
 
-    @Binding var value: Float
+    @Binding var progressValue: Float
     @Binding var percent: Float
-    @Binding var size_of_data: Float
+    @Binding var sizeData: Float
     @Binding var creatingCopy: Bool
 
     var body: some View {
@@ -140,7 +142,7 @@ struct ProgressBarView: View {
                                           height: 5)
                             .opacity(0.3)
                             .foregroundColor(Color(.lightBlue()))
-                        Rectangle().frame(width: min(CGFloat(self.value)
+                        Rectangle().frame(width: min(CGFloat(self.progressValue)
                                                      * geometry.size.width - 40,
                                                      geometry.size.width - 40),
                                           height: 5)
@@ -151,8 +153,8 @@ struct ProgressBarView: View {
                             creatingCopy = false
                         }
                 }
-                Text("Загрузка: \(String(format: "%0.1f", value)) МБ из " +
-                    "\(String(format: "%0.1f", size_of_data)) " +
+                Text("Загрузка: \(String(format: "%0.1f", progressValue)) МБ из " +
+                    "\(String(format: "%0.1f", sizeData)) " +
                     "МБ (\(String(format: "%0.0f", percent * 100))%)")
                     .lineLimit(1)
                     .font(.bold(12))

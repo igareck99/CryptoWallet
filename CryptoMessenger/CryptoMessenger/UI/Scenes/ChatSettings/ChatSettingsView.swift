@@ -27,7 +27,6 @@ struct ChatSettingsView: View {
                                      currentState: $viewModel.saveToPhotos)
                     .listRowSeparator(.hidden)
                     .onChange(of: viewModel.saveToPhotos) { item in
-                        print(item)
                         viewModel.updateSaveToPhotos(item: item)
                     }
             }
