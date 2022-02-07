@@ -147,6 +147,7 @@ final class MainFlowCoordinator: Coordinator {
         case pinCode(PinCodeScreenType)
         case session
         case aboutApp
+        case FAQ
         case chatSettings
         case reserveCopy
     }
@@ -187,6 +188,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showChatSettings()
         case .reserveCopy:
             showReserveCopyScene()
+        case .FAQ:
+            showAnswerScene()
         }
     }
 
@@ -275,6 +278,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+
+    private func showAnswerScene() {
+        let rootView = AnswerConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
     
     private func showChatSettings() {
         let rootView = ChatSettingsConfigurator.configuredView(delegate: self)
@@ -334,6 +344,10 @@ extension MainFlowCoordinator: ReserveCopySceneDelegate {}
 // MARK: - MainFlowCoordinator (AboutAppSceneDelegate)
 
 extension MainFlowCoordinator: AboutAppSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (AnswersSceneDelegate)
+
+extension MainFlowCoordinator: AnswersSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 
