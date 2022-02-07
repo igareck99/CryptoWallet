@@ -39,6 +39,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>App requires to access your camera to pick photos for profile feed</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Приложение $(PRODUCT_NAME) запрашивает доступ к контактам</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

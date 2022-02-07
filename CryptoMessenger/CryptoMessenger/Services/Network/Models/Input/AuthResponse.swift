@@ -6,7 +6,7 @@ struct AuthResponse: Codable {
 
     // MARK: - Internal Properties
 
-    let userId: String
+    let userId: String?
     let accessToken: String
     let refreshToken: String
 
