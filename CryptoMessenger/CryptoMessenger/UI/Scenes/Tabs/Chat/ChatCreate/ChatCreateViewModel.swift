@@ -2,12 +2,18 @@ import Combine
 import Foundation
 import MatrixSDK
 
+// MARK: - Contact
+
 struct Contact: Identifiable {
+
+    // MARK: - Internal Properties
+
     let id = UUID()
     let mxId: String
     var avatar: URL?
     let name: String
     let status: String
+    var phone: String = ""
 }
 
 // MARK: - ChatCreateViewModel
@@ -23,6 +29,8 @@ final class ChatCreateViewModel: ObservableObject {
     @Published private(set) var closeScreen = false
     @Published private(set) var contacts: [Contact] = []
     @Published private(set) var state: ChatCreateFlow.ViewState = .idle
+    @Published private(set) var existingContacts: [Contact] = []
+    @Published private(set) var waitingContacts: [Contact] = []
 
     // MARK: - Private Properties
 
@@ -30,6 +38,8 @@ final class ChatCreateViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<ChatCreateFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private var contactsStore: ContactsManager
+    @Injectable private var apiClient: APIClientManager
 
     // MARK: - Lifecycle
 
@@ -57,7 +67,7 @@ final class ChatCreateViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.objectWillChange.send()
+                    self?.syncContacts()
                 case let .onCreate(ids):
                     self?.createRoom(ids)
                 case .onNextScene:
@@ -107,9 +117,13 @@ final class ChatCreateViewModel: ObservableObject {
             parameters.visibility = MXRoomDirectoryVisibility.private.identifier
             parameters.preset = MXRoomPreset.privateChat.identifier
         } else {
-            parameters.inviteArray = []
+            parameters.inviteArray = ids
             parameters.isDirect = false
-            parameters.name = ""
+            parameters.roomAlias = mxStore.getUserId()
+            parameters.name = "Групповой чат"
+            parameters.topic = "Тема"
+            parameters.visibility = MXRoomDirectoryVisibility.private.identifier
+            parameters.preset = MXRoomPreset.privateChat.identifier
 //            if isPublic {
 //                parameters.visibility = MXRoomDirectoryVisibility.public.identifier
 //                parameters.preset = MXRoomPreset.publicChat.identifier
@@ -143,5 +157,77 @@ final class ChatCreateViewModel: ObservableObject {
             }
             return contact
         }
+    }
+
+    private func syncContacts() {
+        contactsStore.fetch { [weak self] contacts, _ in
+            self?.matchServerContacts(contacts)
+        }
+    }
+
+    private func matchServerContacts(_ contacts: [ContactInfo]) {
+        guard !contacts.isEmpty else { return }
+
+        let phones = contacts.map { $0.phoneNumber.numbers }
+
+        apiClient.publisher(Endpoints.Users.users(phones))
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    guard let err = error as? APIError else {
+                        self?.state = .error(.serverError)
+                        return
+                    }
+                    self?.state = .error(err)
+                default:
+                    break
+                }
+            }, receiveValue: { [weak self] response in
+                let sorted = contacts.sorted(by: { $0.firstName < $1.firstName })
+
+                let mxUsers: [MXUser] = self?.mxStore.allUsers() ?? []
+                let lastUsers: [Contact] = mxUsers.map {
+                    var contact = Contact(
+                        mxId: $0.userId ?? "",
+                        avatar: nil,
+                        name: $0.displayname ?? "",
+                        status: $0.statusMsg ?? ""
+                    )
+                    if let avatar = $0.avatarUrl {
+                        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                        contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
+                    }
+                    return contact
+                }
+
+                let existing: [Contact] = sorted
+                    .filter { response.keys.contains($0.phoneNumber.numbers) }
+                    .map {
+                        .init(
+                            mxId: response[$0.phoneNumber] ?? "",
+                            avatar: nil,
+                            name: $0.firstName,
+                            status: ""
+                        )
+                    }
+                    .filter { contact in
+                        !lastUsers.contains(where: { last in
+                            contact.mxId == last.mxId
+                        })
+                    }
+
+                self?.existingContacts = lastUsers + existing
+
+                self?.waitingContacts = sorted.filter { !response.keys.contains($0.phoneNumber.numbers) }.map {
+                    .init(
+                        mxId: response[$0.phoneNumber] ?? "",
+                        avatar: nil,
+                        name: $0.firstName,
+                        status: "",
+                        phone: $0.phoneNumber
+                    )
+                }
+            })
+            .store(in: &subscriptions)
     }
 }

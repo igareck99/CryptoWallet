@@ -23,9 +23,31 @@ enum Endpoints {
 
     // MARK: - Logout
 
-    enum Logout {
-        static func post() -> Endpoint<EmptyResponse> {
-            return Endpoint<EmptyResponse>(method: .post, path: "/mobile/auth/logout")
+    enum Session {
+
+        // MARK: - Static Methods
+
+        static func refresh(_ token: String) -> Endpoint<AuthResponse> {
+            let endpoint = Endpoint<AuthResponse>(method: .post, path: "/user/refresh")
+            endpoint.modifyRequest { $0.jsonBody(dict: ["refresh_token": token]) }
+            return endpoint
+        }
+
+        static func logout() -> Endpoint<EmptyResponse> {
+            Endpoint<EmptyResponse>(method: .post, path: "/mobile/auth/logout")
+        }
+    }
+
+    // MARK: - Users
+
+    enum Users {
+
+        // MARK: - Static Methods
+
+        static func users(_ phones: [String]) -> Endpoint<[String: String]> {
+            let endpoint = Endpoint<[String: String]>(method: .post, path: "/user/list")
+            endpoint.modifyRequest { $0.jsonBody(array: phones) }
+            return endpoint
         }
     }
 

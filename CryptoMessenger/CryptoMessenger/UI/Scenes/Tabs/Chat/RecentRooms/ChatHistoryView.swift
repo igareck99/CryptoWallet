@@ -12,7 +12,9 @@ struct ChatHistoryView: View {
 
     @State private var searchText = ""
     @State private var searching = false
-    @State private var newRoomSelected = false
+    @State private var createRoomSelected = false
+    @State private var contactSelected = false
+    @State private var contacts: [Contact] = []
     @State private var selectedRoomId: ObjectIdentifier?
 
     private var searchResults: [AuraRoom] {
@@ -40,7 +42,7 @@ struct ChatHistoryView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: 0) {
                         Button {
-                            newRoomSelected.toggle()
+                            createRoomSelected.toggle()
                         } label: {
                             R.image.chat.writeMessage.image
                         }
@@ -55,9 +57,18 @@ struct ChatHistoryView: View {
                     }
                 }
             }
-            .sheet(isPresented: $newRoomSelected) {
-                ChatCreateView(viewModel: .init(), onCreateGroup: nil)
+            .sheet(isPresented: $createRoomSelected) {
+                ChatCreateView(viewModel: .init(), onCreateGroup: { existingContacts in
+                    self.contacts = existingContacts
+                    self.contactSelected.toggle()
+                })
             }
+            .sheet(isPresented: $contactSelected) {
+                SelectContactView(contacts: $contacts, onSelectContacts: { selectedContacts in
+                    self.contacts = selectedContacts
+                })
+            }
+
     }
 
     // MARK: - Body Properties

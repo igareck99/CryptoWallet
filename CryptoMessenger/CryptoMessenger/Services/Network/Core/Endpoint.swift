@@ -118,3 +118,29 @@ extension Endpoint where Response == String {
         }
     }
 }
+
+// MARK: - Endpoint ([String: String])
+
+extension Endpoint where Response == [String: String] {
+    convenience init(
+        method: RequestBuilder.Method,
+        path: String,
+        requestType: RequestBuilder.RequestType = .request,
+        _ builder: ((RequestBuilder) -> RequestBuilder)? = nil
+    ) {
+        var reqBuilder = RequestBuilder(method: method, path: path, requestType: requestType)
+        if let builder = builder {
+            reqBuilder = builder(reqBuilder)
+        }
+
+        self.init(builder: reqBuilder) {
+            guard let dictionary = try JSONSerialization.jsonObject(
+                with: $0,
+                options: .allowFragments
+            ) as? [String: String] else {
+                return [:]
+            }
+            return dictionary
+        }
+    }
+}

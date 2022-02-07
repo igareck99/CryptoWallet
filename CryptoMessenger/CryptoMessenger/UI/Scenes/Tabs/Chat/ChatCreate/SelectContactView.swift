@@ -4,11 +4,16 @@ import SwiftUI
 
 struct SelectContactView: View {
 
+    // MARK: - Internal Properties
+
+    @Binding var contacts: [Contact]
+    var onSelectContacts: GenericBlock<[Contact]>?
+
     // MARK: - Private Properties
 
     @Environment(\.presentationMode) private var presentationMode
     @State private var isActive = false
-    @State private var selectedRows = Set<Int>()
+    @State private var selectedRows = Set<UUID>()
 
     // MARK: - Body
 
@@ -35,6 +40,7 @@ struct SelectContactView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         isActive.toggle()
+                        onSelectContacts?(contacts.filter({ selectedRows.contains($0.id) }))
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
@@ -53,12 +59,11 @@ struct SelectContactView: View {
             Color(.white()).ignoresSafeArea()
 
             ScrollView(.vertical, showsIndicators: false) {
-                sectionView("K")
-
-                ForEach(0..<10) { index in
+                //sectionView("K")
+                ForEach(contacts) { contact in
                     VStack(spacing: 0) {
                         HStack(spacing: 0) {
-                            if selectedRows.contains(index) {
+                            if selectedRows.contains(contact.id) {
                                 R.image.chat.group.check.image
                                     .transition(.scale.animation(.linear(duration: 0.2)))
                             } else {
@@ -67,17 +72,17 @@ struct SelectContactView: View {
                             }
 
                             ContactRow(
-                                avatar: nil,
-                                name: "Karen Castillo",
-                                status: "Привет, теперь я в Aura"
+                                avatar: contact.avatar,
+                                name: contact.name,
+                                status: contact.status
                             )
-                                .id(index)
+                                .id(contact.id)
                                 .onTapGesture {
                                     vibrate()
-                                    if selectedRows.contains(index) {
-                                        selectedRows.remove(index)
+                                    if selectedRows.contains(contact.id) {
+                                        selectedRows.remove(contact.id)
                                     } else {
-                                        selectedRows.insert(index)
+                                        selectedRows.insert(contact.id)
                                     }
                                 }
                         }
