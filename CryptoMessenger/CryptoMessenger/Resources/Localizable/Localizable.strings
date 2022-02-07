@@ -252,6 +252,28 @@
 "Security.FalsePasswordTitle" = "Ложный пароль";
 "Security.FalsePasswordState" = "Позволяет быстро удалить данные";
 
+"ChatSettings.Media" = "МЕДИА";
+"ChatSettings.SaveToPhotos" = "Сохранять в фотопленку";
+"ChatSettings.SaveMediaToDevice" = "Сохранять медиа на устройство";
+"ChatSettings.ReserveCopy" = "Резервное копирование";
+"ChatSettings.ClearAllChats" = "Очистить все чаты";
+"ChatSettings.DeleteAllChats" = "Удалить все чаты";
+"ChatSettings.ClearAlertTitle" = "Очистка чатов";
+"ChatSettings.DeleteAlertTitle" = "Удаление чатов";
+"ChatSettings.ClearAlertText" = "Вы действительно хотите удалить все сообщения в чатах?";
+"ChatSettings.DeleteAlertText" = "Вы действительно хотите удалить все чаты?";
+
+"ReserveCopy.Created" = "Резервная копия создана";
+"ReserveCopy.CreateCopy" = "Создать резервную копию";
+"ReserveCopy.AutomaticCopy" = "Автоматическое копирование";
+"ReserveCopy.DiskCopy" = "Копирование на диск";
+"ReserveCopy.EveryDay" = "Каждый день";
+"ReserveCopy.EveryMonth" = "Каждый месяц";
+"ReserveCopy.Never" = "Никогда";
+"ReserveCopy.AccountCopy" = "Аккаунт для копирования";
+"ReserveCopy.ChangeAccount" = "Сменить аккаунт";
+"ReserveCopy.NotCreated" = "Резервная копия не создавалась";
+
 
 
 
