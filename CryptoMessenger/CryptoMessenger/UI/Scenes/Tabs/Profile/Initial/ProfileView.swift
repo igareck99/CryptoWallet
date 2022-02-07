@@ -83,6 +83,18 @@ struct ProfileView: View {
                             vibrate()
                             hideTabBar()
                             viewModel.send(.onPersonalization)
+                        case .security:
+                            vibrate()
+                            hideTabBar()
+                            viewModel.send(.onSecurity)
+                        case .about:
+                            vibrate()
+                            hideTabBar()
+                            viewModel.send(.aboutApp)
+                        case .questions:
+                            vibrate()
+                            hideTabBar()
+                            viewModel.send(.onFAQ)
                         default:
                             break
                         }

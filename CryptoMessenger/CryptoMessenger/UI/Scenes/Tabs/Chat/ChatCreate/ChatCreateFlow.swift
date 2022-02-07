@@ -12,7 +12,7 @@ enum ChatCreateFlow {
 
         case idle
         case loading
-        case error(message: String)
+        case error(APIError)
     }
 
     // MARK: - Event

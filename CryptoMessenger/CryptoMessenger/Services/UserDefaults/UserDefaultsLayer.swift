@@ -36,7 +36,8 @@ struct UserDefaultsLayer {
     // MARK: - Private Properties
 
     private static let isUserAuthenticatedKey = "isUserAuthenticatedKey"
-    private static let authTokenKey = "authTokenKey"
+    private static let accessTokenKey = "accessTokenKey"
+    private static let refreshTokenKey = "refreshTokenKey"
     private static let authUserIdKey = "authUserIdKey"
     private static let userPhoneNumberKey = "userPhoneNumberKey"
     private static let isAuthFlowFinishedKey = "isAuthFlowFinishedKey"
@@ -53,14 +54,23 @@ struct UserDefaultsLayer {
     private static let language = "language"
     private static let theme = "theme"
     private static let profileBackgroundImage = "profileBackgroundImage"
+    private static let profileObserveState = "profileObserveState"
+    private static let telephoneState = "telephoneState"
+    private static let lastSeenState = "lastSeenState"
+    private static let callsState = "callsState"
+    private static let geopositionState = "geopositionState"
+    private static let isBiometryOn = "isBiometryOn"
 
     // MARK: - Internal Properties
 
     @UserDefaultSettings(isUserAuthenticatedKey, value: false)
     var isUserAuthenticated: Bool
 
-    @UserDefaultSettings(authTokenKey, value: "")
-    var token: String
+    @UserDefaultSettings(accessTokenKey, value: "")
+    var accessToken: String
+
+    @UserDefaultSettings(refreshTokenKey, value: "")
+    var refreshToken: String
 
     @UserDefaultSettings(authUserIdKey, value: "")
     var userId: String
@@ -109,6 +119,24 @@ struct UserDefaultsLayer {
     
     @UserDefaultSettings(profileBackgroundImage, value: -1)
     var profileBackgroundImage: Int
+    
+    @UserDefaultSettings(telephoneState, value: R.string.localizable.securityContactsAll())
+    var telephoneState: String
+    
+    @UserDefaultSettings(profileObserveState, value: R.string.localizable.securityContactsAll())
+    var profileObserveState: String
+    
+    @UserDefaultSettings(lastSeenState, value: R.string.localizable.securityContactsAll())
+    var lastSeenState: String
+    
+    @UserDefaultSettings(callsState, value: R.string.localizable.securityContactsAll())
+    var callsState: String
+    
+    @UserDefaultSettings(geopositionState, value: R.string.localizable.securityContactsAll())
+    var geopositionState: String
+    
+    @UserDefaultSettings(isBiometryOn, value: true)
+    var isBiometryOn: Bool
 
     var userMatrixId: String {
         MXCredentials.from(Keychain(service: "chat.aura.credentials"))?.userId ?? ""

@@ -4,7 +4,8 @@ import Foundation
 
 protocol UserCredentialsStorage {
     var isUserAuthenticated: Bool { get set }
-    var token: String { get set }
+    var accessToken: String { get set }
+    var refreshToken: String { get set }
     var userId: String { get set }
     var userPhoneNumber: String { get set }
     var userMatrixId: String { get }
@@ -15,6 +16,11 @@ protocol UserCredentialsStorage {
     var language: String { get set }
     var theme: String { get set }
     var profileBackgroundImage: Int { get set }
+    var telephoneState: String { get set }
+    var profileObserveState: String { get set }
+    var lastSeenState: String { get set }
+    var callsState: String { get set }
+    var geopositionState: String { get set }
 }
 
 // MARK: - UserCredentialsStorageService
@@ -38,9 +44,14 @@ final class UserCredentialsStorageService {
         set { storage.isUserAuthenticated = newValue }
     }
 
-    var token: String {
-        get { storage.token }
-        set { storage.token = newValue }
+    var accessToken: String {
+        get { storage.accessToken }
+        set { storage.accessToken = newValue }
+    }
+
+    var refreshToken: String {
+        get { storage.refreshToken }
+        set { storage.refreshToken = newValue }
     }
 
     var userId: String {
@@ -84,9 +95,34 @@ final class UserCredentialsStorageService {
         get { storage.theme }
         set { storage.theme = newValue }
     }
-    
+
     var profileBackgroundImage: Int {
         get { storage.profileBackgroundImage }
         set { storage.profileBackgroundImage = newValue }
+    }
+
+    var telephoneState: String {
+        get { storage.telephoneState }
+        set { storage.telephoneState = newValue }
+    }
+
+    var profileObserveState: String {
+        get { storage.profileObserveState }
+        set { storage.profileObserveState = newValue }
+    }
+
+    var lastSeenState: String {
+        get { storage.lastSeenState }
+        set { storage.lastSeenState = newValue }
+    }
+
+    var callsState: String {
+        get { storage.callsState }
+        set { storage.callsState = newValue }
+    }
+
+    var geopositionState: String {
+        get { storage.geopositionState }
+        set { storage.geopositionState = newValue }
     }
 }

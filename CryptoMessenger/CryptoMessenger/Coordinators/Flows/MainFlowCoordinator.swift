@@ -142,6 +142,12 @@ final class MainFlowCoordinator: Coordinator {
         case selectBackground
         case profilePreview
         case profile
+        case security
+        case blockList
+        case pinCode(PinCodeScreenType)
+        case session
+        case aboutApp
+        case FAQ
     }
 }
 
@@ -166,6 +172,18 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showProfilePreviewScene()
         case .profile:
             start()
+        case .security:
+            showSecurityScene()
+        case .blockList:
+            showBlockListScene()
+        case .aboutApp:
+            showAboutAppScene()
+        case .session:
+            showSessionScene()
+        case let .pinCode(screenType):
+            showPinCodeCreate(screenType: screenType)
+        case .FAQ:
+            showAnswerScene()
         }
     }
 
@@ -221,6 +239,46 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+
+    private func showSecurityScene() {
+        let rootView = SecurityNewConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showBlockListScene() {
+        let rootView = BlockedListConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showPinCodeCreate(screenType: PinCodeScreenType) {
+        let rootView = PinCodeCreateConfigurator.configuredView(delegate: self, screenType: screenType)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showAboutAppScene() {
+        let viewController = AboutAppConfigurator.configuredViewController(delegate: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showSessionScene() {
+        let rootView = SessionConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showAnswerScene() {
+        let rootView = AnswerConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -238,6 +296,30 @@ extension MainFlowCoordinator: ProfileSceneDelegate {}
 // MARK: - MainFlowCoordinator (PersonalizationSceneDelegate)
 
 extension MainFlowCoordinator: PersonalizationSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (SecurityNewSceneDelegate)
+
+extension MainFlowCoordinator: SecurityNewSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (BlockedListSceneDelegate)
+
+extension MainFlowCoordinator: BlockedListSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (PinCodeCreateSceneDelegate)
+
+extension MainFlowCoordinator: PinCodeCreateSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (SessionSceneDelegate)
+
+extension MainFlowCoordinator: SessionSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (AboutAppSceneDelegate)
+
+extension MainFlowCoordinator: AboutAppSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (AnswersSceneDelegate)
+
+extension MainFlowCoordinator: AnswersSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

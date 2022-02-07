@@ -72,10 +72,12 @@ final class VerificationPresenter {
         let homeServer = configuration.matrixURL
 
         apiClient.request(endpoint) { [weak self] response in
-            self?.mxStore.login(username: response.userId, password: code, homeServer: homeServer)
+            self?.mxStore.login(username: response.userId ?? "", password: code, homeServer: homeServer)
             self?.view?.setResult(true)
             delay(0.2) {
                 self?.userCredentials.isUserAuthenticated = true
+                self?.userCredentials.accessToken = response.accessToken
+                self?.userCredentials.refreshToken = response.refreshToken
                 self?.delegate?.handleNextScene(.pinCode)
             }
         } failure: { [weak self] error in

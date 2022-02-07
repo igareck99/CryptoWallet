@@ -111,6 +111,12 @@ final class RequestBuilder {
         return addHeader("Content-Type", value: Encoding.jsonEncoded.type)
     }
 
+    func jsonBody(array: [String]) -> RequestBuilder {
+        let data = try? JSONSerialization.data(withJSONObject: array, options: [])
+        self.body = data
+        return addHeader("Content-Type", value: Encoding.jsonEncoded.type)
+    }
+
     func formUrlBody(_ params: [String: String], encoding: Encoding) -> RequestBuilder {
         let formUrlData: String? = params.map { k, v in
             let escapedKey = k.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? k

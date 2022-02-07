@@ -12,6 +12,7 @@ protocol PinCodeViewInterface: AnyObject {
     func showAlert(title: String?, message: String?)
     func setPinCode(_ pinCode: [Int])
     func setLocalAuth(_ result: AvailableBiometric?)
+    func setBiometryActive(_ isActive: Bool )
 }
 
 // MARK: - PinCodePresentation

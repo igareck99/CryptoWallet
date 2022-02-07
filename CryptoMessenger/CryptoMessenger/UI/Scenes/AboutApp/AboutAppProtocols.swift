@@ -3,7 +3,7 @@ import Foundation
 // MARK: - AboutAppSceneDelegate
 
 protocol AboutAppSceneDelegate: AnyObject {
-    func handleNextScene(_ scene: AuthFlowCoordinator.Scene)
+    func handleNextScene(_ scene: MainFlowCoordinator.Scene)
 }
 
 // MARK: - AboutAppViewInterface
