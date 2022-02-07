@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - ProfileFlow
+// MARK: - ReserveCopyFlow
 
-enum ProfileFlow {
+enum ReserveCopyFlow {
 
     // MARK: - ViewState
 
@@ -22,11 +22,6 @@ enum ProfileFlow {
         // MARK: - Types
 
         case onAppear
-        case onProfileScene
-        case onPersonalization
-        case onSecurity
-        case aboutApp
-        case onFAQ
-        case onChatSettings
+        case onUpload
     }
 }
