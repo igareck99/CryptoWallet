@@ -13,10 +13,12 @@ struct ProfileView: View {
     @State private var popupSelected = false
     @State private var showMenu = false
     @State private var showProfileDetail = false
-    @State private var showCopyNicknameAlert = false
+    @State private var showAlert = false
     @State private var showSafari = false
     @State private var showImagePicker = false
     @State private var safariAdress = ""
+    @State private var showDeletePhotoAlert = false
+    @State private var photoUrlForDelete = ""
 
     // MARK: - Body
 
@@ -29,7 +31,7 @@ struct ProfileView: View {
                         .font(.bold(15))
                         .onTapGesture {
                             UIPasteboard.general.string = viewModel.profile.nickname
-                            showCopyNicknameAlert.toggle()
+                            showAlert.toggle()
                         }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -63,7 +65,23 @@ struct ProfileView: View {
                         .navigationBarTitleDisplayMode(.inline)
                 }
             }
-            .alert(isPresented: $showCopyNicknameAlert) { Alert(title: Text(R.string.localizable.profileCopied())) }
+            .alert(isPresented: $showAlert) { () -> Alert in
+                switch showDeletePhotoAlert {
+                case false:
+                    return Alert(title: Text(R.string.localizable.profileCopied()))
+                case true:
+                    let primaryButton = Alert.Button.default(Text("Да")) {
+                        viewModel.deletePhoto(url: photoUrlForDelete)
+                    }
+                    let secondaryButton = Alert.Button.destructive(Text("Нет")) {
+                        photoUrlForDelete = ""
+                    }
+                    return Alert(title: Text("Удалить фото?"),
+                                 message: Text(""),
+                                 primaryButton: primaryButton,
+                                 secondaryButton: secondaryButton)
+                }
+            }
             .popup(
                 isPresented: $showMenu,
                 type: .toast,
@@ -217,7 +235,8 @@ struct ProfileView: View {
                                     .font(.regular(15))
                                     .foreground(.blue())
                                     .onTapGesture {
-                                        safariAdress = "https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70"
+                                        safariAdress = "https://www.ikea.com/ru/ru/" +
+                                        "campaigns/actual-information-pub21f86b70"
                                         showSafari = true
                                     }
                             }.padding(.leading, 16)
@@ -237,7 +256,6 @@ struct ProfileView: View {
                                 .padding(.leading, 16)
                                 .padding(.trailing, 16)
                             photosView
-
                             FooterView(popupSelected: $popupSelected)
                                 .padding([.leading, .trailing], 16)
                             }
@@ -273,13 +291,26 @@ struct ProfileView: View {
 
     private var photosView: some View {
         LazyVGrid(columns: Array(repeating: GridItem(spacing: 1.5), count: 3), alignment: .center, spacing: 1.5) {
-            ForEach(0..<viewModel.profile.photos.count, id: \.self) { index in
+            ForEach(0..<viewModel.profile.photos_url_preview.count, id: \.self) { index in
                 VStack(spacing: 0) {
-                    viewModel.profile.photos[index]
-                        .resizable()
-                        .frame(width: (UIScreen.main.bounds.width - 3) / 3,
-                               height: (UIScreen.main.bounds.width - 3) / 3)
-                        .scaledToFill()
+                    AsyncImage(url: viewModel.profile.photos_url_preview[index]) { phase in
+                        if let image = phase.image {
+                            image.resizable()
+                                .frame(width: (UIScreen.main.bounds.width - 3) / 3,
+                                       height: (UIScreen.main.bounds.width - 3) / 3)
+                                .scaledToFill()
+                                .onTapGesture {
+                                    showAlert = true
+                                    showDeletePhotoAlert = true
+                                    photoUrlForDelete = viewModel.profile.photos_url_preview[index].absoluteString
+                                }
+                        } else {
+                            ProgressView()
+                                .frame(width: (UIScreen.main.bounds.width - 3) / 3,
+                                       height: (UIScreen.main.bounds.width - 3) / 3)
+                                .scaledToFill()
+                        }
+                    }
                 }
             }
         }

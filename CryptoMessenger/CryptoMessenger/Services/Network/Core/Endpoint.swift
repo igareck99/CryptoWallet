@@ -104,7 +104,6 @@ extension Endpoint where Response == String {
         }
 
         let jsonDecoder = decoder ?? JSONDecoder()
-
         self.init(builder: reqBuilder) {
             do {
                 if $0.isEmpty {
@@ -142,5 +141,30 @@ extension Endpoint where Response == [String: String] {
             }
             return dictionary
         }
+    }
+}
+
+// MARK: - Endpoint ([Dictionary<String, String>])
+
+extension Endpoint where Response == [Dictionary<String, String>] {
+    convenience init(
+        method: RequestBuilder.Method,
+        path: String,
+        requestType: RequestBuilder.RequestType = .request,
+        _ builder: ((RequestBuilder) -> RequestBuilder)? = nil
+    ) {
+        var reqBuilder = RequestBuilder(method: method, path: path, requestType: requestType)
+        if let builder = builder {
+            reqBuilder = builder(reqBuilder)
+        }
+            self.init(builder: reqBuilder) {
+                guard let dictionary = try JSONSerialization.jsonObject(
+                    with: $0,
+                    options: .allowFragments
+                ) as? [Dictionary<String, String>] else {
+                    return [Dictionary<String, String>]()
+                }
+                return dictionary
+            }
     }
 }

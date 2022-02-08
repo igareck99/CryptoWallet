@@ -54,11 +54,35 @@ enum Endpoints {
     // MARK: - Media
 
     enum Media {
-        static func upload(_ payload: MultipartFileData) -> Endpoint<String> {
-            let endpoint = Endpoint<String>(method: .post, path: "/media")
+        static func upload(_ payload: MultipartFileData, name: String) -> Endpoint<String> {
+            let endpoint = Endpoint<String>(method: .post, path: "/profile/media")
             endpoint.modifyRequest {
                 $0.multipartBody(payload)
             }
+            return endpoint
+        }
+
+        static func get_photos(_ name: String) -> Endpoint<[Dictionary<String, String>]> {
+            let endpoint = Endpoint<[Dictionary<String, String>]>(method: .get,
+                                                                  path: "/profile/\(name)/media")
+            return endpoint
+        }
+
+        static func delete_photo(_ photoUrl: [String]) -> Endpoint<[String]> {
+            let endpoint = Endpoint<[String]>(method: .post,
+                                              path: "/profile/media/delete")
+            endpoint.modifyRequest {
+                $0.jsonBody(array: photoUrl)
+            }
+            return endpoint
+        }
+    }
+
+    // MARK: - Social
+
+    enum Social {
+        static func get_social(_ name: String) -> Endpoint<[String: String]> {
+            let endpoint = Endpoint<[String: String]>(method: .get, path: "/profile/\(name)/social")
             return endpoint
         }
     }
