@@ -73,8 +73,8 @@ final class ProfileViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { [weak self] response in
-                
-                print("RETWEEF   \(type(of: response))")
+                self?.profile.photos_url_preview = self?.profile.photos_url_preview.filter { $0.absoluteString != response[0]} ?? []
+                print("RETWEEF   \(response)")
             })
             .store(in: &subscriptions)
     }
