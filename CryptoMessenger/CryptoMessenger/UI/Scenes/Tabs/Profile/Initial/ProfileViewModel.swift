@@ -64,17 +64,16 @@ final class ProfileViewModel: ObservableObject {
 
     func deletePhoto(url: String) {
         apiClient.publisher(Endpoints.Media.delete_photo([url]))
-            .sink(receiveCompletion: { [weak self] completion in
+            .sink(receiveCompletion: { completion in
                 switch completion {
-                case .failure(let error):
-                    print(error)
+                case .failure(_):
                     return
                 default:
                     break
                 }
             }, receiveValue: { [weak self] response in
-                self?.profile.photos_url_preview = self?.profile.photos_url_preview.filter { $0.absoluteString != response[0]} ?? []
-                print("RETWEEF   \(response)")
+                self?.profile.photos_url_preview = self?.profile.photos_url_preview
+                    .filter { $0.absoluteString != response[0] } ?? []
             })
             .store(in: &subscriptions)
     }

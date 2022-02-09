@@ -60,7 +60,7 @@ final class ProfileDetailViewModel: ObservableObject {
         do {
             try pngData?.write(to: imageURL)
         } catch { }
-        selectedImageUrl = imageURL.absoluteString
+        selectedImageUrl = imageURL.relativeString
     }
 
     // MARK: - Private Methods
@@ -77,17 +77,13 @@ final class ProfileDetailViewModel: ObservableObject {
                             self?.closeScreen.toggle()
                         }
                     }
-                    guard let image = self?.selectedImageUrl else { return }
-                    self?.mxStore.setAvatarUrl(image, completion: {
-                        print(self?.mxStore.getUser((self?.mxStore.getUserId())!))
-                    })
                 case .onLogout:
                     self?.mxStore.logout()
                 case .onAvatar:
                     guard let image = self?.selectedImageUrl else { return }
-                    self?.mxStore.setAvatarUrl(image, completion: {
-                        print("")
-                    })
+                    self?.mxStore.setAvatarUrl(image) {
+                        print("Something \(String(describing: self?.mxStore.getAvatarUrl()))")
+                    }
                 }
             }
             .store(in: &subscriptions)
