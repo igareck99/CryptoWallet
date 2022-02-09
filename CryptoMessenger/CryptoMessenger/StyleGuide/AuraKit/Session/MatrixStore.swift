@@ -22,6 +22,7 @@ final class MatrixStore: ObservableObject {
     // MARK: - Internal Properties
 
     @Published var loginState: MatrixState = .loggedOut
+    @Published var devices: [MXDevice] = []
 
     var rooms: [AuraRoom] {
         guard let session = session else { return [] }
@@ -190,6 +191,17 @@ final class MatrixStore: ObservableObject {
                         completion(.success(.loggedIn(userId: userId)))
                     }
                 }
+            }
+        }
+    }
+
+    func getActiveSessions(completion: @escaping (Result<[MXDevice], Error>) -> Void) {
+        client?.devices { response in
+            switch response {
+            case let .success(devices):
+                completion(.success(devices))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }

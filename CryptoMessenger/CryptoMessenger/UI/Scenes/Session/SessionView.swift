@@ -78,6 +78,9 @@ struct SessionListView: View {
                 .background(.blue())
                 .cornerRadius(8)
         }
+        .onAppear {
+            viewModel.send(.onAppear)
+        }
         .popup(isPresented: $isSelected,
                type: .toast,
                position: .bottom,
