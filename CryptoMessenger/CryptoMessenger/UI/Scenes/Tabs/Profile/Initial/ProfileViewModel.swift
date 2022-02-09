@@ -74,6 +74,9 @@ final class ProfileViewModel: ObservableObject {
             }, receiveValue: { [weak self] response in
                 self?.profile.photos_url_preview = self?.profile.photos_url_preview
                     .filter { $0.absoluteString != response[0] } ?? []
+                self?.profile.photos_url_original = self?.profile.photos_url_original
+                    .filter { $0.absoluteString != response[0]
+                        .replacingOccurrences(of: "preview/@", with: "original/@") } ?? []
             })
             .store(in: &subscriptions)
     }
