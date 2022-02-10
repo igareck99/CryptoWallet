@@ -71,8 +71,7 @@ struct SessionDetailView: View {
                     .padding(.top, 16)
                 VStack(alignment: .center) {
                     Button(action: {
-                        let index = viewModel.listData.firstIndex { $0.date == session.date }
-                        viewModel.listData.remove(at: index ?? 0)
+                        viewModel.sessionsList = viewModel.sessionsList.filter { $0.device_id != session.device_id }
                         self.showModal.toggle()
                     }, label: {
                         Text(R.string.localizable.sessionFinishOne())

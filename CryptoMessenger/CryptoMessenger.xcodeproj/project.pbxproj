@@ -303,26 +303,6 @@
 		789FEBEF26DCE61D0018FE91 /* PhotoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBE926DCE61D0018FE91 /* PhotoEditorView.swift */; };
 		789FEBF026DCE61D0018FE91 /* PhotoEditorConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */; };
 		789FEBF126DCE61D0018FE91 /* PhotoEditorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */; };
-		78F15FE8273DBD9800124F63 /* SecurityPinCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15FE2273DBD9800124F63 /* SecurityPinCodePresenter.swift */; };
-		78F15FE9273DBD9800124F63 /* SecurityPinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15FE3273DBD9800124F63 /* SecurityPinCodeViewController.swift */; };
-		78F15FEA273DBD9800124F63 /* SecurityPinCodeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15FE4273DBD9800124F63 /* SecurityPinCodeProtocols.swift */; };
-		78F15FEB273DBD9800124F63 /* SecurityPinCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15FE5273DBD9800124F63 /* SecurityPinCodeView.swift */; };
-		78F15FEC273DBD9800124F63 /* SecurityPinCodeConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15FE6273DBD9800124F63 /* SecurityPinCodeConfigurator.swift */; };
-		78F15FED273DBD9800124F63 /* SecurityPinCodeFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F15FE7273DBD9800124F63 /* SecurityPinCodeFlow.swift */; };
-		78FA36752737419200B331DC /* SecurityPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA366F2737419200B331DC /* SecurityPresenter.swift */; };
-		78FA36762737419200B331DC /* SecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36702737419200B331DC /* SecurityViewController.swift */; };
-		78FA36772737419200B331DC /* SecurityProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36712737419200B331DC /* SecurityProtocols.swift */; };
-		78FA36782737419200B331DC /* SecurityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36722737419200B331DC /* SecurityView.swift */; };
-		78FA36792737419200B331DC /* SecurityConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36732737419200B331DC /* SecurityConfigurator.swift */; };
-		78FA367A2737419200B331DC /* SecurityFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36742737419200B331DC /* SecurityFlow.swift */; };
-		78FA367D27374BF300B331DC /* SecurityProviderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA367C27374BF300B331DC /* SecurityProviderViewModel.swift */; };
-		78FA367F27374D4000B331DC /* SecurityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA367E27374D4000B331DC /* SecurityItem.swift */; };
-		78FA36812738171400B331DC /* SecurityHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36802738171400B331DC /* SecurityHeaderView.swift */; };
-		78FA36832738187800B331DC /* PrivacyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36822738187800B331DC /* PrivacyHeaderView.swift */; };
-		78FA36872738329F00B331DC /* SecurityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36862738329F00B331DC /* SecurityCell.swift */; };
-		78FA36892739AED200B331DC /* SecurityAdditionalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA36882739AED200B331DC /* SecurityAdditionalCell.swift */; };
-		78FA368B2739CA4300B331DC /* BlackListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA368A2739CA4300B331DC /* BlackListCell.swift */; };
-		78FA368D2739CC2800B331DC /* PrivacyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FA368C2739CC2800B331DC /* PrivacyCell.swift */; };
 		8B00F45C276A1C2700FE1E41 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00F45B276A1C2700FE1E41 /* R.generated.swift */; };
 		8B200FEE2744596300A847D5 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B200FED2744596300A847D5 /* SessionView.swift */; };
 		8B200FF0274459E400A847D5 /* SessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B200FEF274459E400A847D5 /* SessionItem.swift */; };
@@ -364,16 +344,16 @@
 		8B9B0CCB2775395400654C24 /* PersonalizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCA2775395400654C24 /* PersonalizationView.swift */; };
 		8B9B0CCD2775442E00654C24 /* PersonalizationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCC2775442E00654C24 /* PersonalizationModel.swift */; };
 		8B9B0CCF277556BD00654C24 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCE277556BD00654C24 /* LanguageView.swift */; };
-		8BA0C90327AD4EE00070203F /* AnswerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C90227AD4EE00070203F /* AnswerConfigurator.swift */; };
-		8BA0C90527AD4F030070203F /* AnswerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C90427AD4F030070203F /* AnswerItem.swift */; };
-		8BA0C90727AD4F1D0070203F /* AnswerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C90627AD4F1D0070203F /* AnswerProtocols.swift */; };
-		8BA0C90927AD4F320070203F /* AnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C90827AD4F320070203F /* AnswerViewModel.swift */; };
-		8BA0C90B27AD4F4C0070203F /* AnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C90A27AD4F4C0070203F /* AnswerView.swift */; };
 		8BA0C8F827AD193C0070203F /* ChatSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C8F727AD193C0070203F /* ChatSettingsView.swift */; };
 		8BA0C8FA27AD195D0070203F /* ChatSettingsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C8F927AD195D0070203F /* ChatSettingsProtocols.swift */; };
 		8BA0C8FC27AD19A70070203F /* ChatSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C8FB27AD19A70070203F /* ChatSettingsViewModel.swift */; };
 		8BA0C8FE27AD1A050070203F /* ChatSettingsFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C8FD27AD1A050070203F /* ChatSettingsFlow.swift */; };
 		8BA0C90027AD1A260070203F /* ChatSettingsConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C8FF27AD1A260070203F /* ChatSettingsConfigurator.swift */; };
+		8BA0C90327AD4EE00070203F /* AnswerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C90227AD4EE00070203F /* AnswerConfigurator.swift */; };
+		8BA0C90527AD4F030070203F /* AnswerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C90427AD4F030070203F /* AnswerItem.swift */; };
+		8BA0C90727AD4F1D0070203F /* AnswerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C90627AD4F1D0070203F /* AnswerProtocols.swift */; };
+		8BA0C90927AD4F320070203F /* AnswerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C90827AD4F320070203F /* AnswerViewModel.swift */; };
+		8BA0C90B27AD4F4C0070203F /* AnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C90A27AD4F4C0070203F /* AnswerView.swift */; };
 		8BA0C90E27AD76730070203F /* ReserveCopyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C90D27AD76730070203F /* ReserveCopyView.swift */; };
 		8BA0C91027AD76CC0070203F /* ReserveCopyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C90F27AD76CC0070203F /* ReserveCopyViewModel.swift */; };
 		8BA0C91227AD77380070203F /* ReserveCopyConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C91127AD77380070203F /* ReserveCopyConfigurator.swift */; };
@@ -686,26 +666,6 @@
 		789FEBE926DCE61D0018FE91 /* PhotoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorView.swift; sourceTree = "<group>"; };
 		789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorConfigurator.swift; sourceTree = "<group>"; };
 		789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorFlow.swift; sourceTree = "<group>"; };
-		78F15FE2273DBD9800124F63 /* SecurityPinCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPinCodePresenter.swift; sourceTree = "<group>"; };
-		78F15FE3273DBD9800124F63 /* SecurityPinCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPinCodeViewController.swift; sourceTree = "<group>"; };
-		78F15FE4273DBD9800124F63 /* SecurityPinCodeProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPinCodeProtocols.swift; sourceTree = "<group>"; };
-		78F15FE5273DBD9800124F63 /* SecurityPinCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPinCodeView.swift; sourceTree = "<group>"; };
-		78F15FE6273DBD9800124F63 /* SecurityPinCodeConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPinCodeConfigurator.swift; sourceTree = "<group>"; };
-		78F15FE7273DBD9800124F63 /* SecurityPinCodeFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPinCodeFlow.swift; sourceTree = "<group>"; };
-		78FA366F2737419200B331DC /* SecurityPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityPresenter.swift; sourceTree = "<group>"; };
-		78FA36702737419200B331DC /* SecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewController.swift; sourceTree = "<group>"; };
-		78FA36712737419200B331DC /* SecurityProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityProtocols.swift; sourceTree = "<group>"; };
-		78FA36722737419200B331DC /* SecurityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityView.swift; sourceTree = "<group>"; };
-		78FA36732737419200B331DC /* SecurityConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityConfigurator.swift; sourceTree = "<group>"; };
-		78FA36742737419200B331DC /* SecurityFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityFlow.swift; sourceTree = "<group>"; };
-		78FA367C27374BF300B331DC /* SecurityProviderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityProviderViewModel.swift; sourceTree = "<group>"; };
-		78FA367E27374D4000B331DC /* SecurityItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityItem.swift; sourceTree = "<group>"; };
-		78FA36802738171400B331DC /* SecurityHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityHeaderView.swift; sourceTree = "<group>"; };
-		78FA36822738187800B331DC /* PrivacyHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyHeaderView.swift; sourceTree = "<group>"; };
-		78FA36862738329F00B331DC /* SecurityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCell.swift; sourceTree = "<group>"; };
-		78FA36882739AED200B331DC /* SecurityAdditionalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityAdditionalCell.swift; sourceTree = "<group>"; };
-		78FA368A2739CA4300B331DC /* BlackListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackListCell.swift; sourceTree = "<group>"; };
-		78FA368C2739CC2800B331DC /* PrivacyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyCell.swift; sourceTree = "<group>"; };
 		8B00F45B276A1C2700FE1E41 /* R.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		8B200FED2744596300A847D5 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		8B200FEF274459E400A847D5 /* SessionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionItem.swift; sourceTree = "<group>"; };
@@ -748,16 +708,16 @@
 		8B9B0CCA2775395400654C24 /* PersonalizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationView.swift; sourceTree = "<group>"; };
 		8B9B0CCC2775442E00654C24 /* PersonalizationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationModel.swift; sourceTree = "<group>"; };
 		8B9B0CCE277556BD00654C24 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
-		8BA0C90227AD4EE00070203F /* AnswerConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerConfigurator.swift; sourceTree = "<group>"; };
-		8BA0C90427AD4F030070203F /* AnswerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerItem.swift; sourceTree = "<group>"; };
-		8BA0C90627AD4F1D0070203F /* AnswerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerProtocols.swift; sourceTree = "<group>"; };
-		8BA0C90827AD4F320070203F /* AnswerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerViewModel.swift; sourceTree = "<group>"; };
-		8BA0C90A27AD4F4C0070203F /* AnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerView.swift; sourceTree = "<group>"; };
 		8BA0C8F727AD193C0070203F /* ChatSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsView.swift; sourceTree = "<group>"; };
 		8BA0C8F927AD195D0070203F /* ChatSettingsProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsProtocols.swift; sourceTree = "<group>"; };
 		8BA0C8FB27AD19A70070203F /* ChatSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsViewModel.swift; sourceTree = "<group>"; };
 		8BA0C8FD27AD1A050070203F /* ChatSettingsFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsFlow.swift; sourceTree = "<group>"; };
 		8BA0C8FF27AD1A260070203F /* ChatSettingsConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsConfigurator.swift; sourceTree = "<group>"; };
+		8BA0C90227AD4EE00070203F /* AnswerConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerConfigurator.swift; sourceTree = "<group>"; };
+		8BA0C90427AD4F030070203F /* AnswerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerItem.swift; sourceTree = "<group>"; };
+		8BA0C90627AD4F1D0070203F /* AnswerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerProtocols.swift; sourceTree = "<group>"; };
+		8BA0C90827AD4F320070203F /* AnswerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerViewModel.swift; sourceTree = "<group>"; };
+		8BA0C90A27AD4F4C0070203F /* AnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerView.swift; sourceTree = "<group>"; };
 		8BA0C90D27AD76730070203F /* ReserveCopyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyView.swift; sourceTree = "<group>"; };
 		8BA0C90F27AD76CC0070203F /* ReserveCopyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyViewModel.swift; sourceTree = "<group>"; };
 		8BA0C91127AD77380070203F /* ReserveCopyConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyConfigurator.swift; sourceTree = "<group>"; };
@@ -913,7 +873,6 @@
 				8B6C18BC2799A5C500B85F2A /* SecurityNew */,
 				8B9B0CC92775394000654C24 /* Personalization */,
 				8BD6292B276AABF8000A976A /* SocialList */,
-				78FA366E2737417C00B331DC /* Security */,
 				8B200FEC2744595600A847D5 /* Session */,
 				8BE54AD1274C604400D51827 /* BlackList */,
 				78437F06270C76E500371110 /* AboutApp */,
@@ -1869,49 +1828,6 @@
 			path = ProfileDetail;
 			sourceTree = "<group>";
 		};
-		78F15FE1273DBD7A00124F63 /* SecurityPinCode */ = {
-			isa = PBXGroup;
-			children = (
-				78F15FE2273DBD9800124F63 /* SecurityPinCodePresenter.swift */,
-				78F15FE3273DBD9800124F63 /* SecurityPinCodeViewController.swift */,
-				78F15FE4273DBD9800124F63 /* SecurityPinCodeProtocols.swift */,
-				78F15FE5273DBD9800124F63 /* SecurityPinCodeView.swift */,
-				78F15FE6273DBD9800124F63 /* SecurityPinCodeConfigurator.swift */,
-				78F15FE7273DBD9800124F63 /* SecurityPinCodeFlow.swift */,
-			);
-			path = SecurityPinCode;
-			sourceTree = "<group>";
-		};
-		78FA366E2737417C00B331DC /* Security */ = {
-			isa = PBXGroup;
-			children = (
-				78F15FE1273DBD7A00124F63 /* SecurityPinCode */,
-				78FA367B27374A7B00B331DC /* TableView */,
-				78FA366F2737419200B331DC /* SecurityPresenter.swift */,
-				78FA36702737419200B331DC /* SecurityViewController.swift */,
-				78FA36712737419200B331DC /* SecurityProtocols.swift */,
-				78FA36722737419200B331DC /* SecurityView.swift */,
-				78FA36732737419200B331DC /* SecurityConfigurator.swift */,
-				78FA36742737419200B331DC /* SecurityFlow.swift */,
-			);
-			path = Security;
-			sourceTree = "<group>";
-		};
-		78FA367B27374A7B00B331DC /* TableView */ = {
-			isa = PBXGroup;
-			children = (
-				78FA367C27374BF300B331DC /* SecurityProviderViewModel.swift */,
-				78FA367E27374D4000B331DC /* SecurityItem.swift */,
-				78FA36802738171400B331DC /* SecurityHeaderView.swift */,
-				78FA36822738187800B331DC /* PrivacyHeaderView.swift */,
-				78FA36862738329F00B331DC /* SecurityCell.swift */,
-				78FA36882739AED200B331DC /* SecurityAdditionalCell.swift */,
-				78FA368A2739CA4300B331DC /* BlackListCell.swift */,
-				78FA368C2739CC2800B331DC /* PrivacyCell.swift */,
-			);
-			path = TableView;
-			sourceTree = "<group>";
-		};
 		8B00F45A276A193800FE1E41 /* Generated */ = {
 			isa = PBXGroup;
 			children = (
@@ -1989,18 +1905,6 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		8BA0C90127AD4EC50070203F /* Answers */ = {
-			isa = PBXGroup;
-			children = (
-				8BA0C90227AD4EE00070203F /* AnswerConfigurator.swift */,
-				8BA0C90427AD4F030070203F /* AnswerItem.swift */,
-				8BA0C90627AD4F1D0070203F /* AnswerProtocols.swift */,
-				8BA0C90827AD4F320070203F /* AnswerViewModel.swift */,
-				8BA0C90A27AD4F4C0070203F /* AnswerView.swift */,
-			);
-			path = Answers;
-			sourceTree = "<group>";
-		};
 		8BA0C8F627AD18EA0070203F /* ChatSettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -2012,6 +1916,18 @@
 				8BA0C8FF27AD1A260070203F /* ChatSettingsConfigurator.swift */,
 			);
 			path = ChatSettings;
+			sourceTree = "<group>";
+		};
+		8BA0C90127AD4EC50070203F /* Answers */ = {
+			isa = PBXGroup;
+			children = (
+				8BA0C90227AD4EE00070203F /* AnswerConfigurator.swift */,
+				8BA0C90427AD4F030070203F /* AnswerItem.swift */,
+				8BA0C90627AD4F1D0070203F /* AnswerProtocols.swift */,
+				8BA0C90827AD4F320070203F /* AnswerViewModel.swift */,
+				8BA0C90A27AD4F4C0070203F /* AnswerView.swift */,
+			);
+			path = Answers;
 			sourceTree = "<group>";
 		};
 		8BA0C90C27AD76540070203F /* ReserveCopy */ = {
@@ -2248,7 +2164,6 @@
 				5AB35FAF2740EEBB001FB0DE /* ChatHistoryRow.swift in Sources */,
 				78437F10270C76FE00371110 /* AboutAppView.swift in Sources */,
 				5A44FEDB276681BD006F9D92 /* ProfileProtocols.swift in Sources */,
-				78F15FE8273DBD9800124F63 /* SecurityPinCodePresenter.swift in Sources */,
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
 				7879F4B526CFC49300D3213F /* CallStruct.swift in Sources */,
 				5AABB7822739821D004D6107 /* ChatHistoryProtocols.swift in Sources */,
@@ -2258,7 +2173,6 @@
 				7846B67B26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift in Sources */,
 				5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */,
 				5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */,
-				78FA368B2739CA4300B331DC /* BlackListCell.swift in Sources */,
 				5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				5A24B25426F289F000EFC5E2 /* MapSnapshotView.swift in Sources */,
@@ -2294,7 +2208,6 @@
 				5AF8635F26ADB691004A417C /* OnboardingPageView.swift in Sources */,
 				5A9318E226C5B15F00645365 /* ColorStyle.swift in Sources */,
 				5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */,
-				78F15FE9273DBD9800124F63 /* SecurityPinCodeViewController.swift in Sources */,
 				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
@@ -2311,7 +2224,6 @@
 				5A4BE520271DD86A00D03D09 /* MX+Identifiable.swift in Sources */,
 				5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */,
 				7846B66A26E8BFBD00B05984 /* PreviewLayout.swift in Sources */,
-				78FA36782737419200B331DC /* SecurityView.swift in Sources */,
 				789FEBD026D3CE580018FE91 /* CallCell.swift in Sources */,
 				7846B67026E8C00D00B05984 /* CellUpdate.swift in Sources */,
 				5A187EA32680708D001957D3 /* CollectionViewProvider.swift in Sources */,
@@ -2327,11 +2239,9 @@
 				7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */,
 				7846B66526E8BCB200B05984 /* DeleteAnimation.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
-				78FA36892739AED200B331DC /* SecurityAdditionalCell.swift in Sources */,
 				78437F17270C8FB100371110 /* CustomWebViewController.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
 				5A4BE4FC271DD4E700D03D09 /* MatrixStore.swift in Sources */,
-				78FA36812738171400B331DC /* SecurityHeaderView.swift in Sources */,
 				5A44FEF6276940E8006F9D92 /* ChatCreateConfigurator.swift in Sources */,
 				8BA0C8FE27AD1A050070203F /* ChatSettingsFlow.swift in Sources */,
 				5A44FEDC276681BD006F9D92 /* ProfileConfigurator.swift in Sources */,
@@ -2395,7 +2305,6 @@
 				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
 				7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */,
 				8B34D77C277DA1FD007811C9 /* UserPersonalizationItem.swift in Sources */,
-				78FA36772737419200B331DC /* SecurityProtocols.swift in Sources */,
 				5A4BE51E271DD86A00D03D09 /* MXClient+Publisher.swift in Sources */,
 				8BA0C90527AD4F030070203F /* AnswerItem.swift in Sources */,
 				5AF8633726AA994E004A417C /* VerificationProtocols.swift in Sources */,
@@ -2410,7 +2319,6 @@
 				5A26CD1F26B2EECA00118D4B /* WalletView.swift in Sources */,
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
 				8B6E555A279FF967002054CF /* PinCodeCreateProtocols.swift in Sources */,
-				78FA36872738329F00B331DC /* SecurityCell.swift in Sources */,
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
 				5AF8635C26ADB691004A417C /* OnboardingViewController.swift in Sources */,
 				7846B65F26E8BC3F00B05984 /* MoveAnimation.swift in Sources */,
@@ -2429,13 +2337,10 @@
 				5A187DE226806F62001957D3 /* AppDependeciesService.swift in Sources */,
 				78437F0F270C76FE00371110 /* AboutAppProtocols.swift in Sources */,
 				8B6C18C22799A87000B85F2A /* SecurityNewConfigurator.swift in Sources */,
-				78F15FEB273DBD9800124F63 /* SecurityPinCodeView.swift in Sources */,
-				78F15FEA273DBD9800124F63 /* SecurityPinCodeProtocols.swift in Sources */,
 				5A187EB6268070B3001957D3 /* UIColor+Extensions.swift in Sources */,
 				5A187F112680CF49001957D3 /* UserCredentialsStorage.swift in Sources */,
 				5A187EB5268070B3001957D3 /* UIViewController+Extensions.swift in Sources */,
-				5A187F302680CF49001957D3 /* EmptyResponse.swift in Sources */,
-				78DD764F2727765B0094D510 /* ProfileBackgroundCollectionCell.swift in Sources */,
+				5A187F302680CF49001957D3 /* DefaultResponses.swift in Sources */,
 				5A187F302680CF49001957D3 /* DefaultResponses.swift in Sources */,
 				5A2EC774279F410900857248 /* Publishers+Retry.swift in Sources */,
 				5A187DF626807011001957D3 /* Coordinator.swift in Sources */,
@@ -2448,7 +2353,6 @@
 				5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */,
 				5A26CD6126B35C9B00118D4B /* Message.swift in Sources */,
 				789FEBD526D651530018FE91 /* AdditionalView.swift in Sources */,
-				78FA367D27374BF300B331DC /* SecurityProviderViewModel.swift in Sources */,
 				5A26CD3B26B3211100118D4B /* TapAnimator.swift in Sources */,
 				5AABB78727398A6E004D6107 /* NavigationBarModifier.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
@@ -2473,10 +2377,8 @@
 				5A26CD4226B3363E00118D4B /* TransactionViewModel.swift in Sources */,
 				7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */,
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
-				78FA36752737419200B331DC /* SecurityPresenter.swift in Sources */,
 				8BA0C8FC27AD19A70070203F /* ChatSettingsViewModel.swift in Sources */,
 				78437F1C270CE98800371110 /* PaywallViewController.swift in Sources */,
-				78F15FED273DBD9800124F63 /* SecurityPinCodeFlow.swift in Sources */,
 				5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */,
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
 				8B6C18C42799A88E00B85F2A /* SecurityNewProtocols.swift in Sources */,
@@ -2533,7 +2435,6 @@
 				5A9318E026C5AD0500645365 /* BubbleShape.swift in Sources */,
 				8B9B0CCD2775442E00654C24 /* PersonalizationModel.swift in Sources */,
 				8BA0C90027AD1A260070203F /* ChatSettingsConfigurator.swift in Sources */,
-				78F15FEC273DBD9800124F63 /* SecurityPinCodeConfigurator.swift in Sources */,
 				7846B67726E8C0AE00B05984 /* CellWithImage.swift in Sources */,
 				5A9B472826EAB6EF001CC627 /* LastReactionItemView.swift in Sources */,
 				5AF8637226ADDDCE004A417C /* AppLaunchInstructor.swift in Sources */,
@@ -2541,7 +2442,6 @@
 				5A187DC126806EF8001957D3 /* SceneDelegate.swift in Sources */,
 				789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */,
 				8B3A816A275AC25D00E736E4 /* ProfileDetailView.swift in Sources */,
-				78FA36792737419200B331DC /* SecurityConfigurator.swift in Sources */,
 				78890648270684180093459C /* NetworkDetailItem.swift in Sources */,
 				5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */,
 				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
@@ -2554,7 +2454,6 @@
 				5A26CD2E26B3114400118D4B /* BarButtonStyle.swift in Sources */,
 				8B28B535276347AA00C3E486 /* ProfileDetailViewModel.swift in Sources */,
 				5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */,
-				78FA367A2737419200B331DC /* SecurityFlow.swift in Sources */,
 				5A42680726A83554000C51DD /* RegistrationProtocols.swift in Sources */,
 				5A187EB9268070B3001957D3 /* UIImageView+Kingfisher.swift in Sources */,
 				7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */,
@@ -2582,7 +2481,6 @@
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
 				5A3721D3272EF0DA0097ABED /* ChatCreateView.swift in Sources */,
 				7846B66126E8BC6600B05984 /* ScrollAnimation.swift in Sources */,
-				78FA36832738187800B331DC /* PrivacyHeaderView.swift in Sources */,
 				5A187E992680708D001957D3 /* ActivityView.swift in Sources */,
 				5A4BE4FF271DD7D700D03D09 /* MatrixConfiguration.swift in Sources */,
 				5A9318BA26BD210400645365 /* PinCodeConfigurator.swift in Sources */,
@@ -2593,13 +2491,10 @@
 				8B5609B62779C5CA00AF43F6 /* ThemeItem.swift in Sources */,
 				789B123226CE8906002FCDDF /* CallListViewController.swift in Sources */,
 				5A187F282680CF49001957D3 /* APIClient.swift in Sources */,
-				78FA36762737419200B331DC /* SecurityViewController.swift in Sources */,
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
 				5A26CD2726B2FF9900118D4B /* CarouselNonAnimatableFlowLayout.swift in Sources */,
 				78437F1A270CE94000371110 /* PaywallView.swift in Sources */,
 				8B6C18CA279ABB5700B85F2A /* BlockedListProtocols.swift in Sources */,
-				78FA368D2739CC2800B331DC /* PrivacyCell.swift in Sources */,
-				78FA367F27374D4000B331DC /* SecurityItem.swift in Sources */,
 				5A187DF326807011001957D3 /* BaseViewController.swift in Sources */,
 				5A187DE326806F62001957D3 /* AppPushNotificationsService.swift in Sources */,
 				5A26CD3326B319ED00118D4B /* Card.swift in Sources */,

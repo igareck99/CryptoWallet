@@ -22,5 +22,6 @@ enum SessionFlow {
         // MARK: - Types
 
         case onAppear
+        case onDeleteAll
     }
 }

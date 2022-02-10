@@ -56,7 +56,7 @@ struct SessionListView: View {
                 .foreground(.darkGray())
                 .padding([.trailing], 16)
             List {
-                ForEach(viewModel.listData) { session in
+                ForEach(viewModel.sessionsList) { session in
                     SessionView(session: session)
                         .listRowSeparator(.hidden)
                         .background(.white())
@@ -69,7 +69,8 @@ struct SessionListView: View {
             Divider()
                 .padding(.top, 8)
             Button(action: {
-                viewModel.listData.removeAll()
+                viewModel.sessionsList.removeAll()
+                viewModel.send(.onDeleteAll)
             }, label: {
                 Text("Завершить все сессии")
                     .font(.bold(15))
@@ -87,7 +88,7 @@ struct SessionListView: View {
                closeOnTap: false,
                closeOnTapOutside: true,
                backgroundColor: Color(.black(0.3))) {
-            SessionDetailView(session: selectedSession ?? SessionItem.sessionsInfo(id: 2),
+            SessionDetailView(session: selectedSession ?? SessionItem.sessionsInfo(),
                               viewModel: viewModel,
                               showModal: $isSelected)
                 .frame(width: UIScreen.main.bounds.width, height: 375, alignment: .center)

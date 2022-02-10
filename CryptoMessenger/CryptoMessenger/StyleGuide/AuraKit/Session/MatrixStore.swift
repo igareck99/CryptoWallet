@@ -147,7 +147,7 @@ final class MatrixStore: ObservableObject {
         }
     }
 
-    private func removeDevice(_ deviceId: String, completion: @escaping VoidBlock) {
+    func removeDevice(_ deviceId: String, completion: @escaping VoidBlock) {
         client?.getSession(toDeleteDevice: deviceId) { res in
             switch res {
             case .success:
@@ -205,6 +205,11 @@ final class MatrixStore: ObservableObject {
             }
         }
     }
+    
+//    func deleteSessions(byDeviceId: String,
+//                        completion: @escaping (String, Error>) -> Void) {
+//        client?.deleteDevice(byDeviceId: byDeviceId, authParams: , success: , failure: )
+//    }
 
     // MARK: - Rooms
 

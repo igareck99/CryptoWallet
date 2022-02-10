@@ -9,7 +9,7 @@ class SessionViewModel: ObservableObject {
 
     weak var delegate: SessionSceneDelegate?
 
-    @Published var listData: [SessionItem] = []
+    @Published var sessionsList: [SessionItem] = []
 
     // MARK: - Private Properties
 
@@ -20,6 +20,8 @@ class SessionViewModel: ObservableObject {
 
     @Injectable private var apiClient: APIClientManager
     @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private var userFlowsStorageService: UserFlowsStorageService
+    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
 
     // MARK: - Lifecycle
 
@@ -48,16 +50,24 @@ class SessionViewModel: ObservableObject {
                 case .onAppear:
                     self?.updateData()
                     self?.objectWillChange.send()
+                case .onDeleteAll:
+                    self?.mxStore.logout()
                 }
             }
             .store(in: &subscriptions)
-
-        mxStore.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { _ in
-
+        mxStore.$loginState.sink { [weak self] status in
+            switch status {
+            case .loggedOut:
+                self?.userFlowsStorageService.isAuthFlowFinished = false
+                self?.userFlowsStorageService.isOnboardingFlowFinished = false
+                self?.userFlowsStorageService.isLocalAuth = false
+                self?.userFlowsStorageService.isPinCodeOn = false
+                self?.delegate?.restartFlow()
+            default:
+                break
             }
-            .store(in: &subscriptions)
+        }
+        .store(in: &subscriptions)
     }
 
     private func bindOutput() {
@@ -66,8 +76,11 @@ class SessionViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
+    private func deleteSession() {
+        
+    }
+
     private func getSessions() {
-        print("called")
         self.mxStore.getActiveSessions { result in
             switch result {
             case let .success(devices):
@@ -85,16 +98,18 @@ class SessionViewModel: ObservableObject {
                             }
                         }
                         if !lastSeenIp.isEmpty && lastSeenTs != 0 && !displayName.isEmpty {
-                            self.listData.append(SessionItem(photo: photo,
-                                                             device: displayName,
-                                                             place: "Москва, Россия",
-                                                             date: String(lastSeenTs),
-                                                             ip: lastSeenIp))
+                            self.sessionsList.append(SessionItem(photo: photo,
+                                                                 device_id: x.deviceId,
+                                                                 device: displayName,
+                                                                 place: "Москва, Россия",
+                                                                 date: String(lastSeenTs),
+                                                                 ip: lastSeenIp))
                         }
                     }
+                    print(self.sessionsList)
                 }
             case .failure(_):
-                print("error")
+                break
             }
         }
     }
