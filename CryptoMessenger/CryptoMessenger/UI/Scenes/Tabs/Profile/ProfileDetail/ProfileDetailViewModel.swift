@@ -20,6 +20,7 @@ final class ProfileDetailViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private var apiClient: APIClientManager
     @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
     @Injectable private var userFlowsStorageService: UserFlowsStorageService
 
@@ -56,9 +57,7 @@ final class ProfileDetailViewModel: ObservableObject {
                     ()
                 case .onDone:
                     self?.mxStore.setDisplayName(self?.profile.name ?? "") {
-                        self?.mxStore.setStatus(self?.profile.status ?? "") {
-                            self?.closeScreen.toggle()
-                        }
+                        self?.setStatus(self?.profile.status ?? "")
                     }
                 case .onLogout:
                     self?.mxStore.logout()
@@ -85,5 +84,13 @@ final class ProfileDetailViewModel: ObservableObject {
         stateValueSubject
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
+    }
+
+    private func setStatus(_ text: String) {
+        apiClient.request(Endpoints.Profile.status(text)) { [weak self] _ in
+            self?.closeScreen.toggle()
+        } failure: { [weak self] error in
+            self?.state = .error(message: error.localizedDescription)
+        }
     }
 }
