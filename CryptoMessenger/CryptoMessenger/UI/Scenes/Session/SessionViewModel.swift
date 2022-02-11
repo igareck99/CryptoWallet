@@ -52,6 +52,9 @@ class SessionViewModel: ObservableObject {
                     self?.objectWillChange.send()
                 case .onDeleteAll:
                     self?.mxStore.logout()
+                case let .onDeleteOne(device):
+                    self?.mxStore.removeDevice(device, completion: {
+                    })
                 }
             }
             .store(in: &subscriptions)
@@ -76,10 +79,6 @@ class SessionViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func deleteSession() {
-        
-    }
-
     private func getSessions() {
         self.mxStore.getActiveSessions { result in
             switch result {
@@ -87,7 +86,18 @@ class SessionViewModel: ObservableObject {
                 if !devices.isEmpty {
                     for x in devices {
                         let lastSeenIp = x.lastSeenIp ?? ""
-                        let lastSeenTs = x.lastSeenTs
+                        var dateSession = ""
+                        let lastSeenTs = NSDate(timeIntervalSince1970: Double(
+                            x.lastSeenTs / 1000))
+                            .description.split(separator: " ")
+                        let date = lastSeenTs[0] + " " + lastSeenTs[1]
+                        let dateFormatterGet = DateFormatter()
+                        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                        let dateFormatterSet = DateFormatter()
+                        dateFormatterSet.dateFormat = "yyyy-MM-dd HH:mm"
+                        if let date = dateFormatterGet.date(from: String(date)) {
+                            dateSession = dateFormatterSet.string(from: date)
+                        }
                         let displayName = x.displayName ?? ""
                         var photo = UIImage()
                         if !displayName.isEmpty {
@@ -97,16 +107,15 @@ class SessionViewModel: ObservableObject {
                                 photo = R.image.session.android() ?? UIImage()
                             }
                         }
-                        if !lastSeenIp.isEmpty && lastSeenTs != 0 && !displayName.isEmpty {
+                        if !lastSeenIp.isEmpty && !displayName.isEmpty {
                             self.sessionsList.append(SessionItem(photo: photo,
                                                                  device_id: x.deviceId,
                                                                  device: displayName,
                                                                  place: "Москва, Россия",
-                                                                 date: String(lastSeenTs),
+                                                                 date: dateSession,
                                                                  ip: lastSeenIp))
                         }
                     }
-                    print(self.sessionsList)
                 }
             case .failure(_):
                 break

@@ -54,8 +54,9 @@ enum Endpoints {
     // MARK: - Media
 
     enum Media {
-        static func upload(_ payload: MultipartFileData, name: String) -> Endpoint<String> {
-            let endpoint = Endpoint<String>(method: .post, path: "/profile/media")
+        static func upload(_ payload: MultipartFileData, name: String)
+                            -> Endpoint<[String: String]> {
+            let endpoint = Endpoint<[String: String]>(method: .post, path: "/profile/media")
             endpoint.modifyRequest {
                 $0.multipartBody(payload)
             }

@@ -79,9 +79,6 @@ struct SessionListView: View {
                 .background(.blue())
                 .cornerRadius(8)
         }
-        .onAppear {
-            viewModel.send(.onAppear)
-        }
         .popup(isPresented: $isSelected,
                type: .toast,
                position: .bottom,
@@ -94,6 +91,9 @@ struct SessionListView: View {
                 .frame(width: UIScreen.main.bounds.width, height: 375, alignment: .center)
                 .cornerRadius(16)
         }
+               .onAppear {
+                   viewModel.send(.onAppear)
+               }
                .listStyle(.inset)
                .navigationBarTitleDisplayMode(.inline)
                .toolbar {

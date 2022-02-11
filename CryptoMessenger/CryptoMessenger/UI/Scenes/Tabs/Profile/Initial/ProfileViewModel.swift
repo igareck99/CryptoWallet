@@ -159,8 +159,12 @@ final class ProfileViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { [weak self] response in
-                print("Response    \(response)")
-                self?.getPhotos()
+                guard let original = response["original"] else { return }
+                guard let preview = response["preview"] else { return }
+                guard let original_url = URL(string: original) else { return }
+                guard let preview_url = URL(string: preview) else { return }
+                self?.profile.photos_url_preview.insert(preview_url, at: 0)
+                self?.profile.photos_url_original.insert(original_url, at: 0)
                 self?.objectWillChange.send()
             })
             .store(in: &subscriptions)

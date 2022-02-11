@@ -82,8 +82,8 @@ final class MatrixStore: ObservableObject {
     // MARK: - Session
 
     func login(username: String, password: String, homeServer: URL) {
+        print("LOGIN")
         loginState = .authenticating
-
         client = MXRestClient(homeServer: homeServer, unrecognizedCertificateHandler: nil)
         client?.login(username: username, password: password) { response in
             switch response {
@@ -148,10 +148,15 @@ final class MatrixStore: ObservableObject {
     }
 
     func removeDevice(_ deviceId: String, completion: @escaping VoidBlock) {
+        guard let session = session else { return }
+        guard let credentials = credentials else { return }
+        let authParameters = [ "session": session.syncFilterId,
+                               "credentials": credentials.accessToken]
+        print("authParameters  \n\(authParameters)")
         client?.getSession(toDeleteDevice: deviceId) { res in
             switch res {
             case .success:
-                self.client?.deleteDevice(deviceId, authParameters: [:]) { response in
+                self.client?.deleteDevice(deviceId, authParameters: authParameters) { response in
                     switch response {
                     case .success:
                         print("Delete device with ID: " + deviceId)

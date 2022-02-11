@@ -23,5 +23,6 @@ enum SessionFlow {
 
         case onAppear
         case onDeleteAll
+        case onDeleteOne(device_id: String)
     }
 }
