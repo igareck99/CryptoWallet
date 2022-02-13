@@ -66,7 +66,9 @@ struct SelectContactView: View {
                 let groupedContacts = Dictionary(grouping: contacts) { $0.name.firstLetter.uppercased() }
                 ForEach(groupedContacts.keys.sorted(), id: \.self) { key in
                     sectionView(key)
-                    ForEach(groupedContacts[key] ?? []) { contact in
+                    let contacts = groupedContacts[key] ?? []
+                    ForEach(0..<contacts.count) { index in
+                        let contact = contacts[index]
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
                                 if selectedRows.contains(contact.id) {
@@ -80,7 +82,8 @@ struct SelectContactView: View {
                                 ContactRow(
                                     avatar: contact.avatar,
                                     name: contact.name,
-                                    status: contact.status
+                                    status: contact.status,
+                                    hideSeparator: contact.id == contacts.last?.id
                                 )
                                     .background(.white())
                                     .id(contact.id)
