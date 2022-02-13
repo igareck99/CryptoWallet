@@ -61,7 +61,7 @@ struct SessionListView: View {
                         .listRowSeparator(.hidden)
                         .background(.white())
                         .onTapGesture {
-                            selectedSession = session
+                            viewModel.selectedSession = session
                             isSelected = true
                         }
                 }
@@ -85,8 +85,7 @@ struct SessionListView: View {
                closeOnTap: false,
                closeOnTapOutside: true,
                backgroundColor: Color(.black(0.3))) {
-            SessionDetailView(session: selectedSession ?? SessionItem.sessionsInfo(),
-                              viewModel: viewModel,
+            SessionDetailView(viewModel: viewModel,
                               showModal: $isSelected)
                 .frame(width: UIScreen.main.bounds.width, height: 375, alignment: .center)
                 .cornerRadius(16)

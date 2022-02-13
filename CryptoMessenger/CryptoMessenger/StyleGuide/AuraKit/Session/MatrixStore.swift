@@ -35,10 +35,11 @@ final class MatrixStore: ObservableObject {
         return rooms
     }
 
+    var session: MXSession?
+
     // MARK: - Private Properties
 
     private var client: MXRestClient?
-    private var session: MXSession?
     private var fileStore: MXFileStore?
     private var credentials: MXCredentials?
     private let keychain = Keychain(service: "chat.aura.credentials")
@@ -82,7 +83,6 @@ final class MatrixStore: ObservableObject {
     // MARK: - Session
 
     func login(username: String, password: String, homeServer: URL) {
-        print("LOGIN")
         loginState = .authenticating
         client = MXRestClient(homeServer: homeServer, unrecognizedCertificateHandler: nil)
         client?.login(username: username, password: password) { response in
@@ -127,6 +127,8 @@ final class MatrixStore: ObservableObject {
             case let .success(devices):
                 let group = DispatchGroup()
                 devices.forEach {
+                    print("Devices from logout  \($0.deviceId)")
+                    print("Devices from logout1  \($0.lastSeenTs)")
                     group.enter()
                     self?.removeDevice($0.deviceId) { group.leave() }
                 }
@@ -148,15 +150,10 @@ final class MatrixStore: ObservableObject {
     }
 
     func removeDevice(_ deviceId: String, completion: @escaping VoidBlock) {
-        guard let session = session else { return }
-        guard let credentials = credentials else { return }
-        let authParameters = [ "session": session.syncFilterId,
-                               "credentials": credentials.accessToken]
-        print("authParameters  \n\(authParameters)")
         client?.getSession(toDeleteDevice: deviceId) { res in
             switch res {
             case .success:
-                self.client?.deleteDevice(deviceId, authParameters: authParameters) { response in
+                self.client?.deleteDevice(deviceId, authParameters: [:]) { response in
                     switch response {
                     case .success:
                         print("Delete device with ID: " + deviceId)

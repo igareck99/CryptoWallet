@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - SessionItem
 
-struct SessionItem: Identifiable {
+struct SessionItem: Identifiable, Equatable {
 
     // MARK: - Internal Properties
 
