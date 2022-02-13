@@ -4,16 +4,20 @@ import SwiftUI
 
 struct SelectContactView: View {
 
-    // MARK: - Internal Properties
-
-    @Binding var contacts: [Contact]
-    var onSelectContacts: GenericBlock<[Contact]>?
-
     // MARK: - Private Properties
 
+    @Binding private var contacts: [Contact]
+    private var onSelectContacts: GenericBlock<[Contact]>?
     @Environment(\.presentationMode) private var presentationMode
     @State private var isActive = false
-    @State private var selectedRows = Set<UUID>()
+    @State private var selectedRows: Set<UUID> = .init()
+
+    // MARK: - Life Cycle
+
+    init(contacts: Binding<[Contact]>, _ onSelectContacts: GenericBlock<[Contact]>?) {
+        self._contacts = contacts
+        self.onSelectContacts = onSelectContacts
+    }
 
     // MARK: - Body
 
@@ -59,34 +63,38 @@ struct SelectContactView: View {
             Color(.white()).ignoresSafeArea()
 
             ScrollView(.vertical, showsIndicators: false) {
-                //sectionView("K")
-                ForEach(contacts) { contact in
-                    VStack(spacing: 0) {
-                        HStack(spacing: 0) {
-                            if selectedRows.contains(contact.id) {
-                                R.image.chat.group.check.image
-                                    .transition(.scale.animation(.linear(duration: 0.2)))
-                            } else {
-                                R.image.chat.group.uncheck.image
-                                    .transition(.opacity.animation(.linear(duration: 0.2)))
-                            }
-
-                            ContactRow(
-                                avatar: contact.avatar,
-                                name: contact.name,
-                                status: contact.status
-                            )
-                                .id(contact.id)
-                                .onTapGesture {
-                                    vibrate()
-                                    if selectedRows.contains(contact.id) {
-                                        selectedRows.remove(contact.id)
-                                    } else {
-                                        selectedRows.insert(contact.id)
-                                    }
+                let groupedContacts = Dictionary(grouping: contacts) { $0.name.firstLetter.uppercased() }
+                ForEach(groupedContacts.keys.sorted(), id: \.self) { key in
+                    sectionView(key)
+                    ForEach(groupedContacts[key] ?? []) { contact in
+                        VStack(spacing: 0) {
+                            HStack(spacing: 0) {
+                                if selectedRows.contains(contact.id) {
+                                    R.image.chat.group.check.image
+                                        .transition(.scale.animation(.linear(duration: 0.2)))
+                                } else {
+                                    R.image.chat.group.uncheck.image
+                                        .transition(.opacity.animation(.linear(duration: 0.2)))
                                 }
+
+                                ContactRow(
+                                    avatar: contact.avatar,
+                                    name: contact.name,
+                                    status: contact.status
+                                )
+                                    .background(.white())
+                                    .id(contact.id)
+                                    .onTapGesture {
+                                        vibrate()
+                                        if selectedRows.contains(contact.id) {
+                                            selectedRows.remove(contact.id)
+                                        } else {
+                                            selectedRows.insert(contact.id)
+                                        }
+                                    }
+                            }
+                            .padding(.leading, 16)
                         }
-                        .padding(.leading, 16)
                     }
                 }
             }

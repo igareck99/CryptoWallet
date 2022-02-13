@@ -58,15 +58,15 @@ struct ChatHistoryView: View {
                 }
             }
             .sheet(isPresented: $createRoomSelected) {
-                ChatCreateView(viewModel: .init(), onCreateGroup: { existingContacts in
+                ChatCreateView(viewModel: .init()) { existingContacts in
                     self.contacts = existingContacts
                     self.contactSelected.toggle()
-                })
+                }
             }
             .sheet(isPresented: $contactSelected) {
-                SelectContactView(contacts: $contacts, onSelectContacts: { selectedContacts in
-                    self.contacts = selectedContacts
-                })
+                NavigationView {
+                    SelectContactView(contacts: $contacts) { self.contacts = $0 }
+                }
             }
 
     }

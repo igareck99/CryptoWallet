@@ -87,10 +87,11 @@ final class ProfileDetailViewModel: ObservableObject {
     }
 
     private func setStatus(_ text: String) {
-        apiClient.request(Endpoints.Profile.status(text)) { [weak self] _ in
-            self?.closeScreen.toggle()
-        } failure: { [weak self] error in
-            self?.state = .error(message: error.localizedDescription)
-        }
+        apiClient.publisher(Endpoints.Profile.status(text))
+            .replaceError(with: [:])
+            .sink { [weak self] _ in
+                self?.closeScreen.toggle()
+            }
+            .store(in: &subscriptions)
     }
 }

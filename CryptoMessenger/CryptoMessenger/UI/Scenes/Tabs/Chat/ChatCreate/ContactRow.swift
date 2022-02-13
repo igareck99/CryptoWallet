@@ -38,11 +38,13 @@ struct ContactRow: View {
                     Text(name)
                         .font(.semibold(15))
                         .foreground(.black())
+                        .padding(.top, 12)
 
                     if !status.isEmpty {
                         Text(status)
                             .font(.regular(13))
                             .foreground(.darkGray())
+                            .padding(.bottom, 12)
                     }
                 }
                 .frame(height: 64)
@@ -66,7 +68,7 @@ struct ContactRow: View {
                     )
                 }
             }
-            .padding([.leading, .trailing], 16)
+            .padding(.horizontal, 16)
 
             if !hideSeparator {
                 Rectangle()

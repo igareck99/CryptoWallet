@@ -13,7 +13,7 @@ struct Contact: Identifiable {
     var avatar: URL?
     let name: String
     let status: String
-    var phone: String = ""
+    var phone = ""
 }
 
 // MARK: - ChatCreateViewModel
@@ -171,34 +171,26 @@ final class ChatCreateViewModel: ObservableObject {
         let phones = contacts.map { $0.phoneNumber.numbers }
 
         apiClient.publisher(Endpoints.Users.users(phones))
-            .sink(receiveCompletion: { [weak self] completion in
-                switch completion {
-                case .failure(let error):
-                    guard let err = error as? APIError else {
-                        self?.state = .error(.serverError)
-                        return
-                    }
-                    self?.state = .error(err)
-                default:
-                    break
-                }
-            }, receiveValue: { [weak self] response in
+            .replaceError(with: [:])
+            .sink { [weak self] response in
                 let sorted = contacts.sorted(by: { $0.firstName < $1.firstName })
 
                 let mxUsers: [MXUser] = self?.mxStore.allUsers() ?? []
-                let lastUsers: [Contact] = mxUsers.map {
-                    var contact = Contact(
-                        mxId: $0.userId ?? "",
-                        avatar: nil,
-                        name: $0.displayname ?? "",
-                        status: $0.statusMsg ?? ""
-                    )
-                    if let avatar = $0.avatarUrl {
-                        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
-                        contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
+                let lastUsers: [Contact] = mxUsers
+                    .filter { $0.userId != self?.mxStore.getUserId() }
+                    .map {
+                        var contact = Contact(
+                            mxId: $0.userId ?? "",
+                            avatar: nil,
+                            name: $0.displayname ?? "",
+                            status: $0.statusMsg ?? "Привет, теперь я в Aura"
+                        )
+                        if let avatar = $0.avatarUrl {
+                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                            contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
+                        }
+                        return contact
                     }
-                    return contact
-                }
 
                 let existing: [Contact] = sorted
                     .filter { response.keys.contains($0.phoneNumber.numbers) }
@@ -207,7 +199,7 @@ final class ChatCreateViewModel: ObservableObject {
                             mxId: response[$0.phoneNumber] ?? "",
                             avatar: nil,
                             name: $0.firstName,
-                            status: ""
+                            status: "Привет, теперь я в Aura"
                         )
                     }
                     .filter { contact in
@@ -227,7 +219,7 @@ final class ChatCreateViewModel: ObservableObject {
                         phone: $0.phoneNumber
                     )
                 }
-            })
+            }
             .store(in: &subscriptions)
     }
 }
