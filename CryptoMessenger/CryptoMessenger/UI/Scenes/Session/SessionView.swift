@@ -72,7 +72,7 @@ struct SessionListView: View {
                 viewModel.sessionsList.removeAll()
                 viewModel.send(.onDeleteAll)
             }, label: {
-                Text("Завершить все сессии")
+                Text(R.string.localizable.sessionFinishAll())
                     .font(.bold(15))
                     .foreground(.white())
             }).frame(width: 225, height: 44, alignment: .center)
@@ -97,7 +97,7 @@ struct SessionListView: View {
                .navigationBarTitleDisplayMode(.inline)
                .toolbar {
                    ToolbarItem(placement: .principal) {
-                       Text("Управление сессиями")
+                       Text(R.string.localizable.sessionFinishOne())
                            .font(.bold(15))
                    }
                }

@@ -52,21 +52,9 @@ class SessionViewModel: ObservableObject {
                     self?.updateData()
                     self?.objectWillChange.send()
                 case .onDeleteAll:
-                    guard let sessions = self?.sessionsList else { return }
-                    for device in sessions {
-                        self?.mxStore.removeDevice(device.device_id, completion: {
-                            print("Something")
-                        })
-                    }
-                    self?.getSessions()
+                    break
                 case let .onDeleteOne(device):
-                    if self?.mxStore.session?.myDeviceId == device {
-                        self?.mxStore.logout()
-                    }
-                    print("Delete on device    \(device)")
-                    self?.mxStore.removeDevice(device, completion: {
-                        self?.getSessions()
-                    })
+                    break
                 }
             }
             .store(in: &subscriptions)
@@ -101,11 +89,12 @@ class SessionViewModel: ObservableObject {
                         let lastSeenIp = x.lastSeenIp ?? ""
                         var dateSession = ""
                         let lastSeenTs = NSDate(timeIntervalSince1970: Double(
-                            x.lastSeenTs) / 1000 + 10800)
+                            x.lastSeenTs) / 1000)
                             .description.split(separator: " ")
                         let date = lastSeenTs[0] + " " + lastSeenTs[1]
                         let dateFormatterGet = DateFormatter()
                         dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                        dateFormatterGet.timeZone = NSTimeZone(name: "UTC") as TimeZone?
                         let dateFormatterSet = DateFormatter()
                         dateFormatterSet.dateFormat = "yyyy.MM.dd HH:mm"
                         if let date = dateFormatterGet.date(from: String(date)) {

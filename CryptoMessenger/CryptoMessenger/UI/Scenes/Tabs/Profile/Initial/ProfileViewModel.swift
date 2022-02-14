@@ -66,8 +66,6 @@ final class ProfileViewModel: ObservableObject {
         apiClient.publisher(Endpoints.Media.delete_photo([url]))
             .sink(receiveCompletion: { completion in
                 switch completion {
-                case .failure(_):
-                    return
                 default:
                     break
                 }
@@ -153,8 +151,6 @@ final class ProfileViewModel: ObservableObject {
         apiClient.publisher(Endpoints.Media.upload(multipartData, name: mxStore.getUserId()))
             .sink(receiveCompletion: { completion in
                 switch completion {
-                case .failure(let error):
-                    print("uploadError  \(error)")
                 default:
                     break
                 }
