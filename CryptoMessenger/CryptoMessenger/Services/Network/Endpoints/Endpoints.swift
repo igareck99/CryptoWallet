@@ -86,5 +86,17 @@ enum Endpoints {
             let endpoint = Endpoint<[String: String]>(method: .get, path: "/profile/\(name)/social")
             return endpoint
         }
+
+        static func set_social(_ social: [String: String], user: String)
+                               -> Endpoint<[String: String]> {
+            let endpoint = Endpoint<[String: String]>(method: .patch, path: "/profile/social")
+            endpoint.modifyRequest {
+                $0.jsonBody(dict: social)
+            }
+            endpoint.modifyRequest {
+                $0.addHeader("user", value: user)
+            }
+            return endpoint
+        }
     }
 }

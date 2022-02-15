@@ -21,7 +21,13 @@ protocol UserCredentialsStorage {
     var lastSeenState: String { get set }
     var callsState: String { get set }
     var geopositionState: String { get set }
-    var reserveCopyTime: String { get set }  
+    var reserveCopyTime: String { get set }
+    var facebook: String { get set }
+    var instagram: String { get set }
+    var website: String { get set }
+    var twitter: String { get set }
+    var VK: String { get set }
+
 }
 
 // MARK: - UserCredentialsStorageService
@@ -131,4 +137,30 @@ final class UserCredentialsStorageService {
         get { storage.reserveCopyTime }
         set { storage.reserveCopyTime = newValue }
     }
+    
+    var facebook: String {
+        get { storage.facebook }
+        set { storage.facebook = newValue }
+    }
+    
+    var instagram: String {
+        get { storage.instagram }
+        set { storage.instagram = newValue }
+    }
+    
+    var website: String {
+        get { storage.website }
+        set { storage.website = newValue }
+    }
+    
+    var twitter: String {
+        get { storage.twitter }
+        set { storage.twitter = newValue }
+    }
+    
+    var VK: String {
+        get { storage.VK }
+        set { storage.VK = newValue }
+    }
+
 }

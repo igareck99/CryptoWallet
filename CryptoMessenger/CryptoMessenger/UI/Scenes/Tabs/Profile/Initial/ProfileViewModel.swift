@@ -17,7 +17,7 @@ struct ProfileItem: Identifiable {
     var photos: [Image] = []
     var photos_url_preview: [URL] = []
     var photos_url_original: [URL] = []
-    var social_list: [String: String] = [:]
+    var social_list: [String: String] = ["facebook": "", "VK": "", "twitter": "", "instagram": ""]
 }
 
 // MARK: - ProfileViewModel
@@ -35,7 +35,8 @@ final class ProfileViewModel: ObservableObject {
     @Published private(set) var profile = ProfileItem()
     @Published private(set) var state: ProfileFlow.ViewState = .idle
     @Published private(set) var socialList = SocialListViewModel()
-    @Published private(set) var socialListEmpty = false
+    @Published private(set) var socialListEmpty = true
+    @Published private(set) var socialListKeys = ["facebook", "VK", "twitter", "instagram"]
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
@@ -75,6 +76,30 @@ final class ProfileViewModel: ObservableObject {
                 self?.profile.photos_url_original = self?.profile.photos_url_original
                     .filter { $0.absoluteString != response[0]
                         .replacingOccurrences(of: "preview/@", with: "original/@") } ?? []
+            })
+            .store(in: &subscriptions)
+    }
+
+    func add_social(social: [String: String]) {
+        apiClient.publisher(Endpoints.Social.set_social(social, user: mxStore.getUserId()))
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case let .failure(error):
+                    print(error)
+                default:
+                    break
+                }
+            }, receiveValue: { [weak self] response in
+                self?.profile.social_list.updateValue(response["VK"] ?? "",
+                                                      forKey: "VK")
+                self?.profile.social_list.updateValue(response["twitter"] ?? "",
+                                                      forKey: "twitter")
+                self?.profile.social_list.updateValue(response["instagram"] ?? "",
+                                                      forKey: "instagram")
+                self?.profile.social_list.updateValue(response["facebook"] ?? "",
+                                                      forKey: "facebook")
+                self?.getSocialList()
+                self?.objectWillChange.send()
             })
             .store(in: &subscriptions)
     }
@@ -166,20 +191,23 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func getSocialList() {
+    func getSocialList() {
         state = .idle
         apiClient.publisher(Endpoints.Social.get_social(mxStore.getUserId()))
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {
                 case .failure(let error):
                     print(error)
-                    self?.profile.social_list = [:]
                     return
                 default:
                     break
                 }
             }, receiveValue: { [weak self] response in
-                self?.profile.social_list = response
+                self?.userCredentialsStorageService.VK = response["vk"] ?? ""
+                self?.userCredentialsStorageService.instagram = response["instagram"] ?? ""
+                self?.userCredentialsStorageService.twitter = response["twitter"] ?? ""
+                self?.userCredentialsStorageService.facebook = response["facebook"] ?? ""
+                self?.objectWillChange.send()
             })
             .store(in: &subscriptions)
     }
@@ -195,9 +223,23 @@ final class ProfileViewModel: ObservableObject {
         if !mxStore.getAvatarUrl().isEmpty {
             profile.avatar = URL(fileURLWithPath: mxStore.getAvatarUrl())
         }
-        getPhotos()
         profile.phone = userCredentialsStorageService.userPhoneNumber
-        socialList.listData = userCredentialsStorageService.socialNetworkList.filter { $0.type == .show }
-        socialListEmpty = userCredentialsStorageService.socialNetworkList.filter { $0.type == .show }.isEmpty
+        getPhotos()
+        add_social(social: ["VK": "https://vk.com/id84088850",
+                            "twitter": "https://twitter.com",
+                            "instagram": "https://www.instagram.com/accounts/Igareck99",
+                            "facebook": ""])
+        getSocialList()
+        profile.social_list.updateValue(userCredentialsStorageService.VK,
+                                        forKey: "VK")
+        profile.social_list.updateValue(userCredentialsStorageService.twitter,
+                                        forKey: "twitter")
+        profile.social_list.updateValue(userCredentialsStorageService.instagram,
+                                        forKey: "instagram")
+        profile.social_list.updateValue(userCredentialsStorageService.facebook,
+                                        forKey: "facebook")
+        for value in profile.social_list where !value.value.isEmpty {
+            socialListEmpty = false
+        }
     }
 }
