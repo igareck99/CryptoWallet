@@ -8,7 +8,7 @@ struct SessionItem: Identifiable, Equatable {
 
     var id = UUID()
     var photo: UIImage!
-    var device_id: String
+    var deviceId: String
     var device: String
     var place: String
     var date: String
@@ -18,7 +18,7 @@ struct SessionItem: Identifiable, Equatable {
 
     static func sessionsInfo() -> SessionItem {
         let item1 = SessionItem( photo: R.image.session.ios(),
-                                 device_id: "TESTID",
+                                 deviceId: "TESTID",
                                  device: "iPhone",
                                  place: "Москва, Россия",
                                  date: "сегодня в 14:11",

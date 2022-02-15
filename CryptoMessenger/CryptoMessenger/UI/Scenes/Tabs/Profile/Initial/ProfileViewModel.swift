@@ -15,8 +15,7 @@ struct ProfileItem: Identifiable {
     var info = ""
     var phone = "Номер не заполнен"
     var photos: [Image] = []
-    var photos_url_preview: [URL] = []
-    var photos_url_original: [URL] = []
+    var photosUrls: [MediaResponse] = []
     var social_list: [String: String] = [:]
 }
 
@@ -63,18 +62,15 @@ final class ProfileViewModel: ObservableObject {
     }
 
     func deletePhoto(url: String) {
-        apiClient.publisher(Endpoints.Media.delete_photo([url]))
+        apiClient.publisher(Endpoints.Media.deletePhoto([url]))
             .sink(receiveCompletion: { completion in
                 switch completion {
                 default:
                     break
                 }
             }, receiveValue: { [weak self] response in
-                self?.profile.photos_url_preview = self?.profile.photos_url_preview
-                    .filter { $0.absoluteString != response[0] } ?? []
-                self?.profile.photos_url_original = self?.profile.photos_url_original
-                    .filter { $0.absoluteString != response[0]
-                        .replacingOccurrences(of: "preview/@", with: "original/@") } ?? []
+                self?.profile.photosUrls = self?.profile.photosUrls
+                    .filter { $0.photosUrlPreview.absoluteString != response[0] } ?? []
             })
             .store(in: &subscriptions)
     }
@@ -119,7 +115,7 @@ final class ProfileViewModel: ObservableObject {
     }
 
     private func getPhotos() {
-        apiClient.publisher(Endpoints.Media.get_photos(mxStore.getUserId()))
+        apiClient.publisher(Endpoints.Media.getPhotos(mxStore.getUserId()))
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):
@@ -129,15 +125,13 @@ final class ProfileViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { [weak self] response in
-                self?.profile.photos_url_original = []
-                self?.profile.photos_url_preview = []
+                self?.profile.photosUrls = []
                 for x in response {
                     guard let original = x["original"] else { return }
                     guard let preview = x["preview"] else { return }
                     guard let original_url = URL(string: original) else { return }
                     guard let preview_url = URL(string: preview) else { return }
-                    self?.profile.photos_url_original.append(original_url)
-                    self?.profile.photos_url_preview.append(preview_url)
+                    self?.profile.photosUrls.append(MediaResponse(photosUrlPreview: preview_url, photosUrlOriginal: original_url))
                 }
             })
             .store(in: &subscriptions)
@@ -159,8 +153,9 @@ final class ProfileViewModel: ObservableObject {
                 guard let preview = response["preview"] else { return }
                 guard let original_url = URL(string: original) else { return }
                 guard let preview_url = URL(string: preview) else { return }
-                self?.profile.photos_url_preview.insert(preview_url, at: 0)
-                self?.profile.photos_url_original.insert(original_url, at: 0)
+                print("original_url    \(original_url)")
+                print("preview_url    \(preview_url)")
+                self?.profile.photosUrls.insert(MediaResponse(photosUrlPreview: preview_url, photosUrlOriginal: original_url), at: 0)
                 self?.objectWillChange.send()
             })
             .store(in: &subscriptions)
@@ -168,7 +163,7 @@ final class ProfileViewModel: ObservableObject {
 
     private func getSocialList() {
         state = .idle
-        apiClient.publisher(Endpoints.Social.get_social(mxStore.getUserId()))
+        apiClient.publisher(Endpoints.Social.getSocial(mxStore.getUserId()))
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {
                 case .failure(let error):
@@ -200,4 +195,15 @@ final class ProfileViewModel: ObservableObject {
         socialList.listData = userCredentialsStorageService.socialNetworkList.filter { $0.type == .show }
         socialListEmpty = userCredentialsStorageService.socialNetworkList.filter { $0.type == .show }.isEmpty
     }
+}
+
+// MARK: - MediaResponse
+
+struct MediaResponse: Codable {
+
+    // MARK: - Internal Properties
+
+    var photosUrlPreview: URL
+    var photosUrlOriginal: URL
+
 }

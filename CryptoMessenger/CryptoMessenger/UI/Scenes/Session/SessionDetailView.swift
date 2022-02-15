@@ -73,10 +73,9 @@ struct SessionDetailView: View {
                     .padding(.top, 16)
                 VStack(alignment: .center) {
                     Button(action: {
-                        print(viewModel.selectedSession.device_id)
-                        viewModel.send(.onDeleteOne(device_id: viewModel.selectedSession.device_id))
+                        viewModel.send(.onDeleteOne(deviceId: viewModel.selectedSession.deviceId))
                         viewModel.sessionsList = viewModel.sessionsList.filter {
-                            $0.device_id != viewModel.selectedSession.device_id }
+                            $0.deviceId != viewModel.selectedSession.deviceId }
                         self.showModal.toggle()
                     }, label: {
                         Text(R.string.localizable.sessionFinishOne())

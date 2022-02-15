@@ -35,11 +35,10 @@ final class MatrixStore: ObservableObject {
         return rooms
     }
 
-    var session: MXSession?
-
     // MARK: - Private Properties
 
     private var client: MXRestClient?
+    private var session: MXSession?
     private var fileStore: MXFileStore?
     private var credentials: MXCredentials?
     private let keychain = Keychain(service: "chat.aura.credentials")
@@ -127,8 +126,6 @@ final class MatrixStore: ObservableObject {
             case let .success(devices):
                 let group = DispatchGroup()
                 devices.forEach {
-                    print("Devices from logout  \($0.deviceId)")
-                    print("Devices from logout1  \($0.lastSeenTs)")
                     group.enter()
                     self?.removeDevice($0.deviceId) { group.leave() }
                 }
@@ -207,11 +204,6 @@ final class MatrixStore: ObservableObject {
             }
         }
     }
-    
-//    func deleteSessions(byDeviceId: String,
-//                        completion: @escaping (String, Error>) -> Void) {
-//        client?.deleteDevice(byDeviceId: byDeviceId, authParams: , success: , failure: )
-//    }
 
     // MARK: - Rooms
 

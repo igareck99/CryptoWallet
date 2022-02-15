@@ -83,45 +83,44 @@ class SessionViewModel: ObservableObject {
         self.mxStore.getActiveSessions { result in
             switch result {
             case let .success(devices):
-                if !devices.isEmpty {
-                    var new_session_list: [SessionItem] = []
-                    for x in devices {
-                        let lastSeenIp = x.lastSeenIp ?? ""
-                        var dateSession = ""
-                        let lastSeenTs = NSDate(timeIntervalSince1970: Double(
-                            x.lastSeenTs) / 1000)
-                            .description.split(separator: " ")
-                        let date = lastSeenTs[0] + " " + lastSeenTs[1]
-                        let dateFormatterGet = DateFormatter()
-                        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                        dateFormatterGet.timeZone = NSTimeZone(name: "UTC") as TimeZone?
-                        let dateFormatterSet = DateFormatter()
-                        dateFormatterSet.dateFormat = "yyyy.MM.dd HH:mm"
-                        if let date = dateFormatterGet.date(from: String(date)) {
-                            dateSession = dateFormatterSet.string(from: date)
-                        }
-                        let displayName = x.displayName ?? ""
-                        var photo = UIImage()
-                        if !displayName.isEmpty {
-                            if displayName.contains("iPhone") {
-                                photo = R.image.session.ios() ?? UIImage()
-                            } else {
-                                photo = R.image.session.android() ?? UIImage()
-                            }
-                        }
-                        if !lastSeenIp.isEmpty && !displayName.isEmpty {
-                            new_session_list.append(SessionItem(photo: photo,
-                                                                device_id: x.deviceId,
-                                                                device: displayName,
-                                                                place: "Москва, Россия",
-                                                                date: dateSession,
-                                                                ip: lastSeenIp))
+                guard !devices.isEmpty else { return }
+                var new_session_list: [SessionItem] = []
+                for x in devices {
+                    let lastSeenIp = x.lastSeenIp ?? ""
+                    var dateSession = ""
+                    let lastSeenTs = NSDate(timeIntervalSince1970: Double(
+                        x.lastSeenTs) / 1000)
+                        .description.split(separator: " ")
+                    let date = lastSeenTs[0] + " " + lastSeenTs[1]
+                    let dateFormatterGet = DateFormatter()
+                    dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                    dateFormatterGet.timeZone = NSTimeZone(name: "UTC") as TimeZone?
+                    let dateFormatterSet = DateFormatter()
+                    dateFormatterSet.dateFormat = "yyyy.MM.dd HH:mm"
+                    if let date = dateFormatterGet.date(from: String(date)) {
+                        dateSession = dateFormatterSet.string(from: date)
+                    }
+                    let displayName = x.displayName ?? ""
+                    var photo = UIImage()
+                    if !displayName.isEmpty {
+                        if displayName.contains("iPhone") {
+                            photo = R.image.session.ios() ?? UIImage()
+                        } else {
+                            photo = R.image.session.android() ?? UIImage()
                         }
                     }
-                    self.sessionsList = new_session_list
-                    self.sessionsList = self.sessionsList.sorted(by: { $0.date > $1.date })
+                    if !lastSeenIp.isEmpty && !displayName.isEmpty {
+                        new_session_list.append(SessionItem(photo: photo,
+                                                            deviceId: x.deviceId,
+                                                            device: displayName,
+                                                            place: "Москва, Россия",
+                                                            date: dateSession,
+                                                            ip: lastSeenIp))
+                    }
                 }
-            case .failure(_):
+                self.sessionsList = new_session_list
+                self.sessionsList = self.sessionsList.sorted(by: { $0.date > $1.date })
+            case .failure:
                 break
             }
         }
