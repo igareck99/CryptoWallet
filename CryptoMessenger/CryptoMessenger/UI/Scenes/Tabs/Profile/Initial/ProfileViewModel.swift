@@ -26,7 +26,11 @@ final class ProfileViewModel: ObservableObject {
 
     // MARK: - SocialKey
 
-    enum SocialKey: String, CaseIterable {
+    enum SocialKey: String, Identifiable, CaseIterable {
+
+        // MARK: - Internal Properties
+
+        var id: UUID { UUID() }
 
         // MARK: - Types
 
