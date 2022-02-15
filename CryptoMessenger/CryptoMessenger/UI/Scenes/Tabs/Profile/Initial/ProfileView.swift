@@ -156,76 +156,76 @@ struct ProfileView: View {
                                 VStack(alignment: .leading, spacing: 11) {
                                     Text(viewModel.profile.name)
                                         .font(.medium(15))
-                                    switch viewModel.socialListEmpty {
-                                    case false:
-                                    HStack(spacing: 8) {
-                                        ForEach(viewModel.socialListKeys, id: \.self) { item in
-                                            switch item {
-                                            case "twitter":
-                                                if !viewModel.profile.social_list["twitter"]!.isEmpty {
-                                                    Button(action: {
-                                                        showSafari = true
-                                                        safariAdress = viewModel.profile.social_list["twitter"] ?? ""
-                                                    }, label: {
-                                                        R.image.profile.twitter.image
-                                                    }).frame(width: 32, height: 32, alignment: .center)
-                                                        .background(.blue())
-                                                        .cornerRadius(16)
-                                                }
-                                            case "instagram":
-                                                if !viewModel.profile.social_list["instagram"]!.isEmpty {
-                                                    Button(action: {
-                                                        showSafari = true
-                                                        safariAdress = viewModel.profile.social_list["instagram"] ?? ""
-                                                    }, label: {
-                                                        R.image.profile.instagram.image
-                                                    }).frame(width: 32, height: 32, alignment: .center)
-                                                        .background(.blue())
-                                                        .cornerRadius(16)
-                                                }
-                                            case "facebook":
-                                                if !viewModel.profile.social_list["facebook"]!.isEmpty {
-                                                    Button(action: {
-                                                        showSafari = true
-                                                        safariAdress = viewModel.profile.social_list["facebook"] ?? ""
-                                                    }, label: {
-                                                        R.image.profile.facebook.image
-                                                    }).frame(width: 32, height: 32, alignment: .center)
-                                                        .background(.blue())
-                                                        .cornerRadius(16)
-                                                }
-                                            case "VK":
-                                                if !viewModel.profile.social_list["VK"]!.isEmpty {
-                                                    Button(action: {
-                                                        showSafari = true
-                                                        safariAdress = viewModel.profile.social_list["VK"] ?? ""
-                                                    }, label: {
-                                                        R.image.profile.website.image
-                                                    }).frame(width: 32, height: 32, alignment: .center)
-                                                        .background(.blue())
-                                                        .cornerRadius(16)
-                                                }
-                                            default:
-                                                Text("")
-                                            }
-                                        }
-                                    }
-                                    case true:
-                                        Button(action: {
-                                            viewModel.addSocial(social: ["VK": "https://vk.com/id84088850",
-                                                                         "twitter": "https://twitter.com",
-                                                                         "instagram": "https://www.instagram.com/accounts/Igareck99",
-                                                                         "facebook": ""])
-                                            }, label: {
-                                                Text(R.string.localizable.profileAddSocial())
-                                                    .font(.regular(15))
-                                                    .foreground(.blue())
-                                            })
-                                            .frame(width: 160, height: 32)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 61)
-                                                    .stroke(Color(.blue()), lineWidth: 1)
-                                            )
+//                                    switch viewModel.socialListEmpty {
+//                                    case false:
+//                                    HStack(spacing: 8) {
+//                                        ForEach(viewModel.socialListKeys, id: \.self) { item in
+//                                            switch item {
+//                                            case "twitter":
+//                                                if !viewModel.profile.social_list["twitter"]!.isEmpty {
+//                                                    Button(action: {
+//                                                        showSafari = true
+//                                                        safariAdress = viewModel.profile.social_list["twitter"] ?? ""
+//                                                    }, label: {
+//                                                        R.image.profile.twitter.image
+//                                                    }).frame(width: 32, height: 32, alignment: .center)
+//                                                        .background(.blue())
+//                                                        .cornerRadius(16)
+//                                                }
+//                                            case "instagram":
+//                                                if !viewModel.profile.social_list["instagram"]!.isEmpty {
+//                                                    Button(action: {
+//                                                        showSafari = true
+//                                                        safariAdress = viewModel.profile.social_list["instagram"] ?? ""
+//                                                    }, label: {
+//                                                        R.image.profile.instagram.image
+//                                                    }).frame(width: 32, height: 32, alignment: .center)
+//                                                        .background(.blue())
+//                                                        .cornerRadius(16)
+//                                                }
+//                                            case "facebook":
+//                                                if !viewModel.profile.social_list["facebook"]!.isEmpty {
+//                                                    Button(action: {
+//                                                        showSafari = true
+//                                                        safariAdress = viewModel.profile.social_list["facebook"] ?? ""
+//                                                    }, label: {
+//                                                        R.image.profile.facebook.image
+//                                                    }).frame(width: 32, height: 32, alignment: .center)
+//                                                        .background(.blue())
+//                                                        .cornerRadius(16)
+//                                                }
+//                                            case "VK":
+//                                                if !viewModel.profile.social_list["VK"]!.isEmpty {
+//                                                    Button(action: {
+//                                                        showSafari = true
+//                                                        safariAdress = viewModel.profile.social_list["VK"] ?? ""
+//                                                    }, label: {
+//                                                        R.image.profile.website.image
+//                                                    }).frame(width: 32, height: 32, alignment: .center)
+//                                                        .background(.blue())
+//                                                        .cornerRadius(16)
+//                                                }
+//                                            default:
+//                                                Text("")
+//                                            }
+//                                        }
+//                                    }
+//                                    case true:
+//                                        Button(action: {
+//                                            viewModel.addSocial(social: ["VK": "https://vk.com/id84088850",
+//                                                                         "twitter": "https://twitter.com",
+//                                                                         "instagram": "https://www.instagram.com/accounts/Igareck99",
+//                                                                         "facebook": ""])
+//                                            }, label: {
+//                                                Text(R.string.localizable.profileAddSocial())
+//                                                    .font(.regular(15))
+//                                                    .foreground(.blue())
+//                                            })
+//                                            .frame(width: 160, height: 32)
+//                                            .overlay(
+//                                                RoundedRectangle(cornerRadius: 61)
+//                                                    .stroke(Color(.blue()), lineWidth: 1)
+//                                            )
 //                                        Button(R.string.localizable.profileAddSocial()) {
 //                                            print("mkwdjknfJNKWIODEFJNSCKMDJIEHUWFDKLM")
 //                                        }
@@ -244,7 +244,7 @@ struct ProfileView: View {
 //                                                .stroke(Color(.blue()), lineWidth: 1)
 //                                        )
 
-                                    }
+//                                    }
                                     Text(viewModel.profile.phone)
                                 }
                             }
