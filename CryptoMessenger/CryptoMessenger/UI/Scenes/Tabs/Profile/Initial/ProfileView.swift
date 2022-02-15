@@ -211,15 +211,38 @@ struct ProfileView: View {
                                         }
                                     }
                                     case true:
-                                        Button(R.string.localizable.profileAddSocial()) {
-                                        }
-                                        .frame(width: 160, height: 32)
-                                        .font(.regular(15))
-                                        .foreground(.blue())
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 61)
-                                                .stroke(Color(.blue()), lineWidth: 1)
-                                        )
+                                        Button(action: {
+                                            viewModel.add_social(social: ["VK": "https://vk.com/id84088850",
+                                                                         "twitter": "https://twitter.com",
+                                                                         "instagram": "https://www.instagram.com/accounts/Igareck99",
+                                                                         "facebook": ""])
+                                            }, label: {
+                                                Text(R.string.localizable.profileAddSocial())
+                                                    .font(.regular(15))
+                                                    .foreground(.blue())
+                                            })
+                                            .frame(width: 160, height: 32)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 61)
+                                                    .stroke(Color(.blue()), lineWidth: 1)
+                                            )
+//                                        Button(R.string.localizable.profileAddSocial()) {
+//                                            print("mkwdjknfJNKWIODEFJNSCKMDJIEHUWFDKLM")
+//                                        }
+//                                        .onTapGesture {
+//                                            print("mkwdjknfJNKWIODEFJNSCKMDJIEHUWFDKLM")
+//                                            viewModel.add_social(social: ["VK": "https://vk.com/id84088850",
+//                                                                         "twitter": "https://twitter.com",
+//                                                                         "instagram": "https://www.instagram.com/accounts/Igareck99",
+//                                                                         "facebook": ""])
+//                                        }
+//                                        .frame(width: 160, height: 32)
+//                                        .font(.regular(15))
+//                                        .foreground(.blue())
+//                                        .overlay(
+//                                            RoundedRectangle(cornerRadius: 61)
+//                                                .stroke(Color(.blue()), lineWidth: 1)
+//                                        )
 
                                     }
                                     Text(viewModel.profile.phone)

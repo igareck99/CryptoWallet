@@ -17,7 +17,7 @@ struct ProfileItem: Identifiable {
     var photos: [Image] = []
     var photos_url_preview: [URL] = []
     var photos_url_original: [URL] = []
-    var social_list: [String: String] = ["facebook": "", "VK": "", "twitter": "", "instagram": ""]
+    var social_list = ["facebook": "", "VK": "", "twitter": "", "instagram": ""]
 }
 
 // MARK: - ProfileViewModel
@@ -32,7 +32,7 @@ final class ProfileViewModel: ObservableObject {
 
     // MARK: - Private Properties
 
-    @Published private(set) var profile = ProfileItem()
+    @Published var profile = ProfileItem()
     @Published private(set) var state: ProfileFlow.ViewState = .idle
     @Published private(set) var socialList = SocialListViewModel()
     @Published private(set) var socialListEmpty = true
@@ -85,21 +85,16 @@ final class ProfileViewModel: ObservableObject {
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case let .failure(error):
-                    print(error)
+                    print("Errorepodlp   \(error)")
                 default:
                     break
                 }
             }, receiveValue: { [weak self] response in
-                self?.profile.social_list.updateValue(response["VK"] ?? "",
-                                                      forKey: "VK")
-                self?.profile.social_list.updateValue(response["twitter"] ?? "",
-                                                      forKey: "twitter")
-                self?.profile.social_list.updateValue(response["instagram"] ?? "",
-                                                      forKey: "instagram")
-                self?.profile.social_list.updateValue(response["facebook"] ?? "",
-                                                      forKey: "facebook")
-                self?.getSocialList()
-                self?.objectWillChange.send()
+                self?.profile.social_list["VK"] = response["vk"] ?? ""
+                self?.profile.social_list["instagram"] = response["instagram"] ?? ""
+                self?.profile.social_list["twitter"] = response["twitter"] ?? ""
+                self?.profile.social_list["facebook"] = response["facebook"] ?? ""
+                self?.updateData()
             })
             .store(in: &subscriptions)
     }
@@ -191,8 +186,9 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    func getSocialList() {
+    func getSocialList() -> [String: String] {
         state = .idle
+        var return_list: [String: String] = [:]
         apiClient.publisher(Endpoints.Social.get_social(mxStore.getUserId()))
             .sink(receiveCompletion: { [weak self] completion in
                 switch completion {
@@ -203,13 +199,18 @@ final class ProfileViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { [weak self] response in
-                self?.userCredentialsStorageService.VK = response["vk"] ?? ""
-                self?.userCredentialsStorageService.instagram = response["instagram"] ?? ""
-                self?.userCredentialsStorageService.twitter = response["twitter"] ?? ""
-                self?.userCredentialsStorageService.facebook = response["facebook"] ?? ""
-                self?.objectWillChange.send()
+                return_list.updateValue(response["VK"] ?? "",
+                                                      forKey: "VK")
+                return_list.updateValue(response["instagram"] ?? "",
+                                                      forKey: "instagram")
+                return_list.updateValue(response["twitter"] ?? "",
+                                                      forKey: "twitter")
+                return_list.updateValue(response["facebook"] ?? "",
+                                                      forKey: "facebook")
+                print("ewddmdskldkld    \(return_list)")
             })
             .store(in: &subscriptions)
+        return return_list
     }
 
     private func updateData() {
@@ -225,19 +226,8 @@ final class ProfileViewModel: ObservableObject {
         }
         profile.phone = userCredentialsStorageService.userPhoneNumber
         getPhotos()
-        add_social(social: ["VK": "https://vk.com/id84088850",
-                            "twitter": "https://twitter.com",
-                            "instagram": "https://www.instagram.com/accounts/Igareck99",
-                            "facebook": ""])
-        getSocialList()
-        profile.social_list.updateValue(userCredentialsStorageService.VK,
-                                        forKey: "VK")
-        profile.social_list.updateValue(userCredentialsStorageService.twitter,
-                                        forKey: "twitter")
-        profile.social_list.updateValue(userCredentialsStorageService.instagram,
-                                        forKey: "instagram")
-        profile.social_list.updateValue(userCredentialsStorageService.facebook,
-                                        forKey: "facebook")
+        print("fffffdf   \(getSocialList())")
+        print("skmsdkjfkjsdfjkdkmfdfmkl    \(profile.social_list)")
         for value in profile.social_list where !value.value.isEmpty {
             socialListEmpty = false
         }
