@@ -212,7 +212,7 @@ struct ProfileView: View {
                                     }
                                     case true:
                                         Button(action: {
-                                            viewModel.add_social(social: ["VK": "https://vk.com/id84088850",
+                                            viewModel.addSocial(social: ["VK": "https://vk.com/id84088850",
                                                                          "twitter": "https://twitter.com",
                                                                          "instagram": "https://www.instagram.com/accounts/Igareck99",
                                                                          "facebook": ""])

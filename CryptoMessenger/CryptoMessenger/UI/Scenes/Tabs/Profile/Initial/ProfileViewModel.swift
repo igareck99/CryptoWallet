@@ -24,6 +24,15 @@ struct ProfileItem: Identifiable {
 
 final class ProfileViewModel: ObservableObject {
 
+    // MARK: - SocialKey
+
+    enum SocialKey: String, CaseIterable {
+
+        // MARK: - Types
+
+        case facebook, vk, twitter, instagram
+    }
+
     // MARK: - Internal Properties
 
     weak var delegate: ProfileSceneDelegate?
@@ -37,6 +46,7 @@ final class ProfileViewModel: ObservableObject {
     @Published private(set) var socialList = SocialListViewModel()
     @Published private(set) var socialListEmpty = true
     @Published private(set) var socialListKeys = ["facebook", "VK", "twitter", "instagram"]
+    @Published private(set) var userSocials: [SocialKey: String] = [:]
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
@@ -80,22 +90,20 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    func add_social(social: [String: String]) {
+    func addSocial(social: [String: String]) {
         apiClient.publisher(Endpoints.Social.set_social(social, user: mxStore.getUserId()))
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case let .failure(error):
-                    print("Errorepodlp   \(error)")
-                default:
-                    break
+            .replaceError(with: [:])
+            .sink { [weak self] dictionary in
+                let result = dictionary.reduce([:]) { (partialResult: [SocialKey: String], tuple: (key: String, value: String)) in
+                    var result = partialResult
+                    if let key = SocialKey(rawValue: tuple.key.lowercased()) {
+                        result[key] = tuple.value.lowercased()
+                    }
+                    return result
                 }
-            }, receiveValue: { [weak self] response in
-                self?.profile.social_list["VK"] = response["vk"] ?? ""
-                self?.profile.social_list["instagram"] = response["instagram"] ?? ""
-                self?.profile.social_list["twitter"] = response["twitter"] ?? ""
-                self?.profile.social_list["facebook"] = response["facebook"] ?? ""
+                self?.userSocials = result // тут откидывается результат на UI
                 self?.updateData()
-            })
+            }
             .store(in: &subscriptions)
     }
 
@@ -186,31 +194,21 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    func getSocialList() -> [String: String] {
+    func getSocialList() {
         state = .idle
-        var return_list: [String: String] = [:]
         apiClient.publisher(Endpoints.Social.get_social(mxStore.getUserId()))
-            .sink(receiveCompletion: { [weak self] completion in
-                switch completion {
-                case .failure(let error):
-                    print(error)
-                    return
-                default:
-                    break
+            .replaceError(with: [:])
+            .sink { [weak self] dictionary in
+                let result = dictionary.reduce([:]) { (partialResult: [SocialKey: String], tuple: (key: String, value: String)) in
+                    var result = partialResult
+                    if let key = SocialKey(rawValue: tuple.key.lowercased()) {
+                        result[key] = tuple.value.lowercased()
+                    }
+                    return result
                 }
-            }, receiveValue: { [weak self] response in
-                return_list.updateValue(response["VK"] ?? "",
-                                                      forKey: "VK")
-                return_list.updateValue(response["instagram"] ?? "",
-                                                      forKey: "instagram")
-                return_list.updateValue(response["twitter"] ?? "",
-                                                      forKey: "twitter")
-                return_list.updateValue(response["facebook"] ?? "",
-                                                      forKey: "facebook")
-                print("ewddmdskldkld    \(return_list)")
-            })
+                self?.userSocials = result // тут откидывается результат на UI
+            }
             .store(in: &subscriptions)
-        return return_list
     }
 
     private func updateData() {
