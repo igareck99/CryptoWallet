@@ -17,25 +17,13 @@ struct ProfileItem: Identifiable {
     var photos: [Image] = []
     var photos_url_preview: [URL] = []
     var photos_url_original: [URL] = []
+    var socialNetworks: SocialResponse?
     var socialNetwork: [SocialKey: String] = [:]
 }
 
 // MARK: - ProfileViewModel
 
 final class ProfileViewModel: ObservableObject {
-
-    // MARK: - SocialKey
-
-    enum SocialKey: String, Identifiable, CaseIterable {
-
-        // MARK: - Internal Properties
-
-        var id: UUID { UUID() }
-
-        // MARK: - Types
-
-        case facebook, vk, twitter, instagram
-    }
 
     // MARK: - Internal Properties
 
@@ -203,16 +191,12 @@ final class ProfileViewModel: ObservableObject {
         apiClient.publisher(Endpoints.Social.get_social(mxStore.getUserId()))
             .replaceError(with: [:])
             .sink { [weak self] dictionary in
-                let result = dictionary.reduce([:]) { (partialResult: [SocialKey: String],
-                                                       tuple: (key: String, value: String)) in
-                    var result = partialResult
-                    if let key = SocialKey(rawValue: tuple.key.lowercased()) {
-                        result[key] = tuple.value.lowercased()
-                    }
-                    return result
-                }
-                print("ResultFF   \(result)")
-                self?.userSocials = result // тут откидывается результат на UI
+                let social = SocialResponse(facebook: dictionary["facebook"] ?? "",
+                                            vk: dictionary["vk"] ?? "",
+                                            twitter: dictionary["twitter"] ?? "",
+                                            instagram: dictionary["instagram"] ?? "")
+                self?.profile.socialNetworks = social // тут откидывается результат на UI
+                print("dpledplelpd,cls \(self?.profile.socialNetworks)")
             }
             .store(in: &subscriptions)
     }
@@ -231,19 +215,31 @@ final class ProfileViewModel: ObservableObject {
         profile.phone = userCredentialsStorageService.userPhoneNumber
         getPhotos()
         getSocialList()
-        print("Result1112    \(userSocials)")
-//        print("skmsdkjfkjsdfjkdkmfdfmkl    \(profile.social_list)")
-//        for value in profile.social_list where !value.value.isEmpty {
-//            socialListEmpty = false
-//        }
+        print("Result    \(profile.socialNetworks)")
     }
 }
 
 // MARK: - SocialKey
 
-enum SocialKey: String, CaseIterable {
+enum SocialKey: String, Identifiable, CaseIterable {
+
+    // MARK: - Internal Properties
+
+    var id: UUID { UUID() }
 
     // MARK: - Types
 
     case facebook, vk, twitter, instagram
+}
+
+// MARK: - SocialResponse
+
+struct SocialResponse: Codable {
+
+    // MARK: - Internal Properties
+
+    var facebook: String = ""
+    var vk: String = ""
+    var twitter: String = ""
+    var instagram: String = ""
 }

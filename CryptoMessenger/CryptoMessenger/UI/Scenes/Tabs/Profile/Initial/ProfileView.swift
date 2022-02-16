@@ -156,12 +156,21 @@ struct ProfileView: View {
                                 VStack(alignment: .leading, spacing: 11) {
                                     Text(viewModel.profile.name)
                                         .font(.medium(15))
-//                                    switch viewModel.socialListEmpty {
-//                                    case false:
+                                    switch viewModel.socialListEmpty {
+                                    case false:
+                                        HStack(spacing: 8) {
+                                            Text("")
+                                        }
+                                    case true:
+                                        Text("")
+                                    }
 //                                    HStack(spacing: 8) {
-//                                        ForEach(viewModel.socialListKeys, id: \.self) { item in
-//                                            switch item {
-//                                            case "twitter":
+//                                        ForEach(viewModel.profile.socialNetwork.allCases, id: \.id) { _ in
+//
+//                                        }
+//                                        ForEach(viewModel.profile.socialNetwork) { item in
+//                                            switch item.key {
+//                                            case .twitter:
 //                                                if !viewModel.profile.social_list["twitter"]!.isEmpty {
 //                                                    Button(action: {
 //                                                        showSafari = true
@@ -226,25 +235,7 @@ struct ProfileView: View {
 //                                                RoundedRectangle(cornerRadius: 61)
 //                                                    .stroke(Color(.blue()), lineWidth: 1)
 //                                            )
-//                                        Button(R.string.localizable.profileAddSocial()) {
-//                                            print("mkwdjknfJNKWIODEFJNSCKMDJIEHUWFDKLM")
-//                                        }
-//                                        .onTapGesture {
-//                                            print("mkwdjknfJNKWIODEFJNSCKMDJIEHUWFDKLM")
-//                                            viewModel.add_social(social: ["VK": "https://vk.com/id84088850",
-//                                                                         "twitter": "https://twitter.com",
-//                                                                         "instagram": "https://www.instagram.com/accounts/Igareck99",
-//                                                                         "facebook": ""])
-//                                        }
-//                                        .frame(width: 160, height: 32)
-//                                        .font(.regular(15))
-//                                        .foreground(.blue())
-//                                        .overlay(
-//                                            RoundedRectangle(cornerRadius: 61)
-//                                                .stroke(Color(.blue()), lineWidth: 1)
-//                                        )
-
-//                                    }
+   //                                 }
                                     Text(viewModel.profile.phone)
                                 }
                             }

@@ -154,6 +154,7 @@ extension Endpoint where Response == [Dictionary<String, String>] {
         _ builder: ((RequestBuilder) -> RequestBuilder)? = nil
     ) {
         var reqBuilder = RequestBuilder(method: method, path: path, requestType: requestType)
+        print("mYpATH     \(path)")
         if let builder = builder {
             reqBuilder = builder(reqBuilder)
         }
