@@ -1,11 +1,36 @@
 import CoreLocation
 import UIKit.UIApplication
 
+// MARK: - Type
+
 typealias Location = (lat: Double, long: Double)
 
-final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+// MARK: - LocationManager
+
+final class LocationManager: NSObject, ObservableObject {
+
+    // MARK: - LocationError
+
+    enum LocationError: Error {
+
+        // MARK: - Types
+
+        case LocationRequestNotPossible
+    }
+
+    // MARK: - Internal Properties
+
+    @Published var userIsLocatable: Bool?
+    @Published var activeGeofences = 0
+    @Published var lastLocation: Location?
+
+    // MARK: - Private Properties
 
     private let locationManager = CLLocationManager()
+    private var didEnterGeofencedRegion: ((_ identifier: String) -> Void)?
+    private var didLeaveGeofencedRegion: ((_ identifier: String) -> Void)?
+
+    // MARK: - Life Cycle
 
     init(requestLocation: Bool = false) {
         super.init()
@@ -19,20 +44,7 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
         updateAuthorizationStatus()
     }
 
-    @Published var userIsLocatable: Bool?
-    @Published var activeGeofences = 0
-    @Published var lastLocation: Location?
-
-    private func updateAuthorizationStatus() {
-        switch locationManager.authorizationStatus {
-        case .authorizedAlways, .authorizedWhenInUse:
-            userIsLocatable = true
-        case .denied:
-            userIsLocatable = false
-        default:
-            userIsLocatable = nil
-        }
-    }
+    // MARK: - Internal Methods
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         updateAuthorizationStatus()
@@ -64,18 +76,11 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
         }
     }
 
-    enum LocationError: Error {
-        case LocationRequestNotPossible
-    }
-
     func getGeofences() -> [CLCircularRegion] {
         locationManager.monitoredRegions.compactMap { region in
             region as? CLCircularRegion
         }
     }
-
-    private var didEnterGeofencedRegion: ((_ identifier: String) -> Void)?
-    private var didLeaveGeofencedRegion: ((_ identifier: String) -> Void)?
 
     func setActionForEnteringGeofencedRegion(didEnterGeofencedRegion: @escaping (_ identifier: String) -> Void) {
         self.didEnterGeofencedRegion = didEnterGeofencedRegion
@@ -83,18 +88,6 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
 
     func setActionForLeavingGeofencedRegion(didLeaveGeofencedRegion: @escaping (_ identifier: String) -> Void) {
         self.didLeaveGeofencedRegion = didLeaveGeofencedRegion
-    }
-
-    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        if let onEnterRegion = didEnterGeofencedRegion {
-            onEnterRegion(region.identifier)
-        }
-    }
-
-    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        if let onLeaveRegion = didLeaveGeofencedRegion {
-            onLeaveRegion(region.identifier)
-        }
     }
 
     func addGeofence(forRegion region: CLCircularRegion) {
@@ -115,6 +108,35 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
 
     func clearGeofences() {
         locationManager.monitoredRegions.forEach { locationManager.stopMonitoring(for: $0) }
+    }
+
+    // MARK: - Private Methods
+
+    private func updateAuthorizationStatus() {
+        switch locationManager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            userIsLocatable = true
+        case .denied:
+            userIsLocatable = false
+        default:
+            userIsLocatable = nil
+        }
+    }
+}
+
+// MARK: - LocationManager (CLLocationManagerDelegate)
+
+extension LocationManager: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        if let onEnterRegion = didEnterGeofencedRegion {
+            onEnterRegion(region.identifier)
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        if let onLeaveRegion = didLeaveGeofencedRegion {
+            onLeaveRegion(region.identifier)
+        }
     }
 
     func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
