@@ -65,7 +65,7 @@ struct ProfileView: View {
                         .navigationBarTitleDisplayMode(.inline)
                 }
             }
-            .alert(isPresented: $showAlert) { () -> Alert in
+            .alert(isPresented: $showAlert) {
                 switch showDeletePhotoAlert {
                 case false:
                     return Alert(title: Text(R.string.localizable.profileCopied()))
@@ -268,8 +268,7 @@ struct ProfileView: View {
                                 })
                                 .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
                                 .background(.white())
-                                .padding(.leading, 16)
-                                .padding(.trailing, 16)
+                                .padding(.horizontal, 16)
                             photosView
                             FooterView(popupSelected: $popupSelected)
                                 .padding([.leading, .trailing], 16)
@@ -306,9 +305,9 @@ struct ProfileView: View {
 
     private var photosView: some View {
         LazyVGrid(columns: Array(repeating: GridItem(spacing: 1.5), count: 3), alignment: .center, spacing: 1.5) {
-            ForEach(0..<viewModel.profile.photos_url_preview.count, id: \.self) { index in
+            ForEach(0..<viewModel.profile.photosUrls.count, id: \.self) { index in
                 VStack(spacing: 0) {
-                    AsyncImage(url: viewModel.profile.photos_url_preview[index]) { phase in
+                    AsyncImage(url: viewModel.profile.photosUrls[index].photosUrlPreview) { phase in
                         if let image = phase.image {
                             image.resizable()
                                 .frame(width: (UIScreen.main.bounds.width - 3) / 3,
@@ -317,7 +316,7 @@ struct ProfileView: View {
                                 .onTapGesture {
                                     showAlert = true
                                     showDeletePhotoAlert = true
-                                    photoUrlForDelete = viewModel.profile.photos_url_preview[index].absoluteString
+                                    photoUrlForDelete = viewModel.profile.photosUrls[index].photosUrlPreview.absoluteString
                                 }
                         } else {
                             ProgressView()

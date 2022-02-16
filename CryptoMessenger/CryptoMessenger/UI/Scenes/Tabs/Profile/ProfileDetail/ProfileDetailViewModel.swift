@@ -82,7 +82,6 @@ final class ProfileDetailViewModel: ObservableObject {
                 case .onAvatar:
                     guard let image = self?.selectedImageUrl else { return }
                     self?.mxStore.setAvatarUrl(image) {
-                        print("Something \(String(describing: self?.mxStore.getAvatarUrl()))")
                     }
                 }
             }

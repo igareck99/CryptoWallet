@@ -84,10 +84,11 @@ struct ProfileDetailView: View {
             }
             .alert(isPresented: $showLogoutAlert) {
                 return Alert(
-                    title: Text("Выйти из учетной записи?"),
-                    message: Text("Вы действительно хотите выйти из учетной записи? Перед выходом проверьте сохранили ли вы ключ."),
-                    primaryButton: .default(Text("Выход"), action: { viewModel.send(.onLogout) }),
-                    secondaryButton: .cancel(Text("Отменить"))
+                    title: Text(R.string.localizable.profileDetailLogoutAlertTitle()),
+                    message: Text(R.string.localizable.profileDetailLogoutAlertMessage()),
+                    primaryButton: .default(Text(R.string.localizable.profileDetailLogoutAlertApprove()),
+                                            action: { viewModel.send(.onLogout) }),
+                    secondaryButton: .cancel(Text(R.string.localizable.profileDetailLogoutAlertCancel()))
                 )
             }
             .onAppear {
