@@ -24,6 +24,19 @@ struct ProfileItem: Identifiable {
 
 final class ProfileViewModel: ObservableObject {
 
+    // MARK: - SocialKey
+
+    enum SocialKey: String, Identifiable, CaseIterable {
+
+        // MARK: - Internal Properties
+
+        var id: UUID { UUID() }
+
+        // MARK: - Types
+
+        case facebook, vk, twitter, instagram
+    }
+
     // MARK: - Internal Properties
 
     weak var delegate: ProfileSceneDelegate?
