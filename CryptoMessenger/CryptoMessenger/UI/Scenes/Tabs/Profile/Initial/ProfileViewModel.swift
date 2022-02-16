@@ -16,10 +16,6 @@ struct ProfileItem: Identifiable {
     var phone = "Номер не заполнен"
     var photos: [Image] = []
     var photosUrls: [MediaResponse] = []
-    var social_list: [String: String] = [:]
-    var photos_url_preview: [URL] = []
-    var photos_url_original: [URL] = []
-    var socialNetworks: SocialResponse?
     var socialNetwork: [SocialKey: String] = [:]
 }
 
@@ -40,7 +36,6 @@ final class ProfileViewModel: ObservableObject {
     @Published private(set) var socialList = SocialListViewModel()
     @Published private(set) var socialListEmpty = true
     @Published private(set) var socialListKeys = ["facebook", "VK", "twitter", "instagram"]
-    @Published private(set) var userSocials: [SocialKey: String] = [:]
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
@@ -81,19 +76,27 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    func addSocial(social: [String: String]) {
-        apiClient.publisher(Endpoints.Social.set_social(social, user: mxStore.getUserId()))
+    func addSocial(socialKey: SocialKey, socialValue: String) {
+        var newDict = Dictionary(uniqueKeysWithValues:
+                                    self.profile.socialNetwork.map { key, value in (SocialKey.getSocialName(item: key),
+                                                                    value) })
+        newDict[SocialKey.getSocialName(item: socialKey)] = socialValue
+        apiClient.publisher(Endpoints.Social.set_social(newDict, user: mxStore.getUserId()))
             .replaceError(with: [:])
             .sink { [weak self] dictionary in
-                let result = dictionary.reduce([:]) { (partialResult: [SocialKey: String], tuple: (key: String, value: String)) in
+                let result = dictionary.reduce([:]) { (partialResult: [SocialKey: String],
+                                                       tuple: (key: String, value: String)) in
                     var result = partialResult
                     if let key = SocialKey(rawValue: tuple.key.lowercased()) {
                         result[key] = tuple.value.lowercased()
+                        if !result[key]!.isEmpty {
+                            self?.socialListEmpty = false
+                        }
                     }
                     return result
                 }
-                self?.userSocials = result // тут откидывается результат на UI
-                self?.updateData()
+                self?.profile.socialNetwork = result
+                self?.objectWillChange.send()
             }
             .store(in: &subscriptions)
     }
@@ -154,7 +157,9 @@ final class ProfileViewModel: ObservableObject {
                     guard let preview = x["preview"] else { return }
                     guard let original_url = URL(string: original) else { return }
                     guard let preview_url = URL(string: preview) else { return }
-                    self?.profile.photosUrls.append(MediaResponse(photosUrlPreview: preview_url, photosUrlOriginal: original_url))
+                    self?.profile.photosUrls.append(MediaResponse(
+                        photosUrlPreview: preview_url,
+                        photosUrlOriginal: original_url))
                 }
             })
             .store(in: &subscriptions)
@@ -176,30 +181,36 @@ final class ProfileViewModel: ObservableObject {
                 guard let preview = response["preview"] else { return }
                 guard let original_url = URL(string: original) else { return }
                 guard let preview_url = URL(string: preview) else { return }
-                print("original_url    \(original_url)")
-                print("preview_url    \(preview_url)")
-                self?.profile.photosUrls.insert(MediaResponse(photosUrlPreview: preview_url, photosUrlOriginal: original_url), at: 0)
+                self?.profile.photosUrls.insert(MediaResponse(
+                    photosUrlPreview: preview_url,
+                    photosUrlOriginal: original_url), at: 0)
                 self?.objectWillChange.send()
             })
             .store(in: &subscriptions)
     }
 
     func getSocialList() {
-        state = .idle
-        apiClient.publisher(Endpoints.Social.get_social(mxStore.getUserId()))
+        apiClient.publisher(Endpoints.Social.getSocial(mxStore.getUserId()))
             .replaceError(with: [:])
             .sink { [weak self] dictionary in
-                let social = SocialResponse(facebook: dictionary["facebook"] ?? "",
-                                            vk: dictionary["vk"] ?? "",
-                                            twitter: dictionary["twitter"] ?? "",
-                                            instagram: dictionary["instagram"] ?? "")
-                self?.profile.socialNetworks = social // тут откидывается результат на UI
-                print("dpledplelpd,cls \(self?.profile.socialNetworks)")
+                let result = dictionary.reduce([:]) { (partialResult: [SocialKey: String],
+                                                       tuple: (key: String, value: String)) in
+                    var result = partialResult
+                    if let key = SocialKey(rawValue: tuple.key.lowercased()) {
+                        result[key] = tuple.value.lowercased()
+                        if !result[key]!.isEmpty {
+                            self?.socialListEmpty = false
+                        }
+                    }
+                    return result
+                }
+                self?.profile.socialNetwork = result
             }
             .store(in: &subscriptions)
     }
 
     private func updateData() {
+        getSocialList()
         profile.nickname = mxStore.getUserId()
         if !mxStore.getDisplayName().isEmpty {
             profile.name = mxStore.getDisplayName()
@@ -212,8 +223,6 @@ final class ProfileViewModel: ObservableObject {
         }
         profile.phone = userCredentialsStorageService.userPhoneNumber
         getPhotos()
-        getSocialList()
-        print("Result    \(profile.socialNetworks)")
     }
 }
 
@@ -228,18 +237,21 @@ enum SocialKey: String, Identifiable, CaseIterable {
     // MARK: - Types
 
     case facebook, vk, twitter, instagram
-}
 
-// MARK: - SocialResponse
+    // MARK: - Internal Methods
 
-struct SocialResponse: Codable {
-
-    // MARK: - Internal Properties
-
-    var facebook: String = ""
-    var vk: String = ""
-    var twitter: String = ""
-    var instagram: String = ""
+    static func getSocialName(item: SocialKey) -> String {
+        switch item {
+        case .twitter:
+            return "twitter"
+        case .facebook:
+            return "facebook"
+        case .instagram:
+            return "instagram"
+        case .vk:
+            return "vk"
+        }
+    }
 }
 
 // MARK: - MediaResponse
