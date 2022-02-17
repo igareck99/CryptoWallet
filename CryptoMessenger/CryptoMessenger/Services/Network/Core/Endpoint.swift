@@ -144,9 +144,9 @@ extension Endpoint where Response == [String: String] {
     }
 }
 
-// MARK: - Endpoint ([Dictionary<String, String>])
+// MARK: - Endpoint ([MediaResponse])
 
-extension Endpoint where Response == [Dictionary<String, String>] {
+extension Endpoint where Response == [MediaResponse] {
     convenience init(
         method: RequestBuilder.Method,
         path: String,
@@ -154,7 +154,6 @@ extension Endpoint where Response == [Dictionary<String, String>] {
         _ builder: ((RequestBuilder) -> RequestBuilder)? = nil
     ) {
         var reqBuilder = RequestBuilder(method: method, path: path, requestType: requestType)
-        print("mYpATH     \(path)")
         if let builder = builder {
             reqBuilder = builder(reqBuilder)
         }
@@ -162,8 +161,8 @@ extension Endpoint where Response == [Dictionary<String, String>] {
                 guard let dictionary = try JSONSerialization.jsonObject(
                     with: $0,
                     options: .allowFragments
-                ) as? [Dictionary<String, String>] else {
-                    return [Dictionary<String, String>]()
+                ) as? [MediaResponse] else {
+                    return []
                 }
                 return dictionary
             }

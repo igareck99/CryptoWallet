@@ -35,7 +35,6 @@ final class ProfileViewModel: ObservableObject {
     @Published private(set) var state: ProfileFlow.ViewState = .idle
     @Published private(set) var socialList = SocialListViewModel()
     @Published private(set) var socialListEmpty = true
-    @Published private(set) var socialListKeys = ["facebook", "VK", "twitter", "instagram"]
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
