@@ -161,10 +161,18 @@ extension Endpoint where Response == [MediaResponse] {
                 guard let dictionary = try JSONSerialization.jsonObject(
                     with: $0,
                     options: .allowFragments
-                ) as? [MediaResponse] else {
+                ) as? [Dictionary<String, String>] else {
                     return []
                 }
-                return dictionary
+            var result: [MediaResponse] = []
+                for item in dictionary {
+                    let original_url = URL(string: item["original"] ?? "")!
+                    let preview_url = URL(string: item["preview"] ?? "")!
+                    result.append(MediaResponse(
+                        photosUrlPreview: preview_url,
+                        photosUrlOriginal: original_url))
+                }
+                return result
             }
     }
 }

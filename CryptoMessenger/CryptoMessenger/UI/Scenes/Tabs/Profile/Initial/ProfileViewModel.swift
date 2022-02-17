@@ -150,16 +150,7 @@ final class ProfileViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { [weak self] response in
-                self?.profile.photosUrls = []
-                for x in response {
-                    guard let original = x["original"] else { return }
-                    guard let preview = x["preview"] else { return }
-                    guard let original_url = URL(string: original) else { return }
-                    guard let preview_url = URL(string: preview) else { return }
-                    self?.profile.photosUrls.append(MediaResponse(
-                        photosUrlPreview: preview_url,
-                        photosUrlOriginal: original_url))
-                }
+                self?.profile.photosUrls = response
             })
             .store(in: &subscriptions)
     }

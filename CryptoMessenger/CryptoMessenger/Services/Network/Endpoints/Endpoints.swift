@@ -63,9 +63,9 @@ enum Endpoints {
             return endpoint
         }
 
-        static func getPhotos(_ name: String) -> Endpoint<[Dictionary<String, String>]> {
-            let endpoint = Endpoint<[Dictionary<String, String>]>(method: .get,
-                                                                  path: "/profile/\(name)/media")
+        static func getPhotos(_ name: String) -> Endpoint<[MediaResponse]> {
+            let endpoint = Endpoint<[MediaResponse]>(method: .get,
+                                                     path: "/profile/\(name)/media")
             return endpoint
         }
 
