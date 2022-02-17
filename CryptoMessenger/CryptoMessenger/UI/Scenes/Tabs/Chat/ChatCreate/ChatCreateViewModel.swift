@@ -22,8 +22,6 @@ final class ChatCreateViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: ChatCreateSceneDelegate?
-
     @Published var searchText = ""
     @Published var searching = false
     @Published private(set) var closeScreen = false

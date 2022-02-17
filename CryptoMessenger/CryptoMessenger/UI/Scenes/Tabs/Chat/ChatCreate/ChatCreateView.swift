@@ -50,11 +50,12 @@ struct ChatCreateView: View {
 
     // MARK: - Internal Properties
 
+    @Binding var selectedContacts: [Contact]
     @StateObject var viewModel: ChatCreateViewModel
-    var onCreateGroup: GenericBlock<[Contact]>?
 
     // MARK: - Private Properties
 
+    @State private var showContacts = false
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -72,6 +73,12 @@ struct ChatCreateView: View {
                 .onAppear {
                     viewModel.send(.onAppear)
                 }
+                .overlay(
+                    EmptyNavigationLink(
+                        destination: SelectContactView(existingContacts: viewModel.existingContacts, selectedContacts: $selectedContacts),
+                        isActive: $showContacts
+                    )
+                )
 //                .toolbar {
 //                    ToolbarItem(placement: .navigationBarLeading) {
 //                        Button(action: {
@@ -134,8 +141,7 @@ struct ChatCreateView: View {
                                 .padding([.leading, .trailing], 16)
                                 .onTapGesture {
                                     vibrate()
-                                    delay(0.1) { onCreateGroup?(viewModel.existingContacts) }
-                                    presentationMode.wrappedValue.dismiss()
+                                    showContacts.toggle()
                                 }
                         }
                     }

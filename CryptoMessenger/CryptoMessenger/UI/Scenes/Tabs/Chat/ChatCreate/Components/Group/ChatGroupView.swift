@@ -5,6 +5,8 @@ import UIKit
 
 struct ChatGroupView: View {
 
+    // MARK: - Private Properties
+
     @Environment(\.presentationMode) private var presentationMode
     @State private var title = ""
     @State private var description = ""
@@ -12,36 +14,12 @@ struct ChatGroupView: View {
     @State private var descriptionHeight = CGFloat(0)
     @State private var showPhotoLibrary = false
     @State private var selectedImage: UIImage?
-    @State private var isActive = false
+    @State private var showNewChat = false
 
-    private var titleFieldHeight: CGFloat {
-        let minHeight: CGFloat = 44
-        let maxHeight: CGFloat = 44
+    // MARK: - Life Cycle
 
-        if titleHeight < minHeight {
-            return minHeight
-        }
-
-        if titleHeight > maxHeight {
-            return maxHeight
-        }
-
-        return titleHeight
-    }
-
-    private var descriptionFieldHeight: CGFloat {
-        let minHeight: CGFloat = 44
-        let maxHeight: CGFloat = 132
-
-        if descriptionHeight < minHeight {
-            return minHeight
-        }
-
-        if descriptionHeight > maxHeight {
-            return maxHeight
-        }
-
-        return descriptionHeight
+    init() {
+        UITextView.appearance().background(.paleBlue())
     }
 
     // MARK: - Body
@@ -49,12 +27,10 @@ struct ChatGroupView: View {
     var body: some View {
         content
             .sheet(isPresented: $showPhotoLibrary) {
-                NavigationView {
-                    ImagePickerView(selectedImage: $selectedImage, onSelectImage: nil)
+                ImagePickerView(selectedImage: $selectedImage, onSelectImage: nil)
                     .ignoresSafeArea()
                     .navigationBarTitle(Text("Фото"))
                     .navigationBarTitleDisplayMode(.inline)
-                }
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
@@ -75,7 +51,7 @@ struct ChatGroupView: View {
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        isActive.toggle()
+                        showNewChat.toggle()
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
@@ -83,10 +59,7 @@ struct ChatGroupView: View {
                     })
                         .disabled(title.isEmpty)
                         .background(
-                            EmptyNavigationLink(
-                                destination: Text("Новый чат"),
-                                isActive: $isActive
-                            )
+                            EmptyNavigationLink(destination: Text("Новый чат"), isActive: $showNewChat)
                         )
                 }
             }
@@ -119,22 +92,25 @@ struct ChatGroupView: View {
                     }
 
                     ZStack(alignment: .topLeading) {
-                        DynamicHeightTextField(text: $title, height: $titleHeight)
+                        TextField("", text: $title)
+                            .frame(height: 44)
                             .background(.paleBlue())
+                            .padding(.horizontal, 16)
 
                         if title.isEmpty {
                             Text("Название")
                                 .foreground(.darkGray())
                                 .padding(.top, 12)
-                                .padding([.leading, .trailing], 19)
+                                .padding(.horizontal, 16)
                                 .disabled(true)
                                 .allowsHitTesting(false)
                         }
                     }
+                    .frame(height: 44)
+                    .background(.paleBlue())
                     .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                    .frame(height: titleFieldHeight)
                 }
-                .padding([.leading, .trailing], 16)
+                .padding(.horizontal, 16)
                 .padding(.top, 24)
 
                 HStack(spacing: 0) {
@@ -142,27 +118,27 @@ struct ChatGroupView: View {
                         .font(.semibold(12))
                         .foreground(.darkGray())
                         .padding(.top, 24)
-                        .padding([.leading, .trailing], 16)
+                        .padding(.horizontal, 16)
                         .padding(.bottom, 12)
                     Spacer()
                 }
 
                 ZStack(alignment: .topLeading) {
-                    DynamicHeightTextField(text: $description, height: $descriptionHeight)
-                        .background(.paleBlue())
+                    TextEditor(text: $description)
+                        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 132, alignment: .leading)
+                        .padding(.horizontal, 16)
 
                     if description.isEmpty {
                         Text("Описание")
                             .foreground(.darkGray())
                             .padding(.top, 12)
-                            .padding([.leading, .trailing], 19)
+                            .padding(.horizontal, 16)
                             .disabled(true)
                             .allowsHitTesting(false)
                     }
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                .frame(height: descriptionFieldHeight)
-                .padding([.leading, .trailing], 16)
+                .padding(.horizontal, 16)
 
                 HStack(spacing: 0) {
                     Text("Можете указать дополнительное описание для Вашей группы.")
@@ -170,7 +146,7 @@ struct ChatGroupView: View {
                         .font(.regular(12))
                         .foreground(.darkGray())
                         .padding(.top, 8)
-                        .padding([.leading, .trailing], 16)
+                        .padding(.horizontal, 16)
                     Spacer()
                 }
 

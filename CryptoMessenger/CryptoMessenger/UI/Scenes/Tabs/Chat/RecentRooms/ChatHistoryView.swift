@@ -13,8 +13,7 @@ struct ChatHistoryView: View {
     @State private var searchText = ""
     @State private var searching = false
     @State private var createRoomSelected = false
-    @State private var contactSelected = false
-    @State private var contacts: [Contact] = []
+    @State private var selectedContacts: [Contact] = []
     @State private var selectedRoomId: ObjectIdentifier?
 
     private var searchResults: [AuraRoom] {
@@ -58,17 +57,8 @@ struct ChatHistoryView: View {
                 }
             }
             .sheet(isPresented: $createRoomSelected) {
-                ChatCreateView(viewModel: .init()) { existingContacts in
-                    self.contacts = existingContacts
-                    self.contactSelected.toggle()
-                }
+                ChatCreateView(selectedContacts: $selectedContacts, viewModel: .init())
             }
-            .sheet(isPresented: $contactSelected) {
-                NavigationView {
-                    SelectContactView(contacts: $contacts) { self.contacts = $0 }
-                }
-            }
-
     }
 
     // MARK: - Body Properties

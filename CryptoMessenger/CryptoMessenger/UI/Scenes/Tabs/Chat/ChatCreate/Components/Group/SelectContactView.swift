@@ -4,20 +4,16 @@ import SwiftUI
 
 struct SelectContactView: View {
 
+    // MARK: - Internal Properties
+
+    let existingContacts: [Contact]
+    @Binding var selectedContacts: [Contact]
+
     // MARK: - Private Properties
 
-    @Binding private var contacts: [Contact]
-    private var onSelectContacts: GenericBlock<[Contact]>?
     @Environment(\.presentationMode) private var presentationMode
-    @State private var isActive = false
+    @State private var showChatGroup = false
     @State private var selectedRows: Set<UUID> = .init()
-
-    // MARK: - Life Cycle
-
-    init(contacts: Binding<[Contact]>, _ onSelectContacts: GenericBlock<[Contact]>?) {
-        self._contacts = contacts
-        self.onSelectContacts = onSelectContacts
-    }
 
     // MARK: - Body
 
@@ -26,6 +22,9 @@ struct SelectContactView: View {
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(StackNavigationViewStyle())
+            .overlay(
+                EmptyNavigationLink(destination: ChatGroupView(), isActive: $showChatGroup)
+            )
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
@@ -43,19 +42,17 @@ struct SelectContactView: View {
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        isActive.toggle()
-                        onSelectContacts?(contacts.filter({ selectedRows.contains($0.id) }))
+                        showChatGroup.toggle()
+                        //onSelectContacts?(contacts.filter({ selectedRows.contains($0.id) }))
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
                             .foreground(selectedRows.isEmpty ? .darkGray() : .blue())
                     })
                         .disabled(selectedRows.isEmpty)
-                        .background(
-                            EmptyNavigationLink(destination: ChatGroupView(), isActive: $isActive)
-                        )
                 }
             }
+
     }
 
     private var content: some View {
@@ -63,7 +60,7 @@ struct SelectContactView: View {
             Color(.white()).ignoresSafeArea()
 
             ScrollView(.vertical, showsIndicators: false) {
-                let groupedContacts = Dictionary(grouping: contacts) { $0.name.firstLetter.uppercased() }
+                let groupedContacts = Dictionary(grouping: existingContacts) { $0.name.firstLetter.uppercased() }
                 ForEach(groupedContacts.keys.sorted(), id: \.self) { key in
                     sectionView(key)
                     let contacts = groupedContacts[key] ?? []
