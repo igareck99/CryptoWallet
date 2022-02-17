@@ -7,9 +7,6 @@ final class PinCodeCreateViewModel: ObservableObject {
 
     weak var delegate: PinCodeCreateSceneDelegate?
 
-    @Published var title = ""
-    @Published var description = ""
-
     // MARK: - Private Properties
 
     @Published private(set) var state: PinCodeCreateFlow.ViewState = .idle

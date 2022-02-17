@@ -29,7 +29,6 @@ struct SessionDetailView: View {
 
     // MARK: - Internal Properties
 
-    var session: SessionItem
     @ObservedObject var viewModel: SessionViewModel
     @Binding var showModal: Bool
 
@@ -37,11 +36,14 @@ struct SessionDetailView: View {
 
     var body: some View {
         let session_info: [SessionInfoItem] = [
-            SessionInfoItem(title: R.string.localizable.sessionPlace(), info: session.place),
-            SessionInfoItem(title: R.string.localizable.sessionTime(), info: session.date),
-            SessionInfoItem(title: R.string.localizable.sessionApp(), info: session.device),
-            SessionInfoItem(title: R.string.localizable.sessionIp(), info:
-                                session.ip)]
+            SessionInfoItem(title: R.string.localizable.sessionPlace(),
+                            info: viewModel.selectedSession.place),
+            SessionInfoItem(title: R.string.localizable.sessionTime(),
+                            info: viewModel.selectedSession.date),
+            SessionInfoItem(title: R.string.localizable.sessionApp(),
+                            info: viewModel.selectedSession.device),
+            SessionInfoItem(title: R.string.localizable.sessionIp(),
+                            info: viewModel.selectedSession.ip)]
         GeometryReader { geometry in
         VStack {
             HStack(alignment: .center) {
@@ -71,8 +73,9 @@ struct SessionDetailView: View {
                     .padding(.top, 16)
                 VStack(alignment: .center) {
                     Button(action: {
-                        let index = viewModel.listData.firstIndex { $0.date == session.date }
-                        viewModel.listData.remove(at: index ?? 0)
+                        viewModel.send(.onDeleteOne(deviceId: viewModel.selectedSession.deviceId))
+                        viewModel.sessionsList = viewModel.sessionsList.filter {
+                            $0.deviceId != viewModel.selectedSession.deviceId }
                         self.showModal.toggle()
                     }, label: {
                         Text(R.string.localizable.sessionFinishOne())

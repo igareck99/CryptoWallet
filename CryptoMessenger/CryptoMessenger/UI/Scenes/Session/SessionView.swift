@@ -56,12 +56,12 @@ struct SessionListView: View {
                 .foreground(.darkGray())
                 .padding([.trailing], 16)
             List {
-                ForEach(viewModel.listData) { session in
+                ForEach(viewModel.sessionsList) { session in
                     SessionView(session: session)
                         .listRowSeparator(.hidden)
                         .background(.white())
                         .onTapGesture {
-                            selectedSession = session
+                            viewModel.selectedSession = session
                             isSelected = true
                         }
                 }
@@ -69,9 +69,10 @@ struct SessionListView: View {
             Divider()
                 .padding(.top, 8)
             Button(action: {
-                viewModel.listData.removeAll()
+                viewModel.sessionsList.removeAll()
+                viewModel.send(.onDeleteAll)
             }, label: {
-                Text("Завершить все сессии")
+                Text(R.string.localizable.sessionFinishAll())
                     .font(.bold(15))
                     .foreground(.white())
             }).frame(width: 225, height: 44, alignment: .center)
@@ -84,17 +85,19 @@ struct SessionListView: View {
                closeOnTap: false,
                closeOnTapOutside: true,
                backgroundColor: Color(.black(0.3))) {
-            SessionDetailView(session: selectedSession ?? SessionItem.sessionsInfo(id: 2),
-                              viewModel: viewModel,
+            SessionDetailView(viewModel: viewModel,
                               showModal: $isSelected)
                 .frame(width: UIScreen.main.bounds.width, height: 375, alignment: .center)
                 .cornerRadius(16)
         }
+               .onAppear {
+                   viewModel.send(.onAppear)
+               }
                .listStyle(.inset)
                .navigationBarTitleDisplayMode(.inline)
                .toolbar {
                    ToolbarItem(placement: .principal) {
-                       Text("Управление сессиями")
+                       Text(R.string.localizable.sessionFinishOne())
                            .font(.bold(15))
                    }
                }

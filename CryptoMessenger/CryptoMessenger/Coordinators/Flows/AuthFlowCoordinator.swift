@@ -92,11 +92,6 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
-    private func showSecurityScene() {
-        let viewController = SecurityConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
     private func showProfile() {
         // let viewController = BaseHostingController(rootView: ProfileView(viewModel: .init()))
         let viewController = BaseHostingController(rootView: SocialListView())
@@ -120,7 +115,6 @@ public final class AuthFlowCoordinator: Coordinator {
         case pinCode
         case photoEditor
         case profileNetwork
-        case security
     }
 }
 
@@ -151,8 +145,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showPhotoEditorScene(images: [])
         case .profileNetwork:
             showProfileNetworkDetailScene()
-        case .security:
-            showSecurityScene()
         }
     }
 
@@ -208,7 +200,3 @@ extension AuthFlowCoordinator: PinCodeSceneDelegate {
 // MARK: - AuthFlowCoordinator (ProfileNetworkDetailSceneDelegate)
 
 extension AuthFlowCoordinator: ProfileNetworkDetailSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (SecuritySceneDelegate)
-
-extension AuthFlowCoordinator: SecuritySceneDelegate {}

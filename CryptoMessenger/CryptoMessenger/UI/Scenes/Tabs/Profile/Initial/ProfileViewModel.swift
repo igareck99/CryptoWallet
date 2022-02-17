@@ -14,16 +14,9 @@ struct ProfileItem: Identifiable {
     var status = "Всем привет! Я использую AURA!"
     var info = ""
     var phone = "Номер не заполнен"
-    var photos: [Image] = [
-        R.image.profile.testpicture2.image,
-        R.image.profile.testpicture5.image,
-        R.image.profile.testpicture3.image,
-        R.image.profile.testpicture4.image,
-        R.image.profile.testpicture4.image,
-        R.image.profile.testpicture4.image,
-        R.image.profile.testpicture4.image,
-        R.image.profile.testpicture4.image
-    ]
+    var photos: [Image] = []
+    var photosUrls: [MediaResponse] = []
+    var social_list: [String: String] = [:]
 }
 
 // MARK: - ProfileViewModel
@@ -46,6 +39,7 @@ final class ProfileViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
 
+    @Injectable private var apiClient: APIClientManager
     @Injectable private(set) var mxStore: MatrixStore
     @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
 
@@ -67,8 +61,18 @@ final class ProfileViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
-    func addPhoto(image: UIImage) {
-        profile.photos.append(Image(uiImage: image))
+    func deletePhoto(url: String) {
+        apiClient.publisher(Endpoints.Media.deletePhoto([url]))
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                default:
+                    break
+                }
+            }, receiveValue: { [weak self] response in
+                self?.profile.photosUrls = self?.profile.photosUrls
+                    .filter { $0.photosUrlPreview.absoluteString != response[0] } ?? []
+            })
+            .store(in: &subscriptions)
     }
 
     // MARK: - Private Methods
@@ -110,6 +114,71 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
+    private func getPhotos() {
+        apiClient.publisher(Endpoints.Media.getPhotos(mxStore.getUserId()))
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                    return
+                default:
+                    break
+                }
+            }, receiveValue: { [weak self] response in
+                self?.profile.photosUrls = []
+                for x in response {
+                    guard let original = x["original"] else { return }
+                    guard let preview = x["preview"] else { return }
+                    guard let original_url = URL(string: original) else { return }
+                    guard let preview_url = URL(string: preview) else { return }
+                    self?.profile.photosUrls.append(MediaResponse(photosUrlPreview: preview_url, photosUrlOriginal: original_url))
+                }
+            })
+            .store(in: &subscriptions)
+    }
+
+    func addPhoto(image: UIImage) {
+        guard let data = image.pngData() else { return }
+        let multipartData = MultipartFileData(file: "photo",
+                                              mimeType: "image/png",
+                                              fileData: data)
+        apiClient.publisher(Endpoints.Media.upload(multipartData, name: mxStore.getUserId()))
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                default:
+                    break
+                }
+            }, receiveValue: { [weak self] response in
+                guard let original = response["original"] else { return }
+                guard let preview = response["preview"] else { return }
+                guard let original_url = URL(string: original) else { return }
+                guard let preview_url = URL(string: preview) else { return }
+                print("original_url    \(original_url)")
+                print("preview_url    \(preview_url)")
+                self?.profile.photosUrls.insert(MediaResponse(photosUrlPreview: preview_url, photosUrlOriginal: original_url), at: 0)
+                self?.objectWillChange.send()
+            })
+            .store(in: &subscriptions)
+    }
+
+    private func getSocialList() {
+        state = .idle
+        apiClient.publisher(Endpoints.Social.getSocial(mxStore.getUserId()))
+            .sink(receiveCompletion: { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                    self?.profile.social_list = [:]
+                    return
+                default:
+                    break
+                }
+            }, receiveValue: { [weak self] response in
+                self?.profile.social_list = response
+            })
+            .store(in: &subscriptions)
+    }
+
     private func updateData() {
         profile.nickname = mxStore.getUserId()
         if !mxStore.getDisplayName().isEmpty {
@@ -118,8 +187,23 @@ final class ProfileViewModel: ObservableObject {
         if !mxStore.getStatus().isEmpty {
             profile.status = mxStore.getStatus()
         }
+        if !mxStore.getAvatarUrl().isEmpty {
+            profile.avatar = URL(fileURLWithPath: mxStore.getAvatarUrl())
+        }
+        getPhotos()
         profile.phone = userCredentialsStorageService.userPhoneNumber
         socialList.listData = userCredentialsStorageService.socialNetworkList.filter { $0.type == .show }
         socialListEmpty = userCredentialsStorageService.socialNetworkList.filter { $0.type == .show }.isEmpty
     }
+}
+
+// MARK: - MediaResponse
+
+struct MediaResponse: Codable {
+
+    // MARK: - Internal Properties
+
+    var photosUrlPreview: URL
+    var photosUrlOriginal: URL
+
 }

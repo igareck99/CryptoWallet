@@ -22,6 +22,7 @@ final class MatrixStore: ObservableObject {
     // MARK: - Internal Properties
 
     @Published var loginState: MatrixState = .loggedOut
+    @Published var devices: [MXDevice] = []
 
     var rooms: [AuraRoom] {
         guard let session = session else { return [] }
@@ -82,7 +83,6 @@ final class MatrixStore: ObservableObject {
 
     func login(username: String, password: String, homeServer: URL) {
         loginState = .authenticating
-
         client = MXRestClient(homeServer: homeServer, unrecognizedCertificateHandler: nil)
         client?.login(username: username, password: password) { response in
             switch response {
@@ -146,7 +146,7 @@ final class MatrixStore: ObservableObject {
         }
     }
 
-    private func removeDevice(_ deviceId: String, completion: @escaping VoidBlock) {
+    func removeDevice(_ deviceId: String, completion: @escaping VoidBlock) {
         client?.getSession(toDeleteDevice: deviceId) { res in
             switch res {
             case .success:
@@ -190,6 +190,17 @@ final class MatrixStore: ObservableObject {
                         completion(.success(.loggedIn(userId: userId)))
                     }
                 }
+            }
+        }
+    }
+
+    func getActiveSessions(completion: @escaping (Result<[MXDevice], Error>) -> Void) {
+        client?.devices { response in
+            switch response {
+            case let .success(devices):
+                completion(.success(devices))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }
@@ -248,6 +259,7 @@ final class MatrixStore: ObservableObject {
     func getUserId() -> String { session?.myUser?.userId ?? "" }
     func getDisplayName() -> String { session?.myUser?.displayname ?? "" }
     func getStatus() -> String { session?.myUser?.statusMsg ?? "" }
+    func getAvatarUrl() -> String { session?.myUser.avatarUrl ?? "" }
 
     func setDisplayName(_ displayName: String, completion: @escaping VoidBlock) {
         session?.myUser.setDisplayName(displayName, success: completion) { error in

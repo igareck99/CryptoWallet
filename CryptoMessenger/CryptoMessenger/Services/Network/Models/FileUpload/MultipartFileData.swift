@@ -10,6 +10,6 @@ struct MultipartFileData {
     let mimeType: String
     let fileData: Data
     var field: String = "file"
-    var formFields: [String: String] = ["type": "ProfilePicture"]
+    var formFields: [String: String] = [:]
     let boundary = "Boundary-\(UUID().uuidString)"
 }

@@ -41,6 +41,7 @@ struct ProfileDetailView: View {
 
     @State private var descriptionHeight = CGFloat(100)
     @State private var showLogoutAlert = false
+    @State private var showImagePicker = false
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -69,12 +70,25 @@ struct ProfileDetailView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
+            .sheet(isPresented: $showImagePicker) {
+                NavigationView {
+                    ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
+                        guard let image = image else { return }
+                        self.viewModel.addPhoto(image: image)
+                        viewModel.send(.onAvatar)
+                    })
+                        .ignoresSafeArea()
+                        .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+            }
             .alert(isPresented: $showLogoutAlert) {
                 return Alert(
-                    title: Text("Выйти из учетной записи?"),
-                    message: Text("Вы действительно хотите выйти из учетной записи? Перед выходом проверьте сохранили ли вы ключ."),
-                    primaryButton: .default(Text("Выход"), action: { viewModel.send(.onLogout) }),
-                    secondaryButton: .cancel(Text("Отменить"))
+                    title: Text(R.string.localizable.profileDetailLogoutAlertTitle()),
+                    message: Text(R.string.localizable.profileDetailLogoutAlertMessage()),
+                    primaryButton: .default(Text(R.string.localizable.profileDetailLogoutAlertApprove()),
+                                            action: { viewModel.send(.onLogout) }),
+                    secondaryButton: .cancel(Text(R.string.localizable.profileDetailLogoutAlertCancel()))
                 )
             }
             .onAppear {
@@ -207,6 +221,9 @@ struct ProfileDetailView: View {
                                     .fill(Color(.black(0.4)))
                                     .frame(width: 60, height: 60)
                                 R.image.profileDetail.camera.image
+                            }
+                            .onTapGesture {
+                                showImagePicker = true
                             }
                             .padding([.trailing, .bottom], 16)
                         }
