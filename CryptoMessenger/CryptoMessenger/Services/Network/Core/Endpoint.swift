@@ -143,36 +143,3 @@ extension Endpoint where Response == [String: String] {
         }
     }
 }
-
-// MARK: - Endpoint ([MediaResponse])
-
-extension Endpoint where Response == [MediaResponse] {
-    convenience init(
-        method: RequestBuilder.Method,
-        path: String,
-        requestType: RequestBuilder.RequestType = .request,
-        _ builder: ((RequestBuilder) -> RequestBuilder)? = nil
-    ) {
-        var reqBuilder = RequestBuilder(method: method, path: path, requestType: requestType)
-        if let builder = builder {
-            reqBuilder = builder(reqBuilder)
-        }
-            self.init(builder: reqBuilder) {
-                guard let dictionary = try JSONSerialization.jsonObject(
-                    with: $0,
-                    options: .allowFragments
-                ) as? [Dictionary<String, String>] else {
-                    return []
-                }
-            var result: [MediaResponse] = []
-                for item in dictionary {
-                    let original_url = URL(string: item["original"] ?? "")!
-                    let preview_url = URL(string: item["preview"] ?? "")!
-                    result.append(MediaResponse(
-                        photosUrlPreview: preview_url,
-                        photosUrlOriginal: original_url))
-                }
-                return result
-            }
-    }
-}

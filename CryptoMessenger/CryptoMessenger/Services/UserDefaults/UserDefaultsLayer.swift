@@ -62,11 +62,6 @@ struct UserDefaultsLayer {
     private static let isBiometryOn = "isBiometryOn"
     private static let reserveCopyTime = "reserveCopyTime"
     private static let saveToPhotos = "saveToPhotos"
-    private static let facebook = "facebook"
-    private static let instagram = "instagram"
-    private static let website = "website"
-    private static let twitter = "twitter"
-    private static let VK = "VK"
 
     // MARK: - Internal Properties
 
@@ -150,21 +145,6 @@ struct UserDefaultsLayer {
     
     @UserDefaultSettings(saveToPhotos, value: false)
     var saveToPhotos: Bool
-    
-    @UserDefaultSettings(facebook, value: "")
-    var facebook: String
-    
-    @UserDefaultSettings(twitter, value: "")
-    var twitter: String
-    
-    @UserDefaultSettings(website, value: "")
-    var website: String
-    
-    @UserDefaultSettings(instagram, value: "")
-    var instagram: String
-    
-    @UserDefaultSettings(VK, value: "")
-    var VK: String
 
     var userMatrixId: String {
         MXCredentials.from(Keychain(service: "chat.aura.credentials"))?.userId ?? ""

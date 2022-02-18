@@ -162,7 +162,7 @@ struct ProfileView: View {
                                             ForEach(SocialKey.allCases) { item in
                                                 switch item {
                                                 case .twitter:
-                                                    if !(viewModel.profile.socialNetwork[.twitter]?.isEmpty ?? false) {
+                                                    if !(viewModel.profile.socialNetwork[.twitter] ?? "").isEmpty {
                                                         Button(action: {
                                                             showSafari = true
                                                             safariAdress = viewModel.profile.socialNetwork[.twitter] ?? ""
@@ -173,7 +173,7 @@ struct ProfileView: View {
                                                             .cornerRadius(16)
                                                     }
                                                 case .facebook:
-                                                    if !(viewModel.profile.socialNetwork[.facebook]?.isEmpty ?? false) {
+                                                    if !(viewModel.profile.socialNetwork[.facebook] ?? "").isEmpty {
                                                         Button(action: {
                                                             showSafari = true
                                                             safariAdress = viewModel.profile.socialNetwork[.facebook] ?? ""
@@ -184,7 +184,7 @@ struct ProfileView: View {
                                                             .cornerRadius(16)
                                                     }
                                                 case .instagram:
-                                                    if !(viewModel.profile.socialNetwork[.instagram]?.isEmpty ?? false) {
+                                                    if !(viewModel.profile.socialNetwork[.instagram] ?? "").isEmpty {
                                                         Button(action: {
                                                             showSafari = true
                                                             safariAdress = viewModel.profile.socialNetwork[.instagram] ?? ""
@@ -195,7 +195,7 @@ struct ProfileView: View {
                                                             .cornerRadius(16)
                                                     }
                                                 case .vk:
-                                                    if !(viewModel.profile.socialNetwork[.vk]?.isEmpty ?? false) {
+                                                    if !(viewModel.profile.socialNetwork[.vk] ?? "").isEmpty {
                                                         Button(action: {
                                                             showSafari = true
                                                             safariAdress = viewModel.profile.socialNetwork[.vk] ?? ""
@@ -294,7 +294,7 @@ struct ProfileView: View {
         LazyVGrid(columns: Array(repeating: GridItem(spacing: 1.5), count: 3), alignment: .center, spacing: 1.5) {
             ForEach(0..<viewModel.profile.photosUrls.count, id: \.self) { index in
                 VStack(spacing: 0) {
-                    AsyncImage(url: viewModel.profile.photosUrls[index].photosUrlPreview) { phase in
+                    AsyncImage(url: viewModel.profile.photosUrls[index].previewURL) { phase in
                         if let image = phase.image {
                             image.resizable()
                                 .frame(width: (UIScreen.main.bounds.width - 3) / 3,
@@ -303,7 +303,7 @@ struct ProfileView: View {
                                 .onTapGesture {
                                     showAlert = true
                                     showDeletePhotoAlert = true
-                                    photoUrlForDelete = viewModel.profile.photosUrls[index].photosUrlPreview.absoluteString
+                                    photoUrlForDelete = viewModel.profile.photosUrls[index].previewURL.absoluteString
                                 }
                         } else {
                             ProgressView()

@@ -32,6 +32,7 @@ final class ProfileDetailViewModel: ObservableObject {
         profile.status = mxStore.getStatus()
         let url = URL(fileURLWithPath: mxStore.getAvatarUrl())
         profile.avatar = url
+        print("RJKD   \(url) dsdc" )
         let str = userCredentialsStorageService.userPhoneNumber
         let suffixIndex = str.index(str.startIndex, offsetBy: 3)
         profile.phone = String(str[suffixIndex...])
@@ -53,14 +54,15 @@ final class ProfileDetailViewModel: ObservableObject {
     func addPhoto(image: UIImage) {
         selectedImage = image
         guard let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory())
-                .appendingPathComponent("TempImage.png") else {
+                .appendingPathComponent("TempImage1.png") else {
             return
         }
         let pngData = image.pngData()
         do {
             try pngData?.write(to: imageURL)
         } catch { }
-        selectedImageUrl = imageURL.relativeString
+        selectedImageUrl = imageURL.absoluteString
+        print("selectedImageUrl   \(selectedImageUrl)")
     }
 
     // MARK: - Private Methods
@@ -81,8 +83,12 @@ final class ProfileDetailViewModel: ObservableObject {
                     self?.mxStore.logout()
                 case .onAvatar:
                     guard let image = self?.selectedImageUrl else { return }
-                    self?.mxStore.setAvatarUrl(image) {
-                    }
+                    self?.mxStore.setAvatarUrl(image, completion: {
+                        guard let str = self?.mxStore.getAvatarUrl() else { return }
+                        print("tiefe   \(type(of: str))")
+                        let url = URL(fileURLWithPath: str)
+                        self?.profile.avatar = url
+                    })
                 }
             }
             .store(in: &subscriptions)
