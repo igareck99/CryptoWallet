@@ -13,7 +13,8 @@ struct ChatHistoryView: View {
     @State private var searchText = ""
     @State private var searching = false
     @State private var createRoomSelected = false
-    @State private var selectedContacts: [Contact] = []
+    @State private var chatGroup = ChatGroup()
+    @State private var selectedImage: UIImage?
     @State private var selectedRoomId: ObjectIdentifier?
 
     private var searchResults: [AuraRoom] {
@@ -27,6 +28,9 @@ struct ChatHistoryView: View {
 
     var body: some View {
         content
+            .onAppear {
+                viewModel.send(.onAppear)
+            }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -57,7 +61,7 @@ struct ChatHistoryView: View {
                 }
             }
             .sheet(isPresented: $createRoomSelected) {
-                ChatCreateView(selectedContacts: $selectedContacts, viewModel: .init())
+                ChatCreateView(chatGroup: $chatGroup, viewModel: .init())
             }
     }
 

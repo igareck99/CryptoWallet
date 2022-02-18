@@ -50,12 +50,13 @@ struct ChatCreateView: View {
 
     // MARK: - Internal Properties
 
-    @Binding var selectedContacts: [Contact]
+    @Binding var chatGroup: ChatGroup
     @StateObject var viewModel: ChatCreateViewModel
 
     // MARK: - Private Properties
 
     @State private var showContacts = false
+    @State private var groupCreated = false
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -68,6 +69,12 @@ struct ChatCreateView: View {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
+                .onChange(of: groupCreated) { created in
+                    if created {
+                        viewModel.send(.onCreateGroup(chatGroup))
+                        chatGroup = .init()
+                    }
+                }
                 .navigationBarHidden(true)
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear {
@@ -75,7 +82,11 @@ struct ChatCreateView: View {
                 }
                 .overlay(
                     EmptyNavigationLink(
-                        destination: SelectContactView(existingContacts: viewModel.existingContacts, selectedContacts: $selectedContacts),
+                        destination: SelectContactView(
+                            existingContacts: viewModel.existingContacts,
+                            chatGroup: $chatGroup,
+                            groupCreated: $groupCreated
+                        ),
                         isActive: $showContacts
                     )
                 )
@@ -158,7 +169,7 @@ struct ChatCreateView: View {
                                     hideSeparator: viewModel.contacts.last?.id == contact.id
                                 ).onTapGesture {
                                     vibrate()
-                                    viewModel.send(.onCreate([contact.mxId]))
+                                    viewModel.send(.onCreateDirect([contact.mxId]))
                                 }
                             }
                         }

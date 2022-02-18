@@ -42,15 +42,10 @@ struct ChatRoomView: View {
                 showTabBar()
             }
             .sheet(isPresented: $viewModel.showPhotoLibrary) {
-                NavigationView {
-                    ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
-                        guard let image = image else { return }
-                        self.viewModel.send(.onSendImage(image))
-                    })
+                ImagePickerView(selectedImage: $viewModel.selectedImage)
                         .ignoresSafeArea()
                         .navigationBarTitle(Text("Фото"))
                         .navigationBarTitleDisplayMode(.inline)
-                }
             }
             .alert(isPresented: $showJoinAlert) {
                 let roomName = viewModel.room.summary.displayname ?? "Новый запрос"

@@ -7,13 +7,13 @@ struct SelectContactView: View {
     // MARK: - Internal Properties
 
     let existingContacts: [Contact]
-    @Binding var selectedContacts: [Contact]
+    @Binding var chatGroup: ChatGroup
+    @Binding var groupCreated: Bool
 
     // MARK: - Private Properties
 
     @Environment(\.presentationMode) private var presentationMode
     @State private var showChatGroup = false
-    @State private var selectedRows: Set<UUID> = .init()
 
     // MARK: - Body
 
@@ -23,7 +23,10 @@ struct SelectContactView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(StackNavigationViewStyle())
             .overlay(
-                EmptyNavigationLink(destination: ChatGroupView(), isActive: $showChatGroup)
+                EmptyNavigationLink(
+                    destination: ChatGroupView(chatGroup: $chatGroup, groupCreated: $groupCreated),
+                    isActive: $showChatGroup
+                )
             )
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -43,16 +46,14 @@ struct SelectContactView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         showChatGroup.toggle()
-                        //onSelectContacts?(contacts.filter({ selectedRows.contains($0.id) }))
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
-                            .foreground(selectedRows.isEmpty ? .darkGray() : .blue())
+                            .foreground(chatGroup.selectedContacts.isEmpty ? .darkGray() : .blue())
                     })
-                        .disabled(selectedRows.isEmpty)
+                        .disabled(chatGroup.selectedContacts.isEmpty)
                 }
             }
-
     }
 
     private var content: some View {
@@ -68,12 +69,12 @@ struct SelectContactView: View {
                         let contact = contacts[index]
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
-                                if selectedRows.contains(contact.id) {
+                                if chatGroup.selectedContacts.contains(where: { $0.id == contact.id }) {
                                     R.image.chat.group.check.image
                                         .transition(.scale.animation(.linear(duration: 0.2)))
                                 } else {
                                     R.image.chat.group.uncheck.image
-                                        .transition(.opacity.animation(.linear(duration: 0.2)))
+                                                .transition(.opacity.animation(.linear(duration: 0.2)))
                                 }
 
                                 ContactRow(
@@ -86,10 +87,10 @@ struct SelectContactView: View {
                                     .id(contact.id)
                                     .onTapGesture {
                                         vibrate()
-                                        if selectedRows.contains(contact.id) {
-                                            selectedRows.remove(contact.id)
+                                        if chatGroup.selectedContacts.contains(where: { $0.id == contact.id }) {
+                                            chatGroup.selectedContacts.removeAll { $0.id == contact.id }
                                         } else {
-                                            selectedRows.insert(contact.id)
+                                            chatGroup.selectedContacts.append(contact)
                                         }
                                     }
                             }

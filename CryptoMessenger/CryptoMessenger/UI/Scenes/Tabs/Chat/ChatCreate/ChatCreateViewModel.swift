@@ -66,8 +66,10 @@ final class ChatCreateViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     self?.syncContacts()
-                case let .onCreate(ids):
-                    self?.createRoom(ids)
+                case let .onCreateDirect(ids):
+                    self?.createDirectRoom(ids)
+                case let .onCreateGroup(info):
+                    self?.createGroupRoom(info)
                 case .onNextScene:
                     ()
                 }
@@ -107,30 +109,27 @@ final class ChatCreateViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func createRoom(_ ids: [String]) {
+    private func createDirectRoom(_ ids: [String]) {
         let parameters = MXRoomCreationParameters()
-        if ids.count == 1 {
-            parameters.inviteArray = ids
-            parameters.isDirect = true
-            parameters.visibility = MXRoomDirectoryVisibility.private.identifier
-            parameters.preset = MXRoomPreset.privateChat.identifier
-        } else {
-            parameters.inviteArray = ids
-            parameters.isDirect = false
-            parameters.roomAlias = mxStore.getUserId()
-            parameters.name = "Групповой чат"
-            parameters.topic = "Тема"
-            parameters.visibility = MXRoomDirectoryVisibility.private.identifier
-            parameters.preset = MXRoomPreset.privateChat.identifier
-//            if isPublic {
-//                parameters.visibility = MXRoomDirectoryVisibility.public.identifier
-//                parameters.preset = MXRoomPreset.publicChat.identifier
-//            } else {
-//                parameters.visibility = MXRoomDirectoryVisibility.private.identifier
-//                parameters.preset = MXRoomPreset.privateChat.identifier
-//            }
-        }
+        parameters.inviteArray = ids
+        parameters.isDirect = true
+        parameters.visibility = MXRoomDirectoryVisibility.private.identifier
+        parameters.preset = MXRoomPreset.privateChat.identifier
+        createRoom(parameters: parameters)
+    }
 
+    private func createGroupRoom(_ info: ChatGroup) {
+        let parameters = MXRoomCreationParameters()
+        parameters.inviteArray = info.selectedContacts.map({ $0.mxId })
+        parameters.isDirect = false
+        parameters.name = info.title
+        parameters.topic = info.description
+        parameters.visibility = MXRoomDirectoryVisibility.private.identifier
+        parameters.preset = MXRoomPreset.privateChat.identifier
+        createRoom(parameters: parameters)
+    }
+
+    private func createRoom(parameters: MXRoomCreationParameters) {
         mxStore.createRoom(parameters: parameters) { [weak self] response in
             switch response {
             case .success:

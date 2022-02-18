@@ -207,11 +207,9 @@ final class MatrixStore: ObservableObject {
     }
 
     func createRoom(parameters: MXRoomCreationParameters, completion: @escaping ( MXResponse<MXRoom>) -> Void) {
-        let room = rooms.first {
-            $0.isDirect && $0.room.directUserId == parameters.inviteArray?.first
-        }
-        if room == nil {
-            session?.createRoom(parameters: parameters, completion: completion)
+        session?.createRoom(parameters: parameters) { [weak self] response in
+            completion(response)
+            self?.objectWillChange.send()
         }
     }
 

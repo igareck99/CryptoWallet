@@ -1,6 +1,18 @@
 import Combine
 import UIKit
 
+// MARK: - ChatGroup
+
+struct ChatGroup {
+
+    // MARK: - Internal Properties
+
+    var title = ""
+    var description = ""
+    var image: UIImage?
+    var selectedContacts: [Contact] = []
+}
+
 // MARK: - ChatHistoryViewModel
 
 final class ChatHistoryViewModel: ObservableObject {
@@ -46,7 +58,7 @@ final class ChatHistoryViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.objectWillChange.send()
+                    ()
                 case let .onShowRoom(room):
                     self?.delegate?.handleNextScene(.chatRoom(room))
                 case let .onDeleteRoom(roomId):

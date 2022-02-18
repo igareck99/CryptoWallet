@@ -160,6 +160,14 @@ final class ChatRoomViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
 
+        $selectedImage
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] image in
+                guard let image = image else { return }
+                self?.send(.onSendImage(image))
+            }
+            .store(in: &subscriptions)
+
         $quickAction
             .receive(on: DispatchQueue.main)
             .sink { _ in }

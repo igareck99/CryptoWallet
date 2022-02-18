@@ -5,20 +5,23 @@ import UIKit
 
 struct ChatGroupView: View {
 
+    // MARK: - Internal Properties
+
+    @Binding var chatGroup: ChatGroup
+    @Binding var groupCreated: Bool
+
     // MARK: - Private Properties
 
     @Environment(\.presentationMode) private var presentationMode
-    @State private var title = ""
-    @State private var description = ""
     @State private var titleHeight = CGFloat(0)
     @State private var descriptionHeight = CGFloat(0)
     @State private var showPhotoLibrary = false
-    @State private var selectedImage: UIImage?
-    @State private var showNewChat = false
 
     // MARK: - Life Cycle
 
-    init() {
+    init(chatGroup: Binding<ChatGroup>, groupCreated: Binding<Bool>) {
+        self._chatGroup = chatGroup
+        self._groupCreated = groupCreated
         UITextView.appearance().background(.paleBlue())
     }
 
@@ -26,12 +29,6 @@ struct ChatGroupView: View {
 
     var body: some View {
         content
-            .sheet(isPresented: $showPhotoLibrary) {
-                ImagePickerView(selectedImage: $selectedImage, onSelectImage: nil)
-                    .ignoresSafeArea()
-                    .navigationBarTitle(Text("Фото"))
-                    .navigationBarTitleDisplayMode(.inline)
-            }
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -51,17 +48,20 @@ struct ChatGroupView: View {
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        showNewChat.toggle()
+                        groupCreated.toggle()
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
-                            .foreground(title.isEmpty ? .darkGray() : .blue())
+                            .foreground(chatGroup.title.isEmpty ? .darkGray() : .blue())
                     })
-                        .disabled(title.isEmpty)
-                        .background(
-                            EmptyNavigationLink(destination: Text("Новый чат"), isActive: $showNewChat)
-                        )
+                        .disabled(chatGroup.title.isEmpty)
                 }
+            }
+            .sheet(isPresented: $showPhotoLibrary) {
+                ImagePickerView(selectedImage: $chatGroup.image)
+                    .ignoresSafeArea()
+                    .navigationBarTitle(Text("Фото"))
+                    .navigationBarTitleDisplayMode(.inline)
             }
     }
 
@@ -74,7 +74,7 @@ struct ChatGroupView: View {
                     Button {
                         showPhotoLibrary.toggle()
                     } label: {
-                        if let image = selectedImage {
+                        if let image = chatGroup.image {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFill()
@@ -92,12 +92,12 @@ struct ChatGroupView: View {
                     }
 
                     ZStack(alignment: .topLeading) {
-                        TextField("", text: $title)
+                        TextField("", text: $chatGroup.title)
                             .frame(height: 44)
                             .background(.paleBlue())
                             .padding(.horizontal, 16)
 
-                        if title.isEmpty {
+                        if chatGroup.title.isEmpty {
                             Text("Название")
                                 .foreground(.darkGray())
                                 .padding(.top, 12)
@@ -124,19 +124,21 @@ struct ChatGroupView: View {
                 }
 
                 ZStack(alignment: .topLeading) {
-                    TextEditor(text: $description)
+                    TextEditor(text: $chatGroup.description)
                         .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 132, alignment: .leading)
                         .padding(.horizontal, 16)
+                        .padding(.top, 12)
 
-                    if description.isEmpty {
+                    if chatGroup.description.isEmpty {
                         Text("Описание")
                             .foreground(.darkGray())
                             .padding(.top, 12)
-                            .padding(.horizontal, 16)
+                            .padding(.horizontal, 19)
                             .disabled(true)
                             .allowsHitTesting(false)
                     }
                 }
+                .background(.paleBlue())
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 .padding(.horizontal, 16)
 

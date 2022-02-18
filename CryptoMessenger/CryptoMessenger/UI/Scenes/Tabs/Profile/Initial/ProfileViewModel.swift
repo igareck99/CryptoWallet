@@ -67,10 +67,6 @@ final class ProfileViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
-    func addPhoto(image: UIImage) {
-        profile.photos.append(Image(uiImage: image))
-    }
-
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -86,13 +82,23 @@ final class ProfileViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.personalization)
                 case .onSecurity:
                     self?.delegate?.handleNextScene(.security)
-                case .aboutApp:
+                case .onAboutApp:
                     self?.delegate?.handleNextScene(.aboutApp)
                 case .onChatSettings:
                     self?.delegate?.handleNextScene(.chatSettings)
                 case .onFAQ:
                     self?.delegate?.handleNextScene(.FAQ)
+                case let .onAddPhoto(image):
+                    self?.profile.photos.append(Image(uiImage: image))
                 }
+            }
+            .store(in: &subscriptions)
+
+        $selectedImage
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] image in
+                guard let image = image else { return }
+                self?.send(.onAddPhoto(image))
             }
             .store(in: &subscriptions)
 

@@ -1340,9 +1340,9 @@
 			children = (
 				5ABAD39B27BEFB150067DFC1 /* Components */,
 				5A3721D2272EF0DA0097ABED /* ChatCreateView.swift */,
-				5A44FEF4276940E8006F9D92 /* ChatCreateFlow.swift */,
 				5A3721D4272F0A290097ABED /* ContactRow.swift */,
 				5A44FEF027693F6F006F9D92 /* ChatCreateViewModel.swift */,
+				5A44FEF4276940E8006F9D92 /* ChatCreateFlow.swift */,
 			);
 			path = ChatCreate;
 			sourceTree = "<group>";
