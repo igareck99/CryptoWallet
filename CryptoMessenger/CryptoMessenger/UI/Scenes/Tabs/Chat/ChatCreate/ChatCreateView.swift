@@ -50,7 +50,7 @@ struct ChatCreateView: View {
 
     // MARK: - Internal Properties
 
-    @Binding var chatGroup: ChatGroup
+    @Binding var chatData: ChatData
     @StateObject var viewModel: ChatCreateViewModel
 
     // MARK: - Private Properties
@@ -66,13 +66,13 @@ struct ChatCreateView: View {
             content
                 .onReceive(viewModel.$closeScreen) { closed in
                     if closed {
+                        chatData = .init()
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
                 .onChange(of: groupCreated) { created in
                     if created {
-                        viewModel.send(.onCreateGroup(chatGroup))
-                        chatGroup = .init()
+                        viewModel.send(.onCreateGroup(chatData))
                     }
                 }
                 .navigationBarHidden(true)
@@ -82,11 +82,7 @@ struct ChatCreateView: View {
                 }
                 .overlay(
                     EmptyNavigationLink(
-                        destination: SelectContactView(
-                            existingContacts: viewModel.existingContacts,
-                            chatGroup: $chatGroup,
-                            groupCreated: $groupCreated
-                        ),
+                        destination: SelectContactView(chatData: $chatData, groupCreated: $groupCreated),
                         isActive: $showContacts
                     )
                 )

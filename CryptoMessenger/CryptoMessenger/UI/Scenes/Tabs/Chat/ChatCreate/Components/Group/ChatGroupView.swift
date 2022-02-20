@@ -7,7 +7,7 @@ struct ChatGroupView: View {
 
     // MARK: - Internal Properties
 
-    @Binding var chatGroup: ChatGroup
+    @Binding var chatData: ChatData
     @Binding var groupCreated: Bool
 
     // MARK: - Private Properties
@@ -19,8 +19,8 @@ struct ChatGroupView: View {
 
     // MARK: - Life Cycle
 
-    init(chatGroup: Binding<ChatGroup>, groupCreated: Binding<Bool>) {
-        self._chatGroup = chatGroup
+    init(chatData: Binding<ChatData>, groupCreated: Binding<Bool>) {
+        self._chatData = chatData
         self._groupCreated = groupCreated
         UITextView.appearance().background(.paleBlue())
     }
@@ -52,13 +52,13 @@ struct ChatGroupView: View {
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
-                            .foreground(chatGroup.title.isEmpty ? .darkGray() : .blue())
+                            .foreground(chatData.title.isEmpty ? .darkGray() : .blue())
                     })
-                        .disabled(chatGroup.title.isEmpty)
+                        .disabled(chatData.title.isEmpty)
                 }
             }
             .sheet(isPresented: $showPhotoLibrary) {
-                ImagePickerView(selectedImage: $chatGroup.image)
+                ImagePickerView(selectedImage: $chatData.image)
                     .ignoresSafeArea()
                     .navigationBarTitle(Text("Фото"))
                     .navigationBarTitleDisplayMode(.inline)
@@ -74,7 +74,7 @@ struct ChatGroupView: View {
                     Button {
                         showPhotoLibrary.toggle()
                     } label: {
-                        if let image = chatGroup.image {
+                        if let image = chatData.image {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFill()
@@ -92,12 +92,12 @@ struct ChatGroupView: View {
                     }
 
                     ZStack(alignment: .topLeading) {
-                        TextField("", text: $chatGroup.title)
+                        TextField("", text: $chatData.title)
                             .frame(height: 44)
                             .background(.paleBlue())
                             .padding(.horizontal, 16)
 
-                        if chatGroup.title.isEmpty {
+                        if chatData.title.isEmpty {
                             Text("Название")
                                 .foreground(.darkGray())
                                 .padding(.top, 12)
@@ -124,12 +124,12 @@ struct ChatGroupView: View {
                 }
 
                 ZStack(alignment: .topLeading) {
-                    TextEditor(text: $chatGroup.description)
+                    TextEditor(text: $chatData.description)
                         .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 132, alignment: .leading)
                         .padding(.horizontal, 16)
                         .padding(.top, 12)
 
-                    if chatGroup.description.isEmpty {
+                    if chatData.description.isEmpty {
                         Text("Описание")
                             .foreground(.darkGray())
                             .padding(.top, 12)

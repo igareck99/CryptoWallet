@@ -1,18 +1,6 @@
 import Combine
 import UIKit
 
-// MARK: - ChatGroup
-
-struct ChatGroup {
-
-    // MARK: - Internal Properties
-
-    var title = ""
-    var description = ""
-    var image: UIImage?
-    var selectedContacts: [Contact] = []
-}
-
 // MARK: - ChatHistoryViewModel
 
 final class ChatHistoryViewModel: ObservableObject {

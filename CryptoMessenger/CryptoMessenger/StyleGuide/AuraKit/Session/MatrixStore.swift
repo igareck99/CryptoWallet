@@ -40,6 +40,7 @@ final class MatrixStore: ObservableObject {
     private var session: MXSession?
     private var fileStore: MXFileStore?
     private var credentials: MXCredentials?
+    private var uploader: MXMediaLoader?
     private let keychain = Keychain(service: "chat.aura.credentials")
     private var listenReference: Any?
     private var roomCache: [ObjectIdentifier: AuraRoom] = [:]
@@ -175,6 +176,7 @@ final class MatrixStore: ObservableObject {
         self.client = client
         self.session = session
         self.fileStore = fileStore
+        self.uploader = MXMediaLoader(forUploadWithMatrixSession: session, initialRange: 0, andRange: 1)
 
         session?.setStore(fileStore) { response in
             switch response {
@@ -206,11 +208,26 @@ final class MatrixStore: ObservableObject {
         }
     }
 
-    func createRoom(parameters: MXRoomCreationParameters, completion: @escaping ( MXResponse<MXRoom>) -> Void) {
+    func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void) {
         session?.createRoom(parameters: parameters) { [weak self] response in
             completion(response)
             self?.objectWillChange.send()
         }
+    }
+
+    func setRoomAvatar(data: Data, for room: MXRoom, completion: @escaping VoidBlock) {
+        uploader?.uploadData(data, filename: nil, mimeType: "image/jpeg", success: { [weak self] link in
+            guard let link = link, let url = URL(string: link) else { return }
+            room.setAvatar(url: url) { _ in
+                completion()
+                self?.objectWillChange.send()
+            }
+        }, failure: { error in
+            if let error = error {
+                print(error)
+            }
+            completion()
+        })
     }
 
     func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void) {
@@ -265,13 +282,19 @@ final class MatrixStore: ObservableObject {
         }
     }
 
-    func setAvatarUrl(_ avatarUrl: String, completion: @escaping VoidBlock) {
-        session?.myUser.setAvatarUrl(avatarUrl, success: completion) { error in
-            if let error = error {
-                print(error)
+    func setUserAvatarUrl(_ data: Data, completion: @escaping VoidBlock) {
+        let uploader = MXMediaLoader(forUploadWithMatrixSession: session, initialRange: 0, andRange: 1)
+        uploader?.uploadData(Data(), filename: nil, mimeType: "image/jpeg", success: { [weak self] link in
+            self?.session?.myUser.setAvatarUrl(link, success: completion) { error in
+                if let error = error {
+                    print(error)
+                }
+                self?.objectWillChange.send()
             }
-            self.objectWillChange.send()
-        }
+
+        }, failure: { _ in
+
+        })
     }
 
     func allUsers() -> [MXUser] {

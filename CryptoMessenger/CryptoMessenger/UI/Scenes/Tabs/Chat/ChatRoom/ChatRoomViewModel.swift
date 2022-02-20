@@ -9,7 +9,8 @@ final class ChatRoomViewModel: ObservableObject {
 
     weak var delegate: ChatRoomSceneDelegate?
 
-    @Published var inputText: String = ""
+    @Published var chatData = ChatData()
+    @Published var inputText = ""
     @Published var attachAction: AttachAction?
     @Published var quickAction: QuickAction?
     @Published private(set) var keyboardHeight: CGFloat = 0
@@ -36,7 +37,6 @@ final class ChatRoomViewModel: ObservableObject {
 
     init(room: AuraRoom) {
         self.room = room
-
         bindInput()
         bindOutput()
 
@@ -52,6 +52,8 @@ final class ChatRoomViewModel: ObservableObject {
         keyboardObserver.keyboardWillHideHandler = { [weak self] _ in
             self?.keyboardHeight = 0
         }
+
+        fetchChatData()
     }
 
     deinit {
@@ -201,6 +203,42 @@ final class ChatRoomViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
+    private func fetchChatData() {
+        chatData.title = room.room.summary.displayname ?? ""
+        chatData.description = room.room.summary.topic ?? ""
+        if let url = room.roomAvatar, let data = try? Data(contentsOf: url) {
+            chatData.image = UIImage(data: data)
+        }
+        room.room.state { [weak self] response in
+            if let users = response?.powerLevels.users as? [String: String] {
+                print(users)
+            }
+        }
+
+        room.room.members { [weak self] response in
+            switch response {
+            case let .success(members):
+                if let members = members {
+                    self?.chatData.contacts = members.members.map {
+                        var contact = Contact(
+                            mxId: $0.userId ?? "",
+                            avatar: nil,
+                            name: $0.displayname ?? "",
+                            status: "Привет, теперь я в Aura"
+                        )
+                        if let avatar = $0.avatarUrl {
+                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                            contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
+                        }
+                        return contact
+                    }
+                }
+            default:
+                ()
+            }
+        }
+    }
+
 //    private func sendMessage(_ type: MessageType) {
 //        inputText = ""
 //
@@ -227,6 +265,3 @@ final class ChatRoomViewModel: ObservableObject {
 //        mxStore.objectWillChange.send()
 //    }
 }
-
-private var mockEmojiStorage: [ReactionStorage] = ["👍", "👎", "😄", "🎉", "❤️", "🚀", "👀"]
-    .map { .init(id: UUID().uuidString, emoji: $0) }

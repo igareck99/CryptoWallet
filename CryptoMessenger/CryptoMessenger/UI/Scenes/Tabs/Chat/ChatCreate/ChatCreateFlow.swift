@@ -24,6 +24,6 @@ enum ChatCreateFlow {
         case onAppear
         case onNextScene
         case onCreateDirect([String])
-        case onCreateGroup(ChatGroup)
+        case onCreateGroup(ChatData)
     }
 }

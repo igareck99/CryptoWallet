@@ -1,3 +1,6 @@
+import Combine
+import Foundation
+import MatrixSDK
 import SwiftUI
 
 // MARK: - SelectContactView
@@ -6,12 +9,12 @@ struct SelectContactView: View {
 
     // MARK: - Internal Properties
 
-    let existingContacts: [Contact]
-    @Binding var chatGroup: ChatGroup
+    @Binding var chatData: ChatData
     @Binding var groupCreated: Bool
 
     // MARK: - Private Properties
 
+    @StateObject private var viewModel = ChatCreateViewModel()
     @Environment(\.presentationMode) private var presentationMode
     @State private var showChatGroup = false
 
@@ -24,7 +27,7 @@ struct SelectContactView: View {
             .navigationViewStyle(StackNavigationViewStyle())
             .overlay(
                 EmptyNavigationLink(
-                    destination: ChatGroupView(chatGroup: $chatGroup, groupCreated: $groupCreated),
+                    destination: ChatGroupView(chatData: $chatData, groupCreated: $groupCreated),
                     isActive: $showChatGroup
                 )
             )
@@ -49,9 +52,9 @@ struct SelectContactView: View {
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
-                            .foreground(chatGroup.selectedContacts.isEmpty ? .darkGray() : .blue())
+                            .foreground(chatData.contacts.isEmpty ? .darkGray() : .blue())
                     })
-                        .disabled(chatGroup.selectedContacts.isEmpty)
+                        .disabled(chatData.contacts.isEmpty)
                 }
             }
     }
@@ -61,7 +64,7 @@ struct SelectContactView: View {
             Color(.white()).ignoresSafeArea()
 
             ScrollView(.vertical, showsIndicators: false) {
-                let groupedContacts = Dictionary(grouping: existingContacts) { $0.name.firstLetter.uppercased() }
+                let groupedContacts = Dictionary(grouping: viewModel.existingContacts) { $0.name.firstLetter.uppercased() }
                 ForEach(groupedContacts.keys.sorted(), id: \.self) { key in
                     sectionView(key)
                     let contacts = groupedContacts[key] ?? []
@@ -69,7 +72,7 @@ struct SelectContactView: View {
                         let contact = contacts[index]
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
-                                if chatGroup.selectedContacts.contains(where: { $0.id == contact.id }) {
+                                if chatData.contacts.contains(where: { $0.id == contact.id }) {
                                     R.image.chat.group.check.image
                                         .transition(.scale.animation(.linear(duration: 0.2)))
                                 } else {
@@ -87,10 +90,10 @@ struct SelectContactView: View {
                                     .id(contact.id)
                                     .onTapGesture {
                                         vibrate()
-                                        if chatGroup.selectedContacts.contains(where: { $0.id == contact.id }) {
-                                            chatGroup.selectedContacts.removeAll { $0.id == contact.id }
+                                        if chatData.contacts.contains(where: { $0.id == contact.id }) {
+                                            chatData.contacts.removeAll { $0.id == contact.id }
                                         } else {
-                                            chatGroup.selectedContacts.append(contact)
+                                            chatData.contacts.append(contact)
                                         }
                                     }
                             }
@@ -113,5 +116,181 @@ struct SelectContactView: View {
             Spacer()
         }
         .background(.paleBlue())
+    }
+}
+
+
+// MARK: - SelectContactViewModel
+
+final class SelectContactViewModel: ObservableObject {
+
+    // MARK: - Internal Properties
+
+    @Published private(set) var closeScreen = false
+    @Published private(set) var contacts: [Contact] = []
+    @Published private(set) var state: SelectContactFlow.ViewState = .idle
+    @Published private(set) var existingContacts: [Contact] = []
+    @Published private(set) var waitingContacts: [Contact] = []
+
+    // MARK: - Private Properties
+
+    private let eventSubject = PassthroughSubject<SelectContactFlow.Event, Never>()
+    private let stateValueSubject = CurrentValueSubject<SelectContactFlow.ViewState, Never>(.idle)
+    private var subscriptions = Set<AnyCancellable>()
+    @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private var contactsStore: ContactsManager
+    @Injectable private var apiClient: APIClientManager
+
+    // MARK: - Lifecycle
+
+    init() {
+        bindInput()
+        bindOutput()
+        getContacts(mxStore.allUsers())
+    }
+
+    deinit {
+        subscriptions.forEach { $0.cancel() }
+        subscriptions.removeAll()
+    }
+
+    // MARK: - Internal Methods
+
+    func send(_ event: SelectContactFlow.Event) {
+        eventSubject.send(event)
+    }
+
+    // MARK: - Private Methods
+
+    private func bindInput() {
+        eventSubject
+            .sink { [weak self] event in
+                switch event {
+                case .onAppear:
+                    self?.syncContacts()
+                case .onNextScene:
+                    ()
+                }
+            }
+            .store(in: &subscriptions)
+
+        mxStore.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+
+            }
+            .store(in: &subscriptions)
+    }
+
+    private func bindOutput() {
+        stateValueSubject
+            .assign(to: \.state, on: self)
+            .store(in: &subscriptions)
+    }
+
+    private func getContacts(_ users: [MXUser]) {
+        contacts = users.map {
+            var contact = Contact(
+                mxId: $0.userId ?? "",
+                avatar: nil,
+                name: $0.displayname ?? "",
+                status: $0.statusMsg ?? ""
+            )
+            if let avatar = $0.avatarUrl {
+                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
+            }
+            return contact
+        }
+    }
+
+    private func syncContacts() {
+        contactsStore.fetch { [weak self] contacts, _ in
+            self?.matchServerContacts(contacts)
+        }
+    }
+
+    private func matchServerContacts(_ contacts: [ContactInfo]) {
+        guard !contacts.isEmpty else { return }
+
+        let phones = contacts.map { $0.phoneNumber.numbers }
+
+        apiClient.publisher(Endpoints.Users.users(phones))
+            .replaceError(with: [:])
+            .sink { [weak self] response in
+                let sorted = contacts.sorted(by: { $0.firstName < $1.firstName })
+
+                let mxUsers: [MXUser] = self?.mxStore.allUsers() ?? []
+                let lastUsers: [Contact] = mxUsers
+                    .filter { $0.userId != self?.mxStore.getUserId() }
+                    .map {
+                        var contact = Contact(
+                            mxId: $0.userId ?? "",
+                            avatar: nil,
+                            name: $0.displayname ?? "",
+                            status: $0.statusMsg ?? "Привет, теперь я в Aura"
+                        )
+                        if let avatar = $0.avatarUrl {
+                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                            contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
+                        }
+                        return contact
+                    }
+
+                let existing: [Contact] = sorted
+                    .filter { response.keys.contains($0.phoneNumber.numbers) }
+                    .map {
+                        .init(
+                            mxId: response[$0.phoneNumber] ?? "",
+                            avatar: nil,
+                            name: $0.firstName,
+                            status: "Привет, теперь я в Aura"
+                        )
+                    }
+                    .filter { contact in
+                        !lastUsers.contains(where: { last in
+                            contact.mxId == last.mxId
+                        })
+                    }
+
+                self?.existingContacts = lastUsers + existing
+
+                self?.waitingContacts = sorted.filter { !response.keys.contains($0.phoneNumber.numbers) }.map {
+                    .init(
+                        mxId: response[$0.phoneNumber] ?? "",
+                        avatar: nil,
+                        name: $0.firstName,
+                        status: "",
+                        phone: $0.phoneNumber
+                    )
+                }
+            }
+            .store(in: &subscriptions)
+    }
+}
+
+// MARK: - SelectContactFlow
+
+enum SelectContactFlow {
+
+    // MARK: - ViewState
+
+    enum ViewState {
+
+        // MARK: - Types
+
+        case idle
+        case loading
+        case error(APIError)
+    }
+
+    // MARK: - Event
+
+    enum Event {
+
+        // MARK: - Types
+
+        case onAppear
+        case onNextScene
     }
 }

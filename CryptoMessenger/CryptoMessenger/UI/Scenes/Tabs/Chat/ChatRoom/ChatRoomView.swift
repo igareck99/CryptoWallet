@@ -20,6 +20,7 @@ struct ChatRoomView: View {
     @State private var showJoinAlert = false
     @State private var height = CGFloat(0)
     @State private var selectedPhoto: URL?
+    @State private var showSettings = false
 
     // MARK: - Body
 
@@ -62,11 +63,21 @@ struct ChatRoomView: View {
                     )
                 )
             }
+            .overlay(
+                EmptyNavigationLink(destination: SettingsView(chatData: $viewModel.chatData), isActive: $showSettings)
+            )
+            .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarColor(selectedPhoto != nil ? nil : .white(), isBlured: false)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     HStack(spacing: 0) {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }, label: {
+                            R.image.navigation.backButton.image
+                        })
+
                         AsyncImage(url: viewModel.room.roomAvatar) { phase in
                             if let image = phase.image {
                                 image.resizable()
@@ -112,14 +123,14 @@ struct ChatRoomView: View {
                     HStack(spacing: 0) {
                         Spacer()
 
+//                        Button(action: {
+//
+//                        }, label: {
+//                            R.image.navigation.phoneButton.image
+//                        })
+
                         Button(action: {
-
-                        }, label: {
-                            R.image.navigation.phoneButton.image
-                        })
-
-                        Button(action: {
-
+                            showSettings.toggle()
                         }, label: {
                             R.image.navigation.settingsButton.image
                         })

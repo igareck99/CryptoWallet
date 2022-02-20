@@ -2,6 +2,24 @@ import Combine
 import Foundation
 import MatrixSDK
 
+// MARK: - ChatData
+
+struct ChatData {
+
+    // MARK: - Internal Properties
+
+    var title = ""
+    var description = ""
+    var image: UIImage?
+    var contacts: [Contact] = []
+    var showNotifications = false
+    var media: [URL] = []
+    var links: [URL] = []
+    var documents: [URL] = []
+    var admins: [Contact] = []
+    var shareLink: URL?
+}
+
 // MARK: - Contact
 
 struct Contact: Identifiable {
@@ -118,22 +136,29 @@ final class ChatCreateViewModel: ObservableObject {
         createRoom(parameters: parameters)
     }
 
-    private func createGroupRoom(_ info: ChatGroup) {
+    private func createGroupRoom(_ info: ChatData) {
         let parameters = MXRoomCreationParameters()
-        parameters.inviteArray = info.selectedContacts.map({ $0.mxId })
+        parameters.inviteArray = info.contacts.map({ $0.mxId })
         parameters.isDirect = false
         parameters.name = info.title
         parameters.topic = info.description
         parameters.visibility = MXRoomDirectoryVisibility.private.identifier
         parameters.preset = MXRoomPreset.privateChat.identifier
-        createRoom(parameters: parameters)
+        createRoom(parameters: parameters, roomAvatar: info.image?.jpeg(.medium))
     }
 
-    private func createRoom(parameters: MXRoomCreationParameters) {
+    private func createRoom(parameters: MXRoomCreationParameters, roomAvatar: Data? = nil) {
         mxStore.createRoom(parameters: parameters) { [weak self] response in
             switch response {
-            case .success:
-                self?.closeScreen = true
+            case let .success(room):
+                guard let data = roomAvatar else {
+                    self?.closeScreen = true
+                    return
+                }
+
+                self?.mxStore.setRoomAvatar(data: data, for: room) {
+                    self?.closeScreen = true
+                }
             case.failure:
                 self?.closeScreen = true
             }
