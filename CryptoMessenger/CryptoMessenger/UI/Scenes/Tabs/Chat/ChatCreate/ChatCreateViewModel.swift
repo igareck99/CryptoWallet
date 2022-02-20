@@ -18,6 +18,8 @@ struct ChatData {
     var documents: [URL] = []
     var admins: [Contact] = []
     var shareLink: URL?
+    var isDirect = false
+
 }
 
 // MARK: - Contact

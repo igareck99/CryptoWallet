@@ -206,6 +206,7 @@ final class ChatRoomViewModel: ObservableObject {
     private func fetchChatData() {
         chatData.title = room.room.summary.displayname ?? ""
         chatData.description = room.room.summary.topic ?? ""
+        chatData.isDirect = room.isDirect
         if let url = room.roomAvatar, let data = try? Data(contentsOf: url) {
             chatData.image = UIImage(data: data)
         }

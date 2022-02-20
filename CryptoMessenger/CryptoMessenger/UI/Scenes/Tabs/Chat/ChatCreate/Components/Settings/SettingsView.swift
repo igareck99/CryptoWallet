@@ -127,7 +127,7 @@ struct SettingsView: View {
     @State private var showImagePicker = false
     @State private var showMedia = false
     @State private var showAdmins = false
-    @State private var showSelectContacts = false
+    @State private var showContacts = false
     @State private var showExitAlert = false
     @State private var showShareAlert = false
     @State private var showComplainAlert = false
@@ -177,6 +177,12 @@ struct SettingsView: View {
                     })
                 }
             }
+            .overlay(
+                EmptyNavigationLink(
+                    destination: SelectContactView(mode: .add, chatData: $chatData),
+                    isActive: $showContacts
+                )
+            )
             .sheet(isPresented: $showImagePicker) {
                 ImagePickerView(selectedImage: $chatData.image)
             }
@@ -379,17 +385,19 @@ struct SettingsView: View {
 
             Spacer()
 
-            Button {
-
-            } label: {
-                Text("ДОБАВИТЬ", [
-                    .color(.blue()),
-                    .font(.semibold(12)),
-                    .paragraph(.init(lineHeightMultiple: 1.54, alignment: .right))
-                ])
-                    .frame(height: 22)
+            if !chatData.isDirect {
+                Button {
+                    showContacts.toggle()
+                } label: {
+                    Text("ДОБАВИТЬ", [
+                        .color(.blue()),
+                        .font(.semibold(12)),
+                        .paragraph(.init(lineHeightMultiple: 1.54, alignment: .right))
+                    ])
+                        .frame(height: 22)
+                }
+                .frame(height: 22)
             }
-            .frame(height: 22)
         }
         .frame(height: 22)
     }

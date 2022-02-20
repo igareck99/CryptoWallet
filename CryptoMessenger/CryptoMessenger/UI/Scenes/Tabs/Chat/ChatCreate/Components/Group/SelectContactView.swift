@@ -7,16 +7,35 @@ import SwiftUI
 
 struct SelectContactView: View {
 
-    // MARK: - Internal Properties
+    // MARK: - Mode
 
-    @Binding var chatData: ChatData
-    @Binding var groupCreated: Bool
+    enum Mode: Identifiable {
+
+        // MARK: - Types
+
+        case select, add
+
+        // MARK: - Internal Properties
+
+        var id: UUID { UUID() }
+    }
 
     // MARK: - Private Properties
 
-    @StateObject private var viewModel = ChatCreateViewModel()
+    private let mode: Mode
+    @Binding private var chatData: ChatData
+    @Binding private var groupCreated: Bool
+    @StateObject private var viewModel = SelectContactViewModel()
     @Environment(\.presentationMode) private var presentationMode
     @State private var showChatGroup = false
+
+    // MARK: - Life Cycle
+
+    init(mode: Mode = .select, chatData: Binding<ChatData>, groupCreated: Binding<Bool> = .constant(false)) {
+        self.mode = mode
+        self._chatData = chatData
+        self._groupCreated = groupCreated
+    }
 
     // MARK: - Body
 
@@ -48,7 +67,12 @@ struct SelectContactView: View {
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        showChatGroup.toggle()
+                        switch mode {
+                        case .select:
+                            showChatGroup.toggle()
+                        case .add:
+                            presentationMode.wrappedValue.dismiss()
+                        }
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
@@ -56,6 +80,9 @@ struct SelectContactView: View {
                     })
                         .disabled(chatData.contacts.isEmpty)
                 }
+            }
+            .onAppear {
+                viewModel.send(.onAppear)
             }
     }
 
@@ -118,7 +145,6 @@ struct SelectContactView: View {
         .background(.paleBlue())
     }
 }
-
 
 // MARK: - SelectContactViewModel
 
