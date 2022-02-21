@@ -13,6 +13,7 @@ struct ChatRoomRow: View {
     private var onReaction: StringBlock?
     private var onSelectPhoto: GenericBlock<URL?>?
     @State private var showMap = false
+    @State private var showFile = false
     @State private var isAnimating = false
 
     // MARK: - Lifecycle
@@ -70,6 +71,21 @@ struct ChatRoomRow: View {
                                 }
                         case .contact:
                             contactRow()
+                        case let .file(fileName, url):
+                            fileRow(message, fileName: fileName, url: url)
+                                .sheet(isPresented: $showFile) {
+                                    if let url = url {
+                                        NavigationView {
+                                            PDFKitView(url: url)
+                                                .ignoresSafeArea()
+                                                .navigationBarTitle(Text(fileName))
+                                                .navigationBarTitleDisplayMode(.inline)
+                                        }
+                                    }
+                                }
+                                .onTapGesture {
+                                    showFile.toggle()
+                                }
                         case .none:
                             EmptyView()
                         }
@@ -159,6 +175,45 @@ struct ChatRoomRow: View {
             checkReadView(message.shortDate)
         }
         .frame(width: 202, height: 245)
+    }
+
+    private func fileRow(_ message: RoomMessage, fileName: String, url: URL?) -> some View {
+        ZStack {
+            HStack(spacing: 0) {
+                if let url = url {
+                    PDFKitView(url: url)
+                        .frame(width: 80, height: 80)
+                        .cornerRadius(8)
+                        .padding(.leading, 8)
+                } else {
+                    ShimmerView()
+                        .frame(width: 80, height: 80)
+                        .cornerRadius(8)
+                        .padding(.leading, 8)
+                }
+
+                VStack(spacing: 4) {
+                    Spacer()
+                    Text(fileName, [
+                        .color(.black()),
+                        .font(.medium(15)),
+                        .paragraph(.init(lineHeightMultiple: 1.26, alignment: .left))
+                    ]).frame(height: 23)
+
+//                    Text(url?.fileSize() ?? "", [
+//                        .color(.darkGray()),
+//                        .font(.regular(13)),
+//                        .paragraph(.init(lineHeightMultiple: 1, alignment: .left))
+//                    ]).frame(height: 16)
+                    Spacer()
+                }.padding(.leading, 11)
+
+                Spacer()
+            }
+
+            checkReadView(message.shortDate)
+        }
+        .frame(width: 247, height: 96)
     }
 
     private func contactRow() -> some View {

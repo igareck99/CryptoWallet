@@ -8,8 +8,8 @@ extension View {
     // MARK: - Internal Methods
 
     func documentPicker(
-        isPresented: Binding<Bool>,
-        onCancel: @escaping VoidBlock,
+        isPresented: Binding<Bool> = .constant(false),
+        onCancel: VoidBlock? = nil,
         onDocumentsPicked: @escaping GenericBlock<[URL]>
     ) -> some View {
         modifier(
@@ -25,14 +25,14 @@ struct DocumentPickerView: ViewModifier {
     // MARK: - Internal Properties
 
     @Binding var isPresented: Bool
-    var onCancel: VoidBlock
+    var onCancel: VoidBlock?
     var onDocumentsPicked: GenericBlock<[URL]>
 
     // MARK: - Life Cycle
 
     init(
         isPresented: Binding<Bool>,
-        onCancel: @escaping VoidBlock,
+        onCancel: VoidBlock?,
         onDocumentsPicked: @escaping GenericBlock<[URL]>
     ) {
         self._isPresented = isPresented
@@ -54,14 +54,14 @@ struct DocumentPicker: UIViewControllerRepresentable {
     // MARK: - Internal Properties
 
     @Binding var isPresented: Bool
-    var onCancel: VoidBlock
+    var onCancel: VoidBlock?
     var onDocumentsPicked: GenericBlock<[URL]>
 
     // MARK: - Life Cycle
 
     init(
-        isPresented: Binding<Bool>,
-        onCancel: @escaping VoidBlock,
+        isPresented: Binding<Bool> = .constant(false),
+        onCancel: VoidBlock?,
         onDocumentsPicked: @escaping GenericBlock<[URL]>
     ) {
         self._isPresented = isPresented
@@ -73,7 +73,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
 
     func makeUIViewController(
         context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController {
-        let pickerController = UIDocumentPickerViewController(forOpeningContentTypes: [.text], asCopy: true)
+        let pickerController = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf], asCopy: true)
         pickerController.allowsMultipleSelection = false
         pickerController.delegate = context.coordinator
         return pickerController
@@ -114,6 +114,6 @@ extension DocumentPicker.Coordinator: UIDocumentPickerDelegate {
 
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         parent.isPresented.toggle()
-        parent.onCancel()
+        parent.onCancel?()
     }
 }

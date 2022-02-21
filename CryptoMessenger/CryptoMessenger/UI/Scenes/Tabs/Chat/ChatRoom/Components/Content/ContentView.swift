@@ -84,7 +84,8 @@ struct ContentView: View {
 
     private var photosView: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            LazyVGrid(columns: Array(repeating: GridItem(spacing: 1.5), count: 3), alignment: .center, spacing: 1.5) {
+            let gridLayout = GridItem(.flexible(maximum: .infinity), spacing: 1.5)
+            LazyVGrid(columns: Array(repeating: gridLayout, count: 3), alignment: .center, spacing: 1.5) {
                 ForEach(0..<chatData.media.count, id: \.self) { index in
                     VStack(spacing: 0) {
                         AsyncImage(url: chatData.media[index]) { phase in

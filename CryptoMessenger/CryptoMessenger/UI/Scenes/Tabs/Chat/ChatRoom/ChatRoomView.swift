@@ -5,6 +5,19 @@ import SwiftUI
 
 struct ChatRoomView: View {
 
+    // MARK: - ActiveSheet
+
+    enum ActiveSheet: Identifiable {
+
+        // MARK: - Types
+
+        case photo, documents
+
+        // MARK: - Internal Properties
+
+        var id: Int { hashValue }
+    }
+
     // MARK: - Internal Properties
 
     @ObservedObject var viewModel: ChatRoomViewModel
@@ -21,6 +34,8 @@ struct ChatRoomView: View {
     @State private var height = CGFloat(0)
     @State private var selectedPhoto: URL?
     @State private var showSettings = false
+    @State private var showDocuments = false
+    @State private var activeSheet: ActiveSheet?
 
     // MARK: - Body
 
@@ -42,11 +57,11 @@ struct ChatRoomView: View {
             .onDisappear {
                 showTabBar()
             }
-            .sheet(isPresented: $viewModel.showPhotoLibrary) {
-                ImagePickerView(selectedImage: $viewModel.selectedImage)
-                        .ignoresSafeArea()
-                        .navigationBarTitle(Text("Фото"))
-                        .navigationBarTitleDisplayMode(.inline)
+            .onReceive(viewModel.$showPhotoLibrary) { flag in
+                if flag { activeSheet = .photo }
+            }
+            .onReceive(viewModel.$showDocuments) { flag in
+                if flag { activeSheet = .documents }
             }
             .alert(isPresented: $showJoinAlert) {
                 let roomName = viewModel.room.summary.displayname ?? "Новый запрос"
@@ -62,6 +77,20 @@ struct ChatRoomView: View {
                         action: { presentationMode.wrappedValue.dismiss() }
                     )
                 )
+            }
+            .sheet(item: $activeSheet) { item in
+                switch item {
+                case .photo:
+                    ImagePickerView(selectedImage: $viewModel.selectedImage)
+                        .ignoresSafeArea()
+                        .navigationBarTitle(Text("Фото"))
+                        .navigationBarTitleDisplayMode(.inline)
+                case .documents:
+                    documentPicker { urls in
+                        guard !urls.isEmpty, let url = urls.first else { return }
+                        self.viewModel.send(.onSendFile(url))
+                    }
+                }
             }
             .overlay(
                 EmptyNavigationLink(destination: SettingsView(chatData: $viewModel.chatData), isActive: $showSettings)

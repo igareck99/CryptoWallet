@@ -19,7 +19,6 @@ struct ChatData {
     var admins: [Contact] = []
     var shareLink: URL?
     var isDirect = false
-
 }
 
 // MARK: - Contact
@@ -34,6 +33,7 @@ struct Contact: Identifiable {
     let name: String
     let status: String
     var phone = ""
+    var isAdmin = false
 }
 
 // MARK: - ChatCreateViewModel

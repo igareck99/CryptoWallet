@@ -20,6 +20,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private(set) var userMessage: Message?
     @Published private(set) var room: AuraRoom
     @Published var showPhotoLibrary = false
+    @Published var showDocuments = false
     @Published var selectedImage: UIImage?
     @Published private var lastLocation: Location?
 
@@ -99,6 +100,10 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.inputText = ""
                     self?.room.sendImage(image)
                     self?.mxStore.objectWillChange.send()
+                case let .onSendFile(url):
+                    self?.inputText = ""
+                    self?.room.sendFile(url)
+                    self?.mxStore.objectWillChange.send()
                 case .onJoinRoom:
                     guard let roomId = self?.room.room.roomId else { return }
                     self?.mxStore.joinRoom(roomId: roomId) { _ in
@@ -147,6 +152,8 @@ final class ChatRoomViewModel: ObservableObject {
                     }
                 case .media:
                     self?.showPhotoLibrary.toggle()
+                case .document:
+                    self?.showDocuments.toggle()
                 case .contact:
                     let message = RoomMessage(
                         id: UUID().uuidString,
@@ -207,12 +214,10 @@ final class ChatRoomViewModel: ObservableObject {
         chatData.title = room.room.summary.displayname ?? ""
         chatData.description = room.room.summary.topic ?? ""
         chatData.isDirect = room.isDirect
-        if let url = room.roomAvatar, let data = try? Data(contentsOf: url) {
-            chatData.image = UIImage(data: data)
-        }
-        room.room.state { [weak self] response in
-            if let users = response?.powerLevels.users as? [String: String] {
-                print(users)
+
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            if let url = self?.room.roomAvatar, let data = try? Data(contentsOf: url) {
+                DispatchQueue.main.async { self?.chatData.image = UIImage(data: data) }
             }
         }
 
@@ -229,7 +234,7 @@ final class ChatRoomViewModel: ObservableObject {
             switch response {
             case let .success(members):
                 if let members = members {
-                    self?.chatData.contacts = members.members.map {
+                    let contacts: [Contact] = members.members.map {
                         var contact = Contact(
                             mxId: $0.userId ?? "",
                             avatar: nil,
@@ -242,36 +247,27 @@ final class ChatRoomViewModel: ObservableObject {
                         }
                         return contact
                     }
+
+                    self?.chatData.contacts = contacts
+
+                    self?.room.room.state { response in
+                        let ids = response?.powerLevels.users.keys
+                            .map { $0 as? String }
+                            .compactMap { $0 } ?? []
+                        self?.chatData.admins = contacts.filter { contact in ids.contains(contact.mxId) }
+
+                        let items: [Contact] = contacts.map {
+                            var new = $0
+                            new.isAdmin = ids.contains($0.mxId)
+                            return new
+                        }
+
+                        self?.chatData.contacts = items.filter { $0.isAdmin } + items.filter { !$0.isAdmin }
+                    }
                 }
             default:
                 ()
             }
         }
     }
-
-//    private func sendMessage(_ type: MessageType) {
-//        inputText = ""
-//
-//        switch type {
-//        case let .text(text):
-//            room.sendText(text)
-//        case let .image(image):
-//            room.sendImage(image)
-//        default:
-//            break
-//        }
-//
-//        messages.insert(
-//            .init(
-//                id: UUID().uuidString,
-//                type: type,
-//                shortDate: Date().hoursAndMinutes,
-//                fullDate: Date().dayOfWeekDayAndMonth,
-//                isCurrentUser: true
-//            ),
-//            at: 0
-//        )
-//
-//        mxStore.objectWillChange.send()
-//    }
 }

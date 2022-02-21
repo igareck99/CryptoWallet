@@ -25,6 +25,7 @@ enum ChatRoomFlow {
         case onAppear
         case onSendText(String)
         case onSendImage(UIImage)
+        case onSendFile(URL)
         case onJoinRoom
         case onAddReaction(messageId: String, reactionId: String)
         case onDeleteReaction(messageId: String, reactionId: String)

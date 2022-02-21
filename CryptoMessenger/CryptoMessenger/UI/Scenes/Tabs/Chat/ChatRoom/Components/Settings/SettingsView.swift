@@ -98,19 +98,8 @@ enum SettingsAction: CaseIterable, Identifiable {
             return nil
         }
     }
-}
 
-// MARK: - AlertItem
-
-struct AlertItem: Identifiable {
-
-    // MARK: - Internal Properties
-
-    let id = UUID()
-    var title: Text
-    var message: Text?
-    var primaryButton: Alert.Button
-    var secondaryButton: Alert.Button
+    func count(_ count: Int) -> String { count.description }
 }
 
 // MARK: - SettingsView
@@ -181,7 +170,7 @@ struct SettingsView: View {
             }
             .overlay(
                 EmptyNavigationLink(
-                    destination: SelectContactView(mode: .add, chatData: $chatData),
+                    destination: MembersView(chatData: $chatData),
                     isActive: $showContacts
                 )
             )
@@ -189,6 +178,12 @@ struct SettingsView: View {
                 EmptyNavigationLink(
                     destination: ContentView(chatData: $chatData),
                     isActive: $showContent
+                )
+            )
+            .overlay(
+                EmptyNavigationLink(
+                    destination: AdminsView(chatData: $chatData),
+                    isActive: $showAdmins
                 )
             )
             .sheet(isPresented: $showImagePicker) {
@@ -352,10 +347,11 @@ struct SettingsView: View {
 
                     Spacer()
 
-                    if action == .notifications {
+                    switch action {
+                    case .notifications:
                         Toggle("", isOn: $notificationsTurnedOn)
                             .tint(Color(.blue()))
-                    } else {
+                    case .media:
                         Text(chatData.media.count.description, [
                             .color(.blue()),
                             .font(.regular(15)),
@@ -366,6 +362,19 @@ struct SettingsView: View {
 
                         R.image.chatSettings.chevron.image
                             .padding(.leading, 4)
+                    case .admins:
+                        Text(chatData.admins.count.description, [
+                            .color(.blue()),
+                            .font(.regular(15)),
+                            .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
+                        ])
+                            .frame(height: 64)
+                            .padding(.leading, 16)
+
+                        R.image.chatSettings.chevron.image
+                            .padding(.leading, 4)
+                    default:
+                        Spacer()
                     }
                 }
                 .frame(height: 64)
@@ -405,7 +414,7 @@ struct SettingsView: View {
                 Button {
                     showContacts.toggle()
                 } label: {
-                    Text("ДОБАВИТЬ", [
+                    Text("ОТКРЫТЬ", [
                         .color(.blue()),
                         .font(.semibold(12)),
                         .paragraph(.init(lineHeightMultiple: 1.54, alignment: .right))
@@ -419,21 +428,18 @@ struct SettingsView: View {
     }
 
     private var contactsView: some View {
-        List {
+        VStack(spacing: 0) {
             ForEach(chatData.contacts) { contact in
                 ContactRow(
                     avatar: contact.avatar,
                     name: contact.name,
                     status: contact.status,
-                    hideSeparator: contact.id == chatData.contacts.last?.id
+                    hideSeparator: contact.id == chatData.contacts.last?.id,
+                    isAdmin: contact.isAdmin
                 )
                     .background(.white())
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets())
-                    .id(contact.id)
                     .swipeActions(edge: .trailing) {
                         Button {
-                            //viewModel.send(.onDeleteRoom(room.room.roomId))
                             chatData.contacts.removeAll { $0.id == contact.id }
                         } label: {
                             R.image.chat.reaction.delete.image
@@ -448,8 +454,6 @@ struct SettingsView: View {
                 .foreground(.grayE6EAED())
                 .padding(.top, 16)
         }
-        .listStyle(.plain)
-        .frame(height: 64 * CGFloat(chatData.contacts.count) > 0 ? 64 * CGFloat(chatData.contacts.count) + CGFloat(16): 0)
     }
 
     private var bottomActionsView: some View {

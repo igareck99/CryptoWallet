@@ -11,6 +11,7 @@ struct ContactRow: View {
     let status: String
     var hideSeparator = false
     var showInviteButton = false
+    var isAdmin = false
     var onInvite: VoidBlock?
 
     // MARK: - Body
@@ -35,10 +36,23 @@ struct ContactRow: View {
                 .cornerRadius(20)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(name)
-                        .font(.semibold(15))
-                        .foreground(.black())
-                        .padding(.top, 12)
+                    HStack(spacing: 0) {
+                        Text(name)
+                            .font(.semibold(15))
+                            .foreground(.black())
+                            .padding(.top, 12)
+
+                        Spacer()
+
+                        if isAdmin {
+                            Text("Админ", [
+                                .color(.darkGray()),
+                                .font(.regular(13)),
+                                .paragraph(.init(lineHeightMultiple: 1, alignment: .right))
+                            ])
+                                .padding(.top, 15)
+                        }
+                    }
 
                     if !status.isEmpty {
                         Text(status)
@@ -49,7 +63,9 @@ struct ContactRow: View {
                 }
                 .frame(height: 64)
 
-                Spacer()
+                if !isAdmin {
+                    Spacer()
+                }
 
                 if showInviteButton {
                     Button {
