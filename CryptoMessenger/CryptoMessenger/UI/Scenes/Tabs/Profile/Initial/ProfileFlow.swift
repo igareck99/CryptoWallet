@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 // MARK: - ProfileFlow
 
@@ -25,8 +26,9 @@ enum ProfileFlow {
         case onProfileScene
         case onPersonalization
         case onSecurity
-        case aboutApp
+        case onAboutApp
         case onFAQ
         case onChatSettings
+        case onAddPhoto(UIImage)
     }
 }

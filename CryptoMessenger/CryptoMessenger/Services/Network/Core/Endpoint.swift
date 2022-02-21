@@ -48,9 +48,7 @@ extension Endpoint: URLRequestConvertible {
     // MARK: - Internal Methods
 
     func asURLRequest() throws -> URLRequest {
-        guard let request = try? builder.asURLRequest() else {
-            fatalError("URLRequest failed")
-        }
+        guard let request = try? builder.asURLRequest() else { fatalError("URLRequest failed") }
         return request
     }
 }

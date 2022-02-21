@@ -38,6 +38,22 @@ enum Endpoints {
         }
     }
 
+    // MARK: - Profile
+
+    enum Profile {
+
+        // MARK: - Static Methods
+
+        static func status(_ text: String) -> Endpoint<[String: String]> {
+            let endpoint = Endpoint<[String: String]>(method: .post, path: "/profile/description")
+            endpoint.modifyRequest {
+                let request = $0.addHeader("user", value: UserCredentialsStorageService().userId)
+                return request.jsonBody(dict: ["description": text])
+            }
+            return endpoint
+        }
+    }
+
     // MARK: - Users
 
     enum Users {

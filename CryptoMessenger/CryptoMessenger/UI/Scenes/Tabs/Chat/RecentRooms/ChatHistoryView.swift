@@ -13,8 +13,8 @@ struct ChatHistoryView: View {
     @State private var searchText = ""
     @State private var searching = false
     @State private var createRoomSelected = false
-    @State private var contactSelected = false
-    @State private var contacts: [Contact] = []
+    @State private var chatData = ChatData()
+    @State private var selectedImage: UIImage?
     @State private var selectedRoomId: ObjectIdentifier?
 
     private var searchResults: [AuraRoom] {
@@ -28,6 +28,9 @@ struct ChatHistoryView: View {
 
     var body: some View {
         content
+            .onAppear {
+                viewModel.send(.onAppear)
+            }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -58,17 +61,8 @@ struct ChatHistoryView: View {
                 }
             }
             .sheet(isPresented: $createRoomSelected) {
-                ChatCreateView(viewModel: .init(), onCreateGroup: { existingContacts in
-                    self.contacts = existingContacts
-                    self.contactSelected.toggle()
-                })
+                ChatCreateView(chatData: $chatData, viewModel: .init())
             }
-            .sheet(isPresented: $contactSelected) {
-                SelectContactView(contacts: $contacts, onSelectContacts: { selectedContacts in
-                    self.contacts = selectedContacts
-                })
-            }
-
     }
 
     // MARK: - Body Properties
@@ -95,17 +89,6 @@ struct ChatHistoryView: View {
                 }
             }
             .padding([.leading, .trailing, .bottom], 16)
-
-//            if let id = selectedRoomId, let room = viewModel.rooms.first(where: { $0.id == id }) {
-//                EmptyView()
-//                    .frame(height: 0)
-//                    .background(
-//                        EmptyNavigationLink(
-//                            destination: ChatRoomView(viewModel: .init(room: room)),
-//                            selectedItem: $selectedRoomId
-//                        )
-//                )
-//            }
 
             List {
                 ForEach(searchResults) { room in

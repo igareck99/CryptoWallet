@@ -44,26 +44,17 @@ struct ProfileView: View {
                 }
             }
             .navigationBarColor(.white(), isBlured: false)
-
-//            .background(
-//                EmptyNavigationLink(destination: ProfileDetailView(viewModel: .init()), isActive: $showProfileDetail)
-//            )
             .onAppear {
                 viewModel.send(.onAppear)
             }
             .fullScreenCover(isPresented: $showSafari, content: {
                 SFSafariViewWrapper(link: $safariAdress)
-        })
+            })
             .sheet(isPresented: $showImagePicker) {
-                NavigationView {
-                    ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
-                        guard let image = image else { return }
-                        self.viewModel.addPhoto(image: image)
-                    })
+                ImagePickerView(selectedImage: $viewModel.selectedImage)
                         .ignoresSafeArea()
                         .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                         .navigationBarTitleDisplayMode(.inline)
-                }
             }
             .alert(isPresented: $showAlert) {
                 switch showDeletePhotoAlert {
@@ -108,7 +99,7 @@ struct ProfileView: View {
                         case .about:
                             vibrate()
                             hideTabBar()
-                            viewModel.send(.aboutApp)
+                            viewModel.send(.onAboutApp)
                         case .chat:
                             vibrate()
                             hideTabBar()

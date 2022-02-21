@@ -8,8 +8,6 @@ struct ChatHistoryRow: View {
 
     let room: AuraRoom
 
-    // MARK: - Private Properties
-
     // MARK: - Body
 
     var body: some View {
@@ -93,6 +91,24 @@ struct ChatHistoryRow: View {
                                     .color(.black(0.6))
                                 ]
                             )
+                        }
+                    case let .file(fileName, url):
+                        HStack(spacing: 6) {
+                            if let url = url {
+                                PDFKitView(url: url)
+                                    .frame(width: 16, height: 16)
+                                    .cornerRadius(2)
+                            } else {
+                                ShimmerView()
+                                    .frame(width: 16, height: 16)
+                                    .cornerRadius(2)
+                            }
+
+                            Text(fileName, [
+                                .font(.regular(15)),
+                                .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
+                                .color(.black(0.6))
+                            ])
                         }
                     default:
                         EmptyView()

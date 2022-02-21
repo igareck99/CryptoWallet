@@ -140,8 +140,6 @@
 		5A44FEEE2768B1E6006F9D92 /* ProfileDetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEEB2768B1E6006F9D92 /* ProfileDetailConfigurator.swift */; };
 		5A44FEEF2768B1E6006F9D92 /* ProfileDetailFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEEC2768B1E6006F9D92 /* ProfileDetailFlow.swift */; };
 		5A44FEF127693F6F006F9D92 /* ChatCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEF027693F6F006F9D92 /* ChatCreateViewModel.swift */; };
-		5A44FEF5276940E8006F9D92 /* ChatCreateProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEF2276940E8006F9D92 /* ChatCreateProtocols.swift */; };
-		5A44FEF6276940E8006F9D92 /* ChatCreateConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEF3276940E8006F9D92 /* ChatCreateConfigurator.swift */; };
 		5A44FEF7276940E8006F9D92 /* ChatCreateFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FEF4276940E8006F9D92 /* ChatCreateFlow.swift */; };
 		5A4BE4F4271DBEC900D03D09 /* URLConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE4F3271DBEC900D03D09 /* URLConvertible.swift */; };
 		5A4BE4F7271DC26700D03D09 /* AuthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE4F6271DC26700D03D09 /* AuthData.swift */; };
@@ -214,6 +212,14 @@
 		5AB30F152706564300838AFC /* PinCodeFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB30F142706564300838AFC /* PinCodeFlowCoordinator.swift */; };
 		5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */; };
 		5AB35FAF2740EEBB001FB0DE /* ChatHistoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB35FAE2740EEBB001FB0DE /* ChatHistoryRow.swift */; };
+		5ABAD39A27BDA6D80067DFC1 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABAD39927BDA6D80067DFC1 /* DocumentPicker.swift */; };
+		5ABAD3A027C286CF0067DFC1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABAD39F27C286CF0067DFC1 /* SettingsView.swift */; };
+		5ABAD3A327C2F6BC0067DFC1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABAD3A227C2F6BC0067DFC1 /* ContentView.swift */; };
+		5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC8C4EC27C3FECB008B1744 /* AdminsView.swift */; };
+		5AC8C4EF27C403C9008B1744 /* AlertItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC8C4EE27C403C9008B1744 /* AlertItem.swift */; };
+		5AC8C4F227C4112C008B1744 /* MembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC8C4F127C4112C008B1744 /* MembersView.swift */; };
+		5AC8C4F427C42D94008B1744 /* PDFKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC8C4F327C42D94008B1744 /* PDFKitView.swift */; };
+		5AC8C4F627C42FB8008B1744 /* URL+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC8C4F527C42FB8008B1744 /* URL+Size.swift */; };
 		5AD6E37E2753FFEF00CEFCE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AD6E37D2753FFEF00CEFCE2 /* Assets.xcassets */; };
 		5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FA26DCEA49009A1944 /* Resources.swift */; };
 		5AEB80FD26DD123E009A1944 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */; };
@@ -505,8 +511,6 @@
 		5A44FEEB2768B1E6006F9D92 /* ProfileDetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailConfigurator.swift; sourceTree = "<group>"; };
 		5A44FEEC2768B1E6006F9D92 /* ProfileDetailFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailFlow.swift; sourceTree = "<group>"; };
 		5A44FEF027693F6F006F9D92 /* ChatCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateViewModel.swift; sourceTree = "<group>"; };
-		5A44FEF2276940E8006F9D92 /* ChatCreateProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateProtocols.swift; sourceTree = "<group>"; };
-		5A44FEF3276940E8006F9D92 /* ChatCreateConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateConfigurator.swift; sourceTree = "<group>"; };
 		5A44FEF4276940E8006F9D92 /* ChatCreateFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateFlow.swift; sourceTree = "<group>"; };
 		5A4BE4F3271DBEC900D03D09 /* URLConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLConvertible.swift; sourceTree = "<group>"; };
 		5A4BE4F6271DC26700D03D09 /* AuthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthData.swift; sourceTree = "<group>"; };
@@ -577,6 +581,14 @@
 		5AB30F142706564300838AFC /* PinCodeFlowCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeFlowCoordinator.swift; sourceTree = "<group>"; };
 		5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		5AB35FAE2740EEBB001FB0DE /* ChatHistoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryRow.swift; sourceTree = "<group>"; };
+		5ABAD39927BDA6D80067DFC1 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
+		5ABAD39F27C286CF0067DFC1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5ABAD3A227C2F6BC0067DFC1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5AC8C4EC27C3FECB008B1744 /* AdminsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminsView.swift; sourceTree = "<group>"; };
+		5AC8C4EE27C403C9008B1744 /* AlertItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertItem.swift; sourceTree = "<group>"; };
+		5AC8C4F127C4112C008B1744 /* MembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersView.swift; sourceTree = "<group>"; };
+		5AC8C4F327C42D94008B1744 /* PDFKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFKitView.swift; sourceTree = "<group>"; };
+		5AC8C4F527C42FB8008B1744 /* URL+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Size.swift"; sourceTree = "<group>"; };
 		5AD6E37D2753FFEF00CEFCE2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5AEB80FA26DCEA49009A1944 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
@@ -940,6 +952,7 @@
 				5A15DDF8276E5C9C00CF7AA4 /* ShimmerView.swift */,
 				5A15DDFA276FA1C800CF7AA4 /* ImageViewer.swift */,
 				8BE6DAE22771EC2C00FB4C6C /* WebView.swift */,
+				5AC8C4F327C42D94008B1744 /* PDFKitView.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -1005,6 +1018,7 @@
 				5AB30F1627078B5300838AFC /* UIButton+Extensions.swift */,
 				5A39282E27419A7300378ACA /* Date+Extensions.swift */,
 				8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */,
+				5AC8C4F527C42FB8008B1744 /* URL+Size.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1056,6 +1070,7 @@
 				5AF8633B26AADEF5004A417C /* CountdownTimer */,
 				5A18EF8C26B988DB0038E991 /* ImagePicker */,
 				5A2181E526D82D1F0093AD60 /* LocationManager */,
+				5ABAD39827BDA6BD0067DFC1 /* DocumentPicker */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1298,14 +1313,11 @@
 		5A3721D1272EF0120097ABED /* ChatCreate */ = {
 			isa = PBXGroup;
 			children = (
-				5A44FEF3276940E8006F9D92 /* ChatCreateConfigurator.swift */,
-				5A44FEF2276940E8006F9D92 /* ChatCreateProtocols.swift */,
+				5ABAD39B27BEFB150067DFC1 /* Components */,
 				5A3721D2272EF0DA0097ABED /* ChatCreateView.swift */,
-				5A44FEF4276940E8006F9D92 /* ChatCreateFlow.swift */,
 				5A3721D4272F0A290097ABED /* ContactRow.swift */,
-				5A3721D6272F2A4D0097ABED /* ChatGroupView.swift */,
-				5A3721DD272F418F0097ABED /* SelectContactView.swift */,
 				5A44FEF027693F6F006F9D92 /* ChatCreateViewModel.swift */,
+				5A44FEF4276940E8006F9D92 /* ChatCreateFlow.swift */,
 			);
 			path = ChatCreate;
 			sourceTree = "<group>";
@@ -1514,6 +1526,10 @@
 				5A9B471E26EA81C5001CC627 /* QuickMenu */,
 				5A9B472226EA9275001CC627 /* Reaction */,
 				5A24B25226F289DF00EFC5E2 /* Map */,
+				5ABAD39E27C286AE0067DFC1 /* Settings */,
+				5AC8C4F027C4111A008B1744 /* Members */,
+				5AC8C4EB27C3FEB6008B1744 /* Admins */,
+				5ABAD3A127C2F6240067DFC1 /* Content */,
 				5A26CD6026B35C9B00118D4B /* Message.swift */,
 			);
 			path = Components;
@@ -1596,6 +1612,72 @@
 				5AD6E37D2753FFEF00CEFCE2 /* Assets.xcassets */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		5ABAD39827BDA6BD0067DFC1 /* DocumentPicker */ = {
+			isa = PBXGroup;
+			children = (
+				5ABAD39927BDA6D80067DFC1 /* DocumentPicker.swift */,
+			);
+			path = DocumentPicker;
+			sourceTree = "<group>";
+		};
+		5ABAD39B27BEFB150067DFC1 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5ABAD39C27BEFB2F0067DFC1 /* Group */,
+				5ABAD39D27BEFB370067DFC1 /* Channel */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		5ABAD39C27BEFB2F0067DFC1 /* Group */ = {
+			isa = PBXGroup;
+			children = (
+				5A3721DD272F418F0097ABED /* SelectContactView.swift */,
+				5A3721D6272F2A4D0097ABED /* ChatGroupView.swift */,
+			);
+			path = Group;
+			sourceTree = "<group>";
+		};
+		5ABAD39D27BEFB370067DFC1 /* Channel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Channel;
+			sourceTree = "<group>";
+		};
+		5ABAD39E27C286AE0067DFC1 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				5ABAD39F27C286CF0067DFC1 /* SettingsView.swift */,
+				5AC8C4EE27C403C9008B1744 /* AlertItem.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		5ABAD3A127C2F6240067DFC1 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				5ABAD3A227C2F6BC0067DFC1 /* ContentView.swift */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		5AC8C4EB27C3FEB6008B1744 /* Admins */ = {
+			isa = PBXGroup;
+			children = (
+				5AC8C4EC27C3FECB008B1744 /* AdminsView.swift */,
+			);
+			path = Admins;
+			sourceTree = "<group>";
+		};
+		5AC8C4F027C4111A008B1744 /* Members */ = {
+			isa = PBXGroup;
+			children = (
+				5AC8C4F127C4112C008B1744 /* MembersView.swift */,
+			);
+			path = Members;
 			sourceTree = "<group>";
 		};
 		5AF8632E26AA9906004A417C /* Verification */ = {
@@ -2102,7 +2184,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				$SRCROOT/Generated/R.generated.swift,
+				$SRCROOT/CryptoMessenger/Generated/R.generated.swift,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2173,7 +2255,10 @@
 				7846B67B26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift in Sources */,
 				5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */,
 				5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */,
+				78FA368B2739CA4300B331DC /* BlackListCell.swift in Sources */,
+				5AC8C4EF27C403C9008B1744 /* AlertItem.swift in Sources */,
 				5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */,
+				5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				5A24B25426F289F000EFC5E2 /* MapSnapshotView.swift in Sources */,
 				5A187E9F2680708D001957D3 /* ScalableButtonView.swift in Sources */,
@@ -2189,6 +2274,7 @@
 				5AB30F152706564300838AFC /* PinCodeFlowCoordinator.swift in Sources */,
 				5A187E972680708D001957D3 /* ActivityViewDisplayable.swift in Sources */,
 				5A3C9412274AE93100818060 /* FlippedModifier.swift in Sources */,
+				5ABAD3A027C286CF0067DFC1 /* SettingsView.swift in Sources */,
 				8BA0C90927AD4F320070203F /* AnswerViewModel.swift in Sources */,
 				5A3C942A274AFFDC00818060 /* KeyboardAvoiderModifier.swift in Sources */,
 				5A187EB7268070B3001957D3 /* UIView+Extensions.swift in Sources */,
@@ -2199,6 +2285,7 @@
 				5A187EA52680708D001957D3 /* CollectionViewProviderViewModel.swift in Sources */,
 				5A187F2F2680CF49001957D3 /* Endpoints.swift in Sources */,
 				8B73C1072747A193008ABB22 /* SessionDetailView.swift in Sources */,
+				5AC8C4F627C42FB8008B1744 /* URL+Size.swift in Sources */,
 				5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */,
 				5A2EC772279F3A6C00857248 /* APILogger.swift in Sources */,
 				5AF8633626AA994E004A417C /* VerificationViewController.swift in Sources */,
@@ -2242,7 +2329,7 @@
 				78437F17270C8FB100371110 /* CustomWebViewController.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
 				5A4BE4FC271DD4E700D03D09 /* MatrixStore.swift in Sources */,
-				5A44FEF6276940E8006F9D92 /* ChatCreateConfigurator.swift in Sources */,
+				78FA36812738171400B331DC /* SecurityHeaderView.swift in Sources */,
 				8BA0C8FE27AD1A050070203F /* ChatSettingsFlow.swift in Sources */,
 				5A44FEDC276681BD006F9D92 /* ProfileConfigurator.swift in Sources */,
 				5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */,
@@ -2327,7 +2414,6 @@
 				5A3C9429274AFFDC00818060 /* KeyboardAvoider.swift in Sources */,
 				5A44FED72766816C006F9D92 /* ProfileViewModel.swift in Sources */,
 				5A42680A26A83554000C51DD /* RegistrationFlow.swift in Sources */,
-				5A44FEF5276940E8006F9D92 /* ChatCreateProtocols.swift in Sources */,
 				8BCA91022750FCC200E8E269 /* Popup.swift in Sources */,
 				5A42680826A83554000C51DD /* RegistrationView.swift in Sources */,
 				5A187E962680708D001957D3 /* InputTextField.swift in Sources */,
@@ -2410,6 +2496,7 @@
 				5A9318E626C5E42300645365 /* KeyboardAdaptive.swift in Sources */,
 				789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */,
 				5A3C942C274AFFDC00818060 /* KeyboardHandler.swift in Sources */,
+				5ABAD3A327C2F6BC0067DFC1 /* ContentView.swift in Sources */,
 				5A4BE522271DD86A00D03D09 /* UserDefaults.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
 				5A44FEED2768B1E6006F9D92 /* ProfileDetailProtocols.swift in Sources */,
@@ -2458,6 +2545,7 @@
 				5A187EB9268070B3001957D3 /* UIImageView+Kingfisher.swift in Sources */,
 				7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */,
 				5AF8636026ADB691004A417C /* OnboardingPresenter.swift in Sources */,
+				5ABAD39A27BDA6D80067DFC1 /* DocumentPicker.swift in Sources */,
 				5A187F2E2680CF49001957D3 /* Endpoint.swift in Sources */,
 				789FEBD326D651430018FE91 /* AdditionalViewController.swift in Sources */,
 				5A187EBD268070B3001957D3 /* NSObject+Extensions.swift in Sources */,
@@ -2467,6 +2555,7 @@
 				5A3721D7272F2A4D0097ABED /* ChatGroupView.swift in Sources */,
 				8BA0C91427AD776F0070203F /* ReserveCopyProtocols.swift in Sources */,
 				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
+				5AC8C4F227C4112C008B1744 /* MembersView.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				5A26CD3126B3195900118D4B /* CardViewModel.swift in Sources */,
 				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,
@@ -2481,6 +2570,8 @@
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
 				5A3721D3272EF0DA0097ABED /* ChatCreateView.swift in Sources */,
 				7846B66126E8BC6600B05984 /* ScrollAnimation.swift in Sources */,
+				78FA36832738187800B331DC /* PrivacyHeaderView.swift in Sources */,
+				5AC8C4F427C42D94008B1744 /* PDFKitView.swift in Sources */,
 				5A187E992680708D001957D3 /* ActivityView.swift in Sources */,
 				5A4BE4FF271DD7D700D03D09 /* MatrixConfiguration.swift in Sources */,
 				5A9318BA26BD210400645365 /* PinCodeConfigurator.swift in Sources */,
@@ -2649,7 +2740,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 22;
-				DEVELOPMENT_TEAM = C392B84957;
+				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -2676,7 +2767,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 22;
-				DEVELOPMENT_TEAM = C392B84957;
+				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
