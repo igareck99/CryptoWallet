@@ -214,6 +214,7 @@
 		5AB35FAF2740EEBB001FB0DE /* ChatHistoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB35FAE2740EEBB001FB0DE /* ChatHistoryRow.swift */; };
 		5ABAD39A27BDA6D80067DFC1 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABAD39927BDA6D80067DFC1 /* DocumentPicker.swift */; };
 		5ABAD3A027C286CF0067DFC1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABAD39F27C286CF0067DFC1 /* SettingsView.swift */; };
+		5ABAD3A327C2F6BC0067DFC1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABAD3A227C2F6BC0067DFC1 /* ContentView.swift */; };
 		5AD6E37E2753FFEF00CEFCE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AD6E37D2753FFEF00CEFCE2 /* Assets.xcassets */; };
 		5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FA26DCEA49009A1944 /* Resources.swift */; };
 		5AEB80FD26DD123E009A1944 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */; };
@@ -597,6 +598,7 @@
 		5AB35FAE2740EEBB001FB0DE /* ChatHistoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryRow.swift; sourceTree = "<group>"; };
 		5ABAD39927BDA6D80067DFC1 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		5ABAD39F27C286CF0067DFC1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5ABAD3A227C2F6BC0067DFC1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5AD6E37D2753FFEF00CEFCE2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5AEB80FA26DCEA49009A1944 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		5AEB80FC26DD123E009A1944 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
@@ -1648,6 +1650,7 @@
 		5ABAD39B27BEFB150067DFC1 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5ABAD3A127C2F6240067DFC1 /* Content */,
 				5ABAD39E27C286AE0067DFC1 /* Settings */,
 				5ABAD39C27BEFB2F0067DFC1 /* Group */,
 				5ABAD39D27BEFB370067DFC1 /* Channel */,
@@ -1677,6 +1680,14 @@
 				5ABAD39F27C286CF0067DFC1 /* SettingsView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		5ABAD3A127C2F6240067DFC1 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				5ABAD3A227C2F6BC0067DFC1 /* ContentView.swift */,
+			);
+			path = Content;
 			sourceTree = "<group>";
 		};
 		5AF8632E26AA9906004A417C /* Verification */ = {
@@ -2546,6 +2557,7 @@
 				5A9318E626C5E42300645365 /* KeyboardAdaptive.swift in Sources */,
 				789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */,
 				5A3C942C274AFFDC00818060 /* KeyboardHandler.swift in Sources */,
+				5ABAD3A327C2F6BC0067DFC1 /* ContentView.swift in Sources */,
 				5A4BE522271DD86A00D03D09 /* UserDefaults.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
 				5A44FEED2768B1E6006F9D92 /* ProfileDetailProtocols.swift in Sources */,
@@ -2793,7 +2805,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 22;
-				DEVELOPMENT_TEAM = C392B84957;
+				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -2820,7 +2832,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 22;
-				DEVELOPMENT_TEAM = C392B84957;
+				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;

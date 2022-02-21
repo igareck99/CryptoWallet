@@ -37,7 +37,7 @@ enum SettingsAction: CaseIterable, Identifiable {
         case .notifications:
             return "Уведомления"
         case .admins:
-            return "Скопировать"
+            return "Администраторы"
         case .share:
             return "Поделиться чатом"
         case .exit:
@@ -84,15 +84,15 @@ enum SettingsAction: CaseIterable, Identifiable {
             return .init(
                 title: Text("Выйти из чата"),
                 message: Text("Вы действительно хотите выйти из чата?"),
-                primaryButton: .cancel(Text("Отменить")),
+                primaryButton: .default(Text("Отменить")),
                 secondaryButton: .default(Text("Выйти"))
             )
         case .complain:
             return .init(
                 title: Text("Пожаловаться на чат"),
                 message: Text("Вы действительно хотите пожаловаться чат?"),
-                primaryButton: .cancel(Text("Отменить")),
-                secondaryButton: .default(Text("Пожаловаться"))
+                primaryButton: .default(Text("Отменить")),
+                secondaryButton: .default(Text("Хочу"))
             )
         default:
             return nil
@@ -125,7 +125,7 @@ struct SettingsView: View {
 
     @Environment(\.presentationMode) private var presentationMode
     @State private var showImagePicker = false
-    @State private var showMedia = false
+    @State private var showContent = false
     @State private var showAdmins = false
     @State private var showContacts = false
     @State private var showExitAlert = false
@@ -135,6 +135,7 @@ struct SettingsView: View {
     @State private var topActions: [SettingsAction] = [.media, .notifications, .admins]
     @State private var bottomActions: [SettingsAction] = [.share, .exit, .complain]
     @State private var alertItem: AlertItem?
+    @Injectable private var mxStore: MatrixStore
 
     // MARK: - Life Cycle
 
@@ -148,6 +149,7 @@ struct SettingsView: View {
     var body: some View {
         content
             .hideKeyboardOnTap()
+            .edgesIgnoringSafeArea(.bottom)
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarColor(.white(), isBlured: false)
@@ -181,6 +183,12 @@ struct SettingsView: View {
                 EmptyNavigationLink(
                     destination: SelectContactView(mode: .add, chatData: $chatData),
                     isActive: $showContacts
+                )
+            )
+            .overlay(
+                EmptyNavigationLink(
+                    destination: ContentView(chatData: $chatData),
+                    isActive: $showContent
                 )
             )
             .sheet(isPresented: $showImagePicker) {
@@ -348,7 +356,7 @@ struct SettingsView: View {
                         Toggle("", isOn: $notificationsTurnedOn)
                             .tint(Color(.blue()))
                     } else {
-                        Text("2", [
+                        Text(chatData.media.count.description, [
                             .color(.blue()),
                             .font(.regular(15)),
                             .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
@@ -363,9 +371,17 @@ struct SettingsView: View {
                 .frame(height: 64)
                 .background(.white())
                 .onTapGesture {
-                    guard action != .notifications else { return }
-                    vibrate()
-
+                    switch action {
+                    case .media:
+                        guard !chatData.media.isEmpty else { return }
+                        vibrate()
+                        showContent.toggle()
+                    case .admins:
+                        vibrate()
+                        showAdmins.toggle()
+                    default:
+                        ()
+                    }
                 }
             }
 
@@ -403,7 +419,7 @@ struct SettingsView: View {
     }
 
     private var contactsView: some View {
-        VStack(spacing: 0) {
+        List {
             ForEach(chatData.contacts) { contact in
                 ContactRow(
                     avatar: contact.avatar,
@@ -412,13 +428,28 @@ struct SettingsView: View {
                     hideSeparator: contact.id == chatData.contacts.last?.id
                 )
                     .background(.white())
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets())
                     .id(contact.id)
+                    .swipeActions(edge: .trailing) {
+                        Button {
+                            //viewModel.send(.onDeleteRoom(room.room.roomId))
+                            chatData.contacts.removeAll { $0.id == contact.id }
+                        } label: {
+                            R.image.chat.reaction.delete.image
+                                .renderingMode(.original)
+                                .foreground(.blue())
+                        }
+                        .tint(.red.opacity(0.1))
+                    }
             }
 
             Divider()
                 .foreground(.grayE6EAED())
                 .padding(.top, 16)
         }
+        .listStyle(.plain)
+        .frame(height: 64 * CGFloat(chatData.contacts.count) > 0 ? 64 * CGFloat(chatData.contacts.count) + CGFloat(16): 0)
     }
 
     private var bottomActionsView: some View {

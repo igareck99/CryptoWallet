@@ -13,7 +13,7 @@ struct SelectContactView: View {
 
         // MARK: - Types
 
-        case select, add
+        case select, add, admins
 
         // MARK: - Internal Properties
 
@@ -70,7 +70,7 @@ struct SelectContactView: View {
                         switch mode {
                         case .select:
                             showChatGroup.toggle()
-                        case .add:
+                        case .add, .admins:
                             presentationMode.wrappedValue.dismiss()
                         }
                     }, label: {

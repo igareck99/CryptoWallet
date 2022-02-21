@@ -216,6 +216,15 @@ final class ChatRoomViewModel: ObservableObject {
             }
         }
 
+        chatData.media = room.events().wrapped
+            .map { $0.getMediaURLs() ?? [] }
+            .flatMap { $0 }
+            .map {
+                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                return MXURL(mxContentURI: $0)?.contentURL(on: homeServer)
+            }
+            .compactMap { $0 }
+
         room.room.members { [weak self] response in
             switch response {
             case let .success(members):
