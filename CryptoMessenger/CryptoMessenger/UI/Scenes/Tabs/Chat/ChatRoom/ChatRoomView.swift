@@ -93,7 +93,7 @@ struct ChatRoomView: View {
                 }
             }
             .overlay(
-                EmptyNavigationLink(destination: SettingsView(chatData: $viewModel.chatData), isActive: $showSettings)
+                EmptyNavigationLink(destination: SettingsView(chatData: $viewModel.chatData, saveData: $viewModel.saveData), isActive: $showSettings)
             )
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
@@ -133,10 +133,17 @@ struct ChatRoomView: View {
                                 Spacer()
                             }
                             HStack(spacing: 0) {
-                                Text(viewModel.room.isOnline ? "онлайн" : "оффлайн")
-                                    .lineLimit(1)
-                                    .font(.regular(13))
-                                    .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
+                                if viewModel.room.isDirect {
+                                    Text(viewModel.room.isOnline ? "онлайн" : "оффлайн")
+                                        .lineLimit(1)
+                                        .font(.regular(13))
+                                        .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
+                                } else {
+                                    Text("Участники (\(viewModel.chatData.contacts.count.description))")
+                                        .lineLimit(1)
+                                        .font(.regular(13))
+                                        .foreground(.black(0.5))
+                                }
                                 Spacer()
                             }
                         }

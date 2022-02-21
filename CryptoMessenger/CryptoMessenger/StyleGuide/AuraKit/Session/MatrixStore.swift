@@ -226,6 +226,21 @@ final class MatrixStore: ObservableObject {
         }
     }
 
+    func uploadData(data: Data, for room: MXRoom, completion: @escaping GenericBlock<URL?>) {
+        uploader?.uploadData(data, filename: nil, mimeType: "image/jpeg", success: { [weak self] link in
+            guard let link = link, let url = URL(string: link) else {
+                completion(nil)
+                return
+            }
+            completion(url)
+        }, failure: { error in
+            if let error = error {
+                print(error)
+            }
+            completion(nil)
+        })
+    }
+
     func setRoomAvatar(data: Data, for room: MXRoom, completion: @escaping VoidBlock) {
         uploader?.uploadData(data, filename: nil, mimeType: "image/jpeg", success: { [weak self] link in
             guard let link = link, let url = URL(string: link) else { return }

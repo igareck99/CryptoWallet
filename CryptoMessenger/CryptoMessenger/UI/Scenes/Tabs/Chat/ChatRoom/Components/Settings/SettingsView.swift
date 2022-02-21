@@ -109,6 +109,7 @@ struct SettingsView: View {
     // MARK: - Internal Properties
 
     @Binding var chatData: ChatData
+    @Binding var saveData: Bool
 
     // MARK: - Private Properties
 
@@ -128,8 +129,9 @@ struct SettingsView: View {
 
     // MARK: - Life Cycle
 
-    init(chatData: Binding<ChatData>) {
+    init(chatData: Binding<ChatData>, saveData: Binding<Bool>) {
         self._chatData = chatData
+        self._saveData = saveData
         UITextView.appearance().background(.paleBlue())
     }
 
@@ -160,6 +162,7 @@ struct SettingsView: View {
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
+                        saveData.toggle()
                         presentationMode.wrappedValue.dismiss()
                     }, label: {
                         Text("Готово")

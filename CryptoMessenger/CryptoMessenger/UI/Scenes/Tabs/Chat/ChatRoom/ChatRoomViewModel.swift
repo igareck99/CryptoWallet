@@ -10,6 +10,7 @@ final class ChatRoomViewModel: ObservableObject {
     weak var delegate: ChatRoomSceneDelegate?
 
     @Published var chatData = ChatData()
+    @Published var saveData = false
     @Published var inputText = ""
     @Published var attachAction: AttachAction?
     @Published var quickAction: QuickAction?
@@ -185,6 +186,30 @@ final class ChatRoomViewModel: ObservableObject {
         locationManager.$lastLocation
             .receive(on: DispatchQueue.main)
             .assign(to: \.lastLocation, on: self)
+            .store(in: &subscriptions)
+
+        $saveData
+            .sink { [weak self] flag in
+                guard let room = self?.room.room, flag else { return }
+
+                if let name = self?.chatData.title {
+                    room.setName(name) { _ in }
+                }
+
+                if let topic = self?.chatData.description {
+                    room.setTopic(topic) { _ in }
+                }
+
+                if let data = self?.chatData.image?.jpeg(.medium) {
+                    self?.mxStore.uploadData(data: data, for: room) { [weak self] url in
+                        guard let url = url else { return }
+                        room.setAvatar(url: url) { _ in
+                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                            self?.room.roomAvatar = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
+                        }
+                    }
+                }
+            }
             .store(in: &subscriptions)
 
         mxStore.objectWillChange
