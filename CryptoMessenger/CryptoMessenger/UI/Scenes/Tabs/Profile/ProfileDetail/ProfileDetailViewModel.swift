@@ -79,9 +79,10 @@ final class ProfileDetailViewModel: ObservableObject {
                 case .onLogout:
                     self?.mxStore.logout()
                 case .onAvatar:
-                    guard let image = self?.selectedImageUrl else { return }
-                    self?.mxStore.setAvatarUrl(image) {
-                    }
+                    ()
+//                    guard let image = self?.selectedImageUrl else { return }
+//                    self?.mxStore.setAvatarUrl(image) {
+//                    }
                 }
             }
             .store(in: &subscriptions)
@@ -99,6 +100,14 @@ final class ProfileDetailViewModel: ObservableObject {
             }
         }
         .store(in: &subscriptions)
+
+        $selectedImage
+            .sink { [weak self] image in
+                guard let image = image else { return }
+                self?.addPhoto(image: image)
+                self?.send(.onAvatar)
+            }
+            .store(in: &subscriptions)
     }
 
     private func bindOutput() {

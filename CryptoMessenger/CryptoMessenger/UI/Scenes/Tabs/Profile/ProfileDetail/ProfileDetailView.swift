@@ -72,11 +72,7 @@ struct ProfileDetailView: View {
             }
             .sheet(isPresented: $showImagePicker) {
                 NavigationView {
-                    ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
-                        guard let image = image else { return }
-                        self.viewModel.addPhoto(image: image)
-                        viewModel.send(.onAvatar)
-                    })
+                    ImagePickerView(selectedImage: $viewModel.selectedImage)
                         .ignoresSafeArea()
                         .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                         .navigationBarTitleDisplayMode(.inline)
