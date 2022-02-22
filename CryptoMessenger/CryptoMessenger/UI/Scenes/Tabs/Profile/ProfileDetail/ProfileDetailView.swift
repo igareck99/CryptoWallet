@@ -58,10 +58,14 @@ struct ProfileDetailView: View {
                     ])
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Text("Готово")
-                        .foreground(.blue())
-                        .font(.semibold(15))
-                        .onTapGesture { viewModel.send(.onDone) }
+                    Button(action: {
+                        viewModel.send(.onDone)
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Text("Готово")
+                            .font(.semibold(15))
+                            .foreground(.blue())
+                    })
                 }
             }
             .hideKeyboardOnTap()
@@ -179,7 +183,13 @@ struct ProfileDetailView: View {
     private var avatarView: some View {
         GeometryReader { geometry in
             ZStack {
-                if let url = viewModel.profile.avatar {
+                if let image = viewModel.selectedImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.width)
+                        .clipped()
+                } else if let url = viewModel.profile.avatar {
                     AsyncImage(url: url) { phase in
                         if let image = phase.image {
                             image.resizable()
@@ -196,6 +206,7 @@ struct ProfileDetailView: View {
                     }
                     .scaledToFill()
                     .frame(width: geometry.size.width, height: geometry.size.width)
+                    .clipped()
                 } else {
                     ZStack {
                         Rectangle()

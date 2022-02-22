@@ -310,7 +310,6 @@ final class MatrixStore: ObservableObject {
     }
 
     func setUserAvatarUrl(_ data: Data, completion: @escaping GenericBlock<URL?>) {
-        let uploader = MXMediaLoader(forUploadWithMatrixSession: session, initialRange: 0, andRange: 1)
         uploader?.uploadData(data, filename: nil, mimeType: "image/jpeg", success: { [weak self] link in
             guard let link = link else {
                 completion(nil)
@@ -339,15 +338,6 @@ final class MatrixStore: ObservableObject {
     }
 
     func searchUser(_ id: String, completion: @escaping GenericBlock<String?>) {
-//        client?.searchUsers(id, limit: 1000, success: { [weak self] response in
-//            let users = response?.results?.filter { $0.userId != self?.session?.myUserId } ?? []
-//            completion(users)
-//        }, failure: { error in
-//            if let error = error {
-//                print(error)
-//            }
-//            completion([])
-//        })
         session?.matrixRestClient.profile(forUser: id) { result in
             switch result {
             case let .success((name, _)):

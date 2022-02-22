@@ -24,6 +24,5 @@ enum ProfileDetailFlow {
         case onAppear
         case onDone
         case onLogout
-        case onAvatar
     }
 }

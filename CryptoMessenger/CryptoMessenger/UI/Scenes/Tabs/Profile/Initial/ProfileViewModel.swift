@@ -107,7 +107,7 @@ final class ProfileViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.updateData()
+                    self?.fetchData()
                     self?.objectWillChange.send()
                 case .onProfileScene:
                     self?.delegate?.handleNextScene(.profileDetail)
@@ -215,7 +215,7 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func updateData() {
+    private func fetchData() {
         getSocialList()
         profile.nickname = mxStore.getUserId()
         if !mxStore.getDisplayName().isEmpty {
@@ -224,6 +224,11 @@ final class ProfileViewModel: ObservableObject {
         if !mxStore.getStatus().isEmpty {
             profile.status = mxStore.getStatus()
         }
+
+        let link = mxStore.getAvatarUrl()
+        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+        let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+        profile.avatar = url
         profile.phone = userCredentialsStorageService.userPhoneNumber
         getPhotos()
     }

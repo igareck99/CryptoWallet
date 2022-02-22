@@ -29,15 +29,9 @@ final class ProfileDetailViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init() {
-        profile.name = mxStore.getDisplayName()
-        profile.status = mxStore.getStatus()
-        let url = URL(fileURLWithPath: mxStore.getAvatarUrl())
-        profile.avatar = url
-        let str = userCredentialsStorageService.userPhoneNumber
-        let suffixIndex = str.index(str.startIndex, offsetBy: 3)
-        profile.phone = String(str[suffixIndex...])
         bindInput()
         bindOutput()
+        fetchData()
     }
 
     deinit {
@@ -51,14 +45,6 @@ final class ProfileDetailViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
-    func addPhoto(image: UIImage) {
-        guard let data = image.jpeg(.medium) else { return }
-        mxStore.setUserAvatarUrl(data) { [weak self] url in
-            guard let url = url else { return }
-            self?.profile.avatar = url
-        }
-    }
-
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -68,13 +54,21 @@ final class ProfileDetailViewModel: ObservableObject {
                 case .onAppear:
                     ()
                 case .onDone:
-                    self?.mxStore.setDisplayName(self?.profile.name ?? "") {
-                        self?.setStatus(self?.profile.status ?? "")
+                    if let image = self?.selectedImage?.fixOrientation(), let data = image.jpeg(.medium) {
+                        self?.mxStore.setUserAvatarUrl(data) { url in
+                            self?.profile.avatar = url
+                        }
+                    }
+
+                    if let name = self?.profile.name {
+                        self?.mxStore.setDisplayName(name) {}
+                    }
+
+                    if let status = self?.profile.status {
+                        self?.mxStore.setStatus(status) {}
                     }
                 case .onLogout:
                     self?.mxStore.logout()
-                case .onAvatar:
-                    ()
                 }
             }
             .store(in: &subscriptions)
@@ -92,20 +86,24 @@ final class ProfileDetailViewModel: ObservableObject {
             }
         }
         .store(in: &subscriptions)
-
-        $selectedImage
-            .sink { [weak self] image in
-                guard let image = image else { return }
-                self?.addPhoto(image: image)
-                self?.send(.onAvatar)
-            }
-            .store(in: &subscriptions)
     }
 
     private func bindOutput() {
         stateValueSubject
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
+    }
+
+    private func fetchData() {
+        profile.name = mxStore.getDisplayName()
+        profile.status = mxStore.getStatus()
+        let link = mxStore.getAvatarUrl()
+        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+        let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+        profile.avatar = url
+        let str = userCredentialsStorageService.userPhoneNumber
+        let suffixIndex = str.index(str.startIndex, offsetBy: 3)
+        profile.phone = String(str[suffixIndex...])
     }
 
     private func setStatus(_ text: String) {
