@@ -141,7 +141,9 @@ final class ChatRoomViewModel: ObservableObject {
                             type: .location(location),
                             shortDate: "00:31",
                             fullDate: "00:31",
-                            isCurrentUser: true
+                            isCurrentUser: true,
+                            name: "",
+                            avatar: nil
                         )
                         self?.messages.append(message)
                     } else {
@@ -161,7 +163,9 @@ final class ChatRoomViewModel: ObservableObject {
                         type: .contact,
                         shortDate: "00:31",
                         fullDate: "00:31",
-                        isCurrentUser: true
+                        isCurrentUser: true,
+                        name: "",
+                        avatar: nil
                     )
                     self?.messages.append(message)
                 default:
@@ -222,7 +226,14 @@ final class ChatRoomViewModel: ObservableObject {
                     return
                 }
                 self.messages = room.events().renderableEvents
-                    .map { $0.message(self.fromCurrentSender($0.sender)) }
+                    .map {
+                        var message = $0.message(self.fromCurrentSender($0.sender))
+                        let user = self.mxStore.getUser($0.sender)
+                        message?.name = user?.displayname ?? ""
+                        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                        message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)
+                        return message
+                    }
                     .reversed()
                     .compactMap { $0 }
             }

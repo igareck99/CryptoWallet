@@ -71,6 +71,8 @@ struct RoomMessage: Identifiable {
     let shortDate: String
     let fullDate: String
     let isCurrentUser: Bool
+    var name = ""
+    var avatar: URL?
     var reactions: [Reaction] = []
 }
 

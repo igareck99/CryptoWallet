@@ -190,6 +190,7 @@ struct ChatRoomView: View {
                                 ChatRoomRow(
                                     message: message,
                                     isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
+                                    isDirect: viewModel.room.isDirect,
                                     onReaction: { reactionId in
                                         vibrate()
                                         viewModel.send(.onDeleteReaction(messageId: message.id, reactionId: reactionId))

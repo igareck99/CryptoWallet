@@ -50,7 +50,7 @@ public struct EventCollection {
     }
 }
 
-// MARK: Grouping
+// MARK: - EventCollection ()
 
 extension EventCollection {
     public static let groupEventTypes = [

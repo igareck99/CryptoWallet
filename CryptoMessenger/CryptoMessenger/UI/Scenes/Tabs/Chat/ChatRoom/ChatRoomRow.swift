@@ -10,6 +10,7 @@ struct ChatRoomRow: View {
     private let message: RoomMessage
     private let isFromCurrentUser: Bool
     private let isPreviousFromCurrentUser: Bool
+    private let isDirect: Bool
     private var onReaction: StringBlock?
     private var onSelectPhoto: GenericBlock<URL?>?
     @State private var showMap = false
@@ -21,12 +22,14 @@ struct ChatRoomRow: View {
     init(
         message: RoomMessage,
         isPreviousFromCurrentUser: Bool,
+        isDirect: Bool,
         onReaction: StringBlock?,
         onSelectPhoto: GenericBlock<URL?>?
     ) {
         self.message = message
         self.isFromCurrentUser = message.isCurrentUser
         self.isPreviousFromCurrentUser = isPreviousFromCurrentUser
+        self.isDirect = isDirect
         self.onReaction = onReaction
         self.onSelectPhoto = onSelectPhoto
     }
@@ -38,6 +41,29 @@ struct ChatRoomRow: View {
             HStack(spacing: 0) {
                 if isFromCurrentUser {
                     Spacer()
+                }
+
+                if !isDirect, !isFromCurrentUser {
+                    VStack(spacing: 0) {
+                        Spacer()
+                        AsyncImage(url: message.avatar) { phase in
+                            if let image = phase.image {
+                                image.resizable()
+                            } else {
+                                ZStack {
+                                    Color(.lightBlue())
+                                    Text(message.name.firstLetter.uppercased())
+                                        .foreground(.white())
+                                        .font(.medium(12))
+                                }
+                            }
+                        }
+                        .scaledToFill()
+                        .frame(width: 30, height: 30)
+                        .cornerRadius(15)
+                    }
+                    .padding(.leading, 16)
+                    .padding(.trailing, -11)
                 }
 
                 BubbleView(direction: isFromCurrentUser ? .right : .left) {
@@ -100,6 +126,29 @@ struct ChatRoomRow: View {
                     )
                 )
                 .padding(isFromCurrentUser ? .leading : .trailing, 8)
+
+                if !isDirect, isFromCurrentUser {
+                    VStack(spacing: 0) {
+                        Spacer()
+                        AsyncImage(url: message.avatar) { phase in
+                            if let image = phase.image {
+                                image.resizable()
+                            } else {
+                                ZStack {
+                                    Color(.lightBlue())
+                                    Text(message.name.firstLetter.uppercased())
+                                        .foreground(.white())
+                                        .font(.medium(12))
+                                }
+                            }
+                        }
+                        .scaledToFill()
+                        .frame(width: 30, height: 30)
+                        .cornerRadius(15)
+                    }
+                    .padding(.trailing, 16)
+                    .padding(.leading, -11)
+                }
 
                 if !isFromCurrentUser {
                     Spacer()

@@ -2255,7 +2255,6 @@
 				7846B67B26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift in Sources */,
 				5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */,
 				5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */,
-				78FA368B2739CA4300B331DC /* BlackListCell.swift in Sources */,
 				5AC8C4EF27C403C9008B1744 /* AlertItem.swift in Sources */,
 				5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */,
 				5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */,
@@ -2329,7 +2328,6 @@
 				78437F17270C8FB100371110 /* CustomWebViewController.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
 				5A4BE4FC271DD4E700D03D09 /* MatrixStore.swift in Sources */,
-				78FA36812738171400B331DC /* SecurityHeaderView.swift in Sources */,
 				8BA0C8FE27AD1A050070203F /* ChatSettingsFlow.swift in Sources */,
 				5A44FEDC276681BD006F9D92 /* ProfileConfigurator.swift in Sources */,
 				5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */,
@@ -2570,7 +2568,6 @@
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
 				5A3721D3272EF0DA0097ABED /* ChatCreateView.swift in Sources */,
 				7846B66126E8BC6600B05984 /* ScrollAnimation.swift in Sources */,
-				78FA36832738187800B331DC /* PrivacyHeaderView.swift in Sources */,
 				5AC8C4F427C42D94008B1744 /* PDFKitView.swift in Sources */,
 				5A187E992680708D001957D3 /* ActivityView.swift in Sources */,
 				5A4BE4FF271DD7D700D03D09 /* MatrixConfiguration.swift in Sources */,
@@ -2739,7 +2736,7 @@
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
@@ -2766,7 +2763,7 @@
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;

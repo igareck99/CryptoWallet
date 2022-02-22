@@ -75,12 +75,10 @@ struct ProfileDetailView: View {
                 }
             }
             .sheet(isPresented: $showImagePicker) {
-                NavigationView {
-                    ImagePickerView(selectedImage: $viewModel.selectedImage)
-                        .ignoresSafeArea()
-                        .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
-                        .navigationBarTitleDisplayMode(.inline)
-                }
+                ImagePickerView(selectedImage: $viewModel.selectedImage)
+                    .ignoresSafeArea()
+                    .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                    .navigationBarTitleDisplayMode(.inline)
             }
             .alert(isPresented: $showLogoutAlert) {
                 return Alert(
