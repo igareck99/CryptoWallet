@@ -309,15 +309,25 @@ final class MatrixStore: ObservableObject {
         }
     }
 
-    func setUserAvatarUrl(_ data: Data, completion: @escaping VoidBlock) {
+    func setUserAvatarUrl(_ data: Data, completion: @escaping GenericBlock<URL?>) {
         let uploader = MXMediaLoader(forUploadWithMatrixSession: session, initialRange: 0, andRange: 1)
-        uploader?.uploadData(Data(), filename: nil, mimeType: "image/jpeg", success: { [weak self] link in
-            self?.session?.myUser.setAvatarUrl(link, success: completion) { error in
+        uploader?.uploadData(data, filename: nil, mimeType: "image/jpeg", success: { [weak self] link in
+            guard let link = link else {
+                completion(nil)
+                return
+            }
+            self?.session?.myUser.setAvatarUrl(link, success: {
+                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+                completion(url)
+                self?.objectWillChange.send()
+            }, failure: { error in
                 if let error = error {
                     print(error)
                 }
+                completion(nil)
                 self?.objectWillChange.send()
-            }
+            })
 
         }, failure: { _ in
 
