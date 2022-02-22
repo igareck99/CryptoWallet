@@ -79,9 +79,9 @@ enum Endpoints {
             return endpoint
         }
 
-        static func getPhotos(_ name: String) -> Endpoint<[Dictionary<String, String>]> {
-            let endpoint = Endpoint<[Dictionary<String, String>]>(method: .get,
-                                                                  path: "/profile/\(name)/media")
+        static func getPhotos(_ name: String) -> Endpoint<[MediaResponse]> {
+            let endpoint = Endpoint<[MediaResponse]>(method: .get,
+                                                     path: "/profile/\(name)/media")
             return endpoint
         }
 
@@ -100,6 +100,18 @@ enum Endpoints {
     enum Social {
         static func getSocial(_ name: String) -> Endpoint<[String: String]> {
             let endpoint = Endpoint<[String: String]>(method: .get, path: "/profile/\(name)/social")
+            return endpoint
+        }
+
+        static func set_social(_ social: [String: String], user: String)
+                               -> Endpoint<[String: String]> {
+            let endpoint = Endpoint<[String: String]>(method: .patch, path: "/profile/social")
+            endpoint.modifyRequest {
+                $0.jsonBody(dict: social)
+            }
+            endpoint.modifyRequest {
+                $0.addHeader("user", value: user)
+            }
             return endpoint
         }
     }
