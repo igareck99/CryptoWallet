@@ -45,7 +45,12 @@
 "Tab.Chat" = "Чат";
 "Tab.Wallet" = "Кошелек";
 "Tab.Profile" = "Профиль";
-
+"Tab.OverallBalance" = "Общий баланс";
+"Wallet.Send" = "Отправить";
+"Wallet.Transaction" = "Транзакции";
+"Wallet.AllTransaction" = "Все транзакции";
+"Wallet.Shipped" = "Отправлено";
+"Wallet.Received" = "Получено";
 
 "Profile.Info" = "Вдохновение и дизайнерские решения для вашего дома.";
 "Profile.Add" = "Добавить фото / видео";
@@ -273,6 +278,13 @@
 "ReserveCopy.AccountCopy" = "Аккаунт для копирования";
 "ReserveCopy.ChangeAccount" = "Сменить аккаунт";
 "ReserveCopy.NotCreated" = "Резервная копия не создавалась";
+
+"Rewards.Title" = "Вознаграждения";
+"Transaction.TitleAll" = "Все транзакции";
+"Transaction.OnlySent" = "Только отправленные";
+"Transaction.OnlyReceived" = "Только полученные";
+"Transaction.ETHFilter" = "ETH (Ethereum)";
+"Transaction.AURFilter" = "AUR (Aura)";
 
 
 

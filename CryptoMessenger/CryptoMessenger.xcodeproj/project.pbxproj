@@ -304,6 +304,7 @@
 		789FEBF026DCE61D0018FE91 /* PhotoEditorConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */; };
 		789FEBF126DCE61D0018FE91 /* PhotoEditorFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */; };
 		8B00F45C276A1C2700FE1E41 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00F45B276A1C2700FE1E41 /* R.generated.swift */; };
+		8B12263927C53121008DC048 /* SlideCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B12263827C53120008DC048 /* SlideCardsView.swift */; };
 		8B200FEE2744596300A847D5 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B200FED2744596300A847D5 /* SessionView.swift */; };
 		8B200FF0274459E400A847D5 /* SessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B200FEF274459E400A847D5 /* SessionItem.swift */; };
 		8B24FDD427A820990021177C /* SessionConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B24FDD327A820990021177C /* SessionConfigurator.swift */; };
@@ -315,6 +316,11 @@
 		8B34D77C277DA1FD007811C9 /* UserPersonalizationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34D77B277DA1FD007811C9 /* UserPersonalizationItem.swift */; };
 		8B37BF79275799B300602BE0 /* BuyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B37BF78275799B300602BE0 /* BuyView.swift */; };
 		8B3A816A275AC25D00E736E4 /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3A8169275AC25D00E736E4 /* ProfileDetailView.swift */; };
+		8B432CC227C394E00025D62B /* WalletNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC127C394E00025D62B /* WalletNewView.swift */; };
+		8B432CC427C394F10025D62B /* WalletNewFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC327C394F10025D62B /* WalletNewFlow.swift */; };
+		8B432CC627C3955A0025D62B /* WalletNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC527C3955A0025D62B /* WalletNewViewModel.swift */; };
+		8B432CC827C395B00025D62B /* WalletNewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC727C395B00025D62B /* WalletNewProtocols.swift */; };
+		8B432CCA27C3DA040025D62B /* WalletNewConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC927C3DA030025D62B /* WalletNewConfigurator.swift */; };
 		8B5609B2277927B500AF43F6 /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B1277927B500AF43F6 /* TypographyView.swift */; };
 		8B5609B427792B0000AF43F6 /* TypographyNewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B327792B0000AF43F6 /* TypographyNewItem.swift */; };
 		8B5609B62779C5CA00AF43F6 /* ThemeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B52779C5CA00AF43F6 /* ThemeItem.swift */; };
@@ -359,6 +365,7 @@
 		8BA0C91227AD77380070203F /* ReserveCopyConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C91127AD77380070203F /* ReserveCopyConfigurator.swift */; };
 		8BA0C91427AD776F0070203F /* ReserveCopyProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C91327AD776F0070203F /* ReserveCopyProtocols.swift */; };
 		8BA0C91627AD77F90070203F /* ReserveCopyFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C91527AD77F90070203F /* ReserveCopyFlow.swift */; };
+		8BC06B0C27C7DFC4005A28A1 /* RewardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC06B0B27C7DFC4005A28A1 /* RewardsView.swift */; };
 		8BCA91022750FCC200E8E269 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA91012750FCC200E8E269 /* Popup.swift */; };
 		8BD6292D276AAC06000A976A /* SocialListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292C276AAC06000A976A /* SocialListView.swift */; };
 		8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292E276B407F000A976A /* SocialListItem.swift */; };
@@ -667,6 +674,7 @@
 		789FEBEA26DCE61D0018FE91 /* PhotoEditorConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorConfigurator.swift; sourceTree = "<group>"; };
 		789FEBEB26DCE61D0018FE91 /* PhotoEditorFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorFlow.swift; sourceTree = "<group>"; };
 		8B00F45B276A1C2700FE1E41 /* R.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		8B12263827C53120008DC048 /* SlideCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideCardsView.swift; sourceTree = "<group>"; };
 		8B200FED2744596300A847D5 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		8B200FEF274459E400A847D5 /* SessionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionItem.swift; sourceTree = "<group>"; };
 		8B24FDD327A820990021177C /* SessionConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionConfigurator.swift; sourceTree = "<group>"; };
@@ -678,6 +686,11 @@
 		8B34D77B277DA1FD007811C9 /* UserPersonalizationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPersonalizationItem.swift; sourceTree = "<group>"; };
 		8B37BF78275799B300602BE0 /* BuyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyView.swift; sourceTree = "<group>"; };
 		8B3A8169275AC25D00E736E4 /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
+		8B432CC127C394E00025D62B /* WalletNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewView.swift; sourceTree = "<group>"; };
+		8B432CC327C394F10025D62B /* WalletNewFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewFlow.swift; sourceTree = "<group>"; };
+		8B432CC527C3955A0025D62B /* WalletNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewViewModel.swift; sourceTree = "<group>"; };
+		8B432CC727C395B00025D62B /* WalletNewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewProtocols.swift; sourceTree = "<group>"; };
+		8B432CC927C3DA030025D62B /* WalletNewConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewConfigurator.swift; sourceTree = "<group>"; };
 		8B4DC640274D7939001B3998 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
 		8B5609B1277927B500AF43F6 /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
 		8B5609B327792B0000AF43F6 /* TypographyNewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyNewItem.swift; sourceTree = "<group>"; };
@@ -723,6 +736,7 @@
 		8BA0C91127AD77380070203F /* ReserveCopyConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyConfigurator.swift; sourceTree = "<group>"; };
 		8BA0C91327AD776F0070203F /* ReserveCopyProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyProtocols.swift; sourceTree = "<group>"; };
 		8BA0C91527AD77F90070203F /* ReserveCopyFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyFlow.swift; sourceTree = "<group>"; };
+		8BC06B0B27C7DFC4005A28A1 /* RewardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsView.swift; sourceTree = "<group>"; };
 		8BCA91012750FCC200E8E269 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		8BD6292C276AAC06000A976A /* SocialListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListView.swift; sourceTree = "<group>"; };
 		8BD6292E276B407F000A976A /* SocialListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListItem.swift; sourceTree = "<group>"; };
@@ -1275,6 +1289,7 @@
 		5A26CD5E26B359A200118D4B /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
+				8B432CC027C394C50025D62B /* WalletNew */,
 				5A26CD5126B3598C00118D4B /* Chat */,
 				5A26CD1326B2B88100118D4B /* Wallet */,
 				5A26CD4426B356F600118D4B /* Profile */,
@@ -1851,6 +1866,20 @@
 			path = Session;
 			sourceTree = "<group>";
 		};
+		8B432CC027C394C50025D62B /* WalletNew */ = {
+			isa = PBXGroup;
+			children = (
+				8BC06B0A27C7DFAF005A28A1 /* Rewards */,
+				8B432CC127C394E00025D62B /* WalletNewView.swift */,
+				8B432CC327C394F10025D62B /* WalletNewFlow.swift */,
+				8B432CC527C3955A0025D62B /* WalletNewViewModel.swift */,
+				8B432CC727C395B00025D62B /* WalletNewProtocols.swift */,
+				8B432CC927C3DA030025D62B /* WalletNewConfigurator.swift */,
+				8B12263827C53120008DC048 /* SlideCardsView.swift */,
+			);
+			path = WalletNew;
+			sourceTree = "<group>";
+		};
 		8B6C18BC2799A5C500B85F2A /* SecurityNew */ = {
 			isa = PBXGroup;
 			children = (
@@ -1940,6 +1969,14 @@
 				8BA0C91527AD77F90070203F /* ReserveCopyFlow.swift */,
 			);
 			path = ReserveCopy;
+			sourceTree = "<group>";
+		};
+		8BC06B0A27C7DFAF005A28A1 /* Rewards */ = {
+			isa = PBXGroup;
+			children = (
+				8BC06B0B27C7DFC4005A28A1 /* RewardsView.swift */,
+			);
+			path = Rewards;
 			sourceTree = "<group>";
 		};
 		8BD6292B276AABF8000A976A /* SocialList */ = {
@@ -2211,6 +2248,7 @@
 				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
+				8B432CCA27C3DA040025D62B /* WalletNewConfigurator.swift in Sources */,
 				5A3C9414274AEE8400818060 /* KeyboardListenable.swift in Sources */,
 				8B6E5556279F0F58002054CF /* PinCodeCreateViewModel.swift in Sources */,
 				5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */,
@@ -2301,8 +2339,10 @@
 				5A9B472426EAA010001CC627 /* ReactionView.swift in Sources */,
 				5A9318B926BD210400645365 /* PinCodeView.swift in Sources */,
 				8B24FDD827A820C60021177C /* SessionProtocols.swift in Sources */,
+				8B12263927C53121008DC048 /* SlideCardsView.swift in Sources */,
 				5A3721DC272F3A210097ABED /* DynamicHeightTextField.swift in Sources */,
 				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
+				8B432CC827C395B00025D62B /* WalletNewProtocols.swift in Sources */,
 				7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */,
 				8B34D77C277DA1FD007811C9 /* UserPersonalizationItem.swift in Sources */,
 				5A4BE51E271DD86A00D03D09 /* MXClient+Publisher.swift in Sources */,
@@ -2326,6 +2366,7 @@
 				5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */,
 				5A3C9429274AFFDC00818060 /* KeyboardAvoider.swift in Sources */,
 				5A44FED72766816C006F9D92 /* ProfileViewModel.swift in Sources */,
+				8B432CC427C394F10025D62B /* WalletNewFlow.swift in Sources */,
 				5A42680A26A83554000C51DD /* RegistrationFlow.swift in Sources */,
 				5A44FEF5276940E8006F9D92 /* ChatCreateProtocols.swift in Sources */,
 				8BCA91022750FCC200E8E269 /* Popup.swift in Sources */,
@@ -2345,6 +2386,7 @@
 				5A2EC774279F410900857248 /* Publishers+Retry.swift in Sources */,
 				5A187DF626807011001957D3 /* Coordinator.swift in Sources */,
 				5A15DDF9276E5C9C00CF7AA4 /* ShimmerView.swift in Sources */,
+				8B432CC227C394E00025D62B /* WalletNewView.swift in Sources */,
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
 				5A44FEEF2768B1E6006F9D92 /* ProfileDetailFlow.swift in Sources */,
 				7889064327064F8D0093459C /* ProfileNetworkDetailView.swift in Sources */,
@@ -2388,6 +2430,7 @@
 				8B5609BA277B14AE00AF43F6 /* ProfileBackgroundViewPreview.swift in Sources */,
 				7889064527064F8D0093459C /* ProfileNetworkDetailFlow.swift in Sources */,
 				5A3721D5272F0A290097ABED /* ContactRow.swift in Sources */,
+				8BC06B0C27C7DFC4005A28A1 /* RewardsView.swift in Sources */,
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
 				78437F0E270C76FE00371110 /* AboutAppViewController.swift in Sources */,
@@ -2494,6 +2537,7 @@
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
 				5A26CD2726B2FF9900118D4B /* CarouselNonAnimatableFlowLayout.swift in Sources */,
 				78437F1A270CE94000371110 /* PaywallView.swift in Sources */,
+				8B432CC627C3955A0025D62B /* WalletNewViewModel.swift in Sources */,
 				8B6C18CA279ABB5700B85F2A /* BlockedListProtocols.swift in Sources */,
 				5A187DF326807011001957D3 /* BaseViewController.swift in Sources */,
 				5A187DE326806F62001957D3 /* AppPushNotificationsService.swift in Sources */,
