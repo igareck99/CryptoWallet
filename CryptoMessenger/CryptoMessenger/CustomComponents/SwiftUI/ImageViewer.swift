@@ -76,12 +76,13 @@ struct ImageViewer: View {
             ScrollView(.init()) {
                 //TabView(selection: $viewModel.selectedImageID) {
                 //ForEach(viewModel.allImages, id: \.self) { image in
-                AsyncImage(url: selectedPhoto) {
-                    $0.resizable()
-                } placeholder: {
-                    ShimmerView()
-                }
-                .aspectRatio(contentMode: .fit)
+
+                AsyncImage(
+                    url: selectedPhoto,
+                    placeholder: { ShimmerView() },
+                    result: { Image(uiImage: $0).resizable() }
+                )
+                    .scaledToFit()
 
                 //Image(image)
                 //.resizable()

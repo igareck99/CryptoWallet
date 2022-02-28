@@ -19,18 +19,20 @@ struct ContactRow: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
-                AsyncImage(url: avatar) { phase in
-                    if let image = phase.image {
-                        image.resizable()
-                    } else {
+                AsyncImage(
+                    url: avatar,
+                    placeholder: {
                         ZStack {
                             Color(.lightBlue())
                             Text(name.firstLetter.uppercased())
                                 .foreground(.white())
                                 .font(.medium(22))
                         }
+                    },
+                    result: {
+                        Image(uiImage: $0).resizable()
                     }
-                }
+                )
                 .scaledToFill()
                 .frame(width: 40, height: 40)
                 .cornerRadius(20)

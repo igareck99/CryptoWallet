@@ -16,7 +16,7 @@ struct ProfileView: View {
     @State private var showAlert = false
     @State private var showSafari = false
     @State private var showImagePicker = false
-    @State private var safariAdress = ""
+    @State private var safariAddress = ""
     @State private var showDeletePhotoAlert = false
     @State private var photoUrlForDelete = ""
 
@@ -43,18 +43,17 @@ struct ProfileView: View {
                         }
                 }
             }
-            .navigationBarColor(.white(), isBlured: false)
             .onAppear {
                 viewModel.send(.onAppear)
             }
-            .fullScreenCover(isPresented: $showSafari, content: {
-                SFSafariViewWrapper(link: $safariAdress)
-            })
+            .fullScreenCover(isPresented: $showSafari) {
+                SFSafariViewWrapper(link: $safariAddress)
+            }
             .sheet(isPresented: $showImagePicker) {
                 ImagePickerView(selectedImage: $viewModel.selectedImage)
-                        .ignoresSafeArea()
-                        .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
-                        .navigationBarTitleDisplayMode(.inline)
+                    .ignoresSafeArea()
+                    .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                    .navigationBarTitleDisplayMode(.inline)
             }
             .alert(isPresented: $showAlert) {
                 switch showDeletePhotoAlert {
@@ -83,34 +82,9 @@ struct ProfileView: View {
                 dismissCallback: { showTabBar() },
                 view: {
                     ProfileSettingsMenuView(balance: "0.50 AUR", onSelect: { type in
-                        switch type {
-                        case .profile:
-                            vibrate()
-                            hideTabBar()
-                            viewModel.send(.onProfileScene)
-                        case .personalization:
-                            vibrate()
-                            hideTabBar()
-                            viewModel.send(.onPersonalization)
-                        case .security:
-                            vibrate()
-                            hideTabBar()
-                            viewModel.send(.onSecurity)
-                        case .about:
-                            vibrate()
-                            hideTabBar()
-                            viewModel.send(.onAboutApp)
-                        case .chat:
-                            vibrate()
-                            hideTabBar()
-                            viewModel.send(.onChatSettings)
-                        case .questions:
-                            vibrate()
-                            hideTabBar()
-                            viewModel.send(.onFAQ)
-                        default:
-                            break
-                        }
+                        vibrate()
+                        hideTabBar()
+                        viewModel.send(.onShow(type))
                     })
                         .frame(height: 712, alignment: .center)
                         .background(
@@ -139,120 +113,126 @@ struct ProfileView: View {
     }
 
     private var content: some View {
-            ZStack {
-                ScrollView(popupSelected ? [] : .vertical, showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 24) {
-                            HStack(spacing: 16) {
-                                avatarView
-                                VStack(alignment: .leading, spacing: 11) {
-                                    Text(viewModel.profile.name)
-                                        .font(.medium(15))
-                                    switch viewModel.socialListEmpty {
-                                    case false:
-                                        HStack(spacing: 8) {
-                                            ForEach(SocialKey.allCases) { item in
-                                                switch item {
-                                                case .twitter:
-                                                    if !(viewModel.profile.socialNetwork[.twitter] ?? "").isEmpty {
-                                                        Button(action: {
-                                                            showSafari = true
-                                                            safariAdress = viewModel.profile.socialNetwork[.twitter] ?? ""
-                                                        }, label: {
-                                                            R.image.profile.twitter.image
-                                                        }).frame(width: 32, height: 32, alignment: .center)
-                                                            .background(.blue())
-                                                            .cornerRadius(16)
-                                                    }
-                                                case .facebook:
-                                                    if !(viewModel.profile.socialNetwork[.facebook] ?? "").isEmpty {
-                                                        Button(action: {
-                                                            showSafari = true
-                                                            safariAdress = viewModel.profile.socialNetwork[.facebook] ?? ""
-                                                        }, label: {
-                                                            R.image.profile.facebook.image
-                                                        }).frame(width: 32, height: 32, alignment: .center)
-                                                            .background(.blue())
-                                                            .cornerRadius(16)
-                                                    }
-                                                case .instagram:
-                                                    if !(viewModel.profile.socialNetwork[.instagram] ?? "").isEmpty {
-                                                        Button(action: {
-                                                            showSafari = true
-                                                            safariAdress = viewModel.profile.socialNetwork[.instagram] ?? ""
-                                                        }, label: {
-                                                            R.image.profile.instagram.image
-                                                        }).frame(width: 32, height: 32, alignment: .center)
-                                                            .background(.blue())
-                                                            .cornerRadius(16)
-                                                    }
-                                                case .vk:
-                                                    if !(viewModel.profile.socialNetwork[.vk] ?? "").isEmpty {
-                                                        Button(action: {
-                                                            showSafari = true
-                                                            safariAdress = viewModel.profile.socialNetwork[.vk] ?? ""
-                                                        }, label: {
-                                                            R.image.profile.website.image
-                                                        }).frame(width: 32, height: 32, alignment: .center)
-                                                            .background(.blue())
-                                                            .cornerRadius(16)
-                                                    }
-                                                }
+        ZStack {
+            ScrollView(popupSelected ? [] : .vertical, showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 24) {
+                    HStack(spacing: 16) {
+                        avatarView
+                        VStack(alignment: .leading, spacing: 11) {
+                            Text(viewModel.profile.name)
+                                .font(.medium(15))
+                            switch viewModel.socialListEmpty {
+                            case false:
+                                HStack(spacing: 8) {
+                                    ForEach(SocialKey.allCases) { item in
+                                        switch item {
+                                        case .twitter:
+                                            if !(viewModel.profile.socialNetwork[.twitter] ?? "").isEmpty {
+                                                Button(action: {
+                                                    showSafari = true
+                                                    safariAddress = viewModel.profile.socialNetwork[.twitter] ?? ""
+                                                }, label: {
+                                                    R.image.profile.twitter.image
+                                                }).frame(width: 32, height: 32, alignment: .center)
+                                                    .background(.blue())
+                                                    .cornerRadius(16)
+                                            }
+                                        case .facebook:
+                                            if !(viewModel.profile.socialNetwork[.facebook] ?? "").isEmpty {
+                                                Button(action: {
+                                                    showSafari = true
+                                                    safariAddress = viewModel.profile.socialNetwork[.facebook] ?? ""
+                                                }, label: {
+                                                    R.image.profile.facebook.image
+                                                }).frame(width: 32, height: 32, alignment: .center)
+                                                    .background(.blue())
+                                                    .cornerRadius(16)
+                                            }
+                                        case .instagram:
+                                            if !(viewModel.profile.socialNetwork[.instagram] ?? "").isEmpty {
+                                                Button(action: {
+                                                    showSafari = true
+                                                    safariAddress = viewModel.profile.socialNetwork[.instagram] ?? ""
+                                                }, label: {
+                                                    R.image.profile.instagram.image
+                                                }).frame(width: 32, height: 32, alignment: .center)
+                                                    .background(.blue())
+                                                    .cornerRadius(16)
+                                            }
+                                        case .vk:
+                                            if !(viewModel.profile.socialNetwork[.vk] ?? "").isEmpty {
+                                                Button(action: {
+                                                    showSafari = true
+                                                    safariAddress = viewModel.profile.socialNetwork[.vk] ?? ""
+                                                }, label: {
+                                                    R.image.profile.website.image
+                                                }).frame(width: 32, height: 32, alignment: .center)
+                                                    .background(.blue())
+                                                    .cornerRadius(16)
                                             }
                                         }
-                                    case true:
-                                        Button(action: {
-                                            viewModel.addSocial(socialKey: .twitter,
-                                                                socialValue: "https://twitter.com")
-                                        }, label: {
-                                            Text(R.string.localizable.profileAddSocial())
-                                                .font(.regular(15))
-                                                .foreground(.blue())
-                                        })
-                                            .frame(width: 160, height: 32)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 61)
-                                                    .stroke(Color(.blue()), lineWidth: 1)
-                                            )
                                     }
-                                    Text(viewModel.profile.phone)
                                 }
-                            }
-                            .padding(.top, 27)
-                            .padding(.leading, 16)
-
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(viewModel.profile.status)
-                                    .font(.regular(15))
-                                    .foreground(.black())
-                                Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
-                                    .font(.regular(15))
-                                    .foreground(.blue())
-                                    .onTapGesture {
-                                        safariAdress = "https://www.ikea.com/ru/ru/" +
-                                        "campaigns/actual-information-pub21f86b70"
-                                        showSafari = true
-                                    }
-                            }.padding(.leading, 16)
-                            Button(action: {
-                                showImagePicker = true
+                            case true:
+                                Button(action: {
+                                    viewModel.addSocial(socialKey: .twitter,
+                                                        socialValue: "https://twitter.com")
                                 }, label: {
-                                    Text(R.string.localizable.profileAdd())
-                                        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+                                    Text(R.string.localizable.profileAddSocial())
                                         .font(.regular(15))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 8)
-                                                .stroke(.blue, lineWidth: 1)
-                                        )
+                                        .foreground(.blue())
                                 })
-                                .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                                .background(.white())
-                                .padding(.horizontal, 16)
-                            photosView
-                            FooterView(popupSelected: $popupSelected)
-                                .padding([.leading, .trailing], 16)
+                                    .frame(width: 160, height: 32)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 61)
+                                            .stroke(Color(.blue()), lineWidth: 1)
+                                    )
                             }
+                            Text(viewModel.profile.phone)
+                        }
+                    }
+                    .padding(.top, 27)
+                    .padding(.leading, 16)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(viewModel.profile.status)
+                            .font(.regular(15))
+                            .foreground(.black())
+                        Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
+                            .font(.regular(15))
+                            .foreground(.blue())
+                            .onTapGesture {
+                                safariAddress = "https://www.ikea.com/ru/ru/" +
+                                "campaigns/actual-information-pub21f86b70"
+                                showSafari = true
+                            }
+                    }.padding(.leading, 16)
+                    Button(action: {
+                        showImagePicker = true
+                    }, label: {
+                        Text(R.string.localizable.profileAdd())
+                            .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+                            .font(.regular(15))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(.blue, lineWidth: 1)
+                            )
+                    })
+                        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+                        .background(.white())
+                        .padding(.horizontal, 16)
+
+                    photosView
+
+                    if !viewModel.profile.photos.isEmpty {
+                        FooterView(popupSelected: $popupSelected)
+                            .padding(.horizontal, 16)
+                    }
+
                 }
+
             }
+        }
     }
 
     private var avatarView: some View {
@@ -264,44 +244,45 @@ struct ProfileView: View {
         }
 
         return ZStack {
-            if let url = viewModel.profile.avatar {
-                AsyncImage(url: url) { phase in
-                    if let image = phase.image {
-                        image.resizable()
-                    } else {
-                        thumbnail
-                    }
+            AsyncImage(
+                url: viewModel.profile.avatar,
+                placeholder: {
+                    thumbnail
+                },
+                result: {
+                    Image(uiImage: $0).resizable()
                 }
+            )
                 .scaledToFill()
                 .frame(width: 100, height: 100)
                 .cornerRadius(50)
-            } else {
-                thumbnail
-            }
         }
     }
 
     private var photosView: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(spacing: 1.5), count: 3), alignment: .center, spacing: 1.5) {
-            ForEach(0..<viewModel.profile.photosUrls.count, id: \.self) { index in
-                VStack(spacing: 0) {
-                    AsyncImage(url: viewModel.profile.photosUrls[index].previewURL) { phase in
-                        if let image = phase.image {
-                            image.resizable()
-                                .frame(width: (UIScreen.main.bounds.width - 3) / 3,
-                                       height: (UIScreen.main.bounds.width - 3) / 3)
-                                .scaledToFill()
-                                .onTapGesture {
-                                    showAlert = true
-                                    showDeletePhotoAlert = true
-                                    photoUrlForDelete = viewModel.profile.photosUrls[index].previewURL.absoluteString
-                                }
-                        } else {
-                            ProgressView()
-                                .frame(width: (UIScreen.main.bounds.width - 3) / 3,
-                                       height: (UIScreen.main.bounds.width - 3) / 3)
-                                .scaledToFill()
-                        }
+        GeometryReader { geometry in
+            LazyVGrid(columns: Array(repeating: GridItem(spacing: 1.5), count: 3), alignment: .center, spacing: 1.5) {
+                ForEach(0..<viewModel.profile.photosUrls.count, id: \.self) { index in
+                    VStack(spacing: 0) {
+                        let width = (geometry.size.width - 3) / 3
+                        AsyncImage(
+                            url: viewModel.profile.photosUrls[index],
+                            placeholder: {
+                                ProgressView()
+                                    .frame(width: width, height: width)
+                                    .scaledToFill()
+                            },
+                            result: {
+                                Image(uiImage: $0).resizable()
+                            }
+                        )
+                            .frame(width: width, height: width)
+                            .scaledToFill()
+                            .onTapGesture {
+                                showAlert = true
+                                showDeletePhotoAlert = true
+                                photoUrlForDelete = viewModel.profile.photosUrls[index].absoluteString
+                            }
                     }
                 }
             }
@@ -323,15 +304,15 @@ struct FooterView: View {
         Button(action: {
             hideTabBar()
             popupSelected.toggle()
-            }, label: {
-                Text(R.string.localizable.profileBuyCell())
-                    .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                    .font(.regular(15))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(.blue, lineWidth: 1)
-                    )
-            })
+        }, label: {
+            Text(R.string.localizable.profileBuyCell())
+                .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+                .font(.regular(15))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(.blue, lineWidth: 1)
+                )
+        })
             .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
             .background(.white())
     }

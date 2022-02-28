@@ -88,19 +88,19 @@ struct ContentView: View {
             LazyVGrid(columns: Array(repeating: gridLayout, count: 3), alignment: .center, spacing: 1.5) {
                 ForEach(0..<chatData.media.count, id: \.self) { index in
                     VStack(spacing: 0) {
-                        AsyncImage(url: chatData.media[index]) { phase in
-                            if let image = phase.image {
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                            } else {
-                                ZStack {
-                                    Color(.lightBlue())
-                                }
+                        AsyncImage(
+                            url: chatData.media[index],
+                            placeholder: {
+                                ZStack { Color(.lightBlue()) }
+                            },
+                            result: {
+                                Image(uiImage: $0).resizable()
                             }
-                        }.onTapGesture {
-                            selectedPhoto = chatData.media[index]
-                        }
+                        )
+                            .scaledToFill()
+                            .onTapGesture {
+                                selectedPhoto = chatData.media[index]
+                            }
                     }
                 }
             }

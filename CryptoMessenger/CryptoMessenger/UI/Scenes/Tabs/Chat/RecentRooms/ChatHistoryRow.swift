@@ -13,21 +13,23 @@ struct ChatHistoryRow: View {
     var body: some View {
         HStack(spacing: 12) {
             ZStack {
-                AsyncImage(url: room.roomAvatar) { phase in
-                    if let image = phase.image {
-                        image.resizable()
-                    } else {
+                AsyncImage(
+                    url: room.roomAvatar,
+                    placeholder: {
                         ZStack {
                             Color(.lightBlue())
                             Text(room.summary.displayname?.firstLetter.uppercased() ?? "?")
                                 .foreground(.white())
                                 .font(.medium(26))
                         }
+                    },
+                    result: {
+                        Image(uiImage: $0).resizable()
                     }
-                }
-                .scaledToFill()
-                .frame(width: 60, height: 60)
-                .cornerRadius(30)
+                )
+                    .scaledToFill()
+                    .frame(width: 60, height: 60)
+                    .cornerRadius(30)
 
                 if room.isDirect {
                     ZStack {
@@ -74,11 +76,15 @@ struct ChatHistoryRow: View {
                         ).lineLimit(2)
                     case let .image(url):
                         HStack(spacing: 6) {
-                            AsyncImage(url: url) {
-                                $0.resizable()
-                            } placeholder: {
-                                ShimmerView().frame(width: 20, height: 20)
-                            }
+                            AsyncImage(
+                                url: url,
+                                placeholder: {
+                                    ShimmerView().frame(width: 20, height: 20)
+                                },
+                                result: {
+                                    Image(uiImage: $0).resizable()
+                                }
+                            )
                             .scaledToFill()
                             .frame(width: 16, height: 16)
                             .cornerRadius(2)
