@@ -44,20 +44,14 @@ struct ProfileBackgroundView: View {
         }
 
         return ZStack {
-            if let url = viewModel.profile.avatar {
-                AsyncImage(url: url) { phase in
-                    if let image = phase.image {
-                        image.resizable()
-                    } else {
-                        thumbnail
-                    }
-                }
+            AsyncImage(
+                url: viewModel.profile.avatar,
+                placeholder: { thumbnail },
+                result: { Image(uiImage: $0).resizable() }
+            )
                 .scaledToFill()
                 .frame(width: 100, height: 100)
                 .cornerRadius(50)
-            } else {
-                thumbnail
-            }
         }
     }
 

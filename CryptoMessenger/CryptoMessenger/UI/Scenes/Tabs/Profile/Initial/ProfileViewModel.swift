@@ -1,6 +1,19 @@
 import Combine
 import SwiftUI
 
+// MARK: - SocialKey
+
+enum SocialKey: String, Identifiable, CaseIterable {
+
+    // MARK: - Internal Properties
+
+    var id: UUID { UUID() }
+
+    // MARK: - Types
+
+    case facebook, vk, twitter, instagram
+}
+
 // MARK: - ProfileItem
 
 struct ProfileItem: Identifiable {
@@ -15,7 +28,7 @@ struct ProfileItem: Identifiable {
     var info = ""
     var phone = "Номер не заполнен"
     var photos: [Image] = []
-    var photosUrls: [MediaURL] = []
+    var photosUrls: [URL] = []
     var socialNetwork: [SocialKey: String] = [:]
 }
 
@@ -40,7 +53,7 @@ final class ProfileViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private var apiClient: APIClientManager
-    @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private var mxStore: MatrixStore
     @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
 
     // MARK: - Lifecycle
@@ -69,8 +82,7 @@ final class ProfileViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { [weak self] _ in
-                self?.profile.photosUrls = self?.profile.photosUrls
-                    .filter { $0.previewURL.absoluteString != url } ?? []
+                self?.profile.photosUrls.removeAll(where: { $0.absoluteString == url })
             })
             .store(in: &subscriptions)
     }
@@ -80,7 +92,7 @@ final class ProfileViewModel: ObservableObject {
                                     self.profile.socialNetwork.map { key, value in (key.rawValue,
                                                                     value) })
         newDict[socialKey.rawValue] = socialValue
-        apiClient.publisher(Endpoints.Social.set_social(newDict, user: mxStore.getUserId()))
+        apiClient.publisher(Endpoints.Social.setSocial(newDict, user: mxStore.getUserId()))
             .replaceError(with: [:])
             .sink { [weak self] dictionary in
                 let result = dictionary.reduce([:]) { (partialResult: [SocialKey: String],
@@ -95,7 +107,6 @@ final class ProfileViewModel: ObservableObject {
                     return result
                 }
                 self?.profile.socialNetwork = result
-                self?.objectWillChange.send()
             }
             .store(in: &subscriptions)
     }
@@ -108,21 +119,25 @@ final class ProfileViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     self?.fetchData()
-                    self?.objectWillChange.send()
-                case .onProfileScene:
-                    self?.delegate?.handleNextScene(.profileDetail)
-                case .onPersonalization:
-                    self?.delegate?.handleNextScene(.personalization)
-                case .onSecurity:
-                    self?.delegate?.handleNextScene(.security)
-                case .onAboutApp:
-                    self?.delegate?.handleNextScene(.aboutApp)
-                case .onChatSettings:
-                    self?.delegate?.handleNextScene(.chatSettings)
-                case .onFAQ:
-                    self?.delegate?.handleNextScene(.FAQ)
+                case let .onShow(type):
+                    switch type {
+                    case .profile:
+                        self?.delegate?.handleNextScene(.profileDetail)
+                    case .personalization:
+                        self?.delegate?.handleNextScene(.personalization)
+                    case .security:
+                        self?.delegate?.handleNextScene(.security)
+                    case .about:
+                        self?.delegate?.handleNextScene(.aboutApp)
+                    case .chat:
+                        self?.delegate?.handleNextScene(.chatSettings)
+                    case .questions:
+                        self?.delegate?.handleNextScene(.FAQ)
+                    default:
+                        break
+                    }
                 case let .onAddPhoto(image):
-                    self?.profile.photos.append(Image(uiImage: image))
+                    self?.addPhoto(image: image)
                 }
             }
             .store(in: &subscriptions)
@@ -151,47 +166,26 @@ final class ProfileViewModel: ObservableObject {
 
     private func getPhotos() {
         apiClient.publisher(Endpoints.Media.getPhotos(mxStore.getUserId()))
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let error):
-                    print(error)
-                    return
-                default:
-                    break
-                }
-            }, receiveValue: { [weak self] response in
-                self?.profile.photosUrls = []
-                for media in response {
-                    guard let originalURL = URL(string: media.original) else { return }
-                    guard let previewURL = URL(string: media.preview) else { return }
-                    self?.profile.photosUrls.append(MediaURL(originalURL: originalURL,
-                                                             previewURL: previewURL))
-                }
-            })
+            .replaceError(with: [])
+            .sink { [weak self] response in
+                self?.profile.photosUrls = response.compactMap { $0.original }
+            }
             .store(in: &subscriptions)
     }
 
     func addPhoto(image: UIImage) {
-        guard let data = image.pngData() else { return }
-        let multipartData = MultipartFileData(file: "photo",
-                                              mimeType: "image/png",
-                                              fileData: data)
+        guard let data = image.jpeg(.medium) else { return }
+        let multipartData = MultipartFileData(
+            file: "photo",
+            mimeType: "image/png",
+            fileData: data
+        )
         apiClient.publisher(Endpoints.Media.upload(multipartData, name: mxStore.getUserId()))
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                default:
-                    break
-                }
-            }, receiveValue: { [weak self] response in
-                guard let original = response["original"] else { return }
-                guard let preview = response["preview"] else { return }
-                guard let originalUrl = URL(string: original) else { return }
-                guard let previewUrl = URL(string: preview) else { return }
-                self?.profile.photosUrls.insert(MediaURL(
-                    originalURL: originalUrl,
-                    previewURL: previewUrl), at: 0)
-                self?.objectWillChange.send()
-            })
+            .replaceError(with: .init())
+            .sink { [weak self] response in
+                guard let url = response.original else { return }
+                self?.profile.photosUrls.insert(url, at: 0)
+            }
             .store(in: &subscriptions)
     }
 
@@ -232,47 +226,4 @@ final class ProfileViewModel: ObservableObject {
         profile.phone = userCredentialsStorageService.userPhoneNumber
         getPhotos()
     }
-}
-
-// MARK: - SocialKey
-
-enum SocialKey: String, Identifiable, CaseIterable {
-
-    // MARK: - Internal Properties
-
-    var id: UUID { UUID() }
-
-    // MARK: - Types
-
-    case facebook, vk, twitter, instagram
-}
-
-// MARK: - MediaResponse
-
-struct MediaResponse: Codable {
-
-    // MARK: - Internal Properties
-
-    var original: String
-    var preview: String
-
-    // MARK: - CodingKeys
-
-    enum CodingKeys: String, CodingKey {
-
-        // MARK: - Types
-
-        case original
-        case preview
-    }
-}
-
-// MARK: - MediaURL
-
-struct MediaURL: Codable {
-
-    // MARK: - Internal Properties
-
-    var originalURL: URL
-    var previewURL: URL
 }

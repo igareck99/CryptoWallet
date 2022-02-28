@@ -218,11 +218,9 @@ final class APIClient: NSObject, APIClientManager {
 
     private func refreshToken() -> AnyPublisher<AuthResponse, Error> {
         queue.sync { [weak self] in
-            if let publisher = self?.refreshPublisher {
-                return publisher
-            }
+            if let publisher = self?.refreshPublisher { return publisher }
 
-            //userCredentialsStorage.isUserAuthenticated = false
+            userCredentialsStorage.isUserAuthenticated = false
 
             let publisher = publisher(
                 Endpoints.Session.refresh(userCredentialsStorage.refreshToken)

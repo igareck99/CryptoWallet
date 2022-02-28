@@ -107,18 +107,20 @@ struct ChatRoomView: View {
                             R.image.navigation.backButton.image
                         })
 
-                        AsyncImage(url: viewModel.room.roomAvatar) { phase in
-                            if let image = phase.image {
-                                image.resizable()
-                            } else {
+                        AsyncImage(
+                            url: viewModel.room.roomAvatar,
+                            placeholder: {
                                 ZStack {
                                     Color(.lightBlue())
                                     Text(viewModel.room.summary.displayname?.firstLetter.uppercased() ?? "?")
                                         .foreground(.white())
                                         .font(.medium(20))
                                 }
+                            },
+                            result: {
+                                Image(uiImage: $0).resizable()
                             }
-                        }
+                        )
                         .scaledToFill()
                         .frame(width: 36, height: 36)
                         .cornerRadius(18)
@@ -291,18 +293,20 @@ struct ChatRoomView: View {
 
                 Spacer().frame(width: 16)
 
-                AsyncImage(url: viewModel.room.roomAvatar) { phase in
-                    if let image = phase.image {
-                        image.resizable()
-                    } else {
+                AsyncImage(
+                    url: viewModel.room.roomAvatar,
+                    placeholder: {
                         ZStack {
                             Color(.lightBlue())
                             Text(viewModel.room.summary.displayname?.firstLetter.uppercased() ?? "?")
                                 .foreground(.white())
                                 .font(.medium(20))
                         }
+                    },
+                    result: {
+                        Image(uiImage: $0).resizable()
                     }
-                }
+                )
                 .scaledToFill()
                 .frame(width: 36, height: 36)
                 .cornerRadius(18)

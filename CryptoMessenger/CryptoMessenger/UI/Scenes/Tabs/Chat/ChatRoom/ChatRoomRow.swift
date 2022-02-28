@@ -46,18 +46,21 @@ struct ChatRoomRow: View {
                 if !isDirect, !isFromCurrentUser {
                     VStack(spacing: 0) {
                         Spacer()
-                        AsyncImage(url: message.avatar) { phase in
-                            if let image = phase.image {
-                                image.resizable()
-                            } else {
+
+                        AsyncImage(
+                            url: message.avatar,
+                            placeholder: {
                                 ZStack {
                                     Color(.lightBlue())
                                     Text(message.name.firstLetter.uppercased())
                                         .foreground(.white())
                                         .font(.medium(12))
                                 }
+                            },
+                            result: {
+                                Image(uiImage: $0).resizable()
                             }
-                        }
+                        )
                         .scaledToFill()
                         .frame(width: 30, height: 30)
                         .cornerRadius(15)
@@ -130,18 +133,21 @@ struct ChatRoomRow: View {
                 if !isDirect, isFromCurrentUser {
                     VStack(spacing: 0) {
                         Spacer()
-                        AsyncImage(url: message.avatar) { phase in
-                            if let image = phase.image {
-                                image.resizable()
-                            } else {
+
+                        AsyncImage(
+                            url: message.avatar,
+                            placeholder: {
                                 ZStack {
                                     Color(.lightBlue())
                                     Text(message.name.firstLetter.uppercased())
                                         .foreground(.white())
                                         .font(.medium(12))
                                 }
+                            },
+                            result: {
+                                Image(uiImage: $0).resizable()
                             }
-                        }
+                        )
                         .scaledToFill()
                         .frame(width: 30, height: 30)
                         .cornerRadius(15)
@@ -212,12 +218,16 @@ struct ChatRoomRow: View {
 
     private func photoRow(_ message: RoomMessage, url: URL?) -> some View {
         ZStack {
-            AsyncImage(url: url) {
-                $0.resizable()
-            } placeholder: {
-                ShimmerView()
-                    .frame(width: 202, height: 245)
-            }
+            AsyncImage(
+                url: url,
+                placeholder: {
+                    ShimmerView()
+                        .frame(width: 202, height: 245)
+                },
+                result: {
+                    Image(uiImage: $0).resizable()
+                }
+            )
             .scaledToFill()
             .frame(width: 202, height: 245)
 

@@ -23,12 +23,7 @@ enum ProfileFlow {
         // MARK: - Types
 
         case onAppear
-        case onProfileScene
-        case onPersonalization
-        case onSecurity
-        case onAboutApp
-        case onFAQ
-        case onChatSettings
+        case onShow(ProfileSettingsMenu)
         case onAddPhoto(UIImage)
     }
 }

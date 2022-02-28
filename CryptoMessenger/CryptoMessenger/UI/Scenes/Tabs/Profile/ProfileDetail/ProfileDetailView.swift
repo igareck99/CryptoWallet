@@ -188,10 +188,9 @@ struct ProfileDetailView: View {
                         .frame(width: geometry.size.width, height: geometry.size.width)
                         .clipped()
                 } else if let url = viewModel.profile.avatar {
-                    AsyncImage(url: url) { phase in
-                        if let image = phase.image {
-                            image.resizable()
-                        } else {
+                    AsyncImage(
+                        url: url,
+                        placeholder: {
                             ZStack {
                                 Rectangle()
                                     .frame(height: geometry.size.width)
@@ -200,11 +199,14 @@ struct ProfileDetailView: View {
                                     .resizable()
                                     .frame(width: 80, height: 80)
                             }
+                        },
+                        result: {
+                            Image(uiImage: $0).resizable()
                         }
-                    }
-                    .scaledToFill()
-                    .frame(width: geometry.size.width, height: geometry.size.width)
-                    .clipped()
+                    )
+                        .scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.width)
+                        .clipped()
                 } else {
                     ZStack {
                         Rectangle()

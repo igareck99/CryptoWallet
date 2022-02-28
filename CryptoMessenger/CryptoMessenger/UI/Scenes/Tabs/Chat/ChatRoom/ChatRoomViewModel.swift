@@ -287,7 +287,7 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.chatData.contacts = contacts
 
                     self?.room.room.state { response in
-                        let ids = response?.powerLevels.users.keys
+                        let ids = response?.powerLevels?.users.keys
                             .map { $0 as? String }
                             .compactMap { $0 } ?? []
                         self?.chatData.admins = contacts.filter { contact in ids.contains(contact.mxId) }
