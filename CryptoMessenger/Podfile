@@ -37,7 +37,6 @@ target 'CryptoMessenger' do
   pod 'PhoneNumberKit'
   pod 'SPStorkController'
 
-  #Custom UI
-  pod 'RadioGroup'
+  pod 'SweeterSwift'
 
 end
