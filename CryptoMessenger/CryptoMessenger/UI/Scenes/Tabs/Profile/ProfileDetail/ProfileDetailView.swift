@@ -192,12 +192,10 @@ struct ProfileDetailView: View {
                         url: url,
                         placeholder: {
                             ZStack {
-                                Rectangle()
-                                    .frame(height: geometry.size.width)
-                                    .foreground(.blue(0.1))
-                                R.image.profile.avatarThumbnail.image
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
+                                ProgressView()
+                                    .frame(width: geometry.size.width,
+                                           height: geometry.size.width)
+                                    .background(.blue(0.1))
                             }
                         },
                         result: {
@@ -299,8 +297,6 @@ struct ProfileDetailView: View {
             }
             .background(.paleBlue())
             .cornerRadius(8)
-
-            //PhoneView(phone: $viewModel.profile.phone)
         }
     }
 }
