@@ -106,6 +106,18 @@ struct SlideCardsView: View {
                 HStack(spacing: self.spacing) {
                     ForEach(self.viewModel.cardsList) { wallet in
                         CardNewView(wallet: wallet)
+                            .onTapGesture {
+                                switch wallet.walletType {
+                                case .ethereum:
+                                    viewModel.send(.onTransactionAddress(selectorTokenIndex: 0,
+                                                                         address: wallet.adress))
+                                case .aur:
+                                    viewModel.send(.onTransactionAddress(selectorTokenIndex: 1,
+                                                                         address: wallet.adress ))
+                                default:
+                                    break
+                                }
+                            }
                             .frame(width: geometry.size.width,
                                    height: 193)
                     }

@@ -123,6 +123,7 @@ struct WalletNewView: View {
                 .padding(.leading, 16)
             Spacer()
             Button {
+                viewModel.send(.onTransactionToken(selectorTokenIndex: -1))
             } label: {
                 Text(R.string.localizable.walletAllTransaction())
                     .font(.regular(15))
@@ -182,10 +183,23 @@ struct TransactionInfoView: View {
             }
             Spacer()
             VStack(alignment: .trailing) {
-                Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " AUR":
-                        String("- \(abs(transaction.amount))") + " AUR")
-                    .font(.regular(15))
-                    .foreground(transaction.type == .send ? .black(): .green())
+                switch transaction.transactionCoin {
+                case .aur:
+                    Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " AUR":
+                            String("- \(abs(transaction.amount))") + " AUR")
+                        .font(.regular(15))
+                        .foreground(transaction.type == .send ? .black(): .green())
+                case .ethereum:
+                    Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " ETH":
+                            String("- \(abs(transaction.amount))") + " ETH")
+                        .font(.regular(15))
+                        .foreground(transaction.type == .send ? .black(): .green())
+                case .bitcoin:
+                    Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " BTC":
+                            String("- \(abs(transaction.amount))") + " BTC")
+                        .font(.regular(15))
+                        .foreground(transaction.type == .send ? .black(): .green())
+                }
                 Text(String(transaction.amount) + " USD")
                     .font(.regular(13))
                     .foreground(.darkGray())
@@ -193,11 +207,5 @@ struct TransactionInfoView: View {
         }
             Divider()
     }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        WalletNewView(viewModel: WalletNewViewModel())
     }
 }

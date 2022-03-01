@@ -72,25 +72,31 @@ final class TransactionViewModel: ObservableObject {
         transactionList = []
         transactionList.append(TransactionInfo(type: .send,
                                                date: "Sep 09",
-                                               from: "0xks1...ka9a",
+                                               from: "0xty9 ... Bx9M",
                                                fiatValue: "15.53$",
                                                transactionCoin: .ethereum,
                                                amount: -0.0236))
         transactionList.append(TransactionInfo(type: .receive,
                                                date: "Sep 09",
-                                               from: "0xks1...ka9a",
+                                               from: "0xty9 ... Bx9M",
                                                fiatValue: "15.53$",
-                                               transactionCoin: .aur,
+                                               transactionCoin: .ethereum,
                                                amount: 1.12))
         transactionList.append(TransactionInfo(type: .receive,
                                                date: "Sep 08",
-                                               from: "0xss1...fe9e",
+                                               from: "0xj3 ... 138f",
                                                fiatValue: "15.53$",
-                                               transactionCoin: .ethereum,
+                                               transactionCoin: .aur,
                                                amount: 1.55))
         transactionList.append(TransactionInfo(type: .send,
                                                date: "Sep 07",
-                                               from: "0xss1...fe9e",
+                                               from: "0xj3 ... 138f",
+                                               fiatValue: "15.53$",
+                                               transactionCoin: .aur,
+                                               amount: 33))
+        transactionList.append(TransactionInfo(type: .send,
+                                               date: "Sep 07",
+                                               from: "0xj3 ... 148f",
                                                fiatValue: "15.53$",
                                                transactionCoin: .aur,
                                                amount: 33))

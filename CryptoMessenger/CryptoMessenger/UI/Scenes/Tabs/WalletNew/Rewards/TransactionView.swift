@@ -11,6 +11,7 @@ struct TransactionView: View {
     @State var presentFilter = false
     @State var selectorFilterIndex = 0
     @State var selectorTokenIndex = 0
+    @State var address = ""
     @State var tappedTransaction = TransactionInfo(type: .send,
                                                    date: "Jan 01",
                                                    from: "0xxx...xxxx",
@@ -105,15 +106,22 @@ struct TransactionView: View {
         }
         switch selectorTokenIndex {
         case 0:
-            return resultTransaction.filter { item in
+            resultTransaction = resultTransaction.filter { item in
                 item.transactionCoin == .ethereum
             }
         case 1:
-            return resultTransaction.filter { item in
+            resultTransaction = resultTransaction.filter { item in
                 item.transactionCoin == .aur
             }
         default:
-            return []
+            return resultTransaction
+        }
+        if !address.isEmpty {
+            return resultTransaction.filter { item in
+                item.from == address
+            }
+        } else {
+            return resultTransaction
         }
     }
 }

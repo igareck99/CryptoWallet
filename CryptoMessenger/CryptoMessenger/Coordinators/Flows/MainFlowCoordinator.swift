@@ -34,16 +34,15 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(.transaction)
-//        let tabs = [
-//            buildChatTab(),
-//            buildWalletTab(),
-//            buildProfileTab()
-//        ]
-//        let tabBarController = BaseTabBarController(viewControllers: tabs)
-//        tabBarController.selectedIndex = Tabs.chat.index
-//
-//        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+        let tabs = [
+            buildChatTab(),
+            buildWalletTab(),
+            buildProfileTab()
+        ]
+        let tabBarController = BaseTabBarController(viewControllers: tabs)
+        tabBarController.selectedIndex = Tabs.chat.index
+
+        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
 
 //        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
 //            window.rootViewController = tabBarController
@@ -151,7 +150,7 @@ final class MainFlowCoordinator: Coordinator {
         case FAQ
         case chatSettings
         case reserveCopy
-        case transaction
+        case transaction(Int, Int, String)
     }
 }
 
@@ -192,8 +191,10 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showReserveCopyScene()
         case .FAQ:
             showAnswerScene()
-        case .transaction:
-            showTransaction()
+        case let .transaction(selectorFilterIndex, selectorTokenIndex, address):
+            showTransaction(selectorFilterIndex: selectorFilterIndex,
+                            selectorTokenIndex: selectorTokenIndex,
+                            address: address)
         }
     }
 
@@ -289,23 +290,27 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showChatSettings() {
         let rootView = ChatSettingsConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showReserveCopyScene() {
         let rootView = ReserveCopyConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
-    private func showTransaction() {
-        let rootView = TransactionConfigurator.configuredView(delegate: self)
+
+    private func showTransaction(selectorFilterIndex: Int = 0,
+                                 selectorTokenIndex: Int = 0,
+                                 address: String = "") {
+        let rootView = TransactionConfigurator.configuredView(delegate: self,
+                                                              selectorFilterIndex: selectorFilterIndex,
+                                                              selectorTokenIndex: selectorTokenIndex, address: address)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)

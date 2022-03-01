@@ -20,12 +20,8 @@ final class WalletNewViewModel: ObservableObject {
                                            fiatAmount: 18.1342),
                                 WalletInfo(walletType: .aur,
                                            adress: "0xj3 ... 148f",
-                                           coinAmount: 5.3042,
-                                           fiatAmount: 33.5),
-                                WalletInfo(walletType: .aur,
-                                           adress: "0xj3 ... 148f",
-                                           coinAmount: 5.3042,
-                                           fiatAmount: 33.5)
+                                           coinAmount: 2.3042,
+                                           fiatAmount: 18.1342),
     ]
     @Published var canceledImage = UIImage()
 
@@ -67,6 +63,12 @@ final class WalletNewViewModel: ObservableObject {
                 case .onAppear:
                     self?.updateData()
                     self?.objectWillChange.send()
+                case let .onTransactionAddress(selectorTokenIndex, address):
+                    self?.delegate?.handleNextScene(.transaction(0, selectorTokenIndex, address))
+                case let .onTransactionType(selectorFilterIndex):
+                    self?.delegate?.handleNextScene(.transaction(selectorFilterIndex, 0, ""))
+                case let .onTransactionToken(selectorTokenIndex):
+                    self?.delegate?.handleNextScene(.transaction(0, selectorTokenIndex, ""))
                 }
             }
             .store(in: &subscriptions)
@@ -92,25 +94,31 @@ final class WalletNewViewModel: ObservableObject {
             .withTintColor(.white, renderingMode: .alwaysOriginal) ?? UIImage()
         transactionList.append(TransactionInfo(type: .send,
                                                date: "Sep 09",
-                                               from: "0xks1...ka9a",
+                                               from: "0xty9 ... Bx9M",
                                                fiatValue: "15.53$",
                                                transactionCoin: .ethereum,
                                                amount: -0.0236))
         transactionList.append(TransactionInfo(type: .receive,
                                                date: "Sep 09",
-                                               from: "0xks1...ka9a",
+                                               from: "0xty9 ... Bx9M",
                                                fiatValue: "15.53$",
-                                               transactionCoin: .aur,
+                                               transactionCoin: .ethereum,
                                                amount: 1.12))
         transactionList.append(TransactionInfo(type: .receive,
                                                date: "Sep 08",
-                                               from: "0xss1...fe9e",
+                                               from: "0xj3 ... 138f",
                                                fiatValue: "15.53$",
-                                               transactionCoin: .ethereum,
+                                               transactionCoin: .aur,
                                                amount: 1.55))
         transactionList.append(TransactionInfo(type: .send,
                                                date: "Sep 07",
-                                               from: "0xss1...fe9e",
+                                               from: "0xj3 ... 138f",
+                                               fiatValue: "15.53$",
+                                               transactionCoin: .aur,
+                                               amount: 33))
+        transactionList.append(TransactionInfo(type: .send,
+                                               date: "Sep 07",
+                                               from: "0xj3 ... 148f",
                                                fiatValue: "15.53$",
                                                transactionCoin: .aur,
                                                amount: 33))
