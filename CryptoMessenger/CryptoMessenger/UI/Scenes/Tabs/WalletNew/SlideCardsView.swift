@@ -121,7 +121,6 @@ struct SlideCardsView: View {
                     .onEnded({ value in
                         if -value.predictedEndTranslation.width > geometry.size.width / 2, self.index < self.viewModel.cardsList.count - 1 {
                             self.index += 1
-                            print("dodkmeod   \(Double(self.index) / Double(viewModel.cardsList.count))")
                         }
                         if value.predictedEndTranslation.width > geometry.size.width / 2, self.index > 0 {
                             self.index -= 1

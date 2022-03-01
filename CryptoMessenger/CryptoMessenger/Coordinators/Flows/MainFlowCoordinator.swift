@@ -34,16 +34,16 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        let tabs = [
-            buildChatTab(),
-            buildWalletTab(),
-            buildProfileTab()
-        ]
-
-        let tabBarController = BaseTabBarController(viewControllers: tabs)
-        tabBarController.selectedIndex = Tabs.chat.index
-
-        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+        handleNextScene(.transaction)
+//        let tabs = [
+//            buildChatTab(),
+//            buildWalletTab(),
+//            buildProfileTab()
+//        ]
+//        let tabBarController = BaseTabBarController(viewControllers: tabs)
+//        tabBarController.selectedIndex = Tabs.chat.index
+//
+//        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
 
 //        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
 //            window.rootViewController = tabBarController
@@ -68,10 +68,6 @@ final class MainFlowCoordinator: Coordinator {
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.wallet.item
         return navigation
-//        let viewController = WalletConfigurator.configuredViewController(delegate: nil)
-//        let navigation = BaseNavigationController(rootViewController: viewController)
-//        navigation.tabBarItem = Tabs.wallet.item
-//        return navigation
     }
 
     private func buildProfileTab() -> UIViewController {
@@ -155,6 +151,7 @@ final class MainFlowCoordinator: Coordinator {
         case FAQ
         case chatSettings
         case reserveCopy
+        case transaction
     }
 }
 
@@ -195,6 +192,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showReserveCopyScene()
         case .FAQ:
             showAnswerScene()
+        case .transaction:
+            showTransaction()
         }
     }
 
@@ -304,6 +303,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    private func showTransaction() {
+        let rootView = TransactionConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -357,6 +363,10 @@ extension MainFlowCoordinator: AnswersSceneDelegate {}
 // MARK: - MainFlowCoordinator (WalletNewSceneDelegate)
 
 extension MainFlowCoordinator: WalletNewSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (TransactionSceneDelegate)
+
+extension MainFlowCoordinator: TransactionSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

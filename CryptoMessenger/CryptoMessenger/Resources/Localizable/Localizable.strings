@@ -283,8 +283,10 @@
 "Transaction.TitleAll" = "Все транзакции";
 "Transaction.OnlySent" = "Только отправленные";
 "Transaction.OnlyReceived" = "Только полученные";
+"Transaction.Filter" = "Фильтрация";
 "Transaction.ETHFilter" = "ETH (Ethereum)";
 "Transaction.AURFilter" = "AUR (Aura)";
+"Transaction.TokenFilter" = "ПО ТОКЕНАМ";
 
 
 

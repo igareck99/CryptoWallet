@@ -94,21 +94,25 @@ final class WalletNewViewModel: ObservableObject {
                                                date: "Sep 09",
                                                from: "0xks1...ka9a",
                                                fiatValue: "15.53$",
+                                               transactionCoin: .ethereum,
                                                amount: -0.0236))
         transactionList.append(TransactionInfo(type: .receive,
                                                date: "Sep 09",
                                                from: "0xks1...ka9a",
                                                fiatValue: "15.53$",
+                                               transactionCoin: .aur,
                                                amount: 1.12))
         transactionList.append(TransactionInfo(type: .receive,
                                                date: "Sep 08",
                                                from: "0xss1...fe9e",
                                                fiatValue: "15.53$",
+                                               transactionCoin: .ethereum,
                                                amount: 1.55))
         transactionList.append(TransactionInfo(type: .send,
                                                date: "Sep 07",
                                                from: "0xss1...fe9e",
                                                fiatValue: "15.53$",
+                                               transactionCoin: .aur,
                                                amount: 33))
     }
 }
@@ -128,11 +132,24 @@ enum WalletType {
     case ethereum
     case bitcoin
     case aur
+
+    // MARK: - Internal Properties
+
+    var result: String {
+        switch self {
+        case .ethereum:
+            return R.string.localizable.transactionETHFilter()
+        case .aur:
+            return R.string.localizable.transactionAURFilter()
+        case .bitcoin:
+            return "BTC"
+        }
+    }
 }
 
 // MARK: - TransactionInfo
 
-struct TransactionInfo: Identifiable {
+struct TransactionInfo: Identifiable, Equatable {
 
     // MARK: - Internal Properties
 
@@ -141,7 +158,9 @@ struct TransactionInfo: Identifiable {
     var date: String
     var from: String
     var fiatValue: String
+    var transactionCoin: WalletType
     var amount: Double
+    var isTapped = false
 }
 
 // MARK: - WalletInfo
