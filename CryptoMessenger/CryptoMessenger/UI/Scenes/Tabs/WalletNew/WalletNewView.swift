@@ -57,9 +57,6 @@ struct WalletNewView: View {
                    dismissCallback: { showTabBar() },
                    view: {
                 AddWalletView(showAddWallet: $showAddWallet)
-                    .onAppear {
-                        hideTabBar()
-                    }
                     .frame(width: UIScreen.main.bounds.width,
                            height: 114, alignment: .center)
                     .background(.white())
@@ -76,6 +73,7 @@ struct WalletNewView: View {
                     } label: {
                         R.image.wallet.settings.image
                             .onTapGesture {
+                                hideTabBar()
                                 showAddWallet = true
                             }
                     }
