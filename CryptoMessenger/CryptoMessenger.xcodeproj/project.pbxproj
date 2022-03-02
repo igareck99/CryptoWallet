@@ -309,6 +309,7 @@
 		8B432CC627C3955A0025D62B /* WalletNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC527C3955A0025D62B /* WalletNewViewModel.swift */; };
 		8B432CC827C395B00025D62B /* WalletNewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC727C395B00025D62B /* WalletNewProtocols.swift */; };
 		8B432CCA27C3DA040025D62B /* WalletNewConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC927C3DA030025D62B /* WalletNewConfigurator.swift */; };
+		8B4810F627CF81F000831589 /* AddWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810F527CF81F000831589 /* AddWalletView.swift */; };
 		8B5609B2277927B500AF43F6 /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B1277927B500AF43F6 /* TypographyView.swift */; };
 		8B5609B427792B0000AF43F6 /* TypographyNewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B327792B0000AF43F6 /* TypographyNewItem.swift */; };
 		8B5609B62779C5CA00AF43F6 /* ThemeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B52779C5CA00AF43F6 /* ThemeItem.swift */; };
@@ -675,6 +676,7 @@
 		8B432CC527C3955A0025D62B /* WalletNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewViewModel.swift; sourceTree = "<group>"; };
 		8B432CC727C395B00025D62B /* WalletNewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewProtocols.swift; sourceTree = "<group>"; };
 		8B432CC927C3DA030025D62B /* WalletNewConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewConfigurator.swift; sourceTree = "<group>"; };
+		8B4810F527CF81F000831589 /* AddWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWalletView.swift; sourceTree = "<group>"; };
 		8B4DC640274D7939001B3998 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
 		8B5609B1277927B500AF43F6 /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
 		8B5609B327792B0000AF43F6 /* TypographyNewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyNewItem.swift; sourceTree = "<group>"; };
@@ -1826,13 +1828,14 @@
 		8B432CC027C394C50025D62B /* WalletNew */ = {
 			isa = PBXGroup;
 			children = (
-				8BC06B0A27C7DFAF005A28A1 /* Rewards */,
+				8BC06B0A27C7DFAF005A28A1 /* Transaction */,
 				8B432CC127C394E00025D62B /* WalletNewView.swift */,
 				8B432CC327C394F10025D62B /* WalletNewFlow.swift */,
 				8B432CC527C3955A0025D62B /* WalletNewViewModel.swift */,
 				8B432CC727C395B00025D62B /* WalletNewProtocols.swift */,
 				8B432CC927C3DA030025D62B /* WalletNewConfigurator.swift */,
 				8B12263827C53120008DC048 /* SlideCardsView.swift */,
+				8B4810F527CF81F000831589 /* AddWalletView.swift */,
 			);
 			path = WalletNew;
 			sourceTree = "<group>";
@@ -1938,7 +1941,7 @@
 			path = ReserveCopy;
 			sourceTree = "<group>";
 		};
-		8BC06B0A27C7DFAF005A28A1 /* Rewards */ = {
+		8BC06B0A27C7DFAF005A28A1 /* Transaction */ = {
 			isa = PBXGroup;
 			children = (
 				8BC06B0B27C7DFC4005A28A1 /* TransactionView.swift */,
@@ -1948,7 +1951,7 @@
 				8BC06B1327C8F6B6005A28A1 /* TransactionConfigurator.swift */,
 				8B637D8627CCF06A000B1B2B /* FilterTransactionView.swift */,
 			);
-			path = Rewards;
+			path = Transaction;
 			sourceTree = "<group>";
 		};
 		8BD6292B276AABF8000A976A /* SocialList */ = {
@@ -2370,6 +2373,7 @@
 				5A26CD3B26B3211100118D4B /* TapAnimator.swift in Sources */,
 				5AABB78727398A6E004D6107 /* NavigationBarModifier.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
+				8B4810F627CF81F000831589 /* AddWalletView.swift in Sources */,
 				7889064A270684830093459C /* NetworkDetailCell.swift in Sources */,
 				789FEBEC26DCE61D0018FE91 /* PhotoEditorPresenter.swift in Sources */,
 				5A4BE4F7271DC26700D03D09 /* AuthData.swift in Sources */,

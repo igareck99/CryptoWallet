@@ -9,6 +9,7 @@ struct WalletNewView: View {
     @StateObject var viewModel: WalletNewViewModel
     @State var offset: CGFloat = 0
     @State var index = 0
+    @State var showAddWallet = false
 
     // MARK: - Body
 
@@ -47,6 +48,24 @@ struct WalletNewView: View {
             .onAppear {
                 viewModel.send(.onAppear)
             }
+            .popup(isPresented: $showAddWallet,
+                   type: .toast,
+                   position: .bottom,
+                   closeOnTap: false,
+                   closeOnTapOutside: true,
+                   backgroundColor: Color(.black(0.3)),
+                   dismissCallback: { showTabBar() },
+                   view: {
+                AddWalletView(showAddWallet: $showAddWallet)
+                    .onAppear {
+                        hideTabBar()
+                    }
+                    .frame(width: UIScreen.main.bounds.width,
+                           height: 114, alignment: .center)
+                    .background(.white())
+                    .cornerRadius(16)
+            }
+                   )
         .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Text(R.string.localizable.tabWallet())
@@ -56,6 +75,9 @@ struct WalletNewView: View {
                     Button {
                     } label: {
                         R.image.wallet.settings.image
+                            .onTapGesture {
+                                showAddWallet = true
+                            }
                     }
                 }
                 }

@@ -287,6 +287,16 @@
 "Transaction.ETHFilter" = "ETH (Ethereum)";
 "Transaction.AURFilter" = "AUR (Aura)";
 "Transaction.TokenFilter" = "ПО ТОКЕНАМ";
+"Transaction.AddWallet" = "Добавить кошелек";
+
+"Import.Title" = "Импорт";
+"Import.ImportKey" = "Импорт закрытого ключа";
+"Import.EnterPrivateKey" = "Введите Ваш закрытый ключ";
+"Import.ChooseWalletType" = "Выберите тип кошелька";
+"Import.HowImportKey" = "Как правильно импортировать ключи?";
+"Import.Import" = "Импортировать";
+
+
 
 
 
