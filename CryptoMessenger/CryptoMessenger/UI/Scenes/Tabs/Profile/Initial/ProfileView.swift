@@ -247,7 +247,14 @@ struct ProfileView: View {
             AsyncImage(
                 url: viewModel.profile.avatar,
                 placeholder: {
-                    thumbnail
+                    if (viewModel.profile.avatar != nil) {
+                        ProgressView()
+                            .frame(width: 100, height: 100)
+                            .background(.blue(0.1))
+                            .scaledToFill()
+                    } else {
+                        thumbnail
+                    }
                 },
                 result: {
                     Image(uiImage: $0).resizable()

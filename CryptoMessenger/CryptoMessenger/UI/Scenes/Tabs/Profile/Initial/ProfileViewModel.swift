@@ -210,6 +210,10 @@ final class ProfileViewModel: ObservableObject {
     }
 
     private func fetchData() {
+        let link = mxStore.getAvatarUrl()
+        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+        let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+        profile.avatar = url
         getSocialList()
         profile.nickname = mxStore.getUserId()
         if !mxStore.getDisplayName().isEmpty {
@@ -218,11 +222,6 @@ final class ProfileViewModel: ObservableObject {
         if !mxStore.getStatus().isEmpty {
             profile.status = mxStore.getStatus()
         }
-
-        let link = mxStore.getAvatarUrl()
-        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
-        let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
-        profile.avatar = url
         profile.phone = userCredentialsStorageService.userPhoneNumber
         getPhotos()
     }
