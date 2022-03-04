@@ -22,6 +22,7 @@ enum WalletNewFlow {
         // MARK: - Types
 
         case onAppear
+        case onImportKey
         case onTransactionToken(selectorTokenIndex: Int)
         case onTransactionType(selectorFilterIndex: Int)
         case onTransactionAddress(selectorTokenIndex: Int, address: String)

@@ -8,7 +8,6 @@ struct ImagePickerView: UIViewControllerRepresentable {
     // MARK: - Internal Properties
 
     @Binding var selectedImage: UIImage?
-    var onSelectImage: GenericBlock<UIImage?>?
 
     // MARK: - Private Properties
 
@@ -17,9 +16,8 @@ struct ImagePickerView: UIViewControllerRepresentable {
 
     // MARK: - Lifecycle
 
-    init(selectedImage: Binding<UIImage?>, onSelectImage: GenericBlock<UIImage?>?) {
+    init(selectedImage: Binding<UIImage?>) {
         self._selectedImage = selectedImage
-        self.onSelectImage = onSelectImage
     }
 
     // MARK: - Internal Methods
@@ -51,7 +49,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
 
         private var parent: ImagePickerView
 
-        // MARK: - Lifecycle
+        // MARK: - Life Cycle
 
         init(_ parent: ImagePickerView) {
             self.parent = parent
@@ -65,7 +63,6 @@ struct ImagePickerView: UIViewControllerRepresentable {
         ) {
             let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
             parent.selectedImage = image
-            parent.onSelectImage?(image)
             parent.presentationMode.wrappedValue.dismiss()
         }
     }

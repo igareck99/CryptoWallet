@@ -10,9 +10,11 @@ struct ChatRoomRow: View {
     private let message: RoomMessage
     private let isFromCurrentUser: Bool
     private let isPreviousFromCurrentUser: Bool
+    private let isDirect: Bool
     private var onReaction: StringBlock?
     private var onSelectPhoto: GenericBlock<URL?>?
     @State private var showMap = false
+    @State private var showFile = false
     @State private var isAnimating = false
 
     // MARK: - Lifecycle
@@ -20,12 +22,14 @@ struct ChatRoomRow: View {
     init(
         message: RoomMessage,
         isPreviousFromCurrentUser: Bool,
+        isDirect: Bool,
         onReaction: StringBlock?,
         onSelectPhoto: GenericBlock<URL?>?
     ) {
         self.message = message
         self.isFromCurrentUser = message.isCurrentUser
         self.isPreviousFromCurrentUser = isPreviousFromCurrentUser
+        self.isDirect = isDirect
         self.onReaction = onReaction
         self.onSelectPhoto = onSelectPhoto
     }
@@ -37,6 +41,32 @@ struct ChatRoomRow: View {
             HStack(spacing: 0) {
                 if isFromCurrentUser {
                     Spacer()
+                }
+
+                if !isDirect, !isFromCurrentUser {
+                    VStack(spacing: 0) {
+                        Spacer()
+
+                        AsyncImage(
+                            url: message.avatar,
+                            placeholder: {
+                                ZStack {
+                                    Color(.lightBlue())
+                                    Text(message.name.firstLetter.uppercased())
+                                        .foreground(.white())
+                                        .font(.medium(12))
+                                }
+                            },
+                            result: {
+                                Image(uiImage: $0).resizable()
+                            }
+                        )
+                        .scaledToFill()
+                        .frame(width: 30, height: 30)
+                        .cornerRadius(15)
+                    }
+                    .padding(.leading, 16)
+                    .padding(.trailing, -11)
                 }
 
                 BubbleView(direction: isFromCurrentUser ? .right : .left) {
@@ -70,6 +100,21 @@ struct ChatRoomRow: View {
                                 }
                         case .contact:
                             contactRow()
+                        case let .file(fileName, url):
+                            fileRow(message, fileName: fileName, url: url)
+                                .sheet(isPresented: $showFile) {
+                                    if let url = url {
+                                        NavigationView {
+                                            PDFKitView(url: url)
+                                                .ignoresSafeArea()
+                                                .navigationBarTitle(Text(fileName))
+                                                .navigationBarTitleDisplayMode(.inline)
+                                        }
+                                    }
+                                }
+                                .onTapGesture {
+                                    showFile.toggle()
+                                }
                         case .none:
                             EmptyView()
                         }
@@ -84,6 +129,32 @@ struct ChatRoomRow: View {
                     )
                 )
                 .padding(isFromCurrentUser ? .leading : .trailing, 8)
+
+                if !isDirect, isFromCurrentUser {
+                    VStack(spacing: 0) {
+                        Spacer()
+
+                        AsyncImage(
+                            url: message.avatar,
+                            placeholder: {
+                                ZStack {
+                                    Color(.lightBlue())
+                                    Text(message.name.firstLetter.uppercased())
+                                        .foreground(.white())
+                                        .font(.medium(12))
+                                }
+                            },
+                            result: {
+                                Image(uiImage: $0).resizable()
+                            }
+                        )
+                        .scaledToFill()
+                        .frame(width: 30, height: 30)
+                        .cornerRadius(15)
+                    }
+                    .padding(.trailing, 16)
+                    .padding(.leading, -11)
+                }
 
                 if !isFromCurrentUser {
                     Spacer()
@@ -147,18 +218,61 @@ struct ChatRoomRow: View {
 
     private func photoRow(_ message: RoomMessage, url: URL?) -> some View {
         ZStack {
-            AsyncImage(url: url) {
-                $0.resizable()
-            } placeholder: {
-                ShimmerView()
-                    .frame(width: 202, height: 245)
-            }
+            AsyncImage(
+                url: url,
+                placeholder: {
+                    ShimmerView()
+                        .frame(width: 202, height: 245)
+                },
+                result: {
+                    Image(uiImage: $0).resizable()
+                }
+            )
             .scaledToFill()
             .frame(width: 202, height: 245)
 
             checkReadView(message.shortDate)
         }
         .frame(width: 202, height: 245)
+    }
+
+    private func fileRow(_ message: RoomMessage, fileName: String, url: URL?) -> some View {
+        ZStack {
+            HStack(spacing: 0) {
+                if let url = url {
+                    PDFKitView(url: url)
+                        .frame(width: 80, height: 80)
+                        .cornerRadius(8)
+                        .padding(.leading, 8)
+                } else {
+                    ShimmerView()
+                        .frame(width: 80, height: 80)
+                        .cornerRadius(8)
+                        .padding(.leading, 8)
+                }
+
+                VStack(spacing: 4) {
+                    Spacer()
+                    Text(fileName, [
+                        .color(.black()),
+                        .font(.medium(15)),
+                        .paragraph(.init(lineHeightMultiple: 1.26, alignment: .left))
+                    ]).frame(height: 23)
+
+//                    Text(url?.fileSize() ?? "", [
+//                        .color(.darkGray()),
+//                        .font(.regular(13)),
+//                        .paragraph(.init(lineHeightMultiple: 1, alignment: .left))
+//                    ]).frame(height: 16)
+                    Spacer()
+                }.padding(.leading, 11)
+
+                Spacer()
+            }
+
+            checkReadView(message.shortDate)
+        }
+        .frame(width: 247, height: 96)
     }
 
     private func contactRow() -> some View {

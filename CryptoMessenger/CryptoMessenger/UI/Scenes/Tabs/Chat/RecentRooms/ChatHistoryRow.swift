@@ -8,28 +8,28 @@ struct ChatHistoryRow: View {
 
     let room: AuraRoom
 
-    // MARK: - Private Properties
-
     // MARK: - Body
 
     var body: some View {
         HStack(spacing: 12) {
             ZStack {
-                AsyncImage(url: room.roomAvatar) { phase in
-                    if let image = phase.image {
-                        image.resizable()
-                    } else {
+                AsyncImage(
+                    url: room.roomAvatar,
+                    placeholder: {
                         ZStack {
                             Color(.lightBlue())
                             Text(room.summary.displayname?.firstLetter.uppercased() ?? "?")
                                 .foreground(.white())
                                 .font(.medium(26))
                         }
+                    },
+                    result: {
+                        Image(uiImage: $0).resizable()
                     }
-                }
-                .scaledToFill()
-                .frame(width: 60, height: 60)
-                .cornerRadius(30)
+                )
+                    .scaledToFill()
+                    .frame(width: 60, height: 60)
+                    .cornerRadius(30)
 
                 if room.isDirect {
                     ZStack {
@@ -76,11 +76,15 @@ struct ChatHistoryRow: View {
                         ).lineLimit(2)
                     case let .image(url):
                         HStack(spacing: 6) {
-                            AsyncImage(url: url) {
-                                $0.resizable()
-                            } placeholder: {
-                                ShimmerView().frame(width: 20, height: 20)
-                            }
+                            AsyncImage(
+                                url: url,
+                                placeholder: {
+                                    ShimmerView().frame(width: 20, height: 20)
+                                },
+                                result: {
+                                    Image(uiImage: $0).resizable()
+                                }
+                            )
                             .scaledToFill()
                             .frame(width: 16, height: 16)
                             .cornerRadius(2)
@@ -93,6 +97,24 @@ struct ChatHistoryRow: View {
                                     .color(.black(0.6))
                                 ]
                             )
+                        }
+                    case let .file(fileName, url):
+                        HStack(spacing: 6) {
+                            if let url = url {
+                                PDFKitView(url: url)
+                                    .frame(width: 16, height: 16)
+                                    .cornerRadius(2)
+                            } else {
+                                ShimmerView()
+                                    .frame(width: 16, height: 16)
+                                    .cornerRadius(2)
+                            }
+
+                            Text(fileName, [
+                                .font(.regular(15)),
+                                .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
+                                .color(.black(0.6))
+                            ])
                         }
                     default:
                         EmptyView()

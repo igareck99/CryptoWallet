@@ -147,6 +147,18 @@ final class AuraRoom: ObservableObject {
         }
     }
 
+    func sendFile(_ url: URL) {
+        var localEcho: MXEvent?
+        objectWillChange.send()
+        room.sendFile(
+            localURL: url,
+            mimeType: "file/pdf",
+            localEcho: &localEcho
+        ) { _ in
+            self.objectWillChange.send()
+        }
+    }
+
     func markAllAsRead() {
         room.markAllAsRead()
     }

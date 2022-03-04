@@ -11,6 +11,7 @@ struct ContactRow: View {
     let status: String
     var hideSeparator = false
     var showInviteButton = false
+    var isAdmin = false
     var onInvite: VoidBlock?
 
     // MARK: - Body
@@ -18,36 +19,55 @@ struct ContactRow: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
-                AsyncImage(url: avatar) { phase in
-                    if let image = phase.image {
-                        image.resizable()
-                    } else {
+                AsyncImage(
+                    url: avatar,
+                    placeholder: {
                         ZStack {
                             Color(.lightBlue())
                             Text(name.firstLetter.uppercased())
                                 .foreground(.white())
                                 .font(.medium(22))
                         }
+                    },
+                    result: {
+                        Image(uiImage: $0).resizable()
                     }
-                }
+                )
                 .scaledToFill()
                 .frame(width: 40, height: 40)
                 .cornerRadius(20)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(name)
-                        .font(.semibold(15))
-                        .foreground(.black())
+                    HStack(spacing: 0) {
+                        Text(name)
+                            .font(.semibold(15))
+                            .foreground(.black())
+                            .padding(.top, 12)
+
+                        Spacer()
+
+                        if isAdmin {
+                            Text("Админ", [
+                                .color(.darkGray()),
+                                .font(.regular(13)),
+                                .paragraph(.init(lineHeightMultiple: 1, alignment: .right))
+                            ])
+                                .padding(.top, 15)
+                        }
+                    }
 
                     if !status.isEmpty {
                         Text(status)
                             .font(.regular(13))
                             .foreground(.darkGray())
+                            .padding(.bottom, 12)
                     }
                 }
                 .frame(height: 64)
 
-                Spacer()
+                if !isAdmin {
+                    Spacer()
+                }
 
                 if showInviteButton {
                     Button {
@@ -66,7 +86,7 @@ struct ContactRow: View {
                     )
                 }
             }
-            .padding([.leading, .trailing], 16)
+            .padding(.horizontal, 16)
 
             if !hideSeparator {
                 Rectangle()

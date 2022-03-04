@@ -50,11 +50,13 @@ struct ChatCreateView: View {
 
     // MARK: - Internal Properties
 
+    @Binding var chatData: ChatData
     @StateObject var viewModel: ChatCreateViewModel
-    var onCreateGroup: GenericBlock<[Contact]>?
 
     // MARK: - Private Properties
 
+    @State private var showContacts = false
+    @State private var groupCreated = false
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -64,7 +66,13 @@ struct ChatCreateView: View {
             content
                 .onReceive(viewModel.$closeScreen) { closed in
                     if closed {
+                        chatData = .init()
                         presentationMode.wrappedValue.dismiss()
+                    }
+                }
+                .onChange(of: groupCreated) { created in
+                    if created {
+                        viewModel.send(.onCreateGroup(chatData))
                     }
                 }
                 .navigationBarHidden(true)
@@ -72,6 +80,12 @@ struct ChatCreateView: View {
                 .onAppear {
                     viewModel.send(.onAppear)
                 }
+                .overlay(
+                    EmptyNavigationLink(
+                        destination: SelectContactView(chatData: $chatData, groupCreated: $groupCreated),
+                        isActive: $showContacts
+                    )
+                )
 //                .toolbar {
 //                    ToolbarItem(placement: .navigationBarLeading) {
 //                        Button(action: {
@@ -134,8 +148,7 @@ struct ChatCreateView: View {
                                 .padding([.leading, .trailing], 16)
                                 .onTapGesture {
                                     vibrate()
-                                    delay(0.1) { onCreateGroup?(viewModel.existingContacts) }
-                                    presentationMode.wrappedValue.dismiss()
+                                    showContacts.toggle()
                                 }
                         }
                     }
@@ -152,7 +165,7 @@ struct ChatCreateView: View {
                                     hideSeparator: viewModel.contacts.last?.id == contact.id
                                 ).onTapGesture {
                                     vibrate()
-                                    viewModel.send(.onCreate([contact.mxId]))
+                                    viewModel.send(.onCreateDirect([contact.mxId]))
                                 }
                             }
                         }

@@ -5,6 +5,19 @@ import SwiftUI
 
 struct ChatRoomView: View {
 
+    // MARK: - ActiveSheet
+
+    enum ActiveSheet: Identifiable {
+
+        // MARK: - Types
+
+        case photo, documents
+
+        // MARK: - Internal Properties
+
+        var id: Int { hashValue }
+    }
+
     // MARK: - Internal Properties
 
     @ObservedObject var viewModel: ChatRoomViewModel
@@ -20,6 +33,9 @@ struct ChatRoomView: View {
     @State private var showJoinAlert = false
     @State private var height = CGFloat(0)
     @State private var selectedPhoto: URL?
+    @State private var showSettings = false
+    @State private var showDocuments = false
+    @State private var activeSheet: ActiveSheet?
 
     // MARK: - Body
 
@@ -41,16 +57,11 @@ struct ChatRoomView: View {
             .onDisappear {
                 showTabBar()
             }
-            .sheet(isPresented: $viewModel.showPhotoLibrary) {
-                NavigationView {
-                    ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
-                        guard let image = image else { return }
-                        self.viewModel.send(.onSendImage(image))
-                    })
-                        .ignoresSafeArea()
-                        .navigationBarTitle(Text("Фото"))
-                        .navigationBarTitleDisplayMode(.inline)
-                }
+            .onReceive(viewModel.$showPhotoLibrary) { flag in
+                if flag { activeSheet = .photo }
+            }
+            .onReceive(viewModel.$showDocuments) { flag in
+                if flag { activeSheet = .documents }
             }
             .alert(isPresented: $showJoinAlert) {
                 let roomName = viewModel.room.summary.displayname ?? "Новый запрос"
@@ -67,23 +78,49 @@ struct ChatRoomView: View {
                     )
                 )
             }
+            .sheet(item: $activeSheet) { item in
+                switch item {
+                case .photo:
+                    ImagePickerView(selectedImage: $viewModel.selectedImage)
+                        .ignoresSafeArea()
+                        .navigationBarTitle(Text("Фото"))
+                        .navigationBarTitleDisplayMode(.inline)
+                case .documents:
+                    documentPicker { urls in
+                        guard !urls.isEmpty, let url = urls.first else { return }
+                        self.viewModel.send(.onSendFile(url))
+                    }
+                }
+            }
+            .overlay(
+                EmptyNavigationLink(destination: SettingsView(chatData: $viewModel.chatData, saveData: $viewModel.saveData), isActive: $showSettings)
+            )
+            .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarColor(selectedPhoto != nil ? nil : .white(), isBlured: false)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     HStack(spacing: 0) {
-                        AsyncImage(url: viewModel.room.roomAvatar) { phase in
-                            if let image = phase.image {
-                                image.resizable()
-                            } else {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }, label: {
+                            R.image.navigation.backButton.image
+                        })
+
+                        AsyncImage(
+                            url: viewModel.room.roomAvatar,
+                            placeholder: {
                                 ZStack {
                                     Color(.lightBlue())
                                     Text(viewModel.room.summary.displayname?.firstLetter.uppercased() ?? "?")
                                         .foreground(.white())
                                         .font(.medium(20))
                                 }
+                            },
+                            result: {
+                                Image(uiImage: $0).resizable()
                             }
-                        }
+                        )
                         .scaledToFill()
                         .frame(width: 36, height: 36)
                         .cornerRadius(18)
@@ -98,10 +135,17 @@ struct ChatRoomView: View {
                                 Spacer()
                             }
                             HStack(spacing: 0) {
-                                Text(viewModel.room.isOnline ? "онлайн" : "оффлайн")
-                                    .lineLimit(1)
-                                    .font(.regular(13))
-                                    .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
+                                if viewModel.room.isDirect {
+                                    Text(viewModel.room.isOnline ? "онлайн" : "оффлайн")
+                                        .lineLimit(1)
+                                        .font(.regular(13))
+                                        .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
+                                } else {
+                                    Text("Участники (\(viewModel.chatData.contacts.count.description))")
+                                        .lineLimit(1)
+                                        .font(.regular(13))
+                                        .foreground(.black(0.5))
+                                }
                                 Spacer()
                             }
                         }
@@ -117,14 +161,14 @@ struct ChatRoomView: View {
                     HStack(spacing: 0) {
                         Spacer()
 
+//                        Button(action: {
+//
+//                        }, label: {
+//                            R.image.navigation.phoneButton.image
+//                        })
+
                         Button(action: {
-
-                        }, label: {
-                            R.image.navigation.phoneButton.image
-                        })
-
-                        Button(action: {
-
+                            showSettings.toggle()
                         }, label: {
                             R.image.navigation.settingsButton.image
                         })
@@ -148,6 +192,7 @@ struct ChatRoomView: View {
                                 ChatRoomRow(
                                     message: message,
                                     isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
+                                    isDirect: viewModel.room.isDirect,
                                     onReaction: { reactionId in
                                         vibrate()
                                         viewModel.send(.onDeleteReaction(messageId: message.id, reactionId: reactionId))
@@ -248,18 +293,20 @@ struct ChatRoomView: View {
 
                 Spacer().frame(width: 16)
 
-                AsyncImage(url: viewModel.room.roomAvatar) { phase in
-                    if let image = phase.image {
-                        image.resizable()
-                    } else {
+                AsyncImage(
+                    url: viewModel.room.roomAvatar,
+                    placeholder: {
                         ZStack {
                             Color(.lightBlue())
                             Text(viewModel.room.summary.displayname?.firstLetter.uppercased() ?? "?")
                                 .foreground(.white())
                                 .font(.medium(20))
                         }
+                    },
+                    result: {
+                        Image(uiImage: $0).resizable()
                     }
-                }
+                )
                 .scaledToFill()
                 .frame(width: 36, height: 36)
                 .cornerRadius(18)

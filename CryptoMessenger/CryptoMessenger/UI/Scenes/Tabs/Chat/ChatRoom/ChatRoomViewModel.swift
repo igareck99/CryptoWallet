@@ -9,7 +9,9 @@ final class ChatRoomViewModel: ObservableObject {
 
     weak var delegate: ChatRoomSceneDelegate?
 
-    @Published var inputText: String = ""
+    @Published var chatData = ChatData()
+    @Published var saveData = false
+    @Published var inputText = ""
     @Published var attachAction: AttachAction?
     @Published var quickAction: QuickAction?
     @Published private(set) var keyboardHeight: CGFloat = 0
@@ -19,6 +21,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private(set) var userMessage: Message?
     @Published private(set) var room: AuraRoom
     @Published var showPhotoLibrary = false
+    @Published var showDocuments = false
     @Published var selectedImage: UIImage?
     @Published private var lastLocation: Location?
 
@@ -36,7 +39,6 @@ final class ChatRoomViewModel: ObservableObject {
 
     init(room: AuraRoom) {
         self.room = room
-
         bindInput()
         bindOutput()
 
@@ -52,6 +54,8 @@ final class ChatRoomViewModel: ObservableObject {
         keyboardObserver.keyboardWillHideHandler = { [weak self] _ in
             self?.keyboardHeight = 0
         }
+
+        fetchChatData()
     }
 
     deinit {
@@ -97,6 +101,10 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.inputText = ""
                     self?.room.sendImage(image)
                     self?.mxStore.objectWillChange.send()
+                case let .onSendFile(url):
+                    self?.inputText = ""
+                    self?.room.sendFile(url)
+                    self?.mxStore.objectWillChange.send()
                 case .onJoinRoom:
                     guard let roomId = self?.room.room.roomId else { return }
                     self?.mxStore.joinRoom(roomId: roomId) { _ in
@@ -133,7 +141,9 @@ final class ChatRoomViewModel: ObservableObject {
                             type: .location(location),
                             shortDate: "00:31",
                             fullDate: "00:31",
-                            isCurrentUser: true
+                            isCurrentUser: true,
+                            name: "",
+                            avatar: nil
                         )
                         self?.messages.append(message)
                     } else {
@@ -145,18 +155,30 @@ final class ChatRoomViewModel: ObservableObject {
                     }
                 case .media:
                     self?.showPhotoLibrary.toggle()
+                case .document:
+                    self?.showDocuments.toggle()
                 case .contact:
                     let message = RoomMessage(
                         id: UUID().uuidString,
                         type: .contact,
                         shortDate: "00:31",
                         fullDate: "00:31",
-                        isCurrentUser: true
+                        isCurrentUser: true,
+                        name: "",
+                        avatar: nil
                     )
                     self?.messages.append(message)
                 default:
                     break
                 }
+            }
+            .store(in: &subscriptions)
+
+        $selectedImage
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] image in
+                guard let image = image else { return }
+                self?.send(.onSendImage(image))
             }
             .store(in: &subscriptions)
 
@@ -170,6 +192,30 @@ final class ChatRoomViewModel: ObservableObject {
             .assign(to: \.lastLocation, on: self)
             .store(in: &subscriptions)
 
+        $saveData
+            .sink { [weak self] flag in
+                guard let room = self?.room.room, flag else { return }
+
+                if let name = self?.chatData.title {
+                    room.setName(name) { _ in }
+                }
+
+                if let topic = self?.chatData.description {
+                    room.setTopic(topic) { _ in }
+                }
+
+                if let data = self?.chatData.image?.jpeg(.medium) {
+                    self?.mxStore.uploadData(data: data, for: room) { [weak self] url in
+                        guard let url = url else { return }
+                        room.setAvatar(url: url) { _ in
+                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                            self?.room.roomAvatar = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
+                        }
+                    }
+                }
+            }
+            .store(in: &subscriptions)
+
         mxStore.objectWillChange
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -180,7 +226,14 @@ final class ChatRoomViewModel: ObservableObject {
                     return
                 }
                 self.messages = room.events().renderableEvents
-                    .map { $0.message(self.fromCurrentSender($0.sender)) }
+                    .map {
+                        var message = $0.message(self.fromCurrentSender($0.sender))
+                        let user = self.mxStore.getUser($0.sender)
+                        message?.name = user?.displayname ?? ""
+                        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                        message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)
+                        return message
+                    }
                     .reversed()
                     .compactMap { $0 }
             }
@@ -193,32 +246,64 @@ final class ChatRoomViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-//    private func sendMessage(_ type: MessageType) {
-//        inputText = ""
-//
-//        switch type {
-//        case let .text(text):
-//            room.sendText(text)
-//        case let .image(image):
-//            room.sendImage(image)
-//        default:
-//            break
-//        }
-//
-//        messages.insert(
-//            .init(
-//                id: UUID().uuidString,
-//                type: type,
-//                shortDate: Date().hoursAndMinutes,
-//                fullDate: Date().dayOfWeekDayAndMonth,
-//                isCurrentUser: true
-//            ),
-//            at: 0
-//        )
-//
-//        mxStore.objectWillChange.send()
-//    }
-}
+    private func fetchChatData() {
+        chatData.title = room.room.summary.displayname ?? ""
+        chatData.description = room.room.summary.topic ?? ""
+        chatData.isDirect = room.isDirect
 
-private var mockEmojiStorage: [ReactionStorage] = ["👍", "👎", "😄", "🎉", "❤️", "🚀", "👀"]
-    .map { .init(id: UUID().uuidString, emoji: $0) }
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            if let url = self?.room.roomAvatar, let data = try? Data(contentsOf: url) {
+                DispatchQueue.main.async { self?.chatData.image = UIImage(data: data) }
+            }
+        }
+
+        chatData.media = room.events().wrapped
+            .map { $0.getMediaURLs() ?? [] }
+            .flatMap { $0 }
+            .map {
+                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                return MXURL(mxContentURI: $0)?.contentURL(on: homeServer)
+            }
+            .compactMap { $0 }
+
+        room.room.members { [weak self] response in
+            switch response {
+            case let .success(members):
+                if let members = members {
+                    let contacts: [Contact] = members.members.map {
+                        var contact = Contact(
+                            mxId: $0.userId ?? "",
+                            avatar: nil,
+                            name: $0.displayname ?? "",
+                            status: "Привет, теперь я в Aura"
+                        )
+                        if let avatar = $0.avatarUrl {
+                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                            contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
+                        }
+                        return contact
+                    }
+
+                    self?.chatData.contacts = contacts
+
+                    self?.room.room.state { response in
+                        let ids = response?.powerLevels?.users.keys
+                            .map { $0 as? String }
+                            .compactMap { $0 } ?? []
+                        self?.chatData.admins = contacts.filter { contact in ids.contains(contact.mxId) }
+
+                        let items: [Contact] = contacts.map {
+                            var new = $0
+                            new.isAdmin = ids.contains($0.mxId)
+                            return new
+                        }
+
+                        self?.chatData.contacts = items.filter { $0.isAdmin } + items.filter { !$0.isAdmin }
+                    }
+                }
+            default:
+                ()
+            }
+        }
+    }
+}

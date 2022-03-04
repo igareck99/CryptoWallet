@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 // MARK: - ProfileFlow
 
@@ -22,11 +23,7 @@ enum ProfileFlow {
         // MARK: - Types
 
         case onAppear
-        case onProfileScene
-        case onPersonalization
-        case onSecurity
-        case aboutApp
-        case onFAQ
-        case onChatSettings
+        case onShow(ProfileSettingsMenu)
+        case onAddPhoto(UIImage)
     }
 }

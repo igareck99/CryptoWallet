@@ -43,15 +43,15 @@ struct SelectBackgroundView: View {
         GeometryReader { geometry in
             Divider().padding(.top, 16)
             List {
-            VStack(alignment: .leading, spacing: 16) {
-                SelectPhotoBackgroundCellView()
-                    .background(.white())
-                    .listRowSeparator(.hidden)
-                    .onTapGesture {
-                        showPhotoLibrary = true
-                    }
-                LazyVGrid(columns: Array(repeating: GridItem(spacing: 8), count: 3), alignment: .center, spacing: 9) {
-                    ForEach(0..<viewModel.backgroundPhotos.count, id: \.self) { index in
+                VStack(alignment: .leading, spacing: 16) {
+                    SelectPhotoBackgroundCellView()
+                        .background(.white())
+                        .listRowSeparator(.hidden)
+                        .onTapGesture {
+                            showPhotoLibrary = true
+                        }
+                    LazyVGrid(columns: Array(repeating: GridItem(spacing: 8), count: 3), alignment: .center, spacing: 9) {
+                        ForEach(0..<viewModel.backgroundPhotos.count, id: \.self) { index in
                             ZStack {
                                 viewModel.backgroundPhotos[index]
                                     .resizable()
@@ -67,8 +67,8 @@ struct SelectBackgroundView: View {
                                             viewModel.user.backGround = viewModel.backgroundPhotos[index]
                                             viewModel.updateImage(index: index)
                                             viewModel.send(.backgroundPreview)
+                                        }
                                     }
-                                }
                                 ZStack {
                                     Circle()
                                         .fill(Color(.blue()))
@@ -77,21 +77,16 @@ struct SelectBackgroundView: View {
                                         .frame(width: 24, height: 24)
                                 }.opacity(viewModel.dataImage == index ? 1 : 0)
                             }
+                        }
                     }
                 }
-            }
             }.padding(.top, 24)
-            .sheet(isPresented: $showPhotoLibrary) {
-                NavigationView {
-                    ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
-                        guard let image = image else { return }
-                        self.viewModel.addPhoto(image: image)
-                    })
+                .sheet(isPresented: $showPhotoLibrary) {
+                    ImagePickerView(selectedImage: $viewModel.selectedImage)
                         .ignoresSafeArea()
                         .navigationBarTitle(Text("Фото"))
                         .navigationBarTitleDisplayMode(.inline)
                 }
-            }
                 .listStyle(.plain)
                 .toolbar {
                     ToolbarItem(placement: .principal) {

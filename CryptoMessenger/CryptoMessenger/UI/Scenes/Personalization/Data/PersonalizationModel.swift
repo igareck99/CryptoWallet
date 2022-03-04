@@ -121,6 +121,14 @@ final class PersonalizationViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.profilePreview)
                 }
         }.store(in: &subscriptions)
+
+        $selectedImage
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] image in
+                guard let image = image else { return }
+                self?.addPhoto(image: image)
+            }
+            .store(in: &subscriptions)
     }
 
     private func updateData() {

@@ -58,10 +58,14 @@ struct ProfileDetailView: View {
                     ])
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Text("Готово")
-                        .foreground(.blue())
-                        .font(.semibold(15))
-                        .onTapGesture { viewModel.send(.onDone) }
+                    Button(action: {
+                        viewModel.send(.onDone)
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Text("Готово")
+                            .font(.semibold(15))
+                            .foreground(.blue())
+                    })
                 }
             }
             .hideKeyboardOnTap()
@@ -71,16 +75,10 @@ struct ProfileDetailView: View {
                 }
             }
             .sheet(isPresented: $showImagePicker) {
-                NavigationView {
-                    ImagePickerView(selectedImage: $viewModel.selectedImage, onSelectImage: { image in
-                        guard let image = image else { return }
-                        self.viewModel.addPhoto(image: image)
-                        viewModel.send(.onAvatar)
-                    })
-                        .ignoresSafeArea()
-                        .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
-                        .navigationBarTitleDisplayMode(.inline)
-                }
+                ImagePickerView(selectedImage: $viewModel.selectedImage)
+                    .ignoresSafeArea()
+                    .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                    .navigationBarTitleDisplayMode(.inline)
             }
             .alert(isPresented: $showLogoutAlert) {
                 return Alert(
@@ -183,23 +181,30 @@ struct ProfileDetailView: View {
     private var avatarView: some View {
         GeometryReader { geometry in
             ZStack {
-                if let url = viewModel.profile.avatar {
-                    AsyncImage(url: url) { phase in
-                        if let image = phase.image {
-                            image.resizable()
-                        } else {
+                if let image = viewModel.selectedImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.width)
+                        .clipped()
+                } else if let url = viewModel.profile.avatar {
+                    AsyncImage(
+                        url: url,
+                        placeholder: {
                             ZStack {
-                                Rectangle()
-                                    .frame(height: geometry.size.width)
-                                    .foreground(.blue(0.1))
-                                R.image.profile.avatarThumbnail.image
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
+                                ProgressView()
+                                    .frame(width: geometry.size.width,
+                                           height: geometry.size.width)
+                                    .background(.blue(0.1))
                             }
+                        },
+                        result: {
+                            Image(uiImage: $0).resizable()
                         }
-                    }
-                    .scaledToFill()
-                    .frame(width: geometry.size.width, height: geometry.size.width)
+                    )
+                        .scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.width)
+                        .clipped()
                 } else {
                     ZStack {
                         Rectangle()
@@ -292,8 +297,6 @@ struct ProfileDetailView: View {
             }
             .background(.paleBlue())
             .cornerRadius(8)
-
-            //PhoneView(phone: $viewModel.profile.phone)
         }
     }
 }

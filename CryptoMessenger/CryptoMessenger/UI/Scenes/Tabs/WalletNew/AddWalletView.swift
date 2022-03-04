@@ -5,7 +5,8 @@ import SwiftUI
 struct AddWalletView: View {
 
     // MARK: - Internal Properties
-
+    
+    @StateObject var viewModel: WalletNewViewModel
     @Binding var showAddWallet: Bool
 
     // MARK: - Body
@@ -32,6 +33,7 @@ struct AddWalletView: View {
             }
             .padding(.leading, 16)
             .onTapGesture {
+                viewModel.send(.onImportKey)
             }
             Spacer()
         }

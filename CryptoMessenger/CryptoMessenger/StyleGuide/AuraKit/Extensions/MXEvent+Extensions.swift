@@ -17,6 +17,12 @@ extension MXEvent {
             let link = content["url"] as? String ?? ""
             let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
             type = .image(url)
+        case kMXMessageTypeFile:
+            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+            let link = content["url"] as? String ?? ""
+            let fileName = content["body"] as? String ?? "Файл"
+            let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+            type = .file(fileName, url)
         default:
             type = .none
         }

@@ -46,7 +46,7 @@ final class ChatHistoryViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.objectWillChange.send()
+                    ()
                 case let .onShowRoom(room):
                     self?.delegate?.handleNextScene(.chatRoom(room))
                 case let .onDeleteRoom(roomId):

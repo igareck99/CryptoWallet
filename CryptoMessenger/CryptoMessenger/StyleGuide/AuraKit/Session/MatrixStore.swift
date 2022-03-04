@@ -41,6 +41,7 @@ final class MatrixStore: ObservableObject {
     private var session: MXSession?
     private var fileStore: MXFileStore?
     private var credentials: MXCredentials?
+    private var uploader: MXMediaLoader?
     private let keychain = Keychain(service: "chat.aura.credentials")
     private var listenReference: Any?
     private var roomCache: [ObjectIdentifier: AuraRoom] = [:]
@@ -175,6 +176,7 @@ final class MatrixStore: ObservableObject {
         self.client = client
         self.session = session
         self.fileStore = fileStore
+        self.uploader = MXMediaLoader(forUploadWithMatrixSession: session, initialRange: 0, andRange: 1)
 
         session?.setStore(fileStore) { response in
             switch response {
@@ -217,13 +219,41 @@ final class MatrixStore: ObservableObject {
         }
     }
 
-    func createRoom(parameters: MXRoomCreationParameters, completion: @escaping ( MXResponse<MXRoom>) -> Void) {
-        let room = rooms.first {
-            $0.isDirect && $0.room.directUserId == parameters.inviteArray?.first
+    func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void) {
+        session?.createRoom(parameters: parameters) { [weak self] response in
+            completion(response)
+            self?.objectWillChange.send()
         }
-        if room == nil {
-            session?.createRoom(parameters: parameters, completion: completion)
-        }
+    }
+
+    func uploadData(data: Data, for room: MXRoom, completion: @escaping GenericBlock<URL?>) {
+        uploader?.uploadData(data, filename: nil, mimeType: "image/jpeg", success: { [weak self] link in
+            guard let link = link, let url = URL(string: link) else {
+                completion(nil)
+                return
+            }
+            completion(url)
+        }, failure: { error in
+            if let error = error {
+                print(error)
+            }
+            completion(nil)
+        })
+    }
+
+    func setRoomAvatar(data: Data, for room: MXRoom, completion: @escaping VoidBlock) {
+        uploader?.uploadData(data, filename: nil, mimeType: "image/jpeg", success: { [weak self] link in
+            guard let link = link, let url = URL(string: link) else { return }
+            room.setAvatar(url: url) { _ in
+                completion()
+                self?.objectWillChange.send()
+            }
+        }, failure: { error in
+            if let error = error {
+                print(error)
+            }
+            completion()
+        })
     }
 
     func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void) {
@@ -279,13 +309,28 @@ final class MatrixStore: ObservableObject {
         }
     }
 
-    func setAvatarUrl(_ avatarUrl: String, completion: @escaping VoidBlock) {
-        session?.myUser.setAvatarUrl(avatarUrl, success: completion) { error in
-            if let error = error {
-                print(error)
+    func setUserAvatarUrl(_ data: Data, completion: @escaping GenericBlock<URL?>) {
+        uploader?.uploadData(data, filename: nil, mimeType: "image/jpeg", success: { [weak self] link in
+            guard let link = link else {
+                completion(nil)
+                return
             }
-            self.objectWillChange.send()
-        }
+            self?.session?.myUser.setAvatarUrl(link, success: {
+                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+                completion(url)
+                self?.objectWillChange.send()
+            }, failure: { error in
+                if let error = error {
+                    print(error)
+                }
+                completion(nil)
+                self?.objectWillChange.send()
+            })
+
+        }, failure: { _ in
+
+        })
     }
 
     func allUsers() -> [MXUser] {
@@ -293,15 +338,6 @@ final class MatrixStore: ObservableObject {
     }
 
     func searchUser(_ id: String, completion: @escaping GenericBlock<String?>) {
-//        client?.searchUsers(id, limit: 1000, success: { [weak self] response in
-//            let users = response?.results?.filter { $0.userId != self?.session?.myUserId } ?? []
-//            completion(users)
-//        }, failure: { error in
-//            if let error = error {
-//                print(error)
-//            }
-//            completion([])
-//        })
         session?.matrixRestClient.profile(forUser: id) { result in
             switch result {
             case let .success((name, _)):

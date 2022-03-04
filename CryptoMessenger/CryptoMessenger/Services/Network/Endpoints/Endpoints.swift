@@ -38,6 +38,20 @@ enum Endpoints {
         }
     }
 
+    // MARK: - Profile
+
+    enum Profile {
+
+        // MARK: - Static Methods
+
+        static func status(_ text: String) -> Endpoint<[String: String]> {
+            let endpoint = Endpoint<[String: String]>(method: .post, path: "/profile/description")
+            endpoint.modifyRequest { $0.jsonBody(dict: ["description": text]) }
+            endpoint.modifyRequest { $0.addHeader("user", value: UserCredentialsStorageService().userId) }
+            return endpoint
+        }
+    }
+
     // MARK: - Users
 
     enum Users {
@@ -54,27 +68,20 @@ enum Endpoints {
     // MARK: - Media
 
     enum Media {
-        static func upload(_ payload: MultipartFileData, name: String)
-                            -> Endpoint<[String: String]> {
-            let endpoint = Endpoint<[String: String]>(method: .post, path: "/profile/media")
-            endpoint.modifyRequest {
-                $0.multipartBody(payload)
-            }
+        static func upload(_ payload: MultipartFileData, name: String) -> Endpoint<MediaResponse> {
+            let endpoint = Endpoint<MediaResponse>(method: .post, path: "/profile/media")
+            endpoint.modifyRequest { $0.multipartBody(payload) }
             return endpoint
         }
 
-        static func getPhotos(_ name: String) -> Endpoint<[Dictionary<String, String>]> {
-            let endpoint = Endpoint<[Dictionary<String, String>]>(method: .get,
-                                                                  path: "/profile/\(name)/media")
+        static func getPhotos(_ name: String) -> Endpoint<[MediaResponse]> {
+            let endpoint = Endpoint<[MediaResponse]>(method: .get, path: "/profile/\(name)/media")
             return endpoint
         }
 
         static func deletePhoto(_ photoUrl: [String]) -> Endpoint<[String]> {
-            let endpoint = Endpoint<[String]>(method: .post,
-                                              path: "/profile/media/delete")
-            endpoint.modifyRequest {
-                $0.jsonBody(array: photoUrl)
-            }
+            let endpoint = Endpoint<[String]>(method: .post, path: "/profile/media/delete")
+            endpoint.modifyRequest { $0.jsonBody(array: photoUrl) }
             return endpoint
         }
     }
@@ -83,7 +90,13 @@ enum Endpoints {
 
     enum Social {
         static func getSocial(_ name: String) -> Endpoint<[String: String]> {
-            let endpoint = Endpoint<[String: String]>(method: .get, path: "/profile/\(name)/social")
+            Endpoint<[String: String]>(method: .get, path: "/profile/\(name)/social")
+        }
+
+        static func setSocial(_ social: [String: String], user: String) -> Endpoint<[String: String]> {
+            let endpoint = Endpoint<[String: String]>(method: .patch, path: "/profile/social")
+            endpoint.modifyRequest { $0.jsonBody(dict: social) }
+            endpoint.modifyRequest { $0.addHeader("user", value: user) }
             return endpoint
         }
     }

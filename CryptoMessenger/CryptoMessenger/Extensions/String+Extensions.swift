@@ -13,17 +13,11 @@ extension String {
 
     // MARK: - Internal Methods
 
-    subscript(i: Int) -> String {
-        self[i ..< i + 1]
-    }
+    subscript(i: Int) -> String { self[i ..< i + 1] }
 
-    func substring(fromIndex: Int) -> String {
-        self[min(fromIndex, count) ..< count]
-    }
+    func substring(fromIndex: Int) -> String { self[min(fromIndex, count) ..< count] }
 
-    func substring(toIndex: Int) -> String {
-        self[0 ..< max(0, toIndex)]
-    }
+    func substring(toIndex: Int) -> String { self[0 ..< max(0, toIndex)] }
 
     subscript(r: Range<Int>) -> String {
         let range = Range(uncheckedBounds: (lower: max(0, min(count, r.lowerBound)),

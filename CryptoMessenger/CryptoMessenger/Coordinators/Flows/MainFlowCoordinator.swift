@@ -151,6 +151,7 @@ final class MainFlowCoordinator: Coordinator {
         case chatSettings
         case reserveCopy
         case transaction(Int, Int, String)
+        case importKey
     }
 }
 
@@ -195,6 +196,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showTransaction(selectorFilterIndex: selectorFilterIndex,
                             selectorTokenIndex: selectorTokenIndex,
                             address: address)
+        case .importKey:
+            showImportKey()
         }
     }
 
@@ -315,6 +318,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+
+    private func showImportKey() {
+        let rootView = ImportKeyConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -372,6 +382,10 @@ extension MainFlowCoordinator: WalletNewSceneDelegate {}
 // MARK: - MainFlowCoordinator (TransactionSceneDelegate)
 
 extension MainFlowCoordinator: TransactionSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ImportKeySceneDelegate)
+
+extension MainFlowCoordinator: ImportKeySceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

@@ -21,7 +21,7 @@ final class WalletNewViewModel: ObservableObject {
                                 WalletInfo(walletType: .aur,
                                            adress: "0xj3 ... 148f",
                                            coinAmount: 2.3042,
-                                           fiatAmount: 18.1342),
+                                           fiatAmount: 18.1342)
     ]
     @Published var canceledImage = UIImage()
 
@@ -69,6 +69,8 @@ final class WalletNewViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.transaction(selectorFilterIndex, 0, ""))
                 case let .onTransactionToken(selectorTokenIndex):
                     self?.delegate?.handleNextScene(.transaction(0, selectorTokenIndex, ""))
+                case .onImportKey:
+                    self?.delegate?.handleNextScene(.importKey)
                 }
             }
             .store(in: &subscriptions)
@@ -151,6 +153,17 @@ enum WalletType {
             return R.string.localizable.transactionAURFilter()
         case .bitcoin:
             return "BTC"
+        }
+    }
+    
+    var chooseTitle: String {
+        switch self {
+        case .ethereum:
+            return R.string.localizable.transactionETHFilter()
+        case .aur:
+            return R.string.localizable.transactionAURFilter()
+        case .bitcoin:
+            return "BTC (Bitcoin)"
         }
     }
 }

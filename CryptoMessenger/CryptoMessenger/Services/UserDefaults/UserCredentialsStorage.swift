@@ -21,7 +21,8 @@ protocol UserCredentialsStorage {
     var lastSeenState: String { get set }
     var callsState: String { get set }
     var geopositionState: String { get set }
-    var reserveCopyTime: String { get set }  
+    var reserveCopyTime: String { get set }
+
 }
 
 // MARK: - UserCredentialsStorageService

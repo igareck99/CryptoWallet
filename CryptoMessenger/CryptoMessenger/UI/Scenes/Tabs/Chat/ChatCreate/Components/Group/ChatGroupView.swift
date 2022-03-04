@@ -5,57 +5,30 @@ import UIKit
 
 struct ChatGroupView: View {
 
+    // MARK: - Internal Properties
+
+    @Binding var chatData: ChatData
+    @Binding var groupCreated: Bool
+
+    // MARK: - Private Properties
+
     @Environment(\.presentationMode) private var presentationMode
-    @State private var title = ""
-    @State private var description = ""
     @State private var titleHeight = CGFloat(0)
     @State private var descriptionHeight = CGFloat(0)
     @State private var showPhotoLibrary = false
-    @State private var selectedImage: UIImage?
-    @State private var isActive = false
 
-    private var titleFieldHeight: CGFloat {
-        let minHeight: CGFloat = 44
-        let maxHeight: CGFloat = 44
+    // MARK: - Life Cycle
 
-        if titleHeight < minHeight {
-            return minHeight
-        }
-
-        if titleHeight > maxHeight {
-            return maxHeight
-        }
-
-        return titleHeight
-    }
-
-    private var descriptionFieldHeight: CGFloat {
-        let minHeight: CGFloat = 44
-        let maxHeight: CGFloat = 132
-
-        if descriptionHeight < minHeight {
-            return minHeight
-        }
-
-        if descriptionHeight > maxHeight {
-            return maxHeight
-        }
-
-        return descriptionHeight
+    init(chatData: Binding<ChatData>, groupCreated: Binding<Bool>) {
+        self._chatData = chatData
+        self._groupCreated = groupCreated
+        UITextView.appearance().background(.paleBlue())
     }
 
     // MARK: - Body
 
     var body: some View {
         content
-            .sheet(isPresented: $showPhotoLibrary) {
-                NavigationView {
-                    ImagePickerView(selectedImage: $selectedImage, onSelectImage: nil)
-                    .ignoresSafeArea()
-                    .navigationBarTitle(Text("Фото"))
-                    .navigationBarTitleDisplayMode(.inline)
-                }
-            }
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -75,20 +48,20 @@ struct ChatGroupView: View {
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        isActive.toggle()
+                        groupCreated.toggle()
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
-                            .foreground(title.isEmpty ? .darkGray() : .blue())
+                            .foreground(chatData.title.isEmpty ? .darkGray() : .blue())
                     })
-                        .disabled(title.isEmpty)
-                        .background(
-                            EmptyNavigationLink(
-                                destination: Text("Новый чат"),
-                                isActive: $isActive
-                            )
-                        )
+                        .disabled(chatData.title.isEmpty)
                 }
+            }
+            .sheet(isPresented: $showPhotoLibrary) {
+                ImagePickerView(selectedImage: $chatData.image)
+                    .ignoresSafeArea()
+                    .navigationBarTitle(Text("Фото"))
+                    .navigationBarTitleDisplayMode(.inline)
             }
     }
 
@@ -101,7 +74,7 @@ struct ChatGroupView: View {
                     Button {
                         showPhotoLibrary.toggle()
                     } label: {
-                        if let image = selectedImage {
+                        if let image = chatData.image {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFill()
@@ -119,22 +92,25 @@ struct ChatGroupView: View {
                     }
 
                     ZStack(alignment: .topLeading) {
-                        DynamicHeightTextField(text: $title, height: $titleHeight)
+                        TextField("", text: $chatData.title)
+                            .frame(height: 44)
                             .background(.paleBlue())
+                            .padding(.horizontal, 16)
 
-                        if title.isEmpty {
+                        if chatData.title.isEmpty {
                             Text("Название")
                                 .foreground(.darkGray())
                                 .padding(.top, 12)
-                                .padding([.leading, .trailing], 19)
+                                .padding(.horizontal, 16)
                                 .disabled(true)
                                 .allowsHitTesting(false)
                         }
                     }
+                    .frame(height: 44)
+                    .background(.paleBlue())
                     .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                    .frame(height: titleFieldHeight)
                 }
-                .padding([.leading, .trailing], 16)
+                .padding(.horizontal, 16)
                 .padding(.top, 24)
 
                 HStack(spacing: 0) {
@@ -142,27 +118,29 @@ struct ChatGroupView: View {
                         .font(.semibold(12))
                         .foreground(.darkGray())
                         .padding(.top, 24)
-                        .padding([.leading, .trailing], 16)
+                        .padding(.horizontal, 16)
                         .padding(.bottom, 12)
                     Spacer()
                 }
 
                 ZStack(alignment: .topLeading) {
-                    DynamicHeightTextField(text: $description, height: $descriptionHeight)
-                        .background(.paleBlue())
+                    TextEditor(text: $chatData.description)
+                        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 132, alignment: .leading)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 12)
 
-                    if description.isEmpty {
+                    if chatData.description.isEmpty {
                         Text("Описание")
                             .foreground(.darkGray())
                             .padding(.top, 12)
-                            .padding([.leading, .trailing], 19)
+                            .padding(.horizontal, 19)
                             .disabled(true)
                             .allowsHitTesting(false)
                     }
                 }
+                .background(.paleBlue())
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                .frame(height: descriptionFieldHeight)
-                .padding([.leading, .trailing], 16)
+                .padding(.horizontal, 16)
 
                 HStack(spacing: 0) {
                     Text("Можете указать дополнительное описание для Вашей группы.")
@@ -170,7 +148,7 @@ struct ChatGroupView: View {
                         .font(.regular(12))
                         .foreground(.darkGray())
                         .padding(.top, 8)
-                        .padding([.leading, .trailing], 16)
+                        .padding(.horizontal, 16)
                     Spacer()
                 }
 
