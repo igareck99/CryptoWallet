@@ -10,11 +10,12 @@ struct ImportKeyView: View {
     @State var isChooseWalletShow = false
     @State var choosedWalletType = WalletType.ethereum
     @State var isSelectedWalletType = false
+    @State var showWrongMnemonicAlert = false
+    @State var showMnemonicSuccess = false
 
     // MARK: - Private Properties
 
     @State private var newKey = ""
-    @State private var isEnableButton = true
 
     // MARK: - Body
 
@@ -68,6 +69,14 @@ struct ImportKeyView: View {
             UITextView.appearance().backgroundColor = .clear
             UITextView.appearance().textContainerInset = .init(top: 12, left: 0, bottom: 12, right: 0)
         }
+        .alert(isPresented: $showWrongMnemonicAlert) {
+            switch showMnemonicSuccess {
+            case true:
+                return Alert(title: Text("Ключ успешно импортирован"))
+            case false:
+                return Alert(title: Text("Ошибка при создании фразы"))
+            }
+        }
         .popup(isPresented: $isChooseWalletShow,
                type: .toast,
                position: .bottom,
@@ -78,8 +87,8 @@ struct ImportKeyView: View {
                                  choosedWalletType: $choosedWalletType,
                                  isSelectedWalletType: $isSelectedWalletType)
                 .frame(width: UIScreen.main.bounds.width, height: 242, alignment: .center)
-                .cornerRadius(16)
                 .background(.white())
+                .cornerRadius(16)
         }
         .toolbar {
                     ToolbarItem(placement: .principal) {
@@ -100,7 +109,8 @@ struct ImportKeyView: View {
                     .foreground(.blue(0.1))
                 R.image.wallet.wallet.image
             }
-                Text(isSelectedWalletType ? choosedWalletType.chooseTitle: R.string.localizable.importEnterPrivateKey())
+                Text(isSelectedWalletType ? choosedWalletType.chooseTitle:
+                        R.string.localizable.importChooseWalletType())
                     .font(.semibold(15))
         }
             Spacer()
@@ -110,21 +120,33 @@ struct ImportKeyView: View {
 
     private var importButton: some View {
         Button {
+            viewModel.createWallet(item: newKey,
+                                   type: choosedWalletType)
+            if viewModel.walletError {
+                newKey = ""
+                viewModel.walletError = false
+                showWrongMnemonicAlert = true
+            } else {
+                showWrongMnemonicAlert = true
+                showMnemonicSuccess = true
+            }
         } label: {
             Text(R.string.localizable.importImport())
                 .font(.semibold(15))
-                .foreground(isEnableButton ? .white() : .darkGray())
+                .foreground(newKey.isEmpty || isSelectedWalletType == false
+                            ? .darkGray() : .white())
                 .frame(width: 185,
                        height: 44)
         }
-        .disabled(isEnableButton == false)
+        .disabled(newKey.isEmpty || isSelectedWalletType == false)
         .frame(minWidth: 185,
                idealWidth: 185,
                maxWidth: 185,
                minHeight: 44,
                idealHeight: 44,
                maxHeight: 44)
-        .background(isEnableButton ? Color(.blue()) : Color(.lightGray()) )
+        .background(newKey.isEmpty || isSelectedWalletType == false
+                    ? Color(.lightGray()) : Color(.blue()) )
         .cornerRadius(8)
     }
 }

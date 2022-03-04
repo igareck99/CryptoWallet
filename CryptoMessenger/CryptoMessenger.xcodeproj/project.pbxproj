@@ -374,6 +374,7 @@
 		8BA0C91227AD77380070203F /* ReserveCopyConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C91127AD77380070203F /* ReserveCopyConfigurator.swift */; };
 		8BA0C91427AD776F0070203F /* ReserveCopyProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C91327AD776F0070203F /* ReserveCopyProtocols.swift */; };
 		8BA0C91627AD77F90070203F /* ReserveCopyFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C91527AD77F90070203F /* ReserveCopyFlow.swift */; };
+		8BB9DD4327D28095003BF8AF /* MnemonicList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB9DD4227D28095003BF8AF /* MnemonicList.swift */; };
 		8BC06B0C27C7DFC4005A28A1 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC06B0B27C7DFC4005A28A1 /* TransactionView.swift */; };
 		8BC06B0E27C8F5EE005A28A1 /* TransactionFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC06B0D27C8F5ED005A28A1 /* TransactionFlow.swift */; };
 		8BC06B1027C8F609005A28A1 /* TransactionProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC06B0F27C8F609005A28A1 /* TransactionProtocols.swift */; };
@@ -758,6 +759,7 @@
 		8BA0C91127AD77380070203F /* ReserveCopyConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyConfigurator.swift; sourceTree = "<group>"; };
 		8BA0C91327AD776F0070203F /* ReserveCopyProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyProtocols.swift; sourceTree = "<group>"; };
 		8BA0C91527AD77F90070203F /* ReserveCopyFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyFlow.swift; sourceTree = "<group>"; };
+		8BB9DD4227D28095003BF8AF /* MnemonicList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicList.swift; sourceTree = "<group>"; };
 		8BC06B0B27C7DFC4005A28A1 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		8BC06B0D27C8F5ED005A28A1 /* TransactionFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionFlow.swift; sourceTree = "<group>"; };
 		8BC06B0F27C8F609005A28A1 /* TransactionProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionProtocols.swift; sourceTree = "<group>"; };
@@ -1980,6 +1982,7 @@
 				8B4810FC27CF9BC400831589 /* ImportKeyProtocols.swift */,
 				8B4810FE27CF9BEB00831589 /* ImportKeyConfigurator.swift */,
 				8B48110027CF9C2300831589 /* ImportKeyViewModel.swift */,
+				8BB9DD4227D28095003BF8AF /* MnemonicList.swift */,
 			);
 			path = ImportKey;
 			sourceTree = "<group>";
@@ -2361,6 +2364,7 @@
 				5A187F2F2680CF49001957D3 /* Endpoints.swift in Sources */,
 				8B48110127CF9C2300831589 /* ImportKeyViewModel.swift in Sources */,
 				8B73C1072747A193008ABB22 /* SessionDetailView.swift in Sources */,
+				8BB9DD4327D28095003BF8AF /* MnemonicList.swift in Sources */,
 				5AC8C4F627C42FB8008B1744 /* URL+Size.swift in Sources */,
 				8B637D8E27CE3C3D000B1B2B /* RadioGroupPicker.swift in Sources */,
 				8BC06B1227C8F646005A28A1 /* TransactionViewModel.swift in Sources */,
