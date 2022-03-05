@@ -171,6 +171,7 @@ PODS:
   - Realm/Headers (10.1.4)
   - SnapKit (5.0.1)
   - SPStorkController (1.8.5)
+  - SweeterSwift (1.2.0)
   - SwiftLint (0.46.3)
 
 DEPENDENCIES:
@@ -186,6 +187,7 @@ DEPENDENCIES:
   - R.swift
   - SnapKit
   - SPStorkController
+  - SweeterSwift
   - SwiftLint
 
 SPEC REPOS:
@@ -218,6 +220,7 @@ SPEC REPOS:
     - Realm
     - SnapKit
     - SPStorkController
+    - SweeterSwift
     - SwiftLint
 
 SPEC CHECKSUMS:
@@ -249,8 +252,9 @@ SPEC CHECKSUMS:
   Realm: 80f4fb2971ccb9adc27a47d0955ae8e533a7030b
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SPStorkController: 68966ed3134de2be2a8bbd1475c7e81f3f7d01ee
+  SweeterSwift: 31fa8cfbdc094d3ae41bafbeaf4bceed467ba5c7
   SwiftLint: ae76d82f056734f853c8cd0371503252c606c482
 
-PODFILE CHECKSUM: b6ebd6617611f68e1e4e59af5c418d1d7e1b1cb4
+PODFILE CHECKSUM: 6ffc0884d4151af2e76c92bdf433ca38141596f9
 
 COCOAPODS: 1.11.2

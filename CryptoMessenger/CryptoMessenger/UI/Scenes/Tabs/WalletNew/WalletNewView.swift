@@ -9,6 +9,7 @@ struct WalletNewView: View {
     @StateObject var viewModel: WalletNewViewModel
     @State var offset: CGFloat = 0
     @State var index = 0
+    @State var showAddWallet = false
 
     // MARK: - Body
 
@@ -47,6 +48,21 @@ struct WalletNewView: View {
             .onAppear {
                 viewModel.send(.onAppear)
             }
+            .popup(isPresented: $showAddWallet,
+                   type: .toast,
+                   position: .bottom,
+                   closeOnTap: false,
+                   closeOnTapOutside: true,
+                   backgroundColor: Color(.black(0.3)),
+                   dismissCallback: { showTabBar() },
+                   view: {
+                AddWalletView(showAddWallet: $showAddWallet)
+                    .frame(width: UIScreen.main.bounds.width,
+                           height: 114, alignment: .center)
+                    .background(.white())
+                    .cornerRadius(16)
+            }
+                   )
         .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Text(R.string.localizable.tabWallet())
@@ -56,6 +72,10 @@ struct WalletNewView: View {
                     Button {
                     } label: {
                         R.image.wallet.settings.image
+                            .onTapGesture {
+                                hideTabBar()
+                                showAddWallet = true
+                            }
                     }
                 }
                 }
@@ -123,6 +143,7 @@ struct WalletNewView: View {
                 .padding(.leading, 16)
             Spacer()
             Button {
+                viewModel.send(.onTransactionToken(selectorTokenIndex: -1))
             } label: {
                 Text(R.string.localizable.walletAllTransaction())
                     .font(.regular(15))
@@ -182,10 +203,23 @@ struct TransactionInfoView: View {
             }
             Spacer()
             VStack(alignment: .trailing) {
-                Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " AUR":
-                        String("- \(abs(transaction.amount))") + " AUR")
-                    .font(.regular(15))
-                    .foreground(transaction.type == .send ? .black(): .green())
+                switch transaction.transactionCoin {
+                case .aur:
+                    Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " AUR":
+                            String("- \(abs(transaction.amount))") + " AUR")
+                        .font(.regular(15))
+                        .foreground(transaction.type == .send ? .black(): .green())
+                case .ethereum:
+                    Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " ETH":
+                            String("- \(abs(transaction.amount))") + " ETH")
+                        .font(.regular(15))
+                        .foreground(transaction.type == .send ? .black(): .green())
+                case .bitcoin:
+                    Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " BTC":
+                            String("- \(abs(transaction.amount))") + " BTC")
+                        .font(.regular(15))
+                        .foreground(transaction.type == .send ? .black(): .green())
+                }
                 Text(String(transaction.amount) + " USD")
                     .font(.regular(13))
                     .foreground(.darkGray())
@@ -193,11 +227,5 @@ struct TransactionInfoView: View {
         }
             Divider()
     }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        WalletNewView(viewModel: WalletNewViewModel())
     }
 }

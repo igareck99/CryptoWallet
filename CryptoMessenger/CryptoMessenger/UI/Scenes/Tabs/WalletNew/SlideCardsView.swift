@@ -106,6 +106,18 @@ struct SlideCardsView: View {
                 HStack(spacing: self.spacing) {
                     ForEach(self.viewModel.cardsList) { wallet in
                         CardNewView(wallet: wallet)
+                            .onTapGesture {
+                                switch wallet.walletType {
+                                case .ethereum:
+                                    viewModel.send(.onTransactionAddress(selectorTokenIndex: 0,
+                                                                         address: wallet.adress))
+                                case .aur:
+                                    viewModel.send(.onTransactionAddress(selectorTokenIndex: 1,
+                                                                         address: wallet.adress ))
+                                default:
+                                    break
+                                }
+                            }
                             .frame(width: geometry.size.width,
                                    height: 193)
                     }
@@ -121,7 +133,6 @@ struct SlideCardsView: View {
                     .onEnded({ value in
                         if -value.predictedEndTranslation.width > geometry.size.width / 2, self.index < self.viewModel.cardsList.count - 1 {
                             self.index += 1
-                            print("dodkmeod   \(Double(self.index) / Double(viewModel.cardsList.count))")
                         }
                         if value.predictedEndTranslation.width > geometry.size.width / 2, self.index > 0 {
                             self.index -= 1
