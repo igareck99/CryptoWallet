@@ -123,7 +123,7 @@ struct ImportKeyView: View {
         Button {
             showButtonAnimation = true
             viewModel.createWallet(item: newKey,
-                                       type: choosedWalletType)
+                                   type: choosedWalletType)
             delay(2) {
                 if viewModel.walletError {
                     newKey = ""

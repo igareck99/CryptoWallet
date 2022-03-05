@@ -41,7 +41,6 @@ final class ImportKeyViewModel: ObservableObject {
         let mnemonic = item.lowercased().split(separator: " ")
         for x in mnemonic where !x.isEmpty {
             if WordList.english.words.contains(String(x)) == false {
-                print("Пиздец")
                 walletError = true
                 return
             }
