@@ -12,6 +12,7 @@ struct ImportKeyView: View {
     @State var isSelectedWalletType = false
     @State var showWrongMnemonicAlert = false
     @State var showMnemonicSuccess = false
+    @State var showButtonAnimation = false
 
     // MARK: - Private Properties
 
@@ -120,23 +121,36 @@ struct ImportKeyView: View {
 
     private var importButton: some View {
         Button {
+            showButtonAnimation = true
             viewModel.createWallet(item: newKey,
-                                   type: choosedWalletType)
-            if viewModel.walletError {
-                newKey = ""
-                viewModel.walletError = false
-                showWrongMnemonicAlert = true
-            } else {
-                showWrongMnemonicAlert = true
-                showMnemonicSuccess = true
+                                       type: choosedWalletType)
+            delay(2) {
+                if viewModel.walletError {
+                    newKey = ""
+                    viewModel.walletError = false
+                    showWrongMnemonicAlert = true
+                    showMnemonicSuccess = false
+                } else {
+                    showWrongMnemonicAlert = true
+                    showMnemonicSuccess = true
+                }
+                showButtonAnimation = false
             }
         } label: {
+            switch showButtonAnimation {
+            case false :
             Text(R.string.localizable.importImport())
                 .font(.semibold(15))
                 .foreground(newKey.isEmpty || isSelectedWalletType == false
                             ? .darkGray() : .white())
                 .frame(width: 185,
                        height: 44)
+            case true:
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    .frame(width: 12,
+                           height: 12)
+            }
         }
         .disabled(newKey.isEmpty || isSelectedWalletType == false)
         .frame(minWidth: 185,

@@ -37,6 +37,7 @@ final class ImportKeyViewModel: ObservableObject {
     }
 
     func createWallet(item: String, type: WalletType) {
+        walletError = false
         let mnemonic = item.lowercased().split(separator: " ")
         for x in mnemonic where !x.isEmpty {
             if WordList.english.words.contains(String(x)) == false {
