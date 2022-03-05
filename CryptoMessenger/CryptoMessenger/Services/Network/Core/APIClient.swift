@@ -22,7 +22,7 @@ protocol APIClientManager {
 
 // MARK: - APIClient
 
-final class APIClient: NSObject, APIClientManager {
+final class APIClient: NSObject {
 
     // MARK: - Constants
 
@@ -36,9 +36,7 @@ final class APIClient: NSObject, APIClientManager {
     // MARK: - Internal Properties
 
     var logLevel: APILogLevel = .debug {
-        didSet {
-            logger.logLevel = logLevel
-        }
+        didSet { logger.logLevel = logLevel }
     }
 
     // MARK: - Private Properties
@@ -49,8 +47,9 @@ final class APIClient: NSObject, APIClientManager {
     @Injectable private var userCredentialsStorage: UserCredentialsStorageService
     private let queue = DispatchQueue(label: "APIClient. \(UUID().uuidString)")
     private let logger = APILogger()
+    private var isTokenUpdated = false
 
-    // MARK: - Lifecycle
+    // MARK: - Life Cycle
 
     required init(configuration: URLSessionConfiguration = .default) {
         super.init()
@@ -82,6 +81,20 @@ final class APIClient: NSObject, APIClientManager {
         }
     }
 
+    func request<Requestable>(_ requestConvertible: Endpoint<Requestable>) async throws -> Requestable {
+        let result: Requestable = try await withCheckedThrowingContinuation { continuation in
+            request(requestConvertible) { result in
+                 switch result {
+                 case .success(let model):
+                     continuation.resume(returning: model)
+                 case .failure(let error):
+                     continuation.resume(throwing: error)
+                 }
+             }
+         }
+         return result
+    }
+
     func publisher<Requestable>(_ requestConvertible: Endpoint<Requestable>) -> AnyPublisher<Requestable, Error> {
         guard var httpRequest = try? requestConvertible.asURLRequest() else {
             return Fail(error: APIError.apiError(-1, nil) as Error)
@@ -107,22 +120,24 @@ final class APIClient: NSObject, APIClientManager {
                             return Fail(error: APIError.serverError as Error)
                                 .delay(for: Constants.defaultRetryDelay, scheduler: DispatchQueue.main)
                                 .eraseToAnyPublisher()
-                        } else if statusCode == 401 {
-                            if let self = self {
-                                return self.refreshToken()
-                                    .map { _ in
-                                        var newHttpRequest = httpRequest
-                                        newHttpRequest.setValue(
-                                            "Bearer \(self.userCredentialsStorage.accessToken)",
-                                            forHTTPHeaderField: "Authorization"
-                                        )
-                                        return newHttpRequest
-                                    }
-                                    .flatMap { newHttpRequest in
-                                        return self.dataTaskPublisher(for: newHttpRequest)
-                                    }
-                                    .eraseToAnyPublisher()
-                            }
+                        } else if statusCode == 401 && self?.isTokenUpdated == false {
+                            guard let self = self else { throw error }
+
+                            return self.refreshToken()
+                                .map { _ in
+                                    var newHttpRequest = httpRequest
+                                    newHttpRequest.setValue(
+                                        "\(self.userCredentialsStorage.accessToken)",
+                                        forHTTPHeaderField: "X-TN"
+                                    )
+                                    return newHttpRequest
+                                }
+                                .flatMap { newHttpRequest in
+                                    return self.dataTaskPublisher(for: newHttpRequest)
+                                }
+                                .eraseToAnyPublisher()
+                        } else if statusCode == 401 && self?.isTokenUpdated == true {
+                            return Fail(error: error as Error).eraseToAnyPublisher()
                         } else {
                             return Fail(error: error as Error)
                                 .delay(for: Constants.defaultRetryDelay, scheduler: DispatchQueue.main)
@@ -157,9 +172,9 @@ final class APIClient: NSObject, APIClientManager {
         additionalHeaders.merge(headers, uniquingKeysWith: { $1 })
     }
 
-    func dataTaskPublisher(for httpRequest: URLRequest) -> TryMapPublisher<DataTaskPublisher, Data> {
-        logger.log(request: httpRequest)
-        return session.dataTaskPublisher(for: httpRequest)
+    func dataTaskPublisher(for urlRequest: URLRequest) -> TryMapPublisher<DataTaskPublisher, Data> {
+        logger.log(request: urlRequest)
+        return session.dataTaskPublisher(for: urlRequest)
             .tryMap { data, response -> Data in
                 self.logger.log(response: response, data: data)
                 if let httpURLResponse = response as? HTTPURLResponse {
@@ -173,6 +188,7 @@ final class APIClient: NSObject, APIClientManager {
 
     // MARK: - Private Methods
 
+    @discardableResult
     private func request<Requestable>(
         _ requestConvertible: Endpoint<Requestable>,
         handler: @escaping (Result<Requestable, Error>) -> Void
@@ -218,6 +234,11 @@ final class APIClient: NSObject, APIClientManager {
 
     private func refreshToken() -> AnyPublisher<AuthResponse, Error> {
         queue.sync { [weak self] in
+            if let publisher = self?.refreshPublisher {
+                isTokenUpdated = true
+                return publisher
+            }
+
             if let publisher = self?.refreshPublisher { return publisher }
 
             userCredentialsStorage.isUserAuthenticated = false
