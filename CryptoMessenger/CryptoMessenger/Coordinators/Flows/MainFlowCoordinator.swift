@@ -63,10 +63,15 @@ final class MainFlowCoordinator: Coordinator {
     }
 
     private func buildWalletTab() -> UIViewController {
-        let viewController = WalletConfigurator.configuredViewController(delegate: nil)
+        let rootView = WalletNewConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.wallet.item
         return navigation
+//        let viewController = WalletConfigurator.configuredViewController(delegate: nil)
+//        let navigation = BaseNavigationController(rootViewController: viewController)
+//        navigation.tabBarItem = Tabs.wallet.item
+//        return navigation
     }
 
     private func buildProfileTab() -> UIViewController {
@@ -348,6 +353,10 @@ extension MainFlowCoordinator: AboutAppSceneDelegate {}
 // MARK: - MainFlowCoordinator (AnswersSceneDelegate)
 
 extension MainFlowCoordinator: AnswersSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (WalletNewSceneDelegate)
+
+extension MainFlowCoordinator: WalletNewSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 
