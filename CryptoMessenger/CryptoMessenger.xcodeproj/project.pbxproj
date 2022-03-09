@@ -322,6 +322,11 @@
 		8B432CC827C395B00025D62B /* WalletNewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC727C395B00025D62B /* WalletNewProtocols.swift */; };
 		8B432CCA27C3DA040025D62B /* WalletNewConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC927C3DA030025D62B /* WalletNewConfigurator.swift */; };
 		8B4810F627CF81F000831589 /* AddWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810F527CF81F000831589 /* AddWalletView.swift */; };
+		8B4810F927CF98BB00831589 /* ImportKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810F827CF98BB00831589 /* ImportKeyView.swift */; };
+		8B4810FB27CF9BA600831589 /* ImportKeyFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FA27CF9BA600831589 /* ImportKeyFlow.swift */; };
+		8B4810FD27CF9BC400831589 /* ImportKeyProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FC27CF9BC400831589 /* ImportKeyProtocols.swift */; };
+		8B4810FF27CF9BEB00831589 /* ImportKeyConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FE27CF9BEB00831589 /* ImportKeyConfigurator.swift */; };
+		8B48110127CF9C2300831589 /* ImportKeyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B48110027CF9C2300831589 /* ImportKeyViewModel.swift */; };
 		8B5609B2277927B500AF43F6 /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B1277927B500AF43F6 /* TypographyView.swift */; };
 		8B5609B427792B0000AF43F6 /* TypographyNewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B327792B0000AF43F6 /* TypographyNewItem.swift */; };
 		8B5609B62779C5CA00AF43F6 /* ThemeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B52779C5CA00AF43F6 /* ThemeItem.swift */; };
@@ -701,6 +706,11 @@
 		8B432CC727C395B00025D62B /* WalletNewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewProtocols.swift; sourceTree = "<group>"; };
 		8B432CC927C3DA030025D62B /* WalletNewConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewConfigurator.swift; sourceTree = "<group>"; };
 		8B4810F527CF81F000831589 /* AddWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWalletView.swift; sourceTree = "<group>"; };
+		8B4810F827CF98BB00831589 /* ImportKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyView.swift; sourceTree = "<group>"; };
+		8B4810FA27CF9BA600831589 /* ImportKeyFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyFlow.swift; sourceTree = "<group>"; };
+		8B4810FC27CF9BC400831589 /* ImportKeyProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyProtocols.swift; sourceTree = "<group>"; };
+		8B4810FE27CF9BEB00831589 /* ImportKeyConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyConfigurator.swift; sourceTree = "<group>"; };
+		8B48110027CF9C2300831589 /* ImportKeyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyViewModel.swift; sourceTree = "<group>"; };
 		8B4DC640274D7939001B3998 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
 		8B5609B1277927B500AF43F6 /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
 		8B5609B327792B0000AF43F6 /* TypographyNewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyNewItem.swift; sourceTree = "<group>"; };
@@ -1952,6 +1962,7 @@
 		8B432CC027C394C50025D62B /* WalletNew */ = {
 			isa = PBXGroup;
 			children = (
+				8B4810F727CF987600831589 /* ImportKey */,
 				8BC06B0A27C7DFAF005A28A1 /* Transaction */,
 				8B432CC127C394E00025D62B /* WalletNewView.swift */,
 				8B432CC327C394F10025D62B /* WalletNewFlow.swift */,
@@ -1962,6 +1973,18 @@
 				8B4810F527CF81F000831589 /* AddWalletView.swift */,
 			);
 			path = WalletNew;
+			sourceTree = "<group>";
+		};
+		8B4810F727CF987600831589 /* ImportKey */ = {
+			isa = PBXGroup;
+			children = (
+				8B4810F827CF98BB00831589 /* ImportKeyView.swift */,
+				8B4810FA27CF9BA600831589 /* ImportKeyFlow.swift */,
+				8B4810FC27CF9BC400831589 /* ImportKeyProtocols.swift */,
+				8B4810FE27CF9BEB00831589 /* ImportKeyConfigurator.swift */,
+				8B48110027CF9C2300831589 /* ImportKeyViewModel.swift */,
+			);
+			path = ImportKey;
 			sourceTree = "<group>";
 		};
 		8B637D8827CE3B35000B1B2B /* RadioButton */ = {
@@ -2339,10 +2362,12 @@
 				5AA6410926822C3A008922B4 /* ViewStyle.swift in Sources */,
 				5A187EA52680708D001957D3 /* CollectionViewProviderViewModel.swift in Sources */,
 				5A187F2F2680CF49001957D3 /* Endpoints.swift in Sources */,
+				8B48110127CF9C2300831589 /* ImportKeyViewModel.swift in Sources */,
 				8B73C1072747A193008ABB22 /* SessionDetailView.swift in Sources */,
 				5AC8C4F627C42FB8008B1744 /* URL+Size.swift in Sources */,
 				8B637D8E27CE3C3D000B1B2B /* RadioGroupPicker.swift in Sources */,
 				8BC06B1227C8F646005A28A1 /* TransactionViewModel.swift in Sources */,
+				8B4810F927CF98BB00831589 /* ImportKeyView.swift in Sources */,
 				5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */,
 				5A2EC772279F3A6C00857248 /* APILogger.swift in Sources */,
 				5AF8633626AA994E004A417C /* VerificationViewController.swift in Sources */,
@@ -2393,6 +2418,7 @@
 				5A44FEDD276681BD006F9D92 /* ProfileFlow.swift in Sources */,
 				5AABB7832739821D004D6107 /* ChatHistoryViewModel.swift in Sources */,
 				7846B67426E8C07D00B05984 /* Configuration.swift in Sources */,
+				8B4810FF27CF9BEB00831589 /* ImportKeyConfigurator.swift in Sources */,
 				5AF8637026ADD9BB004A417C /* MainFlowCoordinator.swift in Sources */,
 				5A4BE51C271DD86A00D03D09 /* EventCollection.swift in Sources */,
 				78437F0D270C76FE00371110 /* AboutAppPresenter.swift in Sources */,
@@ -2536,6 +2562,7 @@
 				7889064527064F8D0093459C /* ProfileNetworkDetailFlow.swift in Sources */,
 				5A3721D5272F0A290097ABED /* ContactRow.swift in Sources */,
 				8BC06B0C27C7DFC4005A28A1 /* TransactionView.swift in Sources */,
+				8B4810FB27CF9BA600831589 /* ImportKeyFlow.swift in Sources */,
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
 				78437F0E270C76FE00371110 /* AboutAppViewController.swift in Sources */,
@@ -2620,6 +2647,7 @@
 				5AC8C4F227C4112C008B1744 /* MembersView.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,
+				8B4810FD27CF9BC400831589 /* ImportKeyProtocols.swift in Sources */,
 				5A8A13EB27D11B3A004C4B4F /* OffsetScrollView.swift in Sources */,
 				789FEBD826D8FFD50018FE91 /* CallListViewModel.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
