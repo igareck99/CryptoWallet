@@ -9,7 +9,6 @@ final class PinCodePresenter {
 
     weak var delegate: PinCodeSceneDelegate?
     weak var view: PinCodeViewInterface?
-    weak var wallet: WalletViewController?
     private(set) var localAuth = LocalAuthentication()
     private(set) var isLocalAuthBackgroundAlertShown = false
 
