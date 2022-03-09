@@ -34,16 +34,17 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        let tabs = [
-            buildChatTab(),
-            buildWalletTab(),
-            buildProfileTab()
-        ]
-
-        let tabBarController = BaseTabBarController(viewControllers: tabs)
-        tabBarController.selectedIndex = Tabs.chat.index
-
-        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+        handleNextScene(.transfer)
+//        let tabs = [
+//            buildChatTab(),
+//            buildWalletTab(),
+//            buildProfileTab()
+//        ]
+//
+//        let tabBarController = BaseTabBarController(viewControllers: tabs)
+//        tabBarController.selectedIndex = Tabs.chat.index
+//
+//        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
 
 //        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
 //            window.rootViewController = tabBarController
@@ -150,6 +151,7 @@ final class MainFlowCoordinator: Coordinator {
         case FAQ
         case chatSettings
         case reserveCopy
+        case transfer
     }
 }
 
@@ -190,6 +192,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showReserveCopyScene()
         case .FAQ:
             showAnswerScene()
+        case .transfer:
+            showTransferScene()
         }
     }
 
@@ -299,6 +303,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    private func showTransferScene() {
+        let rootView = TransferConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -348,6 +359,10 @@ extension MainFlowCoordinator: AboutAppSceneDelegate {}
 // MARK: - MainFlowCoordinator (AnswersSceneDelegate)
 
 extension MainFlowCoordinator: AnswersSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (TransferSceneDelegate)
+
+extension MainFlowCoordinator: TransferSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 
