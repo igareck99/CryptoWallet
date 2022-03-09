@@ -56,7 +56,8 @@ struct WalletNewView: View {
                    backgroundColor: Color(.black(0.3)),
                    dismissCallback: { showTabBar() },
                    view: {
-                AddWalletView(showAddWallet: $showAddWallet)
+                AddWalletView(viewModel: viewModel,
+                              showAddWallet: $showAddWallet)
                     .frame(width: UIScreen.main.bounds.width,
                            height: 114, alignment: .center)
                     .background(.white())
