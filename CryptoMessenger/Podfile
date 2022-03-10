@@ -37,4 +37,9 @@ target 'CryptoMessenger' do
   pod 'PhoneNumberKit'
   pod 'SPStorkController'
 
+  #Crypto
+  pod 'HDWalletKit'
+
+  pod 'SweeterSwift'
+
 end

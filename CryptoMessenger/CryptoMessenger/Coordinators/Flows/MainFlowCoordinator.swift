@@ -39,7 +39,6 @@ final class MainFlowCoordinator: Coordinator {
             buildWalletTab(),
             buildProfileTab()
         ]
-
         let tabBarController = BaseTabBarController(viewControllers: tabs)
         tabBarController.selectedIndex = Tabs.chat.index
 
@@ -63,7 +62,8 @@ final class MainFlowCoordinator: Coordinator {
     }
 
     private func buildWalletTab() -> UIViewController {
-        let viewController = WalletConfigurator.configuredViewController(delegate: nil)
+        let rootView = WalletNewConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.wallet.item
         return navigation
@@ -150,6 +150,8 @@ final class MainFlowCoordinator: Coordinator {
         case FAQ
         case chatSettings
         case reserveCopy
+        case transaction(Int, Int, String)
+        case importKey
     }
 }
 
@@ -190,6 +192,12 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showReserveCopyScene()
         case .FAQ:
             showAnswerScene()
+        case let .transaction(selectorFilterIndex, selectorTokenIndex, address):
+            showTransaction(selectorFilterIndex: selectorFilterIndex,
+                            selectorTokenIndex: selectorTokenIndex,
+                            address: address)
+        case .importKey:
+            showImportKey()
         }
     }
 
@@ -285,16 +293,34 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showChatSettings() {
         let rootView = ChatSettingsConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showReserveCopyScene() {
         let rootView = ReserveCopyConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showTransaction(selectorFilterIndex: Int = 0,
+                                 selectorTokenIndex: Int = 0,
+                                 address: String = "") {
+        let rootView = TransactionConfigurator.configuredView(delegate: self,
+                                                              selectorFilterIndex: selectorFilterIndex,
+                                                              selectorTokenIndex: selectorTokenIndex, address: address)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showImportKey() {
+        let rootView = ImportKeyConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -348,6 +374,18 @@ extension MainFlowCoordinator: AboutAppSceneDelegate {}
 // MARK: - MainFlowCoordinator (AnswersSceneDelegate)
 
 extension MainFlowCoordinator: AnswersSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (WalletNewSceneDelegate)
+
+extension MainFlowCoordinator: WalletNewSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (TransactionSceneDelegate)
+
+extension MainFlowCoordinator: TransactionSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ImportKeySceneDelegate)
+
+extension MainFlowCoordinator: ImportKeySceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

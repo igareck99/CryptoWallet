@@ -63,7 +63,6 @@ struct BuyView: View {
                     Spacer()
                 }
             }
-
             ZStack {
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {

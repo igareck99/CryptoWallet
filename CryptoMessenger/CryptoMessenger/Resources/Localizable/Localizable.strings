@@ -45,7 +45,12 @@
 "Tab.Chat" = "Чат";
 "Tab.Wallet" = "Кошелек";
 "Tab.Profile" = "Профиль";
-
+"Tab.OverallBalance" = "Общий баланс";
+"Wallet.Send" = "Отправить";
+"Wallet.Transaction" = "Транзакции";
+"Wallet.AllTransaction" = "Все транзакции";
+"Wallet.Shipped" = "Отправлено";
+"Wallet.Received" = "Получено";
 
 "Profile.Info" = "Вдохновение и дизайнерские решения для вашего дома.";
 "Profile.Add" = "Добавить фото / видео";
@@ -273,6 +278,25 @@
 "ReserveCopy.AccountCopy" = "Аккаунт для копирования";
 "ReserveCopy.ChangeAccount" = "Сменить аккаунт";
 "ReserveCopy.NotCreated" = "Резервная копия не создавалась";
+
+"Rewards.Title" = "Вознаграждения";
+"Transaction.TitleAll" = "Все транзакции";
+"Transaction.OnlySent" = "Только отправленные";
+"Transaction.OnlyReceived" = "Только полученные";
+"Transaction.Filter" = "Фильтрация";
+"Transaction.ETHFilter" = "ETH (Ethereum)";
+"Transaction.AURFilter" = "AUR (Aura)";
+"Transaction.TokenFilter" = "ПО ТОКЕНАМ";
+"Transaction.AddWallet" = "Добавить кошелек";
+
+"Import.Title" = "Импорт";
+"Import.ImportKey" = "Импорт закрытого ключа";
+"Import.EnterPrivateKey" = "Введите Ваш закрытый ключ";
+"Import.ChooseWalletType" = "Выберите тип кошелька";
+"Import.HowImportKey" = "Как правильно импортировать ключи?";
+"Import.Import" = "Импортировать";
+
+
 
 
 

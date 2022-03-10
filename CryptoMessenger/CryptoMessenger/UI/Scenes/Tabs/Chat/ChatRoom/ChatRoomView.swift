@@ -11,7 +11,7 @@ struct ChatRoomView: View {
 
         // MARK: - Types
 
-        case photo, documents
+        case photo, documents, camera
 
         // MARK: - Internal Properties
 
@@ -28,13 +28,14 @@ struct ChatRoomView: View {
     @Environment(\.presentationMode) private var presentationMode
     @State private var messageId = ""
     @State private var cardPosition: CardPosition = .bottom
+    @State private var cardGroupPosition: CardPosition = .bottom
     @State private var scrolled = false
     @State private var showActionSheet = false
     @State private var showJoinAlert = false
     @State private var height = CGFloat(0)
     @State private var selectedPhoto: URL?
     @State private var showSettings = false
-    @State private var showDocuments = false
+    @State private var showQuickMenu = false
     @State private var activeSheet: ActiveSheet?
 
     // MARK: - Body
@@ -90,6 +91,10 @@ struct ChatRoomView: View {
                         guard !urls.isEmpty, let url = urls.first else { return }
                         self.viewModel.send(.onSendFile(url))
                     }
+                case .camera:
+                    SUImagePickerView(image: $viewModel.pickedImage)
+                        .ignoresSafeArea()
+                        .navigationBarTitleDisplayMode(.inline)
                 }
             }
             .overlay(
@@ -153,8 +158,12 @@ struct ChatRoomView: View {
 
                         Spacer()
                     }
-                    .padding(.leading, -12)
+                    .background(.white())
+                    //.padding(.leading, -12)
                     .padding(.bottom, 6)
+                    .onTapGesture {
+                        showSettings.toggle()
+                    }
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -168,7 +177,7 @@ struct ChatRoomView: View {
 //                        })
 
                         Button(action: {
-                            showSettings.toggle()
+                            cardGroupPosition = .custom(482)
                         }, label: {
                             R.image.navigation.settingsButton.image
                         })
@@ -244,11 +253,17 @@ struct ChatRoomView: View {
             .padding(.bottom, keyboardHandler.keyboardHeight)
 
             if showActionSheet {
-                ActionSheetView(showActionSheet: $showActionSheet, attachAction: $viewModel.attachAction)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                ActionSheetView(
+                    showActionSheet: $showActionSheet,
+                    attachAction: $viewModel.attachAction,
+                    cameraFrame: $viewModel.cameraFrame,
+                    onCamera: { showActionSheet = false; activeSheet = .camera }
+                ).transition(.move(edge: .bottom).combined(with: .opacity))
             }
 
             quickMenuView
+
+            groupMenuView
 
             if selectedPhoto != nil {
                 ZStack {
@@ -381,11 +396,29 @@ struct ChatRoomView: View {
 
                     Rectangle()
                         .frame(height: 1)
-                        .foreground(.custom(#colorLiteral(red: 0.9019607843, green: 0.9176470588, blue: 0.9294117647, alpha: 1)))
+                        .foreground(.darkGray(0.4))
                         .padding(.top, 12)
 
                     QuickMenuView(action: $viewModel.quickAction, cardPosition: $cardPosition)
                 }
+            }
+        }
+    }
+
+    private var groupMenuView: some View {
+        ZStack {
+            Color(cardGroupPosition == .bottom ? .clear : .black(0.4))
+                .ignoresSafeArea()
+                .animation(.easeInOut, value: cardGroupPosition != .bottom)
+                .onTapGesture {
+                    vibrate()
+                    cardGroupPosition = .bottom
+                }
+
+            SlideCard(position: $cardGroupPosition) {
+                VStack(spacing: 0) {
+                    GroupMenuView(action: $viewModel.groupAction, cardPosition: $cardGroupPosition)
+                }.padding(.vertical, 16)
             }
         }
     }
