@@ -14,6 +14,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var inputText = ""
     @Published var attachAction: AttachAction?
     @Published var quickAction: QuickAction?
+    @Published var groupAction: GroupAction?
     @Published private(set) var keyboardHeight: CGFloat = 0
     @Published private(set) var messages: [RoomMessage] = []
     @Published private(set) var emojiStorage: [ReactionStorage] = []
@@ -23,7 +24,9 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var showPhotoLibrary = false
     @Published var showDocuments = false
     @Published var selectedImage: UIImage?
+    @Published var pickedImage: UIImage?
     @Published private var lastLocation: Location?
+    @Published var cameraFrame: CGImage?
 
     // MARK: - Private Properties
 
@@ -32,6 +35,9 @@ final class ChatRoomViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     private let keyboardObserver = KeyboardObserver()
     private let locationManager = LocationManager()
+    private let cameraManager = CameraManager.shared
+    private let frameManager = FrameManager.shared
+    private let context = CIContext()
 
     @Injectable private var mxStore: MatrixStore
 
@@ -182,6 +188,14 @@ final class ChatRoomViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
 
+        $pickedImage
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] image in
+                guard let image = image else { return }
+                self?.send(.onSendImage(image))
+            }
+            .store(in: &subscriptions)
+
         $quickAction
             .receive(on: DispatchQueue.main)
             .sink { _ in }
@@ -238,6 +252,25 @@ final class ChatRoomViewModel: ObservableObject {
                     .compactMap { $0 }
             }
             .store(in: &subscriptions)
+
+        // swiftlint:disable:next array_init
+//        cameraManager.$error
+//          .receive(on: RunLoop.main)
+//          .map { $0 }
+//          .assign(to: &$error)
+//
+        frameManager.$current
+          .receive(on: RunLoop.main)
+          .compactMap { buffer in
+            guard let image = CGImage.create(from: buffer) else { return nil }
+
+            let ciImage = CIImage(cgImage: image)
+//            if self.comicFilter {
+//              ciImage = ciImage.applyingFilter("CIComicEffect")
+//            }
+            return self.context.createCGImage(ciImage, from: ciImage.extent)
+          }
+          .assign(to: &$cameraFrame)
     }
 
     private func bindOutput() {

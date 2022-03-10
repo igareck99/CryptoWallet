@@ -11,11 +11,12 @@ enum CardBackgroundStyle {
 
 // MARK: - CardPosition
 
-enum CardPosition: CGFloat {
+enum CardPosition: Equatable {
 
     // MARK: - Types
 
     case bottom, middle, top
+    case custom(CGFloat)
 
     // MARK: - Internal Properties
 
@@ -25,6 +26,8 @@ enum CardPosition: CGFloat {
             return UIScreen.main.bounds.height
         case .middle, .top:
             return UIScreen.main.bounds.height - 558
+        case let .custom(offset):
+            return offset
         }
     }
 }

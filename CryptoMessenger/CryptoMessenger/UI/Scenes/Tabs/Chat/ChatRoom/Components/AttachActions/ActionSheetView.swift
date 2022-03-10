@@ -55,6 +55,8 @@ struct ActionSheetView: View {
 
     @Binding var showActionSheet: Bool
     @Binding var attachAction: AttachAction?
+    @Binding var cameraFrame: CGImage?
+    var onCamera: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -146,15 +148,18 @@ struct ActionSheetView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 ZStack {
-                    Image(R.image.chat.mockFeed1.name)
-                        .resizable()
+                    CameraFrameView(image: cameraFrame)
                         .frame(width: 90, height: 90)
+                        .cornerRadius(8)
 
                     ZStack(alignment: .center) {
                         Image(R.image.chat.camera.name)
                     }
                 }
                 .frame(width: 90, height: 90)
+                .onTapGesture {
+                    onCamera?()
+                }
 
                 ZStack {
                     Image(R.image.chat.mockFeed2.name)

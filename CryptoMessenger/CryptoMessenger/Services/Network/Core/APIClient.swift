@@ -22,7 +22,7 @@ protocol APIClientManager {
 
 // MARK: - APIClient
 
-final class APIClient: NSObject {
+final class APIClient: NSObject, APIClientManager {
 
     // MARK: - Constants
 
@@ -127,8 +127,8 @@ final class APIClient: NSObject {
                                 .map { _ in
                                     var newHttpRequest = httpRequest
                                     newHttpRequest.setValue(
-                                        "\(self.userCredentialsStorage.accessToken)",
-                                        forHTTPHeaderField: "X-TN"
+                                        "Bearer \(self.userCredentialsStorage.accessToken)",
+                                        forHTTPHeaderField: "Authorization"
                                     )
                                     return newHttpRequest
                                 }
