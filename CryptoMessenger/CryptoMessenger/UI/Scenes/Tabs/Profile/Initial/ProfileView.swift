@@ -86,7 +86,7 @@ struct ProfileView: View {
                         hideTabBar()
                         viewModel.send(.onShow(type))
                     })
-                        .frame(height: 712, alignment: .center)
+                        .frame(height: 712)
                         .background(
                             CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
                                 .fill(Color(.white()))
@@ -283,8 +283,9 @@ struct ProfileView: View {
                                 Image(uiImage: $0).resizable()
                             }
                         )
-                            .frame(width: width, height: width)
                             .scaledToFill()
+                            .frame(width: width, height: width)
+                            .clipped()
                             .onTapGesture {
                                 showAlert = true
                                 showDeletePhotoAlert = true
