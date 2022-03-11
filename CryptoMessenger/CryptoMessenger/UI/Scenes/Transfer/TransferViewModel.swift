@@ -6,6 +6,8 @@ final class TransferViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: TransferSceneDelegate?
+    @Published var currentSpeed = TransferSpeed.middle
+    @Published var transferSum = 0
 
     // MARK: - Private Properties
 
@@ -34,6 +36,10 @@ final class TransferViewModel: ObservableObject {
 
     func send(_ event: TransferFlow.Event) {
         eventSubject.send(event)
+    }
+    
+    func updateTransactionSpeed(item: TransferSpeed) {
+        currentSpeed = item
     }
 
     // MARK: - Private Methods
