@@ -82,12 +82,12 @@ struct ProfileSettingsMenuView: View {
                             .foreground(.grayE6EAED())
                             .padding([.top, .bottom], 16)
                     }
+
                     ProfileSettingsMenuRow(title: type.result.title, image: type.result.image, notifications: 0)
                         .background(.white())
                         .frame(height: 64)
                         .listRowInsets(.init())
                         .listRowSeparator(.hidden)
-                        .padding([.leading, .trailing], 16)
                         .onTapGesture { onSelect(type) }
                 }
             }

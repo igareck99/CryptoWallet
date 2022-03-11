@@ -96,12 +96,18 @@ struct SlideCardsView: View {
     @Binding var offset: CGFloat
     @Binding var index: Int
     @StateObject var viewModel: WalletNewViewModel
-    let spacing: CGFloat = 8
+    let spacing = CGFloat(8)
 
     // MARK: - Body
 
     var body: some View {
         GeometryReader { geometry in
+//            OffsetScrollView { point in
+//
+//            } content: {
+//
+//            }
+
             ScrollView(.horizontal, showsIndicators: true) {
                 HStack(spacing: self.spacing) {
                     ForEach(self.viewModel.cardsList) { wallet in
@@ -127,18 +133,20 @@ struct SlideCardsView: View {
             .frame(width: geometry.size.width, alignment: .leading)
             .gesture(
                 DragGesture()
-                    .onChanged({ value in
+                    .onChanged { value in
                         self.offset = value.translation.width - geometry.size.width * CGFloat(self.index)
-                    })
-                    .onEnded({ value in
+                    }
+                    .onEnded { value in
                         if -value.predictedEndTranslation.width > geometry.size.width / 2, self.index < self.viewModel.cardsList.count - 1 {
                             self.index += 1
                         }
                         if value.predictedEndTranslation.width > geometry.size.width / 2, self.index > 0 {
                             self.index -= 1
                         }
-                        withAnimation { self.offset = -(geometry.size.width + self.spacing) * CGFloat(self.index) }
-                    })
+                        withAnimation {
+                            self.offset = -(geometry.size.width + self.spacing) * CGFloat(self.index)
+                        }
+                    }
             )
         }
     }
