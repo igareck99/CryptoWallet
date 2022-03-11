@@ -208,11 +208,11 @@ struct TransferView: View {
 
     private var transferCell: some View {
         HStack {
-            VStack {
-                CurrencyTextField(numberFormatter: numberFormatter as! NumberFormatter,
-                                  value: $value)
-                    .frame(width: 152, height: 24)
-            }
+//            VStack {
+//                CurrencyTextField(numberFormatter: numberFormatter as! NumberFormatter,
+//                                  value: $value)
+//                    .frame(width: 152, height: 24)
+//            }
             Spacer()
             HStack(spacing: 12) {
                 Text("AUR")
