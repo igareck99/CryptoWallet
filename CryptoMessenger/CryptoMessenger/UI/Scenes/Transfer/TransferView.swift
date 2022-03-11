@@ -140,6 +140,7 @@ struct TransferView: View {
                     .foreground(.darkGray())
                     .padding(.leading, 16)
                 transferCell
+                    .padding(.horizontal, 16)
                 Text(R.string.localizable.transferInDollar() + "\(dollarCourse) USD")
                     .foreground(.darkGray())
                     .font(.regular(12))
