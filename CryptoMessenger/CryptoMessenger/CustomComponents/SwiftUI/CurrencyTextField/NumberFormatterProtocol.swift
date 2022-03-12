@@ -1,23 +1,29 @@
 import UIKit
 
+// MARK: - NumberFormatterProtocol
+
 protocol NumberFormatterProtocol: AnyObject {
+
+    // MARK: - Internal Properties
+
     func string(from number: NSNumber) -> String?
     func string(for obj: Any?) -> String?
     var numberStyle: NumberFormatter.Style { get set }
     var maximumFractionDigits: Int { get set }
 }
 
+// MARK: - NumberFormatter (NumberFormatterProtocol)
+
 extension NumberFormatter: NumberFormatterProtocol { }
 
+// MARK: - PreviewNumberFormatter (NumberFormatterProtocol)
+
 class PreviewNumberFormatter: NumberFormatterProtocol {
-    
+
+    // MARK: - Internal Properties
+
     let numberFormatter: NumberFormatter
-    
-    init(locale: Locale) {
-        numberFormatter = NumberFormatter()
-        numberFormatter.locale = locale
-    }
-    
+
     var numberStyle: NumberFormatter.Style {
         get {
             return numberFormatter.numberStyle
@@ -35,11 +41,20 @@ class PreviewNumberFormatter: NumberFormatterProtocol {
             numberFormatter.maximumFractionDigits = newValue
         }
     }
-    
+
+    // MARK: - Lifecycle
+
+    init(locale: Locale) {
+        numberFormatter = NumberFormatter()
+        numberFormatter.locale = locale
+    }
+
+    // MARK: - Internal Methods
+
     func string(from number: NSNumber) -> String? {
         return numberFormatter.string(from: number)
     }
-    
+
     func string(for obj: Any?) -> String? {
         numberFormatter.string(for: obj)
     }

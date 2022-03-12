@@ -997,6 +997,7 @@
 		5A187E4A2680708D001957D3 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				8B7C17EF27DCB9A8001113F2 /* CurrencyTextField */,
 				8B637D8827CE3B35000B1B2B /* RadioButton */,
 				8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */,
 				5A9B471B26EA7CFE001CC627 /* SlideCard */,
@@ -2050,8 +2051,6 @@
 				8B5A338727D89D170064C7DC /* TransferConfigurator.swift */,
 				8B5A338927D89D400064C7DC /* TransferViewModel.swift */,
 				8B5A338B27D89D6D0064C7DC /* TransferFlow.swift */,
-				8B7D8A1627DA5C1400BBFEFD /* CurrencyUITextField.swift */,
-				8B7C17EB27DB894A001113F2 /* NumberFormatterProtocol.swift */,
 			);
 			path = Transfer;
 			sourceTree = "<group>";
@@ -2089,6 +2088,15 @@
 				8B9173B127A342EB0094F625 /* PinCodeCreateFlow.swift */,
 			);
 			path = PinCodeCreate;
+			sourceTree = "<group>";
+		};
+		8B7C17EF27DCB9A8001113F2 /* CurrencyTextField */ = {
+			isa = PBXGroup;
+			children = (
+				8B7D8A1627DA5C1400BBFEFD /* CurrencyUITextField.swift */,
+				8B7C17EB27DB894A001113F2 /* NumberFormatterProtocol.swift */,
+			);
+			path = CurrencyTextField;
 			sourceTree = "<group>";
 		};
 		8B9B0CC92775394000654C24 /* Personalization */ = {

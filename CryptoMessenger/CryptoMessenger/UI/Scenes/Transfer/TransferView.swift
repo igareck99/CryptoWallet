@@ -13,7 +13,6 @@ struct TransferView: View {
     @State var showCoinSelector = false
     @State var isSelectedWalletType = false
     @State var value = 0
-    @State private var username: String = ""
     @State var coinType = WalletInfo(walletType: .aur,
                                      adress: "0xSf13S891 ... 3dfasfAgfj1 ",
                                      coinAmount: 256.41948,
@@ -33,58 +32,10 @@ struct TransferView: View {
     // MARK: - Body
 
     var body: some View {
-//        VStack(alignment: .leading) {
-//            VStack(alignment: .leading) {
-//                Divider()
-//                    .padding(.top, 16)
-//                Text(R.string.localizable.transferYourAdress().uppercased())
-//                    .font(.bold(12))
-//                    .foreground(.darkGray())
-//                    .padding(.leading, 16)
-//                    .padding(.top, 24)
-//                addressCell
-//                    .background(.white())
-//                    .padding(.top, 11)
-//                    .padding(.horizontal, 16)
-//                Text(R.string.localizable.transferToWhom().uppercased())
-//                    .font(.bold(12))
-//                    .foreground(.darkGray())
-//                    .padding(.leading, 16)
-//                    .padding(.top, 26)
-//                chooseContactCell
-//                    .background(.white())
-//                    .padding(.top, 12)
-//                    .padding(.horizontal, 16)
-//                Divider()
-//                    .padding(.top, 24)
-//                Text(R.string.localizable.transferSum().uppercased())
-//                    .font(.bold(12))
-//                    .foreground(.darkGray())
-//                    .padding(.leading, 16)
-//                    .padding(.top, 24)
-//                transferCell
-//                    .hideKeyboardOnTap()
-//                    .padding(.leading, 16)
-//                    .padding(.trailing, 21)
-//                    .padding(.top, 21)
-//                Text(R.string.localizable.transferInDollar() + "\(dollarCourse) USD")
-//                    .foreground(.darkGray())
-//                    .font(.regular(12))
-//                    .padding(.leading, 16)
-//                    .padding(.top, 19)
-//                transactionCost
-//                    .padding(.top, 16)
-//                    .padding(.leading, 16)
-//            }
-//            Spacer()
-//            VStack(spacing: 8) {
-//                Divider()
-//                sendButton
-//                    .frame(width: 213,
-//                           height: 44)
-//            }
-//        }
         content
+            .onTapGesture(perform: {
+                hideKeyboard()
+            })
         .popup(isPresented: $showCoinSelector,
                type: .toast,
                position: .bottom,
@@ -133,7 +84,6 @@ struct TransferView: View {
             }
             .padding(.top, 4)
             Divider()
-            
             VStack(alignment: .leading, spacing: 21) {
                 Text(R.string.localizable.transferSum().uppercased())
                     .font(.bold(12))
@@ -208,11 +158,11 @@ struct TransferView: View {
 
     private var transferCell: some View {
         HStack {
-//            VStack {
-//                CurrencyTextField(numberFormatter: numberFormatter as! NumberFormatter,
-//                                  value: $value)
-//                    .frame(width: 152, height: 24)
-//            }
+            VStack {
+                CurrencyTextField(numberFormatter: numberFormatter as! NumberFormatter,
+                                  value: $value)
+                    .frame(width: 152, height: 24)
+            }
             Spacer()
             HStack(spacing: 12) {
                 Text("AUR")
@@ -220,6 +170,7 @@ struct TransferView: View {
                 R.image.answers.downsideArrow.image
             }
             .onTapGesture {
+                hideKeyboard()
                 showCoinSelector = true
             }
         }

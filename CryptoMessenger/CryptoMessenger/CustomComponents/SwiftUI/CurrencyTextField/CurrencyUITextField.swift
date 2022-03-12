@@ -1,11 +1,33 @@
 import UIKit
 import SwiftUI
 
+// MARK: - CurrencyUITextField
+
 class CurrencyUITextField: UITextField {
-    
+
+    // MARK: - Private Properties
+
     @Binding private var value: Int
     private let formatter: NumberFormatter
+
+    private var textValue: String {
+        return text ?? ""
+    }
+
+    private var doubleValue: Double {
+      return (decimal as NSDecimalNumber).doubleValue
+    }
+
+    private var decimal: Decimal {
+      return textValue.decimal / pow(10, formatter.maximumFractionDigits)
+    }
+
+    private func currency(from decimal: Decimal) -> String {
+        return formatter.string(for: decimal) ?? ""
+    }
     
+    // MARK: - Lifecycle
+
     init(formatter: NumberFormatter, value: Binding<Int>) {
         self.formatter = formatter
         self._value = value
@@ -30,6 +52,8 @@ class CurrencyUITextField: UITextField {
         sendActions(for: .editingChanged)
     }
 
+    // MARK: - Private Methods
+
     private func setupViews() {
         tintColor = .clear
         font = .systemFont(ofSize: 40, weight: .regular)
@@ -44,47 +68,45 @@ class CurrencyUITextField: UITextField {
     @objc private func resetSelection() {
         selectedTextRange = textRange(from: endOfDocument, to: endOfDocument)
     }
-
-    private var textValue: String {
-        return text ?? ""
-    }
-
-    private var doubleValue: Double {
-      return (decimal as NSDecimalNumber).doubleValue
-    }
-
-    private var decimal: Decimal {
-      return textValue.decimal / pow(10, formatter.maximumFractionDigits)
-    }
-
-    private func currency(from decimal: Decimal) -> String {
-        return formatter.string(for: decimal) ?? ""
-    }
 }
+
+// MARK: - StringProtocol
 
 extension StringProtocol where Self: RangeReplaceableCollection {
     var digits: Self { filter (\.isWholeNumber) }
 }
 
+// MARK: - String
+
 extension String {
     var decimal: Decimal { Decimal(string: digits) ?? 0 }
 }
+
+// MARK: - LosslessStringConvertible
 
 extension LosslessStringConvertible {
     var string: String { .init(self) }
 }
 
+// MARK: - CurrencyTextField
+
 struct CurrencyTextField: UIViewRepresentable {
+    
+    // MARK: - Internal Properties
 
     typealias UIViewType = CurrencyUITextField
 
     let numberFormatter: NumberFormatter
     let currencyField: CurrencyUITextField
+    
+    // MARK: - Lifecycle
 
     init(numberFormatter: NumberFormatter, value: Binding<Int>) {
         self.numberFormatter = numberFormatter
         currencyField = CurrencyUITextField(formatter: numberFormatter, value: value)
     }
+    
+    // MARK: - Internal Properties
 
     func makeUIView(context: Context) -> CurrencyUITextField {
         return currencyField
