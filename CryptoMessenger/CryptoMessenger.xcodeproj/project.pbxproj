@@ -154,7 +154,7 @@
 		5A7EDE73275402E90049DC4A /* BlockedUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE54AD2274C605700D51827 /* BlockedUserView.swift */; };
 		5A7EDE74275402ED0049DC4A /* BlockListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4DC640274D7939001B3998 /* BlockListViewModel.swift */; };
 		5A7EDE75275402F00049DC4A /* BlockedUserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE54AD4274C606400D51827 /* BlockedUserItem.swift */; };
-		5A8A13EB27D11B3A004C4B4F /* OffsetScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A13EA27D11B3A004C4B4F /* OffsetScrollView.swift */; };
+		5A8A13EB27D11B3A004C4B4F /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A13EA27D11B3A004C4B4F /* TrackableScrollView.swift */; };
 		5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B026BD210400645365 /* PinCodePresenter.swift */; };
 		5A9318B726BD210400645365 /* PinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B126BD210400645365 /* PinCodeViewController.swift */; };
 		5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B226BD210400645365 /* PinCodeProtocols.swift */; };
@@ -554,7 +554,7 @@
 		5A4BE511271DD86A00D03D09 /* MXCredentials+Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MXCredentials+Keychain.swift"; sourceTree = "<group>"; };
 		5A4BE512271DD86A00D03D09 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		5A67791B26C7A64100212580 /* ChatRoomRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomRow.swift; sourceTree = "<group>"; };
-		5A8A13EA27D11B3A004C4B4F /* OffsetScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetScrollView.swift; sourceTree = "<group>"; };
+		5A8A13EA27D11B3A004C4B4F /* TrackableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
 		5A9318B026BD210400645365 /* PinCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodePresenter.swift; sourceTree = "<group>"; };
 		5A9318B126BD210400645365 /* PinCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeViewController.swift; sourceTree = "<group>"; };
 		5A9318B226BD210400645365 /* PinCodeProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeProtocols.swift; sourceTree = "<group>"; };
@@ -1015,7 +1015,7 @@
 				5A15DDF8276E5C9C00CF7AA4 /* ShimmerView.swift */,
 				5A15DDFA276FA1C800CF7AA4 /* ImageViewer.swift */,
 				8BE6DAE22771EC2C00FB4C6C /* WebView.swift */,
-				5A8A13EA27D11B3A004C4B4F /* OffsetScrollView.swift */,
+				5A8A13EA27D11B3A004C4B4F /* TrackableScrollView.swift */,
 				5AC8C4F327C42D94008B1744 /* PDFKitView.swift */,
 				5ABF08CE27D9C86A0016CC6F /* SUImagePickerView.swift */,
 				8BFF387A27D91092005D88C9 /* NumberTextField.swift */,
@@ -2741,7 +2741,7 @@
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,
 				8B4810FD27CF9BC400831589 /* ImportKeyProtocols.swift in Sources */,
-				5A8A13EB27D11B3A004C4B4F /* OffsetScrollView.swift in Sources */,
+				5A8A13EB27D11B3A004C4B4F /* TrackableScrollView.swift in Sources */,
 				789FEBD826D8FFD50018FE91 /* CallListViewModel.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
 				5A4BE51A271DD86A00D03D09 /* RoomSummary.swift in Sources */,
@@ -2920,7 +2920,7 @@
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
@@ -2947,7 +2947,7 @@
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;

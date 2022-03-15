@@ -10,18 +10,25 @@ final class WalletNewViewModel: ObservableObject {
     weak var delegate: WalletNewSceneDelegate?
     @Published var totalBalance = ""
     @Published var transactionList: [TransactionInfo] = []
-    @Published var cardsList = [WalletInfo(walletType: .ethereum,
-                                           adress: "0xty9 ... Bx9M",
-                                           coinAmount: 1.012,
-                                           fiatAmount: 33),
-                                WalletInfo(walletType: .aur,
-                                           adress: "0xj3 ... 138f",
-                                           coinAmount: 2.3042,
-                                           fiatAmount: 18.1342),
-                                WalletInfo(walletType: .aur,
-                                           adress: "0xj3 ... 148f",
-                                           coinAmount: 2.3042,
-                                           fiatAmount: 18.1342)
+    @Published var cardsList: [WalletInfo] = [
+        .init(
+            walletType: .ethereum,
+            address: "0xty9 ... Bx9M",
+            coinAmount: 1.012,
+            fiatAmount: 33
+        ),
+        .init(
+            walletType: .aur,
+            address: "0xj3 ... 138f",
+            coinAmount: 2.3042,
+            fiatAmount: 18.1342
+        ),
+        .init(
+            walletType: .aur,
+            address: "0xj3 ... 148f",
+            coinAmount: 2.3042,
+            fiatAmount: 18.1342
+        )
     ]
     @Published var canceledImage = UIImage()
 
@@ -157,7 +164,7 @@ enum WalletType {
             return "BTC"
         }
     }
-    
+
     var chooseTitle: String {
         switch self {
         case .ethereum:
@@ -176,7 +183,7 @@ struct TransactionInfo: Identifiable, Equatable {
 
     // MARK: - Internal Properties
 
-    var id = UUID()
+    let id = UUID()
     var type: TransactionType
     var date: String
     var from: String
@@ -192,16 +199,16 @@ struct WalletInfo: Identifiable {
 
     // MARK: - Internal Properties
 
-    var id = UUID()
+    let id = UUID()
     var walletType: WalletType
-    var adress: String
+    var address: String
     var coinAmount: Double
     var fiatAmount: Double
 
     // MARK: - Internal Properties
 
     var result: (image: Image, fiatAmount: Double, currency: String) {
-        switch self.walletType {
+        switch walletType {
         case .ethereum:
             return (R.image.wallet.ethereumCard.image,
                     coinAmount * 153.5,
