@@ -158,7 +158,7 @@ struct WalletNewView: View {
 
     private var sendButton: some View {
         Button {
-
+            viewModel.send(.onTransfer)
         } label: {
             Text(R.string.localizable.walletSend().uppercased())
                 .frame(minWidth: 0, maxWidth: .infinity)

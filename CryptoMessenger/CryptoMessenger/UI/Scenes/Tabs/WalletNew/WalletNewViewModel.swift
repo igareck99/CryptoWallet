@@ -78,6 +78,8 @@ final class WalletNewViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.transaction(0, selectorTokenIndex, ""))
                 case .onImportKey:
                     self?.delegate?.handleNextScene(.importKey)
+                case .onTransfer:
+                    self?.delegate?.handleNextScene(.transfer)
                 }
             }
             .store(in: &subscriptions)

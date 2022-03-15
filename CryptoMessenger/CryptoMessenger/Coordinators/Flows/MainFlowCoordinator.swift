@@ -39,6 +39,7 @@ final class MainFlowCoordinator: Coordinator {
             buildWalletTab(),
             buildProfileTab()
         ]
+
         let tabBarController = BaseTabBarController(viewControllers: tabs)
         tabBarController.selectedIndex = Tabs.chat.index
 
@@ -152,6 +153,7 @@ final class MainFlowCoordinator: Coordinator {
         case reserveCopy
         case transaction(Int, Int, String)
         case importKey
+        case transfer
     }
 }
 
@@ -198,6 +200,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
                             address: address)
         case .importKey:
             showImportKey()
+        case .transfer:
+            showTransferScene()
         }
     }
 
@@ -325,6 +329,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+
+    private func showTransferScene() {
+        let rootView = TransferConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -386,6 +397,10 @@ extension MainFlowCoordinator: TransactionSceneDelegate {}
 // MARK: - MainFlowCoordinator (ImportKeySceneDelegate)
 
 extension MainFlowCoordinator: ImportKeySceneDelegate {}
+
+// MARK: - MainFlowCoordinator (TransferSceneDelegate)
+
+extension MainFlowCoordinator: TransferSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 
