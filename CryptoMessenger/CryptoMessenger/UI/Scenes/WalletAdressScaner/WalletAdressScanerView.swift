@@ -26,7 +26,9 @@ struct WalletAddressScanerView: View {
         VStack {
             CodeScannerView(codeTypes: [.qr]) { response in
                 if case let .success(result) = response {
+                    print(scannedCode)
                     scannedCode = result.string
+                    print(scannedCode)
                 }
             }
             .ignoresSafeArea()
