@@ -7,7 +7,7 @@ final class ChooseReceiverViewModel: ObservableObject {
 
     weak var delegate: ChooseReceiverSceneDelegate?
 
-    @State var scannedCode = ""
+    @State var scannedCode = "text"
 
     // MARK: - Private Properties
 

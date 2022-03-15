@@ -48,7 +48,7 @@ struct ChooseReceiverView: View {
                 .onTapGesture {
                     self.hideKeyboard()
                 }
-            Text("viewModel.scannedCode")
+            Text(viewModel.scannedCode)
                 .font(.bold(15))
             Spacer()
 
