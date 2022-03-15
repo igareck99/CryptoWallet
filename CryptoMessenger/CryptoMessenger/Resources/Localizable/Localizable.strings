@@ -296,7 +296,10 @@
 "Import.HowImportKey" = "Как правильно импортировать ключи?";
 "Import.Import" = "Импортировать";
 
-
+"ChooseReceiver.Contact" = "Контакт";
+"ChooseReceiver.Telephone" = "Телефон";
+"ChooseReceiver.Wallet" = "Кошелек";
+"ChooseReceiver.Title" = "Выберите получателя";
 
 
 

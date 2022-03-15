@@ -34,15 +34,16 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        let tabs = [
-            buildChatTab(),
-            buildWalletTab(),
-            buildProfileTab()
-        ]
-        let tabBarController = BaseTabBarController(viewControllers: tabs)
-        tabBarController.selectedIndex = Tabs.chat.index
-
-        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+        handleNextScene(.chooseReceiver)
+//        let tabs = [
+//            buildChatTab(),
+//            buildWalletTab(),
+//            buildProfileTab()
+//        ]
+//        let tabBarController = BaseTabBarController(viewControllers: tabs)
+//        tabBarController.selectedIndex = Tabs.chat.index
+//
+//        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
 
 //        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
 //            window.rootViewController = tabBarController
@@ -152,6 +153,7 @@ final class MainFlowCoordinator: Coordinator {
         case reserveCopy
         case transaction(Int, Int, String)
         case importKey
+        case chooseReceiver
     }
 }
 
@@ -198,6 +200,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
                             address: address)
         case .importKey:
             showImportKey()
+        case .chooseReceiver:
+            showChooseReceiver()
         }
     }
 
@@ -325,6 +329,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    private func showChooseReceiver() {
+        let rootView = ChooseReceiverConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -386,6 +397,10 @@ extension MainFlowCoordinator: TransactionSceneDelegate {}
 // MARK: - MainFlowCoordinator (ImportKeySceneDelegate)
 
 extension MainFlowCoordinator: ImportKeySceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ChooseReceiverSceneDelegate)
+
+extension MainFlowCoordinator: ChooseReceiverSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 
