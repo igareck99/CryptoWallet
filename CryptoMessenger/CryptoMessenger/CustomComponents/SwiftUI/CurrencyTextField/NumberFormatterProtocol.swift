@@ -4,12 +4,15 @@ import UIKit
 
 protocol NumberFormatterProtocol: AnyObject {
 
+    // MARK: - Internal Properties
+
+    var numberStyle: NumberFormatter.Style { get set }
+    var maximumFractionDigits: Int { get set }
+
     // MARK: - Internal Methods
 
     func string(from number: NSNumber) -> String?
     func string(for obj: Any?) -> String?
-    var numberStyle: NumberFormatter.Style { get set }
-    var maximumFractionDigits: Int { get set }
 }
 
 // MARK: - NumberFormatter (NumberFormatterProtocol)
