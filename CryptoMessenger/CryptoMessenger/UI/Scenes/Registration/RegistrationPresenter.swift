@@ -34,6 +34,7 @@ final class RegistrationPresenter {
         case .sending:
             ()
         case let .result(country):
+            selectedCountry = country
             view?.setCountryCode(country)
         case .error(let message):
             view?.showAlert(title: nil, message: message)
@@ -75,7 +76,6 @@ extension RegistrationPresenter: CountryCodePickerDelegate {
     func countryCodePickerViewControllerDidPickCountry(
         _ controller: CountryCodePickerViewController, country: CountryCodePickerViewController.Country
     ) {
-        selectedCountry = country
         state = .result(country)
     }
 }

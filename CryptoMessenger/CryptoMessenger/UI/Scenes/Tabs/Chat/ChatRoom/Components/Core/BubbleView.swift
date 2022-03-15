@@ -31,7 +31,6 @@ struct BubbleView<Content>: View where Content: View {
                 )
                 .clipShape(
                     BubbleShape(direction: direction)
-
                 )
                 .overlay(
                     BubbleShape(direction: direction)

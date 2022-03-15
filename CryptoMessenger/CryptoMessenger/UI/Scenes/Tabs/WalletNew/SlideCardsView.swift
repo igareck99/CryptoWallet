@@ -1,22 +1,5 @@
 import SwiftUI
 
-// MARK: - RewardsView
-
-struct CardImageView: View {
-    
-    // MARK: - Internal Properties
-
-    let image: Image
-    
-    // MARK: - Body
-
-    var body: some View {
-        image
-            .resizable()
-            .scaledToFill()
-    }
-}
-
 // MARK: - CardNewView
 
 struct CardNewView: View {
@@ -32,11 +15,12 @@ struct CardNewView: View {
         switch wallet.walletType {
         case .aur:
             VStack(alignment: .leading) {
-                CardImageView(image: wallet.result.image)
+                wallet.result.image.resizable()
             }
         case .ethereum:
             ZStack {
-                CardImageView(image: wallet.result.image)
+                wallet.result.image.resizable()
+
                 VStack(alignment: .leading) {
                     HStack(alignment: .top ) {
                         VStack(alignment: .leading, spacing: 8) {
@@ -67,7 +51,7 @@ struct CardNewView: View {
                             .padding(.leading, 20)
                         Spacer()
                         HStack(spacing: 10) {
-                            Text(wallet.adress)
+                            Text(wallet.address)
                                 .font(.regular(16))
                                 .foreground(.white())
                             Image(uiImage: image ?? UIImage())
@@ -81,7 +65,7 @@ struct CardNewView: View {
             }
         case .bitcoin:
             VStack(alignment: .leading) {
-                CardImageView(image: wallet.result.image)
+                wallet.result.image.resizable()
             }
         }
     }
@@ -93,61 +77,39 @@ struct SlideCardsView: View {
 
     // MARK: - Internal Properties
 
-    @Binding var offset: CGFloat
-    @Binding var index: Int
-    @StateObject var viewModel: WalletNewViewModel
-    let spacing = CGFloat(8)
+    let cards: [WalletInfo]
+    var onOffsetChanged: (CGFloat) -> Void
+    var onAddressSend: (Int, String) -> Void
+
+    // MARK: - Private Properties
+
+    private let spacing = CGFloat(8)
 
     // MARK: - Body
 
     var body: some View {
-        GeometryReader { geometry in
-//            OffsetScrollView { point in
-//
-//            } content: {
-//
-//            }
-
-            ScrollView(.horizontal, showsIndicators: true) {
-                HStack(spacing: self.spacing) {
-                    ForEach(self.viewModel.cardsList) { wallet in
-                        CardNewView(wallet: wallet)
-                            .onTapGesture {
-                                switch wallet.walletType {
-                                case .ethereum:
-                                    viewModel.send(.onTransactionAddress(selectorTokenIndex: 0,
-                                                                         address: wallet.adress))
-                                case .aur:
-                                    viewModel.send(.onTransactionAddress(selectorTokenIndex: 1,
-                                                                         address: wallet.adress ))
-                                default:
-                                    break
-                                }
+        TrackableScrollView(axes: .horizontal, offsetChanged: { offset in
+            onOffsetChanged(offset)
+        }, content: {
+            HStack(spacing: spacing) {
+                ForEach(0..<cards.count) { index in
+                    let wallet = cards[index]
+                    CardNewView(wallet: wallet)
+                        .onTapGesture {
+                            switch wallet.walletType {
+                            case .ethereum:
+                                onAddressSend(0, wallet.address)
+                            case .aur:
+                                onAddressSend(1, wallet.address)
+                            default:
+                                break
                             }
-                            .frame(width: geometry.size.width,
-                                   height: 193)
-                    }
+                        }
+                        .frame(width: 343, height: 193)
+                        .padding(.leading, index == 0 ? 16 : 0)
+                        .padding(.trailing, index == cards.count - 1 ? 16 : 0)
                 }
             }
-            .content.offset(x: self.offset)
-            .frame(width: geometry.size.width, alignment: .leading)
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        self.offset = value.translation.width - geometry.size.width * CGFloat(self.index)
-                    }
-                    .onEnded { value in
-                        if -value.predictedEndTranslation.width > geometry.size.width / 2, self.index < self.viewModel.cardsList.count - 1 {
-                            self.index += 1
-                        }
-                        if value.predictedEndTranslation.width > geometry.size.width / 2, self.index > 0 {
-                            self.index -= 1
-                        }
-                        withAnimation {
-                            self.offset = -(geometry.size.width + self.spacing) * CGFloat(self.index)
-                        }
-                    }
-            )
-        }
+        }).frame(height: 193)
     }
 }
