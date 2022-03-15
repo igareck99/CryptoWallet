@@ -26,7 +26,7 @@ class PreviewNumberFormatter: NumberFormatterProtocol {
 
     var numberStyle: NumberFormatter.Style {
         get {
-            return numberFormatter.numberStyle
+            numberFormatter.numberStyle
         }
         set {
             numberFormatter.numberStyle = newValue

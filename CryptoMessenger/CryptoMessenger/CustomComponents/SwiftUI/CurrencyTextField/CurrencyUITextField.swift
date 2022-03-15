@@ -3,7 +3,7 @@ import SwiftUI
 
 // MARK: - CurrencyUITextField
 
-class CurrencyUITextField: UITextField {
+final class CurrencyUITextField: UITextField {
 
     // MARK: - Private Properties
 
@@ -15,17 +15,17 @@ class CurrencyUITextField: UITextField {
     }
 
     private var doubleValue: Double {
-      return (decimal as NSDecimalNumber).doubleValue
+        return (decimal as NSDecimalNumber).doubleValue
     }
 
     private var decimal: Decimal {
-      return textValue.decimal / pow(10, formatter.maximumFractionDigits)
+        return textValue.decimal / pow(10, formatter.maximumFractionDigits)
     }
 
     private func currency(from decimal: Decimal) -> String {
         return formatter.string(for: decimal) ?? ""
     }
-    
+
     // MARK: - Lifecycle
 
     init(formatter: NumberFormatter, value: Binding<Int>) {
@@ -91,25 +91,25 @@ extension LosslessStringConvertible {
 // MARK: - CurrencyTextField
 
 struct CurrencyTextField: UIViewRepresentable {
-    
+
     // MARK: - Internal Properties
 
     typealias UIViewType = CurrencyUITextField
 
     let numberFormatter: NumberFormatter
     let currencyField: CurrencyUITextField
-    
+
     // MARK: - Lifecycle
 
     init(numberFormatter: NumberFormatter, value: Binding<Int>) {
         self.numberFormatter = numberFormatter
         currencyField = CurrencyUITextField(formatter: numberFormatter, value: value)
     }
-    
+
     // MARK: - Internal Properties
 
     func makeUIView(context: Context) -> CurrencyUITextField {
-        return currencyField
+        currencyField
     }
 
     func updateUIView(_ uiView: CurrencyUITextField, context: Context) { }

@@ -1,16 +1,23 @@
 import SwiftUI
 
+// MARK: - NumberFormatterProtocol
+
 class MyStingyDouble {
+
+    // MARK: - Internal Properties
+
     var value: Double
     var string: String {
         didSet {
-            if let tmp: Double = Double(string) {
+            if let tmp = Double(string) {
                 value = tmp
             }
         }
     }
     var format: String
     var name: String
+
+    // MARK: - Lifecycle
 
     init(name: String, value: Double, format: String) {
         self.string = String(format: format, value)
@@ -19,11 +26,15 @@ class MyStingyDouble {
         self.format = format
     }
 
+    // MARK: - Internal Properties
+
     func set(value: Double) {
         self.value = value
         self.string = String(format: self.format, value)
     }
 }
+
+// MARK: - NumberFormatter
 
 extension NumberFormatter {
     static var decimal: NumberFormatter {
@@ -34,18 +45,22 @@ extension NumberFormatter {
     }
 }
 
-class OO: ObservableObject {
-  @Published var myFirstDouble: String = "0"
-  var firstDouble: Double {
-      get {
-          if let tmp: Double = Double(myFirstDouble) {
-            return tmp
-          }
-          return 0
-      }
+// MARK: - ZeroNumber
 
-      set(newValue) {
-         myFirstDouble = String(format: "%0.4f", firstDouble)
-      }
-  }
+class ZeroNumber: ObservableObject {
+
+    // MARK: - Internal Properties
+
+    @Published var myFirstDouble = "0"
+    var firstDouble: Double {
+        get {
+            if let tmp = Double(myFirstDouble) {
+                return tmp
+            }
+            return 0
+        }
+        set(newValue) {
+            myFirstDouble = String(format: "%0.4f", firstDouble)
+        }
+    }
 }
