@@ -10,7 +10,6 @@ struct ChooseReceiverView: View {
     @State var searchType = SearchType.contact
     @State var searchText = ""
     @State var searching = false
-    @State private var scannedCode = ""
 
     // MARK: - Body
 
@@ -49,6 +48,8 @@ struct ChooseReceiverView: View {
                 .onTapGesture {
                     self.hideKeyboard()
                 }
+            Text("viewModel.scannedCode")
+                .font(.bold(15))
             Spacer()
 
         }
