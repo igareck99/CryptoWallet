@@ -4,7 +4,7 @@ import UIKit
 
 protocol NumberFormatterProtocol: AnyObject {
 
-    // MARK: - Internal Properties
+    // MARK: - Internal Methods
 
     func string(from number: NSNumber) -> String?
     func string(for obj: Any?) -> String?
