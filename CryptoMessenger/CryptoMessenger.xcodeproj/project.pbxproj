@@ -342,6 +342,11 @@
 		8B4E9C2E27DFF60B0057E4C9 /* CodeScaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C2D27DFF60B0057E4C9 /* CodeScaner.swift */; };
 		8B4E9C3027DFF6320057E4C9 /* ScannerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */; };
 		8B4E9C3227DFF6700057E4C9 /* ScanerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */; };
+		8B4E9C3527E0A77A0057E4C9 /* WalletAdressScanerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */; };
+		8B4E9C3727E0A7900057E4C9 /* WalletAdressScanerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3627E0A7900057E4C9 /* WalletAdressScanerConfigurator.swift */; };
+		8B4E9C3B27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */; };
+		8B4E9C3D27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */; };
+		8B4E9C3F27E0AA150057E4C9 /* WalletAdressScanerFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */; };
 		8B5609B2277927B500AF43F6 /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B1277927B500AF43F6 /* TypographyView.swift */; };
 		8B5609B427792B0000AF43F6 /* TypographyNewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B327792B0000AF43F6 /* TypographyNewItem.swift */; };
 		8B5609B62779C5CA00AF43F6 /* ThemeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B52779C5CA00AF43F6 /* ThemeItem.swift */; };
@@ -742,6 +747,11 @@
 		8B4E9C2D27DFF60B0057E4C9 /* CodeScaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScaner.swift; sourceTree = "<group>"; };
 		8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerCoordinator.swift; sourceTree = "<group>"; };
 		8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanerViewController.swift; sourceTree = "<group>"; };
+		8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerView.swift; sourceTree = "<group>"; };
+		8B4E9C3627E0A7900057E4C9 /* WalletAdressScanerConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerConfigurator.swift; sourceTree = "<group>"; };
+		8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerProtocols.swift; sourceTree = "<group>"; };
+		8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerViewModel.swift; sourceTree = "<group>"; };
+		8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerFlow.swift; sourceTree = "<group>"; };
 		8B5609B1277927B500AF43F6 /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
 		8B5609B327792B0000AF43F6 /* TypographyNewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyNewItem.swift; sourceTree = "<group>"; };
 		8B5609B52779C5CA00AF43F6 /* ThemeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeItem.swift; sourceTree = "<group>"; };
@@ -940,6 +950,7 @@
 		5A187DF82680708D001957D3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				8B4E9C3327E0A75D0057E4C9 /* WalletAdressScaner */,
 				8B1E8AC027DF4F4A0036C301 /* ChooseReciver */,
 				8BA0C90127AD4EC50070203F /* Answers */,
 				8BA0C8F627AD18EA0070203F /* ChatSettings */,
@@ -2064,6 +2075,18 @@
 			path = CodeScaner;
 			sourceTree = "<group>";
 		};
+		8B4E9C3327E0A75D0057E4C9 /* WalletAdressScaner */ = {
+			isa = PBXGroup;
+			children = (
+				8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */,
+				8B4E9C3627E0A7900057E4C9 /* WalletAdressScanerConfigurator.swift */,
+				8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */,
+				8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */,
+				8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */,
+			);
+			path = WalletAdressScaner;
+			sourceTree = "<group>";
+		};
 		8B637D8827CE3B35000B1B2B /* RadioButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -2414,6 +2437,7 @@
 				5AC8C4EF27C403C9008B1744 /* AlertItem.swift in Sources */,
 				5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */,
 				5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */,
+				8B4E9C3B27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				5A24B25426F289F000EFC5E2 /* MapSnapshotView.swift in Sources */,
 				5A187E9F2680708D001957D3 /* ScalableButtonView.swift in Sources */,
@@ -2634,6 +2658,7 @@
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
 				5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */,
 				7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */,
+				8B4E9C3F27E0AA150057E4C9 /* WalletAdressScanerFlow.swift in Sources */,
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
 				8BA0C8FC27AD19A70070203F /* ChatSettingsViewModel.swift in Sources */,
 				78437F1C270CE98800371110 /* PaywallViewController.swift in Sources */,
@@ -2662,6 +2687,7 @@
 				8B9B0CCB2775395400654C24 /* PersonalizationView.swift in Sources */,
 				5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */,
 				8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */,
+				8B4E9C3D27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift in Sources */,
 				8B00F45C276A1C2700FE1E41 /* R.generated.swift in Sources */,
 				5A4BE519271DD86A00D03D09 /* CustomEvent.swift in Sources */,
 				7846B65C26E8BBFD00B05984 /* TimingFunctions.swift in Sources */,
@@ -2675,6 +2701,7 @@
 				5A4BE522271DD86A00D03D09 /* UserDefaults.swift in Sources */,
 				8B1E8AC427DF4F9D0036C301 /* ChooseReceiverFlow.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
+				8B4E9C3727E0A7900057E4C9 /* WalletAdressScanerConfigurator.swift in Sources */,
 				5A44FEED2768B1E6006F9D92 /* ProfileDetailProtocols.swift in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
 				5AEB80FD26DD123E009A1944 /* ImagePickerView.swift in Sources */,
@@ -2733,6 +2760,7 @@
 				7846B66C26E8BFD900B05984 /* ParallaxLayoutAttributes.swift in Sources */,
 				8B6C18C8279ABB4800B85F2A /* BlockedListConfigurator.swift in Sources */,
 				5A3721D7272F2A4D0097ABED /* ChatGroupView.swift in Sources */,
+				8B4E9C3527E0A77A0057E4C9 /* WalletAdressScanerView.swift in Sources */,
 				8BA0C91427AD776F0070203F /* ReserveCopyProtocols.swift in Sources */,
 				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
 				5AC8C4F227C4112C008B1744 /* MembersView.swift in Sources */,

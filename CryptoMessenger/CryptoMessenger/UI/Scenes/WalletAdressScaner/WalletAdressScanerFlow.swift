@@ -1,8 +1,8 @@
-import SwiftUI
+import Foundation
 
-// MARK: - ChooseReceiverFlow
+// MARK: - WalletAddressScanerFlow
 
-enum ChooseReceiverFlow {
+enum WalletAddressScanerFlow {
 
     // MARK: - ViewState
 
@@ -22,6 +22,5 @@ enum ChooseReceiverFlow {
         // MARK: - Types
 
         case onAppear
-        case onQRScanner(scannedScreen: Binding<String>)
     }
 }

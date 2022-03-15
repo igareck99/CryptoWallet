@@ -301,6 +301,8 @@
 "ChooseReceiver.Wallet" = "Кошелек";
 "ChooseReceiver.Title" = "Выберите получателя";
 
+"QRCode.Title" = "Сканировать  QR-код";
+
 
 
 

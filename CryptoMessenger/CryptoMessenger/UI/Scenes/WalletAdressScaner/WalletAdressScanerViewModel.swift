@@ -1,21 +1,23 @@
 import SwiftUI
 import Combine
 
-final class ChooseReceiverViewModel: ObservableObject {
+// MARK: - WalletAdressScanerViewModel
+
+final class WalletAddressScanerViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: ChooseReceiverSceneDelegate?
+    weak var delegate: WalletAddressScanerSceneDelegate?
 
-    @State var scannedCode = ""
+    @Published private(set) var state: WalletAddressScanerFlow.ViewState = .idle
 
     // MARK: - Private Properties
 
-    @Published private(set) var state: ChooseReceiverFlow.ViewState = .idle
-    private let eventSubject = PassthroughSubject<ChooseReceiverFlow.Event, Never>()
-    private let stateValueSubject = CurrentValueSubject<ChooseReceiverFlow.ViewState, Never>(.idle)
+    private let eventSubject = PassthroughSubject<WalletAddressScanerFlow.Event, Never>()
+    private let stateValueSubject = CurrentValueSubject<WalletAddressScanerFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
 
+    @Injectable private(set) var mxStore: MatrixStore
     @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
     @Injectable private var userFlows: UserFlowsStorageService
 
@@ -33,7 +35,7 @@ final class ChooseReceiverViewModel: ObservableObject {
 
     // MARK: - Internal Methods
 
-    func send(_ event: ChooseReceiverFlow.Event) {
+    func send(_ event: WalletAddressScanerFlow.Event) {
         eventSubject.send(event)
     }
 
@@ -46,9 +48,13 @@ final class ChooseReceiverViewModel: ObservableObject {
                 case .onAppear:
                     self?.updateData()
                     self?.objectWillChange.send()
-                case let .onQRScanner(scannedScreen):
-                    self?.delegate?.handleNextScene(.QRScanner(scannedScreen))
                 }
+            }
+            .store(in: &subscriptions)
+
+        mxStore.objectWillChange
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
             }
             .store(in: &subscriptions)
     }
@@ -60,27 +66,5 @@ final class ChooseReceiverViewModel: ObservableObject {
     }
 
     private func updateData() {
-    }
-}
-
-// MARK: - SearchType
-
-enum SearchType {
-
-    case contact
-    case telephone
-    case wallet
-
-    // MARK: - Internal Properties
-
-    var result: String {
-        switch self {
-        case .contact:
-            return R.string.localizable.chooseReceiverContact()
-        case .telephone:
-            return R.string.localizable.chooseReceiverTelephone()
-        case .wallet:
-            return R.string.localizable.chooseReceiverWallet()
-        }
     }
 }

@@ -10,7 +10,6 @@ struct ChooseReceiverView: View {
     @State var searchType = SearchType.contact
     @State var searchText = ""
     @State var searching = false
-    @State var isPresentingScanner = false
     @State private var scannedCode = ""
 
     // MARK: - Body
@@ -28,19 +27,10 @@ struct ChooseReceiverView: View {
                     } label: {
                         R.image.chooseReceiver.qrcode.image
                             .onTapGesture {
-                                isPresentingScanner = true
+                                viewModel.send(.onQRScanner(scannedScreen: $viewModel.scannedCode))
                             }
                     }
                 }
-                }
-        .sheet(isPresented: $isPresentingScanner) {
-                    CodeScannerView(codeTypes: [.qr]) { response in
-                        if case let .success(result) = response {
-                            scannedCode = result.string
-                            print(scannedCode)
-                            isPresentingScanner = false
-                        }
-                    }
                 }
     }
 

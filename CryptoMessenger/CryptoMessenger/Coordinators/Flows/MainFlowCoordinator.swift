@@ -154,6 +154,7 @@ final class MainFlowCoordinator: Coordinator {
         case transaction(Int, Int, String)
         case importKey
         case chooseReceiver
+        case QRScanner(Binding<String>)
     }
 }
 
@@ -202,6 +203,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showImportKey()
         case .chooseReceiver:
             showChooseReceiver()
+        case let .QRScanner(scannedString):
+            showQRScanner(scannedString: scannedString)
         }
     }
 
@@ -336,6 +339,14 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    private func showQRScanner(scannedString: Binding<String>) {
+        let rootView = WalletAddressScanerConfigurator.configuredView(delegate: self,
+                                                                      scannedCode: scannedString)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -401,6 +412,10 @@ extension MainFlowCoordinator: ImportKeySceneDelegate {}
 // MARK: - MainFlowCoordinator (ChooseReceiverSceneDelegate)
 
 extension MainFlowCoordinator: ChooseReceiverSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (WalletAddressScanerSceneDelegate)
+
+extension MainFlowCoordinator: WalletAddressScanerSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 
