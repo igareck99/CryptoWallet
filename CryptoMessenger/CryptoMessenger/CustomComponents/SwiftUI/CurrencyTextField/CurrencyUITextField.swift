@@ -44,7 +44,6 @@ final class CurrencyUITextField: UITextField {
         addTarget(self, action: #selector(resetSelection), for: .allTouchEvents)
         keyboardType = .numberPad
         textAlignment = .left
-        sendActions(for: .editingChanged)
     }
 
     override func deleteBackward() {

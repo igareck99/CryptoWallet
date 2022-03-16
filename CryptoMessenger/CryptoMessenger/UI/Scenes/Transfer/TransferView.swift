@@ -14,7 +14,7 @@ struct TransferView: View {
     @State var isSelectedWalletType = false
     @State var value = 0
     @State var coinType = WalletInfo(walletType: .aur,
-                                     adress: "0xSf13S891 ... 3dfasfAgfj1 ",
+                                     address: "0xSf13S891 ... 3dfasfAgfj1 ",
                                      coinAmount: 256.41948,
                                      fiatAmount: 256.41948)
     private var numberFormatter: NumberFormatterProtocol
@@ -26,7 +26,7 @@ struct TransferView: View {
         self.viewModel = viewModel
         self.numberFormatter = NumberFormatter()
         self.numberFormatter.numberStyle = .decimal
-        self.numberFormatter.maximumFractionDigits = 4
+        self.numberFormatter.maximumFractionDigits = 2
     }
 
     // MARK: - Body
@@ -117,7 +117,7 @@ struct TransferView: View {
                     R.image.chat.logo.image
                 }
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(coinType.adress)
+                    Text(coinType.address)
                         .font(.medium(15))
                         .frame(height: 22)
                     Text(String(coinType.coinAmount) + " \(coinType.result.currency)")
@@ -165,7 +165,7 @@ struct TransferView: View {
             }
             Spacer()
             HStack(spacing: 12) {
-                Text("AUR")
+                Text(coinType.result.currency)
                     .font(.medium(24))
                 R.image.answers.downsideArrow.image
             }

@@ -305,6 +305,15 @@
 "Import.HowImportKey" = "Как правильно импортировать ключи?";
 "Import.Import" = "Импортировать";
 
+"FacilityApprove.Title" = "Перевод средств";
+"FacilityApprove.Check" = "Проверьте точность данных перед \nотправкой!";
+"FacilityApprove.Receiver" = "Получатель";
+"FacilityApprove.NameSurname" = "Имя и Фамилия";
+"FacilityApprove.TransactionSum" = "Сумма списания";
+"FacilityApprove.InUSD" = "В USD";
+"FacilityApprove.Comission" = "Комиссия";
+"FacilityApprove.Address" = "Адрес";
+"FacilityApprove.DocumentDate" = "Дата документа";
 
 
 

@@ -34,16 +34,18 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        let tabs = [
-            buildChatTab(),
-            buildWalletTab(),
-            buildProfileTab()
-        ]
-
-        let tabBarController = BaseTabBarController(viewControllers: tabs)
-        tabBarController.selectedIndex = Tabs.chat.index
-
-        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+        
+        handleNextScene(.facilityApprove)
+//        let tabs = [
+//            buildChatTab(),
+//            buildWalletTab(),
+//            buildProfileTab()
+//        ]
+//
+//        let tabBarController = BaseTabBarController(viewControllers: tabs)
+//        tabBarController.selectedIndex = Tabs.chat.index
+//
+//        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
 
 //        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
 //            window.rootViewController = tabBarController
@@ -154,6 +156,7 @@ final class MainFlowCoordinator: Coordinator {
         case transaction(Int, Int, String)
         case importKey
         case transfer
+        case facilityApprove
     }
 }
 
@@ -202,6 +205,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showImportKey()
         case .transfer:
             showTransferScene()
+        case .facilityApprove:
+            showFacilityApprove()
         }
     }
 
@@ -336,6 +341,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    private func showFacilityApprove() {
+        let rootView = FacilityApproveConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -401,6 +413,10 @@ extension MainFlowCoordinator: ImportKeySceneDelegate {}
 // MARK: - MainFlowCoordinator (TransferSceneDelegate)
 
 extension MainFlowCoordinator: TransferSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (FacilityApproveSceneDelegate)
+
+extension MainFlowCoordinator: FacilityApproveSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 
