@@ -343,7 +343,7 @@
 		8B4E9C3027DFF6320057E4C9 /* ScannerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */; };
 		8B4E9C3227DFF6700057E4C9 /* ScanerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */; };
 		8B4E9C3527E0A77A0057E4C9 /* WalletAdressScanerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */; };
-		8B4E9C3727E0A7900057E4C9 /* WalletAdressScanerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3627E0A7900057E4C9 /* WalletAdressScanerConfigurator.swift */; };
+		8B4E9C3727E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3627E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift */; };
 		8B4E9C3B27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */; };
 		8B4E9C3D27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */; };
 		8B4E9C3F27E0AA150057E4C9 /* WalletAdressScanerFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */; };
@@ -748,7 +748,7 @@
 		8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerCoordinator.swift; sourceTree = "<group>"; };
 		8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanerViewController.swift; sourceTree = "<group>"; };
 		8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerView.swift; sourceTree = "<group>"; };
-		8B4E9C3627E0A7900057E4C9 /* WalletAdressScanerConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerConfigurator.swift; sourceTree = "<group>"; };
+		8B4E9C3627E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAddressScannerConfigurator.swift; sourceTree = "<group>"; };
 		8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerProtocols.swift; sourceTree = "<group>"; };
 		8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerViewModel.swift; sourceTree = "<group>"; };
 		8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerFlow.swift; sourceTree = "<group>"; };
@@ -2079,7 +2079,7 @@
 			isa = PBXGroup;
 			children = (
 				8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */,
-				8B4E9C3627E0A7900057E4C9 /* WalletAdressScanerConfigurator.swift */,
+				8B4E9C3627E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift */,
 				8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */,
 				8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */,
 				8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */,
@@ -2701,7 +2701,7 @@
 				5A4BE522271DD86A00D03D09 /* UserDefaults.swift in Sources */,
 				8B1E8AC427DF4F9D0036C301 /* ChooseReceiverFlow.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
-				8B4E9C3727E0A7900057E4C9 /* WalletAdressScanerConfigurator.swift in Sources */,
+				8B4E9C3727E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift in Sources */,
 				5A44FEED2768B1E6006F9D92 /* ProfileDetailProtocols.swift in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
 				5AEB80FD26DD123E009A1944 /* ImagePickerView.swift in Sources */,

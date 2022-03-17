@@ -22,6 +22,6 @@ enum ChooseReceiverFlow {
         // MARK: - Types
 
         case onAppear
-        case onQRScanner(scannedScreen: Binding<String>)
+        case onScanner(scannedScreen: Binding<String>)
     }
 }

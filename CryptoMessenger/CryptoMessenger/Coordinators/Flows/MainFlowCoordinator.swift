@@ -154,7 +154,7 @@ final class MainFlowCoordinator: Coordinator {
         case transaction(Int, Int, String)
         case importKey
         case chooseReceiver
-        case QRScanner(Binding<String>)
+        case scanner(Binding<String>)
     }
 }
 
@@ -203,7 +203,7 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showImportKey()
         case .chooseReceiver:
             showChooseReceiver()
-        case let .QRScanner(scannedString):
+        case let .scanner(scannedString):
             showQRScanner(scannedString: scannedString)
         }
     }
@@ -341,7 +341,7 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
     
     private func showQRScanner(scannedString: Binding<String>) {
-        let rootView = WalletAddressScanerConfigurator.configuredView(delegate: self,
+        let rootView = WalletAddressScannerConfigurator.configuredView(delegate: self,
                                                                       scannedCode: scannedString)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true

@@ -12,12 +12,12 @@ struct WalletAddressScanerView: View {
 
     var body: some View {
         content
-        .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        Text(R.string.localizable.qrCodeTitle())
-                            .font(.bold(15))
-                    }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(R.string.localizable.qrCodeTitle())
+                        .font(.bold(15))
                 }
+            }
     }
 
     // MARK: - Private Properties

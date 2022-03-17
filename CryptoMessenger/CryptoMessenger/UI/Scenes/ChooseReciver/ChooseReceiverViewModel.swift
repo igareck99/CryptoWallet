@@ -1,13 +1,11 @@
-import SwiftUI
 import Combine
+import SwiftUI
 
 final class ChooseReceiverViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
     weak var delegate: ChooseReceiverSceneDelegate?
-
-    @State var scannedCode = "text"
 
     // MARK: - Private Properties
 
@@ -45,9 +43,8 @@ final class ChooseReceiverViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     self?.updateData()
-                    self?.objectWillChange.send()
-                case let .onQRScanner(scannedScreen):
-                    self?.delegate?.handleNextScene(.QRScanner(scannedScreen))
+                case let .onScanner(scannedScreen):
+                    self?.delegate?.handleNextScene(.scanner(scannedScreen))
                 }
             }
             .store(in: &subscriptions)
@@ -60,12 +57,15 @@ final class ChooseReceiverViewModel: ObservableObject {
     }
 
     private func updateData() {
+
     }
 }
 
 // MARK: - SearchType
 
 enum SearchType {
+
+    // MARK: - Types
 
     case contact
     case telephone

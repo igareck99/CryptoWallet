@@ -133,33 +133,38 @@ extension CodeScannerView {
         }
 
         override func viewWillLayoutSubviews() { previewLayer?.frame = view.layer.bounds }
-        
+
         @objc func updateOrientation() {
-            guard let orientation = view.window?.windowScene?.interfaceOrientation else { return }
-            guard let connection = captureSession.connections.last, connection.isVideoOrientationSupported else { return }
+            guard
+                let orientation = view.window?.windowScene?.interfaceOrientation,
+                let connection = captureSession.connections.last, connection.isVideoOrientationSupported
+            else {
+                return
+            }
+    
             connection.videoOrientation = AVCaptureVideoOrientation(rawValue: orientation.rawValue) ?? .portrait
         }
-        
+
         override func viewDidAppear(_ animated: Bool) {
             super.viewDidAppear(animated)
             updateOrientation()
         }
-        
+
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
-            
+
             if previewLayer == nil {
                 previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             }
-            
+
             previewLayer.frame = view.layer.bounds
             previewLayer.videoGravity = .resizeAspectFill
             view.layer.addSublayer(previewLayer)
 
             addFinderView()
-            
+
             delegate?.reset()
-            
+
             if captureSession?.isRunning == false {
                 DispatchQueue.global(qos: .userInitiated).async {
                     self.captureSession.startRunning()
@@ -172,7 +177,7 @@ extension CodeScannerView {
 
             view.addSubview(finderView)
             view.bringSubviewToFront(finderView)
-            
+
             NSLayoutConstraint.activate([
                 finderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
                 finderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),

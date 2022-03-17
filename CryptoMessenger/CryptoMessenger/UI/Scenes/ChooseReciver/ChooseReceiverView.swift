@@ -10,27 +10,29 @@ struct ChooseReceiverView: View {
     @State var searchType = SearchType.contact
     @State var searchText = ""
     @State var searching = false
+    @State var scannedCode = ""
 
     // MARK: - Body
 
     var body: some View {
         content
             .hideKeyboardOnTap()
-        .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        Text(R.string.localizable.chooseReceiverTitle())
-                            .font(.bold(15))
-                    }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(R.string.localizable.chooseReceiverTitle())
+                        .font(.bold(15))
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
+
                     } label: {
                         R.image.chooseReceiver.qrcode.image
                             .onTapGesture {
-                                viewModel.send(.onQRScanner(scannedScreen: $viewModel.scannedCode))
+                                viewModel.send(.onScanner(scannedScreen: $scannedCode))
                             }
                     }
                 }
-                }
+            }
     }
 
     // MARK: - Private Properties
@@ -46,9 +48,9 @@ struct ChooseReceiverView: View {
                 .padding(.top, 16)
                 .padding(.horizontal, 16)
                 .onTapGesture {
-                    self.hideKeyboard()
+                    hideKeyboard()
                 }
-            Text(viewModel.scannedCode)
+            Text(scannedCode)
                 .font(.bold(15))
             Spacer()
 
