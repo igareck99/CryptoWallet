@@ -160,16 +160,16 @@ extension CodeScannerView {
             
             delegate?.reset()
             
-            if (captureSession?.isRunning == false) {
+            if captureSession?.isRunning == false {
                 DispatchQueue.global(qos: .userInitiated).async {
                     self.captureSession.startRunning()
                 }
             }
         }
-        
+
         private func addFinderView() {
             guard showFinderView else { return }
-            
+
             view.addSubview(finderView)
             view.bringSubviewToFront(finderView)
             
@@ -177,13 +177,13 @@ extension CodeScannerView {
                 finderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
                 finderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 finderView.widthAnchor.constraint(equalToConstant: 200),
-                finderView.heightAnchor.constraint(equalToConstant: 200),
+                finderView.heightAnchor.constraint(equalToConstant: 200)
             ])
         }
-        
+
         override func viewDidDisappear(_ animated: Bool) {
             super.viewDidDisappear(animated)
-            
+
             if captureSession?.isRunning == true {
                 DispatchQueue.global(qos: .userInitiated).async {
                     self.captureSession.stopRunning()

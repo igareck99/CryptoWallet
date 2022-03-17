@@ -56,7 +56,7 @@ struct CodeScannerView: UIViewControllerRepresentable {
         codeTypes: [AVMetadataObject.ObjectType],
         scanMode: ScanMode = .once,
         scanInterval: Double = 2.0,
-        showFinderView: Bool = false,
+        showFinderView: Bool = true,
         simulatedData: String = "",
         shouldVibrateOnSuccess: Bool = true,
         isTorchOn: Bool = false,
