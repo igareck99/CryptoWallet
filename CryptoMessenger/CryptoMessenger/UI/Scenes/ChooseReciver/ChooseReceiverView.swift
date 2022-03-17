@@ -1,3 +1,4 @@
+import Combine
 import SwiftUI
 
 // MARK: - ChooseReceiverView
@@ -12,6 +13,12 @@ struct ChooseReceiverView: View {
     @State var searching = false
     @State var scannedCode = ""
 
+    // MARK: - Private Properties
+
+    private var scannedCodePublisher: AnyPublisher<String, Never> {
+        Just(scannedCode).eraseToAnyPublisher()
+    }
+
     // MARK: - Body
 
     var body: some View {
@@ -24,14 +31,13 @@ struct ChooseReceiverView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-
+                        viewModel.send(.onScanner(scannedScreen: $scannedCode))
                     } label: {
                         R.image.chooseReceiver.qrcode.image
-                            .onTapGesture {
-                                viewModel.send(.onScanner(scannedScreen: $scannedCode))
-                            }
                     }
                 }
+            }.onReceive(scannedCodePublisher) { code in
+                print(code)
             }
     }
 
