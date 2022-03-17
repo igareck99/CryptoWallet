@@ -1,17 +1,25 @@
 import AVFoundation
 import SwiftUI
 
+// MARK: - ScanError
+
 extension CodeScannerView {
+
+    // MARK: - ScannerCoordinator
+
     final class ScannerCoordinator: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         var parent: CodeScannerView
         var codesFound = Set<String>()
         var didFinishScanning = false
         var lastTime = Date(timeIntervalSince1970: 0)
         var isPastScanInterval: Bool { Date().timeIntervalSince(lastTime) >= parent.scanInterval }
+        
+        // MARK: - LifeCycle
 
         init(parent: CodeScannerView) {
             self.parent = parent
         }
+        // MARK: - Internal Methods
 
         func reset() {
             codesFound.removeAll()

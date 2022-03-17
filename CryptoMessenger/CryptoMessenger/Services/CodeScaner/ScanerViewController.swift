@@ -1,11 +1,22 @@
 import AVFoundation
 import UIKit
 
+// MARK: - CodeScannerView
+
 extension CodeScannerView {
 
-    final class ScannerViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    // MARK: - ScannerViewController
+
+    final class ScannerViewController: UIViewController,
+                                       UIImagePickerControllerDelegate,
+                                       UINavigationControllerDelegate {
+
+        // MARK: - Internal Properties
 
         var delegate: ScannerCoordinator?
+
+        // MARK: - Private Properties
+
         private let showFinderView: Bool
         private var isGalleryShowing = false {
             didSet {
@@ -14,6 +25,8 @@ extension CodeScannerView {
                 }
             }
         }
+
+        // MARK: - Lifecycle
 
         init(showFinderView: Bool = false) {
             self.showFinderView = showFinderView
@@ -24,6 +37,8 @@ extension CodeScannerView {
             self.showFinderView = false
             super.init(coder: coder)
         }
+
+        // MARK: - Internal Methods
 
         func openGallery() {
             isGalleryShowing = true
@@ -59,7 +74,8 @@ extension CodeScannerView {
             let features = detector.features(in: ciImage)
 
             for feature in features as! [CIQRCodeFeature] {
-                qrCodeLink += feature.messageString!
+                guard let feature = feature.messageString else { return }
+                qrCodeLink += feature
             }
 
             if qrCodeLink.isEmpty {
@@ -76,9 +92,62 @@ extension CodeScannerView {
             isGalleryShowing = false
         }
 
+#if targetEnvironment(simulator)
+        override public func loadView() {
+            view = UIView()
+            view.isUserInteractionEnabled = true
+
+            let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.numberOfLines = 0
+            label.text = "You're running in the simulator, which means the camera isn't available. Tap anywhere to send back some simulated data."
+            label.textAlignment = .center
+
+            let button = UIButton()
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.setTitle("Select a custom image", for: .normal)
+            button.setTitleColor(UIColor.systemBlue, for: .normal)
+            button.setTitleColor(UIColor.gray, for: .highlighted)
+            button.addTarget(self, action: #selector(openGalleryFromButton), for: .touchUpInside)
+
+            let stackView = UIStackView()
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            stackView.axis = .vertical
+            stackView.spacing = 50
+            stackView.addArrangedSubview(label)
+            stackView.addArrangedSubview(button)
+
+            view.addSubview(stackView)
+
+            NSLayoutConstraint.activate([
+                button.heightAnchor.constraint(equalToConstant: 50),
+                stackView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+                stackView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+                stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
+        }
+
+        override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            guard let simulatedData = delegate?.parent.simulatedData else {
+                print("Simulated Data Not Provided!")
+                return
+            }
+
+            // Send back their simulated data, as if it was one of the types they were scanning for
+            let result = ScanResult(string: simulatedData, type: delegate?.parent.codeTypes.first ?? .qr)
+            delegate?.found(result)
+        }
+#else
+
+        // MARK: - Internal Properties
+
         var captureSession: AVCaptureSession!
         var previewLayer: AVCaptureVideoPreviewLayer!
         let fallbackVideoCaptureDevice = AVCaptureDevice.default(for: .video)
+        override var prefersStatusBarHidden: Bool { true }
+        override var supportedInterfaceOrientations: UIInterfaceOrientationMask { .portrait }
+
+        // MARK: - Private Properties
 
         private lazy var finderView: UIImageView = {
             let imageView = UIImageView()
@@ -86,6 +155,8 @@ extension CodeScannerView {
             imageView.translatesAutoresizingMaskIntoConstraints = false
             return imageView
         }()
+
+        // MARK: - Lifecycle
 
         override func viewDidLoad() {
             super.viewDidLoad()
@@ -96,14 +167,12 @@ extension CodeScannerView {
                 name: Notification.Name("UIDeviceOrientationDidChangeNotification"),
                 object: nil
             )
-
             view.backgroundColor = .black
             captureSession = AVCaptureSession()
 
             guard let videoCaptureDevice = delegate?.parent.videoCaptureDevice ?? fallbackVideoCaptureDevice else {
                 return
             }
-
             let videoInput: AVCaptureDeviceInput
 
             do {
@@ -112,14 +181,12 @@ extension CodeScannerView {
                 delegate?.didFail(reason: .initError(error))
                 return
             }
-
             if captureSession.canAddInput(videoInput) {
                 captureSession.addInput(videoInput)
             } else {
                 delegate?.didFail(reason: .badInput)
                 return
             }
-
             let metadataOutput = AVCaptureMetadataOutput()
 
             if captureSession.canAddOutput(metadataOutput) {
@@ -132,18 +199,9 @@ extension CodeScannerView {
             }
         }
 
-        override func viewWillLayoutSubviews() { previewLayer?.frame = view.layer.bounds }
+        // MARK: - Lifecycle
 
-        @objc func updateOrientation() {
-            guard
-                let orientation = view.window?.windowScene?.interfaceOrientation,
-                let connection = captureSession.connections.last, connection.isVideoOrientationSupported
-            else {
-                return
-            }
-    
-            connection.videoOrientation = AVCaptureVideoOrientation(rawValue: orientation.rawValue) ?? .portrait
-        }
+        override func viewWillLayoutSubviews() { previewLayer?.frame = view.layer.bounds }
 
         override func viewDidAppear(_ animated: Bool) {
             super.viewDidAppear(animated)
@@ -172,20 +230,6 @@ extension CodeScannerView {
             }
         }
 
-        private func addFinderView() {
-            guard showFinderView else { return }
-
-            view.addSubview(finderView)
-            view.bringSubviewToFront(finderView)
-
-            NSLayoutConstraint.activate([
-                finderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-                finderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                finderView.widthAnchor.constraint(equalToConstant: 200),
-                finderView.heightAnchor.constraint(equalToConstant: 200)
-            ])
-        }
-
         override func viewDidDisappear(_ animated: Bool) {
             super.viewDidDisappear(animated)
 
@@ -194,13 +238,21 @@ extension CodeScannerView {
                     self.captureSession.stopRunning()
                 }
             }
-
             NotificationCenter.default.removeObserver(self)
         }
 
-        override var prefersStatusBarHidden: Bool { true }
+        // MARK: - Internal Methods
 
-        override var supportedInterfaceOrientations: UIInterfaceOrientationMask { .portrait }
+        @objc func updateOrientation() {
+            guard
+                let orientation = view.window?.windowScene?.interfaceOrientation,
+                let connection = captureSession.connections.last, connection.isVideoOrientationSupported
+            else {
+                return
+            }
+
+            connection.videoOrientation = AVCaptureVideoOrientation(rawValue: orientation.rawValue) ?? .portrait
+        }
 
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             guard
@@ -211,8 +263,8 @@ extension CodeScannerView {
                 return
             }
 
-            let videoView = view
-            let screenSize = videoView!.bounds.size
+            guard let videoView = view else { return }
+            let screenSize = videoView.bounds.size
             let xPoint = touchPoint.location(in: videoView).y / screenSize.height
             let yPoint = 1.0 - touchPoint.location(in: videoView).x / screenSize.width
             let focusPoint = CGPoint(x: xPoint, y: yPoint)
@@ -229,6 +281,24 @@ extension CodeScannerView {
             device.exposureMode = .continuousAutoExposure
             device.unlockForConfiguration()
         }
+
+        // MARK: - Private Methods
+
+        private func addFinderView() {
+            guard showFinderView else { return }
+
+            view.addSubview(finderView)
+            view.bringSubviewToFront(finderView)
+
+            NSLayoutConstraint.activate([
+                finderView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                finderView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                finderView.widthAnchor.constraint(equalToConstant: 200),
+                finderView.heightAnchor.constraint(equalToConstant: 200)
+            ])
+        }
+
+#endif
 
         func updateViewController(isTorchOn: Bool, isGalleryPresented: Bool) {
             if let backCamera = AVCaptureDevice.default(for: AVMediaType.video),
