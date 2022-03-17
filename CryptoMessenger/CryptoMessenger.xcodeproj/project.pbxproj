@@ -339,7 +339,7 @@
 		8B4810FD27CF9BC400831589 /* ImportKeyProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FC27CF9BC400831589 /* ImportKeyProtocols.swift */; };
 		8B4810FF27CF9BEB00831589 /* ImportKeyConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FE27CF9BEB00831589 /* ImportKeyConfigurator.swift */; };
 		8B48110127CF9C2300831589 /* ImportKeyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B48110027CF9C2300831589 /* ImportKeyViewModel.swift */; };
-		8B4E9C2E27DFF60B0057E4C9 /* CodeScaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C2D27DFF60B0057E4C9 /* CodeScaner.swift */; };
+		8B4E9C2E27DFF60B0057E4C9 /* CodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C2D27DFF60B0057E4C9 /* CodeScanner.swift */; };
 		8B4E9C3027DFF6320057E4C9 /* ScannerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */; };
 		8B4E9C3227DFF6700057E4C9 /* ScanerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */; };
 		8B4E9C3527E0A77A0057E4C9 /* WalletAdressScanerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */; };
@@ -744,7 +744,7 @@
 		8B4810FE27CF9BEB00831589 /* ImportKeyConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyConfigurator.swift; sourceTree = "<group>"; };
 		8B48110027CF9C2300831589 /* ImportKeyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyViewModel.swift; sourceTree = "<group>"; };
 		8B4DC640274D7939001B3998 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
-		8B4E9C2D27DFF60B0057E4C9 /* CodeScaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScaner.swift; sourceTree = "<group>"; };
+		8B4E9C2D27DFF60B0057E4C9 /* CodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScanner.swift; sourceTree = "<group>"; };
 		8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerCoordinator.swift; sourceTree = "<group>"; };
 		8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanerViewController.swift; sourceTree = "<group>"; };
 		8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerView.swift; sourceTree = "<group>"; };
@@ -2068,7 +2068,7 @@
 		8B4E9C2C27DFF5EA0057E4C9 /* CodeScaner */ = {
 			isa = PBXGroup;
 			children = (
-				8B4E9C2D27DFF60B0057E4C9 /* CodeScaner.swift */,
+				8B4E9C2D27DFF60B0057E4C9 /* CodeScanner.swift */,
 				8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */,
 				8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */,
 			);
@@ -2480,7 +2480,7 @@
 				5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */,
 				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
-				8B4E9C2E27DFF60B0057E4C9 /* CodeScaner.swift in Sources */,
+				8B4E9C2E27DFF60B0057E4C9 /* CodeScanner.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
 				8B432CCA27C3DA040025D62B /* WalletNewConfigurator.swift in Sources */,
 				5A3C9414274AEE8400818060 /* KeyboardListenable.swift in Sources */,
@@ -2949,7 +2949,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 23;
-				DEVELOPMENT_TEAM = C392B84957;
+				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -2976,7 +2976,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 23;
-				DEVELOPMENT_TEAM = C392B84957;
+				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
