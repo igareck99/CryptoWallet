@@ -315,6 +315,12 @@
 "FacilityApprove.Address" = "Адрес";
 "FacilityApprove.DocumentDate" = "Дата документа";
 
+"SuccessFacilityView.Title" = "Успешно отправлено";
+"SuccessFacilityView.AddFavourites" = "Добавить в избранное";
+"SuccessFacilityView.OKClose" = "Хорошо, закрыть";
+"SuccessFacilityView.ShowTransaction" = "Посмотреть транзакцию";
+
+
 
 
 

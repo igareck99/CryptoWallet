@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - FacilityApproveFlow
+// MARK: - SuccessFacilityFlow
 
-enum FacilityApproveFlow {
+enum SuccessFacilityFlow {
 
     // MARK: - ViewState
 
@@ -22,6 +22,5 @@ enum FacilityApproveFlow {
         // MARK: - Types
 
         case onAppear
-        case onTransaction
     }
 }

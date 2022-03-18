@@ -92,6 +92,8 @@ final class FacilityApproveViewModel: ObservableObject {
                 case .onAppear:
                     self?.updateData()
                     self?.objectWillChange.send()
+                case .onTransaction:
+                    print("SomeGox")
                 }
             }
             .store(in: &subscriptions)
@@ -104,7 +106,9 @@ final class FacilityApproveViewModel: ObservableObject {
     }
 
     private func updateData() {
-        addTitles()
+        if cellType.isEmpty {
+            addTitles()
+        }
     }
 }
 
