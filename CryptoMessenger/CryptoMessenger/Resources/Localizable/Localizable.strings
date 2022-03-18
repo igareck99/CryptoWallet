@@ -305,6 +305,10 @@
 "Import.HowImportKey" = "Как правильно импортировать ключи?";
 "Import.Import" = "Импортировать";
 
+"ChooseReceiver.Contact" = "Контакт";
+"ChooseReceiver.Telephone" = "Телефон";
+"ChooseReceiver.Wallet" = "Кошелек";
+"ChooseReceiver.Title" = "Выберите получателя";
 "FacilityApprove.Title" = "Перевод средств";
 "FacilityApprove.Check" = "Проверьте точность данных перед \nотправкой!";
 "FacilityApprove.Receiver" = "Получатель";
@@ -315,6 +319,7 @@
 "FacilityApprove.Address" = "Адрес";
 "FacilityApprove.DocumentDate" = "Дата документа";
 
+"QRCode.Title" = "Сканировать  QR-код";
 
 
 
