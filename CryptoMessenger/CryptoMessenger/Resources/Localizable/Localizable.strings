@@ -279,6 +279,15 @@
 "ReserveCopy.ChangeAccount" = "Сменить аккаунт";
 "ReserveCopy.NotCreated" = "Резервная копия не создавалась";
 
+"Transfer.ChooseContact" = "Выберите контакт";
+"Transfer.Transfer" = "Перевод средств";
+"Transfer.YourAdress" = "Ваш адрес";
+"Transfer.ToWhom" = "Кому";
+"Transfer.Sum" = "Сумма";
+"Transfer.InDollar" = "В долларах = ";
+"Transfer.Slow" = "Медленно";
+"Transfer.Middle" = "Средне";
+"Transfer.Quick" = "Быстро";
 "Rewards.Title" = "Вознаграждения";
 "Transaction.TitleAll" = "Все транзакции";
 "Transaction.OnlySent" = "Только отправленные";
@@ -302,6 +311,7 @@
 "ChooseReceiver.Title" = "Выберите получателя";
 
 "QRCode.Title" = "Сканировать  QR-код";
+
 
 
 

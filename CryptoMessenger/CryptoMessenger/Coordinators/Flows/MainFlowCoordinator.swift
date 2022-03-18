@@ -39,6 +39,7 @@ final class MainFlowCoordinator: Coordinator {
             buildWalletTab(),
             buildProfileTab()
         ]
+
         let tabBarController = BaseTabBarController(viewControllers: tabs)
         tabBarController.selectedIndex = Tabs.chat.index
 
@@ -154,6 +155,7 @@ final class MainFlowCoordinator: Coordinator {
         case importKey
         case chooseReceiver
         case scanner(Binding<String>)
+        case transfer
     }
 }
 
@@ -200,6 +202,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
                             address: address)
         case .importKey:
             showImportKey()
+        case .transfer:
+            showTransferScene()
         case .chooseReceiver:
             showChooseReceiver()
         case let .scanner(scannedString):
@@ -331,6 +335,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+
+    private func showTransferScene() {
+        let rootView = TransferConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
     
     private func showChooseReceiver() {
         let rootView = ChooseReceiverConfigurator.configuredView(delegate: self)
@@ -407,6 +418,10 @@ extension MainFlowCoordinator: TransactionSceneDelegate {}
 // MARK: - MainFlowCoordinator (ImportKeySceneDelegate)
 
 extension MainFlowCoordinator: ImportKeySceneDelegate {}
+
+// MARK: - MainFlowCoordinator (TransferSceneDelegate)
+
+extension MainFlowCoordinator: TransferSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ChooseReceiverSceneDelegate)
 
