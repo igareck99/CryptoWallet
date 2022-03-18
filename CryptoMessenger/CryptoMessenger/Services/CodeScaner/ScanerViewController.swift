@@ -200,6 +200,10 @@ extension CodeScannerView {
         }
 
         // MARK: - Lifecycle
+        
+        deinit {
+            NotificationCenter.default.removeObserver(self)
+        }
 
         override func viewWillLayoutSubviews() { previewLayer?.frame = view.layer.bounds }
 
@@ -238,7 +242,6 @@ extension CodeScannerView {
                     self.captureSession.stopRunning()
                 }
             }
-            NotificationCenter.default.removeObserver(self)
         }
 
         // MARK: - Internal Methods
