@@ -175,6 +175,17 @@ enum WalletType {
             return "BTC (Bitcoin)"
         }
     }
+
+    var abbreviatedName: String {
+        switch self {
+        case .ethereum:
+            return "ETH"
+        case .aur:
+            return "AUR"
+        case .bitcoin:
+            return "BTC"
+        }
+    }
 }
 
 // MARK: - TransactionInfo

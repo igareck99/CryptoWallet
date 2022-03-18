@@ -347,6 +347,11 @@
 		8B4E9C3B27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */; };
 		8B4E9C3D27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */; };
 		8B4E9C3F27E0AA150057E4C9 /* WalletAdressScanerFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */; };
+		8B4E9C4227E1EDBE0057E4C9 /* FacilityApproveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C4127E1EDBE0057E4C9 /* FacilityApproveView.swift */; };
+		8B4E9C4427E1EDD30057E4C9 /* FacilityApproveFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C4327E1EDD30057E4C9 /* FacilityApproveFlow.swift */; };
+		8B4E9C4627E1EDDE0057E4C9 /* FacilityApproveConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C4527E1EDDE0057E4C9 /* FacilityApproveConfigurator.swift */; };
+		8B4E9C4827E1EDE80057E4C9 /* FacilityApproveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C4727E1EDE80057E4C9 /* FacilityApproveViewModel.swift */; };
+		8B4E9C4A27E1EDF60057E4C9 /* FacilityApproveProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C4927E1EDF60057E4C9 /* FacilityApproveProtocols.swift */; };
 		8B5609B2277927B500AF43F6 /* TypographyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B1277927B500AF43F6 /* TypographyView.swift */; };
 		8B5609B427792B0000AF43F6 /* TypographyNewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B327792B0000AF43F6 /* TypographyNewItem.swift */; };
 		8B5609B62779C5CA00AF43F6 /* ThemeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609B52779C5CA00AF43F6 /* ThemeItem.swift */; };
@@ -760,6 +765,11 @@
 		8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerProtocols.swift; sourceTree = "<group>"; };
 		8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerViewModel.swift; sourceTree = "<group>"; };
 		8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerFlow.swift; sourceTree = "<group>"; };
+		8B4E9C4127E1EDBE0057E4C9 /* FacilityApproveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveView.swift; sourceTree = "<group>"; };
+		8B4E9C4327E1EDD30057E4C9 /* FacilityApproveFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveFlow.swift; sourceTree = "<group>"; };
+		8B4E9C4527E1EDDE0057E4C9 /* FacilityApproveConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveConfigurator.swift; sourceTree = "<group>"; };
+		8B4E9C4727E1EDE80057E4C9 /* FacilityApproveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveViewModel.swift; sourceTree = "<group>"; };
+		8B4E9C4927E1EDF60057E4C9 /* FacilityApproveProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveProtocols.swift; sourceTree = "<group>"; };
 		8B5609B1277927B500AF43F6 /* TypographyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyView.swift; sourceTree = "<group>"; };
 		8B5609B327792B0000AF43F6 /* TypographyNewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyNewItem.swift; sourceTree = "<group>"; };
 		8B5609B52779C5CA00AF43F6 /* ThemeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeItem.swift; sourceTree = "<group>"; };
@@ -966,6 +976,7 @@
 		5A187DF82680708D001957D3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				8B4E9C4027E1E21F0057E4C9 /* FacilityApprove */,
 				8B5A338227D89C9F0064C7DC /* Transfer */,
 				8B4E9C3327E0A75D0057E4C9 /* WalletAdressScaner */,
 				8B1E8AC027DF4F4A0036C301 /* ChooseReciver */,
@@ -2084,6 +2095,18 @@
 			path = ImportKey;
 			sourceTree = "<group>";
 		};
+		8B4E9C4027E1E21F0057E4C9 /* FacilityApprove */ = {
+			isa = PBXGroup;
+			children = (
+				8B4E9C4127E1EDBE0057E4C9 /* FacilityApproveView.swift */,
+				8B4E9C4327E1EDD30057E4C9 /* FacilityApproveFlow.swift */,
+				8B4E9C4527E1EDDE0057E4C9 /* FacilityApproveConfigurator.swift */,
+				8B4E9C4727E1EDE80057E4C9 /* FacilityApproveViewModel.swift */,
+				8B4E9C4927E1EDF60057E4C9 /* FacilityApproveProtocols.swift */,
+			);
+			path = FacilityApprove;
+			sourceTree = "<group>";
+		};
 		8B5A338227D89C9F0064C7DC /* Transfer */ = {
 			isa = PBXGroup;
 			children = (
@@ -2479,6 +2502,7 @@
 				5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */,
 				8B4E9C3B27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
+				8B4E9C4227E1EDBE0057E4C9 /* FacilityApproveView.swift in Sources */,
 				5A24B25426F289F000EFC5E2 /* MapSnapshotView.swift in Sources */,
 				5A187E9F2680708D001957D3 /* ScalableButtonView.swift in Sources */,
 				5A2181E426D80B4E0093AD60 /* ActionSheetView.swift in Sources */,
@@ -2496,6 +2520,7 @@
 				5A3C9412274AE93100818060 /* FlippedModifier.swift in Sources */,
 				5ABAD3A027C286CF0067DFC1 /* SettingsView.swift in Sources */,
 				5A43087027C9079F00A9B582 /* ImageCache.swift in Sources */,
+				8B4E9C4627E1EDDE0057E4C9 /* FacilityApproveConfigurator.swift in Sources */,
 				8BA0C90927AD4F320070203F /* AnswerViewModel.swift in Sources */,
 				5A3C942A274AFFDC00818060 /* KeyboardAvoiderModifier.swift in Sources */,
 				5A187EB7268070B3001957D3 /* UIView+Extensions.swift in Sources */,
@@ -2574,6 +2599,7 @@
 				5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
 				5A40A2D82769FB2B003AAA79 /* SearchBar.swift in Sources */,
+				8B4E9C4A27E1EDF60057E4C9 /* FacilityApproveProtocols.swift in Sources */,
 				5A3928322741A9EA00378ACA /* MXURL.swift in Sources */,
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
@@ -2588,6 +2614,7 @@
 				8BA0C90327AD4EE00070203F /* AnswerConfigurator.swift in Sources */,
 				5A187F262680CF49001957D3 /* APIError.swift in Sources */,
 				5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */,
+				8B4E9C4827E1EDE80057E4C9 /* FacilityApproveViewModel.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
 				5A44FEF127693F6F006F9D92 /* ChatCreateViewModel.swift in Sources */,
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
@@ -2699,6 +2726,7 @@
 				8B5609BC277B35A400AF43F6 /* PersonalizationFlow.swift in Sources */,
 				5AA6410626822C3A008922B4 /* FontDecor.swift in Sources */,
 				8B5A338627D89CF10064C7DC /* TransferProtocols.swift in Sources */,
+				8B4E9C4427E1EDD30057E4C9 /* FacilityApproveFlow.swift in Sources */,
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
 				5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */,
 				7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */,
