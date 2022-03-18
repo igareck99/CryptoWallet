@@ -155,6 +155,8 @@ final class MainFlowCoordinator: Coordinator {
         case reserveCopy
         case transaction(Int, Int, String)
         case importKey
+        case chooseReceiver
+        case scanner(Binding<String>)
         case transfer
         case facilityApprove
     }
@@ -207,6 +209,10 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showTransferScene()
         case .facilityApprove:
             showFacilityApprove()
+        case .chooseReceiver:
+            showChooseReceiver()
+        case let .scanner(scannedString):
+            showQRScanner(scannedString: scannedString)
         }
     }
 
@@ -342,6 +348,21 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         navigationController.pushViewController(viewController, animated: true)
     }
     
+    private func showChooseReceiver() {
+        let rootView = ChooseReceiverConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    private func showQRScanner(scannedString: Binding<String>) {
+        let rootView = WalletAddressScannerConfigurator.configuredView(delegate: self,
+                                                                      scannedCode: scannedString)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
     private func showFacilityApprove() {
         let rootView = FacilityApproveConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
@@ -413,6 +434,14 @@ extension MainFlowCoordinator: ImportKeySceneDelegate {}
 // MARK: - MainFlowCoordinator (TransferSceneDelegate)
 
 extension MainFlowCoordinator: TransferSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ChooseReceiverSceneDelegate)
+
+extension MainFlowCoordinator: ChooseReceiverSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (WalletAddressScanerSceneDelegate)
+
+extension MainFlowCoordinator: WalletAddressScanerSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (FacilityApproveSceneDelegate)
 
