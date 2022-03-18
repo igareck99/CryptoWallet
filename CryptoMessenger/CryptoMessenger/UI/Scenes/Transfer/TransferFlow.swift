@@ -22,5 +22,7 @@ enum TransferFlow {
         // MARK: - Types
 
         case onAppear
+        case onChooseReceiver
+        case onApprove
     }
 }

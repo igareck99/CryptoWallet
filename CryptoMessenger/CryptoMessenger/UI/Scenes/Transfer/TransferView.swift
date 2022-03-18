@@ -81,6 +81,9 @@ struct TransferView: View {
                 chooseContactCell
                     .background(.white())
                     .padding(.horizontal, 16)
+                    .onTapGesture {
+                        viewModel.send(.onChooseReceiver)
+                    }
             }
             .padding(.top, 4)
             Divider()
@@ -178,8 +181,9 @@ struct TransferView: View {
 
     private var sendButton: some View {
         Button {
+            viewModel.send(.onApprove)
         } label: {
-            Text("Отправить")
+            Text(R.string.localizable.walletSend())
                 .frame(minWidth: 0, maxWidth: 214)
                 .font(.semibold(15))
                 .padding()

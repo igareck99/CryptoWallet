@@ -34,18 +34,17 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        
-        handleNextScene(.facilityApprove)
-//        let tabs = [
-//            buildChatTab(),
-//            buildWalletTab(),
-//            buildProfileTab()
-//        ]
-//
-//        let tabBarController = BaseTabBarController(viewControllers: tabs)
-//        tabBarController.selectedIndex = Tabs.chat.index
-//
-//        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+
+        let tabs = [
+            buildChatTab(),
+            buildWalletTab(),
+            buildProfileTab()
+        ]
+
+        let tabBarController = BaseTabBarController(viewControllers: tabs)
+        tabBarController.selectedIndex = Tabs.chat.index
+
+        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
 
 //        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
 //            window.rootViewController = tabBarController
