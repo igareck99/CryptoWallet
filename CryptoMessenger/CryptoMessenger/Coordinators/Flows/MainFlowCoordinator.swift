@@ -43,12 +43,6 @@ final class MainFlowCoordinator: Coordinator {
         tabBarController.selectedIndex = Tabs.chat.index
 
         setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
-
-        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
-            window.rootViewController = tabBarController
-        } else {
-            setViewWith(navigationController, type: .fade, isRoot: true, isNavBarHidden: false)
-        }
     }
 
     // MARK: - Private Methods
@@ -80,6 +74,9 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Tabs
 
     enum Tabs: Hashable {
+
+        // MARK: - Types
+
         case chat
         case wallet
         case profile
