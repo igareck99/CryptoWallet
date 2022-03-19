@@ -11,7 +11,7 @@ struct ChatRoomView: View {
 
         // MARK: - Types
 
-        case photo, documents, camera
+        case photo, documents, camera, contact
 
         // MARK: - Internal Properties
 
@@ -93,6 +93,12 @@ struct ChatRoomView: View {
                     }
                 case .camera:
                     SUImagePickerView(image: $viewModel.pickedImage)
+                        .ignoresSafeArea()
+                        .navigationBarTitleDisplayMode(.inline)
+                case .contact:
+                    SelectContactView(chatData: $viewModel.chatData, contactsLimit: 1, onSelectContact: {
+                        viewModel.pickedContact = viewModel.chatData.contacts.first
+                    })
                         .ignoresSafeArea()
                         .navigationBarTitleDisplayMode(.inline)
                 }

@@ -28,13 +28,23 @@ struct SelectContactView: View {
     @StateObject private var viewModel = SelectContactViewModel()
     @Environment(\.presentationMode) private var presentationMode
     @State private var showChatGroup = false
+    let contactsLimit: Int?
+    var onSelectContact: VoidBlock?
 
     // MARK: - Life Cycle
 
-    init(mode: Mode = .select, chatData: Binding<ChatData>, groupCreated: Binding<Bool> = .constant(false)) {
+    init(
+        mode: Mode = .select,
+        chatData: Binding<ChatData>,
+        groupCreated: Binding<Bool> = .constant(false),
+        contactsLimit: Int? = nil,
+        onSelectContact: VoidBlock? = nil
+    ) {
         self.mode = mode
         self._chatData = chatData
         self._groupCreated = groupCreated
+        self.contactsLimit = contactsLimit
+        self.onSelectContact = onSelectContact
     }
 
     // MARK: - Body
@@ -60,7 +70,7 @@ struct SelectContactView: View {
                 }
 
                 ToolbarItem(placement: .principal) {
-                    Text("Групповой чат")
+                    Text(contactsLimit == nil ? "Групповой чат" : "Выберите контакт")
                         .font(.bold(15))
                         .foreground(.black())
                 }
@@ -121,6 +131,11 @@ struct SelectContactView: View {
                                             chatData.contacts.removeAll { $0.id == contact.id }
                                         } else {
                                             chatData.contacts.append(contact)
+                                        }
+
+                                        if let contactsLimit = contactsLimit, contactsLimit == 1 {
+                                            onSelectContact?()
+                                            presentationMode.wrappedValue.dismiss()
                                         }
                                     }
                             }

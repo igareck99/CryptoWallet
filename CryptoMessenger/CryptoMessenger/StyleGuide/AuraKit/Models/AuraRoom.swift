@@ -159,6 +159,20 @@ final class AuraRoom: ObservableObject {
         }
     }
 
+    func sendContact(_ contact: Contact) {
+        var localEcho: MXEvent?
+        objectWillChange.send()
+
+        let content: [String: Any] = [
+            "name": contact.name,
+            "phone": contact.phone,
+            "avatar": contact.avatar?.absoluteString ?? ""
+        ]
+        room.sendEvent(.custom("ContactInfo"), content: content, localEcho: &localEcho) { _ in
+            self.objectWillChange.send()
+        }
+    }
+
     func markAllAsRead() {
         room.markAllAsRead()
     }

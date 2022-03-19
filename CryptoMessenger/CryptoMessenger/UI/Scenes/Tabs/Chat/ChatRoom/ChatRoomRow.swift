@@ -98,8 +98,8 @@ struct ChatRoomRow: View {
                                 .onTapGesture {
                                     onSelectPhoto?(url)
                                 }
-                        case .contact:
-                            contactRow()
+                        case let .contact(name, phone, url):
+                            contactRow(name: name, phone: phone, url: url)
                         case let .file(fileName, url):
                             fileRow(message, fileName: fileName, url: url)
                                 .sheet(isPresented: $showFile) {
@@ -275,23 +275,31 @@ struct ChatRoomRow: View {
         .frame(width: 247, height: 96)
     }
 
-    private func contactRow() -> some View {
+    private func contactRow(name: String, phone: String?, url: URL?) -> some View {
         ZStack {
             VStack(spacing: 0) {
                 HStack(spacing: 12) {
-                    R.image.chat.mockAvatar2.image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 40, height: 40, alignment: .center)
+                    AsyncImage(
+                        url: url,
+                        placeholder: {
+                            ShimmerView()
+                                .frame(width: 202, height: 245)
+                        },
+                        result: {
+                            Image(uiImage: $0).resizable()
+                        }
+                    )
+                    .scaledToFill()
+                    .frame(width: 40, height: 40)
 
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("Виолетта Силенина")
+                        Text(name)
                             .font(.semibold(15))
                             .foreground(.black())
 
                         Spacer()
 
-                        Text("+7(925)813-31-62")
+                        Text(phone ?? "-")
                             .font(.regular(13))
                             .foreground(.darkGray())
                     }

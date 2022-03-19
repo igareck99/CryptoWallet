@@ -10,7 +10,7 @@ enum MessageType {
     case image(URL?)
     case file(String, URL?)
     case location((lat: Double, long: Double))
-    case contact
+    case contact(name: String, phone: String?, url: URL?)
     case none
 }
 

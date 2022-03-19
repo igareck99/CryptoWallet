@@ -23,8 +23,10 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private(set) var room: AuraRoom
     @Published var showPhotoLibrary = false
     @Published var showDocuments = false
+    @Published var showContacts = false
     @Published var selectedImage: UIImage?
     @Published var pickedImage: UIImage?
+    @Published var pickedContact: Contact?
     @Published private var lastLocation: Location?
     @Published var cameraFrame: CGImage?
 
@@ -111,6 +113,9 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.inputText = ""
                     self?.room.sendFile(url)
                     self?.mxStore.objectWillChange.send()
+                case let .onSendContact(contact):
+                    self?.room.sendContact(contact)
+                    self?.mxStore.objectWillChange.send()
                 case .onJoinRoom:
                     guard let roomId = self?.room.room.roomId else { return }
                     self?.mxStore.joinRoom(roomId: roomId) { _ in
@@ -164,16 +169,7 @@ final class ChatRoomViewModel: ObservableObject {
                 case .document:
                     self?.showDocuments.toggle()
                 case .contact:
-                    let message = RoomMessage(
-                        id: UUID().uuidString,
-                        type: .contact,
-                        shortDate: "00:31",
-                        fullDate: "00:31",
-                        isCurrentUser: true,
-                        name: "",
-                        avatar: nil
-                    )
-                    self?.messages.append(message)
+                    self?.showContacts.toggle()
                 default:
                     break
                 }
@@ -193,6 +189,14 @@ final class ChatRoomViewModel: ObservableObject {
             .sink { [weak self] image in
                 guard let image = image else { return }
                 self?.send(.onSendImage(image))
+            }
+            .store(in: &subscriptions)
+
+        $pickedContact
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] contact in
+                guard let contact = contact else { return }
+                self?.send(.onSendContact(contact))
             }
             .store(in: &subscriptions)
 
