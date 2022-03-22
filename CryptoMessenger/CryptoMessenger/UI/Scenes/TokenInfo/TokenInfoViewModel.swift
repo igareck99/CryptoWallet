@@ -7,7 +7,15 @@ final class TokenInfoViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    @State var address: String
+    @State var address: WalletInfo
+    @Published var addresses = [WalletInfo(walletType: .aur,
+                                           address: "0xSf13S891 ... 3dfasfAgfj1",
+                                           coinAmount: 246,
+                                           fiatAmount: 1044),
+                                WalletInfo(walletType: .aur,
+                                           address: "0xh2d38kU ... 9Mfasfbgnb ",
+                                           coinAmount: 253,
+                                           fiatAmount: 1013)]
 
     // MARK: - Private Properties
 
@@ -17,11 +25,14 @@ final class TokenInfoViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(address: String) {
+    init(address: WalletInfo) {
         self.address = address
     }
 
     // MARK: - Internal Methods
+    
+    func updateAddress() {
+    }
 
     // MARK: - Private Methods
 

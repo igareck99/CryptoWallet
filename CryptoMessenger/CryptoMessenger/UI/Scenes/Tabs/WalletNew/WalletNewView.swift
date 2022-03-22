@@ -12,7 +12,12 @@ struct WalletNewView: View {
     @State var index = 0
     @State var showAddWallet = false
     @State var showTokenInfo = false
-    @State var selectedAddress = ""
+    @State var selectedAddress = WalletInfo(
+        walletType: .ethereum,
+        address: "0xty9 ... Bx9M",
+        coinAmount: 1.012,
+        fiatAmount: 33
+    )
 
     // MARK: - Body
 
@@ -42,9 +47,8 @@ struct WalletNewView: View {
                         }
                     }
                 }, onAddressSend: { _, address in
-                    hideTabBar()
-                    hideNavBar()
-                    selectedAddress = address
+                    guard let item = viewModel.cardsList.first(where: { $0.address == address }) else { return }
+                    selectedAddress = item
                     showTokenInfo = true
                 }).padding(.top, 16)
             }
