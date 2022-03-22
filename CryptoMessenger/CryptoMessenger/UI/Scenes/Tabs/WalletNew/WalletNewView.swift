@@ -11,6 +11,8 @@ struct WalletNewView: View {
     @State var offset = CGFloat(16)
     @State var index = 0
     @State var showAddWallet = false
+    @State var showTokenInfo = false
+    @State var selectedAddress = ""
 
     // MARK: - Body
 
@@ -21,7 +23,6 @@ struct WalletNewView: View {
                     .padding(.leading, 16)
 
                 SlideCardsView(cards: viewModel.cardsList, onOffsetChanged: { off in
-                    print(off)
                     let cardWidth = CGFloat(343)
                     let cardsCount = viewModel.cardsList.count
                     let delta = cardsCount > 1 ? (cardsCount - 1) * 8 : 0
@@ -40,10 +41,11 @@ struct WalletNewView: View {
                             offset = cardWidth * percent
                         }
                     }
-                }, onAddressSend: { index, address in
-                    viewModel.send(
-                        .onTransactionAddress(selectorTokenIndex: index, address: address)
-                    )
+                }, onAddressSend: { _, address in
+                    hideTabBar()
+                    hideNavBar()
+                    selectedAddress = address
+                    showTokenInfo = true
                 }).padding(.top, 16)
             }
 
@@ -75,12 +77,31 @@ struct WalletNewView: View {
                closeOnTap: false,
                closeOnTapOutside: true,
                backgroundColor: Color(.black(0.3)),
-               dismissCallback: { showTabBar() },
+               dismissCallback: { showTabBar()
+            showNavBar()
+        },
                view: {
             AddWalletView(viewModel: viewModel,
                           showAddWallet: $showAddWallet)
                 .frame(width: UIScreen.main.bounds.width,
                        height: 114, alignment: .center)
+                .background(.white())
+                .cornerRadius(16)
+        }
+        )
+        .popup(isPresented: $showTokenInfo,
+               type: .toast,
+               position: .bottom,
+               closeOnTap: false,
+               closeOnTapOutside: true,
+               backgroundColor: Color(.black(0.3)),
+               dismissCallback: { showTabBar() },
+               view: {
+            TokenInfoView(showTokenInfo: $showTokenInfo,
+                          viewModel: TokenInfoViewModel(address: selectedAddress))
+                .frame(width: UIScreen.main.bounds.width,
+                       height: UIScreen.main.bounds.height - 60,
+                       alignment: .center)
                 .background(.white())
                 .cornerRadius(16)
         }
@@ -112,6 +133,7 @@ struct WalletNewView: View {
             Rectangle()
                 .frame(height: 2)
                 .foreground(.grayE6EAED())
+                .padding(.horizontal, 16)
 
             Rectangle()
                 .frame(width: 111, height: 4)

@@ -417,6 +417,8 @@
 		8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292E276B407F000A976A /* SocialListItem.swift */; };
 		8BD62931276B4ADA000A976A /* SocialListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD62930276B4ADA000A976A /* SocialListViewModel.swift */; };
 		8BD62933276D2B58000A976A /* AddSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD62932276D2B57000A976A /* AddSocialView.swift */; };
+		8BE3798F27E9C47D00AB6B6E /* TokenInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */; };
+		8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */; };
 		8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6DAE22771EC2C00FB4C6C /* WebView.swift */; };
 		8BFF387B27D91092005D88C9 /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFF387A27D91092005D88C9 /* NumberTextField.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
@@ -835,6 +837,8 @@
 		8BD6292E276B407F000A976A /* SocialListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListItem.swift; sourceTree = "<group>"; };
 		8BD62930276B4ADA000A976A /* SocialListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListViewModel.swift; sourceTree = "<group>"; };
 		8BD62932276D2B57000A976A /* AddSocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSocialView.swift; sourceTree = "<group>"; };
+		8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoView.swift; sourceTree = "<group>"; };
+		8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoViewModel.swift; sourceTree = "<group>"; };
 		8BE54AD2274C605700D51827 /* BlockedUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserView.swift; sourceTree = "<group>"; };
 		8BE54AD4274C606400D51827 /* BlockedUserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserItem.swift; sourceTree = "<group>"; };
 		8BE6DAE22771EC2C00FB4C6C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -976,6 +980,7 @@
 		5A187DF82680708D001957D3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				8BE3798D27E9C44900AB6B6E /* TokenInfo */,
 				8B4E9C4027E1E21F0057E4C9 /* FacilityApprove */,
 				8B5A338227D89C9F0064C7DC /* Transfer */,
 				8B4E9C3327E0A75D0057E4C9 /* WalletAdressScaner */,
@@ -2095,6 +2100,28 @@
 			path = ImportKey;
 			sourceTree = "<group>";
 		};
+		8B4E9C2C27DFF5EA0057E4C9 /* CodeScaner */ = {
+			isa = PBXGroup;
+			children = (
+				8B4E9C2D27DFF60B0057E4C9 /* CodeScanner.swift */,
+				8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */,
+				8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */,
+			);
+			path = CodeScaner;
+			sourceTree = "<group>";
+		};
+		8B4E9C3327E0A75D0057E4C9 /* WalletAdressScaner */ = {
+			isa = PBXGroup;
+			children = (
+				8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */,
+				8B4E9C3627E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift */,
+				8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */,
+				8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */,
+				8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */,
+			);
+			path = WalletAdressScaner;
+			sourceTree = "<group>";
+		};
 		8B4E9C4027E1E21F0057E4C9 /* FacilityApprove */ = {
 			isa = PBXGroup;
 			children = (
@@ -2117,28 +2144,6 @@
 				8B5A338B27D89D6D0064C7DC /* TransferFlow.swift */,
 			);
 			path = Transfer;
-			sourceTree = "<group>";
-		};
-		8B4E9C2C27DFF5EA0057E4C9 /* CodeScaner */ = {
-			isa = PBXGroup;
-			children = (
-				8B4E9C2D27DFF60B0057E4C9 /* CodeScanner.swift */,
-				8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */,
-				8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */,
-			);
-			path = CodeScaner;
-			sourceTree = "<group>";
-		};
-		8B4E9C3327E0A75D0057E4C9 /* WalletAdressScaner */ = {
-			isa = PBXGroup;
-			children = (
-				8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */,
-				8B4E9C3627E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift */,
-				8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */,
-				8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */,
-				8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */,
-			);
-			path = WalletAdressScaner;
 			sourceTree = "<group>";
 		};
 		8B637D8827CE3B35000B1B2B /* RadioButton */ = {
@@ -2273,6 +2278,15 @@
 				8BD62932276D2B57000A976A /* AddSocialView.swift */,
 			);
 			path = SocialList;
+			sourceTree = "<group>";
+		};
+		8BE3798D27E9C44900AB6B6E /* TokenInfo */ = {
+			isa = PBXGroup;
+			children = (
+				8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */,
+				8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */,
+			);
+			path = TokenInfo;
 			sourceTree = "<group>";
 		};
 		8BE54AD1274C604400D51827 /* BlackList */ = {
@@ -2788,9 +2802,11 @@
 				78437F12270C76FE00371110 /* AboutAppFlow.swift in Sources */,
 				5A9B472626EAB3D7001CC627 /* ReactionGroupView.swift in Sources */,
 				8B5A338C27D89D6D0064C7DC /* TransferFlow.swift in Sources */,
+				8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */,
 				5A4BE521271DD86A00D03D09 /* MXCredentials+Keychain.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
 				8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */,
+				8BE3798F27E9C47D00AB6B6E /* TokenInfoView.swift in Sources */,
 				5A39282F27419A7300378ACA /* Date+Extensions.swift in Sources */,
 				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
 				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,
