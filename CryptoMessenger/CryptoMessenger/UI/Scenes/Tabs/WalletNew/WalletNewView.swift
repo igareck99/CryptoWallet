@@ -69,6 +69,7 @@ struct WalletNewView: View {
             .padding(.top, 24)
         }
         .onAppear {
+            showTabBar()
             viewModel.send(.onAppear)
         }
         .popup(isPresented: $showAddWallet,
@@ -95,7 +96,9 @@ struct WalletNewView: View {
                closeOnTap: false,
                closeOnTapOutside: true,
                backgroundColor: Color(.black(0.3)),
-               dismissCallback: { showTabBar() },
+               dismissCallback: { showTabBar()
+            showNavBar()
+        },
                view: {
             TokenInfoView(showTokenInfo: $showTokenInfo,
                           viewModel: TokenInfoViewModel(address: selectedAddress))
