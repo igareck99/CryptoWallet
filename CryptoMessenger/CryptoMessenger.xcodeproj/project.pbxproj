@@ -419,6 +419,7 @@
 		8BD62933276D2B58000A976A /* AddSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD62932276D2B57000A976A /* AddSocialView.swift */; };
 		8BE3798F27E9C47D00AB6B6E /* TokenInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */; };
 		8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */; };
+		8BE3799927EA133800AB6B6E /* SelectTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799827EA133700AB6B6E /* SelectTokenView.swift */; };
 		8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6DAE22771EC2C00FB4C6C /* WebView.swift */; };
 		8BFF387B27D91092005D88C9 /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFF387A27D91092005D88C9 /* NumberTextField.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
@@ -839,6 +840,7 @@
 		8BD62932276D2B57000A976A /* AddSocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSocialView.swift; sourceTree = "<group>"; };
 		8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoView.swift; sourceTree = "<group>"; };
 		8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoViewModel.swift; sourceTree = "<group>"; };
+		8BE3799827EA133700AB6B6E /* SelectTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTokenView.swift; sourceTree = "<group>"; };
 		8BE54AD2274C605700D51827 /* BlockedUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserView.swift; sourceTree = "<group>"; };
 		8BE54AD4274C606400D51827 /* BlockedUserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserItem.swift; sourceTree = "<group>"; };
 		8BE6DAE22771EC2C00FB4C6C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -2285,6 +2287,7 @@
 			children = (
 				8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */,
 				8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */,
+				8BE3799827EA133700AB6B6E /* SelectTokenView.swift */,
 			);
 			path = TokenInfo;
 			sourceTree = "<group>";
@@ -2495,6 +2498,7 @@
 				5A44FEEE2768B1E6006F9D92 /* ProfileDetailConfigurator.swift in Sources */,
 				5A4BE4F9271DC32500D03D09 /* AuthResponse.swift in Sources */,
 				5A43087227C9079F00A9B582 /* EnvironmentValues+ImageCache.swift in Sources */,
+				8BE3799927EA133800AB6B6E /* SelectTokenView.swift in Sources */,
 				5A187EBB268070B3001957D3 /* NSMutableData+Extensions.swift in Sources */,
 				8B9B0CCF277556BD00654C24 /* LanguageView.swift in Sources */,
 				8B6C18C02799A60D00B85F2A /* SecurityNewViewModel.swift in Sources */,

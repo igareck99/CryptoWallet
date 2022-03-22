@@ -30,8 +30,10 @@ final class TokenInfoViewModel: ObservableObject {
     }
 
     // MARK: - Internal Methods
-    
-    func updateAddress() {
+
+    func updateAddress(newAddress: WalletInfo) {
+        address = newAddress
+        print("edl,del,dl,e   \(address)")
     }
 
     // MARK: - Private Methods

@@ -9,6 +9,7 @@ struct TokenInfoView: View {
 
     @Binding var showTokenInfo: Bool
     @StateObject var viewModel: TokenInfoViewModel
+    @State var showAddresses = false
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
 
@@ -16,6 +17,20 @@ struct TokenInfoView: View {
 
     var body: some View {
         content
+            .popup(isPresented: $showAddresses,
+                   type: .toast,
+                   position: .bottom,
+                   closeOnTap: false,
+                   closeOnTapOutside: true,
+                   backgroundColor: Color(.black(0.4))) {
+                SelectTokenView(showSelectToken: $showAddresses,
+                                viewModel: viewModel)
+                    .frame(width: UIScreen.main.bounds.width,
+                           height: CGFloat(viewModel.addresses.count * 64 + 50),
+                           alignment: .center)
+                    .background(.white())
+                    .cornerRadius(16)
+            }
             .onAppear {
                 hideNavBar()
                 hideTabBar()
@@ -53,6 +68,10 @@ struct TokenInfoView: View {
                 .padding(.top, 24)
                 .padding(.leading, 16)
             addressCell
+                .background(.white())
+                .onTapGesture {
+                    showAddresses = true
+                }
                 .padding(.top, 12)
                 .padding(.horizontal, 16)
             Spacer()
