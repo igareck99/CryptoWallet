@@ -7,6 +7,7 @@ struct SelectTokenView: View {
     // MARK: - Internal Properties
 
     @Binding var showSelectToken: Bool
+    @Binding var address: WalletInfo
     @StateObject var viewModel: TokenInfoViewModel
 
     // MARK: - Body
@@ -24,7 +25,7 @@ struct SelectTokenView: View {
                         .padding(.horizontal, 16)
                         .onTapGesture {
                             showSelectToken = false
-                            viewModel.updateAddress(newAddress: item)
+                            address = item
                         }
                 }
             }

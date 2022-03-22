@@ -12,6 +12,7 @@ struct TokenInfoView: View {
     @State var showAddresses = false
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
+    @State var address: WalletInfo
 
     // MARK: - Body
 
@@ -24,16 +25,13 @@ struct TokenInfoView: View {
                    closeOnTapOutside: true,
                    backgroundColor: Color(.black(0.4))) {
                 SelectTokenView(showSelectToken: $showAddresses,
+                                address: $address,
                                 viewModel: viewModel)
                     .frame(width: UIScreen.main.bounds.width,
                            height: CGFloat(viewModel.addresses.count * 64 + 50),
                            alignment: .center)
                     .background(.white())
                     .cornerRadius(16)
-            }
-            .onAppear {
-                hideNavBar()
-                hideTabBar()
             }
     }
 
@@ -86,7 +84,7 @@ struct TokenInfoView: View {
 
     private var QRCodeView: some View {
         ZStack {
-            generateQRCode(from: "\(viewModel.address)")
+            generateQRCode(from: "\(address)")
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width - 66,
@@ -108,10 +106,10 @@ struct TokenInfoView: View {
                     R.image.chat.logo.image
                 }
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(viewModel.address.address)
+                    Text(address.address)
                         .font(.medium(15))
                         .frame(height: 22)
-                    Text(String(viewModel.address.coinAmount) + " \(viewModel.address.result.currency)")
+                    Text(String(address.coinAmount) + " \(address.result.currency)")
                         .font(.regular(12))
                         .foreground(.darkGray())
                         .frame(height: 20)

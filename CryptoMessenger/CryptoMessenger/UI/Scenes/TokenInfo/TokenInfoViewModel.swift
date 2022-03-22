@@ -19,8 +19,6 @@ final class TokenInfoViewModel: ObservableObject {
 
     // MARK: - Private Properties
 
-    private var subscriptions = Set<AnyCancellable>()
-
     @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
 
     // MARK: - Lifecycle
@@ -32,8 +30,8 @@ final class TokenInfoViewModel: ObservableObject {
     // MARK: - Internal Methods
 
     func updateAddress(newAddress: WalletInfo) {
-        address = newAddress
-        print("edl,del,dl,e   \(address)")
+        self.address = newAddress
+        self.objectWillChange.send()
     }
 
     // MARK: - Private Methods

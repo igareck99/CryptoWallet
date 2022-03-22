@@ -206,7 +206,7 @@ struct TransactionInfo: Identifiable, Equatable {
 
 // MARK: - WalletInfo
 
-struct WalletInfo: Identifiable {
+struct WalletInfo: Identifiable, Equatable {
 
     // MARK: - Internal Properties
 
