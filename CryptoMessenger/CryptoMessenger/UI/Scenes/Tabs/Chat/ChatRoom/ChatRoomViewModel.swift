@@ -121,6 +121,9 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.mxStore.joinRoom(roomId: roomId) { _ in
                         self?.room.markAllAsRead()
                     }
+                case let .onReply(text, eventId):
+                    self?.room.reply(text: text, eventId: eventId)
+                    self?.mxStore.objectWillChange.send()
                 case .onAddReaction(let messageId, let reactionId):
                         guard
                             let index = self?.messages.firstIndex(where: { $0.id == messageId }),
@@ -153,6 +156,7 @@ final class ChatRoomViewModel: ObservableObject {
                             shortDate: "00:31",
                             fullDate: "00:31",
                             isCurrentUser: true,
+                            isReply: false,
                             name: "",
                             avatar: nil
                         )
@@ -206,6 +210,7 @@ final class ChatRoomViewModel: ObservableObject {
             .store(in: &subscriptions)
 
         locationManager.$lastLocation
+            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
             .assign(to: \.lastLocation, on: self)
             .store(in: &subscriptions)
@@ -235,6 +240,7 @@ final class ChatRoomViewModel: ObservableObject {
             .store(in: &subscriptions)
 
         mxStore.objectWillChange
+            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard
@@ -246,6 +252,7 @@ final class ChatRoomViewModel: ObservableObject {
                 self.messages = room.events().renderableEvents
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
+                        message?.eventId = $0.eventId
                         let user = self.mxStore.getUser($0.sender)
                         message?.name = user?.displayname ?? ""
                         let homeServer = Bundle.main.object(for: .matrixURL).asURL()

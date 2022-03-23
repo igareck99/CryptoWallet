@@ -6,9 +6,7 @@ enum CreateAction: CaseIterable, Identifiable {
 
     // MARK: - Types
 
-    case createChannel
-    case newContact
-    case groupChat
+    case createChannel, newContact, groupChat
 
     // MARK: - Internal Properties
 
@@ -17,20 +15,15 @@ enum CreateAction: CaseIterable, Identifiable {
     var text: Text {
         switch self {
         case .createChannel:
-            return Text("Создать канал")
+            return Text(R.string.localizable.createActionCreateChannel())
         case .newContact:
-            return Text("Новый контакт")
+            return Text(R.string.localizable.createActionNewContact())
         case .groupChat:
-            return Text("Групповой чат")
+            return Text(R.string.localizable.createActionGroupChat())
         }
     }
 
-    var color: Palette {
-        switch self {
-        default:
-            return .black()
-        }
-    }
+    var color: Palette { .black() }
 
     var image: Image {
         switch self {
@@ -86,29 +79,6 @@ struct ChatCreateView: View {
                         isActive: $showContacts
                     )
                 )
-//                .toolbar {
-//                    ToolbarItem(placement: .navigationBarLeading) {
-//                        Button(action: {
-//                            presentationMode.wrappedValue.dismiss()
-//                        }, label: {
-//                            R.image.navigation.backButton.image
-//                        })
-//                    }
-//
-//                    ToolbarItem(placement: .principal) {
-//                        Text("Чаты")
-//                            .font(.bold(15))
-//                            .foreground(.black())
-//                    }
-//
-//                    ToolbarItem(placement: .navigationBarTrailing) {
-//                        Button(action: {
-//
-//                        }, label: {
-//                            R.image.chat.group.search.image
-//                        })
-//                    }
-//                }
         }
     }
 
@@ -116,13 +86,13 @@ struct ChatCreateView: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 SearchBar(
-                    placeholder: "Поиск по идентификатору",
+                    placeholder: R.string.localizable.createActionSearch(),
                     searchText: $viewModel.searchText,
                     searching: $viewModel.searching
                 )
                 if viewModel.searching {
                     Spacer()
-                    Button("Отменить") {
+                    Button(R.string.localizable.createActionCancel()) {
                         viewModel.searchText = ""
                         withAnimation {
                             viewModel.searching = false
@@ -154,7 +124,7 @@ struct ChatCreateView: View {
                     }
 
                     if !viewModel.existingContacts.isEmpty {
-                        sectionView("Контакты")
+                        sectionView(R.string.localizable.createActionContactsSection())
 
                         VStack(alignment: .leading, spacing: 0) {
                             ForEach(viewModel.existingContacts) { contact in
@@ -172,7 +142,7 @@ struct ChatCreateView: View {
                     }
 
                     if !viewModel.waitingContacts.isEmpty {
-                        sectionView("Пригласить в Aura")
+                        sectionView(R.string.localizable.createActionInviteSection())
 
                         VStack(alignment: .leading, spacing: 0) {
                             ForEach(viewModel.waitingContacts) { contact in
@@ -223,7 +193,7 @@ struct ChatCreateView: View {
 
             Spacer()
 
-            Text("Показать больше")
+            Text(R.string.localizable.createActionShowMore())
                 .font(.medium(13))
                 .foreground(.black())
                 .padding(.trailing, 16)

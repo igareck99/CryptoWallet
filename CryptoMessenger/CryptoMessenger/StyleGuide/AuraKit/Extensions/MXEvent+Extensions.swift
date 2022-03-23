@@ -1,4 +1,5 @@
 import MatrixSDK
+import SwiftUI
 
 // MARK: - MXEventCustomEvent
 
@@ -20,7 +21,7 @@ enum MXEventCustomEvent {
 
 // MARK: - MXEventEventKey
 
-private enum MXEventEventKey: String {
+enum MXEventEventKey: String {
 
     // MARK: - Types
 
@@ -31,11 +32,14 @@ private enum MXEventEventKey: String {
     case name
     case phone
     case newContent = "m.new_content"
+    case eventId = "event_id"
+    case relatesTo = "m.relates_to"
+    case replyTo = "m.in_reply_to"
 }
 
 // MARK: - Dictionary (ExpressibleByStringLiteral)
 
-private extension Dictionary where Key: ExpressibleByStringLiteral {
+extension Dictionary where Key: ExpressibleByStringLiteral {
 
     // MARK: - Subscript
 
@@ -60,9 +64,15 @@ extension MXEvent {
     var messageType: MessageType {
         let messageType = content[.messageType] as? String
         var type: MessageType
+
         switch messageType {
         case kMXMessageTypeText:
-            type = .text(text)
+            if isReply() {
+                let reply = MXReplyEventParser().parse(self)
+                type = .text(reply.bodyParts.replyText)
+            } else {
+                type = .text(text)
+            }
         case kMXMessageTypeImage:
             let homeServer = Bundle.main.object(for: .matrixURL).asURL()
             let link = content[.url] as? String ?? ""
@@ -71,7 +81,7 @@ extension MXEvent {
         case kMXMessageTypeFile:
             let homeServer = Bundle.main.object(for: .matrixURL).asURL()
             let link = content[.url] as? String ?? ""
-            let fileName = content[.body] as? String ?? "Файл"
+            let fileName = content[.body] as? String ?? ""
             let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
             type = .file(fileName, url)
         case MXEventCustomEvent.contactInfo.identifier:
@@ -84,6 +94,7 @@ extension MXEvent {
         default:
             type = .none
         }
+
         return type
     }
 
@@ -92,14 +103,23 @@ extension MXEvent {
     var text: String {
         if !isEdit() {
             return (content[.body] as? String).map {
-                $0.trimmingCharacters(in: .whitespacesAndNewlines)
+                $0
+                    .trimmingCharacters(in: .controlCharacters)
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
             } ?? "Error: expected string body"
         } else {
             let newContent = content[.newContent] as? NSDictionary
             return (newContent?[MXEventEventKey.body] as? String).map {
-                $0.trimmingCharacters(in: .whitespacesAndNewlines)
+                $0
+                    .trimmingCharacters(in: .controlCharacters)
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
             } ?? "Error: expected string body"
         }
+    }
+
+    var replyDescription: String {
+        let startIndex = text.index(text.lastIndex(of: ">") ?? text.startIndex, offsetBy: 2)
+        return String(text.suffix(from: startIndex))
     }
 
     // MARK: - Internal Methods
@@ -125,7 +145,9 @@ extension MXEvent {
             type: messageType,
             shortDate: timestamp.hoursAndMinutes,
             fullDate: timestamp.dayOfWeekDayAndMonth,
-            isCurrentUser: isFromCurrentUser
+            isCurrentUser: isFromCurrentUser,
+            isReply: isReply(),
+            replyDescription: replyDescription
         )
     }
 }

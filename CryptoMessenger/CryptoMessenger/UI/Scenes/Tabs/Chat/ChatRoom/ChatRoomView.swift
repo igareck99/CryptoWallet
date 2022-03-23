@@ -37,6 +37,9 @@ struct ChatRoomView: View {
     @State private var showSettings = false
     @State private var showQuickMenu = false
     @State private var activeSheet: ActiveSheet?
+    @State private var replyOffset: CGFloat = .zero
+    @State private var showReply = false
+    @State private var replyMessage: RoomMessage?
 
     // MARK: - Body
 
@@ -63,6 +66,9 @@ struct ChatRoomView: View {
             }
             .onReceive(viewModel.$showDocuments) { flag in
                 if flag { activeSheet = .documents }
+            }
+            .onReceive(viewModel.$showContacts) { flag in
+                if flag { activeSheet = .contact }
             }
             .alert(isPresented: $showJoinAlert) {
                 let roomName = viewModel.room.summary.displayname ?? "Новый запрос"
@@ -96,15 +102,18 @@ struct ChatRoomView: View {
                         .ignoresSafeArea()
                         .navigationBarTitleDisplayMode(.inline)
                 case .contact:
-                    SelectContactView(chatData: $viewModel.chatData, contactsLimit: 1, onSelectContact: {
-                        viewModel.pickedContact = viewModel.chatData.contacts.first
-                    })
-                        .ignoresSafeArea()
-                        .navigationBarTitleDisplayMode(.inline)
+                    NavigationView {
+                        SelectContactView(contactsLimit: 1, onSelectContact: {
+                            viewModel.pickedContact = $0.first
+                        })
+                    }
                 }
             }
             .overlay(
-                EmptyNavigationLink(destination: SettingsView(chatData: $viewModel.chatData, saveData: $viewModel.saveData), isActive: $showSettings)
+                EmptyNavigationLink(
+                    destination: SettingsView(chatData: $viewModel.chatData, saveData: $viewModel.saveData),
+                    isActive: $showSettings
+                )
             )
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
@@ -165,7 +174,6 @@ struct ChatRoomView: View {
                         Spacer()
                     }
                     .background(.white())
-                    //.padding(.leading, -12)
                     .padding(.bottom, 6)
                     .onTapGesture {
                         showSettings.toggle()
@@ -175,13 +183,11 @@ struct ChatRoomView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: 0) {
                         Spacer()
-
-//                        Button(action: {
-//
-//                        }, label: {
-//                            R.image.navigation.phoneButton.image
-//                        })
-
+                        // Button(action: {
+                        //
+                        // }, label: {
+                        // R.image.navigation.phoneButton.image
+                        // })
                         Button(action: {
                             cardGroupPosition = .custom(482)
                         }, label: {
@@ -204,16 +210,18 @@ struct ChatRoomView: View {
                             Spacer().frame(height: 16)
 
                             ForEach(viewModel.messages) { message in
-                                ChatRoomRow(
-                                    message: message,
-                                    isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
-                                    isDirect: viewModel.room.isDirect,
-                                    onReaction: { reactionId in
-                                        vibrate()
-                                        viewModel.send(.onDeleteReaction(messageId: message.id, reactionId: reactionId))
-                                    },
-                                    onSelectPhoto: { selectedPhoto = $0 }
-                                )
+                                    ChatRoomRow(
+                                        message: message,
+                                        isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
+                                        isDirect: viewModel.room.isDirect,
+                                        onReaction: { reactionId in
+                                            vibrate()
+                                            viewModel.send(
+                                                .onDeleteReaction(messageId: message.id, reactionId: reactionId)
+                                            )
+                                        },
+                                        onSelectPhoto: { selectedPhoto = $0 }
+                                    )
                                     .flippedUpsideDown()
                                     .listRowSeparator(.hidden)
                                     .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
@@ -221,6 +229,31 @@ struct ChatRoomView: View {
                                         messageId = message.id
                                         cardPosition = .middle
                                     }
+//                                    .animation(.easeInOut(duration: 0.2))
+//                                    .offset(x: replyMessage?.id == message.id ? replyOffset : .zero)
+//                                    .gesture(
+//                                        DragGesture().onChanged { value in
+//                                            let offset = UIScreen.main.bounds.width - value.location.x - 50
+//                                            guard offset < 120 else {
+//                                                replyOffset = -120
+//                                                return
+//                                            }
+//
+//                                            replyOffset = -offset
+//                                            if message != replyMessage {
+//                                                showReply = false
+//                                            }
+//
+//                                            replyMessage = message
+//
+//                                            if offset >= 110 {
+//                                                if !showReply { vibrate() }
+//                                                showReply = true
+//                                            }
+//                                        }.onEnded { _ in
+//                                            replyOffset = .zero
+//                                        }
+//                                    )
 
                                 if viewModel.next(message)?.fullDate != message.fullDate {
                                     dateView(date: message.fullDate)
@@ -252,6 +285,15 @@ struct ChatRoomView: View {
                         .ignoresSafeArea()
                     }
                     .flippedUpsideDown()
+                }
+
+                if showReply {
+                    ReplyView(
+                        text: replyMessage?.description ?? "",
+                        onReset: { self.replyMessage = nil; showReply = false; hideKeyboard() }
+                    )
+                        .transition(.opacity)
+                        .animation(.easeInOut(duration: 0.2))
                 }
 
                 inputView
@@ -397,7 +439,7 @@ struct ChatRoomView: View {
                         }
                         .frame(height: 40)
                         .padding(.top, 22)
-                        .padding([.leading, .trailing], 16)
+                        .padding(.horizontal, 16)
                     }
 
                     Rectangle()
@@ -430,7 +472,7 @@ struct ChatRoomView: View {
     }
 
     private var inputView: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack(spacing: 8) {
                 Button(action: {
                     hideKeyboard()
@@ -463,7 +505,14 @@ struct ChatRoomView: View {
                 if !viewModel.inputText.isEmpty {
                     Button(action: {
                         withAnimation {
-                            viewModel.send(.onSendText(viewModel.inputText))
+                            if let replyMessage = replyMessage {
+                                viewModel.send(.onReply(viewModel.inputText, replyMessage.eventId))
+                                viewModel.inputText = ""
+                                self.replyMessage = nil
+                                showReply = false
+                            } else {
+                                viewModel.send(.onSendText(viewModel.inputText))
+                            }
                         }
                     }, label: {
                         Image(systemName: "paperplane.fill")
