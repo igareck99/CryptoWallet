@@ -34,15 +34,23 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
+
         let tabs = [
             buildChatTab(),
             buildWalletTab(),
             buildProfileTab()
         ]
+
         let tabBarController = BaseTabBarController(viewControllers: tabs)
-        tabBarController.selectedIndex = Tabs.chat.rawValue
+        tabBarController.selectedIndex = Tabs.chat.index
 
         setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+
+//        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
+//            window.rootViewController = tabBarController
+//        } else {
+//            setViewWith(navigationController, type: .fade, isRoot: true, isNavBarHidden: false)
+//        }
     }
 
     // MARK: - Private Methods
@@ -194,12 +202,12 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showImportKey()
         case .transfer:
             showTransferScene()
+        case .facilityApprove:
+            showFacilityApprove()
         case .chooseReceiver:
             showChooseReceiver()
         case let .scanner(scannedString):
             showQRScanner(scannedString: scannedString)
-        case .facilityApprove:
-            showFacilityApprove()
         }
     }
 
@@ -339,7 +347,7 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-
+    
     private func showChooseReceiver() {
         let rootView = ChooseReceiverConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
@@ -348,12 +356,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
     private func showQRScanner(scannedString: Binding<String>) {
-        let rootView = WalletAddressScannerConfigurator.configuredView(delegate: self, scannedCode: scannedString)
+        let rootView = WalletAddressScannerConfigurator.configuredView(delegate: self,
+                                                                      scannedCode: scannedString)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-
+    
     private func showFacilityApprove() {
         let rootView = FacilityApproveConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)

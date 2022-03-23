@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - TransferFlow
+// MARK: - SuccessFacilityFlow
 
-enum TransferFlow {
+enum SuccessFacilityFlow {
 
     // MARK: - ViewState
 
@@ -22,7 +22,5 @@ enum TransferFlow {
         // MARK: - Types
 
         case onAppear
-        case onChooseReceiver
-        case onApprove
     }
 }

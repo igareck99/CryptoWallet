@@ -51,6 +51,10 @@ final class TransferViewModel: ObservableObject {
                 case .onAppear:
                     self?.updateData()
                     self?.objectWillChange.send()
+                case .onApprove:
+                    self?.delegate?.handleNextScene(.facilityApprove)
+                case .onChooseReceiver:
+                    self?.delegate?.handleNextScene(.chooseReceiver)
                 }
             }
             .store(in: &subscriptions)

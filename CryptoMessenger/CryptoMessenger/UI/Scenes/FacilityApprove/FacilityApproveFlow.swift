@@ -22,5 +22,6 @@ enum FacilityApproveFlow {
         // MARK: - Types
 
         case onAppear
+        case onTransaction
     }
 }
