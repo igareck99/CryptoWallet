@@ -91,7 +91,7 @@ struct SuccessFacilityView: View {
                 }
                 Button {
                 } label: {
-                    Text(R.string.localizable.successFacilityViewAddFavourites())
+                    Text(R.string.localizable.successFacilityViewAddFavorites())
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .font(.semibold(15))
                         .padding()

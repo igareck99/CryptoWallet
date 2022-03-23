@@ -323,6 +323,8 @@
 "ChooseReceiver.Telephone" = "Телефон";
 "ChooseReceiver.Wallet" = "Кошелек";
 "ChooseReceiver.Title" = "Выберите получателя";
+
+
 "FacilityApprove.Title" = "Перевод средств";
 "FacilityApprove.Check" = "Проверьте точность данных перед \nотправкой!";
 "FacilityApprove.Receiver" = "Получатель";
@@ -335,8 +337,10 @@
 
 
 "QRCode.Title" = "Сканировать  QR-код";
+
+
 "SuccessFacilityView.Title" = "Успешно отправлено";
-"SuccessFacilityView.AddFavourites" = "Добавить в избранное";
+"SuccessFacilityView.AddFavorites" = "Добавить в избранное";
 "SuccessFacilityView.OKClose" = "Хорошо, закрыть";
 "SuccessFacilityView.ShowTransaction" = "Посмотреть транзакцию";
 
