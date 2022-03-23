@@ -23,18 +23,29 @@ struct SelectContactView: View {
     // MARK: - Private Properties
 
     private let mode: Mode
-    @Binding private var chatData: ChatData
+    @State private var pickedContacts: [Contact] = []
+    @Binding var chatData: ChatData
     @Binding private var groupCreated: Bool
     @StateObject private var viewModel = SelectContactViewModel()
     @Environment(\.presentationMode) private var presentationMode
     @State private var showChatGroup = false
+    let contactsLimit: Int?
+    var onSelectContact: GenericBlock<[Contact]>?
 
     // MARK: - Life Cycle
 
-    init(mode: Mode = .select, chatData: Binding<ChatData>, groupCreated: Binding<Bool> = .constant(false)) {
+    init(
+        mode: Mode = .select,
+        chatData: Binding<ChatData> = .constant(.init()),
+        groupCreated: Binding<Bool> = .constant(false),
+        contactsLimit: Int? = nil,
+        onSelectContact: GenericBlock<[Contact]>? = nil
+    ) {
         self.mode = mode
         self._chatData = chatData
         self._groupCreated = groupCreated
+        self.contactsLimit = contactsLimit
+        self.onSelectContact = onSelectContact
     }
 
     // MARK: - Body
@@ -43,7 +54,7 @@ struct SelectContactView: View {
         content
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationViewStyle(StackNavigationViewStyle())
+            .navigationViewStyle(.stack)
             .overlay(
                 EmptyNavigationLink(
                     destination: ChatGroupView(chatData: $chatData, groupCreated: $groupCreated),
@@ -60,7 +71,7 @@ struct SelectContactView: View {
                 }
 
                 ToolbarItem(placement: .principal) {
-                    Text("Групповой чат")
+                    Text(contactsLimit == nil ? "Групповой чат" : "Выберите контакт")
                         .font(.bold(15))
                         .foreground(.black())
                 }
@@ -69,16 +80,22 @@ struct SelectContactView: View {
                     Button(action: {
                         switch mode {
                         case .select:
-                            showChatGroup.toggle()
+                            if contactsLimit != nil {
+                                onSelectContact?(pickedContacts)
+                                presentationMode.wrappedValue.dismiss()
+                            } else {
+                                chatData.contacts = pickedContacts
+                                showChatGroup.toggle()
+                            }
                         case .add, .admins:
                             presentationMode.wrappedValue.dismiss()
                         }
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
-                            .foreground(chatData.contacts.isEmpty ? .darkGray() : .blue())
+                            .foreground(pickedContacts.isEmpty ? .darkGray() : .blue())
                     })
-                        .disabled(chatData.contacts.isEmpty)
+                        .disabled(pickedContacts.isEmpty)
                 }
             }
             .onAppear {
@@ -90,8 +107,14 @@ struct SelectContactView: View {
         ZStack {
             Color(.white()).ignoresSafeArea()
 
+            if viewModel.existingContacts.isEmpty {
+                ProgressView()
+            }
+
             ScrollView(.vertical, showsIndicators: false) {
-                let groupedContacts = Dictionary(grouping: viewModel.existingContacts) { $0.name.firstLetter.uppercased() }
+                let groupedContacts = Dictionary(grouping: viewModel.existingContacts) {
+                    $0.name.firstLetter.uppercased()
+                }
                 ForEach(groupedContacts.keys.sorted(), id: \.self) { key in
                     sectionView(key)
                     let contacts = groupedContacts[key] ?? []
@@ -99,7 +122,7 @@ struct SelectContactView: View {
                         let contact = contacts[index]
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
-                                if chatData.contacts.contains(where: { $0.id == contact.id }) {
+                                if pickedContacts.contains(where: { $0.id == contact.id }) {
                                     R.image.chat.group.check.image
                                         .transition(.scale.animation(.linear(duration: 0.2)))
                                 } else {
@@ -116,11 +139,15 @@ struct SelectContactView: View {
                                     .background(.white())
                                     .id(contact.id)
                                     .onTapGesture {
+                                        if let contactsLimit = contactsLimit, pickedContacts.count >= contactsLimit {
+                                            return
+                                        }
+
                                         vibrate()
-                                        if chatData.contacts.contains(where: { $0.id == contact.id }) {
-                                            chatData.contacts.removeAll { $0.id == contact.id }
+                                        if pickedContacts.contains(where: { $0.id == contact.id }) {
+                                            pickedContacts.removeAll { $0.id == contact.id }
                                         } else {
-                                            chatData.contacts.append(contact)
+                                            pickedContacts.append(contact)
                                         }
                                     }
                             }
@@ -128,7 +155,7 @@ struct SelectContactView: View {
                         }
                     }
                 }
-            }
+            }.opacity(viewModel.existingContacts.isEmpty ? 0 : 1)
         }
     }
 
@@ -199,13 +226,6 @@ final class SelectContactViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
-
-        mxStore.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { _ in
-
-            }
-            .store(in: &subscriptions)
     }
 
     private func bindOutput() {
@@ -270,13 +290,12 @@ final class SelectContactViewModel: ObservableObject {
                             mxId: response[$0.phoneNumber] ?? "",
                             avatar: nil,
                             name: $0.firstName,
-                            status: "Привет, теперь я в Aura"
+                            status: "Привет, теперь я в Aura",
+                            phone: $0.phoneNumber
                         )
                     }
                     .filter { contact in
-                        !lastUsers.contains(where: { last in
-                            contact.mxId == last.mxId
-                        })
+                        !lastUsers.contains(where: { $0.mxId == contact.mxId })
                     }
 
                 self?.existingContacts = lastUsers + existing

@@ -34,24 +34,15 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        
-        handleNextScene(.facilityApprove)
-//        let tabs = [
-//            buildChatTab(),
-//            buildWalletTab(),
-//            buildProfileTab()
-//        ]
-//
-//        let tabBarController = BaseTabBarController(viewControllers: tabs)
-//        tabBarController.selectedIndex = Tabs.chat.index
-//
-//        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+        let tabs = [
+            buildChatTab(),
+            buildWalletTab(),
+            buildProfileTab()
+        ]
+        let tabBarController = BaseTabBarController(viewControllers: tabs)
+        tabBarController.selectedIndex = Tabs.chat.rawValue
 
-//        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
-//            window.rootViewController = tabBarController
-//        } else {
-//            setViewWith(navigationController, type: .fade, isRoot: true, isNavBarHidden: false)
-//        }
+        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
     }
 
     // MARK: - Private Methods
@@ -82,21 +73,15 @@ final class MainFlowCoordinator: Coordinator {
 
     // MARK: - Tabs
 
-    enum Tabs: Hashable {
-        case chat
-        case wallet
-        case profile
+    enum Tabs: Int, Hashable {
 
-        var index: Int {
-            switch self {
-            case .chat:
-                return 0
-            case .wallet:
-                return 1
-            case .profile:
-                return 2
-            }
-        }
+        // MARK: - Types
+
+        case chat = 0
+        case wallet = 1
+        case profile = 2
+
+        // MARK: - Internal Properties
 
         var item: UITabBarItem {
             switch self {
@@ -107,7 +92,7 @@ final class MainFlowCoordinator: Coordinator {
                     image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
                     selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
                 )
-                item.tag = index
+                item.tag = rawValue
                 return item
             case .wallet:
                 let image = R.image.tabBar.wallet()
@@ -116,7 +101,7 @@ final class MainFlowCoordinator: Coordinator {
                     image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
                     selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
                 )
-                item.tag = index
+                item.tag = rawValue
                 return item
             case .profile:
                 let image = R.image.tabBar.profile()
@@ -125,7 +110,7 @@ final class MainFlowCoordinator: Coordinator {
                     image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
                     selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
                 )
-                item.tag = index
+                item.tag = rawValue
                 return item
             }
         }
@@ -150,7 +135,7 @@ final class MainFlowCoordinator: Coordinator {
         case pinCode(PinCodeScreenType)
         case session
         case aboutApp
-        case FAQ
+        case faq
         case chatSettings
         case reserveCopy
         case transaction(Int, Int, String)
@@ -197,12 +182,14 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showChatSettings()
         case .reserveCopy:
             showReserveCopyScene()
-        case .FAQ:
+        case .faq:
             showAnswerScene()
         case let .transaction(selectorFilterIndex, selectorTokenIndex, address):
-            showTransaction(selectorFilterIndex: selectorFilterIndex,
-                            selectorTokenIndex: selectorTokenIndex,
-                            address: address)
+            showTransaction(
+                selectorFilterIndex: selectorFilterIndex,
+                selectorTokenIndex: selectorTokenIndex,
+                address: address
+            )
         case .importKey:
             showImportKey()
         case .transfer:
@@ -323,12 +310,17 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showTransaction(selectorFilterIndex: Int = 0,
-                                 selectorTokenIndex: Int = 0,
-                                 address: String = "") {
-        let rootView = TransactionConfigurator.configuredView(delegate: self,
-                                                              selectorFilterIndex: selectorFilterIndex,
-                                                              selectorTokenIndex: selectorTokenIndex, address: address)
+    private func showTransaction(
+        selectorFilterIndex: Int = 0,
+        selectorTokenIndex: Int = 0,
+        address: String = ""
+    ) {
+        let rootView = TransactionConfigurator.configuredView(
+            delegate: self,
+            selectorFilterIndex: selectorFilterIndex,
+            selectorTokenIndex: selectorTokenIndex,
+            address: address
+        )
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -347,22 +339,21 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showChooseReceiver() {
         let rootView = ChooseReceiverConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showQRScanner(scannedString: Binding<String>) {
-        let rootView = WalletAddressScannerConfigurator.configuredView(delegate: self,
-                                                                      scannedCode: scannedString)
+        let rootView = WalletAddressScannerConfigurator.configuredView(delegate: self, scannedCode: scannedString)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showFacilityApprove() {
         let rootView = FacilityApproveConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)

@@ -13,7 +13,6 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var saveData = false
     @Published var inputText = ""
     @Published var attachAction: AttachAction?
-    @Published var quickAction: QuickAction?
     @Published var groupAction: GroupAction?
     @Published private(set) var keyboardHeight: CGFloat = 0
     @Published private(set) var messages: [RoomMessage] = []
@@ -23,8 +22,10 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private(set) var room: AuraRoom
     @Published var showPhotoLibrary = false
     @Published var showDocuments = false
+    @Published var showContacts = false
     @Published var selectedImage: UIImage?
     @Published var pickedImage: UIImage?
+    @Published var pickedContact: Contact?
     @Published private var lastLocation: Location?
     @Published var cameraFrame: CGImage?
 
@@ -111,11 +112,18 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.inputText = ""
                     self?.room.sendFile(url)
                     self?.mxStore.objectWillChange.send()
+                case let .onSendContact(contact):
+                    self?.room.sendContact(contact)
+                    self?.mxStore.objectWillChange.send()
                 case .onJoinRoom:
                     guard let roomId = self?.room.room.roomId else { return }
                     self?.mxStore.joinRoom(roomId: roomId) { _ in
                         self?.room.markAllAsRead()
                     }
+                case let .onReply(text, eventId):
+                    self?.room.reply(text: text, eventId: eventId)
+                case let .onDelete(eventId):
+                    self?.room.removeOutgoingMessage(eventId)
                 case .onAddReaction(let messageId, let reactionId):
                         guard
                             let index = self?.messages.firstIndex(where: { $0.id == messageId }),
@@ -148,6 +156,7 @@ final class ChatRoomViewModel: ObservableObject {
                             shortDate: "00:31",
                             fullDate: "00:31",
                             isCurrentUser: true,
+                            isReply: false,
                             name: "",
                             avatar: nil
                         )
@@ -164,16 +173,7 @@ final class ChatRoomViewModel: ObservableObject {
                 case .document:
                     self?.showDocuments.toggle()
                 case .contact:
-                    let message = RoomMessage(
-                        id: UUID().uuidString,
-                        type: .contact,
-                        shortDate: "00:31",
-                        fullDate: "00:31",
-                        isCurrentUser: true,
-                        name: "",
-                        avatar: nil
-                    )
-                    self?.messages.append(message)
+                    self?.showContacts.toggle()
                 default:
                     break
                 }
@@ -196,12 +196,16 @@ final class ChatRoomViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
 
-        $quickAction
+        $pickedContact
             .receive(on: DispatchQueue.main)
-            .sink { _ in }
+            .sink { [weak self] contact in
+                guard let contact = contact else { return }
+                self?.send(.onSendContact(contact))
+            }
             .store(in: &subscriptions)
 
         locationManager.$lastLocation
+            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
             .assign(to: \.lastLocation, on: self)
             .store(in: &subscriptions)
@@ -231,6 +235,7 @@ final class ChatRoomViewModel: ObservableObject {
             .store(in: &subscriptions)
 
         mxStore.objectWillChange
+            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard
@@ -242,6 +247,7 @@ final class ChatRoomViewModel: ObservableObject {
                 self.messages = room.events().renderableEvents
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
+                        message?.eventId = $0.eventId
                         let user = self.mxStore.getUser($0.sender)
                         message?.name = user?.displayname ?? ""
                         let homeServer = Bundle.main.object(for: .matrixURL).asURL()

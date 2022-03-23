@@ -13,6 +13,7 @@ struct ChatRoomRow: View {
     private let isDirect: Bool
     private var onReaction: StringBlock?
     private var onSelectPhoto: GenericBlock<URL?>?
+
     @State private var showMap = false
     @State private var showFile = false
     @State private var isAnimating = false
@@ -61,62 +62,81 @@ struct ChatRoomRow: View {
                                 Image(uiImage: $0).resizable()
                             }
                         )
-                        .scaledToFill()
-                        .frame(width: 30, height: 30)
-                        .cornerRadius(15)
+                            .scaledToFill()
+                            .frame(width: 30, height: 30)
+                            .cornerRadius(15)
                     }
                     .padding(.leading, 16)
                     .padding(.trailing, -11)
                 }
 
                 BubbleView(direction: isFromCurrentUser ? .right : .left) {
-                    HStack(spacing: 0) {
-                        switch message.type {
-                        case let .text(text):
-                            textRow(message, text: text)
-                        case let .location(location):
-                            mapRow(location)
-                                .sheet(isPresented: $showMap) {
-                                    NavigationView {
-                                        MapView(place:
-                                                    .init(
-                                                        name: "",
-                                                        latitude: location.lat,
-                                                        longitude: location.long
-                                                    )
-                                        )
-                                        .ignoresSafeArea()
-                                        .navigationBarTitle(Text("Геопозиция"))
-                                        .navigationBarTitleDisplayMode(.inline)
-                                    }
-                                }
-                                .onTapGesture {
-                                    showMap.toggle()
-                                }
-                        case let .image(url):
-                            photoRow(message, url: url)
-                                .onTapGesture {
-                                    onSelectPhoto?(url)
-                                }
-                        case .contact:
-                            contactRow()
-                        case let .file(fileName, url):
-                            fileRow(message, fileName: fileName, url: url)
-                                .sheet(isPresented: $showFile) {
-                                    if let url = url {
+                    VStack(alignment: .leading, spacing: 0) {
+                        if message.isReply {
+                            HStack(spacing: 0) {
+                                RoundedRectangle(cornerRadius: 1)
+                                    .frame(width: 2)
+                                    .foreground(.blue(0.9))
+                                    .padding(.top, 8)
+                                    .padding(.leading, 16)
+
+                                Text(message.replyDescription, [
+                                    .color(.blue()),
+                                    .font(.medium(13))
+                                ])
+                                    .padding(.top, 2)
+                                    .padding(.leading, 8)
+                                    .padding(.trailing, 16)
+                            }
+                            .frame(height: 24)
+                        }
+
+                        HStack(spacing: 0) {
+                            switch message.type {
+                            case let .text(text):
+                                textRow(message, text: text)
+                            case let .location(location):
+                                mapRow(location)
+                                    .sheet(isPresented: $showMap) {
                                         NavigationView {
-                                            PDFKitView(url: url)
+                                            MapView(place: .init(
+                                                name: "",
+                                                latitude: location.lat,
+                                                longitude: location.long
+                                            ))
                                                 .ignoresSafeArea()
-                                                .navigationBarTitle(Text(fileName))
+                                                .navigationBarTitle(Text("Геопозиция"))
                                                 .navigationBarTitleDisplayMode(.inline)
                                         }
                                     }
-                                }
-                                .onTapGesture {
-                                    showFile.toggle()
-                                }
-                        case .none:
-                            EmptyView()
+                                    .onTapGesture {
+                                        showMap.toggle()
+                                    }
+                            case let .image(url):
+                                photoRow(message, url: url)
+                                    .onTapGesture {
+                                        onSelectPhoto?(url)
+                                    }
+                            case let .contact(name, phone, url):
+                                contactRow(name: name, phone: phone, url: url)
+                            case let .file(fileName, url):
+                                fileRow(message, fileName: fileName, url: url)
+                                    .sheet(isPresented: $showFile) {
+                                        if let url = url {
+                                            NavigationView {
+                                                PDFKitView(url: url)
+                                                    .ignoresSafeArea()
+                                                    .navigationBarTitle(Text(fileName))
+                                                    .navigationBarTitleDisplayMode(.inline)
+                                            }
+                                        }
+                                    }
+                                    .onTapGesture {
+                                        showFile.toggle()
+                                    }
+                            case .none:
+                                EmptyView()
+                            }
                         }
                     }
                     .background(.clear)
@@ -148,9 +168,9 @@ struct ChatRoomRow: View {
                                 Image(uiImage: $0).resizable()
                             }
                         )
-                        .scaledToFill()
-                        .frame(width: 30, height: 30)
-                        .cornerRadius(15)
+                            .scaledToFill()
+                            .frame(width: 30, height: 30)
+                            .cornerRadius(15)
                     }
                     .padding(.trailing, 16)
                     .padding(.leading, -11)
@@ -161,12 +181,12 @@ struct ChatRoomRow: View {
                 }
             }
 
-//            if !message.reactions.isEmpty {
-//                reactions()
-//                    .padding(.bottom, -18)
-//                    .opacity(isAnimating ? 1 : 0)
-//                    .animation(.easeInOut)
-//            }
+            //            if !message.reactions.isEmpty {
+            //                reactions()
+            //                    .padding(.bottom, -18)
+            //                    .opacity(isAnimating ? 1 : 0)
+            //                    .animation(.easeInOut)
+            //            }
         }
         .onTapGesture {}
         .onAppear {
@@ -187,24 +207,24 @@ struct ChatRoomRow: View {
                 .padding(.leading, !isFromCurrentUser ? 22 : 16)
                 .padding([.top, .bottom], 12)
 
-                VStack(alignment: .center) {
-                    Spacer()
-                    HStack(spacing: 8) {
-                        Text(message.shortDate)
-                            .frame(width: 40, height: 10)
-                            .font(.light(12))
-                            .foreground(.black(0.5))
-                            .padding(.trailing, !isFromCurrentUser ? 16 : 0)
+            VStack(alignment: .center) {
+                Spacer()
+                HStack(spacing: 8) {
+                    Text(message.shortDate)
+                        .frame(width: 40, height: 10)
+                        .font(.light(12))
+                        .foreground(.black(0.5))
+                        .padding(.trailing, !isFromCurrentUser ? 16 : 0)
 
-                        if isFromCurrentUser {
-                            Image(R.image.chat.readCheck.name)
-                                .resizable()
-                                .frame(width: 13.5, height: 10, alignment: .center)
-                                .padding(.trailing, 16)
-                        }
+                    if isFromCurrentUser {
+                        Image(R.image.chat.readCheck.name)
+                            .resizable()
+                            .frame(width: 13.5, height: 10, alignment: .center)
+                            .padding(.trailing, 16)
                     }
-                    .padding(.bottom, 8)
                 }
+                .padding(.bottom, 8)
+            }
         }
     }
 
@@ -220,16 +240,11 @@ struct ChatRoomRow: View {
         ZStack {
             AsyncImage(
                 url: url,
-                placeholder: {
-                    ShimmerView()
-                        .frame(width: 202, height: 245)
-                },
-                result: {
-                    Image(uiImage: $0).resizable()
-                }
+                placeholder: { ShimmerView().frame(width: 202, height: 245) },
+                result: { Image(uiImage: $0).resizable() }
             )
-            .scaledToFill()
-            .frame(width: 202, height: 245)
+                .scaledToFill()
+                .frame(width: 202, height: 245)
 
             checkReadView(message.shortDate)
         }
@@ -259,11 +274,11 @@ struct ChatRoomRow: View {
                         .paragraph(.init(lineHeightMultiple: 1.26, alignment: .left))
                     ]).frame(height: 23)
 
-//                    Text(url?.fileSize() ?? "", [
-//                        .color(.darkGray()),
-//                        .font(.regular(13)),
-//                        .paragraph(.init(lineHeightMultiple: 1, alignment: .left))
-//                    ]).frame(height: 16)
+                    //                    Text(url?.fileSize() ?? "", [
+                    //                        .color(.darkGray()),
+                    //                        .font(.regular(13)),
+                    //                        .paragraph(.init(lineHeightMultiple: 1, alignment: .left))
+                    //                    ]).frame(height: 16)
                     Spacer()
                 }.padding(.leading, 11)
 
@@ -275,26 +290,33 @@ struct ChatRoomRow: View {
         .frame(width: 247, height: 96)
     }
 
-    private func contactRow() -> some View {
+    private func contactRow(name: String, phone: String?, url: URL?) -> some View {
         ZStack {
             VStack(spacing: 0) {
                 HStack(spacing: 12) {
-                    R.image.chat.mockAvatar2.image
-                        .resizable()
+                    AsyncImage(
+                        url: url,
+                        placeholder: { ShimmerView().frame(width: 40, height: 40) },
+                        result: { Image(uiImage: $0).resizable() }
+                    )
                         .scaledToFill()
-                        .frame(width: 40, height: 40, alignment: .center)
+                        .frame(width: 40, height: 40)
+                        .clipped()
+                        .cornerRadius(20)
 
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("Виолетта Силенина")
+                        Text(name)
                             .font(.semibold(15))
                             .foreground(.black())
 
                         Spacer()
 
-                        Text("+7(925)813-31-62")
+                        Text(phone ?? "-")
                             .font(.regular(13))
                             .foreground(.darkGray())
                     }
+
+                    Spacer()
                 }
                 .frame(height: 40)
 
@@ -310,15 +332,14 @@ struct ChatRoomRow: View {
                                 .stroke(Color(.blue()), lineWidth: 1)
                         )
                 })
-                .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44, alignment: .center)
-                .padding(.top, 12)
-                .padding(.trailing, 8)
-                .padding(.leading, 24)
+                    .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44, alignment: .center)
+                    .padding(.top, 12)
 
                 Spacer()
             }
-            .padding([.top, .trailing], 8)
-            .padding(.leading, -16)
+            .padding(.top, 8)
+            .padding(.leading, 10)
+            .padding(.trailing, 16)
 
             checkTextReadView()
         }

@@ -72,44 +72,44 @@ struct ProfileView: View {
                                  secondaryButton: secondaryButton)
                 }
             }
-            .popup(
-                isPresented: $showMenu,
-                type: .toast,
-                position: .bottom,
-                closeOnTap: true,
-                closeOnTapOutside: true,
-                backgroundColor: .black.opacity(0.4),
-                dismissCallback: { showTabBar() },
-                view: {
-                    ProfileSettingsMenuView(balance: "0.50 AUR", onSelect: { type in
-                        vibrate()
-                        hideTabBar()
-                        viewModel.send(.onShow(type))
-                    })
-                        .frame(height: 712)
-                        .background(
-                            CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                                .fill(Color(.white()))
-                        )
-                }
-            )
-            .popup(
-                isPresented: $popupSelected,
-                type: .toast,
-                position: .bottom,
-                closeOnTap: true,
-                closeOnTapOutside: true,
-                backgroundColor: Color(.black(0.4)),
-                dismissCallback: { showTabBar() },
-                view: {
-                    BuyView()
-                        .frame(height: 375, alignment: .center)
-                        .background(
-                            CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                                .fill(Color(.white()))
-                        )
-                }
-            )
+//            .popup(
+//                isPresented: $showMenu,
+//                type: .toast,
+//                position: .bottom,
+//                closeOnTap: true,
+//                closeOnTapOutside: true,
+//                backgroundColor: .black.opacity(0.4),
+//                dismissCallback: { showTabBar() },
+//                view: {
+//                    ProfileSettingsMenuView(balance: "0.50 AUR", onSelect: { type in
+//                        vibrate()
+//                        hideTabBar()
+//                        viewModel.send(.onShow(type))
+//                    })
+//                        .frame(height: 712)
+//                        .background(
+//                            CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
+//                                .fill(Color(.white()))
+//                        )
+//                }
+//            )
+//            .popup(
+//                isPresented: $popupSelected,
+//                type: .toast,
+//                position: .bottom,
+//                closeOnTap: true,
+//                closeOnTapOutside: true,
+//                backgroundColor: Color(.black(0.4)),
+//                dismissCallback: { showTabBar() },
+//                view: {
+//                    BuyView()
+//                        .frame(height: 375, alignment: .center)
+//                        .background(
+//                            CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
+//                                .fill(Color(.white()))
+//                        )
+//                }
+//            )
     }
 
     private var content: some View {
