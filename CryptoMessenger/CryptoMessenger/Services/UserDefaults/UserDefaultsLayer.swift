@@ -62,6 +62,7 @@ struct UserDefaultsLayer {
     private static let isBiometryOn = "isBiometryOn"
     private static let reserveCopyTime = "reserveCopyTime"
     private static let saveToPhotos = "saveToPhotos"
+    private static let secretPhraseState = "secretPhraseState"
 
     // MARK: - Internal Properties
 
@@ -145,6 +146,9 @@ struct UserDefaultsLayer {
     
     @UserDefaultSettings(saveToPhotos, value: false)
     var saveToPhotos: Bool
+    
+    @UserDefaultSettings(secretPhraseState, value: R.string.localizable.securityContactsAll())
+    var secretPhraseState: String
 
     var userMatrixId: String {
         MXCredentials.from(Keychain(service: "chat.aura.credentials"))?.userId ?? ""

@@ -34,18 +34,16 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        
-        handleNextScene(.facilityApprove)
-//        let tabs = [
-//            buildChatTab(),
-//            buildWalletTab(),
-//            buildProfileTab()
-//        ]
-//
-//        let tabBarController = BaseTabBarController(viewControllers: tabs)
-//        tabBarController.selectedIndex = Tabs.chat.index
-//
-//        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+        let tabs = [
+            buildChatTab(),
+            buildWalletTab(),
+            buildProfileTab()
+        ]
+
+        let tabBarController = BaseTabBarController(viewControllers: tabs)
+        tabBarController.selectedIndex = Tabs.chat.index
+
+        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
 
 //        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = scene.windows.first {
 //            window.rootViewController = tabBarController
@@ -159,6 +157,7 @@ final class MainFlowCoordinator: Coordinator {
         case scanner(Binding<String>)
         case transfer
         case facilityApprove
+        case walletManager
     }
 }
 
@@ -213,6 +212,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showQRScanner(scannedString: scannedString)
         case .facilityApprove:
             showFacilityApprove()
+        case .walletManager:
+            showWalletManager()
         }
     }
 
@@ -369,6 +370,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    private func showWalletManager() {
+        let rootView = WalletManagerConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -446,6 +454,10 @@ extension MainFlowCoordinator: WalletAddressScanerSceneDelegate {}
 // MARK: - MainFlowCoordinator (FacilityApproveSceneDelegate)
 
 extension MainFlowCoordinator: FacilityApproveSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (WalletManagerSceneDelegate)
+
+extension MainFlowCoordinator: WalletManagerSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

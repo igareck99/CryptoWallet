@@ -321,6 +321,12 @@
 
 "QRCode.Title" = "Сканировать  QR-код";
 
+"WalletManager.Title" = "Кошелек";
+"WalletManager.SecretPhrase" = "Секретная фраза";
+"WalletManager.Wallets" = "Кошельки";
+"WalletManager.KeyManager" = "Менеджер ключей";
+"WalletManager.AddDeleteKeys" = "Добавить/Удалить приватные ключи";
+
 
 
 
