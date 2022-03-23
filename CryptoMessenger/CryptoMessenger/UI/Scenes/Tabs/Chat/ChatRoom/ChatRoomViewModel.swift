@@ -13,7 +13,6 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var saveData = false
     @Published var inputText = ""
     @Published var attachAction: AttachAction?
-    @Published var quickAction: QuickAction?
     @Published var groupAction: GroupAction?
     @Published private(set) var keyboardHeight: CGFloat = 0
     @Published private(set) var messages: [RoomMessage] = []
@@ -123,7 +122,8 @@ final class ChatRoomViewModel: ObservableObject {
                     }
                 case let .onReply(text, eventId):
                     self?.room.reply(text: text, eventId: eventId)
-                    self?.mxStore.objectWillChange.send()
+                case let .onDelete(eventId):
+                    self?.room.removeOutgoingMessage(eventId)
                 case .onAddReaction(let messageId, let reactionId):
                         guard
                             let index = self?.messages.firstIndex(where: { $0.id == messageId }),
@@ -202,11 +202,6 @@ final class ChatRoomViewModel: ObservableObject {
                 guard let contact = contact else { return }
                 self?.send(.onSendContact(contact))
             }
-            .store(in: &subscriptions)
-
-        $quickAction
-            .receive(on: DispatchQueue.main)
-            .sink { _ in }
             .store(in: &subscriptions)
 
         locationManager.$lastLocation

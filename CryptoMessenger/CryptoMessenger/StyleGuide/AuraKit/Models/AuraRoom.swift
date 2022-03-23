@@ -180,6 +180,11 @@ final class AuraRoom: ObservableObject {
         room.markAllAsRead()
     }
 
+    func removeOutgoingMessage(_ eventId: String) {
+        room.removeOutgoingMessage(eventId)
+        objectWillChange.send()
+    }
+
     func removeOutgoingMessage(_ event: MXEvent) {
         room.removeOutgoingMessage(event.eventId)
         objectWillChange.send()

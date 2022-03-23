@@ -37,9 +37,8 @@ struct ChatRoomView: View {
     @State private var showSettings = false
     @State private var showQuickMenu = false
     @State private var activeSheet: ActiveSheet?
-    @State private var replyOffset: CGFloat = .zero
-    @State private var showReply = false
     @State private var replyMessage: RoomMessage?
+    @State private var quickAction: QuickAction?
 
     // MARK: - Body
 
@@ -227,7 +226,8 @@ struct ChatRoomView: View {
                                     .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
                                         vibrate(.medium)
                                         messageId = message.id
-                                        cardPosition = .middle
+                                        replyMessage = message
+                                        cardPosition = .custom(UIScreen.main.bounds.height - 580)
                                     }
 //                                    .animation(.easeInOut(duration: 0.2))
 //                                    .offset(x: replyMessage?.id == message.id ? replyOffset : .zero)
@@ -287,10 +287,10 @@ struct ChatRoomView: View {
                     .flippedUpsideDown()
                 }
 
-                if showReply {
+                if quickAction == .reply {
                     ReplyView(
                         text: replyMessage?.description ?? "",
-                        onReset: { self.replyMessage = nil; showReply = false; hideKeyboard() }
+                        onReset: { replyMessage = nil; quickAction = nil; hideKeyboard() }
                     )
                         .transition(.opacity)
                         .animation(.easeInOut(duration: 0.2))
@@ -424,30 +424,40 @@ struct ChatRoomView: View {
                     cardPosition = .bottom
                 }
 
-            SlideCard(position: $cardPosition) {
+            SlideCard(position: $cardPosition, expandedPosition: .custom(UIScreen.main.bounds.height - 580)) {
                 VStack {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 11) {
-                            ForEach(viewModel.emojiStorage) { reaction in
-                                LastReactionItemView(emoji: reaction.emoji, isLastButton: reaction.isLastButton)
-                                    .onTapGesture {
-                                        vibrate()
-                                        viewModel.send(.onAddReaction(messageId: messageId, reactionId: reaction.id))
-                                        cardPosition = .bottom
-                                    }
-                            }
+//                    ScrollView(.horizontal, showsIndicators: false) {
+//                        HStack(spacing: 11) {
+//                            ForEach(viewModel.emojiStorage) { reaction in
+//                                LastReactionItemView(emoji: reaction.emoji, isLastButton: reaction.isLastButton)
+//                                    .onTapGesture {
+//                                        vibrate()
+//                                        viewModel.send(.onAddReaction(messageId: messageId, reactionId: reaction.id))
+//                                        cardPosition = .bottom
+//                                    }
+//                            }
+//                        }
+//                        .frame(height: 40)
+//                        .padding(.top, 22)
+//                        .padding(.horizontal, 16)
+//                    }
+//
+//                    Rectangle()
+//                        .frame(height: 1)
+//                        .foreground(.darkGray(0.4))
+//                        .padding(.top, 12)
+
+                    QuickMenuView(cardPosition: $cardPosition, onAction: {
+                        switch $0 {
+                        case .copy:
+                            UIPasteboard.general.string = replyMessage?.description
+                        case .delete:
+                            viewModel.send(.onDelete(replyMessage?.eventId ?? ""))
+                        default:
+                            ()
                         }
-                        .frame(height: 40)
-                        .padding(.top, 22)
-                        .padding(.horizontal, 16)
-                    }
-
-                    Rectangle()
-                        .frame(height: 1)
-                        .foreground(.darkGray(0.4))
-                        .padding(.top, 12)
-
-                    QuickMenuView(action: $viewModel.quickAction, cardPosition: $cardPosition)
+                        quickAction = $0
+                    }).padding(.vertical, 16)
                 }
             }
         }
@@ -505,11 +515,11 @@ struct ChatRoomView: View {
                 if !viewModel.inputText.isEmpty {
                     Button(action: {
                         withAnimation {
-                            if let replyMessage = replyMessage {
-                                viewModel.send(.onReply(viewModel.inputText, replyMessage.eventId))
+                            if quickAction == .reply {
+                                viewModel.send(.onReply(viewModel.inputText, replyMessage?.eventId ?? ""))
                                 viewModel.inputText = ""
-                                self.replyMessage = nil
-                                showReply = false
+                                replyMessage = nil
+                                quickAction = nil
                             } else {
                                 viewModel.send(.onSendText(viewModel.inputText))
                             }
