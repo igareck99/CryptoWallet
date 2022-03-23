@@ -1,20 +1,23 @@
 import Combine
 import SwiftUI
 
-// MARK: - WalletManagerViewModel
+// MARK: - KeyListViewModel
 
-final class WalletManagerViewModel: ObservableObject {
+final class KeyListViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: WalletManagerSceneDelegate?
-    @Published var secretPhraseState = ""
+    weak var delegate: KeyListSceneDelegate?
+    @Published var keysList: [KeyValueTypeItem] = [
+        .init(value: "0x8396738b..4cb2a2a7ca6", type: "ETH, USDT"),
+        .init(value: "mrG7g5qtte..fWar9MjYex9aDs", type: "BTC")
+    ]
 
     // MARK: - Private Properties
 
-    @Published private(set) var state: WalletManagerFlow.ViewState = .idle
-    private let eventSubject = PassthroughSubject<WalletManagerFlow.Event, Never>()
-    private let stateValueSubject = CurrentValueSubject<WalletManagerFlow.ViewState, Never>(.idle)
+    @Published private(set) var state: KeyListFlow.ViewState = .idle
+    private let eventSubject = PassthroughSubject<KeyListFlow.Event, Never>()
+    private let stateValueSubject = CurrentValueSubject<KeyListFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
@@ -33,13 +36,8 @@ final class WalletManagerViewModel: ObservableObject {
 
     // MARK: - Internal Methods
 
-    func send(_ event: WalletManagerFlow.Event) {
+    func send(_ event: KeyListFlow.Event) {
         eventSubject.send(event)
-    }
-
-    func updateSecretPhraseState(item: String) {
-        secretPhraseState = item
-        userCredentialsStorageService.secretPhraseState = secretPhraseState
     }
 
     // MARK: - Private Methods
@@ -51,8 +49,6 @@ final class WalletManagerViewModel: ObservableObject {
                 case .onAppear:
                     self?.updateData()
                     self?.objectWillChange.send()
-                case .onKeyList:
-                    self?.delegate?.handleNextScene(.keyList)
                 }
             }
             .store(in: &subscriptions)
@@ -65,6 +61,16 @@ final class WalletManagerViewModel: ObservableObject {
     }
 
     private func updateData() {
-        secretPhraseState = userCredentialsStorageService.secretPhraseState
     }
+}
+
+// MARK: - KeyValueTypeItem
+
+struct KeyValueTypeItem: Identifiable, Hashable {
+
+    // MARK: - Internal Properties
+
+    let id = UUID()
+    let value: String
+    let type: String
 }

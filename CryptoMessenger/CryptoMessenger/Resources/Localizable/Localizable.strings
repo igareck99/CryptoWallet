@@ -326,6 +326,8 @@
 "WalletManager.Wallets" = "Кошельки";
 "WalletManager.KeyManager" = "Менеджер ключей";
 "WalletManager.AddDeleteKeys" = "Добавить/Удалить приватные ключи";
+"WalletManager.Edit" = "Редактировать";
+
 
 
 

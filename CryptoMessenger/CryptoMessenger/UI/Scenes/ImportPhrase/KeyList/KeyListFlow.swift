@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - WalletManagerFlow
+// MARK: - KeyListFlow
 
-enum WalletManagerFlow {
+enum KeyListFlow {
 
     // MARK: - ViewState
 
@@ -22,6 +22,5 @@ enum WalletManagerFlow {
         // MARK: - Types
 
         case onAppear
-        case onKeyList
     }
 }

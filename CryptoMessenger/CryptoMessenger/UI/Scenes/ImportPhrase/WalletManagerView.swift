@@ -62,6 +62,9 @@ struct WalletManagerView: View {
                 keyManagerCell
                     .background(.white())
                     .frame(height: 44)
+                    .onTapGesture {
+                        viewModel.send(.onKeyList)
+                    }
                     .padding(.top, 16)
                     .padding(.horizontal, 16)
             }

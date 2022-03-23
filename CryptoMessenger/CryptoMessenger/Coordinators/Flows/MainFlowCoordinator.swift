@@ -158,6 +158,7 @@ final class MainFlowCoordinator: Coordinator {
         case transfer
         case facilityApprove
         case walletManager
+        case keyList
     }
 }
 
@@ -214,6 +215,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showFacilityApprove()
         case .walletManager:
             showWalletManager()
+        case .keyList:
+            showKeyList()
         }
     }
 
@@ -348,14 +351,14 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showChooseReceiver() {
         let rootView = ChooseReceiverConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showQRScanner(scannedString: Binding<String>) {
         let rootView = WalletAddressScannerConfigurator.configuredView(delegate: self,
                                                                       scannedCode: scannedString)
@@ -363,16 +366,23 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showFacilityApprove() {
         let rootView = FacilityApproveConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showWalletManager() {
         let rootView = WalletManagerConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showKeyList() {
+        let rootView = KeyListConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -458,6 +468,10 @@ extension MainFlowCoordinator: FacilityApproveSceneDelegate {}
 // MARK: - MainFlowCoordinator (WalletManagerSceneDelegate)
 
 extension MainFlowCoordinator: WalletManagerSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (KeyListSceneDelegate)
+
+extension MainFlowCoordinator: KeyListSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 
