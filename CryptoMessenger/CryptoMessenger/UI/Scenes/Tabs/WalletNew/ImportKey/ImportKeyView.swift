@@ -148,7 +148,7 @@ struct ImportKeyView: View {
                        height: 44)
             case true:
                 ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    .tint(Color(.blue()))
                     .frame(width: 12,
                            height: 12)
             }

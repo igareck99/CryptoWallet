@@ -251,6 +251,7 @@ struct ProfileView: View {
                         ProgressView()
                             .frame(width: 100, height: 100)
                             .background(.blue(0.1))
+                            .tint(Color(.blue()))
                             .scaledToFill()
                     } else {
                         thumbnail
@@ -276,6 +277,7 @@ struct ProfileView: View {
                             url: viewModel.profile.photosUrls[index],
                             placeholder: {
                                 ProgressView()
+                                    .tint(Color(.blue()))
                                     .frame(width: width, height: width)
                                     .scaledToFill()
                             },

@@ -56,6 +56,8 @@ struct ChatRoomView: View {
                 default:
                     break
                 }
+
+                UITextView.appearance().background(.grayDAE1E9())
             }
             .onDisappear {
                 showTabBar()
@@ -499,16 +501,16 @@ struct ChatRoomView: View {
                 HStack {
                     ZStack {
                         TextEditor(text: $viewModel.inputText)
-                            .background(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
+                            .background(.grayDAE1E9())
                             .foreground(.black())
-                            .colorMultiply(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
+                            //.colorMultiply(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
                             .keyboardType(.default)
-                            .padding([.leading, .trailing], 16)
+                            .padding(.horizontal, 16)
                     }
-                    .background(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
+                    .background(.grayDAE1E9())
                 }
                 .frame(height: 36)
-                .background(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
+                .background(.grayDAE1E9())
                 .clipShape(Capsule())
                 .padding(.trailing, viewModel.inputText.isEmpty ? 8 : 0)
 

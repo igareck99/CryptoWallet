@@ -109,6 +109,7 @@ struct SelectContactView: View {
 
             if viewModel.existingContacts.isEmpty {
                 ProgressView()
+                    .tint(Color(.blue()))
             }
 
             ScrollView(.vertical, showsIndicators: false) {

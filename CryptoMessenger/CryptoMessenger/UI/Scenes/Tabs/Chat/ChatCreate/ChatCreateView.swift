@@ -103,8 +103,7 @@ struct ChatCreateView: View {
                     .foreground(.blue())
                 }
             }
-            .padding(.top, 16)
-            .padding([.leading, .trailing, .bottom], 16)
+            .padding([.horizontal, .vertical], 16)
 
             ScrollView(.vertical, showsIndicators: false) {
                 Rectangle()
@@ -112,15 +111,23 @@ struct ChatCreateView: View {
                     .frame(height: 1)
 
                 VStack(spacing: 0) {
-                    ForEach(CreateAction.allCases.filter({ $0 == .groupChat })) { action in
-                        VStack(spacing: 0) {
-                            actionView(action)
-                                .padding([.leading, .trailing], 16)
-                                .onTapGesture {
-                                    vibrate()
-                                    showContacts.toggle()
-                                }
+                    if !viewModel.waitingContacts.isEmpty {
+                        ForEach(CreateAction.allCases.filter({ $0 == .groupChat })) { action in
+                            VStack(spacing: 0) {
+                                actionView(action)
+                                    .padding([.leading, .trailing], 16)
+                                    .onTapGesture {
+                                        vibrate()
+                                        showContacts.toggle()
+                                    }
+                            }
                         }
+                    }
+
+                    if viewModel.waitingContacts.isEmpty {
+                        ProgressView()
+                            .tint(Color(.blue()))
+                            .padding(.top, 34)
                     }
 
                     if !viewModel.existingContacts.isEmpty {

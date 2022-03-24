@@ -153,8 +153,8 @@ final class ChatRoomViewModel: ObservableObject {
                         let message = RoomMessage(
                             id: UUID().uuidString,
                             type: .location(location),
-                            shortDate: "00:31",
-                            fullDate: "00:31",
+                            shortDate: Date().hoursAndMinutes,
+                            fullDate: Date().dayAndMonthAndYear,
                             isCurrentUser: true,
                             isReply: false,
                             name: "",
