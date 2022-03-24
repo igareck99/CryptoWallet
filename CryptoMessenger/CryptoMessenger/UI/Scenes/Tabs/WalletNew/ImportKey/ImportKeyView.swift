@@ -66,6 +66,7 @@ struct ImportKeyView: View {
                     .padding(.top, 8)
             }
         }
+        .hideKeyboardOnTap()
         .onAppear {
             UITextView.appearance().backgroundColor = .clear
             UITextView.appearance().textContainerInset = .init(top: 12, left: 0, bottom: 12, right: 0)
@@ -147,7 +148,7 @@ struct ImportKeyView: View {
                        height: 44)
             case true:
                 ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    .tint(Color(.blue()))
                     .frame(width: 12,
                            height: 12)
             }

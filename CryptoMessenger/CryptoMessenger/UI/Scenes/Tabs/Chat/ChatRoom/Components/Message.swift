@@ -10,8 +10,19 @@ enum MessageType {
     case image(URL?)
     case file(String, URL?)
     case location((lat: Double, long: Double))
-    case contact
+    case contact(name: String, phone: String?, url: URL?)
     case none
+}
+
+// MARK: - Reply
+
+struct Reply {
+
+    // MARK: - Internal Properties
+
+    let user: String
+    let text: String
+    let replyText: String
 }
 
 // MARK: - MessageStatus
@@ -20,19 +31,11 @@ enum MessageStatus: Hashable {
 
     // MARK: - Types
 
-    case online
-    case offline
+    case online, offline
 
     // MARK: - Internal Properties
 
-    var color: Palette {
-        switch self {
-        case .online:
-            return .green()
-        case .offline:
-            return .gray()
-        }
-    }
+    var color: Palette { self == .online ? .green() : .gray() }
 }
 
 // MARK: - Message
@@ -71,9 +74,28 @@ struct RoomMessage: Identifiable {
     let shortDate: String
     let fullDate: String
     let isCurrentUser: Bool
+    let isReply: Bool
+    var replyDescription = ""
+    var eventId = ""
     var name = ""
     var avatar: URL?
     var reactions: [Reaction] = []
+    var description: String {
+        switch type {
+        case let .text(text):
+            return text
+        case .file:
+            return "Файл"
+        case .image:
+            return "Фото"
+        case .location:
+            return "Местоположение"
+        case .contact:
+            return "Контакт"
+        default:
+            return "-"
+        }
+    }
 }
 
 // MARK: - RoomMessage (Equatable)

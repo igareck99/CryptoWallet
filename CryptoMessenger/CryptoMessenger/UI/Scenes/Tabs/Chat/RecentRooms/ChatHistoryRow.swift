@@ -116,6 +116,30 @@ struct ChatHistoryRow: View {
                                 .color(.black(0.6))
                             ])
                         }
+                    case let .contact(_, _, url):
+                        HStack(spacing: 6) {
+                            AsyncImage(
+                                url: url,
+                                placeholder: {
+                                    ShimmerView().frame(width: 20, height: 20)
+                                },
+                                result: {
+                                    Image(uiImage: $0).resizable()
+                                }
+                            )
+                            .scaledToFill()
+                            .frame(width: 16, height: 16)
+                            .cornerRadius(2)
+
+                            Text(
+                                "Контакт",
+                                [
+                                    .font(.regular(15)),
+                                    .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
+                                    .color(.black(0.6))
+                                ]
+                            )
+                        }
                     default:
                         EmptyView()
                     }

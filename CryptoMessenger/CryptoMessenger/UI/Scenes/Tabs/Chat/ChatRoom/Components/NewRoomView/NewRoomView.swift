@@ -122,7 +122,7 @@ private struct NewConversationView: View {
                     if isWaiting {
                         ZStack {
                             ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                .tint(Color(.blue()))
                         }
                         .background(.clear)
                     }

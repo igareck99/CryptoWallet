@@ -1,6 +1,11 @@
 import Foundation
 
-public extension UserDefaults {
+// MARK: - UserDefaults ()
+
+extension UserDefaults {
+
+    // MARK: - Static Properties
+
     private static let appGroup: String = {
         guard let group = Bundle.main.infoDictionary?["AppGroup"] as? String else {
             fatalError("Missing 'AppGroup' key in Info.plist!")

@@ -39,6 +39,7 @@ struct SlideCard<Content>: View where Content: View {
     // MARK: - Private Properties
 
     @Binding private var defaultPosition: CardPosition
+    private var expandedPosition: CardPosition?
     @Binding private var backgroundStyle: CardBackgroundStyle
     private var content: () -> Content
 
@@ -46,11 +47,13 @@ struct SlideCard<Content>: View where Content: View {
 
     init(
         position: Binding<CardPosition> = .constant(.bottom),
+        expandedPosition: CardPosition? = nil,
         backgroundStyle: Binding<CardBackgroundStyle> = .constant(.solid),
         content: @escaping () -> Content
     ) {
         self.content = content
         self._defaultPosition = position
+        self.expandedPosition = expandedPosition
         self._backgroundStyle = backgroundStyle
     }
 
@@ -59,7 +62,11 @@ struct SlideCard<Content>: View where Content: View {
     var body: some View {
         ModifiedContent(
             content: content(),
-            modifier: CardModifier(position: $defaultPosition, backgroundStyle: $backgroundStyle)
+            modifier: CardModifier(
+                position: $defaultPosition,
+                expandedPosition: expandedPosition,
+                backgroundStyle: $backgroundStyle
+            )
         )
     }
 }
@@ -101,11 +108,12 @@ private struct CardModifier: ViewModifier {
     // MARK: - Internal Properties
 
     @Binding var position: CardPosition
+    let expandedPosition: CardPosition?
     @Binding var backgroundStyle: CardBackgroundStyle
 
     // MARK: - Private Properties
 
-    @SwiftUI.Environment(\.colorScheme) private var colorScheme: ColorScheme
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @GestureState private var dragState: DragState = .inactive
     @State private var offset = CGSize.zero
     private let animation = Animation.interpolatingSpring(stiffness: 300.0, damping: 30.0, initialVelocity: 10.0)
@@ -151,9 +159,9 @@ private struct CardModifier: ViewModifier {
     // MARK: - Private Methods
 
     private func onDragEnded(drag: DragGesture.Value) {
-        let higherStop: CardPosition
-        let lowerStop: CardPosition
-        let nearestPosition: CardPosition
+        var higherStop: CardPosition
+        var lowerStop: CardPosition
+        var nearestPosition: CardPosition
 
         let dragDirection = drag.predictedEndLocation.y - drag.location.y
         let offsetFromTopOfView = position.offsetFromTop + drag.translation.height
@@ -170,6 +178,11 @@ private struct CardModifier: ViewModifier {
             nearestPosition = higherStop
         } else {
             nearestPosition = lowerStop
+        }
+
+        if let expandedPosition = expandedPosition {
+            higherStop = expandedPosition
+            nearestPosition = expandedPosition
         }
 
         if dragDirection > 0 {

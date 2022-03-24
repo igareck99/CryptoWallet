@@ -1,12 +1,21 @@
 import Foundation
 import MatrixSDK
 
-public struct EventCollection {
-    internal var wrapped: [MXEvent]
+// MARK: - EventCollection
 
-    public init(_ events: [MXEvent]) {
+struct EventCollection {
+
+    // MARK: - Internal Properties
+
+    var wrapped: [MXEvent]
+
+    // MARK: - Life Cycle
+
+    init(_ events: [MXEvent]) {
         self.wrapped = events
     }
+
+    // MARK: - Static Properties
 
     static let renderableEventTypes = [
         kMXEventTypeStringRoomMessage,
@@ -14,20 +23,23 @@ public struct EventCollection {
         kMXEventTypeStringRoomTopic,
         kMXEventTypeStringRoomPowerLevels,
         kMXEventTypeStringRoomName,
-        kMXMessageTypeImage
+        kMXMessageTypeImage,
+        MXEventCustomEvent.contactInfo.identifier
     ]
 
     /// Events that can be directly rendered in the timeline with a corresponding view. This for example does not
     /// include reactions, which are instead rendered as accessories on their corresponding related events.
-    public var renderableEvents: [MXEvent] {
+    var renderableEvents: [MXEvent] {
         wrapped.filter { Self.renderableEventTypes.contains($0.type) }
     }
 
-    public func relatedEvents(of event: MXEvent) -> [MXEvent] {
+    // MARK: - Internal Methods
+
+    func relatedEvents(of event: MXEvent) -> [MXEvent] {
         wrapped.filter { $0.relatesTo?.eventId == event.eventId }
     }
 
-    public func reactions(for event: MXEvent) -> [Reaction] {
+    func reactions(for event: MXEvent) -> [Reaction] {
         relatedEvents(of: event)
             .filter { $0.type == kMXEventTypeStringReaction }
             .compactMap { event in
@@ -53,11 +65,12 @@ public struct EventCollection {
 // MARK: - EventCollection ()
 
 extension EventCollection {
-    public static let groupEventTypes = [
+
+    static let groupEventTypes = [
         kMXEventTypeStringRoomMessage
     ]
 
-    public func connectedEdges(of event: MXEvent) -> ConnectedEdges {
+    func connectedEdges(of event: MXEvent) -> ConnectedEdges {
         guard let idx = wrapped.firstIndex(of: event) else {
             fatalError("Event not found in event collection.")
         }
@@ -109,7 +122,7 @@ extension EventCollection {
     }
 }
 
-public struct ConnectedEdges: OptionSet {
+struct ConnectedEdges: OptionSet {
     public let rawValue: Int
 
     public static let topEdge: Self = .init(rawValue: 1 << 0)

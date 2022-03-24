@@ -98,9 +98,7 @@ final class ChatCreateViewModel: ObservableObject {
 
         mxStore.objectWillChange
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-
-            }
+            .sink { _ in }
             .store(in: &subscriptions)
 
         $searchText

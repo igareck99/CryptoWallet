@@ -1,12 +1,19 @@
 import Foundation
 
-public struct Reaction: Identifiable {
-    public var id: String
-    public let sender: String
-    public let timestamp: Date
-    public let emoji: String
+// MARK: - Reaction
 
-    public init(
+struct Reaction: Identifiable {
+
+    // MARK: - Internal Properties
+
+    var id: String
+    let sender: String
+    let timestamp: Date
+    let emoji: String
+
+    // MARK: - Life Cycle
+
+    init(
         id: String,
         sender: String,
         timestamp: Date,
@@ -19,20 +26,26 @@ public struct Reaction: Identifiable {
     }
 }
 
-public struct ReactionGroup: Identifiable {
-    public let reaction: String
-    public let count: Int
-    public let reactions: [Reaction]
+// MARK: - ReactionGroup
 
-    public var id: String { reaction }
+struct ReactionGroup: Identifiable {
 
-    public init(reaction: String, count: Int, reactions: [Reaction]) {
+    // MARK: - Internal Properties
+
+    let reaction: String
+    let count: Int
+    let reactions: [Reaction]
+    var id: String { reaction }
+
+    // MARK: - Life Cycle
+
+    init(reaction: String, count: Int, reactions: [Reaction]) {
         self.reaction = reaction
         self.count = count
         self.reactions = reactions
     }
 
-    public func containsReaction(from sender: String) -> Bool {
-        reactions.contains { $0.sender == sender }
-    }
+    // MARK: - Internal Methods
+
+    func containsReaction(from sender: String) -> Bool { reactions.contains { $0.sender == sender } }
 }

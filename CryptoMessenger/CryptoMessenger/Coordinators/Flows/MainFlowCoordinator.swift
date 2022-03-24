@@ -34,6 +34,7 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
+
         let tabs = [
             buildChatTab(),
             buildWalletTab(),
@@ -41,7 +42,7 @@ final class MainFlowCoordinator: Coordinator {
         ]
 
         let tabBarController = BaseTabBarController(viewControllers: tabs)
-        tabBarController.selectedIndex = Tabs.chat.index
+        tabBarController.selectedIndex = Tabs.chat.rawValue
 
         setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
     }
@@ -74,21 +75,15 @@ final class MainFlowCoordinator: Coordinator {
 
     // MARK: - Tabs
 
-    enum Tabs: Hashable {
-        case chat
-        case wallet
-        case profile
+    enum Tabs: Int, Hashable {
 
-        var index: Int {
-            switch self {
-            case .chat:
-                return 0
-            case .wallet:
-                return 1
-            case .profile:
-                return 2
-            }
-        }
+        // MARK: - Types
+
+        case chat = 0
+        case wallet = 1
+        case profile = 2
+
+        // MARK: - Internal Properties
 
         var item: UITabBarItem {
             switch self {
@@ -99,7 +94,7 @@ final class MainFlowCoordinator: Coordinator {
                     image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
                     selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
                 )
-                item.tag = index
+                item.tag = rawValue
                 return item
             case .wallet:
                 let image = R.image.tabBar.wallet()
@@ -108,7 +103,7 @@ final class MainFlowCoordinator: Coordinator {
                     image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
                     selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
                 )
-                item.tag = index
+                item.tag = rawValue
                 return item
             case .profile:
                 let image = R.image.tabBar.profile()
@@ -117,7 +112,7 @@ final class MainFlowCoordinator: Coordinator {
                     image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
                     selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
                 )
-                item.tag = index
+                item.tag = rawValue
                 return item
             }
         }
@@ -142,7 +137,7 @@ final class MainFlowCoordinator: Coordinator {
         case pinCode(PinCodeScreenType)
         case session
         case aboutApp
-        case FAQ
+        case faq
         case chatSettings
         case reserveCopy
         case transaction(Int, Int, String)
@@ -189,22 +184,24 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showChatSettings()
         case .reserveCopy:
             showReserveCopyScene()
-        case .FAQ:
+        case .faq:
             showAnswerScene()
         case let .transaction(selectorFilterIndex, selectorTokenIndex, address):
-            showTransaction(selectorFilterIndex: selectorFilterIndex,
-                            selectorTokenIndex: selectorTokenIndex,
-                            address: address)
+            showTransaction(
+                selectorFilterIndex: selectorFilterIndex,
+                selectorTokenIndex: selectorTokenIndex,
+                address: address
+            )
         case .importKey:
             showImportKey()
         case .transfer:
             showTransferScene()
+        case .facilityApprove:
+            showFacilityApprove()
         case .chooseReceiver:
             showChooseReceiver()
         case let .scanner(scannedString):
             showQRScanner(scannedString: scannedString)
-        case .facilityApprove:
-            showFacilityApprove()
         }
     }
 
@@ -315,12 +312,17 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showTransaction(selectorFilterIndex: Int = 0,
-                                 selectorTokenIndex: Int = 0,
-                                 address: String = "") {
-        let rootView = TransactionConfigurator.configuredView(delegate: self,
-                                                              selectorFilterIndex: selectorFilterIndex,
-                                                              selectorTokenIndex: selectorTokenIndex, address: address)
+    private func showTransaction(
+        selectorFilterIndex: Int = 0,
+        selectorTokenIndex: Int = 0,
+        address: String = ""
+    ) {
+        let rootView = TransactionConfigurator.configuredView(
+            delegate: self,
+            selectorFilterIndex: selectorFilterIndex,
+            selectorTokenIndex: selectorTokenIndex,
+            address: address
+        )
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)

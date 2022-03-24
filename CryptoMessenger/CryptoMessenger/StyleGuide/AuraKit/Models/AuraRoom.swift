@@ -74,7 +74,6 @@ final class AuraRoom: ObservableObject {
         }
         let enumerator = room.enumeratorForStoredMessages // WithType(in: Self.displayedMessageTypes)
         let currentBatch = enumerator?.nextEventsBatch(200) ?? []
-        print("Got \(currentBatch.count) events.")
 
         eventCache.append(contentsOf: currentBatch)
     }
@@ -82,7 +81,6 @@ final class AuraRoom: ObservableObject {
     // MARK: - Internal Methods
 
     func add(event: MXEvent, direction: MXTimelineDirection, roomState: MXRoomState?) {
-        print("New event of type: \(event.type!)")
         switch direction {
         case .backwards:
             eventCache.insert(event, at: 0)
@@ -99,7 +97,7 @@ final class AuraRoom: ObservableObject {
         // swiftlint:disable:next force_try
         let content = try! ReactionEvent(eventId: eventId, key: emoji).encodeContent()
 
-        objectWillChange.send()             // room.outgoingMessages() will change
+        // room.outgoingMessages() will change
         var localEcho: MXEvent?
         room.sendEvent(.reaction, content: content, localEcho: &localEcho) { _ in
             self.objectWillChange.send()    // localEcho.sentState has(!) changed
@@ -123,7 +121,6 @@ final class AuraRoom: ObservableObject {
     func sendText(_ text: String) {
         guard !text.isEmpty else { return }
 
-        objectWillChange.send()
         var localEcho: MXEvent?
         room.sendTextMessage(text, localEcho: &localEcho) { _ in
             self.objectWillChange.send()
@@ -135,7 +132,6 @@ final class AuraRoom: ObservableObject {
         guard let imageData = fixedImage.jpeg(.medium) else { return }
 
         var localEcho: MXEvent?
-        objectWillChange.send()
         room.sendImage(
             data: imageData,
             size: image.size,
@@ -149,7 +145,6 @@ final class AuraRoom: ObservableObject {
 
     func sendFile(_ url: URL) {
         var localEcho: MXEvent?
-        objectWillChange.send()
         room.sendFile(
             localURL: url,
             mimeType: "file/pdf",
@@ -159,13 +154,40 @@ final class AuraRoom: ObservableObject {
         }
     }
 
+    func sendContact(_ contact: Contact) {
+        var localEcho: MXEvent?
+
+        var content: [String: Any] = [:]
+        content[.messageType] = MXEventCustomEvent.contactInfo.identifier
+        content[.name] = contact.name
+        content[.phone] = contact.phone
+        content[.avatar] = contact.avatar?.absoluteString ?? ""
+
+        room.sendMessage(withContent: content, localEcho: &localEcho) { _ in
+            self.objectWillChange.send()
+        }
+    }
+
+    func reply(text: String, eventId: String) {
+        guard let event = events().renderableEvents.first(where: { eventId == $0.eventId }) else { return }
+        var localEcho: MXEvent?
+        room.sendReply(to: event, textMessage: text, formattedTextMessage: nil, stringLocalizations: nil, localEcho: &localEcho) { _ in
+            self.objectWillChange.send()
+        }
+    }
+
     func markAllAsRead() {
         room.markAllAsRead()
     }
 
-    func removeOutgoingMessage(_ event: MXEvent) {
+    func removeOutgoingMessage(_ eventId: String) {
+        room.removeOutgoingMessage(eventId)
         objectWillChange.send()
+    }
+
+    func removeOutgoingMessage(_ event: MXEvent) {
         room.removeOutgoingMessage(event.eventId)
+        objectWillChange.send()
     }
 }
 

@@ -32,7 +32,7 @@ extension View {
             navigation?.navigationBar.isHidden = true
         }
     }
-
+    
     func showNavBar() {
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             let navigation = scene.windows.first?.rootViewController as? UINavigationController

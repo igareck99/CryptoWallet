@@ -52,6 +52,7 @@
 "Wallet.Shipped" = "Отправлено";
 "Wallet.Received" = "Получено";
 
+
 "Profile.Info" = "Вдохновение и дизайнерские решения для вашего дома.";
 "Profile.Add" = "Добавить фото / видео";
 "Profile.AddSocial" = "Добавить соцсети";
@@ -77,7 +78,6 @@
 "PinCode.CreateText" = "Придумайте PIN код  для защиты вашего приложения";
 
 
-
 "CallList.Delete" = "Удалить";
 "CallList.Title" = "Журнал звонков";
 "CallList.DeleteAll" = "Очистить историю звонков";
@@ -86,11 +86,13 @@
 "CallList.AlertActionOne" = "Отменить";
 "CallList.AlertActionTwo" = "Очистить";
 
+
 "PhotoEditor.Title" = "Фото";
 "PhotoEditor.AlertTitle" = "Удалить фото?";
 "PhotoEditor.AlertMessage" = "Это действие нельзя отменить";
 "PhotoEditor.AlertCancel" = "Отмена";
 "PhotoEditor.AlertDelete" = "Удалить";
+
 
 "AdditionalMenu.Profile" = "Профиль";
 "AdditionalMenu.Personalization" = "Персонализация";
@@ -102,6 +104,7 @@
 "AdditionalMenu.Questions" = "Вопросы о Aura";
 "AdditionalMenu.About" = "О приложении";
 
+
 "FriendProfile.Notifications" = "Отключить уведомления";
 "FriendProfile.ShareContact" = "Поделиться контактом";
 "FriendProfile.AddContact" = "Добавить контакт";
@@ -111,6 +114,7 @@
 "FriendProfile.Block" = "Заблокировать пользователя";
 "FriendProfile.Write" = "Написать";
 "FriendProfile.Call" = "Позвонить";
+
 
 "ProfileDetail.Title" = "Профиль";
 "ProfileDetail.RightButton" = "Готово";
@@ -153,7 +157,9 @@
 "AboutApp.TermsAndPolitics" = "Условия и Политика\nконфиденциальности";
 "AboutApp.AuraAppInc" = "C 2020 AuraApp Inc.";
 
+
 "ProfileNetworkDetail.NotShowMessage" = "НЕ ОТОБРАЖАЕМ";
+
 
 "Personalization.Title" = "Персонализация";
 "Personalization.System" = "Системная";
@@ -200,8 +206,10 @@
 "Typography.FontManagment" = "Управление...ом шрифта";
 "Typography.Standart" = "Стандартный";
 
+
 "ProfileBackground.Title" = "Выбрать из галереи фон";
 "ProfileBackground.Wallpaper" = "ОБОИ";
+
 
 "ProfileBackgroundPreview.SetBackground" = "Установить фон";
 
@@ -212,6 +220,7 @@
 
 "Session.Title" = "Управление сессиями";
 "Session.Description" = "История активности показывает информацию о том, с каких устройств и в какое время заходили в Ваш \nаккаунт.";
+
 
 "SessionDetail.Place" = "Место";
 "SessionDetail.Time" = "Время";
@@ -257,6 +266,7 @@
 "Security.FalsePasswordTitle" = "Ложный пароль";
 "Security.FalsePasswordState" = "Позволяет быстро удалить данные";
 
+
 "ChatSettings.Media" = "МЕДИА";
 "ChatSettings.SaveToPhotos" = "Сохранять в фотопленку";
 "ChatSettings.SaveMediaToDevice" = "Сохранять медиа на устройство";
@@ -268,6 +278,7 @@
 "ChatSettings.ClearAlertText" = "Вы действительно хотите удалить все сообщения в чатах?";
 "ChatSettings.DeleteAlertText" = "Вы действительно хотите удалить все чаты?";
 
+
 "ReserveCopy.Created" = "Резервная копия создана";
 "ReserveCopy.CreateCopy" = "Создать резервную копию";
 "ReserveCopy.AutomaticCopy" = "Автоматическое копирование";
@@ -278,6 +289,7 @@
 "ReserveCopy.AccountCopy" = "Аккаунт для копирования";
 "ReserveCopy.ChangeAccount" = "Сменить аккаунт";
 "ReserveCopy.NotCreated" = "Резервная копия не создавалась";
+
 
 "Transfer.ChooseContact" = "Выберите контакт";
 "Transfer.Transfer" = "Перевод средств";
@@ -298,6 +310,7 @@
 "Transaction.TokenFilter" = "ПО ТОКЕНАМ";
 "Transaction.AddWallet" = "Добавить кошелек";
 
+
 "Import.Title" = "Импорт";
 "Import.ImportKey" = "Импорт закрытого ключа";
 "Import.EnterPrivateKey" = "Введите Ваш закрытый ключ";
@@ -305,19 +318,23 @@
 "Import.HowImportKey" = "Как правильно импортировать ключи?";
 "Import.Import" = "Импортировать";
 
+
 "ChooseReceiver.Contact" = "Контакт";
 "ChooseReceiver.Telephone" = "Телефон";
 "ChooseReceiver.Wallet" = "Кошелек";
 "ChooseReceiver.Title" = "Выберите получателя";
+
+
 "FacilityApprove.Title" = "Перевод средств";
 "FacilityApprove.Check" = "Проверьте точность данных перед \nотправкой!";
 "FacilityApprove.Receiver" = "Получатель";
 "FacilityApprove.NameSurname" = "Имя и Фамилия";
 "FacilityApprove.TransactionSum" = "Сумма списания";
 "FacilityApprove.InUSD" = "В USD";
-"FacilityApprove.Comission" = "Комиссия";
+"FacilityApprove.Commission" = "Комиссия";
 "FacilityApprove.Address" = "Адрес";
 "FacilityApprove.DocumentDate" = "Дата документа";
+
 
 "QRCode.Title" = "Сканировать  QR-код";
 
@@ -325,9 +342,22 @@
 "TokenInfo.SelectedAddress" = "Выбранный адрес";
 "TokenInfo.ShareAddress" = "Поделиться адресом";
 
+"SuccessFacilityView.Title" = "Успешно отправлено";
+"SuccessFacilityView.AddFavorites" = "Добавить в избранное";
+"SuccessFacilityView.OKClose" = "Хорошо, закрыть";
+"SuccessFacilityView.ShowTransaction" = "Посмотреть транзакцию";
 
 
+"CreateAction.CreateChannel" = "Создать канал";
+"CreateAction.NewContact" = "Новый контакт";
+"CreateAction.GroupChat" = "Групповой чат";
+"CreateAction.Search" = "Поиск по идентификатору";
+"CreateAction.Cancel" = "Отменить";
+"CreateAction.ContactsSection" = "Контакты";
+"CreateAction.InviteSection" = "Пригласить в Aura";
+"CreateAction.ShowMore" = "Показать больше";
 
+"Chat.Welcome" = "Привет, теперь я в Aura";
 
 
 

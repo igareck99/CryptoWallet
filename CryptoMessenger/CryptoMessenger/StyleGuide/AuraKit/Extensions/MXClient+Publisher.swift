@@ -1,7 +1,12 @@
 import Combine
 import MatrixSDK
 
+// MARK: - MXRestClient ()
+
 extension MXRestClient {
+
+    // MARK: - Internal Methods
+
     func publicRooms(onServer: String? = nil, limit: UInt? = nil) -> AnyPublisher<MXPublicRoomsResponse, Error> {
         Future<MXPublicRoomsResponse, Error> { promise in
             self.publicRooms(onServer: onServer, limit: limit) { response in

@@ -7,6 +7,7 @@ struct FacilityApproveView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: FacilityApproveViewModel
+    @State var showSuccessFacility = false
 
     // MARK: - Body
 
@@ -14,7 +15,30 @@ struct FacilityApproveView: View {
         content
         .onAppear {
             viewModel.send(.onAppear)
-        }        .toolbar {
+        }
+        .onChange(of: showSuccessFacility, perform: { newValue in
+            if !newValue {
+                showNavBar()
+            }
+        })
+        .popup(
+            isPresented: $showSuccessFacility,
+            type: .toast,
+            position: .bottom,
+            closeOnTap: false,
+            closeOnTapOutside: false,
+            backgroundColor: Color(.black(0.4)),
+            view: {
+                SuccessFacilityView(showSuccessFacility: $showSuccessFacility,
+                                    transaction: viewModel.transaction)
+                    .frame(height: UIScreen.main.bounds.height - 44)
+                    .background(
+                        CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
+                            .fill(Color(.white()))
+                    )
+            }
+        )
+        .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(R.string.localizable.facilityApproveTitle())
                     .font(.bold(15))
@@ -67,6 +91,8 @@ struct FacilityApproveView: View {
         VStack(spacing: 8) {
             Divider()
             Button {
+                showSuccessFacility = true
+                hideNavBar()
             } label: {
                 Text(R.string.localizable.walletSend().uppercased())
                     .frame(minWidth: 0, maxWidth: .infinity)

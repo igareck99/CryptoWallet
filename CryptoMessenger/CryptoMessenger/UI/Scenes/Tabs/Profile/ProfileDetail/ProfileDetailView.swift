@@ -193,6 +193,7 @@ struct ProfileDetailView: View {
                         placeholder: {
                             ZStack {
                                 ProgressView()
+                                    .tint(Color(.blue()))
                                     .frame(width: geometry.size.width,
                                            height: geometry.size.width)
                                     .background(.blue(0.1))

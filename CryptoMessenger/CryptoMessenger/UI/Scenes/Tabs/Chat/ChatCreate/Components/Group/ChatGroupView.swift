@@ -152,6 +152,13 @@ struct ChatGroupView: View {
                     Spacer()
                 }
 
+                if groupCreated {
+                    ZStack {
+                        ProgressView()
+                            .tint(Color(.blue()))
+                    }.background(.black(0.05))
+                }
+
                 Spacer()
             }
         }

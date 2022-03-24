@@ -56,6 +56,7 @@ final class ChatHistoryViewModel: ObservableObject {
             .store(in: &subscriptions)
 
         mxStore.objectWillChange
+            .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.rooms = self?.mxStore.rooms ?? []
