@@ -1,12 +1,22 @@
 import Foundation
 import MatrixSDK
 
+// MARK: - EditEvent
+
 struct EditEvent {
+
+    // MARK: - Internal Properties
+
     let eventId: String
     let text: String
 }
 
+// MARK: - EditEvent (CustomEvent)
+
 extension EditEvent: CustomEvent {
+
+    // MARK: - Internal Methods
+
     func encodeContent() throws -> [String: Any] {
         [
             "body": "*" + text,

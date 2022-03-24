@@ -8,20 +8,22 @@ final class FacilityApproveViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: FacilityApproveSceneDelegate?
-    @Published var transaction = TransactionInfoApprove(userImage: R.image.blackList.user1.image,
-                                                        nameSurname: "Марина Антоненко",
-                                                        type: .receive,
-                                                        date: "1 ноября 2020",
-                                                        fiatValue: "28.53 USD",
-                                                        addressFrom: "0xSf13S891 ... 3dfasfAgfj1 ",
-                                                        comission: "0 ETH",
-                                                        transactionCoin: .aur,
-                                                        amount: 2500)
+    @Published var transaction = TransactionInfoApprove(
+        userImage: R.image.blackList.user1.image,
+        nameSurname: "Марина Антоненко",
+        type: .receive,
+        date: "1 ноября 2020",
+        fiatValue: "28.53 USD",
+        addressFrom: "0xSf13S891 ... 3dfasfAgfj1 ",
+        commission: "0 ETH",
+        transactionCoin: .aur,
+        amount: 2500
+    )
     @Published var nameTitle = R.string.localizable.facilityApproveNameSurname()
     @Published var titles = [
         R.string.localizable.facilityApproveTransactionSum(),
         R.string.localizable.facilityApproveInUSD(),
-        R.string.localizable.facilityApproveComission(),
+        R.string.localizable.facilityApproveCommission(),
         R.string.localizable.facilityApproveAddress(),
         R.string.localizable.facilityApproveDocumentDate()
     ]
@@ -73,8 +75,8 @@ final class FacilityApproveViewModel: ObservableObject {
                                   text: "- " + transaction.fiatValue))
         }
         cellType.append(.init(image: R.image.facilityApprove.percent.image,
-                              title: R.string.localizable.facilityApproveComission(),
-                              text: transaction.comission))
+                              title: R.string.localizable.facilityApproveCommission(),
+                              text: transaction.commission))
         cellType.append(.init(image: R.image.facilityApprove.address.image,
                               title: R.string.localizable.facilityApproveAddress(),
                               text: transaction.addressFrom ))
@@ -92,6 +94,8 @@ final class FacilityApproveViewModel: ObservableObject {
                 case .onAppear:
                     self?.updateData()
                     self?.objectWillChange.send()
+                case .onTransaction:
+                    print("SomeGox")
                 }
             }
             .store(in: &subscriptions)
@@ -104,7 +108,9 @@ final class FacilityApproveViewModel: ObservableObject {
     }
 
     private func updateData() {
-        addTitles()
+        if cellType.isEmpty {
+            addTitles()
+        }
     }
 }
 
@@ -121,7 +127,7 @@ struct TransactionInfoApprove: Identifiable, Equatable {
     var date: String
     var fiatValue: String
     var addressFrom: String
-    var comission: String
+    var commission: String
     var transactionCoin: WalletType
     var amount: Double
 }

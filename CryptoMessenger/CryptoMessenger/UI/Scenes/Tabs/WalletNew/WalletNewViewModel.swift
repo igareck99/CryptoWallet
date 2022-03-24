@@ -17,7 +17,7 @@ final class WalletNewViewModel: ObservableObject {
             coinAmount: 1.012,
             fiatAmount: 33
         ),
-        .init(
+        .init(  
             walletType: .aur,
             address: "0xj3 ... 138f",
             coinAmount: 2.3042,
@@ -206,7 +206,7 @@ struct TransactionInfo: Identifiable, Equatable {
 
 // MARK: - WalletInfo
 
-struct WalletInfo: Identifiable {
+struct WalletInfo: Identifiable, Equatable {
 
     // MARK: - Internal Properties
 

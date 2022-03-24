@@ -88,9 +88,7 @@ final class ProfileViewModel: ObservableObject {
     }
 
     func addSocial(socialKey: SocialKey, socialValue: String) {
-        var newDict = Dictionary(uniqueKeysWithValues:
-                                    self.profile.socialNetwork.map { key, value in (key.rawValue,
-                                                                    value) })
+        var newDict = Dictionary(uniqueKeysWithValues: profile.socialNetwork.map { key, value in (key.rawValue, value) })
         newDict[socialKey.rawValue] = socialValue
         apiClient.publisher(Endpoints.Social.setSocial(newDict, user: mxStore.getUserId()))
             .replaceError(with: [:])
@@ -136,7 +134,7 @@ final class ProfileViewModel: ObservableObject {
                     case .wallet:
                         self?.delegate?.handleNextScene(.walletManager)
                     default:
-                        break
+                        ()
                     }
                 case let .onAddPhoto(image):
                     self?.addPhoto(image: image)
@@ -153,10 +151,9 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
 
         mxStore.objectWillChange
+            .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-
-            }
+            .sink { _ in }
             .store(in: &subscriptions)
     }
 
@@ -195,8 +192,7 @@ final class ProfileViewModel: ObservableObject {
         apiClient.publisher(Endpoints.Social.getSocial(mxStore.getUserId()))
             .replaceError(with: [:])
             .sink { [weak self] dictionary in
-                let result = dictionary.reduce([:]) { (partialResult: [SocialKey: String],
-                                                       tuple: (key: String, value: String)) in
+                let result = dictionary.reduce([:]) { (partialResult: [SocialKey: String], tuple: (key: String, value: String)) in
                     var result = partialResult
                     if let key = SocialKey(rawValue: tuple.key.lowercased()) {
                         result[key] = tuple.value.lowercased()

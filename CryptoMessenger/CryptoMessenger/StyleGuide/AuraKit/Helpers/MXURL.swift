@@ -1,7 +1,14 @@
 import MatrixSDK
 
+// MARK: - MXURL
+
 struct MXURL {
+
+    // MARK: - Internal Properties
+
     var mxContentURI: URL
+
+    // MARK: - Life Cycle
 
     init?(mxContentURI: String) {
         guard let uri = URL(string: mxContentURI) else {
@@ -9,6 +16,8 @@ struct MXURL {
         }
         self.mxContentURI = uri
     }
+
+    // MARK: - Internal Methods
 
     func contentURL(on homeserver: URL) -> URL? {
         var components = URLComponents()
