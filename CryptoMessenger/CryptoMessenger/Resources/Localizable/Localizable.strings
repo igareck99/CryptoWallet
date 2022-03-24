@@ -338,6 +338,9 @@
 
 "QRCode.Title" = "Сканировать  QR-код";
 
+"TokenInfo.Title" = "Информация о токене";
+"TokenInfo.SelectedAddress" = "Выбранный адрес";
+"TokenInfo.ShareAddress" = "Поделиться адресом";
 
 "SuccessFacilityView.Title" = "Успешно отправлено";
 "SuccessFacilityView.AddFavorites" = "Добавить в избранное";
@@ -355,3 +358,7 @@
 "CreateAction.ShowMore" = "Показать больше";
 
 "Chat.Welcome" = "Привет, теперь я в Aura";
+
+
+
+

@@ -341,7 +341,7 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showChooseReceiver() {
         let rootView = ChooseReceiverConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
@@ -356,7 +356,7 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showFacilityApprove() {
         let rootView = FacilityApproveConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
