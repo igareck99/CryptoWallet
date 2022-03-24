@@ -74,8 +74,8 @@ struct WalletNewView: View {
             }
             .padding(.top, 24)
         }
-        .onChange(of: showTokenInfo, perform: { item in
-            if !item {
+        .onChange(of: showTokenInfo, perform: { flag in
+            if !flag {
                 navBarHide = false
                 hideTabBar = false
                 showTabBar()
