@@ -1,31 +1,46 @@
 import AVFoundation
 
+// MARK: - CameraManager
+
 final class CameraManager: ObservableObject {
+
+    // MARK: - Status
+
     enum Status {
+
+        // MARK: - Types
+
         case unconfigured
         case configured
         case unauthorized
         case failed
     }
 
+    // MARK: - Static Properties
+
     static let shared = CameraManager()
 
-    @Published var error: CameraError?
+    // MARK: - Internal Properties
 
+    @Published var error: CameraError?
     let session = AVCaptureSession()
 
-    private let sessionQueue = DispatchQueue(label: "com.raywenderlich.SessionQ")
+    // MARK: - Private Properties
+
+    private let sessionQueue = DispatchQueue(label: "com.aura.CameraManager")
     private let videoOutput = AVCaptureVideoDataOutput()
     private var status = Status.unconfigured
+
+    // MARK: - Life Cycle
 
     private init() {
         configure()
     }
 
+    // MARK: - Private Methods
+
     private func set(error: CameraError?) {
-        DispatchQueue.main.async {
-            self.error = error
-        }
+        DispatchQueue.main.async { self.error = error }
     }
 
     private func checkPermissions() {

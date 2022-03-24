@@ -1,17 +1,20 @@
 import CoreGraphics
 import VideoToolbox
 
-extension CGImage {
-  static func create(from cvPixelBuffer: CVPixelBuffer?) -> CGImage? {
-    guard let pixelBuffer = cvPixelBuffer else {
-      return nil
-    }
+// MARK: - CGImage ()
 
-    var image: CGImage?
-    VTCreateCGImageFromCVPixelBuffer(
-      pixelBuffer,
-      options: nil,
-      imageOut: &image)
-    return image
-  }
+extension CGImage {
+
+    // MARK: - Static Methods
+
+    static func create(from cvPixelBuffer: CVPixelBuffer?) -> CGImage? {
+        guard let pixelBuffer = cvPixelBuffer else { return nil }
+        var image: CGImage?
+        VTCreateCGImageFromCVPixelBuffer(
+            pixelBuffer,
+            options: nil,
+            imageOut: &image
+        )
+        return image
+    }
 }
