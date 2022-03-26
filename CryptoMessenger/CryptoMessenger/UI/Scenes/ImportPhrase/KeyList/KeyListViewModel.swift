@@ -49,6 +49,8 @@ final class KeyListViewModel: ObservableObject {
                 case .onAppear:
                     self?.updateData()
                     self?.objectWillChange.send()
+                case let .onImportKey:
+                    self?.delegate?.handleNextScene(.importKey)
                 }
             }
             .store(in: &subscriptions)

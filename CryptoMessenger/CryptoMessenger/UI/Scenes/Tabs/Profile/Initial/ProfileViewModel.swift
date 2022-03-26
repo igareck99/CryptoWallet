@@ -130,7 +130,7 @@ final class ProfileViewModel: ObservableObject {
                     case .chat:
                         self?.delegate?.handleNextScene(.chatSettings)
                     case .questions:
-                        self?.delegate?.handleNextScene(.FAQ)
+                        self?.delegate?.handleNextScene(.faq)
                     case .wallet:
                         self?.delegate?.handleNextScene(.walletManager)
                     default:

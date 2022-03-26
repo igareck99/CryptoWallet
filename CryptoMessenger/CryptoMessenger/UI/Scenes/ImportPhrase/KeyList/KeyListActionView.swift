@@ -4,6 +4,11 @@ import SwiftUI
 
 struct KeyListActionView: View {
 
+    // MARK: - Internal Properties
+
+    @Binding var showActionSheet: Bool
+    @StateObject var viewModel: KeyListViewModel
+
     // MARK: - Body
 
     var body: some View {
@@ -25,6 +30,10 @@ struct KeyListActionView: View {
                     .color(.blue())
                 ])
                 Spacer()
+            }
+            .onTapGesture {
+                showActionSheet = false
+                viewModel.send(.onImportKey)
             }
             .padding(.leading, 16)
             HStack(spacing: 16) {

@@ -32,7 +32,8 @@ struct KeyListView: View {
                    closeOnTapOutside: true,
                    backgroundColor: Color(.black(0.3)),
                    view: {
-                KeyListActionView()
+                KeyListActionView(showActionSheet: $showActionSheet,
+                                  viewModel: viewModel)
                     .frame(width: UIScreen.main.bounds.width,
                            height: 178, alignment: .center)
                     .background(.white())

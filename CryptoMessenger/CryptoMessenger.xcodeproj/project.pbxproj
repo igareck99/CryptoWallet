@@ -420,6 +420,9 @@
 		8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292E276B407F000A976A /* SocialListItem.swift */; };
 		8BD62931276B4ADA000A976A /* SocialListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD62930276B4ADA000A976A /* SocialListViewModel.swift */; };
 		8BD62933276D2B58000A976A /* AddSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD62932276D2B57000A976A /* AddSocialView.swift */; };
+		8BE3798F27E9C47D00AB6B6E /* TokenInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */; };
+		8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */; };
+		8BE3799927EA133800AB6B6E /* SelectTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799827EA133700AB6B6E /* SelectTokenView.swift */; };
 		8BE3799C27EB268700AB6B6E /* WalletManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799B27EB268600AB6B6E /* WalletManagerView.swift */; };
 		8BE3799E27EB26AE00AB6B6E /* WalletManagerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799D27EB26AE00AB6B6E /* WalletManagerViewModel.swift */; };
 		8BE379A027EB26BC00AB6B6E /* WalletManagerFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799F27EB26BC00AB6B6E /* WalletManagerFlow.swift */; };
@@ -431,11 +434,14 @@
 		8BE379AD27EB7CFE00AB6B6E /* KeyListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE379AC27EB7CFE00AB6B6E /* KeyListConfigurator.swift */; };
 		8BE379AF27EB7D0900AB6B6E /* KeyListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE379AE27EB7D0900AB6B6E /* KeyListViewModel.swift */; };
 		8BE379B127EB82A000AB6B6E /* KeyListActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE379B027EB82A000AB6B6E /* KeyListActionView.swift */; };
-		8BE3798F27E9C47D00AB6B6E /* TokenInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */; };
-		8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */; };
-		8BE3799927EA133800AB6B6E /* SelectTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799827EA133700AB6B6E /* SelectTokenView.swift */; };
 		8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6DAE22771EC2C00FB4C6C /* WebView.swift */; };
 		8BFF387B27D91092005D88C9 /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFF387A27D91092005D88C9 /* NumberTextField.swift */; };
+		8BFFC74E27EDEB5700BE4AB6 /* PhraseManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC74D27EDEB5700BE4AB6 /* PhraseManagerView.swift */; };
+		8BFFC75027EDEB6100BE4AB6 /* PhraseManagerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC74F27EDEB6100BE4AB6 /* PhraseManagerViewModel.swift */; };
+		8BFFC75227EDEB6A00BE4AB6 /* PhraseManagerFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75127EDEB6A00BE4AB6 /* PhraseManagerFlow.swift */; };
+		8BFFC75427EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75327EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift */; };
+		8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */; };
+		8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 /* End PBXBuildFile section */
 
@@ -855,6 +861,9 @@
 		8BD6292E276B407F000A976A /* SocialListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListItem.swift; sourceTree = "<group>"; };
 		8BD62930276B4ADA000A976A /* SocialListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListViewModel.swift; sourceTree = "<group>"; };
 		8BD62932276D2B57000A976A /* AddSocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSocialView.swift; sourceTree = "<group>"; };
+		8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoView.swift; sourceTree = "<group>"; };
+		8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoViewModel.swift; sourceTree = "<group>"; };
+		8BE3799827EA133700AB6B6E /* SelectTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTokenView.swift; sourceTree = "<group>"; };
 		8BE3799B27EB268600AB6B6E /* WalletManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletManagerView.swift; sourceTree = "<group>"; };
 		8BE3799D27EB26AE00AB6B6E /* WalletManagerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletManagerViewModel.swift; sourceTree = "<group>"; };
 		8BE3799F27EB26BC00AB6B6E /* WalletManagerFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletManagerFlow.swift; sourceTree = "<group>"; };
@@ -866,13 +875,16 @@
 		8BE379AC27EB7CFE00AB6B6E /* KeyListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyListConfigurator.swift; sourceTree = "<group>"; };
 		8BE379AE27EB7D0900AB6B6E /* KeyListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyListViewModel.swift; sourceTree = "<group>"; };
 		8BE379B027EB82A000AB6B6E /* KeyListActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyListActionView.swift; sourceTree = "<group>"; };
-		8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoView.swift; sourceTree = "<group>"; };
-		8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoViewModel.swift; sourceTree = "<group>"; };
-		8BE3799827EA133700AB6B6E /* SelectTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTokenView.swift; sourceTree = "<group>"; };
 		8BE54AD2274C605700D51827 /* BlockedUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserView.swift; sourceTree = "<group>"; };
 		8BE54AD4274C606400D51827 /* BlockedUserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserItem.swift; sourceTree = "<group>"; };
 		8BE6DAE22771EC2C00FB4C6C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		8BFF387A27D91092005D88C9 /* NumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTextField.swift; sourceTree = "<group>"; };
+		8BFFC74D27EDEB5700BE4AB6 /* PhraseManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerView.swift; sourceTree = "<group>"; };
+		8BFFC74F27EDEB6100BE4AB6 /* PhraseManagerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerViewModel.swift; sourceTree = "<group>"; };
+		8BFFC75127EDEB6A00BE4AB6 /* PhraseManagerFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerFlow.swift; sourceTree = "<group>"; };
+		8BFFC75327EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerConfigurator.swift; sourceTree = "<group>"; };
+		8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerProtocols.swift; sourceTree = "<group>"; };
+		8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseWarningView.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2330,9 +2342,20 @@
 			path = SocialList;
 			sourceTree = "<group>";
 		};
+		8BE3798D27E9C44900AB6B6E /* TokenInfo */ = {
+			isa = PBXGroup;
+			children = (
+				8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */,
+				8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */,
+				8BE3799827EA133700AB6B6E /* SelectTokenView.swift */,
+			);
+			path = TokenInfo;
+			sourceTree = "<group>";
+		};
 		8BE3799A27EB262400AB6B6E /* ImportPhrase */ = {
 			isa = PBXGroup;
 			children = (
+				8BFFC74C27EDEB1A00BE4AB6 /* PhraseManager */,
 				8BE379A527EB7C8500AB6B6E /* KeyList */,
 				8BE3799B27EB268600AB6B6E /* WalletManagerView.swift */,
 				8BE3799D27EB26AE00AB6B6E /* WalletManagerViewModel.swift */,
@@ -2356,16 +2379,6 @@
 			path = KeyList;
 			sourceTree = "<group>";
 		};
-		8BE3798D27E9C44900AB6B6E /* TokenInfo */ = {
-			isa = PBXGroup;
-			children = (
-				8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */,
-				8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */,
-				8BE3799827EA133700AB6B6E /* SelectTokenView.swift */,
-			);
-			path = TokenInfo;
-			sourceTree = "<group>";
-		};
 		8BE54AD1274C604400D51827 /* BlackList */ = {
 			isa = PBXGroup;
 			children = (
@@ -2376,6 +2389,19 @@
 				8B6C18C9279ABB5700B85F2A /* BlockedListProtocols.swift */,
 			);
 			path = BlackList;
+			sourceTree = "<group>";
+		};
+		8BFFC74C27EDEB1A00BE4AB6 /* PhraseManager */ = {
+			isa = PBXGroup;
+			children = (
+				8BFFC74D27EDEB5700BE4AB6 /* PhraseManagerView.swift */,
+				8BFFC74F27EDEB6100BE4AB6 /* PhraseManagerViewModel.swift */,
+				8BFFC75127EDEB6A00BE4AB6 /* PhraseManagerFlow.swift */,
+				8BFFC75327EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift */,
+				8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */,
+				8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */,
+			);
+			path = PhraseManager;
 			sourceTree = "<group>";
 		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
@@ -2719,6 +2745,7 @@
 				5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */,
 				5AF8636E26ADCB9B004A417C /* KeyImportFlow.swift in Sources */,
 				5AABB7842739821D004D6107 /* ChatHistoryConfigurator.swift in Sources */,
+				8BFFC75227EDEB6A00BE4AB6 /* PhraseManagerFlow.swift in Sources */,
 				5A9318DE26C5AD0500645365 /* BubbleView.swift in Sources */,
 				8BA0C91027AD76CC0070203F /* ReserveCopyViewModel.swift in Sources */,
 				5A43086927C8282000A9B582 /* MediaResponse.swift in Sources */,
@@ -2747,6 +2774,7 @@
 				8B24FDD827A820C60021177C /* SessionProtocols.swift in Sources */,
 				8B12263927C53121008DC048 /* SlideCardsView.swift in Sources */,
 				5A3721DC272F3A210097ABED /* DynamicHeightTextField.swift in Sources */,
+				8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */,
 				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
 				8B432CC827C395B00025D62B /* WalletNewProtocols.swift in Sources */,
 				7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */,
@@ -2901,6 +2929,7 @@
 				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
 				5A9318E026C5AD0500645365 /* BubbleShape.swift in Sources */,
+				8BFFC75427EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift in Sources */,
 				8BFF387B27D91092005D88C9 /* NumberTextField.swift in Sources */,
 				8B9B0CCD2775442E00654C24 /* PersonalizationModel.swift in Sources */,
 				8BA0C90027AD1A260070203F /* ChatSettingsConfigurator.swift in Sources */,
@@ -2926,6 +2955,7 @@
 				8BA0C90B27AD4F4C0070203F /* AnswerView.swift in Sources */,
 				5A26CD2E26B3114400118D4B /* BarButtonStyle.swift in Sources */,
 				8B28B535276347AA00C3E486 /* ProfileDetailViewModel.swift in Sources */,
+				8BFFC74E27EDEB5700BE4AB6 /* PhraseManagerView.swift in Sources */,
 				5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */,
 				5A42680726A83554000C51DD /* RegistrationProtocols.swift in Sources */,
 				8B7C17EC27DB894A001113F2 /* NumberFormatterProtocol.swift in Sources */,
@@ -2935,6 +2965,7 @@
 				5ABAD39A27BDA6D80067DFC1 /* DocumentPicker.swift in Sources */,
 				5A187F2E2680CF49001957D3 /* Endpoint.swift in Sources */,
 				8B637D8A27CE3BC4000B1B2B /* RadioButton.swift in Sources */,
+				8BFFC75027EDEB6100BE4AB6 /* PhraseManagerViewModel.swift in Sources */,
 				789FEBD326D651430018FE91 /* AdditionalViewController.swift in Sources */,
 				5A187EBD268070B3001957D3 /* NSObject+Extensions.swift in Sources */,
 				5A187EA22680708D001957D3 /* TableViewProviderViewModel.swift in Sources */,
@@ -2947,6 +2978,7 @@
 				5AF8635526AD9FE5004A417C /* GenerationInfoFlow.swift in Sources */,
 				5AC8C4F227C4112C008B1744 /* MembersView.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
+				8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */,
 				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,
 				8B4810FD27CF9BC400831589 /* ImportKeyProtocols.swift in Sources */,
 				5A8A13EB27D11B3A004C4B4F /* TrackableScrollView.swift in Sources */,

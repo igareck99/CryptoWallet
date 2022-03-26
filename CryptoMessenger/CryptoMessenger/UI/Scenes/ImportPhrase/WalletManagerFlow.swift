@@ -23,5 +23,6 @@ enum WalletManagerFlow {
 
         case onAppear
         case onKeyList
+        case onPhrase
     }
 }

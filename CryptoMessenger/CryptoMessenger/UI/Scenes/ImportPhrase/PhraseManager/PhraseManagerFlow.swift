@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - KeyListFlow
+// MARK: - PhraseManagerFlow
 
-enum KeyListFlow {
+enum PhraseManagerFlow {
 
     // MARK: - ViewState
 
@@ -22,6 +22,5 @@ enum KeyListFlow {
         // MARK: - Types
 
         case onAppear
-        case onImportKey
     }
 }

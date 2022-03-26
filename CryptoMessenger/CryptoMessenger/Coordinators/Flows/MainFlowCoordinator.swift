@@ -148,6 +148,7 @@ final class MainFlowCoordinator: Coordinator {
         case facilityApprove
         case walletManager
         case keyList
+        case phraseManager
     }
 }
 
@@ -210,6 +211,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showWalletManager()
         case .keyList:
             showKeyList()
+        case .phraseManager:
+            showPhraseManger()
         }
     }
 
@@ -385,6 +388,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    private func showPhraseManger() {
+        let rootView = PhraseManagerConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -470,6 +480,10 @@ extension MainFlowCoordinator: WalletManagerSceneDelegate {}
 // MARK: - MainFlowCoordinator (KeyListSceneDelegate)
 
 extension MainFlowCoordinator: KeyListSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (PhraseManagerSceneDelegate)
+
+extension MainFlowCoordinator: PhraseManagerSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

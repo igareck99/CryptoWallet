@@ -22,15 +22,6 @@ struct WalletManagerView: View {
                         .font(.bold(15))
                 }
             }
-            .confirmationDialog("", isPresented: $showSecretPhraseAlert, titleVisibility: .hidden) {
-                ForEach([R.string.localizable.profileViewingAll(),
-                         R.string.localizable.profileViewingContacts(),
-                         R.string.localizable.profileViewingNobody()], id: \.self) { item in
-                    Button(item) {
-                        viewModel.updateSecretPhraseState(item: item)
-                    }
-                }
-            }
     }
     // MARK: - Private Properties
 
@@ -44,11 +35,10 @@ struct WalletManagerView: View {
                     .foreground(.darkGray())
                     .padding(.top, 24)
                     .padding(.horizontal, 16)
-                SecurityCellView(title: R.string.localizable.walletManagerSecretPhrase(),
-                                 currentState: viewModel.secretPhraseState)
+                ReserveCellView(text: R.string.localizable.walletManagerSecretPhrase())
                     .background(.white())
                     .onTapGesture {
-                        showSecretPhraseAlert = true
+                        viewModel.send(.onKeyList)
                     }
                     .padding(.top, 21)
                     .padding(.horizontal, 16)
@@ -63,7 +53,7 @@ struct WalletManagerView: View {
                     .background(.white())
                     .frame(height: 44)
                     .onTapGesture {
-                        viewModel.send(.onKeyList)
+                        viewModel.send(.onPhrase)
                     }
                     .padding(.top, 16)
                     .padding(.horizontal, 16)
@@ -85,7 +75,6 @@ struct WalletManagerView: View {
                     .font(.regular(12)),
                     .color(.darkGray())
                 ])
-
             }
             Spacer()
             R.image.additionalMenu.grayArrow.image

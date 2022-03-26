@@ -37,11 +37,6 @@ final class WalletManagerViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
-    func updateSecretPhraseState(item: String) {
-        secretPhraseState = item
-        userCredentialsStorageService.secretPhraseState = secretPhraseState
-    }
-
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -53,6 +48,8 @@ final class WalletManagerViewModel: ObservableObject {
                     self?.objectWillChange.send()
                 case .onKeyList:
                     self?.delegate?.handleNextScene(.keyList)
+                case .onPhrase:
+                    self?.delegate?.handleNextScene(.phraseManager)
                 }
             }
             .store(in: &subscriptions)
