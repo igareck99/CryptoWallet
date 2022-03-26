@@ -37,14 +37,7 @@ enum QuickAction: CaseIterable, Identifiable {
         }
     }
 
-    var color: Palette {
-        switch self {
-        case .delete:
-            return .red()
-        default:
-            return .blue()
-        }
-    }
+    var color: Palette { self == .delete ? .red() : .blue() }
 
     var image: Image {
         switch self {
@@ -107,6 +100,6 @@ struct QuickMenuView: View {
                     cardPosition = .bottom
                 }
             }
-        }
+        }.id(UUID())
     }
 }

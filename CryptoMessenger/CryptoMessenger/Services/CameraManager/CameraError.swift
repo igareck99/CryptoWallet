@@ -1,6 +1,11 @@
 import Foundation
 
+// MARK: - CameraError
+
 enum CameraError: Error {
+
+    // MARK: - Types
+
     case cameraUnavailable
     case cannotAddInput
     case cannotAddOutput
@@ -9,6 +14,8 @@ enum CameraError: Error {
     case restrictedAuthorization
     case unknownAuthorization
 }
+
+// MARK: - CameraError (LocalizedError)
 
 extension CameraError: LocalizedError {
     var errorDescription: String? {

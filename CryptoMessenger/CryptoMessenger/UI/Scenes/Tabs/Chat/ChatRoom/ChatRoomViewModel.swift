@@ -263,20 +263,20 @@ final class ChatRoomViewModel: ObservableObject {
 //        cameraManager.$error
 //          .receive(on: RunLoop.main)
 //          .map { $0 }
-//          .assign(to: &$error)
-//
+        //          .assign(to: &$error)
+        //
         frameManager.$current
-          .receive(on: RunLoop.main)
-          .compactMap { buffer in
-            guard let image = CGImage.create(from: buffer) else { return nil }
+            .receive(on: DispatchQueue.main)
+            .compactMap { buffer in
+                guard let image = CGImage.create(from: buffer) else { return nil }
 
-            let ciImage = CIImage(cgImage: image)
-//            if self.comicFilter {
-//              ciImage = ciImage.applyingFilter("CIComicEffect")
-//            }
-            return self.context.createCGImage(ciImage, from: ciImage.extent)
-          }
-          .assign(to: &$cameraFrame)
+                let ciImage = CIImage(cgImage: image)
+                //            if self.comicFilter {
+                //              ciImage = ciImage.applyingFilter("CIComicEffect")
+                //            }
+                return self.context.createCGImage(ciImage, from: ciImage.extent)
+            }
+            .assign(to: &$cameraFrame)
     }
 
     private func bindOutput() {

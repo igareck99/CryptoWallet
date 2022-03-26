@@ -230,32 +230,8 @@ struct ChatRoomView: View {
                                         messageId = message.id
                                         replyMessage = message
                                         cardPosition = .custom(UIScreen.main.bounds.height - 580)
+                                        hideKeyboard()
                                     }
-//                                    .animation(.easeInOut(duration: 0.2))
-//                                    .offset(x: replyMessage?.id == message.id ? replyOffset : .zero)
-//                                    .gesture(
-//                                        DragGesture().onChanged { value in
-//                                            let offset = UIScreen.main.bounds.width - value.location.x - 50
-//                                            guard offset < 120 else {
-//                                                replyOffset = -120
-//                                                return
-//                                            }
-//
-//                                            replyOffset = -offset
-//                                            if message != replyMessage {
-//                                                showReply = false
-//                                            }
-//
-//                                            replyMessage = message
-//
-//                                            if offset >= 110 {
-//                                                if !showReply { vibrate() }
-//                                                showReply = true
-//                                            }
-//                                        }.onEnded { _ in
-//                                            replyOffset = .zero
-//                                        }
-//                                    )
 
                                 if viewModel.next(message)?.fullDate != message.fullDate {
                                     dateView(date: message.fullDate)

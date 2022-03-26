@@ -1,8 +1,14 @@
 import SwiftUI
 
+// MARK: - CameraFrameView
+
 struct CameraFrameView: View {
 
+    // MARK: - Internal Properties
+
     var image: CGImage?
+
+    // MARK: - Body
 
     var body: some View {
         if let image = image {
