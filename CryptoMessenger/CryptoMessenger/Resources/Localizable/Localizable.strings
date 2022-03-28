@@ -76,6 +76,7 @@
 "PinCode.FalseText" = "Данные приложения будут мгновенно удалены с вашего устройства при вводе\n данного PIN-кода";
 "PinCode.CreateTitle" = "Введите пароль";
 "PinCode.CreateText" = "Придумайте PIN код  для защиты вашего приложения";
+"PinCode.FalseCannotMatch" = "Основной пароль не может совпадать с ложным";
 
 
 "CallList.Delete" = "Удалить";
