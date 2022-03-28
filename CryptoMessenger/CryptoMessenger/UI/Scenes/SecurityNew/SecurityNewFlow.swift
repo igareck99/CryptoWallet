@@ -26,5 +26,6 @@ enum SecurityNewFlow {
         case onCreatePassword
         case onFalsePassword
         case onSession
+        case onApprovePassword
     }
 }

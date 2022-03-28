@@ -48,7 +48,7 @@ final class PinCodeCreateViewModel: ObservableObject {
 
     func createPassword(item: String) {
         userCredentialsStorageService.userPinCode = item
-        userFlows.isPinCodeOn = true
+        userFlows.isLocalAuth = true
     }
 
     func createFakePassword(item: String) {
@@ -79,10 +79,32 @@ final class PinCodeCreateViewModel: ObservableObject {
                     dotesValues[index] = 1
                 }
                 if enteredPassword.count == 5 {
-                    descriptionState = R.string.localizable.pinCodeRepeatPassword()
-                    vibrate(.heavy)
-                    dotesValues = Array(repeating: 0, count: 5)
-                    repeatState = true
+                    if screenType == .approvePinCode {
+                        let password = enteredPassword
+                            .compactMap { $0.description }
+                            .joined(separator: "")
+                        if userCredentialsStorageService.userPinCode == password {
+                            descriptionState = R.string.localizable.pinCodeResetPassword()
+                            delay(1) { [self] in
+                                userCredentialsStorageService.userPinCode = ""
+                                userFlows.isLocalAuth = false
+                                finishScreen = true
+                            }
+                        } else {
+                            errorPassword = true
+                            descriptionState = "Неверный пароль"
+                            delay(1) {
+                                self.errorPassword = false
+                                self.clearPassword()
+                                self.descriptionState = ""
+                            }
+                        }
+                    } else {
+                        descriptionState = R.string.localizable.pinCodeRepeatPassword()
+                        vibrate(.heavy)
+                        dotesValues = Array(repeating: 0, count: 5)
+                        repeatState = true
+                    }
                 }
             } else {
                 if repeatPassword.count < 5 {
@@ -103,6 +125,8 @@ final class PinCodeCreateViewModel: ObservableObject {
                             finishScreen = true
                         case .fakePinCode:
                             createFakePassword(item: newPassword)
+                        case .approvePinCode:
+                            break
                         }
                     } else {
                         errorPassword = true

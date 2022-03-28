@@ -29,14 +29,22 @@ struct SecurityNewView: View {
                 .font(.bold(12))
                 .foreground(.darkGray())
                 .listRowSeparator(.hidden)
-            Toggle(R.string.localizable.securityPinCodeTitle(), isOn: $viewModel.isPinCodeOn)
+            Toggle(R.string.localizable.securityPinCodeTitle(),
+                   isOn: $viewModel.isPinCodeOn)
                 .toggleStyle(SwitchToggleStyle(tint: .blue))
                 .listRowSeparator(.hidden)
-                .onChange(of: viewModel.isPinCodeOn) { item in
-                    if item {
-                        viewModel.send(.onCreatePassword)
-                    } else {
-                        viewModel.updateIsPinCodeOn(item: false)
+                .onAppear {
+                    if viewModel.isPinCodeUpdate() {
+                        viewModel.dataIsUpdated = true
+                    }
+                }
+                .onChange(of: viewModel.isPinCodeOn) { value in
+                    if viewModel.userFlows.isLocalAuth != viewModel.isPinCodeOn {
+                        if value {
+                            viewModel.send(.onCreatePassword)
+                        } else {
+                            viewModel.send(.onApprovePassword)
+                        }
                     }
                 }
             if viewModel.isPinCodeOn {

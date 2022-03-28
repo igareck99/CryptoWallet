@@ -90,7 +90,6 @@ struct PinCodeCreateView: View {
             viewModel.send(.onAppear)
         }
         .onChange(of: viewModel.finishScreen, perform: { value in
-            print(value)
             if value {
                 delay(1) {
                     presentationMode.wrappedValue.dismiss()
@@ -172,6 +171,7 @@ enum PinCodeScreenType: Hashable {
 
     case pinCodeCreate
     case fakePinCode
+    case approvePinCode
 
     var result: (title: String, description: String) {
         switch self {
@@ -181,6 +181,9 @@ enum PinCodeScreenType: Hashable {
         case .fakePinCode:
             return (R.string.localizable.pinCodeFalseTitle(),
                     R.string.localizable.pinCodeFalseText())
+        case .approvePinCode:
+            return (R.string.localizable.pinCodeEnterPassword(),
+                    "")
         }
     }
 }

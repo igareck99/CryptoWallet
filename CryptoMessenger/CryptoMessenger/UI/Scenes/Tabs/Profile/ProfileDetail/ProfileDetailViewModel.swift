@@ -79,7 +79,7 @@ final class ProfileDetailViewModel: ObservableObject {
                 self?.userFlowsStorageService.isAuthFlowFinished = false
                 self?.userFlowsStorageService.isOnboardingFlowFinished = false
                 self?.userFlowsStorageService.isLocalAuth = false
-                self?.userFlowsStorageService.isPinCodeOn = false
+                self?.userCredentialsStorageService.userPinCode = ""
                 self?.delegate?.restartFlow()
             default:
                 break

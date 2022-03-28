@@ -64,7 +64,7 @@ class SessionViewModel: ObservableObject {
                 self?.userFlowsStorageService.isAuthFlowFinished = false
                 self?.userFlowsStorageService.isOnboardingFlowFinished = false
                 self?.userFlowsStorageService.isLocalAuth = false
-                self?.userFlowsStorageService.isPinCodeOn = false
+                self?.userFlowsStorageService.isLocalAuth = false
                 self?.delegate?.restartFlow()
             default:
                 break
