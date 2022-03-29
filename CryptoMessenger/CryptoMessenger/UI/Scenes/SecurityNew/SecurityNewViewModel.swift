@@ -14,20 +14,18 @@ final class SecurityNewViewModel: ObservableObject {
     @Published var callsState = ""
     @Published var geopositionState = ""
     @Published var telephoneState = ""
-    @Published var isPinCodeOn = true
+    @Published var isPinCodeOn = false
     @Published var isFalsePinCodeOn = true
     @Published var isBiometryOn = true
-
-    // MARK: - Private Properties
+    @Published var dataIsUpdated = false
 
     private(set) var localAuth = LocalAuthentication()
     private let eventSubject = PassthroughSubject<SecurityNewFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<SecurityNewFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
 
-    @Injectable private(set) var mxStore: MatrixStore
     @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
-    @Injectable private var userFlows: UserFlowsStorageService
+    @Injectable var userFlows: UserFlowsStorageService
 
     // MARK: - Lifecycle
 
@@ -72,8 +70,8 @@ final class SecurityNewViewModel: ObservableObject {
         userCredentialsStorageService.telephoneState = item
     }
 
-    func updateIsPinCodeOn(item: Bool) {
-        userFlows.isPinCodeOn = item
+    func updateIsPinCodeOn() {
+        userFlows.isLocalAuth = userFlows.isLocalAuth
     }
 
     func updateIsFalsePinCode(item: Bool) {
@@ -82,6 +80,10 @@ final class SecurityNewViewModel: ObservableObject {
 
     func updateIsBiometryOn(item: Bool) {
         userFlows.isBiometryOn = item
+    }
+
+    func isPinCodeUpdate() -> Bool {
+        return userFlows.isLocalAuth == isPinCodeOn
     }
 
     // MARK: - Private Methods
@@ -101,13 +103,9 @@ final class SecurityNewViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.pinCode(.fakePinCode))
                 case .onSession:
                     self?.delegate?.handleNextScene(.session)
+                case .onApprovePassword:
+                    self?.delegate?.handleNextScene(.pinCode(.approvePinCode))
                 }
-            }
-            .store(in: &subscriptions)
-
-        mxStore.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { _ in
             }
             .store(in: &subscriptions)
     }
@@ -119,7 +117,7 @@ final class SecurityNewViewModel: ObservableObject {
     }
 
     private func updateData() {
-        isPinCodeOn = userFlows.isPinCodeOn
+        isPinCodeOn = userFlows.isLocalAuth
         isFalsePinCodeOn = userFlows.isFalsePinCodeOn
         isBiometryOn = userFlows.isBiometryOn
         profileObserveState = userCredentialsStorageService.profileObserveState
