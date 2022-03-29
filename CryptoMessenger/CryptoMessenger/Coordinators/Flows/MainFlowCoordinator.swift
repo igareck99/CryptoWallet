@@ -146,6 +146,7 @@ final class MainFlowCoordinator: Coordinator {
         case scanner(Binding<String>)
         case transfer
         case facilityApprove
+        case socialList
     }
 }
 
@@ -202,6 +203,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showChooseReceiver()
         case let .scanner(scannedString):
             showQRScanner(scannedString: scannedString)
+        case .socialList:
+            showSocialList()
         }
     }
 
@@ -363,6 +366,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+
+    private func showSocialList() {
+        let rootView = SocialListConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -440,6 +450,10 @@ extension MainFlowCoordinator: WalletAddressScanerSceneDelegate {}
 // MARK: - MainFlowCoordinator (FacilityApproveSceneDelegate)
 
 extension MainFlowCoordinator: FacilityApproveSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (SocialListSceneDelegate)
+
+extension MainFlowCoordinator: SocialListSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

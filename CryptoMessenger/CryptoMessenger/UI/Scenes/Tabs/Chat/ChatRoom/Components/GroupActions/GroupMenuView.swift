@@ -52,7 +52,7 @@ enum GroupAction: CaseIterable, Identifiable {
         case .share:
             return R.image.chat.groupMenu.share.image
         case .blacklist:
-            return R.image.chat.groupMenu.blacklist.image
+            return R.image.chat.groupMenu.blackList.image
         case .delete:
             return R.image.chat.groupMenu.delete.image
         }
