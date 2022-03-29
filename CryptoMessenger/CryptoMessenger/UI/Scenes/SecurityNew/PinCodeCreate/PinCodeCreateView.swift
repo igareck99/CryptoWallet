@@ -24,6 +24,7 @@ struct PinCodeCreateView: View {
                                             .number(0),
                                             .delete
     ]
+    @State var dotesAnimation = 0
 
     // MARK: - Body
 
@@ -105,7 +106,7 @@ struct PinCodeCreateView: View {
     }
 
     private var dotes: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: viewModel.dotesSpacing) {
             switch viewModel.errorPassword {
             case false:
                 ForEach(viewModel.dotesValues, id: \.self) { item in
@@ -119,6 +120,12 @@ struct PinCodeCreateView: View {
                         .fill(Color(.red()))
                         .frame(width: 14, height: 14)
                 }
+                .onAppear {
+                    withAnimation(.default) {
+                        self.dotesAnimation += 1
+                    }
+                }
+                .modifier(ShakeAnimation(animatableData: CGFloat(dotesAnimation)))
             }
         }
     }

@@ -15,6 +15,7 @@ final class PinCodeCreateViewModel: ObservableObject {
     @Published var screenType: PinCodeScreenType
     @Published var errorPassword = false
     @Published var finishScreen = false
+    @Published var dotesSpacing: CGFloat = 16
 
     // MARK: - Private Properties
 
