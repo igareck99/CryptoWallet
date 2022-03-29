@@ -22,6 +22,7 @@ protocol UserCredentialsStorage {
     var callsState: String { get set }
     var geopositionState: String { get set }
     var reserveCopyTime: String { get set }
+    var secretPhraseState: String { get set }
 
 }
 
@@ -131,5 +132,10 @@ final class UserCredentialsStorageService {
     var reserveCopyTime: String {
         get { storage.reserveCopyTime }
         set { storage.reserveCopyTime = newValue }
+    }
+    
+    var secretPhraseState: String {
+        get { storage.secretPhraseState }
+        set { storage.secretPhraseState = newValue }
     }
 }

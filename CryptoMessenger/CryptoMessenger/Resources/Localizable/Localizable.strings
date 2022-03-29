@@ -343,6 +343,12 @@
 "TokenInfo.Title" = "Информация о токене";
 "TokenInfo.SelectedAddress" = "Выбранный адрес";
 "TokenInfo.ShareAddress" = "Поделиться адресом";
+"WalletManager.Title" = "Кошелек";
+"WalletManager.SecretPhrase" = "Секретная фраза";
+"WalletManager.Wallets" = "Кошельки";
+"WalletManager.KeyManager" = "Менеджер ключей";
+"WalletManager.AddDeleteKeys" = "Добавить/Удалить приватные ключи";
+"WalletManager.Edit" = "Редактировать";
 
 "SuccessFacilityView.Title" = "Успешно отправлено";
 "SuccessFacilityView.AddFavorites" = "Добавить в избранное";
@@ -360,6 +366,32 @@
 "CreateAction.ShowMore" = "Показать больше";
 
 "Chat.Welcome" = "Привет, теперь я в Aura";
+
+"PhraseManager.YourSecretPhrase" = "Ваша секретная фраза";
+"PhraseManager.WriteSecretPhrase" = "Запишите секретную фразу";
+"PhraseManager.ApproveSecretPhrase" = "Подтвердите секретную фразу";
+"PhraseManager.WriteAndEnter" = "Запишите её на бумаге и держите в безопасном месте. На следующем Шаге Вас попросят ввести эту фразу.";
+"PhraseManager.WriteAndRemember" = "Запомните или запишите вашу секретную фразу на бумаге и держите в безопасном месте. На следующем шаге мы проверим, как вы ее запомнили.";
+"PhraseManager.WhatIsSecretPhrase" = "Что такое ключ и секретная фраза?";
+"PhraseManager.ISavePhrase" = "Я сохранил фразу";
+"PhraseManager.RememberLater" = "Напомнить мне позже";
+"PhraseManager.Warning" = "Внимание!";
+"PhraseManager.WarningText" = "Убедитесь в том, что Вы записали и\n надежно сохранили Вашу фразу. При\n утере кодовой фразы Вы можете\n безвозвратно потерять кошелек и все\n средства на нем!";
+"PhraseManager.StepOneOfTwo" = "Шаг 1 из 2";
+"PhraseManager.StepTwoOfTwo" = "Шаг 2 из 2";
+"PhraseManager.LetsCheck" = "Давайте проверим, как вы запомнили вашу секретную фразу? Выберите каждое слово в правильном порядке.";
+"PhraseManager.WrongOrder" = "Неправильный порядок слов!";
+"PhraseManager.Complete" = "Завершить";
+"PhraseManager.GoBack" = "Вернуться назад";
+"PhraseManager.TapToSee" = "Нажмите на кнопку, чтобы увидеть секретную фразу";
+"PhraseManager.Watch" = "Посмотреть";
+"PhraseManager.YesiWrite" = "Да, я записал";
+"PhraseManager.SuccessPhrase" = "Успешно";
+
+
+
+
+
 
 
 

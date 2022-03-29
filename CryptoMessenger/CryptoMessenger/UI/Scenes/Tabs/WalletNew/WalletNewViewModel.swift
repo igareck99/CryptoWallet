@@ -76,7 +76,7 @@ final class WalletNewViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.transaction(selectorFilterIndex, 0, ""))
                 case let .onTransactionToken(selectorTokenIndex):
                     self?.delegate?.handleNextScene(.transaction(0, selectorTokenIndex, ""))
-                case .onImportKey:
+                case let .onImportKey:
                     self?.delegate?.handleNextScene(.importKey)
                 case .onTransfer:
                     self?.delegate?.handleNextScene(.transfer)
