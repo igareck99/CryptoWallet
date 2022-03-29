@@ -53,6 +53,8 @@ final class ProfileDetailViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     ()
+                case .onSocial:
+                    self?.delegate?.handleNextScene(.socialList)
                 case .onDone:
                     if let image = self?.selectedImage?.fixOrientation(), let data = image.jpeg(.medium) {
                         self?.mxStore.setUserAvatarUrl(data) { url in

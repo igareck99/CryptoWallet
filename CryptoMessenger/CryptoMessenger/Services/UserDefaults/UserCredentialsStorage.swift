@@ -11,7 +11,6 @@ protocol UserCredentialsStorage {
     var userMatrixId: String { get }
     var userPinCode: String { get set }
     var userFalsePinCode: String { get set }
-    var socialNetworkList: [SocialListItem] { get set }
     var typography: String { get set }
     var language: String { get set }
     var theme: String { get set }
@@ -78,11 +77,6 @@ final class UserCredentialsStorageService {
     }
 
     var userMatrixId: String { storage.userMatrixId }
-
-    var socialNetworkList: [SocialListItem] {
-        get { storage.socialNetworkList }
-        set { storage.socialNetworkList = newValue }
-    }
 
     var typography: String {
         get { storage.typography }

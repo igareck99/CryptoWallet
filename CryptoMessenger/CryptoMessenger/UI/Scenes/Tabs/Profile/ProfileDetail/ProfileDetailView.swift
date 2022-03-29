@@ -140,6 +140,9 @@ struct ProfileDetailView: View {
                                 color: .blue(0.1),
                                 image: R.image.profileDetail.socialNetwork.image
                             )
+                                .onTapGesture {
+                                    viewModel.send(.onSocial)
+                                }
                                 .background(.white())
                                 .frame(height: 64)
                                 .padding(.top, 24)

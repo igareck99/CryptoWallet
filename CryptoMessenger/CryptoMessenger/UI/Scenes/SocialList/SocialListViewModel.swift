@@ -8,7 +8,7 @@ final class SocialListViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: SocialListSceneDelegate?
-    @Published var listData = SocialListItem.socialList()
+    @Published var listData: [SocialListItem] = []
 
     // MARK: - Private Properties
 
@@ -16,7 +16,7 @@ final class SocialListViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<SocialListFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<SocialListFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-    
+
     @Injectable private(set) var mxStore: MatrixStore
 
     // MARK: - Lifecycle
@@ -47,12 +47,6 @@ final class SocialListViewModel: ObservableObject {
         listData.remove(atOffsets: offsets)
     }
 
-    func getLastShow() -> Int {
-        return listData.lastIndex { item in
-            item.type == .show
-        } ?? -1
-    }
-
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -80,6 +74,27 @@ final class SocialListViewModel: ObservableObject {
     }
 
     private func updateData() {
+        listData.append(SocialListItem(url: "instagram",
+                                       sortOrder: 1,
+                                       socialType: .instagram))
+        listData.append(SocialListItem(url: "twitter",
+                                       sortOrder: 4,
+                                       socialType: .twitter))
+        listData.append(SocialListItem(url: "facebook",
+                                       sortOrder: 2,
+                                       socialType: .facebook))
+//        listData.append(SocialListItem(url: "vk",
+//                                       sortOrder: 3,
+//                                       socialType: .vk))
+        listData.append(SocialListItem(url: "linkedin",
+                                       sortOrder: 4,
+                                       socialType: .linkedin))
+//        listData.append(SocialListItem(url: "tiktok",
+//                                       sortOrder: 5,
+//                                       socialType: .tiktok))
+        listData.sorted { item1, item2 in
+            item1.sortOrder < item2.sortOrder
+        }
 
     }
 }

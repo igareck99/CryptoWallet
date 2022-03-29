@@ -13,7 +13,6 @@ struct WalletNewView: View {
     @State var showAddWallet = false
     @State var showTokenInfo = false
     @State var navBarHide = false
-    @State var hideTabBar = false
     @State var selectedAddress = WalletInfo(
         walletType: .ethereum,
         address: "0xty9 ... Bx9M",
@@ -74,18 +73,19 @@ struct WalletNewView: View {
             }
             .padding(.top, 24)
         }
-        .onChange(of: showTokenInfo, perform: { flag in
-            if !flag {
-                navBarHide = false
-                hideTabBar = false
+        .onChange(of: showAddWallet, perform: { value in
+            if !value {
                 showTabBar()
-            } else {
-                navBarHide = true
-                hideTabBar = true
-                hideTabBar()
+            }
+        })
+        .onChange(of: showTokenInfo, perform: { value in
+            if !value {
+                showTabBar()
             }
         })
         .onAppear {
+            print("onAppear")
+            navBarHide = false
             showTabBar()
             viewModel.send(.onAppear)
         }
@@ -95,9 +95,6 @@ struct WalletNewView: View {
                closeOnTap: false,
                closeOnTapOutside: true,
                backgroundColor: Color(.black(0.3)),
-               dismissCallback: { showTabBar()
-            showNavBar()
-        },
                view: {
             AddWalletView(viewModel: viewModel,
                           showAddWallet: $showAddWallet)
@@ -113,12 +110,14 @@ struct WalletNewView: View {
                closeOnTap: false,
                closeOnTapOutside: true,
                backgroundColor: Color(.black(0.3)),
-               dismissCallback: { navBarHide = false
-        },
                view: {
             TokenInfoView(showTokenInfo: $showTokenInfo,
                           viewModel: TokenInfoViewModel(address: selectedAddress),
                           address: selectedAddress)
+                .onAppear {
+                    hideTabBar()
+                    navBarHide = true
+                }
                 .frame(width: UIScreen.main.bounds.width,
                        height: UIScreen.main.bounds.height - 60,
                        alignment: .center)
@@ -134,13 +133,10 @@ struct WalletNewView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-
+                    hideTabBar()
+                    showAddWallet = true
                 } label: {
                     R.image.wallet.settings.image
-                        .onTapGesture {
-                            hideTabBar()
-                            showAddWallet = true
-                        }
                 }
             }
         }

@@ -8,38 +8,25 @@ struct SocialListItem: Identifiable, Equatable {
 
     let id = UUID()
     var url: String
-    var type: SocialItemType
-    let networkType: SocialNetworkType
+    var sortOrder: Int
+    let socialType: SocialNetworkType
 
-    // MARK: - Static Methods
-
-    static func socialList() -> [SocialListItem] {
-        let item1 = SocialListItem(url: "https://twitter.com/?lang=ru",
-                                   type: .show,
-                                   networkType: .twitter)
-        let item2 = SocialListItem(url: "https://www.instagram.com/igareck99/",
-                                   type: .show,
-                                   networkType: .instagram
-        )
-        let item3 = SocialListItem(url: "https://github.com/igareck99",
-                                   type: .show,
-                                   networkType: .webSite)
-        let item4 = SocialListItem(url: "facebook.com/arestov_lv",
-                                   type: .notShow,
-                                   networkType: .facebook)
-        let social_List = [item1, item3, item2, item4]
-        return social_List
+    var socialNetworkImage: Image {
+        switch socialType {
+        case .facebook:
+            return R.image.profile.facebook.image
+        case .twitter:
+            return R.image.profile.twitter.image
+        case .instagram:
+            return R.image.profile.instagram.image
+        case .linkedin:
+            return R.image.socialNetworks.linkedin.image
+        case .vk:
+            return R.image.socialNetworks.vk.image
+        case .tiktok:
+            return R.image.socialNetworks.tiktok.image
+        }
     }
-}
-
-// MARK: - SocialItemType
-
-enum SocialItemType {
-
-    // MARK: - Types
-
-    case show
-    case notShow
 }
 
 // MARK: - SocialNetworkType
@@ -50,7 +37,8 @@ enum SocialNetworkType {
 
     case twitter
     case facebook
-    case telegram
-    case webSite
+    case vk
     case instagram
+    case linkedin
+    case tiktok
 }

@@ -98,6 +98,9 @@ struct PersonalizationView: View {
             .onAppear {
                 viewModel.send(.onAppear)
             }
+            .onDisappear {
+                showTabBar()
+            }
             .listStyle(.inset)
             .toolbar {
                 ToolbarItem(placement: .principal) {

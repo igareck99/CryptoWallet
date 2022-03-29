@@ -44,6 +44,7 @@ struct ProfileView: View {
                 }
             }
             .onAppear {
+                showTabBar()
                 viewModel.send(.onAppear)
             }
             .fullScreenCover(isPresented: $showSafari) {
@@ -83,9 +84,11 @@ struct ProfileView: View {
                 view: {
                     ProfileSettingsMenuView(balance: "0.50 AUR", onSelect: { type in
                         vibrate()
-                        hideTabBar()
                         viewModel.send(.onShow(type))
                     })
+                        .onAppear {
+                            hideTabBar()
+                        }
                         .frame(height: 712)
                         .background(
                             CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
