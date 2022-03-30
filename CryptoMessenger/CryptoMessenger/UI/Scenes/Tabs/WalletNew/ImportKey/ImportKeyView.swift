@@ -13,6 +13,7 @@ struct ImportKeyView: View {
     @State var showWrongMnemonicAlert = false
     @State var showMnemonicSuccess = false
     @State var showButtonAnimation = false
+    @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Private Properties
 
@@ -65,8 +66,8 @@ struct ImportKeyView: View {
                 importButton
                     .padding(.top, 8)
             }
+            .hideKeyboardOnTap()
         }
-        .hideKeyboardOnTap()
         .onAppear {
             UITextView.appearance().backgroundColor = .clear
             UITextView.appearance().textContainerInset = .init(top: 12, left: 0, bottom: 12, right: 0)
@@ -74,7 +75,14 @@ struct ImportKeyView: View {
         .alert(isPresented: $showWrongMnemonicAlert) {
             switch showMnemonicSuccess {
             case true:
-                return Alert(title: Text("Ключ успешно импортирован"))
+                let dismissButton = Alert.Button.default(Text("OK")) {
+                    print("previousScreen")
+                    presentationMode.wrappedValue.dismiss()
+                }
+                let alert = Alert(title: Text("Ключ успешно импортирован"),
+                                  message: Text(""),
+                                  dismissButton: dismissButton)
+                return alert
             case false:
                 return Alert(title: Text("Ошибка при создании фразы"))
             }

@@ -146,6 +146,9 @@ final class MainFlowCoordinator: Coordinator {
         case scanner(Binding<String>)
         case transfer
         case facilityApprove
+        case walletManager
+        case keyList
+        case phraseManager
     }
 }
 
@@ -202,6 +205,14 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showChooseReceiver()
         case let .scanner(scannedString):
             showQRScanner(scannedString: scannedString)
+        case .facilityApprove:
+            showFacilityApprove()
+        case .walletManager:
+            showWalletManager()
+        case .keyList:
+            showKeyList()
+        case .phraseManager:
+            showPhraseManger()
         }
     }
 
@@ -363,6 +374,27 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
+
+    private func showWalletManager() {
+        let rootView = WalletManagerConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showKeyList() {
+        let rootView = KeyListConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    private func showPhraseManger() {
+        let rootView = PhraseManagerConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - MainFlowCoordinator (ChatHistorySceneDelegate)
@@ -440,6 +472,18 @@ extension MainFlowCoordinator: WalletAddressScanerSceneDelegate {}
 // MARK: - MainFlowCoordinator (FacilityApproveSceneDelegate)
 
 extension MainFlowCoordinator: FacilityApproveSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (WalletManagerSceneDelegate)
+
+extension MainFlowCoordinator: WalletManagerSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (KeyListSceneDelegate)
+
+extension MainFlowCoordinator: KeyListSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (PhraseManagerSceneDelegate)
+
+extension MainFlowCoordinator: PhraseManagerSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 
