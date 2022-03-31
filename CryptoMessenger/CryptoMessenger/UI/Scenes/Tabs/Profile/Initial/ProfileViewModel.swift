@@ -29,7 +29,7 @@ struct ProfileItem: Identifiable {
     var phone = "Номер не заполнен"
     var photos: [Image] = []
     var photosUrls: [URL] = []
-    var socialNetwork: [SocialKey: String] = [:]
+    var socialNetwork: [SocialListItem] = []
 }
 
 // MARK: - ProfileViewModel
@@ -61,6 +61,7 @@ final class ProfileViewModel: ObservableObject {
     init() {
         bindInput()
         bindOutput()
+        fetchData()
     }
 
     deinit {
@@ -87,28 +88,6 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    func addSocial(socialKey: SocialKey, socialValue: String) {
-        var newDict = Dictionary(uniqueKeysWithValues: profile.socialNetwork.map { key, value in (key.rawValue, value) })
-        newDict[socialKey.rawValue] = socialValue
-        apiClient.publisher(Endpoints.Social.setSocial(newDict, user: mxStore.getUserId()))
-            .replaceError(with: [:])
-            .sink { [weak self] dictionary in
-                let result = dictionary.reduce([:]) { (partialResult: [SocialKey: String],
-                                                       tuple: (key: String, value: String)) in
-                    var result = partialResult
-                    if let key = SocialKey(rawValue: tuple.key.lowercased()) {
-                        result[key] = tuple.value.lowercased()
-                        if !(result[key]?.isEmpty ?? true) {
-                            self?.socialListEmpty = false
-                        }
-                    }
-                    return result
-                }
-                self?.profile.socialNetwork = result
-            }
-            .store(in: &subscriptions)
-    }
-
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -116,7 +95,9 @@ final class ProfileViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.fetchData()
+                    ()
+                case .onSocial:
+                    self?.delegate?.handleNextScene(.socialList)
                 case let .onShow(type):
                     switch type {
                     case .profile:
@@ -149,6 +130,12 @@ final class ProfileViewModel: ObservableObject {
                 self?.send(.onAddPhoto(image))
             }
             .store(in: &subscriptions)
+        $profile
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &subscriptions)
 
         mxStore.objectWillChange
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
@@ -172,6 +159,21 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
+    private func getSocialList() {
+        apiClient.publisher(Endpoints.Social.getSocial(mxStore.getUserId()))
+            .replaceError(with: [])
+            .sink { [weak self] response in
+                self?.profile.socialNetwork = []
+                for x in response {
+                        self?.profile.socialNetwork.append(SocialListItem(url: x.url,
+                                                                          sortOrder: x.sort_order,
+                                                                          socialType: SocialNetworkType.networkType(item: x.social_type)))
+                }
+                self?.profile.socialNetwork = self?.profile.socialNetwork.sorted(by: { $0.sortOrder < $1.sortOrder }) ?? []
+            }
+            .store(in: &subscriptions)
+    }
+
     func addPhoto(image: UIImage) {
         guard let data = image.jpeg(.medium) else { return }
         let multipartData = MultipartFileData(
@@ -188,31 +190,11 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    func getSocialList() {
-        apiClient.publisher(Endpoints.Social.getSocial(mxStore.getUserId()))
-            .replaceError(with: [:])
-            .sink { [weak self] dictionary in
-                let result = dictionary.reduce([:]) { (partialResult: [SocialKey: String], tuple: (key: String, value: String)) in
-                    var result = partialResult
-                    if let key = SocialKey(rawValue: tuple.key.lowercased()) {
-                        result[key] = tuple.value.lowercased()
-                        if !(result[key]?.isEmpty ?? true) {
-                            self?.socialListEmpty = false
-                        }
-                    }
-                    return result
-                }
-                self?.profile.socialNetwork = result
-            }
-            .store(in: &subscriptions)
-    }
-
     private func fetchData() {
         let link = mxStore.getAvatarUrl()
         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
         let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
         profile.avatar = url
-        getSocialList()
         profile.nickname = mxStore.getUserId()
         if !mxStore.getDisplayName().isEmpty {
             profile.name = mxStore.getDisplayName()
@@ -220,7 +202,9 @@ final class ProfileViewModel: ObservableObject {
         if !mxStore.getStatus().isEmpty {
             profile.status = mxStore.getStatus()
         }
+        getSocialList()
         profile.phone = userCredentialsStorageService.userPhoneNumber
         getPhotos()
+        socialListEmpty = profile.socialNetwork.isEmpty
     }
 }

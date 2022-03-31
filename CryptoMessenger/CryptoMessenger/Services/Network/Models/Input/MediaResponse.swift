@@ -9,3 +9,15 @@ struct MediaResponse: Codable {
     var original: URL?
     var preview: URL?
 }
+
+// MARK: - SocialResponse
+
+struct SocialResponse: Codable {
+
+    // MARK: - Internal Properties
+
+    var sort_order: Int
+    var social_type: String
+    var url: String
+
+}

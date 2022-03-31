@@ -8,7 +8,26 @@ final class SocialListViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: SocialListSceneDelegate?
-    @Published var listData: [SocialListItem] = []
+    @Published var listData: [SocialListItem] = [
+        SocialListItem(url: "",
+                       sortOrder: 1,
+                       socialType: .instagram),
+        SocialListItem(url: "",
+                       sortOrder: 2,
+                       socialType: .facebook),
+        SocialListItem(url: "",
+                       sortOrder: 3,
+                       socialType: .twitter),
+        SocialListItem(url: "",
+                       sortOrder: 4,
+                       socialType: .vk),
+        SocialListItem(url: "",
+                       sortOrder: 5,
+                       socialType: .tiktok),
+        SocialListItem(url: "",
+                       sortOrder: 6,
+                       socialType: .linkedin)
+    ]
 
     // MARK: - Private Properties
 
@@ -18,6 +37,7 @@ final class SocialListViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private var apiClient: APIClientManager
 
     // MARK: - Lifecycle
 
@@ -47,6 +67,13 @@ final class SocialListViewModel: ObservableObject {
         listData.remove(atOffsets: offsets)
     }
 
+    func updateListData(item: SocialListItem) {
+        listData = listData.filter { $0.socialType != item.socialType }
+        listData.append(item)
+        listData = listData.sorted(by: { $0.sortOrder < $1.sortOrder })
+        print("updatedListData   \(listData)")
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -73,28 +100,47 @@ final class SocialListViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func updateData() {
-        listData.append(SocialListItem(url: "instagram",
-                                       sortOrder: 1,
-                                       socialType: .instagram))
-        listData.append(SocialListItem(url: "twitter",
-                                       sortOrder: 4,
-                                       socialType: .twitter))
-        listData.append(SocialListItem(url: "facebook",
-                                       sortOrder: 2,
-                                       socialType: .facebook))
-//        listData.append(SocialListItem(url: "vk",
-//                                       sortOrder: 3,
-//                                       socialType: .vk))
-        listData.append(SocialListItem(url: "linkedin",
-                                       sortOrder: 4,
-                                       socialType: .linkedin))
-//        listData.append(SocialListItem(url: "tiktok",
-//                                       sortOrder: 5,
-//                                       socialType: .tiktok))
-        listData.sorted { item1, item2 in
-            item1.sortOrder < item2.sortOrder
-        }
+    private func getSocialList() {
+        apiClient.publisher(Endpoints.Social.getSocial(mxStore.getUserId()))
+            .replaceError(with: [])
+            .sink { [weak self] response in
+                for x in response {
+                    let newList = self?.listData.filter { $0.socialType.description != x.social_type } ?? []
+                    if newList.count != self?.listData.count {
+                        self?.listData = newList
+                        self?.listData.append(SocialListItem(url: x.url,
+                                                             sortOrder: x.sort_order,
+                                                             socialType: SocialNetworkType.networkType(item: x.social_type)))
+                    }
+                }
+                let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder })
+                self?.listData = sortedList ?? []
+            }
+            .store(in: &subscriptions)
+    }
 
+    func addSocial(data: [SocialListItem]) {
+        var testList: [SocialResponse] = []
+        for x in data {
+            testList.append(SocialResponse(sort_order: x.sortOrder,
+                                           social_type: x.socialType.description,
+                                           url: x.url))
+        }
+        apiClient.publisher(Endpoints.Social.setSocialNew(testList,
+                                                          user: mxStore.getUserId()))
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                default:
+                    print("emdokedokmkmwokod    \(completion)")
+                }
+            }, receiveValue: { [weak self] response in
+                print("response after update   \(response)")
+            })
+            .store(in: &subscriptions)
+    }
+
+    private func updateData() {
+        getSocialList()
+        listData = listData.sorted(by: { $0.sortOrder < $1.sortOrder })
     }
 }

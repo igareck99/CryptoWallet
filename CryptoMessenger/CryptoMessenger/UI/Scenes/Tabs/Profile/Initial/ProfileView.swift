@@ -45,7 +45,6 @@ struct ProfileView: View {
             }
             .onAppear {
                 showTabBar()
-                viewModel.send(.onAppear)
             }
             .fullScreenCover(isPresented: $showSafari) {
                 SFSafariViewWrapper(link: $safariAddress)
@@ -127,13 +126,13 @@ struct ProfileView: View {
                             switch viewModel.socialListEmpty {
                             case false:
                                 HStack(spacing: 8) {
-                                    ForEach(SocialKey.allCases) { item in
-                                        switch item {
+                                    ForEach(viewModel.profile.socialNetwork) { item in
+                                        switch item.socialType {
                                         case .twitter:
-                                            if !(viewModel.profile.socialNetwork[.twitter] ?? "").isEmpty {
+                                            if !(item.url).isEmpty {
                                                 Button(action: {
                                                     showSafari = true
-                                                    safariAddress = viewModel.profile.socialNetwork[.twitter] ?? ""
+                                                    safariAddress = item.url
                                                 }, label: {
                                                     R.image.profile.twitter.image
                                                 }).frame(width: 32, height: 32, alignment: .center)
@@ -141,10 +140,10 @@ struct ProfileView: View {
                                                     .cornerRadius(16)
                                             }
                                         case .facebook:
-                                            if !(viewModel.profile.socialNetwork[.facebook] ?? "").isEmpty {
+                                            if !(item.url).isEmpty {
                                                 Button(action: {
                                                     showSafari = true
-                                                    safariAddress = viewModel.profile.socialNetwork[.facebook] ?? ""
+                                                    safariAddress = item.url
                                                 }, label: {
                                                     R.image.profile.facebook.image
                                                 }).frame(width: 32, height: 32, alignment: .center)
@@ -152,10 +151,10 @@ struct ProfileView: View {
                                                     .cornerRadius(16)
                                             }
                                         case .instagram:
-                                            if !(viewModel.profile.socialNetwork[.instagram] ?? "").isEmpty {
+                                            if !(item.url).isEmpty {
                                                 Button(action: {
                                                     showSafari = true
-                                                    safariAddress = viewModel.profile.socialNetwork[.instagram] ?? ""
+                                                    safariAddress = item.url
                                                 }, label: {
                                                     R.image.profile.instagram.image
                                                 }).frame(width: 32, height: 32, alignment: .center)
@@ -163,12 +162,37 @@ struct ProfileView: View {
                                                     .cornerRadius(16)
                                             }
                                         case .vk:
-                                            if !(viewModel.profile.socialNetwork[.vk] ?? "").isEmpty {
+                                            if !(item.url).isEmpty {
                                                 Button(action: {
                                                     showSafari = true
-                                                    safariAddress = viewModel.profile.socialNetwork[.vk] ?? ""
+                                                    safariAddress = item.url
                                                 }, label: {
-                                                    R.image.profile.website.image
+                                                    R.image.socialNetworks.vkIcon.image
+                                                        .resizable()
+                                                }).frame(width: 32, height: 32, alignment: .center)
+                                                    .background(.blue())
+                                                    .cornerRadius(16)
+                                            }
+                                        case .linkedin:
+                                            if !(item.url).isEmpty {
+                                                Button(action: {
+                                                    showSafari = true
+                                                    safariAddress = item.url
+                                                }, label: {
+                                                    R.image.socialNetworks.linkedinIcon.image
+                                                        .resizable()
+                                                }).frame(width: 32, height: 32, alignment: .center)
+                                                    .background(.blue())
+                                                    .cornerRadius(16)
+                                            }
+                                        case .tiktok:
+                                            if !(item.url).isEmpty {
+                                                Button(action: {
+                                                    showSafari = true
+                                                    safariAddress = item.url
+                                                }, label: {
+                                                    R.image.socialNetworks.tiktokIcon.image
+                                                        .resizable()
                                                 }).frame(width: 32, height: 32, alignment: .center)
                                                     .background(.blue())
                                                     .cornerRadius(16)
@@ -178,8 +202,7 @@ struct ProfileView: View {
                                 }
                             case true:
                                 Button(action: {
-                                    viewModel.addSocial(socialKey: .twitter,
-                                                        socialValue: "https://twitter.com")
+                                    viewModel.send(.onSocial)
                                 }, label: {
                                     Text(R.string.localizable.profileAddSocial())
                                         .font(.regular(15))

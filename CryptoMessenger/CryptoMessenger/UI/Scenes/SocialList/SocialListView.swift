@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 // MARK: - SocialListItemView
 
@@ -6,17 +7,26 @@ struct SocialListItemView: View {
 
     // MARK: - Private Properties
 
-    private(set) var item: SocialListItem
+    @State var item: SocialListItem
+    @StateObject var viewModel: SocialListViewModel
 
     // MARK: - Body
 
     var body: some View {
         HStack(alignment: .center, spacing: 40) {
             item.socialNetworkImage
+                .resizable()
+                .frame(width: 24,
+                       height: 24)
                 .padding(.leading, 16)
-            Text(item.url)
-                .font(.regular(15))
-                .lineLimit(1)
+            TextField("", text: self.$item.url)
+                .frame(height: 30)
+                .onSubmit {
+                    let socialItem = SocialListItem(url: self.item.url,
+                                                    sortOrder: item.sortOrder,
+                                                    socialType: item.socialType)
+                    viewModel.updateListData(item: socialItem)
+                }
             Spacer()
             R.image.profileNetworkDetail.dragDrop.image
                 .padding(.trailing, 16)
@@ -34,6 +44,7 @@ struct SocialListView: View {
     @State var editMode: EditMode = .active
     @State var sectionSwitch = false
     @Environment(\.presentationMode) private var presentationMode
+    @State private var dragging: SocialListItem?
 
     // MARK: - Body
 
@@ -50,20 +61,23 @@ struct SocialListView: View {
                 .padding(.leading)
             List {
                 ForEach(viewModel.listData) { item in
-                    SocialListItemView(item: item)
-                        .frame(height: 64)
-                        .background(.blue(0.1))
-                        .listRowSeparator(.hidden)
+                    SocialListItemView(item: item,
+                                       viewModel: viewModel)
                         .ignoresSafeArea()
+                        .onDrag {
+                            self.dragging = item
+                            return NSItemProvider(object: NSString())
+                        }
                 }
+                .onMove(perform: {_, _  in })
+                .listRowBackground(Color(.blue(0.1)))
                 Spacer().listRowSeparator(.hidden)
-                    .environment(\.editMode, self.$editMode)
             }
         }
         .onAppear {
             viewModel.send(.onAppear)
         }
-        .listStyle(.inset)
+        .listStyle(.plain)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(R.string.localizable.profileNetworkDetailTitle())
@@ -72,7 +86,8 @@ struct SocialListView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     print("Сохраняемся дева4ки")
-                    presentationMode.wrappedValue.dismiss() 
+                    presentationMode.wrappedValue.dismiss()
+                    viewModel.addSocial(data: viewModel.listData)
                 }, label: {
                     Text(R.string.localizable.profileDetailRightButton())
                         .font(.bold(15))

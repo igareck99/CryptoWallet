@@ -72,6 +72,7 @@ final class VerificationPresenter {
         let homeServer = configuration.matrixURL
 
         apiClient.request(endpoint) { [weak self] response in
+            print("ekmdekoko    \(response)")
             self?.mxStore.login(username: response.userId ?? "", password: code, homeServer: homeServer)
             self?.view?.setResult(true)
             delay(0.2) {

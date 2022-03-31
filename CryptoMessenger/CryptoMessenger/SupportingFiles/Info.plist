@@ -31,7 +31,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MATRIX URL</key>
-	<string>https://matrix.aura.ms</string>
+	<string>https://matrix.auramsg.best</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

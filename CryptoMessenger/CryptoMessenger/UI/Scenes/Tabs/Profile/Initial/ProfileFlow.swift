@@ -25,5 +25,6 @@ enum ProfileFlow {
         case onAppear
         case onShow(ProfileSettingsMenu)
         case onAddPhoto(UIImage)
+        case onSocial
     }
 }

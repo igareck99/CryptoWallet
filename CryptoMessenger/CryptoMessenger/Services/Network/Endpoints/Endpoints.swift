@@ -89,13 +89,14 @@ enum Endpoints {
     // MARK: - Social
 
     enum Social {
-        static func getSocial(_ name: String) -> Endpoint<[String: String]> {
-            Endpoint<[String: String]>(method: .get, path: "/profile/\(name)/social")
+        static func getSocial(_ name: String) -> Endpoint<[SocialResponse]> {
+            Endpoint<[SocialResponse]>(method: .get, path: "/profile/\(name)/social")
         }
 
-        static func setSocial(_ social: [String: String], user: String) -> Endpoint<[String: String]> {
-            let endpoint = Endpoint<[String: String]>(method: .patch, path: "/profile/social")
-            endpoint.modifyRequest { $0.jsonBody(dict: social) }
+        static func setSocialNew(_ payload: [SocialResponse],
+                                 user: String) -> Endpoint<[SocialResponse]> {
+            let endpoint = Endpoint<[SocialResponse]>(method: .post, path: "/profile/social")
+            endpoint.modifyRequest { $0.jsonBody(payload) }
             endpoint.modifyRequest { $0.addHeader("user", value: user) }
             return endpoint
         }
