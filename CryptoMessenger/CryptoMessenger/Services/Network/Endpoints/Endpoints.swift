@@ -95,7 +95,7 @@ enum Endpoints {
 
         static func setSocialNew(_ payload: [SocialResponse],
                                  user: String) -> Endpoint<[SocialResponse]> {
-            let endpoint = Endpoint<[SocialResponse]>(method: .post, path: "/profile/social")
+            let endpoint = Endpoint<[SocialResponse]>(method: .patch, path: "/profile/social")
             endpoint.modifyRequest { $0.jsonBody(payload) }
             endpoint.modifyRequest { $0.addHeader("user", value: user) }
             return endpoint
