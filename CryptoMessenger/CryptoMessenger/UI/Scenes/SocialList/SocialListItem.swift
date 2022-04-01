@@ -8,38 +8,34 @@ struct SocialListItem: Identifiable, Equatable {
 
     let id = UUID()
     var url: String
-    var type: SocialItemType
-    let networkType: SocialNetworkType
+    var sortOrder: Int
+    let socialType: SocialNetworkType
 
-    // MARK: - Static Methods
-
-    static func socialList() -> [SocialListItem] {
-        let item1 = SocialListItem(url: "https://twitter.com/?lang=ru",
-                                   type: .show,
-                                   networkType: .twitter)
-        let item2 = SocialListItem(url: "https://www.instagram.com/igareck99/",
-                                   type: .show,
-                                   networkType: .instagram
-        )
-        let item3 = SocialListItem(url: "https://github.com/igareck99",
-                                   type: .show,
-                                   networkType: .webSite)
-        let item4 = SocialListItem(url: "facebook.com/arestov_lv",
-                                   type: .notShow,
-                                   networkType: .facebook)
-        let social_List = [item1, item3, item2, item4]
-        return social_List
+    var socialNetworkImage: Image {
+        switch socialType {
+        case .facebook:
+            return R.image.socialNetworks.facebookIcon.image
+        case .twitter:
+            return R.image.socialNetworks.twitterIcon.image
+        case .instagram:
+            return R.image.socialNetworks.instagramIcon.image
+        case .linkedin:
+            return R.image.socialNetworks.linkedinIcon.image
+        case .vk:
+            return R.image.socialNetworks.vkIcon.image
+        case .tiktok:
+            return R.image.socialNetworks.tiktokIcon.image
+        }
     }
-}
 
-// MARK: - SocialItemType
+    // MARK: - Static methods
 
-enum SocialItemType {
-
-    // MARK: - Types
-
-    case show
-    case notShow
+    static func getDict(item: SocialListItem) -> [String: Any] {
+        let dict: [String: Any] = ["sort_order": item.sortOrder,
+                                      "social_type": item.socialType,
+                                      "url": item.url]
+        return dict
+    }
 }
 
 // MARK: - SocialNetworkType
@@ -50,7 +46,44 @@ enum SocialNetworkType {
 
     case twitter
     case facebook
-    case telegram
-    case webSite
+    case vk
     case instagram
+    case linkedin
+    case tiktok
+
+    var description: String {
+        switch self {
+        case .facebook:
+            return "facebook"
+        case .twitter:
+            return "twitter"
+        case .vk:
+            return "vk"
+        case .instagram:
+            return "instagram"
+        case .tiktok:
+            return "tiktok"
+        case .linkedin:
+            return "linkedin"
+        }
+    }
+
+    static func networkType(item: String) -> SocialNetworkType {
+        switch item {
+        case "facebook":
+            return SocialNetworkType.facebook
+        case "twitter":
+            return SocialNetworkType.twitter
+        case "vk":
+            return SocialNetworkType.vk
+        case "instagram":
+            return SocialNetworkType.instagram
+        case "tiktok":
+            return SocialNetworkType.tiktok
+        case "linkedin":
+            return SocialNetworkType.linkedin
+        default:
+            return SocialNetworkType.facebook
+        }
+    }
 }

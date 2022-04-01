@@ -1,9 +1,8 @@
 import Foundation
-import UIKit
 
-// MARK: - ProfileFlow
+// MARK: - SocialListFlow
 
-enum ProfileFlow {
+enum SocialListFlow {
 
     // MARK: - ViewState
 
@@ -23,8 +22,5 @@ enum ProfileFlow {
         // MARK: - Types
 
         case onAppear
-        case onShow(ProfileSettingsMenu)
-        case onAddPhoto(UIImage)
-        case onSocial
     }
 }

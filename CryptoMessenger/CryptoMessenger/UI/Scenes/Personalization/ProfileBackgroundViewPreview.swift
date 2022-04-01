@@ -75,7 +75,7 @@ struct ProfileBackgroundView: View {
             case false:
                 HStack(spacing: 8) {
                     ForEach(viewModel.socialList.listData) { item in
-                        switch item.networkType {
+                        switch item.socialType {
                         case .twitter:
                             Button(action: {
                             }, label: {
@@ -97,14 +97,21 @@ struct ProfileBackgroundView: View {
                             }).frame(width: 32, height: 32, alignment: .center)
                                 .background(.blue())
                                 .cornerRadius(16)
-                        case .webSite:
+                        case .linkedin:
                             Button(action: {
                             }, label: {
                                 R.image.profile.website.image
                             }).frame(width: 32, height: 32, alignment: .center)
                                 .background(.blue())
                                 .cornerRadius(16)
-                        case .telegram:
+                        case .vk:
+                            Button(action: { },
+                                   label: {
+                                R.image.profile.website.image
+                            }).frame(width: 32, height: 32, alignment: .center)
+                                .background(.blue())
+                                .cornerRadius(16)
+                        case .tiktok:
                             Button(action: { },
                                    label: {
                                 R.image.profile.website.image

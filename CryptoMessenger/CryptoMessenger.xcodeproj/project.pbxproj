@@ -363,6 +363,7 @@
 		8B5609BC277B35A400AF43F6 /* PersonalizationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BB277B35A400AF43F6 /* PersonalizationFlow.swift */; };
 		8B5609BE277B38A000AF43F6 /* PersonalizationProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BD277B38A000AF43F6 /* PersonalizationProtocols.swift */; };
 		8B5609C0277C6A4000AF43F6 /* PersonalizationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5609BF277C6A4000AF43F6 /* PersonalizationConfiguration.swift */; };
+		8B58DB8C27F508FF003C2C31 /* DragDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B58DB8B27F508FE003C2C31 /* DragDelegate.swift */; };
 		8B5A338427D89CAE0064C7DC /* TransferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5A338327D89CAE0064C7DC /* TransferView.swift */; };
 		8B5A338627D89CF10064C7DC /* TransferProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5A338527D89CF10064C7DC /* TransferProtocols.swift */; };
 		8B5A338827D89D170064C7DC /* TransferConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5A338727D89D170064C7DC /* TransferConfigurator.swift */; };
@@ -392,6 +393,9 @@
 		8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */; };
 		8B7D8A1727DA5C1400BBFEFD /* CurrencyUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D8A1627DA5C1400BBFEFD /* CurrencyUITextField.swift */; };
 		8B8B9C1F27F31FEE0061F5E6 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C1E27F31FEE0061F5E6 /* Animation.swift */; };
+		8B8B9C2127F330040061F5E6 /* SocialListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C2027F330040061F5E6 /* SocialListConfigurator.swift */; };
+		8B8B9C2327F330120061F5E6 /* SocialListProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C2227F330120061F5E6 /* SocialListProtocols.swift */; };
+		8B8B9C2527F331C90061F5E6 /* SocialListFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C2427F331C90061F5E6 /* SocialListFlow.swift */; };
 		8B9173B227A342EC0094F625 /* PinCodeCreateFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9173B127A342EB0094F625 /* PinCodeCreateFlow.swift */; };
 		8B9B0CCB2775395400654C24 /* PersonalizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCA2775395400654C24 /* PersonalizationView.swift */; };
 		8B9B0CCD2775442E00654C24 /* PersonalizationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCC2775442E00654C24 /* PersonalizationModel.swift */; };
@@ -420,7 +424,6 @@
 		8BD6292D276AAC06000A976A /* SocialListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292C276AAC06000A976A /* SocialListView.swift */; };
 		8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292E276B407F000A976A /* SocialListItem.swift */; };
 		8BD62931276B4ADA000A976A /* SocialListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD62930276B4ADA000A976A /* SocialListViewModel.swift */; };
-		8BD62933276D2B58000A976A /* AddSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD62932276D2B57000A976A /* AddSocialView.swift */; };
 		8BE3798F27E9C47D00AB6B6E /* TokenInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */; };
 		8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */; };
 		8BE3799927EA133800AB6B6E /* SelectTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799827EA133700AB6B6E /* SelectTokenView.swift */; };
@@ -805,6 +808,7 @@
 		8B5609BB277B35A400AF43F6 /* PersonalizationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationFlow.swift; sourceTree = "<group>"; };
 		8B5609BD277B38A000AF43F6 /* PersonalizationProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationProtocols.swift; sourceTree = "<group>"; };
 		8B5609BF277C6A4000AF43F6 /* PersonalizationConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationConfiguration.swift; sourceTree = "<group>"; };
+		8B58DB8B27F508FE003C2C31 /* DragDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragDelegate.swift; sourceTree = "<group>"; };
 		8B5A338327D89CAE0064C7DC /* TransferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferView.swift; sourceTree = "<group>"; };
 		8B5A338527D89CF10064C7DC /* TransferProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferProtocols.swift; sourceTree = "<group>"; };
 		8B5A338727D89D170064C7DC /* TransferConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferConfigurator.swift; sourceTree = "<group>"; };
@@ -834,6 +838,9 @@
 		8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		8B7D8A1627DA5C1400BBFEFD /* CurrencyUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUITextField.swift; sourceTree = "<group>"; };
 		8B8B9C1E27F31FEE0061F5E6 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
+		8B8B9C2027F330040061F5E6 /* SocialListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListConfigurator.swift; sourceTree = "<group>"; };
+		8B8B9C2227F330120061F5E6 /* SocialListProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListProtocols.swift; sourceTree = "<group>"; };
+		8B8B9C2427F331C90061F5E6 /* SocialListFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListFlow.swift; sourceTree = "<group>"; };
 		8B9173B127A342EB0094F625 /* PinCodeCreateFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateFlow.swift; sourceTree = "<group>"; };
 		8B9B0CCA2775395400654C24 /* PersonalizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationView.swift; sourceTree = "<group>"; };
 		8B9B0CCC2775442E00654C24 /* PersonalizationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationModel.swift; sourceTree = "<group>"; };
@@ -862,7 +869,6 @@
 		8BD6292C276AAC06000A976A /* SocialListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListView.swift; sourceTree = "<group>"; };
 		8BD6292E276B407F000A976A /* SocialListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListItem.swift; sourceTree = "<group>"; };
 		8BD62930276B4ADA000A976A /* SocialListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListViewModel.swift; sourceTree = "<group>"; };
-		8BD62932276D2B57000A976A /* AddSocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSocialView.swift; sourceTree = "<group>"; };
 		8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoView.swift; sourceTree = "<group>"; };
 		8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoViewModel.swift; sourceTree = "<group>"; };
 		8BE3799827EA133700AB6B6E /* SelectTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTokenView.swift; sourceTree = "<group>"; };
@@ -1110,6 +1116,7 @@
 				5ABF08CE27D9C86A0016CC6F /* SUImagePickerView.swift */,
 				8BFF387A27D91092005D88C9 /* NumberTextField.swift */,
 				8B8B9C1E27F31FEE0061F5E6 /* Animation.swift */,
+				8B58DB8B27F508FE003C2C31 /* DragDelegate.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -2340,7 +2347,9 @@
 				8BD6292C276AAC06000A976A /* SocialListView.swift */,
 				8BD6292E276B407F000A976A /* SocialListItem.swift */,
 				8BD62930276B4ADA000A976A /* SocialListViewModel.swift */,
-				8BD62932276D2B57000A976A /* AddSocialView.swift */,
+				8B8B9C2027F330040061F5E6 /* SocialListConfigurator.swift */,
+				8B8B9C2227F330120061F5E6 /* SocialListProtocols.swift */,
+				8B8B9C2427F331C90061F5E6 /* SocialListFlow.swift */,
 			);
 			path = SocialList;
 			sourceTree = "<group>";
@@ -2626,6 +2635,7 @@
 				8B4E9C3B27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				8B4E9C4227E1EDBE0057E4C9 /* FacilityApproveView.swift in Sources */,
+				8B8B9C2327F330120061F5E6 /* SocialListProtocols.swift in Sources */,
 				5A24B25426F289F000EFC5E2 /* MapSnapshotView.swift in Sources */,
 				5A187E9F2680708D001957D3 /* ScalableButtonView.swift in Sources */,
 				5A2181E426D80B4E0093AD60 /* ActionSheetView.swift in Sources */,
@@ -2635,7 +2645,6 @@
 				8B7D8A1727DA5C1400BBFEFD /* CurrencyUITextField.swift in Sources */,
 				5A26CD3926B31FBA00118D4B /* UICollectionView+Extensions.swift in Sources */,
 				8B5609C0277C6A4000AF43F6 /* PersonalizationConfiguration.swift in Sources */,
-				8BD62933276D2B58000A976A /* AddSocialView.swift in Sources */,
 				5A187F2A2680CF49001957D3 /* URLResponseCapable.swift in Sources */,
 				5A9318BB26BD210400645365 /* PinCodeFlow.swift in Sources */,
 				5AB30F152706564300838AFC /* PinCodeFlowCoordinator.swift in Sources */,
@@ -2694,6 +2703,7 @@
 				7846B67026E8C00D00B05984 /* CellUpdate.swift in Sources */,
 				5A187EA32680708D001957D3 /* CollectionViewProvider.swift in Sources */,
 				5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */,
+				8B8B9C2127F330040061F5E6 /* SocialListConfigurator.swift in Sources */,
 				5A9318D526C5AAF100645365 /* ChatRoomProtocols.swift in Sources */,
 				5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */,
 				8B6C18BE2799A5E200B85F2A /* SecurityNewView.swift in Sources */,
@@ -2702,6 +2712,7 @@
 				8B200FEE2744596300A847D5 /* SessionView.swift in Sources */,
 				7889064227064F8D0093459C /* ProfileNetworkDetailProtocols.swift in Sources */,
 				7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */,
+				8B8B9C2527F331C90061F5E6 /* SocialListFlow.swift in Sources */,
 				7846B66526E8BCB200B05984 /* DeleteAnimation.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
 				78437F17270C8FB100371110 /* CustomWebViewController.swift in Sources */,
@@ -2990,6 +3001,7 @@
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
 				5A4BE51A271DD86A00D03D09 /* RoomSummary.swift in Sources */,
 				5A2181E726D82DC40093AD60 /* LocationManager.swift in Sources */,
+				8B58DB8C27F508FF003C2C31 /* DragDelegate.swift in Sources */,
 				8B5609B82779D2D800AF43F6 /* BackgroundView.swift in Sources */,
 				8BE379A927EB7CE300AB6B6E /* KeyListFlow.swift in Sources */,
 				5A3721E0272F47EA0097ABED /* EmptyNavigationLink.swift in Sources */,

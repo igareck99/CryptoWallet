@@ -146,6 +146,7 @@ final class MainFlowCoordinator: Coordinator {
         case scanner(Binding<String>)
         case transfer
         case facilityApprove
+        case socialList
         case walletManager
         case keyList
         case phraseManager
@@ -213,6 +214,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showKeyList()
         case .phraseManager:
             showPhraseManger()
+        case .socialList:
+            showSocialList()
         }
     }
 
@@ -375,6 +378,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         navigationController.pushViewController(viewController, animated: true)
     }
 
+    private func showSocialList() {
+        let rootView = SocialListConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
     private func showWalletManager() {
         let rootView = WalletManagerConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
@@ -484,6 +494,10 @@ extension MainFlowCoordinator: KeyListSceneDelegate {}
 // MARK: - MainFlowCoordinator (PhraseManagerSceneDelegate)
 
 extension MainFlowCoordinator: PhraseManagerSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (SocialListSceneDelegate)
+
+extension MainFlowCoordinator: SocialListSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

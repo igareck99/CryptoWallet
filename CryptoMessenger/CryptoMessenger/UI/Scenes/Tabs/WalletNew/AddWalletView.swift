@@ -5,7 +5,7 @@ import SwiftUI
 struct AddWalletView: View {
 
     // MARK: - Internal Properties
-    
+
     @StateObject var viewModel: WalletNewViewModel
     @Binding var showAddWallet: Bool
 
@@ -32,7 +32,12 @@ struct AddWalletView: View {
                 Spacer()
             }
             .padding(.leading, 16)
+            .onDisappear {
+                print("onDisappearAddWallet")
+                showTabBar()
+            }
             .onTapGesture {
+                showAddWallet = false
                 viewModel.send(.onImportKey)
             }
             Spacer()

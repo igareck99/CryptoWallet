@@ -216,8 +216,6 @@ struct WalletInfo: Identifiable, Equatable {
     var coinAmount: Double
     var fiatAmount: Double
 
-    // MARK: - Internal Properties
-
     var result: (image: Image, fiatAmount: Double, currency: String) {
         switch walletType {
         case .ethereum:

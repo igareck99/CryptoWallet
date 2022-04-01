@@ -48,7 +48,6 @@ struct UserDefaultsLayer {
     private static let userPinCodeKey = "userPinCodeKey"
     private static let userFalsePinCodeKey = "userFalsePinCodeKey"
     private static let isFalsePinCodeOnKey = "isFalsePinCodeOnKey"
-    private static let socialNetworkList = "socialNetworkList"
     private static let typography = "typography"
     private static let language = "language"
     private static let theme = "theme"
@@ -103,9 +102,6 @@ struct UserDefaultsLayer {
 
     @UserDefaultSettings(userFalsePinCodeKey, value: "")
     var userFalsePinCode: String
-
-    @UserDefaultSettings(socialNetworkList, value: SocialListItem.socialList())
-    var socialNetworkList: [SocialListItem]
 
     @UserDefaultSettings(typography, value: "")
     var typography: String

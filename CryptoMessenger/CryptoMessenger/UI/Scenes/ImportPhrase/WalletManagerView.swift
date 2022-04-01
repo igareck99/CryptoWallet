@@ -16,6 +16,9 @@ struct WalletManagerView: View {
             .onAppear {
                 viewModel.send(.onAppear)
             }
+            .onDisappear {
+                showTabBar()
+            }
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(R.string.localizable.walletManagerTitle())

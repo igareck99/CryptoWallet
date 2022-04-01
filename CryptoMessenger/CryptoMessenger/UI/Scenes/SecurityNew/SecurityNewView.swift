@@ -139,6 +139,9 @@ struct SecurityNewView: View {
         .onAppear {
             viewModel.send(.onAppear)
         }
+        .onDisappear {
+            showTabBar()
+        }
         .alert(isPresented: $showBiometryErrorAlert, content: {
             Alert(title: Text("Биометрия недоступна"), message: nil,
                   dismissButton: .default(Text("OK")))

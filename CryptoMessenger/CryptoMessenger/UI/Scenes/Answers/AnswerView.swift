@@ -67,6 +67,9 @@ struct AnswerView: View {
                 }
         }
             .listStyle(.plain)
+        .onDisappear {
+            showTabBar()
+        }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(R.string.localizable.additionalMenuQuestions())
