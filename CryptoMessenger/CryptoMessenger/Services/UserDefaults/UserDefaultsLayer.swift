@@ -46,7 +46,6 @@ struct UserDefaultsLayer {
     private static let isLocalAuthBackgroundAlertShownKey = "isLocalAuthBackgroundAlertShownKey"
     private static let isLocalAuthInBackgroundKey = "isLocalAuthInBackgroundKey"
     private static let userPinCodeKey = "userPinCodeKey"
-    private static let isPinCodeOnKey = "isPinCodeOnKey"
     private static let userFalsePinCodeKey = "userFalsePinCodeKey"
     private static let isFalsePinCodeOnKey = "isFalsePinCodeOnKey"
     private static let socialNetworkList = "socialNetworkList"
@@ -99,18 +98,15 @@ struct UserDefaultsLayer {
     @UserDefaultSettings(userPinCodeKey, value: "")
     var userPinCode: String
 
-    @UserDefaultSettings(isPinCodeOnKey, value: false)
-    var isPinCodeOn: Bool
-
     @UserDefaultSettings(isFalsePinCodeOnKey, value: false)
     var isFalsePinCodeOn: Bool
 
     @UserDefaultSettings(userFalsePinCodeKey, value: "")
     var userFalsePinCode: String
-    
+
     @UserDefaultSettings(socialNetworkList, value: SocialListItem.socialList())
     var socialNetworkList: [SocialListItem]
-    
+
     @UserDefaultSettings(typography, value: "")
     var typography: String
     
