@@ -44,6 +44,7 @@ struct ProfileView: View {
                 }
             }
             .onAppear {
+                viewModel.send(.onAppear)
                 showTabBar()
             }
             .fullScreenCover(isPresented: $showSafari) {
@@ -129,7 +130,7 @@ struct ProfileView: View {
                                     ForEach(viewModel.profile.socialNetwork) { item in
                                         switch item.socialType {
                                         case .twitter:
-                                            if !(item.url).isEmpty {
+                                            if (item.url).isEmpty {
                                                 Button(action: {
                                                     showSafari = true
                                                     safariAddress = item.url

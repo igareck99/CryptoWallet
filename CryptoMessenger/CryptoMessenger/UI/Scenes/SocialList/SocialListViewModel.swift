@@ -71,7 +71,6 @@ final class SocialListViewModel: ObservableObject {
         listData = listData.filter { $0.socialType != item.socialType }
         listData.append(item)
         listData = listData.sorted(by: { $0.sortOrder < $1.sortOrder })
-        print("updatedListData   \(listData)")
     }
 
     // MARK: - Private Methods
@@ -131,16 +130,15 @@ final class SocialListViewModel: ObservableObject {
             .sink(receiveCompletion: { completion in
                 switch completion {
                 default:
-                    print("emdokedokmkmwokod    \(completion)")
+                    break
                 }
-            }, receiveValue: { [weak self] response in
-                print("response after update   \(response)")
+            }, receiveValue: { [weak self] _ in
+                
             })
             .store(in: &subscriptions)
     }
 
     private func updateData() {
         getSocialList()
-        listData = listData.sorted(by: { $0.sortOrder < $1.sortOrder })
     }
 }

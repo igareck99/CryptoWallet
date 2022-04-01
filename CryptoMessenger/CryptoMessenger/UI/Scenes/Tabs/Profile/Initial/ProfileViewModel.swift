@@ -41,6 +41,26 @@ final class ProfileViewModel: ObservableObject {
     weak var delegate: ProfileSceneDelegate?
 
     @Published var selectedImage: UIImage?
+    @Published var listData: [SocialListItem] = [
+        SocialListItem(url: "",
+                       sortOrder: 1,
+                       socialType: .instagram),
+        SocialListItem(url: "",
+                       sortOrder: 2,
+                       socialType: .facebook),
+        SocialListItem(url: "",
+                       sortOrder: 3,
+                       socialType: .twitter),
+        SocialListItem(url: "",
+                       sortOrder: 4,
+                       socialType: .vk),
+        SocialListItem(url: "",
+                       sortOrder: 5,
+                       socialType: .tiktok),
+        SocialListItem(url: "",
+                       sortOrder: 6,
+                       socialType: .linkedin)
+    ]
 
     // MARK: - Private Properties
 
@@ -95,7 +115,8 @@ final class ProfileViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    ()
+                    self?.fetchData()
+                    self?.objectWillChange.send()
                 case .onSocial:
                     self?.delegate?.handleNextScene(.socialList)
                 case let .onShow(type):
@@ -163,13 +184,17 @@ final class ProfileViewModel: ObservableObject {
         apiClient.publisher(Endpoints.Social.getSocial(mxStore.getUserId()))
             .replaceError(with: [])
             .sink { [weak self] response in
-                self?.profile.socialNetwork = []
                 for x in response {
-                        self?.profile.socialNetwork.append(SocialListItem(url: x.url,
-                                                                          sortOrder: x.sort_order,
-                                                                          socialType: SocialNetworkType.networkType(item: x.social_type)))
+                    let newList = self?.listData.filter { $0.socialType.description != x.social_type } ?? []
+                    if newList.count != self?.listData.count {
+                        self?.listData = newList
+                        self?.listData.append(SocialListItem(url: x.url,
+                                                             sortOrder: x.sort_order,
+                                                             socialType: SocialNetworkType.networkType(item: x.social_type)))
+                    }
                 }
-                self?.profile.socialNetwork = self?.profile.socialNetwork.sorted(by: { $0.sortOrder < $1.sortOrder }) ?? []
+                let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder })
+                self?.profile.socialNetwork = sortedList ?? []
             }
             .store(in: &subscriptions)
     }
