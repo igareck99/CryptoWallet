@@ -104,12 +104,12 @@ final class SocialListViewModel: ObservableObject {
             .replaceError(with: [])
             .sink { [weak self] response in
                 for x in response {
-                    let newList = self?.listData.filter { $0.socialType.description != x.social_type } ?? []
+                    let newList = self?.listData.filter { $0.socialType.description != x.socialType } ?? []
                     if newList.count != self?.listData.count {
                         self?.listData = newList
                         self?.listData.append(SocialListItem(url: x.url,
-                                                             sortOrder: x.sort_order,
-                                                             socialType: SocialNetworkType.networkType(item: x.social_type)))
+                                                             sortOrder: x.sortOrder,
+                                                             socialType: SocialNetworkType.networkType(item: x.socialType)))
                     }
                 }
                 let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder })
@@ -121,8 +121,8 @@ final class SocialListViewModel: ObservableObject {
     func addSocial(data: [SocialListItem]) {
         var testList: [SocialResponse] = []
         for x in data {
-            testList.append(SocialResponse(sort_order: x.sortOrder,
-                                           social_type: x.socialType.description,
+            testList.append(SocialResponse(sortOrder: x.sortOrder,
+                                           socialType: x.socialType.description,
                                            url: x.url))
         }
         apiClient.publisher(Endpoints.Social.setSocialNew(testList,

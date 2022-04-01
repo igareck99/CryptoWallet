@@ -16,8 +16,12 @@ struct SocialResponse: Codable {
 
     // MARK: - Internal Properties
 
-    var sort_order: Int
-    var social_type: String
-    var url: String
+    let sortOrder: Int
+    let socialType: String
+    let url: String
+
+    private enum CodingKeys : String, CodingKey {
+        case sortOrder = "sort_order", socialType = "social_type", url
+    }
 
 }
