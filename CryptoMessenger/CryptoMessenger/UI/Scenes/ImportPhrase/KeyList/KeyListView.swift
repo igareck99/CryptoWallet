@@ -63,7 +63,7 @@ struct KeyListView: View {
     // MARK: - Private Methods
 
     private func deleteItem(at indexSet: IndexSet) {
-        self.viewModel.keysList.remove(atOffsets: indexSet)
+        viewModel.keysList.remove(atOffsets: indexSet)
     }
 }
 

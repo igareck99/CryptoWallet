@@ -200,7 +200,7 @@ struct PhraseManagerView: View {
                minHeight: 44,
                idealHeight: 44,
                maxHeight: 44)
-        .background(!unLockPhrase ? Color(.lightGray()) : Color(.blue()) )
+        .background(!unLockPhrase ? .lightGray() : .blue() )
         .cornerRadius(8)
     }
 
@@ -221,7 +221,7 @@ struct PhraseManagerView: View {
                minHeight: 44,
                idealHeight: 44,
                maxHeight: 44)
-        .background(wrongRepeatPhrase ? Color(.lightGray()) : Color(.blue()) )
+        .background(wrongRepeatPhrase ? .lightGray() : .blue() )
         .cornerRadius(8)
     }
 }
