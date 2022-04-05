@@ -72,7 +72,6 @@ final class VerificationPresenter {
         let homeServer = configuration.matrixURL
 
         apiClient.request(endpoint) { [weak self] response in
-            print("ekmdekoko    \(response)")
             self?.mxStore.login(username: response.userId ?? "", password: code, homeServer: homeServer)
             self?.view?.setResult(true)
             delay(0.2) {
@@ -115,6 +114,10 @@ extension VerificationPresenter: CountdownTimerDelegate {
     }
 
     func countdownTime(_ timerResult: TimerResult) {
-        state = .resend("\(timerResult.seconds)", false)
+        if timerResult.seconds[0] == "0" {
+            state = .resend("\(timerResult.seconds[1])", false)
+        } else {
+            state = .resend("\(timerResult.seconds)", false)
+        }
     }
 }
