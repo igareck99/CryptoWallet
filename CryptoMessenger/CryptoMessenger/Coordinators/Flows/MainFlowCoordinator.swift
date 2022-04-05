@@ -206,8 +206,6 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showChooseReceiver()
         case let .scanner(scannedString):
             showQRScanner(scannedString: scannedString)
-        case .facilityApprove:
-            showFacilityApprove()
         case .walletManager:
             showWalletManager()
         case .keyList:
@@ -364,8 +362,10 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
     private func showQRScanner(scannedString: Binding<String>) {
-        let rootView = WalletAddressScannerConfigurator.configuredView(delegate: self,
-                                                                      scannedCode: scannedString)
+        let rootView = WalletAddressScannerConfigurator.configuredView(
+            delegate: self,
+            scannedCode: scannedString
+        )
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -398,7 +398,7 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showPhraseManger() {
         let rootView = PhraseManagerConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)

@@ -51,6 +51,16 @@ enum AttachAction: CaseIterable, Identifiable {
 
 struct ActionSheetView: View {
 
+    // MARK: - ActionItem
+
+    struct ActionItem: Identifiable {
+
+        // MARK: - Internal Properties
+
+        let id = UUID()
+        let action: AttachAction
+    }
+
     // MARK: - Internal Properties
 
     @Binding var showActionSheet: Bool
@@ -61,6 +71,7 @@ struct ActionSheetView: View {
     // MARK: - Private Properties
 
     @State private var isShown = false
+    private let actions: [ActionItem] = AttachAction.allCases.map { .init(action: $0) }
 
     // MARK: - Body
 
@@ -74,28 +85,28 @@ struct ActionSheetView: View {
 
                     mediaFeedView
 
-                    ForEach(AttachAction.allCases, id: \.id) { act in
+                    ForEach(actions, id: \.id) { item in
                         Button(action: {
                             vibrate()
-                            attachAction = act
+                            attachAction = item.action
                             showActionSheet.toggle()
                         }, label: {
                             HStack(spacing: 16) {
                                 HStack {
-                                    act.image
+                                    item.action.image
                                 }
                                 .frame(width: 40, height: 40, alignment: .center)
                                 .background(Color(.blue(0.1)))
                                 .cornerRadius(20)
 
-                                Text(act.title)
+                                Text(item.action.title)
                                     .font(.regular(17))
                                     .foreground(.blue())
 
                                 Spacer()
                             }
                             .frame(maxWidth: .infinity, idealHeight: 64, maxHeight: 64)
-                            .padding([.leading, .trailing], 16)
+                            .padding(.horizontal, 16)
                         })
                     }
                 }
@@ -148,9 +159,9 @@ struct ActionSheetView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 ZStack {
-                    CameraFrameView(image: cameraFrame)
-                        .frame(width: 90, height: 90)
-                        .cornerRadius(8)
+                    CodeScannerView(codeTypes: []) { _ in }
+                    .frame(width: 90, height: 90)
+                    .cornerRadius(8)
 
                     ZStack(alignment: .center) {
                         Image(R.image.chat.camera.name)
@@ -239,7 +250,7 @@ struct ActionSheetView: View {
             }
         }
         .frame(height: 90)
-        .padding([.leading, .trailing], 16)
+        .padding(.horizontal, 16)
         .padding(.bottom, 8)
     }
 }

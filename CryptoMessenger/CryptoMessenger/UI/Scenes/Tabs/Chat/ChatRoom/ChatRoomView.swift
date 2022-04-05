@@ -20,7 +20,7 @@ struct ChatRoomView: View {
 
     // MARK: - Internal Properties
 
-    @ObservedObject var viewModel: ChatRoomViewModel
+    @StateObject var viewModel: ChatRoomViewModel
 
     // MARK: - Private Properties
 
@@ -39,6 +39,8 @@ struct ChatRoomView: View {
     @State private var activeSheet: ActiveSheet?
     @State private var replyMessage: RoomMessage?
     @State private var quickAction: QuickAction?
+
+    @FocusState private var inputViewIsFocused: Bool
 
     // MARK: - Body
 
@@ -90,7 +92,6 @@ struct ChatRoomView: View {
                 switch item {
                 case .photo:
                     ImagePickerView(selectedImage: $viewModel.selectedImage)
-                        .ignoresSafeArea()
                         .navigationBarTitle(Text("Фото"))
                         .navigationBarTitleDisplayMode(.inline)
                 case .documents:
@@ -100,7 +101,6 @@ struct ChatRoomView: View {
                     }
                 case .camera:
                     SUImagePickerView(image: $viewModel.pickedImage)
-                        .ignoresSafeArea()
                         .navigationBarTitleDisplayMode(.inline)
                 case .contact:
                     NavigationView {
@@ -247,12 +247,12 @@ struct ChatRoomView: View {
                                     scrollView.scrollTo(id, anchor: .bottom)
                                 }
                             }
-                            .onChange(of: keyboardHandler.keyboardHeight) { _ in
-                                guard let id = viewModel.messages.first?.id else { return }
-                                withAnimation {
-                                    scrollView.scrollTo(id, anchor: .bottom)
-                                }
-                            }
+//                            .onChange(of: keyboardHandler.keyboardHeight) { _ in
+//                                guard let id = viewModel.messages.first?.id else { return }
+//                                withAnimation {
+//                                    scrollView.scrollTo(id, anchor: .bottom)
+//                                }
+//                            }
                             .onAppear {
                                 guard let id = viewModel.messages.first?.id else { return }
                                 withAnimation {
@@ -260,22 +260,13 @@ struct ChatRoomView: View {
                                 }
                             }
                         }
-                        .ignoresSafeArea()
                     }
                     .flippedUpsideDown()
                 }
 
-                if quickAction == .reply {
-                    ReplyView(
-                        text: replyMessage?.description ?? "",
-                        onReset: { replyMessage = nil; quickAction = nil; hideKeyboard() }
-                    )
-                        .transition(.opacity)
-                        .animation(.easeInOut(duration: 0.2))
-                }
-
                 inputView
             }
+            .animation(.easeInOut(duration: 0.3), value: keyboardHandler.keyboardHeight != 0)
             .padding(.bottom, keyboardHandler.keyboardHeight)
 
             if showActionSheet {
@@ -285,6 +276,7 @@ struct ChatRoomView: View {
                     cameraFrame: $viewModel.cameraFrame,
                     onCamera: { showActionSheet = false; activeSheet = .camera }
                 ).transition(.move(edge: .bottom).combined(with: .opacity))
+
             }
 
             quickMenuView
@@ -304,15 +296,15 @@ struct ChatRoomView: View {
             }
         }
         .hideKeyboardOnTap()
-        .edgesIgnoringSafeArea(.bottom)
+        .ignoresSafeArea()
     }
 
     private func dateView(date: String) -> some View {
         HStack {
             Text(date)
                 .font(.regular(14))
-                .padding([.leading, .trailing], 17)
-                .padding([.top, .bottom], 3)
+                .padding(.horizontal, 17)
+                .padding(.vertical, 3)
         }
         .background(.lightGray())
         .cornerRadius(8)
@@ -431,10 +423,13 @@ struct ChatRoomView: View {
                             UIPasteboard.general.string = replyMessage?.description
                         case .delete:
                             viewModel.send(.onDelete(replyMessage?.eventId ?? ""))
+                        case .reply:
+                            inputViewIsFocused = true
                         default:
                             ()
                         }
                         quickAction = $0
+
                     }).padding(.vertical, 16)
                 }
             }
@@ -461,6 +456,13 @@ struct ChatRoomView: View {
 
     private var inputView: some View {
         VStack(spacing: 0) {
+            if quickAction == .reply {
+                ReplyView(
+                    text: replyMessage?.description ?? "",
+                    onReset: { replyMessage = nil; quickAction = nil }
+                ).transition(.opacity)
+            }
+
             HStack(spacing: 8) {
                 Button(action: {
                     hideKeyboard()
@@ -476,11 +478,11 @@ struct ChatRoomView: View {
 
                 HStack {
                     ZStack {
-                        TextEditor(text: $viewModel.inputText)
+                        TextField("", text: $viewModel.inputText)
+                            .focused($inputViewIsFocused)
+                            .keyboardType(.default)
                             .background(.grayDAE1E9())
                             .foreground(.black())
-                            //.colorMultiply(Color(.custom(#colorLiteral(red: 0.8549019608, green: 0.8823529412, blue: 0.9137254902, alpha: 1))))
-                            .keyboardType(.default)
                             .padding(.horizontal, 16)
                     }
                     .background(.grayDAE1E9())
@@ -515,7 +517,9 @@ struct ChatRoomView: View {
 
             Spacer()
         }
-        .frame(height: keyboardHandler.keyboardHeight > 0 ? 52 : 80)
+        .frame(height: quickAction == .reply ? 104 : 52)
         .background(.white())
+        .ignoresSafeArea()
+        .padding(.bottom, keyboardHandler.keyboardHeight == 0 ? 24 : 0)
     }
 }

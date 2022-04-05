@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 
 // MARK: - RegistrationPresenter
@@ -20,6 +21,7 @@ final class RegistrationPresenter {
             updateView(state)
         }
     }
+    private var subscriptions = Set<AnyCancellable>()
 
     // MARK: - Lifecycle
 
@@ -44,12 +46,25 @@ final class RegistrationPresenter {
     private func sendPhone(_ phone: String) {
         let prefix = selectedCountry?.prefix ?? ""
         let numbers = prefix.numbers + phone.numbers
-        apiClient.request(Endpoints.Registration.sms(numbers)) { [weak self] _ in
-            self?.userCredentials.userPhoneNumber = prefix + " " + phone
-            self?.delegate?.handleNextScene(.verification)
-        } failure: { [weak self] error in
-            self?.state = .error(message: error.localizedDescription)
-        }
+
+        apiClient
+            .publisher(Endpoints.Registration.sms(numbers))
+            .sink { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    guard let err = error as? APIError else {
+                        self?.state = .error(message: APIError.serverError.localizedDescription)
+                        return
+                    }
+                    self?.state = .error(message: err.localizedDescription)
+                default:
+                    break
+                }
+            } receiveValue: { [weak self] _ in
+                self?.userCredentials.userPhoneNumber = prefix + " " + phone
+                self?.delegate?.handleNextScene(.verification)
+            }
+            .store(in: &subscriptions)
     }
 }
 

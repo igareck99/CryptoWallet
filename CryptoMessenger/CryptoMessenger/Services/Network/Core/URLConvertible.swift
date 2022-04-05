@@ -10,9 +10,7 @@ protocol URLConvertible {
 
 extension String: URLConvertible {
     func asURL() -> URL {
-        guard let url = URL(string: self) else {
-            fatalError("URLConvertible failed")
-        }
+        guard let url = URL(string: self) else { fatalError("URLConvertible failed") }
         return url
     }
 }
