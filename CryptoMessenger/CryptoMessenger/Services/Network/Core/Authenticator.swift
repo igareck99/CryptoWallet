@@ -47,13 +47,14 @@ final class Authenticator {
                 return publisher
             }
 
-            // scenario 2: we don't have a token at all, the user should probably log in
+            // scenario 2: we don't need a token at all
             guard
                 let access = self?.userCredentialsStorage.accessToken,
                 let refresh = self?.userCredentialsStorage.refreshToken,
                 !access.isEmpty
             else {
-                return Fail(error: AuthenticationError.loginRequired)
+                return Just(Token())
+                    .setFailureType(to: Error.self)
                     .eraseToAnyPublisher()
             }
 
