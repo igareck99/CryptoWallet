@@ -224,9 +224,17 @@ final class ProfileViewModel: ObservableObject {
                         )
                     }
                 }
-                let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder })
-                self?.profile.socialNetwork = sortedList ?? []
-                self?.socialListEmpty = self?.profile.socialNetwork.isEmpty ?? true
+                guard let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder })
+                else { return }
+                self?.profile.socialNetwork = sortedList
+                for x in sortedList {
+                    if !x.url.isEmpty {
+                        self?.socialListEmpty = false
+                        break
+                    } else {
+                        self?.socialListEmpty = true
+                    }
+                }
             }
             .store(in: &subscriptions)
     }
@@ -265,6 +273,7 @@ final class ProfileViewModel: ObservableObject {
         if !mxStore.getStatus().isEmpty {
             profile.status = mxStore.getStatus()
         }
+        getSocialList()
         profile.phone = userCredentialsStorageService.userPhoneNumber
         getPhotos()
     }
