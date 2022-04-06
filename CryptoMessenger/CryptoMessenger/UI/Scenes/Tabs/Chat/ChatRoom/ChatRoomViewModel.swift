@@ -36,9 +36,6 @@ final class ChatRoomViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     private let keyboardObserver = KeyboardObserver()
     private let locationManager = LocationManager()
-    private let cameraManager = CameraManager.shared
-    private let frameManager = FrameManager.shared
-    private let context = CIContext()
 
     @Injectable private var mxStore: MatrixStore
 
@@ -169,11 +166,11 @@ final class ChatRoomViewModel: ObservableObject {
                         }
                     }
                 case .media:
-                    self?.showPhotoLibrary.toggle()
+                    self?.showPhotoLibrary = true
                 case .document:
-                    self?.showDocuments.toggle()
+                    self?.showDocuments = true
                 case .contact:
-                    self?.showContacts.toggle()
+                    self?.showContacts = true
                 default:
                     break
                 }
@@ -265,18 +262,6 @@ final class ChatRoomViewModel: ObservableObject {
 //          .map { $0 }
         //          .assign(to: &$error)
         //
-        frameManager.$current
-            .receive(on: DispatchQueue.main)
-            .compactMap { buffer in
-                guard let image = CGImage.create(from: buffer) else { return nil }
-
-                let ciImage = CIImage(cgImage: image)
-                //            if self.comicFilter {
-                //              ciImage = ciImage.applyingFilter("CIComicEffect")
-                //            }
-                return self.context.createCGImage(ciImage, from: ciImage.extent)
-            }
-            .assign(to: &$cameraFrame)
     }
 
     private func bindOutput() {

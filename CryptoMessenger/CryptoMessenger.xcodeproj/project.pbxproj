@@ -155,6 +155,7 @@
 		5A7EDE74275402ED0049DC4A /* BlockListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4DC640274D7939001B3998 /* BlockListViewModel.swift */; };
 		5A7EDE75275402F00049DC4A /* BlockedUserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE54AD4274C606400D51827 /* BlockedUserItem.swift */; };
 		5A8A13EB27D11B3A004C4B4F /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A13EA27D11B3A004C4B4F /* TrackableScrollView.swift */; };
+		5A8C66E127FAC87A00CA9531 /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C66E027FAC87A00CA9531 /* Authenticator.swift */; };
 		5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B026BD210400645365 /* PinCodePresenter.swift */; };
 		5A9318B726BD210400645365 /* PinCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B126BD210400645365 /* PinCodeViewController.swift */; };
 		5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9318B226BD210400645365 /* PinCodeProtocols.swift */; };
@@ -211,11 +212,6 @@
 		5ABF08CD27D950BF0016CC6F /* GroupMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF08CC27D950BF0016CC6F /* GroupMenuView.swift */; };
 		5ABF08CF27D9C86A0016CC6F /* SUImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF08CE27D9C86A0016CC6F /* SUImagePickerView.swift */; };
 		5ABF08D027D9CEF60016CC6F /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EFB2680CF49001957D3 /* APIClient.swift */; };
-		5ABF08D527D9D13B0016CC6F /* CameraError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF08D227D9D13B0016CC6F /* CameraError.swift */; };
-		5ABF08D627D9D13B0016CC6F /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF08D327D9D13B0016CC6F /* CameraManager.swift */; };
-		5ABF08D727D9D13B0016CC6F /* FrameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF08D427D9D13B0016CC6F /* FrameManager.swift */; };
-		5ABF08D927D9D15C0016CC6F /* CGImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF08D827D9D15B0016CC6F /* CGImageExtension.swift */; };
-		5ABF08DB27D9D30F0016CC6F /* CameraFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF08DA27D9D30F0016CC6F /* CameraFrameView.swift */; };
 		5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC8C4EC27C3FECB008B1744 /* AdminsView.swift */; };
 		5AC8C4EF27C403C9008B1744 /* AlertItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC8C4EE27C403C9008B1744 /* AlertItem.swift */; };
 		5AC8C4F227C4112C008B1744 /* MembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC8C4F127C4112C008B1744 /* MembersView.swift */; };
@@ -600,6 +596,7 @@
 		5A4BE512271DD86A00D03D09 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		5A67791B26C7A64100212580 /* ChatRoomRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomRow.swift; sourceTree = "<group>"; };
 		5A8A13EA27D11B3A004C4B4F /* TrackableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
+		5A8C66E027FAC87A00CA9531 /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 		5A9318B026BD210400645365 /* PinCodePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodePresenter.swift; sourceTree = "<group>"; };
 		5A9318B126BD210400645365 /* PinCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeViewController.swift; sourceTree = "<group>"; };
 		5A9318B226BD210400645365 /* PinCodeProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeProtocols.swift; sourceTree = "<group>"; };
@@ -655,11 +652,6 @@
 		5ABAD3A227C2F6BC0067DFC1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5ABF08CC27D950BF0016CC6F /* GroupMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMenuView.swift; sourceTree = "<group>"; };
 		5ABF08CE27D9C86A0016CC6F /* SUImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SUImagePickerView.swift; sourceTree = "<group>"; };
-		5ABF08D227D9D13B0016CC6F /* CameraError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraError.swift; sourceTree = "<group>"; };
-		5ABF08D327D9D13B0016CC6F /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
-		5ABF08D427D9D13B0016CC6F /* FrameManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameManager.swift; sourceTree = "<group>"; };
-		5ABF08D827D9D15B0016CC6F /* CGImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGImageExtension.swift; sourceTree = "<group>"; };
-		5ABF08DA27D9D30F0016CC6F /* CameraFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFrameView.swift; sourceTree = "<group>"; };
 		5AC8C4EC27C3FECB008B1744 /* AdminsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminsView.swift; sourceTree = "<group>"; };
 		5AC8C4EE27C403C9008B1744 /* AlertItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertItem.swift; sourceTree = "<group>"; };
 		5AC8C4F127C4112C008B1744 /* MembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersView.swift; sourceTree = "<group>"; };
@@ -1224,7 +1216,6 @@
 			isa = PBXGroup;
 			children = (
 				8B4E9C2C27DFF5EA0057E4C9 /* CodeScaner */,
-				5ABF08D127D9D0FC0016CC6F /* CameraManager */,
 				7895E6E326CC1B39009CF41D /* LocalAuthentication */,
 				5A187EDB2680CF49001957D3 /* UserDefaults */,
 				5A187EDF2680CF49001957D3 /* PhotoLibraryManager */,
@@ -1273,9 +1264,10 @@
 		5A187EF82680CF49001957D3 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				5A187EF92680CF49001957D3 /* APIError.swift */,
-				5A187EFA2680CF49001957D3 /* Сonfiguration.swift */,
 				5A187EFB2680CF49001957D3 /* APIClient.swift */,
+				5A187EF92680CF49001957D3 /* APIError.swift */,
+				5A8C66E027FAC87A00CA9531 /* Authenticator.swift */,
+				5A187EFA2680CF49001957D3 /* Сonfiguration.swift */,
 				5A187EFC2680CF49001957D3 /* RequestBuilder.swift */,
 				5A187EFD2680CF49001957D3 /* URLResponseCapable.swift */,
 				5A187EFE2680CF49001957D3 /* URLRequestConvertible.swift */,
@@ -1832,18 +1824,6 @@
 				5ABF08CC27D950BF0016CC6F /* GroupMenuView.swift */,
 			);
 			path = GroupActions;
-			sourceTree = "<group>";
-		};
-		5ABF08D127D9D0FC0016CC6F /* CameraManager */ = {
-			isa = PBXGroup;
-			children = (
-				5ABF08D227D9D13B0016CC6F /* CameraError.swift */,
-				5ABF08D327D9D13B0016CC6F /* CameraManager.swift */,
-				5ABF08D427D9D13B0016CC6F /* FrameManager.swift */,
-				5ABF08D827D9D15B0016CC6F /* CGImageExtension.swift */,
-				5ABF08DA27D9D30F0016CC6F /* CameraFrameView.swift */,
-			);
-			path = CameraManager;
 			sourceTree = "<group>";
 		};
 		5AC8C4EB27C3FEB6008B1744 /* Admins */ = {
@@ -2689,11 +2669,11 @@
 				5AABB7852739821D004D6107 /* ChatHistoryFlow.swift in Sources */,
 				5AF8636D26ADCB9B004A417C /* KeyImportConfigurator.swift in Sources */,
 				8BE379A427EB270E00AB6B6E /* WalletManagerProtocols.swift in Sources */,
-				5ABF08D727D9D13B0016CC6F /* FrameManager.swift in Sources */,
 				5ABF08CD27D950BF0016CC6F /* GroupMenuView.swift in Sources */,
 				5A187DD826806F35001957D3 /* Dependency.swift in Sources */,
 				7846B66E26E8BFF600B05984 /* CellState.swift in Sources */,
 				5A43087327C9079F00A9B582 /* AsyncImage.swift in Sources */,
+				5A8C66E127FAC87A00CA9531 /* Authenticator.swift in Sources */,
 				5A3C942F274BC53400818060 /* NewRoomView.swift in Sources */,
 				5A4BE520271DD86A00D03D09 /* MX+Identifiable.swift in Sources */,
 				8B1E8AC627DF4FA80036C301 /* ChooseReceiverProtocols.swift in Sources */,
@@ -2780,7 +2760,6 @@
 				5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */,
 				5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */,
 				8B5609B2277927B500AF43F6 /* TypographyView.swift in Sources */,
-				5ABF08D627D9D13B0016CC6F /* CameraManager.swift in Sources */,
 				8B6E5554279F0E44002054CF /* PinCodeCreateView.swift in Sources */,
 				5A9B471A26EA6DE0001CC627 /* SlideCard.swift in Sources */,
 				5A9B472426EAA010001CC627 /* ReactionView.swift in Sources */,
@@ -2852,7 +2831,6 @@
 				7889064A270684830093459C /* NetworkDetailCell.swift in Sources */,
 				789FEBEC26DCE61D0018FE91 /* PhotoEditorPresenter.swift in Sources */,
 				5A43087127C9079F00A9B582 /* ImageLoader.swift in Sources */,
-				5ABF08D527D9D13B0016CC6F /* CameraError.swift in Sources */,
 				5A4BE4F7271DC26700D03D09 /* AuthData.swift in Sources */,
 				789B123326CE8906002FCDDF /* CallListProtocols.swift in Sources */,
 				5AF8636926ADCB9B004A417C /* KeyImportPresenter.swift in Sources */,
@@ -2888,7 +2866,6 @@
 				8BC06B0C27C7DFC4005A28A1 /* TransactionView.swift in Sources */,
 				8B4810FB27CF9BA600831589 /* ImportKeyFlow.swift in Sources */,
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
-				5ABF08DB27D9D30F0016CC6F /* CameraFrameView.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
 				78437F0E270C76FE00371110 /* AboutAppViewController.swift in Sources */,
 				78437F11270C76FE00371110 /* AboutAppConfigurator.swift in Sources */,
@@ -2908,7 +2885,6 @@
 				5A187DF426807011001957D3 /* Alertable.swift in Sources */,
 				8BE379A227EB26CC00AB6B6E /* WalletManagerConfigurator.swift in Sources */,
 				5A9318E626C5E42300645365 /* KeyboardAdaptive.swift in Sources */,
-				5ABF08D927D9D15C0016CC6F /* CGImageExtension.swift in Sources */,
 				8B1E8AC827DF4FB20036C301 /* ChooseReceiverConfigurator.swift in Sources */,
 				789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */,
 				5A3C942C274AFFDC00818060 /* KeyboardHandler.swift in Sources */,
@@ -3180,7 +3156,7 @@
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
@@ -3207,7 +3183,7 @@
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 764W7G7Y88;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;

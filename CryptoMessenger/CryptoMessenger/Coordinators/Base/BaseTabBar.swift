@@ -15,11 +15,9 @@ final class BaseTabBar: UITabBar {
     // MARK: - Private Properties
 
     private var tabBarHeight: CGFloat { 88 }
-
     private var circleLayer: CAShapeLayer?
     private var holeLayer: CAShapeLayer?
     private var curveView: UIView?
-
     private var shapeLayer: CALayer?
 
     // MARK: - Lifecycle
@@ -34,10 +32,10 @@ final class BaseTabBar: UITabBar {
         fatalError("not implemented")
     }
 
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let sizeThatFits = super.sizeThatFits(size)
-        return CGSize(width: sizeThatFits.width, height: tabBarHeight)
-    }
+//    override func sizeThatFits(_ size: CGSize) -> CGSize {
+//        let sizeThatFits = super.sizeThatFits(size)
+//        return CGSize(width: sizeThatFits.width, height: tabBarHeight)
+//    }
 
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -110,11 +108,10 @@ private extension BaseTabBar {
     }
 
     func createPath() -> CGPath {
-        let path = UIBezierPath(
+        UIBezierPath(
             roundedRect: bounds,
             byRoundingCorners: [.topLeft, .topRight],
-            cornerRadii: CGSize(width: 0, height: 0))
-
-        return path.cgPath
+            cornerRadii: CGSize(width: 0, height: 0)
+        ).cgPath
     }
 }

@@ -69,6 +69,10 @@ final class ProfileDetailViewModel: ObservableObject {
                     if let status = self?.profile.status {
                         self?.mxStore.setStatus(status) {}
                     }
+
+                    delay(0.5) {
+                        self?.closeScreen.toggle()
+                    }
                 case .onLogout:
                     self?.mxStore.logout()
                 }
@@ -101,8 +105,7 @@ final class ProfileDetailViewModel: ObservableObject {
         profile.status = mxStore.getStatus()
         let link = mxStore.getAvatarUrl()
         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
-        let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
-        profile.avatar = url
+        profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
         let str = userCredentialsStorageService.userPhoneNumber
         let suffixIndex = str.index(str.startIndex, offsetBy: 3)
         profile.phone = String(str[suffixIndex...])
@@ -111,9 +114,7 @@ final class ProfileDetailViewModel: ObservableObject {
     private func setStatus(_ text: String) {
         apiClient.publisher(Endpoints.Profile.status(text))
             .replaceError(with: [:])
-            .sink { [weak self] _ in
-                self?.closeScreen.toggle()
-            }
+            .sink { _ in }
             .store(in: &subscriptions)
     }
 }

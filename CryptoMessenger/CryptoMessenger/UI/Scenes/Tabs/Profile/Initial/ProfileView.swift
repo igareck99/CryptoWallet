@@ -37,8 +37,8 @@ struct ProfileView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     R.image.profile.settings.image
                         .onTapGesture {
-                            vibrate()
                             hideTabBar()
+                            vibrate()
                             showMenu.toggle()
                         }
                 }
@@ -86,9 +86,6 @@ struct ProfileView: View {
                         vibrate()
                         viewModel.send(.onShow(type))
                     })
-                        .onAppear {
-                            hideTabBar()
-                        }
                         .frame(height: 712)
                         .background(
                             CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
@@ -96,23 +93,6 @@ struct ProfileView: View {
                         )
                 }
             )
-//            .popup(
-//                isPresented: $popupSelected,
-//                type: .toast,
-//                position: .bottom,
-//                closeOnTap: true,
-//                closeOnTapOutside: true,
-//                backgroundColor: Color(.black(0.4)),
-//                dismissCallback: { showTabBar() },
-//                view: {
-//                    BuyView()
-//                        .frame(height: 375, alignment: .center)
-//                        .background(
-//                            CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-//                                .fill(Color(.white()))
-//                        )
-//                }
-//            )
     }
 
     private var content: some View {
@@ -130,7 +110,7 @@ struct ProfileView: View {
                                     ForEach(viewModel.profile.socialNetwork) { item in
                                         switch item.socialType {
                                         case .twitter:
-                                            if !(item.url).isEmpty {
+                                            if !item.url.isEmpty {
                                                 Button(action: {
                                                     showSafari = true
                                                     safariAddress = item.url
@@ -141,7 +121,7 @@ struct ProfileView: View {
                                                     .cornerRadius(16)
                                             }
                                         case .facebook:
-                                            if !(item.url).isEmpty {
+                                            if !item.url.isEmpty {
                                                 Button(action: {
                                                     showSafari = true
                                                     safariAddress = item.url
@@ -152,7 +132,7 @@ struct ProfileView: View {
                                                     .cornerRadius(16)
                                             }
                                         case .instagram:
-                                            if !(item.url).isEmpty {
+                                            if !item.url.isEmpty {
                                                 Button(action: {
                                                     showSafari = true
                                                     safariAddress = item.url
@@ -163,7 +143,7 @@ struct ProfileView: View {
                                                     .cornerRadius(16)
                                             }
                                         case .vk:
-                                            if !(item.url).isEmpty {
+                                            if !item.url.isEmpty {
                                                 Button(action: {
                                                     showSafari = true
                                                     safariAddress = item.url
@@ -175,7 +155,7 @@ struct ProfileView: View {
                                                     .cornerRadius(16)
                                             }
                                         case .linkedin:
-                                            if !(item.url).isEmpty {
+                                            if !item.url.isEmpty {
                                                 Button(action: {
                                                     showSafari = true
                                                     safariAddress = item.url
@@ -187,7 +167,7 @@ struct ProfileView: View {
                                                     .cornerRadius(16)
                                             }
                                         case .tiktok:
-                                            if !(item.url).isEmpty {
+                                            if !item.url.isEmpty {
                                                 Button(action: {
                                                     showSafari = true
                                                     safariAddress = item.url
@@ -234,6 +214,7 @@ struct ProfileView: View {
                                 showSafari = true
                             }
                     }.padding(.leading, 16)
+
                     Button(action: {
                         showImagePicker = true
                     }, label: {
@@ -251,13 +232,11 @@ struct ProfileView: View {
 
                     photosView
 
-                    if !viewModel.profile.photos.isEmpty {
-                        FooterView(popupSelected: $popupSelected)
-                            .padding(.horizontal, 16)
-                    }
-
+//                    if !viewModel.profile.photosUrls.isEmpty {
+//                        FooterView(popupSelected: $popupSelected)
+//                            .padding(.horizontal, 16)
+//                    }
                 }
-
             }
         }
     }
@@ -266,7 +245,7 @@ struct ProfileView: View {
         let thumbnail = ZStack {
             Circle()
                 .frame(width: 100, height: 100)
-                .foreground(.blue(0.1))
+                .background(.blue(0.1))
             R.image.profile.avatarThumbnail.image
         }
 
@@ -274,12 +253,11 @@ struct ProfileView: View {
             AsyncImage(
                 url: viewModel.profile.avatar,
                 placeholder: {
-                    if (viewModel.profile.avatar != nil) {
+                    if viewModel.profile.avatar != nil {
                         ProgressView()
                             .frame(width: 100, height: 100)
                             .background(.blue(0.1))
                             .tint(Color(.blue()))
-                            .scaledToFill()
                     } else {
                         thumbnail
                     }
@@ -297,11 +275,11 @@ struct ProfileView: View {
     private var photosView: some View {
         GeometryReader { geometry in
             LazyVGrid(columns: Array(repeating: GridItem(spacing: 1.5), count: 3), alignment: .center, spacing: 1.5) {
-                ForEach(0..<viewModel.profile.photosUrls.count, id: \.self) { index in
+                ForEach(viewModel.profile.photosUrls, id: \.self) { url in
                     VStack(spacing: 0) {
                         let width = (geometry.size.width - 3) / 3
                         AsyncImage(
-                            url: viewModel.profile.photosUrls[index],
+                            url: url,
                             placeholder: {
                                 ProgressView()
                                     .tint(Color(.blue()))
@@ -318,7 +296,7 @@ struct ProfileView: View {
                             .onTapGesture {
                                 showAlert = true
                                 showDeletePhotoAlert = true
-                                photoUrlForDelete = viewModel.profile.photosUrls[index].absoluteString
+                                photoUrlForDelete = url.absoluteString
                             }
                     }
                 }

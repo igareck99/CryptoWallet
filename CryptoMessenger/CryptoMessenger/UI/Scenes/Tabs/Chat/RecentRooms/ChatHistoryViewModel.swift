@@ -22,7 +22,6 @@ final class ChatHistoryViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init() {
-        rooms = mxStore.rooms
         bindInput()
         bindOutput()
     }
@@ -42,11 +41,11 @@ final class ChatHistoryViewModel: ObservableObject {
 
     private func bindInput() {
         eventSubject
-            .debounce(for: 0.05, scheduler: DispatchQueue.main)
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    ()
+                    self?.rooms = self?.mxStore.rooms ?? []
+                    self?.objectWillChange.send()
                 case let .onShowRoom(room):
                     self?.delegate?.handleNextScene(.chatRoom(room))
                 case let .onDeleteRoom(roomId):

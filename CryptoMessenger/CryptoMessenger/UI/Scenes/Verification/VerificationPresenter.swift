@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 
 // MARK: - VerificationPresenter
@@ -16,6 +17,7 @@ final class VerificationPresenter {
     @Injectable private var countdownTimer: CountdownTimer
     @Injectable private var configuration: Configuration
     @Injectable private var mxStore: MatrixStore
+    private var subscriptions = Set<AnyCancellable>()
 
     private var state = VerificationFlow.ViewState.sending {
         didSet {
@@ -52,12 +54,23 @@ final class VerificationPresenter {
     }
 
     private func resendPhone() {
-        let numbers = userCredentials.userPhoneNumber.numbers
-        apiClient.request(Endpoints.Registration.sms(numbers)) { [weak self] _ in
-            self?.countdownTimer.start()
-        } failure: { [weak self] error in
-            self?.state = .error(message: error.localizedDescription)
-        }
+        apiClient
+            .publisher(Endpoints.Registration.sms(userCredentials.userPhoneNumber.numbers))
+            .sink { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    guard let err = error as? APIError else {
+                        self?.state = .error(message: APIError.serverError.localizedDescription)
+                        return
+                    }
+                    self?.state = .error(message: err.localizedDescription)
+                default:
+                    break
+                }
+            } receiveValue: { [weak self] _ in
+                self?.countdownTimer.start()
+            }
+            .store(in: &subscriptions)
     }
 
     private func logIn(_ code: String) {
@@ -71,20 +84,31 @@ final class VerificationPresenter {
 
         let homeServer = configuration.matrixURL
 
-        apiClient.request(endpoint) { [weak self] response in
-            print("ekmdekoko    \(response)")
-            self?.mxStore.login(username: response.userId ?? "", password: code, homeServer: homeServer)
-            self?.view?.setResult(true)
-            delay(0.2) {
-                self?.userCredentials.isUserAuthenticated = true
-                self?.userCredentials.accessToken = response.accessToken
-                self?.userCredentials.refreshToken = response.refreshToken
-                self?.delegate?.handleNextScene(.pinCode)
+        apiClient
+            .publisher(endpoint)
+            .sink { [weak self] completion in
+                self?.view?.setResult(false)
+                switch completion {
+                case .failure(let error):
+                    guard let err = error as? APIError else {
+                        self?.state = .error(message: APIError.serverError.localizedDescription)
+                        return
+                    }
+                    self?.state = .error(message: err.localizedDescription)
+                default:
+                    break
+                }
+            } receiveValue: { [weak self] response in
+                self?.mxStore.login(username: response.userId ?? "", password: code, homeServer: homeServer)
+                self?.view?.setResult(true)
+                delay(0.2) {
+                    self?.userCredentials.isUserAuthenticated = true
+                    self?.userCredentials.accessToken = response.accessToken
+                    self?.userCredentials.refreshToken = response.refreshToken
+                    self?.delegate?.handleNextScene(.pinCode)
+                }
             }
-        } failure: { [weak self] error in
-            self?.view?.setResult(false)
-            self?.state = .error(message: error.localizedDescription)
-        }
+            .store(in: &subscriptions)
     }
 }
 

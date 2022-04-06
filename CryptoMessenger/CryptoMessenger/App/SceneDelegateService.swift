@@ -24,9 +24,9 @@ final class SceneDelegateService: NSObject, UIWindowSceneDelegate {
         setupAppCoordinator()
     }
 
-    // MARK: - Private Methods
+    // MARK: - Internal Methods
 
-    private func setupAppCoordinator() {
+    func setupAppCoordinator() {
         window?.rootViewController = BaseNavigationController()
 
         guard let rootNavigationController = window?.rootViewController as? UINavigationController else {

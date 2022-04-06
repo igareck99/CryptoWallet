@@ -40,7 +40,9 @@ final class AuraRoom: ObservableObject {
     @Published var eventCache: [MXEvent] = []
 
     var isDirect: Bool { room.isDirect }
-    var messageType: MessageType { room.summary.lastMessageEvent.messageType }
+    var messageType: MessageType {
+        room.summary.lastMessageEvent.messageType
+    }
     var lastMessage: String {
         if summary.membership == .invite {
             let inviteEvent = eventCache.last {
