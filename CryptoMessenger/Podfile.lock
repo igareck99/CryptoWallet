@@ -142,6 +142,7 @@ PODS:
   - KeychainAccess (4.2.2)
   - Kingfisher (7.2.0)
   - libbase58 (0.1.4)
+  - Mantis (1.9.0)
   - MatrixSDK/Core (0.17.4):
     - AFNetworking (~> 4.0.0)
     - GZIP (~> 1.3.0)
@@ -188,6 +189,7 @@ DEPENDENCIES:
   - HDWalletKit
   - KeychainAccess
   - Kingfisher
+  - Mantis (~> 1.9.0)
   - MatrixSDK/SwiftSupport
   - PhoneNumberKit
   - R.swift
@@ -218,6 +220,7 @@ SPEC REPOS:
     - KeychainAccess
     - Kingfisher
     - libbase58
+    - Mantis
     - MatrixSDK
     - nanopb
     - OLMKit
@@ -253,6 +256,7 @@ SPEC CHECKSUMS:
   KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
   Kingfisher: 3ac0b75b155cabc0e544877d1a4deea29feece92
   libbase58: 7c040313537b8c44b6e2d15586af8e21f7354efd
+  Mantis: 5dea32ad49addabb3247112f5b1282a6e0964bb0
   MatrixSDK: 39282219213aebf621326f6335073b5a2b1e9113
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OLMKit: 4ee0159d63feeb86d836fdcfefe418e163511639
@@ -267,6 +271,6 @@ SPEC CHECKSUMS:
   SweeterSwift: 31fa8cfbdc094d3ae41bafbeaf4bceed467ba5c7
   SwiftLint: 2c16e8fa99dac2e440dc0c70ea74d2532048f6cf
 
-PODFILE CHECKSUM: 3f7b9cb2dbc07a3b6783ed19506f788de754682b
+PODFILE CHECKSUM: bcb121f72a3f86a31e75da5e57579000df136425
 
 COCOAPODS: 1.11.2

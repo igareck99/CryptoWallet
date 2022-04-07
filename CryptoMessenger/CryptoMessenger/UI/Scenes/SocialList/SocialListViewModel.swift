@@ -112,8 +112,8 @@ final class SocialListViewModel: ObservableObject {
                                                              socialType: SocialNetworkType.networkType(item: x.socialType)))
                     }
                 }
-                let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder })
-                self?.listData = sortedList ?? []
+                guard let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder }) else { return }
+                self?.listData = sortedList
             }
             .store(in: &subscriptions)
     }

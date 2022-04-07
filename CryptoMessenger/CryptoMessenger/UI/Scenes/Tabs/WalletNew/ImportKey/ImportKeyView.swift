@@ -14,6 +14,7 @@ struct ImportKeyView: View {
     @State var showMnemonicSuccess = false
     @State var showButtonAnimation = false
     @Environment(\.presentationMode) private var presentationMode
+    @FocusState var focusValue: Int?
 
     // MARK: - Private Properties
 
@@ -38,10 +39,12 @@ struct ImportKeyView: View {
                     .frame(width: geometry.size.width - 32,
                            height: 100)
                     .cornerRadius(8)
+                    .keyboardType(.alphabet)
+                    
                     if newKey.isEmpty {
                         Text(R.string.localizable.importEnterPrivateKey())
                             .foreground(.darkGray())
-                            .padding(.leading, 16)
+                            .padding(.leading, 17)
                             .padding(.top, 12)
                             .disabled(true)
                             .allowsHitTesting(false)

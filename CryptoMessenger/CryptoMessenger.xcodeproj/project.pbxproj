@@ -369,6 +369,7 @@
 		8B637D8A27CE3BC4000B1B2B /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8927CE3BC4000B1B2B /* RadioButton.swift */; };
 		8B637D8C27CE3BE1000B1B2B /* RadioGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8B27CE3BE1000B1B2B /* RadioGroup.swift */; };
 		8B637D8E27CE3C3D000B1B2B /* RadioGroupPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8D27CE3C3D000B1B2B /* RadioGroupPicker.swift */; };
+		8B69C3F527FE398B0020F289 /* ImageEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B69C3F427FE398B0020F289 /* ImageEditor.swift */; };
 		8B6BEE7F275665D4003A24B6 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6BEE7E275665D4003A24B6 /* ProfileView.swift */; };
 		8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */; };
 		8B6C18BE2799A5E200B85F2A /* SecurityNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BD2799A5E100B85F2A /* SecurityNewView.swift */; };
@@ -810,6 +811,7 @@
 		8B637D8927CE3BC4000B1B2B /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		8B637D8B27CE3BE1000B1B2B /* RadioGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioGroup.swift; sourceTree = "<group>"; };
 		8B637D8D27CE3C3D000B1B2B /* RadioGroupPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioGroupPicker.swift; sourceTree = "<group>"; };
+		8B69C3F427FE398B0020F289 /* ImageEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditor.swift; sourceTree = "<group>"; };
 		8B6BEE7E275665D4003A24B6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		8B6C18BD2799A5E100B85F2A /* SecurityNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityNewView.swift; sourceTree = "<group>"; };
@@ -1508,6 +1510,7 @@
 		5A43086727C7DB8600A9B582 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				8B69C3F427FE398B0020F289 /* ImageEditor.swift */,
 				8B37BF78275799B300602BE0 /* BuyView.swift */,
 				8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */,
 			);
@@ -2603,6 +2606,7 @@
 				5AABB7822739821D004D6107 /* ChatHistoryProtocols.swift in Sources */,
 				8BE379AB27EB7CF200AB6B6E /* KeyListProtocols.swift in Sources */,
 				8BE379AF27EB7D0900AB6B6E /* KeyListViewModel.swift in Sources */,
+				8B69C3F527FE398B0020F289 /* ImageEditor.swift in Sources */,
 				8BA0C8F827AD193C0070203F /* ChatSettingsView.swift in Sources */,
 				5A9B471D26EA7D6C001CC627 /* BlurView.swift in Sources */,
 				5A26CD2A26B2FF9900118D4B /* CarouselFlowLayout.swift in Sources */,
