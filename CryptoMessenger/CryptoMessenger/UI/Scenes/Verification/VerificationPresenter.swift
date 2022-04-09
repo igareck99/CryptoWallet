@@ -139,6 +139,10 @@ extension VerificationPresenter: CountdownTimerDelegate {
     }
 
     func countdownTime(_ timerResult: TimerResult) {
-        state = .resend("\(timerResult.seconds)", false)
+        if timerResult.seconds[0] == "0" {
+            state = .resend("\(timerResult.seconds[1])", false)
+        } else {
+            state = .resend("\(timerResult.seconds)", false)
+        }
     }
 }

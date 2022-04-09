@@ -25,6 +25,7 @@ struct SelectPhotoBackgroundCellView: View {
                 .font(.regular(12))
                 .foreground(.darkGray(12))
         }
+        .listRowSeparator(.hidden)
     }
 }
 
