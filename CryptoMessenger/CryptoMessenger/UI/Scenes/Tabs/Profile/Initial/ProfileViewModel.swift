@@ -41,6 +41,7 @@ final class ProfileViewModel: ObservableObject {
     weak var delegate: ProfileSceneDelegate?
 
     @Published var selectedImage: UIImage?
+    @Published var selectedImageURL: URL?
     @Published var listData: [SocialListItem] = [
         SocialListItem(url: "",
                        sortOrder: 1,

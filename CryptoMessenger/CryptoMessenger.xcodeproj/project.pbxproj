@@ -435,6 +435,7 @@
 		8BE379AF27EB7D0900AB6B6E /* KeyListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE379AE27EB7D0900AB6B6E /* KeyListViewModel.swift */; };
 		8BE379B127EB82A000AB6B6E /* KeyListActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE379B027EB82A000AB6B6E /* KeyListActionView.swift */; };
 		8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6DAE22771EC2C00FB4C6C /* WebView.swift */; };
+		8BF8FA7E27FF8AC20000CC08 /* FeedImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */; };
 		8BFF387B27D91092005D88C9 /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFF387A27D91092005D88C9 /* NumberTextField.swift */; };
 		8BFFC74E27EDEB5700BE4AB6 /* PhraseManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC74D27EDEB5700BE4AB6 /* PhraseManagerView.swift */; };
 		8BFFC75027EDEB6100BE4AB6 /* PhraseManagerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC74F27EDEB6100BE4AB6 /* PhraseManagerViewModel.swift */; };
@@ -878,6 +879,7 @@
 		8BE54AD2274C605700D51827 /* BlockedUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserView.swift; sourceTree = "<group>"; };
 		8BE54AD4274C606400D51827 /* BlockedUserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserItem.swift; sourceTree = "<group>"; };
 		8BE6DAE22771EC2C00FB4C6C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewer.swift; sourceTree = "<group>"; };
 		8BFF387A27D91092005D88C9 /* NumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTextField.swift; sourceTree = "<group>"; };
 		8BFFC74D27EDEB5700BE4AB6 /* PhraseManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerView.swift; sourceTree = "<group>"; };
 		8BFFC74F27EDEB6100BE4AB6 /* PhraseManagerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerViewModel.swift; sourceTree = "<group>"; };
@@ -1109,6 +1111,7 @@
 				8BFF387A27D91092005D88C9 /* NumberTextField.swift */,
 				8B8B9C1E27F31FEE0061F5E6 /* Animation.swift */,
 				8B58DB8B27F508FE003C2C31 /* DragDelegate.swift */,
+				8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -2734,6 +2737,7 @@
 				5A44FEF127693F6F006F9D92 /* ChatCreateViewModel.swift in Sources */,
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
 				8BA0C8FA27AD195D0070203F /* ChatSettingsProtocols.swift in Sources */,
+				8BF8FA7E27FF8AC20000CC08 /* FeedImageViewer.swift in Sources */,
 				8BA0C91227AD77380070203F /* ReserveCopyConfigurator.swift in Sources */,
 				8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */,
 				5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */,

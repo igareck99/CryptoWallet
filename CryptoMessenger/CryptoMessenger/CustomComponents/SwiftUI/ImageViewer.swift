@@ -74,23 +74,14 @@ struct ImageViewer: View {
                 .ignoresSafeArea()
 
             ScrollView(.init()) {
-                //TabView(selection: $viewModel.selectedImageID) {
-                //ForEach(viewModel.allImages, id: \.self) { image in
-
                 AsyncImage(
                     url: selectedPhoto,
                     placeholder: { ShimmerView() },
                     result: { Image(uiImage: $0).resizable() }
                 )
                     .scaledToFit()
-
-                //Image(image)
-                //.resizable()
-                //.aspectRatio(contentMode: .fit)
                 .animation(.spring())
-                //.tag(image)
                 .scaleEffect(
-                    //viewModel.selectedImageID == image ? (viewModel.imageScale > 1 ? viewModel.imageScale : 1) : 1
                     viewModel.imageScale > 1 ? viewModel.imageScale : 1
                 )
                 .offset(y: viewModel.imageViewerOffset.height)
@@ -109,9 +100,6 @@ struct ImageViewer: View {
                             }
                         })
                 )
-                //  }
-                //}
-                //.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
             .ignoresSafeArea()
             .transition(.scale.combined(with: .opacity))

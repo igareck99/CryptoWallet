@@ -19,6 +19,8 @@ struct ProfileView: View {
     @State private var safariAddress = ""
     @State private var showDeletePhotoAlert = false
     @State private var photoUrlForDelete = ""
+    @State var showImageViewer = false
+    @State private var selectedPhoto: URL?
 
     // MARK: - Body
 
@@ -50,6 +52,10 @@ struct ProfileView: View {
             .fullScreenCover(isPresented: $showSafari) {
                 SFSafariViewWrapper(link: $safariAddress)
             }
+//            .fullScreenCover(isPresented: $showImageViewer,
+//                             content: {
+//                FeedImageView(profileViewModel: viewModel)
+//            })
             .sheet(isPresented: $showImagePicker) {
                 ImagePickerView(selectedImage: $viewModel.selectedImage)
                     .ignoresSafeArea()
@@ -294,9 +300,11 @@ struct ProfileView: View {
                             .frame(width: width, height: width)
                             .clipped()
                             .onTapGesture {
-                                showAlert = true
-                                showDeletePhotoAlert = true
-                                photoUrlForDelete = url.absoluteString
+                                showImageViewer = true
+                                viewModel.selectedImageURL = url
+//                                showAlert = true
+//                                showDeletePhotoAlert = true
+//                                photoUrlForDelete = url.absoluteString
                             }
                     }
                 }
