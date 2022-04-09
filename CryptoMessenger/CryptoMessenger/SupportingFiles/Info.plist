@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>API URL</key>
-	<string>https://api.auramsg.best</string>
+	<string>https://api.aura.ms</string>
 	<key>API Version</key>
 	<string>v0</string>
 	<key>API stand</key>
@@ -31,7 +31,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MATRIX URL</key>
-	<string>https://matrix.auramsg.best</string>
+	<string>https://matrix.aura.ms</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

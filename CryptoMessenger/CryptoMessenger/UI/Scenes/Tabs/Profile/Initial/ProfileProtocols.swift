@@ -4,4 +4,5 @@ import Foundation
 
 protocol ProfileSceneDelegate: AnyObject {
     func handleNextScene(_ scene: MainFlowCoordinator.Scene)
+    func restartFlow()
 }

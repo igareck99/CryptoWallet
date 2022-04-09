@@ -6,18 +6,24 @@ enum APILogLevel {
 
     // MARK: - Types
 
-    case off
-    case info
-    case debug
+    case off, info, debug
 }
 
 // MARK: - APILogLevel
 
 final class APILogger {
 
+    // MARK: - Static Properties
+
+    static let shared = APILogger()
+
     // MARK: - Internal Properties
 
     var logLevel = APILogLevel.debug
+
+    // MARK: - Life Cycle
+
+    private init() {}
 
     // MARK: - Internal Methods
 

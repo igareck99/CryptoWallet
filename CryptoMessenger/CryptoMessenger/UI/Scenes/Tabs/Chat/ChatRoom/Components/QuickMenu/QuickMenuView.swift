@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - QuickAction
 
-enum QuickAction: CaseIterable, Identifiable {
+enum QuickAction: CaseIterable {
 
     // MARK: - Types
 
@@ -15,8 +15,6 @@ enum QuickAction: CaseIterable, Identifiable {
     case delete
 
     // MARK: - Internal Properties
-
-    var id: String { UUID().uuidString }
 
     var title: String {
         switch self {
@@ -63,6 +61,16 @@ enum QuickAction: CaseIterable, Identifiable {
 
 struct QuickMenuView: View {
 
+    // MARK: - QuickActionItem
+
+    struct QuickActionItem: Identifiable {
+
+        // MARK: - Internal Properties
+
+        let id = UUID()
+        let action: QuickAction
+    }
+
     // MARK: - Internal Properties
 
     @Binding var cardPosition: CardPosition
@@ -70,24 +78,25 @@ struct QuickMenuView: View {
 
     // MARK: - Private Properties
 
+    private let actions: [QuickActionItem] = QuickAction.allCases.map { .init(action: $0) }
     @State private var isShown = false
 
     // MARK: - Body
 
     var body: some View {
         VStack(spacing: 0) {
-            ForEach(QuickAction.allCases, id: \.id) { act in
+            ForEach(actions, id: \.id) { item in
                 HStack {
                     HStack {
-                        act.image
+                        item.action.image
                     }
                     .frame(width: 40, height: 40)
-                    .background(act == .delete ? Color(.red(0.1)) : Color(.blue(0.1)))
+                    .background(item.action == .delete ? Color(.red(0.1)) : Color(.blue(0.1)))
                     .cornerRadius(20)
 
-                    Text(act.title)
+                    Text(item.action.title)
                         .font(.regular(17))
-                        .foreground(act == .delete ? .red() : .blue())
+                        .foreground(item.action == .delete ? .red() : .blue())
                         .padding(.leading, 16)
 
                     Spacer()
@@ -96,7 +105,7 @@ struct QuickMenuView: View {
                 .padding(.horizontal, 16)
                 .onTapGesture {
                     vibrate()
-                    onAction(act)
+                    onAction(item.action)
                     cardPosition = .bottom
                 }
             }

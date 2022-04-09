@@ -9,19 +9,25 @@ final class KeyboardHandler: NSObject, ObservableObject {
     // MARK: - Internal Properties
 
     @Published var keyboardHeight = CGFloat(0)
+    private(set) var spaceBetweenKeyboardAndInputField = CGFloat(20)
+    private(set) var actualKeyboardHeight: CGFloat?
 
-    var spaceBetweenKeyboardAndInputField = CGFloat(20)
-    var actualKeyboardHeight: CGFloat?
-    var panRecognizer: UIPanGestureRecognizer?
-    var subscriptions = Set<AnyCancellable>()
+    // MARK: - Private Properties
+
+    private var panRecognizer: UIPanGestureRecognizer?
+    private var subscriptions = Set<AnyCancellable>()
 
     // MARK: - Lifecycle
 
     override init() {
         super.init()
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        panRecognizer.delegate = self
-        self.panRecognizer = panRecognizer
+
+        UIScrollView.appearance().keyboardDismissMode = .none
+        UITableView.appearance().keyboardDismissMode = .none
+
+        //let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        //panRecognizer.delegate = self
+        //self.panRecognizer = panRecognizer
 
         guard
             let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
@@ -30,7 +36,7 @@ final class KeyboardHandler: NSObject, ObservableObject {
             return
         }
 
-        window.addGestureRecognizer(panRecognizer)
+        //window.addGestureRecognizer(panRecognizer)
 
         let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification)
             .map { $0.keyboardHeight }

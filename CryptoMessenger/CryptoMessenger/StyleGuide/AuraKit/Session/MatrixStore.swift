@@ -318,18 +318,17 @@ final class MatrixStore: ObservableObject {
             self?.session?.myUser.setAvatarUrl(link, success: {
                 let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                 let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
-                completion(url)
                 self?.objectWillChange.send()
+                completion(url)
             }, failure: { error in
                 if let error = error {
                     print(error)
                 }
-                completion(nil)
                 self?.objectWillChange.send()
+                completion(nil)
             })
-
-        }, failure: { _ in
-
+        }, failure: { [weak self] _ in
+            self?.objectWillChange.send()
         })
     }
 

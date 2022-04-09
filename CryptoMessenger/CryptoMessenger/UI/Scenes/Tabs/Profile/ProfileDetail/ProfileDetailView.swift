@@ -42,6 +42,7 @@ struct ProfileDetailView: View {
     @State private var descriptionHeight = CGFloat(100)
     @State private var showLogoutAlert = false
     @State private var showImagePicker = false
+    @State private var isSaving = false
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -59,13 +60,13 @@ struct ProfileDetailView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
+                        isSaving.toggle()
                         viewModel.send(.onDone)
-                        presentationMode.wrappedValue.dismiss()
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
                             .foreground(.blue())
-                    })
+                    }).disabled(isSaving)
                 }
             }
             .hideKeyboardOnTap()
@@ -102,83 +103,95 @@ struct ProfileDetailView: View {
     }
 
     var content: some View {
-        GeometryReader { geometry in
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 0) {
-                    ForEach(0..<ProfileDetailType.allCases.count, id: \.self) { index in
-                        let type = ProfileDetailType.allCases[index]
-                        switch type {
-                        case .avatar:
-                            avatarView.frame(height: geometry.size.width)
-                        case .status:
-                            TextFieldView(
-                                title: type.title.uppercased(),
-                                text: $viewModel.profile.status,
-                                placeholder: type.title
-                            )
-                                .padding(.top, 24)
-                                .padding([.leading, .trailing], 16)
-                        case .info:
-                            info(type.title)
-                                .padding(.top, 24)
-                                .padding([.leading, .trailing], 16)
-                        case .name:
-                            TextFieldView(
-                                title: type.title.uppercased(),
-                                text: $viewModel.profile.name,
-                                placeholder: type.title
-                            )
-                                .padding(.top, 24)
-                                .padding([.leading, .trailing], 16)
-                        case .phone:
-                            phone(type.title.uppercased())
-                                .padding(.top, 24)
-                                .padding([.leading, .trailing], 16)
-                        case .socialNetwork:
-                            ProfileDetailActionRow(
-                                title: "Ваши социальные сети",
-                                color: .blue(0.1),
-                                image: R.image.profileDetail.socialNetwork.image
-                            )
-                                .onTapGesture {
-                                    viewModel.send(.onSocial)
-                                }
-                                .background(.white())
-                                .frame(height: 64)
-                                .padding(.top, 24)
-                                .padding([.leading, .trailing], 16)
-                        case .exit:
-                            Divider()
-                                .foreground(.grayE6EAED())
-                                .padding(.top, 16)
+        ZStack {
+            GeometryReader { geometry in
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        ForEach(0..<ProfileDetailType.allCases.count, id: \.self) { index in
+                            let type = ProfileDetailType.allCases[index]
+                            switch type {
+                            case .avatar:
+                                avatarView.frame(height: geometry.size.width)
+                            case .status:
+                                TextFieldView(
+                                    title: type.title.uppercased(),
+                                    text: $viewModel.profile.status,
+                                    placeholder: type.title
+                                )
+                                    .padding(.top, 24)
+                                    .padding([.leading, .trailing], 16)
+                            case .info:
+                                info(type.title)
+                                    .padding(.top, 24)
+                                    .padding([.leading, .trailing], 16)
+                            case .name:
+                                TextFieldView(
+                                    title: type.title.uppercased(),
+                                    text: $viewModel.profile.name,
+                                    placeholder: type.title
+                                )
+                                    .padding(.top, 24)
+                                    .padding([.leading, .trailing], 16)
+                            case .phone:
+                                phone(type.title.uppercased())
+                                    .padding(.top, 24)
+                                    .padding([.leading, .trailing], 16)
+                            case .socialNetwork:
+                                ProfileDetailActionRow(
+                                    title: "Ваши социальные сети",
+                                    color: .blue(0.1),
+                                    image: R.image.profileDetail.socialNetwork.image
+                                )
+                                    .onTapGesture {
+                                        viewModel.send(.onSocial)
+                                    }
+                                    .background(.white())
+                                    .frame(height: 64)
+                                    .padding(.top, 24)
+                                    .padding([.leading, .trailing], 16)
+                            case .exit:
+                                Divider()
+                                    .foreground(.grayE6EAED())
+                                    .padding(.top, 16)
 
-                            ProfileDetailActionRow(
-                                title: "Выход",
-                                color: .lightRed(0.1),
-                                image: R.image.profileDetail.exit.image
-                            )
-                                .background(.white())
-                                .frame(height: 64)
-                                .padding(.top, 16)
-                                .padding([.leading, .trailing], 16)
-                                .onTapGesture {
-                                    vibrate()
-                                    showLogoutAlert.toggle()
-                                }
-                        case .delete:
-                            ProfileDetailActionRow(
-                                title: "Удалить учетную запись",
-                                color: .lightRed(0.1),
-                                image: R.image.profileDetail.delete.image
-                            )
-                                .background(.white())
-                                .frame(height: 64)
-                                .padding([.leading, .trailing], 16)
+                                ProfileDetailActionRow(
+                                    title: "Выход",
+                                    color: .lightRed(0.1),
+                                    image: R.image.profileDetail.exit.image
+                                )
+                                    .background(.white())
+                                    .frame(height: 64)
+                                    .padding(.top, 16)
+                                    .padding([.leading, .trailing], 16)
+                                    .onTapGesture {
+                                        vibrate()
+                                        showLogoutAlert.toggle()
+                                    }
+                            case .delete:
+                                ProfileDetailActionRow(
+                                    title: "Удалить учетную запись",
+                                    color: .lightRed(0.1),
+                                    image: R.image.profileDetail.delete.image
+                                )
+                                    .background(.white())
+                                    .frame(height: 64)
+                                    .padding([.leading, .trailing], 16)
+                            }
                         }
                     }
                 }
             }
+
+            if isSaving {
+                ZStack {
+                    ProgressView()
+                        .tint(Color(.blue()))
+                        .frame(width: 12, height: 12)
+                }
+            }
         }
+        .background(isSaving ? .black(0.05) : .clear)
+        .ignoresSafeArea()
     }
 
     private var avatarView: some View {

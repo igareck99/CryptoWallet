@@ -75,13 +75,13 @@ final class ProfileViewModel: ObservableObject {
     @Injectable private var apiClient: APIClientManager
     @Injectable private var mxStore: MatrixStore
     @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+    @Injectable private var userFlowsStorageService: UserFlowsStorageService
 
     // MARK: - Lifecycle
 
     init() {
         bindInput()
         bindOutput()
-        fetchData()
     }
 
     deinit {
@@ -116,7 +116,6 @@ final class ProfileViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     self?.fetchData()
-                    self?.objectWillChange.send()
                 case .onSocial:
                     self?.delegate?.handleNextScene(.socialList)
                 case let .onShow(type):
@@ -151,12 +150,20 @@ final class ProfileViewModel: ObservableObject {
                 self?.send(.onAddPhoto(image))
             }
             .store(in: &subscriptions)
-        $profile
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.objectWillChange.send()
+
+        mxStore.$loginState.sink { [weak self] status in
+            switch status {
+            case .loggedOut:
+                self?.userFlowsStorageService.isAuthFlowFinished = false
+                self?.userFlowsStorageService.isOnboardingFlowFinished = false
+                self?.userFlowsStorageService.isLocalAuth = false
+                self?.userCredentialsStorageService.userPinCode = ""
+                self?.delegate?.restartFlow()
+            default:
+                break
             }
-            .store(in: &subscriptions)
+        }
+        .store(in: &subscriptions)
 
         mxStore.objectWillChange
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
@@ -173,28 +180,53 @@ final class ProfileViewModel: ObservableObject {
 
     private func getPhotos() {
         apiClient.publisher(Endpoints.Media.getPhotos(mxStore.getUserId()))
-            .replaceError(with: [])
-            .sink { [weak self] response in
+            .sink { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    if let err = error as? APIError, err == .invalidToken {
+                        self?.mxStore.logout()
+                    }
+                default:
+                    break
+                }
+            } receiveValue: { [weak self] response in
+                let link = self?.mxStore.getAvatarUrl() ?? ""
+                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                self?.profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
                 self?.profile.photosUrls = response.compactMap { $0.original }
+                self?.getSocialList()
             }
             .store(in: &subscriptions)
     }
 
     private func getSocialList() {
         apiClient.publisher(Endpoints.Social.getSocial(mxStore.getUserId()))
-            .replaceError(with: [])
-            .sink { [weak self] response in
+            .sink { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    if let err = error as? APIError, err == .invalidToken {
+                        self?.mxStore.logout()
+                    }
+                default:
+                    break
+                }
+            } receiveValue: { [weak self] response in
                 for x in response {
                     let newList = self?.listData.filter { $0.socialType.description != x.socialType } ?? []
                     if newList.count != self?.listData.count {
                         self?.listData = newList
-                        self?.listData.append(SocialListItem(url: x.url,
-                                                             sortOrder: x.sortOrder,
-                                                             socialType: SocialNetworkType.networkType(item: x.socialType)))
+                        self?.listData.append(
+                            .init(
+                                url: x.url,
+                                sortOrder: x.sortOrder,
+                                socialType: SocialNetworkType.networkType(item: x.socialType)
+                            )
+                        )
                     }
                 }
                 let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder })
                 self?.profile.socialNetwork = sortedList ?? []
+                self?.socialListEmpty = self?.profile.socialNetwork.isEmpty ?? true
             }
             .store(in: &subscriptions)
     }
@@ -207,10 +239,17 @@ final class ProfileViewModel: ObservableObject {
             fileData: data
         )
         apiClient.publisher(Endpoints.Media.upload(multipartData, name: mxStore.getUserId()))
-            .replaceError(with: .init())
-            .sink { [weak self] response in
-                guard let url = response.original else { return }
-                self?.profile.photosUrls.insert(url, at: 0)
+            .sink { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    if let err = error as? APIError, err == .invalidToken {
+                        self?.mxStore.logout()
+                    }
+                default:
+                    break
+                }
+            } receiveValue: { [weak self] _ in
+                self?.getPhotos()
             }
             .store(in: &subscriptions)
     }
@@ -218,8 +257,7 @@ final class ProfileViewModel: ObservableObject {
     private func fetchData() {
         let link = mxStore.getAvatarUrl()
         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
-        let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
-        profile.avatar = url
+        profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
         profile.nickname = mxStore.getUserId()
         if !mxStore.getDisplayName().isEmpty {
             profile.name = mxStore.getDisplayName()
@@ -227,9 +265,7 @@ final class ProfileViewModel: ObservableObject {
         if !mxStore.getStatus().isEmpty {
             profile.status = mxStore.getStatus()
         }
-        getSocialList()
         profile.phone = userCredentialsStorageService.userPhoneNumber
         getPhotos()
-        socialListEmpty = profile.socialNetwork.isEmpty
     }
 }
