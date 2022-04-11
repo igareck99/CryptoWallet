@@ -32,11 +32,6 @@ final class BaseTabBar: UITabBar {
         fatalError("not implemented")
     }
 
-//    override func sizeThatFits(_ size: CGSize) -> CGSize {
-//        let sizeThatFits = super.sizeThatFits(size)
-//        return CGSize(width: sizeThatFits.width, height: tabBarHeight)
-//    }
-
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         setupTabBar()
@@ -56,10 +51,6 @@ private extension BaseTabBar {
         shadowImage = UIImage()
         itemPositioning = .fill
         layer.borderColor = UIColor.clear.cgColor
-        items?.forEach {
-            $0.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
-            $0.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 10)
-        }
     }
 
     func setupAppearance() {
@@ -101,7 +92,7 @@ private extension BaseTabBar {
         if let oldShapeLayer = self.shapeLayer {
             layer.replaceSublayer(oldShapeLayer, with: shapeLayer)
         } else {
-            layer.addSublayer(shapeLayer)
+            layer.insertSublayer(shapeLayer, at: 0)
         }
 
         self.shapeLayer = shapeLayer

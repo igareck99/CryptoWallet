@@ -62,7 +62,6 @@ final class RegistrationView: UIView {
 
     @objc private func continueButtonTap() {
         vibrate()
-
         continueButton.indicator = MaterialLoadingIndicator(color: .blue())
         continueButton.animateScaleEffect {
             self.startLoading()
@@ -102,7 +101,7 @@ final class RegistrationView: UIView {
             else {
                 return
             }
-            self?.updateContinueButtonConstraints(keyboardFrame.size.height - 20)
+            self?.updateContinueButtonConstraints(keyboardFrame.size.height + 10)
         }
         keyboardObserver?.keyboardWillHideHandler = { [weak self] _ in
             self?.updateContinueButtonConstraints(nil)
@@ -117,10 +116,10 @@ final class RegistrationView: UIView {
 
     func updateContinueButtonConstraints(_ offset: CGFloat?) {
         let offset = offset ?? continueButtonDefaultOffset
-        continueButton.snp.updateConstraints {
-            $0.bottom.equalTo(self.snp_bottomMargin).offset(-offset)
+        UIView.animate(withDuration: 0.25) {
+            self.continueButton.snp.updateConstraints { $0.bottom.equalToSuperview().inset(offset) }
+            self.layoutIfNeeded()
         }
-        UIView.animate(withDuration: 0.25) { self.layoutIfNeeded() }
     }
 
     // MARK: - Private Methods
@@ -139,8 +138,7 @@ final class RegistrationView: UIView {
             $0.numberOfLines = 0
         } layout: {
             $0.top.equalTo(self.snp_topMargin).offset(50)
-            $0.leading.equalTo($1).offset(24)
-            $0.trailing.equalTo($1).offset(-24)
+            $0.leading.trailing.equalTo($1).inset(24)
             $0.height.greaterThanOrEqualTo(28)
         }
     }
@@ -159,8 +157,7 @@ final class RegistrationView: UIView {
             $0.numberOfLines = 0
         } layout: {
             $0.top.equalTo(self.titleLabel.snp.bottom).offset(12)
-            $0.leading.equalTo($1).offset(24)
-            $0.trailing.equalTo($1).offset(-24)
+            $0.leading.trailing.equalTo($1).inset(24)
         }
     }
 
@@ -170,8 +167,7 @@ final class RegistrationView: UIView {
             $0.clipCorners(radius: 8)
         } layout: {
             $0.top.equalTo(self.descriptionLabel.snp.bottom).offset(50)
-            $0.leading.equalTo($1).offset(24)
-            $0.trailing.equalTo($1).offset(-24)
+            $0.leading.trailing.equalTo($1).inset(24)
             $0.height.equalTo(44)
         }
     }
@@ -183,7 +179,7 @@ final class RegistrationView: UIView {
             $0.textAlignment = .left
         } layout: {
             $0.centerY.equalTo($1)
-            $0.leading.equalTo($1).offset(16)
+            $0.leading.trailing.equalTo($1).inset(16)
         }
     }
 
@@ -213,8 +209,7 @@ final class RegistrationView: UIView {
             $0.clipCorners(radius: 8)
         } layout: {
             $0.top.equalTo(self.countryView.snp.bottom).offset(32)
-            $0.leading.equalTo($1).offset(24)
-            $0.trailing.equalTo($1).offset(-24)
+            $0.leading.trailing.equalTo($1).inset(24)
             $0.height.equalTo(44)
         }
     }
@@ -232,8 +227,7 @@ final class RegistrationView: UIView {
             $0.addTarget(self, action: #selector(self.onTextUpdate), for: .editingChanged)
         } layout: {
             $0.top.bottom.equalTo($1)
-            $0.leading.equalTo($1).offset(16)
-            $0.trailing.equalTo($1).offset(-16)
+            $0.leading.trailing.equalTo($1).inset(16)
         }
     }
 
@@ -246,10 +240,9 @@ final class RegistrationView: UIView {
             $0.isEnabled = false
             $0.addTarget(self, action: #selector(self.continueButtonTap), for: .touchUpInside)
         } layout: {
-            $0.leading.equalTo($1).offset(80)
-            $0.trailing.equalTo($1).offset(-80)
+            $0.leading.trailing.equalTo($1).inset(80)
             $0.height.equalTo(44)
-            $0.bottom.equalTo(self.snp_bottomMargin).offset(-28)
+            $0.bottom.equalToSuperview().inset(28)
         }
     }
 

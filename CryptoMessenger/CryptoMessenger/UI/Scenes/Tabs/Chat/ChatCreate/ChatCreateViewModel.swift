@@ -48,6 +48,7 @@ final class ChatCreateViewModel: ObservableObject {
     @Published private(set) var contacts: [Contact] = []
     @Published private(set) var state: ChatCreateFlow.ViewState = .idle
     @Published private(set) var existingContacts: [Contact] = []
+    @Published private(set) var filteredContacts: [Contact] = []
     @Published private(set) var waitingContacts: [Contact] = []
 
     // MARK: - Private Properties
@@ -106,15 +107,9 @@ final class ChatCreateViewModel: ObservableObject {
             .sink { [weak self] text in
                 self?.mxStore.searchUser(text) { name in
                     if let name = name {
-                        self?.contacts.append(
-                            .init(
-                                mxId: text,
-                                avatar: nil,
-                                name: name,
-                                status: ""
-                            )
-                        )
-
+                        self?.filteredContacts = [.init(mxId: text, avatar: nil, name: name, status: "")]
+                    } else {
+                        self?.filteredContacts.removeAll()
                     }
                 }
             }

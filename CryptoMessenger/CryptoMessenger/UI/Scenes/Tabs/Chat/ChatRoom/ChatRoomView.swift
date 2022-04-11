@@ -142,10 +142,10 @@ struct ChatRoomView: View {
                                 Image(uiImage: $0).resizable()
                             }
                         )
-                        .scaledToFill()
-                        .frame(width: 36, height: 36)
-                        .cornerRadius(18)
-                        .padding(.trailing, 12)
+                            .scaledToFill()
+                            .frame(width: 36, height: 36)
+                            .cornerRadius(18)
+                            .padding(.trailing, 12)
 
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
@@ -211,18 +211,18 @@ struct ChatRoomView: View {
                             Spacer().frame(height: 16)
 
                             ForEach(viewModel.messages) { message in
-                                    ChatRoomRow(
-                                        message: message,
-                                        isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
-                                        isDirect: viewModel.room.isDirect,
-                                        onReaction: { reactionId in
-                                            vibrate()
-                                            viewModel.send(
-                                                .onDeleteReaction(messageId: message.id, reactionId: reactionId)
-                                            )
-                                        },
-                                        onSelectPhoto: { selectedPhoto = $0 }
-                                    )
+                                ChatRoomRow(
+                                    message: message,
+                                    isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
+                                    isDirect: viewModel.room.isDirect,
+                                    onReaction: { reactionId in
+                                        vibrate()
+                                        viewModel.send(
+                                            .onDeleteReaction(messageId: message.id, reactionId: reactionId)
+                                        )
+                                    },
+                                    onSelectPhoto: { selectedPhoto = $0 }
+                                )
                                     .flippedUpsideDown()
                                     .listRowSeparator(.hidden)
                                     .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
@@ -247,12 +247,12 @@ struct ChatRoomView: View {
                                     scrollView.scrollTo(id, anchor: .bottom)
                                 }
                             }
-//                            .onChange(of: keyboardHandler.keyboardHeight) { _ in
-//                                guard let id = viewModel.messages.first?.id else { return }
-//                                withAnimation {
-//                                    scrollView.scrollTo(id, anchor: .bottom)
-//                                }
-//                            }
+                            //                            .onChange(of: keyboardHandler.keyboardHeight) { _ in
+                            //                                guard let id = viewModel.messages.first?.id else { return }
+                            //                                withAnimation {
+                            //                                    scrollView.scrollTo(id, anchor: .bottom)
+                            //                                }
+                            //                            }
                             .onAppear {
                                 guard let id = viewModel.messages.first?.id else { return }
                                 withAnimation {
@@ -308,7 +308,7 @@ struct ChatRoomView: View {
         }
         .background(.lightGray())
         .cornerRadius(8)
-        .padding([.bottom, .top], 8)
+        .padding(.vertical, 8)
     }
 
     private var headerView: some View {
@@ -340,9 +340,9 @@ struct ChatRoomView: View {
                         Image(uiImage: $0).resizable()
                     }
                 )
-                .scaledToFill()
-                .frame(width: 36, height: 36)
-                .cornerRadius(18)
+                    .scaledToFill()
+                    .frame(width: 36, height: 36)
+                    .cornerRadius(18)
 
                 Spacer().frame(width: 12)
 
@@ -396,26 +396,26 @@ struct ChatRoomView: View {
 
             SlideCard(position: $cardPosition, expandedPosition: .custom(UIScreen.main.bounds.height - 580)) {
                 VStack {
-//                    ScrollView(.horizontal, showsIndicators: false) {
-//                        HStack(spacing: 11) {
-//                            ForEach(viewModel.emojiStorage) { reaction in
-//                                LastReactionItemView(emoji: reaction.emoji, isLastButton: reaction.isLastButton)
-//                                    .onTapGesture {
-//                                        vibrate()
-//                                        viewModel.send(.onAddReaction(messageId: messageId, reactionId: reaction.id))
-//                                        cardPosition = .bottom
-//                                    }
-//                            }
-//                        }
-//                        .frame(height: 40)
-//                        .padding(.top, 22)
-//                        .padding(.horizontal, 16)
-//                    }
-//
-//                    Rectangle()
-//                        .frame(height: 1)
-//                        .foreground(.darkGray(0.4))
-//                        .padding(.top, 12)
+                    //                    ScrollView(.horizontal, showsIndicators: false) {
+                    //                        HStack(spacing: 11) {
+                    //                            ForEach(viewModel.emojiStorage) { reaction in
+                    //                                LastReactionItemView(emoji: reaction.emoji, isLastButton: reaction.isLastButton)
+                    //                                    .onTapGesture {
+                    //                                        vibrate()
+                    //                                        viewModel.send(.onAddReaction(messageId: messageId, reactionId: reaction.id))
+                    //                                        cardPosition = .bottom
+                    //                                    }
+                    //                            }
+                    //                        }
+                    //                        .frame(height: 40)
+                    //                        .padding(.top, 22)
+                    //                        .padding(.horizontal, 16)
+                    //                    }
+                    //
+                    //                    Rectangle()
+                    //                        .frame(height: 1)
+                    //                        .foreground(.darkGray(0.4))
+                    //                        .padding(.top, 12)
 
                     QuickMenuView(cardPosition: $cardPosition, onAction: {
                         switch $0 {
@@ -456,70 +456,75 @@ struct ChatRoomView: View {
 
     private var inputView: some View {
         VStack(spacing: 0) {
-            if quickAction == .reply {
-                ReplyView(
-                    text: replyMessage?.description ?? "",
-                    onReset: { replyMessage = nil; quickAction = nil }
-                ).transition(.opacity)
-            }
-
-            HStack(spacing: 8) {
-                Button(action: {
-                    hideKeyboard()
-                    withAnimation {
-                        showActionSheet.toggle()
-                    }
-                }, label: {
-                    Image(R.image.chat.plus.name)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                })
-                    .padding(.leading, 8)
-
-                HStack {
-                    ZStack {
-                        TextField("", text: $viewModel.inputText)
-                            .focused($inputViewIsFocused)
-                            .keyboardType(.default)
-                            .background(.grayDAE1E9())
-                            .foreground(.black())
-                            .padding(.horizontal, 16)
-                    }
-                    .background(.grayDAE1E9())
+            VStack(spacing: 0) {
+                if quickAction == .reply {
+                    ReplyView(
+                        text: replyMessage?.description ?? "",
+                        onReset: { replyMessage = nil; quickAction = nil }
+                    ).transition(.opacity)
                 }
-                .frame(height: 36)
-                .background(.grayDAE1E9())
-                .clipShape(Capsule())
-                .padding(.trailing, viewModel.inputText.isEmpty ? 8 : 0)
 
-                if !viewModel.inputText.isEmpty {
+                HStack(spacing: 8) {
                     Button(action: {
+                        hideKeyboard()
                         withAnimation {
-                            if quickAction == .reply {
-                                viewModel.send(.onReply(viewModel.inputText, replyMessage?.eventId ?? ""))
-                                viewModel.inputText = ""
-                                replyMessage = nil
-                                quickAction = nil
-                            } else {
-                                viewModel.send(.onSendText(viewModel.inputText))
-                            }
+                            showActionSheet.toggle()
                         }
                     }, label: {
-                        Image(systemName: "paperplane.fill")
-                            .foreground(.blue())
+                        Image(R.image.chat.plus.name)
+                            .resizable()
                             .frame(width: 24, height: 24)
-                            .clipShape(Circle())
                     })
-                        .padding(.trailing, 8)
-                }
-            }
-            .padding(.top, 8)
+                        .padding(.leading, 8)
 
-            Spacer()
+                    HStack {
+                        ZStack {
+                            TextField("", text: $viewModel.inputText)
+                                .focused($inputViewIsFocused)
+                                .keyboardType(.default)
+                                .background(.grayDAE1E9())
+                                .foreground(.black())
+                                .padding(.horizontal, 16)
+                        }
+                        .background(.grayDAE1E9())
+                    }
+                    .frame(height: 36)
+                    .background(.grayDAE1E9())
+                    .clipShape(Capsule())
+                    .padding(.trailing, viewModel.inputText.isEmpty ? 8 : 0)
+
+                    if !viewModel.inputText.isEmpty {
+                        Button(action: {
+                            withAnimation {
+                                if quickAction == .reply {
+                                    viewModel.send(.onReply(viewModel.inputText, replyMessage?.eventId ?? ""))
+                                    viewModel.inputText = ""
+                                    replyMessage = nil
+                                    quickAction = nil
+                                } else {
+                                    viewModel.send(.onSendText(viewModel.inputText))
+                                }
+                            }
+                        }, label: {
+                            Image(systemName: "paperplane.fill")
+                                .foreground(.blue())
+                                .frame(width: 24, height: 24)
+                                .clipShape(Circle())
+                        })
+                            .padding(.trailing, 8)
+                    }
+                }
+                .padding(.top, 8)
+
+                Spacer()
+            }
+            .frame(height: quickAction == .reply ? 104 : 52)
+            .background(.white())
+            .ignoresSafeArea()
+
+            Rectangle()
+                .fill(Color(.white()))
+                .frame(height: keyboardHandler.keyboardHeight == 0 ? 24 : 0)
         }
-        .frame(height: quickAction == .reply ? 104 : 52)
-        .background(.white())
-        .ignoresSafeArea()
-        .padding(.bottom, keyboardHandler.keyboardHeight == 0 ? 24 : 0)
     }
 }
