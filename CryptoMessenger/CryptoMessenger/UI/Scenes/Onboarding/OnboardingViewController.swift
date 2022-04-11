@@ -42,11 +42,11 @@ final class OnboardingViewController: BaseViewController {
         showNavigationBar()
         hideNavigationBar()
         setupPageView()
-        addContinueButton()
-        addTutorialButton()
+        addDotesStackView()
         addInfoLabel()
         addPolicyButton()
-        addDotesStackView()
+        addContinueButton()
+        addTutorialButton()
         setViewControllers()
     }
 
@@ -91,7 +91,7 @@ final class OnboardingViewController: BaseViewController {
             $0.clipCorners(radius: 8)
             $0.addTarget(self, action: #selector(self.continueButtonTap), for: .touchUpInside)
         } layout: {
-            $0.bottom.equalTo($1).offset(-100)
+            $0.top.equalTo(self.dotesStackView.snp.bottom).offset(28)
             $0.leading.equalTo($1).offset(67)
             $0.trailing.equalTo($1).offset(-67)
             $0.height.equalTo(44)
@@ -132,7 +132,7 @@ final class OnboardingViewController: BaseViewController {
                 ]
             )
         } layout: {
-            $0.bottom.equalTo($1).offset(-66)
+            $0.top.equalTo(self.dotesStackView.snp.bottom).offset(75)
             $0.leading.equalTo($1).offset(24)
             $0.trailing.equalTo($1).offset(-24)
         }
@@ -162,7 +162,7 @@ final class OnboardingViewController: BaseViewController {
             $0.spacing = 11
             $0.alignment = .fill
         } layout: {
-            $0.bottom.equalTo($1).offset(-173)
+            $0.top.equalTo(self.pageController.view.snp.bottom).offset(24)
             $0.height.equalTo(9)
             $0.centerX.equalTo($1)
         }
@@ -195,7 +195,9 @@ final class OnboardingViewController: BaseViewController {
         pageController.delegate = self
         pageController.willMove(toParent: self)
         pageController.view.snap(parent: view, layout: {
-            $0.top.leading.trailing.bottom.equalTo($1)
+            $0.top.equalTo($1).offset(54)
+            $0.leading.trailing.equalTo($1)
+            $0.bottom.equalTo($1).offset(-200)
         })
 
         addChild(pageController)

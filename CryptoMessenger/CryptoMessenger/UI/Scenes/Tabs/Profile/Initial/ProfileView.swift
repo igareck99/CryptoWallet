@@ -62,7 +62,17 @@ struct ProfileView: View {
                     .ignoresSafeArea()
                     .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                     .navigationBarTitleDisplayMode(.inline)
+                    .onDisappear {
+                        showImageEdtior = true
+                    }
             }
+            .fullScreenCover(isPresented: $showImageEdtior,
+                             content: {
+                ImageEditor(theimage: $viewModel.selectedImage,
+                            isShowing: $showImageEdtior,
+                            viewModel: viewModel)
+                    .ignoresSafeArea()
+            })
             .alert(isPresented: $showAlert) {
                 switch showDeletePhotoAlert {
                 case false:
