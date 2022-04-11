@@ -144,15 +144,6 @@ final class ProfileViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
-
-//        $selectedImage
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] _ in
-//                
-//                guard let image = image else { return }
-//                self?.send(.onAddPhoto(image))
-//            }
-//            .store(in: &subscriptions)
         $changedImage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
