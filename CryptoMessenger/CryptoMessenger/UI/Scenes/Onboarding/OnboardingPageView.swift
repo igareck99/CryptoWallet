@@ -46,9 +46,11 @@ final class OnboardingPageView: UIView {
 
     private func addIconImageView() {
         iconImageView.snap(parent: self) {
-            $0.contentMode = .scaleAspectFill
+            $0.contentMode = .scaleToFill
+            $0.clipsToBounds = true
         } layout: {
-            $0.top.equalTo($1).offset(60)
+            $0.top.equalTo($1).offset(54)
+            $0.height.equalTo(UIScreen.main.bounds.height - 420)
             $0.centerX.equalTo($1)
         }
     }
@@ -60,8 +62,9 @@ final class OnboardingPageView: UIView {
             $0.font(.medium(17))
             $0.textColor(.black())
         } layout: {
-            $0.top.equalTo(self.iconImageView.snp.bottom).offset(16)
+            $0.top.equalTo(self.iconImageView.snp.bottom).offset(24)
             $0.leading.equalTo($1).offset(20)
+            $0.height.lessThanOrEqualTo(70)
             $0.trailing.equalTo($1).offset(-20)
         }
     }
