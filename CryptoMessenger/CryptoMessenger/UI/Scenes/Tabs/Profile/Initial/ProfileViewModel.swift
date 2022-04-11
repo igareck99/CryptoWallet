@@ -41,6 +41,7 @@ final class ProfileViewModel: ObservableObject {
     weak var delegate: ProfileSceneDelegate?
 
     @Published var selectedImage: UIImage?
+    @Published var changedImage: UIImage?
     @Published var listData: [SocialListItem] = [
         SocialListItem(url: "",
                        sortOrder: 1,
@@ -71,6 +72,7 @@ final class ProfileViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
+    @State private var showImageEdtior = false
 
     @Injectable private var apiClient: APIClientManager
     @Injectable private var mxStore: MatrixStore
@@ -142,15 +144,13 @@ final class ProfileViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
-
-        $selectedImage
+        $changedImage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
                 guard let image = image else { return }
                 self?.send(.onAddPhoto(image))
             }
             .store(in: &subscriptions)
-
         mxStore.$loginState.sink { [weak self] status in
             switch status {
             case .loggedOut:
@@ -224,9 +224,17 @@ final class ProfileViewModel: ObservableObject {
                         )
                     }
                 }
-                let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder })
-                self?.profile.socialNetwork = sortedList ?? []
-                self?.socialListEmpty = self?.profile.socialNetwork.isEmpty ?? true
+                guard let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder })
+                else { return }
+                self?.profile.socialNetwork = sortedList
+                for x in sortedList {
+                    if !x.url.isEmpty {
+                        self?.socialListEmpty = false
+                        break
+                    } else {
+                        self?.socialListEmpty = true
+                    }
+                }
             }
             .store(in: &subscriptions)
     }
@@ -265,6 +273,7 @@ final class ProfileViewModel: ObservableObject {
         if !mxStore.getStatus().isEmpty {
             profile.status = mxStore.getStatus()
         }
+        getSocialList()
         profile.phone = userCredentialsStorageService.userPhoneNumber
         getPhotos()
     }

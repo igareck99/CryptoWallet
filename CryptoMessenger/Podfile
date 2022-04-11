@@ -29,6 +29,7 @@ target 'CryptoMessenger' do
 
   # Image loading/caching
   pod 'Kingfisher'
+  pod 'Mantis', '~> 1.9.0'
 
   # Code style
   pod 'SwiftLint'
