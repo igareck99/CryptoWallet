@@ -69,6 +69,11 @@ final class ProfileViewModel: ObservableObject {
     @Published private(set) var state: ProfileFlow.ViewState = .idle
     @Published private(set) var socialList = SocialListViewModel()
     @Published private(set) var socialListEmpty = true
+    @Published var imageViewerOffset: CGSize = .zero
+    @Published var bgOpacity: Double = 1
+    @Published var imageScale: CGFloat = 1
+    @Published var showImageViewer = false
+    @Published var imageToSend = UIImage()
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
@@ -268,5 +273,46 @@ final class ProfileViewModel: ObservableObject {
         }
         profile.phone = userCredentialsStorageService.userPhoneNumber
         getPhotos()
+    }
+}
+
+extension ProfileViewModel {
+    func onChange(value: CGSize) {
+        imageViewerOffset = value
+        let halgHeight = UIScreen.main.bounds.height / 2
+        let progress = imageViewerOffset.height / halgHeight
+//        withAnimation(.default) {
+//            bgOpacity = Double(1 - (progress < 0 ? -progress : progress))
+//        }
+    }
+
+    func onEnd(value: DragGesture.Value) {
+        withAnimation(.easeInOut) {
+            var transtlation = value.translation.height
+            if transtlation < 0 {
+                transtlation  = -transtlation
+            }
+            if transtlation < 250 {
+                imageViewerOffset = .zero
+                bgOpacity = 1
+            } else {
+                showImageViewer = false
+                imageViewerOffset = .zero
+                bgOpacity = 1
+            }
+        }
+    }
+    
+    func uploadImage(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let imageData = try? Data(contentsOf: url) {
+                if let image = UIImage(data: imageData) {
+                    DispatchQueue.main.async {
+                        self?.imageToSend = image
+                        print("smkosd  \(image)")
+                    }
+                }
+            }
+        }
     }
 }

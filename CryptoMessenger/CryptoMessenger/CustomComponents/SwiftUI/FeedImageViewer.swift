@@ -1,51 +1,49 @@
 import SwiftUI
 
 struct FeedImageView: View {
-
-    @StateObject var profileViewModel: ProfileViewModel
-    @EnvironmentObject var viewModel: FeedImageViewerViewModel
+    
+    @StateObject var viewModel: ProfileViewModel
     @GestureState var draggingOffset: CGSize = .zero
     @State var showsShareView = false
+    @Binding var showImageViewer: Bool
 
     var body: some View {
         ZStack {
             Color.black
-                .opacity(viewModel.bgOpacity)
+                .opacity(1)
                 .ignoresSafeArea()
             Spacer()
             ScrollView(.init()) {
-            TabView(selection: $profileViewModel.selectedImageURL) {
-                ForEach(profileViewModel.profile.photosUrls, id: \.self) { image in
-                    AsyncImage(
-                        url: image,
-                        placeholder: { ShimmerView() },
-                        result: { Image(uiImage: $0).resizable() }
-                    )
-                        .resizable()
-                        .frame(height: 375)
-                        .aspectRatio(contentMode: .fit)
-                        .tag(image)
-                        .scaleEffect(viewModel.selectedImageId == image ? (viewModel.imageScale > 1 ? viewModel.imageScale : 1)
-                                     :1)
-                        .offset(y: viewModel.imageViewerOffset.height)
-                        .gesture(
-                            MagnificationGesture().onChanged({ _ in
-                                withAnimation(.spring()) {
-                                    viewModel.imageScale = 1
-                                }
-                            })
-                                .simultaneously(with: TapGesture(count: 2).onEnded({
-                                    withAnimation {
-                                        viewModel.imageScale = viewModel.imageScale > 1 ? 1 : 4
+                TabView(selection: $viewModel.selectedImageURL) {
+                    ForEach(viewModel.profile.photosUrls, id: \.self) { image in
+                        AsyncImage(
+                            url: image,
+                            placeholder: { ShimmerView() },
+                            result: { Image(uiImage: $0).resizable() }
+                        )
+                            .frame(height: 375)
+                            .tag(image)
+                            .scaleEffect(viewModel.selectedImageURL == image ? (viewModel.imageScale > 1 ? viewModel.imageScale : 1) :1)
+                            .offset(y: viewModel.imageViewerOffset.height)
+                            .gesture(
+                                MagnificationGesture().onChanged({ _ in
+                                    withAnimation(.spring()) {
+                                        viewModel.imageScale = 1
                                     }
                                 })
-                        )
+                                    .simultaneously(with: TapGesture(count: 2).onEnded({
+                                        withAnimation {
+                                            viewModel.imageScale = viewModel.imageScale > 1 ? 1 : 4
+                                        }
+                                    })
                             )
+                                )
+
+                    }
                 }
+                .frame(height: 440)
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
             }
-            .frame(height: 440)
-            .environmentObject(viewModel)
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
             .overlay(
                 VStack {
                     HStack {
@@ -54,12 +52,12 @@ struct FeedImageView: View {
                                    height: 24)
                             .onTapGesture {
                                 withAnimation(.default) {
-                                    viewModel.showImageViewer.toggle()
+                                    showImageViewer = false
                                 }
                             }
                         Spacer()
                         Text(R.string.localizable.photoEditorTitle())
-                            .foreground(.white())
+                            .foregroundColor(Color.white)
                         Spacer()
                         R.image.photoEditor.dotes.image
                     }
@@ -72,10 +70,15 @@ struct FeedImageView: View {
                                    height: 24)
                             .onTapGesture {
                                 withAnimation(.default) {
+                                    guard let unwrappedUrl = viewModel.selectedImageURL else {
+                                        return
+                                    }
                                     showsShareView = true
+                                    viewModel.uploadImage(url: unwrappedUrl)
                                 }
                             }
                         Spacer()
+                        Text("")
                         Spacer()
                         R.image.keyManager.trashBasket.image
                     }
@@ -83,54 +86,18 @@ struct FeedImageView: View {
                     .padding(.horizontal, 16)
                 }
             )
-            }
+//            }
+//        }
+//        .background(Color.black)
         }
-        .background(Color.black)
+        .environmentObject(viewModel)
         .gesture(DragGesture().updating($draggingOffset, body: { value, outValue, _ in
             outValue = value.translation
             viewModel.onChange(value: draggingOffset)
+            
         }).onEnded(viewModel.onEnd(value:)))
         .sheet(isPresented: $showsShareView) {
-            ShareSheet(items: [viewModel.selectedImageId])
-        }
-    }
-}
-
-class FeedImageViewerViewModel: ObservableObject {
-
-    // MARK: - Internal Properties
-
-    @Published var allImages: [String] = ["image1","image2","image3","image4","image5"]
-    @Published var selectedImages : [String] = []
-    @Published var showImageViewer = false
-    @Published var selectedImageId = ""
-    @Published var imageViewerOffset: CGSize = .zero
-    @Published var bgOpacity: Double = 1
-    @Published var imageScale: CGFloat = 1
-
-    // MARK: - Internal Methods
-    func onChange(value: CGSize) {
-        imageViewerOffset = value
-        let halgHeight = UIScreen.main.bounds.height / 2
-        let progress = imageViewerOffset.height / halgHeight
-        withAnimation(.default) {
-            bgOpacity = Double(1 - (progress < 0 ? -progress : progress))
-        }
-    }
-    func onEnd(value: DragGesture.Value) {
-        withAnimation(.easeInOut) {
-            var transtlation = value.translation.height
-            if transtlation < 0 {
-                transtlation  = -transtlation
-            }
-            if transtlation < 250 {
-                imageViewerOffset = .zero
-                bgOpacity = 1
-            } else {
-                showImageViewer = false
-                imageViewerOffset = .zero
-                bgOpacity = 1
-            }
+            ShareSheet(image: viewModel.imageToSend)
         }
     }
 }
@@ -147,22 +114,17 @@ struct ShareSheet: UIViewControllerRepresentable {
 
     // MARK: - Internal Properties
 
-    var items: [String]
+    var image: UIImage
 
     // MARK: - Internal Methods
 
     func makeUIViewController(context: Context) -> UIActivityViewController {
-        var images: [UIImage] = []
-        for item in items {
-            print(item)
-            images.append(UIImage(named: item) ?? UIImage())
-        }
-        print(images)
-        let controller = UIActivityViewController(activityItems: images,
+        let controller = UIActivityViewController(activityItems: [image],
                                                   applicationActivities: nil)
         return controller
     }
 
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: UIActivityViewController,
+                                context: Context) {
     }
 }

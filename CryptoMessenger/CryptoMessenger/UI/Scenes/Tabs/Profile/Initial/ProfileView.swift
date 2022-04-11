@@ -52,10 +52,11 @@ struct ProfileView: View {
             .fullScreenCover(isPresented: $showSafari) {
                 SFSafariViewWrapper(link: $safariAddress)
             }
-//            .fullScreenCover(isPresented: $showImageViewer,
-//                             content: {
-//                FeedImageView(profileViewModel: viewModel)
-//            })
+            .fullScreenCover(isPresented: $showImageViewer,
+                             content: {
+                FeedImageView(viewModel: viewModel,
+                              showImageViewer: $showImageViewer)
+            })
             .sheet(isPresented: $showImagePicker) {
                 ImagePickerView(selectedImage: $viewModel.selectedImage)
                     .ignoresSafeArea()
