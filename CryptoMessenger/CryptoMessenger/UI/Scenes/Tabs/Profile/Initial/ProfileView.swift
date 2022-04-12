@@ -21,6 +21,7 @@ struct ProfileView: View {
     @State private var photoUrlForDelete = ""
     @State var showImageViewer = false
     @State private var selectedPhoto: URL?
+    @State var showImageEdtior = false
 
     // MARK: - Body
 
@@ -103,7 +104,7 @@ struct ProfileView: View {
                         vibrate()
                         viewModel.send(.onShow(type))
                     })
-                        .frame(height: 712)
+                        .frame(height: UIScreen.main.bounds.height - 100)
                         .background(
                             CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
                                 .fill(Color(.white()))

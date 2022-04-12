@@ -200,7 +200,7 @@ final class ProfileViewModel: ObservableObject {
                 let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                 self?.profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
                 self?.profile.photosUrls = response.compactMap { $0.original }
-                self?.getSocialList()
+                print(self?.profile.photosUrls)
             }
             .store(in: &subscriptions)
     }
