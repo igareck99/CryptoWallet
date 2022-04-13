@@ -42,7 +42,6 @@ final class ProfileViewModel: ObservableObject {
 
     @Published var selectedImage: UIImage?
     @Published var changedImage: UIImage?
-    @Published var selectedImageURL: URL?
     @Published var listData: [SocialListItem] = [
         SocialListItem(url: "",
                        sortOrder: 1,
@@ -113,6 +112,29 @@ final class ProfileViewModel: ObservableObject {
             }, receiveValue: { [weak self] _ in
                 self?.profile.photosUrls.removeAll(where: { $0.absoluteString == url })
             })
+            .store(in: &subscriptions)
+    }
+
+    func addPhoto(image: UIImage) {
+        guard let data = image.jpeg(.medium) else { return }
+        let multipartData = MultipartFileData(
+            file: "photo",
+            mimeType: "image/png",
+            fileData: data
+        )
+        apiClient.publisher(Endpoints.Media.upload(multipartData, name: mxStore.getUserId()))
+            .sink { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    if let err = error as? APIError, err == .invalidToken {
+                        self?.mxStore.logout()
+                    }
+                default:
+                    break
+                }
+            } receiveValue: { [weak self] _ in
+                self?.getPhotos()
+            }
             .store(in: &subscriptions)
     }
 
@@ -200,7 +222,6 @@ final class ProfileViewModel: ObservableObject {
                 let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                 self?.profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
                 self?.profile.photosUrls = response.compactMap { $0.original }
-                print(self?.profile.photosUrls)
             }
             .store(in: &subscriptions)
     }
@@ -245,29 +266,6 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    func addPhoto(image: UIImage) {
-        guard let data = image.jpeg(.medium) else { return }
-        let multipartData = MultipartFileData(
-            file: "photo",
-            mimeType: "image/png",
-            fileData: data
-        )
-        apiClient.publisher(Endpoints.Media.upload(multipartData, name: mxStore.getUserId()))
-            .sink { [weak self] completion in
-                switch completion {
-                case .failure(let error):
-                    if let err = error as? APIError, err == .invalidToken {
-                        self?.mxStore.logout()
-                    }
-                default:
-                    break
-                }
-            } receiveValue: { [weak self] _ in
-                self?.getPhotos()
-            }
-            .store(in: &subscriptions)
-    }
-
     private func fetchData() {
         let link = mxStore.getAvatarUrl()
         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
@@ -282,46 +280,5 @@ final class ProfileViewModel: ObservableObject {
         getSocialList()
         profile.phone = userCredentialsStorageService.userPhoneNumber
         getPhotos()
-    }
-}
-
-extension ProfileViewModel {
-    func onChange(value: CGSize) {
-        imageViewerOffset = value
-        let halgHeight = UIScreen.main.bounds.height / 2
-        let progress = imageViewerOffset.height / halgHeight
-//        withAnimation(.default) {
-//            bgOpacity = Double(1 - (progress < 0 ? -progress : progress))
-//        }
-    }
-
-    func onEnd(value: DragGesture.Value) {
-        withAnimation(.easeInOut) {
-            var transtlation = value.translation.height
-            if transtlation < 0 {
-                transtlation  = -transtlation
-            }
-            if transtlation < 250 {
-                imageViewerOffset = .zero
-                bgOpacity = 1
-            } else {
-                showImageViewer = false
-                imageViewerOffset = .zero
-                bgOpacity = 1
-            }
-        }
-    }
-    
-    func uploadImage(url: URL) {
-        DispatchQueue.global().async { [weak self] in
-            if let imageData = try? Data(contentsOf: url) {
-                if let image = UIImage(data: imageData) {
-                    DispatchQueue.main.async {
-                        self?.imageToSend = image
-                        print("smkosd  \(image)")
-                    }
-                }
-            }
-        }
     }
 }

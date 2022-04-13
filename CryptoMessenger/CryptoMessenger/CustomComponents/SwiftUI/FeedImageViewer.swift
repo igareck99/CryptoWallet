@@ -1,130 +1,170 @@
 import SwiftUI
 
-struct FeedImageView: View {
-    
-    @StateObject var viewModel: ProfileViewModel
-    @GestureState var draggingOffset: CGSize = .zero
-    @State var showsShareView = false
-    @Binding var showImageViewer: Bool
+// MARK: - FeedImageViewerViewModel
 
-    var body: some View {
-        ZStack {
-            Color.black
-                .opacity(1)
-                .ignoresSafeArea()
-            Spacer()
-            ScrollView(.init()) {
-                TabView(selection: $viewModel.selectedImageURL) {
-                    ForEach(viewModel.profile.photosUrls, id: \.self) { image in
-                        AsyncImage(
-                            url: image,
-                            placeholder: { ShimmerView() },
-                            result: { Image(uiImage: $0).resizable() }
-                        )
-                            .frame(height: 375)
-                            .tag(image)
-                            .scaleEffect(viewModel.selectedImageURL == image ? (viewModel.imageScale > 1 ? viewModel.imageScale : 1) :1)
-                            .offset(y: viewModel.imageViewerOffset.height)
-                            .gesture(
-                                MagnificationGesture().onChanged({ _ in
-                                    withAnimation(.spring()) {
-                                        viewModel.imageScale = 1
-                                    }
-                                })
-                                    .simultaneously(with: TapGesture(count: 2).onEnded({
-                                        withAnimation {
-                                            viewModel.imageScale = viewModel.imageScale > 1 ? 1 : 4
-                                        }
-                                    })
-                            )
-                                )
-
-                    }
-                }
-                .frame(height: 440)
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-            }
-            .overlay(
-                VStack {
-                    HStack {
-                        R.image.photoEditor.backButton.image
-                            .frame(width: 24,
-                                   height: 24)
-                            .onTapGesture {
-                                withAnimation(.default) {
-                                    showImageViewer = false
-                                }
-                            }
-                        Spacer()
-                        Text(R.string.localizable.photoEditorTitle())
-                            .foregroundColor(Color.white)
-                        Spacer()
-                        R.image.photoEditor.dotes.image
-                    }
-                    .padding(.top, UIScreen.main.bounds.height / 22)
-                    .padding(.horizontal, 16)
-                    Spacer()
-                    HStack {
-                        R.image.photoEditor.share.image
-                            .frame(width: 24,
-                                   height: 24)
-                            .onTapGesture {
-                                withAnimation(.default) {
-                                    guard let unwrappedUrl = viewModel.selectedImageURL else {
-                                        return
-                                    }
-                                    showsShareView = true
-                                    viewModel.uploadImage(url: unwrappedUrl)
-                                }
-                            }
-                        Spacer()
-                        Text("")
-                        Spacer()
-                        R.image.keyManager.trashBasket.image
-                    }
-                    .padding(.bottom, UIScreen.main.bounds.height / 21)
-                    .padding(.horizontal, 16)
-                }
-            )
-//            }
-//        }
-//        .background(Color.black)
-        }
-        .environmentObject(viewModel)
-        .gesture(DragGesture().updating($draggingOffset, body: { value, outValue, _ in
-            outValue = value.translation
-            viewModel.onChange(value: draggingOffset)
-            
-        }).onEnded(viewModel.onEnd(value:)))
-        .sheet(isPresented: $showsShareView) {
-            ShareSheet(image: viewModel.imageToSend)
-        }
-    }
-}
-
-extension View {
-    func getRect() -> CGRect {
-        return UIScreen.main.bounds
-    }
-}
-
-// MARK: - ShareSheet (UIViewControllerRepresentable)
-
-struct ShareSheet: UIViewControllerRepresentable {
+final class FeedImageViewerViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    var image: UIImage
+    @Published var selectedImageID = ""
+    @Published var imageViewerOffset: CGSize = .zero
+    @Published var bgOpacity = 1.0
+    @Published var imageScale: CGFloat = 1
+    @Binding var isClosed: Bool
+
+    // MARK: - Lifecycle
+
+    init(isClosed: Binding<Bool>) {
+        _isClosed = isClosed
+    }
 
     // MARK: - Internal Methods
 
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        let controller = UIActivityViewController(activityItems: [image],
-                                                  applicationActivities: nil)
-        return controller
+    func onChange(value: CGSize) {
+        imageViewerOffset = value
+        let progress = imageViewerOffset.height / (UIScreen.main.bounds.height * 0.5)
+        withAnimation {
+            bgOpacity = Double(1 - (progress < 0 ? -progress : progress))
+        }
     }
 
-    func updateUIViewController(_ uiViewController: UIActivityViewController,
-                                context: Context) {
+    func onEnd(value: DragGesture.Value) {
+        withAnimation(.easeOut(duration: 0.1)) {
+            var translation = value.translation.height
+            if translation < 0 {
+                translation = -translation
+            }
+            if translation < 250 {
+                imageViewerOffset = .zero
+                bgOpacity = 1
+            } else {
+                isClosed.toggle()
+                imageViewerOffset = .zero
+                bgOpacity = 1
+            }
+        }
+    }
+}
+
+// MARK: - FeedImageViewerView
+
+struct FeedImageViewerView: View {
+
+    // MARK: - Private Properties
+
+    @GestureState private var draggingOffset: CGSize = .zero
+    @StateObject private var viewModel: FeedImageViewerViewModel
+    @StateObject private var profileViewModel: ProfileViewModel
+    @Binding private var selectedPhoto: URL?
+    @Binding var showImageViewer: Bool
+    @State var showDeleteAlert = false
+
+    // MARK: - Lifecycle
+
+    init(selectedPhoto: Binding<URL?>, selectedImageID: String, showImageViewer: Binding<Bool>,
+         profileViewModel: ProfileViewModel) {
+        let vm = FeedImageViewerViewModel(isClosed: showImageViewer)
+        vm.selectedImageID = selectedImageID
+        _selectedPhoto = selectedPhoto
+        _viewModel = StateObject(wrappedValue: vm)
+        _showImageViewer = showImageViewer
+        _profileViewModel = StateObject(wrappedValue: profileViewModel)
+    }
+
+    // MARK: - Body
+
+    var body: some View {
+        ZStack {
+            Color(.darkBlack())
+                .opacity(viewModel.bgOpacity)
+                .ignoresSafeArea()
+
+            ScrollView(.init()) {
+                AsyncImage(
+                    url: selectedPhoto,
+                    placeholder: { ShimmerView() },
+                    result: { Image(uiImage: $0).resizable() }
+                )
+                    .scaledToFit()
+                .animation(.spring())
+                .scaleEffect(
+                    viewModel.imageScale > 1 ? viewModel.imageScale : 1
+                )
+                .offset(y: viewModel.imageViewerOffset.height)
+                .gesture(
+                    MagnificationGesture().onChanged { value in
+                        viewModel.imageScale = value
+                    }.onEnded { _ in
+                        withAnimation(.spring()) {
+                            viewModel.imageScale = 1
+                        }
+                    }
+                        .simultaneously(with: DragGesture(minimumDistance:
+                                                            viewModel.imageScale == 1 ? .infinity : .zero))
+                        .simultaneously(with: TapGesture(count: 2).onEnded {
+                            withAnimation {
+                                viewModel.imageScale = viewModel.imageScale > 1 ? 1 : 4
+                            }
+                        })
+                )
+            }
+            .ignoresSafeArea()
+            .transition(.scale.combined(with: .opacity))
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .overlay(
+            VStack {
+                HStack {
+                    R.image.photoEditor.backButton.image
+                        .frame(width: 24,
+                               height: 24)
+                        .onTapGesture {
+                            withAnimation(.default) {
+                                selectedPhoto = nil
+                                showImageViewer = false
+                            }
+                        }
+                    Spacer()
+                    Text(R.string.localizable.photoEditorTitle())
+                        .foregroundColor(Color.white)
+                    Spacer()
+                    R.image.photoEditor.dotes.image
+                }
+                .padding(.top, UIScreen.main.bounds.height / 22)
+                .padding(.horizontal, 16)
+                Spacer()
+                HStack {
+                    Spacer()
+                    Spacer()
+                    R.image.photoEditor.brush.image
+                        .onTapGesture {
+                            showDeleteAlert = true
+                        }
+                }
+                .padding(.bottom, UIScreen.main.bounds.height / 21)
+                .padding(.horizontal, 16)
+            }
+        )
+        .alert(isPresented: $showDeleteAlert, content: {
+            let primaryButton = Alert.Button.default(Text("Да")) {
+                profileViewModel.deletePhoto(url: selectedPhoto?.absoluteString ?? "")
+                showImageViewer = false
+            }
+            let secondaryButton = Alert.Button.destructive(Text("Нет")) {
+                showDeleteAlert = false
+            }
+            return Alert(title: Text("Удалить фото?"),
+                         message: Text(""),
+                         primaryButton: primaryButton,
+                         secondaryButton: secondaryButton)
+        })
+        .gesture(
+            DragGesture().updating($draggingOffset) { value, outValue, _ in
+                outValue = value.translation
+                viewModel.onChange(value: draggingOffset)
+            }.onEnded { value in
+                viewModel.onEnd(value: value)
+            }
+        )
     }
 }

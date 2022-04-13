@@ -55,8 +55,11 @@ struct ProfileView: View {
             }
             .fullScreenCover(isPresented: $showImageViewer,
                              content: {
-                FeedImageView(viewModel: viewModel,
-                              showImageViewer: $showImageViewer)
+                FeedImageViewerView(
+                    selectedPhoto: $selectedPhoto,
+                    selectedImageID: "",
+                    showImageViewer: $showImageViewer,
+                    profileViewModel: viewModel)
             })
             .sheet(isPresented: $showImagePicker) {
                 ImagePickerView(selectedImage: $viewModel.selectedImage)
@@ -313,10 +316,7 @@ struct ProfileView: View {
                             .clipped()
                             .onTapGesture {
                                 showImageViewer = true
-                                viewModel.selectedImageURL = url
-//                                showAlert = true
-//                                showDeletePhotoAlert = true
-//                                photoUrlForDelete = url.absoluteString
+                                selectedPhoto = url
                             }
                     }
                 }
