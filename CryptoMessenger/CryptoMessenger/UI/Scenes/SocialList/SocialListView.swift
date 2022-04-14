@@ -85,7 +85,6 @@ struct SocialListView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    print("Сохраняемся дева4ки")
                     presentationMode.wrappedValue.dismiss()
                     viewModel.addSocial(data: viewModel.listData)
                 }, label: {
