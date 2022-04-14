@@ -77,22 +77,15 @@ struct ProfileView: View {
                     .ignoresSafeArea()
             })
             .alert(isPresented: $showAlert) {
-                switch showDeletePhotoAlert {
-                case false:
-                    return Alert(title: Text(R.string.localizable.profileCopied()))
-                case true:
-                    let primaryButton = Alert.Button.default(Text("Да")) {
-                        viewModel.deletePhoto(url: photoUrlForDelete)
-                    }
-                    let secondaryButton = Alert.Button.destructive(Text("Нет")) {
-                        photoUrlForDelete = ""
-                    }
-                    return Alert(title: Text("Удалить фото?"),
-                                 message: Text(""),
-                                 primaryButton: primaryButton,
-                                 secondaryButton: secondaryButton)
-                }
+                 Alert(title: Text(R.string.localizable.profileCopied()))
             }
+            .onChange(of: showMenu, perform: { value in
+                if !value {
+                    showTabBar()
+                } else {
+                    hideTabBar()
+                }
+            })
             .popup(
                 isPresented: $showMenu,
                 type: .toast,
@@ -100,12 +93,17 @@ struct ProfileView: View {
                 closeOnTap: true,
                 closeOnTapOutside: true,
                 backgroundColor: .black.opacity(0.4),
-                dismissCallback: { showTabBar() },
                 view: {
                     ProfileSettingsMenuView(balance: "0.50 AUR", onSelect: { type in
                         vibrate()
                         viewModel.send(.onShow(type))
                     })
+                        .onAppear {
+                            hideTabBar()
+                        }
+                        .onDisappear {
+                            showTabBar()
+                        }
                         .frame(height: UIScreen.main.bounds.height - 100)
                         .background(
                             CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])

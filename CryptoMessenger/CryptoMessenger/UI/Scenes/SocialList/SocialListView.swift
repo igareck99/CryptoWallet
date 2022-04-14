@@ -27,7 +27,6 @@ struct SocialListItemView: View {
                                                     socialType: item.socialType)
                     viewModel.updateListData(item: socialItem)
                 }
-            Spacer()
             R.image.profileNetworkDetail.dragDrop.image
                 .padding(.trailing, 16)
         }
@@ -64,6 +63,7 @@ struct SocialListView: View {
                     SocialListItemView(item: item,
                                        viewModel: viewModel)
                         .ignoresSafeArea()
+                        .listRowSeparator(.visible)
                         .onDrag {
                             self.dragging = item
                             return NSItemProvider(object: NSString())
