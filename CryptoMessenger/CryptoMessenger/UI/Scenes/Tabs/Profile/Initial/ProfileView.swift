@@ -49,6 +49,9 @@ struct ProfileView: View {
                 viewModel.send(.onAppear)
                 showTabBar()
             }
+            .onChange(of: viewModel.selectedImage, perform: { _ in
+                showImageEdtior = true
+            })
             .fullScreenCover(isPresented: $showSafari) {
                 SFSafariViewWrapper(link: $safariAddress)
             }
@@ -65,9 +68,6 @@ struct ProfileView: View {
                     .ignoresSafeArea()
                     .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                     .navigationBarTitleDisplayMode(.inline)
-                    .onDisappear {
-                        showImageEdtior = true
-                    }
             }
             .fullScreenCover(isPresented: $showImageEdtior,
                              content: {
