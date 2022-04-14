@@ -6,7 +6,6 @@ final class FeedImageViewerViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    @Published var selectedImageID = ""
     @Published var imageViewerOffset: CGSize = .zero
     @Published var bgOpacity = 1.0
     @Published var imageScale: CGFloat = 1
@@ -55,20 +54,22 @@ struct FeedImageViewerView: View {
     @GestureState private var draggingOffset: CGSize = .zero
     @StateObject private var viewModel: FeedImageViewerViewModel
     @StateObject private var profileViewModel: ProfileViewModel
+    @Binding var imageToShare: UIImage?
     @Binding private var selectedPhoto: URL?
     @Binding var showImageViewer: Bool
     @State var showDeleteAlert = false
+    @State var showShareView = false
 
     // MARK: - Lifecycle
 
-    init(selectedPhoto: Binding<URL?>, selectedImageID: String, showImageViewer: Binding<Bool>,
-         profileViewModel: ProfileViewModel) {
+    init(selectedPhoto: Binding<URL?>, showImageViewer: Binding<Bool>,
+         profileViewModel: ProfileViewModel, imageToShare: Binding<UIImage?>) {
         let vm = FeedImageViewerViewModel(isClosed: showImageViewer)
-        vm.selectedImageID = selectedImageID
         _selectedPhoto = selectedPhoto
         _viewModel = StateObject(wrappedValue: vm)
         _showImageViewer = showImageViewer
         _profileViewModel = StateObject(wrappedValue: profileViewModel)
+        _imageToShare = imageToShare
     }
 
     // MARK: - Body
@@ -85,6 +86,7 @@ struct FeedImageViewerView: View {
                     placeholder: { ShimmerView() },
                     result: { Image(uiImage: $0).resizable() }
                 )
+                    .frame(height: UIScreen.main.bounds.width)
                     .scaledToFit()
                 .animation(.spring())
                 .scaleEffect(
@@ -121,7 +123,7 @@ struct FeedImageViewerView: View {
                         .onTapGesture {
                             withAnimation(.default) {
                                 selectedPhoto = nil
-                                showImageViewer = false
+                                viewModel.isClosed = false
                             }
                         }
                     Spacer()
@@ -134,6 +136,10 @@ struct FeedImageViewerView: View {
                 .padding(.horizontal, 16)
                 Spacer()
                 HStack {
+                    R.image.photoEditor.share.image
+                        .onTapGesture {
+                            showShareView = true
+                        }
                     Spacer()
                     Spacer()
                     R.image.photoEditor.brush.image
@@ -145,6 +151,9 @@ struct FeedImageViewerView: View {
                 .padding(.horizontal, 16)
             }
         )
+        .sheet(isPresented: $showShareView, content: {
+            FeedShareSheet(image: imageToShare)
+                })
         .alert(isPresented: $showDeleteAlert, content: {
             let primaryButton = Alert.Button.default(Text("Да")) {
                 profileViewModel.deletePhoto(url: selectedPhoto?.absoluteString ?? "")
@@ -166,5 +175,19 @@ struct FeedImageViewerView: View {
                 viewModel.onEnd(value: value)
             }
         )
+    }
+}
+
+struct FeedShareSheet: UIViewControllerRepresentable {
+
+    var image: UIImage?
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(activityItems: [image],
+                                                  applicationActivities: nil)
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
     }
 }

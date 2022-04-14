@@ -7,6 +7,8 @@ struct ProfileView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ProfileViewModel
+    @State var showImageEdtior = false
+    @State var showImageViewer = false
 
     // MARK: - Private Properties
 
@@ -19,9 +21,6 @@ struct ProfileView: View {
     @State private var safariAddress = ""
     @State private var showDeletePhotoAlert = false
     @State private var photoUrlForDelete = ""
-    @State var showImageViewer = false
-    @State private var selectedPhoto: URL?
-    @State var showImageEdtior = false
 
     // MARK: - Body
 
@@ -56,10 +55,10 @@ struct ProfileView: View {
             .fullScreenCover(isPresented: $showImageViewer,
                              content: {
                 FeedImageViewerView(
-                    selectedPhoto: $selectedPhoto,
-                    selectedImageID: "",
+                    selectedPhoto: $viewModel.selectedPhoto,
                     showImageViewer: $showImageViewer,
-                    profileViewModel: viewModel)
+                    profileViewModel: viewModel,
+                    imageToShare: $viewModel.imageToShare)
             })
             .sheet(isPresented: $showImagePicker) {
                 ImagePickerView(selectedImage: $viewModel.selectedImage)
@@ -316,7 +315,7 @@ struct ProfileView: View {
                             .clipped()
                             .onTapGesture {
                                 showImageViewer = true
-                                selectedPhoto = url
+                                viewModel.selectedPhoto = url
                             }
                     }
                 }

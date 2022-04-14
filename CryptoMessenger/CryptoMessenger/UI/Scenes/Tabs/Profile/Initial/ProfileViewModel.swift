@@ -42,6 +42,8 @@ final class ProfileViewModel: ObservableObject {
 
     @Published var selectedImage: UIImage?
     @Published var changedImage: UIImage?
+    @Published var selectedPhoto: URL?
+    @Published var imageToShare: UIImage?
     @Published var listData: [SocialListItem] = [
         SocialListItem(url: "",
                        sortOrder: 1,
@@ -69,11 +71,6 @@ final class ProfileViewModel: ObservableObject {
     @Published private(set) var state: ProfileFlow.ViewState = .idle
     @Published private(set) var socialList = SocialListViewModel()
     @Published private(set) var socialListEmpty = true
-    @Published var imageViewerOffset: CGSize = .zero
-    @Published var bgOpacity: Double = 1
-    @Published var imageScale: CGFloat = 1
-    @Published var showImageViewer = false
-    @Published var imageToSend = UIImage()
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
@@ -177,6 +174,21 @@ final class ProfileViewModel: ObservableObject {
             .sink { [weak self] image in
                 guard let image = image else { return }
                 self?.send(.onAddPhoto(image))
+            }
+            .store(in: &subscriptions)
+        $selectedPhoto
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] url in
+                DispatchQueue.global().async { [weak self] in
+                    guard let uploadUrl = url else { return }
+                    if let imageData = try? Data(contentsOf: uploadUrl) {
+                        if let image = UIImage(data: imageData) {
+                            DispatchQueue.main.async {
+                                self?.imageToShare = image
+                            }
+                        }
+                    }
+                }
             }
             .store(in: &subscriptions)
         mxStore.$loginState.sink { [weak self] status in
