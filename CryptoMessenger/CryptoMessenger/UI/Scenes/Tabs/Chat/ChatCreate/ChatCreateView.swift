@@ -130,16 +130,18 @@ struct ChatCreateView: View {
                             .padding(.top, 34)
                     }
 
-                    if !viewModel.existingContacts.isEmpty {
+                    let contacts = viewModel.filteredContacts.isEmpty ? viewModel.existingContacts : viewModel.filteredContacts
+
+                    if !contacts.isEmpty {
                         sectionView(R.string.localizable.createActionContactsSection())
 
                         VStack(alignment: .leading, spacing: 0) {
-                            ForEach(viewModel.existingContacts) { contact in
+                            ForEach(contacts) { contact in
                                 ContactRow(
                                     avatar: contact.avatar,
                                     name: contact.name,
                                     status: contact.status.isEmpty ? "Привет, теперь я в Aura" : contact.status,
-                                    hideSeparator: viewModel.contacts.last?.id == contact.id
+                                    hideSeparator: contacts.last?.id == contact.id
                                 ).onTapGesture {
                                     vibrate()
                                     viewModel.send(.onCreateDirect([contact.mxId]))

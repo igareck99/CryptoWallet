@@ -33,7 +33,7 @@ struct ProfileView: View {
                         .font(.bold(15))
                         .onTapGesture {
                             UIPasteboard.general.string = viewModel.profile.nickname
-                            showAlert.toggle()
+                            showAlert = true
                         }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -41,7 +41,7 @@ struct ProfileView: View {
                         .onTapGesture {
                             hideTabBar()
                             vibrate()
-                            showMenu.toggle()
+                            showMenu = true
                         }
                 }
             }

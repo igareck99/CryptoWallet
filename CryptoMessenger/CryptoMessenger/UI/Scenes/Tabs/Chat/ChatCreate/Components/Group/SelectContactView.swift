@@ -290,7 +290,7 @@ final class SelectContactViewModel: ObservableObject {
                         .init(
                             mxId: response[$0.phoneNumber] ?? "",
                             avatar: nil,
-                            name: $0.firstName,
+                            name: $0.firstName + " " + $0.lastName,
                             status: "Привет, теперь я в Aura",
                             phone: $0.phoneNumber
                         )
@@ -305,7 +305,7 @@ final class SelectContactViewModel: ObservableObject {
                     .init(
                         mxId: response[$0.phoneNumber] ?? "",
                         avatar: nil,
-                        name: $0.firstName,
+                        name: $0.firstName + " " + $0.lastName,
                         status: "",
                         phone: $0.phoneNumber
                     )
