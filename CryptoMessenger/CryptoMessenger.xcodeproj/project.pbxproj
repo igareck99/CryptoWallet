@@ -1113,7 +1113,6 @@
 				8BFF387A27D91092005D88C9 /* NumberTextField.swift */,
 				8B8B9C1E27F31FEE0061F5E6 /* Animation.swift */,
 				8B58DB8B27F508FE003C2C31 /* DragDelegate.swift */,
-				8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -1513,6 +1512,7 @@
 		5A43086727C7DB8600A9B582 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */,
 				8B69C3F427FE398B0020F289 /* ImageEditor.swift */,
 				8B37BF78275799B300602BE0 /* BuyView.swift */,
 				8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */,

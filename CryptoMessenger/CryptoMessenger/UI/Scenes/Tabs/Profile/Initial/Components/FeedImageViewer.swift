@@ -83,7 +83,9 @@ struct FeedImageViewerView: View {
             ScrollView(.init()) {
                 AsyncImage(
                     url: selectedPhoto,
-                    placeholder: { ShimmerView() },
+                    placeholder: { ShimmerView()
+                            .frame(height: UIScreen.main.bounds.width)
+                    },
                     result: { Image(uiImage: $0).resizable() }
                 )
                     .frame(height: UIScreen.main.bounds.width)
@@ -178,9 +180,15 @@ struct FeedImageViewerView: View {
     }
 }
 
+// MARK: - FeedShareSheet (UIViewControllerRepresentable)
+
 struct FeedShareSheet: UIViewControllerRepresentable {
 
+    // MARK: - Internal Properties
+
     var image: UIImage?
+
+    // MARK: - Internal Methods
 
     func makeUIViewController(context: Context) -> UIActivityViewController {
         let controller = UIActivityViewController(activityItems: [image],
