@@ -100,6 +100,12 @@ final class PinCodeView: UIView {
         styleDotes()
         didAuthSuccess?()
     }
+    
+    func cleanCode() {
+        userCode.removeAll()
+        stylePasswordTitle()
+        styleDotes()
+    }
 
     // MARK: - Actions
 
@@ -130,6 +136,9 @@ final class PinCodeView: UIView {
                 delay(0.1) {
                     self.dotesStackView.shake(duration: 0.4)
                     vibrate(.heavy)
+                }
+                delay(0.5) {
+                    self.cleanCode()
                 }
             } else {
                 self.nextPage()
