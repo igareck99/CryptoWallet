@@ -42,6 +42,8 @@ final class ProfileViewModel: ObservableObject {
 
     @Published var selectedImage: UIImage?
     @Published var changedImage: UIImage?
+    @Published var selectedPhoto: URL?
+    @Published var imageToShare: UIImage?
     @Published var listData: [SocialListItem] = [
         SocialListItem(url: "",
                        sortOrder: 1,
@@ -110,6 +112,29 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
+    func addPhoto(image: UIImage) {
+        guard let data = image.jpeg(.medium) else { return }
+        let multipartData = MultipartFileData(
+            file: "photo",
+            mimeType: "image/png",
+            fileData: data
+        )
+        apiClient.publisher(Endpoints.Media.upload(multipartData, name: mxStore.getUserId()))
+            .sink { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    if let err = error as? APIError, err == .invalidToken {
+                        self?.mxStore.logout()
+                    }
+                default:
+                    break
+                }
+            } receiveValue: { [weak self] _ in
+                self?.getPhotos()
+            }
+            .store(in: &subscriptions)
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -149,6 +174,21 @@ final class ProfileViewModel: ObservableObject {
             .sink { [weak self] image in
                 guard let image = image else { return }
                 self?.send(.onAddPhoto(image))
+            }
+            .store(in: &subscriptions)
+        $selectedPhoto
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] url in
+                DispatchQueue.global().async { [weak self] in
+                    guard let uploadUrl = url else { return }
+                    if let imageData = try? Data(contentsOf: uploadUrl) {
+                        if let image = UIImage(data: imageData) {
+                            DispatchQueue.main.async {
+                                self?.imageToShare = image
+                            }
+                        }
+                    }
+                }
             }
             .store(in: &subscriptions)
         mxStore.$loginState.sink { [weak self] status in
@@ -194,7 +234,6 @@ final class ProfileViewModel: ObservableObject {
                 let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                 self?.profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
                 self?.profile.photosUrls = response.compactMap { $0.original }
-                self?.getSocialList()
             }
             .store(in: &subscriptions)
     }
@@ -235,29 +274,6 @@ final class ProfileViewModel: ObservableObject {
                         self?.socialListEmpty = true
                     }
                 }
-            }
-            .store(in: &subscriptions)
-    }
-
-    func addPhoto(image: UIImage) {
-        guard let data = image.jpeg(.medium) else { return }
-        let multipartData = MultipartFileData(
-            file: "photo",
-            mimeType: "image/png",
-            fileData: data
-        )
-        apiClient.publisher(Endpoints.Media.upload(multipartData, name: mxStore.getUserId()))
-            .sink { [weak self] completion in
-                switch completion {
-                case .failure(let error):
-                    if let err = error as? APIError, err == .invalidToken {
-                        self?.mxStore.logout()
-                    }
-                default:
-                    break
-                }
-            } receiveValue: { [weak self] _ in
-                self?.getPhotos()
             }
             .store(in: &subscriptions)
     }

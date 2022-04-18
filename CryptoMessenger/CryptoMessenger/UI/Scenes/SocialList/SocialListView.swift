@@ -27,7 +27,6 @@ struct SocialListItemView: View {
                                                     socialType: item.socialType)
                     viewModel.updateListData(item: socialItem)
                 }
-            Spacer()
             R.image.profileNetworkDetail.dragDrop.image
                 .padding(.trailing, 16)
         }
@@ -64,6 +63,7 @@ struct SocialListView: View {
                     SocialListItemView(item: item,
                                        viewModel: viewModel)
                         .ignoresSafeArea()
+                        .listRowSeparator(.visible)
                         .onDrag {
                             self.dragging = item
                             return NSItemProvider(object: NSString())
@@ -85,7 +85,6 @@ struct SocialListView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    print("Сохраняемся дева4ки")
                     presentationMode.wrappedValue.dismiss()
                     viewModel.addSocial(data: viewModel.listData)
                 }, label: {

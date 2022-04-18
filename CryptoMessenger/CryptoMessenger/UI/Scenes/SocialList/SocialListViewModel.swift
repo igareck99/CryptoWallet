@@ -121,9 +121,38 @@ final class SocialListViewModel: ObservableObject {
     func addSocial(data: [SocialListItem]) {
         var testList: [SocialResponse] = []
         for x in data {
+            var updatedUrl = x.url
+            if !x.url.isEmpty {
+                switch x.socialType {
+                case .twitter:
+                    if !x.url.contains("https://twitter.com/") || !x.url.contains("twitter.com/") {
+                        updatedUrl = "https://twitter.com" + x.url
+                    }
+                case .facebook:
+                    if !x.url.contains("https://www.facebook.com/") || !x.url.contains("www.facebook.com/") {
+                        updatedUrl = "https://www.facebook.com/" + x.url
+                    }
+                case .vk:
+                    if !x.url.contains("https://vk.com/") || !x.url.contains("vk.com/") {
+                        updatedUrl = "https://vk.com/" + x.url
+                    }
+                case .instagram:
+                    if !x.url.contains("https://instagram.com/") || !x.url.contains("instagram.com/") {
+                        updatedUrl = "https://instagram.com/" + x.url
+                    }
+                case .linkedin:
+                    if !x.url.contains("https://www.linkedin.com/") || !x.url.contains("www.linkedin.com/") {
+                        updatedUrl = "www.linkedin.com/" + x.url
+                    }
+                case .tiktok:
+                    if !x.url.contains("https://www.tiktok.com/") || !x.url.contains("www.tiktok.com/") {
+                        updatedUrl = "https://www.tiktok.com/" + x.url
+                    }
+                }
+            }
             testList.append(SocialResponse(sortOrder: x.sortOrder,
                                            socialType: x.socialType.description,
-                                           url: x.url))
+                                           url: updatedUrl))
         }
         apiClient.publisher(Endpoints.Social.setSocialNew(testList,
                                                           user: mxStore.getUserId()))
@@ -133,7 +162,6 @@ final class SocialListViewModel: ObservableObject {
                     break
                 }
             }, receiveValue: { [weak self] _ in
-                
             })
             .store(in: &subscriptions)
     }

@@ -7,6 +7,8 @@ struct ProfileView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ProfileViewModel
+    @State var showImageEdtior = false
+    @State var showImageViewer = false
 
     // MARK: - Private Properties
 
@@ -19,7 +21,6 @@ struct ProfileView: View {
     @State private var safariAddress = ""
     @State private var showDeletePhotoAlert = false
     @State private var photoUrlForDelete = ""
-    @State private var showImageEdtior = false
 
     // MARK: - Body
 
@@ -48,17 +49,25 @@ struct ProfileView: View {
                 viewModel.send(.onAppear)
                 showTabBar()
             }
+            .onChange(of: viewModel.selectedImage, perform: { _ in
+                showImageEdtior = true
+            })
             .fullScreenCover(isPresented: $showSafari) {
                 SFSafariViewWrapper(link: $safariAddress)
             }
+            .fullScreenCover(isPresented: $showImageViewer,
+                             content: {
+                FeedImageViewerView(
+                    selectedPhoto: $viewModel.selectedPhoto,
+                    showImageViewer: $showImageViewer,
+                    profileViewModel: viewModel,
+                    imageToShare: $viewModel.imageToShare)
+            })
             .sheet(isPresented: $showImagePicker) {
                 ImagePickerView(selectedImage: $viewModel.selectedImage)
                     .ignoresSafeArea()
                     .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                     .navigationBarTitleDisplayMode(.inline)
-                    .onDisappear {
-                        showImageEdtior = true
-                    }
             }
             .fullScreenCover(isPresented: $showImageEdtior,
                              content: {
@@ -68,22 +77,15 @@ struct ProfileView: View {
                     .ignoresSafeArea()
             })
             .alert(isPresented: $showAlert) {
-                switch showDeletePhotoAlert {
-                case false:
-                    return Alert(title: Text(R.string.localizable.profileCopied()))
-                case true:
-                    let primaryButton = Alert.Button.default(Text("Да")) {
-                        viewModel.deletePhoto(url: photoUrlForDelete)
-                    }
-                    let secondaryButton = Alert.Button.destructive(Text("Нет")) {
-                        photoUrlForDelete = ""
-                    }
-                    return Alert(title: Text("Удалить фото?"),
-                                 message: Text(""),
-                                 primaryButton: primaryButton,
-                                 secondaryButton: secondaryButton)
-                }
+                 Alert(title: Text(R.string.localizable.profileCopied()))
             }
+            .onChange(of: showMenu, perform: { value in
+                if !value {
+                    showTabBar()
+                } else {
+                    hideTabBar()
+                }
+            })
             .popup(
                 isPresented: $showMenu,
                 type: .toast,
@@ -91,13 +93,18 @@ struct ProfileView: View {
                 closeOnTap: true,
                 closeOnTapOutside: true,
                 backgroundColor: .black.opacity(0.4),
-                dismissCallback: { showTabBar() },
                 view: {
                     ProfileSettingsMenuView(balance: "0.50 AUR", onSelect: { type in
                         vibrate()
                         viewModel.send(.onShow(type))
                     })
-                        .frame(height: 712)
+                        .onAppear {
+                            hideTabBar()
+                        }
+                        .onDisappear {
+                            showTabBar()
+                        }
+                        .frame(height: UIScreen.main.bounds.height - 100)
                         .background(
                             CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
                                 .fill(Color(.white()))
@@ -305,9 +312,8 @@ struct ProfileView: View {
                             .frame(width: width, height: width)
                             .clipped()
                             .onTapGesture {
-                                showAlert = true
-                                showDeletePhotoAlert = true
-                                photoUrlForDelete = url.absoluteString
+                                showImageViewer = true
+                                viewModel.selectedPhoto = url
                             }
                     }
                 }
