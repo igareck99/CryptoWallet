@@ -19,12 +19,14 @@ final class KeyListViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<KeyListFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<KeyListFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+    private let userCredentialsStorage: UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userCredentialsStorage: UserCredentialsStorage
+	) {
+		self.userCredentialsStorage = userCredentialsStorage
         bindInput()
         bindOutput()
     }
@@ -42,19 +44,19 @@ final class KeyListViewModel: ObservableObject {
 
     // MARK: - Private Methods
 
-    private func bindInput() {
-        eventSubject
-            .sink { [weak self] event in
-                switch event {
-                case .onAppear:
-                    self?.updateData()
-                    self?.objectWillChange.send()
-                case let .onImportKey:
-                    self?.delegate?.handleNextScene(.importKey)
-                }
-            }
-            .store(in: &subscriptions)
-    }
+	private func bindInput() {
+		eventSubject
+			.sink { [weak self] event in
+				switch event {
+				case .onAppear:
+					self?.updateData()
+					self?.objectWillChange.send()
+				case .onImportKey:
+					self?.delegate?.handleNextScene(.importKey)
+				}
+			}
+			.store(in: &subscriptions)
+	}
 
     private func bindOutput() {
         stateValueSubject

@@ -78,12 +78,14 @@ final class ProfileViewModel: ObservableObject {
 
     @Injectable private var apiClient: APIClientManager
     @Injectable private var mxStore: MatrixStore
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
-    @Injectable private var userFlowsStorageService: UserFlowsStorageService
+    private let userSettings: UserCredentialsStorage & UserFlowsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userSettings: UserCredentialsStorage & UserFlowsStorage
+	) {
+		self.userSettings = userSettings
         bindInput()
         bindOutput()
     }
@@ -194,10 +196,10 @@ final class ProfileViewModel: ObservableObject {
         mxStore.$loginState.sink { [weak self] status in
             switch status {
             case .loggedOut:
-                self?.userFlowsStorageService.isAuthFlowFinished = false
-                self?.userFlowsStorageService.isOnboardingFlowFinished = false
-                self?.userFlowsStorageService.isLocalAuth = false
-                self?.userCredentialsStorageService.userPinCode = ""
+                self?.userSettings.isAuthFlowFinished = false
+                self?.userSettings.isOnboardingFlowFinished = false
+                self?.userSettings.isLocalAuth = false
+                self?.userSettings.userPinCode = ""
                 self?.delegate?.restartFlow()
             default:
                 break
@@ -290,7 +292,9 @@ final class ProfileViewModel: ObservableObject {
             profile.status = mxStore.getStatus()
         }
         getSocialList()
-        profile.phone = userCredentialsStorageService.userPhoneNumber
+		if let phoneNumber = userSettings.userPhoneNumber {
+			profile.phone = phoneNumber
+		}
         getPhotos()
     }
 }

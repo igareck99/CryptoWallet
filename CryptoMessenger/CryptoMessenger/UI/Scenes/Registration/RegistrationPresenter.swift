@@ -13,7 +13,7 @@ final class RegistrationPresenter {
     // MARK: - Private Properties
 
     @Injectable private var apiClient: APIClientManager
-    @Injectable private var userCredentials: UserCredentialsStorageService
+	private let userCredentials: UserCredentialsStorage
 
     private var selectedCountry = CountryCodePickerViewController.baseCountry
     private var state = RegistrationFlow.ViewState.sending {
@@ -25,8 +25,12 @@ final class RegistrationPresenter {
 
     // MARK: - Lifecycle
 
-    init(view: RegistrationViewInterface) {
+    init(
+		view: RegistrationViewInterface,
+		userCredentials: UserCredentialsStorage
+	) {
         self.view = view
+		self.userCredentials = userCredentials
     }
 
     // MARK: - Private Methods

@@ -8,7 +8,11 @@ enum PinCodeConfigurator {
 
     static func configuredViewController(delegate: PinCodeSceneDelegate?) -> PinCodeViewController {
         let viewController = PinCodeViewController()
-        let presenter = PinCodePresenter(view: viewController)
+		let userSettings = UserDefaultsService.shared
+        let presenter = PinCodePresenter(
+			view: viewController,
+			userSettings: userSettings
+		)
         presenter.delegate = delegate
         viewController.presenter = presenter
         return viewController

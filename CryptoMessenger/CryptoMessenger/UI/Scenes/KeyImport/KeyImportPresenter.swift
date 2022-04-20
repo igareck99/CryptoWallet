@@ -11,7 +11,7 @@ final class KeyImportPresenter {
 
     // MARK: - Private Properties
 
-    @Injectable private var userFlows: UserFlowsStorageService
+    private let userFlows: UserFlowsStorage
 
     private var state = KeyImportFlow.ViewState.sending {
         didSet {
@@ -21,8 +21,12 @@ final class KeyImportPresenter {
 
     // MARK: - Lifecycle
 
-    init(view: KeyImportViewInterface) {
+    init(
+		view: KeyImportViewInterface,
+		userFlows: UserFlowsStorage
+	) {
         self.view = view
+		self.userFlows = userFlows
     }
 
     // MARK: - Private Methods

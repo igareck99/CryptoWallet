@@ -19,12 +19,16 @@ final class TokenInfoViewModel: ObservableObject {
 
     // MARK: - Private Properties
 
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+    private let userCredentialsStorage: UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init(address: WalletInfo) {
+    init(
+		address: WalletInfo,
+		userCredentialsStorage: UserCredentialsStorage
+	) {
         self.address = address
+		self.userCredentialsStorage = userCredentialsStorage
     }
 
     // MARK: - Internal Methods

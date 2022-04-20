@@ -13,11 +13,11 @@ final class VerificationPresenter {
     // MARK: - Private Properties
 
     @Injectable private var apiClient: APIClientManager
-    @Injectable private var userCredentials: UserCredentialsStorageService
     @Injectable private var countdownTimer: CountdownTimer
     @Injectable private var configuration: Configuration
     @Injectable private var mxStore: MatrixStore
     private var subscriptions = Set<AnyCancellable>()
+	private let userCredentials: UserCredentialsStorage
 
     private var state = VerificationFlow.ViewState.sending {
         didSet {
@@ -27,8 +27,12 @@ final class VerificationPresenter {
 
     // MARK: - Lifecycle
 
-    init(view: VerificationViewInterface) {
+    init(
+		view: VerificationViewInterface,
+		userCredentials: UserCredentialsStorage
+	) {
         self.view = view
+		self.userCredentials = userCredentials
         countdownTimer.delegate = self
     }
 
@@ -55,7 +59,7 @@ final class VerificationPresenter {
 
     private func resendPhone() {
         apiClient
-            .publisher(Endpoints.Registration.sms(userCredentials.userPhoneNumber.numbers))
+            .publisher(Endpoints.Registration.sms(userCredentials.userPhoneNumber?.numbers ?? ""))
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
@@ -77,7 +81,7 @@ final class VerificationPresenter {
         let endpoint = Endpoints.Registration.auth(
             .init(
                 device: .init(name: configuration.deviceName, unique: configuration.deviceId),
-                phone: userCredentials.userPhoneNumber.numbers,
+                phone: userCredentials.userPhoneNumber?.numbers ?? "",
                 sms: code
             )
         )
@@ -116,7 +120,7 @@ final class VerificationPresenter {
 
 extension VerificationPresenter: VerificationPresentation {
     func viewDidLoad() {
-        state = .idle(userCredentials.userPhoneNumber)
+        state = .idle(userCredentials.userPhoneNumber ?? "")
         countdownTimer.start()
     }
 

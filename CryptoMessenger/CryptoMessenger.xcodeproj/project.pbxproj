@@ -56,9 +56,6 @@
 		5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EB2268070B3001957D3 /* View+Extensions.swift */; };
 		5A187EC0268070B3001957D3 /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EB3268070B3001957D3 /* UITableView+Extensions.swift */; };
 		5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EB4268070B3001957D3 /* CGSize+Transform.swift */; };
-		5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EDC2680CF49001957D3 /* UserFlowsStorage.swift */; };
-		5A187F112680CF49001957D3 /* UserCredentialsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EDD2680CF49001957D3 /* UserCredentialsStorage.swift */; };
-		5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EDE2680CF49001957D3 /* UserDefaultsLayer.swift */; };
 		5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EE02680CF49001957D3 /* PhotoLibraryManager.swift */; };
 		5A187F262680CF49001957D3 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EF92680CF49001957D3 /* APIError.swift */; };
 		5A187F272680CF49001957D3 /* Сonfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187EFA2680CF49001957D3 /* Сonfiguration.swift */; };
@@ -445,6 +442,12 @@
 		8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */; };
 		8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
+		D44BDC98280FECC80080AE8A /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC92280FECC80080AE8A /* UserDefaultsService.swift */; };
+		D44BDC99280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */; };
+		D44BDC9A280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */; };
+		D44BDC9B280FECC80080AE8A /* DependeciesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC95280FECC80080AE8A /* DependeciesService.swift */; };
+		D44BDC9C280FECC80080AE8A /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC96280FECC80080AE8A /* KeychainService.swift */; };
+		D44BDC9D280FECC80080AE8A /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC97280FECC80080AE8A /* FirebaseService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -500,9 +503,6 @@
 		5A187EB2268070B3001957D3 /* View+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		5A187EB3268070B3001957D3 /* UITableView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		5A187EB4268070B3001957D3 /* CGSize+Transform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Transform.swift"; sourceTree = "<group>"; };
-		5A187EDC2680CF49001957D3 /* UserFlowsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFlowsStorage.swift; sourceTree = "<group>"; };
-		5A187EDD2680CF49001957D3 /* UserCredentialsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCredentialsStorage.swift; sourceTree = "<group>"; };
-		5A187EDE2680CF49001957D3 /* UserDefaultsLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsLayer.swift; sourceTree = "<group>"; };
 		5A187EE02680CF49001957D3 /* PhotoLibraryManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryManager.swift; sourceTree = "<group>"; };
 		5A187EF92680CF49001957D3 /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		5A187EFA2680CF49001957D3 /* Сonfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Сonfiguration.swift"; sourceTree = "<group>"; };
@@ -890,6 +890,12 @@
 		8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerProtocols.swift; sourceTree = "<group>"; };
 		8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseWarningView.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
+		D44BDC92280FECC80080AE8A /* UserDefaultsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
+		D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserFlowStorage.swift"; sourceTree = "<group>"; };
+		D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserCredentialsStorage.swift"; sourceTree = "<group>"; };
+		D44BDC95280FECC80080AE8A /* DependeciesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependeciesService.swift; sourceTree = "<group>"; };
+		D44BDC96280FECC80080AE8A /* KeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		D44BDC97280FECC80080AE8A /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -923,7 +929,6 @@
 				5A187DBC26806EF8001957D3 /* Products */,
 				C48D3F6781FE772D12943E74 /* Pods */,
 				3317E261A1E9E98DBBA1CBEB /* Frameworks */,
-				5A26CD4326B356C400118D4B /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -968,6 +973,7 @@
 		5A187DD926806F4A001957D3 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				D44BDC90280FECC80080AE8A /* App Services */,
 				5A187DBE26806EF8001957D3 /* AppDelegate.swift */,
 				5A187DC026806EF8001957D3 /* SceneDelegate.swift */,
 				5A187DDB26806F62001957D3 /* SceneDelegateService.swift */,
@@ -1221,7 +1227,6 @@
 			children = (
 				8B4E9C2C27DFF5EA0057E4C9 /* CodeScaner */,
 				7895E6E326CC1B39009CF41D /* LocalAuthentication */,
-				5A187EDB2680CF49001957D3 /* UserDefaults */,
 				5A187EDF2680CF49001957D3 /* PhotoLibraryManager */,
 				5A187EF72680CF49001957D3 /* Network */,
 				5A187F0B2680CF49001957D3 /* ContactsManager */,
@@ -1235,16 +1240,6 @@
 				5ABAD39827BDA6BD0067DFC1 /* DocumentPicker */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		5A187EDB2680CF49001957D3 /* UserDefaults */ = {
-			isa = PBXGroup;
-			children = (
-				5A187EDC2680CF49001957D3 /* UserFlowsStorage.swift */,
-				5A187EDD2680CF49001957D3 /* UserCredentialsStorage.swift */,
-				5A187EDE2680CF49001957D3 /* UserDefaultsLayer.swift */,
-			);
-			path = UserDefaults;
 			sourceTree = "<group>";
 		};
 		5A187EDF2680CF49001957D3 /* PhotoLibraryManager */ = {
@@ -1386,13 +1381,6 @@
 				5A26CD2626B2FF9900118D4B /* CarouselFlowLayout.swift */,
 			);
 			path = SwipingCarousel;
-			sourceTree = "<group>";
-		};
-		5A26CD4326B356C400118D4B /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		5A26CD4426B356F600118D4B /* Profile */ = {
@@ -2411,6 +2399,27 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		D44BDC90280FECC80080AE8A /* App Services */ = {
+			isa = PBXGroup;
+			children = (
+				D44BDC91280FECC80080AE8A /* UserDefaults */,
+				D44BDC95280FECC80080AE8A /* DependeciesService.swift */,
+				D44BDC96280FECC80080AE8A /* KeychainService.swift */,
+				D44BDC97280FECC80080AE8A /* FirebaseService.swift */,
+			);
+			path = "App Services";
+			sourceTree = "<group>";
+		};
+		D44BDC91280FECC80080AE8A /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				D44BDC92280FECC80080AE8A /* UserDefaultsService.swift */,
+				D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */,
+				D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */,
+			);
+			path = UserDefaults;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2646,6 +2655,8 @@
 				5A187DF126807011001957D3 /* AuthFlowCoordinator.swift in Sources */,
 				5AA6410726822C3A008922B4 /* CALayerStyle.swift in Sources */,
 				5AA6410926822C3A008922B4 /* ViewStyle.swift in Sources */,
+				D44BDC9A280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift in Sources */,
+				D44BDC99280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift in Sources */,
 				5A187EA52680708D001957D3 /* CollectionViewProviderViewModel.swift in Sources */,
 				5A187F2F2680CF49001957D3 /* Endpoints.swift in Sources */,
 				8B48110127CF9C2300831589 /* ImportKeyViewModel.swift in Sources */,
@@ -2718,7 +2729,6 @@
 				78437F0D270C76FE00371110 /* AboutAppPresenter.swift in Sources */,
 				789FEBEF26DCE61D0018FE91 /* PhotoEditorView.swift in Sources */,
 				8BC06B1427C8F6B6005A28A1 /* TransactionConfigurator.swift in Sources */,
-				5A187F102680CF49001957D3 /* UserFlowsStorage.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
 				5A40A2D82769FB2B003AAA79 /* SearchBar.swift in Sources */,
 				8B4E9C4A27E1EDF60057E4C9 /* FacilityApproveProtocols.swift in Sources */,
@@ -2738,6 +2748,7 @@
 				5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */,
 				8B4E9C4827E1EDE80057E4C9 /* FacilityApproveViewModel.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
+				D44BDC9C280FECC80080AE8A /* KeychainService.swift in Sources */,
 				5A44FEF127693F6F006F9D92 /* ChatCreateViewModel.swift in Sources */,
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
 				8BA0C8FA27AD195D0070203F /* ChatSettingsProtocols.swift in Sources */,
@@ -2796,6 +2807,7 @@
 				5AF8635C26ADB691004A417C /* OnboardingViewController.swift in Sources */,
 				7846B65F26E8BC3F00B05984 /* MoveAnimation.swift in Sources */,
 				5A187E9B2680708D001957D3 /* ListSeparatorStyle.swift in Sources */,
+				D44BDC98280FECC80080AE8A /* UserDefaultsService.swift in Sources */,
 				5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */,
 				5A3C9429274AFFDC00818060 /* KeyboardAvoider.swift in Sources */,
 				5A44FED72766816C006F9D92 /* ProfileViewModel.swift in Sources */,
@@ -2812,7 +2824,6 @@
 				78437F0F270C76FE00371110 /* AboutAppProtocols.swift in Sources */,
 				8B6C18C22799A87000B85F2A /* SecurityNewConfigurator.swift in Sources */,
 				5A187EB6268070B3001957D3 /* UIColor+Extensions.swift in Sources */,
-				5A187F112680CF49001957D3 /* UserCredentialsStorage.swift in Sources */,
 				5A187EB5268070B3001957D3 /* UIViewController+Extensions.swift in Sources */,
 				8BE3799E27EB26AE00AB6B6E /* WalletManagerViewModel.swift in Sources */,
 				5A187F302680CF49001957D3 /* DefaultResponses.swift in Sources */,
@@ -2875,6 +2886,7 @@
 				8B4810FB27CF9BA600831589 /* ImportKeyFlow.swift in Sources */,
 				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
+				D44BDC9B280FECC80080AE8A /* DependeciesService.swift in Sources */,
 				78437F0E270C76FE00371110 /* AboutAppViewController.swift in Sources */,
 				78437F11270C76FE00371110 /* AboutAppConfigurator.swift in Sources */,
 				5A3721DE272F418F0097ABED /* SelectContactView.swift in Sources */,
@@ -2944,7 +2956,6 @@
 				8B3A816A275AC25D00E736E4 /* ProfileDetailView.swift in Sources */,
 				78890648270684180093459C /* NetworkDetailItem.swift in Sources */,
 				5AF8636C26ADCB9B004A417C /* KeyImportView.swift in Sources */,
-				5A187F122680CF49001957D3 /* UserDefaultsLayer.swift in Sources */,
 				5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */,
 				8B37BF79275799B300602BE0 /* BuyView.swift in Sources */,
 				5A187F332680CF49001957D3 /* MultipartFileData.swift in Sources */,
@@ -3007,6 +3018,7 @@
 				8B5609B62779C5CA00AF43F6 /* ThemeItem.swift in Sources */,
 				789B123226CE8906002FCDDF /* CallListViewController.swift in Sources */,
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
+				D44BDC9D280FECC80080AE8A /* FirebaseService.swift in Sources */,
 				5A26CD2726B2FF9900118D4B /* CarouselNonAnimatableFlowLayout.swift in Sources */,
 				78437F1A270CE94000371110 /* PaywallView.swift in Sources */,
 				8B432CC627C3955A0025D62B /* WalletNewViewModel.swift in Sources */,

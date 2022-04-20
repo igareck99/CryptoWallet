@@ -37,11 +37,14 @@ final class FacilityApproveViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private var apiClient: APIClientManager
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+	private let userCredentialsStorage: UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userCredentialsStorage: UserCredentialsStorage
+	) {
+		self.userCredentialsStorage = userCredentialsStorage
         bindInput()
         bindOutput()
     }

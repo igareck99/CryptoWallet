@@ -8,7 +8,11 @@ enum RegistrationConfigurator {
 
     static func configuredViewController(delegate: RegistrationSceneDelegate?) -> RegistrationViewController {
         let viewController = RegistrationViewController()
-        let presenter = RegistrationPresenter(view: viewController)
+		let userCredentials = UserDefaultsService.shared
+        let presenter = RegistrationPresenter(
+			view: viewController,
+			userCredentials: userCredentials
+		)
         presenter.delegate = delegate
         viewController.presenter = presenter
         return viewController

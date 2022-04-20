@@ -12,11 +12,15 @@ final class AppCoordinator: Coordinator {
 
     // MARK: - Private Properties
 
-    @Injectable private var userFlows: UserFlowsStorageService
+    private let userFlows: UserFlowsStorage
 
     // MARK: - Lifecycle
 
-    init(navigationController: UINavigationController) {
+    init(
+		userFlows: UserFlowsStorage,
+		navigationController: UINavigationController
+	) {
+		self.userFlows = userFlows
         self.navigationController = navigationController
     }
 
@@ -43,7 +47,11 @@ final class AppCoordinator: Coordinator {
     }
 
     func showAuthenticationFlow() {
-        let authFlowCoordinator = AuthFlowCoordinator(navigationController: navigationController)
+		let userFlows = UserDefaultsService.shared
+		let authFlowCoordinator = AuthFlowCoordinator(
+			userFlows: userFlows,
+			navigationController: navigationController
+		)
         authFlowCoordinator.delegate = self
         addChildCoordinator(authFlowCoordinator)
         authFlowCoordinator.start()
@@ -57,7 +65,11 @@ final class AppCoordinator: Coordinator {
     }
 
     func showPinCodeFlow() {
-        let pinCodeFlowCoordinator = PinCodeFlowCoordinator(navigationController: navigationController)
+		let userFlows = UserDefaultsService.shared
+		let pinCodeFlowCoordinator = PinCodeFlowCoordinator(
+			userFlows: userFlows,
+			navigationController: navigationController
+		)
         pinCodeFlowCoordinator.delegate = self
         addChildCoordinator(pinCodeFlowCoordinator)
         pinCodeFlowCoordinator.start()

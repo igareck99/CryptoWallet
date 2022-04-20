@@ -112,7 +112,10 @@ struct WalletNewView: View {
                backgroundColor: Color(.black(0.3)),
                view: {
             TokenInfoView(showTokenInfo: $showTokenInfo,
-                          viewModel: TokenInfoViewModel(address: selectedAddress),
+						  viewModel: TokenInfoViewModel(
+							address: selectedAddress,
+							userCredentialsStorage: UserDefaultsService.shared
+						  ),
                           address: selectedAddress)
                 .onAppear {
                     hideTabBar()

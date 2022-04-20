@@ -16,12 +16,14 @@ final class WalletManagerViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<WalletManagerFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<WalletManagerFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+    private let userCredentialsStorage: UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userCredentialsStorage: UserCredentialsStorage
+	) {
+		self.userCredentialsStorage = userCredentialsStorage
         bindInput()
         bindOutput()
     }
@@ -62,6 +64,6 @@ final class WalletManagerViewModel: ObservableObject {
     }
 
     private func updateData() {
-        secretPhraseState = userCredentialsStorageService.secretPhraseState
+        secretPhraseState = userCredentialsStorage.secretPhraseState ?? ""
     }
 }

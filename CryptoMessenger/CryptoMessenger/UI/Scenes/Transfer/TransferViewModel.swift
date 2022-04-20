@@ -17,12 +17,14 @@ final class TransferViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private(set) var mxStore: MatrixStore
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
-    @Injectable private var userFlows: UserFlowsStorageService
+    private let userSettings: UserFlowsStorage & UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userSettings: UserFlowsStorage & UserCredentialsStorage
+	) {
+		self.userSettings = userSettings
         bindInput()
         bindOutput()
     }

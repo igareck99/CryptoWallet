@@ -30,12 +30,16 @@ final class Authenticator {
     private let session: URLSession
     private let queue = DispatchQueue(label: "Authenticator.\(UUID().uuidString)")
     private var refreshPublisher: AnyPublisher<Token, Error>?
-    @Injectable private var userCredentialsStorage: UserCredentialsStorageService
+    private let userCredentials: UserCredentialsStorage
 
     // MARK: - Life Cycle
 
-    init(session: URLSession = .shared) {
+    init(
+		userCredentials: UserCredentialsStorage,
+		session: URLSession = .shared
+	) {
         self.session = session
+		self.userCredentials = userCredentials
     }
 
     // MARK: - Internal Methods
@@ -49,8 +53,8 @@ final class Authenticator {
 
             // scenario 2: we don't need a token at all
             guard
-                let access = self?.userCredentialsStorage.accessToken,
-                let refresh = self?.userCredentialsStorage.refreshToken,
+                let access = self?.userCredentials.accessToken,
+                let refresh = self?.userCredentials.refreshToken,
                 !access.isEmpty
             else {
                 return Just(Token())
@@ -65,7 +69,7 @@ final class Authenticator {
                     .eraseToAnyPublisher()
             }
 
-            let requestConvertible = Endpoints.Session.refresh(self?.userCredentialsStorage.refreshToken ?? "")
+            let requestConvertible = Endpoints.Session.refresh(self?.userCredentials.refreshToken ?? "")
             guard let httpRequest = try? requestConvertible.asURLRequest() else {
                 return Fail(error: APIError.apiError(-1, nil) as Error)
                     .eraseToAnyPublisher()
@@ -80,9 +84,9 @@ final class Authenticator {
                     Token(isUserAuthenticated: true, access: $0.accessToken, refresh: $0.refreshToken)
                 }
                 .handleEvents(receiveOutput: { token in
-                    self?.userCredentialsStorage.accessToken = token.access
-                    self?.userCredentialsStorage.refreshToken = token.refresh
-                    self?.userCredentialsStorage.isUserAuthenticated = token.isUserAuthenticated
+                    self?.userCredentials.accessToken = token.access
+                    self?.userCredentials.refreshToken = token.refresh
+                    self?.userCredentials.isUserAuthenticated = token.isUserAuthenticated
                 }, receiveCompletion: { _ in
                     self?.queue.sync {
                         self?.refreshPublisher = nil
