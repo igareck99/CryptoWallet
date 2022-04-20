@@ -52,6 +52,27 @@ final class ContactsManager: ContactsStore {
         }
     }
 
+    func createContact(selectedImage: UIImage?,
+                       nameSurnameText: String,
+                       numberText: String) {
+        let contact = CNMutableContact()
+        if selectedImage != nil {
+            contact.imageData = selectedImage?.jpegData(compressionQuality: 1.0)
+        }
+        contact.givenName = nameSurnameText
+        contact.phoneNumbers = [CNLabeledValue(
+            label: CNLabelPhoneNumberiPhone,
+            value: CNPhoneNumber(stringValue: numberText))]
+        let store = CNContactStore()
+        let saveRequest = CNSaveRequest()
+        saveRequest.add(contact, toContainerWithIdentifier: nil)
+        do {
+            try store.execute(saveRequest)
+        } catch {
+            return
+        }
+    }
+
     // MARK: - Private Methods
 
     private func checkAuthorization(completionHandler: @escaping GenericBlock<Bool>) {

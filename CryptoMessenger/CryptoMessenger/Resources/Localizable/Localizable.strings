@@ -364,6 +364,8 @@
 "CreateAction.ContactsSection" = "Контакты";
 "CreateAction.InviteSection" = "Пригласить в Aura";
 "CreateAction.ShowMore" = "Показать больше";
+"CreateAction.ContactData" = "Контактные данные";
+"CreateAction.NickName" = "Никнейм";
 
 "Chat.Welcome" = "Привет, теперь я в Aura";
 
