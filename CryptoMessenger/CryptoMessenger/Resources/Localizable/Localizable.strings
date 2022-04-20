@@ -205,7 +205,7 @@
 "Typography.MiddleSize" = "Как в системе (Русский)";
 "Typography.BigTitle" = "Большой";
 "Typography.BigSize" = "120%";
-"Typography.FontManagment" = "Управление...ом шрифта";
+"Typography.FontManagment" = "Управление размером шрифта";
 "Typography.Standart" = "Стандартный";
 
 
@@ -364,6 +364,8 @@
 "CreateAction.ContactsSection" = "Контакты";
 "CreateAction.InviteSection" = "Пригласить в Aura";
 "CreateAction.ShowMore" = "Показать больше";
+"CreateAction.ContactData" = "Контактные данные";
+"CreateAction.NickName" = "Никнейм";
 
 "Chat.Welcome" = "Привет, теперь я в Aura";
 

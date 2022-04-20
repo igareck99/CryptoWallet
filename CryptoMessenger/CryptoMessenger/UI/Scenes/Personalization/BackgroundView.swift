@@ -7,25 +7,24 @@ struct SelectPhotoBackgroundCellView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            HStack(spacing: 16) {
-                ZStack {
-                    Circle()
-                        .fill(Color(.blue(0.1)))
-                        .frame(width: 40, height: 40)
-                    R.image.profileBackground.gallery.image
-                        .frame(width: 20, height: 20)
-                }
+        HStack {
+            ZStack {
+                Circle()
+                    .fill(Color(.blue(0.1)))
+                    .frame(width: 40, height: 40)
+                R.image.profileBackground.gallery.image
+                    .frame(width: 20, height: 20)
+            }
+            HStack {
                 Text(R.string.localizable.profileBackgroundTitle())
                     .font(.light(17))
                     .foreground(.blue())
-                R.image.registration.arrow.image.padding(.leading, 50)
+                    .lineLimit(2)
+                Spacer()
+                R.image.registration.arrow.image
             }
-            Text(R.string.localizable.profileBackgroundWallpaper())
-                .font(.regular(12))
-                .foreground(.darkGray(12))
+            .padding(.leading, 16)
         }
-        .listRowSeparator(.hidden)
     }
 }
 
@@ -51,7 +50,12 @@ struct SelectBackgroundView: View {
                         .onTapGesture {
                             showPhotoLibrary = true
                         }
-                    LazyVGrid(columns: Array(repeating: GridItem(spacing: 8), count: 3), alignment: .center, spacing: 9) {
+                    Text(R.string.localizable.profileBackgroundWallpaper())
+                        .font(.regular(12))
+                        .foreground(.darkGray(12))
+                        .padding(.top, 8)
+                    LazyVGrid(columns: Array(repeating: GridItem(spacing: 8),
+                                             count: 3), alignment: .center, spacing: 9) {
                         ForEach(0..<viewModel.backgroundPhotos.count, id: \.self) { index in
                             ZStack {
                                 viewModel.backgroundPhotos[index]
@@ -81,6 +85,7 @@ struct SelectBackgroundView: View {
                         }
                     }
                 }
+                .listRowSeparator(.hidden)
             }.padding(.top, 24)
                 .sheet(isPresented: $showPhotoLibrary) {
                     ImagePickerView(selectedImage: $viewModel.selectedImage)

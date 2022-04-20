@@ -9,6 +9,12 @@ struct ProfileBackgroundView: View {
 	@StateObject var viewModel = ProfileViewModel(userSettings: UserDefaultsService.shared)
     @StateObject var personalizationViewModel: PersonalizationViewModel
 
+    // MARK: - Private Properties
+
+    @State private var showAllSocial = false
+    @State private var showSafari = false
+    @State private var safariAddress = ""
+
     // MARK: - Body
 
     var body: some View {
@@ -73,64 +79,67 @@ struct ProfileBackgroundView: View {
                 .font(.medium(15))
             switch viewModel.socialListEmpty {
             case false:
+                ScrollView(!showAllSocial ? [] : .horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
-                    ForEach(viewModel.socialList.listData) { item in
-                        switch item.socialType {
-                        case .twitter:
+                    switch showAllSocial {
+                    case false:
+                        if viewModel.existringUrls.count < 4 {
+                            ForEach(viewModel.profile.socialNetwork.filter({ !$0.url.isEmpty })) { item in
+                                SocialNetworkView(safariAddress: $safariAddress,
+                                                  showSafari: $showSafari,
+                                                  item: item)
+                            }
+                        } else {
+                            ForEach(viewModel.profile.socialNetwork.filter({ !$0.url.isEmpty })[0...2]) { item in
+                                if !item.url.isEmpty {
+                                    SocialNetworkView(safariAddress: $safariAddress,
+                                                      showSafari: $showSafari,
+                                                      item: item)
+                                }
+                            }
                             Button(action: {
+                                showAllSocial.toggle()
                             }, label: {
-                                R.image.profile.twitter.image
-                            }).frame(width: 32, height: 32, alignment: .center)
-                                .background(.blue())
-                                .cornerRadius(16)
-                        case .instagram:
-                            Button(action: {
-                            }, label: {
-                                R.image.profile.instagram.image
-                            }).frame(width: 32, height: 32, alignment: .center)
-                                .background(.blue())
-                                .cornerRadius(16)
-                        case .facebook:
-                            Button(action: {
-                            }, label: {
-                                R.image.profile.facebook.image
-                            }).frame(width: 32, height: 32, alignment: .center)
-                                .background(.blue())
-                                .cornerRadius(16)
-                        case .linkedin:
-                            Button(action: {
-                            }, label: {
-                                R.image.profile.website.image
-                            }).frame(width: 32, height: 32, alignment: .center)
-                                .background(.blue())
-                                .cornerRadius(16)
-                        case .vk:
-                            Button(action: { },
-                                   label: {
-                                R.image.profile.website.image
-                            }).frame(width: 32, height: 32, alignment: .center)
-                                .background(.blue())
-                                .cornerRadius(16)
-                        case .tiktok:
-                            Button(action: { },
-                                   label: {
-                                R.image.profile.website.image
+                                R.image.navigation.settingsButton.image.resizable()
+                                    .frame(width: 16,
+                                           height: 15)
                             }).frame(width: 32, height: 32, alignment: .center)
                                 .background(.blue())
                                 .cornerRadius(16)
                         }
+                    case true:
+                        ForEach(viewModel.profile.socialNetwork) { item in
+                            if !item.url.isEmpty {
+                                SocialNetworkView(safariAddress: $safariAddress,
+                                                  showSafari: $showSafari,
+                                                  item: item)
+                            }
+                        }
+                        Button(action: {
+                            showAllSocial.toggle()
+                        }, label: {
+                            R.image.navigation.settingsButton.image.resizable()
+                                .frame(width: 16,
+                                       height: 15)
+                        }).frame(width: 32, height: 32, alignment: .center)
+                            .background(.blue())
+                            .cornerRadius(16)
                     }
                 }
-            case true:
-                Button(R.string.localizable.profileAddSocial()) {
                 }
-                .frame(width: 160, height: 32)
-                .font(.regular(15))
-                .foreground(.blue())
-                .overlay(
-                    RoundedRectangle(cornerRadius: 61)
-                        .stroke(Color(.blue()), lineWidth: 1)
-                )
+            case true:
+                Button(action: {
+                    viewModel.send(.onSocial)
+                }, label: {
+                    Text(R.string.localizable.profileAddSocial())
+                        .font(.regular(15))
+                        .foreground(.blue())
+                })
+                    .frame(width: 160, height: 32)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 61)
+                            .stroke(Color(.blue()), lineWidth: 1)
+                    )
             }
             Text(viewModel.profile.phone)
         }
@@ -201,7 +210,7 @@ struct ProfileBackgroundView: View {
                         Spacer()
                     }
                     .padding(.top, 27)
-                    .padding([.leading, .trailing], 16)
+                    .padding(.leading, 16)
                     .padding(.bottom, 24)
                     infoView
                     addSocialView

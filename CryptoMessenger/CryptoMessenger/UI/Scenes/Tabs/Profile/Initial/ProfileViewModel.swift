@@ -68,6 +68,7 @@ final class ProfileViewModel: ObservableObject {
     // MARK: - Private Properties
 
     @Published var profile = ProfileItem()
+    @Published var existringUrls: [String] = []
     @Published private(set) var state: ProfileFlow.ViewState = .idle
     @Published private(set) var socialList = SocialListViewModel()
     @Published private(set) var socialListEmpty = true
@@ -268,6 +269,10 @@ final class ProfileViewModel: ObservableObject {
                 guard let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder })
                 else { return }
                 self?.profile.socialNetwork = sortedList
+                self?.existringUrls = []
+                for item in sortedList.filter({ !$0.url.isEmpty }) {
+                    self?.existringUrls.append(item.url)
+                }
                 for x in sortedList {
                     if !x.url.isEmpty {
                         self?.socialListEmpty = false

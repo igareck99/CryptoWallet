@@ -14,10 +14,15 @@ struct PersonalizationNewCellView: View {
     var body: some View {
         HStack {
             Text(item.title.text)
+                .lineLimit(1)
                 .font(.regular(15))
             Spacer()
             HStack(spacing: 17) {
                 Text(user)
+                    .frame(minWidth: 0,
+                           maxWidth: (UIScreen.main.bounds.width - 32) / 2 - 40,
+                           alignment: .trailing)
+                    .lineLimit(1)
                     .font(.regular(15))
                     .foreground(.darkGray())
                 R.image.registration.arrow.image
