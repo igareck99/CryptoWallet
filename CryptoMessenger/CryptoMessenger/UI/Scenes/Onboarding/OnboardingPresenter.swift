@@ -18,12 +18,16 @@ final class OnboardingPresenter {
 
     // MARK: - Private Properties
 
-    @Injectable private var userFlows: UserFlowsStorageService
+    private let userFlows: UserFlowsStorage
 
     // MARK: - Lifecycle
 
-    init(view: OnboardingViewInterface) {
+    init(
+		view: OnboardingViewInterface,
+		userFlows: UserFlowsStorage
+	) {
         self.view = view
+		self.userFlows = userFlows
     }
 }
 

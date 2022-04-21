@@ -33,7 +33,8 @@ final class SceneDelegateService: NSObject, UIWindowSceneDelegate {
             fatalError("Root viewController must be inherited from UINavigationController")
         }
 
-        appCoordinator = AppCoordinator(navigationController: rootNavigationController)
+		let userFlows = UserDefaultsService.shared
+		appCoordinator = AppCoordinator(userFlows: userFlows, navigationController: rootNavigationController)
         appCoordinator?.start()
         window?.makeKeyAndVisible()
     }

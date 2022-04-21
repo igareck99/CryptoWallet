@@ -21,11 +21,14 @@ final class TransactionViewModel: ObservableObject {
 
     @Injectable private var apiClient: APIClientManager
     @Injectable private(set) var mxStore: MatrixStore
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+    private let userCredentialsStorage: UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userCredentialsStorage: UserCredentialsStorage
+	) {
+		self.userCredentialsStorage = userCredentialsStorage
         bindInput()
         bindOutput()
     }

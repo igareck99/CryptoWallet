@@ -3,7 +3,7 @@ import Combine
 
 // MARK: - SessionViewModel
 
-class SessionViewModel: ObservableObject {
+final class SessionViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
@@ -21,12 +21,14 @@ class SessionViewModel: ObservableObject {
 
     @Injectable private var apiClient: APIClientManager
     @Injectable private(set) var mxStore: MatrixStore
-    @Injectable private var userFlowsStorageService: UserFlowsStorageService
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+    private let userSettings: UserCredentialsStorage & UserFlowsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userSettings: UserCredentialsStorage & UserFlowsStorage
+	) {
+		self.userSettings = userSettings
         bindInput()
         bindOutput()
     }
@@ -61,10 +63,10 @@ class SessionViewModel: ObservableObject {
         mxStore.$loginState.sink { [weak self] status in
             switch status {
             case .loggedOut:
-                self?.userFlowsStorageService.isAuthFlowFinished = false
-                self?.userFlowsStorageService.isOnboardingFlowFinished = false
-                self?.userFlowsStorageService.isLocalAuth = false
-                self?.userFlowsStorageService.isLocalAuth = false
+                self?.userSettings.isAuthFlowFinished = false
+                self?.userSettings.isOnboardingFlowFinished = false
+                self?.userSettings.isLocalAuth = false
+                self?.userSettings.isLocalAuth = false
                 self?.delegate?.restartFlow()
             default:
                 break

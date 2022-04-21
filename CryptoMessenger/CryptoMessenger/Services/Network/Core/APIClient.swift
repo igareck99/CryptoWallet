@@ -33,7 +33,11 @@ final class APIClient: NSObject, APIClientManager {
     // MARK: - Life Cycle
 
     required init(configuration: URLSessionConfiguration = .default) {
-        self.authenticator = Authenticator(session: session)
+		let userCredentials = UserDefaultsService.shared
+		self.authenticator = Authenticator(
+			userCredentials: userCredentials,
+			session: session
+		)
         super.init()
         session = URLSession(configuration: configuration)
         session.configuration.requestCachePolicy = .reloadIgnoringLocalCacheData

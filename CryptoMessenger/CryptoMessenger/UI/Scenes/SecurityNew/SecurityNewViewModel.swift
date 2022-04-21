@@ -23,13 +23,14 @@ final class SecurityNewViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<SecurityNewFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<SecurityNewFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
-    @Injectable var userFlows: UserFlowsStorageService
+    let userSettings: UserFlowsStorage & UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userSettings: UserFlowsStorage & UserCredentialsStorage
+	) {
+		self.userSettings = userSettings
         bindInput()
         bindOutput()
     }
@@ -47,43 +48,43 @@ final class SecurityNewViewModel: ObservableObject {
 
     func updateProfileObserveState(item: String) {
         profileObserveState = item
-        userCredentialsStorageService.profileObserveState = item
+		userSettings.profileObserveState = item
     }
 
     func updateLastSeenState(item: String) {
         lastSeenState = item
-        userCredentialsStorageService.lastSeenState = item
+		userSettings.lastSeenState = item
     }
 
     func updateCallsState(item: String) {
         callsState = item
-        userCredentialsStorageService.callsState = item
+		userSettings.callsState = item
     }
 
     func updateGeopositionState(item: String) {
         geopositionState = item
-        userCredentialsStorageService.geopositionState = item
+		userSettings.geopositionState = item
     }
 
     func updateTelephoneState(item: String) {
         telephoneState = item
-        userCredentialsStorageService.telephoneState = item
+		userSettings.telephoneState = item
     }
 
     func updateIsPinCodeOn() {
-        userFlows.isLocalAuth = userFlows.isLocalAuth
+		userSettings.isLocalAuth = userSettings.isLocalAuth
     }
 
     func updateIsFalsePinCode(item: Bool) {
-        userFlows.isFalsePinCodeOn = item
+		userSettings.isFalsePinCodeOn = item
     }
 
     func updateIsBiometryOn(item: Bool) {
-        userFlows.isBiometryOn = item
+		userSettings.isBiometryOn = item
     }
 
     func isPinCodeUpdate() -> Bool {
-        return userFlows.isLocalAuth == isPinCodeOn
+        userSettings.isLocalAuth == isPinCodeOn
     }
 
     // MARK: - Private Methods
@@ -117,13 +118,13 @@ final class SecurityNewViewModel: ObservableObject {
     }
 
     private func updateData() {
-        isPinCodeOn = userFlows.isLocalAuth
-        isFalsePinCodeOn = userFlows.isFalsePinCodeOn
-        isBiometryOn = userFlows.isBiometryOn
-        profileObserveState = userCredentialsStorageService.profileObserveState
-        lastSeenState = userCredentialsStorageService.lastSeenState
-        callsState = userCredentialsStorageService.callsState
-        geopositionState = userCredentialsStorageService.geopositionState
-        telephoneState = userCredentialsStorageService.telephoneState
+        isPinCodeOn = userSettings.isLocalAuth
+        isFalsePinCodeOn = userSettings.isFalsePinCodeOn
+        isBiometryOn = userSettings.isBiometryOn
+        profileObserveState = userSettings.profileObserveState ?? ""
+        lastSeenState = userSettings.lastSeenState ?? ""
+        callsState = userSettings.callsState ?? ""
+        geopositionState = userSettings.geopositionState ?? ""
+        telephoneState = userSettings.telephoneState ?? ""
     }
 }

@@ -8,7 +8,11 @@ enum PinCodeCreateConfigurator {
 
     static func configuredView(delegate: PinCodeCreateSceneDelegate?,
                                screenType: PinCodeScreenType) -> PinCodeCreateView {
-        let viewModel = PinCodeCreateViewModel(screenType: screenType)
+		let userSettings = UserDefaultsService.shared
+        let viewModel = PinCodeCreateViewModel(
+			screenType: screenType,
+			userSettings: userSettings
+		)
         viewModel.delegate = delegate
         let view = PinCodeCreateView(viewModel: viewModel)
         return view

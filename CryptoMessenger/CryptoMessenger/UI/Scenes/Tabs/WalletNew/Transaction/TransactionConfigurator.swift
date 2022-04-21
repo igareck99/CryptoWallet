@@ -10,7 +10,8 @@ enum TransactionConfigurator {
                                selectorFilterIndex: Int,
                                selectorTokenIndex: Int,
                                address: String) -> TransactionView {
-        let viewModel = TransactionViewModel()
+		let userCredentialsStorage = UserDefaultsService.shared
+        let viewModel = TransactionViewModel(userCredentialsStorage: userCredentialsStorage)
         viewModel.delegate = delegate
         let view = TransactionView(viewModel: viewModel,
                                    selectorFilterIndex: selectorFilterIndex,

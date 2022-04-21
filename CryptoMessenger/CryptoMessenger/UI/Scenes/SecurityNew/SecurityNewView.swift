@@ -39,7 +39,7 @@ struct SecurityNewView: View {
                     }
                 }
                 .onChange(of: viewModel.isPinCodeOn) { value in
-                    if viewModel.userFlows.isLocalAuth != viewModel.isPinCodeOn {
+                    if viewModel.userSettings.isLocalAuth != viewModel.isPinCodeOn {
                         if value {
                             viewModel.send(.onCreatePassword)
                         } else {

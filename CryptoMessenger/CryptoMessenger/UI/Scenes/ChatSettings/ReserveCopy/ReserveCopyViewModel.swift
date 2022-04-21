@@ -14,19 +14,19 @@ final class ReserveCopyViewModel: ObservableObject {
     @Published var percent = Float(0)
     @Published var sizeData = Float(0)
     @Published var uploadSpeed = Float(0.1)
-    
-    // MARK: - Private Properties
-    
     @Published private(set) var state: ReserveCopyFlow.ViewState = .idle
     private let eventSubject = PassthroughSubject<ReserveCopyFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ReserveCopyFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
 
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+    private let userCredentialsStorage: UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userCredentialsStorage: UserCredentialsStorage
+	) {
+		self.userCredentialsStorage = userCredentialsStorage
         bindInput()
         bindOutput()
     }
@@ -44,7 +44,7 @@ final class ReserveCopyViewModel: ObservableObject {
 
     func updateReserveCopyTime(item: String) {
         reserveCopyTime = item
-        userCredentialsStorageService.reserveCopyTime = reserveCopyTime
+		userCredentialsStorage.reserveCopyTime = reserveCopyTime
     }
 
     func reserveCopyProgress() {
@@ -79,7 +79,9 @@ final class ReserveCopyViewModel: ObservableObject {
     }
 
     private func updateData() {
-        reserveCopyTime = userCredentialsStorageService.reserveCopyTime
+		if let reserveCopy = userCredentialsStorage.reserveCopyTime {
+			reserveCopyTime = reserveCopy
+		}
         sizeData = 5
         percent = 0.0
         progressValue = 0.0

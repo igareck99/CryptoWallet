@@ -21,12 +21,14 @@ final class PhraseManagerViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<PhraseManagerFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<PhraseManagerFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+    private let userCredentialsStorage: UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userCredentialsStorage: UserCredentialsStorage
+	) {
+		self.userCredentialsStorage = userCredentialsStorage
         bindInput()
         bindOutput()
     }

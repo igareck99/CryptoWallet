@@ -8,7 +8,8 @@ enum KeyImportConfigurator {
 
     static func configuredViewController(delegate: KeyImportSceneDelegate?) -> KeyImportViewController {
         let viewController = KeyImportViewController()
-        let presenter = KeyImportPresenter(view: viewController)
+		let userFlows = UserDefaultsService.shared
+		let presenter = KeyImportPresenter(view: viewController, userFlows: userFlows)
         presenter.delegate = delegate
         viewController.presenter = presenter
         return viewController

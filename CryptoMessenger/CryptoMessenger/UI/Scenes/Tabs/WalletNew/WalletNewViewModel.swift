@@ -41,11 +41,14 @@ final class WalletNewViewModel: ObservableObject {
 
     @Injectable private var apiClient: APIClientManager
     @Injectable private(set) var mxStore: MatrixStore
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
+    private let userCredentialsStorage: UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userCredentialsStorage: UserCredentialsStorage
+	) {
+		self.userCredentialsStorage = userCredentialsStorage
         bindInput()
         bindOutput()
     }
@@ -76,7 +79,7 @@ final class WalletNewViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.transaction(selectorFilterIndex, 0, ""))
                 case let .onTransactionToken(selectorTokenIndex):
                     self?.delegate?.handleNextScene(.transaction(0, selectorTokenIndex, ""))
-                case let .onImportKey:
+                case .onImportKey:
                     self?.delegate?.handleNextScene(.importKey)
                 case .onTransfer:
                     self?.delegate?.handleNextScene(.transfer)

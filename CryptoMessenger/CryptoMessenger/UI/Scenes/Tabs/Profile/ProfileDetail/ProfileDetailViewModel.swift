@@ -23,12 +23,14 @@ final class ProfileDetailViewModel: ObservableObject {
 
     @Injectable private(set) var mxStore: MatrixStore
     @Injectable private var apiClient: APIClientManager
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
-    @Injectable private var userFlowsStorageService: UserFlowsStorageService
+    private let userSettings: UserFlowsStorage & UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userSettings: UserFlowsStorage & UserCredentialsStorage
+	) {
+		self.userSettings = userSettings
         bindInput()
         bindOutput()
         fetchData()
@@ -82,10 +84,10 @@ final class ProfileDetailViewModel: ObservableObject {
         mxStore.$loginState.sink { [weak self] status in
             switch status {
             case .loggedOut:
-                self?.userFlowsStorageService.isAuthFlowFinished = false
-                self?.userFlowsStorageService.isOnboardingFlowFinished = false
-                self?.userFlowsStorageService.isLocalAuth = false
-                self?.userCredentialsStorageService.userPinCode = ""
+                self?.userSettings.isAuthFlowFinished = false
+                self?.userSettings.isOnboardingFlowFinished = false
+                self?.userSettings.isLocalAuth = false
+                self?.userSettings.userPinCode = ""
                 self?.delegate?.restartFlow()
             default:
                 break
@@ -106,9 +108,10 @@ final class ProfileDetailViewModel: ObservableObject {
         let link = mxStore.getAvatarUrl()
         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
         profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
-        let str = userCredentialsStorageService.userPhoneNumber
-        let suffixIndex = str.index(str.startIndex, offsetBy: 3)
-        profile.phone = String(str[suffixIndex...])
+		if let str = userSettings.userPhoneNumber {
+			let suffixIndex = str.index(str.startIndex, offsetBy: 3)
+			profile.phone = String(str[suffixIndex...])
+		}
     }
 
     private func setStatus(_ text: String) {

@@ -48,19 +48,18 @@ final class PersonalizationViewModel: ObservableObject {
     @Published var language = ""
     @Published var theme = ""
     @Published var dataImage: Int?
-
-    // MARK: - Private Properties
-
     @Published private(set) var state: PersonalizationNewFlow.ViewState = .idle
     private let eventSubject = PassthroughSubject<PersonalizationNewFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<PersonalizationNewFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-
-    @Injectable var userCredentials: UserCredentialsStorageService
+    private let userCredentials: UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userCredentials: UserCredentialsStorage
+	) {
+		self.userCredentials = userCredentials
         bindInput()
         bindOutput()
     }
@@ -132,9 +131,9 @@ final class PersonalizationViewModel: ObservableObject {
     }
 
     private func updateData() {
-        typography = userCredentials.typography
-        language = userCredentials.language
-        theme = userCredentials.theme
+		typography = userCredentials.typography ?? ""
+        language = userCredentials.language ?? ""
+        theme = userCredentials.theme ?? ""
         var userImage = Image(uiImage: UIImage())
         if userCredentials.profileBackgroundImage == -1 {
             userImage = Image(uiImage: UIImage())

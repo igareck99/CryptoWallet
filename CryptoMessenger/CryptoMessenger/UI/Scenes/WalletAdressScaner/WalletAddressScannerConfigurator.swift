@@ -10,7 +10,8 @@ enum WalletAddressScannerConfigurator {
         delegate: WalletAddressScanerSceneDelegate?,
         scannedCode: Binding<String>
     ) -> WalletAddressScanerView {
-        let viewModel = WalletAddressScanerViewModel()
+		let userSettings = UserDefaultsService.shared
+        let viewModel = WalletAddressScanerViewModel(userSettings: userSettings)
         viewModel.delegate = delegate
         let view = WalletAddressScanerView(scannedCode: scannedCode)
         return view

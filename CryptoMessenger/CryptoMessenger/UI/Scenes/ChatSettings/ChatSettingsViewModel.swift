@@ -11,8 +11,7 @@ final class ChatSettingsViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private(set) var mxStore: MatrixStore
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
-    @Injectable private var userFlows: UserFlowsStorageService
+    private let userSettings: UserFlowsStorage & UserCredentialsStorage
 
     // MARK: - Internal Properties
 
@@ -20,7 +19,10 @@ final class ChatSettingsViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userSettings: UserFlowsStorage & UserCredentialsStorage
+	) {
+		self.userSettings = userSettings
         bindInput()
         bindOutput()
     }
@@ -43,7 +45,7 @@ final class ChatSettingsViewModel: ObservableObject {
     }
 
     func updateSaveToPhotos(item: Bool) {
-        userFlows.saveToPhotos = item
+		userSettings.saveToPhotos = item
     }
 
     // MARK: - Private Methods
@@ -75,6 +77,6 @@ final class ChatSettingsViewModel: ObservableObject {
     }
 
     private func updateData() {
-        saveToPhotos = userFlows.saveToPhotos
+        saveToPhotos = userSettings.saveToPhotos
     }
 }

@@ -25,13 +25,16 @@ final class PinCodeCreateViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private(set) var mxStore: MatrixStore
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
-    @Injectable private var userFlows: UserFlowsStorageService
+	private let userSettings: UserFlowsStorage & UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init(screenType: PinCodeScreenType) {
+    init(
+		screenType: PinCodeScreenType,
+		userSettings: UserFlowsStorage & UserCredentialsStorage
+	) {
         self.screenType = screenType
+		self.userSettings = userSettings
         bindInput()
         bindOutput()
     }
@@ -48,12 +51,12 @@ final class PinCodeCreateViewModel: ObservableObject {
     }
 
     func createPassword(item: String) {
-        userCredentialsStorageService.userPinCode = item
-        userFlows.isLocalAuth = true
+		userSettings.userPinCode = item
+		userSettings.isLocalAuth = true
     }
 
     func createFakePassword(item: String) {
-        if userCredentialsStorageService.userPinCode == item {
+        if userSettings.userPinCode == item {
             titleState = ""
             descriptionState = R.string.localizable.pinCodeFalseCannotMatch()
             delay(1) {
@@ -64,8 +67,8 @@ final class PinCodeCreateViewModel: ObservableObject {
                 return
             }
         } else {
-            userCredentialsStorageService.userFalsePinCode = item
-            userFlows.isFalsePinCodeOn = true
+			userSettings.userFalsePinCode = item
+			userSettings.isFalsePinCodeOn = true
             finishScreen = true
         }
     }
@@ -84,11 +87,11 @@ final class PinCodeCreateViewModel: ObservableObject {
                         let password = enteredPassword
                             .compactMap { $0.description }
                             .joined(separator: "")
-                        if userCredentialsStorageService.userPinCode == password {
+                        if userSettings.userPinCode == password {
                             descriptionState = R.string.localizable.pinCodeResetPassword()
                             delay(1) { [self] in
-                                userCredentialsStorageService.userPinCode = ""
-                                userFlows.isLocalAuth = false
+								userSettings.userPinCode = ""
+								userSettings.isLocalAuth = false
                                 finishScreen = true
                             }
                         } else {

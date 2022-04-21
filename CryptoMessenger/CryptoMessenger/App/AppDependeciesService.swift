@@ -21,8 +21,6 @@ final class AppDependenciesService: NSObject, UIApplicationDelegate {
             Dependency { APIClient() }
             Dependency { Configuration() }
             Dependency { MatrixStore() }
-            Dependency { UserFlowsStorageService() }
-            Dependency { UserCredentialsStorageService() }
             Dependency { CountdownTimer(seconds: PhoneHelper.verificationResendTime) }
             Dependency { ContactsManager() }
         }.build()

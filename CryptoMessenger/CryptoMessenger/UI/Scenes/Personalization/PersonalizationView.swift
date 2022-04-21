@@ -32,7 +32,7 @@ struct PersonalizationView: View {
 
     // MARK: - Internal Properties
 
-    @ObservedObject var viewModel = PersonalizationViewModel()
+	@ObservedObject var viewModel = PersonalizationViewModel(userCredentials: UserDefaultsService.shared)
 
     // MARK: - Private Properties
 

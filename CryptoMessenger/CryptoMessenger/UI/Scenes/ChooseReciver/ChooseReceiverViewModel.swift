@@ -13,13 +13,14 @@ final class ChooseReceiverViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<ChooseReceiverFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ChooseReceiverFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-
-    @Injectable private var userCredentialsStorageService: UserCredentialsStorageService
-    @Injectable private var userFlows: UserFlowsStorageService
+    private let userSettings: UserFlowsStorage & UserCredentialsStorage
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		userSettings: UserFlowsStorage & UserCredentialsStorage
+	) {
+		self.userSettings = userSettings
         bindInput()
         bindOutput()
     }

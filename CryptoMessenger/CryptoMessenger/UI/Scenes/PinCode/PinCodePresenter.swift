@@ -19,15 +19,17 @@ final class PinCodePresenter {
             updateView(state)
         }
     }
-
-    @Injectable private var userFlows: UserFlowsStorageService
-    @Injectable private var userCredentials: UserCredentialsStorageService
+    private let userSettings: UserCredentialsStorage & UserFlowsStorage
 
     // MARK: - Lifecycle
 
-    init(view: PinCodeViewInterface) {
+    init(
+		view: PinCodeViewInterface,
+		userSettings: UserCredentialsStorage & UserFlowsStorage
+	) {
         self.view = view
-        isLocalAuthBackgroundAlertShown = userFlows.isLocalAuthBackgroundAlertShown
+		self.userSettings = userSettings
+        isLocalAuthBackgroundAlertShown = userSettings.isLocalAuthBackgroundAlertShown
     }
 
     // MARK: - Private Methods
@@ -48,14 +50,16 @@ final class PinCodePresenter {
 
 extension PinCodePresenter: PinCodePresentation {
     func viewDidLoad() {
-        let pinCode = userCredentials.userPinCode.map({ Int(String($0)) }).compactMap({ $0 })
-        let isBiometryOn = userFlows.isBiometryOn
+		let pinCode = userSettings.userPinCode?
+			.map({ Int(String($0)) })
+			.compactMap({ $0 }) ?? []
+        let isBiometryOn = userSettings.isBiometryOn
         view?.setPinCode(pinCode)
         view?.setBiometryActive(isBiometryOn)
     }
 
     func setNewPinCode(_ pinCode: String) {
-        userCredentials.userPinCode = pinCode
+		userSettings.userPinCode = pinCode
     }
 
     func checkLocalAuth() {
@@ -63,10 +67,10 @@ extension PinCodePresenter: PinCodePresentation {
     }
 
     func handleButtonTap(_ isBackgroundLocalAuth: Bool) {
-        userFlows.isLocalAuth = true
-        userFlows.isAuthFlowFinished = true
-        userFlows.isLocalAuthBackgroundAlertShown = true
-        userFlows.isLocalAuthInBackground = isBackgroundLocalAuth
+		userSettings.isLocalAuth = true
+		userSettings.isAuthFlowFinished = true
+		userSettings.isLocalAuthBackgroundAlertShown = true
+		userSettings.isLocalAuthInBackground = isBackgroundLocalAuth
         delay(0.1) { self.delegate?.handleNextScene() }
     }
 }

@@ -23,11 +23,15 @@ public final class AuthFlowCoordinator: Coordinator {
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: AuthFlowCoordinatorDelegate?
     let navigationController: UINavigationController
-    @Injectable private var userFlows: UserFlowsStorageService
+    private let userFlows: UserFlowsStorage
 
     // MARK: - Lifecycle
 
-    init(navigationController: UINavigationController) {
+    init(
+		userFlows: UserFlowsStorage,
+		navigationController: UINavigationController
+	) {
+		self.userFlows = userFlows
         self.navigationController = navigationController
     }
 
