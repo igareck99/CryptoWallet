@@ -447,11 +447,15 @@
 		8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */; };
 		8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
+		D4442B4428113C3C0033D07A /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4128113C3C0033D07A /* KeychainWrapper.swift */; };
+		D4442B4528113C3C0033D07A /* KeychainWrapperSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4228113C3C0033D07A /* KeychainWrapperSubscript.swift */; };
+		D4442B4628113C3C0033D07A /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4328113C3C0033D07A /* KeychainItemAccessibility.swift */; };
+		D4442B4828113C7A0033D07A /* KeychainServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4728113C7A0033D07A /* KeychainServiceProtocol.swift */; };
+		D4442B4C2811996F0033D07A /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4B2811996F0033D07A /* KeychainService.swift */; };
 		D44BDC98280FECC80080AE8A /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC92280FECC80080AE8A /* UserDefaultsService.swift */; };
 		D44BDC99280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */; };
 		D44BDC9A280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */; };
 		D44BDC9B280FECC80080AE8A /* DependeciesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC95280FECC80080AE8A /* DependeciesService.swift */; };
-		D44BDC9C280FECC80080AE8A /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC96280FECC80080AE8A /* KeychainService.swift */; };
 		D44BDC9D280FECC80080AE8A /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC97280FECC80080AE8A /* FirebaseService.swift */; };
 /* End PBXBuildFile section */
 
@@ -900,11 +904,15 @@
 		8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerProtocols.swift; sourceTree = "<group>"; };
 		8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseWarningView.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
+		D4442B4128113C3C0033D07A /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
+		D4442B4228113C3C0033D07A /* KeychainWrapperSubscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperSubscript.swift; sourceTree = "<group>"; };
+		D4442B4328113C3C0033D07A /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
+		D4442B4728113C7A0033D07A /* KeychainServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainServiceProtocol.swift; sourceTree = "<group>"; };
+		D4442B4B2811996F0033D07A /* KeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		D44BDC92280FECC80080AE8A /* UserDefaultsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
 		D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserFlowStorage.swift"; sourceTree = "<group>"; };
 		D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserCredentialsStorage.swift"; sourceTree = "<group>"; };
 		D44BDC95280FECC80080AE8A /* DependeciesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependeciesService.swift; sourceTree = "<group>"; };
-		D44BDC96280FECC80080AE8A /* KeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		D44BDC97280FECC80080AE8A /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -983,13 +991,8 @@
 		5A187DD926806F4A001957D3 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				D44BDC90280FECC80080AE8A /* App Services */,
 				5A187DBE26806EF8001957D3 /* AppDelegate.swift */,
 				5A187DC026806EF8001957D3 /* SceneDelegate.swift */,
-				5A187DDB26806F62001957D3 /* SceneDelegateService.swift */,
-				5A187DDC26806F62001957D3 /* AppDependeciesService.swift */,
-				5A187DDE26806F62001957D3 /* AppFirebaseService.swift */,
-				5A187DDD26806F62001957D3 /* AppPushNotificationsService.swift */,
 				5A187DDF26806F62001957D3 /* AppConstants.swift */,
 				5A187DDA26806F62001957D3 /* AppHelpers.swift */,
 			);
@@ -1236,6 +1239,9 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D44BDC90280FECC80080AE8A /* App Services */,
+				D44BDC91280FECC80080AE8A /* UserDefaults Service */,
+				D4442B3F28113BB40033D07A /* Keychain Service */,
 				8B4E9C2C27DFF5EA0057E4C9 /* CodeScaner */,
 				7895E6E326CC1B39009CF41D /* LocalAuthentication */,
 				5A187EDF2680CF49001957D3 /* PhotoLibraryManager */,
@@ -2422,25 +2428,48 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		D4442B3F28113BB40033D07A /* Keychain Service */ = {
+			isa = PBXGroup;
+			children = (
+				D4442B4728113C7A0033D07A /* KeychainServiceProtocol.swift */,
+				D4442B4B2811996F0033D07A /* KeychainService.swift */,
+				D4442B4028113C3C0033D07A /* Wrapper */,
+			);
+			path = "Keychain Service";
+			sourceTree = "<group>";
+		};
+		D4442B4028113C3C0033D07A /* Wrapper */ = {
+			isa = PBXGroup;
+			children = (
+				D4442B4128113C3C0033D07A /* KeychainWrapper.swift */,
+				D4442B4228113C3C0033D07A /* KeychainWrapperSubscript.swift */,
+				D4442B4328113C3C0033D07A /* KeychainItemAccessibility.swift */,
+			);
+			path = Wrapper;
+			sourceTree = "<group>";
+		};
 		D44BDC90280FECC80080AE8A /* App Services */ = {
 			isa = PBXGroup;
 			children = (
-				D44BDC91280FECC80080AE8A /* UserDefaults */,
+				5A187DDB26806F62001957D3 /* SceneDelegateService.swift */,
+				5A187DDC26806F62001957D3 /* AppDependeciesService.swift */,
+				5A187DDE26806F62001957D3 /* AppFirebaseService.swift */,
+				5A187DDD26806F62001957D3 /* AppPushNotificationsService.swift */,
 				D44BDC95280FECC80080AE8A /* DependeciesService.swift */,
-				D44BDC96280FECC80080AE8A /* KeychainService.swift */,
 				D44BDC97280FECC80080AE8A /* FirebaseService.swift */,
 			);
-			path = "App Services";
+			name = "App Services";
+			path = "../App/App Services";
 			sourceTree = "<group>";
 		};
-		D44BDC91280FECC80080AE8A /* UserDefaults */ = {
+		D44BDC91280FECC80080AE8A /* UserDefaults Service */ = {
 			isa = PBXGroup;
 			children = (
 				D44BDC92280FECC80080AE8A /* UserDefaultsService.swift */,
 				D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */,
 				D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */,
 			);
-			path = UserDefaults;
+			path = "UserDefaults Service";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2652,6 +2681,7 @@
 				5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */,
 				5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */,
 				8B4E9C3B27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift in Sources */,
+				D4442B4428113C3C0033D07A /* KeychainWrapper.swift in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				8B4E9C4227E1EDBE0057E4C9 /* FacilityApproveView.swift in Sources */,
 				8B8B9C2327F330120061F5E6 /* SocialListProtocols.swift in Sources */,
@@ -2693,6 +2723,7 @@
 				5AF8633626AA994E004A417C /* VerificationViewController.swift in Sources */,
 				8BD62931276B4ADA000A976A /* SocialListViewModel.swift in Sources */,
 				5A7EDE73275402E90049DC4A /* BlockedUserView.swift in Sources */,
+				D4442B4528113C3C0033D07A /* KeychainWrapperSubscript.swift in Sources */,
 				5A187EC0268070B3001957D3 /* UITableView+Extensions.swift in Sources */,
 				5AF8635F26ADB691004A417C /* OnboardingPageView.swift in Sources */,
 				5A9318E226C5B15F00645365 /* ColorStyle.swift in Sources */,
@@ -2772,11 +2803,11 @@
 				5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */,
 				8B4E9C4827E1EDE80057E4C9 /* FacilityApproveViewModel.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
-				D44BDC9C280FECC80080AE8A /* KeychainService.swift in Sources */,
 				5A44FEF127693F6F006F9D92 /* ChatCreateViewModel.swift in Sources */,
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
 				8BA0C8FA27AD195D0070203F /* ChatSettingsProtocols.swift in Sources */,
 				8BF8FA7E27FF8AC20000CC08 /* FeedImageViewer.swift in Sources */,
+				D4442B4828113C7A0033D07A /* KeychainServiceProtocol.swift in Sources */,
 				8BA0C91227AD77380070203F /* ReserveCopyConfigurator.swift in Sources */,
 				8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */,
 				5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */,
@@ -2810,6 +2841,7 @@
 				5A9318B926BD210400645365 /* PinCodeView.swift in Sources */,
 				8B24FDD827A820C60021177C /* SessionProtocols.swift in Sources */,
 				8B12263927C53121008DC048 /* SlideCardsView.swift in Sources */,
+				D4442B4C2811996F0033D07A /* KeychainService.swift in Sources */,
 				5A3721DC272F3A210097ABED /* DynamicHeightTextField.swift in Sources */,
 				8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */,
 				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
@@ -2818,6 +2850,7 @@
 				8B34D77C277DA1FD007811C9 /* UserPersonalizationItem.swift in Sources */,
 				5A4BE51E271DD86A00D03D09 /* MXClient+Publisher.swift in Sources */,
 				8BA0C90527AD4F030070203F /* AnswerItem.swift in Sources */,
+				D4442B4628113C3C0033D07A /* KeychainItemAccessibility.swift in Sources */,
 				5AF8633726AA994E004A417C /* VerificationProtocols.swift in Sources */,
 				8BD6292D276AAC06000A976A /* SocialListView.swift in Sources */,
 				7889064027064F8D0093459C /* ProfileNetworkDetailPresenter.swift in Sources */,
