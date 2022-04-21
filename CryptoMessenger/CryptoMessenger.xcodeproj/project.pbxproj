@@ -432,7 +432,12 @@
 		8BE379AD27EB7CFE00AB6B6E /* KeyListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE379AC27EB7CFE00AB6B6E /* KeyListConfigurator.swift */; };
 		8BE379AF27EB7D0900AB6B6E /* KeyListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE379AE27EB7D0900AB6B6E /* KeyListViewModel.swift */; };
 		8BE379B127EB82A000AB6B6E /* KeyListActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE379B027EB82A000AB6B6E /* KeyListActionView.swift */; };
+		8BE66738280F1C4600D41A3C /* CreateContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE66737280F1C4600D41A3C /* CreateContactView.swift */; };
+		8BE6673B280F4A4A00D41A3C /* UIFont+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6673A280F4A4A00D41A3C /* UIFont+Init.swift */; };
+		8BE6673D280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6673C280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift */; };
+		8BE6673F280F4ACD00D41A3C /* iPhoneNumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6673E280F4ACD00D41A3C /* iPhoneNumberField.swift */; };
 		8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6DAE22771EC2C00FB4C6C /* WebView.swift */; };
+		8BF0FCD6281174F900FF7C6F /* CreateContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */; };
 		8BF8FA7E27FF8AC20000CC08 /* FeedImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */; };
 		8BFF387B27D91092005D88C9 /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFF387A27D91092005D88C9 /* NumberTextField.swift */; };
 		8BFFC74E27EDEB5700BE4AB6 /* PhraseManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC74D27EDEB5700BE4AB6 /* PhraseManagerView.swift */; };
@@ -880,7 +885,12 @@
 		8BE379B027EB82A000AB6B6E /* KeyListActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyListActionView.swift; sourceTree = "<group>"; };
 		8BE54AD2274C605700D51827 /* BlockedUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserView.swift; sourceTree = "<group>"; };
 		8BE54AD4274C606400D51827 /* BlockedUserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserItem.swift; sourceTree = "<group>"; };
+		8BE66737280F1C4600D41A3C /* CreateContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateContactView.swift; sourceTree = "<group>"; };
+		8BE6673A280F4A4A00D41A3C /* UIFont+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Init.swift"; sourceTree = "<group>"; };
+		8BE6673C280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iPhoneNumberField+ViewModifiers.swift"; sourceTree = "<group>"; };
+		8BE6673E280F4ACD00D41A3C /* iPhoneNumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneNumberField.swift; sourceTree = "<group>"; };
 		8BE6DAE22771EC2C00FB4C6C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateContactViewModel.swift; sourceTree = "<group>"; };
 		8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewer.swift; sourceTree = "<group>"; };
 		8BFF387A27D91092005D88C9 /* NumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTextField.swift; sourceTree = "<group>"; };
 		8BFFC74D27EDEB5700BE4AB6 /* PhraseManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerView.swift; sourceTree = "<group>"; };
@@ -1095,6 +1105,7 @@
 		5A187E4A2680708D001957D3 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				8BE66739280F4A2900D41A3C /* IphoneNumberTextField */,
 				8B7C17EF27DCB9A8001113F2 /* CurrencyTextField */,
 				8B637D8827CE3B35000B1B2B /* RadioButton */,
 				8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */,
@@ -1784,6 +1795,8 @@
 			children = (
 				5A3721DD272F418F0097ABED /* SelectContactView.swift */,
 				5A3721D6272F2A4D0097ABED /* ChatGroupView.swift */,
+				8BE66737280F1C4600D41A3C /* CreateContactView.swift */,
+				8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */,
 			);
 			path = Group;
 			sourceTree = "<group>";
@@ -2377,6 +2390,16 @@
 			path = BlackList;
 			sourceTree = "<group>";
 		};
+		8BE66739280F4A2900D41A3C /* IphoneNumberTextField */ = {
+			isa = PBXGroup;
+			children = (
+				8BE6673A280F4A4A00D41A3C /* UIFont+Init.swift */,
+				8BE6673C280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift */,
+				8BE6673E280F4ACD00D41A3C /* iPhoneNumberField.swift */,
+			);
+			path = IphoneNumberTextField;
+			sourceTree = "<group>";
+		};
 		8BFFC74C27EDEB1A00BE4AB6 /* PhraseManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -2699,6 +2722,7 @@
 				7846B66A26E8BFBD00B05984 /* PreviewLayout.swift in Sources */,
 				789FEBD026D3CE580018FE91 /* CallCell.swift in Sources */,
 				7846B67026E8C00D00B05984 /* CellUpdate.swift in Sources */,
+				8BE6673F280F4ACD00D41A3C /* iPhoneNumberField.swift in Sources */,
 				5A187EA32680708D001957D3 /* CollectionViewProvider.swift in Sources */,
 				5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */,
 				8B8B9C2127F330040061F5E6 /* SocialListConfigurator.swift in Sources */,
@@ -2767,6 +2791,7 @@
 				5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */,
 				5A7EDE75275402F00049DC4A /* BlockedUserItem.swift in Sources */,
 				5AE28A9C27EA1DE500D1AAFF /* ReplyView.swift in Sources */,
+				8BE6673B280F4A4A00D41A3C /* UIFont+Init.swift in Sources */,
 				8B6E5558279FF922002054CF /* PinCodeCreateConfigurator.swift in Sources */,
 				8B5A338A27D89D400064C7DC /* TransferViewModel.swift in Sources */,
 				5A1D265C275973940085324F /* CornerRadiusStyle.swift in Sources */,
@@ -2825,6 +2850,7 @@
 				8B6C18C22799A87000B85F2A /* SecurityNewConfigurator.swift in Sources */,
 				5A187EB6268070B3001957D3 /* UIColor+Extensions.swift in Sources */,
 				5A187EB5268070B3001957D3 /* UIViewController+Extensions.swift in Sources */,
+				8BE66738280F1C4600D41A3C /* CreateContactView.swift in Sources */,
 				8BE3799E27EB26AE00AB6B6E /* WalletManagerViewModel.swift in Sources */,
 				5A187F302680CF49001957D3 /* DefaultResponses.swift in Sources */,
 				5A187F302680CF49001957D3 /* DefaultResponses.swift in Sources */,
@@ -2897,6 +2923,7 @@
 				5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */,
 				8B9B0CCB2775395400654C24 /* PersonalizationView.swift in Sources */,
 				5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */,
+				8BE6673D280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift in Sources */,
 				8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */,
 				8B4E9C3D27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift in Sources */,
 				8B00F45C276A1C2700FE1E41 /* R.generated.swift in Sources */,
@@ -2928,6 +2955,7 @@
 				5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */,
 				78437F12270C76FE00371110 /* AboutAppFlow.swift in Sources */,
 				5A9B472626EAB3D7001CC627 /* ReactionGroupView.swift in Sources */,
+				8BF0FCD6281174F900FF7C6F /* CreateContactViewModel.swift in Sources */,
 				8B5A338C27D89D6D0064C7DC /* TransferFlow.swift in Sources */,
 				8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */,
 				5A4BE521271DD86A00D03D09 /* MXCredentials+Keychain.swift in Sources */,

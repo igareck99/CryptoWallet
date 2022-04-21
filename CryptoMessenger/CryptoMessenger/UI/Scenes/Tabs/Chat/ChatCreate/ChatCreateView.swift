@@ -45,6 +45,7 @@ struct ChatCreateView: View {
 
     @Binding var chatData: ChatData
     @StateObject var viewModel: ChatCreateViewModel
+    @State var showContactCreate = false
 
     // MARK: - Private Properties
 
@@ -75,8 +76,15 @@ struct ChatCreateView: View {
                 }
                 .overlay(
                     EmptyNavigationLink(
-                        destination: SelectContactView(chatData: $chatData, groupCreated: $groupCreated),
+                        destination: SelectContactView(chatData: $chatData,
+                                                       groupCreated: $groupCreated),
                         isActive: $showContacts
+                    )
+                )
+                .overlay(
+                    EmptyNavigationLink(
+                        destination: CreateContactView(viewModel: CreateContactViewModel(), showContactCreate: $showContactCreate),
+                        isActive: $showContactCreate
                     )
                 )
         }
@@ -112,13 +120,20 @@ struct ChatCreateView: View {
 
                 VStack(spacing: 0) {
                     if !viewModel.waitingContacts.isEmpty {
-                        ForEach(CreateAction.allCases.filter({ $0 == .groupChat })) { action in
+                        ForEach(CreateAction.allCases.filter({ $0 != .createChannel })) { action in
                             VStack(spacing: 0) {
                                 actionView(action)
                                     .padding([.leading, .trailing], 16)
                                     .onTapGesture {
                                         vibrate()
-                                        showContacts.toggle()
+                                        switch action {
+                                        case .groupChat:
+                                            showContacts.toggle()
+                                        case .newContact:
+                                            showContactCreate.toggle()
+                                        default:
+                                            break
+                                        }
                                     }
                             }
                         }
