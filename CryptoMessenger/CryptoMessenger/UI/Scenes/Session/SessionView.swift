@@ -13,9 +13,10 @@ struct SessionView: View {
     var body: some View {
         HStack(alignment: .center) {
             HStack {
-                Image(uiImage: session.photo)
+                session.photo
                     .resizable()
                     .frame(width: 40, height: 40)
+                    .scaledToFill()
                 VStack(alignment: .leading) {
                     Text(session.device + ", Приложение Aura")
                         .font(.semibold(15))
@@ -54,7 +55,7 @@ struct SessionListView: View {
                 .multilineTextAlignment(.leading)
                 .font(.regular(13))
                 .foreground(.darkGray())
-                .padding([.trailing], 16)
+                .padding(.horizontal, 16)
             List {
                 ForEach(viewModel.sessionsList) { session in
                     SessionView(session: session)

@@ -1,4 +1,4 @@
-import UIKit
+import SwiftUI
 
 // MARK: - SessionItem
 
@@ -7,7 +7,7 @@ struct SessionItem: Identifiable, Equatable {
     // MARK: - Internal Properties
 
     var id = UUID()
-    var photo: UIImage!
+    var photo: Image
     var deviceId: String
     var device: String
     var place: String
@@ -17,7 +17,7 @@ struct SessionItem: Identifiable, Equatable {
     // MARK: - Static Methods
 
     static func sessionsInfo() -> SessionItem {
-        let item1 = SessionItem( photo: R.image.session.ios(),
+        let item1 = SessionItem( photo: R.image.session.ios.image,
                                  deviceId: "TESTID",
                                  device: "iPhone",
                                  place: "Москва, Россия",
