@@ -103,16 +103,8 @@ final class SessionViewModel: ObservableObject {
                         dateSession = dateFormatterSet.string(from: date)
                     }
                     let displayName = x.displayName ?? ""
-                    var photo = UIImage()
-                    if !displayName.isEmpty {
-                        if displayName.contains("iPhone") {
-                            photo = R.image.session.ios() ?? UIImage()
-                        } else {
-                            photo = R.image.session.android() ?? UIImage()
-                        }
-                    }
                     if !lastSeenIp.isEmpty && !displayName.isEmpty {
-                        new_session_list.append(SessionItem(photo: photo,
+                        new_session_list.append(SessionItem(photo: R.image.session.smartphone.image,
                                                             deviceId: x.deviceId,
                                                             device: displayName,
                                                             place: "Москва, Россия",

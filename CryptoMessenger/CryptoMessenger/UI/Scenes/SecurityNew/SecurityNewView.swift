@@ -244,7 +244,8 @@ struct SecurityCellView: View {
                 .font(.regular(15))
             Spacer()
             HStack(spacing: 17) {
-                Text(currentState)
+                Text(currentState.isEmpty ? R.string.localizable.securityProfileObserveState() :
+                        currentState)
                     .font(.regular(15))
                     .foreground(font)
                 R.image.registration.arrow.image
