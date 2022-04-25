@@ -1,25 +1,13 @@
 import KeychainAccess
 import MatrixSDK
 
-// MARK: - KeychainKey
-
-private enum KeychainKey: String {
-
-    // MARK: - Types
-
-    case homeServer
-    case userId
-    case accessToken
-    case deviceId
-}
-
 // MARK: - Keychain ()
 
 private extension Keychain {
 
     // MARK: - Subscript
 
-    subscript(keychainKey: KeychainKey) -> String? {
+    subscript(keychainKey: KeychainService.Keys) -> String? {
         get { try? get(keychainKey.rawValue) }
 
         set {

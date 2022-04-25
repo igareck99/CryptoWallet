@@ -5,6 +5,7 @@ import UIKit
 
 protocol MainFlowCoordinatorDelegate: AnyObject {
     func userPerformedLogout(coordinator: Coordinator)
+	func didEndStartProcess(coordinator: Coordinator)
 }
 
 // MARK: - MainFlowSceneDelegate
@@ -45,6 +46,7 @@ final class MainFlowCoordinator: Coordinator {
         tabBarController.selectedIndex = Tabs.chat.rawValue
 
         setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+		delegate?.didEndStartProcess(coordinator: self)
     }
 
     // MARK: - Private Methods

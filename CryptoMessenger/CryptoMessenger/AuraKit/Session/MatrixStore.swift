@@ -2,6 +2,8 @@ import Combine
 import Foundation
 import KeychainAccess
 import MatrixSDK
+import UIKit
+
 
 // MARK: - MatrixState
 
@@ -47,9 +49,11 @@ final class MatrixStore: ObservableObject {
     private var roomCache: [ObjectIdentifier: AuraRoom] = [:]
     private var listenReferenceRoom: Any?
 
+	static let shared = MatrixStore()
+
     // MARK: - Lifecycle
 
-    init() {
+    private init() {
         if CommandLine.arguments.contains("-clear-stored-credentials") {
             print("🗑 cleared stored credentials from keychain")
             MXCredentials
@@ -110,6 +114,8 @@ final class MatrixStore: ObservableObject {
 
     func logout(completion: @escaping (Result<MatrixState, Error>) -> Void) {
         credentials?.clear(from: keychain)
+		// TODO: Пока непонятно в какой момент нужно вызывать этот метод
+//		client?.logout { _ in }
         session?.logout { response in
             switch response {
             case let .failure(error):
@@ -285,11 +291,21 @@ final class MatrixStore: ObservableObject {
         //бэкапы ключей чатов
     }
 
-    func getUser(_ id: String) -> MXUser? { session?.user(withUserId: id) }
-    func getUserId() -> String { session?.myUser?.userId ?? "" }
-    func getDisplayName() -> String { session?.myUser?.displayname ?? "" }
-    func getStatus() -> String { session?.myUser?.statusMsg ?? "" }
-    func getAvatarUrl() -> String { session?.myUser.avatarUrl ?? "" }
+    func getUser(_ id: String) -> MXUser? {
+		session?.user(withUserId: id)
+	}
+    func getUserId() -> String {
+		session?.myUser?.userId ?? ""
+	}
+    func getDisplayName() -> String {
+		session?.myUser?.displayname ?? ""
+	}
+    func getStatus() -> String {
+		session?.myUser?.statusMsg ?? ""
+	}
+    func getAvatarUrl() -> String {
+		session?.myUser.avatarUrl ?? ""
+	}
 
     func setDisplayName(_ displayName: String, completion: @escaping VoidBlock) {
         session?.myUser.setDisplayName(displayName, success: completion) { error in
@@ -375,5 +391,5 @@ final class MatrixStore: ObservableObject {
             self.objectWillChange.send()
         }
     }
-
 }
+

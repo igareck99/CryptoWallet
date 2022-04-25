@@ -5,36 +5,64 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    // MARK: - Private Properties
+	var window: UIWindow? = UIWindow()
 
-    private lazy var appServices: [UIApplicationDelegate] = [
-        AppDependenciesService(),
-        AppFirebaseService(),
-        AppPushNotificationsService()
-    ]
+	private lazy var appCoordinator: Coordinator & AppCoordinatorProtocol = {
+		let rootNavigationController = BaseNavigationController()
+		window?.rootViewController = rootNavigationController
+		return AppCoordinatorAssembly.build(navigationController: rootNavigationController)
+	}()
 
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
+	func application(
+		_ application: UIApplication,
+		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+	) -> Bool {
+		UNUserNotificationCenter.current().delegate = self
+		appCoordinator.start()
+		window?.makeKeyAndVisible()
+		return true
+	}
+}
 
-        appServices.forEach {
-            _ = $0.application?(application, didFinishLaunchingWithOptions: launchOptions)
-        }
+// MARK: - Notifications
 
-        return true
-    }
+extension AppDelegate {
 
-    // MARK: UISceneSession Lifecycle
+	func application(
+		_ application: UIApplication,
+		didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+		fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+	) {
+		completionHandler(.noData)
+	}
 
-    func application(
-        _ application: UIApplication,
-        configurationForConnecting connectingSceneSession: UISceneSession,
-        options: UIScene.ConnectionOptions
-    ) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
+	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+		let token = deviceToken.base64EncodedString()
+		debugPrint("didRegisterForRemoteNotificationsWithDeviceToken: \(token.debugDescription)")
+	}
 
+	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+		debugPrint("didFailToRegisterForRemoteNotificationsWithError: \(error.localizedDescription)")
+	}
+}
+
+// MARK: - UNUserNotificationCenterDelegate
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+
+	func userNotificationCenter(
+		_ center: UNUserNotificationCenter,
+		willPresent notification: UNNotification,
+		withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+	) {
+		completionHandler([.banner, .list, .badge, .sound])
+	}
+
+	func userNotificationCenter(
+		_ center: UNUserNotificationCenter,
+		didReceive response: UNNotificationResponse,
+		withCompletionHandler completionHandler: @escaping () -> Void
+	) {
+		appCoordinator.didReceive(notification: response, completion: completionHandler)
+	}
 }
