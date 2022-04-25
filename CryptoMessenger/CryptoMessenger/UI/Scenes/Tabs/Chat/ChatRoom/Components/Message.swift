@@ -2,6 +2,8 @@ import UIKit
 
 // MARK: - MessageType
 
+// swiftlint:disable unused_closure_parameter
+
 enum MessageType {
 
     // MARK: - Types
@@ -82,7 +84,15 @@ struct RoomMessage: Identifiable {
     var reactions: [Reaction] = []
     var description: String {
         switch type {
-        case let .text(text):
+        case var .text(text):
+            TranslateManager.shared.translate(text, "it", "es") { translate, error in
+                debugPrint(translate ?? "")
+                if error != nil {
+                    debugPrint(text)
+                }
+                text = translate ?? "TEXT"
+                debugPrint(text)
+            }
             return text
         case .file:
             return "Файл"

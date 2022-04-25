@@ -1,6 +1,8 @@
 import MatrixSDK
 import SwiftUI
 
+// swiftlint:disable all
+
 // MARK: - MXEventCustomEvent
 
 enum MXEventCustomEvent {
@@ -71,7 +73,17 @@ extension MXEvent {
                 let reply = MXReplyEventParser().parse(self)
                 type = .text(reply.bodyParts.replyText)
             } else {
-                type = .text(text)
+                if TranslateManager.shared.isActive {
+                    
+                }
+                let source = TranslateManager.shared.source
+                let target = TranslateManager.shared.target
+                TranslateManager.shared.translate(text, source, target) { translate, error in
+                    debugPrint("Chat debug", translate ?? "")
+//                    type = .text(translate ?? "TEST")
+                }
+                type = .text(self.text)
+                debugPrint("Chat type", type)
             }
         case kMXMessageTypeImage:
             let homeServer = Bundle.main.object(for: .matrixURL).asURL()

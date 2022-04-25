@@ -17,10 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-
         appServices.forEach {
             _ = $0.application?(application, didFinishLaunchingWithOptions: launchOptions)
         }
+        TranslateManager.shared.start(with: "AIzaSyCLV04yqZm4x7suaE8UbkFzAkiiBDX7X8s")
 
         return true
     }

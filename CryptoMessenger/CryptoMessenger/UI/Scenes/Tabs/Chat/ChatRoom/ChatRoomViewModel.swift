@@ -2,7 +2,7 @@ import Combine
 import UIKit
 
 // MARK: - ChatRoomViewModel
-
+// swiftlint:disable:all
 final class ChatRoomViewModel: ObservableObject {
 
     // MARK: - Internal Properties
@@ -14,6 +14,8 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var inputText = ""
     @Published var attachAction: AttachAction?
     @Published var groupAction: GroupAction?
+    @Published var translateAction: TranslateAction?
+
     @Published private(set) var keyboardHeight: CGFloat = 0
     @Published private(set) var messages: [RoomMessage] = []
     @Published private(set) var emojiStorage: [ReactionStorage] = []
@@ -23,6 +25,8 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var showPhotoLibrary = false
     @Published var showDocuments = false
     @Published var showContacts = false
+    @Published var showTranslate = false
+    @Published var showTranslateMenu = false
     @Published var selectedImage: UIImage?
     @Published var pickedImage: UIImage?
     @Published var pickedContact: Contact?
@@ -36,6 +40,16 @@ final class ChatRoomViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     private let keyboardObserver = KeyboardObserver()
     private let locationManager = LocationManager()
+    //swiftlint:disable redundant_optional_initialization
+    private var deviceLanguageCode: String = ""
+    private var localeLanguageCode: String = ""
+    private var sourceLanguage: TranslateManager.Language? = nil
+    private var targetLanguage: TranslateManager.Language? = nil
+    
+    private var sourceName: TranslateManager.Language?
+    private var targetName: TranslateManager.Language?
+        
+    private var languagesList: [[TranslateManager.Language]] = [[TranslateManager.Language]]()
 
     @Injectable private var mxStore: MatrixStore
 
@@ -176,7 +190,31 @@ final class ChatRoomViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
-
+        
+        $groupAction
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] action in
+                switch action {
+                case .translate:
+                    self?.showTranslate = true
+                default:
+                    break
+                }
+            }
+            .store(in: &subscriptions)
+        
+        $translateAction
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] action in
+                switch action {
+//                case .translate:
+////                    self?.showPhotoLibrary = true
+                default:
+                    break
+                }
+            }
+            .store(in: &subscriptions)
+        
         $selectedImage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
@@ -255,15 +293,79 @@ final class ChatRoomViewModel: ObservableObject {
                     .compactMap { $0 }
             }
             .store(in: &subscriptions)
-
-        // swiftlint:disable:next array_init
-//        cameraManager.$error
-//          .receive(on: RunLoop.main)
-//          .map { $0 }
-        //          .assign(to: &$error)
-        //
+//             swiftlint:disable:next array_init
+//            cameraManager.$error
+//              .receive(on: RunLoop.main)
+//              .map { $0 }
+//                      .assign(to: &$error)
     }
+    // Detect translate
+    //swiftlint:disable unneeded_parentheses_in_closure_argument
+    //swiftlint:disable opening_brace
+    //swiftlint:disable unused_closure_parameter
+    //swiftlint:disable closure_spacing
+    //swiftlint:disable line_length
+    func detect(message: String) {
+        TranslateManager.shared.detect(message) { (locales, error) in
+            if error != nil {
+                debugPrint(error)
+                return
+            }
+            debugPrint(message, locales, error)
+            if let locales = locales {
+                let locale = locales[0].language
+                // Language check
+                if let device = Locale.current.languageCode {
+                    let languageLocale = self.languagesList.filter{$0[0].language == Locale.current.languageCode}
+                    let languageDevice = self.languagesList.filter{$0[0].language == locales[0].language}
+                    debugPrint("Language locale", languageLocale, "Language Device", languageDevice)
+//                        self.languagesVC.sourceName = languageLocale[0]
+//                        self.languagesVC.targetName = languageDevice[0]
+                    DispatchQueue.main.async {
+//                        languageSourceButton.setTitle((languageDevice.first?.name ?? "") + " ▾", for: .normal) // ▾
+//                        languageTargetButton.setTitle((languageLocale.first?.name ?? "") + " ▾", for: .normal) // ▾
+                    }
+                    if !languageDevice.isEmpty {
+//                        self.targetLanguage = languageLocale[0]
+//                        self.languagesVC.targetName = languageLocale[0]
+                    }
+                    if !languageDevice.isEmpty {
+//                        self.sourceLanguage = languageDevice[0]
+//                        self.languagesVC.sourceName = languageLocale[0]
+                    }
+//                    self.languagesVC.selectCell(source: languageDevice[0], target: languageDevice[0], pickColor: self.presentationData.theme.rootController.navigationBar.primaryTextColor)
+                    if device == locale {
+                        DispatchQueue.main.async {
+//                            textView.text = message?.text
+                        }
+                    } else {
+                        // 2 Translate message
 
+                        self.localeLanguageCode = locale
+                        self.deviceLanguageCode = device
+
+                        TranslateManager.shared.translate(message, self.localeLanguageCode, self.deviceLanguageCode) { (translate, error) in
+                            if let text = translate {
+                                debugPrint(text)
+//                                self.messageTranslateBuffer = text
+//                                self.messageBuffer = message
+//                                DispatchQueue.main.async {
+//                                    textView.text = text
+//                                }
+//
+//                                if let targetLanguage = self.targetLanguage, let sourceLanguage = self.sourceLanguage {
+//                                    self.languagesVC.sourceName = self.sourceLanguage
+//                                    self.languagesVC.targetName = self.targetLanguage
+//
+//                                    self.languagesVC.selectCell(source: sourceLanguage, target: targetLanguage)
+//                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     private func bindOutput() {
         stateValueSubject
             .assign(to: \.state, on: self)
