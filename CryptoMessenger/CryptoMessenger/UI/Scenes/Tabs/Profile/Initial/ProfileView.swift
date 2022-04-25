@@ -21,6 +21,8 @@ struct ProfileView: View {
     @State private var safariAddress = ""
     @State private var showDeletePhotoAlert = false
     @State private var photoUrlForDelete = ""
+    @State private var showAllSocial = false
+    @State private var countUrlItems = 0
 
     // MARK: - Body
 
@@ -115,7 +117,7 @@ struct ProfileView: View {
 
     private var content: some View {
         ZStack {
-            ScrollView(popupSelected ? [] : .vertical, showsIndicators: false) {
+            ScrollView(popupSelected ? [] : .vertical, showsIndicators: true) {
                 VStack(alignment: .leading, spacing: 24) {
                     HStack(spacing: 16) {
                         avatarView
@@ -124,80 +126,53 @@ struct ProfileView: View {
                                 .font(.medium(15))
                             switch viewModel.socialListEmpty {
                             case false:
+                                ScrollView(!showAllSocial ? [] : .horizontal, showsIndicators: false) {
                                 HStack(spacing: 8) {
-                                    ForEach(viewModel.profile.socialNetwork) { item in
-                                        switch item.socialType {
-                                        case .twitter:
-                                            if !item.url.isEmpty {
-                                                Button(action: {
-                                                    showSafari = true
-                                                    safariAddress = item.url
-                                                }, label: {
-                                                    R.image.profile.twitter.image
-                                                }).frame(width: 32, height: 32, alignment: .center)
-                                                    .background(.blue())
-                                                    .cornerRadius(16)
+                                    switch showAllSocial {
+                                    case false:
+                                        if viewModel.existringUrls.count < 4 {
+                                            ForEach(viewModel.profile.socialNetwork.filter({ !$0.url.isEmpty })) { item in
+                                                SocialNetworkView(safariAddress: $safariAddress,
+                                                                  showSafari: $showSafari,
+                                                                  item: item)
                                             }
-                                        case .facebook:
-                                            if !item.url.isEmpty {
-                                                Button(action: {
-                                                    showSafari = true
-                                                    safariAddress = item.url
-                                                }, label: {
-                                                    R.image.profile.facebook.image
-                                                }).frame(width: 32, height: 32, alignment: .center)
-                                                    .background(.blue())
-                                                    .cornerRadius(16)
+                                        } else {
+                                            ForEach(viewModel.profile.socialNetwork.filter({ !$0.url.isEmpty })[0...2]) { item in
+                                                if !item.url.isEmpty {
+                                                    SocialNetworkView(safariAddress: $safariAddress,
+                                                                      showSafari: $showSafari,
+                                                                      item: item)
+                                                }
                                             }
-                                        case .instagram:
+                                            Button(action: {
+                                                showAllSocial.toggle()
+                                            }, label: {
+                                                R.image.navigation.settingsButton.image.resizable()
+                                                    .frame(width: 16,
+                                                           height: 15)
+                                            }).frame(width: 32, height: 32, alignment: .center)
+                                                .background(.blue())
+                                                .cornerRadius(16)
+                                        }
+                                    case true:
+                                        ForEach(viewModel.profile.socialNetwork) { item in
                                             if !item.url.isEmpty {
-                                                Button(action: {
-                                                    showSafari = true
-                                                    safariAddress = item.url
-                                                }, label: {
-                                                    R.image.profile.instagram.image
-                                                }).frame(width: 32, height: 32, alignment: .center)
-                                                    .background(.blue())
-                                                    .cornerRadius(16)
-                                            }
-                                        case .vk:
-                                            if !item.url.isEmpty {
-                                                Button(action: {
-                                                    showSafari = true
-                                                    safariAddress = item.url
-                                                }, label: {
-                                                    R.image.socialNetworks.vkIcon.image
-                                                        .resizable()
-                                                }).frame(width: 32, height: 32, alignment: .center)
-                                                    .background(.blue())
-                                                    .cornerRadius(16)
-                                            }
-                                        case .linkedin:
-                                            if !item.url.isEmpty {
-                                                Button(action: {
-                                                    showSafari = true
-                                                    safariAddress = item.url
-                                                }, label: {
-                                                    R.image.socialNetworks.linkedinIcon.image
-                                                        .resizable()
-                                                }).frame(width: 32, height: 32, alignment: .center)
-                                                    .background(.blue())
-                                                    .cornerRadius(16)
-                                            }
-                                        case .tiktok:
-                                            if !item.url.isEmpty {
-                                                Button(action: {
-                                                    showSafari = true
-                                                    safariAddress = item.url
-                                                }, label: {
-                                                    R.image.socialNetworks.tiktokIcon.image
-                                                        .resizable()
-                                                }).frame(width: 32, height: 32, alignment: .center)
-                                                    .background(.blue())
-                                                    .cornerRadius(16)
+                                                SocialNetworkView(safariAddress: $safariAddress,
+                                                                  showSafari: $showSafari,
+                                                                  item: item)
                                             }
                                         }
+                                        Button(action: {
+                                            showAllSocial.toggle()
+                                        }, label: {
+                                            R.image.navigation.settingsButton.image.resizable()
+                                                .frame(width: 16,
+                                                       height: 15)
+                                        }).frame(width: 32, height: 32, alignment: .center)
+                                            .background(.blue())
+                                            .cornerRadius(16)
                                     }
+                                }
                                 }
                             case true:
                                 Button(action: {
@@ -249,11 +224,6 @@ struct ProfileView: View {
                         .padding(.horizontal, 16)
 
                     photosView
-
-//                    if !viewModel.profile.photosUrls.isEmpty {
-//                        FooterView(popupSelected: $popupSelected)
-//                            .padding(.horizontal, 16)
-//                    }
                 }
             }
         }
