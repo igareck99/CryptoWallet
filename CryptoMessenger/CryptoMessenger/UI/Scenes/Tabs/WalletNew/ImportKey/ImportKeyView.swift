@@ -79,7 +79,7 @@ struct ImportKeyView: View {
             switch showMnemonicSuccess {
             case true:
                 let dismissButton = Alert.Button.default(Text("OK")) {
-                    print("previousScreen")
+                    debugPrint("previousScreen")
                     presentationMode.wrappedValue.dismiss()
                 }
                 let alert = Alert(title: Text("Ключ успешно импортирован"),

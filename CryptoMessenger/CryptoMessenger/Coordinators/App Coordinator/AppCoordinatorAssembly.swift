@@ -5,14 +5,15 @@ enum AppCoordinatorAssembly {
 
 		let dependenciesService = DependenciesService()
 		let firebaseService = FirebaseService()
-		let keychainService = KeychainService()
+		let keychainService = KeychainService.shared
 		let userFlows = UserDefaultsService.shared
 		let coordinator = AppCoordinator(
 			dependenciesService: dependenciesService,
 			firebaseService: firebaseService,
 			keychainService: keychainService,
 			userFlows: userFlows,
-			navigationController: navigationController
+			navigationController: navigationController,
+			matrixStore: MatrixStore.shared
 		)
 		return coordinator
 	}

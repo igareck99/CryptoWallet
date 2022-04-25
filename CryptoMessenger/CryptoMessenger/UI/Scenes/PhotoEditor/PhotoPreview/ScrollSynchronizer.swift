@@ -94,7 +94,7 @@ final class ScrollSynchronizer: NSObject, LayoutChangeHandler {
             dataSourceUpdate()
             self.thumbnails.collectionView?.deleteItems(at: [indexPath])
             self.preview.collectionView?.deleteItems(at: [indexPath])
-            print("removed \(indexPath)")
+            debugPrint("removed \(indexPath)")
             self.bind()
             self.interactionState = .enabled
             completion?()
@@ -135,7 +135,7 @@ extension ScrollSynchronizer: UICollectionViewDelegate {
             activeIndex = thumbnails.nearestIndex
         }
         if scrollView == thumbnails.collectionView {
-            print(thumbnails.relativeOffset)
+            debugPrint(thumbnails.relativeOffset)
             let index = thumbnails.nearestIndex
             if index != activeIndex {
                 activeIndex = index

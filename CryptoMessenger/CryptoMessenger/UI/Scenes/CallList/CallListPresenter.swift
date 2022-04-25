@@ -26,9 +26,9 @@ final class CallListPresenter {
     func updateView(_ state: CallListFlow.ViewState) {
         switch state {
         case .sending:
-            print("sending..")
+            debugPrint("sending..")
         case .result:
-            print("result")
+            debugPrint("result")
         case .error(let message):
             view?.showAlert(title: nil, message: message)
         }

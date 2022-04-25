@@ -36,7 +36,7 @@ struct ChooseReceiverView: View {
                     }
                 }
             }.onReceive(scannedCodePublisher) { code in
-                print(code)
+                debugPrint(code)
             }
     }
 

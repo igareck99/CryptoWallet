@@ -6,37 +6,30 @@ protocol AppCoordinatorProtocol {
 
 final class AppCoordinator {
 
-    // MARK: - Internal Properties
-
     var childCoordinators: [String: Coordinator] = [:]
+	private(set) var navigationController: UINavigationController
 
 	private var pendingCoordinators = [Coordinator]()
-
-    private(set) var navigationController: UINavigationController
-
-    // MARK: - Private Properties
-
     private let userFlows: UserFlowsStorage
-
 	private let dependenciesService: DependenciesServiceProtocol
 	private let firebaseService: FirebaseServiceProtocol
 	private let keychainService: KeychainServiceProtocol
-	@Injectable var matrixStore: MatrixStore
-
-    // MARK: - Lifecycle
+	private let matrixStore: MatrixStoreProtocol
 
     init(
 		dependenciesService: DependenciesServiceProtocol,
 		firebaseService: FirebaseServiceProtocol,
 		keychainService: KeychainServiceProtocol,
 		userFlows: UserFlowsStorage,
-		navigationController: UINavigationController
+		navigationController: UINavigationController,
+		matrixStore: MatrixStoreProtocol
 	) {
 		self.dependenciesService = dependenciesService
 		self.firebaseService = firebaseService
 		self.keychainService = keychainService
 		self.userFlows = userFlows
         self.navigationController = navigationController
+		self.matrixStore = matrixStore
     }
 
     // MARK: - Private Methods
@@ -58,6 +51,7 @@ final class AppCoordinator {
     }
 
 	private func showMainFlow() {
+		userFlows.isLocalAuth = false
         let mainFlowCoordinator = MainFlowCoordinator(navigationController: navigationController)
         mainFlowCoordinator.delegate = self
         addChildCoordinator(mainFlowCoordinator)
@@ -108,7 +102,29 @@ extension AppCoordinator: Coordinator {
 extension AppCoordinator: AppCoordinatorProtocol {
 
 	func didReceive(notification: UNNotificationResponse, completion: @escaping () -> Void) {
-		// TODO: Add handler
+		let getChatRoomSceneDelegate: () -> ChatRoomSceneDelegate?  = { [weak self] in
+			guard
+				let chatRoomDelegate = self?.childCoordinators
+					.values.first(where: { $0 is ChatRoomSceneDelegate }) as? ChatRoomSceneDelegate
+			else {
+				return nil
+			}
+			return chatRoomDelegate
+		}
+		let pushCoordinator = PushNotificationCoordinatorAssembly.build(
+			getChatRoomSceneDelegate: getChatRoomSceneDelegate,
+			notificationResponse: notification,
+			navigationController: self.navigationController,
+			delegate: self
+		)
+
+		if !userFlows.isLocalAuth && userFlows.isAuthFlowFinished {
+			addChildCoordinator(pushCoordinator)
+			pushCoordinator.start()
+		} else {
+			pendingCoordinators.append(pushCoordinator)
+		}
+		completion()
 	}
 }
 
@@ -126,7 +142,7 @@ extension AppCoordinator: AuthFlowCoordinatorDelegate {
     }
 }
 
-// MARK: - AppCoordinator (MainFlowCoordinatorDelegate)
+// MARK: - MainFlowCoordinatorDelegate
 
 extension AppCoordinator: MainFlowCoordinatorDelegate {
     func userPerformedLogout(coordinator: Coordinator) {
@@ -143,7 +159,7 @@ extension AppCoordinator: MainFlowCoordinatorDelegate {
 	}
 }
 
-// MARK: - AppCoordinator (PinCodeFlowCoordinatorDelegate)
+// MARK: - PinCodeFlowCoordinatorDelegate
 
 extension AppCoordinator: PinCodeFlowCoordinatorDelegate {
     func userApprovedAuthentication(coordinator: Coordinator) {
@@ -155,4 +171,12 @@ extension AppCoordinator: PinCodeFlowCoordinatorDelegate {
             showAuthenticationFlow()
         }
     }
+}
+
+// MARK: - PushNotificationCoordinatorDelegate
+
+extension AppCoordinator: PushNotificationCoordinatorDelegate {
+	func didFinishFlow(coordinator: Coordinator) {
+		removeChildCoordinator(coordinator)
+	}
 }

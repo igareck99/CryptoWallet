@@ -145,7 +145,7 @@ final class PersonalizationViewModel: ObservableObject {
             userImage = backgroundPhotos[userCredentials.profileBackgroundImage]
             dataImage = userCredentials.profileBackgroundImage
         }
-        print(userCredentials.profileBackgroundImage)
+        debugPrint(userCredentials.profileBackgroundImage)
         user = UserPersonalizationItem(language: LanguageItems.save(item: language),
                                        theme: ThemeItemCase.save(item: theme),
                                        backGround: userImage,

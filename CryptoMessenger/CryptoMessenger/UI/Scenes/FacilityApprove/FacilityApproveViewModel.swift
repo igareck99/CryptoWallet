@@ -98,7 +98,7 @@ final class FacilityApproveViewModel: ObservableObject {
                     self?.updateData()
                     self?.objectWillChange.send()
                 case .onTransaction:
-                    print("SomeGox")
+                    debugPrint("SomeGox")
                 }
             }
             .store(in: &subscriptions)

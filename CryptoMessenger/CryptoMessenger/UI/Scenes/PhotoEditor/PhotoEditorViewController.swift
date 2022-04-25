@@ -98,9 +98,9 @@ final class PhotoEditorViewController: BaseViewController {
     @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
         switch sender.direction {
         case .up:
-            print("Тут переходим на экран")
+            debugPrint("Тут переходим на экран")
         case .down:
-            print("Тут переходим на экран тоже")
+            debugPrint("Тут переходим на экран тоже")
         default:
             break
         }

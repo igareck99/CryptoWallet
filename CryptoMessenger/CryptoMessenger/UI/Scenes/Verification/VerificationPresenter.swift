@@ -43,7 +43,7 @@ final class VerificationPresenter {
         case let .idle(phone):
             view?.setPhoneNumber(phone)
         case .sending:
-            print("sending..")
+            debugPrint("sending..")
         case .resend(let time, let isFinished):
             if isFinished {
                 view?.resetCountdownTime()
@@ -51,7 +51,7 @@ final class VerificationPresenter {
                 view?.setCountdownTime(time)
             }
         case .result:
-            print("result")
+            debugPrint("result")
         case .error(let message):
             view?.showAlert(title: nil, message: message)
         }

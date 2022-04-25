@@ -65,7 +65,7 @@ struct MapSnapshotView: View {
         let snapshotter = MKMapSnapshotter(options: options)
         snapshotter.start { snapshot, error in
             if let error = error {
-                print(error)
+                debugPrint(error)
                 return
             }
             if let snapshot = snapshot {
