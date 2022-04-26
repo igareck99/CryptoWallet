@@ -41,7 +41,9 @@ struct ProfileDetailView: View {
 
     @State private var descriptionHeight = CGFloat(100)
     @State private var showLogoutAlert = false
+    @State private var showActionImageAlert = false
     @State private var showImagePicker = false
+    @State private var showCameraPicker = false
     @State private var isSaving = false
     @Environment(\.presentationMode) private var presentationMode
 
@@ -75,12 +77,35 @@ struct ProfileDetailView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
-            .sheet(isPresented: $showImagePicker) {
-                ImagePickerView(selectedImage: $viewModel.selectedImage)
+            .actionSheet(isPresented: $showActionImageAlert) {
+                ActionSheet(title: Text(""),
+                            message: nil,
+                            buttons: [
+                                .cancel(),
+                                .default(
+                                    Text(R.string.localizable.profileFromGallery()),
+                                    action: switchImagePicker
+                                ),
+                                .default(
+                                    Text(R.string.localizable.profileFromCamera()),
+                                    action: switchCameraPicker
+                                )
+                            ]
+                )
+            }
+            .fullScreenCover(isPresented: $showCameraPicker,
+                              content: {
+                ImagePickerView(selectedImage: $viewModel.selectedImage,
+                                sourceType: .camera)
                     .ignoresSafeArea()
+            })
+            .fullScreenCover(isPresented: $showImagePicker,
+                              content: {
+                ImagePickerView(selectedImage: $viewModel.selectedImage)
                     .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                     .navigationBarTitleDisplayMode(.inline)
-            }
+                    .ignoresSafeArea()
+            })
             .alert(isPresented: $showLogoutAlert) {
                 return Alert(
                     title: Text(R.string.localizable.profileDetailLogoutAlertTitle()),
@@ -245,7 +270,7 @@ struct ProfileDetailView: View {
                                 R.image.profileDetail.camera.image
                             }
                             .onTapGesture {
-                                showImagePicker = true
+                                showActionImageAlert = true
                             }
                             .padding([.trailing, .bottom], 16)
                         }
@@ -315,6 +340,16 @@ struct ProfileDetailView: View {
             .background(.paleBlue())
             .cornerRadius(8)
         }
+    }
+
+    // MARK: - Private Methods
+
+    private func switchImagePicker() {
+        showImagePicker = true
+    }
+
+    private func switchCameraPicker() {
+        showCameraPicker = true
     }
 }
 
