@@ -16,6 +16,10 @@ struct ChatHistoryView: View {
     @State private var chatData = ChatData()
     @State private var selectedImage: UIImage?
     @State private var selectedRoomId: ObjectIdentifier?
+    @State private var cardGroupPosition: CardPosition = .bottom
+    @State private var actionSheet = IOActionSheet(title: nil,
+                                                   font: UIFont.systemFont(ofSize: 16),
+                                                   color: UIColor(.black))
 
     private var searchResults: [AuraRoom] {
         searchText.isEmpty ? viewModel.rooms : viewModel.rooms.filter {
@@ -25,10 +29,24 @@ struct ChatHistoryView: View {
     }
 
     // MARK: - Body
+    func readAll() {
+        for room in viewModel.rooms {
+            room.markAllAsRead()
+        }
+    }
 
     var body: some View {
         content
             .onAppear {
+                actionSheet.addButton(title: "Прочитать все",
+                                      action: {
+                    for room in viewModel.rooms {
+                        room.markAllAsRead()
+                    }
+                })
+                actionSheet.cancelButtonTitle = "Отмена"
+                actionSheet.cancelButtonTextColor = .red
+                actionSheet.backgroundColor = .white
                 viewModel.send(.onAppear)
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -41,6 +59,7 @@ struct ChatHistoryView: View {
                                 .foreground(.black())
                         Spacer()
                     }
+                    groupMenuView
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: 0) {
@@ -50,11 +69,12 @@ struct ChatHistoryView: View {
                             R.image.chat.writeMessage.image
                         }
 
-                        Button {
-
-                        } label: {
+                        Button(action: {
+                            actionSheet.show()
+                            
+                        }, label: {
                             R.image.chat.settings.image
-                        }
+                        })
 
                         Spacer()
                     }
@@ -66,6 +86,24 @@ struct ChatHistoryView: View {
     }
 
     // MARK: - Body Properties
+
+    private var groupMenuView: some View {
+        ZStack {
+            Color(cardGroupPosition == .bottom ? .clear : .black(0.4))
+                .ignoresSafeArea()
+                .animation(.easeInOut, value: cardGroupPosition != .bottom)
+                .onTapGesture {
+                    vibrate()
+                    cardGroupPosition = .bottom
+                }
+
+            SlideCard(position: $cardGroupPosition) {
+                VStack(spacing: 0) {
+                    GroupMenuView(action: $viewModel.groupAction, cardPosition: $cardGroupPosition)
+                }.padding(.vertical, 16)
+            }
+        }
+    }
 
     private var content: some View {
         VStack(spacing: 0) {
@@ -116,6 +154,8 @@ struct ChatHistoryView: View {
                         .onTapGesture {
                             viewModel.send(.onShowRoom(room))
                         }
+                    
+//                    quickMenuView
                 }
             }
             .listStyle(.plain)
