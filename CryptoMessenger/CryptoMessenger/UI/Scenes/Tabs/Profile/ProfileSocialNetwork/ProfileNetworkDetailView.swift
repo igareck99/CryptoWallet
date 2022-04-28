@@ -33,7 +33,7 @@ final class ProfileNetworkDetailView: UIView {
         addMessageLabel()
         setupTableView()
         setupTableProvider()
-        print(tableNetworkList)
+        debugPrint(tableNetworkList)
     }
 
     @available(*, unavailable)

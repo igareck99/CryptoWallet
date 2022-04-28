@@ -36,7 +36,7 @@ final class KeyImportPresenter {
         case .sending:
             break
         case .result:
-            print("result")
+            debugPrint("result")
         case .error(let message):
             view?.showAlert(title: nil, message: message)
         }

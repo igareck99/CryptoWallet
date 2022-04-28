@@ -8,6 +8,7 @@ final class KeychainService {
 		case accessToken
 		case deviceId
 		case pushToken
+		case gmtZeroTimeInterval
 	}
 
 	private enum Constants {
@@ -15,16 +16,18 @@ final class KeychainService {
 		static let serviceName = "ru.aura.app.keychain.service"
 	}
 
-	private let accessGroup: String
+	private let accessGroup: String?
 	private let serviceName: String
-	private lazy var keychainWrapper = KeychainWrapper(serviceName: serviceName, accessGroup: accessGroup)
+	private var keychainWrapper: KeychainWrapper
+	static let shared = KeychainService(accessGroup: nil, serviceName: Constants.serviceName)
 
 	init(
-		accessGroup: String = Constants.accessGroup,
+		accessGroup: String? = Constants.accessGroup,
 		serviceName: String = Constants.serviceName
 	) {
 		self.accessGroup = accessGroup
 		self.serviceName = serviceName
+		self.keychainWrapper = KeychainWrapper(serviceName: serviceName, accessGroup: accessGroup)
 
 	}
 }

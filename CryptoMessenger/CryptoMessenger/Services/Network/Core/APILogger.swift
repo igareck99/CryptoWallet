@@ -32,7 +32,7 @@ final class APILogger {
 
         if let method = request.httpMethod,
             let url = request.url {
-            print("\(method) '\(url.absoluteString)'")
+            debugPrint("\(method) '\(url.absoluteString)'")
             logHeaders(request)
             logBody(request)
         }
@@ -49,7 +49,7 @@ final class APILogger {
             logStatusCodeAndURL(response)
         }
         if logLevel == .debug, let data = data {
-            print(String(decoding: data, as: UTF8.self))
+            debugPrint(String(decoding: data, as: UTF8.self))
         }
     }
 
@@ -58,23 +58,23 @@ final class APILogger {
     private func logHeaders(_ urlRequest: URLRequest) {
         guard let allHTTPHeaderFields = urlRequest.allHTTPHeaderFields else { return }
         allHTTPHeaderFields.forEach { key, value  in
-            print("  \(key) : \(value)")
+            debugPrint("  \(key) : \(value)")
         }
     }
 
     private func logBody(_ urlRequest: URLRequest) {
         guard let body = urlRequest.httpBody, let str = String(data: body, encoding: .utf8) else { return }
-        print("  HttpBody : \(str)")
+        debugPrint("  HttpBody : \(str)")
     }
 
     private func logStatusCodeAndURL(_ urlResponse: HTTPURLResponse) {
         if let url = urlResponse.url {
-            print("\(urlResponse.statusCode) '\(url.absoluteString)'")
+            debugPrint("\(urlResponse.statusCode) '\(url.absoluteString)'")
         }
     }
 
     private func logCurl(_ urlRequest: URLRequest) {
-        print(urlRequest.toCurlCommand())
+        debugPrint(urlRequest.toCurlCommand())
     }
 }
 

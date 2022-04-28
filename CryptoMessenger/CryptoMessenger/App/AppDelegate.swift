@@ -5,22 +5,51 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-	var window: UIWindow? = UIWindow()
+	var window: UIWindow?
 
-	private lazy var appCoordinator: Coordinator & AppCoordinatorProtocol = {
-		let rootNavigationController = BaseNavigationController()
-		window?.rootViewController = rootNavigationController
-		return AppCoordinatorAssembly.build(navigationController: rootNavigationController)
-	}()
+	private var pushNotificationsUseCase: PushNotificationsUseCaseProtocol?
+	private var appDelegateUseCase: AppDelegateUseCaseProtocol?
 
 	func application(
 		_ application: UIApplication,
 		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
 	) -> Bool {
-		UNUserNotificationCenter.current().delegate = self
-		appCoordinator.start()
+		let rootNavigationController = BaseNavigationController()
+		let appCoordinator = AppCoordinatorAssembly.build(navigationController: rootNavigationController)
+		pushNotificationsUseCase = PushNotificationsUseCaseAssembly.build(appCoordinator: appCoordinator)
+		appDelegateUseCase = AppDelegateUseCaseAssembly.build(appCoordinator: appCoordinator)
+
+		window = UIWindow()
+		window?.rootViewController = rootNavigationController
+
+		pushNotificationsUseCase?.start()
+		appDelegateUseCase?.start()
 		window?.makeKeyAndVisible()
 		return true
+	}
+
+	func applicationWillTerminate(_ application: UIApplication) {
+		appDelegateUseCase?.applicationWillTerminate()
+	}
+
+	func applicationDidEnterBackground(_ application: UIApplication) {
+		appDelegateUseCase?.applicationDidEnterBackground()
+	}
+
+	func applicationWillEnterForeground(_ application: UIApplication) {
+		appDelegateUseCase?.applicationWillEnterForeground()
+	}
+
+	func applicationWillResignActive(_ application: UIApplication) {
+		appDelegateUseCase?.applicationWillResignActive()
+	}
+
+	func applicationProtectedDataWillBecomeUnavailable(_ application: UIApplication) {
+		appDelegateUseCase?.applicationProtectedDataWillBecomeUnavailable()
+	}
+
+	func applicationProtectedDataDidBecomeAvailable(_ application: UIApplication) {
+		appDelegateUseCase?.applicationProtectedDataDidBecomeAvailable()
 	}
 }
 
@@ -28,41 +57,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate {
 
-	func application(
-		_ application: UIApplication,
-		didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-		fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
-	) {
-		completionHandler(.noData)
-	}
-
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-		let token = deviceToken.base64EncodedString()
-		debugPrint("didRegisterForRemoteNotificationsWithDeviceToken: \(token.debugDescription)")
+		pushNotificationsUseCase?.applicationDidRegisterForRemoteNotifications(deviceToken: deviceToken)
 	}
 
 	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-		debugPrint("didFailToRegisterForRemoteNotificationsWithError: \(error.localizedDescription)")
-	}
-}
-
-// MARK: - UNUserNotificationCenterDelegate
-
-extension AppDelegate: UNUserNotificationCenterDelegate {
-
-	func userNotificationCenter(
-		_ center: UNUserNotificationCenter,
-		willPresent notification: UNNotification,
-		withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
-	) {
-		completionHandler([.banner, .list, .badge, .sound])
-	}
-
-	func userNotificationCenter(
-		_ center: UNUserNotificationCenter,
-		didReceive response: UNNotificationResponse,
-		withCompletionHandler completionHandler: @escaping () -> Void
-	) {
-		appCoordinator.didReceive(notification: response, completion: completionHandler)
+		pushNotificationsUseCase?.applicationDidFailRegisterForRemoteNotifications()
 	}
 }

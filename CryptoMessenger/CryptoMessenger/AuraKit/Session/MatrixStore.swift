@@ -4,6 +4,10 @@ import KeychainAccess
 import MatrixSDK
 import UIKit
 
+protocol MatrixStoreProtocol {
+	var rooms: [AuraRoom] { get }
+	func createPusher(with pushToken: Data)
+}
 
 // MARK: - MatrixState
 
@@ -55,7 +59,7 @@ final class MatrixStore: ObservableObject {
 
     private init() {
         if CommandLine.arguments.contains("-clear-stored-credentials") {
-            print("🗑 cleared stored credentials from keychain")
+            debugPrint("🗑 cleared stored credentials from keychain")
             MXCredentials
                 .from(keychain)?
                 .clear(from: keychain)
@@ -69,7 +73,7 @@ final class MatrixStore: ObservableObject {
             self.sync { result in
                 switch result {
                 case .failure(let error):
-                    print("Error on starting session with saved credentials: \(error)")
+                    debugPrint("Error on starting session with saved credentials: \(error)")
                     self.loginState = .failure(error)
                 case let .success(state):
                     self.loginState = state
@@ -92,12 +96,12 @@ final class MatrixStore: ObservableObject {
         client?.login(username: username, password: password) { response in
             switch response {
             case .failure(let error):
-                print("Error on starting session with new credentials: \(error)")
+                debugPrint("Error on starting session with new credentials: \(error)")
                 self.loginState = .failure(error)
             case let .success(credentials):
                 self.credentials = credentials
                 credentials.save(to: self.keychain)
-                print("Error on starting session with new credentials:")
+                debugPrint("Error on starting session with new credentials:")
                 self.sync { result in
                     switch result {
                     case .failure(let error):
@@ -160,7 +164,7 @@ final class MatrixStore: ObservableObject {
                 self.client?.deleteDevice(deviceId, authParameters: [:]) { response in
                     switch response {
                     case .success:
-                        print("Delete device with ID: " + deviceId)
+                        debugPrint("Delete device with ID: " + deviceId)
                     default:
                         break
                     }
@@ -241,7 +245,7 @@ final class MatrixStore: ObservableObject {
             completion(url)
         }, failure: { error in
             if let error = error {
-                print(error)
+                debugPrint(error)
             }
             completion(nil)
         })
@@ -256,7 +260,7 @@ final class MatrixStore: ObservableObject {
             }
         }, failure: { error in
             if let error = error {
-                print(error)
+                debugPrint(error)
             }
             completion()
         })
@@ -310,7 +314,7 @@ final class MatrixStore: ObservableObject {
     func setDisplayName(_ displayName: String, completion: @escaping VoidBlock) {
         session?.myUser.setDisplayName(displayName, success: completion) { error in
             if let error = error {
-                print(error)
+                debugPrint(error)
             }
             self.objectWillChange.send()
         }
@@ -319,7 +323,7 @@ final class MatrixStore: ObservableObject {
     func setStatus(_ status: String, completion: @escaping VoidBlock) {
         session?.myUser.setPresence(.init(rawValue: 2), andStatusMessage: status, success: completion) { error in
             if let error = error {
-                print(error)
+                debugPrint(error)
             }
             self.objectWillChange.send()
         }
@@ -338,7 +342,7 @@ final class MatrixStore: ObservableObject {
                 completion(url)
             }, failure: { error in
                 if let error = error {
-                    print(error)
+                    debugPrint(error)
                 }
                 self?.objectWillChange.send()
                 completion(nil)
@@ -373,7 +377,7 @@ final class MatrixStore: ObservableObject {
             let data = try JSONEncoder().encode(roomItems)
             UserDefaults.group.set(data, forKey: "roomList")
         } catch {
-            print("An error occurred: \(error)")
+            debugPrint("An error occurred: \(error)")
         }
     }
 
@@ -393,3 +397,40 @@ final class MatrixStore: ObservableObject {
     }
 }
 
+// MARK: - MatrixStoreProtocol
+
+extension MatrixStore: MatrixStoreProtocol {
+	func createPusher(with pushToken: Data) {
+
+	#if DEBUG
+		let pushKeyRelease = pushToken.base64EncodedString()
+		let pushKeyDebug = pushToken.map { String(format: "%02x", $0) }.joined()
+		debugPrint("pushKeyRelease: \(pushKeyRelease.debugDescription)")
+		debugPrint("pushKeyDebug: \(pushKeyDebug.debugDescription)")
+
+		let pushKey = pushToken.map { String(format: "%02x", $0) }.joined()
+	#else
+		let pushKey = pushToken.base64EncodedString()
+	#endif
+
+		let pushData: [String: Any] = ["url": "http://127.0.0.1:5001/_matrix/push/v1/notify"]
+		let appId = "ru.aura.app.test"
+		let appDisplayName = "AURA CryptoMessenger"
+		let deviceDisplayName = UIDevice.current.name
+		let lang = NSLocale.preferredLanguages.first ?? "en_US"
+
+		client?.setPusher(
+			pushKey: pushKey,
+			kind: .http,
+			appId: appId,
+			appDisplayName: appDisplayName,
+			deviceDisplayName: deviceDisplayName,
+			profileTag: "",
+			lang: lang,
+			data: pushData,
+			append: false
+		) { result in
+			debugPrint("SET PUSHER RESULT: \(result)")
+		}
+	}
+}

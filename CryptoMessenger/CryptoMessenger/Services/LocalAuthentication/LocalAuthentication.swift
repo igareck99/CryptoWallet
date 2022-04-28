@@ -76,7 +76,7 @@ final class LocalAuthentication {
 
         let isBiometricAvailable = laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
         if let error = error {
-            print(error.localizedDescription)
+            debugPrint(error.localizedDescription)
         }
 
         return isBiometricAvailable

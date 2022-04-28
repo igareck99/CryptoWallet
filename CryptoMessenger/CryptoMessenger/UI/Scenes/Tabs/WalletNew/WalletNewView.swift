@@ -84,7 +84,7 @@ struct WalletNewView: View {
             }
         })
         .onAppear {
-            print("onAppear")
+            debugPrint("onAppear")
             navBarHide = false
             showTabBar()
             viewModel.send(.onAppear)
