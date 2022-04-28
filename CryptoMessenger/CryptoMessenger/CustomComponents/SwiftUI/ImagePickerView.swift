@@ -8,16 +8,18 @@ struct ImagePickerView: UIViewControllerRepresentable {
     // MARK: - Internal Properties
 
     @Binding var selectedImage: UIImage?
+    var sourceType: UIImagePickerController.SourceType
 
     // MARK: - Private Properties
 
     @Environment(\.presentationMode) private var presentationMode
-    private var sourceType: UIImagePickerController.SourceType = .photoLibrary
 
     // MARK: - Lifecycle
 
-    init(selectedImage: Binding<UIImage?>) {
+    init(selectedImage: Binding<UIImage?>,
+         sourceType: UIImagePickerController.SourceType = .photoLibrary) {
         self._selectedImage = selectedImage
+        self.sourceType = sourceType
     }
 
     // MARK: - Internal Methods

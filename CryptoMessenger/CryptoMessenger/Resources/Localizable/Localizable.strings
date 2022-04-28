@@ -60,6 +60,8 @@
 "Profile.Mobile" = "8 (925) 851-39-11";
 "Profile.BuyCell" = "Купить еще 3 ячейки — 0.050 AUR";
 "Profile.Copied" = "Скопировано!";
+"Profile.FromGallery" = "Выбрать из галереи";
+"Profile.FromCamera" = "Камера";
 
 
 "PinCode.EnterPassword" = "Введите пароль";
