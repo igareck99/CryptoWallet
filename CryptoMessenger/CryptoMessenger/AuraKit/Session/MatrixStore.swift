@@ -6,7 +6,8 @@ import UIKit
 
 protocol MatrixStoreProtocol {
 	var rooms: [AuraRoom] { get }
-	func createPusher(with pushToken: Data)
+	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void)
+	func deletePusher(with pushToken: Data, completion: @escaping (Bool) -> Void)
 }
 
 // MARK: - MatrixState
@@ -400,37 +401,50 @@ final class MatrixStore: ObservableObject {
 // MARK: - MatrixStoreProtocol
 
 extension MatrixStore: MatrixStoreProtocol {
-	func createPusher(with pushToken: Data) {
 
-	#if DEBUG
+	func deletePusher(with pushToken: Data, completion: @escaping (Bool) -> Void) {
+		updatePusher(pushToken: pushToken, kind: .none, completion: completion)
+	}
+
+	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void) {
+		updatePusher(pushToken: pushToken, kind: .http, completion: completion)
+	}
+
+	private func updatePusher(pushToken: Data, kind: MXPusherKind, completion: @escaping (Bool) -> Void) {
+
+		guard !AppConstants.bundleId.aboutApp.isEmpty,
+			  let userId = session?.myUser.userId else { return }
+
+#if DEBUG
 		let pushKeyRelease = pushToken.base64EncodedString()
 		let pushKeyDebug = pushToken.map { String(format: "%02x", $0) }.joined()
 		debugPrint("pushKeyRelease: \(pushKeyRelease.debugDescription)")
 		debugPrint("pushKeyDebug: \(pushKeyDebug.debugDescription)")
 
 		let pushKey = pushToken.map { String(format: "%02x", $0) }.joined()
-	#else
+#else
 		let pushKey = pushToken.base64EncodedString()
-	#endif
+#endif
 
-		let pushData: [String: Any] = ["url": "http://127.0.0.1:5001/_matrix/push/v1/notify"]
-		let appId = "ru.aura.app.test"
-		let appDisplayName = "AURA CryptoMessenger"
+		let pushData: [String: Any] = ["url": AppConstants.pusherUrl.aboutApp]
+		let appId = AppConstants.bundleId.aboutApp
+		let appDisplayName = AppConstants.appName.aboutApp
 		let deviceDisplayName = UIDevice.current.name
 		let lang = NSLocale.preferredLanguages.first ?? "en_US"
+		let profileTag = "mobile_ios_\(userId)"
 
 		client?.setPusher(
 			pushKey: pushKey,
-			kind: .http,
+			kind: kind,
 			appId: appId,
 			appDisplayName: appDisplayName,
 			deviceDisplayName: deviceDisplayName,
-			profileTag: "",
+			profileTag: profileTag,
 			lang: lang,
 			data: pushData,
 			append: false
 		) { result in
-			debugPrint("SET PUSHER RESULT: \(result)")
+			completion(result.isSuccess)
 		}
 	}
 }

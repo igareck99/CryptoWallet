@@ -2,6 +2,10 @@ import UIKit
 
 protocol PushNotificationsServiceProtocol {
 
+	var isRegisteredForRemoteNotifications: Bool { get }
+
+	func registerForRemoteNotifications()
+
 	func requestForRemoteNotificationsAuthorizationState(
 		options: UNAuthorizationOptions,
 		completion: @escaping (Bool) -> Void
@@ -10,8 +14,6 @@ protocol PushNotificationsServiceProtocol {
 	func requestForRemoteNotificationsAuthorizationStatus(
 		completion: @escaping (UNNotificationSettings) -> Void
 	)
-
-	func registerForRemoteNotifications()
 }
 
 final class PushNotificationsService: NSObject {
@@ -56,5 +58,9 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
 		DispatchQueue.main.async { [weak self] in
 			self?.application.registerForRemoteNotifications()
 		}
+	}
+
+	var isRegisteredForRemoteNotifications: Bool {
+		application.isRegisteredForRemoteNotifications
 	}
 }

@@ -307,10 +307,12 @@ extension KeychainService: KeychainServiceProtocol {
 	}
 }
 
+// MARK: - Subscripts
+
 extension KeychainService {
 
 	subscript(key: KeychainService.Keys) -> String? {
-		get { return string(forKey: key) }
+		get { string(forKey: key) }
 		set {
 			guard let value = newValue else { return }
 			set(value, forKey: key)
@@ -318,7 +320,7 @@ extension KeychainService {
 	}
 
 	subscript(key: KeychainService.Keys) -> Bool? {
-		get { return bool(forKey: key) }
+		get { bool(forKey: key) }
 		set {
 			guard let value = newValue else { return }
 			set(value, forKey: key)
@@ -326,7 +328,7 @@ extension KeychainService {
 	}
 
 	subscript(key: KeychainService.Keys) -> Int? {
-		get { return integer(forKey: key) }
+		get { integer(forKey: key) }
 		set {
 			guard let value = newValue else { return }
 			set(value, forKey: key)
@@ -334,7 +336,7 @@ extension KeychainService {
 	}
 
 	subscript(key: KeychainService.Keys) -> Double? {
-		get { return double(forKey: key) }
+		get { double(forKey: key) }
 		set {
 			guard let value = newValue else { return }
 			set(value, forKey: key)
@@ -342,7 +344,7 @@ extension KeychainService {
 	}
 
 	subscript(key: KeychainService.Keys) -> Float? {
-		get { return float(forKey: key) }
+		get { float(forKey: key) }
 		set {
 			guard let value = newValue else { return }
 			set(value, forKey: key)
@@ -350,7 +352,7 @@ extension KeychainService {
 	}
 
 	subscript(key: KeychainService.Keys) -> Data? {
-		get { return data(forKey: key) }
+		get { data(forKey: key) }
 		set {
 			guard let value = newValue else { return }
 			set(value, forKey: key)

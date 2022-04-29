@@ -1,6 +1,6 @@
 import Foundation
 
-protocol UserFlowsStorage: AnyObject {
+protocol UserFlowsStorage: UserDefaultsServiceProtocol {
 	var isAuthFlowFinished: Bool { get set }
 	var isOnboardingFlowFinished: Bool { get set }
 

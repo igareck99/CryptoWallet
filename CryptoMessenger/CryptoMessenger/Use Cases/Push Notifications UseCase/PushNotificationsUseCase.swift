@@ -15,17 +15,20 @@ final class PushNotificationsUseCase: NSObject {
 	private let keychainService: KeychainServiceProtocol
 	private let userSettings: UserFlowsStorage
 	private let appCoordinator: AppCoordinatorProtocol
+	private let matrixStore: MatrixStoreProtocol
 
 	init(
 		appCoordinator: AppCoordinatorProtocol,
 		userSettings: UserFlowsStorage,
 		keychainService: KeychainServiceProtocol,
-		pushNotificationsService: PushNotificationsServiceProtocol
+		pushNotificationsService: PushNotificationsServiceProtocol,
+		matrixStore: MatrixStoreProtocol
 	) {
 		self.appCoordinator = appCoordinator
 		self.userSettings = userSettings
 		self.keychainService = keychainService
 		self.pushNotificationsService = pushNotificationsService
+		self.matrixStore = matrixStore
 		super.init()
 		self.subscribeToNotifications()
 	}
@@ -57,12 +60,24 @@ final class PushNotificationsUseCase: NSObject {
 		pendingOperations[Notification.Name.userDidRegistered.rawValue]?()
 	}
 
-	private func handleUpdatenOf(deviceToken: Data) {
-		keychainService.set(deviceToken, forKey: .pushToken)
-		// TODO: Добавить логику работы с Pusher
-		// Послать уведомление об обновлении пуш токена
-		// Pusher создается по уведомлению об обновлении токена
-		MatrixStore.shared.createPusher(with: deviceToken)
+	private func handleUpdateOf(deviceToken: Data) {
+		// Если пуш токен обновился, то обновляем пушер
+		guard pushNotificationsService.isRegisteredForRemoteNotifications,
+			  keychainService[.pushToken] != deviceToken,
+			  keychainService.set(deviceToken, forKey: .pushToken)
+		else { return }
+		matrixStore.createPusher(with: deviceToken) { [weak self] in
+			debugPrint("SET PUSHER RESULT: \($0)")
+			self?.userSettings[.isPushNotificationsEnabled] = $0
+		}
+	}
+
+	private func updatePush(token: Data) {
+		// Удаляем старай пуш токен, если приложение было удалено)
+		if userSettings[.isAppNotFirstStart] == false {
+			userSettings[.isAppNotFirstStart] = true
+			keychainService.removeObject(forKey: .pushToken)
+		}
 	}
 }
 
@@ -71,6 +86,7 @@ final class PushNotificationsUseCase: NSObject {
 extension PushNotificationsUseCase: PushNotificationsUseCaseProtocol {
 
 	func start() {
+
 		UNUserNotificationCenter.current().delegate = self
 
 		pushNotificationsService.requestForRemoteNotificationsAuthorizationStatus { [weak self] settings in
@@ -96,10 +112,13 @@ extension PushNotificationsUseCase: PushNotificationsUseCaseProtocol {
 	}
 
 	func applicationDidRegisterForRemoteNotifications(deviceToken: Data) {
+
+		updatePush(token: deviceToken)
+
 		if !userSettings.isAuthFlowFinished {
 			pendingOperations[Notification.Name.userDidRegistered.rawValue] = { [weak self] in
 				guard let self = self else { return }
-				self.handleUpdatenOf(deviceToken: deviceToken)
+				self.handleUpdateOf(deviceToken: deviceToken)
 			}
 			return
 		}
@@ -107,12 +126,12 @@ extension PushNotificationsUseCase: PushNotificationsUseCaseProtocol {
 		if userSettings.isLocalAuth {
 			pendingOperations[Notification.Name.userDidLoggedIn.rawValue] = { [weak self] in
 				guard let self = self else { return }
-				self.handleUpdatenOf(deviceToken: deviceToken)
+				self.handleUpdateOf(deviceToken: deviceToken)
 			}
 			return
 		}
 
-		handleUpdatenOf(deviceToken: deviceToken)
+		handleUpdateOf(deviceToken: deviceToken)
 	}
 
 	func applicationDidFailRegisterForRemoteNotifications() {
