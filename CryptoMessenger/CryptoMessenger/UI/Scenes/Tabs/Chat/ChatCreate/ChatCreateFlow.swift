@@ -6,13 +6,12 @@ enum ChatCreateFlow {
 
     // MARK: - ViewState
 
-    enum ViewState {
-
-        // MARK: - Types
-
-        case idle
-        case loading
-        case error(APIError)
+	enum ViewState: Equatable {
+		case idle
+		case loading
+		case showContent
+		case error(APIError)
+		case contactsAccessFailure
     }
 
     // MARK: - Event

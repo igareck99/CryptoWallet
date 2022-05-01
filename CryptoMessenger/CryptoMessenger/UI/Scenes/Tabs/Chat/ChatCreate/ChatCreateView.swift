@@ -119,7 +119,7 @@ struct ChatCreateView: View {
                     .frame(height: 1)
 
                 VStack(spacing: 0) {
-                    if !viewModel.waitingContacts.isEmpty {
+                    if !viewModel.waitingContacts.isEmpty && viewModel.state == .showContent {
                         ForEach(CreateAction.allCases.filter({ $0 != .createChannel })) { action in
                             VStack(spacing: 0) {
                                 actionView(action)
@@ -139,15 +139,37 @@ struct ChatCreateView: View {
                         }
                     }
 
-                    if viewModel.waitingContacts.isEmpty {
+					if viewModel.state == .loading {
                         ProgressView()
                             .tint(Color(.blue()))
                             .padding(.top, 34)
                     }
 
+					if viewModel.state == .contactsAccessFailure {
+						Text("Не удалось получить доступ к контактам. Вы можете предоставить доступ к контактам в настройках")
+							.multilineTextAlignment(.center)
+							.font(.regular(15))
+							.foreground(.black())
+							.padding(.init(top: 8, leading: 16, bottom: 16, trailing: 16))
+						Button(action: {
+							UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+						}, label: {
+							Text("Открыть настройки")
+								.frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+								.font(.regular(15))
+								.overlay(
+									RoundedRectangle(cornerRadius: 8)
+										.stroke(.blue, lineWidth: 1)
+								)
+						})
+							.frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+							.background(.white())
+							.padding(.horizontal, 16)
+					}
+
                     let contacts = viewModel.filteredContacts.isEmpty ? viewModel.existingContacts : viewModel.filteredContacts
 
-                    if !contacts.isEmpty {
+                    if !contacts.isEmpty && viewModel.state == .showContent {
                         sectionView(R.string.localizable.createActionContactsSection())
 
                         VStack(alignment: .leading, spacing: 0) {
@@ -165,7 +187,7 @@ struct ChatCreateView: View {
                         }
                     }
 
-                    if !viewModel.waitingContacts.isEmpty {
+                    if !viewModel.waitingContacts.isEmpty && viewModel.state == .showContent {
                         sectionView(R.string.localizable.createActionInviteSection())
 
                         VStack(alignment: .leading, spacing: 0) {

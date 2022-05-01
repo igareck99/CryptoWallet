@@ -86,6 +86,7 @@ final class ChatCreateViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
+					self?.state = .loading
                     self?.syncContacts()
                 case let .onCreateDirect(ids):
                     self?.createDirectRoom(ids)
@@ -176,20 +177,42 @@ final class ChatCreateViewModel: ObservableObject {
         }
     }
 
-    private func syncContacts() {
-        contactsStore.fetch { [weak self] contacts, _ in
-            self?.matchServerContacts(contacts)
-        }
-    }
+	private func syncContacts() {
+
+		let contactsAccessState = contactsStore.reuqestContactsAccessState()
+
+		switch contactsAccessState {
+		case .allowed:
+			reuqestUserContacts()
+			return
+		case .notDetermined:
+			contactsStore.requestContactsAccess { [weak self] isAllowed in
+				guard isAllowed else { self?.state = .contactsAccessFailure; return }
+				self?.reuqestUserContacts()
+			}
+			return
+		case .restricted, .denied, .unknown:
+			state = .contactsAccessFailure
+		}
+	}
+
+	private func reuqestUserContacts() {
+		contactsStore.fetchContacts { [weak self] result in
+			guard case let .success(userContacts) = result else { self?.state = .contactsAccessFailure; return }
+			self?.matchServerContacts(userContacts)
+		}
+	}
 
     private func matchServerContacts(_ contacts: [ContactInfo]) {
-        guard !contacts.isEmpty else { return }
+
+		guard !contacts.isEmpty else { state = .showContent; return }
 
         let phones = contacts.map { $0.phoneNumber.numbers }
 
         apiClient.publisher(Endpoints.Users.users(phones))
             .replaceError(with: [:])
             .sink { [weak self] response in
+				self?.state = .showContent
                 let sorted = contacts.sorted(by: { $0.firstName < $1.firstName })
 
                 let mxUsers: [MXUser] = self?.mxStore.allUsers() ?? []
