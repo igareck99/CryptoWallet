@@ -1,6 +1,6 @@
 import Foundation
 
-protocol KeychainServiceProtocol {
+protocol KeychainServiceProtocol: AnyObject {
 
 	// MARK: - Getters Wrappers
 
@@ -137,4 +137,18 @@ protocol KeychainServiceProtocol {
 		withAccessibility accessibility: KeychainItemAccessibility?,
 		isSynchronizable: Bool
 	) -> Bool
+
+	// MARK: - Subscripts
+
+	subscript(key: KeychainService.Keys) -> String? { get set }
+
+	subscript(key: KeychainService.Keys) -> Bool? { get set }
+
+	subscript(key: KeychainService.Keys) -> Int? { get set }
+
+	subscript(key: KeychainService.Keys) -> Double? { get set }
+
+	subscript(key: KeychainService.Keys) -> Float? { get set }
+
+	subscript(key: KeychainService.Keys) -> Data? { get set }
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-protocol UserCredentialsStorage: AnyObject {
+protocol UserCredentialsStorage: UserDefaultsServiceProtocol {
 	var isUserAuthenticated: Bool { get set }
 	var accessToken: String? { get set }
 	var refreshToken: String? { get set }

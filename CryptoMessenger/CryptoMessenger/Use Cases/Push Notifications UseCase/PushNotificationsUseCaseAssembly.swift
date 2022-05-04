@@ -9,7 +9,8 @@ enum PushNotificationsUseCaseAssembly {
 			appCoordinator: appCoordinator,
 			userSettings: userFlowsStorage,
 			keychainService: keychainService,
-			pushNotificationsService: pushNotificationsService
+			pushNotificationsService: pushNotificationsService,
+			matrixStore: MatrixStore.shared
 		)
 		return pushNotificationsUseCase
 	}
