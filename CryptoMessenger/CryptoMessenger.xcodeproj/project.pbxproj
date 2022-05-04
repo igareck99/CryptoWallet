@@ -466,6 +466,7 @@
 		D4FA3F6D28183586000246D8 /* AppDelegateUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */; };
 		D4FA3F72281A619B000246D8 /* TimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F71281A619B000246D8 /* TimeService.swift */; };
 		D4FA3F74281A7374000246D8 /* TimeInterval+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F73281A7374000246D8 /* TimeInterval+Extensions.swift */; };
+		D4FA3F76281E4939000246D8 /* ContactInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F75281E4939000246D8 /* ContactInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -932,6 +933,7 @@
 		D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateUseCaseAssembly.swift; sourceTree = "<group>"; };
 		D4FA3F71281A619B000246D8 /* TimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeService.swift; sourceTree = "<group>"; };
 		D4FA3F73281A7374000246D8 /* TimeInterval+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extensions.swift"; sourceTree = "<group>"; };
+		D4FA3F75281E4939000246D8 /* ContactInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfo.swift; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1351,6 +1353,7 @@
 			isa = PBXGroup;
 			children = (
 				5A187F0C2680CF49001957D3 /* ContactsManager.swift */,
+				D4FA3F75281E4939000246D8 /* ContactInfo.swift */,
 			);
 			path = ContactsManager;
 			sourceTree = "<group>";
@@ -1805,7 +1808,6 @@
 			isa = PBXGroup;
 			children = (
 				5ABAD39C27BEFB2F0067DFC1 /* Group */,
-				5ABAD39D27BEFB370067DFC1 /* Channel */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1819,13 +1821,6 @@
 				8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */,
 			);
 			path = Group;
-			sourceTree = "<group>";
-		};
-		5ABAD39D27BEFB370067DFC1 /* Channel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Channel;
 			sourceTree = "<group>";
 		};
 		5ABAD39E27C286AE0067DFC1 /* Settings */ = {
@@ -3093,6 +3088,7 @@
 				7846B67726E8C0AE00B05984 /* CellWithImage.swift in Sources */,
 				5A9B472826EAB6EF001CC627 /* LastReactionItemView.swift in Sources */,
 				5AF8637226ADDDCE004A417C /* AppLaunchInstructor.swift in Sources */,
+				D4FA3F76281E4939000246D8 /* ContactInfo.swift in Sources */,
 				5A15DDFB276FA1C800CF7AA4 /* ImageViewer.swift in Sources */,
 				5ABF08D027D9CEF60016CC6F /* APIClient.swift in Sources */,
 				789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */,

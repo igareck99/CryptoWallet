@@ -1,28 +1,41 @@
 import Contacts
-import ContactsUI
+import UIKit
 
-// MARK: - ContactInfo
-
-struct ContactInfo: Identifiable {
-
-    // MARK: - Internal Properties
-
-    let id = UUID().uuidString
-    let firstName: String
-    let lastName: String
-    let phoneNumber: String
-    var imageData: Data?
-}
-
-// MARK: - ContactsStore
+typealias ContactRequestResult = Result<[ContactInfo], ContactsManager.RequestError>
+typealias ContactsRequestCompletion = (ContactRequestResult) -> Void
 
 protocol ContactsStore {
-    func fetch(completionHandler: @escaping GenericBlock<([ContactInfo], Error?)>)
+
+	func reuqestContactsAccessState() -> ContactsManager.AccessState
+
+	func requestContactsAccess(completion: @escaping (Bool) -> Void)
+
+	func fetchContacts(completion: @escaping ContactsRequestCompletion)
+
+	func fetch(completion: @escaping GenericBlock<([ContactInfo], Error?)>)
+
+	func createContact(
+		selectedImage: UIImage?,
+		nameSurnameText: String,
+		numberText: String
+	)
 }
 
 // MARK: - ContactsManager
 
-final class ContactsManager: ContactsStore {
+final class ContactsManager {
+
+	enum AccessState {
+		case allowed
+		case denied
+		case notDetermined
+		case restricted
+		case unknown
+	}
+
+	enum RequestError: Error {
+		case requestFailed
+	}
 
     // MARK: - Private Properties
 
@@ -33,45 +46,6 @@ final class ContactsManager: ContactsStore {
         CNContactPhoneNumbersKey,
         CNContactImageDataKey
     ] as [CNKeyDescriptor]
-
-    // MARK: - Internal Methods
-
-    func fetch(completionHandler: @escaping GenericBlock<([ContactInfo], Error?)>) {
-        checkAuthorization { isAuthorized in
-            guard isAuthorized else {
-                completionHandler(([], nil))
-                return
-            }
-
-            do {
-                let contacts = try self.fetchContacts()
-                completionHandler((contacts, nil))
-            } catch {
-                completionHandler(([], error))
-            }
-        }
-    }
-
-    func createContact(selectedImage: UIImage?,
-                       nameSurnameText: String,
-                       numberText: String) {
-        let contact = CNMutableContact()
-        if selectedImage != nil {
-            contact.imageData = selectedImage?.jpegData(compressionQuality: 1.0)
-        }
-        contact.givenName = nameSurnameText
-        contact.phoneNumbers = [CNLabeledValue(
-            label: CNLabelPhoneNumberiPhone,
-            value: CNPhoneNumber(stringValue: numberText))]
-        let store = CNContactStore()
-        let saveRequest = CNSaveRequest()
-        saveRequest.add(contact, toContainerWithIdentifier: nil)
-        do {
-            try store.execute(saveRequest)
-        } catch {
-            return
-        }
-    }
 
     // MARK: - Private Methods
 
@@ -98,13 +72,87 @@ final class ContactsManager: ContactsStore {
                     lastName: info.familyName,
                     phoneNumber: info.phoneNumbers.first?.value.stringValue ?? ""
                 )
-                if info.imageData != nil, let imageData = info.imageData {
+                if let imageData = info.imageData {
                     contact.imageData = imageData
                 }
                 contacts.append(contact)
             }
         }
-
         return contacts
     }
+}
+
+// MARK: - ContactsStore
+
+extension ContactsManager: ContactsStore {
+
+	func fetchContacts(completion: @escaping ContactsRequestCompletion) {
+		var contacts: [ContactInfo] = []
+		let request = CNContactFetchRequest(keysToFetch: keysToFetch)
+		do {
+			try contactStore.enumerateContacts(with: request) { info, _ in
+				var contact = ContactInfo(
+					firstName: info.givenName,
+					lastName: info.familyName,
+					phoneNumber: info.phoneNumbers.first?.value.stringValue ?? ""
+				)
+				if info.imageData != nil, let imageData = info.imageData {
+					contact.imageData = imageData
+				}
+				contacts.append(contact)
+			}
+		} catch {
+			completion(.failure(.requestFailed))
+		}
+		completion(.success(contacts))
+	}
+
+
+    func fetch(completion: @escaping GenericBlock<([ContactInfo], Error?)>) {
+        checkAuthorization { [weak self] isAuthorized in
+            guard isAuthorized, let contacts = try? self?.fetchContacts()
+			else {
+				completion(([], nil))
+                return
+            }
+
+			completion((contacts, nil))
+        }
+    }
+
+	func createContact(
+		selectedImage: UIImage?,
+		nameSurnameText: String,
+		numberText: String
+	) {
+		let contact = CNMutableContact()
+		if selectedImage != nil {
+			contact.imageData = selectedImage?.jpegData(compressionQuality: 1.0)
+		}
+		contact.givenName = nameSurnameText
+		contact.phoneNumbers = [CNLabeledValue(
+			label: CNLabelPhoneNumberiPhone,
+			value: CNPhoneNumber(stringValue: numberText))]
+		let store = CNContactStore()
+		let saveRequest = CNSaveRequest()
+		saveRequest.add(contact, toContainerWithIdentifier: nil)
+		try? store.execute(saveRequest)
+	}
+
+	func reuqestContactsAccessState() -> AccessState {
+		let contactsAuthStatus: CNAuthorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
+		let accessStatuses: [CNAuthorizationStatus: AccessState] = [
+			.authorized: .allowed,
+			.notDetermined: .notDetermined,
+			.denied: .denied,
+			.restricted: .restricted
+		]
+		return  accessStatuses[contactsAuthStatus] ?? .unknown
+	}
+
+	func requestContactsAccess(completion: @escaping (Bool) -> Void) {
+		contactStore.requestAccess(for: .contacts) { isAccessGranted, _ in
+			completion(isAccessGranted)
+		}
+	}
 }
