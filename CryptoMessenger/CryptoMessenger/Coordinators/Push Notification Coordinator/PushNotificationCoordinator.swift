@@ -10,20 +10,20 @@ final class PushNotificationCoordinator: NSObject {
 	let navigationController: UINavigationController
 	private let userInfo: [AnyHashable: Any]
 	private let parser: PushNotificationsParsable
-	private let matrixService: MatrixStoreProtocol
+	private let matrixUseCase: MatrixUseCaseProtocol
 	private let getChatRoomSceneDelegate: () -> ChatRoomSceneDelegate?
 	private weak var delegate: PushNotificationCoordinatorDelegate?
 
 	init(
 		userInfo: [AnyHashable: Any],
-		matrixService: MatrixStoreProtocol,
+		matrixUseCase: MatrixUseCaseProtocol,
 		getChatRoomSceneDelegate: @escaping () -> ChatRoomSceneDelegate?,
 		parser: PushNotificationsParsable,
 		navigationController: UINavigationController,
 		delegate: PushNotificationCoordinatorDelegate?
 	) {
 		self.userInfo = userInfo
-		self.matrixService = matrixService
+		self.matrixUseCase = matrixUseCase
 		self.getChatRoomSceneDelegate = getChatRoomSceneDelegate
 		self.parser = parser
 		self.navigationController = navigationController
@@ -38,7 +38,7 @@ extension PushNotificationCoordinator: Coordinator {
 	func start() {
 		if let chatRoomDelegate = getChatRoomSceneDelegate(),
 		   let matrixEvent = parser.parseMatrixEvent(userInfo: userInfo),
-		   let auraRoom = matrixService.rooms.first(where: { $0.room.roomId == matrixEvent.roomId }) {
+		   let auraRoom = matrixUseCase.rooms.first(where: { $0.room.roomId == matrixEvent.roomId }) {
 			let rootView = ChatRoomConfigurator.configuredView(room: auraRoom, delegate: chatRoomDelegate)
 			let viewController = BaseHostingController(rootView: rootView)
 			viewController.hidesBottomBarWhenPushed = true

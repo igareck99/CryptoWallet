@@ -10,10 +10,10 @@ enum PushNotificationCoordinatorAssembly {
 	) -> Coordinator {
 		let userInfo = notificationResponse.notification.request.content.userInfo
 		let parser: PushNotificationsParsable = PushNotificationsParser()
-		let matrixService = MatrixStore.shared
+		let matrixUseCase = MatrixUseCase.shared
 		let pushCoordinator = PushNotificationCoordinator(
 			userInfo: userInfo,
-			matrixService: matrixService,
+			matrixUseCase: matrixUseCase,
 			getChatRoomSceneDelegate: getChatRoomSceneDelegate,
 			parser: parser,
 			navigationController: navigationController,

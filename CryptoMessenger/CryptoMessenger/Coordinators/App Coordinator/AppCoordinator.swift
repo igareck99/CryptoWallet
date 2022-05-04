@@ -14,22 +14,19 @@ final class AppCoordinator {
 	private let dependenciesService: DependenciesServiceProtocol
 	private let firebaseService: FirebaseServiceProtocol
 	private let keychainService: KeychainServiceProtocol
-	private let matrixStore: MatrixStoreProtocol
 
     init(
 		dependenciesService: DependenciesServiceProtocol,
 		firebaseService: FirebaseServiceProtocol,
 		keychainService: KeychainServiceProtocol,
 		userFlows: UserFlowsStorage,
-		navigationController: UINavigationController,
-		matrixStore: MatrixStoreProtocol
+		navigationController: UINavigationController
 	) {
 		self.dependenciesService = dependenciesService
 		self.firebaseService = firebaseService
 		self.keychainService = keychainService
 		self.userFlows = userFlows
         self.navigationController = navigationController
-		self.matrixStore = matrixStore
     }
 
     // MARK: - Private Methods

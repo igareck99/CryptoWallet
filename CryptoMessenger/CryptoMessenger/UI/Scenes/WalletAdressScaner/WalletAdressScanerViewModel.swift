@@ -16,8 +16,6 @@ final class WalletAddressScanerViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<WalletAddressScanerFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<WalletAddressScanerFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-
-    @Injectable private(set) var mxStore: MatrixStore
     private var userSettings: UserFlowsStorage & UserCredentialsStorage
 
     // MARK: - Lifecycle
@@ -51,12 +49,6 @@ final class WalletAddressScanerViewModel: ObservableObject {
                     self?.updateData()
                     self?.objectWillChange.send()
                 }
-            }
-            .store(in: &subscriptions)
-
-        mxStore.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { _ in
             }
             .store(in: &subscriptions)
     }

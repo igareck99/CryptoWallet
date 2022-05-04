@@ -20,7 +20,7 @@ final class SessionViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private var apiClient: APIClientManager
-    @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
 
     // MARK: - Lifecycle
@@ -60,7 +60,7 @@ final class SessionViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
-        mxStore.$loginState.sink { [weak self] status in
+		matrixUseCase.loginStatePublisher.sink { [weak self] status in
             switch status {
             case .loggedOut:
                 self?.userSettings.isAuthFlowFinished = false
@@ -82,7 +82,7 @@ final class SessionViewModel: ObservableObject {
     }
 
     private func getSessions() {
-        self.mxStore.getActiveSessions { result in
+		matrixUseCase.getDevicesWithActiveSessions { result in
             switch result {
             case let .success(devices):
                 guard !devices.isEmpty else { return }

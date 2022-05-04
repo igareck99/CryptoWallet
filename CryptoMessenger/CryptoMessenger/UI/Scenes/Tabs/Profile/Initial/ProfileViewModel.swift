@@ -70,7 +70,7 @@ final class ProfileViewModel: ObservableObject {
     @Published var profile = ProfileItem()
     @Published var existringUrls: [String] = []
     @Published private(set) var state: ProfileFlow.ViewState = .idle
-    @Published private(set) var socialList = SocialListViewModel()
+	@Published private(set) var socialList = SocialListViewModel()
     @Published private(set) var socialListEmpty = true
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
@@ -78,7 +78,7 @@ final class ProfileViewModel: ObservableObject {
     @State private var showImageEdtior = false
 
     @Injectable private var apiClient: APIClientManager
-    @Injectable private var mxStore: MatrixStore
+    @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
 
     // MARK: - Lifecycle
@@ -122,12 +122,14 @@ final class ProfileViewModel: ObservableObject {
             mimeType: "image/png",
             fileData: data
         )
-        apiClient.publisher(Endpoints.Media.upload(multipartData, name: mxStore.getUserId()))
+        apiClient.publisher(Endpoints.Media.upload(multipartData, name: matrixUseCase.getUserId()))
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
                     if let err = error as? APIError, err == .invalidToken {
-                        self?.mxStore.logout()
+						self?.matrixUseCase.logoutDevices { _ in
+							// TODO: Обработать результат
+						}
                     }
                 default:
                     break
@@ -194,7 +196,7 @@ final class ProfileViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
-        mxStore.$loginState.sink { [weak self] status in
+		matrixUseCase.loginStatePublisher.sink { [weak self] status in
             switch status {
             case .loggedOut:
                 self?.userSettings.isAuthFlowFinished = false
@@ -208,7 +210,7 @@ final class ProfileViewModel: ObservableObject {
         }
         .store(in: &subscriptions)
 
-        mxStore.objectWillChange
+		matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.main)
             .sink { _ in }
@@ -222,18 +224,20 @@ final class ProfileViewModel: ObservableObject {
     }
 
     private func getPhotos() {
-        apiClient.publisher(Endpoints.Media.getPhotos(mxStore.getUserId()))
+        apiClient.publisher(Endpoints.Media.getPhotos(matrixUseCase.getUserId()))
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
                     if let err = error as? APIError, err == .invalidToken {
-                        self?.mxStore.logout()
+						self?.matrixUseCase.logoutDevices { _ in
+							// TODO: Обработать результат
+						}
                     }
                 default:
                     break
                 }
             } receiveValue: { [weak self] response in
-                let link = self?.mxStore.getAvatarUrl() ?? ""
+                let link = self?.matrixUseCase.getAvatarUrl() ?? ""
                 let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                 self?.profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
                 self?.profile.photosUrls = response.compactMap { $0.original }
@@ -242,12 +246,14 @@ final class ProfileViewModel: ObservableObject {
     }
 
     private func getSocialList() {
-        apiClient.publisher(Endpoints.Social.getSocial(mxStore.getUserId()))
+        apiClient.publisher(Endpoints.Social.getSocial(matrixUseCase.getUserId()))
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
                     if let err = error as? APIError, err == .invalidToken {
-                        self?.mxStore.logout()
+						self?.matrixUseCase.logoutDevices { _ in
+							// TODO: Обработать результат
+						}
                     }
                 default:
                     break
@@ -286,15 +292,15 @@ final class ProfileViewModel: ObservableObject {
     }
 
     private func fetchData() {
-        let link = mxStore.getAvatarUrl()
+        let link = matrixUseCase.getAvatarUrl()
         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
         profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
-        profile.nickname = mxStore.getUserId()
-        if !mxStore.getDisplayName().isEmpty {
-            profile.name = mxStore.getDisplayName()
+        profile.nickname = matrixUseCase.getUserId()
+        if !matrixUseCase.getDisplayName().isEmpty {
+            profile.name = matrixUseCase.getDisplayName()
         }
-        if !mxStore.getStatus().isEmpty {
-            profile.status = mxStore.getStatus()
+        if !matrixUseCase.getStatus().isEmpty {
+            profile.status = matrixUseCase.getStatus()
         }
         getSocialList()
 		if let phoneNumber = userSettings.userPhoneNumber {

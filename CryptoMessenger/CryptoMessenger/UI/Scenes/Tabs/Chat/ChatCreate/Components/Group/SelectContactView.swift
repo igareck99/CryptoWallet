@@ -191,7 +191,7 @@ final class SelectContactViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<SelectContactFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<SelectContactFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-    @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var contactsStore: ContactsManager
     @Injectable private var apiClient: APIClientManager
 
@@ -200,7 +200,7 @@ final class SelectContactViewModel: ObservableObject {
     init() {
         bindInput()
         bindOutput()
-        getContacts(mxStore.allUsers())
+        getContacts(matrixUseCase.allUsers())
     }
 
     deinit {
@@ -267,9 +267,9 @@ final class SelectContactViewModel: ObservableObject {
             .sink { [weak self] response in
                 let sorted = contacts.sorted(by: { $0.firstName < $1.firstName })
 
-                let mxUsers: [MXUser] = self?.mxStore.allUsers() ?? []
+                let mxUsers: [MXUser] = self?.matrixUseCase.allUsers() ?? []
                 let lastUsers: [Contact] = mxUsers
-                    .filter { $0.userId != self?.mxStore.getUserId() }
+                    .filter { $0.userId != self?.matrixUseCase.getUserId() }
                     .map {
                         var contact = Contact(
                             mxId: $0.userId ?? "",

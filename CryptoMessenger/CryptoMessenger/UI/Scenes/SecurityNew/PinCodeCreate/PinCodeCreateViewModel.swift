@@ -23,8 +23,6 @@ final class PinCodeCreateViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<PinCodeCreateFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<PinCodeCreateFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-
-    @Injectable private(set) var mxStore: MatrixStore
 	private let userSettings: UserFlowsStorage & UserCredentialsStorage
 
     // MARK: - Lifecycle
@@ -172,12 +170,6 @@ final class PinCodeCreateViewModel: ObservableObject {
                     self?.updateData()
                     self?.objectWillChange.send()
                 }
-            }
-            .store(in: &subscriptions)
-
-        mxStore.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { _ in
             }
             .store(in: &subscriptions)
     }

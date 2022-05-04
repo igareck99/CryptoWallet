@@ -14,7 +14,7 @@ extension DependenciesService: DependenciesServiceProtocol {
 		DependencyContainer {
 			Dependency { APIClient() }
 			Dependency { Configuration() }
-			Dependency { MatrixStore.shared }
+			Dependency { MatrixUseCase.shared }
 			Dependency { CountdownTimer(seconds: PhoneHelper.verificationResendTime) }
 			Dependency { ContactsManager() }
 		}.build()

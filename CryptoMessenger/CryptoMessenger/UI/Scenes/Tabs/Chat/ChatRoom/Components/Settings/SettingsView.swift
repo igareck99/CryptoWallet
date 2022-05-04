@@ -125,7 +125,6 @@ struct SettingsView: View {
     @State private var topActions: [SettingsAction] = [.media, .notifications, .admins]
     @State private var bottomActions: [SettingsAction] = [.share, .exit, .complain]
     @State private var alertItem: AlertItem?
-    @Injectable private var mxStore: MatrixStore
 
     // MARK: - Life Cycle
 

@@ -9,7 +9,7 @@
 	<key>API stand</key>
 	<string>dev</string>
 	<key>AppGroup</key>
-	<string>ms.aura.app-ios</string>
+	<string>ru.aura.app.test</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

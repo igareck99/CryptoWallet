@@ -21,7 +21,7 @@ final class ProfileDetailViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<ProfileDetailFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
 
-    @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var apiClient: APIClientManager
     private let userSettings: UserFlowsStorage & UserCredentialsStorage
 
@@ -59,29 +59,31 @@ final class ProfileDetailViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.socialList)
                 case .onDone:
                     if let image = self?.selectedImage?.fixOrientation(), let data = image.jpeg(.medium) {
-                        self?.mxStore.setUserAvatarUrl(data) { url in
+                        self?.matrixUseCase.setUserAvatarUrl(data) { url in
                             self?.profile.avatar = url
                         }
                     }
 
                     if let name = self?.profile.name {
-                        self?.mxStore.setDisplayName(name) {}
+                        self?.matrixUseCase.setDisplayName(name) {}
                     }
 
                     if let status = self?.profile.status {
-                        self?.mxStore.setStatus(status) {}
+                        self?.matrixUseCase.setStatus(status) {}
                     }
 
                     delay(0.5) {
                         self?.closeScreen.toggle()
                     }
                 case .onLogout:
-                    self?.mxStore.logout()
+					self?.matrixUseCase.logoutDevices { _ in
+						// TODO: Обработать результат
+					}
                 }
             }
             .store(in: &subscriptions)
 
-        mxStore.$loginState.sink { [weak self] status in
+		matrixUseCase.loginStatePublisher.sink { [weak self] status in
             switch status {
             case .loggedOut:
                 self?.userSettings.isAuthFlowFinished = false
@@ -103,9 +105,9 @@ final class ProfileDetailViewModel: ObservableObject {
     }
 
     private func fetchData() {
-        profile.name = mxStore.getDisplayName()
-        profile.status = mxStore.getStatus()
-        let link = mxStore.getAvatarUrl()
+        profile.name = matrixUseCase.getDisplayName()
+        profile.status = matrixUseCase.getStatus()
+        let link = matrixUseCase.getAvatarUrl()
         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
         profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
 		if let str = userSettings.userPhoneNumber {

@@ -36,12 +36,12 @@ final class SocialListViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<SocialListFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
 
-    @Injectable private(set) var mxStore: MatrixStore
+	@Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var apiClient: APIClientManager
 
     // MARK: - Lifecycle
 
-    init() {
+	init() {
         bindInput()
         bindOutput()
     }
@@ -85,12 +85,6 @@ final class SocialListViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
-
-        mxStore.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { _ in
-            }
-            .store(in: &subscriptions)
     }
 
     private func bindOutput() {
@@ -100,7 +94,7 @@ final class SocialListViewModel: ObservableObject {
     }
 
     private func getSocialList() {
-        apiClient.publisher(Endpoints.Social.getSocial(mxStore.getUserId()))
+        apiClient.publisher(Endpoints.Social.getSocial(matrixUseCase.getUserId()))
             .replaceError(with: [])
             .sink { [weak self] response in
                 for x in response {
@@ -155,7 +149,7 @@ final class SocialListViewModel: ObservableObject {
                                            url: updatedUrl))
         }
         apiClient.publisher(Endpoints.Social.setSocialNew(testList,
-                                                          user: mxStore.getUserId()))
+                                                          user: matrixUseCase.getUserId()))
             .sink(receiveCompletion: { completion in
                 switch completion {
                 default:

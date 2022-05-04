@@ -36,6 +36,7 @@ final class UserDefaultsService {
 		case pushKey
 		case isAppNotFirstStart
 		case isPushNotificationsEnabled
+		case roomList
 
 		// UserFlowsStorage
 		case isAuthFlowFinished
