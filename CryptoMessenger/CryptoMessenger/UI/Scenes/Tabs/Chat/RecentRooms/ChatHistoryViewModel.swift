@@ -11,6 +11,7 @@ final class ChatHistoryViewModel: ObservableObject {
 
     @Published private(set) var rooms: [AuraRoom] = []
     @Published private(set) var state: ChatHistoryFlow.ViewState = .idle
+    @Published var groupAction: GroupAction?
 
     // MARK: - Private Properties
 

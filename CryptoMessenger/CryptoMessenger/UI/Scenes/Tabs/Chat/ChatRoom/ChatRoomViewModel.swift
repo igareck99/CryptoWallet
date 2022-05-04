@@ -137,6 +137,7 @@ final class ChatRoomViewModel: ObservableObject {
                 case .onDeleteReaction(let messageId, let reactionId):
                     guard let index = self?.messages.firstIndex(where: { $0.id == messageId }) else { return }
                     self?.messages[index].reactions.removeAll(where: { $0.id == reactionId })
+                    debugPrint(messageId)
                 }
             }
             .store(in: &subscriptions)
