@@ -37,7 +37,8 @@ struct ChatRoomView: View {
     @State private var showSettings = false
     @State private var showQuickMenu = false
     @State private var activeSheet: ActiveSheet?
-    @State private var replyMessage: RoomMessage?
+    @State private var activeEditMessage: RoomMessage?
+    @State private var deleteMessage: RoomMessage?
     @State private var quickAction: QuickAction?
 
     @FocusState private var inputViewIsFocused: Bool
@@ -228,7 +229,7 @@ struct ChatRoomView: View {
                                     .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
                                         vibrate(.medium)
                                         messageId = message.id
-                                        replyMessage = message
+                                        activeEditMessage = message
                                         cardPosition = .custom(UIScreen.main.bounds.height - 580)
                                         hideKeyboard()
                                     }
@@ -420,10 +421,13 @@ struct ChatRoomView: View {
                     QuickMenuView(cardPosition: $cardPosition, onAction: {
                         switch $0 {
                         case .copy:
-                            UIPasteboard.general.string = replyMessage?.description
+                            UIPasteboard.general.string = activeEditMessage?.description
                         case .delete:
-                            viewModel.send(.onDelete(replyMessage?.eventId ?? ""))
+                            debugPrint("delete action", messageId)
+                            viewModel.send(.onDelete(messageId))
                         case .reply:
+                            inputViewIsFocused = true
+                        case .edit:
                             inputViewIsFocused = true
                         default:
                             ()
@@ -459,8 +463,14 @@ struct ChatRoomView: View {
             VStack(spacing: 0) {
                 if quickAction == .reply {
                     ReplyView(
-                        text: replyMessage?.description ?? "",
-                        onReset: { replyMessage = nil; quickAction = nil }
+                        text: activeEditMessage?.description ?? "",
+                        onReset: { activeEditMessage = nil; quickAction = nil }
+                    ).transition(.opacity)
+                }
+                if quickAction == .edit {
+                    EditView(
+                        text: activeEditMessage?.description ?? "",
+                        onReset: { activeEditMessage = nil; quickAction = nil }
                     ).transition(.opacity)
                 }
 
@@ -497,11 +507,15 @@ struct ChatRoomView: View {
                         Button(action: {
                             withAnimation {
                                 if quickAction == .reply {
-                                    viewModel.send(.onReply(viewModel.inputText, replyMessage?.eventId ?? ""))
+                                    viewModel.send(.onReply(viewModel.inputText, activeEditMessage?.eventId ?? ""))
                                     viewModel.inputText = ""
-                                    replyMessage = nil
+                                    activeEditMessage = nil
                                     quickAction = nil
-                                } else {
+                                } else if quickAction == .edit {
+                                    viewModel.send(.onEdit(viewModel.inputText, activeEditMessage?.eventId ?? ""))
+                                    viewModel.inputText = ""
+                                    activeEditMessage = nil
+                                    quickAction = nil
                                     viewModel.send(.onSendText(viewModel.inputText))
                                 }
                             }
@@ -518,7 +532,7 @@ struct ChatRoomView: View {
 
                 Spacer()
             }
-            .frame(height: quickAction == .reply ? 104 : 52)
+            .frame(height: quickAction == .edit ? 104 : (quickAction == .reply ? 104 : 52))
             .background(.white())
             .ignoresSafeArea()
 
