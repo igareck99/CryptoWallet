@@ -227,22 +227,22 @@ final class KeychainWrapper {
     
     @discardableResult
 	func set(_ value: Int, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
-        return set(NSNumber(value: value), forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
+        set(NSNumber(value: value), forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
     }
     
     @discardableResult
 	func set(_ value: Float, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
-        return set(NSNumber(value: value), forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
+        set(NSNumber(value: value), forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
     }
     
     @discardableResult
 	func set(_ value: Double, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
-        return set(NSNumber(value: value), forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
+        set(NSNumber(value: value), forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
     }
     
     @discardableResult
 	func set(_ value: Bool, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
-        return set(NSNumber(value: value), forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
+        set(NSNumber(value: value), forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
     }
 
     /// Save a String value to the keychain associated with a specified key. If a String value already exists for the given key, the string will be overwritten with the new value.
@@ -296,13 +296,11 @@ final class KeychainWrapper {
         
         let status: OSStatus = SecItemAdd(keychainQueryDictionary as CFDictionary, nil)
         
-        if status == errSecSuccess {
-            return true
-        } else if status == errSecDuplicateItem {
+        if status == errSecDuplicateItem {
             return update(value, forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
-        } else {
-            return false
         }
+
+		return status == errSecSuccess
     }
     
     /// Remove an object associated with a specified key. If re-using a key but with a different accessibility, first remove the previous key value using removeObjectForKey(:withAccessibility) using the same accessibilty it was saved with.
@@ -317,12 +315,7 @@ final class KeychainWrapper {
 
         // Delete
         let status: OSStatus = SecItemDelete(keychainQueryDictionary as CFDictionary)
-
-        if status == errSecSuccess {
-            return true
-        } else {
-            return false
-        }
+		return status == errSecSuccess
     }
 
     /// Remove all keychain data added through KeychainWrapper. This will only delete items matching the currnt ServiceName and AccessGroup if one is set.
@@ -340,12 +333,7 @@ final class KeychainWrapper {
         }
         
         let status: OSStatus = SecItemDelete(keychainQueryDictionary as CFDictionary)
-        
-        if status == errSecSuccess {
-            return true
-        } else {
-            return false
-        }
+		return status == errSecSuccess
     }
     
     /// Remove all keychain data, including data not added through keychain wrapper.
@@ -369,12 +357,7 @@ final class KeychainWrapper {
 	private class func deleteKeychainSecClass(_ secClass: AnyObject) -> Bool {
         let query = [SecClass: secClass]
         let status: OSStatus = SecItemDelete(query as CFDictionary)
-        
-        if status == errSecSuccess {
-            return true
-        } else {
-            return false
-        }
+		return status == errSecSuccess
     }
     
     /// Update existing data associated with a specified key name. The existing data will be overwritten by the new data.
@@ -389,12 +372,7 @@ final class KeychainWrapper {
         
         // Update
         let status: OSStatus = SecItemUpdate(keychainQueryDictionary as CFDictionary, updateDictionary as CFDictionary)
-
-        if status == errSecSuccess {
-            return true
-        } else {
-            return false
-        }
+		return status == errSecSuccess
     }
 
     /// Setup the keychain query dictionary used to access the keychain on iOS for a specified key name. Takes into account the Service Name and Access Group if one is set.

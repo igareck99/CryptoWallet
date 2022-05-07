@@ -6,28 +6,52 @@ import Contacts
 struct CreateContactView: View {
 
     // MARK: - Internal Properties
-    
+
     @StateObject var viewModel: CreateContactViewModel
     @Binding var showContactCreate: Bool
     @State var nameSurnameText = ""
     @State var numberText = ""
     @State var selectedImage: UIImage?
+    @State private var showActionImageAlert = false
+    @State private var showImagePicker = false
+    @State private var showCameraPicker = false
 
     // MARK: - Private Properties
 
-    @State var showImagePicker = false
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
 
     var body: some View {
         content
-            .sheet(isPresented: $showImagePicker) {
-                ImagePickerView(selectedImage: $selectedImage)
+            .actionSheet(isPresented: $showActionImageAlert) {
+                ActionSheet(title: Text(""),
+                            message: nil,
+                            buttons: [
+                                .cancel(),
+                                .default(
+                                    Text(R.string.localizable.profileFromGallery()),
+                                    action: switchImagePicker
+                                ),
+                                .default(
+                                    Text(R.string.localizable.profileFromCamera()),
+                                    action: switchCameraPicker
+                                )
+                            ]
+                )
+            }
+            .fullScreenCover(isPresented: $showCameraPicker,
+                             content: {
+                ImagePickerView(selectedImage: $selectedImage,
+                                sourceType: .camera)
                     .ignoresSafeArea()
+            })
+            .fullScreenCover(isPresented: $showImagePicker,
+                             content: {
+                ImagePickerView(selectedImage: $selectedImage)
                     .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                     .navigationBarTitleDisplayMode(.inline)
-            }
+            })
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(.stack)
@@ -84,7 +108,7 @@ struct CreateContactView: View {
                                    height: 21)
                     }
                     .onTapGesture {
-                        showImagePicker = true
+                        showActionImageAlert = true
                     }
                 } else {
                     ZStack {
@@ -96,7 +120,7 @@ struct CreateContactView: View {
                                    height: 21)
                     }
                     .onTapGesture {
-                        showImagePicker = true
+                        showActionImageAlert = true
                     }
                 }
                 ZStack(alignment: .topLeading) {
@@ -139,5 +163,15 @@ struct CreateContactView: View {
             .padding(.top, 8)
             Spacer()
         }
+    }
+
+    // MARK: - Private Methods
+
+    private func switchImagePicker() {
+        showImagePicker = true
+    }
+
+    private func switchCameraPicker() {
+        showCameraPicker = true
     }
 }

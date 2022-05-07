@@ -4,6 +4,11 @@ import KeychainAccess
 import MatrixSDK
 import UIKit
 
+protocol MatrixStoreProtocol {
+	var rooms: [AuraRoom] { get }
+	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void)
+	func deletePusher(with pushToken: Data, completion: @escaping (Bool) -> Void)
+}
 
 // MARK: - MatrixState
 
@@ -55,7 +60,7 @@ final class MatrixStore: ObservableObject {
 
     private init() {
         if CommandLine.arguments.contains("-clear-stored-credentials") {
-            print("🗑 cleared stored credentials from keychain")
+            debugPrint("🗑 cleared stored credentials from keychain")
             MXCredentials
                 .from(keychain)?
                 .clear(from: keychain)
@@ -69,7 +74,7 @@ final class MatrixStore: ObservableObject {
             self.sync { result in
                 switch result {
                 case .failure(let error):
-                    print("Error on starting session with saved credentials: \(error)")
+                    debugPrint("Error on starting session with saved credentials: \(error)")
                     self.loginState = .failure(error)
                 case let .success(state):
                     self.loginState = state
@@ -92,12 +97,12 @@ final class MatrixStore: ObservableObject {
         client?.login(username: username, password: password) { response in
             switch response {
             case .failure(let error):
-                print("Error on starting session with new credentials: \(error)")
+                debugPrint("Error on starting session with new credentials: \(error)")
                 self.loginState = .failure(error)
             case let .success(credentials):
                 self.credentials = credentials
                 credentials.save(to: self.keychain)
-                print("Error on starting session with new credentials:")
+                debugPrint("Error on starting session with new credentials:")
                 self.sync { result in
                     switch result {
                     case .failure(let error):
@@ -160,7 +165,7 @@ final class MatrixStore: ObservableObject {
                 self.client?.deleteDevice(deviceId, authParameters: [:]) { response in
                     switch response {
                     case .success:
-                        print("Delete device with ID: " + deviceId)
+                        debugPrint("Delete device with ID: " + deviceId)
                     default:
                         break
                     }
@@ -241,7 +246,7 @@ final class MatrixStore: ObservableObject {
             completion(url)
         }, failure: { error in
             if let error = error {
-                print(error)
+                debugPrint(error)
             }
             completion(nil)
         })
@@ -256,7 +261,7 @@ final class MatrixStore: ObservableObject {
             }
         }, failure: { error in
             if let error = error {
-                print(error)
+                debugPrint(error)
             }
             completion()
         })
@@ -310,7 +315,7 @@ final class MatrixStore: ObservableObject {
     func setDisplayName(_ displayName: String, completion: @escaping VoidBlock) {
         session?.myUser.setDisplayName(displayName, success: completion) { error in
             if let error = error {
-                print(error)
+                debugPrint(error)
             }
             self.objectWillChange.send()
         }
@@ -319,7 +324,7 @@ final class MatrixStore: ObservableObject {
     func setStatus(_ status: String, completion: @escaping VoidBlock) {
         session?.myUser.setPresence(.init(rawValue: 2), andStatusMessage: status, success: completion) { error in
             if let error = error {
-                print(error)
+                debugPrint(error)
             }
             self.objectWillChange.send()
         }
@@ -338,7 +343,7 @@ final class MatrixStore: ObservableObject {
                 completion(url)
             }, failure: { error in
                 if let error = error {
-                    print(error)
+                    debugPrint(error)
                 }
                 self?.objectWillChange.send()
                 completion(nil)
@@ -373,7 +378,7 @@ final class MatrixStore: ObservableObject {
             let data = try JSONEncoder().encode(roomItems)
             UserDefaults.group.set(data, forKey: "roomList")
         } catch {
-            print("An error occurred: \(error)")
+            debugPrint("An error occurred: \(error)")
         }
     }
 
@@ -393,3 +398,53 @@ final class MatrixStore: ObservableObject {
     }
 }
 
+// MARK: - MatrixStoreProtocol
+
+extension MatrixStore: MatrixStoreProtocol {
+
+	func deletePusher(with pushToken: Data, completion: @escaping (Bool) -> Void) {
+		updatePusher(pushToken: pushToken, kind: .none, completion: completion)
+	}
+
+	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void) {
+		updatePusher(pushToken: pushToken, kind: .http, completion: completion)
+	}
+
+	private func updatePusher(pushToken: Data, kind: MXPusherKind, completion: @escaping (Bool) -> Void) {
+
+		guard !AppConstants.bundleId.aboutApp.isEmpty,
+			  let userId = session?.myUser.userId else { return }
+
+#if DEBUG
+		let pushKeyRelease = pushToken.base64EncodedString()
+		let pushKeyDebug = pushToken.map { String(format: "%02x", $0) }.joined()
+		debugPrint("pushKeyRelease: \(pushKeyRelease.debugDescription)")
+		debugPrint("pushKeyDebug: \(pushKeyDebug.debugDescription)")
+
+		let pushKey = pushToken.map { String(format: "%02x", $0) }.joined()
+#else
+		let pushKey = pushToken.base64EncodedString()
+#endif
+
+		let pushData: [String: Any] = ["url": AppConstants.pusherUrl.aboutApp]
+		let appId = AppConstants.bundleId.aboutApp
+		let appDisplayName = AppConstants.appName.aboutApp
+		let deviceDisplayName = UIDevice.current.name
+		let lang = NSLocale.preferredLanguages.first ?? "en_US"
+		let profileTag = "mobile_ios_\(userId)"
+
+		client?.setPusher(
+			pushKey: pushKey,
+			kind: kind,
+			appId: appId,
+			appDisplayName: appDisplayName,
+			deviceDisplayName: deviceDisplayName,
+			profileTag: profileTag,
+			lang: lang,
+			data: pushData,
+			append: false
+		) { result in
+			completion(result.isSuccess)
+		}
+	}
+}

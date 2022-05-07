@@ -13,7 +13,7 @@ extension URL {
                 return "\(size.doubleValue / 1000000.0) MB"
             }
         } catch {
-            print("Error: \(error)")
+            debugPrint("Error: \(error)")
         }
         return "0.0 MB"
     }

@@ -129,7 +129,7 @@ extension CodeScannerView {
 
         override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             guard let simulatedData = delegate?.parent.simulatedData else {
-                print("Simulated Data Not Provided!")
+                debugPrint("Simulated Data Not Provided!")
                 return
             }
 

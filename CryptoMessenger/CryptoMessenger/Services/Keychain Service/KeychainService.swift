@@ -8,6 +8,7 @@ final class KeychainService {
 		case accessToken
 		case deviceId
 		case pushToken
+		case gmtZeroTimeInterval
 	}
 
 	private enum Constants {
@@ -15,16 +16,18 @@ final class KeychainService {
 		static let serviceName = "ru.aura.app.keychain.service"
 	}
 
-	private let accessGroup: String
+	private let accessGroup: String?
 	private let serviceName: String
-	private lazy var keychainWrapper = KeychainWrapper(serviceName: serviceName, accessGroup: accessGroup)
+	private var keychainWrapper: KeychainWrapper
+	static let shared = KeychainService(accessGroup: nil, serviceName: Constants.serviceName)
 
 	init(
-		accessGroup: String = Constants.accessGroup,
+		accessGroup: String? = Constants.accessGroup,
 		serviceName: String = Constants.serviceName
 	) {
 		self.accessGroup = accessGroup
 		self.serviceName = serviceName
+		self.keychainWrapper = KeychainWrapper(serviceName: serviceName, accessGroup: accessGroup)
 
 	}
 }
@@ -304,10 +307,12 @@ extension KeychainService: KeychainServiceProtocol {
 	}
 }
 
+// MARK: - Subscripts
+
 extension KeychainService {
 
 	subscript(key: KeychainService.Keys) -> String? {
-		get { return string(forKey: key) }
+		get { string(forKey: key) }
 		set {
 			guard let value = newValue else { return }
 			set(value, forKey: key)
@@ -315,7 +320,7 @@ extension KeychainService {
 	}
 
 	subscript(key: KeychainService.Keys) -> Bool? {
-		get { return bool(forKey: key) }
+		get { bool(forKey: key) }
 		set {
 			guard let value = newValue else { return }
 			set(value, forKey: key)
@@ -323,7 +328,7 @@ extension KeychainService {
 	}
 
 	subscript(key: KeychainService.Keys) -> Int? {
-		get { return integer(forKey: key) }
+		get { integer(forKey: key) }
 		set {
 			guard let value = newValue else { return }
 			set(value, forKey: key)
@@ -331,7 +336,7 @@ extension KeychainService {
 	}
 
 	subscript(key: KeychainService.Keys) -> Double? {
-		get { return double(forKey: key) }
+		get { double(forKey: key) }
 		set {
 			guard let value = newValue else { return }
 			set(value, forKey: key)
@@ -339,7 +344,7 @@ extension KeychainService {
 	}
 
 	subscript(key: KeychainService.Keys) -> Float? {
-		get { return float(forKey: key) }
+		get { float(forKey: key) }
 		set {
 			guard let value = newValue else { return }
 			set(value, forKey: key)
@@ -347,7 +352,7 @@ extension KeychainService {
 	}
 
 	subscript(key: KeychainService.Keys) -> Data? {
-		get { return data(forKey: key) }
+		get { data(forKey: key) }
 		set {
 			guard let value = newValue else { return }
 			set(value, forKey: key)

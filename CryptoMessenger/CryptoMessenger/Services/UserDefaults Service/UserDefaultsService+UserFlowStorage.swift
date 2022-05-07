@@ -1,8 +1,11 @@
 import Foundation
 
-protocol UserFlowsStorage: AnyObject {
+protocol UserFlowsStorage: UserDefaultsServiceProtocol {
 	var isAuthFlowFinished: Bool { get set }
 	var isOnboardingFlowFinished: Bool { get set }
+
+	// Нужно ли отображать локальную авторизацию (экран ввода пин кода)
+	// true - отображаем, false - не нужно отображать
 	var isLocalAuth: Bool { get set }
 	var isLocalAuthBackgroundAlertShown: Bool { get set }
 	var isLocalAuthInBackground: Bool { get set }

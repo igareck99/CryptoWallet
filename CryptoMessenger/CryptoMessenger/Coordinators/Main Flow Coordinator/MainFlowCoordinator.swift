@@ -26,21 +26,32 @@ final class MainFlowCoordinator: Coordinator {
 
     let navigationController: UINavigationController
 
+    private let togglesFacade: MainFlowTogglesFacadeProtocol
+
     // MARK: - Lifecycle
 
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController,
+         togglesFacade: MainFlowTogglesFacadeProtocol) {
         self.navigationController = navigationController
+        self.togglesFacade = togglesFacade
     }
 
     // MARK: - Internal Methods
 
     func start() {
-
-        let tabs = [
-            buildChatTab(),
-            buildWalletTab(),
-            buildProfileTab()
-        ]
+        let tabs: [UIViewController]
+        if togglesFacade.isWalletAvailable {
+            tabs = [
+                buildChatTab(),
+                buildWalletTab(),
+                buildProfileTab()
+            ]
+        } else {
+            tabs = [
+                buildChatTab(),
+                buildProfileTab()
+            ]
+        }
 
         let tabBarController = BaseTabBarController(viewControllers: tabs)
         tabBarController.selectedIndex = Tabs.chat.rawValue

@@ -17,7 +17,9 @@ struct ProfileView: View {
     @State private var showProfileDetail = false
     @State private var showAlert = false
     @State private var showSafari = false
+    @State private var showActionImageAlert = false
     @State private var showImagePicker = false
+    @State private var showCameraPicker = false
     @State private var safariAddress = ""
     @State private var showDeletePhotoAlert = false
     @State private var photoUrlForDelete = ""
@@ -54,6 +56,22 @@ struct ProfileView: View {
             .onChange(of: viewModel.selectedImage, perform: { _ in
                 showImageEdtior = true
             })
+            .actionSheet(isPresented: $showActionImageAlert) {
+                ActionSheet(title: Text(""),
+                            message: nil,
+                            buttons: [
+                                .cancel(),
+                                .default(
+                                    Text(R.string.localizable.profileFromGallery()),
+                                    action: switchImagePicker
+                                ),
+                                .default(
+                                    Text(R.string.localizable.profileFromCamera()),
+                                    action: switchCameraPicker
+                                )
+                            ]
+                )
+            }
             .fullScreenCover(isPresented: $showSafari) {
                 SFSafariViewWrapper(link: $safariAddress)
             }
@@ -65,12 +83,19 @@ struct ProfileView: View {
                     profileViewModel: viewModel,
                     imageToShare: $viewModel.imageToShare)
             })
-            .sheet(isPresented: $showImagePicker) {
-                ImagePickerView(selectedImage: $viewModel.selectedImage)
+            .fullScreenCover(isPresented: $showCameraPicker,
+                              content: {
+                ImagePickerView(selectedImage: $viewModel.selectedImage,
+                                sourceType: .camera)
                     .ignoresSafeArea()
+            })
+            .fullScreenCover(isPresented: $showImagePicker,
+                              content: {
+                ImagePickerView(selectedImage: $viewModel.selectedImage)
                     .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                     .navigationBarTitleDisplayMode(.inline)
-            }
+                    .ignoresSafeArea()
+            })
             .fullScreenCover(isPresented: $showImageEdtior,
                              content: {
                 ImageEditor(theimage: $viewModel.selectedImage,
@@ -209,7 +234,7 @@ struct ProfileView: View {
                     }.padding(.leading, 16)
 
                     Button(action: {
-                        showImagePicker = true
+                        showActionImageAlert = true
                     }, label: {
                         Text(R.string.localizable.profileAdd())
                             .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
@@ -289,6 +314,16 @@ struct ProfileView: View {
                 }
             }
         }
+    }
+    
+    // MARK: - Private Methods
+
+    private func switchImagePicker() {
+        showImagePicker = true
+    }
+
+    private func switchCameraPicker() {
+        showCameraPicker = true
     }
 }
 

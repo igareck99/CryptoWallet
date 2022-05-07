@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>880144282047-467jfe146l8oi677ic742hjgpq3vnr3a.apps.googleusercontent.com</string>
+	<string>880144282047-lhs53nb989j3kahhmrs4fh92h2gljo1t.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.880144282047-467jfe146l8oi677ic742hjgpq3vnr3a</string>
+	<string>com.googleusercontent.apps.880144282047-lhs53nb989j3kahhmrs4fh92h2gljo1t</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBjxzwADkUdbV1MzPO3c2FkME1Fqk2Lp8s</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>ms.aura.app-ios</string>
+	<string>ru.aura.app.test</string>
 	<key>PROJECT_ID</key>
 	<string>aura-messenger-1</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:880144282047:ios:927d719173c2e96f09710a</string>
+	<string>1:880144282047:ios:03b6fcac90e2658109710a</string>
 </dict>
 </plist>

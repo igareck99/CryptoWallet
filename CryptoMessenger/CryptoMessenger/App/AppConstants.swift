@@ -1,12 +1,14 @@
 import Foundation
 
 // MARK: - AppConstants
-
+// swiftlint:disable switch_case_alignment
 enum AppConstants: Hashable {
     case appName
     case appVersion
     case licensePage
     case rulesPage
+	case pusherUrl
+	case bundleId
 
     // MARK: - Internal Properties
 
@@ -20,6 +22,10 @@ enum AppConstants: Hashable {
             return "https://yandex.ru"
         case .rulesPage:
             return "https://developer.apple.com"
+		case .pusherUrl:
+			return "http://127.0.0.1:5001/_matrix/push/v1/notify"
+		case .bundleId:
+			return Bundle.main.bundleIdentifier ?? ""
         }
     }
 }

@@ -19,8 +19,6 @@ extension Coordinator {
 
     func addChildCoordinator(_ coordinator: Coordinator) {
         let name = String(describing: coordinator)
-        guard childCoordinators[name] == nil else { return }
-
         childCoordinators[name] = coordinator
     }
 

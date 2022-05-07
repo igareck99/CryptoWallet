@@ -15,7 +15,9 @@ struct ChatGroupView: View {
     @Environment(\.presentationMode) private var presentationMode
     @State private var titleHeight = CGFloat(0)
     @State private var descriptionHeight = CGFloat(0)
-    @State private var showPhotoLibrary = false
+    @State private var showActionImageAlert = false
+    @State private var showImagePicker = false
+    @State private var showCameraPicker = false
 
     // MARK: - Life Cycle
 
@@ -57,12 +59,35 @@ struct ChatGroupView: View {
                         .disabled(chatData.title.isEmpty)
                 }
             }
-            .sheet(isPresented: $showPhotoLibrary) {
-                ImagePickerView(selectedImage: $chatData.image)
-                    .ignoresSafeArea()
-                    .navigationBarTitle(Text("Фото"))
-                    .navigationBarTitleDisplayMode(.inline)
+            .actionSheet(isPresented: $showActionImageAlert) {
+                ActionSheet(title: Text(""),
+                            message: nil,
+                            buttons: [
+                                .cancel(),
+                                .default(
+                                    Text(R.string.localizable.profileFromGallery()),
+                                    action: switchImagePicker
+                                ),
+                                .default(
+                                    Text(R.string.localizable.profileFromCamera()),
+                                    action: switchCameraPicker
+                                )
+                            ]
+                )
             }
+            .fullScreenCover(isPresented: $showCameraPicker,
+                              content: {
+                ImagePickerView(selectedImage: $chatData.image,
+                                sourceType: .camera)
+                    .ignoresSafeArea()
+            })
+            .fullScreenCover(isPresented: $showImagePicker,
+                              content: {
+                ImagePickerView(selectedImage: $chatData.image)
+                    .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                    .navigationBarTitleDisplayMode(.inline)
+                    .ignoresSafeArea()
+            })
     }
 
     private var content: some View {
@@ -72,7 +97,7 @@ struct ChatGroupView: View {
             VStack(spacing: 0) {
                 HStack(spacing: 12) {
                     Button {
-                        showPhotoLibrary.toggle()
+                        showActionImageAlert.toggle()
                     } label: {
                         if let image = chatData.image {
                             Image(uiImage: image)
@@ -162,5 +187,15 @@ struct ChatGroupView: View {
                 Spacer()
             }
         }
+    }
+    
+    // MARK: - Private Methods
+
+    private func switchImagePicker() {
+        showImagePicker = true
+    }
+
+    private func switchCameraPicker() {
+        showCameraPicker = true
     }
 }
