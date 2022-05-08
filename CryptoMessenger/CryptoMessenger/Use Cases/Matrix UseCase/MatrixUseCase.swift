@@ -18,6 +18,7 @@ protocol MatrixUseCaseProtocol {
 	)
 
 	// MARK: - Rooms
+	func isDirectRoomExists(userId: String) -> Bool
 	func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
 	func joinRoom(roomId: String, completion: @escaping (MXResponse<MXRoom>) -> Void)
 	func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void)
@@ -160,6 +161,10 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 	}
 
 	// MARK: - Rooms
+	func isDirectRoomExists(userId: String) -> Bool {
+		matrixService.isDirectRoomExists(userId: userId)
+	}
+
 	func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void) {
 		matrixService.leaveRoom(roomId: roomId, completion: completion)
 	}
