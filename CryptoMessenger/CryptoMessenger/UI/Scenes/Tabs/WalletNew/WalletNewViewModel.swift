@@ -40,7 +40,6 @@ final class WalletNewViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private var apiClient: APIClientManager
-    @Injectable private(set) var mxStore: MatrixStore
     private let userCredentialsStorage: UserCredentialsStorage
 
     // MARK: - Lifecycle
@@ -84,13 +83,6 @@ final class WalletNewViewModel: ObservableObject {
                 case .onTransfer:
                     self?.delegate?.handleNextScene(.transfer)
                 }
-            }
-            .store(in: &subscriptions)
-
-        mxStore.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { _ in
-
             }
             .store(in: &subscriptions)
     }

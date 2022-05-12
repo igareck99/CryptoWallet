@@ -10,10 +10,6 @@ target 'CryptoMessenger' do
   # Matrix core
   pod 'MatrixSDK/SwiftSupport'
 
-
-  # Keychain helper
-  pod 'KeychainAccess'
-
   # Firebase
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'

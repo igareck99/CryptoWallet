@@ -20,7 +20,6 @@ final class TransactionViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private var apiClient: APIClientManager
-    @Injectable private(set) var mxStore: MatrixStore
     private let userCredentialsStorage: UserCredentialsStorage
 
     // MARK: - Lifecycle
@@ -54,13 +53,6 @@ final class TransactionViewModel: ObservableObject {
                     self?.updateData()
                     self?.objectWillChange.send()
                 }
-            }
-            .store(in: &subscriptions)
-
-        mxStore.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { _ in
-
             }
             .store(in: &subscriptions)
     }

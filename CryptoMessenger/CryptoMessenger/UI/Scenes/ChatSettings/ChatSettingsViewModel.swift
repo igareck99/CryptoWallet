@@ -1,5 +1,5 @@
-import SwiftUI
 import Combine
+import SwiftUI
 
 final class ChatSettingsViewModel: ObservableObject {
 
@@ -9,8 +9,6 @@ final class ChatSettingsViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<ChatSettingsFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ChatSettingsFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-
-    @Injectable private(set) var mxStore: MatrixStore
     private let userSettings: UserFlowsStorage & UserCredentialsStorage
 
     // MARK: - Internal Properties
@@ -60,12 +58,6 @@ final class ChatSettingsViewModel: ObservableObject {
                 case .onReserveCopy:
                     self?.delegate?.handleNextScene(.reserveCopy)
                 }
-            }
-            .store(in: &subscriptions)
-
-        mxStore.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { _ in
             }
             .store(in: &subscriptions)
     }

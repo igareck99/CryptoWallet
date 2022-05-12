@@ -15,8 +15,6 @@ final class TransferViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<TransferFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<TransferFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-
-    @Injectable private(set) var mxStore: MatrixStore
     private let userSettings: UserFlowsStorage & UserCredentialsStorage
 
     // MARK: - Lifecycle
@@ -58,12 +56,6 @@ final class TransferViewModel: ObservableObject {
                 case .onChooseReceiver:
                     self?.delegate?.handleNextScene(.chooseReceiver)
                 }
-            }
-            .store(in: &subscriptions)
-
-        mxStore.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { _ in
             }
             .store(in: &subscriptions)
     }

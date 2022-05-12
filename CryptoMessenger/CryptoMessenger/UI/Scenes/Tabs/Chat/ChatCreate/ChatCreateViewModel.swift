@@ -56,7 +56,7 @@ final class ChatCreateViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<ChatCreateFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ChatCreateFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-    @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var contactsStore: ContactsManager
     @Injectable private var apiClient: APIClientManager
 
@@ -65,7 +65,7 @@ final class ChatCreateViewModel: ObservableObject {
     init() {
         bindInput()
         bindOutput()
-        getContacts(mxStore.allUsers())
+        getContacts(matrixUseCase.allUsers())
     }
 
     deinit {
@@ -98,7 +98,7 @@ final class ChatCreateViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
 
-        mxStore.objectWillChange
+		matrixUseCase.objectChangePublisher
             .receive(on: DispatchQueue.main)
             .sink { _ in }
             .store(in: &subscriptions)
@@ -106,7 +106,7 @@ final class ChatCreateViewModel: ObservableObject {
         $searchText
             .debounce(for: 0.05, scheduler: DispatchQueue.main)
             .sink { [weak self] text in
-                self?.mxStore.searchUser(text) { name in
+                self?.matrixUseCase.searchUser(text) { name in
                     if let name = name {
                         self?.filteredContacts = [.init(mxId: text, avatar: nil, name: name, status: "")]
                     } else {
@@ -144,7 +144,7 @@ final class ChatCreateViewModel: ObservableObject {
     }
 
     private func createRoom(parameters: MXRoomCreationParameters, roomAvatar: Data? = nil) {
-        mxStore.createRoom(parameters: parameters) { [weak self] response in
+		matrixUseCase.createRoom(parameters: parameters) { [weak self] response in
             switch response {
             case let .success(room):
                 guard let data = roomAvatar else {
@@ -152,7 +152,8 @@ final class ChatCreateViewModel: ObservableObject {
                     return
                 }
 
-                self?.mxStore.setRoomAvatar(data: data, for: room) {
+                self?.matrixUseCase.setRoomAvatar(data: data, for: room) { _ in
+					// TODO: Обработать case failure
                     self?.closeScreen = true
                 }
             case.failure:
@@ -215,9 +216,9 @@ final class ChatCreateViewModel: ObservableObject {
 				self?.state = .showContent
                 let sorted = contacts.sorted(by: { $0.firstName < $1.firstName })
 
-                let mxUsers: [MXUser] = self?.mxStore.allUsers() ?? []
+                let mxUsers: [MXUser] = self?.matrixUseCase.allUsers() ?? []
                 let lastUsers: [Contact] = mxUsers
-                    .filter { $0.userId != self?.mxStore.getUserId() }
+                    .filter { $0.userId != self?.matrixUseCase.getUserId() }
                     .map {
                         var contact = Contact(
                             mxId: $0.userId ?? "",

@@ -12,8 +12,7 @@ enum AppCoordinatorAssembly {
 			firebaseService: firebaseService,
 			keychainService: keychainService,
 			userFlows: userFlows,
-			navigationController: navigationController,
-			matrixStore: MatrixStore.shared
+			navigationController: navigationController
 		)
 		return coordinator
 	}

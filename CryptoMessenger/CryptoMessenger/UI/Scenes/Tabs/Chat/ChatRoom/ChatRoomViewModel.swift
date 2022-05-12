@@ -37,7 +37,7 @@ final class ChatRoomViewModel: ObservableObject {
     private let keyboardObserver = KeyboardObserver()
     private let locationManager = LocationManager()
 
-    @Injectable private var mxStore: MatrixStore
+    @Injectable private var matrixUseCase: MatrixUseCaseProtocol
 
     // MARK: - Lifecycle
 
@@ -82,7 +82,7 @@ final class ChatRoomViewModel: ObservableObject {
     }
 
     func fromCurrentSender(_ userId: String) -> Bool {
-        mxStore.fromCurrentSender(userId)
+		matrixUseCase.fromCurrentSender(userId)
     }
 
     // MARK: - Private Methods
@@ -92,29 +92,29 @@ final class ChatRoomViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    _ = self?.mxStore.rooms
+                    _ = self?.matrixUseCase.rooms
                     self?.room.markAllAsRead()
-                    self?.mxStore.objectWillChange.send()
+                    self?.matrixUseCase.objectChangePublisher.send()
                 case .onNextScene:
                     ()
                 case let .onSendText(text):
                     self?.inputText = ""
                     self?.room.sendText(text)
-                    self?.mxStore.objectWillChange.send()
+                    self?.matrixUseCase.objectChangePublisher.send()
                 case let .onSendImage(image):
                     self?.inputText = ""
                     self?.room.sendImage(image)
-                    self?.mxStore.objectWillChange.send()
+                    self?.matrixUseCase.objectChangePublisher.send()
                 case let .onSendFile(url):
                     self?.inputText = ""
                     self?.room.sendFile(url)
-                    self?.mxStore.objectWillChange.send()
+                    self?.matrixUseCase.objectChangePublisher.send()
                 case let .onSendContact(contact):
                     self?.room.sendContact(contact)
-                    self?.mxStore.objectWillChange.send()
+                    self?.matrixUseCase.objectChangePublisher.send()
                 case .onJoinRoom:
                     guard let roomId = self?.room.room.roomId else { return }
-                    self?.mxStore.joinRoom(roomId: roomId) { _ in
+                    self?.matrixUseCase.joinRoom(roomId: roomId) { _ in
                         self?.room.markAllAsRead()
                     }
                 case let .onReply(text, eventId):
@@ -221,7 +221,7 @@ final class ChatRoomViewModel: ObservableObject {
                 }
 
                 if let data = self?.chatData.image?.jpeg(.medium) {
-                    self?.mxStore.uploadData(data: data, for: room) { [weak self] url in
+                    self?.matrixUseCase.uploadData(data: data, for: room) { [weak self] url in
                         guard let url = url else { return }
                         room.setAvatar(url: url) { _ in
                             let homeServer = Bundle.main.object(for: .matrixURL).asURL()
@@ -232,13 +232,13 @@ final class ChatRoomViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
 
-        mxStore.objectWillChange
+		matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard
                     let self = self,
-                    let room = self.mxStore.rooms.first(where: { $0.room.id == self.room.id })
+                    let room = self.matrixUseCase.rooms.first(where: { $0.room.id == self.room.id })
                 else {
                     return
                 }
@@ -246,7 +246,7 @@ final class ChatRoomViewModel: ObservableObject {
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
                         message?.eventId = $0.eventId
-                        let user = self.mxStore.getUser($0.sender)
+                        let user = self.matrixUseCase.getUser($0.sender)
                         message?.name = user?.displayname ?? ""
                         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                         message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)

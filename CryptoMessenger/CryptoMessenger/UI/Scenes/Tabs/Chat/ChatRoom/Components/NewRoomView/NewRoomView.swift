@@ -7,13 +7,13 @@ struct NewRoomView: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var mxStore: MatrixStore
+    var matrixUseCase: MatrixUseCaseProtocol
     @Binding var createdRoomId: ObjectIdentifier?
 
     // MARK: - Body
 
     var body: some View {
-        NewConversationView(store: mxStore, createdRoomId: $createdRoomId)
+        NewConversationView(matrixUseCase: matrixUseCase, createdRoomId: $createdRoomId)
     }
 }
 
@@ -23,7 +23,7 @@ private struct NewConversationView: View {
 
     // MARK: - Internal Properties
 
-    let store: MatrixStore?
+    let matrixUseCase: MatrixUseCaseProtocol
     @Binding var createdRoomId: ObjectIdentifier?
 
     // MARK: - Private Properties
@@ -167,7 +167,7 @@ private struct NewConversationView: View {
             }
         }
 
-        store?.createRoom(parameters: parameters) { response in
+        matrixUseCase.createRoom(parameters: parameters) { response in
             switch response {
             case .success(let room):
                 createdRoomId = room.id

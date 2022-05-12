@@ -15,20 +15,20 @@ final class PushNotificationsUseCase: NSObject {
 	private let keychainService: KeychainServiceProtocol
 	private let userSettings: UserFlowsStorage
 	private let appCoordinator: AppCoordinatorProtocol
-	private let matrixStore: MatrixStoreProtocol
+	private let matrixUseCase: MatrixUseCaseProtocol
 
 	init(
 		appCoordinator: AppCoordinatorProtocol,
 		userSettings: UserFlowsStorage,
 		keychainService: KeychainServiceProtocol,
 		pushNotificationsService: PushNotificationsServiceProtocol,
-		matrixStore: MatrixStoreProtocol
+		matrixUseCase: MatrixUseCaseProtocol
 	) {
 		self.appCoordinator = appCoordinator
 		self.userSettings = userSettings
 		self.keychainService = keychainService
 		self.pushNotificationsService = pushNotificationsService
-		self.matrixStore = matrixStore
+		self.matrixUseCase = matrixUseCase
 		super.init()
 		self.subscribeToNotifications()
 	}
@@ -66,7 +66,7 @@ final class PushNotificationsUseCase: NSObject {
 			  keychainService[.pushToken] != deviceToken,
 			  keychainService.set(deviceToken, forKey: .pushToken)
 		else { return }
-		matrixStore.createPusher(with: deviceToken) { [weak self] in
+		matrixUseCase.createPusher(with: deviceToken) { [weak self] in
 			debugPrint("SET PUSHER RESULT: \($0)")
 			self?.userSettings[.isPushNotificationsEnabled] = $0
 		}

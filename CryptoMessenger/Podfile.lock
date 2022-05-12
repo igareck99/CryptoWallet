@@ -139,7 +139,6 @@ PODS:
   - HDWalletKit (0.3.6):
     - CryptoSwift (~> 1.0.0)
     - secp256k1.swift (~> 0.1.4)
-  - KeychainAccess (4.2.2)
   - Kingfisher (7.2.1)
   - libbase58 (0.1.4)
   - Mantis (1.9.0)
@@ -187,7 +186,6 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Firebase/RemoteConfig
   - HDWalletKit
-  - KeychainAccess
   - Kingfisher
   - Mantis (~> 1.9.0)
   - MatrixSDK/SwiftSupport
@@ -217,7 +215,6 @@ SPEC REPOS:
     - GoogleUtilities
     - GZIP
     - HDWalletKit
-    - KeychainAccess
     - Kingfisher
     - libbase58
     - Mantis
@@ -253,7 +250,6 @@ SPEC CHECKSUMS:
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GZIP: 416858efbe66b41b206895ac6dfd5493200d95b3
   HDWalletKit: 6d97a15404b2edfe3418e3dc064faa967e51dac4
-  KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
   Kingfisher: 7c084bebf7d548c623ad41bcf765fb200efed369
   libbase58: 7c040313537b8c44b6e2d15586af8e21f7354efd
   Mantis: 5dea32ad49addabb3247112f5b1282a6e0964bb0
@@ -271,6 +267,6 @@ SPEC CHECKSUMS:
   SweeterSwift: 61baeda1c0c27d1dc57c8112c3d6a82e5aff3139
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: bcb121f72a3f86a31e75da5e57579000df136425
+PODFILE CHECKSUM: 15faeaaefd7a072bda7487232c290ccff425aa44
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

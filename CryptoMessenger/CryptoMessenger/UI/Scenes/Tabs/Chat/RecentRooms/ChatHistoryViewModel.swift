@@ -18,7 +18,7 @@ final class ChatHistoryViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<ChatHistoryFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ChatHistoryFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-    @Injectable private(set) var mxStore: MatrixStore
+    @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
 
     // MARK: - Lifecycle
 
@@ -45,21 +45,21 @@ final class ChatHistoryViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.rooms = self?.mxStore.rooms ?? []
+                    self?.rooms = self?.matrixUseCase.rooms ?? []
                     self?.objectWillChange.send()
                 case let .onShowRoom(room):
                     self?.delegate?.handleNextScene(.chatRoom(room))
                 case let .onDeleteRoom(roomId):
-                    self?.mxStore.leaveRoom(roomId: roomId, completion: { _ in })
+                    self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in })
                 }
             }
             .store(in: &subscriptions)
 
-        mxStore.objectWillChange
+		matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.rooms = self?.mxStore.rooms ?? []
+                self?.rooms = self?.matrixUseCase.rooms ?? []
             }
             .store(in: &subscriptions)
     }

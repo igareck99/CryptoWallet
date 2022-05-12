@@ -15,7 +15,7 @@ final class VerificationPresenter {
     @Injectable private var apiClient: APIClientManager
     @Injectable private var countdownTimer: CountdownTimer
     @Injectable private var configuration: Configuration
-    @Injectable private var mxStore: MatrixStore
+    private let matrixUseCase: MatrixUseCaseProtocol
     private var subscriptions = Set<AnyCancellable>()
 	private let userCredentials: UserCredentialsStorage
 
@@ -29,10 +29,12 @@ final class VerificationPresenter {
 
     init(
 		view: VerificationViewInterface,
-		userCredentials: UserCredentialsStorage
+		userCredentials: UserCredentialsStorage,
+		matrixUseCase: MatrixUseCaseProtocol
 	) {
         self.view = view
 		self.userCredentials = userCredentials
+		self.matrixUseCase = matrixUseCase
         countdownTimer.delegate = self
     }
 
@@ -103,14 +105,22 @@ final class VerificationPresenter {
                     break
                 }
             } receiveValue: { [weak self] response in
-                self?.mxStore.login(username: response.userId ?? "", password: code, homeServer: homeServer)
-                self?.view?.setResult(true)
-                delay(0.2) {
-                    self?.userCredentials.isUserAuthenticated = true
-                    self?.userCredentials.accessToken = response.accessToken
-                    self?.userCredentials.refreshToken = response.refreshToken
-                    self?.delegate?.handleNextScene(.pinCode)
-                }
+
+				// TODO: Обработать отсутсвие userId
+				guard let userId = response.userId else { return }
+
+				self?.matrixUseCase.loginUser(
+					userId: userId,
+					password: code,
+					homeServer: homeServer) { result in
+						// TODO: Обработать case failure
+						guard case .success = result else { return }
+						self?.view?.setResult(true)
+						self?.userCredentials.isUserAuthenticated = true
+						self?.userCredentials.accessToken = response.accessToken
+						self?.userCredentials.refreshToken = response.refreshToken
+						self?.delegate?.handleNextScene(.pinCode)
+					}
             }
             .store(in: &subscriptions)
     }

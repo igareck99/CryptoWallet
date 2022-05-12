@@ -5,12 +5,13 @@ enum PushNotificationsUseCaseAssembly {
 		let keychainService = KeychainService.shared
 		let pushNotificationsService = PushNotificationsService()
 		let userFlowsStorage = UserDefaultsService.shared
+		let matrixUseCase = MatrixUseCase.shared
 		let pushNotificationsUseCase = PushNotificationsUseCase(
 			appCoordinator: appCoordinator,
 			userSettings: userFlowsStorage,
 			keychainService: keychainService,
 			pushNotificationsService: pushNotificationsService,
-			matrixStore: MatrixStore.shared
+			matrixUseCase: matrixUseCase
 		)
 		return pushNotificationsUseCase
 	}
