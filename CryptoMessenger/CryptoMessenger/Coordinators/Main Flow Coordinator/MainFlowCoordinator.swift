@@ -63,8 +63,7 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Private Methods
 
     private func buildChatTab() -> UIViewController {
-        let rootView = ChatHistoryConfigurator.configuredView(delegate: self)
-        let viewController = BaseHostingController(rootView: rootView)
+        let viewController = ChatHistoryConfigurator.configuredView(delegate: self)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.chat.item
         return navigation

@@ -1,13 +1,12 @@
 import Combine
 import UIKit
 
-// MARK: - ChatHistoryViewModel
-
-final class ChatHistoryViewModel: ObservableObject {
-
-    // MARK: - Internal Properties
+final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 
     weak var delegate: ChatHistorySceneDelegate?
+
+	let eventSubject = PassthroughSubject<ChatHistoryFlow.Event, Never>()
+	let sources: ChatHistorySourcesable.Type
 
     @Published private(set) var rooms: [AuraRoom] = []
     @Published private(set) var state: ChatHistoryFlow.ViewState = .idle
@@ -15,14 +14,14 @@ final class ChatHistoryViewModel: ObservableObject {
 
     // MARK: - Private Properties
 
-    private let eventSubject = PassthroughSubject<ChatHistoryFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ChatHistoryFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
 
-    // MARK: - Lifecycle
-
-    init() {
+    init(
+		sources: ChatHistorySourcesable.Type = ChatHistorySources.self
+	) {
+		self.sources = sources
         bindInput()
         bindOutput()
     }
@@ -32,11 +31,20 @@ final class ChatHistoryViewModel: ObservableObject {
         subscriptions.removeAll()
     }
 
-    // MARK: - Internal Methods
+	// MARK: - ChatHistoryViewDelegate
 
-    func send(_ event: ChatHistoryFlow.Event) {
-        eventSubject.send(event)
-    }
+	func rooms(with filter: String) -> [AuraRoom] {
+		filter.isEmpty ? rooms : rooms.filter {
+			$0.summary.displayname.lowercased().contains(filter.lowercased())
+			|| $0.summary.topic?.lowercased().contains(filter.lowercased()) ?? false
+		}
+	}
+
+	func markAllAsRead() {
+		for room in rooms {
+			room.markAllAsRead()
+		}
+	}
 
     // MARK: - Private Methods
 
