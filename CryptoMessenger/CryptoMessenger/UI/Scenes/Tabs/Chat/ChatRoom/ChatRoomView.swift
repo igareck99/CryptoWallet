@@ -40,6 +40,8 @@ struct ChatRoomView: View {
     @State private var activeEditMessage: RoomMessage?
     @State private var deleteMessage: RoomMessage?
     @State private var quickAction: QuickAction?
+    @State private var quickActionCurrentUser: QuickActionCurrentUser?
+
 
     @FocusState private var inputViewIsFocused: Bool
 
@@ -418,23 +420,59 @@ struct ChatRoomView: View {
                     //                        .foreground(.darkGray(0.4))
                     //                        .padding(.top, 12)
 
-                    QuickMenuView(cardPosition: $cardPosition, onAction: {
-                        switch $0 {
-                        case .copy:
-                            UIPasteboard.general.string = activeEditMessage?.description
-                        case .delete:
-                            debugPrint("delete action", messageId)
-                            viewModel.send(.onDelete(messageId))
-                        case .reply:
-                            inputViewIsFocused = true
-                        case .edit:
-                            inputViewIsFocused = true
-                        default:
-                            ()
+                    if let current = activeEditMessage?.isCurrentUser {
+                        if current {
+                            QuickMenuCurrentUserView(cardPosition: $cardPosition, onAction: {
+                                switch $0 {
+                                case .copy:
+                                    UIPasteboard.general.string = activeEditMessage?.description
+                                case .delete:
+                                    debugPrint("delete action", messageId)
+                                    viewModel.send(.onDelete(messageId))
+                                case .edit:
+                                    inputViewIsFocused = true
+                                case .reply:
+                                    inputViewIsFocused = true
+                                default:
+                                    ()
+                                }
+                                quickActionCurrentUser = $0
+                            })
+                        } else {
+                            QuickMenuView(cardPosition: $cardPosition, onAction: {
+                                switch $0 {
+                                case .copy:
+                                    UIPasteboard.general.string = activeEditMessage?.description
+                                case .delete:
+                                    debugPrint("delete action", messageId)
+                                    viewModel.send(.onDelete(messageId))
+                                case .reply:
+                                    inputViewIsFocused = true
+                                default:
+                                    ()
+                                }
+                                quickAction = $0
+                            })
                         }
-                        quickAction = $0
-
-                    }).padding(.vertical, 16)
+                    }
+//                        } else {
+//                            QuickMenuView(cardPosition: $cardPosition, onAction: {
+//                                switch $0 {
+//                                case .copy:
+//                                    UIPasteboard.general.string = activeEditMessage?.description
+//                                case .delete:
+//                                    debugPrint("delete action", messageId)
+//                                    viewModel.send(.onDelete(messageId))
+//                                case .reply:
+//                                    inputViewIsFocused = true
+//                                case .edit:
+//                                    inputViewIsFocused = true
+//                                default:
+//                                    ()
+//                                }
+//                                quickAction = $0
+//                        }
+//                    }).padding(.vertical, 16)
                 }
             }
         }
@@ -467,7 +505,7 @@ struct ChatRoomView: View {
                         onReset: { activeEditMessage = nil; quickAction = nil }
                     ).transition(.opacity)
                 }
-                if quickAction == .edit {
+                if quickActionCurrentUser == .edit {
                     EditView(
                         text: activeEditMessage?.description ?? "",
                         onReset: { activeEditMessage = nil; quickAction = nil }
@@ -511,7 +549,7 @@ struct ChatRoomView: View {
                                     viewModel.inputText = ""
                                     activeEditMessage = nil
                                     quickAction = nil
-                                } else if quickAction == .edit {
+                                } else if quickActionCurrentUser == .edit {
                                     viewModel.send(.onEdit(viewModel.inputText, activeEditMessage?.eventId ?? ""))
                                     viewModel.inputText = ""
                                     activeEditMessage = nil
@@ -532,7 +570,7 @@ struct ChatRoomView: View {
 
                 Spacer()
             }
-            .frame(height: quickAction == .edit ? 104 : (quickAction == .reply ? 104 : 52))
+            .frame(height: quickActionCurrentUser == .edit ? 104 : (quickAction == .reply ? 104 : 52))
             .background(.white())
             .ignoresSafeArea()
 
