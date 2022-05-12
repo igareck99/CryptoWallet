@@ -282,6 +282,10 @@
 "ChatSettings.ClearAlertText" = "Вы действительно хотите удалить все сообщения в чатах?";
 "ChatSettings.DeleteAlertText" = "Вы действительно хотите удалить все чаты?";
 
+"ChatHistory.SearchPlaceholder" = "Поиск по чатам и каналам";
+"ChatHistory.Decline" = "Отменить";
+"ChatHistory.ReadAll" = "Прочитать все";
+"ChatHistory.AUR" = "AUR";
 
 "ReserveCopy.Created" = "Резервная копия создана";
 "ReserveCopy.CreateCopy" = "Создать резервную копию";

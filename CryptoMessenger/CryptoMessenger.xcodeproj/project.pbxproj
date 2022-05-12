@@ -472,6 +472,7 @@
 		D44BDC9A280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */; };
 		D44BDC9B280FECC80080AE8A /* DependeciesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC95280FECC80080AE8A /* DependeciesService.swift */; };
 		D44BDC9D280FECC80080AE8A /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC97280FECC80080AE8A /* FirebaseService.swift */; };
+		D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46187D2282D093200CA2836 /* ChatHistorySources.swift */; };
 		D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */; };
 		D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */; };
 		D4AB8FFC282672BB00E6FAB5 /* MatrixService+Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */; };
@@ -955,6 +956,7 @@
 		D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserCredentialsStorage.swift"; sourceTree = "<group>"; };
 		D44BDC95280FECC80080AE8A /* DependeciesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependeciesService.swift; sourceTree = "<group>"; };
 		D44BDC97280FECC80080AE8A /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		D46187D2282D093200CA2836 /* ChatHistorySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySources.swift; sourceTree = "<group>"; };
 		D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixServiceProtocol.swift; sourceTree = "<group>"; };
 		D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Session.swift"; sourceTree = "<group>"; };
 		D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Devices.swift"; sourceTree = "<group>"; };
@@ -1707,6 +1709,7 @@
 				5AABB77E2739821C004D6107 /* ChatHistoryProtocols.swift */,
 				5AABB77A2739816C004D6107 /* ChatHistoryView.swift */,
 				5AABB77F2739821C004D6107 /* ChatHistoryViewModel.swift */,
+				D46187D2282D093200CA2836 /* ChatHistorySources.swift */,
 				5AB35FAE2740EEBB001FB0DE /* ChatHistoryRow.swift */,
 				5AABB7812739821C004D6107 /* ChatHistoryFlow.swift */,
 			);
@@ -3079,6 +3082,7 @@
 				7889064A270684830093459C /* NetworkDetailCell.swift in Sources */,
 				789FEBEC26DCE61D0018FE91 /* PhotoEditorPresenter.swift in Sources */,
 				78A9CBFD28191F1D00C4D7E1 /* ActionSheetTopView.swift in Sources */,
+				D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */,
 				5A43087127C9079F00A9B582 /* ImageLoader.swift in Sources */,
 				5A4BE4F7271DC26700D03D09 /* AuthData.swift in Sources */,
 				D4442B502815E03D0033D07A /* NotificationCenter+NotificationNames.swift in Sources */,
