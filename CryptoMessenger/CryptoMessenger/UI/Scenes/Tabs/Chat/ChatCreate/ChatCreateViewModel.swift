@@ -124,6 +124,14 @@ final class ChatCreateViewModel: ObservableObject {
     }
 
     private func createDirectRoom(_ ids: [String]) {
+		guard
+			ids.count == 1,
+			let userId = ids.first,
+			!matrixUseCase.isDirectRoomExists(userId: userId)
+		else {
+			closeScreen = true
+			return
+		}
         let parameters = MXRoomCreationParameters()
         parameters.inviteArray = ids
         parameters.isDirect = true

@@ -36,6 +36,7 @@ protocol MatrixServiceProtocol {
 	func uploadData(data: Data, for room: MXRoom, completion: @escaping GenericBlock<URL?>)
 	func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
 	func joinRoom(roomId: String, completion: @escaping (MXResponse<MXRoom>) -> Void)
+	func isDirectRoomExists(userId: String) -> Bool
 
 	// MARK: - Users
 	func currentlyActive(_ userId: String) -> Bool

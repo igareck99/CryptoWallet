@@ -45,4 +45,8 @@ extension MatrixService {
 	func joinRoom(roomId: String, completion: @escaping (MXResponse<MXRoom>) -> Void) {
 		session?.joinRoom(roomId, completion: completion)
 	}
+
+	func isDirectRoomExists(userId: String) -> Bool {
+		session?.directJoinedRoom(withUserId: userId) != nil
+	}
 }
