@@ -4,8 +4,6 @@
 <dict>
 	<key>API URL</key>
 	<string>https://api.aura.ms</string>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
 	<key>API Version</key>
 	<string>v0</string>
 	<key>API stand</key>
@@ -30,6 +28,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>DevelopmentTeam</key>
 	<string>Z123456789</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MATRIX URL</key>
