@@ -70,6 +70,8 @@ extension MXEvent {
             if isReply() {
                 let reply = MXReplyEventParser().parse(self)
                 type = .text(reply.bodyParts.replyText)
+            } else if isEdit() {
+                type = .none
             } else {
                 type = .text(text)
             }

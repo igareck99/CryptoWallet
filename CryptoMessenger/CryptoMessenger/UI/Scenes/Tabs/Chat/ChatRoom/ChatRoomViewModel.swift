@@ -119,8 +119,11 @@ final class ChatRoomViewModel: ObservableObject {
                     }
                 case let .onReply(text, eventId):
                     self?.room.reply(text: text, eventId: eventId)
+                case let .onEdit(text, eventId):
+                    self?.room.edit(text: text, eventId: eventId)
                 case let .onDelete(eventId):
-                    self?.room.removeOutgoingMessage(eventId)
+                    self?.room.redact(eventId: eventId, reason: nil)
+                    self?.mxStore.objectWillChange.send()
                 case .onAddReaction(let messageId, let reactionId):
                         guard
                             let index = self?.messages.firstIndex(where: { $0.id == messageId }),
@@ -135,9 +138,10 @@ final class ChatRoomViewModel: ObservableObject {
                             )
                         }
                 case .onDeleteReaction(let messageId, let reactionId):
+                    self?.room.edit(text: "", eventId: messageId)
                     guard let index = self?.messages.firstIndex(where: { $0.id == messageId }) else { return }
                     self?.messages[index].reactions.removeAll(where: { $0.id == reactionId })
-                    debugPrint(messageId)
+                    self?.mxStore.objectWillChange.send()
                 }
             }
             .store(in: &subscriptions)
