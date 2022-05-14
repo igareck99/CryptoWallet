@@ -118,8 +118,12 @@ extension MXEvent {
     }
 
     var replyDescription: String {
-        let startIndex = text.index(text.lastIndex(of: ">") ?? text.startIndex, offsetBy: 2)
-        return String(text.suffix(from: startIndex))
+        if text.contains(">") {
+            let startIndex = text.index(text.lastIndex(of: ">") ?? text.startIndex, offsetBy: 2)
+            return String(text.suffix(from: startIndex))
+        } else {
+            return ""
+        }
     }
 
     // MARK: - Internal Methods

@@ -50,7 +50,7 @@ struct ProfileView: View {
                 }
             }
             .onAppear {
-                viewModel.send(.onAppear)
+                viewModel.send(.onProfileAppear)
                 showTabBar()
             }
             .onChange(of: viewModel.selectedImage, perform: { _ in

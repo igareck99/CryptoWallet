@@ -38,6 +38,7 @@ final class AuraRoom: ObservableObject {
 
     @Published var summary: RoomSummary
     @Published var eventCache: [MXEvent] = []
+    @Published var anotherEventCache: [MXEvent] = []
 
     var isDirect: Bool { room.isDirect }
     var messageType: MessageType { room.summary.lastMessageEvent?.messageType ?? .text("") }
@@ -90,7 +91,14 @@ final class AuraRoom: ObservableObject {
     }
 
     func events() -> EventCollection {
-        EventCollection(eventCache + room.outgoingMessages())
+        if !room.outgoingMessages().isEmpty {
+            for item in room.outgoingMessages() {
+                if !eventCache.contains(item) {
+                    eventCache.append(item)
+                }
+            }
+        }
+        return EventCollection(eventCache)
     }
 
     func react(toEventId eventId: String, emoji: String) {
@@ -138,7 +146,15 @@ final class AuraRoom: ObservableObject {
             mimeType: "image/jpeg",
             thumbnail: image,
             localEcho: &localEcho
-        ) { _ in
+        ) { response in
+            switch response {
+            case let .success(result):
+                guard let event = self.events().renderableEvents.first(where: { result == $0.eventId
+                }) else { return }
+                self.eventCache.append(event)
+            default:
+                break
+            }
             self.objectWillChange.send()
         }
     }
@@ -169,9 +185,13 @@ final class AuraRoom: ObservableObject {
     }
 
     func reply(text: String, eventId: String) {
-        guard let event = events().renderableEvents.first(where: { eventId == $0.eventId }) else { return }
+        guard !text.isEmpty else { return }
         var localEcho: MXEvent?
-        room.sendReply(to: event, textMessage: text, formattedTextMessage: nil, stringLocalizations: nil, localEcho: &localEcho) { _ in
+        guard let event = events().renderableEvents.first(where: { eventId == $0.eventId }) else { return }
+        room.sendReply(to: event, textMessage: text,
+                       formattedTextMessage: nil,
+                       stringLocalizations: nil,
+                       localEcho: &localEcho) { _ in
             self.objectWillChange.send()
         }
     }

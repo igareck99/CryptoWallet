@@ -180,7 +180,6 @@ struct ChatRoomRow: View {
                     Spacer()
                 }
             }
-
             //            if !message.reactions.isEmpty {
             //                reactions()
             //                    .padding(.bottom, -18)
