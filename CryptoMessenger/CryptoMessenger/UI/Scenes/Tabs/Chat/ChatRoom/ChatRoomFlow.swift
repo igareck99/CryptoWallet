@@ -28,7 +28,6 @@ enum ChatRoomFlow {
         case onSendFile(URL)
         case onSendContact(Contact)
         case onReply(String, String)
-        case onEdit(String, String)
         case onDelete(String)
         case onJoinRoom
         case onAddReaction(messageId: String, reactionId: String)
