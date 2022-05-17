@@ -181,14 +181,13 @@ final class AuraRoom: ObservableObject {
     }
 
     func removeOutgoingMessage(_ eventId: String) {
-        guard let event = events().renderableEvents.first(where: { eventId == $0.eventId }) else { return }
-        removeOutgoingMessage(event)
-        self.objectWillChange.send()
+        room.removeOutgoingMessage(eventId)
+        objectWillChange.send()
     }
 
     func removeOutgoingMessage(_ event: MXEvent) {
         room.removeOutgoingMessage(event.eventId)
-        self.objectWillChange.send()
+        objectWillChange.send()
     }
 }
 
