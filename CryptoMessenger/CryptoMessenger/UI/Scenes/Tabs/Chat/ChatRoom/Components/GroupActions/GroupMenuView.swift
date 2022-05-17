@@ -70,7 +70,7 @@ struct GroupMenuView: View {
     // MARK: - Internal Properties
 
     @Binding var action: GroupAction?
-    @Binding var cardPosition: CardPosition
+    @Binding var cardGroupPosition: CardPosition
 
     // MARK: - Private Properties
 
@@ -84,7 +84,7 @@ struct GroupMenuView: View {
                 Button(action: {
                     vibrate()
                     action = act
-                    cardPosition = .bottom
+                    cardGroupPosition = .bottom
                 }, label: {
                     HStack {
                         HStack {

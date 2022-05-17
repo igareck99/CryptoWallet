@@ -1,5 +1,5 @@
 import UIKit
-
+//swiftlint:disable: vertical_parameter_alignment
 protocol PushNotificationCoordinatorDelegate: AnyObject {
 	func didFinishFlow(coordinator: Coordinator)
 }
@@ -13,6 +13,7 @@ final class PushNotificationCoordinator: NSObject {
 	private let matrixUseCase: MatrixUseCaseProtocol
 	private let getChatRoomSceneDelegate: () -> ChatRoomSceneDelegate?
 	private weak var delegate: PushNotificationCoordinatorDelegate?
+    private var toggleFacade: MainFlowTogglesFacadeProtocol
 
 	init(
 		userInfo: [AnyHashable: Any],
@@ -20,8 +21,11 @@ final class PushNotificationCoordinator: NSObject {
 		getChatRoomSceneDelegate: @escaping () -> ChatRoomSceneDelegate?,
 		parser: PushNotificationsParsable,
 		navigationController: UINavigationController,
-		delegate: PushNotificationCoordinatorDelegate?
+		delegate: PushNotificationCoordinatorDelegate?,
+        toggleFacade: MainFlowTogglesFacadeProtocol
 	) {
+        self.toggleFacade = toggleFacade
+
 		self.userInfo = userInfo
 		self.matrixUseCase = matrixUseCase
 		self.getChatRoomSceneDelegate = getChatRoomSceneDelegate

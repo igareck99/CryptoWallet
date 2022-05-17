@@ -5,9 +5,10 @@ public class TranslateManager: NSObject {
     // MARK: - Internal Properties
 
     public static let shared = TranslateManager()
+    public var languagesList: [Language] = []
     public var isActive = false
     public var source: String = ""
-    public var target: String = ""
+    public var target: String = "ru"
 
     /// Language response structure.
     public struct Language {
@@ -57,6 +58,13 @@ public class TranslateManager: NSObject {
     */
     public func start(with apiKey: String) {
         self.apiKey = apiKey
+        
+        // Languages caching
+        languages { (languages, error) in
+            if error != nil {
+                self.languagesList = languages ?? []
+            }
+        }
     }
     /**
         Translates input text, returning translated text.
@@ -68,7 +76,7 @@ public class TranslateManager: NSObject {
             - source: The language of the source text. If the source language is not specified, the API will attempt to detect the source language automatically and return it within the response.
             - model: The translation model. Can be either base to use the Phrase-Based Machine Translation (PBMT) model, or nmt to use the Neural Machine Translation (NMT) model. If omitted, then nmt is used. If the model is nmt, and the requested language translation pair is not supported for the NMT model, then the request is translated using the base model.
     */
-    public func translate(_ q: String, _ target: String, _ source: String, _ format: String = "text", _ model: String = "base", _ completion: @escaping ((_ text: String?, _ error: Error?) -> Void)) {
+    public func translate(_ q: String, _ source: String, _ target: String, _ format: String = "text", _ model: String = "base", _ completion: @escaping ((_ text: String?, _ error: Error?) -> Void)) {
         guard var urlComponents = URLComponents(string: API.translate.url) else {
             completion(nil, nil)
             return
@@ -102,6 +110,8 @@ public class TranslateManager: NSObject {
                     completion(nil, error)
                     return
             }
+            
+            debugPrint("Translate data and response: ", data, response)
             
             guard let object = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any], let d = object["data"] as? [String: Any], let translations = d["translations"] as? [[String: String]], let translation = translations.first, let translatedText = translation["translatedText"] else {
                 completion(nil, error)

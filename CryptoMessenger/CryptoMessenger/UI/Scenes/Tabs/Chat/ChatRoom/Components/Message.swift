@@ -23,7 +23,7 @@ struct Reply {
     // MARK: - Internal Properties
 
     let user: String
-    let text: String
+    var text: String
     let replyText: String
 }
 
@@ -47,7 +47,7 @@ struct Message: Identifiable {
     // MARK: - Internal Properties
 
     let id = UUID().uuidString
-    let type: MessageType
+    var type: MessageType
     let status: MessageStatus
     let name: String
     let avatar: UIImage?
@@ -72,7 +72,7 @@ struct RoomMessage: Identifiable {
     // MARK: - Internal Properties
 
     let id: String
-    let type: MessageType
+    var type: MessageType
     let shortDate: String
     let fullDate: String
     let isCurrentUser: Bool
@@ -85,14 +85,6 @@ struct RoomMessage: Identifiable {
     var description: String {
         switch type {
         case var .text(text):
-            TranslateManager.shared.translate(text, "it", "es") { translate, error in
-                debugPrint(translate ?? "")
-                if error != nil {
-                    debugPrint(text)
-                }
-                text = translate ?? "TEXT"
-                debugPrint(text)
-            }
             return text
         case .file:
             return "Файл"

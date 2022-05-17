@@ -25,6 +25,7 @@ final class MainFlowCoordinator: Coordinator {
     weak var delegate: MainFlowCoordinatorDelegate?
 
     let navigationController: UINavigationController
+    let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase
 
     private let togglesFacade: MainFlowTogglesFacadeProtocol
 
@@ -234,9 +235,10 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
     private func showChatRoomScene(room: AuraRoom) {
-        let rootView = ChatRoomConfigurator.configuredView(room: room, delegate: self)
+        let rootView = ChatRoomConfigurator.configuredView(room: room, delegate: self, toggleFacade: togglesFacade)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
+
         navigationController.pushViewController(viewController, animated: true)
     }
 

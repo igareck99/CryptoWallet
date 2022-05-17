@@ -1,15 +1,19 @@
 import SwiftUI
 
 // MARK: - TranslateAction
-// swiftlint:disable:all
+// swiftlint: disable all
 enum TranslateAction: CaseIterable, Identifiable {
-    
     // MARK: - Types
 
     case russian
+    case system
     case english
-    case spagnish
+    case spanish
     case italian
+    case french
+    case arabic
+    case german
+    case chinese
 
     // MARK: - Internal Properties
 
@@ -18,16 +22,74 @@ enum TranslateAction: CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .russian:
+            return "Русский язык"
+        case .system:
+            return "Как в системе"
+        case .english:
+            return "Английский язык"
+        case .spanish:
+            return "Испанский язык"
+        case .italian:
+            return "Итальянский язык"
+        case .french:
+            return "Француский язык"
+        case .arabic:
+            return "Арабский язык"
+        case .german:
+            return "Немецкий язык"
+        case .chinese:
+            return "中國人"
+        }
+    }
+    
+    var languageCode: String {
+        switch Locale.preferredLanguages[0] {
+        case "ru":
             return "Русский"
+        case "en":
+            return "English"
+        case "es":
+            return "Spanish"
+        case "it":
+            return "Italiano"
+        case "fr":
+            return "French"
+        case "ar":
+            return "Arabic"
+        case "de":
+            return "German"
+        case "zh-CN":
+            return "Chinese"
+        default: break
+        }
+        return ""
+    }
+        
+    var description: String {
+        switch self {
+        case .russian:
+            return "Russian"
+        case .system:
+            return "Как в системе \(languageCode)"
         case .english:
             return "English"
-        case .spagnish:
+        case .spanish:
             return "Spanish"
         case .italian:
             return "Italian"
+        case .french:
+            return "English"
+        case .arabic:
+            return "Arabic"
+        case .german:
+            return "German"
+        case .chinese:
+            return "中國人"
         }
     }
-
+    
+    var color: Palette { self == .russian || self == .english ? .red() : .blue() }
+    
     var image: Image {
         switch self {
         default:
@@ -43,42 +105,46 @@ struct TranslateMenuView: View {
     // MARK: - Internal Properties
 
     @Binding var action: TranslateAction?
-    @Binding var cardPosition: CardPosition
+    @Binding var translateCardPosition: CardPosition
 
     // MARK: - Private Properties
 
-    @State private var isShown = false
+//    @State private var isShown = false
 
     // MARK: - Body
 
     var body: some View {
         VStack(spacing: 0) {
             ForEach(TranslateAction.allCases, id: \.id) { act in
-                Button(action: {
-                    vibrate()
-                    action = act
-                    cardPosition = .bottom
-                }, label: {
-                    HStack {
-                        HStack {
-                            act.image
+                HStack(alignment: .firstTextBaseline) {
+                        VStack {
+//                            HStack {
+//                                act.image
+//                            }
+//                            .frame(width: 40, height: 40)
+//                            .background(act.color.suColor.opacity(0.1))
+//                            .cornerRadius(20)
                         }
-                        .frame(width: 40, height: 40)
-//                        .background(act.color.suColor.opacity(0.1))
-                        .cornerRadius(20)
-
-                        Text(act.title)
-                            .font(.regular(17))
-//                            .foreground(act == .default ? .red() : .blue())
-                            .padding(.leading, 16)
-
+                    VStack(alignment: .leading) {
+                            Text(act.title)
+                                .font(.bold(15))
+                                .foreground(.black())
+                                .padding(.leading, 16)
+                            Text(act.description)
+                                .font(.regular(13))
+                                .foreground(.black())
+                                .padding(.leading, 16)
+                        }
                         Spacer()
                     }
                     .frame(height: 64)
                     .padding([.leading, .trailing], 16)
-                })
-                .frame(height: 64)
+                    .onTapGesture {
+                        vibrate()
+                        action = act
+                        translateCardPosition = .bottom
+                    }
+                }
             }
         }
-    }
 }

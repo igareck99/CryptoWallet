@@ -71,7 +71,7 @@ struct ChatRoomRow: View {
                     .padding(.leading, 16)
                     .padding(.trailing, -11)
                 }
-
+                
                 BubbleView(direction: isFromCurrentUser ? .right : .left) {
                     VStack(alignment: .leading, spacing: 0) {
                         if message.isReply {
@@ -92,10 +92,12 @@ struct ChatRoomRow: View {
                             }
                             .frame(height: 24)
                         }
-                        // swiftlint:disabel:unneeded_parentheses_in_closure_argument
+                        // swiftlint:disable:unneeded_parentheses_in_closure_argument
+                        // swiftlint:disable:redundant_discardable_let
+                        // swiftlint:disable:unused_closure_parameter
                         HStack(spacing: 0) {
                             switch message.type {
-                            case let .text(text):
+                            case var .text(text):
                                 textRow(message, text: text)
                             case let .location(location):
                                 mapRow(location)

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -241,8 +241,8 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
+		782047B4283D1DED0065E0E9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BE122C32825415100F7707E /* GoogleService-Info.plist */; };
 		7831DFD7280947D900AF1F1D /* TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831DFD6280947D900AF1F1D /* TranslateManager.swift */; };
-		7834045B281439C900137BB1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7834045A281439C900137BB1 /* GoogleService-Info.plist */; };
 		783AADC92811ABE000E2228A /* TranslateMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783AADC82811ABE000E2228A /* TranslateMenuView.swift */; };
 		78437F0D270C76FE00371110 /* AboutAppPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F07270C76FE00371110 /* AboutAppPresenter.swift */; };
 		78437F0E270C76FE00371110 /* AboutAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F08270C76FE00371110 /* AboutAppViewController.swift */; };
@@ -424,7 +424,6 @@
 		8BE122BC28240C8B00F7707E /* RemoteConfigUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE122BB28240C8B00F7707E /* RemoteConfigUseCase.swift */; };
 		8BE122BF28242EB500F7707E /* MainFlowTogglesFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE122BE28242EB500F7707E /* MainFlowTogglesFacade.swift */; };
 		8BE122C228253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE122C128253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift */; };
-		8BE122C42825415100F7707E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BE122C32825415100F7707E /* GoogleService-Info.plist */; };
 		8BE3798F27E9C47D00AB6B6E /* TokenInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */; };
 		8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */; };
 		8BE3799927EA133800AB6B6E /* SelectTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799827EA133700AB6B6E /* SelectTokenView.swift */; };
@@ -734,7 +733,6 @@
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
 		7831DFD6280947D900AF1F1D /* TranslateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateManager.swift; sourceTree = "<group>"; };
-		7834045A281439C900137BB1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		783AADC82811ABE000E2228A /* TranslateMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateMenuView.swift; sourceTree = "<group>"; };
 		78437F07270C76FE00371110 /* AboutAppPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppPresenter.swift; sourceTree = "<group>"; };
 		78437F08270C76FE00371110 /* AboutAppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppViewController.swift; sourceTree = "<group>"; };
@@ -1016,7 +1014,6 @@
 		5A187DB226806EF8001957D3 = {
 			isa = PBXGroup;
 			children = (
-				7834045A281439C900137BB1 /* GoogleService-Info.plist */,
 				5A187DBD26806EF8001957D3 /* CryptoMessenger */,
 				5A187DBC26806EF8001957D3 /* Products */,
 				C48D3F6781FE772D12943E74 /* Pods */,
@@ -2750,8 +2747,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A187DCB26806EF9001957D3 /* LaunchScreen.storyboard in Resources */,
-				7834045B281439C900137BB1 /* GoogleService-Info.plist in Resources */,
+				782047B4283D1DED0065E0E9 /* GoogleService-Info.plist in Resources */,
 				5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */,
+				782047B3283D1C110065E0E9 /* GoogleService-Info.plist in Resources */,
 				5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */,
 				5A42680F26A8393A000C51DD /* Localizable.strings in Resources */,
 				5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */,
@@ -2803,6 +2801,7 @@
 		};
 		5A4267FB26A83315000C51DD /* R.swift */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

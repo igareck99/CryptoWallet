@@ -2,7 +2,7 @@ import Combine
 import UIKit
 
 // MARK: - ChatRoomViewModel
-// swiftlint:disable:all
+// swiftlint:disable all
 final class ChatRoomViewModel: ObservableObject {
 
     // MARK: - Internal Properties
@@ -17,11 +17,12 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var translateAction: TranslateAction?
 
     @Published private(set) var keyboardHeight: CGFloat = 0
-    @Published private(set) var messages: [RoomMessage] = []
     @Published private(set) var emojiStorage: [ReactionStorage] = []
     @Published private(set) var state: ChatRoomFlow.ViewState = .idle
     @Published private(set) var userMessage: Message?
     @Published private(set) var room: AuraRoom
+    @Published var messages: [RoomMessage] = []
+    @Published var translatedMessages: [RoomMessage] = []
     @Published var showPhotoLibrary = false
     @Published var showDocuments = false
     @Published var showContacts = false
@@ -40,24 +41,16 @@ final class ChatRoomViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     private let keyboardObserver = KeyboardObserver()
     private let locationManager = LocationManager()
-    //swiftlint:disable redundant_optional_initialization
-    private var deviceLanguageCode: String = ""
-    private var localeLanguageCode: String = ""
-    private var sourceLanguage: TranslateManager.Language? = nil
-    private var targetLanguage: TranslateManager.Language? = nil
-    
-    private var sourceName: TranslateManager.Language?
-    private var targetName: TranslateManager.Language?
-        
-    private var languagesList: [[TranslateManager.Language]] = [[TranslateManager.Language]]()
 
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
-    
-    private var toggleFacade: MainFlowTogglesFacadeProtocol
+
+    //swiftlint:disable redundant_optional_initialization
+    var toggleFacade: MainFlowTogglesFacadeProtocol
     
     // MARK: - Lifecycle
 
-    init(room: AuraRoom) {
+    init(room: AuraRoom, toggleFacade: MainFlowTogglesFacadeProtocol) {
+        self.toggleFacade = toggleFacade
         self.room = room
         bindInput()
         bindOutput()
@@ -90,15 +83,69 @@ final class ChatRoomViewModel: ObservableObject {
     }
 
     func next(_ item: RoomMessage) -> RoomMessage? {
-        messages.next(item: item)
+        // TODO: Разобрать модель RoomMessage и заменить на выход переведенное сообщение если рубильник включен.
+        if TranslateManager.shared.isActive {
+            return translatedMessages.next(item: item)
+        } else {
+            return messages.next(item: item)
+        }
     }
 
     func previous(_ item: RoomMessage) -> RoomMessage? {
-        messages.previous(item: item)
+        if TranslateManager.shared.isActive {
+            return translatedMessages.next(item: item)
+        } else {
+            return messages.previous(item: item)
+        }
     }
 
     func fromCurrentSender(_ userId: String) -> Bool {
 		matrixUseCase.fromCurrentSender(userId)
+    }
+    
+    func translateMessagesTo(languageCode: String) {
+        showTranslateMenu = false
+        for message in self.messages {
+            self.translateTo(languageCode: languageCode, message: message)
+        }
+    }
+    
+    func translateTo(languageCode: String, message: RoomMessage) {
+        var message = message
+        switch message.type {
+        case let .text(text):
+            TranslateManager.shared.detect(text) { (locales, error) in
+                if error != nil {
+                    TranslateManager.shared.isActive = false
+                    
+                    return
+                }
+                TranslateManager.shared.isActive = true
+                
+                if let locales = locales {
+                    TranslateManager.shared.source = locales[0].language
+                }
+                
+                // Language check
+                if Locale.current.languageCode != nil {
+                    DispatchQueue.main.async {
+                        self.translatedMessages.removeAll()
+                    }
+                                                            
+                    TranslateManager.shared.translate(text, TranslateManager.shared.source, languageCode) { (translate , error) in
+                        DispatchQueue.main.async {
+                            if let translate = translate {
+                                message.type = .text(translate)
+                            }
+                            self.translatedMessages.append(message)
+                            self.translatedMessages = self.translatedMessages.sorted(by: { $0.id < $1.id })
+                        }
+                    }
+                }
+            }
+        default:
+            break
+        }
     }
 
     // MARK: - Private Methods
@@ -213,12 +260,31 @@ final class ChatRoomViewModel: ObservableObject {
         
         $translateAction
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] action in
+            .sink { action in
                 switch action {
-//                case .translate:
-////                    self?.showPhotoLibrary = true
-                default:
-                    break
+                case .russian:
+                    self.translateMessagesTo(languageCode: "ru")
+                case .system, .none:
+//                    let languageLocale = TranslateManager.shared.languagesList.filter{$0.language == Locale.current.languageCode}
+//                    if !languageLocale.isEmpty {
+//                        self.translateMessagesTo(languageCode: languageLocale[0].language)
+//                    }
+                    TranslateManager.shared.isActive = false
+                    self.translatedMessages = self.messages
+                case .italian:
+                    self.translateMessagesTo(languageCode: "it")
+                case .english:
+                    self.translateMessagesTo(languageCode: "en")
+                case .spanish:
+                    self.translateMessagesTo(languageCode: "es")
+                case .french:
+                    self.translateMessagesTo(languageCode: "fr")
+                case .arabic:
+                    self.translateMessagesTo(languageCode: "ar")
+                case .german:
+                    self.translateMessagesTo(languageCode: "de")
+                case .chinese:
+                        self.translateMessagesTo(languageCode: "zh-CN")
                 }
             }
             .store(in: &subscriptions)
@@ -301,7 +367,13 @@ final class ChatRoomViewModel: ObservableObject {
                     .compactMap { $0 }
             }
             .store(in: &subscriptions)
+//             swiftlint:disable:next array_init
+//            cameraManager.$error
+//              .receive(on: RunLoop.main)
+//              .map { $0 }
+//                      .assign(to: &$error)
     }
+    
     private func bindOutput() {
         stateValueSubject
             .assign(to: \.state, on: self)

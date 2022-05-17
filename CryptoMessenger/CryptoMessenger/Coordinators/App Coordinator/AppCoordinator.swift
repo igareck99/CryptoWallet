@@ -111,11 +111,16 @@ extension AppCoordinator: AppCoordinatorProtocol {
 			}
 			return chatRoomDelegate
 		}
+        
+        let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase
+        let togglesFacade = MainFlowTogglesFacade(remoteConfigUseCase: remoteConfigUseCase)
+
 		let pushCoordinator = PushNotificationCoordinatorAssembly.build(
 			getChatRoomSceneDelegate: getChatRoomSceneDelegate,
 			notificationResponse: notification,
 			navigationController: self.navigationController,
-			delegate: self
+            delegate: self,
+            toggleFacade: togglesFacade
 		)
 
 		if !userFlows.isLocalAuth && userFlows.isAuthFlowFinished {

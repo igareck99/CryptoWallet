@@ -6,14 +6,13 @@ import SwiftUI
 // swiftlint:disable all
 
 struct ChatRoomView: View {
-
     // MARK: - ActiveSheet
 
     enum ActiveSheet: Identifiable {
 
         // MARK: - Types
 
-        case photo, documents, camera, contact, translate
+        case photo, documents, camera, contact
 
         // MARK: - Internal Properties
 
@@ -31,6 +30,7 @@ struct ChatRoomView: View {
     @State private var messageId = ""
     @State private var cardPosition: CardPosition = .bottom
     @State private var cardGroupPosition: CardPosition = .bottom
+    @State private var translateCardPosition: CardPosition = .bottom
     @State private var scrolled = false
     @State private var showActionSheet = false
     @State private var showJoinAlert = false
@@ -39,6 +39,7 @@ struct ChatRoomView: View {
     @State private var showSettings = false
     @State private var showQuickMenu = false
     @State private var showTranslateAlert = false
+    @State private var showTranslateMenu = false
     @State private var activeSheet: ActiveSheet?
     @State private var replyMessage: RoomMessage?
     @State private var quickAction: QuickAction?
@@ -49,8 +50,6 @@ struct ChatRoomView: View {
     // MARK: - Body
 
     var body: some View {
-        var languagesList: [TranslateManager.Language] = []
-
         content
             .onAppear {
                 viewModel.send(.onAppear)
@@ -70,11 +69,7 @@ struct ChatRoomView: View {
                 // 1 Detecting language
                 // swiftlint:disable:unneeded_parentheses_in_closure_argument
                 TranslateManager.shared.languages { languages, error in
-                    if error != nil {
-                        return
-                    }
-                    
-                    languagesList = languages ?? []
+                    TranslateManager.shared.languagesList = languages ?? []
                 }
             }
             .onDisappear {
@@ -88,13 +83,7 @@ struct ChatRoomView: View {
             }
             .onReceive(viewModel.$showTranslate) { flag in
                 if flag {
-//                    activeSheet = .translate
                     showTranslateAlert = true
-                }
-            }
-            .onReceive(viewModel.$showTranslateMenu) { flag in
-                if flag { activeSheet = .translate
-                    activeSheet = .translate
                 }
             }
             .alert(isPresented: $showJoinAlert) {
@@ -115,42 +104,16 @@ struct ChatRoomView: View {
 
             .alert(isPresented: $showTranslateAlert) { () -> Alert in
                 let dismissButton = Alert.Button.default(Text("Поменять")) {
-//                    viewModel.detect(message: "Buongiorno")
-//                    viewModel.messages.first?.type {
-//                    case text(text):
-//                            viewModel.detect(message: text)
-//                    }
-//                    viewModel.showTranslate = true
-//                    TranslateManager.shared.translate("Hello!", "es", "en") { (text, error) in
-//                        debugPrint(text, error)
-//                    }
-//                    presentationMode.wrappedValue.dismiss()
-                    viewModel.showTranslateMenu = true
-
+                    translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
                 }
-                let confirmButto = Alert.Button.default(Text("Перевести")) {
-//                    presentationMode.wrappedValue.dismiss()
-                    
+                let confirmButton = Alert.Button.default(Text("Перевести")) {
                     for message in viewModel.messages {
-                        switch message.type {
-                        case var .text(text): break
-                            text = "TEST"
-                            TranslateManager.shared.translate(text, "it", "es") { (translate , error) in
-                                debugPrint(translate)
-                                text = translate ?? "TEXT"
-                                debugPrint(text)
-                            }
-                            
-                        default:
-                            break
-//                                    textRow(message, text: text)
-                        }
+                        viewModel.translateTo(languageCode: "ru", message: message)
                     }
-
                 }
                 let alert = Alert(title: Text("Переводить сообщения на Русский язык"),
                                   message: Text("ВНИМАНИЕ! При переводе сообщий их шифрования теряется!"),
-                                  primaryButton: confirmButto, secondaryButton: dismissButton)
+                                  primaryButton: confirmButton, secondaryButton: dismissButton)
                 return alert
             }
             .sheet(item: $activeSheet) { item in
@@ -173,8 +136,6 @@ struct ChatRoomView: View {
                             viewModel.pickedContact = $0.first
                         })
                     }
-                case .translate:
-                    translateMenuView
                 }
             }
             .overlay(
@@ -253,7 +214,7 @@ struct ChatRoomView: View {
                     HStack(spacing: 0) {
                         Spacer()
                         Button(action: {
-                            cardGroupPosition = .custom(482)
+                            cardGroupPosition = .custom(180)
                         }, label: {
                             R.image.navigation.settingsButton.image
                         })
@@ -273,20 +234,20 @@ struct ChatRoomView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 0) {
                             Spacer().frame(height: 16)
-
-                            ForEach(viewModel.messages) { message in
-                                ChatRoomRow(
-                                    message: message,
-                                    isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
-                                    isDirect: viewModel.room.isDirect,
-                                    onReaction: { reactionId in
-                                        vibrate()
-                                        viewModel.send(
-                                            .onDeleteReaction(messageId: message.id, reactionId: reactionId)
-                                        )
-                                    },
-                                    onSelectPhoto: { selectedPhoto = $0 }
-                                )
+                            if TranslateManager.shared.isActive {
+                                ForEach(viewModel.translatedMessages) { message in
+                                    ChatRoomRow(
+                                        message: message,
+                                        isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
+                                        isDirect: viewModel.room.isDirect,
+                                        onReaction: { reactionId in
+                                            vibrate()
+                                            viewModel.send(
+                                                .onDeleteReaction(messageId: message.id, reactionId: reactionId)
+                                            )
+                                        },
+                                        onSelectPhoto: { selectedPhoto = $0 }
+                                    )
                                     .flippedUpsideDown()
                                     .listRowSeparator(.hidden)
                                     .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
@@ -296,25 +257,71 @@ struct ChatRoomView: View {
                                         cardPosition = .custom(UIScreen.main.bounds.height - 580)
                                         hideKeyboard()
                                     }
-
-                                if viewModel.next(message)?.fullDate != message.fullDate {
-                                    dateView(date: message.fullDate)
-                                        .flippedUpsideDown()
-                                        .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
-                                        .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                    
+                                    if viewModel.next(message)?.fullDate != message.fullDate {
+                                        dateView(date: message.fullDate)
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                    }
                                 }
-                            }
-                            .onChange(of: viewModel.messages) { _ in
-                                viewModel.room.markAllAsRead()
-                                guard let id = viewModel.messages.first?.id else { return }
-                                withAnimation {
-                                    scrollView.scrollTo(id, anchor: .bottom)
+                                .onChange(of: viewModel.translatedMessages) { _ in
+                                    viewModel.room.markAllAsRead()
+                                    translateCardPosition = .bottom
+                                    guard let id = viewModel.translatedMessages.first?.id else { return }
+                                    withAnimation {
+                                        scrollView.scrollTo(id, anchor: .bottom)
+                                    }
                                 }
-                            }
-                            .onAppear {
-                                guard let id = viewModel.messages.first?.id else { return }
-                                withAnimation {
-                                    scrollView.scrollTo(id, anchor: .bottom)
+                                .onAppear {
+                                    guard let id = viewModel.translatedMessages.first?.id else { return }
+                                    withAnimation {
+                                        scrollView.scrollTo(id, anchor: .bottom)
+                                    }
+                                }
+                            } else {
+                                ForEach(viewModel.messages) { message in
+                                    ChatRoomRow(
+                                        message: message,
+                                        isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
+                                        isDirect: viewModel.room.isDirect,
+                                        onReaction: { reactionId in
+                                            vibrate()
+                                            viewModel.send(
+                                                .onDeleteReaction(messageId: message.id, reactionId: reactionId)
+                                            )
+                                        },
+                                        onSelectPhoto: { selectedPhoto = $0 }
+                                    )
+                                    .flippedUpsideDown()
+                                    .listRowSeparator(.hidden)
+                                    .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
+                                        vibrate(.medium)
+                                        messageId = message.id
+                                        replyMessage = message
+                                        cardPosition = .custom(UIScreen.main.bounds.height - 580)
+                                        hideKeyboard()
+                                    }
+                                    
+                                    if viewModel.next(message)?.fullDate != message.fullDate {
+                                        dateView(date: message.fullDate)
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                    }
+                                }
+                                .onChange(of: viewModel.messages) { _ in
+                                    viewModel.room.markAllAsRead()
+                                    guard let id = viewModel.messages.first?.id else { return }
+                                    withAnimation {
+                                        scrollView.scrollTo(id, anchor: .bottom)
+                                    }
+                                }
+                                .onAppear {
+                                    guard let id = viewModel.messages.first?.id else { return }
+                                    withAnimation {
+                                        scrollView.scrollTo(id, anchor: .bottom)
+                                    }
                                 }
                             }
                         }
@@ -338,8 +345,11 @@ struct ChatRoomView: View {
             }
 
             quickMenuView
-
+            
             groupMenuView
+            
+            translateMenuView
+                        
                         
             if selectedPhoto != nil {
                 ZStack {
@@ -454,7 +464,6 @@ struct ChatRoomView: View {
 
             SlideCard(position: $cardPosition, expandedPosition: .custom(UIScreen.main.bounds.height - 580)) {
                 VStack {
-
                     QuickMenuView(cardPosition: $cardPosition, onAction: {
                         switch $0 {
                         case .copy:
@@ -486,27 +495,25 @@ struct ChatRoomView: View {
 
             SlideCard(position: $cardGroupPosition) {
                 VStack(spacing: 0) {
-                    GroupMenuView(action: $viewModel.groupAction, cardPosition: $cardGroupPosition)
+                    GroupMenuView(action: $viewModel.groupAction, cardGroupPosition: $cardGroupPosition)
                 }.padding(.vertical, 32)
             }
         }
     }
     private var translateMenuView: some View {
         ZStack {
-            Color(cardGroupPosition == .bottom ? .clear : .black(0.4))
+            Color(translateCardPosition == .bottom ? .clear : .black(0.4))
                 .ignoresSafeArea()
-                .animation(.easeInOut, value: cardGroupPosition != .bottom)
+                .animation(.easeInOut, value: translateCardPosition != .bottom)
                 .onTapGesture {
                     vibrate()
-                    cardGroupPosition = .bottom
-
+                    translateCardPosition = .bottom
                 }
 
-
-            SlideCard(position: $cardGroupPosition) {
+            SlideCard(position: $translateCardPosition, expandedPosition: .custom(UIScreen.main.bounds.height - 630)) {
                 VStack(spacing: 0) {
-                    TranslateMenuView(action: $viewModel.translateAction, cardPosition: $cardGroupPosition)
-                }.padding(.vertical, 16)
+                    TranslateMenuView(action: $viewModel.translateAction, translateCardPosition: $translateCardPosition)
+                }.padding(.vertical, 32)
             }
         }
     }
