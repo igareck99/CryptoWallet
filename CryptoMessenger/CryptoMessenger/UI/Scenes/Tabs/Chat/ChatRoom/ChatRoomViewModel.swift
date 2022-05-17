@@ -101,6 +101,7 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.inputText = ""
                     self?.room.sendText(text)
                     self?.matrixUseCase.objectChangePublisher.send()
+                    self?.fetchChatData()
                 case let .onSendImage(image):
                     self?.inputText = ""
                     self?.room.sendImage(image)
@@ -119,6 +120,8 @@ final class ChatRoomViewModel: ObservableObject {
                     }
                 case let .onReply(text, eventId):
                     self?.room.reply(text: text, eventId: eventId)
+                    self?.matrixUseCase.objectChangePublisher.send()
+                    self?.fetchChatData()
                 case let .onDelete(eventId):
                     self?.room.removeOutgoingMessage(eventId)
                 case .onAddReaction(let messageId, let reactionId):
@@ -256,13 +259,6 @@ final class ChatRoomViewModel: ObservableObject {
                     .compactMap { $0 }
             }
             .store(in: &subscriptions)
-
-        // swiftlint:disable:next array_init
-//        cameraManager.$error
-//          .receive(on: RunLoop.main)
-//          .map { $0 }
-        //          .assign(to: &$error)
-        //
     }
 
     private func bindOutput() {

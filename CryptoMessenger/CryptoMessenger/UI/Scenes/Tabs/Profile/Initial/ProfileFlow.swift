@@ -23,6 +23,7 @@ enum ProfileFlow {
         // MARK: - Types
 
         case onAppear
+        case onProfileAppear
         case onShow(ProfileSettingsMenu)
         case onAddPhoto(UIImage)
         case onSocial

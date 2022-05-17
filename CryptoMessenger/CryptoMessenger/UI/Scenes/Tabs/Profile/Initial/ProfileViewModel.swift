@@ -146,8 +146,10 @@ final class ProfileViewModel: ObservableObject {
         eventSubject
             .sink { [weak self] event in
                 switch event {
-                case .onAppear:
+                case .onProfileAppear:
                     self?.fetchData()
+                case .onAppear:
+                    self?.fetchImageData()
                 case .onSocial:
                     self?.delegate?.handleNextScene(.socialList)
                 case let .onShow(type):
@@ -307,5 +309,18 @@ final class ProfileViewModel: ObservableObject {
 			profile.phone = phoneNumber
 		}
         getPhotos()
+    }
+    
+    private func fetchImageData() {
+        let link = matrixUseCase.getAvatarUrl()
+        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+        profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+        profile.nickname = matrixUseCase.getUserId()
+        if !matrixUseCase.getDisplayName().isEmpty {
+            profile.name = matrixUseCase.getDisplayName()
+        }
+        if !matrixUseCase.getStatus().isEmpty {
+            profile.status = matrixUseCase.getStatus()
+        }
     }
 }
