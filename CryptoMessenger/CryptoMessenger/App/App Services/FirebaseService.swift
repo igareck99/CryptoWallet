@@ -11,6 +11,6 @@ final class FirebaseService: NSObject, UIApplicationDelegate {}
 extension FirebaseService: FirebaseServiceProtocol {
 
 	func configure() {
-//		FirebaseApp.configure()
+		RemoteConfigUseCaseAssembly.useCase
 	}
 }

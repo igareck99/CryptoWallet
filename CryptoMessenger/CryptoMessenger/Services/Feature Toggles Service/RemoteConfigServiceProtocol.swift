@@ -2,9 +2,9 @@ import Foundation
 
 protocol RemoteConfigServiceProtocol: AnyObject {
 
-	func fetchRemoteConfig(completion: (Bool) -> Void)
+	func fetchRemoteConfig(completion: @escaping (Bool) -> Void)
 
-	func remoteConfig(forKey key: RemoteFirebaseConfigValue) -> RemoteConfigModule?
+	func remoteConfigModule(forKey key: RemoteConfigValues) -> RemoteConfigModule?
 
     func setupFirebaseRemoteSettings()
 }

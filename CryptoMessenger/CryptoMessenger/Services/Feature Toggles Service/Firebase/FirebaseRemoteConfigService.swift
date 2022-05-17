@@ -1,10 +1,11 @@
-import FirebaseRemoteConfig
 import Firebase
 
 final class FirebaseRemoteConfigService {
 
-	private var remoteConfig = FirebaseRemoteConfig.RemoteConfig.remoteConfig()
 	private let remoteConfigFactory: RemoteConfigFactoryProtocol
+	private var remoteConfiguration: RemoteConfig {
+		FirebaseRemoteConfig.RemoteConfig.remoteConfig()
+	}
 
     init(
 		remoteConfigFactory: RemoteConfigFactoryProtocol
@@ -17,16 +18,16 @@ final class FirebaseRemoteConfigService {
 
 extension FirebaseRemoteConfigService: RemoteConfigServiceProtocol {
 
-	func fetchRemoteConfig(completion: (Bool) -> Void) {
-		remoteConfig.fetchAndActivate { fetchStatus, error in
-			debugPrint("Status: \(fetchStatus), Error: \(String(describing: error))")
+	func fetchRemoteConfig(completion: @escaping (Bool) -> Void) {
+		remoteConfiguration.fetchAndActivate { fetchStatus, error in
+			debugPrint("RemoteConfig: Status: \(fetchStatus), Error: \(String(describing: error))")
+			completion(fetchStatus != .error)
 		}
 	}
 
-	func remoteConfig(forKey key: RemoteFirebaseConfigValue) -> RemoteConfigModule? {
-		let remoteConfigData = self.remoteConfig.configValue(forKey: RemoteFirebaseConfigValue.aura.rawValue).dataValue
-		let remoteConfig = remoteConfigFactory.makeRemoteConfig(from: remoteConfigData)
-		let featureModule = remoteConfig?.modules[key.rawValue]
+	func remoteConfigModule(forKey key: RemoteConfigValues) -> RemoteConfigModule? {
+		let remoteConfigData = remoteConfiguration.configValue(forKey: key.rawValue).dataValue
+		let featureModule = remoteConfigFactory.makeModule(from: remoteConfigData)
 		return featureModule
 	}
 
@@ -34,43 +35,17 @@ extension FirebaseRemoteConfigService: RemoteConfigServiceProtocol {
         FirebaseApp.configure()
         let settings = RemoteConfigSettings()
         settings.minimumFetchInterval = 0
-        remoteConfig.configSettings = settings
-        remoteConfig.setDefaults(fromPlist: "GoogleService-Info")
-        remoteConfig.fetch { [weak self] status, error -> Void in
+		remoteConfiguration.configSettings = settings
+		remoteConfiguration.setDefaults(fromPlist: "GoogleService-Info")
+		remoteConfiguration.fetch { [weak self] status, error -> Void in
             if status == .success {
-                debugPrint("Config fetched!")
-                self?.remoteConfig.activate { changed, error in
-                    debugPrint(changed)
-                    debugPrint("\(error.debugDescription)")
+                debugPrint("RemoteConfig: Config fetched")
+                self?.remoteConfiguration.activate { changed, error in
+                    debugPrint("RemoteConfig: changed: \(changed) error: \(error.debugDescription)")
                 }
             } else {
-                debugPrint("Config not fetched. Error: \(error?.localizedDescription ?? "No error available.")")
+				debugPrint("RemoteConfig: Fetched error: \(String(describing: error?.localizedDescription))")
             }
         }
-    }
-}
-
-// MARK: - RemoteValueKey
-
-enum RemoteValueKey: String {
-    case Chat
-    case Wallet
-}
-
-// MARK: - RemoteFirebaseConfigValue
-
-enum RemoteFirebaseConfigValue: String {
-
-	case aura = "Aura"
-	case chat = "Chat"
-	case wallet = "Wallet"
-
-	enum Chat: String {
-		case groupChat
-        case personalChat
-    }
-
-	enum Wallet: String {
-		case ethereumWallet
     }
 }

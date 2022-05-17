@@ -472,6 +472,10 @@
 		D44BDC9A280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */; };
 		D44BDC9B280FECC80080AE8A /* DependeciesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC95280FECC80080AE8A /* DependeciesService.swift */; };
 		D44BDC9D280FECC80080AE8A /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC97280FECC80080AE8A /* FirebaseService.swift */; };
+		D4533A142832C9A600B956B2 /* ChatRoomTogglesFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A132832C9A600B956B2 /* ChatRoomTogglesFacade.swift */; };
+		D4533A182833567D00B956B2 /* RemoteConfigValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A172833567D00B956B2 /* RemoteConfigValues.swift */; };
+		D4533A1C28335A6700B956B2 /* RemoteConfigServiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */; };
+		D4533A1E28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */; };
 		D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46187D2282D093200CA2836 /* ChatHistorySources.swift */; };
 		D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */; };
 		D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */; };
@@ -956,6 +960,10 @@
 		D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserCredentialsStorage.swift"; sourceTree = "<group>"; };
 		D44BDC95280FECC80080AE8A /* DependeciesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependeciesService.swift; sourceTree = "<group>"; };
 		D44BDC97280FECC80080AE8A /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		D4533A132832C9A600B956B2 /* ChatRoomTogglesFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTogglesFacade.swift; sourceTree = "<group>"; };
+		D4533A172833567D00B956B2 /* RemoteConfigValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValues.swift; sourceTree = "<group>"; };
+		D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceAssembly.swift; sourceTree = "<group>"; };
+		D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		D46187D2282D093200CA2836 /* ChatHistorySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySources.swift; sourceTree = "<group>"; };
 		D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixServiceProtocol.swift; sourceTree = "<group>"; };
 		D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Session.swift"; sourceTree = "<group>"; };
@@ -1726,6 +1734,7 @@
 				5A67791B26C7A64100212580 /* ChatRoomRow.swift */,
 				5A9318D226C5AAF100645365 /* ChatRoomViewModel.swift */,
 				5A9318D426C5AAF100645365 /* ChatRoomFlow.swift */,
+				D4533A132832C9A600B956B2 /* ChatRoomTogglesFacade.swift */,
 			);
 			path = ChatRoom;
 			sourceTree = "<group>";
@@ -2403,6 +2412,7 @@
 		8BE122BD28242E7000F7707E /* Main Flow Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */,
 				5AF8636F26ADD9BB004A417C /* MainFlowCoordinator.swift */,
 				8BE122BE28242EB500F7707E /* MainFlowTogglesFacade.swift */,
 			);
@@ -2412,8 +2422,9 @@
 		8BE122C028253EF500F7707E /* Remote Config UseCase */ = {
 			isa = PBXGroup;
 			children = (
-				8BE122BB28240C8B00F7707E /* RemoteConfigUseCase.swift */,
 				8BE122C128253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift */,
+				8BE122BB28240C8B00F7707E /* RemoteConfigUseCase.swift */,
+				D4533A172833567D00B956B2 /* RemoteConfigValues.swift */,
 			);
 			path = "Remote Config UseCase";
 			sourceTree = "<group>";
@@ -2522,6 +2533,7 @@
 		D428A53B2823C99D002CAA13 /* Feature Toggles Service */ = {
 			isa = PBXGroup;
 			children = (
+				D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */,
 				D428A53C2823CA8D002CAA13 /* RemoteConfigServiceProtocol.swift */,
 				8B27435D281AE3A900B5957C /* RemoteConfigModels.swift */,
 				8B27435F281AE75A00B5957C /* RemoteConfigFactory.swift */,
@@ -3007,6 +3019,7 @@
 				5A9B472426EAA010001CC627 /* ReactionView.swift in Sources */,
 				5A9318B926BD210400645365 /* PinCodeView.swift in Sources */,
 				8B24FDD827A820C60021177C /* SessionProtocols.swift in Sources */,
+				D4533A182833567D00B956B2 /* RemoteConfigValues.swift in Sources */,
 				8B12263927C53121008DC048 /* SlideCardsView.swift in Sources */,
 				D4442B4C2811996F0033D07A /* KeychainService.swift in Sources */,
 				5A3721DC272F3A210097ABED /* DynamicHeightTextField.swift in Sources */,
@@ -3027,6 +3040,7 @@
 				5A187EA62680708D001957D3 /* NibLoadableView.swift in Sources */,
 				5A4BE518271DD86A00D03D09 /* ReactionEvent.swift in Sources */,
 				5AF8633926AA994E004A417C /* VerificationConfigurator.swift in Sources */,
+				D4533A1C28335A6700B956B2 /* RemoteConfigServiceAssembly.swift in Sources */,
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
 				8B6E555A279FF967002054CF /* PinCodeCreateProtocols.swift in Sources */,
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
@@ -3073,6 +3087,7 @@
 				5A26CD6126B35C9B00118D4B /* Message.swift in Sources */,
 				D4FA3F6D28183586000246D8 /* AppDelegateUseCaseAssembly.swift in Sources */,
 				D4AB8FFE282672F800E6FAB5 /* MatrixService+Rooms.swift in Sources */,
+				D4533A142832C9A600B956B2 /* ChatRoomTogglesFacade.swift in Sources */,
 				789FEBD526D651530018FE91 /* AdditionalView.swift in Sources */,
 				5A26CD3B26B3211100118D4B /* TapAnimator.swift in Sources */,
 				5AABB78727398A6E004D6107 /* NavigationBarModifier.swift in Sources */,
@@ -3107,6 +3122,7 @@
 				8B4E9C3F27E0AA150057E4C9 /* WalletAdressScanerFlow.swift in Sources */,
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
 				8BA0C8FC27AD19A70070203F /* ChatSettingsViewModel.swift in Sources */,
+				D4533A1E28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift in Sources */,
 				78437F1C270CE98800371110 /* PaywallViewController.swift in Sources */,
 				5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */,
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
