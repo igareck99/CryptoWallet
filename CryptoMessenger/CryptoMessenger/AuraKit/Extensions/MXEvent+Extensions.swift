@@ -117,6 +117,26 @@ extension MXEvent {
         }
     }
 
+	// TODO: Посмотреть как работает на расшифрованных сообщениях
+	func decryptedText() -> String {
+		if !isEdit() {
+			let text = (clear.content[.body] as? String).map {
+				$0
+					.trimmingCharacters(in: .controlCharacters)
+					.trimmingCharacters(in: .whitespacesAndNewlines)
+			} ?? "Error: expected string body"
+			return text
+		} else {
+			let newContent = clear.content[.newContent] as? NSDictionary
+			let text = (newContent?[MXEventEventKey.body] as? String).map {
+				$0
+					.trimmingCharacters(in: .controlCharacters)
+					.trimmingCharacters(in: .whitespacesAndNewlines)
+			} ?? "Error: expected string body"
+			return text
+		}
+	}
+
     var replyDescription: String {
         if text.contains(">") {
             let startIndex = text.index(text.lastIndex(of: ">") ?? text.startIndex, offsetBy: 2)
@@ -133,12 +153,14 @@ extension MXEvent {
     func prevContent<T>(valueFor key: String) -> T? { unsignedData?.prevContent?[key] as? T }
 
     func message(_ isFromCurrentUser: Bool) -> RoomMessage? {
-        switch eventType {
-        case .roomMessage:
-            return rowItem(isFromCurrentUser)
-        default:
-            return nil
-        }
+		switch eventType {
+		case .roomMessage:
+			return rowItem(isFromCurrentUser)
+		case .roomEncrypted:
+			return encryptedRowItem(isFromCurrentUser)
+		default:
+			return nil
+		}
     }
 
     // MARK: - Private Methods
@@ -154,4 +176,25 @@ extension MXEvent {
             replyDescription: replyDescription
         )
     }
+
+	private func encryptedRowItem(_ isFromCurrentUser: Bool) -> RoomMessage {
+		// TODO: Проверить как работает на расшифрованных сообщениях
+		let type: MessageType
+		if clear == nil {
+			type = .text("Не удалось расшифровать сообщение")
+		} else {
+			type = .text(decryptedText())
+		}
+
+		let roomMessage = RoomMessage(
+			id: eventId,
+			type: type,
+			shortDate: timestamp.hoursAndMinutes,
+			fullDate: timestamp.dayOfWeekDayAndMonth,
+			isCurrentUser: isFromCurrentUser,
+			isReply: isReply(),
+			replyDescription: replyDescription
+		)
+		return roomMessage
+	}
 }
