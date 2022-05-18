@@ -24,6 +24,7 @@ struct EventCollection {
         kMXEventTypeStringRoomPowerLevels,
         kMXEventTypeStringRoomName,
         kMXMessageTypeImage,
+		kMXEventTypeStringRoomEncrypted,
         MXEventCustomEvent.contactInfo.identifier
     ]
 

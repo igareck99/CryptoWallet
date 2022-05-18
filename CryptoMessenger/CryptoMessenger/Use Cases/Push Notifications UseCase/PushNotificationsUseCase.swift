@@ -61,6 +61,9 @@ final class PushNotificationsUseCase: NSObject {
 	}
 
 	private func handleUpdateOf(deviceToken: Data) {
+		let pushKeyDebug = deviceToken.map { String(format: "%02x", $0) }.joined()
+		debugPrint("pushKeyDebug: \(pushKeyDebug.debugDescription)")
+
 		// Если пуш токен обновился, то обновляем пушер
 		guard pushNotificationsService.isRegisteredForRemoteNotifications,
 			  keychainService[.pushToken] != deviceToken,
