@@ -79,16 +79,29 @@ struct ChatRoomRow: View {
                                     .foreground(.blue(0.9))
                                     .padding(.top, 8)
                                     .padding(.leading, 16)
-
-                                Text(message.replyDescription, [
-                                    .color(.blue()),
-                                    .font(.medium(13))
-                                ])
-                                    .padding(.top, 2)
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(message.name,
+                                         [
+                                            .font(.medium(13)),
+                                            .paragraph(.init(lineHeightMultiple: 1.19, alignment: .left)),
+                                            .color(.black())
+                                        ]
+                                    )
+                                        .padding(.top, 8)
+                                    Text(message.replyDescription,
+                                         [
+                                            .font(.regular(13)),
+                                            .paragraph(.init(lineHeightMultiple: 1.2,
+                                                             alignment: .left)),
+                                            .color(.black())
+                                        ]
+                                    )
+                                }
+                                .frame(minWidth: 0, maxWidth: 70)
                                     .padding(.leading, 8)
                                     .padding(.trailing, 16)
                             }
-                            .frame(height: 24)
+                            .frame(height: 40)
                         }
 
                         HStack(spacing: 0) {
@@ -180,12 +193,6 @@ struct ChatRoomRow: View {
                     Spacer()
                 }
             }
-            //            if !message.reactions.isEmpty {
-            //                reactions()
-            //                    .padding(.bottom, -18)
-            //                    .opacity(isAnimating ? 1 : 0)
-            //                    .animation(.easeInOut)
-            //            }
         }
         .onTapGesture {}
         .onAppear {
@@ -272,12 +279,6 @@ struct ChatRoomRow: View {
                         .font(.medium(15)),
                         .paragraph(.init(lineHeightMultiple: 1.26, alignment: .left))
                     ]).frame(height: 23)
-
-                    //                    Text(url?.fileSize() ?? "", [
-                    //                        .color(.darkGray()),
-                    //                        .font(.regular(13)),
-                    //                        .paragraph(.init(lineHeightMultiple: 1, alignment: .left))
-                    //                    ]).frame(height: 16)
                     Spacer()
                 }.padding(.leading, 11)
 

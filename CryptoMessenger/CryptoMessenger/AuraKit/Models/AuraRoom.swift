@@ -188,13 +188,27 @@ final class AuraRoom: ObservableObject {
         guard !text.isEmpty else { return }
         var localEcho: MXEvent?
         guard let event = events().renderableEvents.first(where: { eventId == $0.eventId }) else { return }
-        room.sendReply(to: event, textMessage: text,
+        var rootMessage = ""
+        if event.text.contains(">") {
+            let startIndex = event.text.index(event.text.lastIndex(of: ">") ?? event.text.startIndex, offsetBy: 2)
+            rootMessage = String(event.text.suffix(from: startIndex))
+            let rootMessageAll = rootMessage.split(separator: "\n")
+            rootMessage = String(rootMessageAll[0])
+        } else {
+            rootMessage = event.text
+        }
+        let customParameters = ["m.reply_to": ReplyCustomContent(rootUserId: event.sender,
+                                                                 rootMessage: rootMessage,
+                                                                 rootEventId: event.eventId,
+                                                                 rootLink: "").content]
+        room.sendReply(to: event,
+                       textMessage: text,
                        formattedTextMessage: nil,
                        stringLocalizations: nil,
-                       localEcho: &localEcho) { _ in
+                       localEcho: &localEcho,
+                       customParameters: customParameters) { _ in
             self.objectWillChange.send()
-        }
-    }
+        }    }
 
     func markAllAsRead() {
         room.markAllAsRead()
@@ -239,4 +253,22 @@ extension UIImage {
     func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
         jpegData(compressionQuality: jpegQuality.rawValue)
     }
+}
+
+// MARK: - ReplyCustomContent
+
+struct ReplyCustomContent: Codable {
+
+    // MARK: - Internal Properties
+
+    var rootUserId: String = "root_user_id"
+    var rootMessage: String = "root_message"
+    var rootEventId: String = "root_event_id"
+    var rootLink: String = "root_link"
+    var content: [String: Any] {
+            return ["root_user_id": rootUserId,
+                    "root_message": rootMessage,
+                    "root_event_id": rootEventId,
+                    "root_link": rootLink]
+        }
 }
