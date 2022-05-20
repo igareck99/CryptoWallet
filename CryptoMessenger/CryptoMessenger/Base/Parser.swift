@@ -13,7 +13,7 @@ extension Parser: Parsable {
 		do {
 			return try JSONDecoder().decode(type.self, from: data)
 		} catch {
-			debugPrint("Parse error of type: \(String(describing: type))")
+			debugPrint("Parse error of type: \(String(describing: type)) error: \(error.localizedDescription)")
 		}
 		return nil
 	}

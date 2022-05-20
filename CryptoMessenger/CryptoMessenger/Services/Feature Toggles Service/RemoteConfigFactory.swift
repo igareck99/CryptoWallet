@@ -2,7 +2,7 @@ import Foundation
 
 protocol RemoteConfigFactoryProtocol {
 
-	func makeRemoteConfig(from data: Data) -> RemoteConfig?
+	func makeRemoteConfig(from data: Data) -> RemoteConfigurations?
 
 	func makeModule(from data: Data) -> RemoteConfigModule?
 
@@ -24,8 +24,8 @@ final class RemoteConfigFactory {
 
 extension RemoteConfigFactory: RemoteConfigFactoryProtocol {
 
-	func makeRemoteConfig(from data: Data) -> RemoteConfig? {
-		let remoteConfig = parser.parse(data: data, to: RemoteConfig.self)
+	func makeRemoteConfig(from data: Data) -> RemoteConfigurations? {
+		let remoteConfig = parser.parse(data: data, to: RemoteConfigurations.self)
 		return remoteConfig
 	}
 

@@ -1,9 +1,9 @@
 import Foundation
 
 protocol RemoteConfigUseCaseProtocol {
-    var configState: RemoteConfigUseCase.ConfigStates { get }
-    func remoteConfig(forKey key: RemoteFirebaseConfigValue) -> RemoteConfigModule?
-    func start()
+	var configState: RemoteConfigUseCase.ConfigStates { get }
+
+	func remoteConfigModule(forKey key: RemoteConfigValues) -> RemoteConfigModule?
 }
 
 final class RemoteConfigUseCase {
@@ -14,11 +14,14 @@ final class RemoteConfigUseCase {
         case updating
     }
 
+	static let shared: RemoteConfigUseCaseProtocol = RemoteConfigUseCaseAssembly.build()
+
     let firebaseService: RemoteConfigServiceProtocol
     var configState: ConfigStates = .notUpdated
 
     init(firebaseService: RemoteConfigServiceProtocol) {
         self.firebaseService = firebaseService
+		activateConfig()
     }
 
     private func activateConfig() {
@@ -28,18 +31,15 @@ final class RemoteConfigUseCase {
 }
 
 extension RemoteConfigUseCase: RemoteConfigUseCaseProtocol {
-    func remoteConfig(forKey key: RemoteFirebaseConfigValue) -> RemoteConfigModule? {
-        firebaseService.remoteConfig(forKey: key)
-    }
-
-    func start() {
-        activateConfig()
+    func remoteConfigModule(forKey key: RemoteConfigValues) -> RemoteConfigModule? {
+        firebaseService.remoteConfigModule(forKey: key)
     }
 
     func updateConfig() {
         configState = .updating
-        firebaseService.fetchRemoteConfig { _ in
-            configState = .actual
+        firebaseService.fetchRemoteConfig { [weak self] _ in
+			self?.configState = .actual
+			debugPrint("RemoteConfig: .configDidUpdate Notification")
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: .configDidUpdate, object: nil)
             }

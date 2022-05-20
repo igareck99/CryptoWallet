@@ -49,10 +49,11 @@ final class AppCoordinator {
 
 	private func showMainFlow() {
 		userFlows.isLocalAuth = false
-        let togglesFacade = RemoteConfigUseCaseAssembly.build(appCoordinator: self)
-        let mainFlowCoordinator = MainFlowCoordinator(navigationController: navigationController,
-                                                      togglesFacade: togglesFacade)
-        mainFlowCoordinator.delegate = self
+
+		let mainFlowCoordinator = MainFlowCoordinatorAssembly.build(
+			delegate: self,
+			navigationController: navigationController
+		)
         addChildCoordinator(mainFlowCoordinator)
         mainFlowCoordinator.start()
     }
