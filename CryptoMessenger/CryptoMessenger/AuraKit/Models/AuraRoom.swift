@@ -172,13 +172,12 @@ final class AuraRoom: ObservableObject {
 
     func sendContact(_ contact: Contact) {
         var localEcho: MXEvent?
-
         var content: [String: Any] = [:]
         content[.messageType] = MXEventCustomEvent.contactInfo.identifier
         content[.name] = contact.name
         content[.phone] = contact.phone
         content[.avatar] = contact.avatar?.absoluteString ?? ""
-
+        content[.body] = ""
         room.sendMessage(withContent: content, localEcho: &localEcho) { _ in
             self.objectWillChange.send()
         }

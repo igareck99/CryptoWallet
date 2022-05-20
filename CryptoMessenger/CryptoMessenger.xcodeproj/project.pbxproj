@@ -359,6 +359,8 @@
 		8B5A338827D89D170064C7DC /* TransferConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5A338727D89D170064C7DC /* TransferConfigurator.swift */; };
 		8B5A338A27D89D400064C7DC /* TransferViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5A338927D89D400064C7DC /* TransferViewModel.swift */; };
 		8B5A338C27D89D6D0064C7DC /* TransferFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5A338B27D89D6D0064C7DC /* TransferFlow.swift */; };
+		8B5D83F3283B7DFF0035815B /* ContactInfoResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5D83F2283B7DFF0035815B /* ContactInfoResources.swift */; };
+		8B5D83F5283B81B60035815B /* ContactInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5D83F4283B81B60035815B /* ContactInfoViewModel.swift */; };
 		8B637D8727CCF06A000B1B2B /* FilterTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8627CCF06A000B1B2B /* FilterTransactionView.swift */; };
 		8B637D8A27CE3BC4000B1B2B /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8927CE3BC4000B1B2B /* RadioButton.swift */; };
 		8B637D8C27CE3BE1000B1B2B /* RadioGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8B27CE3BE1000B1B2B /* RadioGroup.swift */; };
@@ -434,6 +436,7 @@
 		8BE379AD27EB7CFE00AB6B6E /* KeyListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE379AC27EB7CFE00AB6B6E /* KeyListConfigurator.swift */; };
 		8BE379AF27EB7D0900AB6B6E /* KeyListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE379AE27EB7D0900AB6B6E /* KeyListViewModel.swift */; };
 		8BE379B127EB82A000AB6B6E /* KeyListActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE379B027EB82A000AB6B6E /* KeyListActionView.swift */; };
+		8BE644F52837660200FA6540 /* ContactInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE644F42837660200FA6540 /* ContactInfoView.swift */; };
 		8BE66738280F1C4600D41A3C /* CreateContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE66737280F1C4600D41A3C /* CreateContactView.swift */; };
 		8BE6673B280F4A4A00D41A3C /* UIFont+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6673A280F4A4A00D41A3C /* UIFont+Init.swift */; };
 		8BE6673D280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6673C280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift */; };
@@ -846,6 +849,8 @@
 		8B5A338727D89D170064C7DC /* TransferConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferConfigurator.swift; sourceTree = "<group>"; };
 		8B5A338927D89D400064C7DC /* TransferViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferViewModel.swift; sourceTree = "<group>"; };
 		8B5A338B27D89D6D0064C7DC /* TransferFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferFlow.swift; sourceTree = "<group>"; };
+		8B5D83F2283B7DFF0035815B /* ContactInfoResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfoResources.swift; sourceTree = "<group>"; };
+		8B5D83F4283B81B60035815B /* ContactInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfoViewModel.swift; sourceTree = "<group>"; };
 		8B637D8627CCF06A000B1B2B /* FilterTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTransactionView.swift; sourceTree = "<group>"; };
 		8B637D8927CE3BC4000B1B2B /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		8B637D8B27CE3BE1000B1B2B /* RadioGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioGroup.swift; sourceTree = "<group>"; };
@@ -923,6 +928,7 @@
 		8BE379B027EB82A000AB6B6E /* KeyListActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyListActionView.swift; sourceTree = "<group>"; };
 		8BE54AD2274C605700D51827 /* BlockedUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserView.swift; sourceTree = "<group>"; };
 		8BE54AD4274C606400D51827 /* BlockedUserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserItem.swift; sourceTree = "<group>"; };
+		8BE644F42837660200FA6540 /* ContactInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfoView.swift; sourceTree = "<group>"; };
 		8BE66737280F1C4600D41A3C /* CreateContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateContactView.swift; sourceTree = "<group>"; };
 		8BE6673A280F4A4A00D41A3C /* UIFont+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Init.swift"; sourceTree = "<group>"; };
 		8BE6673C280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iPhoneNumberField+ViewModifiers.swift"; sourceTree = "<group>"; };
@@ -1742,6 +1748,7 @@
 		5A9318DA26C5AB8900645365 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				8BE644F3283765EC00FA6540 /* Contact */,
 				5ABF08CB27D950350016CC6F /* GroupActions */,
 				5A3C942D274BC51500818060 /* NewRoomView */,
 				5A1FE9CE26EFAE99008A649E /* Core */,
@@ -2478,6 +2485,16 @@
 			path = BlackList;
 			sourceTree = "<group>";
 		};
+		8BE644F3283765EC00FA6540 /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				8BE644F42837660200FA6540 /* ContactInfoView.swift */,
+				8B5D83F2283B7DFF0035815B /* ContactInfoResources.swift */,
+				8B5D83F4283B81B60035815B /* ContactInfoViewModel.swift */,
+			);
+			path = Contact;
+			sourceTree = "<group>";
+		};
 		8BE66739280F4A2900D41A3C /* IphoneNumberTextField */ = {
 			isa = PBXGroup;
 			children = (
@@ -2928,6 +2945,7 @@
 				789FEBD026D3CE580018FE91 /* CallCell.swift in Sources */,
 				7846B67026E8C00D00B05984 /* CellUpdate.swift in Sources */,
 				8BE6673F280F4ACD00D41A3C /* iPhoneNumberField.swift in Sources */,
+				8B5D83F3283B7DFF0035815B /* ContactInfoResources.swift in Sources */,
 				5A187EA32680708D001957D3 /* CollectionViewProvider.swift in Sources */,
 				5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */,
 				8B8B9C2127F330040061F5E6 /* SocialListConfigurator.swift in Sources */,
@@ -3185,6 +3203,7 @@
 				8BF0FCD6281174F900FF7C6F /* CreateContactViewModel.swift in Sources */,
 				8B5A338C27D89D6D0064C7DC /* TransferFlow.swift in Sources */,
 				8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */,
+				8B5D83F5283B81B60035815B /* ContactInfoViewModel.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
 				D44BDC832809A2EE0080AE8A /* MatrixNotification.swift in Sources */,
 				8BE379A027EB26BC00AB6B6E /* WalletManagerFlow.swift in Sources */,
@@ -3292,6 +3311,7 @@
 				8B4E9C3027DFF6320057E4C9 /* ScannerCoordinator.swift in Sources */,
 				5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */,
 				5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */,
+				8BE644F52837660200FA6540 /* ContactInfoView.swift in Sources */,
 				5AF8635E26ADB691004A417C /* OnboardingPageViewController.swift in Sources */,
 				5AA6410026822C3A008922B4 /* Palette.swift in Sources */,
 				8BE122BF28242EB500F7707E /* MainFlowTogglesFacade.swift in Sources */,
