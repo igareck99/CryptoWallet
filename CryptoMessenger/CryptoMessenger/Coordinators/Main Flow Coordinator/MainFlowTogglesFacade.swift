@@ -12,7 +12,6 @@ protocol MainFlowTogglesFacadeProtocol {
 final class MainFlowTogglesFacade {
 
     private let remoteConfigUseCase: RemoteConfigUseCaseProtocol
-
     static let shared = MainFlowTogglesFacade()
 
     init(

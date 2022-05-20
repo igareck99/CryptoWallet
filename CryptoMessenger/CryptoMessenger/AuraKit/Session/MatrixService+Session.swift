@@ -7,6 +7,8 @@ typealias LoginCompletion = GenericBlock<Result<MXCredentials, Error>>
 
 extension MatrixService {
 
+	var matrixSession: MXSession? { session }
+
 	func initializeSessionStore(completion: @escaping (EmptyResult) -> Void) {
 
 		session?.setStore(fileStore) { response in

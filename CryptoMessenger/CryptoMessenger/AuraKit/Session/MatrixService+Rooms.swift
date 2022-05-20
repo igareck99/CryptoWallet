@@ -49,4 +49,23 @@ extension MatrixService {
 	func isDirectRoomExists(userId: String) -> Bool {
 		session?.directJoinedRoom(withUserId: userId) != nil
 	}
+
+	func placeVoiceCall(
+		roomId: String,
+		completion: @escaping (Result<MXCall, MXErrors>) -> Void
+	) {
+		guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room
+		else { completion(.failure(.voiceCallPlaceError)); return }
+
+		room.placeCall(withVideo: false) { response in
+			debugPrint("Place_Call: response: \(response)")
+			switch response {
+			case .success(let call):
+				completion(.success(call))
+			case .failure(_):
+				debugPrint("Place_Call: placeVoiceCall: voiceCallPlaceError")
+				completion(.failure(.voiceCallPlaceError))
+			}
+		}
+	}
 }
