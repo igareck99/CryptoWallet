@@ -397,6 +397,11 @@
 "PhraseManager.SuccessPhrase" = "Успешно";
 
 
+"ContactChatDetail.Close" = "Закрыть";
+"ContactChatDetail.Info" = "Информация";
+"ContactChatDetail.CellPhone" = "Сотовый";
+"ContactChatDetail.ContactViewing" = "Просмотр контакта";
+
 
 
 

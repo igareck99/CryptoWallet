@@ -1,6 +1,8 @@
 import Combine
 import UIKit
 
+// MARK: - ChatHistoryViewModel
+
 final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 
     weak var delegate: ChatHistorySceneDelegate?

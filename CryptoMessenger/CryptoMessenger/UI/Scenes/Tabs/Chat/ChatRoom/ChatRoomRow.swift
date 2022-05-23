@@ -17,6 +17,8 @@ struct ChatRoomRow: View {
     @State private var showMap = false
     @State private var showFile = false
     @State private var isAnimating = false
+    @State private var showContactInfo = false
+    @State var chatContactInfo = ChatContactInfo(name: "")
 
     // MARK: - Lifecycle
 
@@ -180,13 +182,10 @@ struct ChatRoomRow: View {
                     Spacer()
                 }
             }
-            //            if !message.reactions.isEmpty {
-            //                reactions()
-            //                    .padding(.bottom, -18)
-            //                    .opacity(isAnimating ? 1 : 0)
-            //                    .animation(.easeInOut)
-            //            }
         }
+        .sheet(isPresented: $showContactInfo, content: {
+            ContactInfoView(data: chatContactInfo)
+        })
         .onTapGesture {}
         .onAppear {
             if !isAnimating {
@@ -272,12 +271,6 @@ struct ChatRoomRow: View {
                         .font(.medium(15)),
                         .paragraph(.init(lineHeightMultiple: 1.26, alignment: .left))
                     ]).frame(height: 23)
-
-                    //                    Text(url?.fileSize() ?? "", [
-                    //                        .color(.darkGray()),
-                    //                        .font(.regular(13)),
-                    //                        .paragraph(.init(lineHeightMultiple: 1, alignment: .left))
-                    //                    ]).frame(height: 16)
                     Spacer()
                 }.padding(.leading, 11)
 
@@ -320,7 +313,10 @@ struct ChatRoomRow: View {
                 .frame(height: 40)
 
                 Button(action: {
-
+                    chatContactInfo = ChatContactInfo(name: name,
+                                                      phone: phone,
+                                                      url: url)
+                    showContactInfo = true
                 }, label: {
                     Text("Просмотр контакта")
                         .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44, alignment: .center)
@@ -337,8 +333,7 @@ struct ChatRoomRow: View {
                 Spacer()
             }
             .padding(.top, 8)
-            .padding(.leading, 10)
-            .padding(.trailing, 16)
+            .padding(.horizontal, 16)
 
             checkTextReadView()
         }
@@ -391,6 +386,7 @@ struct ChatRoomRow: View {
                             .font(.light(12))
                             .foreground(.black(0.5))
                             .padding(.trailing, !isFromCurrentUser ? 16 : 0)
+                            .padding(.leading, isFromCurrentUser ? 0 : 16)
 
                         if isFromCurrentUser {
                             Image(R.image.chat.readCheck.name)

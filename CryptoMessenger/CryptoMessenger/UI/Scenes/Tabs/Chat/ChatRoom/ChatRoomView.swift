@@ -184,11 +184,6 @@ struct ChatRoomView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: 0) {
                         Spacer()
-                        // Button(action: {
-                        //
-                        // }, label: {
-                        // R.image.navigation.phoneButton.image
-                        // })
                         Button(action: {
                             cardGroupPosition = .custom(482)
                         }, label: {
@@ -390,26 +385,6 @@ struct ChatRoomView: View {
 
             SlideCard(position: $cardPosition, expandedPosition: .custom(UIScreen.main.bounds.height - 580)) {
                 VStack {
-                    //                    ScrollView(.horizontal, showsIndicators: false) {
-                    //                        HStack(spacing: 11) {
-                    //                            ForEach(viewModel.emojiStorage) { reaction in
-                    //                                LastReactionItemView(emoji: reaction.emoji, isLastButton: reaction.isLastButton)
-                    //                                    .onTapGesture {
-                    //                                        vibrate()
-                    //                                        viewModel.send(.onAddReaction(messageId: messageId, reactionId: reaction.id))
-                    //                                        cardPosition = .bottom
-                    //                                    }
-                    //                            }
-                    //                        }
-                    //                        .frame(height: 40)
-                    //                        .padding(.top, 22)
-                    //                        .padding(.horizontal, 16)
-                    //                    }
-                    //
-                    //                    Rectangle()
-                    //                        .frame(height: 1)
-                    //                        .foreground(.darkGray(0.4))
-                    //                        .padding(.top, 12)
 
                     QuickMenuView(cardPosition: $cardPosition, onAction: {
                         switch $0 {
