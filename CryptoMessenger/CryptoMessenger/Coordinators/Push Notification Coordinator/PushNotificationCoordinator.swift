@@ -39,7 +39,7 @@ extension PushNotificationCoordinator: Coordinator {
 		if let chatRoomDelegate = getChatRoomSceneDelegate(),
 		   let matrixEvent = parser.parseMatrixEvent(userInfo: userInfo),
 		   let auraRoom = matrixUseCase.rooms.first(where: { $0.room.roomId == matrixEvent.roomId }) {
-			let rootView = ChatRoomConfigurator.configuredView(room: auraRoom, delegate: chatRoomDelegate)
+            let rootView = ChatRoomConfigurator.configuredView(room: auraRoom, delegate: chatRoomDelegate, toggleFacade: toggleFacade)
 			let viewController = BaseHostingController(rootView: rootView)
 			viewController.hidesBottomBarWhenPushed = true
 			navigationController.popToRootViewController(animated: true)

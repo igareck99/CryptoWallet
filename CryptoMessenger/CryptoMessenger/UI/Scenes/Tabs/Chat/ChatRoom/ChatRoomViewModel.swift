@@ -36,9 +36,21 @@ final class ChatRoomViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     private let keyboardObserver = KeyboardObserver()
     private let locationManager = LocationManager()
+    //swiftlint:disable redundant_optional_initialization
+    private var deviceLanguageCode: String = ""
+    private var localeLanguageCode: String = ""
+    private var sourceLanguage: TranslateManager.Language? = nil
+    private var targetLanguage: TranslateManager.Language? = nil
+    
+    private var sourceName: TranslateManager.Language?
+    private var targetName: TranslateManager.Language?
+        
+    private var languagesList: [[TranslateManager.Language]] = [[TranslateManager.Language]]()
 
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
-
+    
+    private var toggleFacade: MainFlowTogglesFacadeProtocol
+    
     // MARK: - Lifecycle
 
     init(room: AuraRoom) {
