@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		window = UIWindow()
 		window?.rootViewController = rootNavigationController
+        TranslateManager.shared.start(with: "AIzaSyCLV04yqZm4x7suaE8UbkFzAkiiBDX7X8s")
 
 		pushNotificationsUseCase?.start()
 		appDelegateUseCase?.start()

@@ -241,6 +241,9 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
+		7831DFD7280947D900AF1F1D /* TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831DFD6280947D900AF1F1D /* TranslateManager.swift */; };
+		7834045B281439C900137BB1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7834045A281439C900137BB1 /* GoogleService-Info.plist */; };
+		783AADC92811ABE000E2228A /* TranslateMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783AADC82811ABE000E2228A /* TranslateMenuView.swift */; };
 		78437F0D270C76FE00371110 /* AboutAppPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F07270C76FE00371110 /* AboutAppPresenter.swift */; };
 		78437F0E270C76FE00371110 /* AboutAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F08270C76FE00371110 /* AboutAppViewController.swift */; };
 		78437F0F270C76FE00371110 /* AboutAppProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F09270C76FE00371110 /* AboutAppProtocols.swift */; };
@@ -730,6 +733,9 @@
 		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
+		7831DFD6280947D900AF1F1D /* TranslateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateManager.swift; sourceTree = "<group>"; };
+		7834045A281439C900137BB1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		783AADC82811ABE000E2228A /* TranslateMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateMenuView.swift; sourceTree = "<group>"; };
 		78437F07270C76FE00371110 /* AboutAppPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppPresenter.swift; sourceTree = "<group>"; };
 		78437F08270C76FE00371110 /* AboutAppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppViewController.swift; sourceTree = "<group>"; };
 		78437F09270C76FE00371110 /* AboutAppProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppProtocols.swift; sourceTree = "<group>"; };
@@ -1010,6 +1016,7 @@
 		5A187DB226806EF8001957D3 = {
 			isa = PBXGroup;
 			children = (
+				7834045A281439C900137BB1 /* GoogleService-Info.plist */,
 				5A187DBD26806EF8001957D3 /* CryptoMessenger */,
 				5A187DBC26806EF8001957D3 /* Products */,
 				C48D3F6781FE772D12943E74 /* Pods */,
@@ -1309,6 +1316,7 @@
 				D44BDC90280FECC80080AE8A /* App Services */,
 				D44BDC91280FECC80080AE8A /* UserDefaults Service */,
 				D4442B3F28113BB40033D07A /* Keychain Service */,
+				7831DFD52809479C00AF1F1D /* Translate */,
 				8B4E9C2C27DFF5EA0057E4C9 /* CodeScaner */,
 				7895E6E326CC1B39009CF41D /* LocalAuthentication */,
 				5A187EDF2680CF49001957D3 /* PhotoLibraryManager */,
@@ -1749,6 +1757,7 @@
 			isa = PBXGroup;
 			children = (
 				8BE644F3283765EC00FA6540 /* Contact */,
+				783AADC72811ABBC00E2228A /* TranslateActions */,
 				5ABF08CB27D950350016CC6F /* GroupActions */,
 				5A3C942D274BC51500818060 /* NewRoomView */,
 				5A1FE9CE26EFAE99008A649E /* Core */,
@@ -1962,6 +1971,22 @@
 				5AF8636826ADCB9B004A417C /* KeyImportFlow.swift */,
 			);
 			path = KeyImport;
+			sourceTree = "<group>";
+		};
+		7831DFD52809479C00AF1F1D /* Translate */ = {
+			isa = PBXGroup;
+			children = (
+				7831DFD6280947D900AF1F1D /* TranslateManager.swift */,
+			);
+			path = Translate;
+			sourceTree = "<group>";
+		};
+		783AADC72811ABBC00E2228A /* TranslateActions */ = {
+			isa = PBXGroup;
+			children = (
+				783AADC82811ABE000E2228A /* TranslateMenuView.swift */,
+			);
+			path = TranslateActions;
 			sourceTree = "<group>";
 		};
 		78437F06270C76E500371110 /* AboutApp */ = {
@@ -2725,7 +2750,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A187DCB26806EF9001957D3 /* LaunchScreen.storyboard in Resources */,
-				8BE122C42825415100F7707E /* GoogleService-Info.plist in Resources */,
+				7834045B281439C900137BB1 /* GoogleService-Info.plist in Resources */,
 				5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */,
 				5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */,
 				5A42680F26A8393A000C51DD /* Localizable.strings in Resources */,
@@ -2877,6 +2902,7 @@
 				8B8B9C2327F330120061F5E6 /* SocialListProtocols.swift in Sources */,
 				5A24B25426F289F000EFC5E2 /* MapSnapshotView.swift in Sources */,
 				5A187E9F2680708D001957D3 /* ScalableButtonView.swift in Sources */,
+				7831DFD7280947D900AF1F1D /* TranslateManager.swift in Sources */,
 				5A2181E426D80B4E0093AD60 /* ActionSheetView.swift in Sources */,
 				5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */,
 				8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */,
@@ -3307,6 +3333,7 @@
 				78437F1A270CE94000371110 /* PaywallView.swift in Sources */,
 				8B432CC627C3955A0025D62B /* WalletNewViewModel.swift in Sources */,
 				8B6C18CA279ABB5700B85F2A /* BlockedListProtocols.swift in Sources */,
+				783AADC92811ABE000E2228A /* TranslateMenuView.swift in Sources */,
 				5A187DF326807011001957D3 /* BaseViewController.swift in Sources */,
 				8B4E9C3027DFF6320057E4C9 /* ScannerCoordinator.swift in Sources */,
 				5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */,
@@ -3460,7 +3487,7 @@
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 39;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = Z48WYVF59J;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
@@ -3487,7 +3514,7 @@
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 39;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = Z48WYVF59J;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;

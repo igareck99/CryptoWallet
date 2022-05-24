@@ -2,7 +2,7 @@ import Combine
 import UIKit
 
 // MARK: - ChatRoomViewModel
-
+// swiftlint:disable:all
 final class ChatRoomViewModel: ObservableObject {
 
     // MARK: - Internal Properties
@@ -14,6 +14,8 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var inputText = ""
     @Published var attachAction: AttachAction?
     @Published var groupAction: GroupAction?
+    @Published var translateAction: TranslateAction?
+
     @Published private(set) var keyboardHeight: CGFloat = 0
     @Published private(set) var messages: [RoomMessage] = []
     @Published private(set) var emojiStorage: [ReactionStorage] = []
@@ -23,6 +25,8 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var showPhotoLibrary = false
     @Published var showDocuments = false
     @Published var showContacts = false
+    @Published var showTranslate = false
+    @Published var showTranslateMenu = false
     @Published var selectedImage: UIImage?
     @Published var pickedImage: UIImage?
     @Published var pickedContact: Contact?
@@ -194,7 +198,31 @@ final class ChatRoomViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
-
+        
+        $groupAction
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] action in
+                switch action {
+                case .translate:
+                    self?.showTranslate = true
+                default:
+                    break
+                }
+            }
+            .store(in: &subscriptions)
+        
+        $translateAction
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] action in
+                switch action {
+//                case .translate:
+////                    self?.showPhotoLibrary = true
+                default:
+                    break
+                }
+            }
+            .store(in: &subscriptions)
+        
         $selectedImage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
@@ -274,7 +302,6 @@ final class ChatRoomViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
     }
-
     private func bindOutput() {
         stateValueSubject
             .assign(to: \.state, on: self)

@@ -1,7 +1,9 @@
 import Combine
 import SwiftUI
 
+
 // MARK: - ChatRoomView
+// swiftlint:disable all
 
 struct ChatRoomView: View {
 
@@ -11,7 +13,7 @@ struct ChatRoomView: View {
 
         // MARK: - Types
 
-        case photo, documents, camera, contact
+        case photo, documents, camera, contact, translate
 
         // MARK: - Internal Properties
 
@@ -36,15 +38,19 @@ struct ChatRoomView: View {
     @State private var selectedPhoto: URL?
     @State private var showSettings = false
     @State private var showQuickMenu = false
+    @State private var showTranslateAlert = false
     @State private var activeSheet: ActiveSheet?
     @State private var replyMessage: RoomMessage?
     @State private var quickAction: QuickAction?
 
     @FocusState private var inputViewIsFocused: Bool
+    
 
     // MARK: - Body
 
     var body: some View {
+        var languagesList: [TranslateManager.Language] = []
+
         content
             .onAppear {
                 viewModel.send(.onAppear)
@@ -60,6 +66,16 @@ struct ChatRoomView: View {
                 }
 
                 UITextView.appearance().background(.grayDAE1E9())
+                
+                // 1 Detecting language
+                // swiftlint:disable:unneeded_parentheses_in_closure_argument
+                TranslateManager.shared.languages { languages, error in
+                    if error != nil {
+                        return
+                    }
+                    
+                    languagesList = languages ?? []
+                }
             }
             .onDisappear {
                 showTabBar()
@@ -70,8 +86,16 @@ struct ChatRoomView: View {
             .onReceive(viewModel.$showDocuments) { flag in
                 if flag { activeSheet = .documents }
             }
-            .onReceive(viewModel.$showContacts) { flag in
-                if flag { activeSheet = .contact }
+            .onReceive(viewModel.$showTranslate) { flag in
+                if flag {
+//                    activeSheet = .translate
+                    showTranslateAlert = true
+                }
+            }
+            .onReceive(viewModel.$showTranslateMenu) { flag in
+                if flag { activeSheet = .translate
+                    activeSheet = .translate
+                }
             }
             .alert(isPresented: $showJoinAlert) {
                 let roomName = viewModel.room.summary.displayname ?? "Новый запрос"
@@ -87,6 +111,47 @@ struct ChatRoomView: View {
                         action: { presentationMode.wrappedValue.dismiss() }
                     )
                 )
+            }
+
+            .alert(isPresented: $showTranslateAlert) { () -> Alert in
+                let dismissButton = Alert.Button.default(Text("Поменять")) {
+//                    viewModel.detect(message: "Buongiorno")
+//                    viewModel.messages.first?.type {
+//                    case text(text):
+//                            viewModel.detect(message: text)
+//                    }
+//                    viewModel.showTranslate = true
+//                    TranslateManager.shared.translate("Hello!", "es", "en") { (text, error) in
+//                        debugPrint(text, error)
+//                    }
+//                    presentationMode.wrappedValue.dismiss()
+                    viewModel.showTranslateMenu = true
+
+                }
+                let confirmButto = Alert.Button.default(Text("Перевести")) {
+//                    presentationMode.wrappedValue.dismiss()
+                    
+                    for message in viewModel.messages {
+                        switch message.type {
+                        case var .text(text): break
+                            text = "TEST"
+                            TranslateManager.shared.translate(text, "it", "es") { (translate , error) in
+                                debugPrint(translate)
+                                text = translate ?? "TEXT"
+                                debugPrint(text)
+                            }
+                            
+                        default:
+                            break
+//                                    textRow(message, text: text)
+                        }
+                    }
+
+                }
+                let alert = Alert(title: Text("Переводить сообщения на Русский язык"),
+                                  message: Text("ВНИМАНИЕ! При переводе сообщий их шифрования теряется!"),
+                                  primaryButton: confirmButto, secondaryButton: dismissButton)
+                return alert
             }
             .sheet(item: $activeSheet) { item in
                 switch item {
@@ -108,6 +173,8 @@ struct ChatRoomView: View {
                             viewModel.pickedContact = $0.first
                         })
                     }
+                case .translate:
+                    translateMenuView
                 }
             }
             .overlay(
@@ -178,6 +245,7 @@ struct ChatRoomView: View {
                     .padding(.bottom, 6)
                     .onTapGesture {
                         showSettings.toggle()
+                        showTranslateAlert.toggle()
                     }
                 }
 
@@ -193,6 +261,7 @@ struct ChatRoomView: View {
                     .padding(.bottom, 8)
                 }
             }
+
     }
 
     private var content: some View {
@@ -271,7 +340,7 @@ struct ChatRoomView: View {
             quickMenuView
 
             groupMenuView
-
+                        
             if selectedPhoto != nil {
                 ZStack {
                     ImageViewer(
@@ -418,6 +487,25 @@ struct ChatRoomView: View {
             SlideCard(position: $cardGroupPosition) {
                 VStack(spacing: 0) {
                     GroupMenuView(action: $viewModel.groupAction, cardPosition: $cardGroupPosition)
+                }.padding(.vertical, 32)
+            }
+        }
+    }
+    private var translateMenuView: some View {
+        ZStack {
+            Color(cardGroupPosition == .bottom ? .clear : .black(0.4))
+                .ignoresSafeArea()
+                .animation(.easeInOut, value: cardGroupPosition != .bottom)
+                .onTapGesture {
+                    vibrate()
+                    cardGroupPosition = .bottom
+
+                }
+
+
+            SlideCard(position: $cardGroupPosition) {
+                VStack(spacing: 0) {
+                    TranslateMenuView(action: $viewModel.translateAction, cardPosition: $cardGroupPosition)
                 }.padding(.vertical, 16)
             }
         }

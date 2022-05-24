@@ -92,7 +92,7 @@ struct ChatRoomRow: View {
                             }
                             .frame(height: 24)
                         }
-
+                        // swiftlint:disabel:unneeded_parentheses_in_closure_argument
                         HStack(spacing: 0) {
                             switch message.type {
                             case let .text(text):
