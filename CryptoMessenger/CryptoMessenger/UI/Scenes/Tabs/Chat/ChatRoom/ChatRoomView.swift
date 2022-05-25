@@ -21,6 +21,7 @@ struct ChatRoomView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ChatRoomViewModel
+    @StateObject var attachActionViewModel = AttachActionViewModel()
 
     // MARK: - Private Properties
 
@@ -263,7 +264,8 @@ struct ChatRoomView: View {
                     showActionSheet: $showActionSheet,
                     attachAction: $viewModel.attachAction,
                     cameraFrame: $viewModel.cameraFrame,
-                    onCamera: { showActionSheet = false; activeSheet = .camera }
+                    onCamera: { showActionSheet = false; activeSheet = .camera },
+                    viewModel: attachActionViewModel
                 ).transition(.move(edge: .bottom).combined(with: .opacity))
 
             }

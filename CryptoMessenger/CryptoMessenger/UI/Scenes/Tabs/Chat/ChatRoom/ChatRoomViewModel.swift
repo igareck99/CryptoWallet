@@ -1,5 +1,6 @@
 import Combine
 import UIKit
+import MatrixSDK
 
 // MARK: - ChatRoomViewModel
 
@@ -240,6 +241,7 @@ final class ChatRoomViewModel: ObservableObject {
 		matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
+
             .sink { [weak self] _ in
                 guard
                     let self = self,
@@ -251,7 +253,12 @@ final class ChatRoomViewModel: ObservableObject {
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
                         message?.eventId = $0.eventId
-                        let user = self.matrixUseCase.getUser($0.sender)
+                        var user: MXUser?
+                        if !$0.userId.isEmpty {
+                            user = self.matrixUseCase.getUser($0.userId)
+                        } else {
+                            user = self.matrixUseCase.getUser($0.sender)
+                        }
                         message?.name = user?.displayname ?? ""
                         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                         message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)

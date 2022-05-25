@@ -67,6 +67,7 @@ struct ActionSheetView: View {
     @Binding var attachAction: AttachAction?
     @Binding var cameraFrame: CGImage?
     var onCamera: VoidBlock?
+    var viewModel: AttachActionViewModel
 
     // MARK: - Private Properties
 
@@ -79,35 +80,19 @@ struct ActionSheetView: View {
         ZStack {
             VStack(spacing: 8) {
                 Spacer()
-
                 VStack {
                     balanceView
-
                     mediaFeedView
-
                     ForEach(actions, id: \.id) { item in
-                        Button(action: {
-                            vibrate()
-                            attachAction = item.action
-                            showActionSheet.toggle()
-                        }, label: {
-                            HStack(spacing: 16) {
-                                HStack {
-                                    item.action.image
-                                }
-                                .frame(width: 40, height: 40, alignment: .center)
-                                .background(Color(.blue(0.1)))
-                                .cornerRadius(20)
-
-                                Text(item.action.title)
-                                    .font(.regular(17))
-                                    .foreground(.blue())
-
-                                Spacer()
+                        if item.action == .moneyTransfer {
+                            if viewModel.isTransactionAvailable {
+                                cellAction(item: item)
+                            } else {
+                                EmptyView()
                             }
-                            .frame(maxWidth: .infinity, idealHeight: 64, maxHeight: 64)
-                            .padding(.horizontal, 16)
-                        })
+                        } else {
+                            cellAction(item: item)
+                        }
                     }
                 }
                 .background(.white())
@@ -252,5 +237,30 @@ struct ActionSheetView: View {
         .frame(height: 90)
         .padding(.horizontal, 16)
         .padding(.bottom, 8)
+    }
+
+    private func cellAction(item: ActionItem) -> some View {
+        return Button(action: {
+            vibrate()
+            attachAction = item.action
+            showActionSheet.toggle()
+        }, label: {
+            HStack(spacing: 16) {
+                HStack {
+                    item.action.image
+                }
+                .frame(width: 40, height: 40, alignment: .center)
+                .background(Color(.blue(0.1)))
+                .cornerRadius(20)
+
+                Text(item.action.title)
+                    .font(.regular(17))
+                    .foreground(.blue())
+
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, idealHeight: 64, maxHeight: 64)
+            .padding(.horizontal, 16)
+        })
     }
 }

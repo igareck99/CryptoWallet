@@ -34,7 +34,11 @@ enum MXEventEventKey: String {
     case newContent = "m.new_content"
     case eventId = "event_id"
     case relatesTo = "m.relates_to"
-    case replyTo = "m.in_reply_to"
+    case customContent = "m.reply_to"
+    case rootUserId = "root_user_id"
+    case rootMessage = "root_message"
+    case rootEventId = "root_event_id"
+    case rootLink = "root_link"
 }
 
 // MARK: - Dictionary (ExpressibleByStringLiteral)
@@ -136,6 +140,16 @@ extension MXEvent {
 			return text
 		}
 	}
+
+    var userId: String {
+        if content[.customContent] != nil {
+            let data = content[.customContent] ?? ""
+            let dataDict = data as? [String: String]
+            return dataDict?["root_user_id"] ?? ""
+        } else {
+            return ""
+        }
+    }
 
     var replyDescription: String {
         if text.contains(">") {

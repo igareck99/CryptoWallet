@@ -234,7 +234,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
     private func showChatRoomScene(room: AuraRoom) {
-        let rootView = ChatRoomConfigurator.configuredView(room: room, delegate: self)
+        let rootView = ChatRoomConfigurator.configuredView(room: room,
+                                                           delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
