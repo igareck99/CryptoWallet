@@ -241,6 +241,7 @@ final class ChatRoomViewModel: ObservableObject {
 		matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
+
             .sink { [weak self] _ in
                 guard
                     let self = self,

@@ -361,6 +361,7 @@
 		8B5A338C27D89D6D0064C7DC /* TransferFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5A338B27D89D6D0064C7DC /* TransferFlow.swift */; };
 		8B5D83F3283B7DFF0035815B /* ContactInfoResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5D83F2283B7DFF0035815B /* ContactInfoResources.swift */; };
 		8B5D83F5283B81B60035815B /* ContactInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5D83F4283B81B60035815B /* ContactInfoViewModel.swift */; };
+		8B5D83F7283F6D690035815B /* AttachActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5D83F6283F6D680035815B /* AttachActionViewModel.swift */; };
 		8B637D8727CCF06A000B1B2B /* FilterTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8627CCF06A000B1B2B /* FilterTransactionView.swift */; };
 		8B637D8A27CE3BC4000B1B2B /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8927CE3BC4000B1B2B /* RadioButton.swift */; };
 		8B637D8C27CE3BE1000B1B2B /* RadioGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8B27CE3BE1000B1B2B /* RadioGroup.swift */; };
@@ -853,6 +854,7 @@
 		8B5A338B27D89D6D0064C7DC /* TransferFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferFlow.swift; sourceTree = "<group>"; };
 		8B5D83F2283B7DFF0035815B /* ContactInfoResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfoResources.swift; sourceTree = "<group>"; };
 		8B5D83F4283B81B60035815B /* ContactInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfoViewModel.swift; sourceTree = "<group>"; };
+		8B5D83F6283F6D680035815B /* AttachActionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachActionViewModel.swift; sourceTree = "<group>"; };
 		8B637D8627CCF06A000B1B2B /* FilterTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTransactionView.swift; sourceTree = "<group>"; };
 		8B637D8927CE3BC4000B1B2B /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		8B637D8B27CE3BE1000B1B2B /* RadioGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioGroup.swift; sourceTree = "<group>"; };
@@ -1797,6 +1799,7 @@
 			isa = PBXGroup;
 			children = (
 				5A2181E326D80B4E0093AD60 /* ActionSheetView.swift */,
+				8B5D83F6283F6D680035815B /* AttachActionViewModel.swift */,
 			);
 			path = AttachActions;
 			sourceTree = "<group>";
@@ -3114,6 +3117,7 @@
 				7846B66326E8BC8B00B05984 /* ProgressAnimation.swift in Sources */,
 				5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */,
 				8B9AED5A28121DDF00C6C25A /* SocialNetworkView.swift in Sources */,
+				8B5D83F7283F6D690035815B /* AttachActionViewModel.swift in Sources */,
 				5A26CD6126B35C9B00118D4B /* Message.swift in Sources */,
 				D4FA3F6D28183586000246D8 /* AppDelegateUseCaseAssembly.swift in Sources */,
 				D4AB8FFE282672F800E6FAB5 /* MatrixService+Rooms.swift in Sources */,

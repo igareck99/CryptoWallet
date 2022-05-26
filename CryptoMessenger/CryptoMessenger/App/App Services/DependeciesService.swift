@@ -17,6 +17,7 @@ extension DependenciesService: DependenciesServiceProtocol {
 			Dependency { MatrixUseCase.shared }
 			Dependency { CountdownTimer(seconds: PhoneHelper.verificationResendTime) }
 			Dependency { ContactsManager() }
+            Dependency { MainFlowTogglesFacade() }
 		}.build()
 	}
 
