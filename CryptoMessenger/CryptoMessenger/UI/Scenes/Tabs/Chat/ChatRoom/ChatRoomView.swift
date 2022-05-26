@@ -65,6 +65,13 @@ struct ChatRoomView: View {
             .onDisappear {
                 showTabBar()
             }
+            .onChange(of: showActionSheet, perform: { item in
+                if item {
+                    hideNavBar()
+                } else {
+                    showNavBar()
+                }
+            })
             .onReceive(viewModel.$showPhotoLibrary) { flag in
                 if flag { activeSheet = .photo }
             }

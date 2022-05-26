@@ -109,7 +109,7 @@ struct ActionSheetView: View {
                 .cornerRadius(14)
             }
             .padding([.leading, .trailing], 8)
-            .padding(.bottom, 34)
+            .padding(.bottom, 10)
         }
         .background(isShown ? .black(0.4) : .clear)
         .ignoresSafeArea()
