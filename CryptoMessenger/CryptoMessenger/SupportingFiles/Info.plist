@@ -39,6 +39,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app need to access your calendar events</string>
 	<key>NSCameraUsageDescription</key>
 	<string>App requires to access your camera to pick photos for profile feed</string>
 	<key>NSContactsUsageDescription</key>

@@ -32,7 +32,7 @@ extension ChatRoomTogglesFacade: ChatRoomTogglesFacadeProtocol {
 	}
 
 	var isPersonalChatAvailable: Bool {
-		let featureConfig = remoteConfigUseCase.remoteConfigModule(forKey: .wallet)
+		let featureConfig = remoteConfigUseCase.remoteConfigModule(forKey: .chat)
 		let feature = featureConfig?.features[RemoteConfigValues.Chat.personal.rawValue]
 		let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
 		let isFeatureEnabled = feature?.enabled

@@ -90,6 +90,12 @@
 "CallList.AlertActionOne" = "Отменить";
 "CallList.AlertActionTwo" = "Очистить";
 
+"Calls.IncomingCall" = "Входящий звонок";
+"Calls.OutcomingCall" = "Исходящий звонок";
+"Calls.ConnectionIsEsatblishing" = "Соединение устанавливается";
+"Calls.ConnectionIsEsatblished" = "Соединение установлено";
+"Calls.UserDoesNotRespond" = "Пользователь не отвечает";
+"Calls.CallFinished" = "Звонок завершен";
 
 "PhotoEditor.Title" = "Фото";
 "PhotoEditor.AlertTitle" = "Удалить фото?";

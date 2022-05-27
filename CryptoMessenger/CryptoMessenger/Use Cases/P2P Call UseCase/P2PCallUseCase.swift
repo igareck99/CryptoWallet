@@ -1,48 +1,63 @@
 import Foundation
 import MatrixSDK
 
-protocol P2PCallUseCaseProtocol {
+protocol P2PCallUseCaseProtocol: AnyObject {
+
+	var delegate: P2PCallUseCaseDelegate? { get set }
+
 	func placeVoiceCall(roomId: String)
+
+	func answerCall()
+
+	func endCall()
+
+
+	var isMuted: Bool { get }
+
+	func toggleMuteState()
+
+	var isVoiceIsSpeaker: Bool { get }
+
+	func changeVoiceSpeaker()
 }
 
 protocol P2PCallUseCaseDelegate: AnyObject {
-	func callDidChange(state: P2PCallUseCase.CallState)
+	func callDidChange(state: P2PCallState)
+}
+
+enum P2PCallState: UInt {
+	case createOffer
+	case ringing
+	case calling
+	case connecting
+	case connected
+	case inviteExpired
+	case ended
+}
+
+enum P2PCallType {
+	case outcoming
+	case incoming
 }
 
 final class P2PCallUseCase: NSObject {
 
-	enum CallState {
-		case calling
-		case connecting
-		case connected
-		case inviteExpired
-		case ended
-	}
-
-	enum CallType {
-		case outcoming
-		case incoming
-	}
-
 	private let router: P2PCallsRouterable
 	private let matrixService: MatrixServiceProtocol
-	private let callKitService: CallKitServiceProtocol
 	private var activeCall: MXCall?
 	private var calls = [UUID: MXCall]()
 	weak var delegate: P2PCallUseCaseDelegate?
+	private var callState: MXCallState = .fledgling
 
 	static let shared = P2PCallUseCase()
 
 	init(
 		matrixService: MatrixServiceProtocol = MatrixService.shared,
-		callKitService: CallKitServiceProtocol = CallKitService.shared,
 		router: P2PCallsRouterable = P2PCallsRouter()
 	) {
 		self.matrixService = matrixService
-		self.callKitService = callKitService
 		self.router = router
 		super.init()
-		configure()
 		observeNotifications()
 	}
 
@@ -55,10 +70,6 @@ final class P2PCallUseCase: NSObject {
 		)
 	}
 
-	private func configure() {
-		callKitService.update(delegate: self)
-	}
-
 	@objc func callStateDidChage(notification: NSNotification) {
 
 		guard let call = notification.object as? MXCall else {
@@ -66,7 +77,11 @@ final class P2PCallUseCase: NSObject {
 			return
 		}
 
+		debugPrint("Place_Call: callStateChanged state: \(call.state)")
+
 		calls[call.callUUID] = call
+
+		callState = call.state
 
 		switch call.state {
 		case .fledgling:
@@ -76,13 +91,16 @@ final class P2PCallUseCase: NSObject {
 		case .createOffer:
 			debugPrint("Place_Call: callStateChanged createOffer: \(call.callId)")
 			notifyOutcoming(call: call)
+			delegate?.callDidChange(state: .createOffer)
 		case .inviteSent:
 			debugPrint("Place_Call: callStateChanged inviteSent: \(call.callId)")
 		case .ringing:
 			debugPrint("Place_Call: callStateChanged ringing: \(call.callId)")
+			notifyIncoming(call: call)
+			delegate?.callDidChange(state: .ringing)
+			playRingSound()
 		case .createAnswer:
 			debugPrint("Place_Call: callStateChanged createAnswer: \(call.callId)")
-			notifyIncoming(call: call)
 		case .connecting:
 			debugPrint("Place_Call: callStateChanged connecting: \(call.callId)")
 			delegate?.callDidChange(state: .connecting)
@@ -105,15 +123,31 @@ final class P2PCallUseCase: NSObject {
 		}
 	}
 
+	private func playRingSound() {
+		AudioServicesPlaySystemSoundWithCompletion(kSystemSoundID_Vibrate) { [weak self] in
+			if Thread.isMainThread {
+				debugPrint("Place_Call: MAIN THREAD")
+			} else {
+				debugPrint("Place_Call: NOT MAIN THREAD")
+			}
+
+			DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+				if self?.callState == .ringing {
+					self?.playRingSound()
+				}
+			}
+		}
+	}
+
 	private func notifyIncoming(call: MXCall) {
 		activeCall = call
+		activeCall?.delegate = self
 		let callerName = matrixService.allUsers().first(where: { $0.userId == call.callerId })?.displayname ?? call.callerId
 		router.showCallView(
 			userName: callerName,
 			p2pCallUseCase: self,
 			callType: .incoming,
-			callState: .connecting,
-			delegate: self
+			callState: .calling
 		)
 	}
 
@@ -124,62 +158,8 @@ final class P2PCallUseCase: NSObject {
 			userName: callerName,
 			p2pCallUseCase: self,
 			callType: .outcoming,
-			callState: .calling,
-			delegate: self
+			callState: .calling
 		)
-	}
-}
-
-// MARK: - CallKit
-
-private extension P2PCallUseCase {
-
-	func callKit_notifyIncoming(call: MXCall) {
-		let handleValue = getHandleValue(call: call)
-		debugPrint("Place_Call: makeCallKitNotification handleValue: \(handleValue)")
-		let callerName = matrixService.allUsers().first(where: { $0.userId == call.callerId })?.displayname ?? ""
-		callKitService.notifyIncomingCall(
-			callUUID: call.callUUID,
-			value: handleValue,
-			userName: callerName,
-			isVideoCall: false
-		) { [weak self] result in
-			debugPrint("Place_Call: notifyIncomingCall result: \(result)")
-			if result == false {
-				call.hangup()
-				self?.calls[call.callUUID] = nil
-				self?.activeCall = nil
-			}
-		}
-	}
-
-	func callKit_notifyOutcoming(call: MXCall) {
-		let handleValue = getHandleValue(call: call)
-		callKitService.notifyInitiatedCall(
-			callUUID: call.callUUID,
-			value: handleValue,
-			userId: call.callerId,
-			isVideoCall: false
-		) {[weak self] result in
-			debugPrint("Place_Call: notifyOutcoming result: \(result)")
-			if result == false {
-				call.hangup()
-				self?.calls[call.callUUID] = nil
-				self?.activeCall = nil
-			}
-		}
-	}
-
-	func notifyEndOf(call: MXCall) { }
-
-	func getHandleValue(call: MXCall) -> String {
-		let handleValue: String
-		if let roomId = call.room.roomId {
-			handleValue = roomId
-		} else {
-			handleValue = call.callerId
-		}
-		return handleValue
 	}
 }
 
@@ -201,6 +181,41 @@ extension P2PCallUseCase: P2PCallUseCaseProtocol {
 			}
 		}
 	}
+
+	func answerCall() {
+		self.activeCall?.answer()
+	}
+
+	func endCall() {
+		guard let call = activeCall else { return }
+		calls[call.callUUID] = nil
+		activeCall?.hangup()
+		activeCall = nil
+	}
+
+	func endAllCalls() {
+
+		activeCall?.hangup()
+		activeCall = nil
+
+		for (_, value) in calls {
+			value.hangup()
+			calls[value.callUUID] = nil
+		}
+		calls = [:]
+	}
+
+	var isMuted: Bool { activeCall?.audioMuted == true }
+
+	func toggleMuteState() {
+		activeCall?.audioMuted = activeCall?.audioMuted == true ? false : true
+	}
+
+	var isVoiceIsSpeaker: Bool { activeCall?.audioToSpeaker == true }
+
+	func changeVoiceSpeaker() {
+		activeCall?.audioToSpeaker = activeCall?.audioToSpeaker == true ? false : true
+	}
 }
 
 // MARK: - MXCallDelegate
@@ -213,70 +228,5 @@ extension P2PCallUseCase: MXCallDelegate {
 
 	func call(_ call: MXCall, didEncounterError error: Error) {
 		debugPrint("Place_Call: MXCallDelegate didEncounterError error: \(error)")
-	}
-}
-
-// MARK: - CallKitServiceDelegate
-
-extension P2PCallUseCase: CallKitServiceDelegate {
-
-	func userDidStartCall(with callUUID: UUID, completion: @escaping (Bool) -> Void) {
-		guard let call = calls[callUUID] else { completion(false); return }
-		debugPrint("Place_Call: CallKitServiceDelegate userDidStartCall call: \(call)")
-		// TODO: Обработать начало звонка
-		completion(true)
-	}
-
-	func userDidAnswerCall(with callUUID: UUID, completion: @escaping (Bool) -> Void) {
-		guard let call = calls[callUUID] else { completion(false); return }
-		debugPrint("Place_Call: CallKitServiceDelegate userDidAnswerCall call: \(call)")
-		// TODO: Обработать начало разговора
-		completion(true)
-		// TODO: Выполнить дополнительные настройки аудиосессии для страта звонка
-//		[self.audioSessionConfigurator configureAudioSessionForVideoCall:call.isVideoCall];
-	}
-
-	func userDidEndCall(with callUUID: UUID) {
-		guard let call = calls[callUUID] else { return }
-		debugPrint("Place_Call: CallKitServiceDelegate userDidEndCall call: \(call)")
-		call.hangup()
-		calls[callUUID] = nil
-		// TODO: Выполнить дополнительные настройки аудиосессии для окончания звонка
-//		[self.audioSessionConfigurator configureAudioSessionAfterCallEnds];
-	}
-
-	func userDidChangeCallMuteState(with callUUID: UUID, isMuted: Bool) {
-		guard let call = calls[callUUID] else { return }
-		debugPrint("Place_Call: CallKitServiceDelegate userDidChangeCallMuteState isMuted: \(isMuted)")
-		call.audioMuted = isMuted
-	}
-
-	func userDidChangeCallHoldState(with callUUID: UUID, isOnHold: Bool) {
-		guard let call = calls[callUUID] else { return }
-		debugPrint("Place_Call: CallKitServiceDelegate userDidChangeCallHoldState isOnHold: \(isOnHold) call: \(call)")
-		// TODO: Нет проперти и метода чтобы отправлять звонок на удержание, нужно обновить MatrixSDK
-//		[call hold:action.onHold];
-//		call.isOnHold = isOnHold
-	}
-}
-
-// MARK: - CallViewControllerDelegate
-
-extension P2PCallUseCase: CallViewControllerDelegate {
-
-	func acceptCallButtonDidTap() {
-		self.activeCall?.answer()
-	}
-
-	func endCallButtonDidTap() {
-		activeCall?.hangup()
-		activeCall = nil
-		calls = [:]
-	}
-
-	func controllerDidDisappear() {
-		activeCall?.hangup()
-		activeCall = nil
-		calls = [:]
 	}
 }
