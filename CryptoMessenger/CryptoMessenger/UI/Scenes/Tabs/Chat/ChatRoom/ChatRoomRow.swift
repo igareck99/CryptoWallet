@@ -258,6 +258,7 @@ struct ChatRoomRow: View {
                 .frame(width: 202, height: 245)
 
             checkReadView(message.shortDate)
+                .padding(.leading, isFromCurrentUser ? 0 : 130)
         }
         .frame(width: 202, height: 245)
     }
