@@ -1,5 +1,6 @@
 import Combine
 import UIKit
+import MatrixSDK
 
 // MARK: - ChatRoomViewModel
 // swiftlint:disable all
@@ -34,6 +35,13 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private var lastLocation: Location?
     @Published var cameraFrame: CGImage?
 
+	var p2pVoiceCallPublisher = ObservableObjectPublisher()
+	var isVoiceCallAvailable: Bool {
+		let isCallAvailable = availabilityFacade.isCallAvailable
+		let isP2PChat = room.room.summary.membersCount.joined == 2
+		return isCallAvailable && isP2PChat
+	}
+
     // MARK: - Private Properties
 
     private let eventSubject = PassthroughSubject<ChatRoomFlow.Event, Never>()
@@ -41,6 +49,8 @@ final class ChatRoomViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     private let keyboardObserver = KeyboardObserver()
     private let locationManager = LocationManager()
+	private let p2pCallsUseCase: P2PCallUseCaseProtocol
+	private let availabilityFacade: ChatRoomTogglesFacadeProtocol
 
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
 
@@ -49,9 +59,17 @@ final class ChatRoomViewModel: ObservableObject {
     
     // MARK: - Lifecycle
 
-    init(room: AuraRoom, toggleFacade: MainFlowTogglesFacadeProtocol) {
-        self.toggleFacade = toggleFacade
+    init(
+		room: AuraRoom,
+		p2pCallsUseCase: P2PCallUseCaseProtocol = P2PCallUseCase.shared,
+		availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build(), 
+        toggleFacade: MainFlowTogglesFacadeProtocol
+	) {
         self.room = room
+		self.p2pCallsUseCase = p2pCallsUseCase
+		self.availabilityFacade = availabilityFacade
+        self.toggleFacade = toggleFacade
+
         bindInput()
         bindOutput()
 
@@ -346,6 +364,7 @@ final class ChatRoomViewModel: ObservableObject {
 		matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
+
             .sink { [weak self] _ in
                 guard
                     let self = self,
@@ -357,7 +376,12 @@ final class ChatRoomViewModel: ObservableObject {
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
                         message?.eventId = $0.eventId
-                        let user = self.matrixUseCase.getUser($0.sender)
+                        var user: MXUser?
+                        if !$0.userId.isEmpty {
+                            user = self.matrixUseCase.getUser($0.userId)
+                        } else {
+                            user = self.matrixUseCase.getUser($0.sender)
+                        }
                         message?.name = user?.displayname ?? ""
                         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                         message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)
@@ -367,11 +391,16 @@ final class ChatRoomViewModel: ObservableObject {
                     .compactMap { $0 }
             }
             .store(in: &subscriptions)
-//             swiftlint:disable:next array_init
-//            cameraManager.$error
-//              .receive(on: RunLoop.main)
-//              .map { $0 }
-//                      .assign(to: &$error)
+
+		p2pVoiceCallPublisher
+			.subscribe(on: RunLoop.main)
+			.receive(on: RunLoop.main)
+			.sink { [weak self] _ in
+				debugPrint("Place_Call: publisher")
+			// TODO: Handle failure case
+			guard let roomId = self?.room.room.roomId else { return }
+			self?.p2pCallsUseCase.placeVoiceCall(roomId: roomId)
+			}.store(in: &subscriptions)
     }
     
     private func bindOutput() {

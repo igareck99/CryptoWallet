@@ -17,6 +17,7 @@ enum RemoteConfigValues: String {
 	// Настройки модуля Кошелек
 	enum Wallet: String {
 		case auraTab
+        case auraTransaction
 	}
 
 	// Настройки модуля Звонки

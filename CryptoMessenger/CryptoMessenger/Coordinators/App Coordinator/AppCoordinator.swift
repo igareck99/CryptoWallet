@@ -11,30 +11,17 @@ final class AppCoordinator {
 
 	private var pendingCoordinators = [Coordinator]()
     private let userFlows: UserFlowsStorage
-	private let dependenciesService: DependenciesServiceProtocol
-	private let firebaseService: FirebaseServiceProtocol
 	private let keychainService: KeychainServiceProtocol
 
     init(
-		dependenciesService: DependenciesServiceProtocol,
-		firebaseService: FirebaseServiceProtocol,
 		keychainService: KeychainServiceProtocol,
 		userFlows: UserFlowsStorage,
 		navigationController: UINavigationController
 	) {
-		self.dependenciesService = dependenciesService
-		self.firebaseService = firebaseService
 		self.keychainService = keychainService
 		self.userFlows = userFlows
         self.navigationController = navigationController
     }
-
-    // MARK: - Private Methods
-
-	private func startServices() {
-		dependenciesService.configureDependencies()
-		firebaseService.configure()
-	}
 
 	private func showAuthenticationFlow() {
 		let userFlows = UserDefaultsService.shared
@@ -74,8 +61,6 @@ final class AppCoordinator {
 
 extension AppCoordinator: Coordinator {
 	func start() {
-
-		startServices()
 
 		let flow = AppLaunchInstructor.configure(
 			isAuthorized: userFlows.isAuthFlowFinished,

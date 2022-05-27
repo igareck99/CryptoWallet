@@ -81,16 +81,29 @@ struct ChatRoomRow: View {
                                     .foreground(.blue(0.9))
                                     .padding(.top, 8)
                                     .padding(.leading, 16)
-
-                                Text(message.replyDescription, [
-                                    .color(.blue()),
-                                    .font(.medium(13))
-                                ])
-                                    .padding(.top, 2)
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(message.name,
+                                         [
+                                            .font(.medium(13)),
+                                            .paragraph(.init(lineHeightMultiple: 1.19, alignment: .left)),
+                                            .color(.black())
+                                        ]
+                                    )
+                                        .padding(.top, 8)
+                                    Text(message.replyDescription,
+                                         [
+                                            .font(.regular(13)),
+                                            .paragraph(.init(lineHeightMultiple: 1.2,
+                                                             alignment: .left)),
+                                            .color(.black())
+                                        ]
+                                    )
+                                }
+                                .frame(minWidth: 0, maxWidth: 70)
                                     .padding(.leading, 8)
                                     .padding(.trailing, 16)
                             }
-                            .frame(height: 24)
+                            .frame(height: 40)
                         }
                         // swiftlint:disable:unneeded_parentheses_in_closure_argument
                         // swiftlint:disable:redundant_discardable_let
@@ -247,6 +260,7 @@ struct ChatRoomRow: View {
                 .frame(width: 202, height: 245)
 
             checkReadView(message.shortDate)
+                .padding(.leading, isFromCurrentUser ? 0 : 130)
         }
         .frame(width: 202, height: 245)
     }

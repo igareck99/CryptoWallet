@@ -7,6 +7,7 @@ enum MXErrors: Error {
 	case loginFailure
 	case startSessionFailure
 	case userIdRetrieve
+	case voiceCallPlaceError
 	case unknown
 	@available(*, deprecated, message: "Добавлено только для обратной совместимости")
 	case syncFailure
@@ -148,10 +149,23 @@ extension MatrixService {
 	func upadteService(credentials: MXCredentials) {
 		let client = MXRestClient(credentials: credentials, unrecognizedCertificateHandler: nil)
 		let session = MXSession(matrixRestClient: client)
+		let callStack: MXCallStack = MXJingleCallStack()
+		session?.enableVoIP(with: callStack)
 		self.client = client
 		self.session = session
 		self.fileStore = MXFileStore()
 		self.uploader = MXMediaLoader(forUploadWithMatrixSession: session, initialRange: 0, andRange: 1)
+		configureCallKitAdapter()
+	}
+
+	private func configureCallKitAdapter() {
+		let config = MXCallKitConfiguration()
+		config.iconName = "AppIcon"
+		config.name = "CryptoMessenger"
+		let adapter = MXCallKitAdapter(configuration: config)
+		let audioSessionConfigurator: MXCallAudioSessionConfigurator = MXJingleCallAudioSessionConfigurator()
+		adapter.audioSessionConfigurator = audioSessionConfigurator
+		session?.callManager.callKitAdapter = adapter
 	}
 
 	// MARK: - Pagination

@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
 	<key>API URL</key>
 	<string>https://api.aura.ms</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
@@ -51,6 +49,8 @@
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>App requires to access your location to send it to friends</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>App requires to access your microphone to make calls</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App requires to access your photo library to show image in profile</string>
 	<key>Privacy - Location Always Usage Description </key>
@@ -68,8 +68,10 @@
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>location</string>
 		<string>remote-notification</string>
+		<string>voip</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
@@ -90,5 +92,7 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

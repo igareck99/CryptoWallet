@@ -14,6 +14,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		_ application: UIApplication,
 		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
 	) -> Bool {
+
+		DependenciesService().configureDependencies()
+
 		let rootNavigationController = BaseNavigationController()
 		let appCoordinator = AppCoordinatorAssembly.build(navigationController: rootNavigationController)
 		pushNotificationsUseCase = PushNotificationsUseCaseAssembly.build(appCoordinator: appCoordinator)

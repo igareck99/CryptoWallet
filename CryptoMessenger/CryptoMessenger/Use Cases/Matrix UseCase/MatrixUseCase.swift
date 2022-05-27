@@ -10,6 +10,8 @@ protocol MatrixUseCaseProtocol {
 	var rooms: [AuraRoom] { get }
 
 	// MARK: - Session
+	var matrixSession: MXSession? { get }
+
 	func loginUser(
 		userId: String,
 		password: String,
@@ -75,7 +77,6 @@ final class MatrixUseCase {
 		matrixService.updateState(with: .loggedIn(userId: matrixService.getUserId()))
 	}
 
-
 	// TODO: Отрефачить логику входа по пин коду
 	private func updateCredentialsIfAvailable() {
 		guard let credentials = retrievCredentials() else { return }
@@ -114,6 +115,9 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 	var rooms: [AuraRoom] { matrixService.rooms }
 
 	// MARK: - Session
+
+	var matrixSession: MXSession? { matrixService.matrixSession }
+
 	func loginUser(
 		userId: String,
 		password: String,

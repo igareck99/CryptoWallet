@@ -22,6 +22,7 @@ struct ChatRoomView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ChatRoomViewModel
+    @StateObject var attachActionViewModel = AttachActionViewModel()
 
     // MARK: - Private Properties
 
@@ -75,6 +76,13 @@ struct ChatRoomView: View {
             .onDisappear {
                 showTabBar()
             }
+            .onChange(of: showActionSheet, perform: { item in
+                if item {
+                    hideNavBar()
+                } else {
+                    showNavBar()
+                }
+            })
             .onReceive(viewModel.$showPhotoLibrary) { flag in
                 if flag { activeSheet = .photo }
             }
@@ -213,6 +221,14 @@ struct ChatRoomView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: 0) {
                         Spacer()
+						if !viewModel.isVoiceCallAvailable {
+							Button(action: {
+								viewModel.p2pVoiceCallPublisher.send()
+							}, label: {
+								Image(systemName: "phone.fill")
+									.tint(.black)
+							})
+						}
                         Button(action: {
                             cardGroupPosition = .custom(180)
                         }, label: {
@@ -339,7 +355,8 @@ struct ChatRoomView: View {
                     showActionSheet: $showActionSheet,
                     attachAction: $viewModel.attachAction,
                     cameraFrame: $viewModel.cameraFrame,
-                    onCamera: { showActionSheet = false; activeSheet = .camera }
+                    onCamera: { showActionSheet = false; activeSheet = .camera },
+                    viewModel: attachActionViewModel
                 ).transition(.move(edge: .bottom).combined(with: .opacity))
 
             }

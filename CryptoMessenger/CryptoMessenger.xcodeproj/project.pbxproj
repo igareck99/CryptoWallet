@@ -364,6 +364,7 @@
 		8B5A338C27D89D6D0064C7DC /* TransferFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5A338B27D89D6D0064C7DC /* TransferFlow.swift */; };
 		8B5D83F3283B7DFF0035815B /* ContactInfoResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5D83F2283B7DFF0035815B /* ContactInfoResources.swift */; };
 		8B5D83F5283B81B60035815B /* ContactInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5D83F4283B81B60035815B /* ContactInfoViewModel.swift */; };
+		8B5D83F7283F6D690035815B /* AttachActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5D83F6283F6D680035815B /* AttachActionViewModel.swift */; };
 		8B637D8727CCF06A000B1B2B /* FilterTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8627CCF06A000B1B2B /* FilterTransactionView.swift */; };
 		8B637D8A27CE3BC4000B1B2B /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8927CE3BC4000B1B2B /* RadioButton.swift */; };
 		8B637D8C27CE3BE1000B1B2B /* RadioGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8B27CE3BE1000B1B2B /* RadioGroup.swift */; };
@@ -454,6 +455,9 @@
 		8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */; };
 		8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */; };
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
+		D4014D4B283DFC7F00AAD70C /* CallKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D4A283DFC7F00AAD70C /* CallKitService.swift */; };
+		D4014D4F283FA7D100AAD70C /* CallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D4E283FA7D100AAD70C /* CallViewController.swift */; };
+		D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */; };
 		D425C7E628071C6500E61607 /* AppCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D425C7E528071C6500E61607 /* AppCoordinatorAssembly.swift */; };
 		D425C7E82807E44C00E61607 /* PushNotificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D425C7E72807E44C00E61607 /* PushNotificationCoordinator.swift */; };
 		D428A53D2823CA8D002CAA13 /* RemoteConfigServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D428A53C2823CA8D002CAA13 /* RemoteConfigServiceProtocol.swift */; };
@@ -476,7 +480,6 @@
 		D44BDC99280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */; };
 		D44BDC9A280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */; };
 		D44BDC9B280FECC80080AE8A /* DependeciesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC95280FECC80080AE8A /* DependeciesService.swift */; };
-		D44BDC9D280FECC80080AE8A /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC97280FECC80080AE8A /* FirebaseService.swift */; };
 		D4533A142832C9A600B956B2 /* ChatRoomTogglesFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A132832C9A600B956B2 /* ChatRoomTogglesFacade.swift */; };
 		D4533A182833567D00B956B2 /* RemoteConfigValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A172833567D00B956B2 /* RemoteConfigValues.swift */; };
 		D4533A1C28335A6700B956B2 /* RemoteConfigServiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */; };
@@ -488,6 +491,11 @@
 		D4AB8FFE282672F800E6FAB5 /* MatrixService+Rooms.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFD282672F800E6FAB5 /* MatrixService+Rooms.swift */; };
 		D4AB90002826735000E6FAB5 /* MatrixService+Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFF2826735000E6FAB5 /* MatrixService+Users.swift */; };
 		D4AB900828278A1600E6FAB5 /* MatrixUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */; };
+		D4D439F22837493800AC0DEF /* MXRoom+Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */; };
+		D4D439FB28374B0C00AC0DEF /* MXRoom+Reply.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */; };
+		D4C9B72E283C20380060BFD3 /* ChatRoomViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */; };
+		D4D439EB2836086900AC0DEF /* P2PCallUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */; };
+		D4D439FD283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439FC283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift */; };
 		D4FA3F6B28182CCB000246D8 /* AppDelegateUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F6A28182CCB000246D8 /* AppDelegateUseCase.swift */; };
 		D4FA3F6D28183586000246D8 /* AppDelegateUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */; };
 		D4FA3F72281A619B000246D8 /* TimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F71281A619B000246D8 /* TimeService.swift */; };
@@ -855,6 +863,7 @@
 		8B5A338B27D89D6D0064C7DC /* TransferFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferFlow.swift; sourceTree = "<group>"; };
 		8B5D83F2283B7DFF0035815B /* ContactInfoResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfoResources.swift; sourceTree = "<group>"; };
 		8B5D83F4283B81B60035815B /* ContactInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfoViewModel.swift; sourceTree = "<group>"; };
+		8B5D83F6283F6D680035815B /* AttachActionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachActionViewModel.swift; sourceTree = "<group>"; };
 		8B637D8627CCF06A000B1B2B /* FilterTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTransactionView.swift; sourceTree = "<group>"; };
 		8B637D8927CE3BC4000B1B2B /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		8B637D8B27CE3BE1000B1B2B /* RadioGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioGroup.swift; sourceTree = "<group>"; };
@@ -948,6 +957,9 @@
 		8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerProtocols.swift; sourceTree = "<group>"; };
 		8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseWarningView.swift; sourceTree = "<group>"; };
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
+		D4014D4A283DFC7F00AAD70C /* CallKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallKitService.swift; sourceTree = "<group>"; };
+		D4014D4E283FA7D100AAD70C /* CallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewController.swift; sourceTree = "<group>"; };
+		D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallsRouter.swift; sourceTree = "<group>"; };
 		D425C7E528071C6500E61607 /* AppCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		D425C7E72807E44C00E61607 /* PushNotificationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationCoordinator.swift; sourceTree = "<group>"; };
 		D428A5372823A00A002CAA13 /* MatrixService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixService.swift; sourceTree = "<group>"; };
@@ -969,7 +981,6 @@
 		D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserFlowStorage.swift"; sourceTree = "<group>"; };
 		D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserCredentialsStorage.swift"; sourceTree = "<group>"; };
 		D44BDC95280FECC80080AE8A /* DependeciesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependeciesService.swift; sourceTree = "<group>"; };
-		D44BDC97280FECC80080AE8A /* FirebaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		D4533A132832C9A600B956B2 /* ChatRoomTogglesFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTogglesFacade.swift; sourceTree = "<group>"; };
 		D4533A172833567D00B956B2 /* RemoteConfigValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValues.swift; sourceTree = "<group>"; };
 		D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceAssembly.swift; sourceTree = "<group>"; };
@@ -981,6 +992,13 @@
 		D4AB8FFD282672F800E6FAB5 /* MatrixService+Rooms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Rooms.swift"; sourceTree = "<group>"; };
 		D4AB8FFF2826735000E6FAB5 /* MatrixService+Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Users.swift"; sourceTree = "<group>"; };
 		D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixUseCase.swift; sourceTree = "<group>"; };
+		D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MXRoom+Reply.swift"; sourceTree = "<group>"; };
+		D4D439F528374AD100AC0DEF /* CryptoMessenger-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CryptoMessenger-Bridging-Header.h"; sourceTree = "<group>"; };
+		D4D439F928374B0B00AC0DEF /* MXRoom+Reply.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MXRoom+Reply.h"; sourceTree = "<group>"; };
+		D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MXRoom+Reply.m"; sourceTree = "<group>"; };
+		D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelAssembly.swift; sourceTree = "<group>"; };
+		D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallUseCase.swift; sourceTree = "<group>"; };
+		D4D439FC283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "P2PCallUseCase+Notifications.swift"; sourceTree = "<group>"; };
 		D4FA3F6A28182CCB000246D8 /* AppDelegateUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateUseCase.swift; sourceTree = "<group>"; };
 		D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateUseCaseAssembly.swift; sourceTree = "<group>"; };
 		D4FA3F71281A619B000246D8 /* TimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeService.swift; sourceTree = "<group>"; };
@@ -1103,6 +1121,7 @@
 		5A187DF72680708D001957D3 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D4014D4D283FA7B200AAD70C /* P2P Calls */,
 				78A9CB8728191BAC00C4D7E1 /* IOActionSheet */,
 				5A187DF82680708D001957D3 /* Scenes */,
 			);
@@ -1308,6 +1327,7 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D4014D4C283DFCD800AAD70C /* Call Kit Service */,
 				D428A53B2823C99D002CAA13 /* Feature Toggles Service */,
 				D4FA3F70281A618B000246D8 /* Time Service */,
 				D44BDC90280FECC80080AE8A /* App Services */,
@@ -1665,6 +1685,10 @@
 				5A4BE50D271DD86A00D03D09 /* MXEvent+Extensions.swift */,
 				5A4BE50E271DD86A00D03D09 /* MXClient+Publisher.swift */,
 				5A4BE510271DD86A00D03D09 /* MX+Identifiable.swift */,
+				D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */,
+				D4D439F528374AD100AC0DEF /* CryptoMessenger-Bridging-Header.h */,
+				D4D439F928374B0B00AC0DEF /* MXRoom+Reply.h */,
+				D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1746,6 +1770,7 @@
 				5A9318D226C5AAF100645365 /* ChatRoomViewModel.swift */,
 				5A9318D426C5AAF100645365 /* ChatRoomFlow.swift */,
 				D4533A132832C9A600B956B2 /* ChatRoomTogglesFacade.swift */,
+				D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */,
 			);
 			path = ChatRoom;
 			sourceTree = "<group>";
@@ -1793,6 +1818,7 @@
 			isa = PBXGroup;
 			children = (
 				5A2181E326D80B4E0093AD60 /* ActionSheetView.swift */,
+				8B5D83F6283F6D680035815B /* AttachActionViewModel.swift */,
 			);
 			path = AttachActions;
 			sourceTree = "<group>";
@@ -2549,6 +2575,22 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		D4014D4C283DFCD800AAD70C /* Call Kit Service */ = {
+			isa = PBXGroup;
+			children = (
+				D4014D4A283DFC7F00AAD70C /* CallKitService.swift */,
+			);
+			path = "Call Kit Service";
+			sourceTree = "<group>";
+		};
+		D4014D4D283FA7B200AAD70C /* P2P Calls */ = {
+			isa = PBXGroup;
+			children = (
+				D4014D4E283FA7D100AAD70C /* CallViewController.swift */,
+			);
+			path = "P2P Calls";
+			sourceTree = "<group>";
+		};
 		D425C7E428071C4B00E61607 /* App Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -2621,6 +2663,7 @@
 		D4442B4A281162030033D07A /* Use Cases */ = {
 			isa = PBXGroup;
 			children = (
+				D4D439E92836084D00AC0DEF /* P2P Call UseCase */,
 				D4AB9006282789F900E6FAB5 /* Matrix UseCase */,
 				8BE122C028253EF500F7707E /* Remote Config UseCase */,
 				D4FA3F6928182C9E000246D8 /* App Delegate UseCase */,
@@ -2643,7 +2686,6 @@
 			isa = PBXGroup;
 			children = (
 				D44BDC95280FECC80080AE8A /* DependeciesService.swift */,
-				D44BDC97280FECC80080AE8A /* FirebaseService.swift */,
 			);
 			name = "App Services";
 			path = "../App/App Services";
@@ -2665,6 +2707,16 @@
 				D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */,
 			);
 			path = "Matrix UseCase";
+			sourceTree = "<group>";
+		};
+		D4D439E92836084D00AC0DEF /* P2P Call UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */,
+				D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */,
+				D4D439FC283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift */,
+			);
+			path = "P2P Call UseCase";
 			sourceTree = "<group>";
 		};
 		D4FA3F6928182C9E000246D8 /* App Delegate UseCase */ = {
@@ -2891,11 +2943,13 @@
 				7846B67B26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift in Sources */,
 				5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */,
 				5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */,
+				D4C9B72E283C20380060BFD3 /* ChatRoomViewModelAssembly.swift in Sources */,
 				5AC8C4EF27C403C9008B1744 /* AlertItem.swift in Sources */,
 				5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */,
 				5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */,
 				8B4E9C3B27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift in Sources */,
 				D4442B4428113C3C0033D07A /* KeychainWrapper.swift in Sources */,
+				D4D439FB28374B0C00AC0DEF /* MXRoom+Reply.m in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				8B4E9C4227E1EDBE0057E4C9 /* FacilityApproveView.swift in Sources */,
 				8B8B9C2327F330120061F5E6 /* SocialListProtocols.swift in Sources */,
@@ -2919,6 +2973,7 @@
 				8B4E9C4627E1EDDE0057E4C9 /* FacilityApproveConfigurator.swift in Sources */,
 				8BA0C90927AD4F320070203F /* AnswerViewModel.swift in Sources */,
 				5A3C942A274AFFDC00818060 /* KeyboardAvoiderModifier.swift in Sources */,
+				D4D439F22837493800AC0DEF /* MXRoom+Reply.swift in Sources */,
 				5A187EB7268070B3001957D3 /* UIView+Extensions.swift in Sources */,
 				5A187DF126807011001957D3 /* AuthFlowCoordinator.swift in Sources */,
 				5AA6410726822C3A008922B4 /* CALayerStyle.swift in Sources */,
@@ -2942,6 +2997,7 @@
 				D4442B4528113C3C0033D07A /* KeychainWrapperSubscript.swift in Sources */,
 				5A187EC0268070B3001957D3 /* UITableView+Extensions.swift in Sources */,
 				5AF8635F26ADB691004A417C /* OnboardingPageView.swift in Sources */,
+				D4014D4B283DFC7F00AAD70C /* CallKitService.swift in Sources */,
 				5A9318E226C5B15F00645365 /* ColorStyle.swift in Sources */,
 				5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */,
 				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
@@ -3001,6 +3057,7 @@
 				5A4BE51C271DD86A00D03D09 /* EventCollection.swift in Sources */,
 				78437F0D270C76FE00371110 /* AboutAppPresenter.swift in Sources */,
 				789FEBEF26DCE61D0018FE91 /* PhotoEditorView.swift in Sources */,
+				D4014D4F283FA7D100AAD70C /* CallViewController.swift in Sources */,
 				8BC06B1427C8F6B6005A28A1 /* TransactionConfigurator.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
 				5A40A2D82769FB2B003AAA79 /* SearchBar.swift in Sources */,
@@ -3127,6 +3184,7 @@
 				7846B66326E8BC8B00B05984 /* ProgressAnimation.swift in Sources */,
 				5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */,
 				8B9AED5A28121DDF00C6C25A /* SocialNetworkView.swift in Sources */,
+				8B5D83F7283F6D690035815B /* AttachActionViewModel.swift in Sources */,
 				5A26CD6126B35C9B00118D4B /* Message.swift in Sources */,
 				D4FA3F6D28183586000246D8 /* AppDelegateUseCaseAssembly.swift in Sources */,
 				D4AB8FFE282672F800E6FAB5 /* MatrixService+Rooms.swift in Sources */,
@@ -3186,6 +3244,7 @@
 				78437F11270C76FE00371110 /* AboutAppConfigurator.swift in Sources */,
 				5A3721DE272F418F0097ABED /* SelectContactView.swift in Sources */,
 				5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */,
+				D4D439EB2836086900AC0DEF /* P2PCallUseCase.swift in Sources */,
 				5A9318D626C5AAF100645365 /* ChatRoomView.swift in Sources */,
 				5AEB80FF26DE138F009A1944 /* Array+Extensions.swift in Sources */,
 				5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */,
@@ -3268,6 +3327,7 @@
 				5ABF08CF27D9C86A0016CC6F /* SUImagePickerView.swift in Sources */,
 				8BA0C90B27AD4F4C0070203F /* AnswerView.swift in Sources */,
 				D44BDC8128099F110080AE8A /* PushNotificationParser.swift in Sources */,
+				D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */,
 				5A26CD2E26B3114400118D4B /* BarButtonStyle.swift in Sources */,
 				D425C7E82807E44C00E61607 /* PushNotificationCoordinator.swift in Sources */,
 				8B28B535276347AA00C3E486 /* ProfileDetailViewModel.swift in Sources */,
@@ -3300,6 +3360,7 @@
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */,
 				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,
+				D4D439FD283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift in Sources */,
 				8B4810FD27CF9BC400831589 /* ImportKeyProtocols.swift in Sources */,
 				5A8A13EB27D11B3A004C4B4F /* TrackableScrollView.swift in Sources */,
 				789FEBD826D8FFD50018FE91 /* CallListViewModel.swift in Sources */,
@@ -3327,7 +3388,6 @@
 				8B5609B62779C5CA00AF43F6 /* ThemeItem.swift in Sources */,
 				789B123226CE8906002FCDDF /* CallListViewController.swift in Sources */,
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
-				D44BDC9D280FECC80080AE8A /* FirebaseService.swift in Sources */,
 				5A26CD2726B2FF9900118D4B /* CarouselNonAnimatableFlowLayout.swift in Sources */,
 				78437F1A270CE94000371110 /* PaywallView.swift in Sources */,
 				8B432CC627C3955A0025D62B /* WalletNewViewModel.swift in Sources */,
@@ -3395,6 +3455,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -3457,6 +3518,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -3483,11 +3545,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = Z48WYVF59J;
+				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -3499,6 +3563,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.aura.app.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CryptoMessenger/AuraKit/Extensions/CryptoMessenger-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -3510,11 +3576,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = CryptoMessenger/CryptoMessenger.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = Z48WYVF59J;
+				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -3526,6 +3594,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.aura.app.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CryptoMessenger/AuraKit/Extensions/CryptoMessenger-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
