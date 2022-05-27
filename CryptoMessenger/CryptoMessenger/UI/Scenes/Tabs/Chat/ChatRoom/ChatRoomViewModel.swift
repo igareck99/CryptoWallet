@@ -30,6 +30,13 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private var lastLocation: Location?
     @Published var cameraFrame: CGImage?
 
+	var p2pVoiceCallPublisher = ObservableObjectPublisher()
+	var isVoiceCallAvailable: Bool {
+		let isCallAvailable = availabilityFacade.isCallAvailable
+		let isP2PChat = room.room.summary.membersCount.joined == 2
+		return isCallAvailable && isP2PChat
+	}
+
     // MARK: - Private Properties
 
     private let eventSubject = PassthroughSubject<ChatRoomFlow.Event, Never>()
@@ -37,13 +44,21 @@ final class ChatRoomViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     private let keyboardObserver = KeyboardObserver()
     private let locationManager = LocationManager()
+	private let p2pCallsUseCase: P2PCallUseCaseProtocol
+	private let availabilityFacade: ChatRoomTogglesFacadeProtocol
 
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
 
     // MARK: - Lifecycle
 
-    init(room: AuraRoom) {
+    init(
+		room: AuraRoom,
+		p2pCallsUseCase: P2PCallUseCaseProtocol = P2PCallUseCase.shared,
+		availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build()
+	) {
         self.room = room
+		self.p2pCallsUseCase = p2pCallsUseCase
+		self.availabilityFacade = availabilityFacade
         bindInput()
         bindOutput()
 
@@ -268,6 +283,16 @@ final class ChatRoomViewModel: ObservableObject {
                     .compactMap { $0 }
             }
             .store(in: &subscriptions)
+
+		p2pVoiceCallPublisher
+			.subscribe(on: RunLoop.main)
+			.receive(on: RunLoop.main)
+			.sink { [weak self] _ in
+				debugPrint("Place_Call: publisher")
+			// TODO: Handle failure case
+			guard let roomId = self?.room.room.roomId else { return }
+			self?.p2pCallsUseCase.placeVoiceCall(roomId: roomId)
+			}.store(in: &subscriptions)
     }
 
     private func bindOutput() {

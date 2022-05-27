@@ -8,6 +8,7 @@ protocol MatrixServiceProtocol {
 	var loginStatePublisher: Published<MatrixState>.Publisher { get }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { get }
 	var rooms: [AuraRoom] { get }
+	var matrixSession: MXSession? { get }
 
 	// MARK: - Updaters
 	func updateClient(with homeServer: URL)
@@ -37,6 +38,8 @@ protocol MatrixServiceProtocol {
 	func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
 	func joinRoom(roomId: String, completion: @escaping (MXResponse<MXRoom>) -> Void)
 	func isDirectRoomExists(userId: String) -> Bool
+	func placeVoiceCall(roomId: String, completion: @escaping (Result<MXCall, MXErrors>) -> Void)
+
 
 	// MARK: - Users
 	func currentlyActive(_ userId: String) -> Bool

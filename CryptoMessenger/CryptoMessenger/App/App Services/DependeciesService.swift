@@ -11,6 +11,10 @@ final class DependenciesService {}
 extension DependenciesService: DependenciesServiceProtocol {
 
 	func configureDependencies() {
+
+		_ = P2PCallUseCase.shared
+		_ = RemoteConfigUseCaseAssembly.useCase
+
 		DependencyContainer {
 			Dependency { APIClient() }
 			Dependency { Configuration() }
@@ -20,5 +24,4 @@ extension DependenciesService: DependenciesServiceProtocol {
             Dependency { MainFlowTogglesFacade() }
 		}.build()
 	}
-
 }
