@@ -266,6 +266,7 @@ final class ChatRoomViewModel: ObservableObject {
                 }
                 self.messages = room.events().renderableEvents
                     .map {
+                        debugPrint("Events()", self.messages)
                         var message = $0.message(self.fromCurrentSender($0.sender))
                         message?.eventId = $0.eventId
                         var user: MXUser?

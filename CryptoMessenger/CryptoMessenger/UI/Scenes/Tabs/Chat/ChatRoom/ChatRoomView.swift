@@ -3,6 +3,8 @@ import SwiftUI
 
 // MARK: - ChatRoomView
 
+// swiftlint: disable all
+
 struct ChatRoomView: View {
 
     // MARK: - ActiveSheet
@@ -88,7 +90,9 @@ struct ChatRoomView: View {
                     message: Text("Принять приглашение от \(roomName)"),
                     primaryButton: .default(
                         Text("Присоединиться"),
-                        action: { viewModel.send(.onJoinRoom) }
+                        action: {
+                            viewModel.send(.onJoinRoom)
+                        }
                     ),
                     secondaryButton: .cancel(
                         Text("Отменить"),
@@ -220,20 +224,20 @@ struct ChatRoomView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 0) {
                             Spacer().frame(height: 16)
-
-                            ForEach(viewModel.messages) { message in
-                                ChatRoomRow(
-                                    message: message,
-                                    isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
-                                    isDirect: viewModel.room.isDirect,
-                                    onReaction: { reactionId in
-                                        vibrate()
-                                        viewModel.send(
-                                            .onDeleteReaction(messageId: message.id, reactionId: reactionId)
-                                        )
-                                    },
-                                    onSelectPhoto: { selectedPhoto = $0 }
-                                )
+                            ForEach(viewModel.room.events().renderableEvents) { event in
+                                if let message = viewModel.messages.first(where: {$0.eventId == event.eventId}) {
+                                    ChatRoomRow(
+                                        message: message,
+                                        isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
+                                        isDirect: viewModel.room.isDirect,
+                                        onReaction: { reactionId in
+                                            vibrate()
+                                            viewModel.send(
+                                                .onDeleteReaction(messageId: message.id, reactionId: reactionId)
+                                            )
+                                        },
+                                        onSelectPhoto: { selectedPhoto = $0 }
+                                    )
                                     .flippedUpsideDown()
                                     .listRowSeparator(.hidden)
                                     .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
@@ -243,12 +247,63 @@ struct ChatRoomView: View {
                                         cardPosition = .custom(UIScreen.main.bounds.height - 580)
                                         hideKeyboard()
                                     }
-
-                                if viewModel.next(message)?.fullDate != message.fullDate {
-                                    dateView(date: message.fullDate)
+                                    if viewModel.next(message)?.fullDate != message.fullDate {
+                                        dateView(date: message.fullDate)
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                    }
+                                }
+                                // TODO: Нужно доработать модель по обработке id юзеров
+//                                if event.type == "m.room.power_levels" {
+//                                    eventView(text: "Вы вошли в комнату")
+//                                        .flippedUpsideDown()
+//                                        .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+//
+//                                }
+                                
+                                if event.type == "m.room.encryption" {
+                                    eventView(text: "Сообщения в этой комнате зашифрованы сквозным шифрованием")
                                         .flippedUpsideDown()
-                                        .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
                                         .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                }
+                                
+                                if event.type == "m.room.avatar" {
+                                    eventView(text: "Вы сменили свой аватар")
+                                        .flippedUpsideDown()
+                                        .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                }
+                                if event.type == "m.room.member" {
+                                    switch event.content["membership"] {
+                                    case "join" as String:
+                                        eventView(text: "\(event.content["displayname"] ?? "No name") вошел(ла) в комнату")
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                        
+                                    case "leave" as String:
+                                        eventView(text: "\(event.content["displayname"] ?? "No name") покинул комнату")
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                        
+                                    case "invite" as String:
+                                        eventView(text: "\(event.content["displayname"] ?? "No name") был приглашен в комнату")
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                    case "unknown" as String:
+                                        eventView(text: "Неизвестная ошибка")
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                    case "ban" as String:
+                                        if let name = viewModel.room.summary.summary.displayname {
+                                            eventView(text: "Пользователь \(name) заблокирован")
+                                                .flippedUpsideDown()
+                                                .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                        }
+                                    default:
+                                        eventView(text: "\(event.type)")
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                    }
                                 }
                             }
                             .onChange(of: viewModel.messages) { _ in
@@ -304,7 +359,7 @@ struct ChatRoomView: View {
         .hideKeyboardOnTap()
         .ignoresSafeArea()
     }
-
+    
     private func dateView(date: String) -> some View {
         HStack {
             Text(date)
@@ -313,6 +368,19 @@ struct ChatRoomView: View {
                 .padding(.vertical, 3)
         }
         .background(.lightGray())
+        .cornerRadius(8)
+        .padding(.vertical, 8)
+    }
+    
+    private func eventView(text: String) -> some View {
+        HStack {
+            Text(text)
+                .font(.regular(14))
+                .padding(.horizontal, 17)
+                .padding(.vertical, 3)
+                .foregroundColor(.white)
+        }
+        .background(Color(red: 242/255, green: 160/255, blue: 76/255))
         .cornerRadius(8)
         .padding(.vertical, 8)
     }

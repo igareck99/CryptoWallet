@@ -139,6 +139,7 @@ PODS:
   - HDWalletKit (0.3.6):
     - CryptoSwift (~> 1.0.0)
     - secp256k1.swift (~> 0.1.4)
+  - JitsiMeetSDK (2.11.0)
   - Kingfisher (7.2.1)
   - libbase58 (0.1.4)
   - Mantis (1.9.0)
@@ -148,6 +149,9 @@ PODS:
     - libbase58 (~> 0.1.4)
     - OLMKit (~> 3.1.0)
     - Realm (= 10.1.4)
+  - MatrixSDK/JingleCallStack (0.17.4):
+    - JitsiMeetSDK (= 2.11.0)
+    - MatrixSDK/Core
   - MatrixSDK/SwiftSupport (0.17.4):
     - MatrixSDK/Core
   - nanopb (2.30908.0):
@@ -188,6 +192,7 @@ DEPENDENCIES:
   - HDWalletKit
   - Kingfisher
   - Mantis (~> 1.9.0)
+  - MatrixSDK/JingleCallStack
   - MatrixSDK/SwiftSupport
   - PhoneNumberKit
   - R.swift
@@ -215,6 +220,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GZIP
     - HDWalletKit
+    - JitsiMeetSDK
     - Kingfisher
     - libbase58
     - Mantis
@@ -250,6 +256,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GZIP: 416858efbe66b41b206895ac6dfd5493200d95b3
   HDWalletKit: 6d97a15404b2edfe3418e3dc064faa967e51dac4
+  JitsiMeetSDK: ddc915b751b0166aa4fdfee938bd60cc87aff9f3
   Kingfisher: 7c084bebf7d548c623ad41bcf765fb200efed369
   libbase58: 7c040313537b8c44b6e2d15586af8e21f7354efd
   Mantis: 5dea32ad49addabb3247112f5b1282a6e0964bb0
@@ -267,6 +274,6 @@ SPEC CHECKSUMS:
   SweeterSwift: 61baeda1c0c27d1dc57c8112c3d6a82e5aff3139
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
 
-PODFILE CHECKSUM: 181b2d30d3682fd0bfbd0a990ccd70dee6888cee
+PODFILE CHECKSUM: bd1f1300f10f502b68803890fb5acb3f669b4e44
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.11.2
