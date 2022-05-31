@@ -25,7 +25,6 @@ final class MainFlowCoordinator: Coordinator {
     weak var delegate: MainFlowCoordinatorDelegate?
 
     let navigationController: UINavigationController
-    let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase
 
     private let togglesFacade: MainFlowTogglesFacadeProtocol
 

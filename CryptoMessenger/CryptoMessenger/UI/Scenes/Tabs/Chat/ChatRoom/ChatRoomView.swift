@@ -1,7 +1,6 @@
 import Combine
 import SwiftUI
 
-
 // MARK: - ChatRoomView
 // swiftlint:disable all
 
@@ -66,12 +65,6 @@ struct ChatRoomView: View {
                 }
 
                 UITextView.appearance().background(.grayDAE1E9())
-                
-                // 1 Detecting language
-                // swiftlint:disable:unneeded_parentheses_in_closure_argument
-                TranslateManager.shared.languages { languages, error in
-                    TranslateManager.shared.languagesList = languages ?? []
-                }
             }
             .onDisappear {
                 showTabBar()
@@ -250,7 +243,7 @@ struct ChatRoomView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 0) {
                             Spacer().frame(height: 16)
-                            if TranslateManager.shared.isActive {
+                            if self.viewModel.isTranslating() {
                                 ForEach(viewModel.translatedMessages) { message in
                                     ChatRoomRow(
                                         message: message,

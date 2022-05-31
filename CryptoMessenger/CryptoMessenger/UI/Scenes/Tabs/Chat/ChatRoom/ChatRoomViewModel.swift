@@ -5,7 +5,6 @@ import MatrixSDK
 // MARK: - ChatRoomViewModel
 // swiftlint:disable all
 final class ChatRoomViewModel: ObservableObject {
-
     // MARK: - Internal Properties
 
     weak var delegate: ChatRoomSceneDelegate?
@@ -53,6 +52,8 @@ final class ChatRoomViewModel: ObservableObject {
 	private let availabilityFacade: ChatRoomTogglesFacadeProtocol
 
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
+    @Injectable private var translateManager: TranslateManager
+
 
     //swiftlint:disable redundant_optional_initialization
     var toggleFacade: MainFlowTogglesFacadeProtocol
@@ -69,7 +70,7 @@ final class ChatRoomViewModel: ObservableObject {
 		self.p2pCallsUseCase = p2pCallsUseCase
 		self.availabilityFacade = availabilityFacade
         self.toggleFacade = toggleFacade
-
+        
         bindInput()
         bindOutput()
 
@@ -102,7 +103,7 @@ final class ChatRoomViewModel: ObservableObject {
 
     func next(_ item: RoomMessage) -> RoomMessage? {
         // TODO: Разобрать модель RoomMessage и заменить на выход переведенное сообщение если рубильник включен.
-        if TranslateManager.shared.isActive {
+        if translateManager.isActive {
             return translatedMessages.next(item: item)
         } else {
             return messages.next(item: item)
@@ -110,7 +111,7 @@ final class ChatRoomViewModel: ObservableObject {
     }
 
     func previous(_ item: RoomMessage) -> RoomMessage? {
-        if TranslateManager.shared.isActive {
+        if translateManager.isActive {
             return translatedMessages.next(item: item)
         } else {
             return messages.previous(item: item)
@@ -128,21 +129,21 @@ final class ChatRoomViewModel: ObservableObject {
         }
     }
     
+    func isTranslating() -> Bool {
+        return translateManager.isActive
+    }
+    
     func translateTo(languageCode: String, message: RoomMessage) {
         var message = message
         switch message.type {
         case let .text(text):
-            TranslateManager.shared.detect(text) { (locales, error) in
-                if error != nil {
-                    TranslateManager.shared.isActive = false
-                    
+            translateManager.detect(text) { (locales, error) in
+                guard let locales = locales, error == nil else {
+                    self.translateManager.isActive = false
                     return
                 }
-                TranslateManager.shared.isActive = true
+                self.translateManager.isActive = true
                 
-                if let locales = locales {
-                    TranslateManager.shared.source = locales[0].language
-                }
                 
                 // Language check
                 if Locale.current.languageCode != nil {
@@ -150,7 +151,7 @@ final class ChatRoomViewModel: ObservableObject {
                         self.translatedMessages.removeAll()
                     }
                                                             
-                    TranslateManager.shared.translate(text, TranslateManager.shared.source, languageCode) { (translate , error) in
+                    self.translateManager.translate(text, locales[0].language, languageCode, "text", "base") { (translate , error) in
                         DispatchQueue.main.async {
                             if let translate = translate {
                                 message.type = .text(translate)
@@ -283,11 +284,12 @@ final class ChatRoomViewModel: ObservableObject {
                 case .russian:
                     self.translateMessagesTo(languageCode: "ru")
                 case .system, .none:
+                    // TODO: Когда решим по поводу перевода на дефолт
 //                    let languageLocale = TranslateManager.shared.languagesList.filter{$0.language == Locale.current.languageCode}
 //                    if !languageLocale.isEmpty {
 //                        self.translateMessagesTo(languageCode: languageLocale[0].language)
 //                    }
-                    TranslateManager.shared.isActive = false
+                    self.translateManager.isActive = false
                     self.translatedMessages = self.messages
                 case .italian:
                     self.translateMessagesTo(languageCode: "it")
@@ -469,4 +471,8 @@ final class ChatRoomViewModel: ObservableObject {
             }
         }
     }
+}
+
+extension ChatRoomViewModel {
+        
 }

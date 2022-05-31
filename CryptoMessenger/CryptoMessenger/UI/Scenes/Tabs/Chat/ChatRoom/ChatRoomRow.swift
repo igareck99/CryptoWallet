@@ -1,6 +1,8 @@
 import MatrixSDK
 import SwiftUI
 
+// swiftlint:disable:all
+
 // MARK: - ChatRoomRow
 
 struct ChatRoomRow: View {
@@ -105,9 +107,6 @@ struct ChatRoomRow: View {
                             }
                             .frame(height: 40)
                         }
-                        // swiftlint:disable:unneeded_parentheses_in_closure_argument
-                        // swiftlint:disable:redundant_discardable_let
-                        // swiftlint:disable:unused_closure_parameter
                         HStack(spacing: 0) {
                             switch message.type {
                             case var .text(text):

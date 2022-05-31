@@ -38,6 +38,8 @@ final class MainFlowTogglesFacade {
         let transactionFlag = isTransactionAvailable
 		debugPrint("RemoteConfig: isWalletAvailable: \(String(describing: flag))")
         debugPrint("RemoteConfig: isTransactionAvailable: \(String(describing: transactionFlag))")
+        debugPrint("RemoteConfig: isTransactionAvailable: \(String(describing: isTranslateAvailable))")
+
 	}
 }
 
@@ -65,6 +67,7 @@ extension MainFlowTogglesFacade: MainFlowTogglesFacadeProtocol {
         let isFeatureEnabled = feature?.enabled
         return isVersionEnabled == true && isFeatureEnabled == true
     }
+    
     var isTranslateAvailable: Bool {
         let featureConfig = remoteConfigUseCase.remoteConfigModule(forKey: .wallet)
         let feature = featureConfig?.features[RemoteConfigValues.Wallet.auraTab.rawValue]
