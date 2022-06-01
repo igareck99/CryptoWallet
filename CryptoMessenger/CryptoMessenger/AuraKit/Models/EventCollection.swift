@@ -33,7 +33,10 @@ struct EventCollection {
     /// Events that can be directly rendered in the timeline with a corresponding view. This for example does not
     /// include reactions, which are instead rendered as accessories on their corresponding related events.
     var renderableEvents: [MXEvent] {
-        return wrapped.filter { Self.renderableEventTypes.contains($0.type) }.reversed()
+        return wrapped.filter {
+            debugPrint("Event :", $0)
+            return Self.renderableEventTypes.contains($0.type)
+        }.reversed()
     }
 
     // MARK: - Internal Methods

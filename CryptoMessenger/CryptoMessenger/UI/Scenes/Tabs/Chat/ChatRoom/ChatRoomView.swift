@@ -43,8 +43,11 @@ struct ChatRoomView: View {
     @State private var showTranslateAlert = false
     @State private var showTranslateMenu = false
     @State private var activeSheet: ActiveSheet?
-    @State private var replyMessage: RoomMessage?
+    @State private var activeEditMessage: RoomMessage?
+    @State private var deleteMessage: RoomMessage?
     @State private var quickAction: QuickAction?
+    @State private var quickActionCurrentUser: QuickActionCurrentUser?
+
 
     @FocusState private var inputViewIsFocused: Bool
     
@@ -86,7 +89,7 @@ struct ChatRoomView: View {
             }
             .onReceive(viewModel.$showTranslate) { flag in
                 if flag {
-                    showTranslateAlert = true
+                    showTranslateAlert = flag
                 }
             }
             .alert(isPresented: $showJoinAlert) {
@@ -248,7 +251,6 @@ struct ChatRoomView: View {
                         VStack(spacing: 0) {
                             Spacer().frame(height: 16)
                             ForEach(viewModel.room.events().renderableEvents) { event in
-                                // TODO: Убрать повторный код
                                 if viewModel.isTranslating() {
                                     if let message = viewModel.translatedMessages.first(where: {$0.eventId == event.eventId}) {
                                         ChatRoomRow(
@@ -268,7 +270,7 @@ struct ChatRoomView: View {
                                         .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
                                             vibrate(.medium)
                                             messageId = message.id
-                                            replyMessage = message
+                                            activeEditMessage = message
                                             cardPosition = .custom(UIScreen.main.bounds.height - 580)
                                             hideKeyboard()
                                         }
@@ -298,7 +300,7 @@ struct ChatRoomView: View {
                                         .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
                                             vibrate(.medium)
                                             messageId = message.id
-                                            replyMessage = message
+                                            activeEditMessage = message
                                             cardPosition = .custom(UIScreen.main.bounds.height - 580)
                                             hideKeyboard()
                                         }
@@ -310,53 +312,50 @@ struct ChatRoomView: View {
                                         }
                                     }
                                 }
-                                // TODO: Нужно доработать модель по обработке id юзеров
-//                                if event.type == "m.room.power_levels" {
-//                                    eventView(text: "Вы вошли в комнату")
-//                                        .flippedUpsideDown()
-//                                        .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
-//
-//                                }
-                                
                                 if event.type == "m.room.encryption" {
-                                    eventView(text: "Сообщения в этой комнате зашифрованы сквозным шифрованием")
+                                    eventView(text: R.string.localizable.chatRoomViewEncryptedMessagesNotify())
                                         .flippedUpsideDown()
                                         .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                 }
                                 
                                 if event.type == "m.room.avatar" {
-                                    eventView(text: "Вы сменили свой аватар")
+                                    eventView(text: R.string.localizable.chatRoomViewSelfAvatarChangeNotify())
                                         .flippedUpsideDown()
                                         .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                 }
                                 if event.type == "m.room.member" {
                                     switch event.content["membership"] {
                                     case "join" as String:
-                                        eventView(text: "\(event.content["displayname"] ?? "No name") вошел(ла) в комнату")
-                                            .flippedUpsideDown()
-                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                        if let users = viewModel.roomUsers.filter({$0.displayname == event.content["displayname"] as? String}) {
+                                            if users.contains(where: {$0.avatarUrl == event.content["avatar_url"] as? String}) {
+                                                eventView(text: "\(event.content["displayname"] ?? "No name") \(R.string.localizable.chatRoomViewAvatarChangeNotify())")
+                                                    .flippedUpsideDown()
+                                                    .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                            } else if users.contains(where: {$0.avatarUrl == event.content["avatar_url"] as? String}) {
+                                                eventView(text: "\(event.content["displayname"] ?? "No name") \(R.string.localizable.chatRoomViewRoomEntryNotify())")
+                                                    .flippedUpsideDown()
+                                                    .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                            }
+                                        }
                                         
                                     case "leave" as String:
-                                        eventView(text: "\(event.content["displayname"] ?? "No name") покинул комнату")
+                                        eventView(text: "\(event.content["displayname"] ?? "No name") \(R.string.localizable.chatRoomViewLeftTheRoomNotify())")
                                             .flippedUpsideDown()
                                             .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
-                                        
                                     case "invite" as String:
-                                        eventView(text: "\(event.content["displayname"] ?? "No name") был приглашен в комнату")
+                                        eventView(text: "\(event.content["displayname"] ?? "No name") \(R.string.localizable.chatRoomViewInvitedNotify())")
                                             .flippedUpsideDown()
                                             .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                     case "unknown" as String:
-                                        eventView(text: "Неизвестная ошибка")
+                                                    eventView(text: R.string.localizable.chatRoomViewUnownedErrorNotify())
                                             .flippedUpsideDown()
                                             .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                     case "ban" as String:
-                                        if let name = viewModel.room.summary.summary.displayname {
-                                            eventView(text: "Пользователь \(name) заблокирован")
-                                                .flippedUpsideDown()
-                                                .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
-                                        }
+                                                    eventView(text: "Пользователь \(event.content["displayname"] ?? "no name") \(R.string.localizable.chatRoomViewBannedNotify())")
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                     default:
-                                        eventView(text: "\(event.type)")
+                                        eventView(text: "\(event.type ?? "")")
                                             .flippedUpsideDown()
                                             .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                     }
@@ -529,20 +528,41 @@ struct ChatRoomView: View {
 
             SlideCard(position: $cardPosition, expandedPosition: .custom(UIScreen.main.bounds.height - 580)) {
                 VStack {
-                    QuickMenuView(cardPosition: $cardPosition, onAction: {
-                        switch $0 {
-                        case .copy:
-                            UIPasteboard.general.string = replyMessage?.description
-                        case .delete:
-                            viewModel.send(.onDelete(replyMessage?.eventId ?? ""))
-                        case .reply:
-                            inputViewIsFocused = true
-                        default:
-                            ()
+                    if let current = activeEditMessage?.isCurrentUser {
+                        if current {
+                            QuickMenuCurrentUserView(cardPosition: $cardPosition, onAction: {
+                                switch $0 {
+                                case .copy:
+                                    UIPasteboard.general.string = activeEditMessage?.description
+                                case .delete:
+                                    debugPrint("delete action", messageId)
+                                    viewModel.send(.onDelete(messageId))
+                                case .edit:
+                                    inputViewIsFocused = true
+                                case .reply:
+                                    inputViewIsFocused = true
+                                default:
+                                    ()
+                                }
+                                quickActionCurrentUser = $0
+                            }).padding(.vertical, 16)
+                        } else {
+                            QuickMenuView(cardPosition: $cardPosition, onAction: {
+                                switch $0 {
+                                case .copy:
+                                    UIPasteboard.general.string = activeEditMessage?.description
+                                case .delete:
+                                    debugPrint("delete action", messageId)
+                                    viewModel.send(.onDelete(messageId))
+                                case .reply:
+                                    inputViewIsFocused = true
+                                default:
+                                    ()
+                                }
+                                quickAction = $0
+                            }).padding(.vertical, 16)
                         }
-                        quickAction = $0
-
-                    }).padding(.vertical, 16)
+                    }
                 }
             }
         }
@@ -588,8 +608,14 @@ struct ChatRoomView: View {
             VStack(spacing: 0) {
                 if quickAction == .reply {
                     ReplyView(
-                        text: replyMessage?.description ?? "",
-                        onReset: { replyMessage = nil; quickAction = nil }
+                        text: activeEditMessage?.description ?? "",
+                        onReset: { activeEditMessage = nil; quickAction = nil }
+                    ).transition(.opacity)
+                }
+                if quickActionCurrentUser == .edit {
+                    EditView(
+                        text: activeEditMessage?.description ?? "",
+                        onReset: { activeEditMessage = nil; quickActionCurrentUser = nil }
                     ).transition(.opacity)
                 }
 
@@ -626,10 +652,16 @@ struct ChatRoomView: View {
                         Button(action: {
                             withAnimation {
                                 if quickAction == .reply {
-                                    viewModel.send(.onReply(viewModel.inputText, replyMessage?.eventId ?? ""))
+                                    viewModel.send(.onReply(viewModel.inputText, activeEditMessage?.eventId ?? ""))
                                     viewModel.inputText = ""
-                                    replyMessage = nil
+                                    activeEditMessage = nil
                                     quickAction = nil
+                                } else if quickActionCurrentUser == .edit {
+                                    viewModel.send(.onEdit(viewModel.inputText, activeEditMessage?.eventId ?? ""))
+                                    viewModel.inputText = ""
+                                    activeEditMessage = nil
+                                    quickActionCurrentUser = nil
+                                    viewModel.send(.onSendText(viewModel.inputText))
                                 } else {
                                     viewModel.send(.onSendText(viewModel.inputText))
                                 }
@@ -647,7 +679,7 @@ struct ChatRoomView: View {
 
                 Spacer()
             }
-            .frame(height: quickAction == .reply ? 104 : 52)
+            .frame(height: quickActionCurrentUser == .edit ? 104 : (quickAction == .reply ? 104 : 52))
             .background(.white())
             .ignoresSafeArea()
 

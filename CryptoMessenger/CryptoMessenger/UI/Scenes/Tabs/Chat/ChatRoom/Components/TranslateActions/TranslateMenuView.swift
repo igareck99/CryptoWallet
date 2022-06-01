@@ -22,44 +22,44 @@ enum TranslateAction: CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .russian:
-            return "Русский язык"
+            return R.string.localizable.translateRussianLanguage()
         case .system:
-            return "Как в системе"
+            return R.string.localizable.translateSystemLanguage()
         case .english:
-            return "Английский язык"
+            return R.string.localizable.translateEnglishLanguage()
         case .spanish:
-            return "Испанский язык"
+            return R.string.localizable.translateSpanishLanguage()
         case .italian:
-            return "Итальянский язык"
+            return R.string.localizable.translateItalianLanguage()
         case .french:
-            return "Француский язык"
+            return R.string.localizable.translateFrenchLanguage()
         case .arabic:
-            return "Арабский язык"
+            return R.string.localizable.translateArabicLangauge()
         case .german:
-            return "Немецкий язык"
+            return R.string.localizable.translateGermanLanguage()
         case .chinese:
-            return "中國人"
+            return R.string.localizable.translateChineseLanguage()
         }
     }
     
     var languageCode: String {
         switch Locale.preferredLanguages[0] {
         case "ru":
-            return "Русский"
+            return R.string.localizable.translateRussian()
         case "en":
-            return "English"
+            return R.string.localizable.translateEnglish()
         case "es":
-            return "Spanish"
+            return R.string.localizable.translateSpanish()
         case "it":
-            return "Italiano"
+            return R.string.localizable.translateItalian()
         case "fr":
-            return "French"
+            return R.string.localizable.translateFrench()
         case "ar":
-            return "Arabic"
+            return R.string.localizable.translateArabic()
         case "de":
-            return "German"
+            return R.string.localizable.translateGerman()
         case "zh-CN":
-            return "Chinese"
+            return R.string.localizable.translateChinese()
         default: break
         }
         return ""
@@ -68,23 +68,23 @@ enum TranslateAction: CaseIterable, Identifiable {
     var description: String {
         switch self {
         case .russian:
-            return "Russian"
+            return R.string.localizable.translateRussian()
         case .system:
-            return "Как в системе \(languageCode)"
+            return "\(R.string.localizable.translateSystemLanguage()) \(languageCode)"
         case .english:
-            return "English"
+            return R.string.localizable.translateEnglish()
         case .spanish:
-            return "Spanish"
+            return R.string.localizable.translateSpanish()
         case .italian:
-            return "Italian"
+            return R.string.localizable.translateItalian()
         case .french:
-            return "English"
+            return R.string.localizable.translateFrench()
         case .arabic:
-            return "Arabic"
+            return R.string.localizable.translateArabic()
         case .german:
-            return "German"
+            return R.string.localizable.translateGerman()
         case .chinese:
-            return "中國人"
+            return R.string.localizable.translateChinese()
         }
     }
     
@@ -109,8 +109,6 @@ struct TranslateMenuView: View {
 
     // MARK: - Private Properties
 
-//    @State private var isShown = false
-
     // MARK: - Body
 
     var body: some View {
@@ -118,6 +116,7 @@ struct TranslateMenuView: View {
             ForEach(TranslateAction.allCases, id: \.id) { act in
                 HStack(alignment: .firstTextBaseline) {
                         VStack {
+                            // TODO: Использовать в качестве шаблона для чекмарка
 //                            HStack {
 //                                act.image
 //                            }

@@ -49,33 +49,3 @@ extension FirebaseRemoteConfigService: RemoteConfigServiceProtocol {
         }
     }
 }
-
-// MARK: - RemoteValueKey
-
-enum RemoteValueKey: String {
-    case Chat
-    case Wallet
-}
-
-// MARK: - RemoteFirebaseConfigValue
-
-enum RemoteFirebaseConfigValue: String {
-
-	case aura = "Aura"
-	case chat = "Chat"
-	case wallet = "Wallet"
-    case translate = "Translate"
-
-	enum Chat: String {
-		case groupChat
-        case personalChat
-    }
-
-	enum Wallet: String {
-		case ethereumWallet
-    }
-    
-    enum Translate: String {
-        case translateMenu
-    }
-}
