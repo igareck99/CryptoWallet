@@ -1,6 +1,8 @@
 import MatrixSDK
 import SwiftUI
 
+// swiftlint:disable:all
+
 // MARK: - ChatRoomRow
 
 struct ChatRoomRow: View {
@@ -71,7 +73,7 @@ struct ChatRoomRow: View {
                     .padding(.leading, 16)
                     .padding(.trailing, -11)
                 }
-
+                
                 BubbleView(direction: isFromCurrentUser ? .right : .left) {
                     VStack(alignment: .leading, spacing: 0) {
                         if message.isReply {
@@ -105,10 +107,9 @@ struct ChatRoomRow: View {
                             }
                             .frame(height: 40)
                         }
-
                         HStack(spacing: 0) {
                             switch message.type {
-                            case let .text(text):
+                            case var .text(text):
                                 textRow(message, text: text)
                             case let .location(location):
                                 mapRow(location)

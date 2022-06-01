@@ -3,11 +3,11 @@ import SwiftUI
 // MARK: - GroupAction
 
 enum GroupAction: CaseIterable, Identifiable {
-
     // MARK: - Types
 
     case edit
     case notifications
+    case translate
     case search
     case users
     case share
@@ -24,6 +24,8 @@ enum GroupAction: CaseIterable, Identifiable {
             return "Редактировать"
         case .notifications:
             return "Выключить уведомления"
+        case .translate:
+            return "Переводить сообщения"
         case .search:
             return "Поиск сообщений"
         case .users:
@@ -45,6 +47,8 @@ enum GroupAction: CaseIterable, Identifiable {
             return R.image.chat.groupMenu.edit.image
         case .notifications:
             return R.image.chat.groupMenu.notifications.image
+        case .translate:
+            return R.image.chat.groupMenu.translate.image
         case .search:
             return R.image.chat.groupMenu.search.image
         case .users:
@@ -66,7 +70,7 @@ struct GroupMenuView: View {
     // MARK: - Internal Properties
 
     @Binding var action: GroupAction?
-    @Binding var cardPosition: CardPosition
+    @Binding var cardGroupPosition: CardPosition
 
     // MARK: - Private Properties
 
@@ -80,7 +84,7 @@ struct GroupMenuView: View {
                 Button(action: {
                     vibrate()
                     action = act
-                    cardPosition = .bottom
+                    cardGroupPosition = .bottom
                 }, label: {
                     HStack {
                         HStack {
