@@ -4,8 +4,6 @@
 <dict>
 	<key>API URL</key>
 	<string>https://api.aura.ms</string>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
 	<key>API Version</key>
 	<string>v0</string>
 	<key>API stand</key>

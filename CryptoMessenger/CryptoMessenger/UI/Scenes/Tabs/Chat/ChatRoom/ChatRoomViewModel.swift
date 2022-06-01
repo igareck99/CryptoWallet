@@ -33,6 +33,11 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var pickedContact: Contact?
     @Published private var lastLocation: Location?
     @Published var cameraFrame: CGImage?
+    @Published var roomUsers: [MXUser] = [] {
+        didSet {
+            debugPrint("Room users", roomUsers.last, roomUsers.last?.avatarUrl)
+        }
+    }
 
 	var p2pVoiceCallPublisher = ObservableObjectPublisher()
 	var isVoiceCallAvailable: Bool {
@@ -112,7 +117,7 @@ final class ChatRoomViewModel: ObservableObject {
 
     func previous(_ item: RoomMessage) -> RoomMessage? {
         if translateManager.isActive {
-            return translatedMessages.next(item: item)
+            return translatedMessages.previous(item: item)
         } else {
             return messages.previous(item: item)
         }
@@ -124,6 +129,8 @@ final class ChatRoomViewModel: ObservableObject {
     
     func translateMessagesTo(languageCode: String) {
         showTranslateMenu = false
+        self.translatedMessages.removeAll()
+
         for message in self.messages {
             self.translateTo(languageCode: languageCode, message: message)
         }
@@ -134,6 +141,17 @@ final class ChatRoomViewModel: ObservableObject {
     }
     
     func translateTo(languageCode: String, message: RoomMessage) {
+        self.translateManager.isActive = true
+
+        DispatchQueue.main.async {
+            guard !message.isCurrentUser else {
+                self.translatedMessages.append(message)
+                self.translatedMessages = self.translatedMessages.sorted(by: { $0.id < $1.id })
+                return
+            }
+        }
+
+
         var message = message
         switch message.type {
         case let .text(text):
@@ -142,17 +160,13 @@ final class ChatRoomViewModel: ObservableObject {
                     self.translateManager.isActive = false
                     return
                 }
-                self.translateManager.isActive = true
-                
                 
                 // Language check
                 if Locale.current.languageCode != nil {
-                    DispatchQueue.main.async {
-                        self.translatedMessages.removeAll()
-                    }
                                                             
                     self.translateManager.translate(text, locales[0].language, languageCode, "text", "base") { (translate , error) in
                         DispatchQueue.main.async {
+                            // TODO: Улучшить обработку перевода, без собственных сообщений
                             if let translate = translate {
                                 message.type = .text(translate)
                             }
@@ -205,26 +219,44 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.matrixUseCase.objectChangePublisher.send()
                     self?.fetchChatData()
                 case let .onDelete(eventId):
-                    self?.room.removeOutgoingMessage(eventId)
                     self?.room.redact(eventId: eventId, reason: nil)
                     self?.matrixUseCase.objectChangePublisher.send()
                 case .onAddReaction(let messageId, let reactionId):
+                    guard ((self?.isTranslating()) != nil) else {
                         guard
-                            let index = self?.messages.firstIndex(where: { $0.id == messageId }),
+                            let index = self?.translatedMessages.firstIndex(where: { $0.id == messageId }),
                             let emoji = self?.emojiStorage.first(where: { $0.id == reactionId })?.emoji
                         else {
                             return
                         }
-
-                        if self?.messages[index].reactions.contains(where: { $0.id == reactionId }) == false {
-                            self?.messages[index].reactions.append(
+                        
+                        if self?.translatedMessages[index].reactions.contains(where: { $0.id == reactionId }) == false {
+                            self?.translatedMessages[index].reactions.append(
                                 .init(id: reactionId, sender: "", timestamp: Date(), emoji: emoji)
                             )
                         }
+                        return
+
+                    }
+                    guard
+                        let index = self?.messages.firstIndex(where: { $0.id == messageId }),
+                        let emoji = self?.emojiStorage.first(where: { $0.id == reactionId })?.emoji
+                    else {
+                        return
+                    }
+                    
+                    if self?.messages[index].reactions.contains(where: { $0.id == reactionId }) == false {
+                        self?.messages[index].reactions.append(
+                            .init(id: reactionId, sender: "", timestamp: Date(), emoji: emoji)
+                        )
+                    }
                 case .onDeleteReaction(let messageId, let reactionId):
+                    self?.room.edit(text: "", eventId: messageId)
                     guard let index = self?.messages.firstIndex(where: { $0.id == messageId }) else { return }
                     self?.messages[index].reactions.removeAll(where: { $0.id == reactionId })
                     self?.matrixUseCase.objectChangePublisher.send()
+                case let .onEdit(text, eventId):
+                    self?.room.edit(text: text, eventId: eventId)
                 }
             }
             .store(in: &subscriptions)
@@ -304,7 +336,7 @@ final class ChatRoomViewModel: ObservableObject {
                 case .german:
                     self.translateMessagesTo(languageCode: "de")
                 case .chinese:
-                        self.translateMessagesTo(languageCode: "zh-CN")
+                    self.translateMessagesTo(languageCode: "zh-CN")
                 }
             }
             .store(in: &subscriptions)
@@ -374,9 +406,30 @@ final class ChatRoomViewModel: ObservableObject {
                 else {
                     return
                 }
+                if self.isTranslating() {
+                    self.translatedMessages = room.events().renderableEvents
+                        .map {
+                            var message = $0.message(self.fromCurrentSender($0.sender))
+                            message?.eventId = $0.eventId
+                            var user: MXUser?
+                            if !$0.userId.isEmpty {
+                                user = self.matrixUseCase.getUser($0.userId)
+                            } else {
+                                user = self.matrixUseCase.getUser($0.sender)
+                            }
+                            if let user = user {
+                                self.roomUsers.append(user)
+                            }
+                            message?.name = user?.displayname ?? ""
+                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                            message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)
+                            return message
+                        }
+                        .compactMap { $0 }
+                }
+                
                 self.messages = room.events().renderableEvents
                     .map {
-                        debugPrint("Events()", self.messages)
                         var message = $0.message(self.fromCurrentSender($0.sender))
                         message?.eventId = $0.eventId
                         var user: MXUser?
@@ -385,12 +438,14 @@ final class ChatRoomViewModel: ObservableObject {
                         } else {
                             user = self.matrixUseCase.getUser($0.sender)
                         }
+                        if let user = user {
+                            self.roomUsers.append(user)
+                        }
                         message?.name = user?.displayname ?? ""
                         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                         message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)
                         return message
                     }
-                    .reversed()
                     .compactMap { $0 }
             }
             .store(in: &subscriptions)
@@ -472,8 +527,4 @@ final class ChatRoomViewModel: ObservableObject {
             }
         }
     }
-}
-
-extension ChatRoomViewModel {
-        
 }

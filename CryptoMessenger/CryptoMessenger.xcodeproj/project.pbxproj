@@ -491,10 +491,10 @@
 		D4AB8FFE282672F800E6FAB5 /* MatrixService+Rooms.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFD282672F800E6FAB5 /* MatrixService+Rooms.swift */; };
 		D4AB90002826735000E6FAB5 /* MatrixService+Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFF2826735000E6FAB5 /* MatrixService+Users.swift */; };
 		D4AB900828278A1600E6FAB5 /* MatrixUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */; };
-		D4D439F22837493800AC0DEF /* MXRoom+Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */; };
-		D4D439FB28374B0C00AC0DEF /* MXRoom+Reply.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */; };
 		D4C9B72E283C20380060BFD3 /* ChatRoomViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */; };
 		D4D439EB2836086900AC0DEF /* P2PCallUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */; };
+		D4D439F22837493800AC0DEF /* MXRoom+Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */; };
+		D4D439FB28374B0C00AC0DEF /* MXRoom+Reply.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */; };
 		D4D439FD283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439FC283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift */; };
 		D4FA3F6B28182CCB000246D8 /* AppDelegateUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F6A28182CCB000246D8 /* AppDelegateUseCase.swift */; };
 		D4FA3F6D28183586000246D8 /* AppDelegateUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */; };
@@ -992,12 +992,12 @@
 		D4AB8FFD282672F800E6FAB5 /* MatrixService+Rooms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Rooms.swift"; sourceTree = "<group>"; };
 		D4AB8FFF2826735000E6FAB5 /* MatrixService+Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Users.swift"; sourceTree = "<group>"; };
 		D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixUseCase.swift; sourceTree = "<group>"; };
+		D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelAssembly.swift; sourceTree = "<group>"; };
+		D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallUseCase.swift; sourceTree = "<group>"; };
 		D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MXRoom+Reply.swift"; sourceTree = "<group>"; };
 		D4D439F528374AD100AC0DEF /* CryptoMessenger-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CryptoMessenger-Bridging-Header.h"; sourceTree = "<group>"; };
 		D4D439F928374B0B00AC0DEF /* MXRoom+Reply.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MXRoom+Reply.h"; sourceTree = "<group>"; };
 		D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MXRoom+Reply.m"; sourceTree = "<group>"; };
-		D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelAssembly.swift; sourceTree = "<group>"; };
-		D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallUseCase.swift; sourceTree = "<group>"; };
 		D4D439FC283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "P2PCallUseCase+Notifications.swift"; sourceTree = "<group>"; };
 		D4FA3F6A28182CCB000246D8 /* AppDelegateUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateUseCase.swift; sourceTree = "<group>"; };
 		D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateUseCaseAssembly.swift; sourceTree = "<group>"; };
@@ -2801,7 +2801,6 @@
 				5A187DCB26806EF9001957D3 /* LaunchScreen.storyboard in Resources */,
 				782047B4283D1DED0065E0E9 /* GoogleService-Info.plist in Resources */,
 				5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */,
-				782047B3283D1C110065E0E9 /* GoogleService-Info.plist in Resources */,
 				5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */,
 				5A42680F26A8393A000C51DD /* Localizable.strings in Resources */,
 				5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */,
