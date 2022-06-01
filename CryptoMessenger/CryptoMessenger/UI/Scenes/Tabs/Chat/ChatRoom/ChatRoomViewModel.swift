@@ -119,7 +119,7 @@ final class ChatRoomViewModel: ObservableObject {
     }
 
     func fromCurrentSender(_ userId: String) -> Bool {
-		matrixUseCase.fromCurrentSender(userId)
+        matrixUseCase.fromCurrentSender(userId)
     }
     
     func translateMessagesTo(languageCode: String) {
@@ -363,7 +363,7 @@ final class ChatRoomViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
 
-		matrixUseCase.objectChangePublisher
+        matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
 
