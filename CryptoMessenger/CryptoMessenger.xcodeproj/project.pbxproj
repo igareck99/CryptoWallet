@@ -493,6 +493,7 @@
 		D4533A1C28335A6700B956B2 /* RemoteConfigServiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */; };
 		D4533A1E28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */; };
 		D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46187D2282D093200CA2836 /* ChatHistorySources.swift */; };
+		D47987CD284CBBAF00ACEE64 /* StatusBarCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */; };
 		D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */; };
 		D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */; };
 		D4AB8FFC282672BB00E6FAB5 /* MatrixService+Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */; };
@@ -509,6 +510,7 @@
 		D4FA3F72281A619B000246D8 /* TimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F71281A619B000246D8 /* TimeService.swift */; };
 		D4FA3F74281A7374000246D8 /* TimeInterval+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F73281A7374000246D8 /* TimeInterval+Extensions.swift */; };
 		D4FA3F76281E4939000246D8 /* ContactInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F75281E4939000246D8 /* ContactInfo.swift */; };
+		D4FDA497284D05C600322A0F /* StatusBarCallUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDA496284D05C600322A0F /* StatusBarCallUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1002,6 +1004,7 @@
 		D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceAssembly.swift; sourceTree = "<group>"; };
 		D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		D46187D2282D093200CA2836 /* ChatHistorySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySources.swift; sourceTree = "<group>"; };
+		D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCallView.swift; sourceTree = "<group>"; };
 		D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixServiceProtocol.swift; sourceTree = "<group>"; };
 		D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Session.swift"; sourceTree = "<group>"; };
 		D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Devices.swift"; sourceTree = "<group>"; };
@@ -1020,6 +1023,7 @@
 		D4FA3F71281A619B000246D8 /* TimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeService.swift; sourceTree = "<group>"; };
 		D4FA3F73281A7374000246D8 /* TimeInterval+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extensions.swift"; sourceTree = "<group>"; };
 		D4FA3F75281E4939000246D8 /* ContactInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfo.swift; sourceTree = "<group>"; };
+		D4FDA496284D05C600322A0F /* StatusBarCallUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCallUseCase.swift; sourceTree = "<group>"; };
 		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2671,6 +2675,7 @@
 		D4442B4A281162030033D07A /* Use Cases */ = {
 			isa = PBXGroup;
 			children = (
+				D4FDA495284D05AA00322A0F /* Status Bar Call UseCase */,
 				D4D439E92836084D00AC0DEF /* P2P Call UseCase */,
 				D4AB9006282789F900E6FAB5 /* Matrix UseCase */,
 				8BE122C028253EF500F7707E /* Remote Config UseCase */,
@@ -2774,6 +2779,15 @@
 				D4FA3F71281A619B000246D8 /* TimeService.swift */,
 			);
 			path = "Time Service";
+			sourceTree = "<group>";
+		};
+		D4FDA495284D05AA00322A0F /* Status Bar Call UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */,
+				D4FDA496284D05C600322A0F /* StatusBarCallUseCase.swift */,
+			);
+			path = "Status Bar Call UseCase";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3202,6 +3216,7 @@
 				8B6C18C6279ABB1200B85F2A /* SecurityNewFlow.swift in Sources */,
 				D428A53D2823CA8D002CAA13 /* RemoteConfigServiceProtocol.swift in Sources */,
 				78437F0F270C76FE00371110 /* AboutAppProtocols.swift in Sources */,
+				D47987CD284CBBAF00ACEE64 /* StatusBarCallView.swift in Sources */,
 				8B6C18C22799A87000B85F2A /* SecurityNewConfigurator.swift in Sources */,
 				5A187EB6268070B3001957D3 /* UIColor+Extensions.swift in Sources */,
 				D44BDC7728083B2F0080AE8A /* PushNotificationsUseCaseAssembly.swift in Sources */,
@@ -3431,6 +3446,7 @@
 				5A4BE4F4271DBEC900D03D09 /* URLConvertible.swift in Sources */,
 				789FEBEE26DCE61D0018FE91 /* PhotoEditorProtocols.swift in Sources */,
 				8B5609B62779C5CA00AF43F6 /* ThemeItem.swift in Sources */,
+				D4FDA497284D05C600322A0F /* StatusBarCallUseCase.swift in Sources */,
 				789B123226CE8906002FCDDF /* CallListViewController.swift in Sources */,
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
 				5A26CD2726B2FF9900118D4B /* CarouselNonAnimatableFlowLayout.swift in Sources */,

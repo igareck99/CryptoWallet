@@ -4,4 +4,13 @@ extension Notification.Name {
 	static let userDidLoggedIn = Notification.Name("UserDidLoggedIn")
 	static let userDidRegistered = Notification.Name("UserDidRegistered")
     static let configDidUpdate = Notification.Name("ConfigDidUpdate")
+
+	static let statusBarTapped = Notification.Name("StatusBarTappedNotification")
+
+	static let callViewWillAppear = Notification.Name("CallViewWillAppear")
+	static let callViewDidAppear = Notification.Name("CallViewDidAppear")
+	static let callViewDidDisappear = Notification.Name("CallViewDidDisappear")
+
+	static let callDidStart = Notification.Name("CallDidStart")
+	static let callDidEnd = Notification.Name("CallDidEnd")
 }

@@ -2,6 +2,8 @@ import UIKit
 
 protocol P2PCallsRouterable {
 
+	var isCallViewControllerBeingPresented: Bool { get }
+
 	func removeCallController()
 
 	func showCallView(
@@ -15,15 +17,19 @@ protocol P2PCallsRouterable {
 final class P2PCallsRouter: NSObject {
 
 	private var transitionCompletion: (() -> Void)?
-	private var callController: UIViewController?
-	private lazy var navigationController: UINavigationController? = {
-		UIApplication.shared.windows.first?.rootViewController as? UINavigationController
-	}()
+	private weak var callController: UIViewController?
+	private var navigationController: UINavigationController? {
+		UIApplication.shared.windows.first(where: { $0.rootViewController != nil })?.rootViewController as? UINavigationController
+	}
 }
 
 // MARK: - P2PCallsRouterable
 
 extension P2PCallsRouter: P2PCallsRouterable {
+
+	var isCallViewControllerBeingPresented: Bool {
+		callController != nil
+	}
 
 	func removeCallController() {
 		guard let controller = callController,
@@ -36,6 +42,8 @@ extension P2PCallsRouter: P2PCallsRouterable {
 				controller == $0
 			})
 		}
+
+		callController = nil
 	}
 
 	func showCallView(
@@ -44,7 +52,7 @@ extension P2PCallsRouter: P2PCallsRouterable {
 		callType: P2PCallType,
 		callState: P2PCallState
 	) {
-		let controller = P2PCallsAssembly.build(userName: userName, p2pCallType: callType, p2pCallUseCase: p2pCallUseCase)
+		let controller = P2PCallsAssembly.build(userName: userName, p2pCallUseCase: p2pCallUseCase)
 		callController = controller
 		navigationController?.pushViewController(controller, animated: true)
 	}
@@ -57,7 +65,7 @@ extension P2PCallsRouter: P2PCallsRouterable {
 		completion: @escaping () -> Void
 	) {
 		transitionCompletion = completion
-		let controller = P2PCallsAssembly.build(userName: userName, p2pCallType: callType, p2pCallUseCase: p2pCallUseCase)
+		let controller = P2PCallsAssembly.build(userName: userName, p2pCallUseCase: p2pCallUseCase)
 		callController = controller
 		navigationController?.delegate = self
 		navigationController?.pushViewController(controller, animated: true)
