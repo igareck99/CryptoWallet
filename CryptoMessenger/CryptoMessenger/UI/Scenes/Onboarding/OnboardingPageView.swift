@@ -46,7 +46,7 @@ final class OnboardingPageView: UIView {
 
     private func addIconImageView() {
         iconImageView.snap(parent: self) {
-            $0.contentMode = .scaleToFill
+            $0.contentMode = .scaleAspectFit
             $0.clipsToBounds = true
         } layout: {
             $0.top.equalTo($1).offset(54)
