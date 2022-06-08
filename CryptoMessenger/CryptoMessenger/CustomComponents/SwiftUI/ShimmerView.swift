@@ -31,7 +31,7 @@ struct ShimmerView: View {
             .transition(.opacity)
             .onAppear {
                 let baseAnimation = Animation.easeInOut(duration: duration)
-                let repeated = baseAnimation.repeatForever(autoreverses: true)
+                let repeated = baseAnimation.repeatCount(0)
                 withAnimation(repeated) {
                     self.opacity = maxOpacity
                 }
@@ -59,7 +59,7 @@ struct Shimmer: ViewModifier {
             .modifier(
                 AnimatedMask(phase: phase).animation(
                     .linear(duration: duration)
-                        .repeatForever(autoreverses: bounce)
+                    .repeatForever()
                 )
             )
             .onAppear { phase = 0.8 }
