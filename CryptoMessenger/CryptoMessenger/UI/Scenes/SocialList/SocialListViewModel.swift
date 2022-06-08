@@ -119,27 +119,27 @@ final class SocialListViewModel: ObservableObject {
             if !x.url.isEmpty {
                 switch x.socialType {
                 case .twitter:
-                    if !x.url.contains("https://twitter.com/") || !x.url.contains("twitter.com/") {
+                    if !x.url.contains("https://twitter.com/") {
                         updatedUrl = "https://twitter.com" + x.url
                     }
                 case .facebook:
-                    if !x.url.contains("https://www.facebook.com/") || !x.url.contains("www.facebook.com/") {
+                    if !x.url.contains("https://www.facebook.com/") {
                         updatedUrl = "https://www.facebook.com/" + x.url
                     }
                 case .vk:
-                    if !x.url.contains("https://vk.com/") || !x.url.contains("vk.com/") {
+                    if !x.url.contains("https://vk.com/") {
                         updatedUrl = "https://vk.com/" + x.url
                     }
                 case .instagram:
-                    if !x.url.contains("https://instagram.com/") || !x.url.contains("instagram.com/") {
+                    if !x.url.contains("https://instagram.com/") {
                         updatedUrl = "https://instagram.com/" + x.url
                     }
                 case .linkedin:
-                    if !x.url.contains("https://www.linkedin.com/") || !x.url.contains("www.linkedin.com/") {
-                        updatedUrl = "www.linkedin.com/" + x.url
+                    if !x.url.contains("https://www.linkedin.com/") {
+                        updatedUrl = "https://www.linkedin.com/" + x.url
                     }
                 case .tiktok:
-                    if !x.url.contains("https://www.tiktok.com/") || !x.url.contains("www.tiktok.com/") {
+                    if !x.url.contains("https://www.tiktok.com/") {
                         updatedUrl = "https://www.tiktok.com/" + x.url
                     }
                 }
