@@ -155,17 +155,6 @@ extension MatrixService {
 		self.session = session
 		self.fileStore = MXFileStore()
 		self.uploader = MXMediaLoader(forUploadWithMatrixSession: session, initialRange: 0, andRange: 1)
-		configureCallKitAdapter()
-	}
-
-	private func configureCallKitAdapter() {
-		let config = MXCallKitConfiguration()
-		config.iconName = "AppIcon"
-		config.name = "CryptoMessenger"
-		let adapter = MXCallKitAdapter(configuration: config)
-		let audioSessionConfigurator: MXCallAudioSessionConfigurator = MXJingleCallAudioSessionConfigurator()
-		adapter.audioSessionConfigurator = audioSessionConfigurator
-		session?.callManager.callKitAdapter = adapter
 	}
 
 	// MARK: - Pagination

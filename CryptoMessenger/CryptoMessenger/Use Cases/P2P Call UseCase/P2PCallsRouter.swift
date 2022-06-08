@@ -6,18 +6,9 @@ protocol P2PCallsRouterable {
 
 	func showCallView(
 		userName: String,
-		callType: P2PCallUseCase.CallType,
-		callState: P2PCallUseCase.CallState,
-		delegate: CallViewControllerDelegate,
-		completion: @escaping () -> Void
-	)
-
-	func showCallView(
-		userName: String,
-		p2pCallUseCase: P2PCallUseCase,
-		callType: P2PCallUseCase.CallType,
-		callState: P2PCallUseCase.CallState,
-		delegate: CallViewControllerDelegate
+		p2pCallUseCase: P2PCallUseCaseProtocol,
+		callType: P2PCallType,
+		callState: P2PCallState
 	)
 }
 
@@ -49,36 +40,24 @@ extension P2PCallsRouter: P2PCallsRouterable {
 
 	func showCallView(
 		userName: String,
-		p2pCallUseCase: P2PCallUseCase,
-		callType: P2PCallUseCase.CallType,
-		callState: P2PCallUseCase.CallState,
-		delegate: CallViewControllerDelegate
+		p2pCallUseCase: P2PCallUseCaseProtocol,
+		callType: P2PCallType,
+		callState: P2PCallState
 	) {
-		let controller = CallViewController(
-			userName: userName,
-			callState: callState,
-			callType: callType,
-			delegate: delegate
-		)
+		let controller = P2PCallsAssembly.build(userName: userName, p2pCallType: callType, p2pCallUseCase: p2pCallUseCase)
 		callController = controller
-		p2pCallUseCase.delegate = controller
 		navigationController?.pushViewController(controller, animated: true)
 	}
 
 	func showCallView(
 		userName: String,
-		callType: P2PCallUseCase.CallType,
-		callState: P2PCallUseCase.CallState,
-		delegate: CallViewControllerDelegate,
+		p2pCallUseCase: P2PCallUseCaseProtocol,
+		callType: P2PCallType,
+		callState: P2PCallState,
 		completion: @escaping () -> Void
 	) {
 		transitionCompletion = completion
-		let controller = CallViewController(
-			userName: userName,
-			callState: callState,
-			callType: callType,
-			delegate: delegate
-		)
+		let controller = P2PCallsAssembly.build(userName: userName, p2pCallType: callType, p2pCallUseCase: p2pCallUseCase)
 		callController = controller
 		navigationController?.delegate = self
 		navigationController?.pushViewController(controller, animated: true)
