@@ -408,6 +408,52 @@
 "ContactChatDetail.CellPhone" = "Сотовый";
 "ContactChatDetail.ContactViewing" = "Просмотр контакта";
 
+// Quick menu
+
+"QuickMenu.Answer" = "Ответить";
+"QuickMenu.Edit" = "Редактировать";
+"QuickMenu.Copy" = "Copy";
+"QuickMenu.Favourite" = "В избранное";
+"QuickMenu.Forward" = "Переслать";
+"QuickMenu.Reaction" = "Реакция";
+"QuickMenu.Delete" = "Удалить сообщение";
+
+// Reply view
+
+"ReplyView.Reply" = "Ответить";
+"EditView.Edit" = "Редактирование";
+
+// Translate Menu View
+
+"Translate.RussianLanguage" = "Русский язык";
+"Translate.SystemLanguage" = "Как в системе";
+"Translate.EnglishLanguage" = "Английский язык";
+"Translate.SpanishLanguage" = "Испанский язык";
+"Translate.ItalianLanguage" = "Итальянский язык";
+"Translate.FrenchLanguage" = "Француский язык";
+"Translate.ArabicLangauge" = "Арабский язык";
+"Translate.GermanLanguage" = "Немецкий язык";
+"Translate.ChineseLanguage" = "Китайский язык";
+
+"Translate.Russian" = "Русский";
+"Translate.English" = "English";
+"Translate.Spanish" = "Spanish";
+"Translate.Italian" = "Italian";
+"Translate.French" = "French";
+"Translate.Arabic" = "Arabic";
+"Translate.German" = "German";
+"Translate.Chinese" = "Chinese";
+
+// Chat Room View
+
+"ChatRoomView.SelfAvatarChangeNotify" = "Вы сменили свой аватар";
+"ChatRoomView.EncryptedMessagesNotify" = "Сообщения в этой комнате зашифрованы сквозным шифрованием";
+"ChatRoomView.AvatarChangeNotify" = "сменил аватарку";
+"ChatRoomView.RoomEntryNotify" = "вошел(ла) в комнату";
+"ChatRoomView.LeftTheRoomNotify" = "покинул комнату";
+"ChatRoomView.InvitedNotify" = "был приглашен в комнату";
+"ChatRoomView.UnownedErrorNotify" = "Неизвестная ошибка";
+"ChatRoomView.BannedNotify" = "заблокирован";
 
 
 

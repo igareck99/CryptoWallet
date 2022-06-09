@@ -2,6 +2,8 @@ import UIKit
 
 // MARK: - MessageType
 
+// swiftlint:disable unused_closure_parameter
+
 enum MessageType {
 
     // MARK: - Types
@@ -21,7 +23,7 @@ struct Reply {
     // MARK: - Internal Properties
 
     let user: String
-    let text: String
+    var text: String
     let replyText: String
 }
 
@@ -45,7 +47,7 @@ struct Message: Identifiable {
     // MARK: - Internal Properties
 
     let id = UUID().uuidString
-    let type: MessageType
+    var type: MessageType
     let status: MessageStatus
     let name: String
     let avatar: UIImage?
@@ -70,7 +72,7 @@ struct RoomMessage: Identifiable {
     // MARK: - Internal Properties
 
     let id: String
-    let type: MessageType
+    var type: MessageType
     let shortDate: String
     let fullDate: String
     let isCurrentUser: Bool
@@ -82,7 +84,7 @@ struct RoomMessage: Identifiable {
     var reactions: [Reaction] = []
     var description: String {
         switch type {
-        case let .text(text):
+        case var .text(text):
             return text
         case .file:
             return "Файл"

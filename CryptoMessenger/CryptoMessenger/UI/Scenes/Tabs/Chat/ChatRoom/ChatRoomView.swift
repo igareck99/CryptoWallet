@@ -2,9 +2,11 @@ import Combine
 import SwiftUI
 
 // MARK: - ChatRoomView
+// swiftlint:disable all
+
+// swiftlint: disable all
 
 struct ChatRoomView: View {
-
     // MARK: - ActiveSheet
 
     enum ActiveSheet: Identifiable {
@@ -30,6 +32,7 @@ struct ChatRoomView: View {
     @State private var messageId = ""
     @State private var cardPosition: CardPosition = .bottom
     @State private var cardGroupPosition: CardPosition = .bottom
+    @State private var translateCardPosition: CardPosition = .bottom
     @State private var scrolled = false
     @State private var showActionSheet = false
     @State private var showJoinAlert = false
@@ -37,11 +40,17 @@ struct ChatRoomView: View {
     @State private var selectedPhoto: URL?
     @State private var showSettings = false
     @State private var showQuickMenu = false
+    @State private var showTranslateAlert = false
+    @State private var showTranslateMenu = false
     @State private var activeSheet: ActiveSheet?
-    @State private var replyMessage: RoomMessage?
+    @State private var activeEditMessage: RoomMessage?
+    @State private var deleteMessage: RoomMessage?
     @State private var quickAction: QuickAction?
+    @State private var quickActionCurrentUser: QuickActionCurrentUser?
+
 
     @FocusState private var inputViewIsFocused: Bool
+    
 
     // MARK: - Body
 
@@ -78,8 +87,10 @@ struct ChatRoomView: View {
             .onReceive(viewModel.$showDocuments) { flag in
                 if flag { activeSheet = .documents }
             }
-            .onReceive(viewModel.$showContacts) { flag in
-                if flag { activeSheet = .contact }
+            .onReceive(viewModel.$showTranslate) { flag in
+                if flag {
+                    showTranslateAlert = flag
+                }
             }
             .alert(isPresented: $showJoinAlert) {
                 let roomName = viewModel.room.summary.displayname ?? "Новый запрос"
@@ -88,13 +99,30 @@ struct ChatRoomView: View {
                     message: Text("Принять приглашение от \(roomName)"),
                     primaryButton: .default(
                         Text("Присоединиться"),
-                        action: { viewModel.send(.onJoinRoom) }
+                        action: {
+                            viewModel.send(.onJoinRoom)
+                        }
                     ),
                     secondaryButton: .cancel(
                         Text("Отменить"),
                         action: { presentationMode.wrappedValue.dismiss() }
                     )
                 )
+            }
+
+            .alert(isPresented: $showTranslateAlert) { () -> Alert in
+                let dismissButton = Alert.Button.default(Text("Поменять")) {
+                    translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
+                }
+                let confirmButton = Alert.Button.default(Text("Перевести")) {
+                    for message in viewModel.messages {
+                        viewModel.translateTo(languageCode: "ru", message: message)
+                    }
+                }
+                let alert = Alert(title: Text("Переводить сообщения на Русский язык"),
+                                  message: Text("ВНИМАНИЕ! При переводе сообщий их шифрования теряется!"),
+                                  primaryButton: confirmButton, secondaryButton: dismissButton)
+                return alert
             }
             .sheet(item: $activeSheet) { item in
                 switch item {
@@ -186,6 +214,7 @@ struct ChatRoomView: View {
                     .padding(.bottom, 6)
                     .onTapGesture {
                         showSettings.toggle()
+                        showTranslateAlert.toggle()
                     }
                 }
 
@@ -200,7 +229,7 @@ struct ChatRoomView: View {
 							})
 						}
                         Button(action: {
-                            cardGroupPosition = .custom(482)
+                            cardGroupPosition = .custom(180)
                         }, label: {
                             R.image.navigation.settingsButton.image
                         })
@@ -208,6 +237,7 @@ struct ChatRoomView: View {
                     .padding(.bottom, 8)
                 }
             }
+
     }
 
     private var content: some View {
@@ -219,35 +249,115 @@ struct ChatRoomView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 0) {
                             Spacer().frame(height: 16)
-
-                            ForEach(viewModel.messages) { message in
-                                ChatRoomRow(
-                                    message: message,
-                                    isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
-                                    isDirect: viewModel.room.isDirect,
-                                    onReaction: { reactionId in
-                                        vibrate()
-                                        viewModel.send(
-                                            .onDeleteReaction(messageId: message.id, reactionId: reactionId)
+                            ForEach(viewModel.room.events().renderableEvents) { event in
+                                if viewModel.isTranslating() {
+                                    if let message = viewModel.translatedMessages.first(where: {$0.eventId == event.eventId}) {
+                                        ChatRoomRow(
+                                            message: message,
+                                            isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
+                                            isDirect: viewModel.room.isDirect,
+                                            onReaction: { reactionId in
+                                                vibrate()
+                                                viewModel.send(
+                                                    .onDeleteReaction(messageId: message.id, reactionId: reactionId)
+                                                )
+                                            },
+                                            onSelectPhoto: { selectedPhoto = $0 }
                                         )
-                                    },
-                                    onSelectPhoto: { selectedPhoto = $0 }
-                                )
-                                    .flippedUpsideDown()
-                                    .listRowSeparator(.hidden)
-                                    .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
-                                        vibrate(.medium)
-                                        messageId = message.id
-                                        replyMessage = message
-                                        cardPosition = .custom(UIScreen.main.bounds.height - 580)
-                                        hideKeyboard()
-                                    }
-
-                                if viewModel.next(message)?.fullDate != message.fullDate {
-                                    dateView(date: message.fullDate)
                                         .flippedUpsideDown()
-                                        .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
+                                        .listRowSeparator(.hidden)
+                                        .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
+                                            vibrate(.medium)
+                                            messageId = message.id
+                                            activeEditMessage = message
+                                            cardPosition = .custom(UIScreen.main.bounds.height - 580)
+                                            hideKeyboard()
+                                        }
+                                        if viewModel.next(message)?.fullDate != message.fullDate {
+                                            dateView(date: message.fullDate)
+                                                .flippedUpsideDown()
+                                                .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
+                                                .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                        }
+                                    }
+                                } else {
+                                    if let message = viewModel.messages.first(where: {$0.eventId == event.eventId}) {
+                                        ChatRoomRow(
+                                            message: message,
+                                            isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
+                                            isDirect: viewModel.room.isDirect,
+                                            onReaction: { reactionId in
+                                                vibrate()
+                                                viewModel.send(
+                                                    .onDeleteReaction(messageId: message.id, reactionId: reactionId)
+                                                )
+                                            },
+                                            onSelectPhoto: { selectedPhoto = $0 }
+                                        )
+                                        .flippedUpsideDown()
+                                        .listRowSeparator(.hidden)
+                                        .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
+                                            vibrate(.medium)
+                                            messageId = message.id
+                                            activeEditMessage = message
+                                            cardPosition = .custom(UIScreen.main.bounds.height - 580)
+                                            hideKeyboard()
+                                        }
+                                        if viewModel.next(message)?.fullDate != message.fullDate {
+                                            dateView(date: message.fullDate)
+                                                .flippedUpsideDown()
+                                                .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
+                                                .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                        }
+                                    }
+                                }
+                                if event.type == "m.room.encryption" {
+                                    eventView(text: R.string.localizable.chatRoomViewEncryptedMessagesNotify())
+                                        .flippedUpsideDown()
                                         .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                }
+                                
+                                if event.type == "m.room.avatar" {
+                                    eventView(text: R.string.localizable.chatRoomViewSelfAvatarChangeNotify())
+                                        .flippedUpsideDown()
+                                        .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                }
+                                if event.type == "m.room.member" {
+                                    switch event.content["membership"] {
+                                    case "join" as String:
+                                        if let users = viewModel.roomUsers.filter({$0.displayname == event.content["displayname"] as? String}) {
+                                            if users.contains(where: {$0.avatarUrl == event.content["avatar_url"] as? String}) {
+                                                eventView(text: "\(event.content["displayname"] ?? "No name") \(R.string.localizable.chatRoomViewAvatarChangeNotify())")
+                                                    .flippedUpsideDown()
+                                                    .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                            } else if users.contains(where: {$0.avatarUrl == event.content["avatar_url"] as? String}) {
+                                                eventView(text: "\(event.content["displayname"] ?? "No name") \(R.string.localizable.chatRoomViewRoomEntryNotify())")
+                                                    .flippedUpsideDown()
+                                                    .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                            }
+                                        }
+                                        
+                                    case "leave" as String:
+                                        eventView(text: "\(event.content["displayname"] ?? "No name") \(R.string.localizable.chatRoomViewLeftTheRoomNotify())")
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                    case "invite" as String:
+                                        eventView(text: "\(event.content["displayname"] ?? "No name") \(R.string.localizable.chatRoomViewInvitedNotify())")
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                    case "unknown" as String:
+                                                    eventView(text: R.string.localizable.chatRoomViewUnownedErrorNotify())
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                    case "ban" as String:
+                                                    eventView(text: "Пользователь \(event.content["displayname"] ?? "no name") \(R.string.localizable.chatRoomViewBannedNotify())")
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                    default:
+                                        eventView(text: "\(event.type ?? "")")
+                                            .flippedUpsideDown()
+                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                    }
                                 }
                             }
                             .onChange(of: viewModel.messages) { _ in
@@ -285,9 +395,12 @@ struct ChatRoomView: View {
             }
 
             quickMenuView
-
+            
             groupMenuView
-
+            
+            translateMenuView
+                        
+                        
             if selectedPhoto != nil {
                 ZStack {
                     ImageViewer(
@@ -303,7 +416,7 @@ struct ChatRoomView: View {
         .hideKeyboardOnTap()
         .ignoresSafeArea()
     }
-
+    
     private func dateView(date: String) -> some View {
         HStack {
             Text(date)
@@ -312,6 +425,19 @@ struct ChatRoomView: View {
                 .padding(.vertical, 3)
         }
         .background(.lightGray())
+        .cornerRadius(8)
+        .padding(.vertical, 8)
+    }
+    
+    private func eventView(text: String) -> some View {
+        HStack {
+            Text(text)
+                .font(.regular(14))
+                .padding(.horizontal, 17)
+                .padding(.vertical, 3)
+                .foregroundColor(.white)
+        }
+        .background(Color(red: 242/255, green: 160/255, blue: 76/255))
         .cornerRadius(8)
         .padding(.vertical, 8)
     }
@@ -401,21 +527,41 @@ struct ChatRoomView: View {
 
             SlideCard(position: $cardPosition, expandedPosition: .custom(UIScreen.main.bounds.height - 580)) {
                 VStack {
-
-                    QuickMenuView(cardPosition: $cardPosition, onAction: {
-                        switch $0 {
-                        case .copy:
-                            UIPasteboard.general.string = replyMessage?.description
-                        case .delete:
-                            viewModel.send(.onDelete(replyMessage?.eventId ?? ""))
-                        case .reply:
-                            inputViewIsFocused = true
-                        default:
-                            ()
+                    if let current = activeEditMessage?.isCurrentUser {
+                        if current {
+                            QuickMenuCurrentUserView(cardPosition: $cardPosition, onAction: {
+                                switch $0 {
+                                case .copy:
+                                    UIPasteboard.general.string = activeEditMessage?.description
+                                case .delete:
+                                    debugPrint("delete action", messageId)
+                                    viewModel.send(.onDelete(messageId))
+                                case .edit:
+                                    inputViewIsFocused = true
+                                case .reply:
+                                    inputViewIsFocused = true
+                                default:
+                                    ()
+                                }
+                                quickActionCurrentUser = $0
+                            }).padding(.vertical, 16)
+                        } else {
+                            QuickMenuView(cardPosition: $cardPosition, onAction: {
+                                switch $0 {
+                                case .copy:
+                                    UIPasteboard.general.string = activeEditMessage?.description
+                                case .delete:
+                                    debugPrint("delete action", messageId)
+                                    viewModel.send(.onDelete(messageId))
+                                case .reply:
+                                    inputViewIsFocused = true
+                                default:
+                                    ()
+                                }
+                                quickAction = $0
+                            }).padding(.vertical, 16)
                         }
-                        quickAction = $0
-
-                    }).padding(.vertical, 16)
+                    }
                 }
             }
         }
@@ -433,8 +579,25 @@ struct ChatRoomView: View {
 
             SlideCard(position: $cardGroupPosition) {
                 VStack(spacing: 0) {
-                    GroupMenuView(action: $viewModel.groupAction, cardPosition: $cardGroupPosition)
-                }.padding(.vertical, 16)
+                    GroupMenuView(action: $viewModel.groupAction, cardGroupPosition: $cardGroupPosition)
+                }.padding(.vertical, 32)
+            }
+        }
+    }
+    private var translateMenuView: some View {
+        ZStack {
+            Color(translateCardPosition == .bottom ? .clear : .black(0.4))
+                .ignoresSafeArea()
+                .animation(.easeInOut, value: translateCardPosition != .bottom)
+                .onTapGesture {
+                    vibrate()
+                    translateCardPosition = .bottom
+                }
+
+            SlideCard(position: $translateCardPosition, expandedPosition: .custom(UIScreen.main.bounds.height - 630)) {
+                VStack(spacing: 0) {
+                    TranslateMenuView(action: $viewModel.translateAction, translateCardPosition: $translateCardPosition)
+                }.padding(.vertical, 32)
             }
         }
     }
@@ -444,8 +607,14 @@ struct ChatRoomView: View {
             VStack(spacing: 0) {
                 if quickAction == .reply {
                     ReplyView(
-                        text: replyMessage?.description ?? "",
-                        onReset: { replyMessage = nil; quickAction = nil }
+                        text: activeEditMessage?.description ?? "",
+                        onReset: { activeEditMessage = nil; quickAction = nil }
+                    ).transition(.opacity)
+                }
+                if quickActionCurrentUser == .edit {
+                    EditView(
+                        text: activeEditMessage?.description ?? "",
+                        onReset: { activeEditMessage = nil; quickActionCurrentUser = nil }
                     ).transition(.opacity)
                 }
 
@@ -482,10 +651,16 @@ struct ChatRoomView: View {
                         Button(action: {
                             withAnimation {
                                 if quickAction == .reply {
-                                    viewModel.send(.onReply(viewModel.inputText, replyMessage?.eventId ?? ""))
+                                    viewModel.send(.onReply(viewModel.inputText, activeEditMessage?.eventId ?? ""))
                                     viewModel.inputText = ""
-                                    replyMessage = nil
+                                    activeEditMessage = nil
                                     quickAction = nil
+                                } else if quickActionCurrentUser == .edit {
+                                    viewModel.send(.onEdit(viewModel.inputText, activeEditMessage?.eventId ?? ""))
+                                    viewModel.inputText = ""
+                                    activeEditMessage = nil
+                                    quickActionCurrentUser = nil
+                                    viewModel.send(.onSendText(viewModel.inputText))
                                 } else {
                                     viewModel.send(.onSendText(viewModel.inputText))
                                 }
@@ -503,7 +678,7 @@ struct ChatRoomView: View {
 
                 Spacer()
             }
-            .frame(height: quickAction == .reply ? 104 : 52)
+            .frame(height: quickActionCurrentUser == .edit ? 104 : (quickAction == .reply ? 104 : 52))
             .background(.white())
             .ignoresSafeArea()
 

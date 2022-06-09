@@ -22,22 +22,27 @@ struct EventCollection {
         kMXEventTypeStringRoomMember,
         kMXEventTypeStringRoomTopic,
         kMXEventTypeStringRoomPowerLevels,
+        kMXEventTypeStringRoomEncryption,
         kMXEventTypeStringRoomName,
         kMXMessageTypeImage,
 		kMXEventTypeStringRoomEncrypted,
-        MXEventCustomEvent.contactInfo.identifier
+        MXEventCustomEvent.contactInfo.identifier,
+        kMXEventTypeStringRoomAvatar
     ]
 
     /// Events that can be directly rendered in the timeline with a corresponding view. This for example does not
     /// include reactions, which are instead rendered as accessories on their corresponding related events.
     var renderableEvents: [MXEvent] {
-        wrapped.filter { Self.renderableEventTypes.contains($0.type) }
+        return wrapped.filter {
+            debugPrint("Event :", $0)
+            return Self.renderableEventTypes.contains($0.type)
+        }.reversed()
     }
 
     // MARK: - Internal Methods
 
     func relatedEvents(of event: MXEvent) -> [MXEvent] {
-        wrapped.filter { $0.relatesTo?.eventId == event.eventId }
+        return wrapped.filter { $0.relatesTo?.eventId == event.eventId }
     }
 
     func reactions(for event: MXEvent) -> [Reaction] {

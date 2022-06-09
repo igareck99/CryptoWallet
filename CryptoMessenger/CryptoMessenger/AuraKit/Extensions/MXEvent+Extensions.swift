@@ -1,6 +1,8 @@
 import MatrixSDK
 import SwiftUI
 
+// swiftlint:disable all
+
 // MARK: - MXEventCustomEvent
 
 enum MXEventCustomEvent {
@@ -74,8 +76,10 @@ extension MXEvent {
             if isReply() {
                 let reply = MXReplyEventParser().parse(self)
                 type = .text(reply.bodyParts.replyText)
+            } else if isEdit() {
+                type = .none
             } else {
-                type = .text(text)
+                type = .text(self.text)
             }
         case kMXMessageTypeImage:
             let homeServer = Bundle.main.object(for: .matrixURL).asURL()

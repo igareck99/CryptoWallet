@@ -22,6 +22,7 @@ extension DependenciesService: DependenciesServiceProtocol {
 			Dependency { CountdownTimer(seconds: PhoneHelper.verificationResendTime) }
 			Dependency { ContactsManager() }
             Dependency { MainFlowTogglesFacade() }
+            Dependency { TranslateManagerAPI() }
 		}.build()
 	}
 }

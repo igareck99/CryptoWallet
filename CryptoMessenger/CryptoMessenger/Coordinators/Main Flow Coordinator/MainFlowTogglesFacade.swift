@@ -37,6 +37,7 @@ final class MainFlowTogglesFacade {
         let transactionFlag = isTransactionAvailable
 		debugPrint("RemoteConfig: isWalletAvailable: \(String(describing: flag))")
         debugPrint("RemoteConfig: isTransactionAvailable: \(String(describing: transactionFlag))")
+
 	}
 }
 

@@ -3,9 +3,8 @@ import UIKit
 import MatrixSDK
 
 // MARK: - ChatRoomViewModel
-
+// swiftlint:disable all
 final class ChatRoomViewModel: ObservableObject {
-
     // MARK: - Internal Properties
 
     weak var delegate: ChatRoomSceneDelegate?
@@ -15,20 +14,30 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var inputText = ""
     @Published var attachAction: AttachAction?
     @Published var groupAction: GroupAction?
+    @Published var translateAction: TranslateAction?
+
     @Published private(set) var keyboardHeight: CGFloat = 0
-    @Published private(set) var messages: [RoomMessage] = []
     @Published private(set) var emojiStorage: [ReactionStorage] = []
     @Published private(set) var state: ChatRoomFlow.ViewState = .idle
     @Published private(set) var userMessage: Message?
     @Published private(set) var room: AuraRoom
+    @Published var messages: [RoomMessage] = []
+    @Published var translatedMessages: [RoomMessage] = []
     @Published var showPhotoLibrary = false
     @Published var showDocuments = false
     @Published var showContacts = false
+    @Published var showTranslate = false
+    @Published var showTranslateMenu = false
     @Published var selectedImage: UIImage?
     @Published var pickedImage: UIImage?
     @Published var pickedContact: Contact?
     @Published private var lastLocation: Location?
     @Published var cameraFrame: CGImage?
+    @Published var roomUsers: [MXUser] = [] {
+        didSet {
+            debugPrint("Room users", roomUsers.last, roomUsers.last?.avatarUrl)
+        }
+    }
 
 	var p2pVoiceCallPublisher = ObservableObjectPublisher()
 	var isVoiceCallAvailable: Bool {
@@ -48,17 +57,25 @@ final class ChatRoomViewModel: ObservableObject {
 	private let availabilityFacade: ChatRoomTogglesFacadeProtocol
 
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
+    @Injectable private var translateManager: TranslateManager
 
+
+    //swiftlint:disable redundant_optional_initialization
+    var toggleFacade: MainFlowTogglesFacadeProtocol
+    
     // MARK: - Lifecycle
 
     init(
 		room: AuraRoom,
 		p2pCallsUseCase: P2PCallUseCaseProtocol = P2PCallUseCase.shared,
-		availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build()
+		availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build(), 
+        toggleFacade: MainFlowTogglesFacadeProtocol
 	) {
         self.room = room
 		self.p2pCallsUseCase = p2pCallsUseCase
 		self.availabilityFacade = availabilityFacade
+        self.toggleFacade = toggleFacade
+        
         bindInput()
         bindOutput()
 
@@ -90,15 +107,78 @@ final class ChatRoomViewModel: ObservableObject {
     }
 
     func next(_ item: RoomMessage) -> RoomMessage? {
-        messages.next(item: item)
+        // TODO: Разобрать модель RoomMessage и заменить на выход переведенное сообщение если рубильник включен.
+        if translateManager.isActive {
+            return translatedMessages.next(item: item)
+        } else {
+            return messages.next(item: item)
+        }
     }
 
     func previous(_ item: RoomMessage) -> RoomMessage? {
-        messages.previous(item: item)
+        if translateManager.isActive {
+            return translatedMessages.previous(item: item)
+        } else {
+            return messages.previous(item: item)
+        }
     }
 
     func fromCurrentSender(_ userId: String) -> Bool {
-		matrixUseCase.fromCurrentSender(userId)
+        matrixUseCase.fromCurrentSender(userId)
+    }
+    
+    func translateMessagesTo(languageCode: String) {
+        showTranslateMenu = false
+        self.translatedMessages.removeAll()
+
+        for message in self.messages {
+            self.translateTo(languageCode: languageCode, message: message)
+        }
+    }
+    
+    func isTranslating() -> Bool {
+        return translateManager.isActive
+    }
+    
+    func translateTo(languageCode: String, message: RoomMessage) {
+        self.translateManager.isActive = true
+
+        DispatchQueue.main.async {
+            guard !message.isCurrentUser else {
+                self.translatedMessages.append(message)
+                self.translatedMessages = self.translatedMessages.sorted(by: { $0.id < $1.id })
+                return
+            }
+        }
+
+
+        var message = message
+        switch message.type {
+        case let .text(text):
+            translateManager.detect(text) { (locales, error) in
+                guard let locales = locales, error == nil else {
+                    self.translateManager.isActive = false
+                    return
+                }
+                
+                // Language check
+                if Locale.current.languageCode != nil {
+                                                            
+                    self.translateManager.translate(text, locales[0].language, languageCode, "text", "base") { (translate , error) in
+                        DispatchQueue.main.async {
+                            // TODO: Улучшить обработку перевода, без собственных сообщений
+                            if let translate = translate {
+                                message.type = .text(translate)
+                            }
+                            self.translatedMessages.append(message)
+                            self.translatedMessages = self.translatedMessages.sorted(by: { $0.id < $1.id })
+                        }
+                    }
+                }
+            }
+        default:
+            break
+        }
     }
 
     // MARK: - Private Methods
@@ -139,26 +219,44 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.matrixUseCase.objectChangePublisher.send()
                     self?.fetchChatData()
                 case let .onDelete(eventId):
-                    self?.room.removeOutgoingMessage(eventId)
                     self?.room.redact(eventId: eventId, reason: nil)
                     self?.matrixUseCase.objectChangePublisher.send()
                 case .onAddReaction(let messageId, let reactionId):
+                    guard ((self?.isTranslating()) != nil) else {
                         guard
-                            let index = self?.messages.firstIndex(where: { $0.id == messageId }),
+                            let index = self?.translatedMessages.firstIndex(where: { $0.id == messageId }),
                             let emoji = self?.emojiStorage.first(where: { $0.id == reactionId })?.emoji
                         else {
                             return
                         }
-
-                        if self?.messages[index].reactions.contains(where: { $0.id == reactionId }) == false {
-                            self?.messages[index].reactions.append(
+                        
+                        if self?.translatedMessages[index].reactions.contains(where: { $0.id == reactionId }) == false {
+                            self?.translatedMessages[index].reactions.append(
                                 .init(id: reactionId, sender: "", timestamp: Date(), emoji: emoji)
                             )
                         }
+                        return
+
+                    }
+                    guard
+                        let index = self?.messages.firstIndex(where: { $0.id == messageId }),
+                        let emoji = self?.emojiStorage.first(where: { $0.id == reactionId })?.emoji
+                    else {
+                        return
+                    }
+                    
+                    if self?.messages[index].reactions.contains(where: { $0.id == reactionId }) == false {
+                        self?.messages[index].reactions.append(
+                            .init(id: reactionId, sender: "", timestamp: Date(), emoji: emoji)
+                        )
+                    }
                 case .onDeleteReaction(let messageId, let reactionId):
+                    self?.room.edit(text: "", eventId: messageId)
                     guard let index = self?.messages.firstIndex(where: { $0.id == messageId }) else { return }
                     self?.messages[index].reactions.removeAll(where: { $0.id == reactionId })
                     self?.matrixUseCase.objectChangePublisher.send()
+                case let .onEdit(text, eventId):
+                    self?.room.edit(text: text, eventId: eventId)
                 }
             }
             .store(in: &subscriptions)
@@ -198,7 +296,51 @@ final class ChatRoomViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
-
+        
+        $groupAction
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] action in
+                switch action {
+                case .translate:
+                    self?.showTranslate = true
+                default:
+                    break
+                }
+            }
+            .store(in: &subscriptions)
+        
+        $translateAction
+            .receive(on: DispatchQueue.main)
+            .sink { action in
+                switch action {
+                case .russian:
+                    self.translateMessagesTo(languageCode: "ru")
+                case .system, .none:
+                    // TODO: Когда решим по поводу перевода на дефолт
+//                    let languageLocale = TranslateManager.shared.languagesList.filter{$0.language == Locale.current.languageCode}
+//                    if !languageLocale.isEmpty {
+//                        self.translateMessagesTo(languageCode: languageLocale[0].language)
+//                    }
+                    self.translateManager.isActive = false
+                    self.translatedMessages = self.messages
+                case .italian:
+                    self.translateMessagesTo(languageCode: "it")
+                case .english:
+                    self.translateMessagesTo(languageCode: "en")
+                case .spanish:
+                    self.translateMessagesTo(languageCode: "es")
+                case .french:
+                    self.translateMessagesTo(languageCode: "fr")
+                case .arabic:
+                    self.translateMessagesTo(languageCode: "ar")
+                case .german:
+                    self.translateMessagesTo(languageCode: "de")
+                case .chinese:
+                    self.translateMessagesTo(languageCode: "zh-CN")
+                }
+            }
+            .store(in: &subscriptions)
+        
         $selectedImage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
@@ -253,7 +395,7 @@ final class ChatRoomViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
 
-		matrixUseCase.objectChangePublisher
+        matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
 
@@ -264,6 +406,28 @@ final class ChatRoomViewModel: ObservableObject {
                 else {
                     return
                 }
+                if self.isTranslating() {
+                    self.translatedMessages = room.events().renderableEvents
+                        .map {
+                            var message = $0.message(self.fromCurrentSender($0.sender))
+                            message?.eventId = $0.eventId
+                            var user: MXUser?
+                            if !$0.userId.isEmpty {
+                                user = self.matrixUseCase.getUser($0.userId)
+                            } else {
+                                user = self.matrixUseCase.getUser($0.sender)
+                            }
+                            if let user = user {
+                                self.roomUsers.append(user)
+                            }
+                            message?.name = user?.displayname ?? ""
+                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                            message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)
+                            return message
+                        }
+                        .compactMap { $0 }
+                }
+                
                 self.messages = room.events().renderableEvents
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
@@ -274,12 +438,14 @@ final class ChatRoomViewModel: ObservableObject {
                         } else {
                             user = self.matrixUseCase.getUser($0.sender)
                         }
+                        if let user = user {
+                            self.roomUsers.append(user)
+                        }
                         message?.name = user?.displayname ?? ""
                         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                         message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)
                         return message
                     }
-                    .reversed()
                     .compactMap { $0 }
             }
             .store(in: &subscriptions)
@@ -294,7 +460,7 @@ final class ChatRoomViewModel: ObservableObject {
 			self?.p2pCallsUseCase.placeVoiceCall(roomId: roomId)
 			}.store(in: &subscriptions)
     }
-
+    
     private func bindOutput() {
         stateValueSubject
             .assign(to: \.state, on: self)
