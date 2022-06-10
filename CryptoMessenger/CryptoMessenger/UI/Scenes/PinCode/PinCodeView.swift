@@ -309,7 +309,7 @@ final class PinCodeView: UIView {
     private func addUnionStack() {
         unionStackView.snap(parent: self) {
             $0.axis = .vertical
-            $0.spacing = 25
+            $0.spacing = 20
             $0.distribution = .fillEqually
             $0.alignment = .fill
         } layout: {
