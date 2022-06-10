@@ -89,7 +89,7 @@ struct ChatRoomView: View {
             }
             .onReceive(viewModel.$showTranslate) { flag in
                 if flag {
-                    showTranslateAlert = flag
+                    showTranslateAlert.toggle()
                 }
             }
             .alert(isPresented: $showJoinAlert) {
@@ -124,6 +124,7 @@ struct ChatRoomView: View {
                                   primaryButton: confirmButton, secondaryButton: dismissButton)
                 return alert
             }
+        
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .photo:
@@ -214,7 +215,6 @@ struct ChatRoomView: View {
                     .padding(.bottom, 6)
                     .onTapGesture {
                         showSettings.toggle()
-                        showTranslateAlert.toggle()
                     }
                 }
 
