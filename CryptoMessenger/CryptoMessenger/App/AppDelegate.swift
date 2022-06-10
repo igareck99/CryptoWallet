@@ -7,6 +7,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
 
+	private var statusBarCallUseCase: StatusBarCallUseCase?
 	private var pushNotificationsUseCase: PushNotificationsUseCaseProtocol?
 	private var appDelegateUseCase: AppDelegateUseCaseProtocol?
 
@@ -22,12 +23,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		pushNotificationsUseCase = PushNotificationsUseCaseAssembly.build(appCoordinator: appCoordinator)
 		appDelegateUseCase = AppDelegateUseCaseAssembly.build(appCoordinator: appCoordinator)
 
-		window = UIWindow()
+		let appWindow = UIWindow()
+		window = appWindow
+		rootNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
 		window?.rootViewController = rootNavigationController
 
 		pushNotificationsUseCase?.start()
 		appDelegateUseCase?.start()
 		window?.makeKeyAndVisible()
+
+		statusBarCallUseCase = StatusBarCallUseCase(appWindow: appWindow)
+		statusBarCallUseCase?.configure(window: appWindow, rootViewController: rootNavigationController)
+
 		return true
 	}
 

@@ -68,6 +68,8 @@ final class CallViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
+		navigationController?.setNavigationBarHidden(false, animated: true)
+
 		let navigationBarAppearance = UINavigationBarAppearance()
 		navigationBarAppearance.configureWithTransparentBackground()
 		navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -79,6 +81,13 @@ final class CallViewController: UIViewController {
 		navigationItem.scrollEdgeAppearance = navigationBarAppearance
 		navigationItem.standardAppearance = navigationBarAppearance
 		navigationItem.compactAppearance = navigationBarAppearance
+
+		viewModel.controllerWillAppear()
+	}
+
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		viewModel.controllerDidAppear()
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {
@@ -88,7 +97,7 @@ final class CallViewController: UIViewController {
 
 	private func configureBindings() {
 
-		viewModel.p2pCallStateTypePublisher
+		viewModel.callStateTypeSubject
 			.receive(on: RunLoop.main)
 			.sink { [weak self] model in
 				self?.updateUIDepending(on: model.0, callType: model.1)

@@ -14,39 +14,38 @@ protocol CallViewModelProtocol {
 	var userName: String { get }
 	var screenTitle: String { get }
 	var sources: CallViewSourcesable.Type { get }
-	var p2pCallType: P2PCallType { get }
 	var videoAudioStackModel: HStackViewModel? { get }
 	var answerEndCallStackModel: HStackViewModel? { get }
-	var p2pCallStateTypePublisher: Published<(P2PCallState, P2PCallType)>.Publisher { get }
+	var callStateTypeSubject: CurrentValueSubject<(P2PCallState, P2PCallType), Never> { get }
 
+	func controllerWillAppear()
 	func controllerDidDisappear()
+	func controllerDidAppear()
 }
 
 final class CallViewModel {
 
 	let userName: String
 	let screenTitle: String = "Защищено сквозным шифрованием"
-	let p2pCallType: P2PCallType
 	var videoAudioStackModel: HStackViewModel?
 	var answerEndCallStackModel: HStackViewModel?
 
-	@Published var p2pCallStateType: (P2PCallState, P2PCallType) = (.ringing, .incoming)
-	var p2pCallStateTypePublisher: Published<(P2PCallState, P2PCallType)>.Publisher { $p2pCallStateType }
+	var callStateTypeSubject = CurrentValueSubject<(P2PCallState, P2PCallType), Never>((.none, .none))
+	lazy var callButtonSubject = CurrentValueSubject<Bool, Never>(p2pCallUseCase.callType == .outcoming)
 
-	lazy var callButtonSubject = CurrentValueSubject<Bool, Never>(p2pCallType == .outcoming)
 	private let p2pCallUseCase: P2PCallUseCaseProtocol
 	private let factory: CallItemsFactoryProtocol.Type
 	let sources: CallViewSourcesable.Type
 
+	private var subscribtions: Set<AnyCancellable> = []
+
 	init(
 		userName: String,
-		p2pCallType: P2PCallType,
 		p2pCallUseCase: P2PCallUseCaseProtocol,
 		factory: CallItemsFactoryProtocol.Type = CallItemsFactory.self,
 		sources: CallViewSourcesable.Type = CallViewSources.self
 	) {
 		self.userName = userName
-		self.p2pCallType = p2pCallType
 		self.p2pCallUseCase = p2pCallUseCase
 		self.factory = factory
 		self.sources = sources
@@ -60,6 +59,21 @@ final class CallViewModel {
 		let answerEndCallModels = factory.makeAnswerEndCallItems(viewModel: self, delegate: self)
 		answerEndCallStackModel = HStackViewModel(viewModels: answerEndCallModels)
 	}
+
+	private func configureBindings() {
+		p2pCallUseCase.callStateSubject
+			.subscribe(on: RunLoop.main)
+			.sink { [weak self] state in
+				self?.update(state: state)
+			}
+			.store(in: &subscribtions)
+	}
+
+	private func update(state: P2PCallState) {
+		callStateTypeSubject.send((state, p2pCallUseCase.callType))
+		let isHidden = p2pCallUseCase.callType == .outcoming || state.rawValue > P2PCallState.calling.rawValue
+		callButtonSubject.send(isHidden)
+	}
 }
 
 // MARK: - CallViewModelProtocol
@@ -67,17 +81,25 @@ final class CallViewModel {
 extension CallViewModel: CallViewModelProtocol {
 
 	func controllerDidDisappear() {
-		p2pCallUseCase.endCall()
+		NotificationCenter.default.post(
+			name: .callViewDidDisappear,
+			object: nil
+		)
 	}
-}
 
-// MARK: - P2PCallUseCaseDelegate
+	func controllerWillAppear() {
+		configureBindings()
+		NotificationCenter.default.post(
+			name: .callViewWillAppear,
+			object: nil
+		)
+	}
 
-extension CallViewModel: P2PCallUseCaseDelegate {
-	func callDidChange(state: P2PCallState) {
-		p2pCallStateType = (state, p2pCallType)
-		let isHidden = p2pCallType == .outcoming || state.rawValue > P2PCallState.calling.rawValue
-		callButtonSubject.send(isHidden)
+	func controllerDidAppear() {
+		NotificationCenter.default.post(
+			name: .callViewDidAppear,
+			object: nil
+		)
 	}
 }
 
