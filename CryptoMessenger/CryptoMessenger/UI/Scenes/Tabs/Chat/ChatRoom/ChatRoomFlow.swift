@@ -26,6 +26,7 @@ enum ChatRoomFlow {
         case onSendText(String)
         case onSendImage(UIImage)
         case onSendFile(URL)
+        case onSendAudio(URL, Int)
         case onSendContact(Contact)
         case onReply(String, String)
         case onEdit(String, String)

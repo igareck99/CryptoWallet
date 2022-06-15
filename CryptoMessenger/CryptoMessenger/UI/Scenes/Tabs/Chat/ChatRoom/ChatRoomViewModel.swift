@@ -39,8 +39,8 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var pickedLocation: Location?
     @Published var cameraFrame: CGImage?
     @Published var roomUsers = [MXUser]()
-
 	var p2pVideoCallPublisher = ObservableObjectPublisher()
+    @Published var audioUrl: RecordingDataModel?
 	var p2pVoiceCallPublisher = ObservableObjectPublisher()
 
 	@Published var isVoiceCallAvailablility: Bool = false
@@ -51,6 +51,7 @@ final class ChatRoomViewModel: ObservableObject {
 		let isP2PChat = room.room.summary?.membersCount?.joined == 2
 		return isCallAvailable && isP2PChat
 	}
+    let sources: ChatRoomSourcesable.Type
 
 	var isVideoCallAvailable: Bool {
 		let isVideoCallAvailable = availabilityFacade.isVideoCallAvailable
@@ -83,8 +84,10 @@ final class ChatRoomViewModel: ObservableObject {
 		availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build(), 
         toggleFacade: MainFlowTogglesFacadeProtocol,
         locationManager: LocationManager = LocationManagerUseCase.shared,
-		settings: UserDefaultsServiceCallable = UserDefaultsService.shared
+		settings: UserDefaultsServiceCallable = UserDefaultsService.shared,
+        sources: ChatRoomSourcesable.Type = ChatRoomResources.self
 	) {
+        self.sources = sources
         self.room = room
 		self.p2pCallsUseCase = p2pCallsUseCase
 		self.settings = settings
@@ -185,6 +188,10 @@ final class ChatRoomViewModel: ObservableObject {
             self.send(.onSendImage(photo))
         }
     }
+
+    func updateRecorde(item: RecordingDataModel) {
+        self.audioUrl = item
+    }
     
     func isTranslating() -> Bool {
         return translateManager.isActive
@@ -267,6 +274,16 @@ final class ChatRoomViewModel: ObservableObject {
                                                       url: url) { eventId in
                         self?.room.updateEvents(eventId: eventId)
                     }
+                    self?.matrixUseCase.objectChangePublisher.send()
+                case let .onSendAudio(url, duration):
+                    self?.inputText = ""
+                    guard let id = self?.room.room.roomId else { return }
+                    self?.mediaService.uploadVoiceMessage(roomId: id,
+                                                          audio: url,
+                                                          duration: UInt(duration),
+                                                          completion: { eventId in
+                        self?.room.updateEvents(eventId: eventId)
+                    })
                     self?.matrixUseCase.objectChangePublisher.send()
                 case let .onSendContact(contact):
                     guard let id = self?.room.room.roomId else { return }
@@ -376,6 +393,14 @@ final class ChatRoomViewModel: ObservableObject {
                 default:
                     break
                 }
+            }
+            .store(in: &subscriptions)
+        $audioUrl
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] result in
+                guard let url = result?.fileURL else { return }
+                guard let duration = result?.duration else { return }
+                self?.send(.onSendAudio(url, duration))
             }
             .store(in: &subscriptions)
         

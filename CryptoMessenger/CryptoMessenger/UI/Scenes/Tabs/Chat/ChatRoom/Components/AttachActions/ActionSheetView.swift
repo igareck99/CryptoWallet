@@ -172,37 +172,87 @@ struct ActionSheetView: View {
                 .onTapGesture {
                     onCamera?()
                 }
-                ForEach(viewModel.images, id: \.self) { item in
-                    ZStack {
-                        Image(uiImage: item)
-                            .resizable()
-                            .frame(width: 90, height: 90)
-                        ZStack(alignment: .top) {
-                            VStack {
-                                HStack {
-                                    Spacer()
-                                    ZStack {
-                                        R.image.chat.uncheck.image
-                                        R.image.chat.group.check.image
-                                            .opacity(checkImage(image: item) ? 1 : 0)
-                                    }
-                                }
-                                .padding([.top, .trailing], 8)
+                ZStack {
+                    Image(R.image.chat.mockFeed2.name)
+                        .resizable()
+                        .frame(width: 90, height: 90)
+
+                    ZStack(alignment: .top) {
+                        VStack {
+                            HStack {
                                 Spacer()
+                                Image(R.image.chat.uncheck.name)
                             }
+                            .padding([.top, .trailing], 8)
+
+                            Spacer()
                         }
                     }
-                    .frame(width: 90, height: 90)
-                    .onTapGesture {
-                        addPhotosToSend(image: item)
+                }
+                .frame(width: 90, height: 90)
+                ZStack {
+                    Image(R.image.chat.mockFeed3.name)
+                        .resizable()
+                        .frame(width: 90, height: 90)
+
+                    ZStack(alignment: .top) {
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Image(R.image.chat.uncheck.name)
+                            }
+                            .padding([.top, .trailing], 8)
+
+                            Spacer()
+                        }
                     }
                 }
+                .frame(width: 90, height: 90)
+
+                ZStack {
+                    Image(R.image.chat.mockFeed3.name)
+                        .resizable()
+                        .frame(width: 90, height: 90)
+
+                    ZStack(alignment: .top) {
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Image(R.image.chat.uncheck.name)
+                            }
+                            .padding([.top, .trailing], 8)
+
+                            Spacer()
+                        }
+                    }
+                }
+                .frame(width: 90, height: 90)
+
+                ZStack {
+                    Image(R.image.chat.mockFeed2.name)
+                        .resizable()
+                        .frame(width: 90, height: 90)
+
+                    ZStack(alignment: .top) {
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Image(R.image.chat.uncheck.name)
+                            }
+                            .padding([.top, .trailing], 8)
+
+                            Spacer()
+                        }
+                    }
+                }
+                .frame(width: 90, height: 90)
             }
         }
         .frame(height: 90)
         .padding(.horizontal, 16)
         .padding(.bottom, 8)
     }
+
 
     private func cellAction(item: ActionItem) -> some View {
         return Button(action: {
@@ -217,7 +267,6 @@ struct ActionSheetView: View {
                 .frame(width: 40, height: 40, alignment: .center)
                 .background(Color(.blue(0.1)))
                 .cornerRadius(20)
-
                 Text(item.action.title)
                     .font(.regular(17))
                     .foreground(.blue())

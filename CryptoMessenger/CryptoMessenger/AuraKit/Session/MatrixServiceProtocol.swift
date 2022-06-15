@@ -47,6 +47,10 @@ protocol MatrixServiceProtocol {
                     completion: @escaping (Result <String?, MXErrors>) -> Void)
     func uploadContact(for roomId: String, contact: Contact,
                        completion: @escaping (Result <String?, MXErrors>) -> Void)
+    func uploadVoiceMessage(for roomId: String,
+                            url: URL,
+                            duration: UInt,
+                            completion: @escaping (Result <String?, MXErrors>) -> Void)
 
 	// MARK: - Users
 	func currentlyActive(_ userId: String) -> Bool

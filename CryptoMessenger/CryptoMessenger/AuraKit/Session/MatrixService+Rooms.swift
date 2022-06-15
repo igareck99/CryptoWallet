@@ -40,6 +40,28 @@ extension MatrixService {
 		})
 	}
 
+    func uploadVoiceMessage(for roomId: String,
+                            url: URL,
+                            duration: UInt,
+                            completion: @escaping (Result <String?, MXErrors>) -> Void) {
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            completion(.failure(.audioUploadError)); return
+        }
+        var localEcho: MXEvent?
+        room.sendVoiceMessage(localURL: url,
+                              mimeType: "audio/ogg",
+                              duration: duration,
+                              samples: [],
+                              localEcho: &localEcho) { response in
+            switch response {
+            case let .success(result):
+                completion(.success(result))
+            case let .failure(error):
+                completion(.failure(.audioUploadError))
+            }
+        }
+    }
+
 	func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void) {
 		session?.leaveRoom(roomId, completion: completion)
 	}
@@ -111,7 +133,7 @@ extension MatrixService {
             case let .success(result):
                 completion(.success(result))
             case let .failure(error):
-                debugPrint(error)
+                debugPrint("s,ldsodsdd  \(error)")
                 completion(.failure(.imageUploadError))
             default:
                 break
@@ -136,8 +158,6 @@ extension MatrixService {
             case let .failure(error):
                 debugPrint(error)
                 completion(.failure(.fileUploadError))
-            default:
-                break
             }
         }
     }
@@ -162,8 +182,6 @@ extension MatrixService {
             case let .failure(error):
                 debugPrint(error)
                 completion(.failure(.contactUploadError))
-            default:
-                break
             }
         }
     }

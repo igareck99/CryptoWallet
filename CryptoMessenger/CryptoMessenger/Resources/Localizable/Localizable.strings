@@ -471,9 +471,10 @@
 "ChatRoomView.InvitedNotify" = "был приглашен в комнату";
 "ChatRoomView.UnownedErrorNotify" = "Неизвестная ошибка";
 "ChatRoomView.BannedNotify" = "заблокирован";
-
+"ChatRoomView.AudioCancel" = "Влево — отмена";
 "DocumentViewer.ErrorText" = "Файл не может быть прочтен";
 "DocumentViewer.UploadError" = "Ошибка при загрузке файла";
+
 
 
 

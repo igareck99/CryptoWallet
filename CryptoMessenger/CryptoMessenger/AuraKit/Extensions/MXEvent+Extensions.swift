@@ -83,6 +83,11 @@ extension MXEvent {
             } else {
                 type = .text(self.text)
             }
+        case kMXMessageTypeAudio:
+            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+            let link = content[.url] as? String ?? ""
+            let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+            type = .audio(url)
         case kMXMessageTypeImage:
             let homeServer = Bundle.main.object(for: .matrixURL).asURL()
             let link = content[.url] as? String ?? ""
@@ -160,6 +165,21 @@ extension MXEvent {
             return ""
         }
     }
+    
+    var audioDuration: String {
+        var data = content["info"] as? [String: Any]
+        let msc = content["org.matrix.msc1767.audio"] as? [String: Any]
+        if msc != nil {
+            data = msc
+        }
+        if data != nil {
+            let duration = data?["duration"] as? Int ?? 0
+            let time = intToDate(duration)
+            return time
+        } else {
+            return ""
+        }
+    }
 
     var replyDescription: String {
         if text.contains(">") {
@@ -198,6 +218,7 @@ extension MXEvent {
             isCurrentUser: isFromCurrentUser,
             isReply: isReply(),
             replyDescription: replyDescription,
+            audioDuration: audioDuration,
 			content: content,
 			eventType: type
         )
