@@ -121,7 +121,7 @@ struct ChatRoomRow: View {
                                                 longitude: location.long
                                             ))
                                                 .ignoresSafeArea()
-                                                .navigationBarTitle(Text("Геопозиция"))
+                                                .navigationBarTitle(Text(R.string.localizable.chatGeoposition()))
                                                 .navigationBarTitleDisplayMode(.inline)
                                         }
                                     }
@@ -139,12 +139,7 @@ struct ChatRoomRow: View {
                                 fileRow(message, fileName: fileName, url: url)
                                     .sheet(isPresented: $showFile) {
                                         if let url = url {
-                                            NavigationView {
-                                                PDFKitView(url: url)
-                                                    .ignoresSafeArea()
-                                                    .navigationBarTitle(Text(fileName))
-                                                    .navigationBarTitleDisplayMode(.inline)
-                                            }
+                                            DocumentViewerView(url: url)
                                         }
                                     }
                                     .onTapGesture {

@@ -158,8 +158,10 @@ struct FeedImageViewerView: View {
                 })
         .alert(isPresented: $showDeleteAlert, content: {
             let primaryButton = Alert.Button.default(Text("Да")) {
-                profileViewModel.deletePhoto(url: selectedPhoto?.absoluteString ?? "")
-                showImageViewer = false
+                profileViewModel.mediaService.deletePhotoFeed(url: selectedPhoto?.absoluteString ?? "") { url in
+                    showImageViewer = false
+                    profileViewModel.updateFeedAfterDelete(url: url)
+                }
             }
             let secondaryButton = Alert.Button.destructive(Text("Нет")) {
                 showDeleteAlert = false

@@ -12,6 +12,7 @@ struct ContactInfoView: View {
     // MARK: - Private Properties
 
     @Environment(\.presentationMode) private var presentationMode
+    @State private var showUploadImage = false
 
     // MARK: - Lifecycle
 
@@ -67,18 +68,23 @@ struct ContactInfoView: View {
     }
 
     private var avatarView: some View {
-        let thumbnail = ZStack {
-            Circle()
-                .frame(width: 80, height: 80)
-                .background(.blue(0.1))
-            viewModel.sources.avatarImage
-        }
-
+        changeShowValue()
         return ZStack {
             AsyncImage(
                 url: data.url,
                 placeholder: {
-                    thumbnail
+                    if showUploadImage {
+                        ProgressView()
+                            .frame(width: 80, height: 80)
+                            .background(.blue(0.1))
+                    } else {
+                        ZStack {
+                            Circle()
+                                .frame(width: 80, height: 80)
+                                .background(.blue(0.1))
+                            viewModel.sources.avatarImage
+                        }
+                    }
                 },
                 result: {
                     Image(uiImage: $0).resizable()
@@ -88,6 +94,18 @@ struct ContactInfoView: View {
                 .frame(width: 80, height: 80)
                 .cornerRadius(40)
         }
+    }
+
+    // MARK: - Private Methods
+
+    private func changeShowValue() {
+        data.url?.isReachable(completion: { success in
+            if success {
+                showUploadImage = true
+            } else {
+                showUploadImage = false
+            }
+        })
     }
 }
 

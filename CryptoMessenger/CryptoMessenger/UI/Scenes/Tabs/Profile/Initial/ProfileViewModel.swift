@@ -75,6 +75,7 @@ final class ProfileViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
+    let mediaService = MediaService()
     @State private var showImageEdtior = false
 
     @Injectable private var apiClient: APIClientManager
@@ -102,42 +103,10 @@ final class ProfileViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
-    func deletePhoto(url: String) {
-        apiClient.publisher(Endpoints.Media.deletePhoto([url]))
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                default:
-                    break
-                }
-            }, receiveValue: { [weak self] _ in
-                self?.profile.photosUrls.removeAll(where: { $0.absoluteString == url })
-            })
-            .store(in: &subscriptions)
-    }
-
-    func addPhoto(image: UIImage) {
-        guard let data = image.jpeg(.medium) else { return }
-        let multipartData = MultipartFileData(
-            file: "photo",
-            mimeType: "image/png",
-            fileData: data
-        )
-        apiClient.publisher(Endpoints.Media.upload(multipartData, name: matrixUseCase.getUserId()))
-            .sink { [weak self] completion in
-                switch completion {
-                case .failure(let error):
-                    if let err = error as? APIError, err == .invalidToken {
-						self?.matrixUseCase.logoutDevices { _ in
-							// TODO: Обработать результат
-						}
-                    }
-                default:
-                    break
-                }
-            } receiveValue: { [weak self] _ in
-                self?.getPhotos()
-            }
-            .store(in: &subscriptions)
+    func updateFeedAfterDelete(url: URL?) {
+        guard let unwrappedUrl = url else { return }
+        profile.photosUrls = profile.photosUrls.filter { $0 != unwrappedUrl }
+        self.objectWillChange.send()
     }
 
     // MARK: - Private Methods
@@ -172,7 +141,13 @@ final class ProfileViewModel: ObservableObject {
                         ()
                     }
                 case let .onAddPhoto(image):
-                    self?.addPhoto(image: image)
+                    guard let userId = self?.matrixUseCase.getUserId() else { return }
+                    self?.mediaService.addPhotoFeed(image: image,
+                                                    userId: userId) { url in
+                        guard let realUrl = url else { return }
+                        self?.profile.photosUrls.insert(realUrl, at: 0)
+                        self?.objectWillChange.send()
+                    }
                 }
             }
             .store(in: &subscriptions)
@@ -225,28 +200,6 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func getPhotos() {
-        apiClient.publisher(Endpoints.Media.getPhotos(matrixUseCase.getUserId()))
-            .sink { [weak self] completion in
-                switch completion {
-                case .failure(let error):
-                    if let err = error as? APIError, err == .invalidToken {
-						self?.matrixUseCase.logoutDevices { _ in
-							// TODO: Обработать результат
-						}
-                    }
-                default:
-                    break
-                }
-            } receiveValue: { [weak self] response in
-                let link = self?.matrixUseCase.getAvatarUrl() ?? ""
-                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
-                self?.profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
-                self?.profile.photosUrls = response.compactMap { $0.original }
-            }
-            .store(in: &subscriptions)
-    }
-
     private func getSocialList() {
         apiClient.publisher(Endpoints.Social.getSocial(matrixUseCase.getUserId()))
             .sink { [weak self] completion in
@@ -294,9 +247,7 @@ final class ProfileViewModel: ObservableObject {
     }
 
     private func fetchData() {
-        let link = matrixUseCase.getAvatarUrl()
-        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
-        profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+        profile.avatar = mediaService.downloadAvatarUrl()
         profile.nickname = matrixUseCase.getUserId()
         if !matrixUseCase.getDisplayName().isEmpty {
             profile.name = matrixUseCase.getDisplayName()
@@ -304,17 +255,17 @@ final class ProfileViewModel: ObservableObject {
         if !matrixUseCase.getStatus().isEmpty {
             profile.status = matrixUseCase.getStatus()
         }
+        mediaService.getPhotoFeedPhotos(userId: matrixUseCase.getUserId()) { urls in
+            self.profile.photosUrls = urls
+        }
         getSocialList()
 		if let phoneNumber = userSettings.userPhoneNumber {
 			profile.phone = phoneNumber
 		}
-        getPhotos()
     }
-    
+
     private func fetchImageData() {
-        let link = matrixUseCase.getAvatarUrl()
-        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
-        profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+        profile.avatar = mediaService.downloadAvatarUrl()
         profile.nickname = matrixUseCase.getUserId()
         if !matrixUseCase.getDisplayName().isEmpty {
             profile.name = matrixUseCase.getDisplayName()

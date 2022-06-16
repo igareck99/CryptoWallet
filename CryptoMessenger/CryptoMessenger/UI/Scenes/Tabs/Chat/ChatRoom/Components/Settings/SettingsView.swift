@@ -110,6 +110,7 @@ struct SettingsView: View {
 
     @Binding var chatData: ChatData
     @Binding var saveData: Bool
+    var room: AuraRoom
 
     // MARK: - Private Properties
 
@@ -128,9 +129,10 @@ struct SettingsView: View {
 
     // MARK: - Life Cycle
 
-    init(chatData: Binding<ChatData>, saveData: Binding<Bool>) {
+    init(chatData: Binding<ChatData>, saveData: Binding<Bool>, room: AuraRoom) {
         self._chatData = chatData
         self._saveData = saveData
+        self.room = room
         UITextView.appearance().background(.paleBlue())
     }
 
@@ -178,7 +180,7 @@ struct SettingsView: View {
             )
             .overlay(
                 EmptyNavigationLink(
-                    destination: ContentView(chatData: $chatData),
+                    destination: ChatMediaView(viewModel: ChatMediaViewModel(room: room)),
                     isActive: $showContent
                 )
             )

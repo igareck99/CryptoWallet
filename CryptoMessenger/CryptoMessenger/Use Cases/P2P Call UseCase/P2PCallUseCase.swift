@@ -189,7 +189,7 @@ final class P2PCallUseCase: NSObject {
 		callType = .incoming
 		NotificationCenter.default.post(name: .callDidStart, object: nil)
 		activeCall = call
-		activeCall?.delegate = self
+        activeCall?.delegate = self
 		let callerName = matrixService.allUsers().first(where: { $0.userId == call.callerId })?.displayname ?? call.callerId
 		router.showCallView(
 			userName: callerName,

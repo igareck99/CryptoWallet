@@ -68,3 +68,4 @@ CryptoMessenger/fastlane/Preview.html
 CryptoMessenger/fastlane/test_output
 
 *.generated.swift
+CryptoMessenger/Podfile.lock
