@@ -24,13 +24,16 @@ final class ProfileDetailViewModel: ObservableObject {
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var apiClient: APIClientManager
     private let userSettings: UserFlowsStorage & UserCredentialsStorage
+	private let keychainService: KeychainServiceProtocol
 
     // MARK: - Lifecycle
 
     init(
-		userSettings: UserFlowsStorage & UserCredentialsStorage
+		userSettings: UserFlowsStorage & UserCredentialsStorage,
+		keychainService: KeychainServiceProtocol = KeychainService.shared
 	) {
 		self.userSettings = userSettings
+		self.keychainService = keychainService
         bindInput()
         bindOutput()
         fetchData()
@@ -76,8 +79,11 @@ final class ProfileDetailViewModel: ObservableObject {
                         self?.closeScreen.toggle()
                     }
                 case .onLogout:
-					self?.matrixUseCase.logoutDevices { _ in
+					self?.matrixUseCase.logoutDevices { [weak self] _ in
 						// TODO: Обработать результат
+						self?.matrixUseCase.clearCredentials()
+						self?.userSettings[.isUserAuthenticated] = false
+						debugPrint("ProfileDetailViewModel: LOGOUT")
 					}
                 }
             }

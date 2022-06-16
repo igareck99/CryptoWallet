@@ -5,7 +5,7 @@
 - (MXHTTPOperation*_Nullable)sendReplyToEvent:(MXEvent*)eventToReply
 							  withTextMessage:(NSString*_Nonnull)textMessage
 						 formattedTextMessage:(nullable NSString*)formattedTextMessage
-						  stringLocalizations:(nullable id<MXSendReplyEventStringsLocalizable>)stringLocalizations
+						  stringLocalizations:(nullable id<MXSendReplyEventStringLocalizerProtocol>)stringLocalizations
 									localEcho:(MXEvent**)localEcho
 							 customParameters: (nullable NSDictionary*)customParameters
 									  success:(void (^)(NSString *eventId))success

@@ -75,7 +75,7 @@ extension MXEvent {
         case kMXMessageTypeText:
             if isReply() {
                 let reply = MXReplyEventParser().parse(self)
-                type = .text(reply.bodyParts.replyText)
+				type = .text(reply?.bodyParts.replyText ?? "")
             } else if isEdit() {
                 type = .none
             } else {
@@ -191,7 +191,9 @@ extension MXEvent {
             fullDate: timestamp.dayOfWeekDayAndMonth,
             isCurrentUser: isFromCurrentUser,
             isReply: isReply(),
-            replyDescription: replyDescription
+            replyDescription: replyDescription,
+			content: content,
+			eventType: type
         )
     }
 
@@ -211,7 +213,9 @@ extension MXEvent {
 			fullDate: timestamp.dayOfWeekDayAndMonth,
 			isCurrentUser: isFromCurrentUser,
 			isReply: isReply(),
-			replyDescription: replyDescription
+			replyDescription: replyDescription,
+			content: content,
+			eventType: self.type
 		)
 		return roomMessage
 	}

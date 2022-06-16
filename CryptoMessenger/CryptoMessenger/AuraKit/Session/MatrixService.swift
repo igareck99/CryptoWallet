@@ -3,6 +3,8 @@ import Foundation
 import MatrixSDK
 import SwiftUI
 
+// swiftlint: disable: all
+
 enum MXErrors: Error {
 	case loginFailure
 	case startSessionFailure
@@ -36,8 +38,6 @@ final class MatrixService: MatrixServiceProtocol {
 		let rooms = session?.rooms
 			.map { makeRoom(from: $0) }
 			.sorted { $0.summary.lastMessageDate > $1.summary.lastMessageDate } ?? []
-
-		updateUserDefaults(with: rooms)
 		return rooms
 	}
 
@@ -109,16 +109,6 @@ final class MatrixService: MatrixServiceProtocol {
 		// sdkOptions.backgroundModeHandler = MXUIKitBackgroundModeHandler()
 	}
 
-	private func updateUserDefaults(with rooms: [AuraRoom]) {
-		let roomItems = rooms.map { RoomItem(room: $0.room) }
-		do {
-			let data = try JSONEncoder().encode(roomItems)
-			userSettings.set(data, forKey: .roomList)
-		} catch {
-			debugPrint("An error occurred: \(error)")
-		}
-	}
-
 	private func makeRoom(from mxRoom: MXRoom) -> AuraRoom {
 		let room = AuraRoom(mxRoom)
 		if mxRoom.isDirect {
@@ -149,8 +139,31 @@ extension MatrixService {
 		self.credentials = credentials
 	}
 
-	func upadteService(credentials: MXCredentials) {
-		let client = MXRestClient(credentials: credentials, unrecognizedCertificateHandler: nil)
+	func updateService(credentials: MXCredentials) {
+
+		let persistentTokenDataHandler: MXRestClientPersistTokenDataHandler =
+		{ inputCredentialsHandler in
+			debugPrint("upadteService MXRestClientPersistTokenDataHandler: inputCredentialsHandler: \(inputCredentialsHandler)")
+			inputCredentialsHandler?([]) { didUpdateCredentials in
+				debugPrint("upadteService MXRestClientPersistTokenDataHandler: inputCredentialsHandler didUpdateCredentials: \(didUpdateCredentials)")
+			}
+		}
+
+		let andUnauthenticatedHandler: MXRestClientUnauthenticatedHandler =
+		{ error, isSoftLogout, isRefreshTokenAuth, logoutCompletion in
+			debugPrint("upadteService MXRestClientUnauthenticatedHandler: error: \(error)")
+			debugPrint("upadteService MXRestClientUnauthenticatedHandler: isSoftLogout: \(isSoftLogout)")
+			debugPrint("upadteService MXRestClientUnauthenticatedHandler: isRefreshTokenAuth: \(isRefreshTokenAuth)")
+			debugPrint("upadteService MXRestClientUnauthenticatedHandler: logoutCompletion: \(logoutCompletion)")
+			logoutCompletion?()
+		}
+
+		let client = MXRestClient(
+			credentials: credentials,
+			persistentTokenDataHandler: persistentTokenDataHandler,
+			unauthenticatedHandler: andUnauthenticatedHandler
+		)
+		// MXRestClient(credentials: credentials, unrecognizedCertificateHandler: nil)
 		let session = MXSession(matrixRestClient: client)
 		let callStack: MXCallStack = MXJingleCallStack()
 		session?.enableVoIP(with: callStack)

@@ -9,7 +9,7 @@ extension MXRoom {
 		to eventToReply: MXEvent,
 		textMessage: String,
 		formattedTextMessage: String?,
-		stringLocalizations: MXSendReplyEventStringsLocalizable?,
+		stringLocalizations: MXSendReplyEventStringLocalizerProtocol?,
 		localEcho: inout MXEvent?,
 		customParameters: [String: Any]?,
 		completion: @escaping (_ response: MXResponse<String?>) -> Void

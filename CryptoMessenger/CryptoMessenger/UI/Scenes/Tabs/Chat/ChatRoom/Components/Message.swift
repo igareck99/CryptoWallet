@@ -82,9 +82,12 @@ struct RoomMessage: Identifiable {
     var name = ""
     var avatar: URL?
     var reactions: [Reaction] = []
+	// TODO: Удалить эти поля (content, eventType), нужно только для того чтобы убрать из слоя view модель MXEvent
+	let content: [String: Any]
+	let eventType: String
     var description: String {
         switch type {
-        case var .text(text):
+        case let .text(text):
             return text
         case .file:
             return "Файл"

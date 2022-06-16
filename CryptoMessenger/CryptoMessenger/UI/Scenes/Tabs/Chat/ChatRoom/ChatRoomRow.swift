@@ -109,7 +109,7 @@ struct ChatRoomRow: View {
                         }
                         HStack(spacing: 0) {
                             switch message.type {
-                            case var .text(text):
+                            case let .text(text):
                                 textRow(message, text: text)
                             case let .location(location):
                                 mapRow(location)

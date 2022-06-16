@@ -34,7 +34,6 @@ struct EventCollection {
     /// include reactions, which are instead rendered as accessories on their corresponding related events.
     var renderableEvents: [MXEvent] {
         return wrapped.filter {
-            debugPrint("Event :", $0)
             return Self.renderableEventTypes.contains($0.type)
         }.reversed()
     }

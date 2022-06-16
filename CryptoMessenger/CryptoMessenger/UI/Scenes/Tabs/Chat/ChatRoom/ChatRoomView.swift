@@ -252,9 +252,9 @@ struct ChatRoomView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 0) {
                             Spacer().frame(height: 16)
-                            ForEach(viewModel.room.events().renderableEvents) { event in
+                            ForEach(viewModel.messages) { event in
                                 if viewModel.isTranslating() {
-                                    if let message = viewModel.translatedMessages.first(where: {$0.eventId == event.eventId}) {
+                                    if let message = viewModel.translatedMessages.first(where: {$0.eventId == event.id}) {
                                         ChatRoomRow(
                                             message: message,
                                             isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
@@ -284,7 +284,7 @@ struct ChatRoomView: View {
                                         }
                                     }
                                 } else {
-                                    if let message = viewModel.messages.first(where: {$0.eventId == event.eventId}) {
+                                    if let message = viewModel.messages.first(where: {$0.eventId == event.id}) {
                                         ChatRoomRow(
                                             message: message,
                                             isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
@@ -314,18 +314,20 @@ struct ChatRoomView: View {
                                         }
                                     }
                                 }
-                                if event.type == "m.room.encryption" {
+								
+                                if event.eventType == "m.room.encryption" {
                                     eventView(text: R.string.localizable.chatRoomViewEncryptedMessagesNotify())
                                         .flippedUpsideDown()
                                         .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                 }
                                 
-                                if event.type == "m.room.avatar" {
+                                if event.eventType == "m.room.avatar" {
                                     eventView(text: R.string.localizable.chatRoomViewSelfAvatarChangeNotify())
                                         .flippedUpsideDown()
                                         .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                 }
-                                if event.type == "m.room.member" {
+
+                                if event.eventType == "m.room.member" {
                                     switch event.content["membership"] {
                                     case "join" as String:
                                         if let users = viewModel.roomUsers.filter({$0.displayname == event.content["displayname"] as? String}) {
@@ -357,11 +359,12 @@ struct ChatRoomView: View {
                                             .flippedUpsideDown()
                                             .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                     default:
-                                        eventView(text: "\(event.type ?? "")")
+                                        eventView(text: "\(event.eventType)")
                                             .flippedUpsideDown()
                                             .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                     }
                                 }
+
                             }
                             .onChange(of: viewModel.messages) { _ in
                                 viewModel.room.markAllAsRead()

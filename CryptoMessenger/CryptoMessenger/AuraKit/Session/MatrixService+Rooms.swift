@@ -7,9 +7,10 @@ import UIKit
 extension MatrixService {
 
 	func startListeningForRoomEvents() {
+		debugPrint("MatrixService: startListeningForRoomEvents: session: \(self.session)")
 		listenReference = session?.listenToEvents { [weak self] event, direction, roomState in
 			guard let self = self else { return }
-
+			debugPrint("MatrixService: startListeningForRoomEvents: rooms:  \(self.rooms)")
 			let affectedRooms = self.rooms
 				.filter { $0.summary.roomId == event.roomId }
 
@@ -83,7 +84,8 @@ extension MatrixService {
             data: imageData,
             size: image.size,
             mimeType: "image/jpeg",
-            thumbnail: image,
+			thumbnail: image,
+			blurhash: nil,
             localEcho: &localEcho
         ) { response in
             switch response {

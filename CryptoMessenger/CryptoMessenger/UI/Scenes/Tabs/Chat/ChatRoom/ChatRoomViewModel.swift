@@ -1,6 +1,6 @@
 import Combine
-import UIKit
 import MatrixSDK
+import UIKit
 
 // MARK: - ChatRoomViewModel
 // swiftlint:disable all
@@ -33,16 +33,12 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var pickedContact: Contact?
     @Published private var lastLocation: Location?
     @Published var cameraFrame: CGImage?
-    @Published var roomUsers: [MXUser] = [] {
-        didSet {
-            debugPrint("Room users", roomUsers.last, roomUsers.last?.avatarUrl)
-        }
-    }
+    @Published var roomUsers = [MXUser]()
 
 	var p2pVoiceCallPublisher = ObservableObjectPublisher()
 	var isVoiceCallAvailable: Bool {
 		let isCallAvailable = availabilityFacade.isCallAvailable
-		let isP2PChat = room.room.summary.membersCount.joined == 2
+		let isP2PChat = room.room.summary?.membersCount?.joined == 2
 		return isCallAvailable && isP2PChat
 	}
 
@@ -288,7 +284,9 @@ final class ChatRoomViewModel: ObservableObject {
                             isCurrentUser: true,
                             isReply: false,
                             name: "",
-                            avatar: nil
+                            avatar: nil,
+							content: [String: Any](),
+							eventType: ""
                         )
                         self?.messages.append(message)
                     } else {
@@ -444,6 +442,7 @@ final class ChatRoomViewModel: ObservableObject {
                 self.messages = room.events().renderableEvents
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
+						debugPrint("ChatRoomViewModel: MESSAGE: \(message?.description)")
                         message?.eventId = $0.eventId
                         var user: MXUser?
                         if !$0.userId.isEmpty {
@@ -460,6 +459,7 @@ final class ChatRoomViewModel: ObservableObject {
                         return message
                     }
                     .compactMap { $0 }
+				self.objectWillChange.send()
             }
             .store(in: &subscriptions)
 
