@@ -380,6 +380,13 @@
 "CreateAction.NickName" = "Никнейм";
 
 "Chat.Welcome" = "Привет, теперь я в Aura";
+"Chat.ContactView" = "Просмотр контакта";
+"Chat.Geoposition" = "Геопозиция";
+"Chat.Online" = "онлайн";
+"Chat.Offline" = "оффлайн";
+"Chat.Join" = "Присоединиться";
+"Chat.JoinChat" = "Присоединиться к чату?";
+"Chat.NewRequest" = "Новый запрос";
 
 "PhraseManager.YourSecretPhrase" = "Ваша секретная фраза";
 "PhraseManager.WriteSecretPhrase" = "Запишите секретную фразу";
@@ -455,8 +462,8 @@
 "ChatRoomView.UnownedErrorNotify" = "Неизвестная ошибка";
 "ChatRoomView.BannedNotify" = "заблокирован";
 
-
-
+"DocumentViewer.ErrorText" = "Файл не может быть прочтен";
+"DocumentViewer.UploadError" = "Ошибка при загрузке файла";
 
 
 

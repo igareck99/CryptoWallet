@@ -8,6 +8,9 @@ enum MXErrors: Error {
 	case startSessionFailure
 	case userIdRetrieve
 	case voiceCallPlaceError
+    case imageUploadError
+    case fileUploadError
+    case contactUploadError
 	case unknown
 	@available(*, deprecated, message: "Добавлено только для обратной совместимости")
 	case syncFailure

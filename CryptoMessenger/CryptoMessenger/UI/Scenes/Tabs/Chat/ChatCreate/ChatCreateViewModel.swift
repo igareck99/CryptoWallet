@@ -187,9 +187,7 @@ final class ChatCreateViewModel: ObservableObject {
     }
 
 	private func syncContacts() {
-
 		let contactsAccessState = contactsStore.reuqestContactsAccessState()
-
 		switch contactsAccessState {
 		case .allowed:
 			reuqestUserContacts()

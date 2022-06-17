@@ -93,9 +93,9 @@ struct ChatRoomView: View {
                 }
             }
             .alert(isPresented: $showJoinAlert) {
-                let roomName = viewModel.room.summary.displayname ?? "Новый запрос"
+                let roomName = viewModel.room.summary.displayname ??  R.string.localizable.chatNewRequest()
                 return Alert(
-                    title: Text("Присоединиться к чату?"),
+                    title: Text( R.string.localizable.chatJoinChat()),
                     message: Text("Принять приглашение от \(roomName)"),
                     primaryButton: .default(
                         Text("Присоединиться"),
@@ -104,7 +104,7 @@ struct ChatRoomView: View {
                         }
                     ),
                     secondaryButton: .cancel(
-                        Text("Отменить"),
+                        Text(R.string.localizable.callListAlertActionOne()),
                         action: { presentationMode.wrappedValue.dismiss() }
                     )
                 )
@@ -128,7 +128,7 @@ struct ChatRoomView: View {
                 switch item {
                 case .photo:
                     ImagePickerView(selectedImage: $viewModel.selectedImage)
-                        .navigationBarTitle(Text("Фото"))
+                        .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                         .navigationBarTitleDisplayMode(.inline)
                 case .documents:
                     documentPicker { urls in
@@ -148,7 +148,9 @@ struct ChatRoomView: View {
             }
             .overlay(
                 EmptyNavigationLink(
-                    destination: SettingsView(chatData: $viewModel.chatData, saveData: $viewModel.saveData),
+                    destination: SettingsView(chatData: $viewModel.chatData,
+                                              saveData: $viewModel.saveData,
+                                              room: viewModel.room),
                     isActive: $showSettings
                 )
             )
@@ -193,7 +195,8 @@ struct ChatRoomView: View {
                             }
                             HStack(spacing: 0) {
                                 if viewModel.room.isDirect {
-                                    Text(viewModel.room.isOnline ? "онлайн" : "оффлайн")
+                                    Text(viewModel.room.isOnline ?  R.string.localizable.chatOnline() :
+                                            R.string.localizable.chatOffline())
                                         .lineLimit(1)
                                         .font(.regular(13))
                                         .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
@@ -482,7 +485,8 @@ struct ChatRoomView: View {
                         .lineLimit(1)
                         .font(.semibold(15))
                         .foreground(.black())
-                    Text(viewModel.room.isOnline ? "онлайн" : "оффлайн")
+                    Text(viewModel.room.isOnline ? R.string.localizable.chatOnline() :
+                            R.string.localizable.chatOffline())
                         .lineLimit(1)
                         .font(.regular(13))
                         .foreground(viewModel.userMessage?.status == .online ? .blue() : .black(0.5))

@@ -52,6 +52,7 @@ final class ChatRoomViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<ChatRoomFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     private let keyboardObserver = KeyboardObserver()
+    private let mediaService = MediaService()
     private let locationManager = LocationManager()
 	private let p2pCallsUseCase: P2PCallUseCaseProtocol
 	private let availabilityFacade: ChatRoomTogglesFacadeProtocol
@@ -200,14 +201,26 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.fetchChatData()
                 case let .onSendImage(image):
                     self?.inputText = ""
-                    self?.room.sendImage(image)
+                    guard let id = self?.room.room.roomId else { return }
+                    self?.mediaService.uploadChatPhoto(roomId: id,
+                                                       image: image) { eventId in
+                        self?.room.updateEvents(eventId: eventId)
+                    }
                     self?.matrixUseCase.objectChangePublisher.send()
                 case let .onSendFile(url):
                     self?.inputText = ""
-                    self?.room.sendFile(url)
+                    guard let id = self?.room.room.roomId else { return }
+                    self?.mediaService.uploadChatFile(roomId: id,
+                                                      url: url) { eventId in
+                        self?.room.updateEvents(eventId: eventId)
+                    }
                     self?.matrixUseCase.objectChangePublisher.send()
                 case let .onSendContact(contact):
-                    self?.room.sendContact(contact)
+                    guard let id = self?.room.room.roomId else { return }
+                    self?.mediaService.uploadChatContact(roomId: id,
+                                                         contact: contact) { eventId in
+                        self?.room.updateEvents(eventId: eventId)
+                    }
                     self?.matrixUseCase.objectChangePublisher.send()
                 case .onJoinRoom:
                     guard let roomId = self?.room.room.roomId else { return }

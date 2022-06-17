@@ -128,12 +128,13 @@ final class AuraRoom: ObservableObject {
 
     func sendText(_ text: String) {
         guard !text.isEmpty else { return }
-
         var localEcho: MXEvent?
         room.sendTextMessage(text, localEcho: &localEcho) { _ in
             self.objectWillChange.send()
         }
     }
+    
+    // TODO: - Will be Deprecated
 
     func sendImage(_ image: UIImage) {
         let fixedImage = image.fixOrientation()
@@ -157,6 +158,13 @@ final class AuraRoom: ObservableObject {
             }
             self.objectWillChange.send()
         }
+    }
+
+    func updateEvents(eventId: String?) {
+        guard let event = self.events().renderableEvents.first(where: { eventId == $0.eventId
+        }) else { return }
+        self.eventCache.append(event)
+        self.objectWillChange.send()
     }
 
     func sendFile(_ url: URL) {
@@ -205,9 +213,11 @@ final class AuraRoom: ObservableObject {
                        formattedTextMessage: nil,
                        stringLocalizations: nil,
                        localEcho: &localEcho,
-                       customParameters: customParameters) { _ in
+                       customParameters: customParameters) { response in
+            print("sdnjmks  \(response)")
             self.objectWillChange.send()
-        }    }
+        }
+    }
 
     func markAllAsRead() {
         room.markAllAsRead()
