@@ -102,6 +102,12 @@ final class CallViewController: UIViewController {
 			.sink { [weak self] model in
 				self?.updateUIDepending(on: model.0, callType: model.1)
 			}.store(in: &subscribtions)
+
+		viewModel.activeCallerNameSubject
+			.receive(on: RunLoop.main)
+			.sink { [weak self] callerName in
+				self?.nameLabel.text = callerName
+			}.store(in: &subscribtions)
 	}
 
 	private func updateUIDepending(on callState: P2PCallState, callType: P2PCallType) {

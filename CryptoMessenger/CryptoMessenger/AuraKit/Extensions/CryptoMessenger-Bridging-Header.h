@@ -3,3 +3,4 @@
 //
 
 #import "MXRoom+Reply.h"
+#import "MXCallKitAdapter+Updaters.h"

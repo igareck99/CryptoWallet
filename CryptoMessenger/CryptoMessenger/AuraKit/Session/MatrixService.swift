@@ -181,6 +181,8 @@ extension MatrixService {
 		let adapter = MXCallKitAdapter(configuration: config)
 		let audioSessionConfigurator: MXCallAudioSessionConfigurator = MXJingleCallAudioSessionConfigurator()
 		adapter.audioSessionConfigurator = audioSessionConfigurator
+		adapter.updateMaximumCallGroups(2)
+		adapter.updateMaximumCallsPerCallGroup(2)
 		session?.callManager.callKitAdapter = adapter
 	}
 

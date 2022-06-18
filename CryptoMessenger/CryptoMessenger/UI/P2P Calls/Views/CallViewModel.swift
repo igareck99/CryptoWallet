@@ -8,6 +8,7 @@ protocol VideoAudioItemsDelegate {
 	func didTapSpeaker(button: ViewUpdatable)
 	func didTapAcceptCallButton()
 	func didTapEndCallButton()
+	func didTapHoldCallButton(button: ViewUpdatable)
 }
 
 protocol CallViewModelProtocol {
@@ -17,6 +18,7 @@ protocol CallViewModelProtocol {
 	var videoAudioStackModel: HStackViewModel? { get }
 	var answerEndCallStackModel: HStackViewModel? { get }
 	var callStateTypeSubject: CurrentValueSubject<(P2PCallState, P2PCallType), Never> { get }
+	var activeCallerNameSubject: CurrentValueSubject<String, Never> { get }
 
 	func controllerWillAppear()
 	func controllerDidDisappear()
@@ -32,6 +34,14 @@ final class CallViewModel {
 
 	var callStateTypeSubject = CurrentValueSubject<(P2PCallState, P2PCallType), Never>((.none, .none))
 	lazy var callButtonSubject = CurrentValueSubject<Bool, Never>(p2pCallUseCase.callType == .outcoming)
+
+	let endAndAcceptCallButtonSubject = CurrentValueSubject<Bool, Never>(true)
+	let holdAndAcceptCallButtonSubject = CurrentValueSubject<Bool, Never>(true)
+
+	let holdCallButtonSubject = CurrentValueSubject<Bool, Never>(false)
+	let holdCallButtonActiveSubject = CurrentValueSubject<Bool, Never>(false)
+
+	lazy var activeCallerNameSubject = CurrentValueSubject<String, Never>(userName)
 
 	private let p2pCallUseCase: P2PCallUseCaseProtocol
 	private let factory: CallItemsFactoryProtocol.Type
@@ -53,7 +63,7 @@ final class CallViewModel {
 	}
 
 	private func makeVideoAudioModels() {
-		let audioVideoModels = factory.makeAudioVideoItems(delegate: self)
+		let audioVideoModels = factory.makeAudioVideoItems(viewModel: self, delegate: self)
 		videoAudioStackModel = HStackViewModel(viewModels: audioVideoModels)
 
 		let answerEndCallModels = factory.makeAnswerEndCallItems(viewModel: self, delegate: self)
@@ -61,12 +71,35 @@ final class CallViewModel {
 	}
 
 	private func configureBindings() {
-		p2pCallUseCase.callStateSubject
+		p2pCallUseCase.activeCallStateSubject
 			.subscribe(on: RunLoop.main)
 			.sink { [weak self] state in
 				self?.update(state: state)
 			}
 			.store(in: &subscribtions)
+
+		p2pCallUseCase.callModelSubject
+			.subscribe(on: RunLoop.main)
+			.sink { [weak self] model in
+				debugPrint("Place_Call: CallViewModel: model: \(model)")
+				self?.activeCallerNameSubject.send(model.activeCallerName)
+				self?.update(state: model.activeCallState)
+			}
+			.store(in: &subscribtions)
+
+		p2pCallUseCase.holdCallEnabledSubject
+			.subscribe(on: RunLoop.main)
+			.sink { [weak self] isHoldEnabled in
+				debugPrint("Place_Call: CallViewModel: isHoldEnabled: \(isHoldEnabled)")
+				self?.holdCallButtonActiveSubject.send(isHoldEnabled)
+			}
+			.store(in: &subscribtions)
+
+		p2pCallUseCase.holdCallEnabledSubject
+			.subscribe(on: RunLoop.main)
+			.sink { [weak self] isHoldButtonEnabled in
+				self?.holdCallButtonActiveSubject.send(isHoldButtonEnabled)
+			}.store(in: &subscribtions)
 	}
 
 	private func update(state: P2PCallState) {
@@ -131,5 +164,11 @@ extension CallViewModel: VideoAudioItemsDelegate {
 	func didTapEndCallButton() {
 		debugPrint("didTapEndCallButton")
 		p2pCallUseCase.endCall()
+	}
+
+	func didTapHoldCallButton(button: ViewUpdatable) {
+		debugPrint("didTapHoldCallButton")
+		p2pCallUseCase.holdCall()
+		button.updateView(isEnabled: p2pCallUseCase.isHoldEnabled)
 	}
 }

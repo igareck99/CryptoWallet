@@ -1,14 +1,21 @@
 import Foundation
+import UIKit
 
 protocol CallItemsFactoryProtocol {
 
 	// Audio/Video/Mic
-	static func makeAudioVideoItems(delegate: VideoAudioItemsDelegate) -> [HStackItemViewModelProtocol]
+	static func makeAudioVideoItems(
+		viewModel: CallViewModel,
+		delegate: VideoAudioItemsDelegate
+	) -> [HStackItemViewModelProtocol]
 
+	// Camera Item
 	static func makeCameraItem(delegate: VideoAudioItemsDelegate) -> HStackItemViewModelProtocol
 
+	// Mic Item
 	static func makeMicItem(delegate: VideoAudioItemsDelegate) -> HStackItemViewModelProtocol
 
+	// Speaker Item
 	static func makeSpeakerItem(delegate: VideoAudioItemsDelegate) -> HStackItemViewModelProtocol
 
 	// Answer/End Call
@@ -17,9 +24,23 @@ protocol CallItemsFactoryProtocol {
 		delegate: VideoAudioItemsDelegate
 	) -> [HStackItemViewModelProtocol]
 
+	// End Call
 	static func makeEndCallItem(delegate: VideoAudioItemsDelegate) -> HStackItemViewModelProtocol
 
+	// Answer Call
 	static func makeAnswerCallItem(
+		viewModel: CallViewModel,
+		delegate: VideoAudioItemsDelegate
+	) -> HStackItemViewModelProtocol
+
+	// Decline And Answer Call
+	static func makeDeclineAndAnswerCallItem(
+		viewModel: CallViewModel,
+		delegate: VideoAudioItemsDelegate
+	) -> HStackItemViewModelProtocol
+
+	// Hold And Answer Call
+	static func makeHoldAndAnswerCallItem(
 		viewModel: CallViewModel,
 		delegate: VideoAudioItemsDelegate
 	) -> HStackItemViewModelProtocol
@@ -33,11 +54,17 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 
 	// MARK: - Audio/Video/Mic
 
-	static func makeAudioVideoItems(delegate: VideoAudioItemsDelegate) -> [HStackItemViewModelProtocol] {
+	static func makeAudioVideoItems(
+		viewModel: CallViewModel,
+		delegate: VideoAudioItemsDelegate
+	) -> [HStackItemViewModelProtocol] {
 		var items = [HStackItemViewModelProtocol]()
 
-		let cameraItem = makeCameraItem(delegate: delegate)
-		items.append(cameraItem)
+	// TODO: Сделать видеозвонки
+//		let cameraItem = makeCameraItem(delegate: delegate)
+//		items.append(cameraItem)
+		let holdCallItem = makeHoldCallItem(viewModel: viewModel, delegate: delegate)
+		items.append(holdCallItem)
 
 		let micItem = makeMicItem(delegate: delegate)
 		items.append(micItem)
@@ -128,7 +155,8 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 
 	static func makeEndCallItem(delegate: VideoAudioItemsDelegate) -> HStackItemViewModelProtocol {
 
-		let normalIcon = UIImage(systemName: "phone.down.fill")?.withRenderingMode(.alwaysTemplate)
+		let imgName = R.image.callList.endCall.name
+		let normalIcon = UIImage(named: imgName)
 
 		let updateView: ((Bool, ButtonDownText) -> Void)? = { _, view in
 			view.actionButton.setImage(normalIcon, for: .normal)
@@ -136,7 +164,6 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 			view.actionButton.backgroundColor = .systemRed
 			view.actionButton.imageView?.contentMode = .scaleAspectFill
 			view.actionButton.imageView?.tintColor = .white
-			view.actionButton.layer.cornerRadius = 35
 		}
 
 		let action: ((ViewUpdatable) -> Void)? = { _ in delegate.didTapEndCallButton() }
@@ -152,7 +179,8 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 		delegate: VideoAudioItemsDelegate
 	) -> HStackItemViewModelProtocol {
 
-		let normalIcon = UIImage(systemName: "phone.fill")?.withRenderingMode(.alwaysTemplate)
+		let imgName = R.image.callList.acceptCall.name
+		let normalIcon = UIImage(named: imgName)
 
 		let updateView: ((Bool, ButtonDownText) -> Void)? = { _, view in
 			view.actionButton.setImage(normalIcon, for: .normal)
@@ -160,7 +188,6 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 			view.actionButton.backgroundColor = .systemGreen
 			view.actionButton.imageView?.contentMode = .scaleAspectFill
 			view.actionButton.imageView?.tintColor = .white
-			view.actionButton.layer.cornerRadius = 35
 		}
 
 		let action: ((ViewUpdatable) -> Void)? = { _ in delegate.didTapAcceptCallButton() }
@@ -170,6 +197,73 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 			isHidden: viewModel.callButtonSubject.eraseToAnyPublisher()
 		)
 		return speakerItem
+	}
+
+	static func makeDeclineAndAnswerCallItem(
+		viewModel: CallViewModel,
+		delegate: VideoAudioItemsDelegate
+	) -> HStackItemViewModelProtocol {
+
+		let imgName = R.image.callList.declineAndAccept.name
+		let normalIcon = UIImage(named: imgName)
+		let updateView: ((Bool, ButtonDownText) -> Void)? = { _, view in
+			view.actionButton.setImage(normalIcon, for: .normal)
+			view.actionButton.imageView?.contentMode = .scaleAspectFill
+			view.actionButton.backgroundColor = .clear
+		}
+
+		let action: ((ViewUpdatable) -> Void)? = { _ in delegate.didTapAcceptCallButton() }
+		let item = HStackItemViewModel(
+			updateView: updateView,
+			action: action,
+			isHidden: viewModel.endAndAcceptCallButtonSubject.eraseToAnyPublisher()
+		)
+		return item
+	}
+
+	static func makeHoldAndAnswerCallItem(
+		viewModel: CallViewModel,
+		delegate: VideoAudioItemsDelegate
+	) -> HStackItemViewModelProtocol {
+
+		let imgName = R.image.callList.holdAndAccept.name
+		let normalIcon = UIImage(named: imgName)
+		let updateView: ((Bool, ButtonDownText) -> Void)? = { _, view in
+			view.actionButton.setImage(normalIcon, for: .normal)
+			view.actionButton.imageView?.contentMode = .scaleAspectFill
+			view.actionButton.backgroundColor = .clear
+		}
+
+		let action: ((ViewUpdatable) -> Void)? = { _ in delegate.didTapAcceptCallButton() }
+		let item = HStackItemViewModel(
+			updateView: updateView,
+			action: action,
+			isHidden: viewModel.holdAndAcceptCallButtonSubject.eraseToAnyPublisher()
+		)
+		return item
+	}
+
+	static func makeHoldCallItem(
+		viewModel: CallViewModel,
+		delegate: VideoAudioItemsDelegate
+	) -> HStackItemViewModelProtocol {
+
+		let imgName = R.image.callList.holdCall.name
+		let normalIcon = UIImage(named: imgName)
+		let updateView: ((Bool, ButtonDownText) -> Void)? = { _, view in
+			view.actionButton.setImage(normalIcon, for: .normal)
+			view.actionButton.imageView?.contentMode = .scaleAspectFill
+			view.actionButton.backgroundColor = .clear
+		}
+
+		let action: ((ViewUpdatable) -> Void)? = { delegate.didTapHoldCallButton(button: $0) }
+		let item = HStackItemViewModel(
+			updateView: updateView,
+			action: action,
+			isHidden: viewModel.holdCallButtonSubject.eraseToAnyPublisher(),
+			isButtonEnabled: viewModel.holdCallButtonActiveSubject.eraseToAnyPublisher()
+		)
+		return item
 	}
 
 	// MARK: - Helper methods

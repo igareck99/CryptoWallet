@@ -110,20 +110,20 @@ struct ChatRoomView: View {
                 )
             }
 
-            .alert(isPresented: $showTranslateAlert) { () -> Alert in
-                let dismissButton = Alert.Button.default(Text("Поменять")) {
-                    translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
-                }
-                let confirmButton = Alert.Button.default(Text("Перевести")) {
-                    for message in viewModel.messages {
-                        viewModel.translateTo(languageCode: "ru", message: message)
-                    }
-                }
-                let alert = Alert(title: Text("Переводить сообщения на Русский язык"),
-                                  message: Text("ВНИМАНИЕ! При переводе сообщий их шифрования теряется!"),
-                                  primaryButton: confirmButton, secondaryButton: dismissButton)
-                return alert
-            }
+//            .alert(isPresented: $showTranslateAlert) { () -> Alert in
+//                let dismissButton = Alert.Button.default(Text("Поменять")) {
+//                    translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
+//                }
+//                let confirmButton = Alert.Button.default(Text("Перевести")) {
+//                    for message in viewModel.messages {
+//                        viewModel.translateTo(languageCode: "ru", message: message)
+//                    }
+//                }
+//                let alert = Alert(title: Text("Переводить сообщения на Русский язык"),
+//                                  message: Text("ВНИМАНИЕ! При переводе сообщий их шифрования теряется!"),
+//                                  primaryButton: confirmButton, secondaryButton: dismissButton)
+//                return alert
+//            }
         
             .sheet(item: $activeSheet) { item in
                 switch item {

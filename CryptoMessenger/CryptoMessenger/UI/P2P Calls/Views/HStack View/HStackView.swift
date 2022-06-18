@@ -5,7 +5,7 @@ final class HStackView: UIView {
 	private let stackView: UIStackView = {
 		let view = UIStackView()
 		view.axis  = .horizontal
-		view.alignment = .center
+		view.alignment = .top
 		view.distribution = .fillEqually
 		view.spacing = 10
 		view.backgroundColor = .black
