@@ -23,6 +23,7 @@ extension DependenciesService: DependenciesServiceProtocol {
 			Dependency { ContactsManager() }
             Dependency { MainFlowTogglesFacade() }
             Dependency { TranslateManagerAPI() }
+            Dependency { LocationManagerUseCase.shared }
 		}.build()
 	}
 }

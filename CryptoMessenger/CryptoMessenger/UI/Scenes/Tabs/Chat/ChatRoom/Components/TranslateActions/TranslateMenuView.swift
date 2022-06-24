@@ -44,21 +44,21 @@ enum TranslateAction: CaseIterable, Identifiable {
     
     var languageCode: String {
         switch Locale.preferredLanguages[0] {
-        case "ru":
+        case kLanguageRussian:
             return R.string.localizable.translateRussian()
-        case "en":
+        case kLanguageEnglish:
             return R.string.localizable.translateEnglish()
-        case "es":
+        case kLanguageSpanish:
             return R.string.localizable.translateSpanish()
-        case "it":
+        case kLanguageItalian:
             return R.string.localizable.translateItalian()
-        case "fr":
+        case kLanguageFrench:
             return R.string.localizable.translateFrench()
-        case "ar":
+        case kLanguageArabic:
             return R.string.localizable.translateArabic()
-        case "de":
+        case kLanguageGerman:
             return R.string.localizable.translateGerman()
-        case "zh-CN":
+        case kLanguageChinese:
             return R.string.localizable.translateChinese()
         default: break
         }

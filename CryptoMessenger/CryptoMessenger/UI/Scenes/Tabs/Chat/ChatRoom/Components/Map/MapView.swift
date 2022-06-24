@@ -22,6 +22,7 @@ struct MapView: View {
     @State private var region: MKCoordinateRegion
     private let place: Place
     private let isInteractionModesDisabled: Bool
+    var viewModel: MapViewModel
 
     // MARK: - Lifecycle
 
@@ -33,6 +34,7 @@ struct MapView: View {
         )
         self.place = place
         self.isInteractionModesDisabled = isInteractionModesDisabled
+        viewModel = MapViewModel()
     }
 
     // MARK: - Body

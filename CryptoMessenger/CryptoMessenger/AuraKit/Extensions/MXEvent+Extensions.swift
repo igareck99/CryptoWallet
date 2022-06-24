@@ -29,6 +29,8 @@ enum MXEventEventKey: String {
 
     case messageType = "msgtype"
     case url
+    case latitude
+    case longitude
     case body
     case avatar
     case name
@@ -86,6 +88,10 @@ extension MXEvent {
             let link = content[.url] as? String ?? ""
             let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
             type = .image(url)
+        case kMXMessageTypeLocation:
+            let latitude = content[.latitude] as? String ?? ""
+            let longitude = content[.longitude] as? String ?? ""
+            type = .location((lat: Double(latitude) ?? 0, long: Double(longitude) ?? 0))
         case kMXMessageTypeFile:
             let homeServer = Bundle.main.object(for: .matrixURL).asURL()
             let link = content[.url] as? String ?? ""

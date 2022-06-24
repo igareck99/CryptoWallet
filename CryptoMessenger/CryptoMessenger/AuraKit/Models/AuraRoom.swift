@@ -128,6 +128,13 @@ final class AuraRoom: ObservableObject {
         // TODO: Use localEcho to show sent message until it actually comes back
         room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
     }
+    
+    func sendLocation(location: Location?) {
+        guard location != nil else { return }
+        var localEcho: MXEvent?
+        let content = try! LocationEvent(location: location ?? (0, 0)).encodeContent()
+        room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
+    }
 
     func redact(eventId: String, reason: String?) {
         room.redactEvent(eventId, reason: reason) { _ in }
