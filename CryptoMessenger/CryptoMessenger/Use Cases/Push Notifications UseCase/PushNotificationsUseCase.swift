@@ -76,10 +76,9 @@ final class PushNotificationsUseCase: NSObject {
 	}
 
 	private func updatePush(token: Data) {
-		// Удаляем старай пуш токен, если приложение было удалено)
+		// Удаляем старый пуш токен, если приложение было удалено)
 		if userSettings[.isAppNotFirstStart] == false {
-			userSettings[.isAppNotFirstStart] = true
-			keychainService.removeObject(forKey: .pushToken)
+			keychainService.removeObject(forKey: .pushToken) 
 		}
 	}
 }

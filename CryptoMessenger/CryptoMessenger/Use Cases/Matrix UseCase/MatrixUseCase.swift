@@ -46,6 +46,7 @@ protocol MatrixUseCaseProtocol {
 	// MARK: - Device
 	func getDevicesWithActiveSessions(completion: @escaping (Result<[MXDevice], Error>) -> Void)
 	func logoutDevices(completion: @escaping EmptyResultBlock)
+	func clearCredentials()
 }
 
 final class MatrixUseCase {
@@ -81,7 +82,7 @@ final class MatrixUseCase {
 	private func updateCredentialsIfAvailable() {
 		guard let credentials = retrievCredentials() else { return }
 		matrixService.updateUser(credentials: credentials)
-		matrixService.upadteService(credentials: credentials)
+		matrixService.updateService(credentials: credentials)
 
 		matrixService.initializeSessionStore { [weak self] result in
 
@@ -136,7 +137,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 
 			self?.matrixService.updateUser(credentials: credentials)
 			self?.save(credentials: credentials)
-			self?.matrixService.upadteService(credentials: credentials)
+			self?.matrixService.updateService(credentials: credentials)
 
 			self?.matrixService.initializeSessionStore { result in
 
@@ -287,12 +288,13 @@ extension MatrixUseCase {
 		debugPrint("Credetials saved")
 	}
 
-	private func clearCredentials() {
+	func clearCredentials() {
+		debugPrint("Credetials clearCredentials START")
 		keychainService.removeObject(forKey: .homeServer)
 		keychainService.removeObject(forKey: .userId)
 		keychainService.removeObject(forKey: .accessToken)
 		keychainService.removeObject(forKey: .deviceId)
-		debugPrint("Credetials cleared")
+		debugPrint("Credetials clearCredentials END")
 	}
 
 	private func retrievCredentials() -> MXCredentials? {

@@ -1,5 +1,5 @@
 #import "MXRoom+Reply.h"
-#import "MXSendReplyEventDefaultStringLocalizations.h"
+#import "MXSendReplyEventDefaultStringLocalizer.h"
 
 @interface MXRoom ()
 
@@ -8,7 +8,7 @@
 						 formattedTextMessage:(NSString*)formattedTextMessage
 							 replyContentBody:(NSString**)replyContentBody
 					replyContentFormattedBody:(NSString**)replyContentFormattedBody
-						  stringLocalizations:(id<MXSendReplyEventStringsLocalizable>)stringLocalizations;
+							  stringLocalizer:(id<MXSendReplyEventStringLocalizerProtocol>)stringLocalizer;
 
 @end
 
@@ -18,7 +18,7 @@
 - (MXHTTPOperation*)sendReplyToEvent:(MXEvent*)eventToReply
 					 withTextMessage:(NSString*)textMessage
 				formattedTextMessage:(NSString*)formattedTextMessage
-				 stringLocalizations:(id<MXSendReplyEventStringsLocalizable>)stringLocalizations
+				 stringLocalizations:(id<MXSendReplyEventStringLocalizerProtocol>)stringLocalizations
 						   localEcho:(MXEvent**)localEcho
 					customParameters: (NSDictionary*)customParameters
 							 success:(void (^)(NSString *eventId))success
@@ -29,12 +29,12 @@
 		return nil;
 	}
 
-	id<MXSendReplyEventStringsLocalizable> finalStringLocalizations;
+	id<MXSendReplyEventStringLocalizerProtocol> finalStringLocalizations;
 
 	if (stringLocalizations) {
 		finalStringLocalizations = stringLocalizations;
 	} else {
-		finalStringLocalizations = [MXSendReplyEventDefaultStringLocalizations new];
+		finalStringLocalizations = [MXSendReplyEventDefaultStringLocalizer new];
 	}
 
 	MXHTTPOperation* operation = nil;
@@ -43,11 +43,11 @@
 	NSString *replyToFormattedBody;
 
 	[self getReplyContentBodiesWithEventToReply:eventToReply
-									textMessage:textMessage
-						   formattedTextMessage:formattedTextMessage
-							   replyContentBody:&replyToBody
-					  replyContentFormattedBody:&replyToFormattedBody
-							stringLocalizations:finalStringLocalizations];
+											textMessage:textMessage
+								   formattedTextMessage:formattedTextMessage
+									   replyContentBody:&replyToBody
+							  replyContentFormattedBody:&replyToFormattedBody
+										stringLocalizer:finalStringLocalizations];
 
 	if (replyToBody && replyToFormattedBody) {
 		NSString *eventId = eventToReply.eventId;
@@ -71,6 +71,7 @@
 		msgContent[@"m.relates_to"] = relatesToDict;
 
 		operation = [self sendMessageWithContent:msgContent
+										threadId:nil
 									   localEcho:localEcho
 										 success:success
 										 failure:failure];

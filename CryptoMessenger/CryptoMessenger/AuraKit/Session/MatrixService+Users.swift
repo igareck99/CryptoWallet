@@ -42,7 +42,7 @@ extension MatrixService {
 
 	func setStatus(_ status: String, completion: @escaping VoidBlock) {
 		session?.myUser.setPresence(
-			.init(rawValue: 2),
+			.unavailable,
 			andStatusMessage: status,
 			success: completion
 		) { [weak self] _ in

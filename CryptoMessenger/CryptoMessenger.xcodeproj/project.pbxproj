@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -2852,7 +2852,6 @@
 				5A187DB726806EF8001957D3 /* Sources */,
 				5A187DB826806EF8001957D3 /* Frameworks */,
 				5A187DB926806EF8001957D3 /* Resources */,
-				5A1FE9CF26F00058008A649E /* FirebaseCrashlytics */,
 				EC8CF24613DB1380ED4F8B0E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -2932,26 +2931,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# skip merge\nGIT_ROOT=$(git rev-parse --git-dir)\nif [ -e \"${GIT_ROOT}/MERGE_MODE\" ]; then\n    exit 0\nfi\n\n# files\nfiles=$(git diff --diff-filter=d HEAD --name-only | grep -e '\\(.*\\).swift$')\n skip if no files\nif [ -z \"$files\" ]; then\n    echo \"Nothing to lint\"\n    exit 0\nfi\n\nIFS=$'\\n'\ncounter=0\nfor line in $files; do\n    export SCRIPT_INPUT_FILE_${counter}=\"../${line}\"\n    counter=$((counter + 1))\ndone\nunset IFS\n\nif (( counter > 0 )); then\n    export SCRIPT_INPUT_FILE_COUNT=${counter}\n    ${PODS_ROOT}/SwiftLint/swiftlint lint --use-script-input-files --config swiftlint.yml\nfi\n";
-		};
-		5A1FE9CF26F00058008A649E /* FirebaseCrashlytics */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = FirebaseCrashlytics;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 		5A4267FB26A83315000C51DD /* R.swift */ = {
 			isa = PBXShellScriptBuildPhase;

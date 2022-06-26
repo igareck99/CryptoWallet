@@ -70,6 +70,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
+				debugPrint("ChatHistoryViewModel matrixUseCase.rooms: \(self?.matrixUseCase.rooms ?? [])")
                 self?.rooms = self?.matrixUseCase.rooms ?? []
             }
             .store(in: &subscriptions)

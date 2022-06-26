@@ -29,6 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		window?.rootViewController = rootNavigationController
 
 		pushNotificationsUseCase?.start()
+
+		// UseCase app delegate'а должен вызываться после всех кейсов проверок флага isAppNotFirstStart
+		// т.к. он его изменяет
 		appDelegateUseCase?.start()
 		window?.makeKeyAndVisible()
 

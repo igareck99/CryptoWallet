@@ -8,14 +8,10 @@ target 'CryptoMessenger' do
   # Pods for CryptoMessenger
 
   # Matrix core
-  pod 'MatrixSDK/SwiftSupport'
+  pod 'MatrixSDK'
 	pod 'MatrixSDK/JingleCallStack'
 
   # Firebase
-  pod 'Firebase/Crashlytics'
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Messaging'
-  pod 'Firebase/DynamicLinks'
   pod 'Firebase/RemoteConfig'
 
   # Resources

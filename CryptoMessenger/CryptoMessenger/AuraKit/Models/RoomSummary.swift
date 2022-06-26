@@ -10,7 +10,7 @@ import MatrixSDK
     var summary: MXRoomSummary
 
     var lastMessageDate: Date {
-        .init(timeIntervalSince1970: Double(summary.lastMessageOriginServerTs) / 1000)
+		.init(timeIntervalSince1970: Double(summary.lastMessage?.originServerTs ?? .zero) / 1000)
     }
 
     // MARK: - Life Cycle

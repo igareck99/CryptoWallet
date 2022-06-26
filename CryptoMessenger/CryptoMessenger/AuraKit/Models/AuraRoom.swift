@@ -1,6 +1,8 @@
 import Combine
 import MatrixSDK
 
+// swiftlint:disable all
+
 // MARK: - RoomItem
 
 struct RoomItem: Codable, Hashable {
@@ -16,7 +18,7 @@ struct RoomItem: Codable, Hashable {
     init(room: MXRoom) {
         self.roomId = room.summary.roomId
         self.displayName = room.summary.displayname ?? ""
-        self.messageDate = room.summary.lastMessageOriginServerTs
+		self.messageDate = room.summary.lastMessage.originServerTs
     }
 
     // MARK: - Static Methods
@@ -41,28 +43,31 @@ final class AuraRoom: ObservableObject {
     @Published var anotherEventCache: [MXEvent] = []
 
     var isDirect: Bool { room.isDirect }
-    var messageType: MessageType { room.summary.lastMessageEvent?.messageType ?? .text("") }
-    var lastMessage: String {
-        if summary.membership == .invite {
-            let inviteEvent = eventCache.last {
-                $0.type == kMXEventTypeStringRoomMember && $0.stateKey == room.mxSession.myUserId
-            }
-            guard let sender = inviteEvent?.sender else { return "" }
-            return "Invitation from: \(sender)"
-        }
-        let lastMessageEvent = eventCache.last { $0.type == kMXEventTypeStringRoomMessage }
-        ?? room.summary.lastMessageEvent
-        if lastMessageEvent?.isEdit() ?? false {
-            let newContent = lastMessageEvent?.content["m.new_content"] as? NSDictionary
-            return newContent?["body"] as? String ?? ""
-        } else if let lastMessage = lastMessageEvent?.content["body"] as? String {
-            return lastMessage
-        } else if let event = room.outgoingMessages().last(where: { $0.type == kMXEventTypeStringRoomMessage }) {
-            return event.content["body"] as? String ?? ""
-        } else {
-            return ""
-        }
-    }
+    var messageType: MessageType {
+		eventCache.last?.messageType  ?? .text("")
+	}
+
+	// TODO: Закоментировал, т.к. этот код нигде не используется, если в нем не возникнет необходимости, то удалим
+//    var lastMessage: String {
+//        if summary.membership == .invite {
+//            let inviteEvent = eventCache.last {
+//                $0.type == kMXEventTypeStringRoomMember && $0.stateKey == room.mxSession.myUserId
+//            }
+//            guard let sender = inviteEvent?.sender else { return "" }
+//            return "Invitation from: \(sender)"
+//        }
+//		let lastMessageEvent = eventCache.last { $0.type == kMXEventTypeStringRoomMessage }
+//        if lastMessageEvent?.isEdit() ?? false {
+//            let newContent = lastMessageEvent?.content["m.new_content"] as? NSDictionary
+//            return newContent?["body"] as? String ?? ""
+//        } else if let lastMessage = lastMessageEvent?.content["body"] as? String {
+//            return lastMessage
+//        } else if let event = room.outgoingMessages().last(where: { $0.type == kMXEventTypeStringRoomMessage }) {
+//            return event.content["body"] as? String ?? ""
+//        } else {
+//            return ""
+//        }
+//    }
 
     // MARK: - Lifecycle
 
@@ -74,7 +79,7 @@ final class AuraRoom: ObservableObject {
             roomAvatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
         }
         let enumerator = room.enumeratorForStoredMessages // WithType(in: Self.displayedMessageTypes)
-        let currentBatch = enumerator?.nextEventsBatch(200) ?? []
+		let currentBatch = enumerator?.nextEventsBatch(200, threadId: nil) ?? []
 
         eventCache.append(contentsOf: currentBatch)
     }
@@ -87,6 +92,8 @@ final class AuraRoom: ObservableObject {
             eventCache.insert(event, at: 0)
         case .forwards:
             eventCache.append(event)
+		default:
+			break
         }
     }
 
@@ -146,6 +153,7 @@ final class AuraRoom: ObservableObject {
             size: image.size,
             mimeType: "image/jpeg",
             thumbnail: image,
+			blurhash: nil,
             localEcho: &localEcho
         ) { response in
             switch response {

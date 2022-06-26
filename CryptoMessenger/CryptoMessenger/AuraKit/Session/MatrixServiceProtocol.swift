@@ -14,7 +14,7 @@ protocol MatrixServiceProtocol {
 	func updateClient(with homeServer: URL)
 	func updateState(with state: MatrixState)
 	func updateUser(credentials: MXCredentials)
-	func upadteService(credentials: MXCredentials)
+	func updateService(credentials: MXCredentials)
 	func updateUnkownDeviceWarn(isEnabled: Bool)
 
 	// MARK: - Session

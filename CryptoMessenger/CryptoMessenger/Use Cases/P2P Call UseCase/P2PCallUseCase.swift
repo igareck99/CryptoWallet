@@ -261,10 +261,15 @@ extension P2PCallUseCase: P2PCallUseCaseProtocol {
 		activeCall?.audioMuted = activeCall?.audioMuted == true ? false : true
 	}
 
-	var isVoiceIsSpeaker: Bool { activeCall?.audioToSpeaker == true }
+	var isVoiceIsSpeaker: Bool {
+		activeCall?.audioOutputRouter.currentRoute?.routeType == .loudSpeakers
+	}
 
 	func changeVoiceSpeaker() {
-		activeCall?.audioToSpeaker = activeCall?.audioToSpeaker == true ? false : true
+		let audioRoute: MXiOSAudioOutputRoute? = isVoiceIsSpeaker ?
+		activeCall?.audioOutputRouter.builtInRoute :
+		activeCall?.audioOutputRouter.loudSpeakersRoute
+		activeCall?.audioOutputRouter.changeCurrentRoute(to: audioRoute)
 	}
 }
 
