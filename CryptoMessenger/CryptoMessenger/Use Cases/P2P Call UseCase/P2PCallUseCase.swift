@@ -13,50 +13,50 @@ protocol P2PCallUseCaseProtocol: AnyObject {
 
 	func endCall()
 
+	func holdCall()
+
 	var isMuted: Bool { get }
 
 	func toggleMuteState()
 
 	var isVoiceIsSpeaker: Bool { get }
 
+	var isHoldEnabled: Bool { get }
+
 	func changeVoiceSpeaker()
 
 	var callType: P2PCallType { get }
 
-	var callStateSubject: CurrentValueSubject<P2PCallState, Never> { get }
+	var activeCallStateSubject: CurrentValueSubject<P2PCallState, Never> { get }
+
+	var callModelSubject: PassthroughSubject<P2PCall, Never> { get }
+
+	var holdCallEnabledSubject: CurrentValueSubject<Bool, Never> { get }
 }
 
 protocol P2PCallUseCaseDelegate: AnyObject {
 	func callDidChange(state: P2PCallState)
 }
 
-enum P2PCallState: UInt {
-	case createOffer
-	case ringing
-	case calling
-	case createAnswer
-	case connecting
-	case connected
-	case inviteExpired
-	case ended
-	case none
-}
-
-enum P2PCallType {
-	case outcoming
-	case incoming
-	case none
-}
-
 final class P2PCallUseCase: NSObject {
 
-	lazy var callStateSubject = CurrentValueSubject<P2PCallState, Never>(callState)
+	lazy var activeCallStateSubject = CurrentValueSubject<P2PCallState, Never>(activeCallState)
+	let callModelSubject = PassthroughSubject<P2PCall, Never>()
+
+	lazy var holdCallEnabledSubject = CurrentValueSubject<Bool, Never>(true)
 
 	private let router: P2PCallsRouterable
 	private let matrixService: MatrixServiceProtocol
 	private var activeCall: MXCall?
-	private var calls = [UUID: MXCall]()
-	private var callState: P2PCallState = .none
+	private var onHoldCall: MXCall?
+	private var calls = [UUID: MXCall]() {
+		didSet {
+			holdCallEnabledSubject.send(!calls.isEmpty)
+		}
+	}
+	private var activeCallState: P2PCallState {
+		P2PCallState.state(from: (activeCall?.state ?? .ended))
+	}
 	var callType: P2PCallType = .none
 	weak var delegate: P2PCallUseCaseDelegate?
 	static let shared = P2PCallUseCase()
@@ -92,12 +92,12 @@ final class P2PCallUseCase: NSObject {
 
 		if !router.isCallViewControllerBeingPresented,
 			let call = activeCall {
-			let callerName = matrixService.allUsers().first(where: { $0.userId == call.callerId })?.displayname ?? call.callerId
+			let callerName = callerName(for: call)
 			router.showCallView(
 				userName: callerName,
 				p2pCallUseCase: self,
 				callType: callType,
-				callState: callState
+				callState: activeCallState
 			)
 		}
 	}
@@ -111,6 +111,17 @@ final class P2PCallUseCase: NSObject {
 
 		debugPrint("Place_Call: callStateChanged state: \(call.state)")
 
+		if activeCall != nil,
+		   activeCall?.callUUID != call.callUUID,
+		   calls[call.callUUID] != call {
+			debugPrint("Place_Call: callStateChanged ANOTHER_INCOMING_CALL: \(call.callUUID) state: \(call.state)")
+		}
+
+		if calls.isEmpty,
+			activeCall == nil {
+			activeCall = call
+		}
+
 		calls[call.callUUID] = call
 
 		switch call.state {
@@ -120,53 +131,36 @@ final class P2PCallUseCase: NSObject {
 			debugPrint("Place_Call: callStateChanged waitLocalMedia: \(call.callId)")
 		case .createOffer:
 			debugPrint("Place_Call: callStateChanged createOffer: \(call.callId)")
-			callState = .createOffer
 			notifyOutcoming(call: call)
-			callStateSubject.send(.createOffer)
 			configureAudioSession()
 		case .inviteSent:
 			debugPrint("Place_Call: callStateChanged inviteSent: \(call.callId)")
 		case .ringing:
-			callState = .ringing
 			debugPrint("Place_Call: callStateChanged ringing: \(call.callId)")
-			callStateSubject.send(.ringing)
 		case .createAnswer:
-			callState = .createAnswer
 			debugPrint("Place_Call: callStateChanged createAnswer: \(call.callId)")
-			callStateSubject.send(.createAnswer)
 			notifyIncoming(call: call)
 		case .connecting:
-			callState = .connecting
 			debugPrint("Place_Call: callStateChanged connecting: \(call.callId)")
-			callStateSubject.send(.connecting)
 		case .connected:
-			callState = .connected
+			activeCall = call
+			updateControllerOnAnswerOf(answeredCall: call)
 			debugPrint("Place_Call: callStateChanged connected: \(call.callId)")
-			callStateSubject.send(.connected)
-		case .ended:
-			callState = .ended
-			debugPrint("Place_Call: callStateChanged ended: \(call.callId)")
-			callStateSubject.send(.ended)
-			router.removeCallController()
-			NotificationCenter.default.post(name: .callDidEnd, object: nil)
-		case .inviteExpired:
-			callState = .inviteExpired
-			debugPrint("Place_Call: callStateChanged inviteExpired: \(call.callId)")
+		case .onHold:
+			updateControllerOnHoldOf(holdedCall: call)
+			debugPrint("Place_Call: callStateChanged connected: \(call.callId)")
+		case .ended, .inviteExpired, .answeredElseWhere:
+			debugPrint("Place_Call: callStateChanged callId: \(call.callId) state: \(call.state)")
 			call.hangup()
-			callStateSubject.send(.inviteExpired)
-			router.removeCallController()
-			NotificationCenter.default.post(name: .callDidEnd, object: nil)
-		case .answeredElseWhere:
-			callState = .ended
-			debugPrint("Place_Call: callStateChanged answeredElseWhere: \(call.callId)")
-			router.removeCallController()
-			NotificationCenter.default.post(name: .callDidEnd, object: nil)
+			updateControllerOnEndOf(endedCall: call)
 		default:
-			debugPrint("Place_Call: callStateChanged UNKNOWN: \(call.callId)")
+			debugPrint("Place_Call: callStateChanged UNKNOWN: \(call.callId) state: \(call.state)")
 		}
+
+		activeCallStateSubject.send(activeCallState)
 	}
 
-	func configureAudioSession() {
+	private func configureAudioSession() {
 		try? AVAudioSession.sharedInstance().setActive(false)
 		try? AVAudioSession.sharedInstance().setCategory(.playAndRecord)
 		try? AVAudioSession.sharedInstance().overrideOutputAudioPort(.none)
@@ -176,7 +170,7 @@ final class P2PCallUseCase: NSObject {
 
 		let systemSoundID: SystemSoundID = 1154
 		AudioServicesPlaySystemSoundWithCompletion(systemSoundID) { [weak self] in
-			DispatchQueue.global().asyncAfter(deadline: .now() + 0.6) {
+			DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
 				if self?.activeCall?.state == .createOffer ||
 					self?.activeCall?.state == .inviteSent {
 					self?.configureAudioSession()
@@ -185,12 +179,88 @@ final class P2PCallUseCase: NSObject {
 		}
 	}
 
+	private func callerName(for call: MXCall) -> String {
+		let callerName = matrixService.allUsers().first(where: { $0.userId == call.callerId })?.displayname ?? call.callerId
+		return callerName
+	}
+
+	private func updateControllerOnAnswerOf(answeredCall: MXCall) {
+		activeCall = answeredCall
+
+		if let call = calls.first(where: { $0.0 != answeredCall.callUUID })?.value {
+
+			onHoldCall = call
+			call.hold(true)
+
+			let holdedCallerName = callerName(for: call)
+			let callerName = callerName(for: answeredCall)
+			let p2pCall = P2PCall(
+				activeCallerName: callerName,
+				activeCallState: activeCallState,
+				onHoldCallerName: holdedCallerName,
+				onHoldCallState: .onHold,
+				callType: callType
+			)
+			callModelSubject.send(p2pCall)
+			activeCallStateSubject.send(activeCallState)
+		}
+	}
+
+	private func updateControllerOnHoldOf(holdedCall: MXCall) {
+		onHoldCall = holdedCall
+
+		if let call = calls.first(where: { $0.0 != holdedCall.callUUID })?.value {
+
+			call.hold(false)
+			activeCall = call
+			let holdedCallerName = callerName(for: holdedCall)
+			let callerName = callerName(for: call)
+			let p2pCall = P2PCall(
+				activeCallerName: callerName,
+				activeCallState: activeCallState,
+				onHoldCallerName: holdedCallerName,
+				onHoldCallState: .onHold,
+				callType: callType
+			)
+			callModelSubject.send(p2pCall)
+			activeCallStateSubject.send(activeCallState)
+		}
+	}
+
+	private func updateControllerOnEndOf(endedCall: MXCall) {
+
+		debugPrint("Place_Call: updateControllerOnEndOf endedCall: \(endedCall.callId)")
+
+		calls[endedCall.callUUID] = nil
+
+		if let holdedCall = calls.first?.value {
+			debugPrint("Place_Call: updateControllerOnEndOf retrive holded call: \(holdedCall.callId)")
+			holdedCall.hold(false)
+			activeCall = holdedCall
+			let callerName = callerName(for: holdedCall)
+			let p2pCall = P2PCall(
+				activeCallerName: callerName,
+				activeCallState: activeCallState,
+				onHoldCallerName: "",
+				onHoldCallState: .none,
+				callType: callType
+			)
+			callModelSubject.send(p2pCall)
+			activeCallStateSubject.send(activeCallState)
+		}
+
+		guard calls.isEmpty else { return }
+		router.removeCallController()
+		NotificationCenter.default.post(name: .callDidEnd, object: nil)
+	}
+
 	private func notifyIncoming(call: MXCall) {
+
+		guard calls.count <= 1 else { return }
+
 		callType = .incoming
 		NotificationCenter.default.post(name: .callDidStart, object: nil)
-		activeCall = call
-        activeCall?.delegate = self
-		let callerName = matrixService.allUsers().first(where: { $0.userId == call.callerId })?.displayname ?? call.callerId
+		let callerName = callerName(for: call)
 		router.showCallView(
 			userName: callerName,
 			p2pCallUseCase: self,
@@ -203,7 +273,7 @@ final class P2PCallUseCase: NSObject {
 		callType = .outcoming
 		NotificationCenter.default.post(name: .callDidStart, object: nil)
 		activeCall = call
-		let callerName = matrixService.allUsers().first(where: { $0.userId == call.callerId })?.displayname ?? call.callerId
+		let callerName = callerName(for: call)
 		router.showCallView(
 			userName: callerName,
 			p2pCallUseCase: self,
@@ -232,8 +302,14 @@ extension P2PCallUseCase: P2PCallUseCaseProtocol {
 		}
 	}
 
+	var isHoldEnabled: Bool { calls.count > 1 }
+
+	func holdCall() {
+		activeCall?.hold(!(activeCall?.isOnHold == true))
+	}
+
 	func answerCall() {
-		self.activeCall?.answer()
+		activeCall?.answer()
 	}
 
 	func endCall() {

@@ -7,9 +7,11 @@ final class ButtonDownText: UIView {
 		let button = UIButton()
 		button.addTarget(self, action: #selector(didTapAction), for: .touchUpInside)
 		button.translatesAutoresizingMaskIntoConstraints = false
-		button.layer.cornerRadius = 35
 		button.tintColor = .white
+		button.layer.cornerRadius = 35
 		button.imageView?.contentMode = .scaleAspectFill
+		button.clipsToBounds = false
+		button.imageView?.clipsToBounds = false
 		return button
 	}()
 
@@ -95,6 +97,12 @@ extension ButtonDownText: ViewConfigurable {
 			.receive(on: RunLoop.main)
 			.sink { [weak self] isHidden in
 				self?.isHidden = isHidden
+			}.store(in: &cancellables)
+
+		viewModel.isButtonEnabled?
+			.receive(on: RunLoop.main)
+			.sink { [weak self] isButtonEnabled in
+				self?.actionButton.isEnabled = isButtonEnabled
 			}.store(in: &cancellables)
 	}
 }
