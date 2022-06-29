@@ -509,6 +509,7 @@
 		D4533A182833567D00B956B2 /* RemoteConfigValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A172833567D00B956B2 /* RemoteConfigValues.swift */; };
 		D4533A1C28335A6700B956B2 /* RemoteConfigServiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */; };
 		D4533A1E28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */; };
+		D45B7B5A286C4D1200435241 /* CXProviderConfiguration+Calls.m in Sources */ = {isa = PBXBuildFile; fileRef = D45B7B59286C4D1200435241 /* CXProviderConfiguration+Calls.m */; };
 		D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46187D2282D093200CA2836 /* ChatHistorySources.swift */; };
 		D47987CD284CBBAF00ACEE64 /* StatusBarCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */; };
 		D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */; };
@@ -1038,6 +1039,8 @@
 		D4533A172833567D00B956B2 /* RemoteConfigValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValues.swift; sourceTree = "<group>"; };
 		D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceAssembly.swift; sourceTree = "<group>"; };
 		D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinatorAssembly.swift; sourceTree = "<group>"; };
+		D45B7B58286C4D1200435241 /* CXProviderConfiguration+Calls.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CXProviderConfiguration+Calls.h"; sourceTree = "<group>"; };
+		D45B7B59286C4D1200435241 /* CXProviderConfiguration+Calls.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CXProviderConfiguration+Calls.m"; sourceTree = "<group>"; };
 		D46187D2282D093200CA2836 /* ChatHistorySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySources.swift; sourceTree = "<group>"; };
 		D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCallView.swift; sourceTree = "<group>"; };
 		D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixServiceProtocol.swift; sourceTree = "<group>"; };
@@ -1751,6 +1754,8 @@
 				D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */,
 				D423A0A72860A47E004A8228 /* MXCallKitAdapter+Updaters.h */,
 				D423A0A82860A47E004A8228 /* MXCallKitAdapter+Updaters.m */,
+				D45B7B58286C4D1200435241 /* CXProviderConfiguration+Calls.h */,
+				D45B7B59286C4D1200435241 /* CXProviderConfiguration+Calls.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3473,6 +3478,7 @@
 				D428A5412824F7AC002CAA13 /* MatrixService.swift in Sources */,
 				8B6C18C8279ABB4800B85F2A /* BlockedListConfigurator.swift in Sources */,
 				5A3721D7272F2A4D0097ABED /* ChatGroupView.swift in Sources */,
+				D45B7B5A286C4D1200435241 /* CXProviderConfiguration+Calls.m in Sources */,
 				8B4E9C3527E0A77A0057E4C9 /* WalletAdressScanerView.swift in Sources */,
 				D428A53F2823CBA0002CAA13 /* Parser.swift in Sources */,
 				8BA0C91427AD776F0070203F /* ReserveCopyProtocols.swift in Sources */,
