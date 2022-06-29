@@ -1,5 +1,16 @@
 import Foundation
 
+// MARK: - Language constants
+
+let kLanguageEnglish = "en"
+let kLanguageChinese = "zh-CN"
+let kLanguageSpanish = "es"
+let kLanguageItalian = "it"
+let kLanguageFrench = "fr"
+let kLanguageArabic = "ar"
+let kLanguageGerman = "de"
+let kLanguageRussian = "ru"
+
 // swiftlint: disable: all
 
 protocol TranslateManager {
@@ -162,7 +173,7 @@ public class TranslateManagerAPI: TranslateManager {
     public var languagesList: [Language] = []
     public var isActive = false
     public var source: String = ""
-    public var target: String = "ru"
+    public var target: String = kLanguageRussian
     
     /// API structure.
     ///

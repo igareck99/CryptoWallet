@@ -48,10 +48,9 @@ struct ChatRoomView: View {
     @State private var quickAction: QuickAction?
     @State private var quickActionCurrentUser: QuickActionCurrentUser?
 
-
     @FocusState private var inputViewIsFocused: Bool
     
-
+    
     // MARK: - Body
 
     var body: some View {
@@ -63,6 +62,7 @@ struct ChatRoomView: View {
                 switch viewModel.room.summary.membership {
                 case .invite:
                     showJoinAlert = true
+//                    showTranslateAlert = true
                 case .join:
                     viewModel.room.markAllAsRead()
                 default:
@@ -89,42 +89,9 @@ struct ChatRoomView: View {
             }
             .onReceive(viewModel.$showTranslate) { flag in
                 if flag {
-                    showTranslateAlert.toggle()
+                    showTranslateAlert = true
                 }
             }
-            .alert(isPresented: $showJoinAlert) {
-                let roomName = viewModel.room.summary.displayname ??  R.string.localizable.chatNewRequest()
-                return Alert(
-                    title: Text( R.string.localizable.chatJoinChat()),
-                    message: Text("Принять приглашение от \(roomName)"),
-                    primaryButton: .default(
-                        Text("Присоединиться"),
-                        action: {
-                            viewModel.send(.onJoinRoom)
-                        }
-                    ),
-                    secondaryButton: .cancel(
-                        Text(R.string.localizable.callListAlertActionOne()),
-                        action: { presentationMode.wrappedValue.dismiss() }
-                    )
-                )
-            }
-
-//            .alert(isPresented: $showTranslateAlert) { () -> Alert in
-//                let dismissButton = Alert.Button.default(Text("Поменять")) {
-//                    translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
-//                }
-//                let confirmButton = Alert.Button.default(Text("Перевести")) {
-//                    for message in viewModel.messages {
-//                        viewModel.translateTo(languageCode: "ru", message: message)
-//                    }
-//                }
-//                let alert = Alert(title: Text("Переводить сообщения на Русский язык"),
-//                                  message: Text("ВНИМАНИЕ! При переводе сообщий их шифрования теряется!"),
-//                                  primaryButton: confirmButton, secondaryButton: dismissButton)
-//                return alert
-//            }
-        
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .photo:
@@ -181,10 +148,27 @@ struct ChatRoomView: View {
                                 Image(uiImage: $0).resizable()
                             }
                         )
-                            .scaledToFill()
-                            .frame(width: 36, height: 36)
-                            .cornerRadius(18)
-                            .padding(.trailing, 12)
+                        .scaledToFill()
+                        .frame(width: 36, height: 36)
+                        .cornerRadius(18)
+                        .padding(.trailing, 12)
+                        .alert(isPresented: $showJoinAlert) {
+                                let roomName = viewModel.room.summary.displayname ??  R.string.localizable.chatNewRequest()
+                                return Alert(
+                                    title: Text(R.string.localizable.chatJoinChat()),
+                                    message: Text("Принять приглашение от \(roomName)"),
+                                    primaryButton: .default(
+                                        Text("Присоединиться"),
+                                        action: {
+                                            viewModel.send(.onJoinRoom)
+                                        }
+                                    ),
+                                    secondaryButton: .cancel(
+                                        Text(R.string.localizable.callListAlertActionOne()),
+                                        action: { presentationMode.wrappedValue.dismiss() }
+                                    )
+                                )
+                            }
 
                         VStack(spacing: 0) {
                             HStack(spacing: 0) {
@@ -209,6 +193,20 @@ struct ChatRoomView: View {
                                 }
                                 Spacer()
                             }
+                        }
+                        .alert(isPresented: $showTranslateAlert) {
+                            debugPrint("Отобразился")
+                            let dismissButton = Alert.Button.default(Text("Поменять")) {
+                                translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
+                            }
+                            let confirmButton = Alert.Button.default(Text("Перевести")) {
+                                for message in viewModel.messages {
+                                    viewModel.translateTo(languageCode: "ru", message: message)
+                                }
+                            }
+                            return Alert(title: Text("Переводить сообщения на Русский язык"),
+                                              message: Text("ВНИМАНИЕ! При переводе сообщий их шифрования теряется!"),
+                                              primaryButton: confirmButton, secondaryButton: dismissButton)
                         }
                         .frame(width: 160)
 
@@ -240,7 +238,6 @@ struct ChatRoomView: View {
                     .padding(.bottom, 8)
                 }
             }
-
     }
 
     private var content: some View {
@@ -254,7 +251,13 @@ struct ChatRoomView: View {
                             Spacer().frame(height: 16)
                             ForEach(viewModel.messages) { event in
                                 if viewModel.isTranslating() {
-                                    if let message = viewModel.translatedMessages.first(where: {$0.eventId == event.id}) {
+                                    if let message = viewModel.translatedMessages.first(where: {$0.eventId == event.eventId}) {
+                                        if viewModel.next(message)?.fullDate != message.fullDate {
+                                            dateView(date: message.fullDate)
+                                                .flippedUpsideDown()
+                                                .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
+                                                .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                        }
                                         ChatRoomRow(
                                             message: message,
                                             isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
@@ -275,16 +278,16 @@ struct ChatRoomView: View {
                                             activeEditMessage = message
                                             cardPosition = .custom(UIScreen.main.bounds.height - 580)
                                             hideKeyboard()
-                                        }
-                                        if viewModel.next(message)?.fullDate != message.fullDate {
-                                            dateView(date: message.fullDate)
-                                                .flippedUpsideDown()
-                                                .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
-                                                .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                         }
                                     }
                                 } else {
-                                    if let message = viewModel.messages.first(where: {$0.eventId == event.id}) {
+                                    if let message = viewModel.messages.first(where: {$0.eventId == event.eventId}) {
+                                        if viewModel.next(message)?.fullDate != message.fullDate {
+                                            dateView(date: message.fullDate)
+                                                .flippedUpsideDown()
+                                                .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
+                                                .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+                                        }
                                         ChatRoomRow(
                                             message: message,
                                             isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
@@ -305,12 +308,6 @@ struct ChatRoomView: View {
                                             activeEditMessage = message
                                             cardPosition = .custom(UIScreen.main.bounds.height - 580)
                                             hideKeyboard()
-                                        }
-                                        if viewModel.next(message)?.fullDate != message.fullDate {
-                                            dateView(date: message.fullDate)
-                                                .flippedUpsideDown()
-                                                .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
-                                                .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                         }
                                     }
                                 }
@@ -383,7 +380,6 @@ struct ChatRoomView: View {
                     }
                     .flippedUpsideDown()
                 }
-
                 inputView
             }
             .animation(.easeInOut(duration: 0.3), value: keyboardHandler.keyboardHeight != 0)
@@ -396,8 +392,8 @@ struct ChatRoomView: View {
                     cameraFrame: $viewModel.cameraFrame,
                     onCamera: { showActionSheet = false; activeSheet = .camera },
                     viewModel: attachActionViewModel
-                ).transition(.move(edge: .bottom).combined(with: .opacity))
-
+                )
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
 
             quickMenuView

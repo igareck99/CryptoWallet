@@ -21,7 +21,11 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private(set) var state: ChatRoomFlow.ViewState = .idle
     @Published private(set) var userMessage: Message?
     @Published private(set) var room: AuraRoom
-    @Published var messages: [RoomMessage] = []
+    @Published var messages: [RoomMessage] = [] {
+        didSet {
+            debugPrint("Messages debug ", messages)
+        }
+    }
     @Published var translatedMessages: [RoomMessage] = []
     @Published var showPhotoLibrary = false
     @Published var showDocuments = false
@@ -31,7 +35,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var selectedImage: UIImage?
     @Published var pickedImage: UIImage?
     @Published var pickedContact: Contact?
-    @Published private var lastLocation: Location?
+    @Published var pickedLocation: Location?
     @Published var cameraFrame: CGImage?
     @Published var roomUsers = [MXUser]()
 
@@ -49,12 +53,12 @@ final class ChatRoomViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     private let keyboardObserver = KeyboardObserver()
     private let mediaService = MediaService()
-    private let locationManager = LocationManager()
 	private let p2pCallsUseCase: P2PCallUseCaseProtocol
 	private let availabilityFacade: ChatRoomTogglesFacadeProtocol
 
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var translateManager: TranslateManager
+    @Injectable private var locationManager: LocationManager
 
 
     //swiftlint:disable redundant_optional_initialization
@@ -66,12 +70,14 @@ final class ChatRoomViewModel: ObservableObject {
 		room: AuraRoom,
 		p2pCallsUseCase: P2PCallUseCaseProtocol = P2PCallUseCase.shared,
 		availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build(), 
-        toggleFacade: MainFlowTogglesFacadeProtocol
+        toggleFacade: MainFlowTogglesFacadeProtocol,
+        locationManager: LocationManager = LocationManagerUseCase.shared
 	) {
         self.room = room
 		self.p2pCallsUseCase = p2pCallsUseCase
 		self.availabilityFacade = availabilityFacade
         self.toggleFacade = toggleFacade
+        self.locationManager = locationManager
         
         bindInput()
         bindOutput()
@@ -203,6 +209,10 @@ final class ChatRoomViewModel: ObservableObject {
                         self?.room.updateEvents(eventId: eventId)
                     }
                     self?.matrixUseCase.objectChangePublisher.send()
+                case let .onSendLocation(location):
+                    self?.inputText = ""
+                    self?.room.sendLocation(location: location)
+                    self?.matrixUseCase.objectChangePublisher.send()
                 case let .onSendFile(url):
                     self?.inputText = ""
                     guard let id = self?.room.room.roomId else { return }
@@ -289,6 +299,8 @@ final class ChatRoomViewModel: ObservableObject {
 							eventType: ""
                         )
                         self?.messages.append(message)
+                        debugPrint("Last location sink", location)
+                        self?.send(.onSendLocation(location))
                     } else {
                         do {
                             try self?.locationManager.requestLocationAccess()
@@ -335,19 +347,19 @@ final class ChatRoomViewModel: ObservableObject {
                     self.translateManager.isActive = false
                     self.translatedMessages = self.messages
                 case .italian:
-                    self.translateMessagesTo(languageCode: "it")
+                    self.translateMessagesTo(languageCode: kLanguageItalian)
                 case .english:
-                    self.translateMessagesTo(languageCode: "en")
+                    self.translateMessagesTo(languageCode: kLanguageEnglish)
                 case .spanish:
-                    self.translateMessagesTo(languageCode: "es")
+                    self.translateMessagesTo(languageCode: kLanguageSpanish)
                 case .french:
-                    self.translateMessagesTo(languageCode: "fr")
+                    self.translateMessagesTo(languageCode: kLanguageFrench)
                 case .arabic:
-                    self.translateMessagesTo(languageCode: "ar")
+                    self.translateMessagesTo(languageCode: kLanguageArabic)
                 case .german:
-                    self.translateMessagesTo(languageCode: "de")
+                    self.translateMessagesTo(languageCode: kLanguageGerman)
                 case .chinese:
-                    self.translateMessagesTo(languageCode: "zh-CN")
+                    self.translateMessagesTo(languageCode: kLanguageChinese)
                 }
             }
             .store(in: &subscriptions)
@@ -376,11 +388,16 @@ final class ChatRoomViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
 
-        locationManager.$lastLocation
-            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.lastLocation, on: self)
+        
+        // TODO: Приложить к экрану выбора геоточки.
+        $pickedLocation
+            .receive(on: RunLoop.main)
+//            .assign(to: locationManager.lastLocation, on: $pickedLocation)
+            .sink { [weak self] lastLocation in
+//                self?.send(.onSendLocation(locationManager.lastLocation ?? (0,0)))
+            }
             .store(in: &subscriptions)
+
 
         $saveData
             .sink { [weak self] flag in

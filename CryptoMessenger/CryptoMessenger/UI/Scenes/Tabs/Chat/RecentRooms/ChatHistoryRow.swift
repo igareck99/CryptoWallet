@@ -140,6 +140,22 @@ struct ChatHistoryRow: View {
                                 ]
                             )
                         }
+                    case let .location((longitute, latitude)):
+                        HStack(spacing: 6) {
+                            MapView(place: Place(name: "", latitude: longitute, longitude: latitude))
+                            .scaledToFill()
+                            .frame(width: 16, height: 16)
+                            .cornerRadius(2)
+
+                            Text(
+                                "Мес",
+                                [
+                                    .font(.regular(15)),
+                                    .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
+                                    .color(.black(0.6))
+                                ]
+                            )
+                        }
                     default:
                         EmptyView()
                     }
