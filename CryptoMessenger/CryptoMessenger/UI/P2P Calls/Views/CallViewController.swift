@@ -25,6 +25,17 @@ final class CallViewController: UIViewController {
 		return label
 	}()
 
+	private let callDurationLabel: UILabel = {
+		let label = UILabel()
+		label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+		label.translatesAutoresizingMaskIntoConstraints = false
+		label.textColor = .white
+		label.text = ""
+		label.textAlignment = .center
+		label.lineBreakMode = .byTruncatingTail
+		return label
+	}()
+
 	// MARK: - Аудио/Видео
 
 	private let audioVideoStackView: HStackView = {
@@ -108,6 +119,16 @@ final class CallViewController: UIViewController {
 			.sink { [weak self] callerName in
 				self?.nameLabel.text = callerName
 			}.store(in: &subscribtions)
+
+		viewModel.callDurationSubject
+			.receive(on: RunLoop.main)
+			.filter {
+				$0 > .zero
+			}
+			.sink { [weak self] duration in
+				debugPrint("CallViewController call duration: \(duration)")
+				self?.updateCall(duration: duration)
+			}.store(in: &subscribtions)
 	}
 
 	private func updateUIDepending(on callState: P2PCallState, callType: P2PCallType) {
@@ -126,6 +147,14 @@ final class CallViewController: UIViewController {
 			stateLabel.text = ""
 		}
 	}
+
+	private func updateCall(duration: UInt) {
+		let callDuration = duration / 1_000
+		let seconds = callDuration % 60
+		let minutes = (callDuration - seconds) / 60
+		let durationText = String(format: "%02tu:%02tu", minutes, seconds)
+		callDurationLabel.text = durationText
+	}
 }
 
 private extension CallViewController {
@@ -133,6 +162,7 @@ private extension CallViewController {
 	func configureViews() {
 		configureNameLabel()
 		configureStateLabel()
+		configureCallDurationLabel()
 
 		configureAnswerEndCallStackView()
 		configureAudioVideoStackView()
@@ -179,6 +209,16 @@ private extension CallViewController {
 			stateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16),
 			stateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
 			stateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
+		])
+	}
+
+	func configureCallDurationLabel() {
+		view.addSubview(callDurationLabel)
+		NSLayoutConstraint.activate([
+			callDurationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			callDurationLabel.topAnchor.constraint(equalTo: stateLabel.bottomAnchor, constant: 16),
+			callDurationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+			callDurationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
 		])
 	}
 }

@@ -20,6 +20,8 @@ protocol CallViewModelProtocol {
 	var callStateTypeSubject: CurrentValueSubject<(P2PCallState, P2PCallType), Never> { get }
 	var activeCallerNameSubject: CurrentValueSubject<String, Never> { get }
 
+	var callDurationSubject: PassthroughSubject<UInt, Never> { get }
+
 	func controllerWillAppear()
 	func controllerDidDisappear()
 	func controllerDidAppear()
@@ -32,6 +34,7 @@ final class CallViewModel {
 	var videoAudioStackModel: HStackViewModel?
 	var answerEndCallStackModel: HStackViewModel?
 
+	lazy var callDurationSubject = PassthroughSubject<UInt, Never>()
 	var callStateTypeSubject = CurrentValueSubject<(P2PCallState, P2PCallType), Never>((.none, .none))
 	lazy var callButtonSubject = CurrentValueSubject<Bool, Never>(p2pCallUseCase.callType == .outcoming)
 
@@ -48,6 +51,7 @@ final class CallViewModel {
 	let sources: CallViewSourcesable.Type
 
 	private var subscribtions: Set<AnyCancellable> = []
+	private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
 	init(
 		userName: String,
@@ -99,6 +103,12 @@ final class CallViewModel {
 			.subscribe(on: RunLoop.main)
 			.sink { [weak self] isHoldButtonEnabled in
 				self?.holdCallButtonActiveSubject.send(isHoldButtonEnabled)
+			}.store(in: &subscribtions)
+
+		timer
+			.receive(on: RunLoop.main)
+			.sink { [weak self] _ in
+				self?.callDurationSubject.send(self?.p2pCallUseCase.duration ?? .zero)
 			}.store(in: &subscribtions)
 	}
 

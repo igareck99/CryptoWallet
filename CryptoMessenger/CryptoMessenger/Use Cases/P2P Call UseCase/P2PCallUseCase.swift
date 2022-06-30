@@ -32,6 +32,8 @@ protocol P2PCallUseCaseProtocol: AnyObject {
 	var callModelSubject: PassthroughSubject<P2PCall, Never> { get }
 
 	var holdCallEnabledSubject: CurrentValueSubject<Bool, Never> { get }
+
+	var duration: UInt { get }
 }
 
 protocol P2PCallUseCaseDelegate: AnyObject {
@@ -42,6 +44,7 @@ final class P2PCallUseCase: NSObject {
 
 	lazy var activeCallStateSubject = CurrentValueSubject<P2PCallState, Never>(activeCallState)
 	let callModelSubject = PassthroughSubject<P2PCall, Never>()
+	var duration: UInt { activeCall?.duration ?? .zero }
 
 	lazy var holdCallEnabledSubject = CurrentValueSubject<Bool, Never>(true)
 
