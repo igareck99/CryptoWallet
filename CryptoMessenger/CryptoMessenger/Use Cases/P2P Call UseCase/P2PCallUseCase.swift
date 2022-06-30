@@ -7,7 +7,7 @@ protocol P2PCallUseCaseProtocol: AnyObject {
 
 	var delegate: P2PCallUseCaseDelegate? { get set }
 
-	func placeVoiceCall(roomId: String)
+	func placeVoiceCall(roomId: String, contacts: [Contact])
 
 	func answerCall()
 
@@ -57,6 +57,7 @@ final class P2PCallUseCase: NSObject {
 	private var activeCallState: P2PCallState {
 		P2PCallState.state(from: (activeCall?.state ?? .ended))
 	}
+	var roomContacts = [Contact]()
 	var callType: P2PCallType = .none
 	weak var delegate: P2PCallUseCaseDelegate?
 	static let shared = P2PCallUseCase()
@@ -180,8 +181,41 @@ final class P2PCallUseCase: NSObject {
 	}
 
 	private func callerName(for call: MXCall) -> String {
-		let callerName = matrixService.allUsers().first(where: { $0.userId == call.callerId })?.displayname ?? call.callerId
-		return callerName
+
+		if call.isIncoming == false,
+			let callerName = roomContacts.first(where: { call.callerId.contains($0.name) == false })?.name {
+			return callerName
+		}
+
+		return call.callerName ?? call.room.roomId
+	}
+
+	private func asyncCallerName(for call: MXCall) {
+		call.room.members { [weak self] response in
+
+			guard let self = self,
+				  case .success(let members) = response,
+				  let roomMembers = members?.members else { return }
+
+			let callerName = roomMembers.first {
+				call.callerId.contains($0.userId) == false
+			}?.userId ?? call.callerName ?? call.room.roomId ?? ""
+
+			var holdedCallerName = ""
+			if let callOnHold = self.onHoldCall {
+				holdedCallerName = self.callerName(for: callOnHold)
+			}
+
+			let p2pCall = P2PCall(
+				activeCallerName: callerName,
+				activeCallState: self.activeCallState,
+				onHoldCallerName: holdedCallerName,
+				onHoldCallState: .onHold,
+				callType: self.callType
+			)
+			self.callModelSubject.send(p2pCall)
+			self.activeCallStateSubject.send(self.activeCallState)
+		}
 	}
 
 	private func updateControllerOnAnswerOf(answeredCall: MXCall) {
@@ -287,7 +321,8 @@ final class P2PCallUseCase: NSObject {
 
 extension P2PCallUseCase: P2PCallUseCaseProtocol {
 
-	func placeVoiceCall(roomId: String) {
+	func placeVoiceCall(roomId: String, contacts: [Contact]) {
+		roomContacts = contacts
 		matrixService.placeVoiceCall(roomId: roomId) { [weak self] result in
 			debugPrint("Place_Call: response: \(result)")
 			switch result {
@@ -317,12 +352,17 @@ extension P2PCallUseCase: P2PCallUseCaseProtocol {
 		calls[call.callUUID] = nil
 		activeCall?.hangup()
 		activeCall = nil
+
+		guard onHoldCall == nil else { return }
+		endAllCalls()
 	}
 
 	func endAllCalls() {
 
 		activeCall?.hangup()
 		activeCall = nil
+		onHoldCall?.hangup()
+		onHoldCall = nil
 
 		for (_, value) in calls {
 			value.hangup()
