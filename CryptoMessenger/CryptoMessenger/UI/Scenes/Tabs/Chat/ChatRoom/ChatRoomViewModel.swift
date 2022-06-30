@@ -486,8 +486,9 @@ final class ChatRoomViewModel: ObservableObject {
 			.sink { [weak self] _ in
 				debugPrint("Place_Call: publisher")
 			// TODO: Handle failure case
-			guard let roomId = self?.room.room.roomId else { return }
-			self?.p2pCallsUseCase.placeVoiceCall(roomId: roomId)
+			guard let self = self,
+				  let roomId = self.room.room.roomId else { return }
+				self.p2pCallsUseCase.placeVoiceCall(roomId: roomId, contacts: self.chatData.contacts)
 			}.store(in: &subscriptions)
     }
     
