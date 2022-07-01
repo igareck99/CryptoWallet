@@ -10,6 +10,12 @@ protocol CallViewSourcesable {
 
 	static var connectionIsEsatblished: String { get }
 
+	static var youHoldedCall: String { get }
+
+	static var otherIsHoldedCall: String { get }
+
+	static var callIsHoldedImage: UIImage? { get }
+
 	static var userDoesNotRespond: String { get }
 
 	static var callFinished: String { get }
@@ -31,6 +37,19 @@ enum CallViewSources: CallViewSourcesable {
 
 	static var connectionIsEsatblished: String {
 		R.string.localizable.callsConnectionIsEsatblished()
+	}
+
+	static var otherIsHoldedCall: String {
+		R.string.localizable.callsYouAreBeingHolded()
+
+	}
+
+	static var youHoldedCall: String {
+		R.string.localizable.callsYouAreHolding()
+	}
+
+	static var callIsHoldedImage: UIImage? {
+		R.image.callList.holdCall.imageNamed
 	}
 
 	static var userDoesNotRespond: String {

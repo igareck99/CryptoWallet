@@ -94,6 +94,8 @@
 "Calls.OutcomingCall" = "Исходящий звонок";
 "Calls.ConnectionIsEsatblishing" = "Соединение устанавливается";
 "Calls.ConnectionIsEsatblished" = "Соединение установлено";
+"Calls.YouAreBeingHolded" = "Собеседник отправил звонок на удержание";
+"Calls.YouAreHolding" = "Вы отправили звонок на удержание";
 "Calls.UserDoesNotRespond" = "Пользователь не отвечает";
 "Calls.CallFinished" = "Звонок завершен";
 

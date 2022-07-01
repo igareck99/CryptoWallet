@@ -15,6 +15,8 @@ protocol P2PCallUseCaseProtocol: AnyObject {
 
 	func holdCall()
 
+	func changeHoldCall()
+
 	var isMuted: Bool { get }
 
 	func toggleMuteState()
@@ -25,6 +27,8 @@ protocol P2PCallUseCaseProtocol: AnyObject {
 
 	func changeVoiceSpeaker()
 
+	var duration: UInt { get }
+
 	var callType: P2PCallType { get }
 
 	var activeCallStateSubject: CurrentValueSubject<P2PCallState, Never> { get }
@@ -33,7 +37,9 @@ protocol P2PCallUseCaseProtocol: AnyObject {
 
 	var holdCallEnabledSubject: CurrentValueSubject<Bool, Never> { get }
 
-	var duration: UInt { get }
+	var changeHoldedCallEnabledSubject: CurrentValueSubject<Bool, Never> { get }
+
+	var changeHoldedCallEnabledPublisher: AnyPublisher<Bool, Never> { get }
 }
 
 protocol P2PCallUseCaseDelegate: AnyObject {
@@ -46,20 +52,35 @@ final class P2PCallUseCase: NSObject {
 	let callModelSubject = PassthroughSubject<P2PCall, Never>()
 	var duration: UInt { activeCall?.duration ?? .zero }
 
-	lazy var holdCallEnabledSubject = CurrentValueSubject<Bool, Never>(true)
+	lazy var holdCallEnabledSubject = CurrentValueSubject<Bool, Never>(isHoldEnabled)
+
+	lazy var changeHoldedCallEnabledSubject = CurrentValueSubject<Bool, Never>(false)
+	@Published var isChangeHoldedCallEnabled = false
+	var changeHoldedCallEnabledPublisher: AnyPublisher<Bool, Never> {
+		$isChangeHoldedCallEnabled.eraseToAnyPublisher()
+	}
+
+	private func updateChangeHoldedCall() {
+		let isActiveCall = activeCall != nil
+		let isOnholdCall = onHoldCall != nil
+		let isCallsNotSame = onHoldCall === activeCall
+		isChangeHoldedCallEnabled = isActiveCall && isOnholdCall && !isCallsNotSame
+	}
 
 	private let router: P2PCallsRouterable
 	private let matrixService: MatrixServiceProtocol
-	private var activeCall: MXCall?
-	private var onHoldCall: MXCall?
-	private var calls = [UUID: MXCall]() {
+	@Published private var activeCall: MXCall?
+	@Published private var onHoldCall: MXCall?
+	@Published private var calls = [UUID: MXCall]() {
 		didSet {
 			holdCallEnabledSubject.send(!calls.isEmpty)
+			updateChangeHoldedCall()
 		}
 	}
 	private var activeCallState: P2PCallState {
 		P2PCallState.state(from: (activeCall?.state ?? .ended))
 	}
+	private var subscriptions = Set<AnyCancellable>()
 	var roomContacts = [Contact]()
 	var callType: P2PCallType = .none
 	weak var delegate: P2PCallUseCaseDelegate?
@@ -73,6 +94,31 @@ final class P2PCallUseCase: NSObject {
 		self.router = router
 		super.init()
 		observeNotifications()
+		configureBindings()
+	}
+
+	private func configureBindings() {
+
+		activeCall
+			.publisher
+			.receive(on: RunLoop.main)
+			.sink { [weak self] _ in
+				self?.updateChangeHoldedCall()
+			}.store(in: &subscriptions)
+
+		onHoldCall
+			.publisher
+			.receive(on: RunLoop.main)
+			.sink { [weak self] _ in
+				self?.updateChangeHoldedCall()
+			}.store(in: &subscriptions)
+
+		calls
+			.publisher
+			.receive(on: RunLoop.main)
+			.sink { [weak self] _ in
+				self?.updateChangeHoldedCall()
+			}.store(in: &subscriptions)
 	}
 
 	private func observeNotifications() {
@@ -343,6 +389,10 @@ extension P2PCallUseCase: P2PCallUseCaseProtocol {
 	var isHoldEnabled: Bool { calls.count > 1 }
 
 	func holdCall() {
+		activeCall?.hold(!(activeCall?.isOnHold == true))
+	}
+
+	func changeHoldCall() {
 		activeCall?.hold(!(activeCall?.isOnHold == true))
 	}
 

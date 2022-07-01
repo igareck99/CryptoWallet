@@ -9,6 +9,7 @@ protocol VideoAudioItemsDelegate {
 	func didTapAcceptCallButton()
 	func didTapEndCallButton()
 	func didTapHoldCallButton(button: ViewUpdatable)
+	func didTapChangeHoldedCallButton(button: ViewUpdatable)
 }
 
 protocol CallViewModelProtocol {
@@ -17,6 +18,7 @@ protocol CallViewModelProtocol {
 	var sources: CallViewSourcesable.Type { get }
 	var videoAudioStackModel: HStackViewModel? { get }
 	var answerEndCallStackModel: HStackViewModel? { get }
+	var holdStackModel: HStackViewModel? { get }
 	var callStateTypeSubject: CurrentValueSubject<(P2PCallState, P2PCallType), Never> { get }
 	var activeCallerNameSubject: CurrentValueSubject<String, Never> { get }
 
@@ -33,6 +35,7 @@ final class CallViewModel {
 	let screenTitle: String = "Защищено сквозным шифрованием"
 	var videoAudioStackModel: HStackViewModel?
 	var answerEndCallStackModel: HStackViewModel?
+	var holdStackModel: HStackViewModel?
 
 	lazy var callDurationSubject = PassthroughSubject<UInt, Never>()
 	var callStateTypeSubject = CurrentValueSubject<(P2PCallState, P2PCallType), Never>((.none, .none))
@@ -43,6 +46,9 @@ final class CallViewModel {
 
 	let holdCallButtonSubject = CurrentValueSubject<Bool, Never>(false)
 	let holdCallButtonActiveSubject = CurrentValueSubject<Bool, Never>(false)
+
+	let changeHoldedCallButtonSubject = CurrentValueSubject<Bool, Never>(false)
+	let changeHoldedCallButtonActiveSubject = CurrentValueSubject<Bool, Never>(true)
 
 	lazy var activeCallerNameSubject = CurrentValueSubject<String, Never>(userName)
 
@@ -66,7 +72,15 @@ final class CallViewModel {
 		makeVideoAudioModels()
 	}
 
+	deinit {
+		timer.upstream.connect().cancel()
+	}
+
 	private func makeVideoAudioModels() {
+
+		let holdModels = factory.makeHoldItems(viewModel: self, delegate: self)
+		holdStackModel = HStackViewModel(viewModels: holdModels)
+
 		let audioVideoModels = factory.makeAudioVideoItems(viewModel: self, delegate: self)
 		videoAudioStackModel = HStackViewModel(viewModels: audioVideoModels)
 
@@ -109,6 +123,14 @@ final class CallViewModel {
 			.receive(on: RunLoop.main)
 			.sink { [weak self] _ in
 				self?.callDurationSubject.send(self?.p2pCallUseCase.duration ?? .zero)
+			}.store(in: &subscribtions)
+
+		p2pCallUseCase.changeHoldedCallEnabledPublisher
+			.subscribe(on: RunLoop.main)
+			.sink { [weak self] isEnabled in
+				debugPrint("changeHoldedCallButtonSubject: \(isEnabled)")
+				self?.changeHoldedCallButtonSubject.send(!isEnabled)
+				self?.holdCallButtonSubject.send(isEnabled)
 			}.store(in: &subscribtions)
 	}
 
@@ -179,6 +201,12 @@ extension CallViewModel: VideoAudioItemsDelegate {
 	func didTapHoldCallButton(button: ViewUpdatable) {
 		debugPrint("didTapHoldCallButton")
 		p2pCallUseCase.holdCall()
+		button.updateView(isEnabled: p2pCallUseCase.isHoldEnabled)
+	}
+
+	func didTapChangeHoldedCallButton(button: ViewUpdatable) {
+		debugPrint("didTapChangeHoldedCallButton")
+		p2pCallUseCase.changeHoldCall()
 		button.updateView(isEnabled: p2pCallUseCase.isHoldEnabled)
 	}
 }

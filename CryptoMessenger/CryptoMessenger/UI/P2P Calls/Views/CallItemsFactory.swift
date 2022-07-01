@@ -3,6 +3,22 @@ import UIKit
 
 protocol CallItemsFactoryProtocol {
 
+	// Hold
+	static func makeHoldItems(
+		viewModel: CallViewModel,
+		delegate: VideoAudioItemsDelegate
+	) -> [HStackItemViewModelProtocol]
+
+	static func makeHoldCallItem(
+		viewModel: CallViewModel,
+		delegate: VideoAudioItemsDelegate
+	) -> HStackItemViewModelProtocol
+
+	static func makeChangeHoldedCallItem(
+		viewModel: CallViewModel,
+		delegate: VideoAudioItemsDelegate
+	) -> HStackItemViewModelProtocol
+
 	// Audio/Video/Mic
 	static func makeAudioVideoItems(
 		viewModel: CallViewModel,
@@ -60,9 +76,12 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 	) -> [HStackItemViewModelProtocol] {
 		var items = [HStackItemViewModelProtocol]()
 
-	// TODO: Сделать видеозвонки
+		// TODO: Сделать видеозвонки
 //		let cameraItem = makeCameraItem(delegate: delegate)
 //		items.append(cameraItem)
+		let changeHoldCallItem = makeChangeHoldedCallItem(viewModel: viewModel, delegate: delegate)
+		items.append(changeHoldCallItem)
+
 		let holdCallItem = makeHoldCallItem(viewModel: viewModel, delegate: delegate)
 		items.append(holdCallItem)
 
@@ -243,18 +262,33 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 		return item
 	}
 
+	// MARK: - Hold item
+
+	static func makeHoldItems(
+		viewModel: CallViewModel,
+		delegate: VideoAudioItemsDelegate
+	) -> [HStackItemViewModelProtocol] {
+		var items = [HStackItemViewModelProtocol]()
+
+		// TODO: Изменить логику
+//		let changeHoldCallItem = makeChangeHoldedCallItem(viewModel: viewModel, delegate: delegate)
+//		items.append(changeHoldCallItem)
+
+		return items
+	}
+
 	static func makeHoldCallItem(
 		viewModel: CallViewModel,
 		delegate: VideoAudioItemsDelegate
 	) -> HStackItemViewModelProtocol {
 
-		let imgName = R.image.callList.holdCall.name
-		let normalIcon = UIImage(named: imgName)
-		let updateView: ((Bool, ButtonDownText) -> Void)? = { _, view in
-			view.actionButton.setImage(normalIcon, for: .normal)
-			view.actionButton.imageView?.contentMode = .scaleAspectFill
-			view.actionButton.backgroundColor = .clear
-		}
+		let normalIcon = UIImage(systemName: "pause.fill")?.withRenderingMode(.alwaysTemplate)
+		let updateView = makeUpdateViewClosure(
+			normalText: "",
+			disabledText: "",
+			normalIcon: normalIcon,
+			disabledIcon: normalIcon
+		)
 
 		let action: ((ViewUpdatable) -> Void)? = { delegate.didTapHoldCallButton(button: $0) }
 		let item = HStackItemViewModel(
@@ -262,6 +296,31 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 			action: action,
 			isHidden: viewModel.holdCallButtonSubject.eraseToAnyPublisher(),
 			isButtonEnabled: viewModel.holdCallButtonActiveSubject.eraseToAnyPublisher()
+		)
+		return item
+	}
+
+	static func makeChangeHoldedCallItem(
+		viewModel: CallViewModel,
+		delegate: VideoAudioItemsDelegate
+	) -> HStackItemViewModelProtocol {
+
+		let normalText = "Сменить собеседника"
+		let normalIcon = UIImage(systemName: "arrow.triangle.2.circlepath")?.withRenderingMode(.alwaysTemplate)
+		let updateView: ((Bool, ButtonDownText) -> Void)? = { _, view in
+			view.actionButton.setImage(normalIcon, for: .normal)
+			view.actionButton.imageView?.contentMode = .scaleAspectFill
+			view.underButtonLabel.text = normalText
+			view.actionButton.tintColor = .black
+			view.actionButton.backgroundColor = .white
+		}
+
+		let action: ((ViewUpdatable) -> Void)? = { delegate.didTapChangeHoldedCallButton(button: $0) }
+		let item = HStackItemViewModel(
+			updateView: updateView,
+			action: action,
+			isHidden: viewModel.changeHoldedCallButtonSubject.eraseToAnyPublisher(),
+			isButtonEnabled: viewModel.changeHoldedCallButtonActiveSubject.eraseToAnyPublisher()
 		)
 		return item
 	}

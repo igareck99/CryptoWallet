@@ -5,6 +5,7 @@ import SwiftUI
 
 extension ImageResource {
     var image: Image { Image(name) }
+	var imageNamed: UIImage? { UIImage(named: name) }
 }
 
 // MARK: - ColorResource ()
