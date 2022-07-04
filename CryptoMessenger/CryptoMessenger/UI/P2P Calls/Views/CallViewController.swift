@@ -36,6 +36,30 @@ final class CallViewController: UIViewController {
 		return label
 	}()
 
+	private lazy var stateImage: UIImageView = {
+		let imageView = UIImageView()
+		imageView.translatesAutoresizingMaskIntoConstraints = false
+		imageView.contentMode = .scaleAspectFit
+		imageView.image = viewModel.sources.callIsHoldedImage
+		imageView.isHidden = true
+		imageView.alpha = 0.4
+		return imageView
+	}()
+
+	private let stateView: UIView = {
+		let stateImageView = UIView()
+		stateImageView.translatesAutoresizingMaskIntoConstraints = false
+		return stateImageView
+	}()
+
+	// MARK: - Удержание
+
+	private let holdStackView: HStackView = {
+		let stackView = HStackView()
+		stackView.translatesAutoresizingMaskIntoConstraints = false
+		return stackView
+	}()
+
 	// MARK: - Аудио/Видео
 
 	private let audioVideoStackView: HStackView = {
@@ -72,6 +96,7 @@ final class CallViewController: UIViewController {
 		view.backgroundColor = .black
 		configureViews()
 		configureBindings()
+		holdStackView.setUp(model: viewModel.holdStackModel)
 		audioVideoStackView.setUp(model: viewModel.videoAudioStackModel)
 		answerEndCallStackView.setUp(model: viewModel.answerEndCallStackModel)
 	}
@@ -132,6 +157,8 @@ final class CallViewController: UIViewController {
 	}
 
 	private func updateUIDepending(on callState: P2PCallState, callType: P2PCallType) {
+		stateImage.isHidden = callState != .remotelyOnHold && callState != .onHold
+
 		switch callState {
 		case .createOffer, .ringing:
 			stateLabel.text = callType == .incoming ? viewModel.sources.incomingCall : viewModel.sources.outcomingCall
@@ -141,6 +168,10 @@ final class CallViewController: UIViewController {
 			stateLabel.text = viewModel.sources.connectionIsEsatblished
 		case .inviteExpired:
 			stateLabel.text = viewModel.sources.userDoesNotRespond
+		case .onHold:
+			stateLabel.text = viewModel.sources.youHoldedCall
+		case .remotelyOnHold:
+			stateLabel.text = viewModel.sources.otherIsHoldedCall
 		case .ended:
 			stateLabel.text = viewModel.sources.callFinished
 		default:
@@ -166,6 +197,45 @@ private extension CallViewController {
 
 		configureAnswerEndCallStackView()
 		configureAudioVideoStackView()
+		// TODO: Пока hold/unhold не выделяем в отдельный стек
+//		configureHoldStackView()
+
+		configureStateView()
+		configureStateImageView()
+	}
+
+	// MARK: - State image view
+
+	func configureStateView() {
+		view.addSubview(stateView)
+		NSLayoutConstraint.activate([
+			stateView.topAnchor.constraint(equalTo: callDurationLabel.bottomAnchor),
+			stateView.bottomAnchor.constraint(equalTo: audioVideoStackView.topAnchor),
+			stateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+			stateView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+		])
+	}
+
+	func configureStateImageView() {
+		stateView.addSubview(stateImage)
+		NSLayoutConstraint.activate([
+			stateImage.centerXAnchor.constraint(equalTo: stateView.centerXAnchor),
+			stateImage.centerYAnchor.constraint(equalTo: stateView.centerYAnchor),
+			stateImage.widthAnchor.constraint(equalToConstant: 70),
+			stateImage.heightAnchor.constraint(equalToConstant: 70)
+		])
+	}
+
+	// MARK: - Hold
+
+	func configureHoldStackView() {
+		view.addSubview(holdStackView)
+		NSLayoutConstraint.activate([
+			holdStackView.bottomAnchor.constraint(equalTo: audioVideoStackView.topAnchor, constant: -30),
+			holdStackView.centerXAnchor.constraint(equalTo: audioVideoStackView.centerXAnchor),
+			holdStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+			holdStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+		])
 	}
 
 	// MARK: - Audio/Video
@@ -186,7 +256,7 @@ private extension CallViewController {
 		view.addSubview(answerEndCallStackView)
 		NSLayoutConstraint.activate([
 			answerEndCallStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-			answerEndCallStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60),
+			answerEndCallStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40),
 			answerEndCallStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
 			answerEndCallStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
 		])
