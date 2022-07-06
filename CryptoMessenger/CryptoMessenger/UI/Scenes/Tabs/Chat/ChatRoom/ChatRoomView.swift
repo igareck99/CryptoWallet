@@ -23,7 +23,9 @@ struct ChatRoomView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ChatRoomViewModel
-    @StateObject var attachActionViewModel = AttachActionViewModel()
+    @StateObject var attachViewModel = AttachActionViewModel()
+    @State var photosToSend: [UIImage] = []
+    @State var sendPhotos = false
 
     // MARK: - Private Properties
 
@@ -71,6 +73,12 @@ struct ChatRoomView: View {
 
                 UITextView.appearance().background(.grayDAE1E9())
             }
+            .onChange(of: showActionSheet, perform: { _ in
+                if sendPhotos {
+                    viewModel.sendPhotos(images: photosToSend)
+                }
+                photosToSend = []
+            })
             .onDisappear {
                 showTabBar()
             }
@@ -399,8 +407,10 @@ struct ChatRoomView: View {
                     showActionSheet: $showActionSheet,
                     attachAction: $viewModel.attachAction,
                     cameraFrame: $viewModel.cameraFrame,
+                    sendPhotos: $sendPhotos,
+                    imagesToSend: $photosToSend,
                     onCamera: { showActionSheet = false; activeSheet = .camera },
-                    viewModel: attachActionViewModel
+                    viewModel: attachViewModel
                 )
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }

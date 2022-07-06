@@ -66,17 +66,32 @@ struct ActionSheetView: View {
     @Binding var showActionSheet: Bool
     @Binding var attachAction: AttachAction?
     @Binding var cameraFrame: CGImage?
+    @Binding var sendPhotos: Bool
+    @Binding var imagesToSend: [UIImage]
     var onCamera: VoidBlock?
     var viewModel: AttachActionViewModel
 
     // MARK: - Private Properties
 
     @State private var isShown = false
+    @State private var isCheck = false
     private let actions: [ActionItem] = AttachAction.allCases.map { .init(action: $0) }
 
     // MARK: - Body
 
     var body: some View {
+        content
+        .onAppear {
+            withAnimation(.easeIn(duration: 0.15).delay(0.2)) {
+                isShown.toggle()
+            }
+        }
+        .onTapGesture {
+            showActionSheet.toggle()
+        }
+    }
+
+    private var content: some View {
         ZStack {
             VStack(spacing: 8) {
                 Spacer()
@@ -113,14 +128,6 @@ struct ActionSheetView: View {
         }
         .background(isShown ? .black(0.4) : .clear)
         .ignoresSafeArea()
-        .onAppear {
-            withAnimation(.easeIn(duration: 0.15).delay(0.2)) {
-                isShown.toggle()
-            }
-        }
-        .onTapGesture {
-            showActionSheet.toggle()
-        }
     }
 
     private var balanceView: some View {
@@ -134,6 +141,15 @@ struct ActionSheetView: View {
                 .foreground(.black())
 
             Spacer()
+            Text("Отправить Фото")
+                .font(.semibold(16))
+                .foreground(.blue())
+                .opacity(imagesToSend.isEmpty ? 0 : 1)
+                .onTapGesture {
+                    vibrate(.soft)
+                    sendPhotos = true
+                    showActionSheet.toggle()
+                }
         }
         .padding(.top, 16)
         .padding(.bottom, 8)
@@ -156,82 +172,31 @@ struct ActionSheetView: View {
                 .onTapGesture {
                     onCamera?()
                 }
-
-                ZStack {
-                    Image(R.image.chat.mockFeed2.name)
-                        .resizable()
-                        .frame(width: 90, height: 90)
-
-                    ZStack(alignment: .top) {
-                        VStack {
-                            HStack {
+                ForEach(viewModel.images, id: \.self) { item in
+                    ZStack {
+                        Image(uiImage: item)
+                            .resizable()
+                            .frame(width: 90, height: 90)
+                        ZStack(alignment: .top) {
+                            VStack {
+                                HStack {
+                                    Spacer()
+                                    ZStack {
+                                        R.image.chat.uncheck.image
+                                        R.image.chat.group.check.image
+                                            .opacity(checkImage(image: item) ? 1 : 0)
+                                    }
+                                }
+                                .padding([.top, .trailing], 8)
                                 Spacer()
-                                Image(R.image.chat.uncheck.name)
                             }
-                            .padding([.top, .trailing], 8)
-
-                            Spacer()
                         }
                     }
-                }
-                .frame(width: 90, height: 90)
-
-                ZStack {
-                    Image(R.image.chat.mockFeed3.name)
-                        .resizable()
-                        .frame(width: 90, height: 90)
-
-                    ZStack(alignment: .top) {
-                        VStack {
-                            HStack {
-                                Spacer()
-                                Image(R.image.chat.uncheck.name)
-                            }
-                            .padding([.top, .trailing], 8)
-
-                            Spacer()
-                        }
+                    .frame(width: 90, height: 90)
+                    .onTapGesture {
+                        addPhotosToSend(image: item)
                     }
                 }
-                .frame(width: 90, height: 90)
-
-                ZStack {
-                    Image(R.image.chat.mockFeed3.name)
-                        .resizable()
-                        .frame(width: 90, height: 90)
-
-                    ZStack(alignment: .top) {
-                        VStack {
-                            HStack {
-                                Spacer()
-                                Image(R.image.chat.uncheck.name)
-                            }
-                            .padding([.top, .trailing], 8)
-
-                            Spacer()
-                        }
-                    }
-                }
-                .frame(width: 90, height: 90)
-
-                ZStack {
-                    Image(R.image.chat.mockFeed2.name)
-                        .resizable()
-                        .frame(width: 90, height: 90)
-
-                    ZStack(alignment: .top) {
-                        VStack {
-                            HStack {
-                                Spacer()
-                                Image(R.image.chat.uncheck.name)
-                            }
-                            .padding([.top, .trailing], 8)
-
-                            Spacer()
-                        }
-                    }
-                }
-                .frame(width: 90, height: 90)
             }
         }
         .frame(height: 90)
@@ -262,5 +227,17 @@ struct ActionSheetView: View {
             .frame(maxWidth: .infinity, idealHeight: 64, maxHeight: 64)
             .padding(.horizontal, 16)
         })
+    }
+
+    func addPhotosToSend(image: UIImage) {
+        if imagesToSend.contains(image) {
+            imagesToSend = imagesToSend.filter { $0 != image}
+        } else {
+            imagesToSend.append(image)
+        }
+    }
+
+    func checkImage(image: UIImage) -> Bool {
+        return imagesToSend.contains(image)
     }
 }
