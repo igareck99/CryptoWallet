@@ -9,6 +9,7 @@ struct AuthResponse: Codable {
     let userId: String?
     let accessToken: String
     let refreshToken: String
+	let matrixPassword: String?
 
     // MARK: - CodingKeys
 
@@ -19,5 +20,6 @@ struct AuthResponse: Codable {
         case userId = "user_id"
         case accessToken = "jwt"
         case refreshToken = "refresh_token"
+		case matrixPassword = "matrix_password"
     }
 }
