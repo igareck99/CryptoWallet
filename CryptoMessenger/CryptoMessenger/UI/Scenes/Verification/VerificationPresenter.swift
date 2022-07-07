@@ -107,11 +107,15 @@ final class VerificationPresenter {
             } receiveValue: { [weak self] response in
 
 				// TODO: Обработать отсутсвие userId
-				guard let userId = response.userId else { return }
+				guard let userId = response.userId,
+					  let password = response.matrixPassword else {
+					return
+					debugPrint("VerificationPresenter: logInV2: FAILED response: \(response)")
+				}
 
 				self?.matrixUseCase.loginUser(
 					userId: userId,
-					password: code,
+					password: password,
 					homeServer: homeServer) { result in
 						// TODO: Обработать case failure
 						guard case .success = result else { return }
