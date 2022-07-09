@@ -81,13 +81,16 @@ final class ProfileViewModel: ObservableObject {
     @Injectable private var apiClient: APIClientManager
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
+	private let keychainService: KeychainServiceProtocol
 
     // MARK: - Lifecycle
 
     init(
-		userSettings: UserCredentialsStorage & UserFlowsStorage
+		userSettings: UserCredentialsStorage & UserFlowsStorage,
+		keychainService: KeychainServiceProtocol
 	) {
 		self.userSettings = userSettings
+		self.keychainService = keychainService
         bindInput()
         bindOutput()
     }
@@ -179,7 +182,7 @@ final class ProfileViewModel: ObservableObject {
                 self?.userSettings.isAuthFlowFinished = false
                 self?.userSettings.isOnboardingFlowFinished = false
                 self?.userSettings.isLocalAuth = false
-                self?.userSettings.userPinCode = ""
+                self?.keychainService.apiUserPinCode = ""
                 self?.delegate?.restartFlow()
             default:
                 break
@@ -259,7 +262,7 @@ final class ProfileViewModel: ObservableObject {
             self.profile.photosUrls = urls
         }
         getSocialList()
-		if let phoneNumber = userSettings.userPhoneNumber {
+		if let phoneNumber = keychainService.apiUserPhoneNumber {
 			profile.phone = phoneNumber
 		}
     }

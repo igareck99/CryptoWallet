@@ -1,14 +1,6 @@
 import Foundation
 
 protocol UserCredentialsStorage: UserDefaultsServiceProtocol {
-	var isUserAuthenticated: Bool { get set }
-	var accessToken: String? { get set }
-	var refreshToken: String? { get set }
-	var userId: String? { get set }
-	var userPhoneNumber: String? { get set }
-	var userMatrixId: String? { get }
-	var userPinCode: String? { get set }
-	var userFalsePinCode: String? { get set }
 	var typography: String? { get set }
 	var language: String? { get set }
 	var theme: String? { get set }
@@ -25,50 +17,6 @@ protocol UserCredentialsStorage: UserDefaultsServiceProtocol {
 // MARK: - UserCredentialsStorage
 
 extension UserDefaultsService: UserCredentialsStorage {
-	var isUserAuthenticated: Bool {
-		get { bool(forKey: .isUserAuthenticated) }
-		set { set(newValue, forKey: .isUserAuthenticated) }
-	}
-
-	// TODO: Сохранить в keychain
-	var accessToken: String? {
-		get { string(forKey: .accessToken) }
-		set { set(newValue, forKey: .accessToken) }
-	}
-
-	// TODO: Сохранить в keychain
-	var refreshToken: String? {
-		get { string(forKey: .refreshToken) }
-		set { set(newValue, forKey: .refreshToken) }
-	}
-
-	// TODO: Сохранить в keychain
-	var userId: String? {
-		get { string(forKey: .userId) }
-		set { set(newValue, forKey: .userId) }
-	}
-
-	// TODO: Сохранить в keychain
-	var userPhoneNumber: String? {
-		get { string(forKey: .userPhoneNumber) }
-		set { set(newValue, forKey: .userPhoneNumber) }
-	}
-
-	// TODO: Сохранить в keychain
-	var userPinCode: String? {
-		get { string(forKey: .userPinCode) }
-		set { set(newValue, forKey: .userPinCode) }
-	}
-
-	var userFalsePinCode: String? {
-		get { string(forKey: .userPinCode) }
-		set { set(newValue, forKey: .userPinCode) }
-	}
-
-	// TODO: Сохранить в keychain
-	var userMatrixId: String? {
-		string(forKey: .userMatrixId)
-	}
 
 	var typography: String? {
 		get { string(forKey: .typography) }

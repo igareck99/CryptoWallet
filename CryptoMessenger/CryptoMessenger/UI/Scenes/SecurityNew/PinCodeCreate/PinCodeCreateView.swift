@@ -177,7 +177,7 @@ enum KeyboardButtonType: Hashable {
 enum PinCodeScreenType: Hashable {
 
     case pinCodeCreate
-    case fakePinCode
+    case falsePinCode
     case approvePinCode
 
     var result: (title: String, description: String) {
@@ -185,7 +185,7 @@ enum PinCodeScreenType: Hashable {
         case .pinCodeCreate:
             return (R.string.localizable.pinCodeEnterPassword(),
                     R.string.localizable.pinCodeCreateText())
-        case .fakePinCode:
+        case .falsePinCode:
             return (R.string.localizable.pinCodeFalseTitle(),
                     R.string.localizable.pinCodeFalseText())
         case .approvePinCode:

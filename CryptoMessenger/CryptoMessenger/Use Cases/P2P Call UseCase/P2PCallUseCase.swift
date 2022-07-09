@@ -334,6 +334,7 @@ final class P2PCallUseCase: NSObject {
 
 		guard calls.isEmpty else { return }
 		router.removeCallController()
+		endAllCalls()
 		NotificationCenter.default.post(name: .callDidEnd, object: nil)
 	}
 

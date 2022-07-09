@@ -18,6 +18,7 @@ final class VerificationPresenter {
     private let matrixUseCase: MatrixUseCaseProtocol
     private var subscriptions = Set<AnyCancellable>()
 	private let userCredentials: UserCredentialsStorage
+	private let keychainService: KeychainServiceProtocol
 
     private var state = VerificationFlow.ViewState.sending {
         didSet {
@@ -30,10 +31,12 @@ final class VerificationPresenter {
     init(
 		view: VerificationViewInterface,
 		userCredentials: UserCredentialsStorage,
+		keychainService: KeychainServiceProtocol,
 		matrixUseCase: MatrixUseCaseProtocol
 	) {
         self.view = view
 		self.userCredentials = userCredentials
+		self.keychainService = keychainService
 		self.matrixUseCase = matrixUseCase
         countdownTimer.delegate = self
     }
@@ -61,7 +64,7 @@ final class VerificationPresenter {
 
     private func resendPhone() {
         apiClient
-            .publisher(Endpoints.Registration.sms(userCredentials.userPhoneNumber?.numbers ?? ""))
+            .publisher(Endpoints.Registration.sms(keychainService.apiUserPhoneNumber?.numbers ?? ""))
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
@@ -83,7 +86,7 @@ final class VerificationPresenter {
         let endpoint = Endpoints.Registration.auth(
             .init(
                 device: .init(name: configuration.deviceName, unique: configuration.deviceId),
-                phone: userCredentials.userPhoneNumber?.numbers ?? "",
+                phone: keychainService.apiUserPhoneNumber?.numbers ?? "",
                 sms: code
             )
         )
@@ -109,8 +112,8 @@ final class VerificationPresenter {
 				// TODO: Обработать отсутсвие userId
 				guard let userId = response.userId,
 					  let password = response.matrixPassword else {
+					debugPrint("VerificationPresenter: logIn: FAILED response: \(response)")
 					return
-					debugPrint("VerificationPresenter: logInV2: FAILED response: \(response)")
 				}
 
 				self?.matrixUseCase.loginUser(
@@ -120,9 +123,9 @@ final class VerificationPresenter {
 						// TODO: Обработать case failure
 						guard case .success = result else { return }
 						self?.view?.setResult(true)
-						self?.userCredentials.isUserAuthenticated = true
-						self?.userCredentials.accessToken = response.accessToken
-						self?.userCredentials.refreshToken = response.refreshToken
+						self?.keychainService.isApiUserAuthenticated = true
+						self?.keychainService.apiAccessToken = response.accessToken
+						self?.keychainService.apiRefreshToken = response.refreshToken
 						self?.delegate?.handleNextScene(.pinCode)
 					}
             }
@@ -134,7 +137,7 @@ final class VerificationPresenter {
 
 extension VerificationPresenter: VerificationPresentation {
     func viewDidLoad() {
-        state = .idle(userCredentials.userPhoneNumber ?? "")
+        state = .idle(keychainService.apiUserPhoneNumber ?? "")
         countdownTimer.start()
     }
 

@@ -2,6 +2,17 @@ import Foundation
 
 protocol KeychainServiceProtocol: AnyObject {
 
+	// MARK: - User Credentials
+
+	var apiAccessToken: String? { get set }
+	var apiRefreshToken: String? { get set }
+	var apiUserId: String? { get set }
+	var apiUserMatrixId: String? { get set }
+	var apiUserPhoneNumber: String? { get set }
+	var apiUserPinCode: String? { get set }
+	var apiUserFalsePinCode: String? { get set }
+	var isApiUserAuthenticated: Bool? { get set }
+
 	// MARK: - Getters Wrappers
 
 	func integer(forKey key: KeychainService.Keys) -> Int?
@@ -115,7 +126,23 @@ protocol KeychainServiceProtocol: AnyObject {
 
 	@discardableResult
 	func set(
+		_ value: Bool?,
+		forKey key: KeychainService.Keys,
+		withAccessibility accessibility: KeychainItemAccessibility?,
+		isSynchronizable: Bool
+	) -> Bool
+
+	@discardableResult
+	func set(
 		_ value: String,
+		forKey key: KeychainService.Keys,
+		withAccessibility accessibility: KeychainItemAccessibility?,
+		isSynchronizable: Bool
+	) -> Bool
+
+	@discardableResult
+	func set(
+		_ value: String?,
 		forKey key: KeychainService.Keys,
 		withAccessibility accessibility: KeychainItemAccessibility?,
 		isSynchronizable: Bool

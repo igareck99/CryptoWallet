@@ -9,6 +9,14 @@ final class KeychainService {
 		case deviceId
 		case pushToken
 		case gmtZeroTimeInterval
+
+		case apiAccessToken
+		case apiRefreshToken
+		case apiUserId
+		case apiUserPhoneNumber
+		case apiUserPinCode
+		case apiUserMatrixId
+		case apiIsUserAuthenticated
 	}
 
 	private enum Constants {
@@ -263,6 +271,24 @@ extension KeychainService: KeychainServiceProtocol {
 
 	@discardableResult
 	func set(
+		_ value: Bool?,
+		forKey key: KeychainService.Keys,
+		withAccessibility accessibility: KeychainItemAccessibility? = nil,
+		isSynchronizable: Bool = false
+	) -> Bool {
+		if let boolValue = value {
+			return keychainWrapper.set(
+				boolValue,
+				forKey: key.rawValue,
+				withAccessibility: accessibility,
+				isSynchronizable: isSynchronizable
+			)
+		}
+		return removeObject(forKey: key)
+	}
+
+	@discardableResult
+	func set(
 		_ value: String,
 		forKey key: KeychainService.Keys,
 		withAccessibility accessibility: KeychainItemAccessibility? = nil,
@@ -274,6 +300,24 @@ extension KeychainService: KeychainServiceProtocol {
 			withAccessibility: accessibility,
 			isSynchronizable: isSynchronizable
 		)
+	}
+
+	@discardableResult
+	func set(
+		_ value: String?,
+		forKey key: KeychainService.Keys,
+		withAccessibility accessibility: KeychainItemAccessibility? = nil,
+		isSynchronizable: Bool = false
+	) -> Bool {
+		if let stringValue = value {
+			return keychainWrapper.set(
+				stringValue,
+				forKey: key.rawValue,
+				withAccessibility: accessibility,
+				isSynchronizable: isSynchronizable
+			)
+		}
+		return removeObject(forKey: key)
 	}
 
 	@discardableResult

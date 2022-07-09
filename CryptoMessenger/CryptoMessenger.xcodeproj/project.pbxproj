@@ -488,6 +488,7 @@
 		D4442B502815E03D0033D07A /* NotificationCenter+NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4F2815E03D0033D07A /* NotificationCenter+NotificationNames.swift */; };
 		D445C84128462865003C3D5C /* CallViewSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D445C84028462865003C3D5C /* CallViewSources.swift */; };
 		D445C84328462B46003C3D5C /* P2PCallsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D445C84228462B46003C3D5C /* P2PCallsAssembly.swift */; };
+		D448152D2877342400E9CAEF /* KeychainService+Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D448152C2877342400E9CAEF /* KeychainService+Credentials.swift */; };
 		D44BDC70280818090080AE8A /* DefaultResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F062680CF49001957D3 /* DefaultResponses.swift */; };
 		D44BDC742808382B0080AE8A /* PushNotificationsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC732808382B0080AE8A /* PushNotificationsUseCase.swift */; };
 		D44BDC7728083B2F0080AE8A /* PushNotificationsUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC7628083B2F0080AE8A /* PushNotificationsUseCaseAssembly.swift */; };
@@ -1019,6 +1020,7 @@
 		D4442B4F2815E03D0033D07A /* NotificationCenter+NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+NotificationNames.swift"; sourceTree = "<group>"; };
 		D445C84028462865003C3D5C /* CallViewSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewSources.swift; sourceTree = "<group>"; };
 		D445C84228462B46003C3D5C /* P2PCallsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallsAssembly.swift; sourceTree = "<group>"; };
+		D448152C2877342400E9CAEF /* KeychainService+Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeychainService+Credentials.swift"; sourceTree = "<group>"; };
 		D44BDC732808382B0080AE8A /* PushNotificationsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsUseCase.swift; sourceTree = "<group>"; };
 		D44BDC7628083B2F0080AE8A /* PushNotificationsUseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsUseCaseAssembly.swift; sourceTree = "<group>"; };
 		D44BDC8028099F110080AE8A /* PushNotificationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationParser.swift; sourceTree = "<group>"; };
@@ -2721,6 +2723,7 @@
 			children = (
 				D4442B4728113C7A0033D07A /* KeychainServiceProtocol.swift */,
 				D4442B4B2811996F0033D07A /* KeychainService.swift */,
+				D448152C2877342400E9CAEF /* KeychainService+Credentials.swift */,
 				D4442B4028113C3C0033D07A /* Wrapper */,
 			);
 			path = "Keychain Service";
@@ -3311,6 +3314,7 @@
 				5A26CD3B26B3211100118D4B /* TapAnimator.swift in Sources */,
 				5AABB78727398A6E004D6107 /* NavigationBarModifier.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
+				D448152D2877342400E9CAEF /* KeychainService+Credentials.swift in Sources */,
 				8B4810F627CF81F000831589 /* AddWalletView.swift in Sources */,
 				8B27435E281AE3AA00B5957C /* RemoteConfigModels.swift in Sources */,
 				7889064A270684830093459C /* NetworkDetailCell.swift in Sources */,

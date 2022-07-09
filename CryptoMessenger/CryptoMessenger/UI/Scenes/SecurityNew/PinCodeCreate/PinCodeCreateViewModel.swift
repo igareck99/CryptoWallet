@@ -24,15 +24,18 @@ final class PinCodeCreateViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<PinCodeCreateFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
 	private let userSettings: UserFlowsStorage & UserCredentialsStorage
+	private let keychainService: KeychainServiceProtocol
 
     // MARK: - Lifecycle
 
     init(
 		screenType: PinCodeScreenType,
-		userSettings: UserFlowsStorage & UserCredentialsStorage
+		userSettings: UserFlowsStorage & UserCredentialsStorage,
+		keychainService: KeychainServiceProtocol
 	) {
         self.screenType = screenType
 		self.userSettings = userSettings
+		self.keychainService = keychainService
         bindInput()
         bindOutput()
     }
@@ -49,12 +52,12 @@ final class PinCodeCreateViewModel: ObservableObject {
     }
 
     func createPassword(item: String) {
-		userSettings.userPinCode = item
+		keychainService.apiUserPinCode = item
 		userSettings.isLocalAuth = true
     }
 
-    func createFakePassword(item: String) {
-        if userSettings.userPinCode == item {
+    func createFalsePassword(item: String) {
+        if keychainService.apiUserPinCode == item {
             titleState = ""
             descriptionState = R.string.localizable.pinCodeFalseCannotMatch()
             delay(1) {
@@ -65,7 +68,7 @@ final class PinCodeCreateViewModel: ObservableObject {
                 return
             }
         } else {
-			userSettings.userFalsePinCode = item
+			keychainService.apiUserFalsePinCode = item
 			userSettings.isFalsePinCodeOn = true
             finishScreen = true
         }
@@ -85,10 +88,10 @@ final class PinCodeCreateViewModel: ObservableObject {
                         let password = enteredPassword
                             .compactMap { $0.description }
                             .joined(separator: "")
-                        if userSettings.userPinCode == password {
+                        if keychainService.apiUserPinCode == password {
                             descriptionState = R.string.localizable.pinCodeResetPassword()
                             delay(1) { [self] in
-								userSettings.userPinCode = ""
+								keychainService.apiUserPinCode = ""
 								userSettings.isLocalAuth = false
                                 finishScreen = true
                             }
@@ -125,8 +128,8 @@ final class PinCodeCreateViewModel: ObservableObject {
                         case .pinCodeCreate:
                             createPassword(item: newPassword)
                             finishScreen = true
-                        case .fakePinCode:
-                            createFakePassword(item: newPassword)
+                        case .falsePinCode:
+                            createFalsePassword(item: newPassword)
                         case .approvePinCode:
                             break
                         }

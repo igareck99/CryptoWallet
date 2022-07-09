@@ -49,14 +49,6 @@ final class UserDefaultsService {
 		case saveToPhotos
 
 		// UserCredentialsStorage
-		case isUserAuthenticated
-		case accessToken
-		case refreshToken
-		case userId
-		case userPhoneNumber
-		case userMatrixId
-		case userPinCode
-		case userFalsePinCode
 		case typography
 		case language
 		case theme

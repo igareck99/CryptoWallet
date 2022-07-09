@@ -47,7 +47,7 @@ enum Endpoints {
         static func status(_ text: String) -> Endpoint<[String: String]> {
             let endpoint = Endpoint<[String: String]>(method: .post, path: "/profile/description")
             endpoint.modifyRequest { $0.jsonBody(dict: ["description": text]) }
-			if let userId = UserDefaultsService.shared.userId {
+			if let userId = KeychainService.shared.apiUserId {
 				endpoint.modifyRequest { $0.addHeader("user", value: userId) }
 			}
             return endpoint

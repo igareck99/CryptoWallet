@@ -44,7 +44,7 @@ extension MatrixService {
 		}
 	}
 
-	func remove(userDevices: [MXDevice]) {
+	func remove(userDevices: [MXDevice], completion: @escaping (EmptyResult) -> Void) {
 		userDevices.forEach { [weak self] userDevice in
 			self?.deviceRemovalGroup.enter()
 			self?.removeDevice(by: userDevice.deviceId ) { result in
@@ -63,8 +63,10 @@ extension MatrixService {
 				switch result {
 				case .failure:
 					self?.loginState = .loggedOut
+					completion(.failure)
 				case .success(let state):
 					self?.loginState = state
+					completion(.success)
 				}
 			}
 		}
