@@ -30,16 +30,16 @@ final class Authenticator {
     private let session: URLSession
     private let queue = DispatchQueue(label: "Authenticator.\(UUID().uuidString)")
     private var refreshPublisher: AnyPublisher<Token, Error>?
-    private let userCredentials: UserCredentialsStorage
+	private let keychainService: KeychainServiceProtocol
 
     // MARK: - Life Cycle
 
     init(
-		userCredentials: UserCredentialsStorage,
+		keychainService: KeychainServiceProtocol,
 		session: URLSession = .shared
 	) {
         self.session = session
-		self.userCredentials = userCredentials
+		self.keychainService = keychainService
     }
 
     // MARK: - Internal Methods
@@ -53,8 +53,8 @@ final class Authenticator {
 
             // scenario 2: we don't need a token at all
             guard
-                let access = self?.userCredentials.accessToken,
-                let refresh = self?.userCredentials.refreshToken,
+                let access = self?.keychainService.apiAccessToken,
+                let refresh = self?.keychainService.apiRefreshToken,
                 !access.isEmpty
             else {
                 return Just(Token())
@@ -69,7 +69,7 @@ final class Authenticator {
                     .eraseToAnyPublisher()
             }
 
-            let requestConvertible = Endpoints.Session.refresh(self?.userCredentials.refreshToken ?? "")
+            let requestConvertible = Endpoints.Session.refresh(self?.keychainService.apiRefreshToken ?? "")
             guard let httpRequest = try? requestConvertible.asURLRequest() else {
                 return Fail(error: APIError.apiError(-1, nil) as Error)
                     .eraseToAnyPublisher()
@@ -84,9 +84,9 @@ final class Authenticator {
                     Token(isUserAuthenticated: true, access: $0.accessToken, refresh: $0.refreshToken)
                 }
                 .handleEvents(receiveOutput: { token in
-                    self?.userCredentials.accessToken = token.access
-                    self?.userCredentials.refreshToken = token.refresh
-                    self?.userCredentials.isUserAuthenticated = token.isUserAuthenticated
+                    self?.keychainService.apiAccessToken = token.access
+                    self?.keychainService.apiRefreshToken = token.refresh
+                    self?.keychainService.isApiUserAuthenticated = token.isUserAuthenticated
                 }, receiveCompletion: { _ in
                     self?.queue.sync {
                         self?.refreshPublisher = nil

@@ -20,15 +20,18 @@ final class PinCodePresenter {
         }
     }
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
+	private let keychainService: KeychainServiceProtocol
 
     // MARK: - Lifecycle
 
     init(
 		view: PinCodeViewInterface,
-		userSettings: UserCredentialsStorage & UserFlowsStorage
+		userSettings: UserCredentialsStorage & UserFlowsStorage,
+		keychainService: KeychainServiceProtocol
 	) {
         self.view = view
 		self.userSettings = userSettings
+		self.keychainService = keychainService
         isLocalAuthBackgroundAlertShown = userSettings.isLocalAuthBackgroundAlertShown
     }
 
@@ -50,7 +53,7 @@ final class PinCodePresenter {
 
 extension PinCodePresenter: PinCodePresentation {
     func viewDidLoad() {
-		let pinCode = userSettings.userPinCode?
+		let pinCode = keychainService.apiUserPinCode?
 			.map({ Int(String($0)) })
 			.compactMap({ $0 }) ?? []
         let isBiometryOn = userSettings.isBiometryOn
@@ -59,7 +62,7 @@ extension PinCodePresenter: PinCodePresentation {
     }
 
     func setNewPinCode(_ pinCode: String) {
-		userSettings.userPinCode = pinCode
+		keychainService.apiUserPinCode = pinCode
     }
 
     func checkLocalAuth() {

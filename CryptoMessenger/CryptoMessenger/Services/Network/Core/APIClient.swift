@@ -33,9 +33,9 @@ final class APIClient: NSObject, APIClientManager {
     // MARK: - Life Cycle
 
     required init(configuration: URLSessionConfiguration = .default) {
-		let userCredentials = UserDefaultsService.shared
+		let keychainService = KeychainService.shared
 		self.authenticator = Authenticator(
-			userCredentials: userCredentials,
+			keychainService: keychainService,
 			session: session
 		)
         super.init()

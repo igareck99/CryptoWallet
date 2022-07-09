@@ -42,7 +42,9 @@ final class MatrixService: MatrixServiceProtocol {
 	}
 
 	var client: MXRestClient?
-	var credentials: MXCredentials?
+	var credentials: MXCredentials? {
+		client?.credentials
+	}
 	var listenReference: Any? // MXSessionEventListener
 	var listenReferenceRoom: Any?
 
@@ -63,7 +65,6 @@ final class MatrixService: MatrixServiceProtocol {
 		session: MXSession? = nil,
 		fileStore: MXFileStore = MXFileStore(),
 		uploader: MXMediaLoader? = nil,
-		credentials: MXCredentials? = nil,
 		keychainService: KeychainServiceProtocol = KeychainService.shared,
 		userSettings: UserDefaultsServiceProtocol = UserDefaultsService.shared
 	) {
@@ -71,10 +72,8 @@ final class MatrixService: MatrixServiceProtocol {
 		self.session = session
 		self.fileStore = fileStore
 		self.uploader = uploader
-		self.credentials = credentials
 		self.keychainService = keychainService
 		self.userSettings = userSettings
-		configureMatrixSDKSettings()
 	}
 
 	deinit {
@@ -123,8 +122,13 @@ final class MatrixService: MatrixServiceProtocol {
 
 extension MatrixService {
 
+	func closeSessionAndClearData() {
+		fileStore.deleteAllData()
+		session?.close()
+	}
+
 	func updateUnkownDeviceWarn(isEnabled: Bool) {
-		session?.crypto.warnOnUnknowDevices = isEnabled
+		session?.crypto?.warnOnUnknowDevices = isEnabled
 	}
 
 	func updateClient(with homeServer: URL) {
@@ -135,13 +139,9 @@ extension MatrixService {
 		loginState = state
 	}
 
-	func updateUser(credentials: MXCredentials) {
-		self.credentials = credentials
-	}
-
 	func updateService(credentials: MXCredentials) {
 
-		let persistentTokenDataHandler: MXRestClientPersistTokenDataHandler =
+		let persistTokenDataHandler: MXRestClientPersistTokenDataHandler =
 		{ inputCredentialsHandler in
 			debugPrint("upadteService MXRestClientPersistTokenDataHandler: inputCredentialsHandler: \(inputCredentialsHandler)")
 			inputCredentialsHandler?([]) { didUpdateCredentials in
@@ -149,7 +149,7 @@ extension MatrixService {
 			}
 		}
 
-		let andUnauthenticatedHandler: MXRestClientUnauthenticatedHandler =
+		let unauthenticatedHandler: MXRestClientUnauthenticatedHandler =
 		{ error, isSoftLogout, isRefreshTokenAuth, logoutCompletion in
 			debugPrint("upadteService MXRestClientUnauthenticatedHandler: error: \(error)")
 			debugPrint("upadteService MXRestClientUnauthenticatedHandler: isSoftLogout: \(isSoftLogout)")
@@ -160,16 +160,16 @@ extension MatrixService {
 
 		let client = MXRestClient(
 			credentials: credentials,
-			persistentTokenDataHandler: persistentTokenDataHandler,
-			unauthenticatedHandler: andUnauthenticatedHandler
+			persistentTokenDataHandler: persistTokenDataHandler,
+			unauthenticatedHandler: unauthenticatedHandler
 		)
-		// MXRestClient(credentials: credentials, unrecognizedCertificateHandler: nil)
+		self.client = client
+
 		let session = MXSession(matrixRestClient: client)
 		let callStack: MXCallStack = MXJingleCallStack()
 		session?.enableVoIP(with: callStack)
-		self.client = client
 		self.session = session
-		self.fileStore = MXFileStore()
+		self.fileStore = MXFileStore(credentials: credentials)
 		self.uploader = MXMediaLoader(forUploadWithMatrixSession: session, initialRange: 0, andRange: 1)
 		configureCallKitAdapter()
 	}
@@ -212,7 +212,7 @@ extension MatrixService {
 	private func updatePusher(pushToken: Data, kind: MXPusherKind, completion: @escaping (Bool) -> Void) {
 
 		guard !AppConstants.bundleId.aboutApp.isEmpty,
-			  let userId = session?.myUser.userId else { return }
+			  let userId = session?.myUser?.userId else { return }
 
 #if DEBUG
 		let pushKeyRelease = pushToken.base64EncodedString()

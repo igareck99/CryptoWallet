@@ -50,7 +50,6 @@ extension MatrixService {
 				completion(.failure(error))
 			case let .success(credentials):
 				debugPrint("Success on starting session with new credentials: \(credentials)")
-				self?.credentials = credentials
 				self?.loginState = .loggedIn(userId: credentials.userId ?? "")
 				completion(.success(credentials))
 			}

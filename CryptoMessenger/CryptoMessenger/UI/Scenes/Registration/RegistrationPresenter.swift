@@ -14,6 +14,7 @@ final class RegistrationPresenter {
 
     @Injectable private var apiClient: APIClientManager
 	private let userCredentials: UserCredentialsStorage
+	private let keychainService: KeychainServiceProtocol
 
     private var selectedCountry = CountryCodePickerViewController.baseCountry
     private var state = RegistrationFlow.ViewState.sending {
@@ -27,10 +28,12 @@ final class RegistrationPresenter {
 
     init(
 		view: RegistrationViewInterface,
-		userCredentials: UserCredentialsStorage
+		userCredentials: UserCredentialsStorage,
+		keychainService: KeychainServiceProtocol
 	) {
         self.view = view
 		self.userCredentials = userCredentials
+		self.keychainService = keychainService
     }
 
     // MARK: - Private Methods
@@ -65,7 +68,7 @@ final class RegistrationPresenter {
                     break
                 }
             } receiveValue: { [weak self] _ in
-                self?.userCredentials.userPhoneNumber = prefix + " " + phone
+                self?.keychainService.apiUserPhoneNumber = prefix + " " + phone
                 self?.delegate?.handleNextScene(.verification)
             }
             .store(in: &subscriptions)

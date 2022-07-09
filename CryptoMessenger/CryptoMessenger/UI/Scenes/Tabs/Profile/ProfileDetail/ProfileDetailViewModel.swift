@@ -30,7 +30,7 @@ final class ProfileDetailViewModel: ObservableObject {
 
     init(
 		userSettings: UserFlowsStorage & UserCredentialsStorage,
-		keychainService: KeychainServiceProtocol = KeychainService.shared
+		keychainService: KeychainServiceProtocol
 	) {
 		self.userSettings = userSettings
 		self.keychainService = keychainService
@@ -81,8 +81,10 @@ final class ProfileDetailViewModel: ObservableObject {
                 case .onLogout:
 					self?.matrixUseCase.logoutDevices { [weak self] _ in
 						// TODO: Обработать результат
+						self?.matrixUseCase.closeSession()
 						self?.matrixUseCase.clearCredentials()
-						self?.userSettings[.isUserAuthenticated] = false
+						self?.keychainService.isApiUserAuthenticated = false
+						NotificationCenter.default.post(name: .userDidLoggedOut, object: nil)
 						debugPrint("ProfileDetailViewModel: LOGOUT")
 					}
                 }
@@ -95,7 +97,7 @@ final class ProfileDetailViewModel: ObservableObject {
                 self?.userSettings.isAuthFlowFinished = false
                 self?.userSettings.isOnboardingFlowFinished = false
                 self?.userSettings.isLocalAuth = false
-                self?.userSettings.userPinCode = ""
+                self?.keychainService.apiUserPinCode = ""
                 self?.delegate?.restartFlow()
             default:
                 break
@@ -116,7 +118,7 @@ final class ProfileDetailViewModel: ObservableObject {
         let link = matrixUseCase.getAvatarUrl()
         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
         profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
-		if let str = userSettings.userPhoneNumber {
+		if let str = keychainService.apiUserPhoneNumber {
 			let suffixIndex = str.index(str.startIndex, offsetBy: 3)
 			profile.phone = String(str[suffixIndex...])
 		}

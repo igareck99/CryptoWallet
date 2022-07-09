@@ -6,7 +6,10 @@ struct ProfileBackgroundView: View {
 
     // MARK: - Internal Properties
 
-	@StateObject var viewModel = ProfileViewModel(userSettings: UserDefaultsService.shared)
+	@StateObject var viewModel = ProfileViewModel(
+		userSettings: UserDefaultsService.shared,
+		keychainService: KeychainService.shared
+	)
     @StateObject var personalizationViewModel: PersonalizationViewModel
 
     // MARK: - Private Properties

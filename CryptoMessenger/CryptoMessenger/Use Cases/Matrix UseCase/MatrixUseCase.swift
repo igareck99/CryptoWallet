@@ -19,6 +19,8 @@ protocol MatrixUseCaseProtocol {
 		completion: @escaping EmptyResultBlock
 	)
 
+	func closeSession()
+
 	// MARK: - Rooms
 	func isDirectRoomExists(userId: String) -> Bool
 	func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
@@ -65,23 +67,27 @@ final class MatrixUseCase {
 		self.matrixService = matrixService
 		self.keychainService = keychainService
 		self.userSettings = userSettings
-		updateCredentialsIfAvailable()
 		observeLoginState()
 	}
 
 	private func observeLoginState() {
 		NotificationCenter.default
-			.addObserver(self, selector: #selector(userDidLoggedIn), name: .userDidLoggedIn, object: nil)
+			.addObserver(
+				self,
+				selector: #selector(userDidLoggedIn),
+				name: .userDidLoggedIn,
+				object: nil
+			)
 	}
 
 	@objc func userDidLoggedIn() {
 		matrixService.updateState(with: .loggedIn(userId: matrixService.getUserId()))
+		updateCredentialsIfAvailable()
 	}
 
 	// TODO: Отрефачить логику входа по пин коду
 	private func updateCredentialsIfAvailable() {
 		guard let credentials = retrievCredentials() else { return }
-		matrixService.updateUser(credentials: credentials)
 		matrixService.updateService(credentials: credentials)
 
 		matrixService.initializeSessionStore { [weak self] result in
@@ -135,7 +141,6 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 				return
 			}
 
-			self?.matrixService.updateUser(credentials: credentials)
 			self?.save(credentials: credentials)
 			self?.matrixService.updateService(credentials: credentials)
 
@@ -165,7 +170,12 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 		}
 	}
 
+	func closeSession() {
+		matrixService.closeSessionAndClearData()
+	}
+
 	// MARK: - Rooms
+
 	func isDirectRoomExists(userId: String) -> Bool {
 		matrixService.isDirectRoomExists(userId: userId)
 	}
@@ -207,7 +217,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 
 			guard case .success(let userDevices) = result else { return }
 
-			self?.matrixService.remove(userDevices: userDevices)
+			self?.matrixService.remove(userDevices: userDevices, completion: completion)
 		}
 	}
 
@@ -273,6 +283,8 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 		matrixService.createPusher(with: pushToken, completion: completion)
 	}
 }
+
+// MARK: - Credentials
 
 extension MatrixUseCase {
 	private func save(credentials: MXCredentials) {

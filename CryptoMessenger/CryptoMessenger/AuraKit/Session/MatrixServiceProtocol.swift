@@ -10,10 +10,11 @@ protocol MatrixServiceProtocol {
 	var rooms: [AuraRoom] { get }
 	var matrixSession: MXSession? { get }
 
+	func closeSessionAndClearData()
+
 	// MARK: - Updaters
 	func updateClient(with homeServer: URL)
 	func updateState(with state: MatrixState)
-	func updateUser(credentials: MXCredentials)
 	func updateService(credentials: MXCredentials)
 	func updateUnkownDeviceWarn(isEnabled: Bool)
 
@@ -26,7 +27,7 @@ protocol MatrixServiceProtocol {
 	// MARK: - Devices
 	func getDeviceSession(by deviceId: String, completion: @escaping (EmptyResult) -> Void)
 	func removeDevice(by deviceId: String, completion: @escaping (EmptyResult) -> Void)
-	func remove(userDevices: [MXDevice])
+	func remove(userDevices: [MXDevice], completion: @escaping (EmptyResult) -> Void)
 
 	// MARK: - Remove device by ID
 	func getDevicesWithActiveSessions(completion: @escaping (Result<[MXDevice], Error>) -> Void)

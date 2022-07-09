@@ -8,7 +8,11 @@ enum ProfileDetailConfigurator {
 
     static func configuredView(delegate: ProfileDetailSceneDelegate?) -> ProfileDetailView {
 		let userSettings = UserDefaultsService.shared
-		let viewModel = ProfileDetailViewModel(userSettings: userSettings)
+		let keychainService = KeychainService.shared
+		let viewModel = ProfileDetailViewModel(
+			userSettings: userSettings,
+			keychainService: keychainService
+		)
         viewModel.delegate = delegate
         let view = ProfileDetailView(viewModel: viewModel)
         return view
