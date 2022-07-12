@@ -11,7 +11,6 @@ enum RemoteConfigValues: String {
 	enum Chat: String {
 		case group
 		case personal
-		case p2pCall
 	}
 
 	// Настройки модуля Кошелек
@@ -23,6 +22,7 @@ enum RemoteConfigValues: String {
 	// Настройки модуля Звонки
 	enum Calls: String {
 		case p2pCalls
+		case p2pVideoCalls
 	}
 
 	// Версии фичей/модулей

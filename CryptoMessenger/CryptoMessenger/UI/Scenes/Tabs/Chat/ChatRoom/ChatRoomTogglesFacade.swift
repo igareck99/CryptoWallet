@@ -7,35 +7,30 @@ protocol ChatRoomTogglesFacadeProtocol {
 }
 
 final class ChatRoomTogglesFacade {
-	private let remoteConfigUseCase: RemoteConfigUseCaseProtocol
+	private let remoteConfigUseCase: RemoteConfigFacade
 
-	init(remoteConfigUseCase: RemoteConfigUseCaseProtocol) {
+	init(remoteConfigUseCase: RemoteConfigFacade) {
 		self.remoteConfigUseCase = remoteConfigUseCase
 	}
 }
 
+// MARK: - ChatRoomTogglesFacadeProtocol
+
 extension ChatRoomTogglesFacade: ChatRoomTogglesFacadeProtocol {
+
 	var isCallAvailable: Bool {
-		let featureConfig = remoteConfigUseCase.remoteConfigModule(forKey: .calls)
-		let feature = featureConfig?.features[RemoteConfigValues.Calls.p2pCalls.rawValue]
-		let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
-		let isFeatureEnabled = feature?.enabled
-		return isVersionEnabled == true && isFeatureEnabled == true
+		remoteConfigUseCase.isP2PCallV1Available
+	}
+
+	var isVideoCallAvailable: Bool {
+		remoteConfigUseCase.isP2PVideoCallsV1Available
 	}
 
 	var isGroupChatAvailable: Bool {
-		let featureConfig = remoteConfigUseCase.remoteConfigModule(forKey: .chat)
-		let feature = featureConfig?.features[RemoteConfigValues.Chat.group.rawValue]
-		let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
-		let isFeatureEnabled = feature?.enabled
-		return isVersionEnabled == true && isFeatureEnabled == true
+		remoteConfigUseCase.isGroupChatV1Available
 	}
 
 	var isPersonalChatAvailable: Bool {
-		let featureConfig = remoteConfigUseCase.remoteConfigModule(forKey: .chat)
-		let feature = featureConfig?.features[RemoteConfigValues.Chat.personal.rawValue]
-		let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
-		let isFeatureEnabled = feature?.enabled
-		return isVersionEnabled == true && isFeatureEnabled == true
+		remoteConfigUseCase.isPersonalChatV1Available
 	}
 }

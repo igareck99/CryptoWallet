@@ -11,11 +11,11 @@ protocol MainFlowTogglesFacadeProtocol {
 
 final class MainFlowTogglesFacade {
 
-    private let remoteConfigUseCase: RemoteConfigUseCaseProtocol
+    private let remoteConfigUseCase: RemoteConfigToggles
     static let shared = MainFlowTogglesFacade()
 
     init(
-        remoteConfigUseCase: RemoteConfigUseCaseProtocol = RemoteConfigUseCaseAssembly.useCase
+        remoteConfigUseCase: RemoteConfigToggles = RemoteConfigUseCaseAssembly.useCase
     ) {
         self.remoteConfigUseCase = remoteConfigUseCase
         subscribeToConfigUpdate()
@@ -47,22 +47,14 @@ extension MainFlowTogglesFacade: MainFlowTogglesFacadeProtocol {
 
     // MARK: - Internal Properties
 
-    var isWalletAvailable: Bool {
-        let featureConfig = remoteConfigUseCase.remoteConfigModule(forKey: .wallet)
-        let feature = featureConfig?.features[RemoteConfigValues.Wallet.auraTab.rawValue]
-        let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
-        let isFeatureEnabled = feature?.enabled
-        return isVersionEnabled == true && isFeatureEnabled == true
+	var isWalletAvailable: Bool {
+		remoteConfigUseCase.isWalletV1Available
     }
 
     var isTransactionAvailable: Bool {
         if !isWalletAvailable {
             return false
         }
-        let featureConfig = remoteConfigUseCase.remoteConfigModule(forKey: .wallet)
-        let feature = featureConfig?.features[RemoteConfigValues.Wallet.auraTransaction.rawValue]
-        let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
-        let isFeatureEnabled = feature?.enabled
-        return isVersionEnabled == true && isFeatureEnabled == true
+		return remoteConfigUseCase.isTransactionV1Available
     }
 }
