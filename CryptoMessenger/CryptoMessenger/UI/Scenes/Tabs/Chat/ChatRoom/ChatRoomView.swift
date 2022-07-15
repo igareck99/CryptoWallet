@@ -220,8 +220,15 @@ struct ChatRoomView: View {
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack(spacing: 0) {
-                        Spacer()
+                    HStack(spacing: 16) {
+						if viewModel.isVideoCallAvailable {
+							Button(action: {
+								viewModel.p2pVideoCallPublisher.send()
+							}, label: {
+								Image(systemName: "video.fill").tint(.black)
+							})
+						}
+
 						if viewModel.isVoiceCallAvailable {
 							Button(action: {
 								viewModel.p2pVoiceCallPublisher.send()

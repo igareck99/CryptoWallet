@@ -51,11 +51,40 @@ enum P2PCallType {
 
 struct P2PCall {
 
+	// Имя звонящего
 	let activeCallerName: String
+	// Состояние активного звонка
 	let activeCallState: P2PCallState
-
+	// Имя звонящего на удержании
 	let onHoldCallerName: String
+	// Состояние звонка на удержании (поддерживаем только два входящих звонка одновременно)
 	let onHoldCallState: P2PCallState
-
+	// Тип активного звонка
 	let callType: P2PCallType
+	// Является ли активный звонок видеозвонком
+	let isVideoCall: Bool
+	// Ссылка на видеовью собеседника
+	let interlocutorView: UIView?
+	// Ссылка на видеовью себя
+	let selfyView: UIView?
+
+	init(
+		activeCallerName: String,
+		activeCallState: P2PCallState,
+		onHoldCallerName: String,
+		onHoldCallState: P2PCallState,
+		callType: P2PCallType,
+		isVideoCall: Bool = false,
+		interlocutorView: UIView? = nil,
+		selfyView: UIView? = nil
+	) {
+		self.activeCallerName = activeCallerName
+		self.activeCallState = activeCallState
+		self.onHoldCallerName = onHoldCallerName
+		self.onHoldCallState = onHoldCallState
+		self.callType = callType
+		self.isVideoCall = isVideoCall
+		self.interlocutorView = interlocutorView
+		self.selfyView = selfyView
+	}
 }

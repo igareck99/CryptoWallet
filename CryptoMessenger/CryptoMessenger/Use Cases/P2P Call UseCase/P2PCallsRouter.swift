@@ -7,10 +7,8 @@ protocol P2PCallsRouterable {
 	func removeCallController()
 
 	func showCallView(
-		userName: String,
-		p2pCallUseCase: P2PCallUseCaseProtocol,
-		callType: P2PCallType,
-		callState: P2PCallState
+		model: P2PCall,
+		p2pCallUseCase: P2PCallUseCaseProtocol
 	)
 }
 
@@ -47,25 +45,21 @@ extension P2PCallsRouter: P2PCallsRouterable {
 	}
 
 	func showCallView(
-		userName: String,
-		p2pCallUseCase: P2PCallUseCaseProtocol,
-		callType: P2PCallType,
-		callState: P2PCallState
+		model: P2PCall,
+		p2pCallUseCase: P2PCallUseCaseProtocol
 	) {
-		let controller = P2PCallsAssembly.build(userName: userName, p2pCallUseCase: p2pCallUseCase)
+		let controller = P2PCallsAssembly.build(model: model, p2pCallUseCase: p2pCallUseCase)
 		callController = controller
 		navigationController?.pushViewController(controller, animated: true)
 	}
 
 	func showCallView(
-		userName: String,
+		model: P2PCall,
 		p2pCallUseCase: P2PCallUseCaseProtocol,
-		callType: P2PCallType,
-		callState: P2PCallState,
 		completion: @escaping () -> Void
 	) {
 		transitionCompletion = completion
-		let controller = P2PCallsAssembly.build(userName: userName, p2pCallUseCase: p2pCallUseCase)
+		let controller = P2PCallsAssembly.build(model: model, p2pCallUseCase: p2pCallUseCase)
 		callController = controller
 		navigationController?.delegate = self
 		navigationController?.pushViewController(controller, animated: true)

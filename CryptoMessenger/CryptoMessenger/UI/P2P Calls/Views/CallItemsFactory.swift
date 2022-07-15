@@ -26,13 +26,22 @@ protocol CallItemsFactoryProtocol {
 	) -> [HStackItemViewModelProtocol]
 
 	// Camera Item
-	static func makeCameraItem(delegate: VideoAudioItemsDelegate) -> HStackItemViewModelProtocol
+	static func makeCameraItem(
+		delegate: VideoAudioItemsDelegate,
+		sources: CallViewSourcesable.Type
+	) -> HStackItemViewModelProtocol
 
 	// Mic Item
-	static func makeMicItem(delegate: VideoAudioItemsDelegate) -> HStackItemViewModelProtocol
+	static func makeMicItem(
+		delegate: VideoAudioItemsDelegate,
+		sources: CallViewSourcesable.Type
+	) -> HStackItemViewModelProtocol
 
 	// Speaker Item
-	static func makeSpeakerItem(delegate: VideoAudioItemsDelegate) -> HStackItemViewModelProtocol
+	static func makeSpeakerItem(
+		delegate: VideoAudioItemsDelegate,
+		sources: CallViewSourcesable.Type
+	) -> HStackItemViewModelProtocol
 
 	// Answer/End Call
 	static func makeAnswerEndCallItems(
@@ -85,21 +94,24 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 		let holdCallItem = makeHoldCallItem(viewModel: viewModel, delegate: delegate)
 		items.append(holdCallItem)
 
-		let micItem = makeMicItem(delegate: delegate)
+		let micItem = makeMicItem(delegate: delegate, sources: viewModel.sources)
 		items.append(micItem)
 
-		let speakerItem = makeSpeakerItem(delegate: delegate)
+		let speakerItem = makeSpeakerItem(delegate: delegate, sources: viewModel.sources)
 		items.append(speakerItem)
 
 		return items
 	}
 
-	static func makeCameraItem(delegate: VideoAudioItemsDelegate) -> HStackItemViewModelProtocol {
+	static func makeCameraItem(
+		delegate: VideoAudioItemsDelegate,
+		sources: CallViewSourcesable.Type
+	) -> HStackItemViewModelProtocol {
 
 		let normalIcon = UIImage(systemName: "video")?.withRenderingMode(.alwaysTemplate)
 		let updateView = makeUpdateViewClosure(
-			normalText: "Камера",
-			disabledText: "Камера",
+			normalText: sources.camera,
+			disabledText: sources.camera,
 			normalIcon: normalIcon,
 			disabledIcon: normalIcon
 		)
@@ -112,14 +124,17 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 		return cameraItem
 	}
 
-	static func makeMicItem(delegate: VideoAudioItemsDelegate) -> HStackItemViewModelProtocol {
+	static func makeMicItem(
+		delegate: VideoAudioItemsDelegate,
+		sources: CallViewSourcesable.Type
+	) -> HStackItemViewModelProtocol {
 
 		let normalIcon = UIImage(systemName: "mic")?.withRenderingMode(.alwaysTemplate)
 		let disabledIcon = UIImage(systemName: "mic.slash")?.withRenderingMode(.alwaysTemplate)
 
 		let updateView = makeUpdateViewClosure(
-			normalText: "Включить звук",
-			disabledText: "Убрать звук",
+			normalText: sources.turnOnSound,
+			disabledText: sources.turnOffSound,
 			normalIcon: normalIcon,
 			disabledIcon: disabledIcon
 		)
@@ -132,14 +147,17 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 		return micItem
 	}
 
-	static func makeSpeakerItem(delegate: VideoAudioItemsDelegate) -> HStackItemViewModelProtocol {
+	static func makeSpeakerItem(
+		delegate: VideoAudioItemsDelegate,
+		sources: CallViewSourcesable.Type
+	) -> HStackItemViewModelProtocol {
 
 		let normalIcon = UIImage(systemName: "speaker.wave.2")?.withRenderingMode(.alwaysTemplate)
 		let disabledIcon = UIImage(systemName: "speaker.slash")?.withRenderingMode(.alwaysTemplate)
 
 		let updateView = makeUpdateViewClosure(
-			normalText: "Динамик",
-			disabledText: "Динамик",
+			normalText: sources.speaker,
+			disabledText: sources.speaker,
 			normalIcon: normalIcon,
 			disabledIcon: disabledIcon
 		)
@@ -305,7 +323,7 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 		delegate: VideoAudioItemsDelegate
 	) -> HStackItemViewModelProtocol {
 
-		let normalText = "Сменить собеседника"
+		let normalText = viewModel.sources.changeInterlocutor
 		let normalIcon = UIImage(systemName: "arrow.triangle.2.circlepath")?.withRenderingMode(.alwaysTemplate)
 		let updateView: ((Bool, ButtonDownText) -> Void)? = { _, view in
 			view.actionButton.setImage(normalIcon, for: .normal)

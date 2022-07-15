@@ -19,6 +19,19 @@ protocol CallViewSourcesable {
 	static var userDoesNotRespond: String { get }
 
 	static var callFinished: String { get }
+
+
+	static var endToEndEncrypted: String { get }
+
+	static var speaker: String { get }
+
+	static var camera: String { get }
+
+	static var changeInterlocutor: String { get }
+
+	static var turnOnSound: String { get }
+
+	static var turnOffSound: String { get }
 }
 
 enum CallViewSources: CallViewSourcesable {
@@ -58,5 +71,29 @@ enum CallViewSources: CallViewSourcesable {
 
 	static var callFinished: String {
 		R.string.localizable.callsCallFinished()
+	}
+
+	static var endToEndEncrypted: String {
+		R.string.localizable.callsEndToEndEncrypted()
+	}
+
+	static var speaker: String {
+		R.string.localizable.callsSpeaker()
+	}
+
+	static var camera: String {
+		R.string.localizable.callsTurnOffSound()
+	}
+
+	static var changeInterlocutor: String {
+		R.string.localizable.callsChangeInterlocutor()
+	}
+
+	static var turnOnSound: String {
+		R.string.localizable.callsTurnOnSound()
+	}
+
+	static var turnOffSound: String {
+		R.string.localizable.callsTurnOffSound()
 	}
 }

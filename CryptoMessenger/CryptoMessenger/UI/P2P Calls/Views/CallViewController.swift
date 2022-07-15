@@ -52,6 +52,23 @@ final class CallViewController: UIViewController {
 		return stateImageView
 	}()
 
+	// MARK: - Видео
+
+	private let interlocutorView: UIView = {
+		let view = UIView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
+
+	private let selfView: UIView = {
+		let view = UIView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
+
+	private let interlocutorCallView: UIView?
+	private let selfCallView: UIView?
+
 	// MARK: - Удержание
 
 	private let holdStackView: HStackView = {
@@ -79,8 +96,14 @@ final class CallViewController: UIViewController {
 	private let viewModel: CallViewModelProtocol
 	private var subscribtions: Set<AnyCancellable> = []
 
-	init(viewModel: CallViewModelProtocol) {
+	init(
+		viewModel: CallViewModelProtocol,
+		interlocutorCallView: UIView?,
+		selfCallView: UIView?
+	) {
 		self.viewModel = viewModel
+		self.interlocutorCallView = interlocutorCallView
+		self.selfCallView = selfCallView
 		super.init(nibName: nil, bundle: nil)
 	}
 
@@ -104,6 +127,7 @@ final class CallViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
+		// TODO: Проработать отображение нав бара при рефакторинге формирования навигационного стека
 		navigationController?.setNavigationBarHidden(false, animated: true)
 
 		let navigationBarAppearance = UINavigationBarAppearance()
@@ -147,12 +171,8 @@ final class CallViewController: UIViewController {
 
 		viewModel.callDurationSubject
 			.receive(on: RunLoop.main)
-			.filter {
-				$0 > .zero
-			}
 			.sink { [weak self] duration in
-				debugPrint("CallViewController call duration: \(duration)")
-				self?.updateCall(duration: duration)
+				self?.callDurationLabel.text = duration
 			}.store(in: &subscribtions)
 	}
 
@@ -178,19 +198,17 @@ final class CallViewController: UIViewController {
 			stateLabel.text = ""
 		}
 	}
-
-	private func updateCall(duration: UInt) {
-		let callDuration = duration / 1_000
-		let seconds = callDuration % 60
-		let minutes = (callDuration - seconds) / 60
-		let durationText = String(format: "%02tu:%02tu", minutes, seconds)
-		callDurationLabel.text = durationText
-	}
 }
 
 private extension CallViewController {
 
 	func configureViews() {
+		configureInterlocutorVideoView()
+		configureSelfVideoView()
+
+		configureSelfVideoViewIfExist()
+		configureInterlocutorVideoViewIfExist()
+
 		configureNameLabel()
 		configureStateLabel()
 		configureCallDurationLabel()
@@ -247,6 +265,56 @@ private extension CallViewController {
 			audioVideoStackView.centerXAnchor.constraint(equalTo: answerEndCallStackView.centerXAnchor),
 			audioVideoStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
 			audioVideoStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+		])
+	}
+
+	// MARK: - Video views
+
+	func configureInterlocutorVideoView() {
+		view.addSubview(interlocutorView)
+		NSLayoutConstraint.activate([
+			interlocutorView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+			interlocutorView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+			interlocutorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+			interlocutorView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+		])
+	}
+
+	func configureSelfVideoView() {
+		view.addSubview(selfView)
+		selfView.layer.cornerRadius = 10
+		selfView.clipsToBounds = true
+		NSLayoutConstraint.activate([
+			selfView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+			selfView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+			selfView.widthAnchor.constraint(equalToConstant: 120),
+			selfView.heightAnchor.constraint(equalToConstant: 180)
+		])
+	}
+
+	func configureSelfVideoViewIfExist() {
+		guard let selfVideoView = selfCallView else { return }
+		selfVideoView.translatesAutoresizingMaskIntoConstraints = false
+		selfVideoView.constraints.forEach { $0.isActive = false }
+		selfView.addSubview(selfVideoView)
+		NSLayoutConstraint.activate([
+			selfVideoView.topAnchor.constraint(equalTo: selfView.topAnchor),
+			selfVideoView.trailingAnchor.constraint(equalTo: selfView.trailingAnchor),
+			selfVideoView.leadingAnchor.constraint(equalTo: selfView.leadingAnchor),
+			selfVideoView.bottomAnchor.constraint(equalTo: selfView.bottomAnchor)
+		])
+	}
+
+	func configureInterlocutorVideoViewIfExist() {
+		guard let interlocutorVideoView = interlocutorCallView else { return }
+		interlocutorVideoView.translatesAutoresizingMaskIntoConstraints = false
+		interlocutorVideoView.constraints.forEach { $0.isActive = false }
+		interlocutorView.addSubview(interlocutorVideoView)
+		NSLayoutConstraint.activate([
+			interlocutorVideoView.topAnchor.constraint(equalTo: interlocutorView.topAnchor),
+			interlocutorVideoView.trailingAnchor.constraint(equalTo: interlocutorView.trailingAnchor),
+			interlocutorVideoView.leadingAnchor.constraint(equalTo: interlocutorView.leadingAnchor),
+			interlocutorVideoView.bottomAnchor.constraint(equalTo: interlocutorView.bottomAnchor)
 		])
 	}
 

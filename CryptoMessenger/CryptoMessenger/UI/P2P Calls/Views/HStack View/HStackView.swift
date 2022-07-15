@@ -8,7 +8,7 @@ final class HStackView: UIView {
 		view.alignment = .top
 		view.distribution = .fillEqually
 		view.spacing = 10
-		view.backgroundColor = .black
+		view.backgroundColor = .clear
 		view.isLayoutMarginsRelativeArrangement = true
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view

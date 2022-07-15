@@ -9,6 +9,8 @@ protocol P2PCallUseCaseProtocol: AnyObject {
 
 	func placeVoiceCall(roomId: String, contacts: [Contact])
 
+	func placeVideoCall(roomId: String, contacts: [Contact])
+
 	func answerCall()
 
 	func endCall()
@@ -142,13 +144,18 @@ final class P2PCallUseCase: NSObject {
 
 		if !router.isCallViewControllerBeingPresented,
 			let call = activeCall {
-			let callerName = callerName(for: call)
-			router.showCallView(
-				userName: callerName,
-				p2pCallUseCase: self,
+
+			let model = P2PCall(
+				activeCallerName: callerName(for: call),
+				activeCallState: activeCallState,
+				onHoldCallerName: "",
+				onHoldCallState: .onHold,
 				callType: callType,
-				callState: activeCallState
+				isVideoCall: call.isVideoCall,
+				interlocutorView: call.remoteVideoView,
+				selfyView: call.selfVideoView
 			)
+			router.showCallView( model: model, p2pCallUseCase: self)
 		}
 	}
 
@@ -179,6 +186,10 @@ final class P2PCallUseCase: NSObject {
 			debugPrint("Place_Call: callStateChanged fledgling: \(call.callId)")
 		case .waitLocalMedia:
 			debugPrint("Place_Call: callStateChanged waitLocalMedia: \(call.callId)")
+			// TODO: Подумать как это исправить
+			// вью для отображения видеопотока нужно создавать самому
+			// иначе звонок не меняет состояние при видео звонке
+			configureVideoViewsIfNeeded(call: call)
 		case .createOffer:
 			debugPrint("Place_Call: callStateChanged createOffer: \(call.callId)")
 			notifyOutcoming(call: call)
@@ -210,7 +221,24 @@ final class P2PCallUseCase: NSObject {
 		activeCallStateSubject.send(activeCallState)
 	}
 
+	private func configureVideoViewsIfNeeded(call: MXCall) {
+
+		// Инициализируем видеовью без проверки флага isVideoCall
+		// т.к. потенциально нужно будет переключится на видео звонок
+
+		if call.selfVideoView == nil {
+			let selfyVideoView = UIView(frame: .init(x: 0, y: 0, width: 40, height: 40))
+			call.selfVideoView = selfyVideoView
+		}
+
+		if call.remoteVideoView == nil {
+			let interlocutorVideoView = UIView(frame: .init(x: 0, y: 0, width: 100, height: 100))
+			call.remoteVideoView = interlocutorVideoView
+		}
+	}
+
 	private func configureAudioSession() {
+		// TODO: Создать аудиосервис для переключения аудиопотоков
 		try? AVAudioSession.sharedInstance().setActive(false)
 		try? AVAudioSession.sharedInstance().setCategory(.playAndRecord)
 		try? AVAudioSession.sharedInstance().overrideOutputAudioPort(.none)
@@ -218,7 +246,7 @@ final class P2PCallUseCase: NSObject {
 		try? AVAudioSession.sharedInstance().setPreferredOutputNumberOfChannels(0)
 		try? AVAudioSession.sharedInstance().setActive(true)
 
-		let systemSoundID: SystemSoundID = 1154
+		let systemSoundID: SystemSoundID = 1154 // код стандартной мелодии звонка из библиотеки iOS
 		AudioServicesPlaySystemSoundWithCompletion(systemSoundID) { [weak self] in
 			DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
 				if self?.activeCall?.state == .createOffer ||
@@ -239,6 +267,9 @@ final class P2PCallUseCase: NSObject {
 		return call.callerName ?? call.room.roomId
 	}
 
+	// Асинхроная загрузка контактов пользователя
+	// на случай если контакты еще не успели подгрузится
+	// TODO: По-хорошему вынести в MatrixUseCase
 	private func asyncCallerName(for call: MXCall) {
 		call.room.members { [weak self] response in
 
@@ -260,7 +291,8 @@ final class P2PCallUseCase: NSObject {
 				activeCallState: self.activeCallState,
 				onHoldCallerName: holdedCallerName,
 				onHoldCallState: .onHold,
-				callType: self.callType
+				callType: self.callType,
+				isVideoCall: call.isVideoCall
 			)
 			self.callModelSubject.send(p2pCall)
 			self.activeCallStateSubject.send(self.activeCallState)
@@ -282,7 +314,8 @@ final class P2PCallUseCase: NSObject {
 				activeCallState: activeCallState,
 				onHoldCallerName: holdedCallerName,
 				onHoldCallState: .onHold,
-				callType: callType
+				callType: callType,
+				isVideoCall: answeredCall.isVideoCall
 			)
 			callModelSubject.send(p2pCall)
 			activeCallStateSubject.send(activeCallState)
@@ -303,7 +336,8 @@ final class P2PCallUseCase: NSObject {
 				activeCallState: activeCallState,
 				onHoldCallerName: holdedCallerName,
 				onHoldCallState: .onHold,
-				callType: callType
+				callType: callType,
+				isVideoCall: call.isVideoCall
 			)
 			callModelSubject.send(p2pCall)
 			activeCallStateSubject.send(activeCallState)
@@ -326,7 +360,8 @@ final class P2PCallUseCase: NSObject {
 				activeCallState: activeCallState,
 				onHoldCallerName: "",
 				onHoldCallState: .none,
-				callType: callType
+				callType: callType,
+				isVideoCall: holdedCall.isVideoCall
 			)
 			callModelSubject.send(p2pCall)
 			activeCallStateSubject.send(activeCallState)
@@ -344,32 +379,60 @@ final class P2PCallUseCase: NSObject {
 
 		callType = .incoming
 		NotificationCenter.default.post(name: .callDidStart, object: nil)
-		let callerName = callerName(for: call)
-		router.showCallView(
-			userName: callerName,
-			p2pCallUseCase: self,
+
+		let model = P2PCall(
+			activeCallerName: callerName(for: call),
+			activeCallState: .calling,
+			onHoldCallerName: "",
+			onHoldCallState: .onHold,
 			callType: .incoming,
-			callState: .calling
+			isVideoCall: call.isVideoCall,
+			interlocutorView: call.remoteVideoView,
+			selfyView: call.selfVideoView
 		)
+
+		router.showCallView(model: model, p2pCallUseCase: self)
 	}
 
 	private func notifyOutcoming(call: MXCall) {
 		callType = .outcoming
 		NotificationCenter.default.post(name: .callDidStart, object: nil)
 		activeCall = call
-		let callerName = callerName(for: call)
-		router.showCallView(
-			userName: callerName,
-			p2pCallUseCase: self,
+
+		let model = P2PCall(
+			activeCallerName: callerName(for: call),
+			activeCallState: .calling,
+			onHoldCallerName: "",
+			onHoldCallState: .onHold,
 			callType: .outcoming,
-			callState: .calling
+			isVideoCall: call.isVideoCall,
+			interlocutorView: call.remoteVideoView,
+			selfyView: call.selfVideoView
 		)
+
+		router.showCallView(model: model, p2pCallUseCase: self)
 	}
 }
 
 // MARK: - P2PCallUseCaseProtocol
 
 extension P2PCallUseCase: P2PCallUseCaseProtocol {
+
+	func placeVideoCall(roomId: String, contacts: [Contact]) {
+		roomContacts = contacts
+		matrixService.placeVideoCall(roomId: roomId) { [weak self] result in
+			debugPrint("Place_Video_Call: response: \(result)")
+			switch result {
+			case .success(let call):
+				debugPrint("Place_Video_Call: success: call: \(call)")
+				self?.calls[call.callUUID] = call
+				self?.activeCall = call
+			case .failure(let error):
+				debugPrint("Place_Video_Call: failure: error: \(error)")
+				self?.activeCall = nil
+			}
+		}
+	}
 
 	func placeVoiceCall(roomId: String, contacts: [Contact]) {
 		roomContacts = contacts
