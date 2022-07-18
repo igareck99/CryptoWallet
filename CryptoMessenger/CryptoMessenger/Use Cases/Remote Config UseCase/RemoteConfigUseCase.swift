@@ -1,5 +1,7 @@
 import Foundation
 
+typealias RemoteConfigFacade = RemoteConfigToggles & RemoteConfigUseCaseProtocol
+
 protocol RemoteConfigUseCaseProtocol {
 	var configState: RemoteConfigUseCase.ConfigStates { get }
 
@@ -14,7 +16,7 @@ final class RemoteConfigUseCase {
         case updating
     }
 
-	static let shared: RemoteConfigUseCaseProtocol = RemoteConfigUseCaseAssembly.build()
+	static let shared: RemoteConfigFacade = RemoteConfigUseCaseAssembly.build()
 
     let firebaseService: RemoteConfigServiceProtocol
     var configState: ConfigStates = .notUpdated
