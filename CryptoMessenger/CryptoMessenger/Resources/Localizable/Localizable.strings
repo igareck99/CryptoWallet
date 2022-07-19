@@ -463,6 +463,10 @@
 "ChatRoomView.InvitedNotify" = "был приглашен в комнату";
 "ChatRoomView.UnownedErrorNotify" = "Неизвестная ошибка";
 "ChatRoomView.BannedNotify" = "заблокирован";
+"ChatRoomView.SelectMap" = "Составить маршрут";
+"ChatRoomView.Baidu" = "Baidu";
+"ChatRoomView.Apple" = "Apple";
+"ChatRoomView.Cancel" = " Отменить";
 
 "DocumentViewer.ErrorText" = "Файл не может быть прочтен";
 "DocumentViewer.UploadError" = "Ошибка при загрузке файла";
