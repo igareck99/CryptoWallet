@@ -75,11 +75,13 @@ final class LocationManagerUseCase: NSObject, ObservableObject, LocationManager 
     }
     
     func getUserLocation() -> Location? {
+        locationManager.startUpdatingLocation()
         if let location = locationManager.location?.coordinate {
             lastLocation = (lat: location.latitude, long: location.longitude)
             if countryCode == kLocationChina || countryCode == kLocationHongKong {
                 country = .china
             } else { country = .other }
+            locationManager.stopUpdatingLocation()
             return lastLocation
         }
         return nil
