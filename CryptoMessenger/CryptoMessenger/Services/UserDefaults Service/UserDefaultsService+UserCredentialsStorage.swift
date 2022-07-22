@@ -11,7 +11,6 @@ protocol UserCredentialsStorage: UserDefaultsServiceProtocol {
 	var callsState: String? { get set }
 	var geopositionState: String? { get set }
 	var reserveCopyTime: String? { get set }
-	var secretPhraseState: String? { get set }
 }
 
 // MARK: - UserCredentialsStorage
@@ -66,10 +65,5 @@ extension UserDefaultsService: UserCredentialsStorage {
 	var reserveCopyTime: String? {
 		get { string(forKey: .reserveCopyTime) }
 		set { set(newValue, forKey: .reserveCopyTime) }
-	}
-
-	var secretPhraseState: String? {
-		get { string(forKey: .secretPhraseState) }
-		set { set(newValue, forKey: .secretPhraseState) }
 	}
 }

@@ -8,11 +8,9 @@ enum VerificationConfigurator {
 
     static func configuredViewController(delegate: VerificationSceneDelegate?) -> VerificationViewController {
         let viewController = VerificationViewController()
-		let userCredentials = UserDefaultsService.shared
 		let keychainService = KeychainService.shared
 		let presenter = VerificationPresenter(
 			view: viewController,
-			userCredentials: userCredentials,
 			keychainService: keychainService,
 			matrixUseCase: MatrixUseCase.shared
 		)

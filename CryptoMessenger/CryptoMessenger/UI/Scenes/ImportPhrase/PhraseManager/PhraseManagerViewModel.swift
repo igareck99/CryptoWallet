@@ -1,5 +1,6 @@
 import Combine
 import SwiftUI
+import HDWalletKit
 
 // MARK: - PhraseManagerViewModel
 
@@ -14,6 +15,7 @@ final class PhraseManagerViewModel: ObservableObject {
     @Published var description = ""
     @Published var secretPhrase = ""
     @Published var secretPhraseForApprove = ""
+    @Published var textEditorDisabled = true
 
     // MARK: - Private Properties
 
@@ -21,21 +23,28 @@ final class PhraseManagerViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<PhraseManagerFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<PhraseManagerFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-    private let userCredentialsStorage: UserCredentialsStorage
+    private var keychainService: KeychainServiceProtocol
 
     // MARK: - Lifecycle
 
     init(
-		userCredentialsStorage: UserCredentialsStorage
+        keychainService: KeychainServiceProtocol
 	) {
-		self.userCredentialsStorage = userCredentialsStorage
+        self.keychainService = keychainService
         bindInput()
         bindOutput()
+        generateKey()
     }
 
     deinit {
         subscriptions.forEach { $0.cancel() }
         subscriptions.removeAll()
+    }
+    
+    func generateKey() {
+        var keysList = WordList.english.words
+        keysList.shuffle()
+        secretPhrase = keysList.prefix(12).joined(separator: " ")
     }
 
     // MARK: - Internal Methods
@@ -76,6 +85,6 @@ final class PhraseManagerViewModel: ObservableObject {
         stepText = R.string.localizable.phraseManagerStepOneOfTwo()
         title = R.string.localizable.phraseManagerYourSecretPhrase()
         description = R.string.localizable.phraseManagerWriteAndEnter()
-        secretPhrase = "symbol riot impact deny skirt  error error  design leave opera snap lava"
+        keychainService.secretPhrase = secretPhrase
     }
 }

@@ -67,7 +67,7 @@ struct ImportKeyView: View {
                 Divider()
                     .padding(.top, 96)
                 importButton
-                    .padding(.top, 8)
+                    .padding([.top, .bottom], 8)
             }
             .hideKeyboardOnTap()
         }
@@ -79,15 +79,14 @@ struct ImportKeyView: View {
             switch showMnemonicSuccess {
             case true:
                 let dismissButton = Alert.Button.default(Text("OK")) {
-                    debugPrint("previousScreen")
                     presentationMode.wrappedValue.dismiss()
                 }
-                let alert = Alert(title: Text("Ключ успешно импортирован"),
+                let alert = Alert(title: Text(R.string.localizable.importImportSuccess()),
                                   message: Text(""),
                                   dismissButton: dismissButton)
                 return alert
             case false:
-                return Alert(title: Text("Ошибка при создании фразы"))
+                return Alert(title: Text(R.string.localizable.importImportError()))
             }
         }
         .popup(isPresented: $isChooseWalletShow,

@@ -9,7 +9,7 @@ final class ImportKeyViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: ImportKeySceneDelegate?
-    @Published var walletError = false
+    @Published var walletError = true
 
     // MARK: - Private Properties
 
@@ -17,10 +17,12 @@ final class ImportKeyViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<ImportKeyFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ImportKeyFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
+    private var keychainService: KeychainServiceProtocol
 
     // MARK: - Lifecycle
 
     init() {
+        self.keychainService = KeychainService.shared
         bindInput()
         bindOutput()
     }
@@ -37,22 +39,17 @@ final class ImportKeyViewModel: ObservableObject {
     }
 
     func createWallet(item: String, type: WalletType) {
-        walletError = false
-        let mnemonic = item.lowercased().split(separator: " ")
-        for x in mnemonic where !x.isEmpty {
-            if WordList.english.words.contains(String(x)) == false {
-                walletError = true
-                return
-            }
+        if secretPhraseValidate(toCompare: item) {
+            walletError = false
         }
         let seed = Mnemonic.createSeed(mnemonic: item)
         switch type {
         case .ethereum:
             let wallet1 = Wallet(seed: seed, coin: .ethereum)
-            let account_wallet1 = wallet1.generateAccount()
+            _ = wallet1.generateAccount()
         case .bitcoin:
             let wallet1 = Wallet(seed: seed, coin: .bitcoin)
-            let account_wallet1 = wallet1.generateAccount()
+            _ = wallet1.generateAccount()
         case .aur:
             break
         }
@@ -65,7 +62,6 @@ final class ImportKeyViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.updateData()
                     self?.objectWillChange.send()
                 }
             }
@@ -78,6 +74,7 @@ final class ImportKeyViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func updateData() {
+    private func secretPhraseValidate(toCompare: String) -> Bool {
+        return toCompare == keychainService.secretPhrase
     }
 }

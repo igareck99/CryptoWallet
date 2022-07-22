@@ -9,6 +9,11 @@ extension KeychainService {
 		get { string(forKey: .apiAccessToken) }
 		set { set(newValue, forKey: .apiAccessToken) }
 	}
+    
+    var secretPhrase: String? {
+        get { string(forKey: .secretPhrase) }
+        set { set(newValue, forKey: .secretPhrase) }
+    }
 
 	var apiRefreshToken: String? {
 		get { string(forKey: .apiRefreshToken) }

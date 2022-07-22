@@ -11,6 +11,7 @@ final class KeychainService {
 		case gmtZeroTimeInterval
 
 		case apiAccessToken
+        case secretPhrase
 		case apiRefreshToken
 		case apiUserId
 		case apiUserPhoneNumber

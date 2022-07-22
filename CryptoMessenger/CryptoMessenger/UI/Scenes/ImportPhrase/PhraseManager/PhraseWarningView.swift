@@ -53,6 +53,7 @@ struct PhraseWarningView: View {
             })
             viewModel.updateStepText()
             repeatPhrase = true
+            viewModel.textEditorDisabled = false
         } label: {
             Text(R.string.localizable.phraseManagerYesiWrite())
                 .font(.semibold(15))
