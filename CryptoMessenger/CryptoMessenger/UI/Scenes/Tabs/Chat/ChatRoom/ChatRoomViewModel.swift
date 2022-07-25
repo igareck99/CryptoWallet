@@ -41,16 +41,22 @@ final class ChatRoomViewModel: ObservableObject {
 
 	var p2pVideoCallPublisher = ObservableObjectPublisher()
 	var p2pVoiceCallPublisher = ObservableObjectPublisher()
+
+	@Published var isVoiceCallAvailablility: Bool = false
+	@Published var isVideoCallAvailablility: Bool = false
+
 	var isVoiceCallAvailable: Bool {
 		let isCallAvailable = availabilityFacade.isCallAvailable
 		let isP2PChat = room.room.summary?.membersCount?.joined == 2
-		return isCallAvailable && isP2PChat
+		let isCallInProgress = settings.bool(forKey: .isCallInprogressExists)
+		return isCallAvailable && isP2PChat && !isCallInProgress
 	}
 
 	var isVideoCallAvailable: Bool {
 		let isVideoCallAvailable = availabilityFacade.isVideoCallAvailable
 		let isP2PChat = room.room.summary?.membersCount?.joined == 2
-		return isVideoCallAvailable && isP2PChat
+		let isCallInProgress = settings.bool(forKey: .isCallInprogressExists)
+		return isVideoCallAvailable && isP2PChat && !isCallInProgress
 	}
 
     // MARK: - Private Properties
@@ -62,13 +68,12 @@ final class ChatRoomViewModel: ObservableObject {
     private let mediaService = MediaService()
 	private let p2pCallsUseCase: P2PCallUseCaseProtocol
 	private let availabilityFacade: ChatRoomTogglesFacadeProtocol
+	private let settings: UserDefaultsServiceProtocol
 
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var translateManager: TranslateManager
     @Injectable private var locationManager: LocationManager
 
-
-    //swiftlint:disable redundant_optional_initialization
     var toggleFacade: MainFlowTogglesFacadeProtocol
     
     // MARK: - Lifecycle
@@ -78,16 +83,20 @@ final class ChatRoomViewModel: ObservableObject {
 		p2pCallsUseCase: P2PCallUseCaseProtocol = P2PCallUseCase.shared,
 		availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build(), 
         toggleFacade: MainFlowTogglesFacadeProtocol,
-        locationManager: LocationManager = LocationManagerUseCase.shared
+        locationManager: LocationManager = LocationManagerUseCase.shared,
+		settings: UserDefaultsServiceProtocol = UserDefaultsService.shared
 	) {
         self.room = room
 		self.p2pCallsUseCase = p2pCallsUseCase
+		self.settings = settings
 		self.availabilityFacade = availabilityFacade
         self.toggleFacade = toggleFacade
-        self.locationManager = locationManager
-        
+		self.locationManager = locationManager
+
+		updateToggles()
         bindInput()
         bindOutput()
+		subscribeToNotifications()
 
         keyboardObserver.keyboardWillShowHandler = { [weak self] notification in
             guard
@@ -108,7 +117,26 @@ final class ChatRoomViewModel: ObservableObject {
     deinit {
         subscriptions.forEach { $0.cancel() }
         subscriptions.removeAll()
+		NotificationCenter.default.removeObserver(self)
     }
+
+	private func updateToggles() {
+		self.isVoiceCallAvailablility = isVoiceCallAvailable
+		self.isVideoCallAvailablility = isVideoCallAvailable
+	}
+
+	private func subscribeToNotifications() {
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(didUpdateCallState),
+			name: .callStateDidChange,
+			object: nil
+		)
+	}
+
+	@objc private func didUpdateCallState() {
+		updateToggles()
+	}
 
     // MARK: - Internal Methods
 
@@ -496,6 +524,7 @@ final class ChatRoomViewModel: ObservableObject {
 			guard let self = self,
 				  let roomId = self.room.room.roomId else { return }
 				self.p2pCallsUseCase.placeVoiceCall(roomId: roomId, contacts: self.chatData.contacts)
+				self.updateToggles()
 			}.store(in: &subscriptions)
 
 		p2pVideoCallPublisher
@@ -507,6 +536,7 @@ final class ChatRoomViewModel: ObservableObject {
 				guard let self = self,
 					  let roomId = self.room.room.roomId else { return }
 				self.p2pCallsUseCase.placeVideoCall(roomId: roomId, contacts: self.chatData.contacts)
+				self.updateToggles()
 			}.store(in: &subscriptions)
     }
     
