@@ -226,23 +226,22 @@ struct ChatRoomView: View {
 								viewModel.p2pVideoCallPublisher.send()
 							}, label: {
 								Image(systemName: "video.fill").tint(.black)
-							})
-						}
+							}).disabled(!$viewModel.isVideoCallAvailablility.wrappedValue)
 
-						if viewModel.isVoiceCallAvailable {
 							Button(action: {
 								viewModel.p2pVoiceCallPublisher.send()
 							}, label: {
 								Image(systemName: "phone.fill").tint(.black)
-							})
+							}).disabled(!$viewModel.isVoiceCallAvailablility.wrappedValue)
 						}
+
                         Button(action: {
                             cardGroupPosition = .custom(180)
                         }, label: {
                             R.image.navigation.settingsButton.image
                         })
                     }
-                    .padding(.bottom, 8)
+					.padding(.bottom, 8)
                 }
             }
     }

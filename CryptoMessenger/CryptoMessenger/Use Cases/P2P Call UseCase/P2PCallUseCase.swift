@@ -82,6 +82,7 @@ final class P2PCallUseCase: NSObject {
 	private var activeCallState: P2PCallState {
 		P2PCallState.state(from: (activeCall?.state ?? .ended))
 	}
+	private let settings: UserDefaultsServiceProtocol
 	private var subscriptions = Set<AnyCancellable>()
 	var roomContacts = [Contact]()
 	var callType: P2PCallType = .none
@@ -90,10 +91,12 @@ final class P2PCallUseCase: NSObject {
 
 	init(
 		matrixService: MatrixServiceProtocol = MatrixService.shared,
-		router: P2PCallsRouterable = P2PCallsRouter()
+		router: P2PCallsRouterable = P2PCallsRouter(),
+		settings: UserDefaultsServiceProtocol = UserDefaultsService.shared
 	) {
 		self.matrixService = matrixService
 		self.router = router
+		self.settings = settings
 		super.init()
 		observeNotifications()
 		configureBindings()
@@ -166,6 +169,8 @@ final class P2PCallUseCase: NSObject {
 			return
 		}
 
+		settings.set(true, forKey: .isCallInprogressExists)
+
 		debugPrint("Place_Call: callStateChanged state: \(call.state)")
 
 		if activeCall != nil,
@@ -214,6 +219,7 @@ final class P2PCallUseCase: NSObject {
 			debugPrint("Place_Call: callStateChanged callId: \(call.callId) state: \(call.state)")
 			call.hangup()
 			updateControllerOnEndOf(endedCall: call)
+			settings.set(false, forKey: .isCallInprogressExists)
 		default:
 			debugPrint("Place_Call: callStateChanged UNKNOWN: \(call.callId) state: \(call.state)")
 		}
