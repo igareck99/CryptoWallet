@@ -6,6 +6,12 @@ protocol StatusBarCallViewDelegate: AnyObject {
 
 }
 
+protocol StatusBarCallViewProtocol {
+
+	func animateStatusView(show: Bool)
+
+}
+
 final class StatusBarCallView: UIView {
 
 	private let callLabel: UILabel = {
@@ -25,6 +31,10 @@ final class StatusBarCallView: UIView {
 		view.backgroundColor = .systemGreen
 		return view
 	}()
+
+	private var statusBarHeight: CGFloat {
+		UIApplication.shared.statusBarFrame.size.height
+	}
 
 	var heightConstraint: NSLayoutConstraint?
 	var coloredViewHeightConstraint: NSLayoutConstraint?
@@ -55,6 +65,13 @@ final class StatusBarCallView: UIView {
 	}
 }
 
+extension StatusBarCallView: StatusBarCallViewProtocol {
+	func animateStatusView(show: Bool) {
+		self.coloredViewHeightConstraint?.constant = show ? 30 : 0
+		self.heightConstraint?.constant = show ? statusBarHeight + 30 : 0
+	}
+}
+
 private extension StatusBarCallView {
 
 	func configureViews(appWindow: UIWindow) {
@@ -81,7 +98,7 @@ private extension StatusBarCallView {
 		coloredViewHeightConstraint = coloredHConstraint
 		addSubview(coloredView)
 		NSLayoutConstraint.activate([
-			coloredView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+			coloredView.topAnchor.constraint(equalTo: topAnchor, constant: statusBarHeight),
 			coloredView.leadingAnchor.constraint(equalTo: leadingAnchor),
 			coloredView.trailingAnchor.constraint(equalTo: trailingAnchor),
 			coloredView.bottomAnchor.constraint(equalTo: bottomAnchor),
