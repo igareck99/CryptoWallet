@@ -4,7 +4,7 @@ final class StatusBarCallUseCase {
 
 	private var isCallEnded = false
 
-	private var underStatusView: StatusBarCallView?
+	private var underStatusView: StatusBarCallViewProtocol?
 
 	init(appWindow: UIWindow) {
 		configureViews(appWindow: appWindow)
@@ -84,8 +84,7 @@ final class StatusBarCallUseCase {
 	}
 
 	private func animateStatusView(show: Bool) {
-		self.underStatusView?.coloredViewHeightConstraint?.constant = show ? 30 : 0
-		self.underStatusView?.heightConstraint?.constant = show ? 50 : 0
+		underStatusView?.animateStatusView(show: show)
 	}
 }
 

@@ -48,15 +48,13 @@ final class ChatRoomViewModel: ObservableObject {
 	var isVoiceCallAvailable: Bool {
 		let isCallAvailable = availabilityFacade.isCallAvailable
 		let isP2PChat = room.room.summary?.membersCount?.joined == 2
-		let isCallInProgress = settings.bool(forKey: .isCallInprogressExists)
-		return isCallAvailable && isP2PChat && !isCallInProgress
+		return isCallAvailable && isP2PChat
 	}
 
 	var isVideoCallAvailable: Bool {
 		let isVideoCallAvailable = availabilityFacade.isVideoCallAvailable
 		let isP2PChat = room.room.summary?.membersCount?.joined == 2
-		let isCallInProgress = settings.bool(forKey: .isCallInprogressExists)
-		return isVideoCallAvailable && isP2PChat && !isCallInProgress
+		return isVideoCallAvailable && isP2PChat
 	}
 
     // MARK: - Private Properties
@@ -68,7 +66,7 @@ final class ChatRoomViewModel: ObservableObject {
     private let mediaService = MediaService()
 	private let p2pCallsUseCase: P2PCallUseCaseProtocol
 	private let availabilityFacade: ChatRoomTogglesFacadeProtocol
-	private let settings: UserDefaultsServiceProtocol
+	private let settings: UserDefaultsServiceCallable
 
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var translateManager: TranslateManager
@@ -84,7 +82,7 @@ final class ChatRoomViewModel: ObservableObject {
 		availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build(), 
         toggleFacade: MainFlowTogglesFacadeProtocol,
         locationManager: LocationManager = LocationManagerUseCase.shared,
-		settings: UserDefaultsServiceProtocol = UserDefaultsService.shared
+		settings: UserDefaultsServiceCallable = UserDefaultsService.shared
 	) {
         self.room = room
 		self.p2pCallsUseCase = p2pCallsUseCase
@@ -121,8 +119,15 @@ final class ChatRoomViewModel: ObservableObject {
     }
 
 	private func updateToggles() {
-		self.isVoiceCallAvailablility = isVoiceCallAvailable
-		self.isVideoCallAvailablility = isVideoCallAvailable
+
+		let isP2PChat = room.room.summary?.membersCount?.joined == 2
+		let isCallInProgress = settings.bool(forKey: .isCallInprogressExists)
+
+		let isCallAvailable = availabilityFacade.isCallAvailable
+		self.isVoiceCallAvailablility = isCallAvailable && isP2PChat && !isCallInProgress
+
+		let isVideoCallAvailable = availabilityFacade.isVideoCallAvailable
+		self.isVideoCallAvailablility = isVideoCallAvailable && isP2PChat && !isCallInProgress
 	}
 
 	private func subscribeToNotifications() {
@@ -536,6 +541,14 @@ final class ChatRoomViewModel: ObservableObject {
 				guard let self = self,
 					  let roomId = self.room.room.roomId else { return }
 				self.p2pCallsUseCase.placeVideoCall(roomId: roomId, contacts: self.chatData.contacts)
+				self.updateToggles()
+			}.store(in: &subscriptions)
+
+		settings.inProgressCallSubject
+			.receive(on: RunLoop.main)
+			.sink { [weak self] _ in
+				debugPrint("Place_Call: inProgressCallSubject")
+				guard let self = self else { return }
 				self.updateToggles()
 			}.store(in: &subscriptions)
     }

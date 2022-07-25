@@ -472,6 +472,8 @@
 		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
 		D4014D4F283FA7D100AAD70C /* CallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D4E283FA7D100AAD70C /* CallViewController.swift */; };
 		D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */; };
+		D41553B7288AC780003FDADC /* UserDefaultsService+Calls.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41553B6288AC780003FDADC /* UserDefaultsService+Calls.swift */; };
+		D41553B9288AC819003FDADC /* UserDefaultsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41553B8288AC819003FDADC /* UserDefaultsServiceProtocol.swift */; };
 		D423A0A2285E2860004A8228 /* P2PCallState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423A0A1285E2860004A8228 /* P2PCallState.swift */; };
 		D423A0A92860A47E004A8228 /* MXCallKitAdapter+Updaters.m in Sources */ = {isa = PBXBuildFile; fileRef = D423A0A82860A47E004A8228 /* MXCallKitAdapter+Updaters.m */; };
 		D425C7E628071C6500E61607 /* AppCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D425C7E528071C6500E61607 /* AppCoordinatorAssembly.swift */; };
@@ -1004,6 +1006,8 @@
 		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		D4014D4E283FA7D100AAD70C /* CallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewController.swift; sourceTree = "<group>"; };
 		D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallsRouter.swift; sourceTree = "<group>"; };
+		D41553B6288AC780003FDADC /* UserDefaultsService+Calls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+Calls.swift"; sourceTree = "<group>"; };
+		D41553B8288AC819003FDADC /* UserDefaultsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsServiceProtocol.swift; sourceTree = "<group>"; };
 		D423A0A1285E2860004A8228 /* P2PCallState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallState.swift; sourceTree = "<group>"; };
 		D423A0A72860A47E004A8228 /* MXCallKitAdapter+Updaters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MXCallKitAdapter+Updaters.h"; sourceTree = "<group>"; };
 		D423A0A82860A47E004A8228 /* MXCallKitAdapter+Updaters.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MXCallKitAdapter+Updaters.m"; sourceTree = "<group>"; };
@@ -2786,7 +2790,9 @@
 		D44BDC91280FECC80080AE8A /* UserDefaults Service */ = {
 			isa = PBXGroup;
 			children = (
+				D41553B8288AC819003FDADC /* UserDefaultsServiceProtocol.swift */,
 				D44BDC92280FECC80080AE8A /* UserDefaultsService.swift */,
+				D41553B6288AC780003FDADC /* UserDefaultsService+Calls.swift */,
 				D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */,
 				D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */,
 			);
@@ -3460,6 +3466,7 @@
 				5ABF08CF27D9C86A0016CC6F /* SUImagePickerView.swift in Sources */,
 				8BA0C90B27AD4F4C0070203F /* AnswerView.swift in Sources */,
 				8BB517BF2856B86600D06593 /* MediaServiceData.swift in Sources */,
+				D41553B7288AC780003FDADC /* UserDefaultsService+Calls.swift in Sources */,
 				D44BDC8128099F110080AE8A /* PushNotificationParser.swift in Sources */,
 				D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */,
 				5A26CD2E26B3114400118D4B /* BarButtonStyle.swift in Sources */,
@@ -3510,6 +3517,7 @@
 				5A44FEF7276940E8006F9D92 /* ChatCreateFlow.swift in Sources */,
 				8BE3799C27EB268700AB6B6E /* WalletManagerView.swift in Sources */,
 				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
+				D41553B9288AC819003FDADC /* UserDefaultsServiceProtocol.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
 				5A3721D3272EF0DA0097ABED /* ChatCreateView.swift in Sources */,
 				D45004772845DE9700CA4C82 /* HStackViewModel.swift in Sources */,

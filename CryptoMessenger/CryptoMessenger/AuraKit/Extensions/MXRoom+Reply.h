@@ -1,14 +1,18 @@
-#import <MatrixSDK/MatrixSDK.h>
+#import <MatrixSDK/MXRoom.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface MXRoom (Reply)
 
-- (MXHTTPOperation*_Nullable)sendReplyToEvent:(MXEvent*)eventToReply
-							  withTextMessage:(NSString*_Nonnull)textMessage
-						 formattedTextMessage:(nullable NSString*)formattedTextMessage
-						  stringLocalizations:(nullable id<MXSendReplyEventStringLocalizerProtocol>)stringLocalizations
-									localEcho:(MXEvent**)localEcho
+- (MXHTTPOperation*_Nullable)sendReplyToEvent:(MXEvent * _Nullable)eventToReply
+							  withTextMessage:(NSString *_Nonnull)textMessage
+						 formattedTextMessage:(NSString* _Nullable)formattedTextMessage
+						  stringLocalizations:(id<MXSendReplyEventStringLocalizerProtocol> _Nullable)stringLocalizations
+									localEcho:(MXEvent *_Nullable *_Nullable)localEcho
 							 customParameters: (nullable NSDictionary*)customParameters
-									  success:(void (^)(NSString *eventId))success
-									  failure:(void (^)(NSError *error))failure;
+									  success:(void (^_Nullable)(NSString * _Nullable eventId))success
+									  failure:(void (^_Nullable)(NSError * _Nullable error))failure;
 
 @end
+
+NS_ASSUME_NONNULL_END
