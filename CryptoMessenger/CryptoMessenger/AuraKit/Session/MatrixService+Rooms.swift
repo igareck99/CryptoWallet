@@ -60,13 +60,32 @@ extension MatrixService {
 		else { completion(.failure(.voiceCallPlaceError)); return }
 
 		room.placeCall(withVideo: false) { response in
-			debugPrint("Place_Call: response: \(response)")
+			debugPrint("Place_Voice_Call: response: \(response)")
 			switch response {
 			case .success(let call):
 				completion(.success(call))
 			case .failure(_):
-				debugPrint("Place_Call: placeVoiceCall: voiceCallPlaceError")
+				debugPrint("Place_Voice_Call: placeVoiceCall: voiceCallPlaceError")
 				completion(.failure(.voiceCallPlaceError))
+			}
+		}
+	}
+
+	func placeVideoCall(
+		roomId: String,
+		completion: @escaping (Result<MXCall, MXErrors>) -> Void
+	) {
+		guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room
+		else { completion(.failure(.videoCallPlaceError)); return }
+
+		room.placeCall(withVideo: true) { response in
+			debugPrint("Place_Video_Call: response: \(response)")
+			switch response {
+			case .success(let call):
+				completion(.success(call))
+			case .failure(_):
+				debugPrint("Place_Video_Call: placeVideoCall: voiceCallPlaceError")
+				completion(.failure(.videoCallPlaceError))
 			}
 		}
 	}

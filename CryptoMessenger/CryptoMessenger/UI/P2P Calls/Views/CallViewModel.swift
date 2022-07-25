@@ -21,8 +21,7 @@ protocol CallViewModelProtocol {
 	var holdStackModel: HStackViewModel? { get }
 	var callStateTypeSubject: CurrentValueSubject<(P2PCallState, P2PCallType), Never> { get }
 	var activeCallerNameSubject: CurrentValueSubject<String, Never> { get }
-
-	var callDurationSubject: PassthroughSubject<UInt, Never> { get }
+	var callDurationSubject: PassthroughSubject<String, Never> { get }
 
 	func controllerWillAppear()
 	func controllerDidDisappear()
@@ -32,12 +31,12 @@ protocol CallViewModelProtocol {
 final class CallViewModel {
 
 	let userName: String
-	let screenTitle: String = "Защищено сквозным шифрованием"
+	lazy var screenTitle: String = sources.endToEndEncrypted
 	var videoAudioStackModel: HStackViewModel?
 	var answerEndCallStackModel: HStackViewModel?
 	var holdStackModel: HStackViewModel?
 
-	lazy var callDurationSubject = PassthroughSubject<UInt, Never>()
+	lazy var callDurationSubject = PassthroughSubject<String, Never>()
 	var callStateTypeSubject = CurrentValueSubject<(P2PCallState, P2PCallType), Never>((.none, .none))
 	lazy var callButtonSubject = CurrentValueSubject<Bool, Never>(p2pCallUseCase.callType == .outcoming)
 
@@ -122,7 +121,12 @@ final class CallViewModel {
 		timer
 			.receive(on: RunLoop.main)
 			.sink { [weak self] _ in
-				self?.callDurationSubject.send(self?.p2pCallUseCase.duration ?? .zero)
+				guard let duration = self?.p2pCallUseCase.duration, duration > .zero else { return }
+				let callDuration = duration / 1_000
+				let seconds = callDuration % 60
+				let minutes = (callDuration - seconds) / 60
+				let durationText = String(format: "%02tu:%02tu", minutes, seconds)
+				self?.callDurationSubject.send(durationText)
 			}.store(in: &subscribtions)
 
 		p2pCallUseCase.changeHoldedCallEnabledPublisher
@@ -158,6 +162,7 @@ extension CallViewModel: CallViewModelProtocol {
 			name: .callViewWillAppear,
 			object: nil
 		)
+		p2pCallUseCase.changeVoiceSpeaker()
 	}
 
 	func controllerDidAppear() {

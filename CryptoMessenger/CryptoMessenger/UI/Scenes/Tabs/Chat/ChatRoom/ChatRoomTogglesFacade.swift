@@ -2,6 +2,7 @@ import Foundation
 
 protocol ChatRoomTogglesFacadeProtocol {
 	var isCallAvailable: Bool { get }
+	var isVideoCallAvailable: Bool { get }
 	var isGroupChatAvailable: Bool { get }
 	var isPersonalChatAvailable: Bool { get }
 }

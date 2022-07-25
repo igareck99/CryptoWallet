@@ -39,11 +39,18 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var cameraFrame: CGImage?
     @Published var roomUsers = [MXUser]()
 
+	var p2pVideoCallPublisher = ObservableObjectPublisher()
 	var p2pVoiceCallPublisher = ObservableObjectPublisher()
 	var isVoiceCallAvailable: Bool {
 		let isCallAvailable = availabilityFacade.isCallAvailable
 		let isP2PChat = room.room.summary?.membersCount?.joined == 2
 		return isCallAvailable && isP2PChat
+	}
+
+	var isVideoCallAvailable: Bool {
+		let isVideoCallAvailable = availabilityFacade.isVideoCallAvailable
+		let isP2PChat = room.room.summary?.membersCount?.joined == 2
+		return isVideoCallAvailable && isP2PChat
 	}
 
     // MARK: - Private Properties
@@ -484,11 +491,22 @@ final class ChatRoomViewModel: ObservableObject {
 			.subscribe(on: RunLoop.main)
 			.receive(on: RunLoop.main)
 			.sink { [weak self] _ in
-				debugPrint("Place_Call: publisher")
+				debugPrint("Place_Call: p2pVoiceCallPublisher")
 			// TODO: Handle failure case
 			guard let self = self,
 				  let roomId = self.room.room.roomId else { return }
 				self.p2pCallsUseCase.placeVoiceCall(roomId: roomId, contacts: self.chatData.contacts)
+			}.store(in: &subscriptions)
+
+		p2pVideoCallPublisher
+			.subscribe(on: RunLoop.main)
+			.receive(on: RunLoop.main)
+			.sink { [weak self] _ in
+				debugPrint("Place_Call: p2pVideoCallPublisher")
+				// TODO: Handle failure case
+				guard let self = self,
+					  let roomId = self.room.room.roomId else { return }
+				self.p2pCallsUseCase.placeVideoCall(roomId: roomId, contacts: self.chatData.contacts)
 			}.store(in: &subscriptions)
     }
     

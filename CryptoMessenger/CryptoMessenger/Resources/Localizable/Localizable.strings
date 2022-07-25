@@ -98,6 +98,12 @@
 "Calls.YouAreHolding" = "Вы отправили звонок на удержание";
 "Calls.UserDoesNotRespond" = "Пользователь не отвечает";
 "Calls.CallFinished" = "Звонок завершен";
+"Calls.EndToEndEncrypted" = "Защищено сквозным шифрованием";
+"Calls.Speaker" = "Динамик";
+"Calls.ChangeInterlocutor" = "Сменить собеседника";
+"Calls.TurnOnSound" = "Включить звук";
+"Calls.TurnOffSound" = "Выключить звук";
+"Calls.Camera" = "Камера";
 
 "PhotoEditor.Title" = "Фото";
 "PhotoEditor.AlertTitle" = "Удалить фото?";

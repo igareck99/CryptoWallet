@@ -10,6 +10,7 @@ enum MXErrors: Error {
 	case startSessionFailure
 	case userIdRetrieve
 	case voiceCallPlaceError
+	case videoCallPlaceError
     case imageUploadError
     case fileUploadError
     case contactUploadError
@@ -74,6 +75,7 @@ final class MatrixService: MatrixServiceProtocol {
 		self.uploader = uploader
 		self.keychainService = keychainService
 		self.userSettings = userSettings
+		configureMatrixSDKSettings()
 	}
 
 	deinit {
@@ -102,7 +104,7 @@ final class MatrixService: MatrixServiceProtocol {
 		let sdkOptions = MXSDKOptions.sharedInstance()
 		// sdkOptions.applicationGroupIdentifier = ""
 		// Enable e2e encryption for newly created MXSession
-		sdkOptions.enableCryptoWhenStartingMXSession = true
+		sdkOptions.enableCryptoWhenStartingMXSession = false
 		sdkOptions.computeE2ERoomSummaryTrust = true
 		// Use UIKit BackgroundTask for handling background tasks in the SDK
 		// sdkOptions.backgroundModeHandler = MXUIKitBackgroundModeHandler()
@@ -180,6 +182,7 @@ extension MatrixService {
 		config.name = "CryptoMessenger"
 		let adapter = MXCallKitAdapter(configuration: config)
 		let audioSessionConfigurator: MXCallAudioSessionConfigurator = MXJingleCallAudioSessionConfigurator()
+		audioSessionConfigurator.configureAudioSession(forVideoCall: true)
 		adapter.audioSessionConfigurator = audioSessionConfigurator
 		session?.callManager.callKitAdapter = adapter
 	}

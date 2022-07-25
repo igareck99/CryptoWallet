@@ -40,6 +40,7 @@ protocol MatrixServiceProtocol {
 	func joinRoom(roomId: String, completion: @escaping (MXResponse<MXRoom>) -> Void)
 	func isDirectRoomExists(userId: String) -> Bool
 	func placeVoiceCall(roomId: String, completion: @escaping (Result<MXCall, MXErrors>) -> Void)
+	func placeVideoCall(roomId: String, completion: @escaping (Result<MXCall, MXErrors>) -> Void)
     func uploadImage(for roomId: String, image: UIImage,
                      completion: @escaping (Result <String?, MXErrors>) -> Void)
     func uploadFile(for roomId: String, url: URL,
