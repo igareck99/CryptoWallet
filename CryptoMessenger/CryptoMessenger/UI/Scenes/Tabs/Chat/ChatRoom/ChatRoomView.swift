@@ -312,36 +312,11 @@ struct ChatRoomView: View {
                                         .flippedUpsideDown()
                                         .listRowSeparator(.hidden)
                                         .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
-                                            switch message.type {
-                                            case let .location(location):
-                                                actionSheet = IOActionSheet(title: R.string.localizable.chatRoomViewSelectMap(),
-                                                                            font: UIFont.systemFont(ofSize: 14),
-                                                                            color:UIColor(.gray(1)))
-                                                actionSheet?.addButton(
-                                                    title: R.string.localizable.chatRoomViewBaidu(),
-                                                    action: {
-                                                        LocationManagerUseCase.shared.openSideApp(service: .baidu, place: Place(name: "", latitude: location.lat, longitude: location.long))
-                                                        actionSheet = nil
-                                                    })
-                                                actionSheet?.addButton(
-                                                    title: R.string.localizable.chatRoomViewApple(),
-                                                    action: {
-                                                        LocationManagerUseCase.shared.openSideApp(service: .apple, place: Place(name: "", latitude: location.lat, longitude: location.long))
-                                                        actionSheet = nil
-                                                    })
-                                                actionSheet?.cancelButtonTitle = R.string.localizable.chatRoomViewCancel()
-                                                actionSheet?.cancelButtonTextColor = .red
-                                                actionSheet?.buttonsFont = UIFont.boldSystemFont(ofSize: 16)
-                                                actionSheet?.backgroundColor = .white
-                                                actionSheet?.show()
-                                            default:
-                                                vibrate(.medium)
-                                                messageId = message.id
-                                                activeEditMessage = message
-                                                cardPosition = .custom(UIScreen.main.bounds.height - 580)
-                                                hideKeyboard()
-                                            
-                                            }
+                                            vibrate(.medium)
+                                            messageId = message.id
+                                            activeEditMessage = message
+                                            cardPosition = .custom(UIScreen.main.bounds.height - 580)
+                                            hideKeyboard()
                                         }
                                     }
                                 }
