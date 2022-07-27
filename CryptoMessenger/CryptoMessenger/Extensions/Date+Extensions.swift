@@ -12,6 +12,14 @@ extension Date {
     var iso8601: String { Formatter.iso8601.string(from: self) }
     var is24HoursHavePassed: Bool { (Date().timeIntervalSince(self) / 3600) > 24 }
     var hoursAndMinutes: String { Formatter.timeFormatter.string(from: self) }
+
+    // MARK: - Internal Methods
+
+    func toString( dateFormat format  : String ) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: self)
+    }
 }
 
 // MARK: - ISO8601DateFormatter ()

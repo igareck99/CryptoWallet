@@ -11,6 +11,7 @@ enum MessageType {
     case text(String)
     case image(URL?)
     case file(String, URL?)
+    case audio(URL?)
     case location((lat: Double, long: Double))
     case contact(name: String, phone: String?, url: URL?)
     case none
@@ -78,6 +79,7 @@ struct RoomMessage: Identifiable {
     let isCurrentUser: Bool
     let isReply: Bool
     var replyDescription = ""
+    var audioDuration = ""
     var eventId = ""
     var name = ""
     var avatar: URL?

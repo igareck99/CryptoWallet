@@ -26,6 +26,13 @@ struct ChatRoomView: View {
     @StateObject var attachViewModel = AttachActionViewModel()
     @State var photosToSend: [UIImage] = []
     @State var sendPhotos = false
+    @StateObject var attachActionViewModel = AttachActionViewModel()
+    @State var showAudioView = false
+    @State var record: RecordingDataModel?
+    @State var blockDragPadding: CGFloat = 0
+    @State private var textDragPadding: CGFloat = 0
+    @State var blockAudioRecord = false
+    @State var resetAudio = false
 
     // MARK: - Private Properties
 
@@ -41,7 +48,6 @@ struct ChatRoomView: View {
     @State private var height = CGFloat(0)
     @State private var selectedPhoto: URL?
     @State private var showSettings = false
-    @State private var showQuickMenu = false
     @State private var showTranslateAlert = false
     @State private var showTranslateMenu = false
     @State private var activeSheet: ActiveSheet?
@@ -95,16 +101,51 @@ struct ChatRoomView: View {
             .onReceive(viewModel.$showDocuments) { flag in
                 if flag { activeSheet = .documents }
             }
+            .onReceive(viewModel.$showContacts, perform: { flag in
+                if flag { activeSheet = .contact }
+            })
             .onReceive(viewModel.$showTranslate) { flag in
                 if flag {
                     showTranslateAlert = true
                 }
             }
+            .alert(isPresented: $showJoinAlert) {
+                let roomName = viewModel.room.summary.displayname ??  viewModel.sources.chatNewRequest
+                return Alert(
+                    title: Text(viewModel.sources.joinChat),
+                    message: Text("Принять приглашение от \(roomName)"),
+                    primaryButton: .default(
+                        Text("Присоединиться"),
+                        action: {
+                            viewModel.send(.onJoinRoom)
+                        }
+                    ),
+                    secondaryButton: .cancel(
+                        Text(viewModel.sources.callListAlertActionOne),
+                        action: { presentationMode.wrappedValue.dismiss() }
+                    )
+                )
+            }
+
+//            .alert(isPresented: $showTranslateAlert) { () -> Alert in
+//                let dismissButton = Alert.Button.default(Text("Поменять")) {
+//                    translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
+//                }
+//                let confirmButton = Alert.Button.default(Text("Перевести")) {
+//                    for message in viewModel.messages {
+//                        viewModel.translateTo(languageCode: "ru", message: message)
+//                    }
+//                }
+//                let alert = Alert(title: Text("Переводить сообщения на Русский язык"),
+//                                  message: Text("ВНИМАНИЕ! При переводе сообщий их шифрования теряется!"),
+//                                  primaryButton: confirmButton, secondaryButton: dismissButton)
+//                return alert
+//            }
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .photo:
                     ImagePickerView(selectedImage: $viewModel.selectedImage)
-                        .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                        .navigationBarTitle(Text(viewModel.sources.photoEditorTitle))
                         .navigationBarTitleDisplayMode(.inline)
                 case .documents:
                     documentPicker { urls in
@@ -139,7 +180,7 @@ struct ChatRoomView: View {
                         Button(action: {
                             presentationMode.wrappedValue.dismiss()
                         }, label: {
-                            R.image.navigation.backButton.image
+                            viewModel.sources.backButton
                         })
 
                         AsyncImage(
@@ -161,9 +202,9 @@ struct ChatRoomView: View {
                         .cornerRadius(18)
                         .padding(.trailing, 12)
                         .alert(isPresented: $showJoinAlert) {
-                                let roomName = viewModel.room.summary.displayname ??  R.string.localizable.chatNewRequest()
+                            let roomName = viewModel.room.summary.displayname ??  viewModel.sources.chatNewRequest
                                 return Alert(
-                                    title: Text(R.string.localizable.chatJoinChat()),
+                                    title: Text(viewModel.sources.joinChat),
                                     message: Text("Принять приглашение от \(roomName)"),
                                     primaryButton: .default(
                                         Text("Присоединиться"),
@@ -172,7 +213,7 @@ struct ChatRoomView: View {
                                         }
                                     ),
                                     secondaryButton: .cancel(
-                                        Text(R.string.localizable.callListAlertActionOne()),
+                                        Text(viewModel.sources.callListAlertActionOne),
                                         action: { presentationMode.wrappedValue.dismiss() }
                                     )
                                 )
@@ -188,8 +229,8 @@ struct ChatRoomView: View {
                             }
                             HStack(spacing: 0) {
                                 if viewModel.room.isDirect {
-                                    Text(viewModel.room.isOnline ?  R.string.localizable.chatOnline() :
-                                            R.string.localizable.chatOffline())
+                                    Text(viewModel.room.isOnline ?  viewModel.sources.chatOnline :
+                                            viewModel.sources.chatOffline)
                                         .lineLimit(1)
                                         .font(.regular(13))
                                         .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
@@ -249,7 +290,7 @@ struct ChatRoomView: View {
                         Button(action: {
                             cardGroupPosition = .custom(180)
                         }, label: {
-                            R.image.navigation.settingsButton.image
+                            viewModel.sources.settingsButton
                         })
                     }
 					.padding(.bottom, 8)
@@ -330,13 +371,13 @@ struct ChatRoomView: View {
                                 }
 								
                                 if event.eventType == "m.room.encryption" {
-                                    eventView(text: R.string.localizable.chatRoomViewEncryptedMessagesNotify())
+                                    eventView(text: viewModel.sources.chatRoomViewEncryptedMessagesNotify)
                                         .flippedUpsideDown()
                                         .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                 }
                                 
                                 if event.eventType == "m.room.avatar" {
-                                    eventView(text: R.string.localizable.chatRoomViewSelfAvatarChangeNotify())
+                                    eventView(text: viewModel.sources.chatRoomViewSelfAvatarChangeNotify)
                                         .flippedUpsideDown()
                                         .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                 }
@@ -346,30 +387,30 @@ struct ChatRoomView: View {
                                     case "join" as String:
                                         if let users = viewModel.roomUsers.filter({$0.displayname == event.content["displayname"] as? String}) {
                                             if users.contains(where: {$0.avatarUrl == event.content["avatar_url"] as? String}) {
-                                                eventView(text: "\(event.content["displayname"] ?? "No name") \(R.string.localizable.chatRoomViewAvatarChangeNotify())")
+                                                eventView(text: "\(event.content["displayname"] ?? "No name") \(viewModel.sources.chatRoomViewAvatarChangeNotify)")
                                                     .flippedUpsideDown()
                                                     .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                             } else if users.contains(where: {$0.avatarUrl == event.content["avatar_url"] as? String}) {
-                                                eventView(text: "\(event.content["displayname"] ?? "No name") \(R.string.localizable.chatRoomViewRoomEntryNotify())")
+                                                eventView(text: "\(event.content["displayname"] ?? "No name") \(viewModel.sources.chatRoomViewRoomEntryNotify)")
                                                     .flippedUpsideDown()
                                                     .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                             }
                                         }
                                         
                                     case "leave" as String:
-                                        eventView(text: "\(event.content["displayname"] ?? "No name") \(R.string.localizable.chatRoomViewLeftTheRoomNotify())")
+                                        eventView(text: "\(event.content["displayname"] ?? "No name") \(viewModel.sources.chatRoomViewLeftTheRoomNotify)")
                                             .flippedUpsideDown()
                                             .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                     case "invite" as String:
-                                        eventView(text: "\(event.content["displayname"] ?? "No name") \(R.string.localizable.chatRoomViewInvitedNotify())")
+                                        eventView(text: "\(event.content["displayname"] ?? "No name") \(viewModel.sources.chatRoomViewInvitedNotify)")
                                             .flippedUpsideDown()
                                             .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                     case "unknown" as String:
-                                                    eventView(text: R.string.localizable.chatRoomViewUnownedErrorNotify())
+                                        eventView(text: viewModel.sources.chatRoomViewUnownedErrorNotify)
                                             .flippedUpsideDown()
                                             .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                     case "ban" as String:
-                                                    eventView(text: "Пользователь \(event.content["displayname"] ?? "no name") \(R.string.localizable.chatRoomViewBannedNotify())")
+                                        eventView(text: "Пользователь \(event.content["displayname"] ?? "no name") \(viewModel.sources.chatRoomViewBannedNotify)")
                                             .flippedUpsideDown()
                                             .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                     default:
@@ -414,14 +455,9 @@ struct ChatRoomView: View {
                 )
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
-
             quickMenuView
-            
             groupMenuView
-            
             translateMenuView
-                        
-                        
             if selectedPhoto != nil {
                 ZStack {
                     ImageViewer(
@@ -466,14 +502,12 @@ struct ChatRoomView: View {
     private var headerView: some View {
         VStack {
             Spacer()
-
             HStack(spacing: 0) {
                 Spacer().frame(width: 16)
-
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    R.image.navigation.backButton.image
+                    viewModel.sources.backButton
                 })
 
                 Spacer().frame(width: 16)
@@ -503,19 +537,18 @@ struct ChatRoomView: View {
                         .lineLimit(1)
                         .font(.semibold(15))
                         .foreground(.black())
-                    Text(viewModel.room.isOnline ? R.string.localizable.chatOnline() :
-                            R.string.localizable.chatOffline())
+                    Text(viewModel.room.isOnline ? viewModel.sources.chatOnline :
+                            viewModel.sources.chatOffline)
                         .lineLimit(1)
                         .font(.regular(13))
                         .foreground(viewModel.userMessage?.status == .online ? .blue() : .black(0.5))
                 }
 
                 Spacer()
-
                 Button(action: {
 
                 }, label: {
-                    Image(R.image.navigation.phoneButton.name)
+                    viewModel.sources.phoneButton
                         .resizable()
                         .frame(width: 24, height: 24, alignment: .center)
                 })
@@ -524,7 +557,7 @@ struct ChatRoomView: View {
                 Button(action: {
 
                 }, label: {
-                    Image(R.image.navigation.settingsButton.name)
+                    viewModel.sources.settingsButton
                         .resizable()
                         .frame(width: 24, height: 24, alignment: .center)
                 })
@@ -556,7 +589,6 @@ struct ChatRoomView: View {
                                 case .copy:
                                     UIPasteboard.general.string = activeEditMessage?.description
                                 case .delete:
-                                    debugPrint("delete action", messageId)
                                     viewModel.send(.onDelete(messageId))
                                 case .edit:
                                     inputViewIsFocused = true
@@ -573,7 +605,6 @@ struct ChatRoomView: View {
                                 case .copy:
                                     UIPasteboard.general.string = activeEditMessage?.description
                                 case .delete:
-                                    debugPrint("delete action", messageId)
                                     viewModel.send(.onDelete(messageId))
                                 case .reply:
                                     inputViewIsFocused = true
@@ -641,34 +672,47 @@ struct ChatRoomView: View {
                 }
 
                 HStack(spacing: 8) {
-                    Button(action: {
-                        hideKeyboard()
-                        withAnimation {
-                            showActionSheet.toggle()
+                    if showAudioView {
+                        HStack(alignment: .center) {
+                            AudioInputMessageView(audioUrl: $viewModel.audioUrl,
+                                                  showAudioView: $showAudioView,
+                                                  blockAudioRecord: $blockAudioRecord,
+                                                  textDragPadding: $textDragPadding,
+                                                  blockDragPadding: $blockDragPadding,
+                                                  resetAudio: $resetAudio)
+                            .ignoresSafeArea()
+                            .padding(.leading, 12)
+                            .padding(.trailing, 8)
                         }
-                    }, label: {
-                        Image(R.image.chat.plus.name)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                    })
+                    } else {
+                        Button(action: {
+                            hideKeyboard()
+                            withAnimation {
+                                showActionSheet.toggle()
+                            }
+                        }, label: {
+                            viewModel.sources.plus
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        })
                         .padding(.leading, 8)
-
-                    HStack {
-                        ZStack {
-                            TextField("", text: $viewModel.inputText)
-                                .focused($inputViewIsFocused)
-                                .keyboardType(.default)
-                                .background(.grayDAE1E9())
-                                .foreground(.black())
-                                .padding(.horizontal, 16)
+                        
+                        HStack {
+                            ZStack {
+                                TextField("", text: $viewModel.inputText)
+                                    .focused($inputViewIsFocused)
+                                    .keyboardType(.default)
+                                    .background(.grayDAE1E9())
+                                    .foreground(.black())
+                                    .padding(.horizontal, 16)
+                            }
+                            .background(.grayDAE1E9())
                         }
+                        .frame(height: 36)
                         .background(.grayDAE1E9())
+                        .clipShape(Capsule())
+                        .padding(.trailing, viewModel.inputText.isEmpty ? 0 : 8)
                     }
-                    .frame(height: 36)
-                    .background(.grayDAE1E9())
-                    .clipShape(Capsule())
-                    .padding(.trailing, viewModel.inputText.isEmpty ? 8 : 0)
-
                     if !viewModel.inputText.isEmpty {
                         Button(action: {
                             withAnimation {
@@ -693,11 +737,18 @@ struct ChatRoomView: View {
                                 .frame(width: 24, height: 24)
                                 .clipShape(Circle())
                         })
-                            .padding(.trailing, 8)
+                        .padding(.trailing, 8)
+                    } else {
+                        MicrophoneMessageView(showAudioView: $showAudioView,
+                                              blockDragPadding: $blockDragPadding,
+                                              blockAudioRecord: $blockAudioRecord,
+                                              textDragPadding: $textDragPadding,
+                                              resetAudio: $resetAudio,
+                                              record: $record)
                     }
                 }
                 .padding(.top, 8)
-
+                
                 Spacer()
             }
             .frame(height: quickActionCurrentUser == .edit ? 104 : (quickAction == .reply ? 104 : 52))

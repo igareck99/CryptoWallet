@@ -156,6 +156,21 @@ struct ChatHistoryRow: View {
                                 ]
                             )
                         }
+                    case .audio(_):
+                        HStack(spacing: 6) {
+                            R.image.chat.audio.microfoneImage.image
+                                .resizable()
+                                .frame(width: 15,
+                                       height: 15)
+                            Text(
+                                "Голосовое сообщение",
+                                [
+                                    .font(.regular(15)),
+                                    .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
+                                    .color(.black(0.6))
+                                ]
+                            )
+                        }
                     default:
                         EmptyView()
                     }

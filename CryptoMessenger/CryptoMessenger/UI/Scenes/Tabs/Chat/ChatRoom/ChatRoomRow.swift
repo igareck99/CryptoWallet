@@ -1,5 +1,6 @@
 import MatrixSDK
 import SwiftUI
+import AVFAudio
 
 // swiftlint:disable:all
 
@@ -15,11 +16,19 @@ struct ChatRoomRow: View {
     private let isDirect: Bool
     private var onReaction: StringBlock?
     private var onSelectPhoto: GenericBlock<URL?>?
+    @ObservedObject var audioViewModel: AudioMessageViewModel
+    @StateObject var album = AlbumData()
 
     @State private var showMap = false
     @State private var showFile = false
     @State private var isAnimating = false
     @State private var showContactInfo = false
+    @State private var degress = 0.0
+    @State private var firstUpload = true
+    @State private var audioPlayer: AVAudioPlayer?
+    @State private var timer = Timer.publish(every: 0.01,
+                                             on: .main, in: .common).autoconnect()
+    @State var time: Float = 0
     @State var chatContactInfo = ChatContactInfo(name: "")
 
     // MARK: - Lifecycle
@@ -37,6 +46,13 @@ struct ChatRoomRow: View {
         self.isDirect = isDirect
         self.onReaction = onReaction
         self.onSelectPhoto = onSelectPhoto
+        switch message.type {
+        case let .audio(url):
+            self.audioViewModel = AudioMessageViewModel(url: url)
+        default:
+            let url = URL(string: "")
+            self.audioViewModel = AudioMessageViewModel(url: url)
+        }
     }
 
     // MARK: - Body
@@ -47,7 +63,6 @@ struct ChatRoomRow: View {
                 if isFromCurrentUser {
                     Spacer()
                 }
-
                 if !isDirect, !isFromCurrentUser {
                     VStack(spacing: 0) {
                         Spacer()
@@ -73,7 +88,6 @@ struct ChatRoomRow: View {
                     .padding(.leading, 16)
                     .padding(.trailing, -11)
                 }
-                
                 BubbleView(direction: isFromCurrentUser ? .right : .left) {
                     VStack(alignment: .leading, spacing: 0) {
                         if message.isReply {
@@ -145,6 +159,8 @@ struct ChatRoomRow: View {
                                     .onTapGesture {
                                         showFile.toggle()
                                     }
+                            case let .audio(_):
+                                audioRow(audioMessageViewModel: audioViewModel)
                             case .none:
                                 EmptyView()
                             }
@@ -288,8 +304,62 @@ struct ChatRoomRow: View {
             }
 
             checkReadView(message.shortDate)
+                .padding(.leading, isFromCurrentUser ? 0 : 130)
         }
         .frame(width: 247, height: 96)
+    }
+
+    private func audioRow(audioMessageViewModel: AudioMessageViewModel) -> some View {
+        return ZStack {
+            HStack(alignment: .center, spacing: 12) {
+                Button(action: play) {
+                    ZStack {
+                        Circle()
+                            .frame(width: 48,
+                                   height: 48)
+                        !album.isPlaying ? R.image.chat.audio.audioPlay.image : R.image.chat.audio.audioStop.image
+                    }
+                }
+                .padding(.vertical, 8)
+                .padding(.leading, 8)
+                VStack(alignment: .leading, spacing: 10) {
+                    Slider(value: Binding(get: { time }, set: { newValue in
+                        time = newValue
+                        audioPlayer?.currentTime = Double(time) * (audioPlayer?.duration ?? 0)
+                        audioPlayer?.play()
+                    }))
+                    .frame(width: 177, height: 1)
+                    Text(message.audioDuration)
+                        .font(.regular(12))
+                        .foreground(.darkGray())
+                }
+                .padding(.top, 20)
+                .padding(.trailing, 7)
+            }
+            checkTextReadView(message.shortDate)
+                .padding(.leading, isFromCurrentUser ? 0 : 185)
+        }
+        .onReceive(timer) { _ in
+            if album.isPlaying {
+                audioPlayer?.updateMeters()
+                album.isPlaying = true
+                time = Float((audioPlayer?.currentTime ?? 0) / (audioPlayer?.duration ?? 1))
+            } else {
+                album.isPlaying = false
+            }
+        }
+        .onAppear {
+            self.audioViewModel.setupAudioNew { url in
+                do {
+                    guard let unwrappedUrl = url else { return }
+                    audioPlayer = try AVAudioPlayer(contentsOf: unwrappedUrl)
+                } catch {
+                    debugPrint("Error URL")
+                    return
+                }
+            }
+        }
+        .frame(width: 252, height: 64)
     }
 
     private func contactRow(name: String, phone: String?, url: URL?) -> some View {
@@ -310,9 +380,7 @@ struct ChatRoomRow: View {
                         Text(name)
                             .font(.semibold(15))
                             .foreground(.black())
-
                         Spacer()
-
                         Text(phone ?? "-")
                             .font(.regular(13))
                             .foreground(.darkGray())
@@ -344,8 +412,7 @@ struct ChatRoomRow: View {
             }
             .padding(.top, 8)
             .padding(.horizontal, 16)
-
-            checkTextReadView()
+            checkTextReadView(message.shortDate)
         }
         .frame(width: 244, height: 138)
     }
@@ -354,12 +421,10 @@ struct ChatRoomRow: View {
         ZStack {
             VStack {
                 Spacer()
-
                 HStack(spacing: 4) {
                     if isFromCurrentUser {
                         Spacer()
                     }
-
                     ForEach(items) { reaction in
                         ReactionGroupView(
                             text: reaction.emoji,
@@ -380,18 +445,17 @@ struct ChatRoomRow: View {
         }
     }
 
-    private func checkTextReadView() -> some View {
+    private func checkTextReadView(_ time: String) -> some View {
         ZStack {
             VStack {
                 Spacer()
-
                 HStack {
                     if isFromCurrentUser {
                         Spacer()
                     }
 
                     HStack(spacing: 6) {
-                        Text(Date().hoursAndMinutes)
+                        Text(time)
                             .frame(width: 40, height: 10)
                             .font(.light(12))
                             .foreground(.black(0.5))
@@ -451,6 +515,16 @@ struct ChatRoomRow: View {
             return isPreviousFromCurrentUser ? 8 : 8
         } else {
             return isPreviousFromCurrentUser ? 8 : 8
+        }
+    }
+
+    func play() {
+        if album.isPlaying {
+            audioPlayer?.pause()
+            album.isPlaying = false
+        } else {
+            audioPlayer?.play()
+            album.isPlaying = true
         }
     }
 }

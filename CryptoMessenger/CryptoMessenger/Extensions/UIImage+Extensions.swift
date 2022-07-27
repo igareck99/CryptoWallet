@@ -59,6 +59,11 @@ extension UIImage {
     }
 
     // MARK: - Internal Methods
+    func resized(to size: CGSize) -> UIImage {
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            draw(in: CGRect(origin: .zero, size: size))
+        }
+    }
 
     func resizeImage(for size: CGSize) -> UIImage {
         let renderer = UIGraphicsImageRenderer(size: size)

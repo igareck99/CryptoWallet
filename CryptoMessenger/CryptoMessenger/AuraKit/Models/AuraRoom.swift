@@ -147,7 +147,7 @@ final class AuraRoom: ObservableObject {
             self.objectWillChange.send()
         }
     }
-    
+
     // TODO: - Will be Deprecated
 
     func sendImage(_ image: UIImage) {
@@ -178,7 +178,9 @@ final class AuraRoom: ObservableObject {
     func updateEvents(eventId: String?) {
         guard let event = self.events().renderableEvents.first(where: { eventId == $0.eventId
         }) else { return }
-        self.eventCache.append(event)
+        if !self.eventCache.contains(event) {
+            self.eventCache.append(event)
+        }
         self.objectWillChange.send()
     }
 
@@ -229,7 +231,6 @@ final class AuraRoom: ObservableObject {
                        stringLocalizations: nil,
                        localEcho: &localEcho,
                        customParameters: customParameters) { response in
-            print("sdnjmks  \(response)")
             self.objectWillChange.send()
         }
     }

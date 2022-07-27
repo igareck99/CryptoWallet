@@ -13,6 +13,7 @@ enum MXErrors: Error {
 	case videoCallPlaceError
     case imageUploadError
     case fileUploadError
+    case audioUploadError
     case contactUploadError
 	case unknown
 	@available(*, deprecated, message: "Добавлено только для обратной совместимости")

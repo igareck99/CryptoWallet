@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "audio-stop.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
