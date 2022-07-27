@@ -36,10 +36,13 @@ final class MatrixService: MatrixServiceProtocol {
 	@Published var devices = [MXDevice]()
 	var devicesPublisher: Published<[MXDevice]>.Publisher { $devices }
 
+	private let matrixObjectsFactory: MatrixObjectFactoryProtocol
+	var roomListDataFetcher: MXRoomListDataFetcher?
 	var rooms: [AuraRoom] {
-		let rooms = session?.rooms
-			.map { makeRoom(from: $0) }
-			.sorted { $0.summary.lastMessageDate > $1.summary.lastMessageDate } ?? []
+		let rooms = matrixObjectsFactory
+			.makeRooms(mxRooms: session?.rooms) { [weak self] directUserId in
+				self?.currentlyActive(directUserId) == true
+			}
 		return rooms
 	}
 
@@ -68,7 +71,8 @@ final class MatrixService: MatrixServiceProtocol {
 		fileStore: MXFileStore = MXFileStore(),
 		uploader: MXMediaLoader? = nil,
 		keychainService: KeychainServiceProtocol = KeychainService.shared,
-		userSettings: UserDefaultsServiceProtocol = UserDefaultsService.shared
+		userSettings: UserDefaultsServiceProtocol = UserDefaultsService.shared,
+		matrixObjectsFactory: MatrixObjectFactoryProtocol = MatrixObjectFactory()
 	) {
 		self.client = client
 		self.session = session
@@ -76,6 +80,7 @@ final class MatrixService: MatrixServiceProtocol {
 		self.uploader = uploader
 		self.keychainService = keychainService
 		self.userSettings = userSettings
+		self.matrixObjectsFactory = matrixObjectsFactory
 		configureMatrixSDKSettings()
 	}
 
@@ -109,15 +114,6 @@ final class MatrixService: MatrixServiceProtocol {
 		sdkOptions.computeE2ERoomSummaryTrust = true
 		// Use UIKit BackgroundTask for handling background tasks in the SDK
 		// sdkOptions.backgroundModeHandler = MXUIKitBackgroundModeHandler()
-	}
-
-	private func makeRoom(from mxRoom: MXRoom) -> AuraRoom {
-		let room = AuraRoom(mxRoom)
-		if mxRoom.isDirect {
-			room.isOnline = currentlyActive(mxRoom.directUserId)
-		}
-		roomCache[mxRoom.id] = room
-		return room
 	}
 }
 

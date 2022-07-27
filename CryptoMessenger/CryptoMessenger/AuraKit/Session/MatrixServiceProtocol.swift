@@ -73,4 +73,7 @@ protocol MatrixServiceProtocol {
 	// MARK: - Pusher
 	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void)
 	func deletePusher(with pushToken: Data, completion: @escaping (Bool) -> Void)
+
+	// MARK: - Fetcher
+	func configureFetcher()
 }
