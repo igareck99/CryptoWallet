@@ -27,6 +27,7 @@ final class ChatRoomViewModel: ObservableObject {
         }
     }
     @Published var translatedMessages: [RoomMessage] = []
+    @Published var photosToSend: [UIImage] = []
     @Published var showPhotoLibrary = false
     @Published var showDocuments = false
     @Published var showContacts = false
@@ -176,6 +177,12 @@ final class ChatRoomViewModel: ObservableObject {
 
         for message in self.messages {
             self.translateTo(languageCode: languageCode, message: message)
+        }
+    }
+    
+    func sendPhotos(images: [UIImage]) {
+        for photo in images {
+            self.send(.onSendImage(photo))
         }
     }
     
@@ -499,7 +506,6 @@ final class ChatRoomViewModel: ObservableObject {
                 self.messages = room.events().renderableEvents
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
-						debugPrint("ChatRoomViewModel: MESSAGE: \(message?.description)")
                         message?.eventId = $0.eventId
                         var user: MXUser?
                         if !$0.userId.isEmpty {
