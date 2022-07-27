@@ -5,6 +5,7 @@ protocol KeychainServiceProtocol: AnyObject {
 	// MARK: - User Credentials
 
 	var apiAccessToken: String? { get set }
+    var secretPhrase: String? { get set }
 	var apiRefreshToken: String? { get set }
 	var apiUserId: String? { get set }
 	var apiUserMatrixId: String? { get set }

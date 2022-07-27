@@ -339,6 +339,8 @@
 "Import.ChooseWalletType" = "Выберите тип кошелька";
 "Import.HowImportKey" = "Как правильно импортировать ключи?";
 "Import.Import" = "Импортировать";
+"Import.ImportError" = "Некорректный ключ";
+"Import.ImportSuccess" = "Ключ успешно импортирован";
 
 
 "ChooseReceiver.Contact" = "Контакт";

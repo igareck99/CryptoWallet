@@ -17,7 +17,6 @@ final class VerificationPresenter {
     @Injectable private var configuration: Configuration
     private let matrixUseCase: MatrixUseCaseProtocol
     private var subscriptions = Set<AnyCancellable>()
-	private let userCredentials: UserCredentialsStorage
 	private let keychainService: KeychainServiceProtocol
 
     private var state = VerificationFlow.ViewState.sending {
@@ -30,12 +29,10 @@ final class VerificationPresenter {
 
     init(
 		view: VerificationViewInterface,
-		userCredentials: UserCredentialsStorage,
 		keychainService: KeychainServiceProtocol,
 		matrixUseCase: MatrixUseCaseProtocol
 	) {
         self.view = view
-		self.userCredentials = userCredentials
 		self.keychainService = keychainService
 		self.matrixUseCase = matrixUseCase
         countdownTimer.delegate = self

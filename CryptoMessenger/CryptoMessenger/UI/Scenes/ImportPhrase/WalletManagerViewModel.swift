@@ -8,7 +8,6 @@ final class WalletManagerViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: WalletManagerSceneDelegate?
-    @Published var secretPhraseState = ""
 
     // MARK: - Private Properties
 
@@ -16,14 +15,14 @@ final class WalletManagerViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<WalletManagerFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<WalletManagerFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-    private let userCredentialsStorage: UserCredentialsStorage
+    private var keychainService: KeychainServiceProtocol
 
     // MARK: - Lifecycle
 
     init(
-		userCredentialsStorage: UserCredentialsStorage
+		keychainService: KeychainServiceProtocol
 	) {
-		self.userCredentialsStorage = userCredentialsStorage
+        self.keychainService = keychainService
         bindInput()
         bindOutput()
     }
@@ -46,7 +45,6 @@ final class WalletManagerViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.updateData()
                     self?.objectWillChange.send()
                 case .onKeyList:
                     self?.delegate?.handleNextScene(.keyList)
@@ -63,7 +61,7 @@ final class WalletManagerViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func updateData() {
-        secretPhraseState = userCredentialsStorage.secretPhraseState ?? ""
+    func secretPhraseValidate(toCompare: String) -> Bool {
+        return toCompare == keychainService.secretPhrase
     }
 }

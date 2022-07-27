@@ -13,6 +13,7 @@ struct PhraseManagerView: View {
     @State var wrongRepeatPhrase = true
     @State var animationOpacity: Double = 1
     @State var showSuccessAlert = false
+    @State var textEditorDisabled = true
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -27,6 +28,8 @@ struct PhraseManagerView: View {
             .onChange(of: viewModel.secretPhraseForApprove, perform: { newValue in
                 if newValue == viewModel.secretPhrase {
                     wrongRepeatPhrase = false
+                } else {
+                    wrongRepeatPhrase = true
                 }
             })
             .alert(isPresented: $showSuccessAlert) { () -> Alert in
@@ -67,7 +70,7 @@ struct PhraseManagerView: View {
     // MARK: - Private Properties
 
     private var content: some View {
-        GeometryReader { geometry in
+        ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .center) {
                 Divider()
                     .padding(.top, 16)
@@ -82,27 +85,28 @@ struct PhraseManagerView: View {
                 .padding(.top, 40)
                 Text(!unLockPhrase ? viewModel.description : (!repeatPhrase ?
                                                               R.string.localizable
-                                                                .phraseManagerWriteAndRemember() :
+                    .phraseManagerWriteAndRemember() :
                                                                 R.string.localizable
-                                                                .phraseManagerLetsCheck()))
-                    .font(.regular(15))
-                    .frame(height: 80)
-                    .multilineTextAlignment(.center)
-                    .opacity(animationOpacity)
-                    .padding(.top, 16)
-                    .padding(.horizontal, 24)
-                HStack {
-                    ZStack(alignment: .topLeading) {
-                        TextEditor(text: repeatPhrase ? $viewModel.secretPhraseForApprove : $viewModel.secretPhrase)
-                            .blur(radius: !unLockPhrase ? 10: 0)
-                            .padding(.leading, 16)
-                            .background(repeatPhrase && wrongRepeatPhrase ? .lightRed(0.1) : .paleBlue())
-                            .foreground(.black())
-                            .font(.regular(15))
-                            .frame(width: geometry.size.width - 32,
-                                   height: 200)
-                            .cornerRadius(8)
-                        if !unLockPhrase {
+                    .phraseManagerLetsCheck()))
+                .font(.regular(15))
+                .frame(height: 80)
+                .multilineTextAlignment(.center)
+                .opacity(animationOpacity)
+                .padding(.top, 16)
+                .padding(.horizontal, 24)
+                ZStack {
+                    TextEditor(text: repeatPhrase ? $viewModel.secretPhraseForApprove : $viewModel.secretPhrase)
+                        .blur(radius: !unLockPhrase ? 10: 0)
+                        .padding(.leading, 16)
+                        .background(repeatPhrase && wrongRepeatPhrase ? .lightRed(0.1) : .paleBlue())
+                        .foreground(.black())
+                        .font(.regular(15))
+                        .frame(width: UIScreen.main.bounds.width - 32,
+                               height: 200)
+                        .cornerRadius(8)
+                        .disabled(viewModel.textEditorDisabled)
+                    if !unLockPhrase {
+                        HStack(alignment: .center, spacing: 9) {
                             lockView
                                 .padding(.horizontal, 32)
                                 .padding(.top, 20)
@@ -149,11 +153,15 @@ struct PhraseManagerView: View {
 
     private var lockView: some View {
         VStack(alignment: .center, spacing: 12) {
-            R.image.keyManager.lock.image
-            Text(R.string.localizable.phraseManagerTapToSee())
-                .font(.regular(15))
-                .padding(.horizontal, 32)
-                .multilineTextAlignment(.center)
+            HStack(alignment: .center, spacing: 0) {
+                R.image.keyManager.lock.image
+            }
+            HStack(alignment: .center, spacing: 0) {
+                Text(R.string.localizable.phraseManagerTapToSee())
+                    .font(.regular(15))
+                    .padding(.horizontal, 32)
+                    .multilineTextAlignment(.center)
+            }
             watchButton
                 .frame(width: 189)
                 .padding(.top, 8)

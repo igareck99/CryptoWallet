@@ -32,7 +32,6 @@ final class UserDefaultsService {
 		case callsState
 		case geopositionState
 		case reserveCopyTime
-		case secretPhraseState
 	}
 
 	private let storage: UserDefaults
