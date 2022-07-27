@@ -65,10 +65,9 @@ struct AudioInputMessageView: View {
                 .frame(width: 10,
                        height: 10)
                 .foreground(.red())
-            TimerView(isTimerRunning: true,
-                      startTime: Date(),
-                      timerString: "")
-            .frame(width: 44)
+            TimerView(isTimerRunning: true)
+                .frame(minWidth: 44,
+                       maxWidth: 60)
         }
     }
 

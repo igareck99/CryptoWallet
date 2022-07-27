@@ -4,8 +4,6 @@ import SwiftUI
 // MARK: - ChatRoomView
 // swiftlint:disable all
 
-// swiftlint: disable all
-
 struct ChatRoomView: View {
     // MARK: - ActiveSheet
 
