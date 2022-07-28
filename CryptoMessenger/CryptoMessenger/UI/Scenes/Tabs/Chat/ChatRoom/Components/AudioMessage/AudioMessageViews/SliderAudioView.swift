@@ -8,8 +8,8 @@ struct SliderAudioView: UIViewRepresentable {
 
     @Binding var value: Double
     var thumbColor: UIColor = .white
-    var minTrackColor: UIColor = .blue
-    var maxTrackColor: UIColor = .white
+    var minTrackColor: UIColor = #colorLiteral(red: 0.05490196078, green: 0.5568627451, blue: 0.9529411765, alpha: 1)
+    var maxTrackColor: UIColor = #colorLiteral(red: 0.6235294118, green: 0.8352941176, blue: 0.9843137255, alpha: 1)
     var thumbSize: Double = 8
 
     // MARK: - Coordinator

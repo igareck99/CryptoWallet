@@ -28,7 +28,7 @@ struct ChatRoomRow: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var timer = Timer.publish(every: 0.01,
                                              on: .main, in: .common).autoconnect()
-    @State var time: Float = 0
+    @State var time: Double = 0
     @State var chatContactInfo = ChatContactInfo(name: "")
 
     // MARK: - Lifecycle
@@ -321,9 +321,9 @@ struct ChatRoomRow: View {
                     }
                 }
                 .padding(.vertical, 8)
-                .padding(.leading, 8)
+                .padding(.leading, message.isCurrentUser ? 8 : 16)
                 VStack(alignment: .leading, spacing: 10) {
-                    Slider(value: Binding(get: { time }, set: { newValue in
+                    SliderAudioView(value: Binding(get: { time }, set: { newValue in
                         time = newValue
                         audioPlayer?.currentTime = Double(time) * (audioPlayer?.duration ?? 0)
                         audioPlayer?.play()
@@ -343,7 +343,7 @@ struct ChatRoomRow: View {
             if album.isPlaying {
                 audioPlayer?.updateMeters()
                 album.isPlaying = true
-                time = Float((audioPlayer?.currentTime ?? 0) / (audioPlayer?.duration ?? 1))
+                time = Double((audioPlayer?.currentTime ?? 0) / (audioPlayer?.duration ?? 1))
             } else {
                 album.isPlaying = false
             }
