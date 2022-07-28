@@ -307,6 +307,7 @@
 		78EDCAFB286AAF1000D3CBC5 /* MapSnapshotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EDCAFA286AAF1000D3CBC5 /* MapSnapshotViewModel.swift */; };
 		8B00F45C276A1C2700FE1E41 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B00F45B276A1C2700FE1E41 /* R.generated.swift */; };
 		8B0C4FFA2890613500671BA3 /* ChatRoomResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0C4FF92890613500671BA3 /* ChatRoomResources.swift */; };
+		8B0C4FFC2891806000671BA3 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0C4FFB2891806000671BA3 /* TimerViewModel.swift */; };
 		8B12263927C53121008DC048 /* SlideCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B12263827C53120008DC048 /* SlideCardsView.swift */; };
 		8B1E8AC227DF4F840036C301 /* ChooseReceiverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC127DF4F840036C301 /* ChooseReceiverView.swift */; };
 		8B1E8AC427DF4F9D0036C301 /* ChooseReceiverFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC327DF4F9D0036C301 /* ChooseReceiverFlow.swift */; };
@@ -847,6 +848,7 @@
 		78EDCAFA286AAF1000D3CBC5 /* MapSnapshotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSnapshotViewModel.swift; sourceTree = "<group>"; };
 		8B00F45B276A1C2700FE1E41 /* R.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		8B0C4FF92890613500671BA3 /* ChatRoomResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomResources.swift; sourceTree = "<group>"; };
+		8B0C4FFB2891806000671BA3 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		8B12263827C53120008DC048 /* SlideCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideCardsView.swift; sourceTree = "<group>"; };
 		8B1E8AC127DF4F840036C301 /* ChooseReceiverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverView.swift; sourceTree = "<group>"; };
 		8B1E8AC327DF4F9D0036C301 /* ChooseReceiverFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverFlow.swift; sourceTree = "<group>"; };
@@ -2576,6 +2578,7 @@
 				8BB517D5285A604600D06593 /* AudioMessageViewModel.swift */,
 				8BAFF37E2863F2D20082E24C /* TimerView.swift */,
 				8B4B806B28905D03002BC8D5 /* AlbumData.swift */,
+				8B0C4FFB2891806000671BA3 /* TimerViewModel.swift */,
 			);
 			path = AudioMessageModels;
 			sourceTree = "<group>";
@@ -3134,6 +3137,7 @@
 				5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */,
 				D4C9B72E283C20380060BFD3 /* ChatRoomViewModelAssembly.swift in Sources */,
 				5AC8C4EF27C403C9008B1744 /* AlertItem.swift in Sources */,
+				8B0C4FFC2891806000671BA3 /* TimerViewModel.swift in Sources */,
 				5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */,
 				78AF8256285B0A940021F5BD /* LocationUseCase.swift in Sources */,
 				5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */,
