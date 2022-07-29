@@ -74,6 +74,6 @@ extension PinCodePresenter: PinCodePresentation {
 		userSettings.isAuthFlowFinished = true
 		userSettings.isLocalAuthBackgroundAlertShown = true
 		userSettings.isLocalAuthInBackground = isBackgroundLocalAuth
-        delay(0.1) { self.delegate?.handleNextScene() }
+        delegate?.handleNextScene() 
     }
 }

@@ -485,6 +485,7 @@
 		D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */; };
 		D41553B7288AC780003FDADC /* UserDefaultsService+Calls.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41553B6288AC780003FDADC /* UserDefaultsService+Calls.swift */; };
 		D41553B9288AC819003FDADC /* UserDefaultsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41553B8288AC819003FDADC /* UserDefaultsServiceProtocol.swift */; };
+		D41553BE288FD1A8003FDADC /* MatrixService+Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41553BD288FD1A8003FDADC /* MatrixService+Fetcher.swift */; };
 		D423A0A2285E2860004A8228 /* P2PCallState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423A0A1285E2860004A8228 /* P2PCallState.swift */; };
 		D423A0A92860A47E004A8228 /* MXCallKitAdapter+Updaters.m in Sources */ = {isa = PBXBuildFile; fileRef = D423A0A82860A47E004A8228 /* MXCallKitAdapter+Updaters.m */; };
 		D425C7E628071C6500E61607 /* AppCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D425C7E528071C6500E61607 /* AppCoordinatorAssembly.swift */; };
@@ -519,6 +520,8 @@
 		D450047B2845E51900CA4C82 /* ViewConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450047A2845E51900CA4C82 /* ViewConfigurable.swift */; };
 		D450047D2845E5B500CA4C82 /* CallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450047C2845E5B500CA4C82 /* CallViewModel.swift */; };
 		D450047F2845E5D600CA4C82 /* CallItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450047E2845E5D600CA4C82 /* CallItemsFactory.swift */; };
+		D451006B289390990018A935 /* MatrixUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451006A289390990018A935 /* MatrixUseCaseProtocol.swift */; };
+		D451006D2893BF860018A935 /* MatrixObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451006C2893BF860018A935 /* MatrixObjectFactory.swift */; };
 		D4533A142832C9A600B956B2 /* ChatRoomTogglesFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A132832C9A600B956B2 /* ChatRoomTogglesFacade.swift */; };
 		D4533A182833567D00B956B2 /* RemoteConfigValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A172833567D00B956B2 /* RemoteConfigValues.swift */; };
 		D4533A1C28335A6700B956B2 /* RemoteConfigServiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */; };
@@ -1030,6 +1033,7 @@
 		D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallsRouter.swift; sourceTree = "<group>"; };
 		D41553B6288AC780003FDADC /* UserDefaultsService+Calls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+Calls.swift"; sourceTree = "<group>"; };
 		D41553B8288AC819003FDADC /* UserDefaultsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsServiceProtocol.swift; sourceTree = "<group>"; };
+		D41553BD288FD1A8003FDADC /* MatrixService+Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Fetcher.swift"; sourceTree = "<group>"; };
 		D423A0A1285E2860004A8228 /* P2PCallState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallState.swift; sourceTree = "<group>"; };
 		D423A0A72860A47E004A8228 /* MXCallKitAdapter+Updaters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MXCallKitAdapter+Updaters.h"; sourceTree = "<group>"; };
 		D423A0A82860A47E004A8228 /* MXCallKitAdapter+Updaters.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MXCallKitAdapter+Updaters.m"; sourceTree = "<group>"; };
@@ -1064,6 +1068,8 @@
 		D450047A2845E51900CA4C82 /* ViewConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConfigurable.swift; sourceTree = "<group>"; };
 		D450047C2845E5B500CA4C82 /* CallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewModel.swift; sourceTree = "<group>"; };
 		D450047E2845E5D600CA4C82 /* CallItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallItemsFactory.swift; sourceTree = "<group>"; };
+		D451006A289390990018A935 /* MatrixUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixUseCaseProtocol.swift; sourceTree = "<group>"; };
+		D451006C2893BF860018A935 /* MatrixObjectFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixObjectFactory.swift; sourceTree = "<group>"; };
 		D4533A132832C9A600B956B2 /* ChatRoomTogglesFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTogglesFacade.swift; sourceTree = "<group>"; };
 		D4533A172833567D00B956B2 /* RemoteConfigValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValues.swift; sourceTree = "<group>"; };
 		D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceAssembly.swift; sourceTree = "<group>"; };
@@ -1800,6 +1806,8 @@
 				D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */,
 				D4AB8FFD282672F800E6FAB5 /* MatrixService+Rooms.swift */,
 				D4AB8FFF2826735000E6FAB5 /* MatrixService+Users.swift */,
+				D41553BD288FD1A8003FDADC /* MatrixService+Fetcher.swift */,
+				D451006C2893BF860018A935 /* MatrixObjectFactory.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -2907,6 +2915,7 @@
 		D4AB9006282789F900E6FAB5 /* Matrix UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				D451006A289390990018A935 /* MatrixUseCaseProtocol.swift */,
 				D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */,
 			);
 			path = "Matrix UseCase";
@@ -3275,6 +3284,7 @@
 				8B740147275D360B0045ED32 /* ProfileSettingsMenuView.swift in Sources */,
 				8BA0C90327AD4EE00070203F /* AnswerConfigurator.swift in Sources */,
 				5A187F262680CF49001957D3 /* APIError.swift in Sources */,
+				D451006B289390990018A935 /* MatrixUseCaseProtocol.swift in Sources */,
 				5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */,
 				8B4E9C4827E1EDE80057E4C9 /* FacilityApproveViewModel.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
@@ -3346,6 +3356,7 @@
 				D4533A1C28335A6700B956B2 /* RemoteConfigServiceAssembly.swift in Sources */,
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
 				8B6E555A279FF967002054CF /* PinCodeCreateProtocols.swift in Sources */,
+				D451006D2893BF860018A935 /* MatrixObjectFactory.swift in Sources */,
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
 				8BB517CB2858B11A00D06593 /* DocumentViewerRestManager.swift in Sources */,
 				5AF8635C26ADB691004A417C /* OnboardingViewController.swift in Sources */,
@@ -3354,6 +3365,7 @@
 				D44BDC98280FECC80080AE8A /* UserDefaultsService.swift in Sources */,
 				5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */,
 				5A3C9429274AFFDC00818060 /* KeyboardAvoider.swift in Sources */,
+				D41553BE288FD1A8003FDADC /* MatrixService+Fetcher.swift in Sources */,
 				5A44FED72766816C006F9D92 /* ProfileViewModel.swift in Sources */,
 				8B8B9C1F27F31FEE0061F5E6 /* Animation.swift in Sources */,
 				8B432CC427C394F10025D62B /* WalletNewFlow.swift in Sources */,
