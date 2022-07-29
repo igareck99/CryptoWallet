@@ -340,12 +340,14 @@ struct ChatRoomRow: View {
                 .padding(.leading, isFromCurrentUser ? 0 : 185)
         }
         .onReceive(timer) { _ in
-            if album.isPlaying {
+            if audioPlayer?.isPlaying == true {
                 audioPlayer?.updateMeters()
                 album.isPlaying = true
                 time = Double((audioPlayer?.currentTime ?? 0) / (audioPlayer?.duration ?? 1))
             } else {
                 album.isPlaying = false
+				timer.upstream.connect().cancel()
+				time = .zero
             }
         }
         .onAppear {
@@ -353,6 +355,7 @@ struct ChatRoomRow: View {
                 do {
                     guard let unwrappedUrl = url else { return }
                     audioPlayer = try AVAudioPlayer(contentsOf: unwrappedUrl)
+					audioPlayer?.numberOfLoops = .zero
                 } catch {
                     debugPrint("Error URL")
                     return
@@ -522,7 +525,11 @@ struct ChatRoomRow: View {
         if album.isPlaying {
             audioPlayer?.pause()
             album.isPlaying = false
+			timer.upstream.connect().cancel()
         } else {
+			try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+			try? AVAudioSession.sharedInstance().setActive(true)
+			timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
             audioPlayer?.play()
             album.isPlaying = true
         }
