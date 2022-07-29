@@ -8,6 +8,12 @@ import AVFAudio
 
 struct ChatRoomRow: View {
 
+    // MARK: - Internal Properties
+
+    @State var time: Double = 0
+    @State var chatContactInfo = ChatContactInfo(name: "")
+    @Binding var activateShowCard: Bool
+
     // MARK: - Private Properties
 
     private let message: RoomMessage
@@ -24,12 +30,9 @@ struct ChatRoomRow: View {
     @State private var isAnimating = false
     @State private var showContactInfo = false
     @State private var degress = 0.0
-    @State private var firstUpload = true
     @State private var audioPlayer: AVAudioPlayer?
     @State private var timer = Timer.publish(every: 0.01,
                                              on: .main, in: .common).autoconnect()
-    @State var time: Double = 0
-    @State var chatContactInfo = ChatContactInfo(name: "")
 
     // MARK: - Lifecycle
 
@@ -38,7 +41,8 @@ struct ChatRoomRow: View {
         isPreviousFromCurrentUser: Bool,
         isDirect: Bool,
         onReaction: StringBlock?,
-        onSelectPhoto: GenericBlock<URL?>?
+        onSelectPhoto: GenericBlock<URL?>?,
+        activateShowCard: Binding<Bool>
     ) {
         self.message = message
         self.isFromCurrentUser = message.isCurrentUser
@@ -46,6 +50,7 @@ struct ChatRoomRow: View {
         self.isDirect = isDirect
         self.onReaction = onReaction
         self.onSelectPhoto = onSelectPhoto
+        self._activateShowCard = activateShowCard
         switch message.type {
         case let .audio(url):
             self.audioViewModel = AudioMessageViewModel(url: url)
@@ -327,7 +332,7 @@ struct ChatRoomRow: View {
                         time = newValue
                         audioPlayer?.currentTime = Double(time) * (audioPlayer?.duration ?? 0)
                         audioPlayer?.play()
-                    }))
+                    }), activateShowCard: $activateShowCard)
                     .frame(width: 177, height: 1)
                     Text(message.audioDuration)
                         .font(.regular(12))
