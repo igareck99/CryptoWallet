@@ -21,11 +21,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published private(set) var state: ChatRoomFlow.ViewState = .idle
     @Published private(set) var userMessage: Message?
     @Published private(set) var room: AuraRoom
-    @Published var messages: [RoomMessage] = [] {
-        didSet {
-            debugPrint("Messages debug ", messages)
-        }
-    }
+    @Published var messages: [RoomMessage] = []
     @Published var translatedMessages: [RoomMessage] = []
     @Published var photosToSend: [UIImage] = []
     @Published var showPhotoLibrary = false

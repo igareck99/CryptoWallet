@@ -15,8 +15,9 @@ struct SocialNetworkView: View {
     var body: some View {
         VStack {
             Button(action: {
+				guard URL(string: item.fullUrl) != nil else { return }
                 showSafari = true
-                safariAddress = item.url
+                safariAddress = item.fullUrl
             }, label: {
                 switch item.socialType {
                 case .twitter:

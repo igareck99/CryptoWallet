@@ -1,5 +1,5 @@
-import SwiftUI
 import Combine
+import SwiftUI
 
 // MARK: - SocialListViewModel
 
@@ -7,27 +7,13 @@ final class SocialListViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
+	let resources: SocialListResourcesable
     weak var delegate: SocialListSceneDelegate?
-    @Published var listData: [SocialListItem] = [
-        SocialListItem(url: "",
-                       sortOrder: 1,
-                       socialType: .instagram),
-        SocialListItem(url: "",
-                       sortOrder: 2,
-                       socialType: .facebook),
-        SocialListItem(url: "",
-                       sortOrder: 3,
-                       socialType: .twitter),
-        SocialListItem(url: "",
-                       sortOrder: 4,
-                       socialType: .vk),
-        SocialListItem(url: "",
-                       sortOrder: 5,
-                       socialType: .tiktok),
-        SocialListItem(url: "",
-                       sortOrder: 6,
-                       socialType: .linkedin)
-    ]
+    @Published var listData = [SocialListItem]()
+	private let typesOrder: [(order: Int, type: SocialNetworkType)] = [
+		(1, .instagram), (2, .facebook), (3, .twitter),
+		(4, .vk), (5, .tiktok), (6, .linkedin)
+	]
 
     // MARK: - Private Properties
 
@@ -41,7 +27,10 @@ final class SocialListViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-	init() {
+	init(
+		resources: SocialListResourcesable = SocialListResources()
+	) {
+		self.resources = resources
         bindInput()
         bindOutput()
     }
@@ -67,11 +56,22 @@ final class SocialListViewModel: ObservableObject {
         listData.remove(atOffsets: offsets)
     }
 
-    func updateListData(item: SocialListItem) {
-        listData = listData.filter { $0.socialType != item.socialType }
-        listData.append(item)
-        listData = listData.sorted(by: { $0.sortOrder < $1.sortOrder })
-    }
+	func socialNetworkDidSubmitted(item: SocialListItem) {
+		updateListData(item: item, isEditing: false)
+	}
+
+	func socialNetworkDidEdited(item: SocialListItem, isEditing: Bool) {
+		updateListData(item: item, isEditing: isEditing)
+	}
+
+	private func updateListData(item: SocialListItem, isEditing: Bool) {
+		debugPrint("SocialListItemView SocialListViewModel updateListData_1: \(isEditing)")
+		guard !isEditing else { return }
+		debugPrint("SocialListItemView SocialListViewModel updateListData_2: \(isEditing)")
+		let result = listData.enumerated().first { $0.1.socialType == item.socialType }
+		guard let model = result, listData.indices.contains(model.offset) else { return }
+		listData[model.offset] = item
+	}
 
     // MARK: - Private Methods
 
@@ -97,68 +97,55 @@ final class SocialListViewModel: ObservableObject {
         apiClient.publisher(Endpoints.Social.getSocial(matrixUseCase.getUserId()))
             .replaceError(with: [])
             .sink { [weak self] response in
-                for x in response {
-                    let newList = self?.listData.filter { $0.socialType.description != x.socialType } ?? []
-                    if newList.count != self?.listData.count {
-                        self?.listData = newList
-                        self?.listData.append(SocialListItem(url: x.url,
-                                                             sortOrder: x.sortOrder,
-                                                             socialType: SocialNetworkType.networkType(item: x.socialType)))
-                    }
-                }
-                guard let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder }) else { return }
-                self?.listData = sortedList
+				guard let self = self else { return }
+				let remoteTypes = response.reduce(into: [SocialNetworkType: SocialListItem](), {
+					let socialType = SocialNetworkType.networkType(item: $1.socialType)
+					let item = SocialListItem(url: $1.url, sortOrder: $1.sortOrder, socialType: socialType)
+					$0[socialType] = item
+				})
+
+				let result: [SocialListItem] = self.typesOrder.map { model in
+					if let item = remoteTypes[model.type] { return item }
+					return SocialListItem(sortOrder: model.order, socialType: model.type)
+				}
+				self.listData = result
             }
             .store(in: &subscriptions)
     }
 
-    func addSocial(data: [SocialListItem]) {
-        var testList: [SocialResponse] = []
-        for x in data {
-            var updatedUrl = x.url
-            if !x.url.isEmpty {
-                switch x.socialType {
-                case .twitter:
-                    if !x.url.contains("https://twitter.com/") {
-                        updatedUrl = "https://twitter.com" + x.url
-                    }
-                case .facebook:
-                    if !x.url.contains("https://www.facebook.com/") {
-                        updatedUrl = "https://www.facebook.com/" + x.url
-                    }
-                case .vk:
-                    if !x.url.contains("https://vk.com/") {
-                        updatedUrl = "https://vk.com/" + x.url
-                    }
-                case .instagram:
-                    if !x.url.contains("https://instagram.com/") {
-                        updatedUrl = "https://instagram.com/" + x.url
-                    }
-                case .linkedin:
-                    if !x.url.contains("https://www.linkedin.com/") {
-                        updatedUrl = "https://www.linkedin.com/" + x.url
-                    }
-                case .tiktok:
-                    if !x.url.contains("https://www.tiktok.com/") {
-                        updatedUrl = "https://www.tiktok.com/" + x.url
-                    }
-                }
-            }
-            testList.append(SocialResponse(sortOrder: x.sortOrder,
-                                           socialType: x.socialType.description,
-                                           url: updatedUrl))
-        }
+	func saveSocialData() {
+		addSocial(data: listData)
+	}
+
+    private func addSocial(data: [SocialListItem]) {
+		debugPrint("SocialListItemView SocialListViewModel addSocial: \(data)")
+		let testList: [SocialResponse] = data
+			.filter { validateURL(for: $0.socialType, url: $0.url) }
+			.map {
+				SocialResponse(
+					sortOrder: $0.sortOrder,
+					socialType: $0.socialType.description,
+					url: $0.url
+				)
+		}
+
         apiClient.publisher(Endpoints.Social.setSocialNew(testList,
                                                           user: matrixUseCase.getUserId()))
             .sink(receiveCompletion: { completion in
-                switch completion {
-                default:
-                    break
-                }
-            }, receiveValue: { [weak self] _ in
-            })
+				guard case .failure = completion else { return }
+				debugPrint("SocialListViewModel setSocialNew: FAILURE")
+			}, receiveValue: {
+				debugPrint("SocialListViewModel setSocialNew: SUCCESS")
+				debugPrint("SocialListViewModel setSocialNew: SOCIAL_LIST: \($0)")
+			})
             .store(in: &subscriptions)
     }
+
+	private func validateURL(for socialType: SocialNetworkType, url: String) -> Bool {
+		guard let baseUrl = SocialNetworkType.baseUrlsByType[socialType] else { return false }
+		let urlString: String = url.lowercased().contains(socialType.description.lowercased()) ? url : baseUrl + url
+		return URL(string: urlString) != nil
+	}
 
     private func updateData() {
         getSocialList()
