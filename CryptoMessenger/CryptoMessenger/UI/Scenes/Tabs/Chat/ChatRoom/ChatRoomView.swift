@@ -56,6 +56,10 @@ struct ChatRoomView: View {
     @State private var quickActionCurrentUser: QuickActionCurrentUser?
 
     @FocusState private var inputViewIsFocused: Bool
+
+	private var statusBarHeight: CGFloat {
+		UIApplication.shared.statusBarFrame.size.height
+	}
     
     
     // MARK: - Body
@@ -125,21 +129,6 @@ struct ChatRoomView: View {
                     )
                 )
             }
-
-//            .alert(isPresented: $showTranslateAlert) { () -> Alert in
-//                let dismissButton = Alert.Button.default(Text("Поменять")) {
-//                    translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
-//                }
-//                let confirmButton = Alert.Button.default(Text("Перевести")) {
-//                    for message in viewModel.messages {
-//                        viewModel.translateTo(languageCode: "ru", message: message)
-//                    }
-//                }
-//                let alert = Alert(title: Text("Переводить сообщения на Русский язык"),
-//                                  message: Text("ВНИМАНИЕ! При переводе сообщий их шифрования теряется!"),
-//                                  primaryButton: confirmButton, secondaryButton: dismissButton)
-//                return alert
-//            }
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .photo:
@@ -174,7 +163,7 @@ struct ChatRoomView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarColor(selectedPhoto != nil ? nil : .white(), isBlured: false)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .automatic) {
                     HStack(spacing: 0) {
                         Button(action: {
                             presentationMode.wrappedValue.dismiss()
@@ -261,14 +250,13 @@ struct ChatRoomView: View {
                         Spacer()
                     }
                     .background(.white())
-                    .padding(.bottom, 6)
                     .onTapGesture {
                         showSettings.toggle()
                     }
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack(spacing: 16) {
+                    HStack(spacing: 0) {
 
 						if viewModel.isVideoCallAvailable {
 							Button(action: {
@@ -276,6 +264,7 @@ struct ChatRoomView: View {
 							}, label: {
 								Image(systemName: "video.fill").tint(.black)
 							}).disabled(!$viewModel.isVideoCallAvailablility.wrappedValue)
+							.padding(.trailing, 16)
 						}
 
 						if viewModel.isVoiceCallAvailable {
@@ -284,28 +273,27 @@ struct ChatRoomView: View {
 							}, label: {
 								Image(systemName: "phone.fill").tint(.black)
 							}).disabled(!$viewModel.isVoiceCallAvailablility.wrappedValue)
+							.padding(.trailing, 8)
 						}
 
                         Button(action: {
                             cardGroupPosition = .custom(180)
                         }, label: {
                             viewModel.sources.settingsButton
-                        })
+                        }).padding(.trailing, 24)
                     }
-					.padding(.bottom, 8)
                 }
             }
     }
 
     private var content: some View {
         ZStack {
-            Color(.blueABC3D5()).ignoresSafeArea()
+            Color(.blueABC3D5())
 
             VStack(spacing: 0) {
                 ScrollViewReader { scrollView in
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing: 0) {
-                            Spacer().frame(height: 16)
                             ForEach(viewModel.messages) { event in
                                 if viewModel.isTranslating() {
                                     if let message = viewModel.translatedMessages.first(where: {$0.eventId == event.eventId}) {
@@ -424,7 +412,6 @@ struct ChatRoomView: View {
                                             .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
                                     }
                                 }
-
                             }
                             .onChange(of: viewModel.messages) { _ in
                                 viewModel.room.markAllAsRead()
@@ -440,12 +427,17 @@ struct ChatRoomView: View {
                                 }
                             }
                         }
-                    }
+					}.safeAreaInset(edge: .bottom, content: {
+						Spacer().frame(height: statusBarHeight + 42 + (keyboardHandler.keyboardHeight == 0 ? 0 : 84))
+					})
+					.safeAreaInset(edge: .top, content: {
+						Spacer().frame(height: 16)
+					})
                     .flippedUpsideDown()
                 }
                 inputView
             }
-            .animation(.easeInOut(duration: 0.3), value: keyboardHandler.keyboardHeight != 0)
+            .animation(.easeInOut(duration: 0.23), value: keyboardHandler.keyboardHeight != 0)
             .padding(.bottom, keyboardHandler.keyboardHeight)
 
             if showActionSheet {
@@ -478,7 +470,7 @@ struct ChatRoomView: View {
             }
         }
         .hideKeyboardOnTap()
-        .ignoresSafeArea()
+		.ignoresSafeArea()
     }
     
     private func dateView(date: String) -> some View {
