@@ -31,6 +31,7 @@ struct ChatRoomView: View {
     @State private var textDragPadding: CGFloat = 0
     @State var blockAudioRecord = false
     @State var resetAudio = false
+    @State var activateShowCard = true
 
     // MARK: - Private Properties
 
@@ -324,15 +325,18 @@ struct ChatRoomView: View {
                                                     .onDeleteReaction(messageId: message.id, reactionId: reactionId)
                                                 )
                                             },
-                                            onSelectPhoto: { selectedPhoto = $0 }
+                                            onSelectPhoto: { selectedPhoto = $0 },
+                                            activateShowCard: $activateShowCard
                                         )
                                         .flippedUpsideDown()
                                         .listRowSeparator(.hidden)
                                         .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
                                             vibrate(.medium)
-                                            messageId = message.id
-                                            activeEditMessage = message
-                                            cardPosition = .custom(UIScreen.main.bounds.height - 580)
+                                            if activateShowCard {
+                                                messageId = message.id
+                                                activeEditMessage = message
+                                                cardPosition = .custom(UIScreen.main.bounds.height - 580)
+                                            }
                                             hideKeyboard()
                                         }
                                     }
@@ -354,15 +358,18 @@ struct ChatRoomView: View {
                                                     .onDeleteReaction(messageId: message.id, reactionId: reactionId)
                                                 )
                                             },
-                                            onSelectPhoto: { selectedPhoto = $0 }
+                                            onSelectPhoto: { selectedPhoto = $0 },
+                                            activateShowCard: $activateShowCard
                                         )
                                         .flippedUpsideDown()
                                         .listRowSeparator(.hidden)
-                                        .onLongPressGesture(minimumDuration: 0.05, maximumDistance: 0) {
+                                        .onLongPressGesture(minimumDuration: 0.1, maximumDistance: 0) {
                                             vibrate(.medium)
-                                            messageId = message.id
-                                            activeEditMessage = message
-                                            cardPosition = .custom(UIScreen.main.bounds.height - 580)
+                                            if activateShowCard {
+                                                messageId = message.id
+                                                activeEditMessage = message
+                                                cardPosition = .custom(UIScreen.main.bounds.height - 580)
+                                            }
                                             hideKeyboard()
                                         }
                                     }
@@ -453,7 +460,9 @@ struct ChatRoomView: View {
                 )
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
-            quickMenuView
+            if activateShowCard {
+                quickMenuView
+            }
             groupMenuView
             translateMenuView
             if selectedPhoto != nil {
@@ -578,7 +587,8 @@ struct ChatRoomView: View {
                     cardPosition = .bottom
                 }
 
-            SlideCard(position: $cardPosition, expandedPosition: .custom(UIScreen.main.bounds.height - 580)) {
+            SlideCard(position: $cardPosition,
+                      expandedPosition: .custom(UIScreen.main.bounds.height - 580)) {
                 VStack {
                     if let current = activeEditMessage?.isCurrentUser {
                         if current {
