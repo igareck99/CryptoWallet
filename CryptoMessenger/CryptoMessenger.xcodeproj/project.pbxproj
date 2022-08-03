@@ -339,7 +339,6 @@
 		8B4810FD27CF9BC400831589 /* ImportKeyProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FC27CF9BC400831589 /* ImportKeyProtocols.swift */; };
 		8B4810FF27CF9BEB00831589 /* ImportKeyConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FE27CF9BEB00831589 /* ImportKeyConfigurator.swift */; };
 		8B48110127CF9C2300831589 /* ImportKeyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B48110027CF9C2300831589 /* ImportKeyViewModel.swift */; };
-		8B4B806C28905D03002BC8D5 /* AlbumData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B806B28905D03002BC8D5 /* AlbumData.swift */; };
 		8B4E9C2E27DFF60B0057E4C9 /* CodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C2D27DFF60B0057E4C9 /* CodeScanner.swift */; };
 		8B4E9C3027DFF6320057E4C9 /* ScannerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */; };
 		8B4E9C3227DFF6700057E4C9 /* ScanerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */; };
@@ -887,7 +886,6 @@
 		8B4810FC27CF9BC400831589 /* ImportKeyProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyProtocols.swift; sourceTree = "<group>"; };
 		8B4810FE27CF9BEB00831589 /* ImportKeyConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyConfigurator.swift; sourceTree = "<group>"; };
 		8B48110027CF9C2300831589 /* ImportKeyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyViewModel.swift; sourceTree = "<group>"; };
-		8B4B806B28905D03002BC8D5 /* AlbumData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumData.swift; sourceTree = "<group>"; };
 		8B4DC640274D7939001B3998 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
 		8B4E9C2D27DFF60B0057E4C9 /* CodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScanner.swift; sourceTree = "<group>"; };
 		8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerCoordinator.swift; sourceTree = "<group>"; };
@@ -2593,7 +2591,6 @@
 			children = (
 				8BB517D5285A604600D06593 /* AudioMessageViewModel.swift */,
 				8BAFF37E2863F2D20082E24C /* TimerView.swift */,
-				8B4B806B28905D03002BC8D5 /* AlbumData.swift */,
 				8B0C4FFB2891806000671BA3 /* TimerViewModel.swift */,
 			);
 			path = AudioMessageModels;
@@ -3254,7 +3251,6 @@
 				5A187E9E2680708D001957D3 /* ObservableArray.swift in Sources */,
 				5AABB7852739821D004D6107 /* ChatHistoryFlow.swift in Sources */,
 				5AF8636D26ADCB9B004A417C /* KeyImportConfigurator.swift in Sources */,
-				8B4B806C28905D03002BC8D5 /* AlbumData.swift in Sources */,
 				8BE379A427EB270E00AB6B6E /* WalletManagerProtocols.swift in Sources */,
 				5ABF08CD27D950BF0016CC6F /* GroupMenuView.swift in Sources */,
 				5A187DD826806F35001957D3 /* Dependency.swift in Sources */,
