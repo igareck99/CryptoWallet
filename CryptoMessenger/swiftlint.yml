@@ -1,7 +1,6 @@
 disabled_rules:
   - large_tuple
   - nesting
-  - force_cast
   - function_body_length
   - todo
   - type_body_length
@@ -62,6 +61,8 @@ file_length:
     warning: 900
     error: 1000
 
+force_cast: warning
+
 mark:
     severity: error
 
@@ -99,7 +100,7 @@ statement_position:
     severity: error
 
 switch_case_alignment:
-    severity: error
+    severity: warning
 
 trailing_semicolon:
     severity: error

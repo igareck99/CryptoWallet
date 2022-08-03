@@ -307,7 +307,8 @@ struct ChatRoomView: View {
                                         ChatRoomRow(
                                             message: message,
                                             isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
-                                            isDirect: viewModel.room.isDirect,
+											// TODO: Пока отключил автарки в чатах, т.к. в андроиде их тоже нет
+											isDirect: true,// viewModel.room.isDirect,
                                             onReaction: { reactionId in
                                                 vibrate()
                                                 viewModel.send(
@@ -341,7 +342,8 @@ struct ChatRoomView: View {
                                         ChatRoomRow(
                                             message: message,
                                             isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
-                                            isDirect: viewModel.room.isDirect,
+											// TODO: Пока отключил автарки в чатах, т.к. в андроиде их тоже нет
+                                            isDirect: true,//viewModel.room.isDirect,
                                             onReaction: { reactionId in
                                                 vibrate()
                                                 viewModel.send(
@@ -365,6 +367,13 @@ struct ChatRoomView: View {
                                         }
                                     }
                                 }
+
+								if event.eventType.contains("m.call") {
+
+									callRow(message: event)
+										.flippedUpsideDown()
+										.shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+								}
 								
                                 if event.eventType == "m.room.encryption" {
                                     eventView(text: viewModel.sources.chatRoomViewEncryptedMessagesNotify)
@@ -500,6 +509,17 @@ struct ChatRoomView: View {
         .cornerRadius(8)
         .padding(.vertical, 8)
     }
+
+	private func callRow(message: RoomMessage) -> some View {
+		CallEventView(
+			eventTitle: viewModel.textForCallEventReason(eventType: message.eventType, content: message.content),
+			eventDateTime: message.shortDate,
+			isFromCurrentUser: message.isCurrentUser
+		) {
+			debugPrint("CALL TAPPED");
+			viewModel.p2pVoiceCallPublisher.send()
+		}
+	}
 
     private var headerView: some View {
         VStack {

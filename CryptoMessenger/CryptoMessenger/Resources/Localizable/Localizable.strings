@@ -98,6 +98,8 @@
 "Calls.YouAreHolding" = "Вы отправили звонок на удержание";
 "Calls.UserDoesNotRespond" = "Пользователь не отвечает";
 "Calls.CallFinished" = "Звонок завершен";
+"Calls.CallDeclined" = "Звонок отменен";
+"Calls.CallMissed" = "Пропущенный звонок";
 "Calls.EndToEndEncrypted" = "Защищено сквозным шифрованием";
 "Calls.Speaker" = "Динамик";
 "Calls.ChangeInterlocutor" = "Сменить собеседника";
