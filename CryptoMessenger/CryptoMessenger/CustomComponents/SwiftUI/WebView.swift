@@ -1,6 +1,6 @@
+import SafariServices
 import SwiftUI
 import WebKit
-import SafariServices
 
 // MARK: - SFSafariViewWrapper
 

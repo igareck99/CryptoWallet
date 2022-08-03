@@ -513,6 +513,10 @@
 		D44BDC99280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */; };
 		D44BDC9A280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */; };
 		D44BDC9B280FECC80080AE8A /* DependeciesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC95280FECC80080AE8A /* DependeciesService.swift */; };
+		D44D61D2289457D2004F5301 /* SocialListResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44D61D1289457D2004F5301 /* SocialListResources.swift */; };
+		D44D61D42894CFB1004F5301 /* SocialNetworkType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44D61D32894CFB1004F5301 /* SocialNetworkType.swift */; };
+		D44D61D628951CC6004F5301 /* SocialListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44D61D528951CC6004F5301 /* SocialListHeaderView.swift */; };
+		D44D61D828951D0F004F5301 /* SocialListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44D61D728951D0F004F5301 /* SocialListItemView.swift */; };
 		D45004732845D9F300CA4C82 /* ButtonDownText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45004722845D9F300CA4C82 /* ButtonDownText.swift */; };
 		D45004752845DE6100CA4C82 /* HStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45004742845DE6100CA4C82 /* HStackView.swift */; };
 		D45004772845DE9700CA4C82 /* HStackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45004762845DE9700CA4C82 /* HStackViewModel.swift */; };
@@ -1061,6 +1065,10 @@
 		D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserFlowStorage.swift"; sourceTree = "<group>"; };
 		D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserCredentialsStorage.swift"; sourceTree = "<group>"; };
 		D44BDC95280FECC80080AE8A /* DependeciesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependeciesService.swift; sourceTree = "<group>"; };
+		D44D61D1289457D2004F5301 /* SocialListResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListResources.swift; sourceTree = "<group>"; };
+		D44D61D32894CFB1004F5301 /* SocialNetworkType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialNetworkType.swift; sourceTree = "<group>"; };
+		D44D61D528951CC6004F5301 /* SocialListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListHeaderView.swift; sourceTree = "<group>"; };
+		D44D61D728951D0F004F5301 /* SocialListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListItemView.swift; sourceTree = "<group>"; };
 		D45004722845D9F300CA4C82 /* ButtonDownText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDownText.swift; sourceTree = "<group>"; };
 		D45004742845DE6100CA4C82 /* HStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HStackView.swift; sourceTree = "<group>"; };
 		D45004762845DE9700CA4C82 /* HStackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HStackViewModel.swift; sourceTree = "<group>"; };
@@ -2617,12 +2625,13 @@
 		8BD6292B276AABF8000A976A /* SocialList */ = {
 			isa = PBXGroup;
 			children = (
-				8BD6292C276AAC06000A976A /* SocialListView.swift */,
-				8BD6292E276B407F000A976A /* SocialListItem.swift */,
+				D4BD4DAB2896835100AED247 /* Models */,
+				D44D61D928951D80004F5301 /* Views */,
 				8BD62930276B4ADA000A976A /* SocialListViewModel.swift */,
 				8B8B9C2027F330040061F5E6 /* SocialListConfigurator.swift */,
 				8B8B9C2227F330120061F5E6 /* SocialListProtocols.swift */,
 				8B8B9C2427F331C90061F5E6 /* SocialListFlow.swift */,
+				D44D61D1289457D2004F5301 /* SocialListResources.swift */,
 			);
 			path = SocialList;
 			sourceTree = "<group>";
@@ -2880,6 +2889,16 @@
 			path = "UserDefaults Service";
 			sourceTree = "<group>";
 		};
+		D44D61D928951D80004F5301 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D4BD4DAA2896833700AED247 /* SocialListItem */,
+				D44D61D528951CC6004F5301 /* SocialListHeaderView.swift */,
+				8BD6292C276AAC06000A976A /* SocialListView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		D45004712845D9A100CA4C82 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -2919,6 +2938,23 @@
 				D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */,
 			);
 			path = "Matrix UseCase";
+			sourceTree = "<group>";
+		};
+		D4BD4DAA2896833700AED247 /* SocialListItem */ = {
+			isa = PBXGroup;
+			children = (
+				D44D61D728951D0F004F5301 /* SocialListItemView.swift */,
+				8BD6292E276B407F000A976A /* SocialListItem.swift */,
+			);
+			path = SocialListItem;
+			sourceTree = "<group>";
+		};
+		D4BD4DAB2896835100AED247 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D44D61D32894CFB1004F5301 /* SocialNetworkType.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		D4D439E92836084D00AC0DEF /* P2P Call UseCase */ = {
@@ -3214,6 +3250,7 @@
 				8B6E5556279F0F58002054CF /* PinCodeCreateViewModel.swift in Sources */,
 				5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
+				D44D61D42894CFB1004F5301 /* SocialNetworkType.swift in Sources */,
 				5A187E9E2680708D001957D3 /* ObservableArray.swift in Sources */,
 				5AABB7852739821D004D6107 /* ChatHistoryFlow.swift in Sources */,
 				5AF8636D26ADCB9B004A417C /* KeyImportConfigurator.swift in Sources */,
@@ -3494,6 +3531,7 @@
 				5A3C942C274AFFDC00818060 /* KeyboardHandler.swift in Sources */,
 				5ABAD3A327C2F6BC0067DFC1 /* ChatMediaView.swift in Sources */,
 				8B1E8AC427DF4F9D0036C301 /* ChooseReceiverFlow.swift in Sources */,
+				D44D61D2289457D2004F5301 /* SocialListResources.swift in Sources */,
 				D45004792845DECC00CA4C82 /* HStackItemViewModel.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
 				8B4E9C3727E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift in Sources */,
@@ -3501,6 +3539,7 @@
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
 				5AEB80FD26DD123E009A1944 /* ImagePickerView.swift in Sources */,
 				5A187F272680CF49001957D3 /* Сonfiguration.swift in Sources */,
+				D44D61D828951D0F004F5301 /* SocialListItemView.swift in Sources */,
 				8BA0C90E27AD76730070203F /* ReserveCopyView.swift in Sources */,
 				D44BDC742808382B0080AE8A /* PushNotificationsUseCase.swift in Sources */,
 				8B4E9C4D27E3ADF80057E4C9 /* SuccessFacilityView.swift in Sources */,
@@ -3521,6 +3560,7 @@
 				8B5D83F5283B81B60035815B /* ContactInfoViewModel.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
 				D44BDC832809A2EE0080AE8A /* MatrixNotification.swift in Sources */,
+				D44D61D628951CC6004F5301 /* SocialListHeaderView.swift in Sources */,
 				8BE379A027EB26BC00AB6B6E /* WalletManagerFlow.swift in Sources */,
 				8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */,
 				8BE3798F27E9C47D00AB6B6E /* TokenInfoView.swift in Sources */,
