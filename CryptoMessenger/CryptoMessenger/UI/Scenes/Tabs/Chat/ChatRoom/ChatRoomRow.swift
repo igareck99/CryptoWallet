@@ -1,6 +1,5 @@
 import MatrixSDK
 import SwiftUI
-import AVFAudio
 
 // swiftlint:disable:all
 
@@ -10,9 +9,9 @@ struct ChatRoomRow: View {
 
     // MARK: - Internal Properties
 
-    @State var time: Double = 0
     @State var chatContactInfo = ChatContactInfo(name: "")
     @Binding var activateShowCard: Bool
+    @Binding var playingAudioId: String
 
     // MARK: - Private Properties
 
@@ -22,17 +21,13 @@ struct ChatRoomRow: View {
     private let isDirect: Bool
     private var onReaction: StringBlock?
     private var onSelectPhoto: GenericBlock<URL?>?
-    @ObservedObject var audioViewModel: AudioMessageViewModel
-    @StateObject var album = AlbumData()
+    @StateObject var audioViewModel: AudioMessageViewModel
 
     @State private var showMap = false
     @State private var showFile = false
     @State private var isAnimating = false
     @State private var showContactInfo = false
     @State private var degress = 0.0
-    @State private var audioPlayer: AVAudioPlayer?
-    @State private var timer = Timer.publish(every: 0.01,
-                                             on: .main, in: .common).autoconnect()
 
     // MARK: - Lifecycle
 
@@ -42,7 +37,8 @@ struct ChatRoomRow: View {
         isDirect: Bool,
         onReaction: StringBlock?,
         onSelectPhoto: GenericBlock<URL?>?,
-        activateShowCard: Binding<Bool>
+        activateShowCard: Binding<Bool>,
+        playingAudioId: Binding<String>
     ) {
         self.message = message
         self.isFromCurrentUser = message.isCurrentUser
@@ -51,12 +47,15 @@ struct ChatRoomRow: View {
         self.onReaction = onReaction
         self.onSelectPhoto = onSelectPhoto
         self._activateShowCard = activateShowCard
+        self._playingAudioId = playingAudioId
         switch message.type {
         case let .audio(url):
-            self.audioViewModel = AudioMessageViewModel(url: url)
+            self._audioViewModel = StateObject(wrappedValue: AudioMessageViewModel(url: url,
+                                                                                   messageId: message.id))
         default:
             let url = URL(string: "")
-            self.audioViewModel = AudioMessageViewModel(url: url)
+            self._audioViewModel = StateObject(wrappedValue: AudioMessageViewModel(url: url,
+                                                                                   messageId: message.id))
         }
     }
 
@@ -71,7 +70,6 @@ struct ChatRoomRow: View {
                 if !isDirect, !isFromCurrentUser {
                     VStack(spacing: 0) {
                         Spacer()
-
                         AsyncImage(
                             url: message.avatar,
                             placeholder: {
@@ -165,7 +163,7 @@ struct ChatRoomRow: View {
                                         showFile.toggle()
                                     }
                             case let .audio(_):
-                                audioRow(audioMessageViewModel: audioViewModel)
+                                audioRow()
                             case .none:
                                 EmptyView()
                             }
@@ -314,24 +312,24 @@ struct ChatRoomRow: View {
         .frame(width: 247, height: 96)
     }
 
-    private func audioRow(audioMessageViewModel: AudioMessageViewModel) -> some View {
+    private func audioRow() -> some View {
         return ZStack {
             HStack(alignment: .center, spacing: 12) {
-                Button(action: play) {
+                Button(action: audioViewModel.play) {
                     ZStack {
                         Circle()
                             .frame(width: 48,
                                    height: 48)
-                        !album.isPlaying ? R.image.chat.audio.audioPlay.image : R.image.chat.audio.audioStop.image
+                        !audioViewModel.isPlaying ? R.image.chat.audio.audioPlay.image : R.image.chat.audio.audioStop.image
                     }
                 }
                 .padding(.vertical, 8)
                 .padding(.leading, message.isCurrentUser ? 8 : 16)
                 VStack(alignment: .leading, spacing: 10) {
-                    SliderAudioView(value: Binding(get: { time }, set: { newValue in
-                        time = newValue
-                        audioPlayer?.currentTime = Double(time) * (audioPlayer?.duration ?? 0)
-                        audioPlayer?.play()
+                    SliderAudioView(value: Binding(get: { audioViewModel.time }, set: { newValue in
+                        audioViewModel.time = newValue
+                        audioViewModel.audioPlayer?.currentTime = Double(audioViewModel.time) * (audioViewModel.audioPlayer?.duration ?? 0)
+                        audioViewModel.audioPlayer?.play()
                     }), activateShowCard: $activateShowCard)
                     .frame(width: 177, height: 1)
                     Text(message.audioDuration)
@@ -344,29 +342,29 @@ struct ChatRoomRow: View {
             checkTextReadView(message.shortDate)
                 .padding(.leading, isFromCurrentUser ? 0 : 185)
         }
-        .onReceive(timer) { _ in
-            if audioPlayer?.isPlaying == true {
-                audioPlayer?.updateMeters()
-                album.isPlaying = true
-                time = Double((audioPlayer?.currentTime ?? 0) / (audioPlayer?.duration ?? 1))
-            } else {
-                album.isPlaying = false
-				timer.upstream.connect().cancel()
-				time = .zero
-            }
+        .onReceive(audioViewModel.timer) { _ in
+            audioViewModel.onTimerChange()
         }
+        .onChange(of: audioViewModel.playingAudioId, perform: { value in
+            playingAudioId = value
+        })
         .onAppear {
             self.audioViewModel.setupAudioNew { url in
                 do {
                     guard let unwrappedUrl = url else { return }
-                    audioPlayer = try AVAudioPlayer(contentsOf: unwrappedUrl)
-					audioPlayer?.numberOfLoops = .zero
+                    audioViewModel.audioPlayer = try AVAudioPlayer(contentsOf: unwrappedUrl)
+                    audioViewModel.audioPlayer?.numberOfLoops = .zero
                 } catch {
                     debugPrint("Error URL")
                     return
                 }
             }
         }
+        .onChange(of: playingAudioId, perform: { _ in
+            if message.id != playingAudioId {
+                audioViewModel.stop()
+            }
+        })
         .frame(width: 252, height: 64)
     }
 
@@ -393,7 +391,6 @@ struct ChatRoomRow: View {
                             .font(.regular(13))
                             .foreground(.darkGray())
                     }
-
                     Spacer()
                 }
                 .frame(height: 40)
@@ -461,7 +458,6 @@ struct ChatRoomRow: View {
                     if isFromCurrentUser {
                         Spacer()
                     }
-
                     HStack(spacing: 6) {
                         Text(time)
                             .frame(width: 40, height: 10)
@@ -477,7 +473,6 @@ struct ChatRoomRow: View {
                                 .padding(.trailing, 16)
                         }
                     }
-
                     if !isFromCurrentUser {
                         Spacer()
                     }
@@ -491,12 +486,10 @@ struct ChatRoomRow: View {
         ZStack {
             VStack {
                 Spacer()
-
                 HStack {
                     if isFromCurrentUser {
                         Spacer()
                     }
-
                     HStack(alignment: .center, spacing: 4) {
                         Text(time)
                             .font(.light(12))
@@ -523,20 +516,6 @@ struct ChatRoomRow: View {
             return isPreviousFromCurrentUser ? 8 : 8
         } else {
             return isPreviousFromCurrentUser ? 8 : 8
-        }
-    }
-
-    func play() {
-        if album.isPlaying {
-            audioPlayer?.pause()
-            album.isPlaying = false
-			timer.upstream.connect().cancel()
-        } else {
-			try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-			try? AVAudioSession.sharedInstance().setActive(true)
-			timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
-            audioPlayer?.play()
-            album.isPlaying = true
         }
     }
 }
