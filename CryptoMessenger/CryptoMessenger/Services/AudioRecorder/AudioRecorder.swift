@@ -24,7 +24,7 @@ final class AudioRecorder: ObservableObject {
     func startRecording() {
         do {
             self.recordingSession = AVAudioSession.sharedInstance()
-            try self.recordingSession?.setCategory(.playAndRecord)
+            try self.recordingSession?.setCategory(.record)
         } catch {
             debugPrint("Error create Session AVAudio")
         }

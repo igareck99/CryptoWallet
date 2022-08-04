@@ -15,7 +15,7 @@ struct AudioInputMessageView: View {
 
     // MARK: - Private Properties
 
-    private let audioRecord = AudioRecorder()
+    @StateObject var audioRecord = AudioRecorder()
     @State private var bottomPadding: CGFloat = 0
 
     // MARK: - Body
