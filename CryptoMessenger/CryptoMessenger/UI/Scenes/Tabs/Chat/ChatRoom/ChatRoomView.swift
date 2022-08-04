@@ -23,6 +23,7 @@ struct ChatRoomView: View {
     @StateObject var viewModel: ChatRoomViewModel
     @StateObject var attachViewModel = AttachActionViewModel()
     @State var photosToSend: [UIImage] = []
+    @State var playingAudioId = ""
     @State var sendPhotos = false
     @StateObject var attachActionViewModel = AttachActionViewModel()
     @State var showAudioView = false
@@ -314,7 +315,8 @@ struct ChatRoomView: View {
                                                 )
                                             },
                                             onSelectPhoto: { selectedPhoto = $0 },
-                                            activateShowCard: $activateShowCard
+                                            activateShowCard: $activateShowCard,
+                                            playingAudioId: $playingAudioId
                                         )
                                         .flippedUpsideDown()
                                         .listRowSeparator(.hidden)
@@ -347,7 +349,8 @@ struct ChatRoomView: View {
                                                 )
                                             },
                                             onSelectPhoto: { selectedPhoto = $0 },
-                                            activateShowCard: $activateShowCard
+                                            activateShowCard: $activateShowCard,
+                                            playingAudioId: $playingAudioId
                                         )
                                         .flippedUpsideDown()
                                         .listRowSeparator(.hidden)

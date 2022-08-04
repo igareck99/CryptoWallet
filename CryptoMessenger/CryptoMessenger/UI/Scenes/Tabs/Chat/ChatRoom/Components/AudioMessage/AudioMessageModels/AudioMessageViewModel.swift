@@ -11,18 +11,61 @@ final class AudioMessageViewModel: ObservableObject {
     // MARK: - Internal properties
 
     var url: URL?
+    var messageId: String
 
     @Published var downloadError = false
     @Published var isUpload = false
     @Published var endPlaying = false
+    @Published var isPlaying = false
+    @Published var audioPlayer: AVAudioPlayer?
+    @Published var timer = Timer.publish(every: 0.01,
+                                             on: .main, in: .common).autoconnect()
+    @Published var time: Double = 0
+    @Published var playingAudioId = ""
 
     // MARK: - Lifecycle
 
-    init(url: URL?) {
+    init(url: URL?, messageId: String) {
         self.url = url
+        self.messageId = messageId
+    }
+    
+    // MARK: - Internal Methods
+    
+    func stop() {
+        playingAudioId = ""
+        audioPlayer?.pause()
+        isPlaying = false
+        timer.upstream.connect().cancel()
+    }
+    
+    func play() {
+        if self.isPlaying {
+            stop()
+        } else {
+            playingAudioId = messageId
+            try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try? AVAudioSession.sharedInstance().setActive(true)
+            timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
+            audioPlayer?.play()
+            isPlaying = true
+        }
+    }
+    
+    func onTimerChange() {
+        if audioPlayer?.isPlaying == true {
+            audioPlayer?.updateMeters()
+            isPlaying = true
+            time = Double((audioPlayer?.currentTime ?? 0) / (audioPlayer?.duration ?? 1))
+        } else {
+            isPlaying = false
+            playingAudioId = ""
+            timer.upstream.connect().cancel()
+            time = .zero
+        }
     }
 
-    // MARK: - Internal Methods
+    // MARK: - Private Methods
 
     private func downloadFile(withUrl url: URL,
                               andFilePath filePath: URL,
@@ -85,7 +128,7 @@ final class AudioMessageViewModel: ObservableObject {
         }
     }
 
-    func clearData() {
+    private func clearData() {
         let fileManager = FileManager.default
         let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         do {
@@ -99,7 +142,7 @@ final class AudioMessageViewModel: ObservableObject {
         }
     }
 
-    func deleteRecording(urlsToDelete: [URL]) {
+    private func deleteRecording(urlsToDelete: [URL]) {
         for url in urlsToDelete {
             do {
                try FileManager.default.removeItem(at: url)
