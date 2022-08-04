@@ -345,6 +345,9 @@ struct ChatRoomRow: View {
         .onReceive(audioViewModel.timer) { _ in
             audioViewModel.onTimerChange()
         }
+        .onChange(of: activateShowCard, perform: { _ in
+            audioViewModel.stop()
+        })
         .onChange(of: audioViewModel.playingAudioId, perform: { value in
             playingAudioId = value
         })
