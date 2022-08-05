@@ -17,9 +17,10 @@ func intToDate(_ duration: Int) -> String {
         if formattedDuration < 60 {
             return formattedDuration > 9 ? String("00:\(formattedDuration)") : String("00:0\(formattedDuration)")
         }
-        if formattedDuration > 61 {
+        if formattedDuration % 60 < 9 {
+            return String("0\(Int(formattedDuration / 60)):0\(formattedDuration % 60)")
+        } else {
             return String("0\(Int(formattedDuration / 60)):\(formattedDuration % 60)")
         }
-        return String(formattedDuration)
     }
 }
