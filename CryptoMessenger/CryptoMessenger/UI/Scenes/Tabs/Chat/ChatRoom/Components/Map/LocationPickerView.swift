@@ -4,7 +4,7 @@ import SwiftUI
 
 //swiftlint: disable all
 
-// MARK: - MapView
+// MARK: - LocationPickerView
 
 struct LocationPickerView: View {
     // MARK: - Private Properties

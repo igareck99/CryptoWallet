@@ -55,7 +55,6 @@ struct ChatRoomView: View {
     @State private var deleteMessage: RoomMessage?
     @State private var quickAction: QuickAction?
     @State private var quickActionCurrentUser: QuickActionCurrentUser?
-    @State private var actionSheet: IOActionSheet?
 
     @FocusState private var inputViewIsFocused: Bool
 

@@ -483,3 +483,5 @@
 
 "LocationPickerView.Location" = "Отправить геопозицию";
 "LocationPickerView.SearchPlaceholder" = "Адрес";
+"LocationPickerView.OpenWith" = "Открыть с помощью";
+"LocationPickerView.Share" = "Поделиться";

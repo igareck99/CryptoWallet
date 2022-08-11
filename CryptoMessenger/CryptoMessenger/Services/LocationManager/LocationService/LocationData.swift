@@ -16,10 +16,12 @@ enum UserCountry {
 
 // MARK: - GeoService
 
-enum GeoService {
+enum GeoService: CaseIterable {
     case baidu
     case apple
     case google
+    case yandex
+    case doubleGis
 }
 
 // MARK: - GeoService
@@ -33,4 +35,3 @@ struct Place: Identifiable, Equatable {
     let latitude: Double
     let longitude: Double
 }
-

@@ -229,6 +229,8 @@ struct ActionSheetView: View {
             .padding(.horizontal, 16)
         })
     }
+    
+    // MARK: - Internal Methods
 
     func addPhotosToSend(image: UIImage) {
         if imagesToSend.contains(image) {
