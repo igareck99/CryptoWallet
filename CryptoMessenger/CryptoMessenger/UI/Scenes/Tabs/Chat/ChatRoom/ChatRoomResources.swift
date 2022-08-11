@@ -43,6 +43,12 @@ protocol ChatRoomSourcesable {
     static var chatRoomViewUnownedErrorNotify: String { get }
 
     static var chatRoomViewBannedNotify: String { get }
+
+	static var callFinished: String { get }
+
+	static var callDeclined: String { get }
+
+	static var callMissed: String { get }
 }
 
 // MARK: - ChatRoomResources(ChatRoomSourcesable)
@@ -126,4 +132,16 @@ enum ChatRoomResources: ChatRoomSourcesable {
     static var chatRoomViewBannedNotify: String {
         R.string.localizable.chatRoomViewBannedNotify()
     }
+
+	static var callFinished: String {
+		R.string.localizable.callsCallFinished()
+	}
+
+	static var callDeclined: String {
+		R.string.localizable.callsCallDeclined()
+	}
+
+	static var callMissed: String {
+		R.string.localizable.callsCallMissed()
+	}
 }

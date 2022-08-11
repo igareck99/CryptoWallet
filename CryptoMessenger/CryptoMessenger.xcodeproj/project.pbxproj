@@ -539,6 +539,8 @@
 		D4AB8FFE282672F800E6FAB5 /* MatrixService+Rooms.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFD282672F800E6FAB5 /* MatrixService+Rooms.swift */; };
 		D4AB90002826735000E6FAB5 /* MatrixService+Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFF2826735000E6FAB5 /* MatrixService+Users.swift */; };
 		D4AB900828278A1600E6FAB5 /* MatrixUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */; };
+		D4B39AFE289BE271006F2D99 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */; };
+		D4B39B01289C3B50006F2D99 /* CallEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B39B00289C3B50006F2D99 /* CallEventView.swift */; };
 		D4C9B72E283C20380060BFD3 /* ChatRoomViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */; };
 		D4D439EB2836086900AC0DEF /* P2PCallUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */; };
 		D4D439F22837493800AC0DEF /* MXRoom+Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */; };
@@ -1091,6 +1093,8 @@
 		D4AB8FFD282672F800E6FAB5 /* MatrixService+Rooms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Rooms.swift"; sourceTree = "<group>"; };
 		D4AB8FFF2826735000E6FAB5 /* MatrixService+Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Users.swift"; sourceTree = "<group>"; };
 		D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixUseCase.swift; sourceTree = "<group>"; };
+		D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
+		D4B39B00289C3B50006F2D99 /* CallEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallEventView.swift; sourceTree = "<group>"; };
 		D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelAssembly.swift; sourceTree = "<group>"; };
 		D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallUseCase.swift; sourceTree = "<group>"; };
 		D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MXRoom+Reply.swift"; sourceTree = "<group>"; };
@@ -1388,6 +1392,7 @@
 				5AC8C4F527C42FB8008B1744 /* URL+Extensions.swift */,
 				D4442B4F2815E03D0033D07A /* NotificationCenter+NotificationNames.swift */,
 				D4FA3F73281A7374000246D8 /* TimeInterval+Extensions.swift */,
+				D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1892,6 +1897,7 @@
 		5A9318DA26C5AB8900645365 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D4B39AFF289C334E006F2D99 /* Call */,
 				8BB517CD285A5F1C00D06593 /* AudioMessage */,
 				8BE644F3283765EC00FA6540 /* Contact */,
 				783AADC72811ABBC00E2228A /* TranslateActions */,
@@ -2937,6 +2943,14 @@
 			path = "Matrix UseCase";
 			sourceTree = "<group>";
 		};
+		D4B39AFF289C334E006F2D99 /* Call */ = {
+			isa = PBXGroup;
+			children = (
+				D4B39B00289C3B50006F2D99 /* CallEventView.swift */,
+			);
+			path = Call;
+			sourceTree = "<group>";
+		};
 		D4BD4DAA2896833700AED247 /* SocialListItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -3341,6 +3355,7 @@
 				D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */,
 				5A9B472126EA81F5001CC627 /* QuickMenuView.swift in Sources */,
 				5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */,
+				D4B39B01289C3B50006F2D99 /* CallEventView.swift in Sources */,
 				5A7EDE75275402F00049DC4A /* BlockedUserItem.swift in Sources */,
 				5AE28A9C27EA1DE500D1AAFF /* ReplyView.swift in Sources */,
 				8BE6673B280F4A4A00D41A3C /* UIFont+Init.swift in Sources */,
@@ -3467,6 +3482,7 @@
 				5A187F2C2680CF49001957D3 /* URLRequest+QueryItems.swift in Sources */,
 				5A187F342680CF49001957D3 /* ContactsManager.swift in Sources */,
 				8B34D77A277DA1AB007811C9 /* PersonalizationTitleItems.swift in Sources */,
+				D4B39AFE289BE271006F2D99 /* Dictionary+Extensions.swift in Sources */,
 				7846B67226E8C04D00B05984 /* ThumbnailLayout.swift in Sources */,
 				7857B5A1286190980006D2D3 /* LocationEvent.swift in Sources */,
 				D445C84328462B46003C3D5C /* P2PCallsAssembly.swift in Sources */,

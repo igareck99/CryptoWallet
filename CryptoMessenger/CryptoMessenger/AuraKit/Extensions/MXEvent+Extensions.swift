@@ -45,24 +45,6 @@ enum MXEventEventKey: String {
     case rootLink = "root_link"
 }
 
-// MARK: - Dictionary (ExpressibleByStringLiteral)
-
-extension Dictionary where Key: ExpressibleByStringLiteral {
-
-    // MARK: - Subscript
-
-    subscript(_ eventKey: MXEventEventKey) -> Value? {
-        get {
-            guard let key = eventKey.rawValue as? Key else { return nil }
-            return self[key]
-        }
-        set {
-            guard let key = eventKey.rawValue as? Key else { return }
-            self[key] = newValue
-        }
-    }
-}
-
 // MARK: - MXEvent ()
 
 extension MXEvent {
@@ -113,7 +95,6 @@ extension MXEvent {
         default:
             type = .none
         }
-
         return type
     }
 
@@ -197,11 +178,14 @@ extension MXEvent {
     func prevContent<T>(valueFor key: String) -> T? { unsignedData?.prevContent?[key] as? T }
 
     func message(_ isFromCurrentUser: Bool) -> RoomMessage? {
+
 		switch eventType {
 		case .roomMessage:
 			return rowItem(isFromCurrentUser)
 		case .roomEncrypted:
 			return encryptedRowItem(isFromCurrentUser)
+		case .callHangup, .callReject:
+			return rowItem(isFromCurrentUser)
 		default:
 			return nil
 		}

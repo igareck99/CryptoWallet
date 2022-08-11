@@ -162,7 +162,7 @@ struct ChatRoomRow: View {
                                     .onTapGesture {
                                         showFile.toggle()
                                     }
-                            case let .audio(_):
+							case .audio(_):
                                 audioRow()
                             case .none:
                                 EmptyView()
