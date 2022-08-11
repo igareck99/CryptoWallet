@@ -12,7 +12,7 @@ struct AnotherAppTransitionView: View {
 
     // MARK: - Private Properties
 
-    var hGridLayout = [ GridItem(.flexible()) ]
+    var hGridLayout = [ GridItem(.flexible(minimum: 85)) ]
 
     // MARK: - Body
 
@@ -33,13 +33,9 @@ struct AnotherAppTransitionView: View {
             VStack(spacing: 8) {
                 Spacer()
                 VStack {
-                    HStack {
-                        Spacer()
-                        dataView
-                        Spacer()
-                    }
-                    .padding(.top, 16)
-                    .padding(.horizontal, 16)
+                    dataView
+                        .padding(.top, 16)
+                        .padding(.horizontal, 16)
                 }
                 .background(.white())
                 .cornerRadius(14)
@@ -78,7 +74,7 @@ struct AnotherAppTransitionView: View {
                 }
             }
             Divider()
-                .padding(.top, 8)
+                .padding(.top, 16)
             Button {
                 showShareView = true
             } label: {

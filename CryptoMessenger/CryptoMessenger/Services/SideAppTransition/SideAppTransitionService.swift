@@ -26,9 +26,9 @@ final class SideAppTransitionService: SideAppTransitionServiceProtocol {
         case .apple:
             openSideAppFromURL(url: URL(string: "http://maps.apple.com/maps?daddr=\(place.latitude),\(place.longitude)"))
         case .google:
-            openSideAppFromURL(url: URL(string:"https://www.google.com/maps/@\(place.longitude),\(place.longitude),6z"))
+            openSideAppFromURL(url: URL(string:"https://maps.google.com/?q=\(place.latitude),\(place.longitude)"))
         case .yandex:
-            openSideAppFromURL(url: URL(string:"yandexmaps://maps.yandex.ru/?pt=\(place.latitude),\(place.longitude)&z=18&l=map"))
+            openSideAppFromURL(url: URL(string:"yandexmaps://maps.yandex.ru/?pt=\(place.longitude),\(place.latitude)&z=18&l=map"))
         case .doubleGis:
             openSideAppFromURL(url: URL(string:"dgis://2gis.ru/routeSearch/rsType/car/to/55.465508,25.398003"))
         }
@@ -37,10 +37,10 @@ final class SideAppTransitionService: SideAppTransitionServiceProtocol {
     func canOpenMapApp(service: GeoService, place: Place) -> Bool {
         switch service {
         case .yandex:
-            return checkSharedUrl("yandexmaps://maps.yandex.ru/?pt=\(place.latitude),\(place.longitude)&z=18&l=map")
+            return checkSharedUrl("yandexmaps://maps.yandex.ru/?pt=\(place.longitude),\(place.latitude)&z=18&l=map")
         case .google:
             return
-                checkSharedUrl("https://www.google.com/maps/@\(place.longitude),\(place.longitude),6z")
+            checkSharedUrl("https://maps.google.com/?q=\(place.latitude),\(place.longitude)")
         case .apple:
             return checkSharedUrl("http://maps.apple.com/maps?daddr=\(place.latitude),\(place.longitude)")
         case .doubleGis:
