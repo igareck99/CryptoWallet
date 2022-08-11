@@ -18,6 +18,7 @@ struct ChatGroupView: View {
     @State private var showActionImageAlert = false
     @State private var showImagePicker = false
     @State private var showCameraPicker = false
+    @State private var showLocationPicker = false
 
     // MARK: - Life Cycle
 

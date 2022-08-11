@@ -37,7 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		statusBarCallUseCase = StatusBarCallUseCase(appWindow: appWindow)
 		statusBarCallUseCase?.configure(window: appWindow, rootViewController: rootNavigationController)
-
 		return true
 	}
 

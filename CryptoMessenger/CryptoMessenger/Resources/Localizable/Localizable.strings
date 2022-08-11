@@ -478,6 +478,8 @@
 "DocumentViewer.UploadError" = "Ошибка при загрузке файла";
 
 
+// Location Picker View
 
 
-
+"LocationPickerView.Location" = "Отправить геопозицию";
+"LocationPickerView.SearchPlaceholder" = "Адрес";

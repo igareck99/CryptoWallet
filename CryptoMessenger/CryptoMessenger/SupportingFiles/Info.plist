@@ -26,12 +26,20 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Aura</string>
 	<key>DevelopmentTeam</key>
 	<string>Z123456789</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>baidumap</string>
+		<string>comgooglemaps</string>
+		<string>comgooglemaps-x-callback</string>
+	</array>
 	<key>MATRIX URL</key>
 	<string>https://matrix.aura.ms</string>
 	<key>NSAppTransportSecurity</key>
@@ -39,6 +47,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>App requires to access your location to send it to friends</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>This app need to access your calendar events</string>
 	<key>NSCameraUsageDescription</key>
@@ -47,8 +57,6 @@
 	<string>Приложение $(PRODUCT_NAME) запрашивает доступ к контактам</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App requires to access your location to send it to friends</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>App requires to access your microphone to make calls</string>
 	<key>NSPhotoLibraryUsageDescription</key>

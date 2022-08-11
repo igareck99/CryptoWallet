@@ -129,11 +129,15 @@ final class AuraRoom: ObservableObject {
         room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
     }
     
-    func sendLocation(location: Location?) {
-        guard location != nil else { return }
+    func sendLocation(location: LocationData?) {
+        guard let unwrappedLocation = location else { return }
         var localEcho: MXEvent?
-        let content = try! LocationEvent(location: location ?? (0, 0)).encodeContent()
-        room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
+        do {
+            let content = try LocationEvent(location: unwrappedLocation).encodeContent()
+            room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
+        } catch {
+            debugPrint("Error create LocationEvent")
+        }
     }
 
     func redact(eventId: String, reason: String?) {

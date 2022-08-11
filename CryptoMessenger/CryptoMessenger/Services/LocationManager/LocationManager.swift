@@ -3,48 +3,21 @@ import UIKit.UIApplication
 
 // swiftlint: disable: all
 
-// MARK: - Country Constants
-
-let kLocationHongKong = "HK"
-let kLocationChina = "zh-CN"
-
-protocol LocationManager: AnyObject {
-    var lastLocationPublisher: Published<Location?>.Publisher { get }
-    func requestLocationAccess() throws
-    func openAppSettings()
-    func getUserLocation() -> Location?
-    func getCountryCode() -> String?
-    func getCountry() -> UserCountry
-}
-
-// MARK: - Type
-
-typealias Location = (lat: Double, long: Double)
-
 // MARK: - LocationManager
 
-final class LocationManagerUseCase: NSObject, ObservableObject, LocationManager {
-    var lastLocationPublisher: Published<Location?>.Publisher { $lastLocation }
-    
-    // MARK: - LocationError
+final class LocationManagerUseCase: NSObject, ObservableObject {
 
-    enum LocationError: Error {
-
-        // MARK: - Types
-
-        case LocationRequestNotPossible
-    }
+    var lastLocationPublisher: Published<LocationData?>.Publisher { $lastLocation }
 
     // MARK: - Internal Properties
 
     @Published var userIsLocatable: Bool?
     @Published var activeGeofences = 0
-    @Published var lastLocation: Location?
+    @Published var lastLocation: LocationData?
     @Published var countryCode: String?
     @Published var country: UserCountry = .other
-    @Published var service: Services = .apple
+    @Published var service: GeoService = .apple
 
-    
     static let shared = LocationManagerUseCase()
 
     // MARK: - Private Properties
@@ -53,64 +26,40 @@ final class LocationManagerUseCase: NSObject, ObservableObject, LocationManager 
     private let geoCoder = CLGeocoder()
     private var didEnterGeofencedRegion: ((_ identifier: String) -> Void)?
     private var didLeaveGeofencedRegion: ((_ identifier: String) -> Void)?
+    @Injectable private(set) var locationService: LocationServiceProtocol
+
     // MARK: - Life Cycle
 
-    init(requestLocation: Bool = true) {
+    init(requestLocation: Bool = true,
+         locationService: LocationServiceProtocol = LocationService.shared) {
         super.init()
+        configLocation(requestLocation, locationService)
+        clearGeofences()
+        activeGeofences = locationManager.monitoredRegions.count
+        updateAuthorizationStatus()
+        lastLocation = getUserLocation()
+        // TODO: - Переделать
+        if getUserLocation() != nil { } else {
+            do {
+                try locationService.requestLocationAccess()
+            } catch {
+                self.openAppSettings()
+            }
+        }
+    }
+
+    // MARK: - Internal Methods
+    
+    func configLocation(_ requestLocation: Bool, _ locationService: LocationServiceProtocol) {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         if requestLocation {
             try? requestLocationAccess()
         }
-        clearGeofences()
-        activeGeofences = locationManager.monitoredRegions.count
-        updateAuthorizationStatus()
-        lastLocation = getUserLocation()
     }
-
-    // MARK: - Internal Methods
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         updateAuthorizationStatus()
-    }
-    
-    func getUserLocation() -> Location? {
-        locationManager.startUpdatingLocation()
-        if let location = locationManager.location?.coordinate {
-            lastLocation = (lat: location.latitude, long: location.longitude)
-            if countryCode == kLocationChina || countryCode == kLocationHongKong {
-                country = .china
-            } else { country = .other }
-            locationManager.stopUpdatingLocation()
-            return lastLocation
-        }
-        return nil
-    }
-    
-    func getCountryCode() -> String? {
-        return countryCode ?? nil
-    }
-    
-    func getCountry() -> UserCountry {
-        return country
-    }
-
-    func requestLocationAccess() throws {
-        switch locationManager.authorizationStatus {
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-            locationManager.startUpdatingLocation()
-        case .authorizedAlways, .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
-        default:
-            throw LocationError.LocationRequestNotPossible
-        }
-    }
-
-    func openAppSettings() {
-        if let settingsULR = URL(string: UIApplication.openSettingsURLString) {
-            UIApplication.shared.open(settingsULR, options: [:], completionHandler: nil)
-        }
     }
 
     func getGeofences() -> [CLCircularRegion] {
@@ -161,7 +110,47 @@ final class LocationManagerUseCase: NSObject, ObservableObject, LocationManager 
     }
 }
 
-// MARK: - LocationManager (CLLocationManagerDelegate)
+// MARK: - LocationManager
+
+extension LocationManagerUseCase: LocationServiceProtocol {
+
+	func openAppSettings() {
+		if let settingsULR = URL(string: UIApplication.openSettingsURLString) {
+			UIApplication.shared.open(settingsULR, options: [:], completionHandler: nil)
+		}
+	}
+
+	func getUserLocation() -> LocationData? {
+		locationManager.startUpdatingLocation()
+		if let location = locationManager.location?.coordinate {
+			lastLocation = LocationData(lat: location.latitude, long: location.longitude)
+			if countryCode == CountryCodes.kLocationChina.rawValue || countryCode == CountryCodes.kLocationHongKong.rawValue {
+				country = .china
+			} else { country = .other }
+			locationManager.stopUpdatingLocation()
+			return lastLocation
+		}
+		return nil
+	}
+
+	func getCountryCode() -> String? {
+		countryCode ?? nil
+	}
+
+	func getLastLocation() -> LocationData? {
+		lastLocation
+	}
+
+	func getCountry() -> UserCountry {
+		country
+	}
+    
+    func requestLocationAccess() throws {
+        try? locationService.requestLocationAccess()
+    }
+}
+
+// MARK: - CLLocationManagerDelegate
 
 extension LocationManagerUseCase: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
@@ -175,19 +164,45 @@ extension LocationManagerUseCase: CLLocationManagerDelegate {
             onLeaveRegion(region.identifier)
         }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
         activeGeofences = manager.monitoredRegions.count
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        lastLocation = (lat: location.coordinate.latitude, long: location.coordinate.longitude)
+        lastLocation = LocationData(lat: location.coordinate.latitude,
+                                long: location.coordinate.longitude)
         geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
             guard let placemark = placemarks?.first else { return }
-            
             debugPrint("Country: ", placemark.isoCountryCode ?? "")
             self.countryCode = placemark.isoCountryCode ?? ""
+            if self.countryCode == CountryCodes.kLocationChina.rawValue || self.countryCode == CountryCodes.kLocationHongKong.rawValue {
+                self.country = .china
+                
+                // TODO: Не заводится пока если не в AppDelegate
+//                self.baiduStart()
+            } else { self.country = .other }
+        }
+    }
+    
+    func openSideApp(service: GeoService, place: Place) {
+        switch service {
+        case .baidu:
+            debugPrint(URL(string: "baidumap://map/direction?origin = latlng:\(String(describing:LocationManagerUseCase.shared.getLastLocation()?.lat ?? 0)),\(String(describing: LocationManagerUseCase.shared.getLastLocation()?.long ?? 0)) & destination = latlng:\(place.latitude),\(place.longitude) | name = CryptoMessenger & mode = driving & Coord_ type=gcj02"))
+            openSideAppFromURL(url: URL(string: "baidumap://map/direction?origin = latlng:\(String(describing:LocationManagerUseCase.shared.getLastLocation()?.lat ?? 0)),\(String(describing: LocationManagerUseCase.shared.getLastLocation()?.long ?? 0)) & destination = latlng:\(place.latitude),\(place.longitude) | name = CryptoMessenger & mode = driving & Coord_ type=gcj02"))
+        case .apple:
+            debugPrint("Apple maps", URL(string: "http://maps.apple.com/maps?saddr=\(String(describing:LocationManagerUseCase.shared.getLastLocation()?.lat ?? 0)),\(String(describing: LocationManagerUseCase.shared.getLastLocation()?.long ?? 0))&daddr=\(place.latitude),\(place.longitude)"))
+            openSideAppFromURL(url: URL(string: "http://maps.apple.com/maps?saddr=\(String(describing:LocationManagerUseCase.shared.getLastLocation()?.lat ?? 0)),\(String(describing: LocationManagerUseCase.shared.getLastLocation()?.long ?? 0))&daddr=\(place.latitude),\(place.longitude)"))
+        case .google:
+            debugPrint(URL(string: "comgooglemaps-x-callback://?saddr=\(String(describing:LocationManagerUseCase.shared.getLastLocation()?.lat ?? 0)),\(String(describing: LocationManagerUseCase.shared.getLastLocation()?.long ?? 0))&daddr=\(place.latitude),\(place.longitude)&directionsmode=driving"))
+            openSideAppFromURL(url: URL(string: "comgooglemaps-x-callback://?saddr=\(String(describing:LocationManagerUseCase.shared.getLastLocation()?.lat ?? 0)),\(String(describing: LocationManagerUseCase.shared.getLastLocation()?.long ?? 0))&daddr=\(place.latitude),\(place.longitude)&directionsmode=driving"))
+        }
+    }
+    
+    private func openSideAppFromURL(url: URL?) {
+        if let url = url {
+            UIApplication.shared.open(url, options: [:])
         }
     }
 }

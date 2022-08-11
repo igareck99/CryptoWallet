@@ -129,7 +129,7 @@ struct ChatRoomRow: View {
                             case let .text(text):
                                 textRow(message, text: text)
                             case let .location(location):
-                                mapRow(location, date: message.shortDate)
+                                mapRow(LocationData(lat: location.lat, long: location.long), date: message.shortDate)
                                     .sheet(isPresented: $showMap) {
                                         NavigationView {
                                             MapView(place: .init(
@@ -254,7 +254,7 @@ struct ChatRoomRow: View {
         }
     }
 
-    private func mapRow(_ location: Location, date: String) -> some View {
+    private func mapRow(_ location: LocationData, date: String) -> some View {
         ZStack {
             MapSnapshotView(latitude: location.lat, longitude: location.long)
             checkReadView(date)

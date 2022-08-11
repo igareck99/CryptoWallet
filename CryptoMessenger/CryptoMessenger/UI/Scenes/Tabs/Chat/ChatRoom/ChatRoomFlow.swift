@@ -31,7 +31,7 @@ enum ChatRoomFlow {
         case onReply(String, String)
         case onEdit(String, String)
         case onDelete(String)
-        case onSendLocation(Location)
+        case onSendLocation(LocationData)
         case onJoinRoom
         case onAddReaction(messageId: String, reactionId: String)
         case onDeleteReaction(messageId: String, reactionId: String)

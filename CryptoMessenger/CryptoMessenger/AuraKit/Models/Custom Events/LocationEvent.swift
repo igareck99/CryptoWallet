@@ -7,7 +7,7 @@ struct LocationEvent {
 
     // MARK: - Internal Properties
     let text: String = ""
-    let location: Location
+    let location: LocationData
 }
 
 // MARK: - EditEvent (CustomEvent)
