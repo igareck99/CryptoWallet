@@ -242,7 +242,6 @@
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
 		782047B4283D1DED0065E0E9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BE122C32825415100F7707E /* GoogleService-Info.plist */; };
-		782A2E712886A8DA00DDB6CE /* BaiduView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782A2E702886A8DA00DDB6CE /* BaiduView.swift */; };
 		782A2E752889534C00DDB6CE /* MapViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782A2E742889534C00DDB6CE /* MapViewConstants.swift */; };
 		7831DFD7280947D900AF1F1D /* TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831DFD6280947D900AF1F1D /* TranslateManager.swift */; };
 		783AADC92811ABE000E2228A /* TranslateMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783AADC82811ABE000E2228A /* TranslateMenuView.swift */; };
@@ -322,6 +321,8 @@
 		8B24FDD427A820990021177C /* SessionConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B24FDD327A820990021177C /* SessionConfigurator.swift */; };
 		8B24FDD627A820A30021177C /* SessionFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B24FDD527A820A30021177C /* SessionFlow.swift */; };
 		8B24FDD827A820C60021177C /* SessionProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B24FDD727A820C60021177C /* SessionProtocols.swift */; };
+		8B2532B728A41ED000285133 /* SideAppTransitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2532B628A41ED000285133 /* SideAppTransitionService.swift */; };
+		8B2532C028AA429400285133 /* BaiduView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2532BF28AA429400285133 /* BaiduView.swift */; };
 		8B27435A281A7ABB00B5957C /* FirebaseRemoteConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B274359281A7ABB00B5957C /* FirebaseRemoteConfigService.swift */; };
 		8B27435E281AE3AA00B5957C /* RemoteConfigModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B27435D281AE3A900B5957C /* RemoteConfigModels.swift */; };
 		8B274360281AE75A00B5957C /* RemoteConfigFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B27435F281AE75A00B5957C /* RemoteConfigFactory.swift */; };
@@ -798,7 +799,6 @@
 		5AF8637326ADE236004A417C /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		5AF8637526ADE25F004A417C /* BaseTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBar.swift; sourceTree = "<group>"; };
 		5AF8637726ADE922004A417C /* TabBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStyle.swift; sourceTree = "<group>"; };
-		782A2E702886A8DA00DDB6CE /* BaiduView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaiduView.swift; sourceTree = "<group>"; };
 		782A2E742889534C00DDB6CE /* MapViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewConstants.swift; sourceTree = "<group>"; };
 		7831DFD6280947D900AF1F1D /* TranslateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateManager.swift; sourceTree = "<group>"; };
 		783AADC82811ABE000E2228A /* TranslateMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateMenuView.swift; sourceTree = "<group>"; };
@@ -861,6 +861,7 @@
 		78A9CBAD28191BAC00C4D7E1 /* ActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheet.swift; sourceTree = "<group>"; };
 		78A9CBAE28191BAC00C4D7E1 /* ActionSheetTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetTopView.swift; sourceTree = "<group>"; };
 		78A9CBAF28191BAC00C4D7E1 /* IOActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOActionSheetView.swift; sourceTree = "<group>"; };
+		78AF8255285B0A940021F5BD /* LocationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationConstants.swift; sourceTree = "<group>"; };
 		78E9373A288987B7004DBFDD /* LocationManagerCostants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerCostants.swift; sourceTree = "<group>"; };
 		78EDCAF8286AAEAC00D3CBC5 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		78EDCAFA286AAF1000D3CBC5 /* MapSnapshotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSnapshotViewModel.swift; sourceTree = "<group>"; };
@@ -878,6 +879,8 @@
 		8B24FDD327A820990021177C /* SessionConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionConfigurator.swift; sourceTree = "<group>"; };
 		8B24FDD527A820A30021177C /* SessionFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionFlow.swift; sourceTree = "<group>"; };
 		8B24FDD727A820C60021177C /* SessionProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProtocols.swift; sourceTree = "<group>"; };
+		8B2532B628A41ED000285133 /* SideAppTransitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideAppTransitionService.swift; sourceTree = "<group>"; };
+		8B2532BF28AA429400285133 /* BaiduView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaiduView.swift; sourceTree = "<group>"; };
 		8B274359281A7ABB00B5957C /* FirebaseRemoteConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRemoteConfigService.swift; sourceTree = "<group>"; };
 		8B27435D281AE3A900B5957C /* RemoteConfigModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigModels.swift; sourceTree = "<group>"; };
 		8B27435F281AE75A00B5957C /* RemoteConfigFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigFactory.swift; sourceTree = "<group>"; };
@@ -1447,6 +1450,7 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8B2532B528A41E9F00285133 /* SideAppTransition */,
 				8BADB3D02847D224004A48AA /* DocumentViewer */,
 				8BE646D0285CAF140090D5E5 /* AudioRecorder */,
 				D428A53B2823C99D002CAA13 /* Feature Toggles Service */,
@@ -1591,6 +1595,7 @@
 			children = (
 				8B55D22A28A14F10000506D7 /* LocationService */,
 				5A2181E626D82DC40093AD60 /* LocationManager.swift */,
+				78AF8255285B0A940021F5BD /* LocationConstants.swift */,
 			);
 			path = LocationManager;
 			sourceTree = "<group>";
@@ -2387,6 +2392,14 @@
 			path = Session;
 			sourceTree = "<group>";
 		};
+		8B2532B528A41E9F00285133 /* SideAppTransition */ = {
+			isa = PBXGroup;
+			children = (
+				8B2532B628A41ED000285133 /* SideAppTransitionService.swift */,
+			);
+			path = SideAppTransition;
+			sourceTree = "<group>";
+		};
 		8B432CC027C394C50025D62B /* WalletNew */ = {
 			isa = PBXGroup;
 			children = (
@@ -2809,7 +2822,7 @@
 		D415082428A5384E00C92CEC /* Baidu */ = {
 			isa = PBXGroup;
 			children = (
-				782A2E702886A8DA00DDB6CE /* BaiduView.swift */,
+				8B2532BF28AA429400285133 /* BaiduView.swift */,
 				D415082528A5387200C92CEC /* LocationPickerBaidu.swift */,
 			);
 			path = Baidu;
@@ -3339,6 +3352,7 @@
 				D425C7E628071C6500E61607 /* AppCoordinatorAssembly.swift in Sources */,
 				5A44FEDC276681BD006F9D92 /* ProfileConfigurator.swift in Sources */,
 				5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */,
+				8B2532C028AA429400285133 /* BaiduView.swift in Sources */,
 				5A44FEDD276681BD006F9D92 /* ProfileFlow.swift in Sources */,
 				5AABB7832739821D004D6107 /* ChatHistoryViewModel.swift in Sources */,
 				8BB517D9285A6A5C00D06593 /* SliderAudioView.swift in Sources */,
@@ -3376,7 +3390,6 @@
 				5A44FEF127693F6F006F9D92 /* ChatCreateViewModel.swift in Sources */,
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
 				8BA0C8FA27AD195D0070203F /* ChatSettingsProtocols.swift in Sources */,
-				782A2E712886A8DA00DDB6CE /* BaiduView.swift in Sources */,
 				8BF8FA7E27FF8AC20000CC08 /* FeedImageViewer.swift in Sources */,
 				D4442B4828113C7A0033D07A /* KeychainServiceProtocol.swift in Sources */,
 				8BA0C91227AD77380070203F /* ReserveCopyConfigurator.swift in Sources */,
@@ -3541,6 +3554,7 @@
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
 				8BA0C8FC27AD19A70070203F /* ChatSettingsViewModel.swift in Sources */,
 				D4533A1E28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift in Sources */,
+				8B2532B728A41ED000285133 /* SideAppTransitionService.swift in Sources */,
 				78437F1C270CE98800371110 /* PaywallViewController.swift in Sources */,
 				5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */,
 				5A187F2B2680CF49001957D3 /* URLRequestConvertible.swift in Sources */,
