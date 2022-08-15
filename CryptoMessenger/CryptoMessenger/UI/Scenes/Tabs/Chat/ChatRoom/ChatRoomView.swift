@@ -11,7 +11,7 @@ struct ChatRoomView: View {
 
         // MARK: - Types
 
-        case photo, documents, camera, contact
+        case photo, documents, camera, contact, location
 
         // MARK: - Internal Properties
 
@@ -55,6 +55,7 @@ struct ChatRoomView: View {
     @State private var deleteMessage: RoomMessage?
     @State private var quickAction: QuickAction?
     @State private var quickActionCurrentUser: QuickActionCurrentUser?
+    @State private var actionSheet: IOActionSheet?
 
     @FocusState private var inputViewIsFocused: Bool
 
@@ -74,7 +75,6 @@ struct ChatRoomView: View {
                 switch viewModel.room.summary.membership {
                 case .invite:
                     showJoinAlert = true
-//                    showTranslateAlert = true
                 case .join:
                     viewModel.room.markAllAsRead()
                 default:
@@ -113,22 +113,10 @@ struct ChatRoomView: View {
                     showTranslateAlert = true
                 }
             }
-            .alert(isPresented: $showJoinAlert) {
-                let roomName = viewModel.room.summary.displayname ??  viewModel.sources.chatNewRequest
-                return Alert(
-                    title: Text(viewModel.sources.joinChat),
-                    message: Text("Принять приглашение от \(roomName)"),
-                    primaryButton: .default(
-                        Text("Присоединиться"),
-                        action: {
-                            viewModel.send(.onJoinRoom)
-                        }
-                    ),
-                    secondaryButton: .cancel(
-                        Text(viewModel.sources.callListAlertActionOne),
-                        action: { presentationMode.wrappedValue.dismiss() }
-                    )
-                )
+            .onReceive(viewModel.$showLocationPicker) { flag in
+                if flag {
+                    activeSheet = .location
+                }
             }
             .sheet(item: $activeSheet) { item in
                 switch item {
@@ -149,6 +137,10 @@ struct ChatRoomView: View {
                         SelectContactView(contactsLimit: 1, onSelectContact: {
                             viewModel.pickedContact = $0.first
                         })
+                    }
+                case .location:
+                    NavigationView{
+                        LocationPickerView(place: $viewModel.pickedLocation)
                     }
                 }
             }

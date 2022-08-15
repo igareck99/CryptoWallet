@@ -20,6 +20,7 @@ struct ProfileView: View {
     @State private var showActionImageAlert = false
     @State private var showImagePicker = false
     @State private var showCameraPicker = false
+    @State private var showLocationPicker = false
     @State private var safariAddress = ""
     @State private var showDeletePhotoAlert = false
     @State private var photoUrlForDelete = ""

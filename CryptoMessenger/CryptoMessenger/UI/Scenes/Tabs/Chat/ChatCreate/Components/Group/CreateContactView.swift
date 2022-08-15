@@ -12,6 +12,7 @@ struct CreateContactView: View {
     @State var nameSurnameText = ""
     @State var numberText = ""
     @State var selectedImage: UIImage?
+    @State var selectedLocation: Place?
     @State private var showActionImageAlert = false
     @State private var showImagePicker = false
     @State private var showCameraPicker = false

@@ -39,10 +39,11 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var showContacts = false
     @Published var showTranslate = false
     @Published var showTranslateMenu = false
+    @Published var showLocationPicker = false
     @Published var selectedImage: UIImage?
     @Published var pickedImage: UIImage?
     @Published var pickedContact: Contact?
-    @Published var pickedLocation: Location?
+    @Published var pickedLocation: Place?
     @Published var cameraFrame: CGImage?
     @Published var roomUsers = [MXUser]()
 	var p2pVideoCallPublisher = ObservableObjectPublisher()
@@ -78,7 +79,7 @@ final class ChatRoomViewModel: ObservableObject {
 
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var translateManager: TranslateManager
-    @Injectable private var locationManager: LocationManager
+    @Injectable private var locationManager: LocationServiceProtocol
 
     var toggleFacade: MainFlowTogglesFacadeProtocol
     
@@ -89,7 +90,7 @@ final class ChatRoomViewModel: ObservableObject {
 		p2pCallsUseCase: P2PCallUseCaseProtocol = P2PCallUseCase.shared,
 		availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build(), 
         toggleFacade: MainFlowTogglesFacadeProtocol,
-        locationManager: LocationManager = LocationManagerUseCase.shared,
+        locationManager: LocationServiceProtocol = LocationManagerUseCase.shared,
 		settings: UserDefaultsServiceCallable = UserDefaultsService.shared,
         sources: ChatRoomSourcesable.Type = ChatRoomResources.self
 	) {
@@ -372,29 +373,7 @@ final class ChatRoomViewModel: ObservableObject {
             .sink { [weak self] action in
                 switch action {
                 case .location:
-                    if let location = self?.locationManager.getUserLocation() {
-                        let message = RoomMessage(
-                            id: UUID().uuidString,
-                            type: .location(location),
-                            shortDate: Date().hoursAndMinutes,
-                            fullDate: Date().dayAndMonthAndYear,
-                            isCurrentUser: true,
-                            isReply: false,
-                            name: "",
-                            avatar: nil,
-							content: [String: Any](),
-							eventType: ""
-                        )
-                        self?.messages.append(message)
-                        debugPrint("Last location sink", location)
-                        self?.send(.onSendLocation(location))
-                    } else {
-                        do {
-                            try self?.locationManager.requestLocationAccess()
-                        } catch {
-                            self?.locationManager.openAppSettings()
-                        }
-                    }
+                    self?.showLocationPicker = true
                 case .media:
                     self?.showPhotoLibrary = true
                 case .document:
@@ -484,12 +463,26 @@ final class ChatRoomViewModel: ObservableObject {
             .store(in: &subscriptions)
 
         
-        // TODO: Приложить к экрану выбора геоточки.
         $pickedLocation
             .receive(on: RunLoop.main)
-//            .assign(to: locationManager.lastLocation, on: $pickedLocation)
-            .sink { [weak self] lastLocation in
-//                self?.send(.onSendLocation(locationManager.lastLocation ?? (0,0)))
+            .sink { [weak self] location in
+                location.map { location in
+                    let message = RoomMessage(
+                        id: UUID().uuidString,
+                        type: .location((lat: location.latitude, long: location.longitude)),
+                        shortDate: Date().hoursAndMinutes,
+                        fullDate: Date().dayAndMonthAndYear,
+                        isCurrentUser: true,
+                        isReply: false,
+                        name: "",
+                        avatar: nil,
+                        content: [String: Any](),
+                        eventType: ""
+                    )
+                    self?.messages.append(message)
+                    debugPrint("Last location sink", (lat: location.latitude, long: location.longitude))
+                    self?.send(.onSendLocation(LocationData(lat: location.latitude, long: location.longitude)))
+                }
             }
             .store(in: &subscriptions)
 

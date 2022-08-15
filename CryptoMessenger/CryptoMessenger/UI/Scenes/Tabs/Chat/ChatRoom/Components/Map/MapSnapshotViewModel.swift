@@ -12,11 +12,11 @@ final class MapSnapshotViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    @Injectable var locationManager: LocationManager
+    @Injectable var locationManager: LocationServiceProtocol
 
     // MARK: - Lifecycle
 
-    init(locationManager: LocationManager = LocationManagerUseCase.shared) {
+    init(locationManager: LocationServiceProtocol = LocationManagerUseCase.shared) {
         self.locationManager = locationManager
     }
 
