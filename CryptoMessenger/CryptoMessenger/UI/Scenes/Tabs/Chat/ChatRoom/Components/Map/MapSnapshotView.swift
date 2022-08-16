@@ -89,29 +89,6 @@ struct MapSnapshotView: View {
     }
     // TODO: Adatp with baidu service
     private func generateBaiduSnapshot(width: CGFloat, height: CGFloat) {
-        // Байдушный сервис
-        // let regionImage = mapView.takeSnapshot()
-        
-        
-//        let region = MKCoordinateRegion(
-//            center: .init(latitude: latitude, longitude: longitude),
-//            span: MKCoordinateSpan(latitudeDelta: span, longitudeDelta: span)
-//        )
-//
-//        let options = MKMapSnapshotter.Options()
-//        options.region = region
-//        options.size = CGSize(width: width, height: height)
-//        options.showsBuildings = true
-//
-//        let snapshotter = MKMapSnapshotter(options: options)
-//        snapshotter.start { snapshot, error in
-//            if let error = error {
-//                debugPrint(error)
-//                return
-//            }
-//            if let snapshot = snapshot {
-//                snapshotImage = snapshot.image
-//            }
-//        }
+		generateAppleMapsSnapshot(width: width, height: height)
     }
 }
