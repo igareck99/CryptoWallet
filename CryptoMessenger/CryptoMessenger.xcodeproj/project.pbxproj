@@ -311,6 +311,10 @@
 		8B0C4FFA2890613500671BA3 /* ChatRoomResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0C4FF92890613500671BA3 /* ChatRoomResources.swift */; };
 		8B0C4FFC2891806000671BA3 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0C4FFB2891806000671BA3 /* TimerViewModel.swift */; };
 		8B12263927C53121008DC048 /* SlideCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B12263827C53120008DC048 /* SlideCardsView.swift */; };
+		8B1564F328AA782A00A69B85 /* AnotherAppTransitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1564F028AA782A00A69B85 /* AnotherAppTransitionViewModel.swift */; };
+		8B1564F428AA782A00A69B85 /* AnotherAppTransitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1564F128AA782A00A69B85 /* AnotherAppTransitionView.swift */; };
+		8B1564F528AA782A00A69B85 /* AnotherAppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1564F228AA782A00A69B85 /* AnotherAppData.swift */; };
+		8B1564F728AAF1C000A69B85 /* ShareTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1564F628AAF1C000A69B85 /* ShareTextView.swift */; };
 		8B1E8AC227DF4F840036C301 /* ChooseReceiverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC127DF4F840036C301 /* ChooseReceiverView.swift */; };
 		8B1E8AC427DF4F9D0036C301 /* ChooseReceiverFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC327DF4F9D0036C301 /* ChooseReceiverFlow.swift */; };
 		8B1E8AC627DF4FA80036C301 /* ChooseReceiverProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC527DF4FA80036C301 /* ChooseReceiverProtocols.swift */; };
@@ -396,6 +400,8 @@
 		8B6E5556279F0F58002054CF /* PinCodeCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E5555279F0F58002054CF /* PinCodeCreateViewModel.swift */; };
 		8B6E5558279FF922002054CF /* PinCodeCreateConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E5557279FF922002054CF /* PinCodeCreateConfigurator.swift */; };
 		8B6E555A279FF967002054CF /* PinCodeCreateProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E5559279FF967002054CF /* PinCodeCreateProtocols.swift */; };
+		8B717A8E28AB946F0078833B /* AnotherAppDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B717A8D28AB946F0078833B /* AnotherAppDataView.swift */; };
+		8B717A9028AB96260078833B /* AnotherAppSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B717A8F28AB96260078833B /* AnotherAppSources.swift */; };
 		8B73C1072747A193008ABB22 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B73C1062747A193008ABB22 /* SessionDetailView.swift */; };
 		8B740147275D360B0045ED32 /* ProfileSettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */; };
 		8B74014B275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */; };
@@ -876,6 +882,10 @@
 		8B0C4FF92890613500671BA3 /* ChatRoomResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomResources.swift; sourceTree = "<group>"; };
 		8B0C4FFB2891806000671BA3 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		8B12263827C53120008DC048 /* SlideCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideCardsView.swift; sourceTree = "<group>"; };
+		8B1564F028AA782A00A69B85 /* AnotherAppTransitionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnotherAppTransitionViewModel.swift; sourceTree = "<group>"; };
+		8B1564F128AA782A00A69B85 /* AnotherAppTransitionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnotherAppTransitionView.swift; sourceTree = "<group>"; };
+		8B1564F228AA782A00A69B85 /* AnotherAppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnotherAppData.swift; sourceTree = "<group>"; };
+		8B1564F628AAF1C000A69B85 /* ShareTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTextView.swift; sourceTree = "<group>"; };
 		8B1E8AC127DF4F840036C301 /* ChooseReceiverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverView.swift; sourceTree = "<group>"; };
 		8B1E8AC327DF4F9D0036C301 /* ChooseReceiverFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverFlow.swift; sourceTree = "<group>"; };
 		8B1E8AC527DF4FA80036C301 /* ChooseReceiverProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverProtocols.swift; sourceTree = "<group>"; };
@@ -962,6 +972,8 @@
 		8B6E5555279F0F58002054CF /* PinCodeCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateViewModel.swift; sourceTree = "<group>"; };
 		8B6E5557279FF922002054CF /* PinCodeCreateConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateConfigurator.swift; sourceTree = "<group>"; };
 		8B6E5559279FF967002054CF /* PinCodeCreateProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateProtocols.swift; sourceTree = "<group>"; };
+		8B717A8D28AB946F0078833B /* AnotherAppDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherAppDataView.swift; sourceTree = "<group>"; };
+		8B717A8F28AB96260078833B /* AnotherAppSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherAppSources.swift; sourceTree = "<group>"; };
 		8B73C1062747A193008ABB22 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuView.swift; sourceTree = "<group>"; };
 		8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneNumberKit+SwiftUI.swift"; sourceTree = "<group>"; };
@@ -1618,6 +1630,7 @@
 		5A24B25226F289DF00EFC5E2 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				8B1564EF28AA782A00A69B85 /* AnotherAppTransition */,
 				D415082428A5384E00C92CEC /* Baidu */,
 				5A2181EA26D8563D0093AD60 /* MapView.swift */,
 				5A24B25326F289F000EFC5E2 /* MapSnapshotView.swift */,
@@ -2387,6 +2400,19 @@
 				8B00F45B276A1C2700FE1E41 /* R.generated.swift */,
 			);
 			path = Generated;
+			sourceTree = "<group>";
+		};
+		8B1564EF28AA782A00A69B85 /* AnotherAppTransition */ = {
+			isa = PBXGroup;
+			children = (
+				8B1564F028AA782A00A69B85 /* AnotherAppTransitionViewModel.swift */,
+				8B1564F128AA782A00A69B85 /* AnotherAppTransitionView.swift */,
+				8B1564F228AA782A00A69B85 /* AnotherAppData.swift */,
+				8B1564F628AAF1C000A69B85 /* ShareTextView.swift */,
+				8B717A8D28AB946F0078833B /* AnotherAppDataView.swift */,
+				8B717A8F28AB96260078833B /* AnotherAppSources.swift */,
+			);
+			path = AnotherAppTransition;
 			sourceTree = "<group>";
 		};
 		8B1E8AC027DF4F4A0036C301 /* ChooseReciver */ = {
@@ -3369,6 +3395,7 @@
 				5A3C9412274AE93100818060 /* FlippedModifier.swift in Sources */,
 				5ABAD3A027C286CF0067DFC1 /* SettingsView.swift in Sources */,
 				5A43087027C9079F00A9B582 /* ImageCache.swift in Sources */,
+				8B717A8E28AB946F0078833B /* AnotherAppDataView.swift in Sources */,
 				8B4E9C4627E1EDDE0057E4C9 /* FacilityApproveConfigurator.swift in Sources */,
 				8BA0C90927AD4F320070203F /* AnswerViewModel.swift in Sources */,
 				5A3C942A274AFFDC00818060 /* KeyboardAvoiderModifier.swift in Sources */,
@@ -3533,6 +3560,7 @@
 				D4533A182833567D00B956B2 /* RemoteConfigValues.swift in Sources */,
 				8B12263927C53121008DC048 /* SlideCardsView.swift in Sources */,
 				8BB517BB2856B79500D06593 /* ChatDocumentView.swift in Sources */,
+				8B1564F528AA782A00A69B85 /* AnotherAppData.swift in Sources */,
 				D4442B4C2811996F0033D07A /* KeychainService.swift in Sources */,
 				5A3721DC272F3A210097ABED /* DynamicHeightTextField.swift in Sources */,
 				8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */,
@@ -3601,6 +3629,7 @@
 				5A15DDF9276E5C9C00CF7AA4 /* ShimmerView.swift in Sources */,
 				8B432CC227C394E00025D62B /* WalletNewView.swift in Sources */,
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
+				8B1564F328AA782A00A69B85 /* AnotherAppTransitionViewModel.swift in Sources */,
 				5A44FEEF2768B1E6006F9D92 /* ProfileDetailFlow.swift in Sources */,
 				7889064327064F8D0093459C /* ProfileNetworkDetailView.swift in Sources */,
 				5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */,
@@ -3680,6 +3709,7 @@
 				5A9318D626C5AAF100645365 /* ChatRoomView.swift in Sources */,
 				5AEB80FF26DE138F009A1944 /* Array+Extensions.swift in Sources */,
 				5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */,
+				8B1564F428AA782A00A69B85 /* AnotherAppTransitionView.swift in Sources */,
 				8B9B0CCB2775395400654C24 /* PersonalizationView.swift in Sources */,
 				5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */,
 				8BE6673D280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift in Sources */,
@@ -3777,6 +3807,7 @@
 				8B28B535276347AA00C3E486 /* ProfileDetailViewModel.swift in Sources */,
 				8BFFC74E27EDEB5700BE4AB6 /* PhraseManagerView.swift in Sources */,
 				78A9CBFC28191F1D00C4D7E1 /* ActionSheetViewController.swift in Sources */,
+				8B1564F728AAF1C000A69B85 /* ShareTextView.swift in Sources */,
 				5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */,
 				5A42680726A83554000C51DD /* RegistrationProtocols.swift in Sources */,
 				8B7C17EC27DB894A001113F2 /* NumberFormatterProtocol.swift in Sources */,
@@ -3821,6 +3852,7 @@
 				5A3721E0272F47EA0097ABED /* EmptyNavigationLink.swift in Sources */,
 				5A44FEF7276940E8006F9D92 /* ChatCreateFlow.swift in Sources */,
 				8BE3799C27EB268700AB6B6E /* WalletManagerView.swift in Sources */,
+				8B717A9028AB96260078833B /* AnotherAppSources.swift in Sources */,
 				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
 				D41553B9288AC819003FDADC /* UserDefaultsServiceProtocol.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,

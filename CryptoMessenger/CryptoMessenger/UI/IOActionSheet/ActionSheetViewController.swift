@@ -1,10 +1,14 @@
-// Igor Olnev 2019
-
 import UIKit
+
 //swiftlint:disable all
+
+// MARK: - ActionSheetViewController
+
 internal final class ActionSheetViewController: UIViewController {
     
-    // MARK:
+    // MARK: - Internal Properties
+    
+    // MARK: - Lifecycle
     
     var actionSheetView = IOActionSheetView()
     var didDisappear: (() -> Void)?

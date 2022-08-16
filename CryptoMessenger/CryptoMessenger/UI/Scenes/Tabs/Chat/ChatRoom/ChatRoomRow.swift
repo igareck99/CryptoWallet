@@ -28,6 +28,7 @@ struct ChatRoomRow: View {
     @State private var isAnimating = false
     @State private var showContactInfo = false
     @State private var degress = 0.0
+    @State private var showLocationTransition = false
 
     // MARK: - Lifecycle
 
@@ -136,10 +137,19 @@ struct ChatRoomRow: View {
                                                 name: "",
                                                 latitude: location.lat,
                                                 longitude: location.long
-                                            ))
+                                            ), showLocationTransition: $showLocationTransition)
                                                 .ignoresSafeArea()
                                                 .navigationBarTitle(Text(R.string.localizable.chatGeoposition()))
+                                                .navigationBarItems(leading: Button(R.string.localizable.contactChatDetailClose(), action: {
+                                                    showMap.toggle()
+                                                }),
+                                                                    trailing: Button(action: {
+                                                    showLocationTransition = true
+                                                 }, label: {
+                                                     Image(systemName: "arrowshape.turn.up.forward")
+                                                 }))
                                                 .navigationBarTitleDisplayMode(.inline)
+                                                .navigationBarColor(.white())
                                         }
                                     }
                                     .onTapGesture {
@@ -214,7 +224,6 @@ struct ChatRoomRow: View {
         .sheet(isPresented: $showContactInfo, content: {
             ContactInfoView(data: chatContactInfo)
         })
-        .onTapGesture {}
         .onAppear {
             if !isAnimating {
                 isAnimating.toggle()

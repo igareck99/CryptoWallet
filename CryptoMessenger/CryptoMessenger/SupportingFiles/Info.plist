@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>API URL</key>
-	<string>https://api.aura.ms</string>
+	<string>https://api.auratest.website</string>
 	<key>API Version</key>
 	<string>v0</string>
 	<key>API stand</key>
@@ -12,6 +12,8 @@
 	<string>ru.aura.app.test</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Aura</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -24,31 +26,42 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>CryptoMessenger</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>CFBundleDisplayName</key>
-	<string>Aura</string>
 	<key>DevelopmentTeam</key>
 	<string>Z123456789</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>baidumap</string>
+		<string>comgooglemapsurl</string>
 		<string>comgooglemaps</string>
 		<string>comgooglemaps-x-callback</string>
+		<string>yandexmaps</string>
+		<string>yandexmapsurl</string>
+		<string>yandexmaps-x-callback</string>
 	</array>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
 	<key>MATRIX URL</key>
-	<string>https://matrix.aura.ms</string>
+	<string>https://matrix.auratest.website</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App requires to access your location to send it to friends</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>This app need to access your calendar events</string>
 	<key>NSCameraUsageDescription</key>
@@ -57,6 +70,8 @@
 	<string>Приложение $(PRODUCT_NAME) запрашивает доступ к контактам</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>App requires to access your location to send it to friends</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>App requires to access your microphone to make calls</string>
 	<key>NSPhotoLibraryUsageDescription</key>

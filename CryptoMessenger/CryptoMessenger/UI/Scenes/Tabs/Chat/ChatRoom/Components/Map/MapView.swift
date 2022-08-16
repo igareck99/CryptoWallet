@@ -4,6 +4,12 @@ import SwiftUI
 // MARK: - MapView
 
 struct MapView: View {
+
+    // MARK: - Internal Properties
+
+    @Binding var showLocationTransition: Bool
+    @State private var showShareView = false
+
     // MARK: - Private Properties
 
     private let isInteractionModesDisabled: Bool
@@ -11,25 +17,37 @@ struct MapView: View {
 
     // MARK: - Lifecycle
 
-    init(place: Place, _ isInteractionModesDisabled: Bool = false) {
+    init(place: Place, _ isInteractionModesDisabled: Bool = false,
+         showLocationTransition: Binding<Bool>) {
         self.isInteractionModesDisabled = isInteractionModesDisabled
         self.viewModel = MapViewModel(place: place)
+        self._showLocationTransition = showLocationTransition
     }
 
     // MARK: - Body
 
     var body: some View {
-        Map(
-            coordinateRegion: viewModel.$region,
-            interactionModes: isInteractionModesDisabled ? [] : .all,
-            showsUserLocation: false,
-            annotationItems: [viewModel.place]
-        ) { place in
-            MapAnnotation(
-                coordinate: .init(latitude: place.latitude, longitude: place.longitude),
-                anchorPoint: CGPoint(x: 0.5, y: 0.5)
-            ) {
-                R.image.chat.location.marker.image
+        ZStack {
+            Map(
+                coordinateRegion: viewModel.$region,
+                interactionModes: isInteractionModesDisabled ? [] : .all,
+                showsUserLocation: false,
+                annotationItems: [viewModel.place]
+            ) { place in
+                MapAnnotation(
+                    coordinate: .init(latitude: place.latitude, longitude: place.longitude),
+                    anchorPoint: CGPoint(x: 0.5, y: 0.5)
+                ) {
+                    R.image.chat.location.marker.image
+                }
+            }
+            .onTapGesture {
+                showLocationTransition = false
+            }
+            if showLocationTransition {
+                AnotherAppTransitionView(showLocationTransition: $showLocationTransition,
+                                         viewModel: AnotherApppTransitionViewModel(place: viewModel.place))
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
     }

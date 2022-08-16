@@ -7,6 +7,7 @@ struct ChatHistoryRow: View {
     // MARK: - Internal Properties
 
     let room: AuraRoom
+    @State var showLocationTransition = false
 
     // MARK: - Body
 
@@ -142,7 +143,7 @@ struct ChatHistoryRow: View {
                         }
                     case let .location((longitute, latitude)):
                         HStack(spacing: 6) {
-                            MapView(place: Place(name: "", latitude: longitute, longitude: latitude))
+                            MapView(place: Place(name: "", latitude: longitute, longitude: latitude), showLocationTransition: $showLocationTransition)
                             .scaledToFill()
                             .frame(width: 16, height: 16)
                             .cornerRadius(2)
