@@ -1950,9 +1950,8 @@
 				D4857CED28A62A9200C904EC /* File View */,
 				D4857CEA28A6288500C904EC /* Photo View */,
 				D4857CE528A6273900C904EC /* Text View */,
-				D4857CE228A625EA00C904EC /* Chat Contact View */,
+				D4857CE228A625EA00C904EC /* Contact View */,
 				D4B39AFF289C334E006F2D99 /* Call */,
-				D415082328A52F4500C92CEC /* Contact Row View */,
 				D415082028A52E4E00C92CEC /* Reactions View */,
 				D415081D28A52C5200C92CEC /* Check Text Read View */,
 				D415081A28A5198800C92CEC /* Check Read View */,
@@ -2893,13 +2892,6 @@
 			path = "Reactions View";
 			sourceTree = "<group>";
 		};
-		D415082328A52F4500C92CEC /* Contact Row View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Contact Row View";
-			sourceTree = "<group>";
-		};
 		D415082428A5384E00C92CEC /* Baidu */ = {
 			isa = PBXGroup;
 			children = (
@@ -3065,12 +3057,12 @@
 			path = "HStack Items";
 			sourceTree = "<group>";
 		};
-		D4857CE228A625EA00C904EC /* Chat Contact View */ = {
+		D4857CE228A625EA00C904EC /* Contact View */ = {
 			isa = PBXGroup;
 			children = (
 				D4857CE328A6260400C904EC /* ContactView.swift */,
 			);
-			path = "Chat Contact View";
+			path = "Contact View";
 			sourceTree = "<group>";
 		};
 		D4857CE528A6273900C904EC /* Text View */ = {
