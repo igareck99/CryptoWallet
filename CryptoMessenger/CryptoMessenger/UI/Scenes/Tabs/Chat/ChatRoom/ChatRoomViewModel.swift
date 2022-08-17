@@ -79,7 +79,7 @@ final class ChatRoomViewModel: ObservableObject {
 
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var translateManager: TranslateManager
-    @Injectable private var locationManager: LocationServiceProtocol
+    @Injectable private var locationManager: LocationManagerUseCaseProtocol
 
     var toggleFacade: MainFlowTogglesFacadeProtocol
     
@@ -90,7 +90,7 @@ final class ChatRoomViewModel: ObservableObject {
 		p2pCallsUseCase: P2PCallUseCaseProtocol = P2PCallUseCase.shared,
 		availabilityFacade: ChatRoomTogglesFacadeProtocol = ChatRoomViewModelAssembly.build(), 
         toggleFacade: MainFlowTogglesFacadeProtocol,
-        locationManager: LocationServiceProtocol = LocationManagerUseCase.shared,
+        locationManager: LocationManagerUseCaseProtocol = LocationManagerUseCase(),
 		settings: UserDefaultsServiceCallable = UserDefaultsService.shared,
         sources: ChatRoomSourcesable.Type = ChatRoomResources.self
 	) {

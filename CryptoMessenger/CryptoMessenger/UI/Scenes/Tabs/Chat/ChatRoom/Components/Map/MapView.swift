@@ -13,14 +13,14 @@ struct MapView: View {
     // MARK: - Private Properties
 
     private let isInteractionModesDisabled: Bool
-    private(set) var viewModel: MapViewModel
+    @StateObject var viewModel: MapViewModel
 
     // MARK: - Lifecycle
 
     init(place: Place, _ isInteractionModesDisabled: Bool = false,
          showLocationTransition: Binding<Bool>) {
         self.isInteractionModesDisabled = isInteractionModesDisabled
-        self.viewModel = MapViewModel(place: place)
+        self._viewModel = StateObject(wrappedValue: MapViewModel(place: place))
         self._showLocationTransition = showLocationTransition
     }
 

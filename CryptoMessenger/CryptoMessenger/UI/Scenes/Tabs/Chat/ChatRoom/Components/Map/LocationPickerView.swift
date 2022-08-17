@@ -7,27 +7,21 @@ import SwiftUI
 // MARK: - LocationPickerView
 
 struct LocationPickerView: View {
+
     // MARK: - Private Properties
+
     @Environment(\.dismiss) private var dismiss
 
-    @State private var region: MKCoordinateRegion = MKCoordinateRegion(center:
-                                                                        CLLocationCoordinate2D(
-                                                                            latitude: LocationManagerUseCase.shared.getUserLocation()?.lat ?? 0,
-                                                                            longitude: LocationManagerUseCase.shared.getUserLocation()?.long ?? 0),
-                                                                     span:
-                                                                        MKCoordinateSpan(
-                                                                            latitudeDelta: 0.01,
-                                                                            longitudeDelta: 0.01))
-    @State private var locationTemp: Place = Place(name: "User", latitude: LocationManagerUseCase.shared.getUserLocation()?.lat ?? 0, longitude: LocationManagerUseCase.shared.getUserLocation()?.long ?? 0)
+    @State private var region: MKCoordinateRegion = MKCoordinateRegion()
+    @State private var locationTemp = Place(name: "", latitude: 0, longitude: 0)
     @State private var address: String = ""
     @State private var searching = false
+    @State private var isInteractionModesDisabled: Bool = false
 
     private let locationPickerBaidu: LocationPickerBaidu
 
     @Binding var place: Place?
-    
-    private var isInteractionModesDisabled: Bool = false
-    private(set) var viewModel: MapViewModel
+    @StateObject var viewModel: MapViewModel
     
 
     // MARK: - Lifecycle
@@ -35,27 +29,28 @@ struct LocationPickerView: View {
     init(
 		place: Binding<Place?>,
 		isInteractionModesDisabled: Bool = false,
-		locationManager: LocationServiceProtocol = LocationManagerUseCase.shared,
+        locationUseCase: LocationManagerUseCase = LocationManagerUseCase(),
 		locationPickerBaidu: LocationPickerBaidu = LocationPickerBaidu()
 	) {
-        self.viewModel = MapViewModel(locationManager: locationManager, place: Place(
-            name: "",
-            latitude: LocationManagerUseCase.shared.lastLocation?.lat ?? 0,
-            longitude: LocationManagerUseCase.shared.lastLocation?.lat ?? 0))
-
+        self._viewModel = StateObject(wrappedValue:MapViewModel())
 		self.locationPickerBaidu = locationPickerBaidu
-
         self._place = place
-        switch self.viewModel.locationManager.getCountry() {
-        case .china:
-			updateBaiduMap()
-        case .other:
-            self.isInteractionModesDisabled = isInteractionModesDisabled
-        }
+    }
+    
+    private func configData() {
+        self.locationTemp = Place(name: "User", latitude: viewModel.locationUseCase.getUserLocation()?.lat ?? 0, longitude: viewModel.locationUseCase.getUserLocation()?.long ?? 0)
+        self.region = MKCoordinateRegion(center:
+                                            CLLocationCoordinate2D(
+                                                latitude: viewModel.locationUseCase.getUserLocation()?.lat ?? 0,
+                                                longitude: viewModel.locationUseCase.getUserLocation()?.long ?? 0),
+                                         span:
+                                            MKCoordinateSpan(
+                                                latitudeDelta: 0.01,
+                                                longitudeDelta: 0.01))
     }
 
 	private func updateBaiduMap() {
-		guard let location = viewModel.locationManager.getUserLocation() else { return }
+        guard let location = viewModel.locationUseCase.getUserLocation() else { return }
 		let location2D = CLLocationCoordinate2D(latitude: location.lat, longitude: location.long)
 		locationPickerBaidu.update(coordinates: location2D)
 	}
@@ -64,7 +59,7 @@ struct LocationPickerView: View {
 
     var body: some View {
         VStack {
-            switch LocationManagerUseCase.shared.country {
+            switch viewModel.locationUseCase.getCountry() {
             case .china:
                 locationPickerBaidu
                 .frame(width: UIScreen.main.bounds.width, height: 196, alignment: .leading)
@@ -84,7 +79,7 @@ struct LocationPickerView: View {
                         searchText: $address,
                         searching: $searching
                     )
-                    .onReceive(address.publisher.delay(for: 2, scheduler: DispatchQueue.main)) { location in
+                    .onReceive(address.publisher.delay(for: 1, scheduler: DispatchQueue.main)) { location in
                         let geoCoder = CLGeocoder()
                         geoCoder.geocodeAddressString(address) { (placemarks, error) in
                             guard
@@ -133,6 +128,15 @@ struct LocationPickerView: View {
                     }
                 }.padding()
                 Spacer()
+            }
+        }
+        .onAppear {
+            configData()
+            switch self.viewModel.locationUseCase.getCountry() {
+            case .china:
+                updateBaiduMap()
+            case .other:
+                self.isInteractionModesDisabled = isInteractionModesDisabled
             }
         }
         .navigationBarHidden(true)

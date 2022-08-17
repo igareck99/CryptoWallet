@@ -3,6 +3,9 @@ import SwiftUI
 // MARK: - MapSnapshotViewModel
 
 final class MapSnapshotViewModel: ObservableObject {
+
+    // MARK: - MapService
+
     enum MapService {
         case apple
         case waze
@@ -12,13 +15,15 @@ final class MapSnapshotViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    @Injectable var locationManager: LocationServiceProtocol
+    @Injectable var locationManager: LocationManagerUseCaseProtocol
 
     // MARK: - Lifecycle
 
-    init(locationManager: LocationServiceProtocol = LocationManagerUseCase.shared) {
+    init(locationManager: LocationManagerUseCaseProtocol = LocationManagerUseCase()) {
         self.locationManager = locationManager
     }
+
+    // MARK: - Internal Methods
 
     func mapsService() -> MapService {
         switch locationManager.getCountry() {

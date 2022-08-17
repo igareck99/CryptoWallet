@@ -22,7 +22,7 @@ final class SideAppTransitionService: SideAppTransitionServiceProtocol {
     func openSideApp(service: GeoService, place: Place) {
         switch service {
         case .baidu:
-            openSideAppFromURL(url: URL(string: "baidumap://map/direction?origin = latlng:\(String(describing:LocationManagerUseCase.shared.getLastLocation()?.lat ?? 0)),\(String(describing: LocationManagerUseCase.shared.getLastLocation()?.long ?? 0)) & destination = latlng:\(place.latitude),\(place.longitude) | name = CryptoMessenger & mode = driving & Coord_ type=gcj02"))
+            openSideAppFromURL(url: URL(string: "baidu.com"))
         case .apple:
             openSideAppFromURL(url: URL(string: "http://maps.apple.com/maps?daddr=\(place.latitude),\(place.longitude)"))
         case .google:

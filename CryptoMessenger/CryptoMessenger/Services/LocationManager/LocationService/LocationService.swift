@@ -18,8 +18,8 @@ final class LocationService: NSObject, ObservableObject, LocationServiceProtocol
 
     // MARK: - Private Properties
 
-    private let locationManager = CLLocationManager()
-    private let geoCoder = CLGeocoder()
+    var locationManager = CLLocationManager()
+    let geoCoder = CLGeocoder()
     private var didEnterGeofencedRegion: ((_ identifier: String) -> Void)?
     private var didLeaveGeofencedRegion: ((_ identifier: String) -> Void)?
     static let shared = LocationService()
@@ -75,20 +75,6 @@ final class LocationService: NSObject, ObservableObject, LocationServiceProtocol
     
     func clearGeofences() {
         locationManager.monitoredRegions.forEach { locationManager.stopMonitoring(for: $0) }
-    }
-
-    func removeGeofence(forRegion region: CLCircularRegion) {
-        locationManager.stopMonitoring(for: region)
-    }
-    
-    func addGeofence(forRegion region: CLCircularRegion) {
-        locationManager.startMonitoring(for: region)
-    }
-    
-    func getGeofences() -> [CLCircularRegion] {
-        locationManager.monitoredRegions.compactMap { region in
-            region as? CLCircularRegion
-        }
     }
     
     func requestLocationAccess() throws {

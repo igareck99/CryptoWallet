@@ -15,9 +15,9 @@ struct MapSnapshotView: View {
     // MARK: - Private Properties
 
     @State private var snapshotImage: UIImage?
-    
+
     // MARK: - Lifecycle
-    
+
     init(latitude: Double, longitude: Double) {
         viewModel = MapSnapshotViewModel()
         self.latitude = latitude
@@ -52,8 +52,7 @@ struct MapSnapshotView: View {
             .onAppear {
                 switch viewModel.mapsService() {
                 case .baidu:
-//                    generateBaiduSnapshot(width: geometry.size.width, height: geometry.size.height)
-                    generateAppleMapsSnapshot(width: geometry.size.width, height: geometry.size.height)
+                    generateBaiduSnapshot(width: geometry.size.width, height: geometry.size.height)
                 case .apple:
                     generateAppleMapsSnapshot(width: geometry.size.width, height: geometry.size.height)
                 case .waze:

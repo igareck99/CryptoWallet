@@ -2,11 +2,19 @@ import BaiduMapAPI_Map
 import SwiftUI
 import UIKit
 
+// MARK: - LocationPickerBaidu
+
 struct LocationPickerBaidu {
+    
+    // MARK: - Internal Properties
 
 	typealias UIViewControllerType = UIViewController
+    
+    // MARK: - Private Properties
 
 	private let annotation = BMKPointAnnotation()
+    
+    // MARK: - Internal Methods
 
 	func makeUIViewController(context: Context) -> UIViewController {
 		let showMap = BMKShowMapPage()
