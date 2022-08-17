@@ -2,7 +2,6 @@ import SwiftUI
 
 struct FileView: View {
 
-
 	private let isFromCurrentUser: Bool
 	private let shortDate: String
 	private let fileName: String
