@@ -8,6 +8,7 @@ import MapKit
 final class MapViewModel: ObservableObject {
 
     // MARK: - Internal Properties
+
     @Injectable var locationManager: LocationServiceProtocol
     @State var region: MKCoordinateRegion
     
