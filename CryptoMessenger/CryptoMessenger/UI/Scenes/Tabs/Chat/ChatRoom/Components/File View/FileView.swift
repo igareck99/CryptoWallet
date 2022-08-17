@@ -8,7 +8,7 @@ struct FileView: View {
 	private let fileName: String
 	private let url: URL?
 	@Binding private var isShowFile: Bool
-	private let sheetPresenting: () -> AnyView
+	private let sheetPresenting: () -> AnyView?
 	private let onTapHandler: () -> Void
 
 	init(
@@ -17,7 +17,7 @@ struct FileView: View {
 		fileName: String,
 		url: URL?,
 		isShowFile: Binding<Bool>,
-		sheetPresenting: @escaping () -> AnyView,
+		sheetPresenting: @escaping () -> AnyView?,
 		onTapHandler: @escaping () -> Void
 	) {
 		self.isFromCurrentUser = isFromCurrentUser

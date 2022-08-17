@@ -128,7 +128,11 @@ struct ChatRoomRow: View {
                         HStack(spacing: 0) {
                             switch message.type {
                             case let .text(text):
-                                textRow(message, text: text)
+								ChatTextView(
+									isFromCurrentUser: isFromCurrentUser,
+									shortDate: message.shortDate,
+									text: text
+								)
                             case let .location(location):
                                 mapRow(LocationData(lat: location.lat, long: location.long), date: message.shortDate)
                                     .sheet(isPresented: $showMap) {
@@ -140,14 +144,16 @@ struct ChatRoomRow: View {
                                             ), showLocationTransition: $showLocationTransition)
                                                 .ignoresSafeArea()
                                                 .navigationBarTitle(Text(R.string.localizable.chatGeoposition()))
-                                                .navigationBarItems(leading: Button(R.string.localizable.contactChatDetailClose(), action: {
-                                                    showMap.toggle()
-                                                }),
-                                                                    trailing: Button(action: {
-                                                    showLocationTransition = true
-                                                 }, label: {
-                                                     Image(systemName: "arrowshape.turn.up.forward")
-                                                 }))
+												.navigationBarItems(
+													leading: Button(
+														R.string.localizable.contactChatDetailClose(),
+														action: { showMap.toggle() }
+													),
+													trailing: Button(
+														action: { showLocationTransition = true },
+														label: { Image(systemName: "arrowshape.turn.up.forward") }
+													)
+												)
                                                 .navigationBarTitleDisplayMode(.inline)
                                                 .navigationBarColor(.white())
                                         }
@@ -156,22 +162,41 @@ struct ChatRoomRow: View {
                                         showMap.toggle()
                                     }
                             case let .image(url):
-                                photoRow(message, url: url)
-                                    .onTapGesture {
-                                        onSelectPhoto?(url)
-                                    }
+								PhotoView(
+									isFromCurrentUser: isFromCurrentUser,
+									shortDate: message.shortDate,
+									url: url) {
+										onSelectPhoto?(url)
+									}
                             case let .contact(name, phone, url):
-                                contactRow(name: name, phone: phone, url: url)
+								ContactView(
+									shortDate: message.shortDate,
+									name: name,
+									phone: phone,
+									url: url,
+									isFromCurrentUser: isFromCurrentUser
+								) {
+									chatContactInfo = ChatContactInfo(
+										name: name,
+										phone: phone,
+										url: url
+									)
+									showContactInfo = true
+								}
                             case let .file(fileName, url):
-                                fileRow(message, fileName: fileName, url: url)
-                                    .sheet(isPresented: $showFile) {
-                                        if let url = url {
-                                            DocumentViewerView(url: url)
-                                        }
-                                    }
-                                    .onTapGesture {
-                                        showFile.toggle()
-                                    }
+								FileView(
+									isFromCurrentUser: isFromCurrentUser,
+									shortDate: message.shortDate,
+									fileName: fileName,
+									url: url,
+									isShowFile: $showFile,
+									sheetPresenting: {
+										guard let url = url else { return nil }
+										return AnyView(DocumentViewerView(url: url))
+									},
+									onTapHandler: {
+										showFile.toggle()
+									})
 							case .audio(_):
                                 audioRow()
                             case .none:
@@ -233,92 +258,12 @@ struct ChatRoomRow: View {
 
     // MARK: - Private Methods
 
-    private func textRow(_ message: RoomMessage, text: String) -> some View {
-        HStack(spacing: 2) {
-            Text(text)
-                .lineLimit(nil)
-                .font(.regular(15))
-                .foreground(.black())
-                .padding(.leading, !isFromCurrentUser ? 22 : 16)
-                .padding([.top, .bottom], 12)
-
-            VStack(alignment: .center) {
-                Spacer()
-                HStack(spacing: 8) {
-                    Text(message.shortDate)
-                        .frame(width: 40, height: 10)
-                        .font(.light(12))
-                        .foreground(.black(0.5))
-                        .padding(.trailing, !isFromCurrentUser ? 16 : 0)
-
-                    if isFromCurrentUser {
-                        Image(R.image.chat.readCheck.name)
-                            .resizable()
-                            .frame(width: 13.5, height: 10, alignment: .center)
-                            .padding(.trailing, 16)
-                    }
-                }
-                .padding(.bottom, 8)
-            }
-        }
-    }
-
     private func mapRow(_ location: LocationData, date: String) -> some View {
         ZStack {
             MapSnapshotView(latitude: location.lat, longitude: location.long)
-            checkReadView(date)
+			CheckReadView(time: date, isFromCurrentUser: isFromCurrentUser)
         }
         .frame(width: 247, height: 142)
-    }
-
-    private func photoRow(_ message: RoomMessage, url: URL?) -> some View {
-        ZStack {
-            AsyncImage(
-                url: url,
-                placeholder: { ShimmerView().frame(width: 202, height: 245) },
-                result: { Image(uiImage: $0).resizable() }
-            )
-                .scaledToFill()
-                .frame(width: 202, height: 245)
-
-            checkReadView(message.shortDate)
-                .padding(.leading, isFromCurrentUser ? 0 : 130)
-        }
-        .frame(width: 202, height: 245)
-    }
-
-    private func fileRow(_ message: RoomMessage, fileName: String, url: URL?) -> some View {
-        ZStack {
-            HStack(spacing: 0) {
-                if let url = url {
-                    PDFKitView(url: url)
-                        .frame(width: 80, height: 80)
-                        .cornerRadius(8)
-                        .padding(.leading, 8)
-                } else {
-                    ShimmerView()
-                        .frame(width: 80, height: 80)
-                        .cornerRadius(8)
-                        .padding(.leading, 8)
-                }
-
-                VStack(spacing: 4) {
-                    Spacer()
-                    Text(fileName, [
-                        .color(.black()),
-                        .font(.medium(15)),
-                        .paragraph(.init(lineHeightMultiple: 1.26, alignment: .left))
-                    ]).frame(height: 23)
-                    Spacer()
-                }.padding(.leading, 11)
-
-                Spacer()
-            }
-
-            checkReadView(message.shortDate)
-                .padding(.leading, isFromCurrentUser ? 0 : 130)
-        }
-        .frame(width: 247, height: 96)
     }
 
     private func audioRow() -> some View {
@@ -329,7 +274,9 @@ struct ChatRoomRow: View {
                         Circle()
                             .frame(width: 48,
                                    height: 48)
-                        !audioViewModel.isPlaying ? R.image.chat.audio.audioPlay.image : R.image.chat.audio.audioStop.image
+                        !audioViewModel.isPlaying ?
+						R.image.chat.audio.audioPlay.image :
+						R.image.chat.audio.audioStop.image
                     }
                 }
                 .padding(.vertical, 8)
@@ -337,7 +284,8 @@ struct ChatRoomRow: View {
                 VStack(alignment: .leading, spacing: 10) {
                     SliderAudioView(value: Binding(get: { audioViewModel.time }, set: { newValue in
                         audioViewModel.time = newValue
-                        audioViewModel.audioPlayer?.currentTime = Double(audioViewModel.time) * (audioViewModel.audioPlayer?.duration ?? 0)
+                        audioViewModel.audioPlayer?.currentTime =
+						Double(audioViewModel.time) * (audioViewModel.audioPlayer?.duration ?? 0)
                         audioViewModel.audioPlayer?.play()
                     }), activateShowCard: $activateShowCard)
                     .frame(width: 177, height: 1)
@@ -348,8 +296,10 @@ struct ChatRoomRow: View {
                 .padding(.top, 20)
                 .padding(.trailing, 7)
             }
-            checkTextReadView(message.shortDate)
-                .padding(.leading, isFromCurrentUser ? 0 : 185)
+			CheckTextReadView(
+				time: message.shortDate,
+				isFromCurrentUser: isFromCurrentUser
+			).padding(.leading, isFromCurrentUser ? 0 : 185)
         }
         .onReceive(audioViewModel.timer) { _ in
             audioViewModel.onTimerChange()
@@ -378,149 +328,6 @@ struct ChatRoomRow: View {
             }
         })
         .frame(width: 252, height: 64)
-    }
-
-    private func contactRow(name: String, phone: String?, url: URL?) -> some View {
-        ZStack {
-            VStack(spacing: 0) {
-                HStack(spacing: 12) {
-                    AsyncImage(
-                        url: url,
-                        placeholder: { ShimmerView().frame(width: 40, height: 40) },
-                        result: { Image(uiImage: $0).resizable() }
-                    )
-                        .scaledToFill()
-                        .frame(width: 40, height: 40)
-                        .clipped()
-                        .cornerRadius(20)
-
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(name)
-                            .font(.semibold(15))
-                            .foreground(.black())
-                        Spacer()
-                        Text(phone ?? "-")
-                            .font(.regular(13))
-                            .foreground(.darkGray())
-                    }
-                    Spacer()
-                }
-                .frame(height: 40)
-
-                Button(action: {
-                    chatContactInfo = ChatContactInfo(name: name,
-                                                      phone: phone,
-                                                      url: url)
-                    showContactInfo = true
-                }, label: {
-                    Text("Просмотр контакта")
-                        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44, alignment: .center)
-                        .font(.bold(15))
-                        .foreground(.blue())
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color(.blue()), lineWidth: 1)
-                        )
-                })
-                    .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44, alignment: .center)
-                    .padding(.top, 12)
-
-                Spacer()
-            }
-            .padding(.top, 8)
-            .padding(.horizontal, 16)
-            checkTextReadView(message.shortDate)
-        }
-        .frame(width: 244, height: 138)
-    }
-
-    private func reactions(_ items: [Reaction]) -> some View {
-        ZStack {
-            VStack {
-                Spacer()
-                HStack(spacing: 4) {
-                    if isFromCurrentUser {
-                        Spacer()
-                    }
-                    ForEach(items) { reaction in
-                        ReactionGroupView(
-                            text: reaction.emoji,
-                            count: 1,
-                            backgroundColor: Color(.white())
-                        ).onTapGesture {
-                            onReaction?(reaction.id)
-                        }
-                    }
-
-                    if !isFromCurrentUser {
-                        Spacer()
-                    }
-                }
-                .frame(height: 24)
-                .padding(isFromCurrentUser ? .trailing : .leading, 32)
-            }
-        }
-    }
-
-    private func checkTextReadView(_ time: String) -> some View {
-        ZStack {
-            VStack {
-                Spacer()
-                HStack {
-                    if isFromCurrentUser {
-                        Spacer()
-                    }
-                    HStack(spacing: 6) {
-                        Text(time)
-                            .frame(width: 40, height: 10)
-                            .font(.light(12))
-                            .foreground(.black(0.5))
-                            .padding(.trailing, !isFromCurrentUser ? 16 : 0)
-                            .padding(.leading, isFromCurrentUser ? 0 : 16)
-
-                        if isFromCurrentUser {
-                            Image(R.image.chat.readCheck.name)
-                                .resizable()
-                                .frame(width: 13.5, height: 10, alignment: .center)
-                                .padding(.trailing, 16)
-                        }
-                    }
-                    if !isFromCurrentUser {
-                        Spacer()
-                    }
-                }
-                .padding(.bottom, 8)
-            }
-        }
-    }
-
-    private func checkReadView(_ time: String) -> some View {
-        ZStack {
-            VStack {
-                Spacer()
-                HStack {
-                    if isFromCurrentUser {
-                        Spacer()
-                    }
-                    HStack(alignment: .center, spacing: 4) {
-                        Text(time)
-                            .font(.light(12))
-                            .foreground(.white())
-
-                        Image(R.image.chat.readCheckWhite.name)
-                    }
-                    .frame(width: 56, height: 16)
-                    .background(.black(0.4))
-                    .cornerRadius(8)
-
-                    if !isFromCurrentUser {
-                        Spacer()
-                    }
-                }
-                .padding(.bottom, 8)
-                .padding(isFromCurrentUser ? .trailing : .leading, 10)
-            }
-        }
     }
 
     private func calculateTopPadding(isCurrentUser: Bool, isPreviousFromCurrentUser: Bool) -> CGFloat {
