@@ -193,7 +193,6 @@ struct ChatRoomRow: View {
                 if !isDirect, isFromCurrentUser {
                     VStack(spacing: 0) {
                         Spacer()
-
                         AsyncImage(
                             url: message.avatar,
                             placeholder: {
