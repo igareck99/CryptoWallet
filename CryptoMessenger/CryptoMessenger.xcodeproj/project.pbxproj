@@ -67,7 +67,6 @@
 		5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A18EF8D26B988EA0038E991 /* ImagePicker.swift */; };
 		5A1D265C275973940085324F /* CornerRadiusStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1D265B275973940085324F /* CornerRadiusStyle.swift */; };
 		5A2181E426D80B4E0093AD60 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2181E326D80B4E0093AD60 /* ActionSheetView.swift */; };
-		5A2181E726D82DC40093AD60 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2181E626D82DC40093AD60 /* LocationManager.swift */; };
 		5A2181E926D83FD30093AD60 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2181E826D83FD20093AD60 /* MapKit.framework */; };
 		5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2181EA26D8563D0093AD60 /* MapView.swift */; };
 		5A24B25426F289F000EFC5E2 /* MapSnapshotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A24B25326F289F000EFC5E2 /* MapSnapshotView.swift */; };
@@ -415,6 +414,7 @@
 		8B8B9C2327F330120061F5E6 /* SocialListProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C2227F330120061F5E6 /* SocialListProtocols.swift */; };
 		8B8B9C2527F331C90061F5E6 /* SocialListFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C2427F331C90061F5E6 /* SocialListFlow.swift */; };
 		8B9173B227A342EC0094F625 /* PinCodeCreateFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9173B127A342EB0094F625 /* PinCodeCreateFlow.swift */; };
+		8B971E0428ABC61700F111D9 /* LocationManagerUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B971E0328ABC61700F111D9 /* LocationManagerUseCase.swift */; };
 		8B9AED5A28121DDF00C6C25A /* SocialNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9AED5928121DDE00C6C25A /* SocialNetworkView.swift */; };
 		8B9B0CCB2775395400654C24 /* PersonalizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCA2775395400654C24 /* PersonalizationView.swift */; };
 		8B9B0CCD2775442E00654C24 /* PersonalizationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCC2775442E00654C24 /* PersonalizationModel.swift */; };
@@ -641,7 +641,6 @@
 		5A18EF8D26B988EA0038E991 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		5A1D265B275973940085324F /* CornerRadiusStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadiusStyle.swift; sourceTree = "<group>"; };
 		5A2181E326D80B4E0093AD60 /* ActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
-		5A2181E626D82DC40093AD60 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5A2181E826D83FD20093AD60 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5A2181EA26D8563D0093AD60 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		5A24B25326F289F000EFC5E2 /* MapSnapshotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSnapshotView.swift; sourceTree = "<group>"; };
@@ -987,6 +986,7 @@
 		8B8B9C2227F330120061F5E6 /* SocialListProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListProtocols.swift; sourceTree = "<group>"; };
 		8B8B9C2427F331C90061F5E6 /* SocialListFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListFlow.swift; sourceTree = "<group>"; };
 		8B9173B127A342EB0094F625 /* PinCodeCreateFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateFlow.swift; sourceTree = "<group>"; };
+		8B971E0328ABC61700F111D9 /* LocationManagerUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerUseCase.swift; sourceTree = "<group>"; };
 		8B9AED5928121DDE00C6C25A /* SocialNetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialNetworkView.swift; sourceTree = "<group>"; };
 		8B9B0CCA2775395400654C24 /* PersonalizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationView.swift; sourceTree = "<group>"; };
 		8B9B0CCC2775442E00654C24 /* PersonalizationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationModel.swift; sourceTree = "<group>"; };
@@ -1621,8 +1621,8 @@
 			isa = PBXGroup;
 			children = (
 				8B55D22A28A14F10000506D7 /* LocationService */,
-				5A2181E626D82DC40093AD60 /* LocationManager.swift */,
 				78AF8255285B0A940021F5BD /* LocationConstants.swift */,
+				8B971E0328ABC61700F111D9 /* LocationManagerUseCase.swift */,
 			);
 			path = LocationManager;
 			sourceTree = "<group>";
@@ -3509,6 +3509,7 @@
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
 				8BA0C8FA27AD195D0070203F /* ChatSettingsProtocols.swift in Sources */,
 				8BF8FA7E27FF8AC20000CC08 /* FeedImageViewer.swift in Sources */,
+				8B971E0428ABC61700F111D9 /* LocationManagerUseCase.swift in Sources */,
 				D4442B4828113C7A0033D07A /* KeychainServiceProtocol.swift in Sources */,
 				8BA0C91227AD77380070203F /* ReserveCopyConfigurator.swift in Sources */,
 				D4AB8FFC282672BB00E6FAB5 /* MatrixService+Devices.swift in Sources */,
@@ -3837,7 +3838,6 @@
 				789FEBD826D8FFD50018FE91 /* CallListViewModel.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
 				5A4BE51A271DD86A00D03D09 /* RoomSummary.swift in Sources */,
-				5A2181E726D82DC40093AD60 /* LocationManager.swift in Sources */,
 				8B58DB8C27F508FF003C2C31 /* DragDelegate.swift in Sources */,
 				8B5609B82779D2D800AF43F6 /* BackgroundView.swift in Sources */,
 				8BE379A927EB7CE300AB6B6E /* KeyListFlow.swift in Sources */,

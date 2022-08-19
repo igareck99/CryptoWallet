@@ -13,7 +13,8 @@ final class BMKShowMapPage: UIViewController {
     let kHeight_BottomControlView: CGFloat = 60
 	let BMKMapVersion = "百度地图iOS SDK " + BMKGetMapApiVersion()
     
-    //MARK:Initialization method
+    // MARK: - Lifecycle
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -21,8 +22,7 @@ final class BMKShowMapPage: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         super.init(nibName: nil, bundle: nil)
     }
-    
-    //MARK:View life cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
@@ -45,9 +45,6 @@ final class BMKShowMapPage: UIViewController {
         view.backgroundColor = .white
         title = "显示地图"
         view.addSubview(mapSegmentControl)
-//            view.addSubview(bottomControlView)
-//            bottomControlView.addSubview(customizationgMapLabel)
-//            bottomControlView.addSubview(customizationMapSwitch)
         view.addSubview(mapView)
     }
     
