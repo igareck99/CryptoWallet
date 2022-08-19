@@ -1,19 +1,11 @@
 import Combine
 import MatrixSDK
+import SwiftUI
 import UIKit
 
 // MARK: - ChatRoomViewModel
 // swiftlint:disable all
 final class ChatRoomViewModel: ObservableObject {
-
-	private enum Constants {
-		static let rejectCallKey = "m.call.reject"
-		static let hangupCallKey = "m.call.hangup"
-
-		static let reasonKey = "reason"
-		static let userHangupReasonKey = "user_hangup"
-		static let inviteTimeoutReasonKey = "invite_timeout"
-	}
 
     // MARK: - Internal Properties
 
@@ -80,6 +72,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var translateManager: TranslateManager
     @Injectable private var locationManager: LocationManagerUseCaseProtocol
+	private let componentsFactory: ChatComponentsFactoryProtocol
 
     var toggleFacade: MainFlowTogglesFacadeProtocol
     
@@ -92,7 +85,8 @@ final class ChatRoomViewModel: ObservableObject {
         toggleFacade: MainFlowTogglesFacadeProtocol,
         locationManager: LocationManagerUseCaseProtocol = LocationManagerUseCase(),
 		settings: UserDefaultsServiceCallable = UserDefaultsService.shared,
-        sources: ChatRoomSourcesable.Type = ChatRoomResources.self
+        sources: ChatRoomSourcesable.Type = ChatRoomResources.self,
+		componentsFactory: ChatComponentsFactoryProtocol = ChatComponentsFactory()
 	) {
         self.sources = sources
         self.room = room
@@ -100,6 +94,7 @@ final class ChatRoomViewModel: ObservableObject {
 		self.settings = settings
 		self.availabilityFacade = availabilityFacade
         self.toggleFacade = toggleFacade
+		self.componentsFactory = componentsFactory
 		self.locationManager = locationManager
 
 		updateToggles()
@@ -152,23 +147,6 @@ final class ChatRoomViewModel: ObservableObject {
 
 	@objc private func didUpdateCallState() {
 		updateToggles()
-	}
-
-	func textForCallEventReason(
-		eventType: String,
-		content: [String: Any]
-	) -> String {
-
-		if eventType == Constants.rejectCallKey {
-			return sources.callDeclined
-		}
-
-		if eventType == Constants.hangupCallKey,
-		   let reason = content[Constants.reasonKey] as? String,
-		   reason == Constants.inviteTimeoutReasonKey {
-			return sources.callMissed
-		}
-		return sources.callFinished
 	}
 
     // MARK: - Internal Methods
@@ -666,4 +644,13 @@ final class ChatRoomViewModel: ObservableObject {
             }
         }
     }
+}
+
+// MARK: - Chat Events
+
+extension ChatRoomViewModel {
+
+	func makeChatEventView(event: RoomMessage) -> AnyView {
+		componentsFactory.makeChatEventView(event: event, viewModel: self)
+	}
 }
