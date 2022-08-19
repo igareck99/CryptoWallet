@@ -345,6 +345,7 @@ struct ChatRoomView: View {
                                             activateShowCard: $activateShowCard,
                                             playingAudioId: $playingAudioId
                                         )
+                                        .onTapGesture { }
                                         .flippedUpsideDown()
                                         .listRowSeparator(.hidden)
                                         .onLongPressGesture(minimumDuration: 0.1, maximumDistance: 0) {
