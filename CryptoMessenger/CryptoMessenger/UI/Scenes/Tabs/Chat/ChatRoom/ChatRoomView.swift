@@ -290,10 +290,10 @@ struct ChatRoomView: View {
                                 if viewModel.isTranslating() {
                                     if let message = viewModel.translatedMessages.first(where: {$0.eventId == event.eventId}) {
                                         if viewModel.next(message)?.fullDate != message.fullDate {
-                                            dateView(date: message.fullDate)
-                                                .flippedUpsideDown()
-                                                .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
-                                                .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+											ChatEventView(
+												text: message.fullDate,
+												backgroundColor: Palette.lightGray().suColor
+											).configureInnerOuterShadow().flippedUpsideDown()
                                         }
                                         ChatRoomRow(
                                             message: message,
@@ -325,10 +325,10 @@ struct ChatRoomView: View {
                                 } else {
                                     if let message = viewModel.messages.first(where: {$0.eventId == event.eventId}) {
                                         if viewModel.next(message)?.fullDate != message.fullDate {
-                                            dateView(date: message.fullDate)
-                                                .flippedUpsideDown()
-                                                .shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
-                                                .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+											ChatEventView(
+												text: message.fullDate,
+												backgroundColor: Palette.lightGray().suColor
+											).configureInnerOuterShadow().flippedUpsideDown()
                                         }
                                         ChatRoomRow(
                                             message: message,
@@ -367,53 +367,21 @@ struct ChatRoomView: View {
 								}
 								
                                 if event.eventType == "m.room.encryption" {
-                                    eventView(text: viewModel.sources.chatRoomViewEncryptedMessagesNotify)
-                                        .flippedUpsideDown()
-                                        .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+									ChatEventView(
+										text: viewModel.sources.chatRoomViewSelfAvatarChangeNotify,
+										foregroundColor: .white
+									).configureOuterShadow().flippedUpsideDown()
                                 }
                                 
                                 if event.eventType == "m.room.avatar" {
-                                    eventView(text: viewModel.sources.chatRoomViewSelfAvatarChangeNotify)
-                                        .flippedUpsideDown()
-                                        .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+									ChatEventView(
+										text: viewModel.sources.chatRoomViewEncryptedMessagesNotify,
+										foregroundColor: .white
+									).configureOuterShadow().flippedUpsideDown()
                                 }
 
                                 if event.eventType == "m.room.member" {
-                                    switch event.content["membership"] {
-                                    case "join" as String:
-                                        if let users = viewModel.roomUsers.filter({$0.displayname == event.content["displayname"] as? String}) {
-                                            if users.contains(where: {$0.avatarUrl == event.content["avatar_url"] as? String}) {
-                                                eventView(text: "\(event.content["displayname"] ?? "No name") \(viewModel.sources.chatRoomViewAvatarChangeNotify)")
-                                                    .flippedUpsideDown()
-                                                    .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
-                                            } else if users.contains(where: {$0.avatarUrl == event.content["avatar_url"] as? String}) {
-                                                eventView(text: "\(event.content["displayname"] ?? "No name") \(viewModel.sources.chatRoomViewRoomEntryNotify)")
-                                                    .flippedUpsideDown()
-                                                    .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
-                                            }
-                                        }
-                                        
-                                    case "leave" as String:
-                                        eventView(text: "\(event.content["displayname"] ?? "No name") \(viewModel.sources.chatRoomViewLeftTheRoomNotify)")
-                                            .flippedUpsideDown()
-                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
-                                    case "invite" as String:
-                                        eventView(text: "\(event.content["displayname"] ?? "No name") \(viewModel.sources.chatRoomViewInvitedNotify)")
-                                            .flippedUpsideDown()
-                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
-                                    case "unknown" as String:
-                                        eventView(text: viewModel.sources.chatRoomViewUnownedErrorNotify)
-                                            .flippedUpsideDown()
-                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
-                                    case "ban" as String:
-                                        eventView(text: "Пользователь \(event.content["displayname"] ?? "no name") \(viewModel.sources.chatRoomViewBannedNotify)")
-                                            .flippedUpsideDown()
-                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
-                                    default:
-                                        eventView(text: "\(event.eventType)")
-                                            .flippedUpsideDown()
-                                            .shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
-                                    }
+									makeChatEventView(event: event)
                                 }
                             }
                             .onChange(of: viewModel.messages) { _ in
@@ -475,31 +443,44 @@ struct ChatRoomView: View {
         .hideKeyboardOnTap()
 		.ignoresSafeArea()
     }
-    
-    private func dateView(date: String) -> some View {
-        HStack {
-            Text(date)
-                .font(.regular(14))
-                .padding(.horizontal, 17)
-                .padding(.vertical, 3)
-        }
-        .background(.lightGray())
-        .cornerRadius(8)
-        .padding(.vertical, 8)
-    }
-    
-    private func eventView(text: String) -> some View {
-        HStack {
-            Text(text)
-                .font(.regular(14))
-                .padding(.horizontal, 17)
-                .padding(.vertical, 3)
-                .foregroundColor(.white)
-        }
-        .background(Color(red: 242/255, green: 160/255, blue: 76/255))
-        .cornerRadius(8)
-        .padding(.vertical, 8)
-    }
+
+	private func makeChatEventView(event: RoomMessage) -> some View {
+
+		guard let membership = event.content["membership"] as? String else {
+			return ChatEventView(
+				text: "\(event.eventType)",
+				foregroundColor: .white
+			)
+			.configureOuterShadow()
+			.flippedUpsideDown()
+		}
+
+		let text: String
+
+		switch membership {
+		case "join":
+			let users = viewModel.roomUsers.filter({$0.displayname == event.content["displayname"] as? String})
+			if users.contains(where: {$0.avatarUrl == event.content["avatar_url"] as? String}) {
+				text = "\(event.content["displayname"] ?? "") \(viewModel.sources.chatRoomViewAvatarChangeNotify)"
+			} else {
+				text = ""
+			}
+		case "leave":
+			text = "\(event.content["displayname"] ?? "") \(viewModel.sources.chatRoomViewLeftTheRoomNotify)"
+		case "invite":
+			text = "\(event.content["displayname"] ?? "") \(viewModel.sources.chatRoomViewInvitedNotify)"
+		case "unknown":
+			text = viewModel.sources.chatRoomViewUnownedErrorNotify
+		case "ban":
+			text = "Пользователь \(event.content["displayname"] ?? "") \(viewModel.sources.chatRoomViewBannedNotify)"
+		default:
+			text = "\(event.eventType)"
+		}
+
+		return ChatEventView(text: text, foregroundColor: .white)
+			.configureOuterShadow()
+			.flippedUpsideDown()
+	}
 
 	private func callRow(message: RoomMessage) -> some View {
 		CallEventView(
@@ -511,77 +492,6 @@ struct ChatRoomView: View {
 			viewModel.p2pVoiceCallPublisher.send()
 		}
 	}
-
-    private var headerView: some View {
-        VStack {
-            Spacer()
-            HStack(spacing: 0) {
-                Spacer().frame(width: 16)
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }, label: {
-                    viewModel.sources.backButton
-                })
-
-                Spacer().frame(width: 16)
-
-                AsyncImage(
-                    url: viewModel.room.roomAvatar,
-                    placeholder: {
-                        ZStack {
-                            Color(.lightBlue())
-                            Text(viewModel.room.summary.displayname?.firstLetter.uppercased() ?? "?")
-                                .foreground(.white())
-                                .font(.medium(20))
-                        }
-                    },
-                    result: {
-                        Image(uiImage: $0).resizable()
-                    }
-                )
-                    .scaledToFill()
-                    .frame(width: 36, height: 36)
-                    .cornerRadius(18)
-
-                Spacer().frame(width: 12)
-
-                VStack(alignment: .leading) {
-                    Text(viewModel.room.summary.displayname ?? "")
-                        .lineLimit(1)
-                        .font(.semibold(15))
-                        .foreground(.black())
-                    Text(viewModel.room.isOnline ? viewModel.sources.chatOnline :
-                            viewModel.sources.chatOffline)
-                        .lineLimit(1)
-                        .font(.regular(13))
-                        .foreground(viewModel.userMessage?.status == .online ? .blue() : .black(0.5))
-                }
-
-                Spacer()
-                Button(action: {
-
-                }, label: {
-                    viewModel.sources.phoneButton
-                        .resizable()
-                        .frame(width: 24, height: 24, alignment: .center)
-                })
-                    .padding(.trailing, 12)
-
-                Button(action: {
-
-                }, label: {
-                    viewModel.sources.settingsButton
-                        .resizable()
-                        .frame(width: 24, height: 24, alignment: .center)
-                })
-
-                Spacer().frame(width: 16)
-            }
-            .padding(.bottom, 16)
-        }
-        .frame(height: 106)
-        .background(.white())
-    }
 
     private var quickMenuView: some View {
         ZStack {
