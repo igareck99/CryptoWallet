@@ -559,6 +559,7 @@
 		D4857CFE28AF4AAE00C904EC /* Font+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857CFD28AF4AAE00C904EC /* Font+Extensions.swift */; };
 		D4857D0028AF57BE00C904EC /* ChatEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857CFF28AF57BE00C904EC /* ChatEventView.swift */; };
 		D4857D0728AF6F9B00C904EC /* ChatHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857D0628AF6F9B00C904EC /* ChatHeaderView.swift */; };
+		D4857D0A28AFAB6600C904EC /* ChatComponentsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857D0928AFAB6600C904EC /* ChatComponentsFactory.swift */; };
 		D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */; };
 		D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */; };
 		D4AB8FFC282672BB00E6FAB5 /* MatrixService+Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */; };
@@ -1140,6 +1141,7 @@
 		D4857CFD28AF4AAE00C904EC /* Font+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extensions.swift"; sourceTree = "<group>"; };
 		D4857CFF28AF57BE00C904EC /* ChatEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEventView.swift; sourceTree = "<group>"; };
 		D4857D0628AF6F9B00C904EC /* ChatHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHeaderView.swift; sourceTree = "<group>"; };
+		D4857D0928AFAB6600C904EC /* ChatComponentsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatComponentsFactory.swift; sourceTree = "<group>"; };
 		D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixServiceProtocol.swift; sourceTree = "<group>"; };
 		D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Session.swift"; sourceTree = "<group>"; };
 		D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Devices.swift"; sourceTree = "<group>"; };
@@ -1946,6 +1948,7 @@
 				5A9318D126C5AAF100645365 /* ChatRoomView.swift */,
 				5A67791B26C7A64100212580 /* ChatRoomRow.swift */,
 				5A9318D226C5AAF100645365 /* ChatRoomViewModel.swift */,
+				D4857D0928AFAB6600C904EC /* ChatComponentsFactory.swift */,
 				5A9318D426C5AAF100645365 /* ChatRoomFlow.swift */,
 				D4533A132832C9A600B956B2 /* ChatRoomTogglesFacade.swift */,
 				D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */,
@@ -3540,6 +3543,7 @@
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
 				D4FA3F72281A619B000246D8 /* TimeService.swift in Sources */,
+				D4857D0A28AFAB6600C904EC /* ChatComponentsFactory.swift in Sources */,
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
 				8B9173B227A342EC0094F625 /* PinCodeCreateFlow.swift in Sources */,
 				7889064127064F8D0093459C /* ProfileNetworkDetailViewController.swift in Sources */,

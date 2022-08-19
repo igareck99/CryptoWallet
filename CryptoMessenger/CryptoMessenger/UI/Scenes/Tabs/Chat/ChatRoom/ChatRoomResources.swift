@@ -28,21 +28,21 @@ protocol ChatRoomSourcesable {
 
     static var chatOffline: String { get }
 
-    static var chatRoomViewSelfAvatarChangeNotify: String { get }
+    static var chatRoomViewSelfAvatarChange: String { get }
 
-    static var chatRoomViewEncryptedMessagesNotify: String { get }
+    static var chatRoomViewEncryptedMessages: String { get }
 
-    static var chatRoomViewAvatarChangeNotify: String { get }
+    static var chatRoomViewAvatarChange: String { get }
 
-    static var chatRoomViewRoomEntryNotify: String { get }
+    static var chatRoomViewRoomEntry: String { get }
 
-    static var chatRoomViewLeftTheRoomNotify: String { get }
+    static var chatRoomViewLeftTheRoom: String { get }
 
-    static var chatRoomViewInvitedNotify: String { get }
+    static var chatRoomViewInvited: String { get }
 
-    static var chatRoomViewUnownedErrorNotify: String { get }
+    static var chatRoomViewUnownedError: String { get }
 
-    static var chatRoomViewBannedNotify: String { get }
+    static var chatRoomViewBanned: String { get }
 
 	static var callFinished: String { get }
 
@@ -101,35 +101,35 @@ enum ChatRoomResources: ChatRoomSourcesable {
         R.string.localizable.chatOffline()
     }
     
-    static var chatRoomViewSelfAvatarChangeNotify: String {
+    static var chatRoomViewSelfAvatarChange: String {
         R.string.localizable.chatRoomViewSelfAvatarChangeNotify()
     }
     
-    static var chatRoomViewEncryptedMessagesNotify: String {
+    static var chatRoomViewEncryptedMessages: String {
         R.string.localizable.chatRoomViewEncryptedMessagesNotify()
     }
     
-    static var chatRoomViewAvatarChangeNotify: String {
+    static var chatRoomViewAvatarChange: String {
         R.string.localizable.chatRoomViewAvatarChangeNotify()
     }
     
-    static var chatRoomViewRoomEntryNotify: String {
+    static var chatRoomViewRoomEntry: String {
         R.string.localizable.chatRoomViewRoomEntryNotify()
     }
     
-    static var chatRoomViewLeftTheRoomNotify: String {
+    static var chatRoomViewLeftTheRoom: String {
         R.string.localizable.chatRoomViewLeftTheRoomNotify()
     }
     
-    static var chatRoomViewInvitedNotify: String {
+    static var chatRoomViewInvited: String {
         R.string.localizable.chatRoomViewInvitedNotify()
     }
     
-    static var chatRoomViewUnownedErrorNotify: String {
+    static var chatRoomViewUnownedError: String {
         R.string.localizable.chatRoomViewUnownedErrorNotify()
     }
     
-    static var chatRoomViewBannedNotify: String {
+    static var chatRoomViewBanned: String {
         R.string.localizable.chatRoomViewBannedNotify()
     }
 
