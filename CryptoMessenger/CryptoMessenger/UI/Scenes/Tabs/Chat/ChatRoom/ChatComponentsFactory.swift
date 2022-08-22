@@ -2,6 +2,19 @@ import SwiftUI
 
 protocol ChatComponentsFactoryProtocol {
 	func makeChatEventView(event: RoomMessage, viewModel: ChatRoomViewModel) -> AnyView
+
+	func makeChatMessageEventView(
+		showFile: Binding<Bool>,
+		showMap: Binding<Bool>,
+		showLocationTransition: Binding<Bool>,
+		activateShowCard: Binding<Bool>,
+		playingAudioId: Binding<String>,
+		onSelectPhoto: GenericBlock<URL?>?,
+		onContactButtonAction: @escaping (String, String?, URL?) -> Void,
+		onFileTapHandler: @escaping VoidBlock,
+		fileSheetPresenting: @escaping (URL?) -> AnyView?,
+		message: RoomMessage
+	) -> AnyView
 }
 
 struct ChatComponentsFactory {
@@ -28,7 +41,10 @@ struct ChatComponentsFactory {
 
 extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 
-	func makeChatEventView(event: RoomMessage, viewModel: ChatRoomViewModel) -> AnyView {
+	func makeChatEventView(
+		event: RoomMessage,
+		viewModel: ChatRoomViewModel
+	) -> AnyView {
 
 		if event.eventType.contains("m.call.hangup") ||
 			event.eventType.contains("m.call.reject") {
@@ -80,12 +96,12 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 
 		switch membership {
 		case "join":
-			let users = viewModel.roomUsers.filter({ $0.displayname == displayName })
-			if users.contains(where: { $0.avatarUrl == event.content["avatar_url"] as? String }) {
-				text = "\(displayName) \(sources.chatRoomViewAvatarChange)"
-			} else {
-				text = ""
-			}
+			let users = viewModel.roomUsers.filter { $0.displayname == displayName }
+			let avatarUrl = event.content["avatar_url"] as? String
+			let isContainsAvatarUrl = users.contains { $0.avatarUrl == avatarUrl }
+			text = isContainsAvatarUrl ?
+			"\(displayName) \(sources.chatRoomViewAvatarChange)" : ""
+
 		case "leave":
 			text = "\(displayName) \(sources.chatRoomViewLeftTheRoom)"
 		case "invite":
@@ -120,5 +136,78 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 			return sources.callMissed
 		}
 		return sources.callFinished
+	}
+}
+
+extension ChatComponentsFactory {
+
+	func makeChatMessageEventView(
+		showFile: Binding<Bool>,
+		showMap: Binding<Bool>,
+		showLocationTransition: Binding<Bool>,
+		activateShowCard: Binding<Bool>,
+		playingAudioId: Binding<String>,
+		onSelectPhoto: GenericBlock<URL?>?,
+		onContactButtonAction: @escaping (String, String?, URL?) -> Void,
+		onFileTapHandler: @escaping VoidBlock,
+		fileSheetPresenting: @escaping (URL?) -> AnyView?,
+		message: RoomMessage
+	) -> AnyView {
+		switch message.type {
+		case let .text(text):
+			return AnyView(ChatTextView(
+				isFromCurrentUser: message.isCurrentUser,
+				shortDate: message.shortDate,
+				text: text
+			))
+		case let .location(location):
+			return AnyView(ChatMapView(
+				date: message.shortDate,
+				showMap: showMap,
+				showLocationTransition: showLocationTransition,
+				location: LocationData(lat: location.lat, long: location.long),
+				isFromCurrentUser: message.isCurrentUser
+			))
+		case let .image(url):
+			return AnyView(PhotoView(
+				isFromCurrentUser: message.isCurrentUser,
+				shortDate: message.shortDate,
+				url: url) {
+					onSelectPhoto?(url)
+				})
+		case let .contact(name, phone, url):
+			return AnyView(ContactView(
+				shortDate: message.shortDate,
+				name: name,
+				phone: phone,
+				url: url,
+				isFromCurrentUser: message.isCurrentUser,
+				onButtonAction: { onContactButtonAction(name, phone, url) }
+			))
+		case let .file(fileName, url):
+			return AnyView(FileView(
+				isFromCurrentUser: message.isCurrentUser,
+				shortDate: message.shortDate,
+				fileName: fileName,
+				url: url,
+				isShowFile: showFile,
+				sheetPresenting: { fileSheetPresenting(url) },
+				onTapHandler: onFileTapHandler))
+		case let .audio(url):
+			return AnyView(AudioView(
+				messageId: message.id,
+				shortDate: message.shortDate,
+				audioDuration: message.audioDuration,
+				isCurrentUser: message.isCurrentUser,
+				isFromCurrentUser: message.isCurrentUser,
+				activateShowCard: activateShowCard,
+				playingAudioId: playingAudioId,
+				audioViewModel: StateObject(
+					wrappedValue: AudioMessageViewModel(url: url, messageId: message.id)
+				)
+			))
+		case .none:
+			return AnyView(EmptyView())
+		}
 	}
 }
