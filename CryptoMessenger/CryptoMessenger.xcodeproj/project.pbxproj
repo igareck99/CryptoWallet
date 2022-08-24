@@ -561,6 +561,7 @@
 		D4857D0728AF6F9B00C904EC /* ChatHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857D0628AF6F9B00C904EC /* ChatHeaderView.swift */; };
 		D4857D0A28AFAB6600C904EC /* ChatComponentsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857D0928AFAB6600C904EC /* ChatComponentsFactory.swift */; };
 		D4857D0E28AFB38400C904EC /* ChatRoomRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857D0D28AFB38400C904EC /* ChatRoomRowViewModel.swift */; };
+		D4857D2D28B4D2F000C904EC /* ResizableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857D2C28B4D2F000C904EC /* ResizableTextView.swift */; };
 		D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */; };
 		D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */; };
 		D4AB8FFC282672BB00E6FAB5 /* MatrixService+Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */; };
@@ -1144,6 +1145,7 @@
 		D4857D0628AF6F9B00C904EC /* ChatHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHeaderView.swift; sourceTree = "<group>"; };
 		D4857D0928AFAB6600C904EC /* ChatComponentsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatComponentsFactory.swift; sourceTree = "<group>"; };
 		D4857D0D28AFB38400C904EC /* ChatRoomRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomRowViewModel.swift; sourceTree = "<group>"; };
+		D4857D2C28B4D2F000C904EC /* ResizableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizableTextView.swift; sourceTree = "<group>"; };
 		D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixServiceProtocol.swift; sourceTree = "<group>"; };
 		D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Session.swift"; sourceTree = "<group>"; };
 		D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Devices.swift"; sourceTree = "<group>"; };
@@ -1962,6 +1964,7 @@
 		5A9318DA26C5AB8900645365 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D4857D2928B4B31000C904EC /* Resizable Text Field */,
 				D4857D0528AF6F8000C904EC /* Chat Header View */,
 				D4857D0128AF57CF00C904EC /* Chat Event View */,
 				D4857CF728AE0AAA00C904EC /* Chat Map View */,
@@ -3150,6 +3153,14 @@
 			path = "Chat Room Row";
 			sourceTree = "<group>";
 		};
+		D4857D2928B4B31000C904EC /* Resizable Text Field */ = {
+			isa = PBXGroup;
+			children = (
+				D4857D2C28B4D2F000C904EC /* ResizableTextView.swift */,
+			);
+			path = "Resizable Text Field";
+			sourceTree = "<group>";
+		};
 		D4AB9006282789F900E6FAB5 /* Matrix UseCase */ = {
 			isa = PBXGroup;
 			children = (
@@ -3920,6 +3931,7 @@
 				D45004772845DE9700CA4C82 /* HStackViewModel.swift in Sources */,
 				7846B66126E8BC6600B05984 /* ScrollAnimation.swift in Sources */,
 				8BB517C12856BC4200D06593 /* ChatMediaSources.swift in Sources */,
+				D4857D2D28B4D2F000C904EC /* ResizableTextView.swift in Sources */,
 				5AC8C4F427C42D94008B1744 /* PDFKitView.swift in Sources */,
 				5A187E992680708D001957D3 /* ActivityView.swift in Sources */,
 				8B4E9C3227DFF6700057E4C9 /* ScanerViewController.swift in Sources */,

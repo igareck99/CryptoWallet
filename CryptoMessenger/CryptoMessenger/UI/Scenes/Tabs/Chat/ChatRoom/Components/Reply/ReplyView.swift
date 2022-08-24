@@ -67,7 +67,7 @@ struct EditView: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 R.image.chat.reaction.edit.image
-                    .padding(.leading, 8)
+                    .padding(.leading, 16)
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(R.string.localizable.editViewEdit(), [
