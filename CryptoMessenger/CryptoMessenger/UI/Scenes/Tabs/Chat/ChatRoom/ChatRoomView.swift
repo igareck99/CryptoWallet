@@ -33,6 +33,7 @@ struct ChatRoomView: View {
     @State var blockAudioRecord = false
     @State var resetAudio = false
     @State var activateShowCard = true
+	@State var textViewHeight: CGFloat = 34
 
     // MARK: - Private Properties
 
@@ -59,7 +60,11 @@ struct ChatRoomView: View {
     @FocusState private var inputViewIsFocused: Bool
 
 	private var statusBarHeight: CGFloat {
-		UIApplication.shared.statusBarFrame.size.height
+		(UIApplication.shared.connectedScenes.first as? UIWindowScene)?
+			.statusBarManager?
+			.statusBarFrame
+			.size
+			.height ?? .zero
 	}
     
     
@@ -552,19 +557,22 @@ struct ChatRoomView: View {
                         
                         HStack {
                             ZStack {
-                                TextField("", text: $viewModel.inputText)
-                                    .focused($inputViewIsFocused)
-                                    .keyboardType(.default)
-                                    .background(.grayDAE1E9())
-                                    .foreground(.black())
-                                    .padding(.horizontal, 16)
+								ResizeableTextView(
+									text: $viewModel.inputText,
+									height: $textViewHeight,
+									placeholderText: ""
+								)
+									.focused($inputViewIsFocused)
+									.keyboardType(.default)
+									.background(.grayDAE1E9())
+									.padding(.horizontal, 16)
                             }
                             .background(.grayDAE1E9())
                         }
-                        .frame(height: 36)
+                        .frame(height: min(textViewHeight, 145))
                         .background(.grayDAE1E9())
-                        .clipShape(Capsule())
-                        .padding(.trailing, viewModel.inputText.isEmpty ? 0 : 8)
+						.cornerRadius(16)
+                        .padding(.trailing, 8)
                     }
                     if !viewModel.inputText.isEmpty {
                         Button(action: {
@@ -590,7 +598,7 @@ struct ChatRoomView: View {
                                 .frame(width: 24, height: 24)
                                 .clipShape(Circle())
                         })
-                        .padding(.trailing, 8)
+                        .padding(.trailing, 16)
                     } else {
                         MicrophoneMessageView(showAudioView: $showAudioView,
                                               blockDragPadding: $blockDragPadding,
@@ -604,7 +612,7 @@ struct ChatRoomView: View {
                 
                 Spacer()
             }
-            .frame(height: quickActionCurrentUser == .edit ? 104 : (quickAction == .reply ? 104 : 52))
+            .frame(height: min((quickActionCurrentUser == .edit ? 68 : (quickAction == .reply ? 68 : 18)) + textViewHeight, 160) )
             .background(.white())
             .ignoresSafeArea()
 
