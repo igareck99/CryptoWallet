@@ -21,6 +21,7 @@ struct ChatRoomRow: View {
     private let isDirect: Bool
     private var onReaction: StringBlock?
     private var onSelectPhoto: GenericBlock<URL?>?
+	private let viewModel: ChatRoomRowViewModelProtocol
 
     @State private var showMap = false
     @State private var showFile = false
@@ -31,15 +32,17 @@ struct ChatRoomRow: View {
 
     // MARK: - Lifecycle
 
-    init(
-        message: RoomMessage,
-        isPreviousFromCurrentUser: Bool,
-        isDirect: Bool,
-        onReaction: StringBlock?,
-        onSelectPhoto: GenericBlock<URL?>?,
-        activateShowCard: Binding<Bool>,
-        playingAudioId: Binding<String>
-    ) {
+	init(
+		message: RoomMessage,
+		isPreviousFromCurrentUser: Bool,
+		isDirect: Bool,
+		onReaction: StringBlock?,
+		onSelectPhoto: GenericBlock<URL?>?,
+		activateShowCard: Binding<Bool>,
+		playingAudioId: Binding<String>,
+		viewModel: ChatRoomRowViewModelProtocol = ChatRoomRowViewModel()
+	) {
+		self.viewModel = viewModel
         self.message = message
         self.isFromCurrentUser = message.isCurrentUser
         self.isPreviousFromCurrentUser = isPreviousFromCurrentUser
@@ -116,73 +119,30 @@ struct ChatRoomRow: View {
                             .frame(height: 40)
                         }
                         HStack(spacing: 0) {
-                            switch message.type {
-                            case let .text(text):
-								ChatTextView(
-									isFromCurrentUser: isFromCurrentUser,
-									shortDate: message.shortDate,
-									text: text
-								)
-                            case let .location(location):
-								ChatMapView(
-									date: message.shortDate,
-									showMap: $showMap,
-									showLocationTransition: $showLocationTransition,
-									location: LocationData(lat: location.lat, long: location.long),
-									isFromCurrentUser: isFromCurrentUser
-								)
-                            case let .image(url):
-								PhotoView(
-									isFromCurrentUser: isFromCurrentUser,
-									shortDate: message.shortDate,
-									url: url) {
-										onSelectPhoto?(url)
-									}
-                            case let .contact(name, phone, url):
-								ContactView(
-									shortDate: message.shortDate,
-									name: name,
-									phone: phone,
-									url: url,
-									isFromCurrentUser: isFromCurrentUser
-								) {
-									chatContactInfo = ChatContactInfo(
+							viewModel.makeChatMessageEventView(
+								showFile: $showFile,
+								showMap: $showMap,
+								showLocationTransition: $showLocationTransition,
+								activateShowCard: $activateShowCard,
+								playingAudioId: $playingAudioId,
+								onSelectPhoto: onSelectPhoto,
+								onContactButtonAction: { name, phone , url in
+										chatContactInfo = ChatContactInfo(
 										name: name,
 										phone: phone,
 										url: url
 									)
 									showContactInfo = true
-								}
-                            case let .file(fileName, url):
-								FileView(
-									isFromCurrentUser: isFromCurrentUser,
-									shortDate: message.shortDate,
-									fileName: fileName,
-									url: url,
-									isShowFile: $showFile,
-									sheetPresenting: {
-										guard let url = url else { return nil }
-										return AnyView(DocumentViewerView(url: url))
-									},
-									onTapHandler: {
-										showFile.toggle()
-									})
-							case let .audio(url):
-								AudioView(
-									messageId: message.id,
-									shortDate: message.shortDate,
-									audioDuration: message.audioDuration,
-									isCurrentUser: message.isCurrentUser,
-									isFromCurrentUser: isFromCurrentUser,
-									activateShowCard: $activateShowCard,
-									playingAudioId: $playingAudioId,
-									audioViewModel: StateObject(
-										wrappedValue: AudioMessageViewModel(url: url, messageId: message.id)
-									)
-								)
-                            case .none:
-                                EmptyView()
-                            }
+								},
+								onFileTapHandler: {
+									showFile.toggle()
+								},
+								fileSheetPresenting: { fileUrl in
+									guard let url = fileUrl else { return nil }
+									return AnyView(DocumentViewerView(url: url))
+								},
+								message: message
+							)
                         }
                     }
                     .background(.clear)
