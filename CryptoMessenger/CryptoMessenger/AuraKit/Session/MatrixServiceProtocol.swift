@@ -59,7 +59,7 @@ protocol MatrixServiceProtocol {
 	func getUserId() -> String
 	func getDisplayName() -> String
 	func getStatus() -> String
-	func getAvatarUrl() -> String
+	func getAvatarUrl(completion: @escaping (String) -> Void)
 	func setDisplayName(_ displayName: String, completion: @escaping VoidBlock)
 	func setStatus(_ status: String, completion: @escaping VoidBlock)
 	func setUser(avatarUrl: String, completion: @escaping EmptyResultBlock)

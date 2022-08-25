@@ -64,11 +64,11 @@ final class ProfileViewModel: ObservableObject {
                        sortOrder: 6,
                        socialType: .linkedin)
     ]
+    @Published var profile = ProfileItem()
+    @Published var existringUrls: [String] = []
 
     // MARK: - Private Properties
 
-    @Published var profile = ProfileItem()
-    @Published var existringUrls: [String] = []
     @Published private(set) var state: ProfileFlow.ViewState = .idle
 	@Published private(set) var socialList = SocialListViewModel()
     @Published private(set) var socialListEmpty = true
@@ -86,9 +86,9 @@ final class ProfileViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-		userSettings: UserCredentialsStorage & UserFlowsStorage,
-		keychainService: KeychainServiceProtocol
-	) {
+        userSettings: UserCredentialsStorage & UserFlowsStorage,
+        keychainService: KeychainServiceProtocol
+    ) {
 		self.userSettings = userSettings
 		self.keychainService = keychainService
         bindInput()
@@ -250,7 +250,9 @@ final class ProfileViewModel: ObservableObject {
     }
 
     private func fetchData() {
-        profile.avatar = mediaService.downloadAvatarUrl()
+        mediaService.downloadAvatarUrl(completion: { url in
+            self.profile.avatar = url
+        })
         profile.nickname = matrixUseCase.getUserId()
         if !matrixUseCase.getDisplayName().isEmpty {
             profile.name = matrixUseCase.getDisplayName()
@@ -268,7 +270,9 @@ final class ProfileViewModel: ObservableObject {
     }
 
     private func fetchImageData() {
-        profile.avatar = mediaService.downloadAvatarUrl()
+        mediaService.downloadAvatarUrl(completion: { url in
+            self.profile.avatar = url
+        })
         profile.nickname = matrixUseCase.getUserId()
         if !matrixUseCase.getDisplayName().isEmpty {
             profile.name = matrixUseCase.getDisplayName()

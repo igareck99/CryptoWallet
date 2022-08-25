@@ -88,8 +88,7 @@ struct FeedImageViewerView: View {
                     },
                     result: { Image(uiImage: $0).resizable() }
                 )
-                    .frame(height: UIScreen.main.bounds.width)
-                    .scaledToFit()
+                .scaledToFit()
                 .animation(.spring())
                 .scaleEffect(
                     viewModel.imageScale > 1 ? viewModel.imageScale : 1

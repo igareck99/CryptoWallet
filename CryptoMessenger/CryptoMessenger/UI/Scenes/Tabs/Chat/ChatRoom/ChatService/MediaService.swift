@@ -8,7 +8,7 @@ protocol MediaServiceProtocol {
                            completion: @escaping ([FileData]) -> Void)
     func downloadChatUrls(roomId: String,
                           completion: @escaping ([URL]) -> Void)
-    func downloadAvatarUrl() -> URL?
+    func downloadAvatarUrl(completion: @escaping (URL?) -> Void)
     func addPhotoFeed(image: UIImage, userId: String, completion: @escaping (URL?) -> Void)
     func deletePhotoFeed(url: String, completion: @escaping (URL?) -> Void)
     func getPhotoFeedPhotos(userId: String, completion: @escaping ([URL]) -> Void)
@@ -42,11 +42,12 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
 
     // MARK: - Internal Methods
 
-    func downloadAvatarUrl() -> URL? {
-        let link = matrixService.getAvatarUrl()
-        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
-        let avatarUrl = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
-        return avatarUrl
+    func downloadAvatarUrl(completion: @escaping (URL?) -> Void) {
+        matrixService.getAvatarUrl { link in
+            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+            let avatarUrl = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+            completion(avatarUrl)
+        }
     }
 
     func addPhotoFeed(image: UIImage, userId: String, completion: @escaping (URL?) -> Void) {

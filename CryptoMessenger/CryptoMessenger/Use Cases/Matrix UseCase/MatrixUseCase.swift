@@ -219,8 +219,10 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 		matrixService.getStatus()
 	}
 
-	func getAvatarUrl() -> String {
-		matrixService.getAvatarUrl()
+	func getAvatarUrl(completion: @escaping (String) -> Void) {
+        matrixService.getAvatarUrl { result in
+            completion(result)
+        }
 	}
 
 	func setDisplayName(_ displayName: String, completion: @escaping VoidBlock) {
