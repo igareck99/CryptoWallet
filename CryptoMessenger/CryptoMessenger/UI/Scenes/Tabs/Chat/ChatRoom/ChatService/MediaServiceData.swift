@@ -13,12 +13,12 @@ struct ProfileMediaData: Identifiable {
 
 // MARK: - FileData
 
-struct FileData: Identifiable {
+struct FileData: Identifiable, Equatable {
 
     // MARK: - Internal Properties
 
     let id = UUID()
     var fileName: String
-    var url: URL
+    var url: URL?
     var date: Date
 }

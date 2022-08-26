@@ -7,7 +7,7 @@ struct ChatDocumentView: View {
     // MARK: - Internal Properties
 
     @Binding var showFile: Bool
-    @Binding var selectedPhoto: URL?
+    @Binding var selectedFile: FileData
     var file: FileData
 
     // MARK: - Body
@@ -30,7 +30,7 @@ struct ChatDocumentView: View {
             Spacer()
         }
         .onTapGesture {
-            selectedPhoto = file.url
+            selectedFile = file
             showFile = true
         }
     }

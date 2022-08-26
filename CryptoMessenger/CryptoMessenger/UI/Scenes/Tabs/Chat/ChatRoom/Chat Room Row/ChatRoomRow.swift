@@ -29,6 +29,7 @@ struct ChatRoomRow: View {
     @State private var showContactInfo = false
     @State private var degress = 0.0
     @State private var showLocationTransition = false
+    @State private var isUploadFinished = false
 
     // MARK: - Lifecycle
 
@@ -138,8 +139,20 @@ struct ChatRoomRow: View {
 									showFile.toggle()
 								},
 								fileSheetPresenting: { fileUrl in
-									guard let url = fileUrl else { return nil }
-									return AnyView(DocumentViewerView(url: url))
+                                    guard let fileUrl = fileUrl else {
+                                        return nil
+                                    }
+                                    var name = ""
+                                    switch message.type {
+                                    case let .file(fileName, _):
+                                        name = fileName
+                                    default:
+                                        break
+                                    }
+                                    let documentViewModel = DocumentViewerViewModel(url: fileUrl,
+                                                                                    isUploadFinished: $isUploadFinished,
+                                                                                    fileName: name)
+                                    return AnyView(PreviewControllerTestView(viewModel: documentViewModel))
 								},
 								message: message
 							)
