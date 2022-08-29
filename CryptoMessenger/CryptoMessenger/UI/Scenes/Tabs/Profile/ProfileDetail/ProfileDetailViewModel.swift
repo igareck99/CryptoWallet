@@ -115,9 +115,11 @@ final class ProfileDetailViewModel: ObservableObject {
     private func fetchData() {
         profile.name = matrixUseCase.getDisplayName()
         profile.status = matrixUseCase.getStatus()
-        let link = matrixUseCase.getAvatarUrl()
-        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
-        profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+        matrixUseCase.getAvatarUrl { link in
+            let link = link
+            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+            self.profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+        }
 		if let str = keychainService.apiUserPhoneNumber {
 			let suffixIndex = str.index(str.startIndex, offsetBy: 3)
 			profile.phone = String(str[suffixIndex...])

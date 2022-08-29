@@ -28,6 +28,7 @@ enum MatrixState {
 }
 
 final class MatrixService: MatrixServiceProtocol {
+    
 
 	var objectChangePublisher = ObservableObjectPublisher()
 

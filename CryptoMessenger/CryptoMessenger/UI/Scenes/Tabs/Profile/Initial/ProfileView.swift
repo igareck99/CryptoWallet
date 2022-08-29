@@ -233,7 +233,6 @@ struct ProfileView: View {
                                 showSafari = true
                             }
                     }.padding(.leading, 16)
-
                     Button(action: {
                         showActionImageAlert = true
                     }, label: {
@@ -256,34 +255,21 @@ struct ProfileView: View {
     }
 
     private var avatarView: some View {
-        let thumbnail = ZStack {
-            Circle()
-                .frame(width: 100, height: 100)
-                .background(.blue(0.1))
-            R.image.profile.avatarThumbnail.image
-        }
-
-        return ZStack {
-            AsyncImage(
-                url: viewModel.profile.avatar,
-                placeholder: {
-                    if viewModel.profile.avatar != nil {
-                        ProgressView()
-                            .frame(width: 100, height: 100)
-                            .background(.blue(0.1))
-                            .tint(Color(.blue()))
-                    } else {
-                        thumbnail
-                    }
-                },
-                result: {
-                    Image(uiImage: $0).resizable()
-                }
-            )
-                .scaledToFill()
-                .frame(width: 100, height: 100)
-                .cornerRadius(50)
-        }
+        AsyncImage(
+            url: viewModel.profile.avatar,
+            placeholder: {
+                ProgressView()
+                    .frame(width: 100, height: 100)
+                    .background(.blue(0.1))
+                    .tint(Color(.blue()))
+            },
+            result: {
+                Image(uiImage: $0).resizable()
+            }
+        )
+        .scaledToFill()
+        .frame(width: 100, height: 100)
+        .cornerRadius(50)
     }
 
     private var photosView: some View {
@@ -316,7 +302,7 @@ struct ProfileView: View {
             }
         }
     }
-    
+
     // MARK: - Private Methods
 
     private func switchImagePicker() {
@@ -325,33 +311,5 @@ struct ProfileView: View {
 
     private func switchCameraPicker() {
         showCameraPicker = true
-    }
-}
-
-// MARK: - FooterView
-
-struct FooterView: View {
-
-    // MARK: - Internal Properties
-
-    @Binding var popupSelected: Bool
-
-    // MARK: - Body
-
-    var body: some View {
-        Button(action: {
-            hideTabBar()
-            popupSelected.toggle()
-        }, label: {
-            Text(R.string.localizable.profileBuyCell())
-                .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                .font(.regular(15))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(.blue, lineWidth: 1)
-                )
-        })
-            .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-            .background(.white())
     }
 }

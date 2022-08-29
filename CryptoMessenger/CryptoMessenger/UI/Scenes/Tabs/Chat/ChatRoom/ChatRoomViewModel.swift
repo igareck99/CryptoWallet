@@ -209,8 +209,6 @@ final class ChatRoomViewModel: ObservableObject {
                 return
             }
         }
-
-
         var message = message
         switch message.type {
         case let .text(text):
@@ -219,10 +217,8 @@ final class ChatRoomViewModel: ObservableObject {
                     self.translateManager.isActive = false
                     return
                 }
-                
                 // Language check
                 if Locale.current.languageCode != nil {
-                                                            
                     self.translateManager.translate(text, locales[0].language, languageCode, "text", "base") { (translate , error) in
                         DispatchQueue.main.async {
                             // TODO: Улучшить обработку перевода, без собственных сообщений
@@ -439,8 +435,6 @@ final class ChatRoomViewModel: ObservableObject {
                 self?.send(.onSendContact(contact))
             }
             .store(in: &subscriptions)
-
-        
         $pickedLocation
             .receive(on: RunLoop.main)
             .sink { [weak self] location in
@@ -463,8 +457,6 @@ final class ChatRoomViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
-
-
         $saveData
             .sink { [weak self] flag in
                 guard let room = self?.room.room, flag else { return }
@@ -521,7 +513,6 @@ final class ChatRoomViewModel: ObservableObject {
                         }
                         .compactMap { $0 }
                 }
-                
                 self.messages = room.events().renderableEvents
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
@@ -556,7 +547,6 @@ final class ChatRoomViewModel: ObservableObject {
 				self.p2pCallsUseCase.placeVoiceCall(roomId: roomId, contacts: self.chatData.contacts)
 				self.updateToggles()
 			}.store(in: &subscriptions)
-
 		p2pVideoCallPublisher
 			.subscribe(on: RunLoop.main)
 			.receive(on: RunLoop.main)
@@ -589,7 +579,7 @@ final class ChatRoomViewModel: ObservableObject {
         chatData.description = room.room.summary.topic ?? ""
         chatData.isDirect = room.isDirect
 
-        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+        DispatchQueue.global(qos: .background).async { [weak self] in
             if let url = self?.room.roomAvatar, let data = try? Data(contentsOf: url) {
                 DispatchQueue.main.async { self?.chatData.image = UIImage(data: data) }
             }

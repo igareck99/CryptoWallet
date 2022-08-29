@@ -27,8 +27,9 @@ extension MatrixService {
 	func getStatus() -> String {
 		session?.myUser?.statusMsg ?? ""
 	}
-	func getAvatarUrl() -> String {
-		session?.myUser.avatarUrl ?? ""
+	func getAvatarUrl(completion: @escaping (String) -> Void) {
+		let avatar = session?.myUser.avatarUrl ?? ""
+        completion(avatar)
 	}
 
 	func setDisplayName(_ displayName: String, completion: @escaping VoidBlock) {

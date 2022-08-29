@@ -40,7 +40,7 @@ protocol MatrixUseCaseProtocol {
 	func searchUser(_ id: String, completion: @escaping GenericBlock<String?>)
 	func getDisplayName() -> String
 	func getStatus() -> String
-	func getAvatarUrl() -> String
+	func getAvatarUrl(completion: @escaping (String) -> Void)
 	func setDisplayName(_ displayName: String, completion: @escaping VoidBlock)
 	func setStatus(_ status: String, completion: @escaping VoidBlock)
 	func setUserAvatarUrl(_ data: Data, completion: @escaping GenericBlock<URL?>)

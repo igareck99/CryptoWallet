@@ -1,33 +1,4 @@
-import PhoneNumberKit
 import SwiftUI
-
-// MARK: - ProfileDetailType
-
-enum ProfileDetailType: CaseIterable {
-
-    // MARK: - Types
-
-    case avatar, status, info, name, phone
-    case socialNetwork, exit, delete
-
-    // MARK: - Internal Properties
-
-    var title: String {
-        let strings = R.string.localizable.self
-        switch self {
-        case .status:
-            return strings.profileDetailStatusLabel()
-        case .info:
-            return strings.profileDetailInfoLabel()
-        case .name:
-            return strings.profileDetailNameLabel()
-        case .phone:
-            return strings.profileDetailPhoneLabel()
-        default:
-            return ""
-        }
-    }
-}
 
 // MARK: - ProfileDetailView
 
@@ -94,13 +65,13 @@ struct ProfileDetailView: View {
                 )
             }
             .fullScreenCover(isPresented: $showCameraPicker,
-                              content: {
+                             content: {
                 ImagePickerView(selectedImage: $viewModel.selectedImage,
                                 sourceType: .camera)
-                    .ignoresSafeArea()
+                .ignoresSafeArea()
             })
             .fullScreenCover(isPresented: $showImagePicker,
-                              content: {
+                             content: {
                 ImagePickerView(selectedImage: $viewModel.selectedImage)
                     .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                     .navigationBarTitleDisplayMode(.inline)
@@ -178,7 +149,6 @@ struct ProfileDetailView: View {
                                 Divider()
                                     .foreground(.grayE6EAED())
                                     .padding(.top, 16)
-
                                 ProfileDetailActionRow(
                                     title: "Выход",
                                     color: .lightRed(0.1),
@@ -257,7 +227,6 @@ struct ProfileDetailView: View {
                             .frame(width: 80, height: 80)
                     }
                 }
-
                 ZStack {
                     VStack(spacing: 0) {
                         Spacer()
@@ -350,134 +319,5 @@ struct ProfileDetailView: View {
 
     private func switchCameraPicker() {
         showCameraPicker = true
-    }
-}
-
-// MARK: - TextFieldView
-
-struct TextFieldView: View {
-
-    // MARK: - Internal Properties
-
-    var title = ""
-    @Binding var text: String
-    var placeholder: String
-
-    // MARK: - Body
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title, [
-                .font(.semibold(12)),
-                .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left)),
-                .color(.gray768286())
-
-            ]).frame(height: 22)
-            HStack {
-                TextField(placeholder, text: $text)
-                    .foreground(.black())
-                    .frame(height: 44)
-                    .font(.regular(15))
-                    .padding([.leading, .trailing], 16)
-            }
-            .background(.paleBlue())
-            .cornerRadius(8)
-        }
-    }
-}
-
-// MARK: - CountryCodeView
-
-struct CountryCodeView: View {
-
-    // MARK: - Internal Properties
-
-    @Binding var countryCode: String
-    let phoneNumberKit = PhoneNumberKit()
-
-    // MARK: - Private Properties
-
-    @State private var countryField: CountryCoderTextFieldView?
-
-    // MARK: - Body
-
-    var body: some View {
-        VStack(alignment: .leading,
-               spacing: 8) {
-            Text(R.string.localizable.profileDetailPhonePlaceholder())
-                .padding(.leading, 16)
-                .font(.bold(15))
-                .foreground(.darkGray())
-            HStack {
-                countryField
-                    .frame(height: 44)
-                R.image.additionalMenu.grayArrow.image
-                    .padding(.trailing, 34)
-            }.background(.lightBlue())
-                .padding([.leading, .trailing], 16)
-                .cornerRadius(8)
-        }.onAppear {
-            countryField = CountryCoderTextFieldView(phoneNumber: $countryCode)
-        }
-    }
-}
-
-// MARK: - PhoneView
-
-struct PhoneView: View {
-
-    // MARK: - Internal Properties
-
-    @Binding var phone: String
-    @State private var phoneField: PhoneNumberTextFieldView?
-    let phoneNumberKit = PhoneNumberKit()
-
-    // MARK: - Body
-
-    var body: some View {
-        HStack {
-            phoneField
-                .foreground(.black())
-                .font(.regular(15))
-                .background(.paleBlue())
-                .frame(height: 44)
-                .padding([.leading, .trailing], 16)
-        }
-        .frame(height: 44)
-        .background(.paleBlue())
-        .cornerRadius(8)
-        .onAppear {
-            phoneField = PhoneNumberTextFieldView(phoneNumber: $phone)
-        }
-    }
-}
-
-// MARK: - ProfileDetailActionRow
-
-struct ProfileDetailActionRow: View {
-
-    // MARK: - Internal Properties
-
-    let title: String
-    let color: Palette
-    let image: Image
-
-    // MARK: - Body
-
-    var body: some View {
-        HStack(spacing: 0) {
-            ZStack {
-                Circle()
-                    .fill(Color(color))
-                    .frame(width: 40, height: 40)
-                image
-                    .frame(width: 20, height: 20)
-            }
-            Text(title)
-                .font(.regular(15))
-                .padding(.leading, 16)
-            Spacer()
-            R.image.additionalMenu.grayArrow.image
-        }
     }
 }
