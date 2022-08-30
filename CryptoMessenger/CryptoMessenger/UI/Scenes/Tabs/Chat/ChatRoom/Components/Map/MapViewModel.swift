@@ -1,5 +1,6 @@
 import SwiftUI
 import MapKit
+import Combine
 
 // MARK: - MapViewModel
 
@@ -8,7 +9,9 @@ final class MapViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     @Injectable var locationUseCase: LocationManagerUseCaseProtocol
-    @State var region: MKCoordinateRegion
+    @Published var region: MKCoordinateRegion
+    private var subscriptions = Set<AnyCancellable>()
+    let sources: MapSourcesable.Type
 
     var place: Place
 
@@ -18,12 +21,14 @@ final class MapViewModel: ObservableObject {
          place: Place = Place(
             name: "",
             latitude: 0,
-            longitude: 0)) {
+            longitude: 0),
+         sources: MapSourcesable.Type = MapResources.self) {
         self.region = MKCoordinateRegion(
             center: .init(latitude: place.latitude, longitude: place.longitude),
             latitudinalMeters: 650,
             longitudinalMeters: 650
         )
+        self.sources = sources
         self.place = place
         self.locationUseCase = locationUseCase
         configPlace()

@@ -147,7 +147,6 @@ struct ChatHistoryRow: View {
                             .scaledToFill()
                             .frame(width: 16, height: 16)
                             .cornerRadius(2)
-
                             Text(
                                 "Мес",
                                 [

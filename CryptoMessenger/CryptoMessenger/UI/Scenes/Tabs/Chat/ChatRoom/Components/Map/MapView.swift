@@ -29,14 +29,14 @@ struct MapView: View {
     var body: some View {
         ZStack {
             Map(
-                coordinateRegion: viewModel.$region,
+                coordinateRegion: $viewModel.region,
                 interactionModes: isInteractionModesDisabled ? [] : .all,
                 showsUserLocation: false,
                 annotationItems: [viewModel.place]
             ) { place in
                 MapAnnotation(
                     coordinate: .init(latitude: place.latitude, longitude: place.longitude),
-                    anchorPoint: CGPoint(x: 0.5, y: 0.5)
+                    anchorPoint: CGPoint(x: 0.1, y: 0.1)
                 ) {
                     R.image.chat.location.marker.image
                 }

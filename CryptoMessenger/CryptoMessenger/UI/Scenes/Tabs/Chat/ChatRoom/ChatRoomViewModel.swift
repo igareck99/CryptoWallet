@@ -38,6 +38,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var pickedLocation: Place?
     @Published var cameraFrame: CGImage?
     @Published var roomUsers = [MXUser]()
+    @Published var sendLocationFlag = false
 	var p2pVideoCallPublisher = ObservableObjectPublisher()
     @Published var audioUrl: RecordingDataModel?
 	var p2pVoiceCallPublisher = ObservableObjectPublisher()
@@ -438,22 +439,26 @@ final class ChatRoomViewModel: ObservableObject {
         $pickedLocation
             .receive(on: RunLoop.main)
             .sink { [weak self] location in
-                location.map { location in
-                    let message = RoomMessage(
-                        id: UUID().uuidString,
-                        type: .location((lat: location.latitude, long: location.longitude)),
-                        shortDate: Date().hoursAndMinutes,
-                        fullDate: Date().dayAndMonthAndYear,
-                        isCurrentUser: true,
-                        isReply: false,
-                        name: "",
-                        avatar: nil,
-                        content: [String: Any](),
-                        eventType: ""
-                    )
-                    self?.messages.append(message)
-                    debugPrint("Last location sink", (lat: location.latitude, long: location.longitude))
-                    self?.send(.onSendLocation(LocationData(lat: location.latitude, long: location.longitude)))
+                guard let flag = self?.sendLocationFlag else { return }
+                
+                if flag  {
+                    location.map { location in
+                        let message = RoomMessage(
+                            id: UUID().uuidString,
+                            type: .location((lat: location.latitude, long: location.longitude)),
+                            shortDate: Date().hoursAndMinutes,
+                            fullDate: Date().dayAndMonthAndYear,
+                            isCurrentUser: true,
+                            isReply: false,
+                            name: "",
+                            avatar: nil,
+                            content: [String: Any](),
+                            eventType: ""
+                        )
+                        self?.messages.append(message)
+                        debugPrint("Last location sink", (lat: location.latitude, long: location.longitude))
+                        self?.send(.onSendLocation(LocationData(lat: location.latitude, long: location.longitude)))
+                    }
                 }
             }
             .store(in: &subscriptions)

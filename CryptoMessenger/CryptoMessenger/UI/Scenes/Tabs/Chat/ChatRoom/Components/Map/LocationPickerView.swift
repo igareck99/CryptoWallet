@@ -19,7 +19,8 @@ struct LocationPickerView: View {
     @State private var isInteractionModesDisabled: Bool = false
 
     private let locationPickerBaidu: LocationPickerBaidu
-
+    
+    @Binding var sendLocation: Bool
     @Binding var place: Place?
     @StateObject var viewModel: MapViewModel
     
@@ -28,18 +29,20 @@ struct LocationPickerView: View {
 
     init(
 		place: Binding<Place?>,
+        sendLocation: Binding<Bool>,
 		isInteractionModesDisabled: Bool = false,
         locationUseCase: LocationManagerUseCase = LocationManagerUseCase(),
 		locationPickerBaidu: LocationPickerBaidu = LocationPickerBaidu()
 	) {
-        self._viewModel = StateObject(wrappedValue:MapViewModel())
+        self._viewModel = StateObject(wrappedValue: MapViewModel())
 		self.locationPickerBaidu = locationPickerBaidu
         self._place = place
+        self._sendLocation = sendLocation
     }
     
     private func configData() {
         self.locationTemp = Place(name: "User", latitude: viewModel.locationUseCase.getUserLocation()?.lat ?? 0, longitude: viewModel.locationUseCase.getUserLocation()?.long ?? 0)
-        self.region = MKCoordinateRegion(center:
+        self.viewModel.region = MKCoordinateRegion(center:
                                             CLLocationCoordinate2D(
                                                 latitude: viewModel.locationUseCase.getUserLocation()?.lat ?? 0,
                                                 longitude: viewModel.locationUseCase.getUserLocation()?.long ?? 0),
@@ -69,16 +72,27 @@ struct LocationPickerView: View {
                         self.place = locationTemp
                         dismiss()
                     }) {
-                        Label(R.string.localizable.locationPickerViewLocation(), image: "Chat/Location/marker")
+                        Label(viewModel.sources.locationPickerViewLocation,
+                              image: viewModel.sources.markerString)
                     }
                 }.padding()
             case .other:
                 HStack {
                     SearchBar(
-                        placeholder: R.string.localizable.locationPickerViewSearchPlaceholder(),
+                        placeholder: viewModel.sources.locationPickerViewSearchPlaceholder,
                         searchText: $address,
                         searching: $searching
                     )
+                    .onReceive(viewModel.$region, perform: { value in
+                        DispatchQueue.main.async {
+                            self.place = Place(name: "",
+                                               latitude: value.center.latitude,
+                                               longitude: value.center.longitude)
+                            self.locationTemp  = self.place ?? Place(name: "",
+                                                                     latitude: 0,
+                                                                     longitude: 0)
+                        }
+                    })
                     .onReceive(address.publisher.delay(for: 1, scheduler: DispatchQueue.main)) { location in
                         let geoCoder = CLGeocoder()
                         geoCoder.geocodeAddressString(address) { (placemarks, error) in
@@ -89,7 +103,7 @@ struct LocationPickerView: View {
                                 return
                             }
                             self.locationTemp = Place(name: address, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                            self.region = MKCoordinateRegion(center:
+                            self.viewModel.region = MKCoordinateRegion(center:
                                                                 CLLocationCoordinate2D(
                                                                     latitude: location.coordinate.latitude ,
                                                                     longitude: location.coordinate.longitude ),
@@ -99,38 +113,45 @@ struct LocationPickerView: View {
                                                                     longitudeDelta: 0.01))
                         }
                     }
-                    Button(R.string.localizable.createActionCancel(), action: {
+                    Button(viewModel.sources.createActionCancel, action: {
                         dismiss()
                     })
                 }
                 .cornerRadius(3)
                 .padding([.horizontal, .top], 15)
-                Map(
-                    coordinateRegion: $region,
-                    interactionModes: isInteractionModesDisabled ? [] : .all,
-                    showsUserLocation: false,
-                    annotationItems: [self.locationTemp]
-                ) { place in
-                    MapAnnotation(
-                        coordinate: .init(latitude: place.latitude, longitude: place.longitude),
-                        anchorPoint: CGPoint(x: 0.01, y: 0.01)
-                    ) {
-                        R.image.chat.location.marker.image
+                ZStack(alignment: .center) {
+                    Map(
+                        coordinateRegion: $viewModel.region,
+                        interactionModes: isInteractionModesDisabled ? [] : .all,
+                        showsUserLocation: false,
+                        annotationItems: [self.locationTemp]
+                    ) { place in
+                        MapAnnotation(
+                            coordinate: .init(latitude: place.latitude, longitude: place.longitude),
+                            anchorPoint: CGPoint(x: 0.01, y: 0.01)
+                        ) {
+                        }
                     }
+                    viewModel.sources.marker
                 }
-                .frame(width: UIScreen.main.bounds.width, height: 300, alignment: .leading)
+                .frame(width: UIScreen.main.bounds.width,
+                       height: UIScreen.main.bounds.width,
+                       alignment: .leading)
                 HStack {
                     Button(action: {
+                        self.sendLocation = true
                         self.place = locationTemp
                         dismiss()
                     }) {
-                        Label(R.string.localizable.locationPickerViewLocation(), image: "Chat/Location/marker")
+                        Label(viewModel.sources.locationPickerViewLocation,
+                              image: viewModel.sources.markerString)
                     }
                 }.padding()
                 Spacer()
             }
         }
         .onAppear {
+            sendLocation = false
             configData()
             switch self.viewModel.locationUseCase.getCountry() {
             case .china:
