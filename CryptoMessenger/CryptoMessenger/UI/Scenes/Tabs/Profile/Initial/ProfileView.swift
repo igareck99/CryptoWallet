@@ -258,10 +258,11 @@ struct ProfileView: View {
         AsyncImage(
             url: viewModel.profile.avatar,
             placeholder: {
-                ProgressView()
-                    .frame(width: 100, height: 100)
-                    .background(.blue(0.1))
-                    .tint(Color(.blue()))
+                ZStack {
+                    Circle()
+                        .background(.blue(0.1))
+                    R.image.profile.avatarThumbnail.image
+                }
             },
             result: {
                 Image(uiImage: $0).resizable()

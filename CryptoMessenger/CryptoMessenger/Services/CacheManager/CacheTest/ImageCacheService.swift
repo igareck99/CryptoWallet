@@ -3,8 +3,13 @@ import UIKit
 // MARK: - ImageCacheServiceprotocol
 
 protocol ImageCacheServiceProtocol {
-    func loadImage(atUrl url: URL,
-                   completion: ((String, UIImage?) -> Void)?)
+
+	func imageFromCache(urlKey: String) -> UIImage?
+	
+    func loadImage(
+		atUrl url: URL,
+		completion: @escaping (String, UIImage?) -> Void
+	)
     func clearLocalCache()
 }
 
@@ -22,30 +27,38 @@ final class ImageCacheService: ImageCacheServiceProtocol {
     }
     private let queue = DispatchQueue(label: "ImageCache")
     private var workItems = NSCache<NSString, DispatchWorkItem>()
-    private  var images = NSCache<NSString, UIImage>()
+    private var images = NSCache<NSString, UIImage>()
     private var cacheType = CacheType.disk
     
     // MARK: - Internal Methods
 
-    func loadImage(atUrl url: URL,
-                   completion: ((String, UIImage?) -> Void)? = nil) {
+	func imageFromCache(urlKey: String) -> UIImage? {
+		guard let image = images.object(forKey: urlKey as NSString) else { return nil }
+		return image
+	}
+
+    func loadImage(
+		atUrl url: URL,
+		completion: @escaping (String, UIImage?) -> Void
+	) {
         let urlString = url.absoluteString
         let key = urlString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? urlString
         DispatchQueue(label: "LoadImageQueue").async { [weak self] in
-            guard self != nil else {
+			guard let self = self else {
+				completion(urlString, nil)
                 return
             }
-            if let image = self!.image(of: key) {
+            if let image = self.image(of: key) {
                 DispatchQueue.main.async {
-                    completion?(urlString, image)
+                    completion(urlString, image)
                 }
                 return
             }
-            if let workItem = self!.workItems.object(forKey: key as NSString) {
+            if let workItem = self.workItems.object(forKey: key as NSString) {
                 workItem.notify(queue: DispatchQueue(label: "NotifyQueue"), execute: { [weak self] in
                     if let image = self?.image(of: key) {
                         DispatchQueue.main.async {
-                            completion?(urlString, image)
+                            completion(urlString, image)
                         }
                     }
                 })
@@ -55,18 +68,19 @@ final class ImageCacheService: ImageCacheServiceProtocol {
                 URLSession.shared.dataTask(with: url) { data, _, _ in
                     if let data = data, let image = UIImage(data: data) {
                         DispatchQueue.main.async {
-                            completion?(urlString, image)
+                            completion(urlString, image)
                         }
                         DispatchQueue.global(qos: .utility).async {
                             self?.cacheImage(data: data, key: key)
                         }
                         return
                     }
+					completion(urlString, nil)
                 }
                 .resume()
             }
-            self!.workItems.setObject(workItem, forKey: key as NSString)
-            self!.queue.async(execute: workItem)
+            self.workItems.setObject(workItem, forKey: key as NSString)
+            self.queue.async(execute: workItem)
         }
     }
 
