@@ -122,7 +122,9 @@ struct ProfileView: View {
                 closeOnTapOutside: true,
                 backgroundColor: .black.opacity(0.4),
                 view: {
-                    ProfileSettingsMenuView(balance: "0.50 AUR", onSelect: { type in
+                    ProfileSettingsMenuView(viewModel: ProfileSettingsMenuViewModel(),
+                                            balance: "0.50 AUR",
+                                            onSelect: { type in
                         vibrate()
                         viewModel.send(.onShow(type))
                     })

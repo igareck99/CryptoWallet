@@ -334,6 +334,9 @@
 		8B34D77C277DA1FD007811C9 /* UserPersonalizationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34D77B277DA1FD007811C9 /* UserPersonalizationItem.swift */; };
 		8B37BF79275799B300602BE0 /* BuyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B37BF78275799B300602BE0 /* BuyView.swift */; };
 		8B38D13628C0E671002733D7 /* MapResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B38D13528C0E671002733D7 /* MapResources.swift */; };
+		8B38D13928C0F007002733D7 /* ProfileSettingsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B38D13828C0F007002733D7 /* ProfileSettingsMenu.swift */; };
+		8B38D13B28C0F032002733D7 /* ProfileSettingsMenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B38D13A28C0F032002733D7 /* ProfileSettingsMenuRow.swift */; };
+		8B38D13D28C12946002733D7 /* ProfileSettingsMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B38D13C28C12946002733D7 /* ProfileSettingsMenuViewModel.swift */; };
 		8B3A816A275AC25D00E736E4 /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3A8169275AC25D00E736E4 /* ProfileDetailView.swift */; };
 		8B432CC227C394E00025D62B /* WalletNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC127C394E00025D62B /* WalletNewView.swift */; };
 		8B432CC427C394F10025D62B /* WalletNewFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC327C394F10025D62B /* WalletNewFlow.swift */; };
@@ -919,6 +922,9 @@
 		8B34D77B277DA1FD007811C9 /* UserPersonalizationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPersonalizationItem.swift; sourceTree = "<group>"; };
 		8B37BF78275799B300602BE0 /* BuyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyView.swift; sourceTree = "<group>"; };
 		8B38D13528C0E671002733D7 /* MapResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapResources.swift; sourceTree = "<group>"; };
+		8B38D13828C0F007002733D7 /* ProfileSettingsMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenu.swift; sourceTree = "<group>"; };
+		8B38D13A28C0F032002733D7 /* ProfileSettingsMenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuRow.swift; sourceTree = "<group>"; };
+		8B38D13C28C12946002733D7 /* ProfileSettingsMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuViewModel.swift; sourceTree = "<group>"; };
 		8B3A8169275AC25D00E736E4 /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		8B432CC127C394E00025D62B /* WalletNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewView.swift; sourceTree = "<group>"; };
 		8B432CC327C394F10025D62B /* WalletNewFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewFlow.swift; sourceTree = "<group>"; };
@@ -1799,10 +1805,10 @@
 		5A43086727C7DB8600A9B582 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				8B38D13728C0EFE3002733D7 /* ProfileSettings */,
 				8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */,
 				8B69C3F427FE398B0020F289 /* ImageEditor.swift */,
 				8B37BF78275799B300602BE0 /* BuyView.swift */,
-				8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */,
 				8B9AED5928121DDE00C6C25A /* SocialNetworkView.swift */,
 				8BB2F8F128B7A5E20034D902 /* FooterView.swift */,
 			);
@@ -2475,6 +2481,17 @@
 				8B2532B628A41ED000285133 /* SideAppTransitionService.swift */,
 			);
 			path = SideAppTransition;
+			sourceTree = "<group>";
+		};
+		8B38D13728C0EFE3002733D7 /* ProfileSettings */ = {
+			isa = PBXGroup;
+			children = (
+				8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */,
+				8B38D13828C0F007002733D7 /* ProfileSettingsMenu.swift */,
+				8B38D13A28C0F032002733D7 /* ProfileSettingsMenuRow.swift */,
+				8B38D13C28C12946002733D7 /* ProfileSettingsMenuViewModel.swift */,
+			);
+			path = ProfileSettings;
 			sourceTree = "<group>";
 		};
 		8B432CC027C394C50025D62B /* WalletNew */ = {
@@ -3463,6 +3480,7 @@
 				8B637D8C27CE3BE1000B1B2B /* RadioGroup.swift in Sources */,
 				8B55D23028A1AE43000506D7 /* LocationData.swift in Sources */,
 				5AB35FAF2740EEBB001FB0DE /* ChatHistoryRow.swift in Sources */,
+				8B38D13928C0F007002733D7 /* ProfileSettingsMenu.swift in Sources */,
 				78437F10270C76FE00371110 /* AboutAppView.swift in Sources */,
 				5A44FEDB276681BD006F9D92 /* ProfileProtocols.swift in Sources */,
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
@@ -3848,6 +3866,7 @@
 				5A187DF426807011001957D3 /* Alertable.swift in Sources */,
 				8BE379A227EB26CC00AB6B6E /* WalletManagerConfigurator.swift in Sources */,
 				5A9318E626C5E42300645365 /* KeyboardAdaptive.swift in Sources */,
+				8B38D13B28C0F032002733D7 /* ProfileSettingsMenuRow.swift in Sources */,
 				8B1E8AC827DF4FB20036C301 /* ChooseReceiverConfigurator.swift in Sources */,
 				789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */,
 				8BE122BC28240C8B00F7707E /* RemoteConfigUseCase.swift in Sources */,
@@ -4014,6 +4033,8 @@
 				8B4E9C3027DFF6320057E4C9 /* ScannerCoordinator.swift in Sources */,
 				5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */,
 				5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */,
+				8B38D13D28C12946002733D7 /* ProfileSettingsMenuViewModel.swift in Sources */,
+				8BB517C52858A42D00D06593 /* DocumentViewerPresenter.swift in Sources */,
 				8BE644F52837660200FA6540 /* ContactInfoView.swift in Sources */,
 				5AF8635E26ADB691004A417C /* OnboardingPageViewController.swift in Sources */,
 				8BB2F8E928B663C80034D902 /* ProfileDetailActionRow.swift in Sources */,

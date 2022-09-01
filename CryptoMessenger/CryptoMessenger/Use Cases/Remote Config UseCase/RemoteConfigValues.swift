@@ -6,6 +6,7 @@ enum RemoteConfigValues: String {
 	case chat = "Chat"
 	case wallet = "Wallet"
 	case calls = "Calls"
+    case phrase = "Phrase"
 
 	// Настройки модуля Чаты
 	enum Chat: String {
@@ -24,6 +25,12 @@ enum RemoteConfigValues: String {
 		case p2pCalls
 		case p2pVideoCalls
 	}
+    
+    // Настройки модуля импорта фразы
+
+    enum Phrase: String {
+        case phrase
+    }
 
 	// Версии фичей/модулей
 	enum Version: String {
