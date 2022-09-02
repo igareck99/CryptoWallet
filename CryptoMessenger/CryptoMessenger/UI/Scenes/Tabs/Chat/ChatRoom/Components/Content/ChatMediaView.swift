@@ -35,6 +35,7 @@ struct ChatMediaView: View {
     @State var showFile = false
     @State var selectedPhoto: URL?
     @State var redrawPreview = false
+    @State var isUploadFinished = false
 
     // MARK: - Private Properties
 
@@ -47,19 +48,23 @@ struct ChatMediaView: View {
             .onAppear {
                 showNavBar()
             }
+            .onChange(of: viewModel.selectedFile, perform: { newValue in
+                guard let url = newValue.url else { return }
+                self.viewModel.documentViewModel = DocumentViewerViewModel(url: url,
+                                                                           isUploadFinished: $isUploadFinished,
+                                                                           fileName: newValue.fileName)
+            })
+            .sheet(isPresented: $showFile, onDismiss: {
+                showFile = false
+            }, content: {
+                if isUploadFinished {
+                    PreviewControllerTestView(viewModel: viewModel.documentViewModel!)
+                }
+            })
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarColor(selectedPhoto != nil ? nil : .white(), isBlured: false)
             .navigationViewStyle(.stack)
-            .overlay(content: {
-                if showFile {
-                    DocumentViewerView(url: selectedPhoto!)
-                        .onDisappear {
-                            showFile = false
-                            showNavBar()
-                        }
-                }
-            })
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
@@ -119,7 +124,7 @@ struct ChatMediaView: View {
                     List {
                         ForEach(0..<viewModel.files.count, id: \.self) { index in
                             ChatDocumentView(showFile: $showFile,
-                                             selectedPhoto: $selectedPhoto,
+                                             selectedFile: $viewModel.selectedFile,
                                              file: viewModel.files[index])
                         }
                         .listRowBackground(Color(.paleGray(0.1)))

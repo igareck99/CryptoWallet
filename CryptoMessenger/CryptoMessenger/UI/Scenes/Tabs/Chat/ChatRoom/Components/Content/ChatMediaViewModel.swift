@@ -18,6 +18,8 @@ final class ChatMediaViewModel: ObservableObject {
     @Published var files: [FileData] = []
     @Published var links: [URL] = []
     @Published var selectedPhoto: URL?
+    @Published var selectedFile: FileData
+    @Published var documentViewModel: DocumentViewerViewModel?
     var room: AuraRoom
 
     // MARK: - Private Properties
@@ -34,6 +36,7 @@ final class ChatMediaViewModel: ObservableObject {
         self.sources = sources
         self.room = room
         self.mediaService = mediaService
+        self.selectedFile = FileData(fileName: "", url: URL(string: "test"), date: Date())
         updateData()
     }
 
