@@ -5,43 +5,71 @@ import UIKit
 
 final class ImageLoader: ObservableObject {
 
-    // MARK: - Internal Properties
+	// MARK: - Internal Properties
 
-    var url: URL?
+	var url: URL?
 
-    @Published var image: UIImage?
-    private(set) var isLoading = false
+	@Published var image: UIImage?
+	private(set) var isLoading = false
 
-    // MARK: - Private Properties
+	// MARK: - Private Properties
 
-    @Injectable private var cache: ImageCacheServiceProtocol
+	@Injectable private var cache: ImageCacheServiceProtocol
 
-    // MARK: - Lifecycle
+	// MARK: - Lifecycle
 
-    init(url: URL?, cache: ImageCacheServiceProtocol = ImageCacheService()) {
-        self.url = url
-        self.cache = cache
-    }
+	init(url: URL?, cache: ImageCacheServiceProtocol = ImageCacheService()) {
+		self.url = url
+		self.cache = cache
+	}
 
-    // MARK: - Internal Methods
+	// MARK: - Internal Methods
 
-    func load() {
-        guard let url = url else { return }
-        guard !isLoading else { return }
-        self.onStart()
-        cache.loadImage(atUrl: url, completion: { _, image in
-            self.image = image
-            self.onFinish()
-            })
-    }
+	func imageFromCache(imageUrl: URL?) -> UIImage? {
+		guard let urlString = imageUrl?.absoluteString else { return nil }
+		return cache.imageFromCache(urlKey: urlString)
+	}
 
-    // MARK: - Private Methods
+	func load(_ imageUrl: URL? = nil) {
 
-    private func onStart() {
-        isLoading = true
-    }
+		let loadUrl: URL?
+		if let iconUrl = imageUrl {
+			loadUrl = iconUrl
+		} else {
+			loadUrl = url
+		}
 
-    private func onFinish() {
-        isLoading = false
-    }
+		if let cachedImage = imageFromCache(imageUrl: loadUrl) {
+			DispatchQueue.main.async { [weak self] in
+				guard let self = self else { return }
+				self.image = cachedImage
+				self.onFinish()
+				self.objectWillChange.send()
+			}
+			return
+		}
+
+		guard let url = loadUrl else { return }
+		guard !isLoading else { return }
+		self.onStart()
+		cache.loadImage(atUrl: url, completion: { [weak self] _, loadedImage in
+			guard let self = self else { return }
+			DispatchQueue.main.async { [weak self] in
+				guard let self = self else { return }
+				self.image = loadedImage
+				self.onFinish()
+				self.objectWillChange.send()
+			}
+		})
+	}
+
+	// MARK: - Private Methods
+
+	private func onStart() {
+		isLoading = true
+	}
+
+	private func onFinish() {
+		isLoading = false
+	}
 }

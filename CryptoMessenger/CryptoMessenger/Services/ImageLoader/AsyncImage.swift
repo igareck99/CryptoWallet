@@ -31,7 +31,7 @@ struct AsyncImage<Placeholder: View>: View {
         content
             .onAppear {
                 updateState()
-                loader.load()
+                loader.load(url)
             }
     }
 
@@ -43,20 +43,18 @@ struct AsyncImage<Placeholder: View>: View {
                 result(image)
             } else {
                 if urlReachable {
-                    placeholder
+                    progressView
                 } else {
-                    emptyAvatarView
+                    placeholder
                 }
             }
         }
     }
 
-    private var emptyAvatarView: some View {
-        ZStack {
-            Circle()
-                .background(.blue(0.1))
-            R.image.profile.avatarThumbnail.image
-        }
+    private var progressView: some View {
+        ProgressView()
+            .background(.blue(0.1))
+            .tint(Color(.blue()))
     }
 
     private func updateState() {
