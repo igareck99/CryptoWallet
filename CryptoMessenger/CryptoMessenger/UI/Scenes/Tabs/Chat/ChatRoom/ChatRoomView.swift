@@ -144,7 +144,8 @@ struct ChatRoomView: View {
                     }
                 case .location:
                     NavigationView{
-                        LocationPickerView(place: $viewModel.pickedLocation)
+                        LocationPickerView(place: $viewModel.pickedLocation,
+                                           sendLocation: $viewModel.sendLocationFlag)
                     }
                 }
             }
