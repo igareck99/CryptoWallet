@@ -1,6 +1,10 @@
 import Foundation
 
+// MARK: - ChatRoomViewModelAssembly
+
 enum ChatRoomViewModelAssembly {
+
+    // MARK: - Static Methods
 
 	static func build() -> ChatRoomTogglesFacadeProtocol {
 		let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase

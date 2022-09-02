@@ -13,6 +13,9 @@ protocol RemoteConfigToggles {
 	// Chats
 	var isGroupChatV1Available: Bool { get }
 	var isPersonalChatV1Available: Bool { get }
+
+    // Phrase
+    var isPhraseV1Available: Bool { get }
 }
 
 extension RemoteConfigUseCase: RemoteConfigToggles {
@@ -69,4 +72,12 @@ extension RemoteConfigUseCase: RemoteConfigToggles {
 		let isFeatureEnabled = feature?.enabled
 		return isVersionEnabled == true && isFeatureEnabled == true
 	}
+
+    var isPhraseV1Available: Bool {
+        let featureConfig = remoteConfigModule(forKey: .phrase)
+        let feature = featureConfig?.features[RemoteConfigValues.Phrase.phrase.rawValue]
+        let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
+        let isFeatureEnabled = feature?.enabled
+        return isVersionEnabled == true && isFeatureEnabled == true
+    }
 }
