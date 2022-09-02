@@ -521,10 +521,17 @@
 		D428A5412824F7AC002CAA13 /* MatrixService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D428A5372823A00A002CAA13 /* MatrixService.swift */; };
 		D43A7E5228CB1BCF00A807EC /* JitsiWellKnown.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5128CB1BCF00A807EC /* JitsiWellKnown.swift */; };
 		D43A7E5428CB1BEE00A807EC /* JitsiAuthenticationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5328CB1BEE00A807EC /* JitsiAuthenticationType.swift */; };
+		D43A7E5928CB259400A807EC /* Base16.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5528CB259400A807EC /* Base16.swift */; };
+		D43A7E5A28CB259400A807EC /* shim.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5628CB259400A807EC /* shim.swift */; };
+		D43A7E5B28CB259400A807EC /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5728CB259400A807EC /* StringExtension.swift */; };
+		D43A7E5C28CB259400A807EC /* Base32.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5828CB259400A807EC /* Base32.swift */; };
 		D43A7E6128CB25D500A807EC /* Base32.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5D28CB25D500A807EC /* Base32.swift */; };
 		D43A7E6228CB25D500A807EC /* shim.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5E28CB25D500A807EC /* shim.swift */; };
 		D43A7E6328CB25D500A807EC /* Base16.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5F28CB25D500A807EC /* Base16.swift */; };
 		D43A7E6428CB25D500A807EC /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E6028CB25D500A807EC /* StringExtension.swift */; };
+		D43A7E6828CB2EC400A807EC /* SerializationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E6728CB2EC400A807EC /* SerializationService.swift */; };
+		D43A7E6A28CB336500A807EC /* Base32Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E6928CB336500A807EC /* Base32Coder.swift */; };
+		D43A7E6B28CB481900A807EC /* JitsiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E6528CB27D900A807EC /* JitsiService.swift */; };
 		D4442B4428113C3C0033D07A /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4128113C3C0033D07A /* KeychainWrapper.swift */; };
 		D4442B4528113C3C0033D07A /* KeychainWrapperSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4228113C3C0033D07A /* KeychainWrapperSubscript.swift */; };
 		D4442B4628113C3C0033D07A /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4328113C3C0033D07A /* KeychainItemAccessibility.swift */; };
@@ -565,9 +572,13 @@
 		D455F732287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D455F731287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift */; };
 		D45B7B5A286C4D1200435241 /* CXProviderConfiguration+Calls.m in Sources */ = {isa = PBXBuildFile; fileRef = D45B7B59286C4D1200435241 /* CXProviderConfiguration+Calls.m */; };
 		D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46187D2282D093200CA2836 /* ChatHistorySources.swift */; };
+		D4752EA028C2247F006B650A /* AURGroupCallsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D4752E9928C08B95006B650A /* AURGroupCallsViewModel.m */; };
 		D4752EA428C22502006B650A /* Base32Encoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4752EA328C22502006B650A /* Base32Encoder.m */; };
+		D4752EB228C64291006B650A /* GroupCallsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752E9328BFC497006B650A /* GroupCallsViewController.swift */; };
+		D4752EB428C64342006B650A /* GroupCallsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752EB328C64342006B650A /* GroupCallsUseCase.swift */; };
 		D4752EB828C71AA0006B650A /* AURJitsiJWTTokenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752EB628C715E1006B650A /* AURJitsiJWTTokenBuilder.swift */; };
 		D4752EBA28C71AF3006B650A /* JitsiModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752EB928C71AF3006B650A /* JitsiModels.swift */; };
+		D4752EBC28C768CE006B650A /* GroupCallsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752EBB28C768CE006B650A /* GroupCallsRouter.swift */; };
 		D4752EBE28C9D16B006B650A /* JistsiConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752EBD28C9D16B006B650A /* JistsiConstants.swift */; };
 		D4752EC328CA131A006B650A /* JitsiWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752EC228CA131A006B650A /* JitsiWidgetData.swift */; };
 		D47987CD284CBBAF00ACEE64 /* StatusBarCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */; };
@@ -596,6 +607,9 @@
 		D4D439F22837493800AC0DEF /* MXRoom+Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */; };
 		D4D439FB28374B0C00AC0DEF /* MXRoom+Reply.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */; };
 		D4D439FD283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439FC283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift */; };
+		D4E8785F28CE02EA00063762 /* GroupCallsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */; };
+		D4E8786128CE07DF00063762 /* JitsiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8786028CE07DF00063762 /* JitsiWidget.swift */; };
+		D4E8786428CE0E6B00063762 /* JitsiWidgetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */; };
 		D4FA3F6B28182CCB000246D8 /* AppDelegateUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F6A28182CCB000246D8 /* AppDelegateUseCase.swift */; };
 		D4FA3F6D28183586000246D8 /* AppDelegateUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */; };
 		D4FA3F72281A619B000246D8 /* TimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F71281A619B000246D8 /* TimeService.swift */; };
@@ -1126,10 +1140,17 @@
 		D428A53E2823CBA0002CAA13 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		D43A7E5128CB1BCF00A807EC /* JitsiWellKnown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JitsiWellKnown.swift; sourceTree = "<group>"; };
 		D43A7E5328CB1BEE00A807EC /* JitsiAuthenticationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JitsiAuthenticationType.swift; sourceTree = "<group>"; };
+		D43A7E5528CB259400A807EC /* Base16.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base16.swift; sourceTree = "<group>"; };
+		D43A7E5628CB259400A807EC /* shim.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = shim.swift; sourceTree = "<group>"; };
+		D43A7E5728CB259400A807EC /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		D43A7E5828CB259400A807EC /* Base32.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base32.swift; sourceTree = "<group>"; };
 		D43A7E5D28CB25D500A807EC /* Base32.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base32.swift; sourceTree = "<group>"; };
 		D43A7E5E28CB25D500A807EC /* shim.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = shim.swift; sourceTree = "<group>"; };
 		D43A7E5F28CB25D500A807EC /* Base16.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base16.swift; sourceTree = "<group>"; };
 		D43A7E6028CB25D500A807EC /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		D43A7E6528CB27D900A807EC /* JitsiService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JitsiService.swift; sourceTree = "<group>"; };
+		D43A7E6728CB2EC400A807EC /* SerializationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerializationService.swift; sourceTree = "<group>"; };
+		D43A7E6928CB336500A807EC /* Base32Coder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base32Coder.swift; sourceTree = "<group>"; };
 		D4442B4128113C3C0033D07A /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		D4442B4228113C3C0033D07A /* KeychainWrapperSubscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperSubscript.swift; sourceTree = "<group>"; };
 		D4442B4328113C3C0033D07A /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
@@ -1170,10 +1191,15 @@
 		D45B7B58286C4D1200435241 /* CXProviderConfiguration+Calls.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CXProviderConfiguration+Calls.h"; sourceTree = "<group>"; };
 		D45B7B59286C4D1200435241 /* CXProviderConfiguration+Calls.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CXProviderConfiguration+Calls.m"; sourceTree = "<group>"; };
 		D46187D2282D093200CA2836 /* ChatHistorySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySources.swift; sourceTree = "<group>"; };
+		D4752E9328BFC497006B650A /* GroupCallsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsViewController.swift; sourceTree = "<group>"; };
+		D4752E9828C08B95006B650A /* AURGroupCallsViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AURGroupCallsViewModel.h; sourceTree = "<group>"; };
+		D4752E9928C08B95006B650A /* AURGroupCallsViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AURGroupCallsViewModel.m; sourceTree = "<group>"; };
 		D4752EA228C22502006B650A /* Base32Encoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Base32Encoder.h; sourceTree = "<group>"; };
 		D4752EA328C22502006B650A /* Base32Encoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Base32Encoder.m; sourceTree = "<group>"; };
+		D4752EB328C64342006B650A /* GroupCallsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsUseCase.swift; sourceTree = "<group>"; };
 		D4752EB628C715E1006B650A /* AURJitsiJWTTokenBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AURJitsiJWTTokenBuilder.swift; sourceTree = "<group>"; };
 		D4752EB928C71AF3006B650A /* JitsiModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiModels.swift; sourceTree = "<group>"; };
+		D4752EBB28C768CE006B650A /* GroupCallsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsRouter.swift; sourceTree = "<group>"; };
 		D4752EBD28C9D16B006B650A /* JistsiConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JistsiConstants.swift; sourceTree = "<group>"; };
 		D4752EC228CA131A006B650A /* JitsiWidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidgetData.swift; sourceTree = "<group>"; };
 		D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCallView.swift; sourceTree = "<group>"; };
@@ -1205,6 +1231,9 @@
 		D4D439F928374B0B00AC0DEF /* MXRoom+Reply.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MXRoom+Reply.h"; sourceTree = "<group>"; };
 		D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MXRoom+Reply.m"; sourceTree = "<group>"; };
 		D4D439FC283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "P2PCallUseCase+Notifications.swift"; sourceTree = "<group>"; };
+		D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsViewModel.swift; sourceTree = "<group>"; };
+		D4E8786028CE07DF00063762 /* JitsiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidget.swift; sourceTree = "<group>"; };
+		D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidgetService.swift; sourceTree = "<group>"; };
 		D4FA3F6A28182CCB000246D8 /* AppDelegateUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateUseCase.swift; sourceTree = "<group>"; };
 		D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateUseCaseAssembly.swift; sourceTree = "<group>"; };
 		D4FA3F71281A619B000246D8 /* TimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeService.swift; sourceTree = "<group>"; };
@@ -3075,6 +3104,7 @@
 		D4442B4A281162030033D07A /* Use Cases */ = {
 			isa = PBXGroup;
 			children = (
+				D4752EB528C64403006B650A /* Group Calls UseCase */,
 				D4FDA495284D05AA00322A0F /* Status Bar Call UseCase */,
 				D4D439E92836084D00AC0DEF /* P2P Call UseCase */,
 				D4AB9006282789F900E6FAB5 /* Matrix UseCase */,
@@ -3162,12 +3192,19 @@
 			isa = PBXGroup;
 			children = (
 				D4752EA528C22558006B650A /* Encoders */,
+				D4E8786228CE0E5900063762 /* Jitsi Widget */,
+				D4752E9328BFC497006B650A /* GroupCallsViewController.swift */,
+				D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */,
+				D4752E9828C08B95006B650A /* AURGroupCallsViewModel.h */,
+				D4752E9928C08B95006B650A /* AURGroupCallsViewModel.m */,
+				D43A7E6528CB27D900A807EC /* JitsiService.swift */,
 				D43A7E5328CB1BEE00A807EC /* JitsiAuthenticationType.swift */,
 				D43A7E5128CB1BCF00A807EC /* JitsiWellKnown.swift */,
 				D4752EB628C715E1006B650A /* AURJitsiJWTTokenBuilder.swift */,
 				D4752EB928C71AF3006B650A /* JitsiModels.swift */,
 				D4752EBD28C9D16B006B650A /* JistsiConstants.swift */,
 				D4752EC228CA131A006B650A /* JitsiWidgetData.swift */,
+				D43A7E6728CB2EC400A807EC /* SerializationService.swift */,
 			);
 			path = "Group Calls";
 			sourceTree = "<group>";
@@ -3179,10 +3216,24 @@
 				D43A7E5D28CB25D500A807EC /* Base32.swift */,
 				D43A7E5E28CB25D500A807EC /* shim.swift */,
 				D43A7E6028CB25D500A807EC /* StringExtension.swift */,
+				D43A7E5528CB259400A807EC /* Base16.swift */,
+				D43A7E5828CB259400A807EC /* Base32.swift */,
+				D43A7E5628CB259400A807EC /* shim.swift */,
+				D43A7E5728CB259400A807EC /* StringExtension.swift */,
 				D4752EA228C22502006B650A /* Base32Encoder.h */,
 				D4752EA328C22502006B650A /* Base32Encoder.m */,
+				D43A7E6928CB336500A807EC /* Base32Coder.swift */,
 			);
 			path = Encoders;
+			sourceTree = "<group>";
+		};
+		D4752EB528C64403006B650A /* Group Calls UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				D4752EBB28C768CE006B650A /* GroupCallsRouter.swift */,
+				D4752EB328C64342006B650A /* GroupCallsUseCase.swift */,
+			);
+			path = "Group Calls UseCase";
 			sourceTree = "<group>";
 		};
 		D4857CE228A625EA00C904EC /* Contact View */ = {
@@ -3317,6 +3368,15 @@
 				D423A0A1285E2860004A8228 /* P2PCallState.swift */,
 			);
 			path = "P2P Call UseCase";
+			sourceTree = "<group>";
+		};
+		D4E8786228CE0E5900063762 /* Jitsi Widget */ = {
+			isa = PBXGroup;
+			children = (
+				D4E8786028CE07DF00063762 /* JitsiWidget.swift */,
+				D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */,
+			);
+			path = "Jitsi Widget";
 			sourceTree = "<group>";
 		};
 		D4FA3F6928182C9E000246D8 /* App Delegate UseCase */ = {
@@ -3615,6 +3675,7 @@
 				D4442B4528113C3C0033D07A /* KeychainWrapperSubscript.swift in Sources */,
 				5A187EC0268070B3001957D3 /* UITableView+Extensions.swift in Sources */,
 				5AF8635F26ADB691004A417C /* OnboardingPageView.swift in Sources */,
+				D4752EB428C64342006B650A /* GroupCallsUseCase.swift in Sources */,
 				5A9318E226C5B15F00645365 /* ColorStyle.swift in Sources */,
 				5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */,
 				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
@@ -3651,6 +3712,7 @@
 				8B8B9C2127F330040061F5E6 /* SocialListConfigurator.swift in Sources */,
 				5A9318D526C5AAF100645365 /* ChatRoomProtocols.swift in Sources */,
 				5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */,
+				D4E8785F28CE02EA00063762 /* GroupCallsViewModel.swift in Sources */,
 				8B6C18BE2799A5E200B85F2A /* SecurityNewView.swift in Sources */,
 				D4857CF628ACD0EF00C904EC /* AudioView.swift in Sources */,
 				8B274360281AE75A00B5957C /* RemoteConfigFactory.swift in Sources */,
@@ -3669,6 +3731,7 @@
 				5A44FEDC276681BD006F9D92 /* ProfileConfigurator.swift in Sources */,
 				5AF8636126ADB691004A417C /* OnboardingConfigurator.swift in Sources */,
 				8B2532C028AA429400285133 /* BaiduView.swift in Sources */,
+				D43A7E6828CB2EC400A807EC /* SerializationService.swift in Sources */,
 				5A44FEDD276681BD006F9D92 /* ProfileFlow.swift in Sources */,
 				D4857CE928A6276D00C904EC /* ChatTextView.swift in Sources */,
 				5AABB7832739821D004D6107 /* ChatHistoryViewModel.swift in Sources */,
@@ -3695,6 +3758,7 @@
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
 				8B9173B227A342EC0094F625 /* PinCodeCreateFlow.swift in Sources */,
 				7889064127064F8D0093459C /* ProfileNetworkDetailViewController.swift in Sources */,
+				D43A7E5C28CB259400A807EC /* Base32.swift in Sources */,
 				D44BDC70280818090080AE8A /* DefaultResponses.swift in Sources */,
 				5A9318B726BD210400645365 /* PinCodeViewController.swift in Sources */,
 				5A187EA42680708D001957D3 /* CollectionViewProviderType.swift in Sources */,
@@ -3709,6 +3773,7 @@
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
 				5A44FEF127693F6F006F9D92 /* ChatCreateViewModel.swift in Sources */,
 				789FEBED26DCE61D0018FE91 /* PhotoEditorViewController.swift in Sources */,
+				D43A7E5B28CB259400A807EC /* StringExtension.swift in Sources */,
 				8BA0C8FA27AD195D0070203F /* ChatSettingsProtocols.swift in Sources */,
 				8BF8FA7E27FF8AC20000CC08 /* FeedImageViewer.swift in Sources */,
 				8B971E0428ABC61700F111D9 /* LocationManagerUseCase.swift in Sources */,
@@ -3771,6 +3836,7 @@
 				8BA0C90527AD4F030070203F /* AnswerItem.swift in Sources */,
 				D423A0A92860A47E004A8228 /* MXCallKitAdapter+Updaters.m in Sources */,
 				D4442B4628113C3C0033D07A /* KeychainItemAccessibility.swift in Sources */,
+				D4752EA028C2247F006B650A /* AURGroupCallsViewModel.m in Sources */,
 				5AF8633726AA994E004A417C /* VerificationProtocols.swift in Sources */,
 				8B7F856F28C65FA200C8F9EB /* SettingsAction.swift in Sources */,
 				8BD6292D276AAC06000A976A /* SocialListView.swift in Sources */,
@@ -3792,6 +3858,7 @@
 				5A187E9B2680708D001957D3 /* ListSeparatorStyle.swift in Sources */,
 				D44BDC98280FECC80080AE8A /* UserDefaultsService.swift in Sources */,
 				5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */,
+				D43A7E6A28CB336500A807EC /* Base32Coder.swift in Sources */,
 				5A3C9429274AFFDC00818060 /* KeyboardAvoider.swift in Sources */,
 				D41553BE288FD1A8003FDADC /* MatrixService+Fetcher.swift in Sources */,
 				8BB2F8EE28B665650034D902 /* ProfileDetailType.swift in Sources */,
@@ -3873,6 +3940,7 @@
 				D445C84328462B46003C3D5C /* P2PCallsAssembly.swift in Sources */,
 				5AA6410126822C3A008922B4 /* TextViewStyle.swift in Sources */,
 				8B24FDD627A820A30021177C /* SessionFlow.swift in Sources */,
+				D4E8786128CE07DF00063762 /* JitsiWidget.swift in Sources */,
 				8B5609BC277B35A400AF43F6 /* PersonalizationFlow.swift in Sources */,
 				78EDCAFB286AAF1000D3CBC5 /* MapSnapshotViewModel.swift in Sources */,
 				D415081F28A52C6600C92CEC /* CheckTextReadView.swift in Sources */,
@@ -3916,6 +3984,7 @@
 				5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */,
 				8B1564F428AA782A00A69B85 /* AnotherAppTransitionView.swift in Sources */,
 				8B9B0CCB2775395400654C24 /* PersonalizationView.swift in Sources */,
+				D4752EBC28C768CE006B650A /* GroupCallsRouter.swift in Sources */,
 				5A187F132680CF49001957D3 /* PhotoLibraryManager.swift in Sources */,
 				8BE6673D280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift in Sources */,
 				8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */,
@@ -3924,6 +3993,7 @@
 				8B971E0C28B5835100F111D9 /* CacheType.swift in Sources */,
 				8B00F45C276A1C2700FE1E41 /* R.generated.swift in Sources */,
 				5A4BE519271DD86A00D03D09 /* CustomEvent.swift in Sources */,
+				D43A7E5A28CB259400A807EC /* shim.swift in Sources */,
 				7846B65C26E8BBFD00B05984 /* TimingFunctions.swift in Sources */,
 				8BE646D2285CAF930090D5E5 /* AudioRecorder.swift in Sources */,
 				5A187DF426807011001957D3 /* Alertable.swift in Sources */,
@@ -3935,6 +4005,7 @@
 				8BE122BC28240C8B00F7707E /* RemoteConfigUseCase.swift in Sources */,
 				5A3C942C274AFFDC00818060 /* KeyboardHandler.swift in Sources */,
 				8BB2F8EC28B6640A0034D902 /* CountryCodeView.swift in Sources */,
+				D4752EB228C64291006B650A /* GroupCallsViewController.swift in Sources */,
 				5ABAD3A327C2F6BC0067DFC1 /* ChatMediaView.swift in Sources */,
 				8B1E8AC427DF4F9D0036C301 /* ChooseReceiverFlow.swift in Sources */,
 				8B38D13628C0E671002733D7 /* MapResources.swift in Sources */,
@@ -3973,9 +4044,11 @@
 				8BE379A027EB26BC00AB6B6E /* WalletManagerFlow.swift in Sources */,
 				8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */,
 				8BE3798F27E9C47D00AB6B6E /* TokenInfoView.swift in Sources */,
+				D43A7E5928CB259400A807EC /* Base16.swift in Sources */,
 				5A39282F27419A7300378ACA /* Date+Extensions.swift in Sources */,
 				5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */,
 				5AF8636B26ADCB9B004A417C /* KeyImportProtocols.swift in Sources */,
+				D43A7E6B28CB481900A807EC /* JitsiService.swift in Sources */,
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
 				5A9318E026C5AD0500645365 /* BubbleShape.swift in Sources */,
 				8BFFC75427EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift in Sources */,
@@ -4087,6 +4160,7 @@
 				8B5609B62779C5CA00AF43F6 /* ThemeItem.swift in Sources */,
 				D4FDA497284D05C600322A0F /* StatusBarCallUseCase.swift in Sources */,
 				789B123226CE8906002FCDDF /* CallListViewController.swift in Sources */,
+				D4E8786428CE0E6B00063762 /* JitsiWidgetService.swift in Sources */,
 				8BB517D6285A604600D06593 /* AudioMessageViewModel.swift in Sources */,
 				5A187EA12680708D001957D3 /* TableViewProviderType.swift in Sources */,
 				5A26CD2726B2FF9900118D4B /* CarouselNonAnimatableFlowLayout.swift in Sources */,

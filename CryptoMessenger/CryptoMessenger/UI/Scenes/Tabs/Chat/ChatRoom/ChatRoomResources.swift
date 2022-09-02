@@ -67,6 +67,8 @@ protocol ChatRoomSourcesable {
     static var translateIntoRussian: String { get }
 
     static var translateAlertEncryption: String { get }
+
+	static var groupCallConference: String { get }
 }
 
 // MARK: - ChatRoomResources(ChatRoomSourcesable)
@@ -198,4 +200,8 @@ enum ChatRoomResources: ChatRoomSourcesable {
     static var translateAlertEncryption: String {
         R.string.localizable.translateAlertEncryption()
     }
+
+	static var groupCallConference: String {
+		R.string.localizable.groupCallConference()
+	}
 }

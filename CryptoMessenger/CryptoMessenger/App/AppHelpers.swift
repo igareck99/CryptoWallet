@@ -31,3 +31,8 @@ enum EmptyResult {
 		return true
 	}
 }
+
+enum EmptyFailureResult<T> {
+	case success(T)
+	case failure
+}

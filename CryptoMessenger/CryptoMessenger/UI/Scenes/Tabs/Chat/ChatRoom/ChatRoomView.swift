@@ -604,6 +604,14 @@ struct ChatRoomView: View {
                         viewModel.sources.phoneFill.tint(.black)
                     }).disabled(!$viewModel.isVoiceCallAvailablility.wrappedValue)
                 }
+				if viewModel.isGroupCall {
+					Button(action: {
+						viewModel.p2pVideoCallPublisher.send()
+					}, label: {
+						viewModel.sources.videoFill.tint(.black)
+					})
+				}
+
                 Button(action: {
                     hideKeyboard()
                     cardGroupPosition = .custom(180)

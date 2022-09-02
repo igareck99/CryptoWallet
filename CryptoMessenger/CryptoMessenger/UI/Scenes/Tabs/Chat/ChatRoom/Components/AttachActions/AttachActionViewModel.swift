@@ -43,7 +43,6 @@ final class AttachActionViewModel: ObservableObject {
                                    _ totalImageCountNeeded: Int,
                                    _ fetchResult: PHFetchResult<PHAsset>) {
         let requestOptions = PHImageRequestOptions()
-        requestOptions.isSynchronous = true
         PHImageManager.default().requestImage(for: fetchResult.object(at: index) as PHAsset,
                                               targetSize: CGSize(width: UIScreen.main.bounds.width,
                                                                  height: UIScreen.main.bounds.width),

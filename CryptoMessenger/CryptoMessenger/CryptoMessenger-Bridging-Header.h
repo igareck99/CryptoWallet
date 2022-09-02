@@ -5,3 +5,4 @@
 #import "JitsiMeetSDK/JitsiMeetSDK.h"
 #import "MXRoom+Reply.h"
 #import "MXCallKitAdapter+Updaters.h"
+#import "AURGroupCallsViewModel.h"

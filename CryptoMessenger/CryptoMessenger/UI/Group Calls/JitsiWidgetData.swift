@@ -34,7 +34,7 @@ final class JitsiWidgetData: MXJSONModel {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	static func model(from dictionary: [String: Any]) -> JitsiWidgetData? {
+	static func model(dictionary: [AnyHashable: Any]) -> JitsiWidgetData? {
 
 		guard
 			let conferenceId = dictionary["conferenceId"] as? String,
@@ -53,8 +53,7 @@ final class JitsiWidgetData: MXJSONModel {
 		return model
 	}
 
-	func jsonDictionary() -> [String: Any] {
-
+	override func jsonDictionary() -> [AnyHashable: Any] {
 		var dict: [String: Any] = [
 			"domain": domain,
 			"conferenceId": conferenceId,
