@@ -606,6 +606,7 @@ struct ChatRoomView: View {
                     }).disabled(!$viewModel.isVoiceCallAvailablility.wrappedValue)
                 }
                 Button(action: {
+                    hideKeyboard()
                     cardGroupPosition = .custom(180)
                 }, label: {
                     viewModel.sources.settingsButton
