@@ -177,7 +177,9 @@ struct ActionSheetView: View {
                     ZStack {
                         Image(uiImage: item)
                             .resizable()
+                            .scaledToFill()
                             .frame(width: 90, height: 90)
+                            .clipped()
                         ZStack(alignment: .top) {
                             VStack {
                                 HStack {
@@ -229,7 +231,7 @@ struct ActionSheetView: View {
             .padding(.horizontal, 16)
         })
     }
-    
+
     // MARK: - Internal Methods
 
     func addPhotosToSend(image: UIImage) {

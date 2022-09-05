@@ -1,8 +1,9 @@
 import SwiftUI
 import Photos
 
+// swiftlint: disable: empty_count
+
 // MARK: - AttachActionViewModel
-// swiftlint:disable all
 
 final class AttachActionViewModel: ObservableObject {
 
@@ -31,17 +32,16 @@ final class AttachActionViewModel: ObservableObject {
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate",
                                                          ascending: false)]
-        fetchOptions.fetchLimit = 10
         let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: fetchOptions)
         if fetchResult.count > 0 {
-            let totalImageCountNeeded = 10
+            let totalImageCountNeeded = 50
             fetchPhotoAtIndex(0, totalImageCountNeeded, fetchResult)
         }
     }
 
     private func fetchPhotoAtIndex(_ index: Int,
-                           _ totalImageCountNeeded: Int,
-                           _ fetchResult: PHFetchResult<PHAsset>) {
+                                   _ totalImageCountNeeded: Int,
+                                   _ fetchResult: PHFetchResult<PHAsset>) {
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
         PHImageManager.default().requestImage(for: fetchResult.object(at: index) as PHAsset,
