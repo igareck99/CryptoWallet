@@ -63,9 +63,8 @@ struct ChatHistoryRow: View {
                     )
                 }
                 .padding(.top, 9)
-
                 HStack(spacing: 12) {
-                    switch room.messageType {
+                    switch room.lastMessageEvent {
                     case let .text(text):
                         Text(
                             text,
@@ -89,7 +88,6 @@ struct ChatHistoryRow: View {
                             .scaledToFill()
                             .frame(width: 16, height: 16)
                             .cornerRadius(2)
-
                             Text(
                                 "Фото",
                                 [
@@ -143,7 +141,10 @@ struct ChatHistoryRow: View {
                         }
                     case let .location((longitute, latitude)):
                         HStack(spacing: 6) {
-                            MapView(place: Place(name: "", latitude: longitute, longitude: latitude), showLocationTransition: $showLocationTransition)
+                            MapView(place: Place(name: "",
+                                                 latitude: longitute,
+                                                 longitude: latitude),
+                                    showLocationTransition: $showLocationTransition)
                             .scaledToFill()
                             .frame(width: 16, height: 16)
                             .cornerRadius(2)
@@ -174,9 +175,7 @@ struct ChatHistoryRow: View {
                     default:
                         EmptyView()
                     }
-
                     Spacer()
-
                     if room.summary.localUnreadEventCount > 0 {
                         HStack(alignment: .center) {
                             Text(room.summary.localUnreadEventCount.description)

@@ -244,7 +244,6 @@ struct ChatRoomView: View {
                                         }
                                     }
                                 }
-
 								viewModel.makeChatEventView(event: event)
                             }
                             .onChange(of: viewModel.messages) { _ in

@@ -40,7 +40,6 @@ final class AuraRoom: ObservableObject {
 
     @Published var summary: RoomSummary
     @Published var eventCache: [MXEvent] = []
-    @Published var anotherEventCache: [MXEvent] = []
 
     var isDirect: Bool { room.isDirect }
     var messageType: MessageType {
@@ -68,6 +67,18 @@ final class AuraRoom: ObservableObject {
 //            return ""
 //        }
 //    }
+    
+    var lastMessageEvent: MessageType {
+        if summary.membership == .invite {
+            let inviteEvent = eventCache.last {
+                $0.type == kMXEventTypeStringRoomMember && $0.stateKey == room.mxSession.myUserId
+            }
+            guard let sender = inviteEvent?.sender else { return .text("") }
+            return .text("Invitation to Chat 🤚")
+        }
+        let lastMessageEvent = eventCache.last { $0.type == kMXEventTypeStringRoomMessage }
+        return lastMessageEvent?.messageType ?? .text("")
+    }
 
     // MARK: - Lifecycle
 
