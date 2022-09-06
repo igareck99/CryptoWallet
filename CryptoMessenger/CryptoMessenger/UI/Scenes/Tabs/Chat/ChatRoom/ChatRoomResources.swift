@@ -10,10 +10,16 @@ protocol ChatRoomSourcesable {
     static var backButton: Image { get }
 
     static var settingsButton: Image { get }
-    
+
     static var phoneButton: Image { get }
-    
+
     static var plus: Image { get }
+
+    static var videoFill: Image { get }
+
+    static var phoneFill: Image { get }
+
+    static var paperPlane: Image { get }
 
     // Text
     static var chatNewRequest: String { get }
@@ -49,6 +55,18 @@ protocol ChatRoomSourcesable {
 	static var callDeclined: String { get }
 
 	static var callMissed: String { get }
+
+    static var acceptTheInvitation: String { get }
+
+    static var join: String { get }
+
+    static var translateChange: String { get }
+
+    static var translate: String { get }
+
+    static var translateIntoRussian: String { get }
+
+    static var translateAlertEncryption: String { get }
 }
 
 // MARK: - ChatRoomResources(ChatRoomSourcesable)
@@ -66,13 +84,25 @@ enum ChatRoomResources: ChatRoomSourcesable {
     static var settingsButton: Image {
         R.image.navigation.settingsButton.image
     }
-    
+
     static var phoneButton: Image {
         R.image.navigation.phoneButton.image
     }
-    
+
     static var plus: Image {
         R.image.chat.plus.image
+    }
+
+    static var videoFill: Image {
+        Image(systemName: "video.fill")
+    }
+
+    static var phoneFill: Image {
+        Image(systemName: "phone.fill")
+    }
+
+    static var paperPlane: Image {
+        Image(systemName: "paperplane.fill")
     }
 
     // Text
@@ -88,7 +118,7 @@ enum ChatRoomResources: ChatRoomSourcesable {
     static var callListAlertActionOne: String {
         R.string.localizable.callListAlertActionOne()
     }
-    
+
     static var photoEditorTitle: String {
         R.string.localizable.photoEditorTitle()
     }
@@ -100,35 +130,35 @@ enum ChatRoomResources: ChatRoomSourcesable {
     static var chatOffline: String {
         R.string.localizable.chatOffline()
     }
-    
+
     static var chatRoomViewSelfAvatarChange: String {
         R.string.localizable.chatRoomViewSelfAvatarChangeNotify()
     }
-    
+
     static var chatRoomViewEncryptedMessages: String {
         R.string.localizable.chatRoomViewEncryptedMessagesNotify()
     }
-    
+
     static var chatRoomViewAvatarChange: String {
         R.string.localizable.chatRoomViewAvatarChangeNotify()
     }
-    
+
     static var chatRoomViewRoomEntry: String {
         R.string.localizable.chatRoomViewRoomEntryNotify()
     }
-    
+
     static var chatRoomViewLeftTheRoom: String {
         R.string.localizable.chatRoomViewLeftTheRoomNotify()
     }
-    
+
     static var chatRoomViewInvited: String {
         R.string.localizable.chatRoomViewInvitedNotify()
     }
-    
+
     static var chatRoomViewUnownedError: String {
         R.string.localizable.chatRoomViewUnownedErrorNotify()
     }
-    
+
     static var chatRoomViewBanned: String {
         R.string.localizable.chatRoomViewBannedNotify()
     }
@@ -144,4 +174,28 @@ enum ChatRoomResources: ChatRoomSourcesable {
 	static var callMissed: String {
 		R.string.localizable.callsCallMissed()
 	}
+
+    static var acceptTheInvitation: String {
+        R.string.localizable.chatAcceptTheInvitation()
+    }
+
+    static var join: String {
+        R.string.localizable.chatJoin()
+    }
+
+    static var translateChange: String {
+        R.string.localizable.translateChange()
+    }
+
+    static var translate: String {
+        R.string.localizable.translateTranslate()
+    }
+
+    static var translateIntoRussian: String {
+        R.string.localizable.translateIntoRussian()
+    }
+
+    static var translateAlertEncryption: String {
+        R.string.localizable.translateAlertEncryption()
+    }
 }

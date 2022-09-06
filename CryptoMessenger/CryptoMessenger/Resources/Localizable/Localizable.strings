@@ -397,6 +397,7 @@
 "Chat.Online" = "онлайн";
 "Chat.Offline" = "оффлайн";
 "Chat.Join" = "Присоединиться";
+"Chat.AcceptTheInvitation" = "Принять приглашение от";
 "Chat.JoinChat" = "Присоединиться к чату?";
 "Chat.NewRequest" = "Новый запрос";
 
@@ -485,3 +486,10 @@
 "LocationPickerView.SearchPlaceholder" = "Адрес";
 "LocationPickerView.OpenWith" = "Открыть с помощью";
 "LocationPickerView.Share" = "Поделиться";
+
+// Translate
+
+"Translate.Change" = "Поменять";
+"Translate.Translate" = "Перевести";
+"Translate.IntoRussian" = "Переводить сообщения на Русский язык";
+"Translate.AlertEncryption" = "ВНИМАНИЕ! При переводе сообщий их шифрования теряется!";

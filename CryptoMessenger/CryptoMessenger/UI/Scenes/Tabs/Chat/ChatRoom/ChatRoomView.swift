@@ -5,6 +5,7 @@ import SwiftUI
 // swiftlint:disable all
 
 struct ChatRoomView: View {
+
     // MARK: - ActiveSheet
 
     enum ActiveSheet: Identifiable {
@@ -75,7 +76,6 @@ struct ChatRoomView: View {
             .onAppear {
                 viewModel.send(.onAppear)
                 hideTabBar()
-
                 switch viewModel.room.summary.membership {
                 case .invite:
                     showJoinAlert = true
@@ -84,7 +84,6 @@ struct ChatRoomView: View {
                 default:
                     break
                 }
-
                 UITextView.appearance().background(.grayDAE1E9())
             }
             .onChange(of: showActionSheet, perform: { _ in
@@ -161,133 +160,13 @@ struct ChatRoomView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarColor(selectedPhoto != nil ? nil : .white(), isBlured: false)
             .toolbar {
-                ToolbarItem(placement: .automatic) {
-                    HStack(spacing: 0) {
-                        Button(action: {
-                            presentationMode.wrappedValue.dismiss()
-                        }, label: {
-                            viewModel.sources.backButton
-                        })
-
-                        AsyncImage(
-                            url: viewModel.room.roomAvatar,
-                            placeholder: {
-                                ZStack {
-                                    Color(.lightBlue())
-                                    Text(viewModel.room.summary.displayname?.firstLetter.uppercased() ?? "?")
-                                        .foreground(.white())
-                                        .font(.medium(20))
-                                }
-                            },
-                            result: {
-                                Image(uiImage: $0).resizable()
-                            }
-                        )
-                        .scaledToFill()
-                        .frame(width: 36, height: 36)
-                        .cornerRadius(18)
-                        .padding(.trailing, 12)
-                        .alert(isPresented: $showJoinAlert) {
-                            let roomName = viewModel.room.summary.displayname ??  viewModel.sources.chatNewRequest
-                                return Alert(
-                                    title: Text(viewModel.sources.joinChat),
-                                    message: Text("Принять приглашение от \(roomName)"),
-                                    primaryButton: .default(
-                                        Text("Присоединиться"),
-                                        action: {
-                                            viewModel.send(.onJoinRoom)
-                                        }
-                                    ),
-                                    secondaryButton: .cancel(
-                                        Text(viewModel.sources.callListAlertActionOne),
-                                        action: { presentationMode.wrappedValue.dismiss() }
-                                    )
-                                )
-                            }
-
-                        VStack(spacing: 0) {
-                            HStack(spacing: 0) {
-                                Text(viewModel.room.summary.displayname ?? "")
-                                    .lineLimit(1)
-                                    .font(.semibold(15))
-                                    .foreground(.black())
-                                Spacer()
-                            }
-                            HStack(spacing: 0) {
-                                if viewModel.room.isDirect {
-                                    Text(viewModel.room.isOnline ?  viewModel.sources.chatOnline :
-                                            viewModel.sources.chatOffline)
-                                        .lineLimit(1)
-                                        .font(.regular(13))
-                                        .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
-                                } else {
-                                    Text("Участники (\(viewModel.chatData.contacts.count.description))")
-                                        .lineLimit(1)
-                                        .font(.regular(13))
-                                        .foreground(.black(0.5))
-                                }
-                                Spacer()
-                            }
-                        }
-                        .alert(isPresented: $showTranslateAlert) {
-                            debugPrint("Отобразился")
-                            let dismissButton = Alert.Button.default(Text("Поменять")) {
-                                translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
-                            }
-                            let confirmButton = Alert.Button.default(Text("Перевести")) {
-                                for message in viewModel.messages {
-                                    viewModel.translateTo(languageCode: "ru", message: message)
-                                }
-                            }
-                            return Alert(title: Text("Переводить сообщения на Русский язык"),
-                                              message: Text("ВНИМАНИЕ! При переводе сообщий их шифрования теряется!"),
-                                              primaryButton: confirmButton, secondaryButton: dismissButton)
-                        }
-                        .frame(width: 160)
-
-                        Spacer()
-                    }
-                    .background(.white())
-                    .onTapGesture {
-                        showSettings.toggle()
-                    }
-                }
-
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack(spacing: 0) {
-
-						if viewModel.isVideoCallAvailable {
-							Button(action: {
-								viewModel.p2pVideoCallPublisher.send()
-							}, label: {
-								Image(systemName: "video.fill").tint(.black)
-							}).disabled(!$viewModel.isVideoCallAvailablility.wrappedValue)
-							.padding(.trailing, 16)
-						}
-
-						if viewModel.isVoiceCallAvailable {
-							Button(action: {
-								viewModel.p2pVoiceCallPublisher.send()
-							}, label: {
-								Image(systemName: "phone.fill").tint(.black)
-							}).disabled(!$viewModel.isVoiceCallAvailablility.wrappedValue)
-							.padding(.trailing, 8)
-						}
-
-                        Button(action: {
-                            cardGroupPosition = .custom(180)
-                        }, label: {
-                            viewModel.sources.settingsButton
-                        }).padding(.trailing, 24)
-                    }
-                }
+                createToolBar()
             }
     }
 
     private var content: some View {
         ZStack {
             Color(.blueABC3D5())
-
             VStack(spacing: 0) {
                 ScrollViewReader { scrollView in
                     ScrollView(.vertical, showsIndicators: false) {
@@ -594,7 +473,7 @@ struct ChatRoomView: View {
                                 }
                             }
                         }, label: {
-                            Image(systemName: "paperplane.fill")
+                            viewModel.sources.paperPlane
                                 .foreground(.blue())
                                 .frame(width: 24, height: 24)
                                 .clipShape(Circle())
@@ -620,6 +499,125 @@ struct ChatRoomView: View {
             Rectangle()
                 .fill(Color(.white()))
                 .frame(height: keyboardHandler.keyboardHeight == 0 ? 24 : 0)
+        }
+    }
+    
+    // MARK: - Private methods
+    
+    @ToolbarContentBuilder
+    private func createToolBar() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            HStack(spacing: 0) {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    viewModel.sources.backButton
+                })
+                AsyncImage(
+                    url: viewModel.room.roomAvatar,
+                    placeholder: {
+                        ZStack {
+                            Color(.lightBlue())
+                            Text(viewModel.room.summary.displayname?.firstLetter.uppercased() ?? "?")
+                                .foreground(.white())
+                                .font(.medium(20))
+                        }
+                    },
+                    result: {
+                        Image(uiImage: $0).resizable()
+                    }
+                )
+                .scaledToFill()
+                .frame(width: 36, height: 36)
+                .cornerRadius(18)
+                .padding(.trailing, 12)
+                .alert(isPresented: $showJoinAlert) {
+                    let roomName = viewModel.room.summary.displayname ??  viewModel.sources.chatNewRequest
+                    return Alert(
+                        title: Text(viewModel.sources.joinChat),
+                        message: Text("\(viewModel.sources.acceptTheInvitation) \(roomName)"),
+                        primaryButton: .default(
+                            Text(viewModel.sources.join),
+                            action: {
+                                viewModel.send(.onJoinRoom)
+                            }
+                        ),
+                        secondaryButton: .cancel(
+                            Text(viewModel.sources.callListAlertActionOne),
+                            action: { presentationMode.wrappedValue.dismiss() }
+                        )
+                    )
+                }
+                
+                VStack(spacing: 0) {
+                    HStack(spacing: 0) {
+                        Text(viewModel.room.summary.displayname ?? "")
+                            .lineLimit(1)
+                            .font(.semibold(15))
+                            .foreground(.black())
+                        Spacer()
+                    }
+                    HStack(spacing: 0) {
+                        if viewModel.room.isDirect {
+                            Text(viewModel.room.isOnline ?  viewModel.sources.chatOnline :
+                                    viewModel.sources.chatOffline)
+                            .lineLimit(1)
+                            .font(.regular(13))
+                            .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
+                        } else {
+                            Text("Участники (\(viewModel.chatData.contacts.count.description))")
+                                .lineLimit(1)
+                                .font(.regular(13))
+                                .foreground(.black(0.5))
+                        }
+                        Spacer()
+                    }
+                }
+                .alert(isPresented: $showTranslateAlert) {
+                    let dismissButton = Alert.Button.default(Text(viewModel.sources.translateChange)) {
+                        translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
+                    }
+                    let confirmButton = Alert.Button.default(Text(viewModel.sources.translate)) {
+                        for message in viewModel.messages {
+                            viewModel.translateTo(languageCode: "ru", message: message)
+                        }
+                    }
+                    return Alert(title: Text(viewModel.sources.translateIntoRussian),
+                                 message: Text(viewModel.sources.translateAlertEncryption),
+                                 primaryButton: confirmButton, secondaryButton: dismissButton)
+                }
+                .frame(width: 160)
+                
+                Spacer()
+            }
+            .background(.white())
+            .onTapGesture {
+                showSettings.toggle()
+            }
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+            HStack(spacing: 8) {
+                if viewModel.isVideoCallAvailable {
+                    Button(action: {
+                        viewModel.p2pVideoCallPublisher.send()
+                    }, label: {
+                        viewModel.sources.videoFill.tint(.black)
+                    }).disabled(!$viewModel.isVideoCallAvailablility.wrappedValue)
+                }
+                if viewModel.isVoiceCallAvailable {
+                    Button(action: {
+                        viewModel.p2pVoiceCallPublisher.send()
+                    }, label: {
+                        viewModel.sources.phoneFill.tint(.black)
+                    }).disabled(!$viewModel.isVoiceCallAvailablility.wrappedValue)
+                }
+                Button(action: {
+                    cardGroupPosition = .custom(180)
+                }, label: {
+                    viewModel.sources.settingsButton
+                })
+                .padding(.trailing, 6)
+            }
         }
     }
 }
