@@ -1,11 +1,18 @@
 import SwiftUI
 
+// MARK: - ResizeableTextView(UIViewRepresentable)
+
 struct ResizeableTextView: UIViewRepresentable {
+
+    // MARK: - Internal Properties
 
 	@Binding var text: String
 	@Binding var height: CGFloat
 	@State var editing = false
+    @State var fieldBackgroundColor = Palette.grayE6EAED().uiColor
 	var placeholderText: String
+
+    // MARK: - Internal Methods
 
 	func makeUIView(context: Context) -> UITextView {
 		let textView = UITextView()
@@ -14,7 +21,7 @@ struct ResizeableTextView: UIViewRepresentable {
 		textView.text = placeholderText
 		textView.delegate = context.coordinator
 		textView.textColor = .black
-		textView.font = UIFont.systemFont(ofSize: 20)
+		textView.font = UIFont.systemFont(ofSize: 15)
 		return textView
 	}
 
@@ -25,8 +32,9 @@ struct ResizeableTextView: UIViewRepresentable {
 		}
 
 		DispatchQueue.main.async {
-			self.height = textView.contentSize.height
-			textView.textContainerInset = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
+            self.height = textView.contentSize.height > 36 ? textView.contentSize.height : 36
+            textView.backgroundColor = fieldBackgroundColor
+			textView.textContainerInset = UIEdgeInsets(top: 10, left: 6, bottom: 6, right: 6)
 		}
 	}
 
@@ -34,12 +42,21 @@ struct ResizeableTextView: UIViewRepresentable {
 		ResizeableTextView.Coordinator(self)
 	}
 
+    // MARK: - Coordinator
+
 	class Coordinator: NSObject, UITextViewDelegate {
+
+        // MARK: - Internal Properties
+
 		var parent: ResizeableTextView
+
+        // MARK: - Lifecycle
 
 		init(_ params: ResizeableTextView) {
 			self.parent = params
 		}
+
+        // MARK: - Internal Methods
 
 		func textViewDidBeginEditing(_ textView: UITextView) {
 			DispatchQueue.main.async {

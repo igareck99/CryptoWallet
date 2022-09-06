@@ -34,7 +34,7 @@ struct ChatRoomView: View {
     @State var blockAudioRecord = false
     @State var resetAudio = false
     @State var activateShowCard = true
-	@State var textViewHeight: CGFloat = 34
+	@State var textViewHeight: CGFloat = 36
 
     // MARK: - Private Properties
 
@@ -434,25 +434,19 @@ struct ChatRoomView: View {
                                 .frame(width: 24, height: 24)
                         })
                         .padding(.leading, 8)
-                        
                         HStack {
-                            ZStack {
-								ResizeableTextView(
-									text: $viewModel.inputText,
-									height: $textViewHeight,
-									placeholderText: ""
-								)
-									.focused($inputViewIsFocused)
-									.keyboardType(.default)
-									.background(.grayDAE1E9())
-									.padding(.horizontal, 16)
-                            }
-                            .background(.grayDAE1E9())
+                            ResizeableTextView(
+                                text: $viewModel.inputText,
+                                height: $textViewHeight,
+                                placeholderText: "Сообщение..."
+                            )
+                            .focused($inputViewIsFocused)
+                            .keyboardType(.default)
+                            .clipShape(RoundedRectangle(cornerRadius: 16,
+                                                        style: .continuous))
+                            .padding(.horizontal, 16)
                         }
-                        .frame(height: min(textViewHeight, 145))
-                        .background(.grayDAE1E9())
-						.cornerRadius(16)
-                        .padding(.trailing, 8)
+                        .padding(.trailing, viewModel.inputText.isEmpty ? 0 : 8)
                     }
                     if !viewModel.inputText.isEmpty {
                         Button(action: {

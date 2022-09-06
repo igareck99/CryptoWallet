@@ -113,6 +113,8 @@ struct AudioInputMessageView: View {
                     if abs(value.translation.width) > 75 {
                         resetAudio = true
                         showAudioView = false
+                        blockDragPadding = 0
+                        textDragPadding = 0
                     }
                 }
             }
