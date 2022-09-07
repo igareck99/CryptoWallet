@@ -413,6 +413,7 @@
 		8B7C17EC27DB894A001113F2 /* NumberFormatterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C17EB27DB894A001113F2 /* NumberFormatterProtocol.swift */; };
 		8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */; };
 		8B7D8A1727DA5C1400BBFEFD /* CurrencyUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D8A1627DA5C1400BBFEFD /* CurrencyUITextField.swift */; };
+		8B7F856F28C65FA200C8F9EB /* SettingsAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7F856E28C65FA200C8F9EB /* SettingsAction.swift */; };
 		8B8B9C1F27F31FEE0061F5E6 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C1E27F31FEE0061F5E6 /* Animation.swift */; };
 		8B8B9C2127F330040061F5E6 /* SocialListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C2027F330040061F5E6 /* SocialListConfigurator.swift */; };
 		8B8B9C2327F330120061F5E6 /* SocialListProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C2227F330120061F5E6 /* SocialListProtocols.swift */; };
@@ -1002,6 +1003,7 @@
 		8B7C17EB27DB894A001113F2 /* NumberFormatterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterProtocol.swift; sourceTree = "<group>"; };
 		8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		8B7D8A1627DA5C1400BBFEFD /* CurrencyUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUITextField.swift; sourceTree = "<group>"; };
+		8B7F856E28C65FA200C8F9EB /* SettingsAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAction.swift; sourceTree = "<group>"; };
 		8B8B9C1E27F31FEE0061F5E6 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		8B8B9C2027F330040061F5E6 /* SocialListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListConfigurator.swift; sourceTree = "<group>"; };
 		8B8B9C2227F330120061F5E6 /* SocialListProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListProtocols.swift; sourceTree = "<group>"; };
@@ -2120,6 +2122,7 @@
 			children = (
 				5ABAD39F27C286CF0067DFC1 /* SettingsView.swift */,
 				5AC8C4EE27C403C9008B1744 /* AlertItem.swift */,
+				8B7F856E28C65FA200C8F9EB /* SettingsAction.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -3714,6 +3717,7 @@
 				D423A0A92860A47E004A8228 /* MXCallKitAdapter+Updaters.m in Sources */,
 				D4442B4628113C3C0033D07A /* KeychainItemAccessibility.swift in Sources */,
 				5AF8633726AA994E004A417C /* VerificationProtocols.swift in Sources */,
+				8B7F856F28C65FA200C8F9EB /* SettingsAction.swift in Sources */,
 				8BD6292D276AAC06000A976A /* SocialListView.swift in Sources */,
 				7889064027064F8D0093459C /* ProfileNetworkDetailPresenter.swift in Sources */,
 				789B123126CE8906002FCDDF /* CallListPresenter.swift in Sources */,
@@ -4034,7 +4038,6 @@
 				5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */,
 				5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */,
 				8B38D13D28C12946002733D7 /* ProfileSettingsMenuViewModel.swift in Sources */,
-				8BB517C52858A42D00D06593 /* DocumentViewerPresenter.swift in Sources */,
 				8BE644F52837660200FA6540 /* ContactInfoView.swift in Sources */,
 				5AF8635E26ADB691004A417C /* OnboardingPageViewController.swift in Sources */,
 				8BB2F8E928B663C80034D902 /* ProfileDetailActionRow.swift in Sources */,
