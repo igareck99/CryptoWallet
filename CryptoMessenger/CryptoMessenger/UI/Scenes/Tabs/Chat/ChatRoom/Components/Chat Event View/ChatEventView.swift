@@ -1,11 +1,17 @@
 import SwiftUI
 
+// MARK: - ChatEventView
+
 struct ChatEventView: View {
+    
+    // MARK: - Private Properties
 
 	private let text: String
 	private let font: Font
 	private let backgroundColor: Color
 	private let foregroundColor: Color?
+
+    // MARK: - Lifecycle
 
 	init(
 		text: String,
@@ -19,8 +25,9 @@ struct ChatEventView: View {
 		self.foregroundColor = foregroundColor
 	}
 
-    var body: some View {
+    // MARK: - Body
 
+    var body: some View {
 		HStack {
 			Text(text)
 				.font(font)
@@ -31,11 +38,14 @@ struct ChatEventView: View {
 		.background(backgroundColor)
 		.cornerRadius(8)
 		.padding(.vertical, 8)
-
     }
 }
 
+// MARK: - ChatEventView
+
 extension ChatEventView {
+
+    // MARK: - Internal Methods
 
 	func configureInnerOuterShadow() -> some View {
 		self
