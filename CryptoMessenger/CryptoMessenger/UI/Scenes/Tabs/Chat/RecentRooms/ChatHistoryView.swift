@@ -44,9 +44,6 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
     // MARK: - Body
 
     var body: some View {
-        VStack {
-
-        }
         content
             .onAppear {
                 if actionSheet == nil {
@@ -108,7 +105,6 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                     vibrate()
                     cardGroupPosition = .bottom
                 }
-
             SlideCard(position: $cardGroupPosition) {
                 VStack(spacing: 0) {
                     GroupMenuView(action: $viewModel.groupAction, cardGroupPosition: $cardGroupPosition)
