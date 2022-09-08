@@ -209,12 +209,6 @@ struct ChatRoomView: View {
                                     }
                                 } else {
                                     if let message = viewModel.messages.first(where: {$0.eventId == event.eventId}) {
-                                        if viewModel.next(message)?.fullDate != message.fullDate {
-											ChatEventView(
-												text: message.fullDate,
-												backgroundColor: Palette.lightGray().suColor
-											).configureInnerOuterShadow().flippedUpsideDown()
-                                        }
                                         ChatRoomRow(
                                             message: message,
                                             isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
@@ -241,6 +235,12 @@ struct ChatRoomView: View {
                                                 cardPosition = .custom(UIScreen.main.bounds.height - 580)
                                             }
                                             hideKeyboard()
+                                        }
+                                        if viewModel.next(message)?.fullDate != message.fullDate {
+                                            ChatEventView(
+                                                text: message.fullDate,
+                                                backgroundColor: Palette.lightGray().suColor
+                                            ).configureInnerOuterShadow().flippedUpsideDown()
                                         }
                                     }
                                 }
