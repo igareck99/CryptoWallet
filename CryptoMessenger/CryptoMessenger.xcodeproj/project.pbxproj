@@ -519,6 +519,12 @@
 		D428A53D2823CA8D002CAA13 /* RemoteConfigServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D428A53C2823CA8D002CAA13 /* RemoteConfigServiceProtocol.swift */; };
 		D428A53F2823CBA0002CAA13 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D428A53E2823CBA0002CAA13 /* Parser.swift */; };
 		D428A5412824F7AC002CAA13 /* MatrixService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D428A5372823A00A002CAA13 /* MatrixService.swift */; };
+		D43A7E5228CB1BCF00A807EC /* JitsiWellKnown.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5128CB1BCF00A807EC /* JitsiWellKnown.swift */; };
+		D43A7E5428CB1BEE00A807EC /* JitsiAuthenticationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5328CB1BEE00A807EC /* JitsiAuthenticationType.swift */; };
+		D43A7E6128CB25D500A807EC /* Base32.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5D28CB25D500A807EC /* Base32.swift */; };
+		D43A7E6228CB25D500A807EC /* shim.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5E28CB25D500A807EC /* shim.swift */; };
+		D43A7E6328CB25D500A807EC /* Base16.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E5F28CB25D500A807EC /* Base16.swift */; };
+		D43A7E6428CB25D500A807EC /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A7E6028CB25D500A807EC /* StringExtension.swift */; };
 		D4442B4428113C3C0033D07A /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4128113C3C0033D07A /* KeychainWrapper.swift */; };
 		D4442B4528113C3C0033D07A /* KeychainWrapperSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4228113C3C0033D07A /* KeychainWrapperSubscript.swift */; };
 		D4442B4628113C3C0033D07A /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4328113C3C0033D07A /* KeychainItemAccessibility.swift */; };
@@ -559,6 +565,11 @@
 		D455F732287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D455F731287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift */; };
 		D45B7B5A286C4D1200435241 /* CXProviderConfiguration+Calls.m in Sources */ = {isa = PBXBuildFile; fileRef = D45B7B59286C4D1200435241 /* CXProviderConfiguration+Calls.m */; };
 		D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46187D2282D093200CA2836 /* ChatHistorySources.swift */; };
+		D4752EA428C22502006B650A /* Base32Encoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4752EA328C22502006B650A /* Base32Encoder.m */; };
+		D4752EB828C71AA0006B650A /* AURJitsiJWTTokenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752EB628C715E1006B650A /* AURJitsiJWTTokenBuilder.swift */; };
+		D4752EBA28C71AF3006B650A /* JitsiModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752EB928C71AF3006B650A /* JitsiModels.swift */; };
+		D4752EBE28C9D16B006B650A /* JistsiConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752EBD28C9D16B006B650A /* JistsiConstants.swift */; };
+		D4752EC328CA131A006B650A /* JitsiWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752EC228CA131A006B650A /* JitsiWidgetData.swift */; };
 		D47987CD284CBBAF00ACEE64 /* StatusBarCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */; };
 		D4857CE428A6260400C904EC /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857CE328A6260400C904EC /* ContactView.swift */; };
 		D4857CE928A6276D00C904EC /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857CE828A6276D00C904EC /* ChatTextView.swift */; };
@@ -1113,6 +1124,12 @@
 		D428A5372823A00A002CAA13 /* MatrixService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixService.swift; sourceTree = "<group>"; };
 		D428A53C2823CA8D002CAA13 /* RemoteConfigServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceProtocol.swift; sourceTree = "<group>"; };
 		D428A53E2823CBA0002CAA13 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		D43A7E5128CB1BCF00A807EC /* JitsiWellKnown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JitsiWellKnown.swift; sourceTree = "<group>"; };
+		D43A7E5328CB1BEE00A807EC /* JitsiAuthenticationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JitsiAuthenticationType.swift; sourceTree = "<group>"; };
+		D43A7E5D28CB25D500A807EC /* Base32.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base32.swift; sourceTree = "<group>"; };
+		D43A7E5E28CB25D500A807EC /* shim.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = shim.swift; sourceTree = "<group>"; };
+		D43A7E5F28CB25D500A807EC /* Base16.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base16.swift; sourceTree = "<group>"; };
+		D43A7E6028CB25D500A807EC /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		D4442B4128113C3C0033D07A /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		D4442B4228113C3C0033D07A /* KeychainWrapperSubscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperSubscript.swift; sourceTree = "<group>"; };
 		D4442B4328113C3C0033D07A /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
@@ -1153,6 +1170,12 @@
 		D45B7B58286C4D1200435241 /* CXProviderConfiguration+Calls.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CXProviderConfiguration+Calls.h"; sourceTree = "<group>"; };
 		D45B7B59286C4D1200435241 /* CXProviderConfiguration+Calls.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CXProviderConfiguration+Calls.m"; sourceTree = "<group>"; };
 		D46187D2282D093200CA2836 /* ChatHistorySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySources.swift; sourceTree = "<group>"; };
+		D4752EA228C22502006B650A /* Base32Encoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Base32Encoder.h; sourceTree = "<group>"; };
+		D4752EA328C22502006B650A /* Base32Encoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Base32Encoder.m; sourceTree = "<group>"; };
+		D4752EB628C715E1006B650A /* AURJitsiJWTTokenBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AURJitsiJWTTokenBuilder.swift; sourceTree = "<group>"; };
+		D4752EB928C71AF3006B650A /* JitsiModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiModels.swift; sourceTree = "<group>"; };
+		D4752EBD28C9D16B006B650A /* JistsiConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JistsiConstants.swift; sourceTree = "<group>"; };
+		D4752EC228CA131A006B650A /* JitsiWidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidgetData.swift; sourceTree = "<group>"; };
 		D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCallView.swift; sourceTree = "<group>"; };
 		D4857CE328A6260400C904EC /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		D4857CE828A6276D00C904EC /* ChatTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextView.swift; sourceTree = "<group>"; };
@@ -1234,6 +1257,7 @@
 		5A187DBD26806EF8001957D3 /* CryptoMessenger */ = {
 			isa = PBXGroup;
 			children = (
+				D4D439F528374AD100AC0DEF /* CryptoMessenger-Bridging-Header.h */,
 				8BE122C32825415100F7707E /* GoogleService-Info.plist */,
 				5A4BE4FD271DD55E00D03D09 /* CryptoMessenger.entitlements */,
 				5A187DD926806F4A001957D3 /* App */,
@@ -1305,6 +1329,7 @@
 		5A187DF72680708D001957D3 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D4752E9228BFC47E006B650A /* Group Calls */,
 				D4014D4D283FA7B200AAD70C /* P2P Calls */,
 				78A9CB8728191BAC00C4D7E1 /* IOActionSheet */,
 				5A187DF82680708D001957D3 /* Scenes */,
@@ -1875,7 +1900,6 @@
 				5A4BE50E271DD86A00D03D09 /* MXClient+Publisher.swift */,
 				5A4BE510271DD86A00D03D09 /* MX+Identifiable.swift */,
 				D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */,
-				D4D439F528374AD100AC0DEF /* CryptoMessenger-Bridging-Header.h */,
 				D4D439F928374B0B00AC0DEF /* MXRoom+Reply.h */,
 				D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */,
 				D423A0A72860A47E004A8228 /* MXCallKitAdapter+Updaters.h */,
@@ -3134,6 +3158,33 @@
 			path = "HStack Items";
 			sourceTree = "<group>";
 		};
+		D4752E9228BFC47E006B650A /* Group Calls */ = {
+			isa = PBXGroup;
+			children = (
+				D4752EA528C22558006B650A /* Encoders */,
+				D43A7E5328CB1BEE00A807EC /* JitsiAuthenticationType.swift */,
+				D43A7E5128CB1BCF00A807EC /* JitsiWellKnown.swift */,
+				D4752EB628C715E1006B650A /* AURJitsiJWTTokenBuilder.swift */,
+				D4752EB928C71AF3006B650A /* JitsiModels.swift */,
+				D4752EBD28C9D16B006B650A /* JistsiConstants.swift */,
+				D4752EC228CA131A006B650A /* JitsiWidgetData.swift */,
+			);
+			path = "Group Calls";
+			sourceTree = "<group>";
+		};
+		D4752EA528C22558006B650A /* Encoders */ = {
+			isa = PBXGroup;
+			children = (
+				D43A7E5F28CB25D500A807EC /* Base16.swift */,
+				D43A7E5D28CB25D500A807EC /* Base32.swift */,
+				D43A7E5E28CB25D500A807EC /* shim.swift */,
+				D43A7E6028CB25D500A807EC /* StringExtension.swift */,
+				D4752EA228C22502006B650A /* Base32Encoder.h */,
+				D4752EA328C22502006B650A /* Base32Encoder.m */,
+			);
+			path = Encoders;
+			sourceTree = "<group>";
+		};
 		D4857CE228A625EA00C904EC /* Contact View */ = {
 			isa = PBXGroup;
 			children = (
@@ -3487,6 +3538,7 @@
 				78437F10270C76FE00371110 /* AboutAppView.swift in Sources */,
 				5A44FEDB276681BD006F9D92 /* ProfileProtocols.swift in Sources */,
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
+				D4752EB828C71AA0006B650A /* AURJitsiJWTTokenBuilder.swift in Sources */,
 				7879F4B526CFC49300D3213F /* CallStruct.swift in Sources */,
 				5AABB7822739821D004D6107 /* ChatHistoryProtocols.swift in Sources */,
 				8BE379AB27EB7CF200AB6B6E /* KeyListProtocols.swift in Sources */,
@@ -3637,6 +3689,7 @@
 				5A3928322741A9EA00378ACA /* MXURL.swift in Sources */,
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
+				D43A7E6428CB25D500A807EC /* StringExtension.swift in Sources */,
 				D4FA3F72281A619B000246D8 /* TimeService.swift in Sources */,
 				D4857D0A28AFAB6600C904EC /* ChatComponentsFactory.swift in Sources */,
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
@@ -3695,9 +3748,11 @@
 				D445C84128462865003C3D5C /* CallViewSources.swift in Sources */,
 				8B5609B2277927B500AF43F6 /* TypographyView.swift in Sources */,
 				8B7BDA7F284FB7F500E37926 /* LinkRow.swift in Sources */,
+				D43A7E6328CB25D500A807EC /* Base16.swift in Sources */,
 				8B6E5554279F0E44002054CF /* PinCodeCreateView.swift in Sources */,
 				5A9B471A26EA6DE0001CC627 /* SlideCard.swift in Sources */,
 				5A9B472426EAA010001CC627 /* ReactionView.swift in Sources */,
+				D4752EA428C22502006B650A /* Base32Encoder.m in Sources */,
 				5A9318B926BD210400645365 /* PinCodeView.swift in Sources */,
 				8B24FDD827A820C60021177C /* SessionProtocols.swift in Sources */,
 				D4533A182833567D00B956B2 /* RemoteConfigValues.swift in Sources */,
@@ -3759,6 +3814,7 @@
 				D47987CD284CBBAF00ACEE64 /* StatusBarCallView.swift in Sources */,
 				8B6C18C22799A87000B85F2A /* SecurityNewConfigurator.swift in Sources */,
 				5A187EB6268070B3001957D3 /* UIColor+Extensions.swift in Sources */,
+				D4752EC328CA131A006B650A /* JitsiWidgetData.swift in Sources */,
 				D44BDC7728083B2F0080AE8A /* PushNotificationsUseCaseAssembly.swift in Sources */,
 				5A187EB5268070B3001957D3 /* UIViewController+Extensions.swift in Sources */,
 				8BE66738280F1C4600D41A3C /* CreateContactView.swift in Sources */,
@@ -3770,6 +3826,7 @@
 				5A187DF626807011001957D3 /* Coordinator.swift in Sources */,
 				8BC06B0E27C8F5EE005A28A1 /* TransactionFlow.swift in Sources */,
 				8B637D8727CCF06A000B1B2B /* FilterTransactionView.swift in Sources */,
+				D43A7E5228CB1BCF00A807EC /* JitsiWellKnown.swift in Sources */,
 				5A15DDF9276E5C9C00CF7AA4 /* ShimmerView.swift in Sources */,
 				8B432CC227C394E00025D62B /* WalletNewView.swift in Sources */,
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
@@ -3788,6 +3845,7 @@
 				D4533A142832C9A600B956B2 /* ChatRoomTogglesFacade.swift in Sources */,
 				789FEBD526D651530018FE91 /* AdditionalView.swift in Sources */,
 				5A26CD3B26B3211100118D4B /* TapAnimator.swift in Sources */,
+				D4752EBE28C9D16B006B650A /* JistsiConstants.swift in Sources */,
 				5AABB78727398A6E004D6107 /* NavigationBarModifier.swift in Sources */,
 				5AF8635D26ADB691004A417C /* OnboardingProtocols.swift in Sources */,
 				D448152D2877342400E9CAEF /* KeychainService+Credentials.swift in Sources */,
@@ -3821,6 +3879,7 @@
 				5AA6410626822C3A008922B4 /* FontDecor.swift in Sources */,
 				8B5A338627D89CF10064C7DC /* TransferProtocols.swift in Sources */,
 				8B4E9C4427E1EDD30057E4C9 /* FacilityApproveFlow.swift in Sources */,
+				D43A7E6128CB25D500A807EC /* Base32.swift in Sources */,
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
 				5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */,
 				7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */,
@@ -3935,6 +3994,7 @@
 				5A15DDFB276FA1C800CF7AA4 /* ImageViewer.swift in Sources */,
 				5ABF08D027D9CEF60016CC6F /* APIClient.swift in Sources */,
 				789B123626CE8906002FCDDF /* CallListFlow.swift in Sources */,
+				D43A7E6228CB25D500A807EC /* shim.swift in Sources */,
 				8B3A816A275AC25D00E736E4 /* ProfileDetailView.swift in Sources */,
 				78890648270684180093459C /* NetworkDetailItem.swift in Sources */,
 				78A9CBFB28191F1D00C4D7E1 /* ActionSheet.swift in Sources */,
@@ -3967,6 +4027,7 @@
 				8B7C17EC27DB894A001113F2 /* NumberFormatterProtocol.swift in Sources */,
 				8B0C4FFA2890613500671BA3 /* ChatRoomResources.swift in Sources */,
 				78A9CBFA28191F1D00C4D7E1 /* IOActionSheetView.swift in Sources */,
+				D4752EBA28C71AF3006B650A /* JitsiModels.swift in Sources */,
 				7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */,
 				5AF8636026ADB691004A417C /* OnboardingPresenter.swift in Sources */,
 				5ABAD39A27BDA6D80067DFC1 /* DocumentPicker.swift in Sources */,
@@ -4009,6 +4070,7 @@
 				D41553B9288AC819003FDADC /* UserDefaultsServiceProtocol.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
 				5A3721D3272EF0DA0097ABED /* ChatCreateView.swift in Sources */,
+				D43A7E5428CB1BEE00A807EC /* JitsiAuthenticationType.swift in Sources */,
 				D45004772845DE9700CA4C82 /* HStackViewModel.swift in Sources */,
 				7846B66126E8BC6600B05984 /* ScrollAnimation.swift in Sources */,
 				8BB517C12856BC4200D06593 /* ChatMediaSources.swift in Sources */,
@@ -4206,7 +4268,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.aura.app.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "CryptoMessenger/AuraKit/Extensions/CryptoMessenger-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "CryptoMessenger/CryptoMessenger-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -4237,7 +4299,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.aura.app.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "CryptoMessenger/AuraKit/Extensions/CryptoMessenger-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "CryptoMessenger/CryptoMessenger-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

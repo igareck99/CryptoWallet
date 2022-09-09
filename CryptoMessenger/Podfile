@@ -10,6 +10,7 @@ target 'CryptoMessenger' do
   # Matrix core
   pod 'MatrixSDK'
 	pod 'MatrixSDK/JingleCallStack'
+	pod 'SwiftJWT', '~> 3.6.200'
 
   # Firebase
   pod 'Firebase/RemoteConfig'
