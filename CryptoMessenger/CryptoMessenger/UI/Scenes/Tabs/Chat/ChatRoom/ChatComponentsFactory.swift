@@ -46,6 +46,22 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 		viewModel: ChatRoomViewModel
 	) -> AnyView {
 
+		debugPrint("makeChatEventView event.type: \(event.type) event.eventType: \(event.eventType)")
+
+		if event.eventType == "im.vector.modular.widgets" {
+			return AnyView(
+				ChatEventView(
+					text: sources.groupCallConference,
+					foregroundColor: .white
+				)
+				.configureOuterShadow()
+				.flippedUpsideDown()
+				.onTapGesture {
+					viewModel.joinGroupCall(event: event)
+				}
+			)
+		}
+
 		if event.eventType.contains("m.call.hangup") ||
 			event.eventType.contains("m.call.reject") {
 			let eventTitle = textForCallEventReason(eventType: event.eventType, content: event.content)

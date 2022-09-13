@@ -31,7 +31,11 @@ struct EventCollection {
         kMXEventTypeStringRoomAvatar,
 		kMXMessageTypeLocation,
 		kMXEventTypeStringCallHangup,
-		kMXEventTypeStringCallReject
+		kMXEventTypeStringCallReject,
+		"m.widget",
+		"im.vector.modular.widgets",
+		"jitsi",
+		"m.jitsi"
     ]
 
     /// Events that can be directly rendered in the timeline with a corresponding view. This for example does not

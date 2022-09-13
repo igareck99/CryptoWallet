@@ -1,5 +1,6 @@
-import Foundation
 // swiftlint: disable: all
+import Foundation
+
 // https://tools.ietf.org/html/rfc4648
 
 // MARK: - Base32 Data <-> String
@@ -191,6 +192,7 @@ private func base32encode(_ data: UnsafeRawPointer, _ length: Int, _ table: [Int
         fallthrough
     default:
         encoded[8] = 0
+        break
     }
     
     // return

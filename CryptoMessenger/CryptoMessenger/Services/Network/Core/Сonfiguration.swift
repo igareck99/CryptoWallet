@@ -51,7 +51,7 @@ enum ApiVersion: String, RawInitializable {
 }
 
 // MARK: - Configuration
-
+@objcMembers
 final class Configuration: ConfigType {
 
     // MARK: - Internal Properties

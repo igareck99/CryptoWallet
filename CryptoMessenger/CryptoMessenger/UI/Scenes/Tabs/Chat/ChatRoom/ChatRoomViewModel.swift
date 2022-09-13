@@ -46,11 +46,18 @@ final class ChatRoomViewModel: ObservableObject {
 	@Published var isVoiceCallAvailablility: Bool = false
 	@Published var isVideoCallAvailablility: Bool = false
 
+	private let groupCallsUseCase: GroupCallsUseCaseProtocol
+
+	var isGroupCall: Bool {
+		(room.room.summary?.membersCount?.joined ?? .zero > 2) == true
+	}
+
 	var isVoiceCallAvailable: Bool {
 		let isCallAvailable = availabilityFacade.isCallAvailable
 		let isP2PChat = room.room.summary?.membersCount?.joined == 2
 		return isCallAvailable && isP2PChat
 	}
+
     let sources: ChatRoomSourcesable.Type
 
 	var isVideoCallAvailable: Bool {
@@ -87,7 +94,8 @@ final class ChatRoomViewModel: ObservableObject {
         locationManager: LocationManagerUseCaseProtocol = LocationManagerUseCase(),
 		settings: UserDefaultsServiceCallable = UserDefaultsService.shared,
         sources: ChatRoomSourcesable.Type = ChatRoomResources.self,
-		componentsFactory: ChatComponentsFactoryProtocol = ChatComponentsFactory()
+		componentsFactory: ChatComponentsFactoryProtocol = ChatComponentsFactory(),
+		groupCallsUseCase: GroupCallsUseCaseProtocol
 	) {
         self.sources = sources
         self.room = room
@@ -96,6 +104,7 @@ final class ChatRoomViewModel: ObservableObject {
 		self.availabilityFacade = availabilityFacade
         self.toggleFacade = toggleFacade
 		self.componentsFactory = componentsFactory
+		self.groupCallsUseCase = groupCallsUseCase
 		self.locationManager = locationManager
 
 		updateToggles()
@@ -552,14 +561,20 @@ final class ChatRoomViewModel: ObservableObject {
 				self.p2pCallsUseCase.placeVoiceCall(roomId: roomId, contacts: self.chatData.contacts)
 				self.updateToggles()
 			}.store(in: &subscriptions)
+
 		p2pVideoCallPublisher
 			.subscribe(on: RunLoop.main)
 			.receive(on: RunLoop.main)
 			.sink { [weak self] _ in
 				debugPrint("Place_Call: p2pVideoCallPublisher")
+				guard let self = self else { return }
+
+				if self.isGroupCall {
+					self.groupCallsUseCase.placeGroupCall(in: self.room.room)
+					return
+				}
 				// TODO: Handle failure case
-				guard let self = self,
-					  let roomId = self.room.room.roomId else { return }
+				guard let roomId = self.room.room.roomId else { return }
 				self.p2pCallsUseCase.placeVideoCall(roomId: roomId, contacts: self.chatData.contacts)
 				self.updateToggles()
 			}.store(in: &subscriptions)
@@ -639,6 +654,23 @@ final class ChatRoomViewModel: ObservableObject {
             }
         }
     }
+
+	func joinGroupCall(event: RoomMessage) {
+//		guard let mxEvent = room.events().renderableEvents.first(where: { renderableEvent in
+//			event.eventId == renderableEvent.eventId
+//		}) else { return }
+//		self.groupCallsUseCase.joinGroupCall(in: mxEvent)
+
+		if let mxEvent = room.events().renderableEvents.first(where: { renderableEvent in
+			event.eventId == renderableEvent.eventId
+		}) {
+			self.groupCallsUseCase.joinGroupCall(in: mxEvent)
+		} else if let mxEvent = room.eventCache.first(where: { cachedEvent in
+			cachedEvent.eventId == event.eventId
+		}) {
+			self.groupCallsUseCase.joinGroupCall(in: mxEvent)
+		}
+	}
 }
 
 // MARK: - Chat Events
