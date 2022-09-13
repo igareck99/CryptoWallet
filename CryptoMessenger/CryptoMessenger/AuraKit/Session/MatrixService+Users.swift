@@ -28,7 +28,7 @@ extension MatrixService {
 		session?.myUser?.statusMsg ?? ""
 	}
 	func getAvatarUrl(completion: @escaping (String) -> Void) {
-		let avatar = session?.myUser.avatarUrl ?? ""
+		let avatar = session?.myUser?.avatarUrl ?? ""
         completion(avatar)
 	}
 

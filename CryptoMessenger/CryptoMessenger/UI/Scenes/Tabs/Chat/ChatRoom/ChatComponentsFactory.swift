@@ -51,7 +51,7 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 		if event.eventType == "im.vector.modular.widgets" {
 			return AnyView(
 				ChatEventView(
-					text: sources.groupCallConference,
+					text: makeTextForGroupCall(event: event),
 					foregroundColor: .white
 				)
 				.configureOuterShadow()
@@ -225,5 +225,14 @@ extension ChatComponentsFactory {
 		case .none:
 			return AnyView(EmptyView())
 		}
+	}
+
+	private func makeTextForGroupCall(event: RoomMessage) -> String {
+
+		guard (event.content["type"] as? String) != nil,
+			  (event.content["url"] as? String) != nil
+		else { return sources.groupCallInactiveConference }
+
+		return sources.groupCallActiveConference
 	}
 }

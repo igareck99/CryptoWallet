@@ -98,7 +98,6 @@ extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 			let room = session.room(withRoomId: widget.roomId)
 		else { return }
 
-
 		let newUUID = UUID()
 		let handle = CXHandle(type: .generic, value: widget.roomId)
 		let startCallAction = CXStartCallAction(call: newUUID, handle: handle)
@@ -148,6 +147,7 @@ extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 extension GroupCallsUseCase: GroupCallsViewControllerDelegate {
 
 	func conferenceDidTerminated(controller: UIViewController) {
+		(controller.view as? JitsiMeetView)?.hangUp()
 		controller.navigationController?.popViewController(animated: true)
 	}
 
