@@ -68,7 +68,9 @@ protocol ChatRoomSourcesable {
 
     static var translateAlertEncryption: String { get }
 
-	static var groupCallConference: String { get }
+	static var groupCallActiveConference: String { get }
+
+	static var groupCallInactiveConference: String { get }
 }
 
 // MARK: - ChatRoomResources(ChatRoomSourcesable)
@@ -201,7 +203,12 @@ enum ChatRoomResources: ChatRoomSourcesable {
         R.string.localizable.translateAlertEncryption()
     }
 
-	static var groupCallConference: String {
-		R.string.localizable.groupCallConference()
+	static var groupCallActiveConference: String {
+		R.string.localizable.groupCallActiveConference()
+
+	}
+
+	static var groupCallInactiveConference: String {
+		R.string.localizable.groupCallInactiveConference()
 	}
 }

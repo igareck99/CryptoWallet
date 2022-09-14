@@ -107,7 +107,8 @@
 "Calls.TurnOffSound" = "Выключить звук";
 "Calls.Camera" = "Камера";
 
-"GroupCall.Conference" = "Групповая видеоконференция, нажмите чтобы присоединиться к конференции";
+"GroupCall.ActiveConference" = "Видеоконференция активна, нажмите чтобы присоединиться";
+"GroupCall.InactiveConference" = "Видеоконференция завершена";
 
 "PhotoEditor.Title" = "Фото";
 "PhotoEditor.AlertTitle" = "Удалить фото?";

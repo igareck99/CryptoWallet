@@ -49,7 +49,8 @@ final class ChatRoomViewModel: ObservableObject {
 	private let groupCallsUseCase: GroupCallsUseCaseProtocol
 
 	var isGroupCall: Bool {
-		(room.room.summary?.membersCount?.joined ?? .zero > 2) == true
+		(room.room.summary?.membersCount?.joined ?? .zero > 2) == true ||
+		room.room.isDirect == false
 	}
 
 	var isVoiceCallAvailable: Bool {
@@ -498,7 +499,6 @@ final class ChatRoomViewModel: ObservableObject {
         matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
-
             .sink { [weak self] _ in
                 guard
                     let self = self,
@@ -656,10 +656,6 @@ final class ChatRoomViewModel: ObservableObject {
     }
 
 	func joinGroupCall(event: RoomMessage) {
-//		guard let mxEvent = room.events().renderableEvents.first(where: { renderableEvent in
-//			event.eventId == renderableEvent.eventId
-//		}) else { return }
-//		self.groupCallsUseCase.joinGroupCall(in: mxEvent)
 
 		if let mxEvent = room.events().renderableEvents.first(where: { renderableEvent in
 			event.eventId == renderableEvent.eventId

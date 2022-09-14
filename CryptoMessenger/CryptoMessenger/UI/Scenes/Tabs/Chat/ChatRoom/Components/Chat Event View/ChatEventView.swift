@@ -34,6 +34,7 @@ struct ChatEventView: View {
 				.padding(.horizontal, 17)
 				.padding(.vertical, 3)
 				.foregroundColor(foregroundColor)
+				.multilineTextAlignment(.center)
 		}
 		.background(backgroundColor)
 		.cornerRadius(8)
