@@ -26,7 +26,7 @@ struct ResizeableTextView: UIViewRepresentable {
 	}
 
 	func updateUIView(_ textView: UITextView, context: Context) {
-		if self.text.isEmpty == true {
+		if self.text.isEmpty {
 			textView.text = self.editing ? "" : self.placeholderText
 			textView.textColor = self.editing ? .black : .lightGray
 		}

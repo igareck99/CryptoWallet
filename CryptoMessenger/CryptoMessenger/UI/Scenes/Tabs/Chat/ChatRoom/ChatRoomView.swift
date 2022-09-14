@@ -331,6 +331,7 @@ struct ChatRoomView: View {
                                     inputViewIsFocused = true
                                 case .reply:
                                     inputViewIsFocused = true
+                                    quickAction = .reply
                                 default:
                                     ()
                                 }
@@ -479,6 +480,8 @@ struct ChatRoomView: View {
                                               textDragPadding: $textDragPadding,
                                               resetAudio: $resetAudio,
                                               record: $record)
+                        .frame(width: 24,
+                               height: 24)
                     }
                 }
                 .padding(.top, 8)
