@@ -16,7 +16,9 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var inputText = ""
     @Published var attachAction: AttachAction?
     @Published var groupAction: GroupAction?
+    @Published var directAction: DirectAction?
     @Published var translateAction: TranslateAction?
+    @Published var dismissScreen = false
 
     @Published private(set) var keyboardHeight: CGFloat = 0
     @Published private(set) var emojiStorage: [ReactionStorage] = []
@@ -45,6 +47,8 @@ final class ChatRoomViewModel: ObservableObject {
 
 	@Published var isVoiceCallAvailablility: Bool = false
 	@Published var isVideoCallAvailablility: Bool = false
+    @Published var isChatGroupMenuAvailable: Bool = false
+    @Published var isChatDirectMenuAvailable: Bool = false
 
 	private let groupCallsUseCase: GroupCallsUseCaseProtocol
 
@@ -136,13 +140,12 @@ final class ChatRoomViewModel: ObservableObject {
     }
 
 	private func updateToggles() {
-
 		let isP2PChat = room.room.summary?.membersCount?.joined == 2
 		let isCallInProgress = settings.bool(forKey: .isCallInprogressExists)
-
 		let isCallAvailable = availabilityFacade.isCallAvailable
 		self.isVoiceCallAvailablility = isCallAvailable && isP2PChat && !isCallInProgress
-
+        self.isChatDirectMenuAvailable = availabilityFacade.isChatDirectMenuAvailable
+        self.isChatGroupMenuAvailable = availabilityFacade.isChatGroupMenuAvailable
 		let isVideoCallAvailable = availabilityFacade.isVideoCallAvailable
 		self.isVideoCallAvailablility = isVideoCallAvailable && isP2PChat && !isCallInProgress
 	}
@@ -185,6 +188,14 @@ final class ChatRoomViewModel: ObservableObject {
 
     func fromCurrentSender(_ userId: String) -> Bool {
         matrixUseCase.fromCurrentSender(userId)
+    }
+    
+    func getMenuStatus() -> Bool {
+        if room.isDirect {
+            return isChatDirectMenuAvailable
+        } else {
+            return isChatGroupMenuAvailable
+        }
     }
     
     func translateMessagesTo(languageCode: String) {
@@ -377,6 +388,27 @@ final class ChatRoomViewModel: ObservableObject {
                 switch action {
                 case .translate:
                     self?.showTranslate = true
+                case .delete:
+                    self?.dismissScreen = true
+                    guard let roomId = self?.room.room.roomId else { return }
+                    self?.matrixUseCase.leaveRoom(roomId: roomId,
+                                                  completion: { _ in })
+                default:
+                    break
+                }
+            }
+            .store(in: &subscriptions)
+        $directAction
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] action in
+                switch action {
+                case .translate:
+                    self?.showTranslate = true
+                case .delete:
+                    self?.dismissScreen = true
+                    guard let roomId = self?.room.room.roomId else { return }
+                    self?.matrixUseCase.leaveRoom(roomId: roomId,
+                                                  completion: { _ in })
                 default:
                     break
                 }

@@ -95,6 +95,11 @@ struct ChatRoomView: View {
             .onDisappear {
                 showTabBar()
             }
+            .onChange(of: viewModel.dismissScreen, perform: { newValue in
+                if newValue {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            })
             .onChange(of: showActionSheet, perform: { item in
                 if item {
                     hideNavBar()
@@ -288,7 +293,11 @@ struct ChatRoomView: View {
             if activateShowCard {
                 quickMenuView
             }
-            groupMenuView
+            if viewModel.room.isDirect {
+                directMenuView
+            } else {
+                groupMenuView
+            }
             translateMenuView
             if selectedPhoto != nil {
                 ZStack {
@@ -370,11 +379,32 @@ struct ChatRoomView: View {
 
             SlideCard(position: $cardGroupPosition) {
                 VStack(spacing: 0) {
-                    GroupMenuView(action: $viewModel.groupAction, cardGroupPosition: $cardGroupPosition)
+                    GroupMenuView(action: $viewModel.groupAction,
+                                  cardGroupPosition: $cardGroupPosition)
                 }.padding(.vertical, 32)
             }
         }
     }
+    
+    private var directMenuView: some View {
+        ZStack {
+            Color(cardGroupPosition == .bottom ? .clear : .black(0.4))
+                .ignoresSafeArea()
+                .animation(.easeInOut, value: cardGroupPosition != .bottom)
+                .onTapGesture {
+                    vibrate()
+                    cardGroupPosition = .bottom
+                }
+
+            SlideCard(position: $cardGroupPosition) {
+                VStack(spacing: 0) {
+                    DirectMenuView(action: $viewModel.directAction,
+                                  cardGroupPosition: $cardGroupPosition)
+                }.padding(.vertical, 32)
+            }
+        }
+    }
+
     private var translateMenuView: some View {
         ZStack {
             Color(translateCardPosition == .bottom ? .clear : .black(0.4))
@@ -614,14 +644,15 @@ struct ChatRoomView: View {
 						viewModel.sources.videoFill.tint(.black)
 					})
 				}
-
-                Button(action: {
-                    hideKeyboard()
-                    cardGroupPosition = .custom(180)
-                }, label: {
-                    viewModel.sources.settingsButton
-                })
-                .padding(.trailing, 6)
+                if viewModel.getMenuStatus() {
+                    Button(action: {
+                        hideKeyboard()
+                        cardGroupPosition = .custom(180)
+                    }, label: {
+                        viewModel.sources.settingsButton
+                    })
+                    .padding(.trailing, 6)
+                }
             }
         }
     }
