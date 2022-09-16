@@ -33,7 +33,6 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
     @State private var chatData = ChatData()
     @State private var selectedImage: UIImage?
     @State private var selectedRoomId: ObjectIdentifier?
-    @State private var cardGroupPosition: CardPosition = .bottom
 
     @State private var actionSheet: IOActionSheet?
 
@@ -71,7 +70,6 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                             .foreground(.black())
                         Spacer()
                     }
-                    groupMenuView
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: 0) {
@@ -95,23 +93,6 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
     }
 
     // MARK: - Body Properties
-
-    private var groupMenuView: some View {
-        ZStack {
-            Color(cardGroupPosition == .bottom ? .clear : .black(0.4))
-                .ignoresSafeArea()
-                .animation(.easeInOut, value: cardGroupPosition != .bottom)
-                .onTapGesture {
-                    vibrate()
-                    cardGroupPosition = .bottom
-                }
-            SlideCard(position: $cardGroupPosition) {
-                VStack(spacing: 0) {
-                    GroupMenuView(action: $viewModel.groupAction, cardGroupPosition: $cardGroupPosition)
-                }.padding(.vertical, 16)
-            }
-        }
-    }
     
     private var content: some View {
         VStack(spacing: 0) {

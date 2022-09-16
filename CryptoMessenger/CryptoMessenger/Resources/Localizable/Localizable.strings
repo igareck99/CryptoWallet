@@ -496,3 +496,18 @@
 "Translate.Translate" = "Перевести";
 "Translate.IntoRussian" = "Переводить сообщения на Русский язык";
 "Translate.AlertEncryption" = "ВНИМАНИЕ! При переводе сообщий их шифрования теряется!";
+
+"ChatMenuView.Edit" = "Редактировать";
+"ChatMenuView.NotificationsOff" = "Выключить уведомления";
+"ChatMenuView.NotificationsTurnOff" = "Отключить уведомления";
+"ChatMenuView.Users" = "Пользователи группы";
+"ChatMenuView.ShareChat" = "Поделиться чатом";
+"ChatMenuView.Search" = "Поиск сообщений";
+"ChatMenuView.Translate" = "Редактировать";
+"ChatMenuView.RemoveChat" = "Удалить чат";
+"ChatMenuView.BlackList" = "Черный список";
+"ChatMenuView.Translate" = "Переводить сообщения";
+"ChatMenuView.Background" = "Фон чата";
+"ChatMenuView.ShareContact" = "Поделиться контактом";
+"ChatMenuView.BlockUser" = "Заблокировать пользователя";
+"ChatMenuView.CleatChat" = "Очистить историю";

@@ -5,6 +5,8 @@ protocol ChatRoomTogglesFacadeProtocol {
 	var isVideoCallAvailable: Bool { get }
 	var isGroupChatAvailable: Bool { get }
 	var isPersonalChatAvailable: Bool { get }
+    var isChatGroupMenuAvailable: Bool { get }
+    var isChatDirectMenuAvailable: Bool { get }
 }
 
 final class ChatRoomTogglesFacade {
@@ -34,4 +36,12 @@ extension ChatRoomTogglesFacade: ChatRoomTogglesFacadeProtocol {
 	var isPersonalChatAvailable: Bool {
 		remoteConfigUseCase.isPersonalChatV1Available
 	}
+
+    var isChatGroupMenuAvailable: Bool {
+        remoteConfigUseCase.isChatGroupMenuAvailable
+    }
+    
+    var isChatDirectMenuAvailable: Bool {
+        remoteConfigUseCase.isChatDirectMenuAvailable
+    }
 }
