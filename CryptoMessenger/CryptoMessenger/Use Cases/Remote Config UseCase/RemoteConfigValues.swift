@@ -26,6 +26,7 @@ enum RemoteConfigValues: String {
 	enum Calls: String {
 		case p2pCalls
 		case p2pVideoCalls
+		case groupCalls
 	}
 
     // Настройки модуля импорта фразы

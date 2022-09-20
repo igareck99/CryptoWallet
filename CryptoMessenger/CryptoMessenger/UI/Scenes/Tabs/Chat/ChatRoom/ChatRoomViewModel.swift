@@ -44,6 +44,8 @@ final class ChatRoomViewModel: ObservableObject {
 	var p2pVideoCallPublisher = ObservableObjectPublisher()
     @Published var audioUrl: RecordingDataModel?
 	var p2pVoiceCallPublisher = ObservableObjectPublisher()
+	var groupCallPublisher = ObservableObjectPublisher()
+
 
 	@Published var isVoiceCallAvailablility: Bool = false
 	@Published var isVideoCallAvailablility: Bool = false
@@ -53,8 +55,7 @@ final class ChatRoomViewModel: ObservableObject {
 	private let groupCallsUseCase: GroupCallsUseCaseProtocol
 
 	var isGroupCall: Bool {
-		(room.room.summary?.membersCount?.joined ?? .zero > 2) == true ||
-		room.room.isDirect == false
+		room.room.isDirect == false && availabilityFacade.isGroupCallsAvailable
 	}
 
 	var isVoiceCallAvailable: Bool {
@@ -611,6 +612,16 @@ final class ChatRoomViewModel: ObservableObject {
 				self.updateToggles()
 			}.store(in: &subscriptions)
 
+		groupCallPublisher
+			.subscribe(on: RunLoop.main)
+			.receive(on: RunLoop.main)
+			.sink { [weak self] _ in
+				debugPrint("Place_Call: groupCallPublisher")
+				guard let self = self else { return }
+				self.groupCallsUseCase.placeGroupCall(in: self.room.room)
+				self.updateToggles()
+			}.store(in: &subscriptions)
+
 		settings.inProgressCallSubject
 			.receive(on: RunLoop.main)
 			.sink { [weak self] _ in
@@ -693,7 +704,8 @@ final class ChatRoomViewModel: ObservableObject {
 			event.eventId == renderableEvent.eventId
 		}) {
 			self.groupCallsUseCase.joinGroupCall(in: mxEvent)
-		} else if let mxEvent = room.eventCache.first(where: { cachedEvent in
+		} else if let mxRoom = matrixUseCase.rooms.first(where: { $0.room.id == self.room.id }),
+			let mxEvent = mxRoom.eventCache.first(where: { cachedEvent in
 			cachedEvent.eventId == event.eventId
 		}) {
 			self.groupCallsUseCase.joinGroupCall(in: mxEvent)

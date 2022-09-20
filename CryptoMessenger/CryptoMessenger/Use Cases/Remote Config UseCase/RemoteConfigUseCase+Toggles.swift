@@ -9,6 +9,7 @@ protocol RemoteConfigToggles {
 	// Calls
 	var isP2PCallV1Available: Bool { get }
 	var isP2PVideoCallsV1Available: Bool { get }
+	var isGroupCallsV1Available: Bool { get }
 
 	// Chats
 	var isGroupChatV1Available: Bool { get }
@@ -74,6 +75,14 @@ extension RemoteConfigUseCase: RemoteConfigToggles {
 		let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
 		let isFeatureEnabled = feature?.enabled
 		return isVersionEnabled == true && isFeatureEnabled == true
+	}
+
+	var isGroupCallsV1Available: Bool {
+		isFeatureAvailable(
+			module: .calls,
+			feature: RemoteConfigValues.Calls.groupCalls.rawValue,
+			version: RemoteConfigValues.Version.v1_0
+		)
 	}
 
 	// MARK: - Chats
@@ -217,4 +226,18 @@ extension RemoteConfigUseCase: RemoteConfigToggles {
         let isFeatureEnabled = feature?.enabled
         return isVersionEnabled == true && isFeatureEnabled == true
     }
+
+	// MARK: - Private
+
+	private func isFeatureAvailable(
+		module: RemoteConfigValues,
+		feature: String,
+		version: RemoteConfigValues.Version
+	) -> Bool {
+		let featureConfig = remoteConfigModule(forKey: module)
+		let feature = featureConfig?.features[feature]
+		let isVersionEnabled = feature?.versions[version.rawValue]
+		let isFeatureEnabled = feature?.enabled
+		return isVersionEnabled == true && isFeatureEnabled == true
+	}
 }
