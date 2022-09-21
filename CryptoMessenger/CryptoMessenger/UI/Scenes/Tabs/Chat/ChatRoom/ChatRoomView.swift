@@ -639,7 +639,7 @@ struct ChatRoomView: View {
                 }
 				if viewModel.isGroupCall {
 					Button(action: {
-						viewModel.p2pVideoCallPublisher.send()
+						viewModel.groupCallPublisher.send()
 					}, label: {
 						viewModel.sources.videoFill.tint(.black)
 					})
