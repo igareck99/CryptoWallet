@@ -190,38 +190,39 @@ extension ChatComponentsFactory {
 				shortDate: message.shortDate,
 				url: url) {
 					onSelectPhoto?(url)
-				})
-		case let .contact(name, phone, url):
-			return AnyView(ContactView(
-				shortDate: message.shortDate,
-				name: name,
-				phone: phone,
-				url: url,
-				isFromCurrentUser: message.isCurrentUser,
-				onButtonAction: { onContactButtonAction(name, phone, url) }
-			))
-		case let .file(fileName, url):
-			return AnyView(FileView(
-				isFromCurrentUser: message.isCurrentUser,
-				shortDate: message.shortDate,
-				fileName: fileName,
-				url: url,
-				isShowFile: showFile,
-				sheetPresenting: { fileSheetPresenting(url) },
-				onTapHandler: onFileTapHandler))
-		case let .audio(url):
-			return AnyView(AudioView(
-				messageId: message.id,
-				shortDate: message.shortDate,
-				audioDuration: message.audioDuration,
-				isCurrentUser: message.isCurrentUser,
-				isFromCurrentUser: message.isCurrentUser,
-				activateShowCard: activateShowCard,
-				playingAudioId: playingAudioId,
-				audioViewModel: StateObject(
-					wrappedValue: AudioMessageViewModel(url: url, messageId: message.id)
-				)
-			))
+                })
+        case let .contact(name, phone, url):
+            return AnyView(ContactView(
+                shortDate: message.shortDate,
+                name: name,
+                phone: phone,
+                url: url,
+                isFromCurrentUser: message.isCurrentUser,
+                onButtonAction: { onContactButtonAction(name, phone, url) }
+            ))
+        case let .file(fileName, url):
+            return AnyView(FileView(
+                viewModel: FileViewModel(url: url),
+                isFromCurrentUser: message.isCurrentUser,
+                shortDate: message.shortDate,
+                fileName: fileName,
+                url: url,
+                isShowFile: showFile,
+                sheetPresenting: { fileSheetPresenting(url) },
+                onTapHandler: onFileTapHandler))
+        case let .audio(url):
+            return AnyView(AudioView(
+                messageId: message.id,
+                shortDate: message.shortDate,
+                audioDuration: message.audioDuration,
+                isCurrentUser: message.isCurrentUser,
+                isFromCurrentUser: message.isCurrentUser,
+                activateShowCard: activateShowCard,
+                playingAudioId: playingAudioId,
+                audioViewModel: StateObject(
+                    wrappedValue: AudioMessageViewModel(url: url, messageId: message.id)
+                )
+            ))
 		case .none:
 			return AnyView(EmptyView())
 		}
