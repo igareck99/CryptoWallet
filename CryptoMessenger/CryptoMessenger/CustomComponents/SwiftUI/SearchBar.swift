@@ -14,24 +14,31 @@ struct SearchBar: View {
 
     var body: some View {
         ZStack {
-            Rectangle()
-                .foregroundColor(Color(.paleBlue()))
-            HStack(spacing: 8) {
+            Rectangle().foregroundColor(Color(.init(242, 247, 252)))
+            HStack(spacing: 0) {
                 Image(systemName: "magnifyingglass")
-                TextField(placeholder, text: $searchText) { startedEditing in
+					.foregroundColor(Color(.init(133, 135, 141)))
+					.padding(.leading, 4)
+                TextField("", text: $searchText) { startedEditing in
                     if startedEditing {
                         withAnimation {
                             searching = true
                         }
-                    }
+					}
                 } onCommit: {
                     withAnimation {
                         searching = false
                     }
                 }
+				.font(.regular(17))
+				.foregroundColor(.black)
+				.padding(.leading, 6)
+				.placeholder(when: !searching) {
+					Text(placeholder)
+						.foregroundColor(Color(.init(133, 135, 141)))
+						.padding(.leading, 4)
+				}
             }
-            .foregroundColor(.gray)
-            .padding(.leading, 13)
         }
         .frame(height: 36)
         .cornerRadius(8)
