@@ -91,7 +91,11 @@ final class JitsiService: NSObject {
 		})
 	}
 
-	func configureCallKitProvider(localizedName: String, ringtoneName: String?, iconTemplateImageData: Data?) {
+	static func configureCallKitProvider(
+		localizedName: String,
+		ringtoneName: String? = nil,
+		iconTemplateImageData: Data? = nil
+	) {
 		JMCallKitProxy.configureProvider(localizedName: localizedName, ringtoneSound: ringtoneName, iconTemplateImageData: iconTemplateImageData)
 	}
 

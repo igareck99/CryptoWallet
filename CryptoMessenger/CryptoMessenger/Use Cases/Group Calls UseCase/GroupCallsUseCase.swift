@@ -16,6 +16,7 @@ final class GroupCallsUseCase {
 	private var sessions: [MXSession] = []
 	private let room: MXRoom
 	private let viewModel: AURGroupCallsViewModel
+	private let jingleCallStackConfigurator = MXJingleCallAudioSessionConfigurator()
 
 	private var conferenceId: String?
 	private var jwtToken: String?
@@ -149,6 +150,8 @@ extension GroupCallsUseCase: GroupCallsViewControllerDelegate {
 	func conferenceDidTerminated(controller: UIViewController) {
 		(controller.view as? JitsiMeetView)?.hangUp()
 		controller.navigationController?.popViewController(animated: true)
+
+		jingleCallStackConfigurator.configureAudioSessionAfterCallEnds()
 	}
 
 	func viewDidLoad(controller: UIViewController) {
@@ -158,6 +161,8 @@ extension GroupCallsUseCase: GroupCallsViewControllerDelegate {
 			  let serverUrl = URL(string: "https://meet.auratest.website")
 		else { return }
 
+		jingleCallStackConfigurator.configureAudioSession(forVideoCall: true)
+
 		let options = conferenceOptions(
 			with: conferenceId,
 			jwtToken: jwtToken,
@@ -165,5 +170,7 @@ extension GroupCallsUseCase: GroupCallsViewControllerDelegate {
 		)
 		(controller.view as? JitsiMeetView)?.join(options)
 		(controller.view as? JitsiMeetView)?.setAudioMuted(false)
+
+		jingleCallStackConfigurator.audioSessionDidActivate(AVAudioSession.sharedInstance())
 	}
 }

@@ -178,6 +178,12 @@ extension MatrixService {
 		let config = MXCallKitConfiguration()
 		config.iconName = "AppIcon"
 		config.name = "CryptoMessenger"
+
+		JitsiService.configureCallKitProvider(
+			localizedName: config.name,
+			ringtoneName: config.ringtoneName
+		)
+
 		let adapter = MXCallKitAdapter(configuration: config)
 		let audioSessionConfigurator: MXCallAudioSessionConfigurator = MXJingleCallAudioSessionConfigurator()
 		audioSessionConfigurator.configureAudioSession(forVideoCall: true)
