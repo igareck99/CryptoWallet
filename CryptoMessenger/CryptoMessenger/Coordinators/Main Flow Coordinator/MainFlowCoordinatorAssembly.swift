@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - MainFlowCoordinatorAssembly
+
 enum MainFlowCoordinatorAssembly {
 	static func build(
 		delegate: MainFlowCoordinatorDelegate,

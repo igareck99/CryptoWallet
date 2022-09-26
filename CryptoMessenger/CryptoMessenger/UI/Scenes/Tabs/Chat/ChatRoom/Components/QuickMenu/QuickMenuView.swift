@@ -108,7 +108,6 @@ struct QuickMenuView: View {
     }
 }
 
-
 // MARK: - QuickAction
 
 enum QuickActionCurrentUser: CaseIterable {

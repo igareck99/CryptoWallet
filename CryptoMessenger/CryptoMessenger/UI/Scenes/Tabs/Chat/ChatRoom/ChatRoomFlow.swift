@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SwiftUI
 
 // MARK: - ChatRoomFlow
 
@@ -36,5 +37,6 @@ enum ChatRoomFlow {
         case onAddReaction(messageId: String, reactionId: String)
         case onDeleteReaction(messageId: String, reactionId: String)
         case onNextScene
+        case onSettings(chatData: Binding<ChatData>, saveData: Binding<Bool>, room: AuraRoom)
     }
 }

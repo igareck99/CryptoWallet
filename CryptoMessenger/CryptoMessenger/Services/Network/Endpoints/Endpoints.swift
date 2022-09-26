@@ -65,6 +65,11 @@ enum Endpoints {
             endpoint.modifyRequest { $0.jsonBody(array: phones) }
             return endpoint
         }
+
+        static func getProfile(_ name: String) -> Endpoint<[String: String]> {
+            let endpoint = Endpoint<[String: String]>(method: .get, path: "/profile/\(name)")
+            return endpoint
+        }
     }
 
     // MARK: - Media

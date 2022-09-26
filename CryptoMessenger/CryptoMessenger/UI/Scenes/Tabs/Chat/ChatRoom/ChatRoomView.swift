@@ -1,8 +1,8 @@
 import Combine
 import SwiftUI
 
-// MARK: - ChatRoomView
 // swiftlint:disable all
+// MARK: - ChatRoomView
 
 struct ChatRoomView: View {
 
@@ -153,14 +153,6 @@ struct ChatRoomView: View {
                     }
                 }
             }
-            .overlay(
-                EmptyNavigationLink(
-                    destination: SettingsView(chatData: $viewModel.chatData,
-                                              saveData: $viewModel.saveData,
-                                              room: viewModel.room),
-                    isActive: $showSettings
-                )
-            )
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarColor(selectedPhoto != nil ? nil : .white(), isBlured: false)
@@ -618,7 +610,9 @@ struct ChatRoomView: View {
             }
             .background(.white())
             .onTapGesture {
-                showSettings.toggle()
+                viewModel.send(.onSettings(chatData: $viewModel.chatData,
+                                           saveData: $viewModel.saveData,
+                                           room: viewModel.room))
             }
         }
         ToolbarItem(placement: .navigationBarTrailing) {
