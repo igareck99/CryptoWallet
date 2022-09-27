@@ -1,7 +1,13 @@
 import SwiftUI
+import Foundation
+
+// MARK: - FileView
 
 struct FileView: View {
 
+    // MARK: - Private properties
+
+    @StateObject var viewModel: FileViewModel
 	private let isFromCurrentUser: Bool
 	private let shortDate: String
 	private let fileName: String
@@ -10,7 +16,10 @@ struct FileView: View {
 	private let sheetPresenting: () -> AnyView?
 	private let onTapHandler: () -> Void
 
+    // MARK: - Lifecycle
+
 	init(
+        viewModel: FileViewModel,
 		isFromCurrentUser: Bool,
 		shortDate: String,
 		fileName: String,
@@ -19,6 +28,7 @@ struct FileView: View {
 		sheetPresenting: @escaping () -> AnyView?,
 		onTapHandler: @escaping () -> Void
 	) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
 		self.isFromCurrentUser = isFromCurrentUser
 		self.shortDate = shortDate
 		self.fileName = fileName
@@ -28,38 +38,41 @@ struct FileView: View {
 		self.onTapHandler = onTapHandler
 	}
 
+    // MARK: - Body
+
 	var body: some View {
 		ZStack {
-			HStack(spacing: 0) {
-				if let url = url {
-					PDFKitView(url: url)
-						.frame(width: 80, height: 80)
-						.cornerRadius(8)
-						.padding(.leading, 8)
-				} else {
-					ShimmerView()
-						.frame(width: 80, height: 80)
-						.cornerRadius(8)
-						.padding(.leading, 8)
-				}
+			HStack(spacing: 12) {
+                ZStack {
+                    Circle()
+                        .frame(width: 44,
+                               height: 44)
+                        .foreground(.blue())
+                    R.image.chat.clip.image
+                }
 
-				VStack(spacing: 4) {
-					Spacer()
+                VStack(alignment: .leading, spacing: 0) {
 					Text(fileName, [
-						.color(.black()),
-						.font(.medium(15)),
-						.paragraph(.init(lineHeightMultiple: 1.26, alignment: .left))
+						.color(.blue3E729E()),
+						.font(.medium(16)),
+						.paragraph(.init(lineHeightMultiple: 1.21, alignment: .left))
 					]).frame(height: 23)
-					Spacer()
-				}.padding(.leading, 11)
-
+                    Text(viewModel.sizeOfFile, [
+                        .color(.gray6589A8()),
+                        .font(.medium(13)),
+                        .paragraph(.init(lineHeightMultiple: 1.21, alignment: .left))
+                    ]).frame(height: 23)
+				}
 				Spacer()
 			}
+            .padding(.leading, 12)
+            .padding(.bottom, 8)
 
 			CheckReadView(time: shortDate, isFromCurrentUser: isFromCurrentUser)
 				.padding(.leading, isFromCurrentUser ? 0 : 130)
 		}
-		.frame(width: 247, height: 96)
+        .frame(width: 203,
+               height: 71)
 		.sheet(isPresented: $isShowFile) {
 			sheetPresenting()
 		}

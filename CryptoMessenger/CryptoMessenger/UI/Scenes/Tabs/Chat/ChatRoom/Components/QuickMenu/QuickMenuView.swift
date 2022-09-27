@@ -91,7 +91,7 @@ struct QuickMenuView: View {
 
                     Text(item.action.title)
                         .font(.regular(17))
-                        .foreground(item.action == .delete ? .red() : .blue())
+                        //.foreground(item.action == .delete ? .red() : .blue())
                         .padding(.leading, 16)
 
                     Spacer()
@@ -205,7 +205,7 @@ struct QuickMenuCurrentUserView: View {
 
                     Text(item.action.title)
                         .font(.regular(17))
-                        .foreground(item.action == .delete ? .red() : .blue())
+                        //.foreground(item.action == .delete ? .red() : .blue())
                         .padding(.leading, 16)
 
                     Spacer()
