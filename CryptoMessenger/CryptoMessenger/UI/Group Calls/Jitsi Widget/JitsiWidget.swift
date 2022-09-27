@@ -1,5 +1,4 @@
 import Foundation
-import MatrixSDK
 
 @objcMembers
 final class JitsiWidget: NSObject {

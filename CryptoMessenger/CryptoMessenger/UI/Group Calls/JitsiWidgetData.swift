@@ -1,5 +1,3 @@
-import MatrixSDK.MXJSONModel
-
 // JitsiWidgetData represents Jitsi widget data according to Matrix Widget API v2
 @objcMembers
 final class JitsiWidgetData: MXJSONModel {
@@ -30,6 +28,7 @@ final class JitsiWidgetData: MXJSONModel {
 		super.init()
 	}
 
+	@available(*, unavailable)
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}

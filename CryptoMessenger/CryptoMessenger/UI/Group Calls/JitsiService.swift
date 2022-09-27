@@ -1,7 +1,6 @@
 // swiftlint: disable: all
 
 import Foundation
-import MatrixSDK
 import JitsiMeetSDK
 
 enum JitsiServiceError: LocalizedError {

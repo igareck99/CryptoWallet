@@ -1,5 +1,4 @@
 import Combine
-import MatrixSDK
 import SwiftUI
 import UIKit
 
@@ -60,17 +59,13 @@ final class ChatRoomViewModel: ObservableObject {
 	}
 
 	var isVoiceCallAvailable: Bool {
-		let isCallAvailable = availabilityFacade.isCallAvailable
-		let isP2PChat = room.room.summary?.membersCount?.joined == 2
-		return isCallAvailable && isP2PChat
+		availabilityFacade.isCallAvailable && room.room.isDirect
 	}
 
     let sources: ChatRoomSourcesable.Type
 
 	var isVideoCallAvailable: Bool {
-		let isVideoCallAvailable = availabilityFacade.isVideoCallAvailable
-		let isP2PChat = room.room.summary?.membersCount?.joined == 2
-		return isVideoCallAvailable && isP2PChat
+		availabilityFacade.isVideoCallAvailable && room.room.isDirect
 	}
 
     // MARK: - Private Properties

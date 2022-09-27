@@ -1,7 +1,3 @@
-import MatrixSDK
-
-// MARK: - MXURL
-
 struct MXURL {
 
     // MARK: - Internal Properties

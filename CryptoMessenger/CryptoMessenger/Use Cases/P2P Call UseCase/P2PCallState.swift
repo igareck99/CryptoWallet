@@ -1,5 +1,4 @@
 import Foundation
-import MatrixSDK
 
 enum P2PCallState: UInt {
 	case createOffer

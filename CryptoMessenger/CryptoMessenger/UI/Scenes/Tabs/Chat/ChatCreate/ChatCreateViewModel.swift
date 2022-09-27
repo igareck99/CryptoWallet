@@ -1,6 +1,5 @@
 import Combine
 import Foundation
-import MatrixSDK
 
 // MARK: - ChatData
 

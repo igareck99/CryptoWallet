@@ -1,4 +1,4 @@
-#import <MatrixSDK/MXRoom.h>
+#import "MXRoom.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

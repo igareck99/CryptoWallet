@@ -1,6 +1,5 @@
 import CallKit
 import Foundation
-import MatrixSDK
 import SwiftUI
 
 protocol GroupCallsUseCaseProtocol {

@@ -1,5 +1,4 @@
 import Foundation
-import MatrixSDK
 import UIKit
 
 // MARK: - Rooms
