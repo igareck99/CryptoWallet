@@ -11,6 +11,10 @@ protocol ChatHistorySourcesable {
 
 	static var chatReactionDelete: Image { get }
 
+	static var ellipsisCircle: Image { get }
+
+	static var squareAndPencil: Image { get }
+
 	// Text
 	static var searchPlaceholder: String { get }
 
@@ -19,6 +23,8 @@ protocol ChatHistorySourcesable {
 	static var readAll: String { get }
 
 	static var AUR: String { get }
+
+	static var chats: String { get }
 }
 
 enum ChatHistorySources: ChatHistorySourcesable {
@@ -40,6 +46,14 @@ enum ChatHistorySources: ChatHistorySourcesable {
 		R.image.chat.reaction.delete.image
 	}
 
+	static var ellipsisCircle: Image {
+		Image(systemName: "ellipsis.circle")
+	}
+
+	static var squareAndPencil: Image {
+		Image(systemName: "square.and.pencil")
+	}
+
 	// Text
 	static var searchPlaceholder: String {
 		R.string.localizable.chatHistorySearchPlaceholder()
@@ -55,5 +69,9 @@ enum ChatHistorySources: ChatHistorySourcesable {
 
 	static var AUR: String {
 		R.string.localizable.chatHistoryAUR()
+	}
+
+	static var chats: String {
+		R.string.localizable.chatHistoryChats()
 	}
 }

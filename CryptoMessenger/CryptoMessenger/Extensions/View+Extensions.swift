@@ -32,11 +32,31 @@ extension View {
             navigation?.navigationBar.isHidden = true
         }
     }
-    
-    func showNavBar() {
+
+	func showNavBar() {
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             let navigation = scene.windows.first?.rootViewController as? UINavigationController
             navigation?.navigationBar.isHidden = false
         }
     }
+}
+
+extension View {
+	func placeholder(
+		_ text: String,
+		when shouldShow: Bool,
+		alignment: Alignment = .leading
+	) -> some View {
+		placeholder(when: shouldShow, alignment: alignment) { Text(text).foregroundColor(.gray) }
+	}
+
+	func placeholder<Content: View>(
+		when shouldShow: Bool,
+		alignment: Alignment = .leading,
+		@ViewBuilder placeholder: () -> Content) -> some View {
+			ZStack(alignment: alignment) {
+				placeholder().opacity(shouldShow ? 1 : 0)
+				self
+			}
+		}
 }

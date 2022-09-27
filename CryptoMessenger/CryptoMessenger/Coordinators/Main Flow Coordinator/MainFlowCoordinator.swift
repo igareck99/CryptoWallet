@@ -98,13 +98,15 @@ final class MainFlowCoordinator: Coordinator {
         // MARK: - Internal Properties
 
         var item: UITabBarItem {
+			let tintColor = Palette.custom(.init(133, 135, 141))
+			let selectedTintColor = Palette.custom(.init(14, 142, 243))
             switch self {
             case .chat:
                 let image = R.image.tabBar.chat()
                 let item = UITabBarItem(
                     title: R.string.localizable.tabChat(),
-                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
-                    selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
+                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(tintColor),
+                    selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(selectedTintColor)
                 )
                 item.tag = rawValue
                 return item
@@ -112,8 +114,8 @@ final class MainFlowCoordinator: Coordinator {
                 let image = R.image.tabBar.wallet()
                 let item = UITabBarItem(
                     title: R.string.localizable.tabWallet(),
-                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
-                    selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
+                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(tintColor),
+                    selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(selectedTintColor)
                 )
                 item.tag = rawValue
                 return item
@@ -121,8 +123,8 @@ final class MainFlowCoordinator: Coordinator {
                 let image = R.image.tabBar.profile()
                 let item = UITabBarItem(
                     title: R.string.localizable.tabProfile(),
-                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(.darkGray()),
-                    selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(.blue())
+                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(tintColor),
+					selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(selectedTintColor)
                 )
                 item.tag = rawValue
                 return item

@@ -42,7 +42,7 @@
 
 
 "Tab.Services" = "Сервисы";
-"Tab.Chat" = "Чат";
+"Tab.Chat" = "Чаты";
 "Tab.Wallet" = "Кошелек";
 "Tab.Profile" = "Профиль";
 "Tab.OverallBalance" = "Общий баланс";
@@ -305,6 +305,7 @@
 "ChatHistory.Decline" = "Отменить";
 "ChatHistory.ReadAll" = "Прочитать все";
 "ChatHistory.AUR" = "AUR";
+"ChatHistory.Chats" = "Чаты";
 
 "ReserveCopy.Created" = "Резервная копия создана";
 "ReserveCopy.CreateCopy" = "Создать резервную копию";

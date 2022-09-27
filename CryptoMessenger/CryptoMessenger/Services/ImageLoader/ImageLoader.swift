@@ -18,7 +18,10 @@ final class ImageLoader: ObservableObject {
 
 	// MARK: - Lifecycle
 
-	init(url: URL?, cache: ImageCacheServiceProtocol = ImageCacheService()) {
+	init(
+		url: URL?,
+		cache: ImageCacheServiceProtocol = ImageCacheService.shared
+	) {
 		self.url = url
 		self.cache = cache
 	}
@@ -28,6 +31,14 @@ final class ImageLoader: ObservableObject {
 	func imageFromCache(imageUrl: URL?) -> UIImage? {
 		guard let urlString = imageUrl?.absoluteString else { return nil }
 		return cache.imageFromCache(urlKey: urlString)
+	}
+
+	func loadImage(imageUrl: URL?) -> UIImage? {
+		guard let image = imageFromCache(imageUrl: imageUrl) else {
+			load(imageUrl)
+			return nil
+		}
+		return image
 	}
 
 	func load(_ imageUrl: URL? = nil) {

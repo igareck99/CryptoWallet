@@ -19,6 +19,8 @@ final class ImageCacheService: ImageCacheServiceProtocol {
     
     // MARK: - Private Properties
 
+	static let shared = ImageCacheService()
+
     private let autoCleanupDays = 30
     private var lastCleanup = UserDefaults.standard.object(forKey: "lastCleanup") as? Date ?? Date() {
         didSet {
