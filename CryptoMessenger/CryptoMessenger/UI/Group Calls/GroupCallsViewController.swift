@@ -1,5 +1,4 @@
 import JitsiMeetSDK
-import MatrixSDK
 import UIKit
 
 protocol GroupCallsViewControllerDelegate: AnyObject {

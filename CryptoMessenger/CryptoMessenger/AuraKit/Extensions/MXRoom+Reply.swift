@@ -1,5 +1,4 @@
 import Foundation
-import MatrixSDK
 
 // swiftlint:disable all
 extension MXRoom {

@@ -1,5 +1,7 @@
 @import CallKit;
+@import UIKit;
 #import "MXCallKitAdapter+Updaters.h"
+#import "MXCallKitConfiguration.h"
 
 @interface MXCallKitAdapter (Updaters)
 

@@ -1,4 +1,3 @@
-import MatrixSDK
 import SwiftUI
 
 // MARK: - MXPublicRoom ()

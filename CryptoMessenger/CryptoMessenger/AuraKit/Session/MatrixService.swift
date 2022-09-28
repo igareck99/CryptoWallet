@@ -1,7 +1,7 @@
 import Combine
 import Foundation
-import MatrixSDK
 import SwiftUI
+import JitsiMeetSDK
 
 // swiftlint: disable: all
 

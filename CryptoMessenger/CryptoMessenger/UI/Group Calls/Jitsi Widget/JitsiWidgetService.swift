@@ -1,7 +1,6 @@
 // swiftlint: disable: all
 
 import Foundation
-import MatrixSDK
 
 // Всю логику что была в ObjC модели Widget перенес сюда
 @objcMembers

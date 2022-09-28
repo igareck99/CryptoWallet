@@ -1,5 +1,5 @@
-@import MatrixSDK;
 @import JitsiMeetSDK;
+#import "MatrixSDK.h"
 #import "Base32Encoder.h"
 #import "AURGroupCallsViewModel.h"
 #import "CryptoMessenger-Swift.h"
