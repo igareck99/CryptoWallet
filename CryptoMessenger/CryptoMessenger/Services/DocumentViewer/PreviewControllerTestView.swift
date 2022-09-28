@@ -21,7 +21,6 @@ struct PreviewControllerTestView: UIViewControllerRepresentable {
     func updateUIViewController(_ viewController: UINavigationController,
                                 context: UIViewControllerRepresentableContext<Self>) {
         if !viewModel.isUploadFinished {
-            print("sklmdskdkalsdkl")
             let activityIndicatior = UIActivityIndicatorView()
             activityIndicatior.frame(forAlignmentRect: CGRect(x: 100,
                                                               y: 100,

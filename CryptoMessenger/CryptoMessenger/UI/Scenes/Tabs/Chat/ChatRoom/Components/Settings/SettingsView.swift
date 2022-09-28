@@ -6,9 +6,9 @@ struct SettingsView: View {
 
     // MARK: - Internal Properties
 
+    @StateObject var viewModel: SettingsViewModel
     @Binding var chatData: ChatData
     @Binding var saveData: Bool
-    var room: AuraRoom
 
     // MARK: - Private Properties
 
@@ -21,16 +21,14 @@ struct SettingsView: View {
     @State private var showShareAlert = false
     @State private var showComplainAlert = false
     @State private var notificationsTurnedOn = false
-    @State private var topActions: [SettingsAction] = [.media, .notifications, .admins]
-    @State private var bottomActions: [SettingsAction] = [.share, .exit, .complain]
     @State private var alertItem: AlertItem?
 
     // MARK: - Life Cycle
 
-    init(chatData: Binding<ChatData>, saveData: Binding<Bool>, room: AuraRoom) {
+    init(chatData: Binding<ChatData>, saveData: Binding<Bool>, viewModel: SettingsViewModel) {
         self._chatData = chatData
         self._saveData = saveData
-        self.room = room
+        self._viewModel = StateObject(wrappedValue: viewModel)
         UITextView.appearance().background(.paleBlue())
     }
 
@@ -52,7 +50,6 @@ struct SettingsView: View {
                         R.image.navigation.backButton.image
                     })
                 }
-
                 ToolbarItem(placement: .principal) {
                     Text("Настройки")
                         .font(.bold(15))
@@ -78,7 +75,7 @@ struct SettingsView: View {
             )
             .overlay(
                 EmptyNavigationLink(
-                    destination: ChatMediaView(viewModel: ChatMediaViewModel(room: room)),
+                    destination: ChatMediaView(viewModel: ChatMediaViewModel(room: viewModel.room)),
                     isActive: $showContent
                 )
             )
@@ -243,7 +240,7 @@ struct SettingsView: View {
 
     private var topActionsView: some View {
         VStack(spacing: 0) {
-            ForEach(topActions) { action in
+            ForEach(viewModel.topActions) { action in
                 HStack(spacing: 0) {
                     action.view
 
@@ -339,6 +336,9 @@ struct SettingsView: View {
                     hideSeparator: contact.id == chatData.contacts.last?.id,
                     isAdmin: contact.isAdmin
                 )
+                .onTapGesture {
+                    viewModel.send(.onFriendProfile(userId: contact))
+                }
                     .background(.white())
                     .swipeActions(edge: .trailing) {
                         Button {
@@ -360,7 +360,7 @@ struct SettingsView: View {
 
     private var bottomActionsView: some View {
         VStack(spacing: 0) {
-            ForEach(bottomActions) { action in
+            ForEach(viewModel.bottomActions) { action in
                 action.view
                     .onTapGesture {
                         if let alert = action.alertItem {

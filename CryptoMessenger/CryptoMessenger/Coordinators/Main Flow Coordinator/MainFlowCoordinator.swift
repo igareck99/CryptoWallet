@@ -164,6 +164,8 @@ final class MainFlowCoordinator: Coordinator {
         case walletManager
         case keyList
         case phraseManager
+        case settingsChat(Binding<ChatData>, Binding<Bool>, AuraRoom)
+        case friendProfile(Contact)
     }
 }
 
@@ -228,11 +230,35 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showPhraseManger()
         case .socialList:
             showSocialList()
+        case let .friendProfile(userId):
+            showFriendProfileScene(userId: userId)
+        case let .settingsChat(chatData, saveData, room):
+            showSettingsChat(chatData: chatData, saveData: saveData, room: room)
         }
     }
 
     func switchFlow() {
         delegate?.userPerformedLogout(coordinator: self)
+    }
+
+    private func showSettingsChat(chatData: Binding<ChatData>,
+                                  saveData: Binding<Bool>,
+                                  room: AuraRoom) {
+        let rootView = SettingsConfigurator.configuredView(delegate: self,
+                                                           chatData: chatData,
+                                                           saveData: saveData,
+                                                           room: room)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showFriendProfileScene(userId: Contact) {
+        let rootView = FriendProfileConfigurator.configuredView(delegate: self,
+                                                                userId: userId)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
     }
 
     private func showChatRoomScene(room: AuraRoom) {
@@ -513,6 +539,14 @@ extension MainFlowCoordinator: PhraseManagerSceneDelegate {}
 // MARK: - MainFlowCoordinator (SocialListSceneDelegate)
 
 extension MainFlowCoordinator: SocialListSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (FriendProfileSceneDelegate)
+
+extension MainFlowCoordinator: FriendProfileSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (SettingsSceneDelegate)
+
+extension MainFlowCoordinator: SettingsSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

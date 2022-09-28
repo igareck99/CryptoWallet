@@ -19,6 +19,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var directAction: DirectAction?
     @Published var translateAction: TranslateAction?
     @Published var dismissScreen = false
+    @Published var showSettings = false
 
     @Published private(set) var keyboardHeight: CGFloat = 0
     @Published private(set) var emojiStorage: [ReactionStorage] = []
@@ -361,6 +362,10 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.matrixUseCase.objectChangePublisher.send()
                 case let .onEdit(text, eventId):
                     self?.room.edit(text: text, eventId: eventId)
+                case let .onSettings(chatData: chatData, saveData: saveData, room: room):
+                    self?.delegate?.handleNextScene(.settingsChat(chatData,
+                                                                  saveData,
+                                                                  room))
                 }
             }
             .store(in: &subscriptions)
