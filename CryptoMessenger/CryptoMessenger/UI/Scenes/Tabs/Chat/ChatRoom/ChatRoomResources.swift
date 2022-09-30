@@ -49,6 +49,8 @@ protocol ChatRoomSourcesable {
     static var chatRoomViewUnownedError: String { get }
 
     static var chatRoomViewBanned: String { get }
+    
+    static var chatRoomViewJoined: String { get }
 
 	static var callFinished: String { get }
 
@@ -211,4 +213,8 @@ enum ChatRoomResources: ChatRoomSourcesable {
 	static var groupCallInactiveConference: String {
 		R.string.localizable.groupCallInactiveConference()
 	}
+    
+    static var chatRoomViewJoined: String {
+        "присоединился к комнате"
+    }
 }

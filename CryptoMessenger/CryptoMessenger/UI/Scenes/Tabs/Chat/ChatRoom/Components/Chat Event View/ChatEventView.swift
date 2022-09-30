@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - ChatEventView
 
 struct ChatEventView: View {
-    
+
     // MARK: - Private Properties
 
 	private let text: String

@@ -183,7 +183,7 @@ extension MXEvent {
 			return rowItem(isFromCurrentUser)
 		case .roomEncrypted:
 			return encryptedRowItem(isFromCurrentUser)
-		case .callHangup, .callReject, .custom:
+        case .callHangup, .callReject, .custom, .roomAvatar, .roomCreate, .roomMember:
 			return rowItem(isFromCurrentUser)
 		default:
 			return nil

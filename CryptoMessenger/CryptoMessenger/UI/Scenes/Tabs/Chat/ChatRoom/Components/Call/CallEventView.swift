@@ -1,11 +1,17 @@
 import SwiftUI
 
+// MARK: - CallEventView
+
 struct CallEventView: View {
+
+    // MARK: - Private Properties
 
 	private let isFromCurrentUser: Bool
 	private let action: () -> Void
 	private let eventTitle: String
 	private let eventDateTime: String
+    
+    // MARK: - Lifecycle
 
 	init(
 		eventTitle: String,
@@ -18,6 +24,8 @@ struct CallEventView: View {
 		self.isFromCurrentUser = isFromCurrentUser
 		self.action = action
 	}
+
+    // MARK: - Body
 
 	var body: some View {
 		BubbleView(direction: isFromCurrentUser ? .right : .left) {

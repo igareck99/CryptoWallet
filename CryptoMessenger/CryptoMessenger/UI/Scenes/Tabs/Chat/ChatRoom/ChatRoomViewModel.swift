@@ -126,7 +126,6 @@ final class ChatRoomViewModel: ObservableObject {
         keyboardObserver.keyboardWillHideHandler = { [weak self] _ in
             self?.keyboardHeight = 0
         }
-
         fetchChatData()
     }
 
@@ -164,6 +163,14 @@ final class ChatRoomViewModel: ObservableObject {
 
     func send(_ event: ChatRoomFlow.Event) {
         eventSubject.send(event)
+    }
+    
+    func isFirst(_ item: RoomMessage?) -> Bool {
+        if room.events().renderableEvents.last?.eventId == item?.eventId {
+            return true
+        } else {
+            return false
+        }
     }
 
     func next(_ item: RoomMessage) -> RoomMessage? {
@@ -581,7 +588,7 @@ final class ChatRoomViewModel: ObservableObject {
                         return message
                     }
                     .compactMap { $0 }
-				self.objectWillChange.send()
+                self.objectWillChange.send()
             }
             .store(in: &subscriptions)
 
@@ -718,6 +725,8 @@ final class ChatRoomViewModel: ObservableObject {
 // MARK: - Chat Events
 
 extension ChatRoomViewModel {
+
+    // MARK: - Internal Methods
 
 	func makeChatEventView(event: RoomMessage) -> AnyView {
 		componentsFactory.makeChatEventView(event: event, viewModel: self)

@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - ChatComponentsFactoryProtocol
+
 protocol ChatComponentsFactoryProtocol {
 	func makeChatEventView(event: RoomMessage, viewModel: ChatRoomViewModel) -> AnyView
 
@@ -17,7 +19,11 @@ protocol ChatComponentsFactoryProtocol {
 	) -> AnyView
 }
 
+// MARK: - ChatComponentsFactory
+
 struct ChatComponentsFactory {
+
+    // MARK: - Private Properties
 
 	private enum Constants {
 		static let rejectCallKey = "m.call.reject"
@@ -30,6 +36,8 @@ struct ChatComponentsFactory {
 
 	private let sources: ChatRoomSourcesable.Type
 
+    // MARK: - Lifecycle
+
 	init(
 		sources: ChatRoomSourcesable.Type = ChatRoomResources.self
 	) {
@@ -37,17 +45,19 @@ struct ChatComponentsFactory {
 	}
 }
 
-// MARK: - ChatComponentsFactoryProtocol
+// MARK: - ChatComponentsFactory(ChatComponentsFactoryProtocol)
 
 extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
+
+    // MARK: - Internal Methods
 
 	func makeChatEventView(
 		event: RoomMessage,
 		viewModel: ChatRoomViewModel
 	) -> AnyView {
 
-		debugPrint("makeChatEventView event.type: \(event.type) event.eventType: \(event.eventType)")
-
+		//debugPrint("makeChatEventView event.type: \(event.type) event.eventType: \(event.eventType)")
+        let displayName: String = (event.content["displayname"] as? String) ?? ""
 		if event.eventType == "im.vector.modular.widgets" {
 			return AnyView(
 				ChatEventView(
@@ -91,9 +101,10 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 		}
 
 		if event.eventType == "m.room.avatar" {
+            print("avatar")
 			return AnyView(
 				ChatEventView(
-					text: sources.chatRoomViewEncryptedMessages,
+					text: ("Аватар комнаты изменен"),
 					foregroundColor: .white
 				)
 				.configureOuterShadow()
@@ -106,30 +117,22 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 			return AnyView(EmptyView())
 		}
 
-		let displayName: String = (event.content["displayname"] as? String) ?? ""
-
 		let text: String
 
 		switch membership {
 		case "join":
-			let users = viewModel.roomUsers.filter { $0.displayname == displayName }
-			let avatarUrl = event.content["avatar_url"] as? String
-			let isContainsAvatarUrl = users.contains { $0.avatarUrl == avatarUrl }
-			text = isContainsAvatarUrl ?
-			"\(displayName) \(sources.chatRoomViewAvatarChange)" : ""
-
+            // TODO: - Пока оставляю, не знаю надо оно или нет
+//			let users = viewModel.roomUsers.filter { $0.displayname == displayName }
+//			let avatarUrl = event.content["avatar_url"] as? String
+//			let isContainsAvatarUrl = users.contains { $0.avatarUrl == avatarUrl }
+			text = "\(displayName) \(sources.chatRoomViewJoined)"
 		case "leave":
 			text = "\(displayName) \(sources.chatRoomViewLeftTheRoom)"
 		case "invite":
 			text = "\(displayName) \(sources.chatRoomViewInvited)"
-		case "unknown":
-			text = sources.chatRoomViewUnownedError
-		case "ban":
-			text = "Пользователь \(displayName) \(sources.chatRoomViewBanned)"
 		default:
 			return AnyView(EmptyView())
 		}
-
 		return AnyView(
 			ChatEventView(text: text, foregroundColor: .white)
 				.configureOuterShadow()
@@ -155,7 +158,11 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 	}
 }
 
+// MARK: - ChatComponentsFactory
+
 extension ChatComponentsFactory {
+    
+    // MARK: - Internal Methods
 
 	func makeChatMessageEventView(
 		showFile: Binding<Bool>,
