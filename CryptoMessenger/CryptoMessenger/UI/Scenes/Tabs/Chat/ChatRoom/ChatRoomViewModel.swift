@@ -287,11 +287,13 @@ final class ChatRoomViewModel: ObservableObject {
                 case let .onSendFile(url):
                     self?.inputText = ""
                     guard let id = self?.room.room.roomId else { return }
-                    self?.mediaService.uploadChatFile(roomId: id,
-                                                      url: url) { eventId in
-                        self?.room.updateEvents(eventId: eventId)
+                    DispatchQueue.global(qos: .background).async {
+                        self?.mediaService.uploadChatFile(roomId: id,
+                                                          url: url) { eventId in
+                            self?.room.updateEvents(eventId: eventId)
+                        }
+                        self?.matrixUseCase.objectChangePublisher.send()
                     }
-                    self?.matrixUseCase.objectChangePublisher.send()
                 case let .onSendAudio(url, duration):
                     self?.inputText = ""
                     guard let id = self?.room.room.roomId else { return }

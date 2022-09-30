@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 // MARK: - FileViewModel
 
@@ -8,7 +9,11 @@ final class FileViewModel: ObservableObject {
 
     @Published var sizeOfFile = ""
     var url: URL?
+
+    // MARK: - Private Properties
+
     let remoteDataService = RemoteDataService()
+    private var subscriptions = Set<AnyCancellable>()
 
     init(url: URL?) {
         self.url = url
@@ -22,9 +27,16 @@ final class FileViewModel: ObservableObject {
             self.sizeOfFile = "0 MB"
             return
         }
-        remoteDataService.fetchContentLength(for: url) { contentLength in
-            let value = round(10 * Double(contentLength) / 1024 / 1000) / 10
-            self.sizeOfFile = String(value) + " MB"
+        DispatchQueue.global(qos: .background).async {
+            self.remoteDataService.fetchContentLength(for: url) { contentLength in
+                var value = round(10 * Double(contentLength) / 1024) / 10
+                if value < 1000 {
+                    self.sizeOfFile = String(value) + " KB"
+                } else {
+                    value = round(10 * Double(contentLength) / 1024 / 1000) / 10
+                    self.sizeOfFile = String(value) + " MB"
+                }
+            }
         }
     }
 }

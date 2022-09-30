@@ -219,6 +219,7 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
     func uploadChatFile(roomId: String,
                         url: URL,
                         completion: @escaping (String?) -> Void) {
+        
         matrixService.uploadFile(for: roomId,
                                  url: url) { result in
             switch result {
