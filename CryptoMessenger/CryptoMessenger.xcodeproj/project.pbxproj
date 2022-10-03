@@ -313,6 +313,7 @@
 		8B1564F428AA782A00A69B85 /* AnotherAppTransitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1564F128AA782A00A69B85 /* AnotherAppTransitionView.swift */; };
 		8B1564F528AA782A00A69B85 /* AnotherAppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1564F228AA782A00A69B85 /* AnotherAppData.swift */; };
 		8B1564F728AAF1C000A69B85 /* ShareTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1564F628AAF1C000A69B85 /* ShareTextView.swift */; };
+		8B1E295028EB552D000E8019 /* DocumentsViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E294F28EB552D000E8019 /* DocumentsViewerViewModel.swift */; };
 		8B1E8AC227DF4F840036C301 /* ChooseReceiverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC127DF4F840036C301 /* ChooseReceiverView.swift */; };
 		8B1E8AC427DF4F9D0036C301 /* ChooseReceiverFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC327DF4F9D0036C301 /* ChooseReceiverFlow.swift */; };
 		8B1E8AC627DF4FA80036C301 /* ChooseReceiverProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC527DF4FA80036C301 /* ChooseReceiverProtocols.swift */; };
@@ -1413,6 +1414,7 @@
 		8B1564F128AA782A00A69B85 /* AnotherAppTransitionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnotherAppTransitionView.swift; sourceTree = "<group>"; };
 		8B1564F228AA782A00A69B85 /* AnotherAppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnotherAppData.swift; sourceTree = "<group>"; };
 		8B1564F628AAF1C000A69B85 /* ShareTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTextView.swift; sourceTree = "<group>"; };
+		8B1E294F28EB552D000E8019 /* DocumentsViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsViewerViewModel.swift; sourceTree = "<group>"; };
 		8B1E8AC127DF4F840036C301 /* ChooseReceiverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverView.swift; sourceTree = "<group>"; };
 		8B1E8AC327DF4F9D0036C301 /* ChooseReceiverFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverFlow.swift; sourceTree = "<group>"; };
 		8B1E8AC527DF4FA80036C301 /* ChooseReceiverProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverProtocols.swift; sourceTree = "<group>"; };
@@ -3512,6 +3514,7 @@
 			isa = PBXGroup;
 			children = (
 				5ABAD39927BDA6D80067DFC1 /* DocumentPicker.swift */,
+				8B1E294F28EB552D000E8019 /* DocumentsViewerViewModel.swift */,
 			);
 			path = DocumentPicker;
 			sourceTree = "<group>";
@@ -7526,6 +7529,7 @@
 				5A187EB5268070B3001957D3 /* UIViewController+Extensions.swift in Sources */,
 				8BE66738280F1C4600D41A3C /* CreateContactView.swift in Sources */,
 				8BE3799E27EB26AE00AB6B6E /* WalletManagerViewModel.swift in Sources */,
+				8B1E295028EB552D000E8019 /* DocumentsViewerViewModel.swift in Sources */,
 				8B1E8ACA27DF4FBD0036C301 /* ChooseReceiverViewModel.swift in Sources */,
 				D4EFEC9828E2AF110075CC10 /* MXRealmBeaconInfoSummary.swift in Sources */,
 				D4EFEBD428E2AF100075CC10 /* MXThirdPartyUsersResponse.m in Sources */,

@@ -56,6 +56,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
     @Binding var isPresented: Bool
     var onCancel: VoidBlock?
     var onDocumentsPicked: GenericBlock<[URL]>
+    @StateObject var viewModel = DocumentsViewerViewModel()
 
     // MARK: - Life Cycle
 
@@ -73,11 +74,15 @@ struct DocumentPicker: UIViewControllerRepresentable {
 
     func makeUIViewController(
         context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController {
-            let pickerController = UIDocumentPickerViewController(forOpeningContentTypes: [.content], asCopy: true)
-        pickerController.allowsMultipleSelection = false
-        pickerController.delegate = context.coordinator
-        return pickerController
-    }
+            var type: UTType = .content
+            if viewModel.isAnyFileAvailable {
+                type = UTType.item
+            }
+            let pickerController = UIDocumentPickerViewController(forOpeningContentTypes: [type], asCopy: true)
+            pickerController.allowsMultipleSelection = false
+            pickerController.delegate = context.coordinator
+            return pickerController
+        }
 
     func updateUIViewController(
         _ uiViewController: UIDocumentPickerViewController,

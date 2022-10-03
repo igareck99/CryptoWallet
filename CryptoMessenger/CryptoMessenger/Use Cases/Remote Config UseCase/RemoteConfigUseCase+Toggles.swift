@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - RemoteConfigToggles
+
 protocol RemoteConfigToggles {
 
 	// Wallet
@@ -38,7 +40,13 @@ protocol RemoteConfigToggles {
     var isChatMenuUsersAvailable: Bool { get }
     var isChatMenuBlackListAvailable: Bool { get }
 
+    // Files
+
+    var isAnyFilesAvailable: Bool { get }
+
 }
+
+// MARK: - RemoteConfigUseCase(RemoteConfigToggles)
 
 extension RemoteConfigUseCase: RemoteConfigToggles {
 
@@ -225,6 +233,14 @@ extension RemoteConfigUseCase: RemoteConfigToggles {
         let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
         let isFeatureEnabled = feature?.enabled
         return isVersionEnabled == true && isFeatureEnabled == true
+    }
+
+    // Files
+
+    var isAnyFilesAvailable: Bool {
+        return isFeatureAvailable(module: .files,
+                           feature: RemoteConfigValues.Files.files.rawValue,
+                           version: RemoteConfigValues.Version.v1_0)
     }
 
 	// MARK: - Private
