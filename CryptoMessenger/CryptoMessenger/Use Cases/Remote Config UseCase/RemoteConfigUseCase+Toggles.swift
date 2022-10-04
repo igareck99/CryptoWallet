@@ -39,6 +39,10 @@ protocol RemoteConfigToggles {
     var isChatMenuEditAvailable: Bool { get }
     var isChatMenuUsersAvailable: Bool { get }
     var isChatMenuBlackListAvailable: Bool { get }
+    
+    // ChatMessageActions
+
+    var isReactionsAvailable: Bool { get }
 
     // Files
 
@@ -239,8 +243,13 @@ extension RemoteConfigUseCase: RemoteConfigToggles {
 
     var isAnyFilesAvailable: Bool {
         return isFeatureAvailable(module: .files,
-                           feature: RemoteConfigValues.Files.files.rawValue,
-                           version: RemoteConfigValues.Version.v1_0)
+                                  feature: RemoteConfigValues.Files.files.rawValue,
+                                  version: RemoteConfigValues.Version.v1_0)
+    }
+    var isReactionsAvailable: Bool {
+        return isFeatureAvailable(module: .chatMessageActions,
+                                  feature: RemoteConfigValues.ChatMessageActions.reactions.rawValue,
+                                  version: RemoteConfigValues.Version.v1_0)
     }
 
 	// MARK: - Private

@@ -35,6 +35,7 @@ struct ChatRoomView: View {
     @State var resetAudio = false
     @State var activateShowCard = true
 	@State var textViewHeight: CGFloat = 36
+    @State var showReaction = false
 
     // MARK: - Private Properties
 
@@ -126,6 +127,22 @@ struct ChatRoomView: View {
                     activeSheet = .location
                 }
             }
+            .popup(
+                isPresented: $showReaction,
+                type: .toast,
+                position: .bottom,
+                closeOnTap: false,
+                closeOnTapOutside: true,
+                backgroundColor: .black.opacity(0.4),
+                view: {
+                    ReactionsViewList(viewModel: ReactionsViewModel(activeEditMessage: activeEditMessage))
+                    .background(
+                        CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
+                            .fill(Color(.white()))
+                    )
+                    .frame(height: 178)
+                }
+            )
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .photo:
@@ -339,6 +356,10 @@ struct ChatRoomView: View {
                                 case .reply:
                                     inputViewIsFocused = true
                                     quickAction = .reply
+                                case .reaction:
+                                    if viewModel.isReactionsAvailable {
+                                        showReaction = true
+                                    }
                                 default:
                                     ()
                                 }
@@ -353,6 +374,10 @@ struct ChatRoomView: View {
                                     viewModel.send(.onDelete(messageId))
                                 case .reply:
                                     inputViewIsFocused = true
+                                case .reaction:
+                                    if viewModel.isReactionsAvailable {
+                                        showReaction = true
+                                    }
                                 default:
                                     ()
                                 }
@@ -383,6 +408,7 @@ struct ChatRoomView: View {
             }
         }
     }
+    
     
     private var directMenuView: some View {
         ZStack {
