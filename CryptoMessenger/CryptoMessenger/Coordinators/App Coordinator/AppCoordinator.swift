@@ -35,7 +35,6 @@ final class AppCoordinator {
     }
 
 	private func showMainFlow() {
-		userFlows.isLocalAuth = false
 
 		let mainFlowCoordinator = MainFlowCoordinatorAssembly.build(
 			delegate: self,
@@ -72,11 +71,13 @@ extension AppCoordinator: Coordinator {
 			if userFlows.isLocalAuth {
 				showPinCodeFlow()
 			} else {
+				NotificationCenter.default.post(name: .userDidLoggedIn, object: nil)
 				showMainFlow()
 			}
 		case .authentication:
 			showAuthenticationFlow()
 		case .main:
+			NotificationCenter.default.post(name: .userDidLoggedIn, object: nil)
 			showMainFlow()
 		}
 	}
@@ -87,7 +88,7 @@ extension AppCoordinator: Coordinator {
 extension AppCoordinator: AppCoordinatorProtocol {
 
 	func didReceive(notification: UNNotificationResponse, completion: @escaping () -> Void) {
-		let getChatRoomSceneDelegate: () -> ChatRoomSceneDelegate?  = { [weak self] in
+		let getChatRoomSceneDelegate: () -> ChatRoomSceneDelegate? = { [weak self] in
 			guard
 				let chatRoomDelegate = self?.childCoordinators
 					.values.first(where: { $0 is ChatRoomSceneDelegate }) as? ChatRoomSceneDelegate

@@ -1,6 +1,4 @@
-import SwiftUI
 import Combine
-import LocalAuthentication
 
 final class SecurityNewViewModel: ObservableObject {
 
@@ -24,13 +22,16 @@ final class SecurityNewViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<SecurityNewFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     let userSettings: UserFlowsStorage & UserCredentialsStorage
+	let keychainService: KeychainServiceProtocol
 
     // MARK: - Lifecycle
 
     init(
-		userSettings: UserFlowsStorage & UserCredentialsStorage
+		userSettings: UserFlowsStorage & UserCredentialsStorage,
+		keychainService: KeychainServiceProtocol = KeychainService.shared
 	) {
 		self.userSettings = userSettings
+		self.keychainService = keychainService
         bindInput()
         bindOutput()
     }
@@ -41,6 +42,20 @@ final class SecurityNewViewModel: ObservableObject {
     }
 
     // MARK: - Internal Methods
+
+	func pinCodeAvailabilityDidChange(value: Bool) {
+
+		guard userSettings.isLocalAuth != value else { return }
+
+		self.userSettings.isLocalAuth = value
+
+		let pinCode = keychainService.apiUserPinCode
+
+		guard value, (pinCode == nil || pinCode?.isEmpty == true) else { return }
+
+		debugPrint("$isPinCodeOn: onCreatePassword")
+		self.send(.onCreatePassword)
+	}
 
     func send(_ event: SecurityNewFlow.Event) {
         eventSubject.send(event)

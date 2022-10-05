@@ -21,6 +21,7 @@ enum MXErrors: Error {
 }
 
 enum MatrixState {
+	case none
 	case loggedOut
 	case authenticating
 	case failure(MXErrors)
@@ -32,7 +33,7 @@ final class MatrixService: MatrixServiceProtocol {
 
 	var objectChangePublisher = ObservableObjectPublisher()
 
-	@Published var loginState: MatrixState = .loggedOut
+	@Published var loginState: MatrixState = .none
 	var loginStatePublisher: Published<MatrixState>.Publisher { $loginState }
 	@Published var devices = [MXDevice]()
 	var devicesPublisher: Published<[MXDevice]>.Publisher { $devices }

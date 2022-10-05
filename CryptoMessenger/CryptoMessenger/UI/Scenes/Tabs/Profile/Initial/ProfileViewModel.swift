@@ -181,7 +181,6 @@ final class ProfileViewModel: ObservableObject {
             case .loggedOut:
                 self?.userSettings.isAuthFlowFinished = false
                 self?.userSettings.isOnboardingFlowFinished = false
-                self?.userSettings.isLocalAuth = false
                 self?.keychainService.apiUserPinCode = ""
                 self?.delegate?.restartFlow()
             default:

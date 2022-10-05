@@ -66,7 +66,6 @@ final class AppDelegateUseCase {
 
 extension AppDelegateUseCase: AppDelegateUseCaseProtocol {
 	func start() {
-		userSettings.isLocalAuth = true
 		appCoordinator.start()
 		userSettings[.isAppNotFirstStart] = true
 	}
