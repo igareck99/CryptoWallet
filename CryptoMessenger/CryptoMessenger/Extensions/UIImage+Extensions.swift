@@ -224,4 +224,15 @@ extension UIImage {
         
         return newImage
     }
+
+	static func biometryImage(type: AvailableBiometric) -> UIImage? {
+		switch type {
+		case .faceID:
+			return R.image.pinCode.faceId()
+		case .touchID:
+			return R.image.pinCode.touchId()
+		default:
+			return nil
+		}
+	}
 }

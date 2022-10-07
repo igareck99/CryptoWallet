@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 final class SecurityNewViewModel: ObservableObject {
 
@@ -17,21 +18,26 @@ final class SecurityNewViewModel: ObservableObject {
     @Published var isBiometryOn = true
     @Published var dataIsUpdated = false
 
+	@Published var showBiometryErrorAlert = false
+
     private(set) var localAuth = LocalAuthentication()
     private let eventSubject = PassthroughSubject<SecurityNewFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<SecurityNewFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     let userSettings: UserFlowsStorage & UserCredentialsStorage
 	let keychainService: KeychainServiceProtocol
+	private let biometryService: BiometryServiceProtocol
 
     // MARK: - Lifecycle
 
     init(
 		userSettings: UserFlowsStorage & UserCredentialsStorage,
-		keychainService: KeychainServiceProtocol = KeychainService.shared
+		keychainService: KeychainServiceProtocol = KeychainService.shared,
+		biometryService: BiometryServiceProtocol = BiometryService()
 	) {
 		self.userSettings = userSettings
 		self.keychainService = keychainService
+		self.biometryService = biometryService
         bindInput()
         bindOutput()
     }
@@ -41,20 +47,46 @@ final class SecurityNewViewModel: ObservableObject {
         subscriptions.removeAll()
     }
 
+	func authenticate() {
+
+		biometryService.authenticateByBiometry(
+			reason: localAuth.biometryEnableReasonText()
+		) { [weak self] result in
+			DispatchQueue.main.async {
+				switch result {
+				case .suceeded:
+					self?.isBiometryOn = true
+					self?.updateIsBiometryOn(item: true)
+					return
+				case .failedByEvaluation:
+					self?.isBiometryOn = false
+					self?.updateIsBiometryOn(item: false)
+					self?.showBiometryErrorAlert = true
+					return
+				case .failedByBiometry:
+					self?.isBiometryOn = false
+					self?.updateIsBiometryOn(item: false)
+					return
+				}
+			}
+		}
+	}
+
     // MARK: - Internal Methods
 
 	func pinCodeAvailabilityDidChange(value: Bool) {
 
-		guard userSettings.isLocalAuth != value else { return }
+		guard keychainService.isPinCodeEnabled != value else { return }
 
-		self.userSettings.isLocalAuth = value
+		userSettings.isLocalAuth = value
+		keychainService.isPinCodeEnabled = value
 
 		let pinCode = keychainService.apiUserPinCode
 
 		guard value, (pinCode == nil || pinCode?.isEmpty == true) else { return }
 
 		debugPrint("$isPinCodeOn: onCreatePassword")
-		self.send(.onCreatePassword)
+		send(.onCreatePassword)
 	}
 
     func send(_ event: SecurityNewFlow.Event) {
@@ -86,10 +118,6 @@ final class SecurityNewViewModel: ObservableObject {
 		userSettings.telephoneState = item
     }
 
-    func updateIsPinCodeOn() {
-		userSettings.isLocalAuth = userSettings.isLocalAuth
-    }
-
     func updateIsFalsePinCode(item: Bool) {
 		userSettings.isFalsePinCodeOn = item
     }
@@ -99,7 +127,7 @@ final class SecurityNewViewModel: ObservableObject {
     }
 
     func isPinCodeUpdate() -> Bool {
-        userSettings.isLocalAuth == isPinCodeOn
+		keychainService.isPinCodeEnabled == isPinCodeOn
     }
 
     // MARK: - Private Methods
@@ -133,7 +161,7 @@ final class SecurityNewViewModel: ObservableObject {
     }
 
     private func updateData() {
-        isPinCodeOn = userSettings.isLocalAuth
+		isPinCodeOn = (keychainService.isPinCodeEnabled == true)
         isFalsePinCodeOn = userSettings.isFalsePinCodeOn
         isBiometryOn = userSettings.isBiometryOn
         profileObserveState = userSettings.profileObserveState ?? ""

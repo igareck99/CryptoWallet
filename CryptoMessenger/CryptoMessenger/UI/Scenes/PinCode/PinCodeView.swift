@@ -13,6 +13,7 @@ final class PinCodeView: UIView {
 
         case number(Int)
         case faceId
+		case touchId
         case delete
     }
 
@@ -78,13 +79,14 @@ final class PinCodeView: UIView {
 
     // MARK: - Internal Methods
 
-    func setLocalAuth(_ result: AvailableBiometric?) {
-        guard let result = result, let button = buttons.first(where: { $0.type == .faceId }) else { return }
-        if biometryActive {
-            button.isEnabled = true
-            button.setImage(result.image, for: .normal)
-        }
-    }
+	func setLocalAuth(_ result: AvailableBiometric) {
+		guard biometryActive,
+			  let button = buttons.first(where: { $0.type == .faceId || $0.type == .touchId })
+		else { return }
+
+		button.isEnabled = true
+		button.setImage(.biometryImage(type: result), for: .normal)
+	}
 
     func setPinCode(_ pinCode: [Int]) {
         rightCode = pinCode
@@ -254,7 +256,7 @@ final class PinCodeView: UIView {
             button.setBackgroundColor(color: .paleBlue(), forState: .normal)
             button.setBackgroundColor(color: .lightBlue(), forState: .highlighted)
             button.addTarget(self, action: #selector(numberButtonAction), for: .touchUpInside)
-        case .faceId:
+		case .faceId, .touchId:
             if biometryActive {
                 button.addTarget(self, action: #selector(authButtonTap), for: .touchUpInside)
                 button.isEnabled = false

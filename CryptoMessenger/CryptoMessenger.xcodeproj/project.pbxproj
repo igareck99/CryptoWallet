@@ -632,6 +632,8 @@
 		D4D439F22837493800AC0DEF /* MXRoom+Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */; };
 		D4D439FB28374B0C00AC0DEF /* MXRoom+Reply.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */; };
 		D4D439FD283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439FC283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift */; };
+		D4DF2B3128F3F4460057499A /* BiometryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF2B3028F3F4460057499A /* BiometryService.swift */; };
+		D4DF2B3328F526630057499A /* BiometrySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF2B3228F526630057499A /* BiometrySources.swift */; };
 		D4E8785F28CE02EA00063762 /* GroupCallsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */; };
 		D4E8786128CE07DF00063762 /* JitsiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8786028CE07DF00063762 /* JitsiWidget.swift */; };
 		D4E8786428CE0E6B00063762 /* JitsiWidgetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */; };
@@ -1745,6 +1747,8 @@
 		D4D439F928374B0B00AC0DEF /* MXRoom+Reply.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MXRoom+Reply.h"; sourceTree = "<group>"; };
 		D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MXRoom+Reply.m"; sourceTree = "<group>"; };
 		D4D439FC283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "P2PCallUseCase+Notifications.swift"; sourceTree = "<group>"; };
+		D4DF2B3028F3F4460057499A /* BiometryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometryService.swift; sourceTree = "<group>"; };
+		D4DF2B3228F526630057499A /* BiometrySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometrySources.swift; sourceTree = "<group>"; };
 		D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsViewModel.swift; sourceTree = "<group>"; };
 		D4E8786028CE07DF00063762 /* JitsiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidget.swift; sourceTree = "<group>"; };
 		D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidgetService.swift; sourceTree = "<group>"; };
@@ -2936,6 +2940,7 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D4DF2B2F28F3F42B0057499A /* Biometry Service */,
 				8BBB553928E313E400CE9EF7 /* RemoteDataService */,
 				8B971E0528B3EF9B00F111D9 /* CacheManager */,
 				8B2532B528A41E9F00285133 /* SideAppTransition */,
@@ -3360,6 +3365,7 @@
 				5A9318B326BD210400645365 /* PinCodeView.swift */,
 				5A9318B026BD210400645365 /* PinCodePresenter.swift */,
 				5A9318B526BD210400645365 /* PinCodeFlow.swift */,
+				D4DF2B3228F526630057499A /* BiometrySources.swift */,
 			);
 			path = PinCode;
 			sourceTree = "<group>";
@@ -4826,6 +4832,14 @@
 				D423A0A1285E2860004A8228 /* P2PCallState.swift */,
 			);
 			path = "P2P Call UseCase";
+			sourceTree = "<group>";
+		};
+		D4DF2B2F28F3F42B0057499A /* Biometry Service */ = {
+			isa = PBXGroup;
+			children = (
+				D4DF2B3028F3F4460057499A /* BiometryService.swift */,
+			);
+			path = "Biometry Service";
 			sourceTree = "<group>";
 		};
 		D4E8786228CE0E5900063762 /* Jitsi Widget */ = {
@@ -7080,6 +7094,7 @@
 				5A24B25426F289F000EFC5E2 /* MapSnapshotView.swift in Sources */,
 				5A187E9F2680708D001957D3 /* ScalableButtonView.swift in Sources */,
 				D4EFEC5728E2AF110075CC10 /* MXRoomListDataSortOptions.swift in Sources */,
+				D4DF2B3328F526630057499A /* BiometrySources.swift in Sources */,
 				7831DFD7280947D900AF1F1D /* TranslateManager.swift in Sources */,
 				5A2181E426D80B4E0093AD60 /* ActionSheetView.swift in Sources */,
 				D4EFEBD228E2AF100075CC10 /* MXThirdpartyProtocolsResponse.m in Sources */,
@@ -7273,6 +7288,7 @@
 				D4EFEC5328E2AF110075CC10 /* MXSendReplyEventDefaultStringLocalizer.m in Sources */,
 				8B34A9F628D4A8A40097ED9E /* MenuActionsTogglesFacade.swift in Sources */,
 				D4EFEB4928E2AF100075CC10 /* MXSecretStorageKeyContent.m in Sources */,
+				D4DF2B3128F3F4460057499A /* BiometryService.swift in Sources */,
 				789FEBEF26DCE61D0018FE91 /* PhotoEditorView.swift in Sources */,
 				D4EFEC9E28E2AF110075CC10 /* MXReactionRelation.m in Sources */,
 				D4EFEAE328E2AF100075CC10 /* MXBackgroundStore.swift in Sources */,

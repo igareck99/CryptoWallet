@@ -40,10 +40,10 @@ final class AppDelegateUseCase {
 
 	private func updateAppState() {
 		guard
+			keychainService.isPinCodeEnabled == true,
 			let lastTimeInterval = keychainService.double(forKey: .gmtZeroTimeInterval),
 			lastTimeInterval != .zero
 		else {
-			userSettings.isLocalAuth = true
 			return
 		}
 
@@ -51,9 +51,7 @@ final class AppDelegateUseCase {
 		let diffTimeInterval = currenttimeInterval - lastTimeInterval
 
 		// Если приложение 30 минут в бэкграунде, то перезапрашиваем пин
-		if diffTimeInterval.minutes >= 30 {
-			userSettings.isLocalAuth = true
-		}
+		userSettings.isLocalAuth = diffTimeInterval.minutes >= 30
 	}
 
 	private func saveTimeStamp() {
@@ -66,8 +64,13 @@ final class AppDelegateUseCase {
 
 extension AppDelegateUseCase: AppDelegateUseCaseProtocol {
 	func start() {
-		appCoordinator.start()
+		if userSettings[.isAppNotFirstStart] == false {
+			// т.к. при первом старте всегда устанавливаем пин код, поэтому этот флаг должен быть true
+			keychainService.isPinCodeEnabled = true
+		}
 		userSettings[.isAppNotFirstStart] = true
+		userSettings.isLocalAuth = keychainService.isPinCodeEnabled == true
+		appCoordinator.start()
 	}
 }
 

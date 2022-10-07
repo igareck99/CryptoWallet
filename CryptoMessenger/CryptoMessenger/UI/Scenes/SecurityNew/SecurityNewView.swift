@@ -1,5 +1,4 @@
 import SwiftUI
-import LocalAuthentication
 
 // MARK: - SecurityNewView
 
@@ -18,7 +17,6 @@ struct SecurityNewView: View {
     @State private var showCallsSheet = false
     @State private var showGeopositionSheet = false
     @State private var showTelephoneActionSheet = false
-    @State private var showBiometryErrorAlert = false
 
     // MARK: - Body
 
@@ -48,7 +46,7 @@ struct SecurityNewView: View {
                     .listRowSeparator(.hidden)
                     .onChange(of: viewModel.isBiometryOn) { item in
                         if item {
-                            authenticate()
+							viewModel.authenticate()
                         } else {
                             viewModel.updateIsBiometryOn(item: false)
                         }
@@ -136,7 +134,7 @@ struct SecurityNewView: View {
         .onDisappear {
             showTabBar()
         }
-        .alert(isPresented: $showBiometryErrorAlert, content: {
+		.alert(isPresented: $viewModel.showBiometryErrorAlert, content: {
             Alert(title: Text("Биометрия недоступна"), message: nil,
                   dismissButton: .default(Text("OK")))
         })
@@ -192,31 +190,6 @@ struct SecurityNewView: View {
                     .font(.bold(15))
             }
         }
-    }
-
-    // MARK: - Private Properties
-
-    private func authenticate() {
-        let context = LAContext()
-        var error: NSError?
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-                let reason = "Something"
-                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
-                   DispatchQueue.main.async {
-                        if success {
-                            viewModel.isBiometryOn = true
-                            viewModel.updateIsBiometryOn(item: true)
-                        } else {
-                            viewModel.isBiometryOn = false
-                            viewModel.updateIsBiometryOn(item: false)
-                        }
-                    }
-                }
-            } else {
-                viewModel.isBiometryOn = false
-                viewModel.updateIsBiometryOn(item: false)
-                showBiometryErrorAlert = true
-            }
     }
 }
 

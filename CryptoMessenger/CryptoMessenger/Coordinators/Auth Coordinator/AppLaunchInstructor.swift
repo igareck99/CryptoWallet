@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - AppLaunchInstructor
 
-enum AppLaunchInstructor {
+enum AppLaunchInstructor: CustomStringConvertible {
     case localAuth
     case authentication
     case main
@@ -19,4 +19,17 @@ enum AppLaunchInstructor {
             return .main
         }
     }
+
+	public var description: String {
+		switch self {
+		case .localAuth:
+			return "localAuth"
+		case .authentication:
+			return "authentication"
+		case .main:
+			return "main"
+		@unknown default:
+			return "\(self)"
+		}
+	}
 }
