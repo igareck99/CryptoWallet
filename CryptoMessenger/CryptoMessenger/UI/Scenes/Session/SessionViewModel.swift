@@ -65,8 +65,6 @@ final class SessionViewModel: ObservableObject {
             case .loggedOut:
                 self?.userSettings.isAuthFlowFinished = false
                 self?.userSettings.isOnboardingFlowFinished = false
-                self?.userSettings.isLocalAuth = false
-                self?.userSettings.isLocalAuth = false
                 self?.delegate?.restartFlow()
             default:
                 break

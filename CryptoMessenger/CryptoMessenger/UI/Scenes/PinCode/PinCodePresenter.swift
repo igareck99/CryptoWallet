@@ -70,7 +70,6 @@ extension PinCodePresenter: PinCodePresentation {
     }
 
     func handleButtonTap(_ isBackgroundLocalAuth: Bool) {
-		userSettings.isLocalAuth = true
 		userSettings.isAuthFlowFinished = true
 		userSettings.isLocalAuthBackgroundAlertShown = true
 		userSettings.isLocalAuthInBackground = isBackgroundLocalAuth

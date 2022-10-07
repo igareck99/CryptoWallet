@@ -38,15 +38,9 @@ struct SecurityNewView: View {
                         viewModel.dataIsUpdated = true
                     }
                 }
-                .onChange(of: viewModel.isPinCodeOn) { value in
-                    if viewModel.userSettings.isLocalAuth != viewModel.isPinCodeOn {
-                        if value {
-                            viewModel.send(.onCreatePassword)
-                        } else {
-                            viewModel.send(.onApprovePassword)
-                        }
-                    }
-                }
+				.onChange(of: viewModel.isPinCodeOn) { value in
+					viewModel.pinCodeAvailabilityDidChange(value: value)
+				}
             if viewModel.isPinCodeOn {
                 SecurityAdvancedCellView(title: R.string.localizable.securityBiometryEnterTitle(),
                                          description: R.string.localizable.securityBiometryEnterState(),
