@@ -10,6 +10,7 @@ enum RemoteConfigValues: String {
     case chatMenu = "ChatMenuView"
     case chatMenuFeatures = "ChatMenuFeatures"
     case files = "Files"
+    case chatMessageActions = "ChatMessageActions"
 
 	// Настройки модуля Чаты
 	enum Chat: String {
@@ -41,6 +42,12 @@ enum RemoteConfigValues: String {
     enum ChatMenu: String {
         case chatGroupMenu
         case chatDirectMenu
+    }
+    
+    // Настройки Действий с сообщением
+    
+    enum ChatMessageActions: String {
+        case reactions
     }
 
     // Настройки файлов

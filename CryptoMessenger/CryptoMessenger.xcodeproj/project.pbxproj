@@ -314,6 +314,8 @@
 		8B1564F528AA782A00A69B85 /* AnotherAppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1564F228AA782A00A69B85 /* AnotherAppData.swift */; };
 		8B1564F728AAF1C000A69B85 /* ShareTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1564F628AAF1C000A69B85 /* ShareTextView.swift */; };
 		8B1E295028EB552D000E8019 /* DocumentsViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E294F28EB552D000E8019 /* DocumentsViewerViewModel.swift */; };
+		8B1E295328EC9A12000E8019 /* ReactionsViewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E295228EC9A12000E8019 /* ReactionsViewList.swift */; };
+		8B1E295528EC9A20000E8019 /* ReactionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E295428EC9A20000E8019 /* ReactionsViewModel.swift */; };
 		8B1E8AC227DF4F840036C301 /* ChooseReceiverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC127DF4F840036C301 /* ChooseReceiverView.swift */; };
 		8B1E8AC427DF4F9D0036C301 /* ChooseReceiverFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC327DF4F9D0036C301 /* ChooseReceiverFlow.swift */; };
 		8B1E8AC627DF4FA80036C301 /* ChooseReceiverProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC527DF4FA80036C301 /* ChooseReceiverProtocols.swift */; };
@@ -1415,6 +1417,8 @@
 		8B1564F228AA782A00A69B85 /* AnotherAppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnotherAppData.swift; sourceTree = "<group>"; };
 		8B1564F628AAF1C000A69B85 /* ShareTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTextView.swift; sourceTree = "<group>"; };
 		8B1E294F28EB552D000E8019 /* DocumentsViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsViewerViewModel.swift; sourceTree = "<group>"; };
+		8B1E295228EC9A12000E8019 /* ReactionsViewList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsViewList.swift; sourceTree = "<group>"; };
+		8B1E295428EC9A20000E8019 /* ReactionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsViewModel.swift; sourceTree = "<group>"; };
 		8B1E8AC127DF4F840036C301 /* ChooseReceiverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverView.swift; sourceTree = "<group>"; };
 		8B1E8AC327DF4F9D0036C301 /* ChooseReceiverFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverFlow.swift; sourceTree = "<group>"; };
 		8B1E8AC527DF4FA80036C301 /* ChooseReceiverProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverProtocols.swift; sourceTree = "<group>"; };
@@ -3396,6 +3400,7 @@
 		5A9318DA26C5AB8900645365 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				8B1E295128EC9A02000E8019 /* Reactions */,
 				D4857D2928B4B31000C904EC /* Resizable Text Field */,
 				D4857D0528AF6F8000C904EC /* Chat Header View */,
 				D4857D0128AF57CF00C904EC /* Chat Event View */,
@@ -3877,6 +3882,15 @@
 				8B717A8F28AB96260078833B /* AnotherAppSources.swift */,
 			);
 			path = AnotherAppTransition;
+			sourceTree = "<group>";
+		};
+		8B1E295128EC9A02000E8019 /* Reactions */ = {
+			isa = PBXGroup;
+			children = (
+				8B1E295228EC9A12000E8019 /* ReactionsViewList.swift */,
+				8B1E295428EC9A20000E8019 /* ReactionsViewModel.swift */,
+			);
+			path = Reactions;
 			sourceTree = "<group>";
 		};
 		8B1E8AC027DF4F4A0036C301 /* ChooseReciver */ = {
@@ -7319,6 +7333,7 @@
 				D4EFEBE628E2AF110075CC10 /* MXAnalyticsDestination.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
 				D4EFEB1E28E2AF100075CC10 /* MXCrossSigningV2.swift in Sources */,
+				8B1E295328EC9A12000E8019 /* ReactionsViewList.swift in Sources */,
 				5A44FEF127693F6F006F9D92 /* ChatCreateViewModel.swift in Sources */,
 				D4EFEBF828E2AF110075CC10 /* FileManager+AppGroupContainer.swift in Sources */,
 				D4EFEBB328E2AF100075CC10 /* MXRoomSyncEphemeral.m in Sources */,
@@ -7756,6 +7771,7 @@
 				D4EFEB1528E2AF100075CC10 /* MXCryptoTools.m in Sources */,
 				D44D61D2289457D2004F5301 /* SocialListResources.swift in Sources */,
 				D45004792845DECC00CA4C82 /* HStackItemViewModel.swift in Sources */,
+				8B1E295528EC9A20000E8019 /* ReactionsViewModel.swift in Sources */,
 				D4EFEC4F28E2AF110075CC10 /* MXEventsByTypesEnumeratorOnArray.m in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
 				8B4E9C3727E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift in Sources */,

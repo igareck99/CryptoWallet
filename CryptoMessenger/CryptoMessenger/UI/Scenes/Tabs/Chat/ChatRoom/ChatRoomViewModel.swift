@@ -51,6 +51,7 @@ final class ChatRoomViewModel: ObservableObject {
 	@Published var isVideoCallAvailablility: Bool = false
     @Published var isChatGroupMenuAvailable: Bool = false
     @Published var isChatDirectMenuAvailable: Bool = false
+    @Published var isReactionsAvailable: Bool = false
 
 	private let groupCallsUseCase: GroupCallsUseCaseProtocol
 
@@ -144,6 +145,7 @@ final class ChatRoomViewModel: ObservableObject {
         self.isChatGroupMenuAvailable = availabilityFacade.isChatGroupMenuAvailable
 		let isVideoCallAvailable = availabilityFacade.isVideoCallAvailable
 		self.isVideoCallAvailablility = isVideoCallAvailable && isP2PChat && !isCallInProgress
+        self.isReactionsAvailable = availabilityFacade.isReactionsAvailable
 	}
 
 	private func subscribeToNotifications() {

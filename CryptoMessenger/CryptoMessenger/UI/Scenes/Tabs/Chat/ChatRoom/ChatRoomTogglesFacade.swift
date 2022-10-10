@@ -9,6 +9,7 @@ protocol ChatRoomTogglesFacadeProtocol {
     var isChatDirectMenuAvailable: Bool { get }
 	var isGroupCallsAvailable: Bool { get }
     var isAnyFilesAvailable: Bool { get }
+    var isReactionsAvailable: Bool { get }
 }
 
 final class ChatRoomTogglesFacade {
@@ -53,5 +54,9 @@ extension ChatRoomTogglesFacade: ChatRoomTogglesFacadeProtocol {
     
     var isAnyFilesAvailable: Bool {
         remoteConfigUseCase.isAnyFilesAvailable
+    }
+
+    var isReactionsAvailable: Bool {
+        remoteConfigUseCase.isReactionsAvailable
     }
 }
