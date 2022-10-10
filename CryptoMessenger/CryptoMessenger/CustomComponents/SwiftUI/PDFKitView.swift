@@ -34,7 +34,9 @@ struct PDFKitRepresentedView: UIViewRepresentable {
 
     func makeUIView(context: UIViewRepresentableContext<PDFKitRepresentedView>) -> PDFKitRepresentedView.UIViewType {
         let pdfView = PDFView()
-        pdfView.document = PDFDocument(url: url)
+        DispatchQueue.global(qos: .background).async {
+            pdfView.document = PDFDocument(url: url)
+        }
         pdfView.autoScales = true
         return pdfView
     }
