@@ -48,6 +48,10 @@ protocol RemoteConfigToggles {
 
     var isAnyFilesAvailable: Bool { get }
 
+	// Tech toggles
+
+	var isRoomsTimerAvailable: Bool { get }
+
 }
 
 // MARK: - RemoteConfigUseCase(RemoteConfigToggles)
@@ -241,16 +245,31 @@ extension RemoteConfigUseCase: RemoteConfigToggles {
 
     // Files
 
-    var isAnyFilesAvailable: Bool {
-        return isFeatureAvailable(module: .files,
-                                  feature: RemoteConfigValues.Files.files.rawValue,
-                                  version: RemoteConfigValues.Version.v1_0)
-    }
-    var isReactionsAvailable: Bool {
-        return isFeatureAvailable(module: .chatMessageActions,
-                                  feature: RemoteConfigValues.ChatMessageActions.reactions.rawValue,
-                                  version: RemoteConfigValues.Version.v1_0)
-    }
+	var isAnyFilesAvailable: Bool {
+		isFeatureAvailable(
+			module: .files,
+			feature: RemoteConfigValues.Files.files.rawValue,
+			version: RemoteConfigValues.Version.v1_0
+		)
+	}
+
+	var isReactionsAvailable: Bool {
+		isFeatureAvailable(
+			module: .chatMessageActions,
+			feature: RemoteConfigValues.ChatMessageActions.reactions.rawValue,
+			version: RemoteConfigValues.Version.v1_0
+		)
+	}
+
+	// Tech toggles
+
+	var isRoomsTimerAvailable: Bool {
+		isFeatureAvailable(
+			module: .techToggles,
+			feature: RemoteConfigValues.TechToggles.chatListTimer.rawValue,
+			version: RemoteConfigValues.Version.v1_0
+		)
+	}
 
 	// MARK: - Private
 

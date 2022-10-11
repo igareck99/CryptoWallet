@@ -11,6 +11,7 @@ enum RemoteConfigValues: String {
     case chatMenuFeatures = "ChatMenuFeatures"
     case files = "Files"
     case chatMessageActions = "ChatMessageActions"
+	case techToggles = "TechToggles"
 
 	// Настройки модуля Чаты
 	enum Chat: String {
@@ -55,6 +56,12 @@ enum RemoteConfigValues: String {
     enum Files: String {
         case files
     }
+
+	// Технические рубильники
+	
+	enum TechToggles: String {
+		case chatListTimer // Таймер опроса матрикс комнат
+	}
 
 	// Версии фичей/модулей
 	enum Version: String {

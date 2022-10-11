@@ -244,7 +244,24 @@ struct ChatRoomView: View {
                                             activateShowCard: $activateShowCard,
                                             playingAudioId: $playingAudioId
                                         )
-                                        .onTapGesture { }
+										.addSwipeAction(
+											menu: .swiped,
+											edge: .trailing,
+											isSwiped: .constant(false),
+											action: {
+												debugPrint("addSwipeAction")
+												activeEditMessage = message
+												inputViewIsFocused = true
+												quickAction = .reply
+										}, {
+											Rectangle()
+												.frame(width: 70, alignment: .center)
+												.frame(maxHeight: .infinity)
+												.foregroundColor(.clear)
+										})
+                                        .onTapGesture {
+											hideKeyboard()
+										}
                                         .flippedUpsideDown()
                                         .listRowSeparator(.hidden)
                                         .onLongPressGesture(minimumDuration: 0.1, maximumDistance: 0) {

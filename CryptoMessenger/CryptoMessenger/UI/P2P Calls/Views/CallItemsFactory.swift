@@ -181,11 +181,14 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 		let endCallItem = makeEndCallItem(delegate: delegate)
 		items.append(endCallItem)
 
+		// Принимаем звонки через экран CallKit
+		/*
 		let answerCallItem = makeAnswerCallItem(
 			viewModel: viewModel,
 			delegate: delegate
 		)
 		items.append(answerCallItem)
+		 */
 
 		return items
 	}

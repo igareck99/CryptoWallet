@@ -8,17 +8,20 @@ final class MatrixUseCase {
 	private let userSettings: UserDefaultsServiceProtocol
 	private var roomsTimer: AnyPublisher<Date, Never>?
 	private var subscriptions = Set<AnyCancellable>()
+	private let toggles: MatrixUseCaseTogglesProtocol
 
 	static let shared = MatrixUseCase()
 
 	init(
 		matrixService: MatrixServiceProtocol = MatrixService.shared,
 		keychainService: KeychainServiceProtocol = KeychainService.shared,
-		userSettings: UserDefaultsServiceProtocol = UserDefaultsService.shared
+		userSettings: UserDefaultsServiceProtocol = UserDefaultsService.shared,
+		toggles: MatrixUseCaseTogglesProtocol = MatrixUseCaseToggles()
 	) {
 		self.matrixService = matrixService
 		self.keychainService = keychainService
 		self.userSettings = userSettings
+		self.toggles = toggles
 		observeLoginState()
 	}
 
@@ -35,6 +38,9 @@ final class MatrixUseCase {
 	@objc func userDidLoggedIn() {
 		matrixService.updateState(with: .loggedIn(userId: matrixService.getUserId()))
 		updateCredentialsIfAvailable()
+		guard toggles.isRoomsUpdateTimerAvailable else { return }
+
+		debugPrint("makeAndBindTimer CALLED")
 		makeAndBindTimer()
 	}
 
