@@ -11,6 +11,7 @@ protocol KeychainServiceProtocol: AnyObject {
 	var apiUserMatrixId: String? { get set }
 	var apiUserPhoneNumber: String? { get set }
 	var apiUserPinCode: String? { get set }
+	var isPinCodeEnabled: Bool? { get set }
 	var apiUserFalsePinCode: String? { get set }
 	var isApiUserAuthenticated: Bool? { get set }
 

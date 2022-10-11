@@ -54,6 +54,7 @@ final class PinCodeCreateViewModel: ObservableObject {
     func createPassword(item: String) {
 		keychainService.apiUserPinCode = item
 		userSettings.isLocalAuth = true
+		keychainService.isPinCodeEnabled = true
     }
 
     func createFalsePassword(item: String) {
@@ -93,6 +94,7 @@ final class PinCodeCreateViewModel: ObservableObject {
                             delay(1) { [self] in
 								keychainService.apiUserPinCode = ""
 								userSettings.isLocalAuth = false
+								keychainService.isPinCodeEnabled = false
                                 finishScreen = true
                             }
                         } else {

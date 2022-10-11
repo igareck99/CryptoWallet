@@ -45,6 +45,11 @@ extension KeychainService {
 		set { set(newValue, forKey: .apiUserPinCode) }
 	}
 
+	var isPinCodeEnabled: Bool? {
+		get { bool(forKey: .isPinCodeEnabled) }
+		set { set(newValue, forKey: .isPinCodeEnabled) }
+	}
+
 	var apiUserFalsePinCode: String? {
 		get { string(forKey: .apiUserPinCode) }
 		set { set(newValue, forKey: .apiUserPinCode) }

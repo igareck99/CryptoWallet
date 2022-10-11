@@ -16,6 +16,7 @@ final class KeychainService {
 		case apiUserId
 		case apiUserPhoneNumber
 		case apiUserPinCode
+		case isPinCodeEnabled
 		case apiUserMatrixId
 		case apiIsUserAuthenticated
 	}
@@ -37,7 +38,6 @@ final class KeychainService {
 		self.accessGroup = accessGroup
 		self.serviceName = serviceName
 		self.keychainWrapper = KeychainWrapper(serviceName: serviceName, accessGroup: accessGroup)
-
 	}
 }
 

@@ -35,7 +35,8 @@ final class PinCodeViewController: BaseViewController {
 
     private func subscribeOnCustomViewActions() {
         customView.didTapAuth = { [unowned self] in
-            presenter.localAuth.authenticateWithBiometrics()
+			let reason = presenter.localAuth.biometryAppEnterReasonText()
+			presenter.localAuth.authenticateWithBiometrics(reason: reason)
         }
         customView.didAuthSuccess = { [unowned self] in
             guard presenter.isLocalAuthBackgroundAlertShown == false else {
@@ -94,7 +95,7 @@ extension PinCodeViewController: PinCodeViewInterface {
         customView.setPinCode(pinCode)
     }
 
-    func setLocalAuth(_ result: AvailableBiometric?) {
+    func setLocalAuth(_ result: AvailableBiometric) {
         customView.setLocalAuth(result)
     }
 

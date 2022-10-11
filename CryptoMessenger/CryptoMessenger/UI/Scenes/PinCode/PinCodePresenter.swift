@@ -59,10 +59,17 @@ extension PinCodePresenter: PinCodePresentation {
         let isBiometryOn = userSettings.isBiometryOn
         view?.setPinCode(pinCode)
         view?.setBiometryActive(isBiometryOn)
+
+		if isBiometryOn, localAuth.checkIfBioMetricAvailable() {
+			let reason = localAuth.biometryAppEnterReasonText()
+			localAuth.authenticateWithBiometrics(reason: reason)
+		}
     }
 
     func setNewPinCode(_ pinCode: String) {
 		keychainService.apiUserPinCode = pinCode
+		keychainService.isPinCodeEnabled = true
+		userSettings.isLocalAuth = true
     }
 
     func checkLocalAuth() {

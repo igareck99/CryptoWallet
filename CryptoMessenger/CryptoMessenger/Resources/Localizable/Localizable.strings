@@ -81,6 +81,12 @@
 "PinCode.FalseCannotMatch" = "Основной пароль не может совпадать с ложным";
 "PinCode.ResetPassword" = "Пароль успешно сброшен";
 
+"Biometry.TouchIdAppEnter" = "Приложите палец, чтобы войти в приложение";
+"Biometry.FaceIdAppEnter" = "Посмотрите на экран, чтобы войти в приложение";
+"Biometry.TouchIdEnable" = "Приложите палец, чтобы включить TouchID";
+"Biometry.FaceIdEnable" = "Посмотрите на экран, чтобы включить FaceID";
+"Biometry.TouchIdEnableFailure" = "Не удалось активировать вход по биометрии";
+"Biometry.FaceIdEnableFailure" = "Не удалось активировать вход по биометрии";
 
 "CallList.Delete" = "Удалить";
 "CallList.Title" = "Журнал звонков";

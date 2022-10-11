@@ -1,41 +1,10 @@
 import Foundation
-import LocalAuthentication
 import UIKit
 
 // MARK: - LocalAuthenticationDelegate
 
 protocol LocalAuthenticationDelegate: AnyObject {
     func didAuthenticate(_ success: Bool)
-}
-
-// MARK: - AvailableBiometric
-
-enum AvailableBiometric {
-
-    // MARK: - Types
-
-    case faceID
-    case touchID
-
-    // MARK: - Internal Properties
-
-    var name: String? {
-        switch self {
-        case .faceID:
-            return "Face ID"
-        case .touchID:
-            return "Touch ID"
-        }
-    }
-
-    var image: UIImage? {
-        switch self {
-        case .faceID:
-            return R.image.pinCode.faceId()
-        case .touchID:
-            return R.image.pinCode.touchId()
-        }
-    }
 }
 
 // MARK: - LocalAuthentication
@@ -45,54 +14,70 @@ final class LocalAuthentication {
     // MARK: - Internal Properties
 
     weak var delegate: LocalAuthenticationDelegate?
+	private let biometryService: BiometryServiceProtocol
+	private let sources: BiometrySourcesable.Type
 
-    // MARK: - Private Properties
-
-    private var reason = ""
+	init(
+		biometryService: BiometryServiceProtocol = BiometryService(),
+		sources: BiometrySourcesable.Type = BiometrySources.self
+	) {
+		self.biometryService = biometryService
+		self.sources = sources
+	}
 
     // MARK: - Internal Methods
 
-    func getAvailableBiometrics() -> AvailableBiometric? {
-        var error: NSError?
-        let context = LAContext()
-
-        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else { return nil }
-
-        switch context.biometryType {
-        case .faceID:
-            reason = "Provide Face ID"
-            return .faceID
-        case .touchID:
-            reason = "Provide Touch ID"
-            return .faceID
-        default:
-            return nil
-        }
+	func getAvailableBiometrics() -> BiometryService.BiometryType {
+		guard biometryService.checkIfBioMetricAvailable() else { return .none }
+		return biometryService.biometryType
     }
 
-    func checkIfBioMetricAvailable() -> Bool {
-        var error: NSError?
-        let laContext = LAContext()
+	func biometryAppEnterReasonText() -> String {
+		switch biometryService.biometryType {
+		case .faceID:
+			return sources.faceIdAppEnter
+		case .touchID:
+			return sources.touchIdAppEnter
+		default:
+			return ""
+		}
+	}
 
-        let isBiometricAvailable = laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
-        if let error = error {
-            debugPrint(error.localizedDescription)
-        }
+	func biometryEnableReasonText() -> String {
+		switch biometryService.biometryType {
+		case .faceID:
+			return sources.faceIdEnable
+		case .touchID:
+			return sources.touchIdEnable
+		default:
+			return ""
+		}
+	}
 
-        return isBiometricAvailable
-    }
+	func biometryEnableFailureReasonText() -> String {
+		switch biometryService.biometryType {
+		case .faceID:
+			return sources.faceIdEnableFailure
+		case .touchID:
+			return sources.touchIdEnableFailure
+		default:
+			return ""
+		}
+	}
 
-    func authenticateWithBiometrics() {
-        let context = LAContext()
-        context.touchIDAuthenticationAllowableReuseDuration = 0
-        context.localizedFallbackTitle = "Please use your pin-code"
+	func authenticateWithBiometrics(reason: String) {
+		if biometryService.checkIfBioMetricAvailable() {
+			biometryService.authenticateByBiometry(
+				reason: reason
+			) { [weak self] result in
+					DispatchQueue.main.async {
+						self?.delegate?.didAuthenticate(result == .suceeded)
+					}
+				}
+		}
+	}
 
-        if checkIfBioMetricAvailable() {
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
-                DispatchQueue.main.async {
-                    self.delegate?.didAuthenticate(success)
-                }
-            }
-        }
-    }
+	func checkIfBioMetricAvailable() -> Bool {
+		biometryService.checkIfBioMetricAvailable()
+	}
 }

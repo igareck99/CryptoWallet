@@ -66,6 +66,8 @@ extension AppCoordinator: Coordinator {
 			isLocalAuth: userFlows.isLocalAuth
 		)
 
+		debugPrint("flow.description: \(flow.description)")
+
 		switch flow {
 		case .localAuth:
 			if userFlows.isLocalAuth {
