@@ -38,5 +38,6 @@ enum ChatRoomFlow {
         case onDeleteReaction(messageId: String, reactionId: String)
         case onNextScene
         case onSettings(chatData: Binding<ChatData>, saveData: Binding<Bool>, room: AuraRoom)
+        case onSendVideo(_ url: URL)
     }
 }

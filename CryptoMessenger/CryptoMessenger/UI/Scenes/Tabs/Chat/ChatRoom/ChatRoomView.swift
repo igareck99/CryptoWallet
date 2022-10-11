@@ -146,7 +146,8 @@ struct ChatRoomView: View {
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .photo:
-                    ImagePickerView(selectedImage: $viewModel.selectedImage)
+                    GalleryPickerView(selectedImage: $viewModel.selectedImage,
+                                      selectedVideo: $viewModel.selectedVideo)
                         .navigationBarTitle(Text(viewModel.sources.photoEditorTitle))
                         .navigationBarTitleDisplayMode(.inline)
                 case .documents:

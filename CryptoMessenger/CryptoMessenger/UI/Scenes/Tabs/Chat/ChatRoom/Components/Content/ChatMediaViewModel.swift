@@ -1,6 +1,8 @@
 import SwiftUI
 import Combine
 
+// MARK: - ChatMediaDelegate
+
 protocol ChatMediaDelegate: ObservableObject {
 
     var sources: ChatMediaSourcesable.Type { get }

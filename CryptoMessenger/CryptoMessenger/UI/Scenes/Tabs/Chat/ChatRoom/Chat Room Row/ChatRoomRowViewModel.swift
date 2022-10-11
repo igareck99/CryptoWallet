@@ -1,5 +1,7 @@
 import SwiftUI
 
+//swiftlint:disable: vertical_parameter_alignment
+
 protocol ChatRoomRowViewModelProtocol {
 
 	func makeChatMessageEventView(
@@ -20,10 +22,10 @@ final class ChatRoomRowViewModel {
 
 	private let componentsFactory: ChatComponentsFactoryProtocol
 
-	init(
-		componentsFactory: ChatComponentsFactoryProtocol = ChatComponentsFactory()
-	) {
-		self.componentsFactory = componentsFactory
+    init(
+        componentsFactory: ChatComponentsFactoryProtocol = ChatComponentsFactory()
+    ) {
+        self.componentsFactory = componentsFactory
 	}
 }
 
@@ -39,10 +41,10 @@ extension ChatRoomRowViewModel: ChatRoomRowViewModelProtocol {
 		playingAudioId: Binding<String>,
 		onSelectPhoto: GenericBlock<URL?>?,
 		onContactButtonAction: @escaping (String, String?, URL?) -> Void,
-		onFileTapHandler: @escaping VoidBlock,
-		fileSheetPresenting: @escaping (URL?) -> AnyView?,
-		message: RoomMessage
-	) -> AnyView {
+        onFileTapHandler: @escaping VoidBlock,
+        fileSheetPresenting: @escaping (URL?) -> AnyView?,
+        message: RoomMessage
+    ) -> AnyView {
 
 		componentsFactory.makeChatMessageEventView(
 			showFile: showFile,
@@ -54,7 +56,7 @@ extension ChatRoomRowViewModel: ChatRoomRowViewModelProtocol {
 			onContactButtonAction: onContactButtonAction,
 			onFileTapHandler: onFileTapHandler,
 			fileSheetPresenting: fileSheetPresenting,
-			message: message
+            message: message
 		)
 	}
 }

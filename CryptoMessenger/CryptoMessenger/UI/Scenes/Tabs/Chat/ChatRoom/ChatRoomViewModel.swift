@@ -35,6 +35,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var showTranslateMenu = false
     @Published var showLocationPicker = false
     @Published var selectedImage: UIImage?
+    @Published var selectedVideo: URL?
     @Published var pickedImage: UIImage?
     @Published var pickedContact: Contact?
     @Published var pickedLocation: Place?
@@ -52,6 +53,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var isChatGroupMenuAvailable: Bool = false
     @Published var isChatDirectMenuAvailable: Bool = false
     @Published var isReactionsAvailable: Bool = false
+    @Published var isVideoMessageAvailable: Bool = false
 
 	private let groupCallsUseCase: GroupCallsUseCaseProtocol
 
@@ -146,6 +148,7 @@ final class ChatRoomViewModel: ObservableObject {
 		let isVideoCallAvailable = availabilityFacade.isVideoCallAvailable
 		self.isVideoCallAvailablility = isVideoCallAvailable && isP2PChat && !isCallInProgress
         self.isReactionsAvailable = availabilityFacade.isReactionsAvailable
+        self.isVideoMessageAvailable = availabilityFacade.isVideoMessageAvailable
 	}
 
 	private func subscribeToNotifications() {
@@ -289,6 +292,18 @@ final class ChatRoomViewModel: ObservableObject {
                         self?.room.updateEvents(eventId: eventId)
                     }
                     self?.matrixUseCase.objectChangePublisher.send()
+                case let .onSendVideo(url):
+                    guard let self = self else { return }
+                    if self.isVideoMessageAvailable {
+                        guard let id = self.room.room.roomId else { return }
+                        let mxImage = MXImage(systemName: "eraser")
+                        self.mediaService.uploadVideoMessage(for: id,
+                                                              url: url,
+                                                              thumbnail: mxImage,
+                                                              completion: { eventId in
+                            self.room.updateEvents(eventId: eventId)
+                        })
+                    }
                 case let .onSendLocation(location):
                     self?.inputText = ""
                     self?.room.sendLocation(location: location)
@@ -472,6 +487,14 @@ final class ChatRoomViewModel: ObservableObject {
             .sink { [weak self] image in
                 guard let image = image else { return }
                 self?.send(.onSendImage(image))
+            }
+            .store(in: &subscriptions)
+
+        $selectedVideo
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] videoUrl in
+                guard let videoUrl = videoUrl else { return }
+                self?.send(.onSendVideo(videoUrl))
             }
             .store(in: &subscriptions)
 

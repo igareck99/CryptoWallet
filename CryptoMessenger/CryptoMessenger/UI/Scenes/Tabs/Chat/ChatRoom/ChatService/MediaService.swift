@@ -17,6 +17,10 @@ protocol MediaServiceProtocol {
     func uploadChatContact(roomId: String, contact: Contact,
                            completion: @escaping (String?) -> Void)
     func uploadVoiceMessage(roomId: String, audio: URL, duration: UInt, completion: @escaping (String?) -> Void)
+    func uploadVideoMessage(for roomId: String,
+                            url: URL,
+                            thumbnail: MXImage?,
+                            completion: @escaping (String?) -> Void)
 }
 
 enum MediaServiceError: Error {
@@ -219,7 +223,6 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
     func uploadChatFile(roomId: String,
                         url: URL,
                         completion: @escaping (String?) -> Void) {
-        
         matrixService.uploadFile(for: roomId,
                                  url: url) { result in
             switch result {
@@ -235,6 +238,22 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
                            completion: @escaping (String?) -> Void) {
         matrixService.uploadContact(for: roomId,
                                     contact: contact) { result in
+            switch result {
+            case let .success(eventId):
+                completion(eventId)
+            default:
+                break
+            }
+        }
+    }
+
+    func uploadVideoMessage(for roomId: String,
+                            url: URL,
+                            thumbnail: MXImage?,
+                            completion: @escaping (String?) -> Void) {
+        matrixService.uploadVideoMessage(for: roomId,
+                                         url: url,
+                                         thumbnail: thumbnail) { result in
             switch result {
             case let .success(eventId):
                 completion(eventId)
