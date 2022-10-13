@@ -19,6 +19,7 @@ extension MatrixService {
 			}
 			self.objectChangePublisher.send()
 		}
+		objectChangePublisher.send()
 	}
 
 	func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void) {

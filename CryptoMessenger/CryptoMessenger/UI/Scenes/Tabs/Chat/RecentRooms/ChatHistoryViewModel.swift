@@ -56,6 +56,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
+					debugPrint("MatrixService: ChatHistoryViewModel rooms: \(self?.matrixUseCase.rooms)")
                     self?.rooms = self?.matrixUseCase.rooms ?? []
                     self?.objectWillChange.send()
                 case let .onShowRoom(room):
@@ -70,7 +71,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-				debugPrint("ChatHistoryViewModel matrixUseCase.rooms: \(self?.matrixUseCase.rooms ?? [])")
+				debugPrint("MatrixService: matrixUseCase.rooms: \(self?.matrixUseCase.rooms ?? [])")
                 self?.rooms = self?.matrixUseCase.rooms ?? []
             }
             .store(in: &subscriptions)
