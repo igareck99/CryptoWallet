@@ -189,12 +189,6 @@ struct ChatRoomView: View {
                             ForEach(viewModel.messages) { event in
                                 if viewModel.isTranslating() {
                                     if let message = viewModel.translatedMessages.first(where: {$0.eventId == event.eventId}) {
-                                        if viewModel.next(message)?.fullDate != message.fullDate {
-											ChatEventView(
-												text: message.fullDate,
-												backgroundColor: Palette.lightGray().suColor
-											).configureInnerOuterShadow().flippedUpsideDown()
-                                        }
                                         ChatRoomRow(
                                             message: message,
                                             isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
@@ -224,12 +218,6 @@ struct ChatRoomView: View {
                                     }
                                 } else {
                                     if let message = viewModel.messages.first(where: {$0.eventId == event.eventId}) {
-                                        if viewModel.isFirst(event) {
-                                            ChatEventView(
-                                                text: event.fullDate,
-                                                backgroundColor: Palette.lightGray().suColor
-                                            ).configureInnerOuterShadow().flippedUpsideDown()
-                                        }
                                         ChatRoomRow(
                                             message: message,
                                             isPreviousFromCurrentUser: viewModel.previous(message)?.isCurrentUser ?? false,
@@ -277,12 +265,6 @@ struct ChatRoomView: View {
                                     }
                                 }
                                 viewModel.makeChatEventView(event: event)
-                                if viewModel.next(event)?.fullDate != event.fullDate {
-                                    ChatEventView(
-                                        text: event.fullDate,
-                                        backgroundColor: Palette.lightGray().suColor
-                                    ).configureInnerOuterShadow().flippedUpsideDown()
-                                }
                             }
                             .onChange(of: viewModel.messages) { _ in
                                 viewModel.room.markAllAsRead()
