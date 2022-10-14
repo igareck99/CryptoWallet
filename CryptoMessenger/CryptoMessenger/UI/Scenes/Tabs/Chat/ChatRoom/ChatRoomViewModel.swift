@@ -19,6 +19,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var translateAction: TranslateAction?
     @Published var dismissScreen = false
     @Published var showSettings = false
+    @Published var isOneDayMessages = false
 
     @Published private(set) var keyboardHeight: CGFloat = 0
     @Published private(set) var emojiStorage: [ReactionStorage] = []
@@ -574,7 +575,7 @@ final class ChatRoomViewModel: ObservableObject {
                     return
                 }
                 if self.isTranslating() {
-                    self.translatedMessages = room.events().renderableEvents
+                    self.translatedMessages = room.events().renderableEvents.filter({ !$0.eventId.contains("kMXEventLocalId") })
                         .map {
                             var message = $0.message(self.fromCurrentSender($0.sender))
                             message?.eventId = $0.eventId
@@ -594,7 +595,7 @@ final class ChatRoomViewModel: ObservableObject {
                         }
                         .compactMap { $0 }
                 }
-                self.messages = room.events().renderableEvents
+                self.messages = room.events().renderableEvents.filter({ !$0.eventId.contains("kMXEventLocalId") })
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
                         message?.eventId = $0.eventId
@@ -613,6 +614,12 @@ final class ChatRoomViewModel: ObservableObject {
                         return message
                     }
                     .compactMap { $0 }
+                let messagesFullDate: [String] = self.messages.map {
+                    return $0.fullDate
+                }
+                self.isOneDayMessages = messagesFullDate.dropFirst().reduce(true) { partialResult, element in
+                    return partialResult && element == messagesFullDate.first
+                }
                 self.objectWillChange.send()
             }
             .store(in: &subscriptions)

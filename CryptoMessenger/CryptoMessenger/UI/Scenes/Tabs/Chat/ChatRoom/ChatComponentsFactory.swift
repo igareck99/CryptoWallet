@@ -72,6 +72,13 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 			)
 		}
 
+        if viewModel.next(event)?.fullDate != event.fullDate {
+            return AnyView(ChatEventView(
+                text: event.fullDate,
+                backgroundColor: Palette.lightGray().suColor
+            ).configureInnerOuterShadow().flippedUpsideDown())
+        }
+
 		if event.eventType.contains("m.call.hangup") ||
 			event.eventType.contains("m.call.reject") {
 			let eventTitle = textForCallEventReason(eventType: event.eventType, content: event.content)
