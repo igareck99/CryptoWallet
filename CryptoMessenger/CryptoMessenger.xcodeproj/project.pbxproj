@@ -546,7 +546,6 @@
 		D41553B9288AC819003FDADC /* UserDefaultsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41553B8288AC819003FDADC /* UserDefaultsServiceProtocol.swift */; };
 		D41553BE288FD1A8003FDADC /* MatrixService+Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41553BD288FD1A8003FDADC /* MatrixService+Fetcher.swift */; };
 		D423A0A2285E2860004A8228 /* P2PCallState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423A0A1285E2860004A8228 /* P2PCallState.swift */; };
-		D423A0A92860A47E004A8228 /* MXCallKitAdapter+Updaters.m in Sources */ = {isa = PBXBuildFile; fileRef = D423A0A82860A47E004A8228 /* MXCallKitAdapter+Updaters.m */; };
 		D425C7E628071C6500E61607 /* AppCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D425C7E528071C6500E61607 /* AppCoordinatorAssembly.swift */; };
 		D425C7E82807E44C00E61607 /* PushNotificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D425C7E72807E44C00E61607 /* PushNotificationCoordinator.swift */; };
 		D428A53D2823CA8D002CAA13 /* RemoteConfigServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D428A53C2823CA8D002CAA13 /* RemoteConfigServiceProtocol.swift */; };
@@ -603,7 +602,6 @@
 		D4533A1C28335A6700B956B2 /* RemoteConfigServiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */; };
 		D4533A1E28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */; };
 		D455F732287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D455F731287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift */; };
-		D45B7B5A286C4D1200435241 /* CXProviderConfiguration+Calls.m in Sources */ = {isa = PBXBuildFile; fileRef = D45B7B59286C4D1200435241 /* CXProviderConfiguration+Calls.m */; };
 		D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46187D2282D093200CA2836 /* ChatHistorySources.swift */; };
 		D4752EA028C2247F006B650A /* AURGroupCallsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D4752E9928C08B95006B650A /* AURGroupCallsViewModel.m */; };
 		D4752EA428C22502006B650A /* Base32Encoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4752EA328C22502006B650A /* Base32Encoder.m */; };
@@ -1668,8 +1666,6 @@
 		D41553B8288AC819003FDADC /* UserDefaultsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsServiceProtocol.swift; sourceTree = "<group>"; };
 		D41553BD288FD1A8003FDADC /* MatrixService+Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Fetcher.swift"; sourceTree = "<group>"; };
 		D423A0A1285E2860004A8228 /* P2PCallState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallState.swift; sourceTree = "<group>"; };
-		D423A0A72860A47E004A8228 /* MXCallKitAdapter+Updaters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MXCallKitAdapter+Updaters.h"; sourceTree = "<group>"; };
-		D423A0A82860A47E004A8228 /* MXCallKitAdapter+Updaters.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MXCallKitAdapter+Updaters.m"; sourceTree = "<group>"; };
 		D425C7E528071C6500E61607 /* AppCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		D425C7E72807E44C00E61607 /* PushNotificationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationCoordinator.swift; sourceTree = "<group>"; };
 		D428A5372823A00A002CAA13 /* MatrixService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixService.swift; sourceTree = "<group>"; };
@@ -1725,8 +1721,6 @@
 		D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceAssembly.swift; sourceTree = "<group>"; };
 		D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		D455F731287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteConfigUseCase+Toggles.swift"; sourceTree = "<group>"; };
-		D45B7B58286C4D1200435241 /* CXProviderConfiguration+Calls.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CXProviderConfiguration+Calls.h"; sourceTree = "<group>"; };
-		D45B7B59286C4D1200435241 /* CXProviderConfiguration+Calls.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CXProviderConfiguration+Calls.m"; sourceTree = "<group>"; };
 		D46187D2282D093200CA2836 /* ChatHistorySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySources.swift; sourceTree = "<group>"; };
 		D4752E9328BFC497006B650A /* GroupCallsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsViewController.swift; sourceTree = "<group>"; };
 		D4752E9828C08B95006B650A /* AURGroupCallsViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AURGroupCallsViewModel.h; sourceTree = "<group>"; };
@@ -3334,10 +3328,6 @@
 				D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */,
 				D4D439F928374B0B00AC0DEF /* MXRoom+Reply.h */,
 				D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */,
-				D423A0A72860A47E004A8228 /* MXCallKitAdapter+Updaters.h */,
-				D423A0A82860A47E004A8228 /* MXCallKitAdapter+Updaters.m */,
-				D45B7B58286C4D1200435241 /* CXProviderConfiguration+Calls.h */,
-				D45B7B59286C4D1200435241 /* CXProviderConfiguration+Calls.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4984,40 +4974,40 @@
 		D4EFE70A28E2AF0F0075CC10 /* MatrixSDK */ = {
 			isa = PBXGroup;
 			children = (
+				D4EFEAD928E2AF100075CC10 /* MatrixSDK.h */,
+				D4EFE88328E2AF100075CC10 /* MatrixSDKSwiftHeader.h */,
+				D4EFE9B128E2AF100075CC10 /* MXSDKOptions.h */,
+				D4EFE84428E2AF100075CC10 /* MXSDKOptions.m */,
+				D4EFE9B028E2AF100075CC10 /* MXEnumConstants.h */,
+				D4EFE84528E2AF100075CC10 /* MXEnumConstants.m */,
+				D4EFE9DF28E2AF100075CC10 /* MXRestClient.h */,
+				D4EFE84F28E2AF100075CC10 /* MXRestClient.m */,
+				D4EFEADB28E2AF100075CC10 /* MXSession.h */,
+				D4EFE94928E2AF100075CC10 /* MXSession.m */,
+				D4EFE88228E2AF100075CC10 /* MXError.h */,
+				D4EFE9E028E2AF100075CC10 /* MXError.m */,
+				D4EFE9E128E2AF100075CC10 /* MatrixSDKVersion.m */,
 				D4EFE70B28E2AF0F0075CC10 /* Background */,
 				D4EFE71B28E2AF0F0075CC10 /* ThreePidAdd */,
 				D4EFE72028E2AF0F0075CC10 /* EventStream */,
 				D4EFE72328E2AF0F0075CC10 /* Crypto */,
-				D4EFE84428E2AF100075CC10 /* MXSDKOptions.m */,
-				D4EFE84528E2AF100075CC10 /* MXEnumConstants.m */,
 				D4EFE84628E2AF100075CC10 /* Room */,
-				D4EFE84F28E2AF100075CC10 /* MXRestClient.m */,
 				D4EFE85028E2AF100075CC10 /* IdentityServer */,
 				D4EFE85528E2AF100075CC10 /* PushGateway */,
 				D4EFE85828E2AF100075CC10 /* ContentScan */,
-				D4EFE88228E2AF100075CC10 /* MXError.h */,
-				D4EFE88328E2AF100075CC10 /* MatrixSDKSwiftHeader.h */,
 				D4EFE88428E2AF100075CC10 /* HomeServer */,
 				D4EFE88728E2AF100075CC10 /* JSONModels */,
-				D4EFE94928E2AF100075CC10 /* MXSession.m */,
 				D4EFE94A28E2AF100075CC10 /* Utils */,
 				D4EFE99628E2AF100075CC10 /* LocationSharing */,
 				D4EFE99B28E2AF100075CC10 /* Contrib */,
-				D4EFE9B028E2AF100075CC10 /* MXEnumConstants.h */,
-				D4EFE9B128E2AF100075CC10 /* MXSDKOptions.h */,
 				D4EFE9B228E2AF100075CC10 /* NotificationCenter */,
 				D4EFE9C428E2AF100075CC10 /* Threads */,
 				D4EFE9CA28E2AF100075CC10 /* Lib */,
 				D4EFE9CD28E2AF100075CC10 /* VoIP */,
-				D4EFE9DF28E2AF100075CC10 /* MXRestClient.h */,
-				D4EFE9E028E2AF100075CC10 /* MXError.m */,
-				D4EFE9E128E2AF100075CC10 /* MatrixSDKVersion.m */,
 				D4EFE9E228E2AF100075CC10 /* Space */,
 				D4EFE9F528E2AF100075CC10 /* Data */,
 				D4EFEAA028E2AF100075CC10 /* Aggregations */,
 				D4EFEAD328E2AF100075CC10 /* Categories */,
-				D4EFEAD928E2AF100075CC10 /* MatrixSDK.h */,
-				D4EFEADB28E2AF100075CC10 /* MXSession.h */,
 			);
 			path = MatrixSDK;
 			sourceTree = "<group>";
@@ -5026,10 +5016,10 @@
 			isa = PBXGroup;
 			children = (
 				D4EFE70C28E2AF0F0075CC10 /* MXBackgroundCryptoStore.h */,
+				D4EFE71028E2AF0F0075CC10 /* MXBackgroundCryptoStore.m */,
 				D4EFE70D28E2AF0F0075CC10 /* MXBackgroundPushRulesManager.swift */,
 				D4EFE70E28E2AF0F0075CC10 /* MXBackgroundStore.swift */,
 				D4EFE70F28E2AF0F0075CC10 /* MXBackgroundSyncService.swift */,
-				D4EFE71028E2AF0F0075CC10 /* MXBackgroundCryptoStore.m */,
 				D4EFE71128E2AF0F0075CC10 /* MXStopwatch.swift */,
 				D4EFE71228E2AF0F0075CC10 /* Store */,
 			);
@@ -5058,8 +5048,8 @@
 		D4EFE71728E2AF0F0075CC10 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D4EFE71828E2AF0F0075CC10 /* MXCachedSyncResponse.m */,
 				D4EFE71928E2AF0F0075CC10 /* MXCachedSyncResponse.h */,
+				D4EFE71828E2AF0F0075CC10 /* MXCachedSyncResponse.m */,
 				D4EFE71A28E2AF0F0075CC10 /* MXSyncResponseStoreMetaDataModel.swift */,
 			);
 			path = Model;
@@ -5068,9 +5058,9 @@
 		D4EFE71B28E2AF0F0075CC10 /* ThreePidAdd */ = {
 			isa = PBXGroup;
 			children = (
+				D4EFE71E28E2AF0F0075CC10 /* MX3PidAddSession.h */,
 				D4EFE71C28E2AF0F0075CC10 /* MX3PidAddSession.m */,
 				D4EFE71D28E2AF0F0075CC10 /* MX3PidAddManager.h */,
-				D4EFE71E28E2AF0F0075CC10 /* MX3PidAddSession.h */,
 				D4EFE71F28E2AF0F0075CC10 /* MX3PidAddManager.m */,
 			);
 			path = ThreePidAdd;
@@ -6386,16 +6376,16 @@
 		D4EFE9CD28E2AF100075CC10 /* VoIP */ = {
 			isa = PBXGroup;
 			children = (
-				D4EFE9CE28E2AF100075CC10 /* MXCall.h */,
-				D4EFE9CF28E2AF100075CC10 /* MXCallManager.m */,
+				D4EFE9DA28E2AF100075CC10 /* CallKit */,
 				D4EFE9D028E2AF100075CC10 /* CallStack */,
+				D4EFE9CE28E2AF100075CC10 /* MXCall.h */,
+				D4EFE9D628E2AF100075CC10 /* MXCall.m */,
+				D4EFE9D828E2AF100075CC10 /* MXCallManager.h */,
+				D4EFE9CF28E2AF100075CC10 /* MXCallManager.m */,
 				D4EFE9D428E2AF100075CC10 /* MXiOSAudioOutputRouteType.swift */,
 				D4EFE9D528E2AF100075CC10 /* MXiOSAudioOutputRouterDelegate.swift */,
-				D4EFE9D628E2AF100075CC10 /* MXCall.m */,
 				D4EFE9D728E2AF100075CC10 /* MXiOSAudioOutputRouter.swift */,
-				D4EFE9D828E2AF100075CC10 /* MXCallManager.h */,
 				D4EFE9D928E2AF100075CC10 /* MXiOSAudioOutputRoute.swift */,
-				D4EFE9DA28E2AF100075CC10 /* CallKit */,
 			);
 			path = VoIP;
 			sourceTree = "<group>";
@@ -6414,8 +6404,8 @@
 			isa = PBXGroup;
 			children = (
 				D4EFE9DB28E2AF100075CC10 /* MXCallKitAdapter.h */,
-				D4EFE9DC28E2AF100075CC10 /* MXCallKitConfiguration.h */,
 				D4EFE9DD28E2AF100075CC10 /* MXCallKitAdapter.m */,
+				D4EFE9DC28E2AF100075CC10 /* MXCallKitConfiguration.h */,
 				D4EFE9DE28E2AF100075CC10 /* MXCallKitConfiguration.m */,
 			);
 			path = CallKit;
@@ -7562,7 +7552,6 @@
 				D4EFEC9C28E2AF110075CC10 /* MXRealmBeaconMapper.swift in Sources */,
 				D4EFEC6B28E2AF110075CC10 /* MXDiscoveredClientConfig.m in Sources */,
 				8BA0C90527AD4F030070203F /* AnswerItem.swift in Sources */,
-				D423A0A92860A47E004A8228 /* MXCallKitAdapter+Updaters.m in Sources */,
 				D4EFEB8428E2AF100075CC10 /* MXServerNoticeContent.m in Sources */,
 				D4EFEB0128E2AF100075CC10 /* MXOutgoingRoomKeyRequestManager.m in Sources */,
 				D4442B4628113C3C0033D07A /* KeychainItemAccessibility.swift in Sources */,
@@ -8075,7 +8064,6 @@
 				8B6C18C8279ABB4800B85F2A /* BlockedListConfigurator.swift in Sources */,
 				D4EFEC7428E2AF110075CC10 /* MXCoreDataRoomSummaryStore.xcdatamodeld in Sources */,
 				5A3721D7272F2A4D0097ABED /* ChatGroupView.swift in Sources */,
-				D45B7B5A286C4D1200435241 /* CXProviderConfiguration+Calls.m in Sources */,
 				8B4E9C3527E0A77A0057E4C9 /* WalletAdressScanerView.swift in Sources */,
 				D428A53F2823CBA0002CAA13 /* Parser.swift in Sources */,
 				D4EFEBB528E2AF100075CC10 /* MXRoomSyncSummary.m in Sources */,
