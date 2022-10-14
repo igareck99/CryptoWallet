@@ -490,6 +490,7 @@
 		8BBCBCCE28F7434300E42F0C /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBCBCCD28F7434300E42F0C /* VideoPlayerView.swift */; };
 		8BBCBCD428F749DF00E42F0C /* VideoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBCBCD328F749DF00E42F0C /* VideoRow.swift */; };
 		8BBCBCD628F74AF800E42F0C /* RemoteVideos.json in Resources */ = {isa = PBXBuildFile; fileRef = 8BBCBCD528F74AF800E42F0C /* RemoteVideos.json */; };
+		8BBCBCD928F8818000E42F0C /* PDFKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBCBCD828F8818000E42F0C /* PDFKitViewModel.swift */; };
 		8BC06B0C27C7DFC4005A28A1 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC06B0B27C7DFC4005A28A1 /* TransactionView.swift */; };
 		8BC06B0E27C8F5EE005A28A1 /* TransactionFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC06B0D27C8F5ED005A28A1 /* TransactionFlow.swift */; };
 		8BC06B1027C8F609005A28A1 /* TransactionProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC06B0F27C8F609005A28A1 /* TransactionProtocols.swift */; };
@@ -1608,6 +1609,7 @@
 		8BBCBCCD28F7434300E42F0C /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		8BBCBCD328F749DF00E42F0C /* VideoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRow.swift; sourceTree = "<group>"; };
 		8BBCBCD528F74AF800E42F0C /* RemoteVideos.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = RemoteVideos.json; sourceTree = "<group>"; };
+		8BBCBCD828F8818000E42F0C /* PDFKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFKitViewModel.swift; sourceTree = "<group>"; };
 		8BC06B0B27C7DFC4005A28A1 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		8BC06B0D27C8F5ED005A28A1 /* TransactionFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionFlow.swift; sourceTree = "<group>"; };
 		8BC06B0F27C8F609005A28A1 /* TransactionProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionProtocols.swift; sourceTree = "<group>"; };
@@ -2832,6 +2834,7 @@
 			isa = PBXGroup;
 			children = (
 				8B4DBFF928F5D694003F58EB /* GalleryPicker */,
+				8BBCBCD728F8811D00E42F0C /* FileGroup */,
 				8BE66739280F4A2900D41A3C /* IphoneNumberTextField */,
 				8B7C17EF27DCB9A8001113F2 /* CurrencyTextField */,
 				8B637D8827CE3B35000B1B2B /* RadioButton */,
@@ -2851,7 +2854,6 @@
 				5A15DDFA276FA1C800CF7AA4 /* ImageViewer.swift */,
 				8BE6DAE22771EC2C00FB4C6C /* WebView.swift */,
 				5A8A13EA27D11B3A004C4B4F /* TrackableScrollView.swift */,
-				5AC8C4F327C42D94008B1744 /* PDFKitView.swift */,
 				5ABF08CE27D9C86A0016CC6F /* SUImagePickerView.swift */,
 				8BFF387A27D91092005D88C9 /* NumberTextField.swift */,
 				8B8B9C1E27F31FEE0061F5E6 /* Animation.swift */,
@@ -4349,6 +4351,15 @@
 				8BBCBCC528F73D2A00E42F0C /* Video.swift */,
 			);
 			path = VideoModels;
+			sourceTree = "<group>";
+		};
+		8BBCBCD728F8811D00E42F0C /* FileGroup */ = {
+			isa = PBXGroup;
+			children = (
+				5AC8C4F327C42D94008B1744 /* PDFKitView.swift */,
+				8BBCBCD828F8818000E42F0C /* PDFKitViewModel.swift */,
+			);
+			path = FileGroup;
 			sourceTree = "<group>";
 		};
 		8BC06B0A27C7DFAF005A28A1 /* Transaction */ = {
@@ -7902,6 +7913,7 @@
 				5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */,
 				D4EFEB8728E2AF100075CC10 /* MXCapabilities.m in Sources */,
 				D4EFEB0328E2AF100075CC10 /* MXSecretShareManager.m in Sources */,
+				8BBCBCD928F8818000E42F0C /* PDFKitViewModel.swift in Sources */,
 				D4EFEC8428E2AF110075CC10 /* MXMemoryRoomOutgoingMessagesStore.m in Sources */,
 				D4EFEB6B28E2AF100075CC10 /* MXEnumConstants.m in Sources */,
 				D4EFEC4828E2AF110075CC10 /* MXThreadEventTimeline.swift in Sources */,
