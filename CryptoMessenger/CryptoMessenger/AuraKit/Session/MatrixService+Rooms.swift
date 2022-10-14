@@ -126,15 +126,14 @@ extension MatrixService {
             data: imageData,
             size: image.size,
             mimeType: "image/jpeg",
-			thumbnail: image,
-			blurhash: nil,
+            thumbnail: image,
+            blurhash: nil,
             localEcho: &localEcho
         ) { response in
             switch response {
             case let .success(result):
                 completion(.success(result))
             case let .failure(error):
-                debugPrint("s,ldsodsdd  \(error)")
                 completion(.failure(.imageUploadError))
             default:
                 break
@@ -183,6 +182,27 @@ extension MatrixService {
             case let .failure(error):
                 debugPrint(error)
                 completion(.failure(.contactUploadError))
+            }
+        }
+    }
+
+    func uploadVideoMessage(for roomId: String,
+                            url: URL,
+                            thumbnail: MXImage?,
+                            completion: @escaping (Result <String?, MXErrors>) -> Void) {
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            completion(.failure(.videoUploadError)); return
+        }
+        var localEcho: MXEvent?
+        room.sendVideo(localURL: url,
+                       thumbnail: thumbnail,
+                       localEcho: &localEcho) { response in
+            switch response {
+            case let .success(result):
+                completion(.success(result))
+            case let .failure(error):
+                debugPrint(error)
+                completion(.failure(.videoUploadError))
             }
         }
     }

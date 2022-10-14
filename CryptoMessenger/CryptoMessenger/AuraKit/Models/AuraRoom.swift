@@ -42,7 +42,7 @@ final class AuraRoom: ObservableObject {
 
     var isDirect: Bool { room.isDirect }
     var messageType: MessageType {
-		eventCache.last?.messageType  ?? .text("")
+        return eventCache.last?.messageType  ?? .text("")
 	}
 
 	// TODO: Закоментировал, т.к. этот код нигде не используется, если в нем не возникнет необходимости, то удалим
@@ -196,30 +196,6 @@ final class AuraRoom: ObservableObject {
             self.eventCache.append(event)
         }
         self.objectWillChange.send()
-    }
-
-    func sendFile(_ url: URL) {
-        var localEcho: MXEvent?
-        room.sendFile(
-            localURL: url,
-            mimeType: "file/pdf",
-            localEcho: &localEcho
-        ) { _ in
-            self.objectWillChange.send()
-        }
-    }
-
-    func sendContact(_ contact: Contact) {
-        var localEcho: MXEvent?
-        var content: [String: Any] = [:]
-        content[.messageType] = MXEventCustomEvent.contactInfo.identifier
-        content[.name] = contact.name
-        content[.phone] = contact.phone
-        content[.avatar] = contact.avatar?.absoluteString ?? ""
-        content[.body] = ""
-        room.sendMessage(withContent: content, localEcho: &localEcho) { _ in
-            self.objectWillChange.send()
-        }
     }
 
     func reply(text: String, eventId: String) {

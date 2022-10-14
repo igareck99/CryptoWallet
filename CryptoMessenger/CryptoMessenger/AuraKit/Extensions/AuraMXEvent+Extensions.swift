@@ -44,6 +44,8 @@ enum MXEventEventKey: String {
     case rootLink = "root_link"
 }
 
+// swiftlint:disable all
+
 // MARK: - MXEvent ()
 
 extension MXEvent {
@@ -63,6 +65,15 @@ extension MXEvent {
                 type = .none
             } else {
                 type = .text(self.text)
+            }
+        case kMXMessageTypeVideo:
+            if getVideo() {
+                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                let link = content[.url] as? String ?? ""
+                let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+                type = .video(url)
+            } else {
+                type = .none
             }
         case kMXMessageTypeAudio:
             let homeServer = Bundle.main.object(for: .matrixURL).asURL()
@@ -205,6 +216,11 @@ extension MXEvent {
 			content: content,
 			eventType: type
         )
+    }
+    
+    private func getVideo() -> Bool {
+        let availabilityFacade = ChatRoomViewModelAssembly.build()
+        return availabilityFacade.isVideoMessageAvailable
     }
 
 	private func encryptedRowItem(_ isFromCurrentUser: Bool) -> RoomMessage {

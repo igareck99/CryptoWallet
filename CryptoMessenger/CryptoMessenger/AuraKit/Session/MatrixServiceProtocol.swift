@@ -50,6 +50,10 @@ protocol MatrixServiceProtocol {
                             url: URL,
                             duration: UInt,
                             completion: @escaping (Result <String?, MXErrors>) -> Void)
+    func uploadVideoMessage(for roomId: String,
+                            url: URL,
+                            thumbnail: MXImage?,
+                            completion: @escaping (Result <String?, MXErrors>) -> Void)
 
 	// MARK: - Users
 	func currentlyActive(_ userId: String) -> Bool

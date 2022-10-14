@@ -47,6 +47,7 @@ protocol RemoteConfigToggles {
     // Files
 
     var isAnyFilesAvailable: Bool { get }
+    var isVideoMessageAvailable: Bool { get }
 
 	// Tech toggles
 
@@ -243,24 +244,6 @@ extension RemoteConfigUseCase: RemoteConfigToggles {
         return isVersionEnabled == true && isFeatureEnabled == true
     }
 
-    // Files
-
-	var isAnyFilesAvailable: Bool {
-		isFeatureAvailable(
-			module: .files,
-			feature: RemoteConfigValues.Files.files.rawValue,
-			version: RemoteConfigValues.Version.v1_0
-		)
-	}
-
-	var isReactionsAvailable: Bool {
-		isFeatureAvailable(
-			module: .chatMessageActions,
-			feature: RemoteConfigValues.ChatMessageActions.reactions.rawValue,
-			version: RemoteConfigValues.Version.v1_0
-		)
-	}
-
 	// Tech toggles
 
 	var isRoomsTimerAvailable: Bool {
@@ -270,6 +253,24 @@ extension RemoteConfigUseCase: RemoteConfigToggles {
 			version: RemoteConfigValues.Version.v1_0
 		)
 	}
+
+    var isAnyFilesAvailable: Bool {
+        return isFeatureAvailable(module: .chatMessage,
+                                  feature: RemoteConfigValues.ChatMessage.files.rawValue,
+                                  version: RemoteConfigValues.Version.v1_0)
+    }
+    
+    var isVideoMessageAvailable: Bool {
+        return isFeatureAvailable(module: .chatMessage,
+                                  feature: RemoteConfigValues.ChatMessage.videoMessage.rawValue,
+                                  version: RemoteConfigValues.Version.v1_0)
+    }
+    
+    var isReactionsAvailable: Bool {
+        return isFeatureAvailable(module: .chatMessageActions,
+                                  feature: RemoteConfigValues.ChatMessageActions.reactions.rawValue,
+                                  version: RemoteConfigValues.Version.v1_0)
+    }
 
 	// MARK: - Private
 

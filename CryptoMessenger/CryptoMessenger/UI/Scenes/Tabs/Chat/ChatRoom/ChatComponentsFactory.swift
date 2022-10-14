@@ -2,6 +2,8 @@ import SwiftUI
 
 // MARK: - ChatComponentsFactoryProtocol
 
+// swiftlint:disable: vertical_parameter_alignment
+
 protocol ChatComponentsFactoryProtocol {
 	func makeChatEventView(event: RoomMessage, viewModel: ChatRoomViewModel) -> AnyView
 
@@ -55,8 +57,6 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 		event: RoomMessage,
 		viewModel: ChatRoomViewModel
 	) -> AnyView {
-
-		//debugPrint("makeChatEventView event.type: \(event.type) event.eventType: \(event.eventType)")
         let displayName: String = (event.content["displayname"] as? String) ?? ""
 		if event.eventType == "im.vector.modular.widgets" {
 			return AnyView(
@@ -161,7 +161,7 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 // MARK: - ChatComponentsFactory
 
 extension ChatComponentsFactory {
-    
+
     // MARK: - Internal Methods
 
 	func makeChatMessageEventView(
@@ -174,7 +174,7 @@ extension ChatComponentsFactory {
 		onContactButtonAction: @escaping (String, String?, URL?) -> Void,
 		onFileTapHandler: @escaping VoidBlock,
 		fileSheetPresenting: @escaping (URL?) -> AnyView?,
-		message: RoomMessage
+        message: RoomMessage
 	) -> AnyView {
 		switch message.type {
 		case let .text(text):
@@ -230,7 +230,10 @@ extension ChatComponentsFactory {
                     wrappedValue: AudioMessageViewModel(url: url, messageId: message.id)
                 )
             ))
-		case .none:
+        case let .video(url):
+            return AnyView(VideoFeedView(isFromCurrentUser: message.isCurrentUser,
+                                         shortDate: message.shortDate))
+        case .none:
 			return AnyView(EmptyView())
 		}
 	}

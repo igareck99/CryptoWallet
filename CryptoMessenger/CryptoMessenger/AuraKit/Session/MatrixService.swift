@@ -15,6 +15,7 @@ enum MXErrors: Error {
     case fileUploadError
     case audioUploadError
     case contactUploadError
+    case videoUploadError
 	case unknown
 	@available(*, deprecated, message: "Добавлено только для обратной совместимости")
 	case syncFailure

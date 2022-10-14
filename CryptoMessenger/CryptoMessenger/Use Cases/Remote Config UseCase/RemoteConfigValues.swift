@@ -9,7 +9,7 @@ enum RemoteConfigValues: String {
     case phrase = "Phrase"
     case chatMenu = "ChatMenuView"
     case chatMenuFeatures = "ChatMenuFeatures"
-    case files = "Files"
+    case chatMessage = "ChatMessage"
     case chatMessageActions = "ChatMessageActions"
 	case techToggles = "TechToggles"
 
@@ -53,8 +53,9 @@ enum RemoteConfigValues: String {
 
     // Настройки файлов
 
-    enum Files: String {
+    enum ChatMessage: String {
         case files
+        case videoMessage
     }
 
 	// Технические рубильники

@@ -10,6 +10,7 @@ enum MessageType {
 
     case text(String)
     case image(URL?)
+    case video(URL?)
     case file(String, URL?)
     case audio(URL?)
     case location((lat: Double, long: Double))
@@ -99,6 +100,8 @@ struct RoomMessage: Identifiable {
             return "Местоположение"
         case .contact:
             return "Контакт"
+        case .video:
+            return "Видео"
         default:
             return "-"
         }
