@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 // MARK: - URL ()
 
@@ -25,6 +25,34 @@ extension URL {
             completion((response as? HTTPURLResponse)?.statusCode == 200)
         }.resume()
     }
+
+    func generateThumbnail(completion: @escaping (UIImage?) -> Void) {
+        do {
+            let asset = AVURLAsset(url: self, options: nil)
+            let imgGenerator = AVAssetImageGenerator(asset: asset)
+            imgGenerator.appliesPreferredTrackTransform = true
+            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
+            let thumbnail = UIImage(cgImage: cgImage)
+            completion(thumbnail)
+        } catch let error {
+            print("Error generating thumbnail: \(error.localizedDescription)")
+            completion(nil)
+        }
+    }
+    
+    func getThumbnailImage(completion: @escaping (Image?) -> Void ) {
+        let dataTask = URLSession.shared.dataTask(with: self) {  data, _, _ in
+            if let data = data {
+                guard let image = UIImage(data: data) else { return }
+               completion(Image(uiImage: image))
+            } else {
+                completion(nil)
+            }
+        }
+        dataTask.resume()
+    }
+
+    // MARK: - Internal Properties
 
     var hasHiddenExtension: Bool {
         get { (try? resourceValues(forKeys: [.hasHiddenExtensionKey]))?.hasHiddenExtension == true }

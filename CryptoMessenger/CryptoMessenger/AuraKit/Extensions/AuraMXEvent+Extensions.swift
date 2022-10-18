@@ -34,6 +34,9 @@ enum MXEventEventKey: String {
     case avatar
     case name
     case phone
+    case info
+    case thumbnailUrl = "thumbnail_url"
+    case thumbnailInfo = "thumbnail_info"
     case newContent = "m.new_content"
     case eventId = "event_id"
     case relatesTo = "m.relates_to"
@@ -170,6 +173,14 @@ extension MXEvent {
         } else {
             return ""
         }
+    }
+    
+    var videoThumbnail: URL? {
+        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+        let data = content[.info] as? [String: Any]
+        let thumbnailLink = data?[.thumbnailUrl] as? String ?? ""
+        let url = MXURL(mxContentURI: thumbnailLink)?.contentURL(on: homeServer)
+        return url
     }
 
     var replyDescription: String {

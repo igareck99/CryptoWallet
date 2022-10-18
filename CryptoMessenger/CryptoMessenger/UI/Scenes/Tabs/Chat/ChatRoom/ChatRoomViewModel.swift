@@ -297,6 +297,7 @@ final class ChatRoomViewModel: ObservableObject {
                     guard let self = self else { return }
                     if self.isVideoMessageAvailable {
                         guard let id = self.room.room.roomId else { return }
+                        let image = R.image.chat.mockFeed2
                         let mxImage = MXImage(systemName: "eraser")
                         self.mediaService.uploadVideoMessage(for: id,
                                                               url: url,
@@ -611,6 +612,7 @@ final class ChatRoomViewModel: ObservableObject {
                         message?.name = user?.displayname ?? ""
                         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                         message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)
+                        message?.videoThumbnail = $0.videoThumbnail
                         return message
                     }
                     .compactMap { $0 }

@@ -238,10 +238,11 @@ extension ChatComponentsFactory {
                 )
             ))
         case let .video(url):
-            return AnyView(VideoFeedView(isFromCurrentUser: message.isCurrentUser,
-                                         shortDate: message.shortDate))
+            return AnyView(VideoView(isFromCurrentUser: message.isCurrentUser,
+                                     shortDate: message.shortDate,
+                                     viewModel: VideoViewModel(videoUrl: url, thumbnailUrl: message.videoThumbnail)))
         case .none:
-			return AnyView(EmptyView())
+            return AnyView(EmptyView())
 		}
 	}
 

@@ -500,6 +500,7 @@
 		8BD6292D276AAC06000A976A /* SocialListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292C276AAC06000A976A /* SocialListView.swift */; };
 		8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292E276B407F000A976A /* SocialListItem.swift */; };
 		8BD62931276B4ADA000A976A /* SocialListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD62930276B4ADA000A976A /* SocialListViewModel.swift */; };
+		8BDBD92428FDA5BF00388C3D /* VideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDBD92328FDA5BF00388C3D /* VideoViewModel.swift */; };
 		8BE122BC28240C8B00F7707E /* RemoteConfigUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE122BB28240C8B00F7707E /* RemoteConfigUseCase.swift */; };
 		8BE122BF28242EB500F7707E /* MainFlowTogglesFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE122BE28242EB500F7707E /* MainFlowTogglesFacade.swift */; };
 		8BE122C228253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE122C128253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift */; };
@@ -1617,6 +1618,7 @@
 		8BD6292C276AAC06000A976A /* SocialListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListView.swift; sourceTree = "<group>"; };
 		8BD6292E276B407F000A976A /* SocialListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListItem.swift; sourceTree = "<group>"; };
 		8BD62930276B4ADA000A976A /* SocialListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListViewModel.swift; sourceTree = "<group>"; };
+		8BDBD92328FDA5BF00388C3D /* VideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewModel.swift; sourceTree = "<group>"; };
 		8BE122BB28240C8B00F7707E /* RemoteConfigUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigUseCase.swift; sourceTree = "<group>"; };
 		8BE122BE28242EB500F7707E /* MainFlowTogglesFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowTogglesFacade.swift; sourceTree = "<group>"; };
 		8BE122C128253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigUseCaseAssembly.swift; sourceTree = "<group>"; };
@@ -4330,6 +4332,7 @@
 				8BBCBCCB28F7416000E42F0C /* VideoView.swift */,
 				8BBCBCCD28F7434300E42F0C /* VideoPlayerView.swift */,
 				8BBCBCD328F749DF00E42F0C /* VideoRow.swift */,
+				8BDBD92328FDA5BF00388C3D /* VideoViewModel.swift */,
 			);
 			path = VideoGroup;
 			sourceTree = "<group>";
@@ -7369,6 +7372,7 @@
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,
 				5A40A2D82769FB2B003AAA79 /* SearchBar.swift in Sources */,
 				8B4E9C4A27E1EDF60057E4C9 /* FacilityApproveProtocols.swift in Sources */,
+				8BDBD92428FDA5BF00388C3D /* VideoViewModel.swift in Sources */,
 				D4EFEB8628E2AF100075CC10 /* MXBooleanCapability.m in Sources */,
 				5A3928322741A9EA00378ACA /* MXURL.swift in Sources */,
 				D4EFEC5128E2AF110075CC10 /* MXSessionEventListener.m in Sources */,
