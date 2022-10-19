@@ -211,10 +211,20 @@ final class AuraRoom: ObservableObject {
         } else {
             rootMessage = event.text
         }
-        let customParameters = ["m.reply_to": ReplyCustomContent(rootUserId: event.sender,
-                                                                 rootMessage: rootMessage,
-                                                                 rootEventId: event.eventId,
-                                                                 rootLink: "").content]
+		let customParameters: [String: Any] = [
+			"m.reply_to": ReplyCustomContent(
+				rootUserId: event.sender,
+				rootMessage: rootMessage,
+				rootEventId: event.eventId,
+				rootLink: ""
+			).content
+		]
+
+		if let longitude = event.content["longitude"],
+		   let latitude = event.content["latitude"] {
+			event.wireContent["geo_uri"] = "geo:\(latitude),\(longitude)"
+		}
+
         room.sendReply(to: event,
                        textMessage: text,
                        formattedTextMessage: nil,
