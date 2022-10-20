@@ -16,6 +16,8 @@ protocol ChatHistoryViewDelegate: ObservableObject {
 	func rooms(with filter: String) -> [AuraRoom]
 
 	func markAllAsRead()
+    
+    func fromCurrentSender(room: AuraRoom) -> Bool
 
 }
 
@@ -154,7 +156,8 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
 			List {
 				ForEach(searchResults) { room in
 					VStack(spacing: 0) {
-						ChatHistoryRow(room: room)
+						ChatHistoryRow(room: room,
+                                       isFromCurrentUser: viewModel.fromCurrentSender(room: room))
 							.background(.white())
 							.swipeActions(edge: .trailing) {
 								Button {

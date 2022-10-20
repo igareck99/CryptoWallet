@@ -5,6 +5,7 @@ import SwiftUI
 struct ChatHistoryRow: View {
 
 	let room: AuraRoom
+    let isFromCurrentUser: Bool
 	@State var showLocationTransition = false
 
 	// MARK: - Body
@@ -220,19 +221,35 @@ struct ChatHistoryRow: View {
         case .video(_):
             return AnyView(
                 HStack(spacing: 6) {
-                Image(systemName: "video.fill")
+                    Image(systemName: "video.fill")
                         .resizable()
                         .foregroundColor(.gray)
                         .frame(width: 18, height: 10)
                     Text(
                         "Видео",
                         [
+                            .paragraph(.init(lineHeightMultiple: 1.21, alignment: .left)),
                             .font(.regular(15)),
-                            .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
-                            .color(.custom(.init(133, 135, 141)))
-                        ]
-                    )
-            })
+                            .color(.custom(.init( 133, 135, 141)))
+                        ])
+                }
+            )
+        case .call:
+            return AnyView(HStack(spacing: 6) {
+                (!isFromCurrentUser ? Image(systemName: "phone") : Image(systemName: "phone.down"))
+                    .resizable()
+                    .foregroundColor(.gray)
+                    .frame(width: 14, height: 14)
+                Text(
+                    "Звонок",
+                    [
+                        .font(.regular(15)),
+                        .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
+                        .color(.custom(.init(133, 135, 141)))
+                    ]
+                )
+            }
+            )
 		default:
 			return AnyView(EmptyView())
 		}
