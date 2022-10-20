@@ -50,7 +50,10 @@
     
     if (!geoURIString)
     {
-        return nil;
+		MXJSONModelSetString(geoURIString, JSONDictionary[@"geo_uri"]);
+		if (!geoURIString) {
+			return nil;
+		}
     }
     
     MXGeoURIComponents *geoURIComponents = [[MXGeoURIComponents alloc] initWithGeoURI:geoURIString];
