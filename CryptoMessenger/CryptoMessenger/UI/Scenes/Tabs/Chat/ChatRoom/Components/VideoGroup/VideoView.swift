@@ -34,7 +34,9 @@ struct VideoView: View {
     var body: some View {
         Group {
             Button {
-                selectedVideo = Video(videoUrl: viewModel.videoUrl)
+                if viewModel.isVideoUpload {
+                    selectedVideo = Video(videoUrl: viewModel.videoUrl)
+                }
             } label: {
                 ZStack(alignment: .center) {
                     ZStack {
@@ -47,15 +49,7 @@ struct VideoView: View {
                     }
                     .scaledToFill()
                     .frame(width: 202, height: 245)
-                    ZStack(alignment: .center) {
-                        Circle()
-                            .frame(width: 48, height: 48)
-                            .foreground(.black(0.1))
-                        Image(systemName: "play.fill")
-                            .resizable()
-                            .tint(.white)
-                            .frame(width: 15, height: 15)
-                    }
+                    makePlayView()
                 }
             }
         }
@@ -65,24 +59,39 @@ struct VideoView: View {
         } content: { _ in
             makeFullScreenVideoPlayer()
         }
-        .onAppear {
-            viewModel.setupAudioNew { url in
-                do {
-                    guard let unwrappedUrl = url else { return }
-                    self.videoUrl = unwrappedUrl
-                } catch {
-                    debugPrint("Error URL")
-                    return
-                }
+        .onChange(of: viewModel.dataUrl) { value in
+            if value != nil {
+                viewModel.isVideoUpload = true
+                videoUrl = value
             }
+        }
+        .onAppear {
         }
     }
 
     // MARK: - ViewBuilder
 
     @ViewBuilder
+    private func makePlayView() -> some View {
+        ZStack(alignment: .center) {
+            if viewModel.isVideoUpload {
+                Circle()
+                    .frame(width: 48, height: 48)
+                    .foreground(.black(0.1))
+                Image(systemName: "play.fill")
+                    .resizable()
+                    .tint(.white)
+                    .frame(width: 15, height: 15)
+            } else {
+                ProgressView()
+                    .frame(width: 48, height: 48)
+            }
+        }
+    }
+
+    @ViewBuilder
     private func makeFullScreenVideoPlayer() -> some View {
-        if let url = videoUrl {
+        if let url = viewModel.dataUrl {
             let avPlayer = AVPlayer(url: url)
             VideoPlayerView(player: avPlayer)
                 .edgesIgnoringSafeArea(.all)

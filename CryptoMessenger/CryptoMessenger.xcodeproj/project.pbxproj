@@ -477,6 +477,7 @@
 		8BB2F8EE28B665650034D902 /* ProfileDetailType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB2F8ED28B665650034D902 /* ProfileDetailType.swift */; };
 		8BB2F8F028B6660A0034D902 /* TextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB2F8EF28B6660A0034D902 /* TextFieldView.swift */; };
 		8BB2F8F228B7A5E20034D902 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB2F8F128B7A5E20034D902 /* FooterView.swift */; };
+		8BB463D82901C8C800AFF9AB /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB463D72901C8C800AFF9AB /* FileManagerService.swift */; };
 		8BB517BB2856B79500D06593 /* ChatDocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB517BA2856B79500D06593 /* ChatDocumentView.swift */; };
 		8BB517BD2856B7C100D06593 /* ChatMediaTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB517BC2856B7C100D06593 /* ChatMediaTypeView.swift */; };
 		8BB517BF2856B86600D06593 /* MediaServiceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB517BE2856B86600D06593 /* MediaServiceData.swift */; };
@@ -1595,6 +1596,7 @@
 		8BB2F8ED28B665650034D902 /* ProfileDetailType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailType.swift; sourceTree = "<group>"; };
 		8BB2F8EF28B6660A0034D902 /* TextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldView.swift; sourceTree = "<group>"; };
 		8BB2F8F128B7A5E20034D902 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
+		8BB463D72901C8C800AFF9AB /* FileManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
 		8BB517BA2856B79500D06593 /* ChatDocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDocumentView.swift; sourceTree = "<group>"; };
 		8BB517BC2856B7C100D06593 /* ChatMediaTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMediaTypeView.swift; sourceTree = "<group>"; };
 		8BB517BE2856B86600D06593 /* MediaServiceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaServiceData.swift; sourceTree = "<group>"; };
@@ -2963,6 +2965,7 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8BB463D62901C89A00AFF9AB /* FileManagerService */,
 				D4DF2B2F28F3F42B0057499A /* Biometry Service */,
 				8BBB553928E313E400CE9EF7 /* RemoteDataService */,
 				8B971E0528B3EF9B00F111D9 /* CacheManager */,
@@ -4285,6 +4288,14 @@
 				8BB2F8EF28B6660A0034D902 /* TextFieldView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		8BB463D62901C89A00AFF9AB /* FileManagerService */ = {
+			isa = PBXGroup;
+			children = (
+				8BB463D72901C8C800AFF9AB /* FileManagerService.swift */,
+			);
+			path = FileManagerService;
 			sourceTree = "<group>";
 		};
 		8BB517CD285A5F1C00D06593 /* AudioMessage */ = {
@@ -7615,6 +7626,7 @@
 				8BCA91022750FCC200E8E269 /* Popup.swift in Sources */,
 				8B55D22C28A14FE1000506D7 /* LocationService.swift in Sources */,
 				5A42680826A83554000C51DD /* RegistrationView.swift in Sources */,
+				8BB463D82901C8C800AFF9AB /* FileManagerService.swift in Sources */,
 				D4EFEB4728E2AF100075CC10 /* MXSecretStoragePassphrase.m in Sources */,
 				5A187E962680708D001957D3 /* InputTextField.swift in Sources */,
 				5A26CD3726B31C3600118D4B /* UICollectionViewCell+Extensions.swift in Sources */,
