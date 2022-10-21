@@ -217,6 +217,22 @@ struct ChatHistoryRow: View {
 					)
 				}
 			)
+        case .video(_):
+            return AnyView(
+                HStack(spacing: 6) {
+                Image(systemName: "video.fill")
+                        .resizable()
+                        .foregroundColor(.gray)
+                        .frame(width: 18, height: 10)
+                    Text(
+                        "Видео",
+                        [
+                            .font(.regular(15)),
+                            .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
+                            .color(.custom(.init(133, 135, 141)))
+                        ]
+                    )
+            })
 		default:
 			return AnyView(EmptyView())
 		}

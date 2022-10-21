@@ -28,12 +28,13 @@ final class FileViewModel: ObservableObject {
             return
         }
         DispatchQueue.global(qos: .background).async {
-            self.remoteDataService.fetchContentLength(for: url) { contentLength in
-                var value = round(10 * Double(contentLength) / 1024) / 10
+            self.remoteDataService.fetchContentLength(for: url, httpMethod: .get) { contentLength in
+                guard let length = contentLength else { return }
+                var value = round(10 * Double(length) / 1024) / 10
                 if value < 1000 {
                     self.sizeOfFile = String(value) + " KB"
                 } else {
-                    value = round(10 * Double(contentLength) / 1024 / 1000) / 10
+                    value = round(10 * Double(length) / 1024 / 1000) / 10
                     self.sizeOfFile = String(value) + " MB"
                 }
             }

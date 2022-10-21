@@ -194,15 +194,18 @@ extension MatrixService {
             completion(.failure(.videoUploadError)); return
         }
         var localEcho: MXEvent?
-        room.sendVideo(localURL: url,
-                       thumbnail: thumbnail,
-                       localEcho: &localEcho) { response in
-            switch response {
-            case let .success(result):
-                completion(.success(result))
-            case let .failure(error):
-                debugPrint(error)
-                completion(.failure(.videoUploadError))
+        url.generateThumbnail { image in
+            guard let image = image else { return }
+            room.sendVideo(localURL: url,
+                           thumbnail: image,
+                           localEcho: &localEcho) { response in
+                switch response {
+                case let .success(result):
+                    completion(.success(result))
+                case let .failure(error):
+                    debugPrint(error)
+                    completion(.failure(.videoUploadError))
+                }
             }
         }
     }
