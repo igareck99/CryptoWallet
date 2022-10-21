@@ -36,6 +36,6 @@ extension View {
 		@ViewBuilder _ content: @escaping () -> TupleView<(Leading<V1>, Trailing<V2>)>,
 		action: (() -> Void)? = nil
 	) -> some View {
-        self.modifier(SwipeAction.init(menu: menu, allowsFullSwipe: true, swipeColor: swipeColor, isSwiped: isSwiped, content, action: action))
+        self.modifier(SwipeAction.init(menu: menu, swipeColor: swipeColor, isSwiped: isSwiped, content, action: action))
     }
 }

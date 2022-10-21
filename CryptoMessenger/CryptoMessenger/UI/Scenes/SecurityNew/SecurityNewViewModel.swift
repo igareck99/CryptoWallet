@@ -83,7 +83,12 @@ final class SecurityNewViewModel: ObservableObject {
 
 		let pinCode = keychainService.apiUserPinCode
 
-		guard value, (pinCode == nil || pinCode?.isEmpty == true) else { return }
+		guard
+			value, (pinCode == nil || pinCode?.isEmpty == true)
+		else {
+			send(.onApprovePassword)
+			return
+		}
 
 		debugPrint("$isPinCodeOn: onCreatePassword")
 		send(.onCreatePassword)
