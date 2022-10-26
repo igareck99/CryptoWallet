@@ -241,7 +241,7 @@ extension ChatComponentsFactory {
             return AnyView(VideoView(isFromCurrentUser: message.isCurrentUser,
                                      shortDate: message.shortDate,
                                      viewModel: VideoViewModel(videoUrl: url, thumbnailUrl: message.videoThumbnail)))
-        case .none:
+        default:
             return AnyView(EmptyView())
 		}
 	}

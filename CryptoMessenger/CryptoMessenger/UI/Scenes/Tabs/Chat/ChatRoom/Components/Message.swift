@@ -2,8 +2,6 @@ import UIKit
 
 // MARK: - MessageType
 
-// swiftlint:disable unused_closure_parameter
-
 enum MessageType {
 
     // MARK: - Types
@@ -15,6 +13,7 @@ enum MessageType {
     case audio(URL?)
     case location((lat: Double, long: Double))
     case contact(name: String, phone: String?, url: URL?)
+    case call
     case none
 }
 
@@ -107,6 +106,17 @@ struct RoomMessage: Identifiable {
             return "-"
         }
     }
+}
+
+// MARK: - CallMessageType
+
+enum CallMessageType: String {
+
+    // MARK: - Internal Properties
+
+    case hangup = "Исходящий звонок"
+    case reject = "Входящий звонок"
+
 }
 
 // MARK: - RoomMessage (Equatable)

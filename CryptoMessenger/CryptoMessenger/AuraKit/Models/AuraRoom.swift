@@ -76,6 +76,10 @@ final class AuraRoom: ObservableObject {
             return .text("Invitation to Chat 🤚")
         }
         let lastMessageEvent = eventCache.last { $0.type == kMXEventTypeStringRoomMessage }
+        let callEvent = eventCache.last
+        if callEvent?.type == "m.call.hangup" {
+            return .call
+        }
         return lastMessageEvent?.messageType ?? .text("")
     }
 

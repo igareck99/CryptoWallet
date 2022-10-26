@@ -14,6 +14,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     @Published private(set) var state: ChatHistoryFlow.ViewState = .idle
     @Published var groupAction: GroupAction?
     @Published var translateAction: TranslateAction?
+    @Published var isFromCurrentUser = false
+    @Published var roomsLastCurrent: [String: Bool] = [:]
 
     // MARK: - Private Properties
 
@@ -75,6 +77,13 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 self?.rooms = self?.matrixUseCase.rooms ?? []
             }
             .store(in: &subscriptions)
+    }
+
+    func fromCurrentSender(room: AuraRoom) -> Bool {
+        let event = room.events().renderableEvents.filter({ !$0.eventId.contains("kMXEventLocalId") })
+        let lastEvent = event.first
+        guard let str = lastEvent?.eventId else { return false }
+        return matrixUseCase.fromCurrentSender(str)
     }
 
     private func bindOutput() {
