@@ -24,3 +24,18 @@ func intToDate(_ duration: Int) -> String {
         }
     }
 }
+
+func anotherIntToDate(_ duration: Int) -> String {
+    if duration == 0 {
+        return ""
+    } else {
+        if duration < 60 {
+            return duration > 9 ? String("0:\(duration)") : String("0:0\(duration)")
+        }
+        if duration % 60 < 9 {
+            return String("0\(Int(duration / 60)):0\(duration % 60)")
+        } else {
+            return String("0\(Int(duration / 60)):\(duration % 60)")
+        }
+    }
+}

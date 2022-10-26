@@ -1,6 +1,10 @@
 import SwiftUI
 
+// MARK: - AudioView
+
 struct AudioView: View {
+
+    // MARK: - Private Properties
 
 	@StateObject private var audioViewModel: AudioMessageViewModel
 	@Binding private var activateShowCard: Bool
@@ -11,6 +15,8 @@ struct AudioView: View {
 	private let isCurrentUser: Bool
 	private let isFromCurrentUser: Bool
 	private let audioDuration: String
+
+    // MARK: - Lifecycle
 
 	init(
 		messageId: String,
@@ -31,6 +37,8 @@ struct AudioView: View {
 		self._playingAudioId = playingAudioId
 		self._audioViewModel = audioViewModel
 	}
+    
+    // MARK: - Body
 
     var body: some View {
 		ZStack {

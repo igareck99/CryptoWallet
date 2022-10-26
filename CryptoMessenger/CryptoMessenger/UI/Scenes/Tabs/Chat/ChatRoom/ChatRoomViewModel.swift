@@ -613,6 +613,7 @@ final class ChatRoomViewModel: ObservableObject {
                         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                         message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)
                         message?.videoThumbnail = $0.videoThumbnail
+                        print("sxkaskaslsalklkasklas  \(message)")
                         return message
                     }
                     .compactMap { $0 }

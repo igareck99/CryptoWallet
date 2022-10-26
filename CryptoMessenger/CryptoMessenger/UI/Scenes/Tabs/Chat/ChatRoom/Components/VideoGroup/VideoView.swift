@@ -16,6 +16,7 @@ struct VideoView: View {
     @State private var embeddedVideoVolume: Float = 0.0
     @State private var shouldShowEmbeddedVideoInPiP = false
     @State private var videoUrl: URL?
+    @State private var videoState = FileStates.error
     private let isFromCurrentUser: Bool
     private let shortDate: String
 
@@ -43,9 +44,14 @@ struct VideoView: View {
                         VideoRow(viewModel: viewModel)
                             .scaledToFill()
                             .frame(width: 202, height: 245)
-                        CheckReadView(time: shortDate,
-                                      isFromCurrentUser: isFromCurrentUser)
-                        .padding(.leading, isFromCurrentUser ? 0 : 130)
+                        HStack {
+                            makeVideoInfoView()
+                                .padding(.bottom, 215)
+                                .padding(.leading, 10)
+                            CheckReadView(time: shortDate,
+                                          isFromCurrentUser: isFromCurrentUser)
+                            .padding(.leading, isFromCurrentUser ? 0 : 130)
+                        }
                     }
                     .scaledToFill()
                     .frame(width: 202, height: 245)
@@ -65,11 +71,31 @@ struct VideoView: View {
                 videoUrl = value
             }
         }
-        .onAppear {
-        }
     }
 
     // MARK: - ViewBuilder
+
+    @ViewBuilder
+    private func makeVideoInfoView() -> some View {
+        ZStack {
+            if viewModel.isVideoUpload {
+                Text("\(viewModel.videoDuration)")
+                    .foreground(.white())
+                    .font(.regular(12))
+                RoundedRectangle(cornerRadius: 13, style: .continuous)
+                    .fill(Color(.black(0.4)))
+                    .frame(width: 32, height: 14)
+            } else {
+                Text("\(viewModel.videoSize)")
+                    .foreground(.white())
+                    .font(.regular(12))
+                    .lineLimit(1)
+                RoundedRectangle(cornerRadius: 13, style: .continuous)
+                    .fill(Color(.black(0.4)))
+                    .frame(width: 102, height: 16)
+            }
+        }
+    }
 
     @ViewBuilder
     private func makePlayView() -> some View {
