@@ -167,11 +167,10 @@ struct ChatCreateView: View {
 							.padding(.horizontal, 16)
 					}
 
-                    let contacts = viewModel.filteredContacts.isEmpty ? viewModel.existingContacts : viewModel.filteredContacts
-
+                    let contacts = viewModel.searchText.isEmpty ?
+                                   viewModel.existingContacts : viewModel.filteredContacts
                     if !contacts.isEmpty && viewModel.state == .showContent {
                         sectionView(R.string.localizable.createActionContactsSection())
-
                         VStack(alignment: .leading, spacing: 0) {
                             ForEach(contacts) { contact in
                                 ContactRow(
@@ -186,12 +185,12 @@ struct ChatCreateView: View {
                             }
                         }
                     }
-
-                    if !viewModel.waitingContacts.isEmpty && viewModel.state == .showContent {
+                    let waitContacts = viewModel.searchText.isEmpty ?
+                                    viewModel.waitingContacts : viewModel.waitingFilteredContacts
+                    if !waitContacts.isEmpty && viewModel.state == .showContent {
                         sectionView(R.string.localizable.createActionInviteSection())
-
                         VStack(alignment: .leading, spacing: 0) {
-                            ForEach(viewModel.waitingContacts) { contact in
+                            ForEach(waitContacts) { contact in
                                 ContactRow(
                                     avatar: nil,
                                     name: contact.name,

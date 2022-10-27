@@ -49,6 +49,7 @@ final class ChatCreateViewModel: ObservableObject {
     @Published private(set) var existingContacts: [Contact] = []
     @Published private(set) var filteredContacts: [Contact] = []
     @Published private(set) var waitingContacts: [Contact] = []
+    @Published private(set) var waitingFilteredContacts: [Contact] = []
 
     // MARK: - Private Properties
 
@@ -109,7 +110,15 @@ final class ChatCreateViewModel: ObservableObject {
                     if let name = name {
                         self?.filteredContacts = [.init(mxId: text, avatar: nil, name: name, status: "")]
                     } else {
-                        self?.filteredContacts.removeAll()
+                        if text.isEmpty {
+                            self?.filteredContacts = []
+                            self?.waitingFilteredContacts = []
+                            return
+                        }
+                        self?.filteredContacts = self?.existingContacts.filter({ $0.name.lowercased().contains(text.lowercased())
+                                              || $0.phone.removeCharacters(from: "- ()").contains(text) }) ?? []
+                        self?.waitingFilteredContacts = self?.waitingContacts.filter({ $0.name.lowercased().contains(text.lowercased())
+                            || $0.phone.removeCharacters(from: "- ()").contains(text) }) ?? []
                     }
                 }
             }
@@ -245,7 +254,8 @@ final class ChatCreateViewModel: ObservableObject {
                             mxId: response[$0.phoneNumber] ?? "",
                             avatar: nil,
                             name: $0.firstName,
-                            status: "Привет, теперь я в Aura"
+                            status: "Привет, теперь я в Aura",
+                            phone: $0.phoneNumber
                         )
                     }
                     .filter { contact in
