@@ -11,6 +11,13 @@ final class VideoViewModel: ObservableObject {
     @Published var thumbnailUrl: URL?
     @Published var dataUrl: URL?
     @Published var isVideoUpload = false
+    @Published var videoDuration = ""
+    @Published var videoSize = ""
+    @Published var videoState = false
+
+    // MARK: - Private Properties
+
+    private var subscriptions = Set<AnyCancellable>()
     private var dataService = RemoteDataService()
     private var fileService = FileManagerService()
 
@@ -20,6 +27,7 @@ final class VideoViewModel: ObservableObject {
          thumbnailUrl: URL?) {
         self.videoUrl = videoUrl
         self.thumbnailUrl = thumbnailUrl
+        bindInput()
         configVideo()
     }
 
@@ -33,24 +41,50 @@ final class VideoViewModel: ObservableObject {
                 case .exist(let url):
                     self.isVideoUpload = true
                     self.dataUrl = url
-                case .notExist(let url):
+                    self.computeTime(url: url)
+                    self.videoState = false
+                    self.objectWillChange.send()
+                case .notExist(_):
                     guard let videoUrl = self.videoUrl else { return }
-                    self.dataService.downloadData(withUrl: videoUrl,
-                                                  httpMethod: .get) { data in
-                        do {
-                            guard let getData = data else { return }
-                            try getData.write(to: url)
-                            DispatchQueue.main.async {
-                                self.dataUrl = url
-                                self.isVideoUpload = true
-                            }
-                        } catch {
-                        }
-                    }
+                    self.dataService.downloadDataWithSize(withUrl: videoUrl,
+                                                          httpMethod: .get)
+                    self.videoState = true
                 case .error:
                     return
                 }
             }
         }
+    }
+
+    // MARK: - Private Properties
+
+    private func bindInput() {
+        dataService.dataSizePublisher
+            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] value in
+                self?.videoSize = "\(value.saved) / \(value.expect)"
+                self?.objectWillChange.send()
+            }
+            .store(in: &subscriptions)
+        dataService.isFinishedLaunch
+            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] value in
+                guard let url = value else { return }
+                DispatchQueue.main.async {
+                    self?.dataUrl = url
+                    self?.computeTime(url: url)
+                    self?.isVideoUpload = true
+                }
+            }
+            .store(in: &subscriptions)
+    }
+
+    private func computeTime(url: URL) {
+        let asset = AVAsset(url: url)
+        let duration = asset.duration
+        let durationTime = Int(CMTimeGetSeconds(duration))
+        self.videoDuration = anotherIntToDate(durationTime)
     }
 }

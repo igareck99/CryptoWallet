@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - FileStates
 
-enum FileStates {
+enum FileStates: Equatable {
 
     case exist(URL)
     case notExist(URL)
@@ -67,6 +67,7 @@ final class FileManagerService: FileManagerProtocol, ObservableObject {
         for url in urlsToDelete {
             do {
                 try FileManager.default.removeItem(at: url)
+                debugPrint("File at \(url) was delete")
             } catch {
                 debugPrint("File could not be deleted!")
             }
