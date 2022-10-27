@@ -39,23 +39,3 @@ struct ReactionGroupView: View {
         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
     }
 }
-
-// MARK: - ReactionGroupView_Previews
-
-struct ReactionGroupView_Previews: PreviewProvider {
-    static var reactionView: some View {
-        ReactionGroupView(
-            text: "💩",
-            count: 42,
-            backgroundColor: Color(.white())
-        )
-    }
-
-    static var previews: some View {
-        Group {
-            reactionView
-                .padding()
-                .previewLayout(.sizeThatFits)
-        }
-    }
-}

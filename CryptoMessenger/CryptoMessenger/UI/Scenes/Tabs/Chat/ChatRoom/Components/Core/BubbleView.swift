@@ -27,7 +27,7 @@ struct BubbleView<Content>: View where Content: View {
 
             content()
                 .background(
-                    direction == .right ? Color(.lightBlue()) : Color(.beige())
+                    direction == .right ? .sailApprox : Color(.beige())
                 )
                 .clipShape(
                     BubbleShape(direction: direction)
