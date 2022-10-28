@@ -7,7 +7,6 @@ struct ReactionsViewList: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ReactionsViewModel
-    @State private var selectedEmoji: String?
 
     // MARK: - Body
 
@@ -42,7 +41,7 @@ struct ReactionsViewList: View {
                         }
                     }
                     .onTapGesture {
-                        selectedEmoji = viewModel.reactionsKeys[item]
+						debugPrint("emotions \(item) : \(viewModel.reactionsKeys[item])")
                     }
                 }
             }

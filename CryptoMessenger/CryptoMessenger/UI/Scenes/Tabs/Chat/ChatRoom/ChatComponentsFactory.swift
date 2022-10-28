@@ -254,4 +254,31 @@ extension ChatComponentsFactory {
 
 		return sources.groupCallActiveConference
 	}
+
+	private func makeReactionTextsItems(message: RoomMessage) -> [ReactionTextsItem] {
+
+		let reactionTextsAndCount = message.reactions.reduce(into: [String: Int]()) { partialResult, reaction in
+			if var count = partialResult[reaction.emoji] {
+				count += 1
+				partialResult[reaction.emoji] = count
+			} else {
+				partialResult[reaction.emoji] = 1
+			}
+		}
+
+		let reactionTextsItems: [ReactionTextsItem] = message.reactions.compactMap { reaction in
+
+			guard let emojiCount = reactionTextsAndCount[reaction.emoji] else { return nil }
+
+			let emoji = ReactionTextItem(text: reaction.emoji)
+			let count = ReactionTextItem(
+				text: "\(emojiCount)",
+				color: .cornflowerBlueApprox,
+				font: .system(size: 11, weight: .medium)
+			)
+			let reactionTextsItem = ReactionTextsItem(texts: [emoji, count], backgroundColor: .sailApprox)
+			return reactionTextsItem
+		}
+		return reactionTextsItems
+	}
 }

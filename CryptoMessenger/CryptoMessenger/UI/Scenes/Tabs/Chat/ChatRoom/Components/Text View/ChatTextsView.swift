@@ -6,16 +6,19 @@ struct ChatTextsView: View {
 	private let shortDate: String
 	private let text: String
 	private let imageName: String
+	private let reactionItem: [ReactionTextsItem]
 
 	init(
 		isFromCurrentUser: Bool,
 		shortDate: String,
 		text: String,
+		reactionItem: [ReactionTextsItem],
 		imageName: String = R.image.chat.readCheck.name
 	) {
 		self.isFromCurrentUser = isFromCurrentUser
 		self.shortDate = shortDate
 		self.text = text
+		self.reactionItem = reactionItem
 		self.imageName = imageName
 	}
 
@@ -29,7 +32,7 @@ struct ChatTextsView: View {
 					.padding(.top, 8)
 					.fixedSize(horizontal: false, vertical: true)
 
-				reactionsGroupView()
+				ReactionsGroupView(viewModel: ReactionsGroupViewModel(items: reactionItem))
 					.padding(.top, 4)
 					.padding(.bottom, 2)
 

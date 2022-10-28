@@ -343,46 +343,58 @@ struct ChatRoomView: View {
             SlideCard(position: $cardPosition,
                       expandedPosition: .custom(UIScreen.main.bounds.height - 580)) {
                 VStack {
-                    if let current = activeEditMessage?.isCurrentUser {
-                        if current {
-                            QuickMenuCurrentUserView(cardPosition: $cardPosition, onAction: {
-                                switch $0 {
-                                case .copy:
-                                    UIPasteboard.general.string = activeEditMessage?.description
-                                case .delete:
-                                    viewModel.send(.onDelete(messageId))
-                                case .edit:
-                                    inputViewIsFocused = true
-                                case .reply:
-                                    inputViewIsFocused = true
-                                    quickAction = .reply
-                                case .reaction:
-                                    if viewModel.isReactionsAvailable {
-                                        showReaction = true
-                                    }
-                                default:
-                                    ()
-                                }
-                                quickActionCurrentUser = $0
-                            }).padding(.vertical, 16)
+                    if let message = activeEditMessage,
+						let current = message.isCurrentUser {
+						if current {
+							QuickMenuCurrentUserView(
+								cardPosition: $cardPosition,
+								onAction: {
+									switch $0 {
+									case .copy:
+										UIPasteboard.general.string = message.description
+									case .delete:
+										viewModel.send(.onDelete(messageId))
+									case .edit:
+										inputViewIsFocused = true
+									case .reply:
+										inputViewIsFocused = true
+										quickAction = .reply
+									case .reaction:
+										if viewModel.isReactionsAvailable {
+											showReaction = true
+										}
+									default:
+										()
+									}
+									quickActionCurrentUser = $0
+								},
+								onReaction: { reaction in
+									debugPrint("emotions \(reaction)")
+									viewModel.send(.onAddReaction(messageId: message.id, reactionId: reaction))
+								}
+							).padding(.vertical, 16)
                         } else {
-                            QuickMenuView(cardPosition: $cardPosition, onAction: {
-                                switch $0 {
-                                case .copy:
-                                    UIPasteboard.general.string = activeEditMessage?.description
-                                case .delete:
-                                    viewModel.send(.onDelete(messageId))
-                                case .reply:
-                                    inputViewIsFocused = true
-                                case .reaction:
-                                    if viewModel.isReactionsAvailable {
-                                        showReaction = true
-                                    }
-                                default:
-                                    ()
-                                }
-                                quickAction = $0
-                            }).padding(.vertical, 16)
+							QuickMenuView(
+								cardPosition: $cardPosition,
+								onAction: {
+									switch $0 {
+									case .copy:
+										UIPasteboard.general.string = activeEditMessage?.description
+									case .delete:
+										viewModel.send(.onDelete(messageId))
+									case .reply:
+										inputViewIsFocused = true
+									case .reaction:
+										if viewModel.isReactionsAvailable {
+											debugPrint("emotions \(activeEditMessage)")
+											showReaction = true
+										}
+									default:
+										()
+									}
+									quickAction = $0
+								}
+							).padding(.vertical, 16)
                         }
                     }
                 }
