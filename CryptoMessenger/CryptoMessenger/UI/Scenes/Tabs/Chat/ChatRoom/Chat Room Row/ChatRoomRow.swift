@@ -126,7 +126,7 @@ struct ChatRoomRow: View {
 								activateShowCard: $activateShowCard,
 								playingAudioId: $playingAudioId,
 								onSelectPhoto: onSelectPhoto,
-								onContactButtonAction: { name, phone , url in
+								onContactButtonAction: { name, phone, url in
 										chatContactInfo = ChatContactInfo(
 										name: name,
 										phone: phone,
