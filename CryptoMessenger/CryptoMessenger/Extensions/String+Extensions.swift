@@ -26,4 +26,13 @@ extension String {
         let end = index(start, offsetBy: range.upperBound - range.lowerBound)
         return String(self[start ..< end])
     }
+    
+    func removeCharacters(from forbiddenChars: CharacterSet) -> String {
+        let passed = self.unicodeScalars.filter { !forbiddenChars.contains($0) }
+        return String(String.UnicodeScalarView(passed))
+    }
+    
+    func removeCharacters(from: String) -> String {
+        return removeCharacters(from: CharacterSet(charactersIn: from))
+    }
 }
