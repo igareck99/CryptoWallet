@@ -350,34 +350,38 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.room.redact(eventId: eventId, reason: nil)
                     self?.matrixUseCase.objectChangePublisher.send()
                 case .onAddReaction(let messageId, let reactionId):
-                    guard ((self?.isTranslating()) != nil) else {
-                        guard
-                            let index = self?.translatedMessages.firstIndex(where: { $0.id == messageId }),
-                            let emoji = self?.emojiStorage.first(where: { $0.id == reactionId })?.emoji
-                        else {
-                            return
-                        }
-                        
-                        if self?.translatedMessages[index].reactions.contains(where: { $0.id == reactionId }) == false {
-                            self?.translatedMessages[index].reactions.append(
-                                .init(id: reactionId, sender: "", timestamp: Date(), emoji: emoji)
-                            )
-                        }
-                        return
+					guard ((self?.isTranslating()) != nil) else {
+						guard
+							let index = self?.translatedMessages.firstIndex(where: { $0.id == messageId }),
+							let emoji = self?.emojiStorage.first(where: { $0.id == reactionId })?.emoji
+						else {
+							return
+						}
 
-                    }
-                    guard
-                        let index = self?.messages.firstIndex(where: { $0.id == messageId }),
-                        let emoji = self?.emojiStorage.first(where: { $0.id == reactionId })?.emoji
-                    else {
-                        return
-                    }
-                    
-                    if self?.messages[index].reactions.contains(where: { $0.id == reactionId }) == false {
-                        self?.messages[index].reactions.append(
-                            .init(id: reactionId, sender: "", timestamp: Date(), emoji: emoji)
-                        )
-                    }
+						if self?.translatedMessages[index].reactions.contains(where: { $0.id == reactionId }) == false {
+							self?.translatedMessages[index].reactions.append(
+								.init(id: reactionId, sender: "", timestamp: Date(), emoji: emoji)
+							)
+						}
+						return
+
+					}
+					guard
+						let index = self?.messages.firstIndex(where: { $0.id == messageId })
+					else {
+						return
+					}
+
+					self?.room.react(toEventId: messageId, emoji: reactionId)
+
+					guard
+						self?.messages[index].reactions.contains(where: { $0.id == reactionId }) == false
+					else {
+						return
+					}
+
+					let reaction = Reaction(id: reactionId, sender: "", timestamp: Date(), emoji: reactionId)
+					self?.messages[index].reactions.append(reaction)
                 case .onDeleteReaction(let messageId, let reactionId):
                     self?.room.edit(text: "", eventId: messageId)
                     guard let index = self?.messages.firstIndex(where: { $0.id == messageId }) else { return }
@@ -599,6 +603,7 @@ final class ChatRoomViewModel: ObservableObject {
                 self.messages = room.events().renderableEvents.filter({ !$0.eventId.contains("kMXEventLocalId") })
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
+						message?.reactions = room.events().reactions(for: $0)
                         message?.eventId = $0.eventId
                         var user: MXUser?
                         if !$0.userId.isEmpty {
@@ -613,7 +618,6 @@ final class ChatRoomViewModel: ObservableObject {
                         let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                         message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)
                         message?.videoThumbnail = $0.videoThumbnail
-                        print("sxkaskaslsalklkasklas  \(message)")
                         return message
                     }
                     .compactMap { $0 }
@@ -741,6 +745,18 @@ final class ChatRoomViewModel: ObservableObject {
             }
         }
     }
+
+	func react(toEventId eventId: String, emoji: String) {
+		matrixUseCase.matrixSession?.aggregations.addReaction(
+			emoji,
+			forEvent: eventId,
+			inRoom: room.room.roomId,
+			success: {
+				debugPrint("emotions success")
+			}, failure: { error in
+				debugPrint("emotions error \(error)")
+			})
+	}
 
 	func joinGroupCall(event: RoomMessage) {
 

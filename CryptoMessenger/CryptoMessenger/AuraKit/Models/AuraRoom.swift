@@ -124,7 +124,11 @@ final class AuraRoom: ObservableObject {
 
     func react(toEventId eventId: String, emoji: String) {
         // swiftlint:disable:next force_try
-        let content = try! ReactionEvent(eventId: eventId, key: emoji).encodeContent()
+		guard
+			let content = try? ReactionEvent(eventId: eventId, key: emoji).encodeContent()
+		else {
+			return
+		}
 
         // room.outgoingMessages() will change
         var localEcho: MXEvent?

@@ -183,6 +183,7 @@ struct QuickMenuCurrentUserView: View {
 
     @Binding var cardPosition: CardPosition
     let onAction: GenericBlock<QuickActionCurrentUser>
+	let onReaction: GenericBlock<String>
     var emotions = ["👍", "👎", "😘", "😢", "😱"]
 
     // MARK: - Private Properties
@@ -237,6 +238,11 @@ struct QuickMenuCurrentUserView: View {
                             .frame(width: 24,
                                    height: 33)
                     }
+					.onTapGesture {
+						vibrate()
+						onReaction(item)
+						cardPosition = .bottom
+					}
                 }
                 ZStack {
                     Circle()
