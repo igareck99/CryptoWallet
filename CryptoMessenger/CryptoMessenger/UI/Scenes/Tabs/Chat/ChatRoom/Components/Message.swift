@@ -73,6 +73,7 @@ struct RoomMessage: Identifiable {
     // MARK: - Internal Properties
 
     let id: String
+	let sender: String
     var type: MessageType
     let shortDate: String
     let fullDate: String

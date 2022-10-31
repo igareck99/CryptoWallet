@@ -71,8 +71,32 @@ struct EventCollection {
                     emoji: reaction
                 )
             }
-
     }
+
+	func reactions(
+		forEvent event: MXEvent,
+		currentUserId: String
+	) -> [Reaction] {
+		relatedEvents(of: event)
+			.filter { $0.type == kMXEventTypeStringReaction }
+			.compactMap { event in
+				guard
+					let id = event.eventId,
+					let sender = event.sender,
+					let relatesToContent = event.content["m.relates_to"] as? [String: Any],
+					let reaction = relatesToContent["key"] as? String
+				else {
+					return nil
+				}
+				return Reaction(
+					id: id,
+					sender: sender,
+					timestamp: event.timestamp,
+					emoji: reaction,
+					isFromCurrentUser: currentUserId == sender
+				)
+			}
+	}
 }
 
 // MARK: - EventCollection ()

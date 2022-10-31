@@ -12,6 +12,9 @@ struct ReactionTextsView: View {
 					.foregroundColor(textItem.color)
 			}
 		}
+		.onTapGesture {
+			model.onTapAction?()
+		}
 		.frame(height: 28)
 		.frame(minWidth: 38)
 		.padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))

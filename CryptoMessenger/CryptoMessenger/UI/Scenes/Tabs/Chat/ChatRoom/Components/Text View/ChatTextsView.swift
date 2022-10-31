@@ -58,4 +58,3 @@ struct ChatTextsView: View {
 		.scaledToFit()
 	}
 }
-

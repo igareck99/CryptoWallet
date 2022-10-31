@@ -217,6 +217,7 @@ extension MXEvent {
     private func rowItem(_ isFromCurrentUser: Bool) -> RoomMessage {
         .init(
             id: eventId,
+			sender: sender,
             type: messageType,
             shortDate: timestamp.hoursAndMinutes,
             fullDate: timestamp.dayOfWeekDayAndMonth,
@@ -245,6 +246,7 @@ extension MXEvent {
 
 		let roomMessage = RoomMessage(
 			id: eventId,
+			sender: sender,
 			type: type,
 			shortDate: timestamp.hoursAndMinutes,
 			fullDate: timestamp.dayOfWeekDayAndMonth,

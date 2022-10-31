@@ -13,6 +13,7 @@ protocol ChatRoomRowViewModelProtocol {
 		onSelectPhoto: GenericBlock<URL?>?,
 		onContactButtonAction: @escaping (String, String?, URL?) -> Void,
 		onFileTapHandler: @escaping VoidBlock,
+		onEmojiTap: @escaping GenericBlock<(emoji: String, messageId: String)>,
 		fileSheetPresenting: @escaping (URL?) -> AnyView?,
 		message: RoomMessage
 	) -> AnyView
@@ -42,6 +43,7 @@ extension ChatRoomRowViewModel: ChatRoomRowViewModelProtocol {
 		onSelectPhoto: GenericBlock<URL?>?,
 		onContactButtonAction: @escaping (String, String?, URL?) -> Void,
         onFileTapHandler: @escaping VoidBlock,
+		onEmojiTap: @escaping GenericBlock<(emoji: String, messageId: String)>,
         fileSheetPresenting: @escaping (URL?) -> AnyView?,
         message: RoomMessage
     ) -> AnyView {
@@ -55,6 +57,7 @@ extension ChatRoomRowViewModel: ChatRoomRowViewModelProtocol {
 			onSelectPhoto: onSelectPhoto,
 			onContactButtonAction: onContactButtonAction,
 			onFileTapHandler: onFileTapHandler,
+			onEmojiTap: onEmojiTap,
 			fileSheetPresenting: fileSheetPresenting,
             message: message
 		)
