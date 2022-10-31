@@ -116,10 +116,6 @@ struct ProfileDetailView: View {
                                 )
                                     .padding(.top, 24)
                                     .padding([.leading, .trailing], 16)
-                            case .info:
-                                info(type.title)
-                                    .padding(.top, 24)
-                                    .padding([.leading, .trailing], 16)
                             case .name:
                                 TextFieldView(
                                     title: type.title.uppercased(),
@@ -250,31 +246,31 @@ struct ProfileDetailView: View {
     }
 
     private func info(_ title: String) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title.uppercased(), [
-                .font(.semibold(12)),
-                .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left)),
-                .color(.gray768286())
+            VStack(alignment: .leading, spacing: 8) {
+                Text(title.uppercased(), [
+                    .font(.semibold(12)),
+                    .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left)),
+                    .color(.gray768286())
 
-            ]).frame(height: 22)
-            ZStack(alignment: .leading) {
-                if viewModel.profile.info.isEmpty {
-                    Text(title.firstUppercased)
-                        .foreground(.gray768286(0.7))
+                ]).frame(height: 22)
+                ZStack(alignment: .leading) {
+                    if viewModel.profile.info.isEmpty {
+                        Text(title.firstUppercased)
+                            .foreground(.gray768286(0.7))
+                            .font(.regular(15))
+                            .padding([.leading, .trailing], 16)
+                    }
+
+                    TextEditor(text: $viewModel.profile.info)
+                        .foreground(.black())
                         .font(.regular(15))
-                        .padding([.leading, .trailing], 16)
+                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 140)
+                        .padding([.leading, .trailing], 14)
                 }
-
-                TextEditor(text: $viewModel.profile.info)
-                    .foreground(.black())
-                    .font(.regular(15))
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 140)
-                    .padding([.leading, .trailing], 14)
+                .background(.paleBlue())
+                .cornerRadius(8)
             }
-            .background(.paleBlue())
-            .cornerRadius(8)
         }
-    }
 
     private func phone(_ title: String) -> some View {
         VStack(alignment: .leading, spacing: 8) {
