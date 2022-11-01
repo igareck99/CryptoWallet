@@ -16,7 +16,7 @@ struct AnswerCellView: View {
                 .font(.regular(15))
                 .frame(height: 24, alignment: .leading)
             Spacer()
-            item.tapped ? R.image.answers.upsideArrow.image: R.image.answers.downsideArrow.image
+            item.tapped ? R.image.answers.upsideArrow.image : R.image.answers.downsideArrow.image
         }
     }
 }
@@ -70,6 +70,7 @@ struct AnswerView: View {
         .onDisappear {
             showTabBar()
         }
+        .navigationBarHidden(false)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(R.string.localizable.additionalMenuQuestions())

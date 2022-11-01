@@ -13,6 +13,7 @@ struct WalletManagerView: View {
 
     var body: some View {
         content
+            .navigationBarHidden(false)
             .onAppear {
                 viewModel.send(.onAppear)
             }

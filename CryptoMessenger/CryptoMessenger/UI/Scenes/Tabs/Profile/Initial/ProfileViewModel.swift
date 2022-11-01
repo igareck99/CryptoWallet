@@ -258,6 +258,8 @@ final class ProfileViewModel: ObservableObject {
         }
         if !matrixUseCase.getStatus().isEmpty {
             profile.status = matrixUseCase.getStatus()
+        } else {
+            profile.status = ""
         }
         mediaService.getPhotoFeedPhotos(userId: matrixUseCase.getUserId()) { urls in
             self.profile.photosUrls = urls
@@ -279,5 +281,6 @@ final class ProfileViewModel: ObservableObject {
         if !matrixUseCase.getStatus().isEmpty {
             profile.status = matrixUseCase.getStatus()
         }
+        self.objectWillChange.send()
     }
 }
