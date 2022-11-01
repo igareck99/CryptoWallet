@@ -115,10 +115,14 @@ final class ChatCreateViewModel: ObservableObject {
                             self?.waitingFilteredContacts = []
                             return
                         }
-                        self?.filteredContacts = self?.existingContacts.filter({ $0.name.lowercased().contains(text.lowercased())
-                                              || $0.phone.removeCharacters(from: "- ()").contains(text) }) ?? []
-                        self?.waitingFilteredContacts = self?.waitingContacts.filter({ $0.name.lowercased().contains(text.lowercased())
-                            || $0.phone.removeCharacters(from: "- ()").contains(text) }) ?? []
+                        self?.filteredContacts = self?.existingContacts.filter({
+                            $0.name.lowercased().contains(text.lowercased())
+                            || $0.phone.removeCharacters(from: "- ()").contains(text)
+                            || $0.mxId.lowercased().contains(text.lowercased()) }) ?? []
+                        self?.waitingFilteredContacts = self?.waitingContacts.filter({
+                            $0.name.lowercased().contains(text.lowercased())
+                            || $0.phone.removeCharacters(from: "- ()").contains(text)
+                            || $0.mxId.lowercased().contains(text.lowercased()) }) ?? []
                     }
                 }
             }
