@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: - ProfileView
+// MARK: - SocialNetworkView
 
 struct SocialNetworkView: View {
 
