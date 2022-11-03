@@ -156,8 +156,11 @@ struct ChatRoomView: View {
                         self.viewModel.send(.onSendFile(url))
                     }
                 case .camera:
-                    SUImagePickerView(image: $viewModel.pickedImage)
-                        .navigationBarTitleDisplayMode(.inline)
+                    GalleryPickerView(selectedImage: $viewModel.selectedImage,
+                                      selectedVideo: $viewModel.selectedVideo,
+                                      sourceType: .camera)
+                            .navigationBarTitleDisplayMode(.inline)
+                            .edgesIgnoringSafeArea(.all)
                 case .contact:
                     NavigationView {
                         SelectContactView(contactsLimit: 1, onSelectContact: {
