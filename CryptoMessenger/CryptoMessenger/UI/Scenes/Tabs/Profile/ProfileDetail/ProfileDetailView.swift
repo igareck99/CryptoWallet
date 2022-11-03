@@ -22,6 +22,7 @@ struct ProfileDetailView: View {
 
     var body: some View {
         content
+            .navigationBarHidden(false)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -87,10 +88,8 @@ struct ProfileDetailView: View {
                 )
             }
             .onAppear {
-                UITextView.appearance().backgroundColor = .clear
-                UITextView.appearance().textContainerInset = .init(top: 12, left: 0, bottom: 12, right: 0)
-                UITextView.appearance().showsVerticalScrollIndicator = false
                 hideTabBar()
+                showNavBar()
             }
             .onDisappear {
                 viewModel.closeScreen = false

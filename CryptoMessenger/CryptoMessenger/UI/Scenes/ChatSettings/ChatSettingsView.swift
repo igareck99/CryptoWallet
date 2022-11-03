@@ -62,6 +62,7 @@ struct ChatSettingsView: View {
         }
             .listRowSeparator(.hidden)
         }
+        .navigationBarHidden(false)
         .onAppear {
             viewModel.send(.onAppear)
         }

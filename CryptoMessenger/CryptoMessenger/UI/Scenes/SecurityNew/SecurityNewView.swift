@@ -128,6 +128,7 @@ struct SecurityNewView: View {
                 }
             }
         }
+        .navigationBarHidden(false)
         .onAppear {
             viewModel.send(.onAppear)
         }

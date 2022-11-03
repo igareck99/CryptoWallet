@@ -83,6 +83,7 @@ struct PersonalizationView: View {
                     }
             }
         }
+        .navigationBarHidden(false)
             .actionSheet(isPresented: $showThemeScreen) {
                 ActionSheet(
                     title: Text(""),
