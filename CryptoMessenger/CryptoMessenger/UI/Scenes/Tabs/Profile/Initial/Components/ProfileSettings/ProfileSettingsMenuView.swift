@@ -6,7 +6,7 @@ struct ProfileSettingsMenuView: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel: ProfileSettingsMenuViewModel
+    @StateObject var viewModel = ProfileSettingsMenuViewModel()
     let balance: String
     let onSelect: GenericBlock<ProfileSettingsMenu>
 
