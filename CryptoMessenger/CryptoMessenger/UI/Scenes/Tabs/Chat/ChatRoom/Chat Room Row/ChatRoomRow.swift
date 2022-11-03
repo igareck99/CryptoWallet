@@ -20,6 +20,7 @@ struct ChatRoomRow: View {
     private let isDirect: Bool
     private var onReaction: StringBlock?
     private var onSelectPhoto: GenericBlock<URL?>?
+	private let onEmojiTap: GenericBlock<(emoji: String, messageId: String)>
 	private let viewModel: ChatRoomRowViewModelProtocol
 
     @State private var showMap = false
@@ -38,6 +39,7 @@ struct ChatRoomRow: View {
 		isDirect: Bool,
 		onReaction: StringBlock?,
 		onSelectPhoto: GenericBlock<URL?>?,
+		onEmojiTap: @escaping GenericBlock<(emoji: String, messageId: String)>,
 		activateShowCard: Binding<Bool>,
 		playingAudioId: Binding<String>,
 		viewModel: ChatRoomRowViewModelProtocol = ChatRoomRowViewModel()
@@ -49,6 +51,7 @@ struct ChatRoomRow: View {
         self.isDirect = isDirect
         self.onReaction = onReaction
         self.onSelectPhoto = onSelectPhoto
+		self.onEmojiTap = onEmojiTap
         self._activateShowCard = activateShowCard
         self._playingAudioId = playingAudioId
     }
@@ -136,7 +139,7 @@ struct ChatRoomRow: View {
 								},
 								onFileTapHandler: {
 									showFile.toggle()
-								},
+								}, onEmojiTap: { onEmojiTap($0) },
 								fileSheetPresenting: { fileUrl in
                                     guard let fileUrl = fileUrl else {
                                         return nil

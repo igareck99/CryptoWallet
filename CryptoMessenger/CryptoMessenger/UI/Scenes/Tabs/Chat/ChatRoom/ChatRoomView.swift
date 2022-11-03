@@ -201,6 +201,7 @@ struct ChatRoomView: View {
                                                 )
                                             },
                                             onSelectPhoto: { selectedPhoto = $0 },
+											onEmojiTap: { viewModel.react(toEventId: $0.1, emoji: $0.0) },
                                             activateShowCard: $activateShowCard,
                                             playingAudioId: $playingAudioId
                                         )
@@ -230,6 +231,7 @@ struct ChatRoomView: View {
                                                 )
                                             },
                                             onSelectPhoto: { selectedPhoto = $0 },
+											onEmojiTap: { viewModel.react(toEventId: $0.1, emoji: $0.0) },
                                             activateShowCard: $activateShowCard,
                                             playingAudioId: $playingAudioId
                                         )

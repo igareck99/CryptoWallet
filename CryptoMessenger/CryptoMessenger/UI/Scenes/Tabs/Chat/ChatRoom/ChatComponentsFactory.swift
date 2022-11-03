@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - ChatComponentsFactoryProtocol
 
-// swiftlint:disable: vertical_parameter_alignment
+// swiftlint:disable all
 
 protocol ChatComponentsFactoryProtocol {
 	func makeChatEventView(event: RoomMessage, viewModel: ChatRoomViewModel) -> AnyView
@@ -16,6 +16,7 @@ protocol ChatComponentsFactoryProtocol {
 		onSelectPhoto: GenericBlock<URL?>?,
 		onContactButtonAction: @escaping (String, String?, URL?) -> Void,
 		onFileTapHandler: @escaping VoidBlock,
+		onEmojiTap: @escaping GenericBlock<(emoji: String, messageId: String)>,
 		fileSheetPresenting: @escaping (URL?) -> AnyView?,
 		message: RoomMessage
 	) -> AnyView
@@ -180,6 +181,7 @@ extension ChatComponentsFactory {
 		onSelectPhoto: GenericBlock<URL?>?,
 		onContactButtonAction: @escaping (String, String?, URL?) -> Void,
 		onFileTapHandler: @escaping VoidBlock,
+		onEmojiTap: @escaping GenericBlock<(emoji: String, messageId: String)>,
 		fileSheetPresenting: @escaping (URL?) -> AnyView?,
         message: RoomMessage
 	) -> AnyView {
@@ -221,7 +223,11 @@ extension ChatComponentsFactory {
                 shortDate: message.shortDate,
                 fileName: fileName,
                 url: url,
-                isShowFile: showFile,
+				isShowFile: showFile,
+				reactionItem: makeReactionTextsItems(
+					message: message,
+					onEmojiTap: onEmojiTap
+				),
                 sheetPresenting: { fileSheetPresenting(url) },
                 onTapHandler: onFileTapHandler))
         case let .audio(url):
@@ -255,29 +261,77 @@ extension ChatComponentsFactory {
 		return sources.groupCallActiveConference
 	}
 
-	private func makeReactionTextsItems(message: RoomMessage) -> [ReactionTextsItem] {
+	private func makeReactionTextsItems(
+		message: RoomMessage,
+		onEmojiTap: @escaping GenericBlock<(emoji: String, messageId: String)>
+	) -> [ReactionTextsItem] {
 
-		let reactionTextsAndCount = message.reactions.reduce(into: [String: Int]()) { partialResult, reaction in
-			if var count = partialResult[reaction.emoji] {
-				count += 1
-				partialResult[reaction.emoji] = count
+		debugPrint("message.reactions: \(message.reactions)")
+
+		var hasReactionInExtraSpace = false
+
+		let reactionTextsAndCount = message.reactions.reduce(
+			into: [String: (count: Int, isCurrentUser: Bool)]()
+		) { partialResult, reaction in
+			if let count = partialResult[reaction.emoji]?.count {
+				partialResult[reaction.emoji]?.count = (count + 1)
 			} else {
-				partialResult[reaction.emoji] = 1
+				partialResult[reaction.emoji] = (1, message.sender == reaction.sender)
+			}
+			let isCurrentUser = (message.sender == reaction.sender) || (partialResult[reaction.emoji]?.isCurrentUser == true)
+			partialResult[reaction.emoji]?.isCurrentUser = isCurrentUser
+
+			if partialResult.count > 2 {
+				hasReactionInExtraSpace = isCurrentUser || hasReactionInExtraSpace
 			}
 		}
 
+		var usedEmojies = Set<String>()
+
 		let reactionTextsItems: [ReactionTextsItem] = message.reactions.compactMap { reaction in
 
-			guard let emojiCount = reactionTextsAndCount[reaction.emoji] else { return nil }
+			guard usedEmojies.count < 3,
+				  let isCurrentUser = reactionTextsAndCount[reaction.emoji]?.isCurrentUser
+			else {
+				return nil
+			}
+
+			if usedEmojies.count == 2,
+				(reactionTextsAndCount.count - 2) > 0 {
+				let reactionTextsAndCountCopy = reactionTextsAndCount.filter { !usedEmojies.contains($0.key) }
+				let isContains = reactionTextsAndCountCopy.contains { $0.value.isCurrentUser }
+
+				usedEmojies.insert("+")
+				let count = ReactionTextItem(
+					text: "+\(reactionTextsAndCount.count - 2)",
+					color: isContains ? .blackSqueezeApprox : .cornflowerBlueApprox,
+					font: .system(size: 11, weight: .medium)
+				)
+				return ReactionTextsItem(
+					texts: [count],
+					backgroundColor: isContains ? .cornflowerBlueApprox : .blackSqueezeApprox
+				)
+			}
+
+			guard
+				!usedEmojies.contains(reaction.emoji),
+				let emojiCount = reactionTextsAndCount[reaction.emoji]?.count
+			else { return nil }
+
+			usedEmojies.insert(reaction.emoji)
 
 			let emoji = ReactionTextItem(text: reaction.emoji)
 			let count = ReactionTextItem(
 				text: "\(emojiCount)",
-				color: .cornflowerBlueApprox,
+				color: isCurrentUser ? .blackSqueezeApprox : .cornflowerBlueApprox,
 				font: .system(size: 11, weight: .medium)
 			)
-			let reactionTextsItem = ReactionTextsItem(texts: [emoji, count], backgroundColor: .sailApprox)
-			return reactionTextsItem
+			return ReactionTextsItem(
+				texts: [emoji, count],
+				backgroundColor: isCurrentUser ? .cornflowerBlueApprox : .blackSqueezeApprox) {
+					debugPrint("ReactionTextsItem onTapAction \(reaction.emoji)")
+					onEmojiTap( (reaction.emoji, message.id) )
+				}
 		}
 		return reactionTextsItems
 	}

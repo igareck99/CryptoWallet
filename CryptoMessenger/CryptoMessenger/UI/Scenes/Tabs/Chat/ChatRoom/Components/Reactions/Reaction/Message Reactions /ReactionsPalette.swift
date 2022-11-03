@@ -8,6 +8,7 @@ extension Color {
 	static let zeroColor = Color(uiColor: .zeroColor)
 	static let sailApprox = Color(uiColor: .sailApprox)
 	static let cornflowerBlueApprox = Color(uiColor: .cornflowerBlueApprox)
+	static let alabasterSolid = Color(uiColor: .alabasterSolid)
 }
 
 extension UIColor {
@@ -17,4 +18,5 @@ extension UIColor {
 	static let zeroColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
 	static let sailApprox = UIColor(red: 173.0 / 255.0, green: 214.0 / 255.0, blue: 248.0 / 255.0, alpha: 1.0)
 	static let cornflowerBlueApprox = UIColor(red: 101.0 / 255.0, green: 175.0 / 255.0, blue: 234.0 / 255.0, alpha: 1.0)
+	static let alabasterSolid = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1)
 }

@@ -364,23 +364,25 @@ final class ChatRoomViewModel: ObservableObject {
 							)
 						}
 						return
-
 					}
+
 					guard
-						let index = self?.messages.firstIndex(where: { $0.id == messageId })
+						let index = self?.messages.firstIndex(where: { $0.id == messageId }),
+						self?.messages[index].reactions.first(where: { $0.isFromCurrentUser == true }) == nil
 					else {
 						return
 					}
 
-					self?.room.react(toEventId: messageId, emoji: reactionId)
+//					self?.room.react(toEventId: messageId, emoji: reactionId)
+					self?.react(toEventId: messageId, emoji: reactionId)
 
-					guard
-						self?.messages[index].reactions.contains(where: { $0.id == reactionId }) == false
-					else {
-						return
-					}
-
-					let reaction = Reaction(id: reactionId, sender: "", timestamp: Date(), emoji: reactionId)
+					let reaction = Reaction(
+						id: reactionId,
+						sender: self?.matrixUseCase.getUserId() ?? "",
+						timestamp: Date(),
+						emoji: reactionId,
+						isFromCurrentUser: true
+					)
 					self?.messages[index].reactions.append(reaction)
                 case .onDeleteReaction(let messageId, let reactionId):
                     self?.room.edit(text: "", eventId: messageId)
@@ -526,8 +528,10 @@ final class ChatRoomViewModel: ObservableObject {
                 
                 if flag  {
                     location.map { location in
+						// TODO: Разобраться, это так и должно заполняться?
                         let message = RoomMessage(
                             id: UUID().uuidString,
+							sender: "",
                             type: .location((lat: location.latitude, long: location.longitude)),
                             shortDate: Date().hoursAndMinutes,
                             fullDate: Date().dayAndMonthAndYear,
@@ -603,7 +607,10 @@ final class ChatRoomViewModel: ObservableObject {
                 self.messages = room.events().renderableEvents.filter({ !$0.eventId.contains("kMXEventLocalId") })
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
-						message?.reactions = room.events().reactions(for: $0)
+						message?.reactions = room.events().reactions(
+							forEvent: $0,
+							currentUserId: self.matrixUseCase.getUserId()
+						)
                         message?.eventId = $0.eventId
                         var user: MXUser?
                         if !$0.userId.isEmpty {
@@ -747,6 +754,14 @@ final class ChatRoomViewModel: ObservableObject {
     }
 
 	func react(toEventId eventId: String, emoji: String) {
+
+		guard
+			let index = messages.firstIndex(where: { $0.id == eventId }),
+			messages[index].reactions.first(where: { $0.isFromCurrentUser == true }) == nil
+		else {
+			return
+		}
+
 		matrixUseCase.matrixSession?.aggregations.addReaction(
 			emoji,
 			forEvent: eventId,

@@ -1,5 +1,7 @@
 import Foundation
 
+// swiftlint: disable: all
+
 // MARK: - Reaction
 
 struct Reaction: Identifiable {
@@ -10,6 +12,7 @@ struct Reaction: Identifiable {
     let sender: String
     let timestamp: Date
     let emoji: String
+	let isFromCurrentUser: Bool
 
     // MARK: - Life Cycle
 
@@ -17,12 +20,14 @@ struct Reaction: Identifiable {
         id: String,
         sender: String,
         timestamp: Date,
-        emoji: String
+        emoji: String,
+		isFromCurrentUser: Bool = false
     ) {
         self.id = id
         self.sender = sender
         self.timestamp = timestamp
         self.emoji = emoji
+		self.isFromCurrentUser = isFromCurrentUser
     }
 }
 
