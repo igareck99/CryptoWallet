@@ -1,5 +1,7 @@
-import SwiftUI
 import AVKit
+import SwiftUI
+
+// swiftlint:disable all
 
 // MARK: - VideoFeedView
 
@@ -19,59 +21,79 @@ struct VideoView: View {
     @State private var videoState = FileStates.error
     private let isFromCurrentUser: Bool
     private let shortDate: String
+	private let reactionItems: [ReactionTextsItem]
+	@State private var totalHeight: CGFloat = .zero
 
     // MARK: - Private Properties
 
     init(
         isFromCurrentUser: Bool,
         shortDate: String,
+		reactionItems: [ReactionTextsItem],
         viewModel: VideoViewModel
     ) {
         self.isFromCurrentUser = isFromCurrentUser
         self.shortDate = shortDate
+		self.reactionItems = reactionItems
         self._viewModel = StateObject(wrappedValue: viewModel)
     }
 
-    var body: some View {
-        Group {
-            Button {
-                if viewModel.isVideoUpload {
-                    selectedVideo = Video(videoUrl: viewModel.videoUrl)
-                }
-            } label: {
-                ZStack(alignment: .center) {
-                    ZStack {
-                        VideoRow(viewModel: viewModel)
-                            .scaledToFill()
-                            .frame(width: 202, height: 245)
-                        HStack {
-                            makeVideoInfoView()
-                                .padding(.bottom, 215)
-                                .padding(.leading, 10)
-                            CheckReadView(time: shortDate,
-                                          isFromCurrentUser: isFromCurrentUser)
-                            .padding(.leading, isFromCurrentUser ? 0 : 130)
-                        }
-                    }
-                    .scaledToFill()
-                    .frame(width: 202, height: 245)
-                    makePlayView()
-                }
-            }
-        }
-        .frame(width: 202, height: 245)
-        .fullScreenCover(item: $selectedVideo) {
-            embeddedVideoRate = 1.0
-        } content: { _ in
-            makeFullScreenVideoPlayer()
-        }
-        .onChange(of: viewModel.dataUrl) { value in
-            if value != nil {
-                viewModel.isVideoUpload = true
-                videoUrl = value
-            }
-        }
-    }
+	var body: some View {
+		Group {
+			VStack(alignment: .leading, spacing: 0) {
+				ZStack(alignment: .center) {
+					ZStack {
+						VideoRow(viewModel: viewModel)
+							.scaledToFill()
+							.frame(width: 202, height: 245)
+						HStack {
+							makeVideoInfoView()
+								.padding(.bottom, 215)
+								.padding(.leading, 10)
+							CheckReadView(time: shortDate,
+										  isFromCurrentUser: isFromCurrentUser)
+							.padding(.leading, isFromCurrentUser ? 0 : 130)
+						}
+					}
+					.scaledToFill()
+					.frame(width: 202, height: 245)
+					.cornerRadius(16)
+					makePlayView()
+						.cornerRadius(16)
+				}
+
+				ReactionsGrid(
+					totalHeight: $totalHeight,
+					viewModel: ReactionsGroupViewModel(items: reactionItems)
+				)
+				.frame(
+					minHeight: totalHeight == 0 ? precalculateViewHeight(for: 202, itemsCount: reactionItems.count) : totalHeight
+				)
+				.padding([.top, .bottom], 8)
+				.padding(.trailing, 8)
+			}
+			.frame(width: 202)
+			.cornerRadius(16)
+			.onTapGesture {
+				if viewModel.isVideoUpload {
+					selectedVideo = Video(videoUrl: viewModel.videoUrl)
+				}
+			}
+		}
+		.frame(width: 202)
+		.cornerRadius(16)
+		.fullScreenCover(item: $selectedVideo) {
+			embeddedVideoRate = 1.0
+		} content: { _ in
+			makeFullScreenVideoPlayer()
+		}
+		.onChange(of: viewModel.dataUrl) { value in
+			if value != nil {
+				viewModel.isVideoUpload = true
+				videoUrl = value
+			}
+		}
+	}
 
     // MARK: - ViewBuilder
 

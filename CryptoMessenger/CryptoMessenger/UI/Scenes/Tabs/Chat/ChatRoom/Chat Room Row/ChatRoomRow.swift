@@ -88,7 +88,10 @@ struct ChatRoomRow: View {
                     .padding(.leading, 16)
                     .padding(.trailing, -11)
                 }
-                BubbleView(direction: isFromCurrentUser ? .right : .left) {
+                BubbleView(
+					direction: isFromCurrentUser ? .right : .left,
+					shouldShowBackground: viewModel.shouldShowBackground(message: message)
+				) {
                     VStack(alignment: .leading, spacing: 0) {
                         if message.isReply {
                             HStack(spacing: 0) {

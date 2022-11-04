@@ -10,6 +10,8 @@ extension Color {
 	static let cornflowerBlueApprox = Color(uiColor: .cornflowerBlueApprox)
 	static let alabasterSolid = Color(uiColor: .alabasterSolid)
 	static let azureRadianceApprox = Color(uiColor: .azureRadianceApprox)
+	static let hawkesBlueApprox = Color(uiColor: .hawkesBlueApprox)
+	static let pigeonPostApprox = Color(uiColor: .pigeonPostApprox)
 }
 
 extension UIColor {
@@ -21,4 +23,6 @@ extension UIColor {
 	static let cornflowerBlueApprox = UIColor(red: 101.0 / 255.0, green: 175.0 / 255.0, blue: 234.0 / 255.0, alpha: 1.0)
 	static let alabasterSolid = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1)
 	static let azureRadianceApprox = UIColor(red: 0.055, green: 0.557, blue: 0.953, alpha: 1)
+	static let hawkesBlueApprox = UIColor(red: 0.812, green: 0.91, blue: 0.992, alpha: 1)
+	static let pigeonPostApprox = UIColor(red: 0.71, green: 0.792, blue: 0.867, alpha: 1)
 }

@@ -7,8 +7,9 @@ struct ContactView: View {
 	private let phone: String?
 	private let url: URL?
 	private let isFromCurrentUser: Bool
-	private let reactionItem: [ReactionTextsItem]
+	private let reactionItems: [ReactionTextsItem]
 	private let onButtonAction: () -> Void
+	@State private var totalHeight: CGFloat = .zero
 
 	init(
 		shortDate: String,
@@ -16,7 +17,7 @@ struct ContactView: View {
 		phone: String?,
 		url: URL?,
 		isFromCurrentUser: Bool,
-		reactionItem: [ReactionTextsItem],
+		reactionItems: [ReactionTextsItem],
 		onButtonAction: @escaping () -> Void
 	) {
 		self.shortDate = shortDate
@@ -24,7 +25,7 @@ struct ContactView: View {
 		self.phone = phone
 		self.url = url
 		self.isFromCurrentUser = isFromCurrentUser
-		self.reactionItem = reactionItem
+		self.reactionItems = reactionItems
 		self.onButtonAction = onButtonAction
 	}
 
@@ -35,7 +36,7 @@ struct ContactView: View {
 					url: url,
 					placeholder: {
 						ZStack {
-							Color(.lightBlue())
+							Color.azureRadianceApprox
 							Text(name.firstLetter.uppercased())
 								.foreground(.white())
 								.font(.medium(22))
@@ -59,36 +60,36 @@ struct ContactView: View {
 				.padding(.top, 2)
 			}
 
-			Button(action: {
-				onButtonAction()
-			},
-				   label: {
-				Text("Просмотр контакта")
-					.frame(height: 44)
-					.frame(minWidth: 215)
-					.font(.bold(15))
-					.foreground(.blue())
-					.overlay(
-						RoundedRectangle(cornerRadius: 8)
-							.stroke(Color(.blue()), lineWidth: 1)
-					)
-			})
-			.padding(.top, 12)
-
-			VStack(alignment: .leading, spacing: 0) {
-				ReactionsGroupView(
-					viewModel: ReactionsGroupViewModel(
-						items: reactionItem
-					)
+			Text("Просмотр контакта")
+				.frame(width: 220, height: 44)
+				.font(.bold(15))
+				.foreground(.blue())
+				.overlay(
+					RoundedRectangle(cornerRadius: 8)
+						.stroke(Color(.blue()), lineWidth: 1)
+						.padding([.leading, .trailing], -8)
 				)
-			}
+				.padding(.top, 12)
+				.padding([.leading, .trailing], 8)
+				.onTapGesture {
+					onButtonAction()
+				}
+
+			ReactionsGrid(
+				totalHeight: $totalHeight,
+				viewModel: ReactionsGroupViewModel(items: reactionItems)
+			)
+			.frame(
+				minHeight: totalHeight == 0 ? precalculateViewHeight(for: 244, itemsCount: reactionItems.count) : totalHeight
+			)
 			.padding(.top, 8)
+
 			VStack(alignment: .trailing, spacing: 0) {
 				CheckTextReadView(time: shortDate, isFromCurrentUser: isFromCurrentUser)
 					.offset(x: 16, y: -8)
 			}
 		}
-		.fixedSize(horizontal: true, vertical: true)
+		.frame(width: 244)
 		.padding(.top, 8)
 		.padding([.leading, .trailing], 12)
 	}

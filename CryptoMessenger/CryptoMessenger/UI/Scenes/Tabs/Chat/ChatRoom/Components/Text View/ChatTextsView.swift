@@ -33,6 +33,7 @@ struct ChatTextsView: View {
 					.fixedSize(horizontal: false, vertical: true)
 
 				ReactionsGroupView(viewModel: ReactionsGroupViewModel(items: reactionItem))
+					.frame(minHeight: 28)
 					.padding(.top, 4)
 					.padding(.bottom, 2)
 

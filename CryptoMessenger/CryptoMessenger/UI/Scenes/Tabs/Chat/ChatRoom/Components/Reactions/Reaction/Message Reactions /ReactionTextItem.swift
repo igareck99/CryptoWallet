@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ReactionTextItem: Identifiable {
+struct ReactionTextItem: Identifiable, Equatable {
 	let id = UUID()
 	let text: String
 	let color: Color
@@ -14,5 +14,11 @@ struct ReactionTextItem: Identifiable {
 		self.text = text
 		self.color = color
 		self.font = font
+	}
+
+	// MARK: - Equatable
+
+	static func == (lhs: ReactionTextItem, rhs: ReactionTextItem) -> Bool {
+		lhs.id == rhs.id && lhs.text == rhs.text
 	}
 }
