@@ -1,8 +1,10 @@
 import SwiftUI
 
+// swiftlint:disable all
+
 // MARK: - AsyncImage
 
-struct AsyncImage<Placeholder: View>: View {
+struct AsyncImage<Placeholder: View, ResultmageView: View>: View {
 
     // MARK: - Private Properties
 
@@ -11,16 +13,19 @@ struct AsyncImage<Placeholder: View>: View {
     private let url: URL?
     private let placeholder: Placeholder
     private let result: (UIImage) -> Image
+	private let resultView: ((UIImage) -> ResultmageView)?
 
     // MARK: - LifeCycle
 
     init(
         url: URL?,
         @ViewBuilder placeholder: () -> Placeholder,
-        @ViewBuilder result: @escaping (UIImage) -> Image = Image.init(uiImage:)
+        @ViewBuilder result: @escaping (UIImage) -> Image = Image.init(uiImage:),
+		@ViewBuilder resultView: @escaping (UIImage) -> ResultmageView = { _ in EmptyView().opacity(0) }
     ) {
         self.placeholder = placeholder()
         self.result = result
+		self.resultView = resultView
         self.url = url
         _loader = StateObject(wrappedValue: ImageLoader(url: url))
     }
@@ -40,7 +45,11 @@ struct AsyncImage<Placeholder: View>: View {
     private var content: some View {
         Group {
             if let image = loader.image {
-                result(image)
+				if let resultView = resultView {
+					resultView(image)
+				} else {
+					result(image)
+				}
             } else {
                 if urlReachable {
                     progressView

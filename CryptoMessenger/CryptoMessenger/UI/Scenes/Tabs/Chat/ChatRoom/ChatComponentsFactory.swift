@@ -204,9 +204,13 @@ extension ChatComponentsFactory {
 			return AnyView(PhotoView(
 				isFromCurrentUser: message.isCurrentUser,
 				shortDate: message.shortDate,
-				url: url) {
+				url: url,
+				reactionItem: makeReactionTextsItems(
+					message: message,
+					onEmojiTap: onEmojiTap
+				)) {
 					onSelectPhoto?(url)
-                })
+				})
         case let .contact(name, phone, url):
             return AnyView(ContactView(
                 shortDate: message.shortDate,
