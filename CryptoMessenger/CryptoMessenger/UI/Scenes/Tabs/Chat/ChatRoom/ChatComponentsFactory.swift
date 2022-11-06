@@ -213,7 +213,11 @@ extension ChatComponentsFactory {
                 name: name,
                 phone: phone,
                 url: url,
-                isFromCurrentUser: message.isCurrentUser,
+				isFromCurrentUser: message.isCurrentUser,
+				reactionItem: makeReactionTextsItems(
+					message: message,
+					onEmojiTap: onEmojiTap
+				),
                 onButtonAction: { onContactButtonAction(name, phone, url) }
             ))
         case let .file(fileName, url):

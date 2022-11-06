@@ -7,6 +7,7 @@ struct ContactView: View {
 	private let phone: String?
 	private let url: URL?
 	private let isFromCurrentUser: Bool
+	private let reactionItem: [ReactionTextsItem]
 	private let onButtonAction: () -> Void
 
 	init(
@@ -15,6 +16,7 @@ struct ContactView: View {
 		phone: String?,
 		url: URL?,
 		isFromCurrentUser: Bool,
+		reactionItem: [ReactionTextsItem],
 		onButtonAction: @escaping () -> Void
 	) {
 		self.shortDate = shortDate
@@ -22,57 +24,72 @@ struct ContactView: View {
 		self.phone = phone
 		self.url = url
 		self.isFromCurrentUser = isFromCurrentUser
+		self.reactionItem = reactionItem
 		self.onButtonAction = onButtonAction
 	}
 
 	var body: some View {
-		ZStack {
-			VStack(spacing: 0) {
-				HStack(spacing: 12) {
-					AsyncImage(
-						url: url,
-						placeholder: { ShimmerView().frame(width: 40, height: 40) },
-						result: { Image(uiImage: $0).resizable() }
-					)
-					.scaledToFill()
-					.frame(width: 40, height: 40)
-					.clipped()
-					.cornerRadius(20)
+		VStack(alignment: .leading, spacing: 0) {
+			HStack(spacing: 0) {
+				AsyncImage(
+					url: url,
+					placeholder: {
+						ZStack {
+							Color(.lightBlue())
+							Text(name.firstLetter.uppercased())
+								.foreground(.white())
+								.font(.medium(22))
+						}
+					},
+					result: { Image(uiImage: $0).resizable() }
+				)
+				.scaledToFill()
+				.frame(width: 40, height: 40)
+				.cornerRadius(20)
 
-					VStack(alignment: .leading, spacing: 0) {
-						Text(name)
-							.font(.semibold(15))
-							.foreground(.black())
-						Spacer()
-						Text(phone ?? "-")
-							.font(.regular(13))
-							.foreground(.darkGray())
-					}
-					Spacer()
+				VStack(alignment: .leading, spacing: 4) {
+					Text(name)
+						.font(.semibold(15))
+						.foreground(.black())
+					Text(phone ?? "-")
+						.font(.regular(13))
+						.foreground(.darkGray())
 				}
-				.frame(height: 40)
+				.padding(.leading, 10)
+				.padding(.top, 2)
+			}
 
-				Button(action: {
-					onButtonAction()
-				}, label: {
-					Text("Просмотр контакта")
-						.frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44, alignment: .center)
-						.font(.bold(15))
-						.foreground(.blue())
-						.overlay(
-							RoundedRectangle(cornerRadius: 8)
-								.stroke(Color(.blue()), lineWidth: 1)
-						)
-				})
-				.frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44, alignment: .center)
-				.padding(.top, 12)
+			Button(action: {
+				onButtonAction()
+			},
+				   label: {
+				Text("Просмотр контакта")
+					.frame(height: 44)
+					.frame(minWidth: 215)
+					.font(.bold(15))
+					.foreground(.blue())
+					.overlay(
+						RoundedRectangle(cornerRadius: 8)
+							.stroke(Color(.blue()), lineWidth: 1)
+					)
+			})
+			.padding(.top, 12)
 
-				Spacer()
+			VStack(alignment: .leading, spacing: 0) {
+				ReactionsGroupView(
+					viewModel: ReactionsGroupViewModel(
+						items: reactionItem
+					)
+				)
 			}
 			.padding(.top, 8)
-			.padding(.horizontal, 16)
-			CheckTextReadView(time: shortDate, isFromCurrentUser: isFromCurrentUser)
+			VStack(alignment: .trailing, spacing: 0) {
+				CheckTextReadView(time: shortDate, isFromCurrentUser: isFromCurrentUser)
+					.offset(x: 16, y: -8)
+			}
 		}
-		.frame(width: 244, height: 138)
+		.fixedSize(horizontal: true, vertical: true)
+		.padding(.top, 8)
+		.padding([.leading, .trailing], 12)
 	}
 }
