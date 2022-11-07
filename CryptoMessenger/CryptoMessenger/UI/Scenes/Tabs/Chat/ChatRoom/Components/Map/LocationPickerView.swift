@@ -12,7 +12,6 @@ struct LocationPickerView: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    @State private var region: MKCoordinateRegion = MKCoordinateRegion()
     @State private var locationTemp = Place(name: "", latitude: 0, longitude: 0)
     @State private var address: String = ""
     @State private var searching = false
@@ -31,7 +30,6 @@ struct LocationPickerView: View {
 		place: Binding<Place?>,
         sendLocation: Binding<Bool>,
 		isInteractionModesDisabled: Bool = false,
-        locationUseCase: LocationManagerUseCase = LocationManagerUseCase(),
 		locationPickerBaidu: LocationPickerBaidu = LocationPickerBaidu()
 	) {
         self._viewModel = StateObject(wrappedValue: MapViewModel())
@@ -41,15 +39,7 @@ struct LocationPickerView: View {
     }
     
     private func configData() {
-        self.locationTemp = Place(name: "User", latitude: viewModel.locationUseCase.getUserLocation()?.lat ?? 0, longitude: viewModel.locationUseCase.getUserLocation()?.long ?? 0)
-        self.viewModel.region = MKCoordinateRegion(center:
-                                            CLLocationCoordinate2D(
-                                                latitude: viewModel.locationUseCase.getUserLocation()?.lat ?? 0,
-                                                longitude: viewModel.locationUseCase.getUserLocation()?.long ?? 0),
-                                         span:
-                                            MKCoordinateSpan(
-                                                latitudeDelta: 0.01,
-                                                longitudeDelta: 0.01))
+        self.locationTemp = viewModel.place
     }
 
 	private func updateBaiduMap() {
@@ -95,7 +85,7 @@ struct LocationPickerView: View {
                     })
                     .onReceive(address.publisher.delay(for: 1, scheduler: DispatchQueue.main)) { location in
                         let geoCoder = CLGeocoder()
-                        geoCoder.geocodeAddressString(address) { (placemarks, error) in
+                        geoCoder.geocodeAddressString(address) { placemarks, error in
                             guard
                                 let placemarks = placemarks,
                                 let location = placemarks.first?.location
@@ -118,7 +108,8 @@ struct LocationPickerView: View {
                     })
                 }
                 .cornerRadius(3)
-                .padding([.horizontal, .top], 15)
+                .padding(.top, searching ? 90 : 15)
+                .padding(.horizontal, 15)
                 ZStack(alignment: .center) {
                     Map(
                         coordinateRegion: $viewModel.region,
