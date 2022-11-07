@@ -33,23 +33,27 @@ struct ProfileView: View {
         content
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Text(viewModel.profile.nickname)
-                        .font(.bold(15))
-                        .onTapGesture {
-                            UIPasteboard.general.string = viewModel.profile.nickname
-                            showAlert = true
-                        }
+                if showMenu {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Text(viewModel.profile.nickname)
+                            .font(.bold(15))
+                            .onTapGesture {
+                                UIPasteboard.general.string = viewModel.profile.nickname
+                                showAlert = true
+                            }
+                    }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     R.image.profile.settings.image
                         .onTapGesture {
                             hideTabBar()
                             vibrate()
-                            showMenu = true
+                            showMenu.toggle()
                         }
                 }
             }
+            .toolbarBackground(showMenu ? Color(.black(0.4)) : .white, for: .navigationBar)
+            .toolbarBackground(showMenu ? .visible : .hidden, for: .navigationBar)
             .onAppear {
                 viewModel.send(.onProfileAppear)
                 showTabBar()
@@ -85,13 +89,13 @@ struct ProfileView: View {
                     imageToShare: $viewModel.imageToShare)
             })
             .fullScreenCover(isPresented: $showCameraPicker,
-                              content: {
+                             content: {
                 ImagePickerView(selectedImage: $viewModel.selectedImage,
                                 sourceType: .camera)
-                    .ignoresSafeArea()
+                .ignoresSafeArea()
             })
             .fullScreenCover(isPresented: $showImagePicker,
-                              content: {
+                             content: {
                 ImagePickerView(selectedImage: $viewModel.selectedImage)
                     .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                     .navigationBarTitleDisplayMode(.inline)
@@ -107,13 +111,6 @@ struct ProfileView: View {
             .alert(isPresented: $showAlert) {
                  Alert(title: Text(R.string.localizable.profileCopied()))
             }
-            .onChange(of: showMenu, perform: { value in
-                if !value {
-                    showTabBar()
-                } else {
-                    hideTabBar()
-                }
-            })
             .popup(
                 isPresented: $showMenu,
                 type: .toast,
@@ -121,24 +118,23 @@ struct ProfileView: View {
                 closeOnTap: true,
                 closeOnTapOutside: true,
                 backgroundColor: .black.opacity(0.4),
+                dismissCallback: {
+                    self.showTabBar()
+                },
                 view: {
-                    ProfileSettingsMenuView(viewModel: ProfileSettingsMenuViewModel(),
-                                            balance: "0.50 AUR",
+                    ProfileSettingsMenuView(balance: "0.50 AUR",
                                             onSelect: { type in
                         vibrate()
                         viewModel.send(.onShow(type))
                     })
-                        .onAppear {
-                            hideTabBar()
-                        }
-                        .onDisappear {
-                            showTabBar()
-                        }
-                        .frame(height: UIScreen.main.bounds.height - 100)
+                        .frame(height: UIScreen.main.bounds.height - 90)
                         .background(
                             CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
                                 .fill(Color(.white()))
                         )
+                        .onAppear {
+                            hideTabBar()
+                        }
                 }
             )
     }
@@ -221,19 +217,18 @@ struct ProfileView: View {
                     }
                     .padding(.top, 27)
                     .padding(.leading, 16)
-
                     VStack(alignment: .leading, spacing: 2) {
                         Text(viewModel.profile.status)
                             .font(.regular(15))
                             .foreground(.black())
-                        Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
-                            .font(.regular(15))
-                            .foreground(.blue())
-                            .onTapGesture {
-                                safariAddress = "https://www.ikea.com/ru/ru/" +
-                                "campaigns/actual-information-pub21f86b70"
-                                showSafari = true
-                            }
+//                        Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
+//                            .font(.regular(15))
+//                            .foreground(.blue())
+//                            .onTapGesture {
+//                                safariAddress = "https://www.ikea.com/ru/ru/" +
+//                                "campaigns/actual-information-pub21f86b70"
+//                                showSafari = true
+//                            }
                     }.padding(.leading, 16)
                     Button(action: {
                         showActionImageAlert = true
