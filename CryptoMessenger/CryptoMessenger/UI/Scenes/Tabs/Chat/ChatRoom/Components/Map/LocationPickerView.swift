@@ -108,7 +108,7 @@ struct LocationPickerView: View {
                     })
                 }
                 .cornerRadius(3)
-                .padding(.top, searching ? 90 : 15)
+                .padding(.top, 15)
                 .padding(.horizontal, 15)
                 ZStack(alignment: .center) {
                     Map(
@@ -127,7 +127,7 @@ struct LocationPickerView: View {
                 }
                 .frame(width: UIScreen.main.bounds.width,
                        height: UIScreen.main.bounds.width,
-                       alignment: .leading)
+                       alignment: .center)
                 HStack {
                     Button(action: {
                         self.sendLocation = true
@@ -141,6 +141,7 @@ struct LocationPickerView: View {
                 Spacer()
             }
         }
+        .padding(.top, searching ? UIScreen.main.bounds.height * 0.11 : 0)
         .onAppear {
             sendLocation = false
             configData()
