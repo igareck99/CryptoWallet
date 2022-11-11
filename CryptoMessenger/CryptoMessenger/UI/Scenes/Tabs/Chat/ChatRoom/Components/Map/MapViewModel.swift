@@ -41,7 +41,13 @@ final class MapViewModel: ObservableObject {
             place = Place(
                 name: "",
                 latitude: locationUseCase.getUserLocation()?.lat ?? 0,
-                longitude: locationUseCase.getUserLocation()?.lat ?? 0)
+                longitude: locationUseCase.getUserLocation()?.long ?? 0)
+            self.region = MKCoordinateRegion(
+                center: .init(latitude: place.latitude,
+                              longitude: place.longitude),
+                latitudinalMeters: 650,
+                longitudinalMeters: 650
+            )
         }
     }
 }
