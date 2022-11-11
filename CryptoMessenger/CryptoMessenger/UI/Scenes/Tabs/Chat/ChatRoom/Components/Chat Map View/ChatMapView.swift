@@ -7,28 +7,50 @@ struct ChatMapView: View {
 	private let location: LocationData
 	private let date: String
 	private let isFromCurrentUser: Bool
+	private let reactionItems: [ReactionTextsItem]
+	@State private var totalHeight: CGFloat = .zero
 
 	init(
 		date: String,
 		showMap: Binding<Bool>,
 		showLocationTransition: Binding<Bool>,
+		reactionItems: [ReactionTextsItem],
 		location: LocationData,
 		isFromCurrentUser: Bool
 	) {
 		self.date = date
 		self._showMap = showMap
 		self._showLocationTransition = showLocationTransition
+		self.reactionItems = reactionItems
 		self.location = location
 		self.isFromCurrentUser = isFromCurrentUser
 	}
 
     var body: some View {
+		VStack(alignment: .trailing, spacing: 0) {
+			ZStack {
+				MapSnapshotView(
+					latitude: location.lat,
+					longitude: location.long
+				)
+				.cornerRadius(16)
+				CheckReadView(time: date, isFromCurrentUser: isFromCurrentUser)
+			}
+			.frame(width: 238, height: 142)
 
-		ZStack {
-			MapSnapshotView(latitude: location.lat, longitude: location.long)
-			CheckReadView(time: date, isFromCurrentUser: isFromCurrentUser)
+			VStack(alignment: .trailing, spacing: 0) {
+				ReactionsGrid(
+					totalHeight: $totalHeight,
+					viewModel: ReactionsGroupViewModel(items: reactionItems)
+				)
+				.frame(
+					minHeight: totalHeight == 0 ? precalculateViewHeight(for: 238, itemsCount: reactionItems.count) : totalHeight
+				)
+			}
+			.frame(width: 238)
+			.padding(.top, 6)
+			.padding([.bottom, .trailing, .leading], 8)
 		}
-		.frame(width: 247, height: 142)
 		.sheet(isPresented: $showMap) {
 			NavigationView {
 				MapView(place: .init(

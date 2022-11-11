@@ -1,6 +1,6 @@
 import SwiftUI
 
-//swiftlint:disable: vertical_parameter_alignment
+// swiftlint:disable: all
 
 protocol ChatRoomRowViewModelProtocol {
 
@@ -17,6 +17,8 @@ protocol ChatRoomRowViewModelProtocol {
 		fileSheetPresenting: @escaping (URL?) -> AnyView?,
 		message: RoomMessage
 	) -> AnyView
+
+	func shouldShowBackground(message: RoomMessage) -> Bool
 }
 
 final class ChatRoomRowViewModel {
@@ -61,5 +63,13 @@ extension ChatRoomRowViewModel: ChatRoomRowViewModelProtocol {
 			fileSheetPresenting: fileSheetPresenting,
             message: message
 		)
+	}
+
+	func shouldShowBackground(message: RoomMessage) -> Bool {
+		switch message.type {
+		case .image(_), .location(_), .video(_):
+			return false
+		default: return true
+		}
 	}
 }

@@ -368,7 +368,8 @@ final class ChatRoomViewModel: ObservableObject {
 
 					guard
 						let index = self?.messages.firstIndex(where: { $0.id == messageId }),
-						self?.messages[index].reactions.first(where: { $0.isFromCurrentUser == true }) == nil
+						let message = self?.messages[index],
+						message.reactions.contains(where: { $0.emoji == reactionId }) == false
 					else {
 						return
 					}
@@ -376,12 +377,13 @@ final class ChatRoomViewModel: ObservableObject {
 //					self?.room.react(toEventId: messageId, emoji: reactionId)
 					self?.react(toEventId: messageId, emoji: reactionId)
 
+					let sender = self?.matrixUseCase.getUserId() ?? ""
 					let reaction = Reaction(
 						id: reactionId,
-						sender: self?.matrixUseCase.getUserId() ?? "",
+						sender: sender,
 						timestamp: Date(),
 						emoji: reactionId,
-						isFromCurrentUser: true
+						isFromCurrentUser: message.sender == sender
 					)
 					self?.messages[index].reactions.append(reaction)
                 case .onDeleteReaction(let messageId, let reactionId):
@@ -756,8 +758,8 @@ final class ChatRoomViewModel: ObservableObject {
 	func react(toEventId eventId: String, emoji: String) {
 
 		guard
-			let index = messages.firstIndex(where: { $0.id == eventId }),
-			messages[index].reactions.first(where: { $0.isFromCurrentUser == true }) == nil
+			let message = messages.first(where: { $0.id == eventId }),
+			message.reactions.contains(where: { $0.emoji == emoji && $0.isFromCurrentUser == true }) == false
 		else {
 			return
 		}

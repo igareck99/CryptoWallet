@@ -606,6 +606,7 @@
 		D4533A1E28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */; };
 		D455F732287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D455F731287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift */; };
 		D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46187D2282D093200CA2836 /* ChatHistorySources.swift */; };
+		D47113CB291CC2C100D1C39E /* ReactionsGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47113CA291CC2C100D1C39E /* ReactionsGrid.swift */; };
 		D4752EA028C2247F006B650A /* AURGroupCallsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D4752E9928C08B95006B650A /* AURGroupCallsViewModel.m */; };
 		D4752EA428C22502006B650A /* Base32Encoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4752EA328C22502006B650A /* Base32Encoder.m */; };
 		D4752EB228C64291006B650A /* GroupCallsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752E9328BFC497006B650A /* GroupCallsViewController.swift */; };
@@ -1735,6 +1736,7 @@
 		D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		D455F731287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteConfigUseCase+Toggles.swift"; sourceTree = "<group>"; };
 		D46187D2282D093200CA2836 /* ChatHistorySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySources.swift; sourceTree = "<group>"; };
+		D47113CA291CC2C100D1C39E /* ReactionsGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionsGrid.swift; sourceTree = "<group>"; };
 		D4752E9328BFC497006B650A /* GroupCallsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsViewController.swift; sourceTree = "<group>"; };
 		D4752E9828C08B95006B650A /* AURGroupCallsViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AURGroupCallsViewModel.h; sourceTree = "<group>"; };
 		D4752E9928C08B95006B650A /* AURGroupCallsViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AURGroupCallsViewModel.m; sourceTree = "<group>"; };
@@ -4865,13 +4867,14 @@
 		D49C89BF290A6ADF005B4F64 /* Message Reactions  */ = {
 			isa = PBXGroup;
 			children = (
+				D49C89C2290A6AF5005B4F64 /* ViewGeneratable.swift */,
 				D49C89CC290A6B1A005B4F64 /* ReactionsPalette.swift */,
+				D47113CA291CC2C100D1C39E /* ReactionsGrid.swift */,
 				D49C89C3290A6AF6005B4F64 /* ReactionsGroupView.swift */,
 				D49C89C1290A6AF5005B4F64 /* ReactionsGroupViewModel.swift */,
 				D49C89C5290A6AF6005B4F64 /* ReactionTextItem.swift */,
 				D49C89C0290A6AF5005B4F64 /* ReactionTextsItem.swift */,
 				D49C89C4290A6AF6005B4F64 /* ReactionTextsView.swift */,
-				D49C89C2290A6AF5005B4F64 /* ViewGeneratable.swift */,
 			);
 			path = "Message Reactions ";
 			sourceTree = "<group>";
@@ -8041,6 +8044,7 @@
 				D4EFEBFB28E2AF110075CC10 /* MXSummable.swift in Sources */,
 				D4EFEBDF28E2AF110075CC10 /* MXUIKitApplicationStateService.swift in Sources */,
 				D4EFEBB828E2AF100075CC10 /* MXInvitedGroupSync.m in Sources */,
+				D47113CB291CC2C100D1C39E /* ReactionsGrid.swift in Sources */,
 				D4EFEC9728E2AF110075CC10 /* MXBeaconInfoSummaryMemoryStore.swift in Sources */,
 				8B37BF79275799B300602BE0 /* BuyView.swift in Sources */,
 				784ED0F1286ADD64006E6111 /* LocationPickerView.swift in Sources */,

@@ -1,6 +1,6 @@
 import SwiftUI
 
-protocol ViewGeneratable {
+protocol ViewGeneratable: Equatable {
 
 	associatedtype ViewType: View
 

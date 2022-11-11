@@ -12,6 +12,7 @@ struct ReactionTextsView: View {
 					.foregroundColor(textItem.color)
 			}
 		}
+		.contentShape(Rectangle())
 		.onTapGesture {
 			model.onTapAction?()
 		}

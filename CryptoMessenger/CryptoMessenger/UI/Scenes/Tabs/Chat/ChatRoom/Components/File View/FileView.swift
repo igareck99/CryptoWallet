@@ -17,7 +17,9 @@ struct FileView: View {
 	@Binding private var isShowFile: Bool
 	private let sheetPresenting: () -> AnyView?
 	private let onTapHandler: () -> Void
-	private let reactionItem: [ReactionTextsItem]
+	private let reactionItems: [ReactionTextsItem]
+
+	@State private var totalHeight: CGFloat = .zero
 
     // MARK: - Lifecycle
 
@@ -28,7 +30,7 @@ struct FileView: View {
 		fileName: String,
 		url: URL?,
 		isShowFile: Binding<Bool>,
-		reactionItem: [ReactionTextsItem],
+		reactionItems: [ReactionTextsItem],
 		sheetPresenting: @escaping () -> AnyView?,
 		onTapHandler: @escaping () -> Void
 	) {
@@ -38,7 +40,7 @@ struct FileView: View {
 		self.fileName = fileName
 		self.url = url
 		self._isShowFile = isShowFile
-		self.reactionItem = reactionItem
+		self.reactionItems = reactionItems
 		self.sheetPresenting = sheetPresenting
 		self.onTapHandler = onTapHandler
 	}
@@ -48,38 +50,40 @@ struct FileView: View {
 	var body: some View {
 		VStack(alignment: .leading, spacing: 0) {
 			HStack(alignment: .top, spacing: 12) {
-                ZStack {
-                    Circle()
-                        .frame(width: 44, height: 44)
-                        .foreground(.blue())
-                    R.image.chat.clip.image
-                }
+				ZStack {
+					Circle()
+						.frame(width: 44, height: 44)
+						.foregroundColor(.azureRadianceApprox)
+					R.image.chat.clip.image
+				}
 
-                VStack(alignment: .leading, spacing: 0) {
+				VStack(alignment: .leading, spacing: 0) {
 					Text(fileName, [
 						.color(.blue3E729E()),
 						.font(.medium(16)),
 						.paragraph(.init(lineHeightMultiple: 1.21, alignment: .left))
 					])
 					.frame(height: 23)
-                    Text(viewModel.sizeOfFile, [
-                        .color(.gray6589A8()),
-                        .font(.medium(13)),
-                        .paragraph(.init(lineHeightMultiple: 1.21, alignment: .left))
-                    ])
+					Text(viewModel.sizeOfFile, [
+						.color(.gray6589A8()),
+						.font(.medium(13)),
+						.paragraph(.init(lineHeightMultiple: 1.21, alignment: .left))
+					])
 					.frame(height: 23)
 				}
 			}
 			.padding(.top, 8)
-            .padding([.leading, .trailing], 12)
-            .padding(.bottom, 4)
+			.padding([.leading, .trailing], 12)
 
 			VStack(alignment: .leading, spacing: 0) {
-				ReactionsGroupView(
-					viewModel: ReactionsGroupViewModel(items: reactionItem)
+				ReactionsGrid(
+					totalHeight: $totalHeight,
+					viewModel: ReactionsGroupViewModel(items: reactionItems)
 				)
 			}
-			.padding(.leading, 12)
+			.frame(minHeight: totalHeight == 0 ? precalculateViewHeight(for: 220, itemsCount: reactionItems.count) : totalHeight)
+			.padding([.leading, .trailing], 8)
+			.padding(.bottom, 4)
 
 			VStack(alignment: .trailing, spacing: 0) {
 				CheckReadView(time: shortDate, isFromCurrentUser: isFromCurrentUser)
@@ -88,7 +92,8 @@ struct FileView: View {
 			.padding(.bottom, 6)
 		}
 		.padding(.all, 0)
-		.fixedSize(horizontal: true, vertical: true)
+		.frame(width: 220)
+		.fixedSize(horizontal: true, vertical: false)
 		.sheet(isPresented: $isShowFile) {
 			sheetPresenting()
 		}

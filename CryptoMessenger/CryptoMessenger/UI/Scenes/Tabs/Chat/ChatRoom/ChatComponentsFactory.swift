@@ -197,6 +197,10 @@ extension ChatComponentsFactory {
 				date: message.shortDate,
 				showMap: showMap,
 				showLocationTransition: showLocationTransition,
+				reactionItems: makeReactionTextsItems(
+					message: message,
+					onEmojiTap: onEmojiTap
+				),
 				location: LocationData(lat: location.lat, long: location.long),
 				isFromCurrentUser: message.isCurrentUser
 			))
@@ -205,7 +209,7 @@ extension ChatComponentsFactory {
 				isFromCurrentUser: message.isCurrentUser,
 				shortDate: message.shortDate,
 				url: url,
-				reactionItem: makeReactionTextsItems(
+				reactionItems: makeReactionTextsItems(
 					message: message,
 					onEmojiTap: onEmojiTap
 				)) {
@@ -218,7 +222,7 @@ extension ChatComponentsFactory {
                 phone: phone,
                 url: url,
 				isFromCurrentUser: message.isCurrentUser,
-				reactionItem: makeReactionTextsItems(
+				reactionItems: makeReactionTextsItems(
 					message: message,
 					onEmojiTap: onEmojiTap
 				),
@@ -232,7 +236,7 @@ extension ChatComponentsFactory {
                 fileName: fileName,
                 url: url,
 				isShowFile: showFile,
-				reactionItem: makeReactionTextsItems(
+				reactionItems: makeReactionTextsItems(
 					message: message,
 					onEmojiTap: onEmojiTap
 				),
@@ -244,17 +248,29 @@ extension ChatComponentsFactory {
                 shortDate: message.shortDate,
                 audioDuration: message.audioDuration,
                 isCurrentUser: message.isCurrentUser,
-                isFromCurrentUser: message.isCurrentUser,
+				isFromCurrentUser: message.isCurrentUser,
+				reactionItems: makeReactionTextsItems(
+					message: message,
+					onEmojiTap: onEmojiTap
+				),
                 activateShowCard: activateShowCard,
                 playingAudioId: playingAudioId,
                 audioViewModel: StateObject(
                     wrappedValue: AudioMessageViewModel(url: url, messageId: message.id)
                 )
             ))
-        case let .video(url):
-            return AnyView(VideoView(isFromCurrentUser: message.isCurrentUser,
-                                     shortDate: message.shortDate,
-                                     viewModel: VideoViewModel(videoUrl: url, thumbnailUrl: message.videoThumbnail)))
+		case let .video(url):
+			return AnyView(
+				VideoView(
+					isFromCurrentUser: message.isCurrentUser,
+					shortDate: message.shortDate,
+					reactionItems: makeReactionTextsItems(
+						message: message,
+						onEmojiTap: onEmojiTap
+					),
+					viewModel: VideoViewModel(videoUrl: url, thumbnailUrl: message.videoThumbnail)
+				)
+			)
         default:
             return AnyView(EmptyView())
 		}
@@ -276,42 +292,49 @@ extension ChatComponentsFactory {
 
 		debugPrint("message.reactions: \(message.reactions)")
 
+		// Есть ли реакции пользователя в секции '+'
 		var hasReactionInExtraSpace = false
 
+		// Проходимся по всем реакциям и считаем их
 		let reactionTextsAndCount = message.reactions.reduce(
 			into: [String: (count: Int, isCurrentUser: Bool)]()
-		) { partialResult, reaction in
+		)
+		{ partialResult, reaction in
 			if let count = partialResult[reaction.emoji]?.count {
 				partialResult[reaction.emoji]?.count = (count + 1)
 			} else {
-				partialResult[reaction.emoji] = (1, message.sender == reaction.sender)
+				partialResult[reaction.emoji] = (1, reaction.isFromCurrentUser)
 			}
-			let isCurrentUser = (message.sender == reaction.sender) || (partialResult[reaction.emoji]?.isCurrentUser == true)
+
+			let isCurrentUser = reaction.isFromCurrentUser || (partialResult[reaction.emoji]?.isCurrentUser == true)
 			partialResult[reaction.emoji]?.isCurrentUser = isCurrentUser
 
-			if partialResult.count > 2 {
+			if partialResult.count > 4 {
 				hasReactionInExtraSpace = isCurrentUser || hasReactionInExtraSpace
 			}
 		}
 
 		var usedEmojies = Set<String>()
 
+		// проходимся по всем реакциям и создаем модели для отображения
 		let reactionTextsItems: [ReactionTextsItem] = message.reactions.compactMap { reaction in
 
-			guard usedEmojies.count < 3,
+			// отображаем только 4 реакции
+			guard usedEmojies.count < 5,
 				  let isCurrentUser = reactionTextsAndCount[reaction.emoji]?.isCurrentUser
 			else {
 				return nil
 			}
 
-			if usedEmojies.count == 2,
-				(reactionTextsAndCount.count - 2) > 0 {
+			// добавляем секцию '+'
+			if usedEmojies.count == 4,
+				(reactionTextsAndCount.count - 4) > 0 {
 				let reactionTextsAndCountCopy = reactionTextsAndCount.filter { !usedEmojies.contains($0.key) }
 				let isContains = reactionTextsAndCountCopy.contains { $0.value.isCurrentUser }
 
 				usedEmojies.insert("+")
 				let count = ReactionTextItem(
-					text: "+\(reactionTextsAndCount.count - 2)",
+					text: "+\(reactionTextsAndCount.count - 4)",
 					color: isContains ? .blackSqueezeApprox : .cornflowerBlueApprox,
 					font: .system(size: 11, weight: .medium)
 				)
@@ -321,6 +344,7 @@ extension ChatComponentsFactory {
 				)
 			}
 
+			// создаем модель реакции для отображения
 			guard
 				!usedEmojies.contains(reaction.emoji),
 				let emojiCount = reactionTextsAndCount[reaction.emoji]?.count
@@ -336,7 +360,8 @@ extension ChatComponentsFactory {
 			)
 			return ReactionTextsItem(
 				texts: [emoji, count],
-				backgroundColor: isCurrentUser ? .cornflowerBlueApprox : .blackSqueezeApprox) {
+				backgroundColor: isCurrentUser ? .cornflowerBlueApprox : .blackSqueezeApprox
+			) {
 					debugPrint("ReactionTextsItem onTapAction \(reaction.emoji)")
 					onEmojiTap( (reaction.emoji, message.id) )
 				}

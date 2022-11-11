@@ -23,4 +23,10 @@ struct ReactionTextsItem: Identifiable, ViewGeneratable {
 	func view() -> some View {
 		ReactionTextsView(model: self)
 	}
+
+	// MARK: - Equatable
+
+	static func == (lhs: ReactionTextsItem, rhs: ReactionTextsItem) -> Bool {
+		lhs.id == rhs.id && lhs.texts == rhs.texts
+	}
 }

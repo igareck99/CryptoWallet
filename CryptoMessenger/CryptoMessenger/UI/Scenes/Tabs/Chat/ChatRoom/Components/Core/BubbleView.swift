@@ -7,48 +7,67 @@ struct BubbleView<Content>: View where Content: View {
     // MARK: - Private Properties
 
     private let direction: BubbleShape.Direction
+	private let shouldShowBackground: Bool
     private let content: () -> Content
     @State private var isAnimating = false
 
     // MARK: - Lifecycle
 
-    init(direction: BubbleShape.Direction, @ViewBuilder _ content: @escaping () -> Content) {
+    init(
+		direction: BubbleShape.Direction,
+		shouldShowBackground: Bool = true,
+		@ViewBuilder _ content: @escaping () -> Content
+	) {
         self.direction = direction
+		self.shouldShowBackground = shouldShowBackground
         self.content = content
     }
 
     // MARK: - Content
 
-    var body: some View {
-        HStack {
-            if direction == .right {
-                Spacer()
-            }
+	var body: some View {
+		HStack {
+			if direction == .right { Spacer() }
 
-            content()
-                .background(
-                    direction == .right ? .alabasterSolid : Color(.beige())
-                )
-                .clipShape(
-                    BubbleShape(direction: direction)
-                )
-                .overlay(
-                    BubbleShape(direction: direction)
-                        .stroke(Color(.custom(#colorLiteral(red: 0.7921568627, green: 0.8117647059, blue: 0.8235294118, alpha: 1))), lineWidth: 0.5)
-                        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
-                )
+			content()
+				.background( backGroundColor())
+				.clipShape( BubbleShape(direction: direction))
+				.overlay( contentOverlay())
 
-            if direction == .left {
-                Spacer()
-            }
-        }
-        .padding(direction == .left ? .leading : .trailing, 16)
-        .padding(direction == .right ? .leading : .trailing, 22)
-        .transition(isAnimating ? .opacity.animation(.easeIn) : .identity)
-        .onAppear {
-            if !isAnimating {
-                isAnimating.toggle()
-            }
-        }
-    }
+			if direction == .left { Spacer() }
+		}
+		.foregroundColor(.clear)
+		.padding(direction == .left ? .leading : .trailing, 16)
+		.padding(direction == .right ? .leading : .trailing, 22)
+		.transition(isAnimating ? .opacity.animation(.easeIn) : .identity)
+		.onAppear {
+			if !isAnimating {
+				isAnimating.toggle()
+			}
+		}
+	}
+
+	private func backGroundColor() -> Color {
+
+		if !shouldShowBackground {
+			return .clear
+		}
+
+		return direction == .right ? Color.hawkesBlueApprox : Color.alabasterSolid
+	}
+
+	@ViewBuilder
+	private func contentOverlay() -> some View {
+
+		if !shouldShowBackground {
+			EmptyView()
+				.opacity(0)
+				.foregroundColor(.clear)
+				.frame(width: 0, height: 0)
+		} else {
+			BubbleShape(direction: direction)
+				.stroke(Color.pigeonPostApprox, lineWidth: 0.5)
+				.foregroundColor(.hawkesBlueApprox)
+		}
+	}
 }
