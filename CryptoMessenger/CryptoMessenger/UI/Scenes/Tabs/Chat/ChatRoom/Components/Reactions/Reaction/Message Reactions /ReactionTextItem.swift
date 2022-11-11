@@ -1,19 +1,26 @@
 import SwiftUI
 
+// MARK: - ReactionTextItem
+
 struct ReactionTextItem: Identifiable, Equatable {
 	let id = UUID()
 	let text: String
 	let color: Color
 	let font: Font
+    let width: CGFloat
 
-	init(
-		text: String,
-		color: Color = .zeroColor,
-		font: Font = .system(size: 20)
-	) {
-		self.text = text
+    // MARK: - Lifecycle
+
+    init(
+        text: String,
+        color: Color = .zeroColor,
+        font: Font = .system(size: 20),
+        width: CGFloat = 38
+    ) {
+        self.text = text
 		self.color = color
 		self.font = font
+        self.width = width
 	}
 
 	// MARK: - Equatable

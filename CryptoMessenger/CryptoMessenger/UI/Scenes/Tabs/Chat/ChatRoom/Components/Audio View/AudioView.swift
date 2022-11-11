@@ -82,10 +82,10 @@ struct AudioView: View {
 
 				ReactionsGrid(
 					totalHeight: $totalHeight,
-					viewModel: ReactionsGroupViewModel(items: reactionItems)
+                    viewModel: ReactionsGroupViewModel(items: reactionItems)
 				)
 				.frame(
-					minHeight: totalHeight == 0 ? precalculateViewHeight(for: 252, itemsCount: reactionItems.count) : totalHeight
+                    minHeight: totalHeight == 0 ? viewHeightNew(for: 252, reactionItems: reactionItems) : totalHeight
 				)
 				.padding([.leading, .trailing], 8)
 				.padding(.bottom, 4)

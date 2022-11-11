@@ -23,6 +23,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     private var subscriptions = Set<AnyCancellable>()
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
 
+    // MARK: - Lifecycle
+
     init(
 		sources: ChatHistorySourcesable.Type = ChatHistorySources.self
 	) {

@@ -1,8 +1,12 @@
 import SwiftUI
 
+// MARK: - ContactView
+
 struct ContactView: View {
 
- private let shortDate: String
+    // MARK: - Intrernal properties
+
+    private let shortDate: String
 	private let name: String
 	private let phone: String?
 	private let url: URL?
@@ -10,6 +14,8 @@ struct ContactView: View {
 	private let reactionItems: [ReactionTextsItem]
 	private let onButtonAction: () -> Void
 	@State private var totalHeight: CGFloat = .zero
+
+    // MARK: - Lifecycle
 
 	init(
 		shortDate: String,
@@ -28,6 +34,8 @@ struct ContactView: View {
 		self.reactionItems = reactionItems
 		self.onButtonAction = onButtonAction
 	}
+
+    // MARK: - Body
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 0) {
@@ -77,16 +85,15 @@ struct ContactView: View {
 
 			ReactionsGrid(
 				totalHeight: $totalHeight,
-				viewModel: ReactionsGroupViewModel(items: reactionItems)
+                viewModel: ReactionsGroupViewModel(items: reactionItems)
 			)
 			.frame(
-				minHeight: totalHeight == 0 ? precalculateViewHeight(for: 244, itemsCount: reactionItems.count) : totalHeight
+				minHeight: totalHeight == 0 ? viewHeightNew(for: 212, reactionItems: reactionItems) : totalHeight
 			)
 			.padding(.top, 8)
 
 			VStack(alignment: .trailing, spacing: 0) {
 				CheckTextReadView(time: shortDate, isFromCurrentUser: isFromCurrentUser)
-					.offset(x: 16, y: -8)
 			}
 		}
 		.frame(width: 244)

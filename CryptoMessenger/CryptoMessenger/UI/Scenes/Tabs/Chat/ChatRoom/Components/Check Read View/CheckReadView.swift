@@ -14,27 +14,20 @@ struct CheckReadView: View {
 		ZStack {
 			VStack {
 				Spacer()
-				HStack {
-					if isFromCurrentUser {
-						Spacer()
-					}
-					HStack(alignment: .center, spacing: 4) {
-						Text(time)
-							.font(.light(12))
-							.foreground(.white())
-
-						Image(R.image.chat.readCheckWhite.name)
-					}
-					.frame(width: 56, height: 16)
-					.background(.black(0.4))
-					.cornerRadius(8)
-
-					if !isFromCurrentUser {
-						Spacer()
-					}
+                HStack {
+                    Spacer()
+                    HStack(alignment: .center, spacing: 4) {
+                        Text(time)
+                            .font(.light(12))
+                            .foreground(.white())
+                        Image(R.image.chat.readCheckWhite.name)
+                    }
+                    .frame(width: 56, height: 16)
+                    .background(.black(0.4))
+                    .cornerRadius(8)
 				}
 				.padding(.bottom, 8)
-				.padding(isFromCurrentUser ? .trailing : .leading, 10)
+				.padding(.trailing, 10)
 			}
 		}
     }

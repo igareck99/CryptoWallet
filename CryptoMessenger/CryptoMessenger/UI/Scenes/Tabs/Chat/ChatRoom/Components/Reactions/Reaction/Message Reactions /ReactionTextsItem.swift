@@ -1,11 +1,17 @@
 import SwiftUI
 
+// MARK: - ReactionTextsItem
+
 struct ReactionTextsItem: Identifiable, ViewGeneratable {
+
+    // MARK: - Internal Properties
 
 	let id = UUID()
 	let texts: [ReactionTextItem]
 	let backgroundColor: Color
 	let onTapAction: VoidBlock?
+
+    // MARK: - Lifecycle
 
 	init(
 		texts: [ReactionTextItem],
@@ -23,6 +29,10 @@ struct ReactionTextsItem: Identifiable, ViewGeneratable {
 	func view() -> some View {
 		ReactionTextsView(model: self)
 	}
+
+    func getItemWidth() -> CGFloat {
+        return texts.first?.width ?? 0
+    }
 
 	// MARK: - Equatable
 

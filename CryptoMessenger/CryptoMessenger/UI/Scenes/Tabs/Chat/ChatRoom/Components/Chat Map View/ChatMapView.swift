@@ -28,28 +28,29 @@ struct ChatMapView: View {
 
     var body: some View {
 		VStack(alignment: .trailing, spacing: 0) {
-			ZStack {
+            ZStack(alignment: .bottomTrailing) {
 				MapSnapshotView(
-					latitude: location.lat,
-					longitude: location.long
-				)
-				.cornerRadius(16)
-				CheckReadView(time: date, isFromCurrentUser: isFromCurrentUser)
+                    latitude: location.lat,
+                    longitude: location.long
+                )
+                .cornerRadius(16)
+                CheckReadView(time: date, isFromCurrentUser: isFromCurrentUser)
+                    .padding(.trailing, 8)
 			}
 			.frame(width: 238, height: 142)
 
 			VStack(alignment: .trailing, spacing: 0) {
 				ReactionsGrid(
 					totalHeight: $totalHeight,
-					viewModel: ReactionsGroupViewModel(items: reactionItems)
+                    viewModel: ReactionsGroupViewModel(items: reactionItems)
 				)
 				.frame(
-					minHeight: totalHeight == 0 ? precalculateViewHeight(for: 238, itemsCount: reactionItems.count) : totalHeight
+					minHeight: totalHeight == 0 ? viewHeightNew(for: 238, reactionItems: reactionItems) : totalHeight
 				)
 			}
 			.frame(width: 238)
 			.padding(.top, 6)
-			.padding([.bottom, .trailing, .leading], 8)
+			.padding(.bottom, 8)
 		}
 		.sheet(isPresented: $showMap) {
 			NavigationView {
