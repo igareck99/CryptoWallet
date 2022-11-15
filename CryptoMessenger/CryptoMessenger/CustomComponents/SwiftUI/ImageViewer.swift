@@ -68,12 +68,12 @@ struct ImageViewer: View {
     // MARK: - Body
 
     var body: some View {
-        ZStack {
+		ZStack(alignment: .center) {
             Color(.black())
                 .opacity(viewModel.bgOpacity)
                 .ignoresSafeArea()
 
-            ScrollView(.init()) {
+//            ScrollView(.init()) {
                 AsyncImage(
                     url: selectedPhoto,
                     placeholder: { ShimmerView() },
@@ -100,9 +100,9 @@ struct ImageViewer: View {
                             }
                         })
                 )
-            }
-            .ignoresSafeArea()
-            .transition(.scale.combined(with: .opacity))
+//            }
+//            .ignoresSafeArea()
+//            .transition(.scale.combined(with: .opacity))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .overlay(

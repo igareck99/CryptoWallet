@@ -49,7 +49,6 @@ final class PinCodeViewController: BaseViewController {
             presenter.setNewPinCode(pinCode)
             presenter.handleButtonTap(false)
         }
-        
     }
 
     private func showLocalAuthAlert() {
@@ -106,4 +105,8 @@ extension PinCodeViewController: PinCodeViewInterface {
     func setBiometryActive(_ result: Bool) {
         customView.setBiometryActive(result)
     }
+
+	func shouldHideCantEnter(isHiddedn: Bool) {
+		customView.setEnterActive(isHiddedn)
+	}
 }

@@ -168,7 +168,7 @@ struct ChatRoomView: View {
                         })
                     }
                 case .location:
-                    NavigationView{
+                    NavigationView {
                         LocationPickerView(place: $viewModel.pickedLocation,
                                            sendLocation: $viewModel.sendLocationFlag)
                     }
@@ -233,7 +233,10 @@ struct ChatRoomView: View {
                                                     .onDeleteReaction(messageId: message.id, reactionId: reactionId)
                                                 )
                                             },
-                                            onSelectPhoto: { selectedPhoto = $0 },
+                                            onSelectPhoto: {
+												hideKeyboard()
+												selectedPhoto = $0
+											},
 											onEmojiTap: { viewModel.react(toEventId: $0.1, emoji: $0.0) },
                                             activateShowCard: $activateShowCard,
                                             playingAudioId: $playingAudioId

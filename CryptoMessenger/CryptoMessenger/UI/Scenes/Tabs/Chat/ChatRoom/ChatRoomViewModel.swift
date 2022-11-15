@@ -140,7 +140,7 @@ final class ChatRoomViewModel: ObservableObject {
     }
 
 	private func updateToggles() {
-		let isP2PChat = room.room.summary?.membersCount?.joined == 2
+		let isP2PChat = room.room.isDirect == true && room.room.summary?.membersCount?.joined == 2
 		let isCallInProgress = settings.bool(forKey: .isCallInprogressExists)
 		let isCallAvailable = availabilityFacade.isCallAvailable
 		self.isVoiceCallAvailablility = isCallAvailable && isP2PChat && !isCallInProgress
@@ -341,6 +341,7 @@ final class ChatRoomViewModel: ObservableObject {
                     guard let roomId = self?.room.room.roomId else { return }
                     self?.matrixUseCase.joinRoom(roomId: roomId) { _ in
                         self?.room.markAllAsRead()
+						self?.updateToggles()
                     }
                 case let .onReply(text, eventId):
                     self?.room.reply(text: text, eventId: eventId)
@@ -366,10 +367,12 @@ final class ChatRoomViewModel: ObservableObject {
 						return
 					}
 
+
+
 					guard
 						let index = self?.messages.firstIndex(where: { $0.id == messageId }),
-						let message = self?.messages[index],
-						message.reactions.contains(where: { $0.emoji == reactionId }) == false
+						let message = self?.messages.first(where: { $0.id == messageId }),
+						message.reactions.contains(where: { $0.emoji == reactionId && $0.isFromCurrentUser == true }) == false
 					else {
 						return
 					}

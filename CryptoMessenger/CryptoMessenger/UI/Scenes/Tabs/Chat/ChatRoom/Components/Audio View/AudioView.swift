@@ -70,8 +70,8 @@ struct AudioView: View {
 							}),
 							activateShowCard: $activateShowCard
 						)
+						.padding(.trailing, 8)
 						.frame(height: 1)
-						.frame(width: 177)
 						Text(audioDuration)
 							.font(.regular(12))
 							.foreground(.darkGray())

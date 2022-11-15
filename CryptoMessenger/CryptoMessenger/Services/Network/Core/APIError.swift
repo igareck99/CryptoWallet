@@ -20,7 +20,7 @@ extension APIError: LocalizedError {
 
     // MARK: - Internal Properties
 
-    var errorDescription: String? {
+    var errorDescription: String {
         switch self {
         case .notConnectedToInternet:
             return "Плохое интернет соединение"
@@ -30,6 +30,7 @@ extension APIError: LocalizedError {
             return "Что-то пошло не так"
         case .invalidToken:
             return "Срок жизни токена истек. Обновляем.."
+		default: return "Что-то пошло не так"
         }
     }
 }

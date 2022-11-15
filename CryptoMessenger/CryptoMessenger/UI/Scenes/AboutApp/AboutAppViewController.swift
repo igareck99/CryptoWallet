@@ -1,5 +1,4 @@
 import UIKit
-import WebKit
 
 // MARK: - AboutAppViewController
 
@@ -12,7 +11,6 @@ final class AboutAppViewController: BaseViewController {
     // MARK: - Private Properties
 
     private lazy var customView = AboutAppView(frame: UIScreen.main.bounds)
-    private lazy var webView = WKWebView()
 
     // MARK: - Lifecycle
 
@@ -24,7 +22,7 @@ final class AboutAppViewController: BaseViewController {
         super.viewDidLoad()
         subscribeCustomViewActions()
         addTitleBarButtonItem()
-        //addLeftBarButtonItem()
+        // addLeftBarButtonItem()
     }
 
     override func viewWillAppear(_ animated: Bool) {

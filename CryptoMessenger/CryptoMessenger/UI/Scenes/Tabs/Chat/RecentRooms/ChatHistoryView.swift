@@ -61,6 +61,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
 					actionSheet?.backgroundColor = .white
 					viewModel.eventSubject.send(.onAppear)
 				}
+				showTabBar()
 			}
 			.navigationBarTitleDisplayMode(.inline)
 			.toolbar {

@@ -127,17 +127,14 @@ struct ProfileView: View {
                         vibrate()
                         viewModel.send(.onShow(type))
                     })
-                        .frame(height: UIScreen.main.bounds.height - 90)
-                        .background(
-                            CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                                .fill(Color(.white()))
-                        )
-                        .onAppear {
-                            hideTabBar()
-                        }
-                }
-            )
-    }
+					.frame(height: UIScreen.main.bounds.height - 90)
+					.background(
+						CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
+							.fill(Color(.white()))
+					)
+				}
+			)
+	}
 
     private var content: some View {
         ZStack {

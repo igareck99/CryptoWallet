@@ -153,7 +153,8 @@ struct ChatGroupView: View {
                     TextEditor(text: $chatData.description)
                         .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 132, alignment: .leading)
                         .padding(.horizontal, 16)
-                        .padding(.top, 12)
+                        .padding(.top, 2)
+						.scrollContentBackground(.hidden)
 
                     if chatData.description.isEmpty {
                         Text("Описание")

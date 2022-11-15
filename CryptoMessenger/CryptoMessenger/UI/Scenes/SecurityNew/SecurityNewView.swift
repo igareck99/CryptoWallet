@@ -50,19 +50,23 @@ struct SecurityNewView: View {
                         } else {
                             viewModel.updateIsBiometryOn(item: false)
                         }
-                    }
-                SecurityAdvancedCellView(title: R.string.localizable.securityFalsePasswordTitle(),
-                                         description: R.string.localizable.securityFalsePasswordState(),
-                                         currentState: $viewModel.isFalsePinCodeOn)
-                    .listRowSeparator(.hidden)
-                    .onChange(of: viewModel.isFalsePinCodeOn) { item in
-                        if item {
-                            viewModel.send(.onFalsePassword)
-                        } else {
-                            viewModel.updateIsFalsePinCode(item: false)
-                        }
-                    }
-            }
+					}
+				if viewModel.isFalsePinCodeOnAvailable {
+					SecurityAdvancedCellView(
+						title: R.string.localizable.securityFalsePasswordTitle(),
+						description: R.string.localizable.securityFalsePasswordState(),
+						currentState: $viewModel.isFalsePinCodeOn
+					)
+					.listRowSeparator(.hidden)
+					.onChange(of: viewModel.isFalsePinCodeOn) { item in
+						if item {
+							viewModel.send(.onFalsePassword)
+						} else {
+							viewModel.updateIsFalsePinCode(item: false)
+						}
+					}
+				}
+			}
             Divider()
             Text(R.string.localizable.securityPrivacy())
                 .font(.bold(12))

@@ -98,6 +98,10 @@ final class PinCodeView: UIView {
         biometryActive = isActive
     }
 
+	func setEnterActive(_ isActive: Bool) {
+		enterButton.isHidden = isActive
+	}
+
     func nextPage() {
         styleDotes()
         didAuthSuccess?()

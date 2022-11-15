@@ -139,16 +139,22 @@ struct SelectContactView: View {
                                     .background(.white())
                                     .id(contact.id)
                                     .onTapGesture {
+										if contactsLimit == 1 {
+											vibrate()
+											pickedContacts.removeAll()
+											pickedContacts.append(contact)
+											return
+										}
                                         if let contactsLimit = contactsLimit, pickedContacts.count >= contactsLimit {
                                             return
                                         }
 
-                                        vibrate()
-                                        if pickedContacts.contains(where: { $0.id == contact.id }) {
-                                            pickedContacts.removeAll { $0.id == contact.id }
-                                        } else {
-                                            pickedContacts.append(contact)
-                                        }
+										vibrate()
+										if pickedContacts.contains(where: { $0.id == contact.id }) {
+											pickedContacts.removeAll { $0.id == contact.id }
+										} else {
+											pickedContacts.append(contact)
+										}
                                     }
                             }
                             .padding(.leading, 16)
@@ -157,6 +163,7 @@ struct SelectContactView: View {
                 }
             }.opacity(viewModel.existingContacts.isEmpty ? 0 : 1)
         }
+		.padding(.top, 1)
     }
 
     private func sectionView(_ title: String) -> some View {

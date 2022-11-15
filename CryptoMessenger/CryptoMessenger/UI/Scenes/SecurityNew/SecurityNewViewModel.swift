@@ -15,6 +15,7 @@ final class SecurityNewViewModel: ObservableObject {
     @Published var telephoneState = ""
     @Published var isPinCodeOn = false
     @Published var isFalsePinCodeOn = true
+	@Published var isFalsePinCodeOnAvailable = false
     @Published var isBiometryOn = true
     @Published var dataIsUpdated = false
 

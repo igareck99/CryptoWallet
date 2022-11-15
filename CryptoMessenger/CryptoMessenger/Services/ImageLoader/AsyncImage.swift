@@ -62,7 +62,8 @@ struct AsyncImage<Placeholder: View, ResultmageView: View>: View {
 
     private var progressView: some View {
         ProgressView()
-            .background(.blue(0.1))
+		// Отключил т.к. у лоадера появился фон
+//            .background(.blue(0.1))
             .tint(Color(.blue()))
     }
 
