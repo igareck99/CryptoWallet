@@ -55,7 +55,7 @@ struct PhotoView: View {
 			}
 			.frame(width: 224)
 			.padding([.top, .bottom], 6)
-			.padding(.trailing, 8)
+            .padding(.trailing, isFromCurrentUser ? 8 : 0)
 		}
 		.frame(width: 224)
 		.cornerRadius(16)

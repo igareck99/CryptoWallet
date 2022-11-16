@@ -398,7 +398,11 @@ struct ChatRoomView: View {
 										()
 									}
 									quickAction = $0
-								}
+								},
+                                onReaction: { reaction in
+                                    debugPrint("emotions \(reaction)")
+                                    viewModel.send(.onAddReaction(messageId: message.id, reactionId: reaction))
+                                }
 							).padding(.vertical, 16)
                         }
                     }
