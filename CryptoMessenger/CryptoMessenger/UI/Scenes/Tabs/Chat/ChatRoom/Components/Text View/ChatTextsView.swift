@@ -35,10 +35,6 @@ struct ChatTextsView: View {
 
     var body: some View {
         reactionsView
-            .onAppear {
-                print("sklasklasllsa  \(text)")
-                print("slwqiqwioqwoi  \(isReply)")
-            }
     }
 
     private var reactionsView: some View {

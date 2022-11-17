@@ -70,6 +70,7 @@ struct QuickMenuView: View {
 
     @Binding var cardPosition: CardPosition
     let onAction: GenericBlock<QuickAction>
+    let onReaction: GenericBlock<String>
 
     // MARK: - Private Properties
 
@@ -80,6 +81,12 @@ struct QuickMenuView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            ReactionsSelectView(cardPosition: $cardPosition,
+                                onReaction: onReaction)
+            .padding(.leading, 16)
+            .padding(.trailing, 13)
+            Divider()
+                .padding(.top, 16)
             ForEach(actions, id: \.id) { item in
                 HStack {
                     HStack {
@@ -184,7 +191,6 @@ struct QuickMenuCurrentUserView: View {
     @Binding var cardPosition: CardPosition
     let onAction: GenericBlock<QuickActionCurrentUser>
 	let onReaction: GenericBlock<String>
-    var emotions = ["👍", "👎", "😘", "😢", "😱"]
 
     // MARK: - Private Properties
 
@@ -195,7 +201,10 @@ struct QuickMenuCurrentUserView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            reactionsView
+            ReactionsSelectView(cardPosition: $cardPosition,
+                                onReaction: onReaction)
+            .padding(.leading, 16)
+            .padding(.trailing, 13)
             Divider()
                 .padding(.top, 16)
             ForEach(actions, id: \.id) { item in
@@ -223,39 +232,5 @@ struct QuickMenuCurrentUserView: View {
                 }
             }
         }.id(UUID())
-    }
-
-    private var reactionsView: some View {
-        ScrollView(.horizontal) {
-            HStack(spacing: 11) {
-                ForEach(emotions, id: \.self) { item in
-                    ZStack {
-                        Circle()
-                            .frame(width: 40,
-                                   height: 40)
-                            .foreground(.blue(0.1))
-                        Text(item)
-                            .frame(width: 24,
-                                   height: 33)
-                    }
-					.onTapGesture {
-						vibrate()
-						onReaction(item)
-						cardPosition = .bottom
-					}
-                }
-                ZStack {
-                    Circle()
-                        .frame(width: 40,
-                               height: 40)
-                        .foreground(.blue(0.1))
-                    R.image.chat.reaction.pickEmoji.image
-                        .frame(width: 22,
-                               height: 22)
-                }
-            }
-        }
-        .padding(.leading, 16)
-        .padding(.trailing, 13)
     }
 }
