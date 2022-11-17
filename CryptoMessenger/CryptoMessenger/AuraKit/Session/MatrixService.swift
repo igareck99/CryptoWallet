@@ -222,6 +222,8 @@ extension MatrixService {
 
 		guard !AppConstants.bundleId.aboutApp.isEmpty,
 			  let userId = session?.myUser?.userId else { return }
+        // client?.credentials.userId
+        // проверка что пушер существует
 
 #if DEBUG
 		let pushKeyRelease = pushToken.base64EncodedString()

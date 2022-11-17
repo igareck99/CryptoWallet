@@ -187,10 +187,15 @@ extension ChatComponentsFactory {
 	) -> AnyView {
 		switch message.type {
 		case let .text(text):
-			return AnyView(ChatTextView(
+			return AnyView(ChatTextsView(
 				isFromCurrentUser: message.isCurrentUser,
 				shortDate: message.shortDate,
-				text: text
+				text: text,
+                isReply: message.isReply,
+                reactionItem: makeReactionTextsItems(
+                    message: message,
+                    onEmojiTap: onEmojiTap
+                )
 			))
 		case let .location(location):
 			return AnyView(ChatMapView(

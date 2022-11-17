@@ -618,7 +618,6 @@
 		D4752EC328CA131A006B650A /* JitsiWidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752EC228CA131A006B650A /* JitsiWidgetData.swift */; };
 		D47987CD284CBBAF00ACEE64 /* StatusBarCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */; };
 		D4857CE428A6260400C904EC /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857CE328A6260400C904EC /* ContactView.swift */; };
-		D4857CE928A6276D00C904EC /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857CE828A6276D00C904EC /* ChatTextView.swift */; };
 		D4857CEC28A6289900C904EC /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857CEB28A6289900C904EC /* PhotoView.swift */; };
 		D4857CEF28A62AA100C904EC /* FileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857CEE28A62AA100C904EC /* FileView.swift */; };
 		D4857CF628ACD0EF00C904EC /* AudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857CF528ACD0EF00C904EC /* AudioView.swift */; };
@@ -1750,7 +1749,6 @@
 		D4752EC228CA131A006B650A /* JitsiWidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidgetData.swift; sourceTree = "<group>"; };
 		D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCallView.swift; sourceTree = "<group>"; };
 		D4857CE328A6260400C904EC /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
-		D4857CE828A6276D00C904EC /* ChatTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextView.swift; sourceTree = "<group>"; };
 		D4857CEB28A6289900C904EC /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		D4857CEE28A62AA100C904EC /* FileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileView.swift; sourceTree = "<group>"; };
 		D4857CF528ACD0EF00C904EC /* AudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioView.swift; sourceTree = "<group>"; };
@@ -4791,7 +4789,6 @@
 		D4857CE528A6273900C904EC /* Text View */ = {
 			isa = PBXGroup;
 			children = (
-				D4857CE828A6276D00C904EC /* ChatTextView.swift */,
 				D40D7D7F290BA41400F2A0EF /* ChatTextsView.swift */,
 				D40D7D7D290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift */,
 			);
@@ -7386,7 +7383,6 @@
 				D4EFEBF228E2AF110075CC10 /* MXBase64Tools.m in Sources */,
 				5A44FEDD276681BD006F9D92 /* ProfileFlow.swift in Sources */,
 				D4EFEBBF28E2AF100075CC10 /* MXInvitedRoomSync.m in Sources */,
-				D4857CE928A6276D00C904EC /* ChatTextView.swift in Sources */,
 				D4EFEBEE28E2AF110075CC10 /* MXHTTPClient.m in Sources */,
 				5AABB7832739821D004D6107 /* ChatHistoryViewModel.swift in Sources */,
 				D4857CEF28A62AA100C904EC /* FileView.swift in Sources */,
