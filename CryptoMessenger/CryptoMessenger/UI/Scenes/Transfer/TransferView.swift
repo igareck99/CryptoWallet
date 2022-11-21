@@ -15,8 +15,8 @@ struct TransferView: View {
     @State var value = 0
     @State var coinType = WalletInfo(walletType: .aur,
                                      address: "0xSf13S891 ... 3dfasfAgfj1 ",
-                                     coinAmount: 256.41948,
-                                     fiatAmount: 256.41948)
+                                     coinAmount: "256.41948",
+                                     fiatAmount: "256.41948")
     private var numberFormatter: NumberFormatterProtocol
 
     // MARK: - Lifecycle

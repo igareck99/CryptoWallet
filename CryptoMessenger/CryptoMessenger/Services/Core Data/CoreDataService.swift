@@ -6,12 +6,13 @@ protocol CoreDataServiceProtocol {
 
 	// MARK: - GET
 
-	func getWalletNetwork() -> [WalletNetwork]
+	func getWalletNetworks() -> [WalletNetwork]
 
 	func getWalletNetwork(byId id: UUID) -> WalletNetwork?
 
 	// MARK: - CREATE
 
+	@discardableResult
 	func createWalletNetwork(
 		id: UUID,
 		lastUpdate: String,
@@ -21,9 +22,14 @@ protocol CoreDataServiceProtocol {
 		// Token
 		address: String,
 		contractType: String?,
-		decimals: UInt,
-		symbol: String
+		decimals: Int16,
+		symbol: String,
+		// Other
+		balance: String?
 	) -> WalletNetwork?
+
+	@discardableResult
+	func createWalletNetwork(wallet: WalletNetworkModel) -> WalletNetwork?
 
 	// MARK: - UPDATE
 
@@ -39,8 +45,10 @@ protocol CoreDataServiceProtocol {
 		// Token
 		address: String,
 		contractType: String?,
-		decimals: UInt,
-		symbol: String
+		decimals: Int16,
+		symbol: String,
+		// Other
+		balance: String?
 	) -> WalletNetwork?
 
 	@discardableResult
@@ -54,7 +62,7 @@ protocol CoreDataServiceProtocol {
 }
 
 private extension String {
-	static let containerName = "aura_cryptomessenger"
+	static let containerName = "wallets_networks"
 	static let entityName = "WalletNetwork"
 
 	static let id = "id"
@@ -68,11 +76,14 @@ private extension String {
 	static let contractType = "contractType"
 	static let decimals = "decimals"
 	static let symbol = "symbol"
+
+	// Other
+	static let balance = "balance"
 }
 
 typealias FetchResultClosure = ([WalletNetwork]) -> Void
 
-class CoreDataService: NSObject {
+final class CoreDataService: NSObject {
 
 	static let shared: CoreDataServiceProtocol = CoreDataService()
 
@@ -123,10 +134,10 @@ extension CoreDataService: CoreDataServiceProtocol {
 
 	// MARK: - GET
 
-	func getWalletNetwork() -> [WalletNetwork] {
+	func getWalletNetworks() -> [WalletNetwork] {
 		let context = persistentContainer.viewContext
 		let fetchRequest = NSFetchRequest<WalletNetwork>(entityName: .entityName)
-		fetchRequest.sortDescriptors = [NSSortDescriptor(key: .name, ascending: true)]
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: .id, ascending: true)]
 		do {
 			return try context.fetch(fetchRequest)
 		} catch let err {
@@ -153,6 +164,22 @@ extension CoreDataService: CoreDataServiceProtocol {
 
 	// MARK: - CREATE
 
+	@discardableResult
+	func createWalletNetwork(wallet: WalletNetworkModel) -> WalletNetwork? {
+		createWalletNetwork(
+			id: UUID(),
+			lastUpdate: wallet.lastUpdate,
+			cryptoType: wallet.cryptoType,
+			name: wallet.name,
+			derivePath: wallet.derivePath,
+			address: wallet.token.address,
+			contractType: wallet.token.contractType,
+			decimals: wallet.token.decimals,
+			symbol: wallet.token.symbol,
+			balance: nil
+		)
+	}
+
 	func createWalletNetwork(
 		id: UUID,
 		lastUpdate: String,
@@ -162,8 +189,10 @@ extension CoreDataService: CoreDataServiceProtocol {
 		// Token
 		address: String,
 		contractType: String?,
-		decimals: UInt,
-		symbol: String
+		decimals: Int16,
+		symbol: String,
+		// Other
+		balance: String?
 	) -> WalletNetwork? {
 
 		let context = persistentContainer.viewContext
@@ -171,7 +200,7 @@ extension CoreDataService: CoreDataServiceProtocol {
 			forEntityName: .entityName,
 			into: context
 		)
-		model.setValue(UUID(), forKey: .id)
+		model.setValue(id, forKey: .id)
 		model.setValue(name, forKey: .name)
 		model.setValue(lastUpdate, forKey: .lastUpdate)
 		model.setValue(cryptoType, forKey: .cryptoType)
@@ -181,6 +210,9 @@ extension CoreDataService: CoreDataServiceProtocol {
 		model.setValue(contractType, forKey: .contractType)
 		model.setValue(decimals, forKey: .decimals)
 		model.setValue(symbol, forKey: .symbol)
+
+		// Other
+		model.setValue(balance, forKey: .balance)
 
 		do {
 			try context.save()
@@ -204,7 +236,9 @@ extension CoreDataService: CoreDataServiceProtocol {
 			address: model.address,
 			contractType: model.contractType,
 			decimals: model.decimals,
-			symbol: model.symbol
+			symbol: model.symbol,
+			// Other
+			balance: model.balance
 		)
 	}
 
@@ -218,8 +252,10 @@ extension CoreDataService: CoreDataServiceProtocol {
 		// Token
 		address: String,
 		contractType: String?,
-		decimals: UInt,
-		symbol: String
+		decimals: Int16,
+		symbol: String,
+		// Other
+		balance: String?
 	) -> WalletNetwork? {
 
 		guard let model = getWalletNetwork(byId: id) else { return nil }
@@ -234,6 +270,8 @@ extension CoreDataService: CoreDataServiceProtocol {
 		model.setValue(contractType, forKey: .contractType)
 		model.setValue(decimals, forKey: .decimals)
 		model.setValue(symbol, forKey: .symbol)
+		// Other
+		model.setValue(balance, forKey: .balance)
 		do {
 			try context.save()
 		} catch let err {

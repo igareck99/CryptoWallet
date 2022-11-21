@@ -17,7 +17,7 @@ struct CardNewView: View {
             VStack(alignment: .leading) {
                 wallet.result.image.resizable()
             }
-        case .ethereum:
+        case .ethereum, .bitcoin:
             ZStack {
                 wallet.result.image.resizable()
 
@@ -54,19 +54,19 @@ struct CardNewView: View {
                             Text(wallet.address)
                                 .font(.regular(16))
                                 .foreground(.white())
+								.truncationMode(.middle)
                             Image(uiImage: image ?? UIImage())
-                                .frame(width: 30,
-                                       height: 30)
+                                .frame(width: 30, height: 30)
                         }
                         .padding(.trailing, 16)
                     }
                     .padding(.bottom, 19)
                 }
             }
-        case .bitcoin:
-            VStack(alignment: .leading) {
-                wallet.result.image.resizable()
-            }
+//        case .bitcoin:
+//            VStack(alignment: .leading) {
+//                wallet.result.image.resizable()
+//            }
         }
     }
 }
@@ -90,26 +90,24 @@ struct SlideCardsView: View {
     var body: some View {
         TrackableScrollView(axes: .horizontal, offsetChanged: { offset in
             onOffsetChanged(offset)
-        }, content: {
-            HStack(spacing: spacing) {
-                ForEach(0..<cards.count) { index in
-                    let wallet = cards[index]
-                    CardNewView(wallet: wallet)
-                        .onTapGesture {
-                            switch wallet.walletType {
-                            case .ethereum:
-                                onAddressSend(0, wallet.address)
-                            case .aur:
-                                onAddressSend(1, wallet.address)
-                            default:
-                                break
-                            }
-                        }
-                        .frame(width: 343, height: 193)
-                        .padding(.leading, index == 0 ? 16 : 0)
-                        .padding(.trailing, index == cards.count - 1 ? 16 : 0)
-                }
-            }
-        }).frame(height: 193)
-    }
+		}, content: {
+			HStack(spacing: spacing) {
+				ForEach(cards) { wallet in
+					CardNewView(wallet: wallet)
+						.onTapGesture {
+							switch wallet.walletType {
+							case .ethereum:
+								onAddressSend(0, wallet.address)
+							case .aur:
+								onAddressSend(1, wallet.address)
+							default:
+								break
+							}
+						}
+						.frame(width: 343, height: 193)
+						.padding([.leading, .trailing], 16)
+				}
+			}
+		}).frame(height: 193)
+	}
 }

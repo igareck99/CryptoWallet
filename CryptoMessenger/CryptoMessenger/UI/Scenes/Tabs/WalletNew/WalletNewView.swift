@@ -16,8 +16,8 @@ struct WalletNewView: View {
     @State var selectedAddress = WalletInfo(
         walletType: .ethereum,
         address: "0xty9 ... Bx9M",
-        coinAmount: 1.012,
-        fiatAmount: 33
+        coinAmount: "1.012",
+        fiatAmount: "33"
     )
 
     // MARK: - Body

@@ -74,7 +74,7 @@ final class ImportKeyViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func secretPhraseValidate(toCompare: String) -> Bool {
+     private func secretPhraseValidate(toCompare: String) -> Bool {
         return toCompare == keychainService.secretPhrase
     }
 }
