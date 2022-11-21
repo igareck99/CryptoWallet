@@ -629,6 +629,11 @@
 		D4857D0A28AFAB6600C904EC /* ChatComponentsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857D0928AFAB6600C904EC /* ChatComponentsFactory.swift */; };
 		D4857D0E28AFB38400C904EC /* ChatRoomRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857D0D28AFB38400C904EC /* ChatRoomRowViewModel.swift */; };
 		D4857D2D28B4D2F000C904EC /* ResizableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4857D2C28B4D2F000C904EC /* ResizableTextView.swift */; };
+		D48AF446292601C10044CFAE /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AF445292601C10044CFAE /* CoreDataService.swift */; };
+		D48AF448292601EC0044CFAE /* WalletNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AF447292601EC0044CFAE /* WalletNetwork.swift */; };
+		D48AF44D292605120044CFAE /* WalletNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AF44C292605120044CFAE /* WalletNetworkModel.swift */; };
+		D48AF451292607BF0044CFAE /* WalletNetworkTokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AF450292607BF0044CFAE /* WalletNetworkTokenModel.swift */; };
+		D48AF45429265BB40044CFAE /* WalletNetwork.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D48AF45229265BB40044CFAE /* WalletNetwork.xcdatamodeld */; };
 		D49C89C6290A6AF6005B4F64 /* ReactionTextsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C0290A6AF5005B4F64 /* ReactionTextsItem.swift */; };
 		D49C89C7290A6AF6005B4F64 /* ReactionsGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C1290A6AF5005B4F64 /* ReactionsGroupViewModel.swift */; };
 		D49C89C8290A6AF6005B4F64 /* ViewGeneratable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C2290A6AF5005B4F64 /* ViewGeneratable.swift */; };
@@ -1761,6 +1766,11 @@
 		D4857D0928AFAB6600C904EC /* ChatComponentsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatComponentsFactory.swift; sourceTree = "<group>"; };
 		D4857D0D28AFB38400C904EC /* ChatRoomRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomRowViewModel.swift; sourceTree = "<group>"; };
 		D4857D2C28B4D2F000C904EC /* ResizableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizableTextView.swift; sourceTree = "<group>"; };
+		D48AF445292601C10044CFAE /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		D48AF447292601EC0044CFAE /* WalletNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNetwork.swift; sourceTree = "<group>"; };
+		D48AF44C292605120044CFAE /* WalletNetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNetworkModel.swift; sourceTree = "<group>"; };
+		D48AF450292607BF0044CFAE /* WalletNetworkTokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNetworkTokenModel.swift; sourceTree = "<group>"; };
+		D48AF45329265BB40044CFAE /* WalletNetwork.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalletNetwork.xcdatamodel; sourceTree = "<group>"; };
 		D49C89C0290A6AF5005B4F64 /* ReactionTextsItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionTextsItem.swift; sourceTree = "<group>"; };
 		D49C89C1290A6AF5005B4F64 /* ReactionsGroupViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionsGroupViewModel.swift; sourceTree = "<group>"; };
 		D49C89C2290A6AF5005B4F64 /* ViewGeneratable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewGeneratable.swift; sourceTree = "<group>"; };
@@ -2982,6 +2992,8 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D48AF449292604CF0044CFAE /* Wallet Network Service */,
+				D48AF444292601AF0044CFAE /* Core Data */,
 				8BB463D62901C89A00AFF9AB /* FileManagerService */,
 				D4DF2B2F28F3F42B0057499A /* Biometry Service */,
 				8BBB553928E313E400CE9EF7 /* RemoteDataService */,
@@ -4862,6 +4874,25 @@
 				D4857D2C28B4D2F000C904EC /* ResizableTextView.swift */,
 			);
 			path = "Resizable Text Field";
+			sourceTree = "<group>";
+		};
+		D48AF444292601AF0044CFAE /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				D48AF445292601C10044CFAE /* CoreDataService.swift */,
+				D48AF447292601EC0044CFAE /* WalletNetwork.swift */,
+				D48AF45229265BB40044CFAE /* WalletNetwork.xcdatamodeld */,
+			);
+			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		D48AF449292604CF0044CFAE /* Wallet Network Service */ = {
+			isa = PBXGroup;
+			children = (
+				D48AF44C292605120044CFAE /* WalletNetworkModel.swift */,
+				D48AF450292607BF0044CFAE /* WalletNetworkTokenModel.swift */,
+			);
+			path = "Wallet Network Service";
 			sourceTree = "<group>";
 		};
 		D49C89BF290A6ADF005B4F64 /* Message Reactions  */ = {
@@ -7236,6 +7267,7 @@
 				D4EFEB6828E2AF100075CC10 /* MXCryptoDeviceWrapper.swift in Sources */,
 				5ABAD3A027C286CF0067DFC1 /* SettingsView.swift in Sources */,
 				8B717A8E28AB946F0078833B /* AnotherAppDataView.swift in Sources */,
+				D48AF45429265BB40044CFAE /* WalletNetwork.xcdatamodeld in Sources */,
 				8B964F7228E22A050012DA92 /* FriendProfileMenu.swift in Sources */,
 				D4EFEC5A28E2AF110075CC10 /* MXStoreRoomListDataManager.swift in Sources */,
 				8B4E9C4627E1EDDE0057E4C9 /* FacilityApproveConfigurator.swift in Sources */,
@@ -7276,6 +7308,7 @@
 				D4EFEB3128E2AF100075CC10 /* MXKeyVerificationStatusResolver.m in Sources */,
 				D4EFEC9428E2AF110075CC10 /* MXBeaconInfoSummaryDeletionPerRoomListener.swift in Sources */,
 				8B4810F927CF98BB00831589 /* ImportKeyView.swift in Sources */,
+				D48AF44D292605120044CFAE /* WalletNetworkModel.swift in Sources */,
 				5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */,
 				D4EFEC1728E2AF110075CC10 /* MXPushRuleEventMatchConditionChecker.m in Sources */,
 				D4EFEC5E28E2AF110075CC10 /* MXCoreDataRoomListDataManager.swift in Sources */,
@@ -7434,6 +7467,7 @@
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
 				8B9173B227A342EC0094F625 /* PinCodeCreateFlow.swift in Sources */,
 				7889064127064F8D0093459C /* ProfileNetworkDetailViewController.swift in Sources */,
+				D48AF446292601C10044CFAE /* CoreDataService.swift in Sources */,
 				D4EFEB6728E2AF100075CC10 /* MXDeviceInfoSource.swift in Sources */,
 				D43A7E5C28CB259400A807EC /* Base32.swift in Sources */,
 				D44BDC70280818090080AE8A /* DefaultResponses.swift in Sources */,
@@ -7550,6 +7584,7 @@
 				8B23C77328E0A1CA00418F2D /* FriendProfileProtocols.swift in Sources */,
 				D4EFEB2A28E2AF100075CC10 /* MXKeyVerificationMac.m in Sources */,
 				D4EFEB9328E2AF100075CC10 /* MXRoomCreationParameters.m in Sources */,
+				D48AF448292601EC0044CFAE /* WalletNetwork.swift in Sources */,
 				D4EFEBA728E2AF100075CC10 /* MXTaggedEventInfo.m in Sources */,
 				D40D7D80290BA41400F2A0EF /* ChatTextsView.swift in Sources */,
 				5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */,
@@ -7924,6 +7959,7 @@
 				D4857CFE28AF4AAE00C904EC /* Font+Extensions.swift in Sources */,
 				D4EFEB5728E2AF100075CC10 /* MXUsersDevicesMap.m in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
+				D48AF451292607BF0044CFAE /* WalletNetworkTokenModel.swift in Sources */,
 				D4EFEB1028E2AF100075CC10 /* MXMegolmDecryption.m in Sources */,
 				D4EFEB1328E2AF100075CC10 /* MXMegolmExportEncryption.m in Sources */,
 				D4EFEBFF28E2AF110075CC10 /* RLMSupport.swift in Sources */,
@@ -8460,6 +8496,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
+		D48AF45229265BB40044CFAE /* WalletNetwork.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D48AF45329265BB40044CFAE /* WalletNetwork.xcdatamodel */,
+			);
+			currentVersion = D48AF45329265BB40044CFAE /* WalletNetwork.xcdatamodel */;
+			path = WalletNetwork.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		D4EFEA6728E2AF100075CC10 /* MXCoreDataRoomSummaryStore.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
