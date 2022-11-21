@@ -12,15 +12,15 @@ struct AsyncImage<Placeholder: View, ResultmageView: View>: View {
     @State private var urlReachable = false
     private let url: URL?
     private let placeholder: Placeholder
-    private let result: (UIImage) -> Image
-	private let resultView: ((UIImage) -> ResultmageView)?
+	private let result: (UIImage) -> Image?
+	private let resultView: (UIImage) -> ResultmageView
 
     // MARK: - LifeCycle
 
     init(
         url: URL?,
         @ViewBuilder placeholder: () -> Placeholder,
-        @ViewBuilder result: @escaping (UIImage) -> Image = Image.init(uiImage:),
+		@ViewBuilder result: @escaping (UIImage) -> Image? = { _ in return nil },
 		@ViewBuilder resultView: @escaping (UIImage) -> ResultmageView = { _ in EmptyView().opacity(0) }
     ) {
         self.placeholder = placeholder()
@@ -45,10 +45,10 @@ struct AsyncImage<Placeholder: View, ResultmageView: View>: View {
     private var content: some View {
         Group {
             if let image = loader.image {
-				if let resultView = resultView {
+				if let imgView = result(image) {
+					imgView
+				} else if let resultView = resultView {
 					resultView(image)
-				} else {
-					result(image)
 				}
             } else {
                 if urlReachable {
