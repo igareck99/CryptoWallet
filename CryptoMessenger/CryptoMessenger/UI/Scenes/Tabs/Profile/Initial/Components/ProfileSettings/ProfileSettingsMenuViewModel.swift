@@ -13,9 +13,18 @@ final class ProfileSettingsMenuViewModel: ObservableObject {
     let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase
 
     // MARK: - Lifecycle
-    
+
     init() {
         self.isPhraseAvailable = remoteConfigUseCase.isPhraseV1Available
     }
 
+	func settingsTypes() -> [ProfileSettingsMenu] {
+
+		let types = ProfileSettingsMenu.allCases.filter {
+			if $0 == .wallet && !isPhraseAvailable { return false }
+			if $0 == .personalization || $0 == .storage || $0 == .chat { return false }
+			return true
+		}
+		return types
+	}
 }

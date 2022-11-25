@@ -59,6 +59,7 @@ extension PinCodePresenter: PinCodePresentation {
         let isBiometryOn = userSettings.isBiometryOn
         view?.setPinCode(pinCode)
         view?.setBiometryActive(isBiometryOn)
+		view?.shouldHideCantEnter(isHiddedn: pinCode.isEmpty)
 
 		if isBiometryOn, localAuth.checkIfBioMetricAvailable() {
 			let reason = localAuth.biometryAppEnterReasonText()

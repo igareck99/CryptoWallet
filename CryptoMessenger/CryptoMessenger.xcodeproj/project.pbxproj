@@ -634,6 +634,7 @@
 		D48AF44D292605120044CFAE /* WalletNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AF44C292605120044CFAE /* WalletNetworkModel.swift */; };
 		D48AF451292607BF0044CFAE /* WalletNetworkTokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AF450292607BF0044CFAE /* WalletNetworkTokenModel.swift */; };
 		D48AF45429265BB40044CFAE /* WalletNetwork.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D48AF45229265BB40044CFAE /* WalletNetwork.xcdatamodeld */; };
+		D491820029233FA7009F8C33 /* UINavigationController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49181FF29233FA7009F8C33 /* UINavigationController+Extensions.swift */; };
 		D49C89C6290A6AF6005B4F64 /* ReactionTextsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C0290A6AF5005B4F64 /* ReactionTextsItem.swift */; };
 		D49C89C7290A6AF6005B4F64 /* ReactionsGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C1290A6AF5005B4F64 /* ReactionsGroupViewModel.swift */; };
 		D49C89C8290A6AF6005B4F64 /* ViewGeneratable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C2290A6AF5005B4F64 /* ViewGeneratable.swift */; };
@@ -1771,6 +1772,7 @@
 		D48AF44C292605120044CFAE /* WalletNetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNetworkModel.swift; sourceTree = "<group>"; };
 		D48AF450292607BF0044CFAE /* WalletNetworkTokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNetworkTokenModel.swift; sourceTree = "<group>"; };
 		D48AF45329265BB40044CFAE /* WalletNetwork.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalletNetwork.xcdatamodel; sourceTree = "<group>"; };
+		D49181FF29233FA7009F8C33 /* UINavigationController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extensions.swift"; sourceTree = "<group>"; };
 		D49C89C0290A6AF5005B4F64 /* ReactionTextsItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionTextsItem.swift; sourceTree = "<group>"; };
 		D49C89C1290A6AF5005B4F64 /* ReactionsGroupViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionsGroupViewModel.swift; sourceTree = "<group>"; };
 		D49C89C2290A6AF5005B4F64 /* ViewGeneratable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewGeneratable.swift; sourceTree = "<group>"; };
@@ -2952,6 +2954,7 @@
 				D4442B4F2815E03D0033D07A /* NotificationCenter+NotificationNames.swift */,
 				D4FA3F73281A7374000246D8 /* TimeInterval+Extensions.swift */,
 				D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */,
+				D49181FF29233FA7009F8C33 /* UINavigationController+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -7375,6 +7378,7 @@
 				8BE6673F280F4ACD00D41A3C /* iPhoneNumberField.swift in Sources */,
 				D4EFEC7628E2AF110075CC10 /* NSManagedObject+MatrixSDK.swift in Sources */,
 				8B5D83F3283B7DFF0035815B /* ContactInfoResources.swift in Sources */,
+				D491820029233FA7009F8C33 /* UINavigationController+Extensions.swift in Sources */,
 				5A187EA32680708D001957D3 /* CollectionViewProvider.swift in Sources */,
 				5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */,
 				8B8B9C2127F330040061F5E6 /* SocialListConfigurator.swift in Sources */,

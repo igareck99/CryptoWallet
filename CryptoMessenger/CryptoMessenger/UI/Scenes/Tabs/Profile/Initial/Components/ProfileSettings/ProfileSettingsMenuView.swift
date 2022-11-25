@@ -37,7 +37,7 @@ struct ProfileSettingsMenuView: View {
                 .padding(.top, 16)
 
             List {
-                ForEach(ProfileSettingsMenu.allCases, id: \.self) { type in
+				ForEach(viewModel.settingsTypes(), id: \.self) { type in
                     if type == .questions {
                         Divider()
                             .listRowInsets(.init())

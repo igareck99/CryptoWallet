@@ -9,6 +9,8 @@ struct SettingsView: View {
     @StateObject var viewModel: SettingsViewModel
     @Binding var chatData: ChatData
     @Binding var saveData: Bool
+	@State var descriptionText: String
+	@State var titleText: String
 
     // MARK: - Private Properties
 
@@ -29,6 +31,8 @@ struct SettingsView: View {
         self._chatData = chatData
         self._saveData = saveData
         self._viewModel = StateObject(wrappedValue: viewModel)
+		_descriptionText = State(initialValue: chatData.wrappedValue.description)
+		_titleText = State(initialValue: chatData.wrappedValue.title)
         UITextView.appearance().background(.paleBlue())
     }
 
@@ -58,6 +62,8 @@ struct SettingsView: View {
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
+						chatData.title = titleText
+						chatData.description = descriptionText
                         saveData.toggle()
                         presentationMode.wrappedValue.dismiss()
                     }, label: {
@@ -177,12 +183,12 @@ struct SettingsView: View {
 
     private var titleView: some View {
         ZStack {
-            TextField("", text: $chatData.title)
+            TextField("", text: $titleText)
                 .frame(height: 44)
                 .background(.paleBlue())
                 .padding(.horizontal, 16)
 
-            if chatData.title.isEmpty {
+            if titleText.isEmpty {
                 HStack(spacing: 0) {
                     Text("Название")
                         .foreground(.darkGray())
@@ -211,11 +217,12 @@ struct SettingsView: View {
             .padding(.bottom, 8)
 
             ZStack(alignment: .topLeading) {
-                TextEditor(text: $chatData.description)
+                TextEditor(text: $descriptionText)
                     .padding(.horizontal, 14)
                     .padding(.top, 6)
+					.scrollContentBackground(.hidden)
 
-                if chatData.description.isEmpty {
+                if descriptionText.isEmpty {
                     HStack(spacing: 0) {
                         Text("Описание")
                             .foreground(.darkGray())

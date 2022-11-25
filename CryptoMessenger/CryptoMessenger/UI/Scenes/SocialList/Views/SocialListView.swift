@@ -36,7 +36,7 @@ struct SocialListView: View {
                             return NSItemProvider(object: NSString())
                         }
                 }
-                .onMove(perform: {_, _  in })
+                .onMove(perform: { _, _  in })
                 .listRowBackground(Color(.blue(0.1)))
                 Spacer().listRowSeparator(.hidden)
             }
@@ -48,6 +48,7 @@ struct SocialListView: View {
 			viewModel.saveSocialData()
 		})
         .listStyle(.plain)
+		.navigationBarHidden(false)
         .toolbar {
             ToolbarItem(placement: .principal) {
 				Text(viewModel.resources.detailTitle)

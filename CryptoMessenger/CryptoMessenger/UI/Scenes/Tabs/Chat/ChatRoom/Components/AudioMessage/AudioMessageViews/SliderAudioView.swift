@@ -32,6 +32,7 @@ struct SliderAudioView: UIViewRepresentable {
 
         // MARK: - Actions
 
+		@MainActor
         @objc func onSliderValChanged(_ sender: UISlider,
                                       _ event: UIEvent) {
             if let touchEvent = event.allTouches?.first {
@@ -74,6 +75,7 @@ struct SliderAudioView: UIViewRepresentable {
         return slider
     }
 
+	@MainActor
     func updateUIView(_ uiView: UISlider, context: Context) {
         uiView.value = Float(value)
     }

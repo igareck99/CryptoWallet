@@ -59,6 +59,7 @@ struct FeedImageViewerView: View {
     @Binding var showImageViewer: Bool
     @State var showDeleteAlert = false
     @State var showShareView = false
+	@State var isShownTools = true
 
     // MARK: - Lifecycle
 
@@ -75,12 +76,12 @@ struct FeedImageViewerView: View {
     // MARK: - Body
 
     var body: some View {
-        ZStack {
+		ZStack(alignment: .center) {
             Color(.darkBlack())
                 .opacity(viewModel.bgOpacity)
                 .ignoresSafeArea()
 
-            ScrollView(.init()) {
+//            ScrollView {
                 AsyncImage(
                     url: selectedPhoto,
                     placeholder: { ShimmerView()
@@ -110,17 +111,17 @@ struct FeedImageViewerView: View {
                             }
                         })
                 )
-            }
-            .ignoresSafeArea()
-            .transition(.scale.combined(with: .opacity))
+//            }
+//            .ignoresSafeArea()
+//            .transition(.scale.combined(with: .opacity))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .overlay(
-            VStack {
-                HStack {
+			VStack(alignment: .center) {
+                HStack(alignment: .center) {
                     R.image.photoEditor.backButton.image
-                        .frame(width: 24,
-                               height: 24)
+						.padding(.bottom, 8)
+                        .frame(width: 24, height: 24)
                         .onTapGesture {
                             withAnimation(.default) {
                                 selectedPhoto = nil
@@ -130,26 +131,34 @@ struct FeedImageViewerView: View {
                     Spacer()
                     Text(R.string.localizable.photoEditorTitle())
                         .foregroundColor(Color.white)
+						.padding(.bottom, 8)
                     Spacer()
                     R.image.photoEditor.dotes.image
+						.padding(.bottom, 8)
+						.opacity(0)
                 }
                 .padding(.top, UIScreen.main.bounds.height / 22)
                 .padding(.horizontal, 16)
+				.background(Color.black)
+				.opacity(isShownTools ? 1 : 0)
                 Spacer()
-                HStack {
+				HStack(alignment: .center) {
                     R.image.photoEditor.share.image
+						.padding(.top, 8)
                         .onTapGesture {
                             showShareView = true
                         }
                     Spacer()
-                    Spacer()
                     R.image.photoEditor.brush.image
+						.padding(.top, 8)
                         .onTapGesture {
                             showDeleteAlert = true
                         }
                 }
                 .padding(.bottom, UIScreen.main.bounds.height / 21)
                 .padding(.horizontal, 16)
+				.background(Color.black)
+				.opacity(isShownTools ? 1 : 0)
             }
         )
         .sheet(isPresented: $showShareView, content: {
@@ -170,6 +179,9 @@ struct FeedImageViewerView: View {
                          primaryButton: primaryButton,
                          secondaryButton: secondaryButton)
         })
+		.onTapGesture {
+			isShownTools.toggle()
+		}
         .gesture(
             DragGesture().updating($draggingOffset) { value, outValue, _ in
                 outValue = value.translation
