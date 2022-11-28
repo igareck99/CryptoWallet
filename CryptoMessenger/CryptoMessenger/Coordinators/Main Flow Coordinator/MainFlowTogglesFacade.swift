@@ -5,6 +5,7 @@ import Foundation
 protocol MainFlowTogglesFacadeProtocol {
     var isWalletAvailable: Bool { get }
     var isTransactionAvailable: Bool { get }
+    var isPrivacyAvailable: Bool { get }
 }
 
 // MARK: - MainFlowTogglesFacade
@@ -56,5 +57,9 @@ extension MainFlowTogglesFacade: MainFlowTogglesFacadeProtocol {
             return false
         }
 		return remoteConfigUseCase.isTransactionV1Available
+    }
+
+    var isPrivacyAvailable: Bool {
+        remoteConfigUseCase.isPrivacyV1Available
     }
 }

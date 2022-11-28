@@ -1,13 +1,15 @@
 import Combine
 import Foundation
 
-final class SecurityNewViewModel: ObservableObject {
+// MARK: - SecurityViewModel
+
+final class SecurityViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: SecurityNewSceneDelegate?
+    weak var delegate: SecuritySceneDelegate?
 
-    @Published private(set) var state: SecurityNewFlow.ViewState = .idle
+    @Published private(set) var state: SecurityFlow.ViewState = .idle
     @Published var profileObserveState = ""
     @Published var lastSeenState = ""
     @Published var callsState = ""
@@ -18,25 +20,30 @@ final class SecurityNewViewModel: ObservableObject {
 	@Published var isFalsePinCodeOnAvailable = false
     @Published var isBiometryOn = true
     @Published var dataIsUpdated = false
-
 	@Published var showBiometryErrorAlert = false
+    @Published var isPrivacyAvailable = false
+    var togglesFacade: MainFlowTogglesFacadeProtocol
+    let userSettings: UserFlowsStorage & UserCredentialsStorage
+    let keychainService: KeychainServiceProtocol
+
+    // MARK: - Private Properties
 
     private(set) var localAuth = LocalAuthentication()
-    private let eventSubject = PassthroughSubject<SecurityNewFlow.Event, Never>()
-    private let stateValueSubject = CurrentValueSubject<SecurityNewFlow.ViewState, Never>(.idle)
+    private let eventSubject = PassthroughSubject<SecurityFlow.Event, Never>()
+    private let stateValueSubject = CurrentValueSubject<SecurityFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-    let userSettings: UserFlowsStorage & UserCredentialsStorage
-	let keychainService: KeychainServiceProtocol
 	private let biometryService: BiometryServiceProtocol
 
     // MARK: - Lifecycle
 
     init(
-		userSettings: UserFlowsStorage & UserCredentialsStorage,
-		keychainService: KeychainServiceProtocol = KeychainService.shared,
-		biometryService: BiometryServiceProtocol = BiometryService()
-	) {
-		self.userSettings = userSettings
+        userSettings: UserFlowsStorage & UserCredentialsStorage,
+        togglesFacade: MainFlowTogglesFacadeProtocol,
+        keychainService: KeychainServiceProtocol = KeychainService.shared,
+        biometryService: BiometryServiceProtocol = BiometryService()
+    ) {
+        self.userSettings = userSettings
+        self.togglesFacade = togglesFacade
 		self.keychainService = keychainService
 		self.biometryService = biometryService
         bindInput()
@@ -49,7 +56,6 @@ final class SecurityNewViewModel: ObservableObject {
     }
 
 	func authenticate() {
-
 		biometryService.authenticateByBiometry(
 			reason: localAuth.biometryEnableReasonText()
 		) { [weak self] result in
@@ -95,7 +101,7 @@ final class SecurityNewViewModel: ObservableObject {
 		send(.onCreatePassword)
 	}
 
-    func send(_ event: SecurityNewFlow.Event) {
+    func send(_ event: SecurityFlow.Event) {
         eventSubject.send(event)
     }
 
@@ -169,6 +175,7 @@ final class SecurityNewViewModel: ObservableObject {
     private func updateData() {
 		isPinCodeOn = (keychainService.isPinCodeEnabled == true)
         isFalsePinCodeOn = userSettings.isFalsePinCodeOn
+        isPrivacyAvailable = togglesFacade.isPrivacyAvailable
         isBiometryOn = userSettings.isBiometryOn
         profileObserveState = userSettings.profileObserveState ?? ""
         lastSeenState = userSettings.lastSeenState ?? ""

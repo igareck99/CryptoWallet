@@ -1,12 +1,12 @@
 import SwiftUI
 
-// MARK: - SecurityNewView
+// MARK: - SecurityView
 
-struct SecurityNewView: View {
+struct SecurityView: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel: SecurityNewViewModel
+    @StateObject var viewModel: SecurityViewModel
     @StateObject var blockListViewModel = BlockListViewModel()
 
     // MARK: - Private Properties
@@ -67,67 +67,69 @@ struct SecurityNewView: View {
 					}
 				}
 			}
-            Divider()
-            Text(R.string.localizable.securityPrivacy())
-                .font(.bold(12))
-                .foreground(.darkGray())
-                .listRowSeparator(.hidden)
-            ForEach(SecurityCellItem.allCases, id: \.self) { type in
-                switch type {
-                case .blackList:
-                    SecurityCellView(title: R.string.localizable.securityBlackListTitle(),
-                                     font: .blue(),
-                                     currentState: String(blockListViewModel.listData.count))
+            if viewModel.isPrivacyAvailable {
+                Divider()
+                Text(R.string.localizable.securityPrivacy())
+                    .font(.bold(12))
+                    .foreground(.darkGray())
+                    .listRowSeparator(.hidden)
+                ForEach(SecurityCellItem.allCases, id: \.self) { type in
+                    switch type {
+                    case .blackList:
+                        SecurityCellView(title: R.string.localizable.securityBlackListTitle(),
+                                         font: .blue(),
+                                         currentState: String(blockListViewModel.listData.count))
                         .background(.white())
                         .listRowSeparator(.hidden)
                         .onTapGesture { viewModel.send(.onBlockList) }
-                case .profileObserve:
-                    SecurityCellView(title: type.result.title,
-                                     currentState: viewModel.profileObserveState)
+                    case .profileObserve:
+                        SecurityCellView(title: type.result.title,
+                                         currentState: viewModel.profileObserveState)
                         .background(.white())
-                    .listRowSeparator(.hidden)
-                    .onTapGesture {
-                        showProfileObserveSheet = true
-                    }
-                case .lastSeen:
-                    SecurityCellView(title: type.result.title,
-                                     currentState: viewModel.lastSeenState)
+                        .listRowSeparator(.hidden)
+                        .onTapGesture {
+                            showProfileObserveSheet = true
+                        }
+                    case .lastSeen:
+                        SecurityCellView(title: type.result.title,
+                                         currentState: viewModel.lastSeenState)
                         .background(.white())
-                    .listRowSeparator(.hidden)
-                    .onTapGesture {
-                        showLastSeenSheet = true
-                    }
-                case .calls:
-                    SecurityCellView(title: type.result.title,
-                                     currentState: viewModel.callsState)
+                        .listRowSeparator(.hidden)
+                        .onTapGesture {
+                            showLastSeenSheet = true
+                        }
+                    case .calls:
+                        SecurityCellView(title: type.result.title,
+                                         currentState: viewModel.callsState)
                         .background(.white())
-                    .listRowSeparator(.hidden)
-                    .onTapGesture {
-                        showCallsSheet = true
-                    }
-                case .geoposition:
-                    SecurityCellView(title: type.result.title,
-                                     currentState: viewModel.geopositionState)
+                        .listRowSeparator(.hidden)
+                        .onTapGesture {
+                            showCallsSheet = true
+                        }
+                    case .geoposition:
+                        SecurityCellView(title: type.result.title,
+                                         currentState: viewModel.geopositionState)
                         .background(.white())
-                    .listRowSeparator(.hidden)
-                    .onTapGesture {
-                        showGeopositionSheet = true
-                    }
-                case .telephone:
-                    SecurityCellView(title: type.result.title,
-                                     currentState: viewModel.telephoneState)
+                        .listRowSeparator(.hidden)
+                        .onTapGesture {
+                            showGeopositionSheet = true
+                        }
+                    case .telephone:
+                        SecurityCellView(title: type.result.title,
+                                         currentState: viewModel.telephoneState)
                         .background(.white())
-                    .listRowSeparator(.hidden)
-                    .onTapGesture {
-                        showTelephoneActionSheet = true
-                    }
-                case .session:
-                    SecurityCellView(title: type.result.title,
-                                     currentState: type.result.state)
+                        .listRowSeparator(.hidden)
+                        .onTapGesture {
+                            showTelephoneActionSheet = true
+                        }
+                    case .session:
+                        SecurityCellView(title: type.result.title,
+                                         currentState: type.result.state)
                         .background(.white())
-                    .listRowSeparator(.hidden)
-                    .onTapGesture {
-                        viewModel.send(.onSession)
+                        .listRowSeparator(.hidden)
+                        .onTapGesture {
+                            viewModel.send(.onSession)
+                        }
                     }
                 }
             }

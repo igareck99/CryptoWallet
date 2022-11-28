@@ -411,8 +411,8 @@
 		8B69C3F527FE398B0020F289 /* ImageEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B69C3F427FE398B0020F289 /* ImageEditor.swift */; };
 		8B6BEE7F275665D4003A24B6 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6BEE7E275665D4003A24B6 /* ProfileView.swift */; };
 		8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */; };
-		8B6C18BE2799A5E200B85F2A /* SecurityNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BD2799A5E100B85F2A /* SecurityNewView.swift */; };
-		8B6C18C02799A60D00B85F2A /* SecurityNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BF2799A60D00B85F2A /* SecurityNewViewModel.swift */; };
+		8B6C18BE2799A5E200B85F2A /* SecurityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BD2799A5E100B85F2A /* SecurityView.swift */; };
+		8B6C18C02799A60D00B85F2A /* SecurityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BF2799A60D00B85F2A /* SecurityViewModel.swift */; };
 		8B6C18C22799A87000B85F2A /* SecurityNewConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18C12799A87000B85F2A /* SecurityNewConfigurator.swift */; };
 		8B6C18C42799A88E00B85F2A /* SecurityNewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18C32799A88E00B85F2A /* SecurityNewProtocols.swift */; };
 		8B6C18C6279ABB1200B85F2A /* SecurityNewFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18C5279ABB1100B85F2A /* SecurityNewFlow.swift */; };
@@ -1552,8 +1552,8 @@
 		8B69C3F427FE398B0020F289 /* ImageEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditor.swift; sourceTree = "<group>"; };
 		8B6BEE7E275665D4003A24B6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
-		8B6C18BD2799A5E100B85F2A /* SecurityNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityNewView.swift; sourceTree = "<group>"; };
-		8B6C18BF2799A60D00B85F2A /* SecurityNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityNewViewModel.swift; sourceTree = "<group>"; };
+		8B6C18BD2799A5E100B85F2A /* SecurityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityView.swift; sourceTree = "<group>"; };
+		8B6C18BF2799A60D00B85F2A /* SecurityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewModel.swift; sourceTree = "<group>"; };
 		8B6C18C12799A87000B85F2A /* SecurityNewConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityNewConfigurator.swift; sourceTree = "<group>"; };
 		8B6C18C32799A88E00B85F2A /* SecurityNewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityNewProtocols.swift; sourceTree = "<group>"; };
 		8B6C18C5279ABB1100B85F2A /* SecurityNewFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityNewFlow.swift; sourceTree = "<group>"; };
@@ -4167,8 +4167,8 @@
 			isa = PBXGroup;
 			children = (
 				8B6E5552279F0E2E002054CF /* PinCodeCreate */,
-				8B6C18BD2799A5E100B85F2A /* SecurityNewView.swift */,
-				8B6C18BF2799A60D00B85F2A /* SecurityNewViewModel.swift */,
+				8B6C18BD2799A5E100B85F2A /* SecurityView.swift */,
+				8B6C18BF2799A60D00B85F2A /* SecurityViewModel.swift */,
 				8B6C18C12799A87000B85F2A /* SecurityNewConfigurator.swift */,
 				8B6C18C32799A88E00B85F2A /* SecurityNewProtocols.swift */,
 				8B6C18C5279ABB1100B85F2A /* SecurityNewFlow.swift */,
@@ -7238,7 +7238,7 @@
 				D4EFEAF128E2AF100075CC10 /* MXCrypto.m in Sources */,
 				D49C89C6290A6AF6005B4F64 /* ReactionTextsItem.swift in Sources */,
 				8BBCBCD428F749DF00E42F0C /* VideoRow.swift in Sources */,
-				8B6C18C02799A60D00B85F2A /* SecurityNewViewModel.swift in Sources */,
+				8B6C18C02799A60D00B85F2A /* SecurityViewModel.swift in Sources */,
 				D4EFEBFD28E2AF110075CC10 /* RLMRealm+MatrixSDK.m in Sources */,
 				D4EFEC3028E2AF110075CC10 /* MXSpaceCreationParameters.swift in Sources */,
 				8BB2F8F028B6660A0034D902 /* TextFieldView.swift in Sources */,
@@ -7453,7 +7453,7 @@
 				D4EFEAED28E2AF100075CC10 /* MX3PidAddManager.m in Sources */,
 				D49C89CB290A6AF6005B4F64 /* ReactionTextItem.swift in Sources */,
 				D4E8785F28CE02EA00063762 /* GroupCallsViewModel.swift in Sources */,
-				8B6C18BE2799A5E200B85F2A /* SecurityNewView.swift in Sources */,
+				8B6C18BE2799A5E200B85F2A /* SecurityView.swift in Sources */,
 				D4857CF628ACD0EF00C904EC /* AudioView.swift in Sources */,
 				8B274360281AE75A00B5957C /* RemoteConfigFactory.swift in Sources */,
 				D4EFEBBA28E2AF100075CC10 /* MXGroupsSyncResponse.m in Sources */,

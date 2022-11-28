@@ -52,6 +52,10 @@ protocol RemoteConfigToggles {
 	// Tech toggles
 
 	var isRoomsTimerAvailable: Bool { get }
+    
+    // SecurityToggles
+    
+    var isPrivacyV1Available: Bool { get }
 
 }
 
@@ -259,16 +263,24 @@ extension RemoteConfigUseCase: RemoteConfigToggles {
                                   feature: RemoteConfigValues.ChatMessage.files.rawValue,
                                   version: RemoteConfigValues.Version.v1_0)
     }
-    
+
     var isVideoMessageAvailable: Bool {
         return isFeatureAvailable(module: .chatMessage,
                                   feature: RemoteConfigValues.ChatMessage.videoMessage.rawValue,
                                   version: RemoteConfigValues.Version.v1_0)
     }
-    
+
     var isReactionsAvailable: Bool {
         return isFeatureAvailable(module: .chatMessageActions,
                                   feature: RemoteConfigValues.ChatMessageActions.reactions.rawValue,
+                                  version: RemoteConfigValues.Version.v1_0)
+    }
+
+    // SecurityToggles
+
+    var isPrivacyV1Available: Bool {
+        return isFeatureAvailable(module: .security,
+                                  feature: RemoteConfigValues.Security.privacy.rawValue,
                                   version: RemoteConfigValues.Version.v1_0)
     }
 
