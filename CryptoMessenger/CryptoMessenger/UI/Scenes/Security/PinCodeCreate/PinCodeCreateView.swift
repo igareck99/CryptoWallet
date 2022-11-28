@@ -54,7 +54,9 @@ struct PinCodeCreateView: View {
                 ForEach(firstStack, id: \.self) { item in
                     KeyboardButtonView(button: item)
                         .onTapGesture {
-                            viewModel.keyboardAction(item: item)
+                            if !viewModel.finishScreen {
+                                viewModel.keyboardAction(item: item)
+                            }
                         }
                 }
                 }
@@ -62,7 +64,9 @@ struct PinCodeCreateView: View {
                 ForEach(secondStack, id: \.self) { item in
                     KeyboardButtonView(button: item)
                         .onTapGesture {
-                            viewModel.keyboardAction(item: item)
+                            if !viewModel.finishScreen {
+                                viewModel.keyboardAction(item: item)
+                            }
                         }
                 }
             }
@@ -70,7 +74,9 @@ struct PinCodeCreateView: View {
                     ForEach(thirdStack, id: \.self) { item in
                         KeyboardButtonView(button: item)
                             .onTapGesture {
-                                viewModel.keyboardAction(item: item)
+                                if !viewModel.finishScreen {
+                                    viewModel.keyboardAction(item: item)
+                                }
                             }
                     }
                 }
@@ -78,7 +84,9 @@ struct PinCodeCreateView: View {
                     ForEach(fourthStack, id: \.self) { item in
                         KeyboardButtonView(button: item)
                             .onTapGesture {
-                                viewModel.keyboardAction(item: item)
+                                if !viewModel.finishScreen {
+                                    viewModel.keyboardAction(item: item)
+                                }
                             }
                     }
                     }
@@ -92,7 +100,7 @@ struct PinCodeCreateView: View {
         }
         .onChange(of: viewModel.finishScreen, perform: { value in
             if value {
-                delay(1) {
+                delay(0.85) {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
@@ -127,70 +135,6 @@ struct PinCodeCreateView: View {
                 }
                 .modifier(ShakeAnimation(animatableData: CGFloat(dotesAnimation)))
             }
-        }
-    }
-}
-
-// MARK: - KeyboardButtonView
-
-struct KeyboardButtonView: View {
-
-    // MARK: - Internal Properties
-
-    var button: KeyboardButtonType
-
-    // MARK: - Body
-
-    var body: some View {
-        switch button {
-        case .delete:
-            Image(uiImage: R.image.pinCode.delete() ?? UIImage())
-        case let .number(value):
-            ZStack {
-                Circle()
-                    .fill(Color(.blue(0.1)))
-                    .frame(width: 67, height: 67)
-                Text(String(value))
-                    .font(.regular(24))
-            }
-        default:
-            Circle()
-                .fill(Color(.clear))
-                .frame(width: 67, height: 67)
-        }
-    }
-}
-
-// MARK: - KeyboardButtonType
-
-enum KeyboardButtonType: Hashable {
-
-    // MARK: - Types
-
-    case number(Int)
-    case delete
-    case empty
-}
-
-// MARK: - PinCodeScreenType
-
-enum PinCodeScreenType: Hashable {
-
-    case pinCodeCreate
-    case falsePinCode
-    case approvePinCode
-
-    var result: (title: String, description: String) {
-        switch self {
-        case .pinCodeCreate:
-            return (R.string.localizable.pinCodeEnterPassword(),
-                    R.string.localizable.pinCodeCreateText())
-        case .falsePinCode:
-            return (R.string.localizable.pinCodeFalseTitle(),
-                    R.string.localizable.pinCodeFalseText())
-        case .approvePinCode:
-            return (R.string.localizable.pinCodeEnterPassword(),
-                    "")
         }
     }
 }
