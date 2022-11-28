@@ -19,6 +19,12 @@ final class KeychainService {
 		case isPinCodeEnabled
 		case apiUserMatrixId
 		case apiIsUserAuthenticated
+
+		// Wallets
+		case ethereumPrivateKey
+		case ethereumPublicKey
+		case bitcoinPrivateKey
+		case bitcoinPublicKey
 	}
 
 	private enum Constants {
