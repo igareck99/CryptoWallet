@@ -1,16 +1,17 @@
 import Foundation
 
-// MARK: - SecurityNewConfigurator
+// MARK: - SecurityConfigurator
 
-enum SecurityNewConfigurator {
+enum SecurityConfigurator {
 
     // MARK: - Static Methods
 
-    static func configuredView(delegate: SecurityNewSceneDelegate?) -> SecurityNewView {
+    static func configuredView(delegate: SecuritySceneDelegate?,
+                               togglesFacade: MainFlowTogglesFacadeProtocol) -> SecurityView {
 		let userSettings = UserDefaultsService.shared
-        let viewModel = SecurityNewViewModel(userSettings: userSettings)
+        let viewModel = SecurityViewModel(userSettings: userSettings, togglesFacade: togglesFacade)
         viewModel.delegate = delegate
-        let view = SecurityNewView(viewModel: viewModel)
+        let view = SecurityView(viewModel: viewModel)
         return view
     }
 }

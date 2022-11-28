@@ -12,6 +12,7 @@ enum RemoteConfigValues: String {
     case chatMessage = "ChatMessage"
     case chatMessageActions = "ChatMessageActions"
 	case techToggles = "TechToggles"
+    case security = "Security"
 
 	// Настройки модуля Чаты
 	enum Chat: String {
@@ -44,9 +45,9 @@ enum RemoteConfigValues: String {
         case chatGroupMenu
         case chatDirectMenu
     }
-    
+
     // Настройки Действий с сообщением
-    
+
     enum ChatMessageActions: String {
         case reactions
     }
@@ -59,10 +60,16 @@ enum RemoteConfigValues: String {
     }
 
 	// Технические рубильники
-	
+
 	enum TechToggles: String {
 		case chatListTimer // Таймер опроса матрикс комнат
 	}
+
+    // Экран Безопасность
+
+    enum Security: String {
+        case privacy
+    }
 
 	// Версии фичей/модулей
 	enum Version: String {

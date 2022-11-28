@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - SecurityNewFlow
+// MARK: - SecurityFlow
 
-enum SecurityNewFlow {
+enum SecurityFlow {
 
     // MARK: - ViewState
 

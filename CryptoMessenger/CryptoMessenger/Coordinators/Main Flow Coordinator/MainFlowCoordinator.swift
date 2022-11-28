@@ -312,7 +312,7 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
     private func showSecurityScene() {
-        let rootView = SecurityNewConfigurator.configuredView(delegate: self)
+        let rootView = SecurityConfigurator.configuredView(delegate: self, togglesFacade: togglesFacade )
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -464,9 +464,9 @@ extension MainFlowCoordinator: ProfileSceneDelegate {}
 
 extension MainFlowCoordinator: PersonalizationSceneDelegate {}
 
-// MARK: - MainFlowCoordinator (SecurityNewSceneDelegate)
+// MARK: - MainFlowCoordinator (SecuritySceneDelegate)
 
-extension MainFlowCoordinator: SecurityNewSceneDelegate {}
+extension MainFlowCoordinator: SecuritySceneDelegate {}
 
 // MARK: - MainFlowCoordinator (BlockedListSceneDelegate)
 

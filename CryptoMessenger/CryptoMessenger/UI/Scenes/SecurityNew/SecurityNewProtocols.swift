@@ -1,7 +1,7 @@
 import Foundation
 
-// MARK: - SecurityNewSceneDelegate
+// MARK: - SecuritySceneDelegate
 
-protocol SecurityNewSceneDelegate: AnyObject {
+protocol SecuritySceneDelegate: AnyObject {
     func handleNextScene(_ scene: MainFlowCoordinator.Scene)
 }
