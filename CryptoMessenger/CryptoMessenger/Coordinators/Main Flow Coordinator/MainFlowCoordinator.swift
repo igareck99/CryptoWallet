@@ -70,7 +70,7 @@ final class MainFlowCoordinator: Coordinator {
     }
 
     private func buildWalletTab() -> UIViewController {
-        let rootView = WalletNewConfigurator.configuredView(delegate: self)
+        let rootView = WalletConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.wallet.item
@@ -496,9 +496,9 @@ extension MainFlowCoordinator: AboutAppSceneDelegate {}
 
 extension MainFlowCoordinator: AnswersSceneDelegate {}
 
-// MARK: - MainFlowCoordinator (WalletNewSceneDelegate)
+// MARK: - MainFlowCoordinator (WalletSceneDelegate)
 
-extension MainFlowCoordinator: WalletNewSceneDelegate {}
+extension MainFlowCoordinator: WalletSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (TransactionSceneDelegate)
 

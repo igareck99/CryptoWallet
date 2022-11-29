@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - WalletNewFlow
+// MARK: - WalletFlow
 
-enum WalletNewFlow {
+enum WalletFlow {
 
     // MARK: - ViewState
 
@@ -22,6 +22,7 @@ enum WalletNewFlow {
         // MARK: - Types
 
         case onAppear
+		case onImportPhrase
         case onImportKey
         case onTransfer
         case onTransactionToken(selectorTokenIndex: Int)

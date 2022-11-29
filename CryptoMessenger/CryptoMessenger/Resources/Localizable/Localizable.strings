@@ -52,6 +52,9 @@
 "Wallet.Shipped" = "Отправлено";
 "Wallet.Received" = "Получено";
 
+"Wallet.NoData" = "Нет данных";
+"Wallet.AddWalletLong" = "Подключите свой кошелек для совершения транзакций";
+"Wallet.AddWalletShort" = "Добавить кошелек";
 
 "Profile.Info" = "Вдохновение и дизайнерские решения для вашего дома.";
 "Profile.Add" = "Добавить фото";

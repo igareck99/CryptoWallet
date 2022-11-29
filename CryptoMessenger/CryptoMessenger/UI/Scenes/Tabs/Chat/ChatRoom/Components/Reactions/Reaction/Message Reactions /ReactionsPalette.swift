@@ -12,6 +12,8 @@ extension Color {
 	static let azureRadianceApprox = Color(uiColor: .azureRadianceApprox)
 	static let hawkesBlueApprox = Color(uiColor: .hawkesBlueApprox)
 	static let pigeonPostApprox = Color(uiColor: .pigeonPostApprox)
+	static let nobelApprox = Color(uiColor: .nobelApprox)
+	static let tundoraApprox = Color(uiColor: .tundoraApprox)
 }
 
 extension UIColor {
@@ -25,4 +27,6 @@ extension UIColor {
 	static let azureRadianceApprox = UIColor(red: 0.055, green: 0.557, blue: 0.953, alpha: 1)
 	static let hawkesBlueApprox = UIColor(red: 0.812, green: 0.91, blue: 0.992, alpha: 1)
 	static let pigeonPostApprox = UIColor(red: 0.71, green: 0.792, blue: 0.867, alpha: 1)
+	static let nobelApprox = UIColor(red: 0.702, green: 0.702, blue: 0.702, alpha: 1)
+	static let tundoraApprox = UIColor(red: 0.292, green: 0.292, blue: 0.292, alpha: 1)
 }

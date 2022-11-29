@@ -59,6 +59,8 @@ struct PhraseManagerView: View {
                     .cornerRadius(16)
             }
             )
+			.navigationBarTitleDisplayMode(.inline)
+			.navigationBarHidden(false)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(R.string.localizable.chatSettingsReserveCopy())
@@ -96,15 +98,15 @@ struct PhraseManagerView: View {
                 .padding(.horizontal, 24)
                 ZStack {
                     TextEditor(text: repeatPhrase ? $viewModel.secretPhraseForApprove : $viewModel.secretPhrase)
-                        .blur(radius: !unLockPhrase ? 10: 0)
+                        .blur(radius: !unLockPhrase ? 10 : 0)
                         .padding(.leading, 16)
                         .background(repeatPhrase && wrongRepeatPhrase ? .lightRed(0.1) : .paleBlue())
                         .foreground(.black())
                         .font(.regular(15))
-                        .frame(width: UIScreen.main.bounds.width - 32,
-                               height: 200)
+                        .frame(width: UIScreen.main.bounds.width - 32, height: 200)
                         .cornerRadius(8)
                         .disabled(viewModel.textEditorDisabled)
+						.scrollContentBackground(.hidden)
                     if !unLockPhrase {
                         HStack(alignment: .center, spacing: 9) {
                             lockView

@@ -40,6 +40,7 @@ struct ImportKeyView: View {
                            height: 100)
                     .cornerRadius(8)
                     .keyboardType(.alphabet)
+					.scrollContentBackground(.hidden)
                     
                     if newKey.isEmpty {
                         Text(R.string.localizable.importEnterPrivateKey())
