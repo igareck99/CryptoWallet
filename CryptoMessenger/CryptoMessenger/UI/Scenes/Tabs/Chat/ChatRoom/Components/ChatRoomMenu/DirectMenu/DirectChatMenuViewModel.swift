@@ -16,15 +16,18 @@ final class DirectChatMenuViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<AuraRoom, Never>()
     private let availabilityFacade: MenuActionsTogglesFacadeProtocol
     private let pushNotifications: PushNotificationsServiceProtocol
+    private let userSettings: UserCredentialsStorage & UserFlowsStorage
 
     // MARK: - Lifecycle
 
     init(room: AuraRoom,
          availabilityFacade: MenuActionsTogglesFacadeProtocol = MenuActionsFacadeAssembly.build(),
-         pushNotifications: PushNotificationsServiceProtocol = PushNotificationsService.shared) {
+         pushNotifications: PushNotificationsServiceProtocol = PushNotificationsService.shared,
+         userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared) {
         self.room = room
         self.availabilityFacade = availabilityFacade
         self.pushNotifications = pushNotifications
+        self.userSettings = userSettings
         getActions()
     }
 
@@ -78,12 +81,12 @@ final class DirectChatMenuViewModel: ObservableObject {
     }
 
     func updateNotifications() {
-        if room.room.isMuted {
-            pushNotifications.allMessages(room: room) { value in
+        if room.room.isMuted && userSettings.isRoomNotificationsEnable {
+            pushNotifications.allMessages(room: room) { _ in
                 self.updateView()
             }
         } else {
-            pushNotifications.mute(room: room) { value in
+            pushNotifications.mute(room: room) { _ in
                 self.updateView()
             }
         }

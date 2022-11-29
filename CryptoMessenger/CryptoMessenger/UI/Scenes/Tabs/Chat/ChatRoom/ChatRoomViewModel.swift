@@ -90,6 +90,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Injectable private var locationManager: LocationManagerUseCaseProtocol
 	private let componentsFactory: ChatComponentsFactoryProtocol
     private var pushNotification = PushNotificationsService()
+    private let userSettings: UserCredentialsStorage & UserFlowsStorage
 
     var toggleFacade: MainFlowTogglesFacadeProtocol
     
@@ -104,6 +105,7 @@ final class ChatRoomViewModel: ObservableObject {
 		settings: UserDefaultsServiceCallable = UserDefaultsService.shared,
         sources: ChatRoomSourcesable.Type = ChatRoomResources.self,
 		componentsFactory: ChatComponentsFactoryProtocol = ChatComponentsFactory(),
+        userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared,
 		groupCallsUseCase: GroupCallsUseCaseProtocol
 	) {
         self.sources = sources
@@ -114,8 +116,8 @@ final class ChatRoomViewModel: ObservableObject {
         self.toggleFacade = toggleFacade
 		self.componentsFactory = componentsFactory
 		self.groupCallsUseCase = groupCallsUseCase
+        self.userSettings = userSettings
 		self.locationManager = locationManager
-
 		updateToggles()
         bindInput()
         bindOutput()
@@ -172,13 +174,13 @@ final class ChatRoomViewModel: ObservableObject {
     // MARK: - Internal Methods
     
     func notificationsStatus(_ action: NotificationsActionState) {
-        if action == .muteOn {
+        if action == .muteOn && !userSettings.isRoomNotificationsEnable {
             if !room.room.isMuted {
                 pushNotification.mute(room: self.room) { value in
                     debugPrint("Room IS Muted  \(value)")
                 }
             }
-        } else if action == .allMessagesOn {
+        } else if action == .allMessagesOn && userSettings.isRoomNotificationsEnable  {
             if room.room.isMuted {
                 pushNotification.allMessages(room: self.room) { value in
                     debugPrint("Room IS Unmute  \(value)")

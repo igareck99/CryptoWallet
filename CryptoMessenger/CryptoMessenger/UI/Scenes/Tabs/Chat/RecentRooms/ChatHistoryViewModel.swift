@@ -23,15 +23,18 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     private var subscriptions = Set<AnyCancellable>()
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     private let pushNotification: PushNotificationsServiceProtocol
+    private let userSettings: UserCredentialsStorage & UserFlowsStorage
 
     // MARK: - Lifecycle
 
     init(
         sources: ChatHistorySourcesable.Type = ChatHistorySources.self,
-        pushNotification: PushNotificationsServiceProtocol = PushNotificationsService.shared
+        pushNotification: PushNotificationsServiceProtocol = PushNotificationsService.shared,
+        userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared
     ) {
         self.sources = sources
         self.pushNotification = pushNotification
+        self.userSettings = userSettings
         bindInput()
         bindOutput()
     }
@@ -93,8 +96,10 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     }
 
     private func allowPushNotifications() {
-        for item in rooms {
-            pushNotification.allMessages(room: item) { _ in
+        if userSettings.isRoomNotificationsEnable {
+            for item in rooms {
+                pushNotification.allMessages(room: item) { _ in
+                }
             }
         }
     }

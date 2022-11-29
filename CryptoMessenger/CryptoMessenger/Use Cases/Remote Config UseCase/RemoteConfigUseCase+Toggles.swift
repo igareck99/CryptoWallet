@@ -4,19 +4,20 @@ import Foundation
 
 protocol RemoteConfigToggles {
 
+
 	// Wallet
 	var isWalletV1Available: Bool { get }
 	var isTransactionV1Available: Bool { get }
 	var isWalletV1NetType: Bool { get }
 
-	// Calls
-	var isP2PCallV1Available: Bool { get }
-	var isP2PVideoCallsV1Available: Bool { get }
-	var isGroupCallsV1Available: Bool { get }
+    // Calls
+    var isP2PCallV1Available: Bool { get }
+    var isP2PVideoCallsV1Available: Bool { get }
+    var isGroupCallsV1Available: Bool { get }
 
-	// Chats
-	var isGroupChatV1Available: Bool { get }
-	var isPersonalChatV1Available: Bool { get }
+    // Chats
+    var isGroupChatV1Available: Bool { get }
+    var isPersonalChatV1Available: Bool { get }
 
     // Phrase
     var isPhraseV1Available: Bool { get }
@@ -40,7 +41,7 @@ protocol RemoteConfigToggles {
     var isChatMenuEditAvailable: Bool { get }
     var isChatMenuUsersAvailable: Bool { get }
     var isChatMenuBlackListAvailable: Bool { get }
-    
+
     // ChatMessageActions
 
     var isReactionsAvailable: Bool { get }
@@ -50,14 +51,20 @@ protocol RemoteConfigToggles {
     var isAnyFilesAvailable: Bool { get }
     var isVideoMessageAvailable: Bool { get }
 
-	// Tech toggles
+    // Tech toggles
 
-	var isRoomsTimerAvailable: Bool { get }
-    
+    var isRoomsTimerAvailable: Bool { get }
+
     // SecurityToggles
-    
+
     var isPrivacyV1Available: Bool { get }
 
+    // Notification Toggles
+
+    var isV1NotificationMessages: Bool { get }
+    var isV1NotificationGroup: Bool { get }
+    var isV1NotificationSettings: Bool { get }
+    var isV1NotificationsReset: Bool { get }
 }
 
 // MARK: - RemoteConfigUseCase(RemoteConfigToggles)
@@ -290,6 +297,32 @@ extension RemoteConfigUseCase: RemoteConfigToggles {
     var isPrivacyV1Available: Bool {
         return isFeatureAvailable(module: .security,
                                   feature: RemoteConfigValues.Security.privacy.rawValue,
+                                  version: RemoteConfigValues.Version.v1_0)
+    }
+
+    // Notification Toggles
+
+    var isV1NotificationMessages: Bool {
+        return isFeatureAvailable(module: .notification,
+                                  feature: RemoteConfigValues.Notification.p2pChats.rawValue,
+                                  version: RemoteConfigValues.Version.v1_0)
+    }
+
+    var isV1NotificationGroup: Bool {
+        return isFeatureAvailable(module: .notification,
+                                  feature: RemoteConfigValues.Notification.groupChats.rawValue,
+                                  version: RemoteConfigValues.Version.v1_0)
+    }
+
+    var isV1NotificationSettings: Bool {
+        return isFeatureAvailable(module: .notification,
+                                  feature: RemoteConfigValues.Notification.settings.rawValue,
+                                  version: RemoteConfigValues.Version.v1_0)
+    }
+
+    var isV1NotificationsReset: Bool {
+        return isFeatureAvailable(module: .notification,
+                                  feature: RemoteConfigValues.Notification.resetSettings.rawValue,
                                   version: RemoteConfigValues.Version.v1_0)
     }
 
