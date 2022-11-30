@@ -10,10 +10,7 @@ final class SocialListViewModel: ObservableObject {
 	let resources: SocialListResourcesable
     weak var delegate: SocialListSceneDelegate?
     @Published var listData = [SocialListItem]()
-	private let typesOrder: [(order: Int, type: SocialNetworkType)] = [
-		(1, .instagram), (2, .facebook), (3, .twitter),
-		(4, .vk), (5, .tiktok), (6, .linkedin)
-	]
+    @Published var dragging: SocialListItem?
 
     // MARK: - Private Properties
 
@@ -21,6 +18,17 @@ final class SocialListViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<SocialListFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<SocialListFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
+    private let typesOrder: [(order: Int, type: SocialNetworkType)] = [
+        (1, .instagram), (2, .facebook), (3, .twitter),
+        (4, .vk), (5, .tiktok), (6, .linkedin)
+    ]
+    private let emptyData: [SocialListItem] = [.init(sortOrder: 1, socialType: .instagram),
+                                               .init(sortOrder: 2, socialType: .vk),
+                                               .init(sortOrder: 3, socialType: .twitter),
+                                               .init(sortOrder: 4, socialType: .facebook),
+                                               .init(sortOrder: 5, socialType: .linkedin),
+                                               .init(sortOrder: 6, socialType: .tiktok)]
+
 
 	@Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var apiClient: APIClientManager
@@ -49,11 +57,22 @@ final class SocialListViewModel: ObservableObject {
     // MARK: - Internal Methods
 
     func onMove(source: IndexSet, destination: Int) {
+        guard let startIndex = source.first else { return }
         listData.move(fromOffsets: source, toOffset: destination)
-    }
-
-    func remove(offsets: IndexSet) {
-        listData.remove(atOffsets: offsets)
+        let startElement = listData[startIndex]
+        listData = listData.map {
+            var value = 0
+            if $0.sortOrder == startIndex + 1 {
+                value = destination
+            } else if $0.sortOrder == destination {
+                value = destination - 1
+            } else {
+                value = (listData.firstIndex(of: $0) ?? 0) + 1
+            }
+            return SocialListItem(url: $0.url,
+                                  sortOrder: value,
+                                  socialType: $0.socialType)
+        }
     }
 
 	func socialNetworkDidSubmitted(item: SocialListItem) {
@@ -61,13 +80,11 @@ final class SocialListViewModel: ObservableObject {
 	}
 
 	func socialNetworkDidEdited(item: SocialListItem, isEditing: Bool) {
-		updateListData(item: item, isEditing: isEditing)
+		updateListData(item: item, isEditing: false)
 	}
 
 	private func updateListData(item: SocialListItem, isEditing: Bool) {
-		debugPrint("SocialListItemView SocialListViewModel updateListData_1: \(isEditing)")
 		guard !isEditing else { return }
-		debugPrint("SocialListItemView SocialListViewModel updateListData_2: \(isEditing)")
 		let result = listData.enumerated().first { $0.1.socialType == item.socialType }
 		guard let model = result, listData.indices.contains(model.offset) else { return }
 		listData[model.offset] = item
@@ -103,12 +120,15 @@ final class SocialListViewModel: ObservableObject {
 					let item = SocialListItem(url: $1.url, sortOrder: $1.sortOrder, socialType: socialType)
 					$0[socialType] = item
 				})
-
-				let result: [SocialListItem] = self.typesOrder.map { model in
-					if let item = remoteTypes[model.type] { return item }
-					return SocialListItem(sortOrder: model.order, socialType: model.type)
-				}
-				self.listData = result
+                var result = remoteTypes.map {
+                    return $0.value
+                }
+                result = result.sorted(by: { $0.sortOrder < $1.sortOrder })
+                if result.isEmpty {
+                    self.listData = self.emptyData
+                } else {
+                    self.listData = result
+                }
             }
             .store(in: &subscriptions)
     }
@@ -118,8 +138,7 @@ final class SocialListViewModel: ObservableObject {
 	}
 
     private func addSocial(data: [SocialListItem]) {
-		debugPrint("SocialListItemView SocialListViewModel addSocial: \(data)")
-		let testList: [SocialResponse] = data
+		let newList: [SocialResponse] = data
 			.filter { validateURL(for: $0.socialType, url: $0.url) }
 			.map {
 				SocialResponse(
@@ -128,8 +147,7 @@ final class SocialListViewModel: ObservableObject {
 					url: $0.url
 				)
 		}
-
-        apiClient.publisher(Endpoints.Social.setSocialNew(testList,
+        apiClient.publisher(Endpoints.Social.setSocialNew(newList,
                                                           user: matrixUseCase.getUserId()))
             .sink(receiveCompletion: { completion in
 				guard case .failure = completion else { return }

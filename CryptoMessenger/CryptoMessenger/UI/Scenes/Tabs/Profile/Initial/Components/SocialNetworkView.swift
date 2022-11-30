@@ -21,23 +21,29 @@ struct SocialNetworkView: View {
             }, label: {
                 switch item.socialType {
                 case .twitter:
-                    R.image.profile.twitter.image
+                    R.image.socialNetworks.twitter.image.resizable()
+                        .frame(width: 17.6,
+                               height: 14)
                 case .facebook:
-                    R.image.profile.facebook.image
+                    R.image.socialNetworks.facebook.image.resizable()
+                        .frame(width: 10.8,
+                               height: 20.7)
                 case .instagram:
-                    R.image.profile.instagram.image
+                    R.image.socialNetworks.instagram.image.resizable()
+                        .frame(width: 18,
+                               height: 18)
                 case .vk:
-                    R.image.socialNetworks.vkIcon.image.resizable()
-                        .frame(width: 16,
-                               height: 15)
+                    R.image.socialNetworks.vk.image.resizable()
+                        .frame(width: 19.8,
+                               height: 12.6)
                 case .linkedin:
-                    R.image.socialNetworks.linkedinIcon.image.resizable()
-                        .frame(width: 16,
-                               height: 15)
+                    R.image.socialNetworks.linkedin.image.resizable()
+                        .frame(width: 13.5,
+                               height: 12.8)
                 case .tiktok:
-                    R.image.socialNetworks.tiktokIcon.image.resizable()
-                        .frame(width: 16,
-                               height: 15)
+                    R.image.socialNetworks.tiktok.image.resizable()
+                        .frame(width: 17,
+                               height: 19.3)
                 }
             }).frame(width: 32, height: 32, alignment: .center)
                 .background(.blue())
