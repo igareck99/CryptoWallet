@@ -1,41 +1,31 @@
 import SwiftUI
 
+// MARK: - ReactionTextsView
+
 struct ReactionTextsView: View {
+
+    // MARK: - Private Properties
 
 	let model: ReactionTextsItem
 
+    // MARK: - Body
+
 	var body: some View {
-		HStack(spacing: 6) {
-			ForEach(model.texts) { textItem in
-				Text(textItem.text)
-					.font(textItem.font)
-					.foregroundColor(textItem.color)
-			}
-		}
+        HStack(spacing: 6) {
+            ForEach(model.texts) { textItem in
+                Text(textItem.text)
+                    .font(textItem.font)
+                    .foregroundColor(textItem.color)
+            }
+        }
 		.contentShape(Rectangle())
 		.onTapGesture {
 			model.onTapAction?()
 		}
 		.frame(height: 28)
-		.frame(minWidth: 38)
+        .frame(width: model.texts[0].width)
 		.padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
 		.background(model.backgroundColor)
 		.cornerRadius(30)
 	}
-}
-
-struct ReactionTextsView_Previews: PreviewProvider {
-    static var previews: some View {
-		ReactionTextsView(
-			model: ReactionTextsItem(
-				texts: textItems,
-				backgroundColor: .dodgerBlueApprox
-			)
-		)
-    }
-
-	static let textItems = [
-		ReactionTextItem(text: "😎"),
-		ReactionTextItem(text: "2", color: .blackSqueezeApprox, font: .system(size: 11, weight: .medium))
-	]
 }

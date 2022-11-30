@@ -188,6 +188,7 @@ extension ChatComponentsFactory {
 		switch message.type {
 		case let .text(text):
 			return AnyView(ChatTextsView(
+                message: message,
 				isFromCurrentUser: message.isCurrentUser,
 				shortDate: message.shortDate,
 				text: text,
@@ -356,20 +357,34 @@ extension ChatComponentsFactory {
 			else { return nil }
 
 			usedEmojies.insert(reaction.emoji)
-
-			let emoji = ReactionTextItem(text: reaction.emoji)
+            var size =  CGFloat(36)
+            if emojiCount > 1 {
+                size = CGFloat(String(emojiCount).count * 7 + 44)
+            }
+            let emoji = ReactionTextItem(text: reaction.emoji,
+                                         width: size)
 			let count = ReactionTextItem(
 				text: "\(emojiCount)",
 				color: isCurrentUser ? .blackSqueezeApprox : .cornflowerBlueApprox,
 				font: .system(size: 11, weight: .medium)
 			)
-			return ReactionTextsItem(
-				texts: [emoji, count],
-				backgroundColor: isCurrentUser ? .cornflowerBlueApprox : .blackSqueezeApprox
-			) {
-					debugPrint("ReactionTextsItem onTapAction \(reaction.emoji)")
-					onEmojiTap( (reaction.emoji, message.id) )
-				}
+            if emojiCount > 1 {
+                return ReactionTextsItem(
+                    texts: [emoji, count],
+                    backgroundColor: isCurrentUser ? .cornflowerBlueApprox : .blackSqueezeApprox
+                ) {
+                        debugPrint("ReactionTextsItem onTapAction \(reaction.emoji)")
+                        onEmojiTap( (reaction.emoji, message.id) )
+                    }
+            } else {
+                return ReactionTextsItem(
+                    texts: [emoji],
+                    backgroundColor: isCurrentUser ? .cornflowerBlueApprox : .blackSqueezeApprox
+                ) {
+                        debugPrint("ReactionTextsItem onTapAction \(reaction.emoji)")
+                        onEmojiTap( (reaction.emoji, message.id) )
+                    }
+            }
 		}
 		return reactionTextsItems
 	}

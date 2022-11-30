@@ -1,6 +1,10 @@
 import SwiftUI
 
+// MARK: - ReactionsGrid
+
 struct ReactionsGrid<ViewModel: ReactionsGroupViewModelProtocol>: View {
+
+    // MARK: - Internal Properties
 
 	@Binding var totalHeight: CGFloat
 	@ObservedObject var viewModel: ViewModel
@@ -14,6 +18,8 @@ struct ReactionsGrid<ViewModel: ReactionsGroupViewModelProtocol>: View {
 		.frame(maxHeight: totalHeight)
 	}
 
+    // MARK: - Private Methods
+
 	private func generateContent(in gReader: GeometryProxy) -> some View {
 		var width = CGFloat.zero
 		var height = CGFloat.zero
@@ -21,9 +27,10 @@ struct ReactionsGrid<ViewModel: ReactionsGroupViewModelProtocol>: View {
 		return ZStack(alignment: .topLeading) {
 			ForEach(viewModel.items, id: \.id) { item in
 				item.view()
-					.padding([.horizontal, .vertical], 4)
+					.padding(.vertical, 4)
+                    .padding(.leading, 4)
 					.alignmentGuide(.leading, computeValue: { d in
-						if abs(width - d.width) > gReader.size.width {
+                        if abs(width - item.getItemWidth()) > gReader.size.width - 14 {
 							width = 0
 							height -= d.height
 						}
@@ -59,13 +66,14 @@ struct ReactionsGrid<ViewModel: ReactionsGroupViewModelProtocol>: View {
 	}
 }
 
-func precalculateViewHeight(for width: CGFloat, itemsCount: Int) -> CGFloat {
-
-	guard itemsCount > 0 else { return 0 }
-
-	let countSize = width - CGFloat(itemsCount * 56)
-	if countSize > 0 {
-		return 38
-	}
-	return 70
+func viewHeightNew(for width: CGFloat, reactionItems: [ReactionTextsItem]) -> CGFloat {
+    guard !reactionItems.isEmpty else { return 0 }
+    var countSize = reactionItems.reduce(CGFloat(0)) {
+        $0 + $1.texts[0].width
+    }
+    countSize = width - countSize
+    if countSize > 0 {
+        return 38
+    }
+    return 70
 }

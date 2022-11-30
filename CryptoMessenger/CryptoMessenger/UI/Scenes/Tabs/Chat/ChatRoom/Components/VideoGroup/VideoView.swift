@@ -64,10 +64,10 @@ struct VideoView: View {
 
 				ReactionsGrid(
 					totalHeight: $totalHeight,
-					viewModel: ReactionsGroupViewModel(items: reactionItems)
+                    viewModel: ReactionsGroupViewModel(items: reactionItems)
 				)
 				.frame(
-					minHeight: totalHeight == 0 ? precalculateViewHeight(for: 202, itemsCount: reactionItems.count) : totalHeight
+                    minHeight: totalHeight == 0 ? viewHeightNew(for: 202, reactionItems: reactionItems) : totalHeight
 				)
 				.padding([.top, .bottom], 8)
 				.padding(.trailing, 8)

@@ -78,10 +78,10 @@ struct FileView: View {
 			VStack(alignment: .leading, spacing: 0) {
 				ReactionsGrid(
 					totalHeight: $totalHeight,
-					viewModel: ReactionsGroupViewModel(items: reactionItems)
+                    viewModel: ReactionsGroupViewModel(items: reactionItems)
 				)
 			}
-			.frame(minHeight: totalHeight == 0 ? precalculateViewHeight(for: 220, itemsCount: reactionItems.count) : totalHeight)
+            .frame(minHeight: totalHeight == 0 ? viewHeightNew(for: 220, reactionItems: reactionItems) : totalHeight)
 			.padding([.leading, .trailing], 8)
 			.padding(.bottom, 4)
 

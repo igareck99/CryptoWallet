@@ -1,6 +1,10 @@
 import SwiftUI
 
+// MARK: - PhotoView
+
 struct PhotoView: View {
+
+    // MARK: - Private properties
 
 	private let isFromCurrentUser: Bool
 	private let shortDate: String
@@ -8,6 +12,8 @@ struct PhotoView: View {
 	private let action: () -> Void
 	private let reactionItems: [ReactionTextsItem]
 	@State private var totalHeight: CGFloat = .zero
+
+    // MARK: - Lifecycle
 
 	init(
 		isFromCurrentUser: Bool,
@@ -22,6 +28,8 @@ struct PhotoView: View {
 		self.reactionItems = reactionItems
 		self.action = action
 	}
+
+    // MARK: - Body
 
 	var body: some View {
 		VStack(alignment: .trailing, spacing: 0) {
@@ -47,10 +55,10 @@ struct PhotoView: View {
 			VStack(alignment: .trailing, spacing: 0) {
 				ReactionsGrid(
 					totalHeight: $totalHeight,
-					viewModel: ReactionsGroupViewModel(items: reactionItems)
+                    viewModel: ReactionsGroupViewModel(items: reactionItems)
 				)
 				.frame(
-					minHeight: totalHeight == 0 ? precalculateViewHeight(for: 224, itemsCount: reactionItems.count) : totalHeight
+                    minHeight: totalHeight == 0 ? viewHeightNew(for: 224, reactionItems: reactionItems) : totalHeight
 				)
 			}
 			.frame(width: 224)

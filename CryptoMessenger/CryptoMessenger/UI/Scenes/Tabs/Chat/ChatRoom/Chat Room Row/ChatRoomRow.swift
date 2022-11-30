@@ -93,37 +93,6 @@ struct ChatRoomRow: View {
 					shouldShowBackground: viewModel.shouldShowBackground(message: message)
 				) {
                     VStack(alignment: .leading, spacing: 0) {
-                        if message.isReply {
-                            HStack(spacing: 0) {
-                                RoundedRectangle(cornerRadius: 1)
-                                    .frame(width: 2)
-                                    .foreground(.blue(0.9))
-                                    .padding(.top, 8)
-                                    .padding(.leading, 16)
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(message.name,
-                                         [
-                                            .font(.medium(13)),
-                                            .paragraph(.init(lineHeightMultiple: 1.19, alignment: .left)),
-                                            .color(.black())
-                                        ]
-                                    )
-                                        .padding(.top, 8)
-                                    Text(message.replyDescription,
-                                         [
-                                            .font(.regular(13)),
-                                            .paragraph(.init(lineHeightMultiple: 1.2,
-                                                             alignment: .left)),
-                                            .color(.black())
-                                        ]
-                                    )
-                                }
-                                .frame(minWidth: 0, maxWidth: 70)
-                                    .padding(.leading, 8)
-                                    .padding(.trailing, 16)
-                            }
-                            .frame(height: 40)
-                        }
                         HStack(spacing: 0) {
 							viewModel.makeChatMessageEventView(
 								showFile: $showFile,
