@@ -80,13 +80,10 @@ struct ProfileView: View {
             .fullScreenCover(isPresented: $showSafari) {
                 SFSafariViewWrapper(link: $safariAddress)
             }
-            .fullScreenCover(isPresented: $showImageViewer,
+            .fullScreenCover(isPresented: self.$showImageViewer,
                              content: {
-                FeedImageViewerView(
-                    selectedPhoto: $viewModel.selectedPhoto,
-                    showImageViewer: $showImageViewer,
-                    profileViewModel: viewModel,
-                    imageToShare: $viewModel.imageToShare)
+                ImageViewerRemote(imageURL: self.$viewModel.selectedPhoto, viewerShown: self.$showImageViewer)
+                    .ignoresSafeArea()
             })
             .fullScreenCover(isPresented: $showCameraPicker,
                              content: {
@@ -142,7 +139,7 @@ struct ProfileView: View {
                 VStack(alignment: .leading, spacing: 24) {
                     HStack(spacing: 16) {
                         avatarView
-                        VStack(alignment: .leading, spacing: 11) {
+                        VStack(alignment: .leading, spacing: 10) {
                             Text(viewModel.profile.name)
                                 .font(.medium(15))
                             switch viewModel.socialListEmpty {
@@ -166,7 +163,9 @@ struct ProfileView: View {
                                                 }
                                             }
                                             Button(action: {
-                                                showAllSocial.toggle()
+                                                withAnimation(.linear(duration: 0.5), {
+                                                    showAllSocial.toggle()
+                                                })
                                             }, label: {
                                                 R.image.photoEditor.dotes.image.resizable()
                                                     .frame(width: 16,
@@ -184,7 +183,9 @@ struct ProfileView: View {
                                             }
                                         }
                                         Button(action: {
-                                            showAllSocial.toggle()
+                                            withAnimation(.linear(duration: 0.5), {
+                                                showAllSocial.toggle()
+                                            })
                                         }, label: {
                                             R.image.photoEditor.dotes.image.resizable()
                                                 .frame(width: 16,
@@ -195,6 +196,9 @@ struct ProfileView: View {
                                     }
                                 }
                                 }
+                                .frame(minHeight: 32,
+                                       idealHeight: 32,
+                                       maxHeight: 32)
                             case true:
                                 Button(action: {
                                     viewModel.send(.onSocial)
@@ -210,15 +214,26 @@ struct ProfileView: View {
                                     )
                             }
                             Text(viewModel.profile.phone)
+                                .padding(.top, 1)
                         }
                     }
                     .padding(.top, 27)
                     .padding(.leading, 16)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(viewModel.profile.status)
-                            .font(.regular(15))
-                            .foreground(.black())
-                    }.padding(.leading, 16)
+                    if !viewModel.profile.status.isEmpty {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(viewModel.profile.status)
+                                .font(.regular(15))
+                                .foreground(.black())
+                            //                        Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
+                            //                            .font(.regular(15))
+                            //                            .foreground(.blue())
+                            //                            .onTapGesture {
+                            //                                safariAddress = "https://www.ikea.com/ru/ru/" +
+                            //                                "campaigns/actual-information-pub21f86b70"
+                            //                                showSafari = true
+                            //                            }
+                        }.padding(.leading, 16)
+                    }
                     Button(action: {
                         showActionImageAlert = true
                     }, label: {
