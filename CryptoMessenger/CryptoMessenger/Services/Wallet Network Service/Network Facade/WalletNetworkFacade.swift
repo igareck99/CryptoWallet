@@ -6,12 +6,12 @@ protocol WalletNetworkFacadeProtocol {
 	)
 
 	func getAddress(
-		parameters: [String: Any],
+		params: AddressRequestParams,
 		completion: @escaping GenericBlock<EmptyFailureResult<AddressResponse>>
 	)
 
 	func getBalances(
-		parameters: [String: Any],
+		params: BalanceRequestParams,
 		completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
 	)
 }
@@ -38,7 +38,6 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 
 	// MARK: - Network Wallets
 
-
 	func getNetworks(completion: @escaping GenericBlock<EmptyFailureResult<[WalletNetworkModel]>>) {
 		let request = walletRequestsFactory.buildNetworks(parameters: [:])
 		let urlRequest = networkRequestFactory.makeGetRequest(from: request)
@@ -58,9 +57,13 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 	// MARK: - Address
 
 	func getAddress(
-		parameters: [String: Any],
+		params: AddressRequestParams,
 		completion: @escaping GenericBlock<EmptyFailureResult<AddressResponse>>
 	) {
+		let parameters: [String: Any] = [
+			"ethereum": [["publicKey": params.ethereumPublicKey]],
+			"bitcoin": [["publicKey": params.bitcoinPublicKey]]
+		]
 		let request = walletRequestsFactory.buildAddress(parameters: parameters)
 		let urlRequest = networkRequestFactory.makePostRequest(from: request)
 		networkService.send(request: urlRequest) { data, response, error in
@@ -79,10 +82,14 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 	// MARK: - Balances
 
 	func getBalances(
-		parameters: [String: Any],
+		params: BalanceRequestParams,
 		completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
 	) {
-		let request = walletRequestsFactory.buildBalances(parameters: parameters)
+		let params: [String: Any] = [
+			"ethereum": [["accountAddress": params.ethereumAddress]],
+			"bitcoin": [["accountAddress": params.bitcoinAddress]]
+		]
+		let request = walletRequestsFactory.buildBalances(parameters: params)
 		let urlRequest = networkRequestFactory.makePostRequest(from: request)
 		networkService.send(request: urlRequest) { data, response, error in
 			debugPrint("getBalances")

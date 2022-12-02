@@ -1,12 +1,12 @@
 import SwiftUI
 
-// MARK: - WalletNewView
+// MARK: - WalletView
 
-struct WalletNewView: View {
+struct WalletView: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel: WalletNewViewModel
+    @StateObject var viewModel: WalletViewModel
     @State var contentWidth = CGFloat(0)
     @State var offset = CGFloat(16)
     @State var index = 0
@@ -21,8 +21,59 @@ struct WalletNewView: View {
     )
 
     // MARK: - Body
+	var body: some View {
+		content
+			.emptyState($viewModel.cardsList.isEmpty) {
 
-    var body: some View {
+				VStack(alignment: .center, spacing: 0) {
+
+					Image(R.image.wallet.walletEmptyState.name)
+						.frame(minHeight: 140)
+
+					Text(R.string.localizable.walletNoData())
+						.font(.system(size: 22))
+						.foregroundColor(.tundoraApprox)
+						.frame(alignment: .center)
+						.padding(.bottom, 6)
+
+					Text(R.string.localizable.walletAddWalletLong())
+						.font(.system(size: 15))
+						.foregroundColor(.nobelApprox)
+						.frame(alignment: .center)
+						.padding(.bottom, 70)
+
+					Button {
+						debugPrint("onImportKey")
+						viewModel.send(.onImportPhrase)
+					} label: {
+						Text(R.string.localizable.walletAddWalletShort())
+							.font(.system(size: 17, weight: .semibold))
+							.foregroundColor(.white)
+							.padding([.leading, .trailing], 40)
+							.padding([.bottom, .top], 13)
+					}
+					.background(Color.azureRadianceApprox)
+					.cornerRadius(8)
+					.frame(width: 237, height: 48)
+				}
+			}
+			.onAppear {
+				debugPrint("onAppear")
+				navBarHide = false
+				showTabBar()
+				viewModel.send(.onAppear)
+			}
+			.navigationBarTitleDisplayMode(.inline)
+			.navigationBarHidden(false)
+			.toolbar {
+				ToolbarItem(placement: .principal) {
+					Text(R.string.localizable.tabWallet())
+						.font(.system(size: 17, weight: .semibold))
+				}
+			}
+	}
+
+    var content: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 16) {
                 balanceView
@@ -128,22 +179,6 @@ struct WalletNewView: View {
                 .cornerRadius(16)
         }
         )
-        .navigationBarHidden(navBarHide)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Text(R.string.localizable.tabWallet())
-                    .font(.bold(15))
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    hideTabBar()
-                    showAddWallet = true
-                } label: {
-                    R.image.wallet.settings.image
-                }
-            }
-        }
-
     }
 
     // MARK: - Private Properties
@@ -212,66 +247,7 @@ struct WalletNewView: View {
                         .stroke(Color.white, lineWidth: 2)
                 )
         }
-        .background(Color(.blue()))
+        .background(Color.blue)
         .cornerRadius(4)
-    }
-}
-
-// MARK: - TransactionInfoView
-
-struct TransactionInfoView: View {
-
-    // MARK: - Internal Properties
-
-    var transaction: TransactionInfo
-
-    // MARK: - Body
-
-    var body: some View {
-        VStack(spacing: 16) {
-            HStack {
-                HStack(spacing: 12) {
-                    ZStack {
-                        Circle()
-                            .frame(width: 40, height: 40)
-                            .foreground(transaction.type == .send ? .blue() : .green())
-                        transaction.type == .send ? R.image.wallet.writeOff.image :
-                        R.image.wallet.inflow.image
-                    }
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(transaction.type == .send ? R.string.localizable.walletShipped():
-                                R.string.localizable.walletReceived())
-                            .font(.medium(15))
-                        Text(transaction.date + " " + "From:" + transaction.from)
-                            .font(.regular(13))
-                            .foreground(.darkGray())
-                    }
-                }
-                Spacer()
-                VStack(alignment: .trailing) {
-                    switch transaction.transactionCoin {
-                    case .aur:
-                        Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " AUR":
-                                String("- \(abs(transaction.amount))") + " AUR")
-                            .font(.regular(15))
-                            .foreground(transaction.type == .send ? .black(): .green())
-                    case .ethereum:
-                        Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " ETH":
-                                String("- \(abs(transaction.amount))") + " ETH")
-                            .font(.regular(15))
-                            .foreground(transaction.type == .send ? .black(): .green())
-                    case .bitcoin:
-                        Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " BTC":
-                                String("- \(abs(transaction.amount))") + " BTC")
-                            .font(.regular(15))
-                            .foreground(transaction.type == .send ? .black(): .green())
-                    }
-                    Text(String(transaction.amount) + " USD")
-                        .font(.regular(13))
-                        .foreground(.darkGray())
-                }
-            }
-            Divider()
-        }
     }
 }

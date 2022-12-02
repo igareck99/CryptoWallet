@@ -356,11 +356,11 @@
 		8B38D13B28C0F032002733D7 /* ProfileSettingsMenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B38D13A28C0F032002733D7 /* ProfileSettingsMenuRow.swift */; };
 		8B38D13D28C12946002733D7 /* ProfileSettingsMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B38D13C28C12946002733D7 /* ProfileSettingsMenuViewModel.swift */; };
 		8B3A816A275AC25D00E736E4 /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3A8169275AC25D00E736E4 /* ProfileDetailView.swift */; };
-		8B432CC227C394E00025D62B /* WalletNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC127C394E00025D62B /* WalletNewView.swift */; };
-		8B432CC427C394F10025D62B /* WalletNewFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC327C394F10025D62B /* WalletNewFlow.swift */; };
-		8B432CC627C3955A0025D62B /* WalletNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC527C3955A0025D62B /* WalletNewViewModel.swift */; };
-		8B432CC827C395B00025D62B /* WalletNewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC727C395B00025D62B /* WalletNewProtocols.swift */; };
-		8B432CCA27C3DA040025D62B /* WalletNewConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC927C3DA030025D62B /* WalletNewConfigurator.swift */; };
+		8B432CC227C394E00025D62B /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC127C394E00025D62B /* WalletView.swift */; };
+		8B432CC427C394F10025D62B /* WalletFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC327C394F10025D62B /* WalletFlow.swift */; };
+		8B432CC627C3955A0025D62B /* WalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC527C3955A0025D62B /* WalletViewModel.swift */; };
+		8B432CC827C395B00025D62B /* WalletProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC727C395B00025D62B /* WalletProtocols.swift */; };
+		8B432CCA27C3DA040025D62B /* WalletConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC927C3DA030025D62B /* WalletConfigurator.swift */; };
 		8B4810F627CF81F000831589 /* AddWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810F527CF81F000831589 /* AddWalletView.swift */; };
 		8B4810F927CF98BB00831589 /* ImportKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810F827CF98BB00831589 /* ImportKeyView.swift */; };
 		8B4810FB27CF9BA600831589 /* ImportKeyFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FA27CF9BA600831589 /* ImportKeyFlow.swift */; };
@@ -652,6 +652,10 @@
 		D49C89CA290A6AF6005B4F64 /* ReactionTextsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C4290A6AF6005B4F64 /* ReactionTextsView.swift */; };
 		D49C89CB290A6AF6005B4F64 /* ReactionTextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C5290A6AF6005B4F64 /* ReactionTextItem.swift */; };
 		D49C89CD290A6B1A005B4F64 /* ReactionsPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89CC290A6B1A005B4F64 /* ReactionsPalette.swift */; };
+		D4A26E222935BADD00FEADC2 /* AddressRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A26E212935BADD00FEADC2 /* AddressRequestParams.swift */; };
+		D4A26E2529368DB300FEADC2 /* EmptyStateViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A26E2429368DB300FEADC2 /* EmptyStateViewModifier.swift */; };
+		D4A26E272937117E00FEADC2 /* TransactionInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A26E262937117E00FEADC2 /* TransactionInfoView.swift */; };
+		D4A26E292937165800FEADC2 /* BalanceRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A26E282937165800FEADC2 /* BalanceRequestParams.swift */; };
 		D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */; };
 		D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */; };
 		D4AB8FFC282672BB00E6FAB5 /* MatrixService+Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */; };
@@ -1499,11 +1503,11 @@
 		8B38D13A28C0F032002733D7 /* ProfileSettingsMenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuRow.swift; sourceTree = "<group>"; };
 		8B38D13C28C12946002733D7 /* ProfileSettingsMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuViewModel.swift; sourceTree = "<group>"; };
 		8B3A8169275AC25D00E736E4 /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
-		8B432CC127C394E00025D62B /* WalletNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewView.swift; sourceTree = "<group>"; };
-		8B432CC327C394F10025D62B /* WalletNewFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewFlow.swift; sourceTree = "<group>"; };
-		8B432CC527C3955A0025D62B /* WalletNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewViewModel.swift; sourceTree = "<group>"; };
-		8B432CC727C395B00025D62B /* WalletNewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewProtocols.swift; sourceTree = "<group>"; };
-		8B432CC927C3DA030025D62B /* WalletNewConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNewConfigurator.swift; sourceTree = "<group>"; };
+		8B432CC127C394E00025D62B /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
+		8B432CC327C394F10025D62B /* WalletFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletFlow.swift; sourceTree = "<group>"; };
+		8B432CC527C3955A0025D62B /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
+		8B432CC727C395B00025D62B /* WalletProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletProtocols.swift; sourceTree = "<group>"; };
+		8B432CC927C3DA030025D62B /* WalletConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletConfigurator.swift; sourceTree = "<group>"; };
 		8B4810F527CF81F000831589 /* AddWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWalletView.swift; sourceTree = "<group>"; };
 		8B4810F827CF98BB00831589 /* ImportKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyView.swift; sourceTree = "<group>"; };
 		8B4810FA27CF9BA600831589 /* ImportKeyFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyFlow.swift; sourceTree = "<group>"; };
@@ -1800,6 +1804,10 @@
 		D49C89C4290A6AF6005B4F64 /* ReactionTextsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionTextsView.swift; sourceTree = "<group>"; };
 		D49C89C5290A6AF6005B4F64 /* ReactionTextItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionTextItem.swift; sourceTree = "<group>"; };
 		D49C89CC290A6B1A005B4F64 /* ReactionsPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionsPalette.swift; sourceTree = "<group>"; };
+		D4A26E212935BADD00FEADC2 /* AddressRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressRequestParams.swift; sourceTree = "<group>"; };
+		D4A26E2429368DB300FEADC2 /* EmptyStateViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateViewModifier.swift; sourceTree = "<group>"; };
+		D4A26E262937117E00FEADC2 /* TransactionInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInfoView.swift; sourceTree = "<group>"; };
+		D4A26E282937165800FEADC2 /* BalanceRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceRequestParams.swift; sourceTree = "<group>"; };
 		D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixServiceProtocol.swift; sourceTree = "<group>"; };
 		D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Session.swift"; sourceTree = "<group>"; };
 		D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Devices.swift"; sourceTree = "<group>"; };
@@ -2881,6 +2889,7 @@
 		5A187E4A2680708D001957D3 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				D4A26E2329368DA400FEADC2 /* Empty State View */,
 				8B4DBFF928F5D694003F58EB /* GalleryPicker */,
 				8BBCBCD728F8811D00E42F0C /* FileGroup */,
 				8BE66739280F4A2900D41A3C /* IphoneNumberTextField */,
@@ -4061,11 +4070,11 @@
 				D44CBF0E29309FDA006A14D1 /* Keys Service */,
 				8B4810F727CF987600831589 /* ImportKey */,
 				8BC06B0A27C7DFAF005A28A1 /* Transaction */,
-				8B432CC127C394E00025D62B /* WalletNewView.swift */,
-				8B432CC327C394F10025D62B /* WalletNewFlow.swift */,
-				8B432CC527C3955A0025D62B /* WalletNewViewModel.swift */,
-				8B432CC727C395B00025D62B /* WalletNewProtocols.swift */,
-				8B432CC927C3DA030025D62B /* WalletNewConfigurator.swift */,
+				8B432CC127C394E00025D62B /* WalletView.swift */,
+				8B432CC327C394F10025D62B /* WalletFlow.swift */,
+				8B432CC527C3955A0025D62B /* WalletViewModel.swift */,
+				8B432CC727C395B00025D62B /* WalletProtocols.swift */,
+				8B432CC927C3DA030025D62B /* WalletConfigurator.swift */,
 				8B12263827C53120008DC048 /* SlideCardsView.swift */,
 				8B4810F527CF81F000831589 /* AddWalletView.swift */,
 			);
@@ -4435,6 +4444,7 @@
 		8BC06B0A27C7DFAF005A28A1 /* Transaction */ = {
 			isa = PBXGroup;
 			children = (
+				D4A26E262937117E00FEADC2 /* TransactionInfoView.swift */,
 				8BC06B0B27C7DFC4005A28A1 /* TransactionView.swift */,
 				8BC06B0D27C8F5ED005A28A1 /* TransactionFlow.swift */,
 				8BC06B0F27C8F609005A28A1 /* TransactionProtocols.swift */,
@@ -4942,12 +4952,10 @@
 		D48AF449292604CF0044CFAE /* Wallet Network Service */ = {
 			isa = PBXGroup;
 			children = (
-				D44CBF0329308BAF006A14D1 /* Network */,
+				D4A26E202935BA9400FEADC2 /* Network Facade */,
+				D48AF47F292D222E0044CFAE /* Wallet Network */,
 				D48AF485292E48020044CFAE /* Balances */,
 				D48AF482292D22670044CFAE /* Address */,
-				D48AF47F292D222E0044CFAE /* Wallet Network */,
-				D48AF45529265CB50044CFAE /* WalletNetworkFacade.swift */,
-				D44CBF0A29309141006A14D1 /* WalletRequestsFactory.swift */,
 			);
 			path = "Wallet Network Service";
 			sourceTree = "<group>";
@@ -4989,6 +4997,26 @@
 				D49C89C4290A6AF6005B4F64 /* ReactionTextsView.swift */,
 			);
 			path = "Message Reactions ";
+			sourceTree = "<group>";
+		};
+		D4A26E202935BA9400FEADC2 /* Network Facade */ = {
+			isa = PBXGroup;
+			children = (
+				D44CBF0329308BAF006A14D1 /* Network */,
+				D48AF45529265CB50044CFAE /* WalletNetworkFacade.swift */,
+				D44CBF0A29309141006A14D1 /* WalletRequestsFactory.swift */,
+				D4A26E212935BADD00FEADC2 /* AddressRequestParams.swift */,
+				D4A26E282937165800FEADC2 /* BalanceRequestParams.swift */,
+			);
+			path = "Network Facade";
+			sourceTree = "<group>";
+		};
+		D4A26E2329368DA400FEADC2 /* Empty State View */ = {
+			isa = PBXGroup;
+			children = (
+				D4A26E2429368DB300FEADC2 /* EmptyStateViewModifier.swift */,
+			);
+			path = "Empty State View";
 			sourceTree = "<group>";
 		};
 		D4AB9006282789F900E6FAB5 /* Matrix UseCase */ = {
@@ -7415,9 +7443,10 @@
 				8B4E9C2E27DFF60B0057E4C9 /* CodeScanner.swift in Sources */,
 				D4EFEC2F28E2AF110075CC10 /* MXSpaceNotificationCounter.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
-				8B432CCA27C3DA040025D62B /* WalletNewConfigurator.swift in Sources */,
+				8B432CCA27C3DA040025D62B /* WalletConfigurator.swift in Sources */,
 				5A3C9414274AEE8400818060 /* KeyboardListenable.swift in Sources */,
 				D4EFEC5928E2AF110075CC10 /* MXRoomListDataPaginationOptions.swift in Sources */,
+				D4A26E2529368DB300FEADC2 /* EmptyStateViewModifier.swift in Sources */,
 				8B6E5556279F0F58002054CF /* PinCodeCreateViewModel.swift in Sources */,
 				5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
@@ -7707,7 +7736,7 @@
 				8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */,
 				D4EFEB2C28E2AF100075CC10 /* MXKeyVerificationDone.m in Sources */,
 				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
-				8B432CC827C395B00025D62B /* WalletNewProtocols.swift in Sources */,
+				8B432CC827C395B00025D62B /* WalletProtocols.swift in Sources */,
 				7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */,
 				D4EFEB3528E2AF100075CC10 /* MXKeyVerificationRequest.m in Sources */,
 				D4EFEC1428E2AF110075CC10 /* MXRoomState.swift in Sources */,
@@ -7771,7 +7800,7 @@
 				8B34A9F428D46BAC0097ED9E /* DirectMenuView.swift in Sources */,
 				D4EFEB6928E2AF100075CC10 /* MXDeviceInfo.m in Sources */,
 				8BBCBCC828F73D9C00E42F0C /* VideoErrorView.swift in Sources */,
-				8B432CC427C394F10025D62B /* WalletNewFlow.swift in Sources */,
+				8B432CC427C394F10025D62B /* WalletFlow.swift in Sources */,
 				8BADB3D6284A0B51004A48AA /* MediaService.swift in Sources */,
 				5A42680A26A83554000C51DD /* RegistrationFlow.swift in Sources */,
 				8B2048E529255CE1008143A7 /* ReactionsSelectView.swift in Sources */,
@@ -7822,7 +7851,7 @@
 				D43A7E5228CB1BCF00A807EC /* JitsiWellKnown.swift in Sources */,
 				D4EFEC3E28E2AF110075CC10 /* MXFilterJSONModel.m in Sources */,
 				5A15DDF9276E5C9C00CF7AA4 /* ShimmerView.swift in Sources */,
-				8B432CC227C394E00025D62B /* WalletNewView.swift in Sources */,
+				8B432CC227C394E00025D62B /* WalletView.swift in Sources */,
 				D4EFEBE528E2AF110075CC10 /* MXLogObjcWrapper.m in Sources */,
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
 				D4EFEB4F28E2AF100075CC10 /* MXCryptoMachine.swift in Sources */,
@@ -7845,6 +7874,7 @@
 				D4EFEAE428E2AF100075CC10 /* MXBackgroundSyncService.swift in Sources */,
 				D4EFEB8E28E2AF100075CC10 /* MXGeoURIComponents.swift in Sources */,
 				D4EFEC3428E2AF110075CC10 /* MXSpace.swift in Sources */,
+				D4A26E292937165800FEADC2 /* BalanceRequestParams.swift in Sources */,
 				D4EFEC0928E2AF110075CC10 /* MXSession.swift in Sources */,
 				D4EFECA428E2AF110075CC10 /* MXReactionCountChangeListener.m in Sources */,
 				D4EFEBD328E2AF100075CC10 /* MXThirdPartyUserInstance.m in Sources */,
@@ -7909,6 +7939,7 @@
 				8B24FDD627A820A30021177C /* SessionFlow.swift in Sources */,
 				D4E8786128CE07DF00063762 /* JitsiWidget.swift in Sources */,
 				D4EFEB9A28E2AF100075CC10 /* MXCallSelectAnswerEventContent.m in Sources */,
+				D4A26E222935BADD00FEADC2 /* AddressRequestParams.swift in Sources */,
 				D4EFEBC828E2AF100075CC10 /* MXEventAnnotationChunk.m in Sources */,
 				8B5609BC277B35A400AF43F6 /* PersonalizationFlow.swift in Sources */,
 				D4EFEBBC28E2AF100075CC10 /* MXDeviceListResponse.m in Sources */,
@@ -8192,6 +8223,7 @@
 				D4EFEAE028E2AF100075CC10 /* MXJingleVideoView.m in Sources */,
 				D44BDC8128099F110080AE8A /* PushNotificationParser.swift in Sources */,
 				D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */,
+				D4A26E272937117E00FEADC2 /* TransactionInfoView.swift in Sources */,
 				D4EFEC4528E2AF110075CC10 /* MXRoomMembersCount.m in Sources */,
 				5A26CD2E26B3114400118D4B /* BarButtonStyle.swift in Sources */,
 				D4EFEC1528E2AF110075CC10 /* MXSessionEventListener.swift in Sources */,
@@ -8340,7 +8372,7 @@
 				D4EFEAFA28E2AF100075CC10 /* MXKeyBackupVersion.m in Sources */,
 				D4EFEB1628E2AF100075CC10 /* MXAesHmacSha2.m in Sources */,
 				78437F1A270CE94000371110 /* PaywallView.swift in Sources */,
-				8B432CC627C3955A0025D62B /* WalletNewViewModel.swift in Sources */,
+				8B432CC627C3955A0025D62B /* WalletViewModel.swift in Sources */,
 				D4EFEB2B28E2AF100075CC10 /* MXKeyVerificationReady.m in Sources */,
 				8B6C18CA279ABB5700B85F2A /* BlockedListProtocols.swift in Sources */,
 				D4EFEB8A28E2AF100075CC10 /* MXRoomAliasResolution.m in Sources */,

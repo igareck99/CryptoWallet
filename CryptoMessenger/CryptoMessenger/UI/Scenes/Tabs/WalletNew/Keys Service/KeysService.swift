@@ -39,16 +39,21 @@ final class KeysService: KeysServiceProtocol {
 		var privateKey = PrivateKey(seed: mnemonic, coin: coin)
 		derivationNodes.forEach { privateKey = privateKey.derived(at: $0) }
 
-		debugPrint("Keys \(coin.coinType) privateKey: \(privateKey.raw.toHexString())")
-		debugPrint("Keys \(coin.coinType) publicKey: \(privateKey.publicKey.uncompressedPublicKey.toHexString())")
+		let privateKeyStr = privateKey.raw.toHexString()
+		let droppedPublicKey = String(privateKey.publicKey.uncompressedPublicKey.toHexString().dropFirst(2))
+		debugPrint("Keys \(coin.coinType) privateKey: \(privateKeyStr)")
+		debugPrint("Keys \(coin.coinType) publicKey: \(droppedPublicKey)")
 		debugPrint("Keys \(coin.coinType) end")
 
-		return Keys(privateKey: privateKey.raw.toHexString(), publicKey: privateKey.publicKey.uncompressedPublicKey.toHexString())
+		return Keys(
+			privateKey: privateKeyStr,
+			publicKey: droppedPublicKey
+		)
 	}
 }
 
 /*
- // Bitcoin
+ // Bitcoin (mainnet)
  val mnemonic = "trade icon company use feature fee order double inhale gift news long".split(" ")
 
  val expectedPublicKey =

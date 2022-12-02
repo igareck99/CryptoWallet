@@ -1,7 +1,7 @@
 import Foundation
 
-// MARK: - WalletNewSceneDelegate
+// MARK: - WalletSceneDelegate
 
-protocol WalletNewSceneDelegate: AnyObject {
+protocol WalletSceneDelegate: AnyObject {
     func handleNextScene(_ scene: MainFlowCoordinator.Scene)
 }

@@ -1,43 +1,23 @@
 import Combine
 import SwiftUI
-import HDWalletKit
 
-// MARK: - WalletNewViewModel
+// MARK: - WalletViewModel
 
-final class WalletNewViewModel: ObservableObject {
+final class WalletViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: WalletNewSceneDelegate?
+    weak var delegate: WalletSceneDelegate?
     @Published var totalBalance = ""
     @Published var transactionList: [TransactionInfo] = []
-    @Published var cardsList: [WalletInfo] = [
-        .init(
-            walletType: .ethereum,
-            address: "0xty9 ... Bx9M",
-            coinAmount: "1.012",
-            fiatAmount: "33"
-        ),
-        .init(  
-            walletType: .aur,
-            address: "0xj3 ... 138f",
-            coinAmount: "2.3042",
-            fiatAmount: "18.1342"
-        ),
-        .init(
-            walletType: .aur,
-            address: "0xj3 ... 148f",
-            coinAmount: "2.3042",
-            fiatAmount: "18.1342"
-        )
-    ]
+    @Published var cardsList: [WalletInfo] = []
     @Published var canceledImage = UIImage()
 
     // MARK: - Private Properties
 
-    @Published private(set) var state: WalletNewFlow.ViewState = .idle
-    private let eventSubject = PassthroughSubject<WalletNewFlow.Event, Never>()
-    private let stateValueSubject = CurrentValueSubject<WalletNewFlow.ViewState, Never>(.idle)
+    @Published private(set) var state: WalletFlow.ViewState = .idle
+    private let eventSubject = PassthroughSubject<WalletFlow.Event, Never>()
+    private let stateValueSubject = CurrentValueSubject<WalletFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private var apiClient: APIClientManager
@@ -73,12 +53,11 @@ final class WalletNewViewModel: ObservableObject {
 	func getAddress(wallets: [WalletNetwork]) {
 		guard let ethereumPublicKey: String = keychainService[.ethereumPublicKey],
 		   let bitcoinPublicKey: String = keychainService[.bitcoinPublicKey] else { return }
-		let params: [String: Any] = [
-			"ethereum": [["publicKey": ethereumPublicKey.dropFirst(2)]],
-			"bitcoin": [["publicKey": bitcoinPublicKey.dropFirst(2)]]
-		]
-
-		walletNetworks.getAddress(parameters: params) { [weak self] addressResponse in
+		let params = AddressRequestParams(
+			ethereumPublicKey: ethereumPublicKey,
+			bitcoinPublicKey: bitcoinPublicKey
+		)
+		walletNetworks.getAddress(params: params) { [weak self] addressResponse in
 			guard let self = self else { return }
 
 			debugPrint("getAddress address result: \(addressResponse)")
@@ -114,11 +93,11 @@ final class WalletNewViewModel: ObservableObject {
 		guard let bitcoinAddress = savedWallets.first(where: { $0.cryptoType == "bitcoin" })?.address,
 			  let ethereumAddress = savedWallets.first(where: { $0.cryptoType == "ethereum" })?.address else { return }
 
-		let params: [String: Any] = [
-			"ethereum": [["accountAddress": ethereumAddress]],
-			"bitcoin": [["accountAddress": bitcoinAddress]]
-		]
-		walletNetworks.getBalances(parameters: params) {
+		let params = BalanceRequestParams(
+			ethereumAddress: ethereumAddress,
+			bitcoinAddress: bitcoinAddress
+		)
+		walletNetworks.getBalances(params: params) {
 			debugPrint("getBalance balance result: \($0)")
 			guard case let .success(balance) = $0 else { return }
 			debugPrint("getBalance balance: \(balance)")
@@ -145,13 +124,13 @@ final class WalletNewViewModel: ObservableObject {
 
 			DispatchQueue.main.async {
 				self.cardsList = cards
+				self.objectWillChange.send()
 			}
 		}
 	}
 
 	func updateWallets() {
 
-		coreDataService.deleteAllWalletNetworks()
 		walletNetworks.getNetworks { [weak self] networks in
 
 			guard let self = self else { return }
@@ -159,6 +138,7 @@ final class WalletNewViewModel: ObservableObject {
 			debugPrint("updateWallets getNetworks networks: \(networks)")
 			guard case let .success(wallets) = networks else { return }
 			debugPrint("updateWallets getNetworks networks: \(wallets)")
+			self.coreDataService.deleteAllWalletNetworks()
 			wallets.forEach { [weak self] in
 				guard let self = self else { return }
 				self.coreDataService.createWalletNetwork(wallet: $0)
@@ -166,8 +146,9 @@ final class WalletNewViewModel: ObservableObject {
 			let savedWallets = self.coreDataService.getWalletNetworks()
 			debugPrint("updateWallets savedWallets: \(savedWallets)")
 
-//				guard let seed = self.keychainService.secretPhrase else { return }
-			let seed = "trade icon company use feature fee order double inhale gift news long"
+			guard let seed = self.keychainService.secretPhrase else { return }
+			// Оставил тестовую фразу для проверок
+//			let seed = "trade icon company use feature fee order double inhale gift news long"
 
 			savedWallets.forEach { [weak self] wallet in
 				guard let self = self else { return }
@@ -189,7 +170,7 @@ final class WalletNewViewModel: ObservableObject {
 
     // MARK: - Internal Methods
 
-    func send(_ event: WalletNewFlow.Event) {
+    func send(_ event: WalletFlow.Event) {
         eventSubject.send(event)
     }
 
@@ -213,6 +194,8 @@ final class WalletNewViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.importKey)
                 case .onTransfer:
                     self?.delegate?.handleNextScene(.transfer)
+				case .onImportPhrase:
+					self?.delegate?.handleNextScene(.phraseManager)
                 }
             }
             .store(in: &subscriptions)
@@ -223,7 +206,7 @@ final class WalletNewViewModel: ObservableObject {
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
     }
-	
+
     private func updateData() {
         totalBalance = "$12 5131.53"
         transactionList = []

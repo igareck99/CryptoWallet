@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "wallet_empty_state.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

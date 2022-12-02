@@ -6,7 +6,7 @@ struct AddWalletView: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel: WalletNewViewModel
+    @StateObject var viewModel: WalletViewModel
     @Binding var showAddWallet: Bool
 
     // MARK: - Body
