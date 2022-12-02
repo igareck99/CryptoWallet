@@ -24,6 +24,7 @@ enum RemoteConfigValues: String {
 	enum Wallet: String {
 		case auraTab
         case auraTransaction
+		case netType
 	}
 
 	// Настройки модуля Звонки
