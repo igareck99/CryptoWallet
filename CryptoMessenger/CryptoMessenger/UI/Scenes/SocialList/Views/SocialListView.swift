@@ -11,7 +11,6 @@ struct SocialListView: View {
     @State var editMode: EditMode = .active
     @State var sectionSwitch = false
     @Environment(\.presentationMode) private var presentationMode
-    @State private var dragging: SocialListItem?
 
     // MARK: - Body
 
@@ -32,11 +31,13 @@ struct SocialListView: View {
 						.ignoresSafeArea()
                         .listRowSeparator(.visible)
                         .onDrag {
-                            self.dragging = item
+                            self.viewModel.dragging = item
                             return NSItemProvider(object: NSString())
                         }
                 }
-                .onMove(perform: { _, _  in })
+                .onMove(perform: { indexSet, value in
+                    viewModel.onMove(source: indexSet, destination: value)
+                })
                 .listRowBackground(Color(.blue(0.1)))
                 Spacer().listRowSeparator(.hidden)
             }
@@ -44,9 +45,6 @@ struct SocialListView: View {
         .onAppear {
             viewModel.send(.onAppear)
 		}
-		.onDisappear(perform: {
-			viewModel.saveSocialData()
-		})
         .listStyle(.plain)
 		.navigationBarHidden(false)
         .toolbar {
@@ -61,6 +59,10 @@ struct SocialListView: View {
 					Text(viewModel.resources.rightButton)
                         .font(.bold(15))
                         .foreground(.blue())
+                        .onTapGesture {
+                            viewModel.saveSocialData()
+                            presentationMode.wrappedValue.dismiss()
+                        }
                 })
             }
         }

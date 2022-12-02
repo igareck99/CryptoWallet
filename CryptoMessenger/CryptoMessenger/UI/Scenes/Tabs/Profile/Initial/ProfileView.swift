@@ -168,7 +168,7 @@ struct ProfileView: View {
                                             Button(action: {
                                                 showAllSocial.toggle()
                                             }, label: {
-                                                R.image.navigation.settingsButton.image.resizable()
+                                                R.image.photoEditor.dotes.image.resizable()
                                                     .frame(width: 16,
                                                            height: 15)
                                             }).frame(width: 32, height: 32, alignment: .center)
@@ -186,7 +186,7 @@ struct ProfileView: View {
                                         Button(action: {
                                             showAllSocial.toggle()
                                         }, label: {
-                                            R.image.navigation.settingsButton.image.resizable()
+                                            R.image.photoEditor.dotes.image.resizable()
                                                 .frame(width: 16,
                                                        height: 15)
                                         }).frame(width: 32, height: 32, alignment: .center)
@@ -218,14 +218,6 @@ struct ProfileView: View {
                         Text(viewModel.profile.status)
                             .font(.regular(15))
                             .foreground(.black())
-//                        Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
-//                            .font(.regular(15))
-//                            .foreground(.blue())
-//                            .onTapGesture {
-//                                safariAddress = "https://www.ikea.com/ru/ru/" +
-//                                "campaigns/actual-information-pub21f86b70"
-//                                showSafari = true
-//                            }
                     }.padding(.leading, 16)
                     Button(action: {
                         showActionImageAlert = true
@@ -241,7 +233,6 @@ struct ProfileView: View {
                         .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
                         .background(.white())
                         .padding(.horizontal, 16)
-
                     photosView
                 }
             }
@@ -254,7 +245,7 @@ struct ProfileView: View {
             placeholder: {
                 ZStack {
                     Circle()
-                        .background(.blue(0.1))
+                        .foreground(.blue(0.1))
                     R.image.profile.avatarThumbnail.image
                 }
             },
