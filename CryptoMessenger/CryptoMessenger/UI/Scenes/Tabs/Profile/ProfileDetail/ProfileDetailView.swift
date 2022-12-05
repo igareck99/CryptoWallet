@@ -7,6 +7,7 @@ struct ProfileDetailView: View {
     // MARK: - Internal Properties
 
     @ObservedObject var viewModel: ProfileDetailViewModel
+    @Binding var selectedAvatarImage: UIImage?
 
     // MARK: - Private Properties
 
@@ -49,6 +50,10 @@ struct ProfileDetailView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
+            .onReceive(viewModel.$selectedImage, perform: { value in
+                guard let image = value else { return }
+                selectedAvatarImage = image
+            })
             .actionSheet(isPresented: $showActionImageAlert) {
                 ActionSheet(title: Text(""),
                             message: nil,

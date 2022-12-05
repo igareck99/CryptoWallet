@@ -9,6 +9,7 @@ struct ProfileView: View {
     @StateObject var viewModel: ProfileViewModel
     @State var showImageEdtior = false
     @State var showImageViewer = false
+    @State var selectedAvatarImage: UIImage?
 
     // MARK: - Private Properties
 
@@ -33,15 +34,16 @@ struct ProfileView: View {
         content
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                if showMenu {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Text(viewModel.profile.nickname)
-                            .font(.bold(15))
-                            .onTapGesture {
-                                UIPasteboard.general.string = viewModel.profile.nickname
-                                showAlert = true
-                            }
-                    }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Text(viewModel.profile.nickname)
+                        .font(.bold(15))
+                        .lineLimit(1)
+                        .frame(minWidth: 0,
+                               maxWidth: 0.78 * UIScreen.main.bounds.width)
+                        .onTapGesture {
+                            UIPasteboard.general.string = viewModel.profile.nickname
+                            showAlert = true
+                        }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     R.image.profile.settings.image
@@ -122,7 +124,11 @@ struct ProfileView: View {
                     ProfileSettingsMenuView(balance: "0.50 AUR",
                                             onSelect: { type in
                         vibrate()
-                        viewModel.send(.onShow(type))
+                        if type == .profile {
+                            viewModel.send(.onShowProfileDetail($selectedAvatarImage))
+                        } else {
+                            viewModel.send(.onShow(type))
+                        }
                     })
 					.frame(height: UIScreen.main.bounds.height - 90)
 					.background(
@@ -255,22 +261,48 @@ struct ProfileView: View {
     }
 
     private var avatarView: some View {
-        AsyncImage(
-            url: viewModel.profile.avatar,
-            placeholder: {
+        ZStack {
+            if let image = selectedAvatarImage {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .clipShape(Circle())
+                    .frame(width: 100, height: 100)
+                    .clipped()
+            } else if let url = viewModel.profile.avatar {
+                AsyncImage(
+                    url: url,
+                    placeholder: {
+                        ZStack {
+                            Circle()
+                                .cornerRadius(50)
+                                .frame(width: 100, height: 100)
+                                .foreground(.blue(0.1))
+                            ProgressView()
+                                .tint(Color(.blue()))
+                                .frame(width: 50,
+                                       height: 50)
+                        }
+                    },
+                    result: {
+                        Image(uiImage: $0).resizable()
+                    }
+                )
+                .scaledToFill()
+                .clipShape(Circle())
+                .frame(width: 100, height: 100)
+            } else {
                 ZStack {
                     Circle()
+                        .frame(width: 100, height: 100)
+                        .cornerRadius(50)
                         .foreground(.blue(0.1))
                     R.image.profile.avatarThumbnail.image
+                        .resizable()
+                        .frame(width: 50, height: 50)
                 }
-            },
-            result: {
-                Image(uiImage: $0).resizable()
             }
-        )
-        .scaledToFill()
-        .frame(width: 100, height: 100)
-        .cornerRadius(50)
+        }
     }
 
     private var photosView: some View {

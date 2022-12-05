@@ -1,6 +1,5 @@
 import SwiftUI
 import UIKit
-import URLImage
 import Combine
 // swiftlint:disable all
 @available(iOS 13.0, *)

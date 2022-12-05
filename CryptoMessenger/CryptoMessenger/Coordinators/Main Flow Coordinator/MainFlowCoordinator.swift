@@ -139,7 +139,7 @@ final class MainFlowCoordinator: Coordinator {
         // MARK: - Types
 
         case chatRoom(AuraRoom)
-        case profileDetail
+        case profileDetail(Binding<UIImage?>)
         case personalization
         case language
         case typography
@@ -176,8 +176,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         switch scene {
         case let .chatRoom(room):
             showChatRoomScene(room: room)
-        case .profileDetail:
-            showProfileDetailScene()
+        case let .profileDetail(image):
+            showProfileDetailScene(image: image)
         case .personalization:
             showPersonalizationScene()
         case .language:
@@ -269,8 +269,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showProfileDetailScene() {
-        let rootView = ProfileDetailConfigurator.configuredView(delegate: self)
+    private func showProfileDetailScene(image: Binding<UIImage?>) {
+        let rootView = ProfileDetailConfigurator.configuredView(delegate: self, image: image)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
