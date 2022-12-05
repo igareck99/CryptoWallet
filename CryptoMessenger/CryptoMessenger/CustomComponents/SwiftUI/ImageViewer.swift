@@ -17,9 +17,7 @@ final class ImageViewerViewModel: ObservableObject {
 
     func onChange(value: CGSize) {
         imageViewerOffset = value
-
         let progress = imageViewerOffset.height / (UIScreen.main.bounds.height * 0.5)
-
         withAnimation {
             bgOpacity = Double(1 - (progress < 0 ? -progress : progress))
         }
