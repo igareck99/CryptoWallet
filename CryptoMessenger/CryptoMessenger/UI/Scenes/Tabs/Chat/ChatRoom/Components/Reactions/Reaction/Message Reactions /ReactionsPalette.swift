@@ -14,6 +14,9 @@ extension Color {
 	static let pigeonPostApprox = Color(uiColor: .pigeonPostApprox)
 	static let nobelApprox = Color(uiColor: .nobelApprox)
 	static let tundoraApprox = Color(uiColor: .tundoraApprox)
+	static let manateeApprox = Color(uiColor: .manateeApprox)
+	static let sharkApprox = Color(uiColor: .sharkApprox)
+	static let athensGrayApprox = Color(uiColor: .athensGrayApprox)
 }
 
 extension UIColor {
@@ -29,4 +32,7 @@ extension UIColor {
 	static let pigeonPostApprox = UIColor(red: 0.71, green: 0.792, blue: 0.867, alpha: 1)
 	static let nobelApprox = UIColor(red: 0.702, green: 0.702, blue: 0.702, alpha: 1)
 	static let tundoraApprox = UIColor(red: 0.292, green: 0.292, blue: 0.292, alpha: 1)
+	static let manateeApprox = UIColor(red: 0.557, green: 0.557, blue: 0.576, alpha: 1)
+	static let sharkApprox = UIColor(red: 0.11, green: 0.11, blue: 0.118, alpha: 1)
+	static let athensGrayApprox = UIColor(red: 0.902, green: 0.918, blue: 0.929, alpha: 1)
 }

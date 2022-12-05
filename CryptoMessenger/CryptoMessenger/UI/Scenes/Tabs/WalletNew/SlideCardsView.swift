@@ -98,7 +98,7 @@ struct SlideCardsView: View {
 							switch wallet.walletType {
 							case .ethereum:
 								onAddressSend(0, wallet.address)
-							case .aur:
+							case .bitcoin:
 								onAddressSend(1, wallet.address)
 							default:
 								break
