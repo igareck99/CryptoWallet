@@ -76,8 +76,6 @@ struct WalletView: View {
     var content: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 16) {
-                balanceView
-                    .padding(.leading, 16)
 
                 SlideCardsView(cards: viewModel.cardsList, onOffsetChanged: { off in
                     let cardWidth = CGFloat(343)
@@ -104,6 +102,8 @@ struct WalletView: View {
                     showTokenInfo = true
                 }).padding(.top, 16)
             }
+
+			NavigationLink(destination: tokenInfoView(), isActive: $showTokenInfo) { EmptyView() }
 
             VStack(spacing: 24) {
                 cardsProgressView
@@ -153,35 +153,31 @@ struct WalletView: View {
                        height: 114, alignment: .center)
                 .background(.white())
                 .cornerRadius(16)
-        }
-        )
-        .popup(isPresented: $showTokenInfo,
-               type: .toast,
-               position: .bottom,
-               closeOnTap: false,
-               closeOnTapOutside: true,
-               backgroundColor: Color(.black(0.3)),
-               view: {
-            TokenInfoView(showTokenInfo: $showTokenInfo,
-						  viewModel: TokenInfoViewModel(
-							address: selectedAddress,
-							userCredentialsStorage: UserDefaultsService.shared
-						  ),
-                          address: selectedAddress)
-                .onAppear {
-                    hideTabBar()
-                    navBarHide = true
-                }
-                .frame(width: UIScreen.main.bounds.width,
-                       height: UIScreen.main.bounds.height - 60,
-                       alignment: .center)
-                .background(.white())
-                .cornerRadius(16)
-        }
-        )
+        })
     }
 
     // MARK: - Private Properties
+
+	private func tokenInfoView() -> some View {
+		TokenInfoView(
+			showTokenInfo: $showTokenInfo,
+			viewModel: TokenInfoViewModel(
+						address: selectedAddress,
+						userCredentialsStorage: UserDefaultsService.shared
+					  ),
+			address: selectedAddress
+		)
+		.onAppear {
+			hideTabBar()
+			navBarHide = true
+		}
+		.frame(
+			width: UIScreen.main.bounds.width,
+			height: UIScreen.main.bounds.height - 60,
+			alignment: .center
+		)
+		.background(.white())
+	}
 
     private var cardsProgressView: some View {
         ZStack(alignment: .leading) {

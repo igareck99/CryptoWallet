@@ -16,24 +16,34 @@ struct TokenInfoView: View {
 
     // MARK: - Body
 
-    var body: some View {
-        content
-            .popup(isPresented: $showAddresses,
-                   type: .toast,
-                   position: .bottom,
-                   closeOnTap: false,
-                   closeOnTapOutside: true,
-                   backgroundColor: Color(.black(0.4))) {
-                SelectTokenView(showSelectToken: $showAddresses,
-                                address: $address,
-                                viewModel: viewModel)
-                    .frame(width: UIScreen.main.bounds.width,
-                           height: CGFloat(viewModel.addresses.count * 64 + 50),
-                           alignment: .center)
-                    .background(.white())
-                    .cornerRadius(16)
-            }
-    }
+	var body: some View {
+		ScrollView {
+			content.popup(
+				isPresented: $showAddresses,
+				type: .toast,
+				position: .bottom,
+				closeOnTap: false,
+				closeOnTapOutside: true,
+				backgroundColor: Color(.black(0.4))
+			) {
+				SelectTokenView(
+					showSelectToken: $showAddresses,
+					address: $address,
+					viewModel: viewModel
+				)
+				.frame(
+					width: UIScreen.main.bounds.width,
+					height: CGFloat(viewModel.addresses.count * 64 + 50),
+					alignment: .center
+				)
+				.background(.white())
+				.cornerRadius(16)
+			}
+			.navigationBarTitleDisplayMode(.inline)
+			.navigationBarHidden(false)
+			.navigationBarTitle(R.string.localizable.tokenInfoTitle())
+		}
+	}
 
     // MARK: - Private Properties
 
@@ -51,35 +61,18 @@ struct TokenInfoView: View {
     }
 
     private var content: some View {
-        VStack(alignment: .leading) {
-            headerView
-                .padding(.top, 16)
-                .padding(.horizontal, 16)
-            Divider()
-                .padding(.top, 16)
+        VStack(alignment: .center) {
             QRCodeView
-                .padding(.leading, 16)
                 .padding(.top, 40)
-            Text(R.string.localizable.tokenInfoSelectedAddress().uppercased())
-                .font(.semibold(12))
-                .foreground(.darkGray())
-                .padding(.top, 24)
-                .padding(.leading, 16)
-            addressCell
-                .background(.white())
-                .onTapGesture {
-                    showAddresses = true
-                }
-                .padding(.top, 12)
-                .padding(.horizontal, 16)
-            Spacer()
-            VStack(spacing: 16) {
-                Divider()
-                sendButton
-                    .frame(width: 225, height: 44)
-                    .padding(.bottom, 44)
-            }
+
+			copyAddressButton
+				.padding(.bottom, 80)
+
+			shareButton
+				.frame(width: 225, height: 44)
+				.padding(.bottom, 44)
         }
+		.padding([.leading, .trailing], 16)
     }
 
     private var QRCodeView: some View {
@@ -95,6 +88,32 @@ struct TokenInfoView: View {
                        height: UIScreen.main.bounds.width - 32)
         }
     }
+
+	private var copyAddressButton: some View {
+		HStack(spacing: 0) {
+
+			Text(address.address)
+				.lineLimit(1)
+				.truncationMode(.middle)
+				.font(.system(size: 16))
+				.foregroundColor(.manateeApprox)
+				.padding(.leading, 8)
+				.padding(.trailing, 16)
+
+			Image(R.image.wallet.copy.name)
+				.foregroundColor(.sharkApprox)
+				.padding(.trailing, 8)
+				.onTapGesture {
+					UIPasteboard.general.string = address.address
+				}
+		}
+		.frame(minHeight: 50)
+		.overlay(
+			RoundedRectangle(cornerRadius: 6)
+				.stroke(Color.athensGrayApprox, lineWidth: 2)
+		)
+
+	}
 
     private var addressCell: some View {
         HStack(alignment: .center ) {
@@ -123,21 +142,20 @@ struct TokenInfoView: View {
         }
     }
 
-    private var sendButton: some View {
-        Button {
-        } label: {
-            Text(R.string.localizable.tokenInfoShareAddress())
-                .frame(minWidth: 0, maxWidth: 225)
-                .font(.semibold(15))
-                .padding()
-                .foregroundColor(.white)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 4)
-                        .stroke(Color.white, lineWidth: 2)
-                )
-        }
-        .background(Color(.blue()))
-        .cornerRadius(4)
+    private var shareButton: some View {
+		Button(action: actionSheet) {
+			Text(R.string.localizable.tokenInfoShareAddress())
+				.frame(minWidth: 0, maxWidth: 225)
+				.font(.semibold(15))
+				.padding()
+				.foregroundColor(.white)
+				.overlay(
+					RoundedRectangle(cornerRadius: 8)
+						.stroke(Color.white, lineWidth: 2)
+				)
+		}
+		.background(Color(.blue()))
+		.cornerRadius(8)
     }
 
     // MARK: - Private Methods
@@ -153,4 +171,25 @@ struct TokenInfoView: View {
         return Image(uiImage: UIImage(systemName: "xmark.circle") ?? UIImage())
             .interpolation(.none)
     }
+
+	private func actionSheet() {
+
+		guard
+			let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+			let controller = scene.windows.first?.rootViewController
+		else {
+			return
+		}
+
+		let activityVC = UIActivityViewController(
+			activityItems: [address.address],
+			applicationActivities: nil
+		)
+
+		controller.present(
+			activityVC,
+			animated: true,
+			completion: nil
+		)
+	}
 }
