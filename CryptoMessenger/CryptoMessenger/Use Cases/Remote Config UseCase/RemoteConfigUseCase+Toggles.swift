@@ -7,6 +7,7 @@ protocol RemoteConfigToggles {
 	// Wallet
 	var isWalletV1Available: Bool { get }
 	var isTransactionV1Available: Bool { get }
+	var isWalletV1NetType: Bool { get }
 
 	// Calls
 	var isP2PCallV1Available: Bool { get }
@@ -76,6 +77,14 @@ extension RemoteConfigUseCase: RemoteConfigToggles {
 	var isTransactionV1Available: Bool {
 		let featureConfig = remoteConfigModule(forKey: .wallet)
 		let feature = featureConfig?.features[RemoteConfigValues.Wallet.auraTransaction.rawValue]
+		let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
+		let isFeatureEnabled = feature?.enabled
+		return isVersionEnabled == true && isFeatureEnabled == true
+	}
+
+	var isWalletV1NetType: Bool {
+		let featureConfig = remoteConfigModule(forKey: .wallet)
+		let feature = featureConfig?.features[RemoteConfigValues.Wallet.netType.rawValue]
 		let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
 		let isFeatureEnabled = feature?.enabled
 		return isVersionEnabled == true && isFeatureEnabled == true
