@@ -126,8 +126,6 @@ final class ProfileViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.socialList)
                 case let .onShow(type):
                     switch type {
-                    case .profile:
-                        self?.delegate?.handleNextScene(.profileDetail)
                     case .personalization:
                         self?.delegate?.handleNextScene(.personalization)
                     case .security:
@@ -143,6 +141,8 @@ final class ProfileViewModel: ObservableObject {
                     default:
                         ()
                     }
+                case let .onShowProfileDetail(image):
+                    self?.delegate?.handleNextScene(.profileDetail(image))
                 case let .onAddPhoto(image):
                     guard let userId = self?.matrixUseCase.getUserId() else { return }
                     self?.mediaService.addPhotoFeed(image: image,
@@ -154,6 +154,7 @@ final class ProfileViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
+       
         $changedImage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in

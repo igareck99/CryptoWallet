@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SwiftUI
 
 // MARK: - ProfileFlow
 
@@ -27,5 +28,6 @@ enum ProfileFlow {
         case onShow(ProfileSettingsMenu)
         case onAddPhoto(UIImage)
         case onSocial
+        case onShowProfileDetail(Binding<UIImage?>)
     }
 }

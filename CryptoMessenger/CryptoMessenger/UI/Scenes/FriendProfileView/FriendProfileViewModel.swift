@@ -88,20 +88,6 @@ final class FriendProfileViewModel: ObservableObject {
                     print("onAppear")
                 case let .onShow(type):
                     switch type {
-                    case .profile:
-                        self?.delegate?.handleNextScene(.profileDetail)
-                    case .personalization:
-                        self?.delegate?.handleNextScene(.personalization)
-                    case .security:
-                        self?.delegate?.handleNextScene(.security)
-                    case .about:
-                        self?.delegate?.handleNextScene(.aboutApp)
-                    case .chat:
-                        self?.delegate?.handleNextScene(.chatSettings)
-                    case .questions:
-                        self?.delegate?.handleNextScene(.faq)
-                    case .wallet:
-                        self?.delegate?.handleNextScene(.walletManager)
                     default:
                         ()
                     }
