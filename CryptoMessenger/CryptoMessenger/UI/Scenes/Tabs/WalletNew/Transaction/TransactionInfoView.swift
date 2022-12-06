@@ -18,14 +18,18 @@ struct TransactionInfoView: View {
 						Circle()
 							.frame(width: 40, height: 40)
 							.foreground(transaction.type == .send ? .blue() : .green())
-						transaction.type == .send ? R.image.wallet.writeOff.image :
+						transaction.type == .send ?
+						R.image.wallet.writeOff.image :
 						R.image.wallet.inflow.image
 					}
 					VStack(alignment: .leading, spacing: 6) {
-						Text(transaction.type == .send ? R.string.localizable.walletShipped() :
-								R.string.localizable.walletReceived())
+						Text(transaction.transactionResult)
 						.font(.medium(15))
-						Text(transaction.date + " " + "From:" + transaction.from)
+						Text(
+							(transaction.date.dateFromISO8601?.dayAndMonthAndYear ?? "")
+							+ " " +
+							(transaction.date.dateFromISO8601?.hoursAndMinutes ?? "")
+						)
 							.font(.regular(13))
 							.foreground(.darkGray())
 					}
@@ -34,24 +38,24 @@ struct TransactionInfoView: View {
 				VStack(alignment: .trailing) {
 					switch transaction.transactionCoin {
 					case .aur:
-						Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " AUR":
-								String("- \(abs(transaction.amount))") + " AUR")
+						Text("+ \(transaction.amount) AUR")
 						.font(.regular(15))
-						.foreground(transaction.type == .send ? .black(): .green())
+						.foreground(transaction.type == .send ? .black() : .green())
+						.lineLimit(1)
+						.truncationMode(.middle)
 					case .ethereum:
-						Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " ETH":
-								String("- \(abs(transaction.amount))") + " ETH")
+						Text("+ \(transaction.amount) ETH")
 						.font(.regular(15))
-						.foreground(transaction.type == .send ? .black(): .green())
+						.foreground(transaction.type == .send ? .black() : .green())
+						.lineLimit(1)
+						.truncationMode(.middle)
 					case .bitcoin:
-						Text(transaction.amount > 0 ? String("+ \(transaction.amount)") + " BTC":
-								String("- \(abs(transaction.amount))") + " BTC")
+						Text("+ \(transaction.amount) BTC")
 						.font(.regular(15))
-						.foreground(transaction.type == .send ? .black(): .green())
+						.foreground(transaction.type == .send ? .black() : .green())
+						.lineLimit(1)
+						.truncationMode(.middle)
 					}
-					Text(String(transaction.amount) + " USD")
-						.font(.regular(13))
-						.foreground(.darkGray())
 				}
 			}
 			Divider()
