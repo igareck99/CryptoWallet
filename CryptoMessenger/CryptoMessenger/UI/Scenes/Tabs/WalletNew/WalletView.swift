@@ -23,40 +23,13 @@ struct WalletView: View {
     // MARK: - Body
 	var body: some View {
 		content
-			.emptyState($viewModel.cardsList.isEmpty) {
-
-				VStack(alignment: .center, spacing: 0) {
-
-					Image(R.image.wallet.walletEmptyState.name)
-						.frame(minHeight: 140)
-
-					Text(R.string.localizable.walletNoData())
-						.font(.system(size: 22))
-						.foregroundColor(.tundoraApprox)
-						.frame(alignment: .center)
-						.padding(.bottom, 6)
-
-					Text(R.string.localizable.walletAddWalletLong())
-						.font(.system(size: 15))
-						.foregroundColor(.nobelApprox)
-						.frame(alignment: .center)
-						.padding(.bottom, 70)
-
-					Button {
-						debugPrint("onImportKey")
-						viewModel.send(.onImportPhrase)
-					} label: {
-						Text(R.string.localizable.walletAddWalletShort())
-							.font(.system(size: 17, weight: .semibold))
-							.foregroundColor(.white)
-							.padding([.leading, .trailing], 40)
-							.padding([.bottom, .top], 13)
-					}
-					.background(Color.azureRadianceApprox)
-					.cornerRadius(8)
-					.frame(width: 237, height: 48)
-				}
-			}
+			.emptyState(
+				viewState: viewModel.viewState,
+				emptyContent: {
+					emptyStateView()
+				}, loadingContent: {
+					loadingStateView()
+				})
 			.onAppear {
 				debugPrint("onAppear")
 				navBarHide = false
@@ -135,10 +108,7 @@ struct WalletView: View {
             }
         })
         .onAppear {
-            debugPrint("onAppear")
-            navBarHide = false
-            showTabBar()
-            viewModel.send(.onAppear)
+//            viewModel.send(.onAppear)
         }
         .popup(isPresented: $showAddWallet,
                type: .toast,
@@ -157,6 +127,57 @@ struct WalletView: View {
     }
 
     // MARK: - Private Properties
+
+	@State private var isRotating = 0.0
+	
+	@ViewBuilder
+	private func loadingStateView() -> some View {
+		VStack {
+			Image(R.image.wallet.loader.name)
+				.rotationEffect(.degrees(isRotating))
+				.onAppear {
+					withAnimation(.linear(duration: 1)
+						.speed(0.4).repeatForever(autoreverses: false)) {
+							isRotating = 360.0
+						}
+				}
+		}
+	}
+
+	@ViewBuilder
+	private func emptyStateView() -> some View {
+		VStack(alignment: .center, spacing: 0) {
+
+			Image(R.image.wallet.walletEmptyState.name)
+				.frame(minHeight: 140)
+
+			Text(R.string.localizable.walletNoData())
+				.font(.system(size: 22))
+				.foregroundColor(.tundoraApprox)
+				.frame(alignment: .center)
+				.padding(.bottom, 6)
+
+			Text(R.string.localizable.walletAddWalletLong())
+				.font(.system(size: 15))
+				.foregroundColor(.nobelApprox)
+				.frame(alignment: .center)
+				.padding(.bottom, 70)
+
+			Button {
+				debugPrint("onImportKey")
+				viewModel.send(.onImportPhrase)
+			} label: {
+				Text(R.string.localizable.walletAddWalletShort())
+					.font(.system(size: 17, weight: .semibold))
+					.foregroundColor(.white)
+					.padding([.leading, .trailing], 40)
+					.padding([.bottom, .top], 13)
+			}
+			.background(Color.azureRadianceApprox)
+			.cornerRadius(8)
+			.frame(width: 237, height: 48)
+		}
+	}
 
 	private func tokenInfoView() -> some View {
 		TokenInfoView(

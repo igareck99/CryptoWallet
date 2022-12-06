@@ -1,23 +1,38 @@
 import SwiftUI
 
-struct EmptyStateViewModifier<EmptyContent: View>: ViewModifier {
-	var isEmpty: Bool
-	let emptyContent: () -> EmptyContent
+enum ViewState {
+	case empty
+	case loading
+	case content
+}
+
+struct EmptyStateViewModifier<LoadingStateView: View, EmptyStateView: View>: ViewModifier {
+	var viewState: ViewState
+	let emptyContent: () -> EmptyStateView
+	let loadingContent: () -> LoadingStateView
 
 	func body(content: Content) -> some View {
-		if isEmpty {
+		switch viewState {
+		case .empty:
 			emptyContent()
-		} else {
+		case .loading:
+			loadingContent()
+		case .content:
 			content
 		}
 	}
 }
 
 extension View {
-	func emptyState<EmptyContent>(
-		_ isEmpty: Bool,
-		emptyContent: @escaping () -> EmptyContent
-	) -> some View where EmptyContent: View {
-		modifier(EmptyStateViewModifier(isEmpty: isEmpty, emptyContent: emptyContent))
+	func emptyState<EmptyStateView: View, LoadingStateView: View>(
+		viewState: ViewState,
+		emptyContent: @escaping () -> EmptyStateView,
+		loadingContent: @escaping () -> LoadingStateView
+	) -> some View {
+		modifier(EmptyStateViewModifier(
+			viewState: viewState,
+			emptyContent: emptyContent,
+			loadingContent: loadingContent
+		))
 	}
 }

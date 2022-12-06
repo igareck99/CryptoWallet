@@ -8,6 +8,8 @@ protocol CoreDataServiceProtocol {
 
 	func getWalletNetworks() -> [WalletNetwork]
 
+	func getWalletNetworksCount() -> Int
+
 	func getWalletNetwork(byId id: UUID) -> WalletNetwork?
 
 	// MARK: - CREATE
@@ -146,14 +148,25 @@ extension CoreDataService: CoreDataServiceProtocol {
 		return []
 	}
 
+	func getWalletNetworksCount() -> Int {
+		let context = persistentContainer.viewContext
+		let fetchRequest = NSFetchRequest<WalletNetwork>(entityName: .entityName)
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: .id, ascending: true)]
+		do {
+			return try context.count(for: fetchRequest)
+		} catch let err {
+			debugPrint(err)
+		}
+		return .zero
+	}
+
 	func getWalletNetwork(byId id: UUID) -> WalletNetwork? {
 		let context = persistentContainer.viewContext
 		let fetchRequest = NSFetchRequest<WalletNetwork>(entityName: .entityName)
 		fetchRequest.predicate = NSPredicate(
 			format: "id == %@",
-			id.uuidString as CVarArg
+			id as CVarArg
 		)
-
 		do {
 			return try context.fetch(fetchRequest).first
 		} catch let err {
@@ -284,7 +297,7 @@ extension CoreDataService: CoreDataServiceProtocol {
 
 	func deleteWalletNetwork(byId id: UUID) {
 		let fetchRequest = NSFetchRequest<WalletNetwork>(entityName: .entityName)
-		fetchRequest.predicate = NSPredicate(format: "id == %@", id.uuidString as CVarArg)
+		fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
 		do {
 			let context = persistentContainer.viewContext
 			let result = try context.fetch(fetchRequest) as [WalletNetwork]

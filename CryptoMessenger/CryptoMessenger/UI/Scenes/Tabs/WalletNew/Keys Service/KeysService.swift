@@ -51,30 +51,3 @@ final class KeysService: KeysServiceProtocol {
 		)
 	}
 }
-
-/*
- // Bitcoin (mainnet)
- val mnemonic = "trade icon company use feature fee order double inhale gift news long".split(" ")
-
- val expectedPublicKey =
- "79cd29633692cbd27c450b2e838a2365f3351f1afa76784ed899a53710a2c36e2ba2adeb0de7ddda39bcd6eea132248addec19147234897bbc8efc6eb44940ba"
- val expectedPrivateKey = "2026bb5bb1e6136e8aa885eefc31828478be521036619c9e594421799f74f237"
- val keyPair = CryptoHelperImpl().generateKeyPair(mnemonic, "m/44'/0'/0'/0/0")
-
- assertEquals(expectedPublicKey, Hex.toHexString(keyPair.publicKey.toByteArray()))
- assertEquals(expectedPrivateKey, Hex.toHexString(keyPair.privateKey.toByteArray()))
- */
-
-
-/*
- // Ethereum
- val mnemonic = "trade icon company use feature fee order double inhale gift news long".split(" ")
-
- val expectedPublicKey =
- "27ca46e54bedd9a5687d3d3bbfa6c854a43ccb60f1f96c7df28e61acda9513e0c8e5f6a9101b87e688370d91f9d813a62cbdea438c2b7b776a5bbd468d4c8bda"
- val expectedPrivateKey = "396f7f85659d2b43ef05f7abc80586aa3989e8ef7218433350ddd5945f7f9008"
- val keyPair = CryptoHelperImpl().generateKeyPair(mnemonic, "m/44'/60'/0'/0/0")
-
- assertEquals(expectedPublicKey, Hex.toHexString(keyPair.publicKey.toByteArray()))
- assertEquals(expectedPrivateKey, Hex.toHexString(keyPair.privateKey.toByteArray()))
- */

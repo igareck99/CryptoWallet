@@ -12,6 +12,7 @@ final class WalletViewModel: ObservableObject {
     @Published var transactionList: [TransactionInfo] = []
     @Published var cardsList: [WalletInfo] = []
     @Published var canceledImage = UIImage()
+	var viewState: ViewState = .empty
 
     // MARK: - Private Properties
 
@@ -53,29 +54,26 @@ final class WalletViewModel: ObservableObject {
 	func getAddress(wallets: [WalletNetwork]) {
 		guard let ethereumPublicKey: String = keychainService[.ethereumPublicKey],
 		   let bitcoinPublicKey: String = keychainService[.bitcoinPublicKey] else { return }
+
 		let params = AddressRequestParams(
 			ethereumPublicKey: ethereumPublicKey,
 			bitcoinPublicKey: bitcoinPublicKey
 		)
-		walletNetworks.getAddress(params: params) { [weak self] addressResponse in
-			guard let self = self else { return }
-
-			debugPrint("getAddress address result: \(addressResponse)")
-
-			guard case let .success(addresses) = addressResponse else { return }
-			debugPrint("getAddress address: \(addresses)")
+		walletNetworks.getAddress(params: params) { [weak self] response in
+			guard let self = self, case let .success(addresses) = response else { return }
 
 			let savedWallets: [WalletNetwork] = self.coreDataService.getWalletNetworks()
-			debugPrint("getAddress savedWallets: \(savedWallets)")
 
 			if let ethereumAddress: String = addresses.ethereum?.first?.address,
-			   let wallet: WalletNetwork = savedWallets.first(where: { $0.cryptoType == CryptoType.ethereum.rawValue }) {
+			   let wallet: WalletNetwork = savedWallets
+				.first(where: { $0.cryptoType == CryptoType.ethereum.rawValue }) {
 				   wallet.address = ethereumAddress
 				   self.coreDataService.updateWalletNetwork(model: wallet)
 			   }
 
 			if let bitcoinAddress = addresses.bitcoin?.first?.address,
-			   let wallet: WalletNetwork = savedWallets.first(where: { $0.cryptoType == CryptoType.bitcoin.rawValue }) {
+			   let wallet: WalletNetwork = savedWallets
+				.first(where: { $0.cryptoType == CryptoType.bitcoin.rawValue }) {
 				   wallet.address = bitcoinAddress
 				   self.coreDataService.updateWalletNetwork(model: wallet)
 			   }
@@ -89,18 +87,24 @@ final class WalletViewModel: ObservableObject {
 
 	func getBalance() {
 
-		let savedWallets: [WalletNetwork] = self.coreDataService.getWalletNetworks()
-		guard let bitcoinAddress = savedWallets.first(where: { $0.cryptoType == "bitcoin" })?.address,
-			  let ethereumAddress = savedWallets.first(where: { $0.cryptoType == "ethereum" })?.address else { return }
+		let savedWallets: [WalletNetwork] = coreDataService.getWalletNetworks()
+
+		guard let bitcoinAddress = savedWallets
+			.first(where: { $0.cryptoType == "bitcoin" })?.address,
+			  bitcoinAddress.isEmpty == false,
+			  let ethereumAddress = savedWallets
+			.first(where: { $0.cryptoType == "ethereum" })?.address,
+			  ethereumAddress.isEmpty == false else { return }
 
 		let params = BalanceRequestParams(
 			ethereumAddress: ethereumAddress,
 			bitcoinAddress: bitcoinAddress
 		)
-		walletNetworks.getBalances(params: params) {
-			debugPrint("getBalance balance result: \($0)")
-			guard case let .success(balance) = $0 else { return }
-			debugPrint("getBalance balance: \(balance)")
+		walletNetworks.getBalances(params: params) { [weak self] in
+
+			guard let self = self, case let .success(balance) = $0 else { return }
+
+			// Пока только два типа кошелька
 
 			if let ethereumAmount: String = balance.ethereum.first?.amount,
 			   let wallet: WalletNetwork = savedWallets.first(where: { $0.cryptoType == CryptoType.ethereum.rawValue }) {
@@ -114,15 +118,25 @@ final class WalletViewModel: ObservableObject {
 				self.coreDataService.updateWalletNetwork(model: wallet)
 			}
 
-			let updatedWallets = self.coreDataService.getWalletNetworks()
-			debugPrint("getBalance updatedWallets: \(updatedWallets)")
+			self.updateWalletsFromDB()
+		}
+	}
 
-			let cards: [WalletInfo] = updatedWallets.map {
-				let walletType: WalletType = $0.cryptoType == "ethereum" ? WalletType.ethereum : WalletType.bitcoin
-				return WalletInfo(walletType: walletType, address: $0.address, coinAmount: $0.balance ?? "0", fiatAmount: "0")
-			}
+	func updateWalletsFromDB() {
+		let updatedWallets = coreDataService.getWalletNetworks()
 
+		let cards: [WalletInfo] = updatedWallets.map {
+			let walletType: WalletType = $0.cryptoType == "ethereum" ? WalletType.ethereum : WalletType.bitcoin
+			return WalletInfo(walletType: walletType, address: $0.address, coinAmount: $0.balance ?? "0", fiatAmount: "0")
+		}
+
+		if Thread.isMainThread {
+			viewState = .content
+			cardsList = cards
+			objectWillChange.send()
+		} else {
 			DispatchQueue.main.async {
+				self.viewState = .content
 				self.cardsList = cards
 				self.objectWillChange.send()
 			}
@@ -131,24 +145,72 @@ final class WalletViewModel: ObservableObject {
 
 	func updateWallets() {
 
+		guard let seed = keychainService.secretPhrase else {
+			// Empty state remains
+			viewState = .empty
+			objectWillChange.send()
+			return
+		}
+
+		let walletsCount = coreDataService.getWalletNetworksCount()
+		if walletsCount > .zero {
+			// Show wallets from db
+			updateWalletsFromDB()
+			return
+		}
+
+		// Loading state appears
+		viewState = .loading
+		objectWillChange.send()
+
+		// Update wallets in background
 		walletNetworks.getNetworks { [weak self] networks in
 
-			guard let self = self else { return }
+			guard let self = self, case let .success(wallets) = networks else { return }
 
-			debugPrint("updateWallets getNetworks networks: \(networks)")
-			guard case let .success(wallets) = networks else { return }
-			debugPrint("updateWallets getNetworks networks: \(wallets)")
+			let dbWallets = self.coreDataService.getWalletNetworks()
+
+			var isAddressesAvailable = false
+			dbWallets.forEach {
+				isAddressesAvailable = (($0.address.isEmpty == false) && isAddressesAvailable)
+			}
+
+			let cryptoTypesDb: Set<CryptoType> = dbWallets
+				.reduce(into: Set<CryptoType>(), { partialResult, network in
+				if let type = CryptoType(rawValue: network.cryptoType) {
+					partialResult.insert(type)
+				}
+			})
+
+			let cryptoTypesNetwork: Set<CryptoType> = wallets
+				.reduce(into: Set<CryptoType>(), { partialResult, network in
+					if let type = CryptoType(rawValue: network.cryptoType) {
+						partialResult.insert(type)
+					}
+				})
+
+			// Если нет изменений после последнего создания кошельков
+			// то просто обновляем модели в БД
+			if cryptoTypesDb == cryptoTypesNetwork && isAddressesAvailable {
+				debugPrint("WALLETS isAddressesAvailable TRUE")
+				self.getBalance()
+				return
+			}
+
+			debugPrint("WALLETS isAddressesAvailable FALSE")
+
+			// TODO: Переделать на умное обновление БД
+			// обновить существующие модели
+			// создать новые
+			// удалить старые
+
 			self.coreDataService.deleteAllWalletNetworks()
+
 			wallets.forEach { [weak self] in
 				guard let self = self else { return }
 				self.coreDataService.createWalletNetwork(wallet: $0)
 			}
 			let savedWallets = self.coreDataService.getWalletNetworks()
-			debugPrint("updateWallets savedWallets: \(savedWallets)")
-
-			guard let seed = self.keychainService.secretPhrase else { return }
-			// Оставил тестовую фразу для проверок
-//			let seed = "trade icon company use feature fee order double inhale gift news long"
 
 			savedWallets.forEach { [weak self] wallet in
 				guard let self = self else { return }
@@ -182,7 +244,7 @@ final class WalletViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
 					self?.updateWallets()
-                    self?.updateData()
+                    self?.updateTransactionsListData()
                     self?.objectWillChange.send()
                 case let .onTransactionAddress(selectorTokenIndex, address):
                     self?.delegate?.handleNextScene(.transaction(0, selectorTokenIndex, address))
@@ -207,7 +269,7 @@ final class WalletViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func updateData() {
+    private func updateTransactionsListData() {
         totalBalance = "$12 5131.53"
         transactionList = []
         canceledImage = UIImage(systemName: "exclamationmark.circle")?
