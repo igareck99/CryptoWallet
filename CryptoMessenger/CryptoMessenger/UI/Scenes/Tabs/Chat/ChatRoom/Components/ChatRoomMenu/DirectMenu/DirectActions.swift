@@ -7,6 +7,7 @@ enum DirectAction: CaseIterable, Identifiable {
     // MARK: - Types
 
     case notifications
+    case notificationsOff
     case translate
     case media
     case shareContact
@@ -37,6 +38,8 @@ enum DirectAction: CaseIterable, Identifiable {
             return R.string.localizable.chatMenuViewBlockUser()
         case .delete:
             return R.string.localizable.chatMenuViewRemoveChat()
+        case .notificationsOff:
+            return "Включить уведомления"
         }
     }
 
@@ -45,6 +48,8 @@ enum DirectAction: CaseIterable, Identifiable {
     var image: Image {
         switch self {
         case .notifications:
+            return R.image.chat.groupMenu.notifications.image
+        case .notificationsOff:
             return R.image.chat.groupMenu.notifications.image
         case .translate:
             return R.image.chat.groupMenu.translate.image

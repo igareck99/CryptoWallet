@@ -6,9 +6,10 @@ struct DirectMenuView: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel = DirectChatMenuViewModel()
+    @StateObject var viewModel: DirectChatMenuViewModel
     @Binding var action: DirectAction?
     @Binding var cardGroupPosition: CardPosition
+    @State private var actions: [DirectAction] = []
 
     // MARK: - Private Properties
 
@@ -21,6 +22,10 @@ struct DirectMenuView: View {
             ForEach(viewModel.actions, id: \.id) { act in
                 Button(action: {
                     vibrate()
+                    if act == .notifications || act == .notificationsOff {
+                        viewModel.updateNotifications()
+                        return
+                    }
                     action = act
                     cardGroupPosition = .bottom
                 }, label: {

@@ -63,6 +63,9 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
 				}
 				showTabBar()
 			}
+            .onDisappear {
+                showTabBar()
+            }
 			.navigationBarTitleDisplayMode(.inline)
 			.toolbar {
 
