@@ -54,6 +54,7 @@ struct CardNewView: View {
                             Text(wallet.address)
                                 .font(.regular(16))
                                 .foreground(.white())
+								.lineLimit(1)
 								.truncationMode(.middle)
                             Image(uiImage: image ?? UIImage())
                                 .frame(width: 30, height: 30)
