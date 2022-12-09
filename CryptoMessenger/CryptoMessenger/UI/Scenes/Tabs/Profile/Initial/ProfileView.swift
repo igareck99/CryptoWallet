@@ -58,10 +58,17 @@ struct ProfileView: View {
             .toolbarBackground(showMenu ? .visible : .hidden, for: .navigationBar)
             .onAppear {
                 viewModel.send(.onProfileAppear)
-                showTabBar()
+                if !showMenu {
+                    showTabBar()
+                }
             }
             .onChange(of: viewModel.selectedImage, perform: { _ in
                 showImageEdtior = true
+            })
+            .onChange(of: showMenu, perform: { value in
+                if value && viewModel.isVoiceCallAvailablility {
+                    hideTabBar()
+                }
             })
             .actionSheet(isPresented: $showActionImageAlert) {
                 ActionSheet(title: Text(""),
@@ -130,7 +137,7 @@ struct ProfileView: View {
                             viewModel.send(.onShow(type))
                         }
                     })
-					.frame(height: UIScreen.main.bounds.height - 90)
+                    .frame(height: viewModel.menuHeight )
 					.background(
 						CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
 							.fill(Color(.white()))

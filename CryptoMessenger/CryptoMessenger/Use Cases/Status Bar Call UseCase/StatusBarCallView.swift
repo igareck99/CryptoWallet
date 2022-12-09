@@ -1,10 +1,14 @@
 import UIKit
 
+// MARK: - StatusBarCallViewDelegate
+
 protocol StatusBarCallViewDelegate: AnyObject {
 
 	func didTapCallStatusView()
 
 }
+
+// MARK: - StatusBarCallViewProtocol
 
 protocol StatusBarCallViewProtocol {
 
@@ -12,7 +16,11 @@ protocol StatusBarCallViewProtocol {
 
 }
 
+// MARK: - StatusBarCallView
+
 final class StatusBarCallView: UIView {
+
+    // MARK: - Private Properties
 
 	private let callLabel: UILabel = {
 		let label = UILabel()
@@ -36,9 +44,13 @@ final class StatusBarCallView: UIView {
 		UIApplication.shared.statusBarFrame.size.height
 	}
 
+    // MARK: - Internal Properties
+
 	var heightConstraint: NSLayoutConstraint?
 	var coloredViewHeightConstraint: NSLayoutConstraint?
 	weak var delegate: StatusBarCallViewDelegate?
+
+    // MARK: - Lifecycle
 
 	init(
 		appWindow: UIWindow,
@@ -65,12 +77,16 @@ final class StatusBarCallView: UIView {
 	}
 }
 
+// MARK: - StatusBarCallView(StatusBarCallViewProtocol)
+
 extension StatusBarCallView: StatusBarCallViewProtocol {
 	func animateStatusView(show: Bool) {
 		self.coloredViewHeightConstraint?.constant = show ? 30 : 0
 		self.heightConstraint?.constant = show ? statusBarHeight + 30 : 0
 	}
 }
+
+// MARK: - StatusBarCallView
 
 private extension StatusBarCallView {
 

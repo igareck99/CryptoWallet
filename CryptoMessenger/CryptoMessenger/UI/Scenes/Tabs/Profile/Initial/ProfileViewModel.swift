@@ -66,6 +66,8 @@ final class ProfileViewModel: ObservableObject {
     ]
     @Published var profile = ProfileItem()
     @Published var existringUrls: [String] = []
+    @Published var isVoiceCallAvailablility: Bool = false
+    @Published var menuHeight: CGFloat = 0
 
     // MARK: - Private Properties
 
@@ -120,6 +122,7 @@ final class ProfileViewModel: ObservableObject {
                 switch event {
                 case .onProfileAppear:
                     self?.fetchData()
+                    self?.updateCallState()
                 case .onAppear:
                     self?.fetchImageData()
                 case .onSocial:
@@ -247,6 +250,16 @@ final class ProfileViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
+    }
+
+    private func updateCallState() {
+        let isCallInProgress = userSettings.bool(forKey: .isCallInprogressExists)
+        self.isVoiceCallAvailablility = isCallInProgress
+        if isCallInProgress {
+            menuHeight = UIScreen.main.bounds.height - 120
+        } else {
+            menuHeight = UIScreen.main.bounds.height - 90
+        }
     }
 
     private func fetchData() {
