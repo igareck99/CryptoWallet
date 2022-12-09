@@ -160,6 +160,7 @@ final class MainFlowCoordinator: Coordinator {
         case scanner(Binding<String>)
         case transfer
         case facilityApprove
+        case notifications
         case socialList
         case walletManager
         case keyList
@@ -232,6 +233,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showSocialList()
         case let .friendProfile(userId):
             showFriendProfileScene(userId: userId)
+        case .notifications:
+            showNotificationsSettings()
         case let .settingsChat(chatData, saveData, room):
             showSettingsChat(chatData: chatData, saveData: saveData, room: room)
         }
@@ -248,6 +251,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
                                                            chatData: chatData,
                                                            saveData: saveData,
                                                            room: room)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func showNotificationsSettings() {
+        let rootView = NotificationSettingsConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -547,6 +557,10 @@ extension MainFlowCoordinator: FriendProfileSceneDelegate {}
 // MARK: - MainFlowCoordinator (SettingsSceneDelegate)
 
 extension MainFlowCoordinator: SettingsSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (NotificationSettingsSceneDelegate)
+
+extension MainFlowCoordinator: NotificationSettingsSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

@@ -18,6 +18,8 @@ final class ProfileSettingsMenuViewModel: ObservableObject {
         self.isPhraseAvailable = remoteConfigUseCase.isPhraseV1Available
     }
 
+    // MARK: - Internal Methods
+
 	func settingsTypes() -> [ProfileSettingsMenu] {
 
 		let types = ProfileSettingsMenu.allCases.filter {

@@ -22,13 +22,19 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     private let stateValueSubject = CurrentValueSubject<ChatHistoryFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
+    private let pushNotification: PushNotificationsServiceProtocol
+    private let userSettings: UserCredentialsStorage & UserFlowsStorage
 
     // MARK: - Lifecycle
 
     init(
-		sources: ChatHistorySourcesable.Type = ChatHistorySources.self
-	) {
-		self.sources = sources
+        sources: ChatHistorySourcesable.Type = ChatHistorySources.self,
+        pushNotification: PushNotificationsServiceProtocol = PushNotificationsService.shared,
+        userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared
+    ) {
+        self.sources = sources
+        self.pushNotification = pushNotification
+        self.userSettings = userSettings
         bindInput()
         bindOutput()
     }
@@ -77,6 +83,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .sink { [weak self] _ in
 				debugPrint("MatrixService: matrixUseCase.rooms: \(self?.matrixUseCase.rooms ?? [])")
                 self?.rooms = self?.matrixUseCase.rooms ?? []
+                self?.allowPushNotifications()
             }
             .store(in: &subscriptions)
     }
@@ -86,6 +93,15 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         let lastEvent = event.first
         guard let str = lastEvent?.eventId else { return false }
         return matrixUseCase.fromCurrentSender(str)
+    }
+
+    private func allowPushNotifications() {
+        if userSettings.isRoomNotificationsEnable {
+            for item in rooms {
+                pushNotification.allMessages(room: item) { _ in
+                }
+            }
+        }
     }
 
     private func bindOutput() {

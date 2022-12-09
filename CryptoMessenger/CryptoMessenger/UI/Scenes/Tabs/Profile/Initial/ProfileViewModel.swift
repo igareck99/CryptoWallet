@@ -141,6 +141,8 @@ final class ProfileViewModel: ObservableObject {
                         self?.delegate?.handleNextScene(.faq)
                     case .wallet:
                         self?.delegate?.handleNextScene(.walletManager)
+                    case .notifications:
+                        self?.delegate?.handleNextScene(.notifications)
                     default:
                         ()
                     }

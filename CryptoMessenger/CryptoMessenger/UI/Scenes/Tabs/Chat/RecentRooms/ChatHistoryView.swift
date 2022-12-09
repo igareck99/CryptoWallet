@@ -25,6 +25,8 @@ protocol ChatHistoryViewDelegate: ObservableObject {
 
 struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate {
 
+    // MARK: - Internal Properties
+
 	@StateObject var viewModel: ViewModel
 
 	// MARK: - Private Properties
@@ -63,6 +65,9 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
 				}
 				showTabBar()
 			}
+            .onDisappear {
+                showTabBar()
+            }
 			.navigationBarTitleDisplayMode(.inline)
 			.toolbar {
 

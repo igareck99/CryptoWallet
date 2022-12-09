@@ -76,6 +76,7 @@ struct ChatRoomView: View {
         content
             .onAppear {
                 viewModel.send(.onAppear)
+                viewModel.notificationsStatus(.muteOn)
                 hideTabBar()
                 switch viewModel.room.summary.membership {
                 case .invite:
@@ -95,6 +96,7 @@ struct ChatRoomView: View {
             })
             .onDisappear {
                 showTabBar()
+                viewModel.notificationsStatus(.allMessagesOn)
             }
             .onChange(of: viewModel.dismissScreen, perform: { newValue in
                 if newValue {
@@ -446,8 +448,9 @@ struct ChatRoomView: View {
 
             SlideCard(position: $cardGroupPosition) {
                 VStack(spacing: 0) {
-                    DirectMenuView(action: $viewModel.directAction,
-                                  cardGroupPosition: $cardGroupPosition)
+                    DirectMenuView(viewModel: DirectChatMenuViewModel(room: viewModel.room),
+                                   action: $viewModel.directAction,
+                                   cardGroupPosition: $cardGroupPosition)
                 }.padding(.vertical, 32)
             }
         }

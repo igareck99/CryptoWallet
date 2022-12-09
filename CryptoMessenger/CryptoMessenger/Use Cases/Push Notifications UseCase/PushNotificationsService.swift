@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - PushNotificationsServiceProtocol
+
 protocol PushNotificationsServiceProtocol {
 
 	var isRegisteredForRemoteNotifications: Bool { get }
@@ -14,12 +16,18 @@ protocol PushNotificationsServiceProtocol {
 	func requestForRemoteNotificationsAuthorizationStatus(
 		completion: @escaping (UNNotificationSettings) -> Void
 	)
+
+    func mute(room: AuraRoom, completion: @escaping (NotificationsActionState) -> Void)
+    func allMessages(room: AuraRoom, completion: @escaping (NotificationsActionState) -> Void)
 }
+
+// MARK: - PushNotificationsService
 
 final class PushNotificationsService: NSObject {
 
 	private let notificationCenter: UNUserNotificationCenter
 	private let application: UIApplication
+    static let shared = PushNotificationsService()
 
 	init(
 		application: UIApplication = .shared,
@@ -30,7 +38,7 @@ final class PushNotificationsService: NSObject {
 	}
 }
 
-// MARK: - PushNotificationsServiceProtocol
+// MARK: - PushNotificationsService(PushNotificationsServiceProtocol)
 
 extension PushNotificationsService: PushNotificationsServiceProtocol {
 
@@ -60,7 +68,81 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
 		}
 	}
 
+    func addPushRuleToMute(room: AuraRoom) {
+        guard let roomId = room.room.roomId else {
+            return
+        }
+        room.room.mxSession.notificationCenter.addOverrideRule(
+            withId: roomId,
+            conditions: [["kind": "event_match", "key": "room_id", "pattern": roomId]],
+            notify: false,
+            sound: false,
+            highlight: false
+        )
+    }
+
+    func allMessages(room: AuraRoom, completion: @escaping (NotificationsActionState) -> Void) {
+        if !room.room.isMuted {
+            completion(NotificationsActionState.isAlreadyEnable)
+        }
+        if let rule = room.room.overridePushRule, room.room.isMuted {
+            removePushRule(room: room, rule: rule)
+            completion(NotificationsActionState.allMessagesOn)
+        }
+
+        if let rule = room.room.roomPushRule {
+            removePushRule(room: room, rule: rule)
+            completion(NotificationsActionState.allMessagesOn)
+        }
+    }
+
+    func removePushRule(room: AuraRoom, rule: MXPushRule) {
+        room.room.mxSession.notificationCenter.removeRule(rule)
+    }
+
+    func enablePushRule(room: AuraRoom, rule: MXPushRule) {
+        room.room.mxSession.notificationCenter.enableRule(rule, isEnabled: true)
+    }
+
+    func mute(room: AuraRoom, completion: @escaping (NotificationsActionState) -> Void) {
+        guard !room.room.isMuted else {
+            completion(NotificationsActionState.isAlreadyMuted)
+            return
+        }
+
+        if let rule = room.room.roomPushRule {
+            removePushRule(room: room, rule: rule)
+            self.mute(room: room) { value in
+                completion(value)
+            }
+        }
+        guard let rule = room.room.overridePushRule else {
+            addPushRuleToMute(room: room)
+            completion(NotificationsActionState.muteOn)
+            return
+        }
+
+        if rule.actionsContains(actionType: MXPushRuleActionTypeDontNotify) {
+            enablePushRule(room: room, rule: rule)
+            completion(NotificationsActionState.muteOn)
+        } else {
+            removePushRule(room: room, rule: rule)
+            self.addPushRuleToMute(room: room)
+            completion(NotificationsActionState.muteOn)
+        }
+    }
+
 	var isRegisteredForRemoteNotifications: Bool {
 		application.isRegisteredForRemoteNotifications
 	}
+}
+
+// MARK: - NotificationsActionState
+
+enum NotificationsActionState {
+    case isAlreadyMuted
+    case isAlreadyEnable
+    case muteOn
+    case allMessagesOn
+    
 }

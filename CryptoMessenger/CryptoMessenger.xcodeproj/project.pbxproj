@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -437,6 +437,9 @@
 		8B7F856F28C65FA200C8F9EB /* SettingsAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7F856E28C65FA200C8F9EB /* SettingsAction.swift */; };
 		8B84F1BB28E32C6E0045818F /* FriendProfileMenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B84F1BA28E32C6E0045818F /* FriendProfileMenuRow.swift */; };
 		8B84F1BE28E3478D0045818F /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B84F1BD28E3478D0045818F /* NotesView.swift */; };
+		8B8812702922818000EDB348 /* MXRoom+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88126F2922818000EDB348 /* MXRoom+Notifications.swift */; };
+		8B881272292281B100EDB348 /* RoomNotificationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B881271292281B100EDB348 /* RoomNotificationState.swift */; };
+		8B881274292285D200EDB348 /* MXPushRule+Externsion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B881273292285D200EDB348 /* MXPushRule+Externsion.swift */; };
 		8B8B9C1F27F31FEE0061F5E6 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C1E27F31FEE0061F5E6 /* Animation.swift */; };
 		8B8B9C2127F330040061F5E6 /* SocialListConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C2027F330040061F5E6 /* SocialListConfigurator.swift */; };
 		8B8B9C2327F330120061F5E6 /* SocialListProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8B9C2227F330120061F5E6 /* SocialListProtocols.swift */; };
@@ -496,6 +499,13 @@
 		8BBF907C29350A1D00936F4D /* PinCodeScreenType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF907B29350A1D00936F4D /* PinCodeScreenType.swift */; };
 		8BBF907E29350A4200936F4D /* KeyboardButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF907D29350A4200936F4D /* KeyboardButtonType.swift */; };
 		8BBF908129350ACB00936F4D /* KeyboardButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF908029350ACB00936F4D /* KeyboardButtonView.swift */; };
+		8BBF9084293514D700936F4D /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF9083293514D700936F4D /* NotificationSettingsView.swift */; };
+		8BBF9086293514E600936F4D /* NotificationSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF9085293514E600936F4D /* NotificationSettingsViewModel.swift */; };
+		8BBF9088293514FE00936F4D /* NotificationSettingsFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF9087293514FE00936F4D /* NotificationSettingsFlow.swift */; };
+		8BBF908A2935150E00936F4D /* NotificationSettingsConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF90892935150E00936F4D /* NotificationSettingsConfigurator.swift */; };
+		8BBF908C2935153400936F4D /* NotificationSettingsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF908B2935153400936F4D /* NotificationSettingsProtocol.swift */; };
+		8BBF908E2935581F00936F4D /* NotificationSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF908D2935581F00936F4D /* NotificationSettingsCell.swift */; };
+		8BBF9091293559C000936F4D /* NotificationSettingsItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF9090293559C000936F4D /* NotificationSettingsItems.swift */; };
 		8BC06B0C27C7DFC4005A28A1 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC06B0B27C7DFC4005A28A1 /* TransactionView.swift */; };
 		8BC06B0E27C8F5EE005A28A1 /* TransactionFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC06B0D27C8F5ED005A28A1 /* TransactionFlow.swift */; };
 		8BC06B1027C8F609005A28A1 /* TransactionProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC06B0F27C8F609005A28A1 /* TransactionProtocols.swift */; };
@@ -1586,6 +1596,9 @@
 		8B7F856E28C65FA200C8F9EB /* SettingsAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAction.swift; sourceTree = "<group>"; };
 		8B84F1BA28E32C6E0045818F /* FriendProfileMenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileMenuRow.swift; sourceTree = "<group>"; };
 		8B84F1BD28E3478D0045818F /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
+		8B88126F2922818000EDB348 /* MXRoom+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MXRoom+Notifications.swift"; sourceTree = "<group>"; };
+		8B881271292281B100EDB348 /* RoomNotificationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomNotificationState.swift; sourceTree = "<group>"; };
+		8B881273292285D200EDB348 /* MXPushRule+Externsion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MXPushRule+Externsion.swift"; sourceTree = "<group>"; };
 		8B8B9C1E27F31FEE0061F5E6 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		8B8B9C2027F330040061F5E6 /* SocialListConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListConfigurator.swift; sourceTree = "<group>"; };
 		8B8B9C2227F330120061F5E6 /* SocialListProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListProtocols.swift; sourceTree = "<group>"; };
@@ -1645,6 +1658,13 @@
 		8BBF907B29350A1D00936F4D /* PinCodeScreenType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeScreenType.swift; sourceTree = "<group>"; };
 		8BBF907D29350A4200936F4D /* KeyboardButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardButtonType.swift; sourceTree = "<group>"; };
 		8BBF908029350ACB00936F4D /* KeyboardButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardButtonView.swift; sourceTree = "<group>"; };
+		8BBF9083293514D700936F4D /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
+		8BBF9085293514E600936F4D /* NotificationSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsViewModel.swift; sourceTree = "<group>"; };
+		8BBF9087293514FE00936F4D /* NotificationSettingsFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsFlow.swift; sourceTree = "<group>"; };
+		8BBF90892935150E00936F4D /* NotificationSettingsConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsConfigurator.swift; sourceTree = "<group>"; };
+		8BBF908B2935153400936F4D /* NotificationSettingsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsProtocol.swift; sourceTree = "<group>"; };
+		8BBF908D2935581F00936F4D /* NotificationSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsCell.swift; sourceTree = "<group>"; };
+		8BBF9090293559C000936F4D /* NotificationSettingsItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsItems.swift; sourceTree = "<group>"; };
 		8BC06B0B27C7DFC4005A28A1 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		8BC06B0D27C8F5ED005A28A1 /* TransactionFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionFlow.swift; sourceTree = "<group>"; };
 		8BC06B0F27C8F609005A28A1 /* TransactionProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionProtocols.swift; sourceTree = "<group>"; };
@@ -2827,6 +2847,7 @@
 		5A187DF82680708D001957D3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				8BBF9082293514B000936F4D /* NotificationsSettings */,
 				8B23C76B28E0A16C00418F2D /* FriendProfileView */,
 				8BE3799A27EB262400AB6B6E /* ImportPhrase */,
 				8B4E9C4B27E3ADE10057E4C9 /* SuccessFacility */,
@@ -4442,6 +4463,28 @@
 				8BBF908029350ACB00936F4D /* KeyboardButtonView.swift */,
 			);
 			path = Componets;
+            sourceTree = "<group>";
+        };
+		8BBF9082293514B000936F4D /* NotificationsSettings */ = {
+			isa = PBXGroup;
+			children = (
+				8BBF908F2935595400936F4D /* Components */,
+				8BBF9083293514D700936F4D /* NotificationSettingsView.swift */,
+				8BBF9085293514E600936F4D /* NotificationSettingsViewModel.swift */,
+				8BBF9087293514FE00936F4D /* NotificationSettingsFlow.swift */,
+				8BBF90892935150E00936F4D /* NotificationSettingsConfigurator.swift */,
+				8BBF908B2935153400936F4D /* NotificationSettingsProtocol.swift */,
+			);
+			path = NotificationsSettings;
+			sourceTree = "<group>";
+		};
+		8BBF908F2935595400936F4D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				8BBF908D2935581F00936F4D /* NotificationSettingsCell.swift */,
+				8BBF9090293559C000936F4D /* NotificationSettingsItems.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		8BC06B0A27C7DFAF005A28A1 /* Transaction */ = {
@@ -4726,6 +4769,9 @@
 				D4442B4D2811A3DE0033D07A /* PushNotificationsService.swift */,
 				D44BDC732808382B0080AE8A /* PushNotificationsUseCase.swift */,
 				D44BDC7628083B2F0080AE8A /* PushNotificationsUseCaseAssembly.swift */,
+				8B88126F2922818000EDB348 /* MXRoom+Notifications.swift */,
+				8B881271292281B100EDB348 /* RoomNotificationState.swift */,
+				8B881273292285D200EDB348 /* MXPushRule+Externsion.swift */,
 			);
 			path = "Push Notifications UseCase";
 			sourceTree = "<group>";
@@ -7443,6 +7489,7 @@
 				D4EFEC7D28E2AF110075CC10 /* MXEventListener.m in Sources */,
 				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
+				8BBF908C2935153400936F4D /* NotificationSettingsProtocol.swift in Sources */,
 				8B4E9C2E27DFF60B0057E4C9 /* CodeScanner.swift in Sources */,
 				D4EFEC2F28E2AF110075CC10 /* MXSpaceNotificationCounter.swift in Sources */,
 				5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */,
@@ -7638,6 +7685,7 @@
 				D48AF481292D224B0044CFAE /* WalletNetworkResponse.swift in Sources */,
 				D4EFEB8F28E2AF100075CC10 /* MXMatrixVersions.m in Sources */,
 				8BA0C91227AD77380070203F /* ReserveCopyConfigurator.swift in Sources */,
+				8BBF908A2935150E00936F4D /* NotificationSettingsConfigurator.swift in Sources */,
 				D4AB8FFC282672BB00E6FAB5 /* MatrixService+Devices.swift in Sources */,
 				8B0F60D828BD1448002B2235 /* DocumentViewerViewModel.swift in Sources */,
 				8B4DBFFD28F5D764003F58EB /* ImagePickerView.swift in Sources */,
@@ -7718,10 +7766,12 @@
 				D4EFEC5828E2AF110075CC10 /* MXRoomListDataManager.swift in Sources */,
 				D43A7E6328CB25D500A807EC /* Base16.swift in Sources */,
 				8B6E5554279F0E44002054CF /* PinCodeCreateView.swift in Sources */,
+				8BBF9091293559C000936F4D /* NotificationSettingsItems.swift in Sources */,
 				D4EFEB1428E2AF100075CC10 /* MXHkdfSha256.m in Sources */,
 				D4EFEBA828E2AF100075CC10 /* MXWellKnownTileServerConfig.m in Sources */,
 				5A9B471A26EA6DE0001CC627 /* SlideCard.swift in Sources */,
 				5A9B472426EAA010001CC627 /* ReactionView.swift in Sources */,
+				8B8812702922818000EDB348 /* MXRoom+Notifications.swift in Sources */,
 				D4EFEB1D28E2AF100075CC10 /* MXCryptoUserIdentityWrapper.swift in Sources */,
 				D4752EA428C22502006B650A /* Base32Encoder.m in Sources */,
 				5A9318B926BD210400645365 /* PinCodeView.swift in Sources */,
@@ -7838,6 +7888,7 @@
 				8B1E8ACA27DF4FBD0036C301 /* ChooseReceiverViewModel.swift in Sources */,
 				D4EFEC9828E2AF110075CC10 /* MXRealmBeaconInfoSummary.swift in Sources */,
 				D4EFEBD428E2AF100075CC10 /* MXThirdPartyUsersResponse.m in Sources */,
+				8BBF9084293514D700936F4D /* NotificationSettingsView.swift in Sources */,
 				D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */,
 				D4EFEB6E28E2AF100075CC10 /* PollAggregator.swift in Sources */,
 				5A2EC774279F410900857248 /* Publishers+Retry.swift in Sources */,
@@ -7874,6 +7925,7 @@
 				8B9AED5A28121DDF00C6C25A /* SocialNetworkView.swift in Sources */,
 				D4EFEADE28E2AF100075CC10 /* MXJingleCallStack.m in Sources */,
 				8B5D83F7283F6D690035815B /* AttachActionViewModel.swift in Sources */,
+				8B881274292285D200EDB348 /* MXPushRule+Externsion.swift in Sources */,
 				D4EFEAE428E2AF100075CC10 /* MXBackgroundSyncService.swift in Sources */,
 				D4EFEB8E28E2AF100075CC10 /* MXGeoURIComponents.swift in Sources */,
 				D4EFEC3428E2AF110075CC10 /* MXSpace.swift in Sources */,
@@ -8069,6 +8121,7 @@
 				D4EFEB8B28E2AF100075CC10 /* MXLocation.m in Sources */,
 				8B38D13628C0E671002733D7 /* MapResources.swift in Sources */,
 				D4EFEB1528E2AF100075CC10 /* MXCryptoTools.m in Sources */,
+				8BBF9086293514E600936F4D /* NotificationSettingsViewModel.swift in Sources */,
 				D4DF2B3828F588FF0057499A /* SwipeActions.swift in Sources */,
 				D44D61D2289457D2004F5301 /* SocialListResources.swift in Sources */,
 				D45004792845DECC00CA4C82 /* HStackItemViewModel.swift in Sources */,
@@ -8146,6 +8199,7 @@
 				D4EFECAA28E2AF110075CC10 /* MXEvent+Extensions.swift in Sources */,
 				D4EFEAF428E2AF100075CC10 /* MXKeyBackupPreparationInfo.m in Sources */,
 				8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */,
+				8BBF908E2935581F00936F4D /* NotificationSettingsCell.swift in Sources */,
 				D4EFEB2128E2AF100075CC10 /* MXKeyData.m in Sources */,
 				D4EFEC2528E2AF110075CC10 /* MXiOSAudioOutputRouterDelegate.swift in Sources */,
 				8B2C78C32939486B002E9432 /* ImageRemoteViewer.swift in Sources */,
@@ -8234,6 +8288,7 @@
 				D4EFEBF028E2AF110075CC10 /* MXServerNotices.m in Sources */,
 				D425C7E82807E44C00E61607 /* PushNotificationCoordinator.swift in Sources */,
 				8B28B535276347AA00C3E486 /* ProfileDetailViewModel.swift in Sources */,
+				8B881272292281B100EDB348 /* RoomNotificationState.swift in Sources */,
 				D4EFEC0528E2AF110075CC10 /* MXLocationServiceError.swift in Sources */,
 				8BFFC74E27EDEB5700BE4AB6 /* PhraseManagerView.swift in Sources */,
 				78A9CBFC28191F1D00C4D7E1 /* ActionSheetViewController.swift in Sources */,
@@ -8359,6 +8414,7 @@
 				789FEBEE26DCE61D0018FE91 /* PhotoEditorProtocols.swift in Sources */,
 				8B5609B62779C5CA00AF43F6 /* ThemeItem.swift in Sources */,
 				D4FDA497284D05C600322A0F /* StatusBarCallUseCase.swift in Sources */,
+				8BBF9088293514FE00936F4D /* NotificationSettingsFlow.swift in Sources */,
 				789B123226CE8906002FCDDF /* CallListViewController.swift in Sources */,
 				D4E8786428CE0E6B00063762 /* JitsiWidgetService.swift in Sources */,
 				8BB517D6285A604600D06593 /* AudioMessageViewModel.swift in Sources */,
@@ -8595,6 +8651,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CryptoMessenger/CryptoMessenger-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
