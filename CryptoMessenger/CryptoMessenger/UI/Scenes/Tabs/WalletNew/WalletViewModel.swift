@@ -10,6 +10,7 @@ final class WalletViewModel: ObservableObject {
     weak var delegate: WalletSceneDelegate?
     @Published var totalBalance = ""
     @Published var transactionList: [TransactionInfo] = []
+	private var transactions: [String: [TransactionSection]] = [String: [TransactionSection]]()
     @Published var cardsList: [WalletInfo] = []
     @Published var canceledImage = UIImage()
 	var viewState: ViewState = .empty
@@ -50,6 +51,87 @@ final class WalletViewModel: ObservableObject {
         subscriptions.forEach { $0.cancel() }
         subscriptions.removeAll()
     }
+
+	func transactionsList(index: Int) -> [TransactionSection] {
+
+		guard let wallet = cardsList[safe: index],
+			  let currentTransactions = transactions[wallet.address] else { return [] }
+		return currentTransactions
+	}
+
+	func getTransactions() {
+		let dbWallets = coreDataService.getWalletNetworks()
+
+		guard
+			let ethereumAddress = dbWallets.first(where: { $0.cryptoType == "ethereum" })?.address,
+			let bitcoinAddress = dbWallets.first(where: { $0.cryptoType == "bitcoin" })?.address
+		else {
+			return
+		}
+
+		let params = TransactionsRequestParams(
+			ethereumAddress: ethereumAddress,
+			bitcoinAddress: bitcoinAddress
+		)
+		walletNetworks.getTransactions(params: params) { [weak self] response in
+			guard case let .success(walletsTransactions) = response else { return }
+			self?.makeTransactions(model: walletsTransactions)
+		}
+	}
+
+	private func makeTransactions(model: WalletsTransactionsResponse) {
+
+		let dbWallets = coreDataService.getWalletNetworks()
+
+		guard
+			let ethereumAddress = dbWallets.first(where: { $0.cryptoType == "ethereum" })?.address,
+			let bitcoinAddress = dbWallets.first(where: { $0.cryptoType == "bitcoin" })?.address
+		else {
+			return
+		}
+
+		let ethTransactions: [TransactionSection] = model.ethereum.first?.value.map {
+			let info = TransactionInfo(
+				type: $0.inputs.first?.address == ethereumAddress ? .send : .receive,
+				date: $0.time ?? "",
+				transactionCoin: .ethereum,
+				transactionResult: $0.status,
+				amount: $0.inputs.first?.value ?? ""
+			)
+			let details = TransactionDetails(
+				sender: $0.inputs.first?.address ?? "",
+				receiver: $0.outputs.first?.address ?? "",
+				block: "\($0.block ?? 0)",
+				hash: $0.hash
+			)
+
+			return TransactionSection(info: info, details: details)
+		} ?? []
+
+		transactions[ethereumAddress] = ethTransactions
+
+		let btcTransactions: [TransactionSection] = model.bitcoin.first?.value.map {
+			let info = TransactionInfo(
+				type: $0.inputs.first?.address == ethereumAddress ? .send : .receive,
+				date: $0.time ?? "",
+				transactionCoin: .bitcoin,
+				transactionResult: $0.status,
+				amount: $0.inputs.first?.value ?? ""
+			)
+			let details = TransactionDetails(
+				sender: $0.inputs.first?.address ?? "",
+				receiver: $0.outputs.first?.address ?? "",
+				block: "\($0.block ?? 0)",
+				hash: $0.hash
+			)
+			return TransactionSection(info: info, details: details)
+		} ?? []
+		transactions[bitcoinAddress] = btcTransactions
+
+		DispatchQueue.main.async {
+			self.objectWillChange.send()
+		}
+	}
 
 	func getAddress(wallets: [WalletNetwork]) {
 		guard let ethereumPublicKey: String = keychainService[.ethereumPublicKey],
@@ -130,17 +212,13 @@ final class WalletViewModel: ObservableObject {
 			return WalletInfo(walletType: walletType, address: $0.address, coinAmount: $0.balance ?? "0", fiatAmount: "0")
 		}
 
-		if Thread.isMainThread {
-			viewState = .content
-			cardsList = cards
-			objectWillChange.send()
-		} else {
-			DispatchQueue.main.async {
-				self.viewState = .content
-				self.cardsList = cards
-				self.objectWillChange.send()
-			}
+		DispatchQueue.main.async {
+			self.viewState = .content
+			self.cardsList = cards
+			self.objectWillChange.send()
 		}
+
+		getTransactions()
 	}
 
 	func updateWallets() {
@@ -274,133 +352,5 @@ final class WalletViewModel: ObservableObject {
         transactionList = []
         canceledImage = UIImage(systemName: "exclamationmark.circle")?
             .withTintColor(.white, renderingMode: .alwaysOriginal) ?? UIImage()
-        transactionList.append(TransactionInfo(type: .send,
-                                               date: "Sep 09",
-                                               from: "0xty9 ... Bx9M",
-                                               fiatValue: "15.53$",
-                                               transactionCoin: .ethereum,
-                                               amount: -0.0236))
-        transactionList.append(TransactionInfo(type: .receive,
-                                               date: "Sep 09",
-                                               from: "0xty9 ... Bx9M",
-                                               fiatValue: "15.53$",
-                                               transactionCoin: .ethereum,
-                                               amount: 1.12))
-        transactionList.append(TransactionInfo(type: .receive,
-                                               date: "Sep 08",
-                                               from: "0xj3 ... 138f",
-                                               fiatValue: "15.53$",
-                                               transactionCoin: .aur,
-                                               amount: 1.55))
-        transactionList.append(TransactionInfo(type: .send,
-                                               date: "Sep 07",
-                                               from: "0xj3 ... 138f",
-                                               fiatValue: "15.53$",
-                                               transactionCoin: .aur,
-                                               amount: 33))
-        transactionList.append(TransactionInfo(type: .send,
-                                               date: "Sep 07",
-                                               from: "0xj3 ... 148f",
-                                               fiatValue: "15.53$",
-                                               transactionCoin: .aur,
-                                               amount: 33))
-    }
-}
-
-// MARK: - TransactionType
-
-enum TransactionType {
-
-    case send
-    case receive
-}
-
-// MARK: - WalletType
-
-enum WalletType {
-
-    case ethereum
-    case bitcoin
-    case aur
-
-    // MARK: - Internal Properties
-
-    var result: String {
-        switch self {
-        case .ethereum:
-            return R.string.localizable.transactionETHFilter()
-        case .aur:
-            return R.string.localizable.transactionAURFilter()
-        case .bitcoin:
-            return "BTC"
-        }
-    }
-
-    var chooseTitle: String {
-        switch self {
-        case .ethereum:
-            return R.string.localizable.transactionETHFilter()
-        case .aur:
-            return R.string.localizable.transactionAURFilter()
-        case .bitcoin:
-            return "BTC (Bitcoin)"
-        }
-    }
-
-    var abbreviatedName: String {
-        switch self {
-        case .ethereum:
-            return "ETH"
-        case .aur:
-            return "AUR"
-        case .bitcoin:
-            return "BTC"
-        }
-    }
-}
-
-// MARK: - TransactionInfo
-
-struct TransactionInfo: Identifiable, Equatable {
-
-    // MARK: - Internal Properties
-
-    let id = UUID()
-    var type: TransactionType
-    var date: String
-    var from: String
-    var fiatValue: String
-    var transactionCoin: WalletType
-    var amount: Double
-    var isTapped = false
-}
-
-// MARK: - WalletInfo
-
-struct WalletInfo: Identifiable, Equatable {
-
-    // MARK: - Internal Properties
-
-    let id = UUID()
-    var walletType: WalletType
-    var address: String
-    var coinAmount: String
-    var fiatAmount: String
-
-    var result: (image: Image, fiatAmount: String, currency: String) {
-        switch walletType {
-        case .ethereum:
-            return (R.image.wallet.ethereumCard.image,
-                    coinAmount,
-                    currency: "ETH")
-        case .aur:
-            return (R.image.wallet.card.image,
-                    coinAmount,
-                    currency: "AUR")
-        case .bitcoin:
-			return (R.image.wallet.ethereumCard.image,
-                    coinAmount,
-                    currency: "BTC")
-        }
     }
 }

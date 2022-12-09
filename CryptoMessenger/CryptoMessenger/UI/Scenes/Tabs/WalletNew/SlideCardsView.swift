@@ -4,93 +4,79 @@ import SwiftUI
 
 struct CardNewView: View {
 
-    // MARK: - Internal Properties
+	// MARK: - Internal Properties
 
-    let wallet: WalletInfo
-    let image = UIImage(systemName: "exclamationmark.circle")?.tintColor(.white())
+	let wallet: WalletInfo
 
-    // MARK: - Body
+	// MARK: - Body
 
-    var body: some View {
-        switch wallet.walletType {
-        case .aur:
-            VStack(alignment: .leading) {
-                wallet.result.image.resizable()
-            }
-        case .ethereum, .bitcoin:
-            ZStack {
-                wallet.result.image.resizable()
+	var body: some View {
+		switch wallet.walletType {
+		case .aur:
+			VStack(alignment: .leading) {
+				wallet.result.image.resizable()
+			}
+		case .ethereum, .bitcoin:
 
-                VStack(alignment: .leading) {
-                    HStack(alignment: .top ) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(String(wallet.coinAmount) + " \(wallet.result.currency)")
-                                .font(.regular(22))
-                                .foreground(.white())
-                            Text(String(wallet.result.fiatAmount) + " USD")
-                                .font(.regular(12))
-                                .foreground(.white(0.4))
-                        }
-                        .padding(.leading, 20)
-                        Spacer()
-                        Button {
-                        } label: {
-                            ZStack {
-                                Circle()
-                                    .frame(width: 36, height: 36)
-                                    .foreground(.gray335664())
-                                R.image.wallet.plus.image
-                            }
-                        }
-                        .padding(.trailing, 14)
-                    }
-                    .padding(.top, 20)
-                    Spacer()
-                    HStack {
-                        Text("")
-                            .padding(.leading, 20)
-                        Spacer()
-                        HStack(spacing: 10) {
-                            Text(wallet.address)
-                                .font(.regular(16))
-                                .foreground(.white())
-								.lineLimit(1)
-								.truncationMode(.middle)
-                            Image(uiImage: image ?? UIImage())
-                                .frame(width: 30, height: 30)
-                        }
-                        .padding(.trailing, 16)
-                    }
-                    .padding(.bottom, 19)
-                }
-            }
-//        case .bitcoin:
-//            VStack(alignment: .leading) {
-//                wallet.result.image.resizable()
-//            }
-        }
-    }
+			VStack(alignment: .leading) {
+				HStack(alignment: .top ) {
+					VStack(alignment: .leading, spacing: 8) {
+						Text(String(wallet.coinAmount) + " \(wallet.result.currency)")
+							.font(.regular(22))
+							.foreground(.white())
+						Text(String(wallet.result.fiatAmount) + " USD")
+							.font(.regular(15))
+							.foreground(.white(0.4))
+					}
+					.padding(.leading, 20)
+					Spacer()
+				}
+				.padding(.top, 20)
+				Spacer()
+				HStack {
+					Spacer()
+					Text(wallet.address)
+						.font(.regular(16))
+						.foreground(.white())
+						.lineLimit(1)
+						.truncationMode(.middle)
+						.frame(width: 150)
+						.padding(.trailing, 24)
+				}
+				.padding(.bottom, 19)
+			}
+			.background(
+				Image(
+					wallet.walletType == .bitcoin ?
+					R.image.wallet.bitcoinCard.name :
+						R.image.wallet.ethereumCard.name
+					 )
+				.resizable()
+				.frame(width: 320, height: 180)
+			)
+		}
+	}
 }
 
 // MARK: - RewardsView
 
 struct SlideCardsView: View {
 
-    // MARK: - Internal Properties
+	// MARK: - Internal Properties
 
-    let cards: [WalletInfo]
-    var onOffsetChanged: (CGFloat) -> Void
-    var onAddressSend: (Int, String) -> Void
+	let cards: [WalletInfo]
+	var onOffsetChanged: (CGFloat) -> Void
+	var onAddressSend: (Int, String) -> Void
 
-    // MARK: - Private Properties
+	// MARK: - Private Properties
 
-    private let spacing = CGFloat(8)
+	private let spacing = CGFloat(8)
 
-    // MARK: - Body
+	// MARK: - Body
 
-    var body: some View {
-        TrackableScrollView(axes: .horizontal, offsetChanged: { offset in
-            onOffsetChanged(offset)
+	var body: some View {
+		TrackableScrollView(axes: .horizontal, offsetChanged: { offset in
+			onOffsetChanged(offset)
 		}, content: {
 			HStack(spacing: spacing) {
 				ForEach(cards) { wallet in

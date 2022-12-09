@@ -12,12 +12,7 @@ struct TransactionView: View {
     @State var selectorFilterIndex = 0
     @State var selectorTokenIndex = 0
     @State var address = ""
-    @State var tappedTransaction = TransactionInfo(type: .send,
-                                                   date: "Jan 01",
-                                                   from: "0xxx...xxxx",
-                                                   fiatValue: "0.03$",
-                                                   transactionCoin: .ethereum,
-                                                   amount: -0.001)
+    @State var tappedTransaction = TransactionInfo()
 
     // MARK: - Body
 

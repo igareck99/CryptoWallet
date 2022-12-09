@@ -17,7 +17,13 @@ final class KeysService: KeysServiceProtocol {
 		makeKeys(
 			coin: .bitcoin,
 			seed: seed,
-			derivationNodes: [.hardened(44), .hardened(1), .hardened(0), .notHardened(0), .notHardened(0)]
+			derivationNodes: [
+				.hardened(44),
+				.hardened(1),
+				.hardened(0),
+				.notHardened(0),
+				.notHardened(0)
+			]
 		)
 	}
 
@@ -25,7 +31,13 @@ final class KeysService: KeysServiceProtocol {
 		makeKeys(
 			coin: .ethereum,
 			seed: seed,
-			derivationNodes: [.hardened(44), .hardened(60), .hardened(0), .notHardened(0), .notHardened(0)]
+			derivationNodes: [
+				.hardened(44),
+				.hardened(60),
+				.hardened(0),
+				.notHardened(0),
+				.notHardened(0)
+			]
 		)
 	}
 

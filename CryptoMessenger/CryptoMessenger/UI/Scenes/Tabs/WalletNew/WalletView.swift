@@ -15,10 +15,13 @@ struct WalletView: View {
     @State var navBarHide = false
     @State var selectedAddress = WalletInfo(
         walletType: .ethereum,
-        address: "0xty9 ... Bx9M",
-        coinAmount: "1.012",
-        fiatAmount: "33"
+        address: "",
+        coinAmount: "",
+        fiatAmount: ""
     )
+
+	@State var pageIndex: Int = 0
+	@State private var isRotating = 0.0
 
     // MARK: - Body
 	var body: some View {
@@ -49,49 +52,54 @@ struct WalletView: View {
     var content: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 16) {
-
-                SlideCardsView(cards: viewModel.cardsList, onOffsetChanged: { off in
-                    let cardWidth = CGFloat(343)
-                    let cardsCount = viewModel.cardsList.count
-                    let delta = cardsCount > 1 ? (cardsCount - 1) * 8 : 0
-                    let contentWidth = cardsCount > 1
-                    ? CGFloat((cardsCount - 1) * Int(cardWidth) + delta)
-                    : cardWidth
-
-                    let percent = off / contentWidth
-
-                    withAnimation(.linear(duration: 0.2)) {
-                        if percent <= 0 {
-                            offset = 16
-                        } else if percent >= 0.65 {
-                            offset = cardWidth - 111 + 32
-                        } else {
-                            offset = cardWidth * percent
-                        }
-                    }
-                }, onAddressSend: { _, address in
-                    guard let item = viewModel.cardsList.first(where: { $0.address == address }) else { return }
-                    selectedAddress = item
-                    showTokenInfo = true
-                }).padding(.top, 16)
+				TabView(selection: $pageIndex) {
+					ForEach(Array(viewModel.cardsList.enumerated()), id: \.element) { index, wallet in
+						CardNewView(wallet: wallet)
+							.onTapGesture {
+								guard let item = viewModel.cardsList.first(where: { $0.address == wallet.address }) else { return }
+								selectedAddress = item
+								showTokenInfo = true
+							}
+							.tag(index)
+							.padding()
+							.onChange(of: pageIndex, perform: { index in
+								debugPrint("CURRENT PAGE INDEX: \(index)")
+								debugPrint("CURRENT PAGE INDEX: \(pageIndex)")
+							})
+					}
+				}
+				.tabViewStyle(.page(indexDisplayMode: .never))
             }
+			.frame(minHeight: 220)
 
-			NavigationLink(destination: tokenInfoView(), isActive: $showTokenInfo) { EmptyView() }
+			NavigationLink(
+				destination: tokenInfoView(),
+				isActive: $showTokenInfo
+			) { EmptyView() }
 
             VStack(spacing: 24) {
-                cardsProgressView
+				// пока убрал, надо сделать после имплементации основного функционала
+//                cardsProgressView
 
                 sendButton
                     .frame(height: 58)
                     .padding(.horizontal, 16)
-                transactionTitleView
+
+				transactionTitleView
                     .padding(.top, 26)
 
                 VStack(spacing: 0) {
-                    ForEach(viewModel.transactionList) { item in
-                        TransactionInfoView(transaction: item)
-                            .padding(.horizontal, 16)
-                            .padding(.top, 16)
+					ForEach(viewModel.transactionsList(index: pageIndex)) { item in
+						DisclosureGroup {
+							TransactionDetailsView(model: item.details)
+								.padding(.horizontal, 16)
+						} label: {
+							TransactionInfoView(transaction: item.info)
+								.padding(.horizontal, 16)
+						}
+						.buttonStyle(.plain)
+						.accentColor(.clear)
+						.padding(.vertical, 4)
                     }
                 }
             }
@@ -128,8 +136,6 @@ struct WalletView: View {
 
     // MARK: - Private Properties
 
-	@State private var isRotating = 0.0
-	
 	@ViewBuilder
 	private func loadingStateView() -> some View {
 		VStack {
@@ -239,14 +245,6 @@ struct WalletView: View {
                 .font(.medium(15))
                 .padding(.leading, 16)
             Spacer()
-            Button {
-                viewModel.send(.onTransactionToken(selectorTokenIndex: -1))
-            } label: {
-                Text(R.string.localizable.walletAllTransaction())
-                    .font(.regular(15))
-                    .foreground(.blue())
-                    .padding(.trailing, 16)
-            }
         }
     }
 
@@ -255,16 +253,16 @@ struct WalletView: View {
             viewModel.send(.onTransfer)
         } label: {
             Text(R.string.localizable.walletSend().uppercased())
-                .frame(minWidth: 0, maxWidth: .infinity)
+                .frame(width: 237)
                 .font(.semibold(14))
                 .padding()
                 .foregroundColor(.white)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 4)
+                    RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.white, lineWidth: 2)
                 )
         }
-        .background(Color.blue)
-        .cornerRadius(4)
+        .background(Color.cornflowerBlueApprox)
+        .cornerRadius(10)
     }
 }
