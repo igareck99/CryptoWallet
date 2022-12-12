@@ -319,7 +319,6 @@ final class ChatRoomViewModel: ObservableObject {
                     guard let self = self else { return }
                     if self.isVideoMessageAvailable {
                         guard let id = self.room.room.roomId else { return }
-                        let image = R.image.chat.mockFeed2
                         let mxImage = MXImage(systemName: "eraser")
                         self.mediaService.uploadVideoMessage(for: id,
                                                               url: url,
@@ -362,7 +361,7 @@ final class ChatRoomViewModel: ObservableObject {
                 case .onJoinRoom:
                     guard let roomId = self?.room.room.roomId else { return }
                     self?.matrixUseCase.joinRoom(roomId: roomId) { _ in
-                        self?.room.markAllAsRead()
+                        self?.send(.onAppear)
 						self?.updateToggles()
                     }
                 case let .onReply(text, eventId):
@@ -414,6 +413,8 @@ final class ChatRoomViewModel: ObservableObject {
 						isFromCurrentUser: message.sender == sender
 					)
 					self?.messages[index].reactions.append(reaction)
+                case let .onMedia(room):
+                    self?.delegate?.handleNextScene(.chatMedia(room))
                 case .onDeleteReaction(let messageId, let reactionId):
                     self?.room.edit(text: "", eventId: messageId)
                     guard let index = self?.messages.firstIndex(where: { $0.id == messageId }) else { return }

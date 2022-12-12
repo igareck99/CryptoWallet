@@ -187,7 +187,7 @@ extension ChatComponentsFactory {
 	) -> AnyView {
 		switch message.type {
 		case let .text(text):
-			return AnyView(ChatTextsView(
+			return AnyView(ChatTextView(
                 message: message,
 				isFromCurrentUser: message.isCurrentUser,
 				shortDate: message.shortDate,

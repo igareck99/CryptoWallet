@@ -521,6 +521,9 @@
 		8BE122C228253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE122C128253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift */; };
 		8BE24FA6294900E4009A3734 /* SelectContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE24FA5294900E4009A3734 /* SelectContactViewModel.swift */; };
 		8BE24FA829490105009A3734 /* SelectContactFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE24FA729490105009A3734 /* SelectContactFlow.swift */; };
+		8BE24F9F2947BF28009A3734 /* ChatMediaConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE24F9E2947BF28009A3734 /* ChatMediaConfigurator.swift */; };
+		8BE24FA12947BF3F009A3734 /* ChatMediaProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE24FA02947BF3F009A3734 /* ChatMediaProtocols.swift */; };
+		8BE24FA42947C239009A3734 /* DirectMenuFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE24FA32947C239009A3734 /* DirectMenuFlow.swift */; };
 		8BE3798F27E9C47D00AB6B6E /* TokenInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */; };
 		8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */; };
 		8BE3799927EA133800AB6B6E /* SelectTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799827EA133700AB6B6E /* SelectTokenView.swift */; };
@@ -557,7 +560,7 @@
 		D4014D4F283FA7D100AAD70C /* CallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D4E283FA7D100AAD70C /* CallViewController.swift */; };
 		D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */; };
 		D40D7D7E290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40D7D7D290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift */; };
-		D40D7D80290BA41400F2A0EF /* ChatTextsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40D7D7F290BA41400F2A0EF /* ChatTextsView.swift */; };
+		D40D7D80290BA41400F2A0EF /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40D7D7F290BA41400F2A0EF /* ChatTextView.swift */; };
 		D415081C28A5199C00C92CEC /* CheckReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415081B28A5199C00C92CEC /* CheckReadView.swift */; };
 		D415081F28A52C6600C92CEC /* CheckTextReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415081E28A52C6600C92CEC /* CheckTextReadView.swift */; };
 		D415082228A52E6400C92CEC /* ReactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415082128A52E6400C92CEC /* ReactionsView.swift */; };
@@ -1697,6 +1700,9 @@
 		8BE122C32825415100F7707E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8BE24FA5294900E4009A3734 /* SelectContactViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactViewModel.swift; sourceTree = "<group>"; };
 		8BE24FA729490105009A3734 /* SelectContactFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactFlow.swift; sourceTree = "<group>"; };
+		8BE24F9E2947BF28009A3734 /* ChatMediaConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMediaConfigurator.swift; sourceTree = "<group>"; };
+		8BE24FA02947BF3F009A3734 /* ChatMediaProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMediaProtocols.swift; sourceTree = "<group>"; };
+		8BE24FA32947C239009A3734 /* DirectMenuFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectMenuFlow.swift; sourceTree = "<group>"; };
 		8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoView.swift; sourceTree = "<group>"; };
 		8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoViewModel.swift; sourceTree = "<group>"; };
 		8BE3799827EA133700AB6B6E /* SelectTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTokenView.swift; sourceTree = "<group>"; };
@@ -1735,7 +1741,7 @@
 		D4014D4E283FA7D100AAD70C /* CallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewController.swift; sourceTree = "<group>"; };
 		D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallsRouter.swift; sourceTree = "<group>"; };
 		D40D7D7D290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatTextsView+EmojiMocks.swift"; sourceTree = "<group>"; };
-		D40D7D7F290BA41400F2A0EF /* ChatTextsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextsView.swift; sourceTree = "<group>"; };
+		D40D7D7F290BA41400F2A0EF /* ChatTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextView.swift; sourceTree = "<group>"; };
 		D415081B28A5199C00C92CEC /* CheckReadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReadView.swift; sourceTree = "<group>"; };
 		D415081E28A52C6600C92CEC /* CheckTextReadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTextReadView.swift; sourceTree = "<group>"; };
 		D415082128A52E6400C92CEC /* ReactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsView.swift; sourceTree = "<group>"; };
@@ -3547,6 +3553,7 @@
 		5A9318DA26C5AB8900645365 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				8BE24FA22947BF43009A3734 /* ChatMedia */,
 				8BBCBCC328F73AF600E42F0C /* VideoGroup */,
 				8B1E295128EC9A02000E8019 /* Reactions */,
 				D4857D2928B4B31000C904EC /* Resizable Text Field */,
@@ -3574,7 +3581,6 @@
 				5ABAD39E27C286AE0067DFC1 /* Settings */,
 				5AC8C4F027C4111A008B1744 /* Members */,
 				5AC8C4EB27C3FEB6008B1744 /* Admins */,
-				5ABAD3A127C2F6240067DFC1 /* Content */,
 				5AE28A9A27EA1D5500D1AAFF /* Reply */,
 				5A26CD6026B35C9B00118D4B /* Message.swift */,
 			);
@@ -3703,18 +3709,6 @@
 				8B23C77C28E1037500418F2D /* SettingsConfigurator.swift */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		5ABAD3A127C2F6240067DFC1 /* Content */ = {
-			isa = PBXGroup;
-			children = (
-				5ABAD3A227C2F6BC0067DFC1 /* ChatMediaView.swift */,
-				8B7BDA7C284FA83A00E37926 /* ChatMediaViewModel.swift */,
-				8BB517BA2856B79500D06593 /* ChatDocumentView.swift */,
-				8BB517BC2856B7C100D06593 /* ChatMediaTypeView.swift */,
-				8BB517C02856BC4200D06593 /* ChatMediaSources.swift */,
-			);
-			path = Content;
 			sourceTree = "<group>";
 		};
 		5ABF08CB27D950350016CC6F /* ChatRoomMenu */ = {
@@ -4106,6 +4100,7 @@
 				8B34A9F928D4AAFA0097ED9E /* DirectChatMenuViewModel.swift */,
 				8B34A9F128D45FC20097ED9E /* DirectActions.swift */,
 				8B34A9F328D46BAC0097ED9E /* DirectMenuView.swift */,
+				8BE24FA32947C239009A3734 /* DirectMenuFlow.swift */,
 			);
 			path = DirectMenu;
 			sourceTree = "<group>";
@@ -4590,6 +4585,20 @@
 				8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */,
 			);
 			path = CreateContact;
+            sourceTree = "<group>";
+        };
+		8BE24FA22947BF43009A3734 /* ChatMedia */ = {
+			isa = PBXGroup;
+			children = (
+				8BB517BA2856B79500D06593 /* ChatDocumentView.swift */,
+				8BB517BC2856B7C100D06593 /* ChatMediaTypeView.swift */,
+				8BB517C02856BC4200D06593 /* ChatMediaSources.swift */,
+				8BE24F9E2947BF28009A3734 /* ChatMediaConfigurator.swift */,
+				8BE24FA02947BF3F009A3734 /* ChatMediaProtocols.swift */,
+				5ABAD3A227C2F6BC0067DFC1 /* ChatMediaView.swift */,
+				8B7BDA7C284FA83A00E37926 /* ChatMediaViewModel.swift */,
+			);
+			path = ChatMedia;
 			sourceTree = "<group>";
 		};
 		8BE3798D27E9C44900AB6B6E /* TokenInfo */ = {
@@ -4991,7 +5000,7 @@
 		D4857CE528A6273900C904EC /* Text View */ = {
 			isa = PBXGroup;
 			children = (
-				D40D7D7F290BA41400F2A0EF /* ChatTextsView.swift */,
+				D40D7D7F290BA41400F2A0EF /* ChatTextView.swift */,
 				D40D7D7D290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift */,
 			);
 			path = "Text View";
@@ -7456,6 +7465,7 @@
 				D4EFEBBD28E2AF100075CC10 /* MXToDeviceSyncResponse.m in Sources */,
 				D4EFEBD828E2AF100075CC10 /* MXLoginSSOFlow.m in Sources */,
 				5AF8635226AD9FE5004A417C /* GenerationInfoProtocols.swift in Sources */,
+				8BE24F9F2947BF28009A3734 /* ChatMediaConfigurator.swift in Sources */,
 				D4EFEB5F28E2AF100075CC10 /* MXDeviceListOperation.m in Sources */,
 				D4752EB828C71AA0006B650A /* AURJitsiJWTTokenBuilder.swift in Sources */,
 				7879F4B526CFC49300D3213F /* CallStruct.swift in Sources */,
@@ -7828,6 +7838,7 @@
 				8BE379AD27EB7CFE00AB6B6E /* KeyListConfigurator.swift in Sources */,
 				D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */,
 				5A9B472126EA81F5001CC627 /* QuickMenuView.swift in Sources */,
+				8BE24FA12947BF3F009A3734 /* ChatMediaProtocols.swift in Sources */,
 				D4EFEB0D28E2AF100075CC10 /* MXOlmEncryption.m in Sources */,
 				D4EFEAF728E2AF100075CC10 /* MXKeyBackupVersionTrust.m in Sources */,
 				D415082228A52E6400C92CEC /* ReactionsView.swift in Sources */,
@@ -7864,7 +7875,7 @@
 				D4EFEB9328E2AF100075CC10 /* MXRoomCreationParameters.m in Sources */,
 				D48AF448292601EC0044CFAE /* WalletNetwork.swift in Sources */,
 				D4EFEBA728E2AF100075CC10 /* MXTaggedEventInfo.m in Sources */,
-				D40D7D80290BA41400F2A0EF /* ChatTextsView.swift in Sources */,
+				D40D7D80290BA41400F2A0EF /* ChatTextView.swift in Sources */,
 				5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */,
 				5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */,
 				D445C84128462865003C3D5C /* CallViewSources.swift in Sources */,
@@ -8291,6 +8302,7 @@
 				78437F12270C76FE00371110 /* AboutAppFlow.swift in Sources */,
 				D4EFEC3928E2AF110075CC10 /* MXSpaceChildrenResponse.m in Sources */,
 				D4EFEB5E28E2AF100075CC10 /* MXDeviceListOperationsPool.m in Sources */,
+				8BE24FA42947C239009A3734 /* DirectMenuFlow.swift in Sources */,
 				D4EFEC4328E2AF110075CC10 /* MXRoomSummaryUpdater.m in Sources */,
 				5A9B472626EAB3D7001CC627 /* ReactionGroupView.swift in Sources */,
 				D4EFEBA428E2AF100075CC10 /* MXCallRejectReplacementEventContent.m in Sources */,

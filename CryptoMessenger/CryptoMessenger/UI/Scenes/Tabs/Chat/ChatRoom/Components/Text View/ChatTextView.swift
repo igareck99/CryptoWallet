@@ -1,8 +1,8 @@
 import SwiftUI
 
-// MARK: - ChatTextsView
+// MARK: - ChatTextView
 
-struct ChatTextsView: View {
+struct ChatTextView: View {
 
     // MARK: - Private Properties
 
@@ -83,7 +83,7 @@ struct ChatTextsView: View {
                     .padding(.leading, 12)
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(minWidth: 0,
-                           maxWidth: !isFromCurrentUser ? 249 : 211,
+                           maxWidth: 249,
                            alignment: .leading)
                 if !reactionItem.isEmpty {
                     ReactionsGroupView(viewModel: ReactionsGroupViewModel(items: reactionItem))

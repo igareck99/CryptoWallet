@@ -50,6 +50,7 @@ struct ChatRoomView: View {
     @State private var showJoinAlert = false
     @State private var height = CGFloat(0)
     @State private var selectedPhoto: URL?
+    @State private var showImageViewer = false
     @State private var showSettings = false
     @State private var showTranslateAlert = false
     @State private var showTranslateMenu = false
@@ -145,6 +146,13 @@ struct ChatRoomView: View {
                     .frame(height: 178)
                 }
             )
+            .fullScreenCover(isPresented: self.$showImageViewer,
+                             content: {
+                ImageViewerRemote(imageURL: $selectedPhoto,
+                                  viewerShown: self.$showImageViewer)
+                    .ignoresSafeArea()
+                    .navigationBarHidden(true)
+            })
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .photo:
@@ -179,7 +187,7 @@ struct ChatRoomView: View {
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarColor(selectedPhoto != nil ? nil : .white(), isBlured: false)
+            .navigationBarColor(selectedPhoto != nil && showImageViewer ? nil : .white(), isBlured: false)
             .toolbar {
                 createToolBar()
             }
@@ -206,7 +214,10 @@ struct ChatRoomView: View {
                                                     .onDeleteReaction(messageId: message.id, reactionId: reactionId)
                                                 )
                                             },
-                                            onSelectPhoto: { selectedPhoto = $0 },
+                                            onSelectPhoto: { selectedPhoto = $0
+                                                showImageViewer = true
+                                                hideKeyboard()
+                                            },
 											onEmojiTap: { viewModel.react(toEventId: $0.1, emoji: $0.0) },
                                             activateShowCard: $activateShowCard,
                                             playingAudioId: $playingAudioId
@@ -239,6 +250,8 @@ struct ChatRoomView: View {
                                             onSelectPhoto: {
 												hideKeyboard()
 												selectedPhoto = $0
+                                                showImageViewer = true
+                                                hideKeyboard()
 											},
 											onEmojiTap: { viewModel.react(toEventId: $0.1, emoji: $0.0) },
                                             activateShowCard: $activateShowCard,
@@ -325,17 +338,6 @@ struct ChatRoomView: View {
                 groupMenuView
             }
             translateMenuView
-            if selectedPhoto != nil {
-                ZStack {
-                    ImageViewer(
-                        selectedPhoto: $selectedPhoto,
-                        allImages: [],
-                        selectedImageID: ""
-                    )
-                        .navigationBarHidden(true)
-                        .ignoresSafeArea()
-                }
-            }
         }
         .hideKeyboardOnTap()
 		.ignoresSafeArea()
@@ -451,7 +453,8 @@ struct ChatRoomView: View {
                 VStack(spacing: 0) {
                     DirectMenuView(viewModel: DirectChatMenuViewModel(room: viewModel.room),
                                    action: $viewModel.directAction,
-                                   cardGroupPosition: $cardGroupPosition)
+                                   cardGroupPosition: $cardGroupPosition,
+                                   onMedia: { viewModel.send(.onMedia(viewModel.room)) })
                 }.padding(.vertical, 32)
             }
         }

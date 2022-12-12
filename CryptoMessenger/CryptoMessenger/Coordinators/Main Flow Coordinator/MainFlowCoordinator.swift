@@ -167,6 +167,7 @@ final class MainFlowCoordinator: Coordinator {
         case phraseManager
         case settingsChat(Binding<ChatData>, Binding<Bool>, AuraRoom)
         case friendProfile(Contact)
+        case chatMedia(AuraRoom)
     }
 }
 
@@ -237,6 +238,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showNotificationsSettings()
         case let .settingsChat(chatData, saveData, room):
             showSettingsChat(chatData: chatData, saveData: saveData, room: room)
+        case let .chatMedia(room):
+            showMediaView(room)
         }
     }
 
@@ -251,6 +254,14 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
                                                            chatData: chatData,
                                                            saveData: saveData,
                                                            room: room)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    private func showMediaView(_ room: AuraRoom) {
+        let rootView = ChatMediaConfigurator.configuredView(room: room,
+                                                            delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -561,6 +572,10 @@ extension MainFlowCoordinator: SettingsSceneDelegate {}
 // MARK: - MainFlowCoordinator (NotificationSettingsSceneDelegate)
 
 extension MainFlowCoordinator: NotificationSettingsSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ChatMediaSceneDelegate)
+
+extension MainFlowCoordinator: ChatMediaSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

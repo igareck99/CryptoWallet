@@ -13,7 +13,6 @@ final class DirectChatMenuViewModel: ObservableObject {
     // MARK: - Private Properties
 
     private var subscriptions = Set<AnyCancellable>()
-    private let eventSubject = PassthroughSubject<AuraRoom, Never>()
     private let availabilityFacade: MenuActionsTogglesFacadeProtocol
     private let pushNotifications: PushNotificationsServiceProtocol
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
@@ -93,6 +92,10 @@ final class DirectChatMenuViewModel: ObservableObject {
     }
 
     func updateView() {
+        if let row = self.actions.firstIndex(where: { $0 == .notifications }), userSettings.isRoomNotificationsEnable {
+            actions[row] = .notificationsOff
+            return
+        }
         if let row = self.actions.firstIndex(where: { $0 == .notifications }), room.room.isMuted {
             actions[row] = .notificationsOff
             return
