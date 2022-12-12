@@ -53,10 +53,27 @@ extension View {
 	func placeholder<Content: View>(
 		when shouldShow: Bool,
 		alignment: Alignment = .leading,
-		@ViewBuilder placeholder: () -> Content) -> some View {
-			ZStack(alignment: alignment) {
-				placeholder().opacity(shouldShow ? 1 : 0)
-				self
-			}
+		@ViewBuilder placeholder: () -> Content
+	) -> some View {
+		ZStack(alignment: alignment) {
+			placeholder().opacity(shouldShow ? 1 : 0)
+			self
 		}
+	}
+
+	func segmentedControlItemTag<
+		SelectionValue: Hashable,
+		Background: View
+	>(
+		tag: SelectionValue,
+		onSegmentSelect: @escaping (SelectionValue) -> Void,
+		@ViewBuilder backgroundView: @escaping () -> Background
+	) -> some View {
+		return SegmentedControllItemContainer(
+			tag: tag,
+			content: self,
+			onSegmentSelect: onSegmentSelect,
+			backgroundView: backgroundView
+		)
+	}
 }

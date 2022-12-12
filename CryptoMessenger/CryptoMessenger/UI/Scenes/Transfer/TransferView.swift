@@ -21,8 +21,10 @@ struct TransferView: View {
 
     // MARK: - Lifecycle
 
-    init(numberFormatter: NumberFormatter = NumberFormatter(),
-         viewModel: TransferViewModel) {
+    init(
+		numberFormatter: NumberFormatter = NumberFormatter(),
+		viewModel: TransferViewModel
+	) {
         self.viewModel = viewModel
         self.numberFormatter = NumberFormatter()
         self.numberFormatter.numberStyle = .decimal
@@ -33,9 +35,9 @@ struct TransferView: View {
 
     var body: some View {
         content
-            .onTapGesture(perform: {
+			.onTapGesture {
                 hideKeyboard()
-            })
+            }
         .popup(isPresented: $showCoinSelector,
                type: .toast,
                position: .bottom,
@@ -49,10 +51,12 @@ struct TransferView: View {
                 .background(.white())
                 .cornerRadius(16)
         }
+			   .navigationBarTitleDisplayMode(.inline)
+			   .navigationBarHidden(false)
         .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(R.string.localizable.transferTransfer())
-                        .font(.bold(15))
+						.font(.system(size: 17, weight: .semibold))
                 }
             }
     }
@@ -62,7 +66,7 @@ struct TransferView: View {
     private var content: some View {
         VStack(alignment: .leading, spacing: 24) {
             Divider()
-                .padding(.top, 16)
+                .padding(.top, 8)
             VStack(alignment: .leading, spacing: 12) {
                 Text(R.string.localizable.transferYourAdress().uppercased())
                     .font(.bold(12))
@@ -94,19 +98,21 @@ struct TransferView: View {
                     .padding(.leading, 16)
                 transferCell
                     .padding(.horizontal, 16)
-                Text(R.string.localizable.transferInDollar() + "\(dollarCourse) USD")
-                    .foreground(.darkGray())
-                    .font(.regular(12))
-                    .padding(.leading, 16)
-                    .padding(.top, -5)
             }
+			VStack(alignment: .center, spacing: 0) {
+				TransactionSpeedSelectView(
+					mode: .medium
+				) { mode in
+					debugPrint("TransactionSpeedSelectView : \(mode)")
+				}
+			}
+			.frame(height: 48)
+			.padding(.horizontal, 16)
             Spacer()
-            VStack(spacing: 8) {
-                Divider()
-                sendButton
-                    .frame(width: 213,
-                           height: 44)
-            }
+
+			sendButton
+				.frame(width: 237, height: 48)
+				.padding(.bottom, 44)
         }
     }
 

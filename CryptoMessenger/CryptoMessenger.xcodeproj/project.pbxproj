@@ -629,6 +629,12 @@
 		D46C8FD92942C99000DD0B01 /* TransactionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C8FD82942C99000DD0B01 /* TransactionDetailsView.swift */; };
 		D46C8FDB2942C9DC00DD0B01 /* TransactionDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C8FDA2942C9DC00DD0B01 /* TransactionDetails.swift */; };
 		D46C8FDD2942CBA700DD0B01 /* TransactionSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C8FDC2942CBA700DD0B01 /* TransactionSection.swift */; };
+		D46C90122947752000DD0B01 /* SegmentedControllItemContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C90112947752000DD0B01 /* SegmentedControllItemContainer.swift */; };
+		D46C90142947755C00DD0B01 /* CustomSegmentedControll.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C90132947755C00DD0B01 /* CustomSegmentedControll.swift */; };
+		D46C90162947758900DD0B01 /* SelectedSegmentTagKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C90152947758900DD0B01 /* SelectedSegmentTagKey.swift */; };
+		D46C9018294775A000DD0B01 /* SegmentedControlNamespaceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C9017294775A000DD0B01 /* SegmentedControlNamespaceKey.swift */; };
+		D46C901A294775F900DD0B01 /* EnvironmentValues+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C9019294775F900DD0B01 /* EnvironmentValues+Extensions.swift */; };
+		D46C901D2947764C00DD0B01 /* TransactionSpeedSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C901C2947764C00DD0B01 /* TransactionSpeedSelectView.swift */; };
 		D47113CB291CC2C100D1C39E /* ReactionsGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47113CA291CC2C100D1C39E /* ReactionsGrid.swift */; };
 		D4752EA028C2247F006B650A /* AURGroupCallsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D4752E9928C08B95006B650A /* AURGroupCallsViewModel.m */; };
 		D4752EA428C22502006B650A /* Base32Encoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4752EA328C22502006B650A /* Base32Encoder.m */; };
@@ -1798,6 +1804,12 @@
 		D46C8FD82942C99000DD0B01 /* TransactionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsView.swift; sourceTree = "<group>"; };
 		D46C8FDA2942C9DC00DD0B01 /* TransactionDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetails.swift; sourceTree = "<group>"; };
 		D46C8FDC2942CBA700DD0B01 /* TransactionSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSection.swift; sourceTree = "<group>"; };
+		D46C90112947752000DD0B01 /* SegmentedControllItemContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControllItemContainer.swift; sourceTree = "<group>"; };
+		D46C90132947755C00DD0B01 /* CustomSegmentedControll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControll.swift; sourceTree = "<group>"; };
+		D46C90152947758900DD0B01 /* SelectedSegmentTagKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedSegmentTagKey.swift; sourceTree = "<group>"; };
+		D46C9017294775A000DD0B01 /* SegmentedControlNamespaceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlNamespaceKey.swift; sourceTree = "<group>"; };
+		D46C9019294775F900DD0B01 /* EnvironmentValues+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Extensions.swift"; sourceTree = "<group>"; };
+		D46C901C2947764C00DD0B01 /* TransactionSpeedSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSpeedSelectView.swift; sourceTree = "<group>"; };
 		D47113CA291CC2C100D1C39E /* ReactionsGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionsGrid.swift; sourceTree = "<group>"; };
 		D4752E9328BFC497006B650A /* GroupCallsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsViewController.swift; sourceTree = "<group>"; };
 		D4752E9828C08B95006B650A /* AURGroupCallsViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AURGroupCallsViewModel.h; sourceTree = "<group>"; };
@@ -2928,6 +2940,7 @@
 		5A187E4A2680708D001957D3 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				D46C9010294774FD00DD0B01 /* Segmented Controll */,
 				D4A26E2329368DA400FEADC2 /* Empty State View */,
 				8B4DBFF928F5D694003F58EB /* GalleryPicker */,
 				8BBCBCD728F8811D00E42F0C /* FileGroup */,
@@ -3024,6 +3037,7 @@
 				D4FA3F73281A7374000246D8 /* TimeInterval+Extensions.swift */,
 				D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */,
 				D49181FF29233FA7009F8C33 /* UINavigationController+Extensions.swift */,
+				D46C9019294775F900DD0B01 /* EnvironmentValues+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4200,6 +4214,7 @@
 		8B5A338227D89C9F0064C7DC /* Transfer */ = {
 			isa = PBXGroup;
 			children = (
+				D46C901B2947762B00DD0B01 /* Transaction speed */,
 				8B5A338327D89CAE0064C7DC /* TransferView.swift */,
 				8B5A338527D89CF10064C7DC /* TransferProtocols.swift */,
 				8B5A338727D89D170064C7DC /* TransferConfigurator.swift */,
@@ -4480,8 +4495,8 @@
 				8BBF908029350ACB00936F4D /* KeyboardButtonView.swift */,
 			);
 			path = Componets;
-            sourceTree = "<group>";
-        };
+			sourceTree = "<group>";
+		};
 		8BBF9082293514B000936F4D /* NotificationsSettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -4874,6 +4889,25 @@
 				D45004782845DECC00CA4C82 /* HStackItemViewModel.swift */,
 			);
 			path = "HStack Items";
+			sourceTree = "<group>";
+		};
+		D46C9010294774FD00DD0B01 /* Segmented Controll */ = {
+			isa = PBXGroup;
+			children = (
+				D46C90112947752000DD0B01 /* SegmentedControllItemContainer.swift */,
+				D46C90132947755C00DD0B01 /* CustomSegmentedControll.swift */,
+				D46C90152947758900DD0B01 /* SelectedSegmentTagKey.swift */,
+				D46C9017294775A000DD0B01 /* SegmentedControlNamespaceKey.swift */,
+			);
+			path = "Segmented Controll";
+			sourceTree = "<group>";
+		};
+		D46C901B2947762B00DD0B01 /* Transaction speed */ = {
+			isa = PBXGroup;
+			children = (
+				D46C901C2947764C00DD0B01 /* TransactionSpeedSelectView.swift */,
+			);
+			path = "Transaction speed";
 			sourceTree = "<group>";
 		};
 		D4752E9228BFC47E006B650A /* Group Calls */ = {
@@ -7456,6 +7490,7 @@
 				D4DF2B3528F567760057499A /* MatrixUseCaseToggles.swift in Sources */,
 				D4857D0728AF6F9B00C904EC /* ChatHeaderView.swift in Sources */,
 				5A187F292680CF49001957D3 /* RequestBuilder.swift in Sources */,
+				D46C90142947755C00DD0B01 /* CustomSegmentedControll.swift in Sources */,
 				D4EFEC3D28E2AF110075CC10 /* MXFilterObject.m in Sources */,
 				8B7D8A1727DA5C1400BBFEFD /* CurrencyUITextField.swift in Sources */,
 				5A26CD3926B31FBA00118D4B /* UICollectionView+Extensions.swift in Sources */,
@@ -7793,6 +7828,7 @@
 				8B6E5558279FF922002054CF /* PinCodeCreateConfigurator.swift in Sources */,
 				8B5A338A27D89D400064C7DC /* TransferViewModel.swift in Sources */,
 				D4EFEB5928E2AF100075CC10 /* MXKey.m in Sources */,
+				D46C901A294775F900DD0B01 /* EnvironmentValues+Extensions.swift in Sources */,
 				5A1D265C275973940085324F /* CornerRadiusStyle.swift in Sources */,
 				5A7EDE74275402ED0049DC4A /* BlockListViewModel.swift in Sources */,
 				5A4BE517271DD86A00D03D09 /* EditEvent.swift in Sources */,
@@ -7956,6 +7992,7 @@
 				D4EFEC1628E2AF110075CC10 /* MXPushRuleDisplayNameCondtionChecker.m in Sources */,
 				D4EFEBBB28E2AF100075CC10 /* MXPresenceSyncResponse.m in Sources */,
 				8B637D8727CCF06A000B1B2B /* FilterTransactionView.swift in Sources */,
+				D46C901D2947764C00DD0B01 /* TransactionSpeedSelectView.swift in Sources */,
 				D4EFEBFA28E2AF110075CC10 /* FileManager+Backup.swift in Sources */,
 				D43A7E5228CB1BCF00A807EC /* JitsiWellKnown.swift in Sources */,
 				D4EFEC3E28E2AF110075CC10 /* MXFilterJSONModel.m in Sources */,
@@ -7965,6 +8002,7 @@
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
 				D4EFEB4F28E2AF100075CC10 /* MXCryptoMachine.swift in Sources */,
 				8B1564F328AA782A00A69B85 /* AnotherAppTransitionViewModel.swift in Sources */,
+				D46C9018294775A000DD0B01 /* SegmentedControlNamespaceKey.swift in Sources */,
 				8B4DBFFB28F5D6E1003F58EB /* GalleryPickerView.swift in Sources */,
 				5A44FEEF2768B1E6006F9D92 /* ProfileDetailFlow.swift in Sources */,
 				7889064327064F8D0093459C /* ProfileNetworkDetailView.swift in Sources */,
@@ -8504,8 +8542,10 @@
 				5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */,
 				8B38D13D28C12946002733D7 /* ProfileSettingsMenuViewModel.swift in Sources */,
 				8BE644F52837660200FA6540 /* ContactInfoView.swift in Sources */,
+				D46C90162947758900DD0B01 /* SelectedSegmentTagKey.swift in Sources */,
 				5AF8635E26ADB691004A417C /* OnboardingPageViewController.swift in Sources */,
 				8BB2F8E928B663C80034D902 /* ProfileDetailActionRow.swift in Sources */,
+				D46C90122947752000DD0B01 /* SegmentedControllItemContainer.swift in Sources */,
 				5AA6410026822C3A008922B4 /* Palette.swift in Sources */,
 				8B23C77928E1035D00418F2D /* SettingsFlow.swift in Sources */,
 				D4EFEC7928E2AF110075CC10 /* MXRoomMember.m in Sources */,
