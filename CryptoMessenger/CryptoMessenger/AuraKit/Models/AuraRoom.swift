@@ -209,7 +209,9 @@ final class AuraRoom: ObservableObject {
     func reply(text: String, eventId: String) {
         guard !text.isEmpty else { return }
         var localEcho: MXEvent?
-        guard let event = events().renderableEvents.first(where: { eventId == $0.eventId }) else { return }
+        guard let event = events().renderableEvents.first(where: { eventId == $0.eventId }) else {
+            return
+        }
         var rootMessage = ""
         if event.text.contains(">") {
             let startIndex = event.text.index(event.text.lastIndex(of: ">") ?? event.text.startIndex, offsetBy: 2)
