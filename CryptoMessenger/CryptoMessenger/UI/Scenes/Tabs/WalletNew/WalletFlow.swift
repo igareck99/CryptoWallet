@@ -24,7 +24,7 @@ enum WalletFlow {
         case onAppear
 		case onImportPhrase
         case onImportKey
-        case onTransfer
+		case onTransfer(walletIndex: Int)
         case onTransactionToken(selectorTokenIndex: Int)
         case onTransactionType(selectorFilterIndex: Int)
         case onTransactionAddress(selectorTokenIndex: Int, address: String)

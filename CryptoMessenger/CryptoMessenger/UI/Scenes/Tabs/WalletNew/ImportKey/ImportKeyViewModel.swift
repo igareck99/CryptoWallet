@@ -1,6 +1,6 @@
 import SwiftUI
-import HDWalletKit
 import Combine
+import HDWalletKit
 
 // MARK: - ImportKeyViewModel
 
@@ -18,10 +18,16 @@ final class ImportKeyViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<ImportKeyFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     private var keychainService: KeychainServiceProtocol
+	private let coreDataService: CoreDataServiceProtocol
+	var walletTypes = [WalletType]()
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+		coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
+		keychainService: KeychainServiceProtocol = KeychainService.shared
+	) {
+		self.coreDataService = coreDataService
         self.keychainService = KeychainService.shared
         bindInput()
         bindOutput()
@@ -77,4 +83,8 @@ final class ImportKeyViewModel: ObservableObject {
      private func secretPhraseValidate(toCompare: String) -> Bool {
         return toCompare == keychainService.secretPhrase
     }
+
+	private func getWallets() {
+		walletTypes = coreDataService.getWalletsTypes()
+	}
 }

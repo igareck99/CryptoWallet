@@ -17,6 +17,7 @@ extension Color {
 	static let manateeApprox = Color(uiColor: .manateeApprox)
 	static let sharkApprox = Color(uiColor: .sharkApprox)
 	static let athensGrayApprox = Color(uiColor: .athensGrayApprox)
+	static let ironApprox = Color(uiColor: .ironApprox)
 }
 
 extension UIColor {
@@ -35,4 +36,5 @@ extension UIColor {
 	static let manateeApprox = UIColor(red: 0.557, green: 0.557, blue: 0.576, alpha: 1)
 	static let sharkApprox = UIColor(red: 0.11, green: 0.11, blue: 0.118, alpha: 1)
 	static let athensGrayApprox = UIColor(red: 0.902, green: 0.918, blue: 0.929, alpha: 1)
+	static let ironApprox = UIColor(red: 220.0 / 255.0, green: 223.0 / 255.0, blue: 226.0 / 255.0, alpha: 1.0)
 }

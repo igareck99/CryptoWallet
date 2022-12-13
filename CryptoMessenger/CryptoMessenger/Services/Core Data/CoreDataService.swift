@@ -6,6 +6,8 @@ protocol CoreDataServiceProtocol {
 
 	// MARK: - GET
 
+	func getWalletsTypes() -> [WalletType]
+
 	func getWalletNetworks() -> [WalletNetwork]
 
 	func getWalletNetworksCount() -> Int
@@ -135,6 +137,11 @@ final class CoreDataService: NSObject {
 extension CoreDataService: CoreDataServiceProtocol {
 
 	// MARK: - GET
+
+	func getWalletsTypes() -> [WalletType] {
+		getWalletNetworks()
+			.compactMap { WalletType(rawValue: $0.cryptoType) }
+	}
 
 	func getWalletNetworks() -> [WalletNetwork] {
 		let context = persistentContainer.viewContext

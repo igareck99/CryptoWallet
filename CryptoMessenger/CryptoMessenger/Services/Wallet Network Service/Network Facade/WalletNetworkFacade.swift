@@ -19,6 +19,21 @@ protocol WalletNetworkFacadeProtocol {
 		params: TransactionsRequestParams,
 		completion: @escaping GenericBlock<EmptyFailureResult<WalletsTransactionsResponse>>
 	)
+
+	func getFee(
+		feeParams: FeeRequestParams,
+		completion: @escaping GenericBlock<EmptyFailureResult<FeeResponse>>
+	)
+
+	func makeTransactionTemplate(
+		params: TransactionTemplateRequestParams,
+		completion: @escaping GenericBlock<EmptyFailureResult<TransactionTemplateResponse>>
+	)
+
+	func makeTransactionSend(
+		params: TransactionSendRequestParams,
+		completion: @escaping GenericBlock<EmptyFailureResult<TransactionSendResponse>>
+	)
 }
 
 final class WalletNetworkFacade {
@@ -66,11 +81,11 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		params: AddressRequestParams,
 		completion: @escaping GenericBlock<EmptyFailureResult<AddressResponse>>
 	) {
-		let parameters: [String: Any] = [
+		let paramsDict: [String: Any] = [
 			"ethereum": [["publicKey": params.ethereumPublicKey]],
 			"bitcoin": [["publicKey": params.bitcoinPublicKey]]
 		]
-		let request = walletRequestsFactory.buildAddress(parameters: parameters)
+		let request = walletRequestsFactory.buildAddress(parameters: paramsDict)
 		let urlRequest = networkRequestFactory.makePostRequest(from: request)
 		networkService.send(request: urlRequest) { data, response, error in
 			debugPrint("getAddress")
@@ -91,11 +106,11 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		params: BalanceRequestParams,
 		completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
 	) {
-		let params: [String: Any] = [
+		let paramsDict: [String: Any] = [
 			"ethereum": [["accountAddress": params.ethereumAddress]],
 			"bitcoin": [["accountAddress": params.bitcoinAddress]]
 		]
-		let request = walletRequestsFactory.buildBalances(parameters: params)
+		let request = walletRequestsFactory.buildBalances(parameters: paramsDict)
 		let urlRequest = networkRequestFactory.makePostRequest(from: request)
 		networkService.send(request: urlRequest) { data, response, error in
 			debugPrint("getBalances")
@@ -116,7 +131,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		params: TransactionsRequestParams,
 		completion: @escaping GenericBlock<EmptyFailureResult<WalletsTransactionsResponse>>
 	) {
-		let params: [String: Any] = [
+		let paramsDict: [String: Any] = [
 			"ethereum": [[
 				"address": params.ethereumAddress,
 				"limit": "10"
@@ -126,7 +141,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 				"limit": "10"
 			]]
 		]
-		let request = walletRequestsFactory.buildTransactions(parameters: params)
+		let request = walletRequestsFactory.buildTransactions(parameters: paramsDict)
 		let urlRequest = networkRequestFactory.makePostRequest(from: request)
 		networkService.send(request: urlRequest) { data, response, error in
 			debugPrint("getTransactions")
@@ -136,6 +151,91 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 			guard let data = data,
 				  let model = Parser.parse(data: data, to: WalletsTransactionsResponse.self)
 			else {
+				completion(.failure)
+				return
+			}
+			debugPrint("model: \(model)")
+			completion(.success(model))
+		}
+	}
+
+	// MARK: - Fee
+
+	func getFee(
+		feeParams: FeeRequestParams,
+		completion: @escaping GenericBlock<EmptyFailureResult<FeeResponse>>
+	) {
+		let paramsDict: [String: Any] = ["cryptoType": feeParams.cryptoType]
+		let request = walletRequestsFactory.buildFee(parameters: paramsDict)
+		let urlRequest = networkRequestFactory.makePostRequest(from: request)
+		networkService.send(request: urlRequest) { data, response, error in
+			debugPrint("getFee")
+			debugPrint("data: \(String(describing: data))")
+			debugPrint("response: \(String(describing: response))")
+			debugPrint("error: \(String(describing: error))")
+			guard let data = data,
+				  let model = Parser.parse(data: data, to: FeeResponse.self)
+			else {
+				completion(.failure)
+				return
+			}
+			debugPrint("model: \(model)")
+			completion(.success(model))
+		}
+	}
+
+	// MARK: - Transaction template
+
+	func makeTransactionTemplate(
+		params: TransactionTemplateRequestParams,
+		completion: @escaping GenericBlock<EmptyFailureResult<TransactionTemplateResponse>>
+	) {
+		let paramsDict: [String: Any] = [
+			"publicKey": params.publicKey,
+			"addressTo": params.addressTo,
+			"amount": params.amount,
+			"fee": params.fee,
+			"cryptoType": params.cryptoType
+		]
+		let request = walletRequestsFactory.buildTransactionTemplate(parameters: paramsDict)
+		let urlRequest = networkRequestFactory.makePostRequest(from: request)
+		networkService.send(request: urlRequest) { data, response, error in
+			debugPrint("makeTransactionTemplate")
+			debugPrint("data: \(String(describing: data))")
+			debugPrint("response: \(String(describing: response))")
+			debugPrint("error: \(String(describing: error))")
+			guard let data = data,
+				  let model = Parser.parse(data: data, to: TransactionTemplateResponse.self)
+			else {
+				completion(.failure)
+				return
+			}
+			debugPrint("model: \(model)")
+			completion(.success(model))
+		}
+	}
+
+	// MARK: - Transaction Send
+
+	func makeTransactionSend(
+		params: TransactionSendRequestParams,
+		completion: @escaping GenericBlock<EmptyFailureResult<TransactionSendResponse>>
+	) {
+		let paramsDict: [String: Any] = params.dictionary
+		let request = walletRequestsFactory.buildTransactionSend(parameters: paramsDict)
+		let urlRequest = networkRequestFactory.makePostRequest(from: request)
+		networkService.send(request: urlRequest) { data, response, error in
+			debugPrint("makeTransaction")
+			debugPrint("data: \(String(describing: data))")
+			debugPrint("response: \(String(describing: response))")
+			debugPrint("error: \(String(describing: error))")
+			guard let data = data,
+				  let model = Parser.parse(data: data, to: TransactionSendResponse.self)
+			else {
+//				{
+//				"message":
+//				"Transaction with uuid 95fe50a7-c477-40e1-911e-0365704a2d4f not found"
+//			}
 				completion(.failure)
 				return
 			}

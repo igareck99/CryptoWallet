@@ -10,15 +10,15 @@ struct TransactionSpeedSelectView: View {
 
 	@State var mode: TransactionMode = .medium
 
+	let transactionFees: [TransactionSpeed]
 	let onSegmentSelect: (TransactionMode) -> Void
 
 	var body: some View {
 		VStack {
 			CustomSegmentedControll(selection: $mode) {
-
-				segment("Медленно", "0.0008 ETH", .slow)
-				segment("Средне", "0.00021 ETH", .medium)
-				segment("Быстро", "0.00042 ETH", .fast)
+				ForEach(transactionFees) { fee in
+					segment(fee.title, fee.feeText, fee.mode)
+				}
 			}
 			.background(
 				RoundedRectangle(cornerRadius: 4)
@@ -35,6 +35,7 @@ struct TransactionSpeedSelectView: View {
 	) -> some View {
 		VStack(alignment: .leading, spacing: 4) {
 			texts(title, text)
+				.padding(.horizontal, 4)
 		}
 		.padding(.vertical, 6)
 		.segmentedControlItemTag(
@@ -53,8 +54,12 @@ struct TransactionSpeedSelectView: View {
 	) -> some View {
 		Text(title)
 			.font(.system(size: 12, weight: .medium))
+			.lineLimit(1)
+			.truncationMode(.middle)
 		Text(text)
 			.font(.system(size: 12))
+			.lineLimit(1)
+			.truncationMode(.middle)
 	}
 
 	@ViewBuilder
