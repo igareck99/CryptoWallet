@@ -7,8 +7,9 @@ struct ChooseReceiverView: View {
 
     // MARK: - Internal Properties
 
+    @Binding var address: String
     @StateObject var viewModel: ChooseReceiverViewModel
-    @State var searchType = SearchType.contact
+    @State var searchType = SearchType.telephone
     @State var searchText = ""
     @State var searching = false
 
@@ -31,19 +32,23 @@ struct ChooseReceiverView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         viewModel.send(.onScanner(scannedScreen: $searchText))
+                        searchType = .wallet
                     } label: {
                         R.image.chooseReceiver.qrcode.image
                     }
                 }
             }.onReceive(scannedCodePublisher) { code in
                 debugPrint(code)
+                if code.contains("ethereum") {
+                    address = code.substring(fromIndex: 9)
+                }
             }
     }
 
     // MARK: - Private Properties
 
     private var content: some View {
-        VStack(spacing: 1) {
+        VStack(spacing: 0) {
             searchSelectView
                 .padding(.top, 20)
             Divider()
@@ -55,15 +60,19 @@ struct ChooseReceiverView: View {
                 .onTapGesture {
                     hideKeyboard()
                 }
+            ForEach(viewModel.userWalletsData, id: \.self) { item in
+                ContactRow(avatar: item.url,
+                           name: item.name,
+                           status: searchType == .telephone ? item.phone : item.ethereum ,
+                           isAdmin: false)
+            }
             Spacer()
 
         }
     }
 
     private var searchSelectView: some View {
-        HStack(spacing: 16) {
-            SearchTypeView(selectedSearchType: $searchType,
-                           searchTypeCell: SearchType.contact )
+        HStack(spacing: 0) {
             SearchTypeView(selectedSearchType: $searchType,
                            searchTypeCell: SearchType.telephone )
             SearchTypeView(selectedSearchType: $searchType,
@@ -84,23 +93,22 @@ struct SearchTypeView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: 7) {
+        VStack(alignment: .center, spacing: 7) {
             Text(searchTypeCell.result,
                  [
-                    .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
-                    .font(.regular(13)),
+                    .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center)),
+                    .font(.regular(16)),
                     .color(searchTypeCell == selectedSearchType ? .blue(): .darkGray())
                  ])
             Divider()
-                .frame(height: 2)
+                .frame(width: UIScreen.main.bounds.width / 2, height: 2)
                 .background(.blue())
                 .opacity(searchTypeCell == selectedSearchType ? 1 : 0)
-        }
-        .frame(minWidth: 53,
-               maxWidth: 61,
-               alignment: .center)
+        } 
         .onTapGesture {
-            selectedSearchType = searchTypeCell
+            withAnimation(.easeOut(duration: 0.3)) {
+                selectedSearchType = searchTypeCell
+            }
         }
     }
 }

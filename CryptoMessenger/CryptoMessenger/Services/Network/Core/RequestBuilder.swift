@@ -30,6 +30,7 @@ final class RequestBuilder {
 
         case request
         case upload
+        case reward
     }
 
     // MARK: - Encoding
@@ -88,7 +89,11 @@ final class RequestBuilder {
             self.path = components.path
             self.queryParameters = QueryParams(uniqueKeysWithValues: params.map({ ($0.name, $0.value) }))
         } else {
-            self.path = apiVersion + path
+            if requestType != .reward {
+                self.path = apiVersion + path
+                return
+            }
+            self.path = path
         }
     }
 

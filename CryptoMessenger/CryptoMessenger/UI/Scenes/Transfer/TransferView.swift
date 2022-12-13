@@ -12,6 +12,8 @@ struct TransferView: View {
     @State var isContactChoose = true
     @State var showCoinSelector = false
     @State var isSelectedWalletType = false
+    @State var value = 0
+    @State var address: String = ""
 
     // MARK: - Body
 
@@ -19,6 +21,9 @@ struct TransferView: View {
         content
 			.onTapGesture {
                 hideKeyboard()
+            }
+            .onAppear {
+                viewModel.send(.onAppear)
             }
         .popup(isPresented: $showCoinSelector,
                type: .toast,
@@ -71,7 +76,7 @@ struct TransferView: View {
                     .background(.white())
                     .padding(.horizontal, 16)
                     .onTapGesture {
-                        viewModel.send(.onChooseReceiver)
+                        viewModel.send(.onChooseReceiver($address))
                     }
             }
             .padding(.top, 4)
@@ -97,12 +102,9 @@ struct TransferView: View {
 			.padding(.horizontal, 16)
 
             Spacer()
-
-			VStack(alignment: .center, spacing: 0) {
-				sendButton
-					.frame(width: 237, height: 48, alignment: .center)
-					.padding(.bottom, 44)
-			}
+			sendButton
+				.frame(width: 237, height: 48)
+				.padding(.bottom, 44)
         }
     }
 
@@ -140,10 +142,17 @@ struct TransferView: View {
                         .frame(width: 40, height: 40)
                     R.image.chat.action.contact.image
                 }
-                Text(R.string.localizable.transferChooseContact())
-					.font(.system(size: 17))
-					.foregroundColor(.woodSmokeApprox)
-                    .frame(height: 22)
+                if address.isEmpty {
+                    Text(R.string.localizable.transferChooseContact())
+                        .font(.system(size: 17))
+                        .foregroundColor(.woodSmokeApprox)
+                        .frame(height: 22)
+                } else {
+                    Text(address)
+                        .font(.system(size: 17))
+                        .foregroundColor(.woodSmokeApprox)
+                        .frame(height: 22)
+                }
             }
             Spacer()
             R.image.profileDetail.arrow.image

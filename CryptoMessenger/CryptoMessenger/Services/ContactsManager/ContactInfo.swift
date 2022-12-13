@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - ContactInfo(Identifiable)
+
 struct ContactInfo: Identifiable {
 	let id = UUID().uuidString
 	let firstName: String

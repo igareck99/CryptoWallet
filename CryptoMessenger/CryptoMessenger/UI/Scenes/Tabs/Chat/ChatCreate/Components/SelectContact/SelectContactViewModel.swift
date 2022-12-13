@@ -89,7 +89,6 @@ final class SelectContactViewModel: ObservableObject {
         guard !contacts.isEmpty else { return }
 
         let phones = contacts.map { $0.phoneNumber.numbers }
-
         apiClient.publisher(Endpoints.Users.users(phones))
             .replaceError(with: [:])
             .sink { [weak self] response in
