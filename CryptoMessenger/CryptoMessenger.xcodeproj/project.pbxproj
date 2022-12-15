@@ -519,6 +519,8 @@
 		8BE122BC28240C8B00F7707E /* RemoteConfigUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE122BB28240C8B00F7707E /* RemoteConfigUseCase.swift */; };
 		8BE122BF28242EB500F7707E /* MainFlowTogglesFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE122BE28242EB500F7707E /* MainFlowTogglesFacade.swift */; };
 		8BE122C228253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE122C128253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift */; };
+		8BE24FA6294900E4009A3734 /* SelectContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE24FA5294900E4009A3734 /* SelectContactViewModel.swift */; };
+		8BE24FA829490105009A3734 /* SelectContactFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE24FA729490105009A3734 /* SelectContactFlow.swift */; };
 		8BE3798F27E9C47D00AB6B6E /* TokenInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */; };
 		8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */; };
 		8BE3799927EA133800AB6B6E /* SelectTokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE3799827EA133700AB6B6E /* SelectTokenView.swift */; };
@@ -1693,6 +1695,8 @@
 		8BE122BE28242EB500F7707E /* MainFlowTogglesFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowTogglesFacade.swift; sourceTree = "<group>"; };
 		8BE122C128253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigUseCaseAssembly.swift; sourceTree = "<group>"; };
 		8BE122C32825415100F7707E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8BE24FA5294900E4009A3734 /* SelectContactViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactViewModel.swift; sourceTree = "<group>"; };
+		8BE24FA729490105009A3734 /* SelectContactFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactFlow.swift; sourceTree = "<group>"; };
 		8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoView.swift; sourceTree = "<group>"; };
 		8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoViewModel.swift; sourceTree = "<group>"; };
 		8BE3799827EA133700AB6B6E /* SelectTokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTokenView.swift; sourceTree = "<group>"; };
@@ -3672,20 +3676,19 @@
 		5ABAD39B27BEFB150067DFC1 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				5ABAD39C27BEFB2F0067DFC1 /* Group */,
+				8BE24FAA29490242009A3734 /* CreateContact */,
+				8BE24FA929490204009A3734 /* SelectContact */,
+				5ABAD39C27BEFB2F0067DFC1 /* ChatGroupView */,
 			);
 			path = Components;
 			sourceTree = "<group>";
 		};
-		5ABAD39C27BEFB2F0067DFC1 /* Group */ = {
+		5ABAD39C27BEFB2F0067DFC1 /* ChatGroupView */ = {
 			isa = PBXGroup;
 			children = (
-				5A3721DD272F418F0097ABED /* SelectContactView.swift */,
 				5A3721D6272F2A4D0097ABED /* ChatGroupView.swift */,
-				8BE66737280F1C4600D41A3C /* CreateContactView.swift */,
-				8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */,
 			);
-			path = Group;
+			path = ChatGroupView;
 			sourceTree = "<group>";
 		};
 		5ABAD39E27C286AE0067DFC1 /* Settings */ = {
@@ -4568,6 +4571,25 @@
 				D4533A172833567D00B956B2 /* RemoteConfigValues.swift */,
 			);
 			path = "Remote Config UseCase";
+			sourceTree = "<group>";
+		};
+		8BE24FA929490204009A3734 /* SelectContact */ = {
+			isa = PBXGroup;
+			children = (
+				5A3721DD272F418F0097ABED /* SelectContactView.swift */,
+				8BE24FA729490105009A3734 /* SelectContactFlow.swift */,
+				8BE24FA5294900E4009A3734 /* SelectContactViewModel.swift */,
+			);
+			path = SelectContact;
+			sourceTree = "<group>";
+		};
+		8BE24FAA29490242009A3734 /* CreateContact */ = {
+			isa = PBXGroup;
+			children = (
+				8BE66737280F1C4600D41A3C /* CreateContactView.swift */,
+				8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */,
+			);
+			path = CreateContact;
 			sourceTree = "<group>";
 		};
 		8BE3798D27E9C44900AB6B6E /* TokenInfo */ = {
@@ -8238,6 +8260,7 @@
 				8BA0C90E27AD76730070203F /* ReserveCopyView.swift in Sources */,
 				D4EFEADF28E2AF100075CC10 /* MXJingleCallStackCall.m in Sources */,
 				D4EFEC7A28E2AF110075CC10 /* MXPeekingRoomSummary.m in Sources */,
+				8BE24FA829490105009A3734 /* SelectContactFlow.swift in Sources */,
 				782A2E752889534C00DDB6CE /* MapViewConstants.swift in Sources */,
 				D44BDC742808382B0080AE8A /* PushNotificationsUseCase.swift in Sources */,
 				8B4E9C4D27E3ADF80057E4C9 /* SuccessFacilityView.swift in Sources */,
@@ -8423,6 +8446,7 @@
 				D4EFEC9528E2AF110075CC10 /* MXBeaconAggregations.swift in Sources */,
 				D4EFEBCA28E2AF100075CC10 /* MXEventContentLocation.m in Sources */,
 				8B6C18C8279ABB4800B85F2A /* BlockedListConfigurator.swift in Sources */,
+				8BE24FA6294900E4009A3734 /* SelectContactViewModel.swift in Sources */,
 				D4EFEC7428E2AF110075CC10 /* MXCoreDataRoomSummaryStore.xcdatamodeld in Sources */,
 				5A3721D7272F2A4D0097ABED /* ChatGroupView.swift in Sources */,
 				8B4E9C3527E0A77A0057E4C9 /* WalletAdressScanerView.swift in Sources */,

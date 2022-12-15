@@ -165,8 +165,9 @@ struct ChatRoomView: View {
                             .edgesIgnoringSafeArea(.all)
                 case .contact:
                     NavigationView {
-                        SelectContactView(contactsLimit: 1, onSelectContact: {
-                            viewModel.pickedContact = $0.first
+                        SelectContactView(viewModel: SelectContactViewModel(mode: .send), contactsLimit: 1,
+                                          onSelectContact: {
+                            viewModel.pickedContact = $0
                         })
                     }
                 case .location:

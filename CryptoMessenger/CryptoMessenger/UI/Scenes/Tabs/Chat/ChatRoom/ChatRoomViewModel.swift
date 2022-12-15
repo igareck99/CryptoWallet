@@ -38,7 +38,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var selectedImage: UIImage?
     @Published var selectedVideo: URL?
     @Published var pickedImage: UIImage?
-    @Published var pickedContact: Contact?
+    @Published var pickedContact: [Contact]?
     @Published var pickedLocation: Place?
     @Published var cameraFrame: CGImage?
     @Published var roomUsers = [MXUser]()
@@ -366,9 +366,15 @@ final class ChatRoomViewModel: ObservableObject {
 						self?.updateToggles()
                     }
                 case let .onReply(text, eventId):
-                    self?.room.reply(text: text, eventId: eventId)
-                    self?.matrixUseCase.objectChangePublisher.send()
-                    self?.fetchChatData()
+                    guard
+                        let self = self,
+                        let room = self.matrixUseCase.rooms.first(where: { $0.room.id == self.room.id })
+                    else {
+                        return
+                    }
+                    room.reply(text: text, eventId: eventId)
+                    self.matrixUseCase.objectChangePublisher.send()
+                    self.fetchChatData()
                 case let .onDelete(eventId):
                     self?.room.redact(eventId: eventId, reason: nil)
                     self?.matrixUseCase.objectChangePublisher.send()
@@ -388,9 +394,6 @@ final class ChatRoomViewModel: ObservableObject {
 						}
 						return
 					}
-
-
-
 					guard
 						let index = self?.messages.firstIndex(where: { $0.id == messageId }),
 						let message = self?.messages.first(where: { $0.id == messageId }),
@@ -544,8 +547,10 @@ final class ChatRoomViewModel: ObservableObject {
         $pickedContact
             .receive(on: DispatchQueue.main)
             .sink { [weak self] contact in
-                guard let contact = contact else { return }
-                self?.send(.onSendContact(contact))
+                guard let contacts = contact else { return }
+                for contact in contacts {
+                    self?.send(.onSendContact(contact))
+                }
             }
             .store(in: &subscriptions)
         $pickedLocation
