@@ -59,6 +59,15 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 		viewModel: ChatRoomViewModel
 	) -> AnyView {
         let displayName: String = (event.content["displayname"] as? String) ?? ""
+        if viewModel.next(event)?.fullDate != event.fullDate {
+            if viewModel.room.summary.membership != .invite {
+                return AnyView(ChatEventView(
+                    text: event.fullDate,
+                    backgroundColor: Palette.lightGray().suColor
+                ).configureInnerOuterShadow().flippedUpsideDown())
+            }
+        }
+
 		if event.eventType == "im.vector.modular.widgets" {
 			return AnyView(
 				ChatEventView(
@@ -72,13 +81,6 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 				}
 			)
 		}
-
-        if viewModel.next(event)?.fullDate != event.fullDate {
-            return AnyView(ChatEventView(
-                text: event.fullDate,
-                backgroundColor: Palette.lightGray().suColor
-            ).configureInnerOuterShadow().flippedUpsideDown())
-        }
 
 		if event.eventType.contains("m.call.hangup") ||
 			event.eventType.contains("m.call.reject") {

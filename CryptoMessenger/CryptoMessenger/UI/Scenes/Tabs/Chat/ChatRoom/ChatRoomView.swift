@@ -36,6 +36,7 @@ struct ChatRoomView: View {
     @State var activateShowCard = true
 	@State var textViewHeight: CGFloat = 36
     @State var showReaction = false
+    @State var viewHeight: CGFloat = 68
 
     // MARK: - Private Properties
 
@@ -49,6 +50,7 @@ struct ChatRoomView: View {
     @State private var showActionSheet = false
     @State private var showJoinAlert = false
     @State private var height = CGFloat(0)
+    @State private var inputHeight = CGFloat(0)
     @State private var selectedPhoto: URL?
     @State private var showSettings = false
     @State private var showTranslateAlert = false
@@ -298,11 +300,25 @@ struct ChatRoomView: View {
 					})
                     .flippedUpsideDown()
                 }
-                inputView
+                VStack(spacing: 0) {
+                    if quickAction == .reply {
+                        ReplyView(
+                            text: activeEditMessage?.description ?? "",
+                            onReset: { activeEditMessage = nil; quickAction = nil }
+                        ).transition(.opacity)
+                    }
+                    if quickActionCurrentUser == .edit {
+                        EditView(
+                            text: activeEditMessage?.description ?? "",
+                            onReset: { activeEditMessage = nil; quickActionCurrentUser = nil }
+                        ).transition(.opacity)
+                    }
+                    inputView
+                }
             }
             .animation(.easeInOut(duration: 0.23), value: keyboardHandler.keyboardHeight != 0)
             .padding(.bottom, keyboardHandler.keyboardHeight)
-
+            
             if showActionSheet {
                 ActionSheetView(
                     showActionSheet: $showActionSheet,
@@ -365,6 +381,9 @@ struct ChatRoomView: View {
 									case .delete:
 										viewModel.send(.onDelete(messageId))
 									case .edit:
+                                        if quickAction == .reply {
+                                            quickAction = nil
+                                        }
 										inputViewIsFocused = true
 									case .reply:
 										inputViewIsFocused = true
@@ -377,6 +396,7 @@ struct ChatRoomView: View {
 										()
 									}
 									quickActionCurrentUser = $0
+                                    
 								},
 								onReaction: { reaction in
 									debugPrint("emotions \(reaction)")
@@ -393,6 +413,9 @@ struct ChatRoomView: View {
 									case .delete:
 										viewModel.send(.onDelete(messageId))
 									case .reply:
+                                        if quickActionCurrentUser == .edit {
+                                            quickActionCurrentUser = nil
+                                        }
 										inputViewIsFocused = true
 									case .reaction:
 										if viewModel.isReactionsAvailable {
@@ -477,19 +500,6 @@ struct ChatRoomView: View {
     private var inputView: some View {
         VStack(spacing: 0) {
             VStack(spacing: 0) {
-                if quickAction == .reply {
-                    ReplyView(
-                        text: activeEditMessage?.description ?? "",
-                        onReset: { activeEditMessage = nil; quickAction = nil }
-                    ).transition(.opacity)
-                }
-                if quickActionCurrentUser == .edit {
-                    EditView(
-                        text: activeEditMessage?.description ?? "",
-                        onReset: { activeEditMessage = nil; quickActionCurrentUser = nil }
-                    ).transition(.opacity)
-                }
-
                 HStack(spacing: 8) {
                     if showAudioView {
                         HStack(alignment: .center) {
@@ -569,7 +579,8 @@ struct ChatRoomView: View {
                 
                 Spacer()
             }
-            .frame(height: min((quickActionCurrentUser == .edit ? 68 : (quickAction == .reply ? 68 : 18)) + textViewHeight, 160) )
+            .frame(height: min((quickActionCurrentUser == .edit ? 68 :
+                                    (quickAction == .reply ? 68 : 18)) + textViewHeight, 160))
             .background(.white())
             .ignoresSafeArea()
 
@@ -710,3 +721,4 @@ struct ChatRoomView: View {
         }
     }
 }
+
