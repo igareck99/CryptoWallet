@@ -39,5 +39,6 @@ enum ChatRoomFlow {
         case onNextScene
         case onSettings(chatData: Binding<ChatData>, saveData: Binding<Bool>, room: AuraRoom)
         case onSendVideo(_ url: URL)
+        case onMedia(_ room: AuraRoom)
     }
 }

@@ -10,6 +10,7 @@ struct DirectMenuView: View {
     @Binding var action: DirectAction?
     @Binding var cardGroupPosition: CardPosition
     @State private var actions: [DirectAction] = []
+    var onMedia: VoidBlock?
 
     // MARK: - Private Properties
 
@@ -22,9 +23,17 @@ struct DirectMenuView: View {
             ForEach(viewModel.actions, id: \.id) { act in
                 Button(action: {
                     vibrate()
-                    if act == .notifications || act == .notificationsOff {
+                    switch act {
+                    case .notifications:
                         viewModel.updateNotifications()
                         return
+                    case .notificationsOff:
+                        viewModel.updateNotifications()
+                        return
+                    case .media:
+                        onMedia?()
+                    default:
+                        break
                     }
                     action = act
                     cardGroupPosition = .bottom

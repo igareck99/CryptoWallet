@@ -92,12 +92,12 @@ struct AudioView: View {
 			}
 			.padding(.bottom, 16)
 			.frame(width: 252)
-
 			VStack(alignment: .leading, spacing: 0) {
 				CheckTextReadView(
 					time: shortDate,
 					isFromCurrentUser: isFromCurrentUser
 				)
+                .padding(.leading, !isFromCurrentUser ? 195 : 0)
 			}
 		}
 		.onReceive(audioViewModel.timer, perform: { _ in

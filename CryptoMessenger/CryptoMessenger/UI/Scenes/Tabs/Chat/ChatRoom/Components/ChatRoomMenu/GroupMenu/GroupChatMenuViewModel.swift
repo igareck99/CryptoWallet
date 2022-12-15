@@ -26,12 +26,12 @@ final class GroupChatMenuViewModel: ObservableObject {
                 if availabilityFacade.isChatMenuEditAvailable {
                     actions.append(action)
                 }
-            case .notifications :
+            case .notifications:
                 if availabilityFacade.isChatMenuNotificationsAvailable {
                     actions.append(action)
                 }
             case .search:
-                if availabilityFacade.isChatMenuMediaAvailable {
+                if availabilityFacade.isChatMenuSearchAvailable {
                     actions.append(action)
                 }
             case .users:

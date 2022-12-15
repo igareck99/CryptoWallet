@@ -15,6 +15,7 @@ final class ChatMediaViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
+    weak var delegate: ChatMediaSceneDelegate?
     let sources: ChatMediaSourcesable.Type
     @Published var photos: [URL] = []
     @Published var files: [FileData] = []

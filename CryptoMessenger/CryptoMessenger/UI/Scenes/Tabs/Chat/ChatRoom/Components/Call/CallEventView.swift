@@ -48,7 +48,8 @@ struct CallEventView: View {
 							.foreground(.darkGray())
 					}
 				}.padding([.bottom, .top], 8)
-			}.padding([.trailing, .leading], 8)
+			}.padding(.trailing, 8)
+                .padding(.leading, !isFromCurrentUser ? 16 : 8)
 		}.padding([.top, .bottom], 8)
 			.onTapGesture(perform: action)
 	}

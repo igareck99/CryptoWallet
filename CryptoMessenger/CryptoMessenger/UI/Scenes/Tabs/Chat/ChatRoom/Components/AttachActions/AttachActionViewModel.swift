@@ -20,8 +20,6 @@ final class AttachActionViewModel: ObservableObject {
         fetchPhotos()
     }
 
-    // MARK: - Internal Methods
-
     // MARK: - Private Methods
 
     private func fetchChatData() {
@@ -43,10 +41,12 @@ final class AttachActionViewModel: ObservableObject {
                                    _ totalImageCountNeeded: Int,
                                    _ fetchResult: PHFetchResult<PHAsset>) {
         let requestOptions = PHImageRequestOptions()
+        requestOptions.deliveryMode = .highQualityFormat
+        requestOptions.resizeMode = .exact
         PHImageManager.default().requestImage(for: fetchResult.object(at: index) as PHAsset,
                                               targetSize: CGSize(width: UIScreen.main.bounds.width,
                                                                  height: UIScreen.main.bounds.width),
-                                              contentMode: PHImageContentMode.aspectFill,
+                                              contentMode: PHImageContentMode.aspectFit,
                                               options: requestOptions,
                                               resultHandler: { image, _ in
             if let image = image {
