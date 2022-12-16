@@ -637,6 +637,7 @@ final class ChatRoomViewModel: ObservableObject {
                         }
                         .compactMap { $0 }
                 }
+                print("smasassaklsklas  \(room.events().renderableEvents)")
                 self.messages = room.events().renderableEvents.filter({ !$0.eventId.contains("kMXEventLocalId") })
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))

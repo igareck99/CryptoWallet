@@ -33,11 +33,10 @@ struct ResizeableTextView: UIViewRepresentable {
             }
 		}
 
-		DispatchQueue.main.async {
-            self.height = textView.contentSize.height > 36 ? textView.contentSize.height : 36
-            textView.backgroundColor = fieldBackgroundColor
-			textView.textContainerInset = UIEdgeInsets(top: 10, left: 6, bottom: 6, right: 6)
-		}
+        self.height = textView.contentSize.height > 36 ? textView.contentSize.height : 36
+        textView.backgroundColor = fieldBackgroundColor
+        textView.textContainerInset = UIEdgeInsets(top: 10, left: 6, bottom: 6, right: 6)
+        
 	}
 
 	func makeCoordinator() -> Coordinator {
