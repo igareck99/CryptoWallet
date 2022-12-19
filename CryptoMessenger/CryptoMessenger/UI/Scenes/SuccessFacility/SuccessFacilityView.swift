@@ -7,7 +7,7 @@ struct SuccessFacilityView: View {
     // MARK: - Internal Properties
 
     @Binding var showSuccessFacility: Bool
-    @State var transaction: TransactionInfoApprove
+    @State var transaction: FacilityApproveModel
 
     // MARK: - Body
 
@@ -60,17 +60,15 @@ struct SuccessFacilityView: View {
     }
 
     private var coinDataView: some View {
-        VStack(spacing: 12) {
-            Text(transaction.amount > 0 ? String(transaction.amount)
-                 + " \(transaction.transactionCoin.abbreviatedName)" :
-                    "--- " + String(transaction.amount) + "\(transaction.transactionCoin.abbreviatedName)")
-                .font(.regular(32))
-            Text(transaction.amount > 0 ? String(transaction.fiatValue) :
-                    "- " + String(transaction.fiatValue))
-                .font(.regular(15))
-                .foreground(.darkGray())
-                 }
-    }
+		VStack(spacing: 12) {
+			Text(transaction.transferAmount + " " + transaction.transferCurrency)
+				.font(.regular(32))
+
+			Text(transaction.comissionAmount + " " + transaction.comissionCurrency)
+				.font(.regular(15))
+				.foreground(.darkGray())
+		}
+	}
 
     private var rectangleView: some View {
         ZStack(alignment: .top) {
@@ -78,14 +76,14 @@ struct SuccessFacilityView: View {
                 .fill(Color(.blue(0.1)))
                 .frame(height: 224)
             VStack {
-                transaction.userImage
+				R.image.facilityApprove.address.image
                     .resizable()
                     .clipShape(Circle())
                     .frame(width: 40, height: 40)
                 VStack(spacing: 6) {
-                    Text(transaction.nameSurname)
+                    Text(transaction.reciverName ?? "")
                         .font(.semibold(15))
-                    Text(transaction.addressFrom)
+                    Text(transaction.reciverAddress ?? "")
                         .foreground(.darkGray())
                         .font(.regular(12))
                 }

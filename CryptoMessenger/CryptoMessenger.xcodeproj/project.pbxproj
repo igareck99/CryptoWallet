@@ -686,6 +686,11 @@
 		D4A26E272937117E00FEADC2 /* TransactionInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A26E262937117E00FEADC2 /* TransactionInfoView.swift */; };
 		D4A26E292937165800FEADC2 /* BalanceRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A26E282937165800FEADC2 /* BalanceRequestParams.swift */; };
 		D4A51492294F4DCE007A87BF /* TransactionSendReponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A51491294F4DCE007A87BF /* TransactionSendReponse.swift */; };
+		D4A514AE295082BB007A87BF /* FacilityApproveCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514AD295082BB007A87BF /* FacilityApproveCellView.swift */; };
+		D4A514B0295187BF007A87BF /* TransactionInfoApprove.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514AF295187BF007A87BF /* TransactionInfoApprove.swift */; };
+		D4A514B2295187E3007A87BF /* ApproveFacilityCellTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514B1295187E3007A87BF /* ApproveFacilityCellTitle.swift */; };
+		D4A514B429518834007A87BF /* FacilityApproveSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514B329518834007A87BF /* FacilityApproveSources.swift */; };
+		D4A514B629518922007A87BF /* FacilityApproveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514B529518922007A87BF /* FacilityApproveModel.swift */; };
 		D4AAD74B294855C000A26515 /* FeeRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AAD74A294855C000A26515 /* FeeRequestParams.swift */; };
 		D4AAD74D294857F800A26515 /* FeeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AAD74C294857F800A26515 /* FeeResponse.swift */; };
 		D4AAD74F2948615E00A26515 /* TransactionSpeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AAD74E2948615E00A26515 /* TransactionSpeed.swift */; };
@@ -1877,6 +1882,11 @@
 		D4A26E262937117E00FEADC2 /* TransactionInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInfoView.swift; sourceTree = "<group>"; };
 		D4A26E282937165800FEADC2 /* BalanceRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceRequestParams.swift; sourceTree = "<group>"; };
 		D4A51491294F4DCE007A87BF /* TransactionSendReponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSendReponse.swift; sourceTree = "<group>"; };
+		D4A514AD295082BB007A87BF /* FacilityApproveCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveCellView.swift; sourceTree = "<group>"; };
+		D4A514AF295187BF007A87BF /* TransactionInfoApprove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInfoApprove.swift; sourceTree = "<group>"; };
+		D4A514B1295187E3007A87BF /* ApproveFacilityCellTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproveFacilityCellTitle.swift; sourceTree = "<group>"; };
+		D4A514B329518834007A87BF /* FacilityApproveSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveSources.swift; sourceTree = "<group>"; };
+		D4A514B529518922007A87BF /* FacilityApproveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveModel.swift; sourceTree = "<group>"; };
 		D4AAD74A294855C000A26515 /* FeeRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeRequestParams.swift; sourceTree = "<group>"; };
 		D4AAD74C294857F800A26515 /* FeeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeResponse.swift; sourceTree = "<group>"; };
 		D4AAD74E2948615E00A26515 /* TransactionSpeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSpeed.swift; sourceTree = "<group>"; };
@@ -4199,11 +4209,16 @@
 		8B4E9C4027E1E21F0057E4C9 /* FacilityApprove */ = {
 			isa = PBXGroup;
 			children = (
+				D4A514AD295082BB007A87BF /* FacilityApproveCellView.swift */,
 				8B4E9C4127E1EDBE0057E4C9 /* FacilityApproveView.swift */,
 				8B4E9C4327E1EDD30057E4C9 /* FacilityApproveFlow.swift */,
 				8B4E9C4527E1EDDE0057E4C9 /* FacilityApproveConfigurator.swift */,
 				8B4E9C4727E1EDE80057E4C9 /* FacilityApproveViewModel.swift */,
 				8B4E9C4927E1EDF60057E4C9 /* FacilityApproveProtocols.swift */,
+				D4A514AF295187BF007A87BF /* TransactionInfoApprove.swift */,
+				D4A514B1295187E3007A87BF /* ApproveFacilityCellTitle.swift */,
+				D4A514B329518834007A87BF /* FacilityApproveSources.swift */,
+				D4A514B529518922007A87BF /* FacilityApproveModel.swift */,
 			);
 			path = FacilityApprove;
 			sourceTree = "<group>";
@@ -7553,6 +7568,7 @@
 				D4EFEC5A28E2AF110075CC10 /* MXStoreRoomListDataManager.swift in Sources */,
 				8B4E9C4627E1EDDE0057E4C9 /* FacilityApproveConfigurator.swift in Sources */,
 				8BA0C90927AD4F320070203F /* AnswerViewModel.swift in Sources */,
+				D4A514B429518834007A87BF /* FacilityApproveSources.swift in Sources */,
 				5A3C942A274AFFDC00818060 /* KeyboardAvoiderModifier.swift in Sources */,
 				D4EFEB9228E2AF100075CC10 /* MXRefreshResponse.m in Sources */,
 				D4EFEBF928E2AF110075CC10 /* NSArray.swift in Sources */,
@@ -7734,9 +7750,11 @@
 				5A40A2D82769FB2B003AAA79 /* SearchBar.swift in Sources */,
 				8B4E9C4A27E1EDF60057E4C9 /* FacilityApproveProtocols.swift in Sources */,
 				8BDBD92428FDA5BF00388C3D /* VideoViewModel.swift in Sources */,
+				D4A514B0295187BF007A87BF /* TransactionInfoApprove.swift in Sources */,
 				D4EFEB8628E2AF100075CC10 /* MXBooleanCapability.m in Sources */,
 				5A3928322741A9EA00378ACA /* MXURL.swift in Sources */,
 				D4EFEC5128E2AF110075CC10 /* MXSessionEventListener.m in Sources */,
+				D4A514B629518922007A87BF /* FacilityApproveModel.swift in Sources */,
 				D4EFEC0028E2AF110075CC10 /* MXMediaLoader.m in Sources */,
 				D4EFEC6D28E2AF110075CC10 /* MXRoomAccountDataUpdater.m in Sources */,
 				5A9318EA26C5E45A00645365 /* UIResponder+Current.swift in Sources */,
@@ -8028,6 +8046,7 @@
 				D4EFEC9A28E2AF110075CC10 /* MXBeaconInfoSummaryRealmStore.swift in Sources */,
 				D4EFEB4828E2AF100075CC10 /* MXEncryptedSecretContent.m in Sources */,
 				8BC06B0E27C8F5EE005A28A1 /* TransactionFlow.swift in Sources */,
+				D4A514AE295082BB007A87BF /* FacilityApproveCellView.swift in Sources */,
 				D4EFEC1628E2AF110075CC10 /* MXPushRuleDisplayNameCondtionChecker.m in Sources */,
 				D4EFEBBB28E2AF100075CC10 /* MXPresenceSyncResponse.m in Sources */,
 				8B637D8727CCF06A000B1B2B /* FilterTransactionView.swift in Sources */,
@@ -8067,6 +8086,7 @@
 				D4EFEBD328E2AF100075CC10 /* MXThirdPartyUserInstance.m in Sources */,
 				D4EFEB4B28E2AF100075CC10 /* MXDeviceTrustLevel.m in Sources */,
 				5A26CD6126B35C9B00118D4B /* Message.swift in Sources */,
+				D4A514B2295187E3007A87BF /* ApproveFacilityCellTitle.swift in Sources */,
 				D4EFEBC328E2AF100075CC10 /* MXLoginPolicy.m in Sources */,
 				8B7BDA7D284FA83A00E37926 /* ChatMediaViewModel.swift in Sources */,
 				D4FA3F6D28183586000246D8 /* AppDelegateUseCaseAssembly.swift in Sources */,

@@ -159,7 +159,7 @@ final class MainFlowCoordinator: Coordinator {
         case chooseReceiver
         case scanner(Binding<String>)
 		case transfer(wallet: WalletInfo)
-        case facilityApprove
+        case facilityApprove(FacilityApproveModel)
         case notifications
         case socialList
         case walletManager
@@ -168,6 +168,7 @@ final class MainFlowCoordinator: Coordinator {
         case settingsChat(Binding<ChatData>, Binding<Bool>, AuraRoom)
         case friendProfile(Contact)
         case chatMedia(AuraRoom)
+		case popToRoot
     }
 }
 
@@ -218,8 +219,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showImportKey()
         case .transfer(let wallet):
             showTransferScene(wallet: wallet)
-        case .facilityApprove:
-            showFacilityApprove()
+        case .facilityApprove(let transaction):
+			showFacilityApprove(transaction: transaction)
         case .chooseReceiver:
             showChooseReceiver()
         case let .scanner(scannedString):
@@ -240,8 +241,14 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showSettingsChat(chatData: chatData, saveData: saveData, room: room)
         case let .chatMedia(room):
             showMediaView(room)
+		case .popToRoot:
+			popToRoot()
         }
     }
+
+	func popToRoot() {
+		navigationController.popViewController(animated: true)
+	}
 
     func switchFlow() {
         delegate?.userPerformedLogout(coordinator: self)
@@ -258,7 +265,7 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     private func showMediaView(_ room: AuraRoom) {
         let rootView = ChatMediaConfigurator.configuredView(room: room,
                                                             delegate: self)
@@ -436,8 +443,12 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showFacilityApprove() {
-        let rootView = FacilityApproveConfigurator.configuredView(delegate: self)
+	private func showFacilityApprove(transaction: FacilityApproveModel) {
+		let rootView = FacilityApproveConfigurator
+			.configuredView(
+				transaction: transaction,
+				delegate: self
+			)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)

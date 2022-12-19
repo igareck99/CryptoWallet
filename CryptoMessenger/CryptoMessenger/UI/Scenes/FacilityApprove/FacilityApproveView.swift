@@ -29,8 +29,10 @@ struct FacilityApproveView: View {
             closeOnTapOutside: false,
             backgroundColor: Color(.black(0.4)),
             view: {
-                SuccessFacilityView(showSuccessFacility: $showSuccessFacility,
-                                    transaction: viewModel.transaction)
+                SuccessFacilityView(
+					showSuccessFacility: $showSuccessFacility,
+					transaction: viewModel.transaction
+				)
                     .frame(height: UIScreen.main.bounds.height - 44)
                     .background(
                         CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
@@ -43,123 +45,74 @@ struct FacilityApproveView: View {
                 Text(R.string.localizable.facilityApproveTitle())
                     .font(.bold(15))
             }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-
-                } label: {
-                    R.image.transaction.filter.image
-                        .onTapGesture {
-                        }
-                }
-            }
         }
-
     }
 
     // MARK: - Private Properties
 
     private var content: some View {
-        VStack(alignment: .leading) {
-            Divider()
-                .padding(.top, 16)
-            Text(R.string.localizable.facilityApproveCheck())
-                .font(.semibold(15))
-                .foreground(.lightOrange())
-                .multilineTextAlignment(.leading)
-                .padding(.leading, 16)
-                .padding(.top, 24)
-            Text(R.string.localizable.facilityApproveReceiver().uppercased())
-                .font(.bold(12))
-                .foreground(.darkGray())
-                .padding(.leading, 16)
-                .padding(.top, 24)
-            receiverCellView
-                .padding(.leading, 16)
-            List {
-                ForEach(viewModel.cellType) { item in
-                    FacilityApproveCellView(item: item)
-                        .frame(height: 72)
-                }
-            }
-            .listStyle(.plain)
-            Spacer()
-            sendButton
-        }
+		ScrollView {
+			VStack(alignment: .leading) {
+
+				Text(R.string.localizable.facilityApproveReceiver().uppercased())
+					.font(.system(size: 12))
+					.foregroundColor(.regentGrayApprox)
+					.lineLimit(1)
+					.truncationMode(.middle)
+					.padding(.top, 24)
+
+				receiverCellView
+
+				ForEach(viewModel.cellType) { item in
+					FacilityApproveCellView(item: item)
+						.frame(height: 64)
+				}
+
+				Text(R.string.localizable.facilityApproveCheck())
+					.font(.system(size: 16))
+					.foregroundColor(.jaffaApprox)
+					.multilineTextAlignment(.leading)
+				sendButton
+			}
+			.padding(.leading, 16)
+		}
     }
 
     private var sendButton: some View {
         VStack(spacing: 8) {
-            Divider()
             Button {
-                showSuccessFacility = true
-                hideNavBar()
+//                showSuccessFacility = true
+//                hideNavBar()
+				viewModel.send(.onTransaction)
             } label: {
-                Text(R.string.localizable.walletSend().uppercased())
+                Text(R.string.localizable.walletSend())
                     .frame(minWidth: 0, maxWidth: .infinity)
-                    .font(.semibold(14))
+					.font(.system(size: 17, weight: .semibold))
                     .padding()
                     .foregroundColor(.white)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 4)
-                            .stroke(Color.white, lineWidth: 2)
-                    )
             }
-            .background(Color(.blue()))
-            .cornerRadius(4)
+			.background(Color.azureRadianceApprox)
+			.cornerRadius(10)
             .padding(.horizontal, 81)
         }
     }
 
-    private var receiverCellView: some View {
-        VStack(spacing: 16) {
-            HStack {
-                HStack(spacing: 16) {
-                    viewModel.transaction.userImage
-                        .resizable()
-                        .clipShape(Circle())
-                        .frame(width: 40, height: 40)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(viewModel.nameTitle)
-                            .font(.regular(12))
-                            .foreground(.darkGray())
-                        Text(viewModel.transaction.nameSurname)
-                            .font(.bold(15))
-                    }
-                }
-            }
-        }
-    }
-}
-
-// MARK: - FacilityApproveCellView
-
-struct FacilityApproveCellView: View {
-
-    // MARK: - Internal Properties
-
-    var item: ApproveFacilityCellTitle
-
-    // MARK: - Body
-
-    var body: some View {
-        VStack(spacing: 12) {
-            HStack {
-                HStack(spacing: 16) {
-                    ZStack {
-                        Circle()
-                            .fill(Color(.blue(0.1)))
-                            .frame(width: 40, height: 40)
-                        item.image
-                    }
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(item.title)
-                            .font(.regular(12))
-                            .foreground(.darkGray())
-                        Text(item.text)
-                            .font(.bold(15))
-                    }
-                }
-            }
-        }
-    }
+	private var receiverCellView: some View {
+		VStack(spacing: 16) {
+			HStack(spacing: 16) {
+				R.image.transaction.userPlaceholder.image
+					.resizable()
+					.clipShape(Circle())
+					.frame(width: 40, height: 40)
+				VStack(alignment: .leading, spacing: 2) {
+					Text(viewModel.transaction.reciverName ?? "По адресу")
+					.font(.system(size: 17))
+					.foregroundColor(.woodSmokeApprox)
+					.lineLimit(1)
+					.truncationMode(.middle)
+					.padding(.trailing, 16)
+				}
+			}
+		}
+	}
 }
