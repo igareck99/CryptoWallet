@@ -8,6 +8,12 @@ protocol WalletRequestsFactoryProtocol {
 	func buildAddress(parameters: BaseHTTPParameters) -> BaseEndPoint
 
 	func buildTransactions(parameters: BaseHTTPParameters) -> BaseEndPoint
+
+	func buildFee(parameters: BaseHTTPParameters) -> BaseEndPoint
+
+	func buildTransactionSend(parameters: BaseHTTPParameters) -> BaseEndPoint
+
+	func buildTransactionTemplate(parameters: BaseHTTPParameters) -> BaseEndPoint
 }
 
 struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
@@ -31,8 +37,20 @@ struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
 		netType.rawValue + "/indexer/v0/balances"
 	}
 
-	private var tranactions: String {
+	private var transactions: String {
 		netType.rawValue + "/indexer/v0/transactions/address"
+	}
+
+	private var fee: String {
+		netType.rawValue + "/indexer/v0/fee"
+	}
+
+	private var transactionSend: String {
+		netType.rawValue + "/indexer/v0/transaction/send"
+	}
+
+	private var transactionTemplate: String {
+		netType.rawValue + "/indexer/v0/transaction/template"
 	}
 
 	private let headers: BaseHTTPHeaders = ["Content-Type": "application/json"]
@@ -46,7 +64,7 @@ struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
 	// MARK: - WalletRequestsFactoryProtocol
 
 	func buildNetworks(parameters: BaseHTTPParameters) -> BaseEndPoint {
-		return BaseRequest(
+		BaseRequest(
 			baseURL: baseUrl,
 			path: networks,
 			httpMethod: .get,
@@ -56,7 +74,7 @@ struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
 	}
 
 	func buildBalances(parameters: BaseHTTPParameters) -> BaseEndPoint {
-		return BaseRequest(
+		BaseRequest(
 			baseURL: baseUrl,
 			path: balances,
 			httpMethod: .post,
@@ -66,7 +84,7 @@ struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
 	}
 
 	func buildAddress(parameters: BaseHTTPParameters) -> BaseEndPoint {
-		return BaseRequest(
+		BaseRequest(
 			baseURL: baseUrl,
 			path: address,
 			httpMethod: .post,
@@ -76,9 +94,39 @@ struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
 	}
 
 	func buildTransactions(parameters: BaseHTTPParameters) -> BaseEndPoint {
-		return BaseRequest(
+		BaseRequest(
 			baseURL: baseUrl,
-			path: tranactions,
+			path: transactions,
+			httpMethod: .post,
+			headers: headers,
+			parameters: parameters
+		)
+	}
+
+	func buildFee(parameters: BaseHTTPParameters) -> BaseEndPoint {
+		BaseRequest(
+			baseURL: baseUrl,
+			path: fee,
+			httpMethod: .post,
+			headers: headers,
+			parameters: parameters
+		)
+	}
+
+	func buildTransactionSend(parameters: BaseHTTPParameters) -> BaseEndPoint {
+		BaseRequest(
+			baseURL: baseUrl,
+			path: transactionSend,
+			httpMethod: .post,
+			headers: headers,
+			parameters: parameters
+		)
+	}
+
+	func buildTransactionTemplate(parameters: BaseHTTPParameters) -> BaseEndPoint {
+		BaseRequest(
+			baseURL: baseUrl,
+			path: transactionTemplate,
 			httpMethod: .post,
 			headers: headers,
 			parameters: parameters

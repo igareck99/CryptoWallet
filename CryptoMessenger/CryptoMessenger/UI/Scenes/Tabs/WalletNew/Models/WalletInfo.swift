@@ -15,6 +15,7 @@ struct WalletInfo: Identifiable, Equatable, Hashable {
 	// MARK: - Internal Properties
 
 	let id = UUID()
+	let decimals: Int
 	var walletType: WalletType
 	var address: String
 	var coinAmount: String

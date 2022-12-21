@@ -14,7 +14,8 @@ struct WalletView: View {
     @State var showTokenInfo = false
     @State var navBarHide = false
     @State var selectedAddress = WalletInfo(
-        walletType: .ethereum,
+		decimals: 1,
+		walletType: .ethereum,
         address: "",
         coinAmount: "",
         fiatAmount: ""
@@ -250,7 +251,7 @@ struct WalletView: View {
 
     private var sendButton: some View {
         Button {
-            viewModel.send(.onTransfer)
+			viewModel.send(.onTransfer(walletIndex: pageIndex))
         } label: {
             Text(R.string.localizable.walletSend().uppercased())
                 .frame(width: 237)

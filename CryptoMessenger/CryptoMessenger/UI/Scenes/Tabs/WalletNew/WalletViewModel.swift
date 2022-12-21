@@ -209,7 +209,13 @@ final class WalletViewModel: ObservableObject {
 
 		let cards: [WalletInfo] = updatedWallets.map {
 			let walletType: WalletType = $0.cryptoType == "ethereum" ? WalletType.ethereum : WalletType.bitcoin
-			return WalletInfo(walletType: walletType, address: $0.address, coinAmount: $0.balance ?? "0", fiatAmount: "0")
+			return WalletInfo(
+				decimals: Int($0.decimals),
+				walletType: walletType,
+				address: $0.address,
+				coinAmount: $0.balance ?? "0",
+				fiatAmount: "0"
+			)
 		}
 
 		DispatchQueue.main.async {
@@ -332,11 +338,12 @@ final class WalletViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.transaction(0, selectorTokenIndex, ""))
                 case .onImportKey:
                     self?.delegate?.handleNextScene(.importKey)
-                case .onTransfer:
-                    self?.delegate?.handleNextScene(.transfer)
+				case .onTransfer(walletIndex: let walletIndex):
+					guard let wallet = self?.cardsList[safe: walletIndex] else { return }
+					self?.delegate?.handleNextScene(.transfer(wallet: wallet))
 				case .onImportPhrase:
 					self?.delegate?.handleNextScene(.phraseManager)
-                }
+				}
             }
             .store(in: &subscriptions)
     }

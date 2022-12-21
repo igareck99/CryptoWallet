@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - WalletType
 
-enum WalletType {
+enum WalletType: String {
 
 	case ethereum
 	case bitcoin

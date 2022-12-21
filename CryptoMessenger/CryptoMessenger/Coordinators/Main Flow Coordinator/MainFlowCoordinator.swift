@@ -158,7 +158,7 @@ final class MainFlowCoordinator: Coordinator {
         case importKey
         case chooseReceiver
         case scanner(Binding<String>)
-        case transfer
+		case transfer(wallet: WalletInfo)
         case facilityApprove
         case notifications
         case socialList
@@ -216,8 +216,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             )
         case .importKey:
             showImportKey()
-        case .transfer:
-            showTransferScene()
+        case .transfer(let wallet):
+            showTransferScene(wallet: wallet)
         case .facilityApprove:
             showFacilityApprove()
         case .chooseReceiver:
@@ -409,8 +409,11 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showTransferScene() {
-        let rootView = TransferConfigurator.configuredView(delegate: self)
+	private func showTransferScene(wallet: WalletInfo) {
+        let rootView = TransferConfigurator.configuredView(
+			wallet: wallet,
+			delegate: self
+		)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)

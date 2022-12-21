@@ -96,9 +96,12 @@ struct ImportKeyView: View {
                closeOnTap: false,
                closeOnTapOutside: true,
                backgroundColor: Color(.black(0.3))) {
-            ChooseWalletTypeView(chooseWalletShow: $isChooseWalletShow,
-                                 choosedWalletType: $choosedWalletType,
-                                 isSelectedWalletType: $isSelectedWalletType)
+			ChooseWalletTypeView(
+				chooseWalletShow: $isChooseWalletShow,
+				choosedWalletType: $choosedWalletType,
+				isSelectedWalletType: $isSelectedWalletType,
+				wallletTypes: viewModel.walletTypes
+			)
                 .frame(width: UIScreen.main.bounds.width, height: 242, alignment: .center)
                 .background(.white())
                 .cornerRadius(16)
@@ -236,6 +239,7 @@ struct ChooseWalletTypeView: View {
     @Binding var chooseWalletShow: Bool
     @Binding var choosedWalletType: WalletType
     @Binding var isSelectedWalletType: Bool
+	let wallletTypes: [WalletType]
 
     // MARK: - Body
 
@@ -245,7 +249,7 @@ struct ChooseWalletTypeView: View {
                 .frame(width: 31, height: 4)
                 .foreground(.darkGray(0.4))
                 .padding(.top, 6)
-            ForEach([WalletType.bitcoin, WalletType.ethereum, WalletType.aur], id: \.self) { item in
+            ForEach(wallletTypes, id: \.self) { item in
                 ChooseWalletTypeCell(walletType: item)
                     .onTapGesture {
                         choosedWalletType = item
