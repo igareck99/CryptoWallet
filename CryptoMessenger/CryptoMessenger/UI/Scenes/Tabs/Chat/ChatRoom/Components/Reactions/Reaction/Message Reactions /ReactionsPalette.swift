@@ -18,6 +18,9 @@ extension Color {
 	static let sharkApprox = Color(uiColor: .sharkApprox)
 	static let athensGrayApprox = Color(uiColor: .athensGrayApprox)
 	static let ironApprox = Color(uiColor: .ironApprox)
+	static let regentGrayApprox = Color(uiColor: .regentGrayApprox)
+	static let woodSmokeApprox = Color(uiColor: .woodSmokeApprox)
+	static let jaffaApprox = Color(uiColor: .jaffaApprox)
 }
 
 extension UIColor {
@@ -37,4 +40,7 @@ extension UIColor {
 	static let sharkApprox = UIColor(red: 0.11, green: 0.11, blue: 0.118, alpha: 1)
 	static let athensGrayApprox = UIColor(red: 0.902, green: 0.918, blue: 0.929, alpha: 1)
 	static let ironApprox = UIColor(red: 220.0 / 255.0, green: 223.0 / 255.0, blue: 226.0 / 255.0, alpha: 1.0)
+	static let regentGrayApprox = UIColor(red: 138.0 / 255.0, green: 145.0 / 255.0, blue: 156.0 / 255.0, alpha: 1.0)
+	static let woodSmokeApprox = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 1.0)
+	static let jaffaApprox = UIColor(red: 236.0 / 255.0, green: 155.0 / 255.0, blue: 60.0 / 255.0, alpha: 1.0)
 }

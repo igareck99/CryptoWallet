@@ -203,43 +203,25 @@ final class TransferViewModel: ObservableObject {
 			else {
 				return
 			}
+
 			debugPrint("SIGNED: \(derSignature)")
 
-			// TODO: Перенести на экран подтверждения перевода
-			/*
-			self.transactionSend(
+			let transaction = FacilityApproveModel(
+				reciverName: nil,
+				reciverAddress: address_to,
+				transferAmount: self.transferAmount,
+				transferCurrency: self.currentWallet.result.currency,
+				comissionAmount: feeValue,
+				comissionCurrency: self.currentWallet.result.currency,
+				derSignature: derSignature,
 				index: templateHash.index,
 				uuid: template.uuid,
-				cryptoType: cryptoType,
-				derSignature: derSignature
+				cryptoType: cryptoType
 			)
-			 */
-		}
-	}
 
-	private func transactionSend(
-		index: Int,
-		uuid: String,
-		cryptoType: String,
-		derSignature: String
-	) {
-		let signature = TransactionSendRequestSignature(
-			index: index,
-			derSignature: derSignature
-		)
-		let params = TransactionSendRequestParams(
-			signatures: [signature],
-			uuid: uuid,
-			cryptoType: cryptoType
-		)
-		walletNetworks.makeTransactionSend(params: params) { [weak self] result in
-			debugPrint("\(result)")
-			guard let self = self else { return }
-			guard case let .success(response) = result else { return }
-			debugPrint("Transaction Send: \(response)")
-//					TransactionSendResponse
 			DispatchQueue.main.async { [weak self] in
-				self?.delegate?.handleNextScene(.facilityApprove)
+				guard let self = self else { return }
+				self.delegate?.handleNextScene(.facilityApprove(transaction))
 			}
 		}
 	}

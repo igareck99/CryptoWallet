@@ -5,144 +5,128 @@ import SwiftUI
 
 final class FacilityApproveViewModel: ObservableObject {
 
-    // MARK: - Internal Properties
+	// MARK: - Internal Properties
 
-    weak var delegate: FacilityApproveSceneDelegate?
-    @Published var transaction = TransactionInfoApprove(
-        userImage: R.image.blackList.user1.image,
-        nameSurname: "Марина Антоненко",
-        type: .receive,
-        date: "1 ноября 2020",
-        fiatValue: "28.53 USD",
-        addressFrom: "0xSf13S891 ... 3dfasfAgfj1 ",
-        commission: "0 ETH",
-        transactionCoin: .aur,
-        amount: 2500
-    )
-    @Published var nameTitle = R.string.localizable.facilityApproveNameSurname()
-    @Published var titles = [
-        R.string.localizable.facilityApproveTransactionSum(),
-        R.string.localizable.facilityApproveInUSD(),
-        R.string.localizable.facilityApproveCommission(),
-        R.string.localizable.facilityApproveAddress(),
-        R.string.localizable.facilityApproveDocumentDate()
-    ]
-    @Published var cellType: [ApproveFacilityCellTitle] = []
+	weak var delegate: FacilityApproveSceneDelegate?
+	var transaction: FacilityApproveModel
+	@Published var cellType: [ApproveFacilityCellTitle] = []
 
-    // MARK: - Private Properties
+	// MARK: - Private Properties
 
-    @Published private(set) var state: FacilityApproveFlow.ViewState = .idle
-    private let eventSubject = PassthroughSubject<FacilityApproveFlow.Event, Never>()
-    private let stateValueSubject = CurrentValueSubject<FacilityApproveFlow.ViewState, Never>(.idle)
-    private var subscriptions = Set<AnyCancellable>()
+	@Published private(set) var state: FacilityApproveFlow.ViewState = .idle
+	private let eventSubject = PassthroughSubject<FacilityApproveFlow.Event, Never>()
+	private let stateValueSubject = CurrentValueSubject<FacilityApproveFlow.ViewState, Never>(.idle)
+	private var subscriptions = Set<AnyCancellable>()
 
-    @Injectable private var apiClient: APIClientManager
+	@Injectable private var apiClient: APIClientManager
 	private let userCredentialsStorage: UserCredentialsStorage
+	private let sources: FacilityApproveSourcesable.Type
+	private let walletNetworks: WalletNetworkFacadeProtocol
 
-    // MARK: - Lifecycle
+	// MARK: - Lifecycle
 
-    init(
-		userCredentialsStorage: UserCredentialsStorage
+	init(
+		transaction: FacilityApproveModel,
+		walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
+		userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared,
+		sources: FacilityApproveSourcesable.Type = FacilityApproveSources.self
 	) {
+		self.transaction = transaction
+		self.walletNetworks = walletNetworks
 		self.userCredentialsStorage = userCredentialsStorage
-        bindInput()
-        bindOutput()
-    }
+		self.sources = sources
+		bindInput()
+		bindOutput()
+	}
 
-    deinit {
-        subscriptions.forEach { $0.cancel() }
-        subscriptions.removeAll()
-    }
+	deinit {
+		subscriptions.forEach { $0.cancel() }
+		subscriptions.removeAll()
+	}
 
-    // MARK: - Internal Methods
+	// MARK: - Internal Methods
 
-    func send(_ event: FacilityApproveFlow.Event) {
-        eventSubject.send(event)
-    }
+	func send(_ event: FacilityApproveFlow.Event) {
+		eventSubject.send(event)
+	}
 
-    func addTitles() {
-        if transaction.type == .receive {
-            cellType.append(.init(image: R.image.facilityApprove.wallet.image,
-                                  title: R.string.localizable.facilityApproveTransactionSum(),
-                                  text: String(transaction.amount) + " " + transaction.transactionCoin.abbreviatedName))
-            cellType.append(.init(image: R.image.facilityApprove.usd.image,
-                                  title: R.string.localizable.facilityApproveInUSD(),
-                                  text: transaction.fiatValue))
-        } else {
-            cellType.append(.init(image: R.image.facilityApprove.wallet.image,
-                                  title: R.string.localizable.facilityApproveTransactionSum(),
-                                  text: "- " + String(transaction.amount)
-                                  + " " + transaction.transactionCoin.abbreviatedName))
-            cellType.append(.init(image: R.image.facilityApprove.usd.image,
-                                  title: R.string.localizable.facilityApproveInUSD(),
-                                  text: "- " + transaction.fiatValue))
-        }
-        cellType.append(.init(image: R.image.facilityApprove.percent.image,
-                              title: R.string.localizable.facilityApproveCommission(),
-                              text: transaction.commission))
-        cellType.append(.init(image: R.image.facilityApprove.address.image,
-                              title: R.string.localizable.facilityApproveAddress(),
-                              text: transaction.addressFrom ))
-        cellType.append(.init(image: R.image.facilityApprove.document.image,
-                              title: R.string.localizable.facilityApproveDocumentDate(),
-                              text: transaction.date))
-    }
+	func addTitles() {
 
-    // MARK: - Private Methods
+		cellType.append(.init(
+			image: R.image.facilityApprove.address.image,
+			title: R.string.localizable.facilityApproveAddress(),
+			text: transaction.reciverName ?? transaction.reciverAddress ?? ""
+		))
 
-    private func bindInput() {
-        eventSubject
-            .sink { [weak self] event in
-                switch event {
-                case .onAppear:
-                    self?.updateData()
-                    self?.objectWillChange.send()
-                case .onTransaction:
-                    debugPrint("SomeGox")
-                }
-            }
-            .store(in: &subscriptions)
-    }
+		let transferAmount = transaction.transferAmount + " " + transaction.transferCurrency
+		cellType.append(.init(
+			image: R.image.facilityApprove.wallet.image,
+			title: R.string.localizable.facilityApproveTransactionSum(),
+			text: transferAmount
+		))
 
-    private func bindOutput() {
-        stateValueSubject
-            .assign(to: \.state, on: self)
-            .store(in: &subscriptions)
-    }
+		let comission = transaction.comissionAmount + " " + transaction.comissionCurrency
+		cellType.append(.init(
+			image: R.image.facilityApprove.percent.image,
+			title: R.string.localizable.facilityApproveCommission(),
+			text: comission
+		))
+	}
 
-    private func updateData() {
-        if cellType.isEmpty {
-            addTitles()
-        }
-    }
+	// MARK: - Private Methods
+
+	private func bindInput() {
+		eventSubject
+			.sink { [weak self] event in
+				switch event {
+				case .onAppear:
+					self?.updateData()
+					self?.objectWillChange.send()
+				case .onTransaction:
+					self?.transactionSend()
+				}
+			}
+			.store(in: &subscriptions)
+	}
+
+	private func bindOutput() {
+		stateValueSubject
+			.assign(to: \.state, on: self)
+			.store(in: &subscriptions)
+	}
+
+	private func updateData() {
+		if cellType.isEmpty {
+			addTitles()
+		}
+	}
 }
 
-// MARK: - TransactionInfoApprove
+// MARK: - Network
 
-struct TransactionInfoApprove: Identifiable, Equatable {
+extension FacilityApproveViewModel {
 
-    // MARK: - Internal Properties
+	private func transactionSend() {
 
-    let id = UUID()
-    var userImage: Image
-    var nameSurname: String
-    var type: TransactionType
-    var date: String
-    var fiatValue: String
-    var addressFrom: String
-    var commission: String
-    var transactionCoin: WalletType
-    var amount: Double
+		let signature = TransactionSendRequestSignature(
+			index: transaction.index,
+			derSignature: transaction.derSignature
+		)
+		let params = TransactionSendRequestParams(
+			signatures: [signature],
+			uuid: transaction.uuid,
+			cryptoType: transaction.cryptoType
+		)
+		walletNetworks.makeTransactionSend(params: params) { [weak self] result in
+			debugPrint("\(result)")
+			guard let self = self else { return }
+			guard case let .success(response) = result else { return }
+			debugPrint("Transaction Send: \(response)")
+			DispatchQueue.main.async { [weak self] in
+				self?.delegate?.handleNextScene(.popToRoot)
+			}
+		}
+	}
 }
 
-// MARK: - ApproveFacilityCellTitle
-
-struct ApproveFacilityCellTitle: Identifiable {
-
-    // MARK: - Internal Properties
-
-    let id = UUID()
-    var image: Image
-    var title: String
-    var text: String
-}
+//   0xc435a4ae92c9a509ea7b928cfdd2ee99bfcd3c5940d20f230e224cc9f1648586
