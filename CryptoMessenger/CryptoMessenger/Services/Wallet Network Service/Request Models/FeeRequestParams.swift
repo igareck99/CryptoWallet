@@ -1,5 +1,5 @@
 import Foundation
 
-struct FeeRequestParams {
+struct FeeRequestParams: Codable {
 	let cryptoType: String
 }

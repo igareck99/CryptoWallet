@@ -26,12 +26,14 @@ struct TransactionInfoView: View {
 						Text(transaction.transactionResult)
 						.font(.medium(15))
 						Text(
-							(transaction.date.dateFromISO8601?.dayAndMonthAndYear ?? "")
-							+ " " +
-							(transaction.date.dateFromISO8601?.hoursAndMinutes ?? "")
+							(transaction.date.utcToLocal ?? "")
+							+ " From: " +
+							transaction.from
 						)
-							.font(.regular(13))
-							.foreground(.darkGray())
+						.lineLimit(1)
+						.truncationMode(.tail)
+						.font(.regular(13))
+						.foreground(.darkGray())
 					}
 				}
 				Spacer()

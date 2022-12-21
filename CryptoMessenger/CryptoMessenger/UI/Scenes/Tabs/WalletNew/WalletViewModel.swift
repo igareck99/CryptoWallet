@@ -9,7 +9,6 @@ final class WalletViewModel: ObservableObject {
 
     weak var delegate: WalletSceneDelegate?
     @Published var totalBalance = ""
-    @Published var transactionList: [TransactionInfo] = []
 	private var transactions: [String: [TransactionSection]] = [String: [TransactionSection]]()
     @Published var cardsList: [WalletInfo] = []
     @Published var canceledImage = UIImage()
@@ -69,9 +68,15 @@ final class WalletViewModel: ObservableObject {
 			return
 		}
 
+		let ethereum: [WalletTransactions] = [
+			WalletTransactions(address: ethereumAddress, limit: "10")
+		]
+		let bitcoin: [WalletTransactions] = [
+			WalletTransactions(address: bitcoinAddress, limit: "10")
+		]
 		let params = TransactionsRequestParams(
-			ethereumAddress: ethereumAddress,
-			bitcoinAddress: bitcoinAddress
+			ethereum: ethereum,
+			bitcoin: bitcoin
 		)
 		walletNetworks.getTransactions(params: params) { [weak self] response in
 			guard case let .success(walletsTransactions) = response else { return }
@@ -118,7 +123,7 @@ final class WalletViewModel: ObservableObject {
 				transactionResult: $0.status,
 				amount: $0.inputs.first?.value ?? ""
 			)
-			let details = TransactionDetails(
+			let details = TransactionDetails( // "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 				sender: $0.inputs.first?.address ?? "",
 				receiver: $0.outputs.first?.address ?? "",
 				block: "\($0.block ?? 0)",
@@ -134,12 +139,22 @@ final class WalletViewModel: ObservableObject {
 	}
 
 	func getAddress(wallets: [WalletNetwork]) {
-		guard let ethereumPublicKey: String = keychainService[.ethereumPublicKey],
-		   let bitcoinPublicKey: String = keychainService[.bitcoinPublicKey] else { return }
+		guard
+			let ethereumPublicKey: String = keychainService[.ethereumPublicKey],
+			let bitcoinPublicKey: String = keychainService[.bitcoinPublicKey]
+		else {
+			return
+		}
 
+		let ethereum: [WalletPublic] = [
+			WalletPublic(publicKey: ethereumPublicKey)
+		]
+		let bitcoin: [WalletPublic] = [
+			WalletPublic(publicKey: bitcoinPublicKey)
+		]
 		let params = AddressRequestParams(
-			ethereumPublicKey: ethereumPublicKey,
-			bitcoinPublicKey: bitcoinPublicKey
+			ethereum: ethereum,
+			bitcoin: bitcoin
 		)
 		walletNetworks.getAddress(params: params) { [weak self] response in
 			guard let self = self, case let .success(addresses) = response else { return }
@@ -171,16 +186,26 @@ final class WalletViewModel: ObservableObject {
 
 		let savedWallets: [WalletNetwork] = coreDataService.getWalletNetworks()
 
-		guard let bitcoinAddress = savedWallets
-			.first(where: { $0.cryptoType == "bitcoin" })?.address,
-			  bitcoinAddress.isEmpty == false,
-			  let ethereumAddress = savedWallets
-			.first(where: { $0.cryptoType == "ethereum" })?.address,
-			  ethereumAddress.isEmpty == false else { return }
+		guard
+			let bitcoinAddress = savedWallets
+				.first(where: { $0.cryptoType == "bitcoin" })?.address,
+			bitcoinAddress.isEmpty == false,
+			let ethereumAddress = savedWallets
+				.first(where: { $0.cryptoType == "ethereum" })?.address,
+			ethereumAddress.isEmpty == false
+		else {
+			return
+		}
 
+		let ethereum: [WalletBalanceAddress] = [
+			WalletBalanceAddress(accountAddress: ethereumAddress)
+		]
+		let bitcoin: [WalletBalanceAddress] = [
+			WalletBalanceAddress(accountAddress: bitcoinAddress)
+		]
 		let params = BalanceRequestParams(
-			ethereumAddress: ethereumAddress,
-			bitcoinAddress: bitcoinAddress
+			ethereum: ethereum,
+			bitcoin: bitcoin
 		)
 		walletNetworks.getBalances(params: params) { [weak self] in
 
@@ -199,8 +224,6 @@ final class WalletViewModel: ObservableObject {
 				wallet.balance = bitcoinAmount
 				self.coreDataService.updateWalletNetwork(model: wallet)
 			}
-
-			self.updateWalletsFromDB()
 		}
 	}
 
@@ -223,8 +246,6 @@ final class WalletViewModel: ObservableObject {
 			self.cardsList = cards
 			self.objectWillChange.send()
 		}
-
-		getTransactions()
 	}
 
 	func updateWallets() {
@@ -240,6 +261,8 @@ final class WalletViewModel: ObservableObject {
 		if walletsCount > .zero {
 			// Show wallets from db
 			updateWalletsFromDB()
+			getTransactions()
+			getBalance()
 			return
 		}
 
@@ -328,7 +351,6 @@ final class WalletViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
 					self?.updateWallets()
-                    self?.updateTransactionsListData()
                     self?.objectWillChange.send()
                 case let .onTransactionAddress(selectorTokenIndex, address):
                     self?.delegate?.handleNextScene(.transaction(0, selectorTokenIndex, address))
@@ -352,12 +374,5 @@ final class WalletViewModel: ObservableObject {
         stateValueSubject
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
-    }
-
-    private func updateTransactionsListData() {
-        totalBalance = "$12 5131.53"
-        transactionList = []
-        canceledImage = UIImage(systemName: "exclamationmark.circle")?
-            .withTintColor(.white, renderingMode: .alwaysOriginal) ?? UIImage()
     }
 }

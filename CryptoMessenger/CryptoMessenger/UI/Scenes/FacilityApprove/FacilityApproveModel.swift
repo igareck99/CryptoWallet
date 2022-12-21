@@ -1,6 +1,6 @@
 import Foundation
 
-struct FacilityApproveModel {
+struct FacilityApproveModel: Codable {
 	let reciverName: String?
 	let reciverAddress: String?
 	let transferAmount: String
@@ -8,8 +8,12 @@ struct FacilityApproveModel {
 	let comissionAmount: String
 	let comissionCurrency: String
 
-	let derSignature: String
-	let index: Int
+	let signedTransactions: [SignedTransaction]
 	let uuid: String
 	let cryptoType: String
+}
+
+struct SignedTransaction: Codable {
+	let derSignature: String
+	let index: Int
 }

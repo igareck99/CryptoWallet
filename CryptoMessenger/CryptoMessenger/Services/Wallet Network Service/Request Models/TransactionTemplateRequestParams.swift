@@ -1,6 +1,6 @@
 import Foundation
 
-struct TransactionTemplateRequestParams {
+struct TransactionTemplateRequestParams: Codable {
 	let publicKey: String
 	let addressTo: String
 	let amount: String

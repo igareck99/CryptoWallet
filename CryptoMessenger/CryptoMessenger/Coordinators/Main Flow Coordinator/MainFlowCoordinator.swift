@@ -23,6 +23,7 @@ final class MainFlowCoordinator: Coordinator {
 
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: MainFlowCoordinatorDelegate?
+	private weak var rootTabBarController: BaseTabBarController?
 
     let navigationController: UINavigationController
 
@@ -55,6 +56,7 @@ final class MainFlowCoordinator: Coordinator {
 
         let tabBarController = BaseTabBarController(viewControllers: tabs)
         tabBarController.selectedIndex = Tabs.chat.rawValue
+		rootTabBarController = tabBarController
 
         setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
 		delegate?.didEndStartProcess(coordinator: self)
@@ -247,7 +249,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
 	func popToRoot() {
-		navigationController.popViewController(animated: true)
+		guard let controller = rootTabBarController else { return }
+		navigationController.popToViewController(controller, animated: true)
 	}
 
     func switchFlow() {
