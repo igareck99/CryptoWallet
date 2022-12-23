@@ -66,8 +66,8 @@ enum Endpoints {
             return endpoint
         }
 
-        static func getProfile(_ name: String) -> Endpoint<[String: String]> {
-            let endpoint = Endpoint<[String: String]>(method: .get, path: "/profile/\(name)")
+        static func getProfile(_ name: String) -> Endpoint<[String: Any]> {
+            let endpoint = Endpoint<[String: Any]>(method: .get, path: "/profile/\(name)")
             return endpoint
         }
     }
@@ -104,6 +104,34 @@ enum Endpoints {
             let endpoint = Endpoint<[SocialResponse]>(method: .patch, path: "/profile/social")
             endpoint.modifyRequest { $0.jsonBody(payload) }
             endpoint.modifyRequest { $0.addHeader("user", value: user) }
+            return endpoint
+        }
+    }
+
+    // MARK: - Wallet
+
+    enum Wallet {
+
+        static func getAssetsOfUsersListUsing(_ profiles: [String]) -> Endpoint<[String: String]> {
+            let endpoint = Endpoint<[String: String]>(method: .post,
+                                                      path: "/reward/v0/assets",
+                                                      requestType: .reward)
+            endpoint.modifyRequest { $0.jsonBody(["users": profiles]) }
+            return endpoint
+        }
+
+        static func getAssetsByUserName(_ username: String) -> Endpoint<[String: [String: [String: String]]]> {
+            let endpoint = Endpoint<[String: [String: [String: String]]]>(method: .get,
+                                                                   path: "/reward/v0/assets/\(username)",
+                                                                   requestType: .reward)
+            return endpoint
+        }
+
+        static func patchAssets(_ assets: [String: [String : String]]) -> Endpoint<[String: [String : String]]> {
+            let endpoint = Endpoint<[String: [String : String]]>(method: .patch,
+                                                                  path: "/reward/v0/assets",
+                                                                  requestType: .reward)
+            endpoint.modifyRequest { $0.jsonBody(assets) }
             return endpoint
         }
     }

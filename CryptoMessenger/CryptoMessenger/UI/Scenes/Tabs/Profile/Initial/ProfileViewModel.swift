@@ -30,6 +30,7 @@ struct ProfileItem: Identifiable {
     var photos: [Image] = []
     var photosUrls: [URL] = []
     var socialNetwork: [SocialListItem] = []
+
 }
 
 // MARK: - ProfileViewModel
@@ -269,6 +270,7 @@ final class ProfileViewModel: ObservableObject {
             self.profile.avatar = url
         })
         profile.nickname = matrixUseCase.getUserId()
+        print("slaslssaasasas   \(matrixUseCase.getUserId())")
         if !matrixUseCase.getDisplayName().isEmpty {
             profile.name = matrixUseCase.getDisplayName()
         }

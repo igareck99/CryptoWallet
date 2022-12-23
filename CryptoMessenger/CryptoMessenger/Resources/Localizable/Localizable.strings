@@ -358,10 +358,9 @@
 "Import.ImportSuccess" = "Ключ успешно импортирован";
 
 
-"ChooseReceiver.Contact" = "Контакт";
 "ChooseReceiver.Telephone" = "Телефон";
 "ChooseReceiver.Wallet" = "Кошелек";
-"ChooseReceiver.Title" = "Выберите получателя";
+"ChooseReceiver.Title" = "Получатель";
 
 
 "FacilityApprove.Title" = "Перевод средств";

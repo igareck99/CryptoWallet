@@ -72,7 +72,6 @@ struct WalletView: View {
 				.tabViewStyle(.page(indexDisplayMode: .never))
             }
 			.frame(minHeight: 220)
-
 			NavigationLink(
 				destination: tokenInfoView(),
 				isActive: $showTokenInfo

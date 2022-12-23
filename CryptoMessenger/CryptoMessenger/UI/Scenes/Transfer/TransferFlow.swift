@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 // MARK: - TransferFlow
 
@@ -12,7 +12,9 @@ enum TransferFlow {
 
         case idle
         case loading
-        case error(message: String)
+        case showContent
+        case error(APIError)
+        case contactsAccessFailure
     }
 
     // MARK: - Event
@@ -22,7 +24,7 @@ enum TransferFlow {
         // MARK: - Types
 
         case onAppear
-        case onChooseReceiver
+        case onChooseReceiver(Binding<String>)
         case onApprove
     }
 }

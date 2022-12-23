@@ -9,6 +9,7 @@ final class WalletViewModel: ObservableObject {
 
     weak var delegate: WalletSceneDelegate?
     @Published var totalBalance = ""
+    @Published var transactionList: [TransactionInfo] = []
 	private var transactions: [String: [TransactionSection]] = [String: [TransactionSection]]()
     @Published var cardsList: [WalletInfo] = []
     @Published var canceledImage = UIImage()
@@ -22,6 +23,7 @@ final class WalletViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private var apiClient: APIClientManager
+    @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     private let userCredentialsStorage: UserCredentialsStorage
 	private let walletNetworks: WalletNetworkFacadeProtocol
 	private let coreDataService: CoreDataServiceProtocol
@@ -240,7 +242,6 @@ final class WalletViewModel: ObservableObject {
 				fiatAmount: "0"
 			)
 		}
-
 		DispatchQueue.main.async {
 			self.viewState = .content
 			self.cardsList = cards
@@ -318,7 +319,6 @@ final class WalletViewModel: ObservableObject {
 				self.coreDataService.createWalletNetwork(wallet: $0)
 			}
 			let savedWallets = self.coreDataService.getWalletNetworks()
-
 			savedWallets.forEach { [weak self] wallet in
 				guard let self = self else { return }
 				guard let type = CryptoType(rawValue: wallet.cryptoType) else { return }
@@ -351,6 +351,8 @@ final class WalletViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
 					self?.updateWallets()
+                    self?.updateTransactionsListData()
+                    self?.updateUserWallet()
                     self?.objectWillChange.send()
                 case let .onTransactionAddress(selectorTokenIndex, address):
                     self?.delegate?.handleNextScene(.transaction(0, selectorTokenIndex, address))
@@ -374,5 +376,36 @@ final class WalletViewModel: ObservableObject {
         stateValueSubject
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
+    }
+    
+    private func updateUserWallet() {
+        guard let publicKeyEthereum = self.keychainService.string(forKey: .bitcoinPublicKey) else { return }
+        guard let publicKeyBitcoin = self.keychainService.string(forKey: .ethereumPublicKey) else { return }
+        let data = ["ethereum": [
+            "address": publicKeyEthereum
+          ],
+          "bitcoin": [
+            "address": publicKeyBitcoin
+          ]
+        ]
+        apiClient.publisher(Endpoints.Wallet.patchAssets(data))
+            .sink { [weak self] completion in
+                switch completion {
+                case .failure(let error):
+                    debugPrint("Error in update user wallets adresses  \(error)")
+                default:
+                    break
+                }
+            } receiveValue: { [weak self] response in
+                print("Success in update user wallets adresses  \(response)")
+            }
+            .store(in: &subscriptions)
+    }
+
+    private func updateTransactionsListData() {
+        totalBalance = "$12 5131.53"
+        transactionList = []
+        canceledImage = UIImage(systemName: "exclamationmark.circle")?
+            .withTintColor(.white, renderingMode: .alwaysOriginal) ?? UIImage()
     }
 }

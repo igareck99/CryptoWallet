@@ -12,6 +12,8 @@ final class TransferViewModel: ObservableObject {
     // MARK: - Private Properties
 
     @Published private(set) var state: TransferFlow.ViewState = .idle
+    @Published private(set) var contacts: [Contact] = []
+    @Published var userIds: [String] = []
     private let eventSubject = PassthroughSubject<TransferFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<TransferFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
@@ -52,6 +54,9 @@ final class TransferViewModel: ObservableObject {
 			updateWallet()
 		}
 	}
+    @Injectable private var apiClient: APIClientManager
+    @Injectable private var contactsStore: ContactsManager
+    @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
 
     // MARK: - Lifecycle
 
@@ -124,13 +129,20 @@ final class TransferViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.updateData()
                     self?.objectWillChange.send()
                 case .onApprove:
 					self?.transactionTemplate()
-                case .onChooseReceiver:
-                    self?.delegate?.handleNextScene(.chooseReceiver)
+                case let .onChooseReceiver(address):
+                    self?.delegate?.handleNextScene(.chooseReceiver(address))
                 }
+            }
+            .store(in: &subscriptions)
+    }
+    
+    private func getUserWallets(_ users: [String]) {
+        self.apiClient.publisher(Endpoints.Wallet.getAssetsOfUsersListUsing(users))
+            .replaceError(with: [:])
+            .sink { [weak self] _ in
             }
             .store(in: &subscriptions)
     }
