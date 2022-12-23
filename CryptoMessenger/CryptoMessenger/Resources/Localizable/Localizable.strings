@@ -372,6 +372,7 @@
 "FacilityApprove.Commission" = "Комиссия";
 "FacilityApprove.Address" = "Адрес";
 "FacilityApprove.DocumentDate" = "Дата документа";
+"FacilityApprove.TransactionDone" = "Перевод выполнен";
 
 
 "QRCode.Title" = "Сканировать  QR-код";

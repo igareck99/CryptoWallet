@@ -703,6 +703,8 @@
 		D4AB900828278A1600E6FAB5 /* MatrixUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */; };
 		D4B39AFE289BE271006F2D99 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */; };
 		D4B39B01289C3B50006F2D99 /* CallEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B39B00289C3B50006F2D99 /* CallEventView.swift */; };
+		D4BC1EC02955B59E00D99F1A /* TransactionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BC1EBF2955B59E00D99F1A /* TransactionResultView.swift */; };
+		D4BC1EC32955B5F400D99F1A /* TransactionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BC1EC22955B5F400D99F1A /* TransactionResult.swift */; };
 		D4C9B72E283C20380060BFD3 /* ChatRoomViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */; };
 		D4D439EB2836086900AC0DEF /* P2PCallUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */; };
 		D4D439F22837493800AC0DEF /* MXRoom+Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */; };
@@ -1901,6 +1903,8 @@
 		D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
 		D4B39B00289C3B50006F2D99 /* CallEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallEventView.swift; sourceTree = "<group>"; };
 		D4B39B0628A23F03006F2D99 /* ChatSystemEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSystemEventView.swift; sourceTree = "<group>"; };
+		D4BC1EBF2955B59E00D99F1A /* TransactionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResultView.swift; sourceTree = "<group>"; };
+		D4BC1EC22955B5F400D99F1A /* TransactionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResult.swift; sourceTree = "<group>"; };
 		D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelAssembly.swift; sourceTree = "<group>"; };
 		D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallUseCase.swift; sourceTree = "<group>"; };
 		D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MXRoom+Reply.swift"; sourceTree = "<group>"; };
@@ -4557,6 +4561,7 @@
 		8BC06B0A27C7DFAF005A28A1 /* Transaction */ = {
 			isa = PBXGroup;
 			children = (
+				D4BC1EC12955B5D400D99F1A /* Trasaction Result */,
 				D4A26E262937117E00FEADC2 /* TransactionInfoView.swift */,
 				8BC06B0B27C7DFC4005A28A1 /* TransactionView.swift */,
 				8BC06B0D27C8F5ED005A28A1 /* TransactionFlow.swift */,
@@ -5202,6 +5207,15 @@
 				D4B39B0628A23F03006F2D99 /* ChatSystemEventView.swift */,
 			);
 			path = "Chat System Event View";
+			sourceTree = "<group>";
+		};
+		D4BC1EC12955B5D400D99F1A /* Trasaction Result */ = {
+			isa = PBXGroup;
+			children = (
+				D4BC1EBF2955B59E00D99F1A /* TransactionResultView.swift */,
+				D4BC1EC22955B5F400D99F1A /* TransactionResult.swift */,
+			);
+			path = "Trasaction Result";
 			sourceTree = "<group>";
 		};
 		D4BD4DAA2896833700AED247 /* SocialListItem */ = {
@@ -7369,6 +7383,7 @@
 		};
 		5A4267FB26A83315000C51DD /* R.swift */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -8064,6 +8079,7 @@
 				D4EFEB4F28E2AF100075CC10 /* MXCryptoMachine.swift in Sources */,
 				8B1564F328AA782A00A69B85 /* AnotherAppTransitionViewModel.swift in Sources */,
 				D46C9018294775A000DD0B01 /* SegmentedControlNamespaceKey.swift in Sources */,
+				D4BC1EC02955B59E00D99F1A /* TransactionResultView.swift in Sources */,
 				8B4DBFFB28F5D6E1003F58EB /* GalleryPickerView.swift in Sources */,
 				5A44FEEF2768B1E6006F9D92 /* ProfileDetailFlow.swift in Sources */,
 				7889064327064F8D0093459C /* ProfileNetworkDetailView.swift in Sources */,
@@ -8510,6 +8526,7 @@
 				D4EFEAF028E2AF100075CC10 /* MXOlmDevice.m in Sources */,
 				D4EFEC4928E2AF110075CC10 /* MXRoomTypeMapper.swift in Sources */,
 				D4EFEBC728E2AF100075CC10 /* MXEventRelations.m in Sources */,
+				D4BC1EC32955B5F400D99F1A /* TransactionResult.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */,
 				78E9373B288987B7004DBFDD /* LocationManagerCostants.swift in Sources */,

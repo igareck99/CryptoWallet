@@ -29,6 +29,18 @@ final class MainFlowCoordinator: Coordinator {
 
     private let togglesFacade: MainFlowTogglesFacadeProtocol
 
+	private lazy var onTransactionEnd: (TransactionResult) -> Void = { [weak self] transactionResult in
+		let closure = self?.onTransactionEndDisplay?()
+		closure?(transactionResult)
+	}
+	private var onTransactionEndDisplay: (() -> ((TransactionResult) -> Void))?
+	// Костыль для связки флоу переводов
+	// по-хорошему это должно происходить через storage координатора
+	private lazy var onTransactionEndHelper: ( @escaping (TransactionResult) -> Void) -> Void
+	= { [weak self] transactionClosure in
+		self?.onTransactionEndDisplay = { transactionClosure }
+	}
+
     // MARK: - Lifecycle
 
     init(navigationController: UINavigationController,
@@ -72,7 +84,10 @@ final class MainFlowCoordinator: Coordinator {
     }
 
     private func buildWalletTab() -> UIViewController {
-        let rootView = WalletConfigurator.configuredView(delegate: self)
+        let rootView = WalletConfigurator.configuredView(
+			delegate: self,
+			onTransactionEndHelper: onTransactionEndHelper
+		)
         let viewController = BaseHostingController(rootView: rootView)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.wallet.item
@@ -450,7 +465,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
 		let rootView = FacilityApproveConfigurator
 			.configuredView(
 				transaction: transaction,
-				delegate: self
+				delegate: self,
+				onTransactionEnd: onTransactionEnd
 			)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true

@@ -65,10 +65,5 @@ final class TransactionViewModel: ObservableObject {
 
     private func updateData() {
         transactionList = []
-        transactionList.append(TransactionInfo())
-        transactionList.append(TransactionInfo())
-        transactionList.append(TransactionInfo())
-        transactionList.append(TransactionInfo())
-        transactionList.append(TransactionInfo())
     }
 }

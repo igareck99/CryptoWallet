@@ -8,10 +8,14 @@ enum FacilityApproveConfigurator {
 
     static func configuredView(
 		transaction: FacilityApproveModel,
-		delegate: FacilityApproveSceneDelegate
+		delegate: FacilityApproveSceneDelegate,
+		onTransactionEnd: @escaping (TransactionResult) -> Void
 	) -> FacilityApproveView {
 		let userCredentialsStorage = UserDefaultsService.shared
-		let viewModel = FacilityApproveViewModel(transaction: transaction)
+		let viewModel = FacilityApproveViewModel(
+			transaction: transaction,
+			onTransactionEnd: onTransactionEnd
+		)
         viewModel.delegate = delegate
         let view = FacilityApproveView(viewModel: viewModel)
         return view

@@ -72,30 +72,29 @@ struct FacilityApproveView: View {
 					.font(.system(size: 16))
 					.foregroundColor(.jaffaApprox)
 					.multilineTextAlignment(.leading)
-				sendButton
 			}
 			.padding(.leading, 16)
 		}
+		.safeAreaInset(edge: .bottom) {
+			sendButton
+				.frame(width: 237, height: 48)
+				.padding(.bottom, 8)
+		}
     }
 
-    private var sendButton: some View {
-        VStack(spacing: 8) {
-            Button {
-//                showSuccessFacility = true
-//                hideNavBar()
-				viewModel.send(.onTransaction)
-            } label: {
-                Text(R.string.localizable.walletSend())
-                    .frame(minWidth: 0, maxWidth: .infinity)
-					.font(.system(size: 17, weight: .semibold))
-                    .padding()
-                    .foregroundColor(.white)
-            }
-			.background(Color.azureRadianceApprox)
-			.cornerRadius(10)
-            .padding(.horizontal, 81)
-        }
-    }
+	private var sendButton: some View {
+		Button {
+			viewModel.send(.onTransaction)
+		} label: {
+			Text(R.string.localizable.walletSend())
+				.font(.system(size: 17, weight: .semibold))
+				.padding()
+				.foregroundColor(.white)
+		}
+		.frame(width: 237, height: 48)
+		.background(Color.azureRadianceApprox)
+		.cornerRadius(10)
+	}
 
 	private var receiverCellView: some View {
 		VStack(spacing: 16) {

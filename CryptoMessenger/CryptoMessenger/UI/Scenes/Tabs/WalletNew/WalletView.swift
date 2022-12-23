@@ -6,6 +6,8 @@ struct WalletView: View {
 
     // MARK: - Internal Properties
 
+	@State var displayTransactionResult = false
+
     @StateObject var viewModel: WalletViewModel
     @State var contentWidth = CGFloat(0)
     @State var offset = CGFloat(16)
@@ -132,6 +134,12 @@ struct WalletView: View {
                 .background(.white())
                 .cornerRadius(16)
         })
+		.sheet(isPresented: $displayTransactionResult) {
+			if let sentTransaction = viewModel.transaction {
+				TransactionResultView(model: sentTransaction)
+					.presentationDetents([.height(302)])
+			}
+		}
     }
 
     // MARK: - Private Properties
@@ -251,6 +259,13 @@ struct WalletView: View {
     private var sendButton: some View {
         Button {
 			viewModel.send(.onTransfer(walletIndex: pageIndex))
+
+			let onTransactionEndClosure: (TransactionResult) -> Void = {
+				viewModel.transaction = $0
+				displayTransactionResult = true
+			}
+			viewModel.onTransactionEnd = onTransactionEndClosure
+			viewModel.onTransactionEndHelper(onTransactionEndClosure)
         } label: {
             Text(R.string.localizable.walletSend().uppercased())
                 .frame(width: 237)
@@ -262,7 +277,7 @@ struct WalletView: View {
                         .stroke(Color.white, lineWidth: 2)
                 )
         }
-        .background(Color.cornflowerBlueApprox)
+        .background(Color.azureRadianceApprox)
         .cornerRadius(10)
     }
 }

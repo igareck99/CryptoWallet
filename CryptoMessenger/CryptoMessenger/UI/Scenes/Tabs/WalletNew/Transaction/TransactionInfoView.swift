@@ -12,7 +12,6 @@ struct TransactionInfoView: View {
 
 	var body: some View {
 		VStack(spacing: 16) {
-			HStack {
 				HStack(spacing: 12) {
 					ZStack {
 						Circle()
@@ -23,8 +22,14 @@ struct TransactionInfoView: View {
 						R.image.wallet.inflow.image
 					}
 					VStack(alignment: .leading, spacing: 6) {
-						Text(transaction.transactionResult)
-						.font(.medium(15))
+						HStack {
+							Text(transaction.transactionResult)
+								.font(.system(size: 17))
+								.foregroundColor(.woodSmokeApprox)
+							Spacer()
+							transactionAmount()
+						}
+
 						Text(
 							(transaction.date.utcToLocal ?? "")
 							+ " From: " +
@@ -32,35 +37,35 @@ struct TransactionInfoView: View {
 						)
 						.lineLimit(1)
 						.truncationMode(.tail)
-						.font(.regular(13))
-						.foreground(.darkGray())
+						.font(.system(size: 12))
+						.foregroundColor(.regentGrayApprox)
 					}
 				}
-				Spacer()
-				VStack(alignment: .trailing) {
-					switch transaction.transactionCoin {
-					case .aur:
-						Text("+ \(transaction.amount) AUR")
-						.font(.regular(15))
-						.foreground(transaction.type == .send ? .black() : .green())
-						.lineLimit(1)
-						.truncationMode(.middle)
-					case .ethereum:
-						Text("+ \(transaction.amount) ETH")
-						.font(.regular(15))
-						.foreground(transaction.type == .send ? .black() : .green())
-						.lineLimit(1)
-						.truncationMode(.middle)
-					case .bitcoin:
-						Text("+ \(transaction.amount) BTC")
-						.font(.regular(15))
-						.foreground(transaction.type == .send ? .black() : .green())
-						.lineLimit(1)
-						.truncationMode(.middle)
-					}
-				}
-			}
 			Divider()
+		}
+	}
+
+	@ViewBuilder
+	private func transactionAmount() -> some View {
+		switch transaction.transactionCoin {
+		case .aur:
+			Text("+ \(transaction.amount) AUR")
+				.font(.system(size: 17))
+				.foreground(transaction.type == .send ? .black() : .green())
+				.lineLimit(1)
+				.truncationMode(.middle)
+		case .ethereum:
+			Text("+ \(transaction.amount) ETH")
+				.font(.system(size: 17))
+				.foreground(transaction.type == .send ? .black() : .green())
+				.lineLimit(1)
+				.truncationMode(.middle)
+		case .bitcoin:
+			Text("+ \(transaction.amount) BTC")
+				.font(.system(size: 17))
+				.foreground(transaction.type == .send ? .black() : .green())
+				.lineLimit(1)
+				.truncationMode(.middle)
 		}
 	}
 }
