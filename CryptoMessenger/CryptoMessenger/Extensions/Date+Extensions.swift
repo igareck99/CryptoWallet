@@ -91,4 +91,17 @@ extension String {
     // MARK: - Internal Properties
 
     var dateFromISO8601: Date? { Formatter.iso8601.date(from: self) }
+
+	var utcToLocal: String? {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+		dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+
+		if let date = dateFormatter.date(from: self) {
+			dateFormatter.timeZone = TimeZone.current
+			dateFormatter.dateFormat = "MMM d 'at' HH:mm"
+			return dateFormatter.string(from: date)
+		}
+		return nil
+	}
 }

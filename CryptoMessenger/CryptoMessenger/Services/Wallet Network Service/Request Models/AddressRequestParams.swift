@@ -1,6 +1,10 @@
 import Foundation
 
-struct AddressRequestParams {
-	let ethereumPublicKey: String
-	let bitcoinPublicKey: String
+struct AddressRequestParams: Codable {
+	let ethereum: [WalletPublic]
+	let bitcoin: [WalletPublic]
+}
+
+struct WalletPublic: Codable {
+	let publicKey: String
 }

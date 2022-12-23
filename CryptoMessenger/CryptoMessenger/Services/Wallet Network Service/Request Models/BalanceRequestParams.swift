@@ -1,6 +1,10 @@
 import Foundation
 
-struct BalanceRequestParams {
-	let ethereumAddress: String
-	let bitcoinAddress: String
+struct BalanceRequestParams: Codable {
+	let ethereum: [WalletBalanceAddress]
+	let bitcoin: [WalletBalanceAddress]
+}
+
+struct WalletBalanceAddress: Codable {
+	let accountAddress: String
 }

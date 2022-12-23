@@ -108,25 +108,27 @@ extension FacilityApproveViewModel {
 
 	private func transactionSend() {
 
-		let signature = TransactionSendRequestSignature(
-			index: transaction.index,
-			derSignature: transaction.derSignature
-		)
+		let signatures: [TransactionSendRequestSignature] = transaction
+			.signedTransactions.map { signedTransaction in
+				TransactionSendRequestSignature(
+					index: signedTransaction.index,
+					derSignature: signedTransaction.derSignature
+				)
+			}
+
 		let params = TransactionSendRequestParams(
-			signatures: [signature],
+			signatures: signatures,
 			uuid: transaction.uuid,
 			cryptoType: transaction.cryptoType
 		)
 		walletNetworks.makeTransactionSend(params: params) { [weak self] result in
-			debugPrint("\(result)")
-			guard let self = self else { return }
-			guard case let .success(response) = result else { return }
-			debugPrint("Transaction Send: \(response)")
+			debugPrint("Transaction Send: RESULT: \(result)")
+			guard let self = self,
+				  case let .success(response) = result else { return }
+			debugPrint("Transaction Send: RESPONSE: \(response)")
 			DispatchQueue.main.async { [weak self] in
 				self?.delegate?.handleNextScene(.popToRoot)
 			}
 		}
 	}
 }
-
-//   0xc435a4ae92c9a509ea7b928cfdd2ee99bfcd3c5940d20f230e224cc9f1648586

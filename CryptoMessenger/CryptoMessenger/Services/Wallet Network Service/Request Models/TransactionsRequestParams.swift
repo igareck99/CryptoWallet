@@ -1,6 +1,11 @@
 import Foundation
 
-struct TransactionsRequestParams {
-	let ethereumAddress: String
-	let bitcoinAddress: String
+struct TransactionsRequestParams: Codable {
+	let ethereum: [WalletTransactions]
+	let bitcoin: [WalletTransactions]
+}
+
+struct WalletTransactions: Codable {
+	let address: String
+	let limit: String
 }

@@ -723,6 +723,7 @@
 		D4E8785F28CE02EA00063762 /* GroupCallsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */; };
 		D4E8786128CE07DF00063762 /* JitsiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8786028CE07DF00063762 /* JitsiWidget.swift */; };
 		D4E8786428CE0E6B00063762 /* JitsiWidgetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */; };
+		D4EF286C2953C6650039744D /* WalletErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EF286B2953C6650039744D /* WalletErrorResponse.swift */; };
 		D4EFEADD28E2AF100075CC10 /* MXJingleCameraCaptureController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EFE70228E2AF0F0075CC10 /* MXJingleCameraCaptureController.m */; };
 		D4EFEADE28E2AF100075CC10 /* MXJingleCallStack.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EFE70328E2AF0F0075CC10 /* MXJingleCallStack.m */; };
 		D4EFEADF28E2AF100075CC10 /* MXJingleCallStackCall.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EFE70428E2AF0F0075CC10 /* MXJingleCallStackCall.m */; };
@@ -1922,6 +1923,7 @@
 		D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsViewModel.swift; sourceTree = "<group>"; };
 		D4E8786028CE07DF00063762 /* JitsiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidget.swift; sourceTree = "<group>"; };
 		D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidgetService.swift; sourceTree = "<group>"; };
+		D4EF286B2953C6650039744D /* WalletErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletErrorResponse.swift; sourceTree = "<group>"; };
 		D4EFE6FC28E2AF0F0075CC10 /* MXGoogleAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXGoogleAnalytics.h; sourceTree = "<group>"; };
 		D4EFE6FD28E2AF0F0075CC10 /* MXGoogleAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXGoogleAnalytics.m; sourceTree = "<group>"; };
 		D4EFE70028E2AF0F0075CC10 /* MXJingleCallAudioSessionConfigurator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXJingleCallAudioSessionConfigurator.h; sourceTree = "<group>"; };
@@ -5171,6 +5173,7 @@
 				D4AAD74C294857F800A26515 /* FeeResponse.swift */,
 				D44B4E9C294C4B3200D64F5E /* TransactionTemplateResponse.swift */,
 				D4A51491294F4DCE007A87BF /* TransactionSendReponse.swift */,
+				D4EF286B2953C6650039744D /* WalletErrorResponse.swift */,
 			);
 			path = "Response Models";
 			sourceTree = "<group>";
@@ -8465,6 +8468,7 @@
 				D4EFECAB28E2AF110075CC10 /* MXRestClient+Extensions.swift in Sources */,
 				78A9CBFA28191F1D00C4D7E1 /* IOActionSheetView.swift in Sources */,
 				D4752EBA28C71AF3006B650A /* JitsiModels.swift in Sources */,
+				D4EF286C2953C6650039744D /* WalletErrorResponse.swift in Sources */,
 				D4EFEC1E28E2AF110075CC10 /* MXThreadNotificationsCount.swift in Sources */,
 				7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */,
 				D4EFEC0628E2AF110075CC10 /* MX3PidAddManager.swift in Sources */,

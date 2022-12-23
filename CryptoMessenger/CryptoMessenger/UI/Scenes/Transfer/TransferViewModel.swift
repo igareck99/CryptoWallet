@@ -152,21 +152,33 @@ final class TransferViewModel: ObservableObject {
 			return
 		}
 
-		let publicKey: String?
-		let privateKey: String?
+		// TODO: Поменять на реальные адреса,
+		// после того как доделаем экран адресов
+		let address_to: String
+		let walletPublicKey: String
+		let walletPrivateKey: String
 
-		if currentWalletType == .bitcoin {
-			publicKey = keychainService[.bitcoinPublicKey]
-			privateKey = keychainService[.bitcoinPrivateKey]
+		if currentWalletType == .bitcoin,
+		   let publicKey: String = keychainService[.bitcoinPublicKey],
+		   let privateKey: String = keychainService[.bitcoinPrivateKey] {
+			walletPublicKey = publicKey
+			walletPrivateKey = privateKey
+			address_to = "moaCiMa3xBGEVEeHMZZKsDvfSC5GyRyZCZ"
+		} else if currentWalletType == .ethereum,
+				  let publicKey: String = keychainService[.ethereumPublicKey],
+				  let privateKey: String = keychainService[.ethereumPrivateKey] {
+			walletPublicKey = publicKey
+			walletPrivateKey = privateKey
+			address_to = "0xccb5c140b7870061dc5327134fbea8f3f2e154d9"
 		} else {
-			publicKey = keychainService[.ethereumPublicKey]
-			privateKey = keychainService[.ethereumPrivateKey]
+			address_to = ""
+			walletPublicKey = ""
+			walletPrivateKey = ""
+			return
 		}
 
-		guard
-			let walletPublicKey = publicKey,
-			let walletPrivateKey = privateKey,
-			let feeValue = fees.first(where: { [weak self] speed in
+		guard let feeValue = fees
+			.first(where: { [weak self] speed in
 				speed.mode == self?.currentSpeed
 			})?.feeValue
 		else {
@@ -177,10 +189,6 @@ final class TransferViewModel: ObservableObject {
 
 		let cryptoType = currentWalletType.rawValue
 		debugPrint("walletCryptoType: \(cryptoType)")
-
-		// TODO: Поменять на реальные адреса,
-		// после того как доделаем экран адресов
-		let address_to = "0xab33d517b6a63a0b1c099b8438d6641cf1a984cc"
 
 		let params = TransactionTemplateRequestParams(
 			publicKey: walletPublicKey,
@@ -194,17 +202,24 @@ final class TransferViewModel: ObservableObject {
 			debugPrint("\(response)")
 			guard
 				let self = self,
-				case .success(let template) = response,
-				let templateHash = template.hashes.first,
-				let derSignature = self.keysService.signBy(
-					utxoHash: templateHash.hash,
-					privateKey: walletPrivateKey
-				)
+				case .success(let template) = response
 			else {
 				return
 			}
 
-			debugPrint("SIGNED: \(derSignature)")
+			let signedTransactions: [SignedTransaction] = template.hashes.compactMap { item in
+
+				guard let derSignature = self.keysService.signBy(
+					utxoHash: item.hash,
+					privateKey: walletPrivateKey
+				) else {
+					return nil
+				}
+
+				debugPrint("SIGNED: \(derSignature)")
+
+				return SignedTransaction(derSignature: derSignature, index: item.index)
+			}
 
 			let transaction = FacilityApproveModel(
 				reciverName: nil,
@@ -213,11 +228,12 @@ final class TransferViewModel: ObservableObject {
 				transferCurrency: self.currentWallet.result.currency,
 				comissionAmount: feeValue,
 				comissionCurrency: self.currentWallet.result.currency,
-				derSignature: derSignature,
-				index: templateHash.index,
+				signedTransactions: signedTransactions,
 				uuid: template.uuid,
 				cryptoType: cryptoType
 			)
+
+			debugPrint("SIGNED transaction: \(transaction)")
 
 			DispatchQueue.main.async { [weak self] in
 				guard let self = self else { return }
@@ -230,7 +246,7 @@ final class TransferViewModel: ObservableObject {
 		let cryptoType: String = currentWallet.walletType.rawValue
 		let currencyName: String = currentWallet.walletType.abbreviatedName
 		let feeParams = FeeRequestParams(cryptoType: cryptoType)
-		walletNetworks.getFee(feeParams: feeParams) { [weak self] result in
+		walletNetworks.getFee(params: feeParams) { [weak self] result in
 			debugPrint("\(result)")
 
 			guard let self = self else { return }
