@@ -4,65 +4,54 @@ import SwiftUI
 
 struct TransferView: View {
 
-    // MARK: - Internal Properties
+	// MARK: - Internal Properties
 
-    @StateObject var viewModel: TransferViewModel
-    @State var showCoinSelector = false
-    @State var isSelectedWalletType = false
-    @State var address: String = ""
-    @State var receiverData: UserReceiverData = UserReceiverData(name: "",
-                                                                 url: URL(string: ""),
-                                                                 adress: "",
-                                                                 walletType: .ethereum)
-    
+	@StateObject var viewModel: TransferViewModel
+	@State var showCoinSelector = false
+	@State var isSelectedWalletType = false
+	@State var address: String = ""
+	@State var receiverData: UserReceiverData = UserReceiverData(name: "",
+																 url: URL(string: ""),
+																 adress: "",
+																 walletType: .ethereum)
 
-    // MARK: - Body
 
-    var body: some View {
-        ScrollView {
-            content
-                .onChange(of: receiverData, perform: { newValue in
-                    print("kskaksasakl  \(newValue)")
-                })
-                .onTapGesture {
-                    hideKeyboard()
-                }
-                .onAppear {
-                    viewModel.send(.onAppear)
-                    receiverData.walletType = viewModel.currentWalletType
-                }
-                .popup(isPresented: $showCoinSelector,
-                       type: .toast,
-                       position: .bottom,
-                       closeOnTap: false,
-                       closeOnTapOutside: true,
-                       backgroundColor: Color(.black(0.3))) {
-                    ChooseWalletTypeView(
-                        chooseWalletShow: $showCoinSelector,
-                        choosedWalletType: $viewModel.currentWalletType,
-                        isSelectedWalletType: $isSelectedWalletType,
-                        wallletTypes: viewModel.walletTypes
-                    )
-                    .frame(width: UIScreen.main.bounds.width, height: 242, alignment: .center)
-                    .background(.white())
-                    .cornerRadius(16)
-                }
-                       .navigationBarTitleDisplayMode(.inline)
-                       .navigationBarHidden(false)
-                       .toolbar {
-                           ToolbarItem(placement: .principal) {
-                               Text(R.string.localizable.transferTransfer())
-                                   .font(.system(size: 17, weight: .semibold))
-                           }
-                       }
-        }
-        .scrollDismissesKeyboard(.interactively)
-        .safeAreaInset(edge: .bottom) {
-            sendButton
-                .frame(width: 237, height: 48)
-                .padding(.bottom, 8)
-        }
-    }
+	// MARK: - Body
+
+	var body: some View {
+		ScrollView {
+			content
+				.onTapGesture {
+					hideKeyboard()
+				}
+				.onAppear {
+					viewModel.send(.onAppear)
+				}
+				.sheet(isPresented: $showCoinSelector) {
+					ChooseWalletTypeView(
+						chooseWalletShow: $showCoinSelector,
+						choosedWalletType: $viewModel.currentWalletType,
+						isSelectedWalletType: $isSelectedWalletType,
+						wallletTypes: viewModel.walletTypes
+					)
+					.presentationDetents([.height(185)])
+				}
+				.navigationBarTitleDisplayMode(.inline)
+				.navigationBarHidden(false)
+				.toolbar {
+					ToolbarItem(placement: .principal) {
+						Text(R.string.localizable.transferTransfer())
+							.font(.system(size: 17, weight: .semibold))
+					}
+				}
+		}
+		.scrollDismissesKeyboard(.interactively)
+		.safeAreaInset(edge: .bottom) {
+			sendButton
+				.frame(width: 237, height: 48)
+				.padding(.bottom, 8)
+		}
+	}
 
     // MARK: - Private Properties
 

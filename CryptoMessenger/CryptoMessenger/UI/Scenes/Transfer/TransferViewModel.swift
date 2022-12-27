@@ -177,7 +177,8 @@ final class TransferViewModel: ObservableObject {
 				  let privateKey: String = keychainService[.ethereumPrivateKey] {
 			walletPublicKey = publicKey
 			walletPrivateKey = privateKey
-			address_to = "0xccb5c140b7870061dc5327134fbea8f3f2e154d9"
+			address_to = "0xe8f0349166f87fba444596a6bbbe5de9e9c6ef27"
+//			"0xccb5c140b7870061dc5327134fbea8f3f2e154d9"
 		} else {
 			address_to = ""
 			walletPublicKey = ""

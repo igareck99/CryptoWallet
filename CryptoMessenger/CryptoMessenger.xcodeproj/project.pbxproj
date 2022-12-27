@@ -693,6 +693,7 @@
 		D4A514B2295187E3007A87BF /* ApproveFacilityCellTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514B1295187E3007A87BF /* ApproveFacilityCellTitle.swift */; };
 		D4A514B429518834007A87BF /* FacilityApproveSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514B329518834007A87BF /* FacilityApproveSources.swift */; };
 		D4A514B629518922007A87BF /* FacilityApproveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514B529518922007A87BF /* FacilityApproveModel.swift */; };
+		D4A8535F295C796400F2B944 /* TrackableScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A8535E295C796400F2B944 /* TrackableScroll.swift */; };
 		D4AAD74B294855C000A26515 /* FeeRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AAD74A294855C000A26515 /* FeeRequestParams.swift */; };
 		D4AAD74D294857F800A26515 /* FeeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AAD74C294857F800A26515 /* FeeResponse.swift */; };
 		D4AAD74F2948615E00A26515 /* TransactionSpeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AAD74E2948615E00A26515 /* TransactionSpeed.swift */; };
@@ -1894,6 +1895,7 @@
 		D4A514B1295187E3007A87BF /* ApproveFacilityCellTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproveFacilityCellTitle.swift; sourceTree = "<group>"; };
 		D4A514B329518834007A87BF /* FacilityApproveSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveSources.swift; sourceTree = "<group>"; };
 		D4A514B529518922007A87BF /* FacilityApproveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveModel.swift; sourceTree = "<group>"; };
+		D4A8535E295C796400F2B944 /* TrackableScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScroll.swift; sourceTree = "<group>"; };
 		D4AAD74A294855C000A26515 /* FeeRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeRequestParams.swift; sourceTree = "<group>"; };
 		D4AAD74C294857F800A26515 /* FeeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeResponse.swift; sourceTree = "<group>"; };
 		D4AAD74E2948615E00A26515 /* TransactionSpeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSpeed.swift; sourceTree = "<group>"; };
@@ -4171,6 +4173,7 @@
 				8B432CC927C3DA030025D62B /* WalletConfigurator.swift */,
 				8B12263827C53120008DC048 /* SlideCardsView.swift */,
 				8B4810F527CF81F000831589 /* AddWalletView.swift */,
+				D4A8535E295C796400F2B944 /* TrackableScroll.swift */,
 			);
 			path = WalletNew;
 			sourceTree = "<group>";
@@ -8165,6 +8168,7 @@
 				8B34D77A277DA1AB007811C9 /* PersonalizationTitleItems.swift in Sources */,
 				D4B39AFE289BE271006F2D99 /* Dictionary+Extensions.swift in Sources */,
 				7846B67226E8C04D00B05984 /* ThumbnailLayout.swift in Sources */,
+				D4A8535F295C796400F2B944 /* TrackableScroll.swift in Sources */,
 				D4EFEB9D28E2AF100075CC10 /* MXCallCapabilitiesModel.m in Sources */,
 				D4EFEBDB28E2AF100075CC10 /* MXSession.m in Sources */,
 				7857B5A1286190980006D2D3 /* LocationEvent.swift in Sources */,

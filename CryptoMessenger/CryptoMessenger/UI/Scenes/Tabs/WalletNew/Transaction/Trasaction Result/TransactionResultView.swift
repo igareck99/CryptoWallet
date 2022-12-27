@@ -4,9 +4,16 @@ struct TransactionResultView: View {
 
 	let model: TransactionResult
 
-    var body: some View {
+	@Environment(\.presentationMode) private var presentationMode
 
+	var body: some View {
 		VStack(spacing: 0) {
+			RoundedRectangle(cornerRadius: 2)
+				.frame(width: 31, height: 4)
+				.foreground(.darkGray(0.4))
+				.padding(.top, 5)
+				.padding(.bottom, 16)
+
 			Text(model.title)
 				.font(.system(size: 17, weight: .semibold))
 				.foregroundColor(.woodSmokeApprox)
@@ -40,6 +47,7 @@ struct TransactionResultView: View {
 				.foregroundColor(.regentGrayApprox)
 				.padding(.top, 4)
 				.padding(.horizontal, 32)
+			Spacer()
 		}
-    }
+	}
 }

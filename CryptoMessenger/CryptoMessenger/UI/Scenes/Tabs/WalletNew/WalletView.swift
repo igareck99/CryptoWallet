@@ -37,7 +37,6 @@ struct WalletView: View {
 					loadingStateView()
 				})
 			.onAppear {
-				debugPrint("onAppear")
 				navBarHide = false
 				showTabBar()
 				viewModel.send(.onAppear)
@@ -52,8 +51,14 @@ struct WalletView: View {
 			}
 	}
 
+	@State private var scrollViewContentOffset = CGFloat(0)
+
     var content: some View {
-        ScrollView(.vertical) {
+		TrackableScroll(
+			.vertical,
+			showIndicators: true,
+			contentOffset: $scrollViewContentOffset
+		) {
             VStack(alignment: .leading, spacing: 16) {
 				TabView(selection: $pageIndex) {
 					ForEach(Array(viewModel.cardsList.enumerated()), id: \.element) { index, wallet in
@@ -107,6 +112,10 @@ struct WalletView: View {
             }
             .padding(.top, 24)
         }
+		.onChange(of: scrollViewContentOffset) { newValue in
+			debugPrint("TrackableScroll scrollViewContentOffset: \(newValue)")
+			viewModel.tryToLoadNextTransactions(offset: newValue, pageIndex: pageIndex)
+		}
         .onChange(of: showAddWallet, perform: { value in
             if !value {
                 showTabBar()
@@ -178,7 +187,6 @@ struct WalletView: View {
 				.padding(.bottom, 70)
 
 			Button {
-				debugPrint("onImportKey")
 				viewModel.send(.onImportPhrase)
 			} label: {
 				Text(R.string.localizable.walletAddWalletShort())
