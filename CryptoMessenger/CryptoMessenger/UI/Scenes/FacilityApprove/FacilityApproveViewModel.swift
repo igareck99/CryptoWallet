@@ -22,6 +22,7 @@ final class FacilityApproveViewModel: ObservableObject {
 	private let userCredentialsStorage: UserCredentialsStorage
 	private let sources: FacilityApproveSourcesable.Type
 	private let walletNetworks: WalletNetworkFacadeProtocol
+	private let onTransactionEnd: ((TransactionResult) -> Void)?
 
 	// MARK: - Lifecycle
 
@@ -29,12 +30,14 @@ final class FacilityApproveViewModel: ObservableObject {
 		transaction: FacilityApproveModel,
 		walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
 		userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared,
-		sources: FacilityApproveSourcesable.Type = FacilityApproveSources.self
+		sources: FacilityApproveSourcesable.Type = FacilityApproveSources.self,
+		onTransactionEnd: @escaping (TransactionResult) -> Void
 	) {
 		self.transaction = transaction
 		self.walletNetworks = walletNetworks
 		self.userCredentialsStorage = userCredentialsStorage
 		self.sources = sources
+		self.onTransactionEnd = onTransactionEnd
 		bindInput()
 		bindOutput()
 	}
@@ -127,7 +130,17 @@ extension FacilityApproveViewModel {
 				  case let .success(response) = result else { return }
 			debugPrint("Transaction Send: RESPONSE: \(response)")
 			DispatchQueue.main.async { [weak self] in
-				self?.delegate?.handleNextScene(.popToRoot)
+				guard let self = self else { return }
+				self.delegate?.handleNextScene(.popToRoot)
+				let receiverName: String = self.transaction.reciverName ?? R.string.localizable.facilityApproveReceiver()
+				let model = TransactionResult(
+					title: R.string.localizable.facilityApproveTransactionDone(),
+					resultImageName: R.image.transaction.successOperation.name,
+					amount: self.transaction.transferAmount + " " + self.transaction.transferCurrency,
+					receiverName: receiverName,
+					receiversWallet: self.transaction.reciverAddress ?? ""
+				)
+				self.onTransactionEnd?(model)
 			}
 		}
 	}

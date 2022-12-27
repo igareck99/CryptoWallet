@@ -12,7 +12,7 @@ struct TransactionView: View {
     @State var selectorFilterIndex = 0
     @State var selectorTokenIndex = 0
     @State var address = ""
-    @State var tappedTransaction = TransactionInfo()
+	@State var tappedTransaction: TransactionInfo
 
     // MARK: - Body
 

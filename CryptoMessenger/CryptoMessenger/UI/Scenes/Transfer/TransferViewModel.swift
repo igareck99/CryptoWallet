@@ -26,7 +26,13 @@ final class TransferViewModel: ObservableObject {
 	let sources: TransferViewSourcable.Type
 	var fees = [TransactionSpeed]()
 	var walletTypes = [WalletType]()
-	var transferAmount: String = ""
+
+	var isTransferButtonEnabled: Bool {
+		transferAmount.isEmpty == false &&
+		isTransferAmountValid() &&
+		validate(str: transferAmount)
+	}
+	private var transferAmount: String = ""
 	var transferAmountProxy: String {
 		get { transferAmount }
 
@@ -38,7 +44,7 @@ final class TransferViewModel: ObservableObject {
 		}
 	}
 
-	func validate(str: String) -> Bool {
+	private func validate(str: String) -> Bool {
 		guard
 			let regExp = try? Regex("^\\d{0,9}(?:\\.\\d{0,\(currentWallet.decimals)})?$")
 		else {
@@ -46,6 +52,11 @@ final class TransferViewModel: ObservableObject {
 		}
 		let result = str.wholeMatch(of: regExp)
 		return result?.isEmpty == false
+	}
+
+	private func isTransferAmountValid() -> Bool {
+		let value: Double = (try? Double(value: transferAmount)) ?? .zero
+		return value > .zero
 	}
 
 	var currentWallet: WalletInfo
@@ -153,16 +164,9 @@ final class TransferViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func updateData() { }
-
 	private func transactionTemplate() {
 
-		guard
-			let value = try? Double(value: transferAmount),
-			value > .zero
-		else {
-			return
-		}
+		guard isTransferAmountValid() else { return }
 
 		// TODO: Поменять на реальные адреса,
 		// после того как доделаем экран адресов

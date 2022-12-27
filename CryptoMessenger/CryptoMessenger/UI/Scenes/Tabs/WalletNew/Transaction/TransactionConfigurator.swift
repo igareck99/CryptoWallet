@@ -13,10 +13,13 @@ enum TransactionConfigurator {
 		let userCredentialsStorage = UserDefaultsService.shared
         let viewModel = TransactionViewModel(userCredentialsStorage: userCredentialsStorage)
         viewModel.delegate = delegate
-        let view = TransactionView(viewModel: viewModel,
-                                   selectorFilterIndex: selectorFilterIndex,
-                                   selectorTokenIndex: selectorTokenIndex,
-                                   address: address)
+        let view = TransactionView(
+			viewModel: viewModel,
+			selectorFilterIndex: selectorFilterIndex,
+			selectorTokenIndex: selectorTokenIndex,
+			address: address,
+			tappedTransaction: TransactionInfo.mock
+		)
         return view
     }
 }

@@ -7,6 +7,10 @@ final class WalletViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
+	var transaction: TransactionResult?
+	var onTransactionEnd: ((TransactionResult) -> Void)?
+	var onTransactionEndHelper: ( @escaping (TransactionResult) -> Void) -> Void
+
     weak var delegate: WalletSceneDelegate?
     @Published var totalBalance = ""
     @Published var transactionList: [TransactionInfo] = []
@@ -37,13 +41,15 @@ final class WalletViewModel: ObservableObject {
 		keysService: KeysServiceProtocol = KeysService(),
 		userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared,
 		walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
-		coreDataService: CoreDataServiceProtocol = CoreDataService.shared
+		coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
+		onTransactionEndHelper: @escaping ( @escaping (TransactionResult) -> Void) -> Void
 	) {
 		self.keychainService = keychainService
 		self.keysService = keysService
 		self.userCredentialsStorage = userCredentialsStorage
 		self.walletNetworks = walletNetworks
 		self.coreDataService = coreDataService
+		self.onTransactionEndHelper = onTransactionEndHelper
         bindInput()
         bindOutput()
     }
@@ -103,7 +109,8 @@ final class WalletViewModel: ObservableObject {
 				date: $0.time ?? "",
 				transactionCoin: .ethereum,
 				transactionResult: $0.status,
-				amount: $0.inputs.first?.value ?? ""
+				amount: $0.inputs.first?.value ?? "",
+				from: $0.inputs.first?.address ?? ""
 			)
 			let details = TransactionDetails(
 				sender: $0.inputs.first?.address ?? "",
@@ -123,9 +130,10 @@ final class WalletViewModel: ObservableObject {
 				date: $0.time ?? "",
 				transactionCoin: .bitcoin,
 				transactionResult: $0.status,
-				amount: $0.inputs.first?.value ?? ""
+				amount: $0.inputs.first?.value ?? "",
+				from: $0.inputs.first?.address ?? ""
 			)
-			let details = TransactionDetails( // "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+			let details = TransactionDetails(
 				sender: $0.inputs.first?.address ?? "",
 				receiver: $0.outputs.first?.address ?? "",
 				block: "\($0.block ?? 0)",
