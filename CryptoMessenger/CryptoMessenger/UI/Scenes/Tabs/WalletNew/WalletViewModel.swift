@@ -387,25 +387,25 @@ final class WalletViewModel: ObservableObject {
     }
     
     private func updateUserWallet() {
-        guard let publicKeyEthereum = self.keychainService.string(forKey: .bitcoinPublicKey) else { return }
-        guard let publicKeyBitcoin = self.keychainService.string(forKey: .ethereumPublicKey) else { return }
-        let data = ["ethereum": [
-            "address": publicKeyEthereum
-          ],
-          "bitcoin": [
-            "address": publicKeyBitcoin
-          ]
-        ]
-        apiClient.publisher(Endpoints.Wallet.patchAssets(data))
+        let dbWallets = coreDataService.getWalletNetworks()
+        guard
+            let ethereumAddress = dbWallets.first(where: { $0.cryptoType == "ethereum" })?.address,
+            let bitcoinAddress = dbWallets.first(where: { $0.cryptoType == "bitcoin" })?.address
+        else {
+            return
+        }
+        let data = AdressesData(eth: ethereumAddress,
+                                btc: bitcoinAddress)
+        apiClient.publisher(Endpoints.Wallet.patchAssets(data.getDataForPatchAssets()))
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
-                    debugPrint("Error in update user wallets adresses  \(error)")
+                    debugPrint("Error update user wallets adresses  \(error)")
                 default:
                     break
                 }
             } receiveValue: { [weak self] response in
-                print("Success in update user wallets adresses  \(response)")
+                print("Success update user wallets adresses  \(response)")
             }
             .store(in: &subscriptions)
     }
