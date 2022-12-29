@@ -27,6 +27,8 @@ final class TransferViewModel: ObservableObject {
 	var fees = [TransactionSpeed]()
 	var walletTypes = [WalletType]()
 
+	var isSnackbarPresented = false
+
 	var isTransferButtonEnabled: Bool {
 		transferAmount.isEmpty == false &&
 		isTransferAmountValid() &&
@@ -156,6 +158,15 @@ final class TransferViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
+	private func displayErrorSnackBar() {
+		self.isSnackbarPresented = true
+		self.objectWillChange.send()
+		DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+			self?.isSnackbarPresented = false
+			self?.objectWillChange.send()
+		}
+	}
+
 	private func transactionTemplate() {
 
 		guard isTransferAmountValid() else { return }
@@ -213,6 +224,7 @@ final class TransferViewModel: ObservableObject {
 				let self = self,
 				case .success(let template) = response
 			else {
+				self?.displayErrorSnackBar()
 				return
 			}
 
