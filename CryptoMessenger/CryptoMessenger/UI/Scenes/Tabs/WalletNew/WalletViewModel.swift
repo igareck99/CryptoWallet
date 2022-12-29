@@ -59,6 +59,128 @@ final class WalletViewModel: ObservableObject {
         subscriptions.removeAll()
     }
 
+	private enum TransactionLoadingState {
+		case loading
+		case notloading
+	}
+
+	private var transactionLoadingState: TransactionLoadingState = .notloading
+
+	func tryToLoadNextTransactions(offset: CGFloat, pageIndex: Int) {
+
+		guard transactionLoadingState == .notloading else { return }
+
+		guard let currentWallet = cardsList[safe: pageIndex],
+			  let currentTransactions = transactions[currentWallet.address] else { return }
+
+		let allTransactionsHeight = CGFloat(currentTransactions.count) * 70
+
+		debugPrint("TrackableScroll allTransactionsHeight: \(allTransactionsHeight)")
+
+		guard allTransactionsHeight < offset else { return }
+
+		debugPrint("TrackableScroll REQUEST NEXT PAGE")
+
+		guard let wallets = getWalletsAddresses() else { return }
+
+		var params = TransactionsRequestParams(
+			ethereum: [],
+			bitcoin: []
+		)
+
+		if currentWallet.walletType == .bitcoin,
+		   let last = currentTransactions.last {
+			let bitcoin: [WalletTransactions] = [
+				WalletTransactions(address: currentWallet.address, date: last.info.date)
+			]
+			params.bitcoin = bitcoin
+		} else if currentWallet.walletType == .ethereum,
+				  let last = currentTransactions.last {
+			let ethereum: [WalletTransactions] = [
+				WalletTransactions(address: currentWallet.address, date: last.info.date)
+			]
+			params.ethereum = ethereum
+		}
+
+		guard !params.ethereum.isEmpty || !params.bitcoin.isEmpty else { return }
+
+		guard transactionLoadingState == .notloading else { return }
+
+		transactionLoadingState = .loading
+
+		walletNetworks.getTransactions(params: params) { [weak self] response in
+			guard case let .success(walletsTransactions) = response,
+				  let allTransactions = self?.makeTransactions(model: walletsTransactions),
+				  !allTransactions.eth.isEmpty || !allTransactions.btc.isEmpty else {
+				self?.transactionLoadingState = .notloading
+				return
+			}
+			self?.transactions[wallets.eth]?.append(contentsOf: allTransactions.eth)
+			self?.transactions[wallets.btc]?.append(contentsOf: allTransactions.btc)
+			DispatchQueue.main.async { [weak self] in
+				self?.objectWillChange.send()
+				self?.transactionLoadingState = .notloading
+			}
+		}
+	}
+
+	func tryToLoadNextTransactionsPage(transaction: TransactionSection, pageIndex: Int) {
+
+		guard transactionLoadingState == .notloading else { return }
+
+		guard let wallet = cardsList[safe: pageIndex], let wallets = getWalletsAddresses() else { return }
+
+		var params = TransactionsRequestParams(
+			ethereum: [],
+			bitcoin: []
+		)
+
+		if transaction.info.transactionCoin == .bitcoin,
+			let btcLast = transactions[wallets.btc]?.last,
+			btcLast.id == transaction.id {
+			let bitcoin: [WalletTransactions] = [
+				WalletTransactions(address: wallets.btc, date: btcLast.info.date)
+			]
+			params.bitcoin = bitcoin
+		} else if transaction.info.transactionCoin == .ethereum,
+			let ethLast = transactions[wallets.eth]?.last,
+				  ethLast.id == transaction.id {
+			let ethereum: [WalletTransactions] = [
+				WalletTransactions(address: wallets.eth, date: ethLast.info.date)
+			]
+			params.ethereum = ethereum
+		}
+
+		guard !params.ethereum.isEmpty || !params.bitcoin.isEmpty else {
+			return
+		}
+
+		transactionLoadingState = .loading
+
+		walletNetworks.getTransactions(params: params) { [weak self] response in
+			guard case let .success(walletsTransactions) = response else { return }
+			guard let allTransactions = self?.makeTransactions(model: walletsTransactions) else { return }
+			self?.transactions[wallets.eth]?.append(contentsOf: allTransactions.eth)
+			self?.transactions[wallets.btc]?.append(contentsOf: allTransactions.btc)
+			DispatchQueue.main.async { [weak self] in
+				self?.objectWillChange.send()
+			}
+		}
+	}
+
+	private func getWalletsAddresses() -> (eth: String, btc: String)? {
+		let dbWallets = coreDataService.getWalletNetworks()
+
+		guard
+			let ethereumAddress = dbWallets.first(where: { $0.cryptoType == "ethereum" })?.address,
+			let bitcoinAddress = dbWallets.first(where: { $0.cryptoType == "bitcoin" })?.address
+		else {
+			return nil
+		}
+
+		return (eth: ethereumAddress, btc: bitcoinAddress)
+	}
+
 	func transactionsList(index: Int) -> [TransactionSection] {
 
 		guard let wallet = cardsList[safe: index],
@@ -67,45 +189,43 @@ final class WalletViewModel: ObservableObject {
 	}
 
 	func getTransactions() {
-		let dbWallets = coreDataService.getWalletNetworks()
 
-		guard
-			let ethereumAddress = dbWallets.first(where: { $0.cryptoType == "ethereum" })?.address,
-			let bitcoinAddress = dbWallets.first(where: { $0.cryptoType == "bitcoin" })?.address
-		else {
-			return
-		}
+		guard transactionLoadingState == .notloading else { return }
+
+		guard let wallets = getWalletsAddresses() else { return }
+
+		transactionLoadingState = .loading
 
 		let ethereum: [WalletTransactions] = [
-			WalletTransactions(address: ethereumAddress, limit: "10")
+			WalletTransactions(address: wallets.eth)
 		]
 		let bitcoin: [WalletTransactions] = [
-			WalletTransactions(address: bitcoinAddress, limit: "10")
+			WalletTransactions(address: wallets.btc)
 		]
 		let params = TransactionsRequestParams(
 			ethereum: ethereum,
 			bitcoin: bitcoin
 		)
+
 		walletNetworks.getTransactions(params: params) { [weak self] response in
 			guard case let .success(walletsTransactions) = response else { return }
-			self?.makeTransactions(model: walletsTransactions)
+			guard let allTransactions = self?.makeTransactions(model: walletsTransactions) else { return }
+			self?.transactions[wallets.eth] = allTransactions.eth
+			self?.transactions[wallets.btc] = allTransactions.btc
+			DispatchQueue.main.async { [weak self] in
+				self?.objectWillChange.send()
+				self?.transactionLoadingState = .notloading
+			}
 		}
 	}
 
-	private func makeTransactions(model: WalletsTransactionsResponse) {
+	private func makeTransactions(model: WalletsTransactionsResponse) -> (eth: [TransactionSection], btc: [TransactionSection])? {
 
-		let dbWallets = coreDataService.getWalletNetworks()
-
-		guard
-			let ethereumAddress = dbWallets.first(where: { $0.cryptoType == "ethereum" })?.address,
-			let bitcoinAddress = dbWallets.first(where: { $0.cryptoType == "bitcoin" })?.address
-		else {
-			return
-		}
+		guard let wallets = getWalletsAddresses() else { return nil }
 
 		let ethTransactions: [TransactionSection] = model.ethereum.first?.value.map {
 			let info = TransactionInfo(
-				type: $0.inputs.first?.address == ethereumAddress ? .send : .receive,
+				type: $0.inputs.first?.address == wallets.eth ? .send : .receive,
 				date: $0.time ?? "",
 				transactionCoin: .ethereum,
 				transactionResult: $0.status,
@@ -122,11 +242,10 @@ final class WalletViewModel: ObservableObject {
 			return TransactionSection(info: info, details: details)
 		} ?? []
 
-		transactions[ethereumAddress] = ethTransactions
 
 		let btcTransactions: [TransactionSection] = model.bitcoin.first?.value.map {
 			let info = TransactionInfo(
-				type: $0.inputs.first?.address == ethereumAddress ? .send : .receive,
+				type: $0.inputs.first?.address == wallets.btc ? .send : .receive,
 				date: $0.time ?? "",
 				transactionCoin: .bitcoin,
 				transactionResult: $0.status,
@@ -141,11 +260,9 @@ final class WalletViewModel: ObservableObject {
 			)
 			return TransactionSection(info: info, details: details)
 		} ?? []
-		transactions[bitcoinAddress] = btcTransactions
 
-		DispatchQueue.main.async {
-			self.objectWillChange.send()
-		}
+
+		return (eth: ethTransactions, btc: btcTransactions)
 	}
 
 	func getAddress(wallets: [WalletNetwork]) {
