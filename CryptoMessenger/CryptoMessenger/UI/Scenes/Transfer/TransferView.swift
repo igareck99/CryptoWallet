@@ -10,52 +10,59 @@ struct TransferView: View {
     @State var showCoinSelector = false
     @State var isSelectedWalletType = false
     @State var address: String = ""
+    @State var receiverData: UserReceiverData = UserReceiverData(name: "",
+                                                                 url: URL(string: ""),
+                                                                 adress: "",
+                                                                 walletType: .ethereum)
+    
 
     // MARK: - Body
 
-	var body: some View {
-		ScrollView {
-			content
-				.onTapGesture {
-					hideKeyboard()
-				}
-				.onAppear {
-					viewModel.send(.onAppear)
-				}
-				.popup(
-					isPresented: $showCoinSelector,
-					type: .toast,
-					position: .bottom,
-					closeOnTap: false,
-					closeOnTapOutside: true,
-					backgroundColor: Color(.black(0.3))
-				) {
-					ChooseWalletTypeView(
-						chooseWalletShow: $showCoinSelector,
-						choosedWalletType: $viewModel.currentWalletType,
-						isSelectedWalletType: $isSelectedWalletType,
-						wallletTypes: viewModel.walletTypes
-					)
-					.frame(width: UIScreen.main.bounds.width, height: 242, alignment: .center)
-					.background(.white())
-					.cornerRadius(16)
-				}
-				.navigationBarTitleDisplayMode(.inline)
-				.navigationBarHidden(false)
-				.toolbar {
-					ToolbarItem(placement: .principal) {
-						Text(R.string.localizable.transferTransfer())
-							.font(.system(size: 17, weight: .semibold))
-					}
-				}
-		}
-		.scrollDismissesKeyboard(.interactively)
-		.safeAreaInset(edge: .bottom) {
-			sendButton
-				.frame(width: 237, height: 48)
-				.padding(.bottom, 8)
-		}
-	}
+    var body: some View {
+        ScrollView {
+            content
+                .onChange(of: receiverData, perform: { newValue in
+                    print("kskaksasakl  \(newValue)")
+                })
+                .onTapGesture {
+                    hideKeyboard()
+                }
+                .onAppear {
+                    viewModel.send(.onAppear)
+                    receiverData.walletType = viewModel.currentWalletType
+                }
+                .popup(isPresented: $showCoinSelector,
+                       type: .toast,
+                       position: .bottom,
+                       closeOnTap: false,
+                       closeOnTapOutside: true,
+                       backgroundColor: Color(.black(0.3))) {
+                    ChooseWalletTypeView(
+                        chooseWalletShow: $showCoinSelector,
+                        choosedWalletType: $viewModel.currentWalletType,
+                        isSelectedWalletType: $isSelectedWalletType,
+                        wallletTypes: viewModel.walletTypes
+                    )
+                    .frame(width: UIScreen.main.bounds.width, height: 242, alignment: .center)
+                    .background(.white())
+                    .cornerRadius(16)
+                }
+                       .navigationBarTitleDisplayMode(.inline)
+                       .navigationBarHidden(false)
+                       .toolbar {
+                           ToolbarItem(placement: .principal) {
+                               Text(R.string.localizable.transferTransfer())
+                                   .font(.system(size: 17, weight: .semibold))
+                           }
+                       }
+        }
+        .scrollDismissesKeyboard(.interactively)
+        .safeAreaInset(edge: .bottom) {
+            sendButton
+                .frame(width: 237, height: 48)
+                .padding(.bottom, 8)
+        }
+    }
 
     // MARK: - Private Properties
 
@@ -82,7 +89,7 @@ struct TransferView: View {
 					.padding(.top, 14)
                     .padding(.horizontal, 16)
                     .onTapGesture {
-                        viewModel.send(.onChooseReceiver($address))
+                        viewModel.send(.onChooseReceiver($receiverData))
                     }
 
                 Text(R.string.localizable.transferSum().uppercased())
@@ -145,13 +152,13 @@ struct TransferView: View {
                         .frame(width: 40, height: 40)
                     R.image.chat.action.contact.image
                 }
-                if address.isEmpty {
+                if receiverData.adress.isEmpty {
                     Text(R.string.localizable.transferChooseContact())
                         .font(.system(size: 17))
                         .foregroundColor(.woodSmokeApprox)
                         .frame(height: 22)
                 } else {
-                    Text(address)
+                    Text(receiverData.adress)
                         .font(.system(size: 17))
                         .foregroundColor(.woodSmokeApprox)
                         .frame(height: 22)

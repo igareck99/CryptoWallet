@@ -7,11 +7,12 @@ struct ChooseReceiverView: View {
 
     // MARK: - Internal Properties
 
-    @Binding var address: String
+    @Binding var receiverData: UserReceiverData
     @StateObject var viewModel: ChooseReceiverViewModel
-    @State var searchType = SearchType.telephone
     @State var searchText = ""
     @State var searching = false
+    @FocusState private var inputViewIsFocused: Bool
+    @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Private Properties
 
@@ -32,16 +33,31 @@ struct ChooseReceiverView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         viewModel.send(.onScanner(scannedScreen: $searchText))
-                        searchType = .wallet
+                        viewModel.searchType = .wallet
                     } label: {
                         R.image.chooseReceiver.qrcode.image
                     }
                 }
             }.onReceive(scannedCodePublisher) { code in
-                debugPrint(code)
                 if code.contains("ethereum") {
-                    address = code.substring(fromIndex: 9)
+                    receiverData = UserReceiverData(name: receiverData.name,
+                                                    url: receiverData.url,
+                                                    adress: code.substring(fromIndex: 9),
+                                                    walletType: receiverData.walletType)
+                } else if code.contains("bitcoin") {
+                    receiverData = UserReceiverData(name: receiverData.name,
+                                                    url: receiverData.url,
+                                                    adress: code.substring(fromIndex: 8),
+                                                    walletType: receiverData.walletType)
                 }
+            }
+            .onDisappear {
+                if !searchText.isEmpty {
+                    receiverData.adress = searchText
+                }
+            }
+            .onChange(of: searchText) { newValue in
+                viewModel.updateText(newValue)
             }
     }
 
@@ -55,16 +71,38 @@ struct ChooseReceiverView: View {
             SearchBar(placeholder: R.string.localizable.countryCodePickerSearch(),
                       searchText: $searchText,
                       searching: $searching)
+                .focused($inputViewIsFocused)
                 .padding(.top, 16)
                 .padding(.horizontal, 16)
                 .onTapGesture {
                     hideKeyboard()
                 }
-            ForEach(viewModel.userWalletsData, id: \.self) { item in
+                .onSubmit {
+                    if !searchText.isEmpty {
+                        receiverData.adress = searchText
+                    }
+                    presentationMode.wrappedValue.dismiss()
+                }
+            if viewModel.searchType == .wallet {
+                EnterAdressUserView(adress: $searchText)
+                    .listRowSeparator(.hidden)
+                    .onTapGesture {
+                        inputViewIsFocused = true
+                    }
+            }
+            ForEach(searchText.isEmpty ? viewModel.userWalletsData :
+                        viewModel.userWalletsFilteredData, id: \.self) { item in
                 ContactRow(avatar: item.url,
                            name: item.name,
-                           status: searchType == .telephone ? item.phone : item.ethereum ,
+                           status: viewModel.searchType == .telephone ? item.phone : item.ethereum,
                            isAdmin: false)
+                .listRowSeparator(.hidden)
+                .onTapGesture {
+                    receiverData.name = item.name
+                    receiverData.url = item.url
+                    receiverData.adress = receiverData.walletType == .ethereum ? item.ethereum : item.bitcoin
+                    presentationMode.wrappedValue.dismiss()
+                }
             }
             Spacer()
 
@@ -73,42 +111,49 @@ struct ChooseReceiverView: View {
 
     private var searchSelectView: some View {
         HStack(spacing: 0) {
-            SearchTypeView(selectedSearchType: $searchType,
+            SearchTypeView(selectedSearchType: $viewModel.searchType,
                            searchTypeCell: SearchType.telephone )
-            SearchTypeView(selectedSearchType: $searchType,
+            SearchTypeView(selectedSearchType: $viewModel.searchType,
                            searchTypeCell: SearchType.wallet )
         }
     }
 }
 
-// MARK: - SearchTypeView
-
-struct SearchTypeView: View {
+struct EnterAdressUserView: View {
 
     // MARK: - Internal Properties
 
-    @Binding var selectedSearchType: SearchType
-    @State var searchTypeCell: SearchType
-
-    // MARK: - Body
+    @Binding var adress: String 
 
     var body: some View {
-        VStack(alignment: .center, spacing: 7) {
-            Text(searchTypeCell.result,
-                 [
-                    .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center)),
-                    .font(.regular(16)),
-                    .color(searchTypeCell == selectedSearchType ? .blue(): .darkGray())
-                 ])
-            Divider()
-                .frame(width: UIScreen.main.bounds.width / 2, height: 2)
-                .background(.blue())
-                .opacity(searchTypeCell == selectedSearchType ? 1 : 0)
-        } 
-        .onTapGesture {
-            withAnimation(.easeOut(duration: 0.3)) {
-                selectedSearchType = searchTypeCell
+        VStack(spacing: 0) {
+            HStack(spacing: 12) {
+                ZStack {
+                    Color(.lightBlue())
+                    Text("A")
+                        .foreground(.white())
+                        .font(.medium(22))
+                }
+                .scaledToFill()
+                .frame(width: 40, height: 40)
+                .cornerRadius(20)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 0) {
+                        Text("Введите адресс")
+                            .font(.semibold(15))
+                            .foreground(.black())
+                            .padding(.top, 12)
+                    }
+                    Text(adress)
+                        .font(.regular(13))
+                        .foreground(.darkGray())
+                        .padding(.bottom, 12)
+                }
+                .frame(height: 64)
+                Spacer()
             }
+            .padding(.horizontal, 16)
         }
     }
 }

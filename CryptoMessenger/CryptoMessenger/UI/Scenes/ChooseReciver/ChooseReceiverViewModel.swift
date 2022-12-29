@@ -6,12 +6,11 @@ final class ChooseReceiverViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: ChooseReceiverSceneDelegate?
-    @Published var userIds: [String] = []
-    @Published var userPhones: [String] = []
     @Published private(set) var contacts: [Contact] = []
     @Published var contactViewModel = SelectContactViewModel(mode: .add)
     @Published var userWalletsData: [UserWallletData] = []
-    @Published var userTelephoneData: [UserWallletData] = []
+    @Published var userWalletsFilteredData: [UserWallletData] = []
+    @Published var searchType = SearchType.telephone
 
     // MARK: - Private Properties
 
@@ -46,6 +45,34 @@ final class ChooseReceiverViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
+    func updateText(_ text: String) {
+        if !text.isEmpty {
+            if searchType == .telephone {
+                userWalletsFilteredData = userWalletsData.filter({ $0.phone.contains(text) })
+            } else {
+                userWalletsFilteredData = userWalletsData.filter({ $0.ethereum.contains(text) })
+            }
+        }
+    }
+
+    func updateScannedCode(_ receiver: UserReceiverData, _ code: String) -> UserReceiverData {
+        // TODO: - Сделать проверку на соответствие кошелька и адресса
+        var result = ""
+        if code.contains("ethereum") {
+            result = code.substring(fromIndex: 9)
+        } else if code.contains("bitcoin") {
+            result = code.substring(fromIndex: 8)
+        } else {
+            result = code
+        }
+        print("slaslas;  \(result)")
+        return UserReceiverData(name: receiver.name,
+                                url: receiver.url,
+                                adress: result,
+                                walletType: receiver.walletType)
+        
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -74,8 +101,8 @@ final class ChooseReceiverViewModel: ObservableObject {
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
     }
-    
-    private func getUserData(_ user: String, completion: @escaping (String?) -> Void) {
+
+    private func getUserData(_ user: String, completion: @escaping (String?, String?) -> Void) {
         self.apiClient.publisher(Endpoints.Users.getProfile(user))
             .sink { [weak self] completion in
                 switch completion {
@@ -86,7 +113,8 @@ final class ChooseReceiverViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] response in
                 guard let phone = response["phone"] as? String else {  return }
-                completion(phone)
+                guard let username = response["user_id"] as? String else {  return }
+                completion(phone, username)
             }
             .store(in: &subscriptions)
     }
@@ -102,51 +130,19 @@ final class ChooseReceiverViewModel: ObservableObject {
                         break
                     }
                 } receiveValue: { [weak self] response in
-                    self?.getUserData(item.mxId) { value in
+                    self?.getUserData(item.mxId) { phone, name in
                         guard let btc = response[item.mxId]?["bitcoin"]?["address"] else { return }
-                        guard let eth = response[item.mxId]?["bitcoin"]?["address"] else { return }
+                        guard let eth = response[item.mxId]?["ethereum"]?["address"] else { return }
                         if !btc.isEmpty && !eth.isEmpty {
-                            self?.userWalletsData.append(UserWallletData(name: item.name,
+                            self?.userWalletsData.append(UserWallletData(name: name ?? item.name,
                                                                          bitcoin: response[item.mxId]?["bitcoin"]?["address"] ?? "",
                                                                          ethereum: response[item.mxId]?["ethereum"]?["address"] ?? "",
                                                                          url: item.avatar,
-                                                                         phone: value ?? ""))
+                                                                         phone: phone ?? ""))
                         }
                     }
                 }
                 .store(in: &subscriptions)
         }
     }
-}
-
-// MARK: - SearchType
-
-enum SearchType {
-
-    // MARK: - Types
-
-    case telephone
-    case wallet
-
-    // MARK: - Internal Properties
-
-    var result: String {
-        switch self {
-        case .telephone:
-            return R.string.localizable.chooseReceiverTelephone()
-        case .wallet:
-            return R.string.localizable.chooseReceiverWallet()
-        }
-    }
-}
-
-// MARK: - UserWallletData
-
-struct UserWallletData: Hashable {
-
-    let name: String
-    let bitcoin: String
-    let ethereum: String
-    let url: URL?
-    let phone: String
 }

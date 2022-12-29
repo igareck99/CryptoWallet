@@ -149,14 +149,6 @@ final class TransferViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
     }
-    
-    private func getUserWallets(_ users: [String]) {
-        self.apiClient.publisher(Endpoints.Wallet.getAssetsOfUsersListUsing(users))
-            .replaceError(with: [:])
-            .sink { [weak self] _ in
-            }
-            .store(in: &subscriptions)
-    }
 
     private func bindOutput() {
         stateValueSubject
