@@ -526,3 +526,15 @@
 "NoteView.WhoSee" = "Эту заметку видите только вы";
 "NoteView.AddNote" = "Добавить заметку";
 "NoteView.Approve" = "Подтвердить";
+
+"GeneratePhrase.Title" = "Генерация ключа";
+"GeneratePhrase.Description" = "Ключ - это доступ к Вашему кошельку Aura и его балансу. Только вы можете его использовать.";
+"GeneratePhrase.Warning" = "Предупреждение!";
+"GeneratePhrase.WarningDescription" = "Ваша предыдущая переписка не расшифрована, вы можете продолжить или вернуться назад и ввести другую фразу?";
+"GeneratePhrase.Question" = "Что такое ключ и секретная фраза?";
+"GeneratePhrase.ImportKey" = "Импортировать ключ";
+"GeneratePhrase.GeneratedTitle" = "Сгенерированный ключ";
+"GeneratePhrase.GeneratedDescription" = "Запишите эту фразу и держите в безопасном месте";
+"GeneratePhrase.CopyPhrase" = "Копировать фразу";
+
+

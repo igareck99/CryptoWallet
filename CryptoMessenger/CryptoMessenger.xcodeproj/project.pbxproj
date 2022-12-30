@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -343,6 +343,11 @@
 		8B2C78C32939486B002E9432 /* ImageRemoteViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2C78C22939486B002E9432 /* ImageRemoteViewer.swift */; };
 		8B334155295B74A60062903C /* SearchTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334154295B74A60062903C /* SearchTypeView.swift */; };
 		8B334157295B7D6E0062903C /* ChooseReceiverStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */; };
+		8B2D40EF295D0B1A009D9581 /* GeneratePhraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40EE295D0B1A009D9581 /* GeneratePhraseView.swift */; };
+		8B2D40F1295D0B87009D9581 /* GeneratePhraseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F0295D0B87009D9581 /* GeneratePhraseViewModel.swift */; };
+		8B2D40F3295D0B9F009D9581 /* GeneratePhraseProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F2295D0B9F009D9581 /* GeneratePhraseProtocols.swift */; };
+		8B2D40F5295D0CFD009D9581 /* GeneratePhraseFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F4295D0CFD009D9581 /* GeneratePhraseFlow.swift */; };
+		8B2D40F7295D0D0A009D9581 /* GeneratePhraseConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F6295D0D0A009D9581 /* GeneratePhraseConfigurator.swift */; };
 		8B34A9F028D45E200097ED9E /* GroupActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9EF28D45E200097ED9E /* GroupActions.swift */; };
 		8B34A9F228D45FC20097ED9E /* DirectActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9F128D45FC20097ED9E /* DirectActions.swift */; };
 		8B34A9F428D46BAC0097ED9E /* DirectMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9F328D46BAC0097ED9E /* DirectMenuView.swift */; };
@@ -1542,6 +1547,11 @@
 		8B2C78C22939486B002E9432 /* ImageRemoteViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRemoteViewer.swift; sourceTree = "<group>"; };
 		8B334154295B74A60062903C /* SearchTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTypeView.swift; sourceTree = "<group>"; };
 		8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverStructs.swift; sourceTree = "<group>"; };
+		8B2D40EE295D0B1A009D9581 /* GeneratePhraseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseView.swift; sourceTree = "<group>"; };
+		8B2D40F0295D0B87009D9581 /* GeneratePhraseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseViewModel.swift; sourceTree = "<group>"; };
+		8B2D40F2295D0B9F009D9581 /* GeneratePhraseProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseProtocols.swift; sourceTree = "<group>"; };
+		8B2D40F4295D0CFD009D9581 /* GeneratePhraseFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseFlow.swift; sourceTree = "<group>"; };
+		8B2D40F6295D0D0A009D9581 /* GeneratePhraseConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseConfigurator.swift; sourceTree = "<group>"; };
 		8B34A9EF28D45E200097ED9E /* GroupActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupActions.swift; sourceTree = "<group>"; };
 		8B34A9F128D45FC20097ED9E /* DirectActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectActions.swift; sourceTree = "<group>"; };
 		8B34A9F328D46BAC0097ED9E /* DirectMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectMenuView.swift; sourceTree = "<group>"; };
@@ -2929,6 +2939,7 @@
 		5A187DF82680708D001957D3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				8B2D40ED295D0B09009D9581 /* GeneratePhrase */,
 				8BBF9082293514B000936F4D /* NotificationsSettings */,
 				8B23C76B28E0A16C00418F2D /* FriendProfileView */,
 				8BE3799A27EB262400AB6B6E /* ImportPhrase */,
@@ -4129,6 +4140,18 @@
 				8B2532B628A41ED000285133 /* SideAppTransitionService.swift */,
 			);
 			path = SideAppTransition;
+			sourceTree = "<group>";
+		};
+		8B2D40ED295D0B09009D9581 /* GeneratePhrase */ = {
+			isa = PBXGroup;
+			children = (
+				8B2D40EE295D0B1A009D9581 /* GeneratePhraseView.swift */,
+				8B2D40F0295D0B87009D9581 /* GeneratePhraseViewModel.swift */,
+				8B2D40F2295D0B9F009D9581 /* GeneratePhraseProtocols.swift */,
+				8B2D40F4295D0CFD009D9581 /* GeneratePhraseFlow.swift */,
+				8B2D40F6295D0D0A009D9581 /* GeneratePhraseConfigurator.swift */,
+			);
+			path = GeneratePhrase;
 			sourceTree = "<group>";
 		};
 		8B34A9FB28D4AB380097ED9E /* GroupMenu */ = {
@@ -7904,6 +7927,7 @@
 				D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */,
 				5A9B472126EA81F5001CC627 /* QuickMenuView.swift in Sources */,
 				8BE24FA12947BF3F009A3734 /* ChatMediaProtocols.swift in Sources */,
+				8B2D40F5295D0CFD009D9581 /* GeneratePhraseFlow.swift in Sources */,
 				D4EFEB0D28E2AF100075CC10 /* MXOlmEncryption.m in Sources */,
 				D4EFEAF728E2AF100075CC10 /* MXKeyBackupVersionTrust.m in Sources */,
 				D415082228A52E6400C92CEC /* ReactionsView.swift in Sources */,
@@ -7983,6 +8007,7 @@
 				7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */,
 				D4EFEB3528E2AF100075CC10 /* MXKeyVerificationRequest.m in Sources */,
 				D4EFEC1428E2AF110075CC10 /* MXRoomState.swift in Sources */,
+				8B2D40F1295D0B87009D9581 /* GeneratePhraseViewModel.swift in Sources */,
 				D4EFEC7F28E2AF110075CC10 /* MXReplyEventBodyParts.m in Sources */,
 				8B34D77C277DA1FD007811C9 /* UserPersonalizationItem.swift in Sources */,
 				D4EFEBC128E2AF100075CC10 /* MXAggregationPaginatedResponse.m in Sources */,
@@ -8065,6 +8090,7 @@
 				D428A53D2823CA8D002CAA13 /* RemoteConfigServiceProtocol.swift in Sources */,
 				8B84F1BB28E32C6E0045818F /* FriendProfileMenuRow.swift in Sources */,
 				78437F0F270C76FE00371110 /* AboutAppProtocols.swift in Sources */,
+				8B2D40F7295D0D0A009D9581 /* GeneratePhraseConfigurator.swift in Sources */,
 				D47987CD284CBBAF00ACEE64 /* StatusBarCallView.swift in Sources */,
 				8B6C18C22799A87000B85F2A /* SecurityConfigurator.swift in Sources */,
 				5A187EB6268070B3001957D3 /* UIColor+Extensions.swift in Sources */,
@@ -8470,6 +8496,7 @@
 				D4EFEC0C28E2AF110075CC10 /* MXJSONModels.swift in Sources */,
 				D48AF484292D227B0044CFAE /* AddressResponse.swift in Sources */,
 				D4FA3F6B28182CCB000246D8 /* AppDelegateUseCase.swift in Sources */,
+				8B2D40EF295D0B1A009D9581 /* GeneratePhraseView.swift in Sources */,
 				D4EFEBA328E2AF100075CC10 /* MXCallRejectEventContent.m in Sources */,
 				D4EFEBDD28E2AF100075CC10 /* MXBugReportRestClient.m in Sources */,
 				D4AB90002826735000E6FAB5 /* MatrixService+Users.swift in Sources */,
@@ -8478,6 +8505,7 @@
 				8B712D9128B9837E0071C0EC /* PreviewControllerTestView.swift in Sources */,
 				8B5609B427792B0000AF43F6 /* TypographyNewItem.swift in Sources */,
 				8B6BEE7F275665D4003A24B6 /* ProfileView.swift in Sources */,
+				8B2D40F3295D0B9F009D9581 /* GeneratePhraseProtocols.swift in Sources */,
 				8BA0C90B27AD4F4C0070203F /* AnswerView.swift in Sources */,
 				8BB517BF2856B86600D06593 /* MediaServiceData.swift in Sources */,
 				D4EFEB2228E2AF100075CC10 /* MXAesKeyData.m in Sources */,

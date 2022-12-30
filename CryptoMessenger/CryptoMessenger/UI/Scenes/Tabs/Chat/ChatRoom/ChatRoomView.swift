@@ -560,6 +560,7 @@ struct ChatRoomView: View {
                                 } else {
                                     viewModel.send(.onSendText(viewModel.inputText))
                                 }
+                                textViewHeight = 36
                             }
                         }, label: {
                             viewModel.sources.paperPlane
@@ -583,8 +584,7 @@ struct ChatRoomView: View {
                 
                 Spacer()
             }
-            .frame(height: min((quickActionCurrentUser == .edit ? 68 :
-                                    (quickAction == .reply ? 68 : 18)) + textViewHeight, 160))
+            .frame(height: min(18 + textViewHeight, 160))
             .background(.white())
             .ignoresSafeArea()
 
