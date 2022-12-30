@@ -337,6 +337,7 @@
 "Transfer.Slow" = "Медленно";
 "Transfer.Middle" = "Средне";
 "Transfer.Quick" = "Быстро";
+"Transfer.TransferError" = "Ошибка отправки транзакции";
 "Rewards.Title" = "Вознаграждения";
 "Transaction.TitleAll" = "Все транзакции";
 "Transaction.OnlySent" = "Только отправленные";
@@ -380,6 +381,7 @@
 "TokenInfo.Title" = "Информация о токене";
 "TokenInfo.SelectedAddress" = "Выбранный адрес";
 "TokenInfo.ShareAddress" = "Поделиться адресом";
+"TokenInfo.AddressCopied" = "Адрес скопирован";
 "WalletManager.Title" = "Кошелек";
 "WalletManager.SecretPhrase" = "Секретная фраза";
 "WalletManager.Wallets" = "Кошельки";

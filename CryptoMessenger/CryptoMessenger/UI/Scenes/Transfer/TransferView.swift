@@ -52,9 +52,8 @@ struct TransferView: View {
 				.padding(.bottom)
 				.popup(
 					isPresented: viewModel.isSnackbarPresented,
-					alignment: .bottom,
-					content: Snackbar.init
-				)
+					alignment: .bottom
+				) { Snackbar(text: R.string.localizable.transferTransferError()) } 
 		}
 		.ignoresSafeArea(.keyboard)
 	}
@@ -86,6 +85,9 @@ struct TransferView: View {
                     .onTapGesture {
                         viewModel.send(.onChooseReceiver($receiverData))
                     }
+					.onChange(of: receiverData, perform: { data in
+						viewModel.send(.onAddressChange(data.adress))
+					})
 
                 Text(R.string.localizable.transferSum().uppercased())
 					.font(.system(size: 12))
@@ -221,7 +223,7 @@ struct TransferView: View {
 							viewModel.isTransferButtonEnabled ?
 							Color.azureRadianceApprox : Color.cornflowerBlueApprox
 						)
-						.cornerRadius(10)
+						.cornerRadius(8)
 				)
         }
 		.disabled(!viewModel.isTransferButtonEnabled)

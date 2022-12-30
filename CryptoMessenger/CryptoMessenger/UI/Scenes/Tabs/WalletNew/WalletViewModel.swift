@@ -476,7 +476,6 @@ final class WalletViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
 					self?.updateWallets()
-                    self?.updateTransactionsListData()
                     self?.updateUserWallet()
                     self?.objectWillChange.send()
                 case let .onTransactionAddress(selectorTokenIndex, address):
@@ -525,12 +524,5 @@ final class WalletViewModel: ObservableObject {
                 print("Success update user wallets adresses  \(response)")
             }
             .store(in: &subscriptions)
-    }
-
-    private func updateTransactionsListData() {
-        totalBalance = "$12 5131.53"
-        transactionList = []
-        canceledImage = UIImage(systemName: "exclamationmark.circle")?
-            .withTintColor(.white, renderingMode: .alwaysOriginal) ?? UIImage()
     }
 }
