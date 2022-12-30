@@ -44,9 +44,17 @@ struct TokenInfoView: View {
 				.navigationBarHidden(false)
 				.navigationBarTitle(R.string.localizable.tokenInfoTitle())
 			}
+
 			shareButton
-				.frame(width: 225, height: 44)
+				.frame(height: 48)
 				.padding(.bottom)
+				.popup(
+					isPresented: viewModel.isSnackbarPresented,
+					alignment: .bottom
+				) { Snackbar(
+					text: R.string.localizable.tokenInfoAddressCopied(),
+					color: .green
+				) }
 		}
 		.ignoresSafeArea(.keyboard)
 	}
@@ -107,6 +115,7 @@ struct TokenInfoView: View {
 				.padding(.trailing, 8)
 				.onTapGesture {
 					UIPasteboard.general.string = address.address
+					viewModel.onAddressCopy()
 				}
 		}
 		.frame(minHeight: 50)
@@ -147,17 +156,19 @@ struct TokenInfoView: View {
     private var shareButton: some View {
 		Button(action: actionSheet) {
 			Text(R.string.localizable.tokenInfoShareAddress())
-				.frame(minWidth: 0, maxWidth: 225)
+				.frame(width: 225, height: 48)
 				.font(.semibold(15))
 				.padding()
 				.foregroundColor(.white)
-				.overlay(
-					RoundedRectangle(cornerRadius: 8)
-						.stroke(Color.white, lineWidth: 2)
+				.background(
+					Rectangle()
+						.fill(Color.azureRadianceApprox)
+						.cornerRadius(8)
+						.frame(height: 48)
 				)
 		}
-		.background(Color(.blue()))
-		.cornerRadius(8)
+		.frame(maxWidth: .infinity)
+		.frame(height: 48)
     }
 
     // MARK: - Private Methods

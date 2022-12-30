@@ -26,5 +26,6 @@ enum TransferFlow {
         case onAppear
         case onChooseReceiver(Binding<UserReceiverData>)
         case onApprove
+		case onAddressChange(String)
     }
 }

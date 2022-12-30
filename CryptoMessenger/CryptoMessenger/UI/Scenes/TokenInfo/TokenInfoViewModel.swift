@@ -9,6 +9,7 @@ final class TokenInfoViewModel: ObservableObject {
 
     @State var address: WalletInfo
     @Published var addresses = [WalletInfo]()
+	var isSnackbarPresented = false
 
     // MARK: - Private Properties
 
@@ -23,6 +24,16 @@ final class TokenInfoViewModel: ObservableObject {
         self.address = address
 		self.userCredentialsStorage = userCredentialsStorage
     }
+
+	func onAddressCopy() {
+		isSnackbarPresented = true
+		objectWillChange.send()
+
+		DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+			self?.isSnackbarPresented = false
+			self?.objectWillChange.send()
+		}
+	}
 
     // MARK: - Internal Methods
 

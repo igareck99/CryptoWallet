@@ -23,6 +23,8 @@ final class TransferViewModel: ObservableObject {
 	private let keychainService: KeychainServiceProtocol
 	private let coreDataService: CoreDataServiceProtocol
 
+	private var address_to: String = ""
+
 	let sources: TransferViewSourcable.Type
 	var fees = [TransactionSpeed]()
 	var walletTypes = [WalletType]()
@@ -147,6 +149,8 @@ final class TransferViewModel: ObservableObject {
 					self?.transactionTemplate()
                 case let .onChooseReceiver(address):
                     self?.delegate?.handleNextScene(.chooseReceiver(address))
+				case let .onAddressChange(address):
+					self?.address_to = address
                 }
             }
             .store(in: &subscriptions)
@@ -159,8 +163,11 @@ final class TransferViewModel: ObservableObject {
     }
 
 	private func displayErrorSnackBar() {
-		self.isSnackbarPresented = true
-		self.objectWillChange.send()
+		DispatchQueue.main.async { [weak self] in
+			self?.isSnackbarPresented = true
+			self?.objectWillChange.send()
+		}
+
 		DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
 			self?.isSnackbarPresented = false
 			self?.objectWillChange.send()
@@ -173,7 +180,7 @@ final class TransferViewModel: ObservableObject {
 
 		// TODO: Поменять на реальные адреса,
 		// после того как доделаем экран адресов
-		let address_to: String
+
 		let walletPublicKey: String
 		let walletPrivateKey: String
 
@@ -182,16 +189,16 @@ final class TransferViewModel: ObservableObject {
 		   let privateKey: String = keychainService[.bitcoinPrivateKey] {
 			walletPublicKey = publicKey
 			walletPrivateKey = privateKey
-			address_to = "moaCiMa3xBGEVEeHMZZKsDvfSC5GyRyZCZ"
+//			address_to = "moaCiMa3xBGEVEeHMZZKsDvfSC5GyRyZCZ"
 		} else if currentWalletType == .ethereum,
 				  let publicKey: String = keychainService[.ethereumPublicKey],
 				  let privateKey: String = keychainService[.ethereumPrivateKey] {
 			walletPublicKey = publicKey
 			walletPrivateKey = privateKey
-			address_to = "0xe8f0349166f87fba444596a6bbbe5de9e9c6ef27"
+//			address_to = "0xe8f0349166f87fba444596a6bbbe5de9e9c6ef27"
 //			"0xccb5c140b7870061dc5327134fbea8f3f2e154d9"
 		} else {
-			address_to = ""
+//			address_to = ""
 			walletPublicKey = ""
 			walletPrivateKey = ""
 			return
@@ -244,7 +251,7 @@ final class TransferViewModel: ObservableObject {
 
 			let transaction = FacilityApproveModel(
 				reciverName: nil,
-				reciverAddress: address_to,
+				reciverAddress: self.address_to,
 				transferAmount: self.transferAmount,
 				transferCurrency: self.currentWallet.result.currency,
 				comissionAmount: feeValue,
