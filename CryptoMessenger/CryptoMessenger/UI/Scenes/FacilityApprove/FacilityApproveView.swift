@@ -78,7 +78,7 @@ struct FacilityApproveView: View {
 		.safeAreaInset(edge: .bottom) {
 			sendButton
 				.frame(width: 237, height: 48)
-				.padding(.bottom, 8)
+				.padding(.bottom)
 		}
     }
 

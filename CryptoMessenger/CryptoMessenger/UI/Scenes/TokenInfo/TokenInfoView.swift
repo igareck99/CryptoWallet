@@ -17,32 +17,38 @@ struct TokenInfoView: View {
     // MARK: - Body
 
 	var body: some View {
-		ScrollView {
-			content.popup(
-				isPresented: $showAddresses,
-				type: .toast,
-				position: .bottom,
-				closeOnTap: false,
-				closeOnTapOutside: true,
-				backgroundColor: Color(.black(0.4))
-			) {
-				SelectTokenView(
-					showSelectToken: $showAddresses,
-					address: $address,
-					viewModel: viewModel
-				)
-				.frame(
-					width: UIScreen.main.bounds.width,
-					height: CGFloat(viewModel.addresses.count * 64 + 50),
-					alignment: .center
-				)
-				.background(.white())
-				.cornerRadius(16)
+		VStack(spacing: 0) {
+			ScrollView {
+				content.popup(
+					isPresented: $showAddresses,
+					type: .toast,
+					position: .bottom,
+					closeOnTap: false,
+					closeOnTapOutside: true,
+					backgroundColor: Color(.black(0.4))
+				) {
+					SelectTokenView(
+						showSelectToken: $showAddresses,
+						address: $address,
+						viewModel: viewModel
+					)
+					.frame(
+						width: UIScreen.main.bounds.width,
+						height: CGFloat(viewModel.addresses.count * 64 + 50),
+						alignment: .center
+					)
+					.background(.white())
+					.cornerRadius(16)
+				}
+				.navigationBarTitleDisplayMode(.inline)
+				.navigationBarHidden(false)
+				.navigationBarTitle(R.string.localizable.tokenInfoTitle())
 			}
-			.navigationBarTitleDisplayMode(.inline)
-			.navigationBarHidden(false)
-			.navigationBarTitle(R.string.localizable.tokenInfoTitle())
+			shareButton
+				.frame(width: 225, height: 44)
+				.padding(.bottom)
 		}
+		.ignoresSafeArea(.keyboard)
 	}
 
     // MARK: - Private Properties
@@ -67,10 +73,6 @@ struct TokenInfoView: View {
 
 			copyAddressButton
 				.padding(.bottom, 80)
-
-			shareButton
-				.frame(width: 225, height: 44)
-				.padding(.bottom, 44)
         }
 		.padding([.leading, .trailing], 16)
     }

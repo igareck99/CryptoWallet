@@ -19,38 +19,44 @@ struct TransferView: View {
 	// MARK: - Body
 
 	var body: some View {
-		ScrollView {
-			content
-				.onTapGesture {
-					hideKeyboard()
-				}
-				.onAppear {
-					viewModel.send(.onAppear)
-				}
-				.sheet(isPresented: $showCoinSelector) {
-					ChooseWalletTypeView(
-						chooseWalletShow: $showCoinSelector,
-						choosedWalletType: $viewModel.currentWalletType,
-						isSelectedWalletType: $isSelectedWalletType,
-						wallletTypes: viewModel.walletTypes
-					)
-					.presentationDetents([.height(185)])
-				}
-				.navigationBarTitleDisplayMode(.inline)
-				.navigationBarHidden(false)
-				.toolbar {
-					ToolbarItem(placement: .principal) {
-						Text(R.string.localizable.transferTransfer())
-							.font(.system(size: 17, weight: .semibold))
+		VStack(spacing: 0) {
+			ScrollView {
+				content
+					.onTapGesture {
+						hideKeyboard()
 					}
-				}
-		}
-		.scrollDismissesKeyboard(.interactively)
-		.safeAreaInset(edge: .bottom) {
+					.onAppear {
+						viewModel.send(.onAppear)
+					}
+					.sheet(isPresented: $showCoinSelector) {
+						ChooseWalletTypeView(
+							chooseWalletShow: $showCoinSelector,
+							choosedWalletType: $viewModel.currentWalletType,
+							isSelectedWalletType: $isSelectedWalletType,
+							wallletTypes: viewModel.walletTypes
+						)
+						.presentationDetents([.height(185)])
+					}
+					.navigationBarTitleDisplayMode(.inline)
+					.navigationBarHidden(false)
+					.toolbar {
+						ToolbarItem(placement: .principal) {
+							Text(R.string.localizable.transferTransfer())
+								.font(.system(size: 17, weight: .semibold))
+						}
+					}
+			}
+			.scrollDismissesKeyboard(.interactively)
+
 			sendButton
-				.frame(width: 237, height: 48)
-				.padding(.bottom, 8)
+				.padding(.bottom)
+				.popup(
+					isPresented: viewModel.isSnackbarPresented,
+					alignment: .bottom,
+					content: Snackbar.init
+				)
 		}
+		.ignoresSafeArea(.keyboard)
 	}
 
     // MARK: - Private Properties
@@ -208,13 +214,17 @@ struct TransferView: View {
 				.font(.system(size: 17, weight: .semibold))
 				.foregroundColor(.white)
                 .padding()
+				.frame(width: 237, height: 48)
+				.background(
+					Rectangle()
+						.fill(
+							viewModel.isTransferButtonEnabled ?
+							Color.azureRadianceApprox : Color.cornflowerBlueApprox
+						)
+						.cornerRadius(10)
+				)
         }
 		.disabled(!viewModel.isTransferButtonEnabled)
-		.frame(width: 237, height: 48)
-		.background(
-			viewModel.isTransferButtonEnabled ?
-			Color.azureRadianceApprox : Color.cornflowerBlueApprox
-		)
-        .cornerRadius(10)
+		.frame(maxWidth: .infinity, idealHeight: 48)
     }
 }
