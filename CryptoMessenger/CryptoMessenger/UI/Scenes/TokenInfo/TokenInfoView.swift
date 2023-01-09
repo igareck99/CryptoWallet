@@ -12,7 +12,6 @@ struct TokenInfoView: View {
     @State var showAddresses = false
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
-    @State var address: WalletInfo
 
     // MARK: - Body
 
@@ -29,7 +28,7 @@ struct TokenInfoView: View {
 				) {
 					SelectTokenView(
 						showSelectToken: $showAddresses,
-						address: $address,
+                        address: $viewModel.address,
 						viewModel: viewModel
 					)
 					.frame(
@@ -87,7 +86,7 @@ struct TokenInfoView: View {
 
     private var QRCodeView: some View {
         ZStack {
-            generateQRCode(from: "\(address)")
+            generateQRCode(from: "\(viewModel.address.address)")
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width - 66,
@@ -102,7 +101,7 @@ struct TokenInfoView: View {
 	private var copyAddressButton: some View {
 		HStack(spacing: 0) {
 
-			Text(address.address)
+            Text(viewModel.address.address)
 				.lineLimit(1)
 				.truncationMode(.middle)
 				.font(.system(size: 16))
@@ -114,7 +113,7 @@ struct TokenInfoView: View {
 				.foregroundColor(.sharkApprox)
 				.padding(.trailing, 8)
 				.onTapGesture {
-					UIPasteboard.general.string = address.address
+                    UIPasteboard.general.string = viewModel.address.address
 					viewModel.onAddressCopy()
 				}
 		}
@@ -136,10 +135,10 @@ struct TokenInfoView: View {
                     R.image.chat.logo.image
                 }
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(address.address)
+                    Text(viewModel.address.address)
                         .font(.medium(15))
                         .frame(height: 22)
-                    Text(String(address.coinAmount) + " \(address.result.currency)")
+                    Text(String(viewModel.address.coinAmount) + " \(viewModel.address.result.currency)")
                         .font(.regular(12))
                         .foreground(.darkGray())
                         .frame(height: 20)
@@ -194,10 +193,10 @@ struct TokenInfoView: View {
 			return
 		}
 
-		let activityVC = UIActivityViewController(
-			activityItems: [address.address],
-			applicationActivities: nil
-		)
+        let activityVC = UIActivityViewController(
+            activityItems: [$viewModel.address.address],
+            applicationActivities: nil
+        )
 
 		controller.present(
 			activityVC,

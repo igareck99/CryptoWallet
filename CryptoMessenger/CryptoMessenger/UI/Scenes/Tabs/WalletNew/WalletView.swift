@@ -207,8 +207,7 @@ struct WalletView: View {
 			viewModel: TokenInfoViewModel(
 						address: selectedAddress,
 						userCredentialsStorage: UserDefaultsService.shared
-					  ),
-			address: selectedAddress
+					  )
 		)
 		.onAppear {
 			hideTabBar()
