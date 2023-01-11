@@ -23,17 +23,20 @@ final class AppDelegateUseCase {
 
 	private let appCoordinator: Coordinator & AppCoordinatorProtocol
 	private let keychainService: KeychainServiceProtocol
+    private let privateDataCleaner: PrivateDataCleanerProtocol
 	private let userSettings: UserFlowsStorage
 	private let timeService: TimeServiceProtocol.Type
 
 	init(
-		appCoordinator: Coordinator & AppCoordinatorProtocol,
-		keychainService: KeychainServiceProtocol,
-		userSettings: UserFlowsStorage,
-		timeService: TimeServiceProtocol.Type
-	) {
+        appCoordinator: Coordinator & AppCoordinatorProtocol,
+        keychainService: KeychainServiceProtocol,
+        privateDataCleaner: PrivateDataCleanerProtocol,
+        userSettings: UserFlowsStorage,
+        timeService: TimeServiceProtocol.Type
+    ) {
 		self.appCoordinator = appCoordinator
 		self.keychainService = keychainService
+        self.privateDataCleaner = privateDataCleaner
 		self.userSettings = userSettings
 		self.timeService = timeService
 	}
@@ -65,7 +68,7 @@ final class AppDelegateUseCase {
 extension AppDelegateUseCase: AppDelegateUseCaseProtocol {
 	func start() {
 		if userSettings[.isAppNotFirstStart] == false {
-			// т.к. при первом старте всегда устанавливаем пин код, поэтому этот флаг должен быть true
+            privateDataCleaner.resetPrivateData()
 			keychainService.isPinCodeEnabled = true
 		}
 		userSettings[.isAppNotFirstStart] = true

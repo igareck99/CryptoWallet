@@ -36,7 +36,7 @@
 
 "KeyImport.ScreenTitle" = "Шаг 2 из 2";
 "KeyImport.Title" = "Импорт Вашего ключа";
-"KeyImport.TextPlaceholder" = "Введите Вашу seed фразу";
+"KeyImport.TextPlaceholder" = "Введите Вашу секретную фразу";
 "KeyImport.Information" = "Как правильно импортировать ключи?";
 "KeyImport.ImportButton" = "Импортировать";
 
@@ -538,5 +538,7 @@
 "GeneratePhrase.GeneratedTitle" = "Сгенерированный ключ";
 "GeneratePhrase.GeneratedDescription" = "Запишите эту фразу и держите в безопасном месте";
 "GeneratePhrase.CopyPhrase" = "Копировать фразу";
+"GeneratePhrase.ErrorKey" = "Неверный ключ";
+"GeneratePhrase.Copied" = "Фраза скопирована";
 
 

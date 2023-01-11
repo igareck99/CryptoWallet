@@ -22,7 +22,6 @@ enum WalletFlow {
         // MARK: - Types
 
         case onAppear
-		case onImportPhrase
         case onImportKey
 		case onTransfer(walletIndex: Int)
         case onTransactionToken(selectorTokenIndex: Int)

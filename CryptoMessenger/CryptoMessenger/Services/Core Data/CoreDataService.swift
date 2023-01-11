@@ -1,5 +1,7 @@
 import CoreData
 
+// MARK: - CoreDataServiceProtocol
+
 protocol CoreDataServiceProtocol {
 
 	var persistentContainer: NSPersistentContainer { get }

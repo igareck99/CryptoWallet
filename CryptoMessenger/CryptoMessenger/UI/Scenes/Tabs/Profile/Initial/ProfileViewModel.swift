@@ -270,7 +270,6 @@ final class ProfileViewModel: ObservableObject {
             self.profile.avatar = url
         })
         profile.nickname = matrixUseCase.getUserId()
-        print("slaslssaasasas   \(matrixUseCase.getUserId())")
         if !matrixUseCase.getDisplayName().isEmpty {
             profile.name = matrixUseCase.getDisplayName()
         }

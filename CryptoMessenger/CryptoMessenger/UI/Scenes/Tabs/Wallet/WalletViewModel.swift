@@ -177,7 +177,6 @@ final class WalletViewModel: ObservableObject {
 		else {
 			return nil
 		}
-
 		return (eth: ethereumAddress, btc: bitcoinAddress)
 	}
 
@@ -382,6 +381,11 @@ final class WalletViewModel: ObservableObject {
 			objectWillChange.send()
 			return
 		}
+        if seed.isEmpty {
+            viewState = .empty
+            objectWillChange.send()
+            return
+        }
 
 		let walletsCount = coreDataService.getWalletNetworksCount()
 		if walletsCount > .zero {
@@ -489,8 +493,6 @@ final class WalletViewModel: ObservableObject {
 				case .onTransfer(walletIndex: let walletIndex):
 					guard let wallet = self?.cardsList[safe: walletIndex] else { return }
 					self?.delegate?.handleNextScene(.transfer(wallet: wallet))
-				case .onImportPhrase:
-					self?.delegate?.handleNextScene(.phraseManager)
 				}
             }
             .store(in: &subscriptions)
@@ -501,7 +503,7 @@ final class WalletViewModel: ObservableObject {
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
     }
-    
+
     private func updateUserWallet() {
         let dbWallets = coreDataService.getWalletNetworks()
         guard

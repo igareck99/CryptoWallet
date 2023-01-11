@@ -9,7 +9,9 @@ final class ImportKeyViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: ImportKeySceneDelegate?
-    @Published var walletError = true
+    var viewState: ImportKeyViewState = .reserveCopy
+    @Published var walletError = false
+    @Published var newKey = ""
 
     // MARK: - Private Properties
 
@@ -19,16 +21,19 @@ final class ImportKeyViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     private var keychainService: KeychainServiceProtocol
 	private let coreDataService: CoreDataServiceProtocol
+    private let phraseService: PhraseServiceProtocol
 	var walletTypes = [WalletType]()
 
     // MARK: - Lifecycle
 
     init(
-		coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
-		keychainService: KeychainServiceProtocol = KeychainService.shared
-	) {
-		self.coreDataService = coreDataService
-        self.keychainService = KeychainService.shared
+        coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
+        keychainService: KeychainServiceProtocol = KeychainService.shared,
+        phraseService: PhraseServiceProtocol = PhraseService.shared
+    ) {
+        self.coreDataService = coreDataService
+        self.keychainService = keychainService
+        self.phraseService = phraseService
         bindInput()
         bindOutput()
     }
@@ -44,21 +49,8 @@ final class ImportKeyViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
-    func createWallet(item: String, type: WalletType) {
-        if secretPhraseValidate(toCompare: item) {
-            walletError = false
-        }
-        let seed = Mnemonic.createSeed(mnemonic: item)
-        switch type {
-        case .ethereum:
-            let wallet1 = Wallet(seed: seed, coin: .ethereum)
-            _ = wallet1.generateAccount()
-        case .bitcoin:
-            let wallet1 = Wallet(seed: seed, coin: .bitcoin)
-            _ = wallet1.generateAccount()
-        case .aur:
-            break
-        }
+    func createWallet(item: String) {
+        keychainService.secretPhrase = item
     }
 
     // MARK: - Private Methods
@@ -69,7 +61,17 @@ final class ImportKeyViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     self?.objectWillChange.send()
+                    self?.walletError = false
+                    self?.getWallets()
                 }
+            }
+            .store(in: &subscriptions)
+        $newKey
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] value in
+                self?.phraseService.validateSecretPhrase(phrase: value, completion: { result in
+                    self?.walletError = result
+                })
             }
             .store(in: &subscriptions)
     }
@@ -80,11 +82,14 @@ final class ImportKeyViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-     private func secretPhraseValidate(toCompare: String) -> Bool {
-        return toCompare == keychainService.secretPhrase
-    }
-
 	private func getWallets() {
 		walletTypes = coreDataService.getWalletsTypes()
 	}
+}
+
+// MARK: - ImportKeyViewState
+
+enum ImportKeyViewState {
+    case reserveCopy
+    case importKey
 }
