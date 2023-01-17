@@ -28,15 +28,6 @@ struct TransferView: View {
 					.onAppear {
 						viewModel.send(.onAppear)
 					}
-					.sheet(isPresented: $showCoinSelector) {
-						ChooseWalletTypeView(
-							chooseWalletShow: $showCoinSelector,
-							choosedWalletType: $viewModel.currentWalletType,
-							isSelectedWalletType: $isSelectedWalletType,
-							wallletTypes: viewModel.walletTypes
-						)
-						.presentationDetents([.height(185)])
-					}
 					.navigationBarTitleDisplayMode(.inline)
 					.navigationBarHidden(false)
 					.toolbar {

@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - TransactionInfo
 
-struct TransactionInfo: Identifiable, Equatable {
+struct TransactionInfo: Identifiable, Hashable, Equatable {
 
 	// MARK: - Internal Properties
 

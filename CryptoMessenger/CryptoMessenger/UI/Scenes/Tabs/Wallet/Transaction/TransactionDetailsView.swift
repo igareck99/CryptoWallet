@@ -1,8 +1,14 @@
 import SwiftUI
 
+// MARK: - TransactionDetailsView
+
 struct TransactionDetailsView: View {
 
+    // MARK: - Internal Properties
+
 	let model: TransactionDetails
+    
+    // MARK: - Body
 
     var body: some View {
 		VStack(alignment: .center, spacing: 4) {

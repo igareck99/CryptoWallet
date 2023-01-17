@@ -1,6 +1,8 @@
 import Foundation
 
-struct TransactionDetails: Identifiable, Equatable {
+// MARK: - TransactionDetails
+
+struct TransactionDetails: Identifiable, Hashable, Equatable {
 	let id = UUID()
 	let sender: String
 	let receiver: String
