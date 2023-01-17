@@ -8,132 +8,17 @@ struct SecurityView: View {
 
     @StateObject var viewModel: SecurityViewModel
     @StateObject var blockListViewModel = BlockListViewModel()
+    @StateObject var generateViewModel = GeneratePhraseViewModel()
+    @State private var showAddWallet = false
 
     // MARK: - Private Properties
 
     @State private var activateBiometry = false
-    @State private var showProfileObserveSheet = false
-    @State private var showLastSeenSheet = false
-    @State private var showCallsSheet = false
-    @State private var showGeopositionSheet = false
-    @State private var showTelephoneActionSheet = false
 
     // MARK: - Body
 
     var body: some View {
-        Divider().padding(.top, 16)
-        List {
-            Text(R.string.localizable.securitySecurity())
-                .font(.bold(12))
-                .foreground(.darkGray())
-                .listRowSeparator(.hidden)
-            Toggle(R.string.localizable.securityPinCodeTitle(),
-                   isOn: $viewModel.isPinCodeOn)
-                .toggleStyle(SwitchToggleStyle(tint: .blue))
-                .listRowSeparator(.hidden)
-                .onAppear {
-                    if viewModel.isPinCodeUpdate() {
-                        viewModel.dataIsUpdated = true
-                    }
-                }
-				.onChange(of: viewModel.isPinCodeOn) { value in
-					viewModel.pinCodeAvailabilityDidChange(value: value)
-				}
-            if viewModel.isPinCodeOn {
-                SecurityAdvancedCellView(title: R.string.localizable.securityBiometryEnterTitle(),
-                                         description: R.string.localizable.securityBiometryEnterState(),
-                                         currentState: $viewModel.isBiometryOn)
-                    .listRowSeparator(.hidden)
-                    .onChange(of: viewModel.isBiometryOn) { item in
-                        if item {
-							viewModel.authenticate()
-                        } else {
-                            viewModel.updateIsBiometryOn(item: false)
-                        }
-					}
-				if viewModel.isFalsePinCodeOnAvailable {
-					SecurityAdvancedCellView(
-						title: R.string.localizable.securityFalsePasswordTitle(),
-						description: R.string.localizable.securityFalsePasswordState(),
-						currentState: $viewModel.isFalsePinCodeOn
-					)
-					.listRowSeparator(.hidden)
-					.onChange(of: viewModel.isFalsePinCodeOn) { item in
-						if item {
-							viewModel.send(.onFalsePassword)
-						} else {
-							viewModel.updateIsFalsePinCode(item: false)
-						}
-					}
-				}
-			}
-            if viewModel.isPrivacyAvailable {
-                Divider()
-                Text(R.string.localizable.securityPrivacy())
-                    .font(.bold(12))
-                    .foreground(.darkGray())
-                    .listRowSeparator(.hidden)
-                ForEach(SecurityCellItem.allCases, id: \.self) { type in
-                    switch type {
-                    case .blackList:
-                        SecurityCellView(title: R.string.localizable.securityBlackListTitle(),
-                                         font: .blue(),
-                                         currentState: String(blockListViewModel.listData.count))
-                        .background(.white())
-                        .listRowSeparator(.hidden)
-                        .onTapGesture { viewModel.send(.onBlockList) }
-                    case .profileObserve:
-                        SecurityCellView(title: type.result.title,
-                                         currentState: viewModel.profileObserveState)
-                        .background(.white())
-                        .listRowSeparator(.hidden)
-                        .onTapGesture {
-                            showProfileObserveSheet = true
-                        }
-                    case .lastSeen:
-                        SecurityCellView(title: type.result.title,
-                                         currentState: viewModel.lastSeenState)
-                        .background(.white())
-                        .listRowSeparator(.hidden)
-                        .onTapGesture {
-                            showLastSeenSheet = true
-                        }
-                    case .calls:
-                        SecurityCellView(title: type.result.title,
-                                         currentState: viewModel.callsState)
-                        .background(.white())
-                        .listRowSeparator(.hidden)
-                        .onTapGesture {
-                            showCallsSheet = true
-                        }
-                    case .geoposition:
-                        SecurityCellView(title: type.result.title,
-                                         currentState: viewModel.geopositionState)
-                        .background(.white())
-                        .listRowSeparator(.hidden)
-                        .onTapGesture {
-                            showGeopositionSheet = true
-                        }
-                    case .telephone:
-                        SecurityCellView(title: type.result.title,
-                                         currentState: viewModel.telephoneState)
-                        .background(.white())
-                        .listRowSeparator(.hidden)
-                        .onTapGesture {
-                            showTelephoneActionSheet = true
-                        }
-                    case .session:
-                        SecurityCellView(title: type.result.title,
-                                         currentState: type.result.state)
-                        .background(.white())
-                        .listRowSeparator(.hidden)
-                        .onTapGesture {
-                            viewModel.send(.onSession)
-                        }
-                    }
-                }
-            }
-        }
+        content
         .navigationBarHidden(false)
         .onAppear {
             viewModel.send(.onAppear)
@@ -145,52 +30,18 @@ struct SecurityView: View {
             Alert(title: Text("Биометрия недоступна"), message: nil,
                   dismissButton: .default(Text("OK")))
         })
-        .confirmationDialog("", isPresented: $showProfileObserveSheet, titleVisibility: .hidden) {
-            ForEach([R.string.localizable.securityProfileObserveState(),
-                     R.string.localizable.securityContactsAll(),
-                     R.string.localizable.profileViewingNobody()], id: \.self) { item in
-                Button(item) {
-                    viewModel.updateProfileObserveState(item: item)
+        .sheet(isPresented: $showAddWallet, content: {
+            GeneratePhraseView(viewModel: generateViewModel,
+                               showView: $showAddWallet, onSelect: { type in
+                switch type {
+                case .importKey:
+                    viewModel.send(.onImportKey)
+                    showAddWallet = false
+                default:
+                    break
                 }
-            }
-        }
-        .confirmationDialog("", isPresented: $showLastSeenSheet, titleVisibility: .hidden) {
-            ForEach([R.string.localizable.securityProfileObserveState(),
-                     R.string.localizable.securityContactsAll(),
-                     R.string.localizable.profileViewingNobody()], id: \.self) { item in
-                Button(item) {
-                    viewModel.updateLastSeenState(item: item)
-                }
-            }
-        }
-        .confirmationDialog("", isPresented: $showCallsSheet, titleVisibility: .hidden) {
-            ForEach([R.string.localizable.securityProfileObserveState(),
-                     R.string.localizable.securityContactsAll(),
-                     R.string.localizable.profileViewingNobody()], id: \.self) { item in
-                Button(item) {
-                    viewModel.updateCallsState(item: item)
-                }
-            }
-        }
-        .confirmationDialog("", isPresented: $showGeopositionSheet, titleVisibility: .hidden) {
-            ForEach([R.string.localizable.securityProfileObserveState(),
-                     R.string.localizable.securityContactsAll(),
-                     R.string.localizable.profileViewingNobody()], id: \.self) { item in
-                Button(item) {
-                    viewModel.updateGeopositionState(item: item)
-                }
-            }
-        }
-        .confirmationDialog("", isPresented: $showTelephoneActionSheet, titleVisibility: .hidden) {
-            ForEach([R.string.localizable.securityProfileObserveState(),
-                     R.string.localizable.securityContactsAll(),
-                     R.string.localizable.profileViewingNobody()], id: \.self) { item in
-                Button(item) {
-                    viewModel.updateTelephoneState(item: item)
-                }
-            }
-        }
-        .listStyle(.inset)
+            })
+        })
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(R.string.localizable.securityTitle())
@@ -198,98 +49,106 @@ struct SecurityView: View {
             }
         }
     }
-}
 
-// MARK: - SecurityCellView
+    private var content: some View {
+        List {
+            Section {
+                securitySection
+            } header: {
+                Text("Безопасность")
+            }
+            if viewModel.isPrivacyAvailable {
+                Section {
+                    privacySection
+                } header: {
+                    Text(R.string.localizable.securityPrivacy())
+                }
+            }
+        }
+        .listStyle(.insetGrouped)
+    }
 
-struct SecurityCellView: View {
+    private var securitySection: some View {
+        VStack(spacing: 0) {
+            Toggle(R.string.localizable.securityPinCodeTitle(),
+                   isOn: $viewModel.isPinCodeOn)
+            .frame(height: 44)
+            .listRowSeparator(.hidden)
+            .onAppear {
+                if viewModel.isPinCodeUpdate() {
+                    viewModel.dataIsUpdated = true
+                }
+            }
+            .onChange(of: viewModel.isPinCodeOn) { value in
+                viewModel.pinCodeAvailabilityDidChange(value: value)
+            }
+            if viewModel.isPinCodeOn {
+                SecurityAdvancedCellView(title: R.string.localizable.securityBiometryEnterTitle(),
+                                         description: R.string.localizable.securityBiometryEnterState(),
+                                         currentState: $viewModel.isBiometryOn)
+                .frame(height: 44)
+                .onChange(of: viewModel.isBiometryOn) { item in
+                    if item {
+                        viewModel.authenticate()
+                    } else {
+                        viewModel.updateIsBiometryOn(item: false)
+                    }
+                }
+                if viewModel.isFalsePinCodeOnAvailable {
+                    SecurityAdvancedCellView(
+                        title: R.string.localizable.securityFalsePasswordTitle(),
+                        description: R.string.localizable.securityFalsePasswordState(),
+                        currentState: $viewModel.isFalsePinCodeOn
+                    )
+                    .frame(height: 44)
+                    .onChange(of: viewModel.isFalsePinCodeOn) { item in
+                        if item {
+                            viewModel.send(.onFalsePassword)
+                        } else {
+                            viewModel.updateIsFalsePinCode(item: false)
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-    // MARK: - Internal Properties
-
-    var title: String
-    var font: Palette = .darkGray()
-    var currentState: String
-
-    // MARK: - Body
-
-    var body: some View {
-        HStack {
-            Text(title)
-                .font(.regular(15))
-            Spacer()
-            HStack(spacing: 17) {
-                Text(currentState.isEmpty ? R.string.localizable.securityProfileObserveState() :
-                        currentState)
-                    .font(.regular(15))
-                    .foreground(font)
-                R.image.registration.arrow.image
+    private var privacySection: some View {
+        ForEach(SecurityCellItem.allCases, id: \.self) { type in
+            switch type {
+            case .seedPhrase:
+                PrivacyCellView(item: type,
+                                phraseStatus: viewModel.isPhraseExist())
+                .background(.white())
+                .listRowSeparator(.visible,
+                                  edges: .bottom)
+                .frame(height: 73)
+                .onTapGesture {
+                    if viewModel.isPhraseExist() {
+                        viewModel.send(.onPhrase)
+                    } else {
+                        showAddWallet = true
+                    }
+                }
+            case .session:
+                PrivacyCellView(item: type)
+                .background(.white())
+                .frame(height: 57)
+                .listRowSeparator(.visible,
+                                  edges: .top)
+                .onTapGesture {
+                    viewModel.send(.onSession)
+                }
+            case .blackList:
+                PrivacyCellView(item: type)
+                .background(.white())
+                .frame(height: 44)
+                .onTapGesture {
+                    viewModel.send(.onBlockList)
+                }
+            default:
+                EmptyView()
             }
         }
     }
 }
-
-// MARK: - SecurityAdvancedCellView
-
-struct SecurityAdvancedCellView: View {
-
-    // MARK: - Internal Properties
-
-    var title: String
-    var description: String
-    @Binding var currentState: Bool
-
-    // MARK: - Body
-
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(.regular(15))
-                Text(description)
-                    .font(.regular(12))
-                    .foreground(.gray())
-            }
-            Spacer()
-            Toggle("", isOn: $currentState)
-                .labelsHidden()
-                .toggleStyle(SwitchToggleStyle(tint: .blue))
-        }
-    }
-}
-
-// MARK: - SecurityCellItem
-
-enum SecurityCellItem: CaseIterable, Identifiable {
-
-    // MARK: - Types
-
-    case profileObserve, lastSeen, calls, geoposition, telephone, session, blackList
-
-    // MARK: - Internal Properties
-
-    var id: UUID { UUID() }
-    var result: (title: String, state: String) {
-        switch self {
-        case .profileObserve:
-            return (R.string.localizable.securityProfileObserve(),
-                    R.string.localizable.securityProfileObserveState())
-        case .lastSeen:
-            return (R.string.localizable.securityLastSeen(),
-                    R.string.localizable.securityLastSeen())
-        case .calls:
-            return (R.string.localizable.securityCallsTitle(),
-                    R.string.localizable.securityContactsAll())
-        case .geoposition:
-            return (R.string.localizable.securityGeoposition(),
-                    R.string.localizable.securityContactsAll())
-        case .telephone:
-            return (R.string.localizable.securityTelephone(),
-                    R.string.localizable.securityContactsAll())
-        case .session:
-            return (R.string.localizable.securitySessionTitle(),
-                    R.string.localizable.securitySessionState())
-        case .blackList:
-            return (R.string.localizable.securityBlackListTitle(),
-                    "3")
-        }
-    }}

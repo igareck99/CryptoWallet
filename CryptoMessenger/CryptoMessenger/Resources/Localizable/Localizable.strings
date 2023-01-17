@@ -388,6 +388,8 @@
 "WalletManager.KeyManager" = "Менеджер ключей";
 "WalletManager.AddDeleteKeys" = "Добавить/Удалить приватные ключи";
 "WalletManager.Edit" = "Редактировать";
+"WalletManager.NoData" = "Нет данных";
+"WalletManager.MakeYourFirstTransaction" = "Совершите свою первую\nтранзакцию";
 
 "SuccessFacilityView.Title" = "Успешно отправлено";
 "SuccessFacilityView.AddFavorites" = "Добавить в избранное";

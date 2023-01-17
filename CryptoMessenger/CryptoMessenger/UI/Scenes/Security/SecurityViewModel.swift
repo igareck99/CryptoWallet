@@ -101,6 +101,14 @@ final class SecurityViewModel: ObservableObject {
 		send(.onCreatePassword)
 	}
 
+    func isPhraseExist() -> Bool {
+        guard let phrase = keychainService.secretPhrase else { return false }
+        if phrase.isEmpty {
+            return false
+        }
+        return true
+    }
+
     func send(_ event: SecurityFlow.Event) {
         eventSubject.send(event)
     }
@@ -161,6 +169,10 @@ final class SecurityViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.session)
                 case .onApprovePassword:
                     self?.delegate?.handleNextScene(.pinCode(.approvePinCode))
+                case .onImportKey:
+                    self?.delegate?.handleNextScene(.importKey)
+                case .onPhrase:
+                    self?.delegate?.handleNextScene(.reservePhraseCopy)
                 }
             }
             .store(in: &subscriptions)
