@@ -55,24 +55,6 @@ final class ChooseReceiverViewModel: ObservableObject {
         }
     }
 
-    func updateScannedCode(_ receiver: UserReceiverData, _ code: String) -> UserReceiverData {
-        // TODO: - Сделать проверку на соответствие кошелька и адресса
-        var result = ""
-        if code.contains("ethereum") {
-            result = code.substring(fromIndex: 9)
-        } else if code.contains("bitcoin") {
-            result = code.substring(fromIndex: 8)
-        } else {
-            result = code
-        }
-        print("slaslas;  \(result)")
-        return UserReceiverData(name: receiver.name,
-                                url: receiver.url,
-                                adress: result,
-                                walletType: receiver.walletType)
-        
-    }
-
     // MARK: - Private Methods
 
     private func bindInput() {

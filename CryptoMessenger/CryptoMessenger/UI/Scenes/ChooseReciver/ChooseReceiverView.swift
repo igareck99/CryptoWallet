@@ -44,6 +44,7 @@ struct ChooseReceiverView: View {
                                                     url: receiverData.url,
                                                     adress: code.substring(fromIndex: 9),
                                                     walletType: receiverData.walletType)
+                    searchText = code.substring(fromIndex: 9)
                 } else if code.contains("bitcoin") {
                     receiverData = UserReceiverData(name: receiverData.name,
                                                     url: receiverData.url,
