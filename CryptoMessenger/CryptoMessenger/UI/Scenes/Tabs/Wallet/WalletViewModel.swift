@@ -181,7 +181,6 @@ final class WalletViewModel: ObservableObject {
 	}
 
 	func transactionsList(index: Int) -> [TransactionSection] {
-
 		guard let wallet = cardsList[safe: index],
 			  let currentTransactions = transactions[wallet.address] else { return [] }
 		return currentTransactions
