@@ -1,8 +1,15 @@
 import SwiftUI
 
+// MARK: - Snackbar
+
 struct Snackbar: View {
+
+    // MARK: - Internal Properties
+
 	let color: Color
 	let text: String
+
+    // MARK: - Lifecycle
 
 	init(
 		text: String,
@@ -11,6 +18,8 @@ struct Snackbar: View {
 		self.text = text
 		self.color = color
 	}
+
+    // MARK: - Body
 
 	var body: some View {
 		VStack(alignment: .leading) {

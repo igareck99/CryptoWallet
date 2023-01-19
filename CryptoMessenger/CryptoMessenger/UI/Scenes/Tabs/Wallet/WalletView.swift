@@ -9,6 +9,7 @@ struct WalletView: View {
 	@State var displayTransactionResult = false
 
     @StateObject var viewModel: WalletViewModel
+    @StateObject var generateViewModel = GeneratePhraseViewModel()
     @State var contentWidth = CGFloat(0)
     @State var offset = CGFloat(16)
     @State var index = 0
@@ -16,12 +17,13 @@ struct WalletView: View {
     @State var showTokenInfo = false
     @State var navBarHide = false
     @State var selectedAddress = WalletInfo(
-		decimals: 1,
-		walletType: .ethereum,
+        decimals: 1,
+        walletType: .ethereum,
         address: "",
         coinAmount: "",
         fiatAmount: ""
     )
+    @State private var showAddWalletView = false
 
 	@State var pageIndex: Int = 0
 	@State private var isRotating = 0.0
@@ -42,13 +44,28 @@ struct WalletView: View {
 				viewModel.send(.onAppear)
 			}
 			.navigationBarTitleDisplayMode(.inline)
-			.navigationBarHidden(false)
-			.toolbar {
-				ToolbarItem(placement: .principal) {
-					Text(R.string.localizable.tabWallet())
-						.font(.system(size: 17, weight: .semibold))
-				}
-			}
+            .navigationBarHidden(navBarHide)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(R.string.localizable.tabWallet())
+                        .font(.system(size: 17, weight: .semibold))
+                }
+            }
+            .sheet(isPresented: $showAddWalletView, content: {
+                GeneratePhraseView(viewModel: generateViewModel,
+                                   showView: $showAddWalletView, onSelect: { type in
+                    switch type {
+                    case .importKey:
+                        viewModel.send(.onImportKey)
+                        showAddWalletView = false
+                    default:
+                        break
+                    }
+                })
+                .onDisappear {
+                    generateViewModel.generatePhraseState = .generate
+                }
+            })
 	}
 
 	@State private var scrollViewContentOffset = CGFloat(0)
@@ -85,8 +102,6 @@ struct WalletView: View {
 			) { EmptyView() }
 
             VStack(spacing: 24) {
-				// пока убрал, надо сделать после имплементации основного функционала
-//                cardsProgressView
 
                 sendButton
                     .frame(height: 58)
@@ -126,9 +141,6 @@ struct WalletView: View {
                 showTabBar()
             }
         })
-        .onAppear {
-//            viewModel.send(.onAppear)
-        }
         .popup(isPresented: $showAddWallet,
                type: .toast,
                position: .bottom,
@@ -187,7 +199,7 @@ struct WalletView: View {
 				.padding(.bottom, 70)
 
 			Button {
-				viewModel.send(.onImportPhrase)
+                showAddWalletView = true
 			} label: {
 				Text(R.string.localizable.walletAddWalletShort())
 					.font(.system(size: 17, weight: .semibold))

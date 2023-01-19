@@ -186,7 +186,6 @@ final class MainFlowCoordinator: Coordinator {
         case friendProfile(Contact)
         case chatMedia(AuraRoom)
 		case popToRoot
-        case generatePhrase
     }
 }
 
@@ -259,10 +258,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showSettingsChat(chatData: chatData, saveData: saveData, room: room)
         case let .chatMedia(room):
             showMediaView(room)
-		case .popToRoot:
-			popToRoot()
-        case .generatePhrase:
-            showGeneratePhraseView()
+        case .popToRoot:
+            popToRoot()
         }
     }
 
@@ -499,13 +496,6 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
 
     private func showPhraseManger() {
         let rootView = PhraseManagerConfigurator.configuredView(delegate: self)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
-    
-    private func showGeneratePhraseView() {
-        let rootView = GeneratePhraseConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)

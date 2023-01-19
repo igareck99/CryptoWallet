@@ -24,16 +24,21 @@ final class ProfileDetailViewModel: ObservableObject {
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var apiClient: APIClientManager
     private let userSettings: UserFlowsStorage & UserCredentialsStorage
-	private let keychainService: KeychainServiceProtocol
+    private let keychainService: KeychainServiceProtocol
+    private let privateDataCleaner: PrivateDataCleanerProtocol
+    
 
     // MARK: - Lifecycle
 
     init(
-		userSettings: UserFlowsStorage & UserCredentialsStorage,
-		keychainService: KeychainServiceProtocol
-	) {
-		self.userSettings = userSettings
-		self.keychainService = keychainService
+        userSettings: UserFlowsStorage & UserCredentialsStorage,
+        keychainService: KeychainServiceProtocol,
+        coreDataService: CoreDataServiceProtocol,
+        privateDataCleaner: PrivateDataCleanerProtocol
+    ) {
+        self.userSettings = userSettings
+        self.keychainService = keychainService
+        self.privateDataCleaner = privateDataCleaner
         bindInput()
         bindOutput()
         fetchData()
@@ -61,7 +66,8 @@ final class ProfileDetailViewModel: ObservableObject {
                 case .onSocial:
                     self?.delegate?.handleNextScene(.socialList)
                 case .onDone:
-                    if let image = self?.selectedImage?.fixOrientation(), let data = image.jpeg(.medium) {
+                    if let image = self?.selectedImage?.fixOrientation(),
+                       let data = image.jpeg(.medium) {
                         self?.matrixUseCase.setUserAvatarUrl(data) { url in
                             self?.profile.avatar = url
                         }
@@ -79,19 +85,20 @@ final class ProfileDetailViewModel: ObservableObject {
                         self?.closeScreen.toggle()
                     }
                 case .onLogout:
-					self?.matrixUseCase.logoutDevices { [weak self] _ in
-						// TODO: Обработать результат
-						self?.matrixUseCase.closeSession()
-						self?.matrixUseCase.clearCredentials()
-						self?.keychainService.isApiUserAuthenticated = false
-						NotificationCenter.default.post(name: .userDidLoggedOut, object: nil)
-						debugPrint("ProfileDetailViewModel: LOGOUT")
-					}
+                    self?.matrixUseCase.logoutDevices { [weak self] _ in
+                        // TODO: Обработать результат
+                        self?.matrixUseCase.closeSession()
+                        self?.matrixUseCase.clearCredentials()
+                        self?.keychainService.isApiUserAuthenticated = false
+                        self?.privateDataCleaner.resetPrivateData()
+                        NotificationCenter.default.post(name: .userDidLoggedOut, object: nil)
+                        debugPrint("ProfileDetailViewModel: LOGOUT")
+                    }
                 }
             }
             .store(in: &subscriptions)
 
-		matrixUseCase.loginStatePublisher.sink { [weak self] status in
+        matrixUseCase.loginStatePublisher.sink { [weak self] status in
             switch status {
             case .loggedOut:
                 self?.userSettings.isAuthFlowFinished = false
@@ -119,10 +126,10 @@ final class ProfileDetailViewModel: ObservableObject {
             let homeServer = Bundle.main.object(for: .matrixURL).asURL()
             self.profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
         }
-		if let str = keychainService.apiUserPhoneNumber {
-			let suffixIndex = str.index(str.startIndex, offsetBy: 3)
-			profile.phone = String(str[suffixIndex...])
-		}
+        if let str = keychainService.apiUserPhoneNumber {
+            let suffixIndex = str.index(str.startIndex, offsetBy: 3)
+            profile.phone = String(str[suffixIndex...])
+        }
     }
 
     private func setStatus(_ text: String) {

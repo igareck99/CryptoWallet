@@ -7,26 +7,39 @@ struct GeneratePhraseView: View {
     // MARK: - Internal Methods
 
     @StateObject var viewModel: GeneratePhraseViewModel
-    @State var showAlert = false
+    @Binding var showView: Bool
+    let onSelect: GenericBlock<GeneratePhraseState>
 
     // MARK: - Body
 
     var body: some View {
-        switch viewModel.generatePhraseState {
-        case .generate:
-            generateView
-        case .warning:
-            warningView
-        case .watchKey:
-            watchKeyView
-                .onAppear {
-                    UITextView.appearance().backgroundColor = .clear
-                    UITextView.appearance().textContainerInset = .init(top: 12, left: 0, bottom: 12, right: 0)
-                }
-                .alert(isPresented: $showAlert) {
-                     Alert(title: Text(R.string.localizable.profileCopied()))
-                }
+        VStack {
+            switch viewModel.generatePhraseState {
+            case .generate:
+                generateView
+            case .warning, .importKey:
+                warningView
+            case .watchKey:
+                watchKeyView
+                    .onAppear {
+                        UITextView.appearance().backgroundColor = .clear
+                        UITextView.appearance().textContainerInset = .init(top: 12, left: 0, bottom: 12, right: 0)
+                    }
+                    .popup(
+                        isPresented: viewModel.isSnackbarPresented,
+                        alignment: .bottom
+                    ) { Snackbar(
+                        text: R.string.localizable.generatePhraseCopied(),
+                        color: .green
+                    )
+                    }
+            }
         }
+        .onChange(of: viewModel.generatePhraseState, perform: { value in
+            if value == .importKey {
+                onSelect(.importKey)
+            }
+        })
     }
 
     private var generateView: some View {
@@ -86,7 +99,6 @@ struct GeneratePhraseView: View {
     private var importKeyButton: some View {
         Button(R.string.localizable.generatePhraseImportKey()) {
             viewModel.toggleState(.importing)
-            print("generatePhraseImportKey")
         }
     }
 
@@ -94,22 +106,31 @@ struct GeneratePhraseView: View {
         Button {
             if viewModel.generatePhraseState == .watchKey {
                 UIPasteboard.general.string = viewModel.generatedKey
-                showAlert.toggle()
+                viewModel.onPhraseCopy()
             }
             viewModel.toggleState(.create)
         } label: {
-            Text(viewModel.generatePhraseState == .watchKey ?
-                 R.string.localizable.generatePhraseCopyPhrase() :
-                    R.string.localizable.keyGenerationCreateButton())
-                .frame(width: 237)
-                .font(.semibold(14))
-                .padding()
-                .foregroundColor(.white)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.white, lineWidth: 2)
-                )
+            switch viewModel.isAnimated {
+            case false:
+                Text(viewModel.generatePhraseState == .watchKey ?
+                     R.string.localizable.generatePhraseCopyPhrase() :
+                        R.string.localizable.keyGenerationCreateButton())
+                    .frame(width: 237)
+                    .font(.semibold(14))
+                    .padding()
+                    .foregroundColor(.white)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.white, lineWidth: 2)
+                    )
+            case true:
+                ProgressView()
+                    .tint(Color(.white()))
+                    .frame(width: 12,
+                           height: 12)
+            }
         }
+        .frame(width: 237, height: 48)
         .background(Color.azureRadianceApprox)
         .cornerRadius(10)
     }

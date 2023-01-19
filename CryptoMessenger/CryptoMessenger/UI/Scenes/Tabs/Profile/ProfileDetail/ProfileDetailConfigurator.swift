@@ -11,9 +11,13 @@ enum ProfileDetailConfigurator {
                                image: Binding<UIImage?>) -> ProfileDetailView {
 		let userSettings = UserDefaultsService.shared
 		let keychainService = KeychainService.shared
+        let coreDataService = CoreDataService.shared
+        let privateDataCleaner = PrivateDataCleaner.shared
 		let viewModel = ProfileDetailViewModel(
 			userSettings: userSettings,
-			keychainService: keychainService
+            keychainService: keychainService,
+            coreDataService: coreDataService,
+            privateDataCleaner: privateDataCleaner
 		)
         viewModel.delegate = delegate
         let view = ProfileDetailView(viewModel: viewModel, selectedAvatarImage: image)
