@@ -345,7 +345,6 @@
 		8B2D40F1295D0B87009D9581 /* GeneratePhraseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F0295D0B87009D9581 /* GeneratePhraseViewModel.swift */; };
 		8B2D40F3295D0B9F009D9581 /* GeneratePhraseProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F2295D0B9F009D9581 /* GeneratePhraseProtocols.swift */; };
 		8B2D40F5295D0CFD009D9581 /* GeneratePhraseFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F4295D0CFD009D9581 /* GeneratePhraseFlow.swift */; };
-		8B2D40F7295D0D0A009D9581 /* GeneratePhraseConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F6295D0D0A009D9581 /* GeneratePhraseConfigurator.swift */; };
 		8B334155295B74A60062903C /* SearchTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334154295B74A60062903C /* SearchTypeView.swift */; };
 		8B334157295B7D6E0062903C /* ChooseReceiverStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */; };
 		8B34292B29786EC800F63DE1 /* SecurityCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34292A29786EC800F63DE1 /* SecurityCellItem.swift */; };
@@ -647,6 +646,12 @@
 		D450047B2845E51900CA4C82 /* ViewConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450047A2845E51900CA4C82 /* ViewConfigurable.swift */; };
 		D450047D2845E5B500CA4C82 /* CallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450047C2845E5B500CA4C82 /* CallViewModel.swift */; };
 		D450047F2845E5D600CA4C82 /* CallItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450047E2845E5D600CA4C82 /* CallItemsFactory.swift */; };
+		D450698329799089009515C8 /* ChannelTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450698229799089009515C8 /* ChannelTypeView.swift */; };
+		D450698529799C25009515C8 /* EncryptionStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450698429799C25009515C8 /* EncryptionStateView.swift */; };
+		D4506988297A4ACA009515C8 /* ChannelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4506987297A4ACA009515C8 /* ChannelInfoView.swift */; };
+		D450698A297A4AD6009515C8 /* ChannelInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4506989297A4AD6009515C8 /* ChannelInfoViewModel.swift */; };
+		D450698D297A4DCE009515C8 /* ChannelSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450698C297A4DCE009515C8 /* ChannelSettingsView.swift */; };
+		D450698F297A65FA009515C8 /* ChannelParticipantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450698E297A65FA009515C8 /* ChannelParticipantView.swift */; };
 		D451006B289390990018A935 /* MatrixUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451006A289390990018A935 /* MatrixUseCaseProtocol.swift */; };
 		D451006D2893BF860018A935 /* MatrixObjectFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451006C2893BF860018A935 /* MatrixObjectFactory.swift */; };
 		D4533A142832C9A600B956B2 /* ChatRoomTogglesFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A132832C9A600B956B2 /* ChatRoomTogglesFacade.swift */; };
@@ -724,6 +729,8 @@
 		D4AB8FFE282672F800E6FAB5 /* MatrixService+Rooms.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFD282672F800E6FAB5 /* MatrixService+Rooms.swift */; };
 		D4AB90002826735000E6FAB5 /* MatrixService+Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFF2826735000E6FAB5 /* MatrixService+Users.swift */; };
 		D4AB900828278A1600E6FAB5 /* MatrixUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */; };
+		D4B30A02297923760067EB06 /* CreateChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B30A01297923760067EB06 /* CreateChannelView.swift */; };
+		D4B30A042979287E0067EB06 /* CreateChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B30A032979287E0067EB06 /* CreateChannelViewModel.swift */; };
 		D4B39AFE289BE271006F2D99 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */; };
 		D4B39B01289C3B50006F2D99 /* CallEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B39B00289C3B50006F2D99 /* CallEventView.swift */; };
 		D4BC1EC02955B59E00D99F1A /* TransactionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BC1EBF2955B59E00D99F1A /* TransactionResultView.swift */; };
@@ -1562,7 +1569,6 @@
 		8B2D40F0295D0B87009D9581 /* GeneratePhraseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseViewModel.swift; sourceTree = "<group>"; };
 		8B2D40F2295D0B9F009D9581 /* GeneratePhraseProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseProtocols.swift; sourceTree = "<group>"; };
 		8B2D40F4295D0CFD009D9581 /* GeneratePhraseFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseFlow.swift; sourceTree = "<group>"; };
-		8B2D40F6295D0D0A009D9581 /* GeneratePhraseConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseConfigurator.swift; sourceTree = "<group>"; };
 		8B334154295B74A60062903C /* SearchTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTypeView.swift; sourceTree = "<group>"; };
 		8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverStructs.swift; sourceTree = "<group>"; };
 		8B34292A29786EC800F63DE1 /* SecurityCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCellItem.swift; sourceTree = "<group>"; };
@@ -1867,6 +1873,12 @@
 		D450047A2845E51900CA4C82 /* ViewConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConfigurable.swift; sourceTree = "<group>"; };
 		D450047C2845E5B500CA4C82 /* CallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewModel.swift; sourceTree = "<group>"; };
 		D450047E2845E5D600CA4C82 /* CallItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallItemsFactory.swift; sourceTree = "<group>"; };
+		D450698229799089009515C8 /* ChannelTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelTypeView.swift; sourceTree = "<group>"; };
+		D450698429799C25009515C8 /* EncryptionStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionStateView.swift; sourceTree = "<group>"; };
+		D4506987297A4ACA009515C8 /* ChannelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoView.swift; sourceTree = "<group>"; };
+		D4506989297A4AD6009515C8 /* ChannelInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoViewModel.swift; sourceTree = "<group>"; };
+		D450698C297A4DCE009515C8 /* ChannelSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSettingsView.swift; sourceTree = "<group>"; };
+		D450698E297A65FA009515C8 /* ChannelParticipantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelParticipantView.swift; sourceTree = "<group>"; };
 		D451006A289390990018A935 /* MatrixUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixUseCaseProtocol.swift; sourceTree = "<group>"; };
 		D451006C2893BF860018A935 /* MatrixObjectFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixObjectFactory.swift; sourceTree = "<group>"; };
 		D4533A132832C9A600B956B2 /* ChatRoomTogglesFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTogglesFacade.swift; sourceTree = "<group>"; };
@@ -1946,6 +1958,8 @@
 		D4AB8FFD282672F800E6FAB5 /* MatrixService+Rooms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Rooms.swift"; sourceTree = "<group>"; };
 		D4AB8FFF2826735000E6FAB5 /* MatrixService+Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Users.swift"; sourceTree = "<group>"; };
 		D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixUseCase.swift; sourceTree = "<group>"; };
+		D4B30A01297923760067EB06 /* CreateChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelView.swift; sourceTree = "<group>"; };
+		D4B30A032979287E0067EB06 /* CreateChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelViewModel.swift; sourceTree = "<group>"; };
 		D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
 		D4B39B00289C3B50006F2D99 /* CallEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallEventView.swift; sourceTree = "<group>"; };
 		D4B39B0628A23F03006F2D99 /* ChatSystemEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSystemEventView.swift; sourceTree = "<group>"; };
@@ -3403,7 +3417,11 @@
 		5A3721D1272EF0120097ABED /* ChatCreate */ = {
 			isa = PBXGroup;
 			children = (
-				5ABAD39B27BEFB150067DFC1 /* Components */,
+				D4B30A00297923600067EB06 /* Create Channel */,
+				D4506986297A4A7D009515C8 /* Channel Info View */,
+				8BE24FAA29490242009A3734 /* CreateContact */,
+				8BE24FA929490204009A3734 /* SelectContact */,
+				5ABAD39C27BEFB2F0067DFC1 /* ChatGroupView */,
 				5A3721D2272EF0DA0097ABED /* ChatCreateView.swift */,
 				5A3721D4272F0A290097ABED /* ContactRow.swift */,
 				5A44FEF027693F6F006F9D92 /* ChatCreateViewModel.swift */,
@@ -3762,16 +3780,6 @@
 				8B1E294F28EB552D000E8019 /* DocumentsViewerViewModel.swift */,
 			);
 			path = DocumentPicker;
-			sourceTree = "<group>";
-		};
-		5ABAD39B27BEFB150067DFC1 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				8BE24FAA29490242009A3734 /* CreateContact */,
-				8BE24FA929490204009A3734 /* SelectContact */,
-				5ABAD39C27BEFB2F0067DFC1 /* ChatGroupView */,
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		5ABAD39C27BEFB2F0067DFC1 /* ChatGroupView */ = {
@@ -5079,6 +5087,34 @@
 			path = "HStack Items";
 			sourceTree = "<group>";
 		};
+		D450698129799080009515C8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D450698229799089009515C8 /* ChannelTypeView.swift */,
+				D450698429799C25009515C8 /* EncryptionStateView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D4506986297A4A7D009515C8 /* Channel Info View */ = {
+			isa = PBXGroup;
+			children = (
+				D450698B297A4DBF009515C8 /* Views */,
+				D4506987297A4ACA009515C8 /* ChannelInfoView.swift */,
+				D4506989297A4AD6009515C8 /* ChannelInfoViewModel.swift */,
+			);
+			path = "Channel Info View";
+			sourceTree = "<group>";
+		};
+		D450698B297A4DBF009515C8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D450698C297A4DCE009515C8 /* ChannelSettingsView.swift */,
+				D450698E297A65FA009515C8 /* ChannelParticipantView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		D46C9010294774FD00DD0B01 /* Segmented Controll */ = {
 			isa = PBXGroup;
 			children = (
@@ -5315,6 +5351,16 @@
 				D4DF2B3428F567760057499A /* MatrixUseCaseToggles.swift */,
 			);
 			path = "Matrix UseCase";
+			sourceTree = "<group>";
+		};
+		D4B30A00297923600067EB06 /* Create Channel */ = {
+			isa = PBXGroup;
+			children = (
+				D450698129799080009515C8 /* Views */,
+				D4B30A01297923760067EB06 /* CreateChannelView.swift */,
+				D4B30A032979287E0067EB06 /* CreateChannelViewModel.swift */,
+			);
+			path = "Create Channel";
 			sourceTree = "<group>";
 		};
 		D4B39AFF289C334E006F2D99 /* Call */ = {
@@ -7655,6 +7701,7 @@
 				5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */,
 				5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */,
 				D4C9B72E283C20380060BFD3 /* ChatRoomViewModelAssembly.swift in Sources */,
+				D450698D297A4DCE009515C8 /* ChannelSettingsView.swift in Sources */,
 				D4EFEBCD28E2AF100075CC10 /* MXEventUnsignedData.m in Sources */,
 				5AC8C4EF27C403C9008B1744 /* AlertItem.swift in Sources */,
 				8B0C4FFC2891806000671BA3 /* TimerViewModel.swift in Sources */,
@@ -7794,6 +7841,7 @@
 				8BE379A427EB270E00AB6B6E /* WalletManagerProtocols.swift in Sources */,
 				D4EFEB8528E2AF100075CC10 /* MXRoomVersionsCapability.m in Sources */,
 				D4EFEC8D28E2AF110075CC10 /* MXStoreService.swift in Sources */,
+				D450698329799089009515C8 /* ChannelTypeView.swift in Sources */,
 				5ABF08CD27D950BF0016CC6F /* GroupMenuView.swift in Sources */,
 				8BC517FD296CC87E0033B30F /* ChooseWalletTypeView.swift in Sources */,
 				D4EFEC8628E2AF110075CC10 /* MXMemoryRoomStore.m in Sources */,
@@ -7907,6 +7955,7 @@
 				D4EFEC5B28E2AF110075CC10 /* MXStoreRoomListDataCounts.swift in Sources */,
 				D4EFEB7B28E2AF100075CC10 /* MXRealmEventScanMapper.m in Sources */,
 				D4EFEBEA28E2AF110075CC10 /* MXTaskProfile.m in Sources */,
+				D450698A297A4AD6009515C8 /* ChannelInfoViewModel.swift in Sources */,
 				D4EFEBC028E2AF100075CC10 /* MXTaggedEvents.m in Sources */,
 				D4EFEC2128E2AF110075CC10 /* MXThreadProtocol.swift in Sources */,
 				D4EFEBDE28E2AF100075CC10 /* MXUIKitBackgroundModeHandler.m in Sources */,
@@ -7921,6 +7970,7 @@
 				D48AF446292601C10044CFAE /* CoreDataService.swift in Sources */,
 				D4EFEB6728E2AF100075CC10 /* MXDeviceInfoSource.swift in Sources */,
 				D43A7E5C28CB259400A807EC /* Base32.swift in Sources */,
+				D4506988297A4ACA009515C8 /* ChannelInfoView.swift in Sources */,
 				D44BDC70280818090080AE8A /* DefaultResponses.swift in Sources */,
 				5A9318B726BD210400645365 /* PinCodeViewController.swift in Sources */,
 				D46C8FD92942C99000DD0B01 /* TransactionDetailsView.swift in Sources */,
@@ -7928,6 +7978,7 @@
 				D4EFEC2728E2AF110075CC10 /* MXiOSAudioOutputRouter.swift in Sources */,
 				D4EFEBF328E2AF110075CC10 /* MXLRUCache.m in Sources */,
 				5A187EA42680708D001957D3 /* CollectionViewProviderType.swift in Sources */,
+				D4B30A042979287E0067EB06 /* CreateChannelViewModel.swift in Sources */,
 				D4EFEB2028E2AF100075CC10 /* MXKeyProvider.m in Sources */,
 				5A9318E826C5E44100645365 /* KeyboardHeightPublisher.swift in Sources */,
 				5A4BE51B271DD86A00D03D09 /* Reaction.swift in Sources */,
@@ -8315,6 +8366,7 @@
 				D4EFEB7F28E2AF100075CC10 /* MXRealmMediaScanStore.m in Sources */,
 				D4EFEC4A28E2AF110075CC10 /* MXRefreshTokenData.m in Sources */,
 				8B4E9C4427E1EDD30057E4C9 /* FacilityApproveFlow.swift in Sources */,
+				D4B30A02297923760067EB06 /* CreateChannelView.swift in Sources */,
 				D4EFEB9128E2AF100075CC10 /* MXJSONModel.m in Sources */,
 				D4EFECAC28E2AF110075CC10 /* NSDictionary+MutableDeepCopy.m in Sources */,
 				D43A7E6128CB25D500A807EC /* Base32.swift in Sources */,
@@ -8353,6 +8405,7 @@
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
 				D4EFEAF928E2AF100075CC10 /* MXAes256BackupAuthData.m in Sources */,
 				8BB2F8F228B7A5E20034D902 /* FooterView.swift in Sources */,
+				D450698529799C25009515C8 /* EncryptionStateView.swift in Sources */,
 				D4EFEB7128E2AF100075CC10 /* MXIdentityServerRestClient.m in Sources */,
 				5A187DD726806F35001957D3 /* Injectable.swift in Sources */,
 				D4EFEB2628E2AF100075CC10 /* MXKeyVerificationRequestByToDeviceJSONModel.m in Sources */,
@@ -8539,6 +8592,7 @@
 				8BFF387B27D91092005D88C9 /* NumberTextField.swift in Sources */,
 				8B9B0CCD2775442E00654C24 /* PersonalizationModel.swift in Sources */,
 				D4EFEAEA28E2AF100075CC10 /* MXCachedSyncResponse.m in Sources */,
+				D450698F297A65FA009515C8 /* ChannelParticipantView.swift in Sources */,
 				8BE122C228253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift in Sources */,
 				8BA0C90027AD1A260070203F /* ChatSettingsConfigurator.swift in Sources */,
 				8BC06B1027C8F609005A28A1 /* TransactionProtocols.swift in Sources */,

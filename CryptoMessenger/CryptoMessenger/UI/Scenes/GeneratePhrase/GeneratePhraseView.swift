@@ -28,10 +28,11 @@ struct GeneratePhraseView: View {
                     .popup(
                         isPresented: viewModel.isSnackbarPresented,
                         alignment: .bottom
-                    ) { Snackbar(
-                        text: R.string.localizable.generatePhraseCopied(),
-                        color: .green
-                    )
+                    ) {
+                        Snackbar(
+                            text: R.string.localizable.generatePhraseCopied(),
+                            color: .green
+                        )
                     }
             }
         }

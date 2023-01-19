@@ -44,18 +44,20 @@ struct TokenInfoView: View {
 				.navigationBarTitle(R.string.localizable.tokenInfoTitle())
 			}
 
-			shareButton
-				.frame(height: 48)
-				.padding(.bottom)
-				.popup(
-					isPresented: viewModel.isSnackbarPresented,
-					alignment: .bottom
-				) { Snackbar(
-					text: R.string.localizable.tokenInfoAddressCopied(),
-					color: .green
-				) }
-		}
-		.ignoresSafeArea(.keyboard)
+            shareButton
+                .frame(height: 48)
+                .padding(.bottom)
+                .popup(
+                    isPresented: viewModel.isSnackbarPresented,
+                    alignment: .bottom
+                ) {
+                    Snackbar(
+                        text: R.string.localizable.tokenInfoAddressCopied(),
+                        color: .green
+                    )
+                }
+        }
+        .ignoresSafeArea(.keyboard)
 	}
 
     // MARK: - Private Properties

@@ -325,7 +325,7 @@ struct SettingsView: View {
                         .font(.semibold(12)),
                         .paragraph(.init(lineHeightMultiple: 1.54, alignment: .right))
                     ])
-                        .frame(height: 22)
+                    .frame(height: 22)
                 }
                 .frame(height: 22)
             }

@@ -253,7 +253,31 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 			}
 		}
 	}
-
+    
+    func inviteUser(
+        userId: String,
+        roomId: String,
+        completion: @escaping EmptyResultBlock
+    ) {
+        matrixService.inviteUser(userId: userId, roomId: roomId, completion: completion)
+    }
+    
+    func kickUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock) {
+        matrixService.kickUser(userId: userId, roomId: roomId, reason: reason, completion: completion)
+    }
+    
+    func banUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock) {
+        matrixService.banUser(userId: userId, roomId: roomId, reason: reason, completion: completion)
+    }
+    
+    func unbanUser(userId: String, roomId: String, completion: @escaping EmptyResultBlock) {
+        matrixService.unbanUser(userId: userId, roomId: roomId, completion: completion)
+    }
+    
+    func leaveRoom(roomId: String, completion: @escaping EmptyResultBlock) {
+        matrixService.leaveRoom(roomId: roomId, completion: completion)
+    }
+    
 	// MARK: - Pusher
 	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void) {
 		matrixService.createPusher(with: pushToken, completion: completion)
