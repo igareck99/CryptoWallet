@@ -127,9 +127,7 @@ final class WalletViewModel: ObservableObject {
 	func tryToLoadNextTransactionsPage(transaction: TransactionSection, pageIndex: Int) {
 
 		guard transactionLoadingState == .notloading else { return }
-
 		guard let wallet = cardsList[safe: pageIndex], let wallets = getWalletsAddresses() else { return }
-
 		var params = TransactionsRequestParams(
 			ethereum: [],
 			bitcoin: []
@@ -181,7 +179,7 @@ final class WalletViewModel: ObservableObject {
 	}
 
 	func transactionsList(index: Int) -> [TransactionSection] {
-		guard let wallet = cardsList[safe: index],
+        guard let wallet = cardsList[safe: index],
 			  let currentTransactions = transactions[wallet.address] else { return [] }
 		return currentTransactions
 	}

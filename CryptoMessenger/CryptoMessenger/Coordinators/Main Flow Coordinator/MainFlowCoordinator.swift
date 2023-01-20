@@ -186,6 +186,7 @@ final class MainFlowCoordinator: Coordinator {
         case friendProfile(Contact)
         case chatMedia(AuraRoom)
 		case popToRoot
+        case reservePhraseCopy
     }
 }
 
@@ -260,6 +261,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showMediaView(room)
         case .popToRoot:
             popToRoot()
+        case .reservePhraseCopy:
+            showReservePhraseCopy()
         }
     }
 
@@ -487,6 +490,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         navigationController.pushViewController(viewController, animated: true)
     }
 
+    private func showReservePhraseCopy() {
+        let rootView = ReservePhraseCopyConfigurator.configuredView(delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
     private func showKeyList() {
         let rootView = KeyListConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
@@ -613,6 +623,10 @@ extension MainFlowCoordinator: ChatMediaSceneDelegate {}
 // MARK: - MainFlowCoordinator (GeneratePhraseSceneDelegate)
 
 extension MainFlowCoordinator: GeneratePhraseSceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ReservePhraseCopySceneDelegate)
+
+extension MainFlowCoordinator: ReservePhraseCopySceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

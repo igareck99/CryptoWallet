@@ -348,6 +348,15 @@
 		8B2D40F7295D0D0A009D9581 /* GeneratePhraseConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F6295D0D0A009D9581 /* GeneratePhraseConfigurator.swift */; };
 		8B334155295B74A60062903C /* SearchTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334154295B74A60062903C /* SearchTypeView.swift */; };
 		8B334157295B7D6E0062903C /* ChooseReceiverStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */; };
+		8B34292B29786EC800F63DE1 /* SecurityCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34292A29786EC800F63DE1 /* SecurityCellItem.swift */; };
+		8B34292D29786EEC00F63DE1 /* SecurityAdvancedCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34292C29786EEC00F63DE1 /* SecurityAdvancedCellView.swift */; };
+		8B34292F29786F0000F63DE1 /* SecurityCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34292E29786F0000F63DE1 /* SecurityCellView.swift */; };
+		8B34293129787A5F00F63DE1 /* PrivacyCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34293029787A5F00F63DE1 /* PrivacyCellView.swift */; };
+		8B34293629793D5900F63DE1 /* ReservePhraseCopyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34293529793D5900F63DE1 /* ReservePhraseCopyView.swift */; };
+		8B34293829793F2100F63DE1 /* ReservePhraseCopyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34293729793F2100F63DE1 /* ReservePhraseCopyViewModel.swift */; };
+		8B34293A29793F5000F63DE1 /* ReservePhraseCopyProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34293929793F5000F63DE1 /* ReservePhraseCopyProtocols.swift */; };
+		8B34293C29793F8C00F63DE1 /* ReservePhraseCopyConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34293B29793F8C00F63DE1 /* ReservePhraseCopyConfigurator.swift */; };
+		8B34293E2979415E00F63DE1 /* ReservePhraseCopyFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34293D2979415E00F63DE1 /* ReservePhraseCopyFlow.swift */; };
 		8B34A9F028D45E200097ED9E /* GroupActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9EF28D45E200097ED9E /* GroupActions.swift */; };
 		8B34A9F228D45FC20097ED9E /* DirectActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9F128D45FC20097ED9E /* DirectActions.swift */; };
 		8B34A9F428D46BAC0097ED9E /* DirectMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34A9F328D46BAC0097ED9E /* DirectMenuView.swift */; };
@@ -1556,6 +1565,15 @@
 		8B2D40F6295D0D0A009D9581 /* GeneratePhraseConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseConfigurator.swift; sourceTree = "<group>"; };
 		8B334154295B74A60062903C /* SearchTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTypeView.swift; sourceTree = "<group>"; };
 		8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverStructs.swift; sourceTree = "<group>"; };
+		8B34292A29786EC800F63DE1 /* SecurityCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCellItem.swift; sourceTree = "<group>"; };
+		8B34292C29786EEC00F63DE1 /* SecurityAdvancedCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityAdvancedCellView.swift; sourceTree = "<group>"; };
+		8B34292E29786F0000F63DE1 /* SecurityCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCellView.swift; sourceTree = "<group>"; };
+		8B34293029787A5F00F63DE1 /* PrivacyCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyCellView.swift; sourceTree = "<group>"; };
+		8B34293529793D5900F63DE1 /* ReservePhraseCopyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservePhraseCopyView.swift; sourceTree = "<group>"; };
+		8B34293729793F2100F63DE1 /* ReservePhraseCopyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservePhraseCopyViewModel.swift; sourceTree = "<group>"; };
+		8B34293929793F5000F63DE1 /* ReservePhraseCopyProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservePhraseCopyProtocols.swift; sourceTree = "<group>"; };
+		8B34293B29793F8C00F63DE1 /* ReservePhraseCopyConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservePhraseCopyConfigurator.swift; sourceTree = "<group>"; };
+		8B34293D2979415E00F63DE1 /* ReservePhraseCopyFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservePhraseCopyFlow.swift; sourceTree = "<group>"; };
 		8B34A9EF28D45E200097ED9E /* GroupActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupActions.swift; sourceTree = "<group>"; };
 		8B34A9F128D45FC20097ED9E /* DirectActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectActions.swift; sourceTree = "<group>"; };
 		8B34A9F328D46BAC0097ED9E /* DirectMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectMenuView.swift; sourceTree = "<group>"; };
@@ -2947,6 +2965,7 @@
 		5A187DF82680708D001957D3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				8B34293429793D4800F63DE1 /* ReserveCopy */,
 				8B2D40ED295D0B09009D9581 /* GeneratePhrase */,
 				8BBF9082293514B000936F4D /* NotificationsSettings */,
 				8B23C76B28E0A16C00418F2D /* FriendProfileView */,
@@ -4163,6 +4182,29 @@
 			path = GeneratePhrase;
 			sourceTree = "<group>";
 		};
+		8B34292929786EBA00F63DE1 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				8B34292A29786EC800F63DE1 /* SecurityCellItem.swift */,
+				8B34292C29786EEC00F63DE1 /* SecurityAdvancedCellView.swift */,
+				8B34292E29786F0000F63DE1 /* SecurityCellView.swift */,
+				8B34293029787A5F00F63DE1 /* PrivacyCellView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		8B34293429793D4800F63DE1 /* ReserveCopy */ = {
+			isa = PBXGroup;
+			children = (
+				8B34293529793D5900F63DE1 /* ReservePhraseCopyView.swift */,
+				8B34293729793F2100F63DE1 /* ReservePhraseCopyViewModel.swift */,
+				8B34293929793F5000F63DE1 /* ReservePhraseCopyProtocols.swift */,
+				8B34293B29793F8C00F63DE1 /* ReservePhraseCopyConfigurator.swift */,
+				8B34293D2979415E00F63DE1 /* ReservePhraseCopyFlow.swift */,
+			);
+			path = ReserveCopy;
+			sourceTree = "<group>";
+		};
 		8B34A9FB28D4AB380097ED9E /* GroupMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -4331,6 +4373,7 @@
 		8B6C18BC2799A5C500B85F2A /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				8B34292929786EBA00F63DE1 /* Components */,
 				8B6E5552279F0E2E002054CF /* PinCodeCreate */,
 				8B6C18BD2799A5E100B85F2A /* SecurityView.swift */,
 				8B6C18BF2799A60D00B85F2A /* SecurityViewModel.swift */,
@@ -7554,6 +7597,7 @@
 				D4EFEB4D28E2AF100075CC10 /* MXUsersTrustLevelSummary.m in Sources */,
 				D4EFEB0828E2AF100075CC10 /* MXIncomingRoomKeyRequest.m in Sources */,
 				5A4BE4F9271DC32500D03D09 /* AuthResponse.swift in Sources */,
+				8B34292F29786F0000F63DE1 /* SecurityCellView.swift in Sources */,
 				8BE3799927EA133800AB6B6E /* SelectTokenView.swift in Sources */,
 				8B23C77128E0A1BE00418F2D /* FriendProfileFlow.swift in Sources */,
 				D4EFEB9928E2AF100075CC10 /* MXCallReplacesEventContent.m in Sources */,
@@ -8028,6 +8072,7 @@
 				D4EFEBC228E2AF100075CC10 /* MXLoginTerms.m in Sources */,
 				8B24FDD827A820C60021177C /* SessionProtocols.swift in Sources */,
 				D4EFEC2228E2AF110075CC10 /* NSObject+sortedKeys.m in Sources */,
+				8B34293129787A5F00F63DE1 /* PrivacyCellView.swift in Sources */,
 				D4533A182833567D00B956B2 /* RemoteConfigValues.swift in Sources */,
 				8B12263927C53121008DC048 /* SlideCardsView.swift in Sources */,
 				8BB517BB2856B79500D06593 /* ChatDocumentView.swift in Sources */,
@@ -8190,6 +8235,7 @@
 				D4A26E292937165800FEADC2 /* BalanceRequestParams.swift in Sources */,
 				D4EFEC0928E2AF110075CC10 /* MXSession.swift in Sources */,
 				D4EFECA428E2AF110075CC10 /* MXReactionCountChangeListener.m in Sources */,
+				8B34293829793F2100F63DE1 /* ReservePhraseCopyViewModel.swift in Sources */,
 				D4EFEBD328E2AF100075CC10 /* MXThirdPartyUserInstance.m in Sources */,
 				D4EFEB4B28E2AF100075CC10 /* MXDeviceTrustLevel.m in Sources */,
 				5A26CD6126B35C9B00118D4B /* Message.swift in Sources */,
@@ -8202,6 +8248,7 @@
 				D4EFEC9028E2AF110075CC10 /* MXAggregatedReferencesUpdater.m in Sources */,
 				D4533A142832C9A600B956B2 /* ChatRoomTogglesFacade.swift in Sources */,
 				D4EFEB9E28E2AF100075CC10 /* MXCallNegotiateEventContent.m in Sources */,
+				8B34293629793D5900F63DE1 /* ReservePhraseCopyView.swift in Sources */,
 				789FEBD526D651530018FE91 /* AdditionalView.swift in Sources */,
 				5A26CD3B26B3211100118D4B /* TapAnimator.swift in Sources */,
 				D4752EBE28C9D16B006B650A /* JistsiConstants.swift in Sources */,
@@ -8276,6 +8323,7 @@
 				D40D7D7E290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift in Sources */,
 				D4EFEB6628E2AF100075CC10 /* MXDeviceList.m in Sources */,
 				5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */,
+				8B34292D29786EEC00F63DE1 /* SecurityAdvancedCellView.swift in Sources */,
 				D4EFEC6728E2AF110075CC10 /* MXRoomListDataCounts.swift in Sources */,
 				7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */,
 				8B4E9C3F27E0AA150057E4C9 /* WalletAdressScanerFlow.swift in Sources */,
@@ -8310,6 +8358,7 @@
 				D4EFEB2628E2AF100075CC10 /* MXKeyVerificationRequestByToDeviceJSONModel.m in Sources */,
 				8B5609BA277B14AE00AF43F6 /* ProfileBackgroundViewPreview.swift in Sources */,
 				7889064527064F8D0093459C /* ProfileNetworkDetailFlow.swift in Sources */,
+				8B34293A29793F5000F63DE1 /* ReservePhraseCopyProtocols.swift in Sources */,
 				D44BDC852809A3CD0080AE8A /* PushNotificationCoordinatorAssembly.swift in Sources */,
 				D4EFEC7528E2AF110075CC10 /* MXCoreDataRoomSummaryStore.swift in Sources */,
 				5A3721D5272F0A290097ABED /* ContactRow.swift in Sources */,
@@ -8342,6 +8391,7 @@
 				D4DF2B3C28F589090057499A /* MeasureSizeModifier.swift in Sources */,
 				D4EFEBE828E2AF110075CC10 /* MXHTTPOperation.m in Sources */,
 				8BE6673D280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift in Sources */,
+				8B34292B29786EC800F63DE1 /* SecurityCellItem.swift in Sources */,
 				8B23C76F28E0A1B300418F2D /* FriendProfileConfigurator.swift in Sources */,
 				D4EFEC1928E2AF110075CC10 /* MXPushRuleSenderNotificationPermissionConditionChecker.m in Sources */,
 				D49C89CA290A6AF6005B4F64 /* ReactionTextsView.swift in Sources */,
@@ -8459,6 +8509,7 @@
 				D44D61D628951CC6004F5301 /* SocialListHeaderView.swift in Sources */,
 				8B23C77D28E1037500418F2D /* SettingsConfigurator.swift in Sources */,
 				D4EFEBCB28E2AF100075CC10 /* MXEventContentRelatesTo.m in Sources */,
+				8B34293E2979415E00F63DE1 /* ReservePhraseCopyFlow.swift in Sources */,
 				D44CBF0B29309141006A14D1 /* WalletRequestsFactory.swift in Sources */,
 				D4EFEB6F28E2AF100075CC10 /* MXRoomInitialStateEventBuilder.swift in Sources */,
 				8BE379A027EB26BC00AB6B6E /* WalletManagerFlow.swift in Sources */,
@@ -8630,6 +8681,7 @@
 				8B4810FD27CF9BC400831589 /* ImportKeyProtocols.swift in Sources */,
 				5A8A13EB27D11B3A004C4B4F /* TrackableScrollView.swift in Sources */,
 				D4EFEBE328E2AF110075CC10 /* MXThrottler.m in Sources */,
+				8B34293C29793F8C00F63DE1 /* ReservePhraseCopyConfigurator.swift in Sources */,
 				D4EFEAE228E2AF100075CC10 /* MXBackgroundPushRulesManager.swift in Sources */,
 				D4EFEBF628E2AF110075CC10 /* NSData+MatrixSDK.m in Sources */,
 				789FEBD826D8FFD50018FE91 /* CallListViewModel.swift in Sources */,

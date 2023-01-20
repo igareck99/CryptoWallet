@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - SecurityFlow
+// MARK: - ReservePhraseCopyFlow
 
-enum SecurityFlow {
+enum ReservePhraseCopyFlow {
 
     // MARK: - ViewState
 
@@ -21,13 +21,6 @@ enum SecurityFlow {
 
         // MARK: - Types
 
-        case onBlockList
         case onAppear
-        case onCreatePassword
-        case onFalsePassword
-        case onSession
-        case onApprovePassword
-        case onImportKey
-        case onPhrase
     }
 }

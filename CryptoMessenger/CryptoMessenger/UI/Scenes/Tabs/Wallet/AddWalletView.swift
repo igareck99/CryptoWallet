@@ -33,7 +33,6 @@ struct AddWalletView: View {
             }
             .padding(.leading, 16)
             .onDisappear {
-                debugPrint("onDisappearAddWallet")
                 showTabBar()
             }
             .onTapGesture {

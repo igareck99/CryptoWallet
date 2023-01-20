@@ -29,7 +29,6 @@ final class PhraseService: PhraseServiceProtocol {
         var words: [String] = []
         for _ in 1...12 {
             let randomInt = Int.random(in: 0..<2047)
-            print(randomInt)
             words.append(WordList.english.words[randomInt])
             words.shuffle()
         }

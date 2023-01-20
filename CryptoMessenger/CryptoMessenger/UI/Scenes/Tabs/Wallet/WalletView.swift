@@ -71,11 +71,8 @@ struct WalletView: View {
     @State private var scrollViewContentOffset = CGFloat(0)
 
     var content: some View {
-        TrackableScroll(
-            .vertical,
-            showIndicators: true,
-            contentOffset: $scrollViewContentOffset
-        ) {
+        ScrollViewReader { _ in
+        ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 TabView(selection: $pageIndex) {
                     ForEach(Array(viewModel.cardsList.enumerated()), id: \.element) { index, wallet in
@@ -100,32 +97,14 @@ struct WalletView: View {
                 destination: tokenInfoView(),
                 isActive: $showTokenInfo
             ) { EmptyView() }
-
-            VStack(spacing: 24) {
-
-                sendButton
-                    .frame(height: 58)
-                    .padding(.horizontal, 16)
-
-                transactionTitleView
-                    .padding(.top, 26)
-
-                VStack(spacing: 0) {
-                    ForEach(viewModel.transactionsList(index: pageIndex)) { item in
-                        DisclosureGroup {
-                            TransactionDetailsView(model: item.details)
-                                .padding(.horizontal, 16)
-                        } label: {
-                            TransactionInfoView(transaction: item.info)
-                                .padding(.horizontal, 16)
-                        }
-                        .buttonStyle(.plain)
-                        .accentColor(.clear)
-                        .padding(.vertical, 4)
-                    }
-                }
+            sendView
+            if viewModel.transactionsList(index: index).isEmpty {
+                emptyTransactionsView
+                    .padding(.top, 32)
+            } else {
+                transactionView
+                    .padding(.top, 24)
             }
-            .padding(.top, 24)
         }
         .onChange(of: scrollViewContentOffset) { newValue in
             debugPrint("TrackableScroll scrollViewContentOffset: \(newValue)")
@@ -151,7 +130,8 @@ struct WalletView: View {
             AddWalletView(viewModel: viewModel,
                           showAddWallet: $showAddWallet)
                 .frame(width: UIScreen.main.bounds.width,
-                       height: 114, alignment: .center)
+                       height: 114,
+                       alignment: .center)
                 .background(.white())
                 .cornerRadius(16)
         })
@@ -161,6 +141,7 @@ struct WalletView: View {
                     .presentationDetents([.height(302)])
             }
         }
+        }
     }
 
     // MARK: - Private Properties
@@ -168,7 +149,7 @@ struct WalletView: View {
     @ViewBuilder
     private func loadingStateView() -> some View {
         VStack {
-            Image(R.image.wallet.loader.name)
+            R.image.wallet.loader.image
                 .rotationEffect(.degrees(isRotating))
                 .onAppear {
                     withAnimation(.linear(duration: 1)
@@ -298,5 +279,48 @@ struct WalletView: View {
         }
         .background(Color.azureRadianceApprox)
         .cornerRadius(10)
+    }
+
+    private var transactionView: some View {
+        VStack(spacing: 24) {
+            LazyVStack(spacing: 0) {
+                ForEach(viewModel.transactionsList(index: pageIndex),
+                        id: \.self) { item in
+                    DisclosureGroup {
+                        TransactionDetailsView(model: item.details)
+                            .padding(.horizontal, 16)
+                    } label: {
+                        TransactionInfoView(transaction: item.info)
+                            .padding(.horizontal, 16)
+                    }
+                    .scaledToFill()
+                    .buttonStyle(.plain)
+                    .accentColor(.clear)
+                    .padding(.vertical, 4)
+                }
+            }
+        }
+    }
+
+    private var sendView: some View {
+        VStack(spacing: 24) {
+            sendButton
+                .frame(height: 58)
+                .padding(.horizontal, 16)
+            transactionTitleView
+                .padding(.top, 8)
+        }
+    }
+
+    private var emptyTransactionsView: some View {
+        VStack(alignment: .center) {
+            R.image.wallet.emptyTransactions.image
+            Text(R.string.localizable.walletNoData())
+                .font(.regular(22))
+            Text(R.string.localizable.walletManagerMakeYourFirstTransaction())
+                .multilineTextAlignment(.center)
+                .font(.regular(15))
+                .foreground(.darkGray())
+        }
     }
 }
