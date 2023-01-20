@@ -396,6 +396,8 @@
 "SuccessFacilityView.OKClose" = "Хорошо, закрыть";
 "SuccessFacilityView.ShowTransaction" = "Посмотреть транзакцию";
 
+"CreateChannel.Title" = "Название";
+"CreateChannel.Description" = "Описание";
 
 "CreateAction.CreateChannel" = "Создать канал";
 "CreateAction.NewContact" = "Новый контакт";

@@ -69,6 +69,11 @@ protocol MatrixServiceProtocol {
 	func uploadUser(data: Data, completion: @escaping GenericBlock<String?>)
 	func allUsers() -> [MXUser]
 	func searchUser(_ id: String, completion: @escaping GenericBlock<String?>)
+    func inviteUser(userId: String, roomId: String, completion: @escaping EmptyResultBlock)
+    func kickUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock)
+    func banUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock)
+    func unbanUser(userId: String, roomId: String, completion: @escaping EmptyResultBlock)
+    func leaveRoom(roomId: String, completion: @escaping EmptyResultBlock)
 
 	// MARK: - Pagination
 	func paginate(room: AuraRoom, event: MXEvent)

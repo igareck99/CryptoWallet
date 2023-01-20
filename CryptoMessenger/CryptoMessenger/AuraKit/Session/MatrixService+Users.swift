@@ -91,4 +91,39 @@ extension MatrixService {
 			}
 		}
 	}
+    
+    func inviteUser(userId: String, roomId: String, completion: @escaping EmptyResultBlock ) {
+        client?.invite(.userId(userId), toRoom: roomId) { response in
+            guard case .success = response else { completion(.failure); return }
+            completion(.success)
+        }
+    }
+    
+    func kickUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock) {
+        client?.kickUser(userId, fromRoom: roomId, reason: reason) { response in
+            guard case .success = response else { completion(.failure); return }
+            completion(.success)
+        }
+    }
+    
+    func banUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock) {
+        client?.banUser(userId, fromRoom: roomId, reason: reason) { response in
+            guard case .success = response else { completion(.failure); return }
+            completion(.success)
+        }
+    }
+    
+    func unbanUser(userId: String, roomId: String, completion: @escaping EmptyResultBlock) {
+        client?.unbanUser(userId, fromRoom: roomId) { response in
+            guard case .success = response else { completion(.failure); return }
+            completion(.success)
+        }
+    }
+    
+    func leaveRoom(roomId: String, completion: @escaping EmptyResultBlock) {
+        client?.leaveRoom(roomId) {response in
+            guard case .success = response else { completion(.failure); return }
+            completion(.success)
+        }
+    }
 }

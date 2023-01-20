@@ -46,6 +46,7 @@ struct ChatCreateView: View {
     @Binding var chatData: ChatData
     @StateObject var viewModel: ChatCreateViewModel
     @State var showContactCreate = false
+    @State var showChannelCreate = false
 
     // MARK: - Private Properties
 
@@ -87,6 +88,13 @@ struct ChatCreateView: View {
                         destination: CreateContactView(viewModel: CreateContactViewModel(),
                                                        showContactCreate: $showContactCreate),
                         isActive: $showContactCreate
+                    )
+                )
+                .overlay(
+                    EmptyNavigationLink(
+                        destination: CreateChannelView(viewModel: CreateChannelViewModel()),
+//                        destination: ChannelInfoView(viewModel: ChannelInfoViewModel()),
+                        isActive: $showChannelCreate
                     )
                 )
         }
@@ -133,6 +141,8 @@ struct ChatCreateView: View {
                                             showContacts.toggle()
                                         case .newContact:
                                             showContactCreate.toggle()
+//                                        case .createChannel:
+//                                            showChannelCreate.toggle()
                                         default:
                                             break
                                         }
@@ -213,9 +223,9 @@ struct ChatCreateView: View {
                 action.image
 
                 action.text
-                    .font(.semibold(15))
+                    .font(.system(size: 17))
                     .foreground(.black())
-                    .frame(height: 65)
+                    .frame(height: 57)
 
                 Spacer()
             }
@@ -224,8 +234,8 @@ struct ChatCreateView: View {
                 Rectangle()
                     .fill(Color(.gray(0.8)))
                     .frame(height: 1)
-                    .padding(.leading, 52)
-                    .padding(.trailing, 8)
+                    .padding(.leading, 37)
+                    .padding(.trailing, 0)
             }
         }
     }

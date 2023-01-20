@@ -44,6 +44,11 @@ protocol MatrixUseCaseProtocol {
 	func setStatus(_ status: String, completion: @escaping VoidBlock)
 	func setUserAvatarUrl(_ data: Data, completion: @escaping GenericBlock<URL?>)
 
+    func inviteUser(userId: String, roomId: String, completion: @escaping EmptyResultBlock)
+    func kickUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock)
+    func banUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock)
+    func unbanUser(userId: String, roomId: String, completion: @escaping EmptyResultBlock)
+
 	// MARK: - Device
 	func getDevicesWithActiveSessions(completion: @escaping (Result<[MXDevice], Error>) -> Void)
 	func logoutDevices(completion: @escaping EmptyResultBlock)
