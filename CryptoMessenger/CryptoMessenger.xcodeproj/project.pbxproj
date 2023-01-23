@@ -200,7 +200,6 @@
 		5AC8C4F627C42FB8008B1744 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC8C4F527C42FB8008B1744 /* URL+Extensions.swift */; };
 		5AD6E37E2753FFEF00CEFCE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AD6E37D2753FFEF00CEFCE2 /* Assets.xcassets */; };
 		5AE28A9C27EA1DE500D1AAFF /* ReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE28A9B27EA1DE500D1AAFF /* ReplyView.swift */; };
-		5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FA26DCEA49009A1944 /* Resources.swift */; };
 		5AEB80FF26DE138F009A1944 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */; };
 		5AF8633526AA994E004A417C /* VerificationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8632F26AA994E004A417C /* VerificationPresenter.swift */; };
 		5AF8633626AA994E004A417C /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633026AA994E004A417C /* VerificationViewController.swift */; };
@@ -630,6 +629,10 @@
 		D44BDC99280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */; };
 		D44BDC9A280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */; };
 		D44BDC9B280FECC80080AE8A /* DependeciesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC95280FECC80080AE8A /* DependeciesService.swift */; };
+		D44C8A8F298131F600383A46 /* UserSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44C8A8E298131F600383A46 /* UserSettingsView.swift */; };
+		D44C8A912981322700383A46 /* UserSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44C8A902981322700383A46 /* UserSettingsViewModel.swift */; };
+		D44C8A94298146B600383A46 /* UserSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44C8A93298146B600383A46 /* UserSettingView.swift */; };
+		D44C8A962981487600383A46 /* UserSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44C8A952981487600383A46 /* UserSettingModel.swift */; };
 		D44CBF0529308BC1006A14D1 /* BaseNetworkModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44CBF0429308BC1006A14D1 /* BaseNetworkModels.swift */; };
 		D44CBF0729308BE0006A14D1 /* BaseNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44CBF0629308BE0006A14D1 /* BaseNetworkService.swift */; };
 		D44CBF0929308C11006A14D1 /* BaseNetworkRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44CBF0829308C11006A14D1 /* BaseNetworkRequestFactory.swift */; };
@@ -660,6 +663,11 @@
 		D4533A1E28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */; };
 		D455F732287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D455F731287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift */; };
 		D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46187D2282D093200CA2836 /* ChatHistorySources.swift */; };
+		D46B7C65297E935100BA4A9B /* CustomConfirmDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B7C64297E935100BA4A9B /* CustomConfirmDialog.swift */; };
+		D46B7C68297E93A600BA4A9B /* ConfirmDialogActionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B7C67297E93A600BA4A9B /* ConfirmDialogActionModel.swift */; };
+		D46B7C6A297E93BB00BA4A9B /* ConfirmDialogActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B7C69297E93BB00BA4A9B /* ConfirmDialogActionView.swift */; };
+		D46B7C6C297E989F00BA4A9B /* CancelActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B7C6B297E989F00BA4A9B /* CancelActionView.swift */; };
+		D46B7C6E297E98AF00BA4A9B /* CancelActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B7C6D297E98AF00BA4A9B /* CancelActionViewModel.swift */; };
 		D46C8FD92942C99000DD0B01 /* TransactionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C8FD82942C99000DD0B01 /* TransactionDetailsView.swift */; };
 		D46C8FDB2942C9DC00DD0B01 /* TransactionDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C8FDA2942C9DC00DD0B01 /* TransactionDetails.swift */; };
 		D46C8FDD2942CBA700DD0B01 /* TransactionSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C8FDC2942CBA700DD0B01 /* TransactionSection.swift */; };
@@ -706,6 +714,9 @@
 		D49C89CA290A6AF6005B4F64 /* ReactionTextsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C4290A6AF6005B4F64 /* ReactionTextsView.swift */; };
 		D49C89CB290A6AF6005B4F64 /* ReactionTextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C5290A6AF6005B4F64 /* ReactionTextItem.swift */; };
 		D49C89CD290A6B1A005B4F64 /* ReactionsPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89CC290A6B1A005B4F64 /* ReactionsPalette.swift */; };
+		D49F8AF5297FA4F000405749 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FA26DCEA49009A1944 /* Resources.swift */; };
+		D49F8AF7297FA59500405749 /* TextActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49F8AF6297FA59500405749 /* TextActionView.swift */; };
+		D49F8AF9297FA5AF00405749 /* TextActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49F8AF8297FA5AF00405749 /* TextActionViewModel.swift */; };
 		D4A26E222935BADD00FEADC2 /* AddressRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A26E212935BADD00FEADC2 /* AddressRequestParams.swift */; };
 		D4A26E2529368DB300FEADC2 /* EmptyStateViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A26E2429368DB300FEADC2 /* EmptyStateViewModifier.swift */; };
 		D4A26E272937117E00FEADC2 /* TransactionInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A26E262937117E00FEADC2 /* TransactionInfoView.swift */; };
@@ -1857,6 +1868,10 @@
 		D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserFlowStorage.swift"; sourceTree = "<group>"; };
 		D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserCredentialsStorage.swift"; sourceTree = "<group>"; };
 		D44BDC95280FECC80080AE8A /* DependeciesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependeciesService.swift; sourceTree = "<group>"; };
+		D44C8A8E298131F600383A46 /* UserSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsView.swift; sourceTree = "<group>"; };
+		D44C8A902981322700383A46 /* UserSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsViewModel.swift; sourceTree = "<group>"; };
+		D44C8A93298146B600383A46 /* UserSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingView.swift; sourceTree = "<group>"; };
+		D44C8A952981487600383A46 /* UserSettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingModel.swift; sourceTree = "<group>"; };
 		D44CBF0429308BC1006A14D1 /* BaseNetworkModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNetworkModels.swift; sourceTree = "<group>"; };
 		D44CBF0629308BE0006A14D1 /* BaseNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNetworkService.swift; sourceTree = "<group>"; };
 		D44CBF0829308C11006A14D1 /* BaseNetworkRequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNetworkRequestFactory.swift; sourceTree = "<group>"; };
@@ -1887,6 +1902,11 @@
 		D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		D455F731287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteConfigUseCase+Toggles.swift"; sourceTree = "<group>"; };
 		D46187D2282D093200CA2836 /* ChatHistorySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySources.swift; sourceTree = "<group>"; };
+		D46B7C64297E935100BA4A9B /* CustomConfirmDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomConfirmDialog.swift; sourceTree = "<group>"; };
+		D46B7C67297E93A600BA4A9B /* ConfirmDialogActionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogActionModel.swift; sourceTree = "<group>"; };
+		D46B7C69297E93BB00BA4A9B /* ConfirmDialogActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogActionView.swift; sourceTree = "<group>"; };
+		D46B7C6B297E989F00BA4A9B /* CancelActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelActionView.swift; sourceTree = "<group>"; };
+		D46B7C6D297E98AF00BA4A9B /* CancelActionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelActionViewModel.swift; sourceTree = "<group>"; };
 		D46C8FD82942C99000DD0B01 /* TransactionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsView.swift; sourceTree = "<group>"; };
 		D46C8FDA2942C9DC00DD0B01 /* TransactionDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetails.swift; sourceTree = "<group>"; };
 		D46C8FDC2942CBA700DD0B01 /* TransactionSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSection.swift; sourceTree = "<group>"; };
@@ -1935,6 +1955,8 @@
 		D49C89C4290A6AF6005B4F64 /* ReactionTextsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionTextsView.swift; sourceTree = "<group>"; };
 		D49C89C5290A6AF6005B4F64 /* ReactionTextItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionTextItem.swift; sourceTree = "<group>"; };
 		D49C89CC290A6B1A005B4F64 /* ReactionsPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionsPalette.swift; sourceTree = "<group>"; };
+		D49F8AF6297FA59500405749 /* TextActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextActionView.swift; sourceTree = "<group>"; };
+		D49F8AF8297FA5AF00405749 /* TextActionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextActionViewModel.swift; sourceTree = "<group>"; };
 		D4A26E212935BADD00FEADC2 /* AddressRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressRequestParams.swift; sourceTree = "<group>"; };
 		D4A26E2429368DB300FEADC2 /* EmptyStateViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateViewModifier.swift; sourceTree = "<group>"; };
 		D4A26E262937117E00FEADC2 /* TransactionInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInfoView.swift; sourceTree = "<group>"; };
@@ -3046,6 +3068,7 @@
 		5A187E4A2680708D001957D3 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				D46B7C63297E934500BA4A9B /* Custom Confirm Dialog */,
 				D46C9010294774FD00DD0B01 /* Segmented Controll */,
 				D4A26E2329368DA400FEADC2 /* Empty State View */,
 				8B4DBFF928F5D694003F58EB /* GalleryPicker */,
@@ -5027,6 +5050,25 @@
 			path = "UserDefaults Service";
 			sourceTree = "<group>";
 		};
+		D44C8A8D298131DC00383A46 /* User Settings View */ = {
+			isa = PBXGroup;
+			children = (
+				D44C8A922981459000383A46 /* Views */,
+				D44C8A8E298131F600383A46 /* UserSettingsView.swift */,
+				D44C8A902981322700383A46 /* UserSettingsViewModel.swift */,
+			);
+			path = "User Settings View";
+			sourceTree = "<group>";
+		};
+		D44C8A922981459000383A46 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D44C8A93298146B600383A46 /* UserSettingView.swift */,
+				D44C8A952981487600383A46 /* UserSettingModel.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		D44CBF0329308BAF006A14D1 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -5099,6 +5141,7 @@
 		D4506986297A4A7D009515C8 /* Channel Info View */ = {
 			isa = PBXGroup;
 			children = (
+				D44C8A8D298131DC00383A46 /* User Settings View */,
 				D450698B297A4DBF009515C8 /* Views */,
 				D4506987297A4ACA009515C8 /* ChannelInfoView.swift */,
 				D4506989297A4AD6009515C8 /* ChannelInfoViewModel.swift */,
@@ -5111,6 +5154,28 @@
 			children = (
 				D450698C297A4DCE009515C8 /* ChannelSettingsView.swift */,
 				D450698E297A65FA009515C8 /* ChannelParticipantView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D46B7C63297E934500BA4A9B /* Custom Confirm Dialog */ = {
+			isa = PBXGroup;
+			children = (
+				D46B7C66297E939D00BA4A9B /* Views */,
+				D46B7C64297E935100BA4A9B /* CustomConfirmDialog.swift */,
+			);
+			path = "Custom Confirm Dialog";
+			sourceTree = "<group>";
+		};
+		D46B7C66297E939D00BA4A9B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D46B7C67297E93A600BA4A9B /* ConfirmDialogActionModel.swift */,
+				D46B7C69297E93BB00BA4A9B /* ConfirmDialogActionView.swift */,
+				D46B7C6B297E989F00BA4A9B /* CancelActionView.swift */,
+				D46B7C6D297E98AF00BA4A9B /* CancelActionViewModel.swift */,
+				D49F8AF6297FA59500405749 /* TextActionView.swift */,
+				D49F8AF8297FA5AF00405749 /* TextActionViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -7683,6 +7748,7 @@
 				8BE379AF27EB7D0900AB6B6E /* KeyListViewModel.swift in Sources */,
 				8B69C3F527FE398B0020F289 /* ImageEditor.swift in Sources */,
 				8BA0C8F827AD193C0070203F /* ChatSettingsView.swift in Sources */,
+				D46B7C6A297E93BB00BA4A9B /* ConfirmDialogActionView.swift in Sources */,
 				D4EFEB5228E2AF100075CC10 /* MXCryptoRequests.swift in Sources */,
 				D4EFEB7728E2AF100075CC10 /* MXAntivirusScanStatusFormatter.m in Sources */,
 				D4EFECA028E2AF110075CC10 /* MXEventEditsListener.m in Sources */,
@@ -7882,6 +7948,7 @@
 				D4EFEAE628E2AF100075CC10 /* MXStopwatch.swift in Sources */,
 				D4EFEAED28E2AF100075CC10 /* MX3PidAddManager.m in Sources */,
 				D49C89CB290A6AF6005B4F64 /* ReactionTextItem.swift in Sources */,
+				D49F8AF5297FA4F000405749 /* Resources.swift in Sources */,
 				D4E8785F28CE02EA00063762 /* GroupCallsViewModel.swift in Sources */,
 				8B6C18BE2799A5E200B85F2A /* SecurityView.swift in Sources */,
 				D4857CF628ACD0EF00C904EC /* AudioView.swift in Sources */,
@@ -8079,6 +8146,7 @@
 				D4EFEB2528E2AF100075CC10 /* MXKeyVerificationJSONModel.m in Sources */,
 				D4EFEC8228E2AF110075CC10 /* MXReplyEventParts.m in Sources */,
 				D4EFEAE928E2AF100075CC10 /* MXSyncResponseFileStore.swift in Sources */,
+				D44C8A912981322700383A46 /* UserSettingsViewModel.swift in Sources */,
 				8B6E5558279FF922002054CF /* PinCodeCreateConfigurator.swift in Sources */,
 				8B5A338A27D89D400064C7DC /* TransferViewModel.swift in Sources */,
 				D4EFEB5928E2AF100075CC10 /* MXKey.m in Sources */,
@@ -8171,6 +8239,7 @@
 				D4EFEBEC28E2AF110075CC10 /* MXAsyncTaskQueue.swift in Sources */,
 				D4EFEB0728E2AF100075CC10 /* MXOutgoingRoomKeyRequest.m in Sources */,
 				D4EFEC5428E2AF110075CC10 /* MXInvite3PID.m in Sources */,
+				D46B7C65297E935100BA4A9B /* CustomConfirmDialog.swift in Sources */,
 				D4533A1C28335A6700B956B2 /* RemoteConfigServiceAssembly.swift in Sources */,
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
 				D4EFEC3228E2AF110075CC10 /* MXSpaceChildInfo.swift in Sources */,
@@ -8380,9 +8449,11 @@
 				7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */,
 				8B4E9C3F27E0AA150057E4C9 /* WalletAdressScanerFlow.swift in Sources */,
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
+				D49F8AF9297FA5AF00405749 /* TextActionViewModel.swift in Sources */,
 				D4EFEB0628E2AF100075CC10 /* MXPendingSecretShareRequest.m in Sources */,
 				D4EFEC9328E2AF110075CC10 /* MXBeaconInfoSummaryPerRoomListener.swift in Sources */,
 				8BA0C8FC27AD19A70070203F /* ChatSettingsViewModel.swift in Sources */,
+				D49F8AF7297FA59500405749 /* TextActionView.swift in Sources */,
 				D4EFEC0728E2AF110075CC10 /* MXImage.swift in Sources */,
 				8BC51800296CC8BB0033B30F /* ChooseWalletTypeCell.swift in Sources */,
 				D4533A1E28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift in Sources */,
@@ -8504,6 +8575,7 @@
 				D4EFEB1328E2AF100075CC10 /* MXMegolmExportEncryption.m in Sources */,
 				D4EFEBFF28E2AF110075CC10 /* RLMSupport.swift in Sources */,
 				D4EFEB5028E2AF100075CC10 /* MXEventDecryptionResult+DecryptedEvent.swift in Sources */,
+				D46B7C6E297E98AF00BA4A9B /* CancelActionViewModel.swift in Sources */,
 				D4EFEC0128E2AF110075CC10 /* MXMediaManager.m in Sources */,
 				5A187F272680CF49001957D3 /* Сonfiguration.swift in Sources */,
 				D44D61D828951D0F004F5301 /* SocialListItemView.swift in Sources */,
@@ -8528,6 +8600,7 @@
 				D4EFEB1C28E2AF100075CC10 /* MXCrossSigningInfo.m in Sources */,
 				5A67791C26C7A64100212580 /* ChatRoomRow.swift in Sources */,
 				5AF8633526AA994E004A417C /* VerificationPresenter.swift in Sources */,
+				D46B7C68297E93A600BA4A9B /* ConfirmDialogActionModel.swift in Sources */,
 				5A42680626A83554000C51DD /* RegistrationViewController.swift in Sources */,
 				D4EFEB8728E2AF100075CC10 /* MXCapabilities.m in Sources */,
 				D4EFEB0328E2AF100075CC10 /* MXSecretShareManager.m in Sources */,
@@ -8564,6 +8637,7 @@
 				D4EFEBCB28E2AF100075CC10 /* MXEventContentRelatesTo.m in Sources */,
 				8B34293E2979415E00F63DE1 /* ReservePhraseCopyFlow.swift in Sources */,
 				D44CBF0B29309141006A14D1 /* WalletRequestsFactory.swift in Sources */,
+				D46B7C6C297E989F00BA4A9B /* CancelActionView.swift in Sources */,
 				D4EFEB6F28E2AF100075CC10 /* MXRoomInitialStateEventBuilder.swift in Sources */,
 				8BE379A027EB26BC00AB6B6E /* WalletManagerFlow.swift in Sources */,
 				D4EFECAA28E2AF110075CC10 /* MXEvent+Extensions.swift in Sources */,
@@ -8646,6 +8720,7 @@
 				8BBCBCC628F73D2A00E42F0C /* Video.swift in Sources */,
 				D4EFEBE128E2AF110075CC10 /* MXMulticastDelegate.swift in Sources */,
 				8B712D9128B9837E0071C0EC /* PreviewControllerTestView.swift in Sources */,
+				D44C8A94298146B600383A46 /* UserSettingView.swift in Sources */,
 				8B5609B427792B0000AF43F6 /* TypographyNewItem.swift in Sources */,
 				8B6BEE7F275665D4003A24B6 /* ProfileView.swift in Sources */,
 				8B2D40F3295D0B9F009D9581 /* GeneratePhraseProtocols.swift in Sources */,
@@ -8740,6 +8815,7 @@
 				D4EFEBF628E2AF110075CC10 /* NSData+MatrixSDK.m in Sources */,
 				789FEBD826D8FFD50018FE91 /* CallListViewModel.swift in Sources */,
 				5A187DF526807011001957D3 /* BaseNavigationController.swift in Sources */,
+				D44C8A962981487600383A46 /* UserSettingModel.swift in Sources */,
 				5A4BE51A271DD86A00D03D09 /* RoomSummary.swift in Sources */,
 				8B58DB8C27F508FF003C2C31 /* DragDelegate.swift in Sources */,
 				8B5609B82779D2D800AF43F6 /* BackgroundView.swift in Sources */,
@@ -8828,7 +8904,6 @@
 				D4EFEBD928E2AF100075CC10 /* MXEvent.m in Sources */,
 				8B4E9C3027DFF6320057E4C9 /* ScannerCoordinator.swift in Sources */,
 				5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */,
-				5AEB80FB26DCEA49009A1944 /* Resources.swift in Sources */,
 				8B38D13D28C12946002733D7 /* ProfileSettingsMenuViewModel.swift in Sources */,
 				8BE644F52837660200FA6540 /* ContactInfoView.swift in Sources */,
 				D46C90162947758900DD0B01 /* SelectedSegmentTagKey.swift in Sources */,
@@ -8840,6 +8915,7 @@
 				D4EFEC7928E2AF110075CC10 /* MXRoomMember.m in Sources */,
 				D45004752845DE6100CA4C82 /* HStackView.swift in Sources */,
 				8BE122BF28242EB500F7707E /* MainFlowTogglesFacade.swift in Sources */,
+				D44C8A8F298131F600383A46 /* UserSettingsView.swift in Sources */,
 				D4EFEB6428E2AF100075CC10 /* MXCryptoMigration.m in Sources */,
 				8B74014B275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift in Sources */,
 				D44CBF1029309FEA006A14D1 /* KeysService.swift in Sources */,

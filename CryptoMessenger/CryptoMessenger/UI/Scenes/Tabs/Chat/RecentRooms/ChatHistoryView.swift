@@ -68,52 +68,9 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
             .onDisappear {
                 showTabBar()
             }
-			.navigationBarTitleDisplayMode(.inline)
-			.toolbar {
-
-				ToolbarItem(placement: .navigationBarLeading) {
-					HStack(spacing: 8) {
-						viewModel.sources.chatLogo
-							.renderingMode(.original)
-							.resizable()
-							.scaledToFit()
-							.frame(width: 20, height: 20)
-							.foregroundColor(Color(.init(r: 14, g:142, b: 243)))
-						Text("0.50 \(viewModel.sources.AUR)")
-							.font(.regular(15))
-							.foreground(.black())
-					}
-				}
-
-				ToolbarItem(placement: .principal) {
-					HStack(spacing: 4) {
-						Text(viewModel.sources.chats)
-							.multilineTextAlignment(.center)
-							.font(.bold(17))
-							.foreground(.black())
-							.accessibilityAddTraits(.isHeader)
-					}
-				}
-
-				ToolbarItem(placement: .navigationBarTrailing) {
-					HStack(spacing: 4) {
-						Button {
-							createRoomSelected.toggle()
-						} label: {
-							viewModel.sources.squareAndPencil
-								.renderingMode(.original)
-								.foregroundColor(Color(.init(r: 14, g:142, b: 243)))
-						}
-						Button(action: {
-							actionSheet?.show()
-						}, label: {
-							viewModel.sources.ellipsisCircle
-								.renderingMode(.original)
-								.foregroundColor(Color(.init(14, 142, 243)))
-						})
-						.padding(.trailing, 0)
-					}
-				}
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+				toolbarItems()
 			}
 			.sheet(isPresented: $createRoomSelected) {
 				ChatCreateView(chatData: $chatData, viewModel: .init())
@@ -187,4 +144,51 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
 			}.listStyle(.plain)
 		}
 	}
+    
+    @ToolbarContentBuilder
+    private func toolbarItems() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            HStack(spacing: 8) {
+                viewModel.sources.chatLogo
+                    .renderingMode(.original)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20, height: 20)
+                    .foregroundColor(Color(.init(r: 14, g:142, b: 243)))
+                Text("0.50 \(viewModel.sources.AUR)")
+                    .font(.regular(15))
+                    .foreground(.black())
+            }
+        }
+
+        ToolbarItem(placement: .principal) {
+            HStack(spacing: 4) {
+                Text(viewModel.sources.chats)
+                    .multilineTextAlignment(.center)
+                    .font(.bold(17))
+                    .foreground(.black())
+                    .accessibilityAddTraits(.isHeader)
+            }
+        }
+
+        ToolbarItem(placement: .navigationBarTrailing) {
+            HStack(spacing: 4) {
+                Button {
+                    createRoomSelected.toggle()
+                } label: {
+                    viewModel.sources.squareAndPencil
+                        .renderingMode(.original)
+                        .foregroundColor(Color(.init(r: 14, g:142, b: 243)))
+                }
+                Button(action: {
+                            actionSheet?.show()
+                }, label: {
+                    viewModel.sources.ellipsisCircle
+                        .renderingMode(.original)
+                        .foregroundColor(Color(.init(14, 142, 243)))
+                })
+                .padding(.trailing, 0)
+            }
+        }
+    }
 }
