@@ -545,4 +545,12 @@
 "GeneratePhrase.ErrorKey" = "Неверный ключ";
 "GeneratePhrase.Copied" = "Фраза скопирована";
 
+"ChannelSettings.OpenProfile" = "Открыть профиль";
+"ChannelSettings.ChangeRole" = "Изменить роль";
+"ChannelSettings.DeleteFromChannel" = "Удалить из канала";
+"ChannelSettings.PopUpNotifications" = "Всплывающие уведомления";
+"ChannelSettings.TurnedNotifications" = "Включены";
+"ChannelSettings.OffedNotifications" = "Отключены";
+"ChannelSettings.LeaveChannel" = "Покинуть канал";
+"ChannelSettings.SelectRole" = "Выберите роль для участника";
 
