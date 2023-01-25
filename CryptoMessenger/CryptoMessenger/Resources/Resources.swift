@@ -17,5 +17,5 @@ extension ColorResource {
 // MARK: - FontResource ()
 
 extension FontResource {
-    func font(size: CGFloat) -> Font { .custom(self, size: size) }
+    func font(size: CGFloat) -> Font { .custom(name, size: size) }
 }

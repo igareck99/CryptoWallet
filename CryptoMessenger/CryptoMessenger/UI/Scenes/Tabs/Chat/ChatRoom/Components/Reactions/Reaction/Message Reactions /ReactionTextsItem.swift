@@ -26,8 +26,8 @@ struct ReactionTextsItem: Identifiable, ViewGeneratable {
 	// MARK: - ViewGeneratable
 
 	@ViewBuilder
-	func view() -> some View {
-		ReactionTextsView(model: self)
+	func view() -> AnyView {
+		ReactionTextsView(model: self).anyView()
 	}
 
     func getItemWidth() -> CGFloat {
