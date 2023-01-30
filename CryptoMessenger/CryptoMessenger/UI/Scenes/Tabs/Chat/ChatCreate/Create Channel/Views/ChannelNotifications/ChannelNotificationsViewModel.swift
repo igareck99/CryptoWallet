@@ -4,31 +4,54 @@ import Combine
 // MARK: - ChannelNotificationsViewModel
 
 final class ChannelNotificationsViewModel: ObservableObject {
-    
+
+    // MARK: - Internal Properties
+
+    var roomId: String
+
     // MARK: - Private Properties
 
     private let pushNotification: PushNotificationsServiceProtocol
-    @Published var isNotificationsTurned = false
+    private let userSettings: UserCredentialsStorage & UserFlowsStorage
+    private let matrixUseCase: MatrixUseCaseProtocol
 
     // MARK: - Lifecycle
 
     init(
-        pushNotification: PushNotificationsServiceProtocol = PushNotificationsService.shared
+        roomId: String,
+        pushNotification: PushNotificationsServiceProtocol = PushNotificationsService.shared,
+        userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared,
+        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared
     ) {
+        self.roomId = roomId
         self.pushNotification = pushNotification
+        self.userSettings = userSettings
+        self.matrixUseCase = matrixUseCase
     }
 
     // MARK: - Internal Methods
-    
-    func toggleStateNotification(_ value: Bool) {
-        isNotificationsTurned = value
-    }
 
     func computeOpacity(_ item: ChannelNotificationsStatus) -> Double {
-        if isNotificationsTurned && item == .turned || !isNotificationsTurned && item == .offed {
+        guard let room = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {  return 0 }
+        if !room.room.isMuted && item == .turned || room.room.isMuted && item == .offed {
             return 1
         }
         return 0
+    }
+
+    func updateNotifications(_ item: ChannelNotificationsStatus) {
+        guard let room = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {  return }
+        if item == .turned {
+            if room.room.isMuted && userSettings.isRoomNotificationsEnable {
+                pushNotification.allMessages(room: room) { _ in
+                }
+            }
+        }
+        if item == .offed {
+            pushNotification.mute(room: room) { _ in
+            }
+        } 
+        self.objectWillChange.send()
     }
 }
 

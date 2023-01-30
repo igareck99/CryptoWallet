@@ -9,17 +9,20 @@ struct TextFieldView: View {
     var title = ""
     @Binding var text: String
     var placeholder: String
+    var color: Palette = .paleBlue()
 
     // MARK: - Body
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(title, [
-                .font(.semibold(12)),
-                .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left)),
-                .color(.gray768286())
-
-            ]).frame(height: 22)
+            if !title.isEmpty {
+                Text(title, [
+                    .font(.semibold(12)),
+                    .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left)),
+                    .color(.gray768286())
+                    
+                ]).frame(height: 22)
+            }
             HStack {
                 TextField(placeholder, text: $text)
                     .foreground(.black())
@@ -27,7 +30,7 @@ struct TextFieldView: View {
                     .font(.regular(15))
                     .padding([.leading, .trailing], 16)
             }
-            .background(.paleBlue())
+            .background(color)
             .cornerRadius(8)
         }
     }

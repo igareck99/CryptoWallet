@@ -48,7 +48,7 @@ struct ChannelNotificaionsView: View {
             }
             .background(.white())
             .onTapGesture {
-                viewModel.toggleStateNotification(item == .turned ? true : false)
+                viewModel.updateNotifications(item)
             }
         }
     }

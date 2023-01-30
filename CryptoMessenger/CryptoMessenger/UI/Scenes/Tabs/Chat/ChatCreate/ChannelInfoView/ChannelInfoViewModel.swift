@@ -3,18 +3,6 @@ import SwiftUI
 // MARK: - ChannelInfoViewModelProtocol
 
 protocol ChannelInfoViewModelProtocol: ObservableObject {
-    
-    var roomId: String { get }
-    
-    var showUserSettings: Binding<Bool> { get set }
-    
-    var showChangeRole: Binding<Bool> { get set }
-    
-    var showDeleteChannel: Binding<Bool> { get set }
-    
-    var tappedUserId: Binding<String> { get set }
-    
-    var showUserProfile: Binding<Bool> { get set }
 
     var roomId: String { get }
 
@@ -45,99 +33,23 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     func getChannelUsers() -> [ChannelParticipantsData]
 
     func updateUserRole(mxId: String, userRole: ChannelRole)
-    
+
     func onUserRemoved()
-    
+
     func onRoleSelected(role: ChannelRole)
-    
+
     func onDeleteAllUsers()
-    
+
     func onDeleteChannel()
-    
+
     func onShowUserProfile()
     
-    func loadUsers()
+    func nextScene(_ scene: ChannelInfoFlow.Event)
 }
 
 // MARK: - ChannelInfoViewModel
 
 final class ChannelInfoViewModel {
-    
-    private var tappedUserIdText = ""
-    
-    lazy var tappedUserId: Binding<String> = .init(
-        get: {
-            self.tappedUserIdText
-        },
-        set: { newValue in
-            self.tappedUserIdText = newValue
-        }
-    )
-    
-    
-    private var showDeleteChannelState: Bool = false {
-        didSet {
-            self.objectWillChange.send()
-        }
-    }
-    
-    lazy var showDeleteChannel: Binding<Bool> = .init(
-        get: {
-            self.showDeleteChannelState
-        },
-        set: { newValue in
-            self.showDeleteChannelState = newValue
-        }
-    )
-    
-    private var showChangeRoleState: Bool = false {
-        didSet {
-            self.objectWillChange.send()
-        }
-    }
-    
-    lazy var showChangeRole: Binding<Bool> = .init(
-        get: {
-            self.showChangeRoleState
-        },
-        set: { newValue in
-            self.showChangeRoleState = newValue
-        }
-    )
-    
-    private var showUserProfileState: Bool = false {
-        didSet {
-            self.objectWillChange.send()
-        }
-    }
-    
-    lazy var showUserProfile: Binding<Bool> = .init(
-        get: {
-            self.showUserProfileState
-        },
-        set: { newValue in
-            self.showUserProfileState = newValue
-            
-            if newValue == true {
-                self.showProfile()
-            }
-        }
-    )
-    
-    private var showUserSettingsState: Bool = false {
-        didSet {
-            self.objectWillChange.send()
-        }
-    }
-    
-    lazy var showUserSettings: Binding<Bool> = .init(
-        get: {
-            self.showUserSettingsState
-        },
-        set: { newValue in
-            self.showUserSettingsState = newValue
-        }
-    )
 
     private var tappedUserIdText = ""
 
@@ -224,7 +136,8 @@ final class ChannelInfoViewModel {
     private let matrixUseCase: MatrixUseCaseProtocol
     private let factory: ChannelUsersFactoryProtocol.Type
     let roomId: String
-    weak var delegate: ChatRoomSceneDelegate?
+
+    weak var delegate: ChannelInfoSceneDelegate?
 
     init(
         roomId: String,
@@ -239,11 +152,8 @@ final class ChannelInfoViewModel {
     
     private func loadUsers() {
         matrixUseCase.getRoomMembers(roomId: roomId) { [weak self] result in
-            
             debugPrint("getRoomMembers result: \(result)")
-            
             guard case let .success(roomMembers) = result else { return }
-            
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 let users: [ChannelParticipantsData] = self.factory.makeUsersData(users: roomMembers.members)
@@ -251,6 +161,7 @@ final class ChannelInfoViewModel {
             }
         }
     }
+
     private func showProfile() {
         showUserSettingsState = false
         DispatchQueue.main.async {
@@ -262,6 +173,17 @@ final class ChannelInfoViewModel {
 // MARK: - ChannelInfoViewModelProtocol
 
 extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
+    
+    func nextScene(_ scene: ChannelInfoFlow.Event) {
+        switch scene {
+        case let .onMedia(roomId):
+            guard let auraRoom = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else { return }
+            self.delegate?.handleNextScene(.channelMedia(auraRoom))
+        default:
+            break
+        }
+    }
+
     func onShowUserProfile() {
         guard let user = participants.first(where: { $0.matrixId == tappedUserIdText }) else { return }
         let contact = Contact(mxId: user.matrixId, avatar: user.avatar, name: user.name, status: user.status)
@@ -275,12 +197,6 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     }
     
     func onDeleteAllUsers() {
-        
-        participants.forEach {
-            
-            guard let matrixId = UserIdValidator.makeValidId(userId: $0.matrixId) else { return }
-            
-            debugPrint("\(matrixId)")
         participants.forEach {
             guard let matrixId = UserIdValidator.makeValidId(userId: $0.matrixId) else { return }
             debugPrint("\(matrixId)")
@@ -308,7 +224,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
             debugPrint("onTapChangeRole")
         }
     }
-    
+
     func onUserRemoved() {
         loadUsers()
     }
@@ -340,34 +256,42 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
             debugPrint("onInviteUserToChannel: \(result)")
         }
     }
-    
+
     func onInviteUsersToChannel(users: [Contact]) {
-        users.forEach { [weak self] user in
-            guard let useSelf = self else { return }
-            useSelf.matrixUseCase.inviteUser(
-                userId: user.mxId,
-                roomId: useSelf.roomId
-            ) { [weak self] result in
-                
-                debugPrint("inviteUser to channel result: \(result)")
-                
-                guard case .success = result else { return }
-                guard let inviteSelf = self else { return}
-                debugPrint("inviteUser to channel result: \(result)")
-                guard case .success = result else { return }
-                guard let inviteSelf = self else { return}
-                inviteSelf.matrixUseCase
-                    .updateUserPowerLevel(
-                        userId: user.mxId,
-                        roomId: inviteSelf.roomId,
-                        powerLevel: 0) { [weak self] result in
-                            // TODO: Hanlde failure case
-                            debugPrint("updateUserPowerLevel result: \(result)")
-                            guard let powerLevelSelf = self else { return }
-                            powerLevelSelf.loadUsers()
-                        }
+        guard let auraRoom = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else { return }
+        for user in users {
+            matrixUseCase.inviteUser(userId: user.mxId,
+                                     roomId: roomId) { result in
+                debugPrint(result)
+            }
+            auraRoom.room.setPowerLevel(ofUser: user.mxId,
+                                        powerLevel: 0) { response in
+                debugPrint(response)
             }
         }
+        // Удалить потом
+        loadUsers()
+//        users.forEach { [weak self] user in
+//            guard let useSelf = self else { return }
+//            useSelf.matrixUseCase.inviteUser(
+//                userId: user.mxId,
+//                roomId: useSelf.roomId
+//            ) { [weak self] result in
+//                debugPrint("inviteUser to channel result: \(result)")
+//                guard case .success = result else { return }
+//                guard let inviteSelf = self else { return}
+//                inviteSelf.matrixUseCase
+//                    .updateUserPowerLevel(
+//                        userId: user.mxId,
+//                        roomId: inviteSelf.roomId,
+//                        powerLevel: 0) { [weak self] result in
+//                            // TODO: Hanlde failure case
+//                            debugPrint("updateUserPowerLevel result: \(result)")
+//                            guard let powerLevelSelf = self else { return }
+//                            powerLevelSelf.loadUsers()
+//                        }
+//            }
+//        }
     }
 
     func onBanUserFromChannel() {

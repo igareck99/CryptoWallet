@@ -45,7 +45,6 @@ struct SelectChannelTypeView: View {
                     .font(.bold(17))
                     .foreground(.black())
             }
-
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     showChannelChangeType = false
@@ -79,7 +78,7 @@ struct SelectChannelTypeView: View {
         ChannelTypeView(
             title: "Частный канал",
             text: "На частные каналы можно подписаться только по ссылке-приглашению.",
-            channelType: .publicChannel,
+            channelType: .privateChannel,
             isSelected: $isPrivateSelected
         ) { channelType in
             debugPrint("Channel type seledted: \(channelType)")

@@ -188,6 +188,7 @@ final class MainFlowCoordinator: Coordinator {
 		case popToRoot
         case reservePhraseCopy
         case channelInfo(String)
+        case channelMedia(AuraRoom)
     }
 }
 
@@ -266,6 +267,10 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             popToRoot()
         case .reservePhraseCopy:
             showReservePhraseCopy()
+        case let .channelInfo(roomId):
+            showChannelInfo(roomId: roomId)
+        case let .channelMedia(room):
+            showChannelMedia(room)
         }
     }
 
@@ -281,6 +286,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     private func showChannelInfo(roomId: String) {
         let controller = ChannelInfoAssembly.make(roomId: roomId, delegate: self)
         navigationController.pushViewController(controller, animated: true)
+    }
+
+    private func showChannelMedia(_ room: AuraRoom) {
+        let rootView = ChannelMediaConfigurator.configuredView(room: room, delegate: self)
+        let viewController = BaseHostingController(rootView: rootView)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
     }
 
     private func showSettingsChat(chatData: Binding<ChatData>,
@@ -635,6 +647,10 @@ extension MainFlowCoordinator: GeneratePhraseSceneDelegate {}
 // MARK: - MainFlowCoordinator (ReservePhraseCopySceneDelegate)
 
 extension MainFlowCoordinator: ReservePhraseCopySceneDelegate {}
+
+// MARK: - MainFlowCoordinator (ChannelInfoSceneDelegate)
+
+extension MainFlowCoordinator: ChannelInfoSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 

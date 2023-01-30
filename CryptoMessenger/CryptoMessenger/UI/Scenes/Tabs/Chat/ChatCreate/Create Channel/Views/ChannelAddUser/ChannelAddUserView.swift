@@ -2,14 +2,14 @@ import SwiftUI
 
 // MARK: - ChannelAddUserView
 
-struct ChannelAddUserView: View {
+struct ChannelAddUserView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     // MARK: - Private Properties
 
+    @StateObject var channelViewModel: ViewModel
     @Environment(\.presentationMode) private var presentationMode
     @StateObject private var viewModel = SelectContactViewModel(mode: .add)
     @State private var pickedContacts: [Contact] = []
-    
     var onUsersSelected: ([Contact]) -> Void
 
     // MARK: - Internal Properties
@@ -62,7 +62,6 @@ struct ChannelAddUserView: View {
                                     R.image.chat.group.uncheck.image
                                                 .transition(.opacity.animation(.linear(duration: 0.2)))
                                 }
-
                                 HStack(spacing: 10) {
                                     AsyncImage(
                                         url: contact.avatar,
@@ -118,6 +117,7 @@ struct ChannelAddUserView: View {
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Button(action: {
+                pickedContacts = []
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 R.image.navigation.backButton.image

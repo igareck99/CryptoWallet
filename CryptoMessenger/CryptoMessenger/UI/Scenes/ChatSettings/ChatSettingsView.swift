@@ -91,7 +91,6 @@ struct ChatSettingsView: View {
                              secondaryButton: secondaryButton)
             }
         }
-
         .listStyle(.plain)
         .toolbar {
             ToolbarItem(placement: .principal) {
