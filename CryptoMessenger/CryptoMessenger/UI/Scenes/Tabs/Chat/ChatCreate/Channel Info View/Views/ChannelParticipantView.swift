@@ -1,10 +1,16 @@
 import SwiftUI
 
+// MARK: - ChannelParticipantView
+
 struct ChannelParticipantView: View {
+    
+    // MARK: - Internal Properties
     
     let title: String
     let subtitle: String
-     
+
+    // MARK: - Body
+
     var body: some View {
         HStack(spacing: 0) {
             Circle()

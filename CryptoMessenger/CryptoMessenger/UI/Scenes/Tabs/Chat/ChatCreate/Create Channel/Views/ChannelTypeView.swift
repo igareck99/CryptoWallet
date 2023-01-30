@@ -1,25 +1,33 @@
 import SwiftUI
 
+// MARK: - ChannelType
+
 enum ChannelType {
     case publicChannel
     case privateChannel
 }
 
+// MARK: - ChannelTypeView
+
 struct ChannelTypeView: View {
-    
+
+    // MARK: - Internal Properties
+
     let title: String
     let text: String
     let channelType: ChannelType
     @Binding var isSelected: Bool
     let onSelect: (ChannelType) -> Void
- 
-     var body: some View {
-         VStack(alignment: .leading, spacing: 0) {
-             
+
+    // MARK: - Body
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            
             Text(title)
                 .font(.system(size: 17))
                 .foregroundColor(.black)
-             
+            
             HStack(spacing: 0) {
                 Text(text)
                     .font(.system(size: 12))

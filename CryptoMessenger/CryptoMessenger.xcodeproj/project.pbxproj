@@ -365,6 +365,11 @@
 		8B34D778277DA07E007811C9 /* LanguageItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34D777277DA07E007811C9 /* LanguageItems.swift */; };
 		8B34D77A277DA1AB007811C9 /* PersonalizationTitleItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34D779277DA1AB007811C9 /* PersonalizationTitleItems.swift */; };
 		8B34D77C277DA1FD007811C9 /* UserPersonalizationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34D77B277DA1FD007811C9 /* UserPersonalizationItem.swift */; };
+		8B350361297EEEC30090EE93 /* ChannelNotificaionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B350360297EEEC30090EE93 /* ChannelNotificaionsView.swift */; };
+		8B350364297EF7A70090EE93 /* ChannelNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B350363297EF7A70090EE93 /* ChannelNotificationsViewModel.swift */; };
+		8B35036729801F580090EE93 /* ChannelParticipantsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B35036629801F580090EE93 /* ChannelParticipantsView.swift */; };
+		8B35036929801F650090EE93 /* ChannelParticipantsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B35036829801F650090EE93 /* ChannelParticipantsData.swift */; };
+		8B35036B2980696B0090EE93 /* ChannelParticipantsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B35036A2980696B0090EE93 /* ChannelParticipantsMenuView.swift */; };
 		8B37BF79275799B300602BE0 /* BuyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B37BF78275799B300602BE0 /* BuyView.swift */; };
 		8B38D13628C0E671002733D7 /* MapResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B38D13528C0E671002733D7 /* MapResources.swift */; };
 		8B38D13928C0F007002733D7 /* ProfileSettingsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B38D13828C0F007002733D7 /* ProfileSettingsMenu.swift */; };
@@ -450,6 +455,8 @@
 		8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */; };
 		8B7D8A1727DA5C1400BBFEFD /* CurrencyUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D8A1627DA5C1400BBFEFD /* CurrencyUITextField.swift */; };
 		8B7F856F28C65FA200C8F9EB /* SettingsAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7F856E28C65FA200C8F9EB /* SettingsAction.swift */; };
+		8B82988F2982E3550038C546 /* ChannelAddUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B82988E2982E3550038C546 /* ChannelAddUserView.swift */; };
+		8B8298912983CB150038C546 /* ChannelAddUserViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8298902983CB150038C546 /* ChannelAddUserViewCell.swift */; };
 		8B84F1BB28E32C6E0045818F /* FriendProfileMenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B84F1BA28E32C6E0045818F /* FriendProfileMenuRow.swift */; };
 		8B84F1BE28E3478D0045818F /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B84F1BD28E3478D0045818F /* NotesView.swift */; };
 		8B8812702922818000EDB348 /* MXRoom+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88126F2922818000EDB348 /* MXRoom+Notifications.swift */; };
@@ -530,6 +537,7 @@
 		8BC51800296CC8BB0033B30F /* ChooseWalletTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC517FF296CC8BB0033B30F /* ChooseWalletTypeCell.swift */; };
 		8BC518032970AF290033B30F /* PhraseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC518022970AF290033B30F /* PhraseService.swift */; };
 		8BCA91022750FCC200E8E269 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA91012750FCC200E8E269 /* Popup.swift */; };
+		8BD2E7E72981C3B600D712D1 /* SelectChannelTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD2E7E62981C3B600D712D1 /* SelectChannelTypeView.swift */; };
 		8BD6292D276AAC06000A976A /* SocialListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292C276AAC06000A976A /* SocialListView.swift */; };
 		8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292E276B407F000A976A /* SocialListItem.swift */; };
 		8BD62931276B4ADA000A976A /* SocialListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD62930276B4ADA000A976A /* SocialListViewModel.swift */; };
@@ -1601,6 +1609,11 @@
 		8B34D777277DA07E007811C9 /* LanguageItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageItems.swift; sourceTree = "<group>"; };
 		8B34D779277DA1AB007811C9 /* PersonalizationTitleItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationTitleItems.swift; sourceTree = "<group>"; };
 		8B34D77B277DA1FD007811C9 /* UserPersonalizationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPersonalizationItem.swift; sourceTree = "<group>"; };
+		8B350360297EEEC30090EE93 /* ChannelNotificaionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelNotificaionsView.swift; sourceTree = "<group>"; };
+		8B350363297EF7A70090EE93 /* ChannelNotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelNotificationsViewModel.swift; sourceTree = "<group>"; };
+		8B35036629801F580090EE93 /* ChannelParticipantsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelParticipantsView.swift; sourceTree = "<group>"; };
+		8B35036829801F650090EE93 /* ChannelParticipantsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelParticipantsData.swift; sourceTree = "<group>"; };
+		8B35036A2980696B0090EE93 /* ChannelParticipantsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelParticipantsMenuView.swift; sourceTree = "<group>"; };
 		8B37BF78275799B300602BE0 /* BuyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyView.swift; sourceTree = "<group>"; };
 		8B38D13528C0E671002733D7 /* MapResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapResources.swift; sourceTree = "<group>"; };
 		8B38D13828C0F007002733D7 /* ProfileSettingsMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenu.swift; sourceTree = "<group>"; };
@@ -1687,6 +1700,8 @@
 		8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		8B7D8A1627DA5C1400BBFEFD /* CurrencyUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUITextField.swift; sourceTree = "<group>"; };
 		8B7F856E28C65FA200C8F9EB /* SettingsAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAction.swift; sourceTree = "<group>"; };
+		8B82988E2982E3550038C546 /* ChannelAddUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelAddUserView.swift; sourceTree = "<group>"; };
+		8B8298902983CB150038C546 /* ChannelAddUserViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelAddUserViewCell.swift; sourceTree = "<group>"; };
 		8B84F1BA28E32C6E0045818F /* FriendProfileMenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileMenuRow.swift; sourceTree = "<group>"; };
 		8B84F1BD28E3478D0045818F /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		8B88126F2922818000EDB348 /* MXRoom+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MXRoom+Notifications.swift"; sourceTree = "<group>"; };
@@ -1767,6 +1782,7 @@
 		8BC517FF296CC8BB0033B30F /* ChooseWalletTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseWalletTypeCell.swift; sourceTree = "<group>"; };
 		8BC518022970AF290033B30F /* PhraseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseService.swift; sourceTree = "<group>"; };
 		8BCA91012750FCC200E8E269 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
+		8BD2E7E62981C3B600D712D1 /* SelectChannelTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectChannelTypeView.swift; sourceTree = "<group>"; };
 		8BD6292C276AAC06000A976A /* SocialListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListView.swift; sourceTree = "<group>"; };
 		8BD6292E276B407F000A976A /* SocialListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListItem.swift; sourceTree = "<group>"; };
 		8BD62930276B4ADA000A976A /* SocialListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListViewModel.swift; sourceTree = "<group>"; };
@@ -4257,6 +4273,26 @@
 			path = DirectMenu;
 			sourceTree = "<group>";
 		};
+		8B350362297EF7910090EE93 /* ChannelNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				8B350360297EEEC30090EE93 /* ChannelNotificaionsView.swift */,
+				8B350363297EF7A70090EE93 /* ChannelNotificationsViewModel.swift */,
+			);
+			path = ChannelNotifications;
+			sourceTree = "<group>";
+		};
+		8B35036529801EF80090EE93 /* ChannelParticipants */ = {
+			isa = PBXGroup;
+			children = (
+				8B35036629801F580090EE93 /* ChannelParticipantsView.swift */,
+				8B35036829801F650090EE93 /* ChannelParticipantsData.swift */,
+				8BD2E7E62981C3B600D712D1 /* SelectChannelTypeView.swift */,
+				8B35036A2980696B0090EE93 /* ChannelParticipantsMenuView.swift */,
+			);
+			path = ChannelParticipants;
+			sourceTree = "<group>";
+		};
 		8B38D13728C0EFE3002733D7 /* ProfileSettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -4721,6 +4757,15 @@
 			path = PhraseService;
 			sourceTree = "<group>";
 		};
+		8BD2E7E82982E2D100D712D1 /* ChannelAddUser */ = {
+			isa = PBXGroup;
+			children = (
+				8B82988E2982E3550038C546 /* ChannelAddUserView.swift */,
+				8B8298902983CB150038C546 /* ChannelAddUserViewCell.swift */,
+			);
+			path = ChannelAddUser;
+			sourceTree = "<group>";
+		};
 		8BD6292B276AABF8000A976A /* SocialList */ = {
 			isa = PBXGroup;
 			children = (
@@ -5132,6 +5177,9 @@
 		D450698129799080009515C8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8BD2E7E82982E2D100D712D1 /* ChannelAddUser */,
+				8B35036529801EF80090EE93 /* ChannelParticipants */,
+				8B350362297EF7910090EE93 /* ChannelNotifications */,
 				D450698229799089009515C8 /* ChannelTypeView.swift */,
 				D450698429799C25009515C8 /* EncryptionStateView.swift */,
 			);
@@ -7759,6 +7807,7 @@
 				D4EFEC8C28E2AF110075CC10 /* MXNoStore.m in Sources */,
 				8BAE1929285B6B0B008E219F /* AudioInputMessageView.swift in Sources */,
 				D4EFEBFE28E2AF110075CC10 /* Realm+MatrixSDK.swift in Sources */,
+				8B35036729801F580090EE93 /* ChannelParticipantsView.swift in Sources */,
 				5A9B471D26EA7D6C001CC627 /* BlurView.swift in Sources */,
 				D455F732287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift in Sources */,
 				5A26CD2A26B2FF9900118D4B /* CarouselFlowLayout.swift in Sources */,
@@ -7861,6 +7910,7 @@
 				D4EFEBD028E2AF100075CC10 /* MXEventReferenceChunk.m in Sources */,
 				D4EFEC8028E2AF110075CC10 /* MXReplyEventFormattedBodyParts.m in Sources */,
 				D4EFEB3128E2AF100075CC10 /* MXKeyVerificationStatusResolver.m in Sources */,
+				8B35036B2980696B0090EE93 /* ChannelParticipantsMenuView.swift in Sources */,
 				D4EFEC9428E2AF110075CC10 /* MXBeaconInfoSummaryDeletionPerRoomListener.swift in Sources */,
 				8B4810F927CF98BB00831589 /* ImportKeyView.swift in Sources */,
 				5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */,
@@ -7962,6 +8012,7 @@
 				7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */,
 				8B8B9C2527F331C90061F5E6 /* SocialListFlow.swift in Sources */,
 				D4EFECA628E2AF110075CC10 /* MXRealmAggregationsMapper.m in Sources */,
+				8B8298912983CB150038C546 /* ChannelAddUserViewCell.swift in Sources */,
 				D4EFEB4128E2AF100075CC10 /* MXQRCodeDataBuilder.m in Sources */,
 				D4EFEB8028E2AF100075CC10 /* MXScanRealmInMemoryProvider.m in Sources */,
 				7846B66526E8BCB200B05984 /* DeleteAnimation.swift in Sources */,
@@ -7982,6 +8033,7 @@
 				D4EFEBF228E2AF110075CC10 /* MXBase64Tools.m in Sources */,
 				5A44FEDD276681BD006F9D92 /* ProfileFlow.swift in Sources */,
 				D4EFEBBF28E2AF100075CC10 /* MXInvitedRoomSync.m in Sources */,
+				8B350361297EEEC30090EE93 /* ChannelNotificaionsView.swift in Sources */,
 				D4EFEBEE28E2AF110075CC10 /* MXHTTPClient.m in Sources */,
 				5AABB7832739821D004D6107 /* ChatHistoryViewModel.swift in Sources */,
 				D4857CEF28A62AA100C904EC /* FileView.swift in Sources */,
@@ -8065,6 +8117,7 @@
 				D4EFEB3E28E2AF100075CC10 /* MXTransactionCancelCode.m in Sources */,
 				D451006B289390990018A935 /* MatrixUseCaseProtocol.swift in Sources */,
 				D4EFEC1028E2AF110075CC10 /* MXEnumConstants.swift in Sources */,
+				8BD2E7E72981C3B600D712D1 /* SelectChannelTypeView.swift in Sources */,
 				5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */,
 				8B4E9C4827E1EDE80057E4C9 /* FacilityApproveViewModel.swift in Sources */,
 				D4EFEBE628E2AF110075CC10 /* MXAnalyticsDestination.swift in Sources */,
@@ -8322,6 +8375,7 @@
 				D4EFEBBB28E2AF100075CC10 /* MXPresenceSyncResponse.m in Sources */,
 				8B637D8727CCF06A000B1B2B /* FilterTransactionView.swift in Sources */,
 				D46C901D2947764C00DD0B01 /* TransactionSpeedSelectView.swift in Sources */,
+				8B35036929801F650090EE93 /* ChannelParticipantsData.swift in Sources */,
 				D4EFEBFA28E2AF110075CC10 /* FileManager+Backup.swift in Sources */,
 				D43A7E5228CB1BCF00A807EC /* JitsiWellKnown.swift in Sources */,
 				D4EFEC3E28E2AF110075CC10 /* MXFilterJSONModel.m in Sources */,
@@ -8548,6 +8602,7 @@
 				8B38D13B28C0F032002733D7 /* ProfileSettingsMenuRow.swift in Sources */,
 				D4EFEAEC28E2AF100075CC10 /* MX3PidAddSession.m in Sources */,
 				8B1E8AC827DF4FB20036C301 /* ChooseReceiverConfigurator.swift in Sources */,
+				8B350364297EF7A70090EE93 /* ChannelNotificationsViewModel.swift in Sources */,
 				789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */,
 				8BE122BC28240C8B00F7707E /* RemoteConfigUseCase.swift in Sources */,
 				5A3C942C274AFFDC00818060 /* KeyboardHandler.swift in Sources */,
@@ -8632,6 +8687,7 @@
 				D4EFEC0828E2AF110075CC10 /* MXRestClient.swift in Sources */,
 				D44BDC832809A2EE0080AE8A /* MatrixNotification.swift in Sources */,
 				D4EFEADD28E2AF100075CC10 /* MXJingleCameraCaptureController.m in Sources */,
+				8B82988F2982E3550038C546 /* ChannelAddUserView.swift in Sources */,
 				D44D61D628951CC6004F5301 /* SocialListHeaderView.swift in Sources */,
 				8B23C77D28E1037500418F2D /* SettingsConfigurator.swift in Sources */,
 				D4EFEBCB28E2AF100075CC10 /* MXEventContentRelatesTo.m in Sources */,
