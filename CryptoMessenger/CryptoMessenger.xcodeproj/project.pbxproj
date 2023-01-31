@@ -771,6 +771,8 @@
 		D4E0B30B29429BB400AEDF85 /* WalletInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E0B30A29429BB400AEDF85 /* WalletInfo.swift */; };
 		D4E0B30D29429D8300AEDF85 /* TransactionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E0B30C29429D8300AEDF85 /* TransactionInfo.swift */; };
 		D4E0B30F29429DAD00AEDF85 /* WalletType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E0B30E29429DAD00AEDF85 /* WalletType.swift */; };
+		D4E7A17A298814B400398F93 /* MXRestClient+SendStateEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A179298814B400398F93 /* MXRestClient+SendStateEvent.m */; };
+		D4E7A17C2988D50600398F93 /* CreateChannelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A17B2988D50600398F93 /* CreateChannelAssembly.swift */; };
 		D4E8785F28CE02EA00063762 /* GroupCallsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */; };
 		D4E8786128CE07DF00063762 /* JitsiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8786028CE07DF00063762 /* JitsiWidget.swift */; };
 		D4E8786428CE0E6B00063762 /* JitsiWidgetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */; };
@@ -2022,6 +2024,9 @@
 		D4E0B30A29429BB400AEDF85 /* WalletInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletInfo.swift; sourceTree = "<group>"; };
 		D4E0B30C29429D8300AEDF85 /* TransactionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInfo.swift; sourceTree = "<group>"; };
 		D4E0B30E29429DAD00AEDF85 /* WalletType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletType.swift; sourceTree = "<group>"; };
+		D4E7A178298814B400398F93 /* MXRestClient+SendStateEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MXRestClient+SendStateEvent.h"; sourceTree = "<group>"; };
+		D4E7A179298814B400398F93 /* MXRestClient+SendStateEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MXRestClient+SendStateEvent.m"; sourceTree = "<group>"; };
+		D4E7A17B2988D50600398F93 /* CreateChannelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelAssembly.swift; sourceTree = "<group>"; };
 		D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsViewModel.swift; sourceTree = "<group>"; };
 		D4E8786028CE07DF00063762 /* JitsiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidget.swift; sourceTree = "<group>"; };
 		D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidgetService.swift; sourceTree = "<group>"; };
@@ -3600,6 +3605,8 @@
 				D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */,
 				D4D439F928374B0B00AC0DEF /* MXRoom+Reply.h */,
 				D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */,
+				D4E7A178298814B400398F93 /* MXRestClient+SendStateEvent.h */,
+				D4E7A179298814B400398F93 /* MXRestClient+SendStateEvent.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -5472,6 +5479,7 @@
 				D450698129799080009515C8 /* Views */,
 				D4B30A01297923760067EB06 /* CreateChannelView.swift */,
 				D4B30A032979287E0067EB06 /* CreateChannelViewModel.swift */,
+				D4E7A17B2988D50600398F93 /* CreateChannelAssembly.swift */,
 			);
 			path = "Create Channel";
 			sourceTree = "<group>";
@@ -7862,6 +7870,7 @@
 				D4EFEBF728E2AF110075CC10 /* NSArray+MatrixSDK.m in Sources */,
 				D415081C28A5199C00C92CEC /* CheckReadView.swift in Sources */,
 				5A187E972680708D001957D3 /* ActivityViewDisplayable.swift in Sources */,
+				D4E7A17C2988D50600398F93 /* CreateChannelAssembly.swift in Sources */,
 				5A3C9412274AE93100818060 /* FlippedModifier.swift in Sources */,
 				D4EFEBB128E2AF100075CC10 /* MXRoomSync.m in Sources */,
 				D4EFEB6828E2AF100075CC10 /* MXCryptoDeviceWrapper.swift in Sources */,
@@ -8284,6 +8293,7 @@
 				7889064027064F8D0093459C /* ProfileNetworkDetailPresenter.swift in Sources */,
 				D4EFECA328E2AF110075CC10 /* MXReactionCountChange.m in Sources */,
 				789B123126CE8906002FCDDF /* CallListPresenter.swift in Sources */,
+				D4E7A17A298814B400398F93 /* MXRestClient+SendStateEvent.m in Sources */,
 				8BA0C90727AD4F1D0070203F /* AnswerProtocols.swift in Sources */,
 				8B27435A281A7ABB00B5957C /* FirebaseRemoteConfigService.swift in Sources */,
 				5A187EA62680708D001957D3 /* NibLoadableView.swift in Sources */,

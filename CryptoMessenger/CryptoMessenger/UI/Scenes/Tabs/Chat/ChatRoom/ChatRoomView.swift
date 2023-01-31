@@ -327,7 +327,11 @@ struct ChatRoomView: View {
                             onReset: { activeEditMessage = nil; quickActionCurrentUser = nil }
                         ).transition(.opacity)
                     }
-                    inputView
+                    if viewModel.userHasAccessToMessage {
+                        inputView
+                    } else {
+                        accessDeniedView
+                    }
                 }
             }
             .animation(.easeInOut(duration: 0.23), value: keyboardHandler.keyboardHeight != 0)
@@ -499,6 +503,20 @@ struct ChatRoomView: View {
                 }.padding(.vertical, 32)
             }
         }
+    }
+    
+    private var accessDeniedView: some View {
+        HStack(alignment: .center, spacing: 0) {
+            Text("У вас нет разрешения на публикацию в этом канале")
+                .multilineTextAlignment(.center)
+                .font(.system(size: 15))
+                .foregroundColor(.regentGrayApprox)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 16)
+        }
+        .padding(.bottom, 16)
+        .frame(maxWidth: .infinity)
+        .background(Color.white)
     }
 
     private var inputView: some View {

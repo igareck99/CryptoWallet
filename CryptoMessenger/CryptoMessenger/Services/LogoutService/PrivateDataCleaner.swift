@@ -24,12 +24,12 @@ final class PrivateDataCleaner: PrivateDataCleanerProtocol {
     // MARK: - Internal Methods
 
     func resetPrivateData() {
-        self.keychainService.secretPhrase = ""
-        self.coreDataService.deleteAllWalletNetworks()
-        self.keychainService.set("", forKey: .ethereumPrivateKey)
-        self.keychainService.set("", forKey: .ethereumPublicKey)
-        self.keychainService.set("", forKey: .bitcoinPublicKey)
-        self.keychainService.set("", forKey: .bitcoinPublicKey)
+        coreDataService.deleteAllWalletNetworks()
+        keychainService.removeObject(forKey: .secretPhrase)
+        keychainService.removeObject(forKey: .ethereumPrivateKey)
+        keychainService.removeObject(forKey: .ethereumPublicKey)
+        keychainService.removeObject(forKey: .bitcoinPublicKey)
+        keychainService.removeObject(forKey: .bitcoinPrivateKey)
     }
 }
 

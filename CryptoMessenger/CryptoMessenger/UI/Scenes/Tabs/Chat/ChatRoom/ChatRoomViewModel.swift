@@ -72,6 +72,8 @@ final class ChatRoomViewModel: ObservableObject {
 		availabilityFacade.isVideoCallAvailable && room.room.isDirect
 	}
     
+    var userHasAccessToMessage: Bool = true
+    
     
 
     // MARK: - Private Properties
@@ -136,6 +138,8 @@ final class ChatRoomViewModel: ObservableObject {
             self?.keyboardHeight = 0
         }
         fetchChatData()
+        
+        detectRoomPowerLevelAccess()
     }
 
     deinit {
@@ -289,6 +293,114 @@ final class ChatRoomViewModel: ObservableObject {
             break
         }
     }
+    
+    private func updateEventDefaultAndStateDefault() {
+        
+        room.room.state { [weak self] roomState in
+            debugPrint("roomState result: \(roomState)")
+            debugPrint("roomState power levels result: \(roomState?.powerLevels)")
+            
+            guard let roomId = self?.room.room.roomId,
+                var levels = roomState?.powerLevels?.jsonDictionary() else { return }
+            
+            levels["users_default"] = NSNumber(integerLiteral: 0)
+            levels["events_default"] = NSNumber(integerLiteral: 50)
+            levels["stateDefault"] = NSNumber(integerLiteral: 50)
+            levels["invite"] = NSNumber(integerLiteral: 50)
+            
+            self?.matrixUseCase.matrixSession?.matrixRestClient.aur_sendStateEvent(
+                toRoom: roomId,
+                eventType: kMXEventTypeStringRoomPowerLevels,
+                content: levels,
+                stateKey: nil,
+                success: { successResult in
+                    debugPrint("successResult \(successResult)")
+                },
+                failure: { failureResult in
+                    debugPrint("failureResult \(failureResult)")
+                })
+        }
+    }
+    
+    private func inviteUserToChat() {
+//    MXResponse<Void>
+//    let invitee = MXRoomInvitee(
+//    @0091379f26d6:matrix.auramsg.co
+        
+        let userId = "@u207323443784:matrix.auramsg.co"
+        
+        room.room.invite(.userId(userId)) { [weak self] result in
+            
+            debugPrint("inviteUserToChat result: \(result)")
+            
+            guard case .success = result else { return }
+            
+            self?.room.room.setPowerLevel(
+                ofUser: userId,
+                powerLevel: 0
+            ) { [weak self] result in
+                
+                debugPrint("room.setPowerLevel result: \(result)")
+                
+                guard case .success = result else { return }
+                
+                self?.room.room.state { state in
+                    debugPrint("roomState result: \(state)")
+                    debugPrint("roomState power levels result: \(state?.powerLevels)")
+                }
+            }
+        }
+        
+        debugPrint("matrixUseCase.matrixSession.myUserId result: \(matrixUseCase.matrixSession?.myUserId)")
+        
+        room.room.state { state in
+            debugPrint("roomState result: \(state)")
+            debugPrint("roomState power levels result: \(state?.powerLevels)")
+        }
+        
+        /*
+        room.room.members { [weak self] result in
+            debugPrint("room.members result: \(result)")
+            guard
+                case let .success(members) = result,
+                let roomUser = members?.members.first
+            else {
+                return
+            }
+            
+            self?.room.room.setPowerLevel(
+                ofUser: roomUser.userId,
+                powerLevel: 0
+            ) { [weak self] result in
+                debugPrint("room.setPowerLevel result: \(result)")
+                
+                self?.room.room.state { state in
+                    debugPrint("roomState result: \(state)")
+                    debugPrint("roomState power levels result: \(state?.powerLevels)")
+                }
+            }
+        }
+        */
+    }
+    
+    private func detectRoomPowerLevelAccess() {
+        
+        let currentUserId = matrixUseCase.getUserId()
+        
+        matrixUseCase.getRoomState(roomId: room.room.roomId) { [weak self] result in
+            
+            guard case let .success(state) = result else { return }
+            
+            debugPrint("roomState result: \(state)")
+            debugPrint("roomState power levels result: \(state.powerLevels)")
+            
+            DispatchQueue.main.async { [weak self] in
+                let isOwner = state.powerLevels.powerLevelOfUser(withUserID: currentUserId) == 100
+                self?.userHasAccessToMessage = (state.powerLevels.eventsDefault != 50) || isOwner
+                self?.objectWillChange.send()
+            }
+        }
+    }
 
     // MARK: - Private Methods
 
@@ -300,6 +412,8 @@ final class ChatRoomViewModel: ObservableObject {
                     _ = self?.matrixUseCase.rooms
                     self?.room.markAllAsRead()
                     self?.matrixUseCase.objectChangePublisher.send()
+//                    self?.inviteUserToChat()
+//                    self?.updateEventDefaultAndStateDefault()
                 case .onNextScene:
                     ()
                 case let .onSendText(text):

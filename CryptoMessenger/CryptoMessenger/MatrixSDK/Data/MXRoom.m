@@ -1998,7 +1998,8 @@ NSInteger const kMXRoomInvalidInviteSenderErrorCode = 9002;
     return [mxSession.matrixRestClient unbanUser:userId inRoom:self.roomId success:success failure:failure];
 }
 
-- (MXHTTPOperation*)setPowerLevelOfUserWithUserID:(NSString *)userId powerLevel:(NSInteger)powerLevel
+- (MXHTTPOperation*)setPowerLevelOfUserWithUserID:(NSString *)userId
+                                       powerLevel:(NSInteger)powerLevel
                                           success:(void (^)(void))success
                                           failure:(void (^)(NSError *))failure
 {

@@ -55,15 +55,19 @@ final class CreateChannelViewModel {
         }
     )
     
+    private let onChannelCreationEnd: VoidBlock
+    
     private let matrixUseCase: MatrixUseCaseProtocol
     
     
     init(
         channelType: ChannelType = .publicChannel,
-        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared
+        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
+        onChannelCreationEnd: @escaping VoidBlock
     ) {
         self.channelType = channelType
         self.matrixUseCase = matrixUseCase
+        self.onChannelCreationEnd = onChannelCreationEnd
     }
 }
 
@@ -92,11 +96,13 @@ extension CreateChannelViewModel: CreateChannelViewModelProtocol {
         }
         parameters.preset = MXRoomPreset.privateChat.identifier
         let powerLevelOverride = MXRoomPowerLevels()
-        powerLevelOverride.eventsDefault = 0
-        powerLevelOverride.stateDefault = 0
+        powerLevelOverride.eventsDefault = 50
+        powerLevelOverride.stateDefault = 50
         powerLevelOverride.usersDefault = 0
+        powerLevelOverride.invite = 50
         parameters.powerLevelContentOverride = powerLevelOverride
         createRoom(parameters: parameters)
+        onChannelCreationEnd()
     }
     
     private func createRoom(parameters: MXRoomCreationParameters, roomAvatar: Data? = nil) {
