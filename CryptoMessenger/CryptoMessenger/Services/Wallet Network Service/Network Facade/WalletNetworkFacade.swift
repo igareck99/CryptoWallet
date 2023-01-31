@@ -240,9 +240,9 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		_ response: URLResponse?,
 		_ error: Error?
 	) {
-		debugPrint("makeTransaction")
-		debugPrint("data: \(String(describing: data))")
-		debugPrint("response: \(String(describing: response))")
-		debugPrint("error: \(String(describing: error))")
+        debugPrint("function: \(function) \\n")
+		debugPrint("data: \(String(describing: data)) \\n")
+		debugPrint("response: \(String(describing: response)) \\n")
+		debugPrint("error: \(String(describing: error)) \\n")
 	}
 }

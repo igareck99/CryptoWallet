@@ -92,8 +92,9 @@ struct ChatCreateView: View {
                 )
                 .overlay(
                     EmptyNavigationLink(
-                        destination: CreateChannelView(viewModel: CreateChannelViewModel()),
-//                        destination: ChannelInfoView(viewModel: ChannelInfoViewModel()),
+                        destination: CreateChannelAssemby.make {
+                            presentationMode.wrappedValue.dismiss()
+                        },
                         isActive: $showChannelCreate
                     )
                 )
@@ -130,7 +131,7 @@ struct ChatCreateView: View {
 
                 VStack(spacing: 0) {
                     if !viewModel.waitingContacts.isEmpty && viewModel.state == .showContent {
-                        ForEach(CreateAction.allCases.filter({ $0 != .createChannel })) { action in
+                        ForEach(CreateAction.allCases) { action in
                             VStack(spacing: 0) {
                                 actionView(action)
                                     .padding([.leading, .trailing], 16)
@@ -141,8 +142,8 @@ struct ChatCreateView: View {
                                             showContacts.toggle()
                                         case .newContact:
                                             showContactCreate.toggle()
-//                                        case .createChannel:
-//                                            showChannelCreate.toggle()
+                                        case .createChannel:
+                                            showChannelCreate.toggle()
                                         default:
                                             break
                                         }

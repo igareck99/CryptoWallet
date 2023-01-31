@@ -49,13 +49,15 @@ final class TransferViewModel: ObservableObject {
 	}
 
 	private func validate(str: String) -> Bool {
-		guard
-			let regExp = try? Regex("^\\d{0,9}(?:\\.\\d{0,\(currentWallet.decimals)})?$")
-		else {
-			return false
-		}
-		let result = str.wholeMatch(of: regExp)
-		return result?.isEmpty == false
+        
+        if let separator = Locale.current.decimalSeparator,
+            let regExp = try?
+            Regex("^\\d{0,9}(?:\\\(separator)\\d{0,\(currentWallet.decimals)})?$") {
+            let result = str.wholeMatch(of: regExp)
+            return result?.isEmpty == false
+        }
+        
+		return false
 	}
 
 	private func isTransferAmountValid() -> Bool {

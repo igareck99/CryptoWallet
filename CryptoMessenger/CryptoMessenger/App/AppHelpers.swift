@@ -2,6 +2,7 @@ import UIKit
 
 // MARK: - Types
 
+typealias EmptyFailureBlock<K> = (EmptyFailureResult<K>) -> Void
 typealias EmptyResultBlock = (EmptyResult) -> Void
 typealias VoidBlock = () -> Void
 typealias GenericBlock<T> = (T) -> Void

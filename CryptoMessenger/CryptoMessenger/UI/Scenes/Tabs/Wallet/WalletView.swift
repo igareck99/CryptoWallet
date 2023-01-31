@@ -71,77 +71,101 @@ struct WalletView: View {
     @State private var scrollViewContentOffset = CGFloat(0)
 
     var content: some View {
-        ScrollViewReader { _ in
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                TabView(selection: $pageIndex) {
-                    ForEach(Array(viewModel.cardsList.enumerated()), id: \.element) { index, wallet in
-                        CardNewView(wallet: wallet)
-                            .onTapGesture {
-                                guard let item = viewModel.cardsList.first(where: { $0.address == wallet.address }) else { return }
-                                selectedAddress = item
-                                showTokenInfo = true
+        GeometryReader { outsideProxy in
+            ScrollView {
+                
+                    VStack(alignment: .leading, spacing: 16) {
+                        TabView(selection: $pageIndex) {
+                            ForEach(Array(viewModel.cardsList.enumerated()), id: \.element) { index, wallet in
+                                CardNewView(wallet: wallet)
+                                    .onTapGesture {
+                                        guard let item = viewModel.cardsList.first(where: { $0.address == wallet.address }) else { return }
+                                        selectedAddress = item
+                                        showTokenInfo = true
+                                    }
+                                    .tag(index)
+                                    .padding()
+                                    .onChange(of: pageIndex, perform: { index in
+                                        debugPrint("CURRENT PAGE INDEX: \(index)")
+                                        debugPrint("CURRENT PAGE INDEX: \(pageIndex)")
+                                    })
                             }
-                            .tag(index)
-                            .padding()
-                            .onChange(of: pageIndex, perform: { index in
-                                debugPrint("CURRENT PAGE INDEX: \(index)")
-                                debugPrint("CURRENT PAGE INDEX: \(pageIndex)")
-                            })
+                        }
+                        .tabViewStyle(.page(indexDisplayMode: .never))
                     }
+                    .frame(minHeight: 220)
+                    NavigationLink(
+                        destination: tokenInfoView(),
+                        isActive: $showTokenInfo
+                    ) { EmptyView() }
+                    sendView
+                    if viewModel.transactionsList(index: index).isEmpty {
+                        emptyTransactionsView
+                            .padding(.top, 32)
+                    } else {
+                        transactionView
+                            .padding(.top, 24)
+                            .background(
+                                GeometryReader { insideProxy in
+                                    let offset = calculateContentOffset(fromOutsideProxy: outsideProxy, insideProxy: insideProxy)
+                                    Color.clear.preference(
+                                        key: ScrollViewOffsetPreferenceKey.self,
+                                        value: offset
+                                    )
+                                }
+                            )
+                    }
+                
+            }
+            .coordinateSpace(name: "scroll")
+            .onPreferenceChange(ScrollViewOffsetPreferenceKey.self) { value in
+                scrollViewContentOffset = value
+            }
+            .onChange(of: scrollViewContentOffset) { newValue in
+                debugPrint("TrackableScroll scrollViewContentOffset: \(newValue)")
+                viewModel.tryToLoadNextTransactions(offset: newValue, pageIndex: pageIndex)
+            }
+            .onChange(of: showAddWallet, perform: { value in
+                if !value {
+                    showTabBar()
                 }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-            }
-            .frame(minHeight: 220)
-            NavigationLink(
-                destination: tokenInfoView(),
-                isActive: $showTokenInfo
-            ) { EmptyView() }
-            sendView
-            if viewModel.transactionsList(index: index).isEmpty {
-                emptyTransactionsView
-                    .padding(.top, 32)
-            } else {
-                transactionView
-                    .padding(.top, 24)
-            }
-        }
-        .onChange(of: scrollViewContentOffset) { newValue in
-            debugPrint("TrackableScroll scrollViewContentOffset: \(newValue)")
-            viewModel.tryToLoadNextTransactions(offset: newValue, pageIndex: pageIndex)
-        }
-        .onChange(of: showAddWallet, perform: { value in
-            if !value {
-                showTabBar()
-            }
-        })
-        .onChange(of: showTokenInfo, perform: { value in
-            if !value {
-                showTabBar()
-            }
-        })
-        .popup(isPresented: $showAddWallet,
-               type: .toast,
-               position: .bottom,
-               closeOnTap: false,
-               closeOnTapOutside: true,
-               backgroundColor: Color(.black(0.3)),
-               view: {
-            AddWalletView(viewModel: viewModel,
-                          showAddWallet: $showAddWallet)
+            })
+            .onChange(of: showTokenInfo, perform: { value in
+                if !value {
+                    showTabBar()
+                }
+            })
+            .popup(isPresented: $showAddWallet,
+                   type: .toast,
+                   position: .bottom,
+                   closeOnTap: false,
+                   closeOnTapOutside: true,
+                   backgroundColor: Color(.black(0.3)),
+                   view: {
+                AddWalletView(viewModel: viewModel,
+                              showAddWallet: $showAddWallet)
                 .frame(width: UIScreen.main.bounds.width,
                        height: 114,
                        alignment: .center)
                 .background(.white())
                 .cornerRadius(16)
-        })
-        .sheet(isPresented: $displayTransactionResult) {
-            if let sentTransaction = viewModel.transaction {
-                TransactionResultView(model: sentTransaction)
-                    .presentationDetents([.height(302)])
+            })
+            .sheet(isPresented: $displayTransactionResult) {
+                if let sentTransaction = viewModel.transaction {
+                    TransactionResultView(model: sentTransaction)
+                        .presentationDetents([.height(302)])
+                }
             }
         }
-        }
+    }
+    
+    private func calculateContentOffset(
+        fromOutsideProxy outsideProxy: GeometryProxy,
+        insideProxy: GeometryProxy
+    ) -> CGFloat {
+        debugPrint("TrackableScroll outsideProxy.minY: \(outsideProxy.frame(in: .named("scroll")).minY)")
+        debugPrint("TrackableScroll insideProxy.minY: \(insideProxy.frame(in: .named("scroll")).minY)")
+        return outsideProxy.frame(in: .named("scroll")).minY - insideProxy.frame(in: .named("scroll")).minY
     }
 
     // MARK: - Private Properties
@@ -284,8 +308,7 @@ struct WalletView: View {
     private var transactionView: some View {
         VStack(spacing: 24) {
             LazyVStack(spacing: 0) {
-                ForEach(viewModel.transactionsList(index: pageIndex),
-                        id: \.self) { item in
+                ForEach(viewModel.transactionsList(index: pageIndex), id: \.self) { item in
                     DisclosureGroup {
                         TransactionDetailsView(model: item.details)
                             .padding(.horizontal, 16)

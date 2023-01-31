@@ -52,6 +52,7 @@ final class WalletViewModel: ObservableObject {
 		self.onTransactionEndHelper = onTransactionEndHelper
         bindInput()
         bindOutput()
+        updateWallets()
     }
 
     deinit {
@@ -73,11 +74,11 @@ final class WalletViewModel: ObservableObject {
 		guard let currentWallet = cardsList[safe: pageIndex],
 			  let currentTransactions = transactions[currentWallet.address] else { return }
 
-		let allTransactionsHeight = CGFloat(currentTransactions.count) * 70
+		let allTransactionsHeight = CGFloat(currentTransactions.count) * 65
 
 		debugPrint("TrackableScroll allTransactionsHeight: \(allTransactionsHeight)")
 
-		guard allTransactionsHeight < offset else { return }
+		guard allTransactionsHeight < offset + 420 else { return }
 
 		debugPrint("TrackableScroll REQUEST NEXT PAGE")
 
@@ -378,15 +379,12 @@ final class WalletViewModel: ObservableObject {
 			objectWillChange.send()
 			return
 		}
-        if seed.isEmpty {
-            viewState = .empty
-            objectWillChange.send()
-            return
-        }
 
 		let walletsCount = coreDataService.getWalletNetworksCount()
 		if walletsCount > .zero {
 			// Show wallets from db
+            viewState = .loading
+            objectWillChange.send()
 			updateWalletsFromDB()
 			getTransactions()
 			getBalance()

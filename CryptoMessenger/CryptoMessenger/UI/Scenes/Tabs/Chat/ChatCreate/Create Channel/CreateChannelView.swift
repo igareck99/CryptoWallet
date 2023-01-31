@@ -220,7 +220,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
                 viewModel.onChannelCreate()
-                presentationMode.wrappedValue.dismiss()
+//                presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
                     .font(.system(size: 17, weight: .semibold))

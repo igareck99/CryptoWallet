@@ -27,6 +27,7 @@ protocol MatrixUseCaseProtocol {
 	func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void)
 	func uploadData(data: Data, for room: MXRoom, completion: @escaping GenericBlock<URL?>)
 	func setRoomAvatar(data: Data, for room: MXRoom, completion: @escaping EmptyResultBlock)
+    func getRoomState(roomId: String, completion: @escaping EmptyFailureBlock<MXRoomState>)
 
 	// MARK: - Pusher
 	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void)

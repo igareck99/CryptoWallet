@@ -5,4 +5,5 @@
 #import "MatrixSDK.h"
 #import "JitsiMeetSDK/JitsiMeetSDK.h"
 #import "MXRoom+Reply.h"
+#import "MXRestClient+SendStateEvent.h"
 #import "AURGroupCallsViewModel.h"

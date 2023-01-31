@@ -180,6 +180,17 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 			}
 		}
 	}
+    
+    func getRoomState(roomId: String, completion: @escaping EmptyFailureBlock<MXRoomState>) {
+
+        let matrixRoom = matrixService.rooms.first(where: { $0.room.roomId == roomId })?.room
+        guard let room = matrixRoom else { completion(.failure); return }
+        
+        room.liveTimeline { timeline in
+            guard let state = timeline?.state else { completion(.failure); return }
+            completion(.success(state))
+        }
+    }
 
 	// MARK: - Remove device by ID
 	func getDevicesWithActiveSessions(completion: @escaping (Result<[MXDevice], Error>) -> Void) {
