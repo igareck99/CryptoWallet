@@ -17,6 +17,68 @@ struct TextActionViewModel: ViewGeneratable {
 // MARK: - Mocks
 
 extension TextActionViewModel {
+   
+    enum DeleteChannel {
+        static func actionsMock(
+            _ shouldShow: Binding<Bool>,
+            onDeleteChannel: @escaping () -> Void,
+            onDeleteAllUsers: @escaping () -> Void
+        ) -> [TextActionViewModel] {
+            [
+                TextActionViewModel(
+                    text: makeAttributedTextItem(),
+                    action: {
+                        debugPrint("confirmationDialog makeAttributedTextItem")
+                        shouldShow.wrappedValue.toggle()
+                    }),
+                TextActionViewModel(
+                    text: Text("Удалить")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(.azureRadianceApprox)
+                        .frame(alignment: .center)
+                ) {
+                    debugPrint("confirmationDialog Change Role Button")
+                    shouldShow.wrappedValue.toggle()
+                    onDeleteChannel()
+                },
+                TextActionViewModel(
+                    text: Text("Удалить для всех подписчиков")
+                        .font(.system(size: 20))
+                        .foregroundColor(.amaranthApprox)
+                        .frame(alignment: .center)
+                ) {
+                    debugPrint("confirmationDialog Change Role Button")
+                    shouldShow.wrappedValue.toggle()
+                    onDeleteAllUsers()
+                }
+            ]
+        }
+        
+        static func cancelActionsMock(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
+            [
+                TextActionViewModel(
+                    text: Text("Отмена")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(.azureRadianceApprox)
+                ) {
+                    debugPrint("confirmationDialog Cancel Button")
+                    shouldShow.wrappedValue.toggle()
+                }
+            ]
+        }
+        
+        @ViewBuilder
+        private static func makeAttributedTextItem() -> some View {
+            Text("Удалить канал?" + "\n")
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundColor(.woodSmokeApprox) +
+            Text(
+                "Вы точно хотите покинуть канал и удалить его?"
+            )
+            .font(.system(size: 13))
+            .foregroundColor(.regentGrayApprox)
+        }
+    }
     
     enum LeaveChannel {
         static func actionsMock(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
@@ -66,7 +128,7 @@ extension TextActionViewModel {
     }
     
     enum SelectRole {
-        static func actionsMock(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
+        static func actionsMock(_ shouldShow: Binding<Bool>, onSelectRole: @escaping (ChannelRole) -> Void) -> [TextActionViewModel] {
             [
                 TextActionViewModel(
                     text: makeAttributedTextItem(),
@@ -81,6 +143,7 @@ extension TextActionViewModel {
                         .frame(alignment: .center)
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
+                    onSelectRole(.owner)
                     shouldShow.wrappedValue.toggle()
                 },
                 TextActionViewModel(
@@ -90,6 +153,7 @@ extension TextActionViewModel {
                         .frame(alignment: .center)
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
+                    onSelectRole(.admin)
                     shouldShow.wrappedValue.toggle()
                 },
                 TextActionViewModel(
@@ -99,6 +163,7 @@ extension TextActionViewModel {
                         .frame(alignment: .center)
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
+                    onSelectRole(.user)
                     shouldShow.wrappedValue.toggle()
                 }
             ]

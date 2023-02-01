@@ -126,4 +126,24 @@ extension MatrixService {
             completion(.success)
         }
     }
+    
+    func updateUserPowerLevel(
+        userId: String,
+        roomId: String,
+        powerLevel: Int,
+        completion: @escaping EmptyResultBlock
+    ) {
+        
+        let matrixRoom = rooms.first(where: { $0.room.roomId == roomId })?.room
+        guard let room = matrixRoom else { completion(.failure); return }
+        
+        room.setPowerLevel(
+            ofUser: userId,
+            powerLevel: powerLevel
+        ) { [weak self] result in
+            debugPrint("room.setPowerLevel result: \(result)")
+            guard case .success = result else { completion(.failure); return }
+            completion(.success)
+        }
+    }
 }

@@ -10,15 +10,38 @@ struct ChannelParticipantsData: Hashable {
     let name: String
     let matrixId: String
     var role: ChannelRole
+    // Contact
+    var avatar: URL?
+    var status: String = ""
+    var phone = ""
+    var isAdmin = false
 }
 
 // MARK: - ChannelRole
 
-enum ChannelRole: String {
+enum ChannelRole: Int {
 
-    case owner = "Владелец"
-    case admin = "Администратор"
-    case user = "Пользователь"
+    case owner
+    case admin
+    case user
+    
+    var text: String {
+        switch self {
+        case .owner: return "Владелец"
+        case .admin: return "Администратор"
+        case .user: return "Пользователь"
+        default: return ""
+        }
+    }
+    
+    var powerLevel: Int {
+        switch self {
+        case .owner: return 100
+        case .admin: return 50
+        case .user: return 0
+        default: return 0
+        }
+    }
 }
 
 // MARK: - ChannelUserMenuActions

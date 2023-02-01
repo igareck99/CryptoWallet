@@ -58,7 +58,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     HStack {
                         ChannelParticipantView(
                             title: item.name,
-                            subtitle: item.role.rawValue
+                            subtitle: item.role.text
                         )
                         Spacer()
                     }

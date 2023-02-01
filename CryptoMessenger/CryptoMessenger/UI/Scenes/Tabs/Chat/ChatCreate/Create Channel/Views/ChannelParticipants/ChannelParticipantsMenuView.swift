@@ -32,19 +32,24 @@ struct ChannelParticipantsMenuView: View {
         }
         .actionSheet(isPresented: $showRoleActionSheet) {
             ActionSheet(title: Text("Выберите роль для участника"),
-                        message: Text("Если вы передаете роль - Владелец другому пользователю, то самостоятельно нельзя будет вернуть себе роль."),
+                        message: Text(
+                                        """
+                                        Если вы передаете роль - Владелец другому пользователю,
+                                        то самостоятельно нельзя будет вернуть себе роль.
+                                        """
+                        ),
                         buttons: [
                             .cancel(),
                             .default(
-                                Text(ChannelRole.owner.rawValue),
+                                Text(ChannelRole.owner.text),
                                 action: { changeRole(.owner) }
                             ),
                             .default(
-                                Text(ChannelRole.admin.rawValue),
+                                Text(ChannelRole.admin.text),
                                 action: { changeRole(.admin) }
                             ),
                             .default(
-                                Text(ChannelRole.user.rawValue),
+                                Text(ChannelRole.user.text),
                                 action: { changeRole(.user) }
                             )
                         ]

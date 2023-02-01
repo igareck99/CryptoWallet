@@ -73,6 +73,7 @@ final class ChatRoomViewModel: ObservableObject {
 	}
     
     var userHasAccessToMessage: Bool = true
+    var isChannel: Bool = false
     
     
 
@@ -294,6 +295,7 @@ final class ChatRoomViewModel: ObservableObject {
         }
     }
     
+    // Пока не вызвается, возможно понадобится 
     private func updateEventDefaultAndStateDefault() {
         
         room.room.state { [weak self] roomState in
@@ -322,67 +324,6 @@ final class ChatRoomViewModel: ObservableObject {
         }
     }
     
-    private func inviteUserToChat() {
-//    MXResponse<Void>
-//    let invitee = MXRoomInvitee(
-//    @0091379f26d6:matrix.auramsg.co
-        
-        let userId = "@u207323443784:matrix.auramsg.co"
-        
-        room.room.invite(.userId(userId)) { [weak self] result in
-            
-            debugPrint("inviteUserToChat result: \(result)")
-            
-            guard case .success = result else { return }
-            
-            self?.room.room.setPowerLevel(
-                ofUser: userId,
-                powerLevel: 0
-            ) { [weak self] result in
-                
-                debugPrint("room.setPowerLevel result: \(result)")
-                
-                guard case .success = result else { return }
-                
-                self?.room.room.state { state in
-                    debugPrint("roomState result: \(state)")
-                    debugPrint("roomState power levels result: \(state?.powerLevels)")
-                }
-            }
-        }
-        
-        debugPrint("matrixUseCase.matrixSession.myUserId result: \(matrixUseCase.matrixSession?.myUserId)")
-        
-        room.room.state { state in
-            debugPrint("roomState result: \(state)")
-            debugPrint("roomState power levels result: \(state?.powerLevels)")
-        }
-        
-        /*
-        room.room.members { [weak self] result in
-            debugPrint("room.members result: \(result)")
-            guard
-                case let .success(members) = result,
-                let roomUser = members?.members.first
-            else {
-                return
-            }
-            
-            self?.room.room.setPowerLevel(
-                ofUser: roomUser.userId,
-                powerLevel: 0
-            ) { [weak self] result in
-                debugPrint("room.setPowerLevel result: \(result)")
-                
-                self?.room.room.state { state in
-                    debugPrint("roomState result: \(state)")
-                    debugPrint("roomState power levels result: \(state?.powerLevels)")
-                }
-            }
-        }
-        */
-    }
-    
     private func detectRoomPowerLevelAccess() {
         
         let currentUserId = matrixUseCase.getUserId()
@@ -394,9 +335,16 @@ final class ChatRoomViewModel: ObservableObject {
             debugPrint("roomState result: \(state)")
             debugPrint("roomState power levels result: \(state.powerLevels)")
             
+            if state.powerLevels == nil {
+                self?.userHasAccessToMessage = false
+                self?.isChannel = true
+                return
+            }
+            
             DispatchQueue.main.async { [weak self] in
-                let isOwner = state.powerLevels.powerLevelOfUser(withUserID: currentUserId) == 100
-                self?.userHasAccessToMessage = (state.powerLevels.eventsDefault != 50) || isOwner
+                let currentUserPowerLevel = state.powerLevels.powerLevelOfUser(withUserID: currentUserId)
+                self?.userHasAccessToMessage = currentUserPowerLevel >= state.powerLevels.eventsDefault
+                self?.isChannel = state.powerLevels.eventsDefault == 50
                 self?.objectWillChange.send()
             }
         }
@@ -412,8 +360,6 @@ final class ChatRoomViewModel: ObservableObject {
                     _ = self?.matrixUseCase.rooms
                     self?.room.markAllAsRead()
                     self?.matrixUseCase.objectChangePublisher.send()
-//                    self?.inviteUserToChat()
-//                    self?.updateEventDefaultAndStateDefault()
                 case .onNextScene:
                     ()
                 case let .onSendText(text):
@@ -537,9 +483,15 @@ final class ChatRoomViewModel: ObservableObject {
                 case let .onEdit(text, eventId):
                     self?.room.edit(text: text, eventId: eventId)
                 case let .onSettings(chatData: chatData, saveData: saveData, room: room):
-                    self?.delegate?.handleNextScene(.settingsChat(chatData,
-                                                                  saveData,
-                                                                  room))
+                    
+                    if self?.isChannel == true {
+                        guard let roomId = self?.room.room.roomId else { return }
+                        self?.delegate?.handleNextScene(.channelInfo(roomId))
+                    } else {
+                        self?.delegate?.handleNextScene(.settingsChat(chatData,
+                                                                      saveData,
+                                                                      room))
+                    }
                 }
             }
             .store(in: &subscriptions)
