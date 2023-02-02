@@ -91,7 +91,7 @@ extension UserSettingsViewModel: UserSettingsViewModelProtocol {
     
     func onTapRemoveUser() {
         
-        guard let matrixId = UserIdValidator.makeValidId(userId: userId.wrappedValue) else { return } 
+        guard let matrixId = UserIdValidator.makeValidId(userId: userId.wrappedValue) else { return }
         
         debugPrint("\(matrixId)")
         self.onActionEnd()

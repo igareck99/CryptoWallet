@@ -44,7 +44,7 @@ struct ChannelSettingsView: View {
             if !value.isEmpty {
                 Text(value)
                     .font(.regular(17))
-                    .foregroundColor(.regentGrayApprox)
+                    .foregroundColor(.azureRadianceApprox)
             } else {
                 Image(systemName: accessoryImageName)
                     .foregroundColor(.ironApprox)

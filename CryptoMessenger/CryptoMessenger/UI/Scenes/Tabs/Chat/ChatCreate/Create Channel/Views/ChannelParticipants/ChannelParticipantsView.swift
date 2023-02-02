@@ -69,7 +69,6 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .frame(height: 64)
                 .padding(.horizontal, 16)
                 .onTapGesture {
-                    selectedUser = item
                     showMenuView = true
                 }
             }

@@ -1,21 +1,28 @@
 import SwiftUI
 
+// MARK: - CreateChannelView
+
 struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
-    
+
+    // MARK: - Internal Properties
+
     @Environment(\.presentationMode) private var presentationMode
     @StateObject var viewModel: ViewModel
     @FocusState private var descriptionIsFocused: Bool
     @FocusState private var channelNameIsFocused: Bool
     @State var selectedImage: UIImage?
+
+    // MARK: - Private Properties
+
     @State private var showActionImageAlert = false
     @State private var showImagePicker = false
     @State private var showCameraPicker = false
     @State private var isPublicSelected = true
     @State private var isPrivateSelected = false
     @State private var isEncryptionEnabled = false
-    
+
     // MARK: - Body
-    
+
     var body: some View {
         content
             .actionSheet(isPresented: $showActionImageAlert) {
@@ -102,47 +109,38 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                 }
                 .padding(.top, 24)
                 .padding(.horizontal, 16)
-                
                 infoView
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
-                
                 Divider()
                     .foreground(.grayE6EAED())
                     .padding(.top, 24)
-                
                 Text("тип канала".uppercased())
                     .font(.system(size: 12))
                     .foreground(.darkGray())
                     .padding(.leading, 16)
-                
                 publicChannelView()
                     .padding(.top, 8)
-                
                 Divider()
                     .foreground(.grayE6EAED())
                     .padding(.top, 8)
                     .padding(.leading, 16)
-                
                 privateChannelView()
                     .padding(.top, 8)
-                
                 if isPrivateSelected {
                     encrytionView()
                         .padding(.top, 4)
                         .padding(.bottom, 16)
                 }
-                
                 Spacer()
             }
         }
     }
-    
+
     // MARK: - Private Methods
-    
+
     private var infoView: some View {
         VStack(alignment: .leading, spacing: 0) {
-            
             TextEditor(text: viewModel.channelDescription)
                 .focused($descriptionIsFocused)
                 .placeholder(
@@ -156,14 +154,13 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                 .frame(height: 132)
                 .background(.paleBlue())
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            
             Text("Можете указать дополнительное описание вашего канала.")
                 .font(.system(size: 12))
                 .foreground(.darkGray())
                 .padding(.top, 6)
         }
     }
-    
+
     private func publicChannelView() -> some View {
         ChannelTypeView(
             title: "Публичный канал",
@@ -177,7 +174,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
         }
         .padding(.horizontal, 16)
     }
-    
+
     private func privateChannelView() -> some View {
         ChannelTypeView(
             title: "Частный канал",
@@ -191,7 +188,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
         }
         .padding(.horizontal, 16)
     }
-    
+
     private func encrytionView() -> some View {
         EncryptionStateView(
             title: "Шифрование",
@@ -200,7 +197,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
         )
         .padding(.horizontal, 16)
     }
-    
+
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
@@ -210,13 +207,11 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                 R.image.navigation.backButton.image
             })
         }
-        
         ToolbarItem(placement: .principal) {
             Text("Создать канал")
                 .font(.system(size: 17, weight: .semibold))
                 .foreground(.black())
         }
-        
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
                 viewModel.onChannelCreate()
@@ -229,11 +224,11 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
             .disabled(!viewModel.isCreateButtonEnabled())
         }
     }
-    
+
     private func switchImagePicker() {
         showImagePicker = true
     }
-    
+
     private func switchCameraPicker() {
         showCameraPicker = true
     }

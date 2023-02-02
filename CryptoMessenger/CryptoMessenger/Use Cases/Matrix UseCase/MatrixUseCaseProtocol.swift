@@ -19,7 +19,6 @@ protocol MatrixUseCaseProtocol {
 	)
 
 	func closeSession()
-    
     func serverSyncWithServerTimeout()
 
 	// MARK: - Rooms

@@ -47,7 +47,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         }
         .sheet(isPresented: $showNotificationsView, content: {
             NavigationView {
-                ChannelNotificaionsView(viewModel: ChannelNotificationsViewModel())
+                ChannelNotificaionsView(viewModel: ChannelNotificationsViewModel(roomId: viewModel.roomId))
             }
         })
         .sheet(isPresented: $showParticipantsView, content: {
@@ -62,7 +62,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         })
         .sheet(isPresented: $showAddUser, content: {
             NavigationView {
-                ChannelAddUserView { selectedContacts in
+                ChannelAddUserView(channelViewModel: viewModel) { selectedContacts in
                     viewModel.onInviteUsersToChannel(users: selectedContacts)
                 }
             }
@@ -120,7 +120,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             UITextView.appearance().background(.white())
         }
     }
-    
+
     private var mainView: some View {
         List {
             Section {
@@ -151,7 +151,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }
         }
     }
-    
+
     private var changeView: some View {
         List {
             changeGroupInfoView
@@ -165,9 +165,9 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         }
         .listStyle(.insetGrouped)
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func changeAvatarView() -> some View {
         ZStack(alignment: .center) {
             Circle()
@@ -184,23 +184,24 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             .padding([.top, .leading], 56)
         }
     }
-    
+
     private var changeGroupInfoView: some View {
         VStack(spacing: 10) {
             changeAvatarView()
-            TextFieldChannelView(text: $nameText,
-                                 placeholder: "")
+            TextFieldView(title: "",
+                          text: $nameText,
+                          placeholder: "",
+                          color: Palette.white())
             HStack {
-                ResizeableTextView(
-                    text: $description,
-                    height: $textViewHeight,
-                    placeholderText: ""
-                )
+                TextEditor(text: $description)
+                .padding(.leading, 16)
                 .background(.white())
-                .frame(width: UIScreen.main.bounds.width - 32)
-                .keyboardType(.default)
-                .clipShape(RoundedRectangle(cornerRadius: 16,
-                                            style: .continuous))
+                .foreground(.black())
+                .font(.regular(15))
+                .frame(width: UIScreen.main.bounds.width - 32,
+                       height: 134)
+                .cornerRadius(8)
+                .keyboardType(.alphabet)
             }
             .padding(.horizontal, 16)
         }
@@ -242,8 +243,11 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             imageName: "folder",
             accessoryImageName: "chevron.right"
         )
+        .onTapGesture {
+            viewModel.nextScene(.onMedia(viewModel.roomId))
+        }
     }
-    
+
     private func notificationsView() -> some View {
         ChannelSettingsView(
             title: "Уведомления",
@@ -254,7 +258,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             showNotificationsView = true
         }
     }
-    
+
     private func copyLinkView() -> some View {
         ChannelSettingsView(
             title: "Скопировать ссылку",
@@ -266,7 +270,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             viewModel.onChannelLinkCopy()
         }
     }
-    
+
     private func leaveChannelView() -> some View {
         ChannelSettingsView(
             title: "Покинуть канал",
@@ -288,7 +292,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             showChannelChangeType = true
         }
     }
-    
+
     private func deleteChannelView() -> some View {
         ChannelSettingsView(
             title: "Удалить канал",
@@ -320,7 +324,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     @ViewBuilder
     private func channelParticipantsView() -> some View {
         ForEach(viewModel.getChannelUsers(), id: \.self) { item in
-            if viewModel.getChannelUsers().index(of: item) ?? 2 < 2 {
+            if viewModel.getChannelUsers().firstIndex(of: item) ?? 2 < 2 {
                 ChannelParticipantView(
                     title: item.name,
                     subtitle: item.role.text
@@ -335,7 +339,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     }
 
     private func participantsFooter() -> some View {
-        Text("Посмотреть все ( \(viewModel.getChannelUsers().count) участник )")
+        return Text("Посмотреть все ( \(viewModel.getChannelUsers().count) участник )")
             .font(.system(size: 17, weight: .semibold))
             .foregroundColor(.azureRadianceApprox)
             .onTapGesture {

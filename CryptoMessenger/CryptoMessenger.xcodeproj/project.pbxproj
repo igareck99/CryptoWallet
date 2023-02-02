@@ -344,6 +344,15 @@
 		8B2D40F1295D0B87009D9581 /* GeneratePhraseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F0295D0B87009D9581 /* GeneratePhraseViewModel.swift */; };
 		8B2D40F3295D0B9F009D9581 /* GeneratePhraseProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F2295D0B9F009D9581 /* GeneratePhraseProtocols.swift */; };
 		8B2D40F5295D0CFD009D9581 /* GeneratePhraseFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F4295D0CFD009D9581 /* GeneratePhraseFlow.swift */; };
+		8B32FEAA298832ED0017082A /* ChannelInfoProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEA9298832ED0017082A /* ChannelInfoProtocols.swift */; };
+		8B32FEAC298833630017082A /* ChannelInfoConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEAB298833630017082A /* ChannelInfoConfigurator.swift */; };
+		8B32FEAE298858650017082A /* ChannelInfoFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEAD298858650017082A /* ChannelInfoFlow.swift */; };
+		8B32FEB129885F210017082A /* ChannelMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEB029885F210017082A /* ChannelMediaView.swift */; };
+		8B32FEB3298860F40017082A /* ChannelMediaConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEB2298860F40017082A /* ChannelMediaConfigurator.swift */; };
+		8B32FEB529886C1C0017082A /* ChannelMediaEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEB429886C1C0017082A /* ChannelMediaEmptyState.swift */; };
+		8B32FEB7298AC8480017082A /* ChannelUsersFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEB6298AC8480017082A /* ChannelUsersFactory.swift */; };
+		8B32FEC2298B21130017082A /* ChannelInfoAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEC1298B21130017082A /* ChannelInfoAssembly.swift */; };
+		8B32FEC4298B21C70017082A /* UserSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEC3298B21C70017082A /* UserSettingsViewModel.swift */; };
 		8B334155295B74A60062903C /* SearchTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334154295B74A60062903C /* SearchTypeView.swift */; };
 		8B334157295B7D6E0062903C /* ChooseReceiverStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */; };
 		8B34292B29786EC800F63DE1 /* SecurityCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34292A29786EC800F63DE1 /* SecurityCellItem.swift */; };
@@ -638,7 +647,6 @@
 		D44BDC9A280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */; };
 		D44BDC9B280FECC80080AE8A /* DependeciesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC95280FECC80080AE8A /* DependeciesService.swift */; };
 		D44C8A8F298131F600383A46 /* UserSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44C8A8E298131F600383A46 /* UserSettingsView.swift */; };
-		D44C8A912981322700383A46 /* UserSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44C8A902981322700383A46 /* UserSettingsViewModel.swift */; };
 		D44C8A94298146B600383A46 /* UserSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44C8A93298146B600383A46 /* UserSettingView.swift */; };
 		D44C8A962981487600383A46 /* UserSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44C8A952981487600383A46 /* UserSettingModel.swift */; };
 		D44CBF0529308BC1006A14D1 /* BaseNetworkModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44CBF0429308BC1006A14D1 /* BaseNetworkModels.swift */; };
@@ -773,7 +781,6 @@
 		D4E0B30F29429DAD00AEDF85 /* WalletType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E0B30E29429DAD00AEDF85 /* WalletType.swift */; };
 		D4E7A17A298814B400398F93 /* MXRestClient+SendStateEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A179298814B400398F93 /* MXRestClient+SendStateEvent.m */; };
 		D4E7A17C2988D50600398F93 /* CreateChannelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A17B2988D50600398F93 /* CreateChannelAssembly.swift */; };
-		D4E7A17E29895EF000398F93 /* ChannelInfoAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A17D29895EF000398F93 /* ChannelInfoAssembly.swift */; };
 		D4E7A180298A151700398F93 /* UserSettingsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A17F298A151700398F93 /* UserSettingsAssembly.swift */; };
 		D4E7A182298A203300398F93 /* ChannelUsersFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A181298A203300398F93 /* ChannelUsersFactory.swift */; };
 		D4E7A184298A237800398F93 /* UserSettingsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A183298A237800398F93 /* UserSettingsFactory.swift */; };
@@ -1595,6 +1602,15 @@
 		8B2D40F0295D0B87009D9581 /* GeneratePhraseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseViewModel.swift; sourceTree = "<group>"; };
 		8B2D40F2295D0B9F009D9581 /* GeneratePhraseProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseProtocols.swift; sourceTree = "<group>"; };
 		8B2D40F4295D0CFD009D9581 /* GeneratePhraseFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseFlow.swift; sourceTree = "<group>"; };
+		8B32FEA9298832ED0017082A /* ChannelInfoProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoProtocols.swift; sourceTree = "<group>"; };
+		8B32FEAB298833630017082A /* ChannelInfoConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoConfigurator.swift; sourceTree = "<group>"; };
+		8B32FEAD298858650017082A /* ChannelInfoFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoFlow.swift; sourceTree = "<group>"; };
+		8B32FEB029885F210017082A /* ChannelMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaView.swift; sourceTree = "<group>"; };
+		8B32FEB2298860F40017082A /* ChannelMediaConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaConfigurator.swift; sourceTree = "<group>"; };
+		8B32FEB429886C1C0017082A /* ChannelMediaEmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaEmptyState.swift; sourceTree = "<group>"; };
+		8B32FEB6298AC8480017082A /* ChannelUsersFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelUsersFactory.swift; sourceTree = "<group>"; };
+		8B32FEC1298B21130017082A /* ChannelInfoAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoAssembly.swift; sourceTree = "<group>"; };
+		8B32FEC3298B21C70017082A /* UserSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsViewModel.swift; sourceTree = "<group>"; };
 		8B334154295B74A60062903C /* SearchTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTypeView.swift; sourceTree = "<group>"; };
 		8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverStructs.swift; sourceTree = "<group>"; };
 		8B34292A29786EC800F63DE1 /* SecurityCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCellItem.swift; sourceTree = "<group>"; };
@@ -1892,7 +1908,6 @@
 		D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+UserCredentialsStorage.swift"; sourceTree = "<group>"; };
 		D44BDC95280FECC80080AE8A /* DependeciesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependeciesService.swift; sourceTree = "<group>"; };
 		D44C8A8E298131F600383A46 /* UserSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsView.swift; sourceTree = "<group>"; };
-		D44C8A902981322700383A46 /* UserSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsViewModel.swift; sourceTree = "<group>"; };
 		D44C8A93298146B600383A46 /* UserSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingView.swift; sourceTree = "<group>"; };
 		D44C8A952981487600383A46 /* UserSettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingModel.swift; sourceTree = "<group>"; };
 		D44CBF0429308BC1006A14D1 /* BaseNetworkModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNetworkModels.swift; sourceTree = "<group>"; };
@@ -2032,7 +2047,6 @@
 		D4E7A178298814B400398F93 /* MXRestClient+SendStateEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MXRestClient+SendStateEvent.h"; sourceTree = "<group>"; };
 		D4E7A179298814B400398F93 /* MXRestClient+SendStateEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MXRestClient+SendStateEvent.m"; sourceTree = "<group>"; };
 		D4E7A17B2988D50600398F93 /* CreateChannelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelAssembly.swift; sourceTree = "<group>"; };
-		D4E7A17D29895EF000398F93 /* ChannelInfoAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoAssembly.swift; sourceTree = "<group>"; };
 		D4E7A17F298A151700398F93 /* UserSettingsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsAssembly.swift; sourceTree = "<group>"; };
 		D4E7A181298A203300398F93 /* ChannelUsersFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelUsersFactory.swift; sourceTree = "<group>"; };
 		D4E7A183298A237800398F93 /* UserSettingsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsFactory.swift; sourceTree = "<group>"; };
@@ -3472,7 +3486,7 @@
 			isa = PBXGroup;
 			children = (
 				D4B30A00297923600067EB06 /* Create Channel */,
-				D4506986297A4A7D009515C8 /* Channel Info View */,
+				D4506986297A4A7D009515C8 /* ChannelInfoView */,
 				8BE24FAA29490242009A3734 /* CreateContact */,
 				8BE24FA929490204009A3734 /* SelectContact */,
 				5ABAD39C27BEFB2F0067DFC1 /* ChatGroupView */,
@@ -4244,6 +4258,15 @@
 				8B2D40F4295D0CFD009D9581 /* GeneratePhraseFlow.swift */,
 			);
 			path = GeneratePhrase;
+			sourceTree = "<group>";
+		};
+		8B32FEAF29885F0D0017082A /* ChannelMediaView */ = {
+			isa = PBXGroup;
+			children = (
+				8B32FEB029885F210017082A /* ChannelMediaView.swift */,
+				8B32FEB2298860F40017082A /* ChannelMediaConfigurator.swift */,
+			);
+			path = ChannelMediaView;
 			sourceTree = "<group>";
 		};
 		8B34292929786EBA00F63DE1 /* Components */ = {
@@ -5119,8 +5142,8 @@
 				D4E7A183298A237800398F93 /* UserSettingsFactory.swift */,
 				D4E7A185298A2AD200398F93 /* UserIdValidator.swift */,
 				D44C8A8E298131F600383A46 /* UserSettingsView.swift */,
-				D44C8A902981322700383A46 /* UserSettingsViewModel.swift */,
 				D4E7A17F298A151700398F93 /* UserSettingsAssembly.swift */,
+				8B32FEC3298B21C70017082A /* UserSettingsViewModel.swift */,
 			);
 			path = "User Settings View";
 			sourceTree = "<group>";
@@ -5206,17 +5229,23 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		D4506986297A4A7D009515C8 /* Channel Info View */ = {
+		D4506986297A4A7D009515C8 /* ChannelInfoView */ = {
 			isa = PBXGroup;
 			children = (
+				8B32FEAF29885F0D0017082A /* ChannelMediaView */,
 				D44C8A8D298131DC00383A46 /* User Settings View */,
 				D450698B297A4DBF009515C8 /* Views */,
 				D4506987297A4ACA009515C8 /* ChannelInfoView.swift */,
+				8B32FEA9298832ED0017082A /* ChannelInfoProtocols.swift */,
+				8B32FEAB298833630017082A /* ChannelInfoConfigurator.swift */,
 				D4506989297A4AD6009515C8 /* ChannelInfoViewModel.swift */,
-				D4E7A17D29895EF000398F93 /* ChannelInfoAssembly.swift */,
 				D4E7A181298A203300398F93 /* ChannelUsersFactory.swift */,
+				8B32FEAD298858650017082A /* ChannelInfoFlow.swift */,
+				8B32FEB429886C1C0017082A /* ChannelMediaEmptyState.swift */,
+				8B32FEB6298AC8480017082A /* ChannelUsersFactory.swift */,
+				8B32FEC1298B21130017082A /* ChannelInfoAssembly.swift */,
 			);
-			path = "Channel Info View";
+			path = ChannelInfoView;
 			sourceTree = "<group>";
 		};
 		D450698B297A4DBF009515C8 /* Views */ = {
@@ -8219,11 +8248,11 @@
 				D4EFEC9228E2AF110075CC10 /* MXBeaconInfoSummaryAllRoomListener.swift in Sources */,
 				8BE6673B280F4A4A00D41A3C /* UIFont+Init.swift in Sources */,
 				D4EFEB7028E2AF100075CC10 /* MXRestClient.m in Sources */,
+				8B32FEB529886C1C0017082A /* ChannelMediaEmptyState.swift in Sources */,
 				D4EFEB3628E2AF100075CC10 /* MXKeyVerificationByToDeviceRequest.m in Sources */,
 				D4EFEB2528E2AF100075CC10 /* MXKeyVerificationJSONModel.m in Sources */,
 				D4EFEC8228E2AF110075CC10 /* MXReplyEventParts.m in Sources */,
 				D4EFEAE928E2AF100075CC10 /* MXSyncResponseFileStore.swift in Sources */,
-				D44C8A912981322700383A46 /* UserSettingsViewModel.swift in Sources */,
 				8B6E5558279FF922002054CF /* PinCodeCreateConfigurator.swift in Sources */,
 				8B5A338A27D89D400064C7DC /* TransferViewModel.swift in Sources */,
 				D4EFEB5928E2AF100075CC10 /* MXKey.m in Sources */,
@@ -8245,7 +8274,6 @@
 				D4E7A182298A203300398F93 /* ChannelUsersFactory.swift in Sources */,
 				5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */,
 				5AF8635326AD9FE5004A417C /* GenerationInfoView.swift in Sources */,
-				D4E7A17E29895EF000398F93 /* ChannelInfoAssembly.swift in Sources */,
 				D445C84128462865003C3D5C /* CallViewSources.swift in Sources */,
 				D4EFEC4128E2AF110075CC10 /* MXRoomState.m in Sources */,
 				D4EFEC1828E2AF110075CC10 /* MXPushRuleRoomMemberCountConditionChecker.m in Sources */,
@@ -8284,6 +8312,7 @@
 				D44B4E94294AF7C200D64F5E /* TransactionSendRequestParams.swift in Sources */,
 				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
 				8B432CC827C395B00025D62B /* WalletProtocols.swift in Sources */,
+				8B32FEAC298833630017082A /* ChannelInfoConfigurator.swift in Sources */,
 				7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */,
 				D4EFEB3528E2AF100075CC10 /* MXKeyVerificationRequest.m in Sources */,
 				D4EFEC1428E2AF110075CC10 /* MXRoomState.swift in Sources */,
@@ -8494,6 +8523,7 @@
 				8B34D77A277DA1AB007811C9 /* PersonalizationTitleItems.swift in Sources */,
 				D4B39AFE289BE271006F2D99 /* Dictionary+Extensions.swift in Sources */,
 				7846B67226E8C04D00B05984 /* ThumbnailLayout.swift in Sources */,
+				8B32FEAA298832ED0017082A /* ChannelInfoProtocols.swift in Sources */,
 				D4A8535F295C796400F2B944 /* TrackableScroll.swift in Sources */,
 				D4EFEB9D28E2AF100075CC10 /* MXCallCapabilitiesModel.m in Sources */,
 				D4EFEBDB28E2AF100075CC10 /* MXSession.m in Sources */,
@@ -8561,6 +8591,7 @@
 				D4EFEB7128E2AF100075CC10 /* MXIdentityServerRestClient.m in Sources */,
 				5A187DD726806F35001957D3 /* Injectable.swift in Sources */,
 				D4EFEB2628E2AF100075CC10 /* MXKeyVerificationRequestByToDeviceJSONModel.m in Sources */,
+				8B32FEB129885F210017082A /* ChannelMediaView.swift in Sources */,
 				8B5609BA277B14AE00AF43F6 /* ProfileBackgroundViewPreview.swift in Sources */,
 				7889064527064F8D0093459C /* ProfileNetworkDetailFlow.swift in Sources */,
 				8B34293A29793F5000F63DE1 /* ReservePhraseCopyProtocols.swift in Sources */,
@@ -8664,6 +8695,7 @@
 				D4EFEB4228E2AF100075CC10 /* MXSelfVerifyingMasterKeyNotTrustedQRCodeData.m in Sources */,
 				8BA0C90E27AD76730070203F /* ReserveCopyView.swift in Sources */,
 				D4EFEADF28E2AF100075CC10 /* MXJingleCallStackCall.m in Sources */,
+				8B32FEC2298B21130017082A /* ChannelInfoAssembly.swift in Sources */,
 				D4EFEC7A28E2AF110075CC10 /* MXPeekingRoomSummary.m in Sources */,
 				8BE24FA829490105009A3734 /* SelectContactFlow.swift in Sources */,
 				782A2E752889534C00DDB6CE /* MapViewConstants.swift in Sources */,
@@ -8704,12 +8736,14 @@
 				8BF0FCD6281174F900FF7C6F /* CreateContactViewModel.swift in Sources */,
 				D4EFEC7028E2AF110075CC10 /* MXUsersTrustLevelSummaryMO.swift in Sources */,
 				8B5A338C27D89D6D0064C7DC /* TransferFlow.swift in Sources */,
+				8B32FEB7298AC8480017082A /* ChannelUsersFactory.swift in Sources */,
 				D450047D2845E5B500CA4C82 /* CallViewModel.swift in Sources */,
 				D4EFEB9028E2AF100075CC10 /* MXRoomTombStoneContent.m in Sources */,
 				8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */,
 				D4EFEB0428E2AF100075CC10 /* MXSecretShareSend.m in Sources */,
 				8B5D83F5283B81B60035815B /* ContactInfoViewModel.swift in Sources */,
 				D4EFEBAE28E2AF100075CC10 /* MXRoomPowerLevels.m in Sources */,
+				8B32FEC4298B21C70017082A /* UserSettingsViewModel.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
 				D4EFEC0828E2AF110075CC10 /* MXRestClient.swift in Sources */,
 				D44BDC832809A2EE0080AE8A /* MatrixNotification.swift in Sources */,
@@ -8721,6 +8755,7 @@
 				8B34293E2979415E00F63DE1 /* ReservePhraseCopyFlow.swift in Sources */,
 				D44CBF0B29309141006A14D1 /* WalletRequestsFactory.swift in Sources */,
 				D46B7C6C297E989F00BA4A9B /* CancelActionView.swift in Sources */,
+				8B32FEB3298860F40017082A /* ChannelMediaConfigurator.swift in Sources */,
 				D4EFEB6F28E2AF100075CC10 /* MXRoomInitialStateEventBuilder.swift in Sources */,
 				8BE379A027EB26BC00AB6B6E /* WalletManagerFlow.swift in Sources */,
 				D4EFECAA28E2AF110075CC10 /* MXEvent+Extensions.swift in Sources */,
@@ -8799,6 +8834,7 @@
 				D48AF484292D227B0044CFAE /* AddressResponse.swift in Sources */,
 				D4FA3F6B28182CCB000246D8 /* AppDelegateUseCase.swift in Sources */,
 				8B2D40EF295D0B1A009D9581 /* GeneratePhraseView.swift in Sources */,
+				8B32FEAE298858650017082A /* ChannelInfoFlow.swift in Sources */,
 				D4EFEBA328E2AF100075CC10 /* MXCallRejectEventContent.m in Sources */,
 				D4EFEBDD28E2AF100075CC10 /* MXBugReportRestClient.m in Sources */,
 				D4AB90002826735000E6FAB5 /* MatrixService+Users.swift in Sources */,
