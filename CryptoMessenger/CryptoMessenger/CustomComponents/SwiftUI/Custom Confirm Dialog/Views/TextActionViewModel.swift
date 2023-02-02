@@ -14,12 +14,12 @@ struct TextActionViewModel: ViewGeneratable {
     }
 }
 
-// MARK: - Mocks
+// MARK: - Action Types
 
 extension TextActionViewModel {
    
     enum DeleteChannel {
-        static func actionsMock(
+        static func actions(
             _ shouldShow: Binding<Bool>,
             onDeleteChannel: @escaping () -> Void,
             onDeleteAllUsers: @escaping () -> Void
@@ -29,7 +29,7 @@ extension TextActionViewModel {
                     text: makeAttributedTextItem(),
                     action: {
                         debugPrint("confirmationDialog makeAttributedTextItem")
-                        shouldShow.wrappedValue.toggle()
+                        shouldShow.wrappedValue = false
                     }),
                 TextActionViewModel(
                     text: Text("Удалить")
@@ -38,7 +38,7 @@ extension TextActionViewModel {
                         .frame(alignment: .center)
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
-                    shouldShow.wrappedValue.toggle()
+                    shouldShow.wrappedValue = false
                     onDeleteChannel()
                 },
                 TextActionViewModel(
@@ -48,13 +48,13 @@ extension TextActionViewModel {
                         .frame(alignment: .center)
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
-                    shouldShow.wrappedValue.toggle()
+                    shouldShow.wrappedValue = false
                     onDeleteAllUsers()
                 }
             ]
         }
         
-        static func cancelActionsMock(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
+        static func cancelActions(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
             [
                 TextActionViewModel(
                     text: Text("Отмена")
@@ -62,7 +62,7 @@ extension TextActionViewModel {
                         .foregroundColor(.azureRadianceApprox)
                 ) {
                     debugPrint("confirmationDialog Cancel Button")
-                    shouldShow.wrappedValue.toggle()
+                    shouldShow.wrappedValue = false
                 }
             ]
         }
@@ -81,13 +81,16 @@ extension TextActionViewModel {
     }
     
     enum LeaveChannel {
-        static func actionsMock(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
+        static func actions(
+            _ shouldShow: Binding<Bool>,
+            onLeaveChannel: @escaping () -> Void
+        ) -> [TextActionViewModel] {
             [
                 TextActionViewModel(
                     text: makeAttributedTextItem(),
                     action: {
                         debugPrint("confirmationDialog makeAttributedTextItem")
-                        shouldShow.wrappedValue.toggle()
+                        shouldShow.wrappedValue = false
                     }),
                 TextActionViewModel(
                     text: Text("Покинуть канал ")
@@ -96,12 +99,13 @@ extension TextActionViewModel {
                         .frame(alignment: .center)
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
-                    shouldShow.wrappedValue.toggle()
+                    onLeaveChannel()
+                    shouldShow.wrappedValue = false
                 }
             ]
         }
         
-        static func cancelActionsMock(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
+        static func cancelActions(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
             [
                 TextActionViewModel(
                     text: Text("Отмена")
@@ -109,7 +113,7 @@ extension TextActionViewModel {
                         .foregroundColor(.azureRadianceApprox)
                 ) {
                     debugPrint("confirmationDialog Cancel Button")
-                    shouldShow.wrappedValue.toggle()
+                    shouldShow.wrappedValue = false
                 }
             ]
         }
@@ -128,13 +132,13 @@ extension TextActionViewModel {
     }
     
     enum SelectRole {
-        static func actionsMock(_ shouldShow: Binding<Bool>, onSelectRole: @escaping (ChannelRole) -> Void) -> [TextActionViewModel] {
+        static func actions(_ shouldShow: Binding<Bool>, onSelectRole: @escaping (ChannelRole) -> Void) -> [TextActionViewModel] {
             [
                 TextActionViewModel(
                     text: makeAttributedTextItem(),
                     action: {
                         debugPrint("confirmationDialog makeAttributedTextItem")
-                        shouldShow.wrappedValue.toggle()
+                        shouldShow.wrappedValue = false
                     }),
                 TextActionViewModel(
                     text: Text("Владелец")
@@ -144,7 +148,7 @@ extension TextActionViewModel {
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
                     onSelectRole(.owner)
-                    shouldShow.wrappedValue.toggle()
+                    shouldShow.wrappedValue = false
                 },
                 TextActionViewModel(
                     text: Text("Администратор")
@@ -154,7 +158,7 @@ extension TextActionViewModel {
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
                     onSelectRole(.admin)
-                    shouldShow.wrappedValue.toggle()
+                    shouldShow.wrappedValue = false
                 },
                 TextActionViewModel(
                     text: Text("Пользователь")
@@ -164,12 +168,12 @@ extension TextActionViewModel {
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
                     onSelectRole(.user)
-                    shouldShow.wrappedValue.toggle()
+                    shouldShow.wrappedValue = false
                 }
             ]
         }
         
-        static func cancelActionsMock(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
+        static func cancelActions(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
             [
                 TextActionViewModel(
                     text: Text("Отмена")
@@ -177,7 +181,7 @@ extension TextActionViewModel {
                         .foregroundColor(.azureRadianceApprox)
                 ) {
                     debugPrint("confirmationDialog Cancel Button")
-                    shouldShow.wrappedValue.toggle()
+                    shouldShow.wrappedValue = false
                 }
             ]
         }
@@ -200,13 +204,13 @@ extension TextActionViewModel {
     
     enum MakeRole {
         
-        static func actionsMock(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
+        static func actions(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
             [
                 TextActionViewModel(
                     text: makeAttributedTextItem(),
                     action: {
                         debugPrint("confirmationDialog makeAttributedTextItem")
-                        shouldShow.wrappedValue.toggle()
+                        shouldShow.wrappedValue = false
                     }),
                 TextActionViewModel(
                     text: Text("Назначить роль")
@@ -215,12 +219,12 @@ extension TextActionViewModel {
                         .frame(alignment: .center)
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
-                    shouldShow.wrappedValue.toggle()
+                    shouldShow.wrappedValue = false
                 }
             ]
         }
         
-        static func cancelActionsMock(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
+        static func cancelActions(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
             [
                 TextActionViewModel(
                     text: Text("Отмена")
@@ -228,7 +232,7 @@ extension TextActionViewModel {
                         .foregroundColor(.azureRadianceApprox)
                 ) {
                     debugPrint("confirmationDialog Cancel Button")
-                    shouldShow.wrappedValue.toggle()
+                    shouldShow.wrappedValue = false
                 }
             ]
         }

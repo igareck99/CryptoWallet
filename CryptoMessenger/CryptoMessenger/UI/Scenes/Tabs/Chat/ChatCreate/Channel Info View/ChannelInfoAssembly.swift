@@ -8,7 +8,7 @@ enum ChannelInfoAssembly {
         return view
     }
     
-    static func make(roomId: String, delegate: ChatRoomSceneDelegate?) -> UIViewController {
+    static func make(roomId: String, delegate: ChannelInfoSceneDelegate?) -> UIViewController {
         let viewModel = ChannelInfoViewModel(roomId: roomId)
         viewModel.delegate = delegate
         let view = ChannelInfoView(viewModel: viewModel)

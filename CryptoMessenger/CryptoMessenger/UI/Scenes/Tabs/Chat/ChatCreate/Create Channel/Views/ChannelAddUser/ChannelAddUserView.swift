@@ -2,13 +2,12 @@ import SwiftUI
 
 // MARK: - ChannelAddUserView
 
-struct ChannelAddUserView<ViewModel: ChannelInfoViewModelProtocol>: View {
+struct ChannelAddUserView: View {
 
     // MARK: - Private Properties
 
-    @StateObject var channelViewModel: ViewModel
     @Environment(\.presentationMode) private var presentationMode
-    @StateObject private var viewModel = SelectContactViewModel(mode: .add)
+    @StateObject var viewModel: SelectContactViewModel
     @State private var pickedContacts: [Contact] = []
     var onUsersSelected: ([Contact]) -> Void
 
