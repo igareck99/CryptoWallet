@@ -74,6 +74,12 @@ protocol MatrixServiceProtocol {
     func banUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock)
     func unbanUser(userId: String, roomId: String, completion: @escaping EmptyResultBlock)
     func leaveRoom(roomId: String, completion: @escaping EmptyResultBlock)
+    func updateUserPowerLevel(
+        userId: String,
+        roomId: String,
+        powerLevel: Int,
+        completion: @escaping EmptyResultBlock
+    )
 
 	// MARK: - Pagination
 	func paginate(room: AuraRoom, event: MXEvent)

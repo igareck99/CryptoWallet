@@ -19,6 +19,8 @@ protocol MatrixUseCaseProtocol {
 	)
 
 	func closeSession()
+    
+    func serverSyncWithServerTimeout()
 
 	// MARK: - Rooms
 	func isDirectRoomExists(userId: String) -> Bool
@@ -28,6 +30,7 @@ protocol MatrixUseCaseProtocol {
 	func uploadData(data: Data, for room: MXRoom, completion: @escaping GenericBlock<URL?>)
 	func setRoomAvatar(data: Data, for room: MXRoom, completion: @escaping EmptyResultBlock)
     func getRoomState(roomId: String, completion: @escaping EmptyFailureBlock<MXRoomState>)
+    func getRoomMembers(roomId: String, completion: @escaping EmptyFailureBlock<MXRoomMembers>)
 
 	// MARK: - Pusher
 	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void)
@@ -49,6 +52,12 @@ protocol MatrixUseCaseProtocol {
     func kickUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock)
     func banUser(userId: String, roomId: String, reason: String, completion: @escaping EmptyResultBlock)
     func unbanUser(userId: String, roomId: String, completion: @escaping EmptyResultBlock)
+    func updateUserPowerLevel(
+        userId: String,
+        roomId: String,
+        powerLevel: Int,
+        completion: @escaping EmptyResultBlock
+    )
 
 	// MARK: - Device
 	func getDevicesWithActiveSessions(completion: @escaping (Result<[MXDevice], Error>) -> Void)

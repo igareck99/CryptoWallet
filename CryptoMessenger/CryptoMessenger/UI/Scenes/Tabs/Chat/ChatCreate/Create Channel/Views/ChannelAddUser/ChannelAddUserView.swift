@@ -9,6 +9,8 @@ struct ChannelAddUserView: View {
     @Environment(\.presentationMode) private var presentationMode
     @StateObject private var viewModel = SelectContactViewModel(mode: .add)
     @State private var pickedContacts: [Contact] = []
+    
+    var onUsersSelected: ([Contact]) -> Void
 
     // MARK: - Internal Properties
 
@@ -27,8 +29,7 @@ struct ChannelAddUserView: View {
             viewModel.send(.onAppear)
         }
         .navigationBarTitle("", displayMode: .inline)
-        .toolbar(.visible,
-                 for: .navigationBar)
+        .toolbar(.visible, for: .navigationBar)
         .toolbar {
             createToolBar()
         }
@@ -129,6 +130,7 @@ struct ChannelAddUserView: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
+                onUsersSelected(pickedContacts)
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())

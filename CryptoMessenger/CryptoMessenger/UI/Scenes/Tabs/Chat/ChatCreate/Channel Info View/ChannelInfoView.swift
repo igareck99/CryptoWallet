@@ -62,9 +62,51 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         })
         .sheet(isPresented: $showAddUser, content: {
             NavigationView {
-                ChannelAddUserView()
+                ChannelAddUserView { selectedContacts in
+                    viewModel.onInviteUsersToChannel(users: selectedContacts)
+                }
             }
         })
+        .sheet(isPresented: viewModel.showUserSettings, content: {
+            UserSettingsAssembly.build(
+                userId: viewModel.tappedUserId,
+                showBottomSheet: viewModel.showChangeRole,
+                showUserProfile: viewModel.showUserProfile,
+                roomId: viewModel.roomId
+            ) {
+                viewModel.showUserSettings.wrappedValue = false
+                viewModel.onUserRemoved()
+            }
+            .presentationDetents([.height(223)])
+        })
+        .customConfirmDialog(
+            isPresented: viewModel.showChangeRole,
+            actionsAlignment: .center,
+            actions: {
+                TextActionViewModel
+                    .SelectRole.actionsMock(viewModel.showChangeRole) {
+                        viewModel.onRoleSelected(role: $0)
+                    }
+            }, cancelActions: {
+                TextActionViewModel
+                    .SelectRole.cancelActionsMock(viewModel.showChangeRole)
+            })
+            .customConfirmDialog(
+                isPresented: viewModel.showDeleteChannel,
+                actionsAlignment: .center,
+                actions: {
+                    TextActionViewModel
+                        .DeleteChannel.actionsMock(viewModel.showDeleteChannel) {
+                            viewModel.onShowUserProfile()
+                            
+                        } onDeleteAllUsers: {
+                            viewModel.onDeleteAllUsers()
+                        }
+
+                }, cancelActions: {
+                    TextActionViewModel
+                        .DeleteChannel.cancelActionsMock(viewModel.showDeleteChannel)
+                })
         .popup(
             isPresented: viewModel.isSnackbarPresented,
             alignment: .bottom
@@ -255,6 +297,9 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             imageColor: .amaranthApprox,
             accessoryImageName: ""
         )
+        .onTapGesture {
+            viewModel.showDeleteChannel.wrappedValue = true
+        }
     }
 
     private func participantsHeader() -> some View {
@@ -278,9 +323,13 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             if viewModel.getChannelUsers().index(of: item) ?? 2 < 2 {
                 ChannelParticipantView(
                     title: item.name,
-                    subtitle: item.role.rawValue
+                    subtitle: item.role.text
                 )
                 .background(.white())
+                .onTapGesture {
+                    viewModel.tappedUserId.wrappedValue = item.matrixId
+                    viewModel.showUserSettings.wrappedValue = true
+                }
             }
         }
     }
@@ -298,7 +347,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Button(action: {
-                changeScreen()
+                presentationMode.wrappedValue.dismiss()
             }, label: {
                 R.image.navigation.backButton.image
             })

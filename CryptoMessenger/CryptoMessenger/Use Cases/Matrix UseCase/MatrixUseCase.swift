@@ -147,6 +147,15 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 	func closeSession() {
 		matrixService.closeSessionAndClearData()
 	}
+    
+    // MARK: - Sync
+    func serverSyncWithServerTimeout() {
+        // TODO: Trigger storage sync with server
+        matrixService.matrixSession?.backgroundSync(completion: { response in
+            debugPrint("matrixService.matrixSession?.backgroundSync: \(response)")
+        })
+        
+    }
 
 	// MARK: - Rooms
 
@@ -189,6 +198,19 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
         room.liveTimeline { timeline in
             guard let state = timeline?.state else { completion(.failure); return }
             completion(.success(state))
+        }
+    }
+    
+    func getRoomMembers(
+        roomId: String,
+        completion: @escaping EmptyFailureBlock<MXRoomMembers>
+    ) {
+        let matrixRoom = matrixService.rooms.first(where: { $0.room.roomId == roomId })?.room
+        guard let room = matrixRoom else { completion(.failure); return }
+         
+        room.liveTimeline { timeline in
+            guard let state = timeline?.state else { completion(.failure); return }
+            completion(.success(state.members))
         }
     }
 
@@ -287,6 +309,20 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
     
     func leaveRoom(roomId: String, completion: @escaping EmptyResultBlock) {
         matrixService.leaveRoom(roomId: roomId, completion: completion)
+    }
+    
+    func updateUserPowerLevel(
+        userId: String,
+        roomId: String,
+        powerLevel: Int,
+        completion: @escaping EmptyResultBlock
+    ) {
+        matrixService.updateUserPowerLevel(
+            userId: userId,
+            roomId: roomId,
+            powerLevel: powerLevel,
+            completion: completion
+        )
     }
     
 	// MARK: - Pusher
