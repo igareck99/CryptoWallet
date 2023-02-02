@@ -62,8 +62,17 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         })
         .sheet(isPresented: $showAddUser, content: {
             NavigationView {
-                ChannelAddUserView(channelViewModel: viewModel) { selectedContacts in
+                ChannelAddUserView(viewModel: SelectContactViewModel(mode: .add)) { selectedContacts in
                     viewModel.onInviteUsersToChannel(users: selectedContacts)
+                }
+            }
+        })
+        .sheet(isPresented: viewModel.showSelectOwner, content: {
+            NavigationView {
+                ChannelAddUserView(
+                    viewModel: SelectContactViewModel(mode: .add)
+                ) { selectedContacts in
+                    viewModel.onAssignNewOwners(users: selectedContacts)
                 }
             }
         })
@@ -84,28 +93,45 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             actionsAlignment: .center,
             actions: {
                 TextActionViewModel
-                    .SelectRole.actionsMock(viewModel.showChangeRole) {
+                    .SelectRole
+                    .actions(viewModel.showChangeRole) {
                         viewModel.onRoleSelected(role: $0)
                     }
             }, cancelActions: {
                 TextActionViewModel
-                    .SelectRole.cancelActionsMock(viewModel.showChangeRole)
+                    .SelectRole
+                    .cancelActions(viewModel.showChangeRole)
             })
             .customConfirmDialog(
                 isPresented: viewModel.showDeleteChannel,
                 actionsAlignment: .center,
                 actions: {
                     TextActionViewModel
-                        .DeleteChannel.actionsMock(viewModel.showDeleteChannel) {
-                            viewModel.onShowUserProfile()
-                            
+                        .DeleteChannel
+                        .actions(viewModel.showDeleteChannel) {
+                            viewModel.showLeaveChannel.wrappedValue = true
                         } onDeleteAllUsers: {
                             viewModel.onDeleteAllUsers()
                         }
 
                 }, cancelActions: {
                     TextActionViewModel
-                        .DeleteChannel.cancelActionsMock(viewModel.showDeleteChannel)
+                        .DeleteChannel
+                        .cancelActions(viewModel.showDeleteChannel)
+                })
+            .customConfirmDialog(
+                isPresented: viewModel.showLeaveChannel,
+                actionsAlignment: .center,
+                actions: {
+                    TextActionViewModel
+                        .LeaveChannel
+                        .actions(viewModel.showLeaveChannel) {
+                            viewModel.onLeaveChannel()
+                        }
+                }, cancelActions: {
+                    TextActionViewModel
+                        .LeaveChannel
+                        .cancelActions(viewModel.showLeaveChannel)
                 })
         .popup(
             isPresented: viewModel.isSnackbarPresented,
@@ -219,7 +245,6 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .font(.system(size: 22))
                 .foregroundColor(.black)
                 .padding(.bottom, 4)
-            
             Text("41 участник")
                 .font(.system(size: 15))
                 .foregroundColor(.regentGrayApprox)
@@ -279,6 +304,9 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             imageColor: .amaranthApprox,
             accessoryImageName: ""
         )
+        .onTapGesture {
+            viewModel.showLeaveChannel.wrappedValue = true
+        }
     }
 
     private func changeChannelTypeView() -> some View {

@@ -14,7 +14,7 @@ enum UserIdValidator {
         }
             
         if !userId.contains(host) {
-            mUserId = "@" + host
+            mUserId += host
         }
         
         return mUserId

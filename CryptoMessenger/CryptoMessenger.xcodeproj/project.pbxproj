@@ -3486,7 +3486,7 @@
 			isa = PBXGroup;
 			children = (
 				D4B30A00297923600067EB06 /* Create Channel */,
-				D4506986297A4A7D009515C8 /* ChannelInfoView */,
+				D4506986297A4A7D009515C8 /* Channel Info View */,
 				8BE24FAA29490242009A3734 /* CreateContact */,
 				8BE24FA929490204009A3734 /* SelectContact */,
 				5ABAD39C27BEFB2F0067DFC1 /* ChatGroupView */,
@@ -5229,23 +5229,23 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		D4506986297A4A7D009515C8 /* ChannelInfoView */ = {
+		D4506986297A4A7D009515C8 /* Channel Info View */ = {
 			isa = PBXGroup;
 			children = (
 				8B32FEAF29885F0D0017082A /* ChannelMediaView */,
 				D44C8A8D298131DC00383A46 /* User Settings View */,
 				D450698B297A4DBF009515C8 /* Views */,
 				D4506987297A4ACA009515C8 /* ChannelInfoView.swift */,
+				D4506989297A4AD6009515C8 /* ChannelInfoViewModel.swift */,
 				8B32FEA9298832ED0017082A /* ChannelInfoProtocols.swift */,
 				8B32FEAB298833630017082A /* ChannelInfoConfigurator.swift */,
-				D4506989297A4AD6009515C8 /* ChannelInfoViewModel.swift */,
 				D4E7A181298A203300398F93 /* ChannelUsersFactory.swift */,
 				8B32FEAD298858650017082A /* ChannelInfoFlow.swift */,
 				8B32FEB429886C1C0017082A /* ChannelMediaEmptyState.swift */,
 				8B32FEB6298AC8480017082A /* ChannelUsersFactory.swift */,
 				8B32FEC1298B21130017082A /* ChannelInfoAssembly.swift */,
 			);
-			path = ChannelInfoView;
+			path = "Channel Info View";
 			sourceTree = "<group>";
 		};
 		D450698B297A4DBF009515C8 /* Views */ = {
