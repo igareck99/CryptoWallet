@@ -158,6 +158,34 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
     }
 
 	// MARK: - Rooms
+    
+    func getRoomInfo(roomId: String) -> MXRoom? {
+        guard let room = matrixSession?.rooms.first(where: {
+            $0.roomId == roomId
+        }) else {
+            return nil
+        }
+        
+        return room
+    }
+    
+    func setRoom(
+        name: String,
+        roomId: String,
+        completion: @escaping (MXResponse<Void>) -> Void
+    ) {
+        matrixService.matrixSession?.matrixRestClient?
+            .setName(ofRoom: roomId, name: name, completion: completion)
+    }
+    
+    func setRoom(
+        topic: String,
+        roomId: String,
+        completion: @escaping (MXResponse<Void>) -> Void
+    ) {
+        matrixService.matrixSession?.matrixRestClient?
+            .setTopic(ofRoom: roomId, topic: topic, completion: completion)
+    }
 
 	func isDirectRoomExists(userId: String) -> Bool {
 		matrixService.isDirectRoomExists(userId: userId)

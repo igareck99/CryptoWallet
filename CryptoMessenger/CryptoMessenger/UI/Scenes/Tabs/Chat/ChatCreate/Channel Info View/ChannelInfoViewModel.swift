@@ -8,6 +8,12 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
 
     var roomId: String { get }
     
+    var shouldChange: Bool { get set }
+    
+    var channelTopic: Binding<String> { get set }
+   
+    var channelName: Binding<String> { get set }
+    
     var showLeaveChannel: Binding<Bool> { get set }
 
     var showUserSettings: Binding<Bool> { get set }
@@ -165,6 +171,42 @@ final class ChannelInfoViewModel {
             self.showSelectOwnerState = newValue
         }
     )
+    
+    private var channelTopicText: String = "" {
+        didSet {
+            self.objectWillChange.send()
+        }
+    }
+    
+    lazy var channelTopic: Binding<String> = .init(
+        get: {
+            self.channelTopicText
+        },
+        set: { newValue in
+            self.channelTopicText = newValue
+        }
+    )
+    
+    private var channelNameText: String = "" {
+        didSet {
+            self.objectWillChange.send()
+        }
+    }
+    
+    lazy var channelName: Binding<String> = .init(
+        get: {
+            self.channelNameText
+        },
+        set: { newValue in
+            self.channelNameText = newValue
+        }
+    )
+    
+    var shouldChange: Bool = false {
+        didSet {
+            self.updateRoomParams()
+        }
+    }
 
     var isSnackbarPresented = false
 
@@ -187,7 +229,45 @@ final class ChannelInfoViewModel {
         self.roomId = roomId
         self.matrixUseCase = matrixUseCase
         self.factory = factory
+        self.getRoomInfo()
         self.loadUsers()
+    }
+    
+    private func updateRoomParams() {
+        
+        guard shouldChange else { return }
+        
+        shouldChange = false
+        
+        matrixUseCase.setRoom(topic: channelTopicText, roomId: roomId) { [weak self] result in
+            
+            debugPrint("matrixUseCase.setRoom.topic result: \(result)")
+            
+            guard case .success = result else { return }
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.getRoomInfo()
+            }
+        }
+        
+        matrixUseCase.setRoom(name: channelNameText, roomId: roomId) { [weak self] result in
+            
+            debugPrint("matrixUseCase.setRoom.name result: \(result)")
+            
+            guard case .success = result else { return }
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.getRoomInfo()
+            }
+        }
+    }
+    
+    private func getRoomInfo() {
+        if let room = matrixUseCase.getRoomInfo(roomId: roomId) {
+            channelNameText = room.summary.displayname
+            channelTopicText = room.summary.topic
+            objectWillChange.send()
+        }
     }
     
     private func loadUsers() {
