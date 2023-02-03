@@ -270,7 +270,7 @@ final class ChannelInfoViewModel {
             }
         }
         
-        matrixUseCase.setRoom(name: channelNameText, roomId: roomId) { [weak self] result in
+        matrixUseCase.setRoom(topic: channelNameText, roomId: roomId) { [weak self] result in
             
             debugPrint("matrixUseCase.setRoom.name result: \(result)")
             

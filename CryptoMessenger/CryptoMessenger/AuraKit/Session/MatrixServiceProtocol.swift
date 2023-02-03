@@ -32,6 +32,11 @@ protocol MatrixServiceProtocol {
 	func getDevicesWithActiveSessions(completion: @escaping (Result<[MXDevice], Error>) -> Void)
 
 	// MARK: - Rooms
+    func isRoomEncrypted(roomId: String, completion: @escaping (Bool?) -> Void)
+    func isRoomPublic(roomId: String, completion: @escaping (Bool?) -> Void)
+    func setRoomState(roomId: String,
+                      isPublic: Bool,
+                      completion: @escaping (MXResponse<Void>?) -> Void) 
 	func startListeningForRoomEvents()
 	func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void)
 	func uploadData(data: Data, for room: MXRoom, completion: @escaping GenericBlock<URL?>)
@@ -54,6 +59,8 @@ protocol MatrixServiceProtocol {
                             url: URL,
                             thumbnail: MXImage?,
                             completion: @escaping (Result <String?, MXErrors>) -> Void)
+    func enableEncryptionWithAlgorithm(roomId: String,
+                                       completion: @escaping (Result <String?, MXErrors>) -> Void)
 
 	// MARK: - Users
 	func currentlyActive(_ userId: String) -> Bool

@@ -353,6 +353,7 @@
 		8B32FEB7298AC8480017082A /* ChannelUsersFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEB6298AC8480017082A /* ChannelUsersFactory.swift */; };
 		8B32FEC2298B21130017082A /* ChannelInfoAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEC1298B21130017082A /* ChannelInfoAssembly.swift */; };
 		8B32FEC4298B21C70017082A /* UserSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEC3298B21C70017082A /* UserSettingsViewModel.swift */; };
+		8B32FEC6298D10670017082A /* SelectChannelTypeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEC5298D10660017082A /* SelectChannelTypeViewModel.swift */; };
 		8B334155295B74A60062903C /* SearchTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334154295B74A60062903C /* SearchTypeView.swift */; };
 		8B334157295B7D6E0062903C /* ChooseReceiverStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */; };
 		8B34292B29786EC800F63DE1 /* SecurityCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34292A29786EC800F63DE1 /* SecurityCellItem.swift */; };
@@ -1611,6 +1612,7 @@
 		8B32FEB6298AC8480017082A /* ChannelUsersFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelUsersFactory.swift; sourceTree = "<group>"; };
 		8B32FEC1298B21130017082A /* ChannelInfoAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoAssembly.swift; sourceTree = "<group>"; };
 		8B32FEC3298B21C70017082A /* UserSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsViewModel.swift; sourceTree = "<group>"; };
+		8B32FEC5298D10660017082A /* SelectChannelTypeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectChannelTypeViewModel.swift; sourceTree = "<group>"; };
 		8B334154295B74A60062903C /* SearchTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTypeView.swift; sourceTree = "<group>"; };
 		8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverStructs.swift; sourceTree = "<group>"; };
 		8B34292A29786EC800F63DE1 /* SecurityCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCellItem.swift; sourceTree = "<group>"; };
@@ -4329,6 +4331,7 @@
 				8B35036829801F650090EE93 /* ChannelParticipantsData.swift */,
 				8BD2E7E62981C3B600D712D1 /* SelectChannelTypeView.swift */,
 				8B35036A2980696B0090EE93 /* ChannelParticipantsMenuView.swift */,
+				8B32FEC5298D10660017082A /* SelectChannelTypeViewModel.swift */,
 			);
 			path = ChannelParticipants;
 			sourceTree = "<group>";
@@ -8924,6 +8927,7 @@
 				D4BC1EC32955B5F400D99F1A /* TransactionResult.swift in Sources */,
 				5A187E9C2680708D001957D3 /* PickerView.swift in Sources */,
 				8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */,
+				8B32FEC6298D10670017082A /* SelectChannelTypeViewModel.swift in Sources */,
 				78E9373B288987B7004DBFDD /* LocationManagerCostants.swift in Sources */,
 				8BBCBCCE28F7434300E42F0C /* VideoPlayerView.swift in Sources */,
 				5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */,

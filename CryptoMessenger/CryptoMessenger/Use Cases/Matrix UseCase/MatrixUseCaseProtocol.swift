@@ -24,6 +24,7 @@ protocol MatrixUseCaseProtocol {
 	// MARK: - Rooms
     func getRoomInfo(roomId: String) -> MXRoom?
 	func isDirectRoomExists(userId: String) -> Bool
+    func isRoomEncrypted(roomId: String) -> Bool
 	func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
 	func joinRoom(roomId: String, completion: @escaping (MXResponse<MXRoom>) -> Void)
 	func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void)
@@ -31,8 +32,12 @@ protocol MatrixUseCaseProtocol {
 	func setRoomAvatar(data: Data, for room: MXRoom, completion: @escaping EmptyResultBlock)
     func getRoomState(roomId: String, completion: @escaping EmptyFailureBlock<MXRoomState>)
     func getRoomMembers(roomId: String, completion: @escaping EmptyFailureBlock<MXRoomMembers>)
-    func setRoom(name: String, roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
     func setRoom(topic: String, roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
+    func enableEncryptionWithAlgorithm(roomId: String)
+    func isRoomPublic(roomId: String, completion: @escaping (Bool?) -> Void)
+    func setRoomState(roomId: String,
+                      isPublic: Bool,
+                      completion: @escaping (MXResponse<Void>?) -> Void)
 
 	// MARK: - Pusher
 	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void)

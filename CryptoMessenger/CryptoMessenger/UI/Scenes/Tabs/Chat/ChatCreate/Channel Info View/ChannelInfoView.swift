@@ -54,7 +54,10 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         })
         .sheet(isPresented: $showChannelChangeType, content: {
             NavigationView {
-                SelectChannelTypeView(showChannelChangeType: $showChannelChangeType)
+                SelectChannelTypeView(viewModel: SelectChannelTypeViewModel(roomId: viewModel.roomId),
+                                      showChannelChangeType: $showChannelChangeType) { value in
+                    print("slksalals  \(value)")
+                }
             }
         })
         .sheet(isPresented: $showAddUser, content: {

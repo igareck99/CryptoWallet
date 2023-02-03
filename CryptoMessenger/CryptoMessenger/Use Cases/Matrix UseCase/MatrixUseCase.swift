@@ -191,6 +191,28 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 		matrixService.isDirectRoomExists(userId: userId)
 	}
 
+    func isRoomEncrypted(roomId: String) -> Bool {
+        matrixService.isRoomEncrypted(roomId: roomId) { value in
+            print("sklaslakslkals  \(value)")
+        }
+        return true
+    }
+
+    func isRoomPublic(roomId: String, completion: @escaping (Bool?) -> Void) {
+        matrixService.isRoomPublic(roomId: roomId) { value in
+           completion(value)
+        }
+    }
+
+    func setRoomState(roomId: String,
+                      isPublic: Bool,
+                      completion: @escaping (MXResponse<Void>?) -> Void) {
+        matrixService.setRoomState(roomId: roomId,
+                                   isPublic: isPublic) { value in
+            print("setRoomState   \(value)")
+        }
+    }
+
 	func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void) {
 		matrixService.leaveRoom(roomId: roomId, completion: completion)
 	}
@@ -239,6 +261,12 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
         room.liveTimeline { timeline in
             guard let state = timeline?.state else { completion(.failure); return }
             completion(.success(state.members))
+        }
+    }
+    
+    func enableEncryptionWithAlgorithm(roomId: String) {
+        matrixService.enableEncryptionWithAlgorithm(roomId: roomId) { [weak self] result in
+            print(result)
         }
     }
 
