@@ -19,6 +19,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     @State private var showAddUser = false
     @State var textViewHeight: CGFloat = 120
     @State var changeViewEdit: Bool = false
+    let resources: ChannelInfoResourcable.Type
 
     // MARK: - Body
 
@@ -152,7 +153,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             alignment: .bottom
         ) {
             Snackbar(
-                text: "Ссылка скопирована",
+                text: resources.linkCopied,
                 color: .green
             )
         }
@@ -263,7 +264,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .font(.system(size: 22))
                 .foregroundColor(.black)
                 .padding(.bottom, 4)
-            Text("\(viewModel.getChannelUsers().count) участник")
+            Text("\(viewModel.getChannelUsers().count) \(resources.participant)")
                 .font(.system(size: 15))
                 .foregroundColor(.regentGrayApprox)
         }
@@ -277,7 +278,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     
     private func attachmentsView() -> some View {
         ChannelSettingsView(
-            title: "Вложения",
+            title: resources.attachments,
             imageName: "folder",
             accessoryImageName: "chevron.right"
         )
@@ -288,7 +289,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     private func notificationsView() -> some View {
         ChannelSettingsView(
-            title: "Уведомления",
+            title: resources.notifications,
             imageName: "bell",
             accessoryImageName: "chevron.right"
         )
@@ -299,7 +300,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     private func copyLinkView() -> some View {
         ChannelSettingsView(
-            title: "Скопировать ссылку",
+            title: resources.copyLink,
             imageName: "doc.on.doc",
             accessoryImageName: ""
         )
@@ -311,7 +312,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     private func leaveChannelView() -> some View {
         ChannelSettingsView(
-            title: "Покинуть канал",
+            title: resources.leaveChannel,
             titleColor: .amaranthApprox,
             imageName: "rectangle.portrait.and.arrow.right",
             imageColor: .amaranthApprox,
@@ -324,10 +325,10 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     private func changeChannelTypeView() -> some View {
         ChannelSettingsView(
-            title: "Тип канала",
+            title: resources.channelType,
             imageName: "megaphone",
             accessoryImageName: "",
-            value: "Частный"
+            value: resources.privateChannel
         )
         .onTapGesture {
             showChannelChangeType = true
@@ -336,7 +337,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     private func deleteChannelView() -> some View {
         ChannelSettingsView(
-            title: "Удалить канал",
+            title: resources.deleteChannel,
             titleColor: .amaranthApprox,
             imageName: "trash",
             imageColor: .amaranthApprox,
@@ -349,11 +350,11 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     private func participantsHeader() -> some View {
         HStack {
-            Text("Участники")
+            Text(resources.participants)
                 .font(.system(size: 17, weight: .semibold))
                 .foregroundColor(.black)
             Spacer()
-            Text("Добавить")
+            Text(resources.add)
                 .font(.system(size: 17))
                 .foregroundColor(.azureRadianceApprox)
                 .onTapGesture {
@@ -380,7 +381,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     }
 
     private func participantsFooter() -> some View {
-        return Text("Посмотреть все ( \(viewModel.getChannelUsers().count) участник )")
+        return Text("\(resources.lookAll) ( \(viewModel.getChannelUsers().count) \(resources.participant) )")
             .font(.system(size: 17, weight: .semibold))
             .foregroundColor(.azureRadianceApprox)
             .onTapGesture {
@@ -401,7 +402,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             Button(action: {
                 changeScreen(isEdit: true)
             }, label: {
-                Text("Изменить")
+                Text(resources.change)
                     .font(.system(size: 17))
                     .foregroundColor(.azureRadianceApprox)
             })

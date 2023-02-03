@@ -11,7 +11,10 @@ enum ChannelInfoConfigurator {
                                roomId: String) -> ChannelInfoView<ChannelInfoViewModel> {
         let viewModel = ChannelInfoViewModel(roomId: roomId)
         viewModel.delegate = delegate
-        let view = ChannelInfoView(viewModel: viewModel)
+        let view = ChannelInfoView(
+            viewModel: viewModel,
+            resources: ChannelInfoResources.self
+        )
         return view
     }
 }

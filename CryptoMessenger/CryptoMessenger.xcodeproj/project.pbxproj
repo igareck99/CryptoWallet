@@ -786,6 +786,7 @@
 		D4E7A182298A203300398F93 /* ChannelUsersFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A181298A203300398F93 /* ChannelUsersFactory.swift */; };
 		D4E7A184298A237800398F93 /* UserSettingsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A183298A237800398F93 /* UserSettingsFactory.swift */; };
 		D4E7A186298A2AD200398F93 /* UserIdValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A185298A2AD200398F93 /* UserIdValidator.swift */; };
+		D4E7A198298D2C1000398F93 /* ChannelInfoResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A197298D2C1000398F93 /* ChannelInfoResources.swift */; };
 		D4E8785F28CE02EA00063762 /* GroupCallsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */; };
 		D4E8786128CE07DF00063762 /* JitsiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8786028CE07DF00063762 /* JitsiWidget.swift */; };
 		D4E8786428CE0E6B00063762 /* JitsiWidgetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */; };
@@ -2053,6 +2054,7 @@
 		D4E7A181298A203300398F93 /* ChannelUsersFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelUsersFactory.swift; sourceTree = "<group>"; };
 		D4E7A183298A237800398F93 /* UserSettingsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsFactory.swift; sourceTree = "<group>"; };
 		D4E7A185298A2AD200398F93 /* UserIdValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIdValidator.swift; sourceTree = "<group>"; };
+		D4E7A197298D2C1000398F93 /* ChannelInfoResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoResources.swift; sourceTree = "<group>"; };
 		D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsViewModel.swift; sourceTree = "<group>"; };
 		D4E8786028CE07DF00063762 /* JitsiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidget.swift; sourceTree = "<group>"; };
 		D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidgetService.swift; sourceTree = "<group>"; };
@@ -5247,6 +5249,7 @@
 				8B32FEB429886C1C0017082A /* ChannelMediaEmptyState.swift */,
 				8B32FEB6298AC8480017082A /* ChannelUsersFactory.swift */,
 				8B32FEC1298B21130017082A /* ChannelInfoAssembly.swift */,
+				D4E7A197298D2C1000398F93 /* ChannelInfoResources.swift */,
 			);
 			path = "Channel Info View";
 			sourceTree = "<group>";
@@ -8396,6 +8399,7 @@
 				5A187E962680708D001957D3 /* InputTextField.swift in Sources */,
 				5A26CD3726B31C3600118D4B /* UICollectionViewCell+Extensions.swift in Sources */,
 				8B5609BE277B38A000AF43F6 /* PersonalizationProtocols.swift in Sources */,
+				D4E7A198298D2C1000398F93 /* ChannelInfoResources.swift in Sources */,
 				D4EFEBF428E2AF110075CC10 /* NSDictionary.swift in Sources */,
 				D4EFEC5628E2AF110075CC10 /* MXRoomOperation.m in Sources */,
 				D4A85378295DA30600F2B944 /* PopupBar.swift in Sources */,
