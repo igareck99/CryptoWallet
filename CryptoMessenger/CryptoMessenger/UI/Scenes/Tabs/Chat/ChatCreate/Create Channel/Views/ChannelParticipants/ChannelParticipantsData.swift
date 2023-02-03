@@ -24,6 +24,7 @@ enum ChannelRole: Int {
     case owner
     case admin
     case user
+    case unknown
     
     var text: String {
         switch self {

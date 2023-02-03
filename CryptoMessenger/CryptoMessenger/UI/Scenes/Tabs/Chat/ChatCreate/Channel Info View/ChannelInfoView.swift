@@ -86,6 +86,20 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             .presentationDetents([.height(223)])
         })
         .customConfirmDialog(
+            isPresented: viewModel.showMakeRole,
+            actionsAlignment: .center,
+            actions: {
+                TextActionViewModel
+                    .MakeRole
+                    .actions(viewModel.showMakeRole) {
+                        viewModel.onMakeRoleTap()
+                    }
+            }, cancelActions: {
+                TextActionViewModel
+                    .MakeRole
+                    .cancelActions(viewModel.showMakeRole)
+            })
+        .customConfirmDialog(
             isPresented: viewModel.showChangeRole,
             actionsAlignment: .center,
             actions: {
@@ -99,37 +113,37 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     .SelectRole
                     .cancelActions(viewModel.showChangeRole)
             })
-            .customConfirmDialog(
-                isPresented: viewModel.showDeleteChannel,
-                actionsAlignment: .center,
-                actions: {
-                    TextActionViewModel
-                        .DeleteChannel
-                        .actions(viewModel.showDeleteChannel) {
-                            viewModel.showLeaveChannel.wrappedValue = true
-                        } onDeleteAllUsers: {
-                            viewModel.onDeleteAllUsers()
-                        }
-
-                }, cancelActions: {
-                    TextActionViewModel
-                        .DeleteChannel
-                        .cancelActions(viewModel.showDeleteChannel)
-                })
-            .customConfirmDialog(
-                isPresented: viewModel.showLeaveChannel,
-                actionsAlignment: .center,
-                actions: {
-                    TextActionViewModel
-                        .LeaveChannel
-                        .actions(viewModel.showLeaveChannel) {
-                            viewModel.onLeaveChannel()
-                        }
-                }, cancelActions: {
-                    TextActionViewModel
-                        .LeaveChannel
-                        .cancelActions(viewModel.showLeaveChannel)
-                })
+        .customConfirmDialog(
+            isPresented: viewModel.showDeleteChannel,
+            actionsAlignment: .center,
+            actions: {
+                TextActionViewModel
+                    .DeleteChannel
+                    .actions(viewModel.showDeleteChannel) {
+                        viewModel.showLeaveChannel.wrappedValue = true
+                    } onDeleteAllUsers: {
+                        viewModel.onDeleteAllUsers()
+                    }
+                
+            }, cancelActions: {
+                TextActionViewModel
+                    .DeleteChannel
+                    .cancelActions(viewModel.showDeleteChannel)
+            })
+        .customConfirmDialog(
+            isPresented: viewModel.showLeaveChannel,
+            actionsAlignment: .center,
+            actions: {
+                TextActionViewModel
+                    .LeaveChannel
+                    .actions(viewModel.showLeaveChannel) {
+                        viewModel.onLeaveChannel()
+                    }
+            }, cancelActions: {
+                TextActionViewModel
+                    .LeaveChannel
+                    .cancelActions(viewModel.showLeaveChannel)
+            })
         .popup(
             isPresented: viewModel.isSnackbarPresented,
             alignment: .bottom
