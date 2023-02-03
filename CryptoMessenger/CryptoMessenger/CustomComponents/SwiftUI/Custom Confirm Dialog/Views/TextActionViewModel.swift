@@ -204,7 +204,10 @@ extension TextActionViewModel {
     
     enum MakeRole {
         
-        static func actions(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
+        static func actions(
+            _ shouldShow: Binding<Bool>,
+            onMakeRoleTap: @escaping () -> Void
+        ) -> [TextActionViewModel] {
             [
                 TextActionViewModel(
                     text: makeAttributedTextItem(),
@@ -219,6 +222,7 @@ extension TextActionViewModel {
                         .frame(alignment: .center)
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
+                    onMakeRoleTap()
                     shouldShow.wrappedValue = false
                 }
             ]

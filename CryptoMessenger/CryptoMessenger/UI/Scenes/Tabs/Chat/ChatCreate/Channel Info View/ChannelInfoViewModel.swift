@@ -14,6 +14,8 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
    
     var channelName: Binding<String> { get set }
     
+    var showMakeRole: Binding<Bool> { get set }
+    
     var showLeaveChannel: Binding<Bool> { get set }
 
     var showUserSettings: Binding<Bool> { get set }
@@ -61,6 +63,8 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     func onLeaveChannel()
     
     func nextScene(_ scene: ChannelInfoFlow.Event)
+    
+    func onMakeRoleTap()
 }
 
 // MARK: - ChannelInfoViewModel
@@ -207,6 +211,21 @@ final class ChannelInfoViewModel {
             self.updateRoomParams()
         }
     }
+    
+    private var showMakeRoleState: Bool = false {
+        didSet {
+            self.objectWillChange.send()
+        }
+    }
+    
+    lazy var showMakeRole: Binding<Bool> = .init(
+        get: {
+            self.showMakeRoleState
+        },
+        set: { newValue in
+            self.showMakeRoleState = newValue
+        }
+    )
 
     var isSnackbarPresented = false
 
@@ -220,6 +239,7 @@ final class ChannelInfoViewModel {
     let roomId: String
 
     weak var delegate: ChannelInfoSceneDelegate?
+    private var roomPowerLevels: MXRoomPowerLevels?
 
     init(
         roomId: String,
@@ -268,6 +288,17 @@ final class ChannelInfoViewModel {
             channelTopicText = room.summary.topic
             objectWillChange.send()
         }
+        
+        matrixUseCase.getRoomState(roomId: roomId) { [weak self] result in
+            
+            guard let self = self else { return }
+            guard case let .success(state) = result else { return }
+
+            debugPrint("roomState result: \(state)")
+            debugPrint("roomState power levels result: \(state.powerLevels)")
+            
+            self.roomPowerLevels = state.powerLevels
+        }
     }
     
     private func loadUsers() {
@@ -276,7 +307,7 @@ final class ChannelInfoViewModel {
             guard case let .success(roomMembers) = result else { return }
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                let users: [ChannelParticipantsData] = self.factory.makeUsersData(users: roomMembers.members)
+                let users: [ChannelParticipantsData] = self.factory.makeUsersData(users: roomMembers.members, roomPowerLevels: self.roomPowerLevels)
                 self.participants = users
             }
         }
@@ -292,7 +323,11 @@ final class ChannelInfoViewModel {
 
 // MARK: - ChannelInfoViewModelProtocol
 
-extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
+extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {    
+    
+    func onMakeRoleTap() {
+        self.showSelectOwner.wrappedValue = true
+    }
     
     func onLeaveChannel() {
                
@@ -315,9 +350,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
 
                // Если текущий пользователь не является владельцем канала
                if !isOwner {
-                   self.matrixUseCase.leaveRoom(roomId: self.roomId) { result in
-                       debugPrint("onDeleteUserFromChannel: \(result)")
-                   }
+                   self.onLeaveRoom()
                    return
                }
 
@@ -332,7 +365,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
                    return
                }
 
-               self.showSelectOwner.wrappedValue = true
+               self.showMakeRole.wrappedValue = true
            }
        }
 
@@ -480,8 +513,9 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     }
 
     func onLeaveRoom() {
-        matrixUseCase.leaveRoom(roomId: roomId) { result in
+        matrixUseCase.leaveRoom(roomId: roomId) { [weak self] result in
             debugPrint("onDeleteUserFromChannel: \(result)")
+            self?.loadUsers()
         }
     }
 
