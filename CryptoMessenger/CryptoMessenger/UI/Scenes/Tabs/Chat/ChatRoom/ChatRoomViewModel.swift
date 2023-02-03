@@ -59,17 +59,17 @@ final class ChatRoomViewModel: ObservableObject {
 	private let groupCallsUseCase: GroupCallsUseCaseProtocol
 
 	var isGroupCall: Bool {
-		room.room.isDirect == false && availabilityFacade.isGroupCallsAvailable
+        room.room.isDirect == false && availabilityFacade.isGroupCallsAvailable && !self.isChannel
 	}
 
 	var isVoiceCallAvailable: Bool {
-		availabilityFacade.isCallAvailable && room.room.isDirect
+		availabilityFacade.isCallAvailable && room.room.isDirect && !self.isChannel
 	}
 
     let sources: ChatRoomSourcesable.Type
 
 	var isVideoCallAvailable: Bool {
-		availabilityFacade.isVideoCallAvailable && room.room.isDirect
+		availabilityFacade.isVideoCallAvailable && room.room.isDirect && !self.isChannel
 	}
     
     var userHasAccessToMessage: Bool = true

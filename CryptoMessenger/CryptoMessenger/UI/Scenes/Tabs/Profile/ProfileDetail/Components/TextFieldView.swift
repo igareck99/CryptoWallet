@@ -21,7 +21,9 @@ struct TextFieldView: View {
                     .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left)),
                     .color(.gray768286())
                     
-                ]).frame(height: 22)
+                ])
+                .frame(height: 22)
+                .cornerRadius(8)
             }
             HStack {
                 TextField(placeholder, text: $text)
@@ -29,6 +31,7 @@ struct TextFieldView: View {
                     .frame(height: 44)
                     .font(.regular(15))
                     .padding([.leading, .trailing], 16)
+                    .cornerRadius(8)
             }
             .background(color)
             .cornerRadius(8)

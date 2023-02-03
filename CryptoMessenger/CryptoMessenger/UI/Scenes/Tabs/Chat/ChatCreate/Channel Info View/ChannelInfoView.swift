@@ -1,5 +1,7 @@
 import SwiftUI
 
+// swiftlint: disable: all
+
 // MARK: - ChannelInfoView
 
 struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
@@ -13,21 +15,16 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     @Environment(\.presentationMode) private var presentationMode
     @State private var showNotificationsView = false
     @State private var showParticipantsView = false
-    @State private var changeState = false
     @State private var showChannelChangeType = false
     @State private var showAddUser = false
-
-    // TODO: - Test Parametrs
-
-    @State private var nameText = "Встреча выпускников"
-    @State private var description = "sasas"
     @State var textViewHeight: CGFloat = 120
+    @State var changeViewEdit: Bool = false
 
     // MARK: - Body
 
     var body: some View {
         Group {
-            if changeState {
+            if changeViewEdit {
                 changeView
             } else {
                 mainView
@@ -39,7 +36,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         .navigationViewStyle(.stack)
         .listStyle(.insetGrouped)
         .toolbar {
-            if changeState {
+            if changeViewEdit {
                 createChangeToolBar()
             } else {
                 createToolBar()
@@ -150,7 +147,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private var mainView: some View {
         List {
             Section {
-                screenHaderView()
+                screenHeaderView()
                     .frame(maxWidth: .infinity)
                     .listRowInsets(.none)
                     .listRowBackground(Color.clear)
@@ -214,12 +211,16 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private var changeGroupInfoView: some View {
         VStack(spacing: 10) {
             changeAvatarView()
-            TextFieldView(title: "",
-                          text: $nameText,
-                          placeholder: "",
-                          color: Palette.white())
+            TextFieldView(
+                title: "",
+                text: viewModel.channelName,
+                placeholder: "",
+                color: Palette.white()
+            )
+            .cornerRadius(8)
+            
             HStack {
-                TextEditor(text: $description)
+                TextEditor(text: viewModel.channelTopic)
                 .padding(.leading, 16)
                 .background(.white())
                 .foreground(.black())
@@ -233,7 +234,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         }
     }
 
-    private func screenHaderView() -> some View {
+    private func screenHeaderView() -> some View {
         VStack(alignment: .center, spacing: 0) {
             Spacer()
                 .frame(height: 1)
@@ -241,23 +242,18 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .foregroundColor(.cyan)
                 .frame(width: 80, height: 80)
                 .padding(.bottom, 16)
-            Text("Встреча выпускников")
+            Text(viewModel.channelName.wrappedValue)
                 .font(.system(size: 22))
                 .foregroundColor(.black)
                 .padding(.bottom, 4)
-            Text("41 участник")
+            Text("\(viewModel.getChannelUsers().count) участник")
                 .font(.system(size: 15))
                 .foregroundColor(.regentGrayApprox)
         }
     }
     
     private func channelDescriptionView() -> some View {
-        Text(
-             """
-             Каждую субботу собираемся и выпиваем, обсуждаем стартапы, делаем вид, что мы успешные, все по-классике.
-             Всем быть веселыми!!!
-             """
-        )
+        Text(viewModel.channelTopic.wrappedValue)
         .font(.system(size: 17))
         .foregroundColor(.black)
     }
@@ -386,7 +382,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
-                changeScreen()
+                changeScreen(isEdit: true)
             }, label: {
                 Text("Изменить")
                     .font(.system(size: 17))
@@ -400,7 +396,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         ToolbarItem(placement: .navigationBarLeading) {
             Button(action: {
                 withAnimation(.linear(duration: 0.5)) {
-                    changeScreen()
+                    viewModel.shouldChange = false
+                    changeScreen(isEdit: false)
                 }
             }, label: {
                 Text(R.string.localizable.personalizationCancel())
@@ -410,7 +407,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
-                changeScreen()
+                viewModel.shouldChange = true
+                changeScreen(isEdit: false)
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
                     .font(.bold(17))
@@ -419,9 +417,9 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         }
     }
 
-    private func changeScreen() {
+    private func changeScreen(isEdit: Bool) {
         withAnimation(.linear(duration: 0.35)) {
-            changeState.toggle()
+            changeViewEdit = isEdit
         }
     }
 }

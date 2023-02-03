@@ -22,6 +22,7 @@ protocol MatrixUseCaseProtocol {
     func serverSyncWithServerTimeout()
 
 	// MARK: - Rooms
+    func getRoomInfo(roomId: String) -> MXRoom?
 	func isDirectRoomExists(userId: String) -> Bool
 	func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
 	func joinRoom(roomId: String, completion: @escaping (MXResponse<MXRoom>) -> Void)
@@ -30,6 +31,8 @@ protocol MatrixUseCaseProtocol {
 	func setRoomAvatar(data: Data, for room: MXRoom, completion: @escaping EmptyResultBlock)
     func getRoomState(roomId: String, completion: @escaping EmptyFailureBlock<MXRoomState>)
     func getRoomMembers(roomId: String, completion: @escaping EmptyFailureBlock<MXRoomMembers>)
+    func setRoom(name: String, roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
+    func setRoom(topic: String, roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
 
 	// MARK: - Pusher
 	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void)
