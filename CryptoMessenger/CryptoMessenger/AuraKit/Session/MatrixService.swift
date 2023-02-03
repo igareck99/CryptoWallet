@@ -16,6 +16,7 @@ enum MXErrors: Error {
     case audioUploadError
     case contactUploadError
     case videoUploadError
+    case encryptRoomError
 	case unknown
 	@available(*, deprecated, message: "Добавлено только для обратной совместимости")
 	case syncFailure
@@ -30,7 +31,6 @@ enum MatrixState {
 }
 
 final class MatrixService: MatrixServiceProtocol {
-    
 
 	var objectChangePublisher = ObservableObjectPublisher()
 

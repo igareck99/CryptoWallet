@@ -74,6 +74,48 @@ extension MatrixService {
 	func isDirectRoomExists(userId: String) -> Bool {
 		session?.directJoinedRoom(withUserId: userId) != nil
 	}
+    
+    func isRoomEncrypted(roomId: String, completion: @escaping (Bool?) -> Void) {
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            completion(nil)
+            return
+        }
+        room.state { _ in
+            completion(true)
+        }
+    }
+
+    func isRoomPublic(roomId: String, completion: @escaping (Bool?) -> Void) {
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            completion(nil)
+            return
+        }
+        room.getDirectoryVisibility { result in
+            switch result {
+            case .success(let value):
+                if value == .private {
+                    completion(false)
+                } else {
+                    completion(true)
+                }
+            case .failure(_):
+                break
+            }
+        }
+    }
+
+    func setRoomState(roomId: String,
+                      isPublic: Bool,
+                      completion: @escaping (MXResponse<Void>?) -> Void) {
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            completion(nil)
+            return
+        }
+        let state: MXRoomDirectoryVisibility = isPublic ? .public : .private
+        room.setDirectoryVisibility(state) { response in
+            completion(response)
+        }
+    }
 
 	func placeVoiceCall(
 		roomId: String,
@@ -182,6 +224,21 @@ extension MatrixService {
             case let .failure(error):
                 debugPrint(error)
                 completion(.failure(.contactUploadError))
+            }
+        }
+    }
+
+    func enableEncryptionWithAlgorithm(roomId: String,
+                                       completion: @escaping (Result <String?, MXErrors>) -> Void) {
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            completion(.failure(.encryptRoomError)); return
+        }
+        room.enableEncryption(withAlgorithm: "") { response in
+            switch response {
+            case let .success(result):
+                completion(.success("Is Encrypted"))
+            case let .failure(error):
+                completion(.failure(.encryptRoomError))
             }
         }
     }

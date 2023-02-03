@@ -5,14 +5,13 @@ import SwiftUI
 struct SelectChannelTypeView: View {
 
     // MARK: - Internal Properties
-
+    
+    @StateObject var viewModel: SelectChannelTypeViewModel
     @Binding var showChannelChangeType: Bool
 
     // MARK: - Private Properties
 
-    @State private var isPublicSelected = true
-    @State private var isPrivateSelected = false
-    @State private var isEncryptionEnabled = false
+    var ontypeSelected: (SelectChannelTypeEnum) -> Void
 
     // MARK: - Body
 
@@ -22,7 +21,7 @@ struct SelectChannelTypeView: View {
                 .listRowSeparator(.visible)
             privateChannelView()
                 .listRowSeparator(.visible)
-            if isPrivateSelected {
+            if viewModel.isPrivateSelected {
                 encrytionView()
                     .listRowSeparator(.hidden)
             }
@@ -47,6 +46,7 @@ struct SelectChannelTypeView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
+                    viewModel.updateRoomState()
                     showChannelChangeType = false
                 }, label: {
                     Text("Готово")
@@ -64,11 +64,11 @@ struct SelectChannelTypeView: View {
             title: "Публичный канал",
             text: "Публичные каналы можно найти через поиск, подписаться на них может любой пользователь.",
             channelType: .publicChannel,
-            isSelected: $isPublicSelected
+            isSelected: $viewModel.isPublicSelected
         ) { channelType in
             debugPrint("Channel type seledted: \(channelType)")
             withAnimation(.linear(duration: 0.5)) {
-                isPrivateSelected = false
+                viewModel.isPrivateSelected = false
             }
         }
         .background(.white())
@@ -79,11 +79,11 @@ struct SelectChannelTypeView: View {
             title: "Частный канал",
             text: "На частные каналы можно подписаться только по ссылке-приглашению.",
             channelType: .privateChannel,
-            isSelected: $isPrivateSelected
+            isSelected: $viewModel.isPrivateSelected
         ) { channelType in
             debugPrint("Channel type seledted: \(channelType)")
             withAnimation(.linear(duration: 0.5)) {
-                isPublicSelected = false
+                viewModel.isPublicSelected = false
             }
         }
         .background(.white())
@@ -93,7 +93,16 @@ struct SelectChannelTypeView: View {
         EncryptionStateView(
             title: "Шифрование",
             text: "Обратите внимание, что если вы включите шифрование, в дальнейшем его нельзя будет отключить",
-            isEncrypted: $isEncryptionEnabled
+            isEncrypted: $viewModel.isEncryptionEnabled
         )
     }
+}
+
+// MARK: - SelectChannelTypeEnum
+
+enum SelectChannelTypeEnum {
+
+    case publicChannel
+    case privateChannel
+    case encryptedChannel
 }
