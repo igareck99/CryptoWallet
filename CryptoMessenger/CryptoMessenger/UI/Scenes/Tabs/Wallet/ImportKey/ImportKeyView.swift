@@ -147,8 +147,8 @@ struct ImportKeyView: View {
                     showButtonAnimation = false
                 }
             }
-        } label: {
-            switch showButtonAnimation {
+            } label: {
+                switch showButtonAnimation {
             case false:
             Text(R.string.localizable.importImport())
                 .font(.semibold(15))
