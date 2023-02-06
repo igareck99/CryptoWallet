@@ -554,3 +554,21 @@
 "ChannelSettings.LeaveChannel" = "Покинуть канал";
 "ChannelSettings.SelectRole" = "Выберите роль для участника";
 
+"ChannelInfo.DocsWillBe" = "Здесь будут документы канала";
+"ChannelInfo.NoDocs" = "Нет документов";
+"ChannelInfo.MediaWillBe" = "Здесь будут медиафайлы канала";
+"ChannelInfo.NoMedia" = "Нет медиа";
+"ChannelInfo.ChannelMedia" = "Медиа и документы";
+"ChannelInfo.Change" = "Изменить";
+"ChannelInfo.Add" = "Добавить";
+"ChannelInfo.DeleteChannel" = "Удалить канал";
+"ChannelInfo.PrivateChannel" = "Частный";
+"ChannelInfo.ChannelType" = "Тип канала";
+"ChannelInfo.LeaveChannel" = "Покинуть канал";
+"ChannelInfo.CopyLink" = "Скопировать ссылку";
+"ChannelInfo.LinkCopied" = "Ссылка скопирована";
+"ChannelInfo.LookAll" = "Посмотреть все";
+"ChannelInfo.Participant" = "участник";
+"ChannelInfo.Participants" = "Участники";
+"ChannelInfo.Attachments" = "Вложения";
+"ChannelInfo.Notifications" = "Уведомления";
