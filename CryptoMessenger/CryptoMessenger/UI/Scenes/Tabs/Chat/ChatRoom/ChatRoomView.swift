@@ -616,7 +616,7 @@ struct ChatRoomView: View {
                             .font(.regular(13))
                             .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
                         } else {
-                            Text("Участники (\(viewModel.chatData.contacts.count.description))")
+                            Text("Участники (\(viewModel.participants.count))")
                                 .lineLimit(1)
                                 .font(.regular(13))
                                 .foreground(.black(0.5))

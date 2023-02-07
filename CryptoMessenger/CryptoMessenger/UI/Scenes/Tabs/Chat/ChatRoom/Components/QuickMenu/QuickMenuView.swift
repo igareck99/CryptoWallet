@@ -65,6 +65,9 @@ struct QuickMenuView: View {
                 return [QuickActionCurrentUser.copy, QuickActionCurrentUser.reaction,
                         QuickActionCurrentUser.reply, QuickActionCurrentUser.edit,
                         QuickActionCurrentUser.delete].map { .init(action: $0) }
+            case .admin:
+                return [QuickActionCurrentUser.copy, QuickActionCurrentUser.reaction,
+                        QuickActionCurrentUser.reply, QuickActionCurrentUser.delete].map { .init(action: $0) }
             case .unknown:
                 return []
             case .user:

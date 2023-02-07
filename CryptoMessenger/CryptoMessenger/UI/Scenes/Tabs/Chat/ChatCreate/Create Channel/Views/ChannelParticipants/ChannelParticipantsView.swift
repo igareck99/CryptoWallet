@@ -39,7 +39,8 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 userId: viewModel.tappedUserId,
                 showBottomSheet: viewModel.showChangeRole,
                 showUserProfile: viewModel.showUserProfile,
-                roomId: viewModel.roomId
+                roomId: viewModel.roomId,
+                roleCompare: viewModel.compareRoles()
             ) {
                 viewModel.showUserSettings.wrappedValue = false
                 showParticipantsView = false

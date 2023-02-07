@@ -20,6 +20,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var dismissScreen = false
     @Published var showSettings = false
     @Published var isOneDayMessages = false
+    @Published var participants: [ChannelParticipantsData] = []
 
     @Published private(set) var keyboardHeight: CGFloat = 0
     @Published private(set) var emojiStorage: [ReactionStorage] = []
@@ -334,6 +335,19 @@ final class ChatRoomViewModel: ObservableObject {
         }
     }
     
+    func loadUsers() {
+        matrixUseCase.getRoomMembers(roomId: room.room.roomId) { [weak self] result in
+            debugPrint("getRoomMembers result: \(result)")
+            guard case let .success(roomMembers) = result else { return }
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                let users: [ChannelParticipantsData] = self.factory.makeUsersData(users: roomMembers.members, roomPowerLevels: self.roomPowerLevels)
+                self.participants = users
+                self.objectWillChange.send()
+            }
+        }
+    }
+    
     private func detectRoomPowerLevelAccess() {
         
         let currentUserId = matrixUseCase.getUserId()
@@ -368,6 +382,7 @@ final class ChatRoomViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     _ = self?.matrixUseCase.rooms
+                    self?.loadUsers()
                     self?.room.markAllAsRead()
                     self?.matrixUseCase.objectChangePublisher.send()
                 case .onNextScene:
