@@ -58,8 +58,7 @@ struct ChatRoomView: View {
     @State private var activeSheet: ActiveSheet?
     @State private var activeEditMessage: RoomMessage?
     @State private var deleteMessage: RoomMessage?
-    @State private var quickAction: QuickAction?
-    @State private var quickActionCurrentUser: QuickActionCurrentUser?
+    @State private var quickAction: QuickActionCurrentUser?
 
     @FocusState private var inputViewIsFocused: Bool
 
@@ -312,10 +311,11 @@ struct ChatRoomView: View {
                             onReset: { activeEditMessage = nil; quickAction = nil }
                         ).transition(.opacity)
                     }
-                    if quickActionCurrentUser == .edit {
+                    if quickAction == .edit {
                         EditView(
                             text: activeEditMessage?.description ?? "",
-                            onReset: { activeEditMessage = nil; quickActionCurrentUser = nil }
+                            onReset: { activeEditMessage = nil;
+                                quickAction = nil }
                         ).transition(.opacity)
                     }
                     if viewModel.userHasAccessToMessage {
@@ -363,74 +363,41 @@ struct ChatRoomView: View {
                     vibrate()
                     cardPosition = .bottom
                 }
-
             SlideCard(position: $cardPosition,
                       expandedPosition: .custom(UIScreen.main.bounds.height - 580)) {
                 VStack {
-                    if let message = activeEditMessage,
-						let current = message.isCurrentUser {
-						if current {
-							QuickMenuCurrentUserView(
-								cardPosition: $cardPosition,
-								onAction: {
-									switch $0 {
-									case .copy:
-										UIPasteboard.general.string = message.description
-									case .delete:
-										viewModel.send(.onDelete(messageId))
-									case .edit:
-                                        if quickAction == .reply {
-                                            quickAction = nil
-                                        }
-										inputViewIsFocused = true
-									case .reply:
-										inputViewIsFocused = true
-										quickAction = .reply
-									case .reaction:
-										if viewModel.isReactionsAvailable {
-											showReaction = true
-										}
-									default:
-										()
-									}
-									quickActionCurrentUser = $0
-                                    
-								},
-								onReaction: { reaction in
-									debugPrint("emotions \(reaction)")
-									viewModel.send(.onAddReaction(messageId: message.id, reactionId: reaction))
-								}
-							).padding(.vertical, 16)
-                        } else {
-							QuickMenuView(
-								cardPosition: $cardPosition,
-								onAction: {
-									switch $0 {
-									case .copy:
-										UIPasteboard.general.string = activeEditMessage?.description
-									case .delete:
-										viewModel.send(.onDelete(messageId))
-									case .reply:
-                                        if quickActionCurrentUser == .edit {
-                                            quickActionCurrentUser = nil
-                                        }
-										inputViewIsFocused = true
-									case .reaction:
-										if viewModel.isReactionsAvailable {
-											debugPrint("emotions \(activeEditMessage)")
-											showReaction = true
-										}
-									default:
-										()
-									}
-									quickAction = $0
-								},
-                                onReaction: { reaction in
-                                    debugPrint("emotions \(reaction)")
-                                    viewModel.send(.onAddReaction(messageId: message.id, reactionId: reaction))
+                    if let message = activeEditMessage {
+                        QuickMenuView(
+                            cardPosition: $cardPosition,
+                            isCurrentUser: message.isCurrentUser,
+                            isChannel: viewModel.isChannel,
+                            userRole: viewModel.getUserRole(),
+                            onAction: {
+                                switch $0 {
+                                case .copy:
+                                    UIPasteboard.general.string = message.description
+                                case .delete:
+                                    viewModel.send(.onDelete(messageId))
+                                case .edit:
+                                    inputViewIsFocused = true
+                                case .reply:
+                                    inputViewIsFocused = true
+                                    quickAction = .reply
+                                case .reaction:
+                                    if viewModel.isReactionsAvailable {
+                                        showReaction = true
+                                    }
+                                default:
+                                    ()
                                 }
-							).padding(.vertical, 16)
-                        }
+                                quickAction = $0
+                                
+                            },
+                            onReaction: { reaction in
+                                debugPrint("emotions \(reaction)")
+                                viewModel.send(.onAddReaction(messageId: message.id, reactionId: reaction))
+                            }
+                        ).padding(.vertical, 16)
                     }
                 }
             }
@@ -560,11 +527,11 @@ struct ChatRoomView: View {
                                     viewModel.inputText = ""
                                     activeEditMessage = nil
                                     quickAction = nil
-                                } else if quickActionCurrentUser == .edit {
+                                } else if quickAction == .edit {
                                     viewModel.send(.onEdit(viewModel.inputText, activeEditMessage?.eventId ?? ""))
                                     viewModel.inputText = ""
                                     activeEditMessage = nil
-                                    quickActionCurrentUser = nil
+                                    quickAction = nil
                                     viewModel.send(.onSendText(viewModel.inputText))
                                 } else {
                                     viewModel.send(.onSendText(viewModel.inputText))
@@ -715,6 +682,23 @@ struct ChatRoomView: View {
                 }
             }
         }
+    }
+    
+    private func getSizeOfSlideCard() -> CGFloat {
+        guard let message = activeEditMessage else { return CGFloat(0) }
+        if viewModel.isChannel {
+            switch viewModel.getUserRole() {
+            case .owner:
+                return UIScreen.main.bounds.height - 580
+            case .admin:
+                return UIScreen.main.bounds.height - 580
+            case .user:
+                return UIScreen.main.bounds.height - 720
+            case .unknown:
+                return UIScreen.main.bounds.height - 580
+            }
+        }
+        return UIScreen.main.bounds.height - 580
     }
 }
 

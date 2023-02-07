@@ -1,80 +1,20 @@
 import SwiftUI
 
-// MARK: - QuickAction
-
-enum QuickAction: CaseIterable {
-
-    // MARK: - Types
-
-    case reply
-    case copy
-    case favorite
-    case forward
-    case reaction
-    case delete
-
-    // MARK: - Internal Properties
-
-    var title: String {
-        switch self {
-        case .reply:
-            return "Ответить"
-        case .copy:
-            return "Скопировать"
-        case .favorite:
-            return "В Избранное"
-        case .forward:
-            return "Переслать"
-        case .reaction:
-            return "Реакция"
-        case .delete:
-            return "Удалить сообщение"
-        }
-    }
-
-    var color: Palette { self == .delete ? .red() : .blue() }
-
-    var image: Image {
-        switch self {
-        case .reply:
-            return R.image.chat.reaction.reply.image
-        case .copy:
-            return R.image.chat.reaction.copy.image
-        case .favorite:
-            return R.image.chat.reaction.favorite.image
-        case .forward:
-            return R.image.chat.reaction.forward.image
-        case .reaction:
-            return R.image.chat.reaction.reaction.image
-        case .delete:
-            return R.image.chat.reaction.delete.image
-        }
-    }
-}
-
 // MARK: - QuickMenuView
 
 struct QuickMenuView: View {
 
-    // MARK: - QuickActionItem
-
-    struct QuickActionItem: Identifiable {
-
-        // MARK: - Internal Properties
-
-        let id = UUID()
-        let action: QuickAction
-    }
-
     // MARK: - Internal Properties
 
     @Binding var cardPosition: CardPosition
-    let onAction: GenericBlock<QuickAction>
+    var isCurrentUser: Bool
+    var isChannel: Bool
+    var userRole: ChannelRole
+    let onAction: GenericBlock<QuickActionCurrentUser>
     let onReaction: GenericBlock<String>
 
     // MARK: - Private Properties
 
-    private let actions: [QuickActionItem] = QuickAction.allCases.map { .init(action: $0) }
     @State private var isShown = false
 
     // MARK: - Body
@@ -87,35 +27,71 @@ struct QuickMenuView: View {
             .padding(.trailing, 13)
             Divider()
                 .padding(.top, 16)
-            ForEach(actions, id: \.id) { item in
-                HStack {
-                    HStack {
-                        item.action.image
-                    }
-                    .frame(width: 40, height: 40)
-                    .background(item.action == .delete ? Color(.red(0.1)) : Color(.blue(0.1)))
-                    .cornerRadius(20)
-
-                    Text(item.action.title)
-                        .font(.regular(17))
-                        //.foreground(item.action == .delete ? .red() : .blue())
-                        .padding(.leading, 16)
-
-                    Spacer()
-                }
-                .frame(height: 64)
-                .padding(.horizontal, 16)
-                .onTapGesture {
-                    vibrate()
-                    onAction(item.action)
-                    cardPosition = .bottom
-                }
-            }
+            generateItems()
         }.id(UUID())
+    }
+
+    private func generateItems() -> some View {
+        return ForEach(getItems(), id: \.id) { item in
+            HStack {
+                HStack {
+                    item.action.image
+                }
+                .frame(width: 40, height: 40)
+                .background(item.action == .delete ? Color(.red(0.1)) : Color(.blue(0.1)))
+                .cornerRadius(20)
+
+                Text(item.action.title)
+                    .font(.regular(17))
+                    //.foreground(item.action == .delete ? .red() : .blue())
+                    .padding(.leading, 16)
+
+                Spacer()
+            }
+            .frame(height: 64)
+            .padding(.horizontal, 16)
+            .onTapGesture {
+                vibrate()
+                onAction(item.action)
+                cardPosition = .bottom
+            }
+        }
+    }
+
+    private func getItems() -> [QuickActionItem] {
+        if isChannel {
+            switch userRole {
+            case .owner, .admin:
+                return [QuickActionCurrentUser.copy, QuickActionCurrentUser.reaction,
+                        QuickActionCurrentUser.reply, QuickActionCurrentUser.edit,
+                        QuickActionCurrentUser.delete].map { .init(action: $0) }
+            case .unknown:
+                return []
+            case .user:
+                return [QuickActionCurrentUser.copy, QuickActionCurrentUser.reaction].map { .init(action: $0) }
+            }
+        }
+        if isCurrentUser {
+            return QuickActionCurrentUser.allCases.map { .init(action: $0) }
+        } else {
+            return QuickActionCurrentUser.allCases.filter({ item in
+                item != .edit
+            }).map { .init(action: $0) }
+        }
     }
 }
 
-// MARK: - QuickAction
+// MARK: - QuickActionItem
+
+struct QuickActionItem: Identifiable {
+
+    // MARK: - Internal Properties
+
+    let id = UUID()
+    let action: QuickActionCurrentUser
+}
+
+// MARK: - QuickActionCurrentUser
 
 enum QuickActionCurrentUser: CaseIterable {
 
@@ -169,68 +145,5 @@ enum QuickActionCurrentUser: CaseIterable {
         case .delete:
             return R.image.chat.reaction.delete.image
         }
-    }
-}
-
-// MARK: - QuickMenuView
-
-struct QuickMenuCurrentUserView: View {
-
-    // MARK: - QuickActionItem
-
-    struct QuickActionItem: Identifiable {
-
-        // MARK: - Internal Properties
-
-        let id = UUID()
-        let action: QuickActionCurrentUser
-    }
-
-    // MARK: - Internal Properties
-
-    @Binding var cardPosition: CardPosition
-    let onAction: GenericBlock<QuickActionCurrentUser>
-	let onReaction: GenericBlock<String>
-
-    // MARK: - Private Properties
-
-    private let actions: [QuickActionItem] = QuickActionCurrentUser.allCases.map { .init(action: $0) }
-    @State private var isShown = false
-
-    // MARK: - Body
-
-    var body: some View {
-        VStack(spacing: 0) {
-            ReactionsSelectView(cardPosition: $cardPosition,
-                                onReaction: onReaction)
-            .padding(.leading, 16)
-            .padding(.trailing, 13)
-            Divider()
-                .padding(.top, 16)
-            ForEach(actions, id: \.id) { item in
-                HStack {
-                    HStack {
-                        item.action.image
-                    }
-                    .frame(width: 40, height: 40)
-                    .background(item.action == .delete ? Color(.red(0.1)) : Color(.blue(0.1)))
-                    .cornerRadius(20)
-
-                    Text(item.action.title)
-                        .font(.regular(17))
-                        //.foreground(item.action == .delete ? .red() : .blue())
-                        .padding(.leading, 16)
-
-                    Spacer()
-                }
-                .frame(height: 64)
-                .padding(.horizontal, 16)
-                .onTapGesture {
-                    vibrate()
-                    onAction(item.action)
-                    cardPosition = .bottom
-                }
-            }
-        }.id(UUID())
     }
 }
