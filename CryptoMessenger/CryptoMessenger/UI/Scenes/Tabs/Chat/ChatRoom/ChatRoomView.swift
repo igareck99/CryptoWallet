@@ -48,7 +48,6 @@ struct ChatRoomView: View {
     @State private var translateCardPosition: CardPosition = .bottom
     @State private var scrolled = false
     @State private var showActionSheet = false
-    @State private var showJoinAlert = false
     @State private var height = CGFloat(0)
     @State private var inputHeight = CGFloat(0)
     @State private var selectedPhoto: URL?
@@ -81,14 +80,6 @@ struct ChatRoomView: View {
                 viewModel.send(.onAppear)
                 viewModel.notificationsStatus(.muteOn)
                 hideTabBar()
-                switch viewModel.room.summary.membership {
-                case .invite:
-                    showJoinAlert = true
-                case .join:
-                    viewModel.room.markAllAsRead()
-                default:
-                    break
-                }
                 UITextView.appearance().background(.grayDAE1E9())
             }
             .onChange(of: showActionSheet, perform: { _ in
@@ -641,23 +632,6 @@ struct ChatRoomView: View {
                 .frame(width: 36, height: 36)
                 .cornerRadius(18)
                 .padding(.trailing, 12)
-                .alert(isPresented: $showJoinAlert) {
-                    let roomName = viewModel.room.summary.displayname ??  viewModel.sources.chatNewRequest
-                    return Alert(
-                        title: Text(viewModel.sources.joinChat),
-                        message: Text("\(viewModel.sources.acceptTheInvitation) \(roomName)"),
-                        primaryButton: .default(
-                            Text(viewModel.sources.join),
-                            action: {
-                                viewModel.send(.onJoinRoom)
-                            }
-                        ),
-                        secondaryButton: .cancel(
-                            Text(viewModel.sources.callListAlertActionOne),
-                            action: { presentationMode.wrappedValue.dismiss() }
-                        )
-                    )
-                }
                 
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {

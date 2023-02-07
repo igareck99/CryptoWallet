@@ -18,6 +18,8 @@ protocol ChatHistoryViewDelegate: ObservableObject {
 	func markAllAsRead()
     
     func fromCurrentSender(room: AuraRoom) -> Bool
+    
+    func joinRoom(_ room: AuraRoom)
 
 }
 

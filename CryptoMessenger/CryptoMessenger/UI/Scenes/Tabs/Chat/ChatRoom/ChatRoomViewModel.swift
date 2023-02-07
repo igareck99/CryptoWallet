@@ -461,7 +461,6 @@ final class ChatRoomViewModel: ObservableObject {
 						return
 					}
 
-//					self?.room.react(toEventId: messageId, emoji: reactionId)
 					self?.react(toEventId: messageId, emoji: reactionId)
 
 					let sender = self?.matrixUseCase.getUserId() ?? ""
