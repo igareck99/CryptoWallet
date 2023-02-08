@@ -11,6 +11,7 @@ final class ChooseReceiverViewModel: ObservableObject {
     @Published var userWalletsData: [UserWallletData] = []
     @Published var userWalletsFilteredData: [UserWallletData] = []
     @Published var searchType = SearchType.telephone
+    var isEnterAdressView = false
 
     // MARK: - Private Properties
 

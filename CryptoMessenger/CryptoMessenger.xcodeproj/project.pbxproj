@@ -469,6 +469,7 @@
 		8B8298912983CB150038C546 /* ChannelAddUserViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8298902983CB150038C546 /* ChannelAddUserViewCell.swift */; };
 		8B84F1BB28E32C6E0045818F /* FriendProfileMenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B84F1BA28E32C6E0045818F /* FriendProfileMenuRow.swift */; };
 		8B84F1BE28E3478D0045818F /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B84F1BD28E3478D0045818F /* NotesView.swift */; };
+		8B86A4A52992BA7500B6A67B /* EnterAdressUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B86A4A42992BA7500B6A67B /* EnterAdressUserView.swift */; };
 		8B8812702922818000EDB348 /* MXRoom+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B88126F2922818000EDB348 /* MXRoom+Notifications.swift */; };
 		8B881272292281B100EDB348 /* RoomNotificationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B881271292281B100EDB348 /* RoomNotificationState.swift */; };
 		8B881274292285D200EDB348 /* MXPushRule+Externsion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B881273292285D200EDB348 /* MXPushRule+Externsion.swift */; };
@@ -1730,6 +1731,7 @@
 		8B8298902983CB150038C546 /* ChannelAddUserViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelAddUserViewCell.swift; sourceTree = "<group>"; };
 		8B84F1BA28E32C6E0045818F /* FriendProfileMenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileMenuRow.swift; sourceTree = "<group>"; };
 		8B84F1BD28E3478D0045818F /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
+		8B86A4A42992BA7500B6A67B /* EnterAdressUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAdressUserView.swift; sourceTree = "<group>"; };
 		8B88126F2922818000EDB348 /* MXRoom+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MXRoom+Notifications.swift"; sourceTree = "<group>"; };
 		8B881271292281B100EDB348 /* RoomNotificationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomNotificationState.swift; sourceTree = "<group>"; };
 		8B881273292285D200EDB348 /* MXPushRule+Externsion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MXPushRule+Externsion.swift"; sourceTree = "<group>"; };
@@ -4213,6 +4215,7 @@
 				8B1E8AC927DF4FBD0036C301 /* ChooseReceiverViewModel.swift */,
 				8B334154295B74A60062903C /* SearchTypeView.swift */,
 				8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */,
+				8B86A4A42992BA7500B6A67B /* EnterAdressUserView.swift */,
 			);
 			path = ChooseReciver;
 			sourceTree = "<group>";
@@ -9044,6 +9047,7 @@
 				8B23C77928E1035D00418F2D /* SettingsFlow.swift in Sources */,
 				D4EFEC7928E2AF110075CC10 /* MXRoomMember.m in Sources */,
 				D45004752845DE6100CA4C82 /* HStackView.swift in Sources */,
+				8B86A4A52992BA7500B6A67B /* EnterAdressUserView.swift in Sources */,
 				8BE122BF28242EB500F7707E /* MainFlowTogglesFacade.swift in Sources */,
 				D44C8A8F298131F600383A46 /* UserSettingsView.swift in Sources */,
 				D4EFEB6428E2AF100075CC10 /* MXCryptoMigration.m in Sources */,
