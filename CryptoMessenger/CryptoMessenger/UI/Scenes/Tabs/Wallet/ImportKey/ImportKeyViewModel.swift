@@ -12,6 +12,7 @@ final class ImportKeyViewModel: ObservableObject {
     var viewState: ImportKeyViewState = .reserveCopy
     @Published var walletError = false
     @Published var newKey = ""
+    @Published var isCheckPhrase = false
 
     // MARK: - Private Properties
 
@@ -69,11 +70,16 @@ final class ImportKeyViewModel: ObservableObject {
         $newKey
             .receive(on: DispatchQueue.main)
             .sink { [weak self] value in
-                self?.phraseService.validateSecretPhrase(phrase: value, completion: { result in
-                    self?.walletError = result
-                })
-            }
-            .store(in: &subscriptions)
+                guard let self = self else { return }
+                if value.isEmpty {
+                    self.walletError = false
+                } else {
+                    self.phraseService.validateSecretPhrase(phrase: value,
+                                                            completion: { result in
+                        self.walletError = result
+                    })
+                }
+            }.store(in: &subscriptions)
     }
 
     private func bindOutput() {
