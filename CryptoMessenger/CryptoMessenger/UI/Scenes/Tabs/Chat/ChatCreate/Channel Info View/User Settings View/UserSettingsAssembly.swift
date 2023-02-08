@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - UserSettingsAssembly
+
 enum UserSettingsAssembly {
     static func build(
         userId: Binding<String>,

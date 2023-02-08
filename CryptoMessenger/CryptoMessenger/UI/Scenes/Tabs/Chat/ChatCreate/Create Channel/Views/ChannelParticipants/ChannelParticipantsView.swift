@@ -10,9 +10,10 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     // MARK: - Private Properties
 
-    @Environment(\.presentationMode) private var presentationMode
+    @Binding var showParticipantsView: Bool
     @State private var showMenuView = false
     @State var selectedUser: ChannelParticipantsData?
+    @State private var showUserSettings = false
 
     // MARK: - Body
 
@@ -33,6 +34,19 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
         .toolbar {
             createToolBar()
         }
+        .sheet(isPresented: viewModel.showUserSettings, content: {
+            UserSettingsAssembly.build(
+                userId: viewModel.tappedUserId,
+                showBottomSheet: viewModel.showChangeRole,
+                showUserProfile: viewModel.showUserProfile,
+                roomId: viewModel.roomId
+            ) {
+                viewModel.showUserSettings.wrappedValue = false
+                showParticipantsView = false
+                viewModel.onUserRemoved()
+            }
+            .presentationDetents([.height(223)])
+        })
         .popup(isPresented: $showMenuView,
                type: .toast,
                position: .bottom,
@@ -60,6 +74,10 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                             title: item.name,
                             subtitle: item.role.text
                         )
+                        .onTapGesture {
+                            viewModel.tappedUserId.wrappedValue = item.matrixId
+                            viewModel.showUserSettings.wrappedValue = true
+                        }
                         Spacer()
                     }
                     Divider()
@@ -81,7 +99,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Button(action: {
-                presentationMode.wrappedValue.dismiss()
+                showParticipantsView = false
             }, label: {
                 R.image.navigation.backButton.image
             })
@@ -93,7 +111,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
-                presentationMode.wrappedValue.dismiss()
+                showParticipantsView = false
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
                     .font(.bold(15))
