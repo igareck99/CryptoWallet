@@ -78,10 +78,12 @@ struct TokenInfoView: View {
     private var content: some View {
         VStack(alignment: .center) {
             QRCodeView
-                .padding(.top, 40)
+                .padding(.top, 50)
+                .padding(.bottom, 20)
 
 			copyAddressButton
 				.padding(.bottom, 80)
+                .padding(.horizontal, 8)
         }
 		.padding([.leading, .trailing], 16)
     }
@@ -94,7 +96,7 @@ struct TokenInfoView: View {
                 .frame(width: UIScreen.main.bounds.width - 66,
                        height: UIScreen.main.bounds.width - 66)
             RoundedRectangle(cornerRadius: 8.0)
-                .stroke(Color(.gray()))
+                .stroke(Color.ironApprox, lineWidth: 1)
                 .frame(width: UIScreen.main.bounds.width - 32,
                        height: UIScreen.main.bounds.width - 32)
         }
@@ -121,8 +123,8 @@ struct TokenInfoView: View {
 		}
 		.frame(minHeight: 50)
 		.overlay(
-			RoundedRectangle(cornerRadius: 6)
-				.stroke(Color.athensGrayApprox, lineWidth: 2)
+			RoundedRectangle(cornerRadius: 8)
+				.stroke(Color.ironApprox, lineWidth: 1)
 		)
 
 	}

@@ -22,6 +22,9 @@ extension Color {
 	static let woodSmokeApprox = Color(uiColor: .woodSmokeApprox)
 	static let jaffaApprox = Color(uiColor: .jaffaApprox)
     static let amaranthApprox = Color(uiColor: .amaranthApprox)
+    static let bombayApprox = Color(uiColor: .bombayApprox)
+    static let blackHazeApprox = Color(uiColor: .blackHazeApprox)
+    static let white06 = Color(uiColor: .white06)
 }
 
 extension UIColor {
@@ -43,6 +46,10 @@ extension UIColor {
 	static let ironApprox = UIColor(red: 220.0 / 255.0, green: 223.0 / 255.0, blue: 226.0 / 255.0, alpha: 1.0)
 	static let regentGrayApprox = UIColor(red: 138.0 / 255.0, green: 145.0 / 255.0, blue: 156.0 / 255.0, alpha: 1.0)
 	static let woodSmokeApprox = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 1.0)
-	static let jaffaApprox = UIColor(red: 236.0 / 255.0, green: 155.0 / 255.0, blue: 60.0 / 255.0, alpha: 1.0)
+	static let jaffaApprox = UIColor(red: 0.925, green: 0.608, blue: 0.235, alpha: 1)
+//    UIColor(red: 236.0 / 255.0, green: 155.0 / 255.0, blue: 60.0 / 255.0, alpha: 1.0)
     static let amaranthApprox = UIColor(red: 232.0 / 255.0, green: 30.0 / 255.0, blue: 78.0 / 255.0, alpha: 1.0)
+    static let bombayApprox = UIColor(red: 179.0 / 255.0, green: 184.0 / 255.0, blue: 191.0 / 255.0, alpha: 1.0)
+    static let blackHazeApprox = UIColor(red: 248.0 / 255.0, green: 249.0 / 255.0, blue: 249.0 / 255.0, alpha: 1.0)
+    static let white06 = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
 }

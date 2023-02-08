@@ -374,6 +374,8 @@
 "FacilityApprove.Address" = "Адрес";
 "FacilityApprove.DocumentDate" = "Дата документа";
 "FacilityApprove.TransactionDone" = "Перевод выполнен";
+"FacilityApprove.ValidateTransaction" = "Подтверждение перевода";
+"FacilityApprove.RecipientAddress" = "Адрес получателя";
 
 
 "QRCode.Title" = "Сканировать  QR-код";

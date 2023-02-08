@@ -23,7 +23,7 @@ final class TransferViewModel: ObservableObject {
 	private let keychainService: KeychainServiceProtocol
 	private let coreDataService: CoreDataServiceProtocol
 
-	private var address_to: String = ""
+	private var addressTo: String = ""
 
 	let sources: TransferViewSourcable.Type
 	var fees = [TransactionSpeed]()
@@ -59,9 +59,17 @@ final class TransferViewModel: ObservableObject {
         
 		return false
 	}
+    
+    private let formatter: NumberFormatter = {
+        let separator = Locale.current.decimalSeparator
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.decimalSeparator = separator
+        return formatter
+    }()
 
 	private func isTransferAmountValid() -> Bool {
-		let value: Double = (try? Double(value: transferAmount)) ?? .zero
+        let value: Double = formatter.number(from: transferAmount)?.doubleValue ?? .zero
 		return value > .zero
 	}
 
@@ -152,7 +160,7 @@ final class TransferViewModel: ObservableObject {
                 case let .onChooseReceiver(address):
                     self?.delegate?.handleNextScene(.chooseReceiver(address))
 				case let .onAddressChange(address):
-					self?.address_to = address
+					self?.addressTo = address
                 }
             }
             .store(in: &subscriptions)
@@ -200,7 +208,7 @@ final class TransferViewModel: ObservableObject {
 //			address_to = "0xe8f0349166f87fba444596a6bbbe5de9e9c6ef27"
 //			"0xccb5c140b7870061dc5327134fbea8f3f2e154d9"
 		} else {
-			address_to = ""
+			addressTo = ""
 			walletPublicKey = ""
 			walletPrivateKey = ""
 			return
@@ -221,7 +229,7 @@ final class TransferViewModel: ObservableObject {
 
 		let params = TransactionTemplateRequestParams(
 			publicKey: walletPublicKey,
-			addressTo: address_to,
+			addressTo: addressTo,
 			amount: transferAmount,
 			fee: feeValue,
 			cryptoType: cryptoType
@@ -253,7 +261,7 @@ final class TransferViewModel: ObservableObject {
 
 			let transaction = FacilityApproveModel(
 				reciverName: nil,
-				reciverAddress: self.address_to,
+				reciverAddress: self.addressTo,
 				transferAmount: self.transferAmount,
 				transferCurrency: self.currentWallet.result.currency,
 				comissionAmount: feeValue,
