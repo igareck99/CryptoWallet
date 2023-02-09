@@ -23,16 +23,19 @@ enum ChannelUsersFactory: ChannelUsersFactoryProtocol {
     ) -> [ChannelParticipantsData] {
         users.compactMap {
             debugPrint("membership: \($0.membership)")
-            guard $0.membership == .join else { return nil }
-            return ChannelParticipantsData(
-                name: $0.displayname,
-                matrixId: $0.userId,
-                role: detectUserRole(userId: $0.userId, roomPowerLevels: roomPowerLevels),
-                avatar: URL(string: $0.avatarUrl),
-                status: "",
-                phone: "",
-                isAdmin: false
-            )
+            if $0.membership == .join || $0.membership == .invite {
+                return ChannelParticipantsData(
+                    name: $0.displayname,
+                    matrixId: $0.userId,
+                    role: detectUserRole(userId: $0.userId, roomPowerLevels: roomPowerLevels),
+                    avatar: URL(string: $0.avatarUrl),
+                    status: "",
+                    phone: "",
+                    isAdmin: false
+                )
+            } else {
+                return nil
+            }
         }
     }
     

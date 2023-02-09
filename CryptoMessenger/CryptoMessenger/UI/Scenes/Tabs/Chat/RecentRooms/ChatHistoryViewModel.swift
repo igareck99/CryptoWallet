@@ -61,12 +61,27 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 
     // MARK: - Private Methods
 
+    func fromCurrentSender(room: AuraRoom) -> Bool {
+        let event = room.events().renderableEvents.filter({ !$0.eventId.contains("kMXEventLocalId") })
+        let lastEvent = event.first
+        guard let str = lastEvent?.eventId else { return false }
+        return matrixUseCase.fromCurrentSender(str)
+    }
+    
+    func joinRoom(_ room: AuraRoom) {
+        self.matrixUseCase.joinRoom(roomId: room.room.roomId) { _ in
+            self.objectWillChange.send()
+        }
+    }
+    
+    // MARK: - Private Methods
+
     private func bindInput() {
         eventSubject
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-					debugPrint("MatrixService: ChatHistoryViewModel rooms: \(self?.matrixUseCase.rooms)")
+                    debugPrint("MatrixService: ChatHistoryViewModel rooms: \(self?.matrixUseCase.rooms)")
                     self?.rooms = self?.matrixUseCase.rooms ?? []
                     self?.objectWillChange.send()
                 case let .onShowRoom(room):
@@ -77,22 +92,19 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             }
             .store(in: &subscriptions)
 
-		matrixUseCase.objectChangePublisher
+        matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-				debugPrint("MatrixService: matrixUseCase.rooms: \(self?.matrixUseCase.rooms ?? [])")
+                debugPrint("MatrixService: matrixUseCase.rooms: \(self?.matrixUseCase.rooms ?? [])")
                 self?.rooms = self?.matrixUseCase.rooms ?? []
+                let notJoinRoom = self?.rooms.first { $0.summary.membership == .invite }
+                notJoinRoom.map { room in
+                    self?.joinRoom(room)
+                }
                 self?.allowPushNotifications()
             }
             .store(in: &subscriptions)
-    }
-
-    func fromCurrentSender(room: AuraRoom) -> Bool {
-        let event = room.events().renderableEvents.filter({ !$0.eventId.contains("kMXEventLocalId") })
-        let lastEvent = event.first
-        guard let str = lastEvent?.eventId else { return false }
-        return matrixUseCase.fromCurrentSender(str)
     }
 
     private func allowPushNotifications() {
