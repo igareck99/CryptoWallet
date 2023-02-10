@@ -267,8 +267,6 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             popToRoot()
         case .reservePhraseCopy:
             showReservePhraseCopy()
-        case let .channelInfo(roomId):
-            showChannelInfo(roomId: roomId)
         case let .channelMedia(room):
             showChannelMedia(room)
         }

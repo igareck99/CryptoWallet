@@ -28,6 +28,15 @@ struct TransferView: View {
 					.onAppear {
 						viewModel.send(.onAppear)
 					}
+                    .sheet(isPresented: $showCoinSelector) {
+                                            ChooseWalletTypeView(
+                                                chooseWalletShow: $showCoinSelector,
+                                                choosedWalletType: $viewModel.currentWalletType,
+                                                isSelectedWalletType: $isSelectedWalletType,
+                                                wallletTypes: viewModel.walletTypes
+                                            )
+                                            .presentationDetents([.height(185)])
+                                        }
 					.navigationBarTitleDisplayMode(.inline)
 					.navigationBarHidden(false)
 					.toolbar {
@@ -59,6 +68,7 @@ struct TransferView: View {
 					.foregroundColor(.regentGrayApprox)
                     .padding(.leading, 16)
 					.padding(.top, 16)
+                
                 addressCell
                     .background(.white())
                     .padding(.top, 14)
@@ -69,6 +79,7 @@ struct TransferView: View {
 					.foregroundColor(.regentGrayApprox)
                     .padding(.leading, 16)
 					.padding(.top, 32)
+                
                 chooseContactCell
                     .background(.white())
 					.padding(.top, 14)
@@ -85,6 +96,7 @@ struct TransferView: View {
 					.foregroundColor(.regentGrayApprox)
                     .padding(.leading, 16)
 					.padding(.top, 32)
+                
                 transferCell
 					.frame(height: 47)
 					.padding(.top, 8)
@@ -153,15 +165,15 @@ struct TransferView: View {
                 }
             }
             Spacer()
-            R.image.profileDetail.arrow.image
-                .frame(width: 20, height: 20, alignment: .center)
+
+            R.image.transaction.chevronForward.image
         }
     }
 
     private var transferCell: some View {
 		HStack {
 			VStack(alignment: .leading) {
-				TextField("0.0", text: $viewModel.transferAmountProxy)
+				TextField("0\(Locale.current.decimalSeparator ?? ",")0", text: $viewModel.transferAmountProxy)
 				.keyboardType(.decimalPad)
 				.font(.system(size: 20))
 				.foregroundColor(.woodSmokeApprox)
@@ -205,14 +217,17 @@ struct TransferView: View {
         } label: {
             Text(R.string.localizable.walletSend())
 				.font(.system(size: 17, weight: .semibold))
-				.foregroundColor(.white)
+				.foregroundColor(
+                    viewModel.isTransferButtonEnabled ?
+                    .white : .bombayApprox
+                )
                 .padding()
 				.frame(width: 237, height: 48)
 				.background(
 					Rectangle()
 						.fill(
 							viewModel.isTransferButtonEnabled ?
-							Color.azureRadianceApprox : Color.cornflowerBlueApprox
+							Color.azureRadianceApprox : Color.blackHazeApprox
 						)
 						.cornerRadius(8)
 				)

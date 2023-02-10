@@ -1,8 +1,10 @@
 import SwiftUI
 
-// MARK: - CardNewView
+// swiftlint:disable all
 
-struct CardNewView: View {
+// MARK: - WalletCardView
+
+struct WalletCardView: View {
 
 	// MARK: - Internal Properties
 
@@ -19,25 +21,26 @@ struct CardNewView: View {
 		case .ethereum, .bitcoin:
 
 			VStack(alignment: .leading) {
-				HStack(alignment: .top ) {
-					VStack(alignment: .leading, spacing: 8) {
+				HStack(alignment: .top) {
+					VStack(alignment: .leading, spacing: 4) {
 						Text(String(wallet.coinAmount) + " \(wallet.result.currency)")
-							.font(.regular(22))
-							.foreground(.white())
+                            .font(.system(size: 22))
+                            .foregroundColor(.white)
 						Text(String(wallet.result.fiatAmount) + " USD")
-							.font(.regular(15))
-							.foreground(.white(0.4))
+                            .font(.system(size: 15))
+                            .foregroundColor(.white06)
 					}
-					.padding(.leading, 20)
 					Spacer()
 				}
-				.padding(.top, 20)
+                .padding([.top, .leading], 16)
+                
 				Spacer()
-				HStack {
+				
+                HStack {
 					Spacer()
 					Text(wallet.address)
-						.font(.regular(16))
-						.foreground(.white())
+                        .font(.system(size: 16))
+                        .foregroundColor(.white)
 						.lineLimit(1)
 						.truncationMode(.middle)
 						.frame(width: 150)
@@ -52,7 +55,7 @@ struct CardNewView: View {
 						R.image.wallet.ethereumCard.name
 					 )
 				.resizable()
-				.frame(width: 320, height: 180)
+				.frame(width: 343, height: 180)
 			)
 		}
 	}
@@ -80,7 +83,7 @@ struct SlideCardsView: View {
 		}, content: {
 			HStack(spacing: spacing) {
 				ForEach(cards) { wallet in
-					CardNewView(wallet: wallet)
+                    WalletCardView(wallet: wallet)
 						.onTapGesture {
 							switch wallet.walletType {
 							case .ethereum:

@@ -42,8 +42,8 @@ struct FacilityApproveView: View {
         )
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text(R.string.localizable.facilityApproveTitle())
-                    .font(.bold(15))
+                Text(R.string.localizable.facilityApproveValidateTransaction())
+                    .font(.system(size: 17, weight: .semibold))
             }
         }
     }
@@ -96,22 +96,21 @@ struct FacilityApproveView: View {
 		.cornerRadius(10)
 	}
 
-	private var receiverCellView: some View {
-		VStack(spacing: 16) {
-			HStack(spacing: 16) {
-				R.image.transaction.userPlaceholder.image
-					.resizable()
-					.clipShape(Circle())
-					.frame(width: 40, height: 40)
-				VStack(alignment: .leading, spacing: 2) {
-					Text(viewModel.transaction.reciverName ?? "По адресу")
-					.font(.system(size: 17))
-					.foregroundColor(.woodSmokeApprox)
-					.lineLimit(1)
-					.truncationMode(.middle)
-					.padding(.trailing, 16)
-				}
-			}
-		}
-	}
+    private var receiverCellView: some View {
+        HStack(spacing: 0) {
+            R.image.transaction.userPlaceholder.image
+                .resizable()
+                .clipShape(Circle())
+                .frame(width: 40, height: 40)
+            VStack(alignment: .leading, spacing: 0) {
+                Text(viewModel.transaction.reciverName ?? "По адресу")
+                    .font(.system(size: 17))
+                    .foregroundColor(.woodSmokeApprox)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                    .padding(.trailing, 16)
+                    .padding(.leading, 8)
+            }
+        }
+    }
 }

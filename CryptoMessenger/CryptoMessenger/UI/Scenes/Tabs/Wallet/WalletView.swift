@@ -77,7 +77,7 @@ struct WalletView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         TabView(selection: $pageIndex) {
                             ForEach(Array(viewModel.cardsList.enumerated()), id: \.element) { index, wallet in
-                                CardNewView(wallet: wallet)
+                                WalletCardView(wallet: wallet)
                                     .onTapGesture {
                                         guard let item = viewModel.cardsList.first(where: { $0.address == wallet.address }) else { return }
                                         selectedAddress = item
@@ -98,7 +98,13 @@ struct WalletView: View {
                         destination: tokenInfoView(),
                         isActive: $showTokenInfo
                     ) { EmptyView() }
-                    sendView
+                
+                sendButton
+                    .padding(.horizontal, 16)
+                
+                transactionTitleView
+                    .padding(.top, 8)
+                
                     if viewModel.transactionsList(index: index).isEmpty {
                         emptyTransactionsView
                             .padding(.top, 32)
@@ -291,18 +297,16 @@ struct WalletView: View {
             viewModel.onTransactionEnd = onTransactionEndClosure
             viewModel.onTransactionEndHelper(onTransactionEndClosure)
         } label: {
-            Text(R.string.localizable.walletSend().uppercased())
-                .frame(width: 237)
-                .font(.semibold(14))
-                .padding()
+            Text(R.string.localizable.walletSend())
+                .font(.system(size: 17, weight: .semibold))
+                .frame(maxWidth: .infinity)
                 .foregroundColor(.white)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.white, lineWidth: 2)
-                )
+                .padding()
         }
         .background(Color.azureRadianceApprox)
-        .cornerRadius(10)
+        .frame(maxWidth: .infinity)
+        .frame(height: 48)
+        .cornerRadius(8)
     }
 
     private var transactionView: some View {
@@ -322,16 +326,6 @@ struct WalletView: View {
                     .padding(.vertical, 4)
                 }
             }
-        }
-    }
-
-    private var sendView: some View {
-        VStack(spacing: 24) {
-            sendButton
-                .frame(height: 58)
-                .padding(.horizontal, 16)
-            transactionTitleView
-                .padding(.top, 8)
         }
     }
 
