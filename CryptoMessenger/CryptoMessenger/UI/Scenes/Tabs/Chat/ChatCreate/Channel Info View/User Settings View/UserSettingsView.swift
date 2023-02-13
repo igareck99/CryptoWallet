@@ -1,9 +1,15 @@
 import SwiftUI
 
+// MARK: - UserSettingsView
+
 struct UserSettingsView<ViewModel: UserSettingsViewModelProtocol>: View {
-    
+
+    // MARK: - Internal Properties
+
     @StateObject var viewModel: ViewModel
-    
+
+    // MARK: - Body
+
     var body: some View {
         VStack(spacing: 0) {
             RoundedRectangle(cornerRadius: 3)
@@ -16,7 +22,6 @@ struct UserSettingsView<ViewModel: UserSettingsViewModelProtocol>: View {
                 model.view()
                     .frame(height: 57)
             }
-            
             Spacer()
         }
     }
