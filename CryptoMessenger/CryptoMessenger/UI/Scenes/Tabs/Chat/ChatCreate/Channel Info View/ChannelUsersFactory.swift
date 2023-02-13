@@ -10,6 +10,11 @@ protocol ChannelUsersFactoryProtocol {
         users: [MXRoomMember],
         roomPowerLevels: MXRoomPowerLevels?
     ) -> [ChannelParticipantsData]
+    
+    static func detectUserRole(
+        userId: String,
+        roomPowerLevels: MXRoomPowerLevels?
+    ) -> ChannelRole
 }
 
 enum ChannelUsersFactory: ChannelUsersFactoryProtocol {

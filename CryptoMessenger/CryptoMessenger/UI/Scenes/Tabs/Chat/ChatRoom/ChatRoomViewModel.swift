@@ -78,7 +78,8 @@ final class ChatRoomViewModel: ObservableObject {
     
 
     // MARK: - Private Properties
-
+    
+    private var roomPowerLevels: MXRoomPowerLevels?
     private let eventSubject = PassthroughSubject<ChatRoomFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ChatRoomFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
@@ -94,6 +95,7 @@ final class ChatRoomViewModel: ObservableObject {
 	private let componentsFactory: ChatComponentsFactoryProtocol
     private var pushNotification = PushNotificationsService()
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
+    private let factory: ChannelUsersFactoryProtocol.Type
 
     var toggleFacade: MainFlowTogglesFacadeProtocol
     
@@ -109,7 +111,8 @@ final class ChatRoomViewModel: ObservableObject {
         sources: ChatRoomSourcesable.Type = ChatRoomResources.self,
 		componentsFactory: ChatComponentsFactoryProtocol = ChatComponentsFactory(),
         userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared,
-		groupCallsUseCase: GroupCallsUseCaseProtocol
+		groupCallsUseCase: GroupCallsUseCaseProtocol,
+        factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self
 	) {
         self.sources = sources
         self.room = room
@@ -120,6 +123,7 @@ final class ChatRoomViewModel: ObservableObject {
 		self.componentsFactory = componentsFactory
 		self.groupCallsUseCase = groupCallsUseCase
         self.userSettings = userSettings
+        self.factory = factory
 		self.locationManager = locationManager
 		updateToggles()
         bindInput()
@@ -204,6 +208,12 @@ final class ChatRoomViewModel: ObservableObject {
         } else {
             return false
         }
+    }
+    
+    func getUserRole() -> ChannelRole {
+        let role = factory.detectUserRole(userId: matrixUseCase.getUserId(),
+                               roomPowerLevels: roomPowerLevels)
+        return role
     }
 
     func next(_ item: RoomMessage) -> RoomMessage? {
@@ -702,7 +712,6 @@ final class ChatRoomViewModel: ObservableObject {
                         }
                         .compactMap { $0 }
                 }
-                print("smasassaklsklas  \(room.events().renderableEvents)")
                 self.messages = room.events().renderableEvents.filter({ !$0.eventId.contains("kMXEventLocalId") })
                     .map {
                         var message = $0.message(self.fromCurrentSender($0.sender))
@@ -849,6 +858,11 @@ final class ChatRoomViewModel: ObservableObject {
             default:
                 ()
             }
+        }
+        matrixUseCase.getRoomState(roomId: room.room.roomId) { [weak self] result in
+            guard let self = self else { return }
+            guard case let .success(state) = result else { return }
+            self.roomPowerLevels = state.powerLevels
         }
     }
 
