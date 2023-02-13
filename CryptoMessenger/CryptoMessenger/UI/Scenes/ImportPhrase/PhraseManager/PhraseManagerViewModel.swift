@@ -16,6 +16,7 @@ final class PhraseManagerViewModel: ObservableObject {
     @Published var secretPhrase = ""
     @Published var secretPhraseForApprove = ""
     @Published var textEditorDisabled = true
+    let sources: ImportPhraseResourcable.Type = ImportPhraseResources.self
 
     // MARK: - Private Properties
 

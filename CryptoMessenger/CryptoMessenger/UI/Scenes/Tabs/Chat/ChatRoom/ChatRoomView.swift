@@ -37,6 +37,7 @@ struct ChatRoomView: View {
 	@State var textViewHeight: CGFloat = 36
     @State var showReaction = false
     @State var viewHeight: CGFloat = 68
+    @State var isLeaveChannel = false
 
     // MARK: - Private Properties
 
@@ -92,6 +93,11 @@ struct ChatRoomView: View {
                 viewModel.notificationsStatus(.allMessagesOn)
             }
             .onChange(of: viewModel.dismissScreen, perform: { newValue in
+                if newValue {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            })
+            .onChange(of: isLeaveChannel, perform: { newValue in
                 if newValue {
                     presentationMode.wrappedValue.dismiss()
                 }
@@ -266,6 +272,9 @@ struct ChatRoomView: View {
 										})
                                         .onTapGesture {
 											hideKeyboard()
+                                            DispatchQueue.main.async {
+                                                viewModel.channelTransition(message)
+                                            }
 										}
                                         .flippedUpsideDown()
                                         .listRowSeparator(.hidden)
@@ -645,7 +654,8 @@ struct ChatRoomView: View {
             .onTapGesture {
                 viewModel.send(.onSettings(chatData: $viewModel.chatData,
                                            saveData: $viewModel.saveData,
-                                           room: viewModel.room))
+                                           room: viewModel.room,
+                                           isLeaveChannel: $isLeaveChannel))
             }
         }
         ToolbarItem(placement: .navigationBarTrailing) {

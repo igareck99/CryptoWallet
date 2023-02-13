@@ -38,7 +38,7 @@ struct FriendProfileView: View {
                 SFSafariViewWrapper(link: $safariAddress)
             }
             .alert(isPresented: $showAlert) {
-                 Alert(title: Text(R.string.localizable.profileCopied()))
+                Alert(title: Text(viewModel.sources.profileCopied))
             }
             .popup(
                 isPresented: $showMenu,
@@ -126,7 +126,7 @@ struct FriendProfileView: View {
                                             Button(action: {
                                                 showAllSocial.toggle()
                                             }, label: {
-                                                R.image.navigation.settingsButton.image.resizable()
+                                                viewModel.sources.settingsButton.resizable()
                                                     .frame(width: 16,
                                                            height: 15)
                                             }).frame(width: 32, height: 32, alignment: .center)
@@ -144,7 +144,7 @@ struct FriendProfileView: View {
                                         Button(action: {
                                             showAllSocial.toggle()
                                         }, label: {
-                                            R.image.navigation.settingsButton.image.resizable()
+                                            viewModel.sources.settingsButton.resizable()
                                                 .frame(width: 16,
                                                        height: 15)
                                         }).frame(width: 32, height: 32, alignment: .center)
@@ -230,7 +230,7 @@ struct FriendProfileView: View {
                 ZStack {
                     Circle()
                         .background(.blue(0.1))
-                    R.image.profile.avatarThumbnail.image
+                    viewModel.sources.avatarThumbnail
                 }
             },
             result: {
@@ -281,7 +281,7 @@ struct FriendProfileView: View {
             Button(action: {
                 showMenu.toggle()
             }, label: {
-                R.image.navigation.settingsButton.image
+                viewModel.sources.settingsButton
             })
         }
         ToolbarItem(placement: .principal) {

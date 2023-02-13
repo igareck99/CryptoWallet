@@ -25,6 +25,7 @@ final class NotificationSettingsViewModel: ObservableObject {
     @Published var parametersCalls = NotificationSettings(item: NotificationSettingsItems.parametersCalls,
                                                           state: false)
     let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase
+    let sources: NotificationsSettingsResourcable.Type = NotificationsSettingsResources.self
 
     // MARK: - Private Properties
 

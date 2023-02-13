@@ -15,6 +15,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     @Published var groupAction: GroupAction?
     @Published var translateAction: TranslateAction?
     @Published var isFromCurrentUser = false
+    @Published var leaveState: [String: Bool] = [:]
     @Published var roomsLastCurrent: [String: Bool] = [:]
 
     // MARK: - Private Properties
@@ -67,13 +68,25 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         guard let str = lastEvent?.eventId else { return false }
         return matrixUseCase.fromCurrentSender(str)
     }
-    
+
+    func leaveRoomAction(_ roomId: String, completion: @escaping (Bool) -> Void) {
+        matrixUseCase.getRoomState(roomId: roomId) { result in
+            guard case let .success(state) = result else { return }
+            if state.powerLevels == nil {
+                completion(true)
+            } else {
+                let currentUserPowerLevel = state.powerLevels.powerLevelOfUser(withUserID: self.matrixUseCase.getUserId())
+                completion(state.powerLevels.eventsDefault == 50)
+            }
+        }
+    }
+
     func joinRoom(_ room: AuraRoom) {
         self.matrixUseCase.joinRoom(roomId: room.room.roomId) { _ in
             self.objectWillChange.send()
         }
     }
-    
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -81,9 +94,9 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    debugPrint("MatrixService: ChatHistoryViewModel rooms: \(self?.matrixUseCase.rooms)")
-                    self?.rooms = self?.matrixUseCase.rooms ?? []
-                    self?.objectWillChange.send()
+                    guard let self = self else { return }
+                    self.rooms = self.matrixUseCase.rooms
+                    self.objectWillChange.send()
                 case let .onShowRoom(room):
                     self?.delegate?.handleNextScene(.chatRoom(room))
                 case let .onDeleteRoom(roomId):
@@ -96,13 +109,22 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                debugPrint("MatrixService: matrixUseCase.rooms: \(self?.matrixUseCase.rooms ?? [])")
-                self?.rooms = self?.matrixUseCase.rooms ?? []
-                let notJoinRoom = self?.rooms.first { $0.summary.membership == .invite }
+                guard let self = self else { return }
+                self.rooms = self.matrixUseCase.rooms ?? []
+                let notJoinRoom = self.rooms.first { $0.summary.membership == .invite }
                 notJoinRoom.map { room in
-                    self?.joinRoom(room)
+                    self.joinRoom(room)
                 }
-                self?.allowPushNotifications()
+                DispatchQueue.main.async {
+                    for room in self.rooms {
+                        guard let roomId = room.room.roomId else { return }
+                        self.leaveRoomAction(roomId, completion: { value in
+                            self.leaveState[roomId] = value
+                        })
+                        print("slas;lasl;as;l  \(self.leaveState)")
+                    }
+                }
+                self.allowPushNotifications()
             }
             .store(in: &subscriptions)
     }

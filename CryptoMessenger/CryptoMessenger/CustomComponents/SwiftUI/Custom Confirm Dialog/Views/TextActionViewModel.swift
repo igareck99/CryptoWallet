@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - TextActionViewModel(ViewGeneratable)
+
 struct TextActionViewModel: ViewGeneratable {
 
     let id = UUID()
@@ -28,7 +30,6 @@ extension TextActionViewModel {
                 TextActionViewModel(
                     text: makeAttributedTextItem(),
                     action: {
-                        debugPrint("confirmationDialog makeAttributedTextItem")
                         shouldShow.wrappedValue = false
                     }),
                 TextActionViewModel(
@@ -83,13 +84,13 @@ extension TextActionViewModel {
     enum LeaveChannel {
         static func actions(
             _ shouldShow: Binding<Bool>,
+            _ isChannelPublic: Bool,
             onLeaveChannel: @escaping () -> Void
         ) -> [TextActionViewModel] {
             [
                 TextActionViewModel(
-                    text: makeAttributedTextItem(),
+                    text: makeAttributedTextItem(isChannelPublic),
                     action: {
-                        debugPrint("confirmationDialog makeAttributedTextItem")
                         shouldShow.wrappedValue = false
                     }),
                 TextActionViewModel(
@@ -98,7 +99,6 @@ extension TextActionViewModel {
                         .foregroundColor(.amaranthApprox)
                         .frame(alignment: .center)
                 ) {
-                    debugPrint("confirmationDialog Change Role Button")
                     onLeaveChannel()
                     shouldShow.wrappedValue = false
                 }
@@ -119,15 +119,21 @@ extension TextActionViewModel {
         }
         
         @ViewBuilder
-        private static func makeAttributedTextItem() -> some View {
-            Text("Вы уверены, что хотите выйти из канала?" + "\n")
+        private static func makeAttributedTextItem(_ isChannelPublic: Bool) -> some View {
+            let text1 = Text("Вы уверены, что хотите выйти из канала?"
+                             + (!isChannelPublic ? "\n" : ""))
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(.woodSmokeApprox) +
-            Text(
+                .foregroundColor(.woodSmokeApprox)
+            let text2 = Text(
                 "Этот канал не публичный. Вы не сможете повторно присоединиться без приглашения."
             )
             .font(.system(size: 13))
             .foregroundColor(.regentGrayApprox)
+            if !isChannelPublic {
+                return text1 + text2
+            } else {
+                return text1
+            }
         }
     }
     
@@ -138,7 +144,6 @@ extension TextActionViewModel {
             var actions: [TextActionViewModel] = [TextActionViewModel(
                 text: makeAttributedTextItem(),
                 action: {
-                    debugPrint("confirmationDialog makeAttributedTextItem")
                     shouldShow.wrappedValue = false
                 })]
             if userRole == .owner {
@@ -148,7 +153,6 @@ extension TextActionViewModel {
                         .foregroundColor(.azureRadianceApprox)
                         .frame(alignment: .center)
                 ) {
-                    debugPrint("confirmationDialog Change Role Button")
                     onSelectRole(.owner)
                     shouldShow.wrappedValue = false
                 })
@@ -160,7 +164,6 @@ extension TextActionViewModel {
                         .foregroundColor(.azureRadianceApprox)
                         .frame(alignment: .center)
                 ) {
-                    debugPrint("confirmationDialog Change Role Button")
                     onSelectRole(.admin)
                     shouldShow.wrappedValue = false
                 })
@@ -172,7 +175,6 @@ extension TextActionViewModel {
                         .foregroundColor(.azureRadianceApprox)
                         .frame(alignment: .center)
                 ) {
-                    debugPrint("confirmationDialog Change Role Button")
                     onSelectRole(.user)
                     shouldShow.wrappedValue = false
                 })
@@ -219,7 +221,6 @@ extension TextActionViewModel {
                 TextActionViewModel(
                     text: makeAttributedTextItem(),
                     action: {
-                        debugPrint("confirmationDialog makeAttributedTextItem")
                         shouldShow.wrappedValue = false
                     }),
                 TextActionViewModel(
@@ -228,7 +229,6 @@ extension TextActionViewModel {
                         .foregroundColor(.azureRadianceApprox)
                         .frame(alignment: .center)
                 ) {
-                    debugPrint("confirmationDialog Change Role Button")
                     onMakeRoleTap()
                     shouldShow.wrappedValue = false
                 }

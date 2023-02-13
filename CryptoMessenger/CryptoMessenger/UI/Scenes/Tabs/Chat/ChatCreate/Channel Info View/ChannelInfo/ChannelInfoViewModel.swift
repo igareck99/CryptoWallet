@@ -8,6 +8,8 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
 
     var roomId: String { get }
     
+    var isRoomPublicValue: Bool { get set }
+    
     var shouldChange: Bool { get set }
     
     var channelTopic: Binding<String> { get set }
@@ -40,7 +42,8 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
 
     func onInviteUsersToChannel(users: [Contact])
     
-    func onAssignNewOwners(users:  [Contact])
+    func onAssignNewOwners(users: [ChannelParticipantsData],
+                           completion: @escaping () -> Void)
 
     func onBanUserFromChannel()
 
@@ -68,7 +71,11 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     
     func getCurrentUserRole() -> ChannelRole
     
+    func getUserRole(_ userId: String) -> ChannelRole
+    
     func compareRoles() -> Bool
+    
+    func isRoomPublic()
 }
 
 // MARK: - ChannelInfoViewModel
@@ -231,6 +238,8 @@ final class ChannelInfoViewModel {
             self.showMakeRoleState = newValue
         }
     )
+    
+    var isRoomPublicValue = true
 
     var isSnackbarPresented = false
 
@@ -256,6 +265,7 @@ final class ChannelInfoViewModel {
         self.factory = factory
         self.getRoomInfo()
         self.loadUsers()
+        self.isRoomPublic()
     }
     
     private func updateRoomParams() {
@@ -308,8 +318,8 @@ final class ChannelInfoViewModel {
     
     private func loadUsers() {
         matrixUseCase.getRoomMembers(roomId: roomId) { [weak self] result in
-            debugPrint("getRoomMembers result: \(result)")
             guard case let .success(roomMembers) = result else { return }
+            debugPrint("getRoomMembers result: \(roomMembers.members)")
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 let users: [ChannelParticipantsData] = self.factory.makeUsersData(users: roomMembers.members, roomPowerLevels: self.roomPowerLevels)
@@ -420,15 +430,35 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     
     func onRoleSelected(role: ChannelRole) {
         guard let matrixId = UserIdValidator.makeValidId(userId: tappedUserIdText) else { return }
-        debugPrint("\(matrixId)")
+        let group = DispatchGroup()
+        group.enter()
         matrixUseCase.updateUserPowerLevel(
             userId: tappedUserIdText,
             roomId: roomId,
             powerLevel: role.powerLevel
-        ) { [weak self] result in
-            debugPrint("onTapChangeRole")
-            debugPrint("room.setPowerLevel result: \(result)")
-            debugPrint("onTapChangeRole")
+        ) { _ in
+            group.leave()
+        }
+        group.notify(queue: .main) {
+            self.loadUsers()
+        }
+    }
+    
+    func onInviteUsersToChannel(users: [Contact]) {
+        guard let auraRoom = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else { return }
+        let group = DispatchGroup()
+        for user in users {
+            group.enter()
+            matrixUseCase.inviteUser(userId: user.mxId,
+                                     roomId: roomId) { _ in
+                auraRoom.room.setPowerLevel(ofUser: user.mxId,
+                                            powerLevel: 0) { _ in
+                    group.leave()
+                }
+            }
+        }
+        group.notify(queue: .main) {
+            self.loadUsers()
         }
     }
 
@@ -464,40 +494,26 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
         }
     }
     
-    func onAssignNewOwners(users:  [Contact]) {
-        
+    func onAssignNewOwners(users: [ChannelParticipantsData],
+                           completion: @escaping () -> Void) {
+        let group = DispatchGroup()
         users.forEach {
-            guard let matrixId = UserIdValidator.makeValidId(userId: $0.mxId) else { return }
+            group.enter()
+            guard let matrixId = UserIdValidator.makeValidId(userId: $0.matrixId) else { return }
             debugPrint("\(matrixId)")
             matrixUseCase.updateUserPowerLevel(
                 userId: matrixId,
                 roomId: roomId,
                 powerLevel: ChannelRole.owner.powerLevel
             ) { [weak self] result in
-                debugPrint("onTapChangeRole")
-                debugPrint("room.setPowerLevel result: \(result)")
-                debugPrint("onTapChangeRole")
-                
+                group.leave()
+                completion()
                 self?.onLeaveRoom()
             }
         }
-    }
-
-    func onInviteUsersToChannel(users: [Contact]) {
-        guard let auraRoom = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else { return }
-        let group = DispatchGroup()
-        for user in users {
-            group.enter()
-            matrixUseCase.inviteUser(userId: user.mxId,
-                                     roomId: roomId) { _ in
-                auraRoom.room.setPowerLevel(ofUser: user.mxId,
-                                            powerLevel: 0) { _ in
-                    group.leave()
-                }
-            }
-        }
         group.notify(queue: .main) {
-            self.loadUsers()
+            completion()
+            self.onLeaveRoom()
         }
     }
 
@@ -522,7 +538,6 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
 
     func onLeaveRoom() {
         matrixUseCase.leaveRoom(roomId: roomId) { [weak self] result in
-            debugPrint("onDeleteUserFromChannel: \(result)")
             self?.loadUsers()
         }
     }
@@ -533,11 +548,28 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     
     func getCurrentUserRole() -> ChannelRole {
         return factory.detectUserRole(userId: matrixUseCase.getUserId(),
-                               roomPowerLevels: roomPowerLevels)
+                                          roomPowerLevels: roomPowerLevels)
+    }
+    
+    func getUserRole(_ userId: String) -> ChannelRole {
+        return factory.detectUserRole(userId: userId,
+                                      roomPowerLevels: roomPowerLevels)
     }
     
     func updateUserRole(mxId: String, userRole: ChannelRole) {
         debugPrint("Role of \(mxId)  is updated to \(userRole)")
+    }
+    
+    func isRoomPublic() {
+        let group = DispatchGroup()
+        group.enter()
+        matrixUseCase.isRoomPublic(roomId: roomId) { value in
+            self.isRoomPublicValue = value ?? false
+            group.leave()
+        }
+        group.notify(queue: .main) {
+            self.objectWillChange.send()
+        }
     }
     
     func compareRoles() -> Bool {
@@ -545,6 +577,9 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
                                                       roomPowerLevels: roomPowerLevels)
         let currentUserRole = factory.detectUserRole(userId: matrixUseCase.getUserId(),
                                                       roomPowerLevels: roomPowerLevels)
-        return currentUserRole.powerLevel >= selectedUserRole.powerLevel
+        if selectedUserRole == .owner && currentUserRole == .owner {
+            return false
+        }
+        return currentUserRole.powerLevel > selectedUserRole.powerLevel
     }
 }

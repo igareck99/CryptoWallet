@@ -22,6 +22,8 @@ protocol ChannelInfoResourcable {
     
     static var privateChannel: String { get }
     
+    static var publicChannel: String { get }
+    
     static var channelType: String { get }
     
     static var leaveChannel: String { get }
@@ -39,9 +41,21 @@ protocol ChannelInfoResourcable {
     static var attachments: String { get }
     
     static var notifications: String { get }
+    
+    static var presentationCancel: String { get }
+    
+    static var rightButton: String { get }
 }
 
 enum ChannelInfoResources: ChannelInfoResourcable {
+    
+    static var rightButton: String {
+        R.string.localizable.profileDetailRightButton()
+    }
+    
+    static var presentationCancel: String {
+        R.string.localizable.personalizationCancel()
+    }
     
     static var docsWillBe: String {
         R.string.localizable.channelInfoDocsWillBe()
@@ -69,6 +83,10 @@ enum ChannelInfoResources: ChannelInfoResourcable {
     
     static var add: String {
         R.string.localizable.channelInfoAdd()
+    }
+    
+    static var publicChannel: String {
+        return "Публичный"
     }
     
     static var deleteChannel: String {

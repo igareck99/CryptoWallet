@@ -22,7 +22,7 @@ struct WalletManagerView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(R.string.localizable.walletManagerTitle())
+                    Text(viewModel.sources.walletManagerTitle)
                         .font(.bold(15))
                 }
             }
@@ -34,12 +34,12 @@ struct WalletManagerView: View {
             VStack(alignment: .leading) {
                 Divider()
                     .padding(.top, 16)
-                Text(R.string.localizable.chatSettingsReserveCopy().uppercased())
+                Text(viewModel.sources.chatSettingsReserveCopy.uppercased())
                     .font(.bold(12))
                     .foreground(.darkGray())
                     .padding(.top, 24)
                     .padding(.horizontal, 16)
-                ReserveCellView(text: R.string.localizable.walletManagerSecretPhrase())
+                ReserveCellView(text: viewModel.sources.walletManagerSecretPhrase)
                     .background(.white())
                     .onTapGesture {
                         viewModel.send(.onPhrase)
@@ -48,7 +48,7 @@ struct WalletManagerView: View {
                     .padding(.horizontal, 16)
                 Divider()
                     .padding(.top, 21)
-                Text(R.string.localizable.walletManagerWallets().uppercased())
+                Text(viewModel.sources.walletManagerWallets.uppercased())
                     .font(.bold(12))
                     .foreground(.darkGray())
                     .padding(.top, 24)
@@ -69,19 +69,19 @@ struct WalletManagerView: View {
     private var keyManagerCell: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text(R.string.localizable.walletManagerKeyManager(), [
+                Text(viewModel.sources.walletManagerKeyManager, [
                     .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left)),
                     .font(.regular(16)),
                     .color(.black())
                 ])
-                Text(R.string.localizable.walletManagerAddDeleteKeys(), [
+                Text(viewModel.sources.walletManagerAddDeleteKeys, [
                     .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left)),
                     .font(.regular(12)),
                     .color(.darkGray())
                 ])
             }
             Spacer()
-            R.image.additionalMenu.grayArrow.image
+            viewModel.sources.grayArrow
         }
     }
 }

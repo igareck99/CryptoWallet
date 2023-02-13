@@ -104,6 +104,18 @@ extension MatrixService {
         }
     }
 
+    func setJoinRule(roomId: String, isPublic: Bool,
+                     completion: @escaping (MXResponse<Void>?) -> Void) {
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            completion(nil)
+            return
+        }
+        let joinRule: MXRoomJoinRule = isPublic ? .public : .private
+        room.setJoinRule(joinRule) { result in
+            completion(result)
+        }
+    }
+
     func setRoomState(roomId: String,
                       isPublic: Bool,
                       completion: @escaping (MXResponse<Void>?) -> Void) {

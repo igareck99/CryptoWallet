@@ -14,6 +14,7 @@ final class GeneratePhraseViewModel: ObservableObject {
     var isSnackbarPresented = false
     var buttonState: ViewState = .content
     var firstStart = false
+    let sources: GeneratePhraseResourcable.Type = GeneratePhraseResources.self
 
     // MARK: - Private Properties
 

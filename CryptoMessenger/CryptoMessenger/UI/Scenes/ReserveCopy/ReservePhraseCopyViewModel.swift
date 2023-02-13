@@ -10,6 +10,7 @@ final class ReservePhraseCopyViewModel: ObservableObject {
     weak var delegate: ReservePhraseCopySceneDelegate?
     var isSnackbarPresented = false
     @Published var generatedKey = ""
+    let sources: ReserveCopyResourcable.Type = ReserveCopyResources.self
 
     // MARK: - Private Properties
 

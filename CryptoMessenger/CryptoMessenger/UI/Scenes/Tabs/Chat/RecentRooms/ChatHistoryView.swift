@@ -5,6 +5,8 @@ import SwiftUI
 protocol ChatHistoryViewDelegate: ObservableObject {
 
 	var rooms: [AuraRoom] { get }
+    
+    var leaveState: [String: Bool] { get }
 
 	var groupAction: GroupAction? { get set }
 	var translateAction: TranslateAction? { get set }
@@ -125,13 +127,15 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                                        isFromCurrentUser: viewModel.fromCurrentSender(room: room))
 							.background(.white())
 							.swipeActions(edge: .trailing) {
-								Button {
-									viewModel.eventSubject.send(.onDeleteRoom(room.room.roomId))
-								} label: {
-									viewModel.sources.chatReactionDelete
-										.renderingMode(.original)
-										.foreground(.blue())
-								}.tint(.gray.opacity(0.1))
+                                if !(viewModel.leaveState[room.room.roomId] ?? true) {
+                                    Button {
+                                        viewModel.eventSubject.send(.onDeleteRoom(room.room.roomId))
+                                    } label: {
+                                        viewModel.sources.chatReactionDelete
+                                            .renderingMode(.original)
+                                            .foreground(.blue())
+                                    }.tint(.gray.opacity(0.1))
+                                }
 							}.onTapGesture {
 								viewModel.eventSubject.send(.onShowRoom(room))
 							}.frame(width: nil, height: 76)

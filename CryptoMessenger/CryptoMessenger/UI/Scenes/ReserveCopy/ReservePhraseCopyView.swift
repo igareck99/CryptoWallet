@@ -17,7 +17,7 @@ struct ReserveCopyPhraseView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(R.string.localizable.chatSettingsReserveCopy())
+                    Text(viewModel.sources.reserveCopy)
                         .font(.bold(15))
                 }
             }
@@ -25,7 +25,7 @@ struct ReserveCopyPhraseView: View {
                 isPresented: viewModel.isSnackbarPresented,
                 alignment: .bottom
             ) { Snackbar(
-                text: R.string.localizable.generatePhraseCopied(),
+                text: viewModel.sources.generatePhraseCopied,
                 color: .green
             )
             }
@@ -33,10 +33,10 @@ struct ReserveCopyPhraseView: View {
 
     private var watchKeyView: some View {
         VStack(alignment: .center) {
-            Text(R.string.localizable.phraseManagerYourSecretPhrase())
+            Text(viewModel.sources.phraseManagerYourSecretPhrase)
                 .font(.regular(22))
                 .padding(.top, 59)
-            Text(R.string.localizable.generatePhraseGeneratedDescription())
+            Text(viewModel.sources.generatePhraseGeneratedDescription)
                 .font(.regular(15))
                 .lineLimit(2)
                 .foreground(.darkGray())
@@ -55,7 +55,7 @@ struct ReserveCopyPhraseView: View {
         Button {
             viewModel.onPhraseCopy()
         } label: {
-            Text(R.string.localizable.generatePhraseCopyPhrase())
+            Text(viewModel.sources.generatePhraseCopyPhrase)
                 .foreground(.white())
                 .font(.bold(17))
         }

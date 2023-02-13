@@ -20,6 +20,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var dismissScreen = false
     @Published var showSettings = false
     @Published var isOneDayMessages = false
+    @Published var rooms: [AuraRoom] = []
     @Published var participants: [ChannelParticipantsData] = []
 
     @Published private(set) var keyboardHeight: CGFloat = 0
@@ -185,6 +186,32 @@ final class ChatRoomViewModel: ObservableObject {
 	}
 
     // MARK: - Internal Methods
+    
+    func channelTransition(_ message: RoomMessage) {
+        var roomId = ""
+        switch message.type {
+        case let .text(string):
+            roomId = string
+        default:
+            return
+        }
+        guard let existingRoom = self.rooms.first(where: { $0.room.roomId == roomId }) else {
+            self.joinRoom(roomId)
+            return
+        }
+        if existingRoom.room.roomId != self.room.room.roomId {
+            self.delegate?.handleNextScene(.chatRoom(existingRoom))
+        }
+    }
+    
+    func joinRoom(_ roomId: String) {
+        self.matrixUseCase.joinRoom(roomId: roomId) { _ in
+            guard let newRoom = self.matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {
+                return
+            }
+            self.delegate?.handleNextScene(.chatRoom(newRoom))
+        }
+    }
     
     func notificationsStatus(_ action: NotificationsActionState) {
         if action == .muteOn && !userSettings.isRoomNotificationsEnable {
@@ -384,10 +411,11 @@ final class ChatRoomViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    _ = self?.matrixUseCase.rooms
-                    self?.loadUsers()
-                    self?.room.markAllAsRead()
-                    self?.matrixUseCase.objectChangePublisher.send()
+                    guard let self = self else { return }
+                    self.rooms = self.matrixUseCase.rooms
+                    self.loadUsers()
+                    self.room.markAllAsRead()
+                    self.matrixUseCase.objectChangePublisher.send()
                 case .onNextScene:
                     ()
                 case let .onSendText(text):
@@ -509,11 +537,12 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.matrixUseCase.objectChangePublisher.send()
                 case let .onEdit(text, eventId):
                     self?.room.edit(text: text, eventId: eventId)
-                case let .onSettings(chatData: chatData, saveData: saveData, room: room):
+                case let .onSettings(chatData: chatData, saveData: saveData, room: room,
+                                     isLeaveChannel: isLeaveChannel):
                     
                     if self?.isChannel == true {
                         guard let roomId = self?.room.room.roomId else { return }
-                        self?.delegate?.handleNextScene(.channelInfo(roomId))
+                        self?.delegate?.handleNextScene(.channelInfo(roomId,isLeaveChannel))
                     } else {
                         self?.delegate?.handleNextScene(.settingsChat(chatData,
                                                                       saveData,

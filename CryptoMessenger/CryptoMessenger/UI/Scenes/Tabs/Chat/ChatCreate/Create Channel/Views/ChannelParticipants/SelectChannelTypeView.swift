@@ -5,7 +5,7 @@ import SwiftUI
 struct SelectChannelTypeView: View {
 
     // MARK: - Internal Properties
-    
+
     @StateObject var viewModel: SelectChannelTypeViewModel
     @Binding var showChannelChangeType: Bool
 
@@ -69,6 +69,7 @@ struct SelectChannelTypeView: View {
             debugPrint("Channel type seledted: \(channelType)")
             withAnimation(.linear(duration: 0.5)) {
                 viewModel.isPrivateSelected = false
+                ontypeSelected(.publicChannel)
             }
         }
         .background(.white())
@@ -84,6 +85,7 @@ struct SelectChannelTypeView: View {
             debugPrint("Channel type seledted: \(channelType)")
             withAnimation(.linear(duration: 0.5)) {
                 viewModel.isPublicSelected = false
+                ontypeSelected(.privateChannel)
             }
         }
         .background(.white())

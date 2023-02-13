@@ -48,20 +48,6 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }
             .presentationDetents([.height(223)])
         })
-        .popup(isPresented: $showMenuView,
-               type: .toast,
-               position: .bottom,
-               closeOnTap: false,
-               closeOnTapOutside: true,
-               backgroundColor: Color(.black(0.3))) {
-            ChannelParticipantsMenuView(showMenuView: $showMenuView, data: selectedUser, onAction: { _ in
-            })
-                .frame(width: UIScreen.main.bounds.width,
-                       height: 223,
-                       alignment: .center)
-                .background(.white())
-                .cornerRadius(16)
-        }
     }
 
     // MARK: - Private Properties
@@ -87,9 +73,6 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .background(.white)
                 .frame(height: 64)
                 .padding(.horizontal, 16)
-                .onTapGesture {
-                    showMenuView = true
-                }
             }
         }
     }

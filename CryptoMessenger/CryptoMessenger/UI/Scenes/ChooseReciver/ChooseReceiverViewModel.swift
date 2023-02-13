@@ -12,6 +12,7 @@ final class ChooseReceiverViewModel: ObservableObject {
     @Published var userWalletsFilteredData: [UserWallletData] = []
     @Published var searchType = SearchType.telephone
     var isEnterAdressView = false
+    let sources: ChooseReciverSourcable.Type = ChooseReciverSources.self
 
     // MARK: - Private Properties
 

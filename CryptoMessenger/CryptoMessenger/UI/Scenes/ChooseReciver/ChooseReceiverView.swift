@@ -35,7 +35,7 @@ struct ChooseReceiverView: View {
                         viewModel.send(.onScanner(scannedScreen: $searchText))
                         viewModel.searchType = .wallet
                     } label: {
-                        R.image.chooseReceiver.qrcode.image
+                        viewModel.sources.qrcode
                     }
                 }
             }.onReceive(scannedCodePublisher) { code in
@@ -69,7 +69,7 @@ struct ChooseReceiverView: View {
             searchSelectView
                 .padding(.top, 20)
             Divider()
-            SearchBar(placeholder: R.string.localizable.countryCodePickerSearch(),
+            SearchBar(placeholder: viewModel.sources.countryCodePickerSearch,
                       searchText: $searchText,
                       searching: $searching)
                 .focused($inputViewIsFocused)

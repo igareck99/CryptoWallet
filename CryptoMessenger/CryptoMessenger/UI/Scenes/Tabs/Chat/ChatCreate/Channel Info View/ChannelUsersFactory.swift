@@ -50,7 +50,6 @@ enum ChannelUsersFactory: ChannelUsersFactoryProtocol {
     ) -> ChannelRole {
         
         guard let userPowerLevel: Int = roomPowerLevels?.powerLevelOfUser(withUserID: userId) else { return .unknown }
-        
         if userPowerLevel == ChannelRole.owner.powerLevel {
             return .owner
         }
