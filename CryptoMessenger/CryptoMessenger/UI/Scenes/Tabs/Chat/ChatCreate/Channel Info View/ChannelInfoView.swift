@@ -82,7 +82,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 userId: viewModel.tappedUserId,
                 showBottomSheet: viewModel.showChangeRole,
                 showUserProfile: viewModel.showUserProfile,
-                roomId: viewModel.roomId
+                roomId: viewModel.roomId,
+                roleCompare: viewModel.compareRoles()
             ) {
                 viewModel.showUserSettings.wrappedValue = false
                 viewModel.onUserRemoved()
@@ -109,7 +110,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             actions: {
                 TextActionViewModel
                     .SelectRole
-                    .actions(viewModel.showChangeRole) {
+                    .actions(viewModel.showChangeRole,
+                             viewModel.getCurrentUserRole()) {
                         viewModel.onRoleSelected(role: $0)
                     }
             }, cancelActions: {

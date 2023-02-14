@@ -132,15 +132,17 @@ extension TextActionViewModel {
     }
     
     enum SelectRole {
-        static func actions(_ shouldShow: Binding<Bool>, onSelectRole: @escaping (ChannelRole) -> Void) -> [TextActionViewModel] {
-            [
-                TextActionViewModel(
-                    text: makeAttributedTextItem(),
-                    action: {
-                        debugPrint("confirmationDialog makeAttributedTextItem")
-                        shouldShow.wrappedValue = false
-                    }),
-                TextActionViewModel(
+        static func actions(_ shouldShow: Binding<Bool>,
+                            _ userRole: ChannelRole,
+                            onSelectRole: @escaping (ChannelRole) -> Void) -> [TextActionViewModel] {
+            var actions: [TextActionViewModel] = [TextActionViewModel(
+                text: makeAttributedTextItem(),
+                action: {
+                    debugPrint("confirmationDialog makeAttributedTextItem")
+                    shouldShow.wrappedValue = false
+                })]
+            if userRole == .owner {
+                actions.append(TextActionViewModel(
                     text: Text("Владелец")
                         .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(.azureRadianceApprox)
@@ -149,8 +151,10 @@ extension TextActionViewModel {
                     debugPrint("confirmationDialog Change Role Button")
                     onSelectRole(.owner)
                     shouldShow.wrappedValue = false
-                },
-                TextActionViewModel(
+                })
+            }
+            if userRole == .owner || userRole == .admin {
+                actions.append(TextActionViewModel(
                     text: Text("Администратор")
                         .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(.azureRadianceApprox)
@@ -159,8 +163,10 @@ extension TextActionViewModel {
                     debugPrint("confirmationDialog Change Role Button")
                     onSelectRole(.admin)
                     shouldShow.wrappedValue = false
-                },
-                TextActionViewModel(
+                })
+            }
+            if userRole != .unknown {
+                actions.append(TextActionViewModel(
                     text: Text("Пользователь")
                         .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(.azureRadianceApprox)
@@ -169,8 +175,9 @@ extension TextActionViewModel {
                     debugPrint("confirmationDialog Change Role Button")
                     onSelectRole(.user)
                     shouldShow.wrappedValue = false
-                }
-            ]
+                })
+            }
+            return actions
         }
         
         static func cancelActions(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {

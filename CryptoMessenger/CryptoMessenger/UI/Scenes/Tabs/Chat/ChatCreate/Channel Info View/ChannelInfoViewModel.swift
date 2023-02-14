@@ -65,6 +65,10 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     func nextScene(_ scene: ChannelInfoFlow.Event)
     
     func onMakeRoleTap()
+    
+    func getCurrentUserRole() -> ChannelRole
+    
+    func compareRoles() -> Bool
 }
 
 // MARK: - ChannelInfoViewModel
@@ -79,6 +83,7 @@ final class ChannelInfoViewModel {
         },
         set: { newValue in
             self.tappedUserIdText = newValue
+            self.objectWillChange.send()
         }
     )
 
@@ -309,6 +314,7 @@ final class ChannelInfoViewModel {
                 guard let self = self else { return }
                 let users: [ChannelParticipantsData] = self.factory.makeUsersData(users: roomMembers.members, roomPowerLevels: self.roomPowerLevels)
                 self.participants = users
+                self.objectWillChange.send()
             }
         }
     }
@@ -479,18 +485,20 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
 
     func onInviteUsersToChannel(users: [Contact]) {
         guard let auraRoom = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else { return }
+        let group = DispatchGroup()
         for user in users {
+            group.enter()
             matrixUseCase.inviteUser(userId: user.mxId,
-                                     roomId: roomId) { result in
-                debugPrint(result)
-            }
-            auraRoom.room.setPowerLevel(ofUser: user.mxId,
-                                        powerLevel: 0) { response in
-                debugPrint(response)
+                                     roomId: roomId) { _ in
+                auraRoom.room.setPowerLevel(ofUser: user.mxId,
+                                            powerLevel: 0) { _ in
+                    group.leave()
+                }
             }
         }
-        // Удалить потом
-        loadUsers()
+        group.notify(queue: .main) {
+            self.loadUsers()
+        }
     }
 
     func onBanUserFromChannel() {
@@ -523,7 +531,20 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
         participants
     }
     
+    func getCurrentUserRole() -> ChannelRole {
+        return factory.detectUserRole(userId: matrixUseCase.getUserId(),
+                               roomPowerLevels: roomPowerLevels)
+    }
+    
     func updateUserRole(mxId: String, userRole: ChannelRole) {
-        debugPrint("Rolw of \(mxId)  is updated to \(userRole)")
+        debugPrint("Role of \(mxId)  is updated to \(userRole)")
+    }
+    
+    func compareRoles() -> Bool {
+        let selectedUserRole = factory.detectUserRole(userId: self.tappedUserIdText,
+                                                      roomPowerLevels: roomPowerLevels)
+        let currentUserRole = factory.detectUserRole(userId: matrixUseCase.getUserId(),
+                                                      roomPowerLevels: roomPowerLevels)
+        return currentUserRole.powerLevel >= selectedUserRole.powerLevel
     }
 }

@@ -1,29 +1,38 @@
 import SwiftUI
 
+// MARK: - UserSettingsViewModelProtocol
+
 protocol UserSettingsViewModelProtocol: ObservableObject {
-    
+
     var items: [any ViewGeneratable] { get }
-    
+
     var showShowChangeRole: Binding<Bool> { get set }
-    
+
     var showUserProfile: Binding<Bool> { get set }
-    
+
     func onTapRemoveUser()
-    
+
     func onTapChangeRole()
-    
+
     func onTapShowProfile()
 }
 
+// MARK: - UserSettingsViewModel
+
 final class UserSettingsViewModel {
-    
+
+    // MARK: - Private Properties
+
     private let userId: Binding<String>
     private var showBottomSheet: Binding<Bool>
     private let roomId: String
+    private let roleCompare: Bool
     private let matrixUseCase: MatrixUseCaseProtocol
     private let factory: UserSettingsFactoryProtocol.Type
     private let onActionEnd: VoidBlock
-    
+
+    // MARK: - Internal Properties
+
     var items = [any ViewGeneratable]() {
         didSet {
             objectWillChange.send()
@@ -59,12 +68,15 @@ final class UserSettingsViewModel {
             self.showUserProfileState = newValue
         }
     )
+    
+    // MARK: - Lifecycle
 
     init(
         userId: Binding<String>,
         showBottomSheet: Binding<Bool>,
         showUserProfile: Binding<Bool>,
         roomId: String,
+        roleCompare: Bool,
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         factory: UserSettingsFactoryProtocol.Type = UserSettingsFactory.self,
         onActionEnd: @escaping VoidBlock
@@ -72,10 +84,11 @@ final class UserSettingsViewModel {
         self.userId = userId
         self.showBottomSheet = showBottomSheet
         self.roomId = roomId
+        self.roleCompare = roleCompare
         self.matrixUseCase = matrixUseCase
         self.factory = factory
         self.onActionEnd = onActionEnd
-        self.items = factory.makeItems(viewModel: self)
+        self.items = factory.makeItems(roleCompare, viewModel: self)
         self.showUserProfile = showUserProfile
     }
 }
