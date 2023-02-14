@@ -52,16 +52,18 @@ struct WalletView: View {
                 }
             }
             .sheet(isPresented: $showAddWalletView, content: {
-                GeneratePhraseView(viewModel: generateViewModel,
-                                   showView: $showAddWalletView, onSelect: { type in
-                    switch type {
-                    case .importKey:
-                        viewModel.send(.onImportKey)
-                        showAddWalletView = false
-                    default:
-                        break
-                    }
-                })
+                GeneratePhraseView(
+                    viewModel: generateViewModel,
+                    showView: $showAddWalletView,
+                    onSelect: { type in
+                        switch type {
+                        case .importKey:
+                            viewModel.send(.onImportKey)
+                            showAddWalletView = false
+                        default:
+                            break
+                        }
+                    })
                 .onDisappear {
                     generateViewModel.generatePhraseState = .generate
                 }
@@ -207,6 +209,7 @@ struct WalletView: View {
                 .font(.system(size: 15))
                 .foregroundColor(.nobelApprox)
                 .frame(alignment: .center)
+                .multilineTextAlignment(.center)
                 .padding(.bottom, 70)
 
             Button {

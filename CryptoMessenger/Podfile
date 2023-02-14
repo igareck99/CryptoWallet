@@ -32,6 +32,7 @@ target 'CryptoMessenger' do
 
   #Crypto
   pod 'HDWalletKit'
+  pod 'Bip39.swift'
 
   pod 'SweeterSwift'
   

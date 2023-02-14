@@ -53,9 +53,7 @@ final class GeneratePhraseViewModel: ObservableObject {
 
     func toggleState(_ state: ButtonGeneratePhraseState) {
         if generatePhraseState == .generate {
-            withAnimation(.easeInOut(duration: 0.5), {
-                generatePhraseState = .warning
-            })
+            generatePhraseState = .warning
         } else if generatePhraseState == .warning {
             if state == .create {
                 isAnimated = true
@@ -64,10 +62,8 @@ final class GeneratePhraseViewModel: ObservableObject {
                     self.keychainService.secretPhrase = value
                 }
                 delay(2) {
-                    withAnimation(.easeInOut(duration: 0.5), {
-                        self.isAnimated = false
-                        self.generatePhraseState = .watchKey
-                    })
+                    self.isAnimated = false
+                    self.generatePhraseState = .watchKey
                 }
             } else {
                 self.generatePhraseState = .importKey

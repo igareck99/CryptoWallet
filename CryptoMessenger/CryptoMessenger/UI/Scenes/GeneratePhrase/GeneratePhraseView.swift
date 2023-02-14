@@ -13,93 +13,124 @@ struct GeneratePhraseView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack {
-            switch viewModel.generatePhraseState {
-            case .generate:
-                generateView
-            case .warning, .importKey:
-                warningView
-            case .watchKey:
-                watchKeyView
-                    .onAppear {
-                        UITextView.appearance().backgroundColor = .clear
-                        UITextView.appearance().textContainerInset = .init(top: 12, left: 0, bottom: 12, right: 0)
-                    }
-                    .popup(
-                        isPresented: viewModel.isSnackbarPresented,
-                        alignment: .bottom
-                    ) {
-                        Snackbar(
-                            text: R.string.localizable.generatePhraseCopied(),
-                            color: .green
-                        )
-                    }
+        ScrollView(showsIndicators: false) {
+            VStack {
+                switch viewModel.generatePhraseState {
+                case .generate:
+                    generateView
+                case .warning, .importKey:
+                    warningView
+                case .watchKey:
+                    watchKeyView
+                        .onAppear {
+                            UITextView.appearance().backgroundColor = .clear
+                            UITextView.appearance().textContainerInset = .init(top: 12, left: 0, bottom: 12, right: 0)
+                        }
+                }
             }
+            .onChange(of: viewModel.generatePhraseState, perform: { value in
+                if value == .importKey {
+                    onSelect(.importKey)
+                }
+            })
         }
-        .onChange(of: viewModel.generatePhraseState, perform: { value in
-            if value == .importKey {
-                onSelect(.importKey)
-            }
-        })
+        .popup(
+            isPresented: viewModel.isSnackbarPresented,
+            alignment: .bottom
+        ) {
+            Snackbar(
+                text: R.string.localizable.generatePhraseCopied(),
+                color: .green
+            )
+        }
     }
 
     private var generateView: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 0) {
+            
             Text(R.string.localizable.generatePhraseTitle())
                 .font(.regular(22))
                 .padding(.top, 47)
+           
             Text(R.string.localizable.generatePhraseDescription())
                 .font(.regular(15))
                 .foreground(.darkGray())
+                .lineLimit(4)
                 .multilineTextAlignment(.center)
-                .frame(width: 295)
-                .padding(.top, 12)
-            Button(R.string.localizable.generatePhraseQuestion()) {
+                .frame(minHeight: 60)
+                .padding(.horizontal, 24)
+                .padding(.top, 24)
+           
+            Button {
                 print("generatePhraseQuestion")
+            } label: {
+                Text(R.string.localizable.generatePhraseQuestion())
+                    .frame(maxWidth: .infinity)
+                    .font(.system(size: 15))
+                    .padding(.horizontal, 16)
+                    .foregroundColor(.azureRadianceApprox)
             }
-            .padding(.top, 54)
+            .padding(.vertical, 48)
+           
             R.image.generatePhrase.puzzle.image
-                .padding(.top, 54)
+                .padding(.top, 32)
                 .foreground(.blue())
-                .frame(minWidth: 0, maxWidth: 254,
-                       minHeight: 0, maxHeight: 298, alignment: .center)
+                .frame(alignment: .center)
                 .scaledToFill()
+                .padding(.horizontal, 2)
+            
             createKeyButton
                 .padding(.top, 60)
+            
             importKeyButton
                 .padding(.top, 21)
+                .padding(.bottom, 48)
             Spacer()
         }
     }
 
     private var warningView: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 0) {
+            
             Text(R.string.localizable.generatePhraseWarning())
-                .font(.regular(22))
+                .font(.system(size: 22))
                 .padding(.top, 47)
+            
             Text(R.string.localizable.generatePhraseWarningDescription())
-                .font(.regular(15))
+                .font(.system(size: 15))
                 .foreground(.darkGray())
                 .multilineTextAlignment(.center)
                 .frame(width: 295)
                 .padding(.top, 12)
+            
             R.image.generatePhrase.person.image
-                .padding(.top, 27)
+                .padding(.top, 32)
                 .foreground(.blue())
-                .frame(minWidth: 0, maxWidth: 264,
-                       minHeight: 0, maxHeight: 372, alignment: .center)
+                .frame(alignment: .center)
                 .scaledToFill()
+                .padding(.horizontal, 2)
+            
             createKeyButton
-                .padding(.top, 53)
+                .padding(.top, 60)
+            
             importKeyButton
                 .padding(.top, 21)
+                .padding(.bottom, 48)
             Spacer()
         }
     }
 
     private var importKeyButton: some View {
-        Button(R.string.localizable.generatePhraseImportKey()) {
+        
+        Button {
             viewModel.toggleState(.importing)
+        } label: {
+            
+            Text(R.string.localizable.generatePhraseImportKey())
+                .frame(width: 237)
+                .font(.system(size: 17, weight: .semibold))
+                .padding()
+                .foregroundColor(.azureRadianceApprox)
         }
     }
 
@@ -116,61 +147,66 @@ struct GeneratePhraseView: View {
                 Text(viewModel.generatePhraseState == .watchKey ?
                      R.string.localizable.generatePhraseCopyPhrase() :
                         R.string.localizable.keyGenerationCreateButton())
-                    .frame(width: 237)
-                    .font(.semibold(14))
-                    .padding()
-                    .foregroundColor(.white)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.white, lineWidth: 2)
-                    )
+                .foregroundColor(.white)
+                .frame(width: 237)
+                .font(.system(size: 17, weight: .semibold))
+                .padding()
             case true:
                 ProgressView()
                     .tint(Color(.white()))
-                    .frame(width: 12,
-                           height: 12)
+                    .frame(width: 12, height: 12)
             }
         }
         .frame(width: 237, height: 48)
         .background(Color.azureRadianceApprox)
-        .cornerRadius(10)
+        .cornerRadius(8)
     }
 
     private var watchKeyView: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 0) {
+            
             Text(R.string.localizable.generatePhraseGeneratedTitle())
-                .font(.bold(17))
+                .font(.system(size: 17, weight: .semibold))
                 .padding(.top, 12)
+            
             Text(R.string.localizable.phraseManagerYourSecretPhrase())
-                .font(.regular(22))
+                .font(.system(size: 22))
                 .padding(.top, 59)
+            
             Text(R.string.localizable.generatePhraseGeneratedDescription())
-                .font(.regular(15))
+                .font(.system(size: 15))
                 .lineLimit(2)
                 .foreground(.darkGray())
                 .multilineTextAlignment(.center)
                 .frame(width: 295)
-                .padding(.top, 12)
+                .padding(.top, 16)
+            
             textView
                 .padding(.top, 24)
+            
             createKeyButton
                 .padding(.top, 84)
+            
             Spacer()
         }
     }
 
     private var textView: some View {
-        ZStack(alignment: .topLeading) {
         TextEditor(text: $viewModel.generatedKey)
-            .padding(.leading, 16)
-            .background(.paleBlue())
-            .foreground(.black())
-            .font(.regular(15))
-            .frame(width: UIScreen.main.bounds.width - 32,
-                   height: 160)
             .cornerRadius(8)
+            .padding(.leading, 16)
+            .background(
+                Color
+                    .polarApprox
+                    .cornerRadius(8)
+                    .frame(minHeight: 160)
+            )
+            .foreground(.black())
+            .font(.system(size: 17))
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 16)
+            .frame(height: 160)
             .disabled(true)
             .scrollContentBackground(.hidden)
-        }
     }
 }

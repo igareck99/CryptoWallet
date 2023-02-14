@@ -349,7 +349,7 @@
 "Transaction.AddWallet" = "Добавить кошелек";
 
 
-"Import.Title" = "Импорт";
+"Import.Title" = "Импортировать ключ";
 "Import.ImportKey" = "Импорт закрытого ключа";
 "Import.EnterPrivateKey" = "Введите Ваш закрытый ключ";
 "Import.ChooseWalletType" = "Выберите тип кошелька";
