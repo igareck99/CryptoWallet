@@ -42,7 +42,7 @@ struct WalletManagerView: View {
                 ReserveCellView(text: R.string.localizable.walletManagerSecretPhrase())
                     .background(.white())
                     .onTapGesture {
-                        viewModel.send(.onKeyList)
+                        viewModel.send(.onPhrase)
                     }
                     .padding(.top, 21)
                     .padding(.horizontal, 16)
@@ -57,7 +57,7 @@ struct WalletManagerView: View {
                     .background(.white())
                     .frame(height: 44)
                     .onTapGesture {
-                        viewModel.send(.onPhrase)
+                        viewModel.send(.onKeyList)
                     }
                     .padding(.top, 16)
                     .padding(.horizontal, 16)

@@ -64,7 +64,7 @@ struct PhraseManagerView: View {
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(R.string.localizable.chatSettingsReserveCopy())
-                        .font(.bold(15))
+                        .font(.system(size: 15, weight: .bold))
                 }
             }
     }
@@ -78,10 +78,10 @@ struct PhraseManagerView: View {
                     .padding(.top, 16)
                 VStack(spacing: 40) {
                     Text(viewModel.stepText)
-                        .font(.regular(15))
+                        .font(.system(size: 15))
                         .opacity(animationOpacity)
                     Text(viewModel.title)
-                        .font(.semibold(21))
+                        .font(.system(size: 21, weight: .semibold))
                         .opacity(animationOpacity)
                 }
                 .padding(.top, 40)
@@ -90,7 +90,7 @@ struct PhraseManagerView: View {
                     .phraseManagerWriteAndRemember() :
                                                                 R.string.localizable
                     .phraseManagerLetsCheck()))
-                .font(.regular(15))
+                .font(.system(size: 15))
                 .frame(height: 80)
                 .multilineTextAlignment(.center)
                 .opacity(animationOpacity)
@@ -130,22 +130,22 @@ struct PhraseManagerView: View {
                 } else {
                     VStack {
                         Text(R.string.localizable.phraseManagerWhatIsSecretPhrase())
-                            .font(.regular(15))
+                            .font(.system(size: 15))
                             .foreground(.blue())
                             .padding(.top, 20)
-                            .opacity(!repeatPhrase ? 1: 0)
+                            .opacity(!repeatPhrase ? 1 : 0)
                         Divider()
                             .padding(.top, 91)
-                            .opacity(!repeatPhrase ? 1: 0)
+                            .opacity(!repeatPhrase ? 1 : 0)
                         importButton
                             .padding(.top, 8)
                             .frame(width: 241, height: 44)
-                            .opacity(!repeatPhrase ? 1: 0)
+                            .opacity(!repeatPhrase ? 1 : 0)
                         Text(R.string.localizable.phraseManagerRememberLater())
-                            .font(.semibold(15))
+                            .font(.system(size: 15, weight: .semibold))
                             .foreground(.blue())
                             .padding(.top, 21)
-                            .opacity(!repeatPhrase ? 1: 0)
+                            .opacity(!repeatPhrase ? 1 : 0)
                     }
                 }
                 Spacer()
@@ -160,7 +160,7 @@ struct PhraseManagerView: View {
             }
             HStack(alignment: .center, spacing: 0) {
                 Text(R.string.localizable.phraseManagerTapToSee())
-                    .font(.regular(15))
+                    .font(.system(size: 15))
                     .padding(.horizontal, 32)
                     .multilineTextAlignment(.center)
             }
@@ -183,12 +183,14 @@ struct PhraseManagerView: View {
         Button(action: {
             unLockPhrase = true
         }, label: {
-            Text(R.string.localizable.profileBuyCell())
+            Text(R.string.localizable.phraseManagerWatch)
                 .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                .font(.regular(15))
+                .font(.system(size: 15, weight: .semibold))
+                .padding()
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(.blue, lineWidth: 1)
+                        .frame(width: 189, height: 44)
                 )
         })
     }
@@ -198,10 +200,9 @@ struct PhraseManagerView: View {
             showWarningAlert = true
         } label: {
             Text(R.string.localizable.phraseManagerISavePhrase())
-                .font(.semibold(15))
+                .font(.system(size: 15, weight: .semibold))
                 .foreground(!unLockPhrase ? .darkGray() : .white())
-                .frame(width: 179,
-                       height: 44)
+                .frame(width: 179, height: 44)
         }
         .disabled(!unLockPhrase)
         .frame(minWidth: 241,

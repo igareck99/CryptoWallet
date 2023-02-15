@@ -13,7 +13,7 @@ struct ImportKeyView: View {
     @State var showMnemonicSuccess = false
     @State var showButtonAnimation = false
     @Environment(\.presentationMode) private var presentationMode
-    @FocusState var focusValue: Int?
+    @FocusState var inputViewIsFocused: Bool
 
     // MARK: - Body
 
@@ -26,6 +26,15 @@ struct ImportKeyView: View {
             }
             .hideKeyboardOnTap()
             .toolbar(.visible)
+            .popup(
+                isPresented: viewModel.isSnackbarPresented,
+                alignment: .bottom
+            ) {
+                Snackbar(
+                    text: "Ключ импортирован",
+                    color: .green
+                )
+            }
             .popup(isPresented: $isChooseWalletShow,
                    type: .toast,
                    position: .bottom,
@@ -54,7 +63,7 @@ struct ImportKeyView: View {
                    .toolbar {
                        ToolbarItem(placement: .principal) {
                            Text(R.string.localizable.importTitle())
-                               .font(.bold(15))
+                               .font(.system(size: 17, weight: .semibold))
                        }
                    }
     }
@@ -62,56 +71,61 @@ struct ImportKeyView: View {
     // MARK: - Private Properties
 
     private var content: some View {
-        GeometryReader { geometry in
-            VStack {
-                Divider()
-                    .padding(.top, 16)
-                Text(R.string.localizable.keyImportTitle())
-                    .font(.regular(22))
-                    .padding(.top, 46)
-                ZStack(alignment: .topLeading) {
-                    TextEditor(text: $viewModel.newKey)
+        VStack(spacing: 0) {
+            Text(R.string.localizable.keyImportTitle())
+                .font(.system(size: 22))
+                .padding(.top, 59)
+
+            ZStack(alignment: .topLeading) {
+                TextEditor(text: $viewModel.newKey)
+                    .focused($inputViewIsFocused)
                     .padding(.leading, 16)
                     .background(.paleBlue())
                     .foreground(.black())
-                    .font(.regular(15))
-                    .frame(width: geometry.size.width - 32,
-                           height: 160)
+                    .font(.system(size: 17))
+                    .frame(height: 160)
+                    .frame(maxWidth: .infinity)
                     .cornerRadius(8)
                     .keyboardType(.alphabet)
                     .scrollContentBackground(.hidden)
-                    if viewModel.newKey.isEmpty {
-                        Text(R.string.localizable.importEnterPrivateKey())
-                            .foreground(.darkGray())
-                            .font(.regular(15))
-                            .padding(.leading, 17)
-                            .padding(.top, 12)
-                            .disabled(true)
-                            .allowsHitTesting(false)
-                    }
+                if viewModel.newKey.isEmpty {
+                    Text(R.string.localizable.importEnterPrivateKey())
+                        .foreground(.darkGray())
+                        .font(.system(size: 17))
+                        .padding(.leading, 20)
+                        .padding(.top, 12)
+                        .disabled(true)
+                        .allowsHitTesting(false)
                 }
-                .overlay {
-                    RoundedRectangle(cornerRadius: 8)
-                               .stroke(Color.red, lineWidth: 1)
-                               .opacity(viewModel.walletError ? 1 : 0)
-                }
-                .padding(.top, 24)
-                HStack {
-                    Text(R.string.localizable.generatePhraseErrorKey())
-                        .foreground(.red())
-                        .font(.regular(12))
-                        .opacity(viewModel.walletError ? 1 : 0)
-                        .padding(.top, 4)
-                        .padding(.leading, 16)
-                    Spacer()
-                }
-                Text(R.string.localizable.importHowImportKey())
-                    .font(.regular(15))
-                    .foreground(.blue())
-                    .padding(.top, 8)
-                importButton
-                    .padding([.top, .bottom], 32)
             }
+            .padding(.horizontal, 16)
+            .overlay {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.red, lineWidth: 1)
+                    .opacity(viewModel.isErrorState ? 1 : 0)
+                    .padding(.horizontal, 16)
+            }
+            .padding(.top, 24)
+
+            HStack {
+                Text(R.string.localizable.generatePhraseErrorKey())
+                    .foreground(.red())
+                    .font(.system(size: 12, weight: .light))
+                    .opacity(viewModel.isErrorState ? 1 : 0)
+                    .padding(.top, 4)
+                    .padding(.leading, 16)
+                Spacer()
+            }
+
+            Text(R.string.localizable.importHowImportKey())
+                .font(.system(size: 15))
+                .foreground(.blue())
+                .padding(.top, 8)
+            
+            importButton
+                .padding([.top, .bottom], 32)
+
+            Spacer()
         }
     }
 
@@ -135,41 +149,44 @@ struct ImportKeyView: View {
 
     private var importButton: some View {
         Button {
+            inputViewIsFocused = false
             showButtonAnimation = true
             viewModel.createWallet(item: viewModel.newKey)
             delay(2) {
-                if viewModel.walletError {
+                if viewModel.isPhraseValid {
                     viewModel.newKey = ""
-                    viewModel.walletError = false
+                    viewModel.isPhraseValid = false
                     showMnemonicSuccess = false
+                    showButtonAnimation = false
+                    viewModel.onAddressImported()
                 } else {
                     showMnemonicSuccess = true
                     showButtonAnimation = false
                 }
             }
-            } label: {
-                switch showButtonAnimation {
+        } label: {
+            switch showButtonAnimation {
             case false:
-            Text(R.string.localizable.importImport())
-                .font(.semibold(15))
-                .foreground(!viewModel.walletError ? .white() : .darkGray())
-                .frame(width: 185,
-                       height: 44)
+                Text(R.string.localizable.importImport())
+                    .font(.system(size: 17, weight: .semibold))
+                    .foreground(viewModel.isPhraseValid ? .white() : .darkGray())
+                    .padding()
             case true:
                 ProgressView()
                     .tint(Color(.white()))
-                    .frame(width: 12,
-                           height: 12)
+                    .frame(width: 12, height: 12)
             }
         }
-        .disabled(viewModel.walletError)
-        .frame(minWidth: 185,
-               idealWidth: 185,
-               maxWidth: 185,
-               minHeight: 44,
-               idealHeight: 44,
-               maxHeight: 44)
-        .background(!viewModel.walletError ? Color(.blue()) : Color(.lightGray()))
-        .cornerRadius(8)
+        .frame(height: 48)
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 69)
+        .disabled(!viewModel.isPhraseValid)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(viewModel.isPhraseValid ? Color(.blue()) : Color(.lightGray()))
+                .frame(height: 48)
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 69)
+        )
     }
 }

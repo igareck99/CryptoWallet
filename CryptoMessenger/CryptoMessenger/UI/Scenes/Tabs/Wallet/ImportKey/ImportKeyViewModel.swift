@@ -8,11 +8,14 @@ final class ImportKeyViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
+    weak var navController: UINavigationController?
     weak var delegate: ImportKeySceneDelegate?
     var viewState: ImportKeyViewState = .reserveCopy
-    @Published var walletError = false
+    @Published var isPhraseValid = false
+    @Published var isErrorState = false
     @Published var newKey = ""
     @Published var isCheckPhrase = false
+    var isSnackbarPresented = false
 
     // MARK: - Private Properties
 
@@ -54,6 +57,19 @@ final class ImportKeyViewModel: ObservableObject {
         keychainService.secretPhrase = item
     }
 
+    func onAddressImported() {
+        isSnackbarPresented = true
+        objectWillChange.send()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.isSnackbarPresented = false
+            self?.objectWillChange.send()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
+                self?.navController?.popViewController(animated: true)
+            }
+        }
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -62,7 +78,7 @@ final class ImportKeyViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     self?.objectWillChange.send()
-                    self?.walletError = false
+                    self?.isPhraseValid = false
                     self?.getWallets()
                 }
             }
@@ -72,12 +88,13 @@ final class ImportKeyViewModel: ObservableObject {
             .sink { [weak self] value in
                 guard let self = self else { return }
                 if value.isEmpty {
-                    self.walletError = false
+                    self.isPhraseValid = false
+                    self.isErrorState = false
                 } else {
-                    self.phraseService.validateSecretPhrase(phrase: value,
-                                                            completion: { result in
-                        self.walletError = result
-                    })
+                    let result = self.phraseService.validateSecretPhrase(phrase: value)
+                    debugPrint("validateSecretPhrase: \(result)")
+                    self.isPhraseValid = result
+                    self.isErrorState = !result
                 }
             }.store(in: &subscriptions)
     }

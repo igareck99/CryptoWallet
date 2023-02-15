@@ -449,7 +449,10 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
     private func showImportKey() {
-        let rootView = ImportKeyConfigurator.configuredView(delegate: self)
+        let rootView = ImportKeyConfigurator.configuredView(
+            delegate: self,
+            navController: navigationController
+        )
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)

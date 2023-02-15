@@ -348,6 +348,8 @@ final class WalletViewModel: ObservableObject {
 				wallet.balance = bitcoinAmount
 				self.coreDataService.updateWalletNetwork(model: wallet)
 			}
+            
+            self.updateWalletsFromDB()
 		}
 	}
 
@@ -372,7 +374,7 @@ final class WalletViewModel: ObservableObject {
 	}
 
 	func updateWallets() {
-
+        
 		guard let seed = keychainService.secretPhrase else {
 			// Empty state remains
 			viewState = .empty
@@ -386,6 +388,7 @@ final class WalletViewModel: ObservableObject {
             viewState = .loading
             objectWillChange.send()
 			updateWalletsFromDB()
+            transactionLoadingState = .notloading
 			getTransactions()
 			getBalance()
 			return

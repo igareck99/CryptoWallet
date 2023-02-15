@@ -208,7 +208,7 @@ final class TransferViewModel: ObservableObject {
 //			address_to = "0xe8f0349166f87fba444596a6bbbe5de9e9c6ef27"
 //			"0xccb5c140b7870061dc5327134fbea8f3f2e154d9"
 		} else {
-			addressTo = ""
+            addressTo = ""
 			walletPublicKey = ""
 			walletPrivateKey = ""
 			return
@@ -227,10 +227,12 @@ final class TransferViewModel: ObservableObject {
 		let cryptoType = currentWalletType.rawValue
 		debugPrint("walletCryptoType: \(cryptoType)")
 
+        let amount = transferAmount.replacingOccurrences(of: ",", with: ".")
+        
 		let params = TransactionTemplateRequestParams(
 			publicKey: walletPublicKey,
 			addressTo: addressTo,
-			amount: transferAmount,
+			amount: amount,
 			fee: feeValue,
 			cryptoType: cryptoType
 		)

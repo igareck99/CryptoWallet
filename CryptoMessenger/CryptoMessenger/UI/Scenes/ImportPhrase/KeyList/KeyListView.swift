@@ -16,7 +16,7 @@ struct KeyListView: View {
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(R.string.localizable.walletManagerKeyManager())
-                        .font(.bold(15))
+                        .font(.system(size: 15, weight: .bold))
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     R.image.chat.plus.image
@@ -34,12 +34,11 @@ struct KeyListView: View {
                    view: {
                 KeyListActionView(showActionSheet: $showActionSheet,
                                   viewModel: viewModel)
-                    .frame(width: UIScreen.main.bounds.width,
-                           height: 178, alignment: .center)
-                    .background(.white())
-                    .cornerRadius(16)
-            }
-            )
+                .frame(width: UIScreen.main.bounds.width,
+                       height: 178, alignment: .center)
+                .background(.white())
+                .cornerRadius(16)
+            })
     }
 
     // MARK: - Private Properties
