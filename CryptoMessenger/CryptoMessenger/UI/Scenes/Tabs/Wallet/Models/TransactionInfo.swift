@@ -13,6 +13,10 @@ struct TransactionInfo: Identifiable, Hashable, Equatable {
 	let transactionResult: String
 	let amount: String
 	let from: String
+    
+    var sign: String {
+        type == .send ? "-" : "+"
+    }
 
 	static let mock = TransactionInfo(
 		type: .send,

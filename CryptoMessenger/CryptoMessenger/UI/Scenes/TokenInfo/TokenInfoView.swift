@@ -77,15 +77,17 @@ struct TokenInfoView: View {
 
     private var content: some View {
         VStack(alignment: .center) {
+            Spacer()
+                .frame(height: 50)
+
             QRCodeView
-                .padding(.top, 50)
                 .padding(.bottom, 20)
 
 			copyAddressButton
 				.padding(.bottom, 80)
-                .padding(.horizontal, 8)
+                .padding(.horizontal, 16)
         }
-		.padding([.leading, .trailing], 16)
+        .padding(.horizontal, 16)
     }
 
     private var QRCodeView: some View {
@@ -110,8 +112,7 @@ struct TokenInfoView: View {
 				.truncationMode(.middle)
 				.font(.system(size: 16))
 				.foregroundColor(.manateeApprox)
-				.padding(.leading, 8)
-				.padding(.trailing, 16)
+				.padding(.horizontal, 16)
 
 			Image(R.image.wallet.copy.name)
 				.foregroundColor(.sharkApprox)
@@ -126,7 +127,6 @@ struct TokenInfoView: View {
 			RoundedRectangle(cornerRadius: 8)
 				.stroke(Color.ironApprox, lineWidth: 1)
 		)
-
 	}
 
     private var addressCell: some View {
@@ -160,7 +160,7 @@ struct TokenInfoView: View {
 		Button(action: actionSheet) {
 			Text(R.string.localizable.tokenInfoShareAddress())
 				.frame(width: 225, height: 48)
-				.font(.semibold(15))
+                .font(.system(size: 17, weight: .semibold))
 				.padding()
 				.foregroundColor(.white)
 				.background(

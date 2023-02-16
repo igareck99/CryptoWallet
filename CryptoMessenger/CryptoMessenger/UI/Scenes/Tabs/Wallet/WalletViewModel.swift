@@ -350,6 +350,7 @@ final class WalletViewModel: ObservableObject {
 			}
             
             self.updateWalletsFromDB()
+            self.getTransactions()
 		}
 	}
 

@@ -16,7 +16,7 @@ struct TransactionInfoView: View {
 					ZStack {
 						Circle()
 							.frame(width: 40, height: 40)
-							.foreground(transaction.type == .send ? .blue() : .green())
+                            .foregroundColor(transaction.type == .send ? .azureRadianceApprox : .jungleGreenApprox)
 						transaction.type == .send ?
 						R.image.wallet.writeOff.image :
 						R.image.wallet.inflow.image
@@ -41,31 +41,15 @@ struct TransactionInfoView: View {
 						.foregroundColor(.regentGrayApprox)
 					}
 				}
-			Divider()
 		}
 	}
 
 	@ViewBuilder
 	private func transactionAmount() -> some View {
-		switch transaction.transactionCoin {
-		case .aur:
-			Text("+ \(transaction.amount) AUR")
-				.font(.system(size: 17))
-				.foreground(transaction.type == .send ? .black() : .green())
-				.lineLimit(1)
-				.truncationMode(.middle)
-		case .ethereum:
-			Text("+ \(transaction.amount) ETH")
-				.font(.system(size: 17))
-				.foreground(transaction.type == .send ? .black() : .green())
-				.lineLimit(1)
-				.truncationMode(.middle)
-		case .bitcoin:
-			Text("+ \(transaction.amount) BTC")
-				.font(.system(size: 17))
-				.foreground(transaction.type == .send ? .black() : .green())
-				.lineLimit(1)
-				.truncationMode(.middle)
-		}
+        Text("\(transaction.sign) \(transaction.amount) \(transaction.transactionCoin.abbreviatedName)")
+            .font(.system(size: 17))
+            .foregroundColor(transaction.type == .send ? .woodSmokeApprox : .jungleGreenApprox)
+            .lineLimit(1)
+            .truncationMode(.middle)
 	}
 }
