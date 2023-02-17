@@ -28,7 +28,7 @@ struct ChooseReceiverView: View {
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(R.string.localizable.chooseReceiverTitle())
-                        .font(.bold(15))
+                        .font(.system(size: 17, weight: .semibold))
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -74,6 +74,7 @@ struct ChooseReceiverView: View {
                       searching: $searching)
                 .focused($inputViewIsFocused)
                 .padding(.top, 16)
+                .padding(.bottom, 24)
                 .padding(.horizontal, 16)
                 .onTapGesture {
                     hideKeyboard()

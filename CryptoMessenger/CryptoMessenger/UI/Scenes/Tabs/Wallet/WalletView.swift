@@ -105,7 +105,7 @@ struct WalletView: View {
                     .padding(.horizontal, 16)
                 
                 transactionTitleView
-                    .padding(.top, 8)
+                    .padding(.top, 24)
                 
                     if viewModel.transactionsList(index: index).isEmpty {
                         emptyTransactionsView
@@ -317,30 +317,53 @@ struct WalletView: View {
             LazyVStack(spacing: 0) {
                 ForEach(viewModel.transactionsList(index: pageIndex), id: \.self) { item in
                     DisclosureGroup {
-                        TransactionDetailsView(model: item.details)
-                            .padding(.horizontal, 16)
+                        VStack(spacing: 0) {
+                            TransactionDetailsView(model: item.details)
+                                .padding(.horizontal, 16)
+                            Divider()
+                                .frame(maxWidth: .infinity)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        // пока оставил, возможно придется вернуть
+//                        .background(
+//                            Color.alabasterSolid
+//                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                                .padding(.top, -4)
+//                        )
                     } label: {
-                        TransactionInfoView(transaction: item.info)
-                            .padding(.horizontal, 16)
+                        VStack(spacing: 0) {
+                            TransactionInfoView(transaction: item.info)
+                                .padding(.leading, 16)
+                            Divider()
+                                .frame(maxWidth: .infinity)
+                                .padding(.trailing, -20)
+                                .padding(.leading, 66)
+                                .padding(.top, 12)
+                        }
+                        .frame(maxWidth: .infinity)
                     }
-                    .scaledToFill()
                     .buttonStyle(.plain)
                     .accentColor(.clear)
-                    .padding(.vertical, 4)
                 }
             }
         }
     }
 
     private var emptyTransactionsView: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 0) {
             R.image.wallet.emptyTransactions.image
+                .padding(.bottom, 4)
             Text(R.string.localizable.walletNoData())
-                .font(.regular(22))
+                .font(.system(size: 22))
+                .foregroundColor(.woodSmokeApprox)
+                .padding(.bottom, 4)
             Text(R.string.localizable.walletManagerMakeYourFirstTransaction())
                 .multilineTextAlignment(.center)
-                .font(.regular(15))
-                .foreground(.darkGray())
+                .font(.system(size: 15))
+                .foregroundColor(.regentGrayApprox)
+
+            Spacer()
+                .frame(height: 60)
         }
     }
 }

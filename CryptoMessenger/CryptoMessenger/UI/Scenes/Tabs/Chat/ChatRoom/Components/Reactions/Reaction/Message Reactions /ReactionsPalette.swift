@@ -26,6 +26,7 @@ extension Color {
     static let blackHazeApprox = Color(uiColor: .blackHazeApprox)
     static let white06 = Color(uiColor: .white06)
     static let polarApprox = Color(uiColor: .polarApprox)
+    static let jungleGreenApprox = Color(uiColor: .jungleGreenApprox)
 }
 
 extension UIColor {
@@ -54,5 +55,5 @@ extension UIColor {
     static let blackHazeApprox = UIColor(red: 248.0 / 255.0, green: 249.0 / 255.0, blue: 249.0 / 255.0, alpha: 1.0)
     static let white06 = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
     static let polarApprox = UIColor(red: 242.0 / 255.0, green: 247.0 / 255.0, blue: 252.0 / 255.0, alpha: 1.0)
-    
+    static let jungleGreenApprox = UIColor(red: 39.0 / 255.0, green: 174.0 / 255.0, blue: 96.0 / 255.0, alpha: 1.0)
 }

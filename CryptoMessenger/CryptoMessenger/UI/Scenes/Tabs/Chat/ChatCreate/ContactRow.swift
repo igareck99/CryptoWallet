@@ -93,7 +93,6 @@ struct ContactRow: View {
                     .fill(Color(.gray(0.7)))
                     .frame(height: 1)
                     .padding(.leading, 68)
-                    .padding(.trailing, 16)
             }
         }
     }

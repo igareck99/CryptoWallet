@@ -6,47 +6,58 @@ struct TransactionDetailsView: View {
 
     // MARK: - Internal Properties
 
-	let model: TransactionDetails
-    
+    let model: TransactionDetails
+
     // MARK: - Body
 
     var body: some View {
-		VStack(alignment: .center, spacing: 4) {
-			HStack(alignment: .center, spacing: 0) {
-				Text("Отправитель")
-					.font(.system(size: 13))
-				Spacer()
-				Text(model.sender)
-					.lineLimit(1)
-					.truncationMode(.middle)
-					.font(.system(size: 15))
-			}
-			HStack(alignment: .center, spacing: 0) {
-				Text("Получатель")
-					.font(.system(size: 13))
-				Spacer()
-				Text(model.receiver)
-					.lineLimit(1)
-					.truncationMode(.middle)
-					.font(.system(size: 15))
-			}
-			HStack(alignment: .center, spacing: 0) {
-				Text("Блок")
-					.font(.system(size: 13))
-				Spacer()
-				Text(model.block)
-					.font(.system(size: 15))
-			}
-			HStack(alignment: .center, spacing: 0) {
-				Text("Хэш")
-					.font(.system(size: 13))
-				Spacer()
-				Text(model.hash)
-					.lineLimit(1)
-					.truncationMode(.middle)
-					.font(.system(size: 15))
-			}
-		}
-		.background(Color.alabasterSolid)
+        VStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
+                Text("Отправитель")
+                    .font(.system(size: 13))
+                Spacer()
+                Text(model.sender)
+                    .foregroundColor(.regentGrayApprox)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                    .font(.system(size: 15))
+            }
+            .frame(height: 32)
+
+            HStack(alignment: .center, spacing: 0) {
+                Text("Получатель")
+                    .font(.system(size: 13))
+                Spacer()
+                Text(model.receiver)
+                    .foregroundColor(.regentGrayApprox)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                    .font(.system(size: 15))
+            }
+            .frame(height: 32)
+
+            HStack(alignment: .center, spacing: 0) {
+                Text("Блок")
+                    .font(.system(size: 13))
+                Spacer()
+                Text(model.block)
+                    .foregroundColor(.regentGrayApprox)
+                    .font(.system(size: 15))
+            }
+            .frame(height: 32)
+
+            HStack(alignment: .center, spacing: 0) {
+                Text("Хэш")
+                    .font(.system(size: 13))
+                Spacer()
+                Text(model.hash)
+                    .foregroundColor(.regentGrayApprox)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                    .font(.system(size: 15))
+            }
+            .frame(height: 32)
+            .padding(.bottom, 8)
+        }
     }
 }
