@@ -36,19 +36,23 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
     private let matrixService: MatrixServiceProtocol
     @Injectable private var apiClient: APIClientManager
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
+    private let config: ConfigType
     private var subscriptions = Set<AnyCancellable>()
 
     init(
-        matrixService: MatrixServiceProtocol = MatrixService.shared
+        matrixService: MatrixServiceProtocol = MatrixService.shared,
+        config: ConfigType = Configuration.shared
     ) {
         self.matrixService = matrixService
+        self.config = config
     }
 
     // MARK: - Internal Methods
 
     func downloadAvatarUrl(completion: @escaping (URL?) -> Void) {
-        matrixService.getAvatarUrl { link in
-            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+        matrixService.getAvatarUrl { [weak self] link in
+            guard let self = self else { return }
+            let homeServer = self.config.matrixURL
             let avatarUrl = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
             completion(avatarUrl)
         }

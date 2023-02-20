@@ -64,7 +64,7 @@ final class RequestBuilder {
 
     // MARK: - Private Properties
 
-    private let configuration = Configuration()
+    private let configuration: ConfigType
     private let method: Method
     private let requestType: RequestType
     private let path: String
@@ -80,11 +80,17 @@ final class RequestBuilder {
 
     // MARK: - Lifecycle
 
-    init(method: Method, path: String, requestType: RequestType) {
+    init(
+        method: Method,
+        path: String,
+        requestType: RequestType,
+        configuration: ConfigType = Configuration()
+    ) {
         self.method = method
         self.requestType = requestType
+        self.configuration = configuration
 
-        let apiVersion = "/" + Configuration.apiVersion.rawValue
+        let apiVersion = "/" + configuration.apiVersionString
         if let components = URLComponents(string: apiVersion + path), let params = components.queryItems {
             self.path = components.path
             self.queryParameters = QueryParams(uniqueKeysWithValues: params.map({ ($0.name, $0.value) }))
@@ -209,7 +215,7 @@ final class RequestBuilder {
 
 extension RequestBuilder: URLRequestConvertible {
     func asURLRequest() throws -> URLRequest {
-        guard var urlComponents = URLComponents(string: Configuration.apiString) else {
+        guard var urlComponents = URLComponents(string: configuration.apiUrlString) else {
             fatalError("URLComponents failed")
         }
         urlComponents.path = path

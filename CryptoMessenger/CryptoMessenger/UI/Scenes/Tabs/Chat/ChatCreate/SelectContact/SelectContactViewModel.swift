@@ -12,6 +12,7 @@ final class SelectContactViewModel: ObservableObject {
     @Published private(set) var existingContacts: [Contact] = []
     @Published private(set) var waitingContacts: [Contact] = []
     let mode: ContactViewMode
+    private let config: ConfigType
 
     // MARK: - Private Properties
 
@@ -24,8 +25,12 @@ final class SelectContactViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(mode: ContactViewMode = .send) {
+    init(
+        mode: ContactViewMode = .send,
+        config: ConfigType = Configuration.shared
+    ) {
         self.mode = mode
+        self.config = config
         bindInput()
         bindOutput()
         getContacts(matrixUseCase.allUsers())
@@ -72,7 +77,7 @@ final class SelectContactViewModel: ObservableObject {
                 status: $0.statusMsg ?? ""
             )
             if let avatar = $0.avatarUrl {
-                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                let homeServer = config.matrixURL
                 contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
             }
             return contact
@@ -104,8 +109,8 @@ final class SelectContactViewModel: ObservableObject {
                             name: $0.displayname ?? "",
                             status: $0.statusMsg ?? "Привет, теперь я в Aura"
                         )
-                        if let avatar = $0.avatarUrl {
-                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                        if let avatar = $0.avatarUrl,
+                           let homeServer = self?.config.matrixURL {
                             contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
                         }
                         return contact

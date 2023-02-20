@@ -64,7 +64,7 @@ struct SelectContactView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         switch viewModel.mode {
-                        case .send:
+                        case .send, .groupCreate:
                             if contactsLimit != nil {
                                 onSelectContact?(pickedContacts)
                                 presentationMode.wrappedValue.dismiss()
@@ -113,7 +113,7 @@ struct SelectContactView: View {
                                         .transition(.scale.animation(.linear(duration: 0.2)))
                                 } else {
                                     R.image.chat.group.uncheck.image
-                                                .transition(.opacity.animation(.linear(duration: 0.2)))
+                                        .transition(.opacity.animation(.linear(duration: 0.2)))
                                 }
 
                                 ContactRow(

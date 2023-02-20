@@ -2,12 +2,30 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>API URL</key>
-	<string>https://api.auramsg.co</string>
-	<key>API Version</key>
-	<string>v0</string>
-	<key>API stand</key>
+	<key>API Stand</key>
 	<string>dev</string>
+	<key>DebugUrlConfig</key>
+	<dict>
+		<key>JitsiMeet</key>
+		<string>https://meet.auramsg.co</string>
+		<key>Matrix</key>
+		<string>https://matrix.auramsg.co</string>
+		<key>API</key>
+		<string>https://api.auramsg.co</string>
+		<key>API Version</key>
+		<string>v0</string>
+	</dict>
+	<key>ReleaseUrlConfig</key>
+	<dict>
+		<key>JitsiMeet</key>
+		<string>https://meet.aura.ms</string>
+		<key>Matrix</key>
+		<string>https://matrix.aura.ms</string>
+		<key>API</key>
+		<string>https://api.aura.ms</string>
+		<key>API Version</key>
+		<string>v0</string>
+	</dict>
 	<key>AppGroup</key>
 	<string>ru.aura.app.test</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -55,8 +73,6 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>MATRIX URL</key>
-	<string>https://matrix.auramsg.co</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

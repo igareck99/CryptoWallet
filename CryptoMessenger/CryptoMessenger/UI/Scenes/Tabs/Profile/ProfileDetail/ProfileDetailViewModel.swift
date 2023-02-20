@@ -26,6 +26,7 @@ final class ProfileDetailViewModel: ObservableObject {
     private let userSettings: UserFlowsStorage & UserCredentialsStorage
     private let keychainService: KeychainServiceProtocol
     private let privateDataCleaner: PrivateDataCleanerProtocol
+    private let config: ConfigType
     
 
     // MARK: - Lifecycle
@@ -34,11 +35,13 @@ final class ProfileDetailViewModel: ObservableObject {
         userSettings: UserFlowsStorage & UserCredentialsStorage,
         keychainService: KeychainServiceProtocol,
         coreDataService: CoreDataServiceProtocol,
-        privateDataCleaner: PrivateDataCleanerProtocol
+        privateDataCleaner: PrivateDataCleanerProtocol,
+        config: ConfigType = Configuration.shared
     ) {
         self.userSettings = userSettings
         self.keychainService = keychainService
         self.privateDataCleaner = privateDataCleaner
+        self.config = config
         bindInput()
         bindOutput()
         fetchData()
@@ -121,9 +124,10 @@ final class ProfileDetailViewModel: ObservableObject {
     private func fetchData() {
         profile.name = matrixUseCase.getDisplayName()
         profile.status = matrixUseCase.getStatus()
-        matrixUseCase.getAvatarUrl { link in
+        matrixUseCase.getAvatarUrl { [weak self] link in
+            guard let self = self else { return }
             let link = link
-            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+            let homeServer = self.config.matrixURL
             self.profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
         }
         if let str = keychainService.apiUserPhoneNumber {

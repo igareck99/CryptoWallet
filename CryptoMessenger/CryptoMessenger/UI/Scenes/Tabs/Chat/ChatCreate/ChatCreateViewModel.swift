@@ -59,10 +59,14 @@ final class ChatCreateViewModel: ObservableObject {
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var contactsStore: ContactsManager
     @Injectable private var apiClient: APIClientManager
+    private let config: ConfigType
 
     // MARK: - Lifecycle
 
-    init() {
+    init(
+        config: ConfigType = Configuration.shared
+    ) {
+        self.config = config
         bindInput()
         bindOutput()
         getContacts(matrixUseCase.allUsers())
@@ -191,7 +195,7 @@ final class ChatCreateViewModel: ObservableObject {
                 status: $0.statusMsg ?? ""
             )
             if let avatar = $0.avatarUrl {
-                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                let homeServer = config.matrixURL
                 contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
             }
             return contact
@@ -244,8 +248,8 @@ final class ChatCreateViewModel: ObservableObject {
                             name: $0.displayname ?? "",
                             status: $0.statusMsg ?? "Привет, теперь я в Aura"
                         )
-                        if let avatar = $0.avatarUrl {
-                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                        if let avatar = $0.avatarUrl,
+                           let homeServer = self?.config.matrixURL {
                             contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
                         }
                         return contact

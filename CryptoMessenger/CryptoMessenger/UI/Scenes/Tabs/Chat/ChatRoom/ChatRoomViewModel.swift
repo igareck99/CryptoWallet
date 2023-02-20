@@ -97,6 +97,7 @@ final class ChatRoomViewModel: ObservableObject {
     private var pushNotification = PushNotificationsService()
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
     private let factory: ChannelUsersFactoryProtocol.Type
+    private let config: ConfigType
 
     var toggleFacade: MainFlowTogglesFacadeProtocol
     
@@ -113,7 +114,8 @@ final class ChatRoomViewModel: ObservableObject {
 		componentsFactory: ChatComponentsFactoryProtocol = ChatComponentsFactory(),
         userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared,
 		groupCallsUseCase: GroupCallsUseCaseProtocol,
-        factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self
+        factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
+        config: ConfigType = Configuration.shared
 	) {
         self.sources = sources
         self.room = room
@@ -125,6 +127,7 @@ final class ChatRoomViewModel: ObservableObject {
 		self.groupCallsUseCase = groupCallsUseCase
         self.userSettings = userSettings
         self.factory = factory
+        self.config = config
 		self.locationManager = locationManager
 		updateToggles()
         bindInput()
@@ -687,9 +690,10 @@ final class ChatRoomViewModel: ObservableObject {
                 if let data = self?.chatData.image?.jpeg(.medium) {
                     self?.matrixUseCase.uploadData(data: data, for: room) { [weak self] url in
                         guard let url = url else { return }
-                        room.setAvatar(url: url) { _ in
-                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
-                            self?.room.roomAvatar = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
+                        room.setAvatar(url: url) { [weak self] _ in
+                            guard let self = self else { return }
+                            let homeServer = self.config.matrixURL
+                            self.room.roomAvatar = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
                         }
                     }
                 }
@@ -721,7 +725,7 @@ final class ChatRoomViewModel: ObservableObject {
                                 self.roomUsers.append(user)
                             }
                             message?.name = user?.displayname ?? ""
-                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                            let homeServer = self.config.matrixURL
                             message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)
                             return message
                         }
@@ -745,7 +749,7 @@ final class ChatRoomViewModel: ObservableObject {
                             self.roomUsers.append(user)
                         }
                         message?.name = user?.displayname ?? ""
-                        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                        let homeServer = self.config.matrixURL
                         message?.avatar = MXURL(mxContentURI: user?.avatarUrl ?? "")?.contentURL(on: homeServer)
                         message?.videoThumbnail = $0.videoThumbnail
                         return message
@@ -830,7 +834,7 @@ final class ChatRoomViewModel: ObservableObject {
             .map { $0.getMediaURLs() ?? [] }
             .flatMap { $0 }
             .map {
-                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                let homeServer = config.matrixURL
                 return MXURL(mxContentURI: $0)?.contentURL(on: homeServer)
             }
             .compactMap { $0 }
@@ -846,8 +850,8 @@ final class ChatRoomViewModel: ObservableObject {
                             name: $0.displayname ?? "",
                             status: "Привет, теперь я в Aura"
                         )
-                        if let avatar = $0.avatarUrl {
-                            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                        if let avatar = $0.avatarUrl,
+                           let homeServer = self?.config.matrixURL {
                             contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
                         }
                         return contact

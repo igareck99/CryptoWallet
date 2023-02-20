@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_END
 	// Build data for a jitsi widget
 	// Riot-Web still uses V1 type
 	NSString *widgetId = [NSString stringWithFormat:@"%@_%@_%@", JistsiConstants.kWidgetTypeJitsiV1, userId, @((uint64_t)([[NSDate date] timeIntervalSince1970] * 1000))];
-	NSString *jitsiBaseUrl = room.mxSession.homeserverWellknown.homeServer.baseUrl; // https://matrix.auratest.website
+	NSString *jitsiBaseUrl = room.mxSession.homeserverWellknown.homeServer.baseUrl;
 
 	if (!jitsiBaseUrl) { failure(); return; }
 
@@ -206,7 +206,8 @@ NS_ASSUME_NONNULL_END
 	// Build widget url
 	// Riot-iOS does not directly use it but extracts params from it (see `[JitsiViewController openWidget:withVideo:]`)
 	// This url can be used as is inside a web container (like iframe for Riot-web)
-	NSString *appUrlString = @"https://meet.auratest.website";
+    NSString *appUrlString = url;
+//    @"https://meet.auramsg.co";
 
 	// We mix v1 and v2 param for backward compability
 	NSArray *v1queryStringParts = @[
@@ -409,7 +410,7 @@ NS_ASSUME_NONNULL_END
 
 /// Check if Jitsi widget requires "openidtoken-jwt" authentication
 - (BOOL)isOpenIdJWTAuthenticationRequiredFor:(JitsiWidgetData *)jitsiWidgetData {
-//	return [jitsiWidgetData.authenticationType isEqualToString:openIDTokenJWT];
+//	return [jitsiWidgetData.authenticationType isEqualToString:JistsiConstants.openIDTokenJWT];
 	return NO;
 }
 
@@ -419,7 +420,12 @@ NS_ASSUME_NONNULL_END
 	if (jitsiWidgetData) {
 		self.conferenceId = jitsiWidgetData.conferenceId;
 		if (jitsiWidgetData.domain) {
-			NSString *serverUrlString = [NSString stringWithFormat:@"https://%@", jitsiWidgetData.domain];
+            NSString *serverUrlString;
+            if ([jitsiWidgetData.domain containsString:@"http"]) {
+                serverUrlString = jitsiWidgetData.domain;
+            } else {
+                serverUrlString = [NSString stringWithFormat:@"https://%@", jitsiWidgetData.domain];
+            }
 			self.serverUrl = [NSURL URLWithString:serverUrlString];
 		}
 		self.startWithVideo = !jitsiWidgetData.isAudioOnly;
