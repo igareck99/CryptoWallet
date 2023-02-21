@@ -58,6 +58,7 @@ extension MXEvent {
     var messageType: MessageType {
         let messageType = content[.messageType] as? String
         var type: MessageType
+        let homeServer = Configuration.shared.matrixURL
 
         switch messageType {
         case kMXMessageTypeText:
@@ -71,7 +72,6 @@ extension MXEvent {
             }
         case kMXMessageTypeVideo:
             if getVideo() {
-                let homeServer = Bundle.main.object(for: .matrixURL).asURL()
                 let link = content[.url] as? String ?? ""
                 let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
                 type = .video(url)
@@ -79,12 +79,10 @@ extension MXEvent {
                 type = .none
             }
         case kMXMessageTypeAudio:
-            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
             let link = content[.url] as? String ?? ""
             let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
             type = .audio(url)
         case kMXMessageTypeImage:
-            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
             let link = content[.url] as? String ?? ""
             let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
             type = .image(url)
@@ -93,13 +91,11 @@ extension MXEvent {
             let longitude = content[.longitude] as? String ?? ""
             type = .location((lat: Double(latitude) ?? 0, long: Double(longitude) ?? 0))
         case kMXMessageTypeFile:
-            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
             let link = content[.url] as? String ?? ""
             let fileName = content[.body] as? String ?? ""
             let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
             type = .file(fileName, url)
         case MXEventCustomEvent.contactInfo.identifier:
-            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
             let link = content[.avatar] as? String ?? ""
             let name = content[.name] as? String ?? ""
             let phone = content[.phone] as? String ?? ""
@@ -176,7 +172,7 @@ extension MXEvent {
     }
     
     var videoThumbnail: URL? {
-        let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+        let homeServer = Configuration.shared.matrixURL
         let data = content[.info] as? [String: Any]
         let thumbnailLink = data?[.thumbnailUrl] as? String ?? ""
         let url = MXURL(mxContentURI: thumbnailLink)?.contentURL(on: homeServer)

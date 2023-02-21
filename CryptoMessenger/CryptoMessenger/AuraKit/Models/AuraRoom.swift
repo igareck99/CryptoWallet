@@ -85,11 +85,14 @@ final class AuraRoom: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(_ room: MXRoom) {
+    init(
+        _ room: MXRoom,
+        config: ConfigType = Configuration.shared
+    ) {
         self.room = room
         self.summary = RoomSummary(room.summary)
         if let avatar = room.summary.avatar {
-            let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+            let homeServer = config.matrixURL
             roomAvatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
         }
         let enumerator = room.enumeratorForStoredMessages // WithType(in: Self.displayedMessageTypes)

@@ -77,7 +77,7 @@ struct ChatCreateView: View {
                 }
                 .overlay(
                     EmptyNavigationLink(
-                        destination: SelectContactView(viewModel: SelectContactViewModel(mode: .add),
+                        destination: SelectContactView(viewModel: SelectContactViewModel(mode: .groupCreate),
                                                        chatData: $chatData,
                                                        groupCreated: $groupCreated),
                         isActive: $showContacts

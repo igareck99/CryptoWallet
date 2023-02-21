@@ -1,6 +1,8 @@
 import Combine
 import Foundation
 
+// swiftlint:disable all
+
 final class MatrixUseCase {
 
 	private let matrixService: MatrixServiceProtocol
@@ -9,19 +11,22 @@ final class MatrixUseCase {
 	private var roomsTimer: AnyPublisher<Date, Never>?
 	private var subscriptions = Set<AnyCancellable>()
 	private let toggles: MatrixUseCaseTogglesProtocol
+    private let config: ConfigType
 
 	static let shared = MatrixUseCase()
 
-	init(
-		matrixService: MatrixServiceProtocol = MatrixService.shared,
-		keychainService: KeychainServiceProtocol = KeychainService.shared,
-		userSettings: UserDefaultsServiceProtocol = UserDefaultsService.shared,
-		toggles: MatrixUseCaseTogglesProtocol = MatrixUseCaseToggles()
-	) {
+    init(
+        matrixService: MatrixServiceProtocol = MatrixService.shared,
+        keychainService: KeychainServiceProtocol = KeychainService.shared,
+        userSettings: UserDefaultsServiceProtocol = UserDefaultsService.shared,
+        toggles: MatrixUseCaseTogglesProtocol = MatrixUseCaseToggles(),
+        config: ConfigType = Configuration.shared
+    ) {
 		self.matrixService = matrixService
 		self.keychainService = keychainService
 		self.userSettings = userSettings
 		self.toggles = toggles
+        self.config = config
 		observeLoginState()
 	}
 
@@ -332,11 +337,12 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 
 			guard let avatarUrl = url else { completion(nil); return }
 
-			self?.matrixService.setUser(avatarUrl: avatarUrl) { result in
+			self?.matrixService.setUser(avatarUrl: avatarUrl) { [weak self] result in
 
-				guard case .success = result  else { completion(nil); return }
+				guard let self = self,
+                    case .success = result  else { completion(nil); return }
 
-				let homeServer = Bundle.main.object(for: .matrixURL).asURL()
+                let homeServer = self.config.matrixURL
 				let url = MXURL(mxContentURI: avatarUrl)?.contentURL(on: homeServer)
 				completion(url)
 			}

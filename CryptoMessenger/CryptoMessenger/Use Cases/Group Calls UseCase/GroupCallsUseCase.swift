@@ -21,14 +21,19 @@ final class GroupCallsUseCase {
 	private var jwtToken: String?
 	private var serverUrl: URL?
 	private var currentCallWidget: JitsiWidget?
+    private let config: ConfigType
 
 	private var navigationController: UINavigationController? {
 		(UIApplication.shared.connectedScenes.first as? UIWindowScene)?
 			.keyWindow?.rootViewController as? UINavigationController
 	}
 
-	init(room: MXRoom) {
+	init(
+        room: MXRoom,
+        config: ConfigType = Configuration.shared
+    ) {
 		self.room = room
+        self.config = config
 		self.viewModel = AURGroupCallsViewModel(room: room)
 	}
 }
@@ -156,10 +161,10 @@ extension GroupCallsUseCase: GroupCallsViewControllerDelegate {
 	func viewDidLoad(controller: UIViewController) {
 
 		guard let conferenceId = self.conferenceId,
-			  let jwtToken = self.jwtToken,
-			  let serverUrl = URL(string: "https://meet.auratest.website")
+			  let jwtToken = self.jwtToken
 		else { return }
 
+        let serverUrl = config.jitsiMeetURL
 		jingleCallStackConfigurator.configureAudioSession(forVideoCall: true)
 
 		let options = conferenceOptions(
