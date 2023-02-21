@@ -254,6 +254,7 @@ final class ChannelInfoViewModel {
 
     weak var delegate: ChannelInfoSceneDelegate?
     private var roomPowerLevels: MXRoomPowerLevels?
+    private var eventsListener: MXEventListener?
 
     init(
         roomId: String,
@@ -266,6 +267,7 @@ final class ChannelInfoViewModel {
         self.getRoomInfo()
         self.loadUsers()
         self.isRoomPublic()
+        self.listenEvents()
     }
     
     private func updateRoomParams() {
@@ -310,16 +312,21 @@ final class ChannelInfoViewModel {
             guard case let .success(state) = result else { return }
 
             debugPrint("roomState result: \(state)")
-            debugPrint("roomState power levels result: \(state.powerLevels)")
+            debugPrint("roomState power levels result: \(String(describing: state.powerLevels))")
             
             self.roomPowerLevels = state.powerLevels
         }
     }
     
     private func loadUsers() {
+        
+        debugPrint("loadUsers")
+        
         matrixUseCase.getRoomMembers(roomId: roomId) { [weak self] result in
             guard case let .success(roomMembers) = result else { return }
-            debugPrint("getRoomMembers result: \(roomMembers.members)")
+            
+            debugPrint("getRoomMembers result: \(String(describing:roomMembers.members))")
+            
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 let users: [ChannelParticipantsData] = self.factory.makeUsersData(users: roomMembers.members, roomPowerLevels: self.roomPowerLevels)
@@ -335,6 +342,21 @@ final class ChannelInfoViewModel {
             self.onShowUserProfile()
         }
     }
+    
+    func listenEvents() {
+        let room = matrixUseCase.getRoomInfo(roomId: roomId)
+        room?.liveTimeline { [weak self] liveTimeLine in
+            let listener = liveTimeLine?.listenToEvents { [weak self] event, direction, roomState in
+                debugPrint("liveTimeLine.listenToEvents: \(event) \(direction) \(String(describing: roomState))")
+                self?.getRoomInfo()
+                self?.loadUsers()
+            } as? MXEventListener
+            
+            self?.eventsListener = listener
+        }
+    }
+    
+    let onInviteUsersToChannelGroup = DispatchGroup()
 }
 
 // MARK: - ChannelInfoViewModelProtocol
@@ -355,7 +377,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
                guard case let .success(state) = result else { return }
 
                debugPrint("roomState result: \(state)")
-               debugPrint("roomState power levels result: \(state.powerLevels)")
+               debugPrint("roomState power levels result: \(String(describing: state.powerLevels))")
 
                guard
                    let currentUserPowerLevel: Int = state.powerLevels?.powerLevelOfUser(withUserID: currentUserId) else {
@@ -423,6 +445,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
                 reason: "kicked"
             ) { [weak self] in
                 debugPrint("matrixUseCase.kickUser result: \($0)")
+                // TODO: Обработать failure case
                 guard case .success = $0 else { return }
             }
         }
@@ -445,19 +468,27 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     }
     
     func onInviteUsersToChannel(users: [Contact]) {
-        guard let auraRoom = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else { return }
-        let group = DispatchGroup()
+        
         for user in users {
-            group.enter()
-            matrixUseCase.inviteUser(userId: user.mxId,
-                                     roomId: roomId) { _ in
-                auraRoom.room.setPowerLevel(ofUser: user.mxId,
-                                            powerLevel: 0) { _ in
-                    group.leave()
+            debugPrint("onInviteUsersToChannelGroup leave")
+            onInviteUsersToChannelGroup.enter()
+            matrixUseCase.inviteUser(userId: user.mxId, roomId: roomId) { [weak self] result in
+                
+                debugPrint("inviteUser result: \(result)")
+                
+                // TODO: Обработать failure case
+               
+                guard let self = self, case .success = result else { return }
+                
+                self.matrixUseCase.updateUserPowerLevel(userId: user.mxId, roomId: self.roomId, powerLevel: 0) { [weak self] result in
+                    debugPrint("inviteUser result: \(result)")
+                    debugPrint("onInviteUsersToChannelGroup leave")
+                    self?.onInviteUsersToChannelGroup.leave()
                 }
             }
         }
-        group.notify(queue: .main) {
+        onInviteUsersToChannelGroup.notify(queue: .main) {
+            debugPrint("onInviteUsersToChannelGroup notify")
             self.loadUsers()
         }
     }

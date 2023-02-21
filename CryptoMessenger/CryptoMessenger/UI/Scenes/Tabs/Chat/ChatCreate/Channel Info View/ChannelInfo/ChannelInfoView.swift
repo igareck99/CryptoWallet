@@ -51,14 +51,18 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         })
         .sheet(isPresented: $showParticipantsView, content: {
             NavigationView {
-                ChannelParticipantsView(viewModel: viewModel,
-                                        showParticipantsView: $showParticipantsView)
+                ChannelParticipantsView(
+                    viewModel: viewModel,
+                    showParticipantsView: $showParticipantsView
+                )
             }
         })
         .sheet(isPresented: $showChannelChangeType, content: {
             NavigationView {
-                SelectChannelTypeView(viewModel: SelectChannelTypeViewModel(roomId: viewModel.roomId),
-                                      showChannelChangeType: $showChannelChangeType) { value in
+                SelectChannelTypeView(
+                    viewModel: SelectChannelTypeViewModel(roomId: viewModel.roomId),
+                    showChannelChangeType: $showChannelChangeType
+                ) { value in
                     switch value {
                     case .publicChannel:
                         viewModel.isRoomPublicValue = true

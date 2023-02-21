@@ -107,7 +107,6 @@ extension UserSettingsViewModel: UserSettingsViewModelProtocol {
         guard let matrixId = UserIdValidator.makeValidId(userId: userId.wrappedValue) else { return }
         
         debugPrint("\(matrixId)")
-        self.onActionEnd()
         
         matrixUseCase.kickUser(
             userId: matrixId,
@@ -116,6 +115,7 @@ extension UserSettingsViewModel: UserSettingsViewModelProtocol {
         ) { [weak self] in
             debugPrint("matrixUseCase.kickUser result: \($0)")
             guard case .success = $0 else { return }
+            self?.onActionEnd()
         }
     }
     
