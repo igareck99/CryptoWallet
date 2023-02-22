@@ -32,8 +32,7 @@ struct NavigationBarModifier: ViewModifier {
         self.isBlured = isBlured
 
         let standardAppearance = UINavigationBarAppearance()
-        standardAppearance.configureWithTransparentBackground()
-        standardAppearance.backgroundColor = .clear
+        standardAppearance.backgroundColor = .white
         let backImage: UIImage?
         if let titleColor = titleColor {
             backImage = R.image.navigation.backButton()?.withTintColor(titleColor.uiColor, renderingMode: .alwaysTemplate)

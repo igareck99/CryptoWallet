@@ -4,6 +4,8 @@ import Foundation
 
 protocol P2PCallUseCaseProtocol: AnyObject {
 
+    var isActiveCallExist: Bool { get }
+    
 	var delegate: P2PCallUseCaseDelegate? { get set }
 
 	func placeVoiceCall(roomId: String, contacts: [Contact])
@@ -87,6 +89,9 @@ final class P2PCallUseCase: NSObject {
 	var callType: P2PCallType = .none
 	weak var delegate: P2PCallUseCaseDelegate?
 	static let shared = P2PCallUseCase()
+    var isActiveCallExist: Bool {
+        (calls.isEmpty == false) || (activeCall != nil) || (onHoldCall != nil)
+    }
 
 	init(
 		matrixService: MatrixServiceProtocol = MatrixService.shared,
@@ -474,6 +479,8 @@ extension P2PCallUseCase: P2PCallUseCaseProtocol {
 		calls[call.callUUID] = nil
 		activeCall?.hangup()
 		activeCall = nil
+        
+//        call.room.mxSession.callManager.remove
 
 		guard onHoldCall == nil else { return }
 		endAllCalls()

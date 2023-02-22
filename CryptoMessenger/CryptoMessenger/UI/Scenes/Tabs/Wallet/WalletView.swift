@@ -100,22 +100,25 @@ struct WalletView: View {
                         destination: tokenInfoView(),
                         isActive: $showTokenInfo
                     ) { EmptyView() }
-                
+
                 sendButton
                     .padding(.horizontal, 16)
-                
+
                 transactionTitleView
                     .padding(.top, 24)
-                
-                    if viewModel.transactionsList(index: index).isEmpty {
+
+                    if viewModel.transactionsList(index: pageIndex).isEmpty {
                         emptyTransactionsView
                             .padding(.top, 32)
                     } else {
                         transactionView
-                            .padding(.top, 24)
+                            .padding(.top, 8)
                             .background(
                                 GeometryReader { insideProxy in
-                                    let offset = calculateContentOffset(fromOutsideProxy: outsideProxy, insideProxy: insideProxy)
+                                    let offset = calculateContentOffset(
+                                        fromOutsideProxy: outsideProxy,
+                                        insideProxy: insideProxy
+                                    )
                                     Color.clear.preference(
                                         key: ScrollViewOffsetPreferenceKey.self,
                                         value: offset
@@ -123,7 +126,6 @@ struct WalletView: View {
                                 }
                             )
                     }
-                
             }
             .coordinateSpace(name: "scroll")
             .onPreferenceChange(ScrollViewOffsetPreferenceKey.self) { value in
@@ -166,7 +168,7 @@ struct WalletView: View {
             }
         }
     }
-    
+
     private func calculateContentOffset(
         fromOutsideProxy outsideProxy: GeometryProxy,
         insideProxy: GeometryProxy
@@ -283,10 +285,11 @@ struct WalletView: View {
     private var transactionTitleView: some View {
         HStack {
             Text(R.string.localizable.walletTransaction())
-                .font(.medium(15))
+                .font(.system(size: 16, weight: .semibold))
                 .padding(.leading, 16)
             Spacer()
         }
+        .frame(height: 21)
     }
 
     private var sendButton: some View {

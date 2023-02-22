@@ -91,7 +91,7 @@ struct ContactRow: View {
             if !hideSeparator {
                 Rectangle()
                     .fill(Color(.gray(0.7)))
-                    .frame(height: 1)
+                    .frame(height: 0.5)
                     .padding(.leading, 68)
             }
         }

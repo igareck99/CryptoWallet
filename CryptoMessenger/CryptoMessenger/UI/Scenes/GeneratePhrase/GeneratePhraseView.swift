@@ -62,7 +62,7 @@ struct GeneratePhraseView: View {
                 .padding(.top, 24)
            
             Button {
-                print("generatePhraseQuestion")
+                debugPrint("generatePhraseQuestion")
             } label: {
                 Text(R.string.localizable.generatePhraseQuestion())
                     .frame(maxWidth: .infinity)
@@ -125,7 +125,7 @@ struct GeneratePhraseView: View {
         Button {
             viewModel.toggleState(.importing)
         } label: {
-            
+
             Text(R.string.localizable.generatePhraseImportKey())
                 .frame(width: 237)
                 .font(.system(size: 17, weight: .semibold))
@@ -136,7 +136,9 @@ struct GeneratePhraseView: View {
 
     private var createKeyButton: some View {
         Button {
-            if viewModel.generatePhraseState == .watchKey {
+            if (viewModel.generatePhraseState == .watchKey ||
+                viewModel.generatePhraseState == .generate) &&
+                viewModel.generatedKey.isEmpty == false {
                 UIPasteboard.general.string = viewModel.generatedKey
                 viewModel.onPhraseCopy()
             }

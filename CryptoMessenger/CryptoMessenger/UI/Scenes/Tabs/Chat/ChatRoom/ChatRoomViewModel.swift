@@ -159,10 +159,10 @@ final class ChatRoomViewModel: ObservableObject {
 
 	private func updateToggles() {
 		let isP2PChat = room.room.isDirect == true && room.room.summary?.membersCount?.joined == 2
-		let isCallInProgress = settings.bool(forKey: .isCallInprogressExists)
+        let call = room.room.mxSession.callManager.call(inRoom: room.room.roomId)
+        let isCallInProgress = p2pCallsUseCase.isActiveCallExist && (call != nil)
 		let isCallAvailable = availabilityFacade.isCallAvailable
         self.isVoiceCallAvailablility = isCallAvailable && isP2PChat && !isCallInProgress
-        self.isVoiceCallAvailablility = isCallAvailable && isP2PChat
         self.isChatDirectMenuAvailable = availabilityFacade.isChatDirectMenuAvailable
         self.isChatGroupMenuAvailable = availabilityFacade.isChatGroupMenuAvailable
 		let isVideoCallAvailable = availabilityFacade.isVideoCallAvailable
