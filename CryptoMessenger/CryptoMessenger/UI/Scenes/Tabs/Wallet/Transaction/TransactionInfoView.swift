@@ -16,7 +16,6 @@ struct TransactionInfoView: View {
 					ZStack {
 						Circle()
 							.frame(width: 40, height: 40)
-                            .foregroundColor(transaction.type == .send ? .azureRadianceApprox : .jungleGreenApprox)
 						transaction.type == .send ?
 						R.image.wallet.writeOff.image :
 						R.image.wallet.inflow.image
@@ -48,7 +47,10 @@ struct TransactionInfoView: View {
 	private func transactionAmount() -> some View {
         Text("\(transaction.sign) \(transaction.amount) \(transaction.transactionCoin.abbreviatedName)")
             .font(.system(size: 17))
-            .foregroundColor(transaction.type == .send ? .woodSmokeApprox : .jungleGreenApprox)
+            .foregroundColor(
+                transaction.type == .send ?
+                    .woodSmokeApprox : .jungleGreenApprox
+            )
             .lineLimit(1)
             .truncationMode(.middle)
 	}

@@ -2974,7 +2974,6 @@
 		5A187DBD26806EF8001957D3 /* CryptoMessenger */ = {
 			isa = PBXGroup;
 			children = (
-				D4DF2B3628F588F10057499A /* Swipe Actions */,
 				D4EFE70A28E2AF0F0075CC10 /* MatrixSDK */,
 				D4EFE6F928E2AF0F0075CC10 /* MatrixSDKExtensions */,
 				D4D439F528374AD100AC0DEF /* CryptoMessenger-Bridging-Header.h */,
@@ -3128,6 +3127,7 @@
 		5A187E4A2680708D001957D3 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				D4DF2B3628F588F10057499A /* Swipe Actions */,
 				D46B7C63297E934500BA4A9B /* Custom Confirm Dialog */,
 				D46C9010294774FD00DD0B01 /* Segmented Controll */,
 				D4A26E2329368DA400FEADC2 /* Empty State View */,
