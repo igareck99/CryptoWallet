@@ -207,7 +207,6 @@ NS_ASSUME_NONNULL_END
 	// Riot-iOS does not directly use it but extracts params from it (see `[JitsiViewController openWidget:withVideo:]`)
 	// This url can be used as is inside a web container (like iframe for Riot-web)
     NSString *appUrlString = url;
-//    @"https://meet.auramsg.co";
 
 	// We mix v1 and v2 param for backward compability
 	NSArray *v1queryStringParts = @[

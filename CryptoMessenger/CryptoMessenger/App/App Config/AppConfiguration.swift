@@ -4,9 +4,12 @@ import UIKit.UIDevice
 protocol ConfigType {
     var stand: Stand { get }
 
+    var cryptoWallet: String { get }
+    var cryptoWalletURL: URL { get }
+
     var jitsiMeetURL: URL { get }
     var jitsiMeetString: String { get }
-    
+
     var matrixURL: URL { get }
     var apiURL: URL { get }
     var apiUrlString: String { get }
@@ -39,6 +42,14 @@ final class Configuration: ConfigType {
         ApiVersion(currentConfig.apiVersion)
     }
 
+    var cryptoWallet: String {
+        currentConfig.cryptoWallet
+    }
+
+    var cryptoWalletURL: URL {
+        currentConfig.cryptoWallet.asURL()
+    }
+
     var apiURL: URL {
         currentConfig.apiUrl.asURL()
     }
@@ -50,11 +61,11 @@ final class Configuration: ConfigType {
     var matrixURL: URL {
         currentConfig.matrixUrl.asURL()
     }
-    
+
     var jitsiMeetURL: URL {
         currentConfig.jitsiMeet.asURL()
     }
-    
+
     var jitsiMeetString: String {
         currentConfig.jitsiMeet
     }
