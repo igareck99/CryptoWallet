@@ -110,7 +110,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
-                self.rooms = self.matrixUseCase.rooms ?? []
+                self.rooms = self.matrixUseCase.rooms
                 let notJoinRoom = self.rooms.first { $0.summary.membership == .invite }
                 notJoinRoom.map { room in
                     self.joinRoom(room)
@@ -132,8 +132,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     private func allowPushNotifications() {
         if userSettings.isRoomNotificationsEnable {
             for item in rooms {
-                pushNotification.allMessages(room: item) { _ in
-                }
+                pushNotification.allMessages(room: item) { _ in }
             }
         }
     }

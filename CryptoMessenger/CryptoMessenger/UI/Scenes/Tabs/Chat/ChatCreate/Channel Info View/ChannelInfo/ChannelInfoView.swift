@@ -219,7 +219,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         List {
             changeGroupInfoView
                 .frame(maxWidth: .infinity)
-                .listRowInsets(.none)
+                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 .listRowBackground(Color.clear)
             Section {
                 changeChannelTypeView()
@@ -259,20 +259,19 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 placeholder: "",
                 color: Palette.white()
             )
-            .cornerRadius(8)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.white)
+            )
             
-            HStack {
-                TextEditor(text: viewModel.channelTopic)
-                .padding(.leading, 16)
+            TextEditor(text: viewModel.channelTopic)
+                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
                 .background(.white())
                 .foreground(.black())
-                .font(.regular(15))
-                .frame(width: UIScreen.main.bounds.width - 32,
-                       height: 134)
+                .font(.system(size: 17))
+                .frame(height: 134)
                 .cornerRadius(8)
                 .keyboardType(.alphabet)
-            }
-            .padding(.horizontal, 16)
         }
     }
 
@@ -284,7 +283,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .foregroundColor(.cyan)
                 .frame(width: 80, height: 80)
                 .padding(.bottom, 16)
-            Text(viewModel.channelName.wrappedValue)
+            Text(viewModel.channelNameText)
                 .font(.system(size: 22))
                 .foregroundColor(.black)
                 .padding(.bottom, 4)
@@ -295,7 +294,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     }
     
     private func channelDescriptionView() -> some View {
-        Text(viewModel.channelTopic.wrappedValue)
+        Text(viewModel.channelTopicText)
         .font(.system(size: 17))
         .foregroundColor(.black)
     }

@@ -8,7 +8,7 @@ target 'CryptoMessenger' do
   # Pods for CryptoMessenger
 
   # Matrix core
-	pod 'JitsiMeetSDK'
+	pod 'JitsiMeetSDK', '~> 7.0.1'
 	pod 'SwiftJWT', '~> 3.6.200'
 
   # Firebase
