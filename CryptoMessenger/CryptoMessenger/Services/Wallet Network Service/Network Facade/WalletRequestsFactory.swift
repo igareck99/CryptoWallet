@@ -18,7 +18,10 @@ protocol WalletRequestsFactoryProtocol {
 
 struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
 
-	private let baseUrl = URL(string: "https://crypto.auramsg.co/")!
+    private let config: ConfigType = Configuration.shared
+    private var baseUrl: URL {
+        config.cryptoWallet.asURL()
+    }
 
 	enum NetType: String {
 		case mainnet

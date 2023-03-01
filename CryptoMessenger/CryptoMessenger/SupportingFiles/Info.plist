@@ -6,6 +6,8 @@
 	<string>dev</string>
 	<key>DebugUrlConfig</key>
 	<dict>
+        <key>CryptoWallet</key>
+        <string>https://crypto.auramsg.co</string>
 		<key>JitsiMeet</key>
 		<string>https://meet.auramsg.co</string>
 		<key>Matrix</key>
@@ -17,6 +19,8 @@
 	</dict>
 	<key>ReleaseUrlConfig</key>
 	<dict>
+        <key>CryptoWallet</key>
+        <string>https://crypto.aura.ms</string>
 		<key>JitsiMeet</key>
 		<string>https://meet.aura.ms</string>
 		<key>Matrix</key>
