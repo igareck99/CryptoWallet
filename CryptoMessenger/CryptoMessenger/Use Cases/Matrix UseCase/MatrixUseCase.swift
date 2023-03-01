@@ -3,7 +3,11 @@ import Foundation
 
 // swiftlint:disable all
 
+// MARK: - MatrixUseCase
+
 final class MatrixUseCase {
+
+    // MARK: - Private Properties
 
 	private let matrixService: MatrixServiceProtocol
 	private let keychainService: KeychainServiceProtocol
@@ -13,7 +17,11 @@ final class MatrixUseCase {
 	private let toggles: MatrixUseCaseTogglesProtocol
     private let config: ConfigType
 
+    // MARK: - Static Properties
+
 	static let shared = MatrixUseCase()
+    
+    // MARK: - Lifecycle
 
     init(
         matrixService: MatrixServiceProtocol = MatrixService.shared,
@@ -29,6 +37,8 @@ final class MatrixUseCase {
         self.config = config
 		observeLoginState()
 	}
+
+    // MARK: - Private Methods
 
 	private func observeLoginState() {
 		NotificationCenter.default
@@ -91,7 +101,7 @@ final class MatrixUseCase {
 	}
 }
 
-// MARK: - MatrixUseCaseProtocol
+// MARK: - MatrixUseCase(MatrixUseCaseProtocol)
 
 extension MatrixUseCase: MatrixUseCaseProtocol {
 
@@ -170,7 +180,6 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
         }) else {
             return nil
         }
-        
         return room
     }
     
@@ -197,8 +206,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 	}
 
     func isRoomEncrypted(roomId: String) -> Bool {
-        matrixService.isRoomEncrypted(roomId: roomId) { value in
-            print("sklaslakslkals  \(value)")
+        matrixService.isRoomEncrypted(roomId: roomId) { _ in
         }
         return true
     }
@@ -213,8 +221,14 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
                       isPublic: Bool,
                       completion: @escaping (MXResponse<Void>?) -> Void) {
         matrixService.setRoomState(roomId: roomId,
-                                   isPublic: isPublic) { value in
-            print("setRoomState   \(value)")
+                                   isPublic: isPublic) { _ in
+        }
+    }
+
+    func setJoinRule(roomId: String, isPublic: Bool,
+                     completion: @escaping (MXResponse<Void>?) -> Void) {
+        matrixService.setJoinRule(roomId: roomId,
+                                  isPublic: isPublic) { _ in
         }
     }
 

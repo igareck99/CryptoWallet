@@ -344,7 +344,6 @@
 		8B2D40F3295D0B9F009D9581 /* GeneratePhraseProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F2295D0B9F009D9581 /* GeneratePhraseProtocols.swift */; };
 		8B2D40F5295D0CFD009D9581 /* GeneratePhraseFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F4295D0CFD009D9581 /* GeneratePhraseFlow.swift */; };
 		8B32FEAA298832ED0017082A /* ChannelInfoProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEA9298832ED0017082A /* ChannelInfoProtocols.swift */; };
-		8B32FEAC298833630017082A /* ChannelInfoConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEAB298833630017082A /* ChannelInfoConfigurator.swift */; };
 		8B32FEAE298858650017082A /* ChannelInfoFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEAD298858650017082A /* ChannelInfoFlow.swift */; };
 		8B32FEB129885F210017082A /* ChannelMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEB029885F210017082A /* ChannelMediaView.swift */; };
 		8B32FEB3298860F40017082A /* ChannelMediaConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEB2298860F40017082A /* ChannelMediaConfigurator.swift */; };
@@ -390,6 +389,15 @@
 		8B432CC627C3955A0025D62B /* WalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC527C3955A0025D62B /* WalletViewModel.swift */; };
 		8B432CC827C395B00025D62B /* WalletProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC727C395B00025D62B /* WalletProtocols.swift */; };
 		8B432CCA27C3DA040025D62B /* WalletConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC927C3DA030025D62B /* WalletConfigurator.swift */; };
+		8B451FDF299EBFA700BF4646 /* ChannelNewOwnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FDE299EBFA700BF4646 /* ChannelNewOwnerView.swift */; };
+		8B451FE229A4317600BF4646 /* ReserveCopyResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE129A4317600BF4646 /* ReserveCopyResources.swift */; };
+		8B451FE429A433EB00BF4646 /* GeneratePhraseResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE329A433EB00BF4646 /* GeneratePhraseResources.swift */; };
+		8B451FE629A436C400BF4646 /* NotificationsSettingsSourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE529A436C400BF4646 /* NotificationsSettingsSourcable.swift */; };
+		8B451FE829A4389500BF4646 /* FriendProfileSourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE729A4389500BF4646 /* FriendProfileSourcable.swift */; };
+		8B451FEA29A43A8100BF4646 /* ImportPhraseSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE929A43A8100BF4646 /* ImportPhraseSources.swift */; };
+		8B451FEC29A43EDC00BF4646 /* SuccessFacilityResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FEB29A43EDC00BF4646 /* SuccessFacilityResources.swift */; };
+		8B451FEE29A440CD00BF4646 /* TokenInfoSourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FED29A440CD00BF4646 /* TokenInfoSourcable.swift */; };
+		8B451FF029A442D400BF4646 /* ChooseReciverSourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FEF29A442D400BF4646 /* ChooseReciverSourcable.swift */; };
 		8B4810F627CF81F000831589 /* AddWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810F527CF81F000831589 /* AddWalletView.swift */; };
 		8B4810F927CF98BB00831589 /* ImportKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810F827CF98BB00831589 /* ImportKeyView.swift */; };
 		8B4810FB27CF9BA600831589 /* ImportKeyFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FA27CF9BA600831589 /* ImportKeyFlow.swift */; };
@@ -1609,7 +1617,6 @@
 		8B2D40F2295D0B9F009D9581 /* GeneratePhraseProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseProtocols.swift; sourceTree = "<group>"; };
 		8B2D40F4295D0CFD009D9581 /* GeneratePhraseFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseFlow.swift; sourceTree = "<group>"; };
 		8B32FEA9298832ED0017082A /* ChannelInfoProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoProtocols.swift; sourceTree = "<group>"; };
-		8B32FEAB298833630017082A /* ChannelInfoConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoConfigurator.swift; sourceTree = "<group>"; };
 		8B32FEAD298858650017082A /* ChannelInfoFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoFlow.swift; sourceTree = "<group>"; };
 		8B32FEB029885F210017082A /* ChannelMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaView.swift; sourceTree = "<group>"; };
 		8B32FEB2298860F40017082A /* ChannelMediaConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaConfigurator.swift; sourceTree = "<group>"; };
@@ -1655,6 +1662,15 @@
 		8B432CC527C3955A0025D62B /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
 		8B432CC727C395B00025D62B /* WalletProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletProtocols.swift; sourceTree = "<group>"; };
 		8B432CC927C3DA030025D62B /* WalletConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletConfigurator.swift; sourceTree = "<group>"; };
+		8B451FDE299EBFA700BF4646 /* ChannelNewOwnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelNewOwnerView.swift; sourceTree = "<group>"; };
+		8B451FE129A4317600BF4646 /* ReserveCopyResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyResources.swift; sourceTree = "<group>"; };
+		8B451FE329A433EB00BF4646 /* GeneratePhraseResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseResources.swift; sourceTree = "<group>"; };
+		8B451FE529A436C400BF4646 /* NotificationsSettingsSourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettingsSourcable.swift; sourceTree = "<group>"; };
+		8B451FE729A4389500BF4646 /* FriendProfileSourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileSourcable.swift; sourceTree = "<group>"; };
+		8B451FE929A43A8100BF4646 /* ImportPhraseSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPhraseSources.swift; sourceTree = "<group>"; };
+		8B451FEB29A43EDC00BF4646 /* SuccessFacilityResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessFacilityResources.swift; sourceTree = "<group>"; };
+		8B451FED29A440CD00BF4646 /* TokenInfoSourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoSourcable.swift; sourceTree = "<group>"; };
+		8B451FEF29A442D400BF4646 /* ChooseReciverSourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReciverSourcable.swift; sourceTree = "<group>"; };
 		8B4810F527CF81F000831589 /* AddWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWalletView.swift; sourceTree = "<group>"; };
 		8B4810F827CF98BB00831589 /* ImportKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyView.swift; sourceTree = "<group>"; };
 		8B4810FA27CF9BA600831589 /* ImportKeyFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyFlow.swift; sourceTree = "<group>"; };
@@ -4224,6 +4240,7 @@
 				8B334154295B74A60062903C /* SearchTypeView.swift */,
 				8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */,
 				8B86A4A42992BA7500B6A67B /* EnterAdressUserView.swift */,
+				8B451FEF29A442D400BF4646 /* ChooseReciverSourcable.swift */,
 			);
 			path = ChooseReciver;
 			sourceTree = "<group>";
@@ -4252,6 +4269,7 @@
 				8B23C77028E0A1BE00418F2D /* FriendProfileFlow.swift */,
 				8B23C77228E0A1CA00418F2D /* FriendProfileProtocols.swift */,
 				8B23C77428E0CC2000418F2D /* FriendProfileViewModel.swift */,
+				8B451FE729A4389500BF4646 /* FriendProfileSourcable.swift */,
 			);
 			path = FriendProfileView;
 			sourceTree = "<group>";
@@ -4271,6 +4289,7 @@
 				8B2D40F0295D0B87009D9581 /* GeneratePhraseViewModel.swift */,
 				8B2D40F2295D0B9F009D9581 /* GeneratePhraseProtocols.swift */,
 				8B2D40F4295D0CFD009D9581 /* GeneratePhraseFlow.swift */,
+				8B451FE329A433EB00BF4646 /* GeneratePhraseResources.swift */,
 			);
 			path = GeneratePhrase;
 			sourceTree = "<group>";
@@ -4303,6 +4322,7 @@
 				8B34293929793F5000F63DE1 /* ReservePhraseCopyProtocols.swift */,
 				8B34293B29793F8C00F63DE1 /* ReservePhraseCopyConfigurator.swift */,
 				8B34293D2979415E00F63DE1 /* ReservePhraseCopyFlow.swift */,
+				8B451FE129A4317600BF4646 /* ReserveCopyResources.swift */,
 			);
 			path = ReserveCopy;
 			sourceTree = "<group>";
@@ -4381,6 +4401,18 @@
 			path = Wallet;
 			sourceTree = "<group>";
 		};
+		8B451FE029A42F5700BF4646 /* ChannelInfo */ = {
+			isa = PBXGroup;
+			children = (
+				8B32FEC1298B21130017082A /* ChannelInfoAssembly.swift */,
+				D4E7A197298D2C1000398F93 /* ChannelInfoResources.swift */,
+				D4506987297A4ACA009515C8 /* ChannelInfoView.swift */,
+				D4506989297A4AD6009515C8 /* ChannelInfoViewModel.swift */,
+				8B32FEA9298832ED0017082A /* ChannelInfoProtocols.swift */,
+			);
+			path = ChannelInfo;
+			sourceTree = "<group>";
+		};
 		8B4810F727CF987600831589 /* ImportKey */ = {
 			isa = PBXGroup;
 			children = (
@@ -4446,6 +4478,7 @@
 			children = (
 				8B4E9C4C27E3ADF80057E4C9 /* SuccessFacilityView.swift */,
 				8B4E9C4E27E400BE0057E4C9 /* SuccessFacilityFlow.swift */,
+				8B451FEB29A43EDC00BF4646 /* SuccessFacilityResources.swift */,
 			);
 			path = SuccessFacility;
 			sourceTree = "<group>";
@@ -4766,6 +4799,7 @@
 				8BBF9087293514FE00936F4D /* NotificationSettingsFlow.swift */,
 				8BBF90892935150E00936F4D /* NotificationSettingsConfigurator.swift */,
 				8BBF908B2935153400936F4D /* NotificationSettingsProtocol.swift */,
+				8B451FE529A436C400BF4646 /* NotificationsSettingsSourcable.swift */,
 			);
 			path = NotificationsSettings;
 			sourceTree = "<group>";
@@ -4896,6 +4930,7 @@
 				8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */,
 				8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */,
 				8BE3799827EA133700AB6B6E /* SelectTokenView.swift */,
+				8B451FED29A440CD00BF4646 /* TokenInfoSourcable.swift */,
 			);
 			path = TokenInfo;
 			sourceTree = "<group>";
@@ -4910,6 +4945,7 @@
 				8BE3799F27EB26BC00AB6B6E /* WalletManagerFlow.swift */,
 				8BE379A127EB26CC00AB6B6E /* WalletManagerConfigurator.swift */,
 				8BE379A327EB270E00AB6B6E /* WalletManagerProtocols.swift */,
+				8B451FE929A43A8100BF4646 /* ImportPhraseSources.swift */,
 			);
 			path = ImportPhrase;
 			sourceTree = "<group>";
@@ -5248,19 +5284,14 @@
 		D4506986297A4A7D009515C8 /* Channel Info View */ = {
 			isa = PBXGroup;
 			children = (
+				8B451FE029A42F5700BF4646 /* ChannelInfo */,
 				8B32FEAF29885F0D0017082A /* ChannelMediaView */,
 				D44C8A8D298131DC00383A46 /* User Settings View */,
 				D450698B297A4DBF009515C8 /* Views */,
-				D4506987297A4ACA009515C8 /* ChannelInfoView.swift */,
-				D4506989297A4AD6009515C8 /* ChannelInfoViewModel.swift */,
-				8B32FEA9298832ED0017082A /* ChannelInfoProtocols.swift */,
-				8B32FEAB298833630017082A /* ChannelInfoConfigurator.swift */,
 				D4E7A181298A203300398F93 /* ChannelUsersFactory.swift */,
 				8B32FEAD298858650017082A /* ChannelInfoFlow.swift */,
 				8B32FEB429886C1C0017082A /* ChannelMediaEmptyState.swift */,
 				8B32FEB6298AC8480017082A /* ChannelUsersFactory.swift */,
-				8B32FEC1298B21130017082A /* ChannelInfoAssembly.swift */,
-				D4E7A197298D2C1000398F93 /* ChannelInfoResources.swift */,
 			);
 			path = "Channel Info View";
 			sourceTree = "<group>";
@@ -5270,6 +5301,7 @@
 			children = (
 				D450698C297A4DCE009515C8 /* ChannelSettingsView.swift */,
 				D450698E297A65FA009515C8 /* ChannelParticipantView.swift */,
+				8B451FDE299EBFA700BF4646 /* ChannelNewOwnerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -7861,6 +7893,7 @@
 				D4EFEB1128E2AF100075CC10 /* MXMegolmEncryption.m in Sources */,
 				D4EFEB0B28E2AF100075CC10 /* MXSharedHistoryKeyService.m in Sources */,
 				78437F10270C76FE00371110 /* AboutAppView.swift in Sources */,
+				8B451FE829A4389500BF4646 /* FriendProfileSourcable.swift in Sources */,
 				D4EFEC8928E2AF110075CC10 /* MXFileStore.m in Sources */,
 				D4AAD74B294855C000A26515 /* FeeRequestParams.swift in Sources */,
 				D4EFEC0228E2AF110075CC10 /* MXBeaconInfoSummaryProtocol.swift in Sources */,
@@ -8326,6 +8359,7 @@
 				5A9318B926BD210400645365 /* PinCodeView.swift in Sources */,
 				D4EFEBC228E2AF100075CC10 /* MXLoginTerms.m in Sources */,
 				8B24FDD827A820C60021177C /* SessionProtocols.swift in Sources */,
+				8B451FDF299EBFA700BF4646 /* ChannelNewOwnerView.swift in Sources */,
 				D4EFEC2228E2AF110075CC10 /* NSObject+sortedKeys.m in Sources */,
 				8B34293129787A5F00F63DE1 /* PrivacyCellView.swift in Sources */,
 				D4533A182833567D00B956B2 /* RemoteConfigValues.swift in Sources */,
@@ -8341,7 +8375,6 @@
 				D44B4E94294AF7C200D64F5E /* TransactionSendRequestParams.swift in Sources */,
 				5AF8634826AC0B82004A417C /* MaterialLoadingIndicator.swift in Sources */,
 				8B432CC827C395B00025D62B /* WalletProtocols.swift in Sources */,
-				8B32FEAC298833630017082A /* ChannelInfoConfigurator.swift in Sources */,
 				7846B65A26E8BBDC00B05984 /* ScrollSynchronizer.swift in Sources */,
 				D4EFEB3528E2AF100075CC10 /* MXKeyVerificationRequest.m in Sources */,
 				D4EFEC1428E2AF110075CC10 /* MXRoomState.swift in Sources */,
@@ -8550,6 +8583,7 @@
 				8BE379B127EB82A000AB6B6E /* KeyListActionView.swift in Sources */,
 				D4EFEC9B28E2AF110075CC10 /* MXRealmBeaconInfo.swift in Sources */,
 				5A187F2C2680CF49001957D3 /* URLRequest+QueryItems.swift in Sources */,
+				8B451FE229A4317600BF4646 /* ReserveCopyResources.swift in Sources */,
 				5A187F342680CF49001957D3 /* ContactsManager.swift in Sources */,
 				8B34D77A277DA1AB007811C9 /* PersonalizationTitleItems.swift in Sources */,
 				D4B39AFE289BE271006F2D99 /* Dictionary+Extensions.swift in Sources */,
@@ -8587,12 +8621,14 @@
 				D40D7D7E290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift in Sources */,
 				D4EFEB6628E2AF100075CC10 /* MXDeviceList.m in Sources */,
 				5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */,
+				8B451FEC29A43EDC00BF4646 /* SuccessFacilityResources.swift in Sources */,
 				8B34292D29786EEC00F63DE1 /* SecurityAdvancedCellView.swift in Sources */,
 				D4EFEC6728E2AF110075CC10 /* MXRoomListDataCounts.swift in Sources */,
 				7889064C27068E700093459C /* NetworkDetailViewModel.swift in Sources */,
 				8B4E9C3F27E0AA150057E4C9 /* WalletAdressScanerFlow.swift in Sources */,
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
 				D49F8AF9297FA5AF00405749 /* TextActionViewModel.swift in Sources */,
+				8B451FEE29A440CD00BF4646 /* TokenInfoSourcable.swift in Sources */,
 				D4EFEB0628E2AF100075CC10 /* MXPendingSecretShareRequest.m in Sources */,
 				D4EFEC9328E2AF110075CC10 /* MXBeaconInfoSummaryPerRoomListener.swift in Sources */,
 				8BA0C8FC27AD19A70070203F /* ChatSettingsViewModel.swift in Sources */,
@@ -8721,6 +8757,7 @@
 				D4EFEB1328E2AF100075CC10 /* MXMegolmExportEncryption.m in Sources */,
 				D4EFEBFF28E2AF110075CC10 /* RLMSupport.swift in Sources */,
 				D4EFEB5028E2AF100075CC10 /* MXEventDecryptionResult+DecryptedEvent.swift in Sources */,
+				8B451FEA29A43A8100BF4646 /* ImportPhraseSources.swift in Sources */,
 				D46B7C6E297E98AF00BA4A9B /* CancelActionViewModel.swift in Sources */,
 				D4EFEC0128E2AF110075CC10 /* MXMediaManager.m in Sources */,
 				D44D61D828951D0F004F5301 /* SocialListItemView.swift in Sources */,
@@ -8775,6 +8812,7 @@
 				8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */,
 				D4EFEB0428E2AF100075CC10 /* MXSecretShareSend.m in Sources */,
 				8B5D83F5283B81B60035815B /* ContactInfoViewModel.swift in Sources */,
+				8B451FF029A442D400BF4646 /* ChooseReciverSourcable.swift in Sources */,
 				D4EFEBAE28E2AF100075CC10 /* MXRoomPowerLevels.m in Sources */,
 				8B32FEC4298B21C70017082A /* UserSettingsViewModel.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
@@ -8796,6 +8834,7 @@
 				8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */,
 				8BBF908E2935581F00936F4D /* NotificationSettingsCell.swift in Sources */,
 				D4EFEB2128E2AF100075CC10 /* MXKeyData.m in Sources */,
+				8B451FE629A436C400BF4646 /* NotificationsSettingsSourcable.swift in Sources */,
 				D4EFEC2528E2AF110075CC10 /* MXiOSAudioOutputRouterDelegate.swift in Sources */,
 				8B2C78C32939486B002E9432 /* ImageRemoteViewer.swift in Sources */,
 				8BE3798F27E9C47D00AB6B6E /* TokenInfoView.swift in Sources */,
@@ -8900,6 +8939,7 @@
 				8B1564F728AAF1C000A69B85 /* ShareTextView.swift in Sources */,
 				D4857D0028AF57BE00C904EC /* ChatEventView.swift in Sources */,
 				D4EFEB3F28E2AF100075CC10 /* MXSelfVerifyingMasterKeyTrustedQRCodeData.m in Sources */,
+				8B451FE429A433EB00BF4646 /* GeneratePhraseResources.swift in Sources */,
 				D4DF2B3D28F589090057499A /* ValueChangedModifier.swift in Sources */,
 				8B34A9F228D45FC20097ED9E /* DirectActions.swift in Sources */,
 				5AF8635026AD9FE5004A417C /* GenerationInfoPresenter.swift in Sources */,

@@ -36,7 +36,9 @@ protocol MatrixServiceProtocol {
     func isRoomPublic(roomId: String, completion: @escaping (Bool?) -> Void)
     func setRoomState(roomId: String,
                       isPublic: Bool,
-                      completion: @escaping (MXResponse<Void>?) -> Void) 
+                      completion: @escaping (MXResponse<Void>?) -> Void)
+    func setJoinRule(roomId: String, isPublic: Bool,
+                     completion: @escaping (MXResponse<Void>?) -> Void)
 	func startListeningForRoomEvents()
 	func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void)
 	func uploadData(data: Data, for room: MXRoom, completion: @escaping GenericBlock<URL?>)

@@ -3,7 +3,9 @@ import Combine
 // MARK: - SelectChannelTypeViewModel
 
 final class SelectChannelTypeViewModel: ObservableObject {
-    
+
+    // MARK: - Internal Properties
+
     var roomId: String
     var isRoomPublic = false
     @Published var isPublicSelected = false
@@ -24,10 +26,9 @@ final class SelectChannelTypeViewModel: ObservableObject {
     // MARK: - Internal Methods
 
     func updateSettings() {
-        matrixUseCase.isRoomPublic(roomId: roomId) { vbalue in
-            guard let result = vbalue else { return }
+        matrixUseCase.isRoomPublic(roomId: roomId) { value in
+            guard let result = value else { return }
             self.isRoomPublic = result
-            print("skasыфщыфыщыklask  \(self.isRoomPublic)")
             if self.isRoomPublic {
                 self.isPublicSelected = true
             } else {
@@ -41,8 +42,8 @@ final class SelectChannelTypeViewModel: ObservableObject {
         let value = isPublicSelected ? true : false
         if value != isRoomPublic {
             matrixUseCase.setRoomState(roomId: roomId,
-                                       isPublic: value) { result in
-                print("skasklask  \(result)")
+                                       isPublic: value) { _ in
+                self.updateSettings()
             }
         }
     }

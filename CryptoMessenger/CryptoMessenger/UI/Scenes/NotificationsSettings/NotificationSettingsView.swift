@@ -32,7 +32,7 @@ struct NotificationSettingsView: View {
                         NotificationSettingsCell(field: $viewModel.messagePriority)
                             .listRowSeparator(.hidden)
                     } header: {
-                        Text("Сообщения")
+                        Text(viewModel.sources.messages)
                     }
                     .listSectionSeparator(.hidden, edges: [.top])
                     .listSectionSeparator(.visible, edges: [.bottom])
@@ -44,7 +44,7 @@ struct NotificationSettingsView: View {
                         NotificationSettingsCell(field: $viewModel.groupPriority)
                             .listRowSeparator(.hidden)
                     } header: {
-                        Text("Группы")
+                        Text(viewModel.sources.groups)
                     }
                     .listSectionSeparator(.hidden, edges: [.top])
                     .listSectionSeparator(.visible, edges: [.bottom])
@@ -56,14 +56,14 @@ struct NotificationSettingsView: View {
                         NotificationSettingsCell(field: $viewModel.parametersCalls)
                             .listRowSeparator(.hidden)
                     } header: {
-                        Text("Параметры")
+                        Text(viewModel.sources.parametrs)
                             .listRowSeparator(.hidden)
                     }
                     .listSectionSeparator(.hidden, edges: [.top])
                     .listSectionSeparator(.visible, edges: [.bottom])
                 }
                 if viewModel.isNotificationsReset {
-                    Text("Сбросить настройки уведомлений")
+                    Text(viewModel.sources.resetSettings)
                         .font(.regular(15))
                         .foreground(.red())
                         .padding(.top, 16)
@@ -80,7 +80,7 @@ struct NotificationSettingsView: View {
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .principal) {
-            Text(R.string.localizable.additionalMenuNotification())
+            Text(viewModel.sources.additionalMenuNotification)
                 .font(.bold(15))
                 .lineLimit(1)
         }

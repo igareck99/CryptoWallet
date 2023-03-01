@@ -11,7 +11,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     @StateObject var viewModel: ViewModel
 
     // MARK: - Private Properties
-
+    
+    @Binding var isLeaveChannel: Bool
     @Environment(\.presentationMode) private var presentationMode
     @State private var showNotificationsView = false
     @State private var showParticipantsView = false
@@ -50,14 +51,26 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         })
         .sheet(isPresented: $showParticipantsView, content: {
             NavigationView {
-                ChannelParticipantsView(viewModel: viewModel,
-                                        showParticipantsView: $showParticipantsView)
+                ChannelParticipantsView(
+                    viewModel: viewModel,
+                    showParticipantsView: $showParticipantsView
+                )
             }
         })
         .sheet(isPresented: $showChannelChangeType, content: {
             NavigationView {
-                SelectChannelTypeView(viewModel: SelectChannelTypeViewModel(roomId: viewModel.roomId),
-                                      showChannelChangeType: $showChannelChangeType) { _ in
+                SelectChannelTypeView(
+                    viewModel: SelectChannelTypeViewModel(roomId: viewModel.roomId),
+                    showChannelChangeType: $showChannelChangeType
+                ) { value in
+                    switch value {
+                    case .publicChannel:
+                        viewModel.isRoomPublicValue = true
+                    case .privateChannel:
+                        viewModel.isRoomPublicValue = false
+                    default:
+                        break
+                    }
                 }
             }
         })
@@ -70,10 +83,13 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         })
         .sheet(isPresented: viewModel.showSelectOwner, content: {
             NavigationView {
-                ChannelAddUserView(
-                    viewModel: SelectContactViewModel(mode: .add)
-                ) { selectedContacts in
-                    viewModel.onAssignNewOwners(users: selectedContacts)
+                ChannelNewOwnerView(users: viewModel.getChannelUsers().filter({
+                    viewModel.getUserRole($0.matrixId) != .owner
+                })) { selectedContacts in
+                    viewModel.onAssignNewOwners(users: selectedContacts) {
+                        isLeaveChannel = true
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 }
             }
         })
@@ -88,7 +104,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 viewModel.showUserSettings.wrappedValue = false
                 viewModel.onUserRemoved()
             }
-            .presentationDetents([.height(223)])
+            .presentationDetents([viewModel.compareRoles() ? .height(223) : .height(109)])
         })
         .customConfirmDialog(
             isPresented: viewModel.showMakeRole,
@@ -142,8 +158,12 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             actions: {
                 TextActionViewModel
                     .LeaveChannel
-                    .actions(viewModel.showLeaveChannel) {
+                    .actions(viewModel.showLeaveChannel,
+                             viewModel.isRoomPublicValue) {
                         viewModel.onLeaveChannel()
+                        if !viewModel.compareRoles() {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
                     }
             }, cancelActions: {
                 TextActionViewModel
@@ -203,7 +223,9 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .listRowBackground(Color.clear)
             Section {
                 changeChannelTypeView()
-                deleteChannelView()
+                if viewModel.getCurrentUserRole() == .owner {
+                    deleteChannelView()
+                }
             }
         }
         .listStyle(.insetGrouped)
@@ -307,7 +329,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             accessoryImageName: ""
         )
         .onTapGesture {
-            debugPrint("copy channel link")
+            UIPasteboard.general.string = viewModel.roomId
             viewModel.onChannelLinkCopy()
         }
     }
@@ -330,10 +352,13 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             title: resources.channelType,
             imageName: "megaphone",
             accessoryImageName: "",
-            value: resources.privateChannel
+            value: viewModel.isRoomPublicValue ? resources.publicChannel :
+                resources.privateChannel
         )
         .onTapGesture {
-            showChannelChangeType = true
+            if viewModel.getCurrentUserRole() == .owner {
+                showChannelChangeType = true
+            }
         }
     }
 
@@ -420,7 +445,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     changeScreen(isEdit: false)
                 }
             }, label: {
-                Text(R.string.localizable.personalizationCancel())
+                Text(resources.presentationCancel)
                     .font(.system(size: 17))
                     .foregroundColor(.azureRadianceApprox)
             })
@@ -430,7 +455,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 viewModel.shouldChange = true
                 changeScreen(isEdit: false)
             }, label: {
-                Text(R.string.localizable.profileDetailRightButton())
+                Text(resources.rightButton)
                     .font(.bold(17))
                     .foregroundColor(.azureRadianceApprox)
             })

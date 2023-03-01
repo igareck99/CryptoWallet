@@ -140,7 +140,7 @@ extension MatrixService {
         room.setPowerLevel(
             ofUser: userId,
             powerLevel: powerLevel
-        ) { [weak self] result in
+        ) { result in
             debugPrint("room.setPowerLevel result: \(result)")
             guard case .success = result else { completion(.failure); return }
             completion(.success)

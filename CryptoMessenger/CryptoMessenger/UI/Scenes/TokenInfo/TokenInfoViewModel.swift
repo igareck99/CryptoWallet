@@ -10,6 +10,7 @@ final class TokenInfoViewModel: ObservableObject {
     @State var address: WalletInfo
     @Published var addresses = [WalletInfo]()
 	var isSnackbarPresented = false
+    let sources: TokenInfoResourcable.Type = TokenInfoResources.self
 
     // MARK: - Private Properties
 

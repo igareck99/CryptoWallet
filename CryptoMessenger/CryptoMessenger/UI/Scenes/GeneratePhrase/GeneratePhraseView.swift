@@ -39,7 +39,7 @@ struct GeneratePhraseView: View {
             alignment: .bottom
         ) {
             Snackbar(
-                text: R.string.localizable.generatePhraseCopied(),
+                text: viewModel.sources.generatePhraseCopied,
                 color: .green
             )
         }
@@ -48,11 +48,11 @@ struct GeneratePhraseView: View {
     private var generateView: some View {
         VStack(alignment: .center, spacing: 0) {
             
-            Text(R.string.localizable.generatePhraseTitle())
+            Text(viewModel.sources.generatePhraseTitle)
                 .font(.regular(22))
                 .padding(.top, 47)
            
-            Text(R.string.localizable.generatePhraseDescription())
+            Text(viewModel.sources.generatePhraseDescription)
                 .font(.regular(15))
                 .foreground(.darkGray())
                 .lineLimit(4)
@@ -72,7 +72,7 @@ struct GeneratePhraseView: View {
             }
             .padding(.vertical, 48)
            
-            R.image.generatePhrase.puzzle.image
+            viewModel.sources.puzzle
                 .padding(.top, 32)
                 .foreground(.blue())
                 .frame(alignment: .center)
@@ -92,18 +92,18 @@ struct GeneratePhraseView: View {
     private var warningView: some View {
         VStack(alignment: .center, spacing: 0) {
             
-            Text(R.string.localizable.generatePhraseWarning())
+            Text(viewModel.sources.generatePhraseWarning)
                 .font(.system(size: 22))
                 .padding(.top, 47)
             
-            Text(R.string.localizable.generatePhraseWarningDescription())
+            Text(viewModel.sources.generatePhraseWarningDescription)
                 .font(.system(size: 15))
                 .foreground(.darkGray())
                 .multilineTextAlignment(.center)
                 .frame(width: 295)
                 .padding(.top, 12)
             
-            R.image.generatePhrase.person.image
+            viewModel.sources.person
                 .padding(.top, 32)
                 .foreground(.blue())
                 .frame(alignment: .center)
@@ -125,8 +125,7 @@ struct GeneratePhraseView: View {
         Button {
             viewModel.toggleState(.importing)
         } label: {
-
-            Text(R.string.localizable.generatePhraseImportKey())
+            Text(viewModel.sources.generatePhraseImportKey)
                 .frame(width: 237)
                 .font(.system(size: 17, weight: .semibold))
                 .padding()
@@ -147,8 +146,8 @@ struct GeneratePhraseView: View {
             switch viewModel.isAnimated {
             case false:
                 Text(viewModel.generatePhraseState == .watchKey ?
-                     R.string.localizable.generatePhraseCopyPhrase() :
-                        R.string.localizable.keyGenerationCreateButton())
+                     viewModel.sources.generatePhraseCopyPhrase :
+                        viewModel.sources.keyGenerationCreateButton)
                 .foregroundColor(.white)
                 .frame(width: 237)
                 .font(.system(size: 17, weight: .semibold))
@@ -167,15 +166,15 @@ struct GeneratePhraseView: View {
     private var watchKeyView: some View {
         VStack(alignment: .center, spacing: 0) {
             
-            Text(R.string.localizable.generatePhraseGeneratedTitle())
+            Text(viewModel.sources.generatePhraseGeneratedTitle)
                 .font(.system(size: 17, weight: .semibold))
                 .padding(.top, 12)
             
-            Text(R.string.localizable.phraseManagerYourSecretPhrase())
+            Text(viewModel.sources.phraseManagerYourSecretPhrase)
                 .font(.system(size: 22))
                 .padding(.top, 59)
             
-            Text(R.string.localizable.generatePhraseGeneratedDescription())
+            Text(viewModel.sources.generatePhraseGeneratedDescription)
                 .font(.system(size: 15))
                 .lineLimit(2)
                 .foreground(.darkGray())

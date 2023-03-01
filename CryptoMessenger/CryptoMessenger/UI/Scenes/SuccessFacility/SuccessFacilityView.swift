@@ -8,6 +8,7 @@ struct SuccessFacilityView: View {
 
     @Binding var showSuccessFacility: Bool
     @State var transaction: FacilityApproveModel
+    let sources: SuccessFacilityResourcable.Type = SuccessFacilityResources.self
 
     // MARK: - Body
 
@@ -39,12 +40,12 @@ struct SuccessFacilityView: View {
 
     private var headerView: some View {
         HStack {
-            R.image.buyCellsMenu.close.image
+            sources.close
                 .onTapGesture {
                     showSuccessFacility = false
                 }
             Spacer()
-            Text(R.string.localizable.successFacilityViewTitle())
+            Text(sources.successFacilityViewTitle)
                 .font(.bold(15))
             Spacer()
         }
@@ -55,7 +56,7 @@ struct SuccessFacilityView: View {
             Circle()
                 .frame(width: 40, height: 40)
                 .foreground(.lightBlue(0.4))
-            R.image.transaction.greenCheck.image
+            sources.greenCheck
         }
     }
 
@@ -76,7 +77,7 @@ struct SuccessFacilityView: View {
                 .fill(Color(.blue(0.1)))
                 .frame(height: 224)
             VStack {
-				R.image.facilityApprove.address.image
+                sources.address
                     .resizable()
                     .clipShape(Circle())
                     .frame(width: 40, height: 40)
@@ -89,7 +90,7 @@ struct SuccessFacilityView: View {
                 }
                 Button {
                 } label: {
-                    Text(R.string.localizable.successFacilityViewAddFavorites())
+                    Text(sources.successFacilityViewAddFavorites)
                         .frame(minWidth: 0, maxWidth: .infinity)
                         .font(.semibold(15))
                         .padding()
@@ -113,7 +114,7 @@ struct SuccessFacilityView: View {
             Divider()
             Button {
             } label: {
-                Text(R.string.localizable.successFacilityViewOKClose())
+                Text(sources.successFacilityViewOKClose)
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .font(.semibold(15))
                     .padding()
@@ -128,7 +129,7 @@ struct SuccessFacilityView: View {
             .padding(.horizontal, 81)
             Button {
             } label: {
-                Text(R.string.localizable.successFacilityViewShowTransaction())
+                Text(sources.successFacilityViewShowTransaction)
                     .frame(minWidth: 0, maxWidth: .infinity)
                     .font(.semibold(15))
                     .padding()

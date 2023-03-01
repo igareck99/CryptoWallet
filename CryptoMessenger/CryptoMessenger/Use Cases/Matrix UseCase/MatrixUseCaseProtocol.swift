@@ -38,6 +38,8 @@ protocol MatrixUseCaseProtocol {
     func setRoomState(roomId: String,
                       isPublic: Bool,
                       completion: @escaping (MXResponse<Void>?) -> Void)
+    func setJoinRule(roomId: String, isPublic: Bool,
+                     completion: @escaping (MXResponse<Void>?) -> Void)
 
 	// MARK: - Pusher
 	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void)

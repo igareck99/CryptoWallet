@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - UserSettingsFactoryProtocol
+
 protocol UserSettingsFactoryProtocol {
     static func makeItems(
         _ tappedUserId: Bool,
@@ -7,7 +9,12 @@ protocol UserSettingsFactoryProtocol {
     ) -> [any ViewGeneratable]
 }
 
+// MARK: - UserSettingsFactory(UserSettingsFactoryProtocol)
+
 enum UserSettingsFactory: UserSettingsFactoryProtocol {
+
+    // MARK: - Static Methods
+
     static func makeItems(
         _ roleCompare: Bool = true,
         viewModel: any UserSettingsViewModelProtocol
@@ -20,7 +27,6 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
             accessoryImageName: "chevron.right",
             accessoryImageColor: .ironApprox
         ) {
-            debugPrint("onTap Open profile")
             viewModel.onTapShowProfile()
         }]
         if roleCompare {
@@ -30,19 +36,19 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
                 imageName: "highlighter",
                 imageColor: .azureRadianceApprox
             ) {
-                debugPrint("onTap Change role")
                 viewModel.onTapChangeRole()
             })
         }
-        views.append(UserSettingModel(
-            title: R.string.localizable.channelSettingsDeleteFromChannel(),
-            titleColor: .amaranthApprox,
-            imageName: "trash",
-            imageColor: .amaranthApprox
-        ) {
-            debugPrint("onTap Remove from channel")
-            viewModel.onTapRemoveUser()
-        })
+        if roleCompare {
+            views.append(UserSettingModel(
+                title: R.string.localizable.channelSettingsDeleteFromChannel(),
+                titleColor: .amaranthApprox,
+                imageName: "trash",
+                imageColor: .amaranthApprox
+            ) {
+                viewModel.onTapRemoveUser()
+            })
+        }
         return views
     }
 }

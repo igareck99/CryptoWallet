@@ -104,11 +104,16 @@ extension CreateChannelViewModel: CreateChannelViewModelProtocol {
         createRoom(parameters: parameters)
         onChannelCreationEnd()
     }
-    
+
     private func createRoom(parameters: MXRoomCreationParameters, roomAvatar: Data? = nil) {
         matrixUseCase.createRoom(parameters: parameters) { [weak self] response in
             switch response {
             case let .success(room):
+                let inviteType = self?.channelType == .publicChannel ? true : false
+                self?.matrixUseCase.setJoinRule(roomId: room.roomId,
+                                                isPublic: inviteType,
+                                                completion: { _ in
+                })
                 guard let data = roomAvatar else {
                     return
                 }

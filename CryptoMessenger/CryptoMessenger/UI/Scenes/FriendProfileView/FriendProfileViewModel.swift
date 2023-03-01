@@ -35,6 +35,7 @@ final class FriendProfileViewModel: ObservableObject {
     @Published var existringUrls: [String] = []
     var p2pVideoCallPublisher = ObservableObjectPublisher()
     let mediaService = MediaService()
+    let sources: FriendProfileResourcable.Type = FriendProfileResources.self
     @Published var userId: Contact
 
     // MARK: - Private Properties

@@ -8,6 +8,8 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
 
     var roomId: String { get }
     
+    var isRoomPublicValue: Bool { get set }
+    
     var shouldChange: Bool { get set }
     
     var channelTopic: Binding<String> { get set }
@@ -40,7 +42,8 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
 
     func onInviteUsersToChannel(users: [Contact])
     
-    func onAssignNewOwners(users:  [Contact])
+    func onAssignNewOwners(users: [ChannelParticipantsData],
+                           completion: @escaping () -> Void)
 
     func onBanUserFromChannel()
 
@@ -68,7 +71,11 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     
     func getCurrentUserRole() -> ChannelRole
     
+    func getUserRole(_ userId: String) -> ChannelRole
+    
     func compareRoles() -> Bool
+    
+    func isRoomPublic()
 }
 
 // MARK: - ChannelInfoViewModel
@@ -231,6 +238,8 @@ final class ChannelInfoViewModel {
             self.showMakeRoleState = newValue
         }
     )
+    
+    var isRoomPublicValue = true
 
     var isSnackbarPresented = false
 
@@ -245,6 +254,7 @@ final class ChannelInfoViewModel {
 
     weak var delegate: ChannelInfoSceneDelegate?
     private var roomPowerLevels: MXRoomPowerLevels?
+    private var eventsListener: MXEventListener?
 
     init(
         roomId: String,
@@ -256,6 +266,8 @@ final class ChannelInfoViewModel {
         self.factory = factory
         self.getRoomInfo()
         self.loadUsers()
+        self.isRoomPublic()
+        self.listenEvents()
     }
     
     private func updateRoomParams() {
@@ -300,16 +312,21 @@ final class ChannelInfoViewModel {
             guard case let .success(state) = result else { return }
 
             debugPrint("roomState result: \(state)")
-            debugPrint("roomState power levels result: \(state.powerLevels)")
+            debugPrint("roomState power levels result: \(String(describing: state.powerLevels))")
             
             self.roomPowerLevels = state.powerLevels
         }
     }
     
     private func loadUsers() {
+        
+        debugPrint("loadUsers")
+        
         matrixUseCase.getRoomMembers(roomId: roomId) { [weak self] result in
-            debugPrint("getRoomMembers result: \(result)")
             guard case let .success(roomMembers) = result else { return }
+            
+            debugPrint("getRoomMembers result: \(String(describing:roomMembers.members))")
+            
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 let users: [ChannelParticipantsData] = self.factory.makeUsersData(users: roomMembers.members, roomPowerLevels: self.roomPowerLevels)
@@ -325,6 +342,21 @@ final class ChannelInfoViewModel {
             self.onShowUserProfile()
         }
     }
+    
+    func listenEvents() {
+        let room = matrixUseCase.getRoomInfo(roomId: roomId)
+        room?.liveTimeline { [weak self] liveTimeLine in
+            let listener = liveTimeLine?.listenToEvents { [weak self] event, direction, roomState in
+                debugPrint("liveTimeLine.listenToEvents: \(event) \(direction) \(String(describing: roomState))")
+                self?.getRoomInfo()
+                self?.loadUsers()
+            } as? MXEventListener
+            
+            self?.eventsListener = listener
+        }
+    }
+    
+    let onInviteUsersToChannelGroup = DispatchGroup()
 }
 
 // MARK: - ChannelInfoViewModelProtocol
@@ -345,7 +377,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
                guard case let .success(state) = result else { return }
 
                debugPrint("roomState result: \(state)")
-               debugPrint("roomState power levels result: \(state.powerLevels)")
+               debugPrint("roomState power levels result: \(String(describing: state.powerLevels))")
 
                guard
                    let currentUserPowerLevel: Int = state.powerLevels?.powerLevelOfUser(withUserID: currentUserId) else {
@@ -413,6 +445,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
                 reason: "kicked"
             ) { [weak self] in
                 debugPrint("matrixUseCase.kickUser result: \($0)")
+                // TODO: Обработать failure case
                 guard case .success = $0 else { return }
             }
         }
@@ -420,15 +453,43 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     
     func onRoleSelected(role: ChannelRole) {
         guard let matrixId = UserIdValidator.makeValidId(userId: tappedUserIdText) else { return }
-        debugPrint("\(matrixId)")
+        let group = DispatchGroup()
+        group.enter()
         matrixUseCase.updateUserPowerLevel(
             userId: tappedUserIdText,
             roomId: roomId,
             powerLevel: role.powerLevel
-        ) { [weak self] result in
-            debugPrint("onTapChangeRole")
-            debugPrint("room.setPowerLevel result: \(result)")
-            debugPrint("onTapChangeRole")
+        ) { _ in
+            group.leave()
+        }
+        group.notify(queue: .main) {
+            self.loadUsers()
+        }
+    }
+    
+    func onInviteUsersToChannel(users: [Contact]) {
+        
+        for user in users {
+            debugPrint("onInviteUsersToChannelGroup leave")
+            onInviteUsersToChannelGroup.enter()
+            matrixUseCase.inviteUser(userId: user.mxId, roomId: roomId) { [weak self] result in
+                
+                debugPrint("inviteUser result: \(result)")
+                
+                // TODO: Обработать failure case
+               
+                guard let self = self, case .success = result else { return }
+                
+                self.matrixUseCase.updateUserPowerLevel(userId: user.mxId, roomId: self.roomId, powerLevel: 0) { [weak self] result in
+                    debugPrint("inviteUser result: \(result)")
+                    debugPrint("onInviteUsersToChannelGroup leave")
+                    self?.onInviteUsersToChannelGroup.leave()
+                }
+            }
+        }
+        onInviteUsersToChannelGroup.notify(queue: .main) {
+            debugPrint("onInviteUsersToChannelGroup notify")
+            self.loadUsers()
         }
     }
 
@@ -464,40 +525,26 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
         }
     }
     
-    func onAssignNewOwners(users:  [Contact]) {
-        
+    func onAssignNewOwners(users: [ChannelParticipantsData],
+                           completion: @escaping () -> Void) {
+        let group = DispatchGroup()
         users.forEach {
-            guard let matrixId = UserIdValidator.makeValidId(userId: $0.mxId) else { return }
+            group.enter()
+            guard let matrixId = UserIdValidator.makeValidId(userId: $0.matrixId) else { return }
             debugPrint("\(matrixId)")
             matrixUseCase.updateUserPowerLevel(
                 userId: matrixId,
                 roomId: roomId,
                 powerLevel: ChannelRole.owner.powerLevel
             ) { [weak self] result in
-                debugPrint("onTapChangeRole")
-                debugPrint("room.setPowerLevel result: \(result)")
-                debugPrint("onTapChangeRole")
-                
+                group.leave()
+                completion()
                 self?.onLeaveRoom()
             }
         }
-    }
-
-    func onInviteUsersToChannel(users: [Contact]) {
-        guard let auraRoom = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else { return }
-        let group = DispatchGroup()
-        for user in users {
-            group.enter()
-            matrixUseCase.inviteUser(userId: user.mxId,
-                                     roomId: roomId) { _ in
-                auraRoom.room.setPowerLevel(ofUser: user.mxId,
-                                            powerLevel: 0) { _ in
-                    group.leave()
-                }
-            }
-        }
         group.notify(queue: .main) {
-            self.loadUsers()
+            completion()
+            self.onLeaveRoom()
         }
     }
 
@@ -522,7 +569,6 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
 
     func onLeaveRoom() {
         matrixUseCase.leaveRoom(roomId: roomId) { [weak self] result in
-            debugPrint("onDeleteUserFromChannel: \(result)")
             self?.loadUsers()
         }
     }
@@ -533,11 +579,28 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     
     func getCurrentUserRole() -> ChannelRole {
         return factory.detectUserRole(userId: matrixUseCase.getUserId(),
-                               roomPowerLevels: roomPowerLevels)
+                                          roomPowerLevels: roomPowerLevels)
+    }
+    
+    func getUserRole(_ userId: String) -> ChannelRole {
+        return factory.detectUserRole(userId: userId,
+                                      roomPowerLevels: roomPowerLevels)
     }
     
     func updateUserRole(mxId: String, userRole: ChannelRole) {
         debugPrint("Role of \(mxId)  is updated to \(userRole)")
+    }
+    
+    func isRoomPublic() {
+        let group = DispatchGroup()
+        group.enter()
+        matrixUseCase.isRoomPublic(roomId: roomId) { value in
+            self.isRoomPublicValue = value ?? false
+            group.leave()
+        }
+        group.notify(queue: .main) {
+            self.objectWillChange.send()
+        }
     }
     
     func compareRoles() -> Bool {
@@ -545,6 +608,9 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
                                                       roomPowerLevels: roomPowerLevels)
         let currentUserRole = factory.detectUserRole(userId: matrixUseCase.getUserId(),
                                                       roomPowerLevels: roomPowerLevels)
-        return currentUserRole.powerLevel >= selectedUserRole.powerLevel
+        if selectedUserRole == .owner && currentUserRole == .owner {
+            return false
+        }
+        return currentUserRole.powerLevel > selectedUserRole.powerLevel
     }
 }

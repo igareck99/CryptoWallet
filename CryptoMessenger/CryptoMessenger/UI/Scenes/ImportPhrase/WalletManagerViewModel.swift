@@ -8,6 +8,7 @@ final class WalletManagerViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: WalletManagerSceneDelegate?
+    let sources: ImportPhraseResourcable.Type = ImportPhraseResources.self
 
     // MARK: - Private Properties
 

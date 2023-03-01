@@ -41,7 +41,7 @@ struct TokenInfoView: View {
 				}
 				.navigationBarTitleDisplayMode(.inline)
 				.navigationBarHidden(false)
-				.navigationBarTitle(R.string.localizable.tokenInfoTitle())
+                .navigationBarTitle(viewModel.sources.tokenInfoTitle)
 			}
 
             shareButton
@@ -52,7 +52,7 @@ struct TokenInfoView: View {
                     alignment: .bottom
                 ) {
                     Snackbar(
-                        text: R.string.localizable.tokenInfoAddressCopied(),
+                        text: viewModel.sources.tokenInfoAddressCopied,
                         color: .green
                     )
                 }
@@ -69,7 +69,7 @@ struct TokenInfoView: View {
                     showTokenInfo = false
                 }
             Spacer()
-            Text(R.string.localizable.tokenInfoTitle())
+            Text(viewModel.sources.tokenInfoTitle)
                 .font(.bold(15))
             Spacer()
         }
@@ -114,7 +114,7 @@ struct TokenInfoView: View {
 				.foregroundColor(.manateeApprox)
 				.padding(.horizontal, 16)
 
-			Image(R.image.wallet.copy.name)
+            viewModel.sources.copy
 				.foregroundColor(.sharkApprox)
 				.padding(.trailing, 8)
 				.onTapGesture {
@@ -158,7 +158,7 @@ struct TokenInfoView: View {
 
     private var shareButton: some View {
 		Button(action: actionSheet) {
-			Text(R.string.localizable.tokenInfoShareAddress())
+            Text(viewModel.sources.tokenInfoShareAddress)
 				.frame(width: 225, height: 48)
                 .font(.system(size: 17, weight: .semibold))
 				.padding()
@@ -184,7 +184,7 @@ struct TokenInfoView: View {
                     .interpolation(.none)
             }
         }
-        return Image(uiImage: UIImage(systemName: "xmark.circle") ?? UIImage())
+        return viewModel.sources.xmarkCircle
             .interpolation(.none)
     }
 
