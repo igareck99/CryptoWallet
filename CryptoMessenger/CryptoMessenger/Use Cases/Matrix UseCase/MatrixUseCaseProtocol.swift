@@ -32,6 +32,7 @@ protocol MatrixUseCaseProtocol {
 	func setRoomAvatar(data: Data, for room: MXRoom, completion: @escaping EmptyResultBlock)
     func getRoomState(roomId: String, completion: @escaping EmptyFailureBlock<MXRoomState>)
     func getRoomMembers(roomId: String, completion: @escaping EmptyFailureBlock<MXRoomMembers>)
+    func setRoom(name: String, roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
     func setRoom(topic: String, roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
     func enableEncryptionWithAlgorithm(roomId: String)
     func isRoomPublic(roomId: String, completion: @escaping (Bool?) -> Void)

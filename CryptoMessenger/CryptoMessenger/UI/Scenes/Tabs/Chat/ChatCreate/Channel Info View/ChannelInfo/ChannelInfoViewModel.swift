@@ -16,6 +16,10 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
    
     var channelName: Binding<String> { get set }
     
+    var channelTopicText: String { get set }
+   
+    var channelNameText: String { get set }
+    
     var showMakeRole: Binding<Bool> { get set }
     
     var showLeaveChannel: Binding<Bool> { get set }
@@ -188,7 +192,7 @@ final class ChannelInfoViewModel {
         }
     )
     
-    private var channelTopicText: String = "" {
+    var channelTopicText: String = "" {
         didSet {
             self.objectWillChange.send()
         }
@@ -203,7 +207,7 @@ final class ChannelInfoViewModel {
         }
     )
     
-    private var channelNameText: String = "" {
+    var channelNameText: String = "" {
         didSet {
             self.objectWillChange.send()
         }
@@ -248,11 +252,12 @@ final class ChannelInfoViewModel {
             self.objectWillChange.send()
         }
     }
+    
+    let roomId: String
+    weak var delegate: ChannelInfoSceneDelegate?
+    private let onInviteUsersToChannelGroup = DispatchGroup()
     private let matrixUseCase: MatrixUseCaseProtocol
     private let factory: ChannelUsersFactoryProtocol.Type
-    let roomId: String
-
-    weak var delegate: ChannelInfoSceneDelegate?
     private var roomPowerLevels: MXRoomPowerLevels?
     private var eventsListener: MXEventListener?
 
@@ -276,26 +281,12 @@ final class ChannelInfoViewModel {
         
         shouldChange = false
         
-        matrixUseCase.setRoom(topic: channelTopicText, roomId: roomId) { [weak self] result in
-            
+        matrixUseCase.setRoom(topic: channelTopicText, roomId: roomId) { result in
             debugPrint("matrixUseCase.setRoom.topic result: \(result)")
-            
-            guard case .success = result else { return }
-            
-            DispatchQueue.main.async { [weak self] in
-                self?.getRoomInfo()
-            }
         }
         
-        matrixUseCase.setRoom(topic: channelNameText, roomId: roomId) { [weak self] result in
-            
+        matrixUseCase.setRoom(name: channelNameText, roomId: roomId) { result in
             debugPrint("matrixUseCase.setRoom.name result: \(result)")
-            
-            guard case .success = result else { return }
-            
-            DispatchQueue.main.async { [weak self] in
-                self?.getRoomInfo()
-            }
         }
     }
     
@@ -348,6 +339,21 @@ final class ChannelInfoViewModel {
         room?.liveTimeline { [weak self] liveTimeLine in
             let listener = liveTimeLine?.listenToEvents { [weak self] event, direction, roomState in
                 debugPrint("liveTimeLine.listenToEvents: \(event) \(direction) \(String(describing: roomState))")
+                
+                if event.type == "m.room.topic",
+                   let topic = room?.summary.topic {
+                    self?.channelTopicText = topic
+                    self?.objectWillChange.send()
+                    return
+                }
+                
+                if event.type == "m.room.name",
+                   let displayname = room?.summary.displayname {
+                    self?.channelNameText = displayname
+                    self?.objectWillChange.send()
+                    return
+                }
+                
                 self?.getRoomInfo()
                 self?.loadUsers()
             } as? MXEventListener
@@ -355,8 +361,6 @@ final class ChannelInfoViewModel {
             self?.eventsListener = listener
         }
     }
-    
-    let onInviteUsersToChannelGroup = DispatchGroup()
 }
 
 // MARK: - ChannelInfoViewModelProtocol
