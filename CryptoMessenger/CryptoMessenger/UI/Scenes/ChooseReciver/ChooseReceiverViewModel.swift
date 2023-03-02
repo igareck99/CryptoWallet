@@ -53,6 +53,17 @@ final class ChooseReceiverViewModel: ObservableObject {
                 userWalletsFilteredData = userWalletsData.filter({ $0.phone.contains(text) })
             } else {
                 userWalletsFilteredData = userWalletsData.filter({ $0.ethereum.contains(text) })
+
+                if userWalletsFilteredData.isEmpty {
+                    let data = UserWallletData(
+                        name: "По адресу",
+                        bitcoin: text,
+                        ethereum: text,
+                        url: nil,
+                        phone: ""
+                    )
+                    userWalletsFilteredData.append(data)
+                }
             }
         }
     }

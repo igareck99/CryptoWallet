@@ -365,7 +365,7 @@
 
 
 "FacilityApprove.Title" = "Перевод средств";
-"FacilityApprove.Check" = "Проверьте точность данных перед \nотправкой!";
+"FacilityApprove.Check" = "Пожалуйста, проверьте данные. Если все хорошо, нажмите “Отправить”";
 "FacilityApprove.Receiver" = "Получатель";
 "FacilityApprove.NameSurname" = "Имя и Фамилия";
 "FacilityApprove.TransactionSum" = "Сумма списания";

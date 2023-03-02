@@ -15,50 +15,43 @@ struct TokenInfoView: View {
 
     // MARK: - Body
 
-	var body: some View {
-		VStack(spacing: 0) {
-			ScrollView {
-				content.popup(
-					isPresented: $showAddresses,
-					type: .toast,
-					position: .bottom,
-					closeOnTap: false,
-					closeOnTapOutside: true,
-					backgroundColor: Color(.black(0.4))
-				) {
-					SelectTokenView(
-						showSelectToken: $showAddresses,
-                        address: $viewModel.address,
-						viewModel: viewModel
-					)
-					.frame(
-						width: UIScreen.main.bounds.width,
-						height: CGFloat(viewModel.addresses.count * 64 + 50),
-						alignment: .center
-					)
-					.background(.white())
-					.cornerRadius(16)
-				}
-				.navigationBarTitleDisplayMode(.inline)
-				.navigationBarHidden(false)
-                .navigationBarTitle(viewModel.sources.tokenInfoTitle)
-			}
-
-            shareButton
-                .frame(height: 48)
-                .padding(.bottom)
-                .popup(
-                    isPresented: viewModel.isSnackbarPresented,
-                    alignment: .bottom
-                ) {
-                    Snackbar(
-                        text: viewModel.sources.tokenInfoAddressCopied,
-                        color: .green
-                    )
-                }
+    var body: some View {
+        ScrollView {
+            content.popup(
+                isPresented: $showAddresses,
+                type: .toast,
+                position: .bottom,
+                closeOnTap: false,
+                closeOnTapOutside: true,
+                backgroundColor: Color(.black(0.4))
+            ) {
+                SelectTokenView(
+                    showSelectToken: $showAddresses,
+                    address: $viewModel.address,
+                    viewModel: viewModel
+                )
+                .frame(
+                    width: UIScreen.main.bounds.width,
+                    height: CGFloat(viewModel.addresses.count * 64 + 50),
+                    alignment: .center
+                )
+                .background(.white())
+                .cornerRadius(16)
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarHidden(false)
+            .navigationBarTitle(viewModel.sources.tokenInfoTitle)
         }
-        .ignoresSafeArea(.keyboard)
-	}
+        .popup(
+            isPresented: viewModel.isSnackbarPresented,
+            alignment: .bottom
+        ) {
+            Snackbar(
+                text: viewModel.sources.tokenInfoAddressCopied,
+                color: .green
+            )
+        }
+    }
 
     // MARK: - Private Properties
 
@@ -84,8 +77,13 @@ struct TokenInfoView: View {
                 .padding(.bottom, 20)
 
 			copyAddressButton
-				.padding(.bottom, 80)
+				.padding(.bottom, 32)
                 .padding(.horizontal, 16)
+
+            shareButton
+                .frame(height: 48)
+            
+            Spacer()
         }
         .padding(.horizontal, 16)
     }

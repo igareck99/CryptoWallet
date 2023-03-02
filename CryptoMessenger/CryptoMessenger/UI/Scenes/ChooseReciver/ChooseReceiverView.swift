@@ -94,8 +94,11 @@ struct ChooseReceiverView: View {
                         }
                 }
             }
-            ForEach(searchText.isEmpty ? viewModel.userWalletsData :
-                        viewModel.userWalletsFilteredData, id: \.self) { item in
+            ForEach(
+                searchText.isEmpty ?
+                viewModel.userWalletsData : viewModel.userWalletsFilteredData,
+                id: \.self
+            ) { item in
                 ContactRow(avatar: item.url,
                            name: item.name,
                            status: viewModel.searchType == .telephone ? item.phone : item.ethereum,
@@ -109,7 +112,6 @@ struct ChooseReceiverView: View {
                 }
             }
             Spacer()
-
         }
     }
 
