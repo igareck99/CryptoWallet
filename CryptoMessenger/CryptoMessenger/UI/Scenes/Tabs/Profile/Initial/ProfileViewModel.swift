@@ -188,7 +188,7 @@ final class ProfileViewModel: ObservableObject {
             case .loggedOut:
                 self?.userSettings.isAuthFlowFinished = false
                 self?.userSettings.isOnboardingFlowFinished = false
-                self?.keychainService.apiUserPinCode = ""
+                self?.keychainService.removeObject(forKey: .apiUserPinCode)
                 self?.delegate?.restartFlow()
             default:
                 break

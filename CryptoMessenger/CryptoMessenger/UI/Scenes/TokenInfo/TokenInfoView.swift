@@ -82,7 +82,7 @@ struct TokenInfoView: View {
 
             shareButton
                 .frame(height: 48)
-            
+
             Spacer()
         }
         .padding(.horizontal, 16)
