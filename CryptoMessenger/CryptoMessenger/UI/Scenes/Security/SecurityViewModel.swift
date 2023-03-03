@@ -85,9 +85,6 @@ final class SecurityViewModel: ObservableObject {
 
 		guard keychainService.isPinCodeEnabled != value else { return }
 
-		userSettings.isLocalAuth = value
-		keychainService.isPinCodeEnabled = value
-
 		let pinCode = keychainService.apiUserPinCode
 
 		guard

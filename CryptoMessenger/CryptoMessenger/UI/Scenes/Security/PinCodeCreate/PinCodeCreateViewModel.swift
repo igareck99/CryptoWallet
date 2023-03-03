@@ -61,13 +61,11 @@ final class PinCodeCreateViewModel: ObservableObject {
         if keychainService.apiUserPinCode == item {
             titleState = ""
             descriptionState = R.string.localizable.pinCodeFalseCannotMatch()
-            delay(1) {
-                self.errorPassword = false
-                self.clearPassword()
-                self.titleState = self.screenType.result.title
-                self.descriptionState = self.screenType.result.description
-                return
-            }
+            errorPassword = false
+            clearPassword()
+            titleState = screenType.result.title
+            descriptionState = screenType.result.description
+            return
         } else {
 			keychainService.apiUserFalsePinCode = item
 			userSettings.isFalsePinCodeOn = true
@@ -91,20 +89,16 @@ final class PinCodeCreateViewModel: ObservableObject {
                             .joined(separator: "")
                         if keychainService.apiUserPinCode == password {
                             descriptionState = R.string.localizable.pinCodeResetPassword()
-                            delay(1) { [self] in
-								keychainService.apiUserPinCode = ""
-								userSettings.isLocalAuth = false
-								keychainService.isPinCodeEnabled = false
-                                finishScreen = true
-                            }
+                            keychainService.removeObject(forKey: .apiUserPinCode)
+                            userSettings.isLocalAuth = false
+                            keychainService.isPinCodeEnabled = false
+                            finishScreen = true
                         } else {
                             errorPassword = true
                             descriptionState = "Неверный пароль"
-                            delay(1) {
-                                self.errorPassword = false
-                                self.clearPassword()
-                                self.descriptionState = ""
-                            }
+                            errorPassword = false
+                            clearPassword()
+                            descriptionState = ""
                         }
                     } else {
                         descriptionState = R.string.localizable.pinCodeRepeatPassword()
@@ -138,11 +132,9 @@ final class PinCodeCreateViewModel: ObservableObject {
                     } else {
                         errorPassword = true
                         descriptionState = R.string.localizable.pinCodeNotMatchPassword()
-                        delay(1) {
-                            self.errorPassword = false
-                            self.clearPassword()
-                            self.descriptionState = self.screenType.result.description
-                        }
+                        errorPassword = false
+                        clearPassword()
+                        descriptionState = screenType.result.description
                     }
                 }
             }
