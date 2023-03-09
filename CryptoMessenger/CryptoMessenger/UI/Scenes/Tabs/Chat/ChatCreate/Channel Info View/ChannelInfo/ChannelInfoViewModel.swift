@@ -8,7 +8,7 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     
     var shouldShowDescription: Bool { get }
     
-    var shouldShowParticipants: Bool { get }
+    var isAuthorized: Bool { get }
 
     var roomId: String { get }
     
@@ -91,7 +91,7 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
 final class ChannelInfoViewModel {
     
     
-    var shouldShowParticipants: Bool {
+    var isAuthorized: Bool {
         getCurrentUserRole() == .admin || getCurrentUserRole() == .owner
     }
     
