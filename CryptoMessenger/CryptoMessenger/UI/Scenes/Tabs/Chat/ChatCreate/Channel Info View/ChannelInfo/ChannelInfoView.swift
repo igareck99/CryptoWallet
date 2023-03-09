@@ -201,14 +201,16 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 attachmentsView()
                 notificationsView()
             }
-            Section {
-                participantsHeader()
-                    .listRowSeparator(.hidden)
-                channelParticipantsView()
-                participantsFooter()
-                    .listRowSeparator(.hidden)
-                    .frame(maxWidth: .infinity)
-                    .listRowInsets(.none)
+            if viewModel.shouldShowParticipants {
+                Section {
+                    participantsHeader()
+                        .listRowSeparator(.hidden)
+                    channelParticipantsView()
+                    participantsFooter()
+                        .listRowSeparator(.hidden)
+                        .frame(maxWidth: .infinity)
+                        .listRowInsets(.none)
+                }
             }
             Section {
                 copyLinkView()
