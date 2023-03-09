@@ -201,7 +201,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 attachmentsView()
                 notificationsView()
             }
-            if viewModel.shouldShowParticipants {
+            if viewModel.isAuthorized {
                 Section {
                     participantsHeader()
                         .listRowSeparator(.hidden)
@@ -428,14 +428,16 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 R.image.navigation.backButton.image
             })
         }
-        ToolbarItem(placement: .navigationBarTrailing) {
-            Button(action: {
-                changeScreen(isEdit: true)
-            }, label: {
-                Text(resources.change)
-                    .font(.system(size: 17))
-                    .foregroundColor(.azureRadianceApprox)
-            })
+        if viewModel.isAuthorized {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    changeScreen(isEdit: true)
+                }, label: {
+                    Text(resources.change)
+                        .font(.system(size: 17))
+                        .foregroundColor(.azureRadianceApprox)
+                })
+            }
         }
     }
 
