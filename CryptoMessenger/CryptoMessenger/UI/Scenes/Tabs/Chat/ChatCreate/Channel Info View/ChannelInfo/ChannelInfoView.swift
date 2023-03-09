@@ -192,8 +192,10 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     .listRowInsets(.none)
                     .listRowBackground(Color.clear)
             }
-            Section {
-                channelDescriptionView()
+            if viewModel.shouldShowDescription {
+                Section {
+                    channelDescriptionView()
+                }
             }
             Section {
                 attachmentsView()
@@ -295,8 +297,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     
     private func channelDescriptionView() -> some View {
         Text(viewModel.channelTopicText)
-        .font(.system(size: 17))
-        .foregroundColor(.black)
+            .font(.system(size: 17))
+            .foregroundColor(.black)
     }
     
     private func attachmentsView() -> some View {

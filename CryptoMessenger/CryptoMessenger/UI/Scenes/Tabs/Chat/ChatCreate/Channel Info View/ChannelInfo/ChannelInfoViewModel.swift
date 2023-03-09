@@ -5,6 +5,8 @@ import SwiftUI
 // MARK: - ChannelInfoViewModelProtocol
 
 protocol ChannelInfoViewModelProtocol: ObservableObject {
+    
+    var shouldShowDescription: Bool { get }
 
     var roomId: String { get }
     
@@ -85,7 +87,16 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
 // MARK: - ChannelInfoViewModel
 
 final class ChannelInfoViewModel {
-
+    
+    
+    var shouldShowParticipants: Bool {
+        getCurrentUserRole() == .admin || getCurrentUserRole() == .owner
+    }
+    
+    var shouldShowDescription: Bool {
+        !channelTopicText.isEmpty
+    }
+    
     private var tappedUserIdText = ""
 
     lazy var tappedUserId: Binding<String> = .init(
