@@ -6,11 +6,23 @@ import SwiftUI
 
 protocol ChannelInfoViewModelProtocol: ObservableObject {
     
+    var chatData: Binding<ChatData> { get set }
+    
+//    var selectedImage: Binding<UIImage?> { get set }
+
+    var selectedImg: UIImage? { get set }
+    
+    var roomImageUrl: URL? { get }
+    
+    var roomImage: Image? { get }
+    
     var shouldShowDescription: Bool { get }
     
     var isAuthorized: Bool { get }
 
     var roomId: String { get }
+    
+    var roomDisplayName: String { get }
     
     var isRoomPublicValue: Bool { get set }
     
@@ -84,13 +96,14 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     func compareRoles() -> Bool
     
     func isRoomPublic()
+    
+    func onAvatarChange()
 }
 
 // MARK: - ChannelInfoViewModel
 
 final class ChannelInfoViewModel {
-    
-    
+
     var isAuthorized: Bool {
         getCurrentUserRole() == .admin || getCurrentUserRole() == .owner
     }
@@ -266,6 +279,32 @@ final class ChannelInfoViewModel {
         }
     }
     
+    lazy var roomImageUrl: URL? = matrixUseCase.getRoomAvatarUrl(roomId: roomId)
+    var roomImage: Image? {
+        guard let img = selectedImg else { return nil }
+        return Image(uiImage: img)
+    }
+    
+    var roomDisplayName: String {
+        let room = matrixUseCase.getRoomInfo(roomId: roomId)
+        return room?.summary.displayname.uppercased() ?? ""
+    }
+    
+    lazy var selectedImage: Binding<UIImage?> = .init(
+        get: {
+            self.selectedImg
+        },
+        set: { newValue in
+            self.selectedImg = newValue
+        }
+    )
+
+    var selectedImg: UIImage? {
+        didSet {
+            self.objectWillChange.send()
+        }
+    }
+    
     let roomId: String
     weak var delegate: ChannelInfoSceneDelegate?
     private let onInviteUsersToChannelGroup = DispatchGroup()
@@ -273,13 +312,20 @@ final class ChannelInfoViewModel {
     private let factory: ChannelUsersFactoryProtocol.Type
     private var roomPowerLevels: MXRoomPowerLevels?
     private var eventsListener: MXEventListener?
+    
+    var chatData: Binding<ChatData>
+    @Binding var saveData: Bool
 
     init(
         roomId: String,
+        chatData: Binding<ChatData>,
+        saveData: Binding<Bool>,
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self
     ) {
         self.roomId = roomId
+        self.chatData = chatData
+        self._saveData = saveData
         self.matrixUseCase = matrixUseCase
         self.factory = factory
         self.getRoomInfo()
@@ -288,11 +334,21 @@ final class ChannelInfoViewModel {
         self.listenEvents()
     }
     
+    func onAvatarChange() {
+        selectedImg = chatData.wrappedValue.image
+    }
+    
     private func updateRoomParams() {
         
         guard shouldChange else { return }
         
         shouldChange = false
+        
+        if let imgData = chatData.wrappedValue.image?.jpeg(.medium) {
+            matrixUseCase.setRoomAvatar(data: imgData, roomId: roomId) { result in
+                debugPrint("Channel setRoomAvatar result: \(result)")
+            }
+        }
         
         matrixUseCase.setRoom(topic: channelTopicText, roomId: roomId) { result in
             debugPrint("matrixUseCase.setRoom.topic result: \(result)")
@@ -301,6 +357,8 @@ final class ChannelInfoViewModel {
         matrixUseCase.setRoom(name: channelNameText, roomId: roomId) { result in
             debugPrint("matrixUseCase.setRoom.name result: \(result)")
         }
+        
+        saveData.toggle()
     }
     
     private func getRoomInfo() {
@@ -352,6 +410,18 @@ final class ChannelInfoViewModel {
         room?.liveTimeline { [weak self] liveTimeLine in
             let listener = liveTimeLine?.listenToEvents { [weak self] event, direction, roomState in
                 debugPrint("liveTimeLine.listenToEvents: \(event) \(direction) \(String(describing: roomState))")
+                debugPrint("liveTimeLine.listenToEvents event.type: \(String(describing: event.type))")
+                
+                if event.type == "m.room.avatar",
+                   let rId = self?.roomId {
+                    debugPrint("roomImageUrl: \(String(describing: self?.roomImageUrl?.absoluteString))")
+                    self?.roomImageUrl = self?.matrixUseCase.getRoomAvatarUrl(roomId: rId)
+                    debugPrint("roomImageUrl: \(String(describing: self?.roomImageUrl?.absoluteString))")
+                    DispatchQueue.main.async {
+                        self?.objectWillChange.send()
+                    }
+                    return
+                }
                 
                 if event.type == "m.room.topic",
                    let topic = room?.summary.topic {
@@ -378,7 +448,7 @@ final class ChannelInfoViewModel {
 
 // MARK: - ChannelInfoViewModelProtocol
 
-extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {    
+extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     
     func onMakeRoleTap() {
         self.showSelectOwner.wrappedValue = true
@@ -414,7 +484,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
                
                let isOnlyOneOwner = ownersList.count == 1
 
-               // Если текущий пользователь не является единственным владельцем канала (такое может быть?)
+               // Если текущий пользователь не является единственным владельцем канала
                if !isOnlyOneOwner {
                    self.onLeaveRoom()
                    return
@@ -460,7 +530,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
                 userId: matrixId,
                 roomId: roomId,
                 reason: "kicked"
-            ) { [weak self] in
+            ) {
                 debugPrint("matrixUseCase.kickUser result: \($0)")
                 // TODO: Обработать failure case
                 guard case .success = $0 else { return }

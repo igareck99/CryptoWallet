@@ -20,6 +20,9 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     @State private var showAddUser = false
     @State var textViewHeight: CGFloat = 120
     @State var changeViewEdit: Bool = false
+    @State private var showImagePicker = false
+    @State private var showCameraPicker = false
+    @State private var showActionImageAlert = false
     let resources: ChannelInfoResourcable.Type
 
     // MARK: - Body
@@ -236,12 +239,36 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     }
 
     // MARK: - Private Methods
-
+    
     private func changeAvatarView() -> some View {
         ZStack(alignment: .center) {
-            Circle()
-                .foregroundColor(.cyan)
+            
+//            if let img = viewModel.chatData.image.wrappedValue {
+            if let img = viewModel.selectedImg {
+                Image(uiImage: img)
+                    .scaledToFill()
+                    .frame(width: 80, height: 80)
+                    .cornerRadius(40)
+            } else {
+                AsyncImage(
+                    url: viewModel.roomImageUrl,
+                    placeholder: {
+                        ZStack {
+                            Color(.lightBlue())
+                            Text(viewModel.roomDisplayName)
+                                .foreground(.white())
+                                .font(.medium(20))
+                        }
+                    },
+                    result: {
+                        Image(uiImage: $0).resizable()
+                    }
+                )
+                .scaledToFill()
                 .frame(width: 80, height: 80)
+                .cornerRadius(40)
+            }
+            
             ZStack(alignment: .center) {
                 Circle()
                     .foregroundColor(.azureRadianceApprox)
@@ -252,6 +279,49 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }
             .padding([.top, .leading], 56)
         }
+        .onTapGesture {
+            showActionImageAlert = true
+        }
+        .actionSheet(isPresented: $showActionImageAlert) {
+            ActionSheet(title: Text(""),
+                        message: nil,
+                        buttons: [
+                            .cancel(),
+                            .default(
+                                Text(R.string.localizable.profileFromGallery()),
+                                action: {
+                                    showImagePicker = true
+                                }
+                            ),
+                            .default(
+                                Text(R.string.localizable.profileFromCamera()),
+                                action: {
+                                    showCameraPicker = true
+                                }
+                            )
+                        ]
+            )
+        }
+        .fullScreenCover(
+            isPresented: $showCameraPicker,
+            onDismiss: {
+                viewModel.onAvatarChange()
+            } ,
+            content: {
+                ImagePickerView(selectedImage: viewModel.chatData.image,
+                                sourceType: .camera)
+                .ignoresSafeArea()
+            })
+        .fullScreenCover(
+            isPresented: $showImagePicker,
+            onDismiss: {
+                viewModel.onAvatarChange()
+            } ,
+            content: {
+                ImagePickerView(selectedImage: viewModel.chatData.image)
+                    .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                    .navigationBarTitleDisplayMode(.inline)
+            })
     }
 
     private var changeGroupInfoView: some View {
@@ -283,10 +353,36 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         VStack(alignment: .center, spacing: 0) {
             Spacer()
                 .frame(height: 1)
-            Circle()
-                .foregroundColor(.cyan)
+            
+//            if let img = viewModel.chatData.image.wrappedValue {
+            if let img = viewModel.selectedImg {
+                Image(uiImage: img)
+                    .scaledToFill()
+                    .frame(width: 80, height: 80)
+                    .cornerRadius(40)
+                    .padding(.bottom, 16)
+            } else {
+                AsyncImage(
+                    url: viewModel.roomImageUrl,
+                    placeholder: {
+                        ZStack {
+                            Color(.lightBlue())
+                            Text(viewModel.roomDisplayName)
+                                .foreground(.white())
+                                .font(.medium(20))
+                        }
+                    },
+                    result: {
+                        Image(uiImage: $0).resizable()
+                    }
+                )
+                .scaledToFill()
                 .frame(width: 80, height: 80)
+                .cornerRadius(40)
                 .padding(.bottom, 16)
+            }
+            
+            
             Text(viewModel.channelNameText)
                 .font(.system(size: 22))
                 .foregroundColor(.black)
