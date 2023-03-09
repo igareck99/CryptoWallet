@@ -7,6 +7,8 @@ import SwiftUI
 protocol ChannelInfoViewModelProtocol: ObservableObject {
     
     var shouldShowDescription: Bool { get }
+    
+    var shouldShowParticipants: Bool { get }
 
     var roomId: String { get }
     
