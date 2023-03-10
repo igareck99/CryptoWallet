@@ -10,7 +10,6 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
     @StateObject var viewModel: ViewModel
     @FocusState private var descriptionIsFocused: Bool
     @FocusState private var channelNameIsFocused: Bool
-    @State var selectedImage: UIImage?
 
     // MARK: - Private Properties
 
@@ -43,13 +42,13 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
             }
             .fullScreenCover(isPresented: $showCameraPicker,
                              content: {
-                ImagePickerView(selectedImage: $selectedImage,
+                ImagePickerView(selectedImage: viewModel.selectedImage,
                                 sourceType: .camera)
                 .ignoresSafeArea()
             })
             .fullScreenCover(isPresented: $showImagePicker,
                              content: {
-                ImagePickerView(selectedImage: $selectedImage)
+                ImagePickerView(selectedImage: viewModel.selectedImage)
                     .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                     .navigationBarTitleDisplayMode(.inline)
             })
@@ -67,9 +66,9 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                 Divider()
                     .padding(.top, 16)
                 HStack(alignment: .center, spacing: 12) {
-                    if selectedImage != nil {
+                    if viewModel.selectedImg != nil {
                         ZStack {
-                            Image(uiImage: selectedImage ?? UIImage())
+                            Image(uiImage: viewModel.selectedImg ?? UIImage())
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 60,
@@ -215,7 +214,6 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
                 viewModel.onChannelCreate()
-//                presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
                     .font(.system(size: 17, weight: .semibold))

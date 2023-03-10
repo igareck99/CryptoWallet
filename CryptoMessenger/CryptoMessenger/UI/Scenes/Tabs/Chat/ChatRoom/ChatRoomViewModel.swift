@@ -542,11 +542,9 @@ final class ChatRoomViewModel: ObservableObject {
                     
                     if self?.isChannel == true {
                         guard let roomId = self?.room.room.roomId else { return }
-                        self?.delegate?.handleNextScene(.channelInfo(roomId,isLeaveChannel))
+                        self?.delegate?.handleNextScene(.channelInfo(roomId, isLeaveChannel, chatData, saveData))
                     } else {
-                        self?.delegate?.handleNextScene(.settingsChat(chatData,
-                                                                      saveData,
-                                                                      room))
+                        self?.delegate?.handleNextScene(.settingsChat(chatData, saveData, room))
                     }
                 }
             }

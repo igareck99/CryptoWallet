@@ -2,29 +2,44 @@ import Combine
 import SwiftUI
 
 protocol CreateChannelViewModelProtocol: ObservableObject {
-    
+
+    var selectedImage: Binding<UIImage?> { get set }
+
+    var selectedImg: UIImage? { get set }
+
     var channelName: Binding<String> { get set }
-    
+
     var channelDescription: Binding<String> { get set }
-    
+
     var channelType: ChannelType { get set }
-    
+
     func onChannelCreate()
-    
+
     func isCreateButtonEnabled() -> Bool
-    
+
     func isDescriptionPlaceholderEnabled() -> Bool
 }
 
 final class CreateChannelViewModel {
-    
+
+    lazy var selectedImage: Binding<UIImage?> = .init(
+        get: {
+            self.selectedImg
+        },
+        set: { newValue in
+            self.selectedImg = newValue
+        }
+    )
+
+    var selectedImg: UIImage?
+
     var channelType: ChannelType = .publicChannel {
         didSet {
             debugPrint("channel type: \(channelType)")
             self.objectWillChange.send()
         }
     }
-    
+
     private var channelNameText: String = "" {
         didSet {
             self.objectWillChange.send()
@@ -101,7 +116,7 @@ extension CreateChannelViewModel: CreateChannelViewModelProtocol {
         powerLevelOverride.usersDefault = 0
         powerLevelOverride.invite = 50
         parameters.powerLevelContentOverride = powerLevelOverride
-        createRoom(parameters: parameters)
+        createRoom(parameters: parameters, roomAvatar: selectedImg?.jpeg(.medium))
         onChannelCreationEnd()
     }
 

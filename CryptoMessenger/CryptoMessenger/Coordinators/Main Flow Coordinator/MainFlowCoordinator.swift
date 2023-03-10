@@ -187,7 +187,7 @@ final class MainFlowCoordinator: Coordinator {
         case chatMedia(AuraRoom)
 		case popToRoot
         case reservePhraseCopy
-        case channelInfo(String, Binding<Bool>)
+        case channelInfo(String, Binding<Bool>, Binding<ChatData>, Binding<Bool>)
         case channelMedia(AuraRoom)
     }
 }
@@ -259,8 +259,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showNotificationsSettings()
         case let .settingsChat(chatData, saveData, room):
             showSettingsChat(chatData: chatData, saveData: saveData, room: room)
-        case let .channelInfo(roomId, isLeaveChannel):
-            showChannelInfo(roomId: roomId, isLeaveChannel: isLeaveChannel)
+        case let .channelInfo(roomId, isLeaveChannel, chatData, saveData):
+            showChannelInfo(roomId: roomId, isLeaveChannel: isLeaveChannel, chatData: chatData, saveData: saveData)
         case let .chatMedia(room):
             showMediaView(room)
         case .popToRoot:
@@ -280,11 +280,20 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     func switchFlow() {
         delegate?.userPerformedLogout(coordinator: self)
     }
-    
-    private func showChannelInfo(roomId: String, isLeaveChannel: Binding<Bool>) {
-        let controller = ChannelInfoAssembly.make(roomId: roomId,
-                                                  isLeaveChannel: isLeaveChannel,
-                                                  delegate: self)
+
+    private func showChannelInfo(
+        roomId: String,
+        isLeaveChannel: Binding<Bool>,
+        chatData: Binding<ChatData>,
+        saveData: Binding<Bool>
+    ) {
+        let controller = ChannelInfoAssembly.make(
+            roomId: roomId,
+            isLeaveChannel: isLeaveChannel,
+            delegate: self,
+            chatData: chatData,
+            saveData: saveData
+        )
         navigationController.pushViewController(controller, animated: true)
     }
 

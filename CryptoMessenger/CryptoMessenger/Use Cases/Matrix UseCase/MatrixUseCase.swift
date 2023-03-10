@@ -174,6 +174,14 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 
 	// MARK: - Rooms
     
+    func getRoomAvatarUrl(roomId: String) -> URL? {
+        guard let room = getRoomInfo(roomId: roomId),
+            let avatar = room.summary.avatar,
+              let avatarUrl = MXURL(mxContentURI: avatar)?.contentURL(on: config.matrixURL) else { return nil }
+        
+        return avatarUrl
+    }
+    
     func getRoomInfo(roomId: String) -> MXRoom? {
         guard let room = matrixSession?.rooms.first(where: {
             $0.roomId == roomId
@@ -248,6 +256,14 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 		matrixService.uploadData(data: data, for: room, completion: completion)
 	}
 
+    func setRoomAvatar(data: Data, roomId: String, completion: @escaping EmptyResultBlock) {
+        guard let room = getRoomInfo(roomId: roomId) else {
+            completion(.failure)
+            return
+        }
+        setRoomAvatar(data: data, for: room, completion: completion)
+    }
+    
 	func setRoomAvatar(data: Data, for room: MXRoom, completion: @escaping EmptyResultBlock) {
 		matrixService.uploadData(data: data, for: room) { link in
 			guard let link = link else { completion(.failure); return }
