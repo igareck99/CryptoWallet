@@ -7,8 +7,6 @@ import SwiftUI
 protocol ChannelInfoViewModelProtocol: ObservableObject {
     
     var chatData: Binding<ChatData> { get set }
-    
-//    var selectedImage: Binding<UIImage?> { get set }
 
     var selectedImg: UIImage? { get set }
     
@@ -287,7 +285,8 @@ final class ChannelInfoViewModel {
     
     var roomDisplayName: String {
         let room = matrixUseCase.getRoomInfo(roomId: roomId)
-        return room?.summary.displayname.uppercased() ?? ""
+        let firstLetter = room?.summary.displayname.firstLetter ?? ""
+        return firstLetter
     }
     
     lazy var selectedImage: Binding<UIImage?> = .init(
