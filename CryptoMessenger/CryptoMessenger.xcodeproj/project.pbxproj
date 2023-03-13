@@ -605,6 +605,9 @@
 		D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */; };
 		D40D7D7E290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40D7D7D290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift */; };
 		D40D7D80290BA41400F2A0EF /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40D7D7F290BA41400F2A0EF /* ChatTextView.swift */; };
+		D413F10129BF3458005B7532 /* AccessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413F10029BF3458005B7532 /* AccessService.swift */; };
+		D413F10329BF3E69005B7532 /* AccessLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413F10229BF3E69005B7532 /* AccessLevels.swift */; };
+		D413F10529BF76A6005B7532 /* AccessService+AccessLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413F10429BF76A6005B7532 /* AccessService+AccessLevels.swift */; };
 		D415081C28A5199C00C92CEC /* CheckReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415081B28A5199C00C92CEC /* CheckReadView.swift */; };
 		D415081F28A52C6600C92CEC /* CheckTextReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415081E28A52C6600C92CEC /* CheckTextReadView.swift */; };
 		D415082228A52E6400C92CEC /* ReactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415082128A52E6400C92CEC /* ReactionsView.swift */; };
@@ -1882,6 +1885,9 @@
 		D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallsRouter.swift; sourceTree = "<group>"; };
 		D40D7D7D290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatTextsView+EmojiMocks.swift"; sourceTree = "<group>"; };
 		D40D7D7F290BA41400F2A0EF /* ChatTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextView.swift; sourceTree = "<group>"; };
+		D413F10029BF3458005B7532 /* AccessService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessService.swift; sourceTree = "<group>"; };
+		D413F10229BF3E69005B7532 /* AccessLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessLevels.swift; sourceTree = "<group>"; };
+		D413F10429BF76A6005B7532 /* AccessService+AccessLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccessService+AccessLevels.swift"; sourceTree = "<group>"; };
 		D415081B28A5199C00C92CEC /* CheckReadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReadView.swift; sourceTree = "<group>"; };
 		D415081E28A52C6600C92CEC /* CheckTextReadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTextReadView.swift; sourceTree = "<group>"; };
 		D415082128A52E6400C92CEC /* ReactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsView.swift; sourceTree = "<group>"; };
@@ -3284,6 +3290,7 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D413F0FF29BF3441005B7532 /* Access Service */,
 				8B5F0C98297539DA002AE81E /* LogoutService */,
 				8BC518012970AF150033B30F /* PhraseService */,
 				D48AF449292604CF0044CFAE /* Wallet Network Service */,
@@ -5042,6 +5049,16 @@
 				D45004712845D9A100CA4C82 /* Views */,
 			);
 			path = "P2P Calls";
+			sourceTree = "<group>";
+		};
+		D413F0FF29BF3441005B7532 /* Access Service */ = {
+			isa = PBXGroup;
+			children = (
+				D413F10229BF3E69005B7532 /* AccessLevels.swift */,
+				D413F10029BF3458005B7532 /* AccessService.swift */,
+				D413F10429BF76A6005B7532 /* AccessService+AccessLevels.swift */,
+			);
+			path = "Access Service";
 			sourceTree = "<group>";
 		};
 		D415081A28A5198800C92CEC /* Check Read View */ = {
@@ -8502,6 +8519,7 @@
 				5A15DDF9276E5C9C00CF7AA4 /* ShimmerView.swift in Sources */,
 				8B432CC227C394E00025D62B /* WalletView.swift in Sources */,
 				D4EFEBE528E2AF110075CC10 /* MXLogObjcWrapper.m in Sources */,
+				D413F10329BF3E69005B7532 /* AccessLevels.swift in Sources */,
 				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
 				D4EFEB4F28E2AF100075CC10 /* MXCryptoMachine.swift in Sources */,
 				8B1564F328AA782A00A69B85 /* AnotherAppTransitionViewModel.swift in Sources */,
@@ -8603,6 +8621,7 @@
 				D4A26E222935BADD00FEADC2 /* AddressRequestParams.swift in Sources */,
 				D4EFEBC828E2AF100075CC10 /* MXEventAnnotationChunk.m in Sources */,
 				8B5609BC277B35A400AF43F6 /* PersonalizationFlow.swift in Sources */,
+				D413F10129BF3458005B7532 /* AccessService.swift in Sources */,
 				D4EFEBBC28E2AF100075CC10 /* MXDeviceListResponse.m in Sources */,
 				78EDCAFB286AAF1000D3CBC5 /* MapSnapshotViewModel.swift in Sources */,
 				D4EFEBDA28E2AF100075CC10 /* MXURLPreview.m in Sources */,
@@ -8986,6 +9005,7 @@
 				8BA0C91427AD776F0070203F /* ReserveCopyProtocols.swift in Sources */,
 				D4EFEC3528E2AF110075CC10 /* MXSpaceGraphData.swift in Sources */,
 				D4EFEB8328E2AF100075CC10 /* MXRoomCapabilityType.swift in Sources */,
+				D413F10529BF76A6005B7532 /* AccessService+AccessLevels.swift in Sources */,
 				D44B4E96294AFB0A00D64F5E /* Encodable+Extensions.swift in Sources */,
 				8B5A338427D89CAE0064C7DC /* TransferView.swift in Sources */,
 				D4EFEB9828E2AF100075CC10 /* MXUserModel.m in Sources */,

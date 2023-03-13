@@ -23,6 +23,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     @State private var showImagePicker = false
     @State private var showCameraPicker = false
     @State private var showActionImageAlert = false
+    @State private var showSettingsAlert = false
     let resources: ChannelInfoResourcable.Type
 
     // MARK: - Body
@@ -243,7 +244,6 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func changeAvatarView() -> some View {
         ZStack(alignment: .center) {
             
-//            if let img = viewModel.chatData.image.wrappedValue {
             if let img = viewModel.selectedImg {
                 Image(uiImage: img)
                     .scaledToFill()
@@ -296,11 +296,22 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                             .default(
                                 Text(R.string.localizable.profileFromCamera()),
                                 action: {
-                                    showCameraPicker = true
+                                    let isAvailable = viewModel.onCameraPickerTap()
+                                    showCameraPicker = isAvailable
+                                    showSettingsAlert = !isAvailable
                                 }
                             )
                         ]
             )
+        }
+        .alert("Камера недоступна", isPresented: $showSettingsAlert) {
+            Button("OK", role: .cancel) {
+                debugPrint("Ok buttob tap")
+            }
+            Button("Настройки") {
+                debugPrint("Settings buttob tap")
+                viewModel.onOpenSettingsTap()
+            }
         }
         .fullScreenCover(
             isPresented: $showCameraPicker,
@@ -354,7 +365,6 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             Spacer()
                 .frame(height: 1)
             
-//            if let img = viewModel.chatData.image.wrappedValue {
             if let img = viewModel.selectedImg {
                 Image(uiImage: img)
                     .scaledToFill()
