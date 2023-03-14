@@ -25,15 +25,15 @@ struct WalletInfo: Identifiable, Equatable, Hashable {
 		switch walletType {
 		case .ethereum:
 			return (R.image.wallet.ethereumCard.image,
-					coinAmount,
+                    fiatAmount,
 					currency: "ETH")
 		case .aur:
 			return (R.image.wallet.card.image,
-					coinAmount,
+                    fiatAmount,
 					currency: "AUR")
 		case .bitcoin:
 			return (R.image.wallet.ethereumCard.image,
-					coinAmount,
+                    fiatAmount,
 					currency: "BTC")
 		}
 	}

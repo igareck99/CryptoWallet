@@ -1,10 +1,10 @@
 import CoreData
-
+// swiftlint:disable all
 // MARK: - CoreDataServiceProtocol
 
 protocol CoreDataServiceProtocol {
 
-	var persistentContainer: NSPersistentContainer { get }
+//	var persistentContainer: NSPersistentContainer { get }
 
 	// MARK: - GET
 
@@ -31,7 +31,8 @@ protocol CoreDataServiceProtocol {
 		decimals: Int16,
 		symbol: String,
 		// Other
-		balance: String?
+		balance: String?,
+        fiatBalance: String?
 	) -> WalletNetwork?
 
 	@discardableResult
@@ -54,7 +55,8 @@ protocol CoreDataServiceProtocol {
 		decimals: Int16,
 		symbol: String,
 		// Other
-		balance: String?
+		balance: String?,
+        fiatBalance: String?
 	) -> WalletNetwork?
 
 	@discardableResult
@@ -85,6 +87,7 @@ private extension String {
 
 	// Other
 	static let balance = "balance"
+    static let fiatBalance = "fiatBalance"
 }
 
 typealias FetchResultClosure = ([WalletNetwork]) -> Void
@@ -94,19 +97,26 @@ final class CoreDataService: NSObject {
 	static let shared: CoreDataServiceProtocol = CoreDataService()
 
 	private var subscriptions = [NSFetchedResultsController<WalletNetwork>: FetchResultClosure]()
-
+    
 	lazy var persistentContainer: NSPersistentContainer = {
 		let container = NSPersistentContainer(name: .containerName)
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        
+        container.persistentStoreDescriptions.first?.shouldMigrateStoreAutomatically = true
+        container.persistentStoreDescriptions.first?.shouldInferMappingModelAutomatically = true
+        
 		container.loadPersistentStores { storeDescription, err in
 
 			debugPrint("storeDescription: \(storeDescription)")
+            
+            storeDescription.shouldMigrateStoreAutomatically = true
+            storeDescription.shouldInferMappingModelAutomatically = false
 
 			if let error = err {
 				fatalError("Load Failed: \(String(describing: err))")
 			}
 		}
-		container.viewContext.automaticallyMergesChangesFromParent = true
-		container.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
 		return container
 	}()
 
@@ -142,7 +152,7 @@ extension CoreDataService: CoreDataServiceProtocol {
 
 	func getWalletsTypes() -> [WalletType] {
 		getWalletNetworks()
-			.compactMap { WalletType(rawValue: $0.cryptoType) }
+            .compactMap { WalletType(rawValue: $0.cryptoType ?? "") }
 	}
 
 	func getWalletNetworks() -> [WalletNetwork] {
@@ -198,7 +208,8 @@ extension CoreDataService: CoreDataServiceProtocol {
 			contractType: wallet.token.contractType,
 			decimals: wallet.token.decimals,
 			symbol: wallet.token.symbol,
-			balance: nil
+			balance: nil,
+            fiatBalance: nil
 		)
 	}
 
@@ -214,7 +225,8 @@ extension CoreDataService: CoreDataServiceProtocol {
 		decimals: Int16,
 		symbol: String,
 		// Other
-		balance: String?
+		balance: String?,
+        fiatBalance: String?
 	) -> WalletNetwork? {
 
 		let context = persistentContainer.viewContext
@@ -235,6 +247,7 @@ extension CoreDataService: CoreDataServiceProtocol {
 
 		// Other
 		model.setValue(balance, forKey: .balance)
+//        model.setValue(fiatBalance, forKey: .fiatBalance)
 
 		do {
 			try context.save()
@@ -249,18 +262,19 @@ extension CoreDataService: CoreDataServiceProtocol {
 	@discardableResult
 	func updateWalletNetwork(model: WalletNetwork) -> WalletNetwork? {
 		updateWalletNetwork(
-			id: model.id,
-			lastUpdate: model.lastUpdate,
-			cryptoType: model.cryptoType,
-			name: model.name,
-			derivePath: model.derivePath,
+            id: model.id ?? UUID(),
+            lastUpdate: model.lastUpdate ?? "",
+            cryptoType: model.cryptoType ?? "",
+            name: model.name ?? "",
+            derivePath: model.derivePath ?? "",
 			// Token
-			address: model.address,
+            address: model.address ?? "",
 			contractType: model.contractType,
 			decimals: model.decimals,
-			symbol: model.symbol,
+            symbol: model.symbol ?? "",
 			// Other
-			balance: model.balance
+			balance: model.balance,
+            fiatBalance: ""//model.fiatBalance?.stringValue
 		)
 	}
 
@@ -277,7 +291,8 @@ extension CoreDataService: CoreDataServiceProtocol {
 		decimals: Int16,
 		symbol: String,
 		// Other
-		balance: String?
+		balance: String?,
+        fiatBalance: String?
 	) -> WalletNetwork? {
 
 		guard let model = getWalletNetwork(byId: id) else { return nil }
@@ -294,6 +309,8 @@ extension CoreDataService: CoreDataServiceProtocol {
 		model.setValue(symbol, forKey: .symbol)
 		// Other
 		model.setValue(balance, forKey: .balance)
+//        model.setValue(fiatBalance, forKey: .fiatBalance)
+        
 		do {
 			try context.save()
 		} catch let err {

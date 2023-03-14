@@ -1,14 +1,10 @@
 import Foundation
 
 struct WalletsTransactionsResponse: Codable {
-	let ethereum: [String: [CryptoTransaction]]
-	let bitcoin: [String: [CryptoTransaction]]
+	let ethereum: [String: [CryptoTransaction]]?
+	let bitcoin: [String: [CryptoTransaction]]?
 }
 
-struct WalletsAdressesReponse: Codable {
-    let ethereum: [String: [String]]
-    let bitcoin: [String: [String]]
-}
 
 struct CryptoTransaction: Codable {
 	let hash: String

@@ -14,6 +14,11 @@ protocol WalletNetworkFacadeProtocol {
 		params: BalanceRequestParams,
 		completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
 	)
+    
+    func getBalancesV2(
+        params: BalanceRequestParams,
+        completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
+    )
 
 	func getTransactions(
 		params: TransactionsRequestParams,
@@ -124,6 +129,28 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 			completion(.success(model))
 		}
 	}
+    
+    func getBalancesV2(
+        params: BalanceRequestParams,
+        completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
+    ) {
+        let paramsDict: [String: Any] = params.dictionary
+        let request = walletRequestsFactory.buildBalancesV2(parameters: paramsDict)
+        let urlRequest = networkRequestFactory.makePostRequest(from: request)
+        networkService.send(request: urlRequest) { [weak self] data, response, error in
+            guard let self = self else { return }
+            self.logReponse("getBalances", data, response, error)
+            guard
+                let data = data,
+                let model = Parser.parse(data: data, to: BalancesResponse.self)
+            else {
+                completion(.failure)
+                return
+            }
+            debugPrint("model: \(model)")
+            completion(.success(model))
+        }
+    }
 
 	// MARK: - Transactions
 
