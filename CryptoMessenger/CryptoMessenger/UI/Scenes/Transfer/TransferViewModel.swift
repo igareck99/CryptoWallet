@@ -131,7 +131,7 @@ final class TransferViewModel: ObservableObject {
 				guard let self = self else { return false }
 				return dbWallet.cryptoType == self.currentWalletType.rawValue
 			}),
-			  let walletType = WalletType(rawValue: selectedWallet.cryptoType)
+              let walletType = WalletType(rawValue: selectedWallet.cryptoType ?? "")
 		else {
 			return
 		}
@@ -139,7 +139,7 @@ final class TransferViewModel: ObservableObject {
 		currentWallet = WalletInfo(
 			decimals: Int(selectedWallet.decimals),
 			walletType: walletType,
-			address: selectedWallet.address,
+            address: selectedWallet.address ?? "",
 			coinAmount: selectedWallet.balance ?? "",
 			fiatAmount: selectedWallet.balance ?? ""
 		)

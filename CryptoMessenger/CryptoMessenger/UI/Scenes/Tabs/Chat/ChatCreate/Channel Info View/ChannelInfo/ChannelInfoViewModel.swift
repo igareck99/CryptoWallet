@@ -1,3 +1,4 @@
+import Combine
 import SwiftUI
 
 // swiftlint: disable: all
@@ -96,6 +97,10 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     func isRoomPublic()
     
     func onAvatarChange()
+    
+    func onCameraPickerTap() -> Bool
+    
+    func onOpenSettingsTap()
 }
 
 // MARK: - ChannelInfoViewModel
@@ -311,6 +316,7 @@ final class ChannelInfoViewModel {
     private let factory: ChannelUsersFactoryProtocol.Type
     private var roomPowerLevels: MXRoomPowerLevels?
     private var eventsListener: MXEventListener?
+    private let accessService: MediaAccessProtocol & PhotosAccessProtocol
     
     var chatData: Binding<ChatData>
     @Binding var saveData: Bool
@@ -320,13 +326,15 @@ final class ChannelInfoViewModel {
         chatData: Binding<ChatData>,
         saveData: Binding<Bool>,
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
-        factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self
+        factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
+        accessService: MediaAccessProtocol & PhotosAccessProtocol = AccessService.shared
     ) {
         self.roomId = roomId
         self.chatData = chatData
         self._saveData = saveData
         self.matrixUseCase = matrixUseCase
         self.factory = factory
+        self.accessService = accessService
         self.getRoomInfo()
         self.loadUsers()
         self.isRoomPublic()
@@ -448,6 +456,15 @@ final class ChannelInfoViewModel {
 // MARK: - ChannelInfoViewModelProtocol
 
 extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
+    
+    func onOpenSettingsTap() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        UIApplication.shared.open(url)
+    }
+    
+    func onCameraPickerTap() -> Bool {
+        return accessService.videoAccessLevel == .authorized
+    }
     
     func onMakeRoleTap() {
         self.showSelectOwner.wrappedValue = true

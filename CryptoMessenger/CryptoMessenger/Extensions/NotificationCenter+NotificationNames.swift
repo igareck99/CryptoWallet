@@ -14,4 +14,7 @@ extension Notification.Name {
 
 	static let callDidStart = Notification.Name("CallDidStart")
 	static let callDidEnd = Notification.Name("CallDidEnd")
+    
+    static let photoAccessLevelDidChange = Notification.Name("PhotoAccessLevelDidChange")
+    static let locationAccessLevelDidChange = Notification.Name("LocationAccessLevelDidChange")
 }

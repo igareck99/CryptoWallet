@@ -9,4 +9,5 @@ struct Balance: Codable {
 	let accountAddress: String
 	let tokenAddress: String?
 	let amount: String
+    let fiatPrice: Double?
 }
