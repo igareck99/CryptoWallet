@@ -34,8 +34,8 @@ struct PhotoView: View {
 	var body: some View {
 		VStack(alignment: .trailing, spacing: 0) {
 			ZStack(alignment: .bottom) {
-				AsyncImage(
-					url: url,
+                AsyncImage(
+					defaultUrl: url,
 					placeholder: { ShimmerView().frame(width: 224, height: 245) },
 					resultView: {
 						Image(uiImage: $0).resizable().frame(width: 224, height: 245).cornerRadius(16)

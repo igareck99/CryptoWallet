@@ -24,19 +24,19 @@ final class SettingsViewModel: ObservableObject {
         self.room = room
         bindInput()
     }
-    
+
     deinit {
         subscriptions.forEach { $0.cancel() }
         subscriptions.removeAll()
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     // MARK: - Internal Methods
 
     func send(_ event: SettingsFlow.Event) {
         eventSubject.send(event)
     }
-    
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -44,7 +44,7 @@ final class SettingsViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    print("smkdsakmdkmsd")
+                    ()
                 case let .onFriendProfile(userId: userId):
                     self?.delegate?.handleNextScene(.friendProfile(userId))
                 }

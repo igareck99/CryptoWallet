@@ -49,6 +49,7 @@ struct SettingsView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
+                        saveData = false
                         presentationMode.wrappedValue.dismiss()
                     }, label: {
                         R.image.navigation.backButton.image
@@ -64,7 +65,7 @@ struct SettingsView: View {
                     Button(action: {
 						chatData.title = titleText
 						chatData.description = descriptionText
-                        saveData.toggle()
+                        saveData = true
                         presentationMode.wrappedValue.dismiss()
                     }, label: {
                         Text("Готово")

@@ -68,7 +68,7 @@ struct ChatRoomRow: View {
                     VStack(spacing: 0) {
                         Spacer()
                         AsyncImage(
-                            url: message.avatar,
+                            defaultUrl: message.avatar,
                             placeholder: {
                                 ZStack {
                                     Color(.lightBlue())
@@ -141,7 +141,7 @@ struct ChatRoomRow: View {
                     VStack(spacing: 0) {
                         Spacer()
                         AsyncImage(
-                            url: message.avatar,
+                            defaultUrl: message.avatar,
                             placeholder: {
                                 ZStack {
                                     Color(.lightBlue())

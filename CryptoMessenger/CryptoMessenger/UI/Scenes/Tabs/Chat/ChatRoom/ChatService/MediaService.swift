@@ -1,6 +1,8 @@
 import UIKit
 import Combine
 
+// MARK: - MediaServiceProtocol
+
 protocol MediaServiceProtocol {
     func downloadChatImages(roomId: String,
                             completion: @escaping ([URL]) -> Void)
@@ -21,6 +23,7 @@ protocol MediaServiceProtocol {
                             url: URL,
                             thumbnail: MXImage?,
                             completion: @escaping (String?) -> Void)
+    func downloadData(_ url: URL?, completion: @escaping (Data?) -> Void)
 }
 
 enum MediaServiceError: Error {
@@ -83,6 +86,20 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
                 completion(response.original)
             }
             .store(in: &subscriptions)
+    }
+
+    func downloadData(_ url: URL?, completion: @escaping (Data?) -> Void) {
+        guard let url = url else {
+            completion(nil)
+            return
+        }
+        do {
+            if let data = try? Data(contentsOf: url) {
+                completion(data)
+            }
+        } catch {
+            completion(nil)
+        }
     }
 
     func getPhotoFeedPhotos(userId: String, completion: @escaping ([URL]) -> Void) {

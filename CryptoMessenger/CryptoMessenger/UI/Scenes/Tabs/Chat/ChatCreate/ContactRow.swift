@@ -20,7 +20,7 @@ struct ContactRow: View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
                 AsyncImage(
-                    url: avatar,
+                    defaultUrl: avatar,
                     placeholder: {
                         ZStack {
                             Color(.lightBlue())

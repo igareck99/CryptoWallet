@@ -54,7 +54,7 @@ struct ProfileBackgroundView: View {
 
         return ZStack {
             AsyncImage(
-                url: viewModel.profile.avatar,
+                defaultUrl: viewModel.profile.avatar,
                 placeholder: { thumbnail },
                 result: { Image(uiImage: $0).resizable() }
             )

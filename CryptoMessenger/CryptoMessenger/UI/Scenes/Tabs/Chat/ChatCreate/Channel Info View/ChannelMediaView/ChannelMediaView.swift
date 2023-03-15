@@ -132,7 +132,7 @@ struct ChannelMediaView: View {
                     VStack(spacing: 0) {
                         let width = (UIScreen.main.bounds.width - 3) / 3
                         AsyncImage(
-                            url: viewModel.photos[index],
+                            defaultUrl: viewModel.photos[index],
                             placeholder: {
                                 ZStack { Color(.lightBlue()) }
                             },

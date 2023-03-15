@@ -71,7 +71,7 @@ struct ContactInfoView: View {
         changeShowValue()
         return ZStack {
             AsyncImage(
-                url: data.url,
+                defaultUrl: data.url,
                 placeholder: {
                     if showUploadImage {
                         ProgressView()

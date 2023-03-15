@@ -82,8 +82,8 @@ struct FeedImageViewerView: View {
                 .ignoresSafeArea()
 
 //            ScrollView {
-                AsyncImage(
-                    url: selectedPhoto,
+            AsyncImage(
+                    defaultUrl: selectedPhoto,
                     placeholder: { ShimmerView()
                             .frame(height: UIScreen.main.bounds.width)
                     },

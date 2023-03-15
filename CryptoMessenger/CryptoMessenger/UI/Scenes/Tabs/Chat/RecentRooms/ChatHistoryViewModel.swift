@@ -121,7 +121,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                         self.leaveRoomAction(roomId, completion: { value in
                             self.leaveState[roomId] = value
                         })
-                        print("slas;lasl;as;l  \(self.leaveState)")
                     }
                 }
                 self.allowPushNotifications()

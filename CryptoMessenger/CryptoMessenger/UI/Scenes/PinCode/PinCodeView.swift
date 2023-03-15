@@ -69,7 +69,7 @@ final class PinCodeView: UIView {
         addPasswordLabel()
         addDotes()
         addUnionStack()
-        addEnterButton()
+        // addEnterButton()
     }
 
     @available(*, unavailable)

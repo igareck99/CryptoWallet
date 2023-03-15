@@ -108,7 +108,6 @@
 		5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681926A9C079000C51DD /* PhoneHelper.swift */; };
 		5A43086927C8282000A9B582 /* MediaResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A43086827C8282000A9B582 /* MediaResponse.swift */; };
 		5A43087127C9079F00A9B582 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A43086C27C9079F00A9B582 /* ImageLoader.swift */; };
-		5A43087327C9079F00A9B582 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A43086E27C9079F00A9B582 /* AsyncImage.swift */; };
 		5A44FED72766816C006F9D92 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FED62766816C006F9D92 /* ProfileViewModel.swift */; };
 		5A44FEDB276681BD006F9D92 /* ProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FED8276681BD006F9D92 /* ProfileProtocols.swift */; };
 		5A44FEDC276681BD006F9D92 /* ProfileConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A44FED9276681BD006F9D92 /* ProfileConfigurator.swift */; };
@@ -471,6 +470,7 @@
 		8B7C17EC27DB894A001113F2 /* NumberFormatterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C17EB27DB894A001113F2 /* NumberFormatterProtocol.swift */; };
 		8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */; };
 		8B7D8A1727DA5C1400BBFEFD /* CurrencyUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D8A1627DA5C1400BBFEFD /* CurrencyUITextField.swift */; };
+		8B7E290429C20AEF001A11C6 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7E290329C20AEF001A11C6 /* AsyncImage.swift */; };
 		8B7F856F28C65FA200C8F9EB /* SettingsAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7F856E28C65FA200C8F9EB /* SettingsAction.swift */; };
 		8B82988F2982E3550038C546 /* ChannelAddUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B82988E2982E3550038C546 /* ChannelAddUserView.swift */; };
 		8B8298912983CB150038C546 /* ChannelAddUserViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8298902983CB150038C546 /* ChannelAddUserViewCell.swift */; };
@@ -1385,7 +1385,6 @@
 		5A42681926A9C079000C51DD /* PhoneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneHelper.swift; sourceTree = "<group>"; };
 		5A43086827C8282000A9B582 /* MediaResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaResponse.swift; sourceTree = "<group>"; };
 		5A43086C27C9079F00A9B582 /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
-		5A43086E27C9079F00A9B582 /* AsyncImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		5A44FED62766816C006F9D92 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		5A44FED8276681BD006F9D92 /* ProfileProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileProtocols.swift; sourceTree = "<group>"; };
 		5A44FED9276681BD006F9D92 /* ProfileConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileConfigurator.swift; sourceTree = "<group>"; };
@@ -1747,6 +1746,7 @@
 		8B7C17EB27DB894A001113F2 /* NumberFormatterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterProtocol.swift; sourceTree = "<group>"; };
 		8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		8B7D8A1627DA5C1400BBFEFD /* CurrencyUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyUITextField.swift; sourceTree = "<group>"; };
+		8B7E290329C20AEF001A11C6 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		8B7F856E28C65FA200C8F9EB /* SettingsAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAction.swift; sourceTree = "<group>"; };
 		8B82988E2982E3550038C546 /* ChannelAddUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelAddUserView.swift; sourceTree = "<group>"; };
 		8B8298902983CB150038C546 /* ChannelAddUserViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelAddUserViewCell.swift; sourceTree = "<group>"; };
@@ -3607,7 +3607,6 @@
 		5A43086A27C9079F00A9B582 /* ImageLoader */ = {
 			isa = PBXGroup;
 			children = (
-				5A43086E27C9079F00A9B582 /* AsyncImage.swift */,
 				5A43086C27C9079F00A9B582 /* ImageLoader.swift */,
 			);
 			path = ImageLoader;
@@ -3754,6 +3753,7 @@
 				D4533A132832C9A600B956B2 /* ChatRoomTogglesFacade.swift */,
 				D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */,
 				8B0C4FF92890613500671BA3 /* ChatRoomResources.swift */,
+				8B7E290329C20AEF001A11C6 /* AsyncImage.swift */,
 			);
 			path = ChatRoom;
 			sourceTree = "<group>";
@@ -8095,7 +8095,6 @@
 				8B34A9FE28D4AC210097ED9E /* MenuActionsFacadeAssembly.swift in Sources */,
 				7846B66E26E8BFF600B05984 /* CellState.swift in Sources */,
 				D4EFEC7828E2AF110075CC10 /* MXRoomLastMessage.m in Sources */,
-				5A43087327C9079F00A9B582 /* AsyncImage.swift in Sources */,
 				D4EFEC1228E2AF110075CC10 /* MXEventTimeline.swift in Sources */,
 				5A8C66E127FAC87A00CA9531 /* Authenticator.swift in Sources */,
 				D4EFEC2E28E2AF110075CC10 /* MXSpaceStore.swift in Sources */,
@@ -8476,6 +8475,7 @@
 				78EDCAF9286AAEAC00D3CBC5 /* MapViewModel.swift in Sources */,
 				D4EFEC9628E2AF110075CC10 /* MXBeaconInfoSummaryStoreProtocol.swift in Sources */,
 				8B6C18C6279ABB1200B85F2A /* SecurityFlow.swift in Sources */,
+				8B7E290429C20AEF001A11C6 /* AsyncImage.swift in Sources */,
 				D428A53D2823CA8D002CAA13 /* RemoteConfigServiceProtocol.swift in Sources */,
 				8B84F1BB28E32C6E0045818F /* FriendProfileMenuRow.swift in Sources */,
 				78437F0F270C76FE00371110 /* AboutAppProtocols.swift in Sources */,
