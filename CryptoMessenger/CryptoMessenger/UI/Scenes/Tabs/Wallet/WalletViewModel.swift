@@ -365,12 +365,14 @@ final class WalletViewModel: ObservableObject {
 
 		let cards: [WalletInfo] = updatedWallets.map {
             let walletType: WalletType = $0.cryptoType == "ethereum" ? WalletType.ethereum : WalletType.bitcoin
+            let fiat = $0.fiatPrice * (($0.balance as? NSString)?.doubleValue ?? 1)
+            let fiatAmount = String(format: "%.2f", fiat)
             return WalletInfo(
                 decimals: Int($0.decimals),
                 walletType: walletType,
                 address: $0.address ?? "",
                 coinAmount: $0.balance ?? "0",
-                fiatAmount: "\($0.fiatPrice * (($0.balance as? NSString)?.doubleValue ?? 1))"
+                fiatAmount: fiatAmount
             )
 		}
 		DispatchQueue.main.async {

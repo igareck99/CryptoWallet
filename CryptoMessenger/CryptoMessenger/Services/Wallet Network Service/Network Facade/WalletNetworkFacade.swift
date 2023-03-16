@@ -134,22 +134,19 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
         params: BalanceRequestParamsV2,
         completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
     ) {
+        let currency: String = params.currency.rawValue
+        let ethAddress: String = params.addresses[.ethereum]?.first?.accountAddress ?? ""
+        let btcAddress: String = params.addresses[.bitcoin]?.first?.accountAddress ?? ""
+
         let paramsDict: [String: Any] =
         [
-            "currency": "\(params.currency.rawValue)",
-        "addresses": [
-            "ethereum": [
-                [
-                    "accountAddress": "\(params.addresses[.ethereum])"
-                ]
-            ],
-            "bitcoin": [
-                [
-                    "accountAddress": "\(params.addresses[.bitcoin])"
-                ]
+            "currency": currency,
+            "addresses": [
+                "ethereum": [["accountAddress": ethAddress]],
+                "bitcoin": [["accountAddress": btcAddress]]
             ]
         ]
-    ]
+
         let request = walletRequestsFactory.buildBalancesV2(parameters: paramsDict)
         let urlRequest = networkRequestFactory.makePostRequest(from: request)
         networkService.send(request: urlRequest) { [weak self] data, response, error in
