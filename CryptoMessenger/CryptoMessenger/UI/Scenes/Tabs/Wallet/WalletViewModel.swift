@@ -327,12 +327,13 @@ final class WalletViewModel: ObservableObject {
 		let bitcoin: [WalletBalanceAddress] = [
 			WalletBalanceAddress(accountAddress: bitcoinAddress)
 		]
-		let params = BalanceRequestParams(
-//            currency: .usd,
-            ethereum: ethereum,
-			bitcoin: bitcoin
-		)
-		walletNetworks.getBalances(params: params) { [weak self] in
+
+        let params = BalanceRequestParamsV2(
+            currency: .usd,
+            addresses: [.ethereum: ethereum, .bitcoin: bitcoin]
+        )
+
+		walletNetworks.getBalancesV2(params: params) { [weak self] in
 
             defer {
                 self?.updateWalletsFromDB()
@@ -369,7 +370,7 @@ final class WalletViewModel: ObservableObject {
                 walletType: walletType,
                 address: $0.address ?? "",
                 coinAmount: $0.balance ?? "0",
-                fiatAmount: "\($0.fiatPrice)"
+                fiatAmount: "\($0.fiatPrice * (($0.balance as? NSString)?.doubleValue ?? 1))"
             )
 		}
 		DispatchQueue.main.async {

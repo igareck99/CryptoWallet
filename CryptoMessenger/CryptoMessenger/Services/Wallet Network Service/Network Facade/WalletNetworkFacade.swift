@@ -16,7 +16,7 @@ protocol WalletNetworkFacadeProtocol {
 	)
     
     func getBalancesV2(
-        params: BalanceRequestParams,
+        params: BalanceRequestParamsV2,
         completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
     )
 
@@ -129,17 +129,32 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 			completion(.success(model))
 		}
 	}
-    
+
     func getBalancesV2(
-        params: BalanceRequestParams,
+        params: BalanceRequestParamsV2,
         completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
     ) {
-        let paramsDict: [String: Any] = params.dictionary
+        let paramsDict: [String: Any] =
+        [
+            "currency": "\(params.currency.rawValue)",
+        "addresses": [
+            "ethereum": [
+                [
+                    "accountAddress": "\(params.addresses[.ethereum])"
+                ]
+            ],
+            "bitcoin": [
+                [
+                    "accountAddress": "\(params.addresses[.bitcoin])"
+                ]
+            ]
+        ]
+    ]
         let request = walletRequestsFactory.buildBalancesV2(parameters: paramsDict)
         let urlRequest = networkRequestFactory.makePostRequest(from: request)
         networkService.send(request: urlRequest) { [weak self] data, response, error in
             guard let self = self else { return }
-            self.logReponse("getBalances", data, response, error)
+            self.logReponse("getBalancesV2", data, response, error)
             guard
                 let data = data,
                 let model = Parser.parse(data: data, to: BalancesResponse.self)
