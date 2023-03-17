@@ -356,7 +356,6 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .font(.system(size: 17))
                 .frame(height: 134)
                 .cornerRadius(8)
-                .keyboardType(.alphabet)
         }
     }
 
