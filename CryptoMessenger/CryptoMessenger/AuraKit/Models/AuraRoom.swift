@@ -175,31 +175,6 @@ final class AuraRoom: ObservableObject {
 
     // TODO: - Will be Deprecated
 
-    func sendImage(_ image: UIImage) {
-        let fixedImage = image.fixOrientation()
-        guard let imageData = fixedImage.jpeg(.medium) else { return }
-
-        var localEcho: MXEvent?
-        room.sendImage(
-            data: imageData,
-            size: image.size,
-            mimeType: "image/jpeg",
-            thumbnail: image,
-			blurhash: nil,
-            localEcho: &localEcho
-        ) { response in
-            switch response {
-            case let .success(result):
-                guard let event = self.events().renderableEvents.first(where: { result == $0.eventId
-                }) else { return }
-                self.eventCache.append(event)
-            default:
-                break
-            }
-            self.objectWillChange.send()
-        }
-    }
-
     func updateEvents(eventId: String?) {
         guard let event = self.events().renderableEvents.first(where: { eventId == $0.eventId
         }) else { return }

@@ -173,7 +173,7 @@ extension MatrixService {
             completion(.failure(.imageUploadError)); return
         }
         let fixedImage = image.fixOrientation()
-        guard let imageData = fixedImage.jpeg(.medium) else { return }
+        guard let imageData = fixedImage.jpeg(.highest) else { return }
 
         var localEcho: MXEvent?
         room.sendImage(

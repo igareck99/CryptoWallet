@@ -152,10 +152,12 @@ struct ChatRoomView: View {
             .fullScreenCover(isPresented: self.$showImageViewer,
                              content: {
                 ImageViewerRemote(imageURL: $selectedPhoto,
-                                  viewerShown: self.$showImageViewer, onDelete: {
-                    print("OnDelete")
+                                  viewerShown: self.$showImageViewer,
+                                  deleteActionAvailable: false,
+                                onDelete: {
+                    debugPrint("OnDelete")
                 }, onShare: {
-                    print("onShare")
+                    debugPrint("onShare")
                 })
                     .ignoresSafeArea()
                     .navigationBarHidden(true)
