@@ -18,6 +18,7 @@ struct ChatData {
     var admins: [Contact] = []
     var shareLink: URL?
     var isDirect = false
+    var avatarUrl: URL?
 }
 
 // MARK: - Contact

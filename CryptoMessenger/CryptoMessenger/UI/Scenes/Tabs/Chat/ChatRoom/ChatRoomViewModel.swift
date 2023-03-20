@@ -57,6 +57,8 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var isChatDirectMenuAvailable: Bool = false
     @Published var isReactionsAvailable: Bool = false
     @Published var isVideoMessageAvailable: Bool = false
+    @Published var roomAvatarUrl: URL?
+    @Published var isAvatarLoading = false
 
 	private let groupCallsUseCase: GroupCallsUseCaseProtocol
 
@@ -91,7 +93,7 @@ final class ChatRoomViewModel: ObservableObject {
 	private let availabilityFacade: ChatRoomTogglesFacadeProtocol
 	private let settings: UserDefaultsServiceCallable
 
-    @Injectable private var matrixUseCase: MatrixUseCaseProtocol
+    @Injectable var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var translateManager: TranslateManager
     @Injectable private var locationManager: LocationManagerUseCaseProtocol
 	private let componentsFactory: ChatComponentsFactoryProtocol
@@ -416,6 +418,7 @@ final class ChatRoomViewModel: ObservableObject {
                     self.loadUsers()
                     self.room.markAllAsRead()
                     self.matrixUseCase.objectChangePublisher.send()
+                    self.fetchChatData()
                 case .onNextScene:
                     ()
                 case let .onSendText(text):
@@ -584,6 +587,8 @@ final class ChatRoomViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
+        
+        
         $directAction
             .receive(on: DispatchQueue.main)
             .sink { [weak self] action in
@@ -713,14 +718,21 @@ final class ChatRoomViewModel: ObservableObject {
                 if let topic = self?.chatData.description {
                     room.setTopic(topic) { _ in }
                 }
-
                 if let data = self?.chatData.image?.jpeg(.medium) {
+                    self?.isAvatarLoading = true
+                    self?.objectWillChange.send()
                     self?.matrixUseCase.uploadData(data: data, for: room) { [weak self] url in
                         guard let url = url else { return }
                         room.setAvatar(url: url) { [weak self] _ in
                             guard let self = self else { return }
                             let homeServer = self.config.matrixURL
-                            self.room.roomAvatar = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
+                            self.roomAvatarUrl = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
+                            self.isAvatarLoading = false
+                            self.mediaService.downloadData(self.roomAvatarUrl) { data in
+                                guard let data = data else { return }
+                                DispatchQueue.main.async { self.chatData.image = UIImage(data: data) }
+                            }
+                            
                         }
                     }
                 }
@@ -784,6 +796,11 @@ final class ChatRoomViewModel: ObservableObject {
                     .compactMap { $0 }
                 let messagesFullDate: [String] = self.messages.map {
                     return $0.fullDate
+                }
+                if let url = self.matrixUseCase.getRoomAvatarUrl(roomId: self.room.room.roomId) {
+                    let homeServer = self.config.matrixURL
+                    self.room.roomAvatar = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
+                    self.roomAvatarUrl = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
                 }
                 self.isOneDayMessages = messagesFullDate.dropFirst().reduce(true) { partialResult, element in
                     return partialResult && element == messagesFullDate.first
@@ -856,6 +873,7 @@ final class ChatRoomViewModel: ObservableObject {
                 DispatchQueue.main.async { self?.chatData.image = UIImage(data: data) }
             }
         }
+        
 
         chatData.media = room.events().wrapped
             .map { $0.getMediaURLs() ?? [] }
@@ -865,7 +883,6 @@ final class ChatRoomViewModel: ObservableObject {
                 return MXURL(mxContentURI: $0)?.contentURL(on: homeServer)
             }
             .compactMap { $0 }
-
         room.room.members { [weak self] response in
             switch response {
             case let .success(members):

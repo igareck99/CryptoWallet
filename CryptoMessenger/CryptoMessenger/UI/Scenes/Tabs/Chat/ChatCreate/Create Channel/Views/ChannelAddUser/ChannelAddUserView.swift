@@ -63,7 +63,7 @@ struct ChannelAddUserView: View {
                                 }
                                 HStack(spacing: 10) {
                                     AsyncImage(
-                                        url: contact.avatar,
+                                        defaultUrl: contact.avatar,
                                         placeholder: {
                                             ZStack {
                                                 Color(.lightBlue())

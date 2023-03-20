@@ -251,7 +251,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     .cornerRadius(40)
             } else {
                 AsyncImage(
-                    url: viewModel.roomImageUrl,
+                    defaultUrl: viewModel.roomImageUrl,
                     placeholder: {
                         ZStack {
                             Color(.lightBlue())
@@ -372,7 +372,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     .padding(.bottom, 16)
             } else {
                 AsyncImage(
-                    url: viewModel.roomImageUrl,
+                    defaultUrl: viewModel.roomImageUrl,
                     placeholder: {
                         ZStack {
                             Color(.lightBlue())

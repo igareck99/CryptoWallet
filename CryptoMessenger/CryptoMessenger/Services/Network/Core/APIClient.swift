@@ -74,7 +74,7 @@ final class APIClient: NSObject, APIClientManager {
                                 }
                                 .eraseToAnyPublisher()
                         } else if statusCode == 400 {
-                            throw APIError.invalidToken
+                            throw APIError.apiError(4, nil)
                         } else {
                             throw error as Error
                         }

@@ -291,7 +291,9 @@ struct ProfileView: View {
                     .clipped()
             } else if let url = viewModel.profile.avatar {
                 AsyncImage(
-                    url: url,
+                    defaultUrl: url,
+                    updatingPhoto: false,
+                    url: nil,
                     placeholder: {
                         ZStack {
                             Circle()
@@ -332,7 +334,9 @@ struct ProfileView: View {
                     VStack(spacing: 0) {
                         let width = (geometry.size.width - 3) / 3
                         AsyncImage(
-                            url: url,
+                            defaultUrl: url,
+                            updatingPhoto: false,
+                            url: nil,
                             placeholder: {
                                 ProgressView()
                                     .tint(Color(.blue()))

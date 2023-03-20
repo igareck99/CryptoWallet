@@ -60,6 +60,7 @@ struct ChatRoomView: View {
     @State private var activeEditMessage: RoomMessage?
     @State private var deleteMessage: RoomMessage?
     @State private var quickAction: QuickActionCurrentUser?
+    @State private var testAvatarUrl: URL?
 
     @FocusState private var inputViewIsFocused: Bool
 
@@ -87,6 +88,10 @@ struct ChatRoomView: View {
                     viewModel.sendPhotos(images: photosToSend)
                 }
                 photosToSend = []
+            })
+            .onReceive(viewModel.$roomAvatarUrl, perform: { value in
+                guard let url = value else { return }
+                testAvatarUrl = url
             })
             .onDisappear {
                 showTabBar()
@@ -595,7 +600,10 @@ struct ChatRoomView: View {
                     viewModel.sources.backButton
                 })
                 AsyncImage(
-                    url: viewModel.room.roomAvatar,
+                    defaultUrl: $testAvatarUrl.wrappedValue,
+                    updatingPhoto: true,
+                    url: $testAvatarUrl,
+                    isAvatarLoading: $viewModel.isAvatarLoading,
                     placeholder: {
                         ZStack {
                             Color(.lightBlue())

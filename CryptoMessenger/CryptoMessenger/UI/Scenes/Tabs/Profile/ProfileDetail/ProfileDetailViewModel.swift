@@ -129,6 +129,7 @@ final class ProfileDetailViewModel: ObservableObject {
             let link = link
             let homeServer = self.config.matrixURL
             self.profile.avatar = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
+            self.objectWillChange.send()
         }
         if let str = keychainService.apiUserPhoneNumber {
             let suffixIndex = str.index(str.startIndex, offsetBy: 3)

@@ -75,8 +75,8 @@ struct ChatHistoryRow: View {
 	private func avatarView() -> AnyView {
 		AnyView(
 			ZStack {
-				AsyncImage(
-					url: room.roomAvatar,
+                AsyncImage(
+					defaultUrl: room.roomAvatar,
 					placeholder: {
 						ZStack {
 							Color(.lightBlue())
@@ -114,8 +114,8 @@ struct ChatHistoryRow: View {
 		case let .image(url):
 			return AnyView(
 				HStack(spacing: 6) {
-					AsyncImage(
-						url: url,
+                    AsyncImage(
+						defaultUrl: url,
 						placeholder: {
 							ShimmerView().frame(width: 20, height: 20)
 						},
@@ -159,8 +159,8 @@ struct ChatHistoryRow: View {
 		case let .contact(_, _, url):
 			return AnyView(
 				HStack(spacing: 6) {
-					AsyncImage(
-						url: url,
+                    AsyncImage(
+						defaultUrl: url,
 						placeholder: {
 							ShimmerView().frame(width: 20, height: 20)
 						},

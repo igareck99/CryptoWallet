@@ -47,7 +47,7 @@ public struct ImageViewerRemote: View {
                     VStack {
                         ZStack {
                             AsyncImage(
-                                url: self.imageURL,
+                                defaultUrl: self.imageURL,
                                 placeholder: {
                                     ProgressView()
                                         .frame(width: 48,

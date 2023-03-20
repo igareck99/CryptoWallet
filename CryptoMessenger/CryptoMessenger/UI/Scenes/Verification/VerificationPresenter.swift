@@ -100,7 +100,8 @@ final class VerificationPresenter {
                         self?.state = .error(message: APIError.serverError.localizedDescription)
                         return
                     }
-					self?.state = .error(message: APIError.serverError.errorDescription)
+                    
+                    self?.state = .error(message: err.errorDescription)
                 default:
                     break
                 }

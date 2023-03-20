@@ -18,7 +18,7 @@ import Foundation
 import Realm
 
 class MXRealmBeaconInfoSummary: RLMObject {
-    
+
     // MARK: - Properties
 
     @objc dynamic var identifier: String = ""
@@ -27,19 +27,17 @@ class MXRealmBeaconInfoSummary: RLMObject {
     @objc dynamic var deviceId: String?
     @objc dynamic var beaconInfo: MXRealmBeaconInfo?
     @objc dynamic var lastBeacon: MXRealmBeacon?
-    
+
     // MARK: - Setup
-    
+
     convenience init(identifier: String,
-                  userId: String,
-                  roomId: String,
-                  deviceId: String? = nil,
-                  beaconInfo: MXRealmBeaconInfo,
-                  lastBeacon: MXRealmBeacon? = nil) {
-        
+                     userId: String,
+                     roomId: String,
+                     deviceId: String? = nil,
+                     beaconInfo: MXRealmBeaconInfo,
+                     lastBeacon: MXRealmBeacon? = nil) {
         // https://www.mongodb.com/docs/realm-legacy/docs/swift/latest/#adding-custom-initializers-to-object-subclasses
         self.init() // Please note this says 'self' and not 'super'
-        
         self.identifier = identifier
         self.userId = userId
         self.roomId = roomId

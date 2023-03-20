@@ -12,6 +12,7 @@ enum APIError: Error, Equatable {
     case invalidData
     case apiError(Int, Data?)
     case invalidToken
+    case invalidCode
 }
 
 // MARK: - APIError (LocalizedError)
@@ -30,6 +31,8 @@ extension APIError: LocalizedError {
             return "Что-то пошло не так"
         case .invalidToken:
             return "Срок жизни токена истек. Обновляем.."
+        case .invalidCode:
+            return "Неверный код"
 		default: return "Что-то пошло не так"
         }
     }

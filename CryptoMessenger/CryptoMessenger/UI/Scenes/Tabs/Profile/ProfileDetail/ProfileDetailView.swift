@@ -200,7 +200,7 @@ struct ProfileDetailView: View {
                         .clipped()
                 } else if let url = viewModel.profile.avatar {
                     AsyncImage(
-                        url: url,
+                        defaultUrl: url,
                         placeholder: {
                             ZStack {
                                 ProgressView()

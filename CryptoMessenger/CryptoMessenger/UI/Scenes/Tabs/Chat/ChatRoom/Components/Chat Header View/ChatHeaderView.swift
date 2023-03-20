@@ -46,8 +46,8 @@ struct ChatHeaderView: View {
 
 				Spacer().frame(width: 16)
 
-				AsyncImage(
-					url: roomAvatar,
+                AsyncImage(
+					defaultUrl: roomAvatar,
 					placeholder: {
 						ZStack {
 							Color(.lightBlue())

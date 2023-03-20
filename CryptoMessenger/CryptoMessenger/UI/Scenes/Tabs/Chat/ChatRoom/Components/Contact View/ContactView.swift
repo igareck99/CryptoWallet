@@ -40,8 +40,8 @@ struct ContactView: View {
 	var body: some View {
 		VStack(alignment: .leading, spacing: 0) {
 			HStack(spacing: 0) {
-				AsyncImage(
-					url: url,
+                AsyncImage(
+					defaultUrl: url,
 					placeholder: {
 						ZStack {
 							Color.azureRadianceApprox

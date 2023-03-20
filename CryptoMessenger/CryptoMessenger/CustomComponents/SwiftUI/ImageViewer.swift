@@ -73,7 +73,7 @@ struct ImageViewer: View {
 
 //            ScrollView(.init()) {
                 AsyncImage(
-                    url: selectedPhoto,
+                    defaultUrl: selectedPhoto,
                     placeholder: { ShimmerView() },
                     result: { Image(uiImage: $0).resizable() }
                 )
