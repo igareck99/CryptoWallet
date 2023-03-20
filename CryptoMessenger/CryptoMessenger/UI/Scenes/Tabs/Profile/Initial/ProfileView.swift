@@ -27,6 +27,7 @@ struct ProfileView: View {
     @State private var photoUrlForDelete = ""
     @State private var showAllSocial = false
     @State private var countUrlItems = 0
+    @State private var showShareImage = false
 
     // MARK: - Body
 
@@ -91,8 +92,20 @@ struct ProfileView: View {
             }
             .fullScreenCover(isPresented: self.$showImageViewer,
                              content: {
-                ImageViewerRemote(imageURL: self.$viewModel.selectedPhoto, viewerShown: self.$showImageViewer)
+                ImageViewerRemote(imageURL: self.$viewModel.selectedPhoto,
+                                  viewerShown: self.$showImageViewer, onDelete: {
+                    viewModel.deleteImageByUrl {
+                        showImageViewer = false
+                    }
+                }, onShare: {
+                    viewModel.shareImage {
+                        showShareImage = true
+                    }
+                })
                     .ignoresSafeArea()
+                    .sheet(isPresented: $showShareImage, content: {
+                        FeedShareSheet(image: viewModel.imageToShare)
+                            })
             })
             .fullScreenCover(isPresented: $showCameraPicker,
                              content: {

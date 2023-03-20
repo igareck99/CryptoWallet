@@ -10,11 +10,17 @@ public struct ImageViewerRemote: View {
     
     @State var dragOffset: CGSize = CGSize.zero
     @State var dragOffsetPredicted: CGSize = CGSize.zero
+    private let onDelete: () -> Void
+    private let onShare: () -> Void
     
     public init(imageURL: Binding<URL?>,
-                viewerShown: Binding<Bool>) {
+                viewerShown: Binding<Bool>,
+                onDelete: @escaping () -> Void,
+                onShare: @escaping () -> Void) {
         _imageURL = imageURL
         _viewerShown = viewerShown
+        self.onDelete = onDelete
+        self.onShare = onShare
     }
 
     @ViewBuilder
@@ -79,6 +85,28 @@ public struct ImageViewerRemote: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color(red: 0.12, green: 0.12, blue: 0.12, opacity: (1.0 - Double(abs(self.dragOffset.width) + abs(self.dragOffset.height)) / 1000)).edgesIgnoringSafeArea(.all))
                     .zIndex(1)
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Button(action: { onShare() }) {
+                                R.image.photoEditor.share.image
+                                    .foregroundColor(Color(UIColor.white))
+                                    .font(.system(size: UIFontMetrics.default.scaledValue(for: 24)))
+                            }
+                            .padding(.leading, 16)
+                            .padding(.bottom, 16)
+                            Spacer()
+                            Button(action: { onDelete() }) {
+                                R.image.photoEditor.brush.image
+                                    .foregroundColor(Color(UIColor.white))
+                                    .font(.system(size: UIFontMetrics.default.scaledValue(for: 24)))
+                            }
+                            .padding(.trailing, 16)
+                            .padding(.bottom, 16)
+                        }
+                    }
+                    .padding()
+                    .zIndex(2)
                 }
                 .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
                 .onAppear() {

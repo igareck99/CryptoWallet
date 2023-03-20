@@ -69,6 +69,7 @@ final class ProfileViewModel: ObservableObject {
     @Published var existringUrls: [String] = []
     @Published var isVoiceCallAvailablility: Bool = false
     @Published var menuHeight: CGFloat = 0
+    @Published var deleteImage = false
 
     // MARK: - Private Properties
 
@@ -160,7 +161,6 @@ final class ProfileViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
-       
         $changedImage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
@@ -170,17 +170,7 @@ final class ProfileViewModel: ObservableObject {
             .store(in: &subscriptions)
         $selectedPhoto
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] url in
-                DispatchQueue.global().async { [weak self] in
-                    guard let uploadUrl = url else { return }
-                    if let imageData = try? Data(contentsOf: uploadUrl) {
-                        if let image = UIImage(data: imageData) {
-                            DispatchQueue.main.async {
-                                self?.imageToShare = image
-                            }
-                        }
-                    }
-                }
+            .sink { [weak self] _ in
             }
             .store(in: &subscriptions)
 		matrixUseCase.loginStatePublisher.sink { [weak self] status in
@@ -201,6 +191,30 @@ final class ProfileViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { _ in }
             .store(in: &subscriptions)
+    }
+    
+    func deleteImageByUrl(completion: @escaping () -> Void ) {
+        guard let url = self.selectedPhoto else { return }
+        self.mediaService.deletePhotoFeed(url: url.absoluteString) { _ in
+            self.mediaService.getPhotoFeedPhotos(userId: self.matrixUseCase.getUserId()) { urls in
+                self.profile.photosUrls = urls
+                completion()
+            }
+        }
+    }
+    
+    func shareImage(completion: @escaping () -> Void) {
+        DispatchQueue.global().async { [weak self] in
+            guard let uploadUrl = self?.selectedPhoto else { return }
+            if let imageData = try? Data(contentsOf: uploadUrl) {
+                if let image = UIImage(data: imageData) {
+                    DispatchQueue.main.async {
+                        self?.imageToShare = image
+                        completion()
+                    }
+                }
+            }
+        }
     }
 
     private func bindOutput() {
