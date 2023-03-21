@@ -92,8 +92,10 @@ struct ProfileView: View {
             }
             .fullScreenCover(isPresented: self.$showImageViewer,
                              content: {
-                ImageViewerRemote(imageURL: self.$viewModel.selectedPhoto,
-                                  viewerShown: self.$showImageViewer, onDelete: {
+                ImageViewerRemote(selectedItem: getTagItem(),
+                                  imageURL: self.$viewModel.selectedPhoto,
+                                  viewerShown: self.$showImageViewer,
+                                  urls: viewModel.profile.photosUrls, onDelete: {
                     viewModel.deleteImageByUrl {
                         showImageViewer = false
                     }
@@ -351,8 +353,8 @@ struct ProfileView: View {
                             .frame(width: width, height: width)
                             .clipped()
                             .onTapGesture {
-                                showImageViewer = true
                                 viewModel.selectedPhoto = url
+                                showImageViewer = true
                             }
                     }
                 }
@@ -368,5 +370,15 @@ struct ProfileView: View {
 
     private func switchCameraPicker() {
         showCameraPicker = true
+    }
+    
+    private func getTagItem() -> Int {
+        if !viewModel.profile.photosUrls.isEmpty {
+            guard let value = viewModel.profile.photosUrls.first(where: { $0 == viewModel.selectedPhoto } ) else { return 0 }
+            guard let index = viewModel.profile.photosUrls.index(of: value) else { return 0 }
+            print("sksaklasklas  \(index)")
+            return index
+        }
+        return 0
     }
 }

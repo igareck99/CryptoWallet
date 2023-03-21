@@ -2,26 +2,43 @@ import SwiftUI
 import UIKit
 import Combine
 // swiftlint:disable all
+
+// MARK: - ImageViewerRemote
+
 @available(iOS 13.0, *)
 public struct ImageViewerRemote: View {
+
+    // MARK: - Internal Properties
+    
+    @State var selectedItem: Int
     @Binding var viewerShown: Bool
     @Binding var imageURL: URL?
     @State var httpHeaders: [String: String]?
-    
+    var urls: [URL?]
+
     @State var dragOffset: CGSize = CGSize.zero
     @State var dragOffsetPredicted: CGSize = CGSize.zero
     private let deleteActionAvailable: Bool
+
+    // MARK: - Private Properties
+
     private let onDelete: () -> Void
     private let onShare: () -> Void
-    
-    public init(imageURL: Binding<URL?>,
+
+    // MARK: - Lifecycle
+
+    public init(selectedItem: Int = 0,
+                imageURL: Binding<URL?>,
                 viewerShown: Binding<Bool>,
                 deleteActionAvailable: Bool = true,
+                urls: [URL?] = [],
                 onDelete: @escaping () -> Void,
                 onShare: @escaping () -> Void) {
+        self._selectedItem = State(initialValue: selectedItem)
         _imageURL = imageURL
         _viewerShown = viewerShown
         self.deleteActionAvailable = deleteActionAvailable
+        self.urls = urls
         self.onDelete = onDelete
         self.onShare = onShare
     }
@@ -46,48 +63,77 @@ public struct ImageViewerRemote: View {
                     }
                     .padding()
                     .zIndex(2)
-                    
-                    VStack {
-                        ZStack {
-                            AsyncImage(
-                                defaultUrl: self.imageURL,
-                                placeholder: {
-                                    ProgressView()
-                                        .frame(width: 48,
-                                               height: 48)
-                                },
-                                result: {
-                                    Image(uiImage: $0)
-                                        .resizable()
+                    if !urls.isEmpty {
+                        TabView(selection: $selectedItem) {
+                            ForEach(Array(urls.enumerated()), id: \.element) { index, value in
+                                VStack {
+                                    ZStack {
+                                        AsyncImage(
+                                            defaultUrl: value,
+                                            placeholder: {
+                                                ProgressView()
+                                                    .frame(width: 48,
+                                                           height: 48)
+                                            },
+                                            result: {
+                                                Image(uiImage: $0)
+                                                    .resizable()
+                                            }
+                                        )
+                                        .aspectRatio(contentMode: .fit)
+                                        .offset(y: self.dragOffset.height)
+                                        .pinchToZoom()
+                                    }
                                 }
-                            )
-                            .aspectRatio(contentMode: .fit)
-                            .offset(x: self.dragOffset.width, y: self.dragOffset.height)
-                            .rotationEffect(.init(degrees: Double(self.dragOffset.width / 30)))
-                            .pinchToZoom()
-                            .gesture(DragGesture()
-                                .onChanged { value in
-                                    self.dragOffset = value.translation
-                                    self.dragOffsetPredicted = value.predictedEndTranslation
-                                }
-                                .onEnded { value in
-                                    if((abs(self.dragOffset.height) + abs(self.dragOffset.width) > 570) || ((abs(self.dragOffsetPredicted.height)) / (abs(self.dragOffset.height)) > 3) || ((abs(self.dragOffsetPredicted.width)) / (abs(self.dragOffset.width))) > 3) {
-                                        withAnimation(.spring()) {
-                                            self.dragOffset = self.dragOffsetPredicted
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .background(Color(red: 0.12, green: 0.12, blue: 0.12, opacity: (1.0 - Double(abs(self.dragOffset.width) + abs(self.dragOffset.height)) / 1000)).edgesIgnoringSafeArea(.all))
+                                .zIndex(1)
+                                .tag(index)
+                            }
+                        }.tabViewStyle(.page(indexDisplayMode: .never))
+                    } else {
+                        VStack {
+                            ZStack {
+                                AsyncImage(
+                                    defaultUrl: self.imageURL,
+                                    placeholder: {
+                                        ProgressView()
+                                            .frame(width: 48,
+                                                   height: 48)
+                                    },
+                                    result: {
+                                        Image(uiImage: $0)
+                                            .resizable()
+                                    }
+                                )
+                                .aspectRatio(contentMode: .fit)
+                                .offset(y: self.dragOffset.height)
+                                .rotationEffect(.init(degrees: Double(self.dragOffset.width / 30)))
+                                .pinchToZoom()
+                                .gesture(DragGesture()
+                                    .onChanged { value in
+                                        self.dragOffset = value.translation
+                                        self.dragOffsetPredicted = value.predictedEndTranslation
+                                    }
+                                    .onEnded { value in
+                                        if((abs(self.dragOffset.height) + abs(self.dragOffset.width) > 570) || ((abs(self.dragOffsetPredicted.height)) / (abs(self.dragOffset.height)) > 3) || ((abs(self.dragOffsetPredicted.width)) / (abs(self.dragOffset.width))) > 3) {
+                                            withAnimation(.spring()) {
+                                                self.dragOffset = self.dragOffsetPredicted
+                                            }
+                                            self.viewerShown = false
+                                            return
                                         }
-                                        self.viewerShown = false
-                                        return
+                                        withAnimation(.interactiveSpring()) {
+                                            self.dragOffset = .zero
+                                        }
                                     }
-                                    withAnimation(.interactiveSpring()) {
-                                        self.dragOffset = .zero
-                                    }
-                                }
-                            )
+                                )
+                            }
                         }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color(red: 0.12, green: 0.12, blue: 0.12, opacity: (1.0 - Double(abs(self.dragOffset.width) + abs(self.dragOffset.height)) / 1000)).edgesIgnoringSafeArea(.all))
+                        .zIndex(1)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color(red: 0.12, green: 0.12, blue: 0.12, opacity: (1.0 - Double(abs(self.dragOffset.width) + abs(self.dragOffset.height)) / 1000)).edgesIgnoringSafeArea(.all))
-                    .zIndex(1)
                     VStack {
                         Spacer()
                         HStack {
@@ -120,13 +166,28 @@ public struct ImageViewerRemote: View {
                 }
             }
         }
+        .onChange(of: selectedItem, perform: { value in
+            renewSelectedUrl(value)
+        })
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    private func renewSelectedUrl(_ index: Int) {
+        if urls.count > index {
+            self.imageURL = urls[index]
+        }
     }
 }
 
+// MARK: - PinchZoomView
+
 class PinchZoomView: UIView {
+    
+    // MARK: - Internal Properties
 
     weak var delegate: PinchZoomViewDelgate?
+    
+    // MARK: - Private Properties
 
     private(set) var scale: CGFloat = 0 {
         didSet {
@@ -156,6 +217,8 @@ class PinchZoomView: UIView {
     private var location: CGPoint = .zero
     private var numberOfTouches: Int = 0
 
+    // MARK: - Lifecycle
+
     init() {
         super.init(frame: .zero)
 
@@ -167,6 +230,8 @@ class PinchZoomView: UIView {
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
+    // MARK: - Private Methods
 
     @objc private func pinch(gesture: UIPinchGestureRecognizer) {
 
@@ -206,6 +271,8 @@ class PinchZoomView: UIView {
 
 }
 
+// MARK: - PinchZoomViewDelgate(AnyObject)
+
 protocol PinchZoomViewDelgate: AnyObject {
     func pinchZoomView(_ pinchZoomView: PinchZoomView, didChangePinching isPinching: Bool)
     func pinchZoomView(_ pinchZoomView: PinchZoomView, didChangeScale scale: CGFloat)
@@ -213,12 +280,18 @@ protocol PinchZoomViewDelgate: AnyObject {
     func pinchZoomView(_ pinchZoomView: PinchZoomView, didChangeOffset offset: CGSize)
 }
 
+// MARK: - PinchZoom
+
 struct PinchZoom: UIViewRepresentable {
+    
+    // MARK: - Internal Properties
 
     @Binding var scale: CGFloat
     @Binding var anchor: UnitPoint
     @Binding var offset: CGSize
     @Binding var isPinching: Bool
+
+    // MARK: - Internal Methods
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -257,11 +330,18 @@ struct PinchZoom: UIViewRepresentable {
     }
 }
 
+// MARK: - PinchToZoom(ViewModifier)
+
 struct PinchToZoom: ViewModifier {
+
+    // MARK: - Internal Properties
+
     @State var scale: CGFloat = 1.0
     @State var anchor: UnitPoint = .center
     @State var offset: CGSize = .zero
     @State var isPinching: Bool = false
+
+    // MARK: - Internal Methods
 
     func body(content: Content) -> some View {
         content
