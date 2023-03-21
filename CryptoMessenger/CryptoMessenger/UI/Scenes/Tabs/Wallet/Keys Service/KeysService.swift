@@ -1,9 +1,13 @@
 import Foundation
 import HDWalletKit
+
 // swiftlint:disable all
+
 protocol KeysServiceProtocol {
 	func makeBitcoinKeys(seed: String) -> KeysService.Keys
-	func makeEthereumKeys(seed: String) -> KeysService.Keys
+    func makeBitcoinKeys(seed: String, derivation: String) -> KeysService.Keys
+
+    func makeEthereumKeys(seed: String) -> KeysService.Keys
 	func signBy(hash: String, privateKey: String) -> String?
 	func signBy(utxoHash: String, privateKey: String) -> String?
 }
@@ -30,6 +34,32 @@ final class KeysService: KeysServiceProtocol {
 			]
 		)
 	}
+    
+    func makeBitcoinKeys(seed: String, derivation: String) -> Keys {
+
+        let nodes = makeDerivationNodes(derivation: derivation) + [.notHardened(0), .notHardened(0)]
+        
+        let keys = makeKeys(
+            coin: .bitcoin,
+            seed: seed,
+            derivationNodes: nodes
+        )
+        
+        return keys
+    }
+    
+    func makeDerivationNodes(derivation: String) -> [DerivationNode] {
+        let numsSet = CharacterSet(charactersIn: "0123456789").inverted
+       
+        let derivations: [DerivationNode] = derivation
+            .components(separatedBy: "/")
+            .map { $0.trimmingCharacters(in: numsSet) }
+            .compactMap(UInt32.init)
+            .map(DerivationNode.hardened)
+            .dropLast()
+        
+        return derivations
+    }
 
 	func makeEthereumKeys(seed: String) -> Keys {
 		makeKeys(

@@ -464,7 +464,7 @@ final class WalletViewModel: ObservableObject {
 					self.keychainService.set(keys.privateKey, forKey: .ethereumPrivateKey)
 					self.keychainService.set(keys.publicKey, forKey: .ethereumPublicKey)
 				case .bitcoin:
-					let keys = self.keysService.makeBitcoinKeys(seed: seed)
+                    let keys = self.keysService.makeBitcoinKeys(seed: seed, derivation: wallet.derivePath ?? "")
 					self.keychainService.set(keys.privateKey, forKey: .bitcoinPrivateKey)
 					self.keychainService.set(keys.publicKey, forKey: .bitcoinPublicKey)
 				}

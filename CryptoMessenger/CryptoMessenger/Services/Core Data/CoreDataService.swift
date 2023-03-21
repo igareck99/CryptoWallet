@@ -4,8 +4,6 @@ import CoreData
 
 protocol CoreDataServiceProtocol {
 
-//	var persistentContainer: NSPersistentContainer { get }
-
 	// MARK: - GET
 
 	func getWalletsTypes() -> [WalletType]
