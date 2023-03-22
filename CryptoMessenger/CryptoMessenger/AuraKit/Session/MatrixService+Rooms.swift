@@ -278,4 +278,24 @@ extension MatrixService {
             }
         }
     }
+    
+    func getPublicRooms(filter: String,
+                        completion: @escaping  (Result <[MXPublicRoom]?, MXErrors>) -> Void) {
+        client?.publicRooms(onServer: nil,
+                            limit: 100,
+                            filter: filter,
+                            includeAllNetworks: false,
+                            completion: { response in
+            switch response {
+            case let .success(result):
+                completion(.success(result.chunk))
+            case let .failure(error):
+                debugPrint("getPublicRooms  Error \(error)")
+                completion(.failure(.publicRoomError))
+            default:
+                break
+            }
+        })
+    }
+    
 }

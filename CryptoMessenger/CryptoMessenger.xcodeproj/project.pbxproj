@@ -128,7 +128,6 @@
 		5A4BE51B271DD86A00D03D09 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE50A271DD86A00D03D09 /* Reaction.swift */; };
 		5A4BE51C271DD86A00D03D09 /* EventCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE50B271DD86A00D03D09 /* EventCollection.swift */; };
 		5A4BE51D271DD86A00D03D09 /* AuraMXEvent+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE50D271DD86A00D03D09 /* AuraMXEvent+Extensions.swift */; };
-		5A4BE51E271DD86A00D03D09 /* MXClient+Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE50E271DD86A00D03D09 /* MXClient+Publisher.swift */; };
 		5A4BE520271DD86A00D03D09 /* MX+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE510271DD86A00D03D09 /* MX+Identifiable.swift */; };
 		5A67791C26C7A64100212580 /* ChatRoomRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A67791B26C7A64100212580 /* ChatRoomRow.swift */; };
 		5A7EDE73275402E90049DC4A /* BlockedUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE54AD2274C605700D51827 /* BlockedUserView.swift */; };
@@ -459,6 +458,8 @@
 		8B6E5556279F0F58002054CF /* PinCodeCreateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E5555279F0F58002054CF /* PinCodeCreateViewModel.swift */; };
 		8B6E5558279FF922002054CF /* PinCodeCreateConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E5557279FF922002054CF /* PinCodeCreateConfigurator.swift */; };
 		8B6E555A279FF967002054CF /* PinCodeCreateProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6E5559279FF967002054CF /* PinCodeCreateProtocols.swift */; };
+		8B70583F29D0CCBE0058B180 /* MatrixChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B70583E29D0CCBE0058B180 /* MatrixChannel.swift */; };
+		8B70584229D0DD3D0058B180 /* ChatHistorySearchRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B70584129D0DD3D0058B180 /* ChatHistorySearchRow.swift */; };
 		8B712D9128B9837E0071C0EC /* PreviewControllerTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B712D9028B9837E0071C0EC /* PreviewControllerTestView.swift */; };
 		8B717A8E28AB946F0078833B /* AnotherAppDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B717A8D28AB946F0078833B /* AnotherAppDataView.swift */; };
 		8B717A9028AB96260078833B /* AnotherAppSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B717A8F28AB96260078833B /* AnotherAppSources.swift */; };
@@ -1406,7 +1407,6 @@
 		5A4BE50A271DD86A00D03D09 /* Reaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
 		5A4BE50B271DD86A00D03D09 /* EventCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCollection.swift; sourceTree = "<group>"; };
 		5A4BE50D271DD86A00D03D09 /* AuraMXEvent+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AuraMXEvent+Extensions.swift"; sourceTree = "<group>"; };
-		5A4BE50E271DD86A00D03D09 /* MXClient+Publisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MXClient+Publisher.swift"; sourceTree = "<group>"; };
 		5A4BE510271DD86A00D03D09 /* MX+Identifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MX+Identifiable.swift"; sourceTree = "<group>"; };
 		5A67791B26C7A64100212580 /* ChatRoomRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomRow.swift; sourceTree = "<group>"; };
 		5A8A13EA27D11B3A004C4B4F /* TrackableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
@@ -1735,6 +1735,8 @@
 		8B6E5555279F0F58002054CF /* PinCodeCreateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateViewModel.swift; sourceTree = "<group>"; };
 		8B6E5557279FF922002054CF /* PinCodeCreateConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateConfigurator.swift; sourceTree = "<group>"; };
 		8B6E5559279FF967002054CF /* PinCodeCreateProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeCreateProtocols.swift; sourceTree = "<group>"; };
+		8B70583E29D0CCBE0058B180 /* MatrixChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixChannel.swift; sourceTree = "<group>"; };
+		8B70584129D0DD3D0058B180 /* ChatHistorySearchRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySearchRow.swift; sourceTree = "<group>"; };
 		8B712D9028B9837E0071C0EC /* PreviewControllerTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewControllerTestView.swift; sourceTree = "<group>"; };
 		8B717A8D28AB946F0078833B /* AnotherAppDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherAppDataView.swift; sourceTree = "<group>"; };
 		8B717A8F28AB96260078833B /* AnotherAppSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherAppSources.swift; sourceTree = "<group>"; };
@@ -3639,6 +3641,7 @@
 				5A4BE509271DD86A00D03D09 /* RoomSummary.swift */,
 				5A4BE50A271DD86A00D03D09 /* Reaction.swift */,
 				5A4BE50B271DD86A00D03D09 /* EventCollection.swift */,
+				8B70583E29D0CCBE0058B180 /* MatrixChannel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3658,7 +3661,6 @@
 			isa = PBXGroup;
 			children = (
 				5A4BE50D271DD86A00D03D09 /* AuraMXEvent+Extensions.swift */,
-				5A4BE50E271DD86A00D03D09 /* MXClient+Publisher.swift */,
 				5A4BE510271DD86A00D03D09 /* MX+Identifiable.swift */,
 				D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */,
 				D4D439F928374B0B00AC0DEF /* MXRoom+Reply.h */,
@@ -3727,6 +3729,7 @@
 		5A9318CE26C5AAB500645365 /* RecentRooms */ = {
 			isa = PBXGroup;
 			children = (
+				8B70584029D0DD100058B180 /* Components */,
 				5AABB7802739821C004D6107 /* ChatHistoryConfigurator.swift */,
 				5AABB77E2739821C004D6107 /* ChatHistoryProtocols.swift */,
 				5AABB77A2739816C004D6107 /* ChatHistoryView.swift */,
@@ -4556,6 +4559,14 @@
 				8B9173B127A342EB0094F625 /* PinCodeCreateFlow.swift */,
 			);
 			path = PinCodeCreate;
+			sourceTree = "<group>";
+		};
+		8B70584029D0DD100058B180 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				8B70584129D0DD3D0058B180 /* ChatHistorySearchRow.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		8B7C17EF27DCB9A8001113F2 /* CurrencyTextField */ = {
@@ -8273,6 +8284,7 @@
 				D4442B4828113C7A0033D07A /* KeychainServiceProtocol.swift in Sources */,
 				D48AF481292D224B0044CFAE /* WalletNetworkResponse.swift in Sources */,
 				D4EFEB8F28E2AF100075CC10 /* MXMatrixVersions.m in Sources */,
+				8B70584229D0DD3D0058B180 /* ChatHistorySearchRow.swift in Sources */,
 				8BA0C91227AD77380070203F /* ReserveCopyConfigurator.swift in Sources */,
 				8BBF908A2935150E00936F4D /* NotificationSettingsConfigurator.swift in Sources */,
 				D4AB8FFC282672BB00E6FAB5 /* MatrixService+Devices.swift in Sources */,
@@ -8394,7 +8406,6 @@
 				D4EFEC7F28E2AF110075CC10 /* MXReplyEventBodyParts.m in Sources */,
 				8B34D77C277DA1FD007811C9 /* UserPersonalizationItem.swift in Sources */,
 				D4EFEBC128E2AF100075CC10 /* MXAggregationPaginatedResponse.m in Sources */,
-				5A4BE51E271DD86A00D03D09 /* MXClient+Publisher.swift in Sources */,
 				D4EFEC9C28E2AF110075CC10 /* MXRealmBeaconMapper.swift in Sources */,
 				D4EFEC6B28E2AF110075CC10 /* MXDiscoveredClientConfig.m in Sources */,
 				8BA0C90527AD4F030070203F /* AnswerItem.swift in Sources */,
@@ -8928,6 +8939,7 @@
 				8BBCBCC628F73D2A00E42F0C /* Video.swift in Sources */,
 				D4EFEBE128E2AF110075CC10 /* MXMulticastDelegate.swift in Sources */,
 				8B712D9128B9837E0071C0EC /* PreviewControllerTestView.swift in Sources */,
+				8B70583F29D0CCBE0058B180 /* MatrixChannel.swift in Sources */,
 				D44C8A94298146B600383A46 /* UserSettingView.swift in Sources */,
 				8B5609B427792B0000AF43F6 /* TypographyNewItem.swift in Sources */,
 				8B6BEE7F275665D4003A24B6 /* ProfileView.swift in Sources */,

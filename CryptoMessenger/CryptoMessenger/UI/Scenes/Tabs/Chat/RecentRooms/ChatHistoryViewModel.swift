@@ -17,6 +17,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     @Published var isFromCurrentUser = false
     @Published var leaveState: [String: Bool] = [:]
     @Published var roomsLastCurrent: [String: Bool] = [:]
+    @Published var isLoading: Bool = false
 
     // MARK: - Private Properties
 
@@ -25,17 +26,20 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     private let pushNotification: PushNotificationsServiceProtocol
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
+    private let factory: ChannelUsersFactoryProtocol.Type
 
     // MARK: - Lifecycle
 
     init(
         sources: ChatHistorySourcesable.Type = ChatHistorySources.self,
         pushNotification: PushNotificationsServiceProtocol = PushNotificationsService.shared,
-        userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared
+        userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared,
+        factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self
     ) {
         self.sources = sources
         self.pushNotification = pushNotification
         self.userSettings = userSettings
+        self.factory = factory
         bindInput()
         bindOutput()
     }
@@ -45,22 +49,34 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         subscriptions.removeAll()
     }
 
-	// MARK: - ChatHistoryViewDelegate
+	// MARK: - Internal Methods
 
 	func rooms(with filter: String) -> [AuraRoom] {
-		filter.isEmpty ? rooms : rooms.filter {
+		let result = filter.isEmpty ? rooms : rooms.filter {
 			$0.summary.displayname.lowercased().contains(filter.lowercased())
 			|| $0.summary.topic?.lowercased().contains(filter.lowercased()) ?? false
 		}
+        return result
 	}
+    
+    func findRooms(with filter: String,
+                   completion: @escaping ([MatrixChannel]) -> Void) {
+        isLoading = true
+        self.objectWillChange.send()
+        var value: [MatrixChannel] = []
+        matrixUseCase.getPublicRooms(filter: filter) { channels in
+            let result = channels.filter { item1 in !self.rooms.contains { item2 in item1.roomId == item2.room.roomId } }
+            self.isLoading = false
+            self.objectWillChange.send()
+            completion(result)
+        }
+    }
 
 	func markAllAsRead() {
 		for room in rooms {
 			room.markAllAsRead()
 		}
 	}
-
-    // MARK: - Private Methods
 
     func fromCurrentSender(room: AuraRoom) -> Bool {
         let event = room.events().renderableEvents.filter({ !$0.eventId.contains("kMXEventLocalId") })
@@ -81,8 +97,15 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         }
     }
 
-    func joinRoom(_ room: AuraRoom) {
-        self.matrixUseCase.joinRoom(roomId: room.room.roomId) { _ in
+    func joinRoom(_ roomId: String) {
+        self.matrixUseCase.joinRoom(roomId: roomId) { result in
+            switch result {
+            case .success(let room):
+                let auraRoom = AuraRoom(room)
+                self.eventSubject.send(.onShowRoom(auraRoom))
+            case .failure(_):
+                break
+            }
             self.objectWillChange.send()
         }
     }
@@ -113,7 +136,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 self.rooms = self.matrixUseCase.rooms
                 let notJoinRoom = self.rooms.first { $0.summary.membership == .invite }
                 notJoinRoom.map { room in
-                    self.joinRoom(room)
+                    self.joinRoom(room.room.roomId)
                 }
                 DispatchQueue.main.async {
                     for room in self.rooms {

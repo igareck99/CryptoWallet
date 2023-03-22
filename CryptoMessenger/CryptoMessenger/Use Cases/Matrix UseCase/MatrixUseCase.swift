@@ -417,6 +417,29 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
         )
     }
     
+    func getPublicRooms(filter: String,
+                        completion: @escaping ([MatrixChannel]) -> Void) {
+        matrixService.getPublicRooms(filter: filter) { value in
+            switch value {
+            case .success(let success):
+                guard let publicRooms = success else {
+                    completion([])
+                    return
+                }
+                let channels = publicRooms.map {
+                    let room = MatrixChannel(roomId: $0.roomId,
+                                             name: $0.name,
+                                             numJoinedMembers: $0.numJoinedMembers,
+                                             avatarUrl: $0.avatarUrl ?? "")
+                    return room
+                }
+                completion(channels)
+            case .failure(let failure):
+                completion([])
+            }
+        }
+    }
+    
 	// MARK: - Pusher
 	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void) {
 		matrixService.createPusher(with: pushToken, completion: completion)

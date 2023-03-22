@@ -16,6 +16,7 @@ enum MXErrors: Error {
     case audioUploadError
     case contactUploadError
     case videoUploadError
+    case publicRoomError
     case encryptRoomError
 	case unknown
 	@available(*, deprecated, message: "Добавлено только для обратной совместимости")

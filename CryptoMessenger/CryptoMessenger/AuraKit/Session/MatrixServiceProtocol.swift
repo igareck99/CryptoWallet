@@ -63,6 +63,8 @@ protocol MatrixServiceProtocol {
                             completion: @escaping (Result <String?, MXErrors>) -> Void)
     func enableEncryptionWithAlgorithm(roomId: String,
                                        completion: @escaping (Result <String?, MXErrors>) -> Void)
+    func getPublicRooms(filter: String,
+                        completion: @escaping  (Result <[MXPublicRoom]?, MXErrors>) -> Void)
 
 	// MARK: - Users
 	func currentlyActive(_ userId: String) -> Bool
