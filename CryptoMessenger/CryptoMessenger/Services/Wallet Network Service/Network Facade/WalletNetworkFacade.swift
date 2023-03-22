@@ -14,7 +14,7 @@ protocol WalletNetworkFacadeProtocol {
 		params: BalanceRequestParams,
 		completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
 	)
-    
+
     func getBalancesV2(
         params: BalanceRequestParamsV2,
         completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
@@ -134,12 +134,13 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
         params: BalanceRequestParamsV2,
         completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
     ) {
-        let currency: String = params.currency.rawValue
-        let ethAddress: String = params.addresses[.ethereum]?.first?.accountAddress ?? ""
-        let btcAddress: String = params.addresses[.bitcoin]?.first?.accountAddress ?? ""
 
-        let paramsDict: [String: Any] =
-        [
+        guard let ethAddress: String = params.addresses[.ethereum]?.first?.accountAddress,
+              let btcAddress: String = params.addresses[.bitcoin]?.first?.accountAddress else { completion(.failure); return }
+
+        let currency: String = params.currency.rawValue
+
+        let paramsDict: [String: Any] = [
             "currency": currency,
             "addresses": [
                 "ethereum": [["accountAddress": ethAddress]],
