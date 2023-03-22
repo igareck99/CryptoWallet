@@ -34,7 +34,7 @@ struct ChannelMediaView: View {
                 showFile = false
             }, content: {
                 if isUploadFinished {
-                    PreviewControllerTestView(viewModel: viewModel.documentViewModel!)
+                    PreviewControllerView(viewModel: viewModel.documentViewModel!)
                 }
             })
             .navigationBarBackButtonHidden(true)
