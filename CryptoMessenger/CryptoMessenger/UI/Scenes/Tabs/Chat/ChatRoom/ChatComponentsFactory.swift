@@ -15,9 +15,8 @@ protocol ChatComponentsFactoryProtocol {
 		playingAudioId: Binding<String>,
 		onSelectPhoto: GenericBlock<URL?>?,
 		onContactButtonAction: @escaping (String, String?, URL?) -> Void,
-		onFileTapHandler: @escaping VoidBlock,
+		onFileTapHandler: @escaping (URL?) -> Void,
 		onEmojiTap: @escaping GenericBlock<(emoji: String, messageId: String)>,
-		fileSheetPresenting: @escaping (URL?) -> AnyView?,
 		message: RoomMessage
 	) -> AnyView
 }
@@ -182,9 +181,8 @@ extension ChatComponentsFactory {
 		playingAudioId: Binding<String>,
 		onSelectPhoto: GenericBlock<URL?>?,
 		onContactButtonAction: @escaping (String, String?, URL?) -> Void,
-		onFileTapHandler: @escaping VoidBlock,
+        onFileTapHandler: @escaping (URL?) -> Void,
 		onEmojiTap: @escaping GenericBlock<(emoji: String, messageId: String)>,
-		fileSheetPresenting: @escaping (URL?) -> AnyView?,
         message: RoomMessage
 	) -> AnyView {
 		switch message.type {
@@ -247,9 +245,8 @@ extension ChatComponentsFactory {
 				reactionItems: makeReactionTextsItems(
 					message: message,
 					onEmojiTap: onEmojiTap
-				),
-                sheetPresenting: { fileSheetPresenting(url) },
-                onTapHandler: onFileTapHandler))
+                ),
+                sheetPresenting: onFileTapHandler))
         case let .audio(url):
             return AnyView(AudioView(
                 messageId: message.id,

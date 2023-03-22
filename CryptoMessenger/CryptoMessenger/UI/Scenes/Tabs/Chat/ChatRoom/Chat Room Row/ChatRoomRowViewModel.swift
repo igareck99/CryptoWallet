@@ -12,9 +12,8 @@ protocol ChatRoomRowViewModelProtocol {
 		playingAudioId: Binding<String>,
 		onSelectPhoto: GenericBlock<URL?>?,
 		onContactButtonAction: @escaping (String, String?, URL?) -> Void,
-		onFileTapHandler: @escaping VoidBlock,
+        onFileTapHandler: @escaping (URL?) -> Void,
 		onEmojiTap: @escaping GenericBlock<(emoji: String, messageId: String)>,
-		fileSheetPresenting: @escaping (URL?) -> AnyView?,
 		message: RoomMessage
 	) -> AnyView
 
@@ -44,9 +43,8 @@ extension ChatRoomRowViewModel: ChatRoomRowViewModelProtocol {
 		playingAudioId: Binding<String>,
 		onSelectPhoto: GenericBlock<URL?>?,
 		onContactButtonAction: @escaping (String, String?, URL?) -> Void,
-        onFileTapHandler: @escaping VoidBlock,
+        onFileTapHandler: @escaping (URL?) -> Void,
 		onEmojiTap: @escaping GenericBlock<(emoji: String, messageId: String)>,
-        fileSheetPresenting: @escaping (URL?) -> AnyView?,
         message: RoomMessage
     ) -> AnyView {
 
@@ -60,7 +58,6 @@ extension ChatRoomRowViewModel: ChatRoomRowViewModelProtocol {
 			onContactButtonAction: onContactButtonAction,
 			onFileTapHandler: onFileTapHandler,
 			onEmojiTap: onEmojiTap,
-			fileSheetPresenting: fileSheetPresenting,
             message: message
 		)
 	}

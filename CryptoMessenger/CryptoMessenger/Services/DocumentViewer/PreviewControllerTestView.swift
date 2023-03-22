@@ -2,9 +2,9 @@ import QuickLook
 import SwiftUI
 import UIKit
 
-// MARK: - PreviewControllerTestView(UIViewControllerRepresentable)
+// MARK: - PreviewControllerView(UIViewControllerRepresentable)
 
-struct PreviewControllerTestView: UIViewControllerRepresentable {
+struct PreviewControllerView: UIViewControllerRepresentable {
 
     // MARK: - Internal Properties
 
@@ -52,11 +52,11 @@ struct PreviewControllerTestView: UIViewControllerRepresentable {
 
         // MARK: - Internal Properties
 
-        let previewController: PreviewControllerTestView
+        let previewController: PreviewControllerView
 
         // MARK: - Lifecycle
 
-        init(_ previewController: PreviewControllerTestView) {
+        init(_ previewController: PreviewControllerView) {
             self.previewController = previewController
             super.init()
         }
