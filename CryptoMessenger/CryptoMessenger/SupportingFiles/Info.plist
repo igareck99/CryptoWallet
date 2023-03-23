@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>API Stand</key>
-	<string>dev</string>
+	<string>prod</string>
 	<key>DebugUrlConfig</key>
 	<dict>
 		<key>CryptoWallet</key>

@@ -300,8 +300,8 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
     }
     
     func enableEncryptionWithAlgorithm(roomId: String) {
-        matrixService.enableEncryptionWithAlgorithm(roomId: roomId) { [weak self] result in
-            print(result)
+        matrixService.enableEncryptionWithAlgorithm(roomId: roomId) { result in
+            debugPrint(result)
         }
     }
 

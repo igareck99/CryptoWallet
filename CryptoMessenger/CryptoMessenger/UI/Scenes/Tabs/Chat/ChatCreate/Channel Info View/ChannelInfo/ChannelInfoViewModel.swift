@@ -370,8 +370,8 @@ final class ChannelInfoViewModel {
     
     private func getRoomInfo() {
         if let room = matrixUseCase.getRoomInfo(roomId: roomId) {
-            channelNameText = room.summary.displayname
-            channelTopicText = room.summary.topic
+            channelNameText = room.summary?.displayname ?? ""
+            channelTopicText = room.summary?.topic ?? ""
             objectWillChange.send()
         }
         
