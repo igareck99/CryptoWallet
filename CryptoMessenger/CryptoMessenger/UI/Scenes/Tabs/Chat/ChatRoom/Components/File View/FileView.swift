@@ -15,8 +15,7 @@ struct FileView: View {
 	private let fileName: String
 	private let url: URL?
 	@Binding private var isShowFile: Bool
-	private let sheetPresenting: () -> AnyView?
-	private let onTapHandler: () -> Void
+	private let sheetPresenting: (URL?) -> Void
 	private let reactionItems: [ReactionTextsItem]
 
 	@State private var totalHeight: CGFloat = .zero
@@ -31,8 +30,7 @@ struct FileView: View {
 		url: URL?,
 		isShowFile: Binding<Bool>,
 		reactionItems: [ReactionTextsItem],
-		sheetPresenting: @escaping () -> AnyView?,
-		onTapHandler: @escaping () -> Void
+		sheetPresenting: @escaping (URL?) -> Void
 	) {
         self._viewModel = StateObject(wrappedValue: viewModel)
 		self.isFromCurrentUser = isFromCurrentUser
@@ -42,7 +40,6 @@ struct FileView: View {
 		self._isShowFile = isShowFile
 		self.reactionItems = reactionItems
 		self.sheetPresenting = sheetPresenting
-		self.onTapHandler = onTapHandler
 	}
 
     // MARK: - Body
@@ -94,11 +91,9 @@ struct FileView: View {
 		.padding(.all, 0)
 		.frame(width: 220)
 		.fixedSize(horizontal: true, vertical: false)
-		.sheet(isPresented: $isShowFile) {
-			sheetPresenting()
-		}
 		.onTapGesture {
-			onTapHandler()
+			isShowFile = true
+            sheetPresenting(url)
 		}
 	}
 }

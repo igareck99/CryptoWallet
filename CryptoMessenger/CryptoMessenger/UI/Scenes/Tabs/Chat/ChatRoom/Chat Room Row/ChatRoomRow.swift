@@ -30,6 +30,7 @@ struct ChatRoomRow: View {
     @State private var degress = 0.0
     @State private var showLocationTransition = false
     @State private var isUploadFinished = false
+    @State private var documentViewmodel: DocumentViewerViewModel?
 
     // MARK: - Lifecycle
 
@@ -109,25 +110,23 @@ struct ChatRoomRow: View {
 									)
 									showContactInfo = true
 								},
-								onFileTapHandler: {
-									showFile.toggle()
+                                onFileTapHandler: { fileUrl in
+                                    DispatchQueue.global(qos: .background).async {
+                                        if let fileUrl = fileUrl {
+                                            var name = ""
+                                            switch message.type {
+                                            case let .file(fileName, _):
+                                                name = fileName
+                                            default:
+                                                break
+                                            }
+                                            self.documentViewmodel = DocumentViewerViewModel(url: fileUrl,
+                                                                                             isUploadFinished: $isUploadFinished,
+                                                                                             fileName: name)
+                                            showFile = true
+                                        }
+                                    }
 								}, onEmojiTap: { onEmojiTap($0) },
-								fileSheetPresenting: { fileUrl in
-                                    guard let fileUrl = fileUrl else {
-                                        return nil
-                                    }
-                                    var name = ""
-                                    switch message.type {
-                                    case let .file(fileName, _):
-                                        name = fileName
-                                    default:
-                                        break
-                                    }
-                                    let documentViewModel = DocumentViewerViewModel(url: fileUrl,
-                                                                                    isUploadFinished: $isUploadFinished,
-                                                                                    fileName: name)
-                                    return AnyView(PreviewControllerTestView(viewModel: documentViewModel))
-								},
 								message: message
 							)
                         }
@@ -167,6 +166,11 @@ struct ChatRoomRow: View {
                 }
             }
         }
+        .sheet(isPresented: $showFile, content: {
+            if let vm = documentViewmodel {
+                PreviewControllerView(viewModel: vm)
+            }
+        })
         .sheet(isPresented: $showContactInfo, content: {
             ContactInfoView(data: chatContactInfo)
         })
