@@ -44,8 +44,7 @@ final class AttachActionViewModel: ObservableObject {
         requestOptions.deliveryMode = .highQualityFormat
         requestOptions.resizeMode = .exact
         PHImageManager.default().requestImage(for: fetchResult.object(at: index) as PHAsset,
-                                              targetSize: CGSize(width: UIScreen.main.bounds.width,
-                                                                 height: UIScreen.main.bounds.width),
+                                              targetSize: PHImageManagerMaximumSize,
                                               contentMode: PHImageContentMode.aspectFit,
                                               options: requestOptions,
                                               resultHandler: { image, _ in

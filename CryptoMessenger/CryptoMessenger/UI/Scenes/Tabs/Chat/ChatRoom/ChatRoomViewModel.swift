@@ -1,6 +1,7 @@
 import Combine
 import SwiftUI
 import UIKit
+import Photos
 
 // MARK: - ChatRoomViewModel
 // swiftlint:disable all

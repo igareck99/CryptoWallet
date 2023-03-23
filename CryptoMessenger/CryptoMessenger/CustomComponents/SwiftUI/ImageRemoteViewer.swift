@@ -10,15 +10,18 @@ public struct ImageViewerRemote: View {
     
     @State var dragOffset: CGSize = CGSize.zero
     @State var dragOffsetPredicted: CGSize = CGSize.zero
+    private let deleteActionAvailable: Bool
     private let onDelete: () -> Void
     private let onShare: () -> Void
     
     public init(imageURL: Binding<URL?>,
                 viewerShown: Binding<Bool>,
+                deleteActionAvailable: Bool = true,
                 onDelete: @escaping () -> Void,
                 onShare: @escaping () -> Void) {
         _imageURL = imageURL
         _viewerShown = viewerShown
+        self.deleteActionAvailable = deleteActionAvailable
         self.onDelete = onDelete
         self.onShare = onShare
     }
@@ -96,13 +99,15 @@ public struct ImageViewerRemote: View {
                             .padding(.leading, 16)
                             .padding(.bottom, 16)
                             Spacer()
-                            Button(action: { onDelete() }) {
-                                R.image.photoEditor.brush.image
-                                    .foregroundColor(Color(UIColor.white))
-                                    .font(.system(size: UIFontMetrics.default.scaledValue(for: 24)))
+                            if deleteActionAvailable {
+                                Button(action: { onDelete() }) {
+                                    R.image.photoEditor.brush.image
+                                        .foregroundColor(Color(UIColor.white))
+                                        .font(.system(size: UIFontMetrics.default.scaledValue(for: 24)))
+                                }
+                                .padding(.trailing, 16)
+                                .padding(.bottom, 16)
                             }
-                            .padding(.trailing, 16)
-                            .padding(.bottom, 16)
                         }
                     }
                     .padding()
