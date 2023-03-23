@@ -1,5 +1,5 @@
-import SwiftUI
 import Combine
+import SwiftUI
 
 final class PinCodeCreateViewModel: ObservableObject {
 
@@ -96,9 +96,12 @@ final class PinCodeCreateViewModel: ObservableObject {
                         } else {
                             errorPassword = true
                             descriptionState = "Неверный пароль"
-                            errorPassword = false
-                            clearPassword()
-                            descriptionState = ""
+                            errorPassword = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                                self?.clearPassword()
+                                self?.descriptionState = ""
+                                self?.errorPassword = false
+                            }
                         }
                     } else {
                         descriptionState = R.string.localizable.pinCodeRepeatPassword()
@@ -132,9 +135,12 @@ final class PinCodeCreateViewModel: ObservableObject {
                     } else {
                         errorPassword = true
                         descriptionState = R.string.localizable.pinCodeNotMatchPassword()
-                        errorPassword = false
-                        clearPassword()
-                        descriptionState = screenType.result.description
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                            guard let self = self else { return }
+                            self.errorPassword = false
+                            self.clearPassword()
+                            self.descriptionState = self.screenType.result.description
+                        }
                     }
                 }
             }
