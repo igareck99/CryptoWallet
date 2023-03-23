@@ -219,7 +219,14 @@ final class P2PCallUseCase: NSObject {
 		case .onHold:
 			updateControllerOnHoldOf(holdedCall: call)
 			debugPrint("Place_Call: callStateChanged connected: \(call.callId)")
-		case .ended, .inviteExpired, .answeredElseWhere:
+        case .inviteExpired:
+            debugPrint("Place_Call: callStateChanged callId: \(call.callId) state: \(call.state)")
+        case .answeredElseWhere:
+            debugPrint("Place_Call: callStateChanged callId: \(call.callId) state: \(call.state)")
+		case .ended:
+
+            guard call.endReason != .answeredElseWhere else { return } // MXCallEndReasonAnsweredElseWhere
+
 			debugPrint("Place_Call: callStateChanged callId: \(call.callId) state: \(call.state)")
 			call.hangup()
 			updateControllerOnEndOf(endedCall: call)

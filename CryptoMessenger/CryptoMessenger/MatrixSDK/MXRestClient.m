@@ -845,7 +845,9 @@ andUnauthenticatedHandler: (MXRestClientUnauthenticatedHandler)unauthenticatedHa
     return [self registerOrLogin:MXAuthActionLogin parameters:parameters success:success failure:failure];
 }
 
-- (MXHTTPOperation *)loginWithLoginType:(NSString *)loginType username:(NSString *)username password:(NSString *)password
+- (MXHTTPOperation *)loginWithLoginType:(NSString *)loginType
+                               username:(NSString *)username
+                               password:(NSString *)password
                                    success:(void (^)(MXCredentials *))success
                                    failure:(void (^)(NSError *))failure
 {
