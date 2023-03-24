@@ -100,6 +100,8 @@
 	<string>App requires to access your location to share it with friends</string>
 	<key>Privacy - Location When in Usage Description</key>
 	<string>App requires to access your location to send it to friends</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>App requires to access your location to share it in chats</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik-Light.ttf</string>
