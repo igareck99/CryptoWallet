@@ -80,19 +80,38 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
             highlight: false
         )
     }
+    
+    func addPushRuleToUnmuteMute(room: AuraRoom) {
+        guard let roomId = room.room.roomId else {
+            return
+        }
+        room.room.mxSession.notificationCenter.addOverrideRule(
+            withId: roomId,
+            conditions: [["kind": "event_match", "key": "room_id", "pattern": roomId]],
+            notify: true,
+            sound: true,
+            highlight: true
+        )
+    }
 
-    func allMessages(room: AuraRoom, completion: @escaping (NotificationsActionState) -> Void) {
+    func allMessages(room: AuraRoom,
+                     completion: @escaping (NotificationsActionState) -> Void) {
         if !room.room.isMuted {
             completion(NotificationsActionState.isAlreadyEnable)
+            return
         }
         if let rule = room.room.overridePushRule, room.room.isMuted {
             removePushRule(room: room, rule: rule)
+            addPushRuleToUnmuteMute(room: room)
             completion(NotificationsActionState.allMessagesOn)
+            return
         }
 
         if let rule = room.room.roomPushRule {
             removePushRule(room: room, rule: rule)
+            addPushRuleToUnmuteMute(room: room)
             completion(NotificationsActionState.allMessagesOn)
+            return
         }
     }
 
@@ -105,6 +124,7 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
     }
 
     func mute(room: AuraRoom, completion: @escaping (NotificationsActionState) -> Void) {
+        print("utireowjfdkslkdjfk")
         guard !room.room.isMuted else {
             completion(NotificationsActionState.isAlreadyMuted)
             return
@@ -144,5 +164,4 @@ enum NotificationsActionState {
     case isAlreadyEnable
     case muteOn
     case allMessagesOn
-    
 }

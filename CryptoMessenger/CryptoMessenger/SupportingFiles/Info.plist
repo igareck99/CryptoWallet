@@ -9,11 +9,11 @@
 		<key>CryptoWallet</key>
 		<string>https://crypto.auramsg.co/</string>
 		<key>JitsiMeet</key>
-		<string>https://meet.auramsg.co</string>
+		<string>https://meet.aura.ms</string>
 		<key>Matrix</key>
-		<string>https://matrix.auramsg.co</string>
+		<string>https://matrix.aura.ms</string>
 		<key>API</key>
-		<string>https://api.auramsg.co</string>
+		<string>https://api.aura.ms</string>
 		<key>API Version</key>
 		<string>v0</string>
 	</dict>

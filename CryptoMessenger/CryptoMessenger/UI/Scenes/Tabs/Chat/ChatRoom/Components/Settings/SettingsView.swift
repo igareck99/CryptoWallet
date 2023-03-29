@@ -24,6 +24,7 @@ struct SettingsView: View {
     @State private var showShareAlert = false
     @State private var showComplainAlert = false
     @State private var notificationsTurnedOn = false
+    @State private var isNotifications = false
     @State private var alertItem: AlertItem?
     @State private var showLeaveAlert = false
 
@@ -44,6 +45,10 @@ struct SettingsView: View {
 
     var body: some View {
         content
+            .onAppear {
+                isNotifications = viewModel.isEnabled
+                viewModel.send(.onAppear)
+            }
             .hideKeyboardOnTap()
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarBackButtonHidden(true)
@@ -258,7 +263,13 @@ struct SettingsView: View {
 
                     switch action {
                     case .notifications:
-                        Toggle("", isOn: $notificationsTurnedOn)
+                        let notificationsBinding = Binding<Bool>(
+                            get: { self.isNotifications },
+                            set: { self.isNotifications = $0
+                                viewModel.changeNotificationState($0)
+                            }
+                        )
+                        Toggle("", isOn: notificationsBinding)
                             .tint(Color(.blue()))
                     case .media:
                         Text(chatData.media.count.description, [

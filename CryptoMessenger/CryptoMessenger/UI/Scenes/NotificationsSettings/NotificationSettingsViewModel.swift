@@ -69,7 +69,6 @@ final class NotificationSettingsViewModel: ObservableObject {
 
     private func updateUserDefaults(_ value: Bool) {
         userSettings.isRoomNotificationsEnable = value
-        print("skskaskas  \(userSettings.isRoomNotificationsEnable)")
     }
 
     private func fetchData() {
