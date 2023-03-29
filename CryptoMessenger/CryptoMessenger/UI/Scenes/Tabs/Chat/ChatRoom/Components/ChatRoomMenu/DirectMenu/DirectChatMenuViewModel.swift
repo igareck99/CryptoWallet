@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 import Combine
 
 // MARK: - DirectChatMenuViewModel
@@ -9,6 +9,7 @@ final class DirectChatMenuViewModel: ObservableObject {
 
     let room: AuraRoom
     @Published var actions: [DirectAction] = []
+    @Binding var showNotificationsChangeView: Bool
 
     // MARK: - Private Properties
 
@@ -20,10 +21,12 @@ final class DirectChatMenuViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(room: AuraRoom,
+         showNotificationsChangeView: Binding<Bool>,
          availabilityFacade: MenuActionsTogglesFacadeProtocol = MenuActionsFacadeAssembly.build(),
          pushNotifications: PushNotificationsServiceProtocol = PushNotificationsService.shared,
          userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared) {
         self.room = room
+        self._showNotificationsChangeView = showNotificationsChangeView
         self.availabilityFacade = availabilityFacade
         self.pushNotifications = pushNotifications
         self.userSettings = userSettings
@@ -80,14 +83,12 @@ final class DirectChatMenuViewModel: ObservableObject {
     }
 
     func updateNotifications() {
-        if room.room.isMuted && userSettings.isRoomNotificationsEnable {
+        if room.room.isMuted {
             pushNotifications.allMessages(room: room) { _ in
                 self.updateView()
             }
         } else {
-            pushNotifications.mute(room: room) { _ in
-                self.updateView()
-            }
+            
         }
     }
 

@@ -77,9 +77,7 @@ enum RemoteConfigValues: String {
 
     enum Notification: String {
         case p2pChats
-        case groupChats
-        case settings
-        case resetSettings
+        case deviceNotifications
     }
 
 	// Версии фичей/модулей

@@ -8,37 +8,39 @@ final class NotificationSettingsViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: NotificationSettingsSceneDelegate?
-    @Published var isNotificationMessages = false
-    @Published var isNotificationGroup = false
-    @Published var isNotificationSettings = false
-    @Published var isNotificationsReset = false
-    @Published var messageNotification = NotificationSettings(item: NotificationSettingsItems.messageNotification,
-                                                              state: false)
-    @Published var messagePriority = NotificationSettings(item: NotificationSettingsItems.messagePriority,
-                                                          state: false)
-    @Published var groupNotification = NotificationSettings(item: NotificationSettingsItems.groupNotification,
-                                                            state: false)
-    @Published var groupPriority = NotificationSettings(item: NotificationSettingsItems.groupPriority,
-                                                        state: false)
-    @Published var parametersMessage = NotificationSettings(item: NotificationSettingsItems.parametersMessage,
-                                                            state: false)
-    @Published var parametersCalls = NotificationSettings(item: NotificationSettingsItems.parametersCalls,
-                                                          state: false)
+    @Published var isNotificationDevice = false
+    @Published var allMessages = NotificationSettings(item: NotificationSettingsItems.allMessages,
+                                                      state: false)
+    @Published var mentionsOnly = NotificationSettings(item: NotificationSettingsItems.mentionsOnly,
+                                                       state: false)
+    @Published var mute = NotificationSettings(item: NotificationSettingsItems.mute,
+                                               state: false)
+    @Published var userAccount = NotificationSettings(item: NotificationSettingsItems.userAccount,
+                                                      state: false)
+    @Published var onDevice = NotificationSettings(item: NotificationSettingsItems.onDevice,
+                                                   state: false)
     let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase
     let sources: NotificationsSettingsResourcable.Type = NotificationsSettingsResources.self
 
     // MARK: - Private Properties
 
-    private var pushNotification: PushNotificationsServiceProtocol
-    private let userSettings: UserCredentialsStorage & UserFlowsStorage
+    private let userSettings: UserFlowsStorage
+    private let keychainService: KeychainServiceProtocol
+    private let matrixUseCase: MatrixUseCaseProtocol
+    private let pushService: MXRoomNotificationSettingsService
     private var subscriptions = Set<AnyCancellable>()
+    private var firstUserAccount = false
+    private var firstOnDevice = false
 
     // MARK: - Lifecycle
 
-    init(userSettings: UserCredentialsStorage & UserFlowsStorage,
-         pushNotification: PushNotificationsServiceProtocol = PushNotificationsService.shared) {
-        self.pushNotification = pushNotification
+    init(userSettings: UserFlowsStorage = UserDefaultsService.shared,
+         keychainService: KeychainServiceProtocol = KeychainService.shared,
+         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared) {
         self.userSettings = userSettings
+        self.keychainService = keychainService
+        self.matrixUseCase = matrixUseCase
+        self.pushService = MXRoomNotificationSettingsService(roomId: "")
         fetchRemoteConfig()
         fetchData()
         bindInput()
@@ -52,27 +54,52 @@ final class NotificationSettingsViewModel: ObservableObject {
     // MARK: - Private Methods
 
     private func bindInput() {
-        $messageNotification
+        $userAccount
             .receive(on: DispatchQueue.main)
             .sink { [weak self] value in
-                self?.updateUserDefaults(value.state)
+                guard let self = self else { return }
+                if self.firstUserAccount {
+                    if !value.state {
+                        self.onDevice.state = false
+                    } else {
+                        self.onDevice.state = true
+                    }
+                    self.pushService.notificationsOnAllDevice(value.state)
+                } else {
+                    self.firstUserAccount = true
+                }
+            }
+            .store(in: &subscriptions)
+        $onDevice
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] value in
+                guard let self = self else { return }
+                guard let data = keychainService.data(forKey: .pushToken) else { return }
+                if self.firstOnDevice {
+                    if value.state {
+                        self.matrixUseCase.createPusher(with: data) { state in
+                            debugPrint("UPDATE PUSHER STATE  \(state)")
+                            self.userSettings[.isPushNotificationsEnabled] = true
+                        }
+                    } else {
+                        self.matrixUseCase.deletePusher(with: data) { state in
+                            debugPrint("DELETE PUSHER STATE  \(state)")
+                            self.userSettings[.isPushNotificationsEnabled] = false
+                        }
+                    }
+                } else {
+                    self.firstOnDevice = true
+                }
             }
             .store(in: &subscriptions)
     }
 
     private func fetchRemoteConfig() {
-        isNotificationMessages = remoteConfigUseCase.isV1NotificationMessages
-        isNotificationGroup = remoteConfigUseCase.isV1NotificationGroup
-        isNotificationSettings = remoteConfigUseCase.isV1NotificationSettings
-        isNotificationsReset = remoteConfigUseCase.isV1NotificationsReset
-    }
-
-    private func updateUserDefaults(_ value: Bool) {
-        userSettings.isRoomNotificationsEnable = value
-        print("skskaskas  \(userSettings.isRoomNotificationsEnable)")
+        isNotificationDevice = remoteConfigUseCase.isV1NotificationDevice
+        userAccount.state = pushService.getNotificationsOnAllDeviceState() ?? false
     }
 
     private func fetchData() {
-        messageNotification.state = userSettings.isRoomNotificationsEnable
+        onDevice.state = userSettings.bool(forKey: .isPushNotificationsEnabled)
     }
 }

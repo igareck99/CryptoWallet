@@ -62,9 +62,7 @@ protocol RemoteConfigToggles {
     // Notification Toggles
 
     var isV1NotificationMessages: Bool { get }
-    var isV1NotificationGroup: Bool { get }
-    var isV1NotificationSettings: Bool { get }
-    var isV1NotificationsReset: Bool { get }
+    var isV1NotificationDevice: Bool { get }
 }
 
 // MARK: - RemoteConfigUseCase(RemoteConfigToggles)
@@ -308,21 +306,9 @@ extension RemoteConfigUseCase: RemoteConfigToggles {
                                   version: RemoteConfigValues.Version.v1_0)
     }
 
-    var isV1NotificationGroup: Bool {
+    var isV1NotificationDevice: Bool {
         return isFeatureAvailable(module: .notification,
-                                  feature: RemoteConfigValues.Notification.groupChats.rawValue,
-                                  version: RemoteConfigValues.Version.v1_0)
-    }
-
-    var isV1NotificationSettings: Bool {
-        return isFeatureAvailable(module: .notification,
-                                  feature: RemoteConfigValues.Notification.settings.rawValue,
-                                  version: RemoteConfigValues.Version.v1_0)
-    }
-
-    var isV1NotificationsReset: Bool {
-        return isFeatureAvailable(module: .notification,
-                                  feature: RemoteConfigValues.Notification.resetSettings.rawValue,
+                                  feature: RemoteConfigValues.Notification.deviceNotifications.rawValue,
                                   version: RemoteConfigValues.Version.v1_0)
     }
 

@@ -77,7 +77,6 @@ final class MatrixUseCase {
 	private func updateCredentialsIfAvailable() {
 		guard let credentials = retrievCredentials() else { return }
 		matrixService.updateService(credentials: credentials)
-
 		matrixService.initializeSessionStore { [weak self] result in
 
 			guard case .success = result else {
@@ -456,6 +455,11 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void) {
 		matrixService.createPusher(with: pushToken, completion: completion)
 	}
+    
+    func deletePusher(with pushToken: Data, completion: @escaping (Bool) -> Void) {
+        matrixService.deletePusher(with: pushToken, completion: completion)
+    }
+
 }
 
 // MARK: - Credentials

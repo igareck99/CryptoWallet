@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 // MARK: - GroupChatMenuViewModel
 
@@ -7,15 +7,17 @@ final class GroupChatMenuViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     @Published var actions: [GroupAction] = []
+    @Binding var showNotificationsChangeView: Bool
 
     // MARK: - Private Properties
 
     private let availabilityFacade: MenuActionsTogglesFacadeProtocol
 
     // MARK: - Lifecycle
-
-    init(availabilityFacade: MenuActionsTogglesFacadeProtocol = MenuActionsFacadeAssembly.build()) {
+    
+    init(availabilityFacade: MenuActionsTogglesFacadeProtocol = MenuActionsFacadeAssembly.build(), showNotificationsChangeView: Binding<Bool>) {
         self.availabilityFacade = availabilityFacade
+        self._showNotificationsChangeView = showNotificationsChangeView
         getActions()
     }
 

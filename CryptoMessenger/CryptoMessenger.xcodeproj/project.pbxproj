@@ -471,6 +471,7 @@
 		8B73C1072747A193008ABB22 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B73C1062747A193008ABB22 /* SessionDetailView.swift */; };
 		8B740147275D360B0045ED32 /* ProfileSettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */; };
 		8B74014B275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */; };
+		8B74D00229EEE09D00170703 /* NotififcationMuteTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74D00129EEE09D00170703 /* NotififcationMuteTime.swift */; };
 		8B7BDA7F284FB7F500E37926 /* LinkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7BDA7E284FB7F500E37926 /* LinkRow.swift */; };
 		8B7C17EC27DB894A001113F2 /* NumberFormatterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C17EB27DB894A001113F2 /* NumberFormatterProtocol.swift */; };
 		8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */; };
@@ -516,6 +517,8 @@
 		8BA0C91227AD77380070203F /* ReserveCopyConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C91127AD77380070203F /* ReserveCopyConfigurator.swift */; };
 		8BA0C91427AD776F0070203F /* ReserveCopyProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C91327AD776F0070203F /* ReserveCopyProtocols.swift */; };
 		8BA0C91627AD77F90070203F /* ReserveCopyFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA0C91527AD77F90070203F /* ReserveCopyFlow.swift */; };
+		8BAC812729F1BF3900316A8E /* MXRoomNotificationSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAC812629F1BF3900316A8E /* MXRoomNotificationSettingsService.swift */; };
+		8BAC812929F1BFED00316A8E /* RoomNotificationSettingsServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAC812829F1BFED00316A8E /* RoomNotificationSettingsServiceType.swift */; };
 		8BADB3D6284A0B51004A48AA /* MediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BADB3D5284A0B51004A48AA /* MediaService.swift */; };
 		8BAE1929285B6B0B008E219F /* AudioInputMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAE1928285B6B0B008E219F /* AudioInputMessageView.swift */; };
 		8BAFF37F2863F2D30082E24C /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAFF37E2863F2D20082E24C /* TimerView.swift */; };
@@ -1754,6 +1757,7 @@
 		8B73C1062747A193008ABB22 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		8B740146275D360B0045ED32 /* ProfileSettingsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuView.swift; sourceTree = "<group>"; };
 		8B74014A275E7E8E0045ED32 /* PhoneNumberKit+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhoneNumberKit+SwiftUI.swift"; sourceTree = "<group>"; };
+		8B74D00129EEE09D00170703 /* NotififcationMuteTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotififcationMuteTime.swift; sourceTree = "<group>"; };
 		8B7BDA7E284FB7F500E37926 /* LinkRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkRow.swift; sourceTree = "<group>"; };
 		8B7C17EB27DB894A001113F2 /* NumberFormatterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterProtocol.swift; sourceTree = "<group>"; };
 		8B7D2164274DBB4F0043AB4E /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
@@ -1799,6 +1803,8 @@
 		8BA0C91127AD77380070203F /* ReserveCopyConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyConfigurator.swift; sourceTree = "<group>"; };
 		8BA0C91327AD776F0070203F /* ReserveCopyProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyProtocols.swift; sourceTree = "<group>"; };
 		8BA0C91527AD77F90070203F /* ReserveCopyFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyFlow.swift; sourceTree = "<group>"; };
+		8BAC812629F1BF3900316A8E /* MXRoomNotificationSettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MXRoomNotificationSettingsService.swift; sourceTree = "<group>"; };
+		8BAC812829F1BFED00316A8E /* RoomNotificationSettingsServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomNotificationSettingsServiceType.swift; sourceTree = "<group>"; };
 		8BADB3D5284A0B51004A48AA /* MediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaService.swift; sourceTree = "<group>"; };
 		8BAE1928285B6B0B008E219F /* AudioInputMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioInputMessageView.swift; sourceTree = "<group>"; };
 		8BAFF37E2863F2D20082E24C /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
@@ -5193,6 +5199,9 @@
 				8B88126F2922818000EDB348 /* MXRoom+Notifications.swift */,
 				8B881271292281B100EDB348 /* RoomNotificationState.swift */,
 				8B881273292285D200EDB348 /* MXPushRule+Externsion.swift */,
+				8B74D00129EEE09D00170703 /* NotififcationMuteTime.swift */,
+				8BAC812629F1BF3900316A8E /* MXRoomNotificationSettingsService.swift */,
+				8BAC812829F1BFED00316A8E /* RoomNotificationSettingsServiceType.swift */,
 			);
 			path = "Push Notifications UseCase";
 			sourceTree = "<group>";
@@ -8532,6 +8541,7 @@
 				8BC06B0E27C8F5EE005A28A1 /* TransactionFlow.swift in Sources */,
 				D4A514AE295082BB007A87BF /* FacilityApproveCellView.swift in Sources */,
 				D4EFEC1628E2AF110075CC10 /* MXPushRuleDisplayNameCondtionChecker.m in Sources */,
+				8B74D00229EEE09D00170703 /* NotififcationMuteTime.swift in Sources */,
 				D4EFEBBB28E2AF100075CC10 /* MXPresenceSyncResponse.m in Sources */,
 				8B637D8727CCF06A000B1B2B /* FilterTransactionView.swift in Sources */,
 				D46C901D2947764C00DD0B01 /* TransactionSpeedSelectView.swift in Sources */,
@@ -8646,6 +8656,7 @@
 				D413F10129BF3458005B7532 /* AccessService.swift in Sources */,
 				D4EFEBBC28E2AF100075CC10 /* MXDeviceListResponse.m in Sources */,
 				78EDCAFB286AAF1000D3CBC5 /* MapSnapshotViewModel.swift in Sources */,
+				8BAC812929F1BFED00316A8E /* RoomNotificationSettingsServiceType.swift in Sources */,
 				D4EFEBDA28E2AF100075CC10 /* MXURLPreview.m in Sources */,
 				D415081F28A52C6600C92CEC /* CheckTextReadView.swift in Sources */,
 				5AA6410626822C3A008922B4 /* FontDecor.swift in Sources */,
@@ -8845,6 +8856,7 @@
 				5A9B472626EAB3D7001CC627 /* ReactionGroupView.swift in Sources */,
 				D46FC16929A397BA00D65C99 /* UrlsConfig.swift in Sources */,
 				D4EFEBA428E2AF100075CC10 /* MXCallRejectReplacementEventContent.m in Sources */,
+				8BAC812729F1BF3900316A8E /* MXRoomNotificationSettingsService.swift in Sources */,
 				8BF0FCD6281174F900FF7C6F /* CreateContactViewModel.swift in Sources */,
 				D4EFEC7028E2AF110075CC10 /* MXUsersTrustLevelSummaryMO.swift in Sources */,
 				8B5A338C27D89D6D0064C7DC /* TransferFlow.swift in Sources */,
