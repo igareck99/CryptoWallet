@@ -2180,7 +2180,8 @@ NSInteger const kMXRoomInvalidInviteSenderErrorCode = 9002;
     }
     else if ([msgtype isEqualToString:kMXMessageTypeText]
         || [msgtype isEqualToString:kMXMessageTypeNotice]
-        || [msgtype isEqualToString:kMXMessageTypeEmote])
+        || [msgtype isEqualToString:kMXMessageTypeEmote]
+        || [msgtype isEqualToString:@"ms.aura.contact"])
     {
         NSString *eventToReplyMessageBody = eventToReply.content[kMXMessageBodyKey];
         
@@ -2416,6 +2417,10 @@ NSInteger const kMXRoomInvalidInviteSenderErrorCode = 9002;
         return YES;
     }
     
+    if(eventToReply.eventType == kMXMessageTypeContact)
+    {
+        return YES;
+    }
     if(eventToReply.eventType == MXEventTypeBeaconInfo)
     {
         return YES;
@@ -2440,12 +2445,12 @@ NSInteger const kMXRoomInvalidInviteSenderErrorCode = 9002;
                                            kMXMessageTypeVideo,
                                            kMXMessageTypeAudio,
                                            kMXMessageTypeFile,
-                                           kMXMessageTypeLocation
+                                           kMXMessageTypeLocation,
+                                           kMXMessageTypeContact
                                            ];
         
         canReplyToEvent = [supportedMessageTypes containsObject:messageType];
     }
-    
     return canReplyToEvent;
 }
 

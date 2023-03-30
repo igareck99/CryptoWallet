@@ -15,7 +15,7 @@ enum MXEventCustomEvent {
     var identifier: String {
         switch self {
         case .contactInfo:
-            return "MXMessageTypeContact"
+            return "ms.aura.contact"
         }
     }
 }
@@ -63,15 +63,9 @@ extension MXEvent {
 
         switch messageType {
         case kMXMessageTypeText:
-            print("slaslas  \(isReply())")
             if isReply() {
                 let reply = MXReplyEventParser().parse(self)
                 type = .text(reply?.bodyParts.replyText ?? "")
-            } else if content[.relatesTo] != nil {
-                type = .text(content[.body] as? String ?? "")
-                if let data = content[.body] as? String  {
-                    type = .text(data)
-                }
             } else if isEdit() {
                 type = .none
             } else {
@@ -193,7 +187,12 @@ extension MXEvent {
         }
         if text.contains(">") {
             let startIndex = text.index(text.lastIndex(of: ">") ?? text.startIndex, offsetBy: 2)
-            return String(text.suffix(from: startIndex))
+            let data = String(text.suffix(from: startIndex))
+            let isReply = data.split(separator: "\n")
+            if isReply.count == 1 {
+                return "sent to contact"
+            }
+            return data
         } else {
             return ""
         }

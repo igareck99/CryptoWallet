@@ -66,9 +66,7 @@ struct AsyncImage<Placeholder: View, ResultmageView: View>: View {
             } else if let image = loader.image {
                 if let imgView = result(image) {
                     imgView
-                } else if let resultView = resultView {
-                    resultView(image)
-                }
+                } 
             } else {
                 if urlReachable {
                     progressView
