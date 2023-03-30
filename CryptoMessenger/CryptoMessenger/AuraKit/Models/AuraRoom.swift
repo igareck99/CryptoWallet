@@ -212,14 +212,29 @@ final class AuraRoom: ObservableObject {
 		   let latitude = event.content["latitude"] {
 			event.wireContent["geo_uri"] = "geo:\(latitude),\(longitude)"
 		}
-
-        room.sendReply(to: event,
-                       textMessage: text,
-                       formattedTextMessage: nil,
-                       stringLocalizations: nil,
-                       localEcho: &localEcho,
-                       customParameters: customParameters) { response in
-            self.objectWillChange.send()
+        if event.content["msgtype"] as! String == "MXMessageTypeContact" {
+            let messageContent: [String: Any] = [
+                "body": text,
+                "msgtype": "m.text",
+                "m.relates_to": [
+                    "m.in_reply_to": [
+                        "event_id": event.eventId
+                    ]
+                ]
+            ]
+            room.sendMessage(withContent: messageContent,
+                             localEcho: &localEcho) { response in
+                self.objectWillChange.send()
+            }
+        } else {
+            room.sendReply(to: event,
+                           textMessage: text,
+                           formattedTextMessage: nil,
+                           stringLocalizations: nil,
+                           localEcho: &localEcho,
+                           customParameters: customParameters) { response in
+                self.objectWillChange.send()
+            }
         }
     }
 
