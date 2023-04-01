@@ -191,7 +191,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
         return room
     }
     
-    func setRoom(
+    func setRoomName(
         name: String,
         roomId: String,
         completion: @escaping (MXResponse<Void>) -> Void
@@ -200,7 +200,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
             .setName(ofRoom: roomId, name: name, completion: completion)
     }
     
-    func setRoom(
+    func setRoomTopic(
         topic: String,
         roomId: String,
         completion: @escaping (MXResponse<Void>) -> Void

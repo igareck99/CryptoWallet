@@ -350,22 +350,18 @@ final class ChannelInfoViewModel {
         guard shouldChange else { return }
         
         shouldChange = false
-        
         if let imgData = chatData.wrappedValue.image?.jpeg(.medium) {
             matrixUseCase.setRoomAvatar(data: imgData, roomId: roomId) { result in
                 debugPrint("Channel setRoomAvatar result: \(result)")
             }
         }
-        
-        matrixUseCase.setRoom(topic: channelTopicText, roomId: roomId) { result in
-            debugPrint("matrixUseCase.setRoom.topic result: \(result)")
+        if let room = matrixUseCase.getRoomInfo(roomId: roomId) {
+            room.setTopic(self.channelTopic.wrappedValue) { _ in
+            }
+            room.setName(self.channelNameText) { _ in
+            }
         }
         
-        matrixUseCase.setRoom(name: channelNameText, roomId: roomId) { result in
-            debugPrint("matrixUseCase.setRoom.name result: \(result)")
-        }
-        
-        saveData.toggle()
     }
     
     private func getRoomInfo() {
@@ -456,6 +452,7 @@ final class ChannelInfoViewModel {
 // MARK: - ChannelInfoViewModelProtocol
 
 extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
+    
     
     func onOpenSettingsTap() {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
