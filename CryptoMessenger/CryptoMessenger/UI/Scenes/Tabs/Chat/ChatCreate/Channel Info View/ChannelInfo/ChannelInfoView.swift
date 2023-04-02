@@ -102,15 +102,16 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }
         })
         .sheet(isPresented: viewModel.showUserSettings, content: {
-            UserSettingsAssembly.build(
-                userId: viewModel.tappedUserId,
-                showBottomSheet: viewModel.showChangeRole,
-                showUserProfile: viewModel.showUserProfile,
-                roomId: viewModel.roomId,
-                roleCompare: viewModel.compareRoles()
-            ) {
+            UserSettingsAssembly.build(userId: viewModel.tappedUserId,
+                                       showBottomSheet: viewModel.showChangeRole,
+                                       showUserProfile: viewModel.showUserProfile,
+                                       roomId: viewModel.roomId,
+                                       roleCompare: viewModel.compareRoles()) {
                 viewModel.showUserSettings.wrappedValue = false
                 viewModel.onUserRemoved()
+            } onUserProfile: {
+                viewModel.showUserSettings.wrappedValue = false
+                showParticipantsView = false
             }
             .presentationDetents([viewModel.compareRoles() ? .height(223) : .height(109)])
         })

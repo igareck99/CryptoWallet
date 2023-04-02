@@ -14,6 +14,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
     @State private var showMenuView = false
     @State var selectedUser: ChannelParticipantsData?
     @State private var showUserSettings = false
+    @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
 
@@ -34,19 +35,35 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
         .toolbar {
             createToolBar()
         }
+        .customConfirmDialog(
+            isPresented: viewModel.showChangeRole,
+            actionsAlignment: .center,
+            actions: {
+                TextActionViewModel
+                    .SelectRole
+                    .actions(viewModel.showChangeRole,
+                             viewModel.getCurrentUserRole()) {
+                        viewModel.onRoleSelected(role: $0)
+                    }
+            }, cancelActions: {
+                TextActionViewModel
+                    .SelectRole
+                    .cancelActions(viewModel.showChangeRole)
+            })
         .sheet(isPresented: viewModel.showUserSettings, content: {
-            UserSettingsAssembly.build(
-                userId: viewModel.tappedUserId,
-                showBottomSheet: viewModel.showChangeRole,
-                showUserProfile: viewModel.showUserProfile,
-                roomId: viewModel.roomId,
-                roleCompare: viewModel.compareRoles()
-            ) {
+            UserSettingsAssembly.build(userId: viewModel.tappedUserId,
+                                       showBottomSheet: viewModel.showChangeRole,
+                                       showUserProfile: viewModel.showUserProfile,
+                                       roomId: viewModel.roomId,
+                                       roleCompare: viewModel.compareRoles()) {
                 viewModel.showUserSettings.wrappedValue = false
-                showParticipantsView = false
                 viewModel.onUserRemoved()
+            } onUserProfile: {
+                showParticipantsView = false
+                presentationMode.wrappedValue.dismiss()
+                viewModel.showUserSettings.wrappedValue = false
             }
-            .presentationDetents([.height(223)])
+            .presentationDetents([viewModel.compareRoles() ? .height(223) : .height(109)])
         })
     }
 
@@ -84,6 +101,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
         ToolbarItem(placement: .navigationBarLeading) {
             Button(action: {
                 showParticipantsView = false
+                presentationMode.wrappedValue.dismiss()
             }, label: {
                 R.image.navigation.backButton.image
             })
@@ -96,6 +114,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
                 showParticipantsView = false
+                presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
                     .font(.bold(15))
