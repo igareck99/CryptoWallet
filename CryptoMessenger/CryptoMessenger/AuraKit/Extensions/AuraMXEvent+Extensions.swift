@@ -40,6 +40,7 @@ enum MXEventEventKey: String {
     case newContent = "m.new_content"
     case eventId = "event_id"
     case relatesTo = "m.relates_to"
+    case inReplyTo = "m.in_reply_to"
     case customContent = "m.reply_to"
     case rootUserId = "root_user_id"
     case rootMessage = "root_message"
@@ -62,9 +63,15 @@ extension MXEvent {
 
         switch messageType {
         case kMXMessageTypeText:
+            print("slaslas  \(isReply())")
             if isReply() {
                 let reply = MXReplyEventParser().parse(self)
-				type = .text(reply?.bodyParts.replyText ?? "")
+                type = .text(reply?.bodyParts.replyText ?? "")
+            } else if content[.relatesTo] != nil {
+                type = .text(content[.body] as? String ?? "")
+                if let data = content[.body] as? String  {
+                    type = .text(data)
+                }
             } else if isEdit() {
                 type = .none
             } else {
@@ -180,6 +187,10 @@ extension MXEvent {
     }
 
     var replyDescription: String {
+        var data = content[.relatesTo] as? [String: Any]
+        if data != nil {
+            return "sent to contact"
+        }
         if text.contains(">") {
             let startIndex = text.index(text.lastIndex(of: ">") ?? text.startIndex, offsetBy: 2)
             return String(text.suffix(from: startIndex))

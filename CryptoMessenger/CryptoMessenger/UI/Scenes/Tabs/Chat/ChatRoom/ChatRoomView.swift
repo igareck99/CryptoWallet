@@ -275,6 +275,7 @@ struct ChatRoomView: View {
 												activeEditMessage = message
 												inputViewIsFocused = true
 												quickAction = .reply
+                                                print("slsalksaklssasalas  \(activeEditMessage)")
 										}, {
 											Rectangle()
 												.frame(width: 70, alignment: .center)
