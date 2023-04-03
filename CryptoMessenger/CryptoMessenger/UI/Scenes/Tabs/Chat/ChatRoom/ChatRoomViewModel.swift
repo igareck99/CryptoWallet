@@ -151,8 +151,6 @@ final class ChatRoomViewModel: ObservableObject {
             self?.keyboardHeight = 0
         }
         fetchChatData()
-        
-        detectRoomPowerLevelAccess()
     }
 
     deinit {
@@ -418,6 +416,7 @@ final class ChatRoomViewModel: ObservableObject {
                     self.rooms = self.matrixUseCase.rooms
                     self.loadUsers()
                     self.room.markAllAsRead()
+                    self.detectRoomPowerLevelAccess()
                     self.matrixUseCase.objectChangePublisher.send()
                     self.fetchChatData()
                 case .onNextScene:

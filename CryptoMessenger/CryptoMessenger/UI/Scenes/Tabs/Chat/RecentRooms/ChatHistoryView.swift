@@ -23,7 +23,7 @@ protocol ChatHistoryViewDelegate: ObservableObject {
     
     func fromCurrentSender(room: AuraRoom) -> Bool
     
-    func joinRoom(_ roomId: String)
+    func joinRoom(_ roomId: String, _ openChat: Bool)
     
     func findRooms(with filter: String,
                    completion: @escaping ([MatrixChannel]) -> Void)
@@ -228,7 +228,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                                 .background(.white())
                                 .padding(.trailing, 32)
                                 .onTapGesture {
-                                    viewModel.joinRoom(value.roomId)
+                                    viewModel.joinRoom(value.roomId, true)
                                 }
                                 .frame(height: 64)
                                 Divider()
