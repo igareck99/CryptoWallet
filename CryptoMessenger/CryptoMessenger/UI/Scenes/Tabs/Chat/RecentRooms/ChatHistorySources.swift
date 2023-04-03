@@ -15,6 +15,10 @@ protocol ChatHistorySourcesable {
 
 	static var squareAndPencil: Image { get }
 
+    static var noDataImage: Image { get }
+    
+    static var emptyState: Image { get }
+
 	// Text
 	static var searchPlaceholder: String { get }
 
@@ -25,6 +29,16 @@ protocol ChatHistorySourcesable {
 	static var AUR: String { get }
 
 	static var chats: String { get }
+
+    static var searchEmpty: String { get }
+
+    static var enterData: String { get }
+
+    static var noResult: String { get }
+
+    static var nothingFind: String { get }
+
+    static var globalSearch: String { get }
 }
 
 enum ChatHistorySources: ChatHistorySourcesable {
@@ -54,13 +68,21 @@ enum ChatHistorySources: ChatHistorySourcesable {
 		Image(systemName: "square.and.pencil")
 	}
 
+    static var noDataImage: Image {
+        R.image.chatHistory.nodata.image
+    }
+
+    static var emptyState: Image {
+        R.image.chatHistory.emptyState.image
+    }
+
 	// Text
 	static var searchPlaceholder: String {
 		R.string.localizable.chatHistorySearchPlaceholder()
 	}
 
 	static var decline: String {
-		R.string.localizable.chatHistoryDecline()
+        R.string.localizable.photoEditorAlertCancel()
 	}
 
 	static var readAll: String {
@@ -74,4 +96,24 @@ enum ChatHistorySources: ChatHistorySourcesable {
 	static var chats: String {
 		R.string.localizable.chatHistoryChats()
 	}
+
+    static var searchEmpty: String {
+        R.string.localizable.chatHistorySearchEmpty()
+    }
+
+    static var enterData: String {
+        R.string.localizable.chatHistoryEnterData()
+    }
+
+    static var noResult: String {
+        R.string.localizable.chatHistoryNoResult()
+    }
+
+    static var nothingFind: String {
+        R.string.localizable.chatHistoryNothingFind()
+    }
+
+    static var globalSearch: String {
+        R.string.localizable.chatHistoryGlobalSearch()
+    }
 }

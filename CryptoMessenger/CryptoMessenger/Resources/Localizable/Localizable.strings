@@ -574,3 +574,9 @@
 "ChannelInfo.Participants" = "Участники";
 "ChannelInfo.Attachments" = "Вложения";
 "ChannelInfo.Notifications" = "Уведомления";
+
+"ChatHistory.SearchEmpty" = "Поиск пуст";
+"ChatHistory.EnterData" = "Введите данные, которые хотите найти";
+"ChatHistory.NoResult" = "Нет результатов";
+"ChatHistory.NothingFind" = "По вашему запросу ничего не найдено";
+"ChatHistory.GlobalSearch" = "Глобальный поиск";
