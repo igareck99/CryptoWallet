@@ -14,6 +14,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
     @State private var showMenuView = false
     @State var selectedUser: ChannelParticipantsData?
     @State private var showUserSettings = false
+    @State private var selectedRole: ChannelRole?
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -36,6 +37,33 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
             createToolBar()
         }
         .customConfirmDialog(
+            isPresented: viewModel.showMakeNewRole,
+            actionsAlignment: .center,
+            actions: {
+                TextActionViewModel
+                    .MakeNewRole
+                    .actions(viewModel.showMakeNewRole) {
+                        if showParticipantsView {
+                            viewModel.onMakeCurrentUserRoleTap()
+                        }
+                    }
+            }, cancelActions: {
+                TextActionViewModel
+                    .MakeNewRole
+                    .cancelActions(viewModel.showMakeNewRole)
+            })
+        .sheet(isPresented: viewModel.showSelectCurrentUserRole, content: {
+            NavigationView {
+                ChannelNewOwnerView(users: viewModel.getChannelUsers().filter({
+                    viewModel.getUserRole($0.matrixId) != .owner
+                })) { selectedContacts in
+                    viewModel.onAssignAnotherOwners(users: selectedContacts,
+                                                    newRole: selectedRole) {
+                    }
+                }
+            }
+        })
+        .customConfirmDialog(
             isPresented: viewModel.showChangeRole,
             actionsAlignment: .center,
             actions: {
@@ -43,7 +71,8 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     .SelectRole
                     .actions(viewModel.showChangeRole,
                              viewModel.getCurrentUserRole()) {
-                        viewModel.onRoleSelected(role: $0)
+                        selectedRole = $0
+                        viewModel.onRoleSelected(role: $0, ownerCheck: true)
                     }
             }, cancelActions: {
                 TextActionViewModel
@@ -63,7 +92,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 presentationMode.wrappedValue.dismiss()
                 viewModel.showUserSettings.wrappedValue = false
             }
-            .presentationDetents([viewModel.compareRoles() ? .height(223) : .height(109)])
+            .presentationDetents([.height(computeSizeOfUserMenu(viewModel.compareRoles()))])
         })
     }
 
@@ -120,6 +149,16 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     .font(.bold(15))
                     .foregroundColor(.blue)
             })
+        }
+    }
+    
+    private func computeSizeOfUserMenu(_ value: ChannelUserActions) -> CGFloat {
+        if value.delete && value.changeRole {
+            return CGFloat(223)
+        } else if value.delete || value.changeRole {
+            return CGFloat(183)
+        } else {
+            return CGFloat(109)
         }
     }
 }

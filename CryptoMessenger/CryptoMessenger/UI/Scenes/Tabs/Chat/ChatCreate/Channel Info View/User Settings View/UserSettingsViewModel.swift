@@ -26,7 +26,7 @@ final class UserSettingsViewModel {
     private let userId: Binding<String>
     private var showBottomSheet: Binding<Bool>
     private let roomId: String
-    private let roleCompare: Bool
+    private let roleCompare: ChannelUserActions
     private let matrixUseCase: MatrixUseCaseProtocol
     private let factory: UserSettingsFactoryProtocol.Type
     private let onActionEnd: VoidBlock
@@ -77,7 +77,7 @@ final class UserSettingsViewModel {
         showBottomSheet: Binding<Bool>,
         showUserProfile: Binding<Bool>,
         roomId: String,
-        roleCompare: Bool,
+        roleCompare: ChannelUserActions,
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         factory: UserSettingsFactoryProtocol.Type = UserSettingsFactory.self,
         onActionEnd: @escaping VoidBlock,

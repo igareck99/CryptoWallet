@@ -91,6 +91,12 @@ protocol MatrixServiceProtocol {
         powerLevel: Int,
         completion: @escaping EmptyResultBlock
     )
+    func updateUsersPowerLevel(
+        userIds: [String],
+        roomId: String,
+        powerLevel: Int,
+        completion: @escaping EmptyResultBlock
+    )
 
 	// MARK: - Pagination
 	func paginate(room: AuraRoom, event: MXEvent)

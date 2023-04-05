@@ -417,6 +417,18 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
         )
     }
     
+    func updateUsersPowerLevel(
+        userIds: [String],
+        roomId: String,
+        powerLevel: Int,
+        completion: @escaping EmptyResultBlock
+    ) {
+        matrixService.updateUsersPowerLevel(userIds: userIds,
+                                            roomId: roomId,
+                                            powerLevel: powerLevel,
+                                            completion: completion)
+    }
+    
     func getPublicRooms(filter: String,
                         completion: @escaping ([MatrixChannel]) -> Void) {
         matrixService.getPublicRooms(filter: filter) { value in

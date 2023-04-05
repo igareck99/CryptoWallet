@@ -11,7 +11,7 @@ enum UserSettingsAssembly {
         showBottomSheet: Binding<Bool>,
         showUserProfile: Binding<Bool>,
         roomId: String,
-        roleCompare: Bool,
+        roleCompare: ChannelUserActions,
         onActionEnd: @escaping VoidBlock,
         onUserProfile: @escaping VoidBlock
     ) -> some View {
