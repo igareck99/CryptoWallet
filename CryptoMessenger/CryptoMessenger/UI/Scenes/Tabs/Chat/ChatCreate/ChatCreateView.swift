@@ -1,42 +1,5 @@
 import SwiftUI
 
-// MARK: - CreateAction
-
-enum CreateAction: CaseIterable, Identifiable {
-
-    // MARK: - Types
-
-    case createChannel, newContact, groupChat
-
-    // MARK: - Internal Properties
-
-    var id: String { UUID().uuidString }
-
-    var text: Text {
-        switch self {
-        case .createChannel:
-            return Text(R.string.localizable.createActionCreateChannel())
-        case .newContact:
-            return Text(R.string.localizable.createActionNewContact())
-        case .groupChat:
-            return Text(R.string.localizable.createActionGroupChat())
-        }
-    }
-
-    var color: Palette { .black() }
-
-    var image: Image {
-        switch self {
-        case .createChannel:
-            return R.image.chat.group.channel.image
-        case .newContact:
-            return R.image.chat.group.contact.image
-        case .groupChat:
-            return R.image.chat.group.group.image
-        }
-    }
-}
-
 // MARK: - ChatCreateView
 
 struct ChatCreateView: View {
@@ -47,6 +10,7 @@ struct ChatCreateView: View {
     @StateObject var viewModel: ChatCreateViewModel
     @State var showContactCreate = false
     @State var showChannelCreate = false
+    @State private var showSearchBar = false
 
     // MARK: - Private Properties
 
@@ -103,26 +67,34 @@ struct ChatCreateView: View {
 
     private var content: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 0) {
-                SearchBar(
-                    placeholder: R.string.localizable.createActionSearch(),
-                    searchText: $viewModel.searchText,
-                    searching: $viewModel.searching
-                )
-                if viewModel.searching {
-                    Spacer()
-                    Button(R.string.localizable.createActionCancel()) {
-                        viewModel.searchText = ""
-                        withAnimation {
-                            viewModel.searching = false
-                            UIApplication.shared.dismissKeyboard()
+            if showSearchBar {
+                HStack(spacing: 0) {
+                    SearchBar(
+                        placeholder: R.string.localizable.createActionSearch(),
+                        searchText: $viewModel.searchText,
+                        searching: $viewModel.searching
+                    )
+                    if viewModel.searching {
+                        Spacer()
+                        Button(R.string.localizable.createActionCancel()) {
+                            viewModel.searchText = ""
+                            withAnimation {
+                                withAnimation(.linear(duration: 0.25)) {
+                                    viewModel.searching = false
+                                    showSearchBar = false
+                                    UIApplication.shared.dismissKeyboard()
+                                }
+                            }
                         }
+                        .buttonStyle(.plain)
+                        .foreground(.blue())
                     }
-                    .buttonStyle(.plain)
-                    .foreground(.blue())
                 }
+                .padding([.horizontal, .vertical], 16)
+            } else {
+                headerView
+                    .padding(.top, 15)
             }
-            .padding([.horizontal, .vertical], 16)
 
             ScrollView(.vertical, showsIndicators: false) {
                 Rectangle()
@@ -134,6 +106,7 @@ struct ChatCreateView: View {
                         ForEach(CreateAction.allCases) { action in
                             VStack(spacing: 0) {
                                 actionView(action)
+                                    .listRowSeparator(.hidden)
                                     .padding([.leading, .trailing], 16)
                                     .onTapGesture {
                                         vibrate()
@@ -202,6 +175,7 @@ struct ChatCreateView: View {
                                     viewModel.waitingContacts : viewModel.waitingFilteredContacts
                     if !waitContacts.isEmpty && viewModel.state == .showContent {
                         sectionView(R.string.localizable.createActionInviteSection())
+                            .padding(.top, 24)
                         VStack(alignment: .leading, spacing: 0) {
                             ForEach(waitContacts) { contact in
                                 ContactRow(
@@ -231,13 +205,35 @@ struct ChatCreateView: View {
                 Spacer()
             }
 
-            if action != .groupChat {
-                Rectangle()
-                    .fill(Color(.gray(0.8)))
-                    .frame(height: 1)
-                    .padding(.leading, 37)
-                    .padding(.trailing, 0)
-            }
+            
+            Rectangle()
+                .fill(Color(.gray(0.8)))
+                .frame(height: 0.8)
+                .padding(.leading, 37)
+                .padding(.trailing, 16)
+        }
+    }
+    
+    private var headerView: some View {
+        HStack {
+            R.image.chat.fatarrow.image
+                .padding(.leading, 9)
+                .frame(width: 12, height: 21)
+                .onTapGesture {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            Spacer()
+            Text("Чаты")
+                .font(.semibold(17))
+            Spacer()
+            R.image.chat.fatloop.image
+                .frame(width: 17, height: 17)
+                .padding(13)
+                .onTapGesture {
+                    withAnimation(.linear(duration: 0.25)) {
+                        showSearchBar.toggle()
+                    }
+                }
         }
     }
 
@@ -250,12 +246,6 @@ struct ChatCreateView: View {
                 .frame(height: 24)
 
             Spacer()
-
-            Text(R.string.localizable.createActionShowMore())
-                .font(.medium(13))
-                .foreground(.black())
-                .padding(.trailing, 16)
-                .frame(height: 24)
         }
         .background(.paleBlue())
     }
