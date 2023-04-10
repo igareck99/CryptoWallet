@@ -19,6 +19,7 @@ public struct ImageViewerRemote: View {
     @State var dragOffset: CGSize = CGSize.zero
     @State var dragOffsetPredicted: CGSize = CGSize.zero
     private let deleteActionAvailable: Bool
+    private let shareActionAvailable: Bool
 
     // MARK: - Private Properties
 
@@ -31,6 +32,7 @@ public struct ImageViewerRemote: View {
                 imageURL: Binding<URL?>,
                 viewerShown: Binding<Bool>,
                 deleteActionAvailable: Bool = true,
+                shareActionAvailable: Bool = true,
                 urls: [URL?] = [],
                 onDelete: @escaping () -> Void,
                 onShare: @escaping () -> Void) {
@@ -38,6 +40,7 @@ public struct ImageViewerRemote: View {
         _imageURL = imageURL
         _viewerShown = viewerShown
         self.deleteActionAvailable = deleteActionAvailable
+        self.shareActionAvailable = shareActionAvailable
         self.urls = urls
         self.onDelete = onDelete
         self.onShare = onShare
@@ -137,14 +140,16 @@ public struct ImageViewerRemote: View {
                     VStack {
                         Spacer()
                         HStack {
-                            Button(action: { onShare() }) {
-                                R.image.photoEditor.share.image
-                                    .foregroundColor(Color(UIColor.white))
-                                    .font(.system(size: UIFontMetrics.default.scaledValue(for: 24)))
+                            if shareActionAvailable {
+                                Button(action: { onShare() }) {
+                                    R.image.photoEditor.share.image
+                                        .foregroundColor(Color(UIColor.white))
+                                        .font(.system(size: UIFontMetrics.default.scaledValue(for: 24)))
+                                }
+                                .padding(.leading, 16)
+                                .padding(.bottom, 16)
+                                Spacer()
                             }
-                            .padding(.leading, 16)
-                            .padding(.bottom, 16)
-                            Spacer()
                             if deleteActionAvailable {
                                 Button(action: { onDelete() }) {
                                     R.image.photoEditor.brush.image

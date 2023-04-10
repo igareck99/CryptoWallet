@@ -63,7 +63,6 @@ extension MXEvent {
 
         switch messageType {
         case kMXMessageTypeText:
-            print("slaslas  \(isReply())")
             if isReply() {
                 let reply = MXReplyEventParser().parse(self)
                 type = .text(reply?.bodyParts.replyText ?? "")

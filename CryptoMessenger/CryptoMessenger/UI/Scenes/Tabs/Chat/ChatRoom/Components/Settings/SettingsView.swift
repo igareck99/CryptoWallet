@@ -82,12 +82,6 @@ struct SettingsView: View {
             )
             .overlay(
                 EmptyNavigationLink(
-                    destination: ChatMediaView(viewModel: ChatMediaViewModel(room: viewModel.room)),
-                    isActive: $showContent
-                )
-            )
-            .overlay(
-                EmptyNavigationLink(
                     destination: AdminsView(chatData: $chatData),
                     isActive: $showAdmins
                 )
@@ -291,7 +285,7 @@ struct SettingsView: View {
                     case .media:
                         guard !chatData.media.isEmpty else { return }
                         vibrate()
-                        showContent.toggle()
+                        viewModel.send(.onMedia)
                     case .admins:
                         vibrate()
                         showAdmins.toggle()
