@@ -556,6 +556,7 @@
 		8BC51800296CC8BB0033B30F /* ChooseWalletTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC517FF296CC8BB0033B30F /* ChooseWalletTypeCell.swift */; };
 		8BC518032970AF290033B30F /* PhraseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC518022970AF290033B30F /* PhraseService.swift */; };
 		8BCA91022750FCC200E8E269 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA91012750FCC200E8E269 /* Popup.swift */; };
+		8BCDCD7529DF9BA700F2CE83 /* CreateAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCDCD7429DF9BA700F2CE83 /* CreateAction.swift */; };
 		8BD2E7E72981C3B600D712D1 /* SelectChannelTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD2E7E62981C3B600D712D1 /* SelectChannelTypeView.swift */; };
 		8BD6292D276AAC06000A976A /* SocialListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292C276AAC06000A976A /* SocialListView.swift */; };
 		8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292E276B407F000A976A /* SocialListItem.swift */; };
@@ -1833,6 +1834,7 @@
 		8BC517FF296CC8BB0033B30F /* ChooseWalletTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseWalletTypeCell.swift; sourceTree = "<group>"; };
 		8BC518022970AF290033B30F /* PhraseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseService.swift; sourceTree = "<group>"; };
 		8BCA91012750FCC200E8E269 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
+		8BCDCD7429DF9BA700F2CE83 /* CreateAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAction.swift; sourceTree = "<group>"; };
 		8BD2E7E62981C3B600D712D1 /* SelectChannelTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectChannelTypeView.swift; sourceTree = "<group>"; };
 		8BD6292C276AAC06000A976A /* SocialListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListView.swift; sourceTree = "<group>"; };
 		8BD6292E276B407F000A976A /* SocialListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListItem.swift; sourceTree = "<group>"; };
@@ -3531,6 +3533,7 @@
 				5A3721D4272F0A290097ABED /* ContactRow.swift */,
 				5A44FEF027693F6F006F9D92 /* ChatCreateViewModel.swift */,
 				5A44FEF4276940E8006F9D92 /* ChatCreateFlow.swift */,
+				8BCDCD7429DF9BA700F2CE83 /* CreateAction.swift */,
 			);
 			path = ChatCreate;
 			sourceTree = "<group>";
@@ -8037,6 +8040,7 @@
 				D44BDC99280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift in Sources */,
 				5A187EA52680708D001957D3 /* CollectionViewProviderViewModel.swift in Sources */,
 				5A187F2F2680CF49001957D3 /* Endpoints.swift in Sources */,
+				8BCDCD7529DF9BA700F2CE83 /* CreateAction.swift in Sources */,
 				D4EFEBEB28E2AF110075CC10 /* MXAllowedCertificates.m in Sources */,
 				D450047B2845E51900CA4C82 /* ViewConfigurable.swift in Sources */,
 				D4EFEBE728E2AF110075CC10 /* MXLogger.m in Sources */,

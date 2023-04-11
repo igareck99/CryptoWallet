@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "fat-arrow.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
