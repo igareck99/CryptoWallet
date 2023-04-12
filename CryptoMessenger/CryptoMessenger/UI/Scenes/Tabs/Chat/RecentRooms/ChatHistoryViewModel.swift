@@ -97,12 +97,14 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         }
     }
 
-    func joinRoom(_ roomId: String) {
+    func joinRoom(_ roomId: String, _ openChat: Bool = false) {
         self.matrixUseCase.joinRoom(roomId: roomId) { result in
             switch result {
             case .success(let room):
                 let auraRoom = AuraRoom(room)
-                self.eventSubject.send(.onShowRoom(auraRoom))
+                if openChat {
+                    self.eventSubject.send(.onShowRoom(auraRoom))
+                }
             case .failure(_):
                 break
             }

@@ -21,6 +21,8 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
 
     var roomId: String { get }
     
+    var dissappearScreen: Bool { get set }
+    
     var roomDisplayName: String { get }
     
     var isRoomPublicValue: Bool { get set }
@@ -211,6 +213,8 @@ final class ChannelInfoViewModel {
             self.objectWillChange.send()
         }
     }
+    
+    var dissappearScreen: Bool = false
     
     lazy var showSelectOwner: Binding<Bool> = .init(
         get: {
@@ -491,7 +495,11 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
 
                // Если текущий пользователь не является владельцем канала
                if !isOwner {
-                   self.onLeaveRoom()
+                   self.matrixUseCase.updateUserPowerLevel(userId: currentUserId,
+                                                           roomId: self.roomId,
+                                                           powerLevel: 0) { [weak self] _ in
+                       self?.onLeaveRoom()
+                   }
                    return
                }
 
@@ -502,6 +510,11 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
 
                // Если текущий пользователь не является единственным владельцем канала
                if !isOnlyOneOwner {
+                   self.matrixUseCase.updateUserPowerLevel(userId: currentUserId,
+                                                           roomId: self.roomId,
+                                                           powerLevel: 0) { [weak self] _ in
+                       self?.onLeaveRoom()
+                   }
                    self.onLeaveRoom()
                    return
                }
@@ -573,25 +586,20 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     func onInviteUsersToChannel(users: [Contact]) {
         
         for user in users {
-            debugPrint("onInviteUsersToChannelGroup leave")
             onInviteUsersToChannelGroup.enter()
             matrixUseCase.inviteUser(userId: user.mxId, roomId: roomId) { [weak self] result in
-                
-                debugPrint("inviteUser result: \(result)")
-                
                 // TODO: Обработать failure case
                
                 guard let self = self, case .success = result else { return }
                 
-                self.matrixUseCase.updateUserPowerLevel(userId: user.mxId, roomId: self.roomId, powerLevel: 0) { [weak self] result in
-                    debugPrint("inviteUser result: \(result)")
-                    debugPrint("onInviteUsersToChannelGroup leave")
+                self.matrixUseCase.updateUserPowerLevel(userId: user.mxId,
+                                                        roomId: self.roomId,
+                                                        powerLevel: 0) { [weak self] result in
                     self?.onInviteUsersToChannelGroup.leave()
                 }
             }
         }
         onInviteUsersToChannelGroup.notify(queue: .main) {
-            debugPrint("onInviteUsersToChannelGroup notify")
             self.loadUsers()
         }
     }
@@ -671,8 +679,10 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     }
 
     func onLeaveRoom() {
-        matrixUseCase.leaveRoom(roomId: roomId) { [weak self] result in
-            self?.loadUsers()
+        matrixUseCase.leaveRoom(roomId: roomId) { [weak self] _ in
+            guard let self = self else { return }
+            self.loadUsers()
+            self.dissappearScreen = true
         }
     }
 
@@ -707,7 +717,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     }
     
     func compareRoles() -> Bool {
-        let selectedUserRole = factory.detectUserRole(userId: self.tappedUserIdText,
+        let selectedUserRole = factory.detectUserRole(userId: tappedUserIdText,
                                                       roomPowerLevels: roomPowerLevels)
         let currentUserRole = factory.detectUserRole(userId: matrixUseCase.getUserId(),
                                                       roomPowerLevels: roomPowerLevels)

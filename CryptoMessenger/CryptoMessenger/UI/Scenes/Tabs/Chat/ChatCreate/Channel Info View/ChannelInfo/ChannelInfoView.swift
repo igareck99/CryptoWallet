@@ -91,10 +91,14 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     viewModel.getUserRole($0.matrixId) != .owner
                 })) { selectedContacts in
                     viewModel.onAssignNewOwners(users: selectedContacts) {
-                        isLeaveChannel = true
-                        presentationMode.wrappedValue.dismiss()
                     }
                 }
+            }
+        })
+        .onChange(of: viewModel.dissappearScreen, perform: { value in
+            if value {
+                isLeaveChannel = true
+                presentationMode.wrappedValue.dismiss()
             }
         })
         .sheet(isPresented: viewModel.showUserSettings, content: {
@@ -165,9 +169,6 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     .actions(viewModel.showLeaveChannel,
                              viewModel.isRoomPublicValue) {
                         viewModel.onLeaveChannel()
-                        if !viewModel.compareRoles() {
-                            self.presentationMode.wrappedValue.dismiss()
-                        }
                     }
             }, cancelActions: {
                 TextActionViewModel
