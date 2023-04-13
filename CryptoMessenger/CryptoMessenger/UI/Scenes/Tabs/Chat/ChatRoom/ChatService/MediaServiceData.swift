@@ -21,4 +21,12 @@ struct FileData: Identifiable, Equatable {
     var fileName: String
     var url: URL?
     var date: Date
+
+    // MARK: - Static Methods
+
+    static func makeEmptyFile() -> FileData {
+        return FileData(fileName: "",
+                        url: URL(string: ""),
+                        date: Date())
+    }
 }

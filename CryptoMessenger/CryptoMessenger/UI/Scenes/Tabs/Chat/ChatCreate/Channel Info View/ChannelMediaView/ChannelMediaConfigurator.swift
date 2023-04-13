@@ -8,7 +8,7 @@ enum ChannelMediaConfigurator {
 
     static func configuredView(
         room: AuraRoom,
-        delegate: ChatMediaSceneDelegate
+        delegate: ChannelMediaSceneDelegate
     ) -> ChannelMediaView {
         let viewModel = ChatMediaViewModel(room: room)
         viewModel.delegate = delegate

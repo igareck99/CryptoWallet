@@ -6,12 +6,13 @@ struct ChannelMediaView: View {
 
     // MARK: - Internal Properties
 
-    @State var searchType = ChatMediaTabs.media
-    @StateObject var viewModel: ChatMediaViewModel
+    @State var searchType = ChannelMediaTabs.media
+    @StateObject var viewModel: ChannelMediaViewModel
     @State var showFile = false
     @State var selectedPhoto: URL?
-    @State var redrawPreview = false
     @State var isUploadFinished = false
+    @State private var showImageViewer = false
+    @State private var navBarHidden = false
 
     // MARK: - Private Properties
 
@@ -37,22 +38,23 @@ struct ChannelMediaView: View {
                     PreviewControllerView(viewModel: viewModel.documentViewModel!)
                 }
             })
-            .navigationBarBackButtonHidden(true)
+            .fullScreenCover(isPresented: self.$showImageViewer,
+                             content: {
+                ImageViewerRemote(imageURL: $selectedPhoto,
+                                  viewerShown: self.$showImageViewer,
+                                  deleteActionAvailable: false,
+                                  shareActionAvailable: false,
+                                  onDelete: {
+                }, onShare: {
+                })
+            })
+            .toolbar(.visible, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarColor(selectedPhoto != nil ? nil : .white(), isBlured: false)
             .navigationViewStyle(.stack)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        viewModel.sources.backButton
-                    })
-                }
-
                 ToolbarItem(placement: .principal) {
                     Text("Медиа и документы")
-                        .font(.bold(15))
+                        .font(.semibold(17))
                         .foreground(.black())
                 }
             }
@@ -61,7 +63,7 @@ struct ChannelMediaView: View {
     // MARK: - Body Properties
 
     private var content: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 0) {
             searchSelectView
             switch searchType {
             case .media:
@@ -71,20 +73,8 @@ struct ChannelMediaView: View {
                                            description: "Здесь будут медиафайлы канала")
                     .padding(.top, 219)
                 } else {
-                    ZStack {
-                        photosView
-                        if selectedPhoto != nil {
-                            ZStack {
-                                ImageViewer(
-                                    selectedPhoto: $selectedPhoto,
-                                    allImages: [],
-                                    selectedImageID: ""
-                                )
-                                .navigationBarHidden(true)
-                                .ignoresSafeArea()
-                            }
-                        }
-                    }
+                    photosView
+                        .padding(.top, 2)
                 }
             case .documents:
                 if viewModel.files.isEmpty {
@@ -96,15 +86,17 @@ struct ChannelMediaView: View {
                 } else {
                     List {
                         ForEach(0..<viewModel.files.count, id: \.self) { index in
-                            ChatDocumentView(showFile: $showFile,
-                                             selectedFile: $viewModel.selectedFile,
-                                             file: viewModel.files[index])
+                            ChannelDocumentView(showFile: $showFile,
+                                                selectedFile: $viewModel.selectedFile,
+                                                file: viewModel.files[index],
+                                                viewModel: FileViewModel(url: viewModel.files[index].url,
+                                                                         file: viewModel.files[index]))
                         }
-                        .listRowBackground(Color(.paleGray(0.1)))
                     }
                     .ignoresSafeArea()
                     .listStyle(.plain)
                     .background(.paleGray(0.1))
+                    .padding(.bottom, 8)
                     Spacer()
                 }
             case .links:
@@ -115,19 +107,18 @@ struct ChannelMediaView: View {
     }
 
     private var searchSelectView: some View {
-        HStack {
+        HStack(spacing: 0) {
             ChannelMediaTypeView(selectedSearchType: $searchType,
-                                 searchTypeCell: ChatMediaTabs.media)
-            Spacer()
+                                 searchTypeCell: ChannelMediaTabs.media)
             ChannelMediaTypeView(selectedSearchType: $searchType,
-                                 searchTypeCell: ChatMediaTabs.documents )
+                                 searchTypeCell: ChannelMediaTabs.documents )
         }
     }
 
     private var photosView: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            let gridLayout = GridItem(.flexible(maximum: .infinity), spacing: 1.5)
-            LazyVGrid(columns: Array(repeating: gridLayout, count: 3), alignment: .center, spacing: 1.5) {
+            let gridLayout = GridItem(.flexible(maximum: .infinity), spacing: 1)
+            LazyVGrid(columns: Array(repeating: gridLayout, count: 3), alignment: .center, spacing: 1) {
                 ForEach(0..<viewModel.photos.count, id: \.self) { index in
                     VStack(spacing: 0) {
                         let width = (UIScreen.main.bounds.width - 3) / 3
@@ -145,42 +136,10 @@ struct ChannelMediaView: View {
                             .clipped()
                             .onTapGesture {
                                 selectedPhoto = viewModel.photos[index]
+                                showImageViewer = true
                             }
                     }
                 }
-            }
-        }
-    }
-}
-
-// MARK: - ChannelMediaTypeView
-
-struct ChannelMediaTypeView: View {
-
-    // MARK: - Internal Properties
-
-    @Binding var selectedSearchType: ChatMediaTabs
-    @State var searchTypeCell: ChatMediaTabs
-
-    // MARK: - Body
-
-    var body: some View {
-        VStack(spacing: 7) {
-            Text(searchTypeCell.title,
-                 [
-                    .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center)),
-                    .font(.regular(13)),
-                    .color(searchTypeCell == selectedSearchType ? .blue() : .darkGray())
-                 ])
-            Divider()
-                .frame(width: UIScreen.main.bounds.width / 2 + 4,
-                       height: searchTypeCell == selectedSearchType ? 2 : 1)
-                .background(searchTypeCell == selectedSearchType ? .blue() : .lightGray ())
-        }
-        .frame(alignment: .center)
-        .onTapGesture {
-            withAnimation(.linear(duration: 0.35)) {
-                selectedSearchType = searchTypeCell
             }
         }
     }

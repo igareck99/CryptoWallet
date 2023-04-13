@@ -47,6 +47,9 @@ final class SettingsViewModel: ObservableObject {
                     ()
                 case let .onFriendProfile(userId: userId):
                     self?.delegate?.handleNextScene(.friendProfile(userId))
+                case .onMedia:
+                    guard let auraRoom = self?.room else { return }
+                    self?.delegate?.handleNextScene(.channelMedia(auraRoom))
                 }
             }
             .store(in: &subscriptions)

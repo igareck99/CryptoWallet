@@ -1,7 +1,8 @@
 import SwiftUI
 
+// MARK: - ChannelMediaSourcesable
 
-protocol ChatMediaSourcesable {
+protocol ChannelMediaSourcesable {
 
     // Images
     static var backButton: Image { get }
@@ -12,7 +13,9 @@ protocol ChatMediaSourcesable {
     static var friendProfileMedia: String { get }
 }
 
-enum ChatMediaSources: ChatMediaSourcesable {
+// MARK: - ChannelMediaSources(ChannelMediaSourcesable)
+
+enum ChannelMediaSources: ChannelMediaSourcesable {
 
     // Images
     static var backButton: Image {

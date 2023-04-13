@@ -317,7 +317,7 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
     private func showMediaView(_ room: AuraRoom) {
-        let rootView = ChatMediaConfigurator.configuredView(room: room,
+        let rootView = ChannelMediaConfigurator.configuredView(room: room,
                                                             delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
@@ -648,9 +648,9 @@ extension MainFlowCoordinator: SettingsSceneDelegate {}
 
 extension MainFlowCoordinator: NotificationSettingsSceneDelegate {}
 
-// MARK: - MainFlowCoordinator (ChatMediaSceneDelegate)
+// MARK: - MainFlowCoordinator (ChannelMediaSceneDelegate)
 
-extension MainFlowCoordinator: ChatMediaSceneDelegate {}
+extension MainFlowCoordinator: ChannelMediaSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (GeneratePhraseSceneDelegate)
 

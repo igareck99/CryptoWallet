@@ -5,18 +5,18 @@ import Combine
 
 protocol ChatMediaDelegate: ObservableObject {
 
-    var sources: ChatMediaSourcesable.Type { get }
+    var sources: ChannelMediaSourcesable.Type { get }
 
 }
 
 // MARK: - ChatMediaViewModel
 
-final class ChatMediaViewModel: ObservableObject {
+final class ChannelMediaViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: ChatMediaSceneDelegate?
-    let sources: ChatMediaSourcesable.Type
+    weak var delegate: ChannelMediaSceneDelegate?
+    let sources: ChannelMediaSourcesable.Type
     @Published var photos: [URL] = []
     @Published var files: [FileData] = []
     @Published var links: [URL] = []
@@ -34,7 +34,7 @@ final class ChatMediaViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(room: AuraRoom,
-         sources: ChatMediaSourcesable.Type = ChatMediaSources.self,
+         sources: ChannelMediaSourcesable.Type = ChannelMediaSources.self,
          mediaService: MediaServiceProtocol = MediaService()) {
         self.sources = sources
         self.room = room
@@ -63,3 +63,4 @@ final class ChatMediaViewModel: ObservableObject {
         }
     }
 }
+
