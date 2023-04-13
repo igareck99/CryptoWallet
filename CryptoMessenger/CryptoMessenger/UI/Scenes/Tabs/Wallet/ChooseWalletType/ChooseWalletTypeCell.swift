@@ -33,6 +33,15 @@ struct ChooseWalletTypeCell: View {
                 }
                 Text("BTC (Bitcoin)")
                     .font(.bold(15))
+            case .binance:
+                ZStack {
+                Circle()
+                    .frame(width: 40, height: 40)
+                    .foreground(.lightOrange(0.1))
+                R.image.importKey.bitcoinLabel.image
+                }
+                Text("BNC")
+                    .font(.bold(15))
             case .aur:
                 ZStack {
                 Circle()

@@ -8,6 +8,7 @@ struct BalanceRequestParamsV2: Codable {
 struct BalanceRequestParams: Codable {
 	let ethereum: [WalletBalanceAddress]
 	let bitcoin: [WalletBalanceAddress]
+    let binance: [WalletBalanceAddress]
 }
 
 struct WalletBalanceAddress: Codable {
@@ -22,4 +23,5 @@ enum FiatCurrency: String, Codable {
 enum NetworkAddress: String, Codable {
     case ethereum
     case bitcoin
+    case binance
 }

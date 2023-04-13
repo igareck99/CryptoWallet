@@ -281,7 +281,7 @@ final class WalletViewModel: ObservableObject {
 			bitcoin: bitcoin
 		)
 		walletNetworks.getAddress(params: params) { [weak self] response in
-			guard let self = self, case let .success(addresses) = response else { return }
+            guard let self = self, case let .success(addresses) = response else { self?.transactionLoadingState = .notloading; return }
 
 			let savedWallets: [WalletNetwork] = self.coreDataService.getWalletNetworks()
 
@@ -313,11 +313,15 @@ final class WalletViewModel: ObservableObject {
 		guard
 			let bitcoinAddress = savedWallets
 				.first(where: { $0.cryptoType == "bitcoin" })?.address,
-			bitcoinAddress.isEmpty == false,
-			let ethereumAddress = savedWallets
-				.first(where: { $0.cryptoType == "ethereum" })?.address,
-			ethereumAddress.isEmpty == false
-		else {
+            bitcoinAddress.isEmpty == false,
+            let ethereumAddress = savedWallets
+                .first(where: { $0.cryptoType == "ethereum" })?.address,
+            ethereumAddress.isEmpty == false
+                // Будет реализовано в след спринт
+//            let binanceAddress = savedWallets
+//                .first(where: { $0.cryptoType == "binance" })?.address,
+//            binanceAddress.isEmpty == false
+        else {
 			return
 		}
 
@@ -327,10 +331,17 @@ final class WalletViewModel: ObservableObject {
 		let bitcoin: [WalletBalanceAddress] = [
 			WalletBalanceAddress(accountAddress: bitcoinAddress)
 		]
+//        let binance: [WalletBalanceAddress] = [
+//            WalletBalanceAddress(accountAddress: binanceAddress)
+//        ]
 
         let params = BalanceRequestParamsV2(
             currency: .usd,
-            addresses: [.ethereum: ethereum, .bitcoin: bitcoin]
+            addresses: [
+                .ethereum: ethereum,
+                .bitcoin: bitcoin,
+//                .binance: binance
+            ]
         )
 
 		walletNetworks.getBalancesV2(params: params) { [weak self] in
@@ -363,8 +374,11 @@ final class WalletViewModel: ObservableObject {
 	func updateWalletsFromDB() {
 		let updatedWallets = coreDataService.getWalletNetworks()
 
-		let cards: [WalletInfo] = updatedWallets.map {
-            let walletType: WalletType = $0.cryptoType == "ethereum" ? WalletType.ethereum : WalletType.bitcoin
+		let cards: [WalletInfo] = updatedWallets.compactMap {
+
+            guard let walletType = WalletType(rawValue: $0.cryptoType ?? ""),
+                    walletType != .binance else { return nil }
+
             let fiat = $0.fiatPrice * (($0.balance as? NSString)?.doubleValue ?? 1)
             let fiatAmount = String(format: "%.2f", fiat)
             return WalletInfo(
@@ -467,11 +481,44 @@ final class WalletViewModel: ObservableObject {
                     let keys = self.keysService.makeBitcoinKeys(seed: seed, derivation: wallet.derivePath ?? "")
 					self.keychainService.set(keys.privateKey, forKey: .bitcoinPrivateKey)
 					self.keychainService.set(keys.publicKey, forKey: .bitcoinPublicKey)
+                default:
+                    debugPrint("Unlnown result")
 				}
 			}
 			self.getAddress(wallets: savedWallets)
 		}
 	}
+
+    func getTokens() {
+        let params = NetworkTokensRequestParams(cryptoTypes: [.binance, .bitcoin, .ethereum])
+        walletNetworks.getTokens(params: params) { [weak self] result in
+
+            debugPrint("walletNetworks.getTokens: \(result)")
+            guard case let .success(networkTokens) = result else { return }
+
+            let bitcoinAddresses: [WalletBalanceAddress] = networkTokens.bitcoin?.map {
+                .init(accountAddress: $0.address)
+            } ?? []
+
+            let ethereumAddresses: [WalletBalanceAddress] = networkTokens.ethereum?.map {
+                .init(accountAddress: $0.address)
+            } ?? []
+
+            let binanceAddresses: [WalletBalanceAddress] = networkTokens.binance?.map {
+                .init(accountAddress: $0.address)
+            } ?? []
+
+            let addresses: [NetworkAddress: [WalletBalanceAddress]] = [
+                .bitcoin: bitcoinAddresses,
+                .ethereum: ethereumAddresses,
+                .binance: binanceAddresses
+            ]
+            let params = BalanceRequestParamsV2(currency: .usd, addresses: addresses)
+            self?.walletNetworks.getBalancesV2(params: params) { result in
+                debugPrint("walletNetworks.getBalancesV2: \(result)")
+            }
+        }
+    }
 
     // MARK: - Internal Methods
 

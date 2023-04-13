@@ -22,6 +22,8 @@ protocol ConfigType {
     var os: String { get }
     var buildNumber: String { get }
     var locale: Locale { get }
+    
+    var netType: NetType { get }
 }
 
 final class Configuration: ConfigType {
@@ -68,6 +70,10 @@ final class Configuration: ConfigType {
 
     var jitsiMeetString: String {
         currentConfig.jitsiMeet
+    }
+    
+    var netType: NetType {
+        return stand == .dev ? .testnet : .mainnet
     }
 
     private var currentConfig: UrlsConfig {

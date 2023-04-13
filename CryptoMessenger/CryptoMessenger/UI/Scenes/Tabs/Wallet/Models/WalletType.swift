@@ -6,6 +6,7 @@ enum WalletType: String {
 
 	case ethereum
 	case bitcoin
+    case binance
 	case aur
 
 	// MARK: - Internal Properties
@@ -18,6 +19,8 @@ enum WalletType: String {
 			return R.string.localizable.transactionAURFilter()
 		case .bitcoin:
 			return "BTC"
+        case .binance:
+            return "BNC"
 		}
 	}
 
@@ -29,6 +32,8 @@ enum WalletType: String {
 			return R.string.localizable.transactionAURFilter()
 		case .bitcoin:
 			return "BTC (Bitcoin)"
+        case .binance:
+            return "Binance"
 		}
 	}
 
@@ -40,6 +45,8 @@ enum WalletType: String {
 			return "AUR"
 		case .bitcoin:
 			return "BTC"
+        case .binance:
+            return "BNC"
 		}
 	}
 }

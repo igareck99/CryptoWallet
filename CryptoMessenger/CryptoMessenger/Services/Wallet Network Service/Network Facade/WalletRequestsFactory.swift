@@ -1,6 +1,8 @@
 import Foundation
 
 protocol WalletRequestsFactoryProtocol {
+    func buildTokens(parameters: BaseHTTPParameters) -> BaseEndPoint
+    
 	func buildNetworks(parameters: BaseHTTPParameters) -> BaseEndPoint
 
 	func buildBalances(parameters: BaseHTTPParameters) -> BaseEndPoint
@@ -18,6 +20,11 @@ protocol WalletRequestsFactoryProtocol {
 	func buildTransactionTemplate(parameters: BaseHTTPParameters) -> BaseEndPoint
 }
 
+enum NetType: String {
+    case mainnet
+    case testnet
+}
+
 struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
 
     private let config: ConfigType = Configuration.shared
@@ -25,10 +32,9 @@ struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
         config.cryptoWallet.asURL()
     }
 
-	enum NetType: String {
-		case mainnet
-		case testnet
-	}
+    private var tokens: String {
+        netType.rawValue + "/indexer/v0/tokens"
+    }
 
 	private var networks: String {
 		netType.rawValue + "/indexer/v0/networks"
@@ -41,7 +47,7 @@ struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
 	private var balances: String {
 		netType.rawValue + "/indexer/v0/balances"
 	}
-    
+
     private var balancesV2: String {
         netType.rawValue + "/indexer/v0/balances2"
     }
@@ -66,11 +72,21 @@ struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
 
 	let netType: NetType
 
-	init(netType: NetType = .testnet) {
+    init(netType: NetType = Configuration.shared.netType) {
 		self.netType = netType
 	}
 
 	// MARK: - WalletRequestsFactoryProtocol
+
+    func buildTokens(parameters: BaseHTTPParameters) -> BaseEndPoint {
+        BaseRequest(
+            baseURL: baseUrl,
+            path: tokens,
+            httpMethod: .post,
+            headers: headers,
+            parameters: parameters
+        )
+    }
 
 	func buildNetworks(parameters: BaseHTTPParameters) -> BaseEndPoint {
 		BaseRequest(
