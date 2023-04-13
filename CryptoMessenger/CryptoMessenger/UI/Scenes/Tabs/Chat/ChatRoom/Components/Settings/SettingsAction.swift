@@ -55,6 +55,15 @@ enum SettingsAction: CaseIterable, Identifiable {
             return .blue(0.1)
         }
     }
+    
+    var message: String {
+        switch self {
+        case .exit:
+            return "Вы действительно хотите выйти из чата?"
+        default:
+            return ""
+        }
+    }
 
     var view: some View {
         HStack(spacing: 0) {
@@ -85,7 +94,7 @@ enum SettingsAction: CaseIterable, Identifiable {
                 title: Text("Выйти из чата"),
                 message: Text("Вы действительно хотите выйти из чата?"),
                 primaryButton: .default(Text("Отменить")),
-                secondaryButton: .default(Text("Выйти"))
+                secondaryButton: .default(Text("Выйти")) {  }
             )
         case .complain:
             return .init(
@@ -99,5 +108,4 @@ enum SettingsAction: CaseIterable, Identifiable {
         }
     }
 
-    func count(_ count: Int) -> String { count.description }
 }

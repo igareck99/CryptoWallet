@@ -182,7 +182,7 @@ final class MainFlowCoordinator: Coordinator {
         case walletManager
         case keyList
         case phraseManager
-        case settingsChat(Binding<ChatData>, Binding<Bool>, AuraRoom)
+        case settingsChat(Binding<ChatData>, Binding<Bool>, Binding<Bool>, AuraRoom)
         case friendProfile(Contact)
         case chatMedia(AuraRoom)
 		case popToRoot
@@ -257,8 +257,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showFriendProfileScene(userId: userId)
         case .notifications:
             showNotificationsSettings()
-        case let .settingsChat(chatData, saveData, room):
-            showSettingsChat(chatData: chatData, saveData: saveData, room: room)
+        case let .settingsChat(chatData, isLeaveRoom, saveData, room):
+            showSettingsChat(chatData: chatData, isLeaveRoom: isLeaveRoom, saveData: saveData, room: room)
         case let .channelInfo(roomId, isLeaveChannel, chatData, saveData):
             showChannelInfo(roomId: roomId, isLeaveChannel: isLeaveChannel, chatData: chatData, saveData: saveData)
         case let .chatMedia(room):
@@ -305,10 +305,12 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
     private func showSettingsChat(chatData: Binding<ChatData>,
+                                  isLeaveRoom: Binding<Bool>,
                                   saveData: Binding<Bool>,
                                   room: AuraRoom) {
         let rootView = SettingsConfigurator.configuredView(delegate: self,
                                                            chatData: chatData,
+                                                           isLeaveRoom: isLeaveRoom,
                                                            saveData: saveData,
                                                            room: room)
         let viewController = BaseHostingController(rootView: rootView)

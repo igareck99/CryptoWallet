@@ -26,5 +26,6 @@ enum SettingsFlow {
         case onAppear
         case onFriendProfile(userId: Contact)
         case onMedia
+        case onLeave
     }
 }

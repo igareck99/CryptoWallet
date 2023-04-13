@@ -10,7 +10,7 @@ enum ChannelMediaConfigurator {
         room: AuraRoom,
         delegate: ChannelMediaSceneDelegate
     ) -> ChannelMediaView {
-        let viewModel = ChatMediaViewModel(room: room)
+        let viewModel = ChannelMediaViewModel(room: room)
         viewModel.delegate = delegate
         return ChannelMediaView(viewModel: viewModel)
     }
