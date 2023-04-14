@@ -113,6 +113,7 @@ NSString *const kMXMessageTypeImage                  = @"m.image";
 NSString *const kMXMessageTypeAudio                  = @"m.audio";
 NSString *const kMXMessageTypeVideo                  = @"m.video";
 NSString *const kMXMessageTypeLocation               = @"m.location";
+NSString *const kMXMessageTypeContact                = @"ms.aura.contact";
 NSString *const kMXMessageTypeFile                   = @"m.file";
 NSString *const kMXMessageTypeServerNotice           = @"m.server_notice";
 NSString *const kMXMessageTypeKeyVerificationRequest = @"m.key.verification.request";

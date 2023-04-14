@@ -151,7 +151,16 @@ public enum MXEventType: Equatable, Hashable {
     }
     
     public init(identifier: String) {
-        let events: [MXEventType] = [.roomName, .roomTopic, .roomAvatar, .roomMember, .roomCreate, .roomJoinRules, .roomPowerLevels, .roomAliases, .roomCanonicalAlias, .roomEncrypted, .roomEncryption, .roomGuestAccess, .roomHistoryVisibility, .roomKey, .roomForwardedKey, .roomKeyRequest, .roomMessage, .roomMessageFeedback, .roomRedaction, .roomThirdPartyInvite, .roomTag, .presence, .typing, .callInvite, .callCandidates, .callAnswer, .callSelectAnswer, .callHangup, .callReject, .callNegotiate, .callReplaces, .callRejectReplacement, .callAssertedIdentity, .callAssertedIdentityUnstable, .reaction, .receipt, .roomTombStone, .keyVerificationStart, .keyVerificationAccept, .keyVerificationKey, .keyVerificationMac, .keyVerificationCancel, .keyVerificationDone, .taggedEvents, .spaceChild, .spaceOrder, .pollStart, .pollResponse, .pollEnd, .beaconInfo, .beacon]
+        let events: [MXEventType] = [.roomName, .roomTopic, .roomAvatar, .roomMember, .roomCreate, .roomJoinRules,
+                                     .roomPowerLevels, .roomAliases, .roomCanonicalAlias, .roomEncrypted, .roomEncryption,
+                                     .roomGuestAccess, .roomHistoryVisibility, .roomKey, .roomForwardedKey, .roomKeyRequest,
+                                     .roomMessage, .roomMessageFeedback, .roomRedaction, .roomThirdPartyInvite, .roomTag, .presence,
+                                     .typing, .callInvite, .callCandidates, .callAnswer, .callSelectAnswer, .callHangup, .callReject,
+                                     .callNegotiate, .callReplaces, .callRejectReplacement, .callAssertedIdentity,
+                                     .callAssertedIdentityUnstable, .reaction, .receipt, .roomTombStone, .keyVerificationStart,
+                                     .keyVerificationAccept, .keyVerificationKey, .keyVerificationMac, .keyVerificationCancel,
+                                     .keyVerificationDone, .taggedEvents, .spaceChild, .spaceOrder, .pollStart, .pollResponse,
+                                     .pollEnd, .beaconInfo, .beacon]
         
         if let type = events.first(where: { $0.identifier == identifier }) {
             self = type
@@ -175,7 +184,7 @@ public enum MXEventType: Equatable, Hashable {
 
 /// Types of messages
 public enum MXMessageType: Equatable, Hashable {
-    case text, emote, notice, image, audio, video, location, file
+    case text, emote, notice, image, audio, video, location, file, contact
     case custom(String)
     
     public var identifier: String {
@@ -187,6 +196,7 @@ public enum MXMessageType: Equatable, Hashable {
         case .audio: return kMXMessageTypeAudio
         case .video: return kMXMessageTypeVideo
         case .location: return kMXMessageTypeLocation
+        case .contact: return kMXMessageTypeContact
         case .file: return kMXMessageTypeFile
         case .custom(let value): return value
         }
