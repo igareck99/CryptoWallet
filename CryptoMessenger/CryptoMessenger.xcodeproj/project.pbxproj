@@ -747,6 +747,8 @@
 		D49C89CA290A6AF6005B4F64 /* ReactionTextsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C4290A6AF6005B4F64 /* ReactionTextsView.swift */; };
 		D49C89CB290A6AF6005B4F64 /* ReactionTextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C5290A6AF6005B4F64 /* ReactionTextItem.swift */; };
 		D49C89CD290A6B1A005B4F64 /* ReactionsPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89CC290A6B1A005B4F64 /* ReactionsPalette.swift */; };
+		D49E8B3829E8190600EE26D1 /* NetworkTokensResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49E8B3729E8190600EE26D1 /* NetworkTokensResponse.swift */; };
+		D49E8B3A29E8217000EE26D1 /* NetworkTokensRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49E8B3929E8217000EE26D1 /* NetworkTokensRequestParams.swift */; };
 		D49F8AF5297FA4F000405749 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FA26DCEA49009A1944 /* Resources.swift */; };
 		D49F8AF7297FA59500405749 /* TextActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49F8AF6297FA59500405749 /* TextActionView.swift */; };
 		D49F8AF9297FA5AF00405749 /* TextActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49F8AF8297FA5AF00405749 /* TextActionViewModel.swift */; };
@@ -2028,6 +2030,8 @@
 		D49C89C4290A6AF6005B4F64 /* ReactionTextsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionTextsView.swift; sourceTree = "<group>"; };
 		D49C89C5290A6AF6005B4F64 /* ReactionTextItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionTextItem.swift; sourceTree = "<group>"; };
 		D49C89CC290A6B1A005B4F64 /* ReactionsPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionsPalette.swift; sourceTree = "<group>"; };
+		D49E8B3729E8190600EE26D1 /* NetworkTokensResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTokensResponse.swift; sourceTree = "<group>"; };
+		D49E8B3929E8217000EE26D1 /* NetworkTokensRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTokensRequestParams.swift; sourceTree = "<group>"; };
 		D49F8AF6297FA59500405749 /* TextActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextActionView.swift; sourceTree = "<group>"; };
 		D49F8AF8297FA5AF00405749 /* TextActionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextActionViewModel.swift; sourceTree = "<group>"; };
 		D4A26E212935BADD00FEADC2 /* AddressRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressRequestParams.swift; sourceTree = "<group>"; };
@@ -5581,6 +5585,7 @@
 				D44B4E9C294C4B3200D64F5E /* TransactionTemplateResponse.swift */,
 				D4A51491294F4DCE007A87BF /* TransactionSendReponse.swift */,
 				D4EF286B2953C6650039744D /* WalletErrorResponse.swift */,
+				D49E8B3729E8190600EE26D1 /* NetworkTokensResponse.swift */,
 			);
 			path = "Response Models";
 			sourceTree = "<group>";
@@ -5687,6 +5692,7 @@
 				D4AAD74A294855C000A26515 /* FeeRequestParams.swift */,
 				D44B4E91294ACFE300D64F5E /* TransactionTemplateRequestParams.swift */,
 				D44B4E93294AF7C200D64F5E /* TransactionSendRequestParams.swift */,
+				D49E8B3929E8217000EE26D1 /* NetworkTokensRequestParams.swift */,
 			);
 			path = "Request Models";
 			sourceTree = "<group>";
@@ -7893,6 +7899,7 @@
 				5A187EBB268070B3001957D3 /* NSMutableData+Extensions.swift in Sources */,
 				8B9B0CCF277556BD00654C24 /* LanguageView.swift in Sources */,
 				D4EFEAF128E2AF100075CC10 /* MXCrypto.m in Sources */,
+				D49E8B3829E8190600EE26D1 /* NetworkTokensResponse.swift in Sources */,
 				D49C89C6290A6AF6005B4F64 /* ReactionTextsItem.swift in Sources */,
 				8BBCBCD428F749DF00E42F0C /* VideoRow.swift in Sources */,
 				8B6C18C02799A60D00B85F2A /* SecurityViewModel.swift in Sources */,
@@ -8190,6 +8197,7 @@
 				789FEBEF26DCE61D0018FE91 /* PhotoEditorView.swift in Sources */,
 				D4EFEC9E28E2AF110075CC10 /* MXReactionRelation.m in Sources */,
 				D4EFEAE328E2AF100075CC10 /* MXBackgroundStore.swift in Sources */,
+				D49E8B3A29E8217000EE26D1 /* NetworkTokensRequestParams.swift in Sources */,
 				D4014D4F283FA7D100AAD70C /* CallViewController.swift in Sources */,
 				8BC06B1427C8F6B6005A28A1 /* TransactionConfigurator.swift in Sources */,
 				5A187EA02680708D001957D3 /* TableViewProvider.swift in Sources */,

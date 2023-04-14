@@ -18,7 +18,7 @@ struct WalletCardView: View {
 			VStack(alignment: .leading) {
 				wallet.result.image.resizable()
 			}
-		case .ethereum, .bitcoin:
+        case .ethereum, .bitcoin, .binance:
 
 			VStack(alignment: .leading) {
 				HStack(alignment: .top) {

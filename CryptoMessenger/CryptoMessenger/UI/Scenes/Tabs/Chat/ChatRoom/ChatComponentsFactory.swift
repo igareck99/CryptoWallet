@@ -295,8 +295,6 @@ extension ChatComponentsFactory {
 		onEmojiTap: @escaping GenericBlock<(emoji: String, messageId: String)>
 	) -> [ReactionTextsItem] {
 
-		debugPrint("message.reactions: \(message.reactions)")
-
 		// Есть ли реакции пользователя в секции '+'
 		var hasReactionInExtraSpace = false
 

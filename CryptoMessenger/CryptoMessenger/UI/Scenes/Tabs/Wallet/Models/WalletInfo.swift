@@ -35,6 +35,10 @@ struct WalletInfo: Identifiable, Equatable, Hashable {
 			return (R.image.wallet.ethereumCard.image,
                     fiatAmount,
 					currency: "BTC")
+        case .binance:
+            return (R.image.wallet.ethereumCard.image,
+                    fiatAmount,
+                    currency: "BNC")
 		}
 	}
 }

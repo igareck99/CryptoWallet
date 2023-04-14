@@ -1,6 +1,11 @@
 import Foundation
 
 protocol WalletNetworkFacadeProtocol {
+    func getTokens(
+        params: NetworkTokensRequestParams,
+        completion: @escaping GenericBlock<EmptyFailureResult<NetworkTokensResponse>>
+    )
+
 	func getNetworks(
 		completion: @escaping GenericBlock<EmptyFailureResult<[WalletNetworkModel]>>
 	)
@@ -62,6 +67,30 @@ final class WalletNetworkFacade {
 
 extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 
+    // MARK: - Tokens
+
+    func getTokens(
+        params: NetworkTokensRequestParams,
+        completion: @escaping GenericBlock<EmptyFailureResult<NetworkTokensResponse>>
+    ) {
+        let paramsDict: [String: Any] = params.dictionary
+        let request = walletRequestsFactory.buildTokens(parameters: paramsDict)
+        let urlRequest = networkRequestFactory.makePostRequest(from: request)
+        networkService.send(request: urlRequest) { [weak self] data, response, error in
+            guard let self = self else { return }
+            self.logReponse("getTokens", data, response, error)
+            guard
+                let data = data,
+                let model = Parser.parse(data: data, to: NetworkTokensResponse.self)
+            else {
+                completion(.failure)
+                return
+            }
+            debugPrint("model: \(model)")
+            completion(.success(model))
+        }
+    }
+
 	// MARK: - Network Wallets
 
 	func getNetworks(completion: @escaping GenericBlock<EmptyFailureResult<[WalletNetworkModel]>>) {
@@ -78,7 +107,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 				return
 			}
 			debugPrint("model: \(model)")
-			completion(.success([model.ethereum, model.bitcoin]))
+			completion(.success([model.ethereum, model.bitcoin, model.binance]))
 		}
 	}
 
@@ -134,17 +163,17 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
         params: BalanceRequestParamsV2,
         completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
     ) {
-
-        guard let ethAddress: String = params.addresses[.ethereum]?.first?.accountAddress,
-              let btcAddress: String = params.addresses[.bitcoin]?.first?.accountAddress else { completion(.failure); return }
+        let ethAddress = (params.addresses[.ethereum] ?? []).map({ ["accountAddress": $0.accountAddress] })
+        let btcAddress = (params.addresses[.bitcoin] ?? []).map({ ["accountAddress": $0.accountAddress] })
+        let bncAddress = (params.addresses[.binance] ?? []).map({ ["accountAddress": $0.accountAddress] })
 
         let currency: String = params.currency.rawValue
-
         let paramsDict: [String: Any] = [
             "currency": currency,
             "addresses": [
-                "ethereum": [["accountAddress": ethAddress]],
-                "bitcoin": [["accountAddress": btcAddress]]
+                "ethereum": ethAddress,
+                "bitcoin": btcAddress,
+                "binance": bncAddress
             ]
         ]
 
