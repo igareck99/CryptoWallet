@@ -540,14 +540,13 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.matrixUseCase.objectChangePublisher.send()
                 case let .onEdit(text, eventId):
                     self?.room.edit(text: text, eventId: eventId)
-                case let .onSettings(chatData: chatData, saveData: saveData, room: room,
-                                     isLeaveChannel: isLeaveChannel):
-                    
+                case let .onSettings(chatData: chatData, saveData: saveData,
+                                     room: room, isLeaveChannel: isLeaveChannel):
                     if self?.isChannel == true {
                         guard let roomId = self?.room.room.roomId else { return }
                         self?.delegate?.handleNextScene(.channelInfo(roomId, isLeaveChannel, chatData, saveData))
                     } else {
-                        self?.delegate?.handleNextScene(.settingsChat(chatData, saveData, room))
+                        self?.delegate?.handleNextScene(.settingsChat(chatData, isLeaveChannel, saveData, room))
                     }
                 }
             }

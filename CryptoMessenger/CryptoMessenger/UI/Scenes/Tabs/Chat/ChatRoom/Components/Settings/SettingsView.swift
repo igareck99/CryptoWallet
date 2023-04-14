@@ -7,6 +7,7 @@ struct SettingsView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: SettingsViewModel
+    @Binding var isLeaveRoom: Bool
     @Binding var chatData: ChatData
     @Binding var saveData: Bool
 	@State var descriptionText: String
@@ -24,10 +25,13 @@ struct SettingsView: View {
     @State private var showComplainAlert = false
     @State private var notificationsTurnedOn = false
     @State private var alertItem: AlertItem?
+    @State private var showLeaveAlert = false
 
     // MARK: - Life Cycle
 
-    init(chatData: Binding<ChatData>, saveData: Binding<Bool>, viewModel: SettingsViewModel) {
+    init(isLeaveRoom: Binding<Bool>, chatData: Binding<ChatData>,
+         saveData: Binding<Bool>, viewModel: SettingsViewModel) {
+        self._isLeaveRoom = isLeaveRoom
         self._chatData = chatData
         self._saveData = saveData
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -74,6 +78,12 @@ struct SettingsView: View {
                     })
                 }
             }
+            .onChange(of: viewModel.isLeaveRoom, perform: { value in
+                if value {
+                    self.isLeaveRoom = true
+                    presentationMode.wrappedValue.dismiss()
+                }
+            })
             .overlay(
                 EmptyNavigationLink(
                     destination: MembersView(chatData: $chatData),
@@ -89,14 +99,12 @@ struct SettingsView: View {
             .sheet(isPresented: $showImagePicker) {
                 ImagePickerView(selectedImage: $chatData.image)
             }
-            .alert(item: $alertItem) { alert in
-                Alert(
-                    title: alert.title,
-                    message: alert.message,
-                    primaryButton: alert.primaryButton,
-                    secondaryButton: alert.secondaryButton
-                )
-            }
+            .alert(isPresented: $showLeaveAlert, content: {
+                Alert(title: Text(SettingsAction.exit.title),
+                      message: Text(SettingsAction.exit.message),
+                      primaryButton: .default(Text("Отменить")),
+                      secondaryButton: .default(Text("Выйти")) { viewModel.send(.onLeave) })
+            })
     }
 
     // MARK: - Body Properties
@@ -367,7 +375,9 @@ struct SettingsView: View {
                     .onTapGesture {
                         if let alert = action.alertItem {
                             vibrate()
-                            alertItem = alert
+                            if action == .exit {
+                                showLeaveAlert.toggle()
+                            }
                         }
                     }
             }

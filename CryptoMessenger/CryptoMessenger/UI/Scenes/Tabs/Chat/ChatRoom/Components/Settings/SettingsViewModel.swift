@@ -11,12 +11,14 @@ final class SettingsViewModel: ObservableObject {
     weak var delegate: SettingsSceneDelegate?
     @Published var topActions: [SettingsAction] = [.media, .notifications, .admins]
     @Published var bottomActions: [SettingsAction] = [.share, .exit, .complain]
+    @Published var isLeaveRoom = false
 
     // MARK: - Private Properties
 
     private let eventSubject = PassthroughSubject<SettingsFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<SettingsFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
+    @Injectable var matrixUseCase: MatrixUseCaseProtocol
 
     // MARK: - Lifecycle
 
@@ -50,8 +52,24 @@ final class SettingsViewModel: ObservableObject {
                 case .onMedia:
                     guard let auraRoom = self?.room else { return }
                     self?.delegate?.handleNextScene(.channelMedia(auraRoom))
+                case .onLeave:
+                    self?.leaveRoom()
                 }
             }
             .store(in: &subscriptions)
+    }
+    
+    // MARK: - Private Properties
+
+    private func leaveRoom() {
+        self.matrixUseCase.leaveRoom(roomId: room.room.roomId, completion: { result in
+            switch result {
+            case .success(_):
+                self.isLeaveRoom = true
+                self.objectWillChange.send()
+            case .failure(_):
+                debugPrint("error while out of room")
+            }
+        })
     }
 }

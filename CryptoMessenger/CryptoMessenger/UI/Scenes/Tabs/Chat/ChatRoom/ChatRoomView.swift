@@ -486,7 +486,6 @@ struct ChatRoomView: View {
     private var accessDeniedView: some View {
         HStack(alignment: .center, spacing: 0) {
             Text("У вас нет разрешения на публикацию в этом канале")
-                .multilineTextAlignment(.center)
                 .font(.system(size: 15))
                 .foregroundColor(.regentGrayApprox)
                 .padding(.horizontal, 8)
