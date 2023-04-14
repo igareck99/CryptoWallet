@@ -13,7 +13,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     @Published private(set) var rooms: [AuraRoom] = []
     @Published private(set) var state: ChatHistoryFlow.ViewState = .idle
     @Published var groupAction: GroupAction?
-    @Published var translateAction: TranslateAction?
     @Published var isFromCurrentUser = false
     @Published var leaveState: [String: Bool] = [:]
     @Published var roomsLastCurrent: [String: Bool] = [:]

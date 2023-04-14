@@ -368,7 +368,7 @@ struct ChatRoomView: View {
             } else {
                 groupMenuView
             }
-            translateMenuView
+            //translateMenuView
         }
         .hideKeyboardOnTap()
 		.ignoresSafeArea()
@@ -646,20 +646,20 @@ struct ChatRoomView: View {
                         Spacer()
                     }
                 }
-                .alert(isPresented: $showTranslateAlert) {
-                    let dismissButton = Alert.Button.default(Text(viewModel.sources.translateChange)) {
-                        translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
-                    }
-                    let confirmButton = Alert.Button.default(Text(viewModel.sources.translate)) {
-                        for message in viewModel.messages {
-                            viewModel.translateTo(languageCode: "ru", message: message)
-                        }
-                    }
-                    return Alert(title: Text(viewModel.sources.translateIntoRussian),
-                                 message: Text(viewModel.sources.translateAlertEncryption),
-                                 primaryButton: confirmButton, secondaryButton: dismissButton)
-                }
-                .frame(width: 160)
+//                .alert(isPresented: $showTranslateAlert) {
+//                    let dismissButton = Alert.Button.default(Text(viewModel.sources.translateChange)) {
+//                        translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
+//                    }
+//                    let confirmButton = Alert.Button.default(Text(viewModel.sources.translate)) {
+//                        for message in viewModel.messages {
+//                            viewModel.translateTo(languageCode: "ru", message: message)
+//                        }
+//                    }
+//                    return Alert(title: Text(viewModel.sources.translateIntoRussian),
+//                                 message: Text(viewModel.sources.translateAlertEncryption),
+//                                 primaryButton: confirmButton, secondaryButton: dismissButton)
+//                }
+//                .frame(width: 160)
                 
                 Spacer()
             }
