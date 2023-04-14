@@ -23,7 +23,7 @@ enum AppConstants: Hashable {
         case .rulesPage:
             return "https://developer.apple.com"
 		case .pusherUrl:
-			return "http://127.0.0.1:5001/_matrix/push/v1/notify"
+            return "https://matrix.aura.ms/_matrix/push/v1/notify"
 		case .bundleId:
 			return Bundle.main.bundleIdentifier ?? ""
         }

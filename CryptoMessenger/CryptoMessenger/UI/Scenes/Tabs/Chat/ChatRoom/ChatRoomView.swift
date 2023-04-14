@@ -79,7 +79,6 @@ struct ChatRoomView: View {
         content
             .onAppear {
                 viewModel.send(.onAppear)
-                viewModel.notificationsStatus(.muteOn)
                 hideTabBar()
                 UITextView.appearance().background(.grayDAE1E9())
             }
@@ -95,7 +94,6 @@ struct ChatRoomView: View {
             })
             .onDisappear {
                 showTabBar()
-                viewModel.notificationsStatus(.allMessagesOn)
             }
             .onChange(of: viewModel.dismissScreen, perform: { newValue in
                 if newValue {

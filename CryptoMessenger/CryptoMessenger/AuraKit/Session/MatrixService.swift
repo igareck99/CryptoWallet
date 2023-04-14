@@ -221,10 +221,9 @@ extension MatrixService {
 
 	private func updatePusher(pushToken: Data, kind: MXPusherKind, completion: @escaping (Bool) -> Void) {
 
-		guard !AppConstants.bundleId.aboutApp.isEmpty,
-			  let userId = session?.myUser?.userId else { return }
-        // client?.credentials.userId
-        // проверка что пушер существует
+        guard !AppConstants.bundleId.aboutApp.isEmpty,
+              let userId = client?.credentials.userId else { completion(false); return }
+//        session?.myUser?.userId
 
 #if DEBUG
 		let pushKeyRelease = pushToken.base64EncodedString()
@@ -242,7 +241,7 @@ extension MatrixService {
 		let appDisplayName = AppConstants.appName.aboutApp
 		let deviceDisplayName = UIDevice.current.name
 		let lang = NSLocale.preferredLanguages.first ?? "en_US"
-		let profileTag = "mobile_ios_\(userId)"
+        let profileTag = "mobile_ios_\(userId.hashValue)"
 
 		client?.setPusher(
 			pushKey: pushKey,

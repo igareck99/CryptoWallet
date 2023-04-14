@@ -106,7 +106,7 @@ final class SelectContactViewModel: ObservableObject {
                         var contact = Contact(
                             mxId: $0.userId ?? "",
                             avatar: nil,
-                            name: $0.displayname ?? "",
+                            name: $0.displayname ?? $0.userId ?? "",
                             status: $0.statusMsg ?? "Привет, теперь я в Aura"
                         )
                         if let avatar = $0.avatarUrl,

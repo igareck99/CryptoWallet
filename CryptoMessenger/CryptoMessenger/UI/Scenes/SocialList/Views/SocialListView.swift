@@ -54,6 +54,7 @@ struct SocialListView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
+                    viewModel.saveSocialData()
                     presentationMode.wrappedValue.dismiss()
                 }, label: {
 					Text(viewModel.resources.rightButton)

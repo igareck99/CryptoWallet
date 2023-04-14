@@ -8,6 +8,7 @@ struct SocialListItemView: View {
 
 	@State var item: SocialListItem
 	@StateObject var viewModel: SocialListViewModel
+    @FocusState var focusState: Bool
 
     // MARK: - Body
 
@@ -18,9 +19,15 @@ struct SocialListItemView: View {
 				.frame(width: 24, height: 24)
 				.padding(.leading, 16)
 			TextField("", text: self.$item.url, onEditingChanged: { isEditing in
+                debugPrint("SocialListItemView onEditingChanged: \(self.item.url)")
 				self.viewModel.socialNetworkDidEdited(item: item, isEditing: isEditing)
 			})
+            .onChange(of: self.item.url, perform: { newValue in
+                debugPrint("SocialListItemView onSubmit: \(self.item.url) \(newValue)")
+                self.viewModel.socialNetworkDidSubmitted(item: item)
+            })
 			.onSubmit {
+                debugPrint("SocialListItemView onSubmit: \(self.item.url)")
 				self.viewModel.socialNetworkDidSubmitted(item: item)
 			}
 			.frame(height: 30)
