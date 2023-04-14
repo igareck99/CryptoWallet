@@ -11,7 +11,6 @@ protocol ChatHistoryViewDelegate: ObservableObject {
     var leaveState: [String: Bool] { get }
 
 	var groupAction: GroupAction? { get set }
-	var translateAction: TranslateAction? { get set }
 
 	var sources: ChatHistorySourcesable.Type { get }
 

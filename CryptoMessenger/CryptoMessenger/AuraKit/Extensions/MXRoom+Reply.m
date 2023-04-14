@@ -24,10 +24,10 @@
 							 success:(void (^)(NSString *eventId))success
 							 failure:(void (^)(NSError *error))failure
 {
-//	if (![self canReplyToEvent:eventToReply]) {
-//		NSLog(@"[MXRoom] Send reply to this event is not supported");
-//		return nil;
-//	}
+	if (![self canReplyToEvent:eventToReply]) {
+		NSLog(@"[MXRoom] Send reply to this event is not supported");
+		return nil;
+	}
 
 	id<MXSendReplyEventStringLocalizerProtocol> finalStringLocalizations;
 
