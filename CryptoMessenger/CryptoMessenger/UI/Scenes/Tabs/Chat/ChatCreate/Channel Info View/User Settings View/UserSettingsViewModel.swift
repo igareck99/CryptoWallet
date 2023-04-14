@@ -26,10 +26,11 @@ final class UserSettingsViewModel {
     private let userId: Binding<String>
     private var showBottomSheet: Binding<Bool>
     private let roomId: String
-    private let roleCompare: Bool
+    private let roleCompare: ChannelUserActions
     private let matrixUseCase: MatrixUseCaseProtocol
     private let factory: UserSettingsFactoryProtocol.Type
     private let onActionEnd: VoidBlock
+    private let onUserProfile: VoidBlock
 
     // MARK: - Internal Properties
 
@@ -38,13 +39,13 @@ final class UserSettingsViewModel {
             objectWillChange.send()
         }
     }
-    
+
     private var showShowChangeRoleState: Bool = false {
         didSet {
             self.objectWillChange.send()
         }
     }
-    
+
     lazy var showShowChangeRole: Binding<Bool> = .init(
         get: {
             self.showShowChangeRoleState
@@ -53,13 +54,13 @@ final class UserSettingsViewModel {
             self.showShowChangeRoleState = newValue
         }
     )
-    
+
     private var showUserProfileState: Bool = false {
         didSet {
             self.objectWillChange.send()
         }
     }
-    
+
     lazy var showUserProfile: Binding<Bool> = .init(
         get: {
             self.showUserProfileState
@@ -68,7 +69,7 @@ final class UserSettingsViewModel {
             self.showUserProfileState = newValue
         }
     )
-    
+
     // MARK: - Lifecycle
 
     init(
@@ -76,10 +77,11 @@ final class UserSettingsViewModel {
         showBottomSheet: Binding<Bool>,
         showUserProfile: Binding<Bool>,
         roomId: String,
-        roleCompare: Bool,
+        roleCompare: ChannelUserActions,
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         factory: UserSettingsFactoryProtocol.Type = UserSettingsFactory.self,
-        onActionEnd: @escaping VoidBlock
+        onActionEnd: @escaping VoidBlock,
+        onUserProfile: @escaping VoidBlock
     ) {
         self.userId = userId
         self.showBottomSheet = showBottomSheet
@@ -88,6 +90,7 @@ final class UserSettingsViewModel {
         self.matrixUseCase = matrixUseCase
         self.factory = factory
         self.onActionEnd = onActionEnd
+        self.onUserProfile = onUserProfile
         self.items = factory.makeItems(roleCompare, viewModel: self)
         self.showUserProfile = showUserProfile
     }
@@ -96,18 +99,17 @@ final class UserSettingsViewModel {
 // MARK: - UserSettingsViewModelProtocol
 
 extension UserSettingsViewModel: UserSettingsViewModelProtocol {
-    
+
     func onTapShowProfile() {
-        showUserProfile.wrappedValue = true
-        onActionEnd()
+        onUserProfile()
+        delay(1) {
+            self.showUserProfile.wrappedValue = true
+        }
     }
-    
+
     func onTapRemoveUser() {
-        
         guard let matrixId = UserIdValidator.makeValidId(userId: userId.wrappedValue) else { return }
-        
         debugPrint("\(matrixId)")
-        
         matrixUseCase.kickUser(
             userId: matrixId,
             roomId: roomId,
@@ -118,7 +120,7 @@ extension UserSettingsViewModel: UserSettingsViewModelProtocol {
             self?.onActionEnd()
         }
     }
-    
+
     func onTapChangeRole() {
         showBottomSheet.wrappedValue = true
         onActionEnd()

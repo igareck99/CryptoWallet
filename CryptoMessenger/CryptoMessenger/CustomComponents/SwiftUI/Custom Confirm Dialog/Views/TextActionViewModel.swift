@@ -264,4 +264,49 @@ extension TextActionViewModel {
             .foregroundColor(.regentGrayApprox)
         }
     }
+    
+    enum MakeNewRole {
+        
+        static func actions(
+            _ shouldShow: Binding<Bool>,
+            onMakeCurrentUserRoleTap: @escaping () -> Void
+        ) -> [TextActionViewModel] {
+            [
+                TextActionViewModel(
+                    text: makeAttributedTextItem(),
+                    action: {
+                        shouldShow.wrappedValue = false
+                    }),
+                TextActionViewModel(
+                    text: Text("Назначить роль")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(.azureRadianceApprox)
+                        .frame(alignment: .center)
+                ) {
+                    onMakeCurrentUserRoleTap()
+                    shouldShow.wrappedValue = false
+                }
+            ]
+        }
+        
+        static func cancelActions(_ shouldShow: Binding<Bool>) -> [TextActionViewModel] {
+            [
+                TextActionViewModel(
+                    text: Text("Отмена")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(.azureRadianceApprox)
+                ) {
+                    debugPrint("confirmationDialog Cancel Button")
+                    shouldShow.wrappedValue = false
+                }
+            ]
+        }
+        
+        @ViewBuilder
+        private static func makeAttributedTextItem() -> some View {
+            Text("Вы должны назначить нового владельца перед сменой своей роли" + "\n")
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundColor(.woodSmokeApprox)
+        }
+    }
 }

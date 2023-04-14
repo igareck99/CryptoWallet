@@ -4,7 +4,7 @@ import Foundation
 
 protocol UserSettingsFactoryProtocol {
     static func makeItems(
-        _ tappedUserId: Bool,
+        _ tappedUserId: ChannelUserActions,
         viewModel: any UserSettingsViewModelProtocol
     ) -> [any ViewGeneratable]
 }
@@ -16,7 +16,7 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
     // MARK: - Static Methods
 
     static func makeItems(
-        _ roleCompare: Bool = true,
+        _ roleCompare: ChannelUserActions,
         viewModel: any UserSettingsViewModelProtocol
     ) -> [any ViewGeneratable] {
         var views: [any ViewGeneratable] = [UserSettingModel(
@@ -29,7 +29,7 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
         ) {
             viewModel.onTapShowProfile()
         }]
-        if roleCompare {
+        if roleCompare.changeRole {
             views.append(UserSettingModel(
                 title: R.string.localizable.channelSettingsChangeRole(),
                 titleColor: .woodSmokeApprox,
@@ -39,7 +39,7 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
                 viewModel.onTapChangeRole()
             })
         }
-        if roleCompare {
+        if roleCompare.delete {
             views.append(UserSettingModel(
                 title: R.string.localizable.channelSettingsDeleteFromChannel(),
                 titleColor: .amaranthApprox,

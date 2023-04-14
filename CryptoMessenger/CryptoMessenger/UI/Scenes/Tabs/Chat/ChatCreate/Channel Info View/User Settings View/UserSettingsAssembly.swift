@@ -11,8 +11,9 @@ enum UserSettingsAssembly {
         showBottomSheet: Binding<Bool>,
         showUserProfile: Binding<Bool>,
         roomId: String,
-        roleCompare: Bool,
-        onActionEnd: @escaping VoidBlock
+        roleCompare: ChannelUserActions,
+        onActionEnd: @escaping VoidBlock,
+        onUserProfile: @escaping VoidBlock
     ) -> some View {
         let viewModel = UserSettingsViewModel(
             userId: userId,
@@ -20,7 +21,8 @@ enum UserSettingsAssembly {
             showUserProfile: showUserProfile,
             roomId: roomId,
             roleCompare: roleCompare,
-            onActionEnd: onActionEnd
+            onActionEnd: onActionEnd,
+            onUserProfile: onUserProfile
         )
         let view = UserSettingsView(viewModel: viewModel)
         return view

@@ -1,10 +1,19 @@
 import SwiftUI
+
 // swiftlint:disable all
+
+// MARK: - CustomConfirmDialog(ViewModifier)
+
 struct CustomConfirmDialog: ViewModifier {
+
+    // MARK: - Internal Properties
+
 	@Binding var isPresented: Bool
     let actionsAlignment: Alignment
 	@ViewBuilder let actions: () -> [any ViewGeneratable]
 	@ViewBuilder let cancelActions: () -> [any ViewGeneratable]
+    
+    // MARK: - Internal Methods
 
 	func body(content: Content) -> some View {
 		ZStack {
@@ -81,7 +90,9 @@ extension View {
 	}
 }
 
-struct CustomGroupBoxStyle : GroupBoxStyle {
+// MARK: - CustomGroupBoxStyle(GroupBoxStyle)
+
+struct CustomGroupBoxStyle: GroupBoxStyle {
     
     func makeBody(configuration: GroupBoxStyle.Configuration) -> some View {
         configuration.content

@@ -127,6 +127,28 @@ extension MatrixService {
         }
     }
     
+    func updateUsersPowerLevel(
+        userIds: [String],
+        roomId: String,
+        powerLevel: Int,
+        completion: @escaping EmptyResultBlock
+    ) {
+        let matrixRoom = rooms.first(where: { $0.room.roomId == roomId })?.room
+        guard let room = matrixRoom else { completion(.failure); return }
+        var powerLevelsJSON = ["users": [:]]
+        for user in userIds {
+            powerLevelsJSON["users"]?[user] = powerLevel
+        }
+        let powerLevelsEvent = MXEventType.roomPowerLevels
+        room.sendStateEvent(powerLevelsEvent,
+                            content: powerLevelsJSON,
+                            stateKey: "") { result in
+            debugPrint("room.setPowerLevel for Users result: \(result)")
+            guard case .success = result else { completion(.failure); return }
+            completion(.success)
+        }
+    }
+    
     func updateUserPowerLevel(
         userId: String,
         roomId: String,
@@ -136,7 +158,6 @@ extension MatrixService {
         
         let matrixRoom = rooms.first(where: { $0.room.roomId == roomId })?.room
         guard let room = matrixRoom else { completion(.failure); return }
-        
         room.setPowerLevel(
             ofUser: userId,
             powerLevel: powerLevel

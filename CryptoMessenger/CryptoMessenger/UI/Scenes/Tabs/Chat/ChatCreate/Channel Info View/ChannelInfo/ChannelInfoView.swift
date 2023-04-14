@@ -24,6 +24,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     @State private var showCameraPicker = false
     @State private var showActionImageAlert = false
     @State private var showSettingsAlert = false
+    @State private var selectedRole: ChannelRole?
     let resources: ChannelInfoResourcable.Type
 
     // MARK: - Body
@@ -95,6 +96,17 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 }
             }
         })
+        .sheet(isPresented: viewModel.showSelectCurrentUserRole, content: {
+            NavigationView {
+                ChannelNewOwnerView(users: viewModel.getChannelUsers().filter({
+                    viewModel.getUserRole($0.matrixId) != .owner
+                })) { selectedContacts in
+                    viewModel.onAssignAnotherOwners(users: selectedContacts,
+                                                    newRole: selectedRole) {
+                    }
+                }
+            }
+        })
         .onChange(of: viewModel.dissappearScreen, perform: { value in
             if value {
                 isLeaveChannel = true
@@ -102,17 +114,18 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }
         })
         .sheet(isPresented: viewModel.showUserSettings, content: {
-            UserSettingsAssembly.build(
-                userId: viewModel.tappedUserId,
-                showBottomSheet: viewModel.showChangeRole,
-                showUserProfile: viewModel.showUserProfile,
-                roomId: viewModel.roomId,
-                roleCompare: viewModel.compareRoles()
-            ) {
+            UserSettingsAssembly.build(userId: viewModel.tappedUserId,
+                                       showBottomSheet: viewModel.showChangeRole,
+                                       showUserProfile: viewModel.showUserProfile,
+                                       roomId: viewModel.roomId,
+                                       roleCompare: viewModel.compareRoles()) {
                 viewModel.showUserSettings.wrappedValue = false
                 viewModel.onUserRemoved()
+            } onUserProfile: {
+                viewModel.showUserSettings.wrappedValue = false
+                showParticipantsView = false
             }
-            .presentationDetents([viewModel.compareRoles() ? .height(223) : .height(109)])
+            .presentationDetents([.height(computeSizeOfUserMenu(viewModel.compareRoles()))])
         })
         .customConfirmDialog(
             isPresented: viewModel.showMakeRole,
@@ -129,6 +142,22 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     .cancelActions(viewModel.showMakeRole)
             })
         .customConfirmDialog(
+            isPresented: viewModel.showMakeNewRole,
+            actionsAlignment: .center,
+            actions: {
+                TextActionViewModel
+                    .MakeNewRole
+                    .actions(viewModel.showMakeNewRole) {
+                        if !showParticipantsView {
+                            viewModel.onMakeCurrentUserRoleTap()
+                        }
+                    }
+            }, cancelActions: {
+                TextActionViewModel
+                    .MakeNewRole
+                    .cancelActions(viewModel.showMakeNewRole)
+            })
+        .customConfirmDialog(
             isPresented: viewModel.showChangeRole,
             actionsAlignment: .center,
             actions: {
@@ -136,7 +165,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     .SelectRole
                     .actions(viewModel.showChangeRole,
                              viewModel.getCurrentUserRole()) {
-                        viewModel.onRoleSelected(role: $0)
+                        selectedRole = $0
+                        viewModel.onRoleSelected(role: $0, ownerCheck: true)
                     }
             }, cancelActions: {
                 TextActionViewModel
@@ -572,35 +602,20 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             })
         }
     }
+    
+    private func computeSizeOfUserMenu(_ value: ChannelUserActions) -> CGFloat {
+        if value.delete && value.changeRole {
+            return CGFloat(223)
+        } else if value.delete || value.changeRole {
+            return CGFloat(183)
+        } else {
+            return CGFloat(109)
+        }
+    }
 
     private func changeScreen(isEdit: Bool) {
         withAnimation(.linear(duration: 0.35)) {
             changeViewEdit = isEdit
-        }
-    }
-}
-
-// MARK: - TextFieldChannelView
-
-struct TextFieldChannelView: View {
-
-    // MARK: - Internal Properties
-
-    @Binding var text: String
-    var placeholder: String
-
-    // MARK: - Body
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            TextField("",
-                      text: $text)
-                .foreground(.black())
-                .background(.white())
-                .cornerRadius(radius: 8, corners: .allCorners)
-                .frame(height: 46)
-                .font(.regular(15))
-                .padding([.leading, .trailing], 16)
         }
     }
 }
