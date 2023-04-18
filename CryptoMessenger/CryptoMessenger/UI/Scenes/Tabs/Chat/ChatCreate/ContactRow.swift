@@ -38,11 +38,11 @@ struct ContactRow: View {
                 .cornerRadius(20)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    HStack(spacing: 0) {
+                    HStack(alignment: .center, spacing: 0) {
                         Text(name)
+                            .lineLimit(1)
                             .font(.semibold(15))
                             .foreground(.black())
-                            .padding(.top, 12)
 
                         Spacer()
 
@@ -52,15 +52,14 @@ struct ContactRow: View {
                                 .font(.regular(13)),
                                 .paragraph(.init(lineHeightMultiple: 1, alignment: .right))
                             ])
-                                .padding(.top, 15)
                         }
                     }
 
                     if !status.isEmpty {
                         Text(status)
+                            .lineLimit(1)
                             .font(.regular(13))
                             .foreground(.darkGray())
-                            .padding(.bottom, 12)
                     }
                 }
                 .frame(height: 64)
