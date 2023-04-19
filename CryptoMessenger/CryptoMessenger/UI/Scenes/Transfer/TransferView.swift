@@ -25,23 +25,24 @@ struct TransferView: View {
 					.onTapGesture {
 						hideKeyboard()
 					}
-					.onAppear {
-						viewModel.send(.onAppear)
-					}
+                    .onAppear {
+                        viewModel.send(.onAppear)
+                    }
                     .sheet(isPresented: $showCoinSelector) {
-                                            ChooseWalletTypeView(
-                                                chooseWalletShow: $showCoinSelector,
-                                                choosedWalletType: $viewModel.currentWalletType,
-                                                isSelectedWalletType: $isSelectedWalletType,
-                                                wallletTypes: viewModel.walletTypes
-                                            )
-                                            .presentationDetents([.height(185)])
-                                        }
-					.navigationBarTitleDisplayMode(.inline)
-					.navigationBarHidden(false)
-					.toolbar {
-						ToolbarItem(placement: .principal) {
-							Text(R.string.localizable.transferTransfer())
+                        ChooseWalletTypeView(
+                            chooseWalletShow: $showCoinSelector,
+                            choosedWalletType: $viewModel.currentWalletType,
+                            isSelectedWalletType: $isSelectedWalletType,
+                            wallletTypes: viewModel.walletTypes
+                        )
+                        .presentationDetents([.height(CGFloat(viewModel.walletTypes.count * 54 + 70))])
+                        .presentationDragIndicator(.visible)
+                    }
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarHidden(false)
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            Text(R.string.localizable.transferTransfer())
 								.font(.system(size: 17, weight: .semibold))
 						}
 					}
@@ -68,7 +69,7 @@ struct TransferView: View {
 					.foregroundColor(.regentGrayApprox)
                     .padding(.leading, 16)
 					.padding(.top, 16)
-                
+
                 addressCell
                     .background(.white())
                     .padding(.top, 14)
@@ -190,7 +191,7 @@ struct TransferView: View {
 
 			VStack(alignment: .trailing) {
 				HStack(spacing: 12) {
-					Text(viewModel.currentWallet.result.currency)
+                    Text(viewModel.currentWallet.walletType.currency)
 						.font(.system(size: 20))
 						.foregroundColor(.woodSmokeApprox)
 					R.image.answers.downsideArrow.image

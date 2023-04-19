@@ -45,7 +45,7 @@ struct TransactionInfoView: View {
 
 	@ViewBuilder
 	private func transactionAmount() -> some View {
-        Text("\(transaction.sign) \(transaction.amount) \(transaction.transactionCoin.abbreviatedName)")
+        Text("\(transaction.sign) \(transaction.amount) \(transaction.transactionCoin.currency)")
             .font(.system(size: 17))
             .foregroundColor(
                 transaction.type == .send ?

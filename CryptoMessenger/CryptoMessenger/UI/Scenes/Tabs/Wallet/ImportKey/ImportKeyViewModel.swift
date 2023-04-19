@@ -106,7 +106,7 @@ final class ImportKeyViewModel: ObservableObject {
     }
 
 	private func getWallets() {
-		walletTypes = coreDataService.getWalletsTypes()
+		walletTypes = coreDataService.getNetworkTokensWalletsTypes()
 	}
 }
 

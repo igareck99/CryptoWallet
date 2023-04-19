@@ -23,6 +23,8 @@ final class KeychainService {
 		// Wallets
 		case ethereumPrivateKey
 		case ethereumPublicKey
+        case binancePrivateKey
+        case binancePublicKey
 		case bitcoinPrivateKey
 		case bitcoinPublicKey
 	}

@@ -1273,6 +1273,10 @@
 		D4EFECAA28E2AF110075CC10 /* MXEvent+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EFEAD528E2AF100075CC10 /* MXEvent+Extensions.swift */; };
 		D4EFECAB28E2AF110075CC10 /* MXRestClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EFEAD728E2AF100075CC10 /* MXRestClient+Extensions.swift */; };
 		D4EFECAC28E2AF110075CC10 /* NSDictionary+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EFEAD828E2AF100075CC10 /* NSDictionary+MutableDeepCopy.m */; };
+		D4F5DB3529EFBCBB00772AC5 /* WalletModelsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5DB3429EFBCBB00772AC5 /* WalletModelsFactory.swift */; };
+		D4F5DB3729F11E1F00772AC5 /* CoreDataServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5DB3629F11E1F00772AC5 /* CoreDataServiceProtocol.swift */; };
+		D4F5DB3929F1202100772AC5 /* CoreDataService+Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5DB3829F1202100772AC5 /* CoreDataService+Tokens.swift */; };
+		D4F5DB3B29F175A400772AC5 /* CoreDataService+WalletNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5DB3A29F175A400772AC5 /* CoreDataService+WalletNetwork.swift */; };
 		D4FA3F6B28182CCB000246D8 /* AppDelegateUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F6A28182CCB000246D8 /* AppDelegateUseCase.swift */; };
 		D4FA3F6D28183586000246D8 /* AppDelegateUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */; };
 		D4FA3F72281A619B000246D8 /* TimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F71281A619B000246D8 /* TimeService.swift */; };
@@ -2948,6 +2952,10 @@
 		D4EFEAD828E2AF100075CC10 /* NSDictionary+MutableDeepCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MutableDeepCopy.m"; sourceTree = "<group>"; };
 		D4EFEAD928E2AF100075CC10 /* MatrixSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixSDK.h; sourceTree = "<group>"; };
 		D4EFEADB28E2AF100075CC10 /* MXSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSession.h; sourceTree = "<group>"; };
+		D4F5DB3429EFBCBB00772AC5 /* WalletModelsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletModelsFactory.swift; sourceTree = "<group>"; };
+		D4F5DB3629F11E1F00772AC5 /* CoreDataServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataServiceProtocol.swift; sourceTree = "<group>"; };
+		D4F5DB3829F1202100772AC5 /* CoreDataService+Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Tokens.swift"; sourceTree = "<group>"; };
+		D4F5DB3A29F175A400772AC5 /* CoreDataService+WalletNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+WalletNetwork.swift"; sourceTree = "<group>"; };
 		D4FA3F6A28182CCB000246D8 /* AppDelegateUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateUseCase.swift; sourceTree = "<group>"; };
 		D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateUseCaseAssembly.swift; sourceTree = "<group>"; };
 		D4FA3F71281A619B000246D8 /* TimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeService.swift; sourceTree = "<group>"; };
@@ -4415,6 +4423,7 @@
 				8B12263827C53120008DC048 /* SlideCardsView.swift */,
 				8B4810F527CF81F000831589 /* AddWalletView.swift */,
 				D4A8535E295C796400F2B944 /* TrackableScroll.swift */,
+				D4F5DB3429EFBCBB00772AC5 /* WalletModelsFactory.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -5516,7 +5525,10 @@
 		D48AF444292601AF0044CFAE /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				D4F5DB3629F11E1F00772AC5 /* CoreDataServiceProtocol.swift */,
 				D48AF445292601C10044CFAE /* CoreDataService.swift */,
+				D4F5DB3829F1202100772AC5 /* CoreDataService+Tokens.swift */,
+				D4F5DB3A29F175A400772AC5 /* CoreDataService+WalletNetwork.swift */,
 				D48AF45229265BB40044CFAE /* wallets_networks.xcdatamodeld */,
 			);
 			path = "Core Data";
@@ -7950,6 +7962,7 @@
 				D455F732287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift in Sources */,
 				5A26CD2A26B2FF9900118D4B /* CarouselFlowLayout.swift in Sources */,
 				7846B67B26E8C0D300B05984 /* ThumbnailCollectionViewCell.swift in Sources */,
+				D4F5DB3B29F175A400772AC5 /* CoreDataService+WalletNetwork.swift in Sources */,
 				D4EFEC0B28E2AF110075CC10 /* MXRoomPowerLevels.swift in Sources */,
 				5A9318D926C5AAF100645365 /* ChatRoomFlow.swift in Sources */,
 				5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */,
@@ -8390,6 +8403,7 @@
 				D4533A182833567D00B956B2 /* RemoteConfigValues.swift in Sources */,
 				8B12263927C53121008DC048 /* SlideCardsView.swift in Sources */,
 				8B1564F528AA782A00A69B85 /* AnotherAppData.swift in Sources */,
+				D4F5DB3929F1202100772AC5 /* CoreDataService+Tokens.swift in Sources */,
 				D4442B4C2811996F0033D07A /* KeychainService.swift in Sources */,
 				5A3721DC272F3A210097ABED /* DynamicHeightTextField.swift in Sources */,
 				D4857D0E28AFB38400C904EC /* ChatRoomRowViewModel.swift in Sources */,
@@ -8509,6 +8523,7 @@
 				D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */,
 				D4EFEB6E28E2AF100075CC10 /* PollAggregator.swift in Sources */,
 				5A2EC774279F410900857248 /* Publishers+Retry.swift in Sources */,
+				D4F5DB3729F11E1F00772AC5 /* CoreDataServiceProtocol.swift in Sources */,
 				D4EFEAFD28E2AF100075CC10 /* MXRecoveryKey.m in Sources */,
 				D45004732845D9F300CA4C82 /* ButtonDownText.swift in Sources */,
 				5A187DF626807011001957D3 /* Coordinator.swift in Sources */,
@@ -8823,6 +8838,7 @@
 				78A9CBFE28191F1D00C4D7E1 /* ActionSheetButton.swift in Sources */,
 				78437F12270C76FE00371110 /* AboutAppFlow.swift in Sources */,
 				D4EFEC3928E2AF110075CC10 /* MXSpaceChildrenResponse.m in Sources */,
+				D4F5DB3529EFBCBB00772AC5 /* WalletModelsFactory.swift in Sources */,
 				D4EFEB5E28E2AF100075CC10 /* MXDeviceListOperationsPool.m in Sources */,
 				8BE24FA42947C239009A3734 /* DirectMenuFlow.swift in Sources */,
 				D4EFEC4328E2AF110075CC10 /* MXRoomSummaryUpdater.m in Sources */,

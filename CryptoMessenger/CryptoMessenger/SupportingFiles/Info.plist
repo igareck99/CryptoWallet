@@ -2,34 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>API Stand</key>
-	<string>prod</string>
-	<key>DebugUrlConfig</key>
-	<dict>
-		<key>CryptoWallet</key>
-		<string>https://crypto.auramsg.co/</string>
-		<key>JitsiMeet</key>
-		<string>https://meet.auramsg.co</string>
-		<key>Matrix</key>
-		<string>https://matrix.auramsg.co</string>
-		<key>API</key>
-		<string>https://api.auramsg.co</string>
-		<key>API Version</key>
-		<string>v0</string>
-	</dict>
-	<key>ReleaseUrlConfig</key>
-	<dict>
-		<key>CryptoWallet</key>
-		<string>https://crypto.aura.ms/</string>
-		<key>JitsiMeet</key>
-		<string>https://meet.aura.ms</string>
-		<key>Matrix</key>
-		<string>https://matrix.aura.ms</string>
-		<key>API</key>
-		<string>https://api.aura.ms</string>
-		<key>API Version</key>
-		<string>v0</string>
-	</dict>
 	<key>AppGroup</key>
 	<string>ru.aura.app.test</string>
 	<key>CFBundleDevelopmentRegion</key>

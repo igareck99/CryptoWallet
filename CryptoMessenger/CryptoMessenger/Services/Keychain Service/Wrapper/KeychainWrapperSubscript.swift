@@ -1,8 +1,6 @@
-import Foundation
 // swiftlint:disable all
-#if canImport(CoreGraphics)
+import Foundation
 import CoreGraphics
-#endif
 
 extension KeychainWrapper {
         
@@ -55,7 +53,6 @@ extension KeychainWrapper {
         }
     }
 
-    #if canImport(CoreGraphics)
     subscript(key: Key) -> CGFloat? {
         get { return cgFloat(forKey: key) }
         set {
@@ -64,7 +61,6 @@ extension KeychainWrapper {
             set(value, forKey: key.rawValue)
         }
     }
-    #endif
     
     subscript(key: Key) -> Data? {
         get { return data(forKey: key) }
@@ -108,14 +104,12 @@ extension KeychainWrapper {
         return nil
     }
 
-    #if canImport(CoreGraphics)
     func cgFloat(forKey key: Key) -> CGFloat? {
         if let value = float(forKey: key) {
             return CGFloat(value)
         }
         return nil
     }
-    #endif
 
     func double(forKey key: Key) -> Double? {
         if let value = double(forKey: key.rawValue) {

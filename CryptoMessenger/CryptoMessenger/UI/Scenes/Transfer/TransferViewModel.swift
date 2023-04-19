@@ -49,17 +49,16 @@ final class TransferViewModel: ObservableObject {
 	}
 
 	private func validate(str: String) -> Bool {
-        
+
         if let separator = Locale.current.decimalSeparator,
             let regExp = try?
             Regex("^\\d{0,9}(?:\\\(separator)\\d{0,\(currentWallet.decimals)})?$") {
             let result = str.wholeMatch(of: regExp)
             return result?.isEmpty == false
         }
-        
 		return false
 	}
-    
+
     private let formatter: NumberFormatter = {
         let separator = Locale.current.decimalSeparator
         let formatter = NumberFormatter()
@@ -125,24 +124,49 @@ final class TransferViewModel: ObservableObject {
 
 	func updateWallet() {
 
-		guard let selectedWallet = coreDataService
-			.getWalletNetworks()
-			.first(where: { [weak self] dbWallet in
-				guard let self = self else { return false }
-				return dbWallet.cryptoType == self.currentWalletType.rawValue
-			}),
-              let walletType = WalletType(rawValue: selectedWallet.cryptoType ?? "")
-		else {
-			return
-		}
+        let networkWallets: [String: WalletNetwork] = coreDataService.getWalletNetworks()
+            .reduce(into: [String: WalletNetwork]()) { partialResult, wallet in
+                if let key: String = wallet.cryptoType {
+                    partialResult[key] = wallet
+                }
+            }
+        let tokenNetworks = coreDataService.getNetworksTokens()
+            .reduce(into: [String: NetworkToken]()) { partialResult, token in
+                if let network = token.network,
+                    let symbol = token.symbol {
+                    let key: String = network + symbol
+                    partialResult[key] = token
+                }
+            }
 
-		currentWallet = WalletInfo(
-			decimals: Int(selectedWallet.decimals),
-			walletType: walletType,
-            address: selectedWallet.address ?? "",
-			coinAmount: selectedWallet.balance ?? "",
-			fiatAmount: selectedWallet.balance ?? ""
-		)
+        if let selectedWallet = networkWallets[currentWalletType.rawValue],
+           let cryptoType = selectedWallet.cryptoType,
+           let walletType = WalletType(rawValue: cryptoType) {
+
+            currentWallet = WalletInfo(
+                decimals: Int(selectedWallet.decimals),
+                walletType: walletType,
+                address: selectedWallet.address ?? "",
+                coinAmount: selectedWallet.balance ?? "",
+                fiatAmount: selectedWallet.balance ?? ""
+            )
+        } else if let tokenNetwork = tokenNetworks[currentWalletType.rawValue],
+           let network = tokenNetwork.network,
+           let symbol = tokenNetwork.symbol,
+           let walletType = WalletType(rawValue: network + symbol),
+                 let networkWallet = networkWallets[network],
+                 let address = networkWallet.address {
+
+            currentWallet = WalletInfo(
+                decimals: Int(tokenNetwork.decimals),
+                walletType: walletType,
+                address: address,
+                tokenAddress: tokenNetwork.address,
+                coinAmount: tokenNetwork.balance ?? "",
+                fiatAmount: tokenNetwork.balance ?? ""
+            )
+        }
+
 		getFees()
 		objectWillChange.send()
 	}
@@ -188,9 +212,6 @@ final class TransferViewModel: ObservableObject {
 
 		guard isTransferAmountValid() else { return }
 
-		// TODO: Поменять на реальные адреса,
-		// после того как доделаем экран адресов
-
 		let walletPublicKey: String
 		let walletPrivateKey: String
 
@@ -207,7 +228,12 @@ final class TransferViewModel: ObservableObject {
 			walletPrivateKey = privateKey
 //			address_to = "0xe8f0349166f87fba444596a6bbbe5de9e9c6ef27"
 //			"0xccb5c140b7870061dc5327134fbea8f3f2e154d9"
-		} else {
+        } else if currentWalletType == .binance,
+                  let publicKey: String = keychainService[.binancePublicKey],
+                  let privateKey: String = keychainService[.binancePrivateKey] {
+            walletPublicKey = publicKey
+            walletPrivateKey = privateKey
+        } else {
             addressTo = ""
 			walletPublicKey = ""
 			walletPrivateKey = ""
@@ -221,24 +247,20 @@ final class TransferViewModel: ObservableObject {
 		else {
 			return
 		}
-		debugPrint("walletPublicKey: \(walletPublicKey)")
-		debugPrint("walletPrivateKey: \(walletPrivateKey)")
 
 		let cryptoType = currentWalletType.rawValue
-		debugPrint("walletCryptoType: \(cryptoType)")
-
         let amount = transferAmount.replacingOccurrences(of: ",", with: ".")
-        
+
 		let params = TransactionTemplateRequestParams(
 			publicKey: walletPublicKey,
 			addressTo: addressTo,
+            tokenAddress: currentWallet.tokenAddress,
 			amount: amount,
 			fee: feeValue,
 			cryptoType: cryptoType
 		)
 
 		walletNetworks.makeTransactionTemplate(params: params) { [weak self] response in
-			debugPrint("\(response)")
 			guard
 				let self = self,
 				case .success(let template) = response
@@ -256,8 +278,6 @@ final class TransferViewModel: ObservableObject {
 					return nil
 				}
 
-				debugPrint("SIGNED: \(derSignature)")
-
 				return SignedTransaction(derSignature: derSignature, index: item.index)
 			}
 
@@ -273,8 +293,6 @@ final class TransferViewModel: ObservableObject {
 				cryptoType: cryptoType
 			)
 
-			debugPrint("SIGNED transaction: \(transaction)")
-
 			DispatchQueue.main.async { [weak self] in
 				guard let self = self else { return }
 				self.delegate?.handleNextScene(.facilityApprove(transaction))
@@ -283,30 +301,30 @@ final class TransferViewModel: ObservableObject {
 	}
 
 	private func getFees() {
-		let cryptoType: String = currentWallet.walletType.rawValue
-		let currencyName: String = currentWallet.walletType.abbreviatedName
+        let cryptoType: String = currentWallet.walletType.feeWalletType.lowercased()
+		let feeCurrency: String = currentWallet.walletType.feeCurrency
 		let feeParams = FeeRequestParams(cryptoType: cryptoType)
 		walletNetworks.getFee(params: feeParams) { [weak self] result in
-			debugPrint("\(result)")
+			debugPrint("getFees: \(result)")
 
 			guard let self = self else { return }
 			guard case let .success(response) = result else { return }
 			let slow = TransactionSpeed(
 				title: self.sources.transferSlow,
-				feeText: "\(response.fee.slow) \(currencyName)",
+				feeText: "\(response.fee.slow) \(feeCurrency)",
 				feeValue: "\(response.fee.slow)",
 				mode: .slow
 			)
 			let medium = TransactionSpeed(
 				title: self.sources.transferMiddle,
-				feeText: "\(response.fee.average) \(currencyName)",
+				feeText: "\(response.fee.average) \(feeCurrency)",
 				feeValue: "\(response.fee.average)",
 				mode: .medium
 			)
 
 			let fast = TransactionSpeed(
 				title: self.sources.transferFast,
-				feeText: "\(response.fee.fast) \(currencyName)",
+				feeText: "\(response.fee.fast) \(feeCurrency)",
 				feeValue: "\(response.fee.fast)",
 				mode: .fast
 			)
@@ -319,6 +337,8 @@ final class TransferViewModel: ObservableObject {
 	}
 
 	private func getWallets() {
-		walletTypes = coreDataService.getWalletsTypes()
+        let tokenWalletTypes = coreDataService.getNetworkTokensWalletsTypes()
+        let networkWalletTypes = coreDataService.getNetworkWalletsTypes()
+		walletTypes = networkWalletTypes + tokenWalletTypes
 	}
 }

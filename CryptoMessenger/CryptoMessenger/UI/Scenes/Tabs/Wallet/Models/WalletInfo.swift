@@ -18,27 +18,55 @@ struct WalletInfo: Identifiable, Equatable, Hashable {
 	let decimals: Int
 	var walletType: WalletType
 	var address: String
+    var tokenAddress: String?
 	var coinAmount: String
 	var fiatAmount: String
 
-	var result: (image: Image, fiatAmount: String, currency: String) {
+    struct WalletInfoData {
+        let image: Image
+        let fiatAmount: String
+        let currency: String
+        let networkTitle: String
+    }
+
+	var result: WalletInfoData {
 		switch walletType {
-		case .ethereum:
-			return (R.image.wallet.ethereumCard.image,
-                    fiatAmount,
-					currency: "ETH")
+        case .ethereum:
+            return .init(
+                image: R.image.wallet.ethereumCard.image,
+                fiatAmount: fiatAmount,
+                currency: walletType.currency,
+                networkTitle: walletType.networkTitle
+            )
 		case .aur:
-			return (R.image.wallet.card.image,
-                    fiatAmount,
-					currency: "AUR")
+            return .init(
+                image: R.image.wallet.auraCard.image,
+                fiatAmount: fiatAmount,
+                currency: walletType.currency,
+                networkTitle: walletType.networkTitle
+            )
 		case .bitcoin:
-			return (R.image.wallet.ethereumCard.image,
-                    fiatAmount,
-					currency: "BTC")
+            return .init(
+                image: R.image.wallet.bitcoinCard.image,
+                fiatAmount: fiatAmount,
+                currency: walletType.currency,
+                networkTitle: walletType.networkTitle
+            )
         case .binance:
-            return (R.image.wallet.ethereumCard.image,
-                    fiatAmount,
-                    currency: "BNC")
+            return .init(
+                image: R.image.wallet.binanceCard.image,
+                fiatAmount: fiatAmount,
+                currency: walletType.currency,
+                networkTitle: walletType.networkTitle
+            )
+        case .binanceUSDT, .binanceBUSD,
+                .ethereumUSDT, .ethereumUSDC:
+            return .init(
+                image: R.image.wallet.auraCard.image,
+                fiatAmount: fiatAmount,
+                currency: walletType.currency,
+                networkTitle: walletType.networkTitle
+            )
 		}
 	}
 }

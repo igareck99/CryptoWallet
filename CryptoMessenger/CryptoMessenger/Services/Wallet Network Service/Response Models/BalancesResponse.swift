@@ -3,6 +3,7 @@ import Foundation
 struct BalancesResponse: Codable {
 	let ethereum: [Balance]
 	let bitcoin: [Balance]
+    let binance: [Balance]
 }
 
 struct Balance: Codable {

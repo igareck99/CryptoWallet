@@ -33,22 +33,25 @@ final class WalletViewModel: ObservableObject {
 	private let coreDataService: CoreDataServiceProtocol
 	private let keysService: KeysServiceProtocol
 	private let keychainService: KeychainServiceProtocol
+    private let walletModelsFactory: WalletModelsFactoryProtocol.Type
 
     // MARK: - Lifecycle
 
     init(
-		keychainService: KeychainServiceProtocol = KeychainService.shared,
-		keysService: KeysServiceProtocol = KeysService(),
-		userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared,
-		walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
-		coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
-		onTransactionEndHelper: @escaping ( @escaping (TransactionResult) -> Void) -> Void
-	) {
+        keychainService: KeychainServiceProtocol = KeychainService.shared,
+        keysService: KeysServiceProtocol = KeysService(),
+        userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared,
+        walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
+        coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
+        walletModelsFactory: WalletModelsFactoryProtocol.Type = WalletModelsFactory.self,
+        onTransactionEndHelper: @escaping ( @escaping (TransactionResult) -> Void) -> Void
+    ) {
 		self.keychainService = keychainService
 		self.keysService = keysService
 		self.userCredentialsStorage = userCredentialsStorage
 		self.walletNetworks = walletNetworks
 		self.coreDataService = coreDataService
+        self.walletModelsFactory = walletModelsFactory
 		self.onTransactionEndHelper = onTransactionEndHelper
         bindInput()
         bindOutput()
@@ -262,26 +265,17 @@ final class WalletViewModel: ObservableObject {
 		return (eth: ethTransactions, btc: btcTransactions)
 	}
 
-	func getAddress(wallets: [WalletNetwork]) {
-		guard
-			let ethereumPublicKey: String = keychainService[.ethereumPublicKey],
-			let bitcoinPublicKey: String = keychainService[.bitcoinPublicKey]
-		else {
-			return
-		}
+	func getAddress() {
 
-		let ethereum: [WalletPublic] = [
-			WalletPublic(publicKey: ethereumPublicKey)
-		]
-		let bitcoin: [WalletPublic] = [
-			WalletPublic(publicKey: bitcoinPublicKey)
-		]
-		let params = AddressRequestParams(
-			ethereum: ethereum,
-			bitcoin: bitcoin
-		)
+        let params = walletModelsFactory.makeAddressRequestParams(keychainService: keychainService)
+
 		walletNetworks.getAddress(params: params) { [weak self] response in
-            guard let self = self, case let .success(addresses) = response else { self?.transactionLoadingState = .notloading; return }
+            guard
+                let self = self, case let .success(addresses) = response
+            else {
+                self?.transactionLoadingState = .notloading
+                return
+            }
 
 			let savedWallets: [WalletNetwork] = self.coreDataService.getWalletNetworks()
 
@@ -299,6 +293,13 @@ final class WalletViewModel: ObservableObject {
 				   self.coreDataService.updateWalletNetwork(model: wallet)
 			   }
 
+            if let binanceAddress = addresses.binance?.first?.address,
+               let wallet: WalletNetwork = savedWallets
+                .first(where: { $0.cryptoType == CryptoType.binance.rawValue }) {
+                   wallet.address = binanceAddress
+                   self.coreDataService.updateWalletNetwork(model: wallet)
+               }
+
 			let updatedWallets = self.coreDataService.getWalletNetworks()
 			debugPrint("getAddress updatedWallets: \(updatedWallets)")
 
@@ -309,39 +310,11 @@ final class WalletViewModel: ObservableObject {
 	func getBalance() {
 
 		let savedWallets: [WalletNetwork] = coreDataService.getWalletNetworks()
+        let savedTokens: [NetworkToken] = coreDataService.getNetworksTokens()
 
-		guard
-			let bitcoinAddress = savedWallets
-				.first(where: { $0.cryptoType == "bitcoin" })?.address,
-            bitcoinAddress.isEmpty == false,
-            let ethereumAddress = savedWallets
-                .first(where: { $0.cryptoType == "ethereum" })?.address,
-            ethereumAddress.isEmpty == false
-                // Будет реализовано в след спринт
-//            let binanceAddress = savedWallets
-//                .first(where: { $0.cryptoType == "binance" })?.address,
-//            binanceAddress.isEmpty == false
-        else {
-			return
-		}
-
-		let ethereum: [WalletBalanceAddress] = [
-			WalletBalanceAddress(accountAddress: ethereumAddress)
-		]
-		let bitcoin: [WalletBalanceAddress] = [
-			WalletBalanceAddress(accountAddress: bitcoinAddress)
-		]
-//        let binance: [WalletBalanceAddress] = [
-//            WalletBalanceAddress(accountAddress: binanceAddress)
-//        ]
-
-        let params = BalanceRequestParamsV2(
-            currency: .usd,
-            addresses: [
-                .ethereum: ethereum,
-                .bitcoin: bitcoin,
-//                .binance: binance
-            ]
+        let params: BalanceRequestParamsV2 = walletModelsFactory.makeBalanceRequestParamsV2(
+            wallets: savedWallets,
+            networkTokens: savedTokens
         )
 
 		walletNetworks.getBalancesV2(params: params) { [weak self] in
@@ -353,42 +326,35 @@ final class WalletViewModel: ObservableObject {
 
 			guard let self = self, case let .success(balance) = $0 else { return }
 
-			// Пока только два типа кошелька
+            let balances: [Balance] = balance.ethereum + balance.bitcoin + balance.binance
 
-			if let ethereumAmount: String = balance.ethereum.first?.amount,
-			   let wallet: WalletNetwork = savedWallets.first(where: { $0.cryptoType == CryptoType.ethereum.rawValue }) {
-				wallet.balance = ethereumAmount
-                wallet.fiatPrice = balance.ethereum.first?.fiatPrice ?? .zero
-				self.coreDataService.updateWalletNetwork(model: wallet)
-			}
+            balances.forEach { balance in
 
-			if let bitcoinAmount = balance.bitcoin.first?.amount,
-			   let wallet: WalletNetwork = savedWallets.first(where: { $0.cryptoType == CryptoType.bitcoin.rawValue }) {
-				wallet.balance = bitcoinAmount
-                wallet.fiatPrice = balance.bitcoin.first?.fiatPrice ?? .zero
-				self.coreDataService.updateWalletNetwork(model: wallet)
-			}
+                if let wallet: WalletNetwork = savedWallets
+                    .first(where: { balance.accountAddress == $0.address }) {
+                    wallet.balance = balance.amount
+                    wallet.fiatPrice = balance.fiatPrice ?? .zero
+                    self.coreDataService.updateWalletNetwork(model: wallet)
+                }
+
+                if let token: NetworkToken = savedTokens
+                    .first(where: { balance.accountAddress == $0.address }) {
+                    token.balance = balance.amount
+                    token.fiatPrice = balance.fiatPrice ?? .zero
+                    self.coreDataService.updateNetworkToken(token: token)
+                }
+            }
 		}
 	}
 
 	func updateWalletsFromDB() {
-		let updatedWallets = coreDataService.getWalletNetworks()
+		let wallets = coreDataService.getWalletNetworks()
+        let tokens = coreDataService.getNetworksTokens()
+        let cards: [WalletInfo] = walletModelsFactory.makeDisplayCards(
+            wallets: wallets,
+            tokens: tokens
+        )
 
-		let cards: [WalletInfo] = updatedWallets.compactMap {
-
-            guard let walletType = WalletType(rawValue: $0.cryptoType ?? ""),
-                    walletType != .binance else { return nil }
-
-            let fiat = $0.fiatPrice * (($0.balance as? NSString)?.doubleValue ?? 1)
-            let fiatAmount = String(format: "%.2f", fiat)
-            return WalletInfo(
-                decimals: Int($0.decimals),
-                walletType: walletType,
-                address: $0.address ?? "",
-                coinAmount: $0.balance ?? "0",
-                fiatAmount: fiatAmount
-            )
-		}
 		DispatchQueue.main.async {
 			self.viewState = .content
 			self.cardsList = cards
@@ -422,9 +388,15 @@ final class WalletViewModel: ObservableObject {
 		objectWillChange.send()
 
 		// Update wallets in background
-		walletNetworks.getNetworks { [weak self] networks in
+		walletNetworks.getNetworks { [weak self] networksResponse in
 
-			guard let self = self, case let .success(wallets) = networks else { return }
+			guard let self = self, case let .success(walletsResponse) = networksResponse else { return }
+
+            let wallets: [WalletNetworkModel] = [
+                walletsResponse.binance,
+                walletsResponse.bitcoin,
+                walletsResponse.ethereum
+            ].compactMap { $0 }
 
 			let dbWallets = self.coreDataService.getWalletNetworks()
 
@@ -435,7 +407,8 @@ final class WalletViewModel: ObservableObject {
 
 			let cryptoTypesDb: Set<CryptoType> = dbWallets
                 .reduce(into: Set<CryptoType>(), { partialResult, network in
-                    if let type = CryptoType(rawValue: network.cryptoType ?? "") {
+                    if let cryptoType = network.cryptoType,
+                        let type = CryptoType(rawValue: cryptoType) {
                         partialResult.insert(type)
                     }
 			})
@@ -450,12 +423,9 @@ final class WalletViewModel: ObservableObject {
 			// Если нет изменений после последнего создания кошельков
 			// то просто обновляем модели в БД
 			if cryptoTypesDb == cryptoTypesNetwork && isAddressesAvailable {
-				debugPrint("WALLETS isAddressesAvailable TRUE")
 				self.getBalance()
 				return
 			}
-
-			debugPrint("WALLETS isAddressesAvailable FALSE")
 
 			// TODO: Переделать на умное обновление БД
 			// обновить существующие модели
@@ -470,53 +440,76 @@ final class WalletViewModel: ObservableObject {
 			}
 			let savedWallets = self.coreDataService.getWalletNetworks()
 			savedWallets.forEach { [weak self] wallet in
-				guard let self = self else { return }
-                guard let type = CryptoType(rawValue: wallet.cryptoType ?? "") else { return }
-				switch type {
-				case .ethereum:
-					let keys = self.keysService.makeEthereumKeys(seed: seed)
-					self.keychainService.set(keys.privateKey, forKey: .ethereumPrivateKey)
-					self.keychainService.set(keys.publicKey, forKey: .ethereumPublicKey)
+                guard let self = self,
+                      let cryptoType = wallet.cryptoType,
+                      let type = CryptoType(rawValue: cryptoType) else { return }
+                switch type {
+                case .ethereum:
+                    guard let keys = self.keysService.makeEthereumKeys(
+                        seed: seed,
+                        derivation: wallet.derivePath
+                    ) else {
+                        // TODO: Обработать неудачное создание ключей
+                        return
+                    }
+                    self.keychainService.set(keys.privateKey, forKey: .ethereumPrivateKey)
+                    self.keychainService.set(keys.publicKey, forKey: .ethereumPublicKey)
+                case .binance:
+                    guard let keys = self.keysService.makeBinanceKeys(
+                        seed: seed,
+                        derivation: wallet.derivePath
+                    ) else {
+                        // TODO: Обработать неудачное создание ключей
+                        return
+                    }
+                    self.keychainService.set(keys.privateKey, forKey: .binancePrivateKey)
+                    self.keychainService.set(keys.publicKey, forKey: .binancePublicKey)
 				case .bitcoin:
-                    let keys = self.keysService.makeBitcoinKeys(seed: seed, derivation: wallet.derivePath ?? "")
+                    guard let keys = self.keysService.makeBitcoinKeys(
+                        seed: seed,
+                        derivation: wallet.derivePath
+                    ) else {
+                        // TODO: Обработать неудачное создание ключей
+                        return
+                    }
 					self.keychainService.set(keys.privateKey, forKey: .bitcoinPrivateKey)
 					self.keychainService.set(keys.publicKey, forKey: .bitcoinPublicKey)
                 default:
                     debugPrint("Unlnown result")
 				}
 			}
-			self.getAddress(wallets: savedWallets)
+            self.getTokens()
 		}
 	}
 
     func getTokens() {
-        let params = NetworkTokensRequestParams(cryptoTypes: [.binance, .bitcoin, .ethereum])
+        let wallets = self.coreDataService.getWalletNetworks()
+        let cryptoTypes: [CryptoType] = wallets.compactMap {
+            guard let cryptoType = $0.cryptoType else { return nil }
+            return CryptoType(rawValue: cryptoType)
+        }
+        let params = NetworkTokensRequestParams(cryptoTypes: cryptoTypes)
         walletNetworks.getTokens(params: params) { [weak self] result in
+            guard let self = self, case let .success(networkTokens) = result else { return }
 
-            debugPrint("walletNetworks.getTokens: \(result)")
-            guard case let .success(networkTokens) = result else { return }
-
-            let bitcoinAddresses: [WalletBalanceAddress] = networkTokens.bitcoin?.map {
-                .init(accountAddress: $0.address)
-            } ?? []
-
-            let ethereumAddresses: [WalletBalanceAddress] = networkTokens.ethereum?.map {
-                .init(accountAddress: $0.address)
-            } ?? []
-
-            let binanceAddresses: [WalletBalanceAddress] = networkTokens.binance?.map {
-                .init(accountAddress: $0.address)
-            } ?? []
-
-            let addresses: [NetworkAddress: [WalletBalanceAddress]] = [
-                .bitcoin: bitcoinAddresses,
-                .ethereum: ethereumAddresses,
-                .binance: binanceAddresses
-            ]
-            let params = BalanceRequestParamsV2(currency: .usd, addresses: addresses)
-            self?.walletNetworks.getBalancesV2(params: params) { result in
-                debugPrint("walletNetworks.getBalancesV2: \(result)")
+            if let bncTokens = networkTokens.binance {
+                bncTokens.forEach {
+                    self.coreDataService.createNetworkToken(token: $0, network: CryptoType.binance.rawValue)
+                }
             }
+
+            if let btcTokens = networkTokens.bitcoin {
+                btcTokens.forEach {
+                    self.coreDataService.createNetworkToken(token: $0, network: CryptoType.bitcoin.rawValue)
+                }
+            }
+
+            if let ethTokens = networkTokens.ethereum {
+                ethTokens.forEach {
+                    self.coreDataService.createNetworkToken(token: $0, network: CryptoType.ethereum.rawValue)
+                }
+            }
+            self.getAddress()
         }
     }
 
@@ -559,25 +552,19 @@ final class WalletViewModel: ObservableObject {
     }
 
     private func updateUserWallet() {
-        let dbWallets = coreDataService.getWalletNetworks()
-        guard
-            let ethereumAddress = dbWallets.first(where: { $0.cryptoType == "ethereum" })?.address,
-            let bitcoinAddress = dbWallets.first(where: { $0.cryptoType == "bitcoin" })?.address
-        else {
-            return
-        }
-        let data = AdressesData(eth: ethereumAddress,
-                                btc: bitcoinAddress)
-        apiClient.publisher(Endpoints.Wallet.patchAssets(data.getDataForPatchAssets()))
-            .sink { [weak self] completion in
+        let wallets = coreDataService.getWalletNetworks()
+        let data = walletModelsFactory.makeAdressesData(wallets: wallets)
+
+        apiClient.publisher(Endpoints.Wallet.patchAssets(data))
+            .sink { completion in
                 switch completion {
                 case .failure(let error):
                     debugPrint("Error update user wallets adresses  \(error)")
                 default:
                     break
                 }
-            } receiveValue: { [weak self] response in
-                print("Success update user wallets adresses  \(response)")
+            } receiveValue: { response in
+                debugPrint("Success update user wallets adresses  \(response)")
             }
             .store(in: &subscriptions)
     }
