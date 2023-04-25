@@ -128,7 +128,6 @@ struct WalletView: View {
                 scrollViewContentOffset = value
             }
             .onChange(of: scrollViewContentOffset) { newValue in
-                debugPrint("TrackableScroll scrollViewContentOffset: \(newValue)")
                 viewModel.tryToLoadNextTransactions(offset: newValue, pageIndex: pageIndex)
             }
             .onChange(of: showAddWallet, perform: { value in
@@ -169,8 +168,6 @@ struct WalletView: View {
         fromOutsideProxy outsideProxy: GeometryProxy,
         insideProxy: GeometryProxy
     ) -> CGFloat {
-        debugPrint("TrackableScroll outsideProxy.minY: \(outsideProxy.frame(in: .named("scroll")).minY)")
-        debugPrint("TrackableScroll insideProxy.minY: \(insideProxy.frame(in: .named("scroll")).minY)")
         return outsideProxy.frame(in: .named("scroll")).minY - insideProxy.frame(in: .named("scroll")).minY
     }
 

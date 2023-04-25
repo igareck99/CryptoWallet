@@ -35,7 +35,7 @@ final class Configuration: ConfigType {
     let buildNumber: String
     let locale: Locale
     let stand: Stand
-    
+
     var apiVersionString: String {
         apiVersion.rawValue
     }

@@ -1,10 +1,10 @@
 import Foundation
 
 protocol WalletModelsFactoryProtocol {
-    static func makeBalanceRequestParamsV2(
+    static func makeBalanceRequestParams(
         wallets: [WalletNetwork],
         networkTokens: [NetworkToken]
-    ) -> BalanceRequestParamsV2
+    ) -> BalanceRequestParams
 
     static func makeDisplayCards(
         wallets: [WalletNetwork],
@@ -14,10 +14,34 @@ protocol WalletModelsFactoryProtocol {
     static func makeAddressRequestParams(
         keychainService: KeychainServiceProtocol
     ) -> AddressRequestParams
-    
+
     static func makeAdressesData(
         wallets: [WalletNetwork]
-    ) -> [String: [String : String]]
+    ) -> [String: [String: String]]
+
+    static func makeTransactions(
+        networkTokens: [NetworkToken],
+        model: WalletsTransactionsResponse
+    ) -> TransactionSections
+
+    static func makeTransactionsRequestParams(
+        wallets: [WalletAddress]
+    ) -> TransactionsRequestParams
+
+    static func makeWalletsAddresses(
+        wallets: [WalletNetwork],
+        tokens: [NetworkToken]
+    ) -> [WalletAddress]
+
+    static func makeTransactionSection(
+        address: String,
+        networkTokens: [NetworkToken],
+        cryptoTransactions: [CryptoTransaction]
+    ) -> [TransactionSection]
+
+    static func networkTokenResponseParse(
+        response: NetworkTokensResponse
+    ) -> [NetworkTokenPonso]
 }
 
 enum WalletModelsFactory {}
@@ -25,10 +49,10 @@ enum WalletModelsFactory {}
 // MARK: - WalletModelsFactoryProtocol
 
 extension WalletModelsFactory: WalletModelsFactoryProtocol {
-    static func makeBalanceRequestParamsV2(
+    static func makeBalanceRequestParams(
         wallets: [WalletNetwork],
         networkTokens: [NetworkToken]
-    ) -> BalanceRequestParamsV2 {
+    ) -> BalanceRequestParams {
         var addresses = [NetworkAddress: [WalletBalanceAddress]]()
 
         if let bitcoinAddress = wallets
@@ -58,7 +82,7 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
             addresses[.binance] = [WalletBalanceAddress(accountAddress: binanceAddress)] + tokenAddresses
         }
 
-        let params = BalanceRequestParamsV2(currency: .usd, addresses: addresses)
+        let params = BalanceRequestParams(currency: .usd, addresses: addresses)
         return params
     }
 
@@ -69,32 +93,41 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
 
         var cards = [WalletInfo]()
         wallets.forEach { wallet in
-            guard let cryptoType = wallet.cryptoType,
-                  let walletType = WalletType(rawValue: cryptoType) else { return }
+            guard let address = wallet.address,
+                  let cryptoType = wallet.cryptoType,
+                  let walletType = WalletType(rawValue: cryptoType)
+            else {
+                return
+            }
 
             let fiat = wallet.fiatPrice * ((wallet.balance as? NSString)?.doubleValue ?? 1)
             let fiatAmount = String(format: "%.2f", fiat)
             let walletCard = WalletInfo(
                 decimals: Int(wallet.decimals),
                 walletType: walletType,
-                address: wallet.address ?? "",
+                address: address,
                 coinAmount: wallet.balance ?? "0",
                 fiatAmount: fiatAmount
             )
             cards.append(walletCard)
 
             tokens
-                .filter { token in token.network == cryptoType && walletType != .bitcoin }
+                .filter { token in cryptoType != CryptoType.bitcoin.rawValue && token.network == cryptoType }
                 .forEach { token in
+                    guard let tokenAddress = token.address,
+                          let symbol = token.symbol,
+                          let tokenWalletType = WalletType(rawValue: cryptoType + symbol)
+                    else {
+                        return
+                    }
                     let fiat = token.fiatPrice * ((token.balance as? NSString)?.doubleValue ?? 1)
                     let fiatAmount = String(format: "%.2f", fiat)
-                    let tokenWalletType = WalletType(rawValue: cryptoType + (token.symbol ?? ""))
 
                     let tokenCard = WalletInfo(
                         decimals: Int(token.decimals),
-                        walletType: tokenWalletType ?? walletType,
+                        walletType: tokenWalletType,
                         address: wallet.address ?? "",
-                        tokenAddress: token.address ?? "",
+                        tokenAddress: tokenAddress,
                         coinAmount: token.balance ?? "0",
                         fiatAmount: fiatAmount
                     )
@@ -131,9 +164,12 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
     }
 
     static func makeAdressesData(wallets: [WalletNetwork]) -> [String: [String: String]] {
-        let ethAddress = wallets.first(where: { $0.cryptoType == CryptoType.ethereum.rawValue })?.address   // ETH, USDT, USDC
-        let btcAddress = wallets.first(where: { $0.cryptoType == CryptoType.bitcoin.rawValue })?.address    // BTC
-        let bncAddress = wallets.first(where: { $0.cryptoType == CryptoType.binance.rawValue })?.address    // BNB, USDT, USDC
+        let ethAddress = wallets
+            .first(where: { $0.cryptoType == CryptoType.ethereum.rawValue })?.address   // ETH, USDT, USDC
+        let btcAddress = wallets
+            .first(where: { $0.cryptoType == CryptoType.bitcoin.rawValue })?.address    // BTC
+        let bncAddress = wallets
+            .first(where: { $0.cryptoType == CryptoType.binance.rawValue })?.address    // BNB, USDT, USDC
 
         let adressesData = AdressesData(
             eth: ethAddress,
@@ -142,5 +178,164 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
         ).getDataForPatchAssets()
 
         return adressesData
+    }
+
+    static func makeTransactions(
+        networkTokens: [NetworkToken],
+        model: WalletsTransactionsResponse
+    ) -> TransactionSections {
+
+        let walletSections: [TransactionSection] = [model.ethereum, model.bitcoin, model.binance]
+            .reduce(into: [TransactionSection](), { partialResult, sections in
+                sections?.forEach { address, transactions in
+                    let transactionsBatch = makeTransactionSection(
+                        address: address,
+                        networkTokens: networkTokens,
+                        cryptoTransactions: transactions
+                    )
+                    partialResult.append(contentsOf: transactionsBatch)
+                }
+            })
+
+        let sections: [WalletType: [TransactionSection]] = walletSections
+            .reduce(into: [WalletType: [TransactionSection]]()) { partialResult, transactionSection in
+                var transactions = partialResult[transactionSection.walletType] ?? [TransactionSection]()
+                transactions.append(transactionSection)
+                partialResult[transactionSection.walletType] = transactions
+            }
+        return TransactionSections(sections: sections)
+    }
+
+    static func makeTransactionSection(
+        address: String,
+        networkTokens: [NetworkToken],
+        cryptoTransactions: [CryptoTransaction]
+    ) -> [TransactionSection] {
+
+        guard let transaction = cryptoTransactions.first else { return [] }
+
+        let walletType: WalletType
+
+        if let tokenAddress = transaction.tokenAddress,
+           let tokenSymbol = networkTokens
+            .first(where: { $0.address == tokenAddress })?.symbol,
+           let type = WalletType(rawValue: transaction.cryptoType + tokenSymbol) {
+            walletType = type
+        } else if let type = WalletType(rawValue: transaction.cryptoType) {
+            walletType = type
+        } else {
+            return []
+        }
+
+        guard
+            let cryptoType = CryptoType(rawValue: transaction.cryptoType)
+        else {
+            return []
+        }
+
+        let transactions: [TransactionSection] = cryptoTransactions
+            .compactMap { transaction in
+            let info = TransactionInfo(
+                type: transaction.inputs.first?.address == address ? .send : .receive,
+                date: transaction.time ?? "",
+                transactionCoin: walletType,
+                transactionResult: transaction.status,
+                amount: transaction.inputs.first?.value ?? "",
+                from: transaction.inputs.first?.address ?? ""
+            )
+            let details = TransactionDetails(
+                sender: transaction.inputs.first?.address ?? "",
+                receiver: transaction.outputs.first?.address ?? "",
+                block: "\(transaction.block ?? 0)",
+                hash: transaction.hash
+            )
+            return TransactionSection(
+                address: address,
+                cryptoType: cryptoType,
+                walletType: walletType,
+                tokenAddress: transaction.tokenAddress,
+                info: info,
+                details: details
+            )
+        }
+        return transactions
+    }
+
+    static func makeTransactionsRequestParams(
+        wallets: [WalletAddress]
+    ) -> TransactionsRequestParams {
+        let transactions: [WalletTransactions] = wallets.compactMap {
+            WalletTransactions(
+                cryptoType: $0.cryptoType,
+                address: $0.address,
+                tokenAddress: $0.tokenAddress
+            )
+        }
+        let params = TransactionsRequestParams(walletTransactions: transactions)
+        return params
+    }
+
+    static func makeWalletsAddresses(
+        wallets: [WalletNetwork],
+        tokens: [NetworkToken]
+    ) -> [WalletAddress] {
+
+        let networkAddresses: [WalletAddress] = wallets
+            .compactMap {
+                guard
+                    let address = $0.address,
+                    let cryptoT = $0.cryptoType,
+                    let cryptoType = CryptoType(rawValue: cryptoT)
+                else {
+                    return nil
+                }
+                return WalletAddress(
+                    cryptoType: cryptoType,
+                    address: address,
+                    tokenAddress: nil
+                )
+            }
+        let tokenAddresses: [WalletAddress] = networkAddresses
+            .reduce(into: [WalletAddress](), { partialResult, networkAddress in
+
+                let res: [WalletAddress] = tokens
+                    .filter { $0.network == networkAddress.cryptoType.rawValue }
+                    .compactMap {
+                        guard
+                            let tokenAddress = $0.address,
+                            !tokenAddress.isEmpty,
+                            let cryptoT = $0.network,
+                            let cryptoType = CryptoType(rawValue: cryptoT)
+                        else {
+                            return nil
+                        }
+                        return WalletAddress(
+                            cryptoType: cryptoType,
+                            address: networkAddress.address,
+                            tokenAddress: tokenAddress
+                        )
+                    }
+                partialResult.append(contentsOf: res)
+            })
+        return networkAddresses + tokenAddresses
+    }
+
+    static func networkTokenResponseParse(response: NetworkTokensResponse) -> [NetworkTokenPonso] {
+
+        var result = [NetworkTokenPonso]()
+
+        [
+            (key: CryptoType.binance, values: response.binance),
+            (key: CryptoType.bitcoin, values: response.bitcoin),
+            (key: CryptoType.ethereum, values: response.ethereum)
+        ]
+            .forEach { obj in
+                guard let tokens = obj.values else { return }
+                let nTokens = tokens.map {
+                    NetworkTokenPonso(networkTokenModel: $0, cryptoType: obj.key)
+                }
+                result.append(contentsOf: nTokens)
+            }
+        return result
     }
 }

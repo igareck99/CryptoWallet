@@ -785,6 +785,9 @@
 		D4BC1EC02955B59E00D99F1A /* TransactionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BC1EBF2955B59E00D99F1A /* TransactionResultView.swift */; };
 		D4BC1EC32955B5F400D99F1A /* TransactionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BC1EC22955B5F400D99F1A /* TransactionResult.swift */; };
 		D4C9B72E283C20380060BFD3 /* ChatRoomViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */; };
+		D4CA6C0929FA795400C96053 /* TransactionSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CA6C0829FA795400C96053 /* TransactionSections.swift */; };
+		D4CA6C0C29FB15FC00C96053 /* WalletAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CA6C0A29FA79C800C96053 /* WalletAddress.swift */; };
+		D4CA6C3829FBE5F400C96053 /* NetworkTokenPonso.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CA6C3729FBE5F400C96053 /* NetworkTokenPonso.swift */; };
 		D4D439EB2836086900AC0DEF /* P2PCallUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */; };
 		D4D439F22837493800AC0DEF /* MXRoom+Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */; };
 		D4D439FB28374B0C00AC0DEF /* MXRoom+Reply.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D439FA28374B0C00AC0DEF /* MXRoom+Reply.m */; };
@@ -2075,6 +2078,9 @@
 		D4BC1EBF2955B59E00D99F1A /* TransactionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResultView.swift; sourceTree = "<group>"; };
 		D4BC1EC22955B5F400D99F1A /* TransactionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResult.swift; sourceTree = "<group>"; };
 		D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelAssembly.swift; sourceTree = "<group>"; };
+		D4CA6C0829FA795400C96053 /* TransactionSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSections.swift; sourceTree = "<group>"; };
+		D4CA6C0A29FA79C800C96053 /* WalletAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAddress.swift; sourceTree = "<group>"; };
+		D4CA6C3729FBE5F400C96053 /* NetworkTokenPonso.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTokenPonso.swift; sourceTree = "<group>"; };
 		D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallUseCase.swift; sourceTree = "<group>"; };
 		D4D439F12837493800AC0DEF /* MXRoom+Reply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MXRoom+Reply.swift"; sourceTree = "<group>"; };
 		D4D439F528374AD100AC0DEF /* CryptoMessenger-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CryptoMessenger-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -4866,7 +4872,6 @@
 				8BC06B1327C8F6B6005A28A1 /* TransactionConfigurator.swift */,
 				8B637D8627CCF06A000B1B2B /* FilterTransactionView.swift */,
 				D46C8FD82942C99000DD0B01 /* TransactionDetailsView.swift */,
-				D46C8FDA2942C9DC00DD0B01 /* TransactionDetails.swift */,
 			);
 			path = Transaction;
 			sourceTree = "<group>";
@@ -5721,10 +5726,14 @@
 		D4E0B30929429B9800AEDF85 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D4E0B30E29429DAD00AEDF85 /* WalletType.swift */,
 				D4E0B30A29429BB400AEDF85 /* WalletInfo.swift */,
 				D4E0B30C29429D8300AEDF85 /* TransactionInfo.swift */,
-				D4E0B30E29429DAD00AEDF85 /* WalletType.swift */,
+				D46C8FDA2942C9DC00DD0B01 /* TransactionDetails.swift */,
 				D46C8FDC2942CBA700DD0B01 /* TransactionSection.swift */,
+				D4CA6C0829FA795400C96053 /* TransactionSections.swift */,
+				D4CA6C0A29FA79C800C96053 /* WalletAddress.swift */,
+				D4CA6C3729FBE5F400C96053 /* NetworkTokenPonso.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -8058,6 +8067,7 @@
 				D4EFEB9C28E2AF100075CC10 /* MXCallInviteEventContent.m in Sources */,
 				D44BDC99280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift in Sources */,
 				5A187EA52680708D001957D3 /* CollectionViewProviderViewModel.swift in Sources */,
+				D4CA6C3829FBE5F400C96053 /* NetworkTokenPonso.swift in Sources */,
 				5A187F2F2680CF49001957D3 /* Endpoints.swift in Sources */,
 				8BCDCD7529DF9BA700F2CE83 /* CreateAction.swift in Sources */,
 				D4EFEBEB28E2AF110075CC10 /* MXAllowedCertificates.m in Sources */,
@@ -8317,6 +8327,7 @@
 				D4EFEB2928E2AF100075CC10 /* MXKeyVerificationAccept.m in Sources */,
 				8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */,
 				D423A0A2285E2860004A8228 /* P2PCallState.swift in Sources */,
+				D4CA6C0929FA795400C96053 /* TransactionSections.swift in Sources */,
 				D4EFEB5A28E2AF100075CC10 /* MXOlmSessionResult.m in Sources */,
 				D4EFEBB628E2AF100075CC10 /* MXSyncResponse.m in Sources */,
 				5A9318B626BD210400645365 /* PinCodePresenter.swift in Sources */,
@@ -8853,6 +8864,7 @@
 				D4EFEB5E28E2AF100075CC10 /* MXDeviceListOperationsPool.m in Sources */,
 				8BE24FA42947C239009A3734 /* DirectMenuFlow.swift in Sources */,
 				D4EFEC4328E2AF110075CC10 /* MXRoomSummaryUpdater.m in Sources */,
+				D4CA6C0C29FB15FC00C96053 /* WalletAddress.swift in Sources */,
 				5A9B472626EAB3D7001CC627 /* ReactionGroupView.swift in Sources */,
 				D46FC16929A397BA00D65C99 /* UrlsConfig.swift in Sources */,
 				D4EFEBA428E2AF100075CC10 /* MXCallRejectReplacementEventContent.m in Sources */,
