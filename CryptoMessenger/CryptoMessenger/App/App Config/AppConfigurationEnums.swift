@@ -1,6 +1,6 @@
 import Foundation
 
-enum Stand: String, RawInitializable {
+enum Stand: String, Codable, RawInitializable {
     case dev, qa, prod
 }
 
@@ -17,11 +17,6 @@ enum PlistKey {
 
     case appVersion
     case buildNumber
-    case apiURL
-    case jitsiURL
-    case matrixURL
-    case apiVersion
-    case apiStand
 
     var value: String {
         switch self {
@@ -29,16 +24,6 @@ enum PlistKey {
             return "CFBundleShortVersionString"
         case .buildNumber:
             return "CFBundleVersion"
-        case .apiURL:
-            return UrlsConfig.CodingKeys.apiUrl.rawValue
-        case .matrixURL:
-            return UrlsConfig.CodingKeys.matrixUrl.rawValue
-        case .jitsiURL:
-            return UrlsConfig.CodingKeys.jitsiMeet.rawValue
-        case .apiVersion:
-            return UrlsConfig.CodingKeys.apiVersion.rawValue
-        case .apiStand:
-            return "API Stand"
         }
     }
 }

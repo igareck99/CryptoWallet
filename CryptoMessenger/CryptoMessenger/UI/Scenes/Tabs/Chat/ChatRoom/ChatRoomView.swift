@@ -695,7 +695,7 @@ struct ChatRoomView: View {
                 if viewModel.getMenuStatus() {
                     Button(action: {
                         hideKeyboard()
-                        cardGroupPosition = .custom(180)
+                        cardGroupPosition = .custom(UIScreen.main.bounds.height - 250)
                     }, label: {
                         viewModel.sources.settingsButton
                     })

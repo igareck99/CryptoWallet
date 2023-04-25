@@ -13,6 +13,15 @@ struct BalanceRequestParams: Codable {
 
 struct WalletBalanceAddress: Codable {
 	let accountAddress: String
+    let tokenAddress: String?
+    
+    init (
+        accountAddress: String,
+        tokenAddress: String? = nil
+    ) {
+        self.accountAddress = accountAddress
+        self.tokenAddress = tokenAddress
+    }
 }
 
 enum FiatCurrency: String, Codable {

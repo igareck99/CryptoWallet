@@ -87,10 +87,6 @@ struct WalletView: View {
                                     }
                                     .tag(index)
                                     .padding()
-                                    .onChange(of: pageIndex, perform: { index in
-                                        debugPrint("CURRENT PAGE INDEX: \(index)")
-                                        debugPrint("CURRENT PAGE INDEX: \(pageIndex)")
-                                    })
                             }
                         }
                         .tabViewStyle(.page(indexDisplayMode: .never))

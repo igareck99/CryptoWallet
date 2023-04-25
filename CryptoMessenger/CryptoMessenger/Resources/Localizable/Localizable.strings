@@ -328,6 +328,7 @@
 "ReserveCopy.NotCreated" = "Резервная копия не создавалась";
 
 
+"Transfer.ChooseCurrency" = "Выберите валюту";
 "Transfer.ChooseContact" = "Выберите контакт";
 "Transfer.Transfer" = "Перевод средств";
 "Transfer.YourAdress" = "Ваш адрес";
@@ -343,11 +344,31 @@
 "Transaction.OnlySent" = "Только отправленные";
 "Transaction.OnlyReceived" = "Только полученные";
 "Transaction.Filter" = "Фильтрация";
-"Transaction.ETHFilter" = "ETH (Ethereum)";
-"Transaction.AURFilter" = "AUR (Aura)";
+
+"Wallet.Aura" = "Aura";
+"Wallet.Ethereum" = "Ethereum";
+"Wallet.Bitcoin" = "Bitcoin";
+"Wallet.Binance" = "Binance";
+
+"Wallet.AuraAUR" = "AUR (Aura)";
+"Wallet.EthereumETH" = "ETH (Ethereum)";
+"Wallet.EthereumUSDC" = "USDC (Ethereum)";
+"Wallet.EthereumUSDT" = "USDT (Ethereum)";
+"Wallet.BitcoinBTC" = "BTC (Bitcoin)";
+"Wallet.BinanceBNB" = "BNB (Binance)";
+"Wallet.BinanceBUSD" = "BUSD (Binance)";
+"Wallet.BinanceUSDT" = "USDT (Binance)";
+
+"Wallet.USDT" = "USDT";
+"Wallet.USDC" = "USDC";
+"Wallet.BUSD" = "BUSD";
+"Wallet.BNB" = "BNB";
+"Wallet.ETH" = "ETH";
+"Wallet.AUR" = "AUR";
+"Wallet.BTC" = "BTC";
+
 "Transaction.TokenFilter" = "ПО ТОКЕНАМ";
 "Transaction.AddWallet" = "Добавить кошелек";
-
 
 "Import.Title" = "Импортировать ключ";
 "Import.ImportKey" = "Импорт закрытого ключа";

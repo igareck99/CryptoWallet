@@ -22,7 +22,7 @@ protocol ConfigType {
     var os: String { get }
     var buildNumber: String { get }
     var locale: Locale { get }
-    
+
     var netType: NetType { get }
 }
 
@@ -34,8 +34,8 @@ final class Configuration: ConfigType {
     let appVersion: String
     let buildNumber: String
     let locale: Locale
-
     let stand: Stand
+    
     var apiVersionString: String {
         apiVersion.rawValue
     }
@@ -71,7 +71,7 @@ final class Configuration: ConfigType {
     var jitsiMeetString: String {
         currentConfig.jitsiMeet
     }
-    
+
     var netType: NetType {
         return stand == .dev ? .testnet : .mainnet
     }
@@ -95,7 +95,8 @@ final class Configuration: ConfigType {
     required init(
         bundle: Bundle = .main,
         locale: Locale = .current,
-        parser: Parsable.Type = Parser.self
+        parser: Parsable.Type = Parser.self,
+        stand: Stand = .prod
     ) {
         self.bundle = bundle
         self.locale = locale
@@ -107,21 +108,6 @@ final class Configuration: ConfigType {
         self.deviceId = UUID().uuidString
         self.appVersion = bundle.object(for: .appVersion)
         self.buildNumber = bundle.object(for: .buildNumber)
-        self.stand = Stand(bundle.object(for: .apiStand))
-
-        self.readConfig()
-    }
-
-    private func readConfig() {
-
-        if let dictionary = bundle.info[ConfigTypes.debug.rawValue] as? [String: Any],
-           let config = parser.parse(dictionary: dictionary, to: UrlsConfig.self) {
-            debugConfig = config
-        }
-
-        if let dictionary = bundle.info[ConfigTypes.release.rawValue] as? [String: Any],
-           let config = parser.parse(dictionary: dictionary, to: UrlsConfig.self) {
-            releaseConfig = config
-        }
+        self.stand = stand
     }
 }

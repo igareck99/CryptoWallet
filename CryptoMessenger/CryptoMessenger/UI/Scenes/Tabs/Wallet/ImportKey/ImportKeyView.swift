@@ -121,7 +121,7 @@ struct ImportKeyView: View {
                 .font(.system(size: 15))
                 .foreground(.blue())
                 .padding(.top, 8)
-            
+
             importButton
                 .padding([.top, .bottom], 32)
 
@@ -138,7 +138,7 @@ struct ImportKeyView: View {
                     .foreground(.blue(0.1))
                 R.image.wallet.wallet.image
             }
-                Text(isSelectedWalletType ? choosedWalletType.chooseTitle :
+                Text(isSelectedWalletType ? choosedWalletType.currency :
                         R.string.localizable.importChooseWalletType())
                     .font(.semibold(15))
         }

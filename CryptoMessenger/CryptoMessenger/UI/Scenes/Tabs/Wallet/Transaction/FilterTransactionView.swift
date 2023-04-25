@@ -10,12 +10,15 @@ struct FilterTransactionView: View {
     @Binding var selectorFilterIndex: Int
     @Binding var selectorTokenIndex: Int
     @Binding var presentFilter: Bool
-    @State private var transactionFilters = [TransactionFilterType.allTransaction.result,
-                                             TransactionFilterType.sendOnly.result,
-                                             TransactionFilterType.receiveOnly.result
+    @State private var transactionFilters = [
+        TransactionFilterType.allTransaction.result,
+        TransactionFilterType.sendOnly.result,
+        TransactionFilterType.receiveOnly.result
     ]
-    @State private var tokenFilters = [WalletType.ethereum.result,
-                                       WalletType.aur.result
+
+    @State private var tokenFilters = [
+        WalletType.ethereum.currency,
+        WalletType.aur.currency
     ]
 
     // MARK: - Body

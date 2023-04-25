@@ -7,7 +7,7 @@ protocol WalletNetworkFacadeProtocol {
     )
 
 	func getNetworks(
-		completion: @escaping GenericBlock<EmptyFailureResult<[WalletNetworkModel]>>
+		completion: @escaping GenericBlock<EmptyFailureResult<WalletNetworkResponse>>
 	)
 
 	func getAddress(
@@ -86,14 +86,13 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
                 completion(.failure)
                 return
             }
-            debugPrint("model: \(model)")
             completion(.success(model))
         }
     }
 
 	// MARK: - Network Wallets
 
-	func getNetworks(completion: @escaping GenericBlock<EmptyFailureResult<[WalletNetworkModel]>>) {
+	func getNetworks(completion: @escaping GenericBlock<EmptyFailureResult<WalletNetworkResponse>>) {
 		let request = walletRequestsFactory.buildNetworks(parameters: [:])
 		let urlRequest = networkRequestFactory.makeGetRequest(from: request)
 		networkService.send(request: urlRequest) { [weak self] data, response, error in
@@ -106,8 +105,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 				completion(.failure)
 				return
 			}
-			debugPrint("model: \(model)")
-			completion(.success([model.ethereum, model.bitcoin, model.binance]))
+            completion(.success(model))
 		}
 	}
 
@@ -130,7 +128,6 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 				completion(.failure)
 				return
 			}
-			debugPrint("model: \(model)")
 			completion(.success(model))
 		}
 	}
@@ -189,7 +186,6 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
                 completion(.failure)
                 return
             }
-            debugPrint("model: \(model)")
             completion(.success(model))
         }
     }
@@ -213,7 +209,6 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 				completion(.failure)
 				return
 			}
-			debugPrint("model: \(model)")
 			completion(.success(model))
 		}
 	}
@@ -237,7 +232,6 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 				completion(.failure)
 				return
 			}
-			debugPrint("model: \(model)")
 			completion(.success(model))
 		}
 	}
@@ -261,7 +255,6 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 				completion(.failure)
 				return
 			}
-			debugPrint("model: \(model)")
 			completion(.success(model))
 		}
 	}
@@ -285,7 +278,6 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 				completion(.failure)
 				return
 			}
-			debugPrint("model: \(model)")
 			completion(.success(model))
 		}
 	}
