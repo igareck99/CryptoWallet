@@ -41,7 +41,6 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         .navigationBarHidden(false)
         .navigationBarTitleDisplayMode(.inline)
         .navigationViewStyle(.stack)
-        .listStyle(.insetGrouped)
         .toolbar {
             if changeViewEdit {
                 createChangeToolBar()
@@ -226,6 +225,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     .frame(maxWidth: .infinity)
                     .listRowInsets(.none)
                     .listRowBackground(Color.clear)
+                
             }
             if viewModel.shouldShowDescription {
                 Section {
@@ -238,13 +238,15 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }
             if viewModel.isAuthorized {
                 Section {
-                    participantsHeader()
-                        .listRowSeparator(.hidden)
-                    channelParticipantsView()
-                    participantsFooter()
-                        .listRowSeparator(.hidden)
-                        .frame(maxWidth: .infinity)
-                        .listRowInsets(.none)
+                    VStack(alignment: .leading) {
+                        participantsHeader()
+                            .listRowSeparator(.hidden)
+                        channelParticipantsView()
+                        participantsFooter()
+                            .listRowSeparator(.hidden)
+                            .frame(maxWidth: .infinity)
+                            .listRowInsets(.none)
+                    }
                 }
             }
             Section {
@@ -252,6 +254,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 leaveChannelView()
             }
         }
+        .listStyle(.insetGrouped)
     }
 
     private var changeView: some View {

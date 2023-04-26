@@ -8,10 +8,11 @@ final class ChannelNotificationsViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     var roomId: String
+    @Published var notificationsOff = false
 
     // MARK: - Private Properties
 
-    private let pushNotification: PushNotificationsServiceProtocol
+    private let pushNotification: MXRoomNotificationSettingsService
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
     private let matrixUseCase: MatrixUseCaseProtocol
 
@@ -19,21 +20,26 @@ final class ChannelNotificationsViewModel: ObservableObject {
 
     init(
         roomId: String,
-        pushNotification: PushNotificationsServiceProtocol = PushNotificationsService.shared,
         userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared,
-        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared
+        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
+        keychainService: KeychainServiceProtocol = KeychainService.shared
     ) {
         self.roomId = roomId
-        self.pushNotification = pushNotification
+        self.pushNotification = MXRoomNotificationSettingsService(roomId: self.roomId)
         self.userSettings = userSettings
         self.matrixUseCase = matrixUseCase
+        getData()
+    }
+
+    func getData() {
+        guard let room = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {  return }
+        self.notificationsOff = room.room.isMuted
     }
 
     // MARK: - Internal Methods
 
     func computeOpacity(_ item: ChannelNotificationsStatus) -> Double {
-        guard let room = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {  return 0 }
-        if !room.room.isMuted && item == .turned || room.room.isMuted && item == .offed {
+        if !notificationsOff && item == .turned || notificationsOff && item == .offed {
             return 1
         }
         return 0
@@ -42,13 +48,13 @@ final class ChannelNotificationsViewModel: ObservableObject {
     func updateNotifications(_ item: ChannelNotificationsStatus) {
         guard let room = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {  return }
         if item == .turned {
-            if room.room.isMuted && userSettings.isRoomNotificationsEnable {
-                pushNotification.allMessages(room: room) { _ in
-                }
+            pushNotification.update(state: .all) {
+                self.notificationsOff = false
             }
         }
         if item == .offed {
-            pushNotification.mute(room: room) { _ in
+            pushNotification.update(state: .mute) {
+                self.notificationsOff = true
             }
         } 
         self.objectWillChange.send()

@@ -8,7 +8,7 @@ struct GroupMenuView: View {
 
     @Binding var action: GroupAction?
     @Binding var cardGroupPosition: CardPosition
-    @StateObject var viewModel = GroupChatMenuViewModel()
+    @StateObject var viewModel: GroupChatMenuViewModel
 
     // MARK: - Private Properties
 
@@ -21,6 +21,13 @@ struct GroupMenuView: View {
             ForEach(viewModel.actions, id: \.id) { act in
                 Button(action: {
                     vibrate()
+                    switch act {
+                    case .notifications:
+                        viewModel.showNotificationsChangeView = true
+                        return
+                    default:
+                        break
+                    }
                     action = act
                     cardGroupPosition = .bottom
                 }, label: {

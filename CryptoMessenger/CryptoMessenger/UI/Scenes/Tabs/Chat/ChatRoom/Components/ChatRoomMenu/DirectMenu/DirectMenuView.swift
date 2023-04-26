@@ -19,13 +19,17 @@ struct DirectMenuView: View {
     // MARK: - Body
 
     var body: some View {
+        content
+    }
+
+    var content: some View {
         VStack(spacing: 0) {
             ForEach(viewModel.actions, id: \.id) { act in
                 Button(action: {
                     vibrate()
                     switch act {
                     case .notifications:
-                        viewModel.updateNotifications()
+                        viewModel.showNotificationsChangeView = true
                         return
                     case .notificationsOff:
                         viewModel.updateNotifications()
@@ -56,6 +60,7 @@ struct DirectMenuView: View {
                 })
                 .frame(height: 64)
             }
+            Spacer()
         }
     }
 }

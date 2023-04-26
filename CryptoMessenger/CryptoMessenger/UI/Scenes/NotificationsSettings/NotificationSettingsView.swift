@@ -23,55 +23,16 @@ struct NotificationSettingsView: View {
 
     private var content: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Divider()
             List {
-                if viewModel.isNotificationMessages {
-                    Section {
-                        NotificationSettingsCell(field: $viewModel.messageNotification)
-                            .listRowSeparator(.hidden)
-                        NotificationSettingsCell(field: $viewModel.messagePriority)
-                            .listRowSeparator(.hidden)
-                    } header: {
-                        Text(viewModel.sources.messages)
-                    }
-                    .listSectionSeparator(.hidden, edges: [.top])
-                    .listSectionSeparator(.visible, edges: [.bottom])
-                }
-                if viewModel.isNotificationGroup {
-                    Section {
-                        NotificationSettingsCell(field: $viewModel.groupNotification)
-                            .listRowSeparator(.hidden)
-                        NotificationSettingsCell(field: $viewModel.groupPriority)
-                            .listRowSeparator(.hidden)
-                    } header: {
-                        Text(viewModel.sources.groups)
-                    }
-                    .listSectionSeparator(.hidden, edges: [.top])
-                    .listSectionSeparator(.visible, edges: [.bottom])
-                }
-                if viewModel.isNotificationSettings {
-                    Section {
-                        NotificationSettingsCell(field: $viewModel.parametersMessage)
-                            .listRowSeparator(.hidden)
-                        NotificationSettingsCell(field: $viewModel.parametersCalls)
-                            .listRowSeparator(.hidden)
-                    } header: {
-                        Text(viewModel.sources.parametrs)
-                            .listRowSeparator(.hidden)
-                    }
-                    .listSectionSeparator(.hidden, edges: [.top])
-                    .listSectionSeparator(.visible, edges: [.bottom])
-                }
-                if viewModel.isNotificationsReset {
-                    Text(viewModel.sources.resetSettings)
-                        .font(.regular(15))
-                        .foreground(.red())
-                        .padding(.top, 16)
+                if viewModel.isNotificationDevice {
+                    NotificationSettingsCell(field: $viewModel.userAccount)
+                        .listRowSeparator(.hidden)
+                    NotificationSettingsCell(field: $viewModel.onDevice)
                         .listRowSeparator(.hidden)
                 }
             }
             .listRowSeparator(.hidden)
-            .listStyle(.plain)
+            .listStyle(.insetGrouped)
         }
     }
 

@@ -6,40 +6,33 @@ enum NotificationSettingsItems {
 
     // MARK: - Internal Properties
 
-    case messageNotification
-    case messagePriority
-    case groupNotification
-    case groupPriority
-    case parametersMessage
-    case parametersCalls
+    case allMessages
+    case mentionsOnly
+    case mute
+    case userAccount
+    case onDevice
 
     var title: String {
         switch self {
-        case .messageNotification:
-            return "Уведомления"
-        case .messagePriority:
-            return "Приоритетные"
-        case .groupNotification:
-            return "Уведомления"
-        case .groupPriority:
-            return "Приоритетные"
-        case .parametersMessage:
-            return "Уведомления о сообщениях"
-        case .parametersCalls:
-            return "Уведомления о звонках"
+        case .allMessages:
+            return "Все сообщения"
+        case .mentionsOnly:
+            return "Только упоминания и ключевые слова"
+        case .mute:
+            return "Отсутствует"
+        case .userAccount:
+            return "Учетная запись"
+        case .onDevice:
+            return "На устройстве"
         }
     }
 
     var description: String {
         switch self {
-        case .messagePriority:
-            return "Показывать как приоритетные"
-        case .groupNotification:
-            return "Показывать как приоритетные"
-        case .parametersMessage:
-            return "Звук, вибрация, баннеры"
-        case .parametersCalls:
-            return "Звук, вибрация, баннеры"
+        case .userAccount:
+            return "Все активные сессии"
+        case .onDevice:
+            return "Текущая сессия"
         default:
             return ""
         }

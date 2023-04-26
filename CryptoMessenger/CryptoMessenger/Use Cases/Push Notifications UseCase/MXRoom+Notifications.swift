@@ -7,14 +7,13 @@ extension MXRoom {
     // MARK: - Internal Properties
 
     var isMuted: Bool {
-        // Check whether an override rule has been defined with the roomm id as rule id.
-        // This kind of rule is created to mute the room
-        guard let rule = overridePushRule,
-              rule.actionsContains(actionType: MXPushRuleActionTypeDontNotify),
-              rule.conditionIsEnabled(kind: .eventMatch, for: roomId) else {
+        if let rule = overridePushRule {
+            if rule.conditionIsEnabled(kind: .eventMatch, for: roomId) && rule.actionsContains(actionType: MXPushRuleActionTypeDontNotify) {
+                return true
+            }
             return false
         }
-        return rule.enabled
+        return false
     }
 
     func getRoomRule(from rules: [Any]) -> MXPushRule? {
@@ -22,6 +21,10 @@ extension MXRoom {
             return nil
         }
         return pushRules.first(where: { self.roomId == $0.ruleId })
+    }
+
+    var allRules: [Any] {
+        return mxSession.notificationCenter.flatRules
     }
 
     var overridePushRule: MXPushRule? {

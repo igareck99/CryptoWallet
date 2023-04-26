@@ -213,22 +213,6 @@ final class ChatRoomViewModel: ObservableObject {
             self.delegate?.handleNextScene(.chatRoom(newRoom))
         }
     }
-    
-    func notificationsStatus(_ action: NotificationsActionState) {
-        if action == .muteOn && !userSettings.isRoomNotificationsEnable {
-            if !room.room.isMuted {
-                pushNotification.mute(room: self.room) { value in
-                    debugPrint("Room IS Muted  \(value)")
-                }
-            }
-        } else if action == .allMessagesOn && userSettings.isRoomNotificationsEnable  {
-            if room.room.isMuted {
-                pushNotification.allMessages(room: self.room) { value in
-                    debugPrint("Room IS Unmute  \(value)")
-                }
-            }
-        }
-    }
 
     func send(_ event: ChatRoomFlow.Event) {
         eventSubject.send(event)

@@ -23,9 +23,9 @@ struct SettingsView: View {
     @State private var showExitAlert = false
     @State private var showShareAlert = false
     @State private var showComplainAlert = false
-    @State private var notificationsTurnedOn = false
     @State private var alertItem: AlertItem?
     @State private var showLeaveAlert = false
+    @State private var showNotificationsView = false
 
     // MARK: - Life Cycle
 
@@ -44,6 +44,9 @@ struct SettingsView: View {
 
     var body: some View {
         content
+            .onAppear {
+                viewModel.send(.onAppear)
+            }
             .hideKeyboardOnTap()
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarBackButtonHidden(true)
@@ -96,6 +99,11 @@ struct SettingsView: View {
                     isActive: $showAdmins
                 )
             )
+            .sheet(isPresented: $showNotificationsView, content: {
+                NavigationView {
+                    ChannelNotificaionsView(viewModel: ChannelNotificationsViewModel(roomId: viewModel.room.room.roomId))
+                }
+            })
             .sheet(isPresented: $showImagePicker) {
                 ImagePickerView(selectedImage: $chatData.image)
             }
@@ -258,8 +266,7 @@ struct SettingsView: View {
 
                     switch action {
                     case .notifications:
-                        Toggle("", isOn: $notificationsTurnedOn)
-                            .tint(Color(.blue()))
+                        R.image.registration.arrow.image
                     case .media:
                         Text(chatData.media.count.description, [
                             .color(.blue()),
@@ -290,6 +297,8 @@ struct SettingsView: View {
                 .background(.white())
                 .onTapGesture {
                     switch action {
+                    case .notifications:
+                        showNotificationsView.toggle()
                     case .media:
                         guard !chatData.media.isEmpty else { return }
                         vibrate()

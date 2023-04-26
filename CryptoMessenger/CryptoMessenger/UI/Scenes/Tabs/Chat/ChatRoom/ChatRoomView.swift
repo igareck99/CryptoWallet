@@ -61,6 +61,7 @@ struct ChatRoomView: View {
     @State private var deleteMessage: RoomMessage?
     @State private var quickAction: QuickActionCurrentUser?
     @State private var testAvatarUrl: URL?
+    @State private var showNotificationsChangeView = false
 
     @FocusState private var inputViewIsFocused: Bool
 
@@ -435,7 +436,8 @@ struct ChatRoomView: View {
             SlideCard(position: $cardGroupPosition) {
                 VStack(spacing: 0) {
                     GroupMenuView(action: $viewModel.groupAction,
-                                  cardGroupPosition: $cardGroupPosition)
+                                  cardGroupPosition: $cardGroupPosition,
+                                  viewModel: GroupChatMenuViewModel(showNotificationsChangeView: $showNotificationsChangeView))
                 }.padding(.vertical, 32)
             }
         }
@@ -454,7 +456,7 @@ struct ChatRoomView: View {
 
             SlideCard(position: $cardGroupPosition) {
                 VStack(spacing: 0) {
-                    DirectMenuView(viewModel: DirectChatMenuViewModel(room: viewModel.room),
+                    DirectMenuView(viewModel: DirectChatMenuViewModel(room: viewModel.room, showNotificationsChangeView: $showNotificationsChangeView),
                                    action: $viewModel.directAction,
                                    cardGroupPosition: $cardGroupPosition,
                                    onMedia: { viewModel.send(.onMedia(viewModel.room)) })

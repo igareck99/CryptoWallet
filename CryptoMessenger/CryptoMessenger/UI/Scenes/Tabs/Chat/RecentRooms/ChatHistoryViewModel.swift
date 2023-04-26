@@ -147,7 +147,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                         })
                     }
                 }
-                self.allowPushNotifications()
             }
             .store(in: &subscriptions)
     }
@@ -155,7 +154,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     private func allowPushNotifications() {
         if userSettings.isRoomNotificationsEnable {
             for item in rooms {
-                pushNotification.allMessages(room: item) { _ in }
+                pushNotification.allMessages(room: item) { _ in
+                }
             }
         }
     }

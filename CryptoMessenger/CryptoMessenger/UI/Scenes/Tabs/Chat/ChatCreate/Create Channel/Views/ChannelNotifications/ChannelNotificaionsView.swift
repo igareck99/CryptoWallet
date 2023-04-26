@@ -41,7 +41,7 @@ struct ChannelNotificaionsView: View {
                 Text(item.rawValue)
                     .font(.regular(17))
                 Spacer()
-                R.image.countryCode.check.image
+                R.image.channelSettings.checkmark.image
                     .frame(width: 14.3, height: 14.2)
                     .padding(.trailing, 15)
                     .opacity(viewModel.computeOpacity(item))
