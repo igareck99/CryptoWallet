@@ -597,7 +597,6 @@
 		8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6DAE22771EC2C00FB4C6C /* WebView.swift */; };
 		8BF0FCD6281174F900FF7C6F /* CreateContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */; };
 		8BF8FA7E27FF8AC20000CC08 /* FeedImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */; };
-		8BFBE3E029F97AAE00846683 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFBE3DF29F97AAE00846683 /* NotificationService.swift */; };
 		8BFBE3E829F9821B00846683 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFBE3E729F9821B00846683 /* NotificationService.swift */; };
 		8BFBE3EC29F9821B00846683 /* AuraNSE.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8BFBE3E529F9821A00846683 /* AuraNSE.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8BFF387B27D91092005D88C9 /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFF387A27D91092005D88C9 /* NumberTextField.swift */; };
@@ -1916,7 +1915,6 @@
 		8BE6DAE22771EC2C00FB4C6C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateContactViewModel.swift; sourceTree = "<group>"; };
 		8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewer.swift; sourceTree = "<group>"; };
-		8BFBE3DF29F97AAE00846683 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		8BFBE3E529F9821A00846683 /* AuraNSE.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AuraNSE.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BFBE3E729F9821B00846683 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		8BFBE3E929F9821B00846683 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -5085,14 +5083,6 @@
 			path = IphoneNumberTextField;
 			sourceTree = "<group>";
 		};
-		8BFBE3DE29F97A7500846683 /* NotificationContentService */ = {
-			isa = PBXGroup;
-			children = (
-				8BFBE3DF29F97AAE00846683 /* NotificationService.swift */,
-			);
-			path = NotificationContentService;
-			sourceTree = "<group>";
-		};
 		8BFBE3E629F9821A00846683 /* AuraNSE */ = {
 			isa = PBXGroup;
 			children = (
@@ -5241,7 +5231,6 @@
 		D4442B4A281162030033D07A /* Use Cases */ = {
 			isa = PBXGroup;
 			children = (
-				8BFBE3DE29F97A7500846683 /* NotificationContentService */,
 				D4752EB528C64403006B650A /* Group Calls UseCase */,
 				D4FDA495284D05AA00322A0F /* Status Bar Call UseCase */,
 				D4D439E92836084D00AC0DEF /* P2P Call UseCase */,
@@ -8466,7 +8455,6 @@
 				8B5A338A27D89D400064C7DC /* TransferViewModel.swift in Sources */,
 				D4EFEB5928E2AF100075CC10 /* MXKey.m in Sources */,
 				D46C901A294775F900DD0B01 /* EnvironmentValues+Extensions.swift in Sources */,
-				8BFBE3E029F97AAE00846683 /* NotificationService.swift in Sources */,
 				5A1D265C275973940085324F /* CornerRadiusStyle.swift in Sources */,
 				5A7EDE74275402ED0049DC4A /* BlockListViewModel.swift in Sources */,
 				5A4BE517271DD86A00D03D09 /* EditEvent.swift in Sources */,
