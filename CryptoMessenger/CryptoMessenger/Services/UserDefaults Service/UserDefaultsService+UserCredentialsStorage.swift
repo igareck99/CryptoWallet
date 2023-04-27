@@ -12,6 +12,7 @@ protocol UserCredentialsStorage: UserDefaultsServiceProtocol {
 	var geopositionState: String? { get set }
 	var reserveCopyTime: String? { get set }
     var isRoomNotificationsEnable: Bool { get set }
+    var pushText: String? { get set }
 }
 
 // MARK: - UserCredentialsStorage
@@ -22,6 +23,11 @@ extension UserDefaultsService: UserCredentialsStorage {
 		get { string(forKey: .typography) }
 		set { set(newValue, forKey: .typography) }
 	}
+    
+    var pushText: String? {
+        get { string(forKey: .pushText) }
+        set { set(newValue, forKey: .pushText) }
+    }
 
 	var language: String? {
 		get { string(forKey: .language) }

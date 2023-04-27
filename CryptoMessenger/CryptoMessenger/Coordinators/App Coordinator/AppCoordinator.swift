@@ -12,6 +12,7 @@ final class AppCoordinator {
 	private var pendingCoordinators = [Coordinator]()
     private let userFlows: UserFlowsStorage
 	private let keychainService: KeychainServiceProtocol
+    private let userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared
 
     init(
 		keychainService: KeychainServiceProtocol,
@@ -90,6 +91,7 @@ extension AppCoordinator: Coordinator {
 extension AppCoordinator: AppCoordinatorProtocol {
 
 	func didReceive(notification: UNNotificationResponse, completion: @escaping () -> Void) {
+        
 		let getChatRoomSceneDelegate: () -> ChatRoomSceneDelegate? = { [weak self] in
 			guard
 				let chatRoomDelegate = self?.childCoordinators

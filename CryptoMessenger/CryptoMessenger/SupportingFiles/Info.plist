@@ -62,6 +62,8 @@
 	<string>Приложение $(PRODUCT_NAME) запрашивает доступ к контактам</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>App requires to access your location to share it in chats</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>App requires to access your location to send it to friends</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -72,8 +74,6 @@
 	<string>App requires to access your location to share it with friends</string>
 	<key>Privacy - Location When in Usage Description</key>
 	<string>App requires to access your location to send it to friends</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>App requires to access your location to share it in chats</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik-Light.ttf</string>

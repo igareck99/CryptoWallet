@@ -597,6 +597,9 @@
 		8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6DAE22771EC2C00FB4C6C /* WebView.swift */; };
 		8BF0FCD6281174F900FF7C6F /* CreateContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */; };
 		8BF8FA7E27FF8AC20000CC08 /* FeedImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */; };
+		8BFBE3E029F97AAE00846683 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFBE3DF29F97AAE00846683 /* NotificationService.swift */; };
+		8BFBE3E829F9821B00846683 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFBE3E729F9821B00846683 /* NotificationService.swift */; };
+		8BFBE3EC29F9821B00846683 /* AuraNSE.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8BFBE3E529F9821A00846683 /* AuraNSE.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8BFF387B27D91092005D88C9 /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFF387A27D91092005D88C9 /* NumberTextField.swift */; };
 		8BFFC74E27EDEB5700BE4AB6 /* PhraseManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC74D27EDEB5700BE4AB6 /* PhraseManagerView.swift */; };
 		8BFFC75027EDEB6100BE4AB6 /* PhraseManagerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC74F27EDEB6100BE4AB6 /* PhraseManagerViewModel.swift */; };
@@ -1291,6 +1294,30 @@
 		D4FDA497284D05C600322A0F /* StatusBarCallUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDA496284D05C600322A0F /* StatusBarCallUseCase.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8BFBE3EA29F9821B00846683 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A187DB326806EF8001957D3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8BFBE3E429F9821A00846683;
+			remoteInfo = AuraNSE;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8BFBE3F029F9821B00846683 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8BFBE3EC29F9821B00846683 /* AuraNSE.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A15DDF8276E5C9C00CF7AA4 /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
@@ -1889,6 +1916,10 @@
 		8BE6DAE22771EC2C00FB4C6C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateContactViewModel.swift; sourceTree = "<group>"; };
 		8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewer.swift; sourceTree = "<group>"; };
+		8BFBE3DF29F97AAE00846683 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		8BFBE3E529F9821A00846683 /* AuraNSE.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AuraNSE.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BFBE3E729F9821B00846683 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		8BFBE3E929F9821B00846683 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BFF387A27D91092005D88C9 /* NumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTextField.swift; sourceTree = "<group>"; };
 		8BFFC74D27EDEB5700BE4AB6 /* PhraseManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerView.swift; sourceTree = "<group>"; };
 		8BFFC74F27EDEB6100BE4AB6 /* PhraseManagerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerViewModel.swift; sourceTree = "<group>"; };
@@ -2987,6 +3018,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8BFBE3E229F9821A00846683 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -3003,6 +3041,7 @@
 			isa = PBXGroup;
 			children = (
 				5A187DBD26806EF8001957D3 /* CryptoMessenger */,
+				8BFBE3E629F9821A00846683 /* AuraNSE */,
 				5A187DBC26806EF8001957D3 /* Products */,
 				C48D3F6781FE772D12943E74 /* Pods */,
 				3317E261A1E9E98DBBA1CBEB /* Frameworks */,
@@ -3013,6 +3052,7 @@
 			isa = PBXGroup;
 			children = (
 				5A187DBB26806EF8001957D3 /* CryptoMessenger.app */,
+				8BFBE3E529F9821A00846683 /* AuraNSE.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5045,6 +5085,23 @@
 			path = IphoneNumberTextField;
 			sourceTree = "<group>";
 		};
+		8BFBE3DE29F97A7500846683 /* NotificationContentService */ = {
+			isa = PBXGroup;
+			children = (
+				8BFBE3DF29F97AAE00846683 /* NotificationService.swift */,
+			);
+			path = NotificationContentService;
+			sourceTree = "<group>";
+		};
+		8BFBE3E629F9821A00846683 /* AuraNSE */ = {
+			isa = PBXGroup;
+			children = (
+				8BFBE3E729F9821B00846683 /* NotificationService.swift */,
+				8BFBE3E929F9821B00846683 /* Info.plist */,
+			);
+			path = AuraNSE;
+			sourceTree = "<group>";
+		};
 		8BFFC74C27EDEB1A00BE4AB6 /* PhraseManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -5184,6 +5241,7 @@
 		D4442B4A281162030033D07A /* Use Cases */ = {
 			isa = PBXGroup;
 			children = (
+				8BFBE3DE29F97A7500846683 /* NotificationContentService */,
 				D4752EB528C64403006B650A /* Group Calls UseCase */,
 				D4FDA495284D05AA00322A0F /* Status Bar Call UseCase */,
 				D4D439E92836084D00AC0DEF /* P2P Call UseCase */,
@@ -7750,15 +7808,34 @@
 				5A187DB926806EF8001957D3 /* Resources */,
 				EC8CF24613DB1380ED4F8B0E /* [CP] Embed Pods Frameworks */,
 				B1E4FD6B0BBAD8C855102B0C /* [CP] Copy Pods Resources */,
+				8BFBE3F029F9821B00846683 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8BFBE3EB29F9821B00846683 /* PBXTargetDependency */,
 			);
 			name = CryptoMessenger;
 			productName = "Crypto Messenger";
 			productReference = 5A187DBB26806EF8001957D3 /* CryptoMessenger.app */;
 			productType = "com.apple.product-type.application";
+		};
+		8BFBE3E429F9821A00846683 /* AuraNSE */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8BFBE3ED29F9821B00846683 /* Build configuration list for PBXNativeTarget "AuraNSE" */;
+			buildPhases = (
+				8BFBE3E129F9821A00846683 /* Sources */,
+				8BFBE3E229F9821A00846683 /* Frameworks */,
+				8BFBE3E329F9821A00846683 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AuraNSE;
+			productName = AuraNSE;
+			productReference = 8BFBE3E529F9821A00846683 /* AuraNSE.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -7766,11 +7843,14 @@
 		5A187DB326806EF8001957D3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1310;
 				TargetAttributes = {
 					5A187DBA26806EF8001957D3 = {
 						CreatedOnToolsVersion = 12.5;
+					};
+					8BFBE3E429F9821A00846683 = {
+						CreatedOnToolsVersion = 14.3;
 					};
 				};
 			};
@@ -7788,6 +7868,7 @@
 			projectRoot = "";
 			targets = (
 				5A187DBA26806EF8001957D3 /* CryptoMessenger */,
+				8BFBE3E429F9821A00846683 /* AuraNSE */,
 			);
 		};
 /* End PBXProject section */
@@ -7806,6 +7887,13 @@
 				5AD6E37E2753FFEF00CEFCE2 /* Assets.xcassets in Resources */,
 				5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */,
 				8BBCBCD628F74AF800E42F0C /* RemoteVideos.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BFBE3E329F9821A00846683 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8378,6 +8466,7 @@
 				8B5A338A27D89D400064C7DC /* TransferViewModel.swift in Sources */,
 				D4EFEB5928E2AF100075CC10 /* MXKey.m in Sources */,
 				D46C901A294775F900DD0B01 /* EnvironmentValues+Extensions.swift in Sources */,
+				8BFBE3E029F97AAE00846683 /* NotificationService.swift in Sources */,
 				5A1D265C275973940085324F /* CornerRadiusStyle.swift in Sources */,
 				5A7EDE74275402ED0049DC4A /* BlockListViewModel.swift in Sources */,
 				5A4BE517271DD86A00D03D09 /* EditEvent.swift in Sources */,
@@ -9188,7 +9277,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8BFBE3E129F9821A00846683 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BFBE3E829F9821B00846683 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8BFBE3EB29F9821B00846683 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8BFBE3E429F9821A00846683 /* AuraNSE */;
+			targetProxy = 8BFBE3EA29F9821B00846683 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5A187DC926806EF9001957D3 /* LaunchScreen.storyboard */ = {
@@ -9255,7 +9360,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -9312,7 +9417,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -9326,6 +9431,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -9357,6 +9463,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -9384,6 +9491,63 @@
 			};
 			name = Release;
 		};
+		8BFBE3EE29F9821B00846683 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = Z48WYVF59J;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AuraNSE/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AuraNSE;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.aura.app.test.AuraNSE;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8BFBE3EF29F9821B00846683 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Z48WYVF59J;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AuraNSE/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AuraNSE;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.aura.app.test.AuraNSE;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -9401,6 +9565,15 @@
 			buildConfigurations = (
 				5A187DD026806EF9001957D3 /* Debug */,
 				5A187DD126806EF9001957D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8BFBE3ED29F9821B00846683 /* Build configuration list for PBXNativeTarget "AuraNSE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BFBE3EE29F9821B00846683 /* Debug */,
+				8BFBE3EF29F9821B00846683 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

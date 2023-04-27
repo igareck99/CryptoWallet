@@ -33,6 +33,7 @@ final class UserDefaultsService {
 		case geopositionState
 		case reserveCopyTime
         case isRoomNotificationsEnable
+        case pushText
 	}
 
 	private let storage: UserDefaults

@@ -144,16 +144,14 @@ extension MatrixService {
 
 	func updateService(credentials: MXCredentials) {
 
-		let persistTokenDataHandler: MXRestClientPersistTokenDataHandler =
-		{ inputCredentialsHandler in
+		let persistTokenDataHandler: MXRestClientPersistTokenDataHandler = { inputCredentialsHandler in
 			debugPrint("upadteService MXRestClientPersistTokenDataHandler: inputCredentialsHandler: \(inputCredentialsHandler)")
 			inputCredentialsHandler?([]) { didUpdateCredentials in
 				debugPrint("upadteService MXRestClientPersistTokenDataHandler: inputCredentialsHandler didUpdateCredentials: \(didUpdateCredentials)")
 			}
 		}
 
-		let unauthenticatedHandler: MXRestClientUnauthenticatedHandler =
-		{ error, isSoftLogout, isRefreshTokenAuth, logoutCompletion in
+		let unauthenticatedHandler: MXRestClientUnauthenticatedHandler = { error, isSoftLogout, isRefreshTokenAuth, logoutCompletion in
 			debugPrint("upadteService MXRestClientUnauthenticatedHandler: error: \(error)")
 			debugPrint("upadteService MXRestClientUnauthenticatedHandler: isSoftLogout: \(isSoftLogout)")
 			debugPrint("upadteService MXRestClientUnauthenticatedHandler: isRefreshTokenAuth: \(isRefreshTokenAuth)")
@@ -235,14 +233,18 @@ extension MatrixService {
 #else
 		let pushKey = pushToken.base64EncodedString()
 #endif
-
-		let pushData: [String: Any] = ["url": AppConstants.pusherUrl.aboutApp]
+        let locKey = "MESSAGE"
+        let pushData: [String: Any] = [
+            "url": AppConstants.pusherUrl.aboutApp,
+            "format": "event_id_only",
+            "default_payload": ["aps": ["mutable-content": 1, "alert": ["loc-key": locKey, "loc-args": []]]]
+        ]
 		let appId = AppConstants.bundleId.aboutApp
 		let appDisplayName = AppConstants.appName.aboutApp
 		let deviceDisplayName = UIDevice.current.name
 		let lang = NSLocale.preferredLanguages.first ?? "en_US"
         let profileTag = "mobile_ios_\(userId.hashValue)"
-
+        
 		client?.setPusher(
 			pushKey: pushKey,
 			kind: kind,
