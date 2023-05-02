@@ -6,11 +6,8 @@ import UIKit
 extension MatrixService {
 
 	func startListeningForRoomEvents() {
-		debugPrint("MatrixService: startListeningForRoomEvents: session: \(self.session)")
 		listenReference = session?.listenToEvents { [weak self] event, direction, roomState in
 			guard let self = self else { return }
-			debugPrint("MatrixService: startListeningForRoomEvents: rooms:  \(self.rooms)")
-			debugPrint("MatrixService: startListeningForRoomEvents: event:  \(event.eventType) : \(event.type)")
 			let affectedRooms = self.rooms
 				.filter { $0.summary.roomId == event.roomId }
 

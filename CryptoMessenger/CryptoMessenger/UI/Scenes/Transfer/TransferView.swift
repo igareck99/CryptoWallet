@@ -174,11 +174,11 @@ struct TransferView: View {
     private var transferCell: some View {
 		HStack {
 			VStack(alignment: .leading) {
-				TextField("0\(Locale.current.decimalSeparator ?? ",")0", text: $viewModel.transferAmountProxy)
-				.keyboardType(.decimalPad)
-				.font(.system(size: 20))
-				.foregroundColor(.woodSmokeApprox)
-				.frame(maxWidth: .infinity, maxHeight: 47)
+                TextField("0\(Locale.current.decimalSeparator ?? ",")0", text: $viewModel.transferAmountProxy)
+                    .keyboardType(.decimalPad)
+                    .font(.system(size: 20))
+                    .foregroundColor(.woodSmokeApprox)
+                    .frame(maxWidth: .infinity, maxHeight: 47)
 
 				Rectangle()
 					.foregroundColor(.ironApprox)

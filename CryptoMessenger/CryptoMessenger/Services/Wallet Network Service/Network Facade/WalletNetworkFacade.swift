@@ -15,13 +15,8 @@ protocol WalletNetworkFacadeProtocol {
 		completion: @escaping GenericBlock<EmptyFailureResult<AddressResponse>>
 	)
 
-	func getBalances(
-		params: BalanceRequestParams,
-		completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
-	)
-
-    func getBalancesV2(
-        params: BalanceRequestParamsV2,
+    func getBalances(
+        params: BalanceRequestParams,
         completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
     )
 
@@ -134,47 +129,12 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 
 	// MARK: - Balances
 
-	func getBalances(
-		params: BalanceRequestParams,
-		completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
-	) {
-		let paramsDict: [String: Any] = params.dictionary
-		let request = walletRequestsFactory.buildBalances(parameters: paramsDict)
-		let urlRequest = networkRequestFactory.makePostRequest(from: request)
-		networkService.send(request: urlRequest) { [weak self] data, response, error in
-			guard let self = self else { return }
-			self.logReponse("getBalances", data, response, error)
-			guard
-				let data = data,
-				let model = Parser.parse(data: data, to: BalancesResponse.self)
-			else {
-				completion(.failure)
-				return
-			}
-			debugPrint("model: \(model)")
-			completion(.success(model))
-		}
-	}
-
-    func getBalancesV2(
-        params: BalanceRequestParamsV2,
+    func getBalances(
+        params: BalanceRequestParams,
         completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
     ) {
-        let ethAddress = (params.addresses[.ethereum] ?? []).map({ ["accountAddress": $0.accountAddress] })
-        let btcAddress = (params.addresses[.bitcoin] ?? []).map({ ["accountAddress": $0.accountAddress] })
-        let bncAddress = (params.addresses[.binance] ?? []).map({ ["accountAddress": $0.accountAddress] })
-
-        let currency: String = params.currency.rawValue
-        let paramsDict: [String: Any] = [
-            "currency": currency,
-            "addresses": [
-                "ethereum": ethAddress,
-                "bitcoin": btcAddress,
-                "binance": bncAddress
-            ]
-        ]
-
-        let request = walletRequestsFactory.buildBalancesV2(parameters: paramsDict)
+        let paramsDict: [String: Any] = params.makeParamsDict()
+        let request = walletRequestsFactory.buildBalances(parameters: paramsDict)
         let urlRequest = networkRequestFactory.makePostRequest(from: request)
         networkService.send(request: urlRequest) { [weak self] data, response, error in
             guard let self = self else { return }
@@ -196,7 +156,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		params: TransactionsRequestParams,
 		completion: @escaping GenericBlock<EmptyFailureResult<WalletsTransactionsResponse>>
 	) {
-		let paramsDict: [String: Any] = params.dictionary
+		let paramsDict: [String: Any] = params.makeRequestDict()
 		let request = walletRequestsFactory.buildTransactions(parameters: paramsDict)
 		let urlRequest = networkRequestFactory.makePostRequest(from: request)
 		networkService.send(request: urlRequest) { [weak self] data, response, error in

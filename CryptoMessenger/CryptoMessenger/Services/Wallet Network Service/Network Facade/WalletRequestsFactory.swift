@@ -7,8 +7,6 @@ protocol WalletRequestsFactoryProtocol {
 
 	func buildBalances(parameters: BaseHTTPParameters) -> BaseEndPoint
 
-    func buildBalancesV2(parameters: BaseHTTPParameters) -> BaseEndPoint
-
 	func buildAddress(parameters: BaseHTTPParameters) -> BaseEndPoint
 
 	func buildTransactions(parameters: BaseHTTPParameters) -> BaseEndPoint
@@ -47,10 +45,6 @@ struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
 	private var balances: String {
 		netType.rawValue + "/indexer/v0/balances"
 	}
-
-    private var balancesV2: String {
-        netType.rawValue + "/indexer/v0/balances2"
-    }
 
 	private var transactions: String {
 		netType.rawValue + "/indexer/v0/transactions/address"
@@ -98,20 +92,10 @@ struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
 		)
 	}
 
-	func buildBalances(parameters: BaseHTTPParameters) -> BaseEndPoint {
-		BaseRequest(
-			baseURL: baseUrl,
-			path: balances,
-			httpMethod: .post,
-			headers: headers,
-			parameters: parameters
-		)
-	}
-
-    func buildBalancesV2(parameters: BaseHTTPParameters) -> BaseEndPoint {
+    func buildBalances(parameters: BaseHTTPParameters) -> BaseEndPoint {
         BaseRequest(
             baseURL: baseUrl,
-            path: balancesV2,
+            path: balances,
             httpMethod: .post,
             headers: headers,
             parameters: parameters
