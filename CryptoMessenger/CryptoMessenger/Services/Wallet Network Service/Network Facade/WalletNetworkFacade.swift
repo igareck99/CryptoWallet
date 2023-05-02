@@ -138,7 +138,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
         let urlRequest = networkRequestFactory.makePostRequest(from: request)
         networkService.send(request: urlRequest) { [weak self] data, response, error in
             guard let self = self else { return }
-            self.logReponse("getBalancesV2", data, response, error)
+            self.logReponse("getBalances", data, response, error)
             guard
                 let data = data,
                 let model = Parser.parse(data: data, to: BalancesResponse.self)
@@ -262,7 +262,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		_ error: Error?
 	) {
         debugPrint("function: \(function) \\n")
-		debugPrint("data: \(String(describing: data)) \\n")
+        debugPrint("data: \(String(data: data ?? Data(), encoding: .utf8) ?? "no data") \\n")
 		debugPrint("response: \(String(describing: response)) \\n")
 		debugPrint("error: \(String(describing: error)) \\n")
 	}

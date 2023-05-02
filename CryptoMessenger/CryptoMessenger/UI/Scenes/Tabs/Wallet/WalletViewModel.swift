@@ -225,22 +225,35 @@ final class WalletViewModel: ObservableObject {
 
 			guard let self = self, case let .success(balance) = $0 else { return }
 
-            let balances: [Balance] = balance.ethereum + balance.bitcoin + balance.binance
+            let balances: [CryptoType: [Balance]] = [
+                .ethereum: balance.ethereum,
+                .bitcoin: balance.bitcoin,
+                .binance: balance.binance
+            ]
 
-            balances.forEach { balance in
+            balances.forEach { balancePair in
+                let cryptoType = balancePair.key
+                balancePair.value.forEach { balance in
+                    if let wallet: WalletNetwork = savedWallets
+                        .first(where: {
+                            balance.tokenAddress == nil &&
+                            balance.accountAddress == $0.address &&
+                            $0.cryptoType == cryptoType.rawValue
+                        }) {
+                        wallet.balance = balance.amount
+                        wallet.fiatPrice = balance.fiatPrice ?? .zero
+                        self.coreDataService.updateWalletNetwork(model: wallet)
+                    }
 
-                if let wallet: WalletNetwork = savedWallets
-                    .first(where: { balance.accountAddress == $0.address }) {
-                    wallet.balance = balance.amount
-                    wallet.fiatPrice = balance.fiatPrice ?? .zero
-                    self.coreDataService.updateWalletNetwork(model: wallet)
-                }
-
-                if let token: NetworkToken = savedTokens
-                    .first(where: { balance.accountAddress == $0.address }) {
-                    token.balance = balance.amount
-                    token.fiatPrice = balance.fiatPrice ?? .zero
-                    self.coreDataService.updateNetworkToken(token: token)
+                    if let token: NetworkToken = savedTokens
+                        .first(where: {
+                            balance.tokenAddress == $0.address &&
+                            $0.network == cryptoType.rawValue
+                        }) {
+                        token.balance = balance.amount
+                        token.fiatPrice = balance.fiatPrice ?? .zero
+                        self.coreDataService.updateNetworkToken(token: token)
+                    }
                 }
             }
 		}

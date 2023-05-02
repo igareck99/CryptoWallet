@@ -59,7 +59,7 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
             .first(where: { $0.cryptoType == CryptoType.bitcoin.rawValue })?.address,
            bitcoinAddress.isEmpty == false {
             let tokenAddresses: [WalletBalanceAddress] = networkTokens
-                .filter { $0.contractType == CryptoType.bitcoin.rawValue }
+                .filter { $0.network == CryptoType.bitcoin.rawValue }
                 .map { .init(accountAddress: bitcoinAddress, tokenAddress: $0.address) }
             addresses[.bitcoin] = [WalletBalanceAddress(accountAddress: bitcoinAddress)] + tokenAddresses
         }
@@ -68,7 +68,7 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
             .first(where: { $0.cryptoType == CryptoType.ethereum.rawValue })?.address,
            ethereumAddress.isEmpty == false {
             let tokenAddresses: [WalletBalanceAddress] = networkTokens
-                .filter { $0.contractType == CryptoType.ethereum.rawValue }
+                .filter { $0.network == CryptoType.ethereum.rawValue }
                 .map { .init(accountAddress: ethereumAddress, tokenAddress: $0.address) }
             addresses[.ethereum] = [WalletBalanceAddress(accountAddress: ethereumAddress)] + tokenAddresses
         }
@@ -77,7 +77,7 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
             .first(where: { $0.cryptoType == CryptoType.binance.rawValue })?.address,
            binanceAddress.isEmpty == false {
             let tokenAddresses: [WalletBalanceAddress] = networkTokens
-                .filter { $0.contractType == CryptoType.binance.rawValue }
+                .filter { $0.network == CryptoType.binance.rawValue }
                 .map { .init(accountAddress: binanceAddress, tokenAddress: $0.address) }
             addresses[.binance] = [WalletBalanceAddress(accountAddress: binanceAddress)] + tokenAddresses
         }
@@ -212,52 +212,49 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
         cryptoTransactions: [CryptoTransaction]
     ) -> [TransactionSection] {
 
-        guard let transaction = cryptoTransactions.first else { return [] }
-
-        let walletType: WalletType
-
-        if let tokenAddress = transaction.tokenAddress,
-           let tokenSymbol = networkTokens
-            .first(where: { $0.address == tokenAddress })?.symbol,
-           let type = WalletType(rawValue: transaction.cryptoType + tokenSymbol) {
-            walletType = type
-        } else if let type = WalletType(rawValue: transaction.cryptoType) {
-            walletType = type
-        } else {
-            return []
-        }
-
-        guard
-            let cryptoType = CryptoType(rawValue: transaction.cryptoType)
-        else {
-            return []
-        }
-
         let transactions: [TransactionSection] = cryptoTransactions
             .compactMap { transaction in
-            let info = TransactionInfo(
-                type: transaction.inputs.first?.address == address ? .send : .receive,
-                date: transaction.time ?? "",
-                transactionCoin: walletType,
-                transactionResult: transaction.status,
-                amount: transaction.inputs.first?.value ?? "",
-                from: transaction.inputs.first?.address ?? ""
-            )
-            let details = TransactionDetails(
-                sender: transaction.inputs.first?.address ?? "",
-                receiver: transaction.outputs.first?.address ?? "",
-                block: "\(transaction.block ?? 0)",
-                hash: transaction.hash
-            )
-            return TransactionSection(
-                address: address,
-                cryptoType: cryptoType,
-                walletType: walletType,
-                tokenAddress: transaction.tokenAddress,
-                info: info,
-                details: details
-            )
-        }
+                let walletType: WalletType
+                if let tokenAddress = transaction.tokenAddress,
+                   let tokenSymbol = networkTokens
+                    .first(where: { $0.address == tokenAddress })?.symbol,
+                   let type = WalletType(rawValue: transaction.cryptoType + tokenSymbol) {
+                    walletType = type
+                } else if let type = WalletType(rawValue: transaction.cryptoType) {
+                    walletType = type
+                } else {
+                    return nil
+                }
+
+                guard
+                    let cryptoType = CryptoType(rawValue: transaction.cryptoType)
+                else {
+                    return nil
+                }
+
+                let info = TransactionInfo(
+                    type: transaction.inputs.first?.address == address ? .send : .receive,
+                    date: transaction.time ?? "",
+                    transactionCoin: walletType,
+                    transactionResult: transaction.status,
+                    amount: transaction.inputs.first?.value ?? "",
+                    from: transaction.inputs.first?.address ?? ""
+                )
+                let details = TransactionDetails(
+                    sender: transaction.inputs.first?.address ?? "",
+                    receiver: transaction.outputs.first?.address ?? "",
+                    block: "\(transaction.block ?? 0)",
+                    hash: transaction.hash
+                )
+                return TransactionSection(
+                    address: address,
+                    cryptoType: cryptoType,
+                    walletType: walletType,
+                    tokenAddress: transaction.tokenAddress,
+                    info: info,
+                    details: details
+                )
+            }
         return transactions
     }
 
