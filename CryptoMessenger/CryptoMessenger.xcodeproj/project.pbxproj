@@ -407,6 +407,7 @@
 		8B4810FD27CF9BC400831589 /* ImportKeyProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FC27CF9BC400831589 /* ImportKeyProtocols.swift */; };
 		8B4810FF27CF9BEB00831589 /* ImportKeyConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FE27CF9BEB00831589 /* ImportKeyConfigurator.swift */; };
 		8B48110127CF9C2300831589 /* ImportKeyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B48110027CF9C2300831589 /* ImportKeyViewModel.swift */; };
+		8B486CA729FBB87C00EC6D98 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFBE3E729F9821B00846683 /* NotificationService.swift */; };
 		8B4DBFFB28F5D6E1003F58EB /* GalleryPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4DBFFA28F5D6E1003F58EB /* GalleryPickerView.swift */; };
 		8B4DBFFD28F5D764003F58EB /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4DBFFC28F5D764003F58EB /* ImagePickerView.swift */; };
 		8B4E9C2E27DFF60B0057E4C9 /* CodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C2D27DFF60B0057E4C9 /* CodeScanner.swift */; };
@@ -541,6 +542,7 @@
 		8BBCBCD428F749DF00E42F0C /* VideoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBCBCD328F749DF00E42F0C /* VideoRow.swift */; };
 		8BBCBCD628F74AF800E42F0C /* RemoteVideos.json in Resources */ = {isa = PBXBuildFile; fileRef = 8BBCBCD528F74AF800E42F0C /* RemoteVideos.json */; };
 		8BBCBCD928F8818000E42F0C /* PDFKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBCBCD828F8818000E42F0C /* PDFKitViewModel.swift */; };
+		8BBE3A8329FBD3EF00C63719 /* NotificationService+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBE3A8229FBD3EF00C63719 /* NotificationService+Extension.swift */; };
 		8BBF907C29350A1D00936F4D /* PinCodeScreenType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF907B29350A1D00936F4D /* PinCodeScreenType.swift */; };
 		8BBF907E29350A4200936F4D /* KeyboardButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF907D29350A4200936F4D /* KeyboardButtonType.swift */; };
 		8BBF908129350ACB00936F4D /* KeyboardButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBF908029350ACB00936F4D /* KeyboardButtonView.swift */; };
@@ -1856,6 +1858,7 @@
 		8BBCBCD328F749DF00E42F0C /* VideoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRow.swift; sourceTree = "<group>"; };
 		8BBCBCD528F74AF800E42F0C /* RemoteVideos.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = RemoteVideos.json; sourceTree = "<group>"; };
 		8BBCBCD828F8818000E42F0C /* PDFKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFKitViewModel.swift; sourceTree = "<group>"; };
+		8BBE3A8229FBD3EF00C63719 /* NotificationService+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationService+Extension.swift"; sourceTree = "<group>"; };
 		8BBF907B29350A1D00936F4D /* PinCodeScreenType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeScreenType.swift; sourceTree = "<group>"; };
 		8BBF907D29350A4200936F4D /* KeyboardButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardButtonType.swift; sourceTree = "<group>"; };
 		8BBF908029350ACB00936F4D /* KeyboardButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardButtonView.swift; sourceTree = "<group>"; };
@@ -3058,6 +3061,7 @@
 		5A187DBD26806EF8001957D3 /* CryptoMessenger */ = {
 			isa = PBXGroup;
 			children = (
+				8BBE3A7F29FBD3C500C63719 /* TargetsExtension */,
 				D4EFE70A28E2AF0F0075CC10 /* MatrixSDK */,
 				D4EFE6F928E2AF0F0075CC10 /* MatrixSDKExtensions */,
 				D4D439F528374AD100AC0DEF /* CryptoMessenger-Bridging-Header.h */,
@@ -4863,6 +4867,14 @@
 				8BBCBCD828F8818000E42F0C /* PDFKitViewModel.swift */,
 			);
 			path = FileGroup;
+			sourceTree = "<group>";
+		};
+		8BBE3A7F29FBD3C500C63719 /* TargetsExtension */ = {
+			isa = PBXGroup;
+			children = (
+				8BBE3A8229FBD3EF00C63719 /* NotificationService+Extension.swift */,
+			);
+			path = TargetsExtension;
 			sourceTree = "<group>";
 		};
 		8BBF907F29350A5800936F4D /* Componets */ = {
@@ -8039,6 +8051,7 @@
 				8B2AE34529E5869200C9AC0E /* ChannelMediaProtocols.swift in Sources */,
 				8BE379AB27EB7CF200AB6B6E /* KeyListProtocols.swift in Sources */,
 				8BE379AF27EB7D0900AB6B6E /* KeyListViewModel.swift in Sources */,
+				8B486CA729FBB87C00EC6D98 /* NotificationService.swift in Sources */,
 				8B69C3F527FE398B0020F289 /* ImageEditor.swift in Sources */,
 				8BA0C8F827AD193C0070203F /* ChatSettingsView.swift in Sources */,
 				D46B7C6A297E93BB00BA4A9B /* ConfirmDialogActionView.swift in Sources */,
@@ -8502,6 +8515,7 @@
 				8B1564F528AA782A00A69B85 /* AnotherAppData.swift in Sources */,
 				D4F5DB3929F1202100772AC5 /* CoreDataService+Tokens.swift in Sources */,
 				D4442B4C2811996F0033D07A /* KeychainService.swift in Sources */,
+				8BBE3A8329FBD3EF00C63719 /* NotificationService+Extension.swift in Sources */,
 				5A3721DC272F3A210097ABED /* DynamicHeightTextField.swift in Sources */,
 				D4857D0E28AFB38400C904EC /* ChatRoomRowViewModel.swift in Sources */,
 				D4EFEC9D28E2AF110075CC10 /* MXAggregatedEditsUpdater.m in Sources */,
