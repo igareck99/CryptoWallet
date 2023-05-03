@@ -5,15 +5,15 @@ struct BalanceRequestParams: Codable {
     let addresses: [NetworkAddress: [WalletBalanceAddress]]
 
     func makeParamsDict() -> [String: Any] {
-        let ethAddress = (addresses[.ethereum] ?? []).map({ [
+        let ethAddress: Array<[String: Any]> = (addresses[.ethereum] ?? []).map({ [
             "accountAddress": $0.accountAddress,
             "tokenAddress": $0.tokenAddress
         ] })
-        let btcAddress = (addresses[.bitcoin] ?? []).map({ [
+        let btcAddress: Array<[String: Any]> = (addresses[.bitcoin] ?? []).map({ [
             "accountAddress": $0.accountAddress,
             "tokenAddress": $0.tokenAddress
         ] })
-        let bncAddress = (addresses[.binance] ?? []).map({ [
+        let bncAddress: Array<[String: Any]> = (addresses[.binance] ?? []).map({ [
             "accountAddress": $0.accountAddress,
             "tokenAddress": $0.tokenAddress
         ] })
