@@ -23,7 +23,7 @@ struct TransactionInfo: Identifiable, Hashable, Equatable {
 		date: "Jan 01",
 		transactionCoin: .ethereum,
 		transactionResult: "SUCCESS",
-		amount: "-0.001",
+		amount: "\(Int.random(in: 0..<100))",
 		from: "0xty9 ... Bx9M"
 	)
 }

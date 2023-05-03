@@ -321,6 +321,7 @@ struct WalletView: View {
                                 .frame(maxWidth: .infinity)
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(.paleGray())
                         // пока оставил, возможно придется вернуть
 //                        .background(
 //                            Color.alabasterSolid

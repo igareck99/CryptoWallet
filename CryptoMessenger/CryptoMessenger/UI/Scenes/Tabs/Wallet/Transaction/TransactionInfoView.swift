@@ -41,6 +41,7 @@ struct TransactionInfoView: View {
 					}
 				}
 		}
+        .background(.white)
 	}
 
 	@ViewBuilder

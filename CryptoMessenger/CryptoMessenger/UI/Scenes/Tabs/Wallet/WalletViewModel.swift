@@ -167,6 +167,62 @@ final class WalletViewModel: ObservableObject {
 		}
 	}
 
+	private func makeTransactions(
+        model: WalletsTransactionsResponse
+    ) -> (eth: [TransactionSection], btc: [TransactionSection])? {
+
+		guard let wallets = getWalletsAddresses() else { return nil }
+
+        var ethTransactions: [TransactionSection] = model.ethereum?.first?.value.map {
+			let info = TransactionInfo(
+				type: $0.inputs.first?.address == wallets.eth ? .send : .receive,
+				date: $0.time ?? "",
+				transactionCoin: .ethereum,
+				transactionResult: $0.status,
+				amount: $0.inputs.first?.value ?? "",
+				from: $0.inputs.first?.address ?? ""
+			)
+			let details = TransactionDetails(
+				sender: $0.inputs.first?.address ?? "",
+				receiver: $0.outputs.first?.address ?? "",
+				block: "\($0.block ?? 0)",
+				hash: $0.hash
+			)
+
+			return TransactionSection(info: info, details: details)
+		} ?? []
+        for i in 0..<10 {
+            let info = TransactionInfo.mock
+            let details = TransactionDetails(
+                sender:  "inputs",
+                receiver: "outputs",
+                block: "\(0)",
+                hash: "$0.hash"
+            )
+            ethTransactions.append(TransactionSection(info: info,
+                                                      details: details))
+        }
+        let btcTransactions: [TransactionSection] = model.bitcoin?.first?.value.map {
+			let info = TransactionInfo(
+				type: $0.inputs.first?.address == wallets.btc ? .send : .receive,
+				date: $0.time ?? "",
+				transactionCoin: .bitcoin,
+				transactionResult: $0.status,
+				amount: $0.inputs.first?.value ?? "",
+				from: $0.inputs.first?.address ?? ""
+			)
+			let details = TransactionDetails(
+				sender: $0.inputs.first?.address ?? "",
+				receiver: $0.outputs.first?.address ?? "",
+				block: "\($0.block ?? 0)",
+				hash: $0.hash
+			)
+			return TransactionSection(info: info, details: details)
+		} ?? []
+
+		return (eth: ethTransactions, btc: btcTransactions)
+	}
+
 	func getAddress() {
 
         let params = walletModelsFactory.makeAddressRequestParams(keychainService: keychainService)
