@@ -1,10 +1,18 @@
 import SwiftUI
 
+// MARK: - TransactionResultView
+
 struct TransactionResultView: View {
+    
+    // MARK: - Internal Properties
 
 	let model: TransactionResult
 
+    // MARK: - Private Properties
+
 	@Environment(\.presentationMode) private var presentationMode
+    
+    // MARK: - Body
 
 	var body: some View {
 		VStack(spacing: 0) {

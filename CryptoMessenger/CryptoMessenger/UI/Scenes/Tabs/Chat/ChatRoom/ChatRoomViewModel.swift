@@ -1,7 +1,6 @@
 import Combine
 import SwiftUI
 import UIKit
-import Photos
 
 // MARK: - ChatRoomViewModel
 // swiftlint:disable all
@@ -632,8 +631,10 @@ final class ChatRoomViewModel: ObservableObject {
         $selectedImage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
-                guard let image = image else { return }
-                self?.send(.onSendImage(image))
+                DispatchQueue.main.async {
+                    guard let image = image else { return }
+                    self?.send(.onSendImage(image))
+                }
             }
             .store(in: &subscriptions)
 

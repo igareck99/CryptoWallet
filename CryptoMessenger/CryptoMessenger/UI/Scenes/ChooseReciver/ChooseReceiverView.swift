@@ -65,13 +65,14 @@ struct ChooseReceiverView: View {
     // MARK: - Private Properties
 
     private var content: some View {
-        VStack(spacing: 0) {
-            searchSelectView
-                .padding(.top, 20)
-            Divider()
-            SearchBar(placeholder: viewModel.sources.countryCodePickerSearch,
-                      searchText: $searchText,
-                      searching: $searching)
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                searchSelectView
+                    .padding(.top, 20)
+                Divider()
+                SearchBar(placeholder: viewModel.sources.countryCodePickerSearch,
+                          searchText: $searchText,
+                          searching: $searching)
                 .focused($inputViewIsFocused)
                 .padding(.top, 16)
                 .padding(.bottom, 24)
@@ -85,33 +86,34 @@ struct ChooseReceiverView: View {
                     }
                     presentationMode.wrappedValue.dismiss()
                 }
-            if viewModel.isEnterAdressView {
-                if viewModel.searchType == .wallet {
-                    EnterAdressUserView(adress: $searchText)
-                        .listRowSeparator(.hidden)
-                        .onTapGesture {
-                            inputViewIsFocused = true
-                        }
+                if viewModel.isEnterAdressView {
+                    if viewModel.searchType == .wallet {
+                        EnterAdressUserView(adress: $searchText)
+                            .listRowSeparator(.hidden)
+                            .onTapGesture {
+                                inputViewIsFocused = true
+                            }
+                    }
                 }
-            }
-            ForEach(
-                searchText.isEmpty ?
-                viewModel.userWalletsData : viewModel.userWalletsFilteredData,
-                id: \.self
-            ) { item in
-                ContactRow(avatar: item.url,
-                           name: item.name,
-                           status: viewModel.searchType == .telephone ? item.phone : item.ethereum,
-                           isAdmin: false)
-                .listRowSeparator(.hidden)
-                .onTapGesture {
-                    receiverData.name = item.name
-                    receiverData.url = item.url
-                    receiverData.adress = receiverData.walletType == .ethereum ? item.ethereum : item.bitcoin
-                    presentationMode.wrappedValue.dismiss()
+                ForEach(
+                    searchText.isEmpty ?
+                    viewModel.userWalletsData : viewModel.userWalletsFilteredData,
+                    id: \.self
+                ) { item in
+                    ContactRow(avatar: item.url,
+                               name: item.name,
+                               status: viewModel.searchType == .telephone ? item.phone : item.ethereum,
+                               isAdmin: false)
+                    .listRowSeparator(.hidden)
+                    .onTapGesture {
+                        receiverData.name = item.name
+                        receiverData.url = item.url
+                        receiverData.adress = receiverData.walletType == .ethereum ? item.ethereum : item.bitcoin
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 }
+                Spacer()
             }
-            Spacer()
         }
     }
 

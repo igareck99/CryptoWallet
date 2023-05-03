@@ -44,6 +44,7 @@ struct ChatRoomView: View {
     @StateObject private var keyboardHandler = KeyboardHandler()
     @Environment(\.presentationMode) private var presentationMode
     @State private var messageId = ""
+    @State private var showCamera = false
     @State private var cardPosition: CardPosition = .bottom
     @State private var cardGroupPosition: CardPosition = .bottom
     @State private var translateCardPosition: CardPosition = .bottom
@@ -161,6 +162,12 @@ struct ChatRoomView: View {
                     .ignoresSafeArea()
                     .navigationBarHidden(true)
             })
+            .fullScreenCover(isPresented: $showCamera, content: {
+                GalleryPickerView(selectedImage: $viewModel.selectedImage,
+                                  selectedVideo: $viewModel.selectedVideo,
+                                  sourceType: .camera)
+                .ignoresSafeArea(.all)
+            })
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .photo:
@@ -174,11 +181,7 @@ struct ChatRoomView: View {
                         self.viewModel.send(.onSendFile(url))
                     }
                 case .camera:
-                    GalleryPickerView(selectedImage: $viewModel.selectedImage,
-                                      selectedVideo: $viewModel.selectedVideo,
-                                      sourceType: .camera)
-                            .navigationBarTitleDisplayMode(.inline)
-                            .edgesIgnoringSafeArea(.all)
+                    EmptyView()
                 case .contact:
                     NavigationView {
                         SelectContactView(viewModel: SelectContactViewModel(mode: .send), contactsLimit: 1,
@@ -354,7 +357,7 @@ struct ChatRoomView: View {
                     cameraFrame: $viewModel.cameraFrame,
                     sendPhotos: $sendPhotos,
                     imagesToSend: $photosToSend,
-                    onCamera: { showActionSheet = false; activeSheet = .camera },
+                    onCamera: { showActionSheet = false; showCamera = true },
                     viewModel: attachViewModel
                 )
                 .transition(.move(edge: .bottom).combined(with: .opacity))

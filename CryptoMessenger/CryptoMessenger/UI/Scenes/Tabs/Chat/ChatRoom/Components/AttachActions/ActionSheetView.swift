@@ -227,6 +227,7 @@ struct ActionSheetView: View {
 
                 Spacer()
             }
+            .background(.white())
             .frame(maxWidth: .infinity, idealHeight: 64, maxHeight: 64)
             .padding(.horizontal, 16)
         })

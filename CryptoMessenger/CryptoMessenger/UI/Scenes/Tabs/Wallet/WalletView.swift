@@ -39,6 +39,7 @@ struct WalletView: View {
                     loadingStateView()
                 })
             .onAppear {
+                displayTransactionResult = false
                 navBarHide = false
                 showTabBar()
                 viewModel.send(.onAppear)
