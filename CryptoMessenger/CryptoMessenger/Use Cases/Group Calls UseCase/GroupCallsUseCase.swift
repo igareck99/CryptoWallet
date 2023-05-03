@@ -1,6 +1,8 @@
 import CallKit
 import Foundation
 import SwiftUI
+import MatrixSDK
+import JitsiMeetSDK
 
 protocol GroupCallsUseCaseProtocol {
 	func placeGroupCall(in room: MXRoom)
@@ -115,7 +117,7 @@ extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 				JMCallKitProxy.reportCallUpdate(
 					with: newUUID,
 					handle: widget.roomId,
-					displayName: room.summary.displayname,
+					displayName: room.summary.displayName,
 					hasVideo: false
 				)
 				JMCallKitProxy.reportOutgoingCall(with: newUUID, connectedAt: nil)
@@ -134,7 +136,7 @@ extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 			builder.serverURL = serverUrl
 			builder.room = conferenceId
 			builder.setVideoMuted(true)
-			builder.setSubject(self?.room.summary.displayname ?? self?.room.roomId ?? "")
+			builder.setSubject(self?.room.summary.displayName ?? self?.room.roomId ?? "")
 			builder.userInfo = .init(
 				displayName: self?.room.mxSession.myUser.displayname ?? self?.room.mxSession.myUser.userId ?? "",
 				andEmail: "",

@@ -2,6 +2,7 @@
 
 import Foundation
 import JitsiMeetSDK
+import MatrixSDK
 
 enum JitsiServiceError: LocalizedError {
 	case widgetContentCreationFailed

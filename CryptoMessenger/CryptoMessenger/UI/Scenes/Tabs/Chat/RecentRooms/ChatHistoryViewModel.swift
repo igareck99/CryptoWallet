@@ -1,5 +1,6 @@
 import Combine
 import UIKit
+import MatrixSDK
 
 // MARK: - ChatHistoryViewModel
 
@@ -52,7 +53,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 
 	func rooms(with filter: String) -> [AuraRoom] {
 		let result = filter.isEmpty ? rooms : rooms.filter {
-			$0.summary.displayname.lowercased().contains(filter.lowercased())
+			$0.summary.displayName.lowercased().contains(filter.lowercased())
 			|| $0.summary.topic?.lowercased().contains(filter.lowercased()) ?? false
 		}
         return result

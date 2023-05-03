@@ -1,4 +1,5 @@
 import Combine
+import MatrixSDK
 
 // swiftlint:disable all
 
@@ -16,7 +17,7 @@ struct RoomItem: Codable, Hashable {
 
     init(room: MXRoom) {
         self.roomId = room.summary.roomId
-        self.displayName = room.summary.displayname ?? ""
+        self.displayName = room.summary.displayName ?? ""
 		self.messageDate = room.summary.lastMessage.originServerTs
     }
 

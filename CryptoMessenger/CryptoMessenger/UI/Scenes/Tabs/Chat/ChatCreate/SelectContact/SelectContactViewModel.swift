@@ -1,4 +1,5 @@
 import Combine
+import MatrixSDK
 
 // MARK: - SelectContactViewModel
 

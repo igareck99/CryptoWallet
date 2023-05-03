@@ -1,4 +1,5 @@
 import Foundation
+import MatrixSDK
 
 // MARK: - MXRoom
 
@@ -8,7 +9,8 @@ extension MXRoom {
 
     var isMuted: Bool {
         if let rule = overridePushRule {
-            if rule.conditionIsEnabled(kind: .eventMatch, for: roomId) && rule.actionsContains(actionType: MXPushRuleActionTypeDontNotify) {
+            if rule.conditionIsEnabled(kind: .eventMatch, for: roomId) &&
+                rule.actionsContains(actionType: MXPushRuleActionTypeDontNotify) {
                 return true
             }
             return false

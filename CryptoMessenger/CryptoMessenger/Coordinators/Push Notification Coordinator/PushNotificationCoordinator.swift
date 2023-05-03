@@ -1,4 +1,6 @@
 import UIKit
+import MatrixSDK
+
 //swiftlint:disable: vertical_parameter_alignment
 protocol PushNotificationCoordinatorDelegate: AnyObject {
 	func didFinishFlow(coordinator: Coordinator)

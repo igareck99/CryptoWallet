@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import MatrixSDK
 
 // swiftlint:disable all
 

@@ -1,6 +1,7 @@
 import AudioToolbox
 import Combine
 import Foundation
+import MatrixSDK
 
 protocol P2PCallUseCaseProtocol: AnyObject {
 
