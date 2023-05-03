@@ -126,6 +126,7 @@ extension FacilityApproveViewModel {
 		)
 		walletNetworks.makeTransactionSend(params: params) { [weak self] result in
 			debugPrint("Transaction Send: RESULT: \(result)")
+            // TODO: - Раскомментировать после review 
 			guard let self = self,
 				  case let .success(response) = result else { return }
 			debugPrint("Transaction Send: RESPONSE: \(response)")
