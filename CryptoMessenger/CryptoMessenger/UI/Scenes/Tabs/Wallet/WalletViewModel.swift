@@ -7,17 +7,17 @@ final class WalletViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-	var transaction: TransactionResult?
-	var onTransactionEnd: ((TransactionResult) -> Void)?
-	var onTransactionEndHelper: ( @escaping (TransactionResult) -> Void) -> Void
+    var transaction: TransactionResult?
+    var onTransactionEnd: ((TransactionResult) -> Void)?
+    var onTransactionEndHelper: ( @escaping (TransactionResult) -> Void) -> Void
 
     weak var delegate: WalletSceneDelegate?
     @Published var totalBalance = ""
     @Published var transactionList: [TransactionInfo] = []
-	private var transactions = [WalletType: [TransactionSection]]()
+    private var transactions = [WalletType: [TransactionSection]]()
     @Published var cardsList = [WalletInfo]()
     @Published var canceledImage = UIImage()
-	var viewState: ViewState = .empty
+    var viewState: ViewState = .empty
 
     // MARK: - Private Properties
 
@@ -29,10 +29,10 @@ final class WalletViewModel: ObservableObject {
     @Injectable private var apiClient: APIClientManager
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     private let userCredentialsStorage: UserCredentialsStorage
-	private let walletNetworks: WalletNetworkFacadeProtocol
-	private let coreDataService: CoreDataServiceProtocol
-	private let keysService: KeysServiceProtocol
-	private let keychainService: KeychainServiceProtocol
+    private let walletNetworks: WalletNetworkFacadeProtocol
+    private let coreDataService: CoreDataServiceProtocol
+    private let keysService: KeysServiceProtocol
+    private let keychainService: KeychainServiceProtocol
     private let walletModelsFactory: WalletModelsFactoryProtocol.Type
 
     // MARK: - Lifecycle
@@ -46,13 +46,13 @@ final class WalletViewModel: ObservableObject {
         walletModelsFactory: WalletModelsFactoryProtocol.Type = WalletModelsFactory.self,
         onTransactionEndHelper: @escaping ( @escaping (TransactionResult) -> Void) -> Void
     ) {
-		self.keychainService = keychainService
-		self.keysService = keysService
-		self.userCredentialsStorage = userCredentialsStorage
-		self.walletNetworks = walletNetworks
-		self.coreDataService = coreDataService
+        self.keychainService = keychainService
+        self.keysService = keysService
+        self.userCredentialsStorage = userCredentialsStorage
+        self.walletNetworks = walletNetworks
+        self.coreDataService = coreDataService
         self.walletModelsFactory = walletModelsFactory
-		self.onTransactionEndHelper = onTransactionEndHelper
+        self.onTransactionEndHelper = onTransactionEndHelper
         bindInput()
         bindOutput()
         updateWallets()
@@ -63,16 +63,16 @@ final class WalletViewModel: ObservableObject {
         subscriptions.removeAll()
     }
 
-	private enum TransactionLoadingState {
-		case loading
-		case notloading
-	}
+    private enum TransactionLoadingState {
+        case loading
+        case notloading
+    }
 
-	private var transactionLoadingState: TransactionLoadingState = .notloading
+    private var transactionLoadingState: TransactionLoadingState = .notloading
 
-	func tryToLoadNextTransactions(offset: CGFloat, pageIndex: Int) {
+    func tryToLoadNextTransactions(offset: CGFloat, pageIndex: Int) {
 
-		guard transactionLoadingState == .notloading else { return }
+        guard transactionLoadingState == .notloading else { return }
 
         guard let currentWallet = cardsList[safe: pageIndex],
               let currentTransactions = transactions[currentWallet.walletType],
@@ -82,12 +82,12 @@ final class WalletViewModel: ObservableObject {
             return
         }
 
-		let allTransactionsHeight = CGFloat(currentTransactions.count) * 65
-		guard allTransactionsHeight < offset + 420 else { return }
+        let allTransactionsHeight = CGFloat(currentTransactions.count) * 65
+        guard allTransactionsHeight < offset + 420 else { return }
 
-		guard transactionLoadingState == .notloading else { return }
+        guard transactionLoadingState == .notloading else { return }
 
-		transactionLoadingState = .loading
+        transactionLoadingState = .loading
 
         let transaction = WalletTransactions(
             cryptoType: cryptoType,
@@ -96,7 +96,7 @@ final class WalletViewModel: ObservableObject {
         )
 
         let params = TransactionsRequestParams(walletTransactions: [transaction])
-		walletNetworks.getTransactions(params: params) { [weak self] response in
+        walletNetworks.getTransactions(params: params) { [weak self] response in
 
             guard case let .success(walletsTransactions) = response,
                   let networkTokens: [NetworkToken] = self?.coreDataService.getNetworksTokens(),
@@ -112,14 +112,14 @@ final class WalletViewModel: ObservableObject {
             }
             self?.transactions[currentWallet.walletType]?.append(contentsOf: transactionsBatch)
 
-			DispatchQueue.main.async { [weak self] in
-				self?.objectWillChange.send()
-				self?.transactionLoadingState = .notloading
-			}
-		}
-	}
+            DispatchQueue.main.async { [weak self] in
+                self?.objectWillChange.send()
+                self?.transactionLoadingState = .notloading
+            }
+        }
+    }
 
-	private func getWalletsAddresses() -> [WalletAddress] {
+    private func getWalletsAddresses() -> [WalletAddress] {
         let wallets: [WalletNetwork] = coreDataService.getWalletNetworks()
         let tokens: [NetworkToken] = coreDataService.getNetworksTokens()
         let addresses: [WalletAddress] = walletModelsFactory
@@ -127,26 +127,26 @@ final class WalletViewModel: ObservableObject {
                 wallets: wallets,
                 tokens: tokens
             )
-		return addresses
-	}
+        return addresses
+    }
 
-	func transactionsList(index: Int) -> [TransactionSection] {
+    func transactionsList(index: Int) -> [TransactionSection] {
         guard let wallet = cardsList[safe: index],
-			  let currentTransactions = transactions[wallet.walletType]
+              let currentTransactions = transactions[wallet.walletType]
         else {
             return []
         }
-		return currentTransactions
-	}
+        return currentTransactions
+    }
 
-	func getTransactions() {
+    func getTransactions() {
 
-		guard transactionLoadingState == .notloading else { return }
+        guard transactionLoadingState == .notloading else { return }
         transactionLoadingState = .loading
-		let walletsAddresses = getWalletsAddresses()
+        let walletsAddresses = getWalletsAddresses()
         let params = walletModelsFactory.makeTransactionsRequestParams(wallets: walletsAddresses)
 
-		walletNetworks.getTransactions(params: params) { [weak self] response in
+        walletNetworks.getTransactions(params: params) { [weak self] response in
             guard let self = self,
                   case let .success(walletsTransactions) = response
             else {
@@ -160,74 +160,18 @@ final class WalletViewModel: ObservableObject {
                     model: walletsTransactions
                 )
             self.transactions = sections.sections
-			DispatchQueue.main.async { [weak self] in
-				self?.objectWillChange.send()
-				self?.transactionLoadingState = .notloading
-			}
-		}
-	}
-
-	private func makeTransactions(
-        model: WalletsTransactionsResponse
-    ) -> (eth: [TransactionSection], btc: [TransactionSection])? {
-
-		guard let wallets = getWalletsAddresses() else { return nil }
-
-        var ethTransactions: [TransactionSection] = model.ethereum?.first?.value.map {
-			let info = TransactionInfo(
-				type: $0.inputs.first?.address == wallets.eth ? .send : .receive,
-				date: $0.time ?? "",
-				transactionCoin: .ethereum,
-				transactionResult: $0.status,
-				amount: $0.inputs.first?.value ?? "",
-				from: $0.inputs.first?.address ?? ""
-			)
-			let details = TransactionDetails(
-				sender: $0.inputs.first?.address ?? "",
-				receiver: $0.outputs.first?.address ?? "",
-				block: "\($0.block ?? 0)",
-				hash: $0.hash
-			)
-
-			return TransactionSection(info: info, details: details)
-		} ?? []
-        for i in 0..<10 {
-            let info = TransactionInfo.mock
-            let details = TransactionDetails(
-                sender:  "inputs",
-                receiver: "outputs",
-                block: "\(0)",
-                hash: "$0.hash"
-            )
-            ethTransactions.append(TransactionSection(info: info,
-                                                      details: details))
+            DispatchQueue.main.async { [weak self] in
+                self?.objectWillChange.send()
+                self?.transactionLoadingState = .notloading
+            }
         }
-        let btcTransactions: [TransactionSection] = model.bitcoin?.first?.value.map {
-			let info = TransactionInfo(
-				type: $0.inputs.first?.address == wallets.btc ? .send : .receive,
-				date: $0.time ?? "",
-				transactionCoin: .bitcoin,
-				transactionResult: $0.status,
-				amount: $0.inputs.first?.value ?? "",
-				from: $0.inputs.first?.address ?? ""
-			)
-			let details = TransactionDetails(
-				sender: $0.inputs.first?.address ?? "",
-				receiver: $0.outputs.first?.address ?? "",
-				block: "\($0.block ?? 0)",
-				hash: $0.hash
-			)
-			return TransactionSection(info: info, details: details)
-		} ?? []
+    }
 
-		return (eth: ethTransactions, btc: btcTransactions)
-	}
-
-	func getAddress() {
+    func getAddress() {
 
         let params = walletModelsFactory.makeAddressRequestParams(keychainService: keychainService)
 
-		walletNetworks.getAddress(params: params) { [weak self] response in
+        walletNetworks.getAddress(params: params) { [weak self] response in
             guard
                 let self = self, case let .success(addresses) = response
             else {
@@ -235,21 +179,21 @@ final class WalletViewModel: ObservableObject {
                 return
             }
 
-			let savedWallets: [WalletNetwork] = self.coreDataService.getWalletNetworks()
+            let savedWallets: [WalletNetwork] = self.coreDataService.getWalletNetworks()
 
-			if let ethereumAddress: String = addresses.ethereum?.first?.address,
-			   let wallet: WalletNetwork = savedWallets
-				.first(where: { $0.cryptoType == CryptoType.ethereum.rawValue }) {
-				   wallet.address = ethereumAddress
-				   self.coreDataService.updateWalletNetwork(model: wallet)
-			   }
+            if let ethereumAddress: String = addresses.ethereum?.first?.address,
+               let wallet: WalletNetwork = savedWallets
+                .first(where: { $0.cryptoType == CryptoType.ethereum.rawValue }) {
+                   wallet.address = ethereumAddress
+                   self.coreDataService.updateWalletNetwork(model: wallet)
+               }
 
-			if let bitcoinAddress = addresses.bitcoin?.first?.address,
-			   let wallet: WalletNetwork = savedWallets
-				.first(where: { $0.cryptoType == CryptoType.bitcoin.rawValue }) {
-				   wallet.address = bitcoinAddress
-				   self.coreDataService.updateWalletNetwork(model: wallet)
-			   }
+            if let bitcoinAddress = addresses.bitcoin?.first?.address,
+               let wallet: WalletNetwork = savedWallets
+                .first(where: { $0.cryptoType == CryptoType.bitcoin.rawValue }) {
+                   wallet.address = bitcoinAddress
+                   self.coreDataService.updateWalletNetwork(model: wallet)
+               }
 
             if let binanceAddress = addresses.binance?.first?.address,
                let wallet: WalletNetwork = savedWallets
@@ -257,13 +201,13 @@ final class WalletViewModel: ObservableObject {
                    wallet.address = binanceAddress
                    self.coreDataService.updateWalletNetwork(model: wallet)
                }
-			self.getBalance()
-		}
-	}
+            self.getBalance()
+        }
+    }
 
-	func getBalance() {
+    func getBalance() {
 
-		let savedWallets: [WalletNetwork] = coreDataService.getWalletNetworks()
+        let savedWallets: [WalletNetwork] = coreDataService.getWalletNetworks()
         let savedTokens: [NetworkToken] = coreDataService.getNetworksTokens()
 
         let params: BalanceRequestParams = walletModelsFactory
@@ -272,14 +216,14 @@ final class WalletViewModel: ObservableObject {
                 networkTokens: savedTokens
             )
 
-		walletNetworks.getBalances(params: params) { [weak self] in
+        walletNetworks.getBalances(params: params) { [weak self] in
 
             defer {
                 self?.updateWalletsFromDB()
                 self?.getTransactions()
             }
 
-			guard let self = self, case let .success(balance) = $0 else { return }
+            guard let self = self, case let .success(balance) = $0 else { return }
 
             let balances: [CryptoType: [Balance]] = [
                 .ethereum: balance.ethereum,
@@ -312,53 +256,53 @@ final class WalletViewModel: ObservableObject {
                     }
                 }
             }
-		}
-	}
+        }
+    }
 
-	func updateWalletsFromDB() {
-		let wallets = coreDataService.getWalletNetworks()
+    func updateWalletsFromDB() {
+        let wallets = coreDataService.getWalletNetworks()
         let tokens = coreDataService.getNetworksTokens()
         let cards: [WalletInfo] = walletModelsFactory.makeDisplayCards(
             wallets: wallets,
             tokens: tokens
         )
 
-		DispatchQueue.main.async {
-			self.viewState = .content
-			self.cardsList = cards
-			self.objectWillChange.send()
-		}
-	}
+        DispatchQueue.main.async {
+            self.viewState = .content
+            self.cardsList = cards
+            self.objectWillChange.send()
+        }
+    }
 
-	func updateWallets() {
+    func updateWallets() {
 
-		guard let seed = keychainService.secretPhrase else {
-			// Empty state remains
-			viewState = .empty
-			objectWillChange.send()
-			return
-		}
+        guard let seed = keychainService.secretPhrase else {
+            // Empty state remains
+            viewState = .empty
+            objectWillChange.send()
+            return
+        }
 
-		let walletsCount = coreDataService.getWalletNetworksCount()
-		if walletsCount > .zero {
-			// Show wallets from db
+        let walletsCount = coreDataService.getWalletNetworksCount()
+        if walletsCount > .zero {
+            // Show wallets from db
             viewState = .loading
             objectWillChange.send()
-			updateWalletsFromDB()
+            updateWalletsFromDB()
             transactionLoadingState = .notloading
-			getTransactions()
-			getBalance()
-			return
-		}
+            getTransactions()
+            getBalance()
+            return
+        }
 
-		// Loading state appears
-		viewState = .loading
-		objectWillChange.send()
+        // Loading state appears
+        viewState = .loading
+        objectWillChange.send()
 
-		// Update wallets in background
-		walletNetworks.getNetworks { [weak self] networksResponse in
+        // Update wallets in background
+        walletNetworks.getNetworks { [weak self] networksResponse in
 
-			guard let self = self, case let .success(walletsResponse) = networksResponse else { return }
+            guard let self = self, case let .success(walletsResponse) = networksResponse else { return }
 
             let wallets: [WalletNetworkModel] = [
                 walletsResponse.binance,
@@ -366,48 +310,48 @@ final class WalletViewModel: ObservableObject {
                 walletsResponse.ethereum
             ].compactMap { $0 }
 
-			let dbWallets = self.coreDataService.getWalletNetworks()
+            let dbWallets = self.coreDataService.getWalletNetworks()
 
-			var isAddressesAvailable = false
-			dbWallets.forEach {
+            var isAddressesAvailable = false
+            dbWallets.forEach {
                 isAddressesAvailable = (($0.address?.isEmpty == false) && isAddressesAvailable)
-			}
+            }
 
-			let cryptoTypesDb: Set<CryptoType> = dbWallets
+            let cryptoTypesDb: Set<CryptoType> = dbWallets
                 .reduce(into: Set<CryptoType>(), { partialResult, network in
                     if let cryptoType = network.cryptoType,
                         let type = CryptoType(rawValue: cryptoType) {
                         partialResult.insert(type)
                     }
-			})
+            })
 
-			let cryptoTypesNetwork: Set<CryptoType> = wallets
-				.reduce(into: Set<CryptoType>(), { partialResult, network in
-					if let type = CryptoType(rawValue: network.cryptoType) {
-						partialResult.insert(type)
-					}
-				})
+            let cryptoTypesNetwork: Set<CryptoType> = wallets
+                .reduce(into: Set<CryptoType>(), { partialResult, network in
+                    if let type = CryptoType(rawValue: network.cryptoType) {
+                        partialResult.insert(type)
+                    }
+                })
 
-			// Если нет изменений после последнего создания кошельков
-			// то просто обновляем модели в БД
-			if cryptoTypesDb == cryptoTypesNetwork && isAddressesAvailable {
-				self.getBalance()
-				return
-			}
+            // Если нет изменений после последнего создания кошельков
+            // то просто обновляем модели в БД
+            if cryptoTypesDb == cryptoTypesNetwork && isAddressesAvailable {
+                self.getBalance()
+                return
+            }
 
-			// TODO: Переделать на умное обновление БД
-			// обновить существующие модели
-			// создать новые
-			// удалить старые
+            // TODO: Переделать на умное обновление БД
+            // обновить существующие модели
+            // создать новые
+            // удалить старые
 
-			self.coreDataService.deleteAllWalletNetworks()
+            self.coreDataService.deleteAllWalletNetworks()
 
-			wallets.forEach { [weak self] in
-				guard let self = self else { return }
-				self.coreDataService.createWalletNetwork(wallet: $0)
-			}
-			let savedWallets = self.coreDataService.getWalletNetworks()
-			savedWallets.forEach { [weak self] wallet in
+            wallets.forEach { [weak self] in
+                guard let self = self else { return }
+                self.coreDataService.createWalletNetwork(wallet: $0)
+            }
+            let savedWallets = self.coreDataService.getWalletNetworks()
+            savedWallets.forEach { [weak self] wallet in
                 guard let self = self,
                       let cryptoType = wallet.cryptoType,
                       let type = CryptoType(rawValue: cryptoType) else { return }
@@ -432,7 +376,7 @@ final class WalletViewModel: ObservableObject {
                     }
                     self.keychainService.set(keys.privateKey, forKey: .binancePrivateKey)
                     self.keychainService.set(keys.publicKey, forKey: .binancePublicKey)
-				case .bitcoin:
+                case .bitcoin:
                     guard let keys = self.keysService.makeBitcoinKeys(
                         seed: seed,
                         derivation: wallet.derivePath
@@ -440,15 +384,15 @@ final class WalletViewModel: ObservableObject {
                         // TODO: Обработать неудачное создание ключей
                         return
                     }
-					self.keychainService.set(keys.privateKey, forKey: .bitcoinPrivateKey)
-					self.keychainService.set(keys.publicKey, forKey: .bitcoinPublicKey)
+                    self.keychainService.set(keys.privateKey, forKey: .bitcoinPrivateKey)
+                    self.keychainService.set(keys.publicKey, forKey: .bitcoinPublicKey)
                 default:
                     debugPrint("Unlnown result")
-				}
-			}
+                }
+            }
             self.getTokens()
-		}
-	}
+        }
+    }
 
     func getTokens() {
         let wallets = self.coreDataService.getWalletNetworks()
@@ -486,7 +430,7 @@ final class WalletViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-					self?.updateWallets()
+                    self?.updateWallets()
                     self?.updateUserWallet()
                     self?.objectWillChange.send()
                 case let .onTransactionAddress(selectorTokenIndex, address):
@@ -497,10 +441,10 @@ final class WalletViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.transaction(0, selectorTokenIndex, ""))
                 case .onImportKey:
                     self?.delegate?.handleNextScene(.importKey)
-				case .onTransfer(walletIndex: let walletIndex):
-					guard let wallet = self?.cardsList[safe: walletIndex] else { return }
-					self?.delegate?.handleNextScene(.transfer(wallet: wallet))
-				}
+                case .onTransfer(walletIndex: let walletIndex):
+                    guard let wallet = self?.cardsList[safe: walletIndex] else { return }
+                    self?.delegate?.handleNextScene(.transfer(wallet: wallet))
+                }
             }
             .store(in: &subscriptions)
     }
