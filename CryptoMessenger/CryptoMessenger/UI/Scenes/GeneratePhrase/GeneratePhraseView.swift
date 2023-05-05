@@ -9,6 +9,7 @@ struct GeneratePhraseView: View {
     @StateObject var viewModel: GeneratePhraseViewModel
     @Binding var showView: Bool
     let onSelect: GenericBlock<GeneratePhraseState>
+    let onCreate: VoidBlock
 
     // MARK: - Body
 
@@ -34,6 +35,11 @@ struct GeneratePhraseView: View {
                 }
             })
         }
+        .onChange(of: viewModel.generatePhraseState, perform: { newValue in
+            if newValue == .watchKey {
+                onCreate()
+            }
+        })
         .popup(
             isPresented: viewModel.isSnackbarPresented,
             alignment: .bottom

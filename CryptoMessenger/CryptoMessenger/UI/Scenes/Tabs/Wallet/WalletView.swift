@@ -64,6 +64,8 @@ struct WalletView: View {
                         default:
                             break
                         }
+                    }, onCreate: {
+                        viewModel.send(.onAppear)
                     })
                 .onDisappear {
                     generateViewModel.generatePhraseState = .generate

@@ -40,6 +40,8 @@ struct SecurityView: View {
                 default:
                     break
                 }
+            }, onCreate: {
+                
             })
         })
         .toolbar {

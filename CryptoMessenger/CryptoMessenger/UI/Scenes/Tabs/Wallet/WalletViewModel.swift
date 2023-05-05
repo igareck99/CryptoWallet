@@ -170,7 +170,8 @@ final class WalletViewModel: ObservableObject {
 	func getAddress() {
 
         let params = walletModelsFactory.makeAddressRequestParams(keychainService: keychainService)
-
+        let group = DispatchGroup()
+        group.enter()
 		walletNetworks.getAddress(params: params) { [weak self] response in
             guard
                 let self = self, case let .success(addresses) = response
@@ -201,8 +202,12 @@ final class WalletViewModel: ObservableObject {
                    wallet.address = binanceAddress
                    self.coreDataService.updateWalletNetwork(model: wallet)
                }
-			self.getBalance()
+            group.leave()
 		}
+        group.notify(queue: .main) {
+            self.updateUserWallet()
+            self.getBalance()
+        }
 	}
 
 	func getBalance() {
@@ -252,6 +257,7 @@ final class WalletViewModel: ObservableObject {
                         }) {
                         token.balance = balance.amount
                         token.fiatPrice = balance.fiatPrice ?? .zero
+                        print("eoiwioweieiowwe")
                         self.coreDataService.updateNetworkToken(token: token)
                     }
                 }
@@ -300,6 +306,8 @@ final class WalletViewModel: ObservableObject {
 		objectWillChange.send()
 
 		// Update wallets in background
+        let group = DispatchGroup()
+        group.enter()
 		walletNetworks.getNetworks { [weak self] networksResponse in
 
 			guard let self = self, case let .success(walletsResponse) = networksResponse else { return }
@@ -390,8 +398,11 @@ final class WalletViewModel: ObservableObject {
                     debugPrint("Unlnown result")
 				}
 			}
-            self.getTokens()
+            group.leave()
 		}
+        group.notify(queue: .main) {
+            self.getTokens()
+        }
 	}
 
     func getTokens() {
@@ -401,6 +412,8 @@ final class WalletViewModel: ObservableObject {
             return CryptoType(rawValue: cryptoType)
         }
         let params = NetworkTokensRequestParams(cryptoTypes: cryptoTypes)
+        let group = DispatchGroup()
+        group.enter()
         walletNetworks.getTokens(params: params) { [weak self] result in
             guard let self = self,
                     case let .success(networkTokens) = result else { return }
@@ -413,6 +426,9 @@ final class WalletViewModel: ObservableObject {
                         network: $0.cryptoType.rawValue
                     )
                 }
+            group.leave()
+        }
+        group.notify(queue: .main) {
             self.getAddress()
         }
     }
@@ -430,8 +446,7 @@ final class WalletViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-					self?.updateWallets()
-                    self?.updateUserWallet()
+                    self?.updateWallets()
                     self?.objectWillChange.send()
                 case let .onTransactionAddress(selectorTokenIndex, address):
                     self?.delegate?.handleNextScene(.transaction(0, selectorTokenIndex, address))
@@ -455,10 +470,9 @@ final class WalletViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func updateUserWallet() {
-        let wallets = coreDataService.getWalletNetworks()
-        let data = walletModelsFactory.makeAdressesData(wallets: wallets)
-
+    func updateUserWallet() {
+        var wallets = coreDataService.getWalletNetworks()
+        var data = walletModelsFactory.makeAdressesData(wallets: wallets)
         apiClient.publisher(Endpoints.Wallet.patchAssets(data))
             .sink { completion in
                 switch completion {
