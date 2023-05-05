@@ -1,5 +1,7 @@
 #import "MXRoom.h"
 
+FOUNDATION_EXPORT NSString * _Nonnull const kMXMessageTypeContact;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MXRoom (Reply)

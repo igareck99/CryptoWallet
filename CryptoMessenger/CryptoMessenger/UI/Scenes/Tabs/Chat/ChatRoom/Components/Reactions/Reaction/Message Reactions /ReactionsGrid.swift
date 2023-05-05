@@ -58,7 +58,6 @@ struct ReactionsGrid<ViewModel: ReactionsGroupViewModelProtocol>: View {
 		return GeometryReader { geometry -> Color in
 			let rect = geometry.frame(in: .local)
 			DispatchQueue.main.async {
-				debugPrint("rect.size.height: \(rect.size.height)")
 				totalHeight = rect.size.height
 			}
 			return .clear
