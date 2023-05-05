@@ -1,46 +1,80 @@
+source 'https://cdn.cocoapods.org/'
 # Uncomment the next line to define a global platform for your project
- platform :ios, '16.0'
+platform :ios, '16.0'
 
-target 'CryptoMessenger' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
+use_frameworks!
 
-  # Pods for CryptoMessenger
+$matrixSDKVersion = '= 0.26.9'
 
-  pod 'MatrixSDK'
-  pod 'MatrixSDK/JingleCallStack'
+case $matrixSDKVersion
+when :local
+$matrixSDKVersionSpec = { :path => '../matrix-ios-sdk/MatrixSDK.podspec' }
+when Hash
+spec_mode, sdk_spec = $matrixSDKVersion.first
+    case spec_mode
+    when :branch
+    # :branch => sdk branch name
+    sdk_spec = { :git => 'https://github.com/matrix-org/matrix-ios-sdk.git', :branch => sdk_spec.to_s } unless sdk_spec.is_a?(Hash)
+    when :specHash
+    # :specHash => {sdk spec Hash}
+    sdk_spec = sdk_spec
+    end
+
+$matrixSDKVersionSpec = sdk_spec
+when String # specific MatrixSDK released version
+$matrixSDKVersionSpec = $matrixSDKVersion
+end
+
+def import_MatrixSDK
+  pod 'MatrixSDK', $matrixSDKVersionSpec, :inhibit_warnings => false
+  pod 'MatrixSDK/JingleCallStack', $matrixSDKVersionSpec, :inhibit_warnings => false
+end
+
+abstract_target 'CryptoMessengerPods' do
+  target 'CryptoMessenger' do
+    
+    # Pods for CryptoMessenger
+    
+#    pod 'MatrixSDK'
+#    pod 'MatrixSDK/JingleCallStack'
+    import_MatrixSDK
+    
+    # Matrix core
+    #	pod 'JitsiMeetSDK', '~> 7.0.1'
+    pod 'SwiftJWT', '~> 3.6.200'
+    
+    # Firebase
+    pod 'Firebase/RemoteConfig'
+    
+    # Resources
+    pod 'R.swift'
+    
+    # Layout
+    pod 'SnapKit'
+    
+    # Image loading/caching
+    pod 'Mantis', '~> 1.9.0'
+    
+    # Code style
+    pod 'SwiftLint'
+    
+    # Phone formatter
+    pod 'PhoneNumberKit'
+    pod 'SPStorkController'
+    
+    #Crypto
+    pod 'HDWalletKit'
+    pod 'Bip39.swift'
+    
+    pod 'SweeterSwift'
+    
+    # Baidu
+    pod 'BaiduMapKit', '6.0.0'
+  end
   
-  # Matrix core
-#	pod 'JitsiMeetSDK', '~> 7.0.1'
-	pod 'SwiftJWT', '~> 3.6.200'
-
-  # Firebase
-  pod 'Firebase/RemoteConfig'
-
-  # Resources
-  pod 'R.swift'
-
-  # Layout
-  pod 'SnapKit'
-
-  # Image loading/caching
-  pod 'Mantis', '~> 1.9.0'
-
-  # Code style
-  pod 'SwiftLint'
-
-  # Phone formatter
-  pod 'PhoneNumberKit'
-  pod 'SPStorkController'
-
-  #Crypto
-  pod 'HDWalletKit'
-  pod 'Bip39.swift'
-
-  pod 'SweeterSwift'
-  
-  # Baidu
-  pod 'BaiduMapKit', '6.0.0'
+  target 'AuraNSE' do
+    import_MatrixSDK
+  end
 end
 
 post_install do |installer|

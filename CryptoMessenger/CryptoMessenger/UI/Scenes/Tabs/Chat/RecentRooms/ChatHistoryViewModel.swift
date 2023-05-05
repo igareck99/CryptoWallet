@@ -27,6 +27,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     private let pushNotification: PushNotificationsServiceProtocol
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
     private let factory: ChannelUsersFactoryProtocol.Type
+    private let keychainService: KeychainServiceProtocol = KeychainService.shared
 
     // MARK: - Lifecycle
 
@@ -41,7 +42,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         self.userSettings = userSettings
         self.factory = factory
         bindInput()
-        bindOutput()
     }
 
     deinit {
@@ -58,7 +58,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 		}
         return result
 	}
-    
+
     func findRooms(with filter: String,
                    completion: @escaping ([MatrixChannel]) -> Void) {
         isLoading = true

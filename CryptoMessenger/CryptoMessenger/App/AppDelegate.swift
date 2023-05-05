@@ -10,6 +10,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	private var statusBarCallUseCase: StatusBarCallUseCase?
 	private var pushNotificationsUseCase: PushNotificationsUseCaseProtocol?
 	private var appDelegateUseCase: AppDelegateUseCaseProtocol?
+    
+    let callKitService = CallKitService.shared
 
 	func application(
 		_ application: UIApplication,

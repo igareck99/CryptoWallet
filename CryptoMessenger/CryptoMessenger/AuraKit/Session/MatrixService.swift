@@ -237,8 +237,11 @@ extension MatrixService {
 #else
 		let pushKey = pushToken.base64EncodedString()
 #endif
-
-		let pushData: [String: Any] = ["url": AppConstants.pusherUrl.aboutApp]
+        let pushData: [String: Any] = [
+            "url": AppConstants.pusherUrl.aboutApp,
+            "format": "event_id_only",
+            "default_payload": ["aps": ["mutable-content": 1, "alert": ["loc-key": "Notification", "loc-args": []]]]
+        ]
 		let appId = AppConstants.bundleId.aboutApp
 		let appDisplayName = AppConstants.appName.aboutApp
 		let deviceDisplayName = UIDevice.current.name

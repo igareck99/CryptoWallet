@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -230,6 +230,7 @@
 		5AF8637426ADE236004A417C /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637326ADE236004A417C /* BaseTabBarController.swift */; };
 		5AF8637626ADE25F004A417C /* BaseTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637526ADE25F004A417C /* BaseTabBar.swift */; };
 		5AF8637826ADE922004A417C /* TabBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8637726ADE922004A417C /* TabBarStyle.swift */; };
+		5ECBB8C4AF329123F2890087 /* Pods_CryptoMessengerPods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */; };
 		782047B4283D1DED0065E0E9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8BE122C32825415100F7707E /* GoogleService-Info.plist */; };
 		782A2E752889534C00DDB6CE /* MapViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782A2E742889534C00DDB6CE /* MapViewConstants.swift */; };
 		7831DFD7280947D900AF1F1D /* TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831DFD6280947D900AF1F1D /* TranslateManager.swift */; };
@@ -387,6 +388,26 @@
 		8B38D13B28C0F032002733D7 /* ProfileSettingsMenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B38D13A28C0F032002733D7 /* ProfileSettingsMenuRow.swift */; };
 		8B38D13D28C12946002733D7 /* ProfileSettingsMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B38D13C28C12946002733D7 /* ProfileSettingsMenuViewModel.swift */; };
 		8B3A816A275AC25D00E736E4 /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3A8169275AC25D00E736E4 /* ProfileDetailView.swift */; };
+		8B3E0D022A0401FE005E8E3C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D012A0401FE005E8E3C /* NotificationService.swift */; };
+		8B3E0D072A0401FE005E8E3C /* AuraNSE.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8B3E0CFF2A0401FE005E8E3C /* AuraNSE.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8B3E0D1B2A041430005E8E3C /* Pasable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D0E2A04142F005E8E3C /* Pasable.swift */; };
+		8B3E0D1C2A041430005E8E3C /* URLConvertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D0F2A04142F005E8E3C /* URLConvertable.swift */; };
+		8B3E0D1D2A041430005E8E3C /* RoomSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D102A04142F005E8E3C /* RoomSummary.swift */; };
+		8B3E0D1E2A041430005E8E3C /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D112A04142F005E8E3C /* Config.swift */; };
+		8B3E0D1F2A041430005E8E3C /* RawInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D122A04142F005E8E3C /* RawInitializable.swift */; };
+		8B3E0D202A041430005E8E3C /* EventCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D132A041430005E8E3C /* EventCollection.swift */; };
+		8B3E0D212A041430005E8E3C /* AuraRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D142A041430005E8E3C /* AuraRoom.swift */; };
+		8B3E0D222A041430005E8E3C /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D152A041430005E8E3C /* MessageType.swift */; };
+		8B3E0D232A041430005E8E3C /* MXEvent+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D162A041430005E8E3C /* MXEvent+Extension.swift */; };
+		8B3E0D242A041430005E8E3C /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D172A041430005E8E3C /* Bundle+Extension.swift */; };
+		8B3E0D252A041430005E8E3C /* Stand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D182A041430005E8E3C /* Stand.swift */; };
+		8B3E0D262A041430005E8E3C /* UrlsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D192A041430005E8E3C /* UrlsConfig.swift */; };
+		8B3E0D272A0414DA005E8E3C /* KeychainServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4728113C7A0033D07A /* KeychainServiceProtocol.swift */; };
+		8B3E0D282A0414DA005E8E3C /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4B2811996F0033D07A /* KeychainService.swift */; };
+		8B3E0D292A0414DA005E8E3C /* KeychainService+Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D448152C2877342400E9CAEF /* KeychainService+Credentials.swift */; };
+		8B3E0D2A2A0414DA005E8E3C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4128113C3C0033D07A /* KeychainWrapper.swift */; };
+		8B3E0D2B2A0414DA005E8E3C /* KeychainWrapperSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4228113C3C0033D07A /* KeychainWrapperSubscript.swift */; };
+		8B3E0D2C2A0414DA005E8E3C /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4328113C3C0033D07A /* KeychainItemAccessibility.swift */; };
 		8B432CC227C394E00025D62B /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC127C394E00025D62B /* WalletView.swift */; };
 		8B432CC427C394F10025D62B /* WalletFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC327C394F10025D62B /* WalletFlow.swift */; };
 		8B432CC627C3955A0025D62B /* WalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B432CC527C3955A0025D62B /* WalletViewModel.swift */; };
@@ -604,9 +625,11 @@
 		8BFFC75427EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75327EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift */; };
 		8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */; };
 		8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */; };
-		C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */; };
+		B4C106F74147CC38CED7B7DF /* Pods_CryptoMessengerPods_AuraNSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */; };
 		D4014D4F283FA7D100AAD70C /* CallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D4E283FA7D100AAD70C /* CallViewController.swift */; };
 		D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */; };
+		D4074C292A0CB67000896100 /* CallKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4074C282A0CB67000896100 /* CallKitService.swift */; };
+		D4074C2B2A0CB6DF00896100 /* ringtone.caf in Resources */ = {isa = PBXBuildFile; fileRef = D4074C2A2A0CB6DF00896100 /* ringtone.caf */; };
 		D40D7D7E290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40D7D7D290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift */; };
 		D40D7D80290BA41400F2A0EF /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40D7D7F290BA41400F2A0EF /* ChatTextView.swift */; };
 		D413F10129BF3458005B7532 /* AccessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413F10029BF3458005B7532 /* AccessService.swift */; };
@@ -827,8 +850,36 @@
 		D4FDA497284D05C600322A0F /* StatusBarCallUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDA496284D05C600322A0F /* StatusBarCallUseCase.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8B3E0D042A0401FE005E8E3C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A187DB326806EF8001957D3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B3E0CFE2A0401FE005E8E3C;
+			remoteInfo = AuraNSE;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8B3E0D062A0401FE005E8E3C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8B3E0D072A0401FE005E8E3C /* AuraNSE.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		181D5B8C80EBCC7E1D0726BA /* Pods-CryptoMessengerPods-AuraNSE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessengerPods-AuraNSE.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessengerPods-AuraNSE/Pods-CryptoMessengerPods-AuraNSE.debug.xcconfig"; sourceTree = "<group>"; };
+		1E453C528C5058C0116398DD /* Pods-CryptoMessengerPods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessengerPods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessengerPods-CryptoMessenger/Pods-CryptoMessengerPods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
+		208393B8A95F6EC1E5AFE2EA /* Pods-AuraNSE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuraNSE.release.xcconfig"; path = "Target Support Files/Pods-AuraNSE/Pods-AuraNSE.release.xcconfig"; sourceTree = "<group>"; };
+		246719E8EF1C7CF062ECF20C /* Pods-CryptoMessengerPods-AuraNSE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessengerPods-AuraNSE.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessengerPods-AuraNSE/Pods-CryptoMessengerPods-AuraNSE.release.xcconfig"; sourceTree = "<group>"; };
+		589F2960E42478D760974A5E /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
 		5A15DDF8276E5C9C00CF7AA4 /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		5A15DDFA276FA1C800CF7AA4 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
 		5A187DBB26806EF8001957D3 /* CryptoMessenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoMessenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1120,6 +1171,7 @@
 		78E9373A288987B7004DBFDD /* LocationManagerCostants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerCostants.swift; sourceTree = "<group>"; };
 		78EDCAF8286AAEAC00D3CBC5 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		78EDCAFA286AAF1000D3CBC5 /* MapSnapshotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSnapshotViewModel.swift; sourceTree = "<group>"; };
+		8A139A0331B93327E904238C /* Pods-AuraNSE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AuraNSE.debug.xcconfig"; path = "Target Support Files/Pods-AuraNSE/Pods-AuraNSE.debug.xcconfig"; sourceTree = "<group>"; };
 		8B00F45B276A1C2700FE1E41 /* R.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		8B0C4FF92890613500671BA3 /* ChatRoomResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomResources.swift; sourceTree = "<group>"; };
 		8B0C4FFB2891806000671BA3 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
@@ -1211,11 +1263,28 @@
 		8B38D13A28C0F032002733D7 /* ProfileSettingsMenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuRow.swift; sourceTree = "<group>"; };
 		8B38D13C28C12946002733D7 /* ProfileSettingsMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsMenuViewModel.swift; sourceTree = "<group>"; };
 		8B3A8169275AC25D00E736E4 /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
+		8B3E0CFF2A0401FE005E8E3C /* AuraNSE.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AuraNSE.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B3E0D012A0401FE005E8E3C /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		8B3E0D032A0401FE005E8E3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8B3E0D0B2A04030D005E8E3C /* MatrixSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MatrixSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B3E0D0E2A04142F005E8E3C /* Pasable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pasable.swift; sourceTree = "<group>"; };
+		8B3E0D0F2A04142F005E8E3C /* URLConvertable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLConvertable.swift; sourceTree = "<group>"; };
+		8B3E0D102A04142F005E8E3C /* RoomSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomSummary.swift; sourceTree = "<group>"; };
+		8B3E0D112A04142F005E8E3C /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		8B3E0D122A04142F005E8E3C /* RawInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawInitializable.swift; sourceTree = "<group>"; };
+		8B3E0D132A041430005E8E3C /* EventCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCollection.swift; sourceTree = "<group>"; };
+		8B3E0D142A041430005E8E3C /* AuraRoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuraRoom.swift; sourceTree = "<group>"; };
+		8B3E0D152A041430005E8E3C /* MessageType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
+		8B3E0D162A041430005E8E3C /* MXEvent+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MXEvent+Extension.swift"; sourceTree = "<group>"; };
+		8B3E0D172A041430005E8E3C /* Bundle+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
+		8B3E0D182A041430005E8E3C /* Stand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stand.swift; sourceTree = "<group>"; };
+		8B3E0D192A041430005E8E3C /* UrlsConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrlsConfig.swift; sourceTree = "<group>"; };
 		8B432CC127C394E00025D62B /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		8B432CC327C394F10025D62B /* WalletFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletFlow.swift; sourceTree = "<group>"; };
 		8B432CC527C3955A0025D62B /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
 		8B432CC727C395B00025D62B /* WalletProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletProtocols.swift; sourceTree = "<group>"; };
 		8B432CC927C3DA030025D62B /* WalletConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletConfigurator.swift; sourceTree = "<group>"; };
+		8B44AC702A0B022A00AD974C /* AuraNSE.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AuraNSE.entitlements; sourceTree = "<group>"; };
 		8B451FDE299EBFA700BF4646 /* ChannelNewOwnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelNewOwnerView.swift; sourceTree = "<group>"; };
 		8B451FE129A4317600BF4646 /* ReserveCopyResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserveCopyResources.swift; sourceTree = "<group>"; };
 		8B451FE329A433EB00BF4646 /* GeneratePhraseResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseResources.swift; sourceTree = "<group>"; };
@@ -1425,6 +1494,7 @@
 		8BE6DAE22771EC2C00FB4C6C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateContactViewModel.swift; sourceTree = "<group>"; };
 		8BF8FA7D27FF8AC20000CC08 /* FeedImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewer.swift; sourceTree = "<group>"; };
+		8BFEBC4B2A041AAD00C79B71 /* MatrixSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MatrixSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BFF387A27D91092005D88C9 /* NumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTextField.swift; sourceTree = "<group>"; };
 		8BFFC74D27EDEB5700BE4AB6 /* PhraseManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerView.swift; sourceTree = "<group>"; };
 		8BFFC74F27EDEB6100BE4AB6 /* PhraseManagerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerViewModel.swift; sourceTree = "<group>"; };
@@ -1432,9 +1502,13 @@
 		8BFFC75327EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerConfigurator.swift; sourceTree = "<group>"; };
 		8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerProtocols.swift; sourceTree = "<group>"; };
 		8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseWarningView.swift; sourceTree = "<group>"; };
-		D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.release.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.release.xcconfig"; sourceTree = "<group>"; };
+		91E5C2C31D84870FF637DC7B /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
+		AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_AuraNSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4014D4E283FA7D100AAD70C /* CallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewController.swift; sourceTree = "<group>"; };
 		D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallsRouter.swift; sourceTree = "<group>"; };
+		D4074C282A0CB67000896100 /* CallKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallKitService.swift; sourceTree = "<group>"; };
+		D4074C2A2A0CB6DF00896100 /* ringtone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ringtone.caf; sourceTree = "<group>"; };
 		D40D7D7D290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatTextsView+EmojiMocks.swift"; sourceTree = "<group>"; };
 		D40D7D7F290BA41400F2A0EF /* ChatTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextView.swift; sourceTree = "<group>"; };
 		D413F10029BF3458005B7532 /* AccessService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessService.swift; sourceTree = "<group>"; };
@@ -1657,16 +1731,24 @@
 		D4FA3F73281A7374000246D8 /* TimeInterval+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extensions.swift"; sourceTree = "<group>"; };
 		D4FA3F75281E4939000246D8 /* ContactInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfo.swift; sourceTree = "<group>"; };
 		D4FDA496284D05C600322A0F /* StatusBarCallUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCallUseCase.swift; sourceTree = "<group>"; };
-		E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
+		FB557DABB153E02C3F319940 /* Pods-CryptoMessengerPods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessengerPods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessengerPods-CryptoMessenger/Pods-CryptoMessengerPods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		29E641837A92AE4690C06C76 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B4C106F74147CC38CED7B7DF /* Pods_CryptoMessengerPods_AuraNSE.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5A187DB826806EF8001957D3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				5A2181E926D83FD30093AD60 /* MapKit.framework in Frameworks */,
-				C6FBB7BE2B2B3C6CDC1E1F55 /* Pods_CryptoMessenger.framework in Frameworks */,
+				5ECBB8C4AF329123F2890087 /* Pods_CryptoMessengerPods_CryptoMessenger.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1676,8 +1758,11 @@
 		3317E261A1E9E98DBBA1CBEB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8BFEBC4B2A041AAD00C79B71 /* MatrixSDK.framework */,
+				8B3E0D0B2A04030D005E8E3C /* MatrixSDK.framework */,
 				5A2181E826D83FD20093AD60 /* MapKit.framework */,
-				121328DB1DD9D6DEA25BAE2C /* Pods_CryptoMessenger.framework */,
+				AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */,
+				C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1686,6 +1771,7 @@
 			isa = PBXGroup;
 			children = (
 				5A187DBD26806EF8001957D3 /* CryptoMessenger */,
+				8B3E0D002A0401FE005E8E3C /* AuraNSE */,
 				5A187DBC26806EF8001957D3 /* Products */,
 				C48D3F6781FE772D12943E74 /* Pods */,
 				3317E261A1E9E98DBBA1CBEB /* Frameworks */,
@@ -1696,6 +1782,7 @@
 			isa = PBXGroup;
 			children = (
 				5A187DBB26806EF8001957D3 /* CryptoMessenger.app */,
+				8B3E0CFF2A0401FE005E8E3C /* AuraNSE.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1995,6 +2082,7 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D4074C272A0CB65200896100 /* Call Kit Service */,
 				D413F0FF29BF3441005B7532 /* Access Service */,
 				8B5F0C98297539DA002AE81E /* LogoutService */,
 				8BC518012970AF150033B30F /* PhraseService */,
@@ -3099,6 +3187,28 @@
 			path = ProfileSettings;
 			sourceTree = "<group>";
 		};
+		8B3E0D002A0401FE005E8E3C /* AuraNSE */ = {
+			isa = PBXGroup;
+			children = (
+				8B44AC702A0B022A00AD974C /* AuraNSE.entitlements */,
+				8B3E0D012A0401FE005E8E3C /* NotificationService.swift */,
+				8B3E0D142A041430005E8E3C /* AuraRoom.swift */,
+				8B3E0D172A041430005E8E3C /* Bundle+Extension.swift */,
+				8B3E0D112A04142F005E8E3C /* Config.swift */,
+				8B3E0D132A041430005E8E3C /* EventCollection.swift */,
+				8B3E0D152A041430005E8E3C /* MessageType.swift */,
+				8B3E0D162A041430005E8E3C /* MXEvent+Extension.swift */,
+				8B3E0D0E2A04142F005E8E3C /* Pasable.swift */,
+				8B3E0D122A04142F005E8E3C /* RawInitializable.swift */,
+				8B3E0D102A04142F005E8E3C /* RoomSummary.swift */,
+				8B3E0D182A041430005E8E3C /* Stand.swift */,
+				8B3E0D0F2A04142F005E8E3C /* URLConvertable.swift */,
+				8B3E0D192A041430005E8E3C /* UrlsConfig.swift */,
+				8B3E0D032A0401FE005E8E3C /* Info.plist */,
+			);
+			path = AuraNSE;
+			sourceTree = "<group>";
+		};
 		8B432CC027C394C50025D62B /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
@@ -3742,8 +3852,14 @@
 		C48D3F6781FE772D12943E74 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */,
-				D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */,
+				8A139A0331B93327E904238C /* Pods-AuraNSE.debug.xcconfig */,
+				208393B8A95F6EC1E5AFE2EA /* Pods-AuraNSE.release.xcconfig */,
+				91E5C2C31D84870FF637DC7B /* Pods-CryptoMessenger.debug.xcconfig */,
+				589F2960E42478D760974A5E /* Pods-CryptoMessenger.release.xcconfig */,
+				181D5B8C80EBCC7E1D0726BA /* Pods-CryptoMessengerPods-AuraNSE.debug.xcconfig */,
+				246719E8EF1C7CF062ECF20C /* Pods-CryptoMessengerPods-AuraNSE.release.xcconfig */,
+				FB557DABB153E02C3F319940 /* Pods-CryptoMessengerPods-CryptoMessenger.debug.xcconfig */,
+				1E453C528C5058C0116398DD /* Pods-CryptoMessengerPods-CryptoMessenger.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -3755,6 +3871,15 @@
 				D45004712845D9A100CA4C82 /* Views */,
 			);
 			path = "P2P Calls";
+			sourceTree = "<group>";
+		};
+		D4074C272A0CB65200896100 /* Call Kit Service */ = {
+			isa = PBXGroup;
+			children = (
+				D4074C2A2A0CB6DF00896100 /* ringtone.caf */,
+				D4074C282A0CB67000896100 /* CallKitService.swift */,
+			);
+			path = "Call Kit Service";
 			sourceTree = "<group>";
 		};
 		D413F0FF29BF3441005B7532 /* Access Service */ = {
@@ -4461,22 +4586,43 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5A187DCF26806EF9001957D3 /* Build configuration list for PBXNativeTarget "CryptoMessenger" */;
 			buildPhases = (
-				6A9ACC994C362096620D0EAB /* [CP] Check Pods Manifest.lock */,
+				DA0F115DD72F82D0E16C4016 /* [CP] Check Pods Manifest.lock */,
 				5A4267FB26A83315000C51DD /* R.swift */,
 				5A187F422680D241001957D3 /* SwiftLint */,
 				5A187DB726806EF8001957D3 /* Sources */,
 				5A187DB826806EF8001957D3 /* Frameworks */,
 				5A187DB926806EF8001957D3 /* Resources */,
-				84BAC84A72E80B9A8C4C0C99 /* Embed Pods Frameworks */,
+				8B3E0D062A0401FE005E8E3C /* Embed Foundation Extensions */,
+				1E258538370E496252402348 /* [CP] Embed Pods Frameworks */,
+				2050F04B300795F064A9654B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8B3E0D052A0401FE005E8E3C /* PBXTargetDependency */,
 			);
 			name = CryptoMessenger;
 			productName = "Crypto Messenger";
 			productReference = 5A187DBB26806EF8001957D3 /* CryptoMessenger.app */;
 			productType = "com.apple.product-type.application";
+		};
+		8B3E0CFE2A0401FE005E8E3C /* AuraNSE */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B3E0D0A2A0401FE005E8E3C /* Build configuration list for PBXNativeTarget "AuraNSE" */;
+			buildPhases = (
+				7F97858BF8A57958B9184F95 /* [CP] Check Pods Manifest.lock */,
+				8B3E0CFB2A0401FE005E8E3C /* Sources */,
+				8B3E0CFD2A0401FE005E8E3C /* Resources */,
+				29E641837A92AE4690C06C76 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AuraNSE;
+			productName = AuraNSE;
+			productReference = 8B3E0CFF2A0401FE005E8E3C /* AuraNSE.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -4484,16 +4630,19 @@
 		5A187DB326806EF8001957D3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1310;
 				TargetAttributes = {
 					5A187DBA26806EF8001957D3 = {
 						CreatedOnToolsVersion = 12.5;
 					};
+					8B3E0CFE2A0401FE005E8E3C = {
+						CreatedOnToolsVersion = 14.3;
+					};
 				};
 			};
 			buildConfigurationList = 5A187DB626806EF8001957D3 /* Build configuration list for PBXProject "CryptoMessenger" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -4506,6 +4655,7 @@
 			projectRoot = "";
 			targets = (
 				5A187DBA26806EF8001957D3 /* CryptoMessenger */,
+				8B3E0CFE2A0401FE005E8E3C /* AuraNSE */,
 			);
 		};
 /* End PBXProject section */
@@ -4521,15 +4671,57 @@
 				5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */,
 				5A42680F26A8393A000C51DD /* Localizable.strings in Resources */,
 				5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */,
+				D4074C2B2A0CB6DF00896100 /* ringtone.caf in Resources */,
 				5AD6E37E2753FFEF00CEFCE2 /* Assets.xcassets in Resources */,
 				5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */,
 				8BBCBCD628F74AF800E42F0C /* RemoteVideos.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8B3E0CFD2A0401FE005E8E3C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1E258538370E496252402348 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CryptoMessengerPods-CryptoMessenger/Pods-CryptoMessengerPods-CryptoMessenger-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CryptoMessengerPods-CryptoMessenger/Pods-CryptoMessengerPods-CryptoMessenger-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CryptoMessengerPods-CryptoMessenger/Pods-CryptoMessengerPods-CryptoMessenger-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2050F04B300795F064A9654B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CryptoMessengerPods-CryptoMessenger/Pods-CryptoMessengerPods-CryptoMessenger-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CryptoMessengerPods-CryptoMessenger/Pods-CryptoMessengerPods-CryptoMessenger-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CryptoMessengerPods-CryptoMessenger/Pods-CryptoMessengerPods-CryptoMessenger-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5A187F422680D241001957D3 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4569,7 +4761,7 @@
 			shellPath = /bin/sh;
 			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/CryptoMessenger/Generated/R.generated.swift\"\n";
 		};
-		6A9ACC994C362096620D0EAB /* [CP] Check Pods Manifest.lock */ = {
+		7F97858BF8A57958B9184F95 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -4584,29 +4776,33 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CryptoMessenger-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CryptoMessengerPods-AuraNSE-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		84BAC84A72E80B9A8C4C0C99 /* Embed Pods Frameworks */ = {
+		DA0F115DD72F82D0E16C4016 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "Embed Pods Frameworks";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CryptoMessengerPods-CryptoMessenger-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -4988,6 +5184,7 @@
 				8B432CC427C394F10025D62B /* WalletFlow.swift in Sources */,
 				8BADB3D6284A0B51004A48AA /* MediaService.swift in Sources */,
 				5A42680A26A83554000C51DD /* RegistrationFlow.swift in Sources */,
+				D4074C292A0CB67000896100 /* CallKitService.swift in Sources */,
 				8B2048E529255CE1008143A7 /* ReactionsSelectView.swift in Sources */,
 				D4AB900828278A1600E6FAB5 /* MatrixUseCase.swift in Sources */,
 				8BCA91022750FCC200E8E269 /* Popup.swift in Sources */,
@@ -5426,7 +5623,41 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8B3E0CFB2A0401FE005E8E3C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B3E0D272A0414DA005E8E3C /* KeychainServiceProtocol.swift in Sources */,
+				8B3E0D282A0414DA005E8E3C /* KeychainService.swift in Sources */,
+				8B3E0D292A0414DA005E8E3C /* KeychainService+Credentials.swift in Sources */,
+				8B3E0D2A2A0414DA005E8E3C /* KeychainWrapper.swift in Sources */,
+				8B3E0D2B2A0414DA005E8E3C /* KeychainWrapperSubscript.swift in Sources */,
+				8B3E0D2C2A0414DA005E8E3C /* KeychainItemAccessibility.swift in Sources */,
+				8B3E0D022A0401FE005E8E3C /* NotificationService.swift in Sources */,
+				8B3E0D212A041430005E8E3C /* AuraRoom.swift in Sources */,
+				8B3E0D222A041430005E8E3C /* MessageType.swift in Sources */,
+				8B3E0D1D2A041430005E8E3C /* RoomSummary.swift in Sources */,
+				8B3E0D1F2A041430005E8E3C /* RawInitializable.swift in Sources */,
+				8B3E0D1B2A041430005E8E3C /* Pasable.swift in Sources */,
+				8B3E0D242A041430005E8E3C /* Bundle+Extension.swift in Sources */,
+				8B3E0D232A041430005E8E3C /* MXEvent+Extension.swift in Sources */,
+				8B3E0D1C2A041430005E8E3C /* URLConvertable.swift in Sources */,
+				8B3E0D202A041430005E8E3C /* EventCollection.swift in Sources */,
+				8B3E0D1E2A041430005E8E3C /* Config.swift in Sources */,
+				8B3E0D252A041430005E8E3C /* Stand.swift in Sources */,
+				8B3E0D262A041430005E8E3C /* UrlsConfig.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8B3E0D052A0401FE005E8E3C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8B3E0CFE2A0401FE005E8E3C /* AuraNSE */;
+			targetProxy = 8B3E0D042A0401FE005E8E3C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5A187DC926806EF9001957D3 /* LaunchScreen.storyboard */ = {
@@ -5493,7 +5724,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -5550,7 +5781,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -5562,8 +5793,9 @@
 		};
 		5A187DD026806EF9001957D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E031639D9D30977AB773D9FE /* Pods-CryptoMessenger.debug.xcconfig */;
+			baseConfigurationReference = FB557DABB153E02C3F319940 /* Pods-CryptoMessengerPods-CryptoMessenger.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -5593,8 +5825,9 @@
 		};
 		5A187DD126806EF9001957D3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D003DB38AD32031BD00981EF /* Pods-CryptoMessenger.release.xcconfig */;
+			baseConfigurationReference = 1E453C528C5058C0116398DD /* Pods-CryptoMessengerPods-CryptoMessenger.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -5622,6 +5855,67 @@
 			};
 			name = Release;
 		};
+		8B3E0D082A0401FE005E8E3C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 181D5B8C80EBCC7E1D0726BA /* Pods-CryptoMessengerPods-AuraNSE.debug.xcconfig */;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = AuraNSE/AuraNSE.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = Z48WYVF59J;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AuraNSE/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AuraNSE;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.aura.app.test.AuraNSE;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8B3E0D092A0401FE005E8E3C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 246719E8EF1C7CF062ECF20C /* Pods-CryptoMessengerPods-AuraNSE.release.xcconfig */;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = AuraNSE/AuraNSE.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Z48WYVF59J;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AuraNSE/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AuraNSE;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.aura.app.test.AuraNSE;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -5639,6 +5933,15 @@
 			buildConfigurations = (
 				5A187DD026806EF9001957D3 /* Debug */,
 				5A187DD126806EF9001957D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B3E0D0A2A0401FE005E8E3C /* Build configuration list for PBXNativeTarget "AuraNSE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B3E0D082A0401FE005E8E3C /* Debug */,
+				8B3E0D092A0401FE005E8E3C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
