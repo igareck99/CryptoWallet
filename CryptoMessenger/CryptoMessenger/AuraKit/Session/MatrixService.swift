@@ -2,6 +2,8 @@ import Combine
 import Foundation
 import SwiftUI
 import JitsiMeetSDK
+import MatrixSDK
+import MatrixSDKCrypto
 
 // swiftlint: disable: all
 
@@ -130,8 +132,9 @@ extension MatrixService {
 		session?.close()
 	}
 
-	func updateUnkownDeviceWarn(isEnabled: Bool) {
-		session?.crypto?.warnOnUnknowDevices = isEnabled
+    func updateUnkownDeviceWarn(isEnabled: Bool) {
+        guard let crypto = session?.crypto as? MXLegacyCrypto else { return }
+		crypto.warnOnUnknowDevices = isEnabled
 	}
 
 	func updateClient(with homeServer: URL) {
@@ -144,27 +147,26 @@ extension MatrixService {
 
 	func updateService(credentials: MXCredentials) {
 
-		let persistTokenDataHandler: MXRestClientPersistTokenDataHandler =
-		{ inputCredentialsHandler in
-			debugPrint("upadteService MXRestClientPersistTokenDataHandler: inputCredentialsHandler: \(inputCredentialsHandler)")
+		let persistTokenDataHandler: MXRestClientPersistTokenDataHandler = { inputCredentialsHandler in
+            debugPrint("inputCredentialsHandler: \(String(describing: inputCredentialsHandler))")
 			inputCredentialsHandler?([]) { didUpdateCredentials in
-				debugPrint("upadteService MXRestClientPersistTokenDataHandler: inputCredentialsHandler didUpdateCredentials: \(didUpdateCredentials)")
+				debugPrint("didUpdateCredentials: \(didUpdateCredentials)")
 			}
 		}
 
-		let unauthenticatedHandler: MXRestClientUnauthenticatedHandler =
-		{ error, isSoftLogout, isRefreshTokenAuth, logoutCompletion in
-			debugPrint("upadteService MXRestClientUnauthenticatedHandler: error: \(error)")
-			debugPrint("upadteService MXRestClientUnauthenticatedHandler: isSoftLogout: \(isSoftLogout)")
-			debugPrint("upadteService MXRestClientUnauthenticatedHandler: isRefreshTokenAuth: \(isRefreshTokenAuth)")
-			debugPrint("upadteService MXRestClientUnauthenticatedHandler: logoutCompletion: \(logoutCompletion)")
+		let unauthenticatedHandler: MXRestClientUnauthenticatedHandler = {
+            error, isSoftLogout, isRefreshTokenAuth, logoutCompletion in
+            debugPrint("error: \(String(describing: error))")
+			debugPrint("isSoftLogout: \(isSoftLogout)")
+			debugPrint("isRefreshTokenAuth: \(isRefreshTokenAuth)")
+            debugPrint("logoutCompletion: \(String(describing: logoutCompletion))")
 			logoutCompletion?()
 		}
 
 		let client = MXRestClient(
-			credentials: credentials,
-			persistentTokenDataHandler: persistTokenDataHandler,
-			unauthenticatedHandler: unauthenticatedHandler
+            credentials: credentials,
+            persistentTokenDataHandler: persistTokenDataHandler,
+            unauthenticatedHandler: unauthenticatedHandler
 		)
 		self.client = client
 
@@ -191,7 +193,7 @@ extension MatrixService {
 		let audioSessionConfigurator: MXCallAudioSessionConfigurator = MXJingleCallAudioSessionConfigurator()
 		audioSessionConfigurator.configureAudioSession(forVideoCall: true)
 		adapter.audioSessionConfigurator = audioSessionConfigurator
-		session?.callManager.callKitAdapter = adapter
+		session?.callManager?.callKitAdapter = adapter
 	}
 
 	// MARK: - Pagination

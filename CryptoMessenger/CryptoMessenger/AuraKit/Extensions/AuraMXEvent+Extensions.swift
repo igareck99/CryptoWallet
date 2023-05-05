@@ -1,4 +1,5 @@
 import SwiftUI
+import MatrixSDK
 
 // swiftlint:disable all
 

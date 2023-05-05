@@ -1,6 +1,8 @@
 import Combine
 import SwiftUI
 import UIKit
+import Photos
+import MatrixSDK
 
 // MARK: - ChatRoomViewModel
 // swiftlint:disable all
@@ -324,8 +326,6 @@ final class ChatRoomViewModel: ObservableObject {
     private func updateEventDefaultAndStateDefault() {
         
         room.room.state { [weak self] roomState in
-            debugPrint("roomState result: \(roomState)")
-            debugPrint("roomState power levels result: \(roomState?.powerLevels)")
             
             guard let roomId = self?.room.room.roomId,
                 var levels = roomState?.powerLevels?.jsonDictionary() else { return }
@@ -369,9 +369,6 @@ final class ChatRoomViewModel: ObservableObject {
         matrixUseCase.getRoomState(roomId: room.room.roomId) { [weak self] result in
             
             guard case let .success(state) = result else { return }
-            
-            debugPrint("roomState result: \(state)")
-            debugPrint("roomState power levels result: \(state.powerLevels)")
             
             if state.powerLevels == nil {
                 self?.userHasAccessToMessage = false
@@ -716,7 +713,6 @@ final class ChatRoomViewModel: ObservableObject {
                                 guard let data = data else { return }
                                 DispatchQueue.main.async { self.chatData.image = UIImage(data: data) }
                             }
-                            
                         }
                     }
                 }
@@ -848,7 +844,7 @@ final class ChatRoomViewModel: ObservableObject {
     }
 
     private func fetchChatData() {
-        chatData.title = room.room.summary.displayname ?? ""
+        chatData.title = room.room.summary.displayName ?? ""
         chatData.description = room.room.summary.topic ?? ""
         chatData.isDirect = room.isDirect
 

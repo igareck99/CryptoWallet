@@ -1,5 +1,6 @@
 import Foundation
 import SwiftJWT
+import MatrixSDK
 
 /// Create a JWT token for jitsi openidtoken-jwt authentication
 /// See https://github.com/matrix-org/prosody-mod-auth-matrix-user-verification

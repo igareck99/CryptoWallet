@@ -1,5 +1,7 @@
 import SwiftUI
 import Combine
+import AVFoundation
+import CoreMedia
 
 // MARK: - VideoViewModel
 

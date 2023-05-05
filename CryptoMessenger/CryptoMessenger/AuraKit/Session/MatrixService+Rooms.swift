@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import MatrixSDK
 
 // MARK: - Rooms
 
@@ -47,6 +48,7 @@ extension MatrixService {
         }
         var localEcho: MXEvent?
         room.sendVoiceMessage(localURL: url,
+                              additionalContentParams: nil,
                               mimeType: "audio/ogg",
                               duration: duration,
                               samples: [],
@@ -71,7 +73,7 @@ extension MatrixService {
 	func isDirectRoomExists(userId: String) -> Bool {
 		session?.directJoinedRoom(withUserId: userId) != nil
 	}
-    
+
     func isRoomEncrypted(roomId: String, completion: @escaping (Bool?) -> Void) {
         guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
             completion(nil)
@@ -275,7 +277,7 @@ extension MatrixService {
             }
         }
     }
-    
+
     func getPublicRooms(filter: String,
                         completion: @escaping  (Result <[MXPublicRoom]?, MXErrors>) -> Void) {
         client?.publicRooms(onServer: nil,
@@ -294,5 +296,4 @@ extension MatrixService {
             }
         })
     }
-    
 }

@@ -1,4 +1,5 @@
 import Foundation
+import MatrixSDK
 
 typealias LoginCompletion = GenericBlock<Result<MXCredentials, Error>>
 

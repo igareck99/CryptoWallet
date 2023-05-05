@@ -1,5 +1,6 @@
 import Combine
 import SwiftUI
+import MatrixSDK
 
 // swiftlint: disable: all
 
@@ -334,7 +335,7 @@ final class ChannelInfoViewModel {
     
     var roomDisplayName: String {
         let room = matrixUseCase.getRoomInfo(roomId: roomId)
-        let firstLetter = room?.summary.displayname.firstLetter ?? ""
+        let firstLetter = room?.summary.displayName.firstLetter ?? ""
         return firstLetter
     }
     
@@ -400,17 +401,15 @@ final class ChannelInfoViewModel {
             }
         }
         if let room = matrixUseCase.getRoomInfo(roomId: roomId) {
-            room.setTopic(self.channelTopic.wrappedValue) { _ in
-            }
-            room.setName(self.channelNameText) { _ in
-            }
+            room.setTopic(self.channelTopic.wrappedValue) { _ in }
+            room.setName(self.channelNameText) { _ in }
         }
         
     }
     
     private func getRoomInfo() {
         if let room = matrixUseCase.getRoomInfo(roomId: roomId) {
-            channelNameText = room.summary?.displayname ?? ""
+            channelNameText = room.summary?.displayName ?? ""
             channelTopicText = room.summary?.topic ?? ""
             objectWillChange.send()
         }
@@ -482,25 +481,25 @@ final class ChannelInfoViewModel {
                     }
                     return
                 }
-                
+
                 if event.type == "m.room.topic",
                    let topic = room?.summary.topic {
                     self?.channelTopicText = topic
                     self?.objectWillChange.send()
                     return
                 }
-                
+
                 if event.type == "m.room.name",
-                   let displayname = room?.summary.displayname {
+                   let displayname = room?.summary.displayName {
                     self?.channelNameText = displayname
                     self?.objectWillChange.send()
                     return
                 }
-                
+
                 self?.getRoomInfo()
                 self?.loadUsers()
             } as? MXEventListener
-            
+
             self?.eventsListener = listener
         }
     }
@@ -509,32 +508,31 @@ final class ChannelInfoViewModel {
 // MARK: - ChannelInfoViewModelProtocol
 
 extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
-    
-    
+
     func onOpenSettingsTap() {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
         UIApplication.shared.open(url)
     }
-    
+
     func onCameraPickerTap() -> Bool {
         return accessService.videoAccessLevel == .authorized
     }
-    
+
     func onMakeRoleTap() {
         self.showSelectOwner.wrappedValue = true
     }
-    
+
     func onMakeCurrentUserRoleTap() {
         showMakeNewRole.wrappedValue = false
         self.showSelectCurrentUserRole.wrappedValue = true
     }
-    
+
     func onLeaveChannel() {
                
            let currentUserId: String = matrixUseCase.getUserId()
-           
+
            matrixUseCase.getRoomState(roomId: roomId) { [weak self] result in
-               
+
                guard let self = self else { return }
                guard case let .success(state) = result else { return }
 
@@ -841,14 +839,13 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     }
 }
 
-
 // MARK: - ChannelUserActions
 
 struct ChannelUserActions {
-    
+
     let changeRole: Bool
     let delete: Bool
-    
+
     // MARK: - Lifecycle
     
     init(_ changeRole: Bool,

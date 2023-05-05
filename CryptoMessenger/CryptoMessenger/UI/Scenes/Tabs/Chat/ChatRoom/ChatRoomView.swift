@@ -611,7 +611,7 @@ struct ChatRoomView: View {
                     placeholder: {
                         ZStack {
                             Color(.lightBlue())
-                            Text(viewModel.room.summary.displayname?.firstLetter.uppercased() ?? "?")
+                            Text(viewModel.room.summary.displayName?.firstLetter.uppercased() ?? "?")
                                 .foreground(.white())
                                 .font(.medium(20))
                         }
@@ -627,7 +627,7 @@ struct ChatRoomView: View {
                 
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
-                        Text(viewModel.room.summary.displayname ?? "")
+                        Text(viewModel.room.summary.displayName ?? "")
                             .lineLimit(1)
                             .font(.semibold(15))
                             .foreground(.black())

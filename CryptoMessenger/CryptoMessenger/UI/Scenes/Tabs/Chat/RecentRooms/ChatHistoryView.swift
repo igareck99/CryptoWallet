@@ -193,7 +193,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                     Section {
                         ForEach(searchResults) { value in
                             VStack(spacing: 0) {
-                                ChatHistorySearchRow(name: value.summary.displayname?.firstUppercased ?? "",
+                                ChatHistorySearchRow(name: value.summary.displayName?.firstUppercased ?? "",
                                                      numberUsers: 2,
                                                      avatarString: value.roomAvatar?.absoluteString ?? "")
                                 .background(.white())

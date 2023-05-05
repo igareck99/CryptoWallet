@@ -34,7 +34,7 @@ struct ChatHistoryRow: View {
 	private func displayNameView() -> AnyView {
 		AnyView(
 			Text(
-				room.summary.displayname?.firstUppercased ?? "",
+				room.summary.displayName?.firstUppercased ?? "",
 				[ .font(.medium(16)),
 				  .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
 				  .color(.black()) ]
@@ -80,7 +80,7 @@ struct ChatHistoryRow: View {
 					placeholder: {
 						ZStack {
 							Color(.lightBlue())
-							Text(room.summary.displayname?.firstLetter.uppercased() ?? "?")
+							Text(room.summary.displayName?.firstLetter.uppercased() ?? "?")
 								.foreground(.white())
 								.font(.bold(28))
 						}.frame(width: 60, height: 60)

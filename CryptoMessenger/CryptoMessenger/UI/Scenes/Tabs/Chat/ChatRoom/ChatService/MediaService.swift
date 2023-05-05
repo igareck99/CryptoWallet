@@ -1,5 +1,6 @@
 import UIKit
 import Combine
+import MatrixSDK
 
 // MARK: - MediaServiceProtocol
 
