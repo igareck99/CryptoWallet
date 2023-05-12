@@ -80,6 +80,7 @@ final class VerificationPresenter {
     }
 
     private func logIn(_ code: String) {
+        
         let endpoint = Endpoints.Registration.auth(
             .init(
                 device: .init(name: configuration.deviceName, unique: configuration.deviceId),

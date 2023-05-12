@@ -12,6 +12,7 @@ final class KeychainService {
 
 		case apiAccessToken
         case secretPhrase
+        case password
 		case apiRefreshToken
 		case apiUserId
 		case apiUserPhoneNumber
@@ -29,18 +30,22 @@ final class KeychainService {
 		case bitcoinPublicKey
 	}
 
-	private enum Constants {
-		static let accessGroup = "ru.aura.app.keychain.accessGroup"
+	enum Constants {
+        static var accessGroup = {
+//            "Z48WYVF59J.ru.aura.app.test.keychain.accessGroup"
+            devId + ".ru.aura.app.test.keychain.accessGroup"
+        }
 		static let serviceName = "ru.aura.app.keychain.service"
+        static let devId = Bundle.main.infoDictionary?["DevTeam"] as? String ?? ""
 	}
 
-	private let accessGroup: String?
+	private let accessGroup: String
 	private let serviceName: String
 	private var keychainWrapper: KeychainWrapper
-	static let shared = KeychainService(accessGroup: nil, serviceName: Constants.serviceName)
+    static let shared = KeychainService(accessGroup: Constants.accessGroup(), serviceName: Constants.serviceName)
 
 	init(
-		accessGroup: String? = Constants.accessGroup,
+		accessGroup: String = Constants.accessGroup(),
 		serviceName: String = Constants.serviceName
 	) {
 		self.accessGroup = accessGroup
@@ -52,310 +57,110 @@ final class KeychainService {
 // MARK: - KeychainServiceProtocol
 
 extension KeychainService: KeychainServiceProtocol {
-	// MARK: - Getters Wrappers
-
-	func integer(forKey key: KeychainService.Keys) -> Int? {
-		integer(forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
-
-	func float(forKey key: KeychainService.Keys) -> Float? {
-		float(forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
-
-	func double(forKey key: KeychainService.Keys) -> Double? {
-		double(forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
-
-	func bool(forKey key: KeychainService.Keys) -> Bool? {
-		bool(forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
-
-	func string(forKey key: KeychainService.Keys) -> String? {
-		string(forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
-
-	func data(forKey key: KeychainService.Keys) -> Data? {
-		data(forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
-
-	// MARK: - Setters Wrappers
-
-	@discardableResult
-	func set(_ value: Int, forKey key: KeychainService.Keys) -> Bool {
-		set(value, forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
-
-	@discardableResult
-	func set(_ value: Float, forKey key: KeychainService.Keys) -> Bool {
-		set(value, forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
-
-	@discardableResult
-	func set(_ value: Double, forKey key: KeychainService.Keys) -> Bool {
-		set(value, forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
-
-	@discardableResult
-	func set(_ value: Bool, forKey key: KeychainService.Keys) -> Bool {
-		set(value, forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
-
-	@discardableResult
-	func set(_ value: String, forKey key: KeychainService.Keys) -> Bool {
-		set(value, forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
-
-	@discardableResult
-	func set(_ value: Data, forKey key: KeychainService.Keys) -> Bool {
-		set(value, forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
-
-	// MARK: - Updaters Wrappers
-
-	@discardableResult
-	func removeObject(forKey key: KeychainService.Keys) -> Bool {
-		removeObject(forKey: key, withAccessibility: nil, isSynchronizable: false)
-	}
 
 	// MARK: - Getters
 
-	func integer(
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Int? {
-		guard
-			let numberValue = keychainWrapper.object(
-				forKey: key.rawValue,
-				withAccessibility: accessibility,
-				isSynchronizable: isSynchronizable
-			) as? NSNumber
+	func integer(forKey key: KeychainService.Keys) -> Int? {
+		guard let numberValue = keychainWrapper.object(forKey: key.rawValue) as? NSNumber
 		else {
 			return nil
 		}
 		return numberValue.intValue
 	}
 
-	func float(
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Float? {
-		guard
-			let numberValue = keychainWrapper.object(
-				forKey: key.rawValue,
-				withAccessibility: accessibility,
-				isSynchronizable: isSynchronizable
-			) as? NSNumber
+	func float(forKey key: KeychainService.Keys) -> Float? {
+		guard let numberValue = keychainWrapper.object(forKey: key.rawValue) as? NSNumber
 		else {
 			return nil
 		}
 		return numberValue.floatValue
 	}
 
-	func double(
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Double? {
-		guard
-			let numberValue = keychainWrapper.object(
-				forKey: key.rawValue,
-				withAccessibility: accessibility,
-				isSynchronizable: isSynchronizable
-			) as? NSNumber
+	func double(forKey key: KeychainService.Keys) -> Double? {
+		guard let numberValue = keychainWrapper.object(forKey: key.rawValue) as? NSNumber
 		else {
 			return nil
 		}
 		return numberValue.doubleValue
 	}
 
-	func bool(
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Bool? {
-		guard
-			let numberValue = keychainWrapper.object(
-				forKey: key.rawValue,
-				withAccessibility: accessibility,
-				isSynchronizable: isSynchronizable
-			) as? NSNumber
+	func bool(forKey key: KeychainService.Keys) -> Bool? {
+		guard let numberValue = keychainWrapper.object(forKey: key.rawValue) as? NSNumber
 		else {
 			return nil
 		}
 		return numberValue.boolValue
 	}
 
-	func string(
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> String? {
-		guard
-			let keychainData = keychainWrapper.data(
-				forKey: key.rawValue,
-				withAccessibility: accessibility,
-				isSynchronizable: isSynchronizable
-			)
+	func string(forKey key: KeychainService.Keys) -> String? {
+		guard let keychainData = keychainWrapper.data(forKey: key.rawValue)
 		else {
 			return nil
 		}
 		return String(data: keychainData, encoding: String.Encoding.utf8) as String?
 	}
 
-	func data(
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Data? {
-		keychainWrapper.data(
-			forKey: key.rawValue,
-			withAccessibility: accessibility,
-			isSynchronizable: isSynchronizable
-		)
+	func data(forKey key: KeychainService.Keys) -> Data? {
+		keychainWrapper.data(forKey: key.rawValue)
 	}
 
 	// MARK: - Setters
 
 	@discardableResult
-	func set(
-		_ value: Int,
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Bool {
-		keychainWrapper.set(
-			NSNumber(value: value),
-			forKey: key.rawValue,
-			withAccessibility: accessibility,
-			isSynchronizable: isSynchronizable
-		)
+	func set(_ value: Int, forKey key: KeychainService.Keys) -> Bool {
+		keychainWrapper.set(NSNumber(value: value), forKey: key.rawValue)
 	}
 
 	@discardableResult
-	func set(
-		_ value: Float,
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Bool {
-		keychainWrapper.set(
-			NSNumber(value: value),
-			forKey: key.rawValue,
-			withAccessibility: accessibility,
-			isSynchronizable: isSynchronizable
-		)
+	func set(_ value: Float, forKey key: KeychainService.Keys) -> Bool {
+		keychainWrapper.set(NSNumber(value: value), forKey: key.rawValue)
 	}
 
 	@discardableResult
-	func set(
-		_ value: Double,
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Bool {
-		keychainWrapper.set(
-			NSNumber(value: value),
-			forKey: key.rawValue,
-			withAccessibility: accessibility,
-			isSynchronizable: isSynchronizable
-		)
+	func set(_ value: Double, forKey key: KeychainService.Keys) -> Bool {
+		keychainWrapper.set(NSNumber(value: value), forKey: key.rawValue)
 	}
 
 	@discardableResult
-	func set(
-		_ value: Bool,
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Bool {
-		keychainWrapper.set(
-			NSNumber(value: value),
-			forKey: key.rawValue,
-			withAccessibility: accessibility,
-			isSynchronizable: isSynchronizable
-		)
+	func set(_ value: Bool, forKey key: KeychainService.Keys) -> Bool {
+		keychainWrapper.set(NSNumber(value: value), forKey: key.rawValue)
 	}
 
 	@discardableResult
-	func set(
-		_ value: Bool?,
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Bool {
+	func set(_ value: Bool?, forKey key: KeychainService.Keys) -> Bool {
 		if let boolValue = value {
-			return keychainWrapper.set(
-				boolValue,
-				forKey: key.rawValue,
-				withAccessibility: accessibility,
-				isSynchronizable: isSynchronizable
-			)
+			return keychainWrapper.set(boolValue, forKey: key.rawValue)
 		}
 		return removeObject(forKey: key)
 	}
 
 	@discardableResult
-	func set(
-		_ value: String,
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Bool {
-		keychainWrapper.set(
-			value,
-			forKey: key.rawValue,
-			withAccessibility: accessibility,
-			isSynchronizable: isSynchronizable
-		)
+	func set(_ value: String, forKey key: KeychainService.Keys) -> Bool {
+		keychainWrapper.set(value, forKey: key.rawValue)
 	}
 
 	@discardableResult
-	func set(
-		_ value: String?,
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Bool {
+	func set(_ value: String?, forKey key: KeychainService.Keys) -> Bool {
 		if let stringValue = value {
-			return keychainWrapper.set(
-				stringValue,
-				forKey: key.rawValue,
-				withAccessibility: accessibility,
-				isSynchronizable: isSynchronizable
-			)
+			return keychainWrapper.set(stringValue, forKey: key.rawValue)
 		}
 		return removeObject(forKey: key)
 	}
 
 	@discardableResult
-	func set(
-		_ value: Data,
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Bool {
+	func set(_ value: Data, forKey key: KeychainService.Keys) -> Bool {
 		keychainWrapper.set(
 			value,
-			forKey: key.rawValue,
-			withAccessibility: accessibility,
-			isSynchronizable: isSynchronizable
+			forKey: key.rawValue
 		)
 	}
 
 	// MARK: - Updaters
 
 	@discardableResult
-	func removeObject(
-		forKey key: KeychainService.Keys,
-		withAccessibility accessibility: KeychainItemAccessibility? = nil,
-		isSynchronizable: Bool = false
-	) -> Bool {
+	func removeObject(forKey key: KeychainService.Keys) -> Bool {
 		keychainWrapper.removeObject(
-			forKey: key.rawValue,
-			withAccessibility: accessibility,
-			isSynchronizable: isSynchronizable
+			forKey: key.rawValue
 		)
 	}
 }

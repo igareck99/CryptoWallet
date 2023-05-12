@@ -68,6 +68,9 @@ final class RegistrationPresenter {
                     break
                 }
             } receiveValue: { [weak self] _ in
+                print("slalsdfddsa  \(prefix + " " + phone)")
+                let flag = self?.keychainService.set(prefix + " " + phone,
+                                                     forKey: .apiUserPhoneNumber)
                 self?.keychainService.apiUserPhoneNumber = prefix + " " + phone
                 self?.delegate?.handleNextScene(.verification)
             }

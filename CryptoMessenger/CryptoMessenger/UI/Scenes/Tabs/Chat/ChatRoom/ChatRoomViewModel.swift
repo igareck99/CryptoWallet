@@ -124,6 +124,7 @@ final class ChatRoomViewModel: ObservableObject {
 	) {
         self.sources = sources
         self.room = room
+        print("SLPQPQW  \(room.room.roomId)")
 		self.p2pCallsUseCase = p2pCallsUseCase
 		self.settings = settings
 		self.availabilityFacade = availabilityFacade
