@@ -5,6 +5,7 @@ extension MXEvent {
     // MARK: - Internal Properties
 
     var messageType: MessageType {
+        debugPrint("messageType \(content)")
         let messageType = content[.messageType] as? String
         var type: MessageType
         let homeServer = Configuration.shared.matrixURL
@@ -50,6 +51,8 @@ extension MXEvent {
             let phone = content[.phone] as? String ?? ""
             let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
             type = .contact(name: name, phone: phone, url: url)
+        case kMXEventTypeStringCallInvite:
+            type = .call
         default:
             type = .none
         }

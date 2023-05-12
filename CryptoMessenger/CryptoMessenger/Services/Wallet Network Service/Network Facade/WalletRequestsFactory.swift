@@ -18,11 +18,6 @@ protocol WalletRequestsFactoryProtocol {
 	func buildTransactionTemplate(parameters: BaseHTTPParameters) -> BaseEndPoint
 }
 
-enum NetType: String {
-    case mainnet
-    case testnet
-}
-
 struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
 
     private let config: ConfigType = Configuration.shared

@@ -1,6 +1,8 @@
 import UserNotifications
 
-protocol PushNotificationsUseCaseProtocol {
+// swiftlint:disable all
+
+protocol NotificationsUseCaseProtocol {
 	func start()
 
 	func applicationDidRegisterForRemoteNotifications(deviceToken: Data)
@@ -8,10 +10,11 @@ protocol PushNotificationsUseCaseProtocol {
 	func applicationDidFailRegisterForRemoteNotifications()
 }
 
-final class PushNotificationsUseCase: NSObject {
+final class NotificationsUseCase: NSObject {
 
-	private var pendingOperations = [String: () -> Void]()
+	private var pendingOperations = [String: [VoidBlock]]()
 	private let pushNotificationsService: PushNotificationsServiceProtocol
+    private var pushKitService: PushKitServiceProtocol?
 	private let keychainService: KeychainServiceProtocol
 	private let userSettings: UserFlowsStorage
 	private let appCoordinator: AppCoordinatorProtocol
@@ -22,15 +25,18 @@ final class PushNotificationsUseCase: NSObject {
 		userSettings: UserFlowsStorage,
 		keychainService: KeychainServiceProtocol,
 		pushNotificationsService: PushNotificationsServiceProtocol,
+        pushKitService: PushKitServiceProtocol,
 		matrixUseCase: MatrixUseCaseProtocol
 	) {
 		self.appCoordinator = appCoordinator
 		self.userSettings = userSettings
 		self.keychainService = keychainService
 		self.pushNotificationsService = pushNotificationsService
+        self.pushKitService = pushKitService
 		self.matrixUseCase = matrixUseCase
 		super.init()
 		self.subscribeToNotifications()
+        self.updatePushTokens()
 	}
 
 	deinit {
@@ -53,41 +59,79 @@ final class PushNotificationsUseCase: NSObject {
 	}
 
 	@objc private func userDidLoggedIn() {
-		pendingOperations[Notification.Name.userDidLoggedIn.rawValue]?()
+        pendingOperations[Notification.Name.userDidLoggedIn.rawValue]?.forEach { $0() }
+        pendingOperations[Notification.Name.userDidLoggedIn.rawValue]?.removeAll()
 	}
 
 	@objc private func userDidRegistered() {
-		pendingOperations[Notification.Name.userDidRegistered.rawValue]?()
-	}
+        pendingOperations[Notification.Name.userDidRegistered.rawValue]?.forEach { $0() }
+        pendingOperations[Notification.Name.userDidRegistered.rawValue]?.removeAll()
+    }
 
-	private func handleUpdateOf(deviceToken: Data) {
-		let pushKeyDebug = deviceToken.map { String(format: "%02x", $0) }.joined()
-		debugPrint("pushKeyDebug: \(pushKeyDebug.debugDescription)")
-
+	private func handleUpdateOfPush(token: Data) {
 		// Если пуш токен обновился, то обновляем пушер
 		guard pushNotificationsService.isRegisteredForRemoteNotifications,
-			  keychainService[.pushToken] != deviceToken,
-			  keychainService.set(deviceToken, forKey: .pushToken)
+			  keychainService[.pushToken] != token,
+			  keychainService.set(token, forKey: .pushToken)
 		else { return }
-		matrixUseCase.createPusher(with: deviceToken) { [weak self] in
-			debugPrint("SET PUSHER RESULT: \($0)")
+        keychainService.set(token, forKey: .pushToken)
+		matrixUseCase.createPusher(pushToken: token) { [weak self] in
 			self?.userSettings[.isPushNotificationsEnabled] = $0
+            debugPrint("NotificationsUseCase handleUpdateOfPush createPusher: \($0)")
 		}
 	}
+    
+    private func handleUpdateOfVoip(token: Data) {
+        
+        if !userSettings.isAuthFlowFinished {
+            pendingOperations[Notification.Name.userDidRegistered.rawValue]?.append { [weak self] in
+                guard let self = self else { return }
+                self.handleUpdateOfVoip(token: token)
+            }
+            return
+        }
+        
+        if userSettings.isLocalAuth {
+            pendingOperations[Notification.Name.userDidLoggedIn.rawValue]?.append { [weak self] in
+                guard let self = self else { return }
+                self.handleUpdateOfVoip(token: token)
+            }
+            return
+        }
+        
+        guard keychainService[.pushVoipToken] != token,
+              userSettings[.isVoipPusherCreated] == false,
+              keychainService.set(token, forKey: .pushVoipToken)
+        else { return }
+        
+        matrixUseCase.createVoipPusher(pushToken: token) { [weak self] in
+            self?.userSettings[.isVoipPusherCreated] = $0
+            debugPrint("NotificationsUseCase handleUpdateOfVoip createPusher: \($0)")
+        }
+    }
 
-	private func updatePush(token: Data) {
-		// Удаляем старый пуш токен, если приложение было удалено)
+    private func updatePushTokens() {
+		// Удаляем старый пуш/voip токен, если приложение было удалено
 		if userSettings[.isAppNotFirstStart] == false {
-			keychainService.removeObject(forKey: .pushToken) 
+			keychainService.removeObject(forKey: .pushToken)
+            keychainService.removeObject(forKey: .pushVoipToken)
 		}
 	}
+    
+    private func requestVoipToken() {
+        guard let token = pushKitService?.requestVoipToken() else  { return }
+        keychainService.set(token, forKey: .pushVoipToken)
+    }
 }
 
-// MARK: - PushNotificationsUseCaseProtocol
+// MARK: - NotificationsUseCaseProtocol
 
-extension PushNotificationsUseCase: PushNotificationsUseCaseProtocol {
+extension NotificationsUseCase: NotificationsUseCaseProtocol {
 
 	func start() {
+        
+        pushKitService?.registerToVoipTokens()
+        requestVoipToken()
 
 		UNUserNotificationCenter.current().delegate = self
 
@@ -115,25 +159,24 @@ extension PushNotificationsUseCase: PushNotificationsUseCaseProtocol {
 
 	func applicationDidRegisterForRemoteNotifications(deviceToken: Data) {
 
-		updatePush(token: deviceToken)
-
 		if !userSettings.isAuthFlowFinished {
-			pendingOperations[Notification.Name.userDidRegistered.rawValue] = { [weak self] in
-				guard let self = self else { return }
-				self.handleUpdateOf(deviceToken: deviceToken)
-			}
+            pendingOperations[Notification.Name.userDidRegistered.rawValue]?.append {
+                [weak self] in
+                    guard let self = self else { return }
+                    self.handleUpdateOfPush(token: deviceToken)
+            }
 			return
 		}
 
 		if userSettings.isLocalAuth {
-			pendingOperations[Notification.Name.userDidLoggedIn.rawValue] = { [weak self] in
+			pendingOperations[Notification.Name.userDidLoggedIn.rawValue]?.append { [weak self] in
 				guard let self = self else { return }
-				self.handleUpdateOf(deviceToken: deviceToken)
+				self.handleUpdateOfPush(token: deviceToken)
 			}
 			return
 		}
 
-		handleUpdateOf(deviceToken: deviceToken)
+        handleUpdateOfPush(token: deviceToken)
 	}
 
 	func applicationDidFailRegisterForRemoteNotifications() {
@@ -143,7 +186,7 @@ extension PushNotificationsUseCase: PushNotificationsUseCaseProtocol {
 
 // MARK: - UNUserNotificationCenterDelegate
 
-extension PushNotificationsUseCase: UNUserNotificationCenterDelegate {
+extension NotificationsUseCase: UNUserNotificationCenterDelegate {
 
 	func userNotificationCenter(
 		_ center: UNUserNotificationCenter,
@@ -163,4 +206,23 @@ extension PushNotificationsUseCase: UNUserNotificationCenterDelegate {
 			completion: completionHandler
 		)
 	}
+}
+
+// MARK: - PushKitServiceDelegate
+
+extension NotificationsUseCase: PushKitServiceDelegate {
+    func didUpdateVoip(token: Data) {
+        
+        pushKitService?.unregisterToVoipTokens()
+        
+        keychainService.set(token, forKey: .pushVoipToken)
+        
+        handleUpdateOfVoip(token: token)
+        
+        pushKitService = nil
+    }
+
+    func didInvalidateVoipToken() {
+        keychainService.removeObject(forKey: .pushVoipToken)
+    }
 }

@@ -8,10 +8,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var window: UIWindow?
 
 	private var statusBarCallUseCase: StatusBarCallUseCase?
-	private var pushNotificationsUseCase: PushNotificationsUseCaseProtocol?
+	private var notificationsUseCase: NotificationsUseCaseProtocol?
 	private var appDelegateUseCase: AppDelegateUseCaseProtocol?
-    
-    let callKitService = CallKitService.shared
 
 	func application(
 		_ application: UIApplication,
@@ -22,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		let rootNavigationController = BaseNavigationController()
 		let appCoordinator = AppCoordinatorAssembly.build(navigationController: rootNavigationController)
-		pushNotificationsUseCase = PushNotificationsUseCaseAssembly.build(appCoordinator: appCoordinator)
+		notificationsUseCase = NotificationsUseCaseAssembly.build(appCoordinator: appCoordinator)
 		appDelegateUseCase = AppDelegateUseCaseAssembly.build(appCoordinator: appCoordinator)
 
 		let appWindow = UIWindow()
@@ -30,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		rootNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
 		window?.rootViewController = rootNavigationController
 
-		pushNotificationsUseCase?.start()
+		notificationsUseCase?.start()
 
 		// UseCase app delegate'а должен вызываться после всех кейсов проверок флага isAppNotFirstStart
 		// т.к. он его изменяет
@@ -72,10 +70,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
 
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-		pushNotificationsUseCase?.applicationDidRegisterForRemoteNotifications(deviceToken: deviceToken)
+		notificationsUseCase?.applicationDidRegisterForRemoteNotifications(deviceToken: deviceToken)
 	}
 
 	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-		pushNotificationsUseCase?.applicationDidFailRegisterForRemoteNotifications()
+		notificationsUseCase?.applicationDidFailRegisterForRemoteNotifications()
 	}
 }

@@ -9,13 +9,11 @@
 /* Begin PBXBuildFile section */
 		5A15DDF9276E5C9C00CF7AA4 /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A15DDF8276E5C9C00CF7AA4 /* ShimmerView.swift */; };
 		5A15DDFB276FA1C800CF7AA4 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A15DDFA276FA1C800CF7AA4 /* ImageViewer.swift */; };
-		5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DBE26806EF8001957D3 /* AppDelegate.swift */; };
 		5A187DCB26806EF9001957D3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A187DC926806EF9001957D3 /* LaunchScreen.storyboard */; };
 		5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DD326806F35001957D3 /* DependencyContainer.swift */; };
 		5A187DD726806F35001957D3 /* Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DD426806F35001957D3 /* Injectable.swift */; };
 		5A187DD826806F35001957D3 /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DD526806F35001957D3 /* Dependency.swift */; };
 		5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DDA26806F62001957D3 /* AppHelpers.swift */; };
-		5A187DE526806F62001957D3 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DDF26806F62001957D3 /* AppConstants.swift */; };
 		5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DE826807011001957D3 /* AppCoordinator.swift */; };
 		5A187DF126807011001957D3 /* AuthFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DE926807011001957D3 /* AuthFlowCoordinator.swift */; };
 		5A187DF326807011001957D3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DEC26807011001957D3 /* BaseViewController.swift */; };
@@ -390,18 +388,8 @@
 		8B3A816A275AC25D00E736E4 /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3A8169275AC25D00E736E4 /* ProfileDetailView.swift */; };
 		8B3E0D022A0401FE005E8E3C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D012A0401FE005E8E3C /* NotificationService.swift */; };
 		8B3E0D072A0401FE005E8E3C /* AuraNSE.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8B3E0CFF2A0401FE005E8E3C /* AuraNSE.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		8B3E0D1B2A041430005E8E3C /* Pasable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D0E2A04142F005E8E3C /* Pasable.swift */; };
-		8B3E0D1C2A041430005E8E3C /* URLConvertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D0F2A04142F005E8E3C /* URLConvertable.swift */; };
-		8B3E0D1D2A041430005E8E3C /* RoomSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D102A04142F005E8E3C /* RoomSummary.swift */; };
-		8B3E0D1E2A041430005E8E3C /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D112A04142F005E8E3C /* Config.swift */; };
-		8B3E0D1F2A041430005E8E3C /* RawInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D122A04142F005E8E3C /* RawInitializable.swift */; };
-		8B3E0D202A041430005E8E3C /* EventCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D132A041430005E8E3C /* EventCollection.swift */; };
 		8B3E0D212A041430005E8E3C /* AuraRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D142A041430005E8E3C /* AuraRoom.swift */; };
-		8B3E0D222A041430005E8E3C /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D152A041430005E8E3C /* MessageType.swift */; };
 		8B3E0D232A041430005E8E3C /* MXEvent+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D162A041430005E8E3C /* MXEvent+Extension.swift */; };
-		8B3E0D242A041430005E8E3C /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D172A041430005E8E3C /* Bundle+Extension.swift */; };
-		8B3E0D252A041430005E8E3C /* Stand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D182A041430005E8E3C /* Stand.swift */; };
-		8B3E0D262A041430005E8E3C /* UrlsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D192A041430005E8E3C /* UrlsConfig.swift */; };
 		8B3E0D272A0414DA005E8E3C /* KeychainServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4728113C7A0033D07A /* KeychainServiceProtocol.swift */; };
 		8B3E0D282A0414DA005E8E3C /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4B2811996F0033D07A /* KeychainService.swift */; };
 		8B3E0D292A0414DA005E8E3C /* KeychainService+Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D448152C2877342400E9CAEF /* KeychainService+Credentials.swift */; };
@@ -628,8 +616,6 @@
 		B4C106F74147CC38CED7B7DF /* Pods_CryptoMessengerPods_AuraNSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */; };
 		D4014D4F283FA7D100AAD70C /* CallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D4E283FA7D100AAD70C /* CallViewController.swift */; };
 		D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */; };
-		D4074C292A0CB67000896100 /* CallKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4074C282A0CB67000896100 /* CallKitService.swift */; };
-		D4074C2B2A0CB6DF00896100 /* ringtone.caf in Resources */ = {isa = PBXBuildFile; fileRef = D4074C2A2A0CB6DF00896100 /* ringtone.caf */; };
 		D40D7D7E290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40D7D7D290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift */; };
 		D40D7D80290BA41400F2A0EF /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40D7D7F290BA41400F2A0EF /* ChatTextView.swift */; };
 		D413F10129BF3458005B7532 /* AccessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413F10029BF3458005B7532 /* AccessService.swift */; };
@@ -676,8 +662,8 @@
 		D44B4E96294AFB0A00D64F5E /* Encodable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B4E95294AFB0A00D64F5E /* Encodable+Extensions.swift */; };
 		D44B4E9D294C4B3200D64F5E /* TransactionTemplateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B4E9C294C4B3200D64F5E /* TransactionTemplateResponse.swift */; };
 		D44BDC70280818090080AE8A /* DefaultResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187F062680CF49001957D3 /* DefaultResponses.swift */; };
-		D44BDC742808382B0080AE8A /* PushNotificationsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC732808382B0080AE8A /* PushNotificationsUseCase.swift */; };
-		D44BDC7728083B2F0080AE8A /* PushNotificationsUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC7628083B2F0080AE8A /* PushNotificationsUseCaseAssembly.swift */; };
+		D44BDC742808382B0080AE8A /* NotificationsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC732808382B0080AE8A /* NotificationsUseCase.swift */; };
+		D44BDC7728083B2F0080AE8A /* NotificationsUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC7628083B2F0080AE8A /* NotificationsUseCaseAssembly.swift */; };
 		D44BDC8128099F110080AE8A /* PushNotificationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC8028099F110080AE8A /* PushNotificationParser.swift */; };
 		D44BDC832809A2EE0080AE8A /* MatrixNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC822809A2EE0080AE8A /* MatrixNotification.swift */; };
 		D44BDC852809A3CD0080AE8A /* PushNotificationCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC842809A3CD0080AE8A /* PushNotificationCoordinatorAssembly.swift */; };
@@ -837,6 +823,28 @@
 		D4E8785F28CE02EA00063762 /* GroupCallsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */; };
 		D4E8786128CE07DF00063762 /* JitsiWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8786028CE07DF00063762 /* JitsiWidget.swift */; };
 		D4E8786428CE0E6B00063762 /* JitsiWidgetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */; };
+		D4E978D32A17998C00771232 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A187DBE26806EF8001957D3 /* AppDelegate.swift */; };
+		D4E978F62A1E01DA00771232 /* KeychainServiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E978F52A1E01DA00771232 /* KeychainServiceAssembly.swift */; };
+		D4E978F72A1E01DA00771232 /* KeychainServiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E978F52A1E01DA00771232 /* KeychainServiceAssembly.swift */; };
+		D4E978F92A1E07F300771232 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FC16229A3907A00D65C99 /* AppConfiguration.swift */; };
+		D4E978FB2A1E082400771232 /* AppConfigurationEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FC16629A392D000D65C99 /* AppConfigurationEnums.swift */; };
+		D4E978FC2A1E082B00771232 /* UrlsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FC16829A397BA00D65C99 /* UrlsConfig.swift */; };
+		D4E978FD2A1E082F00771232 /* RawInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FC16429A3924800D65C99 /* RawInitializable.swift */; };
+		D4E978FE2A1E083200771232 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FC15F29A3903900D65C99 /* Bundle+Extensions.swift */; };
+		D4E978FF2A1E085A00771232 /* EventCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE50B271DD86A00D03D09 /* EventCollection.swift */; };
+		D4E979022A1E08A300771232 /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E979012A1E08A300771232 /* MessageType.swift */; };
+		D4E979032A1E08A300771232 /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E979012A1E08A300771232 /* MessageType.swift */; };
+		D4E979042A1E08F300771232 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D428A53E2823CBA0002CAA13 /* Parser.swift */; };
+		D4E979052A1E091800771232 /* RoomSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE509271DD86A00D03D09 /* RoomSummary.swift */; };
+		D4E979062A1E093500771232 /* URLConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BE4F3271DBEC900D03D09 /* URLConvertible.swift */; };
+		D4E979082A1E0C6200771232 /* NetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E979072A1E0C6200771232 /* NetType.swift */; };
+		D4E979092A1E0C6200771232 /* NetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E979072A1E0C6200771232 /* NetType.swift */; };
+		D4E9790B2A1E0D8000771232 /* ConnectedEdges.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E9790A2A1E0D8000771232 /* ConnectedEdges.swift */; };
+		D4E9790C2A1E0D8000771232 /* ConnectedEdges.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E9790A2A1E0D8000771232 /* ConnectedEdges.swift */; };
+		D4E9790E2A1E271C00771232 /* EventCollection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E9790D2A1E271C00771232 /* EventCollection+Extensions.swift */; };
+		D4E979112A1F2FD100771232 /* PushKitServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E979102A1F2FD100771232 /* PushKitServiceProtocols.swift */; };
+		D4E979132A1F2FFF00771232 /* PushKitServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E979122A1F2FFF00771232 /* PushKitServiceMock.swift */; };
+		D4E979142A1F30CB00771232 /* PushKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4074C282A0CB67000896100 /* PushKitService.swift */; };
 		D4EF286C2953C6650039744D /* WalletErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EF286B2953C6650039744D /* WalletErrorResponse.swift */; };
 		D4F5DB3529EFBCBB00772AC5 /* WalletModelsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5DB3429EFBCBB00772AC5 /* WalletModelsFactory.swift */; };
 		D4F5DB3729F11E1F00772AC5 /* CoreDataServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5DB3629F11E1F00772AC5 /* CoreDataServiceProtocol.swift */; };
@@ -890,7 +898,6 @@
 		5A187DD426806F35001957D3 /* Injectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Injectable.swift; sourceTree = "<group>"; };
 		5A187DD526806F35001957D3 /* Dependency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 		5A187DDA26806F62001957D3 /* AppHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppHelpers.swift; sourceTree = "<group>"; };
-		5A187DDF26806F62001957D3 /* AppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		5A187DE826807011001957D3 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		5A187DE926807011001957D3 /* AuthFlowCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthFlowCoordinator.swift; sourceTree = "<group>"; };
 		5A187DEC26807011001957D3 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -1267,18 +1274,8 @@
 		8B3E0D012A0401FE005E8E3C /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		8B3E0D032A0401FE005E8E3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B3E0D0B2A04030D005E8E3C /* MatrixSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MatrixSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8B3E0D0E2A04142F005E8E3C /* Pasable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pasable.swift; sourceTree = "<group>"; };
-		8B3E0D0F2A04142F005E8E3C /* URLConvertable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLConvertable.swift; sourceTree = "<group>"; };
-		8B3E0D102A04142F005E8E3C /* RoomSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomSummary.swift; sourceTree = "<group>"; };
-		8B3E0D112A04142F005E8E3C /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
-		8B3E0D122A04142F005E8E3C /* RawInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawInitializable.swift; sourceTree = "<group>"; };
-		8B3E0D132A041430005E8E3C /* EventCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCollection.swift; sourceTree = "<group>"; };
 		8B3E0D142A041430005E8E3C /* AuraRoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuraRoom.swift; sourceTree = "<group>"; };
-		8B3E0D152A041430005E8E3C /* MessageType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
 		8B3E0D162A041430005E8E3C /* MXEvent+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MXEvent+Extension.swift"; sourceTree = "<group>"; };
-		8B3E0D172A041430005E8E3C /* Bundle+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
-		8B3E0D182A041430005E8E3C /* Stand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stand.swift; sourceTree = "<group>"; };
-		8B3E0D192A041430005E8E3C /* UrlsConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrlsConfig.swift; sourceTree = "<group>"; };
 		8B432CC127C394E00025D62B /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		8B432CC327C394F10025D62B /* WalletFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletFlow.swift; sourceTree = "<group>"; };
 		8B432CC527C3955A0025D62B /* WalletViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewModel.swift; sourceTree = "<group>"; };
@@ -1507,8 +1504,7 @@
 		C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4014D4E283FA7D100AAD70C /* CallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewController.swift; sourceTree = "<group>"; };
 		D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallsRouter.swift; sourceTree = "<group>"; };
-		D4074C282A0CB67000896100 /* CallKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallKitService.swift; sourceTree = "<group>"; };
-		D4074C2A2A0CB6DF00896100 /* ringtone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ringtone.caf; sourceTree = "<group>"; };
+		D4074C282A0CB67000896100 /* PushKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushKitService.swift; sourceTree = "<group>"; };
 		D40D7D7D290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatTextsView+EmojiMocks.swift"; sourceTree = "<group>"; };
 		D40D7D7F290BA41400F2A0EF /* ChatTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextView.swift; sourceTree = "<group>"; };
 		D413F10029BF3458005B7532 /* AccessService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessService.swift; sourceTree = "<group>"; };
@@ -1554,8 +1550,8 @@
 		D44B4E93294AF7C200D64F5E /* TransactionSendRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSendRequestParams.swift; sourceTree = "<group>"; };
 		D44B4E95294AFB0A00D64F5E /* Encodable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+Extensions.swift"; sourceTree = "<group>"; };
 		D44B4E9C294C4B3200D64F5E /* TransactionTemplateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTemplateResponse.swift; sourceTree = "<group>"; };
-		D44BDC732808382B0080AE8A /* PushNotificationsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsUseCase.swift; sourceTree = "<group>"; };
-		D44BDC7628083B2F0080AE8A /* PushNotificationsUseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsUseCaseAssembly.swift; sourceTree = "<group>"; };
+		D44BDC732808382B0080AE8A /* NotificationsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsUseCase.swift; sourceTree = "<group>"; };
+		D44BDC7628083B2F0080AE8A /* NotificationsUseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsUseCaseAssembly.swift; sourceTree = "<group>"; };
 		D44BDC8028099F110080AE8A /* PushNotificationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationParser.swift; sourceTree = "<group>"; };
 		D44BDC822809A2EE0080AE8A /* MatrixNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixNotification.swift; sourceTree = "<group>"; };
 		D44BDC842809A3CD0080AE8A /* PushNotificationCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationCoordinatorAssembly.swift; sourceTree = "<group>"; };
@@ -1720,6 +1716,13 @@
 		D4E8785E28CE02EA00063762 /* GroupCallsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsViewModel.swift; sourceTree = "<group>"; };
 		D4E8786028CE07DF00063762 /* JitsiWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidget.swift; sourceTree = "<group>"; };
 		D4E8786328CE0E6B00063762 /* JitsiWidgetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidgetService.swift; sourceTree = "<group>"; };
+		D4E978F52A1E01DA00771232 /* KeychainServiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainServiceAssembly.swift; sourceTree = "<group>"; };
+		D4E979012A1E08A300771232 /* MessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
+		D4E979072A1E0C6200771232 /* NetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetType.swift; sourceTree = "<group>"; };
+		D4E9790A2A1E0D8000771232 /* ConnectedEdges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedEdges.swift; sourceTree = "<group>"; };
+		D4E9790D2A1E271C00771232 /* EventCollection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventCollection+Extensions.swift"; sourceTree = "<group>"; };
+		D4E979102A1F2FD100771232 /* PushKitServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushKitServiceProtocols.swift; sourceTree = "<group>"; };
+		D4E979122A1F2FFF00771232 /* PushKitServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushKitServiceMock.swift; sourceTree = "<group>"; };
 		D4EF286B2953C6650039744D /* WalletErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletErrorResponse.swift; sourceTree = "<group>"; };
 		D4F5DB3429EFBCBB00772AC5 /* WalletModelsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletModelsFactory.swift; sourceTree = "<group>"; };
 		D4F5DB3629F11E1F00772AC5 /* CoreDataServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataServiceProtocol.swift; sourceTree = "<group>"; };
@@ -1827,7 +1830,6 @@
 			children = (
 				D46FC16129A3906B00D65C99 /* App Config */,
 				5A187DBE26806EF8001957D3 /* AppDelegate.swift */,
-				5A187DDF26806F62001957D3 /* AppConstants.swift */,
 				5A187DDA26806F62001957D3 /* AppHelpers.swift */,
 			);
 			path = App;
@@ -2082,7 +2084,6 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				D4074C272A0CB65200896100 /* Call Kit Service */,
 				D413F0FF29BF3441005B7532 /* Access Service */,
 				8B5F0C98297539DA002AE81E /* LogoutService */,
 				8BC518012970AF150033B30F /* PhraseService */,
@@ -2430,12 +2431,14 @@
 		5A4BE503271DD86A00D03D09 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5A4BE504271DD86A00D03D09 /* AuraRoom.swift */,
 				5A4BE505271DD86A00D03D09 /* Custom Events */,
+				5A4BE504271DD86A00D03D09 /* AuraRoom.swift */,
 				5A4BE509271DD86A00D03D09 /* RoomSummary.swift */,
 				5A4BE50A271DD86A00D03D09 /* Reaction.swift */,
 				5A4BE50B271DD86A00D03D09 /* EventCollection.swift */,
+				D4E9790D2A1E271C00771232 /* EventCollection+Extensions.swift */,
 				8B70583E29D0CCBE0058B180 /* MatrixChannel.swift */,
+				D4E9790A2A1E0D8000771232 /* ConnectedEdges.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2587,6 +2590,7 @@
 				5AC8C4EB27C3FEB6008B1744 /* Admins */,
 				5AE28A9A27EA1D5500D1AAFF /* Reply */,
 				5A26CD6026B35C9B00118D4B /* Message.swift */,
+				D4E979012A1E08A300771232 /* MessageType.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -3193,17 +3197,7 @@
 				8B44AC702A0B022A00AD974C /* AuraNSE.entitlements */,
 				8B3E0D012A0401FE005E8E3C /* NotificationService.swift */,
 				8B3E0D142A041430005E8E3C /* AuraRoom.swift */,
-				8B3E0D172A041430005E8E3C /* Bundle+Extension.swift */,
-				8B3E0D112A04142F005E8E3C /* Config.swift */,
-				8B3E0D132A041430005E8E3C /* EventCollection.swift */,
-				8B3E0D152A041430005E8E3C /* MessageType.swift */,
 				8B3E0D162A041430005E8E3C /* MXEvent+Extension.swift */,
-				8B3E0D0E2A04142F005E8E3C /* Pasable.swift */,
-				8B3E0D122A04142F005E8E3C /* RawInitializable.swift */,
-				8B3E0D102A04142F005E8E3C /* RoomSummary.swift */,
-				8B3E0D182A041430005E8E3C /* Stand.swift */,
-				8B3E0D0F2A04142F005E8E3C /* URLConvertable.swift */,
-				8B3E0D192A041430005E8E3C /* UrlsConfig.swift */,
 				8B3E0D032A0401FE005E8E3C /* Info.plist */,
 			);
 			path = AuraNSE;
@@ -3873,15 +3867,6 @@
 			path = "P2P Calls";
 			sourceTree = "<group>";
 		};
-		D4074C272A0CB65200896100 /* Call Kit Service */ = {
-			isa = PBXGroup;
-			children = (
-				D4074C2A2A0CB6DF00896100 /* ringtone.caf */,
-				D4074C282A0CB67000896100 /* CallKitService.swift */,
-			);
-			path = "Call Kit Service";
-			sourceTree = "<group>";
-		};
 		D413F0FF29BF3441005B7532 /* Access Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -3960,6 +3945,7 @@
 		D4442B3F28113BB40033D07A /* Keychain Service */ = {
 			isa = PBXGroup;
 			children = (
+				D4E978F52A1E01DA00771232 /* KeychainServiceAssembly.swift */,
 				D4442B4728113C7A0033D07A /* KeychainServiceProtocol.swift */,
 				D4442B4B2811996F0033D07A /* KeychainService.swift */,
 				D448152C2877342400E9CAEF /* KeychainService+Credentials.swift */,
@@ -3996,17 +3982,17 @@
 				D4AB9006282789F900E6FAB5 /* Matrix UseCase */,
 				8BE122C028253EF500F7707E /* Remote Config UseCase */,
 				D4FA3F6928182C9E000246D8 /* App Delegate UseCase */,
-				D44BDC75280838330080AE8A /* Push Notifications UseCase */,
+				D44BDC75280838330080AE8A /* Notifications UseCase */,
 			);
 			path = "Use Cases";
 			sourceTree = "<group>";
 		};
-		D44BDC75280838330080AE8A /* Push Notifications UseCase */ = {
+		D44BDC75280838330080AE8A /* Notifications UseCase */ = {
 			isa = PBXGroup;
 			children = (
-				D4442B4D2811A3DE0033D07A /* PushNotificationsService.swift */,
-				D44BDC732808382B0080AE8A /* PushNotificationsUseCase.swift */,
-				D44BDC7628083B2F0080AE8A /* PushNotificationsUseCaseAssembly.swift */,
+				D4E978F32A1DE2BF00771232 /* Services */,
+				D44BDC732808382B0080AE8A /* NotificationsUseCase.swift */,
+				D44BDC7628083B2F0080AE8A /* NotificationsUseCaseAssembly.swift */,
 				8B88126F2922818000EDB348 /* MXRoom+Notifications.swift */,
 				8B881271292281B100EDB348 /* RoomNotificationState.swift */,
 				8B881273292285D200EDB348 /* MXPushRule+Externsion.swift */,
@@ -4014,7 +4000,7 @@
 				8BAC812629F1BF3900316A8E /* MXRoomNotificationSettingsService.swift */,
 				8BAC812829F1BFED00316A8E /* RoomNotificationSettingsServiceType.swift */,
 			);
-			path = "Push Notifications UseCase";
+			path = "Notifications UseCase";
 			sourceTree = "<group>";
 		};
 		D44BDC90280FECC80080AE8A /* App Services */ = {
@@ -4207,6 +4193,7 @@
 				D46FC16229A3907A00D65C99 /* AppConfiguration.swift */,
 				D46FC16629A392D000D65C99 /* AppConfigurationEnums.swift */,
 				D46FC16829A397BA00D65C99 /* UrlsConfig.swift */,
+				D4E979072A1E0C6200771232 /* NetType.swift */,
 			);
 			path = "App Config";
 			sourceTree = "<group>";
@@ -4553,6 +4540,17 @@
 			path = "Jitsi Widget";
 			sourceTree = "<group>";
 		};
+		D4E978F32A1DE2BF00771232 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D4074C282A0CB67000896100 /* PushKitService.swift */,
+				D4442B4D2811A3DE0033D07A /* PushNotificationsService.swift */,
+				D4E979102A1F2FD100771232 /* PushKitServiceProtocols.swift */,
+				D4E979122A1F2FFF00771232 /* PushKitServiceMock.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		D4FA3F6928182C9E000246D8 /* App Delegate UseCase */ = {
 			isa = PBXGroup;
 			children = (
@@ -4671,7 +4669,6 @@
 				5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */,
 				5A42680F26A8393A000C51DD /* Localizable.strings in Resources */,
 				5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */,
-				D4074C2B2A0CB6DF00896100 /* ringtone.caf in Resources */,
 				5AD6E37E2753FFEF00CEFCE2 /* Assets.xcassets in Resources */,
 				5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */,
 				8BBCBCD628F74AF800E42F0C /* RemoteVideos.json in Resources */,
@@ -4822,6 +4819,7 @@
 				5A187EBB268070B3001957D3 /* NSMutableData+Extensions.swift in Sources */,
 				8B9B0CCF277556BD00654C24 /* LanguageView.swift in Sources */,
 				D49E8B3829E8190600EE26D1 /* NetworkTokensResponse.swift in Sources */,
+				D4E979112A1F2FD100771232 /* PushKitServiceProtocols.swift in Sources */,
 				D49C89C6290A6AF6005B4F64 /* ReactionTextsItem.swift in Sources */,
 				8BBCBCD428F749DF00E42F0C /* VideoRow.swift in Sources */,
 				8B6C18C02799A60D00B85F2A /* SecurityViewModel.swift in Sources */,
@@ -4857,6 +4855,7 @@
 				5A18EF8E26B988EA0038E991 /* ImagePicker.swift in Sources */,
 				D4C9B72E283C20380060BFD3 /* ChatRoomViewModelAssembly.swift in Sources */,
 				D450698D297A4DCE009515C8 /* ChannelSettingsView.swift in Sources */,
+				D4E978F62A1E01DA00771232 /* KeychainServiceAssembly.swift in Sources */,
 				5AC8C4EF27C403C9008B1744 /* AlertItem.swift in Sources */,
 				8B0C4FFC2891806000671BA3 /* TimerViewModel.swift in Sources */,
 				D48AF45629265CB50044CFAE /* WalletNetworkFacade.swift in Sources */,
@@ -4869,6 +4868,7 @@
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				8B4E9C4227E1EDBE0057E4C9 /* FacilityApproveView.swift in Sources */,
 				8B8B9C2327F330120061F5E6 /* SocialListProtocols.swift in Sources */,
+				D4E9790E2A1E271C00771232 /* EventCollection+Extensions.swift in Sources */,
 				8BE646D7285CB05F0090D5E5 /* AudioRecorderHelper.swift in Sources */,
 				5A24B25426F289F000EFC5E2 /* MapSnapshotView.swift in Sources */,
 				5A187E9F2680708D001957D3 /* ScalableButtonView.swift in Sources */,
@@ -5000,6 +5000,7 @@
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
 				78437F17270C8FB100371110 /* CustomWebViewController.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
+				D4E979132A1F2FFF00771232 /* PushKitServiceMock.swift in Sources */,
 				8BA0C8FE27AD1A050070203F /* ChatSettingsFlow.swift in Sources */,
 				D425C7E628071C6500E61607 /* AppCoordinatorAssembly.swift in Sources */,
 				5A44FEDC276681BD006F9D92 /* ProfileConfigurator.swift in Sources */,
@@ -5184,7 +5185,6 @@
 				8B432CC427C394F10025D62B /* WalletFlow.swift in Sources */,
 				8BADB3D6284A0B51004A48AA /* MediaService.swift in Sources */,
 				5A42680A26A83554000C51DD /* RegistrationFlow.swift in Sources */,
-				D4074C292A0CB67000896100 /* CallKitService.swift in Sources */,
 				8B2048E529255CE1008143A7 /* ReactionsSelectView.swift in Sources */,
 				D4AB900828278A1600E6FAB5 /* MatrixUseCase.swift in Sources */,
 				8BCA91022750FCC200E8E269 /* Popup.swift in Sources */,
@@ -5207,7 +5207,7 @@
 				8B6C18C22799A87000B85F2A /* SecurityConfigurator.swift in Sources */,
 				5A187EB6268070B3001957D3 /* UIColor+Extensions.swift in Sources */,
 				D4752EC328CA131A006B650A /* JitsiWidgetData.swift in Sources */,
-				D44BDC7728083B2F0080AE8A /* PushNotificationsUseCaseAssembly.swift in Sources */,
+				D44BDC7728083B2F0080AE8A /* NotificationsUseCaseAssembly.swift in Sources */,
 				5A187EB5268070B3001957D3 /* UIViewController+Extensions.swift in Sources */,
 				8BE66738280F1C4600D41A3C /* CreateContactView.swift in Sources */,
 				8BE3799E27EB26AE00AB6B6E /* WalletManagerViewModel.swift in Sources */,
@@ -5236,7 +5236,6 @@
 				8B4DBFFB28F5D6E1003F58EB /* GalleryPickerView.swift in Sources */,
 				5A44FEEF2768B1E6006F9D92 /* ProfileDetailFlow.swift in Sources */,
 				7889064327064F8D0093459C /* ProfileNetworkDetailView.swift in Sources */,
-				5A187DBF26806EF8001957D3 /* AppDelegate.swift in Sources */,
 				7846B66326E8BC8B00B05984 /* ProgressAnimation.swift in Sources */,
 				5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */,
 				8B9AED5A28121DDF00C6C25A /* SocialNetworkView.swift in Sources */,
@@ -5335,7 +5334,6 @@
 				5A3721D5272F0A290097ABED /* ContactRow.swift in Sources */,
 				8BC06B0C27C7DFC4005A28A1 /* TransactionView.swift in Sources */,
 				8B4810FB27CF9BA600831589 /* ImportKeyFlow.swift in Sources */,
-				5A187DE526806F62001957D3 /* AppConstants.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
 				D44BDC9B280FECC80080AE8A /* DependeciesService.swift in Sources */,
 				78437F0E270C76FE00371110 /* AboutAppViewController.swift in Sources */,
@@ -5345,6 +5343,7 @@
 				5A3721DE272F418F0097ABED /* SelectContactView.swift in Sources */,
 				5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */,
 				D4D439EB2836086900AC0DEF /* P2PCallUseCase.swift in Sources */,
+				D4E979142A1F30CB00771232 /* PushKitService.swift in Sources */,
 				5A9318D626C5AAF100645365 /* ChatRoomView.swift in Sources */,
 				5AEB80FF26DE138F009A1944 /* Array+Extensions.swift in Sources */,
 				5AF8636A26ADCB9B004A417C /* KeyImportViewController.swift in Sources */,
@@ -5378,6 +5377,7 @@
 				8B350364297EF7A70090EE93 /* ChannelNotificationsViewModel.swift in Sources */,
 				789B123526CE8906002FCDDF /* CallListConfigurator.swift in Sources */,
 				8BE122BC28240C8B00F7707E /* RemoteConfigUseCase.swift in Sources */,
+				D4E978D32A17998C00771232 /* AppDelegate.swift in Sources */,
 				5A3C942C274AFFDC00818060 /* KeyboardHandler.swift in Sources */,
 				8BB2F8EC28B6640A0034D902 /* CountryCodeView.swift in Sources */,
 				D4752EB228C64291006B650A /* GroupCallsViewController.swift in Sources */,
@@ -5400,7 +5400,7 @@
 				8B32FEC2298B21130017082A /* ChannelInfoAssembly.swift in Sources */,
 				8BE24FA829490105009A3734 /* SelectContactFlow.swift in Sources */,
 				782A2E752889534C00DDB6CE /* MapViewConstants.swift in Sources */,
-				D44BDC742808382B0080AE8A /* PushNotificationsUseCase.swift in Sources */,
+				D44BDC742808382B0080AE8A /* NotificationsUseCase.swift in Sources */,
 				8B4E9C4D27E3ADF80057E4C9 /* SuccessFacilityView.swift in Sources */,
 				8B4E9C4F27E400BF0057E4C9 /* SuccessFacilityFlow.swift in Sources */,
 				7889064427064F8D0093459C /* ProfileNetworkDetailConfigurator.swift in Sources */,
@@ -5458,6 +5458,7 @@
 				8B9B0CCD2775442E00654C24 /* PersonalizationModel.swift in Sources */,
 				D450698F297A65FA009515C8 /* ChannelParticipantView.swift in Sources */,
 				8BE122C228253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift in Sources */,
+				D4E9790B2A1E0D8000771232 /* ConnectedEdges.swift in Sources */,
 				8BA0C90027AD1A260070203F /* ChatSettingsConfigurator.swift in Sources */,
 				8BC06B1027C8F609005A28A1 /* TransactionProtocols.swift in Sources */,
 				8B971E1028B5894E00F111D9 /* ImageCacheService.swift in Sources */,
@@ -5564,6 +5565,7 @@
 				D4E7A180298A151700398F93 /* UserSettingsAssembly.swift in Sources */,
 				8B5609B82779D2D800AF43F6 /* BackgroundView.swift in Sources */,
 				8BE379A927EB7CE300AB6B6E /* KeyListFlow.swift in Sources */,
+				D4E979022A1E08A300771232 /* MessageType.swift in Sources */,
 				5A3721E0272F47EA0097ABED /* EmptyNavigationLink.swift in Sources */,
 				5A44FEF7276940E8006F9D92 /* ChatCreateFlow.swift in Sources */,
 				8BE3799C27EB268700AB6B6E /* WalletManagerView.swift in Sources */,
@@ -5582,6 +5584,7 @@
 				8BBF908129350ACB00936F4D /* KeyboardButtonView.swift in Sources */,
 				5AC8C4F427C42D94008B1744 /* PDFKitView.swift in Sources */,
 				5A187E992680708D001957D3 /* ActivityView.swift in Sources */,
+				D4E979082A1E0C6200771232 /* NetType.swift in Sources */,
 				8B4E9C3227DFF6700057E4C9 /* ScanerViewController.swift in Sources */,
 				5A9318BA26BD210400645365 /* PinCodeConfigurator.swift in Sources */,
 				D44CBF0529308BC1006A14D1 /* BaseNetworkModels.swift in Sources */,
@@ -5627,25 +5630,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4E979092A1E0C6200771232 /* NetType.swift in Sources */,
 				8B3E0D272A0414DA005E8E3C /* KeychainServiceProtocol.swift in Sources */,
 				8B3E0D282A0414DA005E8E3C /* KeychainService.swift in Sources */,
+				D4E978FE2A1E083200771232 /* Bundle+Extensions.swift in Sources */,
+				D4E979062A1E093500771232 /* URLConvertible.swift in Sources */,
+				D4E979042A1E08F300771232 /* Parser.swift in Sources */,
 				8B3E0D292A0414DA005E8E3C /* KeychainService+Credentials.swift in Sources */,
 				8B3E0D2A2A0414DA005E8E3C /* KeychainWrapper.swift in Sources */,
 				8B3E0D2B2A0414DA005E8E3C /* KeychainWrapperSubscript.swift in Sources */,
 				8B3E0D2C2A0414DA005E8E3C /* KeychainItemAccessibility.swift in Sources */,
+				D4E978FB2A1E082400771232 /* AppConfigurationEnums.swift in Sources */,
+				D4E9790C2A1E0D8000771232 /* ConnectedEdges.swift in Sources */,
 				8B3E0D022A0401FE005E8E3C /* NotificationService.swift in Sources */,
+				D4E979052A1E091800771232 /* RoomSummary.swift in Sources */,
+				D4E978F72A1E01DA00771232 /* KeychainServiceAssembly.swift in Sources */,
 				8B3E0D212A041430005E8E3C /* AuraRoom.swift in Sources */,
-				8B3E0D222A041430005E8E3C /* MessageType.swift in Sources */,
-				8B3E0D1D2A041430005E8E3C /* RoomSummary.swift in Sources */,
-				8B3E0D1F2A041430005E8E3C /* RawInitializable.swift in Sources */,
-				8B3E0D1B2A041430005E8E3C /* Pasable.swift in Sources */,
-				8B3E0D242A041430005E8E3C /* Bundle+Extension.swift in Sources */,
+				D4E979032A1E08A300771232 /* MessageType.swift in Sources */,
+				D4E978FD2A1E082F00771232 /* RawInitializable.swift in Sources */,
+				D4E978F92A1E07F300771232 /* AppConfiguration.swift in Sources */,
 				8B3E0D232A041430005E8E3C /* MXEvent+Extension.swift in Sources */,
-				8B3E0D1C2A041430005E8E3C /* URLConvertable.swift in Sources */,
-				8B3E0D202A041430005E8E3C /* EventCollection.swift in Sources */,
-				8B3E0D1E2A041430005E8E3C /* Config.swift in Sources */,
-				8B3E0D252A041430005E8E3C /* Stand.swift in Sources */,
-				8B3E0D262A041430005E8E3C /* UrlsConfig.swift in Sources */,
+				D4E978FF2A1E085A00771232 /* EventCollection.swift in Sources */,
+				D4E978FC2A1E082B00771232 /* UrlsConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

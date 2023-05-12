@@ -75,7 +75,7 @@ final class MatrixUseCase {
 	}
 
 	// TODO: Отрефачить логику входа по пин коду
-	private func updateCredentialsIfAvailable() {
+    func updateCredentialsIfAvailable() {
 		guard let credentials = retrievCredentials() else { return }
 		matrixService.updateService(credentials: credentials)
 		matrixService.initializeSessionStore { [weak self] result in
@@ -453,12 +453,16 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
     }
     
 	// MARK: - Pusher
-	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void) {
-		matrixService.createPusher(with: pushToken, completion: completion)
+	func createPusher(pushToken: Data, completion: @escaping (Bool) -> Void) {
+		matrixService.createPusher(pushToken: pushToken, completion: completion)
 	}
     
-    func deletePusher(with pushToken: Data, completion: @escaping (Bool) -> Void) {
-        matrixService.deletePusher(with: pushToken, completion: completion)
+    func deletePusher(appId: String, pushToken: Data, completion: @escaping (Bool) -> Void) {
+        matrixService.deletePusher(appId: appId, pushToken: pushToken, completion: completion)
+    }
+    
+    func createVoipPusher(pushToken: Data, completion: @escaping (Bool) -> Void) {
+        matrixService.createVoipPusher(pushToken: pushToken, completion: completion)
     }
 
 }

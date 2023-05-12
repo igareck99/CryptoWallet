@@ -5,7 +5,7 @@ import JitsiMeetSDK
 import MatrixSDK
 import MatrixSDKCrypto
 
-// swiftlint: disable: all
+// swiftlint:disable all
 
 enum MXErrors: Error {
 	case loginFailure
@@ -58,24 +58,22 @@ final class MatrixService: MatrixServiceProtocol {
 	}
 	var listenReference: Any? // MXSessionEventListener
 	var listenReferenceRoom: Any?
-
 	let keychainService: KeychainServiceProtocol
 	let userSettings: UserDefaultsServiceProtocol
-
 	private(set) var session: MXSession?
 	private(set) var fileStore: MXFileStore
 	private(set) var uploader: MXMediaLoader?
 	private(set) var roomCache = [ObjectIdentifier: AuraRoom]()
-
 	let deviceRemovalGroup = DispatchGroup()
-
 	static let shared = MatrixService()
+    private let config: ConfigType
 
 	init(
 		client: MXRestClient? = nil,
 		session: MXSession? = nil,
 		fileStore: MXFileStore = MXFileStore(),
 		uploader: MXMediaLoader? = nil,
+        config: ConfigType = Configuration.shared,
 		keychainService: KeychainServiceProtocol = KeychainService.shared,
 		userSettings: UserDefaultsServiceProtocol = UserDefaultsService.shared,
 		matrixObjectsFactory: MatrixObjectFactoryProtocol = MatrixObjectFactory()
@@ -84,6 +82,7 @@ final class MatrixService: MatrixServiceProtocol {
 		self.session = session
 		self.fileStore = fileStore
 		self.uploader = uploader
+        self.config = config
 		self.keychainService = keychainService
 		self.userSettings = userSettings
 		self.matrixObjectsFactory = matrixObjectsFactory
@@ -213,38 +212,65 @@ extension MatrixService {
 
 	// MARK: - Pusher
 
-	func deletePusher(with pushToken: Data, completion: @escaping (Bool) -> Void) {
-		updatePusher(pushToken: pushToken, kind: .none, completion: completion)
+	func deletePusher(
+        appId: String,
+        pushToken: Data,
+        completion: @escaping GenericBlock<Bool>
+    ) {
+		updatePusher(
+            appId: appId,
+            pushToken: pushToken,
+            kind: .none,
+            completion: completion
+        )
 	}
 
-	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void) {
-		updatePusher(pushToken: pushToken, kind: .http, completion: completion)
+    func createPusher(pushToken: Data, completion: @escaping GenericBlock<Bool>) {
+        updatePusher(
+            appId: config.pushesPusherId,
+            pushToken: pushToken,
+            completion: completion
+        )
 	}
 
-	private func updatePusher(pushToken: Data, kind: MXPusherKind, completion: @escaping (Bool) -> Void) {
+    func createVoipPusher(pushToken: Data, completion: @escaping GenericBlock<Bool>) {
+        updatePusher(
+            appId: config.voipPushesPusherId,
+            pushToken: pushToken,
+            completion: completion
+        )
+    }
 
-        guard !AppConstants.bundleId.aboutApp.isEmpty,
-              let userId = client?.credentials.userId else { completion(false); return }
-//        session?.myUser?.userId
+	private func updatePusher(
+        appId: String,
+        pushToken: Data,
+        kind: MXPusherKind = .http,
+        completion: @escaping (Bool) -> Void
+    ) {
+
+        guard let userId = client?.credentials.userId else { completion(false); return }
 
 #if DEBUG
-		let pushKeyRelease = pushToken.base64EncodedString()
-		let pushKeyDebug = pushToken.map { String(format: "%02x", $0) }.joined()
-		debugPrint("pushKeyRelease: \(pushKeyRelease.debugDescription)")
-		debugPrint("pushKeyDebug: \(pushKeyDebug.debugDescription)")
-
-		let pushKey = pushToken.map { String(format: "%02x", $0) }.joined()
+        let pushKey = pushToken.base64EncodedString()
 #else
-		let pushKey = pushToken.base64EncodedString()
+        let pushKey = pushToken.map { String(format: "%02.2hhx", $0) }.joined()
 #endif
+        
         let pushData: [String: Any] = [
-            "url": AppConstants.pusherUrl.aboutApp,
+            "url": config.pusherUrl,
             "format": "event_id_only",
-            "default_payload": ["aps": ["mutable-content": 1, "alert": ["loc-key": "Notification", "loc-args": []]]]
+            "default_payload": [
+                "aps": [
+                    "mutable-content": 1,
+                    "apps-expiration": 0,
+                    "alert": [
+                        "loc-key": "Notification",
+                        "loc-args": []
+                    ]
+                ]
+            ]
         ]
-		let appId = AppConstants.bundleId.aboutApp
-		let appDisplayName = AppConstants.appName.aboutApp
-		let deviceDisplayName = UIDevice.current.name
+
 		let lang = NSLocale.preferredLanguages.first ?? "en_US"
         let profileTag = "mobile_ios_\(userId.hashValue)"
 
@@ -252,12 +278,12 @@ extension MatrixService {
 			pushKey: pushKey,
 			kind: kind,
 			appId: appId,
-			appDisplayName: appDisplayName,
-			deviceDisplayName: deviceDisplayName,
+			appDisplayName: config.appName,
+			deviceDisplayName: config.deviceName,
 			profileTag: profileTag,
 			lang: lang,
 			data: pushData,
-			append: false
+			append: true
 		) { result in
 			completion(result.isSuccess)
 		}

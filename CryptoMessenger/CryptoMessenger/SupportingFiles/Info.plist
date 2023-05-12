@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>DevTeam</key>
-	<string>$(DEVELOPMENT_TEAM)</string>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -33,6 +35,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>DevTeam</key>
+	<string>$(DEVELOPMENT_TEAM)</string>
 	<key>DevelopmentTeam</key>
 	<string>Z123456789</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
@@ -62,6 +66,8 @@
 	<string>Приложение $(PRODUCT_NAME) запрашивает доступ к контактам</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>App requires to access your location to share it in chats</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>App requires to access your location to send it to friends</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -72,8 +78,6 @@
 	<string>App requires to access your location to share it with friends</string>
 	<key>Privacy - Location When in Usage Description</key>
 	<string>App requires to access your location to send it to friends</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>App requires to access your location to share it in chats</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik-Light.ttf</string>
@@ -86,7 +90,9 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
+		<string>fetch</string>
 		<string>location</string>
+		<string>processing</string>
 		<string>remote-notification</string>
 		<string>voip</string>
 	</array>

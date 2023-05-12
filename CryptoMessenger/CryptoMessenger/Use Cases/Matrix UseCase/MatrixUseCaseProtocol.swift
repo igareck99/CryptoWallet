@@ -11,8 +11,10 @@ protocol MatrixUseCaseProtocol {
 
 	// MARK: - Session
 	var matrixSession: MXSession? { get }
-
-	func loginUser(
+    
+    func updateCredentialsIfAvailable()
+	
+    func loginUser(
 		userId: String,
 		password: String,
 		homeServer: URL,
@@ -47,8 +49,9 @@ protocol MatrixUseCaseProtocol {
     func getPublicRooms(filter: String, completion: @escaping ([MatrixChannel]) -> Void)
 
 	// MARK: - Pusher
-	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void)
-    func deletePusher(with pushToken: Data, completion: @escaping (Bool) -> Void)
+	func createPusher(pushToken: Data, completion: @escaping (Bool) -> Void)
+    func deletePusher(appId: String, pushToken: Data, completion: @escaping (Bool) -> Void)
+    func createVoipPusher(pushToken: Data, completion: @escaping (Bool) -> Void)
 
 	// MARK: - Users
 	func getUserId() -> String

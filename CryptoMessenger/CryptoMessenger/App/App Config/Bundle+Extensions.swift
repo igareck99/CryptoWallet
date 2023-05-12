@@ -14,7 +14,7 @@ extension Bundle {
     }
 
     func object(for key: String) -> String {
-        guard let string = object(forInfoDictionaryKey: key.value) as? String else {
+        guard let string = object(forInfoDictionaryKey: key) as? String else {
             fatalError("\(key) not set in plist")
         }
         return string

@@ -18,6 +18,7 @@ final class AboutAppView: UIView {
     private lazy var licenseButton = UIButton()
     private lazy var politicsTermsButton = UIButton()
     private lazy var appIncLabel = UILabel()
+    private let config: ConfigType = Configuration.shared
 
     // MARK: - Lifecycle
 
@@ -61,7 +62,7 @@ final class AboutAppView: UIView {
     private func addCompanyNameLabel() {
         companyNameLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: AppConstants.appName.aboutApp,
+                text: self.config.appName,
                 [
                     .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center)),
                     .font(.semibold(15)),
@@ -78,7 +79,7 @@ final class AboutAppView: UIView {
     private func addVersionLabel() {
         versionLabel.snap(parent: self) {
             $0.titleAttributes(
-                text: AppConstants.appVersion.aboutApp,
+                text: self.config.appVersion,
                 [
                     .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center)),
                     .font(.semibold(13)),

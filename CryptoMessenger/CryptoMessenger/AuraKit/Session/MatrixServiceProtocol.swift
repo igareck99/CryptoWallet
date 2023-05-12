@@ -103,8 +103,9 @@ protocol MatrixServiceProtocol {
 	func paginate(room: AuraRoom, event: MXEvent)
 
 	// MARK: - Pusher
-	func createPusher(with pushToken: Data, completion: @escaping (Bool) -> Void)
-	func deletePusher(with pushToken: Data, completion: @escaping (Bool) -> Void)
+	func createPusher(pushToken: Data, completion: @escaping GenericBlock<Bool>)
+    func deletePusher(appId: String, pushToken: Data, completion: @escaping GenericBlock<Bool>)
+    func createVoipPusher(pushToken: Data, completion: @escaping GenericBlock<Bool>)
 
 	// MARK: - Fetcher
 	func configureFetcher()
