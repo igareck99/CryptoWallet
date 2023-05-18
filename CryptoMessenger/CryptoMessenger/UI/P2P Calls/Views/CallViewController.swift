@@ -1,11 +1,13 @@
 import Combine
 import UIKit
 
+// MARK: - CallViewController
+
 final class CallViewController: UIViewController {
 
 	private let nameLabel: UILabel = {
 		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+		label.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textColor = .white
 		label.text = ""
@@ -16,7 +18,7 @@ final class CallViewController: UIViewController {
 
 	private let stateLabel: UILabel = {
 		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+		label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		label.textColor = .white
 		label.text = ""
@@ -45,6 +47,14 @@ final class CallViewController: UIViewController {
 		imageView.alpha = 0.4
 		return imageView
 	}()
+    
+    private lazy var avatar: UIImageView = {
+        let imageView = UIImageView(frame: UIScreen.main.bounds)
+        imageView.frame = view.bounds
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .center
+        return imageView
+    }()
 
 	private let stateView: UIView = {
 		let stateImageView = UIView()
@@ -113,8 +123,8 @@ final class CallViewController: UIViewController {
 	}
 
 	override func viewDidLoad() {
-		super.viewDidLoad()
-		title = viewModel.screenTitle
+		super.viewDidLoad() 
+        navigationItem.title = viewModel.screenTitle
 		nameLabel.text = viewModel.userName
 		view.backgroundColor = .black
 		configureViews()
@@ -132,7 +142,8 @@ final class CallViewController: UIViewController {
 
 		let navigationBarAppearance = UINavigationBarAppearance()
 		navigationBarAppearance.configureWithTransparentBackground()
-		navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white,
+                                                       .font:  UIFont.systemFont(ofSize: 15, weight: .regular)]
 		navigationBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
 
 		navigationController?.navigationBar.tintColor = .white
@@ -174,6 +185,12 @@ final class CallViewController: UIViewController {
 			.sink { [weak self] duration in
 				self?.callDurationLabel.text = duration
 			}.store(in: &subscribtions)
+        viewModel.imageLoadedSubject
+            .receive(on: RunLoop.main)
+            .sink { [weak self] value in
+                self?.view.addBackground(value)
+                self?.navigationController?.navigationBar.backgroundColor = .clear
+            }.store(in: &subscribtions)
 	}
 
 	private func updateUIDepending(on callState: P2PCallState, callType: P2PCallType) {
@@ -243,6 +260,10 @@ private extension CallViewController {
 			stateImage.heightAnchor.constraint(equalToConstant: 70)
 		])
 	}
+
+    func configureBackround() {
+        view.addSubview(avatar)
+    }
 
 	// MARK: - Hold
 

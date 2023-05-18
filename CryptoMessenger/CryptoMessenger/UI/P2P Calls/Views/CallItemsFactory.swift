@@ -129,8 +129,8 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 		sources: CallViewSourcesable.Type
 	) -> HStackItemViewModelProtocol {
 
-		let normalIcon = UIImage(systemName: "mic")?.withRenderingMode(.alwaysTemplate)
-		let disabledIcon = UIImage(systemName: "mic.slash")?.withRenderingMode(.alwaysTemplate)
+        let normalIcon = sources.soundOnImage
+		let disabledIcon = sources.soundOffImage
 
 		let updateView = makeUpdateViewClosure(
 			normalText: sources.turnOnSound,
@@ -152,8 +152,8 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 		sources: CallViewSourcesable.Type
 	) -> HStackItemViewModelProtocol {
 
-		let normalIcon = UIImage(systemName: "speaker.wave.2")?.withRenderingMode(.alwaysTemplate)
-		let disabledIcon = UIImage(systemName: "speaker.slash")?.withRenderingMode(.alwaysTemplate)
+		let normalIcon = sources.dynamicSoundOn
+        let disabledIcon = sources.dynamicSoundOff
 
 		let updateView = makeUpdateViewClosure(
 			normalText: sources.speaker,
@@ -195,13 +195,13 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 
 	static func makeEndCallItem(delegate: VideoAudioItemsDelegate) -> HStackItemViewModelProtocol {
 
-		let imgName = R.image.callList.endCall.name
+        let imgName = R.image.callScreen.endCall.name
 		let normalIcon = UIImage(named: imgName)
 
 		let updateView: ((Bool, ButtonDownText) -> Void)? = { _, view in
+            view.actionButton.clipCorners(radius: 34)
 			view.actionButton.setImage(normalIcon, for: .normal)
-			view.actionButton.tintColor = .white
-			view.actionButton.backgroundColor = .systemRed
+            view.actionButton.backgroundColor = UIColor(.red2323098())
 			view.actionButton.imageView?.contentMode = .scaleAspectFill
 			view.actionButton.imageView?.tintColor = .white
 		}
@@ -365,7 +365,7 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 				view.underButtonLabel.text = disabledText
 				view.actionButton.setImage(normalIcon, for: .normal)
 				view.actionButton.tintColor = .white
-				view.actionButton.backgroundColor = .systemGray
+                view.actionButton.backgroundColor = UIColor(.grayA5A4A7())
 			}
 		}
 		return updateView

@@ -67,24 +67,28 @@ struct P2PCall {
 	let interlocutorView: UIView?
 	// Ссылка на видеовью себя
 	let selfyView: UIView?
+    // Аватар собеедника
+    let callerAvatar: URL?
 
-	init(
-		activeCallerName: String,
-		activeCallState: P2PCallState,
-		onHoldCallerName: String,
-		onHoldCallState: P2PCallState,
-		callType: P2PCallType,
-		isVideoCall: Bool = false,
-		interlocutorView: UIView? = nil,
-		selfyView: UIView? = nil
-	) {
-		self.activeCallerName = activeCallerName
-		self.activeCallState = activeCallState
-		self.onHoldCallerName = onHoldCallerName
-		self.onHoldCallState = onHoldCallState
-		self.callType = callType
-		self.isVideoCall = isVideoCall
-		self.interlocutorView = interlocutorView
-		self.selfyView = selfyView
-	}
+    init(
+        activeCallerName: String,
+        activeCallState: P2PCallState,
+        onHoldCallerName: String,
+        onHoldCallState: P2PCallState,
+        callType: P2PCallType,
+        isVideoCall: Bool = false,
+        interlocutorView: UIView? = nil,
+        selfyView: UIView? = nil,
+        callerAvatar: URL?
+    ) {
+        self.activeCallerName = activeCallerName
+        self.activeCallState = activeCallState
+        self.onHoldCallerName = onHoldCallerName
+        self.onHoldCallState = onHoldCallState
+        self.callType = callType
+        self.isVideoCall = isVideoCall
+        self.interlocutorView = interlocutorView
+        self.selfyView = selfyView
+        self.callerAvatar = callerAvatar
+    }
 }

@@ -99,4 +99,19 @@ extension UIView {
         shakeGroup.duration = duration
         layer.add(shakeGroup, forKey: "shakeIt")
     }
+
+    func addBackground(_ image: UIImage) {
+        // screen width and height:
+        let width = UIScreen.main.bounds.size.width
+        let height = UIScreen.main.bounds.size.height
+
+        let imageViewBackground = UIImageView(frame: CGRectMake(0, 0, width, height))
+        imageViewBackground.image = image
+
+        // you can change the content mode:
+        imageViewBackground.contentMode = .scaleAspectFill
+
+        self.addSubview(imageViewBackground)
+        self.sendSubviewToBack(imageViewBackground)
+    }
 }

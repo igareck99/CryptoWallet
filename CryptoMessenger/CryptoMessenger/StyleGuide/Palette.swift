@@ -41,6 +41,8 @@ enum Palette: Hashable {
          paleGray(_ alpha: CGFloat = 1),
          blue3E729E(_ alpha: CGFloat = 1),
          gray6589A8(_ alpha: CGFloat = 1),
+         grayA5A4A7(_ alpha: CGFloat = 1),
+         red2323098(_ alpha: CGFloat = 1),
          custom(_ color: UIColor)
 
     // MARK: - Internal Properties
@@ -99,6 +101,10 @@ enum Palette: Hashable {
             return #colorLiteral(red: 0.3960784314, green: 0.537254902, blue: 0.6588235294, alpha: 1).withAlphaComponent(alpha)
         case let .paleGray(alpha):
             return #colorLiteral(red: 0.8980392157, green: 0.8980392157, blue: 0.8980392157, alpha: 1).withAlphaComponent(alpha)
+        case let .grayA5A4A7(alpha):
+            return #colorLiteral(red: 0.6470588235, green: 0.6431372549, blue: 0.6549019608, alpha: 1).withAlphaComponent(alpha)
+        case let .red2323098(alpha):
+            return #colorLiteral(red: 0.9098039216, green: 0.1176470588, blue: 0.3843137255, alpha: 1).withAlphaComponent(alpha)
         }
     }
 

@@ -14,6 +14,7 @@ protocol VideoAudioItemsDelegate {
 
 protocol CallViewModelProtocol {
 	var userName: String { get }
+    var userAvatarImage: UIImage? { get }
 	var screenTitle: String { get }
 	var sources: CallViewSourcesable.Type { get }
 	var videoAudioStackModel: HStackViewModel? { get }
@@ -22,6 +23,7 @@ protocol CallViewModelProtocol {
 	var callStateTypeSubject: CurrentValueSubject<(P2PCallState, P2PCallType), Never> { get }
 	var activeCallerNameSubject: CurrentValueSubject<String, Never> { get }
 	var callDurationSubject: PassthroughSubject<String, Never> { get }
+    var imageLoadedSubject: PassthroughSubject<UIImage, Never> { get }
 
 	func controllerWillAppear()
 	func controllerDidDisappear()
@@ -31,6 +33,13 @@ protocol CallViewModelProtocol {
 final class CallViewModel {
 
 	let userName: String
+    let userAvatar: URL?
+    private var _userAvatarImage: UIImage?
+    var userAvatarImage: UIImage? {
+        get {
+            return _userAvatarImage
+        }
+    }
 	lazy var screenTitle: String = sources.endToEndEncrypted
 	var videoAudioStackModel: HStackViewModel?
 	var answerEndCallStackModel: HStackViewModel?
@@ -48,24 +57,31 @@ final class CallViewModel {
 
 	let changeHoldedCallButtonSubject = CurrentValueSubject<Bool, Never>(false)
 	let changeHoldedCallButtonActiveSubject = CurrentValueSubject<Bool, Never>(true)
+    var imageLoadedSubject = PassthroughSubject<UIImage, Never>()
 
 	lazy var activeCallerNameSubject = CurrentValueSubject<String, Never>(userName)
 
 	private let p2pCallUseCase: P2PCallUseCaseProtocol
+    private let matrixUseCase: MatrixUseCaseProtocol
 	private let factory: CallItemsFactoryProtocol.Type
 	let sources: CallViewSourcesable.Type
+    private var cache: ImageCacheServiceProtocol = ImageCacheService.shared
 
 	private var subscribtions: Set<AnyCancellable> = []
 	private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
-	init(
-		userName: String,
-		p2pCallUseCase: P2PCallUseCaseProtocol,
-		factory: CallItemsFactoryProtocol.Type = CallItemsFactory.self,
-		sources: CallViewSourcesable.Type = CallViewSources.self
-	) {
-		self.userName = userName
+    init(
+        userName: String,
+        userAvatar: URL?,
+        p2pCallUseCase: P2PCallUseCaseProtocol,
+        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
+        factory: CallItemsFactoryProtocol.Type = CallItemsFactory.self,
+        sources: CallViewSourcesable.Type = CallViewSources.self
+    ) {
+        self.userName = userName
+        self.userAvatar = userAvatar
 		self.p2pCallUseCase = p2pCallUseCase
+        self.matrixUseCase = matrixUseCase
 		self.factory = factory
 		self.sources = sources
 		makeVideoAudioModels()
@@ -143,6 +159,15 @@ final class CallViewModel {
 		let isHidden = p2pCallUseCase.callType == .outcoming || state.rawValue > P2PCallState.calling.rawValue
 		callButtonSubject.send(isHidden)
 	}
+    
+    private func getUserAvatar() {
+        guard let url = userAvatar else { return }
+        cache.loadImage(atUrl: url) { _, image in
+            guard let i = image else { return }
+            self._userAvatarImage = i
+            self.imageLoadedSubject.send(i)
+        }
+    }
 }
 
 // MARK: - CallViewModelProtocol
@@ -162,6 +187,7 @@ extension CallViewModel: CallViewModelProtocol {
 			name: .callViewWillAppear,
 			object: nil
 		)
+        getUserAvatar()
 		p2pCallUseCase.changeVoiceSpeaker()
 	}
 
