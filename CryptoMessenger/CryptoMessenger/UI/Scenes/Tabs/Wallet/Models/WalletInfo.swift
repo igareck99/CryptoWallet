@@ -10,7 +10,7 @@ enum TransactionType {
 
 // MARK: - WalletInfo
 
-struct WalletInfo: Identifiable, Equatable, Hashable {
+struct WalletInfo: Identifiable, Equatable, Hashable, Comparable {
 
 	// MARK: - Internal Properties
 
@@ -31,7 +31,7 @@ struct WalletInfo: Identifiable, Equatable, Hashable {
 
 	var result: WalletInfoData {
 		switch walletType {
-        case .ethereum:
+        case .ethereum, .ethereumUSDT, .ethereumUSDC:
             return .init(
                 image: R.image.wallet.ethereumCard.image,
                 fiatAmount: fiatAmount,
@@ -52,21 +52,17 @@ struct WalletInfo: Identifiable, Equatable, Hashable {
                 currency: walletType.currency,
                 networkTitle: walletType.networkTitle
             )
-        case .binance:
+        case .binance, .binanceUSDT, .binanceBUSD:
             return .init(
-                image: R.image.wallet.binanceCard.image,
-                fiatAmount: fiatAmount,
-                currency: walletType.currency,
-                networkTitle: walletType.networkTitle
-            )
-        case .binanceUSDT, .binanceBUSD,
-                .ethereumUSDT, .ethereumUSDC:
-            return .init(
-                image: R.image.wallet.auraCard.image,
+                image: R.image.wallet.binanceCard   .image,
                 fiatAmount: fiatAmount,
                 currency: walletType.currency,
                 networkTitle: walletType.networkTitle
             )
 		}
 	}
+    
+    static func < (lhs: WalletInfo, rhs: WalletInfo) -> Bool {
+        return lhs.walletType.order < rhs.walletType.order
+    }
 }

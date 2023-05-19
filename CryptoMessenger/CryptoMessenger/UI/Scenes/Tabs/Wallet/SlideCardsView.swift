@@ -59,13 +59,9 @@ struct WalletCardView: View {
             .padding(.bottom, 19)
         }
         .background(
-            Image(
-                wallet.walletType == .bitcoin ?
-                R.image.wallet.bitcoinCard.name :
-                    R.image.wallet.ethereumCard.name
-                 )
-            .resizable()
-            .frame(width: 343, height: 180)
+            wallet.result.image
+                .resizable()
+                .frame(width: 343, height: 180)
         )
     }
 }

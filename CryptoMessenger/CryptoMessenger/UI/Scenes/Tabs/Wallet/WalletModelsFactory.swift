@@ -134,6 +134,7 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
                     cards.append(tokenCard)
                 }
         }
+        cards = cards.sorted()
         return cards
     }
 
