@@ -7,6 +7,7 @@ enum P2PCallsAssembly {
 	) -> UIViewController {
 		let viewModel = CallViewModel(
 			userName: model.activeCallerName,
+            userAvatar: model.callerAvatar,
 			p2pCallUseCase: p2pCallUseCase
 		)
 		let controller = CallViewController(

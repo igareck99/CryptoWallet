@@ -14,8 +14,6 @@ protocol CallViewSourcesable {
 
 	static var otherIsHoldedCall: String { get }
 
-	static var callIsHoldedImage: UIImage? { get }
-
 	static var userDoesNotRespond: String { get }
 
 	static var callFinished: String { get }
@@ -32,6 +30,18 @@ protocol CallViewSourcesable {
 	static var turnOnSound: String { get }
 
 	static var turnOffSound: String { get }
+    
+    static var callIsHoldedImage: UIImage? { get }
+    
+    static var soundOnImage: UIImage? { get }
+    
+    static var soundOffImage: UIImage? { get }
+    
+    static var dynamicSoundOff: UIImage? { get }
+    
+    static var dynamicSoundOn: UIImage? { get }
+    
+    static var endCall: UIImage? { get }
 }
 
 enum CallViewSources: CallViewSourcesable {
@@ -96,4 +106,24 @@ enum CallViewSources: CallViewSourcesable {
 	static var turnOffSound: String {
 		R.string.localizable.callsTurnOffSound()
 	}
+
+    static var soundOnImage: UIImage? {
+        R.image.callScreen.soundOn()
+    }
+    
+    static var soundOffImage: UIImage? {
+        R.image.callScreen.soundOff()
+    }
+    
+    static var dynamicSoundOff: UIImage? {
+        R.image.callScreen.dynamicOff()
+    }
+    
+    static var dynamicSoundOn: UIImage? {
+        R.image.callScreen.dynamicOn()
+    }
+    
+    static var endCall: UIImage? {
+        R.image.callScreen.endCall()
+    }
 }
