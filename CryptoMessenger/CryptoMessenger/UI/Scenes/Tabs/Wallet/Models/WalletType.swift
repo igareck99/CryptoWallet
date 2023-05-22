@@ -1,15 +1,36 @@
 import Foundation
 
 enum WalletType: String {
-
+    
+    case bitcoin
+    case ethereum
+    case aur
     case binance
     case binanceUSDT
     case binanceBUSD
-	case ethereum
     case ethereumUSDT
     case ethereumUSDC
-	case bitcoin
-	case aur
+    
+    var order: Int {
+        switch self {
+        case .bitcoin:
+            return 0
+        case .ethereum:
+            return 1
+        case .aur:
+            return 2
+        case .binance:
+            return 5
+        case .binanceUSDT:
+            return 6
+        case .binanceBUSD:
+            return 7
+        case .ethereumUSDT:
+            return 3
+        case .ethereumUSDC:
+            return 4
+        }
+    }
 
 	var networkTitle: String {
 		switch self {
