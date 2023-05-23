@@ -155,9 +155,13 @@ extension GroupCallsUseCase: GroupCallsViewControllerDelegate {
 
 	func conferenceDidTerminated(controller: UIViewController) {
 		(controller.view as? JitsiMeetView)?.hangUp()
-		controller.navigationController?.popViewController(animated: true)
-
-		jingleCallStackConfigurator.configureAudioSessionAfterCallEnds()
+        if let vc = controller.navigationController?.viewControllers[safe: 1] {
+            controller.navigationController?.popToViewController(vc,
+                                                                 animated: true)
+        } else {
+            controller.navigationController?.popViewController(animated: true)
+            jingleCallStackConfigurator.configureAudioSessionAfterCallEnds()
+        }
 	}
 
 	func viewDidLoad(controller: UIViewController) {

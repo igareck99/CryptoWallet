@@ -87,5 +87,6 @@ extension GroupCallsViewController: JitsiMeetViewDelegate {
 
 	func ready(toClose data: [AnyHashable: Any]) {
 		debugPrint("GROUP_CALL readyToClose: \(data)")
+        delegate?.conferenceDidTerminated(controller: self)
 	}
 }
