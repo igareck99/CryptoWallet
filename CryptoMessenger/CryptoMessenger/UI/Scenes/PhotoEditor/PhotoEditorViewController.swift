@@ -42,8 +42,8 @@ final class PhotoEditorViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupBlackNavigationBar()
-        showNavigationBar()
+//        setupBlackNavigationBar()
+//        showNavigationBar()
     }
 
     override func viewDidAppear(_ animated: Bool) {

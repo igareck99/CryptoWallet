@@ -39,8 +39,8 @@ final class OnboardingViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.background(.white())
-        showNavigationBar()
-        hideNavigationBar()
+//        showNavigationBar()
+//        hideNavigationBar()
         setupPageView()
         addDotesStackView()
         addInfoLabel()
@@ -50,10 +50,10 @@ final class OnboardingViewController: BaseViewController {
         setViewControllers()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupTranslucentNavigationBar()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        setupTranslucentNavigationBar()
+//    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

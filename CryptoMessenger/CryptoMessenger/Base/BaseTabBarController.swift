@@ -22,10 +22,10 @@ final class BaseTabBarController: UITabBarController {
         delegate = self
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        hideNavigationBar()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        hideNavigationBar()
+//    }
 
     override var prefersHomeIndicatorAutoHidden: Bool { true }
 }

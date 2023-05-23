@@ -27,7 +27,7 @@ final class AboutAppViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        showNavigationBar()
+//        showNavigationBar()
     }
 
     // MARK: - Private Methods

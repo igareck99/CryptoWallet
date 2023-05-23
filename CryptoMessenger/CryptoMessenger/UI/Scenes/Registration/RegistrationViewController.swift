@@ -27,8 +27,8 @@ final class RegistrationViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupDefaultNavigationBar()
-        showNavigationBar()
+//        setupDefaultNavigationBar()
+//        showNavigationBar()
     }
 
     override func viewDidAppear(_ animated: Bool) {

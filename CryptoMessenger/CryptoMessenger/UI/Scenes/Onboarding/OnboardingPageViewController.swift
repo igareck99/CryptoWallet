@@ -26,7 +26,7 @@ final class OnboardingPageViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        hideNavigationBar()
+//        hideNavigationBar()
     }
 
     // MARK: - Internal Methods

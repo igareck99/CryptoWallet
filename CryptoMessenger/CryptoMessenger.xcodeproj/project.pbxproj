@@ -68,7 +68,6 @@
 		5A2181E926D83FD30093AD60 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2181E826D83FD20093AD60 /* MapKit.framework */; };
 		5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2181EA26D8563D0093AD60 /* MapView.swift */; };
 		5A24B25426F289F000EFC5E2 /* MapSnapshotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A24B25326F289F000EFC5E2 /* MapSnapshotView.swift */; };
-		5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD1426B2D79600118D4B /* UIViewController+NavigationBar.swift */; };
 		5A26CD2726B2FF9900118D4B /* CarouselNonAnimatableFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD2326B2FF9900118D4B /* CarouselNonAnimatableFlowLayout.swift */; };
 		5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD2426B2FF9900118D4B /* CarouselCollectionView.swift */; };
 		5A26CD2926B2FF9900118D4B /* CarouselAnimatableFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26CD2526B2FF9900118D4B /* CarouselAnimatableFlowLayout.swift */; };
@@ -4940,7 +4939,6 @@
 				D4752EB428C64342006B650A /* GroupCallsUseCase.swift in Sources */,
 				5A9318E226C5B15F00645365 /* ColorStyle.swift in Sources */,
 				5AF8635426AD9FE5004A417C /* GenerationInfoConfigurator.swift in Sources */,
-				5A26CD1526B2D79600118D4B /* UIViewController+NavigationBar.swift in Sources */,
 				5A187EBA268070B3001957D3 /* UIImage+Extensions.swift in Sources */,
 				8BBF908C2935153400936F4D /* NotificationSettingsProtocol.swift in Sources */,
 				8B4E9C2E27DFF60B0057E4C9 /* CodeScanner.swift in Sources */,

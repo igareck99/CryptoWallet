@@ -27,14 +27,14 @@ final class BaseHostingController<ContentView>: UIHostingController<ContentView>
     override func viewDidLoad() {
         super.viewDidLoad()
         if !isTranslucent {
-            setupDefaultNavigationBar()
+//            setupDefaultNavigationBar()
         }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if isTranslucent {
-            setupTranslucentNavigationBar()
+//            setupTranslucentNavigationBar()
         }
     }
 
