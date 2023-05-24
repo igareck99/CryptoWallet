@@ -33,7 +33,7 @@ protocol CallViewModelProtocol {
 final class CallViewModel {
 
 	let userName: String
-    let userAvatar: URL?
+    let roomId: String
     private var _userAvatarImage: UIImage?
     var userAvatarImage: UIImage? {
         get {
@@ -66,24 +66,27 @@ final class CallViewModel {
 	private let factory: CallItemsFactoryProtocol.Type
 	let sources: CallViewSourcesable.Type
     private var cache: ImageCacheServiceProtocol = ImageCacheService.shared
+    private let config: ConfigType
 
 	private var subscribtions: Set<AnyCancellable> = []
 	private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     init(
         userName: String,
-        userAvatar: URL?,
+        roomId: String,
         p2pCallUseCase: P2PCallUseCaseProtocol,
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         factory: CallItemsFactoryProtocol.Type = CallItemsFactory.self,
-        sources: CallViewSourcesable.Type = CallViewSources.self
+        sources: CallViewSourcesable.Type = CallViewSources.self,
+        config: ConfigType = Configuration.shared
     ) {
         self.userName = userName
-        self.userAvatar = userAvatar
+        self.roomId = roomId
 		self.p2pCallUseCase = p2pCallUseCase
         self.matrixUseCase = matrixUseCase
 		self.factory = factory
 		self.sources = sources
+        self.config = config
 		makeVideoAudioModels()
 	}
 
@@ -161,11 +164,15 @@ final class CallViewModel {
 	}
     
     private func getUserAvatar() {
-        guard let url = userAvatar else { return }
-        cache.loadImage(atUrl: url) { _, image in
-            guard let i = image else { return }
-            self._userAvatarImage = i
-            self.imageLoadedSubject.send(i)
+        matrixUseCase.getRoomMembers(roomId: roomId) { result in
+            guard case let .success(roomMembers) = result else { return }
+            guard let user = roomMembers.members.first(where: { $0.userId.contains(self.userName)
+                || $0.displayname.contains(self.userName) }) else { return }
+            self.matrixUseCase.getUserAvatar(avatarString: user.avatarUrl) { value in
+                guard case let .success(image) = value else { return }
+                self._userAvatarImage = image
+                self.imageLoadedSubject.send(image)
+            }
         }
     }
 }

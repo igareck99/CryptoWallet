@@ -152,7 +152,6 @@ final class P2PCallUseCase: NSObject {
 
 		if !router.isCallViewControllerBeingPresented,
 			let call = activeCall {
-            let callerAvatar = callerAvatar(for: call)
 			let model = P2PCall(
 				activeCallerName: callerName(for: call),
 				activeCallState: activeCallState,
@@ -162,7 +161,7 @@ final class P2PCallUseCase: NSObject {
 				isVideoCall: call.isVideoCall,
 				interlocutorView: call.remoteVideoView,
                 selfyView: call.selfVideoView,
-                callerAvatar: callerAvatar
+                roomId: call.room.roomId
 			)
 			router.showCallView( model: model, p2pCallUseCase: self)
 		}
@@ -282,14 +281,8 @@ final class P2PCallUseCase: NSObject {
 			let callerName = roomContacts.first(where: { call.callerId.contains($0.name) == false })?.name {
 			return callerName
 		}
-
 		return call.callerName ?? call.room.roomId
 	}
-
-    private func callerAvatar(for call: MXCall) -> URL? {
-        let callerAvatar = roomContacts.first(where: { call.callerId.contains($0.name) == false })?.avatar
-        return callerAvatar
-    }
 
 	// Асинхроная загрузка контактов пользователя
 	// на случай если контакты еще не успели подгрузится
@@ -309,7 +302,6 @@ final class P2PCallUseCase: NSObject {
 			if let callOnHold = self.onHoldCall {
 				holdedCallerName = self.callerName(for: callOnHold)
 			}
-            let callerAvatar = callerAvatar(for: call)
 
 			let p2pCall = P2PCall(
 				activeCallerName: callerName,
@@ -318,7 +310,7 @@ final class P2PCallUseCase: NSObject {
 				onHoldCallState: .onHold,
 				callType: self.callType,
                 isVideoCall: call.isVideoCall,
-                callerAvatar: callerAvatar
+                roomId: call.room.roomId
 			)
 			self.callModelSubject.send(p2pCall)
 			self.activeCallStateSubject.send(self.activeCallState)
@@ -335,7 +327,6 @@ final class P2PCallUseCase: NSObject {
 
 			let holdedCallerName = callerName(for: call)
 			let callerName = callerName(for: answeredCall)
-            let callerAvatar = callerAvatar(for: answeredCall)
 			let p2pCall = P2PCall(
 				activeCallerName: callerName,
 				activeCallState: activeCallState,
@@ -343,7 +334,7 @@ final class P2PCallUseCase: NSObject {
 				onHoldCallState: .onHold,
 				callType: callType,
 				isVideoCall: answeredCall.isVideoCall,
-                callerAvatar: callerAvatar
+                roomId: call.room.roomId
 			)
 			callModelSubject.send(p2pCall)
 			activeCallStateSubject.send(activeCallState)
@@ -359,7 +350,6 @@ final class P2PCallUseCase: NSObject {
 			activeCall = call
 			let holdedCallerName = callerName(for: holdedCall)
 			let callerName = callerName(for: call)
-            let callerAvatar = callerAvatar(for: holdedCall)
 			let p2pCall = P2PCall(
 				activeCallerName: callerName,
 				activeCallState: activeCallState,
@@ -367,7 +357,7 @@ final class P2PCallUseCase: NSObject {
 				onHoldCallState: .onHold,
 				callType: callType,
                 isVideoCall: call.isVideoCall,
-                callerAvatar: callerAvatar
+                roomId: call.room.roomId
 			)
 			callModelSubject.send(p2pCall)
 			activeCallStateSubject.send(activeCallState)
@@ -385,7 +375,6 @@ final class P2PCallUseCase: NSObject {
 			holdedCall.hold(false)
 			activeCall = holdedCall
 			let callerName = callerName(for: holdedCall)
-            let callerAvatar = callerAvatar(for: holdedCall)
 			let p2pCall = P2PCall(
 				activeCallerName: callerName,
 				activeCallState: activeCallState,
@@ -393,7 +382,7 @@ final class P2PCallUseCase: NSObject {
 				onHoldCallState: .none,
 				callType: callType,
 				isVideoCall: holdedCall.isVideoCall,
-                callerAvatar: callerAvatar
+                roomId: endedCall.room.roomId
 			)
 			callModelSubject.send(p2pCall)
 			activeCallStateSubject.send(activeCallState)
@@ -411,7 +400,6 @@ final class P2PCallUseCase: NSObject {
 
 		callType = .incoming
 		NotificationCenter.default.post(name: .callDidStart, object: nil)
-        let callerAvatar = callerAvatar(for: call)
 		let model = P2PCall(
 			activeCallerName: callerName(for: call),
 			activeCallState: .calling,
@@ -421,7 +409,7 @@ final class P2PCallUseCase: NSObject {
 			isVideoCall: call.isVideoCall,
 			interlocutorView: call.remoteVideoView,
             selfyView: call.selfVideoView,
-            callerAvatar: callerAvatar
+            roomId: call.room.roomId
 		)
 
 		router.showCallView(model: model, p2pCallUseCase: self)
@@ -431,7 +419,6 @@ final class P2PCallUseCase: NSObject {
 		callType = .outcoming
 		NotificationCenter.default.post(name: .callDidStart, object: nil)
 		activeCall = call
-        let callerAvatar = callerAvatar(for: call)
 		let model = P2PCall(
 			activeCallerName: callerName(for: call),
 			activeCallState: .calling,
@@ -441,7 +428,7 @@ final class P2PCallUseCase: NSObject {
             isVideoCall: call.isVideoCall,
             interlocutorView: call.remoteVideoView,
             selfyView: call.selfVideoView,
-            callerAvatar: callerAvatar
+            roomId: call.room.roomId
         )
 
 		router.showCallView(model: model, p2pCallUseCase: self)
