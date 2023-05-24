@@ -26,6 +26,7 @@ protocol MatrixUseCaseProtocol {
 
 	// MARK: - Rooms
     func getRoomAvatarUrl(roomId: String) -> URL?
+    func getUserAvatar(avatarString: String, completion: @escaping EmptyFailureBlock<UIImage>)
     func getRoomInfo(roomId: String) -> MXRoom?
 	func isDirectRoomExists(userId: String) -> Bool
     func isRoomEncrypted(roomId: String) -> Bool
