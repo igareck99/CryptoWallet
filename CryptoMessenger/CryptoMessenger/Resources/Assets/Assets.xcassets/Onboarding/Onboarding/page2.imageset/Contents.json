@@ -1,15 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "Mask Group (7).pdf",
+      "filename" : "page2.svg",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }
