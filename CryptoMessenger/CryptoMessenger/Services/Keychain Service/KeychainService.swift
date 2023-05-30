@@ -8,8 +8,10 @@ final class KeychainService {
 		case accessToken
 		case deviceId
 		case pushToken
+        case pushVoipToken
 		case gmtZeroTimeInterval
 
+        case lastCallEvent
 		case apiAccessToken
         case secretPhrase
         case password
@@ -30,28 +32,12 @@ final class KeychainService {
 		case bitcoinPublicKey
 	}
 
-	enum Constants {
-        static var accessGroup = {
-//            "Z48WYVF59J.ru.aura.app.test.keychain.accessGroup"
-            devId + ".ru.aura.app.test.keychain.accessGroup"
-        }
-		static let serviceName = "ru.aura.app.keychain.service"
-        static let devId = Bundle.main.infoDictionary?["DevTeam"] as? String ?? ""
-	}
+	private let keychainWrapper: KeychainWrapper
+    static let shared = KeychainServiceAssembly.build()
 
-	private let accessGroup: String
-	private let serviceName: String
-	private var keychainWrapper: KeychainWrapper
-    static let shared = KeychainService(accessGroup: Constants.accessGroup(), serviceName: Constants.serviceName)
-
-	init(
-		accessGroup: String = Constants.accessGroup(),
-		serviceName: String = Constants.serviceName
-	) {
-		self.accessGroup = accessGroup
-		self.serviceName = serviceName
-		self.keychainWrapper = KeychainWrapper(serviceName: serviceName, accessGroup: accessGroup)
-	}
+    init(wrapper: KeychainWrapper) {
+        self.keychainWrapper = wrapper
+    }
 }
 
 // MARK: - KeychainServiceProtocol

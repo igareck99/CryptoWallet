@@ -11,6 +11,7 @@ final class AboutAppViewController: BaseViewController {
     // MARK: - Private Properties
 
     private lazy var customView = AboutAppView(frame: UIScreen.main.bounds)
+    private let config: ConfigType = Configuration.shared
 
     // MARK: - Lifecycle
 
@@ -50,11 +51,11 @@ final class AboutAppViewController: BaseViewController {
 
     private func subscribeCustomViewActions() {
         customView.didTapLicense = { [unowned self] in
-            let vc = CustomWebViewController(url: AppConstants.licensePage.aboutApp)
+            let vc = CustomWebViewController(url: config.licensePage)
             present(vc, animated: true)
         }
         customView.didTapPolitics = { [unowned self] in
-            let vc = CustomWebViewController(url: AppConstants.rulesPage.aboutApp)
+            let vc = CustomWebViewController(url: config.rulesPage)
             present(vc, animated: true)
         }
     }

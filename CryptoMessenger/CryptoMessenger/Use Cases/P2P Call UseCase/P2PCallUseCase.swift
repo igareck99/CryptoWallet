@@ -229,8 +229,8 @@ final class P2PCallUseCase: NSObject {
 
             guard call.endReason != .answeredElseWhere else { return } // MXCallEndReasonAnsweredElseWhere
 
-			debugPrint("Place_Call: callStateChanged callId: \(call.callId) state: \(call.state)")
-			call.hangup()
+			debugPrint("Place_Call: callStateChanged callId: \(call.callId) state: \(call.state) end reason: \(call.endReason)")
+//			call.hangup()
 			updateControllerOnEndOf(endedCall: call)
 			settings.set(false, forKey: .isCallInprogressExists)
 		default:

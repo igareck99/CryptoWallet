@@ -82,16 +82,13 @@ extension AppDelegateUseCase: AppDelegateUseCaseProtocol {
 extension AppDelegateUseCase: AppDelegateApplicationLifeCycle {
 
 	func applicationWillTerminate() {
-		debugPrint("life_cycle: applicationWillTerminate")
 	}
 
 	func applicationDidEnterBackground() {
-		debugPrint("life_cycle: applicationDidEnterBackground")
 		saveTimeStamp()
 	}
 
 	func applicationWillEnterForeground() {
-		debugPrint("life_cycle: applicationWillEnterForeground")
 		updateAppState()
 		if userSettings.isLocalAuth {
 			appCoordinator.start()
@@ -99,15 +96,12 @@ extension AppDelegateUseCase: AppDelegateApplicationLifeCycle {
 	}
 
 	func applicationWillResignActive() {
-		debugPrint("life_cycle: applicationWillResignActive")
 		saveTimeStamp()
 	}
 
 	func applicationProtectedDataWillBecomeUnavailable() {
-		debugPrint("life_cycle: applicationProtectedDataWillBecomeUnavailable")
 	}
 
 	func applicationProtectedDataDidBecomeAvailable() {
-		debugPrint("life_cycle: applicationProtectedDataDidBecomeAvailable")
 	}
 }

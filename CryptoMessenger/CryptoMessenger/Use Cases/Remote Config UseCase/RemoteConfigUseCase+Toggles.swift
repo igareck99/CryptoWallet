@@ -4,6 +4,9 @@ import Foundation
 
 protocol RemoteConfigToggles {
 
+    // Voip Push
+    var isVoipPushServiceMockAvailable: Bool { get }
+    var isVoipPusherShouldIgnored: Bool { get }
 
 	// Wallet
 	var isWalletV1Available: Bool { get }
@@ -68,6 +71,24 @@ protocol RemoteConfigToggles {
 // MARK: - RemoteConfigUseCase(RemoteConfigToggles)
 
 extension RemoteConfigUseCase: RemoteConfigToggles {
+    
+    // MARK: - Voip Push
+    
+    var isVoipPushServiceMockAvailable: Bool {
+        let featureConfig = remoteConfigModule(forKey: .voipPush)
+        let feature = featureConfig?.features[RemoteConfigValues.VoipPush.voipPushService.rawValue]
+        let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
+        let isFeatureEnabled = feature?.enabled
+        return isVersionEnabled == true && isFeatureEnabled == true
+    }
+
+    var isVoipPusherShouldIgnored: Bool {
+        let featureConfig = remoteConfigModule(forKey: .voipPush)
+        let feature = featureConfig?.features[RemoteConfigValues.VoipPush.voipPusherIgnorance.rawValue]
+        let isVersionEnabled = feature?.versions[RemoteConfigValues.Version.v1_0.rawValue]
+        let isFeatureEnabled = feature?.enabled
+        return isVersionEnabled == true && isFeatureEnabled == true
+    }
 
 	// MARK: - Wallet
 

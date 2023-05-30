@@ -8,6 +8,7 @@ final class UserDefaultsService {
 		case pushKey
 		case isAppNotFirstStart
 		case isPushNotificationsEnabled
+        case isVoipPusherCreated
 		case roomList
 		case isCallInprogressExists
 

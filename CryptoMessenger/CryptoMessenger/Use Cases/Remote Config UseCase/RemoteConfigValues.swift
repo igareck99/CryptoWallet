@@ -3,6 +3,7 @@ import Foundation
 enum RemoteConfigValues: String {
 
 	// Модули
+    case voipPush = "VoipPush"
 	case chat = "Chat"
 	case wallet = "Wallet"
 	case calls = "Calls"
@@ -15,6 +16,12 @@ enum RemoteConfigValues: String {
     case security = "Security"
     case notification = "Notification"
 
+    // Настройки модуля Voip пушей
+    enum VoipPush: String {
+        case voipPushService
+        case voipPusherIgnorance
+    }
+    
 	// Настройки модуля Чаты
 	enum Chat: String {
 		case group

@@ -4,7 +4,7 @@ platform :ios, '16.0'
 
 use_frameworks!
 
-$matrixSDKVersion = '= 0.26.9'
+$matrixSDKVersion = '= 0.26.10'
 
 case $matrixSDKVersion
 when :local

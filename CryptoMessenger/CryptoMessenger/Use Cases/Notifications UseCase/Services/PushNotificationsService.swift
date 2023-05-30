@@ -21,6 +21,15 @@ protocol PushNotificationsServiceProtocol {
     func allMessages(room: AuraRoom, completion: @escaping (NotificationsActionState) -> Void)
 }
 
+// MARK: - NotificationsActionState
+
+enum NotificationsActionState {
+    case isAlreadyMuted
+    case isAlreadyEnable
+    case muteOn
+    case allMessagesOn
+}
+
 // MARK: - PushNotificationsService
 
 final class PushNotificationsService: NSObject {
@@ -103,14 +112,14 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
         if let rule = room.room.overridePushRule, room.room.isMuted {
             removePushRule(room: room, rule: rule)
             addPushRuleToUnmuteMute(room: room)
-            completion(NotificationsActionState.allMessagesOn)
+            completion(.allMessagesOn)
             return
         }
 
         if let rule = room.room.roomPushRule {
             removePushRule(room: room, rule: rule)
             addPushRuleToUnmuteMute(room: room)
-            completion(NotificationsActionState.allMessagesOn)
+            completion(.allMessagesOn)
             return
         }
     }
@@ -125,7 +134,7 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
 
     func mute(room: AuraRoom, completion: @escaping (NotificationsActionState) -> Void) {
         guard !room.room.isMuted else {
-            completion(NotificationsActionState.isAlreadyMuted)
+            completion(.isAlreadyMuted)
             return
         }
 
@@ -137,29 +146,20 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
         }
         guard let rule = room.room.overridePushRule else {
             addPushRuleToMute(room: room)
-            completion(NotificationsActionState.muteOn)
+            completion(.muteOn)
             return
         }
         if rule.actionsContains(actionType: MXPushRuleActionTypeDontNotify) {
             enablePushRule(room: room, rule: rule)
-            completion(NotificationsActionState.muteOn)
+            completion(.muteOn)
         } else {
             removePushRule(room: room, rule: rule)
             self.addPushRuleToMute(room: room)
-            completion(NotificationsActionState.muteOn)
+            completion(.muteOn)
         }
     }
 
 	var isRegisteredForRemoteNotifications: Bool {
 		application.isRegisteredForRemoteNotifications
 	}
-}
-
-// MARK: - NotificationsActionState
-
-enum NotificationsActionState {
-    case isAlreadyMuted
-    case isAlreadyEnable
-    case muteOn
-    case allMessagesOn
 }

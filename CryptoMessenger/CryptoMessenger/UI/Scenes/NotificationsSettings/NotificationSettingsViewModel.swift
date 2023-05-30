@@ -32,15 +32,20 @@ final class NotificationSettingsViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
     private var firstUserAccount = false
     private var firstOnDevice = false
+    private let config: ConfigType
 
     // MARK: - Lifecycle
 
-    init(userSettings: UserFlowsStorage = UserDefaultsService.shared,
-         keychainService: KeychainServiceProtocol = KeychainService.shared,
-         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared) {
+    init(
+        userSettings: UserFlowsStorage = UserDefaultsService.shared,
+        keychainService: KeychainServiceProtocol = KeychainService.shared,
+        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
+        config: ConfigType = Configuration.shared
+    ) {
         self.userSettings = userSettings
         self.keychainService = keychainService
         self.matrixUseCase = matrixUseCase
+        self.config = config
         self.pushService = MXRoomNotificationSettingsService(roomId: "")
         fetchRemoteConfig()
         fetchData()
@@ -78,12 +83,15 @@ final class NotificationSettingsViewModel: ObservableObject {
                 guard let data = keychainService.data(forKey: .pushToken) else { return }
                 if self.firstOnDevice {
                     if value.state {
-                        self.matrixUseCase.createPusher(with: data) { state in
+                        self.matrixUseCase.createPusher(pushToken: data) { state in
                             debugPrint("UPDATE PUSHER STATE  \(state)")
                             self.userSettings[.isPushNotificationsEnabled] = true
                         }
                     } else {
-                        self.matrixUseCase.deletePusher(with: data) { state in
+                        self.matrixUseCase.deletePusher(
+                            appId: self.config.pushesPusherId,
+                            pushToken: data
+                        ) { state in
                             debugPrint("DELETE PUSHER STATE  \(state)")
                             self.userSettings[.isPushNotificationsEnabled] = false
                         }
