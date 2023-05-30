@@ -250,11 +250,7 @@ extension MatrixService {
 
         guard let userId = client?.credentials.userId else { completion(false); return }
 
-#if DEBUG
         let pushKey = pushToken.base64EncodedString()
-#else
-        let pushKey = pushToken.map { String(format: "%02.2hhx", $0) }.joined()
-#endif
         
         let pushData: [String: Any] = [
             "url": config.pusherUrl,

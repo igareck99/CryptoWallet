@@ -13,7 +13,8 @@ enum NotificationsUseCaseAssembly {
 			keychainService: keychainService,
 			pushNotificationsService: pushNotificationsService,
             pushKitService: pushKitService,
-			matrixUseCase: matrixUseCase
+			matrixUseCase: matrixUseCase,
+            togglesFacade: RemoteConfigUseCaseAssembly.useCase
 		)
         pushKitService.delegate = notificationsUseCase
 		return notificationsUseCase
@@ -26,12 +27,10 @@ enum NotificationsUseCaseAssembly {
             return PushKitServiceMock()
         }
         
-        let isVoipPusherShouldIgnored = RemoteConfigUseCaseAssembly.useCase.isVoipPushServiceMockAvailable
+        let isVoipPusherShouldIgnored = RemoteConfigUseCaseAssembly.useCase.isVoipPusherShouldIgnored
         
-        if isVoipPusherShouldIgnored {
-            UserDefaultsService.shared[.isVoipPusherCreated] = false
-        }
-        
+        UserDefaultsService.shared[.isVoipPusherCreated] = !isVoipPusherShouldIgnored
+                
         let isVoipPusherCreated: Bool = UserDefaultsService.shared[.isVoipPusherCreated] == true
         var pushKitService: PushKitServiceProtocol
         

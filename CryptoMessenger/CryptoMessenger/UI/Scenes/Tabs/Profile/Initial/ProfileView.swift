@@ -376,7 +376,6 @@ struct ProfileView: View {
         if !viewModel.profile.photosUrls.isEmpty {
             guard let value = viewModel.profile.photosUrls.first(where: { $0 == viewModel.selectedPhoto } ) else { return 0 }
             guard let index = viewModel.profile.photosUrls.index(of: value) else { return 0 }
-            print("sksaklasklas  \(index)")
             return index
         }
         return 0

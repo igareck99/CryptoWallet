@@ -257,7 +257,6 @@ final class WalletViewModel: ObservableObject {
                         }) {
                         token.balance = balance.amount
                         token.fiatPrice = balance.fiatPrice ?? .zero
-                        print("eoiwioweieiowwe")
                         self.coreDataService.updateNetworkToken(token: token)
                     }
                 }
