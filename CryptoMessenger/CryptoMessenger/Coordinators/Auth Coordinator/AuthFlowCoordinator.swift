@@ -51,7 +51,8 @@ public final class AuthFlowCoordinator: Coordinator {
     }
 
     private func showRegistrationScene() {
-        let viewController = RegistrationConfigurator.configuredViewController(delegate: self)
+        let view = RegistrationConfigurator.build(delegate: self)
+        let viewController = BaseHostingController(rootView: view)
         navigationController.pushViewController(viewController, animated: true)
     }
 

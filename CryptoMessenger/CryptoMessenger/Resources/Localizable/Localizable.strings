@@ -12,6 +12,10 @@
 "Registration.Title" = "Введите номер телефона";
 "Registration.Description" = "Телефон нужен, чтобы ваши друзья могли видеть вас в контактах";
 "Registration.ContinueButton" = "Выслать код";
+"Registration.SelectCountry" = "Выберите страну";
+"Registration.YourNumber" = "Ваш номер";
+"Registration.SendCode" = "Выслать код";
+"Registration.InvalidCountryCode" = "Некорректный код страны";
 
 
 "CountryCodePicker.ScreenTitle" = "Выберите страну";
