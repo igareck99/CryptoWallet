@@ -19,6 +19,7 @@ final class NotificationsUseCase: NSObject {
 	private let userSettings: UserFlowsStorage
 	private let appCoordinator: AppCoordinatorProtocol
 	private let matrixUseCase: MatrixUseCaseProtocol
+    private let togglesFacade: RemoteConfigFacade
 
 	init(
 		appCoordinator: AppCoordinatorProtocol,
@@ -26,7 +27,8 @@ final class NotificationsUseCase: NSObject {
 		keychainService: KeychainServiceProtocol,
 		pushNotificationsService: PushNotificationsServiceProtocol,
         pushKitService: PushKitServiceProtocol,
-		matrixUseCase: MatrixUseCaseProtocol
+		matrixUseCase: MatrixUseCaseProtocol,
+        togglesFacade: RemoteConfigFacade
 	) {
 		self.appCoordinator = appCoordinator
 		self.userSettings = userSettings
@@ -34,6 +36,7 @@ final class NotificationsUseCase: NSObject {
 		self.pushNotificationsService = pushNotificationsService
         self.pushKitService = pushKitService
 		self.matrixUseCase = matrixUseCase
+        self.togglesFacade = togglesFacade
 		super.init()
 		self.subscribeToNotifications()
         self.updatePushTokens()
@@ -99,11 +102,20 @@ final class NotificationsUseCase: NSObject {
             return
         }
         
+        if togglesFacade.isVoipPusherShouldIgnored {
+            createVoipPusher(token: token)
+            return
+        }
+        
         guard keychainService[.pushVoipToken] != token,
               userSettings[.isVoipPusherCreated] == false,
               keychainService.set(token, forKey: .pushVoipToken)
         else { return }
         
+        createVoipPusher(token: token)
+    }
+    
+    private func createVoipPusher(token: Data) {
         matrixUseCase.createVoipPusher(pushToken: token) { [weak self] in
             self?.userSettings[.isVoipPusherCreated] = $0
             debugPrint("NotificationsUseCase handleUpdateOfVoip createPusher: \($0)")

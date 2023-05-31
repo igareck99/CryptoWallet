@@ -110,7 +110,6 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 		}
 
 		if event.eventType == "m.room.avatar" {
-            print("avatar")
 			return AnyView(
 				ChatEventView(
 					text: ("Аватар комнаты изменен"),

@@ -86,14 +86,14 @@ final class FriendProfileViewModel: ObservableObject {
                 case .onProfileAppear:
                     self?.fetchData()
                 case .onAppear:
-                    print("onAppear")
+                    debugPrint("onAppear")
                 case let .onShow(type):
                     switch type {
                     default:
                         ()
                     }
                 case .onSocial:
-                    print("onSocial")
+                    debugPrint("onSocial")
                 }
             }
             .store(in: &subscriptions)
