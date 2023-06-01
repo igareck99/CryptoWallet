@@ -471,7 +471,7 @@ final class WalletViewModel: ObservableObject {
 
     func updateUserWallet() {
         var wallets = coreDataService.getWalletNetworks()
-        var data = walletModelsFactory.makeAdressesData(wallets: wallets)
+        let data = walletModelsFactory.makeAdressesData(wallets: wallets)
         apiClient.publisher(Endpoints.Wallet.patchAssets(data))
             .sink { completion in
                 switch completion {
