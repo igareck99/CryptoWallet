@@ -8,7 +8,7 @@ struct ProfileSettingsMenuView: View {
     @StateObject var viewModel = ProfileSettingsMenuViewModel()
     let balance: String
     let onSelect: GenericBlock<ProfileSettingsMenu>
-    var utilities = Utilities()
+    var AppearanceService = appearanceService()
     // MARK: - Body
     
     var body: some View {
@@ -70,7 +70,7 @@ struct ProfileSettingsMenuView: View {
             }
             .padding(.bottom, 200)
             .onChange(of: selectedAppearance, perform: { value in
-                utilities.overrideDisplayMode()
+                AppearanceService.overrideDisplayMode()
             })
             Divider()
         }.background(Color.primaryColor)

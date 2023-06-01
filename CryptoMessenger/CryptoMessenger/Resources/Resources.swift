@@ -1,5 +1,6 @@
 import RswiftResources
 import SwiftUI
+import UIKit
 
 // MARK: - ImageResource ()
 
@@ -18,4 +19,10 @@ extension ColorResource {
 
 extension FontResource {
     func font(size: CGFloat) -> Font { .custom(name, size: size) }
+}
+
+extension Color{
+    static var primaryColor: Color {
+        Color(UIColor { $0.userInterfaceStyle == .dark ? .black : .white  })
+        }
 }
