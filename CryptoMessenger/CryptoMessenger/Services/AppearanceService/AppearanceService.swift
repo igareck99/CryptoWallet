@@ -12,10 +12,16 @@ class appearanceService {
         
         if selectedAppearance == 2 {
             userInterfaceStyle = .dark
+            Color.customtheme = 2
         } else if selectedAppearance == 1 {
             userInterfaceStyle = .light
-        } else {
+            Color.customtheme = 1
+        } else if selectedAppearance == 3 {
+            userInterfaceStyle = .light
+            Color.customtheme = 3
+        }else{
             userInterfaceStyle = .unspecified
+            Color.customtheme = 0
         }
         UIApplication.shared.windows.first?.overrideUserInterfaceStyle = userInterfaceStyle
     }

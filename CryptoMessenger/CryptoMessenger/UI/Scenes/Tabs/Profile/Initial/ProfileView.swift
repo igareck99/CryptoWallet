@@ -276,8 +276,9 @@ struct ProfileView: View {
                     photosView
                 }
             }
-        }
+        }.background(Color.primaryColor)
     }
+        
 
     private var avatarView: some View {
         ZStack {
