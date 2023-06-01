@@ -30,6 +30,7 @@ struct UserWallletData: Hashable {
     let name: String
     let bitcoin: String
     let ethereum: String
+    let binance: String
     let url: URL?
     let phone: String
 }
