@@ -47,6 +47,19 @@ final class ChooseReceiverViewModel: ObservableObject {
     func send(_ event: ChooseReceiverFlow.Event) {
         eventSubject.send(event)
     }
+    
+    func getAdress(_ user: UserWallletData, _ receiver: UserReceiverData) -> String {
+        switch receiver.walletType {
+        case .ethereum, .ethereumUSDC, .ethereumUSDT:
+            return user.ethereum
+        case .bitcoin:
+            return user.bitcoin
+        case .binance, .binanceBUSD, .binanceUSDT:
+            return user.binance
+        default:
+            return "Валюта не найдена"
+        }
+    }
 
     func updateText(_ text: String) {
         if !text.isEmpty {
@@ -54,12 +67,12 @@ final class ChooseReceiverViewModel: ObservableObject {
                 userWalletsFilteredData = userWalletsData.filter({ $0.phone.contains(text) })
             } else {
                 userWalletsFilteredData = userWalletsData.filter({ $0.ethereum.contains(text) })
-
                 if userWalletsFilteredData.isEmpty {
                     let data = UserWallletData(
                         name: "По адресу",
                         bitcoin: text,
                         ethereum: text,
+                        binance: text,
                         url: nil,
                         phone: ""
                     )
@@ -129,10 +142,12 @@ final class ChooseReceiverViewModel: ObservableObject {
                     self?.getUserData(item.mxId) { phone, name in
                         guard let btc = response[item.mxId]?["bitcoin"]?["address"] else { return }
                         guard let eth = response[item.mxId]?["ethereum"]?["address"] else { return }
+                        guard let binance = response[item.mxId]?["binance"]?["address"] else { return }
                         if !btc.isEmpty && !eth.isEmpty {
                             self?.userWalletsData.append(UserWallletData(name: name ?? item.name,
-                                                                         bitcoin: response[item.mxId]?["bitcoin"]?["address"] ?? "",
-                                                                         ethereum: response[item.mxId]?["ethereum"]?["address"] ?? "",
+                                                                         bitcoin: btc,
+                                                                         ethereum: eth,
+                                                                         binance: binance,
                                                                          url: item.avatar,
                                                                          phone: phone ?? ""))
                         }
