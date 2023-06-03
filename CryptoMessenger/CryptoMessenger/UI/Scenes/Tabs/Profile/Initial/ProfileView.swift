@@ -274,7 +274,7 @@ struct ProfileView: View {
                             )
                     })
                         .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                        .background(.white())
+                        .background(Color.primaryColor)
                         .padding(.horizontal, 16)
                     photosView
                 }

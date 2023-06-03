@@ -3,25 +3,6 @@ import SwiftUI
 // MARK: - ProfileSettingsMenuView
 
 struct ProfileSettingsMenuView: View {
-    class Utilities {
-        
-        // MARK: - Internal Properties
-        @AppStorage("selectedAppearance") var selectedAppearance = 0
-        var userInterfaceStyle: ColorScheme? = .dark
-        
-        func overrideDisplayMode() {
-            var userInterfaceStyle: UIUserInterfaceStyle
-            
-            if selectedAppearance == 2 {
-                userInterfaceStyle = .dark
-            } else if selectedAppearance == 1 {
-                userInterfaceStyle = .light
-            } else {
-                userInterfaceStyle = .unspecified
-            }
-            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = userInterfaceStyle
-        }
-    }
     // MARK: - Internal Properties
     @AppStorage("selectedAppearance") var selectedAppearance = 0
     @StateObject var viewModel = ProfileSettingsMenuViewModel()
@@ -66,7 +47,7 @@ struct ProfileSettingsMenuView: View {
                         EmptyView()
                     } else {
                         ProfileSettingsMenuRow(title: type.result.title, image: type.result.image, notifications: 0)
-                            .background(.white())
+                            .background(Color.primaryColor)
                             .frame(height: 64)
                             .listRowInsets(.init())
                             .listRowSeparator(.hidden)
@@ -92,6 +73,6 @@ struct ProfileSettingsMenuView: View {
                 utilities.overrideDisplayMode()
             })
             Divider()
-        }.background(selectedAppearance == 1 ? Color.white : selectedAppearance == 2 ? Color.black : Color(UIColor.systemBackground))
+        }.background(Color.primaryColor)
     }
 }

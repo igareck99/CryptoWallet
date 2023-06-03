@@ -613,6 +613,8 @@
 		8BFFC75427EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75327EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift */; };
 		8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */; };
 		8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */; };
+		9ACF91472A2B2F1F007EBC79 /* AppearanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF91462A2B2F1F007EBC79 /* AppearanceService.swift */; };
+		9ACF91492A2B37A4007EBC79 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF91482A2B37A4007EBC79 /* Color+Extensions.swift */; };
 		B4C106F74147CC38CED7B7DF /* Pods_CryptoMessengerPods_AuraNSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */; };
 		D4014D4F283FA7D100AAD70C /* CallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D4E283FA7D100AAD70C /* CallViewController.swift */; };
 		D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */; };
@@ -1500,6 +1502,8 @@
 		8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerProtocols.swift; sourceTree = "<group>"; };
 		8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseWarningView.swift; sourceTree = "<group>"; };
 		91E5C2C31D84870FF637DC7B /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
+		9ACF91462A2B2F1F007EBC79 /* AppearanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceService.swift; sourceTree = "<group>"; };
+		9ACF91482A2B37A4007EBC79 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_AuraNSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4014D4E283FA7D100AAD70C /* CallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewController.swift; sourceTree = "<group>"; };
@@ -2023,6 +2027,7 @@
 				5A187EAA268070B3001957D3 /* UIView+Extensions.swift */,
 				5A187EB2268070B3001957D3 /* View+Extensions.swift */,
 				5A187EA9268070B3001957D3 /* UIColor+Extensions.swift */,
+				9ACF91482A2B37A4007EBC79 /* Color+Extensions.swift */,
 				5A187EAB268070B3001957D3 /* String+Extensions.swift */,
 				5A187EAD268070B3001957D3 /* UIImage+Extensions.swift */,
 				5A187EAE268070B3001957D3 /* NSMutableData+Extensions.swift */,
@@ -2084,6 +2089,7 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				9ACF91452A2B2EDA007EBC79 /* Appearance Service */,
 				D413F0FF29BF3441005B7532 /* Access Service */,
 				8B5F0C98297539DA002AE81E /* LogoutService */,
 				8BC518012970AF150033B30F /* PhraseService */,
@@ -3843,6 +3849,14 @@
 			path = PhraseManager;
 			sourceTree = "<group>";
 		};
+		9ACF91452A2B2EDA007EBC79 /* Appearance Service */ = {
+			isa = PBXGroup;
+			children = (
+				9ACF91462A2B2F1F007EBC79 /* AppearanceService.swift */,
+			);
+			path = "Appearance Service";
+			sourceTree = "<group>";
+		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -4721,7 +4735,7 @@
 		};
 		5A187F422680D241001957D3 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -4733,7 +4747,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "# skip merge\nGIT_ROOT=$(git rev-parse --git-dir)\nif [ -e \"${GIT_ROOT}/MERGE_MODE\" ]; then\n    exit 0\nfi\n\n# files\nfiles=$(git diff --diff-filter=d HEAD --name-only | grep -e '\\(.*\\).swift$')\n skip if no files\nif [ -z \"$files\" ]; then\n    echo \"Nothing to lint\"\n    exit 0\nfi\n\nIFS=$'\\n'\ncounter=0\nfor line in $files; do\n    export SCRIPT_INPUT_FILE_${counter}=\"../${line}\"\n    counter=$((counter + 1))\ndone\nunset IFS\n\nif (( counter > 0 )); then\n    export SCRIPT_INPUT_FILE_COUNT=${counter}\n    ${PODS_ROOT}/SwiftLint/swiftlint lint --use-script-input-files --config swiftlint.yml\nfi\n";
 		};
@@ -4949,6 +4963,7 @@
 				5A3C9414274AEE8400818060 /* KeyboardListenable.swift in Sources */,
 				D4A26E2529368DB300FEADC2 /* EmptyStateViewModifier.swift in Sources */,
 				8B6E5556279F0F58002054CF /* PinCodeCreateViewModel.swift in Sources */,
+				9ACF91472A2B2F1F007EBC79 /* AppearanceService.swift in Sources */,
 				5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
 				D44D61D42894CFB1004F5301 /* SocialNetworkType.swift in Sources */,
@@ -5059,6 +5074,7 @@
 				5A187F262680CF49001957D3 /* APIError.swift in Sources */,
 				D451006B289390990018A935 /* MatrixUseCaseProtocol.swift in Sources */,
 				8BD2E7E72981C3B600D712D1 /* SelectChannelTypeView.swift in Sources */,
+				9ACF91492A2B37A4007EBC79 /* Color+Extensions.swift in Sources */,
 				5A9318E426C5D4D000645365 /* BaseHostingController.swift in Sources */,
 				8B4E9C4827E1EDE80057E4C9 /* FacilityApproveViewModel.swift in Sources */,
 				5A187DF026807011001957D3 /* AppCoordinator.swift in Sources */,
