@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-class appearanceService {
+class Utilities {
     
     // MARK: - Internal Properties
     @AppStorage("selectedAppearance") var selectedAppearance = 0
