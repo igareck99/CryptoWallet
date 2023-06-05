@@ -4,71 +4,57 @@ import UIKit
 extension Color {
     // MARK: - New Collors
     // Main collors
-    static let lightGrey1900 = Color(uiColor: .lightGrey1900)
-    static let lightGrey900 = Color(uiColor: .lightGrey900)
-    static let lightBeige = Color(uiColor: .lightBeige)
-    static let lightGrey200 = Color(uiColor: .lightGrey200)
-    static let lightGrey300 = Color(uiColor: .lightGrey300)
-    static let lightLightBlue50 = Color(uiColor: .lightLightBlue50)
-    static let lightLightBlue100 = Color(uiColor: .lightLightBlue100)
-    static let lightLightBlue200 = Color(uiColor: .lightLightBlue200)
-    static let lightLightBlue300 = Color(uiColor: .lightLightBlue300)
-    static let lightLightBlue400 = Color(uiColor: .lightLightBlue400)
-    static let lightLightBlue500 = Color(uiColor: .lightLightBlue500)
-    static let lightAccent = Color(uiColor: .lightAccent)
-    static let lightBaseWhite = Color(uiColor:.lightBaseWhite )
-    static let lightPositive = Color(uiColor: .lightPositive)
-    static let lightNegative = Color(uiColor: .lightNegative)
-    static let lightNeutral = Color(uiColor: .lightNeutral)
+    static let chineseBlack = Color(uiColor: .chineseBlack)
+    static let romanSilver = Color(uiColor: .romanSilver)
+    static let bone = Color(uiColor: .bone)
+    static let brightGray = Color(uiColor: .brightGray)
+    static let gainsboro = Color(uiColor: .gainsboro)
+    static let aliceBlue = Color(uiColor: .aliceBlue)
+    static let antiFlashWhite = Color(uiColor: .antiFlashWhite)
+    static let water = Color(uiColor: .water)
+    static let diamond = Color(uiColor: .diamond)
+    static let beauBlue = Color(uiColor: .beauBlue)
+    static let brilliantAzure = Color(uiColor: .brilliantAzure)
+    static let dodgerBlue = Color(uiColor: .dodgerBlue)
+    static let white = Color(uiColor:.white )
+    static let greenCrayola = Color(uiColor: .greenCrayola)
+    static let spanishCrimson = Color(uiColor: .spanishCrimson)
+    static let royalOrange = Color(uiColor: .royalOrange)
     // Shadow collors
-    static let lightShadowGrey1900 = Color(uiColor: .lightShadowGrey1900)
-    static let lightShadowGrey1500 = Color(uiColor: .lightShadowGrey1500)
-    static let lightShadowGrey1100 = Color(uiColor: .lightShadowGrey1100)
-    static let lightShadowGrey1000 = Color(uiColor: .lightShadowGrey1000)
-    static let lightShadowGrey900 = Color(uiColor: .lightShadowGrey900)
-    static let lightShadowGrey800 = Color(uiColor: .lightShadowGrey800)
-    static let lightShadowGrey700 = Color(uiColor: .lightShadowGrey700)
-    static let lightShadowGrey600 = Color(uiColor: .lightShadowGrey600)
-    static let lightShadowGrey400 = Color(uiColor: .lightShadowGrey400)
-    static let lightShadowGrey300 = Color(uiColor: .lightShadowGrey300)
-    static let lightShadowGrey200 = Color(uiColor: .lightShadowGrey200)
-    static let lightShadowGrey100 = Color(uiColor: .lightShadowGrey100)
-    static let lightShadowBlue200 = Color(uiColor: .lightShadowBlue200)
-    static let lightShadowOrange1600 = Color(uiColor: .lightShadowOrange1600)
+    static let outerSpace = Color(uiColor: .outerSpace)
+    static let auroMetalSaurus = Color(uiColor: .auroMetalSaurus)
+    static let smokyStudio = Color(uiColor: .smokyStudio)
+    static let manatee = Color(uiColor: .manatee)
+    static let metallicSilver = Color(uiColor: .metallicSilver)
+    static let ashGray = Color(uiColor: .ashGray)
+    static let lightGray = Color(uiColor: .lightGray)
+    static let ghostWhite = Color(uiColor: .ghostWhite)
+    static let bubbles = Color(uiColor: .bubbles)
+    static let seaGreen = Color(uiColor: .seaGreen)
+    static let philippineBronze = Color(uiColor: .philippineBronze)
     // Main dark collors
-    static let darkGrey1900 = Color(uiColor: .darkGrey1900)
-    static let darkGrey900 = Color(uiColor: .darkGrey900)
-    static let darkBeige = Color(uiColor: .darkBeige)
-    static let darkGrey200 = Color(uiColor: .darkGrey200)
-    static let darkGrey300 = Color(uiColor: .darkGrey300)
-    static let darkLightBlue50 = Color(uiColor: .darkLightBlue50)
-    static let darkLightBlue100 = Color(uiColor: .darkLightBlue100)
-    static let darkLightBlue200 = Color(uiColor: .darkLightBlue200)
-    static let darkLightBlue300 = Color(uiColor: .darkLightBlue300)
-    static let darkLightBlue400 = Color(uiColor: .darkLightBlue400)
-    static let darkLightBlue500 = Color(uiColor: .darkLightBlue500)
-    static let darkAccent = Color(uiColor: .darkAccent)
-    static let darkBaseWhite = Color(uiColor: .darkBaseWhite)
-    static let darkPositive = Color(uiColor: .darkPositive)
-    static let darkNegative = Color(uiColor: .darkNegative)
-    static let darkNeutral = Color(uiColor: .darkNeutral)
+    static let cultured = Color(uiColor: .cultured)
+    static let dimGray = Color(uiColor: .dimGray)
+    static let eerieBlack = Color(uiColor: .eerieBlack)
+    static let darkJungleGreen = Color(uiColor: .darkJungleGreen)
+    static let charcoal = Color(uiColor: .charcoal)
+    static let lapisLazuli = Color(uiColor: .lapisLazuli)
+    static let queenBlue = Color(uiColor: .queenBlue)
+    static let slateGray = Color(uiColor: .slateGray)
+    static let outOfTheBlue = Color(uiColor: .outOfTheBlue)
+    static let dynamicBlack = Color(uiColor: .dynamicBlack)
+    static let greenPigment = Color(uiColor: .greenPigment)
+    static let сardinal = Color(uiColor: .сardinal)
+    static let chineseBronze = Color(uiColor: .chineseBronze)
     // Shadow dark collors
-    static let darkShadowGrey1900 = Color(uiColor: .darkShadowGrey1900)
-    static let darkShadowGrey1500 = Color(uiColor: .darkShadowGrey1500)
-    static let darkShadowGrey1100 = Color(uiColor: .darkShadowGrey1100)
-    static let darkShadowGrey1000 = Color(uiColor: .darkShadowGrey1000)
-    static let darkShadowGrey900 = Color(uiColor: .darkShadowGrey900)
-    static let darkShadowGrey800 = Color(uiColor: .darkShadowGrey800)
-    static let darkShadowGrey700 = Color(uiColor: .darkShadowGrey700)
-    static let darkShadowGrey600 = Color(uiColor: .darkShadowGrey600)
-    static let darkShadowGrey400 = Color(uiColor: .darkShadowGrey400)
-    static let darkShadowGrey300 = Color(uiColor: .darkShadowGrey300)
-    static let darkShadowGrey200 = Color(uiColor: .darkShadowGrey200)
-    static let darkShadowGrey100 = Color(uiColor: .darkShadowGrey100)
-    static let darkShadowBlue200 = Color(uiColor: .darkShadowBlue200)
+    static let lunarShadow = Color(uiColor: .lunarShadow)
+    static let nickel = Color(uiColor: .nickel)
+    static let blackCoral = Color(uiColor: .blackCoral)
+    static let davysGrey = Color(uiColor: .davysGrey)
+    static let charlestonGreen = Color(uiColor: .charlestonGreen)
+    static let vampireBlack = Color(uiColor: .vampireBlack)
+    static let policeBlue = Color(uiColor: .policeBlue)
     // MARK: - Old ones
-    static let blackSqueezeApprox = Color(uiColor: .blackSqueezeApprox)
-    static let dodgerBlueApprox = Color(uiColor: .dodgerBlueApprox)
     static let onahauApprox = Color(uiColor: .onahauApprox)
     static let zeroColor = Color(uiColor: .zeroColor)
     static let sailApprox = Color(uiColor: .sailApprox)
@@ -82,87 +68,125 @@ extension Color {
     static let manateeApprox = Color(uiColor: .manateeApprox)
     static let sharkApprox = Color(uiColor: .sharkApprox)
     static let athensGrayApprox = Color(uiColor: .athensGrayApprox)
-    static let ironApprox = Color(uiColor: .ironApprox)
-    static let regentGrayApprox = Color(uiColor: .regentGrayApprox)
-    static let woodSmokeApprox = Color(uiColor: .woodSmokeApprox)
     static let jaffaApprox = Color(uiColor: .jaffaApprox)
-    static let amaranthApprox = Color(uiColor: .amaranthApprox)
-    static let bombayApprox = Color(uiColor: .bombayApprox)
-    static let blackHazeApprox = Color(uiColor: .blackHazeApprox)
     static let white06 = Color(uiColor: .white06)
-    static let polarApprox = Color(uiColor: .polarApprox)
-    static let jungleGreenApprox = Color(uiColor: .jungleGreenApprox)
 }
 
 extension UIColor {
     // MARK: - New Collors
     // Main collors
-    static let lightGrey1900 = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 1.0)
-    static let lightGrey900 = UIColor(red: 137.0 / 255.0, green: 144.0 / 255.0, blue: 155.0 / 255.0, alpha: 1.0)
-    static let lightBeige = UIColor(red: 225.0 / 255.0, green: 220.0 / 255.0, blue: 205.0 / 255.0, alpha: 1.0)
-    static let lightGrey200 = UIColor(red: 234.0 / 255.0, green: 236.0 / 255.0, blue: 237.0 / 255.0, alpha: 1.0)
-    static let lightGrey300 = UIColor(red: 220.0 / 255.0, green: 223.0 / 255.0, blue: 226.0 / 255.0, alpha: 1.0)
-    static let lightLightBlue50 = UIColor(red: 242.0 / 255.0, green: 247.0 / 255.0, blue: 252.0 / 255.0, alpha: 1.0)
-    static let lightLightBlue100 = UIColor(red: 237.0 / 255.0, green: 243.0 / 255.0, blue: 248.0 / 255.0, alpha: 1.0)
-    static let lightLightBlue200 = UIColor(red: 221.0 / 255.0, green: 240.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
-    static let lightLightBlue300 = UIColor(red: 191.0 / 255.0, green: 227.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
-    static let lightLightBlue400 = UIColor(red: 182.0 / 255.0, green: 213.0 / 255.0, blue: 242.0 / 255.0, alpha: 1.0)
-    static let lightLightBlue500 = UIColor(red: 63.0 / 255.0, green: 170.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
-    static let lightAccent = UIColor(red: 14.0 / 255.0, green: 142.0 / 255.0, blue: 243.0 / 255.0, alpha: 1.0)
-    static let lightBaseWhite = UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
-    static let lightPositive = UIColor(red: 39.0 / 255.0, green: 174.0 / 255.0, blue: 96.0 / 255.0, alpha: 1.0)
-    static let lightNegative = UIColor(red: 232.0 / 255.0, green: 30.0 / 255.0, blue: 78.0 / 255.0, alpha: 1.0)
-    static let lightNeutral = UIColor(red: 236.0 / 255.0, green: 155.0 / 255.0, blue: 60.0 / 255.0, alpha: 1.0)
+    //#121315
+    static let chineseBlack = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 1.0)
+    //#8a919c
+    static let romanSilver = UIColor(red: 137.0 / 255.0, green: 144.0 / 255.0, blue: 155.0 / 255.0, alpha: 1.0)
+    //#E1DCCD
+    static let bone = UIColor(red: 225.0 / 255.0, green: 220.0 / 255.0, blue: 205.0 / 255.0, alpha: 1.0)
+    //#eaeced
+    static let brightGray = UIColor(red: 234.0 / 255.0, green: 236.0 / 255.0, blue: 237.0 / 255.0, alpha: 1.0)
+    //#dcdfe2
+    static let gainsboro = UIColor(red: 220.0 / 255.0, green: 223.0 / 255.0, blue: 226.0 / 255.0, alpha: 1.0)
+    //#F2F7FC
+    static let aliceBlue = UIColor(red: 242.0 / 255.0, green: 247.0 / 255.0, blue: 252.0 / 255.0, alpha: 1.0)
+    //#EDF3F8
+    static let antiFlashWhite = UIColor(red: 237.0 / 255.0, green: 243.0 / 255.0, blue: 248.0 / 255.0, alpha: 1.0)
+    //#DDF0FF
+    static let water = UIColor(red: 221.0 / 255.0, green: 240.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
+    //#BFE3FF
+    static let diamond = UIColor(red: 191.0 / 255.0, green: 227.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
+    //#B6D5F2
+    static let beauBlue = UIColor(red: 182.0 / 255.0, green: 213.0 / 255.0, blue: 242.0 / 255.0, alpha: 1.0)
+    //#3FAAFF
+    static let brilliantAzure = UIColor(red: 63.0 / 255.0, green: 170.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
+    //#0E8EF3
+    static let dodgerBlue = UIColor(red: 14.0 / 255.0, green: 142.0 / 255.0, blue: 243.0 / 255.0, alpha: 1.0)
+    //#FFFFFF
+    static let white = UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
+    //#27AE60
+    static let greenCrayola = UIColor(red: 39.0 / 255.0, green: 174.0 / 255.0, blue: 96.0 / 255.0, alpha: 1.0)
+    //#E81E4E
+    static let spanishCrimson = UIColor(red: 232.0 / 255.0, green: 30.0 / 255.0, blue: 78.0 / 255.0, alpha: 1.0)
+    //#EC9B3C
+    static let royalOrange = UIColor(red: 236.0 / 255.0, green: 155.0 / 255.0, blue: 60.0 / 255.0, alpha: 1.0)
+    
+    
+    
     // Shadow collors
-    static let lightShadowGrey1900 = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 1.0)
-    static let lightShadowGrey1500 = UIColor(red: 64.0 / 255.0, green: 69.0 / 255.0, blue: 76.0 / 255.0, alpha: 1.0)
-    static let lightShadowGrey1100 = UIColor(red: 111.0 / 255.0, green: 119.0 / 255.0, blue: 132.0 / 255.0, alpha: 1.0)
-    static let lightShadowGrey1000 = UIColor(red: 124.0 / 255.0, green: 132.0 / 255.0, blue: 144.0 / 255.0, alpha: 1.0)
-    static let lightShadowGrey900 = UIColor(red: 137.0 / 255.0, green: 144.0 / 255.0, blue: 155.0 / 255.0, alpha: 1.0)
-    static let lightShadowGrey800 = UIColor(red: 138.0 / 255.0, green: 145.0 / 255.0, blue: 156.0 / 255.0, alpha: 1.0)
-    static let lightShadowGrey700 = UIColor(red: 165.0 / 255.0, green: 171.0 / 255.0, blue: 179.0 / 255.0, alpha: 1.0)
-    static let lightShadowGrey600 = UIColor(red: 179.0 / 255.0, green: 184.0 / 255.0, blue: 191.0 / 255.0, alpha: 1.0)
-    static let lightShadowGrey400 = UIColor(red: 207.0 / 255.0, green: 210.0 / 255.0, blue: 214.0 / 255.0, alpha: 1.0)
-    static let lightShadowGrey300 = UIColor(red: 234.0 / 255.0, green: 236.0 / 255.0, blue: 237.0 / 255.0, alpha: 1.0)
-    static let lightShadowGrey200 = UIColor(red: 234.0 / 255.0, green: 236.0 / 255.0, blue: 237.0 / 255.0, alpha: 1.0)
-    static let lightShadowGrey100 = UIColor(red: 248.0 / 255.0, green: 249.0 / 255.0, blue: 249.0 / 255.0, alpha: 1.0)
-    static let lightShadowBlue200 = UIColor(red: 230.0 / 255.0, green: 244.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
-    static let lightShadowGreen1300 = UIColor(red: 35.0 / 255.0, green: 156.0 / 255.0, blue: 86.0 / 255.0, alpha: 1.0)
-    static let lightShadowOrange1600 = UIColor(red: 105.0 / 255.0, green: 61.0 / 255.0, blue: 10.0 / 255.0, alpha: 1.0)
+    //#40454c
+    static let outerSpace = UIColor(red: 64.0 / 255.0, green: 69.0 / 255.0, blue: 76.0 / 255.0, alpha: 1.0)
+    //#6f7783
+    static let auroMetalSaurus = UIColor(red: 111.0 / 255.0, green: 119.0 / 255.0, blue: 132.0 / 255.0, alpha: 1.0)
+    //#7C8490
+    static let smokyStudio = UIColor(red: 124.0 / 255.0, green: 132.0 / 255.0, blue: 144.0 / 255.0, alpha: 1.0)
+    //#979ea7
+    static let manatee = UIColor(red: 138.0 / 255.0, green: 145.0 / 255.0, blue: 156.0 / 255.0, alpha: 1.0)
+    //#a5abb3
+    static let metallicSilver = UIColor(red: 165.0 / 255.0, green: 171.0 / 255.0, blue: 179.0 / 255.0, alpha: 1.0)
+    //#b3b8bf
+    static let ashGray = UIColor(red: 179.0 / 255.0, green: 184.0 / 255.0, blue: 191.0 / 255.0, alpha: 1.0)
+    //#CFD2D6
+    static let lightGray = UIColor(red: 207.0 / 255.0, green: 210.0 / 255.0, blue: 214.0 / 255.0, alpha: 1.0)
+    //#f8f9f9
+    static let ghostWhite = UIColor(red: 248.0 / 255.0, green: 249.0 / 255.0, blue: 249.0 / 255.0, alpha: 1.0)
+    //#E6F4FF
+    static let bubbles = UIColor(red: 230.0 / 255.0, green: 244.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
+    //#239c56
+    static let seaGreen = UIColor(red: 35.0 / 255.0, green: 156.0 / 255.0, blue: 86.0 / 255.0, alpha: 1.0)
+    //#693d0a
+    static let philippineBronze = UIColor(red: 105.0 / 255.0, green: 61.0 / 255.0, blue: 10.0 / 255.0, alpha: 1.0)
+    
+    
+    
     // Main dark collors
-    static let darkGrey1900 = UIColor(red: 246.0 / 255.0, green: 246.0 / 255.0, blue: 246.0 / 255.0, alpha: 1.0)
-    static let darkGrey900 = UIColor(red: 99.0 / 255.0, green: 106.0 / 255.0, blue: 117.0 / 255.0, alpha: 1.0)
-    static let darkBeige = UIColor(red: 34.0 / 255.0, green: 32.0 / 255.0, blue: 26.0 / 255.0, alpha: 1.0)
-    static let darkGrey200 = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 1.0)
-    static let darkGrey300 = UIColor(red: 29.0 / 255.0, green: 31.0 / 255.0, blue: 35.0 / 255.0, alpha: 1.0)
-    static let darkLightBlue50 = UIColor(red: 43.0 / 255.0, green: 65.0 / 255.0, blue: 86.0 / 255.0, alpha: 1.0)
-    static let darkLightBlue100 = UIColor(red: 49.0 / 255.0, green: 53.0 / 255.0, blue: 56.0 / 255.0, alpha: 1.0)
-    static let darkLightBlue200 = UIColor(red: 36.0 / 255.0, green: 103.0 / 255.0, blue: 156.0 / 255.0, alpha: 1.0)
-    static let darkLightBlue300 = UIColor(red: 64.0 / 255.0, green: 118.0 / 255.0, blue: 160.0 / 255.0, alpha: 1.0)
-    static let darkLightBlue400 = UIColor(red: 110.0 / 255.0, green: 132.0 / 255.0, blue: 152.0 / 255.0, alpha: 1.0)
-    static let darkLightBlue500 = UIColor(red: 17.0 / 255.0, green: 129.0 / 255.0, blue: 218.0 / 255.0, alpha: 1.0)
-    static let darkAccent = UIColor(red: 20.0 / 255.0, green: 140.0 / 255.0, blue: 236.0 / 255.0, alpha: 1.0)
-    static let darkBaseWhite = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 30.0 / 255.0, alpha: 1.0)
-    static let darkPositive = UIColor(red: 17.0 / 255.0, green: 159.0 / 255.0, blue: 77.0 / 255.0, alpha: 1.0)
-    static let darkNegative = UIColor(red: 195.0 / 255.0, green: 21.0 / 255.0, blue: 63.0 / 255.0, alpha: 1.0)
-    static let darkNeutral = UIColor(red: 214.0 / 255.0, green: 137.0 / 255.0, blue: 48.0 / 255.0, alpha: 1.0)
+    //#F6F6F6
+    static let cultured = UIColor(red: 246.0 / 255.0, green: 246.0 / 255.0, blue: 246.0 / 255.0, alpha: 1.0)
+    //#636A75
+    static let dimGray = UIColor(red: 99.0 / 255.0, green: 106.0 / 255.0, blue: 117.0 / 255.0, alpha: 1.0)
+    //#22201A
+    static let eerieBlack = UIColor(red: 34.0 / 255.0, green: 32.0 / 255.0, blue: 26.0 / 255.0, alpha: 1.0)
+    //#1D1F23
+    static let darkJungleGreen = UIColor(red: 29.0 / 255.0, green: 31.0 / 255.0, blue: 35.0 / 255.0, alpha: 1.0)
+    //#2B4156
+    static let charcoal = UIColor(red: 43.0 / 255.0, green: 65.0 / 255.0, blue: 86.0 / 255.0, alpha: 1.0)
+    //#24679C
+    static let lapisLazuli = UIColor(red: 36.0 / 255.0, green: 103.0 / 255.0, blue: 156.0 / 255.0, alpha: 1.0)
+    //#4076A0
+    static let queenBlue = UIColor(red: 64.0 / 255.0, green: 118.0 / 255.0, blue: 160.0 / 255.0, alpha: 1.0)
+    //#6E8498
+    static let slateGray = UIColor(red: 110.0 / 255.0, green: 132.0 / 255.0, blue: 152.0 / 255.0, alpha: 1.0)
+    //#1181DA
+    static let brightNavyBlue = UIColor(red: 17.0 / 255.0, green: 129.0 / 255.0, blue: 218.0 / 255.0, alpha: 1.0)
+    //#148CEC
+    static let outOfTheBlue = UIColor(red: 20.0 / 255.0, green: 140.0 / 255.0, blue: 236.0 / 255.0, alpha: 1.0)
+    //#1E1E1E
+    static let dynamicBlack = UIColor(red: 30.0 / 255.0, green: 30.0 / 255.0, blue: 30.0 / 255.0, alpha: 1.0)
+    //#119F4D
+    static let greenPigment = UIColor(red: 17.0 / 255.0, green: 159.0 / 255.0, blue: 77.0 / 255.0, alpha: 1.0)
+    //#C3153F
+    static let сardinal = UIColor(red: 195.0 / 255.0, green: 21.0 / 255.0, blue: 63.0 / 255.0, alpha: 1.0)
+    //#D68930
+    static let chineseBronze = UIColor(red: 214.0 / 255.0, green: 137.0 / 255.0, blue: 48.0 / 255.0, alpha: 1.0)
+    
+    
+    
     // Shadow dark collors
-    static let darkShadowGrey1900 = UIColor(red: 234.0 / 255.0, green: 236.0 / 255.0, blue: 237.0 / 255.0, alpha: 1.0)
-    static let darkShadowGrey1500 = UIColor(red: 179.0 / 255.0, green: 184.0 / 255.0, blue: 191.0 / 255.0, alpha: 1.0)
-    static let darkShadowGrey1100 = UIColor(red: 111.0 / 255.0, green: 119.0 / 255.0, blue: 131.0 / 255.0, alpha: 1.0)
-    static let darkShadowGrey1000 = UIColor(red: 102.0 / 255.0, green: 110.0 / 255.0, blue: 122.0 / 255.0, alpha: 1.0)
-    static let darkShadowGrey900 = UIColor(red: 99.0 / 255.0, green: 106.0 / 255.0, blue: 117.0 / 255.0, alpha: 1.0)
-    static let darkShadowGrey800 = UIColor(red: 88.0 / 255.0, green: 94.0 / 255.0, blue: 104.0 / 255.0, alpha: 1.0)
-    static let darkShadowGrey700 = UIColor(red: 76.0 / 255.0, green: 81.0 / 255.0, blue: 90.0 / 255.0, alpha: 1.0)
-    static let darkShadowGrey600 = UIColor(red: 64.0 / 255.0, green: 69.0 / 255.0, blue: 76.0 / 255.0, alpha: 1.0)
-    static let darkShadowGrey400 = UIColor(red: 41.0 / 255.0, green: 44.0 / 255.0, blue: 48.0 / 255.0, alpha: 1.0)
-    static let darkShadowGrey300 = UIColor(red: 29.0 / 255.0, green: 31.0 / 255.0, blue: 35.0 / 255.0, alpha: 1.0)
-    static let darkShadowGrey200 = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 1.0)
-    static let darkShadowGrey100 = UIColor(red: 6.0 / 255.0, green: 6.0 / 255.0, blue: 7.0 / 255.0, alpha: 1.0)
-    static let darkShadowBlue200 = UIColor(red: 49.0 / 255.0, green: 79.0 / 255.0, blue: 103.0 / 255.0, alpha: 1.0)
+    //#6F7783
+    static let lunarShadow = UIColor(red: 111.0 / 255.0, green: 119.0 / 255.0, blue: 131.0 / 255.0, alpha: 1.0)
+    //#666E7A
+    static let nickel = UIColor(red: 102.0 / 255.0, green: 110.0 / 255.0, blue: 122.0 / 255.0, alpha: 1.0)
+    //#585E68
+    static let blackCoral = UIColor(red: 88.0 / 255.0, green: 94.0 / 255.0, blue: 104.0 / 255.0, alpha: 1.0)
+    //#4C515A
+    static let davysGrey = UIColor(red: 76.0 / 255.0, green: 81.0 / 255.0, blue: 90.0 / 255.0, alpha: 1.0)
+    //#292C30
+    static let charlestonGreen = UIColor(red: 41.0 / 255.0, green: 44.0 / 255.0, blue: 48.0 / 255.0, alpha: 1.0)
+    //#060607
+    static let vampireBlack = UIColor(red: 6.0 / 255.0, green: 6.0 / 255.0, blue: 7.0 / 255.0, alpha: 1.0)
+    //#314F67
+    static let policeBlue = UIColor(red: 49.0 / 255.0, green: 79.0 / 255.0, blue: 103.0 / 255.0, alpha: 1.0)
+    
+    
+    
     // MARK: - Old ones
-    static let blackSqueezeApprox = UIColor(red: 237.0 / 255.0, green: 243.0 / 255.0, blue: 248.0 / 255.0, alpha: 1.0)
-    static let dodgerBlueApprox = UIColor(red: 63.0 / 255.0, green: 170.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
     static let onahauApprox = UIColor(red: 205.0 / 255.0, green: 232.0 / 255.0, blue: 254.0 / 255.0, alpha: 1.0)
     static let zeroColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
     static let sailApprox = UIColor(red: 173.0 / 255.0, green: 214.0 / 255.0, blue: 248.0 / 255.0, alpha: 1.0)
@@ -176,15 +200,6 @@ extension UIColor {
     static let manateeApprox = UIColor(red: 0.557, green: 0.557, blue: 0.576, alpha: 1)
     static let sharkApprox = UIColor(red: 0.11, green: 0.11, blue: 0.118, alpha: 1)
     static let athensGrayApprox = UIColor(red: 0.902, green: 0.918, blue: 0.929, alpha: 1)
-    static let ironApprox = UIColor(red: 220.0 / 255.0, green: 223.0 / 255.0, blue: 226.0 / 255.0, alpha: 1.0)
-    static let regentGrayApprox = UIColor(red: 138.0 / 255.0, green: 145.0 / 255.0, blue: 156.0 / 255.0, alpha: 1.0)
-    static let woodSmokeApprox = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 1.0)
     static let jaffaApprox = UIColor(red: 0.925, green: 0.608, blue: 0.235, alpha: 1)
-    //    UIColor(red: 236.0 / 255.0, green: 155.0 / 255.0, blue: 60.0 / 255.0, alpha: 1.0)
-    static let amaranthApprox = UIColor(red: 232.0 / 255.0, green: 30.0 / 255.0, blue: 78.0 / 255.0, alpha: 1.0)
-    static let bombayApprox = UIColor(red: 179.0 / 255.0, green: 184.0 / 255.0, blue: 191.0 / 255.0, alpha: 1.0)
-    static let blackHazeApprox = UIColor(red: 248.0 / 255.0, green: 249.0 / 255.0, blue: 249.0 / 255.0, alpha: 1.0)
     static let white06 = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
-    static let polarApprox = UIColor(red: 242.0 / 255.0, green: 247.0 / 255.0, blue: 252.0 / 255.0, alpha: 1.0)
-    static let jungleGreenApprox = UIColor(red: 39.0 / 255.0, green: 174.0 / 255.0, blue: 96.0 / 255.0, alpha: 1.0)
 }
