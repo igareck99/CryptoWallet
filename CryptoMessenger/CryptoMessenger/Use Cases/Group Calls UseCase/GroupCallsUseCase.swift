@@ -45,7 +45,6 @@ final class GroupCallsUseCase {
 extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 
 	func joinGroupCall(in event: MXEvent) {
-
 		guard
 			let widget = JitsiWidget(event: event, session: room.mxSession),
 			widget.isActive
@@ -58,18 +57,17 @@ extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 				self.conferenceId = conferenceId
 				self.jwtToken = jwtToken
 				self.serverUrl = serverUrl
-
-				let controller = GroupCallsViewController()
-				controller.delegate = self
+                let controller = GroupCallsAssembly.build(delegate: self)
 
 				self.navigationController?.pushViewController(controller, animated: true)
 			}
-		} failure: { _ in
-			debugPrint("Error")
+		} failure: { result in
+			debugPrint("Error joinGroupCall  \(result)")
 		}
 	}
 
 	func placeGroupCall(in room: MXRoom) {
+
 		viewModel.createJitsiWidget(in: room, withVideo: false) { widget in
 
 			guard self.currentCallWidget == nil ||
@@ -83,14 +81,12 @@ extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 					self.conferenceId = conferenceId
 					self.jwtToken = jwtToken
 					self.serverUrl = serverUrl
-
-					let controller = GroupCallsViewController()
-					controller.delegate = self
+                    let controller = GroupCallsAssembly.build(delegate: self)
 
 					self.navigationController?.pushViewController(controller, animated: true)
 				}
 			} failure: { error in
-				debugPrint("Error \(error)")
+				debugPrint("Error in placeGroupCall \(error)")
 			}
 		} failure: {
 			debugPrint("failure")
