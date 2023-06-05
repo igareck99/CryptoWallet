@@ -447,9 +447,11 @@
 		8B637D8E27CE3C3D000B1B2B /* RadioGroupPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B637D8D27CE3C3D000B1B2B /* RadioGroupPicker.swift */; };
 		8B69C3F527FE398B0020F289 /* ImageEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B69C3F427FE398B0020F289 /* ImageEditor.swift */; };
 		8B6AF2F42A27B30F00E87BF2 /* PinCodeSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6AF2F32A27B30F00E87BF2 /* PinCodeSources.swift */; };
+		8B6B70742A2E12BA00D99156 /* GroupCallsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B70732A2E12BA00D99156 /* GroupCallsView.swift */; };
 		8B6B70782A2F592F00D99156 /* PinCodeDotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B70772A2F592F00D99156 /* PinCodeDotes.swift */; };
 		8B6B707A2A2FEC8A00D99156 /* PinCodeFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B70792A2FEC8A00D99156 /* PinCodeFlow.swift */; };
 		8B6B707C2A30B6EC00D99156 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B707B2A30B6EC00D99156 /* Color+Extensions.swift */; };
+		8B6B707E2A30BBAE00D99156 /* GroupCallsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B707D2A30BBAE00D99156 /* GroupCallsAssembly.swift */; };
 		8B6BEE7F275665D4003A24B6 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6BEE7E275665D4003A24B6 /* ProfileView.swift */; };
 		8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */; };
 		8B6C18BE2799A5E200B85F2A /* SecurityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BD2799A5E100B85F2A /* SecurityView.swift */; };
@@ -1331,9 +1333,11 @@
 		8B637D8D27CE3C3D000B1B2B /* RadioGroupPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioGroupPicker.swift; sourceTree = "<group>"; };
 		8B69C3F427FE398B0020F289 /* ImageEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditor.swift; sourceTree = "<group>"; };
 		8B6AF2F32A27B30F00E87BF2 /* PinCodeSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeSources.swift; sourceTree = "<group>"; };
+		8B6B70732A2E12BA00D99156 /* GroupCallsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsView.swift; sourceTree = "<group>"; };
 		8B6B70772A2F592F00D99156 /* PinCodeDotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinCodeDotes.swift; sourceTree = "<group>"; };
 		8B6B70792A2FEC8A00D99156 /* PinCodeFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeFlow.swift; sourceTree = "<group>"; };
 		8B6B707B2A30B6EC00D99156 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		8B6B707D2A30BBAE00D99156 /* GroupCallsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsAssembly.swift; sourceTree = "<group>"; };
 		8B6BEE7E275665D4003A24B6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		8B6C18BD2799A5E100B85F2A /* SecurityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityView.swift; sourceTree = "<group>"; };
@@ -4228,6 +4232,7 @@
 				D4752EBD28C9D16B006B650A /* JistsiConstants.swift */,
 				D4752EC228CA131A006B650A /* JitsiWidgetData.swift */,
 				D43A7E6728CB2EC400A807EC /* SerializationService.swift */,
+				8B6B70732A2E12BA00D99156 /* GroupCallsView.swift */,
 			);
 			path = "Group Calls";
 			sourceTree = "<group>";
@@ -4255,6 +4260,7 @@
 			children = (
 				D4752EBB28C768CE006B650A /* GroupCallsRouter.swift */,
 				D4752EB328C64342006B650A /* GroupCallsUseCase.swift */,
+				8B6B707D2A30BBAE00D99156 /* GroupCallsAssembly.swift */,
 			);
 			path = "Group Calls UseCase";
 			sourceTree = "<group>";
@@ -5324,6 +5330,7 @@
 				D4B39AFE289BE271006F2D99 /* Dictionary+Extensions.swift in Sources */,
 				7846B67226E8C04D00B05984 /* ThumbnailLayout.swift in Sources */,
 				8B32FEAA298832ED0017082A /* ChannelInfoProtocols.swift in Sources */,
+				8B6B707E2A30BBAE00D99156 /* GroupCallsAssembly.swift in Sources */,
 				D4A8535F295C796400F2B944 /* TrackableScroll.swift in Sources */,
 				7857B5A1286190980006D2D3 /* LocationEvent.swift in Sources */,
 				D445C84328462B46003C3D5C /* P2PCallsAssembly.swift in Sources */,
@@ -5367,6 +5374,7 @@
 				5AABB77B2739816C004D6107 /* ChatHistoryView.swift in Sources */,
 				5A187DD626806F35001957D3 /* DependencyContainer.swift in Sources */,
 				8BB2F8F228B7A5E20034D902 /* FooterView.swift in Sources */,
+				8B6B70742A2E12BA00D99156 /* GroupCallsView.swift in Sources */,
 				D450698529799C25009515C8 /* EncryptionStateView.swift in Sources */,
 				5A187DD726806F35001957D3 /* Injectable.swift in Sources */,
 				8B32FEB129885F210017082A /* ChannelMediaView.swift in Sources */,
