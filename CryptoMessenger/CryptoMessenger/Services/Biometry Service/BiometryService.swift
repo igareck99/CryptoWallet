@@ -9,16 +9,17 @@ protocol BiometryServiceProtocol {
 	func checkIfBioMetricAvailable() -> Bool
 	func authenticateByBiometry(
 		reason: String,
-		completion: @escaping (BiometryService.BiometryResult) -> Void
+		completion: @escaping (BiometryResult) -> Void
 	)
 }
 
+enum BiometryResult {
+    case failedByEvaluation // не удалось запустить проверку по биометрии
+    case failedByBiometry    // не удалось пройти проверку по биометрии
+    case suceeded            // удалось пройти проверку по биометрии
+}
+
 final class BiometryService: BiometryServiceProtocol {
-	enum BiometryResult {
-		case failedByEvaluation // не удалось запустить проверку по биометрии
-		case failedByBiometry	// не удалось пройти проверку по биометрии
-		case suceeded			// удалось пройти проверку по биометрии
-	}
 
 	enum BiometryType {
 		case faceID

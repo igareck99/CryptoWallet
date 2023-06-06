@@ -24,7 +24,7 @@ struct SecurityAdvancedCellView: View {
             Spacer()
             Toggle("", isOn: $currentState)
                 .labelsHidden()
-                .toggleStyle(SwitchToggleStyle(tint: .blue))
+                .toggleStyle(SwitchToggleStyle(tint: .green))
         }
     }
 }

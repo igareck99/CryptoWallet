@@ -86,7 +86,8 @@
 "PinCode.CreateTitle" = "Введите пароль";
 "PinCode.CreateText" = "Придумайте PIN код  для защиты вашего приложения";
 "PinCode.FalseCannotMatch" = "Основной пароль не может совпадать с ложным";
-"PinCode.ResetPassword" = "Пароль успешно сброшен";
+"PinCode.RemovePassword" = "Удалить пароль?";
+"PinCode.AnwserRemovePassword" = "Вы действительно хотите удалить пароль?";
 
 "Biometry.TouchIdAppEnter" = "Приложите палец, чтобы войти в приложение";
 "Biometry.FaceIdAppEnter" = "Посмотрите на экран, чтобы войти в приложение";

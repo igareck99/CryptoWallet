@@ -1,8 +1,8 @@
 import Foundation
 
-// MARK: - PinCodeCreateFlow
+// MARK: - PinCodeFlow
 
-enum PinCodeCreateFlow {
+enum PinCodeFlow {
 
     // MARK: - ViewState
 

@@ -83,11 +83,6 @@ public final class AuthFlowCoordinator: Coordinator {
         setViewWith(viewController)
     }
 
-    private func showPinCodeScene() {
-        let viewController = PinCodeConfigurator.configuredViewController(delegate: self)
-        setViewWith(viewController)
-    }
-
     private func showPhotoEditorScene(images: [UIImage]) {
         let viewController = PhotoEditorConfigurator.configuredViewController(images: images, delegate: self)
         setViewWith(viewController)
@@ -118,7 +113,6 @@ public final class AuthFlowCoordinator: Coordinator {
         case main
         case callList
         case countryCode(CountryCodePickerDelegate)
-        case pinCode
         case photoEditor
         case profileNetwork
     }
@@ -143,8 +137,6 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showCountryCodeScene(delegate)
         case .keyImport:
             showKeyImportScene()
-        case .pinCode:
-            showPinCodeScene()
         case .callList:
             showCallListScene()
         case .photoEditor:
@@ -190,18 +182,6 @@ extension AuthFlowCoordinator: CallListSceneDelegate {}
 // MARK: - AuthFlowCoordinator (PhotoEditorSceneDelegate)
 
 extension AuthFlowCoordinator: PhotoEditorSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (PinCodeSceneDelegate)
-
-extension AuthFlowCoordinator: PinCodeSceneDelegate {
-    func handleNextScene() {
-        if userFlows.isAuthFlowFinished {
-            handleNextScene(.main)
-        } else {
-            restartFlow()
-        }
-    }
-}
 
 // MARK: - AuthFlowCoordinator (ProfileNetworkDetailSceneDelegate)
 

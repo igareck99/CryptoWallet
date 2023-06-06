@@ -29,5 +29,7 @@ enum SecurityFlow {
         case onApprovePassword
         case onImportKey
         case onPhrase
+        case onRemovePassword
+        case biometryActivate
     }
 }

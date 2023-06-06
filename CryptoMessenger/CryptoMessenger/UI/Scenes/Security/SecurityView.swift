@@ -7,7 +7,6 @@ struct SecurityView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: SecurityViewModel
-    @StateObject var blockListViewModel = BlockListViewModel()
     @StateObject var generateViewModel = GeneratePhraseViewModel()
     @State private var showAddWallet = false
 
@@ -91,7 +90,7 @@ struct SecurityView: View {
                 .frame(height: 44)
                 .onChange(of: viewModel.isBiometryOn) { item in
                     if item {
-                        viewModel.authenticate()
+                        viewModel.send(.biometryActivate)
                     } else {
                         viewModel.updateIsBiometryOn(item: false)
                     }

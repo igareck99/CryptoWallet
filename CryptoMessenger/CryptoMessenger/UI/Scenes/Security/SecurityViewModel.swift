@@ -56,27 +56,29 @@ final class SecurityViewModel: ObservableObject {
     }
 
 	func authenticate() {
-		biometryService.authenticateByBiometry(
-			reason: localAuth.biometryEnableReasonText()
-		) { [weak self] result in
-			DispatchQueue.main.async {
-				switch result {
-				case .suceeded:
-					self?.isBiometryOn = true
-					self?.updateIsBiometryOn(item: true)
-					return
-				case .failedByEvaluation:
-					self?.isBiometryOn = false
-					self?.updateIsBiometryOn(item: false)
-					self?.showBiometryErrorAlert = true
-					return
-				case .failedByBiometry:
-					self?.isBiometryOn = false
-					self?.updateIsBiometryOn(item: false)
-					return
-				}
-			}
-		}
+        if biometryService.checkIfBioMetricAvailable() {
+            biometryService.authenticateByBiometry(
+                reason: localAuth.biometryEnableReasonText()
+            ) { [weak self] result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .suceeded:
+                        self?.isBiometryOn = true
+                        self?.updateIsBiometryOn(item: true)
+                        return
+                    case .failedByEvaluation:
+                        self?.isBiometryOn = false
+                        self?.updateIsBiometryOn(item: false)
+                        self?.showBiometryErrorAlert = true
+                        return
+                    case .failedByBiometry:
+                        self?.isBiometryOn = false
+                        self?.updateIsBiometryOn(item: false)
+                        return
+                    }
+                }
+            }
+        }
 	}
 
     // MARK: - Internal Methods
@@ -87,15 +89,11 @@ final class SecurityViewModel: ObservableObject {
 
 		let pinCode = keychainService.apiUserPinCode
 
-		guard
-			value, (pinCode == nil || pinCode?.isEmpty == true)
-		else {
-			send(.onApprovePassword)
-			return
-		}
-
-		debugPrint("$isPinCodeOn: onCreatePassword")
-		send(.onCreatePassword)
+        if value {
+            send(.onCreatePassword)
+        } else {
+            send(.onRemovePassword)
+        }
 	}
 
     func isPhraseExist() -> Bool {
@@ -170,6 +168,15 @@ final class SecurityViewModel: ObservableObject {
                     self?.delegate?.handleNextScene(.importKey)
                 case .onPhrase:
                     self?.delegate?.handleNextScene(.reservePhraseCopy)
+                case .onRemovePassword:
+                    self?.delegate?.handleNextScene(.pinCode(.pinCodeRemove))
+                case .biometryActivate:
+                    guard let value = self?.biometryService.checkIfBioMetricAvailable() else { return }
+                    if value {
+                        self?.delegate?.handleNextScene(.pinCode(.biometry))
+                    } else {
+                        self?.isBiometryOn = false
+                    }
                 }
             }
             .store(in: &subscriptions)

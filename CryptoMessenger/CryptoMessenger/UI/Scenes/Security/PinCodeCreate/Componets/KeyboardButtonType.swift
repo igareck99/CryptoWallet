@@ -8,5 +8,7 @@ enum KeyboardButtonType: Hashable {
 
     case number(Int)
     case delete
+    case faceId
+    case touchId
     case empty
 }
