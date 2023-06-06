@@ -1,0 +1,100 @@
+import SwiftUI
+
+struct PhoneRegistrationView<ViewModel: RegistrationPresenterProtocol>: View {
+
+    @StateObject var viewModel: ViewModel
+    @FocusState private var keyboardFoucsed: Bool
+
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                Text(viewModel.sources.typeYourPhone)
+                    .multilineTextAlignment(.center)
+                    .font(.system(size: 22))
+                    .foregroundColor(viewModel.colors.titleColor.wrappedValue)
+                    .padding(.horizontal, 24)
+
+                Text(viewModel.sources.registrationInfo)
+                    .multilineTextAlignment(.center)
+                    .font(.system(size: 15))
+                    .foregroundColor(viewModel.colors.subtitleColor.wrappedValue)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 12)
+
+                SelectCountryView(
+                    selectCountry: viewModel.selectedCountry,
+                    colors: viewModel.colors
+                ) {
+                    viewModel.didTapSelectCountry()
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 48)
+
+                InputPhoneView(
+                    phonePlaceholder: viewModel.sources.yourNumber,
+                    countryCode: viewModel.countryCode,
+                    phone: viewModel.phone,
+                    isPhoneNumberValid: viewModel.isPhoneNumberValid,
+                    keyboardFoucsed: $keyboardFoucsed,
+                    onCountryPhoneUpdate: viewModel.onCountryPhoneUpdate,
+                    colors: viewModel.colors
+                )
+                .padding(.horizontal, 16)
+                .padding(.top, 24)
+
+                Text(viewModel.sources.inavlidCountryCode)
+                    .font(.system(size: 12))
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 1)
+                    .opacity(viewModel.errorTextOpacity.wrappedValue)
+                    .foregroundColor(viewModel.colors.selectCountryErrorColor.wrappedValue)
+            }
+            .safeAreaInset(edge: .bottom) {
+                sendCodeButton
+                    .padding(.bottom)
+            }
+            .scrollDismissesKeyboard(.interactively)
+            .onTapGesture {
+                keyboardFoucsed = false
+            }
+            .padding(.top, 24)
+            .clipped()
+        }
+        .navigationBarHidden(false)
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var sendCodeButton: some View {
+        Button {
+            viewModel.didTapNextButton()
+        } label: {
+            ZStack {
+                ProgressView()
+                    .tint(viewModel.colors.buttonLoaderColor.wrappedValue)
+                    .opacity(viewModel.buttonLoaderOpacity.wrappedValue)
+                Text(viewModel.sources.sendCode)
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundColor(viewModel.colors.buttonTextColor.wrappedValue)
+                    .opacity(viewModel.buttonTextOpacity.wrappedValue)
+            }
+        }
+        .disabled(!viewModel.sendButtonEnabled.wrappedValue)
+        .frame(width: 237, height: 48)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(viewModel.colors.sendButtonColor.wrappedValue)
+        )
+    }
+
+    @ToolbarContentBuilder
+    private var toolBarItem: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Image(systemName: "chevron.backward")
+                .font(.system(size: 17))
+                .foregroundColor(.gray)
+                .padding(.trailing, 16)
+        }
+    }
+}
