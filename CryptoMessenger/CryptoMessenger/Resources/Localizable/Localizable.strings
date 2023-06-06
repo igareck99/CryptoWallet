@@ -25,9 +25,13 @@
 
 "Verification.ScreenTitle" = "Шаг 1 из 2";
 "Verification.Title" = "Введите код из СМС";
+"Verification.CodeWasSent" = "СМС с кодом была отправлена\nна ваш номер";
+"Verification.ResendCodeAgain" = "Не получили смс?\nОтправить повторно";
 "Verification.Description" = "СМС с кодом была отправлена\nна %@";
-"Verification.ResendTitle" = "Не получили смс?\nОтправить повторно %@ сек";
+"Verification.ResendTitle" = "Не получили смс?\nОтправить повторно (%@)";
 "Verification.ResendButton" = "Отправить повторно";
+"Verification.Seconds" = "сек";
+"Verification.WrongOTP" = "Неправильный пин-код";
 
 
 "KeyGeneration.ScreenTitle" = "Шаг 2 из 2";

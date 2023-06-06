@@ -5,6 +5,7 @@ enum RegistrationConfigurator {
 
     static func build(delegate: RegistrationSceneDelegate?) -> some View {
         let viewModel = RegistrationPresenter(
+            apiClient: APIClient.shared,
             userCredentials: UserDefaultsService.shared,
             keychainService: KeychainService.shared,
             colors: RegistrationColors()

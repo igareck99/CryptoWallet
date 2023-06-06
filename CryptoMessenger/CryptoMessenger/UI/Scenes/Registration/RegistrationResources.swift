@@ -1,5 +1,4 @@
 import Foundation
-import SwiftUI
 
 protocol RegistrationResourcable {
     static var typeYourPhone: String { get }
@@ -37,7 +36,7 @@ enum RegistrationResources: RegistrationResourcable {
     static var plus: String {
         "+"
     }
-    
+
     static var inavlidCountryCode: String {
         R.string.localizable.registrationInvalidCountryCode()
     }

@@ -16,6 +16,8 @@ protocol APIClientManager {
 
 final class APIClient: NSObject, APIClientManager {
 
+    static let shared = APIClient()
+    
     // MARK: - Internal Properties
 
     var logLevel: APILogLevel = .debug {
