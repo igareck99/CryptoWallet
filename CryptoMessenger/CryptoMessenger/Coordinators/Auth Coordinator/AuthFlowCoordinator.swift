@@ -45,7 +45,8 @@ public final class AuthFlowCoordinator: Coordinator {
     // MARK: - Private Methods
 
     private func showOnboardingScene() {
-        let viewController = OnboardingConfigurator.configuredViewController(delegate: self)
+        let view = OnboardingAssembly.build(delegate: self)
+        let viewController = BaseHostingController(rootView: view)
         setViewWith(viewController)
     }
 

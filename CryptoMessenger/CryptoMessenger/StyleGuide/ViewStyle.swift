@@ -13,6 +13,11 @@ extension UIView {
         return self
     }
 
+    func backgroundColor(_ color: UIColor?) -> Self {
+        backgroundColor = color
+        return self
+    }
+
     @discardableResult
     func tint(_ palette: Palette) -> Self {
         tintColor = palette.uiColor
