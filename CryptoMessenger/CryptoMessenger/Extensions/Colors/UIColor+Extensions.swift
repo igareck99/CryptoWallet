@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 extension UIColor {
     // MARK: - New Collors
@@ -61,9 +62,7 @@ extension UIColor {
     static let seaGreen = UIColor(red: 35.0 / 255.0, green: 156.0 / 255.0, blue: 86.0 / 255.0, alpha: 1.0)
     //#693d0a
     static let philippineBronze = UIColor(red: 105.0 / 255.0, green: 61.0 / 255.0, blue: 10.0 / 255.0, alpha: 1.0)
-    
-    
-    
+
     // Main dark collors
     //#F6F6F6
     static let cultured = UIColor(red: 246.0 / 255.0, green: 246.0 / 255.0, blue: 246.0 / 255.0, alpha: 1.0)

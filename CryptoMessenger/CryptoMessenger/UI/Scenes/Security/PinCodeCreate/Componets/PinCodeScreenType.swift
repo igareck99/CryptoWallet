@@ -4,7 +4,10 @@ import Foundation
 
 enum PinCodeScreenType: Hashable {
 
+    case login
     case pinCodeCreate
+    case pinCodeRemove
+    case biometry
     case falsePinCode
     case approvePinCode
 
@@ -19,6 +22,12 @@ enum PinCodeScreenType: Hashable {
         case .approvePinCode:
             return (R.string.localizable.pinCodeEnterPassword(),
                     "")
+        case .biometry:
+            return ("", "")
+        case .login:
+            return ("", "")
+        case .pinCodeRemove:
+            return ("", "")
         }
     }
 }

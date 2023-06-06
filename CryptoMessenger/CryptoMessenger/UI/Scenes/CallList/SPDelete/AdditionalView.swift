@@ -37,7 +37,7 @@ final class AdditionalView: UIView {
         brushButton.snap(parent: self) {
             $0.setImage(R.image.callList.brush(), for: .normal)
             $0.clipCorners(radius: 20)
-            $0.background(.lightRed(0.1))
+            $0.background(.lightRed((0.1)))
             $0.addTarget(self, action: #selector(self.deleteButtonTap), for: .touchUpInside)
         } layout: {
             $0.width.height.equalTo(40)

@@ -406,7 +406,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
     private func showPinCodeCreate(screenType: PinCodeScreenType) {
-        let rootView = PinCodeCreateConfigurator.configuredView(delegate: self, screenType: screenType)
+        let rootView = PinCodeAssembly.build(delegate: self,
+                                             screenType: screenType)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -572,7 +573,10 @@ extension MainFlowCoordinator: BlockedListSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (PinCodeCreateSceneDelegate)
 
-extension MainFlowCoordinator: PinCodeCreateSceneDelegate {}
+extension MainFlowCoordinator: PinCodeSceneDelegate {
+    func handleNextScene() {
+    }
+}
 
 // MARK: - MainFlowCoordinator (SessionSceneDelegate)
 
