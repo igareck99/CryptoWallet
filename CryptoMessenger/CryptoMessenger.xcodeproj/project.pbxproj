@@ -188,11 +188,8 @@
 		5AE28A9C27EA1DE500D1AAFF /* ReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE28A9B27EA1DE500D1AAFF /* ReplyView.swift */; };
 		5AEB80FF26DE138F009A1944 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */; };
 		5AF8633526AA994E004A417C /* VerificationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8632F26AA994E004A417C /* VerificationPresenter.swift */; };
-		5AF8633626AA994E004A417C /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633026AA994E004A417C /* VerificationViewController.swift */; };
 		5AF8633726AA994E004A417C /* VerificationProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633126AA994E004A417C /* VerificationProtocols.swift */; };
-		5AF8633826AA994E004A417C /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633226AA994E004A417C /* VerificationView.swift */; };
 		5AF8633926AA994E004A417C /* VerificationConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633326AA994E004A417C /* VerificationConfigurator.swift */; };
-		5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633426AA994E004A417C /* VerificationFlow.swift */; };
 		5AF8633D26AADF0F004A417C /* CountdownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633C26AADF0F004A417C /* CountdownTimer.swift */; };
 		5AF8633F26AC0204004A417C /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8633E26AC0204004A417C /* LoadingButton.swift */; };
 		5AF8634426AC0536004A417C /* IndicatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8634326AC0536004A417C /* IndicatorProtocol.swift */; };
@@ -751,6 +748,8 @@
 		D48AF484292D227B0044CFAE /* AddressResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AF483292D227B0044CFAE /* AddressResponse.swift */; };
 		D48AF487292E48200044CFAE /* BalancesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AF486292E48200044CFAE /* BalancesResponse.swift */; };
 		D491820029233FA7009F8C33 /* UINavigationController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49181FF29233FA7009F8C33 /* UINavigationController+Extensions.swift */; };
+		D494D62F2A2DE7830029D222 /* CodeVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D494D62E2A2DE7830029D222 /* CodeVerificationView.swift */; };
+		D494D6312A2DE80E0029D222 /* CodeVerificationResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D494D6302A2DE80E0029D222 /* CodeVerificationResources.swift */; };
 		D49C89C6290A6AF6005B4F64 /* ReactionTextsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C0290A6AF5005B4F64 /* ReactionTextsItem.swift */; };
 		D49C89C7290A6AF6005B4F64 /* ReactionsGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C1290A6AF5005B4F64 /* ReactionsGroupViewModel.swift */; };
 		D49C89C8290A6AF6005B4F64 /* ViewGeneratable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C2290A6AF5005B4F64 /* ViewGeneratable.swift */; };
@@ -802,6 +801,8 @@
 		D4D439FD283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D439FC283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift */; };
 		D4D9CC142A2F82F100EFC586 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D9CC132A2F82F100EFC586 /* UIColor+Extensions.swift */; };
 		D4D9CC162A2F867C00EFC586 /* RegistrationColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D9CC152A2F867C00EFC586 /* RegistrationColors.swift */; };
+		D4D9CC1D2A30458A00EFC586 /* OtpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D9CC1C2A30458A00EFC586 /* OtpView.swift */; };
+		D4D9CC232A30892000EFC586 /* VerificationColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D9CC222A30892000EFC586 /* VerificationColors.swift */; };
 		D4DF2B3128F3F4460057499A /* BiometryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF2B3028F3F4460057499A /* BiometryService.swift */; };
 		D4DF2B3328F526630057499A /* BiometrySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF2B3228F526630057499A /* BiometrySources.swift */; };
 		D4DF2B3528F567760057499A /* MatrixUseCaseToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF2B3428F567760057499A /* MatrixUseCaseToggles.swift */; };
@@ -1076,11 +1077,8 @@
 		5AEB80FA26DCEA49009A1944 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		5AEB80FE26DE138F009A1944 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		5AF8632F26AA994E004A417C /* VerificationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationPresenter.swift; sourceTree = "<group>"; };
-		5AF8633026AA994E004A417C /* VerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
 		5AF8633126AA994E004A417C /* VerificationProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationProtocols.swift; sourceTree = "<group>"; };
-		5AF8633226AA994E004A417C /* VerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
 		5AF8633326AA994E004A417C /* VerificationConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationConfigurator.swift; sourceTree = "<group>"; };
-		5AF8633426AA994E004A417C /* VerificationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationFlow.swift; sourceTree = "<group>"; };
 		5AF8633C26AADF0F004A417C /* CountdownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownTimer.swift; sourceTree = "<group>"; };
 		5AF8633E26AC0204004A417C /* LoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
 		5AF8634326AC0536004A417C /* IndicatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorProtocol.swift; sourceTree = "<group>"; };
@@ -1645,6 +1643,8 @@
 		D48AF483292D227B0044CFAE /* AddressResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressResponse.swift; sourceTree = "<group>"; };
 		D48AF486292E48200044CFAE /* BalancesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalancesResponse.swift; sourceTree = "<group>"; };
 		D49181FF29233FA7009F8C33 /* UINavigationController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extensions.swift"; sourceTree = "<group>"; };
+		D494D62E2A2DE7830029D222 /* CodeVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeVerificationView.swift; sourceTree = "<group>"; };
+		D494D6302A2DE80E0029D222 /* CodeVerificationResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeVerificationResources.swift; sourceTree = "<group>"; };
 		D49C89C0290A6AF5005B4F64 /* ReactionTextsItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionTextsItem.swift; sourceTree = "<group>"; };
 		D49C89C1290A6AF5005B4F64 /* ReactionsGroupViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionsGroupViewModel.swift; sourceTree = "<group>"; };
 		D49C89C2290A6AF5005B4F64 /* ViewGeneratable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewGeneratable.swift; sourceTree = "<group>"; };
@@ -1698,6 +1698,8 @@
 		D4D439FC283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "P2PCallUseCase+Notifications.swift"; sourceTree = "<group>"; };
 		D4D9CC132A2F82F100EFC586 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		D4D9CC152A2F867C00EFC586 /* RegistrationColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationColors.swift; sourceTree = "<group>"; };
+		D4D9CC1C2A30458A00EFC586 /* OtpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtpView.swift; sourceTree = "<group>"; };
+		D4D9CC222A30892000EFC586 /* VerificationColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationColors.swift; sourceTree = "<group>"; };
 		D4DF2B3028F3F4460057499A /* BiometryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometryService.swift; sourceTree = "<group>"; };
 		D4DF2B3228F526630057499A /* BiometrySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometrySources.swift; sourceTree = "<group>"; };
 		D4DF2B3428F567760057499A /* MatrixUseCaseToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixUseCaseToggles.swift; sourceTree = "<group>"; };
@@ -2502,8 +2504,13 @@
 		5A879F5326A5C25E002407F9 /* Registration */ = {
 			isa = PBXGroup;
 			children = (
-				D4E979582A27249E00771232 /* New */,
+				D48603512A285FE2002EFBC0 /* Views */,
 				5A42680126A83554000C51DD /* RegistrationProtocols.swift */,
+				D4E979532A271F1700771232 /* PhoneRegistrationView.swift */,
+				5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */,
+				5A42680326A83554000C51DD /* RegistrationConfigurator.swift */,
+				D4E9795B2A27263B00771232 /* RegistrationResources.swift */,
+				D4D9CC152A2F867C00EFC586 /* RegistrationColors.swift */,
 			);
 			path = Registration;
 			sourceTree = "<group>";
@@ -2742,12 +2749,13 @@
 		5AF8632E26AA9906004A417C /* Verification */ = {
 			isa = PBXGroup;
 			children = (
-				5AF8633326AA994E004A417C /* VerificationConfigurator.swift */,
+				D4D9CC172A2FBE4700EFC586 /* Views */,
 				5AF8633126AA994E004A417C /* VerificationProtocols.swift */,
-				5AF8633026AA994E004A417C /* VerificationViewController.swift */,
-				5AF8633226AA994E004A417C /* VerificationView.swift */,
+				D494D62E2A2DE7830029D222 /* CodeVerificationView.swift */,
 				5AF8632F26AA994E004A417C /* VerificationPresenter.swift */,
-				5AF8633426AA994E004A417C /* VerificationFlow.swift */,
+				5AF8633326AA994E004A417C /* VerificationConfigurator.swift */,
+				D494D6302A2DE80E0029D222 /* CodeVerificationResources.swift */,
+				D4D9CC222A30892000EFC586 /* VerificationColors.swift */,
 			);
 			path = Verification;
 			sourceTree = "<group>";
@@ -4522,6 +4530,14 @@
 			path = Colors;
 			sourceTree = "<group>";
 		};
+		D4D9CC172A2FBE4700EFC586 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D4D9CC1C2A30458A00EFC586 /* OtpView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		D4DF2B2F28F3F42B0057499A /* Biometry Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -4588,19 +4604,6 @@
 				D4E979122A1F2FFF00771232 /* PushKitServiceMock.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		D4E979582A27249E00771232 /* New */ = {
-			isa = PBXGroup;
-			children = (
-				D48603512A285FE2002EFBC0 /* Views */,
-				D4E979532A271F1700771232 /* PhoneRegistrationView.swift */,
-				5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */,
-				5A42680326A83554000C51DD /* RegistrationConfigurator.swift */,
-				D4E9795B2A27263B00771232 /* RegistrationResources.swift */,
-				D4D9CC152A2F867C00EFC586 /* RegistrationColors.swift */,
-			);
-			path = New;
 			sourceTree = "<group>";
 		};
 		D4FA3F6928182C9E000246D8 /* App Delegate UseCase */ = {
@@ -4981,7 +4984,6 @@
 				5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */,
 				8B34A9FA28D4AAFA0097ED9E /* DirectChatMenuViewModel.swift in Sources */,
 				5A2EC772279F3A6C00857248 /* APILogger.swift in Sources */,
-				5AF8633626AA994E004A417C /* VerificationViewController.swift in Sources */,
 				8BD62931276B4ADA000A976A /* SocialListViewModel.swift in Sources */,
 				5A7EDE73275402E90049DC4A /* BlockedUserView.swift in Sources */,
 				D4442B4E2811A3DE0033D07A /* PushNotificationsService.swift in Sources */,
@@ -5045,6 +5047,7 @@
 				7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */,
 				8B8B9C2527F331C90061F5E6 /* SocialListFlow.swift in Sources */,
 				8B8298912983CB150038C546 /* ChannelAddUserViewCell.swift in Sources */,
+				D4D9CC232A30892000EFC586 /* VerificationColors.swift in Sources */,
 				7846B66526E8BCB200B05984 /* DeleteAnimation.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
 				8BAAB37C2A24ED980062D5B2 /* OnboardingAssembly.swift in Sources */,
@@ -5148,6 +5151,7 @@
 				5A9318B826BD210400645365 /* PinCodeProtocols.swift in Sources */,
 				D4B39B01289C3B50006F2D99 /* CallEventView.swift in Sources */,
 				5A7EDE75275402F00049DC4A /* BlockedUserItem.swift in Sources */,
+				D4D9CC1D2A30458A00EFC586 /* OtpView.swift in Sources */,
 				5AE28A9C27EA1DE500D1AAFF /* ReplyView.swift in Sources */,
 				8BE6673B280F4A4A00D41A3C /* UIFont+Init.swift in Sources */,
 				8B32FEB529886C1C0017082A /* ChannelMediaEmptyState.swift in Sources */,
@@ -5320,7 +5324,6 @@
 				D4442B502815E03D0033D07A /* NotificationCenter+NotificationNames.swift in Sources */,
 				789B123326CE8906002FCDDF /* CallListProtocols.swift in Sources */,
 				5AF8636926ADCB9B004A417C /* KeyImportPresenter.swift in Sources */,
-				5AF8633826AA994E004A417C /* VerificationView.swift in Sources */,
 				7846B67926E8C0BE00B05984 /* PreviewCollectionViewCell.swift in Sources */,
 				8BE379B127EB82A000AB6B6E /* KeyListActionView.swift in Sources */,
 				5A187F2C2680CF49001957D3 /* URLRequest+QueryItems.swift in Sources */,
@@ -5447,6 +5450,7 @@
 				5A44FEED2768B1E6006F9D92 /* ProfileDetailProtocols.swift in Sources */,
 				D4857CFE28AF4AAE00C904EC /* Font+Extensions.swift in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
+				D494D62F2A2DE7830029D222 /* CodeVerificationView.swift in Sources */,
 				8B451FEA29A43A8100BF4646 /* ImportPhraseSources.swift in Sources */,
 				D46B7C6E297E98AF00BA4A9B /* CancelActionViewModel.swift in Sources */,
 				D44D61D828951D0F004F5301 /* SocialListItemView.swift in Sources */,
@@ -5506,6 +5510,7 @@
 				5A187E9A2680708D001957D3 /* RandomColor.swift in Sources */,
 				5A9318E026C5AD0500645365 /* BubbleShape.swift in Sources */,
 				D4AAD74D294857F800A26515 /* FeeResponse.swift in Sources */,
+				D494D6312A2DE80E0029D222 /* CodeVerificationResources.swift in Sources */,
 				8BFFC75427EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift in Sources */,
 				D4FA3F74281A7374000246D8 /* TimeInterval+Extensions.swift in Sources */,
 				D4A8537A295DA50800F2B944 /* Snackbar.swift in Sources */,
@@ -5629,7 +5634,6 @@
 				D46FC16329A3907A00D65C99 /* AppConfiguration.swift in Sources */,
 				8B84F1BE28E3478D0045818F /* NotesView.swift in Sources */,
 				8B717A9028AB96260078833B /* AnotherAppSources.swift in Sources */,
-				5AF8633A26AA994E004A417C /* VerificationFlow.swift in Sources */,
 				D41553B9288AC819003FDADC /* UserDefaultsServiceProtocol.swift in Sources */,
 				5A187F362680CF49001957D3 /* KeyboardObserver.swift in Sources */,
 				5A3721D3272EF0DA0097ABED /* ChatCreateView.swift in Sources */,

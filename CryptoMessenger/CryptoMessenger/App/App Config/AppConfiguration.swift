@@ -2,13 +2,11 @@ import Foundation
 import UIKit.UIDevice
 
 protocol ConfigType {
-    
     var licensePage: String { get }
-
     var rulesPage: String { get }
-
+    
+    var deviceId: String { get }
     var deviceName: String { get }
-
     var appName: String { get }
 
     var stand: Stand { get }

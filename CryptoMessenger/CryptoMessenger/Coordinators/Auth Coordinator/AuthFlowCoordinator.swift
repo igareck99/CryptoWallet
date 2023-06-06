@@ -57,7 +57,8 @@ public final class AuthFlowCoordinator: Coordinator {
     }
 
     private func showVerificationScene() {
-        let viewController = VerificationConfigurator.configuredViewController(delegate: self)
+        let view = VerificationConfigurator.build(delegate: self)
+        let viewController = BaseHostingController(rootView: view)
         navigationController.pushViewController(viewController, animated: true)
     }
 
