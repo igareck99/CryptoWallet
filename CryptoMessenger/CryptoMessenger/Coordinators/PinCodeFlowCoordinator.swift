@@ -42,7 +42,8 @@ public final class PinCodeFlowCoordinator: Coordinator {
     // MARK: - Private Methods
 
     private func showPinCodeScene() {
-        let viewController = PinCodeConfigurator.configuredViewController(delegate: self)
+        let view = PinCodeAssembly.build(delegate: self, screenType: .login)
+        let viewController = BaseHostingController(rootView: view)
         setViewWith(viewController)
     }
 }
@@ -58,6 +59,8 @@ extension PinCodeFlowCoordinator: PinCodeFlowCoordinatorSceneDelegate {
 // MARK: - PinCodeFlowCoordinator (PinCodeSceneDelegate)
 
 extension PinCodeFlowCoordinator: PinCodeSceneDelegate {
+    func handleNextScene(_ scene: MainFlowCoordinator.Scene) { }
+    
     func handleNextScene() {
         switchFlow()
     }

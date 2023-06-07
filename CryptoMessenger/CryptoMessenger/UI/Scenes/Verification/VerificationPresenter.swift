@@ -18,6 +18,7 @@ final class VerificationPresenter {
     private let matrixUseCase: MatrixUseCaseProtocol
     private var subscriptions = Set<AnyCancellable>()
 	private let keychainService: KeychainServiceProtocol
+    private let userSettings: UserCredentialsStorage & UserFlowsStorage
 
     private var state = VerificationFlow.ViewState.sending {
         didSet {
@@ -28,13 +29,15 @@ final class VerificationPresenter {
     // MARK: - Lifecycle
 
     init(
-		view: VerificationViewInterface,
-		keychainService: KeychainServiceProtocol,
-		matrixUseCase: MatrixUseCaseProtocol
-	) {
+        view: VerificationViewInterface,
+        keychainService: KeychainServiceProtocol,
+        matrixUseCase: MatrixUseCaseProtocol,
+        userSettings: UserCredentialsStorage & UserFlowsStorage
+    ) {
         self.view = view
-		self.keychainService = keychainService
-		self.matrixUseCase = matrixUseCase
+        self.keychainService = keychainService
+        self.matrixUseCase = matrixUseCase
+        self.userSettings = userSettings
         countdownTimer.delegate = self
     }
 
@@ -125,7 +128,9 @@ final class VerificationPresenter {
 						self?.keychainService.isApiUserAuthenticated = true
 						self?.keychainService.apiAccessToken = response.accessToken
 						self?.keychainService.apiRefreshToken = response.refreshToken
-						self?.delegate?.handleNextScene(.pinCode)
+                        self?.userSettings.isAuthFlowFinished = true
+                        self?.keychainService.isPinCodeEnabled = false
+                        self?.delegate?.handleNextScene(.main)
 					}
             }
             .store(in: &subscriptions)
