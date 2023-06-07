@@ -102,7 +102,8 @@ struct ChooseReceiverView: View {
                 ) { item in
                     ContactRow(avatar: item.url,
                                name: item.name,
-                               status: viewModel.searchType == .telephone ? item.phone : item.ethereum,
+                               status: viewModel.searchType == .telephone ? item.phone :
+                                viewModel.getAdress(item, receiverData),
                                isAdmin: false)
                     .listRowSeparator(.hidden)
                     .onTapGesture {

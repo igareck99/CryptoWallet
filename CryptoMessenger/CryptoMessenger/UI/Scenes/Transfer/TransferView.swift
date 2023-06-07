@@ -86,6 +86,7 @@ struct TransferView: View {
 					.padding(.top, 14)
                     .padding(.horizontal, 16)
                     .onTapGesture {
+                        self.receiverData.walletType = viewModel.currentWallet.walletType
                         viewModel.send(.onChooseReceiver($receiverData))
                     }
 					.onChange(of: receiverData, perform: { data in
