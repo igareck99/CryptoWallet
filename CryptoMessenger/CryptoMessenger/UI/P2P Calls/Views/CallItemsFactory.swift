@@ -88,8 +88,8 @@ extension CallItemsFactory: CallItemsFactoryProtocol {
 		// TODO: Сделать видеозвонки
 //		let cameraItem = makeCameraItem(delegate: delegate)
 //		items.append(cameraItem)
-		let changeHoldCallItem = makeChangeHoldedCallItem(viewModel: viewModel, delegate: delegate)
-		items.append(changeHoldCallItem)
+//		let changeHoldCallItem = makeChangeHoldedCallItem(viewModel: viewModel, delegate: delegate)
+//		items.append(changeHoldCallItem)
 
 		let holdCallItem = makeHoldCallItem(viewModel: viewModel, delegate: delegate)
 		items.append(holdCallItem)

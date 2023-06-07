@@ -67,8 +67,8 @@ struct P2PCall {
 	let interlocutorView: UIView?
 	// Ссылка на видеовью себя
 	let selfyView: UIView?
-    // Аватар собеедника
-    let callerAvatar: URL?
+    // Id комната
+    let roomId: String
 
     init(
         activeCallerName: String,
@@ -79,7 +79,7 @@ struct P2PCall {
         isVideoCall: Bool = false,
         interlocutorView: UIView? = nil,
         selfyView: UIView? = nil,
-        callerAvatar: URL?
+        roomId: String
     ) {
         self.activeCallerName = activeCallerName
         self.activeCallState = activeCallState
@@ -89,6 +89,6 @@ struct P2PCall {
         self.isVideoCall = isVideoCall
         self.interlocutorView = interlocutorView
         self.selfyView = selfyView
-        self.callerAvatar = callerAvatar
+        self.roomId = roomId
     }
 }

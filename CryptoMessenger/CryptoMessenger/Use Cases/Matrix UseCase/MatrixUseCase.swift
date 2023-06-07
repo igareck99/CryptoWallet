@@ -17,6 +17,7 @@ final class MatrixUseCase {
 	private var subscriptions = Set<AnyCancellable>()
 	private let toggles: MatrixUseCaseTogglesProtocol
     private let config: ConfigType
+    private let cache: ImageCacheServiceProtocol
 
     // MARK: - Static Properties
 
@@ -29,13 +30,15 @@ final class MatrixUseCase {
         keychainService: KeychainServiceProtocol = KeychainService.shared,
         userSettings: UserDefaultsServiceProtocol = UserDefaultsService.shared,
         toggles: MatrixUseCaseTogglesProtocol = MatrixUseCaseToggles(),
-        config: ConfigType = Configuration.shared
+        config: ConfigType = Configuration.shared,
+        cache: ImageCacheServiceProtocol = ImageCacheService.shared
     ) {
 		self.matrixService = matrixService
 		self.keychainService = keychainService
 		self.userSettings = userSettings
 		self.toggles = toggles
         self.config = config
+        self.cache = cache
 		observeLoginState()
 	}
 
@@ -283,6 +286,19 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
         room.liveTimeline { timeline in
             guard let state = timeline?.state else { completion(.failure); return }
             completion(.success(state))
+        }
+    }
+    
+    func getUserAvatar(
+        avatarString: String,
+        completion: @escaping EmptyFailureBlock<UIImage>
+    ) {
+        let homeServer = self.config.matrixURL
+        if let url = MXURL(mxContentURI: avatarString)?.contentURL(on: homeServer) {
+            self.cache.loadImage(atUrl: url) { _, image in
+                guard let i = image else { return }
+                completion(.success(i))
+            }
         }
     }
     

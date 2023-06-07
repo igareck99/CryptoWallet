@@ -181,10 +181,11 @@ final class CallViewController: UIViewController {
 			}.store(in: &subscribtions)
 
 		viewModel.callDurationSubject
-			.receive(on: RunLoop.main)
-			.sink { [weak self] duration in
-				self?.callDurationLabel.text = duration
-			}.store(in: &subscribtions)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] duration in
+                guard let self = self else { return }
+                self.callDurationLabel.text = duration
+            }.store(in: &subscribtions)
         viewModel.imageLoadedSubject
             .receive(on: RunLoop.main)
             .sink { [weak self] value in
@@ -197,14 +198,14 @@ final class CallViewController: UIViewController {
 		stateImage.isHidden = callState != .remotelyOnHold && callState != .onHold
 
 		switch callState {
-		case .createOffer, .ringing:
+        case .createOffer, .ringing:
 			stateLabel.text = callType == .incoming ? viewModel.sources.incomingCall : viewModel.sources.outcomingCall
-		case .connecting:
+        case .connecting:
 			stateLabel.text = viewModel.sources.connectionIsEsatblishing
-		case .connected:
-			stateLabel.text = viewModel.sources.connectionIsEsatblished
-		case .inviteExpired:
-			stateLabel.text = viewModel.sources.userDoesNotRespond
+        case .connected:
+            stateLabel.text = viewModel.sources.connectionIsEsatblished
+        case .inviteExpired:
+            stateLabel.text = viewModel.sources.userDoesNotRespond
 		case .onHold:
 			stateLabel.text = viewModel.sources.youHoldedCall
 		case .remotelyOnHold:
