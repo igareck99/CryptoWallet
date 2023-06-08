@@ -87,14 +87,4 @@ struct PhoneRegistrationView<ViewModel: RegistrationPresenterProtocol>: View {
                 .fill(viewModel.colors.sendButtonColor.wrappedValue)
         )
     }
-
-    @ToolbarContentBuilder
-    private var toolBarItem: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarLeading) {
-            Image(systemName: "chevron.backward")
-                .font(.system(size: 17))
-                .foregroundColor(.gray)
-                .padding(.trailing, 16)
-        }
-    }
 }
