@@ -192,11 +192,11 @@
 
 
 "AboutApp.Title" = "О приложении";
-"AboutApp.AppName" = "AURA Wallet Messenger";
+"AboutApp.AppName" = "AURA Messenger";
 "AboutApp.Version" = "Версия 1.10.201";
 "AboutApp.License" = "Лицензии";
-"AboutApp.TermsAndPolitics" = "Условия и Политика\nконфиденциальности";
-"AboutApp.AuraAppInc" = "C 2020 AuraApp Inc.";
+"AboutApp.TermsAndPolitics" = "Политика конфиденциальности";
+"AboutApp.UsageCondition" = "Условия использования";
 
 
 "ProfileNetworkDetail.NotShowMessage" = "НЕ ОТОБРАЖАЕМ";

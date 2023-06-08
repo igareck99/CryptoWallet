@@ -217,13 +217,7 @@
 		782A2E752889534C00DDB6CE /* MapViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782A2E742889534C00DDB6CE /* MapViewConstants.swift */; };
 		7831DFD7280947D900AF1F1D /* TranslateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831DFD6280947D900AF1F1D /* TranslateManager.swift */; };
 		783AADC92811ABE000E2228A /* TranslateMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783AADC82811ABE000E2228A /* TranslateMenuView.swift */; };
-		78437F0D270C76FE00371110 /* AboutAppPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F07270C76FE00371110 /* AboutAppPresenter.swift */; };
-		78437F0E270C76FE00371110 /* AboutAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F08270C76FE00371110 /* AboutAppViewController.swift */; };
 		78437F0F270C76FE00371110 /* AboutAppProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F09270C76FE00371110 /* AboutAppProtocols.swift */; };
-		78437F10270C76FE00371110 /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F0A270C76FE00371110 /* AboutAppView.swift */; };
-		78437F11270C76FE00371110 /* AboutAppConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F0B270C76FE00371110 /* AboutAppConfigurator.swift */; };
-		78437F12270C76FE00371110 /* AboutAppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F0C270C76FE00371110 /* AboutAppFlow.swift */; };
-		78437F17270C8FB100371110 /* CustomWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F16270C8FB100371110 /* CustomWebViewController.swift */; };
 		78437F1A270CE94000371110 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F19270CE94000371110 /* PaywallView.swift */; };
 		78437F1C270CE98800371110 /* PaywallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78437F1B270CE98800371110 /* PaywallViewController.swift */; };
 		7846B65226E8BB6200B05984 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846B65126E8BB6200B05984 /* PhotosDataSource.swift */; };
@@ -449,6 +443,10 @@
 		8B6B707A2A2FEC8A00D99156 /* PinCodeFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B70792A2FEC8A00D99156 /* PinCodeFlow.swift */; };
 		8B6B707C2A30B6EC00D99156 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B707B2A30B6EC00D99156 /* Color+Extensions.swift */; };
 		8B6B707E2A30BBAE00D99156 /* GroupCallsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B707D2A30BBAE00D99156 /* GroupCallsAssembly.swift */; };
+		8B6B70802A30D83900D99156 /* AboutAppNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B707F2A30D83900D99156 /* AboutAppNewView.swift */; };
+		8B6B70822A30E25D00D99156 /* AboutAppSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B70812A30E25D00D99156 /* AboutAppSources.swift */; };
+		8B6B70842A30E46500D99156 /* AboutAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B70832A30E46500D99156 /* AboutAppViewModel.swift */; };
+		8B6B70862A30E67C00D99156 /* AboutAppAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6B70852A30E67C00D99156 /* AboutAppAssembly.swift */; };
 		8B6BEE7F275665D4003A24B6 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6BEE7E275665D4003A24B6 /* ProfileView.swift */; };
 		8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */; };
 		8B6C18BE2799A5E200B85F2A /* SecurityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C18BD2799A5E100B85F2A /* SecurityView.swift */; };
@@ -1104,13 +1102,7 @@
 		782A2E742889534C00DDB6CE /* MapViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewConstants.swift; sourceTree = "<group>"; };
 		7831DFD6280947D900AF1F1D /* TranslateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateManager.swift; sourceTree = "<group>"; };
 		783AADC82811ABE000E2228A /* TranslateMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateMenuView.swift; sourceTree = "<group>"; };
-		78437F07270C76FE00371110 /* AboutAppPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppPresenter.swift; sourceTree = "<group>"; };
-		78437F08270C76FE00371110 /* AboutAppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppViewController.swift; sourceTree = "<group>"; };
 		78437F09270C76FE00371110 /* AboutAppProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppProtocols.swift; sourceTree = "<group>"; };
-		78437F0A270C76FE00371110 /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
-		78437F0B270C76FE00371110 /* AboutAppConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppConfigurator.swift; sourceTree = "<group>"; };
-		78437F0C270C76FE00371110 /* AboutAppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppFlow.swift; sourceTree = "<group>"; };
-		78437F16270C8FB100371110 /* CustomWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomWebViewController.swift; sourceTree = "<group>"; };
 		78437F19270CE94000371110 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		78437F1B270CE98800371110 /* PaywallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewController.swift; sourceTree = "<group>"; };
 		7846B65126E8BB6200B05984 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
@@ -1336,6 +1328,10 @@
 		8B6B70792A2FEC8A00D99156 /* PinCodeFlow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinCodeFlow.swift; sourceTree = "<group>"; };
 		8B6B707B2A30B6EC00D99156 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		8B6B707D2A30BBAE00D99156 /* GroupCallsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsAssembly.swift; sourceTree = "<group>"; };
+		8B6B707F2A30D83900D99156 /* AboutAppNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppNewView.swift; sourceTree = "<group>"; };
+		8B6B70812A30E25D00D99156 /* AboutAppSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppSources.swift; sourceTree = "<group>"; };
+		8B6B70832A30E46500D99156 /* AboutAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppViewModel.swift; sourceTree = "<group>"; };
+		8B6B70852A30E67C00D99156 /* AboutAppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppAssembly.swift; sourceTree = "<group>"; };
 		8B6BEE7E275665D4003A24B6 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		8B6C18BA27957C8900B85F2A /* UserDefaults+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Codable.swift"; sourceTree = "<group>"; };
 		8B6C18BD2799A5E100B85F2A /* SecurityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityView.swift; sourceTree = "<group>"; };
@@ -2811,12 +2807,6 @@
 			isa = PBXGroup;
 			children = (
 				78437F13270C8F8B00371110 /* WebView */,
-				78437F07270C76FE00371110 /* AboutAppPresenter.swift */,
-				78437F08270C76FE00371110 /* AboutAppViewController.swift */,
-				78437F09270C76FE00371110 /* AboutAppProtocols.swift */,
-				78437F0A270C76FE00371110 /* AboutAppView.swift */,
-				78437F0B270C76FE00371110 /* AboutAppConfigurator.swift */,
-				78437F0C270C76FE00371110 /* AboutAppFlow.swift */,
 			);
 			path = AboutApp;
 			sourceTree = "<group>";
@@ -2824,7 +2814,11 @@
 		78437F13270C8F8B00371110 /* WebView */ = {
 			isa = PBXGroup;
 			children = (
-				78437F16270C8FB100371110 /* CustomWebViewController.swift */,
+				78437F09270C76FE00371110 /* AboutAppProtocols.swift */,
+				8B6B707F2A30D83900D99156 /* AboutAppNewView.swift */,
+				8B6B70812A30E25D00D99156 /* AboutAppSources.swift */,
+				8B6B70832A30E46500D99156 /* AboutAppViewModel.swift */,
+				8B6B70852A30E67C00D99156 /* AboutAppAssembly.swift */,
 			);
 			path = WebView;
 			sourceTree = "<group>";
@@ -4864,6 +4858,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B6B70822A30E25D00D99156 /* AboutAppSources.swift in Sources */,
 				789FEBF026DCE61D0018FE91 /* PhotoEditorConfigurator.swift in Sources */,
 				8BA0C91627AD77F90070203F /* ReserveCopyFlow.swift in Sources */,
 				5A44FEEE2768B1E6006F9D92 /* ProfileDetailConfigurator.swift in Sources */,
@@ -4884,7 +4879,6 @@
 				8B55D23028A1AE43000506D7 /* LocationData.swift in Sources */,
 				5AB35FAF2740EEBB001FB0DE /* ChatHistoryRow.swift in Sources */,
 				8B38D13928C0F007002733D7 /* ProfileSettingsMenu.swift in Sources */,
-				78437F10270C76FE00371110 /* AboutAppView.swift in Sources */,
 				8B451FE829A4389500BF4646 /* FriendProfileSourcable.swift in Sources */,
 				D4AAD74B294855C000A26515 /* FeeRequestParams.swift in Sources */,
 				5A44FEDB276681BD006F9D92 /* ProfileProtocols.swift in Sources */,
@@ -5051,7 +5045,6 @@
 				7846B66526E8BCB200B05984 /* DeleteAnimation.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
 				8BAAB37C2A24ED980062D5B2 /* OnboardingAssembly.swift in Sources */,
-				78437F17270C8FB100371110 /* CustomWebViewController.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
 				D48603552A28DBF4002EFBC0 /* SelectCountryView.swift in Sources */,
 				D4E979132A1F2FFF00771232 /* PushKitServiceMock.swift in Sources */,
@@ -5073,7 +5066,6 @@
 				8B1E8AC227DF4F840036C301 /* ChooseReceiverView.swift in Sources */,
 				5AF8637026ADD9BB004A417C /* MainFlowCoordinator.swift in Sources */,
 				5A4BE51C271DD86A00D03D09 /* EventCollection.swift in Sources */,
-				78437F0D270C76FE00371110 /* AboutAppPresenter.swift in Sources */,
 				D48AF487292E48200044CFAE /* BalancesResponse.swift in Sources */,
 				8B34A9F628D4A8A40097ED9E /* MenuActionsTogglesFacade.swift in Sources */,
 				D4DF2B3128F3F4460057499A /* BiometryService.swift in Sources */,
@@ -5138,6 +5130,7 @@
 				5AF8636E26ADCB9B004A417C /* KeyImportFlow.swift in Sources */,
 				8BBF907C29350A1D00936F4D /* PinCodeScreenType.swift in Sources */,
 				5AABB7842739821D004D6107 /* ChatHistoryConfigurator.swift in Sources */,
+				8B6B70862A30E67C00D99156 /* AboutAppAssembly.swift in Sources */,
 				8BFFC75227EDEB6A00BE4AB6 /* PhraseManagerFlow.swift in Sources */,
 				5A9318DE26C5AD0500645365 /* BubbleView.swift in Sources */,
 				8BA0C91027AD76CC0070203F /* ReserveCopyViewModel.swift in Sources */,
@@ -5217,6 +5210,7 @@
 				D4533A1C28335A6700B956B2 /* RemoteConfigServiceAssembly.swift in Sources */,
 				5A187E982680708D001957D3 /* GradientView.swift in Sources */,
 				D44CBF0729308BE0006A14D1 /* BaseNetworkService.swift in Sources */,
+				8B6B70802A30D83900D99156 /* AboutAppNewView.swift in Sources */,
 				D451006D2893BF860018A935 /* MatrixObjectFactory.swift in Sources */,
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
 				8B55D22E28A14FF9000506D7 /* LocationServiceProtocol.swift in Sources */,
@@ -5390,9 +5384,7 @@
 				8B4810FB27CF9BA600831589 /* ImportKeyFlow.swift in Sources */,
 				5A9318D826C5AAF100645365 /* ChatRoomConfigurator.swift in Sources */,
 				D44BDC9B280FECC80080AE8A /* DependeciesService.swift in Sources */,
-				78437F0E270C76FE00371110 /* AboutAppViewController.swift in Sources */,
 				D4DF2B3E28F589090057499A /* SwipeActionModifier.swift in Sources */,
-				78437F11270C76FE00371110 /* AboutAppConfigurator.swift in Sources */,
 				8B97852628DD14E300DB7D2F /* FileViewModel.swift in Sources */,
 				5A3721DE272F418F0097ABED /* SelectContactView.swift in Sources */,
 				5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */,
@@ -5416,6 +5408,7 @@
 				D49C89CA290A6AF6005B4F64 /* ReactionTextsView.swift in Sources */,
 				8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */,
 				8B4E9C3D27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift in Sources */,
+				8B6B70842A30E46500D99156 /* AboutAppViewModel.swift in Sources */,
 				D450047F2845E5D600CA4C82 /* CallItemsFactory.swift in Sources */,
 				8B971E0C28B5835100F111D9 /* CacheType.swift in Sources */,
 				8B00F45C276A1C2700FE1E41 /* R.generated.swift in Sources */,
@@ -5471,7 +5464,6 @@
 				789B123426CE8906002FCDDF /* CallListView.swift in Sources */,
 				5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */,
 				78A9CBFE28191F1D00C4D7E1 /* ActionSheetButton.swift in Sources */,
-				78437F12270C76FE00371110 /* AboutAppFlow.swift in Sources */,
 				D4F5DB3529EFBCBB00772AC5 /* WalletModelsFactory.swift in Sources */,
 				8BE24FA42947C239009A3734 /* DirectMenuFlow.swift in Sources */,
 				D4CA6C0C29FB15FC00C96053 /* WalletAddress.swift in Sources */,
