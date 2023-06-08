@@ -87,9 +87,6 @@ struct ProfileView: View {
                             ]
                 )
             }
-            .fullScreenCover(isPresented: $showSafari) {
-                SFSafariViewWrapper(link: $safariAddress)
-            }
             .fullScreenCover(isPresented: self.$showImageViewer,
                              content: {
                 ImageViewerRemote(selectedItem: getTagItem(),

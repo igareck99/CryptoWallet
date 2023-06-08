@@ -34,9 +34,6 @@ struct FriendProfileView: View {
                 viewModel.send(.onProfileAppear)
                 showTabBar()
             }
-            .fullScreenCover(isPresented: $showSafari) {
-                SFSafariViewWrapper(link: $safariAddress)
-            }
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(viewModel.sources.profileCopied))
             }
