@@ -414,7 +414,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
     }
 
     private func showAboutAppScene() {
-        let viewController = AboutAppConfigurator.configuredViewController(delegate: self)
+        let view = AboutAppAssembly.build(delegate: self)
+        let viewController = BaseHostingController(rootView: view)
         navigationController.pushViewController(viewController, animated: true)
     }
 

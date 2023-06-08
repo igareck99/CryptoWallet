@@ -8,12 +8,12 @@ struct SFSafariViewWrapper: UIViewControllerRepresentable {
 
     // MARK: - Internal Properties
 
-    @Binding var link: String
+    var link: URL
 
     // MARK: - Internal Methods
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<Self>) -> SFSafariViewController {
-        SFSafariViewController(url: link.asURL())
+        SFSafariViewController(url: link)
     }
 
     func updateUIViewController(_ uiViewController: SFSafariViewController,
