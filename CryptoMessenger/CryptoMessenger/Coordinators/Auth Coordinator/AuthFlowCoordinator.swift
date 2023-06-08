@@ -62,36 +62,11 @@ public final class AuthFlowCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showGenerationInfoScene() {
-        let viewController = GenerationInfoConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showKeyImportScene() {
-        let viewController = KeyImportConfigurator.configuredViewController(delegate: self)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
     private func showCountryCodeScene(_ countryCodeDelegate: CountryCodePickerDelegate) {
         let viewController = CountryCodePickerViewController()
         viewController.delegate = countryCodeDelegate
         let nvc = BaseNavigationController(rootViewController: viewController)
         navigationController.viewControllers.last?.present(nvc, animated: true)
-    }
-
-    private func showCallListScene() {
-        let viewController = CallListConfigurator.configuredViewController(delegate: self)
-        setViewWith(viewController)
-    }
-
-    private func showPhotoEditorScene(images: [UIImage]) {
-        let viewController = PhotoEditorConfigurator.configuredViewController(images: images, delegate: self)
-        setViewWith(viewController)
-    }
-
-    private func showProfileNetworkDetailScene() {
-        let viewController = ProfileNetworkDetailConfigurator.configuredViewController(delegate: self)
-        setViewWith(viewController)
     }
 
     private func showProfile() {
@@ -109,13 +84,8 @@ public final class AuthFlowCoordinator: Coordinator {
         case onboarding
         case registration
         case verification
-        case generationInfo
-        case keyImport
         case main
-        case callList
         case countryCode(CountryCodePickerDelegate)
-        case photoEditor
-        case profileNetwork
     }
 }
 
@@ -132,18 +102,8 @@ extension AuthFlowCoordinator: AuthFlowCoordinatorSceneDelegate {
             showRegistrationScene()
         case .verification:
             showVerificationScene()
-        case .generationInfo:
-            showGenerationInfoScene()
         case .countryCode(let delegate):
             showCountryCodeScene(delegate)
-        case .keyImport:
-            showKeyImportScene()
-        case .callList:
-            showCallListScene()
-        case .photoEditor:
-            showPhotoEditorScene(images: [])
-        case .profileNetwork:
-            showProfileNetworkDetailScene()
         }
     }
 
@@ -164,26 +124,6 @@ extension AuthFlowCoordinator: RegistrationSceneDelegate {}
 
 extension AuthFlowCoordinator: VerificationSceneDelegate {}
 
-// MARK: - AuthFlowCoordinator (GenerationInfoSceneDelegate)
-
-extension AuthFlowCoordinator: GenerationInfoSceneDelegate {}
-
 // MARK: - AuthFlowCoordinator (OnboardingSceneDelegate)
 
 extension AuthFlowCoordinator: OnboardingSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (KeyImportSceneDelegate)
-
-extension AuthFlowCoordinator: KeyImportSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (CallListSceneDelegate)
-
-extension AuthFlowCoordinator: CallListSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (PhotoEditorSceneDelegate)
-
-extension AuthFlowCoordinator: PhotoEditorSceneDelegate {}
-
-// MARK: - AuthFlowCoordinator (ProfileNetworkDetailSceneDelegate)
-
-extension AuthFlowCoordinator: ProfileNetworkDetailSceneDelegate {}
