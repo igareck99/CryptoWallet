@@ -134,7 +134,13 @@ private extension VerificationPresenter {
         verificationCode.wrappedValue = ""
         self.objectWillChange.send()
     }
+    
+}
 
+// MARK: - Network Requests
+
+private extension VerificationPresenter  {
+    
     func resendPhone() {
         apiClient
             .publisher(Endpoints.Registration.sms(keychainService.apiUserPhoneNumber?.numbers ?? ""))
@@ -156,7 +162,86 @@ private extension VerificationPresenter {
             }
             .store(in: &subscriptions)
     }
-
+    
+    // MARK: - JWT Auth
+    
+    func logInWithJWT(code: String) {
+        
+        let endpoint = Endpoints.Registration.jwtAuth(
+            .init(
+                device: .init(name: configuration.deviceName, unique: configuration.deviceId),
+                phone: keychainService.apiUserPhoneNumber?.numbers ?? "",
+                sms: code
+            )
+        )
+        verificationState = .sendOTP
+        apiClient
+            .publisher(endpoint)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] completion in
+                switch completion {
+                    case .failure(let error):
+                        guard let err = error as? APIError else {
+                            self?.verificationState = .wrongOTP
+                            return
+                        }
+                        self?.verificationState = .wrongOTP
+                    default:
+                        break
+                }
+            } receiveValue: { [weak self] response in
+                
+                // TODO: Обработать отсутсвие userId
+                guard let userId = response.userId,
+                      let accessToken = response.accessToken,
+                      let refreshToken = response.refreshToken,
+                      let homeServer = self?.configuration.matrixURL,
+                      let deviceId = self?.configuration.deviceId else {
+                    self?.verificationState = .wrongOTP
+                    return
+                }
+                
+                self?.loginMatrixWithJWT(
+                    token: accessToken,
+                    deviceId: deviceId,
+                    userId: userId,
+                    homeServer: homeServer,
+                    accessToken: accessToken,
+                    refreshToken: refreshToken
+                )
+            }
+            .store(in: &subscriptions)
+    }
+    
+    func loginMatrixWithJWT(
+        token: String,
+        deviceId: String,
+        userId: String,
+        homeServer: URL,
+        accessToken: String,
+        refreshToken: String
+    ) {
+        matrixUseCase.loginByJWT(
+            token: token,
+            deviceId: deviceId,
+            userId: userId,
+            homeServer: homeServer) { [weak self] result in
+                
+                // TODO: Обработать case failure
+                guard case .success = result else {
+                    self?.verificationState = .wrongOTP;
+                    return
+                }
+                self?.saveLogInState(
+                    accessToken: accessToken,
+                    refreshToken: refreshToken
+                )
+                self?.delegate?.handleNextScene(.main)
+            }
+    }
+    
+    // MARK: - Old Auth
+    
     func logIn(_ code: String) {
         
         let endpoint = Endpoints.Registration.auth(
@@ -166,7 +251,7 @@ private extension VerificationPresenter {
                 sms: code
             )
         )
-
+        
         verificationState = .sendOTP
         apiClient
             .publisher(endpoint)
@@ -216,14 +301,21 @@ private extension VerificationPresenter {
                 self?.verificationState = .wrongOTP;
                 return
             }
-            self?.userSettings.isLocalAuth = true
-            self?.keychainService.isApiUserAuthenticated = true
-            self?.keychainService.apiAccessToken = accessToken
-            self?.keychainService.apiRefreshToken = refreshToken
-            self?.userSettings.isAuthFlowFinished = true
-            self?.keychainService.isPinCodeEnabled = false
+            self?.saveLogInState(
+                accessToken: accessToken,
+                refreshToken: refreshToken
+            )
             self?.delegate?.handleNextScene(.main)
         }
+    }
+    
+    func saveLogInState(accessToken: String, refreshToken: String) {
+        userSettings.isLocalAuth = true
+        keychainService.isApiUserAuthenticated = true
+        keychainService.apiAccessToken = accessToken
+        keychainService.apiRefreshToken = refreshToken
+        userSettings.isAuthFlowFinished = true
+        keychainService.isPinCodeEnabled = false
     }
 }
 
@@ -256,7 +348,7 @@ extension VerificationPresenter: VerificationPresenterProtocol {
     func hyphenOpacity(_ index: Int) -> Double {
         
         if otpCode.count == 5 && verificationState != .sendOTP && verificationState != .wrongOTP {
-            logIn(otpCode)
+            logInWithJWT(code: otpCode)
         }
         
         let opacity: Double = otpCode.count <= index ? 1 : 0

@@ -21,6 +21,7 @@ protocol MatrixServiceProtocol {
 	// MARK: - Session
 	func initializeSessionStore(completion: @escaping (EmptyResult) -> Void)
 	func startSession(completion: @escaping (Result<MatrixState, MXErrors>) -> Void)
+    func loginByJWT(token: String, deviceId: String, userId: String, homeServer: URL, completion: @escaping LoginCompletion)
 	func login(userId: String, password: String, homeServer: URL, completion: @escaping LoginCompletion)
 	func logout(completion: @escaping (Result<MatrixState, Error>) -> Void)
 

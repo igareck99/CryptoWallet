@@ -23,3 +23,35 @@ struct AuthResponse: Codable {
 		case matrixPassword = "matrix_password"
     }
 }
+
+struct AuthJWTResponse: Codable {
+
+    let userId: String?
+    let isNewUser: Bool?
+    let accessToken: String?
+    let refreshToken: String?
+
+    enum CodingKeys: String, CodingKey {
+        case userId = "user_id"
+        case accessToken = "jwt"
+        case isNewUser = "new_user"
+        case refreshToken = "refresh_token"
+    }
+}
+
+struct AuthMatrixJWTResponse: Codable {
+    let userId: String?
+    let deviceId: String?
+    let homeServer: String?
+    let accessToken: String?
+    // Пока вроде как не нужен этот параметр
+//    let wellKnown: [String: Any]?
+
+    enum CodingKeys: String, CodingKey {
+        case userId = "user_id"
+        case deviceId = "device_id"
+        case homeServer = "home_server"
+        case accessToken = "access_token"
+//        case wellKnown = "well_known"
+    }
+}

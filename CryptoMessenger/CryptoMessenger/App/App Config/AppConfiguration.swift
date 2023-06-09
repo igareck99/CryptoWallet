@@ -4,7 +4,7 @@ import UIKit.UIDevice
 protocol ConfigType {
     var licensePage: String { get }
     var rulesPage: String { get }
-    
+
     var deviceId: String { get }
     var deviceName: String { get }
     var appName: String { get }
@@ -70,7 +70,7 @@ final class Configuration: ConfigType {
     var rulesPage: String {
         "https://developer.apple.com"
     }
-    
+
     var deviceName: String {
         UIDevice.current.name
     }
@@ -166,7 +166,7 @@ final class Configuration: ConfigType {
         return pushId
         #endif
     }
-    
+
     var pusherUrl: String {
         currentConfig.matrixUrl + "_matrix/push/v1/notify"
     }
