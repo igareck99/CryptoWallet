@@ -67,6 +67,9 @@ struct ProfileSettingsMenuView: View {
                 Button(action: {selectedAppearance = 0}){
                     Text("System")}
                 Spacer()
+                Button(action: {selectedAppearance = 3}){
+                    Text("Custom")}
+                Spacer()
             }
             .padding(.bottom, 200)
             .onChange(of: selectedAppearance, perform: { value in

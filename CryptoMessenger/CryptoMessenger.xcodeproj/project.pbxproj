@@ -605,6 +605,7 @@
 		8BFFC75427EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75327EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift */; };
 		8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */; };
 		8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */; };
+		9A030E692A3309F1003D95C8 /* AppearanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A030E682A3309F1003D95C8 /* AppearanceService.swift */; };
 		B4C106F74147CC38CED7B7DF /* Pods_CryptoMessengerPods_AuraNSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */; };
 		D4014D4F283FA7D100AAD70C /* CallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D4E283FA7D100AAD70C /* CallViewController.swift */; };
 		D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */; };
@@ -1495,6 +1496,7 @@
 		8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerProtocols.swift; sourceTree = "<group>"; };
 		8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseWarningView.swift; sourceTree = "<group>"; };
 		91E5C2C31D84870FF637DC7B /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
+		9A030E682A3309F1003D95C8 /* AppearanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceService.swift; sourceTree = "<group>"; };
 		AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_AuraNSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4014D4E283FA7D100AAD70C /* CallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewController.swift; sourceTree = "<group>"; };
@@ -2085,6 +2087,7 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				9A030E672A3309A9003D95C8 /* AppearanceService */,
 				D413F0FF29BF3441005B7532 /* Access Service */,
 				8B5F0C98297539DA002AE81E /* LogoutService */,
 				8BC518012970AF150033B30F /* PhraseService */,
@@ -3860,6 +3863,14 @@
 				8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */,
 			);
 			path = PhraseManager;
+			sourceTree = "<group>";
+		};
+		9A030E672A3309A9003D95C8 /* AppearanceService */ = {
+			isa = PBXGroup;
+			children = (
+				9A030E682A3309F1003D95C8 /* AppearanceService.swift */,
+			);
+			path = AppearanceService;
 			sourceTree = "<group>";
 		};
 		C48D3F6781FE772D12943E74 /* Pods */ = {
@@ -5661,6 +5672,7 @@
 				5A187DF326807011001957D3 /* BaseViewController.swift in Sources */,
 				8B4E9C3027DFF6320057E4C9 /* ScannerCoordinator.swift in Sources */,
 				5AF8635126AD9FE5004A417C /* GenerationInfoViewController.swift in Sources */,
+				9A030E692A3309F1003D95C8 /* AppearanceService.swift in Sources */,
 				8B38D13D28C12946002733D7 /* ProfileSettingsMenuViewModel.swift in Sources */,
 				8BE644F52837660200FA6540 /* ContactInfoView.swift in Sources */,
 				D46C90162947758900DD0B01 /* SelectedSegmentTagKey.swift in Sources */,
