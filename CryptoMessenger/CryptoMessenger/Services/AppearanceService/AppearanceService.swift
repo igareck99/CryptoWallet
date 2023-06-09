@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-class appearanceService {
+class AppearanceService {
     
     // MARK: - Internal Properties
     @AppStorage("selectedAppearance") var selectedAppearance = 0
@@ -19,7 +19,7 @@ class appearanceService {
         } else if selectedAppearance == 3 {
             userInterfaceStyle = .light
             Color.customtheme = 3
-        }else{
+        } else {
             userInterfaceStyle = .unspecified
             Color.customtheme = 0
         }

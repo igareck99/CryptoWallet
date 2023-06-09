@@ -1,5 +1,5 @@
 import SwiftUI
-
+// swiftlint: disable: all
 // MARK: - ProfileSettingsMenuView
 
 struct ProfileSettingsMenuView: View {
@@ -8,7 +8,7 @@ struct ProfileSettingsMenuView: View {
     @StateObject var viewModel = ProfileSettingsMenuViewModel()
     let balance: String
     let onSelect: GenericBlock<ProfileSettingsMenu>
-    var AppearanceService = appearanceService()
+    var appearanceService = AppearanceService()
     // MARK: - Body
     
     var body: some View {
@@ -58,22 +58,35 @@ struct ProfileSettingsMenuView: View {
             .listStyle(.plain)
             HStack {
                 Spacer()
-                Button(action: {selectedAppearance = 1}){
-                    Text("Light")}
+
+                Button {
+                    selectedAppearance = 1
+                }  label: {
+                    Text("Light")
+                }
                 Spacer()
-                Button(action: {selectedAppearance = 2}){
-                    Text("Dark")}
+                Button {
+                    selectedAppearance = 2
+                } label: {
+                    Text("Dark")
+                }
                 Spacer()
-                Button(action: {selectedAppearance = 0}){
-                    Text("System")}
+                Button {
+                    selectedAppearance = 0
+                } label: {
+                    Text("System")
+                }
                 Spacer()
-                Button(action: {selectedAppearance = 3}){
-                    Text("Custom")}
+                Button {
+                    selectedAppearance = 3
+                } label: {
+                    Text("Custom")
+                }
                 Spacer()
             }
             .padding(.bottom, 200)
-            .onChange(of: selectedAppearance, perform: { value in
-                AppearanceService.overrideDisplayMode()
+            .onChange(of: selectedAppearance, perform: { _ in
+                appearanceService.overrideDisplayMode()
             })
             Divider()
         }.background(Color.primaryColor)

@@ -29,9 +29,9 @@ extension FontResource {
 //        }
 //}
 
-extension Color{
+extension Color {
     static var customtheme = 0
-    static var primaryColor: Color{
+    static var primaryColor: Color {
         Color(customtheme != 3 ? UIColor { $0.userInterfaceStyle == .dark ? .black : .white  }: .green)
     }
 }
