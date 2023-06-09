@@ -60,7 +60,7 @@ struct ReserveCopyPhraseView: View {
                 .font(.bold(17))
         }
         .frame(width: 237, height: 48)
-        .background(Color.azureRadianceApprox)
+        .background(Color.lapisLazuli)
         .cornerRadius(10)
     }
 

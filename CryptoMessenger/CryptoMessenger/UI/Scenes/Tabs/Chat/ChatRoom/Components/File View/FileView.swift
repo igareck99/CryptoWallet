@@ -50,7 +50,7 @@ struct FileView: View {
 				ZStack {
 					Circle()
 						.frame(width: 44, height: 44)
-						.foregroundColor(.azureRadianceApprox)
+						.foregroundColor(.lapisLazuli)
 					R.image.chat.clip.image
 				}
 

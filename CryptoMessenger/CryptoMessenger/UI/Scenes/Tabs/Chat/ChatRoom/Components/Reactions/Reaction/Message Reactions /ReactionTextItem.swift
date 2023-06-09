@@ -13,7 +13,7 @@ struct ReactionTextItem: Identifiable, Equatable {
 
     init(
         text: String,
-        color: Color = .zeroColor,
+        color: Color = .chineseBlack,
         font: Font = .system(size: 20),
         width: CGFloat = 38
     ) {

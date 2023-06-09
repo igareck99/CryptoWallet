@@ -44,7 +44,7 @@ struct ContactView: View {
 					defaultUrl: url,
 					placeholder: {
 						ZStack {
-							Color.azureRadianceApprox
+							Color.lapisLazuli
 							Text(name.firstLetter.uppercased())
 								.foreground(.white())
 								.font(.medium(22))

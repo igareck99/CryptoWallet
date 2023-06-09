@@ -127,7 +127,7 @@ final class PinCodeViewModel: ObservableObject, PinCodeViewModelDelegate {
         case false:
             self.colors = []
             for i in dotesValues {
-                colors.append(i == 0 ? .antiFlashWhite : .azureRadianceApprox)
+                colors.append(i == 0 ? .antiFlashWhite : .lapisLazuli)
             }
         case true:
             self.colors = []

@@ -22,7 +22,7 @@ struct TransactionSpeedSelectView: View {
 			}
 			.background(
 				RoundedRectangle(cornerRadius: 4)
-					.stroke(Color.athensGrayApprox, lineWidth: 2)
+					.stroke(Color.dimGray, lineWidth: 2)
 			)
 			.clipShape(RoundedRectangle(cornerRadius: 4))
 		}
@@ -66,7 +66,7 @@ struct TransactionSpeedSelectView: View {
 	private func backgroundView() -> some View {
 		VStack(spacing: 0) {
 			RoundedRectangle(cornerRadius: 0)
-				.fill(Color.azureRadianceApprox)
+				.fill(Color.lapisLazuli)
 				.frame(height: 48)
 		}
 	}

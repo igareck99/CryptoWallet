@@ -217,7 +217,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
                     .font(.system(size: 17, weight: .semibold))
-                    .foregroundColor(viewModel.isCreateButtonEnabled() ? .azureRadianceApprox : .gray)
+                    .foregroundColor(viewModel.isCreateButtonEnabled() ? .lapisLazuli : .gray)
             })
             .disabled(!viewModel.isCreateButtonEnabled())
         }

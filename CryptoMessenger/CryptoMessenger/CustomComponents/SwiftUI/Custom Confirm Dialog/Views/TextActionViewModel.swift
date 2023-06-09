@@ -35,7 +35,7 @@ extension TextActionViewModel {
                 TextActionViewModel(
                     text: Text("Удалить")
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                         .frame(alignment: .center)
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
@@ -45,7 +45,7 @@ extension TextActionViewModel {
                 TextActionViewModel(
                     text: Text("Удалить для всех подписчиков")
                         .font(.system(size: 20))
-                        .foregroundColor(.amaranthApprox)
+                        .foregroundColor(.spanishCrimson)
                         .frame(alignment: .center)
                 ) {
                     debugPrint("confirmationDialog Change Role Button")
@@ -60,7 +60,7 @@ extension TextActionViewModel {
                 TextActionViewModel(
                     text: Text("Отмена")
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                 ) {
                     debugPrint("confirmationDialog Cancel Button")
                     shouldShow.wrappedValue = false
@@ -72,12 +72,12 @@ extension TextActionViewModel {
         private static func makeAttributedTextItem() -> some View {
             Text("Удалить канал?" + "\n")
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(.woodSmokeApprox) +
+                .foregroundColor(.chineseBlack) +
             Text(
                 "Вы точно хотите покинуть канал и удалить его?"
             )
             .font(.system(size: 13))
-            .foregroundColor(.regentGrayApprox)
+            .foregroundColor(.romanSilver)
         }
     }
     
@@ -96,7 +96,7 @@ extension TextActionViewModel {
                 TextActionViewModel(
                     text: Text("Покинуть канал ")
                         .font(.system(size: 20))
-                        .foregroundColor(.amaranthApprox)
+                        .foregroundColor(.spanishCrimson)
                         .frame(alignment: .center)
                 ) {
                     onLeaveChannel()
@@ -110,7 +110,7 @@ extension TextActionViewModel {
                 TextActionViewModel(
                     text: Text("Отмена")
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                 ) {
                     debugPrint("confirmationDialog Cancel Button")
                     shouldShow.wrappedValue = false
@@ -123,12 +123,12 @@ extension TextActionViewModel {
             let text1 = Text("Вы уверены, что хотите выйти из канала?"
                              + (!isChannelPublic ? "\n" : ""))
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(.woodSmokeApprox)
+                .foregroundColor(.chineseBlack)
             let text2 = Text(
                 "Этот канал не публичный. Вы не сможете повторно присоединиться без приглашения."
             )
             .font(.system(size: 13))
-            .foregroundColor(.regentGrayApprox)
+            .foregroundColor(.romanSilver)
             if !isChannelPublic {
                 return text1 + text2
             } else {
@@ -150,7 +150,7 @@ extension TextActionViewModel {
                 actions.append(TextActionViewModel(
                     text: Text("Владелец")
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                         .frame(alignment: .center)
                 ) {
                     onSelectRole(.owner)
@@ -161,7 +161,7 @@ extension TextActionViewModel {
                 actions.append(TextActionViewModel(
                     text: Text("Администратор")
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                         .frame(alignment: .center)
                 ) {
                     onSelectRole(.admin)
@@ -172,7 +172,7 @@ extension TextActionViewModel {
                 actions.append(TextActionViewModel(
                     text: Text("Пользователь")
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                         .frame(alignment: .center)
                 ) {
                     onSelectRole(.user)
@@ -187,7 +187,7 @@ extension TextActionViewModel {
                 TextActionViewModel(
                     text: Text("Отмена")
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                 ) {
                     debugPrint("confirmationDialog Cancel Button")
                     shouldShow.wrappedValue = false
@@ -199,7 +199,7 @@ extension TextActionViewModel {
         private static func makeAttributedTextItem() -> some View {
             Text("Выберите роль для участника" + "\n")
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(.woodSmokeApprox) +
+                .foregroundColor(.chineseBlack) +
             Text(
               """
                  Если вы передаете роль - Владелец другому пользователю, то самостоятельно нельзя будет
@@ -207,7 +207,7 @@ extension TextActionViewModel {
               """
             )
             .font(.system(size: 13))
-            .foregroundColor(.regentGrayApprox)
+            .foregroundColor(.romanSilver)
         }
     }
     
@@ -226,7 +226,7 @@ extension TextActionViewModel {
                 TextActionViewModel(
                     text: Text("Назначить роль")
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                         .frame(alignment: .center)
                 ) {
                     onMakeRoleTap()
@@ -240,7 +240,7 @@ extension TextActionViewModel {
                 TextActionViewModel(
                     text: Text("Отмена")
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                 ) {
                     debugPrint("confirmationDialog Cancel Button")
                     shouldShow.wrappedValue = false
@@ -252,7 +252,7 @@ extension TextActionViewModel {
         private static func makeAttributedTextItem() -> some View {
             Text("Вы уверены, что хотите выйти из канала?" + "\n")
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(.woodSmokeApprox) +
+                .foregroundColor(.chineseBlack) +
             Text(
               """
                  Этот канал не публичный. Вы не сможете повторно присоединиться без приглашения.
@@ -261,7 +261,7 @@ extension TextActionViewModel {
               """
             )
             .font(.system(size: 13))
-            .foregroundColor(.regentGrayApprox)
+            .foregroundColor(.romanSilver)
         }
     }
     
@@ -280,7 +280,7 @@ extension TextActionViewModel {
                 TextActionViewModel(
                     text: Text("Назначить роль")
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                         .frame(alignment: .center)
                 ) {
                     onMakeCurrentUserRoleTap()
@@ -294,7 +294,7 @@ extension TextActionViewModel {
                 TextActionViewModel(
                     text: Text("Отмена")
                         .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                 ) {
                     debugPrint("confirmationDialog Cancel Button")
                     shouldShow.wrappedValue = false
@@ -306,7 +306,7 @@ extension TextActionViewModel {
         private static func makeAttributedTextItem() -> some View {
             Text("Вы должны назначить нового владельца перед сменой своей роли" + "\n")
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(.woodSmokeApprox)
+                .foregroundColor(.chineseBlack)
         }
     }
 }

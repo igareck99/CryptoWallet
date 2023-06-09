@@ -36,7 +36,7 @@ struct ChannelTypeView: View {
                 Spacer()
                 VStack(alignment: .center) {
                     Image(systemName: "checkmark")
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                         .opacity(isSelected ? 1 : 0)
                 }
                 .padding(.trailing, 8)

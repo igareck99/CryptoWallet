@@ -74,7 +74,7 @@ struct GeneratePhraseView: View {
                     .frame(maxWidth: .infinity)
                     .font(.system(size: 15))
                     .padding(.horizontal, 16)
-                    .foregroundColor(.azureRadianceApprox)
+                    .foregroundColor(.lapisLazuli)
             }
             .padding(.vertical, 48)
            
@@ -135,7 +135,7 @@ struct GeneratePhraseView: View {
                 .frame(width: 237)
                 .font(.system(size: 17, weight: .semibold))
                 .padding()
-                .foregroundColor(.azureRadianceApprox)
+                .foregroundColor(.lapisLazuli)
         }
     }
 
@@ -165,7 +165,7 @@ struct GeneratePhraseView: View {
             }
         }
         .frame(width: 237, height: 48)
-        .background(Color.azureRadianceApprox)
+        .background(Color.lapisLazuli)
         .cornerRadius(8)
     }
 
@@ -204,7 +204,7 @@ struct GeneratePhraseView: View {
             .padding(.leading, 16)
             .background(
                 Color
-                    .polarApprox
+                    .bubbles
                     .cornerRadius(8)
                     .frame(minHeight: 160)
             )

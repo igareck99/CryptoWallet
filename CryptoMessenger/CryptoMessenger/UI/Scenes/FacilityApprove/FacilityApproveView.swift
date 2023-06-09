@@ -56,7 +56,7 @@ struct FacilityApproveView: View {
 
 				Text(R.string.localizable.facilityApproveReceiver().uppercased())
 					.font(.system(size: 12))
-					.foregroundColor(.regentGrayApprox)
+					.foregroundColor(.romanSilver)
 					.lineLimit(1)
 					.truncationMode(.middle)
 					.padding(.top, 24)
@@ -70,7 +70,7 @@ struct FacilityApproveView: View {
 
 				Text(R.string.localizable.facilityApproveCheck())
 					.font(.system(size: 16))
-					.foregroundColor(.jaffaApprox)
+					.foregroundColor(.spanishCrimson)
 					.multilineTextAlignment(.leading)
 			}
 			.padding(.leading, 16)
@@ -92,7 +92,7 @@ struct FacilityApproveView: View {
 				.foregroundColor(.white)
 		}
 		.frame(width: 237, height: 48)
-		.background(Color.azureRadianceApprox)
+		.background(Color.lapisLazuli)
 		.cornerRadius(10)
 	}
 
@@ -105,7 +105,7 @@ struct FacilityApproveView: View {
             VStack(alignment: .leading, spacing: 0) {
                 Text(viewModel.transaction.reciverName ?? "По адресу")
                     .font(.system(size: 17))
-                    .foregroundColor(.woodSmokeApprox)
+                    .foregroundColor(.chineseBlack)
                     .lineLimit(1)
                     .truncationMode(.middle)
                     .padding(.trailing, 16)

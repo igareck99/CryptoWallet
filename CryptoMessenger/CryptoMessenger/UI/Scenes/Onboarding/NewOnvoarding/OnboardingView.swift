@@ -61,12 +61,12 @@ struct OnboardingView<ViewModel>: View where ViewModel: OnboardingViewModelDeleg
             ForEach(0..<viewModel.screens.count) { value in
                 if value == currentTab {
                     RoundedRectangle(cornerRadius: 32)
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                         .frame(width: 24, height: 8)
                 } else {
                     Circle()
                         .frame(width: 8, height: 8)
-                        .foregroundColor(value < currentTab ? .azureRadianceApprox : Color(.lightGray()))
+                        .foregroundColor(value < currentTab ? .lapisLazuli : Color(.lightGray()))
                 }
             }
         }
@@ -82,7 +82,7 @@ struct OnboardingView<ViewModel>: View where ViewModel: OnboardingViewModelDeleg
                 .foregroundColor(.white)
                 .padding()
         }
-        .background(Color.azureRadianceApprox)
+        .background(Color.lapisLazuli)
         .frame(maxWidth: .infinity)
         .frame(height: 48)
         .cornerRadius(8)

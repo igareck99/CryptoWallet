@@ -199,13 +199,13 @@ struct WalletView: View {
 
             Text(R.string.localizable.walletNoData())
                 .font(.system(size: 22))
-                .foregroundColor(.tundoraApprox)
+                .foregroundColor(.slateGray)
                 .frame(alignment: .center)
                 .padding(.bottom, 6)
 
             Text(R.string.localizable.walletAddWalletLong())
                 .font(.system(size: 15))
-                .foregroundColor(.nobelApprox)
+                .foregroundColor(.ashGray)
                 .frame(alignment: .center)
                 .multilineTextAlignment(.center)
                 .padding(.bottom, 70)
@@ -219,7 +219,7 @@ struct WalletView: View {
                     .padding([.leading, .trailing], 40)
                     .padding([.bottom, .top], 13)
             }
-            .background(Color.azureRadianceApprox)
+            .background(Color.lapisLazuli)
             .cornerRadius(8)
             .frame(width: 237, height: 48)
         }
@@ -305,7 +305,7 @@ struct WalletView: View {
                 .foregroundColor(.white)
                 .padding()
         }
-        .background(Color.azureRadianceApprox)
+        .background(Color.lapisLazuli)
         .frame(maxWidth: .infinity)
         .frame(height: 48)
         .cornerRadius(8)
@@ -325,7 +325,7 @@ struct WalletView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         // пока оставил, возможно придется вернуть
 //                        .background(
-//                            Color.alabasterSolid
+//                            Color.chineseBlack
 //                                .frame(maxWidth: .infinity, maxHeight: .infinity)
 //                                .padding(.top, -4)
 //                        )
@@ -354,12 +354,12 @@ struct WalletView: View {
                 .padding(.bottom, 4)
             Text(R.string.localizable.walletNoData())
                 .font(.system(size: 22))
-                .foregroundColor(.woodSmokeApprox)
+                .foregroundColor(.chineseBlack)
                 .padding(.bottom, 4)
             Text(R.string.localizable.walletManagerMakeYourFirstTransaction())
                 .multilineTextAlignment(.center)
                 .font(.system(size: 15))
-                .foregroundColor(.regentGrayApprox)
+                .foregroundColor(.romanSilver)
 
             Spacer()
                 .frame(height: 60)

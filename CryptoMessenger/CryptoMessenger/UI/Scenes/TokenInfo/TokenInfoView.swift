@@ -96,7 +96,7 @@ struct TokenInfoView: View {
                 .frame(width: UIScreen.main.bounds.width - 66,
                        height: UIScreen.main.bounds.width - 66)
             RoundedRectangle(cornerRadius: 8.0)
-                .stroke(Color.ironApprox, lineWidth: 1)
+                .stroke(Color.water, lineWidth: 1)
                 .frame(width: UIScreen.main.bounds.width - 32,
                        height: UIScreen.main.bounds.width - 32)
         }
@@ -109,11 +109,11 @@ struct TokenInfoView: View {
 				.lineLimit(1)
 				.truncationMode(.middle)
 				.font(.system(size: 16))
-				.foregroundColor(.manateeApprox)
+				.foregroundColor(.brightNavyBlue)
 				.padding(.horizontal, 16)
 
             viewModel.sources.copy
-				.foregroundColor(.sharkApprox)
+				.foregroundColor(.royalOrange)
 				.padding(.trailing, 8)
 				.onTapGesture {
                     UIPasteboard.general.string = viewModel.address.address
@@ -123,7 +123,7 @@ struct TokenInfoView: View {
 		.frame(minHeight: 50)
 		.overlay(
 			RoundedRectangle(cornerRadius: 8)
-				.stroke(Color.ironApprox, lineWidth: 1)
+				.stroke(Color.water, lineWidth: 1)
 		)
 	}
 
@@ -163,7 +163,7 @@ struct TokenInfoView: View {
 				.foregroundColor(.white)
 				.background(
 					Rectangle()
-						.fill(Color.azureRadianceApprox)
+						.fill(Color.lapisLazuli)
 						.cornerRadius(8)
 						.frame(height: 48)
 				)

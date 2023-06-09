@@ -19,7 +19,7 @@ struct ChannelSettingsView: View {
         title: String,
         titleColor: Color = .black,
         imageName: String,
-        imageColor: Color = .azureRadianceApprox,
+        imageColor: Color = .lapisLazuli,
         accessoryImageName: String,
         value: String = ""
     ) {
@@ -44,10 +44,10 @@ struct ChannelSettingsView: View {
             if !value.isEmpty {
                 Text(value)
                     .font(.regular(17))
-                    .foregroundColor(.azureRadianceApprox)
+                    .foregroundColor(.lapisLazuli)
             } else {
                 Image(systemName: accessoryImageName)
-                    .foregroundColor(.ironApprox)
+                    .foregroundColor(.water)
             }
         }
         .background(.white())

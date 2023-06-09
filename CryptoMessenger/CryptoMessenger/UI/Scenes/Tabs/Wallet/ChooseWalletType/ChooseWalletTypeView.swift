@@ -18,7 +18,7 @@ struct ChooseWalletTypeView: View {
 
             Text(R.string.localizable.transferChooseCurrency())
                 .font(.system(size: 17, weight: .semibold))
-                .foregroundColor(.woodSmokeApprox)
+                .foregroundColor(.chineseBlack)
                 .frame(height: 24)
                 .padding(.vertical, 24)
 

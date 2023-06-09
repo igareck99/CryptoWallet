@@ -169,7 +169,7 @@ struct ImportKeyView: View {
             case false:
                 Text(R.string.localizable.importImport())
                     .font(.system(size: 17, weight: .semibold))
-                    .foregroundColor(viewModel.isPhraseValid ? .white : .bombayApprox)
+                    .foregroundColor(viewModel.isPhraseValid ? .white : .ashGray)
                     .padding()
             case true:
                 ProgressView()
@@ -185,8 +185,8 @@ struct ImportKeyView: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(
                     viewModel.isPhraseValid ?
-                    Color.azureRadianceApprox :
-                        Color.blackHazeApprox
+                    Color.lapisLazuli :
+                        Color.chineseBlack
                 )
                 .frame(height: 48)
                 .frame(maxWidth: .infinity)

@@ -337,12 +337,12 @@ extension ChatComponentsFactory {
 				usedEmojies.insert("+")
 				let count = ReactionTextItem(
 					text: "+\(reactionTextsAndCount.count - 4)",
-					color: isContains ? .blackSqueezeApprox : .cornflowerBlueApprox,
+					color: isContains ? .aliceBlue : .diamond,
 					font: .system(size: 11, weight: .medium)
 				)
 				return ReactionTextsItem(
 					texts: [count],
-					backgroundColor: isContains ? .cornflowerBlueApprox : .blackSqueezeApprox
+					backgroundColor: isContains ? .diamond : .aliceBlue
 				)
 			}
 
@@ -361,13 +361,13 @@ extension ChatComponentsFactory {
                                          width: size)
 			let count = ReactionTextItem(
 				text: "\(emojiCount)",
-				color: isCurrentUser ? .blackSqueezeApprox : .cornflowerBlueApprox,
+				color: isCurrentUser ? .aliceBlue : .diamond,
 				font: .system(size: 11, weight: .medium)
 			)
             if emojiCount > 1 {
                 return ReactionTextsItem(
                     texts: [emoji, count],
-                    backgroundColor: isCurrentUser ? .cornflowerBlueApprox : .blackSqueezeApprox
+                    backgroundColor: isCurrentUser ? .diamond : .aliceBlue
                 ) {
                         debugPrint("ReactionTextsItem onTapAction \(reaction.emoji)")
                         onEmojiTap( (reaction.emoji, message.id) )
@@ -375,7 +375,7 @@ extension ChatComponentsFactory {
             } else {
                 return ReactionTextsItem(
                     texts: [emoji],
-                    backgroundColor: isCurrentUser ? .cornflowerBlueApprox : .blackSqueezeApprox
+                    backgroundColor: isCurrentUser ? .diamond : .aliceBlue
                 ) {
                         debugPrint("ReactionTextsItem onTapAction \(reaction.emoji)")
                         onEmojiTap( (reaction.emoji, message.id) )

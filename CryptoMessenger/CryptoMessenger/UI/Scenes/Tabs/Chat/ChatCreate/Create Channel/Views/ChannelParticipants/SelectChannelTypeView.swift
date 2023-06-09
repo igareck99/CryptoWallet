@@ -51,7 +51,7 @@ struct SelectChannelTypeView: View {
                 }, label: {
                     Text("Готово")
                         .font(.semibold(15))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                 })
             }
         }

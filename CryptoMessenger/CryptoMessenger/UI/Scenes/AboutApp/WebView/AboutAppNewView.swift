@@ -52,7 +52,7 @@ struct AboutAppNewView<ViewModel>: View where ViewModel: AboutAppViewModelDelega
         } label: {
             Text(viewModel.sources.politicConfidence)
                 .font(.regular(16))
-                .foregroundColor(.azureRadianceApprox)
+                .foregroundColor(.lapisLazuli)
         }
     }
     
@@ -62,7 +62,7 @@ struct AboutAppNewView<ViewModel>: View where ViewModel: AboutAppViewModelDelega
         } label: {
             Text(viewModel.sources.uasgeConditions)
                 .font(.regular(16))
-                .foregroundColor(.azureRadianceApprox)
+                .foregroundColor(.lapisLazuli)
         }
     }
 

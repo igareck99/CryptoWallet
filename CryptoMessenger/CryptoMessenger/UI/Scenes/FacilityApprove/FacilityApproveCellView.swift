@@ -20,10 +20,10 @@ struct FacilityApproveCellView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.title)
                     .font(.system(size: 12))
-                    .foregroundColor(.regentGrayApprox)
+                    .foregroundColor(.romanSilver)
                 Text(item.text)
                     .font(.system(size: 17))
-                    .foregroundColor(.woodSmokeApprox)
+                    .foregroundColor(.chineseBlack)
                     .lineLimit(1)
                     .truncationMode(.middle)
                     .padding(.trailing, 16)

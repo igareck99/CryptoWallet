@@ -40,6 +40,7 @@ extension Color {
     static let charcoal = Color(uiColor: .charcoal)
     static let lapisLazuli = Color(uiColor: .lapisLazuli)
     static let queenBlue = Color(uiColor: .queenBlue)
+    static let brightNavyBlue = Color(uiColor: .brightNavyBlue )
     static let slateGray = Color(uiColor: .slateGray)
     static let outOfTheBlue = Color(uiColor: .outOfTheBlue)
     static let dynamicBlack = Color(uiColor: .dynamicBlack)

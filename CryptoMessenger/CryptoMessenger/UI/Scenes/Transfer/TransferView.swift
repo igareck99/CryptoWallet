@@ -66,7 +66,7 @@ struct TransferView: View {
             VStack(alignment: .leading, spacing: 0) {
                 Text(R.string.localizable.transferYourAdress().uppercased())
 					.font(.system(size: 12))
-					.foregroundColor(.regentGrayApprox)
+					.foregroundColor(.romanSilver)
                     .padding(.leading, 16)
 					.padding(.top, 16)
 
@@ -77,7 +77,7 @@ struct TransferView: View {
 
                 Text(R.string.localizable.transferToWhom().uppercased())
 					.font(.system(size: 12))
-					.foregroundColor(.regentGrayApprox)
+					.foregroundColor(.romanSilver)
                     .padding(.leading, 16)
 					.padding(.top, 32)
                 
@@ -95,7 +95,7 @@ struct TransferView: View {
 
                 Text(R.string.localizable.transferSum().uppercased())
 					.font(.system(size: 12))
-					.foregroundColor(.regentGrayApprox)
+					.foregroundColor(.romanSilver)
                     .padding(.leading, 16)
 					.padding(.top, 32)
                 
@@ -132,13 +132,13 @@ struct TransferView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(viewModel.currentWallet.address)
 						.font(.system(size: 17))
-						.foregroundColor(.woodSmokeApprox)
+						.foregroundColor(.chineseBlack)
                         .frame(height: 22)
 						.lineLimit(1)
 						.truncationMode(.middle)
                     Text(String(viewModel.currentWallet.coinAmount) + " \(viewModel.currentWallet.result.currency)")
 						.font(.system(size: 12))
-						.foregroundColor(.regentGrayApprox)
+						.foregroundColor(.romanSilver)
                         .frame(height: 20)
                 }
             }
@@ -157,12 +157,12 @@ struct TransferView: View {
                 if receiverData.adress.isEmpty {
                     Text(R.string.localizable.transferChooseContact())
                         .font(.system(size: 17))
-                        .foregroundColor(.woodSmokeApprox)
+                        .foregroundColor(.chineseBlack)
                         .frame(height: 22)
                 } else {
                     Text(receiverData.adress)
                         .font(.system(size: 17))
-                        .foregroundColor(.woodSmokeApprox)
+                        .foregroundColor(.chineseBlack)
                         .frame(height: 22)
                 }
             }
@@ -178,11 +178,11 @@ struct TransferView: View {
                 TextField("0\(Locale.current.decimalSeparator ?? ",")0", text: $viewModel.transferAmountProxy)
                     .keyboardType(.decimalPad)
                     .font(.system(size: 20))
-                    .foregroundColor(.woodSmokeApprox)
+                    .foregroundColor(.chineseBlack)
                     .frame(maxWidth: .infinity, maxHeight: 47)
 
 				Rectangle()
-					.foregroundColor(.ironApprox)
+					.foregroundColor(.water)
 					.frame(height: 1)
 			}
 			.frame(height: 47)
@@ -194,13 +194,13 @@ struct TransferView: View {
 				HStack(spacing: 12) {
                     Text(viewModel.currentWallet.walletType.currency)
 						.font(.system(size: 20))
-						.foregroundColor(.woodSmokeApprox)
+						.foregroundColor(.chineseBlack)
 					R.image.answers.downsideArrow.image
-						.foregroundColor(.woodSmokeApprox)
+						.foregroundColor(.chineseBlack)
 				}
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 				Rectangle()
-					.foregroundColor(.ironApprox)
+					.foregroundColor(.water)
 					.frame(height: 1)
 			}
 			.frame(height: 47)
@@ -221,7 +221,7 @@ struct TransferView: View {
 				.font(.system(size: 17, weight: .semibold))
 				.foregroundColor(
                     viewModel.isTransferButtonEnabled ?
-                    .white : .bombayApprox
+                    .white : .ashGray
                 )
                 .padding()
 				.frame(width: 237, height: 48)
@@ -229,7 +229,7 @@ struct TransferView: View {
 					Rectangle()
 						.fill(
 							viewModel.isTransferButtonEnabled ?
-							Color.azureRadianceApprox : Color.blackHazeApprox
+							Color.lapisLazuli : Color.chineseBlack
 						)
 						.cornerRadius(8)
 				)

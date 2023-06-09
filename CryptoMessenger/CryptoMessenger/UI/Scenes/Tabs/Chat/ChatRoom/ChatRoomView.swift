@@ -490,7 +490,7 @@ struct ChatRoomView: View {
         HStack(alignment: .center, spacing: 0) {
             Text("У вас нет разрешения на публикацию в этом канале")
                 .font(.system(size: 15))
-                .foregroundColor(.regentGrayApprox)
+                .foregroundColor(.romanSilver)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 16)
         }

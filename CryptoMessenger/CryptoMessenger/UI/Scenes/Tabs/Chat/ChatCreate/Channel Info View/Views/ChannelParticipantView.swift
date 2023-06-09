@@ -26,7 +26,7 @@ struct ChannelParticipantView: View {
                 
                 Text(subtitle)
                     .font(.system(size: 12))
-                    .foregroundColor(.regentGrayApprox)
+                    .foregroundColor(.romanSilver)
                     .padding(.top, 4)
             }
             .padding(.leading, 8)

@@ -21,20 +21,20 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
     ) -> [any ViewGeneratable] {
         var views: [any ViewGeneratable] = [UserSettingModel(
             title: R.string.localizable.channelSettingsOpenProfile(),
-            titleColor: .woodSmokeApprox,
+            titleColor: .chineseBlack,
             imageName: "person.crop.circle",
-            imageColor: .azureRadianceApprox,
+            imageColor: .lapisLazuli,
             accessoryImageName: "chevron.right",
-            accessoryImageColor: .ironApprox
+            accessoryImageColor: .water
         ) {
             viewModel.onTapShowProfile()
         }]
         if roleCompare.changeRole {
             views.append(UserSettingModel(
                 title: R.string.localizable.channelSettingsChangeRole(),
-                titleColor: .woodSmokeApprox,
+                titleColor: .chineseBlack,
                 imageName: "highlighter",
-                imageColor: .azureRadianceApprox
+                imageColor: .lapisLazuli
             ) {
                 viewModel.onTapChangeRole()
             })
@@ -42,9 +42,9 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
         if roleCompare.delete {
             views.append(UserSettingModel(
                 title: R.string.localizable.channelSettingsDeleteFromChannel(),
-                titleColor: .amaranthApprox,
+                titleColor: .spanishCrimson,
                 imageName: "trash",
-                imageColor: .amaranthApprox
+                imageColor: .spanishCrimson
             ) {
                 viewModel.onTapRemoveUser()
             })

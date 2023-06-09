@@ -305,7 +305,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             
             ZStack(alignment: .center) {
                 Circle()
-                    .foregroundColor(.azureRadianceApprox)
+                    .foregroundColor(.lapisLazuli)
                     .frame(width: 24, height: 24)
                 R.image.profileDetail.camera.image
                     .resizable()
@@ -432,7 +432,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .padding(.bottom, 4)
             Text("\(viewModel.getChannelUsers().count) \(resources.participant)")
                 .font(.system(size: 15))
-                .foregroundColor(.regentGrayApprox)
+                .foregroundColor(.romanSilver)
         }
     }
     
@@ -479,9 +479,9 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func leaveChannelView() -> some View {
         ChannelSettingsView(
             title: resources.leaveChannel,
-            titleColor: .amaranthApprox,
+            titleColor: .spanishCrimson,
             imageName: "rectangle.portrait.and.arrow.right",
-            imageColor: .amaranthApprox,
+            imageColor: .spanishCrimson,
             accessoryImageName: ""
         )
         .onTapGesture {
@@ -507,9 +507,9 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func deleteChannelView() -> some View {
         ChannelSettingsView(
             title: resources.deleteChannel,
-            titleColor: .amaranthApprox,
+            titleColor: .spanishCrimson,
             imageName: "trash",
-            imageColor: .amaranthApprox,
+            imageColor: .spanishCrimson,
             accessoryImageName: ""
         )
         .onTapGesture {
@@ -525,7 +525,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             Spacer()
             Text(resources.add)
                 .font(.system(size: 17))
-                .foregroundColor(.azureRadianceApprox)
+                .foregroundColor(.lapisLazuli)
                 .onTapGesture {
                     showAddUser = true
                 }
@@ -552,7 +552,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func participantsFooter() -> some View {
         return Text("\(resources.lookAll) ( \(viewModel.getChannelUsers().count) \(resources.participant) )")
             .font(.system(size: 17, weight: .semibold))
-            .foregroundColor(.azureRadianceApprox)
+            .foregroundColor(.lapisLazuli)
             .onTapGesture {
                 showParticipantsView = true
             }
@@ -574,7 +574,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 }, label: {
                     Text(resources.change)
                         .font(.system(size: 17))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.lapisLazuli)
                 })
             }
         }
@@ -591,7 +591,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }, label: {
                 Text(resources.presentationCancel)
                     .font(.system(size: 17))
-                    .foregroundColor(.azureRadianceApprox)
+                    .foregroundColor(.lapisLazuli)
             })
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -601,7 +601,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }, label: {
                 Text(resources.rightButton)
                     .font(.bold(17))
-                    .foregroundColor(.azureRadianceApprox)
+                    .foregroundColor(.lapisLazuli)
             })
         }
     }
