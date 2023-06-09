@@ -11,9 +11,17 @@ protocol MatrixUseCaseProtocol {
 
 	// MARK: - Session
 	var matrixSession: MXSession? { get }
-    
+
     func updateCredentialsIfAvailable()
-	
+
+    func loginByJWT(
+        token: String,
+        deviceId: String,
+        userId: String,
+        homeServer: URL,
+        completion: @escaping EmptyResultBlock
+    )
+
     func loginUser(
 		userId: String,
 		password: String,

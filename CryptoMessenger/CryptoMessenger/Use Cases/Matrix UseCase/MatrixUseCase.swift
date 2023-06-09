@@ -116,6 +116,24 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 	// MARK: - Session
 
 	var matrixSession: MXSession? { matrixService.matrixSession }
+    
+    func loginByJWT(
+        token: String,
+        deviceId: String,
+        userId: String,
+        homeServer: URL,
+        completion: @escaping EmptyResultBlock
+    ) {
+        matrixService.updateClient(with: homeServer)
+        matrixService.loginByJWT(
+            token: token,
+            deviceId: deviceId,
+            userId: userId,
+            homeServer: homeServer
+        ) { [weak self] result in
+            self?.handleLogin(response: result, completion: completion)
+        }
+    }
 
 	func loginUser(
 		userId: String,
@@ -124,43 +142,50 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 		completion: @escaping EmptyResultBlock
 	) {
 		matrixService.updateClient(with: homeServer)
-
-		matrixService.login(userId: userId, password: password, homeServer: homeServer) { [weak self] result in
-
-			guard case .success(let credentials) = result else {
-				self?.matrixService.updateState(with: .failure(.loginFailure))
-				completion(.failure)
-				return
-			}
-
-			self?.save(credentials: credentials)
-			self?.matrixService.updateService(credentials: credentials)
-
-			self?.matrixService.initializeSessionStore { result in
-
-				guard case .success = result else {
-					self?.matrixService.updateState(with: .failure(.loginFailure))
-					completion(.failure)
-					return
-				}
-
-				self?.matrixService.startSession { result in
-					guard case .success = result, let userId = credentials.userId else {
-						self?.matrixService.updateState(with: .failure(.loginFailure))
-						completion(.failure)
-						return
-					}
-
-					self?.matrixService.updateState(with: .loggedIn(userId: userId))
-					self?.matrixService.updateUnkownDeviceWarn(isEnabled: false)
-					self?.matrixService.startListeningForRoomEvents()
-					completion(.success)
-				}
-
-			}
-
+		matrixService.login(
+            userId: userId,
+            password: password,
+            homeServer: homeServer
+        ) { [weak self] result in
+            self?.handleLogin(response: result, completion: completion)
 		}
 	}
+    
+    private func handleLogin(
+        response: Result<MXCredentials, Error>,
+        completion: @escaping EmptyResultBlock
+    ) {
+        guard case .success(let credentials) = response else {
+            matrixService.updateState(with: .failure(.loginFailure))
+            completion(.failure)
+            return
+        }
+        
+        save(credentials: credentials)
+        matrixService.updateService(credentials: credentials)
+        
+        matrixService.initializeSessionStore { [weak self] result in
+            
+            guard case .success = result else {
+                self?.matrixService.updateState(with: .failure(.loginFailure))
+                completion(.failure)
+                return
+            }
+            
+            self?.matrixService.startSession { result in
+                guard case .success = result, let userId = credentials.userId else {
+                    self?.matrixService.updateState(with: .failure(.loginFailure))
+                    completion(.failure)
+                    return
+                }
+                
+                self?.matrixService.updateState(with: .loggedIn(userId: userId))
+                self?.matrixService.updateUnkownDeviceWarn(isEnabled: false)
+                self?.matrixService.startListeningForRoomEvents()
+                completion(.success)
+            }
+        }
+    }
 
 	func closeSession() {
 		matrixService.closeSessionAndClearData()

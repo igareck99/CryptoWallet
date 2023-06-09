@@ -35,6 +35,46 @@ extension MatrixService {
 		}
 	}
 
+    func loginByJWT(
+        token: String,
+        deviceId: String,
+        userId: String,
+        homeServer: URL,
+        completion: @escaping LoginCompletion
+    ) {
+        loginState = .authenticating
+        let parameters: [String: Any] = [
+            "type": "org.matrix.login.jwt",
+            "token": token,
+            "device_id": deviceId
+        ]
+        debugPrint("parameters: \(parameters)")
+        debugPrint("parameters:")
+        client?.login(parameters: parameters) { [weak self] response in
+            debugPrint("\(response)")
+            debugPrint("response")
+
+            guard
+                case let .success(dict) = response,
+                let model = Parser.parse(dictionary: dict, to: AuthMatrixJWTResponse.self),
+                let accessToken = model.accessToken,
+                let hServer = model.homeServer
+            else {
+                completion(.failure(MXErrors.loginFailure))
+                return
+            }
+            let credentials = MXCredentials(
+                homeServer: homeServer.absoluteString,
+                userId: "@" + userId + ":" + hServer, // @dc2a81de6934:matrix.auramsg.co
+                accessToken: accessToken
+            )
+            debugPrint("credentials: \(credentials)")
+            debugPrint("credentials")
+            self?.loginState = .loggedIn(userId: credentials.userId ?? "")
+            completion(.success(credentials))
+        }
+    }
+
 	func login(
 		userId: String,
 		password: String,
@@ -45,11 +85,9 @@ extension MatrixService {
 		client?.login(username: userId, password: password) { [weak self] response in
 			switch response {
 			case .failure(let error):
-				debugPrint("Error on starting session with new credentials: \(error)")
 				self?.loginState = .failure(.loginFailure)
 				completion(.failure(error))
 			case let .success(credentials):
-				debugPrint("Success on starting session with new credentials: \(credentials)")
 				self?.loginState = .loggedIn(userId: credentials.userId ?? "")
 				completion(.success(credentials))
 			}

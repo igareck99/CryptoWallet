@@ -19,6 +19,12 @@ enum Endpoints {
             endpoint.modifyRequest { $0.jsonBody(payload) }
             return endpoint
         }
+
+        static func jwtAuth(_ payload: AuthData) -> Endpoint<AuthJWTResponse> {
+            let endpoint = Endpoint<AuthJWTResponse>(method: .post, path: "/user/auth")
+            endpoint.modifyRequest { $0.jsonBody(payload) }
+            return endpoint
+        }
     }
 
     // MARK: - Logout
