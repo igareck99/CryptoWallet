@@ -134,22 +134,6 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
             self?.handleLogin(response: result, completion: completion)
         }
     }
-
-	func loginUser(
-		userId: String,
-		password: String,
-		homeServer: URL,
-		completion: @escaping EmptyResultBlock
-	) {
-		matrixService.updateClient(with: homeServer)
-		matrixService.login(
-            userId: userId,
-            password: password,
-            homeServer: homeServer
-        ) { [weak self] result in
-            self?.handleLogin(response: result, completion: completion)
-		}
-	}
     
     private func handleLogin(
         response: Result<MXCredentials, Error>,

@@ -72,6 +72,7 @@ final class VerificationPresenter<Colors: VerificationColorable> {
     private let secondsConstant: Int = 30
     private var timer: Timer?
     var seconds: Int = 30
+    let otpCodeCount: Int = 5
     
     init(
         apiClient: APIClientManager = APIClient.shared,
@@ -240,75 +241,6 @@ private extension VerificationPresenter  {
             }
     }
     
-    // MARK: - Old Auth
-    
-    func logIn(_ code: String) {
-        
-        let endpoint = Endpoints.Registration.auth(
-            .init(
-                device: .init(name: configuration.deviceName, unique: configuration.deviceId),
-                phone: keychainService.apiUserPhoneNumber?.numbers ?? "",
-                sms: code
-            )
-        )
-        
-        verificationState = .sendOTP
-        apiClient
-            .publisher(endpoint)
-            .receive(on: RunLoop.main)
-            .sink { [weak self] completion in
-                switch completion {
-                    case .failure(let error):
-                        guard let err = error as? APIError else {
-                            self?.verificationState = .wrongOTP
-                            return
-                        }
-                        self?.verificationState = .wrongOTP
-                    default:
-                        break
-                }
-            } receiveValue: { [weak self] response in
-                
-                // TODO: Обработать отсутсвие userId
-                guard let userId = response.userId,
-                      let password = response.matrixPassword,
-                      let homeServer = self?.configuration.matrixURL else {
-                    self?.verificationState = .wrongOTP
-                    return
-                }
-                
-                self?.loginMatrix(
-                    userId: userId,
-                    password: password,
-                    homeServer: homeServer,
-                    accessToken: response.accessToken,
-                    refreshToken: response.refreshToken
-                )
-            }
-            .store(in: &subscriptions)
-    }
-    
-    func loginMatrix(
-        userId: String,
-        password: String,
-        homeServer: URL,
-        accessToken: String,
-        refreshToken: String
-    ) {
-        matrixUseCase.loginUser(userId: userId, password: password, homeServer: homeServer) { [weak self] result in
-            // TODO: Обработать case failure
-            guard case .success = result else {
-                self?.verificationState = .wrongOTP;
-                return
-            }
-            self?.saveLogInState(
-                accessToken: accessToken,
-                refreshToken: refreshToken
-            )
-            self?.delegate?.handleNextScene(.main)
-        }
-    }
-    
     func saveLogInState(accessToken: String, refreshToken: String) {
         userSettings.isLocalAuth = true
         keychainService.isApiUserAuthenticated = true
@@ -340,14 +272,17 @@ extension VerificationPresenter: VerificationPresenterProtocol {
     func limitText() {
         otpCode = String(otpCode.prefix(numberOfInputs))
         
-        if verificationState != .inputOTP && otpCode.count < 5 {
+        if verificationState != .inputOTP &&
+            otpCode.count < otpCodeCount {
             verificationState = .inputOTP
         }
     }
     
     func hyphenOpacity(_ index: Int) -> Double {
         
-        if otpCode.count == 5 && verificationState != .sendOTP && verificationState != .wrongOTP {
+        if otpCode.count == otpCodeCount &&
+            verificationState != .sendOTP &&
+            verificationState != .wrongOTP {
             logInWithJWT(code: otpCode)
         }
         
@@ -359,7 +294,7 @@ extension VerificationPresenter: VerificationPresenterProtocol {
         // TODO: Обработать эти кейсы
         //        verificationState == .sendPhoneError ||
         //        verificationState == .failure ||
-        if verificationState == .wrongOTP && otpCode.count == 5 {
+        if verificationState == .wrongOTP && otpCode.count == otpCodeCount {
             return .spanishCrimson
         }
         
