@@ -23,6 +23,7 @@ struct AboutAppNewView<ViewModel>: View where ViewModel: AboutAppViewModelDelega
         .fullScreenCover(isPresented: viewModel.showWebView) {
             viewModel.safari
         }
+        .background(.white)
     }
 
     private var centerView: some View {
@@ -33,9 +34,10 @@ struct AboutAppNewView<ViewModel>: View where ViewModel: AboutAppViewModelDelega
                 .frame(width: 64, height: 64)
             Text(viewModel.sources.nameApp)
                 .font(.regular(22))
+                .foregroundColor(.chineseBlack)
             Text(viewModel.appVersion)
                 .font(.regular(16))
-                .foregroundColor(.manatee)
+                .foregroundColor(.romanSilver)
         }
     }
 
@@ -52,7 +54,7 @@ struct AboutAppNewView<ViewModel>: View where ViewModel: AboutAppViewModelDelega
         } label: {
             Text(viewModel.sources.politicConfidence)
                 .font(.regular(16))
-                .foregroundColor(.azureRadianceApprox)
+                .foregroundColor(.dodgerBlue)
         }
     }
     
@@ -62,7 +64,7 @@ struct AboutAppNewView<ViewModel>: View where ViewModel: AboutAppViewModelDelega
         } label: {
             Text(viewModel.sources.uasgeConditions)
                 .font(.regular(16))
-                .foregroundColor(.azureRadianceApprox)
+                .foregroundColor(.dodgerBlue)
         }
     }
 
