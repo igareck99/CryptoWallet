@@ -22,13 +22,6 @@ protocol MatrixUseCaseProtocol {
         completion: @escaping EmptyResultBlock
     )
 
-    func loginUser(
-		userId: String,
-		password: String,
-		homeServer: URL,
-		completion: @escaping EmptyResultBlock
-	)
-
 	func closeSession()
     func serverSyncWithServerTimeout()
 

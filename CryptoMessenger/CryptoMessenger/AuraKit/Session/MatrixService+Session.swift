@@ -58,16 +58,19 @@ extension MatrixService {
                 case let .success(dict) = response,
                 let model = Parser.parse(dictionary: dict, to: AuthMatrixJWTResponse.self),
                 let accessToken = model.accessToken,
-                let hServer = model.homeServer
+                let hServer = model.homeServer,
+                let mUserId = model.userId,
+                let mDeviceId = model.deviceId
             else {
                 completion(.failure(MXErrors.loginFailure))
                 return
             }
             let credentials = MXCredentials(
                 homeServer: homeServer.absoluteString,
-                userId: "@" + userId + ":" + hServer, // @dc2a81de6934:matrix.auramsg.co
+                userId: mUserId,
                 accessToken: accessToken
             )
+            credentials.deviceId = mDeviceId
             debugPrint("credentials: \(credentials)")
             debugPrint("credentials")
             self?.loginState = .loggedIn(userId: credentials.userId ?? "")
