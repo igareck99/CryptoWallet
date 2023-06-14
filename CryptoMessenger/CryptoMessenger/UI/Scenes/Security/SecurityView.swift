@@ -18,6 +18,7 @@ struct SecurityView: View {
 
     var body: some View {
         content
+        .background(Color.ghostWhite)
         .navigationBarHidden(false)
         .onAppear {
             viewModel.send(.onAppear)
@@ -63,6 +64,7 @@ struct SecurityView: View {
                     privacySection
                 } header: {
                     Text(R.string.localizable.securityPrivacy())
+                        .foregroundColor(.romanSilver)
                 }
             }
         }
@@ -73,6 +75,7 @@ struct SecurityView: View {
         VStack(spacing: 0) {
             Toggle(R.string.localizable.securityPinCodeTitle(),
                    isOn: $viewModel.isPinCodeOn)
+            .background(.white)
             .frame(height: 44)
             .listRowSeparator(.hidden)
             .onAppear {
@@ -120,7 +123,7 @@ struct SecurityView: View {
             case .seedPhrase:
                 PrivacyCellView(item: type,
                                 phraseStatus: viewModel.isPhraseExist())
-                .background(.white())
+                .background(.white)
                 .listRowSeparator(.visible,
                                   edges: .bottom)
                 .frame(height: 73)
@@ -133,7 +136,7 @@ struct SecurityView: View {
                 }
             case .session:
                 PrivacyCellView(item: type)
-                .background(.white())
+                .background(.white)
                 .frame(height: 57)
                 .listRowSeparator(.visible,
                                   edges: .top)
@@ -142,7 +145,7 @@ struct SecurityView: View {
                 }
             case .blackList:
                 PrivacyCellView(item: type)
-                .background(.white())
+                .background(.white)
                 .frame(height: 44)
                 .onTapGesture {
                     viewModel.send(.onBlockList)
