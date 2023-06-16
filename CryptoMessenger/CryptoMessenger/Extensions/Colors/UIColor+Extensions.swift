@@ -28,6 +28,8 @@ extension UIColor {
     static let brilliantAzure = UIColor(red: 63.0 / 255.0, green: 170.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
     //#0E8EF3
     static let dodgerBlue = UIColor(red: 14.0 / 255.0, green: 142.0 / 255.0, blue: 243.0 / 255.0, alpha: 1.0)
+    //#0E8EF3
+    static let dodgerTransBlue = UIColor(red: 14.0 / 255.0, green: 142.0 / 255.0, blue: 243.0 / 255.0, alpha: 0.1)
     //#FFFFFF
     static let white = UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
     //#27AE60
