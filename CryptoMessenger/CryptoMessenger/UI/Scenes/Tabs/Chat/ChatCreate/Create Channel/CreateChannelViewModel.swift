@@ -71,7 +71,7 @@ final class CreateChannelViewModel {
         }
     )
     
-    private let onChannelCreationEnd: VoidBlock
+    var coordinator: ChatCreateFlowCoordinatorProtocol
     
     private let matrixUseCase: MatrixUseCaseProtocol
     
@@ -79,11 +79,11 @@ final class CreateChannelViewModel {
     init(
         channelType: ChannelType = .publicChannel,
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
-        onChannelCreationEnd: @escaping VoidBlock
+        coordinator: ChatCreateFlowCoordinatorProtocol
     ) {
         self.channelType = channelType
         self.matrixUseCase = matrixUseCase
-        self.onChannelCreationEnd = onChannelCreationEnd
+        self.coordinator = coordinator
     }
 }
 
@@ -118,7 +118,7 @@ extension CreateChannelViewModel: CreateChannelViewModelProtocol {
         powerLevelOverride.invite = 50
         parameters.powerLevelContentOverride = powerLevelOverride
         createRoom(parameters: parameters, roomAvatar: selectedImg?.jpeg(.medium))
-        onChannelCreationEnd()
+        coordinator.toParentCoordinator()
     }
 
     private func createRoom(parameters: MXRoomCreationParameters, roomAvatar: Data? = nil) {

@@ -13,7 +13,7 @@ enum ProfileConfigurator {
 			userSettings: userSettings,
 			keychainService: keychainService
 		)
-        viewModel.delegate = delegate
+        //viewModel.delegate = delegate
         let view = ProfileView(viewModel: viewModel)
         return view
     }

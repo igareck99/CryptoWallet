@@ -8,7 +8,6 @@ struct CreateContactView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: CreateContactViewModel
-    @Binding var showContactCreate: Bool
     @State var nameSurnameText = ""
     @State var numberText = ""
     @State var selectedImage: UIImage?

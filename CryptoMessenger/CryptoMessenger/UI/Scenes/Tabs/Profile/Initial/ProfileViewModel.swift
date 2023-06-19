@@ -39,7 +39,7 @@ final class ProfileViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: ProfileSceneDelegate?
+    var coordinator: ProfileFlowCoordinatorProtocol?
 
     @Published var selectedImage: UIImage?
     @Published var changedImage: UIImage?
@@ -128,28 +128,11 @@ final class ProfileViewModel: ObservableObject {
                 case .onAppear:
                     self?.fetchImageData()
                 case .onSocial:
-                    self?.delegate?.handleNextScene(.socialList)
+                    self?.coordinator?.onSocialList()
                 case let .onShow(type):
-                    switch type {
-                    case .personalization:
-                        self?.delegate?.handleNextScene(.personalization)
-                    case .security:
-                        self?.delegate?.handleNextScene(.security)
-                    case .about:
-                        self?.delegate?.handleNextScene(.aboutApp)
-                    case .chat:
-                        self?.delegate?.handleNextScene(.chatSettings)
-                    case .questions:
-                        self?.delegate?.handleNextScene(.faq)
-                    case .wallet:
-                        self?.delegate?.handleNextScene(.walletManager)
-                    case .notifications:
-                        self?.delegate?.handleNextScene(.notifications)
-                    default:
-                        ()
-                    }
+                    self?.coordinator?.onShowMenuView(type)
                 case let .onShowProfileDetail(image):
-                    self?.delegate?.handleNextScene(.profileDetail(image))
+                    self?.coordinator?.onProfileDetail(image)
                 case let .onAddPhoto(image):
                     guard let userId = self?.matrixUseCase.getUserId() else { return }
                     self?.mediaService.addPhotoFeed(image: image,
@@ -179,7 +162,7 @@ final class ProfileViewModel: ObservableObject {
                 self?.userSettings.isAuthFlowFinished = false
                 self?.userSettings.isOnboardingFlowFinished = false
                 self?.keychainService.removeObject(forKey: .apiUserPinCode)
-                self?.delegate?.restartFlow()
+                self?.coordinator?.restartFlow()
             default:
                 break
             }

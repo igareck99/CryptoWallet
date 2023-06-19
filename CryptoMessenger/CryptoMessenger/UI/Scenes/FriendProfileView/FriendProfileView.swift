@@ -83,7 +83,6 @@ struct FriendProfileView: View {
             .overlay(
                 EmptyNavigationLink(
                     destination: CreateContactView(viewModel: CreateContactViewModel(),
-                                                   showContactCreate: $showCreateContact,
                                                    nameSurnameText: viewModel.userId.name,
                                                    numberText: viewModel.profile.phone),
                     isActive: $showCreateContact

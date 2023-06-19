@@ -17,22 +17,22 @@ final class PushNotificationCoordinator: NSObject {
 	private weak var delegate: PushNotificationCoordinatorDelegate?
     private var toggleFacade: MainFlowTogglesFacadeProtocol
 
-	init(
-		userInfo: [AnyHashable: Any],
-		matrixUseCase: MatrixUseCaseProtocol,
-		getChatRoomSceneDelegate: @escaping () -> ChatRoomSceneDelegate?,
-		parser: PushNotificationsParsable,
-		navigationController: UINavigationController,
-		delegate: PushNotificationCoordinatorDelegate?,
+    init(
+        userInfo: [AnyHashable: Any],
+        matrixUseCase: MatrixUseCaseProtocol,
+        getChatRoomSceneDelegate: @escaping () -> ChatRoomSceneDelegate?,
+        parser: PushNotificationsParsable,
+        navigationController: UINavigationController,
+        delegate: PushNotificationCoordinatorDelegate?,
         toggleFacade: MainFlowTogglesFacadeProtocol
-	) {
+    ) {
         self.toggleFacade = toggleFacade
-
-		self.userInfo = userInfo
-		self.matrixUseCase = matrixUseCase
-		self.getChatRoomSceneDelegate = getChatRoomSceneDelegate
-		self.parser = parser
-		self.navigationController = navigationController
+        
+        self.userInfo = userInfo
+        self.matrixUseCase = matrixUseCase
+        self.getChatRoomSceneDelegate = getChatRoomSceneDelegate
+        self.parser = parser
+        self.navigationController = navigationController
 		self.delegate = delegate
 	}
 }
@@ -45,12 +45,12 @@ extension PushNotificationCoordinator: Coordinator {
 		if let chatRoomDelegate = getChatRoomSceneDelegate(),
 		   let matrixEvent = parser.parseMatrixEvent(userInfo: userInfo),
 		   let auraRoom = matrixUseCase.rooms.first(where: { $0.room.roomId == matrixEvent.roomId }) {
-            let rootView = ChatRoomConfigurator.configuredView(room: auraRoom, delegate: chatRoomDelegate, toggleFacade: toggleFacade)
-			let viewController = BaseHostingController(rootView: rootView)
-			viewController.hidesBottomBarWhenPushed = true
-			navigationController.popToRootViewController(animated: true)
-			navigationController.delegate = self
-			navigationController.pushViewController(viewController, animated: true)
+//            let rootView = ChatRoomConfigurator.configuredView(room: auraRoom, delegate: chatRoomDelegate, toggleFacade: toggleFacade)
+//			let viewController = BaseHostingController(rootView: rootView)
+//			viewController.hidesBottomBarWhenPushed = true
+//			navigationController.popToRootViewController(animated: true)
+//			navigationController.delegate = self
+//			navigationController.pushViewController(viewController, animated: true)
 		}
 	}
 }

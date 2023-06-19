@@ -52,6 +52,7 @@ final class ChatCreateViewModel: ObservableObject {
     @Published private(set) var filteredContacts: [Contact] = []
     @Published private(set) var waitingContacts: [Contact] = []
     @Published private(set) var waitingFilteredContacts: [Contact] = []
+    var coordinator: ChatCreateFlowCoordinatorProtocol?
 
     // MARK: - Private Properties
 

@@ -355,7 +355,7 @@ final class ChannelInfoViewModel {
     }
     
     let roomId: String
-    weak var delegate: ChannelInfoSceneDelegate?
+    var coordinator: ChatHistoryFlowCoordinatorProtocol?
     private let onInviteUsersToChannelGroup = DispatchGroup()
     private let matrixUseCase: MatrixUseCaseProtocol
     private let factory: ChannelUsersFactoryProtocol.Type
@@ -581,7 +581,8 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
         switch scene {
         case let .onMedia(roomId):
             guard let auraRoom = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else { return }
-            self.delegate?.handleNextScene(.channelMedia(auraRoom))
+            print("sklasklaskkasl")
+            self.coordinator?.chatMedia(auraRoom)
         default:
             break
         }
@@ -590,7 +591,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     func onShowUserProfile() {
         guard let user = participants.first(where: { $0.matrixId == tappedUserIdText }) else { return }
         let contact = Contact(mxId: user.matrixId, avatar: user.avatar, name: user.name, status: user.status)
-        delegate?.handleNextScene(.friendProfile(contact))
+        coordinator?.friendProfile(contact)
     }
     
     func onDeleteChannel() {

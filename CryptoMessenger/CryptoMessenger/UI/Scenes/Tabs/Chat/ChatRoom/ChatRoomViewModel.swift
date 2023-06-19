@@ -51,6 +51,7 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var audioUrl: RecordingDataModel?
 	var p2pVoiceCallPublisher = ObservableObjectPublisher()
 	var groupCallPublisher = ObservableObjectPublisher()
+    var coordinator: ChatHistoryFlowCoordinatorProtocol?
 
 
 	@Published var isVoiceCallAvailablility: Bool = false
@@ -202,7 +203,10 @@ final class ChatRoomViewModel: ObservableObject {
             return
         }
         if existingRoom.room.roomId != self.room.room.roomId {
-            self.delegate?.handleNextScene(.chatRoom(existingRoom))
+            if let coordinator = coordinator {
+                self.coordinator?.firstAction(existingRoom,
+                                              coordinator: coordinator)
+            }
         }
     }
     
@@ -211,7 +215,10 @@ final class ChatRoomViewModel: ObservableObject {
             guard let newRoom = self.matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {
                 return
             }
-            self.delegate?.handleNextScene(.chatRoom(newRoom))
+            if let coordinator = self.coordinator {
+                self.coordinator?.firstAction(newRoom,
+                                              coordinator: coordinator)
+            }
         }
     }
 
@@ -512,7 +519,7 @@ final class ChatRoomViewModel: ObservableObject {
 					)
 					self?.messages[index].reactions.append(reaction)
                 case let .onMedia(room):
-                    self?.delegate?.handleNextScene(.chatMedia(room))
+                    self?.coordinator?.chatMedia(room)
                 case .onDeleteReaction(let messageId, let reactionId):
                     self?.room.edit(text: "", eventId: messageId)
                     guard let index = self?.messages.firstIndex(where: { $0.id == messageId }) else { return }
@@ -522,11 +529,14 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.room.edit(text: text, eventId: eventId)
                 case let .onSettings(chatData: chatData, saveData: saveData,
                                      room: room, isLeaveChannel: isLeaveChannel):
-                    if self?.isChannel == true {
-                        guard let roomId = self?.room.room.roomId else { return }
-                        self?.delegate?.handleNextScene(.channelInfo(roomId, isLeaveChannel, chatData, saveData))
-                    } else {
-                        self?.delegate?.handleNextScene(.settingsChat(chatData, isLeaveChannel, saveData, room))
+                    guard let isChannel = self?.isChannel else { return }
+                    if let coordinator = self?.coordinator {
+                        self?.coordinator?.roomSettings(isChannel: isChannel,
+                                                        chatData: chatData,
+                                                        saveData: saveData,
+                                                        room: room,
+                                                        isLeaveChannel: isLeaveChannel,
+                                                        coordinator: coordinator)
                     }
                 }
             }

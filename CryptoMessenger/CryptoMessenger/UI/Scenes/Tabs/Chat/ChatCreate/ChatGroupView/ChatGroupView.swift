@@ -7,8 +7,7 @@ struct ChatGroupView: View {
 
     // MARK: - Internal Properties
 
-    @Binding var chatData: ChatData
-    @Binding var groupCreated: Bool
+    @StateObject var viewModel: ChatGroupViewModel
 
     // MARK: - Private Properties
 
@@ -19,14 +18,6 @@ struct ChatGroupView: View {
     @State private var showImagePicker = false
     @State private var showCameraPicker = false
     @State private var showLocationPicker = false
-
-    // MARK: - Life Cycle
-
-    init(chatData: Binding<ChatData>, groupCreated: Binding<Bool>) {
-        self._chatData = chatData
-        self._groupCreated = groupCreated
-        UITextView.appearance().background(.paleBlue())
-    }
 
     // MARK: - Body
 
@@ -51,13 +42,13 @@ struct ChatGroupView: View {
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        groupCreated.toggle()
+                        viewModel.createChat()
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
-                            .foreground(chatData.title.isEmpty ? .darkGray() : .blue())
+                            .foreground(viewModel.titleText.isEmpty ? .darkGray() : .blue())
                     })
-                        .disabled(chatData.title.isEmpty)
+                    .disabled(viewModel.titleText.isEmpty)
                 }
             }
             .actionSheet(isPresented: $showActionImageAlert) {
@@ -78,17 +69,20 @@ struct ChatGroupView: View {
             }
             .fullScreenCover(isPresented: $showCameraPicker,
                               content: {
-                ImagePickerView(selectedImage: $chatData.image,
+                ImagePickerView(selectedImage: $viewModel.chatData.image,
                                 sourceType: .camera)
                     .ignoresSafeArea()
             })
             .fullScreenCover(isPresented: $showImagePicker,
                               content: {
-                ImagePickerView(selectedImage: $chatData.image)
+                ImagePickerView(selectedImage: $viewModel.chatData.image)
                     .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
                     .navigationBarTitleDisplayMode(.inline)
                     .ignoresSafeArea()
             })
+            .onAppear {
+                UITextView.appearance().background(.paleBlue())
+            }
     }
 
     private var content: some View {
@@ -100,7 +94,7 @@ struct ChatGroupView: View {
                     Button {
                         showActionImageAlert.toggle()
                     } label: {
-                        if let image = chatData.image {
+                        if let image = viewModel.chatData.image {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFill()
@@ -118,12 +112,12 @@ struct ChatGroupView: View {
                     }
 
                     ZStack(alignment: .topLeading) {
-                        TextField("", text: $chatData.title)
+                        TextField("", text: $viewModel.titleText)
                             .frame(height: 44)
                             .background(.paleBlue())
                             .padding(.horizontal, 16)
 
-                        if chatData.title.isEmpty {
+                        if viewModel.titleText.isEmpty {
                             Text("Название")
                                 .foreground(.darkGray())
                                 .padding(.top, 12)
@@ -150,13 +144,13 @@ struct ChatGroupView: View {
                 }
 
                 ZStack(alignment: .topLeading) {
-                    TextEditor(text: $chatData.description)
+                    TextEditor(text: $viewModel.descriptionText)
                         .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 132, alignment: .leading)
                         .padding(.horizontal, 16)
                         .padding(.top, 2)
 						.scrollContentBackground(.hidden)
 
-                    if chatData.description.isEmpty {
+                    if viewModel.descriptionText.isEmpty {
                         Text("Описание")
                             .foreground(.darkGray())
                             .padding(.top, 12)
@@ -179,7 +173,7 @@ struct ChatGroupView: View {
                     Spacer()
                 }
 
-                if groupCreated {
+                if viewModel.isRoomCreated {
                     ZStack {
                         ProgressView()
                             .tint(Color(.blue()))

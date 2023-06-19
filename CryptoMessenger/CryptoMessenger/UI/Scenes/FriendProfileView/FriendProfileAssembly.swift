@@ -1,13 +1,12 @@
-import Foundation
+import SwiftUI
 
-// MARK: - FriendProfileConfigurator
+// MARK: - FriendProfileAssembly
 
-enum FriendProfileConfigurator {
+enum FriendProfileAssembly {
 
     // MARK: - Static Methods
 
-    static func configuredView(delegate: FriendProfileSceneDelegate?,
-                               userId: Contact) -> FriendProfileView {
+    static func build(userId: Contact) -> some View {
         let userSettings = UserDefaultsService.shared
         let keychainService = KeychainService.shared
         let viewModel = FriendProfileViewModel(
@@ -15,7 +14,6 @@ enum FriendProfileConfigurator {
             userSettings: userSettings,
             keychainService: keychainService
         )
-        viewModel.delegate = delegate
         let view = FriendProfileView(viewModel: viewModel)
         return view
     }

@@ -52,54 +52,39 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        let tabs: [UIViewController]
-        if togglesFacade.isWalletAvailable {
-            tabs = [
-                buildChatTab(),
-                buildWalletTab(),
-                buildProfileTab()
-            ]
-        } else {
-            tabs = [
-                buildChatTab(),
-                buildProfileTab()
-            ]
+//        let tabs: [UIViewController]
+//        if togglesFacade.isWalletAvailable {
+//            tabs = [
+//                buildChatTab(),
+//                buildWalletTab(),
+//                buildProfileTab()
+//            ]
+//        } else {
+//            tabs = [
+//                buildChatTab(),
+//                buildProfileTab()
+//            ]
+//        }
+//        let view = MainFlowView(chatHistoryView: ChatHistoryAssembly.build(self),
+//                                walletAssemblyView: WalletAssembly.build(self,
+//                                                                         onTransactionEndHelper: onTransactionEndHelper),
+//                                profileView: ProfileAssembly.configuredView(self))
+        let view = MainFlowView {
+            ChatHistoryFlowViewModel(delegate: self).view()
+        } walletView: {
+            WalletFlowViewModel(delegate: self,
+                                onTransactionEndHelper: self.onTransactionEndHelper).view()
+        } profileView: {
+            ProfileFlowViewModel(delegate: self).view()
         }
 
-        let tabBarController = BaseTabBarController(viewControllers: tabs)
-        tabBarController.selectedIndex = Tabs.chat.rawValue
-		rootTabBarController = tabBarController
+        let controller = BaseHostingController(rootView: view)
+//        let tabBarController = BaseTabBarController(viewControllers: tabs)
+//        tabBarController.selectedIndex = Tabs.chat.rawValue
+//		rootTabBarController = tabBarController
 
-        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+        setViewWith(controller, type: .fade, isRoot: true, isNavBarHidden: false)
 		delegate?.didEndStartProcess(coordinator: self)
-    }
-
-    // MARK: - Private Methods
-
-    private func buildChatTab() -> UIViewController {
-        let viewController = ChatHistoryConfigurator.configuredView(delegate: self)
-        let navigation = BaseNavigationController(rootViewController: viewController)
-        navigation.tabBarItem = Tabs.chat.item
-        return navigation
-    }
-
-    private func buildWalletTab() -> UIViewController {
-        let rootView = WalletConfigurator.configuredView(
-			delegate: self,
-			onTransactionEndHelper: onTransactionEndHelper
-		)
-        let viewController = BaseHostingController(rootView: rootView)
-        let navigation = BaseNavigationController(rootViewController: viewController)
-        navigation.tabBarItem = Tabs.wallet.item
-        return navigation
-    }
-
-    private func buildProfileTab() -> UIViewController {
-        let rootView = ProfileConfigurator.configuredView(delegate: self)
-        let viewController = BaseHostingController(rootView: rootView)
-        let navigation = BaseNavigationController(rootViewController: viewController)
-        navigation.tabBarItem = Tabs.profile.item
-        return navigation
     }
 
     // MARK: - Tabs
@@ -155,7 +140,6 @@ final class MainFlowCoordinator: Coordinator {
 
         // MARK: - Types
 
-        case chatRoom(AuraRoom)
         case profileDetail(Binding<UIImage?>)
         case personalization
         case language
@@ -182,13 +166,8 @@ final class MainFlowCoordinator: Coordinator {
         case walletManager
         case keyList
         case phraseManager
-        case settingsChat(Binding<ChatData>, Binding<Bool>, Binding<Bool>, AuraRoom)
-        case friendProfile(Contact)
-        case chatMedia(AuraRoom)
 		case popToRoot
         case reservePhraseCopy
-        case channelInfo(String, Binding<Bool>, Binding<ChatData>, Binding<Bool>)
-        case channelMedia(AuraRoom)
     }
 }
 
@@ -197,8 +176,6 @@ final class MainFlowCoordinator: Coordinator {
 extension MainFlowCoordinator: MainFlowSceneDelegate {
     func handleNextScene(_ scene: Scene) {
         switch scene {
-        case let .chatRoom(room):
-            showChatRoomScene(room: room)
         case let .profileDetail(image):
             showProfileDetailScene(image: image)
         case .personalization:
@@ -253,22 +230,12 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showPhraseManger()
         case .socialList:
             showSocialList()
-        case let .friendProfile(userId):
-            showFriendProfileScene(userId: userId)
         case .notifications:
             showNotificationsSettings()
-        case let .settingsChat(chatData, isLeaveRoom, saveData, room):
-            showSettingsChat(chatData: chatData, isLeaveRoom: isLeaveRoom, saveData: saveData, room: room)
-        case let .channelInfo(roomId, isLeaveChannel, chatData, saveData):
-            showChannelInfo(roomId: roomId, isLeaveChannel: isLeaveChannel, chatData: chatData, saveData: saveData)
-        case let .chatMedia(room):
-            showMediaView(room)
         case .popToRoot:
             popToRoot()
         case .reservePhraseCopy:
             showReservePhraseCopy()
-        case let .channelMedia(room):
-            showChannelMedia(room)
         }
     }
 
@@ -281,71 +248,10 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         delegate?.userPerformedLogout(coordinator: self)
     }
 
-    private func showChannelInfo(
-        roomId: String,
-        isLeaveChannel: Binding<Bool>,
-        chatData: Binding<ChatData>,
-        saveData: Binding<Bool>
-    ) {
-        let controller = ChannelInfoAssembly.make(
-            roomId: roomId,
-            isLeaveChannel: isLeaveChannel,
-            delegate: self,
-            chatData: chatData,
-            saveData: saveData
-        )
-        navigationController.pushViewController(controller, animated: true)
-    }
-
-    private func showChannelMedia(_ room: AuraRoom) {
-        let rootView = ChannelMediaConfigurator.configuredView(room: room, delegate: self)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showSettingsChat(chatData: Binding<ChatData>,
-                                  isLeaveRoom: Binding<Bool>,
-                                  saveData: Binding<Bool>,
-                                  room: AuraRoom) {
-        let rootView = SettingsConfigurator.configuredView(delegate: self,
-                                                           chatData: chatData,
-                                                           isLeaveRoom: isLeaveRoom,
-                                                           saveData: saveData,
-                                                           room: room)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showMediaView(_ room: AuraRoom) {
-        let rootView = ChannelMediaConfigurator.configuredView(room: room,
-                                                            delegate: self)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
     private func showNotificationsSettings() {
         let rootView = NotificationSettingsConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showFriendProfileScene(userId: Contact) {
-        let rootView = FriendProfileConfigurator.configuredView(delegate: self,
-                                                                userId: userId)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showChatRoomScene(room: AuraRoom) {
-        let rootView = ChatRoomConfigurator.configuredView(room: room, delegate: self, toggleFacade: togglesFacade)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-
         navigationController.pushViewController(viewController, animated: true)
     }
 
@@ -643,10 +549,6 @@ extension MainFlowCoordinator: PhraseManagerSceneDelegate {}
 
 extension MainFlowCoordinator: SocialListSceneDelegate {}
 
-// MARK: - MainFlowCoordinator (FriendProfileSceneDelegate)
-
-extension MainFlowCoordinator: FriendProfileSceneDelegate {}
-
 // MARK: - MainFlowCoordinator (SettingsSceneDelegate)
 
 extension MainFlowCoordinator: SettingsSceneDelegate {}
@@ -655,10 +557,6 @@ extension MainFlowCoordinator: SettingsSceneDelegate {}
 
 extension MainFlowCoordinator: NotificationSettingsSceneDelegate {}
 
-// MARK: - MainFlowCoordinator (ChannelMediaSceneDelegate)
-
-extension MainFlowCoordinator: ChannelMediaSceneDelegate {}
-
 // MARK: - MainFlowCoordinator (GeneratePhraseSceneDelegate)
 
 extension MainFlowCoordinator: GeneratePhraseSceneDelegate {}
@@ -666,10 +564,6 @@ extension MainFlowCoordinator: GeneratePhraseSceneDelegate {}
 // MARK: - MainFlowCoordinator (ReservePhraseCopySceneDelegate)
 
 extension MainFlowCoordinator: ReservePhraseCopySceneDelegate {}
-
-// MARK: - MainFlowCoordinator (ChannelInfoSceneDelegate)
-
-extension MainFlowCoordinator: ChannelInfoSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ProfileDetailSceneDelegate)
 
