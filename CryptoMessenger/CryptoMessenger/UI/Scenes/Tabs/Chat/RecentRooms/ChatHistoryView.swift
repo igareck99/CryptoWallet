@@ -9,6 +9,8 @@ protocol ChatHistoryViewDelegate: ObservableObject {
     var isLoading: Bool { get set }
     
     var leaveState: [String: Bool] { get }
+    
+    var coordinator: ChatHistoryFlowCoordinatorProtocol? { get }
 
 	var groupAction: GroupAction? { get set }
 
@@ -34,7 +36,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
 
     // MARK: - Internal Properties
 
-	@StateObject var viewModel: ViewModel
+	@ObservedObject var viewModel: ViewModel
 
 	// MARK: - Private Properties
 
@@ -55,9 +57,16 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
     @State private var gloabalSearch: [MatrixChannel] = []
 
 	// MARK: - Body
+    var routableContent: AnyView?
+    
+    var body: some View {
+        // routableContent
+        content()
+    }
 
-	var body: some View {
-		content
+    @ViewBuilder
+    func content() -> some View {
+        content1
 			.onAppear {
 				if actionSheet == nil {
 					actionSheet = IOActionSheet(title: nil,
@@ -121,8 +130,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
 
 	// MARK: - Body Properties
 
-    @ViewBuilder
-	private var content: some View {
+    var content1: some View {
 
 		let searchTextBinding = Binding(
 			get: { self.searchText },

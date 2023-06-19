@@ -15,7 +15,7 @@ enum WalletConfigurator {
 			userCredentialsStorage: userCredentialsStorage,
 			onTransactionEndHelper: onTransactionEndHelper
 		)
-        viewModel.delegate = delegate
+        //viewModel.coordinator = delegate
         let view = WalletView(viewModel: viewModel)
         return view
     }

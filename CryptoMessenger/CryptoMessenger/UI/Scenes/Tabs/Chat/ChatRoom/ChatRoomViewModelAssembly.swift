@@ -12,3 +12,21 @@ enum ChatRoomViewModelAssembly {
 		return availabilityFacade
 	}
 }
+
+enum ChatRoomViewModelAssembl {
+
+    // MARK: - Static Methods
+
+    static func build(_ room: AuraRoom) -> ChatRoomView {
+        let groupCallsUseCase = GroupCallsUseCase(room: room.room)
+        let toggleFacade: MainFlowTogglesFacadeProtocol = MainFlowTogglesFacade.shared
+        let viewModel = ChatRoomViewModel(
+            room: room,
+            toggleFacade: toggleFacade,
+            groupCallsUseCase: groupCallsUseCase
+        )
+        return ChatRoomView(viewModel: viewModel)
+    }
+}
+
+

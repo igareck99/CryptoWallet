@@ -52,40 +52,57 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-        let tabs: [UIViewController]
-        if togglesFacade.isWalletAvailable {
-            tabs = [
-                buildChatTab(),
-                buildWalletTab(),
-                buildProfileTab()
-            ]
-        } else {
-            tabs = [
-                buildChatTab(),
-                buildProfileTab()
-            ]
+//        let tabs: [UIViewController]
+//        if togglesFacade.isWalletAvailable {
+//            tabs = [
+//                buildChatTab(),
+//                buildWalletTab(),
+//                buildProfileTab()
+//            ]
+//        } else {
+//            tabs = [
+//                buildChatTab(),
+//                buildProfileTab()
+//            ]
+//        }
+//        let view = MainFlowView(chatHistoryView: ChatHistoryAssembly.build(self),
+//                                walletAssemblyView: WalletAssembly.build(self,
+//                                                                         onTransactionEndHelper: onTransactionEndHelper),
+//                                profileView: ProfileAssembly.configuredView(self))
+        let view = MainFlowView {
+            ChatHistoryFlowViewModel(delegate: self).view()
+        } walletView: {
+            WalletFlowViewModel(delegate: self,
+                                onTransactionEndHelper: self.onTransactionEndHelper).view()
+        } profileView: {
+            ProfileFlowViewModel(delegate: self).view()
         }
 
-        let tabBarController = BaseTabBarController(viewControllers: tabs)
-        tabBarController.selectedIndex = Tabs.chat.rawValue
-		rootTabBarController = tabBarController
+        let controller = BaseHostingController(rootView: view)
+//        let tabBarController = BaseTabBarController(viewControllers: tabs)
+//        tabBarController.selectedIndex = Tabs.chat.rawValue
+//		rootTabBarController = tabBarController
 
-        setViewWith(tabBarController, type: .fade, isRoot: true, isNavBarHidden: false)
+        setViewWith(controller, type: .fade, isRoot: true, isNavBarHidden: false)
 		delegate?.didEndStartProcess(coordinator: self)
     }
 
     // MARK: - Private Methods
 
     private func buildChatTab() -> UIViewController {
-        let viewController = ChatHistoryConfigurator.configuredView(delegate: self)
+        let view = ChatHistoryAssembly.build(self)
+        let viewController = BaseHostingController(rootView: view)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.chat.item
         return navigation
+//        let viewController = ChatHistoryConfigurator.configuredView(delegate: self)
+//        let navigation = BaseNavigationController(rootViewController: viewController)
+//        navigation.tabBarItem = Tabs.chat.item
+//        return navigation
     }
 
     private func buildWalletTab() -> UIViewController {
-        let rootView = WalletConfigurator.configuredView(
-			delegate: self,
+        let rootView = WalletAssembly.build(self,
 			onTransactionEndHelper: onTransactionEndHelper
 		)
         let viewController = BaseHostingController(rootView: rootView)
@@ -95,7 +112,7 @@ final class MainFlowCoordinator: Coordinator {
     }
 
     private func buildProfileTab() -> UIViewController {
-        let rootView = ProfileConfigurator.configuredView(delegate: self)
+        let rootView = ProfileAssembly.configuredView(self)
         let viewController = BaseHostingController(rootView: rootView)
         let navigation = BaseNavigationController(rootViewController: viewController)
         navigation.tabBarItem = Tabs.profile.item

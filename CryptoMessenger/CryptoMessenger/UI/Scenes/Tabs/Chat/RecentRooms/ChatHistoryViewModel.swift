@@ -28,6 +28,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
     private let factory: ChannelUsersFactoryProtocol.Type
     private let keychainService: KeychainServiceProtocol = KeychainService.shared
+    var coordinator: ChatHistoryFlowCoordinatorProtocol?
 
     // MARK: - Lifecycle
 
@@ -123,7 +124,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                     self.rooms = self.matrixUseCase.rooms
                     self.objectWillChange.send()
                 case let .onShowRoom(room):
-                    self?.delegate?.handleNextScene(.chatRoom(room))
+                    self?.coordinator?.firstAction(room)
                 case let .onDeleteRoom(roomId):
                     self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in })
                 }
