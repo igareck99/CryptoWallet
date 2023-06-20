@@ -6,7 +6,7 @@ import MatrixSDK
 protocol P2PCallUseCaseProtocol: AnyObject {
 
     var isActiveCallExist: Bool { get }
-    
+
 	var delegate: P2PCallUseCaseDelegate? { get set }
 
 	func placeVoiceCall(roomId: String, contacts: [Contact])
@@ -21,11 +21,15 @@ protocol P2PCallUseCaseProtocol: AnyObject {
 
 	func changeHoldCall()
 
-	var isMuted: Bool { get }
+    var isVideoEnabled: Bool { get }
+
+    func toggleVideoState()
+
+    var isMicEnabled: Bool { get }
 
 	func toggleMuteState()
 
-	var isVoiceIsSpeaker: Bool { get }
+	var isSpeakerEnabled: Bool { get }
 
 	var isHoldEnabled: Bool { get }
 
@@ -511,18 +515,24 @@ extension P2PCallUseCase: P2PCallUseCaseProtocol {
 		calls = [:]
 	}
 
-	var isMuted: Bool { activeCall?.audioMuted == true }
+    var isVideoEnabled: Bool { activeCall?.videoMuted == false }
+
+    func toggleVideoState() {
+        activeCall?.videoMuted = activeCall?.videoMuted == true ? false : true
+    }
+
+    var isMicEnabled: Bool { activeCall?.audioMuted == false }
 
 	func toggleMuteState() {
 		activeCall?.audioMuted = activeCall?.audioMuted == true ? false : true
 	}
 
-	var isVoiceIsSpeaker: Bool {
+	var isSpeakerEnabled: Bool {
 		activeCall?.audioOutputRouter.currentRoute?.routeType == .loudSpeakers
 	}
 
 	func changeVoiceSpeaker() {
-		let audioRoute: MXiOSAudioOutputRoute? = isVoiceIsSpeaker ?
+		let audioRoute: MXiOSAudioOutputRoute? = isSpeakerEnabled ?
 		activeCall?.audioOutputRouter.builtInRoute :
 		activeCall?.audioOutputRouter.loudSpeakersRoute
 		activeCall?.audioOutputRouter.changeCurrentRoute(to: audioRoute)
