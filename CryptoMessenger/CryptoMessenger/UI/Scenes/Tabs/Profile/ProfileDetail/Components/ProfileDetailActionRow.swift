@@ -7,7 +7,7 @@ struct ProfileDetailActionRow: View {
     // MARK: - Internal Properties
 
     let title: String
-    let color: Palette
+    let color: UIColor
     let image: Image
 
     // MARK: - Body

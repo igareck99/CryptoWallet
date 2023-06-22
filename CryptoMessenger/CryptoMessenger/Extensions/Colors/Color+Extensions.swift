@@ -5,7 +5,10 @@ extension Color {
     // MARK: - New Collors
     // Main collors
     static let chineseBlack = Color(uiColor: .chineseBlack)
+    static let chineseBlackLoad = Color(uiColor: .chineseBlackLoad)
+    static let chineseBlack04 = Color(uiColor: .chineseBlack04)
     static let romanSilver = Color(uiColor: .romanSilver)
+    static let romanSilver07 = Color(uiColor: .romanSilver07)
     static let bone = Color(uiColor: .bone)
     static let brightGray = Color(uiColor: .brightGray)
     static let gainsboro = Color(uiColor: .gainsboro)
