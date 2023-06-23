@@ -28,10 +28,10 @@ struct ProfileDetailView: View {
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Профиль", [
-                        .font(.bold(15)),
-                        .color(.black()),
                         .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
                     ])
+                    .font(.system(size: 15, weight: .bold))
+                    .foregroundColor(.chineseBlack)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -40,7 +40,7 @@ struct ProfileDetailView: View {
                     }, label: {
                         Text("Готово")
                             .font(.semibold(15))
-                            .foreground(.blue())
+                            .foregroundColor(.dodgerBlue)
                     }).disabled(isSaving)
                 }
             }
@@ -135,26 +135,26 @@ struct ProfileDetailView: View {
                             case .socialNetwork:
                                 ProfileDetailActionRow(
                                     title: "Ваши социальные сети",
-                                    color: .blue(0.1),
+                                    color: .white,
                                     image: R.image.profileDetail.socialNetwork.image
                                 )
                                     .onTapGesture {
                                         viewModel.send(.onSocial)
                                     }
-                                    .background(.white())
+                                    .background(.white)
                                     .frame(height: 64)
                                     .padding(.top, 24)
                                     .padding([.leading, .trailing], 16)
                             case .exit:
                                 Divider()
-                                    .foreground(.grayE6EAED())
+                                    .foregroundColor(.brightGray)
                                     .padding(.top, 16)
                                 ProfileDetailActionRow(
                                     title: "Выход",
-                                    color: .lightRed(0.1),
+                                    color: .white,
                                     image: R.image.profileDetail.exit.image
                                 )
-                                    .background(.white())
+                                    .background(.white)
                                     .frame(height: 64)
                                     .padding(.top, 16)
                                     .padding([.leading, .trailing], 16)
@@ -165,10 +165,10 @@ struct ProfileDetailView: View {
                             case .delete:
                                 ProfileDetailActionRow(
                                     title: "Удалить учетную запись",
-                                    color: .lightRed(0.1),
+                                    color: .white,
                                     image: R.image.profileDetail.delete.image
                                 )
-                                    .background(.white())
+                                    .background(.white)
                                     .frame(height: 64)
                                     .padding([.leading, .trailing], 16)
                             }
@@ -180,12 +180,12 @@ struct ProfileDetailView: View {
             if isSaving {
                 ZStack {
                     ProgressView()
-                        .tint(Color(.blue()))
+                        .tint(.dodgerBlue)
                         .frame(width: 12, height: 12)
                 }
             }
         }
-        .background(isSaving ? .black(0.05) : .clear)
+        .background(isSaving ? Color.chineseBlackLoad : .ghostWhite)
         .ignoresSafeArea()
     }
 
@@ -204,10 +204,10 @@ struct ProfileDetailView: View {
                         placeholder: {
                             ZStack {
                                 ProgressView()
-                                    .tint(Color(.blue()))
+                                    .tint(.dodgerBlue)
                                     .frame(width: geometry.size.width,
                                            height: geometry.size.width)
-                                    .background(.blue(0.1))
+                                    .background(Color.dodgerTransBlue)
                             }
                         },
                         result: {
@@ -221,7 +221,7 @@ struct ProfileDetailView: View {
                     ZStack {
                         Rectangle()
                             .frame(height: geometry.size.width)
-                            .foreground(.blue(0.1))
+                            .foregroundColor(.dodgerTransBlue)
                         R.image.profile.avatarThumbnail.image
                             .resizable()
                             .frame(width: 80, height: 80)
@@ -234,7 +234,7 @@ struct ProfileDetailView: View {
                             Spacer()
                             ZStack {
                                 Circle()
-                                    .fill(Color(.black(0.4)))
+                                    .fill(Color.chineseBlack04)
                                     .frame(width: 60, height: 60)
                                 R.image.profileDetail.camera.image
                             }
@@ -252,26 +252,25 @@ struct ProfileDetailView: View {
     private func info(_ title: String) -> some View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(title.uppercased(), [
-                    .font(.semibold(12)),
-                    .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left)),
-                    .color(.gray768286())
-
-                ]).frame(height: 22)
+                    .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left))
+                ]).font(.system(size: 12, weight: .semibold))
+                    .frame(height: 22)
+                    .foregroundColor(.romanSilver)
                 ZStack(alignment: .leading) {
                     if viewModel.profile.info.isEmpty {
                         Text(title.firstUppercased)
-                            .foreground(.gray768286(0.7))
+                            .foregroundColor(.romanSilver07)
                             .font(.regular(15))
                             .padding([.leading, .trailing], 16)
                     }
 
                     TextEditor(text: $viewModel.profile.info)
-                        .foreground(.black())
+                        .foregroundColor(.chineseBlack)
                         .font(.regular(15))
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 140)
                         .padding([.leading, .trailing], 14)
                 }
-                .background(.paleBlue())
+                .background(.white)
                 .cornerRadius(8)
             }
         }
@@ -279,15 +278,13 @@ struct ProfileDetailView: View {
     private func phone(_ title: String) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title, [
-                .font(.semibold(12)),
-                .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left)),
-                .color(.gray768286())
-
-            ]).frame(height: 22)
-
+                .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left))
+            ]).font(.system(size: 12, weight: .semibold))
+                .frame(height: 22)
+                .foregroundColor(.romanSilver)
             HStack(spacing: 0) {
                 Text("+7   Россия")
-                    .foreground(.black())
+                    .foregroundColor(.chineseBlack)
                     .frame(height: 44)
                     .font(.regular(15))
                     .padding(.leading, 16)
@@ -295,18 +292,18 @@ struct ProfileDetailView: View {
                 R.image.profileDetail.arrow.image
                     .padding(.trailing, 16)
             }
-            .background(.paleBlue())
+            .background(.white)
             .cornerRadius(8)
 
             HStack(spacing: 0) {
                 Text(viewModel.profile.phone)
-                    .foreground(.black())
+                    .foregroundColor(.chineseBlack)
                     .frame(height: 44)
                     .font(.regular(15))
                     .padding(.leading, 16)
                 Spacer()
             }
-            .background(.paleBlue())
+            .background(.white)
             .cornerRadius(8)
         }
     }

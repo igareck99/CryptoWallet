@@ -6,8 +6,14 @@ extension UIColor {
     // Main collors
     //#121315
     static let chineseBlack = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 1.0)
+    //#121315 opacity = 0.05
+    static let chineseBlackLoad = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 0.05)
+    //#121315 opacity = 0.4
+    static let chineseBlack04 = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 0.4)
     //#8a919c or #89909B
     static let romanSilver = UIColor(red: 137.0 / 255.0, green: 144.0 / 255.0, blue: 155.0 / 255.0, alpha: 1.0)
+    //#8a919 copacity = 0.7
+    static let romanSilver07 = UIColor(red: 137.0 / 255.0, green: 144.0 / 255.0, blue: 155.0 / 255.0, alpha: 0.7)
     //#E1DCCD
     static let bone = UIColor(red: 225.0 / 255.0, green: 220.0 / 255.0, blue: 205.0 / 255.0, alpha: 1.0)
     //#eaeced
