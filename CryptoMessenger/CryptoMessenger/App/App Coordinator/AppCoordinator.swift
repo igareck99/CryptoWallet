@@ -1,5 +1,7 @@
 import UIKit
 
+// swiftlint:disable all
+
 protocol AppCoordinatorProtocol {
 	func didReceive(notification: UNNotificationResponse, completion: @escaping () -> Void)
 }
@@ -10,49 +12,68 @@ final class AppCoordinator {
 	private(set) var navigationController: UINavigationController
 
 	private var pendingCoordinators = [Coordinator]()
-    private let userFlows: UserFlowsStorage
 	private let keychainService: KeychainServiceProtocol
+    private let router: AppCoordinatorRouterable
+    private let factory: CoordinatorsFactoryProtocol.Type
+    private let privateDataCleaner: PrivateDataCleanerProtocol
+    let userSettings: UserFlowsStorage
+    let timeService: AppTimeServiceProtocol
 
     init(
 		keychainService: KeychainServiceProtocol,
-		userFlows: UserFlowsStorage,
+        userSettings: UserFlowsStorage,
+        router: AppCoordinatorRouterable,
+        factory: CoordinatorsFactoryProtocol.Type,
+        privateDataCleaner: PrivateDataCleanerProtocol,
+        timeService: AppTimeServiceProtocol,
 		navigationController: UINavigationController
 	) {
 		self.keychainService = keychainService
-		self.userFlows = userFlows
+		self.userSettings = userSettings
+        self.router = router
+        self.factory = factory
+        self.privateDataCleaner = privateDataCleaner
+        self.timeService = timeService
         self.navigationController = navigationController
     }
 
 	private func showAuthenticationFlow() {
-		let userFlows = UserDefaultsService.shared
-        let authFlowCoordinator = AuthFlowCoordinator(
-			userFlows: userFlows,
-			navigationController: navigationController
-		)
-        authFlowCoordinator.delegate = self
+        let authFlowCoordinator = factory.makeAuthCoordinator(
+            delegate: self,
+            navigationController: navigationController
+        )
         addChildCoordinator(authFlowCoordinator)
         authFlowCoordinator.start()
     }
 
 	private func showMainFlow() {
-
-		let mainFlowCoordinator = MainFlowCoordinatorAssembly.build(
-			delegate: self,
-			navigationController: navigationController
-		)
+        let mainFlowCoordinator = factory.makeMainCoordinator(
+            delegate: self,
+            navigationController: navigationController
+        )
         addChildCoordinator(mainFlowCoordinator)
         mainFlowCoordinator.start()
     }
 
 	private func showPinCodeFlow() {
-		let userFlows = UserDefaultsService.shared
-        let pinCodeFlowCoordinator = PinCodeFlowCoordinator(
-			userFlows: userFlows,
-			navigationController: navigationController
-		)
-        pinCodeFlowCoordinator.delegate = self
+        let pinCodeFlowCoordinator = factory.makePinCoordinator(
+            delegate: self,
+            navigationController: navigationController
+        )
         addChildCoordinator(pinCodeFlowCoordinator)
         pinCodeFlowCoordinator.start()
+    }
+    
+    func updateAppState() {
+        guard keychainService.isPinCodeEnabled == true
+        else {
+            return
+        }
+        
+        let diffTimeInterval = timeService.diffSinceLastBackgroundEnter()
+        
+        // Если приложение 30 минут в бэкграунде, то перезапрашиваем пин
+        userSettings.isLocalAuth = diffTimeInterval.minutes >= 30
     }
 }
 
@@ -60,17 +81,22 @@ final class AppCoordinator {
 
 extension AppCoordinator: Coordinator {
 	func start() {
+        
+        if userSettings[.isAppNotFirstStart] == false {
+            privateDataCleaner.resetPrivateData()
+            keychainService.isPinCodeEnabled = true
+        }
+        userSettings[.isAppNotFirstStart] = true
+        userSettings.isLocalAuth = keychainService.isPinCodeEnabled == true
 
 		let flow = AppLaunchInstructor.configure(
-			isAuthorized: userFlows.isAuthFlowFinished,
-			isLocalAuth: userFlows.isLocalAuth
+			isAuthorized: userSettings.isAuthFlowFinished,
+			isLocalAuth: userSettings.isLocalAuth
 		)
-
-		debugPrint("flow.description: \(flow.description)")
 
 		switch flow {
 		case .localAuth:
-			if userFlows.isLocalAuth {
+			if userSettings.isLocalAuth {
 				showPinCodeFlow()
 			} else {
 				NotificationCenter.default.post(name: .userDidLoggedIn, object: nil)
@@ -90,28 +116,22 @@ extension AppCoordinator: Coordinator {
 extension AppCoordinator: AppCoordinatorProtocol {
 
 	func didReceive(notification: UNNotificationResponse, completion: @escaping () -> Void) {
-		let getChatRoomSceneDelegate: () -> ChatRoomSceneDelegate? = { [weak self] in
-			guard
-				let chatRoomDelegate = self?.childCoordinators
-					.values.first(where: { $0 is ChatRoomSceneDelegate }) as? ChatRoomSceneDelegate
-			else {
-				return nil
-			}
-			return chatRoomDelegate
-		}
-        
-        let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase
-        let togglesFacade = MainFlowTogglesFacade(remoteConfigUseCase: remoteConfigUseCase)
 
-		let pushCoordinator = PushNotificationCoordinatorAssembly.build(
-			getChatRoomSceneDelegate: getChatRoomSceneDelegate,
-			notificationResponse: notification,
-			navigationController: self.navigationController,
+        let pushCoordinator = factory.makePushCoordinator(
+            notification: notification,
             delegate: self,
-            toggleFacade: togglesFacade
-		)
+            navigationController: navigationController
+        ) { [weak self] in
+            guard
+                let chatRoomDelegate = self?.childCoordinators
+                    .values.first(where: { $0 is ChatRoomSceneDelegate }) as? ChatRoomSceneDelegate
+            else {
+                return nil
+            }
+            return chatRoomDelegate
+        }
 
-		if !userFlows.isLocalAuth && userFlows.isAuthFlowFinished {
+		if !userSettings.isLocalAuth && userSettings.isAuthFlowFinished {
 			addChildCoordinator(pushCoordinator)
 			pushCoordinator.start()
 		} else {
@@ -126,7 +146,7 @@ extension AppCoordinator: AppCoordinatorProtocol {
 extension AppCoordinator: AuthFlowCoordinatorDelegate {
     func userPerformedAuthentication(coordinator: Coordinator) {
         removeChildCoordinator(coordinator)
-        if userFlows.isLocalAuth {
+        if userSettings.isLocalAuth {
 			NotificationCenter.default.post(name: .userDidRegistered, object: nil)
             showMainFlow()
         } else {
@@ -157,7 +177,7 @@ extension AppCoordinator: MainFlowCoordinatorDelegate {
 extension AppCoordinator: PinCodeFlowCoordinatorDelegate {
     func userApprovedAuthentication(coordinator: Coordinator) {
         removeChildCoordinator(coordinator)
-        if userFlows.isAuthFlowFinished {
+        if userSettings.isAuthFlowFinished {
 			NotificationCenter.default.post(name: .userDidLoggedIn, object: nil)
             showMainFlow()
         } else {

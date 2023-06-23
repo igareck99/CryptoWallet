@@ -9,7 +9,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	private var statusBarCallUseCase: StatusBarCallUseCase?
 	private var notificationsUseCase: NotificationsUseCaseProtocol?
-	private var appDelegateUseCase: AppDelegateUseCaseProtocol?
+	private var appLifeCycleDelegate: AppDelegateApplicationLifeCycle?
 
 	func application(
 		_ application: UIApplication,
@@ -20,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		let rootNavigationController = BaseNavigationController()
 		let appCoordinator = AppCoordinatorAssembly.build(navigationController: rootNavigationController)
+        appLifeCycleDelegate = appCoordinator
 		notificationsUseCase = NotificationsUseCaseAssembly.build(appCoordinator: appCoordinator)
-		appDelegateUseCase = AppDelegateUseCaseAssembly.build(appCoordinator: appCoordinator)
 
 		let appWindow = UIWindow()
 		window = appWindow
@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		// UseCase app delegate'а должен вызываться после всех кейсов проверок флага isAppNotFirstStart
 		// т.к. он его изменяет
-		appDelegateUseCase?.start()
+        appCoordinator.start()
 		window?.makeKeyAndVisible()
 
 		statusBarCallUseCase = StatusBarCallUseCase(appWindow: appWindow)
@@ -41,27 +41,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	func applicationWillTerminate(_ application: UIApplication) {
-		appDelegateUseCase?.applicationWillTerminate()
+        appLifeCycleDelegate?.applicationWillTerminate()
 	}
 
 	func applicationDidEnterBackground(_ application: UIApplication) {
-		appDelegateUseCase?.applicationDidEnterBackground()
+        appLifeCycleDelegate?.applicationDidEnterBackground()
 	}
 
 	func applicationWillEnterForeground(_ application: UIApplication) {
-		appDelegateUseCase?.applicationWillEnterForeground()
+        appLifeCycleDelegate?.applicationWillEnterForeground()
 	}
 
 	func applicationWillResignActive(_ application: UIApplication) {
-		appDelegateUseCase?.applicationWillResignActive()
+        appLifeCycleDelegate?.applicationWillResignActive()
 	}
 
 	func applicationProtectedDataWillBecomeUnavailable(_ application: UIApplication) {
-		appDelegateUseCase?.applicationProtectedDataWillBecomeUnavailable()
+        appLifeCycleDelegate?.applicationProtectedDataWillBecomeUnavailable()
 	}
 
 	func applicationProtectedDataDidBecomeAvailable(_ application: UIApplication) {
-		appDelegateUseCase?.applicationProtectedDataDidBecomeAvailable()
+        appLifeCycleDelegate?.applicationProtectedDataDidBecomeAvailable()
 	}
 }
 
