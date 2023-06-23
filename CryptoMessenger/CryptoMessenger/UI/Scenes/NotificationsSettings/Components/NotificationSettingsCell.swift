@@ -18,14 +18,14 @@ struct NotificationSettingsCell: View {
                 if !field.item.description.isEmpty {
                     Text(field.item.description)
                         .font(.regular(12))
-                        .foreground(.gray())
+                        .foregroundColor(.romanSilver)
                         .padding(.top, 4)
                 }
             }
             Spacer()
             Toggle("", isOn: $field.state)
                 .labelsHidden()
-                .toggleStyle(SwitchToggleStyle(tint: .green))
+                .toggleStyle(SwitchToggleStyle(tint: .greenCrayola))
         }
     }
 }
