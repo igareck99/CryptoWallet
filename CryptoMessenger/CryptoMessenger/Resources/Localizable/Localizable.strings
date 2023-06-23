@@ -123,6 +123,7 @@
 "Calls.ChangeInterlocutor" = "Сменить собеседника";
 "Calls.TurnOnSound" = "Включить звук";
 "Calls.TurnOffSound" = "Выключить звук";
+"Calls.Sound" = "Звук";
 "Calls.Camera" = "Камера";
 
 "GroupCall.ActiveConference" = "Видеоконференция активна, нажмите чтобы присоединиться";

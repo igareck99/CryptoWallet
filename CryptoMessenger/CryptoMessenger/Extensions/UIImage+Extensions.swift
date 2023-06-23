@@ -236,3 +236,13 @@ extension UIImage {
 		}
 	}
 }
+
+extension UIImage {
+    static func imageFrom(color: UIColor, size: CGSize = .init(width: 1, height: 1)) -> UIImage {
+        let image = UIGraphicsImageRenderer(size: size).image { rendererContext in
+            color.setFill()
+            rendererContext.fill(CGRect(origin: .zero, size: size))
+        }
+        return image
+    }
+}
