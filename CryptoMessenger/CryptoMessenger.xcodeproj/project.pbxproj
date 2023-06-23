@@ -722,6 +722,11 @@
 		D4B39B01289C3B50006F2D99 /* CallEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B39B00289C3B50006F2D99 /* CallEventView.swift */; };
 		D4BC1EC02955B59E00D99F1A /* TransactionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BC1EBF2955B59E00D99F1A /* TransactionResultView.swift */; };
 		D4BC1EC32955B5F400D99F1A /* TransactionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BC1EC22955B5F400D99F1A /* TransactionResult.swift */; };
+		D4C8CF4A2A45957E007CC925 /* AppCoordinatorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8CF492A45957E007CC925 /* AppCoordinatorRouter.swift */; };
+		D4C8CF4C2A459889007CC925 /* CoordinatorsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8CF4B2A459889007CC925 /* CoordinatorsFactory.swift */; };
+		D4C8CF502A45C0AC007CC925 /* AppTimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8CF4F2A45C0AC007CC925 /* AppTimeService.swift */; };
+		D4C8CF522A45C6DA007CC925 /* AppCoordinator+AppLifeCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8CF512A45C6DA007CC925 /* AppCoordinator+AppLifeCycle.swift */; };
+		D4C8CF542A45C891007CC925 /* AppDelegateApplicationLifeCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8CF532A45C891007CC925 /* AppDelegateApplicationLifeCycle.swift */; };
 		D4C9B72E283C20380060BFD3 /* ChatRoomViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */; };
 		D4CA6C0929FA795400C96053 /* TransactionSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CA6C0829FA795400C96053 /* TransactionSections.swift */; };
 		D4CA6C0C29FB15FC00C96053 /* WalletAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CA6C0A29FA79C800C96053 /* WalletAddress.swift */; };
@@ -786,9 +791,6 @@
 		D4F5DB3729F11E1F00772AC5 /* CoreDataServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5DB3629F11E1F00772AC5 /* CoreDataServiceProtocol.swift */; };
 		D4F5DB3929F1202100772AC5 /* CoreDataService+Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5DB3829F1202100772AC5 /* CoreDataService+Tokens.swift */; };
 		D4F5DB3B29F175A400772AC5 /* CoreDataService+WalletNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5DB3A29F175A400772AC5 /* CoreDataService+WalletNetwork.swift */; };
-		D4FA3F6B28182CCB000246D8 /* AppDelegateUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F6A28182CCB000246D8 /* AppDelegateUseCase.swift */; };
-		D4FA3F6D28183586000246D8 /* AppDelegateUseCaseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */; };
-		D4FA3F72281A619B000246D8 /* TimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F71281A619B000246D8 /* TimeService.swift */; };
 		D4FA3F74281A7374000246D8 /* TimeInterval+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F73281A7374000246D8 /* TimeInterval+Extensions.swift */; };
 		D4FA3F76281E4939000246D8 /* ContactInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F75281E4939000246D8 /* ContactInfo.swift */; };
 		D4FDA497284D05C600322A0F /* StatusBarCallUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDA496284D05C600322A0F /* StatusBarCallUseCase.swift */; };
@@ -1548,6 +1550,11 @@
 		D4B39B0628A23F03006F2D99 /* ChatSystemEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSystemEventView.swift; sourceTree = "<group>"; };
 		D4BC1EBF2955B59E00D99F1A /* TransactionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResultView.swift; sourceTree = "<group>"; };
 		D4BC1EC22955B5F400D99F1A /* TransactionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResult.swift; sourceTree = "<group>"; };
+		D4C8CF492A45957E007CC925 /* AppCoordinatorRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorRouter.swift; sourceTree = "<group>"; };
+		D4C8CF4B2A459889007CC925 /* CoordinatorsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorsFactory.swift; sourceTree = "<group>"; };
+		D4C8CF4F2A45C0AC007CC925 /* AppTimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTimeService.swift; sourceTree = "<group>"; };
+		D4C8CF512A45C6DA007CC925 /* AppCoordinator+AppLifeCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppCoordinator+AppLifeCycle.swift"; sourceTree = "<group>"; };
+		D4C8CF532A45C891007CC925 /* AppDelegateApplicationLifeCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateApplicationLifeCycle.swift; sourceTree = "<group>"; };
 		D4C9B72D283C20380060BFD3 /* ChatRoomViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModelAssembly.swift; sourceTree = "<group>"; };
 		D4CA6C0829FA795400C96053 /* TransactionSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSections.swift; sourceTree = "<group>"; };
 		D4CA6C0A29FA79C800C96053 /* WalletAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAddress.swift; sourceTree = "<group>"; };
@@ -1600,9 +1607,6 @@
 		D4F5DB3629F11E1F00772AC5 /* CoreDataServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataServiceProtocol.swift; sourceTree = "<group>"; };
 		D4F5DB3829F1202100772AC5 /* CoreDataService+Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+Tokens.swift"; sourceTree = "<group>"; };
 		D4F5DB3A29F175A400772AC5 /* CoreDataService+WalletNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+WalletNetwork.swift"; sourceTree = "<group>"; };
-		D4FA3F6A28182CCB000246D8 /* AppDelegateUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateUseCase.swift; sourceTree = "<group>"; };
-		D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateUseCaseAssembly.swift; sourceTree = "<group>"; };
-		D4FA3F71281A619B000246D8 /* TimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeService.swift; sourceTree = "<group>"; };
 		D4FA3F73281A7374000246D8 /* TimeInterval+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extensions.swift"; sourceTree = "<group>"; };
 		D4FA3F75281E4939000246D8 /* ContactInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfo.swift; sourceTree = "<group>"; };
 		D4FDA496284D05C600322A0F /* StatusBarCallUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCallUseCase.swift; sourceTree = "<group>"; };
@@ -1699,9 +1703,11 @@
 		5A187DD926806F4A001957D3 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				D425C7E428071C4B00E61607 /* App Coordinator */,
 				D46FC16129A3906B00D65C99 /* App Config */,
 				5A187DBE26806EF8001957D3 /* AppDelegate.swift */,
 				5A187DDA26806F62001957D3 /* AppHelpers.swift */,
+				D4C8CF532A45C891007CC925 /* AppDelegateApplicationLifeCycle.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -1709,9 +1715,9 @@
 		5A187DE626807011001957D3 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				5A187DEF26807011001957D3 /* Coordinator.swift */,
+				D4C8CF4D2A4598FC007CC925 /* Pin Code Flow Coordinator */,
 				8BE122BD28242E7000F7707E /* Main Flow Coordinator */,
-				D425C7E428071C4B00E61607 /* App Coordinator */,
-				5AB30F142706564300838AFC /* PinCodeFlowCoordinator.swift */,
 				D4442B49281160E10033D07A /* Auth Coordinator */,
 				D425C7E92807FB8800E61607 /* Push Notification Coordinator */,
 			);
@@ -1727,7 +1733,6 @@
 				5AF8637326ADE236004A417C /* BaseTabBarController.swift */,
 				5AF8637526ADE25F004A417C /* BaseTabBar.swift */,
 				5A187DED26807011001957D3 /* Alertable.swift */,
-				5A187DEF26807011001957D3 /* Coordinator.swift */,
 				D428A53E2823CBA0002CAA13 /* Parser.swift */,
 			);
 			path = Base;
@@ -1907,6 +1912,7 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D4C8CF4E2A45C09A007CC925 /* App Time Service */,
 				D413F0FF29BF3441005B7532 /* Access Service */,
 				8B5F0C98297539DA002AE81E /* LogoutService */,
 				8BC518012970AF150033B30F /* PhraseService */,
@@ -1920,7 +1926,6 @@
 				8BADB3D02847D224004A48AA /* DocumentViewer */,
 				8BE646D0285CAF140090D5E5 /* AudioRecorder */,
 				D428A53B2823C99D002CAA13 /* Feature Toggles Service */,
-				D4FA3F70281A618B000246D8 /* Time Service */,
 				D44BDC90280FECC80080AE8A /* App Services */,
 				D44BDC91280FECC80080AE8A /* UserDefaults Service */,
 				D4442B3F28113BB40033D07A /* Keychain Service */,
@@ -3580,7 +3585,10 @@
 			isa = PBXGroup;
 			children = (
 				5A187DE826807011001957D3 /* AppCoordinator.swift */,
+				D4C8CF512A45C6DA007CC925 /* AppCoordinator+AppLifeCycle.swift */,
 				D425C7E528071C6500E61607 /* AppCoordinatorAssembly.swift */,
+				D4C8CF492A45957E007CC925 /* AppCoordinatorRouter.swift */,
+				D4C8CF4B2A459889007CC925 /* CoordinatorsFactory.swift */,
 			);
 			path = "App Coordinator";
 			sourceTree = "<group>";
@@ -3655,7 +3663,6 @@
 				D4D439E92836084D00AC0DEF /* P2P Call UseCase */,
 				D4AB9006282789F900E6FAB5 /* Matrix UseCase */,
 				8BE122C028253EF500F7707E /* Remote Config UseCase */,
-				D4FA3F6928182C9E000246D8 /* App Delegate UseCase */,
 				D44BDC75280838330080AE8A /* Notifications UseCase */,
 			);
 			path = "Use Cases";
@@ -4125,6 +4132,22 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		D4C8CF4D2A4598FC007CC925 /* Pin Code Flow Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				5AB30F142706564300838AFC /* PinCodeFlowCoordinator.swift */,
+			);
+			path = "Pin Code Flow Coordinator";
+			sourceTree = "<group>";
+		};
+		D4C8CF4E2A45C09A007CC925 /* App Time Service */ = {
+			isa = PBXGroup;
+			children = (
+				D4C8CF4F2A45C0AC007CC925 /* AppTimeService.swift */,
+			);
+			path = "App Time Service";
+			sourceTree = "<group>";
+		};
 		D4D439E92836084D00AC0DEF /* P2P Call UseCase */ = {
 			isa = PBXGroup;
 			children = (
@@ -4221,23 +4244,6 @@
 				D4E979122A1F2FFF00771232 /* PushKitServiceMock.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		D4FA3F6928182C9E000246D8 /* App Delegate UseCase */ = {
-			isa = PBXGroup;
-			children = (
-				D4FA3F6A28182CCB000246D8 /* AppDelegateUseCase.swift */,
-				D4FA3F6C28183586000246D8 /* AppDelegateUseCaseAssembly.swift */,
-			);
-			path = "App Delegate UseCase";
-			sourceTree = "<group>";
-		};
-		D4FA3F70281A618B000246D8 /* Time Service */ = {
-			isa = PBXGroup;
-			children = (
-				D4FA3F71281A619B000246D8 /* TimeService.swift */,
-			);
-			path = "Time Service";
 			sourceTree = "<group>";
 		};
 		D4FDA495284D05AA00322A0F /* Status Bar Call UseCase */ = {
@@ -4613,6 +4619,7 @@
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
 				D44D61D42894CFB1004F5301 /* SocialNetworkType.swift in Sources */,
 				5A187E9E2680708D001957D3 /* ObservableArray.swift in Sources */,
+				D4C8CF502A45C0AC007CC925 /* AppTimeService.swift in Sources */,
 				5AABB7852739821D004D6107 /* ChatHistoryFlow.swift in Sources */,
 				D415082628A5387200C92CEC /* LocationPickerBaidu.swift in Sources */,
 				D49C89C7290A6AF6005B4F64 /* ReactionsGroupViewModel.swift in Sources */,
@@ -4686,7 +4693,6 @@
 				8BEA3D902A26A18B00CC4E2F /* PinCodeAssembly.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
 				D43A7E6428CB25D500A807EC /* StringExtension.swift in Sources */,
-				D4FA3F72281A619B000246D8 /* TimeService.swift in Sources */,
 				D4857D0A28AFAB6600C904EC /* ChatComponentsFactory.swift in Sources */,
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
 				D48AF446292601C10044CFAE /* CoreDataService.swift in Sources */,
@@ -4719,6 +4725,7 @@
 				8B70584229D0DD3D0058B180 /* ChatHistorySearchRow.swift in Sources */,
 				8BA0C91227AD77380070203F /* ReserveCopyConfigurator.swift in Sources */,
 				8BBF908A2935150E00936F4D /* NotificationSettingsConfigurator.swift in Sources */,
+				D4C8CF4A2A45957E007CC925 /* AppCoordinatorRouter.swift in Sources */,
 				D4AB8FFC282672BB00E6FAB5 /* MatrixService+Devices.swift in Sources */,
 				8B0F60D828BD1448002B2235 /* DocumentViewerViewModel.swift in Sources */,
 				8B4DBFFD28F5D764003F58EB /* ImagePickerView.swift in Sources */,
@@ -4878,8 +4885,8 @@
 				D4A26E292937165800FEADC2 /* BalanceRequestParams.swift in Sources */,
 				8B34293829793F2100F63DE1 /* ReservePhraseCopyViewModel.swift in Sources */,
 				5A26CD6126B35C9B00118D4B /* Message.swift in Sources */,
+				D4C8CF4C2A459889007CC925 /* CoordinatorsFactory.swift in Sources */,
 				D4A514B2295187E3007A87BF /* ApproveFacilityCellTitle.swift in Sources */,
-				D4FA3F6D28183586000246D8 /* AppDelegateUseCaseAssembly.swift in Sources */,
 				D4AB8FFE282672F800E6FAB5 /* MatrixService+Rooms.swift in Sources */,
 				8B23C77728E100C400418F2D /* SettingsViewModel.swift in Sources */,
 				D4533A142832C9A600B956B2 /* ChatRoomTogglesFacade.swift in Sources */,
@@ -4929,6 +4936,7 @@
 				8B4E9C4427E1EDD30057E4C9 /* FacilityApproveFlow.swift in Sources */,
 				D4B30A02297923760067EB06 /* CreateChannelView.swift in Sources */,
 				D43A7E6128CB25D500A807EC /* Base32.swift in Sources */,
+				D4C8CF522A45C6DA007CC925 /* AppCoordinator+AppLifeCycle.swift in Sources */,
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
 				8B2AE33B29E5857E00C9AC0E /* ChannelMediaTabs.swift in Sources */,
 				D40D7D7E290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift in Sources */,
@@ -5007,6 +5015,7 @@
 				D4E978D32A17998C00771232 /* AppDelegate.swift in Sources */,
 				5A3C942C274AFFDC00818060 /* KeyboardHandler.swift in Sources */,
 				8BB2F8EC28B6640A0034D902 /* CountryCodeView.swift in Sources */,
+				D4C8CF542A45C891007CC925 /* AppDelegateApplicationLifeCycle.swift in Sources */,
 				D4752EB228C64291006B650A /* GroupCallsViewController.swift in Sources */,
 				8B1E8AC427DF4F9D0036C301 /* ChooseReceiverFlow.swift in Sources */,
 				8B38D13628C0E671002733D7 /* MapResources.swift in Sources */,
@@ -5107,7 +5116,6 @@
 				784ED0F1286ADD64006E6111 /* LocationPickerView.swift in Sources */,
 				5A187F332680CF49001957D3 /* MultipartFileData.swift in Sources */,
 				D48AF484292D227B0044CFAE /* AddressResponse.swift in Sources */,
-				D4FA3F6B28182CCB000246D8 /* AppDelegateUseCase.swift in Sources */,
 				8B2D40EF295D0B1A009D9581 /* GeneratePhraseView.swift in Sources */,
 				8B32FEAE298858650017082A /* ChannelInfoFlow.swift in Sources */,
 				D4AB90002826735000E6FAB5 /* MatrixService+Users.swift in Sources */,
