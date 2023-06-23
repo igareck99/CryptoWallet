@@ -222,14 +222,18 @@ final class TransferViewModel: ObservableObject {
 			walletPublicKey = publicKey
 			walletPrivateKey = privateKey
 //			address_to = "moaCiMa3xBGEVEeHMZZKsDvfSC5GyRyZCZ"
-		} else if currentWalletType == .ethereum,
-				  let publicKey: String = keychainService[.ethereumPublicKey],
-				  let privateKey: String = keychainService[.ethereumPrivateKey] {
-			walletPublicKey = publicKey
-			walletPrivateKey = privateKey
+        } else if (currentWalletType == .ethereum ||
+                   currentWalletType == .ethereumUSDC ||
+                   currentWalletType == .ethereumUSDT),
+                  let publicKey: String = keychainService[.ethereumPublicKey],
+                  let privateKey: String = keychainService[.ethereumPrivateKey] {
+            walletPublicKey = publicKey
+            walletPrivateKey = privateKey
 //			address_to = "0xe8f0349166f87fba444596a6bbbe5de9e9c6ef27"
 //			"0xccb5c140b7870061dc5327134fbea8f3f2e154d9"
-        } else if currentWalletType == .binance,
+        } else if (currentWalletType == .binance ||
+                   currentWalletType == .binanceUSDT ||
+                   currentWalletType == .binanceBUSD),
                   let publicKey: String = keychainService[.binancePublicKey],
                   let privateKey: String = keychainService[.binancePrivateKey] {
             walletPublicKey = publicKey
