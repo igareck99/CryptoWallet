@@ -1,7 +1,6 @@
 import SwiftUI
 
 // MARK: - ProfileSettingsMenuView
-
 struct ProfileSettingsMenuView: View {
 
     // MARK: - Internal Properties
@@ -16,24 +15,24 @@ struct ProfileSettingsMenuView: View {
         VStack(spacing: 0) {
             RoundedRectangle(cornerRadius: 2)
                 .frame(width: 31, height: 4)
-                .foreground(.darkGray(0.4))
+                .foregroundColor(.gainsboro)
                 .padding(.top, 6)
             HStack(spacing: 8) {
                 R.image.buyCellsMenu.aura.image
                     .resizable()
                     .frame(width: 24, height: 24)
                 Text(balance, [
-                    .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
-                    .font(.regular(16)),
-                    .color(.black())
+                    .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left))
                 ])
+                .font(.system(size: 16))
+                .foregroundColor(.chineseBlack)
                 Spacer()
             }
             .padding(.top, 8)
             .padding([.leading, .trailing], 16)
 
             Divider()
-                .foreground(.grayE6EAED())
+                .foregroundColor(.lightGray)
                 .padding(.top, 16)
 
             List {
@@ -41,14 +40,14 @@ struct ProfileSettingsMenuView: View {
                     if type == .questions {
                         Divider()
                             .listRowInsets(.init())
-                            .foreground(.grayE6EAED())
+                            .foregroundColor(.lightGray)
                             .padding([.top, .bottom], 16)
                     }
                     if type == .wallet && !viewModel.isPhraseAvailable {
                         EmptyView()
                     } else {
                         ProfileSettingsMenuRow(title: type.result.title, image: type.result.image, notifications: 0)
-                            .background(.white())
+                            .background(.white)
                             .frame(height: 64)
                             .listRowInsets(.init())
                             .listRowSeparator(.hidden)

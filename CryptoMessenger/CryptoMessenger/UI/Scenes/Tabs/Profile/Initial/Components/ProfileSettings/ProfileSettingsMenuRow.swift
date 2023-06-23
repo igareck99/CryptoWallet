@@ -16,7 +16,7 @@ struct ProfileSettingsMenuRow: View {
         HStack(spacing: 0) {
             ZStack {
                 Circle()
-                    .fill(Color(.blue(0.1)))
+                    .fill(Color.dodgerTransBlue)
                     .frame(width: 40, height: 40)
                 image
                     .frame(width: 20, height: 20)
@@ -32,11 +32,11 @@ struct ProfileSettingsMenuRow: View {
                 ZStack {
                     Image(uiImage: UIImage())
                         .frame(width: 20, height: 20)
-                        .background(.lightRed())
+                        .background(Color.spanishCrimson)
                         .clipShape(Circle())
                     Text(notifications.description)
                         .font(.regular(15))
-                        .foreground(.white())
+                        .foregroundColor(.white)
                 }
             }
 
