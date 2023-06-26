@@ -19,7 +19,7 @@ struct PrivacyCellView: View {
                 if !item.result.state.isEmpty {
                     Text(item.result.state)
                         .font(.regular(12))
-                        .foreground(.darkGray())
+                        .foregroundColor(.chineseBlack)
                         .lineLimit(2)
                 }
             }
