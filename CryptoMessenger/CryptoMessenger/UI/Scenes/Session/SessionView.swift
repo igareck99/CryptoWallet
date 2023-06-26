@@ -23,7 +23,7 @@ struct SessionView: View {
                         .lineLimit(1)
                     Text(session.place + " • " + session.date)
                         .font(.regular(12))
-                        .foreground(.darkGray())
+                        .foregroundColor(.chineseBlack)
                         .lineLimit(1)
                         .offset(y: 2)
                     Spacer()
@@ -54,13 +54,13 @@ struct SessionListView: View {
                 .lineLimit(nil)
                 .multilineTextAlignment(.leading)
                 .font(.regular(13))
-                .foreground(.darkGray())
+                .foregroundColor(.chineseBlack)
                 .padding(.horizontal, 16)
             List {
                 ForEach(viewModel.sessionsList) { session in
                     SessionView(session: session)
                         .listRowSeparator(.hidden)
-                        .background(.white())
+                        .background(.white)
                         .onTapGesture {
                             viewModel.selectedSession = session
                             isSelected = true
@@ -75,9 +75,9 @@ struct SessionListView: View {
             }, label: {
                 Text(R.string.localizable.sessionFinishAll())
                     .font(.bold(15))
-                    .foreground(.white())
+                    .foregroundColor(.white)
             }).frame(width: 225, height: 44, alignment: .center)
-                .background(.blue())
+                .background(Color.dodgerBlue)
                 .cornerRadius(8)
         }
         .popup(isPresented: $isSelected,
@@ -85,7 +85,7 @@ struct SessionListView: View {
                position: .bottom,
                closeOnTap: false,
                closeOnTapOutside: true,
-               backgroundColor: Color(.black(0.3))) {
+               backgroundColor: .chineseBlack04) {
             SessionDetailView(viewModel: viewModel,
                               showModal: $isSelected)
                 .frame(width: UIScreen.main.bounds.width, height: 375, alignment: .center)

@@ -14,10 +14,10 @@ struct SessionInfoView: View {
         VStack(alignment: .leading) {
             Text(sessionInfoItem.title)
                 .font(.regular(12))
-                .foreground(.darkGray())
+                .foregroundColor(.romanSilver)
             Text(sessionInfoItem.info)
                 .font(.bold(15))
-                .foreground(.darkBlack())
+                .foregroundColor(.chineseBlack)
             Spacer()
         }
     }
@@ -80,15 +80,15 @@ struct SessionDetailView: View {
                     }, label: {
                         Text(R.string.localizable.sessionFinishOne())
                             .font(.bold(15))
-                            .foreground(.white())
+                            .foregroundColor(.white)
                     }).frame(width: 225, height: 44)
-                        .background(.blue())
+                        .background(Color.dodgerBlue)
                         .cornerRadius(8)
                         .padding(.leading, (geometry.size.width - 225) / 2)
                     Spacer()
                 }
             }.padding(.top, 31)
-        }.background(.white())
+        }.background(.white)
         }
     }
 }
