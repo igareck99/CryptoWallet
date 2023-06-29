@@ -108,9 +108,11 @@ struct ChatRoomView: View {
             })
             .onChange(of: showActionSheet, perform: { item in
                 if item {
-                    hideNavBar()
+                    // Оставил для информации по логике отображения нав бара
+//                    hideNavBar()
                 } else {
-                    showNavBar()
+                    // Оставил для информации по логике отображения нав бара
+//                    showNavBar()
                 }
             })
             .onReceive(viewModel.$showPhotoLibrary) { flag in

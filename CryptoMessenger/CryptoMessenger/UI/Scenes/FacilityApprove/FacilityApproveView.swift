@@ -18,7 +18,8 @@ struct FacilityApproveView: View {
         }
         .onChange(of: showSuccessFacility, perform: { newValue in
             if !newValue {
-                showNavBar()
+                // Оставил для информации по логике отображения нав бара
+//                showNavBar()
             }
         })
         .popup(

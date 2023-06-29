@@ -23,7 +23,8 @@ struct ChannelMediaView: View {
     var body: some View {
         content
             .onAppear {
-                showNavBar()
+                // Оставил для информации по логике отображения нав бара
+//                showNavBar()
             }
             .onChange(of: viewModel.selectedFile, perform: { newValue in
                 guard let url = newValue.url else { return }

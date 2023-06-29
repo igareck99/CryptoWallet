@@ -4,8 +4,10 @@ import SwiftUI
 // MARK: - WalletAssembly
 
 enum WalletAssembly {
-    static func build(_ delegate: WalletSceneDelegate,
-                      onTransactionEndHelper: @escaping ( @escaping (TransactionResult) -> Void) -> Void) -> some View {
+    static func build(
+        _ delegate: WalletSceneDelegate,
+        onTransactionEndHelper: @escaping ( @escaping (TransactionResult) -> Void) -> Void
+    ) -> some View {
         let userCredentialsStorage = UserDefaultsService.shared
         let viewModel = WalletViewModel(
             userCredentialsStorage: userCredentialsStorage,

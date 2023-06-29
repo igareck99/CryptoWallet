@@ -24,35 +24,31 @@ protocol ChatHistoryRouterable {
                       coordinator: ChatHistoryFlowCoordinatorProtocol)
 
     func friendProfile(_ contact: Contact)
-    
+
     func adminsView( _ chatData: Binding<ChatData>,
                      _ coordinator: ChatHistoryFlowCoordinatorProtocol)
 }
 
 // MARK: - ChatHistoryRouter
 
-struct ChatHistoryRouter<Content: View>: View {
+struct ChatHistoryRouter<Content: View, State: ChatHistoryFlowStateProtocol>: View {
 
     // MARK: - Internal Properties
 
-    @ObservedObject var state = ChatHistoryFlowState()
+    @StateObject var state: State
 
     let content: () -> Content
-
-    init(
-        content: @escaping () -> Content
-    ) {
-        self.content = content
-    }
 
     var body: some View {
         NavigationStack(path: $state.path) {
             ZStack {
                 content()
+                    .sheet(item: $state.presentedItem, content: sheetContent)
             }
-            .navigationDestination(for: ChatHistoryContentLink.self,
-                                   destination: linkDestination)
-            .sheet(item: $state.presentedItem, content: sheetContent)
+            .navigationDestination(
+                for: ChatHistoryContentLink.self,
+                destination: linkDestination
+            )
         }
     }
 
@@ -99,8 +95,12 @@ struct ChatHistoryRouter<Content: View>: View {
 
 extension ChatHistoryRouter: ChatHistoryRouterable {
     func routeToFirstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol) {
-        state.path.append(ChatHistoryContentLink.chatRoom(room: room,
-                                                          coordinator: coordinator))
+        state.path.append(
+            ChatHistoryContentLink.chatRoom(
+                room: room,
+                coordinator: coordinator
+            )
+        )
     }
 
     func routeToCreateChat(_ chatData: Binding<ChatData>) {

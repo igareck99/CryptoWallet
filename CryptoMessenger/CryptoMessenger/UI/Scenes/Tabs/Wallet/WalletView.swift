@@ -45,7 +45,7 @@ struct WalletView: View {
                 viewModel.send(.onAppear)
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarHidden(navBarHide)
+            .navigationBarHidden(false)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(R.string.localizable.tabWallet())

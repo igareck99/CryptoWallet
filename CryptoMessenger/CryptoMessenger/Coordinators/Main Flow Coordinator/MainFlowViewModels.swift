@@ -25,8 +25,8 @@ struct WalletFlowViewModel: ViewGeneratable {
 struct ProfileFlowViewModel: ViewGeneratable {
     let id = UUID()
     var delegate: ProfileSceneDelegate
-    
+
     func view() -> AnyView {
-        return ProfileAssembly.configuredView(delegate).anyView()
+        return ProfileAssembly.build(delegate).anyView()
     }
 }

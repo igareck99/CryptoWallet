@@ -141,9 +141,9 @@ extension AppCoordinator: AppCoordinatorProtocol {
 	}
 }
 
-// MARK: - AppCoordinator (AuthFlowCoordinatorDelegate)
+// MARK: - AuthFlowCoordinatorDelegate
 
-extension AppCoordinator: AuthFlowCoordinatorDelegate {
+extension AppCoordinator: AuthCoordinatorDelegate {
     func userPerformedAuthentication(coordinator: Coordinator) {
         removeChildCoordinator(coordinator)
         if userSettings.isLocalAuth {

@@ -22,7 +22,7 @@ enum ChatHistoryContentLink: Hashable, Identifiable {
     }
 
     static func == (lhs: ChatHistoryContentLink, rhs: ChatHistoryContentLink) -> Bool {
-        return rhs.id > lhs.id
+        return rhs.id == lhs.id
     }
 
     func hash(into hasher: inout Hasher) {
@@ -32,11 +32,19 @@ enum ChatHistoryContentLink: Hashable, Identifiable {
 
 // MARK: - ChatHistorySheetLink
 
-enum ChatHistorySheetLink: Identifiable {
+enum ChatHistorySheetLink: Hashable, Identifiable {
 
+    case createChat(chatData: Binding<ChatData>)
+    
     var id: String {
         String(describing: self)
     }
-
-    case createChat(chatData: Binding<ChatData>)
+    
+    static func == (lhs: ChatHistorySheetLink, rhs: ChatHistorySheetLink) -> Bool {
+        return rhs.id == lhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
