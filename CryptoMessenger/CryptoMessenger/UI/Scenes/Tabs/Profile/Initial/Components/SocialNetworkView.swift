@@ -46,7 +46,7 @@ struct SocialNetworkView: View {
                                height: 19.3)
                 }
             }).frame(width: 32, height: 32, alignment: .center)
-                .background(.blue())
+                .background(Color.aliceBlue)
                 .cornerRadius(16)
         }
     }
