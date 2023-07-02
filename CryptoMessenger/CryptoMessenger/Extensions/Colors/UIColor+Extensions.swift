@@ -38,6 +38,8 @@ extension UIColor {
     static let dodgerTransBlue = UIColor(red: 14.0 / 255.0, green: 142.0 / 255.0, blue: 243.0 / 255.0, alpha: 0.1)
     //#FFFFFF
     static let white = UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
+    //#FFFFFF
+    static let transWhite = UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 0.6)
     //#27AE60
     static let greenCrayola = UIColor(red: 39.0 / 255.0, green: 174.0 / 255.0, blue: 96.0 / 255.0, alpha: 1.0)
     //#E81E4E

@@ -148,14 +148,14 @@ struct WalletView: View {
                    position: .bottom,
                    closeOnTap: false,
                    closeOnTapOutside: true,
-                   backgroundColor: Color(.black(0.3)),
+                   backgroundColor: .chineseBlack04,
                    view: {
                 AddWalletView(viewModel: viewModel,
                               showAddWallet: $showAddWallet)
                 .frame(width: UIScreen.main.bounds.width,
                        height: 114,
                        alignment: .center)
-                .background(.white())
+                .background(.white)
                 .cornerRadius(16)
             })
             .sheet(isPresented: $displayTransactionResult) {
@@ -199,13 +199,13 @@ struct WalletView: View {
 
             Text(R.string.localizable.walletNoData())
                 .font(.system(size: 22))
-                .foregroundColor(.tundoraApprox)
+                .foregroundColor(.chineseBlack)
                 .frame(alignment: .center)
                 .padding(.bottom, 6)
 
             Text(R.string.localizable.walletAddWalletLong())
                 .font(.system(size: 15))
-                .foregroundColor(.nobelApprox)
+                .foregroundColor(.romanSilver)
                 .frame(alignment: .center)
                 .multilineTextAlignment(.center)
                 .padding(.bottom, 70)
@@ -219,7 +219,7 @@ struct WalletView: View {
                     .padding([.leading, .trailing], 40)
                     .padding([.bottom, .top], 13)
             }
-            .background(Color.azureRadianceApprox)
+            .background(Color.dodgerBlue)
             .cornerRadius(8)
             .frame(width: 237, height: 48)
         }
@@ -242,19 +242,19 @@ struct WalletView: View {
             height: UIScreen.main.bounds.height - 60,
             alignment: .center
         )
-        .background(.white())
+        .background(.white)
     }
 
     private var cardsProgressView: some View {
         ZStack(alignment: .leading) {
             Rectangle()
                 .frame(height: 2)
-                .foreground(.grayE6EAED())
+                .foregroundColor(.brightGray)
                 .padding(.horizontal, 16)
 
             Rectangle()
                 .frame(width: 111, height: 4)
-                .foreground(.blue())
+                .foregroundColor(.dodgerBlue)
                 .cornerRadius(2)
                 .padding(.leading, offset)
         }
@@ -265,7 +265,7 @@ struct WalletView: View {
             ZStack {
                 Circle()
                     .frame(width: 60, height: 60)
-                    .foreground(.lightBlue(0.1))
+                    .foregroundColor(.dodgerTransBlue)
                 R.image.wallet.wallet.image
             }
             VStack(alignment: .leading, spacing: 8) {
@@ -273,7 +273,7 @@ struct WalletView: View {
                     .font(.regular(22))
                 Text(R.string.localizable.tabOverallBalance())
                     .font(.regular(13))
-                    .foreground(.darkGray())
+                    .foregroundColor(.brightGray)
             }
         }
     }
@@ -354,12 +354,12 @@ struct WalletView: View {
                 .padding(.bottom, 4)
             Text(R.string.localizable.walletNoData())
                 .font(.system(size: 22))
-                .foregroundColor(.woodSmokeApprox)
+                .foregroundColor(.chineseBlack)
                 .padding(.bottom, 4)
             Text(R.string.localizable.walletManagerMakeYourFirstTransaction())
                 .multilineTextAlignment(.center)
                 .font(.system(size: 15))
-                .foregroundColor(.regentGrayApprox)
+                .foregroundColor(.romanSilver)
 
             Spacer()
                 .frame(height: 60)

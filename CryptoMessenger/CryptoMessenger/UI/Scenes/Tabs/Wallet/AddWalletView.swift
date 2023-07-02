@@ -15,20 +15,20 @@ struct AddWalletView: View {
         VStack(spacing: 18) {
             RoundedRectangle(cornerRadius: 2)
                 .frame(width: 31, height: 4)
-                .foreground(.darkGray(0.4))
+                .foregroundColor(.chineseBlack04)
                 .padding(.top, 6)
             HStack {
                 ZStack {
                     Circle()
                         .frame(width: 40, height: 40)
-                        .foreground(.blue(0.1))
+                        .foregroundColor(.dodgerTrans)
                     R.image.transaction.bluePlus.image
                 }
                 Text(R.string.localizable.transactionAddWallet(), [
-                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left)),
-                    .font(.regular(17)),
-                    .color(.blue())
+                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left))
                 ])
+                .font(.system(size: 17, weight: .regular))
+                .foregroundColor(.dodgerBlue)
                 Spacer()
             }
             .padding(.leading, 16)
