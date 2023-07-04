@@ -32,7 +32,7 @@ struct ImportKeyView: View {
             ) {
                 Snackbar(
                     text: "Ключ импортирован",
-                    color: .green
+                    color: .greenCrayola
                 )
             }
             .popup(isPresented: $isChooseWalletShow,
@@ -40,7 +40,7 @@ struct ImportKeyView: View {
                    position: .bottom,
                    closeOnTap: false,
                    closeOnTapOutside: true,
-                   backgroundColor: Color(.black(0.3))) {
+                   backgroundColor: .chineseBlack04) {
                 ChooseWalletTypeView(
                     chooseWalletShow: $isChooseWalletShow,
                     choosedWalletType: $choosedWalletType,
@@ -48,7 +48,7 @@ struct ImportKeyView: View {
                     wallletTypes: viewModel.walletTypes
                 )
                 .frame(width: UIScreen.main.bounds.width, height: 242, alignment: .center)
-                .background(.white())
+                .background(.white)
                 .cornerRadius(16)
             }
                    .alert(isPresented: $showMnemonicSuccess) { () -> Alert in
@@ -80,8 +80,8 @@ struct ImportKeyView: View {
                 TextEditor(text: $viewModel.newKey)
                     .focused($inputViewIsFocused)
                     .padding(.leading, 16)
-                    .background(.paleBlue())
-                    .foreground(.black())
+                    .background(Color.aliceBlue)
+                    .foregroundColor(.chineseBlack)
                     .font(.system(size: 17))
                     .frame(height: 160)
                     .frame(maxWidth: .infinity)
@@ -90,7 +90,7 @@ struct ImportKeyView: View {
                     .scrollContentBackground(.hidden)
                 if viewModel.newKey.isEmpty {
                     Text(R.string.localizable.importEnterPrivateKey())
-                        .foreground(.darkGray())
+                        .foregroundColor(.romanSilver)
                         .font(.system(size: 17))
                         .padding(.leading, 20)
                         .padding(.top, 12)
@@ -101,7 +101,7 @@ struct ImportKeyView: View {
             .padding(.horizontal, 16)
             .overlay {
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.red, lineWidth: 1)
+                    .stroke(Color.spanishCrimson, lineWidth: 1)
                     .opacity(viewModel.isErrorState ? 1 : 0)
                     .padding(.horizontal, 16)
             }
@@ -109,7 +109,7 @@ struct ImportKeyView: View {
 
             HStack {
                 Text(R.string.localizable.generatePhraseErrorKey())
-                    .foreground(.red())
+                    .foregroundColor(.spanishCrimson)
                     .font(.system(size: 12, weight: .light))
                     .opacity(viewModel.isErrorState ? 1 : 0)
                     .padding(.top, 4)
@@ -119,7 +119,7 @@ struct ImportKeyView: View {
 
             Text(R.string.localizable.importHowImportKey())
                 .font(.system(size: 15))
-                .foreground(.blue())
+                .foregroundColor(.dodgerBlue)
                 .padding(.top, 8)
 
             importButton
@@ -135,7 +135,7 @@ struct ImportKeyView: View {
             ZStack {
                 Circle()
                     .frame(width: 40, height: 40)
-                    .foreground(.blue(0.1))
+                    .foregroundColor(.dodgerTransBlue)
                 R.image.wallet.wallet.image
             }
                 Text(isSelectedWalletType ? choosedWalletType.currency :
@@ -169,7 +169,7 @@ struct ImportKeyView: View {
             case false:
                 Text(R.string.localizable.importImport())
                     .font(.system(size: 17, weight: .semibold))
-                    .foregroundColor(viewModel.isPhraseValid ? .white : .bombayApprox)
+                    .foregroundColor(viewModel.isPhraseValid ? .white : .ashGray)
                     .padding()
             case true:
                 ProgressView()
@@ -185,8 +185,8 @@ struct ImportKeyView: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(
                     viewModel.isPhraseValid ?
-                    Color.azureRadianceApprox :
-                        Color.blackHazeApprox
+                    Color.dodgerBlue :
+                        Color.ghostWhite
                 )
                 .frame(height: 48)
                 .frame(maxWidth: .infinity)
