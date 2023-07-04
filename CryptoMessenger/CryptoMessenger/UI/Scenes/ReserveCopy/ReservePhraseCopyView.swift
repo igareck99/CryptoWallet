@@ -26,7 +26,7 @@ struct ReserveCopyPhraseView: View {
                 alignment: .bottom
             ) { Snackbar(
                 text: viewModel.sources.generatePhraseCopied,
-                color: .green
+                color: .greenCrayola
             )
             }
     }
@@ -39,7 +39,7 @@ struct ReserveCopyPhraseView: View {
             Text(viewModel.sources.generatePhraseGeneratedDescription)
                 .font(.regular(15))
                 .lineLimit(2)
-                .foreground(.darkGray())
+                .foregroundColor(.romanSilver)
                 .multilineTextAlignment(.center)
                 .frame(width: 295)
                 .padding(.top, 12)
@@ -56,11 +56,11 @@ struct ReserveCopyPhraseView: View {
             viewModel.onPhraseCopy()
         } label: {
             Text(viewModel.sources.generatePhraseCopyPhrase)
-                .foreground(.white())
+                .foregroundColor(.white)
                 .font(.bold(17))
         }
         .frame(width: 237, height: 48)
-        .background(Color.azureRadianceApprox)
+        .background(Color.dodgerBlue)
         .cornerRadius(10)
     }
 
@@ -68,8 +68,8 @@ struct ReserveCopyPhraseView: View {
         ZStack(alignment: .topLeading) {
         TextEditor(text: $viewModel.generatedKey)
             .padding(.leading, 16)
-            .background(.paleBlue())
-            .foreground(.black())
+            .background(Color.aliceBlue)
+            .foregroundColor(.chineseBlack)
             .font(.regular(15))
             .frame(width: UIScreen.main.bounds.width - 32,
                    height: 160)
