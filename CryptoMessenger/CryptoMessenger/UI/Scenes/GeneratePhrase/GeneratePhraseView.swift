@@ -46,7 +46,7 @@ struct GeneratePhraseView: View {
         ) {
             Snackbar(
                 text: viewModel.sources.generatePhraseCopied,
-                color: .green
+                color: .greenCrayola
             )
         }
     }
@@ -60,7 +60,7 @@ struct GeneratePhraseView: View {
            
             Text(viewModel.sources.generatePhraseDescription)
                 .font(.regular(15))
-                .foreground(.darkGray())
+                .foregroundColor(.romanSilver)
                 .lineLimit(4)
                 .multilineTextAlignment(.center)
                 .frame(minHeight: 60)
@@ -74,13 +74,13 @@ struct GeneratePhraseView: View {
                     .frame(maxWidth: .infinity)
                     .font(.system(size: 15))
                     .padding(.horizontal, 16)
-                    .foregroundColor(.azureRadianceApprox)
+                    .foregroundColor(.dodgerBlue)
             }
             .padding(.vertical, 48)
            
             viewModel.sources.puzzle
                 .padding(.top, 32)
-                .foreground(.blue())
+                .foregroundColor(.dodgerBlue)
                 .frame(alignment: .center)
                 .scaledToFill()
                 .padding(.horizontal, 2)
@@ -104,7 +104,7 @@ struct GeneratePhraseView: View {
             
             Text(viewModel.sources.generatePhraseWarningDescription)
                 .font(.system(size: 15))
-                .foreground(.darkGray())
+                .foregroundColor(.romanSilver)
                 .multilineTextAlignment(.center)
                 .frame(width: 295)
                 .padding(.top, 12)
@@ -135,7 +135,7 @@ struct GeneratePhraseView: View {
                 .frame(width: 237)
                 .font(.system(size: 17, weight: .semibold))
                 .padding()
-                .foregroundColor(.azureRadianceApprox)
+                .foregroundColor(.dodgerBlue)
         }
     }
 
@@ -160,12 +160,12 @@ struct GeneratePhraseView: View {
                 .padding()
             case true:
                 ProgressView()
-                    .tint(Color(.white()))
+                    .tint(.white)
                     .frame(width: 12, height: 12)
             }
         }
         .frame(width: 237, height: 48)
-        .background(Color.azureRadianceApprox)
+        .background(Color.dodgerBlue)
         .cornerRadius(8)
     }
 
@@ -183,7 +183,7 @@ struct GeneratePhraseView: View {
             Text(viewModel.sources.generatePhraseGeneratedDescription)
                 .font(.system(size: 15))
                 .lineLimit(2)
-                .foreground(.darkGray())
+                .foregroundColor(.romanSilver)
                 .multilineTextAlignment(.center)
                 .frame(width: 295)
                 .padding(.top, 16)
@@ -204,11 +204,11 @@ struct GeneratePhraseView: View {
             .padding(.leading, 16)
             .background(
                 Color
-                    .polarApprox
+                    .aliceBlue
                     .cornerRadius(8)
                     .frame(minHeight: 160)
             )
-            .foreground(.black())
+            .foregroundColor(.chineseBlack)
             .font(.system(size: 17))
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 16)
