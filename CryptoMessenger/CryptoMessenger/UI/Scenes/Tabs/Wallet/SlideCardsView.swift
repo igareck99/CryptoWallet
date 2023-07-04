@@ -38,7 +38,7 @@ struct WalletCardView: View {
                         .foregroundColor(.white)
                     Text(String(wallet.result.fiatAmount) + " USD")
                         .font(.system(size: 15))
-                        .foregroundColor(.white06)
+                        .foregroundColor(.transWhite)
                 }
                 Spacer()
             }

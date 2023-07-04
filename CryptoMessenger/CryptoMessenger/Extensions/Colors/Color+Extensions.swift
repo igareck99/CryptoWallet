@@ -21,6 +21,7 @@ extension Color {
     static let dodgerBlue = Color(uiColor: .dodgerBlue)
     static let dodgerTransBlue = Color(uiColor: .dodgerTransBlue)
     static let white = Color(uiColor: .white )
+    static let transWhite = Color(uiColor: .transWhite )
     static let greenCrayola = Color(uiColor: .greenCrayola)
     static let spanishCrimson = Color(uiColor: .spanishCrimson)
     static let royalOrange = Color(uiColor: .royalOrange)
