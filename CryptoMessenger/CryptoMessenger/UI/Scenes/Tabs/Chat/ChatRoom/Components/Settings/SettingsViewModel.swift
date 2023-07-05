@@ -9,7 +9,7 @@ final class SettingsViewModel: ObservableObject {
     // MARK: - Internal Properties
     
     var room: AuraRoom
-    weak var delegate: SettingsSceneDelegate?
+    var coordinator: ChatHistoryFlowCoordinatorProtocol?
     @Published var topActions: [SettingsAction] = [.media, .notifications, .admins]
     @Published var bottomActions: [SettingsAction] = [.share, .exit, .complain]
     @Published var isLeaveRoom = false
@@ -53,13 +53,18 @@ final class SettingsViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     self?.objectWillChange.send()
-                case let .onFriendProfile(userId: userId):
-                    self?.delegate?.handleNextScene(.friendProfile(userId))
+                case let .onFriendProfile(contact):
+                    self?.coordinator?.friendProfile(contact)
                 case .onMedia:
                     guard let auraRoom = self?.room else { return }
-                    self?.delegate?.handleNextScene(.channelMedia(auraRoom))
+                    self?.coordinator?.chatMedia(auraRoom)
                 case .onLeave:
                     self?.leaveRoom()
+                case let .onAdmin(chatData):
+                    if let coordinator = self?.coordinator {
+                        self?.coordinator?.adminsView(chatData,
+                                                      coordinator)
+                    }
                 }
             }
             .store(in: &subscriptions)

@@ -6,9 +6,10 @@ import UIKit
 enum ChannelInfoAssembly {
 
     // MARK: - Static Properties
-  
+
     static func build(
         roomId: String,
+        coordinator: ChatHistoryFlowCoordinatorProtocol,
         isLeaveChannel: Binding<Bool>,
         chatData: Binding<ChatData>,
         saveData: Binding<Bool>
@@ -18,33 +19,12 @@ enum ChannelInfoAssembly {
             chatData: chatData,
             saveData: saveData
         )
+        viewModel.coordinator = coordinator
         let view = ChannelInfoView(
             viewModel: viewModel,
             isLeaveChannel: isLeaveChannel,
             resources: ChannelInfoResources.self
         )
         return view
-    }
-
-    static func make(
-        roomId: String,
-        isLeaveChannel: Binding<Bool>,
-        delegate: ChannelInfoSceneDelegate?,
-        chatData: Binding<ChatData>,
-        saveData: Binding<Bool>
-    ) -> UIViewController {
-        let viewModel = ChannelInfoViewModel(
-            roomId: roomId,
-            chatData: chatData,
-            saveData: saveData
-        )
-        viewModel.delegate = delegate
-        let view = ChannelInfoView(
-            viewModel: viewModel,
-            isLeaveChannel: isLeaveChannel,
-            resources: ChannelInfoResources.self
-        )
-        let controller = BaseHostingController(rootView: view)
-        return controller
     }
 }

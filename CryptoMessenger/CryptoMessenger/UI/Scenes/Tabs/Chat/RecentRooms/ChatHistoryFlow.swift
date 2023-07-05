@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 // MARK: - ChatHistoryFlow
 
@@ -24,6 +24,7 @@ enum ChatHistoryFlow {
 
         case onAppear
         case onShowRoom(AuraRoom)
+        case onCreateChat(Binding<ChatData>)
         case onDeleteRoom(String)
     }
 }

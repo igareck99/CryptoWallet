@@ -26,7 +26,6 @@ struct ChatRoomView: View {
     @State var photosToSend: [UIImage] = []
     @State var playingAudioId = ""
     @State var sendPhotos = false
-    @StateObject var attachActionViewModel = AttachActionViewModel()
     @State var showAudioView = false
     @State var record: RecordingDataModel?
     @State var blockDragPadding: CGFloat = 0

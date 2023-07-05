@@ -8,8 +8,6 @@ struct ChatCreateView: View {
 
     @Binding var chatData: ChatData
     @StateObject var viewModel: ChatCreateViewModel
-    @State var showContactCreate = false
-    @State var showChannelCreate = false
     @State private var showSearchBar = false
 
     // MARK: - Private Properties
@@ -39,29 +37,6 @@ struct ChatCreateView: View {
                 .onAppear {
                     viewModel.send(.onAppear)
                 }
-                .overlay(
-                    EmptyNavigationLink(
-                        destination: SelectContactView(viewModel: SelectContactViewModel(mode: .groupCreate),
-                                                       chatData: $chatData,
-                                                       groupCreated: $groupCreated),
-                        isActive: $showContacts
-                    )
-                )
-                .overlay(
-                    EmptyNavigationLink(
-                        destination: CreateContactView(viewModel: CreateContactViewModel(),
-                                                       showContactCreate: $showContactCreate),
-                        isActive: $showContactCreate
-                    )
-                )
-                .overlay(
-                    EmptyNavigationLink(
-                        destination: CreateChannelAssemby.make {
-                            presentationMode.wrappedValue.dismiss()
-                        },
-                        isActive: $showChannelCreate
-                    )
-                )
         }
     }
 
@@ -112,13 +87,14 @@ struct ChatCreateView: View {
                                         vibrate()
                                         switch action {
                                         case .groupChat:
-                                            showContacts.toggle()
+                                            guard let c = viewModel.coordinator else { return }
+                                            viewModel.coordinator?.selectContact($chatData, c)
                                         case .newContact:
-                                            showContactCreate.toggle()
+                                            viewModel.coordinator?.createContact()
                                         case .createChannel:
-                                            showChannelCreate.toggle()
-                                        default:
-                                            break
+                                            if let coordinator = viewModel.coordinator {
+                                                viewModel.coordinator?.createChannel(coordinator)
+                                            }
                                         }
                                     }
                             }

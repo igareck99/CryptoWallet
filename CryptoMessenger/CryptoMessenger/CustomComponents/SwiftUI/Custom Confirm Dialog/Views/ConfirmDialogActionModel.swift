@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - ConfirmDialogActionModel(ViewGeneratable)
+
 struct ConfirmDialogActionModel: ViewGeneratable {
 
 	let id = UUID()

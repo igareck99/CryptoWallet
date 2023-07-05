@@ -1,23 +1,23 @@
-import Foundation
+import SwiftUI
 
-// MARK: - ChatRoomConfigurator
+// MARK: - ChatRoomAssembly
 
-enum ChatRoomConfigurator {
+enum ChatRoomAssembly {
 
     // MARK: - Static Methods
 
-    static func configuredView(
+    static func build(
 		room: AuraRoom,
-		delegate: ChatRoomSceneDelegate?,
-		toggleFacade: MainFlowTogglesFacadeProtocol
-	) -> ChatRoomView {
+		coordinator: ChatHistoryFlowCoordinatorProtocol?
+	) -> some View {
 		let groupCallsUseCase = GroupCallsUseCase(room: room.room)
+        let facade = MainFlowTogglesFacade()
 		let viewModel = ChatRoomViewModel(
 			room: room,
-			toggleFacade: toggleFacade,
+			toggleFacade: facade,
 			groupCallsUseCase: groupCallsUseCase
 		)
-        viewModel.delegate = delegate
+        viewModel.coordinator = coordinator
         return ChatRoomView(viewModel: viewModel)
     }
 }

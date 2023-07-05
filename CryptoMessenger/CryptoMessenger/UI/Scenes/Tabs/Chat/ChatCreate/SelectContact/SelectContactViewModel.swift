@@ -1,5 +1,6 @@
 import Combine
 import MatrixSDK
+import SwiftUI
 
 // MARK: - SelectContactViewModel
 
@@ -13,6 +14,7 @@ final class SelectContactViewModel: ObservableObject {
     @Published private(set) var existingContacts: [Contact] = []
     @Published private(set) var waitingContacts: [Contact] = []
     let mode: ContactViewMode
+    var coordinator: ChatCreateFlowCoordinatorProtocol?
     private let config: ConfigType
 
     // MARK: - Private Properties
@@ -46,6 +48,12 @@ final class SelectContactViewModel: ObservableObject {
 
     func send(_ event: SelectContactFlow.Event) {
         eventSubject.send(event)
+    }
+    
+    func createGroupChat(_ chatData: Binding<ChatData>) {
+        if let coordinator = coordinator {
+            coordinator.createGroupChat(chatData, coordinator)
+        }
     }
 
     // MARK: - Private Methods

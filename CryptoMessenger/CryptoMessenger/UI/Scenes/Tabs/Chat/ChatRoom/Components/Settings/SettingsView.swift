@@ -93,12 +93,6 @@ struct SettingsView: View {
                     isActive: $showContacts
                 )
             )
-            .overlay(
-                EmptyNavigationLink(
-                    destination: AdminsView(chatData: $chatData),
-                    isActive: $showAdmins
-                )
-            )
             .sheet(isPresented: $showNotificationsView, content: {
                 NavigationView {
                     ChannelNotificaionsView(viewModel: ChannelNotificationsViewModel(roomId: viewModel.room.room.roomId))
@@ -300,12 +294,11 @@ struct SettingsView: View {
                     case .notifications:
                         showNotificationsView.toggle()
                     case .media:
-                        guard !chatData.media.isEmpty else { return }
                         vibrate()
                         viewModel.send(.onMedia)
                     case .admins:
                         vibrate()
-                        showAdmins.toggle()
+                        viewModel.send(.onAdmin($chatData))
                     default:
                         ()
                     }
@@ -356,7 +349,7 @@ struct SettingsView: View {
                     isAdmin: contact.isAdmin
                 )
                 .onTapGesture {
-                    viewModel.send(.onFriendProfile(userId: contact))
+                    viewModel.send(.onFriendProfile(contact: contact))
                 }
                     .background(.white())
                     .swipeActions(edge: .trailing) {

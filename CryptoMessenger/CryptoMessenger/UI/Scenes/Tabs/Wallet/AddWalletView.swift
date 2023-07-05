@@ -21,7 +21,7 @@ struct AddWalletView: View {
                 ZStack {
                     Circle()
                         .frame(width: 40, height: 40)
-                        .foregroundColor(.dodgerTrans)
+                        .foregroundColor(.dodgerTransBlue)
                     R.image.transaction.bluePlus.image
                 }
                 Text(R.string.localizable.transactionAddWallet(), [

@@ -24,8 +24,9 @@ enum SettingsFlow {
         // MARK: - Types
 
         case onAppear
-        case onFriendProfile(userId: Contact)
+        case onFriendProfile(contact: Contact)
         case onMedia
         case onLeave
+        case onAdmin(Binding<ChatData>)
     }
 }

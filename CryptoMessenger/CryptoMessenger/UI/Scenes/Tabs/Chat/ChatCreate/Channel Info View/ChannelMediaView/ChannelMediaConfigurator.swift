@@ -1,17 +1,15 @@
-import Foundation
+import SwiftUI
 
 // MARK: - ChannelMediaConfigurator
 
-enum ChannelMediaConfigurator {
+enum ChannelMediaAssembly {
 
     // MARK: - Static Methods
 
-    static func configuredView(
-        room: AuraRoom,
-        delegate: ChannelMediaSceneDelegate
-    ) -> ChannelMediaView {
+    static func build(
+        room: AuraRoom
+    ) -> some View {
         let viewModel = ChannelMediaViewModel(room: room)
-        viewModel.delegate = delegate
         return ChannelMediaView(viewModel: viewModel)
     }
 }

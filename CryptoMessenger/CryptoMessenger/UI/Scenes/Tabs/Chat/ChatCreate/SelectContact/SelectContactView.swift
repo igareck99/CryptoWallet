@@ -10,10 +10,8 @@ struct SelectContactView: View {
 
     @State private var pickedContacts: [Contact] = []
     @Binding var chatData: ChatData
-    @Binding private var groupCreated: Bool
     @StateObject private var viewModel: SelectContactViewModel
     @Environment(\.presentationMode) private var presentationMode
-    @State private var showChatGroup = false
     let contactsLimit: Int?
     var onSelectContact: GenericBlock<[Contact]>?
 
@@ -22,13 +20,11 @@ struct SelectContactView: View {
     init(
         viewModel: SelectContactViewModel,
         chatData: Binding<ChatData> = .constant(.init()),
-        groupCreated: Binding<Bool> = .constant(false),
         contactsLimit: Int? = nil,
         onSelectContact: GenericBlock<[Contact]>? = nil
     ) {
         self._viewModel = StateObject(wrappedValue: viewModel)
         self._chatData = chatData
-        self._groupCreated = groupCreated
         self.contactsLimit = contactsLimit
         self.onSelectContact = onSelectContact
     }
@@ -40,12 +36,6 @@ struct SelectContactView: View {
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(.stack)
-            .overlay(
-                EmptyNavigationLink(
-                    destination: ChatGroupView(chatData: $chatData, groupCreated: $groupCreated),
-                    isActive: $showChatGroup
-                )
-            )
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
@@ -70,7 +60,7 @@ struct SelectContactView: View {
                                 presentationMode.wrappedValue.dismiss()
                             } else {
                                 chatData.contacts = pickedContacts
-                                showChatGroup.toggle()
+                                viewModel.createGroupChat($chatData)
                             }
                         case .add, .admins:
                             presentationMode.wrappedValue.dismiss()
