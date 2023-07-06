@@ -1,5 +1,9 @@
 import SwiftUI
 
+protocol OnboardingSceneDelegate: AnyObject {
+    func onFinishOnboarding()
+}
+
 // MARK: - OnboardingViewModelDelegate
 
 protocol OnboardingViewModelDelegate: ObservableObject {
@@ -28,9 +32,11 @@ final class OnboardingViewModel: ObservableObject, OnboardingViewModelDelegate {
 
     // MARK: - Lifecycle
 
-    init(delegate: OnboardingSceneDelegate?,
-         sources: OnboardingResourcable.Type,
-         userFlows: UserFlowsStorage) {
+    init(
+        delegate: OnboardingSceneDelegate?,
+        sources: OnboardingResourcable.Type,
+        userFlows: UserFlowsStorage
+    ) {
         self.delegate = delegate
         self.sources = sources
         self.userFlows = userFlows
@@ -41,7 +47,7 @@ final class OnboardingViewModel: ObservableObject, OnboardingViewModelDelegate {
 
     func handleContinueButtonTap() {
         userFlows.isOnboardingFlowFinished = true
-        delegate?.handleNextScene(.registration)
+        delegate?.onFinishOnboarding()
     }
 
     // MARK: - Private Methods

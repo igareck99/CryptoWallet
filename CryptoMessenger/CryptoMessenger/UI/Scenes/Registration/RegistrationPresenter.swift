@@ -4,6 +4,14 @@ import SwiftUI
 
 // swiftlint:disable all
 
+protocol RegistrationSceneDelegate: AnyObject {
+    func handleNextScene(_ scene: AuthCoordinator.Scene)
+    
+    func onFinishInputPhone()
+    
+    func onTapCountryCodeSelect(delegate: CountryCodePickerDelegate)
+}
+
 protocol RegistrationPresenterProtocol: ObservableObject {
     
     associatedtype Colors: RegistrationColorable
@@ -71,7 +79,6 @@ final class RegistrationPresenter<Colors: RegistrationColorable> {
     let sources: RegistrationResourcable.Type
     let colors: Colors
     weak var delegate: RegistrationSceneDelegate?
-    
     private var apiClient: APIClientManager
     private let userCredentials: UserCredentialsStorage
     private let keychainService: KeychainServiceProtocol
@@ -139,7 +146,7 @@ private extension RegistrationPresenter {
                 }
             } receiveValue: { [weak self] _ in
                 self?.keychainService.apiUserPhoneNumber = prefix + " " + phone
-                self?.delegate?.handleNextScene(.verification)
+                self?.delegate?.onFinishInputPhone()
             }
             .store(in: &subscriptions)
     }
@@ -157,7 +164,7 @@ private extension RegistrationPresenter {
 
 extension RegistrationPresenter: RegistrationPresenterProtocol {
     func didTapSelectCountry() {
-        delegate?.handleNextScene(.countryCode(self))
+        delegate?.onTapCountryCodeSelect(delegate: self)
     }
     
     func didTapNextButton() {

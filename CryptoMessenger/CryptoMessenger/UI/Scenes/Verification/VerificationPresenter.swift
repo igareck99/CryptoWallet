@@ -4,6 +4,12 @@ import SwiftUI
 
 // swiftlint:disable all
 
+protocol VerificationSceneDelegate: AnyObject {
+    func handleNextScene(_ scene: AuthCoordinator.Scene)
+    
+    func onVerificationSuccess()
+}
+
 protocol VerificationPresenterProtocol: ObservableObject {
     
     associatedtype Colors: VerificationColorable
@@ -237,7 +243,7 @@ private extension VerificationPresenter  {
                     accessToken: accessToken,
                     refreshToken: refreshToken
                 )
-                self?.delegate?.handleNextScene(.main)
+                self?.delegate?.onVerificationSuccess()
             }
     }
     

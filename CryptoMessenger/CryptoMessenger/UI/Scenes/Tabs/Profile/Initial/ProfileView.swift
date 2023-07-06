@@ -33,30 +33,6 @@ struct ProfileView: View {
 
     var body: some View {
         content
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Text(viewModel.profile.nickname)
-                        .font(.bold(15))
-                        .lineLimit(1)
-                        .frame(minWidth: 0,
-                               maxWidth: 0.78 * UIScreen.main.bounds.width)
-                        .onTapGesture {
-                            UIPasteboard.general.string = viewModel.profile.nickname
-                            showAlert = true
-                        }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    R.image.profile.settings.image
-                        .onTapGesture {
-                            hideTabBar()
-                            vibrate()
-                            showMenu.toggle()
-                        }
-                }
-            }
-            .toolbarBackground(showMenu ? Color(.chineseBlack04) : .white, for: .navigationBar)
-            .toolbarBackground(showMenu ? .visible : .hidden, for: .navigationBar)
             .onAppear {
                 viewModel.send(.onProfileAppear)
                 if !showMenu {
@@ -157,9 +133,9 @@ struct ProfileView: View {
 				}
 			)
     }
-  
+
     private var content: some View {
-        ZStack {
+        NavigationView {
             ScrollView(popupSelected ? [] : .vertical, showsIndicators: true) {
                 VStack(alignment: .leading, spacing: 24) {
                     HStack(spacing: 16) {
@@ -277,6 +253,30 @@ struct ProfileView: View {
                     photosView
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Text(viewModel.profile.nickname)
+                        .font(.bold(15))
+                        .lineLimit(1)
+                        .frame(minWidth: 0,
+                               maxWidth: 0.78 * UIScreen.main.bounds.width)
+                        .onTapGesture {
+                            UIPasteboard.general.string = viewModel.profile.nickname
+                            showAlert = true
+                        }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    R.image.profile.settings.image
+                        .onTapGesture {
+                            hideTabBar()
+                            vibrate()
+                            showMenu.toggle()
+                        }
+                }
+            }
+            .toolbarBackground(showMenu ? Color.chineseBlack04 : .white, for: .navigationBar)
+            .toolbarBackground(showMenu ? .visible : .hidden, for: .navigationBar)
         }
     }
         
@@ -370,13 +370,14 @@ struct ProfileView: View {
     private func switchCameraPicker() {
         showCameraPicker = true
     }
-    
+
     private func getTagItem() -> Int {
-        if !viewModel.profile.photosUrls.isEmpty {
-            guard let value = viewModel.profile.photosUrls.first(where: { $0 == viewModel.selectedPhoto } ) else { return 0 }
-            guard let index = viewModel.profile.photosUrls.index(of: value) else { return 0 }
-            return index
+        guard !viewModel.profile.photosUrls.isEmpty,
+            let value = viewModel.profile.photosUrls.first(where: { $0 == viewModel.selectedPhoto }),
+            let index = viewModel.profile.photosUrls.firstIndex(of: value)
+        else {
+            return 0
         }
-        return 0
+        return index
     }
 }

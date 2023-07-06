@@ -17,35 +17,40 @@ protocol ChatHistoryFlowCoordinatorProtocol {
                      _ coordinator: ChatHistoryFlowCoordinatorProtocol)
 }
 
+protocol ChatHistoryFlowCoordinatorProtocoll {
+    func firstAction(_ room: AuraRoom)
+    func showCreateChat(_ chatData: Binding<ChatData>)
+}
+
 final class ChatHistoryFlowCoordinator {
+    private let router: ChatHistoryRouterable
+    private let state: ChatHistoryFlowState
     
-   private let router: ChatHistoryRouterable
-    
-    init(router: ChatHistoryRouterable) {
+    init(
+        router: ChatHistoryRouterable,
+        state: ChatHistoryFlowState
+    ) {
         self.router = router
+        self.state = state
     }
 }
-    
+
 // MARK: - ContentFlowCoordinatorProtocol
 
 extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
-    
+
     func firstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol) {
         router.routeToFirstAction(room, coordinator: coordinator)
     }
-    
-    func showCreateChat(_ chatData: Binding<ChatData>) {
-        router.routeToCreateChat(chatData)
-    }
-    
+
     func start() {
         router.start()
     }
-    
+
     func chatMedia(_ room: AuraRoom) {
         router.chatMedia(room)
     }
-    
+
     func roomSettings(isChannel: Bool,
                       chatData: Binding<ChatData>,
                       saveData: Binding<Bool>,
@@ -66,13 +71,19 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
                                 coordinator: coordinator)
         }
     }
-    
+
     func friendProfile(_ contact: Contact) {
         router.friendProfile(contact)
     }
-    
-    func adminsView( _ chatData: Binding<ChatData>,
-                     _ coordinator: ChatHistoryFlowCoordinatorProtocol) {
-        router.adminsView(chatData,coordinator)
+
+    func adminsView(
+        _ chatData: Binding<ChatData>,
+        _ coordinator: ChatHistoryFlowCoordinatorProtocol
+    ) {
+        router.adminsView(chatData, coordinator)
+    }
+
+    func showCreateChat(_ chatData: Binding<ChatData>) {
+        router.routeToCreateChat(chatData)
     }
 }

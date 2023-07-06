@@ -114,7 +114,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                 searchText = ""
                 searching = false
             }
-            .navigationBarHidden(isNavBarHidden)
+            .navigationBarHidden(false)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
 				toolbarItems()

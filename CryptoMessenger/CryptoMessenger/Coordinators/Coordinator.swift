@@ -47,7 +47,7 @@ extension Coordinator {
         transition.type = type
         transition.subtype = subtype
 
-        navigationController.setNavigationBarHidden(isNavBarHidden, animated: false)
+        navigationController.setNavigationBarHidden(false, animated: false)
 
         if isRoot {
             navigationController.view.layer.add(transition, forKey: nil)

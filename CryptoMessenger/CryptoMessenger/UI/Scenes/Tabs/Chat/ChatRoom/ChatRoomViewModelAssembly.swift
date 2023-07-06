@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 // MARK: - ChatRoomViewModelAssembly
 
@@ -11,4 +12,15 @@ enum ChatRoomViewModelAssembly {
 		let availabilityFacade = ChatRoomTogglesFacade(remoteConfigUseCase: remoteConfigUseCase)
 		return availabilityFacade
 	}
+
+    static func make(_ room: AuraRoom) -> some View {
+        let groupCallsUseCase = GroupCallsUseCase(room: room.room)
+        let toggleFacade: MainFlowTogglesFacadeProtocol = MainFlowTogglesFacade.shared
+        let viewModel = ChatRoomViewModel(
+            room: room,
+            toggleFacade: toggleFacade,
+            groupCallsUseCase: groupCallsUseCase
+        )
+        return ChatRoomView(viewModel: viewModel)
+    }
 }

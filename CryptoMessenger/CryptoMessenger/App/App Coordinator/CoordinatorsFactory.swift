@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 protocol CoordinatorsFactoryProtocol {
     static func makePinCoordinator(
@@ -7,7 +7,7 @@ protocol CoordinatorsFactoryProtocol {
     ) -> Coordinator
 
     static func makeAuthCoordinator(
-        delegate: AuthFlowCoordinatorDelegate,
+        delegate: AuthCoordinatorDelegate,
         navigationController: UINavigationController
     ) -> Coordinator
 
@@ -40,16 +40,13 @@ enum CoordinatorsFactory: CoordinatorsFactoryProtocol {
     }
 
     static func makeAuthCoordinator(
-        delegate: AuthFlowCoordinatorDelegate,
+        delegate: AuthCoordinatorDelegate,
         navigationController: UINavigationController
     ) -> Coordinator {
-        let userFlows = UserDefaultsService.shared
-        let coordinator = AuthFlowCoordinator(
-            userFlows: userFlows,
+        AuthCoordinatorAssembly.build(
+            delegate: delegate,
             navigationController: navigationController
         )
-        coordinator.delegate = delegate
-        return coordinator
     }
 
     static func makeMainCoordinator(

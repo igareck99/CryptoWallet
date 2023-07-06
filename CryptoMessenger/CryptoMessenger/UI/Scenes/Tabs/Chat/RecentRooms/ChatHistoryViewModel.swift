@@ -125,8 +125,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                     self.objectWillChange.send()
                 case let .onShowRoom(room):
                     guard let coordinator = self?.coordinator else { return } 
-                    self?.coordinator?.firstAction(room,
-                                                   coordinator: coordinator)
+                    self?.coordinator?.firstAction(room, coordinator: coordinator)
+//                  self?.coordinator?.firstAction(room)
                 case let .onDeleteRoom(roomId):
                     self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in })
                 case let .onCreateChat(chatData):

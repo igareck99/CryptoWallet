@@ -44,7 +44,7 @@ final class WalletViewModel: ObservableObject {
         walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
         coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
         walletModelsFactory: WalletModelsFactoryProtocol.Type = WalletModelsFactory.self,
-        onTransactionEndHelper: @escaping ( @escaping (TransactionResult) -> Void) -> Void
+        onTransactionEndHelper: @escaping TransactionEndHandler
     ) {
 		self.keychainService = keychainService
 		self.keysService = keysService
@@ -55,7 +55,6 @@ final class WalletViewModel: ObservableObject {
 		self.onTransactionEndHelper = onTransactionEndHelper
         bindInput()
         bindOutput()
-        updateWallets()
     }
 
     deinit {
@@ -63,16 +62,7 @@ final class WalletViewModel: ObservableObject {
         subscriptions.removeAll()
     }
 
-	private enum TransactionLoadingState {
-		case loading
-		case notloading
-	}
-
-	private var transactionLoadingState: TransactionLoadingState = .notloading
-
 	func tryToLoadNextTransactions(offset: CGFloat, pageIndex: Int) {
-
-		guard transactionLoadingState == .notloading else { return }
 
         guard let currentWallet = cardsList[safe: pageIndex],
               let currentTransactions = transactions[currentWallet.walletType],
@@ -84,10 +74,6 @@ final class WalletViewModel: ObservableObject {
 
 		let allTransactionsHeight = CGFloat(currentTransactions.count) * 65
 		guard allTransactionsHeight < offset + 420 else { return }
-
-		guard transactionLoadingState == .notloading else { return }
-
-		transactionLoadingState = .loading
 
         let transaction = WalletTransactions(
             cryptoType: cryptoType,
@@ -107,14 +93,12 @@ final class WalletViewModel: ObservableObject {
                 ),
                   let transactionsBatch = transactions.sections[currentWallet.walletType]
             else {
-                self?.transactionLoadingState = .notloading
                 return
             }
             self?.transactions[currentWallet.walletType]?.append(contentsOf: transactionsBatch)
 
 			DispatchQueue.main.async { [weak self] in
 				self?.objectWillChange.send()
-				self?.transactionLoadingState = .notloading
 			}
 		}
 	}
@@ -141,8 +125,6 @@ final class WalletViewModel: ObservableObject {
 
 	func getTransactions() {
 
-		guard transactionLoadingState == .notloading else { return }
-        transactionLoadingState = .loading
 		let walletsAddresses = getWalletsAddresses()
         let params = walletModelsFactory.makeTransactionsRequestParams(wallets: walletsAddresses)
 
@@ -162,7 +144,6 @@ final class WalletViewModel: ObservableObject {
             self.transactions = sections.sections
 			DispatchQueue.main.async { [weak self] in
 				self?.objectWillChange.send()
-				self?.transactionLoadingState = .notloading
 			}
 		}
 	}
@@ -176,7 +157,6 @@ final class WalletViewModel: ObservableObject {
             guard
                 let self = self, case let .success(addresses) = response
             else {
-                self?.transactionLoadingState = .notloading
                 return
             }
 
@@ -271,12 +251,10 @@ final class WalletViewModel: ObservableObject {
             wallets: wallets,
             tokens: tokens
         )
-
-		DispatchQueue.main.async {
-			self.viewState = .content
-			self.cardsList = cards
-			self.objectWillChange.send()
-		}
+        self.viewState = .content
+        DispatchQueue.main.async {
+            self.cardsList = cards
+        }
 	}
 
 	func updateWallets() {
@@ -294,7 +272,6 @@ final class WalletViewModel: ObservableObject {
             viewState = .loading
             objectWillChange.send()
 			updateWalletsFromDB()
-            transactionLoadingState = .notloading
 			getTransactions()
 			getBalance()
 			return
@@ -343,6 +320,7 @@ final class WalletViewModel: ObservableObject {
 			// то просто обновляем модели в БД
 			if cryptoTypesDb == cryptoTypesNetwork && isAddressesAvailable {
 				self.getBalance()
+                self.objectWillChange.send()
 				return
 			}
 
@@ -415,7 +393,7 @@ final class WalletViewModel: ObservableObject {
         group.enter()
         walletNetworks.getTokens(params: params) { [weak self] result in
             guard let self = self,
-                    case let .success(networkTokens) = result else { return }
+                  case let .success(networkTokens) = result else { return }
 
             walletModelsFactory
                 .networkTokenResponseParse(response: networkTokens)
@@ -446,19 +424,14 @@ final class WalletViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     self?.updateWallets()
+                    self?.updateUserWallet()
                     self?.objectWillChange.send()
                 case let .onTransactionAddress(selectorTokenIndex, address):
-                    self?.coordinator?.onTransaction(0,
-                                                    selectorTokenIndex,
-                                                    address)
+                    self?.coordinator?.onTransaction(0, selectorTokenIndex, address)
                 case let .onTransactionType(selectorFilterIndex):
-                    self?.coordinator?.onTransaction(selectorFilterIndex,
-                                                    0,
-                                                    "")
+                    self?.coordinator?.onTransaction(selectorFilterIndex, 0, "")
                 case let .onTransactionToken(selectorTokenIndex):
-                    self?.coordinator?.onTransaction(0,
-                                                    selectorTokenIndex,
-                                                    "")
+                    self?.coordinator?.onTransaction(0, selectorTokenIndex, "")
                 case .onImportKey:
                     self?.coordinator?.onImportKey()
 				case .onTransfer(walletIndex: let walletIndex):
@@ -476,7 +449,7 @@ final class WalletViewModel: ObservableObject {
     }
 
     func updateUserWallet() {
-        var wallets = coreDataService.getWalletNetworks()
+        let wallets = coreDataService.getWalletNetworks()
         let data = walletModelsFactory.makeAdressesData(wallets: wallets)
         apiClient.publisher(Endpoints.Wallet.patchAssets(data))
             .sink { completion in

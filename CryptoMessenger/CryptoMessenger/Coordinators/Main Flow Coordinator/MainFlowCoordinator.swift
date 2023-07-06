@@ -17,6 +17,8 @@ protocol MainFlowSceneDelegate: AnyObject {
 
 // MARK: - MainFlowCoordinator
 
+typealias TransactionEndHandler = (@escaping (TransactionResult) -> Void) -> Void
+
 final class MainFlowCoordinator: Coordinator {
 
     // MARK: - Internal Properties
@@ -36,8 +38,7 @@ final class MainFlowCoordinator: Coordinator {
 	private var onTransactionEndDisplay: (() -> ((TransactionResult) -> Void))?
 	// Костыль для связки флоу переводов
 	// по-хорошему это должно происходить через storage координатора
-	private lazy var onTransactionEndHelper: ( @escaping (TransactionResult) -> Void) -> Void
-	= { [weak self] transactionClosure in
+	private lazy var onTransactionEndHelper: TransactionEndHandler = { [weak self] transactionClosure in
 		self?.onTransactionEndDisplay = { transactionClosure }
 	}
 
@@ -52,86 +53,20 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Internal Methods
 
     func start() {
-//        let tabs: [UIViewController]
-//        if togglesFacade.isWalletAvailable {
-//            tabs = [
-//                buildChatTab(),
-//                buildWalletTab(),
-//                buildProfileTab()
-//            ]
-//        } else {
-//            tabs = [
-//                buildChatTab(),
-//                buildProfileTab()
-//            ]
-//        }
-//        let view = MainFlowView(chatHistoryView: ChatHistoryAssembly.build(self),
-//                                walletAssemblyView: WalletAssembly.build(self,
-//                                                                         onTransactionEndHelper: onTransactionEndHelper),
-//                                profileView: ProfileAssembly.configuredView(self))
-        let view = MainFlowView {
-            ChatHistoryFlowViewModel(delegate: self).view()
-        } walletView: {
-            WalletFlowViewModel(delegate: self,
-                                onTransactionEndHelper: self.onTransactionEndHelper).view()
-        } profileView: {
-            ProfileFlowViewModel(delegate: self).view()
-        }
-
-        let controller = BaseHostingController(rootView: view)
-//        let tabBarController = BaseTabBarController(viewControllers: tabs)
-//        tabBarController.selectedIndex = Tabs.chat.rawValue
-//		rootTabBarController = tabBarController
-
-        setViewWith(controller, type: .fade, isRoot: true, isNavBarHidden: false)
-		delegate?.didEndStartProcess(coordinator: self)
+        makeTabBarView()
     }
 
-    // MARK: - Tabs
-
-    enum Tabs: Int, Hashable {
-
-        // MARK: - Types
-
-        case chat = 0
-        case wallet = 1
-        case profile = 2
-
-        // MARK: - Internal Properties
-
-        var item: UITabBarItem {
-			let tintColor = Palette.custom(.init(133, 135, 141))
-			let selectedTintColor = Palette.custom(.init(14, 142, 243))
-            switch self {
-            case .chat:
-                let image = R.image.tabBar.chat()
-                let item = UITabBarItem(
-                    title: R.string.localizable.tabChat(),
-                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(tintColor),
-                    selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(selectedTintColor)
-                )
-                item.tag = rawValue
-                return item
-            case .wallet:
-                let image = R.image.tabBar.wallet()
-                let item = UITabBarItem(
-                    title: R.string.localizable.tabWallet(),
-                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(tintColor),
-                    selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(selectedTintColor)
-                )
-                item.tag = rawValue
-                return item
-            case .profile:
-                let image = R.image.tabBar.profile()
-                let item = UITabBarItem(
-                    title: R.string.localizable.tabProfile(),
-                    image: image?.withRenderingMode(.alwaysOriginal).tintColor(tintColor),
-					selectedImage: image?.withRenderingMode(.alwaysOriginal).tintColor(selectedTintColor)
-                )
-                item.tag = rawValue
-                return item
-            }
-        }
+    func makeTabBarView() {
+        let view = TabItemsViewAssembly.build(
+            chateDelegate: self,
+            profileDelegate: self,
+            walletDelegate: self,
+            onTransactionEndHelper: onTransactionEndHelper
+        )
+        let controller = BaseHostingController(rootView: view)
+        controller.navigationController?.navigationBar.isHidden = false
+        setViewWith(controller, type: .fade, isRoot: true, isNavBarHidden: false)
+		delegate?.didEndStartProcess(coordinator: self)
     }
 
     // MARK: - Scene

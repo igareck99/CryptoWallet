@@ -13,10 +13,10 @@ class BaseNavigationController: UINavigationController {
     // MARK: - Internal Methods
 
     func makeNotTranslucent() {
-        navigationBar.isTranslucent = true
+//        navigationBar.isTranslucent = true
     }
 
     func removeBorder() {
-        navigationBar.setValue(true, forKey: "hidesShadow")
+//        navigationBar.setValue(true, forKey: "hidesShadow")
     }
 }
