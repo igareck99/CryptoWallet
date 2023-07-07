@@ -67,14 +67,14 @@ final class ProfileViewModel: ObservableObject {
     ]
     @Published var profile = ProfileItem()
     @Published var existringUrls: [String] = []
-    @Published var isVoiceCallAvailablility: Bool = false
+    @Published var isVoiceCallAvailablility = false
     @Published var menuHeight: CGFloat = 0
     @Published var deleteImage = false
 
     // MARK: - Private Properties
 
     @Published private(set) var state: ProfileFlow.ViewState = .idle
-	@Published private(set) var socialList = SocialListViewModel()
+    @Published private(set) var socialList = SocialListViewModel()
     @Published private(set) var socialListEmpty = true
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
@@ -85,16 +85,19 @@ final class ProfileViewModel: ObservableObject {
     @Injectable private var apiClient: APIClientManager
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
-	private let keychainService: KeychainServiceProtocol
+    private let keychainService: KeychainServiceProtocol
+    let resources: ProfileResourcable.Type
 
     // MARK: - Lifecycle
 
     init(
         userSettings: UserCredentialsStorage & UserFlowsStorage,
-        keychainService: KeychainServiceProtocol
+        keychainService: KeychainServiceProtocol,
+        resources: ProfileResourcable.Type = ProfileResources.self
     ) {
-		self.userSettings = userSettings
-		self.keychainService = keychainService
+        self.userSettings = userSettings
+        self.keychainService = keychainService
+        self.resources = resources
         bindInput()
         bindOutput()
     }
@@ -156,7 +159,7 @@ final class ProfileViewModel: ObservableObject {
             .sink { [weak self] _ in
             }
             .store(in: &subscriptions)
-		matrixUseCase.loginStatePublisher.sink { [weak self] status in
+        matrixUseCase.loginStatePublisher.sink { [weak self] status in
             switch status {
             case .loggedOut:
                 self?.userSettings.isAuthFlowFinished = false
@@ -169,7 +172,7 @@ final class ProfileViewModel: ObservableObject {
         }
         .store(in: &subscriptions)
 
-		matrixUseCase.objectChangePublisher
+        matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.main)
             .sink { _ in }
@@ -212,9 +215,9 @@ final class ProfileViewModel: ObservableObject {
                 switch completion {
                 case .failure(let error):
                     if let err = error as? APIError, err == .invalidToken {
-						self?.matrixUseCase.logoutDevices { _ in
-							// TODO: Обработать результат
-						}
+                        self?.matrixUseCase.logoutDevices { _ in
+                            // TODO: Обработать результат
+                        }
                     }
                 default:
                     break
@@ -279,9 +282,9 @@ final class ProfileViewModel: ObservableObject {
             self.profile.photosUrls = urls
         }
         getSocialList()
-		if let phoneNumber = keychainService.apiUserPhoneNumber {
-			profile.phone = phoneNumber
-		}
+        if let phoneNumber = keychainService.apiUserPhoneNumber {
+            profile.phone = phoneNumber
+        }
     }
 
     private func fetchImageData() {
