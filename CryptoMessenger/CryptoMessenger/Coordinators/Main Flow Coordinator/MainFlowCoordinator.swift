@@ -25,7 +25,7 @@ final class MainFlowCoordinator: Coordinator {
     weak var delegate: MainFlowCoordinatorDelegate?
 	private weak var rootTabBarController: BaseTabBarController?
 
-    let navigationController: UINavigationController
+    var navigationController: UINavigationController
 
     private let togglesFacade: MainFlowTogglesFacadeProtocol
 

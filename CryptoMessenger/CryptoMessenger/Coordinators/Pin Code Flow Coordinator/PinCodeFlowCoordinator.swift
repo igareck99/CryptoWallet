@@ -20,7 +20,7 @@ public final class PinCodeFlowCoordinator: Coordinator {
 
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: PinCodeFlowCoordinatorDelegate?
-    let navigationController: UINavigationController
+    var navigationController: UINavigationController
     private let userFlows: UserFlowsStorage
 
     // MARK: - Lifecycle

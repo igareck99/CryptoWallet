@@ -105,7 +105,7 @@ struct PersonalizationView: View {
                 viewModel.send(.onAppear)
             }
             .onDisappear {
-                showTabBar()
+//                showTabBar()
             }
             .listStyle(.inset)
             .toolbar {

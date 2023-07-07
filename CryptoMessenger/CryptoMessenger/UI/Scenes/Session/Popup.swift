@@ -304,12 +304,12 @@ public struct Popup<PopupContent>: ViewModifier where PopupContent: View {
         if isPresented {
             showContent = true
             DispatchQueue.main.async {
-				view().hideTabBar()
+//				view().hideTabBar()
                 animatedContentIsPresented = true
             }
         } else {
             animatedContentIsPresented = false
-			view().showTabBar()
+//			view().showTabBar()
         }
     }
 

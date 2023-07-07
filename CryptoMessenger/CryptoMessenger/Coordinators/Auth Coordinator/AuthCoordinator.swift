@@ -22,7 +22,7 @@ public final class AuthCoordinator: Coordinator {
 
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: AuthCoordinatorDelegate?
-    let navigationController: UINavigationController
+    var navigationController: UINavigationController
     private let userFlows: UserFlowsStorage
     private let router: AuhtRouterable
 

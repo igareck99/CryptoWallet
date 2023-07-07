@@ -4,7 +4,7 @@ import UIKit
 
 protocol Coordinator: AnyObject {
     var childCoordinators: [String: Coordinator] { get set }
-    var navigationController: UINavigationController { get }
+    var navigationController: UINavigationController { get set }
 
     func start()
     func addChildCoordinator(_ coordinator: Coordinator)

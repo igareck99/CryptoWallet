@@ -38,7 +38,7 @@ struct WalletView: View {
                 })
             .onAppear {
                 navBarHide = false
-                showTabBar()
+//                showTabBar()
                 viewModel.send(.onAppear)
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -132,12 +132,12 @@ struct WalletView: View {
             }
             .onChange(of: showAddWallet, perform: { value in
                 if !value {
-                    showTabBar()
+//                    showTabBar()
                 }
             })
             .onChange(of: showTokenInfo, perform: { value in
                 if !value {
-                    showTabBar()
+//                    showTabBar()
                 }
             })
             .popup(isPresented: $showAddWallet,
@@ -225,7 +225,7 @@ struct WalletView: View {
                       )
         )
         .onAppear {
-            hideTabBar()
+//            hideTabBar()
             navBarHide = true
         }
         .frame(

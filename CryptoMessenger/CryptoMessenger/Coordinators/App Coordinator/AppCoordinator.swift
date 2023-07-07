@@ -1,3 +1,5 @@
+import Combine
+import SwiftUI
 import UIKit
 
 // swiftlint:disable all
@@ -6,10 +8,16 @@ protocol AppCoordinatorProtocol {
 	func didReceive(notification: UNNotificationResponse, completion: @escaping () -> Void)
 }
 
-final class AppCoordinator {
+protocol RootCoordinatable: ObservableObject {
+    var rootView: any View { get }
+}
 
+final class AppCoordinator: RootCoordinatable {
+
+    @Published var rootView: any View = Text("")
+    
     var childCoordinators: [String: Coordinator] = [:]
-	private(set) var navigationController: UINavigationController
+	var navigationController: UINavigationController
 
 	private var pendingCoordinators = [Coordinator]()
 	private let keychainService: KeychainServiceProtocol

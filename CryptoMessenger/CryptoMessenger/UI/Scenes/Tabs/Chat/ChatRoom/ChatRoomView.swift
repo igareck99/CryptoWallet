@@ -78,9 +78,10 @@ struct ChatRoomView: View {
 
     var body: some View {
         content
+            .toolbar(.hidden, for: .tabBar)
             .onAppear {
                 viewModel.send(.onAppear)
-                hideTabBar()
+//                hideTabBar()
                 UITextView.appearance().background(.grayDAE1E9())
             }
             .onChange(of: showActionSheet, perform: { _ in
@@ -94,7 +95,7 @@ struct ChatRoomView: View {
                 testAvatarUrl = url
             })
             .onDisappear {
-                showTabBar()
+//                showTabBar()  
             }
             .onChange(of: viewModel.dismissScreen, perform: { newValue in
                 if newValue {

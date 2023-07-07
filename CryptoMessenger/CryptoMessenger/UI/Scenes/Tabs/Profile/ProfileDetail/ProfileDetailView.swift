@@ -93,13 +93,13 @@ struct ProfileDetailView: View {
                 )
             }
             .onAppear {
-                hideTabBar()
+//                hideTabBar()
                 // Оставил для информации по логике отображения нав бара
 //                showNavBar()
             }
             .onDisappear {
                 viewModel.closeScreen = false
-                showTabBar()
+//                showTabBar()
             }
     }
 
