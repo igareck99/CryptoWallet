@@ -53,11 +53,11 @@ struct ProfileView: View {
                             buttons: [
                                 .cancel(),
                                 .default(
-                                    Text(R.string.localizable.profileFromGallery()),
+                                    Text(ProfileResources.profileFromGallery),
                                     action: switchImagePicker
                                 ),
                                 .default(
-                                    Text(R.string.localizable.profileFromCamera()),
+                                    Text(ProfileResources.profileFromCamera),
                                     action: switchCameraPicker
                                 )
                             ]
@@ -91,7 +91,7 @@ struct ProfileView: View {
             .fullScreenCover(isPresented: $showImagePicker,
                              content: {
                 ImagePickerView(selectedImage: $viewModel.selectedImage)
-                    .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                    .navigationBarTitle(Text(ProfileResources.photoEditorTitle))
                     .navigationBarTitleDisplayMode(.inline)
                     .ignoresSafeArea()
             })
@@ -103,7 +103,7 @@ struct ProfileView: View {
                     .ignoresSafeArea()
             })
             .alert(isPresented: $showAlert) {
-                 Alert(title: Text(R.string.localizable.profileCopied()))
+                 Alert(title: Text(ProfileResources.profileCopied))
             }
             .popup(
                 isPresented: $showMenu,
@@ -111,7 +111,7 @@ struct ProfileView: View {
                 position: .bottom,
                 closeOnTap: true,
                 closeOnTapOutside: true,
-                backgroundColor: Color.chineseBlack04,
+                backgroundColor: viewModel.resources.backgroundFodding,
                 dismissCallback: {
                     self.showTabBar()
                 },
@@ -128,7 +128,7 @@ struct ProfileView: View {
                     .frame(height: viewModel.menuHeight )
 					.background(
 						CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-							.fill(Color.white)
+							.fill(viewModel.resources.background)
 					)
 				}
 			)
@@ -143,7 +143,7 @@ struct ProfileView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             Text(viewModel.profile.name)
                                 .font(.medium(15))
-                                .foregroundColor(.chineseBlack)
+                                .foregroundColor(viewModel.resources.title)
                             switch viewModel.socialListEmpty {
                             case false:
                                 ScrollView(!showAllSocial ? [] : .horizontal, showsIndicators: false) {
@@ -173,7 +173,7 @@ struct ProfileView: View {
                                                     .frame(width: 16,
                                                            height: 15)
                                             }).frame(width: 32, height: 32, alignment: .center)
-                                                .background(Color.dodgerBlue)
+                                                .background(viewModel.resources.buttonBackground)
                                                 .cornerRadius(16)
                                         }
                                     case true:
@@ -193,7 +193,7 @@ struct ProfileView: View {
                                                 .frame(width: 16,
                                                        height: 15)
                                         }).frame(width: 32, height: 32, alignment: .center)
-                                            .background(Color.dodgerBlue)
+                                            .background(viewModel.resources.buttonBackground)
                                             .cornerRadius(16)
                                     }
                                 }
@@ -205,14 +205,14 @@ struct ProfileView: View {
                                 Button(action: {
                                     viewModel.send(.onSocial)
                                 }, label: {
-                                    Text(R.string.localizable.profileAddSocial())
+                                    Text(ProfileResources.profileAddSocial)
                                         .font(.regular(15))
-                                        .foregroundColor(.dodgerBlue)
+                                        .foregroundColor(viewModel.resources.buttonBackground)
                                 })
                                     .frame(width: 160, height: 32)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 61)
-                                            .stroke(Color.dodgerBlue, lineWidth: 1)
+                                            .stroke(viewModel.resources.buttonBackground, lineWidth: 1)
                                     )
                             }
                             Text(viewModel.profile.phone)
@@ -225,7 +225,7 @@ struct ProfileView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(viewModel.profile.status)
                                 .font(.regular(15))
-                                .foregroundColor(.chineseBlack)
+                                .foregroundColor(viewModel.resources.title)
                             //                        Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
                             //                            .font(.regular(15))
                             //                            .foreground(.blue())
@@ -239,17 +239,17 @@ struct ProfileView: View {
                     Button(action: {
                         showActionImageAlert = true
                     }, label: {
-                        Text(R.string.localizable.profileAdd())
+                        Text(ProfileResources.profileAdd)
                             .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
                             .font(.regular(15))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.dodgerBlue, lineWidth: 1)
+                                    .stroke(viewModel.resources.buttonBackground, lineWidth: 1)
                             )
                     })
-                        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                        .background(.white)
-                        .padding(.horizontal, 16)
+                    .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+                    .background(viewModel.resources.background)
+                    .padding(.horizontal, 16)
                     photosView
                 }
             }
@@ -279,7 +279,6 @@ struct ProfileView: View {
             .toolbarBackground(showMenu ? .visible : .hidden, for: .navigationBar)
         }
     }
-        
 
     private var avatarView: some View {
         ZStack {
@@ -300,9 +299,9 @@ struct ProfileView: View {
                             Circle()
                                 .cornerRadius(50)
                                 .frame(width: 100, height: 100)
-                                .foregroundColor(.dodgerBlue)
+                                .foregroundColor(viewModel.resources.buttonBackground)
                             ProgressView()
-                                .tint(Color.dodgerBlue)
+                                .tint(viewModel.resources.buttonBackground)
                                 .frame(width: 50,
                                        height: 50)
                         }
@@ -319,7 +318,7 @@ struct ProfileView: View {
                     Circle()
                         .frame(width: 100, height: 100)
                         .cornerRadius(50)
-                        .foregroundColor(.dodgerTransBlue)
+                        .foregroundColor(viewModel.resources.avatarBackgorund)
                     R.image.profile.avatarThumbnail.image
                         .resizable()
                         .frame(width: 50, height: 50)
@@ -340,7 +339,7 @@ struct ProfileView: View {
                             url: nil,
                             placeholder: {
                                 ProgressView()
-                                    .tint(Color.dodgerBlue)
+                                    .tint(viewModel.resources.buttonBackground)
                                     .frame(width: width, height: width)
                                     .scaledToFill()
                             },

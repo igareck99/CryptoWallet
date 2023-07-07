@@ -815,6 +815,7 @@
 		D4F5DB3B29F175A400772AC5 /* CoreDataService+WalletNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5DB3A29F175A400772AC5 /* CoreDataService+WalletNetwork.swift */; };
 		D4FA3F74281A7374000246D8 /* TimeInterval+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F73281A7374000246D8 /* TimeInterval+Extensions.swift */; };
 		D4FA3F76281E4939000246D8 /* ContactInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA3F75281E4939000246D8 /* ContactInfo.swift */; };
+		D4FD929D2A581501008EA8A2 /* ProfileResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FD929C2A581501008EA8A2 /* ProfileResources.swift */; };
 		D4FDA497284D05C600322A0F /* StatusBarCallUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDA496284D05C600322A0F /* StatusBarCallUseCase.swift */; };
 /* End PBXBuildFile section */
 
@@ -1653,6 +1654,7 @@
 		D4F5DB3A29F175A400772AC5 /* CoreDataService+WalletNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataService+WalletNetwork.swift"; sourceTree = "<group>"; };
 		D4FA3F73281A7374000246D8 /* TimeInterval+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extensions.swift"; sourceTree = "<group>"; };
 		D4FA3F75281E4939000246D8 /* ContactInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfo.swift; sourceTree = "<group>"; };
+		D4FD929C2A581501008EA8A2 /* ProfileResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileResources.swift; sourceTree = "<group>"; };
 		D4FDA496284D05C600322A0F /* StatusBarCallUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCallUseCase.swift; sourceTree = "<group>"; };
 		FB557DABB153E02C3F319940 /* Pods-CryptoMessengerPods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessengerPods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessengerPods-CryptoMessenger/Pods-CryptoMessengerPods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2350,6 +2352,7 @@
 				5A43086727C7DB8600A9B582 /* Components */,
 				5A44FED9276681BD006F9D92 /* ProfileConfigurator.swift */,
 				8B6BEE7E275665D4003A24B6 /* ProfileView.swift */,
+				D4FD929C2A581501008EA8A2 /* ProfileResources.swift */,
 				5A44FED62766816C006F9D92 /* ProfileViewModel.swift */,
 				5A44FED8276681BD006F9D92 /* ProfileProtocols.swift */,
 				5A44FEDA276681BD006F9D92 /* ProfileFlow.swift */,
@@ -4918,6 +4921,7 @@
 				D41553BE288FD1A8003FDADC /* MatrixService+Fetcher.swift in Sources */,
 				8BB2F8EE28B665650034D902 /* ProfileDetailType.swift in Sources */,
 				5A44FED72766816C006F9D92 /* ProfileViewModel.swift in Sources */,
+				D4FD929D2A581501008EA8A2 /* ProfileResources.swift in Sources */,
 				8B8B9C1F27F31FEE0061F5E6 /* Animation.swift in Sources */,
 				8B34A9F428D46BAC0097ED9E /* DirectMenuView.swift in Sources */,
 				8BBCBCC828F73D9C00E42F0C /* VideoErrorView.swift in Sources */,

@@ -67,7 +67,7 @@ final class ProfileViewModel: ObservableObject {
     ]
     @Published var profile = ProfileItem()
     @Published var existringUrls: [String] = []
-    @Published var isVoiceCallAvailablility: Bool = false
+    @Published var isVoiceCallAvailablility = false
     @Published var menuHeight: CGFloat = 0
     @Published var deleteImage = false
 
@@ -86,15 +86,18 @@ final class ProfileViewModel: ObservableObject {
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
 	private let keychainService: KeychainServiceProtocol
+    let resources: ProfileResourcable.Type
 
     // MARK: - Lifecycle
 
     init(
         userSettings: UserCredentialsStorage & UserFlowsStorage,
-        keychainService: KeychainServiceProtocol
+        keychainService: KeychainServiceProtocol,
+        resources: ProfileResourcable.Type = ProfileResources.self
     ) {
 		self.userSettings = userSettings
 		self.keychainService = keychainService
+        self.resources = resources
         bindInput()
         bindOutput()
     }
