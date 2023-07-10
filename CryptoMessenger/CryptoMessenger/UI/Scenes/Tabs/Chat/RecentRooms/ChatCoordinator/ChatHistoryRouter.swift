@@ -51,7 +51,7 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryFlowStateProtocol>: Vi
     // MARK: - Internal Properties
     
     @StateObject var state: State
-
+    
     let content: () -> Content
     
     var body: some View {
