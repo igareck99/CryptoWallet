@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: - ChannelNotificaionsView
+// MARK: - ChannelParticipantsView
 
 struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
 

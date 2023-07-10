@@ -25,7 +25,6 @@ struct SettingsView: View {
     @State private var showComplainAlert = false
     @State private var alertItem: AlertItem?
     @State private var showLeaveAlert = false
-    @State private var showNotificationsView = false
 
     // MARK: - Life Cycle
 
@@ -81,23 +80,6 @@ struct SettingsView: View {
                     })
                 }
             }
-            .onChange(of: viewModel.isLeaveRoom, perform: { value in
-                if value {
-                    self.isLeaveRoom = true
-                    presentationMode.wrappedValue.dismiss()
-                }
-            })
-            .overlay(
-                EmptyNavigationLink(
-                    destination: MembersView(chatData: $chatData),
-                    isActive: $showContacts
-                )
-            )
-            .sheet(isPresented: $showNotificationsView, content: {
-                NavigationView {
-                    ChannelNotificaionsView(viewModel: ChannelNotificationsViewModel(roomId: viewModel.room.room.roomId))
-                }
-            })
             .sheet(isPresented: $showImagePicker) {
                 ImagePickerView(selectedImage: $chatData.image)
             }
@@ -164,7 +146,7 @@ struct SettingsView: View {
                     HStack {
                         Spacer()
                         Button {
-                            showImagePicker.toggle()
+                            viewModel.send(.onImagePicker($chatData.image))
                         } label: {
                             Image(systemName: "camera")
                                 .resizable()
@@ -292,7 +274,7 @@ struct SettingsView: View {
                 .onTapGesture {
                     switch action {
                     case .notifications:
-                        showNotificationsView.toggle()
+                        viewModel.send(.onNotifications)
                     case .media:
                         vibrate()
                         viewModel.send(.onMedia)
@@ -323,7 +305,7 @@ struct SettingsView: View {
 
             if !chatData.isDirect {
                 Button {
-                    showContacts.toggle()
+                    viewModel.send(.onMembers($chatData))
                 } label: {
                     Text("ОТКРЫТЬ", [
                         .color(.blue()),

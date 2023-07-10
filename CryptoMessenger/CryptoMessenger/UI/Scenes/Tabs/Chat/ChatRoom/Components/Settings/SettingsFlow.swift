@@ -28,5 +28,8 @@ enum SettingsFlow {
         case onMedia
         case onLeave
         case onAdmin(Binding<ChatData>)
+        case onMembers(Binding<ChatData>)
+        case onNotifications
+        case onImagePicker(Binding<UIImage?>)
     }
 }

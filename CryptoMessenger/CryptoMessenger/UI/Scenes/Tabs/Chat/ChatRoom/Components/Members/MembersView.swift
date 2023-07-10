@@ -6,7 +6,7 @@ struct MembersView: View {
 
     // MARK: - Private Properties
 
-    @Binding var chatData: ChatData
+    @StateObject var viewModel: MembersViewModel
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -39,17 +39,20 @@ struct MembersView: View {
                 .foreground(.grayE6EAED())
 
             ScrollView(.vertical, showsIndicators: false) {
-                ForEach(0..<chatData.contacts.count) { index in
-                    let contact = chatData.contacts[index]
+                ForEach(0..<viewModel.chatData.contacts.count) { index in
+                    let contact = viewModel.chatData.contacts[index]
                     VStack(spacing: 0) {
                         ContactRow(
                             avatar: contact.avatar,
                             name: contact.name,
                             status: contact.status,
-                            hideSeparator: contact.id == chatData.contacts.last?.id,
+                            hideSeparator: contact.id == viewModel.chatData.contacts.last?.id,
                             isAdmin: contact.isAdmin
                         )
                             .background(.white())
+                    }
+                    .onTapGesture {
+                        viewModel.onProfile(contact)
                     }
                 }
             }

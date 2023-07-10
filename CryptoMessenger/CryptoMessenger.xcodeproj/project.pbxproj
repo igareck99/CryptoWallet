@@ -439,6 +439,10 @@
 		8B971E0E28B5837D00F111D9 /* CacheFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B971E0D28B5837D00F111D9 /* CacheFunctions.swift */; };
 		8B971E1028B5894E00F111D9 /* ImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B971E0F28B5894E00F111D9 /* ImageCacheService.swift */; };
 		8B97852628DD14E300DB7D2F /* FileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B97852528DD14E300DB7D2F /* FileViewModel.swift */; };
+		8B985D0C2A5C400A00F25D8C /* MembersViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B985D0B2A5C400A00F25D8C /* MembersViewAssembly.swift */; };
+		8B985D0E2A5C402700F25D8C /* MembersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B985D0D2A5C402700F25D8C /* MembersViewModel.swift */; };
+		8B985D102A5C480900F25D8C /* ChannelNotificationsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B985D0F2A5C480900F25D8C /* ChannelNotificationsAssembly.swift */; };
+		8B985D132A5C4E1900F25D8C /* GalleryPickerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B985D122A5C4E1900F25D8C /* GalleryPickerAssembly.swift */; };
 		8B9AED5A28121DDF00C6C25A /* SocialNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9AED5928121DDE00C6C25A /* SocialNetworkView.swift */; };
 		8B9B0CCB2775395400654C24 /* PersonalizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCA2775395400654C24 /* PersonalizationView.swift */; };
 		8B9B0CCD2775442E00654C24 /* PersonalizationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9B0CCC2775442E00654C24 /* PersonalizationModel.swift */; };
@@ -1286,6 +1290,10 @@
 		8B971E0D28B5837D00F111D9 /* CacheFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheFunctions.swift; sourceTree = "<group>"; };
 		8B971E0F28B5894E00F111D9 /* ImageCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheService.swift; sourceTree = "<group>"; };
 		8B97852528DD14E300DB7D2F /* FileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileViewModel.swift; sourceTree = "<group>"; };
+		8B985D0B2A5C400A00F25D8C /* MembersViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersViewAssembly.swift; sourceTree = "<group>"; };
+		8B985D0D2A5C402700F25D8C /* MembersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersViewModel.swift; sourceTree = "<group>"; };
+		8B985D0F2A5C480900F25D8C /* ChannelNotificationsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelNotificationsAssembly.swift; sourceTree = "<group>"; };
+		8B985D122A5C4E1900F25D8C /* GalleryPickerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryPickerAssembly.swift; sourceTree = "<group>"; };
 		8B9AED5928121DDE00C6C25A /* SocialNetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialNetworkView.swift; sourceTree = "<group>"; };
 		8B9B0CCA2775395400654C24 /* PersonalizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationView.swift; sourceTree = "<group>"; };
 		8B9B0CCC2775442E00654C24 /* PersonalizationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationModel.swift; sourceTree = "<group>"; };
@@ -1870,6 +1878,7 @@
 		5A187E4A2680708D001957D3 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				8B985D112A5C4E0100F25D8C /* ImagePicker */,
 				D4DF2B3628F588F10057499A /* Swipe Actions */,
 				D46B7C63297E934500BA4A9B /* Custom Confirm Dialog */,
 				D46C9010294774FD00DD0B01 /* Segmented Controll */,
@@ -2605,6 +2614,8 @@
 			isa = PBXGroup;
 			children = (
 				5AC8C4F127C4112C008B1744 /* MembersView.swift */,
+				8B985D0B2A5C400A00F25D8C /* MembersViewAssembly.swift */,
+				8B985D0D2A5C402700F25D8C /* MembersViewModel.swift */,
 			);
 			path = Members;
 			sourceTree = "<group>";
@@ -2923,6 +2934,7 @@
 			children = (
 				8B350360297EEEC30090EE93 /* ChannelNotificaionsView.swift */,
 				8B350363297EF7A70090EE93 /* ChannelNotificationsViewModel.swift */,
+				8B985D0F2A5C480900F25D8C /* ChannelNotificationsAssembly.swift */,
 			);
 			path = ChannelNotifications;
 			sourceTree = "<group>";
@@ -3013,7 +3025,7 @@
 			isa = PBXGroup;
 			children = (
 				8B4DBFFA28F5D6E1003F58EB /* GalleryPickerView.swift */,
-				8B4DBFFC28F5D764003F58EB /* ImagePickerView.swift */,
+				8B985D122A5C4E1900F25D8C /* GalleryPickerAssembly.swift */,
 			);
 			path = GalleryPicker;
 			sourceTree = "<group>";
@@ -3184,6 +3196,14 @@
 				8B971E0F28B5894E00F111D9 /* ImageCacheService.swift */,
 			);
 			path = CacheTest;
+			sourceTree = "<group>";
+		};
+		8B985D112A5C4E0100F25D8C /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				8B4DBFFC28F5D764003F58EB /* ImagePickerView.swift */,
+			);
+			path = ImagePicker;
 			sourceTree = "<group>";
 		};
 		8B9B0CC92775394000654C24 /* Personalization */ = {
@@ -4705,6 +4725,7 @@
 				D4857CF928AE0AC100C904EC /* ChatMapView.swift in Sources */,
 				8B73C1072747A193008ABB22 /* SessionDetailView.swift in Sources */,
 				5AC8C4F627C42FB8008B1744 /* URL+Extensions.swift in Sources */,
+				8B985D0E2A5C402700F25D8C /* MembersViewModel.swift in Sources */,
 				8B637D8E27CE3C3D000B1B2B /* RadioGroupPicker.swift in Sources */,
 				8BC06B1227C8F646005A28A1 /* TransactionViewModel.swift in Sources */,
 				8B35036B2980696B0090EE93 /* ChannelParticipantsMenuView.swift in Sources */,
@@ -4752,6 +4773,7 @@
 				8B5D83F3283B7DFF0035815B /* ContactInfoResources.swift in Sources */,
 				D491820029233FA7009F8C33 /* UINavigationController+Extensions.swift in Sources */,
 				8B334157295B7D6E0062903C /* ChooseReceiverStructs.swift in Sources */,
+				8B985D102A5C480900F25D8C /* ChannelNotificationsAssembly.swift in Sources */,
 				5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */,
 				8B8B9C2127F330040061F5E6 /* SocialListConfigurator.swift in Sources */,
 				5A9318D526C5AAF100645365 /* ChatRoomProtocols.swift in Sources */,
@@ -5168,6 +5190,7 @@
 				D46B7C68297E93A600BA4A9B /* ConfirmDialogActionModel.swift in Sources */,
 				8BEA3D8E2A26A18300CC4E2F /* PinCodeViewModel.swift in Sources */,
 				8BBCBCD928F8818000E42F0C /* PDFKitViewModel.swift in Sources */,
+				8B985D132A5C4E1900F25D8C /* GalleryPickerAssembly.swift in Sources */,
 				5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */,
 				78A9CBFE28191F1D00C4D7E1 /* ActionSheetButton.swift in Sources */,
 				D4F5DB3529EFBCBB00772AC5 /* WalletModelsFactory.swift in Sources */,
@@ -5179,6 +5202,7 @@
 				8BF0FCD6281174F900FF7C6F /* CreateContactViewModel.swift in Sources */,
 				8B5A338C27D89D6D0064C7DC /* TransferFlow.swift in Sources */,
 				8B32FEB7298AC8480017082A /* ChannelUsersFactory.swift in Sources */,
+				8B985D0C2A5C400A00F25D8C /* MembersViewAssembly.swift in Sources */,
 				D40061612A53E192004D5F35 /* Image+Extensions.swift in Sources */,
 				D450047D2845E5B500CA4C82 /* CallViewModel.swift in Sources */,
 				8BE3799327E9C4A200AB6B6E /* TokenInfoViewModel.swift in Sources */,
