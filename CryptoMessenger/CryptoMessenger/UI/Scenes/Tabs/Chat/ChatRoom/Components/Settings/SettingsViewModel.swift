@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 import Combine
 import MatrixSDK
 
@@ -12,8 +12,21 @@ final class SettingsViewModel: ObservableObject {
     var coordinator: ChatHistoryFlowCoordinatorProtocol?
     @Published var topActions: [SettingsAction] = [.media, .notifications, .admins]
     @Published var bottomActions: [SettingsAction] = [.share, .exit, .complain]
-    @Published var isLeaveRoom = false
     @Published var isEnabled = false
+    private var selectedVideoState: URL? {
+        didSet {
+            self.objectWillChange.send()
+        }
+    }
+
+    lazy var selectedVideo: Binding<URL?> = .init(
+        get: {
+            self.selectedVideoState
+        },
+        set: { newValue in
+            self.selectedVideoState = newValue
+        }
+    )
     
     // MARK: - Private Properties
     
@@ -44,9 +57,9 @@ final class SettingsViewModel: ObservableObject {
     func send(_ event: SettingsFlow.Event) {
         eventSubject.send(event)
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func bindInput() {
         eventSubject
             .sink { [weak self] event in
@@ -65,6 +78,20 @@ final class SettingsViewModel: ObservableObject {
                         self?.coordinator?.adminsView(chatData,
                                                       coordinator)
                     }
+                case let .onMembers(chatData):
+                    if let coordinator = self?.coordinator {
+                        self?.coordinator?.chatMembersView(chatData,
+                                                           coordinator)
+                    }
+                case .onNotifications:
+                    guard let auraRoom = self?.room else { return }
+                    self?.coordinator?.notifications(auraRoom.room.roomId)
+                case let .onImagePicker(image):
+                    guard let self = self else { return }
+                    self.coordinator?.galleryPickerSheet(selectedImage: image,
+                                                         selectedVideo: self.selectedVideo,
+                                                         sourceType: .photoLibrary,
+                                                          galleryContent: .photos)
                 }
             }
             .store(in: &subscriptions)
@@ -76,14 +103,14 @@ final class SettingsViewModel: ObservableObject {
         self.matrixUseCase.leaveRoom(roomId: room.room.roomId, completion: { result in
             switch result {
             case .success(_):
-                self.isLeaveRoom = true
+                self.coordinator?.popToRoot()
                 self.objectWillChange.send()
             case .failure(_):
                 debugPrint("error while out of room")
             }
         })
     }
-    
+
     func changeNotificationState(_ value: Bool) {
         if value {
             self.pushNotifications.allMessages(room: self.room,

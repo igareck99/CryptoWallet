@@ -29,5 +29,12 @@ enum ProfileFlow {
         case onAddPhoto(UIImage)
         case onSocial
         case onShowProfileDetail(Binding<UIImage?>)
+        case onGallery(UIImagePickerController.SourceType,
+                       Binding<UIImage?>,
+                       Binding<URL?>)
+        case onImageEditor(isShowing: Binding<Bool>,
+                           image: Binding<UIImage?>,
+                           viewModel: ProfileViewModel)
+        case onSettings
     }
 }

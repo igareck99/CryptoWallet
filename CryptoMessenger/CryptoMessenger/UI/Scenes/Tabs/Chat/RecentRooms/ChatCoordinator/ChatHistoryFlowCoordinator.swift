@@ -3,6 +3,7 @@ import SwiftUI
 // MARK: - ChatHistoryFlowCoordinatorProtocol
 
 protocol ChatHistoryFlowCoordinatorProtocol {
+    var childCoordinators: [ChatHistoryCoordinatorBase] { get set}
     func firstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol)
     func showCreateChat(_ chatData: Binding<ChatData>)
     func roomSettings(isChannel: Bool,
@@ -15,15 +16,28 @@ protocol ChatHistoryFlowCoordinatorProtocol {
     func friendProfile(_ contact: Contact)
     func adminsView( _ chatData: Binding<ChatData>,
                      _ coordinator: ChatHistoryFlowCoordinatorProtocol)
+    func chatMembersView(_ chatData: Binding<ChatData>,
+                         _ coordinator: ChatHistoryFlowCoordinatorProtocol)
+    func notifications(_ roomId: String)
+    func popToRoot()
+    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
+                                 selectedVideo: Binding<URL?>,
+                                 sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent)
+    func galleryPickerSheet(selectedImage: Binding<UIImage?>,
+                            selectedVideo: Binding<URL?>,
+                            sourceType: UIImagePickerController.SourceType,
+                            galleryContent: GalleryPickerContent)
+    func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,
+                                 showParticipantsView: Binding<Bool>)
+    func dismissCurrentSheet()
 }
 
-protocol ChatHistoryFlowCoordinatorProtocoll {
-    func firstAction(_ room: AuraRoom)
-    func showCreateChat(_ chatData: Binding<ChatData>)
-}
+// MARK: - ChatHistoryFlowCoordinator
 
 final class ChatHistoryFlowCoordinator {
     private let router: ChatHistoryRouterable
+    @Published var childCoordinators: [ChatHistoryCoordinatorBase] = []
     
     init(
         router: ChatHistoryRouterable
@@ -82,5 +96,48 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
 
     func showCreateChat(_ chatData: Binding<ChatData>) {
         router.routeToCreateChat(chatData)
+    }
+
+    func chatMembersView(_ chatData: Binding<ChatData>,
+                         _ coordinator: ChatHistoryFlowCoordinatorProtocol) {
+        router.chatMembersView(chatData, coordinator)
+    }
+
+    func notifications(_ roomId: String) {
+        router.notifications(roomId)
+    }
+
+    func popToRoot() {
+        router.popToRoot()
+    }
+
+    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
+                                 selectedVideo: Binding<URL?>,
+                                 sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent) {
+        router.galleryPickerFullScreen(selectedImage: selectedImage,
+                                       selectedVideo: selectedVideo,
+                                       sourceType: sourceType,
+                                       galleryContent: galleryContent)
+    }
+    
+    func galleryPickerSheet(selectedImage: Binding<UIImage?>,
+                            selectedVideo: Binding<URL?>,
+                            sourceType: UIImagePickerController.SourceType,
+                            galleryContent: GalleryPickerContent) {
+        router.galleryPickerSheet(selectedImage: selectedImage,
+                                  selectedVideo: selectedVideo,
+                                  sourceType: sourceType,
+                                  galleryContent: galleryContent)
+    }
+
+    func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,
+                                 showParticipantsView: Binding<Bool>) {
+        router.channelPatricipantsView(viewModel,
+                                       showParticipantsView: showParticipantsView)
+    }
+    
+    func dismissCurrentSheet() {
+        router.dismissCurrentSheet()
     }
 }

@@ -16,6 +16,12 @@ enum ChatHistoryContentLink: Hashable, Identifiable {
     case friendProfile(contact: Contact)
     case adminList(chatData: Binding<ChatData>,
                    coordinator: ChatHistoryFlowCoordinatorProtocol)
+    case chatMembers(chatData: Binding<ChatData>,
+                     coordinator: ChatHistoryFlowCoordinatorProtocol)
+    case galleryPicker(selectedImage: Binding<UIImage?>,
+                       selectedVideo: Binding<URL?>,
+                       sourceType: UIImagePickerController.SourceType,
+                       galleryContent: GalleryPickerContent)
 
     var id: String {
         String(describing: self)
@@ -35,7 +41,14 @@ enum ChatHistoryContentLink: Hashable, Identifiable {
 enum ChatHistorySheetLink: Hashable, Identifiable {
 
     case createChat(chatData: Binding<ChatData>)
-    
+    case notifications(_ roomId: String)
+    case galleryPicker(selectedImage: Binding<UIImage?>,
+                       selectedVideo: Binding<URL?>,
+                       sourceType: UIImagePickerController.SourceType,
+                       galleryContent: GalleryPickerContent)
+    case channelPatricipants(viewModel: ChannelInfoViewModel,
+                             showParticipantsView: Binding<Bool>)
+
     var id: String {
         String(describing: self)
     }

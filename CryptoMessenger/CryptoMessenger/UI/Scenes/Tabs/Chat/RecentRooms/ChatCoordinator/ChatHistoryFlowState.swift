@@ -1,14 +1,16 @@
 import SwiftUI
 
-protocol ChatHistoryFlowStateProtocol: ObservableObject {
-    var path: NavigationPath { get set }
-    var presentedItem: ChatHistorySheetLink? { get set }
-    var coverItem: ChatHistoryContentLink? { get set }
-}
+// MARK: - ChatHistoryCoordinatorBase
 
-final class ChatHistoryFlowState: ChatHistoryFlowStateProtocol {
-    static var shared = ChatHistoryFlowState()
+class ChatHistoryCoordinatorBase: ObservableObject {
+
     @Published var path = NavigationPath()
     @Published var presentedItem: ChatHistorySheetLink?
     @Published var coverItem: ChatHistoryContentLink?
+}
+
+// MARK: - ChatHistoryFlowState
+
+final class ChatHistoryFlowState: ChatHistoryCoordinatorBase {
+    static var shared = ChatHistoryFlowState()
 }

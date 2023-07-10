@@ -48,19 +48,6 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 createToolBar()
             }
         }
-        .sheet(isPresented: $showNotificationsView, content: {
-            NavigationView {
-                ChannelNotificaionsView(viewModel: ChannelNotificationsViewModel(roomId: viewModel.roomId))
-            }
-        })
-        .sheet(isPresented: $showParticipantsView, content: {
-            NavigationView {
-                ChannelParticipantsView(
-                    viewModel: viewModel,
-                    showParticipantsView: $showParticipantsView
-                )
-            }
-        })
         .sheet(isPresented: $showChannelChangeType, content: {
             NavigationView {
                 SelectChannelTypeView(
@@ -122,7 +109,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 viewModel.onUserRemoved()
             } onUserProfile: {
                 viewModel.showUserSettings.wrappedValue = false
-                showParticipantsView = false
+                viewModel.onUserProfileTap()
             }
             .presentationDetents([.height(computeSizeOfUserMenu(viewModel.compareRoles()))])
         })
@@ -324,15 +311,18 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                             .default(
                                 Text(R.string.localizable.profileFromGallery()),
                                 action: {
-                                    showImagePicker = true
+                                    viewModel.selectPhoto(.photoLibrary)
                                 }
                             ),
                             .default(
                                 Text(R.string.localizable.profileFromCamera()),
                                 action: {
                                     let isAvailable = viewModel.onCameraPickerTap()
-                                    showCameraPicker = isAvailable
-                                    showSettingsAlert = !isAvailable
+                                    if isAvailable {
+                                        viewModel.selectPhoto(.camera)
+                                    } else {
+                                        showSettingsAlert = true
+                                    }
                                 }
                             )
                         ]
@@ -347,26 +337,6 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 viewModel.onOpenSettingsTap()
             }
         }
-        .fullScreenCover(
-            isPresented: $showCameraPicker,
-            onDismiss: {
-                viewModel.onAvatarChange()
-            } ,
-            content: {
-                ImagePickerView(selectedImage: viewModel.chatData.image,
-                                sourceType: .camera)
-                .ignoresSafeArea()
-            })
-        .fullScreenCover(
-            isPresented: $showImagePicker,
-            onDismiss: {
-                viewModel.onAvatarChange()
-            } ,
-            content: {
-                ImagePickerView(selectedImage: viewModel.chatData.image)
-                    .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
-                    .navigationBarTitleDisplayMode(.inline)
-            })
     }
 
     private var changeGroupInfoView: some View {
@@ -460,7 +430,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             accessoryImageName: "chevron.right"
         )
         .onTapGesture {
-            showNotificationsView = true
+            viewModel.showChannelNotificationsView()
         }
     }
 
@@ -554,7 +524,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             .font(.system(size: 17, weight: .semibold))
             .foregroundColor(.azureRadianceApprox)
             .onTapGesture {
-                showParticipantsView = true
+                viewModel.showParticipantsView(viewModel as! ChannelInfoViewModel,
+                                               $showParticipantsView)
             }
     }
 

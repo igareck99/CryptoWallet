@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-// MARK: - ImagePickerView
+// MARK: - GalleryPickerView
 
 struct GalleryPickerView: UIViewControllerRepresentable {
 
@@ -10,6 +10,7 @@ struct GalleryPickerView: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
     @Binding var selectedVideo: URL?
     var sourceType: UIImagePickerController.SourceType
+    var galleryContent: GalleryPickerContent
 
     // MARK: - Private Properties
 
@@ -19,10 +20,12 @@ struct GalleryPickerView: UIViewControllerRepresentable {
 
     init(selectedImage: Binding<UIImage?>,
          selectedVideo: Binding<URL?>,
-         sourceType: UIImagePickerController.SourceType = .photoLibrary) {
+         sourceType: UIImagePickerController.SourceType,
+         galleryContent: GalleryPickerContent) {
         self._selectedImage = selectedImage
         self._selectedVideo = selectedVideo
         self.sourceType = sourceType
+        self.galleryContent = galleryContent
     }
 
     // MARK: - Internal Methods
@@ -32,7 +35,7 @@ struct GalleryPickerView: UIViewControllerRepresentable {
     ) -> UIImagePickerController {
         let controller = UIImagePickerController()
         controller.allowsEditing = false
-        controller.mediaTypes = ["public.movie", "public.image"]
+        controller.mediaTypes = GalleryContentType.getTypes(galleryContent)
         controller.sourceType = sourceType
         controller.delegate = context.coordinator
         return controller
