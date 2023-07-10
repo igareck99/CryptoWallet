@@ -215,12 +215,14 @@ final class TransferViewModel: ObservableObject {
 
 		let walletPublicKey: String
 		let walletPrivateKey: String
+        let cryptoType: String
 
 		if currentWalletType == .bitcoin,
 		   let publicKey: String = keychainService[.bitcoinPublicKey],
 		   let privateKey: String = keychainService[.bitcoinPrivateKey] {
 			walletPublicKey = publicKey
 			walletPrivateKey = privateKey
+            cryptoType = WalletType.bitcoin.rawValue
 //			address_to = "moaCiMa3xBGEVEeHMZZKsDvfSC5GyRyZCZ"
         } else if (currentWalletType == .ethereum ||
                    currentWalletType == .ethereumUSDC ||
@@ -229,6 +231,7 @@ final class TransferViewModel: ObservableObject {
                   let privateKey: String = keychainService[.ethereumPrivateKey] {
             walletPublicKey = publicKey
             walletPrivateKey = privateKey
+            cryptoType = WalletType.ethereum.rawValue
 //			address_to = "0xe8f0349166f87fba444596a6bbbe5de9e9c6ef27"
 //			"0xccb5c140b7870061dc5327134fbea8f3f2e154d9"
         } else if (currentWalletType == .binance ||
@@ -238,8 +241,10 @@ final class TransferViewModel: ObservableObject {
                   let privateKey: String = keychainService[.binancePrivateKey] {
             walletPublicKey = publicKey
             walletPrivateKey = privateKey
+            cryptoType = WalletType.binance.rawValue
         } else {
             addressTo = ""
+            cryptoType = ""
 			walletPublicKey = ""
 			walletPrivateKey = ""
 			return
@@ -253,7 +258,6 @@ final class TransferViewModel: ObservableObject {
 			return
 		}
 
-		let cryptoType = currentWalletType.rawValue
         let amount = transferAmount.replacingOccurrences(of: ",", with: ".")
 
 		let params = TransactionTemplateRequestParams(
