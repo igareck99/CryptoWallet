@@ -9,7 +9,7 @@ enum ChatCreateAssembly {
         let viewModel = ChatCreateViewModel()
         let view = ChatCreateView(chatData: chatData,
                                   viewModel: viewModel)
-        let router = ChatCreateRouter {
+        let router = ChatCreateRouter(state: ChatHistoryFlowState.shared) {
             view
         }
         let coordinator = ChatCreateFlowCoordinator(router: router, onCoordinatorEnd: {
