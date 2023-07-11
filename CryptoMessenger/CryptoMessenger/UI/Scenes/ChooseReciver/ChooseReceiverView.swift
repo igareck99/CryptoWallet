@@ -50,6 +50,11 @@ struct ChooseReceiverView: View {
                                                     url: receiverData.url,
                                                     adress: code.substring(fromIndex: 8),
                                                     walletType: receiverData.walletType)
+                } else if code.contains("binance") {
+                    receiverData = UserReceiverData(name: receiverData.name,
+                                                    url: receiverData.url,
+                                                    adress: code.substring(fromIndex: 9),
+                                                    walletType: receiverData.walletType)
                 }
             }
             .onDisappear {
@@ -109,13 +114,31 @@ struct ChooseReceiverView: View {
                     .onTapGesture {
                         receiverData.name = item.name
                         receiverData.url = item.url
-                        receiverData.adress = receiverData.walletType == .ethereum ? item.ethereum : item.bitcoin
+                        receiverData.adress = walletType(type: receiverData.walletType, item: item)
+                        // receiverData.walletType == .ethereum ? item.ethereum : item.bitcoin
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
                 Spacer()
             }
         }
+    }
+
+    private func walletType(type: WalletType, item: UserWallletData) -> String {
+        if type.rawValue.contains(WalletType.ethereum.rawValue) {
+            return item.ethereum
+        }
+
+        if type.rawValue.contains(WalletType.bitcoin.rawValue) {
+            return item.bitcoin
+        }
+
+        if type.rawValue.contains(WalletType.binance.rawValue) {
+            return item.binance
+        }
+
+        // Добалена сеть которую мы не обрабатываем
+        return ""
     }
 
     private var searchSelectView: some View {
