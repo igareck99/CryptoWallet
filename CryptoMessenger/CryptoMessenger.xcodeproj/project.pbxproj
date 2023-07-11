@@ -4347,6 +4347,8 @@
 				D4FD92AA2A5D5989008EA8A2 /* WalletRouter.swift */,
 				D4FD92AE2A5D5D89008EA8A2 /* WalletTransitions.swift */,
 				D4FD92AC2A5D5D21008EA8A2 /* WalletRouterState.swift */,
+				D4FD92AC2A5D5D21008EA8A2 /* WalletRouterState.swift */,
+				D4FD92AE2A5D5D89008EA8A2 /* WalletTransitions.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
