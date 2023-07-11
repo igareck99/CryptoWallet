@@ -7,6 +7,7 @@ final class ChooseReceiverViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: ChooseReceiverSceneDelegate?
+    private let coordinator: WalletCoordinatable
     @Published private(set) var contacts: [Contact] = []
     @Published var contactViewModel = SelectContactViewModel(mode: .add)
     @Published var userWalletsData: [UserWallletData] = []
@@ -29,8 +30,10 @@ final class ChooseReceiverViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-		userSettings: UserFlowsStorage & UserCredentialsStorage
+        coordinator: WalletCoordinatable,
+        userSettings: UserFlowsStorage & UserCredentialsStorage = UserDefaultsService.shared
 	) {
+        self.coordinator = coordinator
 		self.userSettings = userSettings
         contactViewModel.send(.onAppear)
         bindInput()

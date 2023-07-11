@@ -7,11 +7,7 @@ final class WalletViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-	var transaction: TransactionResult?
-	var onTransactionEnd: ((TransactionResult) -> Void)?
-	var onTransactionEndHelper: ( @escaping (TransactionResult) -> Void) -> Void
-
-    var coordinator: WalletFlowCoordinatorProtocol?
+    var coordinator: WalletCoordinatable?
     @Published var totalBalance = ""
     @Published var transactionList: [TransactionInfo] = []
 	private var transactions = [WalletType: [TransactionSection]]()
@@ -43,8 +39,7 @@ final class WalletViewModel: ObservableObject {
         userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared,
         walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
         coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
-        walletModelsFactory: WalletModelsFactoryProtocol.Type = WalletModelsFactory.self,
-        onTransactionEndHelper: @escaping TransactionEndHandler
+        walletModelsFactory: WalletModelsFactoryProtocol.Type = WalletModelsFactory.self
     ) {
 		self.keychainService = keychainService
 		self.keysService = keysService
@@ -52,7 +47,6 @@ final class WalletViewModel: ObservableObject {
 		self.walletNetworks = walletNetworks
 		self.coreDataService = coreDataService
         self.walletModelsFactory = walletModelsFactory
-		self.onTransactionEndHelper = onTransactionEndHelper
         bindInput()
         bindOutput()
     }

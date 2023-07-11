@@ -405,6 +405,7 @@
 "FacilityApprove.Address" = "Адрес";
 "FacilityApprove.DocumentDate" = "Дата документа";
 "FacilityApprove.TransactionDone" = "Перевод выполнен";
+"FacilityApprove.TransactionFailed" = "Перевод не выполнен";
 "FacilityApprove.ValidateTransaction" = "Подтверждение перевода";
 "FacilityApprove.RecipientAddress" = "Адрес получателя";
 

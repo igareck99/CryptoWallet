@@ -35,7 +35,7 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryFlowStateProtocol>: Vi
 
     // MARK: - Internal Properties
 
-    @StateObject var state: State
+    @ObservedObject var state: State
 
     let content: () -> Content
 
@@ -115,7 +115,6 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
         state.path = NavigationPath()
         state.presentedItem = nil
         state.coverItem = nil
-        state.selectedLink = nil
     }
 
     func chatSettings(chatData: Binding<ChatData>,
@@ -144,7 +143,7 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
     func friendProfile(_ contact: Contact) {
         state.path.append(ChatHistoryContentLink.friendProfile(contact: contact))
     }
-    
+
     func adminsView( _ chatData: Binding<ChatData>,
                      _ coordinator: ChatHistoryFlowCoordinatorProtocol) {
         state.path.append(ChatHistoryContentLink.adminList(chatData: chatData, coordinator: coordinator))

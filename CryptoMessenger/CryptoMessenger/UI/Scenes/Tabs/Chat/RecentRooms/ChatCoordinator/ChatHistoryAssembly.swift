@@ -7,23 +7,13 @@ enum ChatHistoryAssembly {
 
     static func build() -> some View {
         let viewModel = ChatHistoryViewModel()
-        var view = ChatHistoryView(viewModel: viewModel)
-        let state = ChatHistoryFlowState()
-        let router = ChatHistoryRouter(state: state) {
+        let view = ChatHistoryView(viewModel: viewModel)
+        let router = ChatHistoryRouter(state: ChatHistoryFlowState.shared) {
             view
         }
 
-        let coordinator = ChatHistoryFlowCoordinator(router: router, state: state)
+        let coordinator = ChatHistoryFlowCoordinator(router: router)
         viewModel.coordinator = coordinator
         return router
     }
-
-    // Оставил на всякий случай после конфликтов мерджа
-//    static func build(_ delegate: ChatHistorySceneDelegate) -> some View {
-//        let viewModel = ChatHistoryViewModel()
-//        var view = ChatHistoryView(viewModel: viewModel)
-//        let coordinator = ChatHistoryFlowCoordinator(router: delegate)
-//        viewModel.coordinator = coordinator
-//        return view
-//    }
 }

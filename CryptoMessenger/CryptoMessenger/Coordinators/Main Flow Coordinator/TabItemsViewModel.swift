@@ -6,29 +6,23 @@ protocol TabItemsViewModelProtocol: ObservableObject {
 
 final class TabItemsViewModel {
 
-    lazy var tabs: [TabItemModel] = prepareTabs()
-
+    var tabs = [TabItemModel]()
     private var chateDelegate: ChatHistorySceneDelegate
     private var profileDelegate: ProfileSceneDelegate
-    private var walletDelegate: WalletSceneDelegate
-    private var onTransactionEndHelper: TransactionEndHandler
     private let toggles: MainFlowTogglesFacadeProtocol
     private let factory: TabItemsFactoryProtocol.Type
 
     init (
         chateDelegate: ChatHistorySceneDelegate,
         profileDelegate: ProfileSceneDelegate,
-        walletDelegate: WalletSceneDelegate,
         toggles: MainFlowTogglesFacadeProtocol,
-        factory: TabItemsFactoryProtocol.Type,
-        onTransactionEndHelper: @escaping TransactionEndHandler
+        factory: TabItemsFactoryProtocol.Type
     ) {
         self.chateDelegate = chateDelegate
         self.profileDelegate = profileDelegate
-        self.walletDelegate = walletDelegate
         self.toggles = toggles
         self.factory = factory
-        self.onTransactionEndHelper = onTransactionEndHelper
+        self.tabs = prepareTabs()
     }
 
     private func prepareTabs() -> [TabItemModel] {
@@ -39,10 +33,7 @@ final class TabItemsViewModel {
 
         if toggles.isWalletAvailable {
             tabItems.append(
-                factory.makeWalletTabModel(
-                    walletDelegate: walletDelegate,
-                    onTransactionEndHelper: onTransactionEndHelper
-                )
+                factory.makeWalletTabModel()
             )
         }
         tabItems.append(

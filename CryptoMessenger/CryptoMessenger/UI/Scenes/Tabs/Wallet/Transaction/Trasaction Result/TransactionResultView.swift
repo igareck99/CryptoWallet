@@ -7,6 +7,7 @@ struct TransactionResultView: View {
     // MARK: - Internal Properties
 
 	let model: TransactionResult
+    let height: CGFloat
 
     // MARK: - Private Properties
 
@@ -57,5 +58,6 @@ struct TransactionResultView: View {
 				.padding(.horizontal, 32)
 			Spacer()
 		}
+        .presentationDetents([.height(height)])
 	}
 }

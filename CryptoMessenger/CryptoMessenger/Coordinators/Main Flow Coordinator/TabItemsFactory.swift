@@ -3,10 +3,7 @@ import SwiftUI
 protocol TabItemsFactoryProtocol {
     static func makeChatTabModel(chateDelegate: ChatHistorySceneDelegate) -> TabItemModel
 
-    static func makeWalletTabModel(
-        walletDelegate: WalletSceneDelegate,
-        onTransactionEndHelper: @escaping TransactionEndHandler
-    ) -> TabItemModel
+    static func makeWalletTabModel() -> TabItemModel
 
     static func makeProfileTabModel(profileDelegate: ProfileSceneDelegate) -> TabItemModel
 }
@@ -22,19 +19,13 @@ enum TabItemsFactory: TabItemsFactoryProtocol {
         }
     }
 
-    static func makeWalletTabModel(
-        walletDelegate: WalletSceneDelegate,
-        onTransactionEndHelper: @escaping TransactionEndHandler
-    ) -> TabItemModel {
+    static func makeWalletTabModel() -> TabItemModel {
         TabItemModel(
             title: MainTabs.wallet.text,
             icon: MainTabs.wallet.image,
             tabType: .wallet
         ) {
-            WalletAssembly.build(
-                walletDelegate,
-                onTransactionEndHelper: onTransactionEndHelper
-            ).anyView()
+            WalletAssembly.build().anyView()
         }
     }
 

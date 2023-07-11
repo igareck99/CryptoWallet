@@ -48,6 +48,7 @@ struct TransferView: View {
 					}
 			}
 			.scrollDismissesKeyboard(.interactively)
+            .toolbar(.hidden, for: .tabBar)
 
 			sendButton
 				.padding(.bottom)
