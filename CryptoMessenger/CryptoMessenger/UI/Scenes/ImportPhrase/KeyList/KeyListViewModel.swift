@@ -12,6 +12,7 @@ final class KeyListViewModel: ObservableObject {
         .init(value: "0x8396738b..4cb2a2a7ca6", type: "ETH, USDT"),
         .init(value: "mrG7g5qtte..fWar9MjYex9aDs", type: "BTC")
     ]
+    let resources: KeyListResourcable.Type = KeyListResources.self
 
     // MARK: - Private Properties
 
@@ -24,7 +25,8 @@ final class KeyListViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-		userCredentialsStorage: UserCredentialsStorage
+		userCredentialsStorage: UserCredentialsStorage,
+        resources: KeyListResourcable.Type = KeyListResources.self
 	) {
 		self.userCredentialsStorage = userCredentialsStorage
         bindInput()

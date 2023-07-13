@@ -8,7 +8,7 @@ final class WalletManagerViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: WalletManagerSceneDelegate?
-    let sources: ImportPhraseResourcable.Type = ImportPhraseResources.self
+    let resources: ImportPhraseResourcable.Type = ImportPhraseResources.self
 
     // MARK: - Private Properties
 
@@ -21,7 +21,8 @@ final class WalletManagerViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-		keychainService: KeychainServiceProtocol
+		keychainService: KeychainServiceProtocol,
+        resources: ImportPhraseResourcable.Type = ImportPhraseResources.self
 	) {
         self.keychainService = keychainService
         bindInput()

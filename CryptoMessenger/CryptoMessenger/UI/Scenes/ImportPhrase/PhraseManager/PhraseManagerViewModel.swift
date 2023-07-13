@@ -16,7 +16,7 @@ final class PhraseManagerViewModel: ObservableObject {
     @Published var secretPhrase = ""
     @Published var secretPhraseForApprove = ""
     @Published var textEditorDisabled = true
-    let sources: ImportPhraseResourcable.Type = ImportPhraseResources.self
+    let resources: PhraseManagerResourcable.Type = PhraseManagerResources.self
 
     // MARK: - Private Properties
 
@@ -29,7 +29,8 @@ final class PhraseManagerViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-        keychainService: KeychainServiceProtocol
+        keychainService: KeychainServiceProtocol,
+        resources: PhraseManagerResourcable.Type = PhraseManagerResources.self
 	) {
         self.keychainService = keychainService
         bindInput()

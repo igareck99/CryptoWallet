@@ -15,7 +15,7 @@ struct KeyListView: View {
         content
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(R.string.localizable.walletManagerKeyManager())
+                    Text(viewModel.resources.walletManagerKeyManager)
                         .font(.system(size: 15, weight: .bold))
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -30,13 +30,13 @@ struct KeyListView: View {
                    position: .bottom,
                    closeOnTap: false,
                    closeOnTapOutside: true,
-                   backgroundColor: Color(.black(0.3)),
+                   backgroundColor: viewModel.resources.backgroundFodding,
                    view: {
                 KeyListActionView(showActionSheet: $showActionSheet,
                                   viewModel: viewModel)
                 .frame(width: UIScreen.main.bounds.width,
                        height: 178, alignment: .center)
-                .background(.white())
+                .background(viewModel.resources.background)
                 .cornerRadius(16)
             })
     }
@@ -71,7 +71,6 @@ struct KeyListView: View {
 struct KeyValueTypeView: View {
 
     // MARK: - Internal Properties
-
     @State var value: KeyValueTypeItem
 
     // MARK: - Body
@@ -79,15 +78,15 @@ struct KeyValueTypeView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(value.value, [
-                .paragraph(.init(lineHeightMultiple: 1.21, alignment: .left)),
-                .font(.semibold(15)),
-                .color(.black())
+                .paragraph(.init(lineHeightMultiple: 1.21, alignment: .left))
             ])
+            .font(.system(size: 15, weight: .semibold))
+            .foregroundColor(.chineseBlack)
             Text(value.type, [
-                .paragraph(.init(lineHeightMultiple: 1.16, alignment: .left)),
-                .font(.regular(12)),
-                .color(.darkGray())
+                .paragraph(.init(lineHeightMultiple: 1.16, alignment: .left))
             ])
+            .font(.system(size: 12, weight: .regular))
+            .foregroundColor(.romanSilver)
 
         }
     }
