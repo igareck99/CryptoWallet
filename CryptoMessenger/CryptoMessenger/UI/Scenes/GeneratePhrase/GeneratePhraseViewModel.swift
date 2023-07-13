@@ -14,7 +14,7 @@ final class GeneratePhraseViewModel: ObservableObject {
     var isSnackbarPresented = false
     var buttonState: ViewState = .content
     var firstStart = false
-    let sources: GeneratePhraseResourcable.Type = GeneratePhraseResources.self
+    let resources: GeneratePhraseResourcable.Type = GeneratePhraseResources.self
 
     // MARK: - Private Properties
 
@@ -29,7 +29,9 @@ final class GeneratePhraseViewModel: ObservableObject {
 
     init(generatePhraseState: GeneratePhraseState = .generate,
          phraseService: PhraseServiceProtocol = PhraseService.shared,
-         keychainService: KeychainServiceProtocol = KeychainService.shared) {
+         keychainService: KeychainServiceProtocol = KeychainService.shared,
+         resources: GeneratePhraseResourcable.Type = GeneratePhraseResources.self
+    ) {
         self.generatePhraseState = generatePhraseState
         self.phraseService = phraseService
         self.keychainService = keychainService
