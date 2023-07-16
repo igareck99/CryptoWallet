@@ -3,6 +3,7 @@ import SwiftUI
 // MARK: - ChatHistoryFlowCoordinatorProtocol
 
 protocol ChatHistoryFlowCoordinatorProtocol {
+    var childCoordinators: [ChatHistoryCoordinatorBase] { get set}
     func firstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol)
     func showCreateChat(_ chatData: Binding<ChatData>)
     func roomSettings(isChannel: Bool,
@@ -32,8 +33,11 @@ protocol ChatHistoryFlowCoordinatorProtocol {
     func dismissCurrentSheet()
 }
 
+// MARK: - ChatHistoryFlowCoordinator
+
 final class ChatHistoryFlowCoordinator {
     private let router: ChatHistoryRouterable
+    @Published var childCoordinators: [ChatHistoryCoordinatorBase] = []
     
     init(
         router: ChatHistoryRouterable

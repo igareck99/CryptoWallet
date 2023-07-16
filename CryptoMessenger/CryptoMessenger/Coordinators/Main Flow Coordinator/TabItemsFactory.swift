@@ -35,7 +35,7 @@ enum TabItemsFactory: TabItemsFactoryProtocol {
             icon: MainTabs.profile.image,
             tabType: .profile
         ) {
-            ProfileAssembly.build(profileDelegate).anyView()
+            ProfileAssembly.build().anyView()
         }
     }
 }

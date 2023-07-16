@@ -46,12 +46,11 @@ protocol ChatHistoryRouterable {
 
 // MARK: - ChatHistoryRouter
 
-struct ChatHistoryRouter<Content: View, State: ChatHistoryFlowStateProtocol>: View {
-    
+struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View {
+
     // MARK: - Internal Properties
     
     @StateObject var state: State
-    
     let content: () -> Content
     
     var body: some View {
@@ -129,8 +128,22 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryFlowStateProtocol>: Vi
                 ChannelParticipantsView(viewModel: viewModel,
                                         showParticipantsView: showParticipantsView)
             }
-        default:
-            EmptyView()
+        case let .notifications(roomId):
+            ChannelNotificationsAssembly.build(roomId)
+        case let .galleryPicker(selectedImage: selectedImage,
+                                selectedVideo: selectedVideo,
+                                sourceType: sourceType,
+                                galleryContent: galleryContent):
+            GalleryPickerAssembly.build(selectedImage: selectedImage,
+                                        selectedVideo: selectedVideo,
+                                        sourceType: sourceType,
+                                        galleryContent: galleryContent)
+            .edgesIgnoringSafeArea(.all)
+        case let .channelPatricipants(viewModel: viewModel, showParticipantsView: showParticipantsView):
+            NavigationView {
+                ChannelParticipantsView(viewModel: viewModel,
+                                        showParticipantsView: showParticipantsView)
+            }
         }
     }
 }

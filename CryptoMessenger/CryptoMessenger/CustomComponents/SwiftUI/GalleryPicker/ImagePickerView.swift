@@ -1,16 +1,14 @@
 import SwiftUI
 import UIKit
 
-// MARK: - GalleryPickerView
+// MARK: - ImagePickerView
 
-struct GalleryPickerView: UIViewControllerRepresentable {
+struct ImagePickerView: UIViewControllerRepresentable {
 
     // MARK: - Internal Properties
 
     @Binding var selectedImage: UIImage?
-    @Binding var selectedVideo: URL?
     var sourceType: UIImagePickerController.SourceType
-    var galleryContent: GalleryPickerContent
 
     // MARK: - Private Properties
 
@@ -19,27 +17,18 @@ struct GalleryPickerView: UIViewControllerRepresentable {
     // MARK: - Lifecycle
 
     init(selectedImage: Binding<UIImage?>,
-         selectedVideo: Binding<URL?>,
-         sourceType: UIImagePickerController.SourceType,
-         galleryContent: GalleryPickerContent) {
+         sourceType: UIImagePickerController.SourceType = .photoLibrary) {
         self._selectedImage = selectedImage
-        self._selectedVideo = selectedVideo
         self.sourceType = sourceType
-        self.galleryContent = galleryContent
     }
 
     // MARK: - Internal Methods
 
     func makeUIViewController(
-        context: UIViewControllerRepresentableContext<GalleryPickerView>
+        context: UIViewControllerRepresentableContext<ImagePickerView>
     ) -> UIImagePickerController {
         let controller = UIImagePickerController()
         controller.allowsEditing = false
-        if galleryContent == .all {
-            controller.mediaTypes = ["public.movie", "public.image"]
-        } else {
-            controller.mediaTypes = ["public.image"]
-        }
         controller.sourceType = sourceType
         controller.delegate = context.coordinator
         return controller
@@ -47,7 +36,7 @@ struct GalleryPickerView: UIViewControllerRepresentable {
 
     func updateUIViewController(
         _ uiViewController: UIImagePickerController,
-        context: UIViewControllerRepresentableContext<GalleryPickerView>
+        context: UIViewControllerRepresentableContext<ImagePickerView>
     ) {}
 
     func makeCoordinator() -> Coordinator {
@@ -60,11 +49,11 @@ struct GalleryPickerView: UIViewControllerRepresentable {
 
         // MARK: - Private Properties
 
-        private var parent: GalleryPickerView
+        private var parent: ImagePickerView
 
         // MARK: - Life Cycle
 
-        init(_ parent: GalleryPickerView) {
+        init(_ parent: ImagePickerView) {
             self.parent = parent
         }
 
@@ -75,9 +64,7 @@ struct GalleryPickerView: UIViewControllerRepresentable {
             didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
         ) {
             let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-            let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL
             parent.selectedImage = image
-            parent.selectedVideo = videoURL
             parent.presentationMode.wrappedValue.dismiss()
         }
     }
