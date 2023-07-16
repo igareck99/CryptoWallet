@@ -133,7 +133,9 @@ final class ProfileViewModel: ObservableObject {
                     self?.fetchImageData()
                 case .onSocial:
                     self?.coordinator?.onSocialList()
-                case let .onGallery(type, selectedImage, selectedVideo):
+                case let .onGallery(type,
+                                    selectedImage,
+                                    selectedVideo):
                     guard let self = self else { return }
                     self.coordinator?.galleryPickerFullScreen(selectedImage: selectedImage,
                                                               selectedVideo: selectedVideo, sourceType: type,

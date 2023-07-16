@@ -19,7 +19,7 @@ enum ProfileDetailConfigurator {
             coreDataService: coreDataService,
             privateDataCleaner: privateDataCleaner
 		)
-        viewModel.delegate = delegate
+        viewModel.coordinator = delegate
         let view = ProfileDetailView(viewModel: viewModel, selectedAvatarImage: image)
         return view
     }

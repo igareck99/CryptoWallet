@@ -7,7 +7,7 @@ final class ProfileDetailViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: ProfileDetailSceneDelegate?
+    weak var coordinator: ProfileDetailSceneDelegate?
 
     @Published var profile = ProfileItem()
     @Published var closeScreen = false
@@ -67,7 +67,9 @@ final class ProfileDetailViewModel: ObservableObject {
                 case .onAppear:
                     ()
                 case .onSocial:
-                    self?.delegate?.handleNextScene(.socialList)
+                    // TODO: - Убрал пока тут нет координатора
+                    ()
+                    //self?.coordinator.onSocialList()
                 case .onDone:
                     if let image = self?.selectedImage?.fixOrientation(),
                        let data = image.jpeg(.medium) {
@@ -107,7 +109,7 @@ final class ProfileDetailViewModel: ObservableObject {
                 self?.userSettings.isAuthFlowFinished = false
                 self?.userSettings.isOnboardingFlowFinished = false
                 self?.keychainService.removeObject(forKey: .apiUserPinCode)
-                self?.delegate?.restartFlow()
+                self?.coordinator?.restartFlow()
             default:
                 break
             }

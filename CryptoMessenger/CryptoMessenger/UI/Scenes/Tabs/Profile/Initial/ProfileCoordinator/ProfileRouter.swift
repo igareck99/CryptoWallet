@@ -71,8 +71,6 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
                 CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
                     //.fill(viewModel.resources.background)
             )
-        default:
-            EmptyView()
         }
     }
 }

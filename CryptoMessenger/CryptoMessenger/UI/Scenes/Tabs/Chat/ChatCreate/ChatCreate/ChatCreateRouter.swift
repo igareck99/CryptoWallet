@@ -13,7 +13,8 @@ protocol ChatCreateRouterable {
                          _ coordinator: ChatCreateFlowCoordinatorProtocol)
 }
 
-struct ChatCreateRouter<Content: View, State: ChatHistoryFlowStateProtocol>: View {
+
+struct ChatCreateRouter<Content: View, State: ChatHistoryCoordinatorBase>: View {
 
     @ObservedObject var state: State
 
