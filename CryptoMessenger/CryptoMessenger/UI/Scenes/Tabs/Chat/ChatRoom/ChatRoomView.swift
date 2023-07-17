@@ -203,6 +203,7 @@ struct ChatRoomView: View {
             .toolbar {
                 createToolBar()
             }
+            .toolbar(.hidden, for: .tabBar)
     }
 
     private var content: some View {

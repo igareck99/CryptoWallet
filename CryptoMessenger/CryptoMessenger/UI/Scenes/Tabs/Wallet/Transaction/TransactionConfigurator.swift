@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 // MARK: - TransactionConfigurator
 
@@ -6,13 +6,13 @@ enum TransactionConfigurator {
 
     // MARK: - Static Methods
 
-    static func configuredView(delegate: TransactionSceneDelegate?,
-                               selectorFilterIndex: Int,
-                               selectorTokenIndex: Int,
-                               address: String) -> TransactionView {
-		let userCredentialsStorage = UserDefaultsService.shared
-        let viewModel = TransactionViewModel(userCredentialsStorage: userCredentialsStorage)
-        viewModel.delegate = delegate
+    static func build(
+        selectorFilterIndex: Int,
+        selectorTokenIndex: Int,
+        address: String,
+        coordinator: WalletCoordinatable
+    ) -> some View {
+        let viewModel = TransactionViewModel(coordinator: coordinator)
         let view = TransactionView(
 			viewModel: viewModel,
 			selectorFilterIndex: selectorFilterIndex,

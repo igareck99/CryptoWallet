@@ -6,8 +6,6 @@ struct WalletView: View {
 
     // MARK: - Internal Properties
 
-    @State var displayTransactionResult = false
-
     @StateObject var viewModel: WalletViewModel
     @StateObject var generateViewModel = GeneratePhraseViewModel()
     @State var contentWidth = CGFloat(0)
@@ -39,7 +37,6 @@ struct WalletView: View {
                     loadingStateView()
                 })
             .onAppear {
-                displayTransactionResult = false
                 navBarHide = false
                 showTabBar()
                 viewModel.send(.onAppear)
@@ -158,12 +155,6 @@ struct WalletView: View {
                 .background(.white)
                 .cornerRadius(16)
             })
-            .sheet(isPresented: $displayTransactionResult) {
-                if let sentTransaction = viewModel.transaction {
-                    TransactionResultView(model: sentTransaction)
-                        .presentationDetents([.height(302)])
-                }
-            }
         }
     }
 
@@ -291,13 +282,6 @@ struct WalletView: View {
     private var sendButton: some View {
         Button {
             viewModel.send(.onTransfer(walletIndex: pageIndex))
-
-            let onTransactionEndClosure: (TransactionResult) -> Void = {
-                viewModel.transaction = $0
-                displayTransactionResult = true
-            }
-            viewModel.onTransactionEnd = onTransactionEndClosure
-            viewModel.onTransactionEndHelper(onTransactionEndClosure)
         } label: {
             Text(R.string.localizable.walletSend())
                 .font(.system(size: 17, weight: .semibold))

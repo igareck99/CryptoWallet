@@ -24,14 +24,11 @@ protocol ChatHistoryFlowCoordinatorProtocoll {
 
 final class ChatHistoryFlowCoordinator {
     private let router: ChatHistoryRouterable
-    private let state: ChatHistoryFlowState
     
     init(
-        router: ChatHistoryRouterable,
-        state: ChatHistoryFlowState
+        router: ChatHistoryRouterable
     ) {
         self.router = router
-        self.state = state
     }
 }
 

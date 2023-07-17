@@ -6,12 +6,11 @@ enum TransferConfigurator {
 
     // MARK: - Static Methods
 
-    static func configuredView(
-		wallet: WalletInfo,
-		delegate: TransferSceneDelegate?
-	) -> TransferView {
-        let viewModel = TransferViewModel(wallet: wallet)
-        viewModel.delegate = delegate
+    static func build(
+        wallet: WalletInfo,
+        coordinator: WalletCoordinatable
+    ) -> TransferView {
+        let viewModel = TransferViewModel(wallet: wallet, coordinator: coordinator)
 		let view = TransferView(viewModel: viewModel)
         return view
     }

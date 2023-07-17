@@ -4,18 +4,14 @@ import SwiftUI
 // MARK: - WalletAssembly
 
 enum WalletAssembly {
-    static func build(
-        _ delegate: WalletSceneDelegate,
-        onTransactionEndHelper: @escaping ( @escaping (TransactionResult) -> Void) -> Void
-    ) -> some View {
-        let userCredentialsStorage = UserDefaultsService.shared
-        let viewModel = WalletViewModel(
-            userCredentialsStorage: userCredentialsStorage,
-            onTransactionEndHelper: onTransactionEndHelper
-        )
-        let coordinator = WalletFlowCoordinator(router: delegate)
-        viewModel.coordinator = coordinator
+    static func build() -> some View {
+        let viewModel = WalletViewModel()
         let view = WalletView(viewModel: viewModel)
-        return view
+        let router = WalletRouter(state: WalletRouterState.shared) {
+            view
+        }
+        let coordinator = WalletCoordinator(router: router)
+        viewModel.coordinator = coordinator
+        return router
     }
 }

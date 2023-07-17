@@ -1,13 +1,14 @@
 import Combine
 import SwiftUI
 
+// swiftlint:disable all
+
 // MARK: - TransactionViewModel
 
 final class TransactionViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: TransactionSceneDelegate?
     @Published var transactionList: [TransactionInfo] = []
     @State var selectorFilterIndex = 0
     @State var selectorTokenIndex = 0
@@ -18,15 +19,16 @@ final class TransactionViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<TransactionFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<TransactionFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-
-    @Injectable private var apiClient: APIClientManager
     private let userCredentialsStorage: UserCredentialsStorage
+    private let coordinator: WalletCoordinatable
 
     // MARK: - Lifecycle
 
     init(
-		userCredentialsStorage: UserCredentialsStorage
+        coordinator: WalletCoordinatable,
+		userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared
 	) {
+        self.coordinator = coordinator
 		self.userCredentialsStorage = userCredentialsStorage
         bindInput()
         bindOutput()

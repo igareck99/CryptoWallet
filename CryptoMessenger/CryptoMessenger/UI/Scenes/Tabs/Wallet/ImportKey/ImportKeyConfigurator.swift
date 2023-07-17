@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 // MARK: - ImportKeyConfigurator
 
@@ -6,14 +6,8 @@ enum ImportKeyConfigurator {
 
     // MARK: - Static Methods
 
-    static func configuredView(
-        delegate: ImportKeySceneDelegate?,
-        navController: UINavigationController? = nil
-    ) -> ImportKeyView {
-        let viewModel = ImportKeyViewModel()
-        viewModel.delegate = delegate
-        viewModel.navController = navController
-        let view = ImportKeyView(viewModel: viewModel)
-        return view
+    static func build(coordinator: WalletCoordinatable) -> some View {
+        let viewModel = ImportKeyViewModel(coordinator: coordinator)
+        return ImportKeyView(viewModel: viewModel)
     }
 }

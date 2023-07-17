@@ -6,11 +6,11 @@ enum ChooseReceiverConfigurator {
 
     // MARK: - Static Methods
 
-    static func configuredView(delegate: ChooseReceiverSceneDelegate?,
-                               receiverData: Binding<UserReceiverData>) -> ChooseReceiverView {
-		let userSettings = UserDefaultsService.shared
-        let viewModel = ChooseReceiverViewModel(userSettings: userSettings)
-        viewModel.delegate = delegate
+    static func build(
+        receiverData: Binding<UserReceiverData>,
+        coordinator: WalletCoordinatable
+    ) -> some View {
+        let viewModel = ChooseReceiverViewModel(coordinator: coordinator)
         let view = ChooseReceiverView(receiverData: receiverData,
                                       viewModel: viewModel)
         return view

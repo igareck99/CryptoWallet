@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 // MARK: - FacilityApproveConfigurator
 
@@ -6,16 +6,14 @@ enum FacilityApproveConfigurator {
 
     // MARK: - Static Methods
 
-    static func configuredView(
-		transaction: FacilityApproveModel,
-		delegate: FacilityApproveSceneDelegate,
-		onTransactionEnd: @escaping (TransactionResult) -> Void
-	) -> FacilityApproveView {
+    static func build(
+        transaction: FacilityApproveModel,
+        coordinator: WalletCoordinatable
+    ) -> some View {
 		let viewModel = FacilityApproveViewModel(
 			transaction: transaction,
-			onTransactionEnd: onTransactionEnd
+			coordinator: coordinator
 		)
-        viewModel.delegate = delegate
         let view = FacilityApproveView(viewModel: viewModel)
         return view
     }

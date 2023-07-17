@@ -17,8 +17,6 @@ protocol MainFlowSceneDelegate: AnyObject {
 
 // MARK: - MainFlowCoordinator
 
-typealias TransactionEndHandler = (@escaping (TransactionResult) -> Void) -> Void
-
 final class MainFlowCoordinator: Coordinator {
 
     // MARK: - Internal Properties
@@ -30,17 +28,6 @@ final class MainFlowCoordinator: Coordinator {
     let navigationController: UINavigationController
 
     private let togglesFacade: MainFlowTogglesFacadeProtocol
-
-	private lazy var onTransactionEnd: (TransactionResult) -> Void = { [weak self] transactionResult in
-		let closure = self?.onTransactionEndDisplay?()
-		closure?(transactionResult)
-	}
-	private var onTransactionEndDisplay: (() -> ((TransactionResult) -> Void))?
-	// Костыль для связки флоу переводов
-	// по-хорошему это должно происходить через storage координатора
-	private lazy var onTransactionEndHelper: TransactionEndHandler = { [weak self] transactionClosure in
-		self?.onTransactionEndDisplay = { transactionClosure }
-	}
 
     // MARK: - Lifecycle
 
@@ -59,9 +46,7 @@ final class MainFlowCoordinator: Coordinator {
     func makeTabBarView() {
         let view = TabItemsViewAssembly.build(
             chateDelegate: self,
-            profileDelegate: self,
-            walletDelegate: self,
-            onTransactionEndHelper: onTransactionEndHelper
+            profileDelegate: self
         )
         let controller = BaseHostingController(rootView: view)
         controller.navigationController?.navigationBar.isHidden = false
@@ -292,44 +277,13 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         selectorFilterIndex: Int = 0,
         selectorTokenIndex: Int = 0,
         address: String = ""
-    ) {
-        let rootView = TransactionConfigurator.configuredView(
-            delegate: self,
-            selectorFilterIndex: selectorFilterIndex,
-            selectorTokenIndex: selectorTokenIndex,
-            address: address
-        )
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
+    ) { }
 
-    private func showImportKey() {
-        let rootView = ImportKeyConfigurator.configuredView(
-            delegate: self,
-            navController: navigationController
-        )
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
+    private func showImportKey() { }
 
-	private func showTransferScene(wallet: WalletInfo) {
-        let rootView = TransferConfigurator.configuredView(
-			wallet: wallet,
-			delegate: self
-		)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
+	private func showTransferScene(wallet: WalletInfo) { }
 
-    private func showChooseReceiver(address: Binding<UserReceiverData>) {
-        let rootView = ChooseReceiverConfigurator.configuredView(delegate: self, receiverData: address)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
+    private func showChooseReceiver(address: Binding<UserReceiverData>) { }
 
     private func showQRScanner(scannedString: Binding<String>) {
         let rootView = WalletAddressScannerConfigurator.configuredView(
@@ -341,17 +295,7 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-	private func showFacilityApprove(transaction: FacilityApproveModel) {
-		let rootView = FacilityApproveConfigurator
-			.configuredView(
-				transaction: transaction,
-				delegate: self,
-				onTransactionEnd: onTransactionEnd
-			)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
+	private func showFacilityApprove(transaction: FacilityApproveModel) { }
 
     private func showSocialList() {
         let rootView = SocialListConfigurator.configuredView(delegate: self)

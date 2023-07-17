@@ -1,5 +1,5 @@
-import SwiftUI
 import Combine
+import SwiftUI
 import HDWalletKit
 
 // MARK: - ImportKeyViewModel
@@ -8,8 +8,7 @@ final class ImportKeyViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var navController: UINavigationController?
-    weak var delegate: ImportKeySceneDelegate?
+    private let coordinator: WalletCoordinatable
     var viewState: ImportKeyViewState = .reserveCopy
     @Published var isPhraseValid = false
     @Published var isErrorState = false
@@ -31,10 +30,12 @@ final class ImportKeyViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
+        coordinator: WalletCoordinatable,
         coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
         keychainService: KeychainServiceProtocol = KeychainService.shared,
         phraseService: PhraseServiceProtocol = PhraseService.shared
     ) {
+        self.coordinator = coordinator
         self.coreDataService = coreDataService
         self.keychainService = keychainService
         self.phraseService = phraseService
@@ -65,7 +66,7 @@ final class ImportKeyViewModel: ObservableObject {
             self?.isSnackbarPresented = false
             self?.objectWillChange.send()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
-                self?.navController?.popViewController(animated: true)
+                self?.coordinator.didImportKey()
             }
         }
     }

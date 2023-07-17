@@ -2,11 +2,12 @@ import Combine
 import SwiftUI
 import MatrixSDK
 
+// swiftlint:disable all
+
 final class TransferViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: TransferSceneDelegate?
 	@Published var currentSpeed = TransactionMode.medium
     @Published var transferSum = 0
 
@@ -23,9 +24,10 @@ final class TransferViewModel: ObservableObject {
 	private let keysService: KeysServiceProtocol
 	private let keychainService: KeychainServiceProtocol
 	private let coreDataService: CoreDataServiceProtocol
-
+    private let coordinator: WalletCoordinatable
 	private var addressTo: String = ""
 
+    private let feeItemsFactory: FeeItemsFactoryProtocol.Type
 	let sources: TransferViewSourcable.Type
 	var fees = [TransactionSpeed]()
 	var walletTypes = [WalletType]()
@@ -87,14 +89,17 @@ final class TransferViewModel: ObservableObject {
 
     init(
 		wallet: WalletInfo,
+        coordinator: WalletCoordinatable,
 		keychainService: KeychainServiceProtocol = KeychainService.shared,
 		keysService: KeysServiceProtocol = KeysService(),
 		walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
 		userSettings: UserFlowsStorage & UserCredentialsStorage = UserDefaultsService.shared,
 		coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
-		sources: TransferViewSourcable.Type = TransferViewSources.self
+		sources: TransferViewSourcable.Type = TransferViewSources.self,
+        feeItemsFactory: FeeItemsFactoryProtocol.Type = FeeItemsFactory.self
 	) {
 		self.currentWallet = wallet
+        self.coordinator = coordinator
 		self.currentWalletType = wallet.walletType
 		self.keychainService = keychainService
 		self.keysService = keysService
@@ -102,6 +107,7 @@ final class TransferViewModel: ObservableObject {
 		self.userSettings = userSettings
 		self.coreDataService = coreDataService
 		self.sources = sources
+        self.feeItemsFactory = feeItemsFactory
         bindInput()
         bindOutput()
 		getFees()
@@ -183,7 +189,7 @@ final class TransferViewModel: ObservableObject {
                 case .onApprove:
 					self?.transactionTemplate()
                 case let .onChooseReceiver(address):
-                    self?.delegate?.handleNextScene(.chooseReceiver(address))
+                    self?.coordinator.chooseReceiver(address: address)
 				case let .onAddressChange(address):
 					self?.addressTo = address
                 }
@@ -304,7 +310,7 @@ final class TransferViewModel: ObservableObject {
 
 			DispatchQueue.main.async { [weak self] in
 				guard let self = self else { return }
-				self.delegate?.handleNextScene(.facilityApprove(transaction))
+                self.coordinator.didCreateTemplate(transaction: transaction)
 			}
 		}
 	}
@@ -316,29 +322,15 @@ final class TransferViewModel: ObservableObject {
 		walletNetworks.getFee(params: feeParams) { [weak self] result in
 			debugPrint("getFees: \(result)")
 
-			guard let self = self else { return }
-			guard case let .success(response) = result else { return }
-			let slow = TransactionSpeed(
-				title: self.sources.transferSlow,
-				feeText: "\(response.fee.slow) \(feeCurrency)",
-				feeValue: "\(response.fee.slow)",
-				mode: .slow
-			)
-			let medium = TransactionSpeed(
-				title: self.sources.transferMiddle,
-				feeText: "\(response.fee.average) \(feeCurrency)",
-				feeValue: "\(response.fee.average)",
-				mode: .medium
-			)
-
-			let fast = TransactionSpeed(
-				title: self.sources.transferFast,
-				feeText: "\(response.fee.fast) \(feeCurrency)",
-				feeValue: "\(response.fee.fast)",
-				mode: .fast
-			)
-
-			self.fees = [slow, medium, fast]
+			guard let self = self,
+                  case let .success(response) = result else { return }
+			
+            self.fees = self.feeItemsFactory.make(
+                feesModel: response,
+                sources: self.sources,
+                currency: feeCurrency
+            )
+            
 			DispatchQueue.main.async {
 				self.objectWillChange.send()
 			}

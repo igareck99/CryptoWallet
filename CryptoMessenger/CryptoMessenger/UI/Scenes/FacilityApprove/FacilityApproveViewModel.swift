@@ -1,13 +1,14 @@
 import Combine
 import SwiftUI
 
+// swiftlint:disable all
+
 // MARK: - FacilityApproveViewModel
 
 final class FacilityApproveViewModel: ObservableObject {
 
 	// MARK: - Internal Properties
 
-	weak var delegate: FacilityApproveSceneDelegate?
 	var transaction: FacilityApproveModel
 	@Published var cellType: [ApproveFacilityCellTitle] = []
 
@@ -22,22 +23,22 @@ final class FacilityApproveViewModel: ObservableObject {
 	private let userCredentialsStorage: UserCredentialsStorage
 	private let sources: FacilityApproveSourcesable.Type
 	private let walletNetworks: WalletNetworkFacadeProtocol
-	private let onTransactionEnd: ((TransactionResult) -> Void)?
+    private let coordinator: WalletCoordinatable
 
 	// MARK: - Lifecycle
 
 	init(
-		transaction: FacilityApproveModel,
+        transaction: FacilityApproveModel,
+        coordinator: WalletCoordinatable,
 		walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
 		userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared,
-		sources: FacilityApproveSourcesable.Type = FacilityApproveSources.self,
-		onTransactionEnd: @escaping (TransactionResult) -> Void
+		sources: FacilityApproveSourcesable.Type = FacilityApproveSources.self
 	) {
 		self.transaction = transaction
+        self.coordinator = coordinator
 		self.walletNetworks = walletNetworks
 		self.userCredentialsStorage = userCredentialsStorage
 		self.sources = sources
-		self.onTransactionEnd = onTransactionEnd
 		bindInput()
 		bindOutput()
 	}
@@ -126,23 +127,47 @@ extension FacilityApproveViewModel {
 		)
 		walletNetworks.makeTransactionSend(params: params) { [weak self] result in
 			debugPrint("Transaction Send: RESULT: \(result)")
-            // TODO: - Раскомментировать после review 
 			guard let self = self,
-				  case let .success(response) = result else { return }
+				  case let .success(response) = result else {
+                // MARK: - Пока добавил для того чтобы был переход в кошелек
+                // нужно бдует обновить, когда будем прорабатывать ошибки
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.transactionresult(
+                        title: R.string.localizable.facilityApproveTransactionFailed(),
+                        imageName: R.image.transaction.successOperation.name,
+                        isSuccess: false,
+                        failDescription: "Транзакция не удалась"
+                    )
+                }
+                return
+            }
 			debugPrint("Transaction Send: RESPONSE: \(response)")
 			DispatchQueue.main.async { [weak self] in
 				guard let self = self else { return }
-				self.delegate?.handleNextScene(.popToRoot)
-				let receiverName: String = self.transaction.reciverName ?? R.string.localizable.facilityApproveReceiver()
-				let model = TransactionResult(
-					title: R.string.localizable.facilityApproveTransactionDone(),
-					resultImageName: R.image.transaction.successOperation.name,
-					amount: self.transaction.transferAmount + " " + self.transaction.transferCurrency,
-					receiverName: receiverName,
-					receiversWallet: self.transaction.reciverAddress ?? ""
-				)
-				self.onTransactionEnd?(model)
+                self.transactionresult(
+                    title: R.string.localizable.facilityApproveTransactionDone(),
+                    imageName: R.image.transaction.successOperation.name
+                )
 			}
 		}
 	}
+    
+    private func transactionresult(
+        title: String,
+        imageName: String,
+        isSuccess: Bool = true,
+        failDescription: String? = nil
+    ) {
+        let receiverName: String = self.transaction.reciverName ?? R.string.localizable.facilityApproveReceiver()
+        let model = TransactionResult(
+            title: title,
+            resultImageName: imageName,
+            amount: self.transaction.transferAmount + " " + self.transaction.transferCurrency,
+            receiverName: receiverName,
+            receiversWallet: self.transaction.reciverAddress ?? "",
+            result: isSuccess ? .success : .fail(failDescription ?? "failed")
+        )
+        self.coordinator.onTransactionEnd(model: model)
+    }
 }
