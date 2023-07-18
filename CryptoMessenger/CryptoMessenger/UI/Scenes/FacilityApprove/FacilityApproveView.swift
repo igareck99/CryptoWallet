@@ -37,13 +37,13 @@ struct FacilityApproveView: View {
                     .frame(height: UIScreen.main.bounds.height - 44)
                     .background(
                         CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                            .fill(Color(.white()))
+                            .fill(viewModel.resources.background)
                     )
             }
         )
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text(R.string.localizable.facilityApproveValidateTransaction())
+                Text(viewModel.resources.facilityApproveValidateTransaction)
                     .font(.system(size: 17, weight: .semibold))
             }
         }
@@ -54,10 +54,9 @@ struct FacilityApproveView: View {
     private var content: some View {
 		ScrollView {
 			VStack(alignment: .leading) {
-
-				Text(R.string.localizable.facilityApproveReceiver().uppercased())
+                Text(viewModel.resources.facilityApproveReceiver.uppercased())
 					.font(.system(size: 12))
-					.foregroundColor(.regentGrayApprox)
+                    .foregroundColor(viewModel.resources.textColor)
 					.lineLimit(1)
 					.truncationMode(.middle)
 					.padding(.top, 24)
@@ -69,9 +68,9 @@ struct FacilityApproveView: View {
 						.frame(height: 64)
 				}
 
-				Text(R.string.localizable.facilityApproveCheck())
+                Text(viewModel.resources.facilityApproveCheck)
 					.font(.system(size: 16))
-					.foregroundColor(.jaffaApprox)
+                    .foregroundColor(viewModel.resources.checkTextColor)
 					.multilineTextAlignment(.leading)
 			}
 			.padding(.leading, 16)
@@ -87,26 +86,26 @@ struct FacilityApproveView: View {
 		Button {
 			viewModel.send(.onTransaction)
 		} label: {
-			Text(R.string.localizable.walletSend())
+            Text(viewModel.resources.walletSend)
 				.font(.system(size: 17, weight: .semibold))
 				.padding()
-				.foregroundColor(.white)
+                .foregroundColor(viewModel.resources.background)
 		}
 		.frame(width: 237, height: 48)
-		.background(Color.azureRadianceApprox)
+        .background(viewModel.resources.buttonBackground)
 		.cornerRadius(10)
 	}
 
     private var receiverCellView: some View {
         HStack(spacing: 0) {
-            R.image.transaction.userPlaceholder.image
+            viewModel.resources.userPlaceholder
                 .resizable()
                 .clipShape(Circle())
                 .frame(width: 40, height: 40)
             VStack(alignment: .leading, spacing: 0) {
                 Text(viewModel.transaction.reciverName ?? "По адресу")
                     .font(.system(size: 17))
-                    .foregroundColor(.woodSmokeApprox)
+                    .foregroundColor(viewModel.resources.titleColor)
                     .lineLimit(1)
                     .truncationMode(.middle)
                     .padding(.trailing, 16)

@@ -25,9 +25,9 @@ final class FacilityApproveViewModel: ObservableObject {
 
 	@Injectable private var apiClient: APIClientManager
 	private let userCredentialsStorage: UserCredentialsStorage
-	private let sources: FacilityApproveSourcesable.Type
 	private let walletNetworks: WalletNetworkFacadeProtocol
     private let coordinator: FacilityApproveViewCoordinatable
+    let resources: FacilityApproveSourcesable.Type
 
 	// MARK: - Lifecycle
 
@@ -36,13 +36,13 @@ final class FacilityApproveViewModel: ObservableObject {
         coordinator: FacilityApproveViewCoordinatable,
 		walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
 		userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared,
-		sources: FacilityApproveSourcesable.Type = FacilityApproveSources.self
+		resources: FacilityApproveSourcesable.Type = FacilityApproveSources.self
 	) {
 		self.transaction = transaction
         self.coordinator = coordinator
 		self.walletNetworks = walletNetworks
 		self.userCredentialsStorage = userCredentialsStorage
-		self.sources = sources
+		self.resources = resources
 		bindInput()
 		bindOutput()
 	}
