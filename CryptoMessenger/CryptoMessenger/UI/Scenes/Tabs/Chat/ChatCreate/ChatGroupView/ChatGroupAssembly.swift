@@ -1,10 +1,11 @@
 import SwiftUI
 
-// MARK: - ChatViewAssembly
+// MARK: - ChatGroupAssembly
 
 enum ChatGroupAssembly {
     static func build(_ chatData: Binding<ChatData>,
                       coordinator: ChatCreateFlowCoordinatorProtocol) -> some View {
+        print("saowqoooqwoasoas")
         var viewModel = ChatGroupViewModel(chatData: chatData)
         viewModel.coordinator = coordinator
         let view = ChatGroupView(viewModel: viewModel)
