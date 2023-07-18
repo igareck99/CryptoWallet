@@ -40,7 +40,9 @@ struct ProfileView: View {
                 }
             }
             .onChange(of: viewModel.selectedImage, perform: { _ in
-                showImageEdtior = true
+                viewModel.send(.onImageEditor(isShowing: $showImageEdtior,
+                                              image: $viewModel.selectedImage,
+                                              viewModel: viewModel))
             })
             .onChange(of: showMenu, perform: { value in
                 if value && viewModel.isVoiceCallAvailablility {
@@ -82,56 +84,36 @@ struct ProfileView: View {
                         FeedShareSheet(image: viewModel.imageToShare)
                             })
             })
-            .fullScreenCover(isPresented: $showCameraPicker,
-                             content: {
-                ImagePickerView(selectedImage: $viewModel.selectedImage,
-                                sourceType: .camera)
-                .ignoresSafeArea()
-            })
-            .fullScreenCover(isPresented: $showImagePicker,
-                             content: {
-                ImagePickerView(selectedImage: $viewModel.selectedImage)
-                    .navigationBarTitle(Text(viewModel.resources.photoEditorTitle))
-                    .navigationBarTitleDisplayMode(.inline)
-                    .ignoresSafeArea()
-            })
-            .fullScreenCover(isPresented: $showImageEdtior,
-                             content: {
-                ImageEditor(theimage: $viewModel.selectedImage,
-                            isShowing: $showImageEdtior,
-                            viewModel: viewModel)
-                    .ignoresSafeArea()
-            })
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(viewModel.resources.profileCopied))
             }
-            .popup(
-                isPresented: $showMenu,
-                type: .toast,
-                position: .bottom,
-                closeOnTap: true,
-                closeOnTapOutside: true,
-                backgroundColor: viewModel.resources.backgroundFodding,
-                dismissCallback: {
-                    self.showTabBar()
-                },
-                view: {
-                    ProfileSettingsMenuView(balance: "0.50 AUR",
-                                            onSelect: { type in
-                        vibrate()
-                        if type == .profile {
-                            viewModel.send(.onShowProfileDetail($selectedAvatarImage))
-                        } else {
-                            viewModel.send(.onShow(type))
-                        }
-                    })
-                    .frame(height: viewModel.menuHeight )
-                    .background(
-                        CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                            .fill(viewModel.resources.background)
-                    )
-                }
-            )
+//            .popup(
+//                isPresented: $showMenu,
+//                type: .toast,
+//                position: .bottom,
+//                closeOnTap: true,
+//                closeOnTapOutside: true,
+//                backgroundColor: viewModel.resources.backgroundFodding,
+//                dismissCallback: {
+//                    self.showTabBar()
+//                },
+//                view: {
+//                    ProfileSettingsMenuView(balance: "0.50 AUR",
+//                                            onSelect: { type in
+//                        vibrate()
+//                        if type == .profile {
+//                            viewModel.send(.onShowProfileDetail($selectedAvatarImage))
+//                        } else {
+//                            viewModel.send(.onShow(type))
+//                        }
+//                    })
+//                    .frame(height: viewModel.menuHeight )
+//                    .background(
+//                        CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
+//                            .fill(viewModel.resources.background)
+//                    )
+//                }
+//            )
     }
 
     private var content: some View {
@@ -271,7 +253,7 @@ struct ProfileView: View {
                         .onTapGesture {
                             hideTabBar()
                             vibrate()
-                            showMenu.toggle()
+                            //viewModel.send(.onSettings)
                         }
                 }
             }
@@ -363,11 +345,13 @@ struct ProfileView: View {
     // MARK: - Private Methods
 
     private func switchImagePicker() {
-        showImagePicker = true
+        viewModel.send(.onGallery(.photoLibrary, $viewModel.selectedImage,
+                                  $viewModel.selectedVideo))
     }
 
     private func switchCameraPicker() {
-        showCameraPicker = true
+        viewModel.send(.onGallery(.camera, $viewModel.selectedImage,
+                                  $viewModel.selectedVideo))
     }
 
     private func getTagItem() -> Int {

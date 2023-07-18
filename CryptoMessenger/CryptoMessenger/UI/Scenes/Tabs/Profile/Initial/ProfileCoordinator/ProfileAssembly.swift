@@ -13,9 +13,12 @@ enum ProfileAssembly {
             userSettings: userSettings,
             keychainService: keychainService
         )
-        let coordinator = ProfileFlowCoordinator(router: delegate)
-        viewModel.coordinator = coordinator
         let view = ProfileView(viewModel: viewModel)
-        return view
+        let router = ProfileRouter(state: ProfileFlowState.shared) {
+            view
+        }
+        let coordinator = ProfileFlowCoordinator(router: router)
+        viewModel.coordinator = coordinator
+        return router
     }
 }

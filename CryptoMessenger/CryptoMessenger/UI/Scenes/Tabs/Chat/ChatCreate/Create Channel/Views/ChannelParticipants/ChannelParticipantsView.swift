@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: - ChannelNotificaionsView
+// MARK: - ChannelParticipantsView
 
 struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
@@ -20,80 +20,82 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
     // MARK: - Body
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                Text("Добавить пользователя")
-                    .foreground(.darkGray())
-                    .font(.regular(17))
-                    .padding(.leading, 16)
-                Divider()
-                    .padding(.top, 11)
-                cellStatus
-            }
-        }
-        .navigationBarHidden(false)
-        .navigationBarTitle("", displayMode: .inline)
-        .toolbar {
-            createToolBar()
-        }
-        .customConfirmDialog(
-            isPresented: viewModel.showMakeNewRole,
-            actionsAlignment: .center,
-            actions: {
-                TextActionViewModel
-                    .MakeNewRole
-                    .actions(viewModel.showMakeNewRole) {
-                        if showParticipantsView {
-                            viewModel.onMakeCurrentUserRoleTap()
-                        }
-                    }
-            }, cancelActions: {
-                TextActionViewModel
-                    .MakeNewRole
-                    .cancelActions(viewModel.showMakeNewRole)
-            })
-        .sheet(isPresented: viewModel.showSelectCurrentUserRole, content: {
-            NavigationView {
-                ChannelNewOwnerView(users: viewModel.getChannelUsers().filter({
-                    viewModel.getUserRole($0.matrixId) != .owner
-                })) { selectedContacts in
-                    viewModel.onAssignAnotherOwners(users: selectedContacts,
-                                                    newRole: selectedRole) {
-                    }
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Text("Добавить пользователя")
+                        .foreground(.darkGray())
+                        .font(.regular(17))
+                        .padding(.leading, 16)
+                    Divider()
+                        .padding(.top, 11)
+                    cellStatus
                 }
             }
-        })
-        .customConfirmDialog(
-            isPresented: viewModel.showChangeRole,
-            actionsAlignment: .center,
-            actions: {
-                TextActionViewModel
-                    .SelectRole
-                    .actions(viewModel.showChangeRole,
-                             viewModel.getCurrentUserRole()) {
-                        selectedRole = $0
-                        viewModel.onRoleSelected(role: $0, ownerCheck: true)
-                    }
-            }, cancelActions: {
-                TextActionViewModel
-                    .SelectRole
-                    .cancelActions(viewModel.showChangeRole)
-            })
-        .sheet(isPresented: viewModel.showUserSettings, content: {
-            UserSettingsAssembly.build(userId: viewModel.tappedUserId,
-                                       showBottomSheet: viewModel.showChangeRole,
-                                       showUserProfile: viewModel.showUserProfile,
-                                       roomId: viewModel.roomId,
-                                       roleCompare: viewModel.compareRoles()) {
-                viewModel.showUserSettings.wrappedValue = false
-                viewModel.onUserRemoved()
-            } onUserProfile: {
-                showParticipantsView = false
-                presentationMode.wrappedValue.dismiss()
-                viewModel.showUserSettings.wrappedValue = false
+            .navigationBarHidden(false)
+            .navigationBarTitle("", displayMode: .inline)
+            .toolbar {
+                createToolBar()
             }
-            .presentationDetents([.height(computeSizeOfUserMenu(viewModel.compareRoles()))])
-        })
+            .customConfirmDialog(
+                isPresented: viewModel.showMakeNewRole,
+                actionsAlignment: .center,
+                actions: {
+                    TextActionViewModel
+                        .MakeNewRole
+                        .actions(viewModel.showMakeNewRole) {
+                            if showParticipantsView {
+                                viewModel.onMakeCurrentUserRoleTap()
+                            }
+                        }
+                }, cancelActions: {
+                    TextActionViewModel
+                        .MakeNewRole
+                        .cancelActions(viewModel.showMakeNewRole)
+                })
+            .sheet(isPresented: viewModel.showSelectCurrentUserRole, content: {
+                NavigationView {
+                    ChannelNewOwnerView(users: viewModel.getChannelUsers().filter({
+                        viewModel.getUserRole($0.matrixId) != .owner
+                    })) { selectedContacts in
+                        viewModel.onAssignAnotherOwners(users: selectedContacts,
+                                                        newRole: selectedRole) {
+                        }
+                    }
+                }
+            })
+            .customConfirmDialog(
+                isPresented: viewModel.showChangeRole,
+                actionsAlignment: .center,
+                actions: {
+                    TextActionViewModel
+                        .SelectRole
+                        .actions(viewModel.showChangeRole,
+                                 viewModel.getCurrentUserRole()) {
+                            selectedRole = $0
+                            viewModel.onRoleSelected(role: $0, ownerCheck: true)
+                        }
+                }, cancelActions: {
+                    TextActionViewModel
+                        .SelectRole
+                        .cancelActions(viewModel.showChangeRole)
+                })
+            .sheet(isPresented: viewModel.showUserSettings, content: {
+                UserSettingsAssembly.build(userId: viewModel.tappedUserId,
+                                           showBottomSheet: viewModel.showChangeRole,
+                                           showUserProfile: viewModel.showUserProfile,
+                                           roomId: viewModel.roomId,
+                                           roleCompare: viewModel.compareRoles()) {
+                    viewModel.showUserSettings.wrappedValue = false
+                    viewModel.onUserRemoved()
+                } onUserProfile: {
+                    showParticipantsView = false
+                    presentationMode.wrappedValue.dismiss()
+                    viewModel.showUserSettings.wrappedValue = false
+                }
+                .presentationDetents([.height(computeSizeOfUserMenu(viewModel.compareRoles()))])
+            })
+        }
     }
 
     // MARK: - Private Properties

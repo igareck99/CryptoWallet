@@ -41,5 +41,6 @@ enum ChatRoomFlow {
                         room: AuraRoom, isLeaveChannel: Binding<Bool>)
         case onSendVideo(_ url: URL)
         case onMedia(_ room: AuraRoom)
+        case onCamera(Binding<UIImage?>, Binding<URL?>)
     }
 }

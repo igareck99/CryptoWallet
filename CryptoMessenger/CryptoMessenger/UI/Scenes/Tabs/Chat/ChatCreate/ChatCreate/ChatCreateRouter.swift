@@ -13,17 +13,11 @@ protocol ChatCreateRouterable {
                          _ coordinator: ChatCreateFlowCoordinatorProtocol)
 }
 
-struct ChatCreateRouter<Content: View>: View {
+struct ChatCreateRouter<Content: View, State: ChatHistoryCoordinatorBase>: View {
 
-    @ObservedObject var state = ChatCreateFlowState()
+    @ObservedObject var state: State
 
     let content: () -> Content
-
-    init(
-        content: @escaping () -> Content
-    ) {
-        self.content = content
-    }
 
     var body: some View {
         NavigationStack(path: $state.path) {

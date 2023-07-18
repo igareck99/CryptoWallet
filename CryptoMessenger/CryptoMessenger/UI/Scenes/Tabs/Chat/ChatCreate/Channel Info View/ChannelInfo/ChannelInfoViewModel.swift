@@ -84,6 +84,8 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     func onRoleSelected(role: ChannelRole, ownerCheck: Bool)
 
     func onDeleteAllUsers()
+    
+    func showNotifications()
 
     func onDeleteChannel()
 
@@ -114,6 +116,13 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     func onAssignAnotherOwners(users: [ChannelParticipantsData],
                                newRole: ChannelRole?,
                                completion: @escaping () -> Void)
+    
+    func showParticipantsView(_ viewModel: ChannelInfoViewModel,
+                              _ showParticipants: Binding<Bool>)
+    
+    func dismissSheet()
+    
+    func selectPhoto(_ sourceType: UIImagePickerController.SourceType)
 }
 
 // MARK: - ChannelInfoViewModel
@@ -345,10 +354,26 @@ final class ChannelInfoViewModel {
         },
         set: { newValue in
             self.selectedImg = newValue
+            self.onAvatarChange()
         }
     )
 
     var selectedImg: UIImage? {
+        didSet {
+            self.objectWillChange.send()
+        }
+    }
+
+    lazy var selectedVideo: Binding<URL?> = .init(
+        get: {
+            self.selectedVid
+        },
+        set: { newValue in
+            self.selectedVid = newValue
+        }
+    )
+
+    var selectedVid: URL? {
         didSet {
             self.objectWillChange.send()
         }
@@ -387,7 +412,7 @@ final class ChannelInfoViewModel {
     }
     
     func onAvatarChange() {
-        selectedImg = chatData.wrappedValue.image
+        chatData.wrappedValue.image = selectedImg
     }
     
     private func updateRoomParams() {
@@ -687,7 +712,11 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
             completion()
         }
     }
-    
+
+    func showNotifications() {
+        self.coordinator?.notifications(roomId)
+    }
+
     func onInviteUsersToChannel(users: [Contact]) {
         
         for user in users {
@@ -838,6 +867,23 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
             return ChannelUserActions(false, false)
         }
     }
+    
+    func showParticipantsView(_ viewModel: ChannelInfoViewModel,
+                              _ showParticipants: Binding<Bool>) {
+        self.coordinator?.channelPatricipantsView(viewModel,
+                                                  showParticipantsView: showParticipants)
+    }
+    
+    func dismissSheet() {
+        self.coordinator?.dismissCurrentSheet()
+    }
+    
+    func selectPhoto(_ sourceType: UIImagePickerController.SourceType) {
+        self.coordinator?.galleryPickerFullScreen(selectedImage: selectedImage,
+                                                  selectedVideo: selectedVideo,
+                                                   sourceType: sourceType,
+                                                   galleryContent: .photos)
+    }
 }
 
 // MARK: - ChannelUserActions
@@ -850,7 +896,7 @@ struct ChannelUserActions {
     // MARK: - Lifecycle
     
     init(_ changeRole: Bool,
-         _ delete : Bool) {
+         _ delete: Bool) {
         self.changeRole = changeRole
         self.delete = delete
     }

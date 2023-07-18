@@ -163,17 +163,11 @@ struct ChatRoomView: View {
                     .ignoresSafeArea()
                     .navigationBarHidden(true)
             })
-            .fullScreenCover(isPresented: $showCamera, content: {
-                GalleryPickerView(selectedImage: $viewModel.selectedImage,
-                                  selectedVideo: $viewModel.selectedVideo,
-                                  sourceType: .camera)
-                .ignoresSafeArea(.all)
-            })
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .photo:
-                    GalleryPickerView(selectedImage: $viewModel.selectedImage,
-                                      selectedVideo: $viewModel.selectedVideo)
+                    GalleryPickerAssembly.build(selectedImage: $viewModel.selectedImage,
+                                                selectedVideo: $viewModel.selectedVideo)
                         .navigationBarTitle(Text(viewModel.sources.photoEditorTitle))
                         .navigationBarTitleDisplayMode(.inline)
                 case .documents:
@@ -359,7 +353,10 @@ struct ChatRoomView: View {
                     cameraFrame: $viewModel.cameraFrame,
                     sendPhotos: $sendPhotos,
                     imagesToSend: $photosToSend,
-                    onCamera: { showActionSheet = false; showCamera = true },
+                    onCamera: { showActionSheet = false;
+                        viewModel.send(.onCamera($viewModel.selectedImage,
+                                                 $viewModel.selectedVideo))
+                    },
                     viewModel: attachViewModel
                 )
                 .transition(.move(edge: .bottom).combined(with: .opacity))

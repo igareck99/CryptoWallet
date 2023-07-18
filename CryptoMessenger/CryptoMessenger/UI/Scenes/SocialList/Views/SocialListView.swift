@@ -7,7 +7,7 @@ struct SocialListView: View {
 
     // MARK: - Internal Properties
 
-    @ObservedObject var viewModel = SocialListViewModel()
+    @ObservedObject var viewModel: SocialListViewModel
     @State var editMode: EditMode = .active
     @State var sectionSwitch = false
     @Environment(\.presentationMode) private var presentationMode

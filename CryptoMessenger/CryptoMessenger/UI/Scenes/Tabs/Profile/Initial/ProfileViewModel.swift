@@ -42,6 +42,7 @@ final class ProfileViewModel: ObservableObject {
     var coordinator: ProfileFlowCoordinatorProtocol?
 
     @Published var selectedImage: UIImage?
+    @Published var selectedVideo: URL?
     @Published var changedImage: UIImage?
     @Published var selectedPhoto: URL?
     @Published var imageToShare: UIImage?
@@ -132,10 +133,25 @@ final class ProfileViewModel: ObservableObject {
                     self?.fetchImageData()
                 case .onSocial:
                     self?.coordinator?.onSocialList()
+                case let .onGallery(type, selectedImage, selectedVideo):
+                    guard let self = self else { return }
+                    self.coordinator?.galleryPickerFullScreen(selectedImage: selectedImage,
+                                                              selectedVideo: selectedVideo, sourceType: type,
+                                                              galleryContent: .all)
                 case let .onShow(type):
-                    self?.coordinator?.onShowMenuView(type)
+                    ()
+                    // self?.coordinator?.onShowMenuView(type)
+                case .onSettings:
+                    self?.coordinator?.settings(balance: "0.50")
+                case let .onImageEditor(isShowing: isShowing,
+                                        image: image,
+                                        viewModel: viewModel):
+                    self?.coordinator?.imageEditor(isShowing: isShowing,
+                                                   image: image,
+                                                   viewModel: viewModel)
                 case let .onShowProfileDetail(image):
-                    self?.coordinator?.onProfileDetail(image)
+                    ()
+                    // self?.coordinator?.onProfileDetail(image)
                 case let .onAddPhoto(image):
                     guard let userId = self?.matrixUseCase.getUserId() else { return }
                     self?.mediaService.addPhotoFeed(image: image,
@@ -165,7 +181,7 @@ final class ProfileViewModel: ObservableObject {
                 self?.userSettings.isAuthFlowFinished = false
                 self?.userSettings.isOnboardingFlowFinished = false
                 self?.keychainService.removeObject(forKey: .apiUserPinCode)
-                self?.coordinator?.restartFlow()
+                //self?.coordinator?.restartFlow()
             default:
                 break
             }

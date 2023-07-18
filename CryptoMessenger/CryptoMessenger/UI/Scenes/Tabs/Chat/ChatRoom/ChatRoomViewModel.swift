@@ -406,6 +406,12 @@ final class ChatRoomViewModel: ObservableObject {
                     self.detectRoomPowerLevelAccess()
                     self.matrixUseCase.objectChangePublisher.send()
                     self.fetchChatData()
+                case let .onCamera(image, video):
+                    guard let self = self else { return }
+                    self.coordinator?.galleryPickerFullScreen(selectedImage: image,
+                                                               selectedVideo: video,
+                                                               sourceType: .camera,
+                                                               galleryContent: .all)
                 case .onNextScene:
                     ()
                 case let .onSendText(text):
