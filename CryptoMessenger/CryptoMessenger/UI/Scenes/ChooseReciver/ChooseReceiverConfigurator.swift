@@ -8,11 +8,13 @@ enum ChooseReceiverConfigurator {
 
     static func build(
         receiverData: Binding<UserReceiverData>,
-        coordinator: WalletCoordinatable
+        coordinator: ChooseReceiverViewCoordinatable
     ) -> some View {
         let viewModel = ChooseReceiverViewModel(coordinator: coordinator)
-        let view = ChooseReceiverView(receiverData: receiverData,
-                                      viewModel: viewModel)
+        let view = ChooseReceiverView(
+            receiverData: receiverData,
+            viewModel: viewModel
+        )
         return view
     }
 }

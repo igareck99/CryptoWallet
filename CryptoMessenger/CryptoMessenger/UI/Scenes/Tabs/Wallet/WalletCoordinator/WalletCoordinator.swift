@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - WalletCoordinatable
 
-protocol WalletCoordinatable {
+protocol WalletCoordinatable: Coordinator {
 
     // ????
     func onTransaction(_ selectorFilterIndex: Int, _ selectorTokenIndex: Int, _ address: String)
@@ -15,23 +15,26 @@ protocol WalletCoordinatable {
 
     // Импорта ключа завершен
     func didImportKey()
-
-    // Выбрали получателя
-    func chooseReceiver(address: Binding<UserReceiverData>)
-
-    // Создали template транзакции
-    func didCreateTemplate(transaction: FacilityApproveModel)
-
-    // Совершили транзакцию
-    func onTransactionEnd(model: TransactionResult)
+    
+    /// Отображение информации о кошельке
+    /// - Parameter wallet: информация о кошельке
+    func onTokenInfo(wallet: WalletInfo)
 }
 
-final class WalletCoordinator {
+final class WalletCoordinator<Router: WalletRouterable> {
+    var childCoordinators = [String: Coordinator]()
+    var navigationController = UINavigationController()
+    private let router: Router
 
-    private let router: WalletRouterable
-
-    init(router: WalletRouterable) {
+    init(router: Router) {
         self.router = router
+    }
+}
+
+// MARK: - Coordinator
+
+extension WalletCoordinator: Coordinator {
+    func start() {
     }
 }
 
@@ -53,28 +56,22 @@ extension WalletCoordinator: WalletCoordinatable {
     }
 
     func onTransfer(_ wallet: WalletInfo) {
-        router.transfer(wallet: wallet, coordinator: self)
-    }
-
-    func chooseReceiver(address: Binding<UserReceiverData>) {
-        router.chooseReceiver(address: address, coordinator: self)
+        let transferCoordinator = TransferCoordinatorAssembly.buld(
+            wallet: wallet,
+            path: router.routePath(),
+            presentedItem: router.presentedItem()
+        ) { [weak self] coordinator in
+            self?.removeChildCoordinator(coordinator)
+        }
+        addChildCoordinator(transferCoordinator)
+        transferCoordinator.start()
     }
 
     func didImportKey() {
         router.popToRoot()
     }
-
-    func didCreateTemplate(transaction: FacilityApproveModel) {
-        router.facilityApprove(
-            transaction: transaction,
-            coordinator: self
-        )
-    }
-
-    func onTransactionEnd(model: TransactionResult) {
-        router.popToRoot()
-        delay(0.7) {
-            self.router.showTransactionResult(model: model)
-        }
+    
+    func onTokenInfo(wallet: WalletInfo) {
+        // TODO: Implement
     }
 }

@@ -2,7 +2,7 @@ import Foundation
 
 protocol WalletRequestsFactoryProtocol {
     func buildTokens(parameters: BaseHTTPParameters) -> BaseEndPoint
-    
+
 	func buildNetworks(parameters: BaseHTTPParameters) -> BaseEndPoint
 
 	func buildBalances(parameters: BaseHTTPParameters) -> BaseEndPoint
@@ -26,43 +26,51 @@ struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
     }
 
     private var tokens: String {
-        netType.rawValue + "/indexer/v0/tokens"
+        genericPart + "/tokens"
     }
 
 	private var networks: String {
-		netType.rawValue + "/indexer/v0/networks"
+        genericPart + "/networks"
 	}
 
 	private var address: String {
-		netType.rawValue + "/indexer/v0/address"
+        genericPart + "/address"
 	}
 
 	private var balances: String {
-		netType.rawValue + "/indexer/v0/balances"
+        genericPart + "/balances"
 	}
 
 	private var transactions: String {
-		netType.rawValue + "/indexer/v0/transactions/address"
+        genericPart + "/transactions/address"
 	}
 
 	private var fee: String {
-		netType.rawValue + "/indexer/v0/fee"
+        genericPart + "/fee"
 	}
 
 	private var transactionSend: String {
-		netType.rawValue + "/indexer/v0/transaction/send"
+        genericPart + "/transaction/send"
 	}
 
 	private var transactionTemplate: String {
-		netType.rawValue + "/indexer/v0/transaction/template"
+        genericPart + "/transaction/template"
 	}
+    private var genericPart: String {
+        apiVersion.rawValue + "/indexer/" + netType.rawValue
+    }
 
 	private let headers: BaseHTTPHeaders = ["Content-Type": "application/json"]
 
 	let netType: NetType
+    let apiVersion: ApiVersion
 
-    init(netType: NetType = Configuration.shared.netType) {
+    init(
+        netType: NetType = Configuration.shared.netType,
+        apiVersion: ApiVersion = .v0
+    ) {
 		self.netType = netType
+        self.apiVersion = apiVersion
 	}
 
 	// MARK: - WalletRequestsFactoryProtocol

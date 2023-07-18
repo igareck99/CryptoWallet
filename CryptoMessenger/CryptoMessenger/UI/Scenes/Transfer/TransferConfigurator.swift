@@ -8,9 +8,12 @@ enum TransferConfigurator {
 
     static func build(
         wallet: WalletInfo,
-        coordinator: WalletCoordinatable
+        coordinator: TransferViewCoordinatable
     ) -> TransferView {
-        let viewModel = TransferViewModel(wallet: wallet, coordinator: coordinator)
+        let viewModel = TransferViewModel(
+            wallet: wallet,
+            coordinator: coordinator
+        )
 		let view = TransferView(viewModel: viewModel)
         return view
     }

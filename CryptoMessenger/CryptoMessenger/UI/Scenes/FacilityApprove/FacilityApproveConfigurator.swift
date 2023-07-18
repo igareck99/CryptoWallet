@@ -8,7 +8,7 @@ enum FacilityApproveConfigurator {
 
     static func build(
         transaction: FacilityApproveModel,
-        coordinator: WalletCoordinatable
+        coordinator: FacilityApproveViewCoordinatable
     ) -> some View {
 		let viewModel = FacilityApproveViewModel(
 			transaction: transaction,
