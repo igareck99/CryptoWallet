@@ -5,7 +5,8 @@ protocol ChatHistoryRouterable {
     
     func routeToFirstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol)
     
-    func routeToCreateChat(_ chatData: Binding<ChatData>)
+    func routeToCreateChat(_ chatData: Binding<ChatData>,
+                           _ coordinator: ChatCreateFlowCoordinatorProtocol)
     
     func start()
     
@@ -42,6 +43,8 @@ protocol ChatHistoryRouterable {
     func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,
                                  showParticipantsView: Binding<Bool>)
     func dismissCurrentSheet()
+    func routePath() -> Binding<NavigationPath>
+    func presentedItem() -> Binding<ChatHistorySheetLink?>
 }
 
 // MARK: - ChatHistoryRouter
@@ -50,7 +53,7 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
 
     // MARK: - Internal Properties
     
-    @StateObject var state: State
+    @ObservedObject var state: State
     let content: () -> Content
     
     var body: some View {
@@ -104,14 +107,12 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
             EmptyView()
         }
     }
-    
+
     @ViewBuilder
     private func sheetContent(item: ChatHistorySheetLink) -> some View {
         switch item {
-        case let .createChat(chatData):
-            ChatCreateAssembly.build(chatData, onCoordinatorEnd: {
-                popToRoot()
-            })
+        case let .createChat(chatData, coordinator):
+            ChatCreateAssembly.build(chatData, coordinator)
         case let .notifications(roomId):
             ChannelNotificationsAssembly.build(roomId)
         case let .galleryPicker(selectedImage: selectedImage,
@@ -124,26 +125,19 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
                                         galleryContent: galleryContent)
             .edgesIgnoringSafeArea(.all)
         case let .channelPatricipants(viewModel: viewModel, showParticipantsView: showParticipantsView):
-            NavigationView {
-                ChannelParticipantsView(viewModel: viewModel,
-                                        showParticipantsView: showParticipantsView)
-            }
-        case let .notifications(roomId):
-            ChannelNotificationsAssembly.build(roomId)
-        case let .galleryPicker(selectedImage: selectedImage,
-                                selectedVideo: selectedVideo,
-                                sourceType: sourceType,
-                                galleryContent: galleryContent):
-            GalleryPickerAssembly.build(selectedImage: selectedImage,
-                                        selectedVideo: selectedVideo,
-                                        sourceType: sourceType,
-                                        galleryContent: galleryContent)
-            .edgesIgnoringSafeArea(.all)
-        case let .channelPatricipants(viewModel: viewModel, showParticipantsView: showParticipantsView):
-            NavigationView {
-                ChannelParticipantsView(viewModel: viewModel,
-                                        showParticipantsView: showParticipantsView)
-            }
+            ChannelParticipantsView(viewModel: viewModel,
+                                    showParticipantsView: showParticipantsView)
+        case .createContact:
+            CreateContactView(viewModel: CreateContactViewModel())
+        case let .createChannel(coordinator):
+            CreateChannelAssemby.make(coordinator: coordinator)
+        case let .selectContact(chatData, coordinator):
+            SelectContactAssembly.build(.groupCreate,
+                                        chatData,
+                                        coordinator: coordinator)
+        case let .createGroupChat(chatData, coordinator):
+            ChatGroupAssembly.build(chatData,
+                                    coordinator: coordinator)
         }
     }
 }
@@ -160,8 +154,10 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
         )
     }
     
-    func routeToCreateChat(_ chatData: Binding<ChatData>) {
-        state.presentedItem = .createChat(chatData: chatData)
+    func routeToCreateChat(_ chatData: Binding<ChatData>,
+                           _ coordinator: ChatCreateFlowCoordinatorProtocol) {
+        state.presentedItem = .createChat(chatData: chatData,
+                                          coordinator: coordinator)
     }
     
     func start() {
@@ -243,5 +239,12 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
                                  showParticipantsView: Binding<Bool>) {
         state.presentedItem = .channelPatricipants(viewModel: viewModel,
                                                    showParticipantsView: showParticipantsView)
+    }
+    
+    func routePath() -> Binding<NavigationPath> {
+        $state.path
+    }
+    func presentedItem() -> Binding<ChatHistorySheetLink?> {
+        $state.presentedItem
     }
 }

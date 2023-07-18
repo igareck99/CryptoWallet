@@ -23,71 +23,73 @@ struct CreateContactView: View {
     // MARK: - Body
 
     var body: some View {
-        content
-            .actionSheet(isPresented: $showActionImageAlert) {
-                ActionSheet(title: Text(""),
-                            message: nil,
-                            buttons: [
-                                .cancel(),
-                                .default(
-                                    Text(R.string.localizable.profileFromGallery()),
-                                    action: switchImagePicker
-                                ),
-                                .default(
-                                    Text(R.string.localizable.profileFromCamera()),
-                                    action: switchCameraPicker
-                                )
-                            ]
-                )
-            }
-            .fullScreenCover(isPresented: $showCameraPicker,
-                             content: {
-                ImagePickerView(selectedImage: $selectedImage,
-                                sourceType: .camera)
+        NavigationView {
+            content
+                .actionSheet(isPresented: $showActionImageAlert) {
+                    ActionSheet(title: Text(""),
+                                message: nil,
+                                buttons: [
+                                    .cancel(),
+                                    .default(
+                                        Text(R.string.localizable.profileFromGallery()),
+                                        action: switchImagePicker
+                                    ),
+                                    .default(
+                                        Text(R.string.localizable.profileFromCamera()),
+                                        action: switchCameraPicker
+                                    )
+                                ]
+                    )
+                }
+                .fullScreenCover(isPresented: $showCameraPicker,
+                                 content: {
+                    ImagePickerView(selectedImage: $selectedImage,
+                                    sourceType: .camera)
                     .ignoresSafeArea()
-            })
-            .fullScreenCover(isPresented: $showImagePicker,
-                             content: {
-                ImagePickerView(selectedImage: $selectedImage)
-                    .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
-                    .navigationBarTitleDisplayMode(.inline)
-            })
-            .navigationBarBackButtonHidden(true)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationViewStyle(.stack)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        R.image.navigation.backButton.image
-                    })
-                }
-
-                ToolbarItem(placement: .principal) {
-                    Text(R.string.localizable.createActionNewContact())
-                        .font(.bold(15))
-                        .foreground(.black())
-                }
-
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        if !numberText.isEmpty {
-                            viewModel.contactsStore.createContact(selectedImage: selectedImage,
-                                                                  nameSurnameText: nameSurnameText,
-                                                                  numberText: numberText)
+                })
+                .fullScreenCover(isPresented: $showImagePicker,
+                                 content: {
+                    ImagePickerView(selectedImage: $selectedImage)
+                        .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                        .navigationBarTitleDisplayMode(.inline)
+                })
+                .navigationBarBackButtonHidden(true)
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationViewStyle(.stack)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
                             presentationMode.wrappedValue.dismiss()
-                        } else {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    }, label: {
-                        Text(R.string.localizable.profileDetailRightButton())
-                            .font(.semibold(15))
-                            .foreground(numberText.isEmpty ? .gray() : .blue())
-                    })
+                        }, label: {
+                            R.image.navigation.backButton.image
+                        })
+                    }
+                    
+                    ToolbarItem(placement: .principal) {
+                        Text(R.string.localizable.createActionNewContact())
+                            .font(.bold(15))
+                            .foreground(.black())
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            if !numberText.isEmpty {
+                                viewModel.contactsStore.createContact(selectedImage: selectedImage,
+                                                                      nameSurnameText: nameSurnameText,
+                                                                      numberText: numberText)
+                                presentationMode.wrappedValue.dismiss()
+                            } else {
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        }, label: {
+                            Text(R.string.localizable.profileDetailRightButton())
+                                .font(.semibold(15))
+                                .foreground(numberText.isEmpty ? .gray() : .blue())
+                        })
                         .disabled(numberText.isEmpty)
+                    }
                 }
-            }
+        }
     }
 
     private var content: some View {

@@ -14,19 +14,32 @@ protocol ChatCreateFlowCoordinatorProtocol {
 
 // MARK: - ChatCreateFlowCoordinator
 
-final class ChatCreateFlowCoordinator {
+final class ChatCreateFlowCoordinator<Router: ChatCreateRouterable> {
+    
+    @Binding var chatData: ChatData
+    var childCoordinators = [String: Coordinator]()
+    var navigationController = UINavigationController()
+    private var router: Router
+    private let onCoordinatorEnd: (Coordinator) -> Void
 
-    private let router: ChatCreateRouterable
-    var onCoordinatorEnd: VoidBlock
-
-    init(router: ChatCreateRouterable,
-         onCoordinatorEnd: @escaping VoidBlock) {
+    init(router: Router,
+         chatData: Binding<ChatData>,
+         onCoordinatorEnd: @escaping (Coordinator) -> Void) {
         self.router = router
+        self._chatData = chatData
         self.onCoordinatorEnd = onCoordinatorEnd
     }
 }
 
-// MARK: - ContentFlowCoordinatorProtocol
+// MARK: - ChatCreateFlowCoordinator(Coordinator)
+
+extension ChatCreateFlowCoordinator: Coordinator {
+    func start() {
+        router.createChat($chatData, self)
+    }
+}
+
+// MARK: - ChatCreateFlowCoordinator(ContentFlowCoordinatorProtocol)
 
 extension ChatCreateFlowCoordinator: ChatCreateFlowCoordinatorProtocol {
 
@@ -40,15 +53,17 @@ extension ChatCreateFlowCoordinator: ChatCreateFlowCoordinatorProtocol {
     }
 
     func createContact() {
+        print("tireowerieo32ieo32")
         router.createContact()
     }
     
     func createGroupChat(_ chatData: Binding<ChatData>,
                          _ coordinator: ChatCreateFlowCoordinatorProtocol) {
+        print("slkasklasklasklaskl")
         router.createGroupChat(chatData, coordinator)
     }
     
     func toParentCoordinator() {
-        onCoordinatorEnd()
+        onCoordinatorEnd(self)
     }
 }

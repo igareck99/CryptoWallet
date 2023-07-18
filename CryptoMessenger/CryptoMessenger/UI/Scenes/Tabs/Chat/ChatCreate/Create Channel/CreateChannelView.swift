@@ -23,41 +23,43 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
     // MARK: - Body
 
     var body: some View {
-        content
-            .actionSheet(isPresented: $showActionImageAlert) {
-                ActionSheet(title: Text(""),
-                            message: nil,
-                            buttons: [
-                                .cancel(),
-                                .default(
-                                    Text(R.string.localizable.profileFromGallery()),
-                                    action: switchImagePicker
-                                ),
-                                .default(
-                                    Text(R.string.localizable.profileFromCamera()),
-                                    action: switchCameraPicker
-                                )
-                            ]
-                )
-            }
-            .fullScreenCover(isPresented: $showCameraPicker,
-                             content: {
-                ImagePickerView(selectedImage: viewModel.selectedImage,
-                                sourceType: .camera)
-                .ignoresSafeArea()
-            })
-            .fullScreenCover(isPresented: $showImagePicker,
-                             content: {
-                ImagePickerView(selectedImage: viewModel.selectedImage)
-                    .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
-                    .navigationBarTitleDisplayMode(.inline)
-            })
-            .navigationBarBackButtonHidden(true)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationViewStyle(.stack)
-            .toolbar {
-                createToolBar()
-            }
+        NavigationView {
+            content
+                .actionSheet(isPresented: $showActionImageAlert) {
+                    ActionSheet(title: Text(""),
+                                message: nil,
+                                buttons: [
+                                    .cancel(),
+                                    .default(
+                                        Text(R.string.localizable.profileFromGallery()),
+                                        action: switchImagePicker
+                                    ),
+                                    .default(
+                                        Text(R.string.localizable.profileFromCamera()),
+                                        action: switchCameraPicker
+                                    )
+                                ]
+                    )
+                }
+                .fullScreenCover(isPresented: $showCameraPicker,
+                                 content: {
+                    ImagePickerView(selectedImage: viewModel.selectedImage,
+                                    sourceType: .camera)
+                    .ignoresSafeArea()
+                })
+                .fullScreenCover(isPresented: $showImagePicker,
+                                 content: {
+                    ImagePickerView(selectedImage: viewModel.selectedImage)
+                        .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                        .navigationBarTitleDisplayMode(.inline)
+                })
+                .navigationBarBackButtonHidden(true)
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationViewStyle(.stack)
+                .toolbar {
+                    createToolBar()
+                }
+        }
     }
     
     private var content: some View {

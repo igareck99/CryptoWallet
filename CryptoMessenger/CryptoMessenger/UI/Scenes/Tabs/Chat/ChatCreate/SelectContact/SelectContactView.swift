@@ -32,50 +32,52 @@ struct SelectContactView: View {
     // MARK: - Body
 
     var body: some View {
-        content
-            .navigationBarBackButtonHidden(true)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationViewStyle(.stack)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        R.image.navigation.backButton.image
-                    })
-                }
-
-                ToolbarItem(placement: .principal) {
-                    Text(contactsLimit == nil ? "Групповой чат" : "Выберите контакт")
-                        .font(.bold(15))
-                        .foreground(.black())
-                }
-
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        switch viewModel.mode {
-                        case .send, .groupCreate:
-                            if contactsLimit != nil {
-                                onSelectContact?(pickedContacts)
-                                presentationMode.wrappedValue.dismiss()
-                            } else {
-                                chatData.contacts = pickedContacts
-                                viewModel.createGroupChat($chatData)
-                            }
-                        case .add, .admins:
+        NavigationView {
+            content
+                .navigationBarBackButtonHidden(true)
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationViewStyle(.stack)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
                             presentationMode.wrappedValue.dismiss()
-                        }
-                    }, label: {
-                        Text("Готово")
-                            .font(.semibold(15))
-                            .foreground(pickedContacts.isEmpty ? .darkGray() : .blue())
-                    })
+                        }, label: {
+                            R.image.navigation.backButton.image
+                        })
+                    }
+                    
+                    ToolbarItem(placement: .principal) {
+                        Text(contactsLimit == nil ? "Групповой чат" : "Выберите контакт")
+                            .font(.bold(15))
+                            .foreground(.black())
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            switch viewModel.mode {
+                            case .send, .groupCreate:
+                                if contactsLimit != nil {
+                                    onSelectContact?(pickedContacts)
+                                    presentationMode.wrappedValue.dismiss()
+                                } else {
+                                    chatData.contacts = pickedContacts
+                                    viewModel.createGroupChat($chatData)
+                                }
+                            case .add, .admins:
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        }, label: {
+                            Text("Готово")
+                                .font(.semibold(15))
+                                .foreground(pickedContacts.isEmpty ? .darkGray() : .blue())
+                        })
                         .disabled(pickedContacts.isEmpty)
+                    }
                 }
-            }
-            .onAppear {
-                viewModel.send(.onAppear)
-            }
+                .onAppear {
+                    viewModel.send(.onAppear)
+                }
+        }
     }
 
     private var content: some View {

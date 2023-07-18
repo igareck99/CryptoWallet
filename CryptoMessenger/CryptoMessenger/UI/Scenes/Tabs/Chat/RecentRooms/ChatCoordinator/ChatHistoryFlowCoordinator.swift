@@ -2,8 +2,7 @@ import SwiftUI
 
 // MARK: - ChatHistoryFlowCoordinatorProtocol
 
-protocol ChatHistoryFlowCoordinatorProtocol {
-    var childCoordinators: [ChatHistoryCoordinatorBase] { get set}
+protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
     func firstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol)
     func showCreateChat(_ chatData: Binding<ChatData>)
     func roomSettings(isChannel: Bool,
@@ -35,14 +34,22 @@ protocol ChatHistoryFlowCoordinatorProtocol {
 
 // MARK: - ChatHistoryFlowCoordinator
 
-final class ChatHistoryFlowCoordinator {
-    private let router: ChatHistoryRouterable
-    @Published var childCoordinators: [ChatHistoryCoordinatorBase] = []
+final class ChatHistoryFlowCoordinator<Router: ChatHistoryRouterable> {
+    private let router: Router
+    var childCoordinators = [String: Coordinator]()
+    var navigationController = UINavigationController()
     
     init(
-        router: ChatHistoryRouterable
+        router: Router
     ) {
         self.router = router
+    }
+}
+
+// MARK: - ChatHistoryFlowCoordinator(Coordinator)
+
+extension ChatHistoryFlowCoordinator: Coordinator {
+    func start() {
     }
 }
 
@@ -52,10 +59,6 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
 
     func firstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol) {
         router.routeToFirstAction(room, coordinator: coordinator)
-    }
-
-    func start() {
-        router.start()
     }
 
     func chatMedia(_ room: AuraRoom) {
@@ -95,7 +98,13 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
     }
 
     func showCreateChat(_ chatData: Binding<ChatData>) {
-        router.routeToCreateChat(chatData)
+        let coordinator = ChatCreateCoordinatorAssembly.buld(path: router.routePath(),
+                                                             presentedItem: router.presentedItem(),
+                                                             chatData: chatData) { coordinator in
+            self.removeChildCoordinator(coordinator)
+        }
+        addChildCoordinator(coordinator)
+        coordinator.start()
     }
 
     func chatMembersView(_ chatData: Binding<ChatData>,
