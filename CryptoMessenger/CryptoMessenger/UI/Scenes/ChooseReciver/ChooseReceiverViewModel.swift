@@ -2,12 +2,16 @@ import Combine
 import SwiftUI
 import MatrixSDK
 
+protocol ChooseReceiverViewCoordinatable {
+    
+}
+
 final class ChooseReceiverViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
     weak var delegate: ChooseReceiverSceneDelegate?
-    private let coordinator: WalletCoordinatable
+    private let coordinator: ChooseReceiverViewCoordinatable
     @Published private(set) var contacts: [Contact] = []
     @Published var contactViewModel = SelectContactViewModel(mode: .add)
     @Published var userWalletsData: [UserWallletData] = []
@@ -30,7 +34,7 @@ final class ChooseReceiverViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-        coordinator: WalletCoordinatable,
+        coordinator: ChooseReceiverViewCoordinatable,
         userSettings: UserFlowsStorage & UserCredentialsStorage = UserDefaultsService.shared
 	) {
         self.coordinator = coordinator

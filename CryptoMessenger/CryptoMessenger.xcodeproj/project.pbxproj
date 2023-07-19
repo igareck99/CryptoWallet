@@ -750,6 +750,11 @@
 		D4AB90002826735000E6FAB5 /* MatrixService+Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFF2826735000E6FAB5 /* MatrixService+Users.swift */; };
 		D4AB900828278A1600E6FAB5 /* MatrixUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */; };
 		D4B101122A65106200F3C856 /* FeeItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B101112A65106200F3C856 /* FeeItemsFactory.swift */; };
+		D4B101142A65220200F3C856 /* TransferCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B101132A65220200F3C856 /* TransferCoordinator.swift */; };
+		D4B101172A66429900F3C856 /* TransferRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B101162A66429900F3C856 /* TransferRouter.swift */; };
+		D4B101192A6642A600F3C856 /* TransferState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B101182A6642A600F3C856 /* TransferState.swift */; };
+		D4B1011D2A664DE500F3C856 /* TransferCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B1011C2A664DE500F3C856 /* TransferCoordinatorAssembly.swift */; };
+		D4B1011F2A668DFA00F3C856 /* TokenInfoAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B1011E2A668DFA00F3C856 /* TokenInfoAssembly.swift */; };
 		D4B30A02297923760067EB06 /* CreateChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B30A01297923760067EB06 /* CreateChannelView.swift */; };
 		D4B30A042979287E0067EB06 /* CreateChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B30A032979287E0067EB06 /* CreateChannelViewModel.swift */; };
 		D4B39AFE289BE271006F2D99 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */; };
@@ -1615,6 +1620,11 @@
 		D4AB8FFF2826735000E6FAB5 /* MatrixService+Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Users.swift"; sourceTree = "<group>"; };
 		D4AB900728278A1600E6FAB5 /* MatrixUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixUseCase.swift; sourceTree = "<group>"; };
 		D4B101112A65106200F3C856 /* FeeItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeItemsFactory.swift; sourceTree = "<group>"; };
+		D4B101132A65220200F3C856 /* TransferCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferCoordinator.swift; sourceTree = "<group>"; };
+		D4B101162A66429900F3C856 /* TransferRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferRouter.swift; sourceTree = "<group>"; };
+		D4B101182A6642A600F3C856 /* TransferState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferState.swift; sourceTree = "<group>"; };
+		D4B1011C2A664DE500F3C856 /* TransferCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferCoordinatorAssembly.swift; sourceTree = "<group>"; };
+		D4B1011E2A668DFA00F3C856 /* TokenInfoAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoAssembly.swift; sourceTree = "<group>"; };
 		D4B30A01297923760067EB06 /* CreateChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelView.swift; sourceTree = "<group>"; };
 		D4B30A032979287E0067EB06 /* CreateChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelViewModel.swift; sourceTree = "<group>"; };
 		D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
@@ -2835,6 +2845,9 @@
 		8B234ECC2A432F7F0064ACD3 /* WalletCoordinator */ = {
 			isa = PBXGroup;
 			children = (
+				D4FD92AA2A5D5989008EA8A2 /* WalletRouter.swift */,
+				D4FD92AE2A5D5D89008EA8A2 /* WalletTransitions.swift */,
+				D4FD92AC2A5D5D21008EA8A2 /* WalletRouterState.swift */,
 				8B234ECD2A432FB60064ACD3 /* WalletCoordinator.swift */,
 				8B234ECF2A4335250064ACD3 /* WalletAssembly.swift */,
 			);
@@ -2996,7 +3009,6 @@
 		8B432CC027C394C50025D62B /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
-				D4FD92B02A5D5DA0008EA8A2 /* Router */,
 				8B234ECC2A432F7F0064ACD3 /* WalletCoordinator */,
 				8BC517FE296CC89B0033B30F /* ChooseWalletType */,
 				D4A85376295DA2F800F2B944 /* Popup Bar */,
@@ -3113,6 +3125,7 @@
 		8B5A338227D89C9F0064C7DC /* Transfer */ = {
 			isa = PBXGroup;
 			children = (
+				D4B101152A66428200F3C856 /* Transfer Coordinator */,
 				D46C901B2947762B00DD0B01 /* Transaction speed */,
 				8B5A338327D89CAE0064C7DC /* TransferView.swift */,
 				8B5A338527D89CF10064C7DC /* TransferProtocols.swift */,
@@ -3543,6 +3556,7 @@
 				8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */,
 				8BE3799827EA133700AB6B6E /* SelectTokenView.swift */,
 				8B451FED29A440CD00BF4646 /* TokenInfoSourcable.swift */,
+				D4B1011E2A668DFA00F3C856 /* TokenInfoAssembly.swift */,
 			);
 			path = TokenInfo;
 			sourceTree = "<group>";
@@ -4214,6 +4228,17 @@
 			path = "Matrix UseCase";
 			sourceTree = "<group>";
 		};
+		D4B101152A66428200F3C856 /* Transfer Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				D4B101132A65220200F3C856 /* TransferCoordinator.swift */,
+				D4B101162A66429900F3C856 /* TransferRouter.swift */,
+				D4B101182A6642A600F3C856 /* TransferState.swift */,
+				D4B1011C2A664DE500F3C856 /* TransferCoordinatorAssembly.swift */,
+			);
+			path = "Transfer Coordinator";
+			sourceTree = "<group>";
+		};
 		D4B30A00297923600067EB06 /* Create Channel */ = {
 			isa = PBXGroup;
 			children = (
@@ -4380,16 +4405,6 @@
 				D4E979122A1F2FFF00771232 /* PushKitServiceMock.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		D4FD92B02A5D5DA0008EA8A2 /* Router */ = {
-			isa = PBXGroup;
-			children = (
-				D4FD92AA2A5D5989008EA8A2 /* WalletRouter.swift */,
-				D4FD92AE2A5D5D89008EA8A2 /* WalletTransitions.swift */,
-				D4FD92AC2A5D5D21008EA8A2 /* WalletRouterState.swift */,
-			);
-			path = Router;
 			sourceTree = "<group>";
 		};
 		D4FDA495284D05AA00322A0F /* Status Bar Call UseCase */ = {
@@ -4882,6 +4897,7 @@
 				8BF8FA7E27FF8AC20000CC08 /* FeedImageViewer.swift in Sources */,
 				8B971E0428ABC61700F111D9 /* LocationManagerUseCase.swift in Sources */,
 				D4442B4828113C7A0033D07A /* KeychainServiceProtocol.swift in Sources */,
+				D4B1011F2A668DFA00F3C856 /* TokenInfoAssembly.swift in Sources */,
 				D48AF481292D224B0044CFAE /* WalletNetworkResponse.swift in Sources */,
 				8B70584229D0DD3D0058B180 /* ChatHistorySearchRow.swift in Sources */,
 				8BA0C91227AD77380070203F /* ReserveCopyConfigurator.swift in Sources */,
@@ -5104,6 +5120,7 @@
 				D4B30A02297923760067EB06 /* CreateChannelView.swift in Sources */,
 				D43A7E6128CB25D500A807EC /* Base32.swift in Sources */,
 				D400612F2A4D5AB2004D5F35 /* Routerable.swift in Sources */,
+				D4B1011D2A664DE500F3C856 /* TransferCoordinatorAssembly.swift in Sources */,
 				D4C8CF522A45C6DA007CC925 /* AppCoordinator+AppLifeCycle.swift in Sources */,
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
 				8B2AE33B29E5857E00C9AC0E /* ChannelMediaTabs.swift in Sources */,
@@ -5311,6 +5328,7 @@
 				8B2D40F3295D0B9F009D9581 /* GeneratePhraseProtocols.swift in Sources */,
 				8BA0C90B27AD4F4C0070203F /* AnswerView.swift in Sources */,
 				8BB517BF2856B86600D06593 /* MediaServiceData.swift in Sources */,
+				D4B101142A65220200F3C856 /* TransferCoordinator.swift in Sources */,
 				D41553B7288AC780003FDADC /* UserDefaultsService+Calls.swift in Sources */,
 				D44BDC8128099F110080AE8A /* PushNotificationParser.swift in Sources */,
 				D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */,
@@ -5332,6 +5350,7 @@
 				78A9CBFA28191F1D00C4D7E1 /* IOActionSheetView.swift in Sources */,
 				D4752EBA28C71AF3006B650A /* JitsiModels.swift in Sources */,
 				D4EF286C2953C6650039744D /* WalletErrorResponse.swift in Sources */,
+				D4B101192A6642A600F3C856 /* TransferState.swift in Sources */,
 				D47657D22A41CF42001E8D7C /* CallsVideoView.swift in Sources */,
 				7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */,
 				D4D9CC142A2F82F100EFC586 /* UIColor+Extensions.swift in Sources */,
@@ -5376,6 +5395,7 @@
 				8B5609B82779D2D800AF43F6 /* BackgroundView.swift in Sources */,
 				8BE379A927EB7CE300AB6B6E /* KeyListFlow.swift in Sources */,
 				D4E979022A1E08A300771232 /* MessageType.swift in Sources */,
+				D4B101172A66429900F3C856 /* TransferRouter.swift in Sources */,
 				5A3721E0272F47EA0097ABED /* EmptyNavigationLink.swift in Sources */,
 				5A44FEF7276940E8006F9D92 /* ChatCreateFlow.swift in Sources */,
 				8BE3799C27EB268700AB6B6E /* WalletManagerView.swift in Sources */,

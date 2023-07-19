@@ -3,6 +3,10 @@ import SwiftUI
 
 // swiftlint:disable all
 
+protocol FacilityApproveViewCoordinatable {
+    func onTransactionEnd(model: TransactionResult)
+}
+
 // MARK: - FacilityApproveViewModel
 
 final class FacilityApproveViewModel: ObservableObject {
@@ -23,13 +27,13 @@ final class FacilityApproveViewModel: ObservableObject {
 	private let userCredentialsStorage: UserCredentialsStorage
 	private let sources: FacilityApproveSourcesable.Type
 	private let walletNetworks: WalletNetworkFacadeProtocol
-    private let coordinator: WalletCoordinatable
+    private let coordinator: FacilityApproveViewCoordinatable
 
 	// MARK: - Lifecycle
 
 	init(
         transaction: FacilityApproveModel,
-        coordinator: WalletCoordinatable,
+        coordinator: FacilityApproveViewCoordinatable,
 		walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
 		userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared,
 		sources: FacilityApproveSourcesable.Type = FacilityApproveSources.self

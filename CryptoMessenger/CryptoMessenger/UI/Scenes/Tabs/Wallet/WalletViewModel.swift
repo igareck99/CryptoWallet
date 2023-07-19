@@ -404,6 +404,10 @@ final class WalletViewModel: ObservableObject {
         }
     }
 
+    func onWalletCardTap(wallet: WalletInfo) {
+        coordinator?.onTokenInfo(wallet: wallet)
+    }
+
     // MARK: - Internal Methods
 
     func send(_ event: WalletFlow.Event) {

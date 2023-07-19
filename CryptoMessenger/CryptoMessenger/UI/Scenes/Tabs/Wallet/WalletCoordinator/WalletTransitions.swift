@@ -24,21 +24,24 @@ enum WalletContentLink: Identifiable, Hashable {
         address: String,
         coordinator: WalletCoordinatable
     )
+
+    case importKey(coordinator: WalletCoordinatable)
+
     case transfer(
         wallet: WalletInfo,
-        coordinator: WalletCoordinatable
+        coordinator: TransferViewCoordinatable
     )
-    case importKey(coordinator: WalletCoordinatable)
+
     case chooseReceiver(
         address: Binding<UserReceiverData>,
-        coordinator: WalletCoordinatable
+        coordinator: ChooseReceiverViewCoordinatable
     )
-    
+
     case facilityApprove(
         transaction: FacilityApproveModel,
-        coordinator: WalletCoordinatable
+        coordinator: FacilityApproveViewCoordinatable
     )
-    
+
     // MARK: - Identifiable
 
     var id: String {
@@ -46,13 +49,13 @@ enum WalletContentLink: Identifiable, Hashable {
     }
 
     // MARK: - Equatable
-    
+
     static func == (lhs: WalletContentLink, rhs: WalletContentLink) -> Bool {
         lhs.id == rhs.id
     }
 
     // MARK: - Hashable
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }

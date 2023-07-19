@@ -4,6 +4,15 @@ import MatrixSDK
 
 // swiftlint:disable all
 
+protocol TransferViewCoordinatable {
+
+    // Выбрали получателя
+    func chooseReceiver(address: Binding<UserReceiverData>)
+
+    // Создали template транзакции
+    func didCreateTemplate(transaction: FacilityApproveModel)
+}
+
 final class TransferViewModel: ObservableObject {
 
     // MARK: - Internal Properties
@@ -24,7 +33,7 @@ final class TransferViewModel: ObservableObject {
 	private let keysService: KeysServiceProtocol
 	private let keychainService: KeychainServiceProtocol
 	private let coreDataService: CoreDataServiceProtocol
-    private let coordinator: WalletCoordinatable
+    private let coordinator: TransferViewCoordinatable
 	private var addressTo: String = ""
 
     private let feeItemsFactory: FeeItemsFactoryProtocol.Type
@@ -89,7 +98,7 @@ final class TransferViewModel: ObservableObject {
 
     init(
 		wallet: WalletInfo,
-        coordinator: WalletCoordinatable,
+        coordinator: TransferViewCoordinatable,
 		keychainService: KeychainServiceProtocol = KeychainService.shared,
 		keysService: KeysServiceProtocol = KeysService(),
 		walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
