@@ -18,7 +18,7 @@ final class ChooseReceiverViewModel: ObservableObject {
     @Published var userWalletsFilteredData: [UserWallletData] = []
     @Published var searchType = SearchType.telephone
     var isEnterAdressView = false
-    let sources: ChooseReciverSourcable.Type = ChooseReciverSources.self
+    let resources: ChooseReciverSourcable.Type = ChooseReciverSources.self
 
     // MARK: - Private Properties
 
@@ -35,7 +35,8 @@ final class ChooseReceiverViewModel: ObservableObject {
 
     init(
         coordinator: ChooseReceiverViewCoordinatable,
-        userSettings: UserFlowsStorage & UserCredentialsStorage = UserDefaultsService.shared
+        userSettings: UserFlowsStorage & UserCredentialsStorage = UserDefaultsService.shared,
+        resources: ChooseReciverSourcable.Type = ChooseReciverSources.self
 	) {
         self.coordinator = coordinator
 		self.userSettings = userSettings

@@ -342,7 +342,7 @@
 		8B451FEA29A43A8100BF4646 /* ImportPhraseSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE929A43A8100BF4646 /* ImportPhraseSources.swift */; };
 		8B451FEC29A43EDC00BF4646 /* SuccessFacilityResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FEB29A43EDC00BF4646 /* SuccessFacilityResources.swift */; };
 		8B451FEE29A440CD00BF4646 /* TokenInfoResourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FED29A440CD00BF4646 /* TokenInfoResourcable.swift */; };
-		8B451FF029A442D400BF4646 /* ChooseReciverSourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FEF29A442D400BF4646 /* ChooseReciverSourcable.swift */; };
+		8B451FF029A442D400BF4646 /* ChooseReciverResourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FEF29A442D400BF4646 /* ChooseReciverResourcable.swift */; };
 		8B45FA392A4F405300D1F3B0 /* AdminsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B45FA382A4F405300D1F3B0 /* AdminsViewModel.swift */; };
 		8B45FA3B2A4F40EB00D1F3B0 /* AdminsViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B45FA3A2A4F40EB00D1F3B0 /* AdminsViewAssembly.swift */; };
 		8B4810F627CF81F000831589 /* AddWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810F527CF81F000831589 /* AddWalletView.swift */; };
@@ -1204,7 +1204,7 @@
 		8B451FE929A43A8100BF4646 /* ImportPhraseSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPhraseSources.swift; sourceTree = "<group>"; };
 		8B451FEB29A43EDC00BF4646 /* SuccessFacilityResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessFacilityResources.swift; sourceTree = "<group>"; };
 		8B451FED29A440CD00BF4646 /* TokenInfoResourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoResourcable.swift; sourceTree = "<group>"; };
-		8B451FEF29A442D400BF4646 /* ChooseReciverSourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReciverSourcable.swift; sourceTree = "<group>"; };
+		8B451FEF29A442D400BF4646 /* ChooseReciverResourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReciverResourcable.swift; sourceTree = "<group>"; };
 		8B45FA382A4F405300D1F3B0 /* AdminsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminsViewModel.swift; sourceTree = "<group>"; };
 		8B45FA3A2A4F40EB00D1F3B0 /* AdminsViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminsViewAssembly.swift; sourceTree = "<group>"; };
 		8B4810F527CF81F000831589 /* AddWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWalletView.swift; sourceTree = "<group>"; };
@@ -2810,7 +2810,7 @@
 				8B334154295B74A60062903C /* SearchTypeView.swift */,
 				8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */,
 				8B86A4A42992BA7500B6A67B /* EnterAdressUserView.swift */,
-				8B451FEF29A442D400BF4646 /* ChooseReciverSourcable.swift */,
+				8B451FEF29A442D400BF4646 /* ChooseReciverResourcable.swift */,
 			);
 			path = ChooseReciver;
 			sourceTree = "<group>";
@@ -5252,7 +5252,7 @@
 				8B5D83F5283B81B60035815B /* ContactInfoViewModel.swift in Sources */,
 				8B234ED72A43448C0064ACD3 /* TabItemsView.swift in Sources */,
 				8B234ED72A43448C0064ACD3 /* TabItemsView.swift in Sources */,
-				8B451FF029A442D400BF4646 /* ChooseReciverSourcable.swift in Sources */,
+				8B451FF029A442D400BF4646 /* ChooseReciverResourcable.swift in Sources */,
 				8B32FEC4298B21C70017082A /* UserSettingsViewModel.swift in Sources */,
 				D4FD92AF2A5D5D89008EA8A2 /* WalletTransitions.swift in Sources */,
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
