@@ -4,6 +4,6 @@ protocol ChatCreateFlowStateProtocol: ObservableObject {
     
 }
 
-class ChatCreateFlowState: ChatHistoryCoordinatorBase {
+class ChatCreateFlowState: ChatCreateFlowStateProtocol {
     static let shared = ChatCreateFlowState()
 }

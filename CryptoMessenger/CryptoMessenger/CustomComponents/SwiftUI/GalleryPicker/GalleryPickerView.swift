@@ -82,8 +82,3 @@ struct GalleryPickerView: UIViewControllerRepresentable {
         }
     }
 }
-
-enum GalleryPickerContent {
-    case photos
-    case all
-}
