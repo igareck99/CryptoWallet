@@ -27,7 +27,7 @@ struct ChooseReceiverView: View {
             .hideKeyboardOnTap()
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(R.string.localizable.chooseReceiverTitle())
+                    Text(viewModel.resources.chooseReceiverTitle)
                         .font(.system(size: 17, weight: .semibold))
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -35,7 +35,7 @@ struct ChooseReceiverView: View {
                         viewModel.send(.onScanner(scannedScreen: $searchText))
                         viewModel.searchType = .wallet
                     } label: {
-                        viewModel.sources.qrcode
+                        viewModel.resources.qrcode
                     }
                 }
             }.onReceive(scannedCodePublisher) { code in
@@ -75,7 +75,7 @@ struct ChooseReceiverView: View {
                 searchSelectView
                     .padding(.top, 20)
                 Divider()
-                SearchBar(placeholder: viewModel.sources.countryCodePickerSearch,
+                SearchBar(placeholder: viewModel.resources.countryCodePickerSearch,
                           searchText: $searchText,
                           searching: $searching)
                 .focused($inputViewIsFocused)

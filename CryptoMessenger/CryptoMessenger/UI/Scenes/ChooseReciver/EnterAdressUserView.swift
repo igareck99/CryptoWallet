@@ -12,10 +12,10 @@ struct EnterAdressUserView: View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
                 ZStack {
-                    Color(.lightBlue())
+                    Color.dodgerTransBlue
                     Text("A")
-                        .foreground(.white())
-                        .font(.medium(22))
+                        .foreground(.white)
+                        .font(.system(size: 22, weight: .medium))
                 }
                 .scaledToFill()
                 .frame(width: 40, height: 40)
@@ -24,13 +24,13 @@ struct EnterAdressUserView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 0) {
                         Text("Введите адресс")
-                            .font(.semibold(15))
-                            .foreground(.black())
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(.chineseBlack)
                             .padding(.top, 12)
                     }
                     Text(adress)
-                        .font(.regular(13))
-                        .foreground(.darkGray())
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundColor(.romanSilver)
                         .padding(.bottom, 12)
                 }
                 .frame(height: 64)
