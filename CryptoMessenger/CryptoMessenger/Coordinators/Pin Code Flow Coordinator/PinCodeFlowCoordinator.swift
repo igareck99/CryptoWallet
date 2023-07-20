@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 // MARK: - PinCodeFlowCoordinatorDelegate
 
@@ -22,15 +23,21 @@ public final class PinCodeFlowCoordinator: Coordinator {
     weak var delegate: PinCodeFlowCoordinatorDelegate?
     var navigationController: UINavigationController
     private let userFlows: UserFlowsStorage
+    var renderView: (any View) -> Void
+    var onLogin: () -> Void
 
     // MARK: - Lifecycle
 
     init(
-		userFlows: UserFlowsStorage,
-		navigationController: UINavigationController
-	) {
-		self.userFlows = userFlows
+        userFlows: UserFlowsStorage,
+        navigationController: UINavigationController,
+        renderView: @escaping (any View) -> Void,
+        onLogin: @escaping () -> Void
+    ) {
+        self.userFlows = userFlows
         self.navigationController = navigationController
+        self.onLogin = onLogin
+        self.renderView = renderView
     }
 
     // MARK: - Internal Methods
@@ -42,9 +49,11 @@ public final class PinCodeFlowCoordinator: Coordinator {
     // MARK: - Private Methods
 
     private func showPinCodeScene() {
-        let view = PinCodeAssembly.build(delegate: self, screenType: .login)
-        let viewController = BaseHostingController(rootView: view)
-        setViewWith(viewController)
+        let view = PinCodeAssembly.build(screenType: .login, onLogin: {
+            NotificationCenter.default.post(name: .userDidLoggedIn, object: nil)
+            self.onLogin()
+        })
+        self.renderView(view)
     }
 }
 

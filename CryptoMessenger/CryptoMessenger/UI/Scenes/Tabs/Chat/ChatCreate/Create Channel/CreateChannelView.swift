@@ -23,6 +23,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
     // MARK: - Body
 
     var body: some View {
+        NavigationView {
         content
             .actionSheet(isPresented: $showActionImageAlert) {
                 ActionSheet(title: Text(""),
@@ -58,6 +59,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
             .toolbar {
                 createToolBar()
             }
+    }
     }
     
     private var content: some View {

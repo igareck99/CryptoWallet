@@ -24,6 +24,7 @@ final class MainFlowCoordinator: Coordinator {
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: MainFlowCoordinatorDelegate?
 	private weak var rootTabBarController: BaseTabBarController?
+    var renderView: (any View) -> Void
 
     var navigationController: UINavigationController
 
@@ -32,9 +33,11 @@ final class MainFlowCoordinator: Coordinator {
     // MARK: - Lifecycle
 
     init(navigationController: UINavigationController,
-         togglesFacade: MainFlowTogglesFacadeProtocol) {
+         togglesFacade: MainFlowTogglesFacadeProtocol,
+         renderView: @escaping (any View) -> Void) {
         self.navigationController = navigationController
         self.togglesFacade = togglesFacade
+        self.renderView = renderView
     }
 
     // MARK: - Internal Methods
@@ -48,10 +51,11 @@ final class MainFlowCoordinator: Coordinator {
             chateDelegate: self,
             profileDelegate: self
         )
-        let controller = BaseHostingController(rootView: view)
-        controller.navigationController?.navigationBar.isHidden = false
-        setViewWith(controller, type: .fade, isRoot: true, isNavBarHidden: false)
-		delegate?.didEndStartProcess(coordinator: self)
+        renderView(view)
+//        let controller = BaseHostingController(rootView: view)
+//        controller.navigationController?.navigationBar.isHidden = false
+//        setViewWith(controller, type: .fade, isRoot: true, isNavBarHidden: false)
+//		delegate?.didEndStartProcess(coordinator: self)
     }
 
     // MARK: - Scene
@@ -60,19 +64,13 @@ final class MainFlowCoordinator: Coordinator {
 
         // MARK: - Types
 
-        case profileDetail(Binding<UIImage?>)
         case personalization
         case language
         case typography
         case selectBackground
         case profilePreview
         case profile
-        case security
         case blockList
-        case pinCode(PinCodeScreenType)
-        case session
-        case aboutApp
-        case faq
         case chatSettings
         case reserveCopy
         case transaction(Int, Int, String)
@@ -81,7 +79,6 @@ final class MainFlowCoordinator: Coordinator {
         case scanner(Binding<String>)
 		case transfer(wallet: WalletInfo)
         case facilityApprove(FacilityApproveModel)
-        case notifications
         case walletManager
         case keyList
         case phraseManager
@@ -95,8 +92,6 @@ final class MainFlowCoordinator: Coordinator {
 extension MainFlowCoordinator: MainFlowSceneDelegate {
     func handleNextScene(_ scene: Scene) {
         switch scene {
-        case let .profileDetail(image):
-            showProfileDetailScene(image: image)
         case .personalization:
             showPersonalizationScene()
         case .language:
@@ -109,22 +104,12 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showProfilePreviewScene()
         case .profile:
             start()
-        case .security:
-            showSecurityScene()
         case .blockList:
             showBlockListScene()
-        case .aboutApp:
-            showAboutAppScene()
-        case .session:
-            showSessionScene()
-        case let .pinCode(screenType):
-            showPinCodeCreate(screenType: screenType)
         case .chatSettings:
             showChatSettings()
         case .reserveCopy:
             showReserveCopyScene()
-        case .faq:
-            showAnswerScene()
         case let .transaction(selectorFilterIndex, selectorTokenIndex, address):
             showTransaction(
                 selectorFilterIndex: selectorFilterIndex,
@@ -147,8 +132,6 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
             showKeyList()
         case .phraseManager:
             showPhraseManger()
-        case .notifications:
-            showNotificationsSettings()
         case .popToRoot:
             popToRoot()
         case .reservePhraseCopy:
@@ -163,20 +146,6 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
 
     func switchFlow() {
         delegate?.userPerformedLogout(coordinator: self)
-    }
-
-    private func showNotificationsSettings() {
-        let rootView = NotificationSettingsConfigurator.configuredView(delegate: self)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showProfileDetailScene(image: Binding<UIImage?>) {
-        let rootView = ProfileDetailConfigurator.configuredView(delegate: self, image: image)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
     }
 
     private func showPersonalizationScene() {
@@ -214,43 +183,8 @@ extension MainFlowCoordinator: MainFlowSceneDelegate {
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    private func showSecurityScene() {
-        let rootView = SecurityConfigurator.configuredView(delegate: self, togglesFacade: togglesFacade )
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
     private func showBlockListScene() {
         let rootView = BlockedListConfigurator.configuredView(delegate: self)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showPinCodeCreate(screenType: PinCodeScreenType) {
-        let rootView = PinCodeAssembly.build(delegate: self,
-                                             screenType: screenType)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showAboutAppScene() {
-        let view = AboutAppAssembly.build(delegate: self)
-        let viewController = BaseHostingController(rootView: view)
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showSessionScene() {
-        let rootView = SessionConfigurator.configuredView(delegate: self)
-        let viewController = BaseHostingController(rootView: rootView)
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController.pushViewController(viewController, animated: true)
-    }
-
-    private func showAnswerScene() {
-        let rootView = AnswerConfigurator.configuredView(delegate: self)
         let viewController = BaseHostingController(rootView: rootView)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
@@ -339,24 +273,9 @@ extension MainFlowCoordinator: ProfileSceneDelegate {}
 
 extension MainFlowCoordinator: PersonalizationSceneDelegate {}
 
-// MARK: - MainFlowCoordinator (SecuritySceneDelegate)
-
-extension MainFlowCoordinator: SecuritySceneDelegate {}
-
 // MARK: - MainFlowCoordinator (BlockedListSceneDelegate)
 
 extension MainFlowCoordinator: BlockedListSceneDelegate {}
-
-// MARK: - MainFlowCoordinator (PinCodeCreateSceneDelegate)
-
-extension MainFlowCoordinator: PinCodeSceneDelegate {
-    func handleNextScene() {
-    }
-}
-
-// MARK: - MainFlowCoordinator (SessionSceneDelegate)
-
-extension MainFlowCoordinator: SessionSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (ChatSettingsSceneDelegate)
 
@@ -365,14 +284,6 @@ extension MainFlowCoordinator: ChatSettingsSceneDelegate {}
 // MARK: - MainFlowCoordinator (ReserveCopySceneDelegate)
 
 extension MainFlowCoordinator: ReserveCopySceneDelegate {}
-
-// MARK: - MainFlowCoordinator (AboutAppSceneDelegate)
-
-extension MainFlowCoordinator: AboutAppSceneDelegate {}
-
-// MARK: - MainFlowCoordinator (AnswersSceneDelegate)
-
-extension MainFlowCoordinator: AnswersSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (WalletSceneDelegate)
 
@@ -418,9 +329,6 @@ extension MainFlowCoordinator: PhraseManagerSceneDelegate {}
 
 extension MainFlowCoordinator: SettingsSceneDelegate {}
 
-// MARK: - MainFlowCoordinator (NotificationSettingsSceneDelegate)
-
-extension MainFlowCoordinator: NotificationSettingsSceneDelegate {}
 
 // MARK: - MainFlowCoordinator (GeneratePhraseSceneDelegate)
 

@@ -6,7 +6,7 @@ final class AnswersViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: AnswersSceneDelegate?
+    var coordinator: ProfileFlowCoordinatorProtocol?
 
     @Published var listData = [AnswerItem(title: "Загрузка и установка AURA",
                                           details: []),

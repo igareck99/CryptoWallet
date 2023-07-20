@@ -24,24 +24,28 @@ public final class AuthCoordinator: Coordinator {
     weak var delegate: AuthCoordinatorDelegate?
     var navigationController: UINavigationController
     private let userFlows: UserFlowsStorage
-    private let router: AuhtRouterable
+    let router: AuhtRouterable
+    let renderView: (Coordinator) -> Void
 
     // MARK: - Lifecycle
 
     init(
         router: AuhtRouterable,
         userFlows: UserFlowsStorage,
-        navigationController: UINavigationController
+        navigationController: UINavigationController,
+        renderView: @escaping (Coordinator) -> Void
     ) {
         self.router = router
 		self.userFlows = userFlows
         self.navigationController = navigationController
+        self.renderView = renderView
     }
 
     // MARK: - Internal Methods
 
     func start() {
         handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
+        renderView(self)
     }
 
     // MARK: - Scene

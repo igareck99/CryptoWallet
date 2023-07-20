@@ -23,6 +23,7 @@ struct CreateContactView: View {
     // MARK: - Body
 
     var body: some View {
+        NavigationView {
         content
             .actionSheet(isPresented: $showActionImageAlert) {
                 ActionSheet(title: Text(""),
@@ -44,7 +45,7 @@ struct CreateContactView: View {
                              content: {
                 ImagePickerView(selectedImage: $selectedImage,
                                 sourceType: .camera)
-                    .ignoresSafeArea()
+                .ignoresSafeArea()
             })
             .fullScreenCover(isPresented: $showImagePicker,
                              content: {
@@ -63,13 +64,13 @@ struct CreateContactView: View {
                         R.image.navigation.backButton.image
                     })
                 }
-
+                
                 ToolbarItem(placement: .principal) {
                     Text(R.string.localizable.createActionNewContact())
                         .font(.bold(15))
                         .foreground(.black())
                 }
-
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         if !numberText.isEmpty {
@@ -85,9 +86,10 @@ struct CreateContactView: View {
                             .font(.semibold(15))
                             .foreground(numberText.isEmpty ? .gray() : .blue())
                     })
-                        .disabled(numberText.isEmpty)
+                    .disabled(numberText.isEmpty)
                 }
             }
+    }
     }
 
     private var content: some View {

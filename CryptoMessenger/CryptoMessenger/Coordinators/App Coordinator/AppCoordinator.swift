@@ -15,6 +15,7 @@ protocol RootCoordinatable: ObservableObject {
 final class AppCoordinator: RootCoordinatable {
 
     @Published var rootView: any View = Text("")
+    @Published var coordinator: Coordinator?
     
     var childCoordinators: [String: Coordinator] = [:]
 	var navigationController: UINavigationController
@@ -48,7 +49,11 @@ final class AppCoordinator: RootCoordinatable {
 	private func showAuthenticationFlow() {
         let authFlowCoordinator = factory.makeAuthCoordinator(
             delegate: self,
-            navigationController: navigationController
+            navigationController: navigationController, renderView: { result in
+                self.coordinator = result
+                print("dlkasklaksl  \(result)")
+                // viewModel.view = result
+            }
         )
         addChildCoordinator(authFlowCoordinator)
         authFlowCoordinator.start()
@@ -57,7 +62,9 @@ final class AppCoordinator: RootCoordinatable {
 	private func showMainFlow() {
         let mainFlowCoordinator = factory.makeMainCoordinator(
             delegate: self,
-            navigationController: navigationController
+            navigationController: navigationController, renderView: { view in
+                self.rootView = view
+            }
         )
         addChildCoordinator(mainFlowCoordinator)
         mainFlowCoordinator.start()
@@ -66,7 +73,11 @@ final class AppCoordinator: RootCoordinatable {
 	private func showPinCodeFlow() {
         let pinCodeFlowCoordinator = factory.makePinCoordinator(
             delegate: self,
-            navigationController: navigationController
+            navigationController: navigationController, renderView: { view in
+                self.rootView = view
+            }, onLogin: {
+                self.showMainFlow()
+            }
         )
         addChildCoordinator(pinCodeFlowCoordinator)
         pinCodeFlowCoordinator.start()

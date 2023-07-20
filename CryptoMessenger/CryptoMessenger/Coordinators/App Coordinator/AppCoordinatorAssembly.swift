@@ -30,7 +30,6 @@ enum AppCoordinatorAssembly {
 	}
 
     static func make() -> AppCoordinator {
-
         let navigationController = UINavigationController()
         let keychainService = KeychainService.shared
         let userSettings = UserDefaultsService.shared

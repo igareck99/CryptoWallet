@@ -98,14 +98,11 @@ struct ProfileView: View {
 //                    self.showTabBar()
                 },
                 view: {
-                    ProfileSettingsMenuView(balance: "0.50 AUR",
+                    ProfileSettingsMenuView(viewModel: ProfileSettingsMenuViewModel(),
+                                            balance: "0.50 AUR",
                                             onSelect: { type in
                         vibrate()
-                        if type == .profile {
-                            viewModel.send(.onShowProfileDetail($selectedAvatarImage))
-                        } else {
-                            viewModel.send(.onShow(type))
-                        }
+                        viewModel.send(.onShow(type, $selectedAvatarImage))
                     })
                     .frame(height: viewModel.menuHeight )
                     .background(
@@ -251,9 +248,9 @@ struct ProfileView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     R.image.profile.settings.image
                         .onTapGesture {
-//                            hideTabBar()
+                            //hideTabBar()
                             vibrate()
-                            //viewModel.send(.onSettings)
+                            showMenu = true
                         }
                 }
             }

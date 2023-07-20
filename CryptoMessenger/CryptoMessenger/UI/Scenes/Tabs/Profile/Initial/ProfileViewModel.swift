@@ -140,11 +140,13 @@ final class ProfileViewModel: ObservableObject {
                     self.coordinator?.galleryPickerFullScreen(selectedImage: selectedImage,
                                                               selectedVideo: selectedVideo, sourceType: type,
                                                               galleryContent: .all)
-                case let .onShow(type):
-                    ()
-                    // self?.coordinator?.onShowMenuView(type)
-                case .onSettings:
-                    self?.coordinator?.settings(balance: "0.50")
+                case let .onShow(type, image):
+                    guard let self = self else { return }
+                    if let coordinator = self.coordinator {
+                        self.coordinator?.settingsScreens(type,
+                                                          coordinator,
+                                                          image)
+                    }
                 case let .onImageEditor(isShowing: isShowing,
                                         image: image,
                                         viewModel: viewModel):

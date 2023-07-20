@@ -8,7 +8,7 @@ final class NotificationSettingsViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: NotificationSettingsSceneDelegate?
+    var coordinator: ProfileFlowCoordinatorProtocol?
     @Published var isNotificationDevice = false
     @Published var allMessages = NotificationSettings(item: NotificationSettingsItems.allMessages,
                                                       state: false)

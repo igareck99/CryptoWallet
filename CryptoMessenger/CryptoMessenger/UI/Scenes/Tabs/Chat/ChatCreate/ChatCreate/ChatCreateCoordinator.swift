@@ -53,13 +53,11 @@ extension ChatCreateFlowCoordinator: ChatCreateFlowCoordinatorProtocol {
     }
 
     func createContact() {
-        print("tireowerieo32ieo32")
         router.createContact()
     }
     
     func createGroupChat(_ chatData: Binding<ChatData>,
                          _ coordinator: ChatCreateFlowCoordinatorProtocol) {
-        print("slkasklasklasklaskl")
         router.createGroupChat(chatData, coordinator)
     }
     

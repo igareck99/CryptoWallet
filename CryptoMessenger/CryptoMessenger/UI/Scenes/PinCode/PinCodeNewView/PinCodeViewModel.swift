@@ -89,24 +89,25 @@ final class PinCodeViewModel: ObservableObject, PinCodeViewModelDelegate {
     private let keychainService: KeychainServiceProtocol
     private let biometryService: BiometryServiceProtocol
     let sources: PinCodeSourcesable.Type
-    
+
     @Published var colors: [Color] = []
     @Published var showRemoveSheet = false
+    var onLogin: () -> Void
 
     // MARK: - Lifecycle
 
-    init(delegate: PinCodeSceneDelegate?,
-         screenType: PinCodeScreenType,
+    init(screenType: PinCodeScreenType,
          userSettings: UserFlowsStorage & UserCredentialsStorage,
          keychainService: KeychainServiceProtocol,
          biometryService: BiometryServiceProtocol,
-         sources: PinCodeSourcesable.Type) {
-        self.delegate = delegate
+         sources: PinCodeSourcesable.Type,
+         onLogin: @escaping () -> Void) {
         self.screenType = screenType
         self.userSettings = userSettings
         self.keychainService = keychainService
         self.biometryService = biometryService
         self.sources = sources
+        self.onLogin = onLogin
         bindInput()
         bindOutput()
     }
@@ -220,7 +221,7 @@ final class PinCodeViewModel: ObservableObject, PinCodeViewModelDelegate {
         let password = enteredPassword.map({ String($0) })
                                       .joined(separator: "")
         if pinCode == password {
-            self.delegate?.handleNextScene()
+            onLogin()
         } else {
             errorDisplay()
         }
@@ -280,6 +281,10 @@ final class PinCodeViewModel: ObservableObject, PinCodeViewModelDelegate {
                 if self.screenType == .biometry {
                     self.userSettings.isBiometryOn = true
                     self.disappearScreen = true
+                    return
+                }
+                if self.screenType == .login {
+                    self.onLogin()
                     return
                 }
                 self.delegate?.handleNextScene()

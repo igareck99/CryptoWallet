@@ -1,6 +1,6 @@
 import SwiftUI
 
-// @main
+@main
 struct CryptoMessengerApp: App {
 
     @Environment(\.window) private var window: UIWindow? // = WindowKey.defaultValue

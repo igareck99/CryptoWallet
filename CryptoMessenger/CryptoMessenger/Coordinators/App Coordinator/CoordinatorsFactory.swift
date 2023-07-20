@@ -1,19 +1,24 @@
 import UIKit
+import SwiftUI
 
 protocol CoordinatorsFactoryProtocol {
     static func makePinCoordinator(
         delegate: PinCodeFlowCoordinatorDelegate,
-        navigationController: UINavigationController
+        navigationController: UINavigationController,
+        renderView: @escaping (any View) -> Void,
+        onLogin: @escaping () -> Void
     ) -> Coordinator
 
     static func makeAuthCoordinator(
         delegate: AuthCoordinatorDelegate,
-        navigationController: UINavigationController
+        navigationController: UINavigationController,
+        renderView: @escaping (Coordinator) -> Void
     ) -> Coordinator
 
     static func makeMainCoordinator(
         delegate: MainFlowCoordinatorDelegate,
-        navigationController: UINavigationController
+        navigationController: UINavigationController,
+        renderView: @escaping (any View) -> Void
     ) -> Coordinator
 
     static func makePushCoordinator(
@@ -28,12 +33,19 @@ enum CoordinatorsFactory: CoordinatorsFactoryProtocol {
 
     static func makePinCoordinator(
         delegate: PinCodeFlowCoordinatorDelegate,
-        navigationController: UINavigationController
+        navigationController: UINavigationController,
+        renderView: @escaping (any View) -> Void,
+        onLogin: @escaping () -> Void
     ) -> Coordinator {
         let userFlows = UserDefaultsService.shared
         let coordinator = PinCodeFlowCoordinator(
             userFlows: userFlows,
-            navigationController: navigationController
+            navigationController: navigationController,
+            renderView: { result in
+                renderView(result)
+            }, onLogin: {
+                onLogin()
+            }
         )
         coordinator.delegate = delegate
         return coordinator
@@ -41,21 +53,27 @@ enum CoordinatorsFactory: CoordinatorsFactoryProtocol {
 
     static func makeAuthCoordinator(
         delegate: AuthCoordinatorDelegate,
-        navigationController: UINavigationController
+        navigationController: UINavigationController,
+        renderView: @escaping (Coordinator) -> Void
     ) -> Coordinator {
         AuthCoordinatorAssembly.build(
             delegate: delegate,
-            navigationController: navigationController
+            navigationController: navigationController, renderView: { result in
+                renderView(result)
+            }
         )
     }
 
     static func makeMainCoordinator(
         delegate: MainFlowCoordinatorDelegate,
-        navigationController: UINavigationController
+        navigationController: UINavigationController,
+        renderView: @escaping (any View) -> Void
     ) -> Coordinator {
         let coordinator = MainFlowCoordinatorAssembly.build(
             delegate: delegate,
-            navigationController: navigationController
+            navigationController: navigationController, renderView: { result in
+                renderView(result)
+            }
         )
         return coordinator
     }

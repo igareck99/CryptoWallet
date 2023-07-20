@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - AppDelegate
 
- @main
+//@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?

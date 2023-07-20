@@ -14,7 +14,11 @@ protocol ProfileFlowCoordinatorProtocol {
                      image: Binding<UIImage?>,
                      viewModel: ProfileViewModel)
     
-    func settings(balance: String)
+    func settingsScreens(_ type: ProfileSettingsMenu,
+                         _ cooordinator: ProfileFlowCoordinatorProtocol,
+                         _ image: Binding<UIImage?>)
+    func pinCode(_ pinCodeScreen: PinCodeScreenType)
+    func sessions(_ coordinator: ProfileFlowCoordinatorProtocol)
 }
 
 // MARK: - ProfileFlowCoordinator
@@ -56,7 +60,31 @@ extension ProfileFlowCoordinator: ProfileFlowCoordinatorProtocol {
                            viewModel: viewModel)
     }
     
-    func settings(balance: String) {
-        router.settings(balance: balance)
+    func settingsScreens(_ type: ProfileSettingsMenu,
+                         _ cooordinator: ProfileFlowCoordinatorProtocol,
+                         _ image: Binding<UIImage?>) {
+        switch type {
+        case .profile:
+            router.profileDetail(cooordinator,
+                                 image)
+        case .security:
+            router.security(cooordinator)
+        case .notifications:
+            router.notifications(cooordinator)
+        case .questions:
+            router.questions(cooordinator)
+        case .about:
+            router.aboutApp(cooordinator)
+        default:
+            ()
+        }
+    }
+    
+    func pinCode(_ pinCodeScreen: PinCodeScreenType) {
+        router.pinCode(pinCodeScreen)
+    }
+    
+    func sessions(_ coordinator: ProfileFlowCoordinatorProtocol) {
+        router.sessions(coordinator)
     }
 }
