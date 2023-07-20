@@ -13,17 +13,17 @@ struct FacilityApproveCellView: View {
         HStack(spacing: 8) {
             ZStack {
                 Circle()
-                    .fill(Color(.blue(0.1)))
+                    .fill(Color.dodgerBlue)
                     .frame(width: 40, height: 40)
                 item.image
             }
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.title)
                     .font(.system(size: 12))
-                    .foregroundColor(.regentGrayApprox)
+                    .foregroundColor(.chineseBlack)
                 Text(item.text)
                     .font(.system(size: 17))
-                    .foregroundColor(.woodSmokeApprox)
+                    .foregroundColor(.romanSilver)
                     .lineLimit(1)
                     .truncationMode(.middle)
                     .padding(.trailing, 16)

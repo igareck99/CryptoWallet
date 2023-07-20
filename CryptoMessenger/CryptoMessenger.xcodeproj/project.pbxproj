@@ -734,7 +734,7 @@
 		D4A514AE295082BB007A87BF /* FacilityApproveCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514AD295082BB007A87BF /* FacilityApproveCellView.swift */; };
 		D4A514B0295187BF007A87BF /* TransactionInfoApprove.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514AF295187BF007A87BF /* TransactionInfoApprove.swift */; };
 		D4A514B2295187E3007A87BF /* ApproveFacilityCellTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514B1295187E3007A87BF /* ApproveFacilityCellTitle.swift */; };
-		D4A514B429518834007A87BF /* FacilityApproveSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514B329518834007A87BF /* FacilityApproveSources.swift */; };
+		D4A514B429518834007A87BF /* FacilityApproveResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514B329518834007A87BF /* FacilityApproveResources.swift */; };
 		D4A514B629518922007A87BF /* FacilityApproveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A514B529518922007A87BF /* FacilityApproveModel.swift */; };
 		D4A8535F295C796400F2B944 /* TrackableScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A8535E295C796400F2B944 /* TrackableScroll.swift */; };
 		D4A85378295DA30600F2B944 /* PopupBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A85377295DA30600F2B944 /* PopupBar.swift */; };
@@ -1604,7 +1604,7 @@
 		D4A514AD295082BB007A87BF /* FacilityApproveCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveCellView.swift; sourceTree = "<group>"; };
 		D4A514AF295187BF007A87BF /* TransactionInfoApprove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInfoApprove.swift; sourceTree = "<group>"; };
 		D4A514B1295187E3007A87BF /* ApproveFacilityCellTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproveFacilityCellTitle.swift; sourceTree = "<group>"; };
-		D4A514B329518834007A87BF /* FacilityApproveSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveSources.swift; sourceTree = "<group>"; };
+		D4A514B329518834007A87BF /* FacilityApproveResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveResources.swift; sourceTree = "<group>"; };
 		D4A514B529518922007A87BF /* FacilityApproveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveModel.swift; sourceTree = "<group>"; };
 		D4A8535E295C796400F2B944 /* TrackableScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScroll.swift; sourceTree = "<group>"; };
 		D4A85377295DA30600F2B944 /* PopupBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupBar.swift; sourceTree = "<group>"; };
@@ -3095,7 +3095,7 @@
 				8B4E9C4927E1EDF60057E4C9 /* FacilityApproveProtocols.swift */,
 				D4A514AF295187BF007A87BF /* TransactionInfoApprove.swift */,
 				D4A514B1295187E3007A87BF /* ApproveFacilityCellTitle.swift */,
-				D4A514B329518834007A87BF /* FacilityApproveSources.swift */,
+				D4A514B329518834007A87BF /* FacilityApproveResources.swift */,
 				D4A514B529518922007A87BF /* FacilityApproveModel.swift */,
 			);
 			path = FacilityApprove;
@@ -4744,7 +4744,7 @@
 				8B4E9C4627E1EDDE0057E4C9 /* FacilityApproveConfigurator.swift in Sources */,
 				D48FA5802A4ADDAD0002C07F /* TabItemModel.swift in Sources */,
 				8BA0C90927AD4F320070203F /* AnswerViewModel.swift in Sources */,
-				D4A514B429518834007A87BF /* FacilityApproveSources.swift in Sources */,
+				D4A514B429518834007A87BF /* FacilityApproveResources.swift in Sources */,
 				5A3C942A274AFFDC00818060 /* KeyboardAvoiderModifier.swift in Sources */,
 				D4D439F22837493800AC0DEF /* MXRoom+Reply.swift in Sources */,
 				5A187EB7268070B3001957D3 /* UIView+Extensions.swift in Sources */,
