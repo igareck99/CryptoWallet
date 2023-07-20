@@ -45,8 +45,8 @@ struct GeneratePhraseView: View {
             alignment: .bottom
         ) {
             Snackbar(
-                text: viewModel.sources.generatePhraseCopied,
-                color: .greenCrayola
+                text: viewModel.resources.generatePhraseCopied,
+                color: viewModel.resources.snackbarBackground
             )
         }
     }
@@ -54,13 +54,13 @@ struct GeneratePhraseView: View {
     private var generateView: some View {
         VStack(alignment: .center, spacing: 0) {
             
-            Text(viewModel.sources.generatePhraseTitle)
-                .font(.regular(22))
+            Text(viewModel.resources.generatePhraseTitle)
+                .font(.system(size: 22, weight: .regular))
                 .padding(.top, 47)
            
-            Text(viewModel.sources.generatePhraseDescription)
-                .font(.regular(15))
-                .foregroundColor(.romanSilver)
+            Text(viewModel.resources.generatePhraseDescription)
+                .font(.system(size: 15, weight: .regular))
+                .foregroundColor(viewModel.resources.textColor)
                 .lineLimit(4)
                 .multilineTextAlignment(.center)
                 .frame(minHeight: 60)
@@ -74,13 +74,13 @@ struct GeneratePhraseView: View {
                     .frame(maxWidth: .infinity)
                     .font(.system(size: 15))
                     .padding(.horizontal, 16)
-                    .foregroundColor(.dodgerBlue)
+                    .foregroundColor(viewModel.resources.buttonBackground)
             }
             .padding(.vertical, 48)
            
-            viewModel.sources.puzzle
+            viewModel.resources.puzzle
                 .padding(.top, 32)
-                .foregroundColor(.dodgerBlue)
+                .foregroundColor(viewModel.resources.buttonBackground)
                 .frame(alignment: .center)
                 .scaledToFill()
                 .padding(.horizontal, 2)
@@ -98,20 +98,19 @@ struct GeneratePhraseView: View {
     private var warningView: some View {
         VStack(alignment: .center, spacing: 0) {
             
-            Text(viewModel.sources.generatePhraseWarning)
+            Text(viewModel.resources.generatePhraseWarning)
                 .font(.system(size: 22))
                 .padding(.top, 47)
             
-            Text(viewModel.sources.generatePhraseWarningDescription)
+            Text(viewModel.resources.generatePhraseWarningDescription)
                 .font(.system(size: 15))
-                .foregroundColor(.romanSilver)
+                .foregroundColor(viewModel.resources.textColor)
                 .multilineTextAlignment(.center)
                 .frame(width: 295)
                 .padding(.top, 12)
             
-            viewModel.sources.person
+            viewModel.resources.person
                 .padding(.top, 32)
-                .foreground(.blue())
                 .frame(alignment: .center)
                 .scaledToFill()
                 .padding(.horizontal, 2)
@@ -131,11 +130,11 @@ struct GeneratePhraseView: View {
         Button {
             viewModel.toggleState(.importing)
         } label: {
-            Text(viewModel.sources.generatePhraseImportKey)
+            Text(viewModel.resources.generatePhraseImportKey)
                 .frame(width: 237)
                 .font(.system(size: 17, weight: .semibold))
                 .padding()
-                .foregroundColor(.dodgerBlue)
+                .foregroundColor(viewModel.resources.buttonBackground)
         }
     }
 
@@ -152,38 +151,38 @@ struct GeneratePhraseView: View {
             switch viewModel.isAnimated {
             case false:
                 Text(viewModel.generatePhraseState == .watchKey ?
-                     viewModel.sources.generatePhraseCopyPhrase :
-                        viewModel.sources.keyGenerationCreateButton)
-                .foregroundColor(.white)
+                     viewModel.resources.generatePhraseCopyPhrase :
+                        viewModel.resources.keyGenerationCreateButton)
+                .foregroundColor(viewModel.resources.background)
                 .frame(width: 237)
                 .font(.system(size: 17, weight: .semibold))
                 .padding()
             case true:
                 ProgressView()
-                    .tint(.white)
+                    .tint(viewModel.resources.background)
                     .frame(width: 12, height: 12)
             }
         }
         .frame(width: 237, height: 48)
-        .background(Color.dodgerBlue)
+        .background(viewModel.resources.buttonBackground)
         .cornerRadius(8)
     }
 
     private var watchKeyView: some View {
         VStack(alignment: .center, spacing: 0) {
             
-            Text(viewModel.sources.generatePhraseGeneratedTitle)
+            Text(viewModel.resources.generatePhraseGeneratedTitle)
                 .font(.system(size: 17, weight: .semibold))
                 .padding(.top, 12)
             
-            Text(viewModel.sources.phraseManagerYourSecretPhrase)
+            Text(viewModel.resources.phraseManagerYourSecretPhrase)
                 .font(.system(size: 22))
                 .padding(.top, 59)
             
-            Text(viewModel.sources.generatePhraseGeneratedDescription)
+            Text(viewModel.resources.generatePhraseGeneratedDescription)
                 .font(.system(size: 15))
                 .lineLimit(2)
-                .foregroundColor(.romanSilver)
+                .foregroundColor(viewModel.resources.textColor)
                 .multilineTextAlignment(.center)
                 .frame(width: 295)
                 .padding(.top, 16)
@@ -202,13 +201,11 @@ struct GeneratePhraseView: View {
         TextEditor(text: $viewModel.generatedKey)
             .cornerRadius(8)
             .padding(.leading, 16)
-            .background(
-                Color
-                    .aliceBlue
+            .background(viewModel.resources.textBoxBackground
                     .cornerRadius(8)
                     .frame(minHeight: 160)
             )
-            .foregroundColor(.chineseBlack)
+            .foregroundColor(viewModel.resources.titleColor)
             .font(.system(size: 17))
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 16)
