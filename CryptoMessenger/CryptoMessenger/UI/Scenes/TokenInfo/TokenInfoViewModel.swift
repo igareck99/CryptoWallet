@@ -10,7 +10,7 @@ final class TokenInfoViewModel: ObservableObject {
     @State var address: WalletInfo
     @Published var addresses = [WalletInfo]()
 	var isSnackbarPresented = false
-    let sources: TokenInfoResourcable.Type = TokenInfoResources.self
+    let resources: TokenInfoResourcable.Type = TokenInfoResources.self
 
     // MARK: - Private Properties
 
@@ -20,7 +20,8 @@ final class TokenInfoViewModel: ObservableObject {
 
     init(
 		address: WalletInfo,
-		userCredentialsStorage: UserCredentialsStorage
+		userCredentialsStorage: UserCredentialsStorage,
+        resources: TokenInfoResourcable.Type = TokenInfoResources.self
 	) {
         self.address = address
 		self.userCredentialsStorage = userCredentialsStorage

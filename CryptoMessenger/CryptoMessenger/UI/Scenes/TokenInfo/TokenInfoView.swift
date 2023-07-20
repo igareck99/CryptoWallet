@@ -23,7 +23,7 @@ struct TokenInfoView: View {
                 position: .bottom,
                 closeOnTap: false,
                 closeOnTapOutside: true,
-                backgroundColor: Color(.black(0.4))
+                backgroundColor: viewModel.resources.backgroundFodding
             ) {
                 SelectTokenView(
                     showSelectToken: $showAddresses,
@@ -35,20 +35,20 @@ struct TokenInfoView: View {
                     height: CGFloat(viewModel.addresses.count * 64 + 50),
                     alignment: .center
                 )
-                .background(.white())
+                .background(viewModel.resources.background)
                 .cornerRadius(16)
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarHidden(false)
-            .navigationBarTitle(viewModel.sources.tokenInfoTitle)
+            .navigationBarTitle(viewModel.resources.tokenInfoTitle)
         }
         .popup(
             isPresented: viewModel.isSnackbarPresented,
             alignment: .bottom
         ) {
             Snackbar(
-                text: viewModel.sources.tokenInfoAddressCopied,
-                color: .green
+                text: viewModel.resources.tokenInfoAddressCopied,
+                color: viewModel.resources.buttonBackground
             )
         }
     }
@@ -62,8 +62,8 @@ struct TokenInfoView: View {
                     showTokenInfo = false
                 }
             Spacer()
-            Text(viewModel.sources.tokenInfoTitle)
-                .font(.bold(15))
+            Text(viewModel.resources.tokenInfoTitle)
+                .font(.system(size: 15, weight: .bold))
             Spacer()
         }
     }
@@ -96,7 +96,7 @@ struct TokenInfoView: View {
                 .frame(width: UIScreen.main.bounds.width - 66,
                        height: UIScreen.main.bounds.width - 66)
             RoundedRectangle(cornerRadius: 8.0)
-                .stroke(Color.ironApprox, lineWidth: 1)
+                .stroke(viewModel.resources.rectangleColor, lineWidth: 1)
                 .frame(width: UIScreen.main.bounds.width - 32,
                        height: UIScreen.main.bounds.width - 32)
         }
@@ -109,11 +109,11 @@ struct TokenInfoView: View {
 				.lineLimit(1)
 				.truncationMode(.middle)
 				.font(.system(size: 16))
-				.foregroundColor(.manateeApprox)
+                .foregroundColor(viewModel.resources.textColor)
 				.padding(.horizontal, 16)
 
-            viewModel.sources.copy
-				.foregroundColor(.sharkApprox)
+            viewModel.resources.copy
+                .foregroundColor(viewModel.resources.titleColor)
 				.padding(.trailing, 8)
 				.onTapGesture {
                     UIPasteboard.general.string = viewModel.address.address
@@ -123,7 +123,7 @@ struct TokenInfoView: View {
 		.frame(minHeight: 50)
 		.overlay(
 			RoundedRectangle(cornerRadius: 8)
-				.stroke(Color.ironApprox, lineWidth: 1)
+                .stroke(viewModel.resources.rectangleColor, lineWidth: 1)
 		)
 	}
 
@@ -132,17 +132,17 @@ struct TokenInfoView: View {
             HStack(spacing: 16) {
                 ZStack {
                     Circle()
-                        .fill(Color(.blue(0.1)))
+                        .fill(viewModel.resources.logoBackground)
                         .frame(width: 40, height: 40)
                     R.image.chat.logo.image
                 }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(viewModel.address.address)
-                        .font(.medium(15))
+                        .font(.system(size: 15, weight: .medium))
                         .frame(height: 22)
                     Text(String(viewModel.address.coinAmount) + " \(viewModel.address.result.currency)")
-                        .font(.regular(12))
-                        .foreground(.darkGray())
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(viewModel.resources.textColor)
                         .frame(height: 20)
                 }
             }
@@ -156,14 +156,14 @@ struct TokenInfoView: View {
 
     private var shareButton: some View {
 		Button(action: actionSheet) {
-            Text(viewModel.sources.tokenInfoShareAddress)
+            Text(viewModel.resources.tokenInfoShareAddress)
 				.frame(width: 225, height: 48)
                 .font(.system(size: 17, weight: .semibold))
 				.padding()
-				.foregroundColor(.white)
+                .foregroundColor(viewModel.resources.background)
 				.background(
 					Rectangle()
-						.fill(Color.azureRadianceApprox)
+                        .fill(viewModel.resources.buttonBackground)
 						.cornerRadius(8)
 						.frame(height: 48)
 				)
@@ -182,7 +182,7 @@ struct TokenInfoView: View {
                     .interpolation(.none)
             }
         }
-        return viewModel.sources.xmarkCircle
+        return viewModel.resources.xmarkCircle
             .interpolation(.none)
     }
 

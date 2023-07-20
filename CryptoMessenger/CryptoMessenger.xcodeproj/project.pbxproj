@@ -341,7 +341,7 @@
 		8B451FE829A4389500BF4646 /* FriendProfileSourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE729A4389500BF4646 /* FriendProfileSourcable.swift */; };
 		8B451FEA29A43A8100BF4646 /* ImportPhraseSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE929A43A8100BF4646 /* ImportPhraseSources.swift */; };
 		8B451FEC29A43EDC00BF4646 /* SuccessFacilityResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FEB29A43EDC00BF4646 /* SuccessFacilityResources.swift */; };
-		8B451FEE29A440CD00BF4646 /* TokenInfoSourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FED29A440CD00BF4646 /* TokenInfoSourcable.swift */; };
+		8B451FEE29A440CD00BF4646 /* TokenInfoResourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FED29A440CD00BF4646 /* TokenInfoResourcable.swift */; };
 		8B451FF029A442D400BF4646 /* ChooseReciverSourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FEF29A442D400BF4646 /* ChooseReciverSourcable.swift */; };
 		8B45FA392A4F405300D1F3B0 /* AdminsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B45FA382A4F405300D1F3B0 /* AdminsViewModel.swift */; };
 		8B45FA3B2A4F40EB00D1F3B0 /* AdminsViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B45FA3A2A4F40EB00D1F3B0 /* AdminsViewAssembly.swift */; };
@@ -1203,7 +1203,7 @@
 		8B451FE729A4389500BF4646 /* FriendProfileSourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileSourcable.swift; sourceTree = "<group>"; };
 		8B451FE929A43A8100BF4646 /* ImportPhraseSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPhraseSources.swift; sourceTree = "<group>"; };
 		8B451FEB29A43EDC00BF4646 /* SuccessFacilityResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessFacilityResources.swift; sourceTree = "<group>"; };
-		8B451FED29A440CD00BF4646 /* TokenInfoSourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoSourcable.swift; sourceTree = "<group>"; };
+		8B451FED29A440CD00BF4646 /* TokenInfoResourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoResourcable.swift; sourceTree = "<group>"; };
 		8B451FEF29A442D400BF4646 /* ChooseReciverSourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReciverSourcable.swift; sourceTree = "<group>"; };
 		8B45FA382A4F405300D1F3B0 /* AdminsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminsViewModel.swift; sourceTree = "<group>"; };
 		8B45FA3A2A4F40EB00D1F3B0 /* AdminsViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminsViewAssembly.swift; sourceTree = "<group>"; };
@@ -3555,7 +3555,7 @@
 				8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */,
 				8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */,
 				8BE3799827EA133700AB6B6E /* SelectTokenView.swift */,
-				8B451FED29A440CD00BF4646 /* TokenInfoSourcable.swift */,
+				8B451FED29A440CD00BF4646 /* TokenInfoResourcable.swift */,
 				D4B1011E2A668DFA00F3C856 /* TokenInfoAssembly.swift */,
 			);
 			path = TokenInfo;
@@ -5131,7 +5131,7 @@
 				8B4E9C3F27E0AA150057E4C9 /* WalletAdressScanerFlow.swift in Sources */,
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
 				D49F8AF9297FA5AF00405749 /* TextActionViewModel.swift in Sources */,
-				8B451FEE29A440CD00BF4646 /* TokenInfoSourcable.swift in Sources */,
+				8B451FEE29A440CD00BF4646 /* TokenInfoResourcable.swift in Sources */,
 				8BA0C8FC27AD19A70070203F /* ChatSettingsViewModel.swift in Sources */,
 				D49F8AF7297FA59500405749 /* TextActionView.swift in Sources */,
 				8BC51800296CC8BB0033B30F /* ChooseWalletTypeCell.swift in Sources */,
