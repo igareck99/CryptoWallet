@@ -339,7 +339,7 @@
 		8B451FE429A433EB00BF4646 /* GeneratePhraseResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE329A433EB00BF4646 /* GeneratePhraseResources.swift */; };
 		8B451FE629A436C400BF4646 /* NotificationsSettingsSourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE529A436C400BF4646 /* NotificationsSettingsSourcable.swift */; };
 		8B451FE829A4389500BF4646 /* FriendProfileSourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE729A4389500BF4646 /* FriendProfileSourcable.swift */; };
-		8B451FEA29A43A8100BF4646 /* ImportPhraseSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE929A43A8100BF4646 /* ImportPhraseSources.swift */; };
+		8B451FEA29A43A8100BF4646 /* ImportPhraseResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE929A43A8100BF4646 /* ImportPhraseResources.swift */; };
 		8B451FEC29A43EDC00BF4646 /* SuccessFacilityResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FEB29A43EDC00BF4646 /* SuccessFacilityResources.swift */; };
 		8B451FEE29A440CD00BF4646 /* TokenInfoResourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FED29A440CD00BF4646 /* TokenInfoResourcable.swift */; };
 		8B451FF029A442D400BF4646 /* ChooseReciverResourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FEF29A442D400BF4646 /* ChooseReciverResourcable.swift */; };
@@ -565,6 +565,8 @@
 		8BFFC75427EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75327EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift */; };
 		8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */; };
 		8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */; };
+		9A1713E92A6026EF0052A8C0 /* PhraseManagerResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1713E82A6026EF0052A8C0 /* PhraseManagerResources.swift */; };
+		9A1713EB2A6027060052A8C0 /* KeyListResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1713EA2A6027060052A8C0 /* KeyListResources.swift */; };
 		9AC574262A51BAE30018738F /* ProfileResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC574252A51BAE30018738F /* ProfileResources.swift */; };
 		B4C106F74147CC38CED7B7DF /* Pods_CryptoMessengerPods_AuraNSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */; };
 		D40060F12A4B2F65004D5F35 /* TabItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */; };
@@ -1201,7 +1203,7 @@
 		8B451FE329A433EB00BF4646 /* GeneratePhraseResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseResources.swift; sourceTree = "<group>"; };
 		8B451FE529A436C400BF4646 /* NotificationsSettingsSourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettingsSourcable.swift; sourceTree = "<group>"; };
 		8B451FE729A4389500BF4646 /* FriendProfileSourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileSourcable.swift; sourceTree = "<group>"; };
-		8B451FE929A43A8100BF4646 /* ImportPhraseSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPhraseSources.swift; sourceTree = "<group>"; };
+		8B451FE929A43A8100BF4646 /* ImportPhraseResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPhraseResources.swift; sourceTree = "<group>"; };
 		8B451FEB29A43EDC00BF4646 /* SuccessFacilityResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessFacilityResources.swift; sourceTree = "<group>"; };
 		8B451FED29A440CD00BF4646 /* TokenInfoResourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoResourcable.swift; sourceTree = "<group>"; };
 		8B451FEF29A442D400BF4646 /* ChooseReciverResourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReciverResourcable.swift; sourceTree = "<group>"; };
@@ -1433,6 +1435,8 @@
 		8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerProtocols.swift; sourceTree = "<group>"; };
 		8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseWarningView.swift; sourceTree = "<group>"; };
 		91E5C2C31D84870FF637DC7B /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
+		9A1713E82A6026EF0052A8C0 /* PhraseManagerResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerResources.swift; sourceTree = "<group>"; };
+		9A1713EA2A6027060052A8C0 /* KeyListResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyListResources.swift; sourceTree = "<group>"; };
 		9AC574252A51BAE30018738F /* ProfileResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileResources.swift; path = CryptoMessenger/UI/Scenes/Tabs/Profile/Initial/ProfileResources.swift; sourceTree = SOURCE_ROOT; };
 		AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_AuraNSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3571,7 +3575,7 @@
 				8BE3799F27EB26BC00AB6B6E /* WalletManagerFlow.swift */,
 				8BE379A127EB26CC00AB6B6E /* WalletManagerConfigurator.swift */,
 				8BE379A327EB270E00AB6B6E /* WalletManagerProtocols.swift */,
-				8B451FE929A43A8100BF4646 /* ImportPhraseSources.swift */,
+				8B451FE929A43A8100BF4646 /* ImportPhraseResources.swift */,
 			);
 			path = ImportPhrase;
 			sourceTree = "<group>";
@@ -3585,6 +3589,7 @@
 				8BE379AC27EB7CFE00AB6B6E /* KeyListConfigurator.swift */,
 				8BE379AE27EB7D0900AB6B6E /* KeyListViewModel.swift */,
 				8BE379B027EB82A000AB6B6E /* KeyListActionView.swift */,
+				9A1713EA2A6027060052A8C0 /* KeyListResources.swift */,
 			);
 			path = KeyList;
 			sourceTree = "<group>";
@@ -3661,6 +3666,7 @@
 				8BFFC75327EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift */,
 				8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */,
 				8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */,
+				9A1713E82A6026EF0052A8C0 /* PhraseManagerResources.swift */,
 			);
 			path = PhraseManager;
 			sourceTree = "<group>";
@@ -4935,6 +4941,7 @@
 				D46C901A294775F900DD0B01 /* EnvironmentValues+Extensions.swift in Sources */,
 				5A1D265C275973940085324F /* CornerRadiusStyle.swift in Sources */,
 				8B1C927E2A4B49A400937460 /* ChatCreateFlowState.swift in Sources */,
+				9A1713E92A6026EF0052A8C0 /* PhraseManagerResources.swift in Sources */,
 				5A7EDE74275402ED0049DC4A /* BlockListViewModel.swift in Sources */,
 				5A4BE517271DD86A00D03D09 /* EditEvent.swift in Sources */,
 				8B34D778277DA07E007811C9 /* LanguageItems.swift in Sources */,
@@ -5217,7 +5224,7 @@
 				D4857CFE28AF4AAE00C904EC /* Font+Extensions.swift in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
 				D494D62F2A2DE7830029D222 /* CodeVerificationView.swift in Sources */,
-				8B451FEA29A43A8100BF4646 /* ImportPhraseSources.swift in Sources */,
+				8B451FEA29A43A8100BF4646 /* ImportPhraseResources.swift in Sources */,
 				D46B7C6E297E98AF00BA4A9B /* CancelActionViewModel.swift in Sources */,
 				D44D61D828951D0F004F5301 /* SocialListItemView.swift in Sources */,
 				D4E9795C2A27263B00771232 /* RegistrationResources.swift in Sources */,
@@ -5438,6 +5445,7 @@
 				D46C90122947752000DD0B01 /* SegmentedControllItemContainer.swift in Sources */,
 				5AA6410026822C3A008922B4 /* Palette.swift in Sources */,
 				D4D9CC162A2F867C00EFC586 /* RegistrationColors.swift in Sources */,
+				9A1713EB2A6027060052A8C0 /* KeyListResources.swift in Sources */,
 				8B23C77928E1035D00418F2D /* SettingsFlow.swift in Sources */,
 				8B86A4A52992BA7500B6A67B /* EnterAdressUserView.swift in Sources */,
 				8BE122BF28242EB500F7707E /* MainFlowTogglesFacade.swift in Sources */,

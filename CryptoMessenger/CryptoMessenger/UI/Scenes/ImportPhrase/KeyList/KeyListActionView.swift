@@ -15,20 +15,20 @@ struct KeyListActionView: View {
         VStack(spacing: 18) {
             RoundedRectangle(cornerRadius: 2)
                 .frame(width: 31, height: 4)
-                .foreground(.darkGray(0.4))
+                .foregroundColor(viewModel.resources.backgroundFodding)
                 .padding(.top, 6)
             HStack(spacing: 16) {
                 ZStack {
                     Circle()
                         .frame(width: 40, height: 40)
-                        .foreground(.blue(0.1))
-                    R.image.keyManager.pencil.image
+                        .foregroundColor(viewModel.resources.avatarBackground)
+                    viewModel.resources.pencilImage
                 }
                 Text("Редактировать", [
-                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left)),
-                    .font(.regular(17)),
-                    .color(.blue())
+                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left))
                 ])
+                .font(.system(size: 17, weight: .regular))
+                .foregroundColor(viewModel.resources.buttonBackground)
                 Spacer()
             }
             .onTapGesture {
@@ -40,14 +40,14 @@ struct KeyListActionView: View {
                 ZStack {
                     Circle()
                         .frame(width: 40, height: 40)
-                        .foreground(.red(0.1))
-                    R.image.keyManager.trashBasket.image
+                        .foregroundColor(viewModel.resources.negativeColor)
+                    viewModel.resources.trashBasketImage
                 }
-                Text(R.string.localizable.callListDelete(), [
-                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left)),
-                    .font(.regular(17)),
-                    .color(.red())
+                Text(viewModel.resources.callListDelete, [
+                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left))
                 ])
+                .font(.system(size: 17, weight: .regular))
+                .foregroundColor(viewModel.resources.negativeColor)
                 Spacer()
             }
             .padding(.leading, 16)

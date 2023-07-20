@@ -36,7 +36,7 @@ struct PhraseManagerView: View {
                 let dismissButton = Alert.Button.default(Text("OK")) {
                     presentationMode.wrappedValue.dismiss()
                 }
-                let alert = Alert(title: Text(viewModel.sources.phraseManagerSuccessPhrase),
+                let alert = Alert(title: Text(viewModel.resources.phraseManagerSuccessPhrase),
                                   message: Text(""),
                                   dismissButton: dismissButton)
                 return alert
@@ -46,7 +46,7 @@ struct PhraseManagerView: View {
                    position: .bottom,
                    closeOnTap: false,
                    closeOnTapOutside: true,
-                   backgroundColor: Color(.black(0.3)),
+                   backgroundColor: viewModel.resources.backgroundFodding,
                    view: {
                 PhraseWarningView(showWarningAlert: $showWarningAlert,
                                   repeatPhrase: $repeatPhrase,
@@ -55,7 +55,7 @@ struct PhraseManagerView: View {
                     .frame(width: UIScreen.main.bounds.width,
                            height: UIScreen.main.bounds.height / 2 + 20,
                            alignment: .center)
-                    .background(.white())
+                    .background(viewModel.resources.background)
                     .cornerRadius(16)
             }
             )
@@ -63,7 +63,7 @@ struct PhraseManagerView: View {
 			.navigationBarHidden(false)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(viewModel.sources.chatSettingsReserveCopy)
+                    Text(viewModel.resources.chatSettingsReserveCopy)
                         .font(.system(size: 15, weight: .bold))
                 }
             }
@@ -86,8 +86,8 @@ struct PhraseManagerView: View {
                 }
                 .padding(.top, 40)
                 Text(!unLockPhrase ? viewModel.description : (!repeatPhrase ?
-                                                              viewModel.sources.phraseManagerWriteAndRemember :
-                                                                viewModel.sources.phraseManagerLetsCheck))
+                                                              viewModel.resources.phraseManagerWriteAndRemember :
+                                                                viewModel.resources.phraseManagerLetsCheck))
                 .font(.system(size: 15))
                 .frame(height: 80)
                 .multilineTextAlignment(.center)
@@ -98,9 +98,10 @@ struct PhraseManagerView: View {
                     TextEditor(text: repeatPhrase ? $viewModel.secretPhraseForApprove : $viewModel.secretPhrase)
                         .blur(radius: !unLockPhrase ? 10 : 0)
                         .padding(.leading, 16)
-                        .background(repeatPhrase && wrongRepeatPhrase ? .lightRed(0.1) : .paleBlue())
-                        .foreground(.black())
-                        .font(.regular(15))
+                        .border(repeatPhrase && wrongRepeatPhrase ? viewModel.resources.negativeColor : viewModel.resources.textBoxBackground)
+                        .background(viewModel.resources.textBoxBackground)
+                        .foregroundColor(viewModel.resources.titleColor)
+                        .font(.system(size: 15, weight: .regular))
                         .frame(width: UIScreen.main.bounds.width - 32, height: 200)
                         .cornerRadius(8)
                         .disabled(viewModel.textEditorDisabled)
@@ -116,9 +117,9 @@ struct PhraseManagerView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 40)
                 if repeatPhrase {
-                    Text(viewModel.sources.phraseManagerWrongOrder)
-                        .font(.regular(15))
-                        .foreground(.red())
+                    Text(viewModel.resources.phraseManagerWrongOrder)
+                        .font(.system(size: 15, weight: .regular))
+                        .foregroundColor(viewModel.resources.negativeColor)
                         .opacity(repeatPhrase && wrongRepeatPhrase ? 1 : 0)
                     Divider()
                         .padding(.top, 91)
@@ -127,9 +128,9 @@ struct PhraseManagerView: View {
                         .frame(width: 241, height: 44)
                 } else {
                     VStack {
-                        Text(viewModel.sources.phraseManagerWhatIsSecretPhrase)
+                        Text(viewModel.resources.phraseManagerWhatIsSecretPhrase)
                             .font(.system(size: 15))
-                            .foreground(.blue())
+                            .foregroundColor(viewModel.resources.buttonBackground)
                             .padding(.top, 20)
                             .opacity(!repeatPhrase ? 1 : 0)
                         Divider()
@@ -139,9 +140,9 @@ struct PhraseManagerView: View {
                             .padding(.top, 8)
                             .frame(width: 241, height: 44)
                             .opacity(!repeatPhrase ? 1 : 0)
-                        Text(viewModel.sources.phraseManagerRememberLater)
+                        Text(viewModel.resources.phraseManagerRememberLater)
                             .font(.system(size: 15, weight: .semibold))
-                            .foreground(.blue())
+                            .foregroundColor(viewModel.resources.buttonBackground)
                             .padding(.top, 21)
                             .opacity(!repeatPhrase ? 1 : 0)
                     }
@@ -154,10 +155,10 @@ struct PhraseManagerView: View {
     private var lockView: some View {
         VStack(alignment: .center, spacing: 12) {
             HStack(alignment: .center, spacing: 0) {
-                viewModel.sources.lock
+                viewModel.resources.lock
             }
             HStack(alignment: .center, spacing: 0) {
-                Text(viewModel.sources.phraseManagerTapToSee)
+                Text(viewModel.resources.phraseManagerTapToSee)
                     .font(.system(size: 15))
                     .padding(.horizontal, 32)
                     .multilineTextAlignment(.center)
@@ -181,13 +182,13 @@ struct PhraseManagerView: View {
         Button(action: {
             unLockPhrase = true
         }, label: {
-            Text(viewModel.sources.phraseManagerWatch)
+            Text(viewModel.resources.phraseManagerWatch)
                 .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
                 .font(.system(size: 15, weight: .semibold))
                 .padding()
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(.blue, lineWidth: 1)
+                        .stroke(viewModel.resources.buttonBackground, lineWidth: 1)
                         .frame(width: 189, height: 44)
                 )
         })
@@ -197,9 +198,9 @@ struct PhraseManagerView: View {
         Button {
             showWarningAlert = true
         } label: {
-            Text(viewModel.sources.phraseManagerISavePhrase)
+            Text(viewModel.resources.phraseManagerISavePhrase)
                 .font(.system(size: 15, weight: .semibold))
-                .foreground(!unLockPhrase ? .darkGray() : .white())
+                .foregroundColor(!unLockPhrase ? viewModel.resources.textColor : viewModel.resources.background)
                 .frame(width: 179, height: 44)
         }
         .disabled(!unLockPhrase)
@@ -209,7 +210,7 @@ struct PhraseManagerView: View {
                minHeight: 44,
                idealHeight: 44,
                maxHeight: 44)
-        .background(!unLockPhrase ? .lightGray() : .blue() )
+        .background(!unLockPhrase ? viewModel.resources.inactiveButton : viewModel.resources.buttonBackground )
         .cornerRadius(8)
     }
 
@@ -217,9 +218,9 @@ struct PhraseManagerView: View {
         Button {
             showSuccessAlert = true
         } label: {
-            Text(viewModel.sources.phraseManagerComplete)
-                .font(.semibold(15))
-                .foreground(wrongRepeatPhrase ? .darkGray() : .white())
+            Text(viewModel.resources.phraseManagerComplete)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundColor(wrongRepeatPhrase ? viewModel.resources.textColor : viewModel.resources.background)
                 .frame(width: 179,
                        height: 44)
         }
@@ -230,7 +231,7 @@ struct PhraseManagerView: View {
                minHeight: 44,
                idealHeight: 44,
                maxHeight: 44)
-        .background(wrongRepeatPhrase ? .lightGray() : .blue() )
+        .background(wrongRepeatPhrase ? viewModel.resources.inactiveButton : viewModel.resources.buttonBackground )
         .cornerRadius(8)
     }
 }

@@ -24,16 +24,16 @@ struct PhraseWarningView: View {
             R.image.keyManager.warning.image
                 .padding(.top, 48)
             Text(R.string.localizable.phraseManagerWarning())
-                .font(.semibold(21))
+                .font(.system(size: 21, weight: .semibold))
             Text(R.string.localizable.phraseManagerWarningText())
-                .font(.regular(15))
+                .font(.system(size: 15, weight: .regular))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
             savedButton
                 .frame(width: 241, height: 44)
                 .padding(.top, 70)
             Text(R.string.localizable.phraseManagerGoBack())
-                .foreground(.blue())
+                .foregroundColor(viewModel.resources.buttonBackground)
                 .padding(.top, 5)
                 .onTapGesture {
                     showWarningAlert = false
@@ -56,8 +56,8 @@ struct PhraseWarningView: View {
             viewModel.textEditorDisabled = false
         } label: {
             Text(R.string.localizable.phraseManagerYesiWrite())
-                .font(.semibold(15))
-                .foreground(.white())
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundColor(viewModel.resources.background)
                 .frame(width: 179,
                        height: 44)
         }
@@ -67,7 +67,7 @@ struct PhraseWarningView: View {
                minHeight: 44,
                idealHeight: 44,
                maxHeight: 44)
-        .background(.blue())
+        .background(viewModel.resources.buttonBackground)
         .cornerRadius(8)
     }
 }
