@@ -341,7 +341,6 @@
 		8B451FE829A4389500BF4646 /* FriendProfileSourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE729A4389500BF4646 /* FriendProfileSourcable.swift */; };
 		8B451FEA29A43A8100BF4646 /* ImportPhraseResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FE929A43A8100BF4646 /* ImportPhraseResources.swift */; };
 		8B451FEC29A43EDC00BF4646 /* SuccessFacilityResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FEB29A43EDC00BF4646 /* SuccessFacilityResources.swift */; };
-		8B451FEE29A440CD00BF4646 /* TokenInfoResourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FED29A440CD00BF4646 /* TokenInfoResourcable.swift */; };
 		8B451FF029A442D400BF4646 /* ChooseReciverResourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FEF29A442D400BF4646 /* ChooseReciverResourcable.swift */; };
 		8B45FA392A4F405300D1F3B0 /* AdminsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B45FA382A4F405300D1F3B0 /* AdminsViewModel.swift */; };
 		8B45FA3B2A4F40EB00D1F3B0 /* AdminsViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B45FA3A2A4F40EB00D1F3B0 /* AdminsViewAssembly.swift */; };
@@ -574,6 +573,8 @@
 		D400612F2A4D5AB2004D5F35 /* Routerable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400612E2A4D5AB2004D5F35 /* Routerable.swift */; };
 		D40061612A53E192004D5F35 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40061602A53E192004D5F35 /* Image+Extensions.swift */; };
 		D400616B2A569119004D5F35 /* AuthCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400616A2A569119004D5F35 /* AuthCoordinatorAssembly.swift */; };
+		D400CF8F2A69492C002CF15C /* TokenInfoResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400CF8E2A69492C002CF15C /* TokenInfoResources.swift */; };
+		D400CF912A6949CA002CF15C /* TransferViewResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400CF902A6949CA002CF15C /* TransferViewResources.swift */; };
 		D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */; };
 		D40BCE9D2A3C2A3600056725 /* P2PCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40BCE9C2A3C2A3600056725 /* P2PCallView.swift */; };
 		D40D7D7E290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40D7D7D290BA15B00F2A0EF /* ChatTextsView+EmojiMocks.swift */; };
@@ -744,7 +745,6 @@
 		D4AAD74B294855C000A26515 /* FeeRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AAD74A294855C000A26515 /* FeeRequestParams.swift */; };
 		D4AAD74D294857F800A26515 /* FeeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AAD74C294857F800A26515 /* FeeResponse.swift */; };
 		D4AAD74F2948615E00A26515 /* TransactionSpeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AAD74E2948615E00A26515 /* TransactionSpeed.swift */; };
-		D4AAD7512949A54700A26515 /* TransferViewSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AAD7502949A54700A26515 /* TransferViewSources.swift */; };
 		D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */; };
 		D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */; };
 		D4AB8FFC282672BB00E6FAB5 /* MatrixService+Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */; };
@@ -1205,7 +1205,6 @@
 		8B451FE729A4389500BF4646 /* FriendProfileSourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileSourcable.swift; sourceTree = "<group>"; };
 		8B451FE929A43A8100BF4646 /* ImportPhraseResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPhraseResources.swift; sourceTree = "<group>"; };
 		8B451FEB29A43EDC00BF4646 /* SuccessFacilityResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessFacilityResources.swift; sourceTree = "<group>"; };
-		8B451FED29A440CD00BF4646 /* TokenInfoResourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoResourcable.swift; sourceTree = "<group>"; };
 		8B451FEF29A442D400BF4646 /* ChooseReciverResourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReciverResourcable.swift; sourceTree = "<group>"; };
 		8B45FA382A4F405300D1F3B0 /* AdminsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminsViewModel.swift; sourceTree = "<group>"; };
 		8B45FA3A2A4F40EB00D1F3B0 /* AdminsViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminsViewAssembly.swift; sourceTree = "<group>"; };
@@ -1445,6 +1444,8 @@
 		D400612E2A4D5AB2004D5F35 /* Routerable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routerable.swift; sourceTree = "<group>"; };
 		D40061602A53E192004D5F35 /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		D400616A2A569119004D5F35 /* AuthCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinatorAssembly.swift; sourceTree = "<group>"; };
+		D400CF8E2A69492C002CF15C /* TokenInfoResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenInfoResources.swift; sourceTree = "<group>"; };
+		D400CF902A6949CA002CF15C /* TransferViewResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransferViewResources.swift; sourceTree = "<group>"; };
 		D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallsRouter.swift; sourceTree = "<group>"; };
 		D4074C282A0CB67000896100 /* PushKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushKitService.swift; sourceTree = "<group>"; };
 		D40BCE9C2A3C2A3600056725 /* P2PCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallView.swift; sourceTree = "<group>"; };
@@ -1616,7 +1617,6 @@
 		D4AAD74A294855C000A26515 /* FeeRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeRequestParams.swift; sourceTree = "<group>"; };
 		D4AAD74C294857F800A26515 /* FeeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeeResponse.swift; sourceTree = "<group>"; };
 		D4AAD74E2948615E00A26515 /* TransactionSpeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSpeed.swift; sourceTree = "<group>"; };
-		D4AAD7502949A54700A26515 /* TransferViewSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferViewSources.swift; sourceTree = "<group>"; };
 		D4AB8FF628266C5800E6FAB5 /* MatrixServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixServiceProtocol.swift; sourceTree = "<group>"; };
 		D4AB8FF9282671BB00E6FAB5 /* MatrixService+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Session.swift"; sourceTree = "<group>"; };
 		D4AB8FFB282672BB00E6FAB5 /* MatrixService+Devices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Devices.swift"; sourceTree = "<group>"; };
@@ -3136,7 +3136,7 @@
 				8B5A338727D89D170064C7DC /* TransferConfigurator.swift */,
 				8B5A338927D89D400064C7DC /* TransferViewModel.swift */,
 				8B5A338B27D89D6D0064C7DC /* TransferFlow.swift */,
-				D4AAD7502949A54700A26515 /* TransferViewSources.swift */,
+				D400CF902A6949CA002CF15C /* TransferViewResources.swift */,
 				D4B101112A65106200F3C856 /* FeeItemsFactory.swift */,
 			);
 			path = Transfer;
@@ -3559,7 +3559,7 @@
 				8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */,
 				8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */,
 				8BE3799827EA133700AB6B6E /* SelectTokenView.swift */,
-				8B451FED29A440CD00BF4646 /* TokenInfoResourcable.swift */,
+				D400CF8E2A69492C002CF15C /* TokenInfoResources.swift */,
 				D4B1011E2A668DFA00F3C856 /* TokenInfoAssembly.swift */,
 			);
 			path = TokenInfo;
@@ -4721,6 +4721,7 @@
 				D4DF2B3328F526630057499A /* BiometrySources.swift in Sources */,
 				8B1C927C2A4B496900937460 /* ChatCreateRouter.swift in Sources */,
 				7831DFD7280947D900AF1F1D /* TranslateManager.swift in Sources */,
+				D400CF8F2A69492C002CF15C /* TokenInfoResources.swift in Sources */,
 				8B0C57452A64541E00D456FF /* ProfileContentLlink.swift in Sources */,
 				D4E0B30B29429BB400AEDF85 /* WalletInfo.swift in Sources */,
 				5A2181E426D80B4E0093AD60 /* ActionSheetView.swift in Sources */,
@@ -4817,6 +4818,7 @@
 				8BE6673F280F4ACD00D41A3C /* iPhoneNumberField.swift in Sources */,
 				8B5D83F3283B7DFF0035815B /* ContactInfoResources.swift in Sources */,
 				D491820029233FA7009F8C33 /* UINavigationController+Extensions.swift in Sources */,
+				D400CF912A6949CA002CF15C /* TransferViewResources.swift in Sources */,
 				8B334157295B7D6E0062903C /* ChooseReceiverStructs.swift in Sources */,
 				8B985D102A5C480900F25D8C /* ChannelNotificationsAssembly.swift in Sources */,
 				5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */,
@@ -5138,7 +5140,6 @@
 				8B4E9C3F27E0AA150057E4C9 /* WalletAdressScanerFlow.swift in Sources */,
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
 				D49F8AF9297FA5AF00405749 /* TextActionViewModel.swift in Sources */,
-				8B451FEE29A440CD00BF4646 /* TokenInfoResourcable.swift in Sources */,
 				8BA0C8FC27AD19A70070203F /* ChatSettingsViewModel.swift in Sources */,
 				D49F8AF7297FA59500405749 /* TextActionView.swift in Sources */,
 				8BC51800296CC8BB0033B30F /* ChooseWalletTypeCell.swift in Sources */,
@@ -5341,7 +5342,6 @@
 				D4014D51283FB2CE00AAD70C /* P2PCallsRouter.swift in Sources */,
 				D4A26E272937117E00FEADC2 /* TransactionInfoView.swift in Sources */,
 				5A26CD2E26B3114400118D4B /* BarButtonStyle.swift in Sources */,
-				D4AAD7512949A54700A26515 /* TransferViewSources.swift in Sources */,
 				D425C7E82807E44C00E61607 /* PushNotificationCoordinator.swift in Sources */,
 				8B28B535276347AA00C3E486 /* ProfileDetailViewModel.swift in Sources */,
 				8B234ECB2A40E1F30064ACD3 /* ChatHistoryContentLink.swift in Sources */,
