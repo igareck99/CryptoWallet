@@ -19,13 +19,13 @@ struct TransactionResultView: View {
 		VStack(spacing: 0) {
 			RoundedRectangle(cornerRadius: 2)
 				.frame(width: 31, height: 4)
-				.foreground(.darkGray(0.4))
+				.foregroundColor(.chineseBlack04)
 				.padding(.top, 5)
 				.padding(.bottom, 16)
 
 			Text(model.title)
 				.font(.system(size: 17, weight: .semibold))
-				.foregroundColor(.woodSmokeApprox)
+				.foregroundColor(.chineseBlack)
 
 			Image(model.resultImageName)
 				.resizable()
@@ -37,7 +37,7 @@ struct TransactionResultView: View {
 				.truncationMode(.middle)
 				.frame(alignment: .center)
 				.font(.system(size: 34))
-				.foregroundColor(.woodSmokeApprox)
+				.foregroundColor(.chineseBlack)
 				.padding(.top, 8)
 
 			Text(model.receiverName)
@@ -45,7 +45,7 @@ struct TransactionResultView: View {
 				.truncationMode(.middle)
 				.frame(alignment: .center)
 				.font(.system(size: 22))
-				.foregroundColor(.woodSmokeApprox)
+				.foregroundColor(.chineseBlack)
 				.padding(.top, 22)
 
 			Text(model.receiversWallet)
@@ -53,7 +53,7 @@ struct TransactionResultView: View {
 				.truncationMode(.middle)
 				.frame(alignment: .center)
 				.font(.system(size: 15))
-				.foregroundColor(.regentGrayApprox)
+				.foregroundColor(.romanSilver)
 				.padding(.top, 4)
 				.padding(.horizontal, 32)
 			Spacer()
