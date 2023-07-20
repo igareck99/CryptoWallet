@@ -37,7 +37,7 @@ final class TransferViewModel: ObservableObject {
 	private var addressTo: String = ""
 
     private let feeItemsFactory: FeeItemsFactoryProtocol.Type
-	let sources: TransferViewSourcable.Type
+	let resources: TransferViewSourcable.Type
 	var fees = [TransactionSpeed]()
 	var walletTypes = [WalletType]()
 
@@ -103,7 +103,7 @@ final class TransferViewModel: ObservableObject {
 		keysService: KeysServiceProtocol = KeysService(),
 		walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
 		userSettings: UserFlowsStorage & UserCredentialsStorage = UserDefaultsService.shared,
-		coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
+		recoreDataService: CoreDataServiceProtocol = CoreDataService.shared,
 		sources: TransferViewSourcable.Type = TransferViewSources.self,
         feeItemsFactory: FeeItemsFactoryProtocol.Type = FeeItemsFactory.self
 	) {
@@ -115,7 +115,7 @@ final class TransferViewModel: ObservableObject {
 		self.walletNetworks = walletNetworks
 		self.userSettings = userSettings
 		self.coreDataService = coreDataService
-		self.sources = sources
+		self.resources = resources
         self.feeItemsFactory = feeItemsFactory
         bindInput()
         bindOutput()
@@ -336,7 +336,7 @@ final class TransferViewModel: ObservableObject {
 			
             self.fees = self.feeItemsFactory.make(
                 feesModel: response,
-                sources: self.sources,
+                resources: self.resources,
                 currency: feeCurrency
             )
             

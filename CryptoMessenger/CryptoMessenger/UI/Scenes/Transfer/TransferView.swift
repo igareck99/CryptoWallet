@@ -42,7 +42,7 @@ struct TransferView: View {
                     .navigationBarHidden(false)
                     .toolbar {
                         ToolbarItem(placement: .principal) {
-                            Text(R.string.localizable.transferTransfer())
+                            Text(viewModel.resources.transferTransfer)
 								.font(.system(size: 17, weight: .semibold))
 						}
 					}
@@ -55,7 +55,7 @@ struct TransferView: View {
 				.popup(
 					isPresented: viewModel.isSnackbarPresented,
 					alignment: .bottom
-				) { Snackbar(text: R.string.localizable.transferTransferError()) } 
+                ) { Snackbar(text: viewModel.resources.transferTransferError) }
 		}
 		.ignoresSafeArea(.keyboard)
 	}
@@ -65,25 +65,25 @@ struct TransferView: View {
     private var content: some View {
         VStack(alignment: .center, spacing: 24) {
             VStack(alignment: .leading, spacing: 0) {
-                Text(R.string.localizable.transferYourAdress().uppercased())
+                Text(viewModel.resources.transferYourAdress.uppercased())
 					.font(.system(size: 12))
-					.foregroundColor(.regentGrayApprox)
+                    .foregroundColor(viewModel.resources.textColor)
                     .padding(.leading, 16)
 					.padding(.top, 16)
 
                 addressCell
-                    .background(.white())
+                    .background(viewModel.resources.background)
                     .padding(.top, 14)
                     .padding(.horizontal, 16)
 
-                Text(R.string.localizable.transferToWhom().uppercased())
+                Text(viewModel.resources.transferToWhom.uppercased())
 					.font(.system(size: 12))
-					.foregroundColor(.regentGrayApprox)
+                    .foregroundColor(viewModel.resources.textColor)
                     .padding(.leading, 16)
 					.padding(.top, 32)
                 
                 chooseContactCell
-                    .background(.white())
+                    .background(viewModel.resources.background)
 					.padding(.top, 14)
                     .padding(.horizontal, 16)
                     .onTapGesture {
@@ -94,9 +94,9 @@ struct TransferView: View {
 						viewModel.send(.onAddressChange(data.adress))
 					})
 
-                Text(R.string.localizable.transferSum().uppercased())
+                Text(viewModel.resources.transferSum.uppercased())
 					.font(.system(size: 12))
-					.foregroundColor(.regentGrayApprox)
+                    .foregroundColor(viewModel.resources.textColor)
                     .padding(.leading, 16)
 					.padding(.top, 32)
                 
@@ -126,20 +126,20 @@ struct TransferView: View {
             HStack(spacing: 16) {
                 ZStack {
                     Circle()
-                        .fill(Color(.blue(0.1)))
+                        .fill(viewModel.resources.avatarBackground)
                         .frame(width: 40, height: 40)
                     R.image.chat.logo.image
                 }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(viewModel.currentWallet.address)
 						.font(.system(size: 17))
-						.foregroundColor(.woodSmokeApprox)
+                        .foregroundColor(viewModel.resources.titleColor)
                         .frame(height: 22)
 						.lineLimit(1)
 						.truncationMode(.middle)
                     Text(String(viewModel.currentWallet.coinAmount) + " \(viewModel.currentWallet.result.currency)")
 						.font(.system(size: 12))
-						.foregroundColor(.regentGrayApprox)
+                        .foregroundColor(viewModel.resources.textColor)
                         .frame(height: 20)
                 }
             }
@@ -151,19 +151,19 @@ struct TransferView: View {
             HStack(spacing: 16) {
                 ZStack {
                     Circle()
-                        .fill(Color(.blue(0.1)))
+                        .fill(viewModel.resources.avatarBackground)
                         .frame(width: 40, height: 40)
-                    R.image.chat.action.contact.image
+                    viewModel.resources.contact
                 }
                 if receiverData.adress.isEmpty {
-                    Text(R.string.localizable.transferChooseContact())
+                    Text(viewModel.resources.transferChooseContact)
                         .font(.system(size: 17))
-                        .foregroundColor(.woodSmokeApprox)
+                        .foregroundColor(viewModel.resources.titleColor)
                         .frame(height: 22)
                 } else {
                     Text(receiverData.adress)
                         .font(.system(size: 17))
-                        .foregroundColor(.woodSmokeApprox)
+                        .foregroundColor(viewModel.resources.titleColor)
                         .frame(height: 22)
                 }
             }
@@ -179,11 +179,11 @@ struct TransferView: View {
                 TextField("0\(Locale.current.decimalSeparator ?? ",")0", text: $viewModel.transferAmountProxy)
                     .keyboardType(.decimalPad)
                     .font(.system(size: 20))
-                    .foregroundColor(.woodSmokeApprox)
+                    .foregroundColor(viewModel.resources.titleColor)
                     .frame(maxWidth: .infinity, maxHeight: 47)
 
 				Rectangle()
-					.foregroundColor(.ironApprox)
+                    .foregroundColor(viewModel.resources.textColor)
 					.frame(height: 1)
 			}
 			.frame(height: 47)
@@ -195,13 +195,13 @@ struct TransferView: View {
 				HStack(spacing: 12) {
                     Text(viewModel.currentWallet.walletType.currency)
 						.font(.system(size: 20))
-						.foregroundColor(.woodSmokeApprox)
+						.foregroundColor(viewModel.resources.titleColor)
 					R.image.answers.downsideArrow.image
-						.foregroundColor(.woodSmokeApprox)
+						.foregroundColor(viewModel.resources.titleColor)
 				}
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 				Rectangle()
-					.foregroundColor(.ironApprox)
+                    .foregroundColor(viewModel.resources.titleColor)
 					.frame(height: 1)
 			}
 			.frame(height: 47)
@@ -218,11 +218,11 @@ struct TransferView: View {
         Button {
             viewModel.send(.onApprove)
         } label: {
-            Text(R.string.localizable.walletSend())
+            Text(viewModel.resources.walletSend)
 				.font(.system(size: 17, weight: .semibold))
 				.foregroundColor(
                     viewModel.isTransferButtonEnabled ?
-                    .white : .bombayApprox
+                    viewModel.resources.background : viewModel.resources.inactiveButtonTextColor
                 )
                 .padding()
 				.frame(width: 237, height: 48)
@@ -230,7 +230,7 @@ struct TransferView: View {
 					Rectangle()
 						.fill(
 							viewModel.isTransferButtonEnabled ?
-							Color.azureRadianceApprox : Color.blackHazeApprox
+                            viewModel.resources.inactiveButtonBackground : viewModel.resources.buttonColor
 						)
 						.cornerRadius(8)
 				)
