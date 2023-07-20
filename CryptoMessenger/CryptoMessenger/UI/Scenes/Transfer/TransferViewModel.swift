@@ -103,8 +103,8 @@ final class TransferViewModel: ObservableObject {
 		keysService: KeysServiceProtocol = KeysService(),
 		walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
 		userSettings: UserFlowsStorage & UserCredentialsStorage = UserDefaultsService.shared,
-		recoreDataService: CoreDataServiceProtocol = CoreDataService.shared,
-		sources: TransferViewSourcable.Type = TransferViewSources.self,
+		coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
+		resources: TransferViewSourcable.Type = TransferViewSources.self,
         feeItemsFactory: FeeItemsFactoryProtocol.Type = FeeItemsFactory.self
 	) {
 		self.currentWallet = wallet
@@ -336,7 +336,7 @@ final class TransferViewModel: ObservableObject {
 			
             self.fees = self.feeItemsFactory.make(
                 feesModel: response,
-                resources: self.resources,
+                sources: self.resources,
                 currency: feeCurrency
             )
             

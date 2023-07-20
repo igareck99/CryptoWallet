@@ -14,7 +14,7 @@ struct EnterAdressUserView: View {
                 ZStack {
                     Color.dodgerTransBlue
                     Text("A")
-                        .foreground(.white)
+                        .foregroundColor(.white)
                         .font(.system(size: 22, weight: .medium))
                 }
                 .scaledToFill()
