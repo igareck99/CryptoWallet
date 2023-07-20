@@ -75,17 +75,20 @@ final class SettingsViewModel: ObservableObject {
                     self?.coordinator?.notifications(auraRoom.room.roomId)
                 case let .onImagePicker(image):
                     guard let self = self else { return }
-                    self.coordinator?.galleryPickerSheet(selectedImage: image,
-                                                         selectedVideo: self.$selectedVideo,
-                                                         sourceType: .photoLibrary,
-                                                          galleryContent: .photos)
+                    self.coordinator?.galleryPickerSheet(sourceType: .photoLibrary,
+                                                         galleryContent: .all, onSelectImage: { newImage in
+                        if let newImage = newImage {
+                            image.wrappedValue = newImage
+                        }
+                    }, onSelectVideo: { _ in
+                    })
                 }
             }
             .store(in: &subscriptions)
     }
-    
+
     // MARK: - Private Properties
-    
+
     private func leaveRoom() {
         self.matrixUseCase.leaveRoom(roomId: room.room.roomId, completion: { result in
             switch result {

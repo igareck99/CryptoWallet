@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 // MARK: - ProfileDetailFlow
 
@@ -25,5 +25,6 @@ enum ProfileDetailFlow {
         case onDone
         case onLogout
         case onSocial
+        case onGallery(UIImagePickerController.SourceType)
     }
 }

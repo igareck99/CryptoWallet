@@ -45,6 +45,10 @@ final class MainFlowCoordinator: Coordinator {
     func start() {
         makeTabBarView()
     }
+    
+    func startWithView(completion: @escaping (any View) -> Void) {
+        
+    }
 
     func makeTabBarView() {
         let view = TabItemsViewAssembly.build(

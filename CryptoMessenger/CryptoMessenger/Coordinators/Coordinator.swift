@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 // MARK: - Coordinator
 
@@ -11,6 +12,7 @@ protocol Coordinator: AnyObject {
     func removeChildCoordinator(_ coordinator: Coordinator)
     func popViewController(animated: Bool)
     func dismissViewController(animated: Bool, completion: (() -> Void)?)
+    func startWithView(completion: @escaping (any View) -> Void)
 }
 
 extension Coordinator {

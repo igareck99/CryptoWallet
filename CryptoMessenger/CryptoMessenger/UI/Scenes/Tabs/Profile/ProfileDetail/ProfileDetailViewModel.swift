@@ -11,9 +11,19 @@ final class ProfileDetailViewModel: ObservableObject {
 
     @Published var profile = ProfileItem()
     @Published var closeScreen = false
-    @Published var selectedImage: UIImage?
-    @Published var selectedImageUrl: String?
     @Published private(set) var state: ProfileDetailFlow.ViewState = .idle
+
+    @Published var selectedImg: UIImage? {
+        didSet {
+            self.objectWillChange.send()
+        }
+    }
+
+    var selectedVid: URL? {
+        didSet {
+            self.objectWillChange.send()
+        }
+    }
 
     // MARK: - Private Properties
 
@@ -68,14 +78,17 @@ final class ProfileDetailViewModel: ObservableObject {
                     ()
                 case .onSocial:
                     self?.coordinator?.onSocialList()
-                case .onDone:
-                    if let image = self?.selectedImage?.fixOrientation(),
-                       let data = image.jpeg(.medium) {
-                        self?.matrixUseCase.setUserAvatarUrl(data) { url in
-                            self?.profile.avatar = url
+                case let .onGallery(type):
+                    guard let self = self else { return }
+                    self.coordinator?.galleryPickerFullScreen(sourceType: type,
+                                                              galleryContent: .all, onSelectImage: { image in
+                        if let image = image {
+                            self.selectedImg = image
+                            self.updateAvatar()
                         }
-                    }
-
+                    }, onSelectVideo: { _ in
+                    })
+                case .onDone:
                     if let name = self?.profile.name {
                         self?.matrixUseCase.setDisplayName(name) {}
                     }
@@ -119,6 +132,15 @@ final class ProfileDetailViewModel: ObservableObject {
         stateValueSubject
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
+    }
+    
+    private func updateAvatar() {
+        if let image = self.selectedImg?.fixOrientation(),
+           let data = image.jpeg(.medium) {
+            self.matrixUseCase.setUserAvatarUrl(data) { url in
+                self.profile.avatar = url
+            }
+        }
     }
 
     private func fetchData() {

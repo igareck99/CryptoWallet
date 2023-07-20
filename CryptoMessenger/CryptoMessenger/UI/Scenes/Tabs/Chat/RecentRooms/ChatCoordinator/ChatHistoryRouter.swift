@@ -1,12 +1,9 @@
 import Foundation
 import SwiftUI
 
-protocol ChatHistoryRouterable {
+protocol ChatHistoryRouterable: View {
     
     func routeToFirstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol)
-    
-    func routeToCreateChat(_ chatData: Binding<ChatData>,
-                           _ coordinator: ChatCreateFlowCoordinatorProtocol)
     
     func start()
     
@@ -17,7 +14,7 @@ protocol ChatHistoryRouterable {
                          room: AuraRoom,
                          isLeaveChannel: Binding<Bool>,
                          coordinator: ChatHistoryFlowCoordinatorProtocol)
-    
+
     func chatSettings(chatData: Binding<ChatData>,
                       saveData: Binding<Bool>,
                       room: AuraRoom,
@@ -25,26 +22,27 @@ protocol ChatHistoryRouterable {
                       coordinator: ChatHistoryFlowCoordinatorProtocol)
     
     func friendProfile(_ contact: Contact)
-    
+
     func adminsView( _ chatData: Binding<ChatData>,
                      _ coordinator: ChatHistoryFlowCoordinatorProtocol)
     func chatMembersView(_ chatData: Binding<ChatData>,
                          _ coordinator: ChatHistoryFlowCoordinatorProtocol)
     func notifications(_ roomId: String)
     func popToRoot()
-    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
-                                 selectedVideo: Binding<URL?>,
-                                 sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent)
-    func galleryPickerSheet(selectedImage: Binding<UIImage?>,
-                            selectedVideo: Binding<URL?>,
-                            sourceType: UIImagePickerController.SourceType,
-                            galleryContent: GalleryPickerContent)
+    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent,
+                                 onSelectImage: @escaping (UIImage?) -> Void,
+                                 onSelectVideo: @escaping (URL?) -> Void)
+    func galleryPickerSheet(sourceType: UIImagePickerController.SourceType,
+                            galleryContent: GalleryPickerContent,
+                            onSelectImage: @escaping (UIImage?) -> Void,
+                            onSelectVideo: @escaping (URL?) -> Void)
     func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,
                                  showParticipantsView: Binding<Bool>)
     func dismissCurrentSheet()
     func routePath() -> Binding<NavigationPath>
     func presentedItem() -> Binding<ChatHistorySheetLink?>
+    func chatCreate(_ view: any View)
 }
 
 // MARK: - ChatHistoryRouter
@@ -95,49 +93,36 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
         case let .chatMembers(chatData, coordinator):
             MembersViewAssembly.build(chatData: chatData,
                                       coordinator: coordinator)
-        case let .galleryPicker(selectedImage: selectedImage,
-                                selectedVideo: selectedVideo,
-                                sourceType: sourceType,
-                                galleryContent: galleryContent):
-            GalleryPickerAssembly.build(selectedImage: selectedImage,
-                                        selectedVideo: selectedVideo,
-                                        sourceType: sourceType,
-                                        galleryContent: galleryContent)
+        case let .galleryPicker(sourceType: sourceType,
+                                galleryContent: galleryContent,
+                                onSelectImage: onSelectImage,
+                                onSelectVideo: onSelectVideo):
+            GalleryPickerClosureAssembly.build(sourceType: sourceType,
+                                               galleryContent: galleryContent,
+                                               onSelectImage: onSelectImage,
+                                               onSelectVideo: onSelectVideo)
         default:
             EmptyView()
         }
     }
 
-    @ViewBuilder
-    private func sheetContent(item: ChatHistorySheetLink) -> some View {
+    private func sheetContent(item: ChatHistorySheetLink) -> AnyView {
         switch item {
-        case let .createChat(chatData, coordinator):
-            ChatCreateAssembly.build(chatData, coordinator)
+        case let .createChat(view):
+            return view.anyView()
         case let .notifications(roomId):
-            ChannelNotificationsAssembly.build(roomId)
-        case let .galleryPicker(selectedImage: selectedImage,
-                                selectedVideo: selectedVideo,
-                                sourceType: sourceType,
-                                galleryContent: galleryContent):
-            GalleryPickerAssembly.build(selectedImage: selectedImage,
-                                        selectedVideo: selectedVideo,
-                                        sourceType: sourceType,
-                                        galleryContent: galleryContent)
-            .edgesIgnoringSafeArea(.all)
+            return ChannelNotificationsAssembly.build(roomId).anyView()
+        case let .galleryPicker(sourceType: sourceType,
+                                galleryContent: galleryContent,
+                                onSelectImage: onSelectImage,
+                                onSelectVideo: onSelectVideo):
+            return GalleryPickerClosureAssembly.build(sourceType: sourceType,
+                                               galleryContent: galleryContent,
+                                               onSelectImage: onSelectImage,
+                                               onSelectVideo: onSelectVideo).anyView()
         case let .channelPatricipants(viewModel: viewModel, showParticipantsView: showParticipantsView):
-            ChannelParticipantsView(viewModel: viewModel,
-                                    showParticipantsView: showParticipantsView)
-        case .createContact:
-            CreateContactView(viewModel: CreateContactViewModel())
-        case let .createChannel(coordinator):
-            CreateChannelAssemby.make(coordinator: coordinator)
-        case let .selectContact(chatData, coordinator):
-            SelectContactAssembly.build(.groupCreate,
-                                        chatData,
-                                        coordinator: coordinator)
-        case let .createGroupChat(chatData, coordinator):
-            ChatGroupAssembly.build(chatData,
-                                    coordinator: coordinator)
+            return ChannelParticipantsView(viewModel: viewModel,
+                                    showParticipantsView: showParticipantsView).anyView()
         }
     }
 }
@@ -152,12 +137,6 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
                 coordinator: coordinator
             )
         )
-    }
-    
-    func routeToCreateChat(_ chatData: Binding<ChatData>,
-                           _ coordinator: ChatCreateFlowCoordinatorProtocol) {
-        state.presentedItem = .createChat(chatData: chatData,
-                                          coordinator: coordinator)
     }
     
     func start() {
@@ -213,22 +192,24 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
         state.presentedItem = .notifications(roomId)
     }
     
-    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
-                                 selectedVideo: Binding<URL?>,
-                                 sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent) {
-        state.path.append(ChatHistoryContentLink.galleryPicker(selectedImage: selectedImage,
-                                                               selectedVideo: selectedVideo, sourceType: sourceType, galleryContent: galleryContent))
+    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent,
+                                 onSelectImage: @escaping (UIImage?) -> Void,
+                                 onSelectVideo: @escaping (URL?) -> Void) {
+        state.path.append(ChatHistoryContentLink.galleryPicker(sourceType: sourceType,
+                                                               galleryContent: galleryContent,
+                                                               onSelectImage: onSelectImage,
+                                                               onSelectVideo: onSelectVideo))
     }
     
-    func galleryPickerSheet(selectedImage: Binding<UIImage?>,
-                            selectedVideo: Binding<URL?>,
-                            sourceType: UIImagePickerController.SourceType,
-                            galleryContent: GalleryPickerContent) {
-        state.presentedItem = .galleryPicker(selectedImage: selectedImage,
-                                             selectedVideo: selectedVideo,
-                                             sourceType: sourceType,
-                                             galleryContent: galleryContent)
+    func galleryPickerSheet(sourceType: UIImagePickerController.SourceType,
+                            galleryContent: GalleryPickerContent,
+                            onSelectImage: @escaping (UIImage?) -> Void,
+                            onSelectVideo: @escaping (URL?) -> Void) {
+        state.presentedItem = .galleryPicker(sourceType: sourceType,
+                                             galleryContent: galleryContent,
+                                             onSelectImage: onSelectImage,
+                                             onSelectVideo: onSelectVideo)
     }
     
     func dismissCurrentSheet() {
@@ -244,7 +225,12 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
     func routePath() -> Binding<NavigationPath> {
         $state.path
     }
+    
     func presentedItem() -> Binding<ChatHistorySheetLink?> {
         $state.presentedItem
+    }
+    
+    func chatCreate(_ view: any View) {
+        state.presentedItem = .createChat(view)
     }
 }

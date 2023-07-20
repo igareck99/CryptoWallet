@@ -127,7 +127,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 case let .onDeleteRoom(roomId):
                     self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in })
                 case let .onCreateChat(chatData):
-                    print("sklasklasklaskl")
                     self?.coordinator?.showCreateChat(chatData)
                 }
             }

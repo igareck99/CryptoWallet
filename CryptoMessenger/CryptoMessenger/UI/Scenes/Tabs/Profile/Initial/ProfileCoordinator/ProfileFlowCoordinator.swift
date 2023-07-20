@@ -6,10 +6,10 @@ protocol ProfileFlowCoordinatorProtocol {
 
     func onSocialList()
     
-    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
-                                 selectedVideo: Binding<URL?>,
-                                 sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent)
+    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent,
+                                 onSelectImage: @escaping (UIImage?) -> Void,
+                                 onSelectVideo: @escaping (URL?) -> Void)
     func imageEditor(isShowing: Binding<Bool>,
                      image: Binding<UIImage?>,
                      viewModel: ProfileViewModel)
@@ -42,16 +42,16 @@ extension ProfileFlowCoordinator: ProfileFlowCoordinatorProtocol {
         router.socialList()
     }
     
-    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
-                                 selectedVideo: Binding<URL?>,
-                                 sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent) {
-        router.galleryPickerFullScreen(selectedImage: selectedImage,
-                                       selectedVideo: selectedVideo,
-                                       sourceType: sourceType,
-                                       galleryContent: galleryContent)
+    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent,
+                                 onSelectImage: @escaping (UIImage?) -> Void,
+                                 onSelectVideo: @escaping (URL?) -> Void) {
+        router.galleryPickerFullScreen(sourceType: sourceType,
+                                       galleryContent: galleryContent,
+                                       onSelectImage: onSelectImage,
+                                       onSelectVideo: onSelectVideo)
     }
-    
+
     func imageEditor(isShowing: Binding<Bool>,
                      image: Binding<UIImage?>,
                      viewModel: ProfileViewModel) {
@@ -59,7 +59,7 @@ extension ProfileFlowCoordinator: ProfileFlowCoordinatorProtocol {
                            image: image,
                            viewModel: viewModel)
     }
-    
+
     func settingsScreens(_ type: ProfileSettingsMenu,
                          _ cooordinator: ProfileFlowCoordinatorProtocol,
                          _ image: Binding<UIImage?>) {

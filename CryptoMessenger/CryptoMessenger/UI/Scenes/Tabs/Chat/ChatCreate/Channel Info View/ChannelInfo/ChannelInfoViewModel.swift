@@ -354,26 +354,10 @@ final class ChannelInfoViewModel {
         },
         set: { newValue in
             self.selectedImg = newValue
-            self.onAvatarChange()
         }
     )
 
     var selectedImg: UIImage? {
-        didSet {
-            self.objectWillChange.send()
-        }
-    }
-
-    lazy var selectedVideo: Binding<URL?> = .init(
-        get: {
-            self.selectedVid
-        },
-        set: { newValue in
-            self.selectedVid = newValue
-        }
-    )
-
-    var selectedVid: URL? {
         didSet {
             self.objectWillChange.send()
         }
@@ -879,10 +863,13 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     }
     
     func selectPhoto(_ sourceType: UIImagePickerController.SourceType) {
-        self.coordinator?.galleryPickerFullScreen(selectedImage: selectedImage,
-                                                  selectedVideo: selectedVideo,
-                                                   sourceType: sourceType,
-                                                   galleryContent: .photos)
+        self.coordinator?.galleryPickerFullScreen(sourceType: sourceType,
+                                                   galleryContent: .all, onSelectImage: { image in
+            if let image = image {
+                self.selectedImg = image
+            }
+        }, onSelectVideo: { _ in
+        })
     }
 }
 

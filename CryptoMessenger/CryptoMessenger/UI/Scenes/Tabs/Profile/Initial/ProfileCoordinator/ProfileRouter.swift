@@ -5,10 +5,10 @@ protocol ProfileRouterable {
     
     func socialList()
     
-    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
-                                 selectedVideo: Binding<URL?>,
-                                 sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent)
+    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent,
+                                 onSelectImage: @escaping (UIImage?) -> Void,
+                                 onSelectVideo: @escaping (URL?) -> Void)
     func imageEditor(isShowing: Binding<Bool>,
                      image: Binding<UIImage?>,
                      viewModel: ProfileViewModel)
@@ -54,18 +54,18 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
         switch link {
         case .socialList:
             SocialListAssembly.build()
-        case .galleryPicker(selectedImage: let selectedImage,
-                            selectedVideo: let selectedVideo,
-                            sourceType: let sourceType,
-                            galleryContent: let galleryContent):
-            GalleryPickerAssembly.build(selectedImage: selectedImage,
-                                        selectedVideo: selectedVideo,
-                                        sourceType: sourceType,
-                                        galleryContent: galleryContent)
+        case let .galleryPicker(sourceType: sourceType,
+                                galleryContent: galleryContent,
+                                onSelectImage: onSelectImage,
+                                onSelectVideo: onSelectVideo):
+            GalleryPickerClosureAssembly.build(sourceType: sourceType,
+                                               galleryContent: galleryContent,
+                                               onSelectImage: onSelectImage,
+                                               onSelectVideo: onSelectVideo)
             .ignoresSafeArea()
         case let .imageEditor(isShowing: isShowing,
-                          image: image,
-                          viewModel: viewModel):
+                              image: image,
+                              viewModel: viewModel):
             ImageEditorAssembly.build(isShowing: isShowing,
                                       image: image,
                                       viewModel: viewModel)
@@ -106,14 +106,14 @@ extension ProfileRouter: ProfileRouterable {
         state.path.append(ProfileContentLlink.socialList)
     }
     
-    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
-                                 selectedVideo: Binding<URL?>,
-                                 sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent) {
-        state.path.append(ProfileContentLlink.galleryPicker(selectedImage: selectedImage,
-                                                            selectedVideo: selectedVideo,
-                                                            sourceType: sourceType,
-                                                            galleryContent: galleryContent))
+    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent,
+                                 onSelectImage: @escaping (UIImage?) -> Void,
+                                 onSelectVideo: @escaping (URL?) -> Void) {
+        state.path.append(ProfileContentLlink.galleryPicker(sourceType: sourceType,
+                                                            galleryContent: galleryContent,
+                                                            onSelectImage: onSelectImage,
+                                                            onSelectVideo: onSelectVideo))
     }
     
     func imageEditor(isShowing: Binding<Bool>,

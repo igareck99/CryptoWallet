@@ -99,6 +99,9 @@ final class AppCoordinator: RootCoordinatable {
 // MARK: - Coordinator
 
 extension AppCoordinator: Coordinator {
+    func startWithView(completion: @escaping (any View) -> Void) {
+        
+    }
 	func start() {
         
         if userSettings[.isAppNotFirstStart] == false {

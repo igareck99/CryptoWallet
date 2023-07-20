@@ -167,10 +167,15 @@ struct ChatRoomView: View {
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .photo:
-                    GalleryPickerAssembly.build(selectedImage: $viewModel.selectedImage,
-                                                selectedVideo: $viewModel.selectedVideo)
-                        .navigationBarTitle(Text(viewModel.sources.photoEditorTitle))
-                        .navigationBarTitleDisplayMode(.inline)
+                    GalleryPickerClosureAssembly.build(galleryContent: .all, onSelectImage: { image in
+                        if let image = image {
+                            viewModel.selectedImage = image
+                        }
+                    }, onSelectVideo: { video in
+                        if let video = video {
+                            viewModel.selectedVideo = video
+                        }
+                    })
                 case .documents:
                     documentPicker { urls in
                         guard !urls.isEmpty, let url = urls.first else { return }

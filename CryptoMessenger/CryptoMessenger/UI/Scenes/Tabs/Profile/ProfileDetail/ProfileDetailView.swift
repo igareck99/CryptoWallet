@@ -6,7 +6,7 @@ struct ProfileDetailView: View {
 
     // MARK: - Internal Properties
 
-    @ObservedObject var viewModel: ProfileDetailViewModel
+    @StateObject var viewModel: ProfileDetailViewModel
     @Binding var selectedAvatarImage: UIImage?
 
     // MARK: - Private Properties
@@ -50,8 +50,9 @@ struct ProfileDetailView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
-            .onReceive(viewModel.$selectedImage, perform: { value in
-                guard let image = value else { return }
+            .onChange(of: viewModel.selectedImg, perform: { newValue in
+                print("sklasklsaklas  \(newValue)")
+                guard let image = newValue else { return }
                 selectedAvatarImage = image
             })
             .actionSheet(isPresented: $showActionImageAlert) {
@@ -70,19 +71,6 @@ struct ProfileDetailView: View {
                             ]
                 )
             }
-            .fullScreenCover(isPresented: $showCameraPicker,
-                             content: {
-                ImagePickerView(selectedImage: $viewModel.selectedImage,
-                                sourceType: .camera)
-                .ignoresSafeArea()
-            })
-            .fullScreenCover(isPresented: $showImagePicker,
-                             content: {
-                ImagePickerView(selectedImage: $viewModel.selectedImage)
-                    .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
-                    .navigationBarTitleDisplayMode(.inline)
-                    .ignoresSafeArea()
-            })
             .alert(isPresented: $showLogoutAlert) {
                 return Alert(
                     title: Text(R.string.localizable.profileDetailLogoutAlertTitle()),
@@ -193,7 +181,7 @@ struct ProfileDetailView: View {
     private var avatarView: some View {
         GeometryReader { geometry in
             ZStack {
-                if let image = viewModel.selectedImage {
+                if let image = viewModel.selectedImg {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFill()
@@ -312,10 +300,10 @@ struct ProfileDetailView: View {
     // MARK: - Private Methods
 
     private func switchImagePicker() {
-        showImagePicker = true
+        viewModel.send(.onGallery(.photoLibrary))
     }
 
     private func switchCameraPicker() {
-        showCameraPicker = true
+        viewModel.send(.onGallery(.camera))
     }
 }

@@ -1,30 +1,16 @@
 import SwiftUI
 
-protocol ChatCreateFlowStateProtocol: ObservableObject {
-    var path: NavigationPath { get set }
-    var presentedItem: ChatHistorySheetLink? { get set }
+// MARK: - ChatCreateFlowStateProtocol
 
-    func update(path: Binding<NavigationPath>)
-    func update(presentedItem: Binding<ChatHistorySheetLink?>)
+protocol ChatCreateFlowStateProtocol: ObservableObject {
+    var createPath: NavigationPath { get set }
+    var presentedItem: ChatHistorySheetLink? { get set }
 }
 
+// MARK: - ChatCreateFlowState
+
 class ChatCreateFlowState: ChatCreateFlowStateProtocol {
-    @Binding var path: NavigationPath
-    @Binding var presentedItem: ChatHistorySheetLink?
-    
-    init(
-        path: Binding<NavigationPath>,
-        presentedItem: Binding<ChatHistorySheetLink?>
-    ) {
-        self._path = path
-        self._presentedItem = presentedItem
-    }
-    
-    func update(path: Binding<NavigationPath>) {
-        _path = path
-    }
-    
-    func update(presentedItem: Binding<ChatHistorySheetLink?>) {
-        _presentedItem = presentedItem
-    }
+    @Published var createPath = NavigationPath()
+    @Published var presentedItem: ChatHistorySheetLink?
+    static let shared = ChatCreateFlowState()
 }

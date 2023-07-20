@@ -17,6 +17,10 @@ protocol AuthCoordinatorSceneDelegate: AnyObject {
 // MARK: - AuthFlowCoordinator
 
 public final class AuthCoordinator: Coordinator {
+    
+    func startWithView(completion: @escaping (any View) -> Void) {
+        
+    }
 
     // MARK: - Internal Properties
 

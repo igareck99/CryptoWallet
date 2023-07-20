@@ -342,13 +342,11 @@ struct ProfileView: View {
     // MARK: - Private Methods
 
     private func switchImagePicker() {
-        viewModel.send(.onGallery(.photoLibrary, $viewModel.selectedImage,
-                                  $viewModel.selectedVideo))
+        viewModel.send(.onGallery(.photoLibrary))
     }
 
     private func switchCameraPicker() {
-        viewModel.send(.onGallery(.camera, $viewModel.selectedImage,
-                                  $viewModel.selectedVideo))
+        viewModel.send(.onGallery(.camera))
     }
 
     private func getTagItem() -> Int {

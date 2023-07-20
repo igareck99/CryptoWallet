@@ -133,13 +133,15 @@ final class ProfileViewModel: ObservableObject {
                     self?.fetchImageData()
                 case .onSocial:
                     self?.coordinator?.onSocialList()
-                case let .onGallery(type,
-                                    selectedImage,
-                                    selectedVideo):
+                case let .onGallery(type):
                     guard let self = self else { return }
-                    self.coordinator?.galleryPickerFullScreen(selectedImage: selectedImage,
-                                                              selectedVideo: selectedVideo, sourceType: type,
-                                                              galleryContent: .all)
+                    self.coordinator?.galleryPickerFullScreen(sourceType: type,
+                                                              galleryContent: .all, onSelectImage: { image in
+                        if let image = image {
+                            self.selectedImage = image
+                        }
+                    }, onSelectVideo: { _ in
+                    })
                 case let .onShow(type, image):
                     guard let self = self else { return }
                     if let coordinator = self.coordinator {
@@ -153,9 +155,6 @@ final class ProfileViewModel: ObservableObject {
                     self?.coordinator?.imageEditor(isShowing: isShowing,
                                                    image: image,
                                                    viewModel: viewModel)
-                case let .onShowProfileDetail(image):
-                    ()
-                    // self?.coordinator?.onProfileDetail(image)
                 case let .onAddPhoto(image):
                     guard let userId = self?.matrixUseCase.getUserId() else { return }
                     self?.mediaService.addPhotoFeed(image: image,

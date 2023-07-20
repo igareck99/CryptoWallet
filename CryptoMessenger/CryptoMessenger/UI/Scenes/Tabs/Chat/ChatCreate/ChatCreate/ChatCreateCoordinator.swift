@@ -37,6 +37,11 @@ extension ChatCreateFlowCoordinator: Coordinator {
     func start() {
         router.createChat($chatData, self)
     }
+    
+    func startWithView(completion: @escaping (any View) -> Void) {
+        //router.createChat($chatData, self)
+        completion(router)
+    }
 }
 
 // MARK: - ChatCreateFlowCoordinator(ContentFlowCoordinatorProtocol)

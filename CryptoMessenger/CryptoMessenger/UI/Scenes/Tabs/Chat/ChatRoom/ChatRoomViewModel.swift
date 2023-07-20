@@ -408,10 +408,16 @@ final class ChatRoomViewModel: ObservableObject {
                     self.fetchChatData()
                 case let .onCamera(image, video):
                     guard let self = self else { return }
-                    self.coordinator?.galleryPickerFullScreen(selectedImage: image,
-                                                               selectedVideo: video,
-                                                               sourceType: .camera,
-                                                               galleryContent: .all)
+                    self.coordinator?.galleryPickerFullScreen(sourceType: .camera,
+                                                              galleryContent: .all, onSelectImage: { newImage in
+                        if let newImage = newImage {
+                            image.wrappedValue = newImage
+                        }
+                    }, onSelectVideo: { videoUrl in
+                        if let videoUrl = videoUrl {
+                            video.wrappedValue = videoUrl
+                        }
+                    })
                 case .onNextScene:
                     ()
                 case let .onSendText(text):
