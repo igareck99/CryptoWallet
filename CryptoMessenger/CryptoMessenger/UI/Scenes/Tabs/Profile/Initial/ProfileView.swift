@@ -255,7 +255,7 @@ struct ProfileView: View {
                 }
             }
             .toolbarBackground(showMenu ? Color.chineseBlack04 : .white, for: .navigationBar)
-            .toolbarBackground(showMenu ? .visible : .hidden, for: .navigationBar)
+//            .toolbarBackground(showMenu ? .visible : .hidden, for: .navigationBar)
         }
     }
 

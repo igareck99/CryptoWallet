@@ -41,7 +41,14 @@ final class StatusBarCallView: UIView {
 	}()
 
 	private var statusBarHeight: CGFloat {
-		UIApplication.shared.statusBarFrame.size.height
+        guard let scene = UIApplication.shared
+            .connectedScenes.first(where: { $0.activationState == .foregroundActive }),
+              let windowScene = scene as? UIWindowScene,
+              let height = windowScene.statusBarManager?.statusBarFrame.size.height
+        else {
+            return .zero
+        }
+        return height
 	}
 
     // MARK: - Internal Properties

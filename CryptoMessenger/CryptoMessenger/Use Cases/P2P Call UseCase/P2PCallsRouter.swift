@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 protocol P2PCallsRouterable {
 
@@ -30,6 +31,7 @@ extension P2PCallsRouter: P2PCallsRouterable {
 	}
 
 	func removeCallController() {
+        /*
 		guard let controller = callController,
 			  navigationController?.viewControllers.contains(controller) == true else { return }
 
@@ -42,15 +44,18 @@ extension P2PCallsRouter: P2PCallsRouterable {
 		}
 
 		callController = nil
+         */
+        AppNavStackState.shared.path = NavigationPath()
 	}
 
 	func showCallView(
 		model: P2PCall,
 		p2pCallUseCase: P2PCallUseCaseProtocol
 	) {
-		let controller = P2PCallsAssembly.build(model: model, p2pCallUseCase: p2pCallUseCase)
-		callController = controller
-		navigationController?.pushViewController(controller, animated: true)
+        AppNavStackState.shared.path.append(AppTransitions.callView(model: model, p2pCallUseCase: p2pCallUseCase))
+//		let view = P2PCallsAssembly.make(model: model, p2pCallUseCase: p2pCallUseCase)
+//		callController = controller
+//		navigationController?.pushViewController(controller, animated: true)
 	}
 
 	func showCallView(

@@ -71,7 +71,8 @@ enum CoordinatorsFactory: CoordinatorsFactoryProtocol {
     ) -> Coordinator {
         let coordinator = MainFlowCoordinatorAssembly.build(
             delegate: delegate,
-            navigationController: navigationController, renderView: { result in
+            navigationController: navigationController,
+            renderView: { result in
                 renderView(result)
             }
         )

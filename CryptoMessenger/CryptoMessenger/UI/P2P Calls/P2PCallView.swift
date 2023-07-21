@@ -54,7 +54,7 @@ struct P2PCallView<ViewModel: CallViewModelProtocol>: View {
         }
         .toolbar {
             // TODO: После переделки навбара
-//            createToolBar()
+            createToolBar()
         }
     }
     

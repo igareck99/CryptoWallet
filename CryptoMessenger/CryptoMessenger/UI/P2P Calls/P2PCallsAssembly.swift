@@ -19,4 +19,21 @@ enum P2PCallsAssembly {
         let controller = UIHostingController(rootView: callView)
         return controller
     }
+
+    static func make(
+        model: P2PCall,
+        p2pCallUseCase: P2PCallUseCaseProtocol
+    ) -> some View {
+        let viewModel = CallViewModel(
+            userName: model.activeCallerName,
+            roomId: model.roomId,
+            selfyView: model.selfyView,
+            interlocutorView: model.interlocutorView,
+            isVideoCall: model.isVideoCall,
+            p2pCallUseCase: p2pCallUseCase
+        )
+
+        let callView = P2PCallView(viewModel: viewModel)
+        return callView
+    }
 }

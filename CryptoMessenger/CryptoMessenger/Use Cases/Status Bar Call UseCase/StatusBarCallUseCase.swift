@@ -1,15 +1,27 @@
+import Combine
 import UIKit
+import SwiftUI
 
-final class StatusBarCallUseCase {
-
+final class StatusBarCallUseCase: ObservableObject {
+    @Published var showCallBar = false
+    static let shared = StatusBarCallUseCase()
 	private var isCallEnded = false
-
 	private var underStatusView: StatusBarCallViewProtocol?
 
-	init(appWindow: UIWindow) {
-		configureViews(appWindow: appWindow)
-		configureNotifications()
-	}
+    private var statusBarHeight: CGFloat {
+        guard let scene = UIApplication.shared
+            .connectedScenes.first(where: { $0.activationState == .foregroundActive }),
+              let windowScene = scene as? UIWindowScene,
+              let height = windowScene.statusBarManager?.statusBarFrame.size.height
+        else {
+            return .zero
+        }
+        return height
+    }
+
+    init() {
+        configureNotifications()
+    }
 
 	private func configureViews(appWindow: UIWindow) {
 		underStatusView = StatusBarCallView(
@@ -78,26 +90,26 @@ final class StatusBarCallUseCase {
 
 	@objc func didReceiveCallViewDisappear(notification: Notification) {
 		debugPrint("didReceiveCallViewDisappear")
+        AppNavStackState.shared.path = NavigationPath()
 		if !isCallEnded {
 			animateStatusView(show: true)
 		}
 	}
 
 	private func animateStatusView(show: Bool) {
-		underStatusView?.animateStatusView(show: show)
+        showCallBar = show
+//		underStatusView?.animateStatusView(show: show)
 	}
 }
 
 extension StatusBarCallUseCase {
-	func configure(
-		window: UIWindow,
-		rootViewController: UIViewController
-	) {
-		rootViewController.view.translatesAutoresizingMaskIntoConstraints = false
+	func configure(window: UIWindow) {
+        guard let rootViewController = window.rootViewController else { return }
+        rootViewController.view.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
-			rootViewController.view.leadingAnchor.constraint(equalTo: window.leadingAnchor),
-			rootViewController.view.trailingAnchor.constraint(equalTo: window.trailingAnchor),
-			rootViewController.view.bottomAnchor.constraint(equalTo: window.bottomAnchor)
+            rootViewController.view.leadingAnchor.constraint(equalTo: window.leadingAnchor),
+            rootViewController.view.trailingAnchor.constraint(equalTo: window.trailingAnchor),
+            rootViewController.view.bottomAnchor.constraint(equalTo: window.bottomAnchor)
 		])
 	}
 }

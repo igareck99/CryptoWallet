@@ -760,6 +760,8 @@
 		D4B30A042979287E0067EB06 /* CreateChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B30A032979287E0067EB06 /* CreateChannelViewModel.swift */; };
 		D4B39AFE289BE271006F2D99 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */; };
 		D4B39B01289C3B50006F2D99 /* CallEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B39B00289C3B50006F2D99 /* CallEventView.swift */; };
+		D4B91D0E2A6A967E00802BBD /* AppNavStackState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B91D0D2A6A967E00802BBD /* AppNavStackState.swift */; };
+		D4B91D102A6A977000802BBD /* AppTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B91D0F2A6A977000802BBD /* AppTransitions.swift */; };
 		D4BC1EC02955B59E00D99F1A /* TransactionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BC1EBF2955B59E00D99F1A /* TransactionResultView.swift */; };
 		D4BC1EC32955B5F400D99F1A /* TransactionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BC1EC22955B5F400D99F1A /* TransactionResult.swift */; };
 		D4C8AADC2A612D7C009B4492 /* TransactionResultAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8AADB2A612D7C009B4492 /* TransactionResultAssembly.swift */; };
@@ -1632,6 +1634,8 @@
 		D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
 		D4B39B00289C3B50006F2D99 /* CallEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallEventView.swift; sourceTree = "<group>"; };
 		D4B39B0628A23F03006F2D99 /* ChatSystemEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSystemEventView.swift; sourceTree = "<group>"; };
+		D4B91D0D2A6A967E00802BBD /* AppNavStackState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavStackState.swift; sourceTree = "<group>"; };
+		D4B91D0F2A6A977000802BBD /* AppTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTransitions.swift; sourceTree = "<group>"; };
 		D4BC1EBF2955B59E00D99F1A /* TransactionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResultView.swift; sourceTree = "<group>"; };
 		D4BC1EC22955B5F400D99F1A /* TransactionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResult.swift; sourceTree = "<group>"; };
 		D4C8AADB2A612D7C009B4492 /* TransactionResultAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResultAssembly.swift; sourceTree = "<group>"; };
@@ -4416,6 +4420,8 @@
 			children = (
 				D4FD928D2A57CE59008EA8A2 /* CryptoMessengerApp.swift */,
 				D4FD929A2A57EBA2008EA8A2 /* WindowKey.swift */,
+				D4B91D0D2A6A967E00802BBD /* AppNavStackState.swift */,
+				D4B91D0F2A6A977000802BBD /* AppTransitions.swift */,
 			);
 			path = "Main App";
 			sourceTree = "<group>";
@@ -4737,6 +4743,7 @@
 				8B7D2165274DBB4F0043AB4E /* SessionViewModel.swift in Sources */,
 				D4DF2B3528F567760057499A /* MatrixUseCaseToggles.swift in Sources */,
 				D4857D0728AF6F9B00C904EC /* ChatHeaderView.swift in Sources */,
+				D4B91D0E2A6A967E00802BBD /* AppNavStackState.swift in Sources */,
 				5A187F292680CF49001957D3 /* RequestBuilder.swift in Sources */,
 				8B0C57472A64543200D456FF /* ProfileFlowState.swift in Sources */,
 				D46C90142947755C00DD0B01 /* CustomSegmentedControll.swift in Sources */,
@@ -4899,6 +4906,7 @@
 				5A9318E826C5E44100645365 /* KeyboardHeightPublisher.swift in Sources */,
 				5A4BE51B271DD86A00D03D09 /* Reaction.swift in Sources */,
 				8B740147275D360B0045ED32 /* ProfileSettingsMenuView.swift in Sources */,
+				D4B91D102A6A977000802BBD /* AppTransitions.swift in Sources */,
 				8BA0C90327AD4EE00070203F /* AnswerAssembly.swift in Sources */,
 				5A187F262680CF49001957D3 /* APIError.swift in Sources */,
 				D451006B289390990018A935 /* MatrixUseCaseProtocol.swift in Sources */,

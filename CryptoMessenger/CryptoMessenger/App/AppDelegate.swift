@@ -2,10 +2,7 @@ import UIKit
 
 // MARK: - AppDelegate
 
-//@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-	var window: UIWindow?
 
 	private var statusBarCallUseCase: StatusBarCallUseCase?
 	private var notificationsUseCase: NotificationsUseCaseProtocol?
@@ -18,26 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		DependenciesService().configureDependencies()
 
-		let rootNavigationController = BaseNavigationController()
-		let appCoordinator = AppCoordinatorAssembly.build(navigationController: rootNavigationController)
-        appLifeCycleDelegate = appCoordinator
-		notificationsUseCase = NotificationsUseCaseAssembly.build(appCoordinator: appCoordinator)
-
-		let appWindow = UIWindow()
-        WindowKey.defaultValue = window
-		window = appWindow
-		rootNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
-		window?.rootViewController = rootNavigationController
-
+        appLifeCycleDelegate = AppCoordinatorAssembly.coordinator
+		notificationsUseCase = NotificationsUseCaseAssembly.build(appCoordinator: AppCoordinatorAssembly.coordinator)
 		notificationsUseCase?.start()
 
 		// UseCase app delegate'а должен вызываться после всех кейсов проверок флага isAppNotFirstStart
 		// т.к. он его изменяет
-        appCoordinator.start()
-		window?.makeKeyAndVisible()
+        AppCoordinatorAssembly.coordinator.start()
 
-		statusBarCallUseCase = StatusBarCallUseCase(appWindow: appWindow)
-		statusBarCallUseCase?.configure(window: appWindow, rootViewController: rootNavigationController)
+//		statusBarCallUseCase = StatusBarCallUseCase(appWindow: appWindow)
+//		statusBarCallUseCase?.configure(window: appWindow, rootViewController: rootNavigationController)
 		return true
 	}
 

@@ -62,7 +62,8 @@ final class AppCoordinator: RootCoordinatable {
 	private func showMainFlow() {
         let mainFlowCoordinator = factory.makeMainCoordinator(
             delegate: self,
-            navigationController: navigationController, renderView: { view in
+            navigationController: navigationController,
+            renderView: { view in
                 self.rootView = view
             }
         )
