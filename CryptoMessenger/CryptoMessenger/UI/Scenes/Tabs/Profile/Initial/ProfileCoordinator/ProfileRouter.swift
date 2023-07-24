@@ -58,7 +58,7 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
                                 galleryContent: galleryContent,
                                 onSelectImage: onSelectImage,
                                 onSelectVideo: onSelectVideo):
-            GalleryPickerClosureAssembly.build(sourceType: sourceType,
+            GalleryPickerAssembly.build(sourceType: sourceType,
                                                galleryContent: galleryContent,
                                                onSelectImage: onSelectImage,
                                                onSelectVideo: onSelectVideo)
@@ -79,8 +79,8 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
             NotificationSettingsAssembly.build(coordinator)
         case let .questions(coordinator):
             AnswerAssembly.build(coordinator)
-        case let .aboutApp(coordinator):
-            AboutAppAssembly.build(coordinator)
+        case .aboutApp(_):
+            AboutAppAssembly.build()
         case let .pinCode(screenType):
             PinCodeAssembly.build(screenType: screenType) {
                 

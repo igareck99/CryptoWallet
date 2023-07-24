@@ -13,6 +13,8 @@ protocol ProfileResourcable {
     static var background: Color { get }
     static var buttonBackground: Color { get }
     static var avatarBackgorund: Color { get }
+    
+    static var emptyFeedImage: Image { get }
 }
 
 enum ProfileResources: ProfileResourcable {
@@ -59,5 +61,9 @@ enum ProfileResources: ProfileResourcable {
 
     static var profileAdd: String {
         R.string.localizable.profileAdd()
+    }
+    
+    static var emptyFeedImage: Image {
+        R.image.media.noMedia.image
     }
 }

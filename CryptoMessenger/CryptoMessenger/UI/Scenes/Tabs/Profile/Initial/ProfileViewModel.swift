@@ -71,6 +71,7 @@ final class ProfileViewModel: ObservableObject {
     @Published var isVoiceCallAvailablility = false
     @Published var menuHeight: CGFloat = 0
     @Published var deleteImage = false
+    @Published var isEmptyFeed = true
 
     // MARK: - Private Properties
 
@@ -117,6 +118,7 @@ final class ProfileViewModel: ObservableObject {
     func updateFeedAfterDelete(url: URL?) {
         guard let unwrappedUrl = url else { return }
         profile.photosUrls = profile.photosUrls.filter { $0 != unwrappedUrl }
+        self.isEmptyFeed = self.profile.photosUrls.isEmpty
         self.objectWillChange.send()
     }
 
@@ -203,6 +205,7 @@ final class ProfileViewModel: ObservableObject {
         self.mediaService.deletePhotoFeed(url: url.absoluteString) { _ in
             self.mediaService.getPhotoFeedPhotos(userId: self.matrixUseCase.getUserId()) { urls in
                 self.profile.photosUrls = urls
+                self.isEmptyFeed = self.profile.photosUrls.isEmpty
                 completion()
             }
         }
@@ -299,6 +302,7 @@ final class ProfileViewModel: ObservableObject {
         }
         mediaService.getPhotoFeedPhotos(userId: matrixUseCase.getUserId()) { urls in
             self.profile.photosUrls = urls
+            self.isEmptyFeed = self.profile.photosUrls.isEmpty
         }
         getSocialList()
         if let phoneNumber = keychainService.apiUserPhoneNumber {

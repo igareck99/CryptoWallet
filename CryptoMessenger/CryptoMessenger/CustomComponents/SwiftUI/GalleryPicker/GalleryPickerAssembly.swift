@@ -1,8 +1,8 @@
 import SwiftUI
 
-// MARK: - GalleryPickerClosureAssembly
+// MARK: - GalleryPickerAssembly
 
-enum GalleryPickerClosureAssembly {
+enum GalleryPickerAssembly {
 
     static func build(sourceType: UIImagePickerController.SourceType = .photoLibrary,
                       galleryContent: GalleryPickerContent = .photos,
@@ -10,10 +10,10 @@ enum GalleryPickerClosureAssembly {
                       onSelectVideo: @escaping (URL?) -> Void
                       
     ) -> some View {
-        let view = GalleryPickerClosureView(sourceType: sourceType,
-                                            galleryContent: galleryContent,
-                                            onSelectImage: onSelectImage,
-                                            onSelectVideo: onSelectVideo
+        let view = GalleryPickerView(sourceType: sourceType,
+                                     galleryContent: galleryContent,
+                                     onSelectImage: onSelectImage,
+                                     onSelectVideo: onSelectVideo
         )
         return view
     }

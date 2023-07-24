@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - SocialNetworkType
+
 enum SocialNetworkType: String, CaseIterable {
 
 	case twitter

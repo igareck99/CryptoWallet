@@ -51,7 +51,6 @@ final class AppCoordinator: RootCoordinatable {
             delegate: self,
             navigationController: navigationController, renderView: { result in
                 self.coordinator = result
-                print("dlkasklaksl  \(result)")
                 // viewModel.view = result
             }
         )
@@ -143,15 +142,15 @@ extension AppCoordinator: AppCoordinatorProtocol {
             notification: notification,
             delegate: self,
             navigationController: navigationController
-        ) { [weak self] in
-            guard
-                let chatRoomDelegate = self?.childCoordinators
-                    .values.first(where: { $0 is ChatRoomSceneDelegate }) as? ChatRoomSceneDelegate
-            else {
-                return nil
-            }
-            return chatRoomDelegate
-        }
+        )
+        // TODO: - Переделать для нового координатора
+//            guard
+//                let chatRoomDelegate = self?.childCoordinators
+//                    .values.first(where: { $0 is ChatRoomSceneDelegate }) as? ChatRoomSceneDelegate
+//            else {
+//                return nil
+//            }
+//            return chatRoomDelegate
 
 		if !userSettings.isLocalAuth && userSettings.isAuthFlowFinished {
 			addChildCoordinator(pushCoordinator)

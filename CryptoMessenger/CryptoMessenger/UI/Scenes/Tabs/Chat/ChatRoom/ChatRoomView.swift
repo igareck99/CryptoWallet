@@ -167,7 +167,7 @@ struct ChatRoomView: View {
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .photo:
-                    GalleryPickerClosureAssembly.build(galleryContent: .all, onSelectImage: { image in
+                    GalleryPickerAssembly.build(galleryContent: .all, onSelectImage: { image in
                         if let image = image {
                             viewModel.selectedImage = image
                         }

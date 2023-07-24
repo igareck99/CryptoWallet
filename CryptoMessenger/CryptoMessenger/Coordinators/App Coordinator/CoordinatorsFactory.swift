@@ -24,8 +24,7 @@ protocol CoordinatorsFactoryProtocol {
     static func makePushCoordinator(
         notification: UNNotificationResponse,
         delegate: PushNotificationCoordinatorDelegate,
-        navigationController: UINavigationController,
-        getChatRoomSceneDelegate: @escaping () -> ChatRoomSceneDelegate?
+        navigationController: UINavigationController
     ) -> Coordinator
 }
 
@@ -81,13 +80,10 @@ enum CoordinatorsFactory: CoordinatorsFactoryProtocol {
     static func makePushCoordinator(
         notification: UNNotificationResponse,
         delegate: PushNotificationCoordinatorDelegate,
-        navigationController: UINavigationController,
-        getChatRoomSceneDelegate: @escaping () -> ChatRoomSceneDelegate?
-    ) -> Coordinator {
+        navigationController: UINavigationController) -> Coordinator {
         let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase
         let togglesFacade = MainFlowTogglesFacade(remoteConfigUseCase: remoteConfigUseCase)
         let coordinator = PushNotificationCoordinatorAssembly.build(
-            getChatRoomSceneDelegate: getChatRoomSceneDelegate,
             notificationResponse: notification,
             navigationController: navigationController,
             delegate: delegate,

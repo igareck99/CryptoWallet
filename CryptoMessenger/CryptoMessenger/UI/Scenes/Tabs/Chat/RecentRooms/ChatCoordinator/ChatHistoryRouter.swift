@@ -97,7 +97,7 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
                                 galleryContent: galleryContent,
                                 onSelectImage: onSelectImage,
                                 onSelectVideo: onSelectVideo):
-            GalleryPickerClosureAssembly.build(sourceType: sourceType,
+            GalleryPickerAssembly.build(sourceType: sourceType,
                                                galleryContent: galleryContent,
                                                onSelectImage: onSelectImage,
                                                onSelectVideo: onSelectVideo)
@@ -116,7 +116,7 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
                                 galleryContent: galleryContent,
                                 onSelectImage: onSelectImage,
                                 onSelectVideo: onSelectVideo):
-            return GalleryPickerClosureAssembly.build(sourceType: sourceType,
+            return GalleryPickerAssembly.build(sourceType: sourceType,
                                                galleryContent: galleryContent,
                                                onSelectImage: onSelectImage,
                                                onSelectVideo: onSelectVideo).anyView()

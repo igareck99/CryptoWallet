@@ -1,15 +1,22 @@
 import SwiftUI
 
+// MARK: - TabItemsFactoryProtocol
+
 protocol TabItemsFactoryProtocol {
-    static func makeChatTabModel(chateDelegate: ChatHistorySceneDelegate) -> TabItemModel
+    static func makeChatTabModel() -> TabItemModel
 
     static func makeWalletTabModel() -> TabItemModel
 
-    static func makeProfileTabModel(profileDelegate: ProfileSceneDelegate) -> TabItemModel
+    static func makeProfileTabModel() -> TabItemModel
 }
 
+// MARK: - TabItemsFactory(TabItemsFactoryProtocol)
+
 enum TabItemsFactory: TabItemsFactoryProtocol {
-    static func makeChatTabModel(chateDelegate: ChatHistorySceneDelegate) -> TabItemModel {
+    
+    // MARK: - Static Methods
+    
+    static func makeChatTabModel() -> TabItemModel {
         TabItemModel(
             title: MainTabs.chat.text,
             icon: MainTabs.chat.image,
@@ -29,7 +36,7 @@ enum TabItemsFactory: TabItemsFactoryProtocol {
         }
     }
 
-    static func makeProfileTabModel(profileDelegate: ProfileSceneDelegate) -> TabItemModel {
+    static func makeProfileTabModel() -> TabItemModel {
         TabItemModel(
             title: MainTabs.profile.text,
             icon: MainTabs.profile.image,
