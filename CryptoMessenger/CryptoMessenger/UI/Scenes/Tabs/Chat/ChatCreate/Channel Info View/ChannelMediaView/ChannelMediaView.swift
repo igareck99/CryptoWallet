@@ -55,8 +55,8 @@ struct ChannelMediaView: View {
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Медиа и документы")
-                        .font(.semibold(17))
-                        .foreground(.black())
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundColor(viewModel.resources.titleColor)
                 }
             }
     }
@@ -96,7 +96,7 @@ struct ChannelMediaView: View {
                     }
                     .ignoresSafeArea()
                     .listStyle(.plain)
-                    .background(.paleGray(0.1))
+                    .background(viewModel.resources.backgroundFodding)
                     .padding(.bottom, 8)
                     Spacer()
                 }
@@ -126,7 +126,7 @@ struct ChannelMediaView: View {
                         AsyncImage(
                             defaultUrl: viewModel.photos[index],
                             placeholder: {
-                                ZStack { Color(.lightBlue()) }
+                                ZStack { viewModel.resources.textBoxBackground }
                             },
                             result: {
                                 Image(uiImage: $0).resizable()

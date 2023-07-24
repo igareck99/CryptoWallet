@@ -14,6 +14,8 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     
     var roomImageUrl: URL? { get }
     
+    var resources: ChannelInfoResourcable.Type { get }
+    
     var roomImage: Image? { get }
     
     var shouldShowDescription: Bool { get }
@@ -365,6 +367,7 @@ final class ChannelInfoViewModel {
     
     let roomId: String
     var coordinator: ChatHistoryFlowCoordinatorProtocol?
+    let resources: ChannelInfoResourcable.Type = ChannelInfoResources.self
     private let onInviteUsersToChannelGroup = DispatchGroup()
     private let matrixUseCase: MatrixUseCaseProtocol
     private let factory: ChannelUsersFactoryProtocol.Type
@@ -381,7 +384,8 @@ final class ChannelInfoViewModel {
         saveData: Binding<Bool>,
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
-        accessService: MediaAccessProtocol & PhotosAccessProtocol = AccessService.shared
+        accessService: MediaAccessProtocol & PhotosAccessProtocol = AccessService.shared,
+        resources: ChannelInfoResourcable.Type = ChannelInfoResources.self
     ) {
         self.roomId = roomId
         self.chatData = chatData

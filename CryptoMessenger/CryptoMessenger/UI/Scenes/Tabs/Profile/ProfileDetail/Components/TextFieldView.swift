@@ -9,7 +9,7 @@ struct TextFieldView: View {
     var title = ""
     @Binding var text: String
     var placeholder: String
-    var color: Palette = .paleBlue()
+    var color: Color = .aliceBlue
 
     // MARK: - Body
 
@@ -28,7 +28,7 @@ struct TextFieldView: View {
                     .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
                     .foregroundColor(.chineseBlack)
                     .frame(height: 44)
-                    .font(.regular(15))
+                    .font(.system(size: 15, weight: .regular))
                     .background(Color.white
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                     )

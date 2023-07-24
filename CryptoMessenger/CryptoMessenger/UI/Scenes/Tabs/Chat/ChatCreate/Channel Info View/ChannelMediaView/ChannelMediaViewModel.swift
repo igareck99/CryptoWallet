@@ -17,7 +17,7 @@ final class ChannelMediaViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     weak var delegate: ChannelMediaSceneDelegate?
-    let sources: ChannelMediaSourcesable.Type
+    let resources: ChannelMediaSourcesable.Type
     @Published var photos: [URL] = []
     @Published var files: [FileData] = []
     @Published var links: [URL] = []
@@ -35,9 +35,9 @@ final class ChannelMediaViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(room: AuraRoom,
-         sources: ChannelMediaSourcesable.Type = ChannelMediaSources.self,
+         resources: ChannelMediaSourcesable.Type = ChannelMediaSources.self,
          mediaService: MediaServiceProtocol = MediaService()) {
-        self.sources = sources
+        self.resources = resources
         self.room = room
         self.mediaService = mediaService
         self.selectedFile = FileData(fileName: "", url: URL(string: "test"), date: Date())

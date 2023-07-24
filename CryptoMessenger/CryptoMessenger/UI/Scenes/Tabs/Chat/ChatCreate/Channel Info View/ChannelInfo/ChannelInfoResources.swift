@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 // swiftlint: disable: all
 
@@ -45,6 +46,26 @@ protocol ChannelInfoResourcable {
     static var presentationCancel: String { get }
     
     static var rightButton: String { get }
+    
+    static var profileFromGallery: String { get }
+    
+    static var profileFromCamera: String { get }
+    
+    static var snackbarBackground: Color { get }
+    
+    static var background: Color { get }
+    
+    static var textBoxBackground: Color { get }
+    
+    static var logoBackground: Color { get }
+    
+    static var titleColor: Color { get }
+    
+    static var textColor: Color { get }
+    
+    static var negativeColor: Color { get}
+    
+    static var buttonBackground: Color { get }
 }
 
 enum ChannelInfoResources: ChannelInfoResourcable {
@@ -132,5 +153,45 @@ enum ChannelInfoResources: ChannelInfoResourcable {
     
     static var notifications: String {
         R.string.localizable.channelInfoNotifications()
+    }
+    
+    static var profileFromGallery: String {
+        R.string.localizable.profileFromGallery()
+    }
+    
+    static var profileFromCamera: String {
+        R.string.localizable.profileFromCamera()
+    }
+    
+    static var snackbarBackground: Color {
+            .greenCrayola
+    }
+    
+    static var background: Color {
+        .white
+    }
+    
+    static var textBoxBackground: Color {
+        .aliceBlue
+    }
+    
+    static var logoBackground: Color {
+        .dodgerTransBlue
+    }
+    
+    static var titleColor: Color {
+        .chineseBlack
+    }
+    
+    static var textColor: Color {
+        .romanSilver
+    }
+    
+    static var negativeColor: Color {
+        .spanishCrimson
+    }
+    
+    static var buttonBackground: Color {
+        .dodgerBlue
     }
 }

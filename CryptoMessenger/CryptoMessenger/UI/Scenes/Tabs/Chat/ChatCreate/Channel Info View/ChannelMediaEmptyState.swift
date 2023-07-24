@@ -18,10 +18,10 @@ struct ChannelMediaEmptyState: View {
                 .resizable()
                 .frame(width: 250, height: 143)
             Text(title)
-                .font(.bold(22))
+                .font(.system(size: 22, weight: .bold))
             Text(description)
-                .font(.regular(15))
-                .foreground(.darkGray())
+                .font(.system(size: 15, weight: .regular))
+                .foregroundColor(.romanSilver)
         }
     }
 }
