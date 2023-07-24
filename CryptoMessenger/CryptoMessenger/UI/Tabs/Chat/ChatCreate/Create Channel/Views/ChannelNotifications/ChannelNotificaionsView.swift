@@ -20,9 +20,9 @@ struct ChannelNotificaionsView: View {
                 Section {
                     cellStatus
                 } header: {
-                    Text("Всплывающие уведомления")
-                        .font(.regular(12))
-                        .foreground(.darkGray())
+                    Text(R.string.localizable.channelNotificationsPopUpAlerts())
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(viewModel.resouces.textColor)
                 }
                 .listStyle(.insetGrouped)
             }
@@ -30,10 +30,9 @@ struct ChannelNotificaionsView: View {
             .toolbar(.visible, for: .navigationBar)
             .navigationBarTitle("", displayMode: .inline)
             .toolbar {
-                createToolBar()
+                createToolBar()}
             }
         }
-    }
 
     // MARK: - Private Properties
 
@@ -41,14 +40,14 @@ struct ChannelNotificaionsView: View {
         ForEach(ChannelNotificationsStatus.allCases, id: \.self) { item in
             HStack {
                 Text(item.rawValue)
-                    .font(.regular(17))
+                    .font(.system(size: 17 , weight: .regular))
                 Spacer()
-                R.image.channelSettings.checkmark.image
+                viewModel.resouces.checkmarkImage
                     .frame(width: 14.3, height: 14.2)
                     .padding(.trailing, 15)
                     .opacity(viewModel.computeOpacity(item))
             }
-            .background(.white())
+            .background(viewModel.resouces.background)
             .onTapGesture {
                 viewModel.updateNotifications(item)
             }
@@ -63,12 +62,12 @@ struct ChannelNotificaionsView: View {
             Button(action: {
                 presentationMode.wrappedValue.dismiss()
             }, label: {
-                R.image.navigation.backButton.image
+                viewModel.resouces.backButtonImage
             })
         }
         ToolbarItem(placement: .principal) {
-            Text("Уведомления")
-                .font(.bold(17))
+            Text(R.string.localizable.channelNotificationsAlerts())
+                .font(.system(size: 17, weight: .bold))
         }
     }
 }

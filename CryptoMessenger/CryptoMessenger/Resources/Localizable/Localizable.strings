@@ -432,6 +432,13 @@
 
 "CreateChannel.Title" = "Название";
 "CreateChannel.Description" = "Описание";
+"CreateChannel.Adding" = "Добавить пользователя";
+"CreateChannel.AllUsers" = "Все участники";
+"CreateChannel.ChannelType" = "Тип канала";
+"CreateChannel.Description" = "Можете указать дополнительное описание вашего канала.";
+
+"ChannelNotifications.PopUpAlerts" = "Всплывающие уведомления";
+"ChannelNotifications.Alerts" = "Уведомления";
 
 "CreateAction.CreateChannel" = "Создать канал";
 "CreateAction.NewContact" = "Новый контакт";

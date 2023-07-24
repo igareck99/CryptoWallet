@@ -9,6 +9,7 @@ final class ChannelNotificationsViewModel: ObservableObject {
 
     var roomId: String
     @Published var notificationsOff = false
+    let resouces: ChannelNotificationResourcable.Type
 
     // MARK: - Private Properties
 
@@ -22,8 +23,10 @@ final class ChannelNotificationsViewModel: ObservableObject {
         roomId: String,
         userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared,
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
-        keychainService: KeychainServiceProtocol = KeychainService.shared
+        keychainService: KeychainServiceProtocol = KeychainService.shared,
+        resouces: ChannelNotificationResourcable.Type = ChannelNotificationResources.self
     ) {
+        self.resouces = resouces
         self.roomId = roomId
         self.pushNotification = MXRoomNotificationSettingsService(roomId: self.roomId)
         self.userSettings = userSettings

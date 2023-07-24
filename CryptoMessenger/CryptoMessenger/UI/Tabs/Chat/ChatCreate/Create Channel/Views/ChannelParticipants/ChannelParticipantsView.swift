@@ -23,9 +23,9 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading) {
-                    Text("Добавить пользователя")
-                        .foreground(.darkGray())
-                        .font(.regular(17))
+                    Text(R.string.localizable.createChannelAdding())
+                        .foregroundColor(.romanSilver)
+                        .font(.system(size: 17, weight: .regular))
                         .padding(.leading, 16)
                     Divider()
                         .padding(.top, 11)
@@ -138,8 +138,8 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
             })
         }
         ToolbarItem(placement: .principal) {
-            Text("Все участники")
-                .font(.bold(17))
+            Text(R.string.localizable.createChannelAllUsers())
+                .font(.system(size: 17, weight: .bold))
                 .lineLimit(1)
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -148,8 +148,8 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
-                    .font(.bold(15))
-                    .foregroundColor(.blue)
+                    .font(.system(size: 15,weight: .bold))
+                    .foregroundColor(.dodgerBlue)
             })
         }
     }

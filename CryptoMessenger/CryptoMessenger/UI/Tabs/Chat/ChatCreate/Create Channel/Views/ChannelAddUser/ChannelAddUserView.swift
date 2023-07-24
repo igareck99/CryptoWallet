@@ -16,10 +16,10 @@ struct ChannelAddUserView: View {
     var body: some View {
         VStack(alignment: .leading,
                spacing: 0) {
-            Text("Добавить пользователя")
-                .font(.regular(17))
+            Text(R.string.localizable.createChannelAdding())
+                .font(.system(size: 17, weight: .regular))
                 .padding(.leading, 16)
-                .foreground(.darkGray())
+                .foregroundColor(.romanSilver)
             Divider()
             content
                 .padding(.top, 11)
@@ -38,10 +38,10 @@ struct ChannelAddUserView: View {
 
     private var content: some View {
         ZStack {
-            Color(.white()).ignoresSafeArea()
+            Color.white.ignoresSafeArea()
             if viewModel.existingContacts.isEmpty {
                 ProgressView()
-                    .tint(Color(.blue()))
+                    .tint(Color.dodgerBlue)
             }
             List {
                 let groupedContacts = Dictionary(grouping: viewModel.existingContacts) {
@@ -66,10 +66,10 @@ struct ChannelAddUserView: View {
                                         defaultUrl: contact.avatar,
                                         placeholder: {
                                             ZStack {
-                                                Color(.lightBlue())
+                                                Color.aliceBlue
                                                 Text(contact.name.firstLetter.uppercased())
-                                                    .foreground(.white())
-                                                    .font(.medium(22))
+                                                    .foregroundColor(.white)
+                                                    .font(.system(size: 22, weight: .medium))
                                             }
                                         },
                                         result: {
@@ -81,8 +81,8 @@ struct ChannelAddUserView: View {
                                     .cornerRadius(20)
 
                                     Text(contact.name)
-                                        .font(.semibold(15))
-                                        .foreground(.black())
+                                        .font(.system(size: 15, weight: .semibold))
+                                        .foregroundColor(.chineseBlack)
                                         .padding(.top, 12)
                                 }
                                 Spacer()
@@ -123,8 +123,8 @@ struct ChannelAddUserView: View {
             })
         }
         ToolbarItem(placement: .principal) {
-            Text("Все участники")
-                .font(.bold(17))
+            Text(R.string.localizable.createChannelAllUsers())
+                .font(.system(size: 17, weight: .bold))
                 .lineLimit(1)
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -133,8 +133,8 @@ struct ChannelAddUserView: View {
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
-                    .font(.bold(15))
-                    .foregroundColor(.blue)
+                    .font(.system(size: 15, weight: .bold))
+                    .foregroundColor(.dodgerBlue)
             })
         }
     }

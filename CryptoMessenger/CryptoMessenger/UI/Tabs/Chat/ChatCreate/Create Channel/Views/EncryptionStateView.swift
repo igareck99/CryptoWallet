@@ -12,7 +12,7 @@ struct EncryptionStateView: View {
             HStack(spacing: 0) {
                 Text(title)
                     .font(.system(size: 17))
-                    .foregroundColor(.black)
+                    .foregroundColor(.chineseBlack)
                 
                 Spacer()
                 
@@ -21,7 +21,7 @@ struct EncryptionStateView: View {
             
             Text(text)
                 .font(.system(size: 12))
-                .foreground(.darkGray())
+                .foregroundColor(.romanSilver)
                 .padding(.top, 8)
         }
         .onTapGesture {
