@@ -269,7 +269,7 @@
 		8B2AE33D29E585A400C9AC0E /* ChannelDocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE33C29E585A400C9AC0E /* ChannelDocumentView.swift */; };
 		8B2AE33F29E585C500C9AC0E /* ChannelMediaTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE33E29E585C500C9AC0E /* ChannelMediaTypeView.swift */; };
 		8B2AE34129E5860E00C9AC0E /* ChannelMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE34029E5860E00C9AC0E /* ChannelMediaViewModel.swift */; };
-		8B2AE34329E5864900C9AC0E /* ChannelMediaSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE34229E5864900C9AC0E /* ChannelMediaSources.swift */; };
+		8B2AE34329E5864900C9AC0E /* ChannelMediaResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE34229E5864900C9AC0E /* ChannelMediaResources.swift */; };
 		8B2AE34529E5869200C9AC0E /* ChannelMediaProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE34429E5869200C9AC0E /* ChannelMediaProtocols.swift */; };
 		8B2C78C32939486B002E9432 /* ImageRemoteViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2C78C22939486B002E9432 /* ImageRemoteViewer.swift */; };
 		8B2D40EF295D0B1A009D9581 /* GeneratePhraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40EE295D0B1A009D9581 /* GeneratePhraseView.swift */; };
@@ -566,6 +566,7 @@
 		9A1713E92A6026EF0052A8C0 /* PhraseManagerResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1713E82A6026EF0052A8C0 /* PhraseManagerResources.swift */; };
 		9A1713EB2A6027060052A8C0 /* KeyListResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1713EA2A6027060052A8C0 /* KeyListResources.swift */; };
 		9AC574262A51BAE30018738F /* ProfileResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC574252A51BAE30018738F /* ProfileResources.swift */; };
+		9AE8CAFA2A6F3F0300968564 /* UserSettingsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */; };
 		B4C106F74147CC38CED7B7DF /* Pods_CryptoMessengerPods_AuraNSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */; };
 		D40060F12A4B2F65004D5F35 /* TabItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */; };
 		D400612D2A4D5919004D5F35 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400612C2A4D5919004D5F35 /* AuthRouter.swift */; };
@@ -1135,7 +1136,7 @@
 		8B2AE33C29E585A400C9AC0E /* ChannelDocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDocumentView.swift; sourceTree = "<group>"; };
 		8B2AE33E29E585C500C9AC0E /* ChannelMediaTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaTypeView.swift; sourceTree = "<group>"; };
 		8B2AE34029E5860E00C9AC0E /* ChannelMediaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaViewModel.swift; sourceTree = "<group>"; };
-		8B2AE34229E5864900C9AC0E /* ChannelMediaSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaSources.swift; sourceTree = "<group>"; };
+		8B2AE34229E5864900C9AC0E /* ChannelMediaResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaResources.swift; sourceTree = "<group>"; };
 		8B2AE34429E5869200C9AC0E /* ChannelMediaProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaProtocols.swift; sourceTree = "<group>"; };
 		8B2C78C22939486B002E9432 /* ImageRemoteViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRemoteViewer.swift; sourceTree = "<group>"; };
 		8B2D40EE295D0B1A009D9581 /* GeneratePhraseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseView.swift; sourceTree = "<group>"; };
@@ -1435,6 +1436,7 @@
 		9A1713E82A6026EF0052A8C0 /* PhraseManagerResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerResources.swift; sourceTree = "<group>"; };
 		9A1713EA2A6027060052A8C0 /* KeyListResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyListResources.swift; sourceTree = "<group>"; };
 		9AC574252A51BAE30018738F /* ProfileResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileResources.swift; path = CryptoMessenger/UI/Scenes/Tabs/Profile/Initial/ProfileResources.swift; sourceTree = SOURCE_ROOT; };
+		9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsResources.swift; sourceTree = "<group>"; };
 		AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_AuraNSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItemsFactory.swift; sourceTree = "<group>"; };
@@ -2912,7 +2914,7 @@
 				8B2AE33C29E585A400C9AC0E /* ChannelDocumentView.swift */,
 				8B2AE33E29E585C500C9AC0E /* ChannelMediaTypeView.swift */,
 				8B2AE34029E5860E00C9AC0E /* ChannelMediaViewModel.swift */,
-				8B2AE34229E5864900C9AC0E /* ChannelMediaSources.swift */,
+				8B2AE34229E5864900C9AC0E /* ChannelMediaResources.swift */,
 				8B2AE34429E5869200C9AC0E /* ChannelMediaProtocols.swift */,
 			);
 			path = ChannelMediaView;
@@ -3868,6 +3870,7 @@
 				D44C8A8E298131F600383A46 /* UserSettingsView.swift */,
 				D4E7A17F298A151700398F93 /* UserSettingsAssembly.swift */,
 				8B32FEC3298B21C70017082A /* UserSettingsViewModel.swift */,
+				9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */,
 			);
 			path = "User Settings View";
 			sourceTree = "<group>";
@@ -4885,6 +4888,7 @@
 				8B234EC92A40E1B40064ACD3 /* ChatHistoryFlowState.swift in Sources */,
 				5A187DE026806F62001957D3 /* AppHelpers.swift in Sources */,
 				D43A7E6428CB25D500A807EC /* StringExtension.swift in Sources */,
+				9AE8CAFA2A6F3F0300968564 /* UserSettingsResources.swift in Sources */,
 				D4857D0A28AFAB6600C904EC /* ChatComponentsFactory.swift in Sources */,
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
 				D48AF446292601C10044CFAE /* CoreDataService.swift in Sources */,
@@ -4996,7 +5000,7 @@
 				D4442B4628113C3C0033D07A /* KeychainItemAccessibility.swift in Sources */,
 				8BC518032970AF290033B30F /* PhraseService.swift in Sources */,
 				8B0C574B2A64570600D456FF /* SocialListAssembly.swift in Sources */,
-				8B2AE34329E5864900C9AC0E /* ChannelMediaSources.swift in Sources */,
+				8B2AE34329E5864900C9AC0E /* ChannelMediaResources.swift in Sources */,
 				D4752EA028C2247F006B650A /* AURGroupCallsViewModel.m in Sources */,
 				8B7F856F28C65FA200C8F9EB /* SettingsAction.swift in Sources */,
 				8BD6292D276AAC06000A976A /* SocialListView.swift in Sources */,

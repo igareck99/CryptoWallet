@@ -14,7 +14,7 @@ struct UserSettingsView<ViewModel: UserSettingsViewModelProtocol>: View {
         VStack(spacing: 0) {
             RoundedRectangle(cornerRadius: 3)
                 .frame(width: 38, height: 6)
-                .foregroundColor(.ironApprox)
+                .foregroundColor(viewModel.resources.rectangleColor)
                 .padding(.top, 5)
                 .padding(.bottom, 16)
             

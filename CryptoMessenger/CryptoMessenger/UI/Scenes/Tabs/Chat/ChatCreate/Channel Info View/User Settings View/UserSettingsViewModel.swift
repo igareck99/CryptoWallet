@@ -5,6 +5,8 @@ import SwiftUI
 protocol UserSettingsViewModelProtocol: ObservableObject {
 
     var items: [any ViewGeneratable] { get }
+    
+    var resources: UserSettingsResourcable.Type { get }
 
     var showShowChangeRole: Binding<Bool> { get set }
 
@@ -31,6 +33,7 @@ final class UserSettingsViewModel {
     private let factory: UserSettingsFactoryProtocol.Type
     private let onActionEnd: VoidBlock
     private let onUserProfile: VoidBlock
+    let resources: UserSettingsResourcable.Type = UserSettingsResources.self
 
     // MARK: - Internal Properties
 
@@ -81,7 +84,8 @@ final class UserSettingsViewModel {
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         factory: UserSettingsFactoryProtocol.Type = UserSettingsFactory.self,
         onActionEnd: @escaping VoidBlock,
-        onUserProfile: @escaping VoidBlock
+        onUserProfile: @escaping VoidBlock,
+        resources: UserSettingsResourcable.Type = UserSettingsResources.self
     ) {
         self.userId = userId
         self.showBottomSheet = showBottomSheet
