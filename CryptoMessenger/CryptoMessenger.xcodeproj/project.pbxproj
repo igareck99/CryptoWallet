@@ -484,6 +484,7 @@
 		9AE8CAF62A6F253A00968564 /* SelectContactResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF52A6F253A00968564 /* SelectContactResources.swift */; };
 		9AE8CAF82A6F27BD00968564 /* ChatGroupResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF72A6F27BD00968564 /* ChatGroupResources.swift */; };
 		9AE8CAFA2A6F3F0300968564 /* UserSettingsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */; };
+		9AE8CAEC2A6E6B6500968564 /* ChatCreateResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAEB2A6E6B6500968564 /* ChatCreateResources.swift */; };
 		B4C106F74147CC38CED7B7DF /* Pods_CryptoMessengerPods_AuraNSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */; };
 		D40060F12A4B2F65004D5F35 /* TabItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */; };
 		D400612D2A4D5919004D5F35 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400612C2A4D5919004D5F35 /* AuthRouter.swift */; };
@@ -1271,6 +1272,7 @@
 		9AE8CAF52A6F253A00968564 /* SelectContactResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactResources.swift; sourceTree = "<group>"; };
 		9AE8CAF72A6F27BD00968564 /* ChatGroupResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupResources.swift; sourceTree = "<group>"; };
 		9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsResources.swift; sourceTree = "<group>"; };
+		9AE8CAEB2A6E6B6500968564 /* ChatCreateResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateResources.swift; sourceTree = "<group>"; };
 		AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_AuraNSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItemsFactory.swift; sourceTree = "<group>"; };
@@ -2536,6 +2538,7 @@
 				8B1C927D2A4B49A400937460 /* ChatCreateFlowState.swift */,
 				8B1C92812A4B84F400937460 /* ChatCreateAssembly.swift */,
 				8B97D4452A674F130076C095 /* ChatCreateCoordinatorAssembly.swift */,
+				9AE8CAEB2A6E6B6500968564 /* ChatCreateResources.swift */,
 			);
 			path = ChatCreate;
 			sourceTree = "<group>";
@@ -4566,6 +4569,7 @@
 				5A1D265C275973940085324F /* CornerRadiusStyle.swift in Sources */,
 				8B1C927E2A4B49A400937460 /* ChatCreateFlowState.swift in Sources */,
 				5A7EDE74275402ED0049DC4A /* BlockListViewModel.swift in Sources */,
+				9AE8CAEC2A6E6B6500968564 /* ChatCreateResources.swift in Sources */,
 				5A4BE517271DD86A00D03D09 /* EditEvent.swift in Sources */,
 				5A4BE51D271DD86A00D03D09 /* AuraMXEvent+Extensions.swift in Sources */,
 				8B24FDD427A820990021177C /* SessionAssembly.swift in Sources */,
@@ -5197,7 +5201,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 42;
-				DEVELOPMENT_TEAM = 63RB2V788Z;
+				DEVELOPMENT_TEAM = WA3JSC63AV;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
@@ -5207,7 +5211,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.dima;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CryptoMessenger/CryptoMessenger-Bridging-Header.h";
@@ -5229,7 +5233,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 42;
-				DEVELOPMENT_TEAM = 63RB2V788Z;
+				DEVELOPMENT_TEAM = WA3JSC63AV;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
@@ -5239,7 +5243,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.dima;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CryptoMessenger/CryptoMessenger-Bridging-Header.h";
@@ -5259,7 +5263,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 63RB2V788Z;
+				DEVELOPMENT_TEAM = WA3JSC63AV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AuraNSE/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AuraNSE;
@@ -5271,7 +5275,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.AuraNSE;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.dima.AuraNSE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -5289,7 +5293,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 63RB2V788Z;
+				DEVELOPMENT_TEAM = WA3JSC63AV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AuraNSE/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AuraNSE;
@@ -5301,7 +5305,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.AuraNSE;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.dima.AuraNSE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
