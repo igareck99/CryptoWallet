@@ -21,7 +21,7 @@ struct ChannelMediaTypeView: View {
             Divider()
                 .frame(width: UIScreen.main.bounds.width / 2,
                        height: searchTypeCell == selectedSearchType ? 2 : 1)
-                .background(searchTypeCell == selectedSearchType ? .dodgerBlue : .gainsboro)
+                .background(searchTypeCell == selectedSearchType ? Color.dodgerBlue : Color.gainsboro)
         }
         .frame(height: 44, alignment: .bottom)
         .onTapGesture {

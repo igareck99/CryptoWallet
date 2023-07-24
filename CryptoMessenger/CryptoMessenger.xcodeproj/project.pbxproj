@@ -567,6 +567,7 @@
 		9A1713EB2A6027060052A8C0 /* KeyListResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1713EA2A6027060052A8C0 /* KeyListResources.swift */; };
 		9AC574262A51BAE30018738F /* ProfileResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC574252A51BAE30018738F /* ProfileResources.swift */; };
 		9AE8CAFA2A6F3F0300968564 /* UserSettingsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */; };
+		9AE8CAF82A6F27BD00968564 /* ChatGroupResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF72A6F27BD00968564 /* ChatGroupResources.swift */; };
 		B4C106F74147CC38CED7B7DF /* Pods_CryptoMessengerPods_AuraNSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */; };
 		D40060F12A4B2F65004D5F35 /* TabItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */; };
 		D400612D2A4D5919004D5F35 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400612C2A4D5919004D5F35 /* AuthRouter.swift */; };
@@ -1437,6 +1438,7 @@
 		9A1713EA2A6027060052A8C0 /* KeyListResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyListResources.swift; sourceTree = "<group>"; };
 		9AC574252A51BAE30018738F /* ProfileResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileResources.swift; path = CryptoMessenger/UI/Scenes/Tabs/Profile/Initial/ProfileResources.swift; sourceTree = SOURCE_ROOT; };
 		9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsResources.swift; sourceTree = "<group>"; };
+		9AE8CAF72A6F27BD00968564 /* ChatGroupResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupResources.swift; sourceTree = "<group>"; };
 		AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_AuraNSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItemsFactory.swift; sourceTree = "<group>"; };
@@ -2600,6 +2602,7 @@
 				5A3721D6272F2A4D0097ABED /* ChatGroupView.swift */,
 				8B38868D2A4DEDDD00C8A54C /* ChatGroupAssembly.swift */,
 				8B38868F2A4E15D900C8A54C /* ChatGroupViewModel.swift */,
+				9AE8CAF72A6F27BD00968564 /* ChatGroupResources.swift */,
 			);
 			path = ChatGroupView;
 			sourceTree = "<group>";
@@ -4713,6 +4716,7 @@
 				8B1C92792A4B48C000937460 /* ChatCreateCoordinator.swift in Sources */,
 				D48AF45629265CB50044CFAE /* WalletNetworkFacade.swift in Sources */,
 				5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */,
+				9AE8CAF82A6F27BD00968564 /* ChatGroupResources.swift in Sources */,
 				8B0C57492A64551700D456FF /* ProfileRouter.swift in Sources */,
 				5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */,
 				8BAFF37F2863F2D30082E24C /* TimerView.swift in Sources */,

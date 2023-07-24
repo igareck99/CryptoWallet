@@ -37,8 +37,8 @@ struct ChatGroupView: View {
                     
                     ToolbarItem(placement: .principal) {
                         Text("Название группы")
-                            .font(.bold(15))
-                            .foreground(.black())
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundColor(viewModel.resources.titleColor)
                     }
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -46,8 +46,8 @@ struct ChatGroupView: View {
                             viewModel.createChat()
                         }, label: {
                             Text("Готово")
-                                .font(.semibold(15))
-                                .foreground(viewModel.titleText.isEmpty ? .darkGray() : .blue())
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundColor(viewModel.titleText.isEmpty ? viewModel.resources.textColor : viewModel.resources.buttonBackground)
                         })
                         .disabled(viewModel.titleText.isEmpty)
                     }
@@ -58,11 +58,11 @@ struct ChatGroupView: View {
                                 buttons: [
                                     .cancel(),
                                     .default(
-                                        Text(R.string.localizable.profileFromGallery()),
+                                        Text(viewModel.resources.profileFromGallery),
                                         action: switchImagePicker
                                     ),
                                     .default(
-                                        Text(R.string.localizable.profileFromCamera()),
+                                        Text(viewModel.resources.profileFromCamera),
                                         action: switchCameraPicker
                                     )
                                 ]
@@ -77,19 +77,19 @@ struct ChatGroupView: View {
                 .fullScreenCover(isPresented: $showImagePicker,
                                  content: {
                     ImagePickerView(selectedImage: $viewModel.chatData.image)
-                        .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                        .navigationBarTitle(Text(viewModel.resources.photoEditorTitle))
                         .navigationBarTitleDisplayMode(.inline)
                         .ignoresSafeArea()
                 })
                 .onAppear {
-                    UITextView.appearance().background(.paleBlue())
-                }
+                    UITextView.appearance()
+                }.background(viewModel.resources.textBoxBackground)
         }
     }
 
     private var content: some View {
         ZStack {
-            Color(.white()).ignoresSafeArea()
+            viewModel.resources.background.ignoresSafeArea()
 
             VStack(spacing: 0) {
                 HStack(spacing: 12) {
@@ -104,7 +104,7 @@ struct ChatGroupView: View {
                                 .cornerRadius(30)
                         } else {
                             RoundedRectangle(cornerRadius: 30)
-                                .background(.blue())
+                                .background(viewModel.resources.buttonBackground)
                                 .cornerRadius(30)
                                 .frame(width: 60, height: 60, alignment: .center)
                                 .overlay(
@@ -116,12 +116,12 @@ struct ChatGroupView: View {
                     ZStack(alignment: .topLeading) {
                         TextField("", text: $viewModel.titleText)
                             .frame(height: 44)
-                            .background(.paleBlue())
+                            .background(viewModel.resources.textBoxBackground)
                             .padding(.horizontal, 16)
 
                         if viewModel.titleText.isEmpty {
                             Text("Название")
-                                .foreground(.darkGray())
+                                .foregroundColor(viewModel.resources.titleColor)
                                 .padding(.top, 12)
                                 .padding(.horizontal, 16)
                                 .disabled(true)
@@ -129,7 +129,7 @@ struct ChatGroupView: View {
                         }
                     }
                     .frame(height: 44)
-                    .background(.paleBlue())
+                    .background(viewModel.resources.textBoxBackground)
                     .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 }
                 .padding(.horizontal, 16)
@@ -137,8 +137,8 @@ struct ChatGroupView: View {
 
                 HStack(spacing: 0) {
                     Text("Информация".uppercased())
-                        .font(.semibold(12))
-                        .foreground(.darkGray())
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(viewModel.resources.textColor)
                         .padding(.top, 24)
                         .padding(.horizontal, 16)
                         .padding(.bottom, 12)
@@ -154,22 +154,22 @@ struct ChatGroupView: View {
 
                     if viewModel.descriptionText.isEmpty {
                         Text("Описание")
-                            .foreground(.darkGray())
+                            .foregroundColor(viewModel.resources.textColor)
                             .padding(.top, 12)
                             .padding(.horizontal, 19)
                             .disabled(true)
                             .allowsHitTesting(false)
                     }
                 }
-                .background(.paleBlue())
+                .background(viewModel.resources.textBoxBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 .padding(.horizontal, 16)
 
                 HStack(spacing: 0) {
                     Text("Можете указать дополнительное описание для Вашей группы.")
                         .lineLimit(nil)
-                        .font(.regular(12))
-                        .foreground(.darkGray())
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(viewModel.resources.textColor)
                         .padding(.top, 8)
                         .padding(.horizontal, 16)
                     Spacer()
@@ -178,7 +178,7 @@ struct ChatGroupView: View {
                 if viewModel.isRoomCreated {
                     ZStack {
                         ProgressView()
-                            .tint(Color(.blue()))
+                            .tint(viewModel.resources.buttonBackground)
                     }
                 }
 
