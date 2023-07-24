@@ -8,7 +8,8 @@ enum ChatHistoryAssembly {
     static func build() -> some View {
         let viewModel = ChatHistoryViewModel()
         let view = ChatHistoryView(viewModel: viewModel)
-        let router = ChatHistoryRouter(state: ChatHistoryFlowState.shared) {
+        let state = ChatHistoryFlowState()
+        let router = ChatHistoryRouter(state: state) {
             view
         }
 

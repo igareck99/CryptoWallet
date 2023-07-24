@@ -14,19 +14,37 @@ protocol ChatCreateFlowCoordinatorProtocol {
 
 // MARK: - ChatCreateFlowCoordinator
 
-final class ChatCreateFlowCoordinator {
+final class ChatCreateFlowCoordinator<Router: ChatCreateRouterable> {
+    
+    @Binding var chatData: ChatData
+    var childCoordinators = [String: Coordinator]()
+    var navigationController = UINavigationController()
+    private var router: Router
+    private let onCoordinatorEnd: (Coordinator) -> Void
 
-    private let router: ChatCreateRouterable
-    var onCoordinatorEnd: VoidBlock
-
-    init(router: ChatCreateRouterable,
-         onCoordinatorEnd: @escaping VoidBlock) {
+    init(router: Router,
+         chatData: Binding<ChatData>,
+         onCoordinatorEnd: @escaping (Coordinator) -> Void) {
         self.router = router
+        self._chatData = chatData
         self.onCoordinatorEnd = onCoordinatorEnd
     }
 }
 
-// MARK: - ContentFlowCoordinatorProtocol
+// MARK: - ChatCreateFlowCoordinator(Coordinator)
+
+extension ChatCreateFlowCoordinator: Coordinator {
+    func start() {
+        router.createChat($chatData, self)
+    }
+    
+    func startWithView(completion: @escaping (any View) -> Void) {
+        //router.createChat($chatData, self)
+        completion(router)
+    }
+}
+
+// MARK: - ChatCreateFlowCoordinator(ContentFlowCoordinatorProtocol)
 
 extension ChatCreateFlowCoordinator: ChatCreateFlowCoordinatorProtocol {
 
@@ -49,6 +67,6 @@ extension ChatCreateFlowCoordinator: ChatCreateFlowCoordinatorProtocol {
     }
     
     func toParentCoordinator() {
-        onCoordinatorEnd()
+        onCoordinatorEnd(self)
     }
 }

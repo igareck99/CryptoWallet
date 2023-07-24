@@ -12,7 +12,7 @@ struct FooterView: View {
 
     var body: some View {
         Button(action: {
-            hideTabBar()
+//            hideTabBar()
             popupSelected.toggle()
         }, label: {
             Text(R.string.localizable.profileBuyCell())
@@ -23,8 +23,7 @@ struct FooterView: View {
                         .stroke(.blue, lineWidth: 1)
                 )
         })
-            .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-            .background(.white())
+        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
+        .background(.white())
     }
 }
-

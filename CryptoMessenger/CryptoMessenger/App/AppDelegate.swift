@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - AppDelegate
 
-@main
+//@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		notificationsUseCase = NotificationsUseCaseAssembly.build(appCoordinator: appCoordinator)
 
 		let appWindow = UIWindow()
+        WindowKey.defaultValue = window
 		window = appWindow
 		rootNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
 		window?.rootViewController = rootNavigationController

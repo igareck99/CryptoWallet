@@ -24,7 +24,7 @@ struct SecurityView: View {
             viewModel.send(.onAppear)
         }
         .onDisappear {
-            showTabBar()
+//            showTabBar()
         }
 		.alert(isPresented: $viewModel.showBiometryErrorAlert, content: {
             Alert(title: Text("Биометрия недоступна"), message: nil,

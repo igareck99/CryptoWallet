@@ -6,7 +6,7 @@ enum ProfileAssembly {
 
     // MARK: - Static Methods
 
-    static func build(_ delegate: ProfileSceneDelegate) -> some View {
+    static func build() -> some View {
         let userSettings = UserDefaultsService.shared
         let keychainService = KeychainService.shared
         let viewModel = ProfileViewModel(

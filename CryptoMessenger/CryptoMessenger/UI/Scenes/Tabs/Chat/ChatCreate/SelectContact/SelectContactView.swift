@@ -32,6 +32,7 @@ struct SelectContactView: View {
     // MARK: - Body
 
     var body: some View {
+        NavigationView {
         content
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
@@ -44,13 +45,13 @@ struct SelectContactView: View {
                         R.image.navigation.backButton.image
                     })
                 }
-
+                
                 ToolbarItem(placement: .principal) {
                     Text(contactsLimit == nil ? "Групповой чат" : "Выберите контакт")
                         .font(.bold(15))
                         .foreground(.black())
                 }
-
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         switch viewModel.mode {
@@ -70,12 +71,13 @@ struct SelectContactView: View {
                             .font(.semibold(15))
                             .foreground(pickedContacts.isEmpty ? .darkGray() : .blue())
                     })
-                        .disabled(pickedContacts.isEmpty)
+                    .disabled(pickedContacts.isEmpty)
                 }
             }
             .onAppear {
                 viewModel.send(.onAppear)
             }
+    }
     }
 
     private var content: some View {

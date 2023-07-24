@@ -17,31 +17,39 @@ protocol AuthCoordinatorSceneDelegate: AnyObject {
 // MARK: - AuthFlowCoordinator
 
 public final class AuthCoordinator: Coordinator {
+    
+    func startWithView(completion: @escaping (any View) -> Void) {
+        
+    }
 
     // MARK: - Internal Properties
 
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: AuthCoordinatorDelegate?
-    let navigationController: UINavigationController
+    var navigationController: UINavigationController
     private let userFlows: UserFlowsStorage
-    private let router: AuhtRouterable
+    let router: AuhtRouterable
+    let renderView: (Coordinator) -> Void
 
     // MARK: - Lifecycle
 
     init(
         router: AuhtRouterable,
         userFlows: UserFlowsStorage,
-        navigationController: UINavigationController
+        navigationController: UINavigationController,
+        renderView: @escaping (Coordinator) -> Void
     ) {
         self.router = router
 		self.userFlows = userFlows
         self.navigationController = navigationController
+        self.renderView = renderView
     }
 
     // MARK: - Internal Methods
 
     func start() {
         handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
+        renderView(self)
     }
 
     // MARK: - Scene

@@ -78,9 +78,10 @@ struct ChatRoomView: View {
 
     var body: some View {
         content
+            .toolbar(.hidden, for: .tabBar)
             .onAppear {
                 viewModel.send(.onAppear)
-                hideTabBar()
+//                hideTabBar()
                 UITextView.appearance().background(.grayDAE1E9())
             }
             .onChange(of: showActionSheet, perform: { _ in
@@ -94,7 +95,7 @@ struct ChatRoomView: View {
                 testAvatarUrl = url
             })
             .onDisappear {
-                showTabBar()
+//                showTabBar()  
             }
             .onChange(of: viewModel.dismissScreen, perform: { newValue in
                 if newValue {
@@ -166,10 +167,15 @@ struct ChatRoomView: View {
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .photo:
-                    GalleryPickerAssembly.build(selectedImage: $viewModel.selectedImage,
-                                                selectedVideo: $viewModel.selectedVideo)
-                        .navigationBarTitle(Text(viewModel.sources.photoEditorTitle))
-                        .navigationBarTitleDisplayMode(.inline)
+                    GalleryPickerClosureAssembly.build(galleryContent: .all, onSelectImage: { image in
+                        if let image = image {
+                            viewModel.selectedImage = image
+                        }
+                    }, onSelectVideo: { video in
+                        if let video = video {
+                            viewModel.selectedVideo = video
+                        }
+                    })
                 case .documents:
                     documentPicker { urls in
                         guard !urls.isEmpty, let url = urls.first else { return }

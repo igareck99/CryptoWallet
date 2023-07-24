@@ -6,8 +6,6 @@ import MatrixSDK
 
 final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 
-    weak var delegate: ChatHistorySceneDelegate?
-
 	let eventSubject = PassthroughSubject<ChatHistoryFlow.Event, Never>()
 	let sources: ChatHistorySourcesable.Type
 
@@ -126,7 +124,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 case let .onShowRoom(room):
                     guard let coordinator = self?.coordinator else { return } 
                     self?.coordinator?.firstAction(room, coordinator: coordinator)
-//                  self?.coordinator?.firstAction(room)
                 case let .onDeleteRoom(roomId):
                     self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in })
                 case let .onCreateChat(chatData):

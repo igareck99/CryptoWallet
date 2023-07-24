@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: - ChatViewAssembly
+// MARK: - ChatGroupAssembly
 
 enum ChatGroupAssembly {
     static func build(_ chatData: Binding<ChatData>,

@@ -5,13 +5,21 @@ import SwiftUI
 enum ProfileContentLlink: Hashable, Identifiable {
 
     case socialList
-    case galleryPicker(selectedImage: Binding<UIImage?>,
-                       selectedVideo: Binding<URL?>,
-                       sourceType: UIImagePickerController.SourceType,
-                       galleryContent: GalleryPickerContent)
+    case galleryPicker(sourceType: UIImagePickerController.SourceType,
+                       galleryContent: GalleryPickerContent,
+                       onSelectImage: (UIImage?) -> Void,
+                       onSelectVideo: (URL?) -> Void)
     case imageEditor(isShowing: Binding<Bool>,
                      image: Binding<UIImage?>,
                      viewModel: ProfileViewModel)
+    case profileDetail(_ coordinator: ProfileFlowCoordinatorProtocol,
+                       _ image: Binding<UIImage?>)
+    case security(_ coordinator: ProfileFlowCoordinatorProtocol)
+    case notifications(_ coordinator: ProfileFlowCoordinatorProtocol)
+    case questions(_ coordinator: ProfileFlowCoordinatorProtocol)
+    case aboutApp(_ coordinator: ProfileFlowCoordinatorProtocol)
+    case pinCode(PinCodeScreenType)
+    case sessions(_ coordinator: ProfileFlowCoordinatorProtocol)
 
     var id: String {
         String(describing: self)
@@ -29,17 +37,15 @@ enum ProfileContentLlink: Hashable, Identifiable {
 // MARK: - ProfileContentLlink
 
 enum ProfileSheetLlink: Hashable, Identifiable {
-    
-    case settings(balance: String)
 
     var id: String {
         String(describing: self)
     }
-    
+
     static func == (lhs: ProfileSheetLlink, rhs: ProfileSheetLlink) -> Bool {
         return rhs.id == lhs.id
     }
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }

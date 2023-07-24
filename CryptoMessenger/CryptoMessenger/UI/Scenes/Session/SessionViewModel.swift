@@ -8,7 +8,7 @@ final class SessionViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: SessionSceneDelegate?
+    var coordinator: ProfileFlowCoordinatorProtocol?
 
     @Published var sessionsList: [SessionItem] = []
     @Published var selectedSession = SessionItem.sessionsInfo()
@@ -66,7 +66,7 @@ final class SessionViewModel: ObservableObject {
             case .loggedOut:
                 self?.userSettings.isAuthFlowFinished = false
                 self?.userSettings.isOnboardingFlowFinished = false
-                self?.delegate?.restartFlow()
+                //self?.delegate?.restartFlow()
             default:
                 break
             }

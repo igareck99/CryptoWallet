@@ -1,5 +1,6 @@
 import UIKit
 import MatrixSDK
+import SwiftUI
 
 //swiftlint:disable: vertical_parameter_alignment
 protocol PushNotificationCoordinatorDelegate: AnyObject {
@@ -9,7 +10,7 @@ protocol PushNotificationCoordinatorDelegate: AnyObject {
 final class PushNotificationCoordinator: NSObject {
 
 	var childCoordinators: [String: Coordinator] = [:]
-	let navigationController: UINavigationController
+	var navigationController: UINavigationController
 	private let userInfo: [AnyHashable: Any]
 	private let parser: PushNotificationsParsable
 	private let matrixUseCase: MatrixUseCaseProtocol
@@ -27,7 +28,6 @@ final class PushNotificationCoordinator: NSObject {
         toggleFacade: MainFlowTogglesFacadeProtocol
     ) {
         self.toggleFacade = toggleFacade
-        
         self.userInfo = userInfo
         self.matrixUseCase = matrixUseCase
         self.getChatRoomSceneDelegate = getChatRoomSceneDelegate
@@ -40,6 +40,10 @@ final class PushNotificationCoordinator: NSObject {
 // MARK: - Coordinator
 
 extension PushNotificationCoordinator: Coordinator {
+    
+    func startWithView(completion: @escaping (any View) -> Void) {
+        
+    }
 
 	func start() {
 		if let chatRoomDelegate = getChatRoomSceneDelegate(),

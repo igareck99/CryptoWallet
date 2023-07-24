@@ -5,14 +5,26 @@ protocol ProfileRouterable {
     
     func socialList()
     
-    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
-                                 selectedVideo: Binding<URL?>,
-                                 sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent)
+    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent,
+                                 onSelectImage: @escaping (UIImage?) -> Void,
+                                 onSelectVideo: @escaping (URL?) -> Void)
     func imageEditor(isShowing: Binding<Bool>,
                      image: Binding<UIImage?>,
                      viewModel: ProfileViewModel)
-    func settings(balance: String)
+    func profileDetail(_ coordinator: ProfileFlowCoordinatorProtocol,
+                       _ image: Binding<UIImage?>)
+    func security(_ coordinator: ProfileFlowCoordinatorProtocol)
+    
+    func notifications(_ coordinator: ProfileFlowCoordinatorProtocol)
+    
+    func questions(_ coordinator: ProfileFlowCoordinatorProtocol)
+    
+    func aboutApp(_ coordinator: ProfileFlowCoordinatorProtocol)
+    
+    func pinCode(_ pinCodeScreen: PinCodeScreenType)
+    
+    func sessions(_ coordinator: ProfileFlowCoordinatorProtocol)
 }
 
 // MARK: - ChatHistoryRouter
@@ -42,35 +54,45 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
         switch link {
         case .socialList:
             SocialListAssembly.build()
-        case .galleryPicker(selectedImage: let selectedImage, selectedVideo: let selectedVideo, sourceType: let sourceType, galleryContent: let galleryContent):
-            GalleryPickerAssembly.build(selectedImage: selectedImage,
-                                        selectedVideo: selectedVideo,
-                                        sourceType: sourceType,
-                                        galleryContent: galleryContent)
+        case let .galleryPicker(sourceType: sourceType,
+                                galleryContent: galleryContent,
+                                onSelectImage: onSelectImage,
+                                onSelectVideo: onSelectVideo):
+            GalleryPickerClosureAssembly.build(sourceType: sourceType,
+                                               galleryContent: galleryContent,
+                                               onSelectImage: onSelectImage,
+                                               onSelectVideo: onSelectVideo)
             .ignoresSafeArea()
         case let .imageEditor(isShowing: isShowing,
-                          image: image,
-                          viewModel: viewModel):
+                              image: image,
+                              viewModel: viewModel):
             ImageEditorAssembly.build(isShowing: isShowing,
                                       image: image,
                                       viewModel: viewModel)
             .ignoresSafeArea()
+        case let .profileDetail(coordinator, image):
+            ProfileDetailAssembly.build(coordinator,
+                                        image)
+        case let .security(coordinator):
+            SecurityAssembly.configuredView(coordinator)
+        case let .notifications(coordinator):
+            NotificationSettingsAssembly.build(coordinator)
+        case let .questions(coordinator):
+            AnswerAssembly.build(coordinator)
+        case let .aboutApp(coordinator):
+            AboutAppAssembly.build(coordinator)
+        case let .pinCode(screenType):
+            PinCodeAssembly.build(screenType: screenType) {
+                
+            }
+        case let .sessions(coordinator):
+            SessionAssembly.build(coordinator)
         }
     }
     
     @ViewBuilder
     private func sheetContent(item: ProfileSheetLlink) -> some View {
         switch item {
-        case let .settings(balance: balance):
-            ProfileSettingsMenuAssembly.build(balance: balance,
-                                              onSelect: { value in
-                vibrate()
-                print("sklasklasklakls  \(value)")
-            })
-            .background(
-                CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                    //.fill(viewModel.resources.background)
-            )
         default:
             EmptyView()
         }
@@ -84,14 +106,14 @@ extension ProfileRouter: ProfileRouterable {
         state.path.append(ProfileContentLlink.socialList)
     }
     
-    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
-                                 selectedVideo: Binding<URL?>,
-                                 sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent) {
-        state.path.append(ProfileContentLlink.galleryPicker(selectedImage: selectedImage,
-                                                            selectedVideo: selectedVideo,
-                                                            sourceType: sourceType,
-                                                            galleryContent: galleryContent))
+    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent,
+                                 onSelectImage: @escaping (UIImage?) -> Void,
+                                 onSelectVideo: @escaping (URL?) -> Void) {
+        state.path.append(ProfileContentLlink.galleryPicker(sourceType: sourceType,
+                                                            galleryContent: galleryContent,
+                                                            onSelectImage: onSelectImage,
+                                                            onSelectVideo: onSelectVideo))
     }
     
     func imageEditor(isShowing: Binding<Bool>,
@@ -102,7 +124,34 @@ extension ProfileRouter: ProfileRouterable {
                                                           viewModel: viewModel))
     }
     
-    func settings(balance: String) {
-        state.presentedItem = .settings(balance: balance)
+    func profileDetail(_ coordinator: ProfileFlowCoordinatorProtocol,
+                       _ image: Binding<UIImage?>) {
+        state.path.append(ProfileContentLlink.profileDetail(coordinator,
+                                                            image))
     }
+    
+    func security(_ coordinator: ProfileFlowCoordinatorProtocol) {
+        state.path.append(ProfileContentLlink.security(coordinator))
+    }
+    
+    func notifications(_ coordinator: ProfileFlowCoordinatorProtocol) {
+        state.path.append(ProfileContentLlink.notifications(coordinator))
+    }
+    
+    func questions(_ coordinator: ProfileFlowCoordinatorProtocol) {
+        state.path.append(ProfileContentLlink.questions(coordinator))
+    }
+    
+    func aboutApp(_ coordinator: ProfileFlowCoordinatorProtocol) {
+        state.path.append(ProfileContentLlink.aboutApp(coordinator))
+    }
+    
+    func pinCode(_ pinCodeScreen: PinCodeScreenType) {
+        state.path.append(ProfileContentLlink.pinCode(pinCodeScreen))
+    }
+    
+    func sessions(_ coordinator: ProfileFlowCoordinatorProtocol) {
+        state.path.append(ProfileContentLlink.sessions(coordinator))
+    }
+
 }

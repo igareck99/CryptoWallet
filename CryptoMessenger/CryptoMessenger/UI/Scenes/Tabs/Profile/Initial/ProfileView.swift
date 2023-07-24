@@ -36,7 +36,7 @@ struct ProfileView: View {
             .onAppear {
                 viewModel.send(.onProfileAppear)
                 if !showMenu {
-                    showTabBar()
+//                    showTabBar()
                 }
             }
             .onChange(of: viewModel.selectedImage, perform: { _ in
@@ -46,7 +46,7 @@ struct ProfileView: View {
             })
             .onChange(of: showMenu, perform: { value in
                 if value && viewModel.isVoiceCallAvailablility {
-                    hideTabBar()
+//                    hideTabBar()
                 }
             })
             .actionSheet(isPresented: $showActionImageAlert) {
@@ -87,33 +87,30 @@ struct ProfileView: View {
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(viewModel.resources.profileCopied))
             }
-//            .popup(
-//                isPresented: $showMenu,
-//                type: .toast,
-//                position: .bottom,
-//                closeOnTap: true,
-//                closeOnTapOutside: true,
-//                backgroundColor: viewModel.resources.backgroundFodding,
-//                dismissCallback: {
+            .popup(
+                isPresented: $showMenu,
+                type: .toast,
+                position: .bottom,
+                closeOnTap: true,
+                closeOnTapOutside: true,
+                backgroundColor: viewModel.resources.backgroundFodding,
+                dismissCallback: {
 //                    self.showTabBar()
-//                },
-//                view: {
-//                    ProfileSettingsMenuView(balance: "0.50 AUR",
-//                                            onSelect: { type in
-//                        vibrate()
-//                        if type == .profile {
-//                            viewModel.send(.onShowProfileDetail($selectedAvatarImage))
-//                        } else {
-//                            viewModel.send(.onShow(type))
-//                        }
-//                    })
-//                    .frame(height: viewModel.menuHeight )
-//                    .background(
-//                        CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-//                            .fill(viewModel.resources.background)
-//                    )
-//                }
-//            )
+                },
+                view: {
+                    ProfileSettingsMenuView(viewModel: ProfileSettingsMenuViewModel(),
+                                            balance: "0.50 AUR",
+                                            onSelect: { type in
+                        vibrate()
+                        viewModel.send(.onShow(type, $selectedAvatarImage))
+                    })
+                    .frame(height: viewModel.menuHeight )
+                    .background(
+                        CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
+                            .fill(viewModel.resources.background)
+                    )
+                }
+            )
     }
 
     private var content: some View {
@@ -251,9 +248,9 @@ struct ProfileView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     R.image.profile.settings.image
                         .onTapGesture {
-                            hideTabBar()
+                            //hideTabBar()
                             vibrate()
-                            //viewModel.send(.onSettings)
+                            showMenu = true
                         }
                 }
             }
@@ -345,13 +342,11 @@ struct ProfileView: View {
     // MARK: - Private Methods
 
     private func switchImagePicker() {
-        viewModel.send(.onGallery(.photoLibrary, $viewModel.selectedImage,
-                                  $viewModel.selectedVideo))
+        viewModel.send(.onGallery(.photoLibrary))
     }
 
     private func switchCameraPicker() {
-        viewModel.send(.onGallery(.camera, $viewModel.selectedImage,
-                                  $viewModel.selectedVideo))
+        viewModel.send(.onGallery(.camera))
     }
 
     private func getTagItem() -> Int {

@@ -18,10 +18,10 @@ enum ChatHistoryContentLink: Hashable, Identifiable {
                    coordinator: ChatHistoryFlowCoordinatorProtocol)
     case chatMembers(chatData: Binding<ChatData>,
                      coordinator: ChatHistoryFlowCoordinatorProtocol)
-    case galleryPicker(selectedImage: Binding<UIImage?>,
-                       selectedVideo: Binding<URL?>,
-                       sourceType: UIImagePickerController.SourceType,
-                       galleryContent: GalleryPickerContent)
+    case galleryPicker(sourceType: UIImagePickerController.SourceType,
+                       galleryContent: GalleryPickerContent,
+                       onSelectImage: (UIImage?) -> Void,
+                       onSelectVideo: (URL?) -> Void)
 
     var id: String {
         String(describing: self)
@@ -40,20 +40,44 @@ enum ChatHistoryContentLink: Hashable, Identifiable {
 
 enum ChatHistorySheetLink: Hashable, Identifiable {
 
-    case createChat(chatData: Binding<ChatData>)
     case notifications(_ roomId: String)
-    case galleryPicker(selectedImage: Binding<UIImage?>,
-                       selectedVideo: Binding<URL?>,
-                       sourceType: UIImagePickerController.SourceType,
-                       galleryContent: GalleryPickerContent)
+    case galleryPicker(sourceType: UIImagePickerController.SourceType,
+                       galleryContent: GalleryPickerContent,
+                       onSelectImage: (UIImage?) -> Void,
+                       onSelectVideo: (URL?) -> Void)
     case channelPatricipants(viewModel: ChannelInfoViewModel,
                              showParticipantsView: Binding<Bool>)
+    case createChat(_ view: any View)
 
     var id: String {
         String(describing: self)
     }
     
     static func == (lhs: ChatHistorySheetLink, rhs: ChatHistorySheetLink) -> Bool {
+        return rhs.id == lhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+// MARK: - ChatHistorySheetLink
+
+enum ChatCreateSheetContentLink: Hashable, Identifiable {
+
+    case selectContact(Binding<ChatData>, ChatCreateFlowCoordinatorProtocol)
+    case createContact
+    case createChannel(ChatCreateFlowCoordinatorProtocol)
+    case createGroupChat(Binding<ChatData>, ChatCreateFlowCoordinatorProtocol)
+    case createChat(chatData: Binding<ChatData>,
+                    coordinator: ChatCreateFlowCoordinatorProtocol)
+
+    var id: String {
+        String(describing: self)
+    }
+    
+    static func == (lhs: ChatCreateSheetContentLink, rhs: ChatCreateSheetContentLink) -> Bool {
         return rhs.id == lhs.id
     }
     

@@ -36,6 +36,10 @@ final class WalletCoordinator<Router: WalletRouterable> {
 extension WalletCoordinator: Coordinator {
     func start() {
     }
+    
+    func startWithView(completion: @escaping (any View) -> Void) {
+        
+    }
 }
 
 // MARK: - WalletCoordinatable

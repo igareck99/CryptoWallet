@@ -32,7 +32,7 @@ struct FriendProfileView: View {
             }
             .onAppear {
                 viewModel.send(.onProfileAppear)
-                showTabBar()
+//                showTabBar()
             }
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(viewModel.sources.profileCopied))

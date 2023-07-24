@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - ChatHistoryFlowCoordinatorProtocol
 
-protocol ChatHistoryFlowCoordinatorProtocol {
+protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
     func firstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol)
     func showCreateChat(_ chatData: Binding<ChatData>)
     func roomSettings(isChannel: Bool,
@@ -19,26 +19,41 @@ protocol ChatHistoryFlowCoordinatorProtocol {
                          _ coordinator: ChatHistoryFlowCoordinatorProtocol)
     func notifications(_ roomId: String)
     func popToRoot()
-    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
-                                 selectedVideo: Binding<URL?>,
-                                 sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent)
-    func galleryPickerSheet(selectedImage: Binding<UIImage?>,
-                            selectedVideo: Binding<URL?>,
-                            sourceType: UIImagePickerController.SourceType,
-                            galleryContent: GalleryPickerContent)
+    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent,
+                                 onSelectImage: @escaping (UIImage?) -> Void,
+                                 onSelectVideo: @escaping (URL?) -> Void)
+    func galleryPickerSheet(sourceType: UIImagePickerController.SourceType,
+                            galleryContent: GalleryPickerContent,
+                            onSelectImage: @escaping (UIImage?) -> Void,
+                            onSelectVideo: @escaping (URL?) -> Void)
     func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,
                                  showParticipantsView: Binding<Bool>)
     func dismissCurrentSheet()
 }
 
-final class ChatHistoryFlowCoordinator {
-    private let router: ChatHistoryRouterable
+// MARK: - ChatHistoryFlowCoordinator
+
+final class ChatHistoryFlowCoordinator<Router: ChatHistoryRouterable> {
+    private let router: Router
+    var childCoordinators = [String: Coordinator]()
+    var navigationController = UINavigationController()
     
     init(
-        router: ChatHistoryRouterable
+        router: Router
     ) {
         self.router = router
+    }
+}
+
+// MARK: - ChatHistoryFlowCoordinator(Coordinator)
+
+extension ChatHistoryFlowCoordinator: Coordinator {
+    
+    func startWithView(completion: @escaping (any View) -> Void) {
+        
+    }
+    func start() {
     }
 }
 
@@ -48,10 +63,6 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
 
     func firstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol) {
         router.routeToFirstAction(room, coordinator: coordinator)
-    }
-
-    func start() {
-        router.start()
     }
 
     func chatMedia(_ room: AuraRoom) {
@@ -91,7 +102,13 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
     }
 
     func showCreateChat(_ chatData: Binding<ChatData>) {
-        router.routeToCreateChat(chatData)
+        let coordinator = ChatCreateCoordinatorAssembly.buld(chatData: chatData) { coordinator in
+            self.removeChildCoordinator(coordinator)
+        }
+        addChildCoordinator(coordinator)
+        coordinator.startWithView(completion: { router in
+            self.router.chatCreate(router)
+        })
     }
 
     func chatMembersView(_ chatData: Binding<ChatData>,
@@ -107,24 +124,24 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
         router.popToRoot()
     }
 
-    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
-                                 selectedVideo: Binding<URL?>,
-                                 sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent) {
-        router.galleryPickerFullScreen(selectedImage: selectedImage,
-                                       selectedVideo: selectedVideo,
-                                       sourceType: sourceType,
-                                       galleryContent: galleryContent)
+    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent,
+                                 onSelectImage: @escaping (UIImage?) -> Void,
+                                 onSelectVideo: @escaping (URL?) -> Void) {
+        router.galleryPickerFullScreen(sourceType: sourceType,
+                                       galleryContent: galleryContent,
+                                       onSelectImage: onSelectImage,
+                                       onSelectVideo: onSelectVideo)
     }
     
-    func galleryPickerSheet(selectedImage: Binding<UIImage?>,
-                            selectedVideo: Binding<URL?>,
-                            sourceType: UIImagePickerController.SourceType,
-                            galleryContent: GalleryPickerContent) {
-        router.galleryPickerSheet(selectedImage: selectedImage,
-                                  selectedVideo: selectedVideo,
-                                  sourceType: sourceType,
-                                  galleryContent: galleryContent)
+    func galleryPickerSheet(sourceType: UIImagePickerController.SourceType,
+                            galleryContent: GalleryPickerContent,
+                            onSelectImage: @escaping (UIImage?) -> Void,
+                            onSelectVideo: @escaping (URL?) -> Void) {
+        router.galleryPickerSheet(sourceType: sourceType,
+                                  galleryContent: galleryContent,
+                                  onSelectImage: onSelectImage,
+                                  onSelectVideo: onSelectVideo)
     }
 
     func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,

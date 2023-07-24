@@ -18,7 +18,7 @@ struct WalletManagerView: View {
                 viewModel.send(.onAppear)
             }
             .onDisappear {
-                showTabBar()
+//                showTabBar()
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {

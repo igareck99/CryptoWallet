@@ -27,3 +27,8 @@ enum PlistKey {
         }
     }
 }
+
+enum NetType: String {
+    case mainnet
+    case testnet
+}

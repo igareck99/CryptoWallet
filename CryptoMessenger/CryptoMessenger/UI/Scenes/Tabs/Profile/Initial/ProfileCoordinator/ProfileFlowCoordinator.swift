@@ -6,15 +6,19 @@ protocol ProfileFlowCoordinatorProtocol {
 
     func onSocialList()
     
-    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
-                                 selectedVideo: Binding<URL?>,
-                                 sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent)
+    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent,
+                                 onSelectImage: @escaping (UIImage?) -> Void,
+                                 onSelectVideo: @escaping (URL?) -> Void)
     func imageEditor(isShowing: Binding<Bool>,
                      image: Binding<UIImage?>,
                      viewModel: ProfileViewModel)
     
-    func settings(balance: String)
+    func settingsScreens(_ type: ProfileSettingsMenu,
+                         _ cooordinator: ProfileFlowCoordinatorProtocol,
+                         _ image: Binding<UIImage?>)
+    func pinCode(_ pinCodeScreen: PinCodeScreenType)
+    func sessions(_ coordinator: ProfileFlowCoordinatorProtocol)
 }
 
 // MARK: - ProfileFlowCoordinator
@@ -38,16 +42,16 @@ extension ProfileFlowCoordinator: ProfileFlowCoordinatorProtocol {
         router.socialList()
     }
     
-    func galleryPickerFullScreen(selectedImage: Binding<UIImage?>,
-                                 selectedVideo: Binding<URL?>,
-                                 sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent) {
-        router.galleryPickerFullScreen(selectedImage: selectedImage,
-                                       selectedVideo: selectedVideo,
-                                       sourceType: sourceType,
-                                       galleryContent: galleryContent)
+    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
+                                 galleryContent: GalleryPickerContent,
+                                 onSelectImage: @escaping (UIImage?) -> Void,
+                                 onSelectVideo: @escaping (URL?) -> Void) {
+        router.galleryPickerFullScreen(sourceType: sourceType,
+                                       galleryContent: galleryContent,
+                                       onSelectImage: onSelectImage,
+                                       onSelectVideo: onSelectVideo)
     }
-    
+
     func imageEditor(isShowing: Binding<Bool>,
                      image: Binding<UIImage?>,
                      viewModel: ProfileViewModel) {
@@ -55,8 +59,32 @@ extension ProfileFlowCoordinator: ProfileFlowCoordinatorProtocol {
                            image: image,
                            viewModel: viewModel)
     }
+
+    func settingsScreens(_ type: ProfileSettingsMenu,
+                         _ cooordinator: ProfileFlowCoordinatorProtocol,
+                         _ image: Binding<UIImage?>) {
+        switch type {
+        case .profile:
+            router.profileDetail(cooordinator,
+                                 image)
+        case .security:
+            router.security(cooordinator)
+        case .notifications:
+            router.notifications(cooordinator)
+        case .questions:
+            router.questions(cooordinator)
+        case .about:
+            router.aboutApp(cooordinator)
+        default:
+            ()
+        }
+    }
     
-    func settings(balance: String) {
-        router.settings(balance: balance)
+    func pinCode(_ pinCodeScreen: PinCodeScreenType) {
+        router.pinCode(pinCodeScreen)
+    }
+    
+    func sessions(_ coordinator: ProfileFlowCoordinatorProtocol) {
+        router.sessions(coordinator)
     }
 }

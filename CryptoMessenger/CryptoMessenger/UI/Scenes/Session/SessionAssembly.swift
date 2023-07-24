@@ -1,16 +1,16 @@
-import Foundation
+import SwiftUI
 
-// MARK: - SessionConfigurator
+// MARK: - SessionAssembly
 
-enum SessionConfigurator {
+enum SessionAssembly {
 
     // MARK: - Static Methods
 
-    static func configuredView(delegate: SessionSceneDelegate?) -> SessionListView {
+    static func build(_ coordinator: ProfileFlowCoordinatorProtocol) -> some View {
 		let userSettings = UserDefaultsService.shared
         let viewModel = SessionViewModel(userSettings: userSettings)
-        viewModel.delegate = delegate
         let view = SessionListView(viewModel: viewModel)
+        viewModel.coordinator = coordinator
         return view
     }
 }

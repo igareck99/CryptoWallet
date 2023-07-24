@@ -7,7 +7,7 @@ final class SecurityViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: SecuritySceneDelegate?
+    var coordinator: ProfileFlowCoordinatorProtocol?
 
     @Published private(set) var state: SecurityFlow.ViewState = .idle
     @Published var profileObserveState = ""
@@ -155,25 +155,30 @@ final class SecurityViewModel: ObservableObject {
                     self?.updateData()
                     self?.objectWillChange.send()
                 case .onBlockList:
-                    self?.delegate?.handleNextScene(.blockList)
+                    ()
+                    //self?.coordinator?.handleNextScene(.blockList)
                 case .onCreatePassword:
-                    self?.delegate?.handleNextScene(.pinCode(.pinCodeCreate))
+                    self?.coordinator?.pinCode(.pinCodeCreate)
                 case .onFalsePassword:
-                    self?.delegate?.handleNextScene(.pinCode(.falsePinCode))
+                    self?.coordinator?.pinCode(.falsePinCode)
                 case .onSession:
-                    self?.delegate?.handleNextScene(.session)
+                    if let coordinator = self?.coordinator {
+                        self?.coordinator?.sessions(coordinator)
+                    }
                 case .onApprovePassword:
-                    self?.delegate?.handleNextScene(.pinCode(.approvePinCode))
+                    self?.coordinator?.pinCode(.approvePinCode)
                 case .onImportKey:
-                    self?.delegate?.handleNextScene(.importKey)
+                    ()
+                    //self?.coordinator?.handleNextScene(.importKey)
                 case .onPhrase:
-                    self?.delegate?.handleNextScene(.reservePhraseCopy)
+                    ()
+                    //self?.coordinator?.pinCode(.reservePhraseCopy)
                 case .onRemovePassword:
-                    self?.delegate?.handleNextScene(.pinCode(.pinCodeRemove))
+                    self?.coordinator?.pinCode(.pinCodeRemove)
                 case .biometryActivate:
                     guard let value = self?.biometryService.checkIfBioMetricAvailable() else { return }
                     if value {
-                        self?.delegate?.handleNextScene(.pinCode(.biometry))
+                        self?.coordinator?.pinCode(.biometry)
                     } else {
                         self?.isBiometryOn = false
                     }

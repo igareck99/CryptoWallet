@@ -67,7 +67,7 @@ struct ChatSettingsView: View {
             viewModel.send(.onAppear)
         }
         .onDisappear {
-            showTabBar()
+//            showTabBar()
         }
         .alert(isPresented: $showChatsAlert) { () -> Alert in
             switch alertType {

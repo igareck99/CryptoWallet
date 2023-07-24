@@ -24,6 +24,10 @@ extension TransferCoordinator: Coordinator {
     func start() {
         router.transfer(wallet: wallet, coordinator: self)
     }
+    
+    func startWithView(completion: @escaping (any View) -> Void) {
+        
+    }
 }
 
 // MARK: - TransferViewCoordinatable

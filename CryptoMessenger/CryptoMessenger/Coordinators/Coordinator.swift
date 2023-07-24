@@ -1,16 +1,18 @@
 import UIKit
+import SwiftUI
 
 // MARK: - Coordinator
 
 protocol Coordinator: AnyObject {
     var childCoordinators: [String: Coordinator] { get set }
-    var navigationController: UINavigationController { get }
+    var navigationController: UINavigationController { get set }
 
     func start()
     func addChildCoordinator(_ coordinator: Coordinator)
     func removeChildCoordinator(_ coordinator: Coordinator)
     func popViewController(animated: Bool)
     func dismissViewController(animated: Bool, completion: (() -> Void)?)
+    func startWithView(completion: @escaping (any View) -> Void)
 }
 
 extension Coordinator {

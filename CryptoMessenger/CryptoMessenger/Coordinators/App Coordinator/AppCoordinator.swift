@@ -1,3 +1,5 @@
+import Combine
+import SwiftUI
 import UIKit
 
 // swiftlint:disable all
@@ -6,10 +8,17 @@ protocol AppCoordinatorProtocol {
 	func didReceive(notification: UNNotificationResponse, completion: @escaping () -> Void)
 }
 
-final class AppCoordinator {
+protocol RootCoordinatable: ObservableObject {
+    var rootView: any View { get }
+}
 
+final class AppCoordinator: RootCoordinatable {
+
+    @Published var rootView: any View = Text("")
+    @Published var coordinator: Coordinator?
+    
     var childCoordinators: [String: Coordinator] = [:]
-	private(set) var navigationController: UINavigationController
+	var navigationController: UINavigationController
 
 	private var pendingCoordinators = [Coordinator]()
 	private let keychainService: KeychainServiceProtocol
@@ -40,7 +49,11 @@ final class AppCoordinator {
 	private func showAuthenticationFlow() {
         let authFlowCoordinator = factory.makeAuthCoordinator(
             delegate: self,
-            navigationController: navigationController
+            navigationController: navigationController, renderView: { result in
+                self.coordinator = result
+                print("dlkasklaksl  \(result)")
+                // viewModel.view = result
+            }
         )
         addChildCoordinator(authFlowCoordinator)
         authFlowCoordinator.start()
@@ -49,7 +62,9 @@ final class AppCoordinator {
 	private func showMainFlow() {
         let mainFlowCoordinator = factory.makeMainCoordinator(
             delegate: self,
-            navigationController: navigationController
+            navigationController: navigationController, renderView: { view in
+                self.rootView = view
+            }
         )
         addChildCoordinator(mainFlowCoordinator)
         mainFlowCoordinator.start()
@@ -58,7 +73,11 @@ final class AppCoordinator {
 	private func showPinCodeFlow() {
         let pinCodeFlowCoordinator = factory.makePinCoordinator(
             delegate: self,
-            navigationController: navigationController
+            navigationController: navigationController, renderView: { view in
+                self.rootView = view
+            }, onLogin: {
+                self.showMainFlow()
+            }
         )
         addChildCoordinator(pinCodeFlowCoordinator)
         pinCodeFlowCoordinator.start()
@@ -80,6 +99,9 @@ final class AppCoordinator {
 // MARK: - Coordinator
 
 extension AppCoordinator: Coordinator {
+    func startWithView(completion: @escaping (any View) -> Void) {
+        
+    }
 	func start() {
         
         if userSettings[.isAppNotFirstStart] == false {

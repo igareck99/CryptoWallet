@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-protocol ChatCreateRouterable {
+protocol ChatCreateRouterable: View {
 
     func selectContact(_ chatData: Binding<ChatData>,
                        coordinator: ChatCreateFlowCoordinatorProtocol)
@@ -11,27 +11,35 @@ protocol ChatCreateRouterable {
 
     func createGroupChat(_ chatData: Binding<ChatData>,
                          _ coordinator: ChatCreateFlowCoordinatorProtocol)
+    func createChat(_ chatData: Binding<ChatData>,
+                    _ coordinator: ChatCreateFlowCoordinatorProtocol)
 }
 
-struct ChatCreateRouter<Content: View, State: ChatHistoryFlowStateProtocol>: View {
+// MARK: - ChatCreateRouter(ChatCreateFlowStateProtocol)
+
+
+struct ChatCreateRouter<Content: View, State: ChatCreateFlowStateProtocol>: View {
 
     @ObservedObject var state: State
-
     let content: () -> Content
-
+    
     var body: some View {
-        NavigationStack(path: $state.path) {
+        NavigationStack(path: $state.createPath) {
             ZStack {
                 content()
             }
-            .navigationDestination(for: ChatCreateContentLink.self,
-                                   destination: linkDestination)
+            .navigationDestination(
+                for: ChatCreateSheetContentLink.self,
+                destination: linkDestinationCreate
+            )
         }
     }
-
+    
     @ViewBuilder
-    private func linkDestination(link: ChatCreateContentLink) -> some View {
+    private func linkDestinationCreate(link: ChatCreateSheetContentLink) -> some View {
         switch link {
+        case let .createChat(chatData, coordinator):
+            ChatCreateAssembly.build(chatData, coordinator)
         case .createContact:
             CreateContactView(viewModel: CreateContactViewModel())
         case let .createChannel(coordinator):
@@ -51,19 +59,25 @@ extension ChatCreateRouter: ChatCreateRouterable {
 
     func selectContact(_ chatData: Binding<ChatData>,
                        coordinator: ChatCreateFlowCoordinatorProtocol) {
-        state.path.append(ChatCreateContentLink.selectContact(chatData, coordinator))
+        state.createPath.append(ChatCreateSheetContentLink.selectContact(chatData, coordinator))
     }
 
     func createChannel(_ coordinator: ChatCreateFlowCoordinatorProtocol) {
-        state.path.append(ChatCreateContentLink.createChannel(coordinator))
+        state.createPath.append(ChatCreateSheetContentLink.createChannel(coordinator))
     }
 
     func createContact() {
-        state.path.append(ChatCreateContentLink.createContact)
+        state.createPath.append(ChatCreateSheetContentLink.createContact)
     }
     
     func createGroupChat(_ chatData: Binding<ChatData>,
                          _ coordinator: ChatCreateFlowCoordinatorProtocol) {
-        state.path.append(ChatCreateContentLink.createGroupChat(chatData, coordinator))
+        state.createPath.append(ChatCreateSheetContentLink.createGroupChat(chatData, coordinator))
+    }
+    
+    func createChat(_ chatData: Binding<ChatData>,
+                    _ coordinator: ChatCreateFlowCoordinatorProtocol) {
+        state.createPath.append(ChatCreateSheetContentLink.createChat(chatData: chatData,
+                                                                      coordinator: coordinator))
     }
 }
