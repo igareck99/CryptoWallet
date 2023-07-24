@@ -98,9 +98,9 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
                                 onSelectImage: onSelectImage,
                                 onSelectVideo: onSelectVideo):
             GalleryPickerAssembly.build(sourceType: sourceType,
-                                               galleryContent: galleryContent,
-                                               onSelectImage: onSelectImage,
-                                               onSelectVideo: onSelectVideo)
+                                        galleryContent: galleryContent,
+                                        onSelectImage: onSelectImage,
+                                        onSelectVideo: onSelectVideo)
         default:
             EmptyView()
         }
@@ -109,7 +109,9 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
     private func sheetContent(item: ChatHistorySheetLink) -> AnyView {
         switch item {
         case let .createChat(view):
-            return view.anyView()
+            return view.toolbar(.hidden,
+                                for: .navigationBar)
+            .anyView()
         case let .notifications(roomId):
             return ChannelNotificationsAssembly.build(roomId).anyView()
         case let .galleryPicker(sourceType: sourceType,

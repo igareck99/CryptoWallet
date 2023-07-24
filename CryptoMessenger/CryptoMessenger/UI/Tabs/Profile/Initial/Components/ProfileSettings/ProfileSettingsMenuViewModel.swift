@@ -22,11 +22,7 @@ final class ProfileSettingsMenuViewModel: ObservableObject {
 
 	func settingsTypes() -> [ProfileSettingsMenu] {
 
-		let types = ProfileSettingsMenu.allCases.filter {
-			if $0 == .wallet && !isPhraseAvailable { return false }
-			if $0 == .personalization || $0 == .storage || $0 == .chat { return false }
-			return true
-		}
+		let types = ProfileSettingsMenu.allCases
 		return types
 	}
 }

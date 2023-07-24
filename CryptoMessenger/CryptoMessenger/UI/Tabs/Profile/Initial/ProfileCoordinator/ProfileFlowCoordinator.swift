@@ -20,6 +20,9 @@ protocol ProfileFlowCoordinatorProtocol {
     func pinCode(_ pinCodeScreen: PinCodeScreenType)
     func sessions(_ coordinator: ProfileFlowCoordinatorProtocol)
     func onLogout()
+    func showSettings(_ result: @escaping GenericBlock<ProfileSettingsMenu>)
+    func showFeedPicker(_ sourceType: @escaping (UIImagePickerController.SourceType) -> Void)
+    func blockList()
 }
 
 // MARK: - ProfileFlowCoordinator
@@ -81,8 +84,6 @@ extension ProfileFlowCoordinator: ProfileFlowCoordinatorProtocol {
             router.security(cooordinator)
         case .notifications:
             router.notifications(cooordinator)
-        case .questions:
-            router.questions(cooordinator)
         case .about:
             router.aboutApp(cooordinator)
         default:
@@ -96,5 +97,17 @@ extension ProfileFlowCoordinator: ProfileFlowCoordinatorProtocol {
 
     func sessions(_ coordinator: ProfileFlowCoordinatorProtocol) {
         router.sessions(coordinator)
+    }
+    
+    func showSettings(_ result: @escaping GenericBlock<ProfileSettingsMenu>) {
+        router.showSettings(result)
+    }
+    
+    func showFeedPicker(_ sourceType: @escaping (UIImagePickerController.SourceType) -> Void) {
+        router.sheetPicker(sourceType)
+    }
+    
+    func blockList() {
+        router.blockList()
     }
 }

@@ -25,33 +25,16 @@ struct ProfileDetailView: View {
         content
             .navigationBarHidden(false)
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Профиль", [
-                        .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
-                    ])
-                    .font(.system(size: 15, weight: .bold))
-                    .foregroundColor(.chineseBlack)
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        isSaving.toggle()
-                        viewModel.send(.onDone)
-                    }, label: {
-                        Text("Готово")
-                            .font(.semibold(15))
-                            .foregroundColor(.dodgerBlue)
-                    }).disabled(isSaving)
-                }
-            }
             .hideKeyboardOnTap()
             .onReceive(viewModel.$closeScreen) { closed in
                 if closed {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
+            .toolbar {
+                createToolBar()
+            }
             .onChange(of: viewModel.selectedImg, perform: { newValue in
-                print("sklasklsaklas  \(newValue)")
                 guard let image = newValue else { return }
                 selectedAvatarImage = image
             })
@@ -80,161 +63,177 @@ struct ProfileDetailView: View {
                     secondaryButton: .cancel(Text(R.string.localizable.profileDetailLogoutAlertCancel()))
                 )
             }
-            .onAppear {
-//                hideTabBar()
-                // Оставил для информации по логике отображения нав бара
-//                showNavBar()
-            }
+            .toolbar(.hidden, for: .tabBar)
             .onDisappear {
                 viewModel.closeScreen = false
-//                showTabBar()
             }
     }
-
-    var content: some View {
-        ZStack {
-            GeometryReader { geometry in
-                ScrollView(.vertical, showsIndicators: false) {
-                    VStack(spacing: 0) {
-                        ForEach(0..<ProfileDetailType.allCases.count, id: \.self) { index in
-                            let type = ProfileDetailType.allCases[index]
-                            switch type {
-                            case .avatar:
-                                avatarView.frame(height: geometry.size.width)
-                            case .status:
-                                TextFieldView(
-                                    title: type.title.uppercased(),
-                                    text: $viewModel.profile.status,
-                                    placeholder: type.title
-                                )
-                                    .padding(.top, 24)
-                                    .padding([.leading, .trailing], 16)
-                            case .name:
-                                TextFieldView(
-                                    title: type.title.uppercased(),
-                                    text: $viewModel.profile.name,
-                                    placeholder: type.title
-                                )
-                                    .padding(.top, 24)
-                                    .padding([.leading, .trailing], 16)
-                            case .phone:
-                                phone(type.title.uppercased())
-                                    .padding(.top, 24)
-                                    .padding([.leading, .trailing], 16)
-                            case .socialNetwork:
-                                ProfileDetailActionRow(
-                                    title: "Ваши социальные сети",
-                                    color: .white,
-                                    image: R.image.profileDetail.socialNetwork.image
-                                )
-                                    .onTapGesture {
-                                        viewModel.send(.onSocial)
-                                    }
-                                    .background(.white)
-                                    .frame(height: 64)
-                                    .padding(.top, 24)
-                                    .padding([.leading, .trailing], 16)
-                            case .exit:
-                                Divider()
-                                    .foregroundColor(.brightGray)
-                                    .padding(.top, 16)
-                                ProfileDetailActionRow(
-                                    title: "Выход",
-                                    color: .white,
-                                    image: R.image.profileDetail.exit.image
-                                )
-                                    .background(.white)
-                                    .frame(height: 64)
-                                    .padding(.top, 16)
-                                    .padding([.leading, .trailing], 16)
-                                    .onTapGesture {
-                                        vibrate()
-                                        showLogoutAlert.toggle()
-                                    }
-                            case .delete:
-                                ProfileDetailActionRow(
-                                    title: "Удалить учетную запись",
-                                    color: .white,
-                                    image: R.image.profileDetail.delete.image
-                                )
-                                    .background(.white)
-                                    .frame(height: 64)
-                                    .padding([.leading, .trailing], 16)
-                            }
-                        }
-                    }
+    
+    private var content: some View {
+        List {
+            mainView
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+                .frame(width: UIScreen.main.bounds.width - 32)
+            VStack(alignment: .leading,
+                   spacing: 10) {
+                Text("О СЕБЕ")
+                    .foreground(.darkGray())
+                    .font(.regular(16))
+                TextEditor(text: $viewModel.profile.status)
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
+                    .background(.white())
+                    .placeholder("Описание",
+                                 when: viewModel.profile.status.isEmpty)
+                    .foregroundColor(.chineseBlack)
+                    .font(.system(size: 17))
+                    .frame(height: 134)
+                    .cornerRadius(8)
+            }
+                   .listRowBackground(Color.clear)
+                   .listRowSeparator(.hidden)
+                   .frame(width: UIScreen.main.bounds.width - 32)
+            Section {
+                ProfileDetailActionRow(
+                    title: "Ваши социальные сети",
+                    image: R.image.profileDetail.socialNetwork.image
+                )
+                .background(.white)
+                .frame(height: 22)
+                .onTapGesture {
+                    viewModel.send(.onSocial)
                 }
             }
-
-            if isSaving {
-                ZStack {
-                    ProgressView()
-                        .tint(.dodgerBlue)
-                        .frame(width: 12, height: 12)
+            Section {
+                ProfileDetailActionRow(
+                    title: "Выход",
+                    image: R.image.profileDetail.exit.image
+                )
+                .background(.white)
+                .frame(height: 22)
+                .onTapGesture {
+                    vibrate()
+                    showLogoutAlert.toggle()
                 }
+            }
+        }.listStyle(.insetGrouped)
+    }
+
+//    var content: some View {
+//        ZStack {
+//            List {
+//                ForEach(0..<ProfileDetailType.allCases.count, id: \.self) { index in
+//                    let type = ProfileDetailType.allCases[index]
+//                    switch type {
+//                    case .avatar:
+//                        mainView
+//                            .padding(.horizontal, 16)
+//                            .frame(height: 64)
+//                    case .status:
+//                        TextFieldView(
+//                            title: type.title.uppercased(),
+//                            text: $viewModel.profile.status,
+//                            placeholder: type.title
+//                        )
+//                        .padding(.top, 24)
+//                        .padding([.leading, .trailing], 16)
+//                    case .phone:
+//                        phone(type.title.uppercased())
+//                            .padding(.top, 24)
+//                            .padding([.leading, .trailing], 16)
+//                    case .socialNetwork:
+//                        ProfileDetailActionRow(
+//                            title: "Ваши социальные сети",
+//                            color: .white,
+//                            image: R.image.profileDetail.socialNetwork.image
+//                        )
+//                        .onTapGesture {
+//                            viewModel.send(.onSocial)
+//                        }
+//                        .background(.white)
+//                        .frame(height: 64)
+//                        .padding(.top, 24)
+//                        .padding([.leading, .trailing], 16)
+//                    case .exit:
+//                        ProfileDetailActionRow(
+//                            title: "Выход",
+//                            color: .white,
+//                            image: R.image.profileDetail.exit.image
+//                        )
+//                        .background(.white)
+//                        .frame(height: 64)
+//                        .padding(.top, 16)
+//                        .padding([.leading, .trailing], 16)
+//                        .onTapGesture {
+//                            vibrate()
+//                            showLogoutAlert.toggle()
+//                        }
+//                    }
+//                }
+//            }
+//            .listStyle(.insetGrouped)
+//
+//            if isSaving {
+//                ZStack {
+//                    ProgressView()
+//                        .tint(.dodgerBlue)
+//                        .frame(width: 12, height: 12)
+//                }
+//            }
+//        }
+//        .background(isSaving ? Color.chineseBlackLoad : .ghostWhite)
+//        .ignoresSafeArea()
+//    }
+    
+    private var avatarView: some View {
+        ZStack(alignment: .bottomTrailing) {
+            if let img = viewModel.selectedImg {
+                Image(uiImage: img)
+                    .scaledToFill()
+                    .frame(width: 68, height: 68)
+                    .cornerRadius(34)
+            } else if let url = viewModel.profile.avatar {
+                AsyncImage(
+                    defaultUrl: url,
+                    placeholder: {
+                        ZStack {
+                            ProgressView()
+                                .tint(.dodgerBlue)
+                                .frame(width: 34,
+                                       height: 34)
+                                .background(Color.dodgerTransBlue)
+                        }
+                    },
+                    result: {
+                        Image(uiImage: $0).resizable()
+                    }
+                )
+                .scaledToFill()
+                .frame(width: 68, height: 68)
+                .cornerRadius(34)
+            }
+            ZStack(alignment: .center) {
+                Circle()
+                    .foregroundColor(.azureRadianceApprox)
+                    .frame(width: 24, height: 24)
+                R.image.profileDetail.whiteCamera.image
+                    .resizable()
+                    .frame(width: 10.5, height: 8.2)
             }
         }
-        .background(isSaving ? Color.chineseBlackLoad : .ghostWhite)
-        .ignoresSafeArea()
     }
-
-    private var avatarView: some View {
-        GeometryReader { geometry in
-            ZStack {
-                if let image = viewModel.selectedImg {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: geometry.size.width, height: geometry.size.width)
-                        .clipped()
-                } else if let url = viewModel.profile.avatar {
-                    AsyncImage(
-                        defaultUrl: url,
-                        placeholder: {
-                            ZStack {
-                                ProgressView()
-                                    .tint(.dodgerBlue)
-                                    .frame(width: geometry.size.width,
-                                           height: geometry.size.width)
-                                    .background(Color.dodgerTransBlue)
-                            }
-                        },
-                        result: {
-                            Image(uiImage: $0).resizable()
-                        }
-                    )
-                        .scaledToFill()
-                        .frame(width: geometry.size.width, height: geometry.size.width)
-                        .clipped()
-                } else {
-                    ZStack {
-                        Rectangle()
-                            .frame(height: geometry.size.width)
-                            .foregroundColor(.dodgerTransBlue)
-                        R.image.profile.avatarThumbnail.image
-                            .resizable()
-                            .frame(width: 80, height: 80)
-                    }
-                }
-                ZStack {
-                    VStack(spacing: 0) {
-                        Spacer()
-                        HStack(spacing: 0) {
-                            Spacer()
-                            ZStack {
-                                Circle()
-                                    .fill(Color.chineseBlack04)
-                                    .frame(width: 60, height: 60)
-                                R.image.profileDetail.camera.image
-                            }
-                            .onTapGesture {
-                                showActionImageAlert = true
-                            }
-                            .padding([.trailing, .bottom], 16)
-                        }
-                    }
-                }
-            }
+    
+    private var mainView: some View {
+        HStack(alignment: .center, spacing: 8) {
+            avatarView
+            TextField("", text: $viewModel.profile.name)
+                .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
+                .foregroundColor(.chineseBlack)
+                .frame(height: 46)
+                .font(.system(size: 15, weight: .regular))
+                .background(Color.white
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                )
         }
     }
 
@@ -305,5 +304,26 @@ struct ProfileDetailView: View {
 
     private func switchCameraPicker() {
         viewModel.send(.onGallery(.camera))
+    }
+    
+    @ToolbarContentBuilder
+    private func createToolBar() -> some ToolbarContent {
+        ToolbarItem(placement: .principal) {
+            Text("Профиль", [
+                .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
+            ])
+            .font(.system(size: 15, weight: .bold))
+            .foregroundColor(.chineseBlack)
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button(action: {
+                isSaving.toggle()
+                viewModel.send(.onDone)
+            }, label: {
+                Text("Готово")
+                    .font(.semibold(15))
+                    .foregroundColor(.dodgerBlue)
+            }).disabled(isSaving)
+        }
     }
 }

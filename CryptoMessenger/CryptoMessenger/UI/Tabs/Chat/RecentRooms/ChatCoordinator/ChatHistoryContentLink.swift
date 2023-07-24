@@ -67,7 +67,7 @@ enum ChatHistorySheetLink: Hashable, Identifiable {
 enum ChatCreateSheetContentLink: Hashable, Identifiable {
 
     case selectContact(Binding<ChatData>, ChatCreateFlowCoordinatorProtocol)
-    case createContact
+    case createContact(ChatCreateFlowCoordinatorProtocol)
     case createChannel(ChatCreateFlowCoordinatorProtocol)
     case createGroupChat(Binding<ChatData>, ChatCreateFlowCoordinatorProtocol)
     case createChat(chatData: Binding<ChatData>,

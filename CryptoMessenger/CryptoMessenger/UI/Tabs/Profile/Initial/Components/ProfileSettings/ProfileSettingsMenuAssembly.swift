@@ -6,11 +6,9 @@ enum ProfileSettingsMenuAssembly {
 
     // MARK: - Static Methods
 
-    static func build(balance: String,
-                      onSelect: @escaping GenericBlock<ProfileSettingsMenu>) -> some View {
+    static func build(onSelect: @escaping GenericBlock<ProfileSettingsMenu>) -> some View {
         let viewModel = ProfileSettingsMenuViewModel()
         let view = ProfileSettingsMenuView(viewModel: viewModel,
-                                           balance: balance,
                                            onSelect: onSelect)
         return view
     }

@@ -15,38 +15,12 @@ struct SocialListView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-			Text(viewModel.resources.detailMain)
-                .font(.bold(12))
-                .foreground(.darkGray())
-                .padding(.top, 24)
-                .padding(.leading)
-			Text(viewModel.resources.detailMessage)
-                .font(.regular(12))
-                .foreground(.darkGray())
-                .padding(.leading)
-            List {
-                ForEach(viewModel.listData) { item in
-					SocialListItemView(item: item, viewModel: viewModel)
-						.ignoresSafeArea()
-                        .listRowSeparator(.visible)
-                        .onDrag {
-                            self.viewModel.dragging = item
-                            return NSItemProvider(object: NSString())
-                        }
-                }
-                .onMove(perform: { indexSet, value in
-                    viewModel.onMove(source: indexSet, destination: value)
-                })
-                .listRowBackground(Color(.blue(0.1)))
-                Spacer().listRowSeparator(.hidden)
-            }
-        }
+        content
         .onAppear {
             viewModel.send(.onAppear)
 		}
         .listStyle(.plain)
-		.navigationBarHidden(false)
+        .toolbar(.hidden, for: .tabBar)
         .toolbar {
             ToolbarItem(placement: .principal) {
 				Text(viewModel.resources.detailTitle)
@@ -65,6 +39,36 @@ struct SocialListView: View {
                             presentationMode.wrappedValue.dismiss()
                         }
                 })
+            }
+        }
+    }
+    
+    private var content: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(viewModel.resources.detailMain)
+                .font(.bold(12))
+                .foreground(.darkGray())
+                .padding(.top, 24)
+                .padding(.leading)
+            Text(viewModel.resources.detailMessage)
+                .font(.regular(12))
+                .foreground(.darkGray())
+                .padding(.leading)
+            List {
+                ForEach(viewModel.listData) { item in
+                    SocialListItemView(item: item, viewModel: viewModel)
+                        .ignoresSafeArea()
+                        .listRowSeparator(.visible)
+                        .onDrag {
+                            self.viewModel.dragging = item
+                            return NSItemProvider(object: NSString())
+                        }
+                }
+                .onMove(perform: { indexSet, value in
+                    viewModel.onMove(source: indexSet, destination: value)
+                })
+                .listRowBackground(Color(.blue(0.1)))
+                Spacer().listRowSeparator(.hidden)
             }
         }
     }

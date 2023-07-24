@@ -16,10 +16,10 @@ enum ProfileContentLlink: Hashable, Identifiable {
                        _ image: Binding<UIImage?>)
     case security(_ coordinator: ProfileFlowCoordinatorProtocol)
     case notifications(_ coordinator: ProfileFlowCoordinatorProtocol)
-    case questions(_ coordinator: ProfileFlowCoordinatorProtocol)
     case aboutApp(_ coordinator: ProfileFlowCoordinatorProtocol)
     case pinCode(PinCodeScreenType)
     case sessions(_ coordinator: ProfileFlowCoordinatorProtocol)
+    case blockList
 
     var id: String {
         String(describing: self)
@@ -37,6 +37,9 @@ enum ProfileContentLlink: Hashable, Identifiable {
 // MARK: - ProfileContentLlink
 
 enum ProfileSheetLlink: Hashable, Identifiable {
+    
+    case settings(GenericBlock<ProfileSettingsMenu>)
+    case sheetPicker((UIImagePickerController.SourceType) -> Void)
 
     var id: String {
         String(describing: self)

@@ -12,6 +12,11 @@ enum ImageEditorAssembly {
         let view = ImageEditor(theimage: image,
                                isShowing: isShowing,
                                viewModel: viewModel)
+            .toolbar(.hidden,
+                     for: .tabBar)
+            .toolbar(.hidden,
+                     for: .navigationBar)
+            .ignoresSafeArea()
         return view
     }
 }

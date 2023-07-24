@@ -23,7 +23,6 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
     // MARK: - Body
 
     var body: some View {
-        NavigationView {
         content
             .actionSheet(isPresented: $showActionImageAlert) {
                 ActionSheet(title: Text(""),
@@ -60,7 +59,6 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                 createToolBar()
             }
     }
-    }
     
     private var content: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -76,7 +74,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                                 .frame(width: 60,
                                        height: 60)
                                 .cornerRadius(30)
-                            R.image.profileDetail.camera.image
+                            R.image.profileDetail.whiteCamera.image
                                 .frame(width: 26,
                                        height: 21)
                         }
@@ -88,7 +86,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                             Circle()
                                 .fill(Color(.blue()))
                                 .frame(width: 60, height: 60)
-                            R.image.profileDetail.camera.image
+                            R.image.profileDetail.whiteCamera.image
                                 .frame(width: 26,
                                        height: 21)
                         }

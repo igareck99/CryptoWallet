@@ -19,25 +19,23 @@ struct ChatCreateView: View {
     // MARK: - Body
 
     var body: some View {
-        NavigationView {
-            content
-                .onReceive(viewModel.$closeScreen) { closed in
-                    if closed {
-                        chatData = .init()
-                        presentationMode.wrappedValue.dismiss()
-                    }
+        content
+            .onReceive(viewModel.$closeScreen) { closed in
+                if closed {
+                    chatData = .init()
+                    presentationMode.wrappedValue.dismiss()
                 }
-                .onChange(of: groupCreated) { created in
-                    if created {
-                        viewModel.send(.onCreateGroup(chatData))
-                    }
+            }
+            .onChange(of: groupCreated) { created in
+                if created {
+                    viewModel.send(.onCreateGroup(chatData))
                 }
-                .navigationBarHidden(true)
-                .navigationBarTitleDisplayMode(.inline)
-                .onAppear {
-                    viewModel.send(.onAppear)
-                }
-        }
+            }
+            .navigationBarHidden(true)
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                viewModel.send(.onAppear)
+            }
     }
 
     private var content: some View {
@@ -90,7 +88,9 @@ struct ChatCreateView: View {
                                             guard let c = viewModel.coordinator else { return }
                                             viewModel.coordinator?.selectContact($chatData, c)
                                         case .newContact:
-                                            viewModel.coordinator?.createContact()
+                                            if let coordinator = viewModel.coordinator {
+                                                viewModel.coordinator?.createContact(coordinator)
+                                            }
                                         case .createChannel:
                                             if let coordinator = viewModel.coordinator {
                                                 viewModel.coordinator?.createChannel(coordinator)

@@ -14,14 +14,9 @@ struct ProfileSettingsMenuRow: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            ZStack {
-                Circle()
-                    .fill(Color.dodgerTransBlue)
-                    .frame(width: 40, height: 40)
-                image
-                    .frame(width: 20, height: 20)
-            }
-
+            image
+                .frame(width: 20, height: 20)
+            
             Text(title)
                 .font(.regular(15))
                 .padding(.leading, 16)

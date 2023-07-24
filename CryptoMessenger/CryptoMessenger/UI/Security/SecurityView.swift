@@ -20,6 +20,7 @@ struct SecurityView: View {
         content
         .background(Color.ghostWhite)
         .navigationBarHidden(false)
+        .toolbar(.hidden, for: .tabBar)
         .onAppear {
             viewModel.send(.onAppear)
         }
@@ -143,7 +144,7 @@ struct SecurityView: View {
                 .onTapGesture {
                     viewModel.send(.onSession)
                 }
-            case .blackList:
+            case .blockList:
                 PrivacyCellView(item: type)
                 .background(.white)
                 .frame(height: 44)

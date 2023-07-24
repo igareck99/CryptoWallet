@@ -20,6 +20,7 @@ struct AboutAppView<ViewModel>: View where ViewModel: AboutAppViewModelDelegate 
         .toolbar {
             createToolBar()
         }
+        .toolbar(.hidden, for: .tabBar)
         .fullScreenCover(isPresented: viewModel.showWebView) {
             viewModel.safari
         }

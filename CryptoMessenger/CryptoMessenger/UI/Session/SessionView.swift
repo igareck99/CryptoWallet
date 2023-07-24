@@ -102,5 +102,6 @@ struct SessionListView: View {
                            .font(.bold(15))
                    }
                }
+               .toolbar(.hidden, for: .tabBar)
     }
 }

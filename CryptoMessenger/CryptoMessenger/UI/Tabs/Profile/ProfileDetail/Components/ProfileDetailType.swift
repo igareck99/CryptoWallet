@@ -6,8 +6,8 @@ enum ProfileDetailType: CaseIterable {
 
     // MARK: - Types
 
-    case avatar, status, name, phone
-    case socialNetwork, exit, delete
+    case avatar, status, phone
+    case socialNetwork, exit
 
     // MARK: - Internal Properties
 
@@ -16,8 +16,6 @@ enum ProfileDetailType: CaseIterable {
         switch self {
         case .status:
             return strings.profileDetailStatusLabel()
-        case .name:
-            return strings.profileDetailNameLabel()
         case .phone:
             return strings.profileDetailPhoneLabel()
         default:
