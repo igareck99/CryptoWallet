@@ -48,8 +48,8 @@ struct SelectContactView: View {
                 
                 ToolbarItem(placement: .principal) {
                     Text(contactsLimit == nil ? "Групповой чат" : "Выберите контакт")
-                        .font(.bold(15))
-                        .foreground(.black())
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundColor(viewModel.resources.titleColor)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -68,8 +68,8 @@ struct SelectContactView: View {
                         }
                     }, label: {
                         Text("Готово")
-                            .font(.semibold(15))
-                            .foreground(pickedContacts.isEmpty ? .darkGray() : .blue())
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(pickedContacts.isEmpty ? viewModel.resources.textColor : viewModel.resources.buttonBackground)
                     })
                     .disabled(pickedContacts.isEmpty)
                 }
@@ -82,11 +82,11 @@ struct SelectContactView: View {
 
     private var content: some View {
         ZStack {
-            Color(.white()).ignoresSafeArea()
+            viewModel.resources.background.ignoresSafeArea()
 
             if viewModel.existingContacts.isEmpty {
                 ProgressView()
-                    .tint(Color(.blue()))
+                    .tint(viewModel.resources.buttonBackground)
             }
 
             ScrollView(.vertical, showsIndicators: false) {
@@ -137,13 +137,13 @@ struct SelectContactView: View {
     private func sectionView(_ title: String) -> some View {
         HStack(spacing: 0) {
             Text(title)
-                .font(.medium(15))
-                .foreground(.black())
+                .font(.system(size: 15, weight: .medium))
+                .foregroundColor(viewModel.resources.titleColor)
                 .padding(.leading, 16)
                 .frame(height: 24)
 
             Spacer()
         }
-        .background(.paleBlue())
+        .background(viewModel.resources.textBoxBackground)
     }
 }

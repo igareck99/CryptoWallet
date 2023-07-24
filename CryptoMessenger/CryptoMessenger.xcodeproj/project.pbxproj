@@ -568,6 +568,7 @@
 		9AC574262A51BAE30018738F /* ProfileResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC574252A51BAE30018738F /* ProfileResources.swift */; };
 		9AE8CAFA2A6F3F0300968564 /* UserSettingsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */; };
 		9AE8CAF82A6F27BD00968564 /* ChatGroupResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF72A6F27BD00968564 /* ChatGroupResources.swift */; };
+		9AE8CAF62A6F253A00968564 /* SelectContactResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF52A6F253A00968564 /* SelectContactResources.swift */; };
 		B4C106F74147CC38CED7B7DF /* Pods_CryptoMessengerPods_AuraNSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */; };
 		D40060F12A4B2F65004D5F35 /* TabItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */; };
 		D400612D2A4D5919004D5F35 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400612C2A4D5919004D5F35 /* AuthRouter.swift */; };
@@ -1439,6 +1440,7 @@
 		9AC574252A51BAE30018738F /* ProfileResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileResources.swift; path = CryptoMessenger/UI/Scenes/Tabs/Profile/Initial/ProfileResources.swift; sourceTree = SOURCE_ROOT; };
 		9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsResources.swift; sourceTree = "<group>"; };
 		9AE8CAF72A6F27BD00968564 /* ChatGroupResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupResources.swift; sourceTree = "<group>"; };
+		9AE8CAF52A6F253A00968564 /* SelectContactResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactResources.swift; sourceTree = "<group>"; };
 		AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_AuraNSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItemsFactory.swift; sourceTree = "<group>"; };
@@ -3544,6 +3546,7 @@
 				8BE24FA729490105009A3734 /* SelectContactFlow.swift */,
 				8BE24FA5294900E4009A3734 /* SelectContactViewModel.swift */,
 				8B4C28C22A4BAAE800802DD0 /* SelectContactAssembly.swift */,
+				9AE8CAF52A6F253A00968564 /* SelectContactResources.swift */,
 			);
 			path = SelectContact;
 			sourceTree = "<group>";
@@ -5155,6 +5158,7 @@
 				8B451FEC29A43EDC00BF4646 /* SuccessFacilityResources.swift in Sources */,
 				8B34292D29786EEC00F63DE1 /* SecurityAdvancedCellView.swift in Sources */,
 				8B4E9C3F27E0AA150057E4C9 /* WalletAdressScanerFlow.swift in Sources */,
+				9AE8CAF62A6F253A00968564 /* SelectContactResources.swift in Sources */,
 				5A9318D726C5AAF100645365 /* ChatRoomViewModel.swift in Sources */,
 				D49F8AF9297FA5AF00405749 /* TextActionViewModel.swift in Sources */,
 				8BA0C8FC27AD19A70070203F /* ChatSettingsViewModel.swift in Sources */,
