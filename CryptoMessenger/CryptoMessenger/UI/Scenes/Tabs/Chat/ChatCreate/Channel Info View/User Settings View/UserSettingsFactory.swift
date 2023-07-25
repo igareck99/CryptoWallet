@@ -25,7 +25,7 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
             imageName: "person.crop.circle",
             imageColor: .azureRadianceApprox,
             accessoryImageName: "chevron.right",
-            accessoryImageColor: .ironApprox
+            accessoryImageColor: .gainsboro
         ) {
             viewModel.onTapShowProfile()
         }]
@@ -34,7 +34,7 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
                 title: R.string.localizable.channelSettingsChangeRole(),
                 titleColor: .woodSmokeApprox,
                 imageName: "highlighter",
-                imageColor: .azureRadianceApprox
+                imageColor: .dodgerTransBlue
             ) {
                 viewModel.onTapChangeRole()
             })
@@ -42,9 +42,9 @@ enum UserSettingsFactory: UserSettingsFactoryProtocol {
         if roleCompare.delete {
             views.append(UserSettingModel(
                 title: R.string.localizable.channelSettingsDeleteFromChannel(),
-                titleColor: .amaranthApprox,
+                titleColor: .spanishCrimson,
                 imageName: "trash",
-                imageColor: .amaranthApprox
+                imageColor: .spanishCrimson
             ) {
                 viewModel.onTapRemoveUser()
             })

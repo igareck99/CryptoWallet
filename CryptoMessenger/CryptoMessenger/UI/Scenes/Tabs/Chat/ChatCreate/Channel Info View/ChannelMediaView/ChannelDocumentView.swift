@@ -22,17 +22,17 @@ struct ChannelDocumentView: View {
                 .cornerRadius(radius: 8, corners: .allCorners)
             VStack(alignment: .leading, spacing: 2) {
                 Text(file.fileName)
-                    .font(.regular(16))
+                    .font(.system(size: 16, weight: .regular))
                 HStack(alignment: .center, spacing: 3) {
                     R.image.mediaChatData.downBlueArrow.image
                     Text(viewModel.sizeOfFile + ", " + viewModel.date)
-                        .font(.regular(13))
-                        .foreground(.darkGray())
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundColor(.romanSilver)
                 }
             }
             Spacer()
         }
-        .background(.white())
+        .background(.white)
         .onTapGesture {
             selectedFile = file
             showFile = true

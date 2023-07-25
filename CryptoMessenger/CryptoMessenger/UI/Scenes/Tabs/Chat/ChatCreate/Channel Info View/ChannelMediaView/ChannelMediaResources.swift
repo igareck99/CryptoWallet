@@ -11,6 +11,13 @@ protocol ChannelMediaSourcesable {
 
     // Text
     static var friendProfileMedia: String { get }
+    
+    
+    static var titleColor: Color { get }
+    
+    static var backgroundFodding: Color { get }
+    
+    static var textBoxBackground: Color { get }
 }
 
 // MARK: - ChannelMediaSources(ChannelMediaSourcesable)
@@ -29,5 +36,18 @@ enum ChannelMediaSources: ChannelMediaSourcesable {
     // Text
     static var friendProfileMedia: String {
         R.string.localizable.friendProfileMedia()
+    }
+    
+    
+    static var titleColor: Color {
+        .chineseBlack
+    }
+    
+    static var backgroundFodding: Color {
+        .chineseBlack04
+    }
+    
+    static var textBoxBackground: Color {
+        .aliceBlue
     }
 }

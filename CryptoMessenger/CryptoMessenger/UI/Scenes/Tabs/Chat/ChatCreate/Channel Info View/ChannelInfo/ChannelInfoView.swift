@@ -197,12 +197,12 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         ) {
             Snackbar(
                 text: resources.linkCopied,
-                color: .green
+                color: viewModel.resources.snackbarBackground
             )
         }
         .onAppear {
-            UITextView.appearance().background(.white())
-        }
+            UITextView.appearance()
+        }.background(viewModel.resources.background)
     }
 
     private var mainView: some View {
@@ -275,10 +275,10 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     defaultUrl: viewModel.roomImageUrl,
                     placeholder: {
                         ZStack {
-                            Color(.lightBlue())
+                            viewModel.resources.textBoxBackground
                             Text(viewModel.roomDisplayName)
-                                .foreground(.white())
-                                .font(.medium(20))
+                                .foregroundColor(viewModel.resources.background)
+                                .font(.system(size: 20, weight: .medium))
                         }
                     },
                     result: {
@@ -292,7 +292,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             
             ZStack(alignment: .center) {
                 Circle()
-                    .foregroundColor(.azureRadianceApprox)
+                    .foregroundColor(viewModel.resources.logoBackground)
                     .frame(width: 24, height: 24)
                 R.image.profileDetail.camera.image
                     .resizable()
@@ -309,13 +309,13 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                         buttons: [
                             .cancel(),
                             .default(
-                                Text(R.string.localizable.profileFromGallery()),
+                                Text(viewModel.resources.profileFromGallery),
                                 action: {
                                     viewModel.selectPhoto(.photoLibrary)
                                 }
                             ),
                             .default(
-                                Text(R.string.localizable.profileFromCamera()),
+                                Text(viewModel.resources.profileFromCamera),
                                 action: {
                                     let isAvailable = viewModel.onCameraPickerTap()
                                     if isAvailable {
@@ -346,17 +346,17 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 title: "",
                 text: viewModel.channelName,
                 placeholder: "",
-                color: Palette.white()
+                color: viewModel.resources.background
             )
             .background(
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.white)
+                    .fill(viewModel.resources.background)
             )
             
             TextEditor(text: viewModel.channelTopic)
                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
-                .background(.white())
-                .foreground(.black())
+                .background(viewModel.resources.background)
+                .foregroundColor(viewModel.resources.titleColor)
                 .font(.system(size: 17))
                 .frame(height: 134)
                 .cornerRadius(8)
@@ -379,10 +379,10 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     defaultUrl: viewModel.roomImageUrl,
                     placeholder: {
                         ZStack {
-                            Color(.lightBlue())
+                            viewModel.resources.textBoxBackground
                             Text(viewModel.roomDisplayName)
-                                .foreground(.white())
-                                .font(.medium(20))
+                                .foregroundColor(viewModel.resources.background)
+                                .font(.system(size: 20, weight: .medium))
                         }
                     },
                     result: {
@@ -398,18 +398,18 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             
             Text(viewModel.channelNameText)
                 .font(.system(size: 22))
-                .foregroundColor(.black)
+                .foregroundColor(viewModel.resources.titleColor)
                 .padding(.bottom, 4)
             Text("\(viewModel.getChannelUsers().count) \(resources.participant)")
                 .font(.system(size: 15))
-                .foregroundColor(.regentGrayApprox)
+                .foregroundColor(viewModel.resources.textColor)
         }
     }
     
     private func channelDescriptionView() -> some View {
         Text(viewModel.channelTopicText)
             .font(.system(size: 17))
-            .foregroundColor(.black)
+            .foregroundColor(viewModel.resources.titleColor)
     }
     
     private func attachmentsView() -> some View {
@@ -451,7 +451,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             title: resources.leaveChannel,
             titleColor: .amaranthApprox,
             imageName: "rectangle.portrait.and.arrow.right",
-            imageColor: .amaranthApprox,
+            imageColor: viewModel.resources.negativeColor,
             accessoryImageName: ""
         )
         .onTapGesture {
@@ -477,9 +477,9 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func deleteChannelView() -> some View {
         ChannelSettingsView(
             title: resources.deleteChannel,
-            titleColor: .amaranthApprox,
+            titleColor: viewModel.resources.negativeColor,
             imageName: "trash",
-            imageColor: .amaranthApprox,
+            imageColor: viewModel.resources.negativeColor,
             accessoryImageName: ""
         )
         .onTapGesture {
@@ -491,11 +491,11 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         HStack {
             Text(resources.participants)
                 .font(.system(size: 17, weight: .semibold))
-                .foregroundColor(.black)
+                .foregroundColor(viewModel.resources.titleColor)
             Spacer()
             Text(resources.add)
                 .font(.system(size: 17))
-                .foregroundColor(.azureRadianceApprox)
+                .foregroundColor(viewModel.resources.buttonBackground)
                 .onTapGesture {
                     showAddUser = true
                 }
@@ -522,7 +522,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func participantsFooter() -> some View {
         return Text("\(resources.lookAll) ( \(viewModel.getChannelUsers().count) \(resources.participant) )")
             .font(.system(size: 17, weight: .semibold))
-            .foregroundColor(.azureRadianceApprox)
+            .foregroundColor(viewModel.resources.textBoxBackground)
             .onTapGesture {
                 viewModel.showParticipantsView(viewModel as! ChannelInfoViewModel,
                                                $showParticipantsView)
@@ -545,7 +545,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 }, label: {
                     Text(resources.change)
                         .font(.system(size: 17))
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(viewModel.resources.textBoxBackground)
                 })
             }
         }
@@ -562,7 +562,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }, label: {
                 Text(resources.presentationCancel)
                     .font(.system(size: 17))
-                    .foregroundColor(.azureRadianceApprox)
+                    .foregroundColor(viewModel.resources.textBoxBackground)
             })
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -571,8 +571,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 changeScreen(isEdit: false)
             }, label: {
                 Text(resources.rightButton)
-                    .font(.bold(17))
-                    .foregroundColor(.azureRadianceApprox)
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundColor(viewModel.resources.textBoxBackground)
             })
         }
     }
