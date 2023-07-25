@@ -10,10 +10,14 @@ final class ChatGroupViewModel: ObservableObject {
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     var coordinator: ChatCreateFlowCoordinatorProtocol?
     @State var isRoomCreated = false
+    let resources: ChatGroupResourcable.Type = ChatGroupResources.self
     
     // MARK: - Lifecycle
     
-    init(chatData: Binding<ChatData>) {
+    init(
+        chatData: Binding<ChatData>,
+        resources: ChatGroupResourcable.Type = ChatGroupResources.self
+    ) {
         self._chatData = chatData
     }
     
