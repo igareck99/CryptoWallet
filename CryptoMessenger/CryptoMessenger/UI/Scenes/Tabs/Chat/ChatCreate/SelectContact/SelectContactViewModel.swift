@@ -14,6 +14,7 @@ final class SelectContactViewModel: ObservableObject {
     @Published private(set) var existingContacts: [Contact] = []
     @Published private(set) var waitingContacts: [Contact] = []
     let mode: ContactViewMode
+    let resources: SelectContactResourcable.Type = SelectContactResources.self
     var coordinator: ChatCreateFlowCoordinatorProtocol?
     private let config: ConfigType
 
@@ -30,7 +31,8 @@ final class SelectContactViewModel: ObservableObject {
 
     init(
         mode: ContactViewMode = .send,
-        config: ConfigType = Configuration.shared
+        config: ConfigType = Configuration.shared,
+        resources: SelectContactResourcable.Type = SelectContactResources.self
     ) {
         self.mode = mode
         self.config = config
