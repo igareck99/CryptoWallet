@@ -72,7 +72,6 @@ extension PinCodeFlowCoordinator: PinCodeFlowCoordinatorSceneDelegate {
 // MARK: - PinCodeFlowCoordinator (PinCodeSceneDelegate)
 
 extension PinCodeFlowCoordinator: PinCodeSceneDelegate {
-    func handleNextScene(_ scene: MainFlowCoordinator.Scene) { }
     
     func handleNextScene() {
         switchFlow()

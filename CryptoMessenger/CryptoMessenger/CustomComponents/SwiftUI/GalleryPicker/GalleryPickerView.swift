@@ -1,9 +1,9 @@
 import SwiftUI
 import UIKit
 
-// MARK: - GalleryPickerClosureView
+// MARK: - GalleryPickerView
 
-struct GalleryPickerClosureView: UIViewControllerRepresentable {
+struct GalleryPickerView: UIViewControllerRepresentable {
 
     // MARK: - Internal Properties
 
@@ -31,7 +31,7 @@ struct GalleryPickerClosureView: UIViewControllerRepresentable {
     // MARK: - Internal Methods
 
     func makeUIViewController(
-        context: UIViewControllerRepresentableContext<GalleryPickerClosureView>
+        context: UIViewControllerRepresentableContext<GalleryPickerView>
     ) -> UIImagePickerController {
         let controller = UIImagePickerController()
         controller.allowsEditing = false
@@ -43,7 +43,7 @@ struct GalleryPickerClosureView: UIViewControllerRepresentable {
 
     func updateUIViewController(
         _ uiViewController: UIImagePickerController,
-        context: UIViewControllerRepresentableContext<GalleryPickerClosureView>
+        context: UIViewControllerRepresentableContext<GalleryPickerView>
     ) {}
 
     func makeCoordinator() -> Coordinator {
@@ -56,11 +56,11 @@ struct GalleryPickerClosureView: UIViewControllerRepresentable {
 
         // MARK: - Private Properties
 
-        private var parent: GalleryPickerClosureView
+        private var parent: GalleryPickerView
 
         // MARK: - Life Cycle
 
-        init(_ parent: GalleryPickerClosureView) {
+        init(_ parent: GalleryPickerView) {
             self.parent = parent
         }
 

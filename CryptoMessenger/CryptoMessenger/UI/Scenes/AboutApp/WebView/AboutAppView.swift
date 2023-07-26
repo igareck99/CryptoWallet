@@ -1,8 +1,8 @@
 import SwiftUI
 
-// MARK: - AboutAppNewView
+// MARK: - AboutAppView
 
-struct AboutAppNewView<ViewModel>: View where ViewModel: AboutAppViewModelDelegate {
+struct AboutAppView<ViewModel>: View where ViewModel: AboutAppViewModelDelegate {
 
     @StateObject var viewModel: ViewModel
 

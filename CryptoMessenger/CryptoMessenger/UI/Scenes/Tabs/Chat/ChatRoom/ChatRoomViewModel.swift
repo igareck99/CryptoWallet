@@ -9,8 +9,8 @@ import MatrixSDK
 final class ChatRoomViewModel: ObservableObject {
 
     // MARK: - Internal Properties
-
-    weak var delegate: ChatRoomSceneDelegate?
+    
+    var coordinator: ChatHistoryFlowCoordinatorProtocol?
 
     @Published var chatData = ChatData()
     @Published var saveData = false
@@ -51,7 +51,6 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var audioUrl: RecordingDataModel?
 	var p2pVoiceCallPublisher = ObservableObjectPublisher()
 	var groupCallPublisher = ObservableObjectPublisher()
-    var coordinator: ChatHistoryFlowCoordinatorProtocol?
 
 
 	@Published var isVoiceCallAvailablility: Bool = false

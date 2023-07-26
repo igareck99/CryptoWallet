@@ -205,14 +205,6 @@ struct ProfileView: View {
                             Text(viewModel.profile.status)
                                 .font(.regular(15))
                                 .foregroundColor(viewModel.resources.title)
-                            //                        Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
-                            //                            .font(.regular(15))
-                            //                            .foreground(.blue())
-                            //                            .onTapGesture {
-                            //                                safariAddress = "https://www.ikea.com/ru/ru/" +
-                            //                                "campaigns/actual-information-pub21f86b70"
-                            //                                showSafari = true
-                            //                            }
                         }.padding(.leading, 16)
                     }
                     Button(action: {
@@ -229,6 +221,12 @@ struct ProfileView: View {
                     .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
                     .background(viewModel.resources.background)
                     .padding(.horizontal, 16)
+                }
+                if viewModel.isEmptyFeed {
+                    ChannelMediaEmptyState(image: viewModel.resources.emptyFeedImage,
+                                           title: "Пока нет публикаций",
+                                           description: "")
+                } else {
                     photosView
                 }
             }

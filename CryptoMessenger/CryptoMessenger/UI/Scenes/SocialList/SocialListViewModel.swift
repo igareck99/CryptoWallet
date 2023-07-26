@@ -8,7 +8,6 @@ final class SocialListViewModel: ObservableObject {
     // MARK: - Internal Properties
 
 	let resources: SocialListResourcesable
-    weak var delegate: SocialListSceneDelegate?
     @Published var listData = [SocialListItem]()
     @Published var dragging: SocialListItem?
 
