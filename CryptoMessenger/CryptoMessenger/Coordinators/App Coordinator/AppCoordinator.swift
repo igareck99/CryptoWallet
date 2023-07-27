@@ -4,6 +4,8 @@ import UIKit
 
 // swiftlint:disable all
 
+typealias RootViewBuilder = (any View) -> Void
+
 protocol AppCoordinatorProtocol {
 	func didReceive(notification: UNNotificationResponse, completion: @escaping () -> Void)
 }
@@ -15,7 +17,6 @@ protocol RootCoordinatable: ObservableObject {
 final class AppCoordinator: RootCoordinatable {
 
     @Published var rootView: any View = Text("")
-    @Published var coordinator: Coordinator?
     
     var childCoordinators: [String: Coordinator] = [:]
 	var navigationController: UINavigationController
@@ -49,9 +50,8 @@ final class AppCoordinator: RootCoordinatable {
 	private func showAuthenticationFlow() {
         let authFlowCoordinator = factory.makeAuthCoordinator(
             delegate: self,
-            navigationController: navigationController, renderView: { result in
-                self.coordinator = result
-                // viewModel.view = result
+            renderView: { [weak self] view in
+                self?.rootView = view
             }
         )
         addChildCoordinator(authFlowCoordinator)
@@ -59,14 +59,23 @@ final class AppCoordinator: RootCoordinatable {
     }
 
 	private func showMainFlow() {
-        let mainFlowCoordinator = factory.makeMainCoordinator(
-            delegate: self,
-            navigationController: navigationController, renderView: { view in
-                self.rootView = view
+        var mainFlowCoordinator: Coordinator?
+        let onlogout: () -> Void = { [weak self] in
+            if let coordinator = mainFlowCoordinator {
+                self?.removeChildCoordinator(coordinator)
             }
+            self?.logoutLogic()
+        }
+        mainFlowCoordinator = factory.makeMainCoordinator(
+            delegate: self,
+            renderView: { [weak self] view in
+                self?.rootView = view
+            },
+            onlogout: onlogout
         )
-        addChildCoordinator(mainFlowCoordinator)
-        mainFlowCoordinator.start()
+        guard let coordinator = mainFlowCoordinator else { return }
+        addChildCoordinator(coordinator)
+        coordinator.start()
     }
 
 	private func showPinCodeFlow() {
@@ -93,14 +102,16 @@ final class AppCoordinator: RootCoordinatable {
         // Если приложение 30 минут в бэкграунде, то перезапрашиваем пин
         userSettings.isLocalAuth = diffTimeInterval.minutes >= 30
     }
+    
+    func logoutLogic() {
+        start()
+    }
 }
 
 // MARK: - Coordinator
 
 extension AppCoordinator: Coordinator {
-    func startWithView(completion: @escaping (any View) -> Void) {
-        
-    }
+
 	func start() {
         
         if userSettings[.isAppNotFirstStart] == false {

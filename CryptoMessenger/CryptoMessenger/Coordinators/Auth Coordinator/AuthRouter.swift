@@ -1,53 +1,88 @@
+import SwiftUI
 import UIKit
 
-protocol AuhtRouterable: Routerable {
-    
-    func makeOnboardingViewRoot(delegate: OnboardingSceneDelegate?)
-    
+protocol AuhtRouterable: View {
+
+    associatedtype Content: View
+
+    var content: () -> Content { get set }
+
     func showRegistrationScene(delegate: RegistrationSceneDelegate?)
-    
+
     func showVerificationScene(delegate: VerificationSceneDelegate?)
+
+    func showCountryCodeScene(delegate: CountryCodePickerDelegate)
     
-    func showCountryCodeScene(_ countryCodeDelegate: CountryCodePickerDelegate)
+    func resetState()
     
+    func popToRoot()
+
 }
 
-final class AuhtRouter {
-    
-    weak var navigationController: UINavigationController?
-    
-    init(navigationController: UINavigationController?) {
-        self.navigationController = navigationController
+struct AuhtRouter<Content: View, State: AuthStatable>: View {
+
+    @ObservedObject var state: State
+
+    var content: () -> Content
+
+    var body: some View {
+        NavigationStack(path: $state.path) {
+            content()
+                .sheet(item: $state.presentedItem, content: sheetContent)
+                .navigationDestination(for: AuthContentLink.self, destination: linkDestination)
+        }
     }
-    
+
+    @ViewBuilder
+    private func linkDestination(link: AuthContentLink) -> some View {
+        switch link {
+            case let .registration(delegate):
+                RegistrationConfigurator.build(delegate: delegate)
+            case let .verification(delegate):
+                VerificationConfigurator.build(delegate: delegate)
+            default:
+                EmptyView()
+        }
+    }
+
+    @ViewBuilder
+    private func sheetContent(item: AuthSheetLink) -> some View {
+        switch item {
+            case let .countryCodeScene(delegate):
+                CountryCodePicker(delegate: delegate)
+            default:
+                EmptyView()
+        }
+    }
 }
 
 // MARK: - AuhtRouterable
 
 extension AuhtRouter: AuhtRouterable {
-    
-    func makeOnboardingViewRoot(delegate: OnboardingSceneDelegate?) {
-        let view = OnboardingAssembly.build(delegate: delegate)
-        let viewController = BaseHostingController(rootView: view)
-        setViewWith(viewController)
-    }
-    
+
     func showRegistrationScene(delegate: RegistrationSceneDelegate?) {
-        let view = RegistrationConfigurator.build(delegate: delegate)
-        let viewController = BaseHostingController(rootView: view)
-        navigationController?.pushViewController(viewController, animated: true)
+        state.path.append(
+            AuthContentLink.registration(delegate: delegate)
+        )
     }
-    
+
     func showVerificationScene(delegate: VerificationSceneDelegate?) {
-        let view = VerificationConfigurator.build(delegate: delegate)
-        let viewController = BaseHostingController(rootView: view)
-        navigationController?.pushViewController(viewController, animated: true)
+        state.path.append(
+            AuthContentLink.verification(delegate: delegate)
+        )
+    }
+
+    func showCountryCodeScene(delegate: CountryCodePickerDelegate) {
+        state.presentedItem = AuthSheetLink.countryCodeScene(delegate: delegate)
+    }
+
+    func popToRoot() {
+        state.path = NavigationPath()
+        state.presentedItem = nil
     }
     
-    func showCountryCodeScene(_ countryCodeDelegate: CountryCodePickerDelegate) {
-        let viewController = CountryCodePickerViewController()
-        viewController.delegate = countryCodeDelegate
-        let nvc = BaseNavigationController(rootViewController: viewController)
-        navigationController?.viewControllers.last?.present(nvc, animated: true)
+    func resetState() {
+        state.path = NavigationPath()
+        state.presentedItem = nil
     }
 }

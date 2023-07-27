@@ -46,10 +46,6 @@ public final class PinCodeFlowCoordinator: Coordinator {
         showPinCodeScene()
     }
     
-    func startWithView(completion: @escaping (any View) -> Void) {
-        
-    }
-
     // MARK: - Private Methods
 
     private func showPinCodeScene() {

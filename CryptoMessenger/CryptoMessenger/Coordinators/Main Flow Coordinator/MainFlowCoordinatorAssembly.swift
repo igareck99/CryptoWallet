@@ -6,20 +6,17 @@ import SwiftUI
 enum MainFlowCoordinatorAssembly {
 	static func build(
         delegate: MainFlowCoordinatorDelegate,
-        navigationController: UINavigationController,
-        renderView: @escaping (any View) -> Void
+        renderView: @escaping RootViewBuilder,
+        onlogout: @escaping () -> Void
     ) -> Coordinator {
         let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase
         let togglesFacade = MainFlowTogglesFacade(remoteConfigUseCase: remoteConfigUseCase)
 		let mainFlowCoordinator = MainFlowCoordinator(
-			navigationController: navigationController,
 			togglesFacade: togglesFacade,
-            renderView: { result in
-                renderView(result)
-            }
+            renderView: renderView,
+            onlogout: onlogout
 		)
 		mainFlowCoordinator.delegate = delegate
-
 		return mainFlowCoordinator
 	}
 }

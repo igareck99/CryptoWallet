@@ -9,13 +9,16 @@ final class TabItemsViewModel {
     var tabs = [TabItemModel]()
     private let toggles: MainFlowTogglesFacadeProtocol
     private let factory: TabItemsFactoryProtocol.Type
+    private let onlogout: () -> Void
 
     init (
         toggles: MainFlowTogglesFacadeProtocol,
-        factory: TabItemsFactoryProtocol.Type
+        factory: TabItemsFactoryProtocol.Type,
+        onlogout: @escaping () -> Void
     ) {
         self.toggles = toggles
         self.factory = factory
+        self.onlogout = onlogout
         self.tabs = prepareTabs()
     }
 
@@ -31,7 +34,7 @@ final class TabItemsViewModel {
             )
         }
         tabItems.append(
-            factory.makeProfileTabModel()
+            factory.makeProfileTabModel(onlogout: onlogout)
         )
         return tabItems
     }

@@ -481,14 +481,12 @@
 		8BEA3D902A26A18B00CC4E2F /* PinCodeAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA3D8F2A26A18B00CC4E2F /* PinCodeAssembly.swift */; };
 		8BF0FCD6281174F900FF7C6F /* CreateContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */; };
 		8BFF387B27D91092005D88C9 /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFF387A27D91092005D88C9 /* NumberTextField.swift */; };
-		9AC574262A51BAE30018738F /* ProfileResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC574252A51BAE30018738F /* ProfileResources.swift */; };
-		9AE8CAFA2A6F3F0300968564 /* UserSettingsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */; };
-		9AE8CAF82A6F27BD00968564 /* ChatGroupResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF72A6F27BD00968564 /* ChatGroupResources.swift */; };
 		9AE8CAF62A6F253A00968564 /* SelectContactResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF52A6F253A00968564 /* SelectContactResources.swift */; };
+		9AE8CAF82A6F27BD00968564 /* ChatGroupResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF72A6F27BD00968564 /* ChatGroupResources.swift */; };
+		9AE8CAFA2A6F3F0300968564 /* UserSettingsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */; };
 		B4C106F74147CC38CED7B7DF /* Pods_CryptoMessengerPods_AuraNSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */; };
 		D40060F12A4B2F65004D5F35 /* TabItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */; };
 		D400612D2A4D5919004D5F35 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400612C2A4D5919004D5F35 /* AuthRouter.swift */; };
-		D400612F2A4D5AB2004D5F35 /* Routerable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400612E2A4D5AB2004D5F35 /* Routerable.swift */; };
 		D40061612A53E192004D5F35 /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40061602A53E192004D5F35 /* Image+Extensions.swift */; };
 		D400616B2A569119004D5F35 /* AuthCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400616A2A569119004D5F35 /* AuthCoordinatorAssembly.swift */; };
 		D400CF8F2A69492C002CF15C /* TokenInfoResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400CF8E2A69492C002CF15C /* TokenInfoResources.swift */; };
@@ -507,6 +505,10 @@
 		D41553B7288AC780003FDADC /* UserDefaultsService+Calls.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41553B6288AC780003FDADC /* UserDefaultsService+Calls.swift */; };
 		D41553B9288AC819003FDADC /* UserDefaultsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41553B8288AC819003FDADC /* UserDefaultsServiceProtocol.swift */; };
 		D41553BE288FD1A8003FDADC /* MatrixService+Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41553BD288FD1A8003FDADC /* MatrixService+Fetcher.swift */; };
+		D4220D4C2A723F25008B158C /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4220D4B2A723F25008B158C /* AuthState.swift */; };
+		D4220D4E2A723F5A008B158C /* AuthTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4220D4D2A723F5A008B158C /* AuthTransitions.swift */; };
+		D4220D502A7242DB008B158C /* ProfileResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4220D4F2A7242DB008B158C /* ProfileResources.swift */; };
+		D4220D522A725617008B158C /* CountryCodePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4220D512A725617008B158C /* CountryCodePicker.swift */; };
 		D423A0A2285E2860004A8228 /* P2PCallState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423A0A1285E2860004A8228 /* P2PCallState.swift */; };
 		D425C7E628071C6500E61607 /* AppCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D425C7E528071C6500E61607 /* AppCoordinatorAssembly.swift */; };
 		D425C7E82807E44C00E61607 /* PushNotificationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D425C7E72807E44C00E61607 /* PushNotificationCoordinator.swift */; };
@@ -1266,15 +1268,13 @@
 		8BFEBC4B2A041AAD00C79B71 /* MatrixSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MatrixSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BFF387A27D91092005D88C9 /* NumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTextField.swift; sourceTree = "<group>"; };
 		91E5C2C31D84870FF637DC7B /* Pods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessenger/Pods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
-		9AC574252A51BAE30018738F /* ProfileResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileResources.swift; path = CryptoMessenger/UI/Scenes/Tabs/Profile/Initial/ProfileResources.swift; sourceTree = SOURCE_ROOT; };
-		9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsResources.swift; sourceTree = "<group>"; };
-		9AE8CAF72A6F27BD00968564 /* ChatGroupResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupResources.swift; sourceTree = "<group>"; };
 		9AE8CAF52A6F253A00968564 /* SelectContactResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactResources.swift; sourceTree = "<group>"; };
+		9AE8CAF72A6F27BD00968564 /* ChatGroupResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupResources.swift; sourceTree = "<group>"; };
+		9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsResources.swift; sourceTree = "<group>"; };
 		AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_AuraNSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItemsFactory.swift; sourceTree = "<group>"; };
 		D400612C2A4D5919004D5F35 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
-		D400612E2A4D5AB2004D5F35 /* Routerable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routerable.swift; sourceTree = "<group>"; };
 		D40061602A53E192004D5F35 /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		D400616A2A569119004D5F35 /* AuthCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		D400CF8E2A69492C002CF15C /* TokenInfoResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenInfoResources.swift; sourceTree = "<group>"; };
@@ -1294,6 +1294,10 @@
 		D41553B6288AC780003FDADC /* UserDefaultsService+Calls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService+Calls.swift"; sourceTree = "<group>"; };
 		D41553B8288AC819003FDADC /* UserDefaultsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsServiceProtocol.swift; sourceTree = "<group>"; };
 		D41553BD288FD1A8003FDADC /* MatrixService+Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixService+Fetcher.swift"; sourceTree = "<group>"; };
+		D4220D4B2A723F25008B158C /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
+		D4220D4D2A723F5A008B158C /* AuthTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTransitions.swift; sourceTree = "<group>"; };
+		D4220D4F2A7242DB008B158C /* ProfileResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileResources.swift; sourceTree = "<group>"; };
+		D4220D512A725617008B158C /* CountryCodePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodePicker.swift; sourceTree = "<group>"; };
 		D423A0A1285E2860004A8228 /* P2PCallState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallState.swift; sourceTree = "<group>"; };
 		D425C7E528071C6500E61607 /* AppCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		D425C7E72807E44C00E61607 /* PushNotificationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationCoordinator.swift; sourceTree = "<group>"; };
@@ -1637,7 +1641,6 @@
 		5A187DE626807011001957D3 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
-				D400612E2A4D5AB2004D5F35 /* Routerable.swift */,
 				5A187DEF26807011001957D3 /* Coordinator.swift */,
 				D425C7E428071C4B00E61607 /* App Coordinator */,
 				D4C8CF4D2A4598FC007CC925 /* Pin Code Flow Coordinator */,
@@ -1665,17 +1668,10 @@
 		5A187DF72680708D001957D3 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5A42681326A8BE85000C51DD /* CountryCodePicker */,
 				D4752E9228BFC47E006B650A /* Group Calls */,
 				D4014D4D283FA7B200AAD70C /* P2P Calls */,
 				78A9CB8728191BAC00C4D7E1 /* IOActionSheet */,
-				5A187DF82680708D001957D3 /* Scenes */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		5A187DF82680708D001957D3 /* Scenes */ = {
-			isa = PBXGroup;
-			children = (
 				8B2D40ED295D0B09009D9581 /* GeneratePhrase */,
 				8BBF9082293514B000936F4D /* NotificationsSettings */,
 				8B23C76B28E0A16C00418F2D /* FriendProfileView */,
@@ -1697,7 +1693,7 @@
 				5A9318AF26BD20F700645365 /* PinCode */,
 				5A26CD5E26B359A200118D4B /* Tabs */,
 			);
-			path = Scenes;
+			path = UI;
 			sourceTree = "<group>";
 		};
 		5A187E3D2680708D001957D3 /* CustomComponents */ = {
@@ -1832,7 +1828,6 @@
 				5A187EF72680CF49001957D3 /* Network */,
 				5A187F0B2680CF49001957D3 /* ContactsManager */,
 				5A187F0E2680CF49001957D3 /* Keyboard */,
-				5A42681326A8BE85000C51DD /* CountryCodePicker */,
 				5A42681826A9C063000C51DD /* PhoneHelper */,
 				5AF8633B26AADEF5004A417C /* CountdownTimer */,
 				5A18EF8C26B988DB0038E991 /* ImagePicker */,
@@ -2056,6 +2051,7 @@
 			isa = PBXGroup;
 			children = (
 				5A42681426A8BE9E000C51DD /* CountryCodePickerViewController.swift */,
+				D4220D512A725617008B158C /* CountryCodePicker.swift */,
 			);
 			path = CountryCodePicker;
 			sourceTree = "<group>";
@@ -2169,7 +2165,7 @@
 				5A43086727C7DB8600A9B582 /* Components */,
 				8B6BEE7E275665D4003A24B6 /* ProfileView.swift */,
 				5A44FED62766816C006F9D92 /* ProfileViewModel.swift */,
-				9AC574252A51BAE30018738F /* ProfileResources.swift */,
+				D4220D4F2A7242DB008B158C /* ProfileResources.swift */,
 				5A44FEDA276681BD006F9D92 /* ProfileFlow.swift */,
 			);
 			path = Initial;
@@ -3450,10 +3446,12 @@
 		D4442B49281160E10033D07A /* Auth Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				D400616A2A569119004D5F35 /* AuthCoordinatorAssembly.swift */,
 				5AF8637126ADDDCE004A417C /* AppLaunchInstructor.swift */,
 				5A187DE926807011001957D3 /* AuthCoordinator.swift */,
 				D400612C2A4D5919004D5F35 /* AuthRouter.swift */,
-				D400616A2A569119004D5F35 /* AuthCoordinatorAssembly.swift */,
+				D4220D4B2A723F25008B158C /* AuthState.swift */,
+				D4220D4D2A723F5A008B158C /* AuthTransitions.swift */,
 			);
 			path = "Auth Coordinator";
 			sourceTree = "<group>";
@@ -4343,7 +4341,6 @@
 				8B0C4FFC2891806000671BA3 /* TimerViewModel.swift in Sources */,
 				8B1C92792A4B48C000937460 /* ChatCreateCoordinator.swift in Sources */,
 				D48AF45629265CB50044CFAE /* WalletNetworkFacade.swift in Sources */,
-				5A26CD2826B2FF9900118D4B /* CarouselCollectionView.swift in Sources */,
 				9AE8CAF82A6F27BD00968564 /* ChatGroupResources.swift in Sources */,
 				8B0C57492A64551700D456FF /* ProfileRouter.swift in Sources */,
 				5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */,
@@ -4554,6 +4551,7 @@
 				8B34A9F828D4AAEB0097ED9E /* GroupChatMenuViewModel.swift in Sources */,
 				8B4C28C32A4BAAE800802DD0 /* SelectContactAssembly.swift in Sources */,
 				D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */,
+				D4220D522A725617008B158C /* CountryCodePicker.swift in Sources */,
 				5A9B472126EA81F5001CC627 /* QuickMenuView.swift in Sources */,
 				8B2D40F5295D0CFD009D9581 /* GeneratePhraseFlow.swift in Sources */,
 				D415082228A52E6400C92CEC /* ReactionsView.swift in Sources */,
@@ -4655,6 +4653,7 @@
 				8BE66738280F1C4600D41A3C /* CreateContactView.swift in Sources */,
 				8B1E295028EB552D000E8019 /* DocumentsViewerViewModel.swift in Sources */,
 				8B1E8ACA27DF4FBD0036C301 /* ChooseReceiverViewModel.swift in Sources */,
+				D4220D4C2A723F25008B158C /* AuthState.swift in Sources */,
 				8BBF9084293514D700936F4D /* NotificationSettingsView.swift in Sources */,
 				D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */,
 				5A2EC774279F410900857248 /* Publishers+Retry.swift in Sources */,
@@ -4702,6 +4701,7 @@
 				8B27435E281AE3AA00B5957C /* RemoteConfigModels.swift in Sources */,
 				8BAAB37E2A24EDA10062D5B2 /* OnboardingViewModel.swift in Sources */,
 				D4A51492294F4DCE007A87BF /* TransactionSendReponse.swift in Sources */,
+				D4220D4E2A723F5A008B158C /* AuthTransitions.swift in Sources */,
 				78A9CBFD28191F1D00C4D7E1 /* ActionSheetTopView.swift in Sources */,
 				8B34A9F028D45E200097ED9E /* GroupActions.swift in Sources */,
 				D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */,
@@ -4730,7 +4730,6 @@
 				8B75B3E42A6EC70D008FE6DD /* PinCodeProtocols.swift in Sources */,
 				8B4E9C4427E1EDD30057E4C9 /* FacilityApproveFlow.swift in Sources */,
 				D4B30A02297923760067EB06 /* CreateChannelView.swift in Sources */,
-				D400612F2A4D5AB2004D5F35 /* Routerable.swift in Sources */,
 				D4B1011D2A664DE500F3C856 /* TransferCoordinatorAssembly.swift in Sources */,
 				D4C8CF522A45C6DA007CC925 /* AppCoordinator+AppLifeCycle.swift in Sources */,
 				5A187E9D2680708D001957D3 /* KeyboardDismissModifier.swift in Sources */,
@@ -4856,7 +4855,7 @@
 				D44BDC832809A2EE0080AE8A /* MatrixNotification.swift in Sources */,
 				8B82988F2982E3550038C546 /* ChannelAddUserView.swift in Sources */,
 				D4FD92AB2A5D5989008EA8A2 /* WalletRouter.swift in Sources */,
-				9AC574262A51BAE30018738F /* ProfileResources.swift in Sources */,
+				D4220D502A7242DB008B158C /* ProfileResources.swift in Sources */,
 				8B0C57572A660E7200D456FF /* ImagePickerView.swift in Sources */,
 				8B23C77D28E1037500418F2D /* SettingsAssembly.swift in Sources */,
 				D44CBF0B29309141006A14D1 /* WalletRequestsFactory.swift in Sources */,

@@ -1,21 +1,28 @@
-import UIKit
+import SwiftUI
 
 enum AuthCoordinatorAssembly {
     static func build(
         delegate: AuthCoordinatorDelegate,
-        navigationController: UINavigationController,
-        renderView: @escaping (Coordinator) -> Void
+        renderView: @escaping (any View) -> Void
     ) -> Coordinator {
         let userFlows = UserDefaultsService.shared
-        let router = AuhtRouter(navigationController: navigationController)
+        let sources = OnboardingResources.self
+        let viewModel = OnboardingViewModel(
+            sources: sources,
+            userFlows: userFlows
+        )
+        let view = OnboardingView(viewModel: viewModel)
+        let state = AuthState.shared
+        let router = AuhtRouter(state: state) {
+            view
+        }
         let coordinator = AuthCoordinator(
             router: router,
             userFlows: userFlows,
-            navigationController: navigationController, renderView: { result in
-                renderView(result)
-            }
+            renderView: renderView
         )
         coordinator.delegate = delegate
+        viewModel.delegate = coordinator
         return coordinator
     }
 }

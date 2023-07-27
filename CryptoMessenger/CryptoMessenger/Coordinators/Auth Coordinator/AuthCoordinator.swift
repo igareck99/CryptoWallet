@@ -7,89 +7,34 @@ protocol AuthCoordinatorDelegate: AnyObject {
     func userPerformedAuthentication(coordinator: Coordinator)
 }
 
-// MARK: - AuthCoordinatorSceneDelegate
-
-protocol AuthCoordinatorSceneDelegate: AnyObject {
-    func handleNextScene(_ scene: AuthCoordinator.Scene)
-    func switchFlow()
-}
-
 // MARK: - AuthFlowCoordinator
 
-public final class AuthCoordinator: Coordinator {
-    
-    func startWithView(completion: @escaping (any View) -> Void) {
-        
-    }
+final class AuthCoordinator<Router: AuhtRouterable>: Coordinator {
 
     // MARK: - Internal Properties
 
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: AuthCoordinatorDelegate?
-    var navigationController: UINavigationController
     private let userFlows: UserFlowsStorage
-    let router: AuhtRouterable
-    let renderView: (Coordinator) -> Void
+    let router: Router
+    var renderView: (any View) -> Void
 
     // MARK: - Lifecycle
 
     init(
-        router: AuhtRouterable,
+        router: Router,
         userFlows: UserFlowsStorage,
-        navigationController: UINavigationController,
-        renderView: @escaping (Coordinator) -> Void
+        renderView: @escaping (any View) -> Void
     ) {
         self.router = router
 		self.userFlows = userFlows
-        self.navigationController = navigationController
         self.renderView = renderView
     }
 
     // MARK: - Internal Methods
 
     func start() {
-        handleNextScene(userFlows.isOnboardingFlowFinished ? .registration : .onboarding)
-        renderView(self)
-    }
-
-    // MARK: - Scene
-
-    enum Scene {
-
-        // MARK: - Types
-
-        case onboarding
-        case registration
-        case verification
-        case main
-        case countryCode(CountryCodePickerDelegate)
-    }
-}
-
-// MARK: - AuthCoordinatorSceneDelegate
-
-extension AuthCoordinator: AuthCoordinatorSceneDelegate {
-    func handleNextScene(_ scene: Scene) {
-        switch scene {
-        case .main:
-                switchFlow()
-        case .onboarding:
-                router.makeOnboardingViewRoot(delegate: self)
-        case .registration:
-                router.showRegistrationScene(delegate: self)
-        case .verification:
-                router.showVerificationScene(delegate: self)
-        case .countryCode(let delegate):
-                router.showCountryCodeScene(delegate)
-        }
-    }
-
-    func restartFlow() {
-        start()
-    }
-
-    func switchFlow() {
-        delegate?.userPerformedAuthentication(coordinator: self)
+        renderView(router)
     }
 }
 
@@ -97,7 +42,7 @@ extension AuthCoordinator: AuthCoordinatorSceneDelegate {
 
 extension AuthCoordinator: OnboardingSceneDelegate {
     func onFinishOnboarding() {
-        handleNextScene(.registration)
+        router.showRegistrationScene(delegate: self)
     }
 }
 
@@ -109,7 +54,7 @@ extension AuthCoordinator: RegistrationSceneDelegate {
     }
 
     func onTapCountryCodeSelect(delegate: CountryCodePickerDelegate) {
-        router.showCountryCodeScene(delegate)
+        router.showCountryCodeScene(delegate: delegate)
     }
 }
 
@@ -117,6 +62,7 @@ extension AuthCoordinator: RegistrationSceneDelegate {
 
 extension AuthCoordinator: VerificationSceneDelegate {
     func onVerificationSuccess() {
-        switchFlow()
+        delegate?.userPerformedAuthentication(coordinator: self)
+        router.resetState()
     }
 }
