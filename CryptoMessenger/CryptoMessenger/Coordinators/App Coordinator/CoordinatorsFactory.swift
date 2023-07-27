@@ -5,20 +5,19 @@ protocol CoordinatorsFactoryProtocol {
     static func makePinCoordinator(
         delegate: PinCodeFlowCoordinatorDelegate,
         navigationController: UINavigationController,
-        renderView: @escaping (any View) -> Void,
+        renderView: @escaping RootViewBuilder,
         onLogin: @escaping () -> Void
     ) -> Coordinator
 
     static func makeAuthCoordinator(
         delegate: AuthCoordinatorDelegate,
-        navigationController: UINavigationController,
-        renderView: @escaping (Coordinator) -> Void
+        renderView: @escaping RootViewBuilder
     ) -> Coordinator
 
     static func makeMainCoordinator(
         delegate: MainFlowCoordinatorDelegate,
-        navigationController: UINavigationController,
-        renderView: @escaping (any View) -> Void
+        renderView: @escaping RootViewBuilder,
+        onlogout: @escaping () -> Void
     ) -> Coordinator
 
     static func makePushCoordinator(
@@ -33,7 +32,7 @@ enum CoordinatorsFactory: CoordinatorsFactoryProtocol {
     static func makePinCoordinator(
         delegate: PinCodeFlowCoordinatorDelegate,
         navigationController: UINavigationController,
-        renderView: @escaping (any View) -> Void,
+        renderView: @escaping RootViewBuilder,
         onLogin: @escaping () -> Void
     ) -> Coordinator {
         let userFlows = UserDefaultsService.shared
@@ -52,27 +51,23 @@ enum CoordinatorsFactory: CoordinatorsFactoryProtocol {
 
     static func makeAuthCoordinator(
         delegate: AuthCoordinatorDelegate,
-        navigationController: UINavigationController,
-        renderView: @escaping (Coordinator) -> Void
+        renderView: @escaping RootViewBuilder
     ) -> Coordinator {
         AuthCoordinatorAssembly.build(
             delegate: delegate,
-            navigationController: navigationController, renderView: { result in
-                renderView(result)
-            }
+            renderView: renderView
         )
     }
 
     static func makeMainCoordinator(
         delegate: MainFlowCoordinatorDelegate,
-        navigationController: UINavigationController,
-        renderView: @escaping (any View) -> Void
+        renderView: @escaping RootViewBuilder,
+        onlogout: @escaping () -> Void
     ) -> Coordinator {
         let coordinator = MainFlowCoordinatorAssembly.build(
             delegate: delegate,
-            navigationController: navigationController, renderView: { result in
-                renderView(result)
-            }
+            renderView: renderView,
+            onlogout: onlogout
         )
         return coordinator
     }

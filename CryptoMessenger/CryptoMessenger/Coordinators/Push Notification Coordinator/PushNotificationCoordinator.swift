@@ -37,10 +37,6 @@ final class PushNotificationCoordinator: NSObject {
 // MARK: - Coordinator
 
 extension PushNotificationCoordinator: Coordinator {
-    
-    func startWithView(completion: @escaping (any View) -> Void) {
-        
-    }
 
 	func start() {
         // TODO: - Переделать для нового координатора

@@ -7,7 +7,7 @@ protocol TabItemsFactoryProtocol {
 
     static func makeWalletTabModel() -> TabItemModel
 
-    static func makeProfileTabModel() -> TabItemModel
+    static func makeProfileTabModel(onlogout: @escaping () -> Void) -> TabItemModel
 }
 
 // MARK: - TabItemsFactory(TabItemsFactoryProtocol)
@@ -36,13 +36,15 @@ enum TabItemsFactory: TabItemsFactoryProtocol {
         }
     }
 
-    static func makeProfileTabModel() -> TabItemModel {
+    static func makeProfileTabModel(
+        onlogout: @escaping () -> Void
+    ) -> TabItemModel {
         TabItemModel(
             title: MainTabs.profile.text,
             icon: MainTabs.profile.image,
             tabType: .profile
         ) {
-            ProfileAssembly.build().anyView()
+            ProfileAssembly.build(onlogout: onlogout).anyView()
         }
     }
 }
