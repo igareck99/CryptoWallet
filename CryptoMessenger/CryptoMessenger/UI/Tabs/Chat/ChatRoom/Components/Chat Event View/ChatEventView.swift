@@ -15,7 +15,7 @@ struct ChatEventView: View {
 
 	init(
 		text: String,
-		font: Font = .regular(14),
+        font: Font = .system(size: 14, weight: .regular),
 		backgroundColor: Color = Color(red: 242 / 255, green: 160 / 255, blue: 76 / 255),
 		foregroundColor: Color? = nil
 	) {
@@ -50,11 +50,11 @@ extension ChatEventView {
 
 	func configureInnerOuterShadow() -> some View {
 		self
-			.shadow(color: Color(.lightGray()), radius: 0, x: 0, y: -0.4)
-			.shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+            .shadow(color: Color.romanSilver, radius: 0, x: 0, y: -0.4)
+            .shadow(color: Color.chineseShadow, radius: 0, x: 0, y: 0.4)
 	}
 
 	func configureOuterShadow() -> some View {
-		self.shadow(color: Color(.black222222(0.2)), radius: 0, x: 0, y: 0.4)
+        self.shadow(color: Color.chineseShadow, radius: 0, x: 0, y: 0.4)
 	}
 }

@@ -1,5 +1,5 @@
 import UIKit
-
+import SwiftUI
 // MARK: - UIImage ()
 
 extension UIImage {
@@ -7,12 +7,12 @@ extension UIImage {
     // MARK: - Internal Methods
 
     @discardableResult
-    func tintColor(_ palette: Palette) -> UIImage {
-        withTintColor(palette.uiColor)
+    func tintColor(_ color: Color) -> UIImage {
+        withTintColor(UIColor(color))
     }
 
     @discardableResult
-    func withTintColor(_ palette: Palette, renderingMode: UIImage.RenderingMode) -> UIImage {
-        withTintColor(palette.uiColor, renderingMode: renderingMode)
+    func withTintColor(_ color: Color, renderingMode: UIImage.RenderingMode) -> UIImage {
+        withTintColor(color, renderingMode: renderingMode)
     }
 }

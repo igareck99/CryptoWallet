@@ -41,7 +41,7 @@ struct LastMessageDataView: View {
         case let .text(text):
             Text(text, [.font(.regular(15)),
                         .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
-                        .color(.custom(.init( 133, 135, 141))) ] ).lineLimit(2)
+                        .color(Color(.custom(.init( 133, 135, 141)))) ] ).lineLimit(2)
         case let .image(url):
             AnyView(
                 HStack(spacing: 6) {
@@ -62,7 +62,7 @@ struct LastMessageDataView: View {
                         [
                             .font(.regular(15)),
                             .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
-                            .color(.custom(.init( 133, 135, 141)))
+                            .color(Color(.custom(.init( 133, 135, 141))))
                         ]
                     )
                 }
@@ -83,7 +83,7 @@ struct LastMessageDataView: View {
                     Text(fileName, [
                         .font(.regular(15)),
                         .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
-                        .color(.custom(.init( 133, 135, 141)))
+                        .color(Color(.custom(.init( 133, 135, 141))))
                     ])
                 }
             )
@@ -108,7 +108,7 @@ struct LastMessageDataView: View {
                         [
                             .font(.regular(15)),
                             .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
-                            .color(.custom(.init( 133, 135, 141)))
+                            .color(Color(.custom(.init( 133, 135, 141))))
                         ]
                     )
                 }
@@ -128,7 +128,7 @@ struct LastMessageDataView: View {
                         [
                             .font(.regular(15)),
                             .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
-                            .color(.custom(.init( 133, 135, 141)))
+                            .color(Color(.custom(.init( 133, 135, 141))))
                         ]
                     )
                 }
@@ -144,7 +144,7 @@ struct LastMessageDataView: View {
                         [
                             .font(.regular(15)),
                             .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
-                            .color(.custom(.init(133, 135, 141)))
+                            .color(Color(.custom(.init(133, 135, 141))))
                         ]
                     )
                 }
@@ -161,7 +161,7 @@ struct LastMessageDataView: View {
                         [
                             .paragraph(.init(lineHeightMultiple: 1.21, alignment: .left)),
                             .font(.regular(15)),
-                            .color(.custom(.init( 133, 135, 141)))
+                            .color(Color(.custom(.init( 133, 135, 141))))
                         ])
                 }
             )
@@ -169,14 +169,14 @@ struct LastMessageDataView: View {
             AnyView(HStack(spacing: 6) {
                 (!data.isFromCurrentUser ? Image(systemName: "phone") : Image(systemName: "phone.down"))
                     .resizable()
-                    .foregroundColor(.gray)
+                    .foregroundColor(.romanSilver)
                     .frame(width: 14, height: 14)
                 Text(
                     "Звонок",
                     [
                         .font(.regular(15)),
                         .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
-                        .color(.custom(.init(133, 135, 141)))
+                        .color(Color(.custom(.init(133, 135, 141))))
                     ]
                 )
             }
@@ -196,7 +196,7 @@ struct LastMessageDataView: View {
                     .cornerRadius(10)
                 Text(data.unreadedEvents.description)
                     .font(.regular(14))
-                    .foreground(.white())
+                    .foreground(.white)
             }
         } else {
             EmptyView()

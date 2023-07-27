@@ -47,12 +47,12 @@ enum SettingsAction: CaseIterable, Identifiable {
         }
     }
 
-    var color: Palette {
+    var color: Color {
         switch self {
         case .exit, .complain:
-            return .red(0.1)
+            return .spanishCrimson01
         default:
-            return .blue(0.1)
+            return .dodgerTransBlue
         }
     }
     
@@ -74,17 +74,17 @@ enum SettingsAction: CaseIterable, Identifiable {
             .padding([.top, .bottom], 12)
 
             Text(title, [
-                .color(.black()),
-                .font(.regular(15)),
                 .paragraph(.init(lineHeightMultiple: 1.09, alignment: .left))
             ])
+            .font(.system(size: 15, weight: .regular))
+            .foregroundColor(.chineseBlack)
                 .frame(height: 64)
                 .padding(.leading, 16)
 
             Spacer()
         }
         .frame(height: 64)
-        .background(.white())
+        .background(Color.white)
     }
 
     var alertItem: AlertItem? {

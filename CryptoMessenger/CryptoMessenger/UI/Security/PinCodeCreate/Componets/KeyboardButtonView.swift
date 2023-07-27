@@ -17,10 +17,10 @@ struct KeyboardButtonView: View {
         case let .number(value):
             ZStack {
                 Circle()
-                    .fill(Color(.blue(0.1)))
+                    .fill(Color.dodgerTransBlue)
                     .frame(width: 80, height: 80)
                 Text(String(value))
-                    .font(.regular(24))
+                    .font(.system(size: 24, weight: .regular))
             }
         case .faceId:
             ZStack(alignment: .center) {

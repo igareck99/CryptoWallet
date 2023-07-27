@@ -16,15 +16,15 @@ struct SecurityAdvancedCellView: View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .font(.regular(15))
+                    .font(.system(size: 15, weight: .regular))
                 Text(description)
-                    .font(.regular(12))
-                    .foreground(.gray())
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundColor(.romanSilver)
             }
             Spacer()
             Toggle("", isOn: $currentState)
                 .labelsHidden()
-                .toggleStyle(SwitchToggleStyle(tint: .green))
+                .toggleStyle(SwitchToggleStyle(tint: .greenCrayola))
         }
     }
 }

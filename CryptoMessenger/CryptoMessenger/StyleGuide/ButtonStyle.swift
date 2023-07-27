@@ -10,7 +10,7 @@ extension UIButton {
     @discardableResult
     func decor(_ btnDecor: ButtonDecor) -> Self {
         layer.borderColor = btnDecor.border.cgColor
-        setTitleColor(btnDecor.fontColor.uiColor, for: .normal)
+        setTitleColor(btnDecor.fontColor, for: .normal)
         setBackgroundImage(btnDecor.backgroundImage, for: .normal)
         return self
     }
@@ -55,13 +55,13 @@ extension Button {
     func decor(_ btnDecor: ButtonDecor) -> some View {
         frame(minWidth: 0, maxWidth: .infinity)
             .padding()
-            .foreground(btnDecor.fontColor)
+            .foreground(Color(btnDecor.fontColor))
             .padding(5)
-            .background(btnDecor.background)
+            .background(.background)
             .cornerRadius(40)
             .overlay(
                 RoundedRectangle(cornerRadius: 40)
-                    .stroke(btnDecor.border.suColor, lineWidth: 1)
+                    .stroke(Color(btnDecor.border), lineWidth: 1)
             )
     }
 }

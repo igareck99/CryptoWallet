@@ -3,15 +3,15 @@ import SwiftUI
 // MARK: - ContactRow
 
 struct ContactRow: View {
-
+    
     // MARK: - Internal Properties
-
+    
     let contact: Contact
     var showInviteButton = false
     var isAdmin = false
-
+    
     // MARK: - Body
-
+    
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
@@ -19,10 +19,10 @@ struct ContactRow: View {
                     defaultUrl: contact.avatar,
                     placeholder: {
                         ZStack {
-                            Color(.lightBlue())
+                            Color.aliceBlue
                             Text(contact.name.firstLetter.uppercased())
-                                .foreground(.white())
-                                .font(.medium(22))
+                                .foregroundColor(.white)
+                                .font(.system(size: 22, weight: .medium))
                         }
                     },
                     result: {
@@ -32,24 +32,24 @@ struct ContactRow: View {
                 .scaledToFill()
                 .frame(width: 40, height: 40)
                 .cornerRadius(20)
-
+                
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .center, spacing: 0) {
                         Text(contact.name)
                             .lineLimit(1)
-                            .font(.semibold(15))
-                            .foreground(.black())
-
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(.chineseBlack)
+                        
                         Spacer()
-
+                        
                         if contact.isAdmin {
-                            Text("Админ", [
-                                .color(.darkGray()),
-                                .font(.regular(13)),
+                            Text(R.string.localizable.chatCreateAdmin(), [
                                 .paragraph(.init(lineHeightMultiple: 1, alignment: .right))
-                            ])
+                            ]).foregroundColor(.romanSilver)
+                                .font(.system(size: 13, weight: .regular))
                         }
                     }
+                    
                     switch contact.type {
                     case .sendContact:
                         Text(contact.phone)
@@ -58,30 +58,29 @@ struct ContactRow: View {
                     default:
                         Text(contact.status)
                             .lineLimit(1)
-                            .font(.regular(13))
-                            .foreground(.darkGray())
+                            .font(.system(size: 13, weight: .regular))
+                            .foregroundColor(.romanSilver)
                     }
                 }
-                .frame(height: 64)
-
+                
                 if !isAdmin {
                     Spacer()
                 }
-
+                
                 if contact.type == .waitingContacts {
                     Button {
                         contact.onTap(contact)
                     } label: {
-                        Text("Пригласить")
-                            .font(.regular(15))
-                            .foreground(.blue())
+                        Text(R.string.localizable.chatCreateInvite())
+                            .font(.system(size: 15, weight: .regular))
+                            .foregroundColor(.dodgerBlue)
                             .frame(width: 115, height: 32, alignment: .center)
                     }
                     .frame(width: 115, height: 32, alignment: .center)
                     .cornerRadius(16)
                     .overlay(
                         RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .stroke(Color(.blue()), lineWidth: 1)
+                            .stroke(Color.dodgerBlue, lineWidth: 1)
                     )
                 }
             }

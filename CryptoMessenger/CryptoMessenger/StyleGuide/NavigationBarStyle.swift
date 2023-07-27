@@ -7,20 +7,20 @@ extension UINavigationBar {
     // MARK: - Internal Methods
 
     @discardableResult
-    func tintColor(_ palette: Palette) -> Self {
-        tintColor = palette.uiColor
+    func tintColor(_ color: UIColor) -> Self {
+        tintColor = color
         return self
     }
 
     @discardableResult
-    func barTintColor(_ palette: Palette) -> Self {
-        barTintColor = palette.uiColor
+    func barTintColor(_ color: UIColor) -> Self {
+        barTintColor = color
         return self
     }
 
     @discardableResult
-    func shadowColor(_ palette: Palette) -> Self {
-        layer.shadowColor = palette.uiColor.cgColor
+    func shadowColor(_ color: UIColor) -> Self {
+        layer.shadowColor = color.cgColor
         return self
     }
 

@@ -7,6 +7,16 @@ protocol ChatGroupResourcable {
     static var profileFromCamera: String { get }
 
     static var photoEditorTitle: String { get }
+    
+    static var chatMenuViewGroupName: String { get }
+    
+    static var profileDetailRightButton: String { get }
+    
+    static var createChannelTitle: String { get }
+    
+    static var contactChatDetailInfo: String { get }
+    
+    static var createChannelDescription: String { get }
 
     static var titleColor: Color { get }
 
@@ -30,6 +40,26 @@ enum ChatGroupResources: ChatGroupResourcable {
 
     static var photoEditorTitle: String {
         R.string.localizable.photoEditorTitle()
+    }
+    
+    static var chatMenuViewGroupName: String {
+        R.string.localizable.chatMenuViewGroupName()
+    }
+    
+    static var createChannelTitle: String {
+        R.string.localizable.createChannelTitle()
+    }
+    
+    static var profileDetailRightButton: String {
+        R.string.localizable.profileDetailRightButton()
+    }
+    
+    static var contactChatDetailInfo: String {
+        R.string.localizable.contactChatDetailInfo()
+    }
+    
+    static var createChannelDescription: String {
+        R.string.localizable.createChannelDescription()
     }
 
     static var titleColor: Color {

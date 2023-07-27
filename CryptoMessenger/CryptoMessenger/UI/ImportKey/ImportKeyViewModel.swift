@@ -20,6 +20,7 @@ final class ImportKeyViewModel: ObservableObject {
     @Published var newKey = ""
     @Published var isCheckPhrase = false
     var isSnackbarPresented = false
+    let resources: ImportKeyResourcable.Type
 
     // MARK: - Private Properties
 
@@ -38,8 +39,10 @@ final class ImportKeyViewModel: ObservableObject {
         coordinator: ImportKeyCoordinatable,
         coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
         keychainService: KeychainServiceProtocol = KeychainService.shared,
-        phraseService: PhraseServiceProtocol = PhraseService.shared
+        phraseService: PhraseServiceProtocol = PhraseService.shared,
+        resources: ImportKeyResourcable.Type = ImportKeyResources.self
     ) {
+        self.resources = resources
         self.coordinator = coordinator
         self.coreDataService = coreDataService
         self.keychainService = keychainService

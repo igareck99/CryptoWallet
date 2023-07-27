@@ -15,6 +15,13 @@ protocol ContactInfoSourcesable {
     static var titleText: String { get }
 
     static var phoneText: String { get }
+    
+    //Color
+    static var titleColor: Color { get }
+    
+    static var buttonBackground: Color { get }
+    
+    static var avatarBackground: Color { get }
 }
 
 // MARK: - ContactInfoResources(ContactInfoSourcesable)
@@ -41,5 +48,19 @@ enum ContactInfoResources: ContactInfoSourcesable {
 
     static var phoneText: String {
         R.string.localizable.contactChatDetailCellPhone()
+    }
+    
+    
+    // Color
+    static var titleColor: Color {
+        .chineseBlack
+    }
+    
+    static var avatarBackground: Color {
+        .dodgerTransBlue
+    }
+    
+    static var buttonBackground: Color {
+        .dodgerBlue
     }
 }

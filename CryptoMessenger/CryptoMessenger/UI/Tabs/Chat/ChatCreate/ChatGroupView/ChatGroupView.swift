@@ -35,7 +35,7 @@ struct ChatGroupView: View {
                 }
                 
                 ToolbarItem(placement: .principal) {
-                    Text("Название группы")
+                    Text(viewModel.resources.chatMenuViewGroupName)
                         .font(.system(size: 15, weight: .bold))
                         .foregroundColor(viewModel.resources.titleColor)
                 }
@@ -44,7 +44,7 @@ struct ChatGroupView: View {
                     Button(action: {
                         viewModel.createChat()
                     }, label: {
-                        Text("Готово")
+                        Text(viewModel.resources.profileDetailRightButton)
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundColor(viewModel.titleText.isEmpty ? viewModel.resources.textColor : viewModel.resources.buttonBackground)
                     })
@@ -118,7 +118,7 @@ struct ChatGroupView: View {
                             .padding(.horizontal, 16)
 
                         if viewModel.titleText.isEmpty {
-                            Text("Название")
+                            Text(viewModel.resources.createChannelTitle)
                                 .foregroundColor(viewModel.resources.titleColor)
                                 .padding(.top, 12)
                                 .padding(.horizontal, 16)
@@ -134,7 +134,7 @@ struct ChatGroupView: View {
                 .padding(.top, 24)
 
                 HStack(spacing: 0) {
-                    Text("Информация".uppercased())
+                    Text(viewModel.resources.contactChatDetailInfo.uppercased())
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundColor(viewModel.resources.textColor)
                         .padding(.top, 24)
@@ -151,7 +151,7 @@ struct ChatGroupView: View {
 						.scrollContentBackground(.hidden)
 
                     if viewModel.descriptionText.isEmpty {
-                        Text("Описание")
+                        Text(viewModel.resources.createChannelDescription)
                             .foregroundColor(viewModel.resources.textColor)
                             .padding(.top, 12)
                             .padding(.horizontal, 19)
@@ -164,7 +164,7 @@ struct ChatGroupView: View {
                 .padding(.horizontal, 16)
 
                 HStack(spacing: 0) {
-                    Text("Можете указать дополнительное описание для Вашей группы.")
+                    Text(viewModel.resources.createChannelDescription)
                         .lineLimit(nil)
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(viewModel.resources.textColor)

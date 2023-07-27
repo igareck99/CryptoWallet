@@ -57,7 +57,7 @@ struct WalletRouter<Content: View, State: WalletRouterStatable>: View {
         case let .showTokenInfo(wallet):
             TokenInfoAssembly.build(wallet: wallet)
         case let .adressScanner(value: value):
-            WalletAddressScanerView(scannedCode: value)
+            WalletAddressScannerAssembly.build(scannedCode: value)
         }
     }
 

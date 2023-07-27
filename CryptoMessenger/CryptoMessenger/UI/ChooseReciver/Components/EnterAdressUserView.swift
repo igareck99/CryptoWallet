@@ -23,7 +23,7 @@ struct EnterAdressUserView: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 0) {
-                        Text("Введите адресс")
+                        Text(R.string.localizable.enterAdressEnterAdress())
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundColor(.chineseBlack)
                             .padding(.top, 12)

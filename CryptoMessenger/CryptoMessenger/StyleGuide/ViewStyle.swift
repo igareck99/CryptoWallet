@@ -8,8 +8,8 @@ extension UIView {
     // MARK: - Internal Methods
 
     @discardableResult
-    func background(_ palette: Palette?) -> Self {
-        backgroundColor = palette?.uiColor
+    func background(_ color: UIColor?) -> Self {
+        backgroundColor = color
         return self
     }
 
@@ -19,8 +19,8 @@ extension UIView {
     }
 
     @discardableResult
-    func tint(_ palette: Palette) -> Self {
-        tintColor = palette.uiColor
+    func tint(_ color: UIColor) -> Self {
+        tintColor = color
         return self
     }
 }
@@ -33,8 +33,8 @@ extension View {
         background(palette.suColor)
     }
 
-    func foreground(_ palette: Palette) -> some View {
-        foregroundColor(palette.suColor)
+    func foreground(_ color: Color) -> some View {
+        foregroundColor(color)
     }
 
     func font(_ style: FontDecor) -> some View {

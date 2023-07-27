@@ -31,8 +31,8 @@ struct ImportKeyView: View {
                 alignment: .bottom
             ) {
                 Snackbar(
-                    text: "Ключ импортирован",
-                    color: .greenCrayola
+                    text: viewModel.resources.phraseManagerKeyImportSucces,
+                    color: viewModel.resources.snackbarBackground
                 )
             }
             .popup(isPresented: $isChooseWalletShow,
@@ -40,7 +40,7 @@ struct ImportKeyView: View {
                    position: .bottom,
                    closeOnTap: false,
                    closeOnTapOutside: true,
-                   backgroundColor: .chineseBlack04) {
+                   backgroundColor: viewModel.resources.backgroundFodding) {
                 ChooseWalletTypeView(
                     chooseWalletShow: $isChooseWalletShow,
                     choosedWalletType: $choosedWalletType,
@@ -48,21 +48,21 @@ struct ImportKeyView: View {
                     wallletTypes: viewModel.walletTypes
                 )
                 .frame(width: UIScreen.main.bounds.width, height: 242, alignment: .center)
-                .background(.white)
+                .background(viewModel.resources.background)
                 .cornerRadius(16)
             }
                    .alert(isPresented: $showMnemonicSuccess) { () -> Alert in
                        let dismissButton = Alert.Button.default(Text("OK")) {
                            presentationMode.wrappedValue.dismiss()
                        }
-                       let alert = Alert(title: Text("Фраза сохранена"),
+                       let alert = Alert(title: Text(viewModel.resources.generatePhraseSaved),
                                          message: Text(""),
                                          dismissButton: dismissButton)
                        return alert
                    }
                    .toolbar {
                        ToolbarItem(placement: .principal) {
-                           Text(R.string.localizable.importTitle())
+                           Text(viewModel.resources.importTitle)
                                .font(.system(size: 17, weight: .semibold))
                        }
                    }
@@ -72,7 +72,7 @@ struct ImportKeyView: View {
 
     private var content: some View {
         VStack(spacing: 0) {
-            Text(R.string.localizable.keyImportTitle())
+            Text(viewModel.resources.keyImportTitle)
                 .font(.system(size: 22))
                 .padding(.top, 59)
 
@@ -80,8 +80,8 @@ struct ImportKeyView: View {
                 TextEditor(text: $viewModel.newKey)
                     .focused($inputViewIsFocused)
                     .padding(.leading, 16)
-                    .background(Color.aliceBlue)
-                    .foregroundColor(.chineseBlack)
+                    .background(viewModel.resources.textBoxBackground)
+                    .foregroundColor(viewModel.resources.titleColor)
                     .font(.system(size: 17))
                     .frame(height: 160)
                     .frame(maxWidth: .infinity)
@@ -89,8 +89,8 @@ struct ImportKeyView: View {
                     .keyboardType(.alphabet)
                     .scrollContentBackground(.hidden)
                 if viewModel.newKey.isEmpty {
-                    Text(R.string.localizable.importEnterPrivateKey())
-                        .foregroundColor(.romanSilver)
+                    Text(viewModel.resources.importEnterPrivateKey)
+                        .foregroundColor(viewModel.resources.textColor)
                         .font(.system(size: 17))
                         .padding(.leading, 20)
                         .padding(.top, 12)
@@ -101,15 +101,15 @@ struct ImportKeyView: View {
             .padding(.horizontal, 16)
             .overlay {
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.spanishCrimson, lineWidth: 1)
+                    .stroke(viewModel.resources.negativeColor, lineWidth: 1)
                     .opacity(viewModel.isErrorState ? 1 : 0)
                     .padding(.horizontal, 16)
             }
             .padding(.top, 24)
 
             HStack {
-                Text(R.string.localizable.generatePhraseErrorKey())
-                    .foregroundColor(.spanishCrimson)
+                Text(viewModel.resources.generatePhraseErrorKey)
+                    .foregroundColor(viewModel.resources.negativeColor)
                     .font(.system(size: 12, weight: .light))
                     .opacity(viewModel.isErrorState ? 1 : 0)
                     .padding(.top, 4)
@@ -117,9 +117,9 @@ struct ImportKeyView: View {
                 Spacer()
             }
 
-            Text(R.string.localizable.importHowImportKey())
+            Text(viewModel.resources.importHowImportKey)
                 .font(.system(size: 15))
-                .foregroundColor(.dodgerBlue)
+                .foregroundColor(viewModel.resources.buttonBackground)
                 .padding(.top, 8)
 
             importButton
@@ -135,15 +135,15 @@ struct ImportKeyView: View {
             ZStack {
                 Circle()
                     .frame(width: 40, height: 40)
-                    .foregroundColor(.dodgerTransBlue)
-                R.image.wallet.wallet.image
+                    .foregroundColor(viewModel.resources.avatarBackground)
+                viewModel.resources.walletImage
             }
                 Text(isSelectedWalletType ? choosedWalletType.currency :
-                        R.string.localizable.importChooseWalletType())
-                    .font(.semibold(15))
+                        viewModel.resources.importChooseWalletType)
+                    .font(.system(size: 15, weight: .semibold))
         }
             Spacer()
-            R.image.answers.downsideArrow.image
+            viewModel.resources.downSideArrowImage
         }
     }
 
@@ -167,13 +167,13 @@ struct ImportKeyView: View {
         } label: {
             switch showButtonAnimation {
             case false:
-                Text(R.string.localizable.importImport())
+                Text(viewModel.resources.importImport)
                     .font(.system(size: 17, weight: .semibold))
-                    .foregroundColor(viewModel.isPhraseValid ? .white : .ashGray)
+                    .foregroundColor(viewModel.isPhraseValid ? viewModel.resources.background : viewModel.resources.textColor)
                     .padding()
             case true:
                 ProgressView()
-                    .tint(.white)
+                    .tint(viewModel.resources.background)
                     .frame(width: 12, height: 12)
             }
         }
@@ -185,8 +185,8 @@ struct ImportKeyView: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(
                     viewModel.isPhraseValid ?
-                    Color.dodgerBlue :
-                        Color.ghostWhite
+                    viewModel.resources.buttonBackground :
+                        viewModel.resources.innactiveButtonBackground
                 )
                 .frame(height: 48)
                 .frame(maxWidth: .infinity)

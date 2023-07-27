@@ -111,23 +111,23 @@ struct ActionSheetView: View {
                         }
                     }
                 }
-                .background(.white())
+                .background(.white)
                 .cornerRadius(14)
 
-                Button("Отмена") {
+                Button(R.string.localizable.photoEditorAlertCancel()) {
                     vibrate(.soft)
                     showActionSheet.toggle()
                 }
-                .font(.regular(17))
-                .foreground(.red())
+                .font(.system(size: 17, weight: .regular))
+                .foregroundColor(.spanishCrimson)
                 .frame(maxWidth: .infinity, idealHeight: 60, maxHeight: 60)
-                .background(.white())
+                .background(.white)
                 .cornerRadius(14)
             }
             .padding([.leading, .trailing], 8)
             .padding(.bottom, 10)
         }
-        .background(isShown ? .black(0.4) : .clear)
+        .background(isShown ? Color.chineseBlack04 : .clear)
         .ignoresSafeArea()
     }
 
@@ -138,13 +138,13 @@ struct ActionSheetView: View {
                 .frame(width: 24, height: 24)
 
             Text("0.50 AUR")
-                .font(.regular(16))
-                .foreground(.black())
+                .font(.system(size: 16, weight: .regular))
+                .foregroundColor(.chineseBlack)
 
             Spacer()
-            Text("Отправить Фото")
-                .font(.semibold(16))
-                .foreground(.blue())
+            Text(R.string.localizable.actionSheetSendFoto())
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundColor(.dodgerBlue)
                 .opacity(imagesToSend.isEmpty ? 0 : 1)
                 .onTapGesture {
                     vibrate(.soft)
@@ -218,16 +218,17 @@ struct ActionSheetView: View {
                     item.action.image
                 }
                 .frame(width: 40, height: 40, alignment: .center)
-                .background(Color(.blue(0.1)))
+                .background(Color.dodgerTransBlue)
                 .cornerRadius(20)
 
                 Text(item.action.title)
+                    .font(.system(size: 17, weight: .regular))
                     .font(.regular(17))
-                    .foreground(.blue())
+                    .foregroundColor(.dodgerBlue)
 
                 Spacer()
             }
-            .background(.white())
+            .background(Color.white)
             .frame(maxWidth: .infinity, idealHeight: 64, maxHeight: 64)
             .padding(.horizontal, 16)
         })

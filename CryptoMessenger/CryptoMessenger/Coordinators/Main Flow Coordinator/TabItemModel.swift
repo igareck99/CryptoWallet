@@ -24,9 +24,9 @@ struct TabItemModel: Identifiable, ViewGeneratable {
     @ViewBuilder
     func image(tab: MainTabs) -> AnyView {
         tabType == tab ?
-        icon.update(color: .blue)
+        icon.update(color: .dodgerBlue)
             .anyView() :
-        icon.update(color: .gray)
+        icon.update(color: .romanSilver)
             .anyView()
     }
 

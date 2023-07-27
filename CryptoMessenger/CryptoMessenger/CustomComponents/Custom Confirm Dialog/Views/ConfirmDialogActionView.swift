@@ -10,13 +10,13 @@ struct ConfirmDialogActionView: View {
 			HStack {
 				Text(model.text)
 					.font(.system(size: 20))
-					.foregroundColor(.black)
+					.foregroundColor(.chineseBlack)
 				Spacer()
 				Image(systemName: model.imageName)
 					.resizable()
 					.scaledToFit()
 					.frame(width: 24, height: 24)
-					.foregroundColor(.black)
+					.foregroundColor(.chineseBlack)
 			}
 		}
 	}

@@ -19,17 +19,15 @@ struct ReplyView: View {
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(R.string.localizable.replyViewReply(), [
-                        .font(.regular(12)),
-                        .color(.blue()),
                         .paragraph(.init(lineHeightMultiple: 1.12, alignment: .left))
-                    ])
+                    ]).font(.system(size: 12, weight: .regular))
+                        .foregroundColor(.dodgerBlue)
                         .frame(height: 13)
 
                     Text(text, [
-                        .font(.regular(15)),
-                        .color(.black()),
                         .paragraph(.init(lineHeightMultiple: 1.09, alignment: .left))
-                    ])
+                    ]).font(.system(size: 15, weight: .regular))
+                        .foregroundColor(.chineseBlack)
                         .frame(height: 20)
                         .padding(.top, 3)
                 }
@@ -47,10 +45,10 @@ struct ReplyView: View {
 
             Rectangle()
                 .frame(height: 1)
-                .foreground(.lightGray())
+                .foregroundColor(.ashGray)
         }
         .frame(height: 54)
-        .background(.white())
+        .background(.white)
     }
 }
 
@@ -71,17 +69,15 @@ struct EditView: View {
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(R.string.localizable.editViewEdit(), [
-                        .font(.regular(12)),
-                        .color(.blue()),
                         .paragraph(.init(lineHeightMultiple: 1.12, alignment: .left))
-                    ])
+                    ]).font(.system(size: 12, weight: .regular))
+                        .foregroundColor(.dodgerBlue)
                         .frame(height: 13)
 
                     Text(text, [
-                        .font(.regular(15)),
-                        .color(.black()),
                         .paragraph(.init(lineHeightMultiple: 1.09, alignment: .left))
-                    ])
+                    ]).font(.system(size: 15, weight: .regular))
+                        .foregroundColor(.chineseBlack)
                         .frame(height: 20)
                         .padding(.top, 3)
                 }
@@ -99,9 +95,9 @@ struct EditView: View {
 
             Rectangle()
                 .frame(height: 1)
-                .foreground(.lightGray())
+                .foregroundColor(.romanSilver)
         }
         .frame(height: 54)
-        .background(.white())
+        .background(.white)
     }
 }

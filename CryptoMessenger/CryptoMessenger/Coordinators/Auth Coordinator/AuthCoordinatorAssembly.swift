@@ -6,9 +6,9 @@ enum AuthCoordinatorAssembly {
         renderView: @escaping (any View) -> Void
     ) -> Coordinator {
         let userFlows = UserDefaultsService.shared
-        let sources = OnboardingResources.self
+        let resources = OnboardingResources.self
         let viewModel = OnboardingViewModel(
-            sources: sources,
+            resources: resources,
             userFlows: userFlows
         )
         let view = OnboardingView(viewModel: viewModel)

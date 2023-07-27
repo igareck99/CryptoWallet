@@ -16,11 +16,15 @@ final class MembersViewModel: ObservableObject, MembersViewModelDelegate {
     @Binding var chatData: ChatData
     @Published var membersViews: [any ViewGeneratable] = []
     var coordinator: ChatHistoryFlowCoordinatorProtocol
+    let resources: MembersResourcable.Type
 
     // MARK: - Lifecyle
 
     init(chatData: Binding<ChatData>,
-         coordinator: ChatHistoryFlowCoordinatorProtocol) {
+         coordinator: ChatHistoryFlowCoordinatorProtocol,
+         resources: MembersResourcable.Type = MembersResources.self
+    ) {
+        self.resources = resources
         self._chatData = chatData
         self.coordinator = coordinator
         self.configView()

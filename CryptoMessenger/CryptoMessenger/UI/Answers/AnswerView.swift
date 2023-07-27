@@ -37,14 +37,14 @@ struct AnswerView: View {
                 ForEach(0...viewModel.listData.count - 1, id: \.self) { index in
                     if viewModel.listData[index].tapped {
                         AnswerCellView(item: viewModel.listData[index])
-                        .background(.white())
+                        .background(viewModel.resources.background)
                         .listRowSeparator(.visible)
                         .onTapGesture {
                             viewModel.listData[index].tapped.toggle()
                         }
                     } else {
                         AnswerCellView(item: viewModel.listData[index])
-                        .background(.white())
+                        .background(viewModel.resources.background)
                         .listRowSeparator(.hidden)
                         .onTapGesture {
                             viewModel.listData[index].tapped.toggle()
@@ -55,13 +55,13 @@ struct AnswerView: View {
                         withAnimation(.linear(duration: 0.15)) {
                             ForEach(viewModel.listData[index].details) { item in
                                 Text(item.text)
-                                    .font(.regular(16))
+                                    .font(.system(size: 16, weight: .regular))
                                     .frame(minHeight: 24,
                                            maxHeight: 44,
                                            alignment: .leading)
                                     .listRowSeparator(.hidden)
                             }
-                            .listRowBackground(Color(.lightBlue()))
+                            .listRowBackground(viewModel.resources.textBoxBackground)
                         }
                     }
                 }
@@ -70,8 +70,8 @@ struct AnswerView: View {
         .navigationBarHidden(false)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text(R.string.localizable.additionalMenuQuestions())
-                    .font(.bold(15))
+                Text(viewModel.resources.additionalMenuQuestions)
+                    .font(.system(size: 16, weight: .regular))
             }
         }
     }

@@ -46,7 +46,7 @@ struct SuccessFacilityView: View {
                 }
             Spacer()
             Text(sources.successFacilityViewTitle)
-                .font(.bold(15))
+                .font(.system(size: 15, weight: .bold))
             Spacer()
         }
     }
@@ -55,7 +55,7 @@ struct SuccessFacilityView: View {
         ZStack {
             Circle()
                 .frame(width: 40, height: 40)
-                .foreground(.lightBlue(0.4))
+                .foregroundColor(sources.avatarBackground)
             sources.greenCheck
         }
     }
@@ -63,18 +63,18 @@ struct SuccessFacilityView: View {
     private var coinDataView: some View {
 		VStack(spacing: 12) {
 			Text(transaction.transferAmount + " " + transaction.transferCurrency)
-				.font(.regular(32))
+                .font(.system(size: 32, weight: .regular))
 
 			Text(transaction.comissionAmount + " " + transaction.comissionCurrency)
-				.font(.regular(15))
-				.foreground(.darkGray())
+                .font(.system(size: 15, weight: .regular))
+                .foregroundColor(sources.textColor)
 		}
 	}
 
     private var rectangleView: some View {
         ZStack(alignment: .top) {
             RoundedRectangle(cornerRadius: 8.0)
-                .fill(Color(.blue(0.1)))
+                .fill(sources.avatarBackground)
                 .frame(height: 224)
             VStack {
                 sources.address
@@ -83,21 +83,21 @@ struct SuccessFacilityView: View {
                     .frame(width: 40, height: 40)
                 VStack(spacing: 6) {
                     Text(transaction.reciverName ?? "")
-                        .font(.semibold(15))
+                        .font(.system(size: 15, weight: .semibold))
                     Text(transaction.reciverAddress ?? "")
-                        .foreground(.darkGray())
-                        .font(.regular(12))
+                        .foregroundColor(sources.textColor)
+                        .font(.system(size: 12, weight: .regular))
                 }
                 Button {
                 } label: {
                     Text(sources.successFacilityViewAddFavorites)
                         .frame(minWidth: 0, maxWidth: .infinity)
-                        .font(.semibold(15))
+                        .font(.system(size: 15, weight: .semibold))
                         .padding()
-                        .foreground(.blue())
+                        .foregroundColor(sources.buttonBackground)
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color(.blue()), lineWidth: 1)
+                                .stroke(sources.buttonBackground, lineWidth: 1)
                         )
                 }
                 .cornerRadius(8)
@@ -116,24 +116,24 @@ struct SuccessFacilityView: View {
             } label: {
                 Text(sources.successFacilityViewOKClose)
                     .frame(minWidth: 0, maxWidth: .infinity)
-                    .font(.semibold(15))
+                    .font(.system(size: 15, weight: .semibold))
                     .padding()
-                    .foregroundColor(.white)
+                    .foregroundColor(sources.background)
                     .overlay(
                         RoundedRectangle(cornerRadius: 4)
-                            .stroke(Color.white, lineWidth: 2)
+                            .stroke(sources.background, lineWidth: 2)
                     )
             }
-            .background(Color(.blue()))
+            .background(sources.buttonBackground)
             .cornerRadius(4)
             .padding(.horizontal, 81)
             Button {
             } label: {
                 Text(sources.successFacilityViewShowTransaction)
                     .frame(minWidth: 0, maxWidth: .infinity)
-                    .font(.semibold(15))
+                    .font(.system(size: 15, weight: .semibold))
                     .padding()
-                    .foreground(.blue())
+                    .foregroundColor(sources.buttonBackground)
             }
         }
     }

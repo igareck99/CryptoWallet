@@ -28,7 +28,7 @@ struct ReactionsView: View {
 						ReactionGroupView(
 							text: reaction.emoji,
 							count: 1,
-							backgroundColor: Color(.white())
+							backgroundColor: .white
 						).onTapGesture {
 							onReactionHandler?(reaction.id)
 						}

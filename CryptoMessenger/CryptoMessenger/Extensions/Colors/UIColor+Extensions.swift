@@ -11,10 +11,16 @@ extension UIColor {
     // #121315 opacity = 0.4
     static let chineseBlack04 = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 0.4)
     // #8a919c or #89909B
+    //#121315 opacity = 0.05
+    static var chineseShadow = UIColor(red: 18.0 / 255.0, green: 19.0 / 255.0, blue: 21.0 / 255.0, alpha: 0.05)
+    //#8a919c or #89909B
     static let romanSilver = UIColor(red: 137.0 / 255.0, green: 144.0 / 255.0, blue: 155.0 / 255.0, alpha: 1.0)
     // #8a919 copacity = 0.7
     static let romanSilver07 = UIColor(red: 137.0 / 255.0, green: 144.0 / 255.0, blue: 155.0 / 255.0, alpha: 0.7)
     // #E1DCCD
+    //#8a919
+    static let romanSilver01 = UIColor(red: 137.0 / 255.0, green: 144.0 / 255.0, blue: 155.0 / 255.0, alpha: 0.1)
+    //#E1DCCD
     static let bone = UIColor(red: 225.0 / 255.0, green: 220.0 / 255.0, blue: 205.0 / 255.0, alpha: 1.0)
     // #eaeced
     static let brightGray = UIColor(red: 234.0 / 255.0, green: 236.0 / 255.0, blue: 237.0 / 255.0, alpha: 1.0)
@@ -45,6 +51,9 @@ extension UIColor {
     // #E81E4E
     static let spanishCrimson = UIColor(red: 232.0 / 255.0, green: 30.0 / 255.0, blue: 78.0 / 255.0, alpha: 1.0)
     // #EC9B3C
+    //#E81E4E
+    static let spanishCrimson01 = UIColor(red: 232.0 / 255.0, green: 30.0 / 255.0, blue: 78.0 / 255.0, alpha: 0.1)
+    //#EC9B3C
     static let royalOrange = UIColor(red: 236.0 / 255.0, green: 155.0 / 255.0, blue: 60.0 / 255.0, alpha: 1.0)
     // #8E9298
     static let osloGrayApprox = UIColor(red: 142.0 / 255.0, green: 146.0 / 255.0, blue: 152.0 / 255.0, alpha: 1.0)
@@ -67,6 +76,9 @@ extension UIColor {
     // #f8f9f9
     static let ghostWhite = UIColor(red: 248.0 / 255.0, green: 249.0 / 255.0, blue: 249.0 / 255.0, alpha: 1.0)
     // #E6F4FF
+    //#f8f9f9
+    static let ghostWhite04 = UIColor(red: 248.0 / 255.0, green: 249.0 / 255.0, blue: 249.0 / 255.0, alpha: 0.4)
+    //#E6F4FF
     static let bubbles = UIColor(red: 230.0 / 255.0, green: 244.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
     // #239c56
     static let seaGreen = UIColor(red: 35.0 / 255.0, green: 156.0 / 255.0, blue: 86.0 / 255.0, alpha: 1.0)

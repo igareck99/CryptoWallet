@@ -7,8 +7,8 @@ extension UITextField {
     // MARK: - Internal Methods
 
     @discardableResult
-    func textColor(_ palette: Palette) -> Self {
-        textColor = palette.uiColor
+    func textColor(_ color: UIColor) -> Self {
+        textColor = color
         return self
     }
 

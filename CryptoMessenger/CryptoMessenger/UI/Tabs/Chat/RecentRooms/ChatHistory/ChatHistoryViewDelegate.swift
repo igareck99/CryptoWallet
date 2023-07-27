@@ -11,7 +11,7 @@ protocol ChatHistoryViewDelegate: ObservableObject {
 
     var groupAction: GroupAction? { get set }
 
-    var sources: ChatHistorySourcesable.Type { get }
+    var resources: ChatHistorySourcesable.Type { get }
 
     var eventSubject: PassthroughSubject<ChatHistoryFlow.Event, Never> { get }
 

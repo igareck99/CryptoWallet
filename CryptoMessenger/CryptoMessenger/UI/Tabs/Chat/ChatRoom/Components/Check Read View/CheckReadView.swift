@@ -18,12 +18,12 @@ struct CheckReadView: View {
                     Spacer()
                     HStack(alignment: .center, spacing: 4) {
                         Text(time)
-                            .font(.light(12))
-                            .foreground(.white())
+                            .font(.system(size: 12, weight: .light))
+                            .foregroundColor(.white)
                         Image(R.image.chat.readCheckWhite.name)
                     }
                     .frame(width: 56, height: 16)
-                    .background(.black(0.4))
+                    .background(Color.chineseBlack04)
                     .cornerRadius(8)
 				}
 				.padding(.bottom, 8)

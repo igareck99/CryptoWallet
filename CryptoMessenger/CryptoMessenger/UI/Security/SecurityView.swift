@@ -18,14 +18,14 @@ struct SecurityView: View {
 
     var body: some View {
         content
-        .background(Color.ghostWhite)
+        .background(viewModel.resources.innactiveBackground)
         .navigationBarHidden(false)
         .toolbar(.hidden, for: .tabBar)
         .onAppear {
             viewModel.send(.onAppear)
         }
 		.alert(isPresented: $viewModel.showBiometryErrorAlert, content: {
-            Alert(title: Text("Биометрия недоступна"), message: nil,
+            Alert(title: Text(viewModel.resources.securityBiometryEror), message: nil,
                   dismissButton: .default(Text("OK")))
         })
         .sheet(isPresented: $showAddWallet, content: {
@@ -44,8 +44,8 @@ struct SecurityView: View {
         })
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text(R.string.localizable.securityTitle())
-                    .font(.bold(15))
+                Text(viewModel.resources.securityTitle)
+                    .font(.system(size: 15, weight: .bold))
             }
         }
     }
@@ -55,14 +55,14 @@ struct SecurityView: View {
             Section {
                 securitySection
             } header: {
-                Text("Безопасность")
+                Text(viewModel.resources.securityTitle)
             }
             if viewModel.isPrivacyAvailable {
                 Section {
                     privacySection
                 } header: {
-                    Text(R.string.localizable.securityPrivacy())
-                        .foregroundColor(.romanSilver)
+                    Text(viewModel.resources.securityPrivacy)
+                        .foregroundColor(viewModel.resources.textColor)
                 }
             }
         }
@@ -71,7 +71,7 @@ struct SecurityView: View {
 
     private var securitySection: some View {
         VStack(spacing: 0) {
-            Toggle(R.string.localizable.securityPinCodeTitle(),
+            Toggle(viewModel.resources.securityPinCodeTitle,
                    isOn: $viewModel.isPinCodeOn)
             .background(.white)
             .frame(height: 44)
@@ -85,8 +85,8 @@ struct SecurityView: View {
                 viewModel.pinCodeAvailabilityDidChange(value: value)
             }
             if viewModel.isPinCodeOn {
-                SecurityAdvancedCellView(title: R.string.localizable.securityBiometryEnterTitle(),
-                                         description: R.string.localizable.securityBiometryEnterState(),
+                SecurityAdvancedCellView(title: viewModel.resources.securityBiometryEnterTitle,
+                                         description: viewModel.resources.securityBiometryEnterState,
                                          currentState: $viewModel.isBiometryOn)
                 .frame(height: 44)
                 .onChange(of: viewModel.isBiometryOn) { item in
@@ -98,8 +98,8 @@ struct SecurityView: View {
                 }
                 if viewModel.isFalsePinCodeOnAvailable {
                     SecurityAdvancedCellView(
-                        title: R.string.localizable.securityFalsePasswordTitle(),
-                        description: R.string.localizable.securityFalsePasswordState(),
+                        title: viewModel.resources.securityFalsePasswordTitle,
+                        description: viewModel.resources.securityFalsePasswordState,
                         currentState: $viewModel.isFalsePinCodeOn
                     )
                     .frame(height: 44)
@@ -121,7 +121,7 @@ struct SecurityView: View {
             case .seedPhrase:
                 PrivacyCellView(item: type,
                                 phraseStatus: viewModel.isPhraseExist())
-                .background(.white)
+                .background(viewModel.resources.background)
                 .listRowSeparator(.visible,
                                   edges: .bottom)
                 .frame(height: 73)
@@ -134,7 +134,7 @@ struct SecurityView: View {
                 }
             case .session:
                 PrivacyCellView(item: type)
-                .background(.white)
+                .background(viewModel.resources.background)
                 .frame(height: 57)
                 .listRowSeparator(.visible,
                                   edges: .top)
@@ -143,7 +143,7 @@ struct SecurityView: View {
                 }
             case .blockList:
                 PrivacyCellView(item: type)
-                .background(.white)
+                .background(viewModel.resources.background)
                 .frame(height: 44)
                 .onTapGesture {
                     viewModel.send(.onBlockList)

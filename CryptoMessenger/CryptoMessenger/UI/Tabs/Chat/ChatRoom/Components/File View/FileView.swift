@@ -50,22 +50,22 @@ struct FileView: View {
 				ZStack {
 					Circle()
 						.frame(width: 44, height: 44)
-						.foregroundColor(.azureRadianceApprox)
+						.foregroundColor(.dodgerTransBlue)
 					R.image.chat.clip.image
 				}
 
 				VStack(alignment: .leading, spacing: 0) {
 					Text(fileName, [
-						.color(.blue3E729E()),
-						.font(.medium(16)),
 						.paragraph(.init(lineHeightMultiple: 1.21, alignment: .left))
 					])
+                    .foregroundColor(.dodgerBlue)
+                    .font(.system(size: 16, weight: .medium))
 					.frame(height: 23)
 					Text(viewModel.sizeOfFile, [
-						.color(.gray6589A8()),
-						.font(.medium(13)),
 						.paragraph(.init(lineHeightMultiple: 1.21, alignment: .left))
 					])
+                    .foregroundColor(.ashGray)
+                    .font(.system(size: 13, weight: .medium))
 					.frame(height: 23)
 				}
 			}

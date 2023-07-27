@@ -12,6 +12,7 @@ final class TransactionViewModel: ObservableObject {
     @Published var transactionList: [TransactionInfo] = []
     @State var selectorFilterIndex = 0
     @State var selectorTokenIndex = 0
+    let resources: TransactionResourcable.Type
 
     // MARK: - Private Properties
 
@@ -26,8 +27,10 @@ final class TransactionViewModel: ObservableObject {
 
     init(
         coordinator: WalletCoordinatable,
-		userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared
+		userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared,
+        resources: TransactionResourcable.Type = TransactionResources.self
 	) {
+        self.resources = resources
         self.coordinator = coordinator
 		self.userCredentialsStorage = userCredentialsStorage
         bindInput()

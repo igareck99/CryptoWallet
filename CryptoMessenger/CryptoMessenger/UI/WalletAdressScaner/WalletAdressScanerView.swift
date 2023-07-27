@@ -7,6 +7,7 @@ struct WalletAddressScanerView: View {
     // MARK: - Internal Properties
 
     @Binding var scannedCode: String
+    @StateObject var viewModel: WalletAddressScanerViewModel
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -15,8 +16,8 @@ struct WalletAddressScanerView: View {
         content
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(R.string.localizable.qrCodeTitle())
-                        .font(.bold(15))
+                    Text(viewModel.resources.qrCodeTitle)
+                        .font(.system(size: 15, weight: .bold))
                 }
             }
             .onChange(of: scannedCode) { newValue in

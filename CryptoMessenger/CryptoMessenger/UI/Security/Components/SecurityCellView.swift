@@ -7,7 +7,6 @@ struct SecurityCellView: View {
     // MARK: - Internal Properties
 
     var title: String
-    var font: Palette = .darkGray()
     var currentState: String
 
     // MARK: - Body
@@ -15,13 +14,13 @@ struct SecurityCellView: View {
     var body: some View {
         HStack {
             Text(title)
-                .font(.regular(15))
+                .font(.system(size: 15, weight: .regular))
             Spacer()
             HStack(spacing: 17) {
                 Text(currentState.isEmpty ? R.string.localizable.securityProfileObserveState() :
                         currentState)
-                    .font(.regular(15))
-                    .foreground(font)
+                    .font(.system(size: 15, weight: .regular))
+                    .foregroundColor(.chineseBlack)
                 R.image.registration.arrow.image
             }
         }

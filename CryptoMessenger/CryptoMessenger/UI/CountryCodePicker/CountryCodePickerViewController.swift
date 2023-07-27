@@ -54,9 +54,9 @@ final class CountryCodePickerViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.background(.white())
+        navigationController?.navigationBar.background(.white)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.barTintColor(.white())
+        navigationController?.navigationBar.barTintColor(.white)
     }
 
     // MARK: - Private Methods
@@ -71,8 +71,8 @@ final class CountryCodePickerViewController: UITableViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.background(.white())
-        searchController.searchBar.searchTextField.background(.paleBlue())
+        searchController.searchBar.background(.white)
+        searchController.searchBar.searchTextField.background(.aliceBlue)
         searchController.searchBar.searchTextField.clearButtonMode = .never
         searchController.searchBar.setValue(R.string.localizable.countryCodePickerCancel(), forKey: "cancelButtonText")
         searchController.searchBar.placeholder = R.string.localizable.countryCodePickerSearch()
@@ -149,11 +149,11 @@ extension CountryCodePickerViewController {
         guard !isFiltering else { return nil }
 
         let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 24))
-        header.background(.paleBlue())
+        header.background(.aliceBlue)
         let title = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.frame.width - 16, height: 24))
         title.text = countries[section].first?.name.firstLetter
         title.font(.medium(15))
-        title.textColor(.black())
+        title.textColor(.chineseBlack)
         title.textAlignment = .left
         header.addSubview(title)
 
@@ -237,7 +237,7 @@ extension CountryCodePickerViewController {
         private func addNameLabel() {
             nameLabel.snap(parent: contentView) {
                 $0.font(.regular(15))
-                $0.textColor(.black())
+                $0.textColor(.chineseBlack)
                 $0.textAlignment = .left
             } layout: {
                 $0.centerY.equalTo($1)

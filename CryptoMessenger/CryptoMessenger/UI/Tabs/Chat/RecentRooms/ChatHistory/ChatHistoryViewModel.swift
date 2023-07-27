@@ -6,7 +6,7 @@ import SwiftUI
 final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 
 	let eventSubject = PassthroughSubject<ChatHistoryFlow.Event, Never>()
-	let sources: ChatHistorySourcesable.Type
+	let resources: ChatHistorySourcesable.Type
 
     @Published private(set) var auraRooms: [AuraRoomData] = []
     @Published private(set) var chatHistoryRooms: [ChatHistoryData] = []
@@ -57,13 +57,13 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     // MARK: - Lifecycle
 
     init(
-        sources: ChatHistorySourcesable.Type = ChatHistorySources.self,
+        resources: ChatHistorySourcesable.Type = ChatHistorySources.self,
         pushNotification: PushNotificationsServiceProtocol = PushNotificationsService.shared,
         userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared,
         factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
         chatObjectFactory: ChatHistoryObjectFactoryProtocol = ChatHistoryObjectFactory()
     ) {
-        self.sources = sources
+        self.resources = resources
         self.pushNotification = pushNotification
         self.userSettings = userSettings
         self.factory = factory

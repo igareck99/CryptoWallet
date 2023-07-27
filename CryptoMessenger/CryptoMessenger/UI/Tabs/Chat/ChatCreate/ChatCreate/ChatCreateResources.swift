@@ -16,6 +16,8 @@ protocol ChatCreateResourcable {
     
     static var createActionContactsSection: String { get }
     
+    static var tabChat: String { get }
+    
     
     static var buttonBackground: Color { get }
     
@@ -61,6 +63,10 @@ enum ChatCreateResources: ChatCreateResourcable {
     
     static var createActionContactsSection: String {
         R.string.localizable.createActionContactsSection()
+    }
+    
+    static var tabChat: String {
+        R.string.localizable.tabChat()
     }
     
     

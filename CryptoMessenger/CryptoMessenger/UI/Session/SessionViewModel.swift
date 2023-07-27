@@ -19,6 +19,7 @@ final class SessionViewModel: ObservableObject {
     private let eventSubject = PassthroughSubject<SessionFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<SessionFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
+    let resources: SessionResourcable.Type
 
     @Injectable private var apiClient: APIClientManager
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
@@ -27,8 +28,10 @@ final class SessionViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-		userSettings: UserCredentialsStorage & UserFlowsStorage
+		userSettings: UserCredentialsStorage & UserFlowsStorage,
+        resources: SessionResourcable.Type = SessionResources.self
 	) {
+        self.resources = resources
 		self.userSettings = userSettings
         bindInput()
         bindOutput()

@@ -16,14 +16,14 @@ struct PhoneView: View {
     var body: some View {
         HStack {
             phoneField
-                .foreground(.black())
-                .font(.regular(15))
-                .background(.paleBlue())
+                .foregroundColor(.chineseBlack)
+                .font(.system(size: 15, weight: .regular))
+                .background(Color.aliceBlue)
                 .frame(height: 44)
                 .padding([.leading, .trailing], 16)
         }
         .frame(height: 44)
-        .background(.paleBlue())
+        .background(Color.aliceBlue)
         .cornerRadius(8)
         .onAppear {
             phoneField = PhoneNumberTextFieldView(phoneNumber: $phone)

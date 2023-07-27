@@ -66,7 +66,7 @@ final class ChatRoomViewModel: ObservableObject {
 		availabilityFacade.isCallAvailable && room.room.isDirect && !self.isChannel
 	}
 
-    let sources: ChatRoomSourcesable.Type
+    let resources: ChatRoomSourcesable.Type
 
 	var isVideoCallAvailable: Bool {
 		availabilityFacade.isVideoCallAvailable && room.room.isDirect && !self.isChannel
@@ -111,7 +111,7 @@ final class ChatRoomViewModel: ObservableObject {
         toggleFacade: MainFlowTogglesFacadeProtocol,
         locationManager: LocationManagerUseCaseProtocol = LocationManagerUseCase(),
 		settings: UserDefaultsServiceCallable = UserDefaultsService.shared,
-        sources: ChatRoomSourcesable.Type = ChatRoomResources.self,
+        resources: ChatRoomSourcesable.Type = ChatRoomResources.self,
 		componentsFactory: ChatComponentsFactoryProtocol = ChatComponentsFactory(),
         userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared,
 		groupCallsUseCase: GroupCallsUseCaseProtocol,
@@ -119,7 +119,7 @@ final class ChatRoomViewModel: ObservableObject {
         config: ConfigType = Configuration.shared,
         eventsFactory: RoomEventsFactoryProtocol.Type = RoomEventsFactory.self
 	) {
-        self.sources = sources
+        self.resources = resources
         self.room = room
 		self.p2pCallsUseCase = p2pCallsUseCase
 		self.settings = settings

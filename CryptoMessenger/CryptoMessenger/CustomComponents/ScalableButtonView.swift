@@ -29,7 +29,7 @@ struct ScalableButtonView: View {
                 .font(.bold(16))
                 .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, alignment: .center)
                 //.background(isDisabled ? .lightGray() : .blue())
-                .foreground(isDisabled ? .gray() : .blue())
+                .foreground(isDisabled ? .romanSilver : .dodgerBlue)
                 .cornerRadius(8)
         }
         .disabled(isDisabled)

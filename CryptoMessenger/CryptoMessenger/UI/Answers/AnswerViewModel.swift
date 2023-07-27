@@ -7,6 +7,7 @@ final class AnswersViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     var coordinator: ProfileFlowCoordinatorProtocol?
+    let resources: AnswersResourcable.Type
 
     @Published var listData = [AnswerItem(title: "Загрузка и установка AURA",
                                           details: []),
@@ -23,4 +24,10 @@ final class AnswersViewModel: ObservableObject {
                                AnswerItem(title: "Аудио и видеозвонки",
                                           details: [])
     ]
+    
+    init(
+        resources: AnswersResourcable.Type = AnswersResources.self
+    ){
+        self.resources = resources
+    }
 }

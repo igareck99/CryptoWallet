@@ -88,7 +88,7 @@ enum TranslateAction: CaseIterable, Identifiable {
         }
     }
     
-    var color: Palette { self == .russian || self == .english ? .red() : .blue() }
+    var color: Color { self == .russian || self == .english ? .spanishCrimson : .dodgerTransBlue }
     
     var image: Image {
         switch self {
@@ -126,12 +126,12 @@ struct TranslateMenuView: View {
                         }
                     VStack(alignment: .leading) {
                             Text(act.title)
-                                .font(.bold(15))
-                                .foreground(.black())
+                                .font(.system(size: 15, weight: .bold))
+                                .foregroundColor(.chineseBlack)
                                 .padding(.leading, 16)
                             Text(act.description)
-                                .font(.regular(13))
-                                .foreground(.black())
+                                .font(.system(size: 13, weight: .regular))
+                                .foregroundColor(.chineseBlack)
                                 .padding(.leading, 16)
                         }
                         Spacer()

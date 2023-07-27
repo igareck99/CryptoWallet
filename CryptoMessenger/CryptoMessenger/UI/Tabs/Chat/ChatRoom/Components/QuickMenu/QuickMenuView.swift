@@ -40,12 +40,12 @@ struct QuickMenuView: View {
                     item.action.image
                 }
                 .frame(width: 40, height: 40)
-                .background(item.action == .delete ? Color(.red(0.1)) : Color(.blue(0.1)))
+                .background(item.action == .delete ? Color.spanishCrimson01 : Color.dodgerTransBlue)
                 .cornerRadius(20)
 
                 Text(item.action.title)
-                    .font(.regular(17))
-                    //.foreground(item.action == .delete ? .red() : .blue())
+                    .font(.system(size: 17, weight: .regular))
+                    //.foregroundColor(item.action == .delete ? .spanishCrimson : .dodgerBlue)
                     .padding(.leading, 16)
 
                 Spacer()
@@ -131,7 +131,7 @@ enum QuickActionCurrentUser: CaseIterable {
         }
     }
 
-    var color: Palette { self == .delete ? .red() : .blue() }
+    var color: Color { self == .delete ? .spanishCrimson : .dodgerBlue }
 
     var image: Image {
         switch self {

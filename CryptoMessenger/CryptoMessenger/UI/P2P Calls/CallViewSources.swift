@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 protocol CallViewSourcesable {
 
@@ -43,6 +44,10 @@ protocol CallViewSourcesable {
     static var micEnabledImgName: String { get }
 
     static var micDisabledImgName: String { get }
+    
+    static var titleColor: Color { get }
+    
+    static var background: Color { get }
 
 //	static var changeInterlocutor: String { get }
 //
@@ -165,6 +170,14 @@ enum CallViewSources: CallViewSourcesable {
 	static var turnOffSound: String {
 		R.string.localizable.callsTurnOffSound()
 	}
+    
+    static var titleColor: Color {
+        .chineseBlack
+    }
+    
+    static var background: Color {
+        .white 
+    }
 
     static var soundOnImage: UIImage? {
         R.image.callScreen.soundOn()

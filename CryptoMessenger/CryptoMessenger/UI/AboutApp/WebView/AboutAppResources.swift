@@ -13,6 +13,14 @@ protocol AboutAppSourcesable {
     static var aboutApp: String { get }
     
     static var uasgeConditions: String { get }
+    
+    static var titleColor: Color { get }
+    
+    static var textColor: Color { get }
+    
+    static var buttonBackground: Color { get }
+    
+    static var background: Color { get }
 }
 
 // MARK: - AboutAppSources(AboutAppSourcesable)
@@ -41,5 +49,21 @@ enum AboutAppSources: AboutAppSourcesable {
     
     static var uasgeConditions: String {
         R.string.localizable.aboutAppUsageCondition()
+    }
+    
+    static var textColor: Color {
+        .romanSilver
+    }
+    
+    static var titleColor: Color {
+        .chineseBlack
+    }
+    
+    static var buttonBackground: Color {
+        .dodgerBlue
+    }
+    
+    static var background: Color {
+        .white 
     }
 }

@@ -28,7 +28,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                        isSearchingState: $viewModel.isSearching)
             .searchable(text: $viewModel.searchText)
             .confirmationDialog("", isPresented: $showReadAll) {
-                Button(viewModel.sources.readAll, action: {
+                Button(viewModel.resources.readAll, action: {
                     viewModel.markAllAsRead()
                 })
             }
@@ -43,23 +43,23 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
     private func toolbarItems() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             HStack(spacing: 8) {
-                viewModel.sources.chatLogo
+                viewModel.resources.chatLogo
                     .renderingMode(.original)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20, height: 20)
                     .foregroundColor(Color(.init(r: 14, g: 142, b: 243)))
-                Text("0.50 \(viewModel.sources.AUR)")
-                    .font(.regular(15))
-                    .foreground(.black())
+                Text("0.50 \(viewModel.resources.AUR)")
+                    .font(.system(size: 15, weight: .regular))
+                    .foreground(.chineseBlack)
             }
         }
         ToolbarItem(placement: .principal) {
             HStack(spacing: 4) {
-                Text(viewModel.sources.chats)
+                Text(viewModel.resources.chats)
                     .multilineTextAlignment(.center)
                     .font(.bold(17))
-                    .foreground(.black())
+                    .foreground(viewModel.resources.titleColor)
                     .accessibilityAddTraits(.isHeader)
             }
         }
@@ -68,14 +68,14 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                 Button {
                     viewModel.eventSubject.send(.onCreateChat)
                 } label: {
-                    viewModel.sources.squareAndPencil
+                    viewModel.resources.squareAndPencil
                         .renderingMode(.original)
                         .foregroundColor(Color(.init(r: 14, g:142, b: 243)))
                 }
                 Button(action: {
                     showReadAll.toggle()
                 }, label: {
-                    viewModel.sources.ellipsisCircle
+                    viewModel.resources.ellipsisCircle
                         .renderingMode(.original)
                         .foregroundColor(Color(.init(14, 142, 243)))
                 })

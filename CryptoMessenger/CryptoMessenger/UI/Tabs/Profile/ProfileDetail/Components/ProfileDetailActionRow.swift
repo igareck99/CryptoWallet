@@ -16,7 +16,7 @@ struct ProfileDetailActionRow: View {
             image
                 .frame(width: 20, height: 20)
             Text(title)
-                .font(.regular(15))
+                .font(.system(size: 15, weight: .regular))
                 .padding(.leading, 16)
             Spacer()
             R.image.additionalMenu.grayArrow.image

@@ -15,13 +15,13 @@ struct LastReactionItemView: View {
         HStack {
             if !isLastButton {
                 Text(emoji)
-                    .font(.regular(22))
+                    .font(.system(size: 22, weight: .regular))
             } else {
                 R.image.chat.reaction.pickEmoji.image
             }
         }
         .frame(width: 40, height: 40, alignment: .center)
-        .background(.blue(0.1))
+        .background(Color.dodgerTransBlue)
         .cornerRadius(20)
     }
 }

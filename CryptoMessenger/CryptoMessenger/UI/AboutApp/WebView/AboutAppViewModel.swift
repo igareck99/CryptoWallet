@@ -5,7 +5,7 @@ import Combine
 
 protocol AboutAppViewModelDelegate: ObservableObject {
 
-    var sources: AboutAppSourcesable.Type { get }
+    var resources: AboutAppSourcesable.Type { get }
 
     var appVersion: String { get }
     
@@ -26,7 +26,7 @@ final class AboutAppViewModel: AboutAppViewModelDelegate {
 
     // MARK: - Internal Properties
 
-    let sources: AboutAppSourcesable.Type
+    let resources: AboutAppSourcesable.Type
     @Published var appVersion = ""
     @Published var urlToOpen: URL?
     var safari: SFSafariViewWrapper?
@@ -52,8 +52,8 @@ final class AboutAppViewModel: AboutAppViewModelDelegate {
 
     // MARK: - Lifecycle
 
-    init(sources: AboutAppSourcesable.Type) {
-        self.sources = sources
+    init(resources: AboutAppSourcesable.Type = AboutAppSources.self) {
+        self.resources = resources
         updateData()
     }
 

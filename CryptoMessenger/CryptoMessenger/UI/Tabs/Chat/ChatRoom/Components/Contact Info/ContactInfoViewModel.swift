@@ -7,14 +7,14 @@ final class ContactInfoViewModel: ObservableObject, ContactInfoViewDelegate {
     
     // MARK: - Internal Properties
 
-    let sources: ContactInfoSourcesable.Type
+    let resources: ContactInfoSourcesable.Type
     
     // MARK: - Lifecycle
 
     init(
-        sources: ContactInfoSourcesable.Type = ContactInfoResources.self
+        resources: ContactInfoSourcesable.Type = ContactInfoResources.self
     ) {
-        self.sources = sources
+        self.resources = resources
     }
 }
 
@@ -24,6 +24,6 @@ protocol ContactInfoViewDelegate: ObservableObject {
     
     // MARK: - Internal Properties
 
-    var sources: ContactInfoSourcesable.Type { get }
+    var resources: ContactInfoSourcesable.Type { get }
 
 }

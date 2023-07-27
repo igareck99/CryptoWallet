@@ -23,7 +23,7 @@ struct VideoRow: View {
                 .resizable()
                 .scaledToFill()
                 .frame(width: 202, height: 245)
-                .background(.darkBlack())
+                .background(Color.chineseBlack)
                 .clipShape(
                     RoundedRectangle(
                         cornerRadius: 4.0,

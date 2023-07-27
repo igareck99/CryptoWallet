@@ -22,13 +22,13 @@ struct CountryCodeView: View {
             Text(R.string.localizable.profileDetailPhonePlaceholder())
                 .padding(.leading, 16)
                 .font(.bold(15))
-                .foreground(.darkGray())
+                .foregroundColor(.romanSilver)
             HStack {
                 countryField
                     .frame(height: 44)
                 R.image.additionalMenu.grayArrow.image
                     .padding(.trailing, 34)
-            }.background(.lightBlue())
+            }.background(Color.aliceBlue)
                 .padding([.leading, .trailing], 16)
                 .cornerRadius(8)
         }.onAppear {

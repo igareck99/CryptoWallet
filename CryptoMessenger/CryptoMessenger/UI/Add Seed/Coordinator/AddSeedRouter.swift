@@ -32,8 +32,6 @@ struct AddSeedRouter<
         switch link {
         case let .importKey(coordinator):
             ImportKeyViewAssembly.build(coordinator: coordinator)
-        default:
-            EmptyView()
         }
     }
 }

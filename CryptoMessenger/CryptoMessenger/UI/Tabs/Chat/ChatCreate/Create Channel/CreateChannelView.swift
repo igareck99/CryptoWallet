@@ -114,7 +114,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                 Divider()
                     .foregroundColor(viewModel.resources.dividerColor)
                     .padding(.top, 24)
-                Text("тип канала".uppercased())
+                Text(viewModel.resources.createChannelChannelType.uppercased())
                     .font(.system(size: 12))
                     .foregroundColor(viewModel.resources.textColor)
                     .padding(.leading, 16)
@@ -153,7 +153,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                 .frame(height: 132)
                 .background(viewModel.resources.textBoxBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            Text(R.string.localizable.createChannelDescription())
+            Text(viewModel.resources.createChannelDescription)
                 .font(.system(size: 12))
                 .foregroundColor(viewModel.resources.textColor)
                 .padding(.top, 6)
@@ -207,7 +207,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
             })
         }
         ToolbarItem(placement: .principal) {
-            Text(R.string.localizable.createActionCreateChannel())
+            Text(viewModel.resources.createActionCreateChannel)
                 .font(.system(size: 17, weight: .semibold))
                 .foregroundColor(viewModel.resources.titleColor)
         }

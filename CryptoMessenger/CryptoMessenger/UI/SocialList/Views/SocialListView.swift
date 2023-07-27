@@ -16,6 +16,33 @@ struct SocialListView: View {
 
     var body: some View {
         content
+        VStack(alignment: .leading, spacing: 8) {
+			Text(viewModel.resources.detailMain)
+                .font(.system(size: 12, weight: .bold))
+                .foregroundColor(viewModel.resources.textColor)
+                .padding(.top, 24)
+                .padding(.leading)
+			Text(viewModel.resources.detailMessage)
+                .font(.system(size: 12, weight: .regular))
+                .foregroundColor(viewModel.resources.textColor)
+                .padding(.leading)
+            List {
+                ForEach(viewModel.listData) { item in
+					SocialListItemView(item: item, viewModel: viewModel)
+						.ignoresSafeArea()
+                        .listRowSeparator(.visible)
+                        .onDrag {
+                            self.viewModel.dragging = item
+                            return NSItemProvider(object: NSString())
+                        }
+                }
+                .onMove(perform: { indexSet, value in
+                    viewModel.onMove(source: indexSet, destination: value)
+                })
+                .listRowBackground(viewModel.resources.avatarBackground)
+                Spacer().listRowSeparator(.hidden)
+            }
+        }
         .onAppear {
             viewModel.send(.onAppear)
 		}
@@ -24,7 +51,7 @@ struct SocialListView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
 				Text(viewModel.resources.detailTitle)
-                    .font(.bold(15))
+                    .font(.system(size: 15, weight: .bold))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -32,8 +59,8 @@ struct SocialListView: View {
                     presentationMode.wrappedValue.dismiss()
                 }, label: {
 					Text(viewModel.resources.rightButton)
-                        .font(.bold(15))
-                        .foreground(.blue())
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundColor(viewModel.resources.buttonBackround)
                         .onTapGesture {
                             viewModel.saveSocialData()
                             presentationMode.wrappedValue.dismiss()

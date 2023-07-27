@@ -10,15 +10,15 @@ final class AnotherApppTransitionViewModel: ObservableObject {
     @Published var resultAppList: [AnotherAppData] = []
     @Published var place: Place
     @Injectable var sideAppManager: SideAppTransitionServiceProtocol
-    let sources: AnotherAppSourcesable.Type
+    let resources: AnotherAppSourcesable.Type
 
     // MARK: - Lifecycle
 
     init(place: Place,
-         sources: AnotherAppSourcesable.Type = AnotherAppResources.self,
+         resources: AnotherAppSourcesable.Type = AnotherAppResources.self,
          sideAppManager: SideAppTransitionServiceProtocol = SideAppTransitionService.shared) {
         self.place = place
-        self.sources = sources
+        self.resources = resources
         self.sideAppManager = sideAppManager
         config()
     }
@@ -32,17 +32,17 @@ final class AnotherApppTransitionViewModel: ObservableObject {
     // MARK: - Private Methods
 
     private func config() {
-        appsList = [.init(image: sources.appleMapsImage,
-                          name: sources.appleMaps,
+        appsList = [.init(image: resources.appleMapsImage,
+                          name: resources.appleMaps,
                           mapsApp: .apple),
-                                                     .init(image: sources.googleMapsImage,
-                                                           name: sources.googleMaps,
+                                                     .init(image: resources.googleMapsImage,
+                                                           name: resources.googleMaps,
                                                            mapsApp: .google),
-                                                     .init(image:  sources.yandexMapsImage,
-                                                           name: sources.yandexMaps,
+                                                     .init(image:  resources.yandexMapsImage,
+                                                           name: resources.yandexMaps,
                                                            mapsApp: .yandex),
-                                                     .init(image: sources.doubleGisImage,
-                                                           name: sources.doubleGis,
+                                                     .init(image: resources.doubleGisImage,
+                                                           name: resources.doubleGis,
                                                            mapsApp: .doubleGis)]
         resultAppList = appsList.filter { sideAppManager.canOpenMapApp(service: $0.mapsApp,
                                                                        place: place) }

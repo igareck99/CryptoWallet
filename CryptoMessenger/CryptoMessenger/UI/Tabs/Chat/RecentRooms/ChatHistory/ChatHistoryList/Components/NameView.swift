@@ -39,7 +39,7 @@ struct NameView: View {
             : data.lastMessageTime.hoursAndMinutes,
             [
                 .font(.regular(14)),
-                .color(.custom(.init( 133, 135, 141)))
+                .color(Color(.custom(.init( 133, 135, 141))))
             ]
         )
     }
@@ -48,10 +48,11 @@ struct NameView: View {
         AnyView(
             Text(
                 data.roomName.firstUppercased,
-                [ .font(.medium(16)),
-                  .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
-                  .color(.black()) ]
-            )
+                [
+                    .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left))
+                ]
+            ).font(.system(size: 16, weight: .medium))
+                .foregroundColor(.chineseBlack)
         )
     }
 }

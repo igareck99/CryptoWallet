@@ -32,8 +32,8 @@ struct AvatarView: View {
                     ZStack {
                         Color(.lightBlue())
                         Text(data.roomName.firstLetter.uppercased() ?? "?")
-                            .foreground(.white())
-                            .font(.bold(28))
+                            .foreground(.white)
+                            .font(.system(size: 28, weight: .bold))
                     }.frame(width: 60, height: 60)
                 },
                 result: {

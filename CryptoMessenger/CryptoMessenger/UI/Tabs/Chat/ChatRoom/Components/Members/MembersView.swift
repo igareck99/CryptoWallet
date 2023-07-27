@@ -24,7 +24,7 @@ struct MembersView<ViewModel>: View where ViewModel: MembersViewModelDelegate {
     private var content: some View {
         VStack(spacing: 0) {
             Divider()
-                .foreground(.grayE6EAED())
+                .foreground(.gainsboro)
             List {
                 ForEach(viewModel.membersViews, id: \.id) { value in
                     value.view()
@@ -47,7 +47,7 @@ struct MembersView<ViewModel>: View where ViewModel: MembersViewModelDelegate {
         ToolbarItem(placement: .principal) {
             Text("Участники чата")
                 .font(.bold(15))
-                .foreground(.black())
+                .foreground(.black)
         }
     }
 }

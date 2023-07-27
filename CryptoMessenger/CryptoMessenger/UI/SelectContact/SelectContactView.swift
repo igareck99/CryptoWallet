@@ -69,7 +69,7 @@ struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewMode
     @ToolbarContentBuilder
     private func createToolBarSend() -> some ToolbarContent {
         ToolbarItem(placement: .principal) {
-            Text("Контакты")
+            Text(viewModel.contactsLimit == nil ? viewModel.resources.createActionGroupChat : viewModel.resources.transferChooseContact)
                 .font(.system(size: 15, weight: .bold))
                 .foregroundColor(viewModel.resources.titleColor)
         }
@@ -77,7 +77,7 @@ struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewMode
             Button(action: {
                 viewModel.dismissSheet()
             }, label: {
-                Text("Отмена")
+                Text(viewModel.resources.profileDetailRightButton)
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundColor(viewModel.resources.buttonBackground)
             })

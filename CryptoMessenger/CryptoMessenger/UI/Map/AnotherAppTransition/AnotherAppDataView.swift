@@ -15,7 +15,7 @@ struct AnotherAppDataView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 16)
                     .inset(by: 1)
-                    .stroke(Color(.gray()), lineWidth: 1)
+                    .stroke(Color.romanSilver, lineWidth: 1)
                     .frame(width: 54,
                            height: 54)
                 Image(uiImage: appData.image)
@@ -24,7 +24,7 @@ struct AnotherAppDataView: View {
                            height: 48)
             }
             Text(appData.name)
-                .font(.regular(15))
+                .font(.system(size: 15, weight: .regular))
         }
     }
 }

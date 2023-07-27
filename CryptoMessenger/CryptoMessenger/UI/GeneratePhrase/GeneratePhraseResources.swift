@@ -17,6 +17,9 @@ protocol GeneratePhraseResourcable {
     static var keyGenerationCreateButton: String { get }
     static var phraseManagerYourSecretPhrase: String { get }
     static var generatePhraseGeneratedDescription: String { get }
+    
+    
+    
     static var puzzle: Image { get }
     static var person: Image { get }
 

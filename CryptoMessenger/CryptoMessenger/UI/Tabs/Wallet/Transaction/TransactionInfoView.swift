@@ -24,7 +24,7 @@ struct TransactionInfoView: View {
 						HStack {
 							Text(transaction.transactionResult)
 								.font(.system(size: 17))
-								.foregroundColor(.woodSmokeApprox)
+								.foregroundColor(.romanSilver)
 							Spacer()
 							transactionAmount()
 						}
@@ -37,7 +37,7 @@ struct TransactionInfoView: View {
 						.lineLimit(1)
 						.truncationMode(.tail)
 						.font(.system(size: 12))
-						.foregroundColor(.regentGrayApprox)
+						.foregroundColor(.romanSilver)
 					}
 				}
 		}
@@ -49,7 +49,7 @@ struct TransactionInfoView: View {
             .font(.system(size: 17))
             .foregroundColor(
                 transaction.type == .send ?
-                    .woodSmokeApprox : .jungleGreenApprox
+                    .romanSilver : .greenCrayola
             )
             .lineLimit(1)
             .truncationMode(.middle)

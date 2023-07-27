@@ -67,9 +67,9 @@ struct GeneratePhraseView: View {
                 .padding(.top, 24)
            
             Button {
-                debugPrint("generatePhraseQuestion")
+                debugPrint(viewModel.resources.generatePhraseQuestion)
             } label: {
-                Text(R.string.localizable.generatePhraseQuestion())
+                Text(viewModel.resources.generatePhraseQuestion)
                     .frame(maxWidth: .infinity)
                     .font(.system(size: 15))
                     .padding(.horizontal, 16)

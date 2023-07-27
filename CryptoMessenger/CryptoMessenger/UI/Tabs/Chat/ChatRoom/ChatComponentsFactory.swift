@@ -62,7 +62,7 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
             if viewModel.room.summary.membership != .invite {
                 return AnyView(ChatEventView(
                     text: event.fullDate,
-                    backgroundColor: Palette.lightGray().suColor
+                    backgroundColor: .romanSilver
                 ).configureInnerOuterShadow().flippedUpsideDown())
             }
         }
@@ -337,12 +337,12 @@ extension ChatComponentsFactory {
 				usedEmojies.insert("+")
 				let count = ReactionTextItem(
 					text: "+\(reactionTextsAndCount.count - 4)",
-					color: isContains ? .blackSqueezeApprox : .cornflowerBlueApprox,
+					color: isContains ? .antiFlashWhite : .brilliantAzure,
 					font: .system(size: 11, weight: .medium)
 				)
 				return ReactionTextsItem(
 					texts: [count],
-					backgroundColor: isContains ? .cornflowerBlueApprox : .blackSqueezeApprox
+					backgroundColor: isContains ? .brilliantAzure : .antiFlashWhite
 				)
 			}
 
@@ -360,13 +360,13 @@ extension ChatComponentsFactory {
             let emoji = ReactionTextItem(text: reaction.emoji)
 			let count = ReactionTextItem(
 				text: "\(emojiCount)",
-				color: isCurrentUser ? .blackSqueezeApprox : .cornflowerBlueApprox,
+				color: isCurrentUser ? .antiFlashWhite : .brilliantAzure,
 				font: .system(size: 11, weight: .medium)
 			)
             if emojiCount > 1 {
                 return ReactionTextsItem(
                     texts: [emoji, count],
-                    backgroundColor: isCurrentUser ? .cornflowerBlueApprox : .blackSqueezeApprox
+                    backgroundColor: isCurrentUser ? .brilliantAzure : .antiFlashWhite
                 ) {
                         debugPrint("ReactionTextsItem onTapAction \(reaction.emoji)")
                         onEmojiTap( (reaction.emoji, message.id) )
@@ -374,7 +374,7 @@ extension ChatComponentsFactory {
             } else {
                 return ReactionTextsItem(
                     texts: [emoji],
-                    backgroundColor: isCurrentUser ? .cornflowerBlueApprox : .blackSqueezeApprox
+                    backgroundColor: isCurrentUser ? .brilliantAzure : .antiFlashWhite
                 ) {
                         debugPrint("ReactionTextsItem onTapAction \(reaction.emoji)")
                         onEmojiTap( (reaction.emoji, message.id) )

@@ -52,7 +52,7 @@ struct AudioView: View {
 					Button(action: audioViewModel.play) {
 						ZStack {
 							Circle().frame(width: 48, height: 48)
-								.background { Color.azureRadianceApprox }
+								.background { Color.dodgerTransBlue }
 								.cornerRadius(24)
 							!audioViewModel.isPlaying ?
 							R.image.chat.audio.audioPlay.image :
@@ -74,8 +74,8 @@ struct AudioView: View {
 						.padding(.trailing, 8)
 						.frame(height: 1)
 						Text(audioDuration)
-							.font(.regular(12))
-							.foreground(.darkGray())
+                            .font(.system(size: 12, weight: .regular))
+							.foregroundColor(.romanSilver)
 					}
 					.padding(.top, 20)
 					.padding(.trailing, 7)

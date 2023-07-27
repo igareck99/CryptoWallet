@@ -5,6 +5,9 @@ import Combine
 
 final class WalletAddressScanerViewModel: ObservableObject {
 
+    // MARK: - Internal Properties
+    let resources: WalletAdressScanerResourcable.Type
+
 
     // MARK: - Private Properties
     
@@ -13,12 +16,15 @@ final class WalletAddressScanerViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<WalletAddressScanerFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     private var userSettings: UserFlowsStorage & UserCredentialsStorage
+    
 
     // MARK: - Lifecycle
 
     init(
-		userSettings: UserFlowsStorage & UserCredentialsStorage
+		userSettings: UserFlowsStorage & UserCredentialsStorage,
+        resources: WalletAdressScanerResourcable.Type = WalletAdressScanerResources.self
 	) {
+        self.resources = resources
 		self.userSettings = userSettings
         bindInput()
         bindOutput()

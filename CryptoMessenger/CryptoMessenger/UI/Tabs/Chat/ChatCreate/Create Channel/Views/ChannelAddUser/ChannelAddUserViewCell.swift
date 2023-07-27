@@ -19,10 +19,10 @@ struct ChannelAddUserViewCell: View {
                     defaultUrl: avatar,
                     placeholder: {
                         ZStack {
-                            Color(.lightBlue())
+                            Color.aliceBlue
                             Text(name.firstLetter.uppercased())
-                                .foreground(.white())
-                                .font(.medium(22))
+                                .font(.system(size: 22, weight: .medium))
+                                .foregroundColor(.white)
                         }
                     },
                     result: {
@@ -34,8 +34,8 @@ struct ChannelAddUserViewCell: View {
                 .cornerRadius(20)
 
                 Text(name)
-                    .font(.semibold(15))
-                    .foreground(.black())
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(.chineseBlack)
                     .padding(.top, 12)
             }
             .padding(.horizontal, 16)
