@@ -5,7 +5,7 @@ import SwiftUI
 protocol ChatCreateFlowCoordinatorProtocol {
     func selectContact(_ chatData: Binding<ChatData>,
                        _ coordinator: ChatCreateFlowCoordinatorProtocol)
-    func createContact()
+    func createContact(_ coordinator: ChatCreateFlowCoordinatorProtocol)
     func createChannel(_ coordinator: ChatCreateFlowCoordinatorProtocol)
     func createGroupChat(_ chatData: Binding<ChatData>,
                          _ coordinator: ChatCreateFlowCoordinatorProtocol)
@@ -37,7 +37,6 @@ extension ChatCreateFlowCoordinator: Coordinator {
     func start() {
         router.createChat($chatData, self)
     }
-    
     func startWithView(completion: @escaping RootViewBuilder) {
         completion(router)
     }
@@ -56,8 +55,8 @@ extension ChatCreateFlowCoordinator: ChatCreateFlowCoordinatorProtocol {
         router.selectContact(chatData, coordinator: coordinator)
     }
 
-    func createContact() {
-        router.createContact()
+    func createContact(_ coordinator: ChatCreateFlowCoordinatorProtocol) {
+        router.createContact(coordinator)
     }
     
     func createGroupChat(_ chatData: Binding<ChatData>,

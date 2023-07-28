@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "make-photo.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

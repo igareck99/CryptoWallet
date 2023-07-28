@@ -14,7 +14,11 @@ enum GalleryPickerAssembly {
                                      galleryContent: galleryContent,
                                      onSelectImage: onSelectImage,
                                      onSelectVideo: onSelectVideo
-        )
+        ).ignoresSafeArea()
+            .toolbar(.hidden,
+                     for: .tabBar)
+            .toolbar(.hidden,
+                     for: .navigationBar)
         return view
     }
 }

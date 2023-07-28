@@ -6,7 +6,8 @@ enum SecurityCellItem: CaseIterable, Identifiable {
 
     // MARK: - Types
 
-    case profileObserve, seedPhrase, session, blackList, lastSeen, calls, geoposition, telephone 
+    case profileObserve, seedPhrase, session, blockList,
+         lastSeen, calls, geoposition, telephone 
 
     // MARK: - Internal Properties
 
@@ -31,7 +32,7 @@ enum SecurityCellItem: CaseIterable, Identifiable {
         case .session:
             return (R.string.localizable.securitySessionTitle(),
                     "Показываются все сеансы с устройств")
-        case .blackList:
+        case .blockList:
             return (R.string.localizable.securityBlackListTitle(),
                     "")
         case .seedPhrase:

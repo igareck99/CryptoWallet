@@ -14,6 +14,7 @@ struct NotificationSettingsView: View {
     var body: some View {
         content
         .navigationBarHidden(false)
+        .toolbar(.hidden, for: .tabBar)
         .toolbar {
             createToolBar()
         }

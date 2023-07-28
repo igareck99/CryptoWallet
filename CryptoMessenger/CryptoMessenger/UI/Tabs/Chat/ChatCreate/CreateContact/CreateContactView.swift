@@ -23,7 +23,6 @@ struct CreateContactView: View {
     // MARK: - Body
 
     var body: some View {
-        NavigationView {
         content
             .actionSheet(isPresented: $showActionImageAlert) {
                 ActionSheet(title: Text(""),
@@ -73,14 +72,10 @@ struct CreateContactView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        if !numberText.isEmpty {
-                            viewModel.contactsStore.createContact(selectedImage: selectedImage,
-                                                                  nameSurnameText: nameSurnameText,
-                                                                  numberText: numberText)
-                            presentationMode.wrappedValue.dismiss()
-                        } else {
-                            presentationMode.wrappedValue.dismiss()
-                        }
+                        viewModel.contactsStore.createContact(selectedImage: selectedImage,
+                                                              nameSurnameText: nameSurnameText,
+                                                              numberText: numberText)
+                        viewModel.popToRoot()
                     }, label: {
                         Text(R.string.localizable.profileDetailRightButton())
                             .font(.semibold(15))
@@ -89,7 +84,6 @@ struct CreateContactView: View {
                     .disabled(numberText.isEmpty)
                 }
             }
-    }
     }
 
     private var content: some View {
@@ -105,7 +99,7 @@ struct CreateContactView: View {
                             .frame(width: 60,
                                    height: 60)
                             .cornerRadius(30)
-                        R.image.profileDetail.camera.image
+                        R.image.profileDetail.whiteCamera.image
                             .frame(width: 26,
                                    height: 21)
                     }
@@ -117,7 +111,7 @@ struct CreateContactView: View {
                         Circle()
                             .fill(Color(.blue()))
                             .frame(width: 60, height: 60)
-                        R.image.profileDetail.camera.image
+                        R.image.profileDetail.whiteCamera.image
                             .frame(width: 26,
                                    height: 21)
                     }

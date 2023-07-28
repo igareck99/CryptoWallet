@@ -32,7 +32,6 @@ struct SelectContactView: View {
     // MARK: - Body
 
     var body: some View {
-        NavigationView {
         content
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
@@ -77,7 +76,6 @@ struct SelectContactView: View {
             .onAppear {
                 viewModel.send(.onAppear)
             }
-    }
     }
 
     private var content: some View {

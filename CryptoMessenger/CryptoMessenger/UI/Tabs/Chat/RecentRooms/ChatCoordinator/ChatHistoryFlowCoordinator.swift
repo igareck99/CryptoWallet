@@ -98,8 +98,9 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
     }
 
     func showCreateChat(_ chatData: Binding<ChatData>) {
-        let coordinator = ChatCreateCoordinatorAssembly.buld(chatData: chatData) { [weak self] coordinator in
-            self?.removeChildCoordinator(coordinator)
+        let coordinator = ChatCreateCoordinatorAssembly.buld(chatData: chatData) { coordinator in
+            self.removeChildCoordinator(coordinator)
+            self.router.dismissCurrentSheet()
         }
         addChildCoordinator(coordinator)
         coordinator.startWithView { [weak self] router in

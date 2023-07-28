@@ -135,6 +135,26 @@ final class ProfileViewModel: ObservableObject {
                     self?.fetchImageData()
                 case .onSocial:
                     self?.coordinator?.onSocialList()
+                case .onFeedImageAdd:
+                    guard let self = self else { return }
+                    self.coordinator?.showFeedPicker({ value in
+                        self.coordinator?.galleryPickerFullScreen(sourceType: value,
+                                                                  galleryContent: .all, onSelectImage: { image in
+                            if let image = image {
+                                self.selectedImage = image
+                            }
+                        }, onSelectVideo: { _ in
+                        })
+                    })
+                case let .onSettings(image):
+                    guard let self = self else { return }
+                    if let coordinator = coordinator {
+                        self.coordinator?.showSettings({ result in
+                            self.coordinator?.settingsScreens(result,
+                                                              coordinator,
+                                                              image)
+                        })
+                    }
                 case let .onGallery(type):
                     guard let self = self else { return }
                     self.coordinator?.galleryPickerFullScreen(sourceType: type,
@@ -144,13 +164,6 @@ final class ProfileViewModel: ObservableObject {
                         }
                     }, onSelectVideo: { _ in
                     })
-                case let .onShow(type, image):
-                    guard let self = self else { return }
-                    if let coordinator = self.coordinator {
-                        self.coordinator?.settingsScreens(type,
-                                                          coordinator,
-                                                          image)
-                    }
                 case let .onImageEditor(isShowing: isShowing,
                                         image: image,
                                         viewModel: viewModel):

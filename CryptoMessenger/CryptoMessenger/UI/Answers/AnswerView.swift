@@ -67,9 +67,6 @@ struct AnswerView: View {
                 }
         }
             .listStyle(.plain)
-        .onDisappear {
-//            showTabBar()
-        }
         .navigationBarHidden(false)
         .toolbar {
             ToolbarItem(placement: .principal) {

@@ -155,8 +155,7 @@ final class SecurityViewModel: ObservableObject {
                     self?.updateData()
                     self?.objectWillChange.send()
                 case .onBlockList:
-                    ()
-                    //self?.coordinator?.handleNextScene(.blockList)
+                    self?.coordinator?.blockList()
                 case .onCreatePassword:
                     self?.coordinator?.pinCode(.pinCodeCreate)
                 case .onFalsePassword:

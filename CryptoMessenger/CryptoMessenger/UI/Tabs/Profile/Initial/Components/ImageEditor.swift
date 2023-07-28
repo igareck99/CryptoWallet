@@ -1,6 +1,8 @@
 import SwiftUI
 import Mantis
 
+// MARK: - ImageEditor
+
 struct ImageEditor: UIViewControllerRepresentable {
     typealias Coordinator = ImageEditorCoordinator
     @Binding var theimage: UIImage?
@@ -53,6 +55,7 @@ class ImageEditorCoordinator: NSObject, CropViewControllerDelegate {
     func cropViewControllerDidCancel(_ cropViewController: CropViewController,
                                      original: UIImage) {
         isShowing = false
+        cropViewController.dismiss(animated: true)
     }
 
     func cropViewControllerDidBeginResize(_ cropViewController: CropViewController) {

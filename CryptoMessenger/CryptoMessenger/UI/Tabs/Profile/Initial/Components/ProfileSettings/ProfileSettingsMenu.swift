@@ -6,8 +6,7 @@ enum ProfileSettingsMenu: CaseIterable, Identifiable {
 
     // MARK: - Types
 
-    case profile, personalization, security, wallet, notifications
-    case chat, storage, questions, about
+    case profile, personalization, security, notifications, about
 
     // MARK: - Internal Properties
 
@@ -17,23 +16,15 @@ enum ProfileSettingsMenu: CaseIterable, Identifiable {
         let images = R.image.additionalMenu.self
         switch self {
         case .profile:
-            return (strings.additionalMenuProfile(), images.profile.image)
+            return (strings.additionalMenuProfile(), images.profileNew.image)
         case .personalization:
-            return (strings.additionalMenuPersonalization(), images.personalization.image)
+            return (strings.additionalMenuPersonalization(), images.personalizationNew.image)
         case .security:
-            return (strings.additionalMenuSecurity(), images.security.image)
-        case .wallet:
-            return (strings.additionalMenuWallet(), images.wallet.image)
+            return (strings.additionalMenuSecurity(), images.securityNew.image)
         case .notifications:
-            return (strings.additionalMenuNotification(), images.notifications.image)
-        case .chat:
-            return (strings.additionalMenuChats(), images.chat.image)
-        case .storage:
-            return (strings.additionalMenuData(), images.dataStorage.image)
-        case .questions:
-            return (strings.additionalMenuQuestions(), images.questions.image)
+            return (strings.additionalMenuNotification(), images.notificationsNew.image)
         case .about:
-            return (strings.additionalMenuAbout(), images.about.image)
+            return (strings.additionalMenuAbout(), images.aboutApp.image)
         }
     }
 }

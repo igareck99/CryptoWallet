@@ -5,7 +5,7 @@ protocol ChatCreateRouterable: View {
 
     func selectContact(_ chatData: Binding<ChatData>,
                        coordinator: ChatCreateFlowCoordinatorProtocol)
-    func createContact()
+    func createContact(_ coordinator: ChatCreateFlowCoordinatorProtocol)
 
     func createChannel(_ coordinator: ChatCreateFlowCoordinatorProtocol)
 
@@ -34,14 +34,14 @@ struct ChatCreateRouter<Content: View, State: ChatCreateFlowStateProtocol>: View
             )
         }
     }
-    
+
     @ViewBuilder
     private func linkDestinationCreate(link: ChatCreateSheetContentLink) -> some View {
         switch link {
         case let .createChat(chatData, coordinator):
             ChatCreateAssembly.build(chatData, coordinator)
-        case .createContact:
-            CreateContactView(viewModel: CreateContactViewModel())
+        case let .createContact(coordinator):
+            CreateContactsAssembly.build(coordinator)
         case let .createChannel(coordinator):
             CreateChannelAssemby.make(coordinator: coordinator)
         case let .selectContact(chatData, coordinator):
@@ -66,8 +66,8 @@ extension ChatCreateRouter: ChatCreateRouterable {
         state.createPath.append(ChatCreateSheetContentLink.createChannel(coordinator))
     }
 
-    func createContact() {
-        state.createPath.append(ChatCreateSheetContentLink.createContact)
+    func createContact(_ coordinator: ChatCreateFlowCoordinatorProtocol) {
+        state.createPath.append(ChatCreateSheetContentLink.createContact(coordinator))
     }
     
     func createGroupChat(_ chatData: Binding<ChatData>,

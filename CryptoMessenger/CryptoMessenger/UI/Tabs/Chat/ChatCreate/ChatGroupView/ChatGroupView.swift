@@ -22,69 +22,67 @@ struct ChatGroupView: View {
     // MARK: - Body
 
     var body: some View {
-        NavigationView {
-            content
-                .navigationBarBackButtonHidden(true)
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: {
-                            presentationMode.wrappedValue.dismiss()
-                        }, label: {
-                            R.image.navigation.backButton.image
-                        })
-                    }
-                    
-                    ToolbarItem(placement: .principal) {
-                        Text("Название группы")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(viewModel.resources.titleColor)
-                    }
-                    
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            viewModel.createChat()
-                        }, label: {
-                            Text("Готово")
-                                .font(.system(size: 15, weight: .semibold))
-                                .foregroundColor(viewModel.titleText.isEmpty ? viewModel.resources.textColor : viewModel.resources.buttonBackground)
-                        })
-                        .disabled(viewModel.titleText.isEmpty)
-                    }
+        content
+            .navigationBarBackButtonHidden(true)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        R.image.navigation.backButton.image
+                    })
                 }
-                .actionSheet(isPresented: $showActionImageAlert) {
-                    ActionSheet(title: Text(""),
-                                message: nil,
-                                buttons: [
-                                    .cancel(),
-                                    .default(
-                                        Text(viewModel.resources.profileFromGallery),
-                                        action: switchImagePicker
-                                    ),
-                                    .default(
-                                        Text(viewModel.resources.profileFromCamera),
-                                        action: switchCameraPicker
-                                    )
-                                ]
-                    )
+                
+                ToolbarItem(placement: .principal) {
+                    Text("Название группы")
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundColor(viewModel.resources.titleColor)
                 }
-                .fullScreenCover(isPresented: $showCameraPicker,
-                                 content: {
-                    ImagePickerView(selectedImage: $viewModel.chatData.image,
-                                    sourceType: .camera)
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        viewModel.createChat()
+                    }, label: {
+                        Text("Готово")
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(viewModel.titleText.isEmpty ? viewModel.resources.textColor : viewModel.resources.buttonBackground)
+                    })
+                    .disabled(viewModel.titleText.isEmpty)
+                }
+            }
+            .actionSheet(isPresented: $showActionImageAlert) {
+                ActionSheet(title: Text(""),
+                            message: nil,
+                            buttons: [
+                                .cancel(),
+                                .default(
+                                    Text(viewModel.resources.profileFromGallery),
+                                    action: switchImagePicker
+                                ),
+                                .default(
+                                    Text(viewModel.resources.profileFromCamera),
+                                    action: switchCameraPicker
+                                )
+                            ]
+                )
+            }
+            .fullScreenCover(isPresented: $showCameraPicker,
+                             content: {
+                ImagePickerView(selectedImage: $viewModel.chatData.image,
+                                sourceType: .camera)
+                .ignoresSafeArea()
+            })
+            .fullScreenCover(isPresented: $showImagePicker,
+                             content: {
+                ImagePickerView(selectedImage: $viewModel.chatData.image)
+                    .navigationBarTitle(Text(viewModel.resources.photoEditorTitle))
+                    .navigationBarTitleDisplayMode(.inline)
                     .ignoresSafeArea()
-                })
-                .fullScreenCover(isPresented: $showImagePicker,
-                                 content: {
-                    ImagePickerView(selectedImage: $viewModel.chatData.image)
-                        .navigationBarTitle(Text(viewModel.resources.photoEditorTitle))
-                        .navigationBarTitleDisplayMode(.inline)
-                        .ignoresSafeArea()
-                })
-                .onAppear {
-                    UITextView.appearance()
-                }.background(viewModel.resources.textBoxBackground)
-        }
+            })
+            .onAppear {
+                UITextView.appearance()
+            }.background(viewModel.resources.textBoxBackground)
     }
 
     private var content: some View {

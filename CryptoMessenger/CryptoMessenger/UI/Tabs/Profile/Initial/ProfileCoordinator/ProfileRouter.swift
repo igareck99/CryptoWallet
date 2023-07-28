@@ -15,16 +15,20 @@ protocol ProfileRouterable {
     func profileDetail(_ coordinator: ProfileFlowCoordinatorProtocol,
                        _ image: Binding<UIImage?>)
     func security(_ coordinator: ProfileFlowCoordinatorProtocol)
-    
+
     func notifications(_ coordinator: ProfileFlowCoordinatorProtocol)
-    
-    func questions(_ coordinator: ProfileFlowCoordinatorProtocol)
-    
+
     func aboutApp(_ coordinator: ProfileFlowCoordinatorProtocol)
-    
+
     func pinCode(_ pinCodeScreen: PinCodeScreenType)
-    
+
     func sessions(_ coordinator: ProfileFlowCoordinatorProtocol)
+
+    func showSettings(_ result: @escaping GenericBlock<ProfileSettingsMenu>)
+
+    func sheetPicker(_ sourceType: @escaping (UIImagePickerController.SourceType) -> Void)
+
+    func blockList()
 }
 
 // MARK: - ChatHistoryRouter
@@ -59,17 +63,15 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
                                 onSelectImage: onSelectImage,
                                 onSelectVideo: onSelectVideo):
             GalleryPickerAssembly.build(sourceType: sourceType,
-                                               galleryContent: galleryContent,
-                                               onSelectImage: onSelectImage,
-                                               onSelectVideo: onSelectVideo)
-            .ignoresSafeArea()
+                                        galleryContent: galleryContent,
+                                        onSelectImage: onSelectImage,
+                                        onSelectVideo: onSelectVideo)
         case let .imageEditor(isShowing: isShowing,
                               image: image,
                               viewModel: viewModel):
             ImageEditorAssembly.build(isShowing: isShowing,
                                       image: image,
                                       viewModel: viewModel)
-            .ignoresSafeArea()
         case let .profileDetail(coordinator, image):
             ProfileDetailAssembly.build(coordinator,
                                         image)
@@ -77,8 +79,6 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
             SecurityAssembly.configuredView(coordinator)
         case let .notifications(coordinator):
             NotificationSettingsAssembly.build(coordinator)
-        case let .questions(coordinator):
-            AnswerAssembly.build(coordinator)
         case .aboutApp(_):
             AboutAppAssembly.build()
         case let .pinCode(screenType):
@@ -87,14 +87,20 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
             }
         case let .sessions(coordinator):
             SessionAssembly.build(coordinator)
+        case .blockList:
+            BlockedListAssembly.build()
         }
     }
     
     @ViewBuilder
     private func sheetContent(item: ProfileSheetLlink) -> some View {
         switch item {
-        default:
-            EmptyView()
+        case let .settings(result):
+            ProfileSettingsMenuAssembly.build(onSelect: result)
+                .presentationDetents([.large, .height(337)])
+        case let .sheetPicker(sourceType):
+            ProfileFeedImageAssembly.build(sourceType)
+                .presentationDetents([.large, .height(166)])
         }
     }
 }
@@ -110,6 +116,7 @@ extension ProfileRouter: ProfileRouterable {
                                  galleryContent: GalleryPickerContent,
                                  onSelectImage: @escaping (UIImage?) -> Void,
                                  onSelectVideo: @escaping (URL?) -> Void) {
+        state.presentedItem = nil
         state.path.append(ProfileContentLlink.galleryPicker(sourceType: sourceType,
                                                             galleryContent: galleryContent,
                                                             onSelectImage: onSelectImage,
@@ -119,6 +126,7 @@ extension ProfileRouter: ProfileRouterable {
     func imageEditor(isShowing: Binding<Bool>,
                      image: Binding<UIImage?>,
                      viewModel: ProfileViewModel) {
+        state.presentedItem = nil
         state.path.append(ProfileContentLlink.imageEditor(isShowing: isShowing,
                                                           image: image,
                                                           viewModel: viewModel))
@@ -126,23 +134,23 @@ extension ProfileRouter: ProfileRouterable {
     
     func profileDetail(_ coordinator: ProfileFlowCoordinatorProtocol,
                        _ image: Binding<UIImage?>) {
+        state.presentedItem = nil
         state.path.append(ProfileContentLlink.profileDetail(coordinator,
                                                             image))
     }
     
     func security(_ coordinator: ProfileFlowCoordinatorProtocol) {
+        state.presentedItem = nil
         state.path.append(ProfileContentLlink.security(coordinator))
     }
     
     func notifications(_ coordinator: ProfileFlowCoordinatorProtocol) {
+        state.presentedItem = nil
         state.path.append(ProfileContentLlink.notifications(coordinator))
     }
     
-    func questions(_ coordinator: ProfileFlowCoordinatorProtocol) {
-        state.path.append(ProfileContentLlink.questions(coordinator))
-    }
-    
     func aboutApp(_ coordinator: ProfileFlowCoordinatorProtocol) {
+        state.presentedItem = nil
         state.path.append(ProfileContentLlink.aboutApp(coordinator))
     }
     
@@ -153,5 +161,16 @@ extension ProfileRouter: ProfileRouterable {
     func sessions(_ coordinator: ProfileFlowCoordinatorProtocol) {
         state.path.append(ProfileContentLlink.sessions(coordinator))
     }
-
+    
+    func showSettings(_ result: @escaping GenericBlock<ProfileSettingsMenu>) {
+        state.presentedItem = .settings(result)
+    }
+    
+    func sheetPicker(_ sourceType: @escaping (UIImagePickerController.SourceType) -> Void) {
+        state.presentedItem = .sheetPicker(sourceType)
+    }
+    
+    func blockList() {
+        state.path.append(ProfileContentLlink.blockList)
+    }
 }

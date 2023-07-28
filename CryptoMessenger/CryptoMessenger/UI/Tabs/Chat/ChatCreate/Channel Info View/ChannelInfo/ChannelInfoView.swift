@@ -294,7 +294,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 Circle()
                     .foregroundColor(viewModel.resources.logoBackground)
                     .frame(width: 24, height: 24)
-                R.image.profileDetail.camera.image
+                R.image.profileDetail.whiteCamera.image
                     .resizable()
                     .frame(width: 10.5, height: 8.2)
             }

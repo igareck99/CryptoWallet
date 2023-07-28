@@ -15,21 +15,23 @@ struct ChannelNotificaionsView: View {
     // MARK: - Body
 
     var body: some View {
-        List {
-            Section {
-                cellStatus
-            } header: {
-                Text("Всплывающие уведомления")
-                    .font(.regular(12))
-                    .foreground(.darkGray())
+        NavigationView {
+            List {
+                Section {
+                    cellStatus
+                } header: {
+                    Text("Всплывающие уведомления")
+                        .font(.regular(12))
+                        .foreground(.darkGray())
+                }
+                .listStyle(.insetGrouped)
             }
-            .listStyle(.insetGrouped)
-        }
-        .scrollDisabled(true)
-        .toolbar(.visible, for: .navigationBar)
-        .navigationBarTitle("", displayMode: .inline)
-        .toolbar {
-            createToolBar()
+            .scrollDisabled(true)
+            .toolbar(.visible, for: .navigationBar)
+            .navigationBarTitle("", displayMode: .inline)
+            .toolbar {
+                createToolBar()
+            }
         }
     }
 

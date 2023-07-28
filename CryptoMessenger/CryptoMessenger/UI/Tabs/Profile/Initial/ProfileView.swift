@@ -14,11 +14,9 @@ struct ProfileView: View {
     // MARK: - Private Properties
 
     @State private var popupSelected = false
-    @State private var showMenu = false
     @State private var showProfileDetail = false
     @State private var showAlert = false
     @State private var showSafari = false
-    @State private var showActionImageAlert = false
     @State private var showImagePicker = false
     @State private var showCameraPicker = false
     @State private var showLocationPicker = false
@@ -28,43 +26,20 @@ struct ProfileView: View {
     @State private var showAllSocial = false
     @State private var countUrlItems = 0
     @State private var showShareImage = false
+    @State private var tabBarVisibility: Visibility = .visible
 
     // MARK: - Body
-
+    
     var body: some View {
         content
             .onAppear {
                 viewModel.send(.onProfileAppear)
-                if !showMenu {
-//                    showTabBar()
-                }
             }
             .onChange(of: viewModel.selectedImage, perform: { _ in
                 viewModel.send(.onImageEditor(isShowing: $showImageEdtior,
                                               image: $viewModel.selectedImage,
                                               viewModel: viewModel))
             })
-            .onChange(of: showMenu, perform: { value in
-                if value && viewModel.isVoiceCallAvailablility {
-//                    hideTabBar()
-                }
-            })
-            .actionSheet(isPresented: $showActionImageAlert) {
-                ActionSheet(title: Text(""),
-                            message: nil,
-                            buttons: [
-                                .cancel(),
-                                .default(
-                                    Text(viewModel.resources.profileFromGallery),
-                                    action: switchImagePicker
-                                ),
-                                .default(
-                                    Text(viewModel.resources.profileFromCamera),
-                                    action: switchCameraPicker
-                                )
-                            ]
-                )
-            }
             .fullScreenCover(isPresented: self.$showImageViewer,
                              content: {
                 ImageViewerRemote(selectedItem: getTagItem(),
@@ -87,30 +62,7 @@ struct ProfileView: View {
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(viewModel.resources.profileCopied))
             }
-            .popup(
-                isPresented: $showMenu,
-                type: .toast,
-                position: .bottom,
-                closeOnTap: true,
-                closeOnTapOutside: true,
-                backgroundColor: viewModel.resources.backgroundFodding,
-                dismissCallback: {
-//                    self.showTabBar()
-                },
-                view: {
-                    ProfileSettingsMenuView(viewModel: ProfileSettingsMenuViewModel(),
-                                            balance: "0.50 AUR",
-                                            onSelect: { type in
-                        vibrate()
-                        viewModel.send(.onShow(type, $selectedAvatarImage))
-                    })
-                    .frame(height: viewModel.menuHeight )
-                    .background(
-                        CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                            .fill(viewModel.resources.background)
-                    )
-                }
-            )
+            .toolbar(.visible, for: .tabBar)
     }
 
     private var content: some View {
@@ -207,21 +159,8 @@ struct ProfileView: View {
                                 .foregroundColor(viewModel.resources.title)
                         }.padding(.leading, 16)
                     }
-                    Button(action: {
-                        showActionImageAlert = true
-                    }, label: {
-                        Text(viewModel.resources.profileAdd)
-                            .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                            .font(.regular(15))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(viewModel.resources.buttonBackground, lineWidth: 1)
-                            )
-                    })
-                    .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                    .background(viewModel.resources.background)
-                    .padding(.horizontal, 16)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
                 if viewModel.isEmptyFeed {
                     ChannelMediaEmptyState(image: viewModel.resources.emptyFeedImage,
                                            title: "Пока нет публикаций",
@@ -232,28 +171,8 @@ struct ProfileView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Text(viewModel.profile.nickname)
-                        .font(.bold(15))
-                        .lineLimit(1)
-                        .frame(minWidth: 0,
-                               maxWidth: 0.78 * UIScreen.main.bounds.width)
-                        .onTapGesture {
-                            UIPasteboard.general.string = viewModel.profile.nickname
-                            showAlert = true
-                        }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    R.image.profile.settings.image
-                        .onTapGesture {
-                            //hideTabBar()
-                            vibrate()
-                            showMenu = true
-                        }
-                }
+                createToolBar()
             }
-            .toolbarBackground(showMenu ? Color.chineseBlack04 : .white, for: .navigationBar)
-            .toolbarBackground(showMenu ? .visible : .hidden, for: .navigationBar)
         }
     }
 
@@ -355,5 +274,36 @@ struct ProfileView: View {
             return 0
         }
         return index
+    }
+    
+    @ToolbarContentBuilder
+    private func createToolBar() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Text(viewModel.profile.nickname)
+                .font(.bold(15))
+                .lineLimit(1)
+                .frame(minWidth: 0,
+                       maxWidth: 0.78 * UIScreen.main.bounds.width)
+                .onTapGesture {
+                    UIPasteboard.general.string = viewModel.profile.nickname
+                    showAlert = true
+                }
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+            R.image.profile.camera.image
+                .onTapGesture {
+                    //hideTabBar()
+                    vibrate()
+                    viewModel.send(.onFeedImageAdd)
+                }
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+            R.image.profile.settings.image
+                .onTapGesture {
+                    //hideTabBar()
+                    vibrate()
+                    viewModel.send(.onSettings($selectedAvatarImage))
+                }
+        }
     }
 }
