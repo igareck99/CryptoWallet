@@ -445,6 +445,8 @@
 "CreateAction.NickName" = "Никнейм";
 
 "Chat.Welcome" = "Привет, теперь я в Aura";
+"Chat.ContactEror" = "Не удалось получить доступ к контактам. Вы можете предоставить доступ к контактам в настройках";
+"Chat.OpenSettings" = "Открыть настройки";
 "Chat.ContactView" = "Просмотр контакта";
 "Chat.Geoposition" = "Геопозиция";
 "Chat.Online" = "онлайн";

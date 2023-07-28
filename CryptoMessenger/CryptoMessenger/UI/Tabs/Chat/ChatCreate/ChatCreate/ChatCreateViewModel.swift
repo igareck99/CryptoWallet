@@ -53,6 +53,7 @@ final class ChatCreateViewModel: ObservableObject {
     @Published private(set) var waitingContacts: [Contact] = []
     @Published private(set) var waitingFilteredContacts: [Contact] = []
     var coordinator: ChatCreateFlowCoordinatorProtocol?
+    let resources: ChatCreateResourcable.Type = ChatCreateResources.self
 
     // MARK: - Private Properties
 
@@ -67,7 +68,8 @@ final class ChatCreateViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-        config: ConfigType = Configuration.shared
+        config: ConfigType = Configuration.shared,
+        resources: ChatCreateResourcable.Type = ChatCreateResources.self
     ) {
         self.config = config
         bindInput()

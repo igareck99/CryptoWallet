@@ -43,13 +43,13 @@ struct ChatCreateView: View {
             if showSearchBar {
                 HStack(spacing: 0) {
                     SearchBar(
-                        placeholder: R.string.localizable.createActionSearch(),
+                        placeholder: viewModel.resources.createActionSearch,
                         searchText: $viewModel.searchText,
                         searching: $viewModel.searching
                     )
                     if viewModel.searching {
                         Spacer()
-                        Button(R.string.localizable.createActionCancel()) {
+                        Button(viewModel.resources.createActionCancel) {
                             viewModel.searchText = ""
                             withAnimation {
                                 withAnimation(.linear(duration: 0.25)) {
@@ -60,7 +60,7 @@ struct ChatCreateView: View {
                             }
                         }
                         .buttonStyle(.plain)
-                        .foreground(.blue())
+                        .foregroundColor(viewModel.resources.buttonBackground)
                     }
                 }
                 .padding([.horizontal, .vertical], 16)
@@ -71,7 +71,7 @@ struct ChatCreateView: View {
 
             ScrollView(.vertical, showsIndicators: false) {
                 Rectangle()
-                    .fill(Color(.gray(0.8)))
+                    .fill(viewModel.resources.rectangleBackground)
                     .frame(height: 1)
 
                 VStack(spacing: 0) {
@@ -103,42 +103,42 @@ struct ChatCreateView: View {
 
 					if viewModel.state == .loading {
                         ProgressView()
-                            .tint(Color(.blue()))
+                            .tint(viewModel.resources.buttonBackground)
                             .padding(.top, 34)
                     }
 
 					if viewModel.state == .contactsAccessFailure {
-						Text("Не удалось получить доступ к контактам. Вы можете предоставить доступ к контактам в настройках")
+                        Text(viewModel.resources.chatContactEror)
 							.multilineTextAlignment(.center)
-							.font(.regular(15))
-							.foreground(.black())
+                            .font(.system(size: 15, weight: .regular))
+                            .foregroundColor(viewModel.resources.titleColor)
 							.padding(.init(top: 8, leading: 16, bottom: 16, trailing: 16))
 						Button(action: {
 							UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
 						}, label: {
-							Text("Открыть настройки")
+                            Text(viewModel.resources.chatSettings)
 								.frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-								.font(.regular(15))
+                                .font(.system(size: 15, weight: .regular))
 								.overlay(
 									RoundedRectangle(cornerRadius: 8)
-										.stroke(.blue, lineWidth: 1)
+                                        .stroke(viewModel.resources.buttonBackground, lineWidth: 1)
 								)
 						})
 							.frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-							.background(.white())
+                            .background(viewModel.resources.background)
 							.padding(.horizontal, 16)
 					}
 
                     let contacts = viewModel.searchText.isEmpty ?
                                    viewModel.existingContacts : viewModel.filteredContacts
                     if !contacts.isEmpty && viewModel.state == .showContent {
-                        sectionView(R.string.localizable.createActionContactsSection())
+                        sectionView(viewModel.resources.createActionContactsSection)
                         VStack(alignment: .leading, spacing: 0) {
                             ForEach(contacts) { contact in
                                 ContactRow(
                                     avatar: contact.avatar,
                                     name: contact.name,
-                                    status: contact.status.isEmpty ? "Привет, теперь я в Aura" : contact.status,
+                                    status: contact.status.isEmpty ? viewModel.resources.chatWelcome : contact.status,
                                     hideSeparator: contacts.last?.id == contact.id
                                 ).onTapGesture {
                                     vibrate()
@@ -150,7 +150,7 @@ struct ChatCreateView: View {
                     let waitContacts = viewModel.searchText.isEmpty ?
                                     viewModel.waitingContacts : viewModel.waitingFilteredContacts
                     if !waitContacts.isEmpty && viewModel.state == .showContent {
-                        sectionView(R.string.localizable.createActionInviteSection())
+                        sectionView(viewModel.resources.createActionInviteSection)
                             .padding(.top, 24)
                         VStack(alignment: .leading, spacing: 0) {
                             ForEach(waitContacts) { contact in
@@ -175,7 +175,7 @@ struct ChatCreateView: View {
 
                 action.text
                     .font(.system(size: 17))
-                    .foreground(.black())
+                    .foregroundColor(viewModel.resources.titleColor)
                     .frame(height: 57)
 
                 Spacer()
@@ -183,7 +183,7 @@ struct ChatCreateView: View {
 
             
             Rectangle()
-                .fill(Color(.gray(0.8)))
+                .fill(viewModel.resources.rectangleBackground)
                 .frame(height: 0.8)
                 .padding(.leading, 37)
                 .padding(.trailing, 16)
@@ -192,7 +192,7 @@ struct ChatCreateView: View {
     
     private var headerView: some View {
         HStack {
-            R.image.chat.fatarrow.image
+            viewModel.resources.fatarrowImage
                 .padding(.leading, 9)
                 .frame(width: 12, height: 21)
                 .onTapGesture {
@@ -200,9 +200,9 @@ struct ChatCreateView: View {
                 }
             Spacer()
             Text("Чаты")
-                .font(.semibold(17))
+                .font(.system(size: 17, weight: .semibold))
             Spacer()
-            R.image.chat.fatloop.image
+            viewModel.resources.fatloopImage
                 .frame(width: 17, height: 17)
                 .padding(13)
                 .onTapGesture {
@@ -216,13 +216,13 @@ struct ChatCreateView: View {
     private func sectionView(_ title: String) -> some View {
         HStack(spacing: 0) {
             Text(title)
-                .font(.medium(15))
-                .foreground(.black())
+                .font(.system(size: 15, weight: .medium))
+                .foregroundColor(viewModel.resources.titleColor)
                 .padding(.leading, 16)
                 .frame(height: 24)
 
             Spacer()
         }
-        .background(.paleBlue())
+        .background(viewModel.resources.sectionBackground)
     }
 }
