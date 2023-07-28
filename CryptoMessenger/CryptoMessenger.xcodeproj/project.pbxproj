@@ -5215,7 +5215,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 42;
-				DEVELOPMENT_TEAM = WA3JSC63AV;
+				DEVELOPMENT_TEAM = 63RB2V788Z;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
@@ -5225,7 +5225,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.dima;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CryptoMessenger/CryptoMessenger-Bridging-Header.h";
@@ -5247,7 +5247,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 42;
-				DEVELOPMENT_TEAM = WA3JSC63AV;
+				DEVELOPMENT_TEAM = 63RB2V788Z;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
@@ -5257,7 +5257,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.dima;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "CryptoMessenger/CryptoMessenger-Bridging-Header.h";
@@ -5277,7 +5277,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = WA3JSC63AV;
+				DEVELOPMENT_TEAM = 63RB2V788Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AuraNSE/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AuraNSE;
@@ -5289,7 +5289,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.dima.AuraNSE;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.AuraNSE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -5307,7 +5307,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = WA3JSC63AV;
+				DEVELOPMENT_TEAM = 63RB2V788Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AuraNSE/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AuraNSE;
@@ -5319,7 +5319,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.dima.AuraNSE;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.AuraNSE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
