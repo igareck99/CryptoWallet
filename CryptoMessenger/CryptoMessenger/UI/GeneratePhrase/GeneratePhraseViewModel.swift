@@ -1,6 +1,10 @@
 import Combine
 import SwiftUI
 
+protocol PhraseGeneratable {
+    func onImportTap()
+}
+
 // MARK: - GeneratePhraseViewModel
 
 final class GeneratePhraseViewModel: ObservableObject {
@@ -15,6 +19,7 @@ final class GeneratePhraseViewModel: ObservableObject {
     var buttonState: ViewState = .content
     var firstStart = false
     let resources: GeneratePhraseResourcable.Type = GeneratePhraseResources.self
+    var coordinator: PhraseGeneratable?
 
     // MARK: - Private Properties
 
@@ -27,11 +32,14 @@ final class GeneratePhraseViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(generatePhraseState: GeneratePhraseState = .generate,
-         phraseService: PhraseServiceProtocol = PhraseService.shared,
-         keychainService: KeychainServiceProtocol = KeychainService.shared,
-         resources: GeneratePhraseResourcable.Type = GeneratePhraseResources.self
+    init(
+        coordinator: PhraseGeneratable? = nil,
+        generatePhraseState: GeneratePhraseState = .generate,
+        phraseService: PhraseServiceProtocol = PhraseService.shared,
+        keychainService: KeychainServiceProtocol = KeychainService.shared,
+        resources: GeneratePhraseResourcable.Type = GeneratePhraseResources.self
     ) {
+        self.coordinator = coordinator
         self.generatePhraseState = generatePhraseState
         self.phraseService = phraseService
         self.keychainService = keychainService
@@ -40,6 +48,10 @@ final class GeneratePhraseViewModel: ObservableObject {
     }
 
     // MARK: - Internal Methods
+    
+    func onImport() {
+        coordinator?.onImportTap()
+    }
 
     func send(_ event: GeneratePhraseFlow.Event) {
         eventSubject.send(event)

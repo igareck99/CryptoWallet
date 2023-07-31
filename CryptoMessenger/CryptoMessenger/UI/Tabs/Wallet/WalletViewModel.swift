@@ -414,6 +414,14 @@ final class WalletViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
+    func showAddSeed() {
+        coordinator?.onImportKey { [weak self] in
+            self?.updateWallets()
+            self?.updateUserWallet()
+            self?.objectWillChange.send()
+        }
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -431,7 +439,11 @@ final class WalletViewModel: ObservableObject {
                 case let .onTransactionToken(selectorTokenIndex):
                     self?.coordinator?.onTransaction(0, selectorTokenIndex, "")
                 case .onImportKey:
-                    self?.coordinator?.onImportKey()
+                    self?.coordinator?.onImportKey { [weak self] in
+                        self?.updateWallets()
+                        self?.updateUserWallet()
+                        self?.objectWillChange.send()
+                    }
 				case .onTransfer(walletIndex: let walletIndex):
 					guard let wallet = self?.cardsList[safe: walletIndex] else { return }
                     self?.coordinator?.onTransfer(wallet)

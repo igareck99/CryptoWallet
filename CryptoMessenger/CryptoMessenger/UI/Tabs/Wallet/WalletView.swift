@@ -7,13 +7,11 @@ struct WalletView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: WalletViewModel
-    @StateObject var generateViewModel = GeneratePhraseViewModel()
     @State var contentWidth = CGFloat(0)
     @State var offset = CGFloat(16)
     @State var index = 0
     @State var showAddWallet = false
     @State var showTokenInfo = false
-    @State var navBarHide = false
     @State var selectedAddress = WalletInfo(
         decimals: 1,
         walletType: .ethereum,
@@ -21,7 +19,6 @@ struct WalletView: View {
         coinAmount: "",
         fiatAmount: ""
     )
-    @State private var showAddWalletView = false
 
     @State var pageIndex: Int = 0
     @State private var isRotating = 0.0
@@ -37,8 +34,6 @@ struct WalletView: View {
                     loadingStateView()
                 })
             .onAppear {
-                navBarHide = false
-//                showTabBar()
                 viewModel.send(.onAppear)
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -49,25 +44,6 @@ struct WalletView: View {
                         .font(.system(size: 17, weight: .semibold))
                 }
             }
-            .sheet(isPresented: $showAddWalletView, content: {
-                GeneratePhraseView(
-                    viewModel: generateViewModel,
-                    showView: $showAddWalletView,
-                    onSelect: { type in
-                        switch type {
-                        case .importKey:
-                            viewModel.send(.onImportKey)
-                            showAddWalletView = false
-                        default:
-                            break
-                        }
-                    }, onCreate: {
-                        viewModel.send(.onAppear)
-                    })
-                .onDisappear {
-                    generateViewModel.generatePhraseState = .generate
-                }
-            })
     }
 
     @State private var scrollViewContentOffset = CGFloat(0)
@@ -130,31 +106,6 @@ struct WalletView: View {
             .onChange(of: scrollViewContentOffset) { newValue in
                 viewModel.tryToLoadNextTransactions(offset: newValue, pageIndex: pageIndex)
             }
-            .onChange(of: showAddWallet, perform: { value in
-                if !value {
-//                    showTabBar()
-                }
-            })
-            .onChange(of: showTokenInfo, perform: { value in
-                if !value {
-//                    showTabBar()
-                }
-            })
-            .popup(isPresented: $showAddWallet,
-                   type: .toast,
-                   position: .bottom,
-                   closeOnTap: false,
-                   closeOnTapOutside: true,
-                   backgroundColor: .chineseBlack04,
-                   view: {
-                AddWalletView(viewModel: viewModel,
-                              showAddWallet: $showAddWallet)
-                .frame(width: UIScreen.main.bounds.width,
-                       height: 114,
-                       alignment: .center)
-                .background(.white)
-                .cornerRadius(16)
-            })
         }
     }
 
@@ -202,7 +153,7 @@ struct WalletView: View {
                 .padding(.bottom, 70)
 
             Button {
-                showAddWalletView = true
+                viewModel.showAddSeed()
             } label: {
                 Text(R.string.localizable.walletAddWalletShort())
                     .font(.system(size: 17, weight: .semibold))
@@ -224,10 +175,6 @@ struct WalletView: View {
                         userCredentialsStorage: UserDefaultsService.shared
                       )
         )
-        .onAppear {
-//            hideTabBar()
-            navBarHide = true
-        }
         .frame(
             width: UIScreen.main.bounds.width,
             height: UIScreen.main.bounds.height - 60,

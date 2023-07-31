@@ -24,26 +24,23 @@ struct SecurityView: View {
         .onAppear {
             viewModel.send(.onAppear)
         }
-        .onDisappear {
-//            showTabBar()
-        }
 		.alert(isPresented: $viewModel.showBiometryErrorAlert, content: {
             Alert(title: Text("Биометрия недоступна"), message: nil,
                   dismissButton: .default(Text("OK")))
         })
         .sheet(isPresented: $showAddWallet, content: {
-            GeneratePhraseView(viewModel: generateViewModel,
-                               showView: $showAddWallet, onSelect: { type in
-                switch type {
-                case .importKey:
-                    viewModel.send(.onImportKey)
-                    showAddWallet = false
-                default:
-                    break
-                }
-            }, onCreate: {
-                
-            })
+            GeneratePhraseView(
+                viewModel: generateViewModel,
+                onSelect: { type in
+                    switch type {
+                    case .importKey:
+                        viewModel.send(.onImportKey)
+                        showAddWallet = false
+                    default:
+                        break
+                    }
+                },
+                onCreate: { })
         })
         .toolbar {
             ToolbarItem(placement: .principal) {

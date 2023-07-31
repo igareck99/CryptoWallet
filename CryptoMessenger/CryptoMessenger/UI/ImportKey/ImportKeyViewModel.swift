@@ -2,13 +2,18 @@ import Combine
 import SwiftUI
 import HDWalletKit
 
+protocol ImportKeyCoordinatable {
+    
+    func didImportKey()
+}
+
 // MARK: - ImportKeyViewModel
 
 final class ImportKeyViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    private let coordinator: WalletCoordinatable
+    private let coordinator: ImportKeyCoordinatable
     var viewState: ImportKeyViewState = .reserveCopy
     @Published var isPhraseValid = false
     @Published var isErrorState = false
@@ -30,7 +35,7 @@ final class ImportKeyViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-        coordinator: WalletCoordinatable,
+        coordinator: ImportKeyCoordinatable,
         coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
         keychainService: KeychainServiceProtocol = KeychainService.shared,
         phraseService: PhraseServiceProtocol = PhraseService.shared
@@ -109,11 +114,4 @@ final class ImportKeyViewModel: ObservableObject {
 	private func getWallets() {
 		walletTypes = coreDataService.getNetworkTokensWalletsTypes()
 	}
-}
-
-// MARK: - ImportKeyViewState
-
-enum ImportKeyViewState {
-    case reserveCopy
-    case importKey
 }
