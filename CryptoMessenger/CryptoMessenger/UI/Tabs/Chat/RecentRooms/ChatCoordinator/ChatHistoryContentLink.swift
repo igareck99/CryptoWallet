@@ -48,6 +48,7 @@ enum ChatHistorySheetLink: Hashable, Identifiable {
     case channelPatricipants(viewModel: ChannelInfoViewModel,
                              showParticipantsView: Binding<Bool>)
     case createChat(_ view: any View)
+    case chatActions(_ roomId: String)
 
     var id: String {
         String(describing: self)

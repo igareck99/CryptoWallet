@@ -292,7 +292,6 @@ struct ProfileView: View {
         ToolbarItem(placement: .navigationBarTrailing) {
             R.image.profile.camera.image
                 .onTapGesture {
-                    //hideTabBar()
                     vibrate()
                     viewModel.send(.onFeedImageAdd)
                 }
@@ -300,7 +299,6 @@ struct ProfileView: View {
         ToolbarItem(placement: .navigationBarTrailing) {
             R.image.profile.settings.image
                 .onTapGesture {
-                    //hideTabBar()
                     vibrate()
                     viewModel.send(.onSettings($selectedAvatarImage))
                 }

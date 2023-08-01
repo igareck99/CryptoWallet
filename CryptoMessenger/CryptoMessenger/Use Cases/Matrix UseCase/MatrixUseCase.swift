@@ -112,6 +112,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 	var loginStatePublisher: Published<MatrixState>.Publisher { matrixService.loginStatePublisher }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { matrixService.devicesPublisher }
 	var rooms: [AuraRoom] { matrixService.rooms }
+    var chatHistoryRooms: [ChatHistoryData] { matrixService.chatHistoryRooms }
 
 	// MARK: - Session
 
@@ -267,6 +268,39 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 	func uploadData(data: Data, for room: MXRoom, completion: @escaping GenericBlock<URL?>) {
 		matrixService.uploadData(data: data, for: room, completion: completion)
 	}
+    
+    func sendText(_ roomId: String,
+                  _ text: String,
+                  completion: @escaping (Result <String?, MXErrors>) -> Void) {
+        matrixService.sendText(roomId,
+                               text, completion: completion)
+    }
+    
+    func markAllAsRead(roomId: String) {
+        matrixService.markAllAsRead(roomId: roomId)
+    }
+    
+    func edit(roomId: String, text: String,
+              eventId: String) {
+        matrixService.edit(roomId: roomId, text: text, eventId: eventId)
+    }
+    
+    func react(roomId: String,
+               toEventId eventId: String, emoji: String) {
+        matrixService.react(roomId: roomId, toEventId: eventId, emoji: emoji)
+    }
+
+    func redact(roomId: String,
+                eventId: String, reason: String?) {
+        matrixService.redact(roomId: roomId, eventId: eventId, reason: reason)
+    }
+
+    func sendLocation(roomId: String,
+                      location: LocationData?,
+                      completion: @escaping (Result <String?, MXErrors>) -> Void) {
+        matrixService.sendLocation(roomId: roomId,
+                                   location: location, completion: completion)
+    }
 
     func setRoomAvatar(data: Data, roomId: String, completion: @escaping EmptyResultBlock) {
         guard let room = getRoomInfo(roomId: roomId) else {

@@ -18,6 +18,9 @@ enum MXErrors: Error {
     case audioUploadError
     case contactUploadError
     case videoUploadError
+    case sendTextError
+    case sendReplyError
+    case sendGeoError
     case publicRoomError
     case encryptRoomError
 	case unknown
@@ -44,6 +47,15 @@ final class MatrixService: MatrixServiceProtocol {
 
 	private let matrixObjectsFactory: MatrixObjectFactoryProtocol
 	var roomListDataFetcher: MXRoomListDataFetcher?
+    var chatHistoryRooms: [ChatHistoryData] {
+        let rooms = matrixObjectsFactory
+            .makeChatHistoryRooms(mxRooms: session?.rooms,
+                                  config: Configuration.shared,
+                                  matrixUseCase: MatrixUseCase.shared) { [weak self] directUserId in
+                self?.currentlyActive(directUserId) == true
+            }
+        return rooms
+    }
 	var rooms: [AuraRoom] {
 		let rooms = matrixObjectsFactory
 			.makeRooms(mxRooms: session?.rooms) { [weak self] directUserId in

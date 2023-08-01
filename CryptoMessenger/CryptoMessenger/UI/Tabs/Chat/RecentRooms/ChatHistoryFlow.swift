@@ -23,8 +23,9 @@ enum ChatHistoryFlow {
         // MARK: - Types
 
         case onAppear
-        case onShowRoom(AuraRoom)
+        case onShowRoom(String)
         case onCreateChat(Binding<ChatData>)
         case onDeleteRoom(String)
+        case onRoomActions(String)
     }
 }

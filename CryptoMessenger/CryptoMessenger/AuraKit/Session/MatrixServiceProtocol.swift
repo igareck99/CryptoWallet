@@ -8,6 +8,7 @@ protocol MatrixServiceProtocol {
 	var loginStatePublisher: Published<MatrixState>.Publisher { get }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { get }
 	var rooms: [AuraRoom] { get }
+    var chatHistoryRooms: [ChatHistoryData] { get }
 	var matrixSession: MXSession? { get }
 
 	func closeSessionAndClearData()
@@ -67,6 +68,16 @@ protocol MatrixServiceProtocol {
                                        completion: @escaping (Result <String?, MXErrors>) -> Void)
     func getPublicRooms(filter: String,
                         completion: @escaping  (Result <[MXPublicRoom]?, MXErrors>) -> Void)
+    func sendLocation(roomId: String,
+                      location: LocationData?,
+                      completion: @escaping (Result <String?, MXErrors>) -> Void)
+    func markAllAsRead(roomId: String)
+    func edit(roomId: String, text: String,
+              eventId: String)
+    func redact(roomId: String,
+                eventId: String, reason: String?)
+    func react(roomId: String,
+               toEventId eventId: String, emoji: String)
 
 	// MARK: - Users
 	func currentlyActive(_ userId: String) -> Bool
@@ -99,6 +110,9 @@ protocol MatrixServiceProtocol {
         powerLevel: Int,
         completion: @escaping EmptyResultBlock
     )
+    func sendText(_ roomId: String,
+                  _ text: String,
+                  completion: @escaping (Result <String?, MXErrors>) -> Void)
 
 	// MARK: - Pagination
 	func paginate(room: AuraRoom, event: MXEvent)

@@ -43,6 +43,7 @@ protocol ChatHistoryRouterable: View {
     func routePath() -> Binding<NavigationPath>
     func presentedItem() -> Binding<ChatHistorySheetLink?>
     func chatCreate(_ view: any View)
+    func chatActions(_ roomId: String)
 }
 
 // MARK: - ChatHistoryRouter
@@ -125,6 +126,12 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
         case let .channelPatricipants(viewModel: viewModel, showParticipantsView: showParticipantsView):
             return ChannelParticipantsView(viewModel: viewModel,
                                     showParticipantsView: showParticipantsView).anyView()
+        case let .chatActions(roomId):
+            return ChatActionsAssembly.build(roomId, onSelect: {_ in 
+                
+            })
+            .presentationDetents([.large, .height(223)])
+            .anyView()
         }
     }
 }
@@ -234,5 +241,9 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
     
     func chatCreate(_ view: any View) {
         state.presentedItem = .createChat(view)
+    }
+    
+    func chatActions(_ roomId: String) {
+        state.presentedItem = .chatActions(roomId)
     }
 }

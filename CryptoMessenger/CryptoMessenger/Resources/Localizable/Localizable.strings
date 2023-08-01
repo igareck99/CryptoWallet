@@ -614,3 +614,8 @@
 "ChatHistory.NoResult" = "Нет результатов";
 "ChatHistory.NothingFind" = "По вашему запросу ничего не найдено";
 "ChatHistory.GlobalSearch" = "Глобальный поиск";
+"ChatHistory.Pin" = "Закрепить";
+"ChatHistory.WatchProfile" = "Просмотреть профиль";
+"ChatHistory.Remove" = "Удалить чат";
+
+

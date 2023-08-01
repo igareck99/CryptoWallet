@@ -450,6 +450,11 @@
 		8BC517FD296CC87E0033B30F /* ChooseWalletTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC517FC296CC87E0033B30F /* ChooseWalletTypeView.swift */; };
 		8BC51800296CC8BB0033B30F /* ChooseWalletTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC517FF296CC8BB0033B30F /* ChooseWalletTypeCell.swift */; };
 		8BC518032970AF290033B30F /* PhraseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC518022970AF290033B30F /* PhraseService.swift */; };
+		8BC6F2D82A78323B00F7451B /* ChatActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC6F2D72A78323B00F7451B /* ChatActionsView.swift */; };
+		8BC6F2DB2A78329600F7451B /* ChatActionsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC6F2DA2A78329600F7451B /* ChatActionsAssembly.swift */; };
+		8BC6F2DD2A78330100F7451B /* ChatActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC6F2DC2A78330100F7451B /* ChatActions.swift */; };
+		8BC6F2DF2A78697500F7451B /* ReplyCustomContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC6F2DE2A78697500F7451B /* ReplyCustomContent.swift */; };
+		8BC6F2E12A78843200F7451B /* ChatHistoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC6F2E02A78843200F7451B /* ChatHistoryData.swift */; };
 		8BCA91022750FCC200E8E269 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCA91012750FCC200E8E269 /* Popup.swift */; };
 		8BCDCD7529DF9BA700F2CE83 /* CreateAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCDCD7429DF9BA700F2CE83 /* CreateAction.swift */; };
 		8BD2E7E72981C3B600D712D1 /* SelectChannelTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD2E7E62981C3B600D712D1 /* SelectChannelTypeView.swift */; };
@@ -1244,6 +1249,11 @@
 		8BC517FC296CC87E0033B30F /* ChooseWalletTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseWalletTypeView.swift; sourceTree = "<group>"; };
 		8BC517FF296CC8BB0033B30F /* ChooseWalletTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseWalletTypeCell.swift; sourceTree = "<group>"; };
 		8BC518022970AF290033B30F /* PhraseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseService.swift; sourceTree = "<group>"; };
+		8BC6F2D72A78323B00F7451B /* ChatActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatActionsView.swift; sourceTree = "<group>"; };
+		8BC6F2DA2A78329600F7451B /* ChatActionsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatActionsAssembly.swift; sourceTree = "<group>"; };
+		8BC6F2DC2A78330100F7451B /* ChatActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatActions.swift; sourceTree = "<group>"; };
+		8BC6F2DE2A78697500F7451B /* ReplyCustomContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyCustomContent.swift; sourceTree = "<group>"; };
+		8BC6F2E02A78843200F7451B /* ChatHistoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryData.swift; sourceTree = "<group>"; };
 		8BCA91012750FCC200E8E269 /* Popup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popup.swift; sourceTree = "<group>"; };
 		8BCDCD7429DF9BA700F2CE83 /* CreateAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAction.swift; sourceTree = "<group>"; };
 		8BD2E7E62981C3B600D712D1 /* SelectChannelTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectChannelTypeView.swift; sourceTree = "<group>"; };
@@ -2134,6 +2144,8 @@
 				D4E9790D2A1E271C00771232 /* EventCollection+Extensions.swift */,
 				8B70583E29D0CCBE0058B180 /* MatrixChannel.swift */,
 				D4E9790A2A1E0D8000771232 /* ConnectedEdges.swift */,
+				8BC6F2DE2A78697500F7451B /* ReplyCustomContent.swift */,
+				8BC6F2E02A78843200F7451B /* ChatHistoryData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2216,6 +2228,7 @@
 		5A9318CE26C5AAB500645365 /* RecentRooms */ = {
 			isa = PBXGroup;
 			children = (
+				8BC6F2D92A78327500F7451B /* ChatActions */,
 				8B234EC12A40D5660064ACD3 /* ChatCoordinator */,
 				8B70584029D0DD100058B180 /* Components */,
 				5AABB77A2739816C004D6107 /* ChatHistoryView.swift */,
@@ -3194,6 +3207,16 @@
 				8BC518022970AF290033B30F /* PhraseService.swift */,
 			);
 			path = PhraseService;
+			sourceTree = "<group>";
+		};
+		8BC6F2D92A78327500F7451B /* ChatActions */ = {
+			isa = PBXGroup;
+			children = (
+				8BC6F2D72A78323B00F7451B /* ChatActionsView.swift */,
+				8BC6F2DA2A78329600F7451B /* ChatActionsAssembly.swift */,
+				8BC6F2DC2A78330100F7451B /* ChatActions.swift */,
+			);
+			path = ChatActions;
 			sourceTree = "<group>";
 		};
 		8BD2E7E82982E2D100D712D1 /* ChannelAddUser */ = {
@@ -4447,6 +4470,7 @@
 				D46C8FDD2942CBA700DD0B01 /* TransactionSection.swift in Sources */,
 				5A187DF126807011001957D3 /* AuthCoordinator.swift in Sources */,
 				8BB2F8E728B663A40034D902 /* PhoneView.swift in Sources */,
+				8BC6F2DB2A78329600F7451B /* ChatActionsAssembly.swift in Sources */,
 				5AA6410726822C3A008922B4 /* CALayerStyle.swift in Sources */,
 				D4E0B30D29429D8300AEDF85 /* TransactionInfo.swift in Sources */,
 				5AA6410926822C3A008922B4 /* ViewStyle.swift in Sources */,
@@ -4523,6 +4547,7 @@
 				8B8298912983CB150038C546 /* ChannelAddUserViewCell.swift in Sources */,
 				D4D9CC232A30892000EFC586 /* VerificationColors.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
+				8BC6F2D82A78323B00F7451B /* ChatActionsView.swift in Sources */,
 				8BAAB37C2A24ED980062D5B2 /* OnboardingAssembly.swift in Sources */,
 				5A187EBF268070B3001957D3 /* View+Extensions.swift in Sources */,
 				D48603552A28DBF4002EFBC0 /* SelectCountryView.swift in Sources */,
@@ -4647,6 +4672,7 @@
 				8B12263927C53121008DC048 /* SlideCardsView.swift in Sources */,
 				8B38868E2A4DEDDD00C8A54C /* ChatGroupAssembly.swift in Sources */,
 				8B1564F528AA782A00A69B85 /* AnotherAppData.swift in Sources */,
+				8BC6F2DD2A78330100F7451B /* ChatActions.swift in Sources */,
 				D4F5DB3929F1202100772AC5 /* CoreDataService+Tokens.swift in Sources */,
 				D4442B4C2811996F0033D07A /* KeychainService.swift in Sources */,
 				D4857D0E28AFB38400C904EC /* ChatRoomRowViewModel.swift in Sources */,
@@ -4885,6 +4911,7 @@
 				8B32FEC2298B21130017082A /* ChannelInfoAssembly.swift in Sources */,
 				8BE24FA829490105009A3734 /* SelectContactFlow.swift in Sources */,
 				782A2E752889534C00DDB6CE /* MapViewConstants.swift in Sources */,
+				8BC6F2DF2A78697500F7451B /* ReplyCustomContent.swift in Sources */,
 				D44BDC742808382B0080AE8A /* NotificationsUseCase.swift in Sources */,
 				8B4E9C4D27E3ADF80057E4C9 /* SuccessFacilityView.swift in Sources */,
 				8B4E9C4F27E400BF0057E4C9 /* SuccessFacilityFlow.swift in Sources */,
@@ -4992,6 +5019,7 @@
 				D4DF2B3D28F589090057499A /* ValueChangedModifier.swift in Sources */,
 				8B34A9F228D45FC20097ED9E /* DirectActions.swift in Sources */,
 				8B0C4FFA2890613500671BA3 /* ChatRoomResources.swift in Sources */,
+				8BC6F2E12A78843200F7451B /* ChatHistoryData.swift in Sources */,
 				78A9CBFA28191F1D00C4D7E1 /* IOActionSheetView.swift in Sources */,
 				D4752EBA28C71AF3006B650A /* JitsiModels.swift in Sources */,
 				D4EF286C2953C6650039744D /* WalletErrorResponse.swift in Sources */,

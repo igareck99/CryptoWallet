@@ -30,6 +30,7 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
     func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,
                                  showParticipantsView: Binding<Bool>)
     func dismissCurrentSheet()
+    func chatActions(_ roomId: String)
 }
 
 // MARK: - ChatHistoryFlowCoordinator
@@ -149,5 +150,9 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
     
     func dismissCurrentSheet() {
         router.dismissCurrentSheet()
+    }
+    
+    func chatActions(_ roomId: String) {
+        router.chatActions(roomId)
     }
 }

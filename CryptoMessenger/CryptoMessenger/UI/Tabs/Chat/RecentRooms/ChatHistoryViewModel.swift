@@ -1,6 +1,5 @@
 import Combine
 import UIKit
-import MatrixSDK
 
 // MARK: - ChatHistoryViewModel
 
@@ -10,12 +9,13 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 	let sources: ChatHistorySourcesable.Type
 
     @Published private(set) var rooms: [AuraRoom] = []
+    @Published private(set) var chatHistoryRooms: [ChatHistoryData] = []
     @Published private(set) var state: ChatHistoryFlow.ViewState = .idle
     @Published var groupAction: GroupAction?
     @Published var isFromCurrentUser = false
     @Published var leaveState: [String: Bool] = [:]
     @Published var roomsLastCurrent: [String: Bool] = [:]
-    @Published var isLoading: Bool = false
+    @Published var isLoading = false
 
     // MARK: - Private Properties
 
@@ -50,10 +50,10 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 
 	// MARK: - Internal Methods
 
-	func rooms(with filter: String) -> [AuraRoom] {
-		let result = filter.isEmpty ? rooms : rooms.filter {
-			$0.summary.displayName.lowercased().contains(filter.lowercased())
-			|| $0.summary.topic?.lowercased().contains(filter.lowercased()) ?? false
+	func rooms(with filter: String) -> [ChatHistoryData] {
+		let result = filter.isEmpty ? chatHistoryRooms : chatHistoryRooms.filter {
+			$0.roomName.lowercased().contains(filter.lowercased())
+            || $0.topic.lowercased().contains(filter.lowercased()) ?? false
 		}
         return result
 	}
@@ -64,7 +64,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         self.objectWillChange.send()
         var value: [MatrixChannel] = []
         matrixUseCase.getPublicRooms(filter: filter) { channels in
-            let result = channels.filter { item1 in !self.rooms.contains { item2 in item1.roomId == item2.room.roomId } }
+            let result = channels.filter { item1 in !self.chatHistoryRooms.contains { item2 in item1.roomId == item2.roomId } }
             self.isLoading = false
             self.objectWillChange.send()
             completion(result)
@@ -72,8 +72,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     }
 
 	func markAllAsRead() {
-		for room in rooms {
-			room.markAllAsRead()
+		for room in chatHistoryRooms {
+            matrixUseCase.markAllAsRead(roomId: room.roomId)
 		}
 	}
 
@@ -102,7 +102,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             case .success(let room):
                 let auraRoom = AuraRoom(room)
                 if openChat {
-                    self.eventSubject.send(.onShowRoom(auraRoom))
+                    self.eventSubject.send(.onShowRoom(auraRoom.room.roomId))
                 }
             case .failure(_):
                 break
@@ -120,14 +120,18 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 case .onAppear:
                     guard let self = self else { return }
                     self.rooms = self.matrixUseCase.rooms
+                    self.chatHistoryRooms = self.matrixUseCase.chatHistoryRooms
                     self.objectWillChange.send()
                 case let .onShowRoom(room):
-                    guard let coordinator = self?.coordinator else { return } 
-                    self?.coordinator?.firstAction(room, coordinator: coordinator)
+                    guard let coordinator = self?.coordinator else { return }
+                    guard let mxRoom = self?.matrixUseCase.getRoomInfo(roomId: room) else { return }
+                    self?.coordinator?.firstAction(AuraRoom(mxRoom), coordinator: coordinator)
                 case let .onDeleteRoom(roomId):
                     self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in })
                 case let .onCreateChat(chatData):
                     self?.coordinator?.showCreateChat(chatData)
+                case let .onRoomActions(roomId):
+                    self?.coordinator?.chatActions(roomId)
                 }
             }
             .store(in: &subscriptions)
@@ -138,6 +142,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.rooms = self.matrixUseCase.rooms
+                self.chatHistoryRooms = self.matrixUseCase.chatHistoryRooms
                 let notJoinRoom = self.rooms.first { $0.summary.membership == .invite }
                 notJoinRoom.map { room in
                     self.joinRoom(room.room.roomId)

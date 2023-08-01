@@ -401,7 +401,7 @@ final class ChatRoomViewModel: ObservableObject {
                     guard let self = self else { return }
                     self.rooms = self.matrixUseCase.rooms
                     self.loadUsers()
-                    self.room.markAllAsRead()
+                    self.matrixUseCase.markAllAsRead(roomId: self.room.room.roomId)
                     self.detectRoomPowerLevelAccess()
                     self.matrixUseCase.objectChangePublisher.send()
                     self.fetchChatData()
@@ -421,9 +421,13 @@ final class ChatRoomViewModel: ObservableObject {
                     ()
                 case let .onSendText(text):
                     self?.inputText = ""
-                    self?.room.sendText(text)
-                    self?.matrixUseCase.objectChangePublisher.send()
-                    self?.fetchChatData()
+                    guard let id = self?.room.room.roomId else { return }
+                    self?.matrixUseCase.sendText(id,
+                                                 text,
+                                                 completion: { _ in
+                        self?.matrixUseCase.objectChangePublisher.send()
+                        self?.fetchChatData()
+                    })
                 case let .onSendImage(image):
                     self?.inputText = ""
                     guard let id = self?.room.room.roomId else { return }
@@ -446,8 +450,12 @@ final class ChatRoomViewModel: ObservableObject {
                     }
                 case let .onSendLocation(location):
                     self?.inputText = ""
-                    self?.room.sendLocation(location: location)
-                    self?.matrixUseCase.objectChangePublisher.send()
+                    guard let id = self?.room.room.roomId else { return }
+                    self?.matrixUseCase.sendLocation(roomId: id,
+                                                     location: location, completion: { _ in
+                        self?.send(.onAppear)
+                        self?.matrixUseCase.objectChangePublisher.send()
+                    })
                 case let .onSendFile(url):
                     self?.inputText = ""
                     guard let id = self?.room.room.roomId else { return }
@@ -492,8 +500,10 @@ final class ChatRoomViewModel: ObservableObject {
                     self.matrixUseCase.objectChangePublisher.send()
                     self.fetchChatData()
                 case let .onDelete(eventId):
-                    self?.room.redact(eventId: eventId, reason: nil)
-                    self?.matrixUseCase.objectChangePublisher.send()
+                    guard let self = self else { return }
+                    self.matrixUseCase.redact(roomId: self.room.room.roomId,
+                                               eventId: eventId, reason: nil)
+                    self.matrixUseCase.objectChangePublisher.send()
                 case .onAddReaction(let messageId, let reactionId):
 					guard ((self?.isTranslating()) != nil) else {
 						guard
@@ -532,12 +542,17 @@ final class ChatRoomViewModel: ObservableObject {
                 case let .onMedia(room):
                     self?.coordinator?.chatMedia(room)
                 case .onDeleteReaction(let messageId, let reactionId):
-                    self?.room.edit(text: "", eventId: messageId)
-                    guard let index = self?.messages.firstIndex(where: { $0.id == messageId }) else { return }
-                    self?.messages[index].reactions.removeAll(where: { $0.id == reactionId })
-                    self?.matrixUseCase.objectChangePublisher.send()
+                    guard let self = self else { return }
+                    self.matrixUseCase.edit(roomId: self.room.room.roomId,
+                                             text: "",
+                                             eventId: messageId)
+                    guard let index = self.messages.firstIndex(where: { $0.id == messageId }) else { return }
+                    self.messages[index].reactions.removeAll(where: { $0.id == reactionId })
+                    self.matrixUseCase.objectChangePublisher.send()
                 case let .onEdit(text, eventId):
-                    self?.room.edit(text: text, eventId: eventId)
+                    guard let self = self else { return }
+                    self.matrixUseCase.edit(roomId: self.room.room.roomId,
+                                             text: text, eventId: eventId)
                 case let .onSettings(chatData: chatData, saveData: saveData,
                                      room: room, isLeaveChannel: isLeaveChannel):
                     guard let isChannel = self?.isChannel else { return }
@@ -702,9 +717,13 @@ final class ChatRoomViewModel: ObservableObject {
                             content: [String: Any](),
                             eventType: ""
                         )
-                        self?.messages.append(message)
                         debugPrint("Last location sink", (lat: location.latitude, long: location.longitude))
-                        self?.send(.onSendLocation(LocationData(lat: location.latitude, long: location.longitude)))
+                        guard let id = self?.room.room.roomId else { return }
+                        self?.matrixUseCase.sendLocation(roomId: id,
+                                                         location: LocationData(lat: location.latitude, long: location.longitude), completion: { _ in
+                            self?.send(.onAppear)
+                            self?.matrixUseCase.objectChangePublisher.send()
+                        })
                     }
                 }
             }
@@ -963,6 +982,10 @@ final class ChatRoomViewModel: ObservableObject {
 			self.groupCallsUseCase.joinGroupCall(in: mxEvent)
 		}
 	}
+    
+    func markAllReaded() {
+        matrixUseCase.markAllAsRead(roomId: self.room.room.roomId)
+    }
 }
 
 // MARK: - Chat Events
