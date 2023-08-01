@@ -111,6 +111,14 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         }
     }
 
+    func configureCalls() {
+        guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else {
+            return
+        }
+
+        StatusBarCallUseCase.shared.configure(window: window)
+    }
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -119,6 +127,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 switch event {
                 case .onAppear:
                     guard let self = self else { return }
+                    self.configureCalls()
                     self.rooms = self.matrixUseCase.rooms
                     self.objectWillChange.send()
                 case let .onShowRoom(room):

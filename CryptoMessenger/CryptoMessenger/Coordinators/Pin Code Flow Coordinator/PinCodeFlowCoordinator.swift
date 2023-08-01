@@ -21,7 +21,6 @@ public final class PinCodeFlowCoordinator: Coordinator {
 
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: PinCodeFlowCoordinatorDelegate?
-    var navigationController: UINavigationController
     private let userFlows: UserFlowsStorage
     var renderView: (any View) -> Void
     var onLogin: () -> Void
@@ -30,12 +29,10 @@ public final class PinCodeFlowCoordinator: Coordinator {
 
     init(
         userFlows: UserFlowsStorage,
-        navigationController: UINavigationController,
         renderView: @escaping (any View) -> Void,
         onLogin: @escaping () -> Void
     ) {
         self.userFlows = userFlows
-        self.navigationController = navigationController
         self.onLogin = onLogin
         self.renderView = renderView
     }

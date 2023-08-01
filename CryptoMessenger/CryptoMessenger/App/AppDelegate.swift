@@ -4,11 +4,15 @@ import UIKit
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-	var window: UIWindow?
-
-	private var statusBarCallUseCase: StatusBarCallUseCase?
-	private var notificationsUseCase: NotificationsUseCaseProtocol?
-	private var appLifeCycleDelegate: AppDelegateApplicationLifeCycle?
+    private var notificationsUseCase: NotificationsUseCaseProtocol = {
+        NotificationsUseCaseAssembly
+            .build(
+                appCoordinator: AppCoordinatorAssembly.coordinator
+            )
+    }()
+    private var appLifeCycleDelegate: AppDelegateApplicationLifeCycle = {
+        AppCoordinatorAssembly.coordinator
+    }()
 
 	func application(
 		_ application: UIApplication,
@@ -16,52 +20,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	) -> Bool {
 
 		DependenciesService().configureDependencies()
-
-		let rootNavigationController = BaseNavigationController()
-		let appCoordinator = AppCoordinatorAssembly.build(navigationController: rootNavigationController)
-        appLifeCycleDelegate = appCoordinator
-		notificationsUseCase = NotificationsUseCaseAssembly.build(appCoordinator: appCoordinator)
-
-		let appWindow = UIWindow()
-        WindowKey.defaultValue = window
-		window = appWindow
-		rootNavigationController.view.translatesAutoresizingMaskIntoConstraints = false
-		window?.rootViewController = rootNavigationController
-
-		notificationsUseCase?.start()
+		notificationsUseCase.start()
 
 		// UseCase app delegate'а должен вызываться после всех кейсов проверок флага isAppNotFirstStart
 		// т.к. он его изменяет
-        appCoordinator.start()
-		window?.makeKeyAndVisible()
-
-		statusBarCallUseCase = StatusBarCallUseCase(appWindow: appWindow)
-		statusBarCallUseCase?.configure(window: appWindow, rootViewController: rootNavigationController)
+        AppCoordinatorAssembly.coordinator.start()
+        configureCalls()
 		return true
 	}
 
+    func configureCalls() {
+        guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else {
+            return
+        }
+
+        StatusBarCallUseCase.shared.configure(window: window)
+    }
+
+//    func application(
+//        _ application: UIApplication,
+//        configurationForConnecting connectingSceneSession: UISceneSession,
+//        options: UIScene.ConnectionOptions
+//    ) -> UISceneConfiguration {
+//        let configuration = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+//        if connectingSceneSession.role == .windowApplication {
+//            configuration.delegateClass = SceneDelegate.self
+//        }
+//        return configuration
+//    }
+
 	func applicationWillTerminate(_ application: UIApplication) {
-        appLifeCycleDelegate?.applicationWillTerminate()
+        appLifeCycleDelegate.applicationWillTerminate()
 	}
 
 	func applicationDidEnterBackground(_ application: UIApplication) {
-        appLifeCycleDelegate?.applicationDidEnterBackground()
+        appLifeCycleDelegate.applicationDidEnterBackground()
 	}
 
 	func applicationWillEnterForeground(_ application: UIApplication) {
-        appLifeCycleDelegate?.applicationWillEnterForeground()
+        appLifeCycleDelegate.applicationWillEnterForeground()
 	}
 
 	func applicationWillResignActive(_ application: UIApplication) {
-        appLifeCycleDelegate?.applicationWillResignActive()
+        appLifeCycleDelegate.applicationWillResignActive()
 	}
 
 	func applicationProtectedDataWillBecomeUnavailable(_ application: UIApplication) {
-        appLifeCycleDelegate?.applicationProtectedDataWillBecomeUnavailable()
+        appLifeCycleDelegate.applicationProtectedDataWillBecomeUnavailable()
 	}
 
 	func applicationProtectedDataDidBecomeAvailable(_ application: UIApplication) {
-        appLifeCycleDelegate?.applicationProtectedDataDidBecomeAvailable()
+        appLifeCycleDelegate.applicationProtectedDataDidBecomeAvailable()
 	}
 }
 
@@ -69,11 +78,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate {
 
-	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-		notificationsUseCase?.applicationDidRegisterForRemoteNotifications(deviceToken: deviceToken)
+	func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
+		notificationsUseCase.applicationDidRegisterForRemoteNotifications(deviceToken: deviceToken)
 	}
 
-	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-		notificationsUseCase?.applicationDidFailRegisterForRemoteNotifications()
+	func application(
+        _ application: UIApplication,
+        didFailToRegisterForRemoteNotificationsWithError error: Error
+    ) {
+		notificationsUseCase.applicationDidFailRegisterForRemoteNotifications()
 	}
 }
+/*
+class SceneDelegate: NSObject, ObservableObject, UIWindowSceneDelegate {
+    var window: UIWindow?
+
+    func scene(
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions
+    ) {
+        guard
+            let windowScene = scene as? UIWindowScene,
+            let keyWindow = windowScene.keyWindow,
+            let controller = keyWindow.rootViewController
+        else {
+            return
+        }
+        self.window = keyWindow
+        debugPrint("SceneDelegate appWindow: \(appWindow)")
+        debugPrint("SceneDelegate rootController: \(controller)")
+        StatusBarCallUseCase.shared.configure(
+            window: keyWindow,
+            rootViewController: controller
+        )
+    }
+}
+*/

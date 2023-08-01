@@ -19,6 +19,7 @@ protocol CallViewModelProtocol: ObservableObject {
 	func controllerDidAppear()
     func didTapAcceptCallButton()
     func didTapEndCallButton()
+    func didTapBackButton()
 }
 
 final class CallViewModel {
@@ -275,6 +276,10 @@ final class CallViewModel {
 // MARK: - CallViewModelProtocol
 
 extension CallViewModel: CallViewModelProtocol {
+
+    func didTapBackButton() {
+        p2pCallUseCase.router.removeCallController()
+    }
 
 	func controllerDidDisappear() {
 		NotificationCenter.default.post(

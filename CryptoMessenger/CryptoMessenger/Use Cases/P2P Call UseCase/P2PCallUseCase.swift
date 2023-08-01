@@ -5,6 +5,8 @@ import MatrixSDK
 
 protocol P2PCallUseCaseProtocol: AnyObject {
 
+    var router: P2PCallsRouterable { get }
+
     var isActiveCallExist: Bool { get }
 
 	var delegate: P2PCallUseCaseDelegate? { get set }
@@ -75,7 +77,7 @@ final class P2PCallUseCase: NSObject {
 		isChangeHoldedCallEnabled = isActiveCall && isOnholdCall && !isCallsNotSame
 	}
 
-	private let router: P2PCallsRouterable
+	let router: P2PCallsRouterable
 	private let matrixService: MatrixServiceProtocol
 	@Published private var activeCall: MXCall?
 	@Published private var onHoldCall: MXCall?

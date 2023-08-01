@@ -1,10 +1,8 @@
-import UIKit
 import SwiftUI
 
 protocol CoordinatorsFactoryProtocol {
     static func makePinCoordinator(
         delegate: PinCodeFlowCoordinatorDelegate,
-        navigationController: UINavigationController,
         renderView: @escaping RootViewBuilder,
         onLogin: @escaping () -> Void
     ) -> Coordinator
@@ -22,8 +20,7 @@ protocol CoordinatorsFactoryProtocol {
 
     static func makePushCoordinator(
         notification: UNNotificationResponse,
-        delegate: PushNotificationCoordinatorDelegate,
-        navigationController: UINavigationController
+        delegate: PushNotificationCoordinatorDelegate
     ) -> Coordinator
 }
 
@@ -31,14 +28,12 @@ enum CoordinatorsFactory: CoordinatorsFactoryProtocol {
 
     static func makePinCoordinator(
         delegate: PinCodeFlowCoordinatorDelegate,
-        navigationController: UINavigationController,
         renderView: @escaping RootViewBuilder,
         onLogin: @escaping () -> Void
     ) -> Coordinator {
         let userFlows = UserDefaultsService.shared
         let coordinator = PinCodeFlowCoordinator(
             userFlows: userFlows,
-            navigationController: navigationController,
             renderView: { result in
                 renderView(result)
             }, onLogin: {
@@ -74,13 +69,12 @@ enum CoordinatorsFactory: CoordinatorsFactoryProtocol {
 
     static func makePushCoordinator(
         notification: UNNotificationResponse,
-        delegate: PushNotificationCoordinatorDelegate,
-        navigationController: UINavigationController) -> Coordinator {
+        delegate: PushNotificationCoordinatorDelegate
+    ) -> Coordinator {
         let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase
         let togglesFacade = MainFlowTogglesFacade(remoteConfigUseCase: remoteConfigUseCase)
         let coordinator = PushNotificationCoordinatorAssembly.build(
             notificationResponse: notification,
-            navigationController: navigationController,
             delegate: delegate,
             toggleFacade: togglesFacade
         )

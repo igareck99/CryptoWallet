@@ -1,10 +1,8 @@
 import Foundation
-import UIKit
 
 enum PushNotificationCoordinatorAssembly {
 	static func build(
         notificationResponse: UNNotificationResponse,
-        navigationController: UINavigationController,
         delegate: PushNotificationCoordinatorDelegate?,
         toggleFacade: MainFlowTogglesFacadeProtocol
     ) -> Coordinator {
@@ -15,7 +13,6 @@ enum PushNotificationCoordinatorAssembly {
             userInfo: userInfo,
             matrixUseCase: matrixUseCase,
             parser: parser,
-			navigationController: navigationController,
 			delegate: delegate,
             toggleFacade: toggleFacade
 		)

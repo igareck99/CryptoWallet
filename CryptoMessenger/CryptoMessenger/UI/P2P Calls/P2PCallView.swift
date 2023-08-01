@@ -61,7 +61,23 @@ struct P2PCallView<ViewModel: CallViewModelProtocol>: View {
     @ViewBuilder
     var callInformation: some View {
         VStack(spacing: 8) {
-            
+            HStack(spacing: 0) {
+                Button {
+                    viewModel.didTapBackButton()
+                } label: {
+                    Text(Image(systemName: "chevron.left"))
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundColor(.white)
+                        .frame(width: 44, height: 44)
+                }
+                .padding(.leading, 8)
+                .frame(width: 44, height: 44)
+                Spacer()
+                Text(viewModel.sources.endToEndEncrypted)
+                    .foregroundColor(.white)
+                    .font(.system(size: 15))
+                Spacer()
+            }
             Text(viewModel.userName)
                 .font(.system(size: 21))
                 .foregroundColor(.white)

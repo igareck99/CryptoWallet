@@ -19,7 +19,7 @@ final class AppCoordinator: RootCoordinatable {
     @Published var rootView: any View = Text("")
     
     var childCoordinators: [String: Coordinator] = [:]
-	var navigationController: UINavigationController
+    var statusBarUseCase = StatusBarCallUseCase.shared
 
 	private var pendingCoordinators = [Coordinator]()
 	private let keychainService: KeychainServiceProtocol
@@ -35,8 +35,7 @@ final class AppCoordinator: RootCoordinatable {
         router: AppCoordinatorRouterable,
         factory: CoordinatorsFactoryProtocol.Type,
         privateDataCleaner: PrivateDataCleanerProtocol,
-        timeService: AppTimeServiceProtocol,
-		navigationController: UINavigationController
+        timeService: AppTimeServiceProtocol
 	) {
 		self.keychainService = keychainService
 		self.userSettings = userSettings
@@ -44,7 +43,6 @@ final class AppCoordinator: RootCoordinatable {
         self.factory = factory
         self.privateDataCleaner = privateDataCleaner
         self.timeService = timeService
-        self.navigationController = navigationController
     }
 
 	private func showAuthenticationFlow() {
@@ -81,7 +79,7 @@ final class AppCoordinator: RootCoordinatable {
 	private func showPinCodeFlow() {
         let pinCodeFlowCoordinator = factory.makePinCoordinator(
             delegate: self,
-            navigationController: navigationController, renderView: { view in
+            renderView: { view in
                 self.rootView = view
             }, onLogin: {
                 self.showMainFlow()
@@ -151,8 +149,7 @@ extension AppCoordinator: AppCoordinatorProtocol {
 
         let pushCoordinator = factory.makePushCoordinator(
             notification: notification,
-            delegate: self,
-            navigationController: navigationController
+            delegate: self
         )
         // TODO: - Переделать для нового координатора
 //            guard
