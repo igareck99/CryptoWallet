@@ -30,11 +30,11 @@ struct CreateContactView: View {
                             buttons: [
                                 .cancel(),
                                 .default(
-                                    Text(R.string.localizable.profileFromGallery()),
+                                    Text(viewModel.resources.profileFromGallery),
                                     action: switchImagePicker
                                 ),
                                 .default(
-                                    Text(R.string.localizable.profileFromCamera()),
+                                    Text(viewModel.resources.profileFromCamera),
                                     action: switchCameraPicker
                                 )
                             ]
@@ -49,7 +49,7 @@ struct CreateContactView: View {
             .fullScreenCover(isPresented: $showImagePicker,
                              content: {
                 ImagePickerView(selectedImage: $selectedImage)
-                    .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                    .navigationBarTitle(Text(viewModel.resources.photoEditorTitle))
                     .navigationBarTitleDisplayMode(.inline)
             })
             .navigationBarBackButtonHidden(true)
@@ -65,9 +65,9 @@ struct CreateContactView: View {
                 }
                 
                 ToolbarItem(placement: .principal) {
-                    Text(R.string.localizable.createActionNewContact())
-                        .font(.bold(15))
-                        .foreground(.black())
+                    Text(viewModel.resources.createActionNewContact)
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundColor(viewModel.resources.titleColor)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -77,9 +77,9 @@ struct CreateContactView: View {
                                                               numberText: numberText)
                         viewModel.popToRoot()
                     }, label: {
-                        Text(R.string.localizable.profileDetailRightButton())
-                            .font(.semibold(15))
-                            .foreground(numberText.isEmpty ? .gray() : .blue())
+                        Text(viewModel.resources.profileDetailRightButton)
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(numberText.isEmpty ? viewModel.resources.textColor : viewModel.resources.buttonBackground)
                     })
                     .disabled(numberText.isEmpty)
                 }
@@ -109,7 +109,7 @@ struct CreateContactView: View {
                 } else {
                     ZStack {
                         Circle()
-                            .fill(Color(.blue()))
+                            .fill(viewModel.resources.buttonBackground)
                             .frame(width: 60, height: 60)
                         R.image.profileDetail.whiteCamera.image
                             .frame(width: 26,
@@ -123,11 +123,11 @@ struct CreateContactView: View {
                     TextField("", text: $nameSurnameText)
                         .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
                         .frame(height: 44)
-                        .background(.paleBlue())
+                        .background(viewModel.resources.textBoxBackground)
                         .cornerRadius(8)
                     if nameSurnameText.isEmpty {
-                        Text(R.string.localizable.facilityApproveNameSurname())
-                            .foreground(.darkGray())
+                        Text(viewModel.resources.facilityApproveNameSurname)
+                            .foregroundColor(viewModel.resources.textColor)
                             .padding(.top, 12)
                             .padding(.leading, 16)
                             .disabled(true)
@@ -137,9 +137,9 @@ struct CreateContactView: View {
             }
             .padding(.top, 24)
             .padding(.horizontal, 16)
-            Text(R.string.localizable.createActionContactData().uppercased())
-                .foreground(.darkGray())
-                .font(.semibold(12))
+            Text(viewModel.resources.createActionContactData.uppercased())
+                .foregroundColor(viewModel.resources.textColor)
+                .font(.system(size: 12, weight: .semibold))
                 .padding(.leading, 16)
                 .padding(.top, 24)
             VStack(spacing: 12) {
@@ -150,9 +150,9 @@ struct CreateContactView: View {
                     .autofillPrefix(true)
                     .flagSelectable(true)
                     .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
-                    .font(.regular(15))
+                    .font(.system(size: 15, weight: .regular))
                     .frame(height: 44)
-                    .background(.paleBlue())
+                    .background(viewModel.resources.textBoxBackground)
                     .cornerRadius(8)
             }
             .padding(.horizontal, 16)

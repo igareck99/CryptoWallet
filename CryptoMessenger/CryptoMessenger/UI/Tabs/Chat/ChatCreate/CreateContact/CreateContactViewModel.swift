@@ -8,6 +8,14 @@ final class CreateContactViewModel: ObservableObject {
 
     @Injectable var contactsStore: ContactsManager
     var coordinator: ChatCreateFlowCoordinatorProtocol?
+    let resources: CreateContactResourcable.Type
+    
+    init(
+        resources: CreateContactResourcable.Type = CreateContactResources.self
+    ) {
+        self.resources = resources
+    }
+    
     
     func popToRoot() {
         coordinator?.toParentCoordinator()
