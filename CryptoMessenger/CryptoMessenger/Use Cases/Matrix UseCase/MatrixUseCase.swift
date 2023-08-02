@@ -112,7 +112,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 	var loginStatePublisher: Published<MatrixState>.Publisher { matrixService.loginStatePublisher }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { matrixService.devicesPublisher }
 	var rooms: [AuraRoom] { matrixService.rooms }
-    var chatHistoryRooms: [ChatHistoryData] { matrixService.chatHistoryRooms }
+    var auraRooms: [AuraRoomData] { matrixService.auraRooms }
 
 	// MARK: - Session
 

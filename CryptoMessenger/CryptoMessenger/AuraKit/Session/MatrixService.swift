@@ -47,10 +47,11 @@ final class MatrixService: MatrixServiceProtocol {
 
 	private let matrixObjectsFactory: MatrixObjectFactoryProtocol
 	var roomListDataFetcher: MXRoomListDataFetcher?
-    var chatHistoryRooms: [ChatHistoryData] {
+    var auraRooms: [AuraRoomData] {
         let rooms = matrixObjectsFactory
-            .makeChatHistoryRooms(mxRooms: session?.rooms,
+            .makeAuraRooms(mxRooms: session?.rooms,
                                   config: Configuration.shared,
+                                  eventsFactory: RoomEventObjectFactory(),
                                   matrixUseCase: MatrixUseCase.shared) { [weak self] directUserId in
                 self?.currentlyActive(directUserId) == true
             }

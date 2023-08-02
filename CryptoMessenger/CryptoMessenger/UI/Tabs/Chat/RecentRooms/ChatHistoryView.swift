@@ -270,7 +270,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                         .foregroundColor(Color(.init(r: 14, g:142, b: 243)))
                 }
                 Button(action: {
-                    showReadAll = true
+                    showReadAll.toggle()
                 }, label: {
                     viewModel.sources.ellipsisCircle
                         .renderingMode(.original)

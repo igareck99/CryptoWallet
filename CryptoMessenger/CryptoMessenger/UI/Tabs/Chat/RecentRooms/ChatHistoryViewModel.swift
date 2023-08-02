@@ -9,6 +9,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 	let sources: ChatHistorySourcesable.Type
 
     @Published private(set) var rooms: [AuraRoom] = []
+    @Published private(set) var auraRooms: [AuraRoomData] = []
     @Published private(set) var chatHistoryRooms: [ChatHistoryData] = []
     @Published private(set) var state: ChatHistoryFlow.ViewState = .idle
     @Published var groupAction: GroupAction?
@@ -23,6 +24,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     private let pushNotification: PushNotificationsServiceProtocol
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
     private let factory: ChannelUsersFactoryProtocol.Type
+    private let chatObjectFactory: ChatHistoryObjectFactoryProtocol
     private let keychainService: KeychainServiceProtocol = KeychainService.shared
     var coordinator: ChatHistoryFlowCoordinatorProtocol?
 
@@ -32,12 +34,14 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         sources: ChatHistorySourcesable.Type = ChatHistorySources.self,
         pushNotification: PushNotificationsServiceProtocol = PushNotificationsService.shared,
         userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared,
-        factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self
+        factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
+        chatObjectFactory: ChatHistoryObjectFactoryProtocol = ChatHistoryObjectFactory()
     ) {
         self.sources = sources
         self.pushNotification = pushNotification
         self.userSettings = userSettings
         self.factory = factory
+        self.chatObjectFactory = chatObjectFactory
         bindInput()
     }
 
@@ -126,8 +130,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 case .onAppear:
                     guard let self = self else { return }
                     self.configureCalls()
-                    self.rooms = self.matrixUseCase.rooms
-                    self.chatHistoryRooms = self.matrixUseCase.chatHistoryRooms
+                    self.auraRooms = self.matrixUseCase.auraRooms
+                    self.chatHistoryRooms = self.chatObjectFactory.makeChatHistoryRooms(mxRooms: self.auraRooms)
                     self.objectWillChange.send()
                 case let .onShowRoom(room):
                     guard let coordinator = self?.coordinator else { return }
@@ -176,8 +180,9 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
-                self.rooms = self.matrixUseCase.rooms
-                self.chatHistoryRooms = self.matrixUseCase.chatHistoryRooms
+                self.auraRooms = self.matrixUseCase.auraRooms
+                self.chatHistoryRooms = self.chatObjectFactory.makeChatHistoryRooms(mxRooms: self.auraRooms)
+                self.objectWillChange.send()
             }
             .store(in: &subscriptions)
     }
