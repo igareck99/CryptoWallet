@@ -18,6 +18,9 @@ struct ChatHistoryData: Identifiable, ViewGeneratable {
     var numberUsers: Int
     var topic: String
     var roomId: String
+    let avatarView: any ViewGeneratable
+    let nameView: any ViewGeneratable
+    let messageView: any ViewGeneratable
     var onTap: (ChatHistoryData) -> Void
     var onLongPress: (ChatHistoryData) -> Void
 

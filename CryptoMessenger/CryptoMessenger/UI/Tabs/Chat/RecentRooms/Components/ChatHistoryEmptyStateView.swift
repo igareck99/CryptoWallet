@@ -2,52 +2,30 @@ import SwiftUI
 
 // MARK: - ChatHistoryEmptyState
 
-struct ChatHistoryEmptyState<ViewModel>: View where ViewModel: ChatHistoryViewDelegate {
+struct ChatHistoryEmptyState: View {
 
     // MARK: - Internal Properties
 
-    @ObservedObject var viewModel: ViewModel
+    @Binding var viewState: ChatHistoryViewState
     @State private var isRotating = 0.0
 
     // MARK: - Body
 
     var body: some View {
-        switch viewModel.viewState {
+        switch viewState {
         case .noData:
-            VStack(alignment: .center) {
-                Spacer()
-                VStack(spacing: 4) {
-                    viewModel.sources.emptyState
-                    Text(viewModel.sources.searchEmpty)
-                        .font(.regular(22))
-                    Text(viewModel.sources.enterData)
-                        .multilineTextAlignment(.center)
-                        .font(.regular(15))
-                        .foreground(.darkGray())
-                }
-                Spacer()
-            }.frame(width: 248)
+            EmptyInfoViewModel(value: ChatHistoryEmpty.noData).view()
+                .frame(width: 248)
         case .emptySearch:
-            VStack(alignment: .center) {
-                Spacer()
-                VStack(spacing: 4) {
-                    viewModel.sources.noDataImage
-                    Text(viewModel.sources.noResult)
-                        .font(.regular(22))
-                    Text(viewModel.sources.nothingFind)
-                        .multilineTextAlignment(.center)
-                        .font(.regular(15))
-                        .foreground(.darkGray())
-                }
-                Spacer()
-            }.frame(width: 248)
+            EmptyInfoViewModel(value: ChatHistoryEmpty.emptySearch).view()
+                .frame(width: 248)
         case .loading:
             loadingStateView()
         default:
             EmptyView()
         }
     }
-    
+
     @ViewBuilder
     private func loadingStateView() -> some View {
         VStack {

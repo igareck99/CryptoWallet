@@ -5,29 +5,46 @@ import MatrixSDK
 
 protocol ChatHistoryObjectFactoryProtocol {
 
-    func makeChatHistoryRooms(mxRooms: [AuraRoomData]?, viewModel: any ChatHistoryViewDelegate) -> [ChatHistoryData]
-    
+    func makeChatHistoryRooms(mxRooms: [AuraRoomData]?,
+                              viewModel: any ChatHistoryViewDelegate) -> [ChatHistoryData]
+
     func makeChatHistoryChannels(dataRooms: [ChatHistoryData]?, isJoined: Bool,
                                  viewModel: any ChatHistoryViewDelegate) -> [MatrixChannel]
 }
 
-struct ChatHistoryObjectFactory {}
+struct ChatHistoryObjectFactory {
+    private let chatRowObjectFactory: ChatHistoryRowComponentsFactoryProtocol = ChatHistoryRowComponentsFactory()
+}
 
 // MARK: - RoomDataObjectFactory(ChatHistoryObjectFactoryProtocol)
 
 extension ChatHistoryObjectFactory: ChatHistoryObjectFactoryProtocol {
 
-    func makeChatHistoryRooms(mxRooms: [AuraRoomData]?, viewModel: any ChatHistoryViewDelegate) -> [ChatHistoryData] {
+    func makeChatHistoryRooms(mxRooms: [AuraRoomData]?,
+                              viewModel: any ChatHistoryViewDelegate) -> [ChatHistoryData] {
         guard let rooms = mxRooms else { return [] }
         let chatRooms: [ChatHistoryData] = rooms
             .map { room in
+                let avatarView = chatRowObjectFactory.makeAvatarView(room.roomAvatar,
+                                                                     room.roomName,
+                                                                     room.isDirect,
+                                                                     room.isOnline)
+                let nameView = chatRowObjectFactory.makeNameView(room.lastMessageTime,
+                                                                 room.roomName)
+                let messageView = chatRowObjectFactory.makeLastMessageView(room.lastMessage,
+                                                                           room.unreadedEvents,
+                                                                           room.isPinned,
+                                                                           true)
                 let value = ChatHistoryData(isChannel: room.isChannel, isAdmin: room.isAdmin,
                                             isPinned: room.isPinned, isOnline: room.isOnline,
                                             isDirect: room.isDirect, lastMessage: room.lastMessage,
                                             lastMessageTime: room.lastMessageTime,
                                             roomName: room.roomName,
                                             numberUsers: room.numberUsers,
-                                            topic: room.topic, roomId: room.roomId) { room in
+                                            topic: room.topic, roomId: room.roomId,
+                                            avatarView: avatarView,
+                                            nameView: nameView,
+                                            messageView: messageView) { room in
                     viewModel.didTapChat(room)
                 } onLongPress: { room in
                     viewModel.didSettingsCall(room)

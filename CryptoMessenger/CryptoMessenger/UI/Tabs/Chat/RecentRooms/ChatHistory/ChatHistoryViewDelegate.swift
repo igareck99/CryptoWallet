@@ -26,13 +26,13 @@ protocol ChatHistoryViewDelegate: ObservableObject {
 
     var chatHistoryRooms: [ChatHistoryData] { get }
 
-    var searchText: Binding<String> { get set }
+    var searchText: String { get set }
 
     var gloabalSearch: [any ViewGeneratable] { get }  
 
-    var viewState: ChatHistoryViewState { get }
+    var viewState: ChatHistoryViewState { get set }
 
-    var chatSections: [any ViewGeneratable] { get }
+    var chatSections: [any ViewGeneratable] { get set }
 
     func didTapChat(_ data: ChatHistoryData)
     
