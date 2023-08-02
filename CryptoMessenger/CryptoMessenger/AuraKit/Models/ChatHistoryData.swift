@@ -8,17 +8,19 @@ struct ChatHistoryData: Identifiable, ViewGeneratable {
     var isChannel: Bool
     var isAdmin: Bool
     var isPinned: Bool
-    var isOnline: Bool // MAKE
-    var isDirect: Bool // MAKE
-    var unreadedEvents: Int = 0 // MAKE
-    var lastMessage: MessageType // MAKE
-    var lastMessageTime: Date // MAKE
-    var roomAvatar: URL? // MAKE
-    var roomName: String // MAKE
-    var numberUsers: Int // MAKE
-    var topic: String // MAKE
-    var roomId: String // MAKE
-    
+    var isOnline: Bool
+    var isDirect: Bool
+    var unreadedEvents: Int = 0
+    var lastMessage: MessageType
+    var lastMessageTime: Date
+    var roomAvatar: URL?
+    var roomName: String
+    var numberUsers: Int
+    var topic: String
+    var roomId: String
+    var onTap: (ChatHistoryData) -> Void
+    var onLongPress: (ChatHistoryData) -> Void
+
     // MARK: - ViewGeneratable
 
     @ViewBuilder

@@ -7,7 +7,7 @@ struct ChatHistoryRow: View {
 	let room: ChatHistoryData
     let isFromCurrentUser: Bool
 	@State var showLocationTransition = false
-
+    
 	// MARK: - Body
 
 	var body: some View {
@@ -33,6 +33,12 @@ struct ChatHistoryRow: View {
                 .frame(height: 0.5)
                 .padding(.leading, 88)
 		}.frame(height: 76)
+            .onTapGesture {
+                room.onTap(room)
+            }
+            .onLongPressGesture {
+                room.onLongPress(room)
+            }
 	}
 
 	private func displayNameView() -> AnyView {

@@ -1,23 +1,24 @@
-import Combine
+import SwiftUI
 
 // MARK: - MatrixChannel
 
-struct MatrixChannel: Hashable {
-    
+struct MatrixChannel: Identifiable, ViewGeneratable {
+
     // MARK: - Internal Properties
-    
+
+    var id = UUID()
     var roomId: String
     var name: String
     var numJoinedMembers: Int
     var avatarUrl: String
+    var isJoined: Bool
+    var onTap: (MatrixChannel) -> Void
 
-    // MARK: - Lifecycle
+    // MARK: - ViewGeneratable
 
-    init(roomId: String, name: String,
-         numJoinedMembers: Int, avatarUrl: String) {
-        self.roomId = roomId
-        self.name = name
-        self.numJoinedMembers = numJoinedMembers
-        self.avatarUrl = avatarUrl
+    @ViewBuilder
+    func view() -> AnyView {
+        ChatHistorySearchRow(data: self)
+            .anyView()
     }
 }
