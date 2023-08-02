@@ -159,6 +159,8 @@ final class ChatCreateViewModel: ObservableObject {
         parameters.visibility = MXRoomDirectoryVisibility.private.identifier
         parameters.preset = MXRoomPreset.privateChat.identifier
         createRoom(parameters: parameters)
+        matrixUseCase.objectChangePublisher.send()
+        self.coordinator?.toParentCoordinator()
     }
 
     private func createGroupRoom(_ info: ChatData) {

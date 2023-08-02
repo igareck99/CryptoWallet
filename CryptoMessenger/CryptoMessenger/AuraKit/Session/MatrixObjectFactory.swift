@@ -53,12 +53,14 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                     powerLevels = state?.powerLevels?.eventsDefault == 50
                     isAdmin = state?.powerLevels?.powerLevelOfUser(withUserID: matrixUseCase.getUserId()) == 100
                 }
+                
                 let roomName = mxRoom.summary.displayName ?? ""
                 var roomAvatar: URL?
                 if let avatar = mxRoom.summary.avatar {
                     let homeServer = config.matrixURL
                     roomAvatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
                 }
+                
                 let enumerator = mxRoom.enumeratorForStoredMessages
                 let currentBatch = enumerator?.nextEventsBatch(50, threadId: nil) ?? []
                 var messageType = MessageType.text("")

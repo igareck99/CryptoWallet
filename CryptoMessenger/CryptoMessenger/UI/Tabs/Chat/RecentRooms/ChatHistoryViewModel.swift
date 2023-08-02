@@ -13,8 +13,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     @Published private(set) var state: ChatHistoryFlow.ViewState = .idle
     @Published var groupAction: GroupAction?
     @Published var isFromCurrentUser = false
-    @Published var leaveState: [String: Bool] = [:]
-    @Published var roomsLastCurrent: [String: Bool] = [:]
     @Published var isLoading = false
 
     // MARK: - Private Properties
@@ -136,11 +134,39 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                     guard let mxRoom = self?.matrixUseCase.getRoomInfo(roomId: room) else { return }
                     self?.coordinator?.firstAction(AuraRoom(mxRoom), coordinator: coordinator)
                 case let .onDeleteRoom(roomId):
-                    self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in })
+                    self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in
+                        self?.matrixUseCase.objectChangePublisher.send()
+                    })
                 case let .onCreateChat(chatData):
                     self?.coordinator?.showCreateChat(chatData)
-                case let .onRoomActions(roomId):
-                    self?.coordinator?.chatActions(roomId)
+                case let .onRoomActions(room):
+                    let data = ChatActionsList(isLeaveAvailable: !(room.isAdmin && room.isChannel),
+                                               isWatchProfileAvailable: room.isDirect,
+                                               isPinned: room.isPinned)
+                    self?.coordinator?.chatActions(data, onSelect: { value in
+                        switch value {
+                        case .watchProfile:
+                            self?.matrixUseCase.getRoomMembers(roomId: room.roomId) { [weak self] result in
+                                switch result {
+                                case let .success(roomMembers):
+                                    guard let user = roomMembers.members.first(where: {
+                                        $0.userId != self?.matrixUseCase.getUserId() }) else { return }
+                                    let contact = Contact(mxId: user.userId,
+                                                          name: user.displayname,
+                                                          status: "")
+                                    self?.coordinator?.dismissCurrentSheet()
+                                    self?.coordinator?.friendProfile(contact)
+                                default:
+                                    break
+                                }
+                            }
+                        case .pin:
+                            ()
+                        case .removeChat:
+                            self?.coordinator?.dismissCurrentSheet()
+                            self?.eventSubject.send(.onDeleteRoom(room.roomId))
+                        }
+                    })
                 }
             }
             .store(in: &subscriptions)
@@ -152,20 +178,21 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 guard let self = self else { return }
                 self.rooms = self.matrixUseCase.rooms
                 self.chatHistoryRooms = self.matrixUseCase.chatHistoryRooms
-                let notJoinRoom = self.rooms.first { $0.summary.membership == .invite }
-                notJoinRoom.map { room in
-                    self.joinRoom(room.room.roomId)
-                }
-                DispatchQueue.main.async {
-                    for room in self.rooms {
-                        guard let roomId = room.room.roomId else { return }
-                        self.leaveRoomAction(roomId, completion: { value in
-                            self.leaveState[roomId] = value
-                        })
-                    }
-                }
             }
             .store(in: &subscriptions)
+    }
+    
+    private func loadUsers(_ roomId: String) {
+        matrixUseCase.getRoomMembers(roomId: roomId) { [weak self] result in
+            switch result {
+            case let .success(roomMembers):
+                let user = roomMembers.members.first(where: {
+                    $0.userId != self?.matrixUseCase.getUserId() })
+            default:
+                break
+            }
+            
+        }
     }
 
     private func allowPushNotifications() {

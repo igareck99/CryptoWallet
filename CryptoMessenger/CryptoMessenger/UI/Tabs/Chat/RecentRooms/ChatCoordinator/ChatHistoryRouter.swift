@@ -43,7 +43,7 @@ protocol ChatHistoryRouterable: View {
     func routePath() -> Binding<NavigationPath>
     func presentedItem() -> Binding<ChatHistorySheetLink?>
     func chatCreate(_ view: any View)
-    func chatActions(_ roomId: String)
+    func chatActions(_ room: ChatActionsList, onSelect: @escaping GenericBlock<ChatActions>)
 }
 
 // MARK: - ChatHistoryRouter
@@ -51,10 +51,10 @@ protocol ChatHistoryRouterable: View {
 struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View {
 
     // MARK: - Internal Properties
-    
+
     @ObservedObject var state: State
     let content: () -> Content
-    
+
     var body: some View {
         NavigationStack(path: $state.path) {
             ZStack {
@@ -125,12 +125,12 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
                                                onSelectVideo: onSelectVideo).anyView()
         case let .channelPatricipants(viewModel: viewModel, showParticipantsView: showParticipantsView):
             return ChannelParticipantsView(viewModel: viewModel,
-                                    showParticipantsView: showParticipantsView).anyView()
-        case let .chatActions(roomId):
-            return ChatActionsAssembly.build(roomId, onSelect: {_ in 
-                
+                                           showParticipantsView: showParticipantsView).anyView()
+        case let .chatActions(room, onSelect):
+            return ChatActionsAssembly.build(room, onSelect: onSelect, viewHeight: { value in
+                state.sheetHeight = value
             })
-            .presentationDetents([.large, .height(223)])
+            .presentationDetents([.large, .height(state.sheetHeight)])
             .anyView()
         }
     }
@@ -147,17 +147,17 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
             )
         )
     }
-    
+
     func start() {
         state.path.append(ChatHistoryContentLink.chatHistrory)
     }
-    
+
     func popToRoot() {
         state.path = NavigationPath()
         state.presentedItem = nil
         state.coverItem = nil
     }
-    
+
     func chatSettings(chatData: Binding<ChatData>,
                       saveData: Binding<Bool>,
                       room: AuraRoom,
@@ -165,7 +165,7 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
                       coordinator: ChatHistoryFlowCoordinatorProtocol) {
         state.path.append(ChatHistoryContentLink.chatSettings(chatData, saveData, isLeaveChannel, room, coordinator))
     }
-    
+
     func channelSettings(chatData: Binding<ChatData>,
                          saveData: Binding<Bool>,
                          room: AuraRoom,
@@ -176,17 +176,17 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
                                                                  chatData: chatData,
                                                                  saveData: isLeaveChannel, coordinator: coordinator))
     }
-    
+
     func chatMedia(_ room: AuraRoom) {
         state.path.append(ChatHistoryContentLink.chatMedia(room: room))
     }
-    
+
     func chatMembersView(_ chatData: Binding<ChatData>,
                          _ coordinator: ChatHistoryFlowCoordinatorProtocol) {
         state.path.append(ChatHistoryContentLink.chatMembers(chatData: chatData,
                                                              coordinator: coordinator))
     }
-    
+
     func friendProfile(_ contact: Contact) {
         state.path.append(ChatHistoryContentLink.friendProfile(contact: contact))
     }
@@ -196,11 +196,11 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
         state.path.append(ChatHistoryContentLink.adminList(chatData: chatData,
                                                            coordinator: coordinator))
     }
-    
+
     func notifications(_ roomId: String) {
         state.presentedItem = .notifications(roomId)
     }
-    
+
     func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
                                  galleryContent: GalleryPickerContent,
                                  onSelectImage: @escaping (UIImage?) -> Void,
@@ -210,7 +210,7 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
                                                                onSelectImage: onSelectImage,
                                                                onSelectVideo: onSelectVideo))
     }
-    
+
     func galleryPickerSheet(sourceType: UIImagePickerController.SourceType,
                             galleryContent: GalleryPickerContent,
                             onSelectImage: @escaping (UIImage?) -> Void,
@@ -220,30 +220,30 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
                                              onSelectImage: onSelectImage,
                                              onSelectVideo: onSelectVideo)
     }
-    
+
     func dismissCurrentSheet() {
         state.presentedItem = nil
     }
-    
+
     func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,
                                  showParticipantsView: Binding<Bool>) {
         state.presentedItem = .channelPatricipants(viewModel: viewModel,
                                                    showParticipantsView: showParticipantsView)
     }
-    
+
     func routePath() -> Binding<NavigationPath> {
         $state.path
     }
-    
+
     func presentedItem() -> Binding<ChatHistorySheetLink?> {
         $state.presentedItem
     }
-    
+
     func chatCreate(_ view: any View) {
         state.presentedItem = .createChat(view)
     }
-    
-    func chatActions(_ roomId: String) {
-        state.presentedItem = .chatActions(roomId)
+
+    func chatActions(_ room: ChatActionsList, onSelect: @escaping GenericBlock<ChatActions>) {
+        state.presentedItem = .chatActions(room, onSelect)
     }
 }

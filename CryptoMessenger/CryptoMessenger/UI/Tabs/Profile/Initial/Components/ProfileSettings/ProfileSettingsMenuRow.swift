@@ -9,6 +9,7 @@ struct ProfileSettingsMenuRow: View {
     let title: String
     let image: Image
     let notifications: Int
+    let showArrow = true
     var color: Color = .chineseBlack04
 
     // MARK: - Body
@@ -34,8 +35,9 @@ struct ProfileSettingsMenuRow: View {
                         .foregroundColor(.white)
                 }
             }
-
-            R.image.additionalMenu.grayArrow.image
+            if showArrow {
+                R.image.additionalMenu.grayArrow.image
+            }
         }
     }
 }
