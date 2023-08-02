@@ -30,8 +30,8 @@ struct ChatActionsView: View {
     var body: some View {
         content
             .onAppear {
-                let value = CGFloat(223 - (3 - ChatActions.getAvailableActions(room.isWatchProfileAvailable,
-                                                                          room.isLeaveAvailable).count) * 57)
+                let value = ChatActions.getSheetHeight(room.isWatchProfileAvailable,
+                                                            room.isLeaveAvailable)
                 viewHeight(value)
             }
     }
