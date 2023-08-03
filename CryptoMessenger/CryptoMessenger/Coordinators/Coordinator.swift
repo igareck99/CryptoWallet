@@ -1,5 +1,5 @@
-import UIKit
 import SwiftUI
+import UIKit
 
 // MARK: - Coordinator
 
@@ -13,6 +13,10 @@ protocol Coordinator: AnyObject {
 }
 
 extension Coordinator {
+
+    func start() {
+        fatalError("Not implemented")
+    }
 
     func startWithView(completion: @escaping RootViewBuilder) {
         fatalError("Not implemented")

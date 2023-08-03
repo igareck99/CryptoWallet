@@ -1,15 +1,8 @@
 import SwiftUI
 
-// MARK: - AddWalletView
+struct AddSeedView<ViewModel: AddSeedViewModelProtocol>: View {
 
-struct AddWalletView: View {
-
-    // MARK: - Internal Properties
-
-    @StateObject var viewModel: WalletViewModel
-    @Binding var showAddWallet: Bool
-
-    // MARK: - Body
+    @StateObject var viewModel: ViewModel
 
     var body: some View {
         VStack(spacing: 18) {
@@ -24,20 +17,14 @@ struct AddWalletView: View {
                         .foregroundColor(.dodgerTransBlue)
                     R.image.transaction.bluePlus.image
                 }
-                Text(R.string.localizable.transactionAddWallet(), [
-                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left))
-                ])
-                .font(.system(size: 17, weight: .regular))
-                .foregroundColor(.dodgerBlue)
+                Text(R.string.localizable.transactionAddWallet())
+                    .font(.system(size: 17, weight: .regular))
+                    .foregroundColor(.dodgerBlue)
                 Spacer()
             }
             .padding(.leading, 16)
-            .onDisappear {
-//                showTabBar()
-            }
             .onTapGesture {
-                showAddWallet = false
-                viewModel.send(.onImportKey)
+                viewModel.onImportKeyTap()
             }
             Spacer()
         }

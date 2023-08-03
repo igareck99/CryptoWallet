@@ -351,7 +351,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                         .foregroundColor(Color(.init(r: 14, g:142, b: 243)))
                 }
                 Button(action: {
-                            actionSheet?.show()
+                    actionSheet?.show()
                 }, label: {
                     viewModel.sources.ellipsisCircle
                         .renderingMode(.original)

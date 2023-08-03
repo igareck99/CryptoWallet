@@ -7,7 +7,6 @@ struct GeneratePhraseView: View {
     // MARK: - Internal Methods
 
     @StateObject var viewModel: GeneratePhraseViewModel
-    @Binding var showView: Bool
     let onSelect: GenericBlock<GeneratePhraseState>
     let onCreate: VoidBlock
 

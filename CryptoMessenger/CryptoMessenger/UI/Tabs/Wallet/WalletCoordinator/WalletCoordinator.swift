@@ -11,11 +11,11 @@ protocol WalletCoordinatable: Coordinator {
     func onTransfer(_ wallet: WalletInfo)
 
     // Переход на экран импорта ключа
-    func onImportKey()
+    func onImportKey(onComplete: @escaping () -> Void)
 
     // Импорта ключа завершен
     func didImportKey()
-    
+
     /// Отображение информации о кошельке
     /// - Parameter wallet: информация о кошельке
     func onTokenInfo(wallet: WalletInfo)
@@ -28,13 +28,6 @@ final class WalletCoordinator<Router: WalletRouterable> {
 
     init(router: Router) {
         self.router = router
-    }
-}
-
-// MARK: - Coordinator
-
-extension WalletCoordinator: Coordinator {
-    func start() {
     }
 }
 
@@ -51,8 +44,15 @@ extension WalletCoordinator: WalletCoordinatable {
         )
     }
 
-    func onImportKey() {
-        router.importKey(coordinator: self)
+    func onImportKey(onComplete: @escaping () -> Void) {
+        let coordinator = AddSeedCoordinatorAssembly.make(
+            state: router.navState()
+        ) { [weak self] coordinator in
+            self?.removeChildCoordinator(coordinator)
+            onComplete()
+        }
+        addChildCoordinator(coordinator)
+        coordinator.start()
     }
 
     func onTransfer(_ wallet: WalletInfo) {
@@ -70,7 +70,7 @@ extension WalletCoordinator: WalletCoordinatable {
     func didImportKey() {
         router.popToRoot()
     }
-    
+
     func onTokenInfo(wallet: WalletInfo) {
         // TODO: Implement
     }

@@ -1,7 +1,11 @@
 import SwiftUI
 
+typealias AddSeedViewType = AddSeedRouter<AddSeedView<AddSeedViewModel>, AddSeedState, WalletRouterState>
+typealias AddSeedViewBuilder = () -> (AddSeedRouter<GeneratePhraseView, AddSeedState, WalletRouterState>)?
+
 enum WalletSheetLink: Identifiable, Hashable {
     case transactionResult(model: TransactionResult)
+    case addSeed(AddSeedViewBuilder)
 
     var id: String {
         String(describing: self)
@@ -24,8 +28,6 @@ enum WalletContentLink: Identifiable, Hashable {
         address: String,
         coordinator: WalletCoordinatable
     )
-
-    case importKey(coordinator: WalletCoordinatable)
 
     case transfer(
         wallet: WalletInfo,

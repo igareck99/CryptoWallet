@@ -2,15 +2,17 @@ import SwiftUI
 
 protocol WalletRouterable {
 
+    associatedtype State: WalletRouterStatable
+    
     func transaction(
         filterIndex: Int,
         tokenIndex: Int,
         address: String,
         coordinator: WalletCoordinatable
     )
-    func importKey(coordinator: WalletCoordinatable)
     func popToRoot()
 
+    func navState() -> State
     func routePath() -> Binding<NavigationPath>
     func presentedItem() -> Binding<WalletSheetLink?>
 }
@@ -42,8 +44,6 @@ struct WalletRouter<Content: View, State: WalletRouterStatable>: View {
                 address: address,
                 coordinator: coordinator
             )
-        case let .importKey(coordinator):
-            ImportKeyConfigurator.build(coordinator: coordinator)
         case let .transfer(wallet, coordinator):
             TransferConfigurator.build(wallet: wallet, coordinator: coordinator)
         case let .chooseReceiver(address, coordinator):
@@ -62,9 +62,11 @@ struct WalletRouter<Content: View, State: WalletRouterStatable>: View {
     private func sheetContent(item: WalletSheetLink) -> some View {
         switch item {
         case let .transactionResult(model):
-            TransactionResultAssembly.build(model: model)
+                TransactionResultAssembly.build(model: model)
+        case let .addSeed(addSeedView):
+                addSeedView()
         default:
-            EmptyView()
+                EmptyView()
         }
     }
 }
@@ -72,6 +74,10 @@ struct WalletRouter<Content: View, State: WalletRouterStatable>: View {
 // MARK: - WalletRouterable
 
 extension WalletRouter: WalletRouterable {
+
+    func navState() -> State {
+        state
+    }
 
     func routePath() -> Binding<NavigationPath> {
         $state.path
@@ -100,9 +106,5 @@ extension WalletRouter: WalletRouterable {
                 coordinator: coordinator
             )
         )
-    }
-
-    func importKey(coordinator: WalletCoordinatable) {
-        state.path.append(WalletContentLink.importKey(coordinator: coordinator))
     }
 }
