@@ -171,11 +171,6 @@
 		784ED0F1286ADD64006E6111 /* LocationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784ED0F0286ADD64006E6111 /* LocationPickerView.swift */; };
 		7857B5A1286190980006D2D3 /* LocationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7857B5A0286190980006D2D3 /* LocationEvent.swift */; };
 		7895E6E526CC1B43009CF41D /* LocalAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */; };
-		78A9CBFA28191F1D00C4D7E1 /* IOActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9CBAF28191BAC00C4D7E1 /* IOActionSheetView.swift */; };
-		78A9CBFB28191F1D00C4D7E1 /* ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9CBAD28191BAC00C4D7E1 /* ActionSheet.swift */; };
-		78A9CBFC28191F1D00C4D7E1 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9CBAB28191BAC00C4D7E1 /* ActionSheetViewController.swift */; };
-		78A9CBFD28191F1D00C4D7E1 /* ActionSheetTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9CBAE28191BAC00C4D7E1 /* ActionSheetTopView.swift */; };
-		78A9CBFE28191F1D00C4D7E1 /* ActionSheetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A9CBAC28191BAC00C4D7E1 /* ActionSheetButton.swift */; };
 		78E9373B288987B7004DBFDD /* LocationManagerCostants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E9373A288987B7004DBFDD /* LocationManagerCostants.swift */; };
 		78EDCAF9286AAEAC00D3CBC5 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EDCAF8286AAEAC00D3CBC5 /* MapViewModel.swift */; };
 		78EDCAFB286AAF1000D3CBC5 /* MapSnapshotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EDCAFA286AAF1000D3CBC5 /* MapSnapshotViewModel.swift */; };
@@ -615,6 +610,7 @@
 		D46FC16729A392D000D65C99 /* AppConfigurationEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FC16629A392D000D65C99 /* AppConfigurationEnums.swift */; };
 		D46FC16929A397BA00D65C99 /* UrlsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FC16829A397BA00D65C99 /* UrlsConfig.swift */; };
 		D47113CB291CC2C100D1C39E /* ReactionsGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47113CA291CC2C100D1C39E /* ReactionsGrid.swift */; };
+		D4736A0D2A80BB120097CC61 /* ChatHistoryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4736A0C2A80BB120097CC61 /* ChatHistoryViewState.swift */; };
 		D4752EA028C2247F006B650A /* AURGroupCallsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D4752E9928C08B95006B650A /* AURGroupCallsViewModel.m */; };
 		D4752EA428C22502006B650A /* Base32Encoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4752EA328C22502006B650A /* Base32Encoder.m */; };
 		D4752EB228C64291006B650A /* GroupCallsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4752E9328BFC497006B650A /* GroupCallsViewController.swift */; };
@@ -982,11 +978,6 @@
 		784ED0F0286ADD64006E6111 /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerView.swift; sourceTree = "<group>"; };
 		7857B5A0286190980006D2D3 /* LocationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEvent.swift; sourceTree = "<group>"; };
 		7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthentication.swift; sourceTree = "<group>"; };
-		78A9CBAB28191BAC00C4D7E1 /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
-		78A9CBAC28191BAC00C4D7E1 /* ActionSheetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetButton.swift; sourceTree = "<group>"; };
-		78A9CBAD28191BAC00C4D7E1 /* ActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheet.swift; sourceTree = "<group>"; };
-		78A9CBAE28191BAC00C4D7E1 /* ActionSheetTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetTopView.swift; sourceTree = "<group>"; };
-		78A9CBAF28191BAC00C4D7E1 /* IOActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOActionSheetView.swift; sourceTree = "<group>"; };
 		78AF8255285B0A940021F5BD /* LocationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationConstants.swift; sourceTree = "<group>"; };
 		78E9373A288987B7004DBFDD /* LocationManagerCostants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerCostants.swift; sourceTree = "<group>"; };
 		78EDCAF8286AAEAC00D3CBC5 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -1432,6 +1423,7 @@
 		D46FC16629A392D000D65C99 /* AppConfigurationEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurationEnums.swift; sourceTree = "<group>"; };
 		D46FC16829A397BA00D65C99 /* UrlsConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlsConfig.swift; sourceTree = "<group>"; };
 		D47113CA291CC2C100D1C39E /* ReactionsGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionsGrid.swift; sourceTree = "<group>"; };
+		D4736A0C2A80BB120097CC61 /* ChatHistoryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryViewState.swift; sourceTree = "<group>"; };
 		D4752E9328BFC497006B650A /* GroupCallsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCallsViewController.swift; sourceTree = "<group>"; };
 		D4752E9828C08B95006B650A /* AURGroupCallsViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AURGroupCallsViewModel.h; sourceTree = "<group>"; };
 		D4752E9928C08B95006B650A /* AURGroupCallsViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AURGroupCallsViewModel.m; sourceTree = "<group>"; };
@@ -1730,7 +1722,6 @@
 				5A42681326A8BE85000C51DD /* CountryCodePicker */,
 				D4752E9228BFC47E006B650A /* Group Calls */,
 				D4014D4D283FA7B200AAD70C /* P2P Calls */,
-				78A9CB8728191BAC00C4D7E1 /* IOActionSheet */,
 				8B2D40ED295D0B09009D9581 /* GeneratePhrase */,
 				8BBF9082293514B000936F4D /* NotificationsSettings */,
 				8B23C76B28E0A16C00418F2D /* FriendProfileView */,
@@ -2258,6 +2249,7 @@
 				D46187D2282D093200CA2836 /* ChatHistorySources.swift */,
 				5AB35FAE2740EEBB001FB0DE /* ChatHistoryRow.swift */,
 				5AABB7812739821C004D6107 /* ChatHistoryFlow.swift */,
+				D4736A0C2A80BB120097CC61 /* ChatHistoryViewState.swift */,
 			);
 			path = RecentRooms;
 			sourceTree = "<group>";
@@ -2533,18 +2525,6 @@
 				7895E6E426CC1B43009CF41D /* LocalAuthentication.swift */,
 			);
 			path = LocalAuthentication;
-			sourceTree = "<group>";
-		};
-		78A9CB8728191BAC00C4D7E1 /* IOActionSheet */ = {
-			isa = PBXGroup;
-			children = (
-				78A9CBAB28191BAC00C4D7E1 /* ActionSheetViewController.swift */,
-				78A9CBAC28191BAC00C4D7E1 /* ActionSheetButton.swift */,
-				78A9CBAD28191BAC00C4D7E1 /* ActionSheet.swift */,
-				78A9CBAE28191BAC00C4D7E1 /* ActionSheetTopView.swift */,
-				78A9CBAF28191BAC00C4D7E1 /* IOActionSheetView.swift */,
-			);
-			path = IOActionSheet;
 			sourceTree = "<group>";
 		};
 		78EFC5F227021E6E00A9BBAA /* ProfileDetail */ = {
@@ -4819,7 +4799,6 @@
 				8BAAB37E2A24EDA10062D5B2 /* OnboardingViewModel.swift in Sources */,
 				D4A51492294F4DCE007A87BF /* TransactionSendReponse.swift in Sources */,
 				D4220D4E2A723F5A008B158C /* AuthTransitions.swift in Sources */,
-				78A9CBFD28191F1D00C4D7E1 /* ActionSheetTopView.swift in Sources */,
 				8B34A9F028D45E200097ED9E /* GroupActions.swift in Sources */,
 				D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */,
 				5A43087127C9079F00A9B582 /* ImageLoader.swift in Sources */,
@@ -4953,7 +4932,6 @@
 				8BEA3D8E2A26A18300CC4E2F /* PinCodeViewModel.swift in Sources */,
 				8BBCBCD928F8818000E42F0C /* PDFKitViewModel.swift in Sources */,
 				5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */,
-				78A9CBFE28191F1D00C4D7E1 /* ActionSheetButton.swift in Sources */,
 				D4F5DB3529EFBCBB00772AC5 /* WalletModelsFactory.swift in Sources */,
 				8BE24FA42947C239009A3734 /* DirectMenuFlow.swift in Sources */,
 				D4CA6C0C29FB15FC00C96053 /* WalletAddress.swift in Sources */,
@@ -5010,7 +4988,6 @@
 				D43A7E6228CB25D500A807EC /* shim.swift in Sources */,
 				8B0C57592A66C0F000D456FF /* GalleryPickerContent.swift in Sources */,
 				8B3A816A275AC25D00E736E4 /* ProfileDetailView.swift in Sources */,
-				78A9CBFB28191F1D00C4D7E1 /* ActionSheet.swift in Sources */,
 				D4E7A186298A2AD200398F93 /* UserIdValidator.swift in Sources */,
 				5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */,
 				8BEA3D8C2A26A17A00CC4E2F /* PinCodeView.swift in Sources */,
@@ -5043,7 +5020,6 @@
 				8B28B535276347AA00C3E486 /* ProfileDetailViewModel.swift in Sources */,
 				8B234ECB2A40E1F30064ACD3 /* ChatHistoryContentLink.swift in Sources */,
 				8B881272292281B100EDB348 /* RoomNotificationState.swift in Sources */,
-				78A9CBFC28191F1D00C4D7E1 /* ActionSheetViewController.swift in Sources */,
 				D49FADA62A779E2400B26C8B /* GeneratePhraseAssembly.swift in Sources */,
 				8B1564F728AAF1C000A69B85 /* ShareTextView.swift in Sources */,
 				D4857D0028AF57BE00C904EC /* ChatEventView.swift in Sources */,
@@ -5052,7 +5028,6 @@
 				8B34A9F228D45FC20097ED9E /* DirectActions.swift in Sources */,
 				8B0C4FFA2890613500671BA3 /* ChatRoomResources.swift in Sources */,
 				8BC6F2E12A78843200F7451B /* ChatHistoryData.swift in Sources */,
-				78A9CBFA28191F1D00C4D7E1 /* IOActionSheetView.swift in Sources */,
 				D4752EBA28C71AF3006B650A /* JitsiModels.swift in Sources */,
 				D4EF286C2953C6650039744D /* WalletErrorResponse.swift in Sources */,
 				D4B101192A6642A600F3C856 /* TransferState.swift in Sources */,
@@ -5107,6 +5082,7 @@
 				D4857D2D28B4D2F000C904EC /* ResizableTextView.swift in Sources */,
 				8BBF908129350ACB00936F4D /* KeyboardButtonView.swift in Sources */,
 				5AC8C4F427C42D94008B1744 /* PDFKitView.swift in Sources */,
+				D4736A0D2A80BB120097CC61 /* ChatHistoryViewState.swift in Sources */,
 				8B4E9C3227DFF6700057E4C9 /* ScanerViewController.swift in Sources */,
 				D44CBF0529308BC1006A14D1 /* BaseNetworkModels.swift in Sources */,
 				5AA6410C268233CA008922B4 /* ButtonDecor.swift in Sources */,
