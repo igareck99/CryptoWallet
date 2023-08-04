@@ -30,11 +30,11 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                             buttons: [
                                 .cancel(),
                                 .default(
-                                    Text(R.string.localizable.profileFromGallery()),
+                                    Text(viewModel.resources.profileFromGallery),
                                     action: switchImagePicker
                                 ),
                                 .default(
-                                    Text(R.string.localizable.profileFromCamera()),
+                                    Text(viewModel.resources.profileFromCamera),
                                     action: switchCameraPicker
                                 )
                             ]
@@ -49,7 +49,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
             .fullScreenCover(isPresented: $showImagePicker,
                              content: {
                 ImagePickerView(selectedImage: viewModel.selectedImage)
-                    .navigationBarTitle(Text(R.string.localizable.photoEditorTitle()))
+                    .navigationBarTitle(Text(viewModel.resources.photoEditorTitle))
                     .navigationBarTitleDisplayMode(.inline)
             })
             .navigationBarBackButtonHidden(true)
@@ -84,7 +84,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                     } else {
                         ZStack {
                             Circle()
-                                .fill(Color(.blue()))
+                                .fill(viewModel.resources.buttonBackground)
                                 .frame(width: 60, height: 60)
                             R.image.profileDetail.whiteCamera.image
                                 .frame(width: 26,
@@ -103,7 +103,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                         )
                         .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
                         .frame(height: 44)
-                        .background(.paleBlue())
+                        .background(viewModel.resources.textBoxBackground)
                         .cornerRadius(8)
                 }
                 .padding(.top, 24)
@@ -112,16 +112,16 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                 Divider()
-                    .foreground(.grayE6EAED())
+                    .foregroundColor(viewModel.resources.dividerColor)
                     .padding(.top, 24)
                 Text("тип канала".uppercased())
                     .font(.system(size: 12))
-                    .foreground(.darkGray())
+                    .foregroundColor(viewModel.resources.textColor)
                     .padding(.leading, 16)
                 publicChannelView()
                     .padding(.top, 8)
                 Divider()
-                    .foreground(.grayE6EAED())
+                    .foregroundColor(viewModel.resources.dividerColor)
                     .padding(.top, 8)
                     .padding(.leading, 16)
                 privateChannelView()
@@ -151,11 +151,11 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                 .padding(.top, 6)
                 .scrollContentBackground(.hidden)
                 .frame(height: 132)
-                .background(.paleBlue())
+                .background(viewModel.resources.textBoxBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            Text("Можете указать дополнительное описание вашего канала.")
+            Text(R.string.localizable.createChannelDescription())
                 .font(.system(size: 12))
-                .foreground(.darkGray())
+                .foregroundColor(viewModel.resources.textColor)
                 .padding(.top, 6)
         }
     }
@@ -203,21 +203,21 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
             Button(action: {
                 presentationMode.wrappedValue.dismiss()
             }, label: {
-                R.image.navigation.backButton.image
+                viewModel.resources.backButtonImage
             })
         }
         ToolbarItem(placement: .principal) {
-            Text("Создать канал")
+            Text(R.string.localizable.createActionCreateChannel())
                 .font(.system(size: 17, weight: .semibold))
-                .foreground(.black())
+                .foregroundColor(viewModel.resources.titleColor)
         }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
                 viewModel.onChannelCreate()
             }, label: {
-                Text(R.string.localizable.profileDetailRightButton())
+                Text(viewModel.resources.profileDetailRightButton)
                     .font(.system(size: 17, weight: .semibold))
-                    .foregroundColor(viewModel.isCreateButtonEnabled() ? .azureRadianceApprox : .gray)
+                    .foregroundColor(viewModel.isCreateButtonEnabled() ? viewModel.resources.buttonBackground : viewModel.resources.textColor)
             })
             .disabled(!viewModel.isCreateButtonEnabled())
         }

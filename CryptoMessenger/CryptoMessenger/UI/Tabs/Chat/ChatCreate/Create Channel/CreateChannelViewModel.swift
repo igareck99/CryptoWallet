@@ -13,15 +13,19 @@ protocol CreateChannelViewModelProtocol: ObservableObject {
     var channelDescription: Binding<String> { get set }
 
     var channelType: ChannelType { get set }
+    
+    var resources: CreateChannelResourcable.Type { get }
 
     func onChannelCreate()
 
     func isCreateButtonEnabled() -> Bool
 
     func isDescriptionPlaceholderEnabled() -> Bool
+    
+    
 }
 
-final class CreateChannelViewModel {
+final class CreateChannelViewModel: ObservableObject {
 
     lazy var selectedImage: Binding<UIImage?> = .init(
         get: {
@@ -72,15 +76,18 @@ final class CreateChannelViewModel {
     )
     
     var coordinator: ChatCreateFlowCoordinatorProtocol
-    
     private let matrixUseCase: MatrixUseCaseProtocol
+
+    let resources: CreateChannelResourcable.Type
     
     
     init(
         channelType: ChannelType = .publicChannel,
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
-        coordinator: ChatCreateFlowCoordinatorProtocol
+        coordinator: ChatCreateFlowCoordinatorProtocol,
+        resources: CreateChannelResourcable.Type = CrateChannelResources.self
     ) {
+        self.resources = resources
         self.channelType = channelType
         self.matrixUseCase = matrixUseCase
         self.coordinator = coordinator

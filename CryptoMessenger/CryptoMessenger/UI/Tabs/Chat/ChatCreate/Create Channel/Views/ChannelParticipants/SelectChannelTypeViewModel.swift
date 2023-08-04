@@ -11,6 +11,7 @@ final class SelectChannelTypeViewModel: ObservableObject {
     @Published var isPublicSelected = false
     @Published var isPrivateSelected = false
     @Published var isEncryptionEnabled = false
+    let resources: SelectChannelTypeResourcable.Type
 
     // MARK: - Private Properties
 
@@ -18,7 +19,11 @@ final class SelectChannelTypeViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(roomId: String) {
+    init(
+        roomId: String,
+        resources: SelectChannelTypeResourcable.Type = SelectChannelTypeResources.self
+    ) {
+        self.resources = resources
         self.roomId = roomId
         updateSettings()
     }

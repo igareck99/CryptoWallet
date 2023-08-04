@@ -36,22 +36,22 @@ struct SelectChannelTypeView: View {
                 Button(action: {
                     showChannelChangeType = false
                 }, label: {
-                    R.image.navigation.backButton.image
+                    viewModel.resources.backButtonImage
                 })
             }
             ToolbarItem(placement: .principal) {
-                Text("Тип канала")
-                    .font(.bold(17))
-                    .foreground(.black())
+                Text(R.string.localizable.createChannelChannelType())
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundColor(viewModel.resources.titleColor)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     viewModel.updateRoomState()
                     showChannelChangeType = false
                 }, label: {
-                    Text("Готово")
-                        .font(.semibold(15))
-                        .foregroundColor(.azureRadianceApprox)
+                    Text(R.string.localizable.profileDetailRightButton())
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(viewModel.resources.buttonBackground)
                 })
             }
         }
@@ -72,7 +72,7 @@ struct SelectChannelTypeView: View {
                 ontypeSelected(.publicChannel)
             }
         }
-        .background(.white())
+        .background(viewModel.resources.background)
     }
 
     private func privateChannelView() -> some View {
@@ -88,7 +88,7 @@ struct SelectChannelTypeView: View {
                 ontypeSelected(.privateChannel)
             }
         }
-        .background(.white())
+        .background(viewModel.resources.background)
     }
 
     private func encrytionView() -> some View {

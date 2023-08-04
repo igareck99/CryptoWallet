@@ -493,6 +493,18 @@
 		9AE8CAFA2A6F3F0300968564 /* UserSettingsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */; };
 		9AE8CAEC2A6E6B6500968564 /* ChatCreateResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAEB2A6E6B6500968564 /* ChatCreateResources.swift */; };
 		9AE8CAF42A6F205600968564 /* CreateContactResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF32A6F205600968564 /* CreateContactResources.swift */; };
+		8BFFC74E27EDEB5700BE4AB6 /* PhraseManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC74D27EDEB5700BE4AB6 /* PhraseManagerView.swift */; };
+		8BFFC75027EDEB6100BE4AB6 /* PhraseManagerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC74F27EDEB6100BE4AB6 /* PhraseManagerViewModel.swift */; };
+		8BFFC75227EDEB6A00BE4AB6 /* PhraseManagerFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75127EDEB6A00BE4AB6 /* PhraseManagerFlow.swift */; };
+		8BFFC75427EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75327EDEB7400BE4AB6 /* PhraseManagerConfigurator.swift */; };
+		8BFFC75627EDEB8000BE4AB6 /* PhraseManagerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75527EDEB8000BE4AB6 /* PhraseManagerProtocols.swift */; };
+		8BFFC75827EF2E4800BE4AB6 /* PhraseWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFFC75727EF2E4800BE4AB6 /* PhraseWarningView.swift */; };
+		9A1713E92A6026EF0052A8C0 /* PhraseManagerResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1713E82A6026EF0052A8C0 /* PhraseManagerResources.swift */; };
+		9A1713EB2A6027060052A8C0 /* KeyListResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1713EA2A6027060052A8C0 /* KeyListResources.swift */; };
+		9AC574262A51BAE30018738F /* ProfileResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC574252A51BAE30018738F /* ProfileResources.swift */; };
+		9AE8CAEE2A6E9E3A00968564 /* CreateChannelResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAED2A6E9E3A00968564 /* CreateChannelResources.swift */; };
+		9AE8CAF02A6F19F400968564 /* ChannelNotificationsResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAEF2A6F19F400968564 /* ChannelNotificationsResources.swift */; };
+		9AE8CAF22A6F1CC000968564 /* SelectChannelTypeResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE8CAF12A6F1CC000968564 /* SelectChannelTypeResources.swift */; };
 		B4C106F74147CC38CED7B7DF /* Pods_CryptoMessengerPods_AuraNSE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */; };
 		D40060F12A4B2F65004D5F35 /* TabItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */; };
 		D400612D2A4D5919004D5F35 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400612C2A4D5919004D5F35 /* AuthRouter.swift */; };
@@ -1299,6 +1311,12 @@
 		9AE8CAF92A6F3F0300968564 /* UserSettingsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsResources.swift; sourceTree = "<group>"; };
 		9AE8CAEB2A6E6B6500968564 /* ChatCreateResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreateResources.swift; sourceTree = "<group>"; };
 		9AE8CAF32A6F205600968564 /* CreateContactResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateContactResources.swift; sourceTree = "<group>"; };
+		9A1713E82A6026EF0052A8C0 /* PhraseManagerResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseManagerResources.swift; sourceTree = "<group>"; };
+		9A1713EA2A6027060052A8C0 /* KeyListResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyListResources.swift; sourceTree = "<group>"; };
+		9AC574252A51BAE30018738F /* ProfileResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileResources.swift; path = CryptoMessenger/UI/Scenes/Tabs/Profile/Initial/ProfileResources.swift; sourceTree = SOURCE_ROOT; };
+		9AE8CAED2A6E9E3A00968564 /* CreateChannelResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelResources.swift; sourceTree = "<group>"; };
+		9AE8CAEF2A6F19F400968564 /* ChannelNotificationsResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelNotificationsResources.swift; sourceTree = "<group>"; };
+		9AE8CAF12A6F1CC000968564 /* SelectChannelTypeResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectChannelTypeResources.swift; sourceTree = "<group>"; };
 		AFC83FB4571C101698948AAB /* Pods_CryptoMessengerPods_AuraNSE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_AuraNSE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75C931EA360F292485E2964 /* Pods_CryptoMessengerPods_CryptoMessenger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CryptoMessengerPods_CryptoMessenger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItemsFactory.swift; sourceTree = "<group>"; };
@@ -2754,6 +2772,7 @@
 				8B350360297EEEC30090EE93 /* ChannelNotificaionsView.swift */,
 				8B350363297EF7A70090EE93 /* ChannelNotificationsViewModel.swift */,
 				8B985D0F2A5C480900F25D8C /* ChannelNotificationsAssembly.swift */,
+				9AE8CAEF2A6F19F400968564 /* ChannelNotificationsResources.swift */,
 			);
 			path = ChannelNotifications;
 			sourceTree = "<group>";
@@ -2763,9 +2782,10 @@
 			children = (
 				8B35036629801F580090EE93 /* ChannelParticipantsView.swift */,
 				8B35036829801F650090EE93 /* ChannelParticipantsData.swift */,
-				8BD2E7E62981C3B600D712D1 /* SelectChannelTypeView.swift */,
 				8B35036A2980696B0090EE93 /* ChannelParticipantsMenuView.swift */,
+				8BD2E7E62981C3B600D712D1 /* SelectChannelTypeView.swift */,
 				8B32FEC5298D10660017082A /* SelectChannelTypeViewModel.swift */,
+				9AE8CAF12A6F1CC000968564 /* SelectChannelTypeResources.swift */,
 			);
 			path = ChannelParticipants;
 			sourceTree = "<group>";
@@ -3976,6 +3996,7 @@
 				D4B30A01297923760067EB06 /* CreateChannelView.swift */,
 				D4B30A032979287E0067EB06 /* CreateChannelViewModel.swift */,
 				D4E7A17B2988D50600398F93 /* CreateChannelAssembly.swift */,
+				9AE8CAED2A6E9E3A00968564 /* CreateChannelResources.swift */,
 			);
 			path = "Create Channel";
 			sourceTree = "<group>";
@@ -4634,6 +4655,8 @@
 				D4E0B30F29429DAD00AEDF85 /* WalletType.swift in Sources */,
 				8BBF907C29350A1D00936F4D /* PinCodeScreenType.swift in Sources */,
 				8B6B70862A30E67C00D99156 /* AboutAppAssembly.swift in Sources */,
+				8BFFC75227EDEB6A00BE4AB6 /* PhraseManagerFlow.swift in Sources */,
+				9AE8CAF22A6F1CC000968564 /* SelectChannelTypeResources.swift in Sources */,
 				5A9318DE26C5AD0500645365 /* BubbleView.swift in Sources */,
 				5A43086927C8282000A9B582 /* MediaResponse.swift in Sources */,
 				8B34A9F828D4AAEB0097ED9E /* GroupChatMenuViewModel.swift in Sources */,
@@ -4747,6 +4770,7 @@
 				8BBF9084293514D700936F4D /* NotificationSettingsView.swift in Sources */,
 				D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */,
 				5A2EC774279F410900857248 /* Publishers+Retry.swift in Sources */,
+				9AE8CAF02A6F19F400968564 /* ChannelNotificationsResources.swift in Sources */,
 				D4F5DB3729F11E1F00772AC5 /* CoreDataServiceProtocol.swift in Sources */,
 				5A187DF626807011001957D3 /* Coordinator.swift in Sources */,
 				8BC06B0E27C8F5EE005A28A1 /* TransactionFlow.swift in Sources */,
@@ -5102,6 +5126,7 @@
 				8B38D13D28C12946002733D7 /* ProfileSettingsMenuViewModel.swift in Sources */,
 				8BE644F52837660200FA6540 /* ContactInfoView.swift in Sources */,
 				D46C90162947758900DD0B01 /* SelectedSegmentTagKey.swift in Sources */,
+				9AE8CAEE2A6E9E3A00968564 /* CreateChannelResources.swift in Sources */,
 				8BB2F8E928B663C80034D902 /* ProfileDetailActionRow.swift in Sources */,
 				D46C90122947752000DD0B01 /* SegmentedControllItemContainer.swift in Sources */,
 				5AA6410026822C3A008922B4 /* Palette.swift in Sources */,

@@ -26,17 +26,17 @@ struct ChannelTypeView: View {
             
             Text(title)
                 .font(.system(size: 17))
-                .foregroundColor(.black)
+                .foregroundColor(.chineseBlack)
             
             HStack(spacing: 0) {
                 Text(text)
                     .font(.system(size: 12))
-                    .foreground(.darkGray())
+                    .foregroundColor(.romanSilver)
                     .padding(.top, 4)
                 Spacer()
                 VStack(alignment: .center) {
                     Image(systemName: "checkmark")
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(.dodgerBlue)
                         .opacity(isSelected ? 1 : 0)
                 }
                 .padding(.trailing, 8)
