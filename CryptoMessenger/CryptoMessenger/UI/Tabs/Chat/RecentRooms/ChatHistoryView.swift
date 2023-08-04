@@ -16,7 +16,7 @@ protocol ChatHistoryViewDelegate: ObservableObject {
 
 	var eventSubject: PassthroughSubject<ChatHistoryFlow.Event, Never> { get }
 
-	func rooms(with filter: String) -> [AuraRoom]
+    func rooms(with filter: String) -> [ChatHistoryData]
 
 	func markAllAsRead()
     
@@ -26,6 +26,8 @@ protocol ChatHistoryViewDelegate: ObservableObject {
     
     func findRooms(with filter: String,
                    completion: @escaping ([MatrixChannel]) -> Void)
+    
+    var chatHistoryRooms: [ChatHistoryData] { get }
 }
 
 // MARK: - ChatHistoryView
@@ -40,17 +42,20 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
 
 	@State private var searchText = ""
 	@State private var searching = false
-	@State private var createRoomSelected = false
 	@State private var chatData = ChatData()
 	@State private var selectedImage: UIImage?
 	@State private var selectedRoomId: ObjectIdentifier?
     @State private var isNavBarHidden = false
-	@State private var actionSheet: IOActionSheet?
     @State private var isRotating = 0.0
+    @State private var showReadAll = false
 
-	private var searchResults: [AuraRoom] {
+	private var searchResults: [ChatHistoryData] {
 		viewModel.rooms(with: searchText)
 	}
+    
+    private var chatHistoryRooms: [ChatHistoryData] {
+        viewModel.chatHistoryRooms
+    }
     
     @State private var gloabalSearch: [MatrixChannel] = []
 
@@ -63,23 +68,12 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
     @ViewBuilder
     func content() -> some View {
         content1
-			.onAppear {
-				if actionSheet == nil {
-					actionSheet = IOActionSheet(title: nil,
-												font: UIFont.systemFont(ofSize: 16),
-												color:UIColor(.black))
-					actionSheet?.addButton(
-						title: viewModel.sources.readAll,
-						action: {
-							viewModel.markAllAsRead()
-						})
-					actionSheet?.cancelButtonTitle = viewModel.sources.decline
-					actionSheet?.cancelButtonTextColor = .red
-					actionSheet?.backgroundColor = .white
-					viewModel.eventSubject.send(.onAppear)
-				}
-                isNavBarHidden = false
-			}
+            .confirmationDialog("", isPresented: $showReadAll) {
+                Button(viewModel.sources.readAll, action: {
+                    viewModel.eventSubject.send(.onAppear)
+                    isNavBarHidden = false
+                })
+            }
             .onTapGesture {
                 hideKeyboard()
                 withAnimation(.spring()) {
@@ -117,9 +111,6 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
 				toolbarItems()
-			}
-			.sheet(isPresented: $createRoomSelected) {
-				ChatCreateView(chatData: $chatData, viewModel: .init())
 			}
 	}
 
@@ -196,12 +187,12 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                     Section {
                         ForEach(searchResults) { value in
                             VStack(spacing: 0) {
-                                ChatHistorySearchRow(name: value.summary.displayName?.firstUppercased ?? "",
-                                                     numberUsers: 2,
+                                ChatHistorySearchRow(name: value.roomName.firstUppercased,
+                                                     numberUsers: value.numberUsers,
                                                      avatarString: value.roomAvatar?.absoluteString ?? "")
                                 .background(.white())
                                 .onTapGesture {
-                                    viewModel.eventSubject.send(.onShowRoom(value))
+                                    viewModel.eventSubject.send(.onShowRoom(value.roomId))
                                 }.frame(height: 64)
                                 Divider()
                                     .foregroundColor(Color(.darkGray()))
@@ -254,65 +245,25 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                 }.listStyle(.plain)
             } else {
                 List {
-                    ForEach(searchResults) { room in
-                        VStack(spacing: 0) {
-                            ChatHistoryRow(room: room,
-                                           isFromCurrentUser: viewModel.fromCurrentSender(room: room))
+                    ForEach(viewModel.chatHistoryRooms) { room in
+                        room.view()
                             .background(.white())
                             .swipeActions(edge: .trailing) {
-                                if !(viewModel.leaveState[room.room.roomId] ?? true) {
-                                    Button {
-                                        viewModel.eventSubject.send(.onDeleteRoom(room.room.roomId))
-                                    } label: {
-                                        viewModel.sources.chatReactionDelete
-                                            .renderingMode(.original)
-                                            .foreground(.blue())
-                                    }.tint(.gray.opacity(0.1))
-                                }
+                                Button {
+                                    viewModel.eventSubject.send(.onRoomActions(room.roomId))
+                                } label: {
+                                    EmptyView()
+                                }.tint(.gray.opacity(0.1))
                             }.onTapGesture {
-                                viewModel.eventSubject.send(.onShowRoom(room))
+                                viewModel.eventSubject.send(.onShowRoom(room.roomId))
                             }.frame(width: nil, height: 76)
-                            Divider()
-                                .foregroundColor(Color(.init(216, 216, 217)))
-                                .frame(height: 0.5)
-                                .padding(.leading, 88)
-                        }
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets())
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets())
                     }
                 }.listStyle(.plain)
             }
 		}
 	}
-    
-    private var chats: some View {
-        ForEach(searchResults) { room in
-            VStack(spacing: 0) {
-                ChatHistoryRow(room: room,
-                               isFromCurrentUser: viewModel.fromCurrentSender(room: room))
-                .background(.white())
-                .swipeActions(edge: .trailing) {
-                    if !(viewModel.leaveState[room.room.roomId] ?? true) {
-                        Button {
-                            viewModel.eventSubject.send(.onDeleteRoom(room.room.roomId))
-                        } label: {
-                            viewModel.sources.chatReactionDelete
-                                .renderingMode(.original)
-                                .foreground(.blue())
-                        }.tint(.gray.opacity(0.1))
-                    }
-                }.onTapGesture {
-                    viewModel.eventSubject.send(.onShowRoom(room))
-                }.frame(width: nil, height: 76)
-                Divider()
-                    .foregroundColor(Color(.init(216, 216, 217)))
-                    .frame(height: 0.5)
-                    .padding(.leading, 88)
-            }
-            .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets())
-        }
-    }
     
     @ToolbarContentBuilder
     private func toolbarItems() -> some ToolbarContent {

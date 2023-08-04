@@ -306,7 +306,7 @@ struct ChatRoomView: View {
                                 viewModel.makeChatEventView(event: event)
                             }
                             .onChange(of: viewModel.messages) { _ in
-                                viewModel.room.markAllAsRead()
+                                viewModel.markAllReaded()
                                 guard let id = viewModel.messages.first?.id else { return }
                                 withAnimation {
                                     scrollView.scrollTo(id, anchor: .bottom)

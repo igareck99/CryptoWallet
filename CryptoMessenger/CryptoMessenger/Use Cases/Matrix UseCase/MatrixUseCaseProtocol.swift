@@ -8,6 +8,7 @@ protocol MatrixUseCaseProtocol {
 	var loginStatePublisher: Published<MatrixState>.Publisher { get }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { get }
 	var rooms: [AuraRoom] { get }
+    var chatHistoryRooms: [ChatHistoryData] { get }
 
 	// MARK: - Session
 	var matrixSession: MXSession? { get }
@@ -49,9 +50,22 @@ protocol MatrixUseCaseProtocol {
     func setJoinRule(roomId: String, isPublic: Bool,
                      completion: @escaping (MXResponse<Void>?) -> Void)
     func getPublicRooms(filter: String, completion: @escaping ([MatrixChannel]) -> Void)
-
-	// MARK: - Pusher
-	func createPusher(pushToken: Data, completion: @escaping (Bool) -> Void)
+    func sendText(_ roomId: String,
+                  _ text: String,
+                  completion: @escaping (Result <String?, MXErrors>) -> Void)
+    func sendLocation(roomId: String,
+                      location: LocationData?,
+                      completion: @escaping (Result <String?, MXErrors>) -> Void)
+    func markAllAsRead(roomId: String)
+    func edit(roomId: String, text: String,
+              eventId: String)
+    func react(roomId: String,
+               toEventId eventId: String, emoji: String)
+    func redact(roomId: String,
+                eventId: String, reason: String?)
+    
+    // MARK: - Pusher
+    func createPusher(pushToken: Data, completion: @escaping (Bool) -> Void)
     func deletePusher(appId: String, pushToken: Data, completion: @escaping (Bool) -> Void)
     func createVoipPusher(pushToken: Data, completion: @escaping (Bool) -> Void)
 

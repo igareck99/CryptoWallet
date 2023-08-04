@@ -277,6 +277,89 @@ extension MatrixService {
             }
         }
     }
+    
+    func sendText(_ roomId: String,
+                  _ text: String,
+                  completion: @escaping (Result <String?, MXErrors>) -> Void) {
+        guard !text.isEmpty else { return }
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            completion(.failure(.sendTextError)); return
+        }
+        var localEcho: MXEvent?
+        room.sendTextMessage(text, localEcho: &localEcho) { response in
+            switch response {
+            case let .success(result):
+                completion(.success(result))
+            case let .failure(error):
+                debugPrint(error)
+                completion(.failure(.sendTextError))
+            }
+        }
+    }
+    
+    func sendLocation(roomId: String,
+                      location: LocationData?,
+                      completion: @escaping (Result <String?, MXErrors>) -> Void) {
+        guard let unwrappedLocation = location else { return }
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            completion(.failure(.sendTextError)); return
+        }
+        
+        var localEcho: MXEvent?
+        do {
+            let content = try LocationEvent(location: unwrappedLocation).encodeContent()
+            room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
+        } catch {
+            debugPrint("Error create LocationEvent")
+        }
+    }
+    
+    func markAllAsRead(roomId: String) {
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            return
+        }
+        room.markAllAsRead()
+    }
+    
+    func edit(roomId: String, text: String,
+              eventId: String) {
+        guard !text.isEmpty else { return }
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            return
+        }
+        var localEcho: MXEvent?
+        // swiftlint:disable:next force_try
+        let content = try! EditEvent(eventId: eventId, text: text).encodeContent()
+        // TODO: Use localEcho to show sent message until it actually comes back
+        room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
+    }
+    
+    func react(roomId: String,
+               toEventId eventId: String, emoji: String) {
+        // swiftlint:disable:next force_try
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            return
+        }
+        guard
+            let content = try? ReactionEvent(eventId: eventId, key: emoji).encodeContent()
+        else {
+            return
+        }
+
+        // room.outgoingMessages() will change
+        var localEcho: MXEvent?
+        room.sendEvent(.reaction, content: content, localEcho: &localEcho) { _ in
+            // localEcho.sentState has(!) changed
+        }
+    }
+
+    func redact(roomId: String,
+                eventId: String, reason: String?) {
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            return
+        }
+        room.redactEvent(eventId, reason: reason) { _ in }
+    }
 
     func getPublicRooms(filter: String,
                         completion: @escaping  (Result <[MXPublicRoom]?, MXErrors>) -> Void) {

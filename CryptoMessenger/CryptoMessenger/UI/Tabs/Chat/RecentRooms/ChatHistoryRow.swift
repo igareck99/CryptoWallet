@@ -4,7 +4,7 @@ import SwiftUI
 
 struct ChatHistoryRow: View {
 
-	let room: AuraRoom
+	let room: ChatHistoryData
     let isFromCurrentUser: Bool
 	@State var showLocationTransition = false
 
@@ -22,19 +22,23 @@ struct ChatHistoryRow: View {
 				Spacer()
 				VStack(alignment: .trailing, spacing: 0) {
 					dateView()
-					if room.summary.localUnreadEventCount > 0 {
+					if room.unreadedEvents > 0 {
 						unreadEventsCountView().padding(.top, 14)
 					}
 					Spacer()
 				}.padding(.init(top: 12, leading: 0, bottom: 0, trailing: 16))
 			}.frame(height: 76)
+            Divider()
+                .foregroundColor(Color(.init(216, 216, 217)))
+                .frame(height: 0.5)
+                .padding(.leading, 88)
 		}.frame(height: 76)
 	}
 
 	private func displayNameView() -> AnyView {
 		AnyView(
 			Text(
-				room.summary.displayName?.firstUppercased ?? "",
+                room.roomName.firstUppercased,
 				[ .font(.medium(16)),
 				  .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
 				  .color(.black()) ]
@@ -45,7 +49,7 @@ struct ChatHistoryRow: View {
 	private func unreadEventsCountView() -> AnyView {
 		AnyView(
 			HStack {
-				Text(room.summary.localUnreadEventCount.description)
+				Text(room.unreadedEvents.description)
 					.font(.regular(14))
 					.foreground(.white())
 					.padding([.leading, .trailing], 7)
@@ -60,10 +64,10 @@ struct ChatHistoryRow: View {
 	private func dateView() -> AnyView {
 		AnyView(
 			Text(
-				Calendar.current.isDateInYesterday(room.summary.lastMessageDate)
-				|| room.summary.lastMessageDate.is24HoursHavePassed
-				? room.summary.lastMessageDate.dayAndMonthAndYear
-				: room.summary.lastMessageDate.hoursAndMinutes,
+				Calendar.current.isDateInYesterday(room.lastMessageTime)
+				|| room.lastMessageTime.is24HoursHavePassed
+				? room.lastMessageTime.dayAndMonthAndYear
+				: room.lastMessageTime.hoursAndMinutes,
 				[
 					.font(.regular(14)),
 					.color(.custom(.init( 133, 135, 141)))
@@ -80,7 +84,7 @@ struct ChatHistoryRow: View {
 					placeholder: {
 						ZStack {
 							Color(.lightBlue())
-							Text(room.summary.displayName?.firstLetter.uppercased() ?? "?")
+							Text(room.roomName.firstLetter.uppercased() ?? "?")
 								.foreground(.white())
 								.font(.bold(28))
 						}.frame(width: 60, height: 60)
@@ -104,7 +108,7 @@ struct ChatHistoryRow: View {
 	}
 
 	private func messageView() -> AnyView {
-		switch room.lastMessageEvent {
+		switch room.lastMessage {
 		case let .text(text):
 			return AnyView(
 				Text(text, [ .font(.regular(15)),

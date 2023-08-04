@@ -246,3 +246,24 @@ extension UIImage {
         return image
     }
 }
+
+extension UIImage {
+    // MARK: - JPEGQuality
+
+    enum JPEGQuality: CGFloat {
+
+        // MARK: - Types
+
+        case lowest = 0
+        case low = 0.25
+        case medium = 0.5
+        case high = 0.75
+        case highest = 1
+    }
+
+    // MARK: - Internal Methods
+
+    func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
+        jpegData(compressionQuality: jpegQuality.rawValue)
+    }
+}

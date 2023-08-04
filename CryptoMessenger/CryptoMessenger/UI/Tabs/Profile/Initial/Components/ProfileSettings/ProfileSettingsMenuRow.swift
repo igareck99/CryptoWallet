@@ -9,17 +9,17 @@ struct ProfileSettingsMenuRow: View {
     let title: String
     let image: Image
     let notifications: Int
+    var color: Color = .chineseBlack04
 
     // MARK: - Body
 
     var body: some View {
         HStack(spacing: 0) {
             image
-                .frame(width: 20, height: 20)
-            
             Text(title)
                 .font(.regular(15))
                 .padding(.leading, 16)
+                .foregroundColor(color)
 
             Spacer()
 
