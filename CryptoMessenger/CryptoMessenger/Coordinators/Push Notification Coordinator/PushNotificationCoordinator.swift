@@ -1,4 +1,3 @@
-import UIKit
 import MatrixSDK
 import SwiftUI
 
@@ -10,7 +9,6 @@ protocol PushNotificationCoordinatorDelegate: AnyObject {
 final class PushNotificationCoordinator: NSObject {
 
 	var childCoordinators: [String: Coordinator] = [:]
-	var navigationController: UINavigationController
 	private let userInfo: [AnyHashable: Any]
 	private let parser: PushNotificationsParsable
 	private let matrixUseCase: MatrixUseCaseProtocol
@@ -21,7 +19,6 @@ final class PushNotificationCoordinator: NSObject {
         userInfo: [AnyHashable: Any],
         matrixUseCase: MatrixUseCaseProtocol,
         parser: PushNotificationsParsable,
-        navigationController: UINavigationController,
         delegate: PushNotificationCoordinatorDelegate?,
         toggleFacade: MainFlowTogglesFacadeProtocol
     ) {
@@ -29,7 +26,6 @@ final class PushNotificationCoordinator: NSObject {
         self.userInfo = userInfo
         self.matrixUseCase = matrixUseCase
         self.parser = parser
-        self.navigationController = navigationController
 		self.delegate = delegate
 	}
 }

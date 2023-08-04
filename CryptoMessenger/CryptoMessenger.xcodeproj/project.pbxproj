@@ -657,6 +657,8 @@
 		D49FADA22A77757B00B26C8B /* AddSeedCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49FADA12A77757B00B26C8B /* AddSeedCoordinatorAssembly.swift */; };
 		D49FADA42A77770600B26C8B /* ImportKeyViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49FADA32A77770600B26C8B /* ImportKeyViewState.swift */; };
 		D49FADA62A779E2400B26C8B /* GeneratePhraseAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49FADA52A779E2400B26C8B /* GeneratePhraseAssembly.swift */; };
+		D49FADAC2A78F58200B26C8B /* AppRouterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49FADAB2A78F58200B26C8B /* AppRouterState.swift */; };
+		D49FADAE2A78F60700B26C8B /* AppTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49FADAD2A78F60700B26C8B /* AppTransitions.swift */; };
 		D4A26E222935BADD00FEADC2 /* AddressRequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A26E212935BADD00FEADC2 /* AddressRequestParams.swift */; };
 		D4A26E2529368DB300FEADC2 /* EmptyStateViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A26E2429368DB300FEADC2 /* EmptyStateViewModifier.swift */; };
 		D4A26E272937117E00FEADC2 /* TransactionInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A26E262937117E00FEADC2 /* TransactionInfoView.swift */; };
@@ -1462,6 +1464,8 @@
 		D49FADA12A77757B00B26C8B /* AddSeedCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeedCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		D49FADA32A77770600B26C8B /* ImportKeyViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyViewState.swift; sourceTree = "<group>"; };
 		D49FADA52A779E2400B26C8B /* GeneratePhraseAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseAssembly.swift; sourceTree = "<group>"; };
+		D49FADAB2A78F58200B26C8B /* AppRouterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouterState.swift; sourceTree = "<group>"; };
+		D49FADAD2A78F60700B26C8B /* AppTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTransitions.swift; sourceTree = "<group>"; };
 		D4A26E212935BADD00FEADC2 /* AddressRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressRequestParams.swift; sourceTree = "<group>"; };
 		D4A26E2429368DB300FEADC2 /* EmptyStateViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateViewModifier.swift; sourceTree = "<group>"; };
 		D4A26E262937117E00FEADC2 /* TransactionInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInfoView.swift; sourceTree = "<group>"; };
@@ -4107,6 +4111,8 @@
 			children = (
 				D4FD928D2A57CE59008EA8A2 /* CryptoMessengerApp.swift */,
 				D4FD929A2A57EBA2008EA8A2 /* WindowKey.swift */,
+				D49FADAB2A78F58200B26C8B /* AppRouterState.swift */,
+				D49FADAD2A78F60700B26C8B /* AppTransitions.swift */,
 			);
 			path = "Main App";
 			sourceTree = "<group>";
@@ -4591,6 +4597,7 @@
 				D4B1011F2A668DFA00F3C856 /* TokenInfoAssembly.swift in Sources */,
 				D48AF481292D224B0044CFAE /* WalletNetworkResponse.swift in Sources */,
 				8B70584229D0DD3D0058B180 /* ChatHistorySearchRow.swift in Sources */,
+				D49FADAE2A78F60700B26C8B /* AppTransitions.swift in Sources */,
 				8BBF908A2935150E00936F4D /* NotificationSettingsAssembly.swift in Sources */,
 				D4C8CF4A2A45957E007CC925 /* AppCoordinatorRouter.swift in Sources */,
 				8B009A5B2A72A884000C650F /* ProfileFeedImageAssembly.swift in Sources */,
@@ -4828,6 +4835,7 @@
 				D4DF2B3E28F589090057499A /* SwipeActionModifier.swift in Sources */,
 				8B97852628DD14E300DB7D2F /* FileViewModel.swift in Sources */,
 				5A3721DE272F418F0097ABED /* SelectContactView.swift in Sources */,
+				D49FADAC2A78F58200B26C8B /* AppRouterState.swift in Sources */,
 				5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */,
 				D4D439EB2836086900AC0DEF /* P2PCallUseCase.swift in Sources */,
 				D4E979142A1F30CB00771232 /* PushKitService.swift in Sources */,

@@ -1,21 +1,13 @@
 import UIKit
 
 final class StatusBarCallUseCase {
-
+    static let shared = StatusBarCallUseCase()
 	private var isCallEnded = false
-
 	private var underStatusView: StatusBarCallViewProtocol?
+    weak var appWindow: UIWindow?
 
-	init(appWindow: UIWindow) {
-		configureViews(appWindow: appWindow)
+	init() {
 		configureNotifications()
-	}
-
-	private func configureViews(appWindow: UIWindow) {
-		underStatusView = StatusBarCallView(
-			appWindow: appWindow,
-			delegate: self
-		)
 	}
 
 	private func configureNotifications() {
@@ -89,10 +81,18 @@ final class StatusBarCallUseCase {
 }
 
 extension StatusBarCallUseCase {
-	func configure(
-		window: UIWindow,
-		rootViewController: UIViewController
-	) {
+
+	func configure(window: UIWindow) {
+
+        guard let rootViewController = window.rootViewController else {
+            return
+        }
+        self.appWindow = window
+        underStatusView = StatusBarCallView(
+            appWindow: window,
+            delegate: self
+        )
+
 		rootViewController.view.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
 			rootViewController.view.leadingAnchor.constraint(equalTo: window.leadingAnchor),

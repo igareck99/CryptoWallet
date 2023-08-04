@@ -110,7 +110,6 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                 }
             })
             .onDisappear {
-//                showTabBar()
                 searchText = ""
                 searching = false
             }
