@@ -301,7 +301,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                         .foregroundColor(Color(.init(r: 14, g:142, b: 243)))
                 }
                 Button(action: {
-                    actionSheet?.show()
+                    showReadAll = true
                 }, label: {
                     viewModel.sources.ellipsisCircle
                         .renderingMode(.original)
@@ -319,10 +319,13 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
             R.image.wallet.loader.image
                 .rotationEffect(.degrees(isRotating))
                 .onAppear {
-                    withAnimation(.linear(duration: 1)
-                        .speed(0.4).repeatForever(autoreverses: false)) {
-                            isRotating = 360.0
-                        }
+                    withAnimation(
+                        .linear(duration: 1)
+                        .speed(0.4)
+                        .repeatForever(autoreverses: false)
+                    ) {
+                        isRotating = 360.0
+                    }
                 }
                 .onDisappear {
                     isRotating = 0
@@ -330,16 +333,4 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
             Spacer()
         }
     }
-}
-
-// MARK: - ChatHistoryViewState
-
-enum ChatHistoryViewState {
-
-    // MARK: - Cases
-    
-    case noData
-    case emptySearch
-    case chatsData
-    case loading
 }
