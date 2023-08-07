@@ -405,6 +405,10 @@ final class WalletViewModel: ObservableObject {
     }
 
     func onWalletCardTap(wallet: WalletInfo) {
+        guard let item = cardsList.first(where: { $0.address == wallet.address })
+        else {
+            return
+        }
         coordinator?.onTokenInfo(wallet: wallet)
     }
 

@@ -72,6 +72,6 @@ extension WalletCoordinator: WalletCoordinatable {
     }
 
     func onTokenInfo(wallet: WalletInfo) {
-        // TODO: Implement
+        router.showTokenInfo(wallet: wallet)
     }
 }

@@ -15,6 +15,7 @@ protocol WalletRouterable {
     func navState() -> State
     func routePath() -> Binding<NavigationPath>
     func presentedItem() -> Binding<WalletSheetLink?>
+    func showTokenInfo(wallet: WalletInfo)
 }
 
 struct WalletRouter<Content: View, State: WalletRouterStatable>: View {
@@ -53,6 +54,8 @@ struct WalletRouter<Content: View, State: WalletRouterStatable>: View {
                 transaction: transaction,
                 coordinator: coordinator
             )
+        case let .showTokenInfo(wallet):
+            TokenInfoAssembly.build(wallet: wallet)
         default:
             EmptyView()
         }
@@ -105,6 +108,12 @@ extension WalletRouter: WalletRouterable {
                 address: address,
                 coordinator: coordinator
             )
+        )
+    }
+
+    func showTokenInfo(wallet: WalletInfo) {
+        state.path.append(
+            WalletContentLink.showTokenInfo(wallet: wallet)
         )
     }
 }
