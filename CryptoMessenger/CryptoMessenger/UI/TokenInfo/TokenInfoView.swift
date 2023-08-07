@@ -7,7 +7,6 @@ struct TokenInfoView: View {
 
     // MARK: - Internal Properties
 
-    @Binding var showTokenInfo: Bool
     @StateObject var viewModel: TokenInfoViewModel
     @State var showAddresses = false
     let context = CIContext()
@@ -54,19 +53,6 @@ struct TokenInfoView: View {
     }
 
     // MARK: - Private Properties
-
-    private var headerView: some View {
-        HStack {
-            R.image.buyCellsMenu.close.image
-                .onTapGesture {
-                    showTokenInfo = false
-                }
-            Spacer()
-            Text(viewModel.resources.tokenInfoTitle)
-                .font(.system(size: 15, weight: .bold))
-            Spacer()
-        }
-    }
 
     private var content: some View {
         VStack(alignment: .center) {

@@ -9,7 +9,8 @@ final class TokenInfoViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    @State var address: WalletInfo
+    
+    @Published var address: WalletInfo
     @Published var addresses = [WalletInfo]()
 	var isSnackbarPresented = false
     let resources: TokenInfoResourcable.Type = TokenInfoResources.self
@@ -22,7 +23,7 @@ final class TokenInfoViewModel: ObservableObject {
 
     init(
 		address: WalletInfo,
-		userCredentialsStorage: UserCredentialsStorage,
+		userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared,
         resources: TokenInfoResourcable.Type = TokenInfoResources.self
 	) {
         self.address = address

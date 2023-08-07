@@ -1,5 +1,9 @@
 import SwiftUI
 
 enum TokenInfoAssembly {
-   // TODO: Implement
+    static func build(wallet: WalletInfo) -> some View {
+        let viewModel = TokenInfoViewModel(address: wallet)
+        let view = TokenInfoView(viewModel: viewModel)
+        return view
+    }
 }

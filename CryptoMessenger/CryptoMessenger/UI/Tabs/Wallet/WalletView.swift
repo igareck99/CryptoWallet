@@ -11,15 +11,6 @@ struct WalletView: View {
     @State var offset = CGFloat(16)
     @State var index = 0
     @State var showAddWallet = false
-    @State var showTokenInfo = false
-    @State var selectedAddress = WalletInfo(
-        decimals: 1,
-        walletType: .ethereum,
-        address: "",
-        coinAmount: "",
-        fiatAmount: ""
-    )
-
     @State var pageIndex: Int = 0
     @State private var isRotating = 0.0
 
@@ -56,10 +47,7 @@ struct WalletView: View {
                             ForEach(Array(viewModel.cardsList.enumerated()), id: \.element) { index, wallet in
                                 WalletCardView(wallet: wallet)
                                     .onTapGesture {
-                                        guard let item = viewModel.cardsList
-                                            .first(where: { $0.address == wallet.address }) else { return }
-                                        selectedAddress = item
-                                        showTokenInfo = true
+                                        viewModel.onWalletCardTap(wallet: wallet)
                                     }
                                     .tag(index)
                                     .padding()
@@ -68,10 +56,6 @@ struct WalletView: View {
                         .tabViewStyle(.page(indexDisplayMode: .never))
                     }
                     .frame(minHeight: 220)
-                    NavigationLink(
-                        destination: tokenInfoView(),
-                        isActive: $showTokenInfo
-                    ) { EmptyView() }
 
                 sendButton
                     .padding(.horizontal, 16)
@@ -165,22 +149,6 @@ struct WalletView: View {
             .cornerRadius(8)
             .frame(width: 237, height: 48)
         }
-    }
-
-    private func tokenInfoView() -> some View {
-        TokenInfoView(
-            showTokenInfo: $showTokenInfo,
-            viewModel: TokenInfoViewModel(
-                        address: selectedAddress,
-                        userCredentialsStorage: UserDefaultsService.shared
-                      )
-        )
-        .frame(
-            width: UIScreen.main.bounds.width,
-            height: UIScreen.main.bounds.height - 60,
-            alignment: .center
-        )
-        .background(.white)
     }
 
     private var cardsProgressView: some View {

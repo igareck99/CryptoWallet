@@ -43,6 +43,8 @@ enum WalletContentLink: Identifiable, Hashable {
         transaction: FacilityApproveModel,
         coordinator: FacilityApproveViewCoordinatable
     )
+    
+    case showTokenInfo(wallet: WalletInfo)
 
     // MARK: - Identifiable
 
