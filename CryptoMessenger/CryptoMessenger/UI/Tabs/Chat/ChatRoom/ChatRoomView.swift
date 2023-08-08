@@ -93,9 +93,6 @@ struct ChatRoomView: View {
                 guard let url = value else { return }
                 testAvatarUrl = url
             })
-            .onDisappear {
-//                showTabBar()  
-            }
             .onChange(of: viewModel.dismissScreen, perform: { newValue in
                 if newValue {
                     presentationMode.wrappedValue.dismiss()
@@ -106,18 +103,6 @@ struct ChatRoomView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             })
-            .onChange(of: showActionSheet, perform: { item in
-                if item {
-                    // Оставил для информации по логике отображения нав бара
-//                    hideNavBar()
-                } else {
-                    // Оставил для информации по логике отображения нав бара
-//                    showNavBar()
-                }
-            })
-            .onReceive(viewModel.$showPhotoLibrary) { flag in
-                if flag { activeSheet = .photo }
-            }
             .onReceive(viewModel.$showDocuments) { flag in
                 if flag { activeSheet = .documents }
             }
@@ -358,9 +343,14 @@ struct ChatRoomView: View {
                     cameraFrame: $viewModel.cameraFrame,
                     sendPhotos: $sendPhotos,
                     imagesToSend: $photosToSend,
-                    onCamera: { showActionSheet = false;
-                        viewModel.send(.onCamera($viewModel.selectedImage,
-                                                 $viewModel.selectedVideo))
+                    onCamera: {
+                        showActionSheet = false
+                        viewModel.send(
+                            .onCamera(
+                                $viewModel.selectedImage,
+                                $viewModel.selectedVideo
+                            )
+                        )
                     },
                     viewModel: attachViewModel
                 )

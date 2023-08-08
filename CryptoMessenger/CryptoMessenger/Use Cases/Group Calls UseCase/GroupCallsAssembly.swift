@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 // MARK: - GroupCallsAssembly
 
@@ -8,7 +9,7 @@ enum GroupCallsAssembly {
 
     static func build(delegate: GroupCallsViewControllerDelegate) -> UIViewController {
         let view = GroupCallsViewControllerWrapper(delegate: delegate)
-        let controller = BaseHostingController(rootView: view)
+        let controller = UIHostingController(rootView: view)
         return controller
     }
 }
