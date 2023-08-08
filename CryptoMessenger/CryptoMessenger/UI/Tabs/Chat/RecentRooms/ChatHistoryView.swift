@@ -1,35 +1,6 @@
 import Combine
 import SwiftUI
 
-// swiftlint: disable all
-protocol ChatHistoryViewDelegate: ObservableObject {
-
-	var rooms: [AuraRoom] { get }
-    
-    var isLoading: Bool { get set }
-    
-    var leaveState: [String: Bool] { get }
-
-	var groupAction: GroupAction? { get set }
-
-	var sources: ChatHistorySourcesable.Type { get }
-
-	var eventSubject: PassthroughSubject<ChatHistoryFlow.Event, Never> { get }
-
-    func rooms(with filter: String) -> [ChatHistoryData]
-
-	func markAllAsRead()
-    
-    func fromCurrentSender(room: AuraRoom) -> Bool
-    
-    func joinRoom(_ roomId: String, _ openChat: Bool)
-    
-    func findRooms(with filter: String,
-                   completion: @escaping ([MatrixChannel]) -> Void)
-    
-    var chatHistoryRooms: [ChatHistoryData] { get }
-}
-
 // MARK: - ChatHistoryView
 
 struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate {
@@ -43,8 +14,6 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
 	@State private var searchText = ""
 	@State private var searching = false
 	@State private var chatData = ChatData()
-	@State private var selectedImage: UIImage?
-	@State private var selectedRoomId: ObjectIdentifier?
     @State private var isNavBarHidden = false
     @State private var isRotating = 0.0
     @State private var showReadAll = false
@@ -70,7 +39,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
         content1
             .confirmationDialog("", isPresented: $showReadAll) {
                 Button(viewModel.sources.readAll, action: {
-                    viewModel.eventSubject.send(.onAppear)
+                    viewModel.markAllAsRead()
                     isNavBarHidden = false
                 })
             }
@@ -250,7 +219,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                             .background(.white())
                             .swipeActions(edge: .trailing) {
                                 Button {
-                                    viewModel.eventSubject.send(.onRoomActions(room.roomId))
+                                    viewModel.eventSubject.send(.onRoomActions(room))
                                 } label: {
                                     EmptyView()
                                 }.tint(.gray.opacity(0.1))
@@ -301,7 +270,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                         .foregroundColor(Color(.init(r: 14, g:142, b: 243)))
                 }
                 Button(action: {
-                    showReadAll = true
+                    showReadAll.toggle()
                 }, label: {
                     viewModel.sources.ellipsisCircle
                         .renderingMode(.original)

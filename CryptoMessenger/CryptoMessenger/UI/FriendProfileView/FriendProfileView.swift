@@ -32,8 +32,8 @@ struct FriendProfileView: View {
             }
             .onAppear {
                 viewModel.send(.onProfileAppear)
-//                showTabBar()
             }
+            .toolbar(.hidden, for: .tabBar)
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(viewModel.sources.profileCopied))
             }

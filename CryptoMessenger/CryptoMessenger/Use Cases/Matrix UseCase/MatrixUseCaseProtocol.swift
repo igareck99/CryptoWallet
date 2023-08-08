@@ -8,7 +8,7 @@ protocol MatrixUseCaseProtocol {
 	var loginStatePublisher: Published<MatrixState>.Publisher { get }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { get }
 	var rooms: [AuraRoom] { get }
-    var chatHistoryRooms: [ChatHistoryData] { get }
+    var auraRooms: [AuraRoomData] { get }
 
 	// MARK: - Session
 	var matrixSession: MXSession? { get }

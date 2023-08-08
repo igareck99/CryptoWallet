@@ -8,11 +8,12 @@ protocol MatrixObjectFactoryProtocol {
 	func makeRooms(
 		mxRooms: [MXRoom]?,
 		isRoomUserActive: @escaping (String) -> Bool
-	) -> [AuraRoom]
-    func makeChatHistoryRooms(mxRooms: [MXRoom]?,
-                              config: ConfigType,
-                              matrixUseCase: MatrixUseCaseProtocol,
-                              isRoomUserActive: @escaping (String) -> Bool) -> [ChatHistoryData]
+    ) -> [AuraRoom]
+    func makeAuraRooms(mxRooms: [MXRoom]?,
+                       config: ConfigType,
+                       eventsFactory: RoomEventObjectFactoryProtocol,
+                       matrixUseCase: MatrixUseCaseProtocol,
+                       isRoomUserActive: @escaping (String) -> Bool) -> [AuraRoomData]
 }
 
 struct MatrixObjectFactory {}
@@ -39,12 +40,13 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
 		return auraRooms
 	}
     
-    func makeChatHistoryRooms(mxRooms: [MXRoom]?,
-                              config: ConfigType,
-                              matrixUseCase: MatrixUseCaseProtocol,
-                              isRoomUserActive: @escaping (String) -> Bool) -> [ChatHistoryData] {
+    func makeAuraRooms(mxRooms: [MXRoom]?,
+                       config: ConfigType,
+                       eventsFactory: RoomEventObjectFactoryProtocol,
+                       matrixUseCase: MatrixUseCaseProtocol,
+                       isRoomUserActive: @escaping (String) -> Bool) -> [AuraRoomData] {
         guard let matrixRooms = mxRooms else { return [] }
-        let auraRooms: [ChatHistoryData] = matrixRooms
+        let auraRooms: [AuraRoomData] = matrixRooms
             .map { mxRoom in
                 let roomId = mxRoom.roomId ?? ""
                 var powerLevels = true
@@ -67,23 +69,25 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                 if callEvent?.type == "m.call.hangup" {
                     messageType = .call
                 }
+                let events = eventsFactory.makeChatHistoryRooms(mxRooms: currentBatch)
                 let summary = RoomSummary(mxRoom.summary)
                 let unreadedEvents = summary.summary.localUnreadEventCount
                 messageType = lastMessageEvent?.messageType ?? MessageType.text("")
-                let room = ChatHistoryData(isChannel: powerLevels,
-                                           isAdmin: isAdmin,
-                                           isPinned: false,
-//                                           isOnline: isRoomUserActive(mxRoom.directUserId),
-                                           isOnline: false,
-                                           isDirect: mxRoom.isDirect,
-                                           unreadedEvents: Int(unreadedEvents),
-                                           lastMessage: messageType,
-                                           lastMessageTime: summary.lastMessageDate,
-                                           roomAvatar: roomAvatar,
-                                           roomName: roomName,
-                                           numberUsers: Int(summary.summary.membersCount.joined),
-                                           topic: summary.summary.topic ?? "",
-                                           roomId: roomId)
+                let room = AuraRoomData(isChannel: powerLevels,
+                                        isAdmin: isAdmin,
+                                        isPinned: false,
+                                        //                                           isOnline: isRoomUserActive(mxRoom.directUserId),
+                                        isOnline: false,
+                                        isDirect: mxRoom.isDirect,
+                                        unreadedEvents: Int(unreadedEvents),
+                                        lastMessage: messageType,
+                                        lastMessageTime: summary.lastMessageDate,
+                                        roomAvatar: roomAvatar,
+                                        roomName: roomName,
+                                        numberUsers: Int(summary.summary.membersCount.joined),
+                                        topic: summary.summary.topic ?? "",
+                                        roomId: roomId,
+                                        events: events)
                 return room
             }
             .compactMap { $0 }
