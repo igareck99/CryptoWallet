@@ -33,7 +33,6 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var messages: [RoomMessage] = []
     @Published var translatedMessages: [RoomMessage] = []
     @Published var photosToSend: [UIImage] = []
-    @Published var showPhotoLibrary = false
     @Published var showDocuments = false
     @Published var showContacts = false
     @Published var showTranslate = false
@@ -575,7 +574,18 @@ final class ChatRoomViewModel: ObservableObject {
                 case .location:
                     self?.showLocationPicker = true
                 case .media:
-                    self?.showPhotoLibrary = true
+                        self?.coordinator?.galleryPickerSheet(
+                            sourceType: .photoLibrary,
+                            galleryContent: .photos,
+                            onSelectImage: { image in
+                                if let image = image {
+                                    self?.selectedImage = image
+                                }
+                            }, onSelectVideo: { videoUrl in
+                                if let video = videoUrl {
+                                    self?.selectedVideo = video
+                                }
+                            })
                 case .document:
                     self?.showDocuments = true
                 case .contact:

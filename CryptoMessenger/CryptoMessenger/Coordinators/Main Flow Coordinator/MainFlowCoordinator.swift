@@ -16,7 +16,6 @@ final class MainFlowCoordinator: Coordinator {
 
     var childCoordinators: [String: Coordinator] = [:]
     weak var delegate: MainFlowCoordinatorDelegate?
-	private weak var rootTabBarController: BaseTabBarController?
     var renderView: RootViewBuilder
     private let togglesFacade: MainFlowTogglesFacadeProtocol
     private let onlogout: () -> Void
@@ -44,4 +43,3 @@ final class MainFlowCoordinator: Coordinator {
         renderView(view)
     }
 }
-
