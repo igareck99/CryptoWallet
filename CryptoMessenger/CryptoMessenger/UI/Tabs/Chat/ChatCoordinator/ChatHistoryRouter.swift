@@ -2,13 +2,13 @@ import Foundation
 import SwiftUI
 
 protocol ChatHistoryRouterable: View {
-    
+
     func routeToFirstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol)
-    
+
     func start()
-    
+
     func chatMedia(_ room: AuraRoom)
-    
+
     func channelSettings(chatData: Binding<ChatData>,
                          saveData: Binding<Bool>,
                          room: AuraRoom,
@@ -20,7 +20,7 @@ protocol ChatHistoryRouterable: View {
                       room: AuraRoom,
                       isLeaveChannel: Binding<Bool>,
                       coordinator: ChatHistoryFlowCoordinatorProtocol)
-    
+
     func friendProfile(_ contact: Contact)
 
     func adminsView( _ chatData: Binding<ChatData>,
@@ -37,13 +37,35 @@ protocol ChatHistoryRouterable: View {
                             galleryContent: GalleryPickerContent,
                             onSelectImage: @escaping (UIImage?) -> Void,
                             onSelectVideo: @escaping (URL?) -> Void)
+
+    func showDocumentPicker(
+        onCancel: VoidBlock?,
+        onDocumentsPicked: @escaping GenericBlock<[URL]>
+    )
+
+    func presentDocumentPicker(
+        onCancel: VoidBlock?,
+        onDocumentsPicked: @escaping GenericBlock<[URL]>
+    )
+    
+    func showSelectContact(
+        onSelectContact: @escaping ([Contact]?) -> Void
+    )
+
     func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,
                                  showParticipantsView: Binding<Bool>)
     func dismissCurrentSheet()
     func routePath() -> Binding<NavigationPath>
     func presentedItem() -> Binding<ChatHistorySheetLink?>
     func chatCreate(_ view: any View)
-    func chatActions(_ room: ChatActionsList, onSelect: @escaping GenericBlock<ChatActions>)
+    func chatActions(
+        _ room: ChatActionsList,
+        onSelect: @escaping GenericBlock<ChatActions>
+    )
+    func presentLocationPicker(
+        place: Binding<Place?>,
+        sendLocation: Binding<Bool>
+    )
 }
 
 // MARK: - ChatHistoryRouter
@@ -67,7 +89,7 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
             )
         }
     }
-    
+
     @ViewBuilder
     private func linkDestination(link: ChatHistoryContentLink) -> some View {
         switch link {
@@ -102,6 +124,14 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
                                         galleryContent: galleryContent,
                                         onSelectImage: onSelectImage,
                                         onSelectVideo: onSelectVideo)
+            case let .documentPicker(
+                onCancel,
+                onDocumentsPicked
+            ):
+                DocumentPicker(
+                    onCancel: onCancel,
+                    onDocumentsPicked: onDocumentsPicked
+                ).anyView()
         default:
             EmptyView()
         }
@@ -132,6 +162,27 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
             })
             .presentationDetents([.large, .height(state.sheetHeight)])
             .anyView()
+
+        case let .documentPicker(
+            onCancel,
+            onDocumentsPicked
+        ):
+            return DocumentPicker(
+                onCancel: onCancel,
+                onDocumentsPicked: onDocumentsPicked
+            ).anyView()
+        case let .locationPicker(place, sendLocation):
+            return LocationPickerView(
+                place: place,
+                sendLocation: sendLocation
+            ).anyView()
+                
+        case let .selectContact(onSelectContact):
+            return SelectContactView(
+                viewModel: SelectContactViewModel(mode: .send),
+                contactsLimit: 1,
+                onSelectContact: onSelectContact
+            ).anyView()
         }
     }
 }
@@ -211,6 +262,28 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
                                                                onSelectVideo: onSelectVideo))
     }
 
+    func showDocumentPicker(
+        onCancel: VoidBlock?,
+        onDocumentsPicked: @escaping GenericBlock<[URL]>
+    ) {
+        state.path.append(
+            ChatHistoryContentLink.documentPicker(
+                onCancel: onCancel,
+                onDocumentsPicked: onDocumentsPicked
+            )
+        )
+    }
+
+    func presentDocumentPicker(
+        onCancel: VoidBlock?,
+        onDocumentsPicked: @escaping GenericBlock<[URL]>
+    ) {
+        state.presentedItem = .documentPicker(
+            onCancel: onCancel,
+            onDocumentsPicked: onDocumentsPicked
+        )
+    }
+
     func galleryPickerSheet(sourceType: UIImagePickerController.SourceType,
                             galleryContent: GalleryPickerContent,
                             onSelectImage: @escaping (UIImage?) -> Void,
@@ -219,6 +292,10 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
                                              galleryContent: galleryContent,
                                              onSelectImage: onSelectImage,
                                              onSelectVideo: onSelectVideo)
+    }
+    
+    func showSelectContact(onSelectContact: @escaping ([Contact]?) -> Void) {
+        state.presentedItem = .selectContact(onSelectContact: onSelectContact)
     }
 
     func dismissCurrentSheet() {
@@ -245,5 +322,15 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
 
     func chatActions(_ room: ChatActionsList, onSelect: @escaping GenericBlock<ChatActions>) {
         state.presentedItem = .chatActions(room, onSelect)
+    }
+
+    func presentLocationPicker(
+        place: Binding<Place?>,
+        sendLocation: Binding<Bool>
+    ) {
+        state.presentedItem = .locationPicker(
+            place: place,
+            sendLocation: sendLocation
+        )
     }
 }

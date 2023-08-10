@@ -56,7 +56,6 @@ struct ChatRoomView: View {
     @State private var showSettings = false
     @State private var showTranslateAlert = false
     @State private var showTranslateMenu = false
-    @State private var activeSheet: ActiveSheet?
     @State private var activeEditMessage: RoomMessage?
     @State private var deleteMessage: RoomMessage?
     @State private var quickAction: QuickActionCurrentUser?
@@ -103,20 +102,9 @@ struct ChatRoomView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             })
-            .onReceive(viewModel.$showDocuments) { flag in
-                if flag { activeSheet = .documents }
-            }
-            .onReceive(viewModel.$showContacts, perform: { flag in
-                if flag { activeSheet = .contact }
-            })
             .onReceive(viewModel.$showTranslate) { flag in
                 if flag {
                     showTranslateAlert = true
-                }
-            }
-            .onReceive(viewModel.$showLocationPicker) { flag in
-                if flag {
-                    activeSheet = .location
                 }
             }
             .popup(
@@ -148,39 +136,6 @@ struct ChatRoomView: View {
                     .ignoresSafeArea()
                     .navigationBarHidden(true)
             })
-            .sheet(item: $activeSheet) { item in
-                switch item {
-                case .photo:
-                    GalleryPickerAssembly.build(galleryContent: .all, onSelectImage: { image in
-                        if let image = image {
-                            viewModel.selectedImage = image
-                        }
-                    }, onSelectVideo: { video in
-                        if let video = video {
-                            viewModel.selectedVideo = video
-                        }
-                    })
-                case .documents:
-                    documentPicker { urls in
-                        guard !urls.isEmpty, let url = urls.first else { return }
-                        self.viewModel.send(.onSendFile(url))
-                    }
-                case .camera:
-                    EmptyView()
-                case .contact:
-                    NavigationView {
-                        SelectContactView(viewModel: SelectContactViewModel(mode: .send), contactsLimit: 1,
-                                          onSelectContact: {
-                            viewModel.pickedContact = $0
-                        })
-                    }
-                case .location:
-                    NavigationView {
-                        LocationPickerView(place: $viewModel.pickedLocation,
-                                           sendLocation: $viewModel.sendLocationFlag)
-                    }
-                }
-            }
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarColor(selectedPhoto != nil && showImageViewer ? nil : .white(), isBlured: false)

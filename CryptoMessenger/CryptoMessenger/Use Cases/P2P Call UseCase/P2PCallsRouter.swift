@@ -50,9 +50,10 @@ extension P2PCallsRouter: P2PCallsRouterable {
 		model: P2PCall,
 		p2pCallUseCase: P2PCallUseCaseProtocol
 	) {
+        guard let rController = rootController else { return }
 		let controller = P2PCallsAssembly.build(model: model, p2pCallUseCase: p2pCallUseCase)
 		callController = controller
-        controller.presentToParentViewController(parent: rootController!)
+        controller.presentToParentViewController(parent: rController)
 
         // Ручное добавление контроллера, пока оставил, может понадобится
 /*

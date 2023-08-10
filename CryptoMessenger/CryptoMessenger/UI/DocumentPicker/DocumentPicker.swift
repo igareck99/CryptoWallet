@@ -9,12 +9,11 @@ extension View {
     // MARK: - Internal Methods
 
     func documentPicker(
-        isPresented: Binding<Bool> = .constant(false),
         onCancel: VoidBlock? = nil,
         onDocumentsPicked: @escaping GenericBlock<[URL]>
     ) -> some View {
         modifier(
-            DocumentPickerView(isPresented: isPresented, onCancel: onCancel, onDocumentsPicked: onDocumentsPicked)
+            DocumentPickerView(onCancel: onCancel, onDocumentsPicked: onDocumentsPicked)
         )
     }
 }
@@ -25,18 +24,15 @@ struct DocumentPickerView: ViewModifier {
 
     // MARK: - Internal Properties
 
-    @Binding var isPresented: Bool
     var onCancel: VoidBlock?
     var onDocumentsPicked: GenericBlock<[URL]>
 
     // MARK: - Life Cycle
 
     init(
-        isPresented: Binding<Bool>,
         onCancel: VoidBlock?,
         onDocumentsPicked: @escaping GenericBlock<[URL]>
     ) {
-        self._isPresented = isPresented
         self.onCancel = onCancel
         self.onDocumentsPicked = onDocumentsPicked
     }
@@ -44,7 +40,7 @@ struct DocumentPickerView: ViewModifier {
     // MARK: - Body
 
     func body(content: Content) -> some View {
-        DocumentPicker(isPresented: $isPresented, onCancel: onCancel, onDocumentsPicked: onDocumentsPicked)
+        DocumentPicker(onCancel: onCancel, onDocumentsPicked: onDocumentsPicked)
     }
 }
 
@@ -54,7 +50,6 @@ struct DocumentPicker: UIViewControllerRepresentable {
 
     // MARK: - Internal Properties
 
-    @Binding var isPresented: Bool
     var onCancel: VoidBlock?
     var onDocumentsPicked: GenericBlock<[URL]>
     @StateObject var viewModel = DocumentsViewerViewModel()
@@ -62,11 +57,9 @@ struct DocumentPicker: UIViewControllerRepresentable {
     // MARK: - Life Cycle
 
     init(
-        isPresented: Binding<Bool> = .constant(false),
         onCancel: VoidBlock?,
         onDocumentsPicked: @escaping GenericBlock<[URL]>
     ) {
-        self._isPresented = isPresented
         self.onCancel = onCancel
         self.onDocumentsPicked = onDocumentsPicked
     }
@@ -114,12 +107,10 @@ struct DocumentPicker: UIViewControllerRepresentable {
 
 extension DocumentPicker.Coordinator: UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        parent.isPresented.toggle()
         parent.onDocumentsPicked(urls)
     }
 
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        parent.isPresented.toggle()
         parent.onCancel?()
     }
 }

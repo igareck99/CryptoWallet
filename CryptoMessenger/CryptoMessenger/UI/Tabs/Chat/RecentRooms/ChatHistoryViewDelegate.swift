@@ -26,4 +26,6 @@ protocol ChatHistoryViewDelegate: ObservableObject {
                    completion: @escaping ([MatrixChannel]) -> Void)
     
     var chatHistoryRooms: [ChatHistoryData] { get }
+    
+    func onAppear()
 }
