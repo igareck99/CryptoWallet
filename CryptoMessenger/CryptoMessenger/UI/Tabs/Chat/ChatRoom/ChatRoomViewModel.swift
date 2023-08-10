@@ -33,11 +33,8 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var messages: [RoomMessage] = []
     @Published var translatedMessages: [RoomMessage] = []
     @Published var photosToSend: [UIImage] = []
-    @Published var showDocuments = false
-    @Published var showContacts = false
     @Published var showTranslate = false
     @Published var showTranslateMenu = false
-    @Published var showLocationPicker = false
     @Published var selectedImage: UIImage?
     @Published var selectedVideo: URL?
     @Published var pickedImage: UIImage?
@@ -570,26 +567,45 @@ final class ChatRoomViewModel: ObservableObject {
         $attachAction
             .receive(on: DispatchQueue.main)
             .sink { [weak self] action in
+                guard let self = self else { return }
                 switch action {
                 case .location:
-                    self?.showLocationPicker = true
-                case .media:
-                        self?.coordinator?.galleryPickerSheet(
-                            sourceType: .photoLibrary,
-                            galleryContent: .photos,
-                            onSelectImage: { image in
-                                if let image = image {
-                                    self?.selectedImage = image
-                                }
-                            }, onSelectVideo: { videoUrl in
-                                if let video = videoUrl {
-                                    self?.selectedVideo = video
-                                }
+                        self.coordinator?.presentLocationPicker(
+                            place: Binding(get: {
+                                self.pickedLocation
+                            }, set: { value in
+                                self.pickedLocation = value
+                            }),
+                            sendLocation: Binding(get: {
+                                self.sendLocationFlag
+                            }, set: { value in
+                                self.sendLocationFlag = value
                             })
+                        )
+                case .media:
+                    self.coordinator?.galleryPickerSheet(
+                        sourceType: .photoLibrary,
+                        galleryContent: .photos,
+                        onSelectImage: { image in
+                            if let image = image {
+                                self.selectedImage = image
+                            }
+                        }, onSelectVideo: { videoUrl in
+                            if let video = videoUrl {
+                                self.selectedVideo = video
+                            }
+                        })
                 case .document:
-                    self?.showDocuments = true
+                    self.coordinator?.presentDocumentPicker(onCancel: nil) { [weak self] urls in
+                        guard !urls.isEmpty, let url = urls.first else { return }
+                        self?.send(.onSendFile(url))
+                    }
                 case .contact:
-                    self?.showContacts = true
+                    self.coordinator?.showSelectContact(
+                        onSelectContact: { [weak self] in
+                            self?.pickedContact = $0
+                        }
+                    )
                 default:
                     break
                 }
