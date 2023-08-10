@@ -115,10 +115,15 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 
     func configureCalls() {
         guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else {
+            debugPrint("configureCalls ChatHistoryViewModel: FAILED")
             return
         }
-
+        debugPrint("configureCalls ChatHistoryViewModel: SUCCESS")
         StatusBarCallUseCase.shared.configure(window: window)
+    }
+
+    func onAppear() {
+        configureCalls()
     }
 
     // MARK: - Private Methods
@@ -186,7 +191,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             }
             .store(in: &subscriptions)
     }
-    
+
     private func loadUsers(_ roomId: String) {
         matrixUseCase.getRoomMembers(roomId: roomId) { [weak self] result in
             switch result {
@@ -196,7 +201,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             default:
                 break
             }
-            
         }
     }
 

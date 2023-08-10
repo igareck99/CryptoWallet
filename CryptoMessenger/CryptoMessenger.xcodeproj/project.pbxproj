@@ -1724,6 +1724,8 @@
 		5A187DF72680708D001957D3 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5A24B25226F289DF00EFC5E2 /* Map */,
+				5ABAD39827BDA6BD0067DFC1 /* DocumentPicker */,
 				8B4810F727CF987600831589 /* ImportKey */,
 				D49FAD932A776F2700B26C8B /* Add Seed */,
 				5A42681326A8BE85000C51DD /* CountryCodePicker */,
@@ -1890,7 +1892,6 @@
 				5A2181E526D82D1F0093AD60 /* LocationManager */,
 				5A43086A27C9079F00A9B582 /* ImageLoader */,
 				D44CBF0E29309FDA006A14D1 /* Keys Service */,
-				5ABAD39827BDA6BD0067DFC1 /* DocumentPicker */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -2306,7 +2307,6 @@
 				5A1FE9CE26EFAE99008A649E /* Core */,
 				5A9B471F26EA81CD001CC627 /* AttachActions */,
 				5A9B471E26EA81C5001CC627 /* QuickMenu */,
-				5A24B25226F289DF00EFC5E2 /* Map */,
 				5ABAD39E27C286AE0067DFC1 /* Settings */,
 				5AC8C4F027C4111A008B1744 /* Members */,
 				5AC8C4EB27C3FEB6008B1744 /* Admins */,
@@ -5331,6 +5331,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -5395,6 +5396,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aura.app.test.AuraNSE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

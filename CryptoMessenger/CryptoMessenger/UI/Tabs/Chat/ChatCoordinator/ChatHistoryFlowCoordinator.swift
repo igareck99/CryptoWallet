@@ -29,8 +29,29 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
                             onSelectVideo: @escaping (URL?) -> Void)
     func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,
                                  showParticipantsView: Binding<Bool>)
+    func showDocumentPicker(
+        onCancel: VoidBlock?,
+        onDocumentsPicked: @escaping GenericBlock<[URL]>
+    )
+
+    func presentDocumentPicker(
+        onCancel: VoidBlock?,
+        onDocumentsPicked: @escaping GenericBlock<[URL]>
+    )
+    
+    func showSelectContact(
+        onSelectContact: @escaping ([Contact]?) -> Void
+    )
+
     func dismissCurrentSheet()
-    func chatActions(_ room: ChatActionsList, onSelect: @escaping GenericBlock<ChatActions>)
+    func chatActions(
+        _ room: ChatActionsList,
+        onSelect: @escaping GenericBlock<ChatActions>
+    )
+    func presentLocationPicker(
+        place: Binding<Place?>,
+        sendLocation: Binding<Bool>
+    )
 }
 
 // MARK: - ChatHistoryFlowCoordinator
@@ -39,7 +60,7 @@ final class ChatHistoryFlowCoordinator<Router: ChatHistoryRouterable> {
     private let router: Router
     var childCoordinators = [String: Coordinator]()
     var navigationController = UINavigationController()
-    
+
     init(
         router: Router
     ) {
@@ -142,17 +163,53 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
                                   onSelectVideo: onSelectVideo)
     }
 
+    func showDocumentPicker(
+        onCancel: VoidBlock?,
+        onDocumentsPicked: @escaping GenericBlock<[URL]>
+    ) {
+        router.showDocumentPicker(
+            onCancel: onCancel,
+            onDocumentsPicked: onDocumentsPicked
+        )
+    }
+
+    func presentDocumentPicker(
+        onCancel: VoidBlock?,
+        onDocumentsPicked: @escaping GenericBlock<[URL]>
+    ) {
+        router.presentDocumentPicker(
+            onCancel: onCancel,
+            onDocumentsPicked: onDocumentsPicked
+        )
+    }
+
     func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,
                                  showParticipantsView: Binding<Bool>) {
         router.channelPatricipantsView(viewModel,
                                        showParticipantsView: showParticipantsView)
     }
-    
+
     func dismissCurrentSheet() {
         router.dismissCurrentSheet()
     }
-    
+
     func chatActions(_ room: ChatActionsList, onSelect: @escaping GenericBlock<ChatActions>) {
         router.chatActions(room, onSelect: onSelect)
+    }
+
+    func presentLocationPicker(
+        place: Binding<Place?>,
+        sendLocation: Binding<Bool>
+    ) {
+        router.presentLocationPicker(
+            place: place,
+            sendLocation: sendLocation
+        )
+    }
+    
+    func showSelectContact(
+        onSelectContact: @escaping ([Contact]?) -> Void
+    ) {
+        router.showSelectContact(onSelectContact: onSelectContact)
     }
 }

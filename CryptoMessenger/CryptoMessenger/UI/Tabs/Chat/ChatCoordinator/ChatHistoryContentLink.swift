@@ -23,6 +23,11 @@ enum ChatHistoryContentLink: Hashable, Identifiable {
                        onSelectImage: (UIImage?) -> Void,
                        onSelectVideo: (URL?) -> Void)
 
+    case documentPicker(
+        onCancel: VoidBlock?,
+        onDocumentsPicked: GenericBlock<[URL]>
+    )
+
     var id: String {
         String(describing: self)
     }
@@ -49,15 +54,28 @@ enum ChatHistorySheetLink: Hashable, Identifiable {
                              showParticipantsView: Binding<Bool>)
     case createChat(_ view: any View)
     case chatActions(_ room: ChatActionsList, _ onSelect: GenericBlock<ChatActions>)
+    case documentPicker(
+        onCancel: VoidBlock?,
+        onDocumentsPicked: GenericBlock<[URL]>
+    )
+
+    case locationPicker(
+        place: Binding<Place?>,
+        sendLocation: Binding<Bool>
+    )
+    
+    case selectContact(
+        onSelectContact: ([Contact]?) -> Void
+    )
 
     var id: String {
         String(describing: self)
     }
-    
+
     static func == (lhs: ChatHistorySheetLink, rhs: ChatHistorySheetLink) -> Bool {
         return rhs.id == lhs.id
     }
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
@@ -77,11 +95,11 @@ enum ChatCreateSheetContentLink: Hashable, Identifiable {
     var id: String {
         String(describing: self)
     }
-    
+
     static func == (lhs: ChatCreateSheetContentLink, rhs: ChatCreateSheetContentLink) -> Bool {
         return rhs.id == lhs.id
     }
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
