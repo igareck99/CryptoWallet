@@ -37,6 +37,9 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
     @ViewBuilder
     func content() -> some View {
         content1
+            .onAppear {
+                viewModel.onAppear()
+            }
             .confirmationDialog("", isPresented: $showReadAll) {
                 Button(viewModel.sources.readAll, action: {
                     viewModel.markAllAsRead()

@@ -26,8 +26,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// UseCase app delegate'а должен вызываться после всех кейсов проверок флага isAppNotFirstStart
 		// т.к. он его изменяет
         AppCoordinatorAssembly.coordinator.start()
+        configureCalls()
 		return true
 	}
+
+    func configureCalls() {
+        guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else {
+            debugPrint("configureCalls AppDelegate: FAILED")
+            return
+        }
+        debugPrint("configureCalls AppDelegate: SUCCESS")
+        StatusBarCallUseCase.shared.configure(window: window)
+    }
 
 	func applicationWillTerminate(_ application: UIApplication) {
         appLifeCycleDelegate.applicationWillTerminate()

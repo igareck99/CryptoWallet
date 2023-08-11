@@ -76,6 +76,7 @@ final class StatusBarCallUseCase {
 	}
 
 	private func animateStatusView(show: Bool) {
+        debugPrint("animateStatusView(show: \(show)")
 		underStatusView?.animateStatusView(show: show)
 	}
 }
