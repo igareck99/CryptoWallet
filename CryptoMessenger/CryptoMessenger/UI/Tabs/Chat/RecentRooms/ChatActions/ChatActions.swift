@@ -56,4 +56,16 @@ enum ChatActions: CaseIterable {
         }
         return result
     }
+
+    static func getSheetHeight(_ isWatchProfile: Bool,
+                               _ isLeaveChat: Bool) -> CGFloat {
+        var result = [ChatActions.pin]
+        if isWatchProfile {
+            result.append(ChatActions.watchProfile)
+        }
+        if isLeaveChat {
+            result.append(ChatActions.removeChat)
+        }
+        return CGFloat(223 - (3 - result.count) * 57)
+    }
 }
