@@ -1,5 +1,5 @@
 import Combine
-import UIKit
+import SwiftUI
 
 // MARK: - ChatHistoryViewModel
 
@@ -8,13 +8,45 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 	let eventSubject = PassthroughSubject<ChatHistoryFlow.Event, Never>()
 	let sources: ChatHistorySourcesable.Type
 
-    @Published private(set) var rooms: [AuraRoom] = []
     @Published private(set) var auraRooms: [AuraRoomData] = []
     @Published private(set) var chatHistoryRooms: [ChatHistoryData] = []
     @Published private(set) var state: ChatHistoryFlow.ViewState = .idle
     @Published var groupAction: GroupAction?
     @Published var isFromCurrentUser = false
     @Published var isLoading = false
+    @Published var gloabalSearch: [any ViewGeneratable] = []
+    @Published var isSearching = false
+    @Published var finishView: [any ViewGeneratable] = []
+    @Published var chatSections: [any ViewGeneratable] = []
+
+    var viewState: ChatHistoryViewState {
+        if isLoading {
+            return .loading
+        } else if !isSearching {
+            return .chatsData
+        } else if isSearching && searchNameText.isEmpty {
+            return .noData
+        } else if !finishView.isEmpty {
+            return .chatsFinded
+        } else {
+            return .emptySearch
+        }
+    }
+
+    @Published var searchNameText: String = "" {
+        didSet {
+            self.objectWillChange.send()
+        }
+    }
+
+    lazy var searchText: Binding<String> = .init(
+        get: {
+            self.searchNameText
+        },
+        set: { newValue in
+            self.searchNameText = newValue
+        }
+    )
 
     // MARK: - Private Properties
 
@@ -52,20 +84,43 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 
 	// MARK: - Internal Methods
 
-	func rooms(with filter: String) -> [ChatHistoryData] {
-		let result = filter.isEmpty ? chatHistoryRooms : chatHistoryRooms.filter {
-			$0.roomName.lowercased().contains(filter.lowercased())
+    func didTapChat(_ data: ChatHistoryData) {
+        eventSubject.send(.onShowRoom(data.roomId))
+    }
+
+    func didSettingsCall(_ data: ChatHistoryData) {
+        eventSubject.send(.onRoomActions(data))
+    }
+
+    func didTapFindedCell(_ data: MatrixChannel) {
+        if data.isJoined {
+            eventSubject.send(.onShowRoom(data.roomId))
+        } else {
+            joinRoom(data.roomId, true)
+        }
+    }
+
+    func findJoinedRooms(with filter: String) -> [MatrixChannel] {
+        if filter.isEmpty {
+            return []
+        }
+        let data = filter.isEmpty ? chatHistoryRooms : chatHistoryRooms.filter {
+            $0.roomName.lowercased().contains(filter.lowercased())
             || $0.topic.lowercased().contains(filter.lowercased()) ?? false
-		}
+        }
+        let result = chatObjectFactory.makeChatHistoryChannels(dataRooms: data,
+                                                               isJoined: true,
+                                                               viewModel: self)
         return result
-	}
+    }
 
     func findRooms(with filter: String,
                    completion: @escaping ([MatrixChannel]) -> Void) {
         isLoading = true
         self.objectWillChange.send()
-        var value: [MatrixChannel] = []
-        matrixUseCase.getPublicRooms(filter: filter) { channels in
+        matrixUseCase.getPublicRooms(filter: filter) { room in
+            self.joinRoom(room.roomId, true)
+        } completion: { channels in
             let result = channels.filter { item1 in !self.chatHistoryRooms.contains { item2 in item1.roomId == item2.roomId } }
             self.isLoading = false
             self.objectWillChange.send()
@@ -84,18 +139,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         let lastEvent = event.first
         guard let str = lastEvent?.eventId else { return false }
         return matrixUseCase.fromCurrentSender(str)
-    }
-
-    func leaveRoomAction(_ roomId: String, completion: @escaping (Bool) -> Void) {
-        matrixUseCase.getRoomState(roomId: roomId) { result in
-            guard case let .success(state) = result else { return }
-            if state.powerLevels == nil {
-                completion(true)
-            } else {
-                let currentUserPowerLevel = state.powerLevels.powerLevelOfUser(withUserID: self.matrixUseCase.getUserId())
-                completion(state.powerLevels.eventsDefault == 50)
-            }
-        }
     }
 
     func joinRoom(_ roomId: String, _ openChat: Bool = false) {
@@ -135,8 +178,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 case .onAppear:
                     guard let self = self else { return }
                     self.configureCalls()
-                    self.auraRooms = self.matrixUseCase.auraRooms
-                    self.chatHistoryRooms = self.chatObjectFactory.makeChatHistoryRooms(mxRooms: self.auraRooms)
                     self.objectWillChange.send()
                 case let .onShowRoom(room):
                     guard let coordinator = self?.coordinator else { return }
@@ -179,37 +220,59 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 }
             }
             .store(in: &subscriptions)
-
+        $searchNameText
+            .subscribe(on: DispatchQueue.global(qos: .userInteractive))
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] text in
+                guard let self = self else { return }
+                if !text.isEmpty {
+                    chatSections = []
+                    let group = DispatchGroup()
+                    group.enter()
+                    let joinedRooms = findJoinedRooms(with: text)
+                    if !joinedRooms.isEmpty {
+                        chatSections.append(ChatHistorySection(data: .joinedChats,
+                                                               views: joinedRooms))
+                    }
+                    self.findRooms(with: text) { result in
+                        self.gloabalSearch = result
+                        self.isLoading = false
+                        group.leave()
+                    }
+                    if !gloabalSearch.isEmpty {
+                        chatSections.append(ChatHistorySection(data: .gloabalChats, views: gloabalSearch))
+                    }
+                    group.notify(queue: .main) {
+                        self.finishView = joinedRooms + self.gloabalSearch
+                    }
+                } else {
+                    chatSections = [ChatHistorySection(data: .emptySection, views: self.chatHistoryRooms)]
+                }
+                self.objectWillChange.send()
+            }
+            .store(in: &subscriptions)
         matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.auraRooms = self.matrixUseCase.auraRooms
-                self.chatHistoryRooms = self.chatObjectFactory.makeChatHistoryRooms(mxRooms: self.auraRooms)
+                self.chatHistoryRooms = self.chatObjectFactory.makeChatHistoryRooms(mxRooms: self.auraRooms,
+                                                                                    viewModel: self)
+                if !self.isSearching {
+                    chatSections = [ChatHistorySection(data: .emptySection, views: self.chatHistoryRooms)]
+                }
                 self.objectWillChange.send()
             }
             .store(in: &subscriptions)
     }
 
-    private func loadUsers(_ roomId: String) {
-        matrixUseCase.getRoomMembers(roomId: roomId) { [weak self] result in
-            switch result {
-            case let .success(roomMembers):
-                let user = roomMembers.members.first(where: {
-                    $0.userId != self?.matrixUseCase.getUserId() })
-            default:
-                break
-            }
-        }
-    }
-
     private func allowPushNotifications() {
         if userSettings.isRoomNotificationsEnable {
-            for item in rooms {
-                pushNotification.allMessages(room: item) { _ in
-                }
-            }
+//            for item in rooms {
+//                pushNotification.allMessages(room: item) { _ in
+//                }
+//            }
         }
     }
 

@@ -49,7 +49,9 @@ protocol MatrixUseCaseProtocol {
                       completion: @escaping (MXResponse<Void>?) -> Void)
     func setJoinRule(roomId: String, isPublic: Bool,
                      completion: @escaping (MXResponse<Void>?) -> Void)
-    func getPublicRooms(filter: String, completion: @escaping ([MatrixChannel]) -> Void)
+    func getPublicRooms(filter: String,
+                        onTapCell: @escaping (MatrixChannel) -> Void,
+                        completion: @escaping ([MatrixChannel]) -> Void)
     func sendText(_ roomId: String,
                   _ text: String,
                   completion: @escaping (Result <String?, MXErrors>) -> Void)

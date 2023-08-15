@@ -10,4 +10,5 @@ enum ChatHistoryViewState {
     case emptySearch
     case chatsData
     case loading
+    case chatsFinded
 }

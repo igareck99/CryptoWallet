@@ -6,20 +6,15 @@ struct ChatHistorySearchRow: View {
 
     // MARK: - Internal Properties
 
-    private var name: String
-    private var numberUsers: Int
-    private var avatarString: String
+    private let data: MatrixChannel
     @State private var url: URL?
 
     // MARK: - Lifecycle
 
-    init(name: String, numberUsers: Int,
-         avatarString: String) {
-        self.name = name
-        self.numberUsers = numberUsers
-        self.avatarString = avatarString
-        if !avatarString.isEmpty {
-            self.url = URL(string: avatarString)
+    init(data: MatrixChannel) {
+        self.data = data
+        if !data.avatarUrl.isEmpty {
+            self.url = URL(string: data.avatarUrl)
         }
     }
 
@@ -29,14 +24,17 @@ struct ChatHistorySearchRow: View {
         HStack(alignment: .center, spacing: 0) {
             avatarView.padding(.init(top: 2, leading: 14, bottom: 0, trailing: 0))
             VStack(alignment: .leading, spacing: 2) {
-                Text(name)
+                Text(data.name)
                     .font(.regular(17))
-                Text("\(numberUsers) участника")
+                Text("\(data.numJoinedMembers) участника")
                     .font(.regular(12))
                     .foreground(.darkGray())
             }.padding(.init(top: 10, leading: 10, bottom: 0, trailing: 0))
             Spacer()
         }.frame(height: 64)
+            .onTapGesture {
+                data.onTap(data)
+            }
     }
     
     private var avatarView: some View {
@@ -47,7 +45,7 @@ struct ChatHistorySearchRow: View {
             placeholder: {
                 ZStack {
                     Color(.lightBlue())
-                    Text(name.firstLetter.uppercased() ?? "?")
+                    Text(data.name.firstLetter.uppercased() ?? "?")
                         .foreground(.white())
                         .font(.medium(20))
                 }

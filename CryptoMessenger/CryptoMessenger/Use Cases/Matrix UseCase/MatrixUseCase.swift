@@ -489,6 +489,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
     }
     
     func getPublicRooms(filter: String,
+                        onTapCell: @escaping (MatrixChannel) -> Void,
                         completion: @escaping ([MatrixChannel]) -> Void) {
         matrixService.getPublicRooms(filter: filter) { value in
             switch value {
@@ -501,7 +502,10 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
                     let room = MatrixChannel(roomId: $0.roomId,
                                              name: $0.name,
                                              numJoinedMembers: $0.numJoinedMembers,
-                                             avatarUrl: $0.avatarUrl ?? "")
+                                             avatarUrl: $0.avatarUrl ?? "",
+                                             isJoined: false, onTap: { room in
+                        onTapCell(room)
+                    })
                     return room
                 }
                 completion(channels)
