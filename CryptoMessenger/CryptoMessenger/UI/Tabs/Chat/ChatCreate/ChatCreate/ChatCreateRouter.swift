@@ -45,9 +45,11 @@ struct ChatCreateRouter<Content: View, State: ChatCreateFlowStateProtocol>: View
         case let .createChannel(coordinator):
             CreateChannelAssemby.make(coordinator: coordinator)
         case let .selectContact(chatData, coordinator):
-            SelectContactAssembly.build(.groupCreate,
-                                        chatData,
-                                        coordinator: coordinator)
+                SelectContactAssembly.build(
+                    mode: .groupCreate,
+                    chatData: chatData,
+                    coordinator: coordinator
+                )
         case let .createGroupChat(chatData, coordinator):
             ChatGroupAssembly.build(chatData,
                                     coordinator: coordinator)
@@ -69,7 +71,7 @@ extension ChatCreateRouter: ChatCreateRouterable {
     func createContact(_ coordinator: ChatCreateFlowCoordinatorProtocol) {
         state.createPath.append(ChatCreateSheetContentLink.createContact(coordinator))
     }
-    
+
     func createGroupChat(_ chatData: Binding<ChatData>,
                          _ coordinator: ChatCreateFlowCoordinatorProtocol) {
         state.createPath.append(ChatCreateSheetContentLink.createGroupChat(chatData, coordinator))

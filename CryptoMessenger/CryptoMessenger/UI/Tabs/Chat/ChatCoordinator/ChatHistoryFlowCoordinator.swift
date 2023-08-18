@@ -40,7 +40,10 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
     )
     
     func showSelectContact(
-        onSelectContact: @escaping ([Contact]?) -> Void
+        mode: ContactViewMode,
+        chatData: Binding<ChatData>,
+        contactsLimit: Int?,
+        onSelectContact: GenericBlock<[Contact]>?
     )
 
     func dismissCurrentSheet()
@@ -206,10 +209,18 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
             sendLocation: sendLocation
         )
     }
-    
+
     func showSelectContact(
-        onSelectContact: @escaping ([Contact]?) -> Void
+        mode: ContactViewMode,
+        chatData: Binding<ChatData>,
+        contactsLimit: Int? = nil,
+        onSelectContact: GenericBlock<[Contact]>? = nil
     ) {
-        router.showSelectContact(onSelectContact: onSelectContact)
+        router.showSelectContact(
+            mode: mode,
+            chatData: chatData,
+            contactsLimit: contactsLimit,
+            onSelectContact: onSelectContact
+        )
     }
 }

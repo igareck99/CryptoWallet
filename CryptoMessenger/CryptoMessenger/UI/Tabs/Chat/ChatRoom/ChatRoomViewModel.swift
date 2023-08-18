@@ -102,6 +102,8 @@ final class ChatRoomViewModel: ObservableObject {
 
     var toggleFacade: MainFlowTogglesFacadeProtocol
     
+    private let eventsFactory: RoomEventsFactoryProtocol.Type
+    
     // MARK: - Lifecycle
 
     init(
@@ -116,7 +118,8 @@ final class ChatRoomViewModel: ObservableObject {
         userSettings: UserCredentialsStorage & UserFlowsStorage = UserDefaultsService.shared,
 		groupCallsUseCase: GroupCallsUseCaseProtocol,
         factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
-        config: ConfigType = Configuration.shared
+        config: ConfigType = Configuration.shared,
+        eventsFactory: RoomEventsFactoryProtocol.Type = RoomEventsFactory.self
 	) {
         self.sources = sources
         self.room = room
@@ -128,6 +131,7 @@ final class ChatRoomViewModel: ObservableObject {
 		self.groupCallsUseCase = groupCallsUseCase
         self.userSettings = userSettings
         self.factory = factory
+        self.eventsFactory = eventsFactory
         self.config = config
 		self.locationManager = locationManager
 		updateToggles()
@@ -570,18 +574,18 @@ final class ChatRoomViewModel: ObservableObject {
                 guard let self = self else { return }
                 switch action {
                 case .location:
-                        self.coordinator?.presentLocationPicker(
-                            place: Binding(get: {
-                                self.pickedLocation
-                            }, set: { value in
-                                self.pickedLocation = value
-                            }),
-                            sendLocation: Binding(get: {
-                                self.sendLocationFlag
-                            }, set: { value in
-                                self.sendLocationFlag = value
-                            })
-                        )
+                    self.coordinator?.presentLocationPicker(
+                        place: Binding(get: {
+                            self.pickedLocation
+                        }, set: { value in
+                            self.pickedLocation = value
+                        }),
+                        sendLocation: Binding(get: {
+                            self.sendLocationFlag
+                        }, set: { value in
+                            self.sendLocationFlag = value
+                        })
+                    )
                 case .media:
                     self.coordinator?.galleryPickerSheet(
                         sourceType: .photoLibrary,
@@ -602,10 +606,16 @@ final class ChatRoomViewModel: ObservableObject {
                     }
                 case .contact:
                     self.coordinator?.showSelectContact(
-                        onSelectContact: { [weak self] in
-                            self?.pickedContact = $0
-                        }
-                    )
+                        mode: .send,
+                        chatData: Binding(get: {
+                            self.chatData
+                        }, set: { value in
+                            self.chatData = value
+                        }),
+                        contactsLimit: 1
+                    ) { [weak self] in
+                        self?.pickedContact = $0
+                    }
                 default:
                     break
                 }
@@ -925,49 +935,45 @@ final class ChatRoomViewModel: ObservableObject {
             .map { $0.getMediaURLs() ?? [] }
             .flatMap { $0 }
             .map {
-                let homeServer = config.matrixURL
-                return MXURL(mxContentURI: $0)?.contentURL(on: homeServer)
+                MXURL(mxContentURI: $0)?.contentURL(on: config.matrixURL)
             }
             .compactMap { $0 }
-        room.room.members { [weak self] response in
-            switch response {
-            case let .success(members):
-                if let members = members {
-                    let contacts: [Contact] = members.members.map {
-                        var contact = Contact(
-                            mxId: $0.userId ?? "",
-                            avatar: nil,
-                            name: $0.displayname ?? "",
-                            status: "Привет, теперь я в Aura"
-                        )
-                        if let avatar = $0.avatarUrl,
-                           let homeServer = self?.config.matrixURL {
-                            contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
-                        }
-                        return contact
-                    }
-
-                    self?.chatData.contacts = contacts
-
-                    self?.room.room.state { response in
-                        let ids = response?.powerLevels?.users.keys
-                            .map { $0 as? String }
-                            .compactMap { $0 } ?? []
-                        self?.chatData.admins = contacts.filter { contact in ids.contains(contact.mxId) }
-
-                        let items: [Contact] = contacts.map {
-                            var new = $0
-                            new.isAdmin = ids.contains($0.mxId)
-                            return new
-                        }
-
-                        self?.chatData.contacts = items.filter { $0.isAdmin } + items.filter { !$0.isAdmin }
-                    }
+        
+        matrixUseCase.getRoomMembers(roomId: room.room.roomId) { [weak self] response in
+            guard let self = self,
+                case let .success(members) = response else { return }
+            let contacts: [Contact] = members.members.map {
+                var contact = Contact(
+                    mxId: $0.userId ?? "",
+                    avatar: nil,
+                    name: $0.displayname ?? "",
+                    status: "Привет, теперь я в Aura"
+                )
+                if let avatar = $0.avatarUrl {
+                    contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: self.config.matrixURL)
                 }
-            default:
-                ()
+                return contact
             }
+            self.chatData.contacts = contacts
+            
+            self.matrixUseCase.getRoomState(roomId: self.room.room.roomId) { [weak self] response in
+                
+                guard case let .success(roomState) = response else { return }
+                
+                let ids = roomState.powerLevels?.users.keys
+                    .map { $0 as? String }
+                    .compactMap { $0 } ?? []
+                self?.chatData.admins = contacts.filter { contact in ids.contains(contact.mxId) }
+                
+                let items: [Contact] = contacts.map {
+                    var new = $0
+                    new.isAdmin = ids.contains($0.mxId)
+                    return new
+                }
+                
+                self?.chatData.contacts = items.filter { $0.isAdmin } + items.filter { !$0.isAdmin }}
         }
+        
         matrixUseCase.getRoomState(roomId: room.room.roomId) { [weak self] result in
             guard let self = self else { return }
             guard case let .success(state) = result else { return }
@@ -984,15 +990,7 @@ final class ChatRoomViewModel: ObservableObject {
 			return
 		}
 
-		matrixUseCase.matrixSession?.aggregations.addReaction(
-			emoji,
-			forEvent: eventId,
-			inRoom: room.room.roomId,
-			success: {
-				debugPrint("emotions success")
-			}, failure: { error in
-				debugPrint("emotions error \(error)")
-			})
+		matrixUseCase.react(eventId: eventId, roomId: room.room.roomId, emoji: emoji)
 	}
 
 	func joinGroupCall(event: RoomMessage) {

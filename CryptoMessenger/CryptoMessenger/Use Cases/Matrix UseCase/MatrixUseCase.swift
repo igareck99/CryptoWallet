@@ -289,6 +289,18 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
                toEventId eventId: String, emoji: String) {
         matrixService.react(roomId: roomId, toEventId: eventId, emoji: emoji)
     }
+    
+    func react(eventId: String, roomId: String, emoji: String) {
+        matrixSession?.aggregations.addReaction(
+            emoji,
+            forEvent: eventId,
+            inRoom: roomId,
+            success: {
+                debugPrint("emotions success")
+            }, failure: { error in
+                debugPrint("emotions error \(error)")
+            })
+    }
 
     func redact(roomId: String,
                 eventId: String, reason: String?) {
