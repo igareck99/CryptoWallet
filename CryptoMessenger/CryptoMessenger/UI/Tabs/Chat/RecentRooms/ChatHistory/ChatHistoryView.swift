@@ -1,32 +1,32 @@
 import Combine
 import SwiftUI
 
-// swiftlint: disable all
-
 // MARK: - ChatHistoryView
 
 struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate {
-    
+
     // MARK: - Internal Properties
-    
+
     @StateObject var viewModel: ViewModel
-    
+
     // MARK: - Private Properties
-    
+
     @State private var chatData = ChatData()
     @State private var showReadAll = false
-    
+
     // MARK: - Body
-    
+
     var body: some View {
         content
     }
-    
+
     // MARK: - Body Properties
-    
+
     var content: some View {
-        ChatSearchView(viewModel: viewModel)
-            .searchable(text: viewModel.searchText)
+        ChatSearchView(views: $viewModel.chatSections,
+                       viewState: $viewModel.viewState,
+                       isSearchingState: $viewModel.isSearching)
+            .searchable(text: $viewModel.searchText)
             .confirmationDialog("", isPresented: $showReadAll) {
                 Button(viewModel.sources.readAll, action: {
                     viewModel.markAllAsRead()
@@ -38,7 +38,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                 toolbarItems()
             }
     }
-    
+
     @ToolbarContentBuilder
     private func toolbarItems() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
@@ -48,13 +48,12 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20, height: 20)
-                    .foregroundColor(Color(.init(r: 14, g:142, b: 243)))
+                    .foregroundColor(Color(.init(r: 14, g: 142, b: 243)))
                 Text("0.50 \(viewModel.sources.AUR)")
                     .font(.regular(15))
                     .foreground(.black())
             }
         }
-        
         ToolbarItem(placement: .principal) {
             HStack(spacing: 4) {
                 Text(viewModel.sources.chats)
@@ -64,7 +63,6 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                     .accessibilityAddTraits(.isHeader)
             }
         }
-        
         ToolbarItem(placement: .navigationBarTrailing) {
             HStack(spacing: 4) {
                 Button {

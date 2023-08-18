@@ -20,33 +20,25 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     @Published var chatSections: [any ViewGeneratable] = []
 
     var viewState: ChatHistoryViewState {
-        if isLoading {
-            return .loading
-        } else if !isSearching {
-            return .chatsData
-        } else if isSearching && searchNameText.isEmpty {
-            return .noData
-        } else if !finishView.isEmpty {
-            return .chatsFinded
-        } else {
-            return .emptySearch
+        get {
+            if isLoading {
+                return .loading
+            } else if !isSearching {
+                return .chatsData
+            } else if isSearching && searchText.isEmpty {
+                return .emptySearch
+            } else if !finishView.isEmpty {
+                return .chatsFinded
+            } else {
+                return .noData
+            }
+        }
+        set(newValue) { 
+            self.viewState = newValue
         }
     }
 
-    @Published var searchNameText: String = "" {
-        didSet {
-            self.objectWillChange.send()
-        }
-    }
-
-    lazy var searchText: Binding<String> = .init(
-        get: {
-            self.searchNameText
-        },
-        set: { newValue in
-            self.searchNameText = newValue
-        }
-    )
+    @Published var searchText: String = ""
 
     // MARK: - Private Properties
 
@@ -220,30 +212,31 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 }
             }
             .store(in: &subscriptions)
-        $searchNameText
+        $searchText
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
             .receive(on: DispatchQueue.main)
             .sink { [weak self] text in
                 guard let self = self else { return }
                 if !text.isEmpty {
+                    self.isLoading = true
                     chatSections = []
-                    let group = DispatchGroup()
-                    group.enter()
                     let joinedRooms = findJoinedRooms(with: text)
                     if !joinedRooms.isEmpty {
                         chatSections.append(ChatHistorySection(data: .joinedChats,
                                                                views: joinedRooms))
                     }
+                    let group = DispatchGroup()
+                    group.enter()
                     self.findRooms(with: text) { result in
                         self.gloabalSearch = result
-                        self.isLoading = false
                         group.leave()
                     }
-                    if !gloabalSearch.isEmpty {
-                        chatSections.append(ChatHistorySection(data: .gloabalChats, views: gloabalSearch))
-                    }
                     group.notify(queue: .main) {
+                        if !self.gloabalSearch.isEmpty {
+                            self.chatSections.append(ChatHistorySection(data: .gloabalChats, views: self.gloabalSearch))
+                        }
                         self.finishView = joinedRooms + self.gloabalSearch
+                        self.isLoading = false
                     }
                 } else {
                     chatSections = [ChatHistorySection(data: .emptySection, views: self.chatHistoryRooms)]

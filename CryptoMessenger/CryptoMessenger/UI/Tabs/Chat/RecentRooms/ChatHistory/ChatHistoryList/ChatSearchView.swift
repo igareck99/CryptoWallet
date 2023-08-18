@@ -2,31 +2,31 @@ import SwiftUI
 
 // MARK: - ChatSearchView
 
-struct ChatSearchView: View {
-
-    @Binding var views: [any ViewGeneratable]
-    @Binding var viewState: ChatHistoryViewState
-    @Binding var isSearchingState: Bool
+struct ChatSearchView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate {
+    
+    @ObservedObject var viewModel: ViewModel
     @Environment(\.isSearching) private var isSearching
-
+    
     // MARK: - Body
-
+    
     var body: some View {
         VStack {
-            switch viewState {
+            switch viewModel.viewState {
             case .loading, .noData, .emptySearch:
-                ChatHistoryEmptyState(viewState: $viewState)
+                ChatHistoryEmptyState(viewModel: viewModel)
             case .chatsData, .chatsFinded:
                 List {
-                    ForEach(views, id: \.id) { section in
+                    ForEach(viewModel.chatSections, id: \.id) { section in
                         section.view()
                     }
                 }
             }
         }
         .onChange(of: isSearching, perform: { value in
-            isSearchingState = value
+            viewModel.searchText.wrappedValue = ""
+            viewModel.isSearching = value
         })
         .listStyle(.plain)
+        
     }
 }
