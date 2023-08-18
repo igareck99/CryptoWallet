@@ -19,6 +19,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     @Published var finishView: [any ViewGeneratable] = []
     @Published var chatSections: [any ViewGeneratable] = []
 
+    private var _viewState: ChatHistoryViewState = .noData
     var viewState: ChatHistoryViewState {
         get {
             if isLoading {
@@ -33,8 +34,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 return .noData
             }
         }
-        set(newValue) { 
-            self.viewState = newValue
+        set { 
+            _viewState = newValue
         }
     }
 
