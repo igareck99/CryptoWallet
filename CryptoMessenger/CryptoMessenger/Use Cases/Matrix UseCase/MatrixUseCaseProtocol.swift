@@ -61,6 +61,7 @@ protocol MatrixUseCaseProtocol {
     func markAllAsRead(roomId: String)
     func edit(roomId: String, text: String,
               eventId: String)
+    func react(eventId: String, roomId: String, emoji: String)
     func react(roomId: String,
                toEventId eventId: String, emoji: String)
     func redact(roomId: String,

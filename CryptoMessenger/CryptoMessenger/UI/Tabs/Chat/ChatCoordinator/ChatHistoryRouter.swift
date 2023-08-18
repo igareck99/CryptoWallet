@@ -47,9 +47,12 @@ protocol ChatHistoryRouterable: View {
         onCancel: VoidBlock?,
         onDocumentsPicked: @escaping GenericBlock<[URL]>
     )
-    
+
     func showSelectContact(
-        onSelectContact: @escaping ([Contact]?) -> Void
+        mode: ContactViewMode,
+        chatData: Binding<ChatData>,
+        contactsLimit: Int?,
+        onSelectContact: GenericBlock<[Contact]>?
     )
 
     func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,
@@ -124,14 +127,14 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
                                         galleryContent: galleryContent,
                                         onSelectImage: onSelectImage,
                                         onSelectVideo: onSelectVideo)
-            case let .documentPicker(
-                onCancel,
-                onDocumentsPicked
-            ):
-                DocumentPicker(
-                    onCancel: onCancel,
-                    onDocumentsPicked: onDocumentsPicked
-                ).anyView()
+        case let .documentPicker(
+            onCancel,
+            onDocumentsPicked
+        ):
+            DocumentPickerAssembly.build(
+                onCancel: onCancel,
+                onDocumentsPicked: onDocumentsPicked
+            ).anyView()
         default:
             EmptyView()
         }
@@ -139,51 +142,55 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
 
     private func sheetContent(item: ChatHistorySheetLink) -> AnyView {
         switch item {
-        case let .createChat(view):
-            return view.toolbar(.hidden,
-                                for: .navigationBar)
-            .anyView()
-        case let .notifications(roomId):
-            return ChannelNotificationsAssembly.build(roomId).anyView()
-        case let .galleryPicker(sourceType: sourceType,
-                                galleryContent: galleryContent,
-                                onSelectImage: onSelectImage,
-                                onSelectVideo: onSelectVideo):
-            return GalleryPickerAssembly.build(sourceType: sourceType,
-                                               galleryContent: galleryContent,
-                                               onSelectImage: onSelectImage,
-                                               onSelectVideo: onSelectVideo).anyView()
-        case let .channelPatricipants(viewModel: viewModel, showParticipantsView: showParticipantsView):
-            return ChannelParticipantsView(viewModel: viewModel,
-                                           showParticipantsView: showParticipantsView).anyView()
-        case let .chatActions(room, onSelect):
-            return ChatActionsAssembly.build(room, onSelect: onSelect, viewHeight: { value in
-                state.sheetHeight = value
-            })
-            .presentationDetents([.large, .height(state.sheetHeight)])
-            .anyView()
-
-        case let .documentPicker(
-            onCancel,
-            onDocumentsPicked
-        ):
-            return DocumentPicker(
-                onCancel: onCancel,
-                onDocumentsPicked: onDocumentsPicked
-            ).anyView()
-
-        case let .locationPicker(place, sendLocation):
-            return LocationPickerView(
-                place: place,
-                sendLocation: sendLocation
-            ).anyView()
+            case let .createChat(view):
+                return view.toolbar(.hidden,
+                                    for: .navigationBar)
+                .anyView()
+            case let .notifications(roomId):
+                return ChannelNotificationsAssembly.build(roomId).anyView()
+            case let .galleryPicker(sourceType: sourceType,
+                                    galleryContent: galleryContent,
+                                    onSelectImage: onSelectImage,
+                                    onSelectVideo: onSelectVideo):
+                return GalleryPickerAssembly.build(sourceType: sourceType,
+                                                   galleryContent: galleryContent,
+                                                   onSelectImage: onSelectImage,
+                                                   onSelectVideo: onSelectVideo).anyView()
+            case let .channelPatricipants(viewModel: viewModel, showParticipantsView: showParticipantsView):
+                return ChannelParticipantsView(viewModel: viewModel,
+                                               showParticipantsView: showParticipantsView).anyView()
+            case let .chatActions(room, onSelect):
+                return ChatActionsAssembly.build(room, onSelect: onSelect, viewHeight: { value in
+                    state.sheetHeight = value
+                })
+                .presentationDetents([.large, .height(state.sheetHeight)])
+                .anyView()
                 
-        case let .selectContact(onSelectContact):
-            return SelectContactView(
-                viewModel: SelectContactViewModel(mode: .send),
-                contactsLimit: 1,
-                onSelectContact: onSelectContact
-            ).anyView()
+            case let .documentPicker(
+                onCancel,
+                onDocumentsPicked
+            ):
+                return DocumentPickerAssembly.build(
+                    onCancel: onCancel,
+                    onDocumentsPicked: onDocumentsPicked
+                ).anyView()
+            case let .locationPicker(place, sendLocation):
+                return LocationPickerAssembly.build(
+                    place: place,
+                    sendLocation: sendLocation
+                ).anyView()
+            case let .selectContact(
+                mode,
+                chatData,
+                contactsLimit,
+                onSelectContact
+            ):
+                return SelectContactAssembly.build(
+                    mode: mode,
+                    chatData: chatData,
+                    contactsLimit: contactsLimit,
+                    onSelectContact: onSelectContact
+                ).anyView()        
         }
     }
 }
@@ -295,8 +302,18 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
                                              onSelectVideo: onSelectVideo)
     }
     
-    func showSelectContact(onSelectContact: @escaping ([Contact]?) -> Void) {
-        state.presentedItem = .selectContact(onSelectContact: onSelectContact)
+    func showSelectContact(
+        mode: ContactViewMode,
+        chatData: Binding<ChatData>,
+        contactsLimit: Int? = nil,
+        onSelectContact: GenericBlock<[Contact]>? = nil
+    ) {
+        state.presentedItem = .selectContact(
+            mode: mode,
+            chatData: chatData,
+            contactsLimit: contactsLimit,
+            onSelectContact: onSelectContact
+        )
     }
 
     func dismissCurrentSheet() {

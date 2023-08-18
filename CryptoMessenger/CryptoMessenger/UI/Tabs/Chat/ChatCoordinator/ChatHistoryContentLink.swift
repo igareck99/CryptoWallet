@@ -63,9 +63,12 @@ enum ChatHistorySheetLink: Hashable, Identifiable {
         place: Binding<Place?>,
         sendLocation: Binding<Bool>
     )
-    
+
     case selectContact(
-        onSelectContact: ([Contact]?) -> Void
+        mode: ContactViewMode,
+        chatData: Binding<ChatData>,
+        contactsLimit: Int? = nil,
+        onSelectContact: GenericBlock<[Contact]>? = nil
     )
 
     var id: String {
