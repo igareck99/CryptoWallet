@@ -6,7 +6,7 @@ typealias ContactsRequestCompletion = (ContactRequestResult) -> Void
 
 protocol ContactsStore {
 
-	func reuqestContactsAccessState() -> ContactsManager.AccessState
+	func reuqestContactsAccessState() -> AccessState
 
 	func requestContactsAccess(completion: @escaping (Bool) -> Void)
 
@@ -21,17 +21,17 @@ protocol ContactsStore {
 	)
 }
 
+enum AccessState {
+    case allowed
+    case denied
+    case notDetermined
+    case restricted
+    case unknown
+}
+
 // MARK: - ContactsManager
 
 final class ContactsManager {
-
-	enum AccessState {
-		case allowed
-		case denied
-		case notDetermined
-		case restricted
-		case unknown
-	}
 
 	enum RequestError: Error {
 		case requestFailed

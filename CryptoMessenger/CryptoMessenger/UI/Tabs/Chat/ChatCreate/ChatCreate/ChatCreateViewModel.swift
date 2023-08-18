@@ -63,6 +63,7 @@ final class ChatCreateViewModel: ObservableObject {
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     @Injectable private var contactsStore: ContactsManager
     @Injectable private var apiClient: APIClientManager
+    private(set) var contactsUseCase = ContactsUseCase.shared
     private let config: ConfigType
 
     // MARK: - Lifecycle
@@ -194,19 +195,7 @@ final class ChatCreateViewModel: ObservableObject {
     }
 
     private func getContacts(_ users: [MXUser]) {
-        contacts = users.map {
-            var contact = Contact(
-                mxId: $0.userId ?? "",
-                avatar: nil,
-                name: $0.displayname ?? "",
-                status: $0.statusMsg ?? ""
-            )
-            if let avatar = $0.avatarUrl {
-                let homeServer = config.matrixURL
-                contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
-            }
-            return contact
-        }
+        contacts = contactsUseCase.getContacts()
     }
 
 	private func syncContacts() {

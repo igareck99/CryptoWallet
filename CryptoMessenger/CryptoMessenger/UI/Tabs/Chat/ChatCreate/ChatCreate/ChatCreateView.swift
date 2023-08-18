@@ -12,7 +12,6 @@ struct ChatCreateView: View {
 
     // MARK: - Private Properties
 
-    @State private var showContacts = false
     @State private var groupCreated = false
     @Environment(\.presentationMode) private var presentationMode
 

@@ -24,8 +24,7 @@ final class SelectContactViewModel: ObservableObject {
     private let stateValueSubject = CurrentValueSubject<SelectContactFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
-    @Injectable private var contactsStore: ContactsManager
-    @Injectable private var apiClient: APIClientManager
+    private(set) var contactsUseCase = ContactsUseCase.shared
 
     // MARK: - Lifecycle
 
@@ -80,82 +79,91 @@ final class SelectContactViewModel: ObservableObject {
     }
 
     private func getContacts(_ users: [MXUser]) {
-        contacts = users.map {
-            var contact = Contact(
-                mxId: $0.userId ?? "",
-                avatar: nil,
-                name: $0.displayname ?? "",
-                status: $0.statusMsg ?? ""
-            )
-            if let avatar = $0.avatarUrl {
-                let homeServer = config.matrixURL
-                contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
-            }
-            return contact
-        }
+        contacts = contactsUseCase.getContacts()
     }
 
     private func syncContacts() {
-        contactsStore.fetch { [weak self] contacts, _ in
-            self?.matchServerContacts(contacts)
+        contactsUseCase.syncContacts { state in
+            switch state {
+            case .allowed:
+                self.contactsUseCase.reuqestUserContacts { contact in
+                    self.contactsUseCase.matchServerContacts(contact, self.mode) { result in
+                        self.existingContacts = result
+                    }
+                }
+                return
+            case .notDetermined:
+                self.contactsUseCase.requestContactsAccess { isAllowed in
+                    if isAllowed {
+                        self.contactsUseCase.reuqestUserContacts { contact in
+                            self.contactsUseCase.matchServerContacts(contact, self.mode) { result in
+                                self.existingContacts = result
+                            }
+                        }
+                    }
+                }
+                return
+            case .restricted, .denied, .unknown:
+                break
+            }
         }
     }
 
-    private func matchServerContacts(_ contacts: [ContactInfo]) {
-        guard !contacts.isEmpty else { return }
-
-        let phones = contacts.map { $0.phoneNumber.numbers }
-        apiClient.publisher(Endpoints.Users.users(phones))
-            .replaceError(with: [:])
-            .sink { [weak self] response in
-                let sorted = contacts.sorted(by: { $0.firstName < $1.firstName })
-
-                let mxUsers: [MXUser] = self?.matrixUseCase.allUsers() ?? []
-                let lastUsers: [Contact] = mxUsers
-                    .filter { $0.userId != self?.matrixUseCase.getUserId() }
-                    .map {
-                        var contact = Contact(
-                            mxId: $0.userId ?? "",
-                            avatar: nil,
-                            name: $0.displayname ?? $0.userId ?? "",
-                            status: $0.statusMsg ?? "Привет, теперь я в Aura"
-                        )
-                        if let avatar = $0.avatarUrl,
-                           let homeServer = self?.config.matrixURL {
-                            contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
-                        }
-                        return contact
-                    }
-
-                let existing: [Contact] = sorted
-                    .filter { response.keys.contains($0.phoneNumber.numbers) }
-                    .map {
-                        .init(
-                            mxId: response[$0.phoneNumber] ?? "",
-                            avatar: nil,
-                            name: $0.firstName + " " + $0.lastName,
-                            status: "Привет, теперь я в Aura",
-                            phone: $0.phoneNumber
-                        )
-                    }
-                    .filter { contact in
-                        !lastUsers.contains(where: { $0.mxId == contact.mxId })
-                    }
-
-                self?.existingContacts = lastUsers + existing
-                if self?.mode == .send {
-                    self?.waitingContacts = sorted.filter { !response.keys.contains($0.phoneNumber.numbers) }.map {
-                        .init(
-                            mxId: response[$0.phoneNumber] ?? "",
-                            avatar: nil,
-                            name: $0.firstName + " " + $0.lastName,
-                            status: "",
-                            phone: $0.phoneNumber
-                        )
-                    }
-                    self?.existingContacts += self?.waitingContacts ?? []
-                }
-            }
-            .store(in: &subscriptions)
-    }
+//    private func matchServerContacts(_ contacts: [ContactInfo]) {
+//        guard !contacts.isEmpty else { return }
+//
+//        let phones = contacts.map { $0.phoneNumber.numbers }
+//        apiClient.publisher(Endpoints.Users.users(phones))
+//            .replaceError(with: [:])
+//            .sink { [weak self] response in
+//                let sorted = contacts.sorted(by: { $0.firstName < $1.firstName })
+//
+//                let mxUsers: [MXUser] = self?.matrixUseCase.allUsers() ?? []
+//                let lastUsers: [Contact] = mxUsers
+//                    .filter { $0.userId != self?.matrixUseCase.getUserId() }
+//                    .map {
+//                        var contact = Contact(
+//                            mxId: $0.userId ?? "",
+//                            avatar: nil,
+//                            name: $0.displayname ?? $0.userId ?? "",
+//                            status: $0.statusMsg ?? "Привет, теперь я в Aura"
+//                        )
+//                        if let avatar = $0.avatarUrl,
+//                           let homeServer = self?.config.matrixURL {
+//                            contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
+//                        }
+//                        return contact
+//                    }
+//
+//                let existing: [Contact] = sorted
+//                    .filter { response.keys.contains($0.phoneNumber.numbers) }
+//                    .map {
+//                        .init(
+//                            mxId: response[$0.phoneNumber] ?? "",
+//                            avatar: nil,
+//                            name: $0.firstName + " " + $0.lastName,
+//                            status: "Привет, теперь я в Aura",
+//                            phone: $0.phoneNumber
+//                        )
+//                    }
+//                    .filter { contact in
+//                        !lastUsers.contains(where: { $0.mxId == contact.mxId })
+//                    }
+//
+//                self?.existingContacts = lastUsers + existing
+//                if self?.mode == .send {
+//                    self?.waitingContacts = sorted.filter { !response.keys.contains($0.phoneNumber.numbers) }.map {
+//                        .init(
+//                            mxId: response[$0.phoneNumber] ?? "",
+//                            avatar: nil,
+//                            name: $0.firstName + " " + $0.lastName,
+//                            status: "",
+//                            phone: $0.phoneNumber
+//                        )
+//                    }
+//                    self?.existingContacts += self?.waitingContacts ?? []
+//                }
+//            }
+//            .store(in: &subscriptions)
+//    }
 }
