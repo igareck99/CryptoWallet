@@ -172,19 +172,11 @@ struct ChatGroupView: View {
                         .padding(.horizontal, 16)
                     Spacer()
                 }
-
-                if viewModel.isRoomCreated {
-                    ZStack {
-                        ProgressView()
-                            .tint(viewModel.resources.buttonBackground)
-                    }
-                }
-
                 Spacer()
             }
         }
     }
-    
+
     // MARK: - Private Methods
 
     private func switchImagePicker() {

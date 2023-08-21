@@ -323,27 +323,22 @@ struct SettingsView: View {
     private var contactsView: some View {
         VStack(spacing: 0) {
             ForEach(chatData.contacts) { contact in
-                ContactRow(
-                    avatar: contact.avatar,
-                    name: contact.name,
-                    status: contact.status,
-                    hideSeparator: contact.id == chatData.contacts.last?.id,
-                    isAdmin: contact.isAdmin
-                )
-                .onTapGesture {
-                    viewModel.send(.onFriendProfile(contact: contact))
-                }
+                // TODO: - Обработать логику View
+                contact.view()
+//                .onTapGesture {
+//                    viewModel.send(.onFriendProfile(contact: contact))
+//                }
                     .background(.white())
-                    .swipeActions(edge: .trailing) {
-                        Button {
-                            chatData.contacts.removeAll { $0.id == contact.id }
-                        } label: {
-                            R.image.chat.reaction.delete.image
-                                .renderingMode(.original)
-                                .foreground(.blue())
-                        }
-                        .tint(.red.opacity(0.1))
-                    }
+//                    .swipeActions(edge: .trailing) {
+//                        Button {
+//                            chatData.contacts.removeAll { $0.id == contact.id }
+//                        } label: {
+//                            R.image.chat.reaction.delete.image
+//                                .renderingMode(.original)
+//                                .foreground(.blue())
+//                        }
+//                        .tint(.red.opacity(0.1))
+//                    }
             }
 
             Divider()

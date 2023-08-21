@@ -88,12 +88,11 @@ enum ChatHistorySheetLink: Hashable, Identifiable {
 
 enum ChatCreateSheetContentLink: Hashable, Identifiable {
 
-    case selectContact(Binding<ChatData>, ChatCreateFlowCoordinatorProtocol)
+    case selectContact(ChatCreateFlowCoordinatorProtocol)
     case createContact(ChatCreateFlowCoordinatorProtocol)
     case createChannel(ChatCreateFlowCoordinatorProtocol)
-    case createGroupChat(Binding<ChatData>, ChatCreateFlowCoordinatorProtocol)
-    case createChat(chatData: Binding<ChatData>,
-                    coordinator: ChatCreateFlowCoordinatorProtocol)
+    case createGroupChat(ChatData, ChatCreateFlowCoordinatorProtocol)
+    case createChat(coordinator: ChatCreateFlowCoordinatorProtocol)
 
     var id: String {
         String(describing: self)

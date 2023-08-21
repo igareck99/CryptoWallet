@@ -32,7 +32,10 @@ final class ContactsUseCase {
                 mxId: $0.userId ?? "",
                 avatar: nil,
                 name: $0.displayname ?? "",
-                status: $0.statusMsg ?? ""
+                status: $0.statusMsg ?? "",
+                type: .existing, onTap: { _ in
+                    
+                }
             )
             if let avatar = $0.avatarUrl {
                 let homeServer = config.matrixURL
@@ -54,7 +57,7 @@ final class ContactsUseCase {
             completion(isAllowed)
         }
     }
-
+    
     func reuqestUserContacts(completion: @escaping ([ContactInfo]) -> Void) {
         contactsStore.fetchContacts { [weak self] result in
             guard case let .success(userContacts) = result else { return }
@@ -64,27 +67,33 @@ final class ContactsUseCase {
     
     func matchServerContacts(_ contacts: [ContactInfo],
                              _ mode: ContactViewMode,
-                             completion: @escaping ([Contact]) -> Void) {
+                             completion: @escaping ([Contact]) -> Void,
+                             onTap: @escaping (Contact) -> Void) {
         guard !contacts.isEmpty else { return }
         let phones = contacts.map { $0.phoneNumber.numbers }
         apiClient.publisher(Endpoints.Users.users(phones))
             .replaceError(with: [:])
             .sink { response in
-                let mxUsers: [MXUser] = self.matrixUseCase.allUsers() ?? []
                 let lastUsers = self.contactsFactory.makeLastUsersContacts(contacts: contacts,
                                                                       matrixUseCase: self.matrixUseCase,
                                                                       config: self.config,
-                                                                      data: response)
+                                                                           data: response, onTap: { value in
+                    onTap(value)
+                })
 
                 let existing = self.contactsFactory.makeExisitingContacts(contacts: contacts,
                                                                      config: self.config,
                                                                      lastUsers: lastUsers,
-                                                                     data: response)
+                                                                     data: response, onTap: { value in
+                    onTap(value)
+                })
                 var existingContacts = lastUsers + existing
                 if mode == .send {
                     let waitingContacts = self.contactsFactory.makeWaitingContacts(contacts: contacts,
                                                                               lastUsers: lastUsers,
-                                                                              data: response)
+                                                                              data: response, onTap: { value in
+                        onTap(value)
+                    })
                     existingContacts += waitingContacts
                 }
                 completion(existingContacts)

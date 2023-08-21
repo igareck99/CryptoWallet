@@ -66,7 +66,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
         ToolbarItem(placement: .navigationBarTrailing) {
             HStack(spacing: 4) {
                 Button {
-                    viewModel.eventSubject.send(.onCreateChat($chatData))
+                    viewModel.eventSubject.send(.onCreateChat)
                 } label: {
                     viewModel.sources.squareAndPencil
                         .renderingMode(.original)

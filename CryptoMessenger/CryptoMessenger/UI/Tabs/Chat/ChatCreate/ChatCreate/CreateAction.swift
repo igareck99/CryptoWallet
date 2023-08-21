@@ -36,3 +36,53 @@ enum CreateAction: CaseIterable, Identifiable {
         }
     }
 }
+
+// MARK: - CreateActionViewModel
+
+struct CreateActionViewModel: Identifiable, ViewGeneratable {
+
+    // MARK: - Internal Properties
+
+    var id = UUID()
+    let data: CreateAction
+    let onTap: (CreateAction) -> Void
+
+    // MARK: - ViewGeneratable
+
+    @ViewBuilder
+    func view() -> AnyView {
+        CreateActionView(action: self)
+            .anyView()
+    }
+}
+
+// MARK: - CreateActionView
+
+struct CreateActionView: View {
+
+    // MARK: - Internal Properties
+
+    let action: CreateActionViewModel
+
+    // MARK: - Body
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 12) {
+                action.data.image
+                action.data.text
+                    .font(.system(size: 17))
+                    .foregroundColor(.chineseBlack)
+                    .frame(height: 57)
+
+                Spacer()
+            }
+        }
+        .background(.white())
+        .padding([.leading, .trailing], 16)
+        .frame(height: 48)
+        .onTapGesture {
+            action.onTap(action.data)
+        }
+    }
+}

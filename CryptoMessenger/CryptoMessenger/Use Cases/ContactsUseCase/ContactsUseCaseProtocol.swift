@@ -10,5 +10,5 @@ protocol ContactsUseCaseProtocol {
     func syncContacts(completion: @escaping (AccessState) -> Void)
     func matchServerContacts(_ contacts: [ContactInfo],
                              _ mode: ContactViewMode,
-                             completion: @escaping ([Contact]) -> Void)
+                             onTap: @escaping (Contact) -> Void)
 }

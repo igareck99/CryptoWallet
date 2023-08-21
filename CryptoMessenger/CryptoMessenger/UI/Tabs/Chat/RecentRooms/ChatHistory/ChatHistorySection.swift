@@ -57,11 +57,16 @@ struct ChatHistorySectionView: View {
     }
 }
 
+// MARK: - ChatHistirySectionCases
+
 enum ChatHistirySectionCases {
+
+    // MARK: - Cases
+
     case joinedChats
     case gloabalChats
     case emptySection
-    
+
     var text: String {
         switch self {
         case .joinedChats:

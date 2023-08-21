@@ -105,11 +105,15 @@ struct ChooseReceiverView: View {
                     viewModel.userWalletsData : viewModel.userWalletsFilteredData,
                     id: \.self
                 ) { item in
-                    ContactRow(avatar: item.url,
-                               name: item.name,
-                               status: viewModel.searchType == .telephone ? item.phone :
-                                viewModel.getAdress(item, receiverData),
-                               isAdmin: false)
+                    // TODO: - Переделать под новый Contact
+                    let contact = Contact(mxId: "",
+                                          avatar: item.url,
+                                          name: item.name,
+                                          status: viewModel.searchType == .telephone ? item.phone :
+                                           viewModel.getAdress(item, receiverData),
+                                          isAdmin: false, onTap: { _ in
+                    })
+                    contact.view()
                     .listRowSeparator(.hidden)
                     .onTapGesture {
                         receiverData.name = item.name
