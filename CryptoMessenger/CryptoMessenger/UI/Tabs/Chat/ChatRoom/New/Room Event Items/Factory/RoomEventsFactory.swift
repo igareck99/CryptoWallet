@@ -1,13 +1,6 @@
 import Foundation
 
 protocol RoomEventsFactoryProtocol {
-    static func makeTextItem(
-        date: String,
-        text: String,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> TextItem
 
     static func makeSystemEventItem(
         date: String,
@@ -15,15 +8,6 @@ protocol RoomEventsFactoryProtocol {
         type: SystemEventType,
         onTap: @escaping () -> Void
     ) -> SystemEventItem
-
-    static func makeDocumentItem(
-        date: String,
-        url: URL,
-        text: String,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> DocumentItem
 
     static func makeReplyItem(
         date: String,
@@ -34,22 +18,6 @@ protocol RoomEventsFactoryProtocol {
         onTap: @escaping () -> Void,
         onReplyTap: @escaping () -> Void
     ) -> ReplyItem
-
-    static func makeContactItem(
-        date: String,
-        contact: Contact,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> ContactItem
-
-    static func makeCallItem(
-        date: String,
-        callStateText: String,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> CallItem
 
     static func makeLocationItem(
         date: String,
@@ -85,21 +53,6 @@ protocol RoomEventsFactoryProtocol {
 }
 
 enum RoomEventsFactory: RoomEventsFactoryProtocol {
-    static func makeTextItem(
-        date: String,
-        text: String,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> TextItem {
-        TextItem(
-            date: date,
-            text: text,
-            reactionItems: reactionItems,
-            readStatus: readStatus,
-            onTap: onTap
-        )
-    }
 
     static func makeSystemEventItem(
         date: String,
@@ -111,24 +64,6 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             date: date,
             text: text,
             type: type,
-            onTap: onTap
-        )
-    }
-
-    static func makeDocumentItem(
-        date: String,
-        url: URL,
-        text: String,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> DocumentItem {
-        DocumentItem(
-            date: date,
-            url: url,
-            text: text,
-            reactionItems: reactionItems,
-            readStatus: readStatus,
             onTap: onTap
         )
     }
@@ -150,38 +85,6 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             readStatus: readStatus,
             onTap: onTap,
             onReplyTap: onReplyTap
-        )
-    }
-
-    static func makeContactItem(
-        date: String,
-        contact: Contact,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> ContactItem {
-        ContactItem(
-            date: date,
-            contact: contact,
-            reactionItems: reactionItems,
-            readStatus: readStatus,
-            onTap: onTap
-        )
-    }
-
-    static func makeCallItem(
-        date: String,
-        callStateText: String,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> CallItem {
-        CallItem(
-            date: date,
-            callStateText: callStateText,
-            reactionItems: reactionItems,
-            readStatus: readStatus,
-            onTap: onTap
         )
     }
 

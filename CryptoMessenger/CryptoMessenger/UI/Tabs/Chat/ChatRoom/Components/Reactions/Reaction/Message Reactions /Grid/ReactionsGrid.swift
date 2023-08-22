@@ -7,7 +7,7 @@ struct ReactionsGrid<ViewModel: ReactionsGroupViewModelProtocol>: View {
     // MARK: - Internal Properties
 
 	@Binding var totalHeight: CGFloat
-	@ObservedObject var viewModel: ViewModel
+	@StateObject var viewModel: ViewModel
 
 	var body: some View {
 		VStack(spacing: 0) {
@@ -15,7 +15,11 @@ struct ReactionsGrid<ViewModel: ReactionsGroupViewModelProtocol>: View {
 				generateContent(in: gReader)
 			}
 		}
-		.frame(maxHeight: totalHeight)
+//		.frame(maxHeight: totalHeight)
+        .frame(
+            minHeight: 38,
+            maxHeight: viewHeightNew(for: 238, reactionItems: viewModel.items)
+        )
 	}
 
     // MARK: - Private Methods
@@ -40,6 +44,7 @@ struct ReactionsGrid<ViewModel: ReactionsGroupViewModelProtocol>: View {
 						} else {
 							width -= d.width
 						}
+                        debugPrint("result \(result)")
 						return result
 					})
 					.alignmentGuide(.top, computeValue: { _ in
@@ -65,10 +70,10 @@ struct ReactionsGrid<ViewModel: ReactionsGroupViewModelProtocol>: View {
 	}
 }
 
-func viewHeightNew(for width: CGFloat, reactionItems: [ReactionTextsItem]) -> CGFloat {
+func viewHeightNew(for width: CGFloat, reactionItems: [any ViewGeneratable]) -> CGFloat {
     guard !reactionItems.isEmpty else { return 0 }
     var countSize = reactionItems.reduce(CGFloat(0)) {
-        $0 + $1.texts[0].width
+        $0 + $1.getItemWidth()
     }
     countSize = width - countSize
     if countSize > 0 {

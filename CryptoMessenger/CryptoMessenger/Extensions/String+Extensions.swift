@@ -35,4 +35,10 @@ extension String {
     func removeCharacters(from: String) -> String {
         return removeCharacters(from: CharacterSet(charactersIn: from))
     }
+
+    func width(font: UIFont) -> CGFloat {
+        let fontAttributes = [NSAttributedString.Key.font: font]
+        let size = self.size(withAttributes: fontAttributes)
+        return size.width
+    }
 }
