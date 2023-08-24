@@ -67,9 +67,10 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         })
         .sheet(isPresented: $showAddUser, content: {
             NavigationView {
-                ChannelAddUserView(viewModel: SelectContactViewModel(mode: .add)) { selectedContacts in
+                ChannelAddUserView(viewModel: SelectContactViewModel(mode: .add, onUsersSelected: {
+                    selectedContacts in
                     viewModel.onInviteUsersToChannel(users: selectedContacts)
-                }
+                }))
             }
         })
         .sheet(isPresented: viewModel.showSelectOwner, content: {
@@ -497,6 +498,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .font(.system(size: 17))
                 .foregroundColor(viewModel.resources.buttonBackground)
                 .onTapGesture {
+                    print("sdklaslaslkas")
                     showAddUser = true
                 }
         }

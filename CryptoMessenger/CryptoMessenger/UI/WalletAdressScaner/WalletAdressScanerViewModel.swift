@@ -5,14 +5,10 @@ import Combine
 
 final class WalletAddressScanerViewModel: ObservableObject {
 
-    // MARK: - Internal Properties
-
-    weak var delegate: WalletAddressScanerSceneDelegate?
-
-    @Published private(set) var state: WalletAddressScanerFlow.ViewState = .idle
 
     // MARK: - Private Properties
-
+    
+    @Published private(set) var state: WalletAddressScanerFlow.ViewState = .idle
     private let eventSubject = PassthroughSubject<WalletAddressScanerFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<WalletAddressScanerFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()

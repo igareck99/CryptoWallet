@@ -9,7 +9,6 @@ struct ChannelAddUserView: View {
     @Environment(\.presentationMode) private var presentationMode
     @StateObject var viewModel: SelectContactViewModel
     @State private var pickedContacts: [Contact] = []
-    var onUsersSelected: ([Contact]) -> Void
 
     // MARK: - Internal Properties
 
@@ -37,73 +36,12 @@ struct ChannelAddUserView: View {
     // MARK: - Private properties
 
     private var content: some View {
-        ZStack {
-            Color.white.ignoresSafeArea()
-            if viewModel.existingContacts.isEmpty {
-                ProgressView()
-                    .tint(Color.dodgerBlue)
+        List {
+            ForEach(viewModel.usersViews, id: \.id) { value in
+                value.view()
             }
-            List {
-                let groupedContacts = Dictionary(grouping: viewModel.existingContacts) {
-                    $0.name.firstLetter.uppercased()
-                }
-                ForEach(groupedContacts.keys.sorted(), id: \.self) { key in
-                    sectionView(key)
-                    let contacts = groupedContacts[key] ?? []
-                    ForEach(0..<contacts.count) { index in
-                        let contact = contacts[index]
-                        VStack(alignment: .leading, spacing: 0) {
-                            HStack(spacing: 21) {
-                                if pickedContacts.contains(where: { $0.id == contact.id }) {
-                                    R.image.chat.group.check.image
-                                        .transition(.scale.animation(.linear(duration: 0.2)))
-                                } else {
-                                    R.image.chat.group.uncheck.image
-                                                .transition(.opacity.animation(.linear(duration: 0.2)))
-                                }
-                                HStack(spacing: 10) {
-                                    AsyncImage(
-                                        defaultUrl: contact.avatar,
-                                        placeholder: {
-                                            ZStack {
-                                                Color.aliceBlue
-                                                Text(contact.name.firstLetter.uppercased())
-                                                    .foregroundColor(.white)
-                                                    .font(.system(size: 22, weight: .medium))
-                                            }
-                                        },
-                                        result: {
-                                            Image(uiImage: $0).resizable()
-                                        }
-                                    )
-                                    .scaledToFill()
-                                    .frame(width: 40, height: 40)
-                                    .cornerRadius(20)
-
-                                    Text(contact.name)
-                                        .font(.system(size: 15, weight: .semibold))
-                                        .foregroundColor(.chineseBlack)
-                                        .padding(.top, 12)
-                                }
-                                Spacer()
-                            }
-                            .frame(height: 64)
-                            .id(contact.id)
-                            .onTapGesture {
-                                vibrate()
-                                if pickedContacts.contains(where: { $0.id == contact.id }) {
-                                    pickedContacts.removeAll { $0.id == contact.id }
-                                } else {
-                                    pickedContacts.append(contact)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            .listStyle(.plain)
         }
-        .padding(.top, 1)
+        .listStyle(.plain)
     }
 
     private func sectionView(_ title: String) -> some View {
@@ -129,7 +67,7 @@ struct ChannelAddUserView: View {
         }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
-                onUsersSelected(pickedContacts)
+                viewModel.onFinish()
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())

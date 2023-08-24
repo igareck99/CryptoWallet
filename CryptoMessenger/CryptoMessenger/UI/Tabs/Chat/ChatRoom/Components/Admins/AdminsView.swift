@@ -2,11 +2,11 @@ import SwiftUI
 
 // MARK: - AdminsView
 
-struct AdminsView: View {
+struct AdminsView<ViewModel>: View where ViewModel: AdminsViewModelDelegate {
 
     // MARK: - Private Properties
 
-    @StateObject var viewModel: AdminsViewModel
+    @StateObject var viewModel: ViewModel
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -37,23 +37,12 @@ struct AdminsView: View {
         VStack(spacing: 0) {
             Divider()
                 .foreground(.grayE6EAED())
-            // TODO: - Переделать под новый Contact Struct
-            ScrollView(.vertical, showsIndicators: false) {
-//                ForEach(0..<viewModel.chatData.admins.count) { index in
-//                    let contact = viewModel.chatData.admins[index]
-//                    VStack(spacing: 0) {
-//                        ContactRow(
-//                            avatar: contact.avatar,
-//                            name: contact.name,
-//                            status: contact.status,
-//                            hideSeparator: contact.id == viewModel.chatData.admins.last?.id
-//                        ).background(.white())
-//                    }
-//                    .onTapGesture {
-//                        viewModel.onProfile(contact)
-//                    }
-//                }
+            List {
+                ForEach(viewModel.membersViews, id: \.id) { value in
+                    value.view()
+                }
             }
+            .listStyle(.plain)
         }
     }
 }

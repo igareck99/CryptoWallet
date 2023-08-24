@@ -8,11 +8,15 @@ enum SelectContactAssembly {
         chatData: Binding<ChatData> = .constant(.init()),
         contactsLimit: Int? = nil,
         coordinator: ChatCreateFlowCoordinatorProtocol? = nil,
-        onSelectContact: GenericBlock<[Contact]>? = nil
+        chatHistoryCoordinator: ChatHistoryFlowCoordinatorProtocol? = nil,
+        onUsersSelected: @escaping ([Contact]) -> Void
     ) -> some View {
         let viewModel = SelectContactViewModel(mode: mode, contactsLimit: contactsLimit,
-                                               onSelectContact: onSelectContact)
+                                               onUsersSelected: { value in
+            onUsersSelected(value)
+        })
         viewModel.coordinator = coordinator
+        viewModel.chatHistoryCoordinator = chatHistoryCoordinator
         let view = SelectContactView(
             viewModel: viewModel
         )

@@ -7,20 +7,20 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
 
     // MARK: - Internal Properties
 
-    @Published private(set) var closeScreen = false
     @Published var isButtonAvailable = false
     @Published private(set) var contacts: [Contact] = []
     @Published private(set) var state: SelectContactFlow.ViewState = .idle
-    @Published private(set) var existingContacts: [Contact] = []
-    @Published private(set) var waitingContacts: [Contact] = []
     @Published var users: [SelectContact] = []
+    @Published var userForSend: [Contact] = []
     @Published var usersViews: [any ViewGeneratable] = []
-    let mode: ContactViewMode
+    var mode: ContactViewMode
+    @Published var searchText = ""
     var contactsLimit: Int?
     var chatData: ChatData
-    var onSelectContact: GenericBlock<[Contact]>?
+    var onUsersSelected: ([Contact]) -> Void
     let resources: SelectContactResourcable.Type = SelectContactResources.self
     var coordinator: ChatCreateFlowCoordinatorProtocol?
+    var chatHistoryCoordinator: ChatHistoryFlowCoordinatorProtocol?
     private let config: ConfigType
 
     // MARK: - Private Properties
@@ -36,7 +36,7 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
     init(
         mode: ContactViewMode = .send,
         contactsLimit: Int? = nil,
-        onSelectContact: GenericBlock<[Contact]>? = nil,
+        onUsersSelected: @escaping ([Contact]) -> Void,
         config: ConfigType = Configuration.shared,
         resources: SelectContactResourcable.Type = SelectContactResources.self
     ) {
@@ -44,7 +44,7 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
         self.contactsLimit = contactsLimit
         self.config = config
         self.chatData = ChatData.emptyObject()
-        self.onSelectContact = onSelectContact
+        self.onUsersSelected = onUsersSelected
         bindInput()
         bindOutput()
         getContacts()
@@ -60,14 +60,18 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
     func send(_ event: SelectContactFlow.Event) {
         eventSubject.send(event)
     }
-    
+
     func getButtonColor() -> Color {
         if isButtonAvailable {
             return resources.textColor
         }
         return resources.buttonBackground
     }
-    
+
+    func dismissSheet() {
+        chatHistoryCoordinator?.dismissCurrentSheet()
+    }
+
     func onFinish() {
         let data = self.users.filter({ $0.isSelected == true })
         let result: [Contact] = data.map {
@@ -78,10 +82,22 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
             return contact
         }
         switch mode {
-        case .send, .groupCreate:
+        case .send:
+            break
+        case .add:
+            self.onUsersSelected(result)
+        case .groupCreate:
+            let data = self.users.filter({ $0.isSelected == true })
+            let result: [Contact] = data.map {
+                let contact = Contact(mxId: $0.mxId,
+                                      name: $0.name,
+                                      status: "", onTap: { _ in
+                })
+                return contact
+            }
             chatData.contacts = result
             self.coordinator?.createGroupChat(chatData)
-        case .add, .admins:
+        case .admins:
             break
         }
     }
@@ -98,11 +114,22 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
             }
             .store(in: &subscriptions)
         $users
-            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .subscribe(on: DispatchQueue.main)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] data in
                 let new = data.filter({ $0.isSelected })
                 self?.isButtonAvailable = new.isEmpty
+            }
+            .store(in: &subscriptions)
+        $searchText
+            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .receive(on: DispatchQueue.main)
+            .sink { [self] value in
+                if !value.isEmpty {
+                    self.usersViews = self.userForSend.filter({ $0.name.contains(value) || $0.phone.contains(value) })
+                } else {
+                    self.usersViews = self.userForSend
+                }
             }
             .store(in: &subscriptions)
     }
@@ -124,8 +151,7 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
                 self.contactsUseCase.reuqestUserContacts { contact in
                     self.contactsUseCase.matchServerContacts(contact, self.mode) { result in
                         self.setData(result)
-                    } onTap: { value in
-                        print("slaslklsaklkas  \(value)")
+                    } onTap: { _ in
                     }
                 }
                 return
@@ -135,8 +161,7 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
                         self.contactsUseCase.reuqestUserContacts { contact in
                             self.contactsUseCase.matchServerContacts(contact, self.mode) { result in
                                 self.setData(result)
-                            } onTap: { value in
-                                print("slaslklsaklkas  \(value)")
+                            } onTap: { _ in
                             }
                         }
                     }
@@ -147,26 +172,45 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
             }
         }
     }
-    
+
     private func setData(_ result: [Contact]) {
-        let contacts = result.filter({ $0.type == .lastUsers })
-        self.users = contacts.map {
-            let data = SelectContact(mxId: $0.mxId,
-                                     avatar: $0.avatar,
-                                     name: $0.name,
-                                     isSelected: false, onTap: { value in
-                vibrate()
-                self.onChangeState(value)
-            })
-            return data
+        switch mode {
+        case .send:
+            let contacts = result.filter({ $0.type == .waitingContacts })
+            self.userForSend = contacts.map {
+                let contact = Contact(mxId: $0.mxId,
+                                      name: $0.name,
+                                      status: $0.status,
+                                      phone: $0.phone,
+                                      type: .sendContact) { result in
+                    self.onUsersSelected([result])
+                    self.chatHistoryCoordinator?.dismissCurrentSheet()
+                }
+                return contact
+            }
+            self.usersViews = self.userForSend
+        default:
+            let contacts = result.filter({ $0.type == .lastUsers })
+            self.users = contacts.map {
+                let data = SelectContact(mxId: $0.mxId,
+                                         avatar: $0.avatar,
+                                         name: $0.name,
+                                         phone: $0.phone,
+                                         isSelected: false, onTap: { value in
+                    vibrate()
+                    self.onChangeState(value)
+                })
+                return data
+            }
+            self.usersViews = self.users
         }
-        self.usersViews = self.users
     }
 
     private func onChangeState(_ data: SelectContact) {
         guard let index = self.users.firstIndex(where: { $0.mxId == data.mxId }) else { return }
         let newObject = SelectContact(mxId: data.mxId, avatar: data.avatar,
-                                      name: data.name, isSelected: !data.isSelected) { value in
+                                      name: data.name, phone: data.phone,
+                                      isSelected: !data.isSelected) { value in
             vibrate()
             self.onChangeState(value)
         }

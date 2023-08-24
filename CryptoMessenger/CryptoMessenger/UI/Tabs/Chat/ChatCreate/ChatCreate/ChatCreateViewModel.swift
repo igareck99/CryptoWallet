@@ -151,7 +151,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                                                                     views: waitingFilteredContacts)]
                         self.state = .showContent
                     }
-                } else {as
+                } else {
                     self.lastUsersSections = [ChatCreateSection(data: .contacts,
                                                                 views: self.existingContacts),
                                               ChatCreateSection(data: .invite,

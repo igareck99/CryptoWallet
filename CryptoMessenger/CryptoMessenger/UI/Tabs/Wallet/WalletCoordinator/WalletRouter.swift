@@ -11,7 +11,7 @@ protocol WalletRouterable {
         coordinator: WalletCoordinatable
     )
     func popToRoot()
-
+    func previousScreen()
     func navState() -> State
     func routePath() -> Binding<NavigationPath>
     func presentedItem() -> Binding<WalletSheetLink?>
@@ -48,7 +48,7 @@ struct WalletRouter<Content: View, State: WalletRouterStatable>: View {
         case let .transfer(wallet, coordinator):
             TransferConfigurator.build(wallet: wallet, coordinator: coordinator)
         case let .chooseReceiver(address, coordinator):
-            ChooseReceiverConfigurator.build(receiverData: address, coordinator: coordinator)
+            ChooseReceiverAssembly.build(receiverData: address, coordinator: coordinator)
         case let .facilityApprove(transaction, coordinator):
             FacilityApproveConfigurator.build(
                 transaction: transaction,
@@ -56,8 +56,8 @@ struct WalletRouter<Content: View, State: WalletRouterStatable>: View {
             )
         case let .showTokenInfo(wallet):
             TokenInfoAssembly.build(wallet: wallet)
-        default:
-            EmptyView()
+        case let .adressScanner(value: value):
+            WalletAddressScanerView(scannedCode: value)
         }
     }
 
@@ -68,8 +68,6 @@ struct WalletRouter<Content: View, State: WalletRouterStatable>: View {
                 TransactionResultAssembly.build(model: model)
         case let .addSeed(addSeedView):
                 addSeedView()
-        default:
-                EmptyView()
         }
     }
 }
@@ -84,6 +82,10 @@ extension WalletRouter: WalletRouterable {
 
     func routePath() -> Binding<NavigationPath> {
         $state.path
+    }
+    
+    func previousScreen() {
+        state.path.removeLast()
     }
 
     func presentedItem() -> Binding<WalletSheetLink?> {

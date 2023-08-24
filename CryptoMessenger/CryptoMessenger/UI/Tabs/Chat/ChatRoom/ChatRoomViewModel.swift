@@ -1,8 +1,6 @@
 import Combine
 import SwiftUI
 import UIKit
-import Photos
-import MatrixSDK
 
 // MARK: - ChatRoomViewModel
 // swiftlint:disable all
@@ -613,8 +611,10 @@ final class ChatRoomViewModel: ObservableObject {
                             self.chatData = value
                         }),
                         contactsLimit: 1
-                    ) { [weak self] in
-                        self?.pickedContact = $0
+                    ) { value in
+                        value.map {
+                            self.eventSubject.send(.onSendContact($0))
+                        }
                     }
                 default:
                     break
@@ -727,6 +727,7 @@ final class ChatRoomViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] contact in
                 guard let contacts = contact else { return }
+                print("slkasklaswlkaslk   \(contacts)")
                 for contact in contacts {
                     self?.send(.onSendContact(contact))
                 }

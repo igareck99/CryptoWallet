@@ -29,12 +29,21 @@ extension TransferCoordinator: Coordinator {
 // MARK: - TransferViewCoordinatable
 
 extension TransferCoordinator: TransferViewCoordinatable {
+    func showAdressScanner(_ value: Binding<String>) {
+        print("slkaslkasklaskl")
+        router.showAdressScanner(value)
+    }
+    
     func chooseReceiver(address: Binding<UserReceiverData>) {
         router.chooseReceiver(address: address, coordinator: self)
     }
 
     func didCreateTemplate(transaction: FacilityApproveModel) {
         router.facilityApprove(transaction: transaction, coordinator: self)
+    }
+    
+    func previousScreen() {
+        router.previousScreen()
     }
 }
 
@@ -49,10 +58,4 @@ extension TransferCoordinator: FacilityApproveViewCoordinatable {
             self.onFinish(self)
         }
     }
-}
-
-// MARK: - ChooseReceiverViewCoordinatable
-
-extension TransferCoordinator: ChooseReceiverViewCoordinatable {
-
 }
