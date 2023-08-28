@@ -180,8 +180,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                     self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in
                         self?.matrixUseCase.objectChangePublisher.send()
                     })
-                case let .onCreateChat(chatData):
-                    self?.coordinator?.showCreateChat(chatData)
+                case let .onCreateChat:
+                    self?.coordinator?.showCreateChat()
                 case let .onRoomActions(room):
                     let data = ChatActionsList(isLeaveAvailable: !(room.isAdmin && room.isChannel),
                                                isWatchProfileAvailable: room.isDirect,
@@ -196,7 +196,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                                         $0.userId != self?.matrixUseCase.getUserId() }) else { return }
                                     let contact = Contact(mxId: user.userId,
                                                           name: user.displayname,
-                                                          status: "")
+                                                          status: "", type: .lastUsers, onTap: { _ in
+                                    })
                                     self?.coordinator?.dismissCurrentSheet()
                                     self?.coordinator?.friendProfile(contact)
                                 default:

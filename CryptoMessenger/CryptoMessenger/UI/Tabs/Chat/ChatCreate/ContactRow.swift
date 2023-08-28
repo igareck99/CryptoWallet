@@ -6,13 +6,9 @@ struct ContactRow: View {
 
     // MARK: - Internal Properties
 
-    let avatar: URL?
-    let name: String
-    let status: String
-    var hideSeparator = false
+    let contact: Contact
     var showInviteButton = false
     var isAdmin = false
-    var onInvite: VoidBlock?
 
     // MARK: - Body
 
@@ -20,11 +16,11 @@ struct ContactRow: View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
                 AsyncImage(
-                    defaultUrl: avatar,
+                    defaultUrl: contact.avatar,
                     placeholder: {
                         ZStack {
                             Color(.lightBlue())
-                            Text(name.firstLetter.uppercased())
+                            Text(contact.name.firstLetter.uppercased())
                                 .foreground(.white())
                                 .font(.medium(22))
                         }
@@ -39,14 +35,14 @@ struct ContactRow: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .center, spacing: 0) {
-                        Text(name)
+                        Text(contact.name)
                             .lineLimit(1)
                             .font(.semibold(15))
                             .foreground(.black())
 
                         Spacer()
 
-                        if isAdmin {
+                        if contact.isAdmin {
                             Text("Админ", [
                                 .color(.darkGray()),
                                 .font(.regular(13)),
@@ -55,8 +51,8 @@ struct ContactRow: View {
                         }
                     }
 
-                    if !status.isEmpty {
-                        Text(status)
+                    if !contact.status.isEmpty {
+                        Text(contact.status)
                             .lineLimit(1)
                             .font(.regular(13))
                             .foreground(.darkGray())
@@ -68,9 +64,9 @@ struct ContactRow: View {
                     Spacer()
                 }
 
-                if showInviteButton {
+                if contact.type == .waitingContacts {
                     Button {
-                        onInvite?()
+                        contact.onTap(contact)
                     } label: {
                         Text("Пригласить")
                             .font(.regular(15))
@@ -86,12 +82,13 @@ struct ContactRow: View {
                 }
             }
             .padding(.horizontal, 16)
-
-            if !hideSeparator {
-                Rectangle()
-                    .fill(Color(.gray(0.7)))
-                    .frame(height: 0.5)
-                    .padding(.leading, 68)
+            .onTapGesture {
+                switch contact.type {
+                case .waitingContacts:
+                    break
+                default:
+                    contact.onTap(contact)
+                }
             }
         }
     }

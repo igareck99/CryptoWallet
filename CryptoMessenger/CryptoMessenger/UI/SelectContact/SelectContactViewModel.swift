@@ -1,19 +1,24 @@
 import Combine
-import MatrixSDK
 import SwiftUI
 
 // MARK: - SelectContactViewModel
 
-final class SelectContactViewModel: ObservableObject {
+final class SelectContactViewModel: ObservableObject, SelectContactViewModelDelegate {
 
     // MARK: - Internal Properties
 
     @Published private(set) var closeScreen = false
+    @Published var isButtonAvailable = false
     @Published private(set) var contacts: [Contact] = []
     @Published private(set) var state: SelectContactFlow.ViewState = .idle
     @Published private(set) var existingContacts: [Contact] = []
     @Published private(set) var waitingContacts: [Contact] = []
+    @Published var users: [SelectContact] = []
+    @Published var usersViews: [any ViewGeneratable] = []
     let mode: ContactViewMode
+    var contactsLimit: Int?
+    var chatData: ChatData
+    var onSelectContact: GenericBlock<[Contact]>?
     let resources: SelectContactResourcable.Type = SelectContactResources.self
     var coordinator: ChatCreateFlowCoordinatorProtocol?
     private let config: ConfigType
@@ -30,14 +35,19 @@ final class SelectContactViewModel: ObservableObject {
 
     init(
         mode: ContactViewMode = .send,
+        contactsLimit: Int? = nil,
+        onSelectContact: GenericBlock<[Contact]>? = nil,
         config: ConfigType = Configuration.shared,
         resources: SelectContactResourcable.Type = SelectContactResources.self
     ) {
         self.mode = mode
+        self.contactsLimit = contactsLimit
         self.config = config
+        self.chatData = ChatData.emptyObject()
+        self.onSelectContact = onSelectContact
         bindInput()
         bindOutput()
-        getContacts(matrixUseCase.allUsers())
+        getContacts()
     }
 
     deinit {
@@ -51,9 +61,28 @@ final class SelectContactViewModel: ObservableObject {
         eventSubject.send(event)
     }
     
-    func createGroupChat(_ chatData: Binding<ChatData>) {
-        if let coordinator = coordinator {
-            coordinator.createGroupChat(chatData, coordinator)
+    func getButtonColor() -> Color {
+        if isButtonAvailable {
+            return resources.textColor
+        }
+        return resources.buttonBackground
+    }
+    
+    func onFinish() {
+        let data = self.users.filter({ $0.isSelected == true })
+        let result: [Contact] = data.map {
+            let contact = Contact(mxId: $0.mxId,
+                                  name: $0.name,
+                                  status: "", onTap: { _ in
+            })
+            return contact
+        }
+        switch mode {
+        case .send, .groupCreate:
+            chatData.contacts = result
+            self.coordinator?.createGroupChat(chatData)
+        case .add, .admins:
+            break
         }
     }
 
@@ -65,9 +94,15 @@ final class SelectContactViewModel: ObservableObject {
                 switch event {
                 case .onAppear:
                     self?.syncContacts()
-                case .onNextScene:
-                    ()
                 }
+            }
+            .store(in: &subscriptions)
+        $users
+            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] data in
+                let new = data.filter({ $0.isSelected })
+                self?.isButtonAvailable = new.isEmpty
             }
             .store(in: &subscriptions)
     }
@@ -78,7 +113,7 @@ final class SelectContactViewModel: ObservableObject {
             .store(in: &subscriptions)
     }
 
-    private func getContacts(_ users: [MXUser]) {
+    private func getContacts() {
         contacts = contactsUseCase.getContacts()
     }
 
@@ -88,7 +123,9 @@ final class SelectContactViewModel: ObservableObject {
             case .allowed:
                 self.contactsUseCase.reuqestUserContacts { contact in
                     self.contactsUseCase.matchServerContacts(contact, self.mode) { result in
-                        self.existingContacts = result
+                        self.setData(result)
+                    } onTap: { value in
+                        print("slaslklsaklkas  \(value)")
                     }
                 }
                 return
@@ -97,7 +134,9 @@ final class SelectContactViewModel: ObservableObject {
                     if isAllowed {
                         self.contactsUseCase.reuqestUserContacts { contact in
                             self.contactsUseCase.matchServerContacts(contact, self.mode) { result in
-                                self.existingContacts = result
+                                self.setData(result)
+                            } onTap: { value in
+                                print("slaslklsaklkas  \(value)")
                             }
                         }
                     }
@@ -108,62 +147,30 @@ final class SelectContactViewModel: ObservableObject {
             }
         }
     }
+    
+    private func setData(_ result: [Contact]) {
+        let contacts = result.filter({ $0.type == .lastUsers })
+        self.users = contacts.map {
+            let data = SelectContact(mxId: $0.mxId,
+                                     avatar: $0.avatar,
+                                     name: $0.name,
+                                     isSelected: false, onTap: { value in
+                vibrate()
+                self.onChangeState(value)
+            })
+            return data
+        }
+        self.usersViews = self.users
+    }
 
-//    private func matchServerContacts(_ contacts: [ContactInfo]) {
-//        guard !contacts.isEmpty else { return }
-//
-//        let phones = contacts.map { $0.phoneNumber.numbers }
-//        apiClient.publisher(Endpoints.Users.users(phones))
-//            .replaceError(with: [:])
-//            .sink { [weak self] response in
-//                let sorted = contacts.sorted(by: { $0.firstName < $1.firstName })
-//
-//                let mxUsers: [MXUser] = self?.matrixUseCase.allUsers() ?? []
-//                let lastUsers: [Contact] = mxUsers
-//                    .filter { $0.userId != self?.matrixUseCase.getUserId() }
-//                    .map {
-//                        var contact = Contact(
-//                            mxId: $0.userId ?? "",
-//                            avatar: nil,
-//                            name: $0.displayname ?? $0.userId ?? "",
-//                            status: $0.statusMsg ?? "Привет, теперь я в Aura"
-//                        )
-//                        if let avatar = $0.avatarUrl,
-//                           let homeServer = self?.config.matrixURL {
-//                            contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
-//                        }
-//                        return contact
-//                    }
-//
-//                let existing: [Contact] = sorted
-//                    .filter { response.keys.contains($0.phoneNumber.numbers) }
-//                    .map {
-//                        .init(
-//                            mxId: response[$0.phoneNumber] ?? "",
-//                            avatar: nil,
-//                            name: $0.firstName + " " + $0.lastName,
-//                            status: "Привет, теперь я в Aura",
-//                            phone: $0.phoneNumber
-//                        )
-//                    }
-//                    .filter { contact in
-//                        !lastUsers.contains(where: { $0.mxId == contact.mxId })
-//                    }
-//
-//                self?.existingContacts = lastUsers + existing
-//                if self?.mode == .send {
-//                    self?.waitingContacts = sorted.filter { !response.keys.contains($0.phoneNumber.numbers) }.map {
-//                        .init(
-//                            mxId: response[$0.phoneNumber] ?? "",
-//                            avatar: nil,
-//                            name: $0.firstName + " " + $0.lastName,
-//                            status: "",
-//                            phone: $0.phoneNumber
-//                        )
-//                    }
-//                    self?.existingContacts += self?.waitingContacts ?? []
-//                }
-//            }
-//            .store(in: &subscriptions)
-//    }
+    private func onChangeState(_ data: SelectContact) {
+        guard let index = self.users.firstIndex(where: { $0.mxId == data.mxId }) else { return }
+        let newObject = SelectContact(mxId: data.mxId, avatar: data.avatar,
+                                      name: data.name, isSelected: !data.isSelected) { value in
+            vibrate()
+            self.onChangeState(value)
+        }
+        self.users[index] = newObject
+        self.usersViews = self.users
+    }
 }

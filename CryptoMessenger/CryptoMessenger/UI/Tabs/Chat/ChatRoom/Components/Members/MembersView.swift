@@ -37,24 +37,24 @@ struct MembersView: View {
         VStack(spacing: 0) {
             Divider()
                 .foreground(.grayE6EAED())
-
+            // TODO: - Переделать
             ScrollView(.vertical, showsIndicators: false) {
-                ForEach(0..<viewModel.chatData.contacts.count) { index in
-                    let contact = viewModel.chatData.contacts[index]
-                    VStack(spacing: 0) {
-                        ContactRow(
-                            avatar: contact.avatar,
-                            name: contact.name,
-                            status: contact.status,
-                            hideSeparator: contact.id == viewModel.chatData.contacts.last?.id,
-                            isAdmin: contact.isAdmin
-                        )
-                            .background(.white())
-                    }
-                    .onTapGesture {
-                        viewModel.onProfile(contact)
-                    }
-                }
+//                ForEach(0..<viewModel.chatData.contacts.count) { index in
+//                    let contact = viewModel.chatData.contacts[index]
+//                    VStack(spacing: 0) {
+//                        ContactRow(
+//                            avatar: contact.avatar,
+//                            name: contact.name,
+//                            status: contact.status,
+//                            hideSeparator: contact.id == viewModel.chatData.contacts.last?.id,
+//                            isAdmin: contact.isAdmin
+//                        )
+//                            .background(.white())
+//                    }
+//                    .onTapGesture {
+//                        viewModel.onProfile(contact)
+//                    }
+//                }
             }
         }
     }

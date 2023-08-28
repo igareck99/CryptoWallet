@@ -24,7 +24,7 @@ enum ChatHistoryFlow {
 
         case onAppear
         case onShowRoom(String)
-        case onCreateChat(Binding<ChatData>)
+        case onCreateChat
         case onDeleteRoom(String)
         case onRoomActions(ChatHistoryData)
     }

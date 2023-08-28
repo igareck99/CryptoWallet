@@ -27,6 +27,16 @@ protocol MatrixUseCaseProtocol {
     func serverSyncWithServerTimeout()
 
 	// MARK: - Rooms
+    func createChannel(name: String,
+                       topic: String,
+                       channelType: ChannelType,
+                       roomAvatar: UIImage?,
+                       completion: @escaping (RoomCreateState) -> Void)
+    func createDirectRoom(_ ids: [String],
+                          completion: @escaping (RoomCreateState) -> Void)
+    func createRoom(parameters: MXRoomCreationParameters, roomAvatar: Data?,
+                    completion: @escaping (RoomCreateState) -> Void)
+    func createGroupRoom(_ info: ChatData, completion: @escaping (RoomCreateState) -> Void)
     func getRoomAvatarUrl(roomId: String) -> URL?
     func getUserAvatar(avatarString: String, completion: @escaping EmptyFailureBlock<UIImage>)
     func getRoomInfo(roomId: String) -> MXRoom?

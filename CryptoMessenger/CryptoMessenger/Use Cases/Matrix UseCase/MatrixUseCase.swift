@@ -187,6 +187,87 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 
 	// MARK: - Rooms
     
+    func createChannel(name: String,
+                       topic: String,
+                       channelType: ChannelType,
+                       roomAvatar: UIImage?,
+                       completion: @escaping (RoomCreateState) -> Void) {
+        let parameters = MXRoomCreationParameters()
+        parameters.inviteArray = []
+        parameters.isDirect = false
+        parameters.name = name
+        parameters.topic = topic
+        if channelType == .publicChannel {
+            parameters.visibility = MXRoomDirectoryVisibility.public.identifier
+        } else {
+            parameters.visibility = MXRoomDirectoryVisibility.private.identifier
+        }
+        parameters.preset = MXRoomPreset.privateChat.identifier
+        let powerLevelOverride = MXRoomPowerLevels()
+        powerLevelOverride.eventsDefault = 50
+        powerLevelOverride.stateDefault = 50
+        powerLevelOverride.usersDefault = 0
+        powerLevelOverride.invite = 50
+        parameters.powerLevelContentOverride = powerLevelOverride
+        self.createRoom(parameters: parameters, roomAvatar: roomAvatar?.jpeg(.medium)) { result in
+            completion(result)
+        }
+    }
+    
+    func createDirectRoom(_ ids: [String],
+                          completion: @escaping (RoomCreateState) -> Void) {
+        guard
+            ids.count == 1,
+            let userId = ids.first,
+            !self.isDirectRoomExists(userId: userId)
+        else {
+            completion(.roomCreateError)
+            return
+        }
+        let parameters = MXRoomCreationParameters()
+        parameters.inviteArray = ids
+        parameters.isDirect = true
+        parameters.visibility = MXRoomDirectoryVisibility.private.identifier
+        parameters.preset = MXRoomPreset.privateChat.identifier
+        createRoom(parameters: parameters, completion: { result in
+            completion(result)
+        })
+        self.objectChangePublisher.send()
+    }
+    
+    func createRoom(parameters: MXRoomCreationParameters, roomAvatar: Data? = nil,
+                    completion: @escaping (RoomCreateState) -> Void) {
+        self.createRoom(parameters: parameters) { [weak self] response in
+            switch response {
+            case let .success(room):
+                completion(.roomCreateSucces)
+                guard let data = roomAvatar else {
+                    return
+                }
+
+                self?.setRoomAvatar(data: data, for: room) { _ in
+                    // TODO: Обработать case failure
+                    //self?.closeScreen = true
+                }
+            case.failure:
+                completion(.roomCreateError)
+            }
+        }
+    }
+    
+    func createGroupRoom(_ info: ChatData, completion: @escaping (RoomCreateState) -> Void) {
+        let parameters = MXRoomCreationParameters()
+        parameters.inviteArray = info.contacts.map({ $0.mxId })
+        parameters.isDirect = false
+        parameters.name = info.title
+        parameters.topic = info.description
+        parameters.visibility = MXRoomDirectoryVisibility.private.identifier
+        parameters.preset = MXRoomPreset.privateChat.identifier
+        self.createRoom(parameters: parameters, roomAvatar: info.image?.jpeg(.medium), completion: { result in
+            completion(result)
+        })
+    }
+    
     func getRoomAvatarUrl(roomId: String) -> URL? {
         guard let room = getRoomInfo(roomId: roomId),
             let avatar = room.summary.avatar,

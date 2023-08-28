@@ -1,6 +1,5 @@
 import Combine
 import SwiftUI
-import MatrixSDK
 
 protocol CreateChannelViewModelProtocol: ObservableObject {
 
@@ -13,7 +12,7 @@ protocol CreateChannelViewModelProtocol: ObservableObject {
     var channelDescription: Binding<String> { get set }
 
     var channelType: ChannelType { get set }
-    
+
     var resources: CreateChannelResourcable.Type { get }
 
     func onChannelCreate()
@@ -21,8 +20,6 @@ protocol CreateChannelViewModelProtocol: ObservableObject {
     func isCreateButtonEnabled() -> Bool
 
     func isDescriptionPlaceholderEnabled() -> Bool
-    
-    
 }
 
 final class CreateChannelViewModel: ObservableObject {
@@ -107,45 +104,13 @@ extension CreateChannelViewModel: CreateChannelViewModelProtocol {
     }
 
     func onChannelCreate() {
-        let parameters = MXRoomCreationParameters()
-        parameters.inviteArray = []
-        parameters.isDirect = false
-        parameters.name = channelNameText
-        parameters.topic = channelDescriptionText
-        if channelType == .publicChannel {
-            parameters.visibility = MXRoomDirectoryVisibility.public.identifier
-        } else {
-            parameters.visibility = MXRoomDirectoryVisibility.private.identifier
-        }
-        parameters.preset = MXRoomPreset.privateChat.identifier
-        let powerLevelOverride = MXRoomPowerLevels()
-        powerLevelOverride.eventsDefault = 50
-        powerLevelOverride.stateDefault = 50
-        powerLevelOverride.usersDefault = 0
-        powerLevelOverride.invite = 50
-        parameters.powerLevelContentOverride = powerLevelOverride
-        createRoom(parameters: parameters, roomAvatar: selectedImg?.jpeg(.medium))
-        coordinator.toParentCoordinator()
-    }
-
-    private func createRoom(parameters: MXRoomCreationParameters, roomAvatar: Data? = nil) {
-        matrixUseCase.createRoom(parameters: parameters) { [weak self] response in
-            switch response {
-            case let .success(room):
-                let inviteType = self?.channelType == .publicChannel ? true : false
-                self?.matrixUseCase.setJoinRule(roomId: room.roomId,
-                                                isPublic: inviteType,
-                                                completion: { _ in
-                })
-                guard let data = roomAvatar else {
-                    return
-                }
-
-                self?.matrixUseCase.setRoomAvatar(data: data, for: room) { _ in
-                    // TODO: Обработать case failure
-                }
-            case.failure:
-                debugPrint("channel creation failure")
+        matrixUseCase.createChannel(name: channelNameText, topic: channelDescriptionText,
+                                    channelType: channelType, roomAvatar: selectedImg) { result in
+            switch result {
+            case .roomCreateError:
+                break
+            case .roomCreateSucces:
+                self.coordinator.toParentCoordinator()
             }
         }
     }

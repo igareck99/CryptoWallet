@@ -947,7 +947,9 @@ final class ChatRoomViewModel: ObservableObject {
                     mxId: $0.userId ?? "",
                     avatar: nil,
                     name: $0.displayname ?? "",
-                    status: "Привет, теперь я в Aura"
+                    status: "Привет, теперь я в Aura",
+                    type: .lastUsers, onTap: { _ in
+                    }
                 )
                 if let avatar = $0.avatarUrl {
                     contact.avatar = MXURL(mxContentURI: avatar)?.contentURL(on: self.config.matrixURL)

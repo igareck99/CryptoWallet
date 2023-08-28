@@ -4,7 +4,7 @@ import SwiftUI
 
 protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
     func firstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol)
-    func showCreateChat(_ chatData: Binding<ChatData>)
+    func showCreateChat()
     func roomSettings(isChannel: Bool,
                       chatData: Binding<ChatData>,
                       saveData: Binding<Bool>,
@@ -122,8 +122,8 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
         router.adminsView(chatData, coordinator)
     }
 
-    func showCreateChat(_ chatData: Binding<ChatData>) {
-        let coordinator = ChatCreateCoordinatorAssembly.buld(chatData: chatData) { coordinator in
+    func showCreateChat() {
+        let coordinator = ChatCreateCoordinatorAssembly.buld() { coordinator in
             self.removeChildCoordinator(coordinator)
             self.router.dismissCurrentSheet()
         }

@@ -22,7 +22,6 @@ enum SelectContactFlow {
         // MARK: - Types
 
         case onAppear
-        case onNextScene
     }
 }
 
