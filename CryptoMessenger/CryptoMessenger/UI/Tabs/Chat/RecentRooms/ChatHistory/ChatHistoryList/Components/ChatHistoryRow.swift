@@ -13,7 +13,7 @@ struct ChatHistoryRow: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 room.avatarView.view()
-                .padding(.init(top: 2, leading: 14, bottom: 0, trailing: 0))
+                    .padding(.init(top: 2, leading: 14, bottom: 0, trailing: 0))
                 VStack(alignment: .leading, spacing: 0) {
                     room.nameView.view()
                     room.messageView.view()
@@ -24,12 +24,15 @@ struct ChatHistoryRow: View {
                 .foregroundColor(Color(.init(216, 216, 217)))
                 .frame(height: 0.5)
                 .padding(.leading, 88)
-        }.frame(height: 76)
-            .onTapGesture {
-                room.onTap(room)
-            }
-            .onLongPressGesture {
-                room.onLongPress(room)
-            }
+        }
+        .frame(height: 76)
+        .frame(maxWidth: .infinity)
+        .background()
+        .onTapGesture {
+            room.onTap(room)
+        }
+        .onLongPressGesture {
+            room.onLongPress(room)
+        }
     }
 }
