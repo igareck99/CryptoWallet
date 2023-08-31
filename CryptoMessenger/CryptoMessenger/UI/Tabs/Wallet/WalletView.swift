@@ -56,10 +56,12 @@ struct WalletView: View {
                         .tabViewStyle(.page(indexDisplayMode: .never))
                     }
                     .frame(minHeight: 220)
-
+                
+                cardsViews()
+                
                 sendButton
                     .padding(.horizontal, 16)
-
+                
                 transactionTitleView
                     .padding(.top, 24)
 
@@ -101,6 +103,23 @@ struct WalletView: View {
     }
 
     // MARK: - Private Properties
+    
+    @ViewBuilder
+    func cardsViews() -> some View {
+        HStack(spacing: 8) {
+            ForEach(0..<viewModel.cardsList.count, id: \.self ) { value in
+                if value == pageIndex {
+                    RoundedRectangle(cornerRadius: 32)
+                        .foregroundColor(.dodgerBlue)
+                        .frame(width: 24, height: 8)
+                }else {
+                    Circle()
+                        .frame(width: 8, height: 8)
+                        .foregroundColor(.gainsboro)
+                }
+            }
+        }
+    }
 
     @ViewBuilder
     private func loadingStateView() -> some View {
