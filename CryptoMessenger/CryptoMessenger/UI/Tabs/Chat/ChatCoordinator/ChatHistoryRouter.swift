@@ -3,6 +3,8 @@ import SwiftUI
 
 protocol ChatHistoryRouterable: View {
 
+    func chatRoom(_ room: AuraRoomData, _ coordinator: ChatHistoryFlowCoordinatorProtocol)
+
     func routeToFirstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol)
 
     func start()
@@ -151,6 +153,8 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
                 }
             )
             .anyView()
+        case let .newChat(room: room, coordinator: coordinator):
+            ChatViewAssembly.build(room, coordinator)
         default:
             EmptyView()
         }
@@ -379,5 +383,10 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
             place: place,
             sendLocation: sendLocation
         )
+    }
+    
+    func chatRoom(_ room: AuraRoomData, _ coordinator: ChatHistoryFlowCoordinatorProtocol) {
+        state.path.append(ChatHistoryContentLink.newChat(room: room,
+                                                         coordinator: coordinator))
     }
 }

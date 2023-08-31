@@ -14,13 +14,12 @@ struct ReactionTextItem: Identifiable, Equatable {
     init(
         text: String,
         color: Color = .zeroColor,
-        font: Font = .system(size: 20),
-        width: CGFloat = 38
+        font: Font = .system(size: 20)
     ) {
         self.text = text
 		self.color = color
 		self.font = font
-        self.width = width
+        self.width = CGFloat(text.count * 7 + 36)
 	}
 
 	// MARK: - Equatable

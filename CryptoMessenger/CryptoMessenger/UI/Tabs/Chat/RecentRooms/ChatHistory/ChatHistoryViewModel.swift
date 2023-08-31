@@ -51,6 +51,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     private let factory: ChannelUsersFactoryProtocol.Type
     private let chatObjectFactory: ChatHistoryObjectFactoryProtocol
     private let keychainService: KeychainServiceProtocol = KeychainService.shared
+    private let matrixObjectFactoryProtocol = MatrixObjectFactory()
     var coordinator: ChatHistoryFlowCoordinatorProtocol?
 
     // MARK: - Lifecycle
@@ -173,9 +174,17 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                     self.configureCalls()
                     self.objectWillChange.send()
                 case let .onShowRoom(room):
-                    guard let coordinator = self?.coordinator else { return }
-                    guard let mxRoom = self?.matrixUseCase.getRoomInfo(roomId: room) else { return }
-                    self?.coordinator?.firstAction(AuraRoom(mxRoom), coordinator: coordinator)
+                    guard let self = self else { return }
+                    guard let mxRoom = self.matrixUseCase.getRoomInfo(roomId: room) else { return }
+                    let roomFactory = RoomEventObjectFactory()
+                    guard let auraRoom = matrixObjectFactoryProtocol.makeAuraRooms(mxRooms: [mxRoom],
+                                                                                   config: Configuration.shared,
+                                                                                   eventsFactory: roomFactory,
+                                                                                   matrixUseCase: self.matrixUseCase) { [weak self] _ in
+                        true
+                    }.first else { return }
+                    self.coordinator?.chatRoom(auraRoom)
+                    // self.coordinator?.firstAction(AuraRoom(mxRoom))
                 case let .onDeleteRoom(roomId):
                     self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in
                         self?.matrixUseCase.objectChangePublisher.send()

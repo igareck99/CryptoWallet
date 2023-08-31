@@ -201,8 +201,7 @@ final class ChatRoomViewModel: ObservableObject {
         }
         if existingRoom.room.roomId != self.room.room.roomId {
             if let coordinator = coordinator {
-                self.coordinator?.firstAction(existingRoom,
-                                              coordinator: coordinator)
+                self.coordinator?.firstAction(existingRoom)
             }
         }
     }
@@ -213,8 +212,7 @@ final class ChatRoomViewModel: ObservableObject {
                 return
             }
             if let coordinator = self.coordinator {
-                self.coordinator?.firstAction(newRoom,
-                                              coordinator: coordinator)
+                self.coordinator?.firstAction(newRoom)
             }
         }
     }

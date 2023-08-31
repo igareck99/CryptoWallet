@@ -34,6 +34,11 @@ enum ChatHistoryContentLink: Hashable, Identifiable {
         onCancel: VoidBlock?,
         onDocumentsPicked: GenericBlock<[URL]>
     )
+    
+    case newChat(
+        room: AuraRoomData,
+        coordinator: ChatHistoryFlowCoordinatorProtocol
+    )
 
     var id: String {
         String(describing: self)

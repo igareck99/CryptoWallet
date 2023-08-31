@@ -3,7 +3,8 @@ import SwiftUI
 // MARK: - ChatHistoryFlowCoordinatorProtocol
 
 protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
-    func firstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol)
+    func chatRoom(_ room: AuraRoomData)
+    func firstAction(_ room: AuraRoom)
     func showCreateChat()
     func roomSettings(isChannel: Bool,
                       chatData: Binding<ChatData>,
@@ -82,8 +83,8 @@ extension ChatHistoryFlowCoordinator: Coordinator {
 
 extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
 
-    func firstAction(_ room: AuraRoom, coordinator: ChatHistoryFlowCoordinatorProtocol) {
-        router.routeToFirstAction(room, coordinator: coordinator)
+    func firstAction(_ room: AuraRoom) {
+        router.routeToFirstAction(room, coordinator: self)
     }
 
     func chatMedia(_ room: AuraRoom) {
@@ -223,5 +224,9 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
             coordinator: self,
             onUsersSelected: onUsersSelected
         )
+    }
+    
+    func chatRoom(_ room: AuraRoomData) {
+        router.chatRoom(room, self)
     }
 }

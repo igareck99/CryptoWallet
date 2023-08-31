@@ -39,6 +39,7 @@ protocol MatrixUseCaseProtocol {
     func createGroupRoom(_ info: ChatData, completion: @escaping (RoomCreateState) -> Void)
     func getRoomAvatarUrl(roomId: String) -> URL?
     func getUserAvatar(avatarString: String, completion: @escaping EmptyFailureBlock<UIImage>)
+    func avatarUrlForUser(_ userId: String, completion: @escaping (URL?) -> Void)
     func getRoomInfo(roomId: String) -> MXRoom?
 	func isDirectRoomExists(userId: String) -> Bool
     func isRoomEncrypted(roomId: String) -> Bool
@@ -76,6 +77,7 @@ protocol MatrixUseCaseProtocol {
                toEventId eventId: String, emoji: String)
     func redact(roomId: String,
                 eventId: String, reason: String?)
+    func getReactions(eventId: String, roomId: String)
     
     // MARK: - Pusher
     func createPusher(pushToken: Data, completion: @escaping (Bool) -> Void)
