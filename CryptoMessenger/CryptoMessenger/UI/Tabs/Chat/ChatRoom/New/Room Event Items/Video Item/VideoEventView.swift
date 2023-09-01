@@ -1,38 +1,40 @@
 import SwiftUI
 
-struct ImageEventView<
+struct VideoEventView<
     Placeholder: View,
     EventData: View,
     LoadData: View
 >: View {
-    let loadData: LoadData
-    let placeholder: Placeholder
-    let eventData: EventData
-    var model: ImageEvent {
+    
+    @StateObject var viewModel = VideoEventViewModel()
+    
+    var model: VideoEvent {
         didSet {
-            viewModel.update(url: model.imageUrl)
+            viewModel.update(url: model.videoUrl)
         }
     }
 
-    @StateObject var viewModel = ImageEventViewModel()
+    let loadData: LoadData
+    let placeholder: Placeholder
+    let eventData: EventData
 
     var body: some View {
         ZStack {
             AsyncImage(
-                defaultUrl: model.imageUrl,
+                defaultUrl: model.videoUrl,
                 placeholder: {
                     placeholder
-                        .frame(width: 245, height: 152)
+                        .frame(width: 208, height: 250)
                         .cornerRadius(16)
                 },
                 resultView: {
                     Image(uiImage: $0)
                         .resizable()
-                        .frame(width: 245, height: 152)
+                        .frame(width: 208, height: 250)
                         .cornerRadius(16)
                 }
             )
-            .frame(width: 245, height: 152)
+            .frame(width: 208, height: 250)
             .onTapGesture {
                 model.onTap()
             }
@@ -48,6 +50,6 @@ struct ImageEventView<
                 .foregroundColor(.osloGrayApprox)
                 .background(Circle().fill(Color.white))
         }
-        .frame(width: 245, height: 152)
+        .frame(width: 208, height: 250)
     }
 }

@@ -27,7 +27,7 @@ struct ContactEventView<
             .frame(maxWidth: .infinity)
 
             RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.dodgerBlue)
+                .stroke(Color.dodgerBlue, lineWidth: 2.0)
                 .frame(height: 44.0)
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 4)
@@ -36,6 +36,7 @@ struct ContactEventView<
                     Text("Профиль AURA")
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundColor(.dodgerBlue)
+                        .frame(maxWidth: .infinity)
                 }
                 .onTapGesture {
                     model.onTap()

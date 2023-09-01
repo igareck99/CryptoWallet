@@ -104,7 +104,14 @@ extension MXEvent {
             let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
             type = .contact(name: name, phone: phone, url: url)
         default:
-            type = .none
+                debugPrint("messageType \(messageType)")
+                if eventType == .callAnswer ||
+                    eventType == .callHangup ||
+                    eventType == .callReject {
+                    type = .call
+                } else {
+                    type = .none
+                }
         }
         return type
     }

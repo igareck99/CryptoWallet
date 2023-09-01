@@ -17,8 +17,11 @@ struct MapView: View {
 
     // MARK: - Lifecycle
 
-    init(place: Place, _ isInteractionModesDisabled: Bool = false,
-         showLocationTransition: Binding<Bool>) {
+    init(
+        place: Place,
+        _ isInteractionModesDisabled: Bool = false,
+        showLocationTransition: Binding<Bool>
+    ) {
         self.isInteractionModesDisabled = isInteractionModesDisabled
         self._viewModel = StateObject(wrappedValue: MapViewModel(place: place))
         self._showLocationTransition = showLocationTransition

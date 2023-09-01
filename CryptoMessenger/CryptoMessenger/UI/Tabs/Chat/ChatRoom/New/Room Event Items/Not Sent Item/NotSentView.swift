@@ -11,6 +11,8 @@ struct NotSentView: View {
                 .onTapGesture {
                     model.onTap()
                 }
+            Color.clear
+                .frame(width: 20, height: model.bottomOffset)
         }
     }
 }

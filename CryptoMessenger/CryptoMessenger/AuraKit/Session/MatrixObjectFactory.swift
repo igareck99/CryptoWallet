@@ -71,7 +71,8 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                 if callEvent?.type == "m.call.hangup" {
                     messageType = .call
                 }
-                let events = eventsFactory.makeChatHistoryRoomEvents(mxRooms: currentBatch, matrixUseCase: matrixUseCase)
+
+                let events = eventsFactory.makeChatHistoryRoomEvents(events: currentBatch, matrixUseCase: matrixUseCase)
                 let summary = RoomSummary(mxRoom.summary)
                 let unreadedEvents = summary.summary.localUnreadEventCount
                 messageType = lastMessageEvent?.messageType ?? MessageType.text("")

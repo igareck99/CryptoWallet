@@ -17,15 +17,23 @@ struct RoomEvent {
     var fullDate: String
     var isFromCurrentUser: Bool
     var reactions: [ReactionTextItem]
+//    let content: [String: Any]
+//    let eventType: String
 
     // MARK: - Lifecycle
 
-    init(eventId: String, roomId: String, sender: String,
-         sentState: RoomSentState, eventType: MessageType,
-         shortDate: String, fullDate: String,
-         isFromCurrentUser: Bool,
-         reactions: [ReactionTextItem] = [],
-         senderAvatar: URL? = nil) {
+    init(
+        eventId: String,
+        roomId: String,
+        sender: String,
+        sentState: RoomSentState,
+        eventType: MessageType,
+        shortDate: String,
+        fullDate: String,
+        isFromCurrentUser: Bool,
+        reactions: [ReactionTextItem] = [],
+        senderAvatar: URL? = nil
+    ) {
         self.eventId = eventId
         self.roomId = roomId
         self.sender = sender

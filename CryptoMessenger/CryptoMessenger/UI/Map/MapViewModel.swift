@@ -17,12 +17,11 @@ final class MapViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(locationUseCase: LocationManagerUseCaseProtocol = LocationManagerUseCase(),
-         place: Place = Place(
-            name: "",
-            latitude: 0,
-            longitude: 0),
-         sources: MapSourcesable.Type = MapResources.self) {
+    init(
+        locationUseCase: LocationManagerUseCaseProtocol = LocationManagerUseCase(),
+        place: Place = Place(name: "", latitude: 0, longitude: 0),
+        sources: MapSourcesable.Type = MapResources.self
+    ) {
         self.region = MKCoordinateRegion(
             center: .init(latitude: place.latitude, longitude: place.longitude),
             latitudinalMeters: 650,
