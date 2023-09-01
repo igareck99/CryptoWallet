@@ -5,8 +5,10 @@ import MatrixSDK
 
 protocol RoomEventObjectFactoryProtocol {
 
-    func makeChatHistoryRoomEvents(mxRooms: [MXEvent]?,
-                                   matrixUseCase: MatrixUseCaseProtocol) -> [RoomEvent]
+    func makeChatHistoryRoomEvents(
+        events: [MXEvent]?,
+        matrixUseCase: MatrixUseCaseProtocol
+    ) -> [RoomEvent]
 }
 
 struct RoomEventObjectFactory {}
@@ -15,28 +17,33 @@ struct RoomEventObjectFactory {}
 
 extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
     
-    func makeChatHistoryRoomEvents(mxRooms: [MXEvent]?,
-                                   matrixUseCase: MatrixUseCaseProtocol) -> [RoomEvent] {
-        guard let rooms = mxRooms else { return [] }
-        let events: [RoomEvent] = rooms
-            .map { mxRoom in
+    func makeChatHistoryRoomEvents(
+        events: [MXEvent]?,
+        matrixUseCase: MatrixUseCaseProtocol
+    ) -> [RoomEvent] {
+        guard let roomEvents = events else { return [] }
+        let events: [RoomEvent] = roomEvents
+            .map { event in
                 var url: URL?
-                let isFromCurrentUser = mxRoom.sender == matrixUseCase.getUserId()
+                let isFromCurrentUser = event.sender == matrixUseCase.getUserId()
                 let group = DispatchGroup()
                 group.enter()
                 if !isFromCurrentUser {
-                    matrixUseCase.avatarUrlForUser(mxRoom.sender) { value in
-                        url = value
-                    }
+                    // закоментировал т.к. почему-то бомбардирует сервер запросами на загрузку аватарок
+//                    matrixUseCase.avatarUrlForUser(mxRoom.sender) { value in
+//                        url = value
+//                    }
                 }
-                let value = RoomEvent(eventId: mxRoom.eventId, roomId: mxRoom.roomId,
-                                      sender: mxRoom.sender,
-                                      sentState: .sent,
-                                      eventType: mxRoom.messageType,
-                                      shortDate: mxRoom.timestamp.hoursAndMinutes,
-                                      fullDate: mxRoom.timestamp.dayAndMonthAndYear,
-                                      isFromCurrentUser: isFromCurrentUser,
-                                      senderAvatar: url)
+                let value = RoomEvent(
+                    eventId: event.eventId,
+                    roomId: event.roomId,
+                    sender: event.sender,
+                    sentState: .sent,
+                    eventType: event.messageType,
+                    shortDate: event.timestamp.hoursAndMinutes,
+                    fullDate: event.timestamp.dayAndMonthAndYear,
+                    isFromCurrentUser: event.sender == matrixUseCase.getUserId()
+                )
                 return value
             }
             .compactMap { $0 }

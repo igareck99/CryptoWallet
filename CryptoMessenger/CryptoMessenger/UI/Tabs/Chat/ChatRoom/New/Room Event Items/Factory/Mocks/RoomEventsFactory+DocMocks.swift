@@ -12,7 +12,7 @@ extension RoomEventsFactory {
             imageName: "paperclip.circle.fill",
             title: "Экран для Aura.docx",
             subtitle: "2.8MB",
-            url: URL(string: "https://matrix.aura.ms/")!,
+            url: .mock,
             reactionsGrid: reactionsGrid,
             eventData: eventData
         ) {

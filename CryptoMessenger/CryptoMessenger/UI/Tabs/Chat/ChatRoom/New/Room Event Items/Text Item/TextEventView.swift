@@ -20,6 +20,6 @@ struct TextEventView<
                 eventData
             }
         }
-        .frame(width: model.width)
+//        .frame(width: model.width)
     }
 }

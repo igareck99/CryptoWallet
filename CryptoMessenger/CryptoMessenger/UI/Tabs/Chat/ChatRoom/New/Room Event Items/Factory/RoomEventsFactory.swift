@@ -4,178 +4,40 @@ import SwiftUI
 // MARK: - RoomEventsFactoryProtocol
 
 protocol RoomEventsFactoryProtocol {
-    
     static func makeEventView(events: [RoomEvent]) -> [any ViewGeneratable]
-
-    static func makeSystemEventItem(
-        date: String,
-        text: String,
-        type: SystemEventType,
-        onTap: @escaping () -> Void
-    ) -> SystemEventItem
-
-    static func makeReplyItem(
-        date: String,
-        repliedItemId: String,
-        text: String,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void,
-        onReplyTap: @escaping () -> Void
-    ) -> ReplyItem
-
-    static func makeLocationItem(
-        date: String,
-        coordinate: Coordinate,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> LocationItem
-
-    static func makeAudioItem(
-        date: String,
-        url: URL,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> AudioItem
-
-    static func makeVideoItem(
-        date: String,
-        url: URL,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> VideoItem
-
-    static func makeImageItem(
-        date: String,
-        url: URL,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> ImageItem
 }
 
 enum RoomEventsFactory: RoomEventsFactoryProtocol {
 
-    static func makeSystemEventItem(
-        date: String,
-        text: String,
-        type: SystemEventType,
-        onTap: @escaping () -> Void
-    ) -> SystemEventItem {
-        SystemEventItem(
-            date: date,
-            text: text,
-            type: type,
-            onTap: onTap
-        )
-    }
-
-    static func makeReplyItem(
-        date: String,
-        repliedItemId: String,
-        text: String,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void,
-        onReplyTap: @escaping () -> Void
-    ) -> ReplyItem {
-        ReplyItem(
-            date: date,
-            repliedItemId: repliedItemId,
-            text: text,
-            reactionItems: reactionItems,
-            readStatus: readStatus,
-            onTap: onTap,
-            onReplyTap: onReplyTap
-        )
-    }
-
-    static func makeLocationItem(
-        date: String,
-        coordinate: Coordinate,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> LocationItem {
-        LocationItem(
-            date: date,
-            coordinate: coordinate,
-            reactionItems: reactionItems,
-            readStatus: readStatus,
-            onTap: onTap
-        )
-    }
-
-    static func makeAudioItem(
-        date: String,
-        url: URL,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> AudioItem {
-        AudioItem(
-            date: date,
-            url: url,
-            reactionItems: reactionItems,
-            readStatus: readStatus,
-            onTap: onTap
-        )
-    }
-
-    static func makeVideoItem(
-        date: String,
-        url: URL,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> VideoItem {
-        VideoItem(
-            date: date,
-            url: url,
-            reactionItems: reactionItems,
-            readStatus: readStatus,
-            onTap: onTap
-        )
-    }
-
-    static func makeImageItem(
-        date: String,
-        url: URL,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void
-    ) -> ImageItem {
-        ImageItem(
-            date: date,
-            url: url,
-            reactionItems: reactionItems,
-            readStatus: readStatus,
-            onTap: onTap
-        )
-    }
-
     static func makeEventView(events: [RoomEvent]) -> [any ViewGeneratable] {
-        var data: [any ViewGeneratable] = []
-        events.map {
+        let data: [any ViewGeneratable] = events.compactMap {
             switch $0.eventType {
             case let .text(string):
                 if $0.isFromCurrentUser {
-                    data.append(makeCurrentUserText($0, string))
+                    return makeCurrentUserText($0, string)
                 } else {
-                    data.append(makeAnotherUserText($0, string))
+                    return makeAnotherUserText($0, string)
                 }
+            case .call:
+                return makeCallItem(event: $0)
+            case let .contact(name, phone, url):
+                    return makeContactItem(event: $0, name: name, phone: phone, url: url)
+            case let .file(name, url):
+                return makeDocumentItem(event: $0, name: name, url: url)
+            case let .location((lat, lon)):
+                return makeMapItem(event: $0, lat: lat, lon: lon)
+            case let .image(url):
+                return makeImageItem(event: $0, url: url)
             default:
-                break
+                    debugPrint("$0.eventType: \($0.eventType)")
+                return nil
             }
         }
         return data
     }
-    
+
     static func makeCurrentUserText(_ event: RoomEvent, _ text: String) -> any ViewGeneratable {
-        let reactionColor: Color = event.isFromCurrentUser ? .brilliantAzure: .aliceBlue
+        let reactionColor: Color = event.isFromCurrentUser ? .brilliantAzure : .aliceBlue
         let reactionItems = [ReactionTextsItem(texts: [ReactionTextItem(text: "😎")], backgroundColor: reactionColor)]
         let reactionsGrid = ReactionsGridModel(reactionItems: reactionItems)
         let textEvent = TextEvent(
@@ -198,7 +60,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             centralContent: bubbleContainer
         )
     }
-    
+
     static func makeAnotherUserText(_ event: RoomEvent, _ text: String) -> any ViewGeneratable {
         let reactionColor: Color = event.isFromCurrentUser ? .brilliantAzure: .aliceBlue
         let reactionItems = [ReactionTextsItem(texts: [ReactionTextItem(text: "😎:1015")], backgroundColor: reactionColor),
@@ -209,21 +71,28 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                              ReactionTextsItem(texts: [ReactionTextItem(text: "👵")], backgroundColor: reactionColor)]
         let reactionsGrid = ReactionsGridModel(reactionItems: reactionItems)
         let textEvent = TextEvent(
-            userId: event.sender, isFromCurrentUser: event.isFromCurrentUser, avatarUrl: event.senderAvatar,
-            text: text, width: calculateWidth(text, reactionItems.count),
+            userId: event.sender,
+            isFromCurrentUser: event.isFromCurrentUser,
+            avatarUrl: event.senderAvatar,
+            text: text,
+            width: calculateWidth(text, reactionItems.count),
             eventData: EventData(
                 date: event.shortDate,
                 readData: ZeroViewModel()
             ),
-            reactionsGrid: reactionsGrid
+            reactionsGrid: ZeroViewModel()//reactionsGrid
         )
         let bubbleContainer = BubbleContainer(
             fillColor: .water,
             cornerRadius: .left,
             content: textEvent
         )
-        let userAvatar = UserAvatar(avatarUrl: event.senderAvatar,
-                                    placeholder: AvatarLetter(letter: "FP"))
+
+        let userAvatar = UserAvatar(
+//            avatarUrl: event.senderAvatar,
+            placeholder: AvatarLetter(letter: "FP")
+        )
+
         return EventContainer(
             leadingContent: userAvatar,
             centralContent: bubbleContainer,
@@ -232,8 +101,8 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
     }
 }
 
-
 func calculateWidth(_ text: String, _ reactions: Int = 0) -> CGFloat {
+
     let dateWidth = CGFloat(32)
     let reactionsWidth = CGFloat(38 * reactions)
     // TODO: - Добавить реакции

@@ -4,6 +4,8 @@ import AVFoundation
 // MARK: - URL ()
 
 extension URL {
+    
+    static let mock = URL(string: "https://matrix.aura.ms/")!
 
     // MARK: - Internal Methods
 
