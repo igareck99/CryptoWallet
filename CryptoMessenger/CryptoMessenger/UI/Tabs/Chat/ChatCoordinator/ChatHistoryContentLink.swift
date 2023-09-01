@@ -22,6 +22,13 @@ enum ChatHistoryContentLink: Hashable, Identifiable {
                        galleryContent: GalleryPickerContent,
                        onSelectImage: (UIImage?) -> Void,
                        onSelectVideo: (URL?) -> Void)
+    case selectContact(
+        mode: ContactViewMode,
+        chatData: Binding<ChatData>,
+        contactsLimit: Int? = nil,
+        coordinator: ChatHistoryFlowCoordinatorProtocol,
+        onUsersSelected: ([Contact]) -> Void
+    )
 
     case documentPicker(
         onCancel: VoidBlock?,
@@ -68,7 +75,8 @@ enum ChatHistorySheetLink: Hashable, Identifiable {
         mode: ContactViewMode,
         chatData: Binding<ChatData>,
         contactsLimit: Int? = nil,
-        onSelectContact: GenericBlock<[Contact]>? = nil
+        coordinator: ChatHistoryFlowCoordinatorProtocol,
+        onUsersSelected: ([Contact]) -> Void
     )
 
     var id: String {

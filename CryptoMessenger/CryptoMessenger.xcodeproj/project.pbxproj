@@ -212,11 +212,9 @@
 		8B1E295028EB552D000E8019 /* DocumentsViewerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E294F28EB552D000E8019 /* DocumentsViewerViewModel.swift */; };
 		8B1E295328EC9A12000E8019 /* ReactionsViewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E295228EC9A12000E8019 /* ReactionsViewList.swift */; };
 		8B1E295528EC9A20000E8019 /* ReactionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E295428EC9A20000E8019 /* ReactionsViewModel.swift */; };
-		8B1E8AC227DF4F840036C301 /* ChooseReceiverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC127DF4F840036C301 /* ChooseReceiverView.swift */; };
 		8B1E8AC427DF4F9D0036C301 /* ChooseReceiverFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC327DF4F9D0036C301 /* ChooseReceiverFlow.swift */; };
 		8B1E8AC627DF4FA80036C301 /* ChooseReceiverProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC527DF4FA80036C301 /* ChooseReceiverProtocols.swift */; };
-		8B1E8AC827DF4FB20036C301 /* ChooseReceiverConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC727DF4FB20036C301 /* ChooseReceiverConfigurator.swift */; };
-		8B1E8ACA27DF4FBD0036C301 /* ChooseReceiverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC927DF4FBD0036C301 /* ChooseReceiverViewModel.swift */; };
+		8B1E8AC827DF4FB20036C301 /* ChooseReceiverAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8AC727DF4FB20036C301 /* ChooseReceiverAssembly.swift */; };
 		8B200FEE2744596300A847D5 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B200FED2744596300A847D5 /* SessionView.swift */; };
 		8B200FF0274459E400A847D5 /* SessionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B200FEF274459E400A847D5 /* SessionItem.swift */; };
 		8B2048E529255CE1008143A7 /* ReactionsSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2048E429255CE1008143A7 /* ReactionsSelectView.swift */; };
@@ -265,7 +263,7 @@
 		8B32FEC4298B21C70017082A /* UserSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEC3298B21C70017082A /* UserSettingsViewModel.swift */; };
 		8B32FEC6298D10670017082A /* SelectChannelTypeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B32FEC5298D10660017082A /* SelectChannelTypeViewModel.swift */; };
 		8B334155295B74A60062903C /* SearchTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334154295B74A60062903C /* SearchTypeView.swift */; };
-		8B334157295B7D6E0062903C /* ChooseReceiverStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */; };
+		8B334157295B7D6E0062903C /* AdressesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B334156295B7D6E0062903C /* AdressesData.swift */; };
 		8B34292B29786EC800F63DE1 /* SecurityCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34292A29786EC800F63DE1 /* SecurityCellItem.swift */; };
 		8B34292D29786EEC00F63DE1 /* SecurityAdvancedCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34292C29786EEC00F63DE1 /* SecurityAdvancedCellView.swift */; };
 		8B34292F29786F0000F63DE1 /* SecurityCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34292E29786F0000F63DE1 /* SecurityCellView.swift */; };
@@ -321,8 +319,7 @@
 		8B4E9C3027DFF6320057E4C9 /* ScannerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */; };
 		8B4E9C3227DFF6700057E4C9 /* ScanerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */; };
 		8B4E9C3527E0A77A0057E4C9 /* WalletAdressScanerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */; };
-		8B4E9C3727E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3627E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift */; };
-		8B4E9C3B27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */; };
+		8B4E9C3727E0A7900057E4C9 /* WalletAddressScannerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3627E0A7900057E4C9 /* WalletAddressScannerAssembly.swift */; };
 		8B4E9C3D27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */; };
 		8B4E9C3F27E0AA150057E4C9 /* WalletAdressScanerFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */; };
 		8B4E9C4227E1EDBE0057E4C9 /* FacilityApproveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C4127E1EDBE0057E4C9 /* FacilityApproveView.swift */; };
@@ -415,6 +412,12 @@
 		8BAAB3802A24EE010062D5B2 /* OnboardingResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAAB37F2A24EE010062D5B2 /* OnboardingResources.swift */; };
 		8BAAB3822A24FD840062D5B2 /* OnboardingCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAAB3812A24FD840062D5B2 /* OnboardingCellView.swift */; };
 		8BAAB3842A2643670062D5B2 /* OboardingPageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAAB3832A2643670062D5B2 /* OboardingPageData.swift */; };
+		8BAB8D2A2A97BCE10083167C /* ChooseReceiverNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB8D292A97BCE10083167C /* ChooseReceiverNewView.swift */; };
+		8BAB8D2D2A97BE3A0083167C /* ChooseReceiverNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB8D2C2A97BE3A0083167C /* ChooseReceiverNewViewModel.swift */; };
+		8BAB8D2F2A97CD130083167C /* ReceiverRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB8D2E2A97CD130083167C /* ReceiverRowView.swift */; };
+		8BAB8D322A97D0660083167C /* SearchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB8D312A97D0660083167C /* SearchType.swift */; };
+		8BAB8D342A97D07C0083167C /* UserWallletData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB8D332A97D07C0083167C /* UserWallletData.swift */; };
+		8BAB8D362A97D0B10083167C /* UserReceiverData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB8D352A97D0B10083167C /* UserReceiverData.swift */; };
 		8BAC812729F1BF3900316A8E /* MXRoomNotificationSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAC812629F1BF3900316A8E /* MXRoomNotificationSettingsService.swift */; };
 		8BAC812929F1BFED00316A8E /* RoomNotificationSettingsServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAC812829F1BFED00316A8E /* RoomNotificationSettingsServiceType.swift */; };
 		8BADB3D6284A0B51004A48AA /* MediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BADB3D5284A0B51004A48AA /* MediaService.swift */; };
@@ -1085,11 +1088,9 @@
 		8B1E294F28EB552D000E8019 /* DocumentsViewerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsViewerViewModel.swift; sourceTree = "<group>"; };
 		8B1E295228EC9A12000E8019 /* ReactionsViewList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsViewList.swift; sourceTree = "<group>"; };
 		8B1E295428EC9A20000E8019 /* ReactionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsViewModel.swift; sourceTree = "<group>"; };
-		8B1E8AC127DF4F840036C301 /* ChooseReceiverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverView.swift; sourceTree = "<group>"; };
 		8B1E8AC327DF4F9D0036C301 /* ChooseReceiverFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverFlow.swift; sourceTree = "<group>"; };
 		8B1E8AC527DF4FA80036C301 /* ChooseReceiverProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverProtocols.swift; sourceTree = "<group>"; };
-		8B1E8AC727DF4FB20036C301 /* ChooseReceiverConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverConfigurator.swift; sourceTree = "<group>"; };
-		8B1E8AC927DF4FBD0036C301 /* ChooseReceiverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverViewModel.swift; sourceTree = "<group>"; };
+		8B1E8AC727DF4FB20036C301 /* ChooseReceiverAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverAssembly.swift; sourceTree = "<group>"; };
 		8B200FED2744596300A847D5 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		8B200FEF274459E400A847D5 /* SessionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionItem.swift; sourceTree = "<group>"; };
 		8B2048E429255CE1008143A7 /* ReactionsSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsSelectView.swift; sourceTree = "<group>"; };
@@ -1139,7 +1140,7 @@
 		8B32FEC3298B21C70017082A /* UserSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsViewModel.swift; sourceTree = "<group>"; };
 		8B32FEC5298D10660017082A /* SelectChannelTypeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectChannelTypeViewModel.swift; sourceTree = "<group>"; };
 		8B334154295B74A60062903C /* SearchTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTypeView.swift; sourceTree = "<group>"; };
-		8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverStructs.swift; sourceTree = "<group>"; };
+		8B334156295B7D6E0062903C /* AdressesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdressesData.swift; sourceTree = "<group>"; };
 		8B34292A29786EC800F63DE1 /* SecurityCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCellItem.swift; sourceTree = "<group>"; };
 		8B34292C29786EEC00F63DE1 /* SecurityAdvancedCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityAdvancedCellView.swift; sourceTree = "<group>"; };
 		8B34292E29786F0000F63DE1 /* SecurityCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCellView.swift; sourceTree = "<group>"; };
@@ -1193,8 +1194,7 @@
 		8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerCoordinator.swift; sourceTree = "<group>"; };
 		8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanerViewController.swift; sourceTree = "<group>"; };
 		8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerView.swift; sourceTree = "<group>"; };
-		8B4E9C3627E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAddressScannerConfigurator.swift; sourceTree = "<group>"; };
-		8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerProtocols.swift; sourceTree = "<group>"; };
+		8B4E9C3627E0A7900057E4C9 /* WalletAddressScannerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAddressScannerAssembly.swift; sourceTree = "<group>"; };
 		8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerViewModel.swift; sourceTree = "<group>"; };
 		8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAdressScanerFlow.swift; sourceTree = "<group>"; };
 		8B4E9C4127E1EDBE0057E4C9 /* FacilityApproveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacilityApproveView.swift; sourceTree = "<group>"; };
@@ -1287,6 +1287,12 @@
 		8BAAB37F2A24EE010062D5B2 /* OnboardingResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingResources.swift; sourceTree = "<group>"; };
 		8BAAB3812A24FD840062D5B2 /* OnboardingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCellView.swift; sourceTree = "<group>"; };
 		8BAAB3832A2643670062D5B2 /* OboardingPageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OboardingPageData.swift; sourceTree = "<group>"; };
+		8BAB8D292A97BCE10083167C /* ChooseReceiverNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverNewView.swift; sourceTree = "<group>"; };
+		8BAB8D2C2A97BE3A0083167C /* ChooseReceiverNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReceiverNewViewModel.swift; sourceTree = "<group>"; };
+		8BAB8D2E2A97CD130083167C /* ReceiverRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverRowView.swift; sourceTree = "<group>"; };
+		8BAB8D312A97D0660083167C /* SearchType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchType.swift; sourceTree = "<group>"; };
+		8BAB8D332A97D07C0083167C /* UserWallletData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWallletData.swift; sourceTree = "<group>"; };
+		8BAB8D352A97D0B10083167C /* UserReceiverData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReceiverData.swift; sourceTree = "<group>"; };
 		8BAC812629F1BF3900316A8E /* MXRoomNotificationSettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MXRoomNotificationSettingsService.swift; sourceTree = "<group>"; };
 		8BAC812829F1BFED00316A8E /* RoomNotificationSettingsServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomNotificationSettingsServiceType.swift; sourceTree = "<group>"; };
 		8BADB3D5284A0B51004A48AA /* MediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaService.swift; sourceTree = "<group>"; };
@@ -2773,15 +2779,14 @@
 		8B1E8AC027DF4F4A0036C301 /* ChooseReciver */ = {
 			isa = PBXGroup;
 			children = (
-				8B1E8AC127DF4F840036C301 /* ChooseReceiverView.swift */,
+				8BAB8D302A97D0540083167C /* Data */,
+				8BAB8D2B2A97BE120083167C /* Components */,
 				8B1E8AC327DF4F9D0036C301 /* ChooseReceiverFlow.swift */,
 				8B1E8AC527DF4FA80036C301 /* ChooseReceiverProtocols.swift */,
-				8B1E8AC727DF4FB20036C301 /* ChooseReceiverConfigurator.swift */,
-				8B1E8AC927DF4FBD0036C301 /* ChooseReceiverViewModel.swift */,
-				8B334154295B74A60062903C /* SearchTypeView.swift */,
-				8B334156295B7D6E0062903C /* ChooseReceiverStructs.swift */,
-				8B86A4A42992BA7500B6A67B /* EnterAdressUserView.swift */,
+				8B1E8AC727DF4FB20036C301 /* ChooseReceiverAssembly.swift */,
 				8B451FEF29A442D400BF4646 /* ChooseReciverResourcable.swift */,
+				8BAB8D292A97BCE10083167C /* ChooseReceiverNewView.swift */,
+				8BAB8D2C2A97BE3A0083167C /* ChooseReceiverNewViewModel.swift */,
 			);
 			path = ChooseReciver;
 			sourceTree = "<group>";
@@ -3035,8 +3040,7 @@
 			isa = PBXGroup;
 			children = (
 				8B4E9C3427E0A77A0057E4C9 /* WalletAdressScanerView.swift */,
-				8B4E9C3627E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift */,
-				8B4E9C3A27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift */,
+				8B4E9C3627E0A7900057E4C9 /* WalletAddressScannerAssembly.swift */,
 				8B4E9C3C27E0A9CB0057E4C9 /* WalletAdressScanerViewModel.swift */,
 				8B4E9C3E27E0AA150057E4C9 /* WalletAdressScanerFlow.swift */,
 			);
@@ -3215,6 +3219,27 @@
 				8BA0C90A27AD4F4C0070203F /* AnswerView.swift */,
 			);
 			path = Answers;
+			sourceTree = "<group>";
+		};
+		8BAB8D2B2A97BE120083167C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				8B86A4A42992BA7500B6A67B /* EnterAdressUserView.swift */,
+				8B334154295B74A60062903C /* SearchTypeView.swift */,
+				8BAB8D2E2A97CD130083167C /* ReceiverRowView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		8BAB8D302A97D0540083167C /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8BAB8D312A97D0660083167C /* SearchType.swift */,
+				8BAB8D332A97D07C0083167C /* UserWallletData.swift */,
+				8B334156295B7D6E0062903C /* AdressesData.swift */,
+				8BAB8D352A97D0B10083167C /* UserReceiverData.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		8BADB3D02847D224004A48AA /* DocumentViewer */ = {
@@ -4870,8 +4895,8 @@
 				8B0C57492A64551700D456FF /* ProfileRouter.swift in Sources */,
 				5AC8C4ED27C3FECB008B1744 /* AdminsView.swift in Sources */,
 				8BAFF37F2863F2D30082E24C /* TimerView.swift in Sources */,
-				8B4E9C3B27E0A7A90057E4C9 /* WalletAdressScanerProtocols.swift in Sources */,
 				D4442B4428113C3C0033D07A /* KeychainWrapper.swift in Sources */,
+				8BAB8D2D2A97BE3A0083167C /* ChooseReceiverNewViewModel.swift in Sources */,
 				D4D439FB28374B0C00AC0DEF /* MXRoom+Reply.m in Sources */,
 				5A187EB8268070B3001957D3 /* String+Extensions.swift in Sources */,
 				D4137B2A2A9B2276001241B6 /* ReadData.swift in Sources */,
@@ -4947,6 +4972,7 @@
 				8BC06B1227C8F646005A28A1 /* TransactionViewModel.swift in Sources */,
 				8B35036B2980696B0090EE93 /* ChannelParticipantsMenuView.swift in Sources */,
 				8B4810F927CF98BB00831589 /* ImportKeyView.swift in Sources */,
+				8BAB8D2F2A97CD130083167C /* ReceiverRowView.swift in Sources */,
 				5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */,
 				8B34A9FA28D4AAFA0097ED9E /* DirectChatMenuViewModel.swift in Sources */,
 				5A2EC772279F3A6C00857248 /* APILogger.swift in Sources */,
@@ -4992,7 +5018,7 @@
 				8B5D83F3283B7DFF0035815B /* ContactInfoResources.swift in Sources */,
 				D491820029233FA7009F8C33 /* UINavigationController+Extensions.swift in Sources */,
 				D400CF912A6949CA002CF15C /* TransferViewResources.swift in Sources */,
-				8B334157295B7D6E0062903C /* ChooseReceiverStructs.swift in Sources */,
+				8B334157295B7D6E0062903C /* AdressesData.swift in Sources */,
 				8BDE0FAF2A6C9E0E008B5D1F /* GalleryPickerAssembly.swift in Sources */,
 				8B985D102A5C480900F25D8C /* ChannelNotificationsAssembly.swift in Sources */,
 				5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */,
@@ -5029,7 +5055,6 @@
 				8B0353D52A8A91730033965D /* ChatHistoryRowComponentsFactory.swift in Sources */,
 				8BB517D9285A6A5C00D06593 /* SliderAudioView.swift in Sources */,
 				8B4810FF27CF9BEB00831589 /* ImportKeyViewAssembly.swift in Sources */,
-				8B1E8AC227DF4F840036C301 /* ChooseReceiverView.swift in Sources */,
 				5AF8637026ADD9BB004A417C /* MainFlowCoordinator.swift in Sources */,
 				5A4BE51C271DD86A00D03D09 /* EventCollection.swift in Sources */,
 				D48AF487292E48200044CFAE /* BalancesResponse.swift in Sources */,
@@ -5058,6 +5083,7 @@
 				D48AF446292601C10044CFAE /* CoreDataService.swift in Sources */,
 				D43A7E5C28CB259400A807EC /* Base32.swift in Sources */,
 				D4506988297A4ACA009515C8 /* ChannelInfoView.swift in Sources */,
+				8BAB8D2A2A97BCE10083167C /* ChooseReceiverNewView.swift in Sources */,
 				D44BDC70280818090080AE8A /* DefaultResponses.swift in Sources */,
 				D4137B5E2A9C90AA001241B6 /* RoomEventsFactory+ImageMocks.swift in Sources */,
 				D46C8FD92942C99000DD0B01 /* TransactionDetailsView.swift in Sources */,
@@ -5090,6 +5116,7 @@
 				D4C8CF4A2A45957E007CC925 /* AppCoordinatorRouter.swift in Sources */,
 				8B009A5B2A72A884000C650F /* ProfileFeedImageAssembly.swift in Sources */,
 				D4AB8FFC282672BB00E6FAB5 /* MatrixService+Devices.swift in Sources */,
+				8BAB8D362A97D0B10083167C /* UserReceiverData.swift in Sources */,
 				8B0F60D828BD1448002B2235 /* DocumentViewerViewModel.swift in Sources */,
 				8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */,
 				D423A0A2285E2860004A8228 /* P2PCallState.swift in Sources */,
@@ -5225,7 +5252,6 @@
 				D44BDC7728083B2F0080AE8A /* NotificationsUseCaseAssembly.swift in Sources */,
 				8BE66738280F1C4600D41A3C /* CreateContactView.swift in Sources */,
 				8B1E295028EB552D000E8019 /* DocumentsViewerViewModel.swift in Sources */,
-				8B1E8ACA27DF4FBD0036C301 /* ChooseReceiverViewModel.swift in Sources */,
 				D4220D4C2A723F25008B158C /* AuthState.swift in Sources */,
 				8BBF9084293514D700936F4D /* NotificationSettingsView.swift in Sources */,
 				D4AB8FF728266C5800E6FAB5 /* MatrixServiceProtocol.swift in Sources */,
@@ -5263,6 +5289,7 @@
 				8B881274292285D200EDB348 /* MXPushRule+Externsion.swift in Sources */,
 				D4A26E292937165800FEADC2 /* BalanceRequestParams.swift in Sources */,
 				5A26CD6126B35C9B00118D4B /* Message.swift in Sources */,
+				8BAB8D342A97D07C0083167C /* UserWallletData.swift in Sources */,
 				D4C8CF4C2A459889007CC925 /* CoordinatorsFactory.swift in Sources */,
 				D4A514B2295187E3007A87BF /* ApproveFacilityCellTitle.swift in Sources */,
 				D4AB8FFE282672F800E6FAB5 /* MatrixService+Rooms.swift in Sources */,
@@ -5285,6 +5312,7 @@
 				8B27435E281AE3AA00B5957C /* RemoteConfigModels.swift in Sources */,
 				8BAAB37E2A24EDA10062D5B2 /* OnboardingViewModel.swift in Sources */,
 				D4A51492294F4DCE007A87BF /* TransactionSendReponse.swift in Sources */,
+				8BAB8D322A97D0660083167C /* SearchType.swift in Sources */,
 				D4220D4E2A723F5A008B158C /* AuthTransitions.swift in Sources */,
 				8B34A9F028D45E200097ED9E /* GroupActions.swift in Sources */,
 				D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */,
@@ -5383,7 +5411,7 @@
 				D4FD92AD2A5D5D21008EA8A2 /* WalletRouterState.swift in Sources */,
 				D4137B362A9B6D2B001241B6 /* CallItem.swift in Sources */,
 				8B38D13B28C0F032002733D7 /* ProfileSettingsMenuRow.swift in Sources */,
-				8B1E8AC827DF4FB20036C301 /* ChooseReceiverConfigurator.swift in Sources */,
+				8B1E8AC827DF4FB20036C301 /* ChooseReceiverAssembly.swift in Sources */,
 				8B350364297EF7A70090EE93 /* ChannelNotificationsViewModel.swift in Sources */,
 				8B6B707C2A30B6EC00D99156 /* Color+Extensions.swift in Sources */,
 				8BE122BC28240C8B00F7707E /* RemoteConfigUseCase.swift in Sources */,
@@ -5402,7 +5430,7 @@
 				D400612D2A4D5919004D5F35 /* AuthRouter.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
 				D49FAD972A77708500B26C8B /* AddSeedAssembly.swift in Sources */,
-				8B4E9C3727E0A7900057E4C9 /* WalletAddressScannerConfigurator.swift in Sources */,
+				8B4E9C3727E0A7900057E4C9 /* WalletAddressScannerAssembly.swift in Sources */,
 				D4857CFE28AF4AAE00C904EC /* Font+Extensions.swift in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
 				D494D62F2A2DE7830029D222 /* CodeVerificationView.swift in Sources */,

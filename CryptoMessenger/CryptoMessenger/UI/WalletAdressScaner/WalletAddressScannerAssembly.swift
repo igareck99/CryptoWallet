@@ -1,18 +1,16 @@
 import SwiftUI
 
-// MARK: - WalletAddressScannerConfigurator
+// MARK: - WalletAddressScannerAssembly
 
-enum WalletAddressScannerConfigurator {
+enum WalletAddressScannerAssembly {
 
     // MARK: - Static Methods
 
-    static func configuredView(
-        delegate: WalletAddressScanerSceneDelegate?,
+    static func build(
         scannedCode: Binding<String>
     ) -> WalletAddressScanerView {
 		let userSettings = UserDefaultsService.shared
         let viewModel = WalletAddressScanerViewModel(userSettings: userSettings)
-        viewModel.delegate = delegate
         let view = WalletAddressScanerView(scannedCode: scannedCode)
         return view
     }

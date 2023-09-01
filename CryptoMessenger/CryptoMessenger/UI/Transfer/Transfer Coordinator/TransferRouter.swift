@@ -8,17 +8,21 @@ protocol TransferRoutable: ObservableObject {
 
     func chooseReceiver(
         address: Binding<UserReceiverData>,
-        coordinator: ChooseReceiverViewCoordinatable
+        coordinator: TransferViewCoordinatable
     )
 
     func facilityApprove(
         transaction: FacilityApproveModel,
         coordinator: FacilityApproveViewCoordinatable
     )
+    
+    func showAdressScanner(_ value: Binding<String>)
 
     func showTransactionResult(model: TransactionResult)
 
     func popToRoot()
+    
+    func previousScreen()
 }
 
 final class TransferRouter<State: TransferStatable> {
@@ -48,7 +52,7 @@ extension TransferRouter: TransferRoutable {
 
     func chooseReceiver(
         address: Binding<UserReceiverData>,
-        coordinator: ChooseReceiverViewCoordinatable
+        coordinator: TransferViewCoordinatable
     ) {
         state.path.append(
             WalletContentLink.chooseReceiver(
@@ -69,6 +73,12 @@ extension TransferRouter: TransferRoutable {
             )
         )
     }
+    
+    func showAdressScanner(_ value: Binding<String>) {
+        state.path.append(
+            WalletContentLink.adressScanner(value: value)
+        )
+    }
 
     func showTransactionResult(model: TransactionResult) {
         state.presentedItem = WalletSheetLink.transactionResult(model: model)
@@ -77,5 +87,9 @@ extension TransferRouter: TransferRoutable {
     func popToRoot() {
         state.path = NavigationPath()
         state.presentedItem = nil
+    }
+    
+    func previousScreen() {
+        state.path.removeLast()
     }
 }

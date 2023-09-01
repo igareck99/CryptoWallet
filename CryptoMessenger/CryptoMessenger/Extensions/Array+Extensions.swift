@@ -12,6 +12,15 @@ extension Array where Element: Equatable {
         }
         return nil
     }
+    
+    var unique: [Element] {
+        var uniqueValues: [Element] = []
+        forEach { item in
+            guard !uniqueValues.contains(item) else { return }
+            uniqueValues.append(item)
+        }
+        return uniqueValues
+    }
 
     func previous(item: Element) -> Element? {
         if let index = firstIndex(of: item), index >= 0 {

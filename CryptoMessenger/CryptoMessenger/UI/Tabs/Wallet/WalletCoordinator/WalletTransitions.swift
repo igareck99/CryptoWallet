@@ -36,13 +36,15 @@ enum WalletContentLink: Identifiable, Hashable {
 
     case chooseReceiver(
         address: Binding<UserReceiverData>,
-        coordinator: ChooseReceiverViewCoordinatable
+        coordinator: TransferViewCoordinatable
     )
 
     case facilityApprove(
         transaction: FacilityApproveModel,
         coordinator: FacilityApproveViewCoordinatable
     )
+    
+    case adressScanner(value: Binding<String>)
     
     case showTokenInfo(wallet: WalletInfo)
 

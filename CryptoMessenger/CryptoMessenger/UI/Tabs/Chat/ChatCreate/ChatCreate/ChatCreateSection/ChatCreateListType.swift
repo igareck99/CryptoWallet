@@ -9,4 +9,5 @@ enum ChatCreateListType {
     case lastUsers
     case existing
     case waitingContacts
+    case sendContact
 }

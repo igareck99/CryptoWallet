@@ -11,6 +11,10 @@ protocol TransferViewCoordinatable {
 
     // Создали template транзакции
     func didCreateTemplate(transaction: FacilityApproveModel)
+    
+    func previousScreen()
+    
+    func showAdressScanner(_ value: Binding<String>)
 }
 
 final class TransferViewModel: ObservableObject {

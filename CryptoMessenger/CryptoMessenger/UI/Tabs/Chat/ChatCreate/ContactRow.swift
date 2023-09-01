@@ -50,8 +50,12 @@ struct ContactRow: View {
                             ])
                         }
                     }
-
-                    if !contact.status.isEmpty {
+                    switch contact.type {
+                    case .sendContact:
+                        Text(contact.phone)
+                            .font(.regular(13))
+                            .foregroundColor(.gray)
+                    default:
                         Text(contact.status)
                             .lineLimit(1)
                             .font(.regular(13))
@@ -91,5 +95,6 @@ struct ContactRow: View {
                 }
             }
         }
+        .listRowSeparator(contact.type == .sendContact ? .hidden : .visible)
     }
 }

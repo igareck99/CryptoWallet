@@ -57,6 +57,7 @@ struct SelectContact: Identifiable, ViewGeneratable {
     let mxId: String
     let avatar: URL?
     let name: String
+    let phone: String
     var isSelected: Bool
     var onTap: (SelectContact) -> Void
 

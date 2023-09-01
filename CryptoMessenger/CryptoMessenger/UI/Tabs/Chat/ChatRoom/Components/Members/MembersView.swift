@@ -2,11 +2,11 @@ import SwiftUI
 
 // MARK: - MembersView
 
-struct MembersView: View {
+struct MembersView<ViewModel>: View where ViewModel: MembersViewModelDelegate {
 
     // MARK: - Private Properties
 
-    @StateObject var viewModel: MembersViewModel
+    @StateObject var viewModel: ViewModel
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
@@ -15,21 +15,9 @@ struct MembersView: View {
         content
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationViewStyle(.stack)
+            .toolbar(.visible, for: .navigationBar)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        R.image.navigation.backButton.image
-                    })
-                }
-
-                ToolbarItem(placement: .principal) {
-                    Text("Участники чата")
-                        .font(.bold(15))
-                        .foreground(.black())
-                }
+                createToolBar()
             }
     }
 
@@ -37,25 +25,29 @@ struct MembersView: View {
         VStack(spacing: 0) {
             Divider()
                 .foreground(.grayE6EAED())
-            // TODO: - Переделать
-            ScrollView(.vertical, showsIndicators: false) {
-//                ForEach(0..<viewModel.chatData.contacts.count) { index in
-//                    let contact = viewModel.chatData.contacts[index]
-//                    VStack(spacing: 0) {
-//                        ContactRow(
-//                            avatar: contact.avatar,
-//                            name: contact.name,
-//                            status: contact.status,
-//                            hideSeparator: contact.id == viewModel.chatData.contacts.last?.id,
-//                            isAdmin: contact.isAdmin
-//                        )
-//                            .background(.white())
-//                    }
-//                    .onTapGesture {
-//                        viewModel.onProfile(contact)
-//                    }
-//                }
+            List {
+                ForEach(viewModel.membersViews, id: \.id) { value in
+                    value.view()
+                }
             }
+            .listStyle(.plain)
+        }
+    }
+    
+    @ToolbarContentBuilder
+    private func createToolBar() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                R.image.navigation.backButton.image
+            })
+        }
+
+        ToolbarItem(placement: .principal) {
+            Text("Участники чата")
+                .font(.bold(15))
+                .foreground(.black())
         }
     }
 }

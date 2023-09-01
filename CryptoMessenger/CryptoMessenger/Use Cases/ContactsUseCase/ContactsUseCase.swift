@@ -2,7 +2,7 @@ import Combine
 
 // MARK: - ContactsUseCase
 
-final class ContactsUseCase {
+final class ContactsUseCase: ContactsUseCaseProtocol {
 
     // MARK: - Static Properties
 

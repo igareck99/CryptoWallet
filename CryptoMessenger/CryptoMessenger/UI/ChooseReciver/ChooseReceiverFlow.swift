@@ -22,6 +22,5 @@ enum ChooseReceiverFlow {
         // MARK: - Types
 
         case onAppear
-        case onScanner(scannedScreen: Binding<String>)
     }
 }

@@ -1,11 +1,13 @@
 import SwiftUI
 
-// MARK: - SelectViewModelDelegate
+// MARK: - SelectContactViewModelDelegate
 
 protocol SelectContactViewModelDelegate: ObservableObject {
 
     func send(_ event: SelectContactFlow.Event)
-
+    
+    var searchText: String { get set }
+    
     var usersViews: [any ViewGeneratable] { get }
 
     var contactsLimit: Int? { get }
@@ -17,4 +19,8 @@ protocol SelectContactViewModelDelegate: ObservableObject {
     func onFinish()
     
     func getButtonColor() -> Color
+    
+    var mode: ContactViewMode { get }
+    
+    func dismissSheet()
 }

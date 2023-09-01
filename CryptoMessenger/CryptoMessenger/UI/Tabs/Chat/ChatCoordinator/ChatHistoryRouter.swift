@@ -52,7 +52,8 @@ protocol ChatHistoryRouterable: View {
         mode: ContactViewMode,
         chatData: Binding<ChatData>,
         contactsLimit: Int?,
-        onSelectContact: GenericBlock<[Contact]>?
+        coordinator: ChatHistoryFlowCoordinatorProtocol,
+        onUsersSelected: @escaping ([Contact]) -> Void
     )
 
     func channelPatricipantsView(_ viewModel: ChannelInfoViewModel,
@@ -135,6 +136,21 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
                 onCancel: onCancel,
                 onDocumentsPicked: onDocumentsPicked
             ).anyView()
+        case let .selectContact(
+            mode,
+            chatData,
+            contactsLimit,
+            coordinator,
+            onUsersSelected
+        ):
+            SelectContactAssembly.build(
+                mode: mode,
+                chatData: chatData,
+                contactsLimit: contactsLimit, chatHistoryCoordinator: coordinator, onUsersSelected: { value in
+                    onUsersSelected(value)
+                }
+            )
+            .anyView()
         default:
             EmptyView()
         }
@@ -183,14 +199,18 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
                 mode,
                 chatData,
                 contactsLimit,
-                onSelectContact
+                coordinator,
+                onUsersSelected
             ):
                 return SelectContactAssembly.build(
                     mode: mode,
                     chatData: chatData,
                     contactsLimit: contactsLimit,
-                    onSelectContact: onSelectContact
-                ).anyView()        
+                    chatHistoryCoordinator: coordinator, onUsersSelected: { value in
+                        onUsersSelected(value)
+                    }
+                )
+                .anyView()
         }
     }
 }
@@ -306,14 +326,23 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
         mode: ContactViewMode,
         chatData: Binding<ChatData>,
         contactsLimit: Int? = nil,
-        onSelectContact: GenericBlock<[Contact]>? = nil
+        coordinator: ChatHistoryFlowCoordinatorProtocol,
+        onUsersSelected: @escaping ([Contact]) -> Void
     ) {
         state.presentedItem = .selectContact(
             mode: mode,
             chatData: chatData,
             contactsLimit: contactsLimit,
-            onSelectContact: onSelectContact
+            coordinator: coordinator,
+            onUsersSelected: onUsersSelected
         )
+//        state.path.append(ChatHistoryContentLink.selectContact(
+//            mode: mode,
+//            chatData: chatData,
+//            contactsLimit: contactsLimit,
+//            coordinator: coordinator,
+//            onUsersSelected: onUsersSelected
+//        ))
     }
 
     func dismissCurrentSheet() {
