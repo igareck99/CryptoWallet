@@ -1,7 +1,8 @@
 import SwiftUI
 
-struct ChatView<ViewModel: ChatViewModelProtocol>: View {
-    @StateObject var viewModel: ViewModel
+struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
+    @ObservedObject var viewModel: ViewModel
+
     var body: some View {
         List {
             ForEach(viewModel.displayItems, id: \.hashValue) { item in
@@ -11,5 +12,10 @@ struct ChatView<ViewModel: ChatViewModelProtocol>: View {
             }
         }
         .listStyle(.plain)
+        .onAppear {
+            viewModel.eventSubject.send(.onAppear)
+        }
+        .toolbar(.hidden, for: .tabBar)
+        .toolbar(.visible, for: .navigationBar)
     }
 }

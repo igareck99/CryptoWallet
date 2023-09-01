@@ -168,4 +168,16 @@ extension MatrixService {
             completion(.success)
         }
     }
+    
+    func avatarUrlForUser(_ userId: String, completion: @escaping (URL?) -> Void) {
+        matrixSession?.matrixRestClient.avatarUrl(forUser: userId, completion: { response in
+            switch response {
+            case let .success(value):
+                let url = MXURL(mxContentURI: value.absoluteString)?.contentURL(on: Configuration.shared.matrixURL)
+                completion(url)
+            default:
+                break
+            }
+        })
+    }
 }

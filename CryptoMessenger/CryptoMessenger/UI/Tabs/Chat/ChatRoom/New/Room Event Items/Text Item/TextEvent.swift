@@ -2,7 +2,11 @@ import SwiftUI
 
 struct TextEvent: Identifiable, ViewGeneratable {
     let id = UUID()
+    let userId: String
+    let isFromCurrentUser: Bool
+    let avatarUrl: URL?
     let text: String
+    let width: CGFloat
     let eventData: any ViewGeneratable
     let reactionsGrid: any ViewGeneratable
 

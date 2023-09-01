@@ -357,8 +357,7 @@ extension ChatComponentsFactory {
             if emojiCount > 1 {
                 size = CGFloat(String(emojiCount).count * 7 + 44)
             }
-            let emoji = ReactionTextItem(text: reaction.emoji,
-                                         width: size)
+            let emoji = ReactionTextItem(text: reaction.emoji)
 			let count = ReactionTextItem(
 				text: "\(emojiCount)",
 				color: isCurrentUser ? .blackSqueezeApprox : .cornflowerBlueApprox,

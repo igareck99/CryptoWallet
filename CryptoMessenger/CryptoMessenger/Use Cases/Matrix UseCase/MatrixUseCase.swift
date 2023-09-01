@@ -268,6 +268,8 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
         })
     }
     
+    
+    
     func getRoomAvatarUrl(roomId: String) -> URL? {
         guard let room = getRoomInfo(roomId: roomId),
             let avatar = room.summary.avatar,
@@ -382,6 +384,13 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
                 debugPrint("emotions error \(error)")
             })
     }
+    
+    func getReactions(eventId: String, roomId: String) {
+        matrixSession?.aggregations.reactionsEvents(forEvent: eventId, inRoom: roomId, from: nil, limit: 100, success: { _ in
+        }, failure: { error in
+            print("askaskaskask  \(error)")
+        })
+    }
 
     func redact(roomId: String,
                 eventId: String, reason: String?) {
@@ -435,6 +444,12 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
                 guard let i = image else { return }
                 completion(.success(i))
             }
+        }
+    }
+    
+    func avatarUrlForUser(_ userId: String, completion: @escaping (URL?) -> Void) {
+        matrixService.avatarUrlForUser(userId) { result in
+            completion(result)
         }
     }
     

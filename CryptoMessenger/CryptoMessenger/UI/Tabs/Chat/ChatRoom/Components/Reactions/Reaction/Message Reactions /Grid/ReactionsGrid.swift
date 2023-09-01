@@ -15,10 +15,9 @@ struct ReactionsGrid<ViewModel: ReactionsGroupViewModelProtocol>: View {
 				generateContent(in: gReader)
 			}
 		}
-//		.frame(maxHeight: totalHeight)
+        .padding(.leading, -4)
         .frame(
-            minHeight: 38,
-            maxHeight: viewHeightNew(for: 238, reactionItems: viewModel.items)
+            height: viewHeightNew(for: 218, reactionItems: viewModel.items)
         )
 	}
 
@@ -79,5 +78,5 @@ func viewHeightNew(for width: CGFloat, reactionItems: [any ViewGeneratable]) -> 
     if countSize > 0 {
         return 38
     }
-    return 70
+    return 80
 }
