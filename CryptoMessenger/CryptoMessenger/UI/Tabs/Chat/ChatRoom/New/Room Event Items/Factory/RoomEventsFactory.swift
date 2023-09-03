@@ -201,6 +201,33 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
     
     static func makeAnotherUserText(_ event: RoomEvent, _ text: String) -> any ViewGeneratable {
         let reactionColor: Color = event.isFromCurrentUser ? .brilliantAzure: .aliceBlue
+        let items: [ReactionNewEvent] = [.init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "😎",
+                                               color: reactionColor),
+                                         .init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "😚",
+                                               color: reactionColor),
+                                         .init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "🎃",
+                                               color: reactionColor),
+                                         .init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "😺",
+                                               color: reactionColor),
+                                         .init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "👵",
+                                               color: reactionColor)]
+        let viewModel = ReactionsNewViewModel(width: 218,
+                                              views: items)
         let reactionItems = [ReactionTextsItem(texts: [ReactionTextItem(text: "😎:1015")], backgroundColor: reactionColor),
                              ReactionTextsItem(texts: [ReactionTextItem(text: "😚:182")], backgroundColor: reactionColor),
                              ReactionTextsItem(texts: [ReactionTextItem(text: "🤖:34")], backgroundColor: reactionColor),
@@ -215,7 +242,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 date: event.shortDate,
                 readData: ZeroViewModel()
             ),
-            reactionsGrid: reactionsGrid
+            reactionsGrid: viewModel
         )
         let bubbleContainer = BubbleContainer(
             fillColor: .water,

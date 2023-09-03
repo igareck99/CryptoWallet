@@ -249,6 +249,7 @@
 		8B2AE34129E5860E00C9AC0E /* ChannelMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE34029E5860E00C9AC0E /* ChannelMediaViewModel.swift */; };
 		8B2AE34329E5864900C9AC0E /* ChannelMediaResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE34229E5864900C9AC0E /* ChannelMediaResources.swift */; };
 		8B2AE34529E5869200C9AC0E /* ChannelMediaProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE34429E5869200C9AC0E /* ChannelMediaProtocols.swift */; };
+		8B2B110D2AA29AF9001CF331 /* ReationsGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2B110C2AA29AF9001CF331 /* ReationsGridView.swift */; };
 		8B2C78C32939486B002E9432 /* ImageRemoteViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2C78C22939486B002E9432 /* ImageRemoteViewer.swift */; };
 		8B2D40EF295D0B1A009D9581 /* GeneratePhraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40EE295D0B1A009D9581 /* GeneratePhraseView.swift */; };
 		8B2D40F1295D0B87009D9581 /* GeneratePhraseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2D40F0295D0B87009D9581 /* GeneratePhraseViewModel.swift */; };
@@ -476,6 +477,9 @@
 		8BD29A012A85260400120BB5 /* ChatHistoryEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD29A002A85260400120BB5 /* ChatHistoryEmptyStateView.swift */; };
 		8BD29A042A855F9C00120BB5 /* ChatHistorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD29A032A855F9C00120BB5 /* ChatHistorySection.swift */; };
 		8BD2E7E72981C3B600D712D1 /* SelectChannelTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD2E7E62981C3B600D712D1 /* SelectChannelTypeView.swift */; };
+		8BD4BBE82AA4DCC200075F76 /* ReactionNewEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD4BBE72AA4DCC200075F76 /* ReactionNewEvent.swift */; };
+		8BD4BBEA2AA4E4F300075F76 /* ReactionNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD4BBE92AA4E4F300075F76 /* ReactionNewView.swift */; };
+		8BD4BBEC2AA4E7DE00075F76 /* ReactionsNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD4BBEB2AA4E7DE00075F76 /* ReactionsNewViewModel.swift */; };
 		8BD6292D276AAC06000A976A /* SocialListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292C276AAC06000A976A /* SocialListView.swift */; };
 		8BD6292F276B407F000A976A /* SocialListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD6292E276B407F000A976A /* SocialListItem.swift */; };
 		8BD62931276B4ADA000A976A /* SocialListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD62930276B4ADA000A976A /* SocialListViewModel.swift */; };
@@ -1127,6 +1131,7 @@
 		8B2AE34029E5860E00C9AC0E /* ChannelMediaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaViewModel.swift; sourceTree = "<group>"; };
 		8B2AE34229E5864900C9AC0E /* ChannelMediaResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaResources.swift; sourceTree = "<group>"; };
 		8B2AE34429E5869200C9AC0E /* ChannelMediaProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaProtocols.swift; sourceTree = "<group>"; };
+		8B2B110C2AA29AF9001CF331 /* ReationsGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReationsGridView.swift; sourceTree = "<group>"; };
 		8B2C78C22939486B002E9432 /* ImageRemoteViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRemoteViewer.swift; sourceTree = "<group>"; };
 		8B2D40EE295D0B1A009D9581 /* GeneratePhraseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseView.swift; sourceTree = "<group>"; };
 		8B2D40F0295D0B87009D9581 /* GeneratePhraseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePhraseViewModel.swift; sourceTree = "<group>"; };
@@ -1352,6 +1357,9 @@
 		8BD29A002A85260400120BB5 /* ChatHistoryEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryEmptyStateView.swift; sourceTree = "<group>"; };
 		8BD29A032A855F9C00120BB5 /* ChatHistorySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySection.swift; sourceTree = "<group>"; };
 		8BD2E7E62981C3B600D712D1 /* SelectChannelTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectChannelTypeView.swift; sourceTree = "<group>"; };
+		8BD4BBE72AA4DCC200075F76 /* ReactionNewEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionNewEvent.swift; sourceTree = "<group>"; };
+		8BD4BBE92AA4E4F300075F76 /* ReactionNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionNewView.swift; sourceTree = "<group>"; };
+		8BD4BBEB2AA4E7DE00075F76 /* ReactionsNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsNewViewModel.swift; sourceTree = "<group>"; };
 		8BD6292C276AAC06000A976A /* SocialListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListView.swift; sourceTree = "<group>"; };
 		8BD6292E276B407F000A976A /* SocialListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListItem.swift; sourceTree = "<group>"; };
 		8BD62930276B4ADA000A976A /* SocialListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListViewModel.swift; sourceTree = "<group>"; };
@@ -2298,6 +2306,9 @@
 				5A4BE507271DD86A00D03D09 /* ReactionEvent.swift */,
 				5A4BE508271DD86A00D03D09 /* CustomEvent.swift */,
 				7857B5A0286190980006D2D3 /* LocationEvent.swift */,
+				8BD4BBE72AA4DCC200075F76 /* ReactionNewEvent.swift */,
+				8BD4BBE92AA4E4F300075F76 /* ReactionNewView.swift */,
+				8BD4BBEB2AA4E7DE00075F76 /* ReactionsNewViewModel.swift */,
 			);
 			path = "Custom Events";
 			sourceTree = "<group>";
@@ -3821,6 +3832,7 @@
 			children = (
 				D47113CA291CC2C100D1C39E /* ReactionsGrid.swift */,
 				D4137B452A9BB2DD001241B6 /* ReactionsGridModel.swift */,
+				8B2B110C2AA29AF9001CF331 /* ReationsGridView.swift */,
 			);
 			path = Grid;
 			sourceTree = "<group>";
@@ -4861,6 +4873,7 @@
 				D4E979112A1F2FD100771232 /* PushKitServiceProtocols.swift in Sources */,
 				D49C89C6290A6AF6005B4F64 /* ReactionTextsItem.swift in Sources */,
 				8BBCBCD428F749DF00E42F0C /* VideoRow.swift in Sources */,
+				8BD4BBEA2AA4E4F300075F76 /* ReactionNewView.swift in Sources */,
 				8B6C18C02799A60D00B85F2A /* SecurityViewModel.swift in Sources */,
 				D44B4E9D294C4B3200D64F5E /* TransactionTemplateResponse.swift in Sources */,
 				D4137B522A9C7540001241B6 /* RoomEventsFactory+TransactionMocks.swift in Sources */,
@@ -4948,6 +4961,7 @@
 				D48FA5802A4ADDAD0002C07F /* TabItemModel.swift in Sources */,
 				8BA0C90927AD4F320070203F /* AnswerViewModel.swift in Sources */,
 				D4A514B429518834007A87BF /* FacilityApproveResources.swift in Sources */,
+				8B2B110D2AA29AF9001CF331 /* ReationsGridView.swift in Sources */,
 				5A3C942A274AFFDC00818060 /* KeyboardAvoiderModifier.swift in Sources */,
 				D4D439F22837493800AC0DEF /* MXRoom+Reply.swift in Sources */,
 				5A187EB7268070B3001957D3 /* UIView+Extensions.swift in Sources */,
@@ -5037,6 +5051,7 @@
 				8B200FEE2744596300A847D5 /* SessionView.swift in Sources */,
 				8B8B9C2527F331C90061F5E6 /* SocialListFlow.swift in Sources */,
 				8B8298912983CB150038C546 /* ChannelAddUserViewCell.swift in Sources */,
+				8BD4BBEC2AA4E7DE00075F76 /* ReactionsNewViewModel.swift in Sources */,
 				D4D9CC232A30892000EFC586 /* VerificationColors.swift in Sources */,
 				5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */,
 				8BC6F2D82A78323B00F7451B /* ChatActionsView.swift in Sources */,
@@ -5120,6 +5135,7 @@
 				8B009A5B2A72A884000C650F /* ProfileFeedImageAssembly.swift in Sources */,
 				D4AB8FFC282672BB00E6FAB5 /* MatrixService+Devices.swift in Sources */,
 				8BAB8D362A97D0B10083167C /* UserReceiverData.swift in Sources */,
+				8BD4BBE82AA4DCC200075F76 /* ReactionNewEvent.swift in Sources */,
 				8B0F60D828BD1448002B2235 /* DocumentViewerViewModel.swift in Sources */,
 				8B6C18BB27957C8900B85F2A /* UserDefaults+Codable.swift in Sources */,
 				D423A0A2285E2860004A8228 /* P2PCallState.swift in Sources */,
