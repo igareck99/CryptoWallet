@@ -16,6 +16,7 @@ struct ReactionNewEvent: Identifiable, ViewGeneratable {
     let textColor: Color
     let emojiCount: Int
     let emojiString: String
+    let sendersIds: [String]
     let isFromCurrentUser: Bool
     let type: ReactionType
     let onTap: (ReactionNewEvent) -> Void
@@ -31,6 +32,7 @@ struct ReactionNewEvent: Identifiable, ViewGeneratable {
         emojiString: String,
         textColor: Color = .brilliantAzure,
         emojiCount: Int = 1,
+        sendersIds: [String],
         isFromCurrentUser: Bool = false,
         type: ReactionType = .reaction,
         onTap: @escaping (ReactionNewEvent) -> Void
@@ -51,6 +53,7 @@ struct ReactionNewEvent: Identifiable, ViewGeneratable {
         self.type = type
         self.isFromCurrentUser = isFromCurrentUser
         self.emojiCount = emojiCount
+        self.sendersIds = sendersIds
         self.textColor = textColor
         self.onTap = onTap
     }

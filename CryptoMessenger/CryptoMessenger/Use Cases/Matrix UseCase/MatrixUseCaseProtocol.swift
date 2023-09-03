@@ -78,6 +78,9 @@ protocol MatrixUseCaseProtocol {
                 eventId: String, reason: String?)
     func sendReply(_ event: RoomEvent,
                    _ text: String)
+    func removeReaction(roomId: String, text: String,
+                        eventId: String,
+                        completion: @escaping (Result <String?, MXErrors>) -> Void)
     
     // MARK: - Pusher
     func createPusher(pushToken: Data, completion: @escaping (Bool) -> Void)

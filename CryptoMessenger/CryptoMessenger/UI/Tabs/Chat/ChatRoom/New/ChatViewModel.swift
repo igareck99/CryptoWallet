@@ -19,12 +19,16 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     private let stateValueSubject = CurrentValueSubject<ChatRoomFlow.ViewState, Never>(.idle)
     private let factory: RoomEventsFactory.Type
     private var subscriptions = Set<AnyCancellable>()
+    private let channelFactory: ChannelUsersFactoryProtocol.Type
+    private var roomPowerLevels: MXRoomPowerLevels?
 
     init(room: AuraRoomData,
          coordinator: ChatHistoryFlowCoordinatorProtocol,
+         channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
          factory: RoomEventsFactory.Type = RoomEventsFactory.self) {
         self.room = room
         self.coordinator = coordinator
+        self.channelFactory = channelFactory
         self.factory = factory
         // displayItems = factory.mockItems
         bindInput()
@@ -46,6 +50,13 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             .sink { value in
                 switch value {
                 case .onAppear:
+                    self.matrixUseCase.getRoomState(roomId: self.room.roomId) { [weak self] result in
+                        guard let self = self else { return }
+                        guard case let .success(state) = result else { return }
+                        self.roomPowerLevels = state.powerLevels
+                        self.matrixUseCase.objectChangePublisher.send()
+                        self.objectWillChange.send()
+                    }
                     self.matrixUseCase.objectChangePublisher.send()
                     self.objectWillChange.send()
                 default:
@@ -63,9 +74,41 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 else {
                     return
                 }
-                self.displayItems = self.factory.makeEventView(events: room.events)
+                self.displayItems = self.factory.makeEventView(events: room.events, onLongPressMessage: { event in
+                    self.onLongPressMessage(event)
+                }, onReactionTap: { reaction in
+                    self.onRemoveReaction(reaction)
+                })
                 self.objectWillChange.send()
             }
             .store(in: &subscriptions)
+    }
+    
+    private func onLongPressMessage(_ event: RoomEvent) {
+        let role = channelFactory.detectUserRole(userId: event.sender,
+                                                 roomPowerLevels: roomPowerLevels)
+        coordinator.messageReactions(event.isFromCurrentUser,
+                                     room.isChannel,
+                                     role, { action in
+            debugPrint("Message Action  \(action)")
+        }, { reaction in
+            self.coordinator.dismissCurrentSheet()
+            self.matrixUseCase.react(eventId: event.eventId,
+                                     roomId: self.room.roomId,
+                                     emoji: reaction)
+            self.matrixUseCase.objectChangePublisher.send()
+            self.objectWillChange.send()
+            debugPrint("Reaction To Send  \(reaction)")
+        })
+    }
+    
+    private func onRemoveReaction(_ event: ReactionNewEvent) {
+        guard let userId = event.sendersIds.first(where: { $0 == matrixUseCase.getUserId() }) else { return }
+        matrixUseCase.removeReaction(roomId: room.roomId,
+                                     text: "",
+                                     eventId: event.eventId) { _ in
+            self.matrixUseCase.objectChangePublisher.send()
+            self.objectWillChange.send()
+        }
     }
 }

@@ -1,5 +1,7 @@
 import SwiftUI
 
+// swiftlint:disable void_return
+
 // MARK: - EventContainerView
 
 struct EventContainerView<
@@ -13,6 +15,7 @@ struct EventContainerView<
     let centralContent: CentralContent
     let trailingContent: TrailingContent
     let bottomContent: BottomContent
+    var onLongPress: () -> Void
 
     var body: some View {
         HStack(spacing: 8) {
@@ -20,6 +23,9 @@ struct EventContainerView<
             VStack(alignment: .leading, spacing: 8) {
                 centralContent
                 bottomContent
+            }
+            .onLongPressGesture {
+                onLongPress()
             }
             trailingContent
         }

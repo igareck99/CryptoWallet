@@ -2,7 +2,8 @@ import Foundation
 
 extension RoomEventsFactory {
 
-    static func makeCallItem(event: RoomEvent) -> any ViewGeneratable {
+    static func makeCallItem(event: RoomEvent,
+                             onLongPressTap: @escaping (RoomEvent) -> Void) -> any ViewGeneratable {
 
         let callItem = CallItem(
             subtitle: event.shortDate,
@@ -20,13 +21,13 @@ extension RoomEventsFactory {
         if event.isFromCurrentUser {
             return EventContainer(
                 leadingContent: PaddingModel(),
-                centralContent: bubbleContainer
+                centralContent: bubbleContainer, onLongPress: { onLongPressTap(event) }
             )
         }
 
         return EventContainer(
             centralContent: bubbleContainer,
-            trailingContent: PaddingModel()
+            trailingContent: PaddingModel(), onLongPress: { onLongPressTap(event) }
         )
     }
 }

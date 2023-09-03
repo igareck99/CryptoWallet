@@ -4,19 +4,24 @@ extension RoomEventsFactory {
     static func makeDocumentItem(
         event: RoomEvent,
         name: String?,
-        url: URL?
+        url: URL?,
+        onLongPressTap: @escaping (RoomEvent) -> Void,
+        onReactionTap: @escaping (ReactionNewEvent) -> Void
     ) -> any ViewGeneratable {
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
             readData: ReadData(readImageName: R.image.chat.readCheckWhite.name)
         )
+        let items: [ReactionNewEvent] = []
+        let viewModel = ReactionsNewViewModel(width: calculateWidth("", items.count),
+                                              views: items, backgroundColor: .brilliantAzure)
         let docItem = DocumentItem(
             imageName: "paperclip.circle.fill",
             title: name ?? "", // "Экран для Aura.docx",
             subtitle: "2.8MB",
             url: .mock,
-            reactionsGrid: ZeroViewModel(), // reactionsGrid,
+            reactionsGrid: viewModel, // reactionsGrid,
             eventData: eventData
         ) {
             debugPrint("onTap DocumentItem")
@@ -31,13 +36,17 @@ extension RoomEventsFactory {
         if event.isFromCurrentUser {
             return EventContainer(
                 leadingContent: PaddingModel(),
-                centralContent: bubbleContainer
+                centralContent: bubbleContainer, onLongPress: {
+                    onLongPressTap(event)
+                }
             )
         }
 
         return EventContainer(
             centralContent: bubbleContainer,
-            trailingContent: PaddingModel()
+            trailingContent: PaddingModel(), onLongPress: {
+                onLongPressTap(event)
+            }
         )
     }
 }

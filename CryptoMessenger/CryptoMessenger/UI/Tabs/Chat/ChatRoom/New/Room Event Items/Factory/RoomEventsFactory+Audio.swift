@@ -2,7 +2,9 @@ import SwiftUI
 
 extension RoomEventsFactory {
 
-    static func makeAudioItem(event: RoomEvent, url: URL?) -> any ViewGeneratable {
+    static func makeAudioItem(event: RoomEvent, url: URL?,
+                              onLongPressTap: @escaping (RoomEvent) -> Void,
+                              onReactionTap: @escaping (ReactionNewEvent) -> Void) -> any ViewGeneratable {
         guard let url = url else { return ZeroViewModel() }
         let eventData = EventData(
             date: event.shortDate,
@@ -12,7 +14,9 @@ extension RoomEventsFactory {
             readData: ReadData(readImageName: R.image.chat.readCheck.name)
         )
         let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
-        let reactions = prepareReaction(event)
+        let reactions = prepareReaction(event, onReactionTap: { reaction in
+            onReactionTap(reaction)
+        })
         let viewModel = ReactionsNewViewModel(width: calculateEventWidth(StaticRoomEventsSizes.audio.size,  reactions.count),
                                               views: reactions,
                                               backgroundColor: reactionColor)
@@ -29,17 +33,21 @@ extension RoomEventsFactory {
             cornerRadius: event.isFromCurrentUser ? .right : .left,
             content: audioItem
         )
-        
+
         if event.isFromCurrentUser {
             return EventContainer(
                 leadingContent: PaddingModel(),
-                centralContent: bubbleContainer
+                centralContent: bubbleContainer, onLongPress: {
+                    onLongPressTap(event)
+                }
             )
         }
 
         return EventContainer(
             centralContent: bubbleContainer,
-            trailingContent: PaddingModel()
+            trailingContent: PaddingModel(), onLongPress: {
+                onLongPressTap(event)
+            }
         )
     }
 }

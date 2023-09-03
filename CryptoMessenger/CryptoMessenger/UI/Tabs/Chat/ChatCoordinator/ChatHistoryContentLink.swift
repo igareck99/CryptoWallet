@@ -70,6 +70,11 @@ enum ChatHistorySheetLink: Hashable, Identifiable {
         onCancel: VoidBlock?,
         onDocumentsPicked: GenericBlock<[URL]>
     )
+    case messageReactions(isCurrentUser: Bool,
+                          isChannel: Bool,
+                          userRole: ChannelRole,
+                          onAction: GenericBlock<QuickActionCurrentUser>,
+                          onReaction: GenericBlock<String>)
 
     case locationPicker(
         place: Binding<Place?>,

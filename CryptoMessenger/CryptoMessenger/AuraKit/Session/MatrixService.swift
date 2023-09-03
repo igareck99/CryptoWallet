@@ -23,6 +23,7 @@ enum MXErrors: Error {
     case sendGeoError
     case publicRoomError
     case encryptRoomError
+    case removeReactionFailure
 	case unknown
 	@available(*, deprecated, message: "Добавлено только для обратной совместимости")
 	case syncFailure

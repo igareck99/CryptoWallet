@@ -339,7 +339,6 @@ struct ChatRoomView: View {
                 VStack {
                     if let message = activeEditMessage {
                         QuickMenuView(
-                            cardPosition: $cardPosition,
                             isCurrentUser: message.isCurrentUser,
                             isChannel: viewModel.isChannel,
                             userRole: viewModel.getUserRole(),

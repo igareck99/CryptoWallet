@@ -34,11 +34,12 @@ struct ReationsGridView: View {
             let object = ReactionNewEvent(eventId: "",
                                           sender: "",
                                           timestamp: Date(),
-                                          emoji: "+",
+                                          emoji: "",
                                           color: data.backgroundColor,
                                           emojiString: emojiString,
-                                          textColor: .white,
+                                          textColor: .brilliantAzure,
                                           emojiCount: data.views.count - 4,
+                                          sendersIds: [],
                                           type: .add) { _ in
                 showAll = true
             }

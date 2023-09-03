@@ -3,7 +3,9 @@ import SwiftUI
 extension RoomEventsFactory {
     static func makeImageItem(
         event: RoomEvent,
-        url: URL?
+        url: URL?,
+        onLongPressTap: @escaping (RoomEvent) -> Void,
+        onReactionTap: @escaping (ReactionNewEvent) -> Void
     ) -> any ViewGeneratable {
         let eventData = EventData(
             date: event.shortDate,
@@ -13,7 +15,9 @@ extension RoomEventsFactory {
             readData: ReadData(readImageName: R.image.chat.readCheck.name)
         )
         let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
-        let items: [ReactionNewEvent] = prepareReaction(event)
+        let items: [ReactionNewEvent] = prepareReaction(event, onReactionTap: { reaction in
+            onReactionTap(reaction)
+        })
         let viewModel = ReactionsNewViewModel(width: calculateEventWidth(StaticRoomEventsSizes.image.size, items.count),
                                               views: items,
                                               backgroundColor: reactionColor)
@@ -37,18 +41,22 @@ extension RoomEventsFactory {
             content: transactionItem
         )
         
-        let resultView = EventBubbleItem(bubbleView: bubbleContainer.view(),
-                                         reactions: viewModel.view(),
-                                         leadingContent: ZeroViewModel(),
-                                         trailingContent: ZeroViewModel())
-        
         if event.isFromCurrentUser {
-            return EventBubbleItem(bubbleView: bubbleContainer.view(),
-                                   reactions: viewModel.view(),
-                                   leadingContent: PaddingModel())
+            return EventContainer(
+                leadingContent: PaddingModel(),
+                centralContent: bubbleContainer,
+                bottomContent: viewModel, onLongPress: {
+                   onLongPressTap(event)
+                }
+            )
         }
-        return EventBubbleItem(bubbleView: bubbleContainer.view(),
-                               reactions: viewModel.view(),
-                               trailingContent: PaddingModel())
+
+        return EventContainer(
+            centralContent: bubbleContainer,
+            trailingContent: PaddingModel(),
+            bottomContent: viewModel, onLongPress: {
+                onLongPressTap(event)
+            }
+        )
     }
 }

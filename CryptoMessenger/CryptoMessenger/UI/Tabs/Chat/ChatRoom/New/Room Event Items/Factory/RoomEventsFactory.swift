@@ -4,38 +4,49 @@ import SwiftUI
 // MARK: - RoomEventsFactoryProtocol
 
 protocol RoomEventsFactoryProtocol {
-    static func makeEventView(events: [RoomEvent]) -> [any ViewGeneratable]
+    static func makeEventView(events: [RoomEvent],
+                              onLongPressMessage: @escaping (RoomEvent) -> Void,
+                              onReactionTap: @escaping (ReactionNewEvent) -> Void) -> [any ViewGeneratable]
 }
 
 enum RoomEventsFactory: RoomEventsFactoryProtocol {
 
-    static func prepareReaction(_ event: RoomEvent) -> [ReactionNewEvent] {
+    static func prepareReaction(_ event: RoomEvent,
+                                onReactionTap: @escaping (ReactionNewEvent) -> Void) -> [ReactionNewEvent] {
         let reactionColor: Color = event.isFromCurrentUser ? .diamond : .aliceBlue
         var data: [ReactionNewEvent] = []
         var emojiList: [String] = []
         for reaction in event.reactions {
             if !emojiList.contains(reaction.emoji) {
                 emojiList.append(reaction.emoji)
-                
-                data.append(ReactionNewEvent(eventId: "",
+                data.append(ReactionNewEvent(eventId: reaction.id,
                                              sender: "",
                                              timestamp: Date(),
                                              emoji: reaction.emoji,
                                              color: event.isFromCurrentUser ? .azureRadianceApprox : reactionColor,
                                              emojiString: "",
-                                             onTap: { _ in
+                                             sendersIds: [reaction.sender],
+                                             isFromCurrentUser: reaction.isFromCurrentUser,
+                                             onTap: { reaction in
+                    onReactionTap(reaction)
                 }))
             } else {
                 if let index = data.firstIndex(where: { $0.emoji == reaction.emoji }) {
                     let emojiCount = data[index].emojiCount + 1
-                    data[index] = ReactionNewEvent(eventId: "",
+                    let isFromCurrentUser = data[index].isFromCurrentUser || reaction.isFromCurrentUser
+                    var senders = data[index].sendersIds
+                    senders.append(reaction.sender)
+                    data[index] = ReactionNewEvent(eventId: reaction.id,
                                                    sender: "",
                                                    timestamp: Date(),
                                                    emoji: reaction.emoji,
                                                    color: event.isFromCurrentUser ? .azureRadianceApprox : reactionColor,
                                                    emojiString: emojiCount.value,
                                                    emojiCount: emojiCount,
-                                                   onTap: { _ in
+                                                   sendersIds: senders,
+                                                   isFromCurrentUser: isFromCurrentUser,
+                                                   onTap: { reaction in
+                        onReactionTap(reaction)
                     })
                 }
             }
@@ -58,44 +69,52 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         )
     }
     
-    static func makeReplyItem(
-        date: String,
-        repliedItemId: String,
-        text: String,
-        reactionItems: [ReactionTextsItem],
-        readStatus: EventStatus,
-        onTap: @escaping () -> Void,
-        onReplyTap: @escaping () -> Void
-    ) -> ReplyItem {
-        ReplyItem(
-            date: date,
-            repliedItemId: repliedItemId,
-            text: text,
-            reactionItems: reactionItems,
-            readStatus: readStatus,
-            onTap: onTap,
-            onReplyTap: onReplyTap
-        )
-    }
-    
-    static func makeEventView(events: [RoomEvent]) -> [any ViewGeneratable] {
+    static func makeEventView(events: [RoomEvent],
+                              onLongPressMessage: @escaping (RoomEvent) -> Void,
+                              onReactionTap: @escaping (ReactionNewEvent) -> Void) -> [any ViewGeneratable] {
         
         let data: [any ViewGeneratable] = events.compactMap {
             switch $0.eventType {
             case let .text(string):
-                return makeTextView($0, string)
+                return makeTextView($0, string, onLongPressTap: { eventId in
+                    onLongPressMessage(eventId)
+                }, onReactionTap: { reaction in
+                 onReactionTap(reaction)
+                })
             case .call:
-                return makeCallItem(event: $0)
+                return makeCallItem(event: $0, onLongPressTap: { event in
+                    onLongPressMessage(event)
+                })
             case let .contact(name, phone, url):
-                return makeContactItem(event: $0, name: name, phone: phone, url: url)
+                return makeContactItem(event: $0, name: name, phone: phone, url: url, onLongPressTap: { event in
+                    onLongPressMessage(event)
+                }, onReactionTap: { reaction in
+                    onReactionTap(reaction)
+                })
             case let .file(name, url):
-                return makeDocumentItem(event: $0, name: name, url: url)
+                return makeDocumentItem(event: $0, name: name, url: url, onLongPressTap: { event in
+                    onLongPressMessage(event)
+                }, onReactionTap: { reaction in
+                    onReactionTap(reaction)
+                })
             case let .location((lat, lon)):
-                return makeMapItem(event: $0, lat: lat, lon: lon)
+                return makeMapItem(event: $0, lat: lat, lon: lon, onLongPressTap: { event in
+                    onLongPressMessage(event)
+                }, onReactionTap: { reaction in
+                    onReactionTap(reaction)
+                })
             case let .image(url):
-                return makeImageItem(event: $0, url: url)
+                return makeImageItem(event: $0, url: url, onLongPressTap: { event in
+                    onLongPressMessage(event)
+                }, onReactionTap: { reaction in
+                    onReactionTap(reaction)
+                })
             case let .audio(url):
-                return makeAudioItem(event: $0, url: url)
+                return makeAudioItem(event: $0, url: url, onLongPressTap: { event in
+                    onLongPressMessage(event)
+                }, onReactionTap: { reaction in
+                    onReactionTap(reaction)
+                })
             default:
                 return nil
             }
@@ -103,9 +122,14 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         return data
     }
     
-    static func makeTextView(_ event: RoomEvent, _ text: String) -> any ViewGeneratable {
+    static func makeTextView(_ event: RoomEvent,
+                             _ text: String,
+                             onLongPressTap: @escaping (RoomEvent) -> Void,
+                             onReactionTap: @escaping (ReactionNewEvent) -> Void) -> any ViewGeneratable {
         let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
-        let reactions = prepareReaction(event)
+        let reactions = prepareReaction(event, onReactionTap: { reaction in
+            onReactionTap(reaction)
+        })
         let viewModel = ReactionsNewViewModel(width: calculateWidth("", reactions.count),
                                               views: reactions,
                                               backgroundColor: reactionColor)
@@ -131,7 +155,9 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             )
             return EventContainer(
                 leadingContent: PaddingModel(),
-                centralContent: contatiner
+                centralContent: contatiner, onLongPress: {
+                    onLongPressTap(event)
+                }
             )
         } else {
             contatiner = BubbleContainer(
@@ -141,7 +167,9 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             )
             return EventContainer(
                 centralContent: contatiner,
-                trailingContent: PaddingModel()
+                trailingContent: PaddingModel(), onLongPress: {
+                    onLongPressTap(event)
+                }
             )
         }
     }

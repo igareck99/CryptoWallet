@@ -368,7 +368,17 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
               eventId: String) {
         matrixService.edit(roomId: roomId, text: text, eventId: eventId)
     }
-    
+
+    func removeReaction(roomId: String, text: String,
+              eventId: String,
+                        completion: @escaping (Result <String?, MXErrors>) -> Void) {
+        matrixService.removeReaction(roomId: roomId,
+                                     text: text,
+                                     eventId: eventId) { result in
+            completion(result)
+        }
+    }
+
     func react(eventId: String, roomId: String, emoji: String) {
         matrixSession?.aggregations.addReaction(
             emoji,
