@@ -113,6 +113,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 	var devicesPublisher: Published<[MXDevice]>.Publisher { matrixService.devicesPublisher }
 	var rooms: [AuraRoom] { matrixService.rooms }
     var auraRooms: [AuraRoomData] { matrixService.auraRooms }
+    var auraNoEventsRooms: [AuraRoomData] { matrixService.auraNoEventsRooms }
 
 	// MARK: - Session
 
@@ -368,11 +369,6 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
         matrixService.edit(roomId: roomId, text: text, eventId: eventId)
     }
     
-    func react(roomId: String,
-               toEventId eventId: String, emoji: String) {
-        matrixService.react(roomId: roomId, toEventId: eventId, emoji: emoji)
-    }
-    
     func react(eventId: String, roomId: String, emoji: String) {
         matrixSession?.aggregations.addReaction(
             emoji,
@@ -385,15 +381,10 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
             })
     }
     
-    func getReactions(eventId: String, roomId: String) {
-        matrixSession?.aggregations.reactionsEvents(forEvent: eventId, inRoom: roomId, from: nil, limit: 100, success: { _ in
-        }, failure: { error in
-            print("askaskaskask  \(error)")
-        })
-    }
 
     func redact(roomId: String,
                 eventId: String, reason: String?) {
+        
         matrixService.redact(roomId: roomId, eventId: eventId, reason: reason)
     }
 

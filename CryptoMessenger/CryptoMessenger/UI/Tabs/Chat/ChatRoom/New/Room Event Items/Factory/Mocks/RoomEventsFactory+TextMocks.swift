@@ -3,7 +3,6 @@ import Foundation
 // MARK: - Text Items
 
 extension RoomEventsFactory {
-    /*
     static func makeLeftTextItem1() -> any ViewGeneratable {
         let textEvent = TextEvent(
             text: "I am almost finish. Please give me your email, I will ZIP them and send you as son as im finish?",
@@ -154,5 +153,4 @@ extension RoomEventsFactory {
             centralContent: bubbleContainer
         )
     }
-     */
 }

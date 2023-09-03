@@ -333,25 +333,6 @@ extension MatrixService {
         // TODO: Use localEcho to show sent message until it actually comes back
         room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
     }
-    
-    func react(roomId: String,
-               toEventId eventId: String, emoji: String) {
-        // swiftlint:disable:next force_try
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
-            return
-        }
-        guard
-            let content = try? ReactionEvent(eventId: eventId, key: emoji).encodeContent()
-        else {
-            return
-        }
-
-        // room.outgoingMessages() will change
-        var localEcho: MXEvent?
-        room.sendEvent(.reaction, content: content, localEcho: &localEcho) { _ in
-            // localEcho.sentState has(!) changed
-        }
-    }
 
     func redact(roomId: String,
                 eventId: String, reason: String?) {

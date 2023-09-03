@@ -9,10 +9,13 @@ extension RoomEventsFactory {
     ) -> any ViewGeneratable {
         let eventData = EventData(
             date: event.shortDate,
+            isFromCurrentUser: event.isFromCurrentUser,
             readData: ReadData(readImageName: R.image.chat.readCheck.name)
         )
-        let reactionItems = [ReactionTextsItem(texts: [ReactionTextItem(text: "😎")], backgroundColor: .brilliantAzure)]
-        let reactionsGrid = ReactionsGridModel(reactionItems: reactionItems)
+        let reactions = prepareReaction(event)
+        let viewModel = ReactionsNewViewModel(width: calculateWidth("", reactions.count),
+                                              views: reactions,
+                                              backgroundColor: .brilliantAzure)
         let userAvatar = UserAvatar(
             size: CGSize(width: 48.0, height: 48.0),
             placeholder: AvatarLetter(letter: "TK", backColor: .dodgerTransBlue)
@@ -21,7 +24,7 @@ extension RoomEventsFactory {
         let contactItem = ContactItem(
             title: name ?? "",
             subtitle: phone ?? "",
-            reactionsGrid: ZeroViewModel(),
+            reactionsGrid: viewModel,
             eventData: eventData,
             avatar: userAvatar
         ) {

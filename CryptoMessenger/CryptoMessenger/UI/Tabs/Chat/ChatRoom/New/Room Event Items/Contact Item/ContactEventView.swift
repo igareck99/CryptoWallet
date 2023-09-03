@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - ContactEventView
+
 struct ContactEventView<
     EventData: View,
     Reactions: View,
@@ -23,8 +25,8 @@ struct ContactEventView<
                         .font(.system(size: 13))
                         .foregroundColor(.dodgerBlue)
                 }
+                Spacer()
             }
-            .frame(maxWidth: .infinity)
 
             RoundedRectangle(cornerRadius: 8)
                 .stroke(Color.dodgerBlue, lineWidth: 2.0)
@@ -42,10 +44,13 @@ struct ContactEventView<
                     model.onTap()
                 }
 
-            reactions
-
+            HStack {
+                reactions
+                Spacer()
+            }
             eventData
         }
+        .frame(width: 238)
         .fixedSize(horizontal: true, vertical: false)
     }
 }

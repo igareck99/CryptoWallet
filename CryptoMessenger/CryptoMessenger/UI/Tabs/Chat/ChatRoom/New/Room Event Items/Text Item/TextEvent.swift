@@ -6,6 +6,8 @@ struct TextEvent: Identifiable, ViewGeneratable {
     let isFromCurrentUser: Bool
     let avatarUrl: URL?
     let text: String
+    let isReply: Bool
+    let replyDescription: String
     let width: CGFloat
     let eventData: any ViewGeneratable
     let reactionsGrid: any ViewGeneratable

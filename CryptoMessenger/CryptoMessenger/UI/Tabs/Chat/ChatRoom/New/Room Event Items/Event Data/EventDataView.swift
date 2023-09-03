@@ -11,8 +11,10 @@ struct EventDataView<ReadData: View>: View {
                     .font(.system(size: 11, weight: .regular))
                     .foregroundColor(model.dateColor)
                     .padding(.leading, 4)
-                readData
-                    .padding(.trailing, 4)
+                if model.isFromCurrentUser {
+                    readData
+                        .padding(.trailing, 4)
+                }
             }
             .background(model.backColor)
             .clipShape(

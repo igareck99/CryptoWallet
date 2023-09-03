@@ -18,33 +18,6 @@ struct ChatHistoryEmptyState: View {
         case .emptySearch:
             EmptyInfoViewModel(value: ChatHistoryEmpty.emptySearch).view()
                 .frame(width: 248)
-            VStack(alignment: .center) {
-                Spacer()
-                VStack(spacing: 4) {
-                    R.image.chatHistory.emptyState.image
-                    Text(R.string.localizable.chatHistorySearchEmpty())
-                        .font(.system(size: 22, weight: .regular))
-                    Text(R.string.localizable.chatHistoryEnterData())
-                        .multilineTextAlignment(.center)
-                        .font(.system(size: 15, weight: .regular))
-                        .foreground(.romanSilver)
-                }
-                Spacer()
-            }.frame(width: 248)
-        case .emptySearch:
-            VStack(alignment: .center) {
-                Spacer()
-                VStack(spacing: 4) {
-                    R.image.chatHistory.nodata.image
-                    Text(R.string.localizable.chatHistoryNoResult())
-                        .font(.system(size: 22, weight: .regular))
-                    Text(R.string.localizable.chatHistoryNothingFind())
-                        .multilineTextAlignment(.center)
-                        .font(.system(size: 15, weight: .regular))
-                        .foreground(.romanSilver)
-                }
-                Spacer()
-            }.frame(width: 248)
         case .loading:
             loadingStateView()
         default:

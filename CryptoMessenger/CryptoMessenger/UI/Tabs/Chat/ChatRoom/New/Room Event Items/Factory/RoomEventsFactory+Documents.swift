@@ -8,16 +8,18 @@ extension RoomEventsFactory {
     ) -> any ViewGeneratable {
         let eventData = EventData(
             date: event.shortDate,
+            isFromCurrentUser: event.isFromCurrentUser,
             readData: ReadData(readImageName: R.image.chat.readCheckWhite.name)
         )
-        let reactionItems = [ReactionTextsItem(texts: [ReactionTextItem(text: "😎")], backgroundColor: .brilliantAzure)]
-        let reactionsGrid = ReactionsGridModel(reactionItems: reactionItems)
+        let items: [ReactionNewEvent] = []
+        let viewModel = ReactionsNewViewModel(width: calculateWidth("", items.count),
+                                              views: items, backgroundColor: .brilliantAzure)
         let docItem = DocumentItem(
             imageName: "paperclip.circle.fill",
             title: name ?? "", // "Экран для Aura.docx",
             subtitle: "2.8MB",
             url: .mock,
-            reactionsGrid: ZeroViewModel(), // reactionsGrid,
+            reactionsGrid: viewModel, // reactionsGrid,
             eventData: eventData
         ) {
             debugPrint("onTap DocumentItem")

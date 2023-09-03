@@ -4,6 +4,7 @@ extension RoomEventsFactory {
     static func makeMapItem1() -> any ViewGeneratable {
         let eventData = EventData(
             date: "17:45",
+            isFromCurrentUser: true,
             dateColor: .white,
             backColor: .osloGrayApprox,
             readData: ReadData(readImageName: R.image.chat.readCheck.name)
