@@ -5097,6 +5097,7 @@
 				5A187EB7268070B3001957D3 /* UIView+Extensions.swift in Sources */,
 				D46C8FDD2942CBA700DD0B01 /* TransactionSection.swift in Sources */,
 				5A187DF126807011001957D3 /* AuthCoordinator.swift in Sources */,
+				D4137B3B2A9B7B68001241B6 /* RoomEventsFactory+CallMocks.swift in Sources */,
 				8BC723FB2AA7A8D3004C7D44 /* EventBubbleView.swift in Sources */,
 				8BB2F8E728B663A40034D902 /* PhoneView.swift in Sources */,
 				8B0353ED2A943D860033965D /* ChatCreateSection.swift in Sources */,

@@ -21,7 +21,6 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                                              timestamp: Date(),
                                              emoji: reaction.emoji,
                                              color: event.isFromCurrentUser ? .azureRadianceApprox : reactionColor,
-                                             emojiString: "", 
                                              onTap: { _ in
                 }))
             } else {
@@ -32,7 +31,6 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                                                    timestamp: Date(),
                                                    emoji: reaction.emoji,
                                                    color: event.isFromCurrentUser ? .azureRadianceApprox : reactionColor,
-                                                   emojiString: emojiCount.value,
                                                    emojiCount: emojiCount,
                                                    onTap: { _ in
                     })

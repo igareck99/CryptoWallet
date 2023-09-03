@@ -31,19 +31,18 @@ extension RoomEventsFactory {
             cornerRadius: event.isFromCurrentUser ? .right : .left,
             content: mapEventItem
         )
+        let resultView = EventBubbleItem(bubbleView: bubbleContainer.view(),
+                                         reactions: viewModel.view(),
+                                         leadingContent: ZeroViewModel(),
+                                         trailingContent: ZeroViewModel())
         
         if event.isFromCurrentUser {
-            return EventContainer(
-                leadingContent: PaddingModel(),
-                centralContent: bubbleContainer,
-                bottomContent: viewModel
-            )
+            return EventBubbleItem(bubbleView: bubbleContainer.view(),
+                                   reactions: viewModel.view(),
+                                   leadingContent: PaddingModel())
         }
-
-        return EventContainer(
-            centralContent: bubbleContainer,
-            trailingContent: PaddingModel(),
-            bottomContent: viewModel
-        )
+        return EventBubbleItem(bubbleView: bubbleContainer.view(),
+                               reactions: viewModel.view(),
+                               trailingContent: PaddingModel())
     }
 }

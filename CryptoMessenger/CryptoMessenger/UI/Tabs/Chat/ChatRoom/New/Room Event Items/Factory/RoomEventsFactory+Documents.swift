@@ -11,7 +11,39 @@ extension RoomEventsFactory {
             isFromCurrentUser: event.isFromCurrentUser,
             readData: ReadData(readImageName: R.image.chat.readCheckWhite.name)
         )
-        let items: [ReactionNewEvent] = []
+        let items: [ReactionNewEvent] = [.init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "😎",
+                                               color: .brilliantAzure,
+                                               emojiCount: 10, onTap: { _ in
+        }),
+                                         .init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "😚",
+                                               color: .brilliantAzure,
+                                               emojiCount: 2, onTap: { _ in
+        }),
+                                         .init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "🎃",
+                                               color: .brilliantAzure,
+                                               emojiCount: 134, onTap: { _ in
+        }),
+                                         .init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "😺",
+                                               color: .brilliantAzure,  onTap: { _ in
+        }),
+                                         .init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "👵",
+                                               color: .brilliantAzure, onTap: { _ in
+        })]
         let viewModel = ReactionsNewViewModel(width: calculateWidth("", items.count),
                                               views: items, backgroundColor: .brilliantAzure)
         let docItem = DocumentItem(
