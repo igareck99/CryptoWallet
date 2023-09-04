@@ -50,10 +50,10 @@ struct ChatHeaderView: View {
 					defaultUrl: roomAvatar,
 					placeholder: {
 						ZStack {
-							Color(.lightBlue())
+							Color.aliceBlue
 							Text(displayname?.firstLetter.uppercased() ?? "?")
-								.foreground(.white())
-								.font(.medium(20))
+								.foregroundColor(.white)
+                                .font(.system(size: 20, weight: .medium))
 						}
 					},
 					result: {
@@ -69,12 +69,12 @@ struct ChatHeaderView: View {
 				VStack(alignment: .leading) {
 					Text(displayname ?? "")
 						.lineLimit(1)
-						.font(.semibold(15))
-						.foreground(.black())
+                        .font(.system(size: 15, weight: .semibold))
+						.foregroundColor(.chineseBlack)
 					Text(isOnline ? chatOnline : chatOffline)
 					.lineLimit(1)
-					.font(.regular(13))
-					.foreground(messageStatus == .online ? .blue() : .black(0.5))
+                    .font(.system(size: 13, weight: .regular))
+					.foregroundColor(messageStatus == .online ? .dodgerBlue : .chineseBlack04)
 				}
 
 				Spacer()
@@ -96,6 +96,6 @@ struct ChatHeaderView: View {
 			.padding(.bottom, 16)
 		}
 		.frame(height: 106)
-		.background(.white())
+		.background(.white)
 	}
 }

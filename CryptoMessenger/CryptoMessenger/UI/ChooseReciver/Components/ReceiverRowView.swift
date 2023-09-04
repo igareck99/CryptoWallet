@@ -18,7 +18,7 @@ struct ReceiverRowView: View {
                     ZStack {
                         Color(.lightBlue())
                         Text(data.name.firstLetter.uppercased())
-                            .foreground(.white())
+                            .foreground(.white)
                             .font(.medium(22))
                     }
                 },

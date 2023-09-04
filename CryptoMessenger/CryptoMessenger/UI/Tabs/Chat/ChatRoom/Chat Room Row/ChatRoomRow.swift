@@ -72,10 +72,10 @@ struct ChatRoomRow: View {
                             defaultUrl: message.avatar,
                             placeholder: {
                                 ZStack {
-                                    Color(.lightBlue())
+                                    Color.dodgerBlue
                                     Text(message.name.firstLetter.uppercased())
-                                        .foreground(.white())
-                                        .font(.medium(12))
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 12, weight: .medium))
                                 }
                             },
                             result: {
@@ -143,10 +143,10 @@ struct ChatRoomRow: View {
                             defaultUrl: message.avatar,
                             placeholder: {
                                 ZStack {
-                                    Color(.lightBlue())
+                                    Color.dodgerBlue
                                     Text(message.name.firstLetter.uppercased())
-                                        .foreground(.white())
-                                        .font(.medium(12))
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 12, weight: .medium))
                                 }
                             },
                             result: {

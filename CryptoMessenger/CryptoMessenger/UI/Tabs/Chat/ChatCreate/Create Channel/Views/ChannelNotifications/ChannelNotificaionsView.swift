@@ -20,7 +20,7 @@ struct ChannelNotificaionsView: View {
                 Section {
                     cellStatus
                 } header: {
-                    Text(R.string.localizable.channelNotificationsPopUpAlerts())
+                    Text(viewModel.resouces.channelNotificationsPopUpAlerts)
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(viewModel.resouces.textColor)
                 }
@@ -66,7 +66,7 @@ struct ChannelNotificaionsView: View {
             })
         }
         ToolbarItem(placement: .principal) {
-            Text(R.string.localizable.channelNotificationsAlerts())
+            Text(viewModel.resouces.channelNotificationsAlerts)
                 .font(.system(size: 17, weight: .bold))
         }
     }

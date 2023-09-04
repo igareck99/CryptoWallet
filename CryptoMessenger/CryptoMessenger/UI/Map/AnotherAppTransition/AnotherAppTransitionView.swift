@@ -37,16 +37,16 @@ struct AnotherAppTransitionView: View {
                         .padding(.top, 16)
                         .padding(.horizontal, 16)
                 }
-                .background(.white())
+                .background(viewModel.resources.background)
                 .cornerRadius(14)
-                Button(viewModel.sources.cancel) {
+                Button(viewModel.resources.cancel) {
                     vibrate(.soft)
                     showLocationTransition.toggle()
                 }
-                .font(.regular(17))
-                .foreground(.red())
+                .font(.system(size: 17, weight: .regular))
+                .foregroundColor(viewModel.resources.negativeColor)
                 .frame(maxWidth: .infinity, idealHeight: 60, maxHeight: 60)
-                .background(.white())
+                .background(viewModel.resources.background)
                 .cornerRadius(14)
             }
             .padding([.leading, .trailing], 8)
@@ -57,8 +57,8 @@ struct AnotherAppTransitionView: View {
 
     private var dataView: some View {
         VStack {
-            Text(viewModel.sources.openWith)
-                .font(.bold(17))
+            Text(viewModel.resources.openWith)
+                .font(.system(size: 17, weight: .bold))
             ScrollView(.horizontal) {
                 LazyHGrid(rows: hGridLayout) {
                     ForEach(viewModel.resultAppList) { value in
@@ -78,9 +78,9 @@ struct AnotherAppTransitionView: View {
             Button {
                 showShareView = true
             } label: {
-                Text(viewModel.sources.shareWith)
-                    .foreground(.blue())
-                    .font(.semibold(19))
+                Text(viewModel.resources.shareWith)
+                    .foregroundColor(viewModel.resources.buttonBackground)
+                    .font(.system(size: 19, weight: .semibold))
             }
             .padding(.bottom, 10)
         }

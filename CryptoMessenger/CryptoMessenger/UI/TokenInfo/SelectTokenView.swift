@@ -17,11 +17,11 @@ struct SelectTokenView: View {
             VStack(spacing: 16) {
                 RoundedRectangle(cornerRadius: 2)
                     .frame(width: 31, height: 4)
-                    .foreground(.darkGray(0.4))
+                    .foreground(.romanSilver07)
                     .padding(.top, 6)
                 ForEach(viewModel.addresses) { item in
                     AddSelectorTokenCellView(address: item)
-                        .background(.white())
+                        .background(.white)
                         .padding(.horizontal, 16)
                         .onTapGesture {
                             showSelectToken = false
@@ -49,17 +49,17 @@ struct AddSelectorTokenCellView: View {
             HStack(spacing: 16) {
                 ZStack {
                     Circle()
-                        .fill(Color(.blue(0.1)))
+                        .fill(Color.dodgerTransBlue)
                         .frame(width: 40, height: 40)
                     R.image.chat.logo.image
                 }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(address.address)
-                        .font(.medium(15))
+                        .font(.system(size: 15, weight: .medium))
                         .frame(height: 22)
                     Text(String(address.coinAmount) + " \(address.result.currency)")
-                        .font(.regular(12))
-                        .foreground(.darkGray())
+                        .font(.system(size: 12, weight: .regular))
+                        .foreground(.romanSilver)
                         .frame(height: 20)
                 }
             }

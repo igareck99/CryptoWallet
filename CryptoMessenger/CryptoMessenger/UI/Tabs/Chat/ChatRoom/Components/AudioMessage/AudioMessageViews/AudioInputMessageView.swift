@@ -64,7 +64,7 @@ struct AudioInputMessageView: View {
             Circle()
                 .frame(width: 10,
                        height: 10)
-                .foreground(.red())
+                .foregroundColor(.spanishCrimson)
             TimerView(isTimerRunning: true)
                 .frame(minWidth: 44,
                        maxWidth: 60)

@@ -18,7 +18,7 @@ struct ProfileSettingsMenuRow: View {
         HStack(spacing: 0) {
             image
             Text(title)
-                .font(.regular(15))
+                .font(.system(size: 15, weight: .regular))
                 .padding(.leading, 16)
                 .foregroundColor(color)
 
@@ -31,7 +31,7 @@ struct ProfileSettingsMenuRow: View {
                         .background(Color.spanishCrimson)
                         .clipShape(Circle())
                     Text(notifications.description)
-                        .font(.regular(15))
+                        .font(.system(size: 15, weight: .regular))
                         .foregroundColor(.white)
                 }
             }

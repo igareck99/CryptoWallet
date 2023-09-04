@@ -8,9 +8,9 @@ enum OnboardingAssembly {
 
     static func build(delegate: OnboardingSceneDelegate?) -> some View {
         let userFlows = UserDefaultsService.shared
-        let sources = OnboardingResources.self
+        let resources = OnboardingResources.self
         let viewModel = OnboardingViewModel(delegate: delegate,
-                                            sources: sources,
+                                            resources: resources,
                                             userFlows: userFlows)
         viewModel.delegate = delegate
         let view = OnboardingView(

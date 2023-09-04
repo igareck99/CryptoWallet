@@ -25,6 +25,7 @@ final class SecurityViewModel: ObservableObject {
     var togglesFacade: MainFlowTogglesFacadeProtocol
     let userSettings: UserFlowsStorage & UserCredentialsStorage
     let keychainService: KeychainServiceProtocol
+    let resources: SecurityResourcable.Type
 
     // MARK: - Private Properties
 
@@ -40,8 +41,10 @@ final class SecurityViewModel: ObservableObject {
         userSettings: UserFlowsStorage & UserCredentialsStorage,
         togglesFacade: MainFlowTogglesFacadeProtocol,
         keychainService: KeychainServiceProtocol = KeychainService.shared,
-        biometryService: BiometryServiceProtocol = BiometryService()
+        biometryService: BiometryServiceProtocol = BiometryService(),
+        resources: SecurityResourcable.Type = SecurityResources.self
     ) {
+        self.resources = resources 
         self.userSettings = userSettings
         self.togglesFacade = togglesFacade
 		self.keychainService = keychainService

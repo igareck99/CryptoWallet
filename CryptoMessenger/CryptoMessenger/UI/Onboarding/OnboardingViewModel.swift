@@ -13,6 +13,8 @@ protocol OnboardingViewModelDelegate: ObservableObject {
     var screens: [OboardingPageData] { get }
 
     var continueText: String { get }
+    
+    var resources: OnboardingResourcable.Type { get }
 }
 
 // MARK: - OnboardingViewModel
@@ -22,7 +24,7 @@ final class OnboardingViewModel: ObservableObject, OnboardingViewModelDelegate {
     // MARK: - Internal Properties
 
     var delegate: OnboardingSceneDelegate?
-    let sources: OnboardingResourcable.Type
+    let resources: OnboardingResourcable.Type
     let screens: [OboardingPageData] = OboardingPageData.allCases
     var continueText = ""
 
@@ -34,11 +36,11 @@ final class OnboardingViewModel: ObservableObject, OnboardingViewModelDelegate {
 
     init(
         delegate: OnboardingSceneDelegate? = nil,
-        sources: OnboardingResourcable.Type,
+        resources: OnboardingResourcable.Type = OnboardingResources.self,
         userFlows: UserFlowsStorage
     ) {
         self.delegate = delegate
-        self.sources = sources
+        self.resources = resources
         self.userFlows = userFlows
         updateData()
     }
@@ -53,6 +55,6 @@ final class OnboardingViewModel: ObservableObject, OnboardingViewModelDelegate {
     // MARK: - Private Methods
 
     private func updateData() {
-        continueText = sources.continueText
+        continueText = resources.continueText
     }
 }

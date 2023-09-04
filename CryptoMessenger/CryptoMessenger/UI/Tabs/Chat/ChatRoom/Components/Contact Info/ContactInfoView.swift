@@ -31,16 +31,15 @@ struct ContactInfoView: View {
     private var content: some View {
         VStack(alignment: .leading, spacing: 40) {
             HStack(alignment: .center) {
-                Text(viewModel.sources.closeText)
-                    .font(.bold(15))
-                    .foreground(.blue())
+                Text(viewModel.resources.closeText)
+                    .font(.system(size: 15, weight: .bold))                    .foreground(.dodgerBlue)
                     .onTapGesture {
                         presentationMode.wrappedValue.dismiss()
                     }
                 Spacer()
-                Text(viewModel.sources.phoneText)
-                    .font(.bold(15))
-                    .foreground(.black())
+                Text(viewModel.resources.phoneText)
+                    .font(.system(size: 15, weight: .bold))
+                    .foregroundColor(viewModel.resources.titleColor)
                 Spacer()
                 Text("")
                     .frame(width: 40)
@@ -49,16 +48,16 @@ struct ContactInfoView: View {
             HStack(spacing: 16) {
                 avatarView
                 Text(data.name)
-                    .font(.semibold(17))
+                    .font(.system(size: 17, weight: .semibold))
                 Spacer()
             }
             .padding(.horizontal, 24)
             VStack(alignment: .leading, spacing: 4) {
-                Text(viewModel.sources.phoneText)
-                    .font(.medium(13))
+                Text(viewModel.resources.phoneText)
+                    .font(.system(size: 13, weight: .medium))
                 Text(data.phone ?? "")
-                    .font(.semibold(15))
-                    .foreground(.blue())
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(viewModel.resources.buttonBackground)
                 Divider()
             }
             .padding(.leading, 24)
@@ -76,13 +75,13 @@ struct ContactInfoView: View {
                     if showUploadImage {
                         ProgressView()
                             .frame(width: 80, height: 80)
-                            .background(.blue(0.1))
+                            .background(viewModel.resources.avatarBackground)
                     } else {
                         ZStack {
                             Circle()
                                 .frame(width: 80, height: 80)
-                                .background(.blue(0.1))
-                            viewModel.sources.avatarImage
+                                .background(viewModel.resources.avatarBackground)
+                            viewModel.resources.avatarImage
                         }
                     }
                 },

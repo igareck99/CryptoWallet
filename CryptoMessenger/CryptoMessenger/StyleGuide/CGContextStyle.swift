@@ -7,8 +7,8 @@ extension CGContext {
     // MARK: - Internal Methods
 
     @discardableResult
-    func setStrokeColor(_ palette: Palette) -> Self {
-        setStrokeColor(palette.cgColor)
+    func setStrokeColor(_ color: UIColor) -> Self {
+        setStrokeColor(color)
         return self
     }
 }

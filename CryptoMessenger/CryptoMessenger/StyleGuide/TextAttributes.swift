@@ -7,7 +7,7 @@ enum TextAttributes: Hashable {
 
     // MARK: - Types
 
-    case color(Palette)
+    case color(Color)
     case font(FontDecor)
     case paragraph(Paragraph)
     case kern(CGFloat)
@@ -30,7 +30,7 @@ enum TextAttributes: Hashable {
     var nsValue: Any {
         switch self {
         case let .color(color):
-            return color.uiColor
+            return color
         case let .font(font):
             return font.uiFont
         case let .paragraph(value):

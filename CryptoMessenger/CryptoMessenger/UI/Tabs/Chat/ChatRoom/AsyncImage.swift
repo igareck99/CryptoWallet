@@ -81,7 +81,7 @@ struct AsyncImage<Placeholder: View, ResultmageView: View>: View {
 
     private var progressView: some View {
         ProgressView()
-            .tint(Color(.blue()))
+            .tint(Color.dodgerBlue)
     }
 
     private func updateState() {

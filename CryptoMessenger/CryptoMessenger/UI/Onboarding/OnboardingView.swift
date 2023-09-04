@@ -29,7 +29,7 @@ struct OnboardingView<ViewModel>: View where ViewModel: OnboardingViewModelDeleg
                                 .resizable()
                                 .scaledToFit()
                             Text(value.text)
-                                .font(.regular(22))
+                                .font(.system(size: 22, weight: .regular))
                                 .multilineTextAlignment(.center)
                         }.padding()
                         Spacer()
@@ -61,12 +61,12 @@ struct OnboardingView<ViewModel>: View where ViewModel: OnboardingViewModelDeleg
             ForEach(0..<viewModel.screens.count) { value in
                 if value == currentTab {
                     RoundedRectangle(cornerRadius: 32)
-                        .foregroundColor(.azureRadianceApprox)
+                        .foregroundColor(viewModel.resources.buttonBackground)
                         .frame(width: 24, height: 8)
                 } else {
                     Circle()
                         .frame(width: 8, height: 8)
-                        .foregroundColor(value < currentTab ? .azureRadianceApprox : Color(.lightGray()))
+                        .foregroundColor(value < currentTab ? viewModel.resources.buttonBackground : viewModel.resources.innactiveButtonBackground)
                 }
             }
         }
@@ -79,10 +79,10 @@ struct OnboardingView<ViewModel>: View where ViewModel: OnboardingViewModelDeleg
             Text(viewModel.continueText)
                 .font(.system(size: 17, weight: .semibold))
                 .frame(maxWidth: .infinity)
-                .foregroundColor(.white)
+                .foregroundColor(viewModel.resources.background)
                 .padding()
         }
-        .background(Color.azureRadianceApprox)
+        .background(viewModel.resources.buttonBackground)
         .frame(maxWidth: .infinity)
         .frame(height: 48)
         .cornerRadius(8)

@@ -14,6 +14,7 @@ final class SettingsViewModel: ObservableObject {
     @Published var bottomActions: [SettingsAction] = [.share, .exit, .complain]
     @Published var isEnabled = false
     @State private var selectedVideo: URL?
+    let resources: SettingsResourcable.Type
     
     // MARK: - Private Properties
     
@@ -26,7 +27,10 @@ final class SettingsViewModel: ObservableObject {
     // MARK: - Lifecycle
     
     init(room: AuraRoom,
-         pushNotifications: PushNotificationsServiceProtocol = PushNotificationsService.shared) {
+         pushNotifications: PushNotificationsServiceProtocol = PushNotificationsService.shared,
+         resources: SettingsResourcable.Type = SettingsResources.self
+    ) {
+        self.resources = resources
         self.room = room
         self.pushNotifications = pushNotifications
         self.isEnabled = !self.room.room.isMuted

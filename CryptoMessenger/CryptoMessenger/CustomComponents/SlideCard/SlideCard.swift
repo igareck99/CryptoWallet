@@ -141,7 +141,7 @@ private struct CardModifier: ViewModifier {
                 }
 
                 if backgroundStyle == .solid {
-                    colorScheme == .dark ? Color(.black()) : Color(.white())
+                    colorScheme == .dark ? Color.chineseBlack : Color.white
                 }
 
                 HandleView()
@@ -208,7 +208,7 @@ private struct HandleView: View {
     var body: some View {
         RoundedRectangle(cornerRadius: handleThickness * 0.5)
             .frame(width: 31, height: handleThickness)
-            .foreground(.darkGray(0.4))
+            .foregroundColor(.romanSilver07)
             .padding(6)
     }
 }

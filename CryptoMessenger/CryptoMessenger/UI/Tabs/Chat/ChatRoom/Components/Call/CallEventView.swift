@@ -32,20 +32,20 @@ struct CallEventView: View {
 			HStack {
 				Image(systemName: "phone.fill")
 					.frame(width: 48, height: 48, alignment: .center)
-					.background(.blue)
+					.background(Color.dodgerBlue)
 					.foregroundColor(.white)
 					.cornerRadius(24)
 					.padding([.top, .bottom], 8)
 				VStack(alignment: .leading) {
 					Text(eventTitle)
-						.font(.semibold(14))
-						.foreground(.black())
+                        .font(.system(size: 14, weight: .semibold))
+						.foregroundColor(.chineseBlack)
 						.padding(.trailing, 8)
 						.padding(.bottom, 4)
 					HStack(spacing: 8) {
 						Text(eventDateTime)
-							.font(.regular(12))
-							.foreground(.darkGray())
+                            .font(.system(size: 12, weight: .regular))
+							.foregroundColor(.romanSilver)
 					}
 				}.padding([.bottom, .top], 8)
 			}.padding(.trailing, 8)

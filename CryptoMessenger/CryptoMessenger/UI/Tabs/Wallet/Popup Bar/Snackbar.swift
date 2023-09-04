@@ -13,7 +13,7 @@ struct Snackbar: View {
 
 	init(
 		text: String,
-		color: Color = .red
+		color: Color = .spanishCrimson
 	) {
 		self.text = text
 		self.color = color

@@ -10,7 +10,7 @@ struct CancelActionView: View {
 			HStack {
 				Text(model.text)
 					.font(.system(size: 20))
-					.foregroundColor(.black)
+					.foregroundColor(.chineseBlack)
 			}
 		}
 	}

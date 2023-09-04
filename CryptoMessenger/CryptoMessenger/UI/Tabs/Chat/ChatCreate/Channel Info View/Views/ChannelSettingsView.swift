@@ -43,11 +43,11 @@ struct ChannelSettingsView: View {
             Spacer()
             if !value.isEmpty {
                 Text(value)
-                    .font(.regular(17))
+                    .font(.system(size: 17))
                     .foregroundColor(.dodgerBlue)
             } else {
                 Image(systemName: accessoryImageName)
-                    .foregroundColor(.gainsboro)
+                    .foregroundColor(.dodgerBlue)
             }
         }
         .background(.white)

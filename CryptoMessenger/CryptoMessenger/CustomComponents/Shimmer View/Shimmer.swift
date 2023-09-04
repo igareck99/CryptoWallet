@@ -51,8 +51,8 @@ struct Shimmer: ViewModifier {
         // MARK: - Internal Properties
         
         let phase: CGFloat
-        let centerColor: Palette = .blue()
-        let edgeColor: Palette = .blue(0.3)
+        let centerColor: Color = .dodgerBlue
+        let edgeColor: Color = .dodgerTransBlue
         
         // MARK: - Lifecycle
         
@@ -60,9 +60,9 @@ struct Shimmer: ViewModifier {
             LinearGradient(
                 gradient:
                     Gradient(stops: [
-                        .init(color: edgeColor.suColor, location: phase),
-                        .init(color: centerColor.suColor, location: phase + 0.1),
-                        .init(color: edgeColor.suColor, location: phase + 0.2)
+                        .init(color: edgeColor, location: phase),
+                        .init(color: centerColor, location: phase + 0.1),
+                        .init(color: edgeColor, location: phase + 0.2)
                     ]),
                 startPoint: .leading,
                 endPoint: .trailing

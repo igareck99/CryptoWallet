@@ -43,7 +43,7 @@ struct FriendProfileView: View {
                 position: .bottom,
                 closeOnTap: true,
                 closeOnTapOutside: true,
-                backgroundColor: .black.opacity(0.4),
+                backgroundColor: viewModel.sources.backgroundFodding,
                 view: {
                     FriendProfileSettingsView(viewModel: viewModel,
                                               onSelect: { type  in
@@ -59,7 +59,7 @@ struct FriendProfileView: View {
                     })
                     .background(
                         CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                            .fill(Color(.white()))
+                            .fill(viewModel.sources.background)
                     )
                     .frame(height: 482)
                 }
@@ -70,12 +70,12 @@ struct FriendProfileView: View {
                 position: .bottom,
                 closeOnTap: false,
                 closeOnTapOutside: true,
-                backgroundColor: .black.opacity(0.4),
+                backgroundColor: viewModel.sources.backgroundFodding,
                 view: {
                     NotesView(showNotes: $showNotesView)
                     .background(
                         CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                            .fill(Color(.white()))
+                            .fill(viewModel.sources.background)
                     )
                     .frame(height: 375)
                 }
@@ -98,7 +98,7 @@ struct FriendProfileView: View {
                         avatarView
                         VStack(alignment: .leading, spacing: 11) {
                             Text(viewModel.profile.nickname)
-                                .font(.medium(15))
+                                .font(.system(size: 15, weight: .medium))
                             switch viewModel.socialListEmpty {
                             case false:
                                 ScrollView(!showAllSocial ? [] : .horizontal, showsIndicators: false) {
@@ -126,7 +126,7 @@ struct FriendProfileView: View {
                                                     .frame(width: 16,
                                                            height: 15)
                                             }).frame(width: 32, height: 32, alignment: .center)
-                                                .background(.blue())
+                                                .background(viewModel.sources.buttonBackground)
                                                 .cornerRadius(16)
                                         }
                                     case true:
@@ -144,7 +144,7 @@ struct FriendProfileView: View {
                                                 .frame(width: 16,
                                                        height: 15)
                                         }).frame(width: 32, height: 32, alignment: .center)
-                                            .background(.blue())
+                                            .background(viewModel.sources.buttonBackground)
                                             .cornerRadius(16)
                                     }
                                 }
@@ -160,11 +160,11 @@ struct FriendProfileView: View {
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(viewModel.profile.status)
-                            .font(.regular(15))
-                            .foreground(.black())
+                            .font(.system(size: 15, weight: .regular))
+                            .foregroundColor(viewModel.sources.titleColor)
                         Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
-                            .font(.regular(15))
-                            .foreground(.blue())
+                            .font(.system(size: 15, weight: .regular))
+                            .foregroundColor(viewModel.sources.buttonBackground)
                             .onTapGesture {
                                 safariAddress = "https://www.ikea.com/ru/ru/" +
                                 "campaigns/actual-information-pub21f86b70"
@@ -186,36 +186,36 @@ struct FriendProfileView: View {
             Button(action: {
                 viewModel.p2pVideoCallPublisher.send()
             }, label: {
-                Text("Написать")
+                Text(R.string.localizable.friendProfileWrite())
                     .frame(idealWidth: (UIScreen.main.bounds.width - 44) / 2,
                            maxWidth: (UIScreen.main.bounds.width - 44) / 2,
                            minHeight: 44,
                            idealHeight: 44,
                            maxHeight: 44)
-                    .font(.regular(15))
+                    .font(.system(size: 15, weight: .regular))
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(.blue, lineWidth: 1)
+                            .stroke(viewModel.sources.buttonBackground, lineWidth: 1)
                     )
             })
                 .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                .background(.white())
+                .background(viewModel.sources.background)
             Button(action: {
             }, label: {
-                Text("Позвонить")
+                Text(R.string.localizable.friendProfileCall())
                     .frame(idealWidth: (UIScreen.main.bounds.width - 44) / 2,
                            maxWidth: (UIScreen.main.bounds.width - 44) / 2,
                            minHeight: 44,
                            idealHeight: 44,
                            maxHeight: 44)
-                    .font(.regular(15))
+                    .font(.system(size: 15, weight: .regular))
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(.blue, lineWidth: 1)
+                            .stroke(viewModel.sources.buttonBackground, lineWidth: 1)
                     )
             })
                 .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                .background(.white())
+                .background(viewModel.sources.background)
         }
     }
 
@@ -227,7 +227,7 @@ struct FriendProfileView: View {
             placeholder: {
                 ZStack {
                     Circle()
-                        .background(.blue(0.1))
+                        .background(viewModel.sources.avatarBackground)
                     viewModel.sources.avatarThumbnail
                 }
             },
@@ -250,7 +250,7 @@ struct FriendProfileView: View {
                             defaultUrl: url,
                             placeholder: {
                                 ProgressView()
-                                    .tint(Color(.blue()))
+                                    .tint(viewModel.sources.buttonBackground)
                                     .frame(width: width, height: width)
                                     .scaledToFill()
                             },
@@ -284,7 +284,7 @@ struct FriendProfileView: View {
         }
         ToolbarItem(placement: .principal) {
             Text(viewModel.userId.mxId)
-                .font(.bold(15))
+                .font(.system(size: 15, weight: .bold))
                 .lineLimit(1)
                 .onTapGesture {
                     UIPasteboard.general.string = viewModel.userId.mxId

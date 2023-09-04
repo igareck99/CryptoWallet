@@ -512,7 +512,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     title: item.name,
                     subtitle: item.role.text
                 )
-                .background(.white())
+                .background(.white)
                 .onTapGesture {
                     viewModel.tappedUserId.wrappedValue = item.matrixId
                     viewModel.showUserSettings.wrappedValue = true

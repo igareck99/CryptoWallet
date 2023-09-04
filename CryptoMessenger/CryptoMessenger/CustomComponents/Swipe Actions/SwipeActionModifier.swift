@@ -31,7 +31,7 @@ extension View {
     @ViewBuilder
     func addFullSwipeAction<V1: View, V2: View>(
 		menu: MenuType = .slided,
-		swipeColor: Color = Color.red,
+		swipeColor: Color = Color.spanishCrimson,
 		isSwiped: Binding<Bool> = .constant(false),
 		@ViewBuilder _ content: @escaping () -> TupleView<(Leading<V1>, Trailing<V2>)>,
 		action: (() -> Void)? = nil

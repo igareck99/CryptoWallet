@@ -80,7 +80,7 @@ struct ChatRoomView: View {
             .toolbar(.hidden, for: .tabBar)
             .onAppear {
                 viewModel.send(.onAppear)
-                UITextView.appearance().background(.grayDAE1E9())
+                UITextView.appearance().background(.ashGray)
             }
             .onChange(of: showActionSheet, perform: { _ in
                 if sendPhotos {
@@ -113,12 +113,12 @@ struct ChatRoomView: View {
                 position: .bottom,
                 closeOnTap: false,
                 closeOnTapOutside: true,
-                backgroundColor: .black.opacity(0.4),
+                backgroundColor: viewModel.resources.backgroundFodding,
                 view: {
                     ReactionsViewList(viewModel: ReactionsViewModel(activeEditMessage: activeEditMessage))
                     .background(
                         CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                            .fill(Color(.white()))
+                            .fill(viewModel.resources.background)
                     )
                     .frame(height: 178)
                 }
@@ -138,7 +138,7 @@ struct ChatRoomView: View {
             })
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarColor(selectedPhoto != nil && showImageViewer ? nil : .white(), isBlured: false)
+            .navigationBarColor(selectedPhoto != nil && showImageViewer ? nil : viewModel.resources.background, isBlured: false)
             .toolbar {
                 createToolBar()
             }
@@ -147,7 +147,7 @@ struct ChatRoomView: View {
 
     private var content: some View {
         ZStack {
-            Color(.blueABC3D5())
+            Color(.aliceBlue)
             VStack(spacing: 0) {
                 ScrollViewReader { scrollView in
                     ScrollView(.vertical, showsIndicators: false) {
@@ -327,7 +327,7 @@ struct ChatRoomView: View {
 
     private var quickMenuView: some View {
         ZStack {
-            Color(cardPosition == .bottom ? .clear : .black(0.4))
+            Color(cardPosition == .bottom ? .clear : .chineseBlack04)
                 .ignoresSafeArea()
                 .animation(.easeInOut, value: cardPosition != .bottom)
                 .onTapGesture {
@@ -377,7 +377,7 @@ struct ChatRoomView: View {
 
     private var groupMenuView: some View {
         ZStack {
-            Color(cardGroupPosition == .bottom ? .clear : .black(0.4))
+            Color(cardGroupPosition == .bottom ? .clear : .chineseBlack04)
                 .ignoresSafeArea()
                 .animation(.easeInOut, value: cardGroupPosition != .bottom)
                 .onTapGesture {
@@ -398,7 +398,7 @@ struct ChatRoomView: View {
     
     private var directMenuView: some View {
         ZStack {
-            Color(cardGroupPosition == .bottom ? .clear : .black(0.4))
+            Color(cardGroupPosition == .bottom ? .clear : .chineseBlack04)
                 .ignoresSafeArea()
                 .animation(.easeInOut, value: cardGroupPosition != .bottom)
                 .onTapGesture {
@@ -419,7 +419,7 @@ struct ChatRoomView: View {
 
     private var translateMenuView: some View {
         ZStack {
-            Color(translateCardPosition == .bottom ? .clear : .black(0.4))
+            Color(translateCardPosition == .bottom ? .clear : .chineseBlack04)
                 .ignoresSafeArea()
                 .animation(.easeInOut, value: translateCardPosition != .bottom)
                 .onTapGesture {
@@ -439,7 +439,7 @@ struct ChatRoomView: View {
         HStack(alignment: .center, spacing: 0) {
             Text("У вас нет разрешения на публикацию в этом канале")
                 .font(.system(size: 15))
-                .foregroundColor(.regentGrayApprox)
+                .foregroundColor(.romanSilver)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 16)
         }
@@ -471,7 +471,7 @@ struct ChatRoomView: View {
                                 showActionSheet.toggle()
                             }
                         }, label: {
-                            viewModel.sources.plus
+                            viewModel.resources.plus
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         })
@@ -510,8 +510,8 @@ struct ChatRoomView: View {
                                 textViewHeight = 36
                             }
                         }, label: {
-                            viewModel.sources.paperPlane
-                                .foreground(.blue())
+                            viewModel.resources.paperPlane
+                                .foregroundColor(.dodgerBlue)
                                 .frame(width: 24, height: 24)
                                 .clipShape(Circle())
                         })
@@ -532,11 +532,11 @@ struct ChatRoomView: View {
                 Spacer()
             }
             .frame(height: min(18 + textViewHeight, 160))
-            .background(.white())
+            .background(Color.white)
             .ignoresSafeArea()
 
             Rectangle()
-                .fill(Color(.white()))
+                .fill(Color.white)
                 .frame(height: keyboardHandler.keyboardHeight == 0 ? 24 : 0)
         }
     }
@@ -550,7 +550,7 @@ struct ChatRoomView: View {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    viewModel.sources.backButton
+                    viewModel.resources.backButton
                 })
                 AsyncImage(
                     defaultUrl: $testAvatarUrl.wrappedValue,
@@ -559,10 +559,10 @@ struct ChatRoomView: View {
                     isAvatarLoading: $viewModel.isAvatarLoading,
                     placeholder: {
                         ZStack {
-                            Color(.lightBlue())
+                            Color.aliceBlue
                             Text(viewModel.room.summary.displayName?.firstLetter.uppercased() ?? "?")
-                                .foreground(.white())
-                                .font(.medium(20))
+                                .foregroundColor(.white)
+                                .font(.system(size: 20, weight: .medium))
                         }
                     },
                     result: {
@@ -578,44 +578,44 @@ struct ChatRoomView: View {
                     HStack(spacing: 0) {
                         Text(viewModel.room.summary.displayName ?? "")
                             .lineLimit(1)
-                            .font(.semibold(15))
-                            .foreground(.black())
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(.chineseBlack)
                         Spacer()
                     }
                     HStack(spacing: 0) {
                         if viewModel.room.isDirect {
-                            Text(viewModel.room.isOnline ?  viewModel.sources.chatOnline :
-                                    viewModel.sources.chatOffline)
+                            Text(viewModel.room.isOnline ?  viewModel.resources.chatOnline :
+                                    viewModel.resources.chatOffline)
                             .lineLimit(1)
-                            .font(.regular(13))
-                            .foreground(viewModel.room.isOnline ? .blue() : .black(0.5))
+                            .font(.system(size: 13, weight: .regular))
+                            .foregroundColor(viewModel.room.isOnline ? .dodgerBlue : .chineseBlack04)
                         } else {
                             Text("Участники (\(viewModel.participants.count))")
                                 .lineLimit(1)
-                                .font(.regular(13))
-                                .foreground(.black(0.5))
+                                .font(.system(size: 13, weight: .regular))
+                                .foregroundColor(.chineseBlack04)
                         }
                         Spacer()
                     }
                 }
 //                .alert(isPresented: $showTranslateAlert) {
-//                    let dismissButton = Alert.Button.default(Text(viewModel.sources.translateChange)) {
+//                    let dismissButton = Alert.Button.default(Text(viewModel.resources.translateChange)) {
 //                        translateCardPosition = .custom(UIScreen.main.bounds.height - 630)
 //                    }
-//                    let confirmButton = Alert.Button.default(Text(viewModel.sources.translate)) {
+//                    let confirmButton = Alert.Button.default(Text(viewModel.resources.translate)) {
 //                        for message in viewModel.messages {
 //                            viewModel.translateTo(languageCode: "ru", message: message)
 //                        }
 //                    }
-//                    return Alert(title: Text(viewModel.sources.translateIntoRussian),
-//                                 message: Text(viewModel.sources.translateAlertEncryption),
+//                    return Alert(title: Text(viewModel.resources.translateIntoRussian),
+//                                 message: Text(viewModel.resources.translateAlertEncryption),
 //                                 primaryButton: confirmButton, secondaryButton: dismissButton)
 //                }
 //                .frame(width: 160)
                 
                 Spacer()
             }
-            .background(.white())
+            .background(Color.white)
             .onTapGesture {
                 viewModel.send(.onSettings(chatData: $viewModel.chatData,
                                            saveData: $viewModel.saveData,
@@ -629,21 +629,21 @@ struct ChatRoomView: View {
                     Button(action: {
                         viewModel.p2pVideoCallPublisher.send()
                     }, label: {
-                        viewModel.sources.videoFill.tint(.black)
+                        viewModel.resources.videoFill.tint(.chineseBlack)
                     }).disabled(!$viewModel.isVideoCallAvailablility.wrappedValue)
                 }
                 if viewModel.isVoiceCallAvailable {
                     Button(action: {
                         viewModel.p2pVoiceCallPublisher.send()
                     }, label: {
-                        viewModel.sources.phoneFill.tint(.black)
+                        viewModel.resources.phoneFill.tint(.chineseBlack)
                     }).disabled(!$viewModel.isVoiceCallAvailablility.wrappedValue)
                 }
 				if viewModel.isGroupCall {
 					Button(action: {
 						viewModel.groupCallPublisher.send()
 					}, label: {
-						viewModel.sources.videoFill.tint(.black)
+						viewModel.resources.videoFill.tint(.chineseBlack)
 					})
 				}
                 if viewModel.getMenuStatus() {
@@ -651,7 +651,7 @@ struct ChatRoomView: View {
                         hideKeyboard()
                         cardGroupPosition = .custom(UIScreen.main.bounds.height - 250)
                     }, label: {
-                        viewModel.sources.settingsButton
+                        viewModel.resources.settingsButton
                     })
                     .padding(.trailing, 6)
                 }

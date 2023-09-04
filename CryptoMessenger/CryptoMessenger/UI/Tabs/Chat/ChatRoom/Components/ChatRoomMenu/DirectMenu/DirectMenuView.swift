@@ -47,11 +47,11 @@ struct DirectMenuView: View {
                             act.image
                         }
                         .frame(width: 40, height: 40)
-                        .background(act.color.suColor.opacity(0.1))
+                        .background(Color.chineseShadow)
                         .cornerRadius(20)
                         Text(act.title)
-                            .font(.regular(17))
-                            .foreground(act == .delete || act == .blockUser || act == .clearHistory ? .red() : .blue())
+                            .font(.system(size: 17, weight: .regular))
+                            .foregroundColor(act == .delete || act == .blockUser || act == .clearHistory ? .spanishCrimson : .dodgerBlue)
                             .padding(.leading, 16)
                         Spacer()
                     }

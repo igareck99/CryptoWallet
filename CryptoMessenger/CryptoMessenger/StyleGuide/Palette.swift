@@ -88,7 +88,7 @@ enum Palette: Hashable {
         case let .gray768286(alpha):
             return #colorLiteral(red: 0.462745098, green: 0.5098039216, blue: 0.5254901961, alpha: 1).withAlphaComponent(alpha)
         case let .blueABC3D5(alpha):
-            return #colorLiteral(red: 0.6705882353, green: 0.7647058824, blue: 0.8352941176, alpha: 1).withAlphaComponent(alpha)
+            return #colorLiteral(red: 0.7523762584, green: 0.7523762584, blue: 0.7523762584, alpha: 1).withAlphaComponent(alpha)
         case let .gray335664(alpha):
             return #colorLiteral(red: 0.1294117647, green: 0.2196078431, blue: 0.2509803922, alpha: 1).withAlphaComponent(alpha)
         case let .purple(alpha):

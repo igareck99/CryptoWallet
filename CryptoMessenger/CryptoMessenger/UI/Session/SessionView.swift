@@ -5,7 +5,6 @@ import SwiftUI
 struct SessionView: View {
 
     // MARK: - Internal Properties
-
     var session: SessionItem
 
     // MARK: - Body
@@ -18,11 +17,11 @@ struct SessionView: View {
                     .frame(width: 40, height: 40)
                     .scaledToFill()
                 VStack(alignment: .leading) {
-                    Text(session.device + ", Приложение Aura")
-                        .font(.semibold(15))
+                    Text(session.device + R.string.localizable.sessingAura())
+                        .font(.system(size: 15, weight: .semibold))
                         .lineLimit(1)
                     Text(session.place + " • " + session.date)
-                        .font(.regular(12))
+                        .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.chineseBlack)
                         .lineLimit(1)
                         .offset(y: 2)
@@ -50,17 +49,17 @@ struct SessionListView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 16) {
             Divider().padding(.top, 16)
-            Text(R.string.localizable.sessionDescription())
+            Text(viewModel.resources.sessionDescription)
                 .lineLimit(nil)
                 .multilineTextAlignment(.leading)
-                .font(.regular(13))
-                .foregroundColor(.chineseBlack)
+                .font(.system(size: 13, weight: .regular))
+                .foregroundColor(viewModel.resources.title)
                 .padding(.horizontal, 16)
             List {
                 ForEach(viewModel.sessionsList) { session in
                     SessionView(session: session)
                         .listRowSeparator(.hidden)
-                        .background(.white)
+                        .background(viewModel.resources.background)
                         .onTapGesture {
                             viewModel.selectedSession = session
                             isSelected = true
@@ -73,11 +72,11 @@ struct SessionListView: View {
                 viewModel.sessionsList.removeAll()
                 viewModel.send(.onDeleteAll)
             }, label: {
-                Text(R.string.localizable.sessionFinishAll())
-                    .font(.bold(15))
-                    .foregroundColor(.white)
+                Text(viewModel.resources.sessionFinishAll)
+                    .font(.system(size: 15, weight: .bold))
+                    .foregroundColor(viewModel.resources.background)
             }).frame(width: 225, height: 44, alignment: .center)
-                .background(Color.dodgerBlue)
+                .background(viewModel.resources.buttonBackground)
                 .cornerRadius(8)
         }
         .popup(isPresented: $isSelected,
@@ -85,7 +84,7 @@ struct SessionListView: View {
                position: .bottom,
                closeOnTap: false,
                closeOnTapOutside: true,
-               backgroundColor: .chineseBlack04) {
+               backgroundColor: viewModel.resources.backggroundFodding) {
             SessionDetailView(viewModel: viewModel,
                               showModal: $isSelected)
                 .frame(width: UIScreen.main.bounds.width, height: 375, alignment: .center)
@@ -98,8 +97,8 @@ struct SessionListView: View {
                .navigationBarTitleDisplayMode(.inline)
                .toolbar {
                    ToolbarItem(placement: .principal) {
-                       Text(R.string.localizable.sessionFinishOne())
-                           .font(.bold(15))
+                       Text(viewModel.resources.sessionFinishOne)
+                           .font(.system(size: 15, weight: .bold))
                    }
                }
                .toolbar(.hidden, for: .tabBar)

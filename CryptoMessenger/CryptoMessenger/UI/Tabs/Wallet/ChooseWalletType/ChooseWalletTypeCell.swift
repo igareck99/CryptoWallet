@@ -19,7 +19,7 @@ struct ChooseWalletTypeCell: View {
                 .padding(.trailing, 16)
             Spacer()
             Divider()
-                .foregroundColor(.chineseBlack)
+                .foregroundColor(.romanSilver)
                 .frame(height: 0.5)
         }
         .padding(.leading, 16)

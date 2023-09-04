@@ -14,7 +14,7 @@ struct ChannelParticipantView: View {
     var body: some View {
         HStack(spacing: 0) {
             Circle()
-                .foregroundColor(.cyan)
+                .foregroundColor(.dodgerTransBlue)
                 .frame(width: 40, height: 40)
                 .cornerRadius(20)
             
@@ -22,11 +22,11 @@ struct ChannelParticipantView: View {
                 
                 Text(title)
                     .font(.system(size: 17))
-                    .foregroundColor(.black)
+                    .foregroundColor(.chineseBlack)
                 
                 Text(subtitle)
                     .font(.system(size: 12))
-                    .foregroundColor(.regentGrayApprox)
+                    .foregroundColor(.romanSilver)
                     .padding(.top, 4)
             }
             .padding(.leading, 8)

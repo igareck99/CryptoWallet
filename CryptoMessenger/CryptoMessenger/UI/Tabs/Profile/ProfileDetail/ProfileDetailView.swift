@@ -77,13 +77,13 @@ struct ProfileDetailView: View {
                 .frame(width: UIScreen.main.bounds.width - 32)
             VStack(alignment: .leading,
                    spacing: 10) {
-                Text("О СЕБЕ")
-                    .foreground(.darkGray())
-                    .font(.regular(16))
+                Text(R.string.localizable.profileAboutUser())
+                    .foregroundColor(.romanSilver)
+                    .font(.system(size: 16, weight: .regular))
                 TextEditor(text: $viewModel.profile.status)
                     .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
-                    .background(.white())
-                    .placeholder("Описание",
+                    .background(Color.white)
+                    .placeholder(R.string.localizable.createChannelDescription(),
                                  when: viewModel.profile.status.isEmpty)
                     .foregroundColor(.chineseBlack)
                     .font(.system(size: 17))
@@ -95,7 +95,7 @@ struct ProfileDetailView: View {
                    .frame(width: UIScreen.main.bounds.width - 32)
             Section {
                 ProfileDetailActionRow(
-                    title: "Ваши социальные сети",
+                    title: R.string.localizable.profileDetailFirstItemCell(),
                     image: R.image.profileDetail.socialNetwork.image
                 )
                 .background(.white)
@@ -106,7 +106,7 @@ struct ProfileDetailView: View {
             }
             Section {
                 ProfileDetailActionRow(
-                    title: "Выход",
+                    title: R.string.localizable.profileDetailLogoutAlertApprove(),
                     image: R.image.profileDetail.exit.image
                 )
                 .background(.white)
@@ -214,7 +214,7 @@ struct ProfileDetailView: View {
             }
             ZStack(alignment: .center) {
                 Circle()
-                    .foregroundColor(.azureRadianceApprox)
+                    .foregroundColor(.dodgerTransBlue)
                     .frame(width: 24, height: 24)
                 R.image.profileDetail.whiteCamera.image
                     .resizable()
@@ -248,13 +248,13 @@ struct ProfileDetailView: View {
                     if viewModel.profile.info.isEmpty {
                         Text(title.firstUppercased)
                             .foregroundColor(.romanSilver07)
-                            .font(.regular(15))
+                            .font(.system(size: 15, weight: .regular))
                             .padding([.leading, .trailing], 16)
                     }
 
                     TextEditor(text: $viewModel.profile.info)
                         .foregroundColor(.chineseBlack)
-                        .font(.regular(15))
+                        .font(.system(size: 15, weight: .regular))
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 140)
                         .padding([.leading, .trailing], 14)
                 }
@@ -271,10 +271,10 @@ struct ProfileDetailView: View {
                 .frame(height: 22)
                 .foregroundColor(.romanSilver)
             HStack(spacing: 0) {
-                Text("+7   Россия")
+                Text(R.string.localizable.profileDetailPhoneExample())
                     .foregroundColor(.chineseBlack)
                     .frame(height: 44)
-                    .font(.regular(15))
+                    .font(.system(size: 15, weight: .regular))
                     .padding(.leading, 16)
                 Spacer()
                 R.image.profileDetail.arrow.image
@@ -287,7 +287,7 @@ struct ProfileDetailView: View {
                 Text(viewModel.profile.phone)
                     .foregroundColor(.chineseBlack)
                     .frame(height: 44)
-                    .font(.regular(15))
+                    .font(.system(size: 15, weight: .regular))
                     .padding(.leading, 16)
                 Spacer()
             }
@@ -309,7 +309,7 @@ struct ProfileDetailView: View {
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .principal) {
-            Text("Профиль", [
+            Text(R.string.localizable.tabProfile(), [
                 .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
             ])
             .font(.system(size: 15, weight: .bold))
@@ -320,8 +320,8 @@ struct ProfileDetailView: View {
                 isSaving.toggle()
                 viewModel.send(.onDone)
             }, label: {
-                Text("Готово")
-                    .font(.semibold(15))
+                Text(R.string.localizable.profileDetailRightButton())
+                    .font(.system(size: 15, weight: .regular))
                     .foregroundColor(.dodgerBlue)
             }).disabled(isSaving)
         }

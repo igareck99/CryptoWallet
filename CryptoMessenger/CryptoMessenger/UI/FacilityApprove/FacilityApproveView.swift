@@ -28,7 +28,7 @@ struct FacilityApproveView: View {
             position: .bottom,
             closeOnTap: false,
             closeOnTapOutside: false,
-            backgroundColor: Color(.black(0.4)),
+            backgroundColor: Color.chineseBlack04,
             view: {
                 SuccessFacilityView(
 					showSuccessFacility: $showSuccessFacility,
@@ -103,7 +103,7 @@ struct FacilityApproveView: View {
                 .clipShape(Circle())
                 .frame(width: 40, height: 40)
             VStack(alignment: .leading, spacing: 0) {
-                Text(viewModel.transaction.reciverName ?? "По адресу")
+                Text(viewModel.transaction.reciverName ?? viewModel.resources.facilityApproveToAddress)
                     .font(.system(size: 17))
                     .foregroundColor(viewModel.resources.titleColor)
                     .lineLimit(1)

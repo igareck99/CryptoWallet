@@ -73,6 +73,7 @@
 "Profile.Copied" = "Скопировано!";
 "Profile.FromGallery" = "Выбрать из галереи";
 "Profile.FromCamera" = "Камера";
+"Profile.AboutUser" = "О СЕБЕ";
 
 
 "PinCode.EnterPassword" = "Введите пароль";
@@ -178,6 +179,7 @@
 "ProfileDetail.DeleteAlertApprove" = "Удалить";
 "ProfileDetail.PhonePlaceholder" = "Введите номер";
 "ProfileDetail.PhoneEnter" = "Номер телефона";
+"ProfileDetail.PhoneExample" = "+7   Россия";
 
 
 "ProfileNetworkDetail.Title" = "Социальные сети";
@@ -286,11 +288,13 @@
 "Session.App" = "Приложения";
 "Session.Ip" = "IP-адрес";
 "Session.FinishOne" = "Завершить сеанс";
+"Sessing.Aura" = ", Приложение Aura";
 
 
 "Security.Title" = "Безопасность";
 "Security.Security" = "БЕЗОПАСНОСТЬ";
 "Security.Privacy" = "КОНФЕДЕНЦИАЛЬНОСТЬ";
+"Security.BiometryEror" = "Биометрия недоступна";
 "Security.PinCodeTitle" = "PIN-код";
 "Security.ProfileObserve" = "Просмотр профиля";
 "Security.ProfileObserveState" = "Все пользователи";
@@ -354,6 +358,10 @@
 "Transaction.OnlySent" = "Только отправленные";
 "Transaction.OnlyReceived" = "Только полученные";
 "Transaction.Filter" = "Фильтрация";
+"Transaction.Sender" = "Отправитель";
+"Transaction.Reciver" = "Получатель";
+"Transaction.Block" = "Блок";
+"Transaction.Hash" = "Хэш";
 
 "Wallet.Aura" = "Aura";
 "Wallet.Ethereum" = "Ethereum";
@@ -394,6 +402,10 @@
 "ChooseReceiver.Wallet" = "Кошелек";
 "ChooseReceiver.Title" = "Получатель";
 
+"EnterAdress.EnterAdress" = "Введите адресс";
+
+"ActionSheet.SendFoto" = "Отправить фото";
+
 
 "FacilityApprove.Title" = "Перевод средств";
 "FacilityApprove.Check" = "Пожалуйста, проверьте данные. Если все хорошо, нажмите “Отправить”";
@@ -408,6 +420,7 @@
 "FacilityApprove.TransactionFailed" = "Перевод не выполнен";
 "FacilityApprove.ValidateTransaction" = "Подтверждение перевода";
 "FacilityApprove.RecipientAddress" = "Адрес получателя";
+"FacilityApprove.ToAddress" = "По адресу";
 
 
 "QRCode.Title" = "Сканировать  QR-код";
@@ -454,6 +467,7 @@
 "Chat.Welcome" = "Привет, теперь я в Aura";
 "Chat.ContactEror" = "Не удалось получить доступ к контактам. Вы можете предоставить доступ к контактам в настройках";
 "Chat.OpenSettings" = "Открыть настройки";
+"Chat.Settings" = "Настройки";
 "Chat.ContactView" = "Просмотр контакта";
 "Chat.Geoposition" = "Геопозиция";
 "Chat.Online" = "онлайн";
@@ -477,6 +491,7 @@
 "PhraseManager.StepTwoOfTwo" = "Шаг 2 из 2";
 "PhraseManager.LetsCheck" = "Давайте проверим, как вы запомнили вашу секретную фразу? Выберите каждое слово в правильном порядке.";
 "PhraseManager.WrongOrder" = "Неправильный порядок слов!";
+"PhraseManager.KeyImportSucces" = "Ключ импортирован";
 "PhraseManager.Complete" = "Завершить";
 "PhraseManager.GoBack" = "Вернуться назад";
 "PhraseManager.TapToSee" = "Нажмите на кнопку, чтобы увидеть секретную фразу";
@@ -561,6 +576,7 @@
 "ChatMenuView.NotificationsTurnOff" = "Отключить уведомления";
 "ChatMenuView.Users" = "Пользователи группы";
 "ChatMenuView.ShareChat" = "Поделиться чатом";
+"ChatMenuView.GroupName" = "Название группы";
 "ChatMenuView.Search" = "Поиск сообщений";
 "ChatMenuView.Translate" = "Редактировать";
 "ChatMenuView.RemoveChat" = "Удалить чат";
@@ -587,6 +603,8 @@
 "GeneratePhrase.CopyPhrase" = "Копировать фразу";
 "GeneratePhrase.ErrorKey" = "Неверный ключ";
 "GeneratePhrase.Copied" = "Фраза скопирована";
+"GeneratePhrase.Saved" = "Фраза сохранена";
+"GeneratePhrase.Question" = "generatePhraseQuestion";
 
 "ChannelSettings.OpenProfile" = "Открыть профиль";
 "ChannelSettings.ChangeRole" = "Изменить роль";
@@ -596,6 +614,7 @@
 "ChannelSettings.OffedNotifications" = "Отключены";
 "ChannelSettings.LeaveChannel" = "Покинуть канал";
 "ChannelSettings.SelectRole" = "Выберите роль для участника";
+"ChannelSettings.SelectOwner" = "Выбрать владельца";
 
 "ChannelInfo.DocsWillBe" = "Здесь будут документы канала";
 "ChannelInfo.NoDocs" = "Нет документов";
@@ -611,10 +630,16 @@
 "ChannelInfo.CopyLink" = "Скопировать ссылку";
 "ChannelInfo.LinkCopied" = "Ссылка скопирована";
 "ChannelInfo.LookAll" = "Посмотреть все";
+"ChannelInfo.Admins" = "Администаторы";
 "ChannelInfo.Participant" = "участник";
 "ChannelInfo.Participants" = "Участники";
+"ChannelInfo.ChatParticipants" = "Участники чата";
+"ChannelInfo.Open" = "Открыть";
 "ChannelInfo.Attachments" = "Вложения";
 "ChannelInfo.Notifications" = "Уведомления";
+
+"ChatCreate.Admin" = "Админ";
+"ChatCreate.Invite" = "Пригласить";
 
 "ChatHistory.SearchEmpty" = "Поиск пуст";
 "ChatHistory.EnterData" = "Введите данные, которые хотите найти";

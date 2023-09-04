@@ -23,7 +23,7 @@ enum CreateAction: CaseIterable, Identifiable {
         }
     }
 
-    var color: Palette { .black() }
+    var color: Color { .chineseBlack }
 
     var image: Image {
         switch self {

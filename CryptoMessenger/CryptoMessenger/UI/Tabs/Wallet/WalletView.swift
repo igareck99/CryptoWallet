@@ -31,7 +31,7 @@ struct WalletView: View {
             .navigationBarHidden(false)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(R.string.localizable.tabWallet())
+                    Text(viewModel.resources.tabWallet)
                         .font(.system(size: 17, weight: .semibold))
                 }
             }
@@ -142,15 +142,15 @@ struct WalletView: View {
             Image(R.image.wallet.walletEmptyState.name)
                 .frame(minHeight: 140)
 
-            Text(R.string.localizable.walletNoData())
+            Text(viewModel.resources.walletNoData)
                 .font(.system(size: 22))
-                .foregroundColor(.chineseBlack)
+                .foregroundColor(viewModel.resources.titleColor)
                 .frame(alignment: .center)
                 .padding(.bottom, 6)
 
-            Text(R.string.localizable.walletAddWalletLong())
+            Text(viewModel.resources.walletAddWalletLong)
                 .font(.system(size: 15))
-                .foregroundColor(.romanSilver)
+                .foregroundColor(viewModel.resources.textColor)
                 .frame(alignment: .center)
                 .multilineTextAlignment(.center)
                 .padding(.bottom, 70)
@@ -158,13 +158,13 @@ struct WalletView: View {
             Button {
                 viewModel.showAddSeed()
             } label: {
-                Text(R.string.localizable.walletAddWalletShort())
+                Text(viewModel.resources.walletAddWalletShort)
                     .font(.system(size: 17, weight: .semibold))
-                    .foregroundColor(.white)
+                    .foregroundColor(viewModel.resources.background)
                     .padding([.leading, .trailing], 40)
                     .padding([.bottom, .top], 13)
             }
-            .background(Color.dodgerBlue)
+            .background(viewModel.resources.buttonBackground)
             .cornerRadius(8)
             .frame(width: 237, height: 48)
         }
@@ -174,12 +174,12 @@ struct WalletView: View {
         ZStack(alignment: .leading) {
             Rectangle()
                 .frame(height: 2)
-                .foregroundColor(.brightGray)
+                .foregroundColor(viewModel.resources.innactiveButtonBackground)
                 .padding(.horizontal, 16)
 
             Rectangle()
                 .frame(width: 111, height: 4)
-                .foregroundColor(.dodgerBlue)
+                .foregroundColor(viewModel.resources.buttonBackground)
                 .cornerRadius(2)
                 .padding(.leading, offset)
         }
@@ -190,22 +190,22 @@ struct WalletView: View {
             ZStack {
                 Circle()
                     .frame(width: 60, height: 60)
-                    .foregroundColor(.dodgerTransBlue)
+                    .foregroundColor(viewModel.resources.avatarBackground)
                 R.image.wallet.wallet.image
             }
             VStack(alignment: .leading, spacing: 8) {
                 Text(viewModel.totalBalance)
-                    .font(.regular(22))
-                Text(R.string.localizable.tabOverallBalance())
-                    .font(.regular(13))
-                    .foregroundColor(.brightGray)
+                    .font(.system(size: 22, weight: .regular))
+                Text(viewModel.resources.tabOverallBalance)
+                    .font(.system(size: 13, weight: .regular))
+                    .foregroundColor(viewModel.resources.innactiveButtonBackground)
             }
         }
     }
 
     private var transactionTitleView: some View {
         HStack {
-            Text(R.string.localizable.walletTransaction())
+            Text(viewModel.resources.walletTransaction)
                 .font(.system(size: 16, weight: .semibold))
                 .padding(.leading, 16)
             Spacer()
@@ -217,13 +217,13 @@ struct WalletView: View {
         Button {
             viewModel.send(.onTransfer(walletIndex: pageIndex))
         } label: {
-            Text(R.string.localizable.walletSend())
+            Text(viewModel.resources.walletSend)
                 .font(.system(size: 17, weight: .semibold))
                 .frame(maxWidth: .infinity)
-                .foregroundColor(.white)
+                .foregroundColor(viewModel.resources.background)
                 .padding()
         }
-        .background(Color.azureRadianceApprox)
+        .background(viewModel.resources.buttonBackground)
         .frame(maxWidth: .infinity)
         .frame(height: 48)
         .cornerRadius(8)
@@ -270,14 +270,14 @@ struct WalletView: View {
         VStack(alignment: .center, spacing: 0) {
             R.image.wallet.emptyTransactions.image
                 .padding(.bottom, 4)
-            Text(R.string.localizable.walletNoData())
+            Text(viewModel.resources.walletNoData)
                 .font(.system(size: 22))
-                .foregroundColor(.chineseBlack)
+                .foregroundColor(viewModel.resources.titleColor)
                 .padding(.bottom, 4)
-            Text(R.string.localizable.walletManagerMakeYourFirstTransaction())
+            Text(viewModel.resources.walletManagerMakeYourFirstTransaction)
                 .multilineTextAlignment(.center)
                 .font(.system(size: 15))
-                .foregroundColor(.romanSilver)
+                .foregroundColor(viewModel.resources.textColor)
 
             Spacer()
                 .frame(height: 60)

@@ -18,6 +18,14 @@ protocol SuccessFacilityResourcable {
     static var successFacilityViewOKClose: String { get }
     
     static var successFacilityViewShowTransaction: String { get }
+    
+    static var background: Color { get }
+    
+    static var buttonBackground: Color { get }
+    
+    static var textColor: Color { get }
+    
+    static var avatarBackground: Color { get }
 }
 
 // MARK: - SuccessFacilityResources(SuccessFacilityResourcable)
@@ -50,5 +58,21 @@ enum SuccessFacilityResources: SuccessFacilityResourcable {
     
     static var successFacilityViewShowTransaction: String {
         R.string.localizable.successFacilityViewShowTransaction()
+    }
+    
+    static var background: Color {
+        .white
+    }
+    
+    static var avatarBackground: Color {
+        .dodgerTransBlue
+    }
+    
+    static var buttonBackground: Color {
+        .dodgerBlue
+    }
+    
+    static var textColor: Color {
+        .romanSilver
     }
 }

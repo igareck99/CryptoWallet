@@ -67,7 +67,7 @@ struct ImageViewer: View {
 
     var body: some View {
 		ZStack(alignment: .center) {
-            Color(.black())
+            Color.chineseBlack
                 .opacity(viewModel.bgOpacity)
                 .ignoresSafeArea()
 

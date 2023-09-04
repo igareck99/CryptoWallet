@@ -3,6 +3,11 @@ import Foundation
 
 
 protocol ChannelNotificationResourcable {
+    static var channelNotificationsPopUpAlerts: String { get }
+    
+    static var channelNotificationsAlerts: String { get }
+    
+    
     
     static var checkmarkImage: Image { get }
     
@@ -17,6 +22,16 @@ protocol ChannelNotificationResourcable {
 
 
 enum ChannelNotificationResources: ChannelNotificationResourcable{
+    static var channelNotificationsPopUpAlerts: String {
+        R.string.localizable.channelNotificationsPopUpAlerts()
+    }
+    
+    static var channelNotificationsAlerts: String {
+        R.string.localizable.channelNotificationsAlerts()
+    }
+    
+    
+    
     static var checkmarkImage: Image {
         R.image.channelSettings.checkmark.image
     }

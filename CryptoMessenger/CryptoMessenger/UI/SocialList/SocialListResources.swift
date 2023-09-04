@@ -14,6 +14,12 @@ protocol SocialListResourcesable {
 	var rightButton: String { get }
 
 	var notShowMessage: String { get }
+    
+    var textColor: Color { get }
+    
+    var buttonBackround: Color { get }
+    
+    var avatarBackground: Color { get }
 }
 
 struct SocialListResources {
@@ -47,4 +53,16 @@ extension SocialListResources: SocialListResourcesable {
 	var notShowMessage: String {
 		R.string.localizable.profileNetworkDetailNotShowMessage()
 	}
+    
+    var textColor: Color {
+        .romanSilver
+    }
+    
+    var avatarBackground: Color {
+        .dodgerTransBlue
+    }
+    
+    var buttonBackround: Color {
+        .dodgerBlue
+    }
 }

@@ -44,10 +44,10 @@ struct ContactView: View {
 					defaultUrl: url,
 					placeholder: {
 						ZStack {
-							Color.azureRadianceApprox
+							Color.dodgerTransBlue
 							Text(name.firstLetter.uppercased())
-								.foreground(.white())
-								.font(.medium(22))
+								.foregroundColor(.white)
+                                .font(.system(size: 22, weight: .medium))
 						}
 					},
 					result: { Image(uiImage: $0).resizable() }
@@ -58,23 +58,23 @@ struct ContactView: View {
 
 				VStack(alignment: .leading, spacing: 4) {
 					Text(name)
-						.font(.semibold(15))
-						.foreground(.black())
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(.chineseBlack)
 					Text(phone ?? "-")
-						.font(.regular(13))
-						.foreground(.darkGray())
+                        .font(.system(size: 13, weight: .regular))
+						.foregroundColor(.romanSilver)
 				}
 				.padding(.leading, 10)
 				.padding(.top, 2)
 			}
 
-			Text("Просмотр контакта")
+            Text(R.string.localizable.chatContactView)
 				.frame(width: 220, height: 44)
-				.font(.bold(15))
-				.foreground(.blue())
+                .font(.system(size: 15, weight: .bold))
+				.foregroundColor(.dodgerBlue)
 				.overlay(
 					RoundedRectangle(cornerRadius: 8)
-						.stroke(Color(.blue()), lineWidth: 1)
+                        .stroke(Color.dodgerBlue, lineWidth: 1)
 						.padding([.leading, .trailing], -8)
 				)
 				.padding(.top, 12)

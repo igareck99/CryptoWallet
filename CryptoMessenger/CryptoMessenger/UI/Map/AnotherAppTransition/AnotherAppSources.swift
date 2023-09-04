@@ -28,6 +28,13 @@ protocol AnotherAppSourcesable {
     static var yandexMaps: String { get }
     
     static var doubleGis: String { get }
+    
+    //Color
+    static var background: Color { get }
+    
+    static var negativeColor: Color { get }
+    
+    static var buttonBackground: Color { get }
 }
 
 // MARK: - AnotherAppResources(AnotherAppSourcesable)
@@ -80,5 +87,18 @@ enum AnotherAppResources: AnotherAppSourcesable {
     
     static var appleMaps: String {
         "Apple Maps"
+    }
+    
+    //Color
+    static var background: Color {
+        .white 
+    }
+    
+    static var negativeColor: Color {
+        .spanishCrimson
+    }
+    
+    static var buttonBackground: Color {
+        .dodgerBlue
     }
 }

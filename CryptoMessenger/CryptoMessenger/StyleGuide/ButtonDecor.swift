@@ -12,45 +12,45 @@ enum ButtonDecor {
 
     // MARK: - Internal Properties
 
-    var background: Palette {
+    var background: UIColor {
         switch self {
         case .black:
-            return .black()
+            return .chineseBlack
         case .gray:
-            return .gray()
+            return .romanSilver
         case .white:
             return .clear
         }
     }
 
-    var border: Palette {
+    var border: UIColor {
         switch self {
         case .black:
             return .clear
         case .gray:
             return .clear
         case .white:
-            return .black()
+            return .chineseBlack
         }
     }
 
-    var fontColor: Palette {
+    var fontColor: UIColor {
         switch self {
         case .black:
-            return .white()
+            return .white
         case .gray:
-            return .black(0.3)
+            return .chineseBlack04
         case .white:
-            return .black()
+            return .chineseBlack
         }
     }
 
     var backgroundImage: UIImage? {
         switch self {
         case .black:
-            return UIImage().tintColor(.black())
+            return UIImage().tintColor(.chineseBlack)
         case .gray:
-            return UIImage().tintColor(.gray())
+            return UIImage().tintColor(.romanSilver)
         case .white:
             return nil
         }

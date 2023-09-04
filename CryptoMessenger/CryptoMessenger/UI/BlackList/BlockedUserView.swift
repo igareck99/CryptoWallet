@@ -19,11 +19,11 @@ struct BlockedUserView: View {
                 .cornerRadius(20)
             VStack(alignment: .leading) {
                 Text(item.name)
-                    .font(.bold(15))
+                    .font(.system(size: 15, weight: .bold))
                     .lineLimit(1)
                 Text(item.status)
-                    .font(.regular(12))
-                    .foreground(.darkGray())
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundColor(.romanSilver)
                     .lineLimit(1)
                 Spacer()
             }
@@ -52,7 +52,7 @@ struct BlockedUserContentView: View {
             List {
                 ForEach(viewModel.listData) { user in
                     BlockedUserView(item: user)
-                        .background(.white())
+                        .background(viewModel.resources.background)
                         .onTapGesture {
                         showingAlert.toggle()
                         currentUser = viewModel.listData.firstIndex(
@@ -61,20 +61,20 @@ struct BlockedUserContentView: View {
                 }
                 .alert(isPresented: $showingAlert) {
                     Alert(title: Text(
-                        R.string.localizable.blockedUserAlertTitle() + viewModel.listData[currentUser].name
+                        viewModel.resources.blockedUserAlertTitle + viewModel.listData[currentUser].name
                     ),
                           message: nil,
                           primaryButton:
-                                .default(Text(R.string.localizable.blockedUserApprove()), action: {
+                            .default(Text(viewModel.resources.blockedUserApprove), action: {
                         viewModel.listData.remove(at: currentUser)
                     }),
-                          secondaryButton: .default(Text(R.string.localizable.blockedUserCancel())))
+                          secondaryButton: .default(Text(viewModel.resources.blockedUserCancel)))
                 }
         }
         .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(R.string.localizable.blackListTitle())
-                        .font(.bold(15))
+                    Text(viewModel.resources.blackListTitle)
+                        .font(.system(size: 15, weight: .bold))
                 }
             }
         .listStyle(.inset)

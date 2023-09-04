@@ -42,10 +42,10 @@ struct ChannelNewOwnerView: View {
                                 defaultUrl: contact.avatar,
                                 placeholder: {
                                     ZStack {
-                                        Color(.lightBlue())
+                                        Color.aliceBlue
                                         Text(contact.name.firstLetter.uppercased())
-                                            .foreground(.white())
-                                            .font(.medium(22))
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 22, weight: .medium))
                                     }
                                 },
                                 result: {
@@ -57,8 +57,8 @@ struct ChannelNewOwnerView: View {
                             .cornerRadius(20)
                             
                             Text(contact.name)
-                                .font(.semibold(15))
-                                .foreground(.black())
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundColor(.chineseBlack)
                                 .padding(.top, 12)
                         }
                         Spacer()
@@ -91,8 +91,8 @@ struct ChannelNewOwnerView: View {
             })
         }
         ToolbarItem(placement: .principal) {
-            Text("Выбрать владельца")
-                .font(.bold(17))
+            Text(R.string.localizable.channelSettingsSelectOwner())
+                .font(.system(size: 17, weight: .bold))
                 .lineLimit(1)
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -101,8 +101,8 @@ struct ChannelNewOwnerView: View {
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
-                    .font(.bold(15))
-                    .foregroundColor(.blue)
+                    .font(.system(size: 15, weight: .bold))
+                    .foregroundColor(.dodgerBlue)
             })
         }
     }

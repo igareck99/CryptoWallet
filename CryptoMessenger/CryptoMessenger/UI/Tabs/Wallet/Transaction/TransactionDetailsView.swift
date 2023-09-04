@@ -13,11 +13,11 @@ struct TransactionDetailsView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(alignment: .center, spacing: 0) {
-                Text("Отправитель")
+                Text(R.string.localizable.transactionSender())
                     .font(.system(size: 13))
                 Spacer()
                 Text(model.sender)
-                    .foregroundColor(.regentGrayApprox)
+                    .foregroundColor(.romanSilver)
                     .lineLimit(1)
                     .truncationMode(.middle)
                     .font(.system(size: 15))
@@ -25,11 +25,11 @@ struct TransactionDetailsView: View {
             .frame(height: 32)
 
             HStack(alignment: .center, spacing: 0) {
-                Text("Получатель")
+                Text(R.string.localizable.transactionReciver())
                     .font(.system(size: 13))
                 Spacer()
                 Text(model.receiver)
-                    .foregroundColor(.regentGrayApprox)
+                    .foregroundColor(.romanSilver)
                     .lineLimit(1)
                     .truncationMode(.middle)
                     .font(.system(size: 15))
@@ -37,21 +37,21 @@ struct TransactionDetailsView: View {
             .frame(height: 32)
 
             HStack(alignment: .center, spacing: 0) {
-                Text("Блок")
+                Text(R.string.localizable.transactionBlock())
                     .font(.system(size: 13))
                 Spacer()
                 Text(model.block)
-                    .foregroundColor(.regentGrayApprox)
+                    .foregroundColor(.romanSilver)
                     .font(.system(size: 15))
             }
             .frame(height: 32)
 
             HStack(alignment: .center, spacing: 0) {
-                Text("Хэш")
+                Text(R.string.localizable.transactionHash())
                     .font(.system(size: 13))
                 Spacer()
                 Text(model.hash)
-                    .foregroundColor(.regentGrayApprox)
+                    .foregroundColor(.romanSilver)
                     .lineLimit(1)
                     .truncationMode(.middle)
                     .font(.system(size: 15))

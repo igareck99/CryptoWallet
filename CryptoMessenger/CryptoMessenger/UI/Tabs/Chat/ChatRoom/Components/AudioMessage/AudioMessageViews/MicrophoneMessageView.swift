@@ -48,7 +48,7 @@ struct MicrophoneMessageView: View {
                     ZStack {
                         Circle()
                             .frame(width: 48, height: 48)
-                            .foreground(.blue())
+                            .foreground(.dodgerBlue)
                         !blockAudioRecord ? R.image.chat.audio.whitemicrofoneImage.image :
                         R.image.chat.audio.approveWhite.image
                     }
@@ -64,7 +64,7 @@ struct MicrophoneMessageView: View {
             .opacity(showAudioView ? 1 : 0)
             .padding(.top, blockDragPadding)
             R.image.chat.audio.microfoneImage.image
-                .foreground(.blue())
+                .foregroundColor(.dodgerBlue)
                 .frame(width: 24, height: 24)
                 .clipShape(Circle())
                 .opacity(!showAudioView ? 1 : 0)
@@ -77,7 +77,7 @@ struct MicrophoneMessageView: View {
         VStack(alignment: .center, spacing: blockAudioRecord ? 20 : 40) {
             ZStack {
                 RoundedRectangle(cornerRadius: 45)
-                    .fill(Color(.white()))
+                    .fill(Color.white)
                     .frame(width: blockAudioRecord ? 34 : 73 - blockDragPadding,
                            height: 34)
                     .rotationEffect(Angle(degrees: 90))

@@ -43,7 +43,7 @@ enum DirectAction: CaseIterable, Identifiable {
         }
     }
 
-    var color: Palette { self == .delete || self == .blockUser || self == .clearHistory ? .red() : .blue() }
+    var color: Color { self == .delete || self == .blockUser || self == .clearHistory ? .spanishCrimson : .dodgerBlue }
 
     var image: Image {
         switch self {

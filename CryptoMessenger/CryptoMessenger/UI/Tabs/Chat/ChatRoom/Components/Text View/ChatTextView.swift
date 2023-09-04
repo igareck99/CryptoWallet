@@ -47,26 +47,25 @@ struct ChatTextView: View {
                     HStack(spacing: 0) {
                         RoundedRectangle(cornerRadius: 1)
                             .frame(width: 2)
-                            .foreground(.blue(0.9))
+                            .foregroundColor(.dodgerBlue)
                             .padding(.top, 8)
                             .padding(.leading, 16)
                         VStack(alignment: .leading, spacing: 4) {
                             Text(message.name,
                                  [
-                                    .font(.medium(13)),
-                                    .paragraph(.init(lineHeightMultiple: 1.19, alignment: .left)),
-                                    .color(.black())
+                                    .paragraph(.init(lineHeightMultiple: 1.19, alignment: .left))
                                  ]
                             )
+                            .font(.system(size: 13, weight: .medium))
+                            .foregroundColor(.chineseBlack)
                             .padding(.top, 8)
                             Text(message.replyDescription,
                                  [
-                                    .font(.regular(13)),
                                     .paragraph(.init(lineHeightMultiple: 1.2,
-                                                     alignment: .left)),
-                                    .color(.black())
+                                                     alignment: .left))
                                  ]
-                            )
+                            ) .font(.system(size: 13, weight: .regular))
+                                .foregroundColor(.chineseBlack)
                         }
                         .frame(minWidth: 0, maxWidth: 70)
                         .padding(.leading, 8)
@@ -76,8 +75,8 @@ struct ChatTextView: View {
                 }
                 Text(text)
                     .lineLimit(nil)
-                    .font(.regular(17))
-                    .foreground(.black())
+                    .font(.system(size: 17, weight: .regular))
+                    .foregroundColor(.chineseBlack)
                     .padding(.top, 8)
                     .padding(.bottom, reactionItem.isEmpty ? 8 : 0)
                     .padding(.leading, 12)
@@ -96,8 +95,8 @@ struct ChatTextView: View {
                     Spacer()
                     Text(shortDate)
                         .frame(width: 40, height: 10)
-                        .font(.light(12))
-                        .foreground(.black(0.5))
+                        .font(.system(size: 12, weight: .light))
+                        .foregroundColor(.chineseBlack04)
                         .fixedSize()
                     if isFromCurrentUser {
                         Image(imageName)

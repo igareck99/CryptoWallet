@@ -11,7 +11,7 @@ struct P2PCallView<ViewModel: CallViewModelProtocol>: View {
         NavigationView {
             ZStack {
 
-                Color.black
+                viewModel.sources.titleColor
                 
                 Image(uiImage: viewModel.userAvatarImage)
                     .resizable()
@@ -80,18 +80,18 @@ struct P2PCallView<ViewModel: CallViewModelProtocol>: View {
             }
             Text(viewModel.userName)
                 .font(.system(size: 21))
-                .foregroundColor(.white)
+                .foregroundColor(viewModel.sources.background)
                 .padding(.horizontal, 8)
             
             
             Text(viewModel.callStateText)
                 .font(.system(size: 15))
-                .foregroundColor(.white)
+                .foregroundColor(viewModel.sources.background)
                 .padding(.horizontal, 8)
             
             Text(viewModel.callDuration)
                 .font(.system(size: 15))
-                .foregroundColor(.white)
+                .foregroundColor(viewModel.sources.background)
                 .padding(.horizontal, 8)
             
             Spacer()
@@ -122,7 +122,7 @@ struct P2PCallView<ViewModel: CallViewModelProtocol>: View {
                         
                         Text(model.text)
                             .font(.system(size: 11))
-                            .foregroundColor(.white)
+                            .foregroundColor(viewModel.sources.background)
                     }
                 }
                 Spacer()
@@ -164,13 +164,13 @@ struct P2PCallView<ViewModel: CallViewModelProtocol>: View {
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Image(systemName: viewModel.sources.backButtonImgName)
-                    .foregroundColor(.white)
+                    .foregroundColor(viewModel.sources.background)
             })
         }
         ToolbarItem(placement: .principal) {
             Text(viewModel.sources.endToEndEncrypted)
                 .font(.system(size: 15))
-                .foregroundColor(.white)
+                .foregroundColor(viewModel.sources.background)
         }
     }
 }

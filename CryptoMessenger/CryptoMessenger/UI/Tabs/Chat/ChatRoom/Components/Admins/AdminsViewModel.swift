@@ -5,6 +5,7 @@ import SwiftUI
 protocol AdminsViewModelDelegate: ObservableObject {
     
     var membersViews: [any ViewGeneratable] { get }
+    var resources: AdminsResourcable.Type { get }
 }
 
 // MARK: - AdminsViewModel
@@ -16,11 +17,15 @@ final class AdminsViewModel: ObservableObject, AdminsViewModelDelegate {
     @Binding var chatData: ChatData
     @Published var membersViews: [any ViewGeneratable] = []
     var coordinator: ChatHistoryFlowCoordinatorProtocol
+    let resources: AdminsResourcable.Type
 
     // MARK: - Lifecyle
 
     init(chatData: Binding<ChatData>,
-         coordinator: ChatHistoryFlowCoordinatorProtocol) {
+         coordinator: ChatHistoryFlowCoordinatorProtocol,
+         resources: AdminsResourcable.Type = AdminsResources.self
+    ) {
+        self.resources = resources
         self._chatData = chatData
         self.coordinator = coordinator
         self.configView()

@@ -25,10 +25,10 @@ struct SelectContactViewCell: View {
                     defaultUrl: data.avatar,
                     placeholder: {
                         ZStack {
-                            Color(.lightBlue())
+                            Color.aliceBlue
                             Text(data.name.firstLetter.uppercased())
-                                .foreground(.white())
-                                .font(.medium(22))
+                                .foreground(.white)
+                                .font(.system(size: 22, weight: .medium))
                         }
                     },
                     result: {
@@ -40,8 +40,8 @@ struct SelectContactViewCell: View {
                 .cornerRadius(20)
                 Text(data.name)
                     .lineLimit(1)
-                    .font(.regular(17))
-                    .foreground(.black())
+                    .font(.system(size: 17, weight: .regular))
+                    .foreground(.chineseBlack)
                 Spacer()
             }
         }
@@ -49,7 +49,7 @@ struct SelectContactViewCell: View {
             data.onTap(data)
         }
         .frame(height: 64)
-        .background(.white())
+        .background(.white)
         .padding(.horizontal, 16)
     }
 }

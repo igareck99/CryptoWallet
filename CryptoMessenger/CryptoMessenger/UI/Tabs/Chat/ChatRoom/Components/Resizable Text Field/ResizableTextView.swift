@@ -9,7 +9,7 @@ struct ResizeableTextView: UIViewRepresentable {
 	@Binding var text: String
 	@Binding var height: CGFloat
 	@State var editing = false
-    @State var fieldBackgroundColor = Palette.grayE6EAED().uiColor
+    @State var fieldBackgroundColor = UIColor.romanSilver
 	var placeholderText: String
 
     // MARK: - Internal Methods
@@ -20,7 +20,7 @@ struct ResizeableTextView: UIViewRepresentable {
 		textView.isScrollEnabled = true
 		textView.text = placeholderText
 		textView.delegate = context.coordinator
-		textView.textColor = .black
+		textView.textColor = .chineseBlack
 		textView.font = UIFont.systemFont(ofSize: 15)
 		return textView
 	}
@@ -29,7 +29,7 @@ struct ResizeableTextView: UIViewRepresentable {
 		if self.text.isEmpty {
             DispatchQueue.main.async {
                 textView.text = self.editing ? "" : self.placeholderText
-                textView.textColor = self.editing ? .black : .lightGray
+                textView.textColor = self.editing ? .chineseBlack : .romanSilver
             }
 		}
 

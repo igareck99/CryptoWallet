@@ -27,8 +27,8 @@ struct CheckTextReadView: View {
 					HStack(spacing: 6) {
 						Text(time)
 							.frame(width: 40, height: 10)
-							.font(.light(12))
-							.foreground(.black(0.5))
+                            .font(.system(size: 12, weight: .light))
+							.foregroundColor(.chineseBlack04)
 							.padding(.trailing, !isFromCurrentUser ? 16 : 0)
 							.padding(.leading, isFromCurrentUser ? 0 : 16)
 

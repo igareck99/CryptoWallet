@@ -14,10 +14,15 @@ final class ReactionsViewModel: ObservableObject {
     @Published var activeEditMessage: RoomMessage?
     var reactionsKeys: [String] = []
     var reactionsValues: [Int] = []
+    let resoures: ReactionsViewResourcable.Type
 
     // MARK: - Lifecycle
 
-    init(activeEditMessage: RoomMessage?) {
+    init(
+        activeEditMessage: RoomMessage?,
+        resoures: ReactionsViewResourcable.Type = ReactionViewResources.self
+    ) {
+        self.resoures = resoures
         self.activeEditMessage = activeEditMessage
         self.reactions = ["😘": 1, "👎": 3]
         getDict()

@@ -15,13 +15,13 @@ struct FriendProfileSettingsView: View {
         VStack(spacing: 0) {
             RoundedRectangle(cornerRadius: 2)
                 .frame(width: 31, height: 4)
-                .foreground(.darkGray(0.4))
+                .foregroundColor(.romanSilver07)
                 .padding(.top, 6)
 
             List {
                 ForEach(FriendProfileSettingsMenu.allCases, id: \.self) { type in
                     FriendProfileMenuRow(item: type)
-                            .background(.white())
+                            .background(.white)
                             .listRowSeparator(.hidden)
                             .onTapGesture { onSelect(type) }
                 }

@@ -39,6 +39,21 @@ protocol ChatHistorySourcesable {
     static var nothingFind: String { get }
 
     static var globalSearch: String { get }
+    
+    //Color
+    static var titleColor: Color { get }
+    
+    static var buttonBackground: Color { get }
+    
+    static var textColor: Color { get }
+    
+    static var background: Color { get }
+    
+    static var textBoxBackground: Color { get }
+    
+    static var tintColor: Color { get }
+    
+    static var negativeColor: Color { get }
 }
 
 enum ChatHistorySources: ChatHistorySourcesable {
@@ -115,5 +130,34 @@ enum ChatHistorySources: ChatHistorySourcesable {
 
     static var globalSearch: String {
         R.string.localizable.chatHistoryGlobalSearch()
+    }
+    
+    //Colors
+    static var titleColor: Color {
+        .chineseBlack
+    }
+    
+    static var buttonBackground: Color {
+        .dodgerBlue
+    }
+    
+    static var textColor: Color {
+        .romanSilver
+    }
+    
+    static var background: Color {
+        .white 
+    }
+    
+    static var textBoxBackground: Color {
+        .aliceBlue
+    }
+    
+    static var tintColor: Color {
+        .romanSilver01
+    }
+    
+    static var negativeColor: Color {
+        .spanishCrimson
     }
 }

@@ -102,18 +102,18 @@ struct VideoView: View {
         ZStack {
             if viewModel.isVideoUpload {
                 Text("\(viewModel.videoDuration)")
-                    .foreground(.white())
-                    .font(.regular(12))
+                    .foregroundColor(.white)
+                    .font(.system(size: 12, weight: .regular))
                 RoundedRectangle(cornerRadius: 13, style: .continuous)
-                    .fill(Color(.black(0.4)))
+                    .fill(Color.chineseBlack04)
                     .frame(width: 32, height: 14)
             } else {
                 Text("\(viewModel.videoSize)")
-                    .foreground(.white())
-                    .font(.regular(12))
+                    .foregroundColor(.white)
+                    .font(.system(size: 12, weight: .regular))
                     .lineLimit(1)
                 RoundedRectangle(cornerRadius: 13, style: .continuous)
-                    .fill(Color(.black(0.4)))
+                    .fill(Color.chineseBlack04)
                     .frame(width: 102, height: 16)
             }
         }
@@ -125,7 +125,7 @@ struct VideoView: View {
             if viewModel.isVideoUpload {
                 Circle()
                     .frame(width: 48, height: 48)
-                    .foreground(.black(0.1))
+                    .foregroundColor(.chineseBlack04)
                 Image(systemName: "play.fill")
                     .resizable()
                     .tint(.white)

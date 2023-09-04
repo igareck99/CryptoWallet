@@ -19,8 +19,8 @@ struct NotesView: View {
                         showNotes = false
                     }
                 Spacer()
-                Text("Добавить заметку")
-                    .font(.bold(15))
+                Text(R.string.localizable.noteViewAddNote())
+                    .font(.system(size: 15, weight: .bold))
                 Spacer()
             }
             .padding(.top, 16)
@@ -34,7 +34,7 @@ struct NotesView: View {
                 .padding([.top, .bottom], 8)
         }
         .onAppear {
-            UITextView.appearance().backgroundColor = UIColor(.paleBlue())
+            UITextView.appearance().backgroundColor = UIColor.aliceBlue
             UITextView.appearance().textContainerInset = .init(top: 12, left: 0, bottom: 12, right: 0)
         }
     }
@@ -43,9 +43,9 @@ struct NotesView: View {
         ZStack(alignment: .topLeading) {
         TextEditor(text: $newKey)
                 .padding(.leading, 16)
-                .background(.paleBlue())
-                .foreground(.black())
-                .font(.regular(15))
+                .background(Color.aliceBlue)
+                .foregroundColor(.chineseBlack)
+                .font(.system(size: 15, weight: .regular))
                 .frame(width: UIScreen.main.bounds.width - 32,
                        height: 132)
                 .cornerRadius(8)
@@ -53,7 +53,7 @@ struct NotesView: View {
                 .padding(.top, 32)
             if newKey.isEmpty {
                 Text(R.string.localizable.noteViewPlaceholder())
-                    .foreground(.darkGray())
+                    .foregroundColor(.romanSilver)
                     .padding(.leading, 17)
                     .padding(.top, 12)
                     .disabled(true)
@@ -65,12 +65,12 @@ struct NotesView: View {
     private var info: some View {
         HStack {
             Text(R.string.localizable.noteViewWhoSee())
-                .font(.regular(12))
-                .foreground(.darkGray())
+                .font(.system(size: 12, weight: .regular))
+                .foregroundColor(.romanSilver)
             Spacer()
             Text("\(newKey.count)/160")
-                .font(.regular(12))
-                .foreground(.darkGray())
+                .font(.system(size: 12, weight: .regular))
+                .foregroundColor(.romanSilver)
         }
     }
 
@@ -78,8 +78,8 @@ struct NotesView: View {
         Button {
         } label: {
             Text(R.string.localizable.noteViewApprove())
-                .font(.semibold(15))
-                .foreground(newKey.isEmpty ? .darkGray() : .white())
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundColor(newKey.isEmpty ? .romanSilver : .white)
                 .frame(width: 185,
                        height: 44)
                 .disabled(newKey.isEmpty)
@@ -89,7 +89,7 @@ struct NotesView: View {
                        minHeight: 44,
                        idealHeight: 44,
                        maxHeight: 44)
-                .background(newKey.isEmpty ? Color(.lightGray()) : Color(.blue()) )
+                .background(newKey.isEmpty ? Color.ashGray : Color.dodgerBlue )
                 .cornerRadius(8)
         }
     }

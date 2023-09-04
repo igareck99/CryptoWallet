@@ -16,7 +16,7 @@ struct SegmentedControllItemContainer<
 		content
 			.frame(maxWidth: .infinity)
 		//			.contentShape(Rectangle())
-			.foregroundColor(isSelected ? .white.opacity(0.8) : .black)
+			.foregroundColor(isSelected ? .white : .chineseBlack)
 			.background(isSelected ? background : nil)
 			.onTapGesture {
 				select()

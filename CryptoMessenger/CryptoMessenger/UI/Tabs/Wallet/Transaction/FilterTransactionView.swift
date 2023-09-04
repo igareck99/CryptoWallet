@@ -27,15 +27,15 @@ struct FilterTransactionView: View {
         VStack(spacing: 0) {
             RoundedRectangle(cornerRadius: 2)
                 .frame(width: 31, height: 4)
-                .foreground(.darkGray(0.4))
+                .foregroundColor(.romanSilver07)
                 .padding(.top, 6)
 
             HStack {
                 Text(R.string.localizable.transactionFilter().uppercased(), [
-                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left)),
-                    .font(.bold(12)),
-                    .color(.darkGray())
+                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left))
                 ])
+                .font(.system(size: 12, weight: .bold))
+                .foregroundColor(.romanSilver)
                 Spacer()
             }
             .padding(.top, 8)
@@ -53,10 +53,10 @@ struct FilterTransactionView: View {
             .padding(.leading, 16)
             HStack {
                 Text(R.string.localizable.transactionTokenFilter(), [
-                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left)),
-                    .font(.bold(12)),
-                    .color(.darkGray())
+                    .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left))
                 ])
+                .font(.system(size: 12, weight: .bold))
+                .foregroundColor(.romanSilver)
                 Spacer()
             }
             .padding(.leading, 16)

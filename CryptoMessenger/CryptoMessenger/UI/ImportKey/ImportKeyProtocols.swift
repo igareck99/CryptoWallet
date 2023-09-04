@@ -4,4 +4,5 @@ import Foundation
 
 protocol ImportKeySceneDelegate: AnyObject {
     func handleNextScene()
+    var resources: ImportKeyResourcable.Type { get }
 }

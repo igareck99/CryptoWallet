@@ -14,6 +14,7 @@ final class WalletViewModel: ObservableObject {
     @Published var cardsList = [WalletInfo]()
     @Published var canceledImage = UIImage()
 	var viewState: ViewState = .empty
+    let resources: WalletResourcable.Type
 
     // MARK: - Private Properties
 
@@ -39,8 +40,10 @@ final class WalletViewModel: ObservableObject {
         userCredentialsStorage: UserCredentialsStorage = UserDefaultsService.shared,
         walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
         coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
-        walletModelsFactory: WalletModelsFactoryProtocol.Type = WalletModelsFactory.self
+        walletModelsFactory: WalletModelsFactoryProtocol.Type = WalletModelsFactory.self,
+        resources: WalletResourcable.Type = WalletResources.self
     ) {
+        self.resources = resources
 		self.keychainService = keychainService
 		self.keysService = keysService
 		self.userCredentialsStorage = userCredentialsStorage

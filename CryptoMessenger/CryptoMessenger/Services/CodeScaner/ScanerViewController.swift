@@ -167,7 +167,7 @@ extension CodeScannerView {
                 name: Notification.Name("UIDeviceOrientationDidChangeNotification"),
                 object: nil
             )
-            view.backgroundColor = .black
+            view.backgroundColor = .chineseBlack
             captureSession = AVCaptureSession()
 
             guard let videoCaptureDevice = delegate?.parent.videoCaptureDevice ?? fallbackVideoCaptureDevice else {

@@ -19,6 +19,8 @@ protocol FacilityApproveSourcesable {
     
     static var walletSend: String { get }
     
+    static var facilityApproveToAddress: String { get }
+    
     
     
     static var userPlaceholder: Image { get }
@@ -72,6 +74,10 @@ enum FacilityApproveSources: FacilityApproveSourcesable {
     
     static var walletSend: String {
         R.string.localizable.walletSend()
+    }
+    
+    static var facilityApproveToAddress: String {
+        R.string.localizable.facilityApproveToAddress()
     }
     
     

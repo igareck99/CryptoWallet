@@ -36,7 +36,7 @@ struct SettingsView: View {
         self._viewModel = StateObject(wrappedValue: viewModel)
 		_descriptionText = State(initialValue: chatData.wrappedValue.description)
 		_titleText = State(initialValue: chatData.wrappedValue.title)
-        UITextView.appearance().background(.paleBlue())
+        UITextView.appearance().background(.aliceBlue)
     }
 
     // MARK: - Body
@@ -50,7 +50,7 @@ struct SettingsView: View {
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarColor(.white(), isBlured: false)
+            .navigationBarColor(.white, isBlured: false)
             .navigationViewStyle(.stack)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -62,9 +62,9 @@ struct SettingsView: View {
                     })
                 }
                 ToolbarItem(placement: .principal) {
-                    Text("Настройки")
-                        .font(.bold(15))
-                        .foreground(.black())
+                    Text(viewModel.resources.settings)
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundColor(viewModel.resources.titleColor)
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -74,9 +74,9 @@ struct SettingsView: View {
                         saveData = true
                         presentationMode.wrappedValue.dismiss()
                     }, label: {
-                        Text("Готово")
-                            .font(.semibold(15))
-                            .foreground(.blue())
+                        Text(viewModel.resources.profileDetailRightButton)
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(viewModel.resources.buttonBackground)
                     })
                 }
             }
@@ -86,8 +86,8 @@ struct SettingsView: View {
             .alert(isPresented: $showLeaveAlert, content: {
                 Alert(title: Text(SettingsAction.exit.title),
                       message: Text(SettingsAction.exit.message),
-                      primaryButton: .default(Text("Отменить")),
-                      secondaryButton: .default(Text("Выйти")) { viewModel.send(.onLeave) })
+                      primaryButton: .default(Text(viewModel.resources.profileDetailLogoutAlertTitle)),
+                      secondaryButton: .default(Text(viewModel.resources.profileDetailLogoutAlertApprove)) { viewModel.send(.onLeave) })
             })
     }
 
@@ -136,7 +136,7 @@ struct SettingsView: View {
                     .frame(width: size.width, height: size.width)
                     .clipped()
             } else {
-                Color(.paleBlue())
+                viewModel.resources.textBoxBackground
                     .frame(width: size.width, height: size.width)
             }
 
@@ -151,14 +151,14 @@ struct SettingsView: View {
                             Image(systemName: "camera")
                                 .resizable()
                                 .renderingMode(.template)
-                                .tint(.white)
+                                .tint(viewModel.resources.background)
                                 .frame(width: 26, height: 21.27)
                                 .scaledToFill()
                         }
                         .background(
                             Circle()
                                 .frame(width: 60, height: 60)
-                                .foreground(.black(0.4))
+                                .foregroundColor(viewModel.resources.backgroundFodding)
                         )
                         .frame(width: 60, height: 60)
                         .padding([.trailing, .bottom], 16)
@@ -172,13 +172,13 @@ struct SettingsView: View {
         ZStack {
             TextField("", text: $titleText)
                 .frame(height: 44)
-                .background(.paleBlue())
+                .background(viewModel.resources.textBoxBackground)
                 .padding(.horizontal, 16)
 
             if titleText.isEmpty {
                 HStack(spacing: 0) {
-                    Text("Название")
-                        .foreground(.darkGray())
+                    Text(viewModel.resources.createChannelTitle)
+                        .foregroundColor(viewModel.resources.textColor)
                         .padding(.horizontal, 16)
                         .disabled(true)
                         .allowsHitTesting(false)
@@ -187,16 +187,16 @@ struct SettingsView: View {
             }
         }
         .frame(height: 44)
-        .background(.paleBlue())
+        .background(viewModel.resources.textBoxBackground)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
     }
 
     private var infoView: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                Text("Информация".uppercased())
-                    .font(.semibold(12))
-                    .foreground(.darkGray())
+                Text(viewModel.resources.contactChatDetailInfo.uppercased())
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(viewModel.resources.textColor)
                 Spacer()
             }
             .frame(height: 22)
@@ -211,8 +211,8 @@ struct SettingsView: View {
 
                 if descriptionText.isEmpty {
                     HStack(spacing: 0) {
-                        Text("Описание")
-                            .foreground(.darkGray())
+                        Text(viewModel.resources.createChannelDescription)
+                            .foregroundColor(viewModel.resources.textColor)
                             .disabled(true)
                             .allowsHitTesting(false)
                         Spacer()
@@ -223,11 +223,11 @@ struct SettingsView: View {
                 }
             }
             .frame(height: 132)
-            .background(.paleBlue())
+            .background(viewModel.resources.textBoxBackground)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
 
             Divider()
-                .foreground(.grayE6EAED())
+                .foregroundColor(viewModel.resources.dividerColor)
                 .padding(.top, 24)
         }
     }
@@ -245,10 +245,9 @@ struct SettingsView: View {
                         R.image.registration.arrow.image
                     case .media:
                         Text(chatData.media.count.description, [
-                            .color(.blue()),
-                            .font(.regular(15)),
                             .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
-                        ])
+                        ]).font(.system(size: 15, weight: .regular))
+                            .foregroundColor(viewModel.resources.buttonBackground)
                             .frame(height: 64)
                             .padding(.leading, 16)
 
@@ -256,10 +255,9 @@ struct SettingsView: View {
                             .padding(.leading, 4)
                     case .admins:
                         Text(chatData.admins.count.description, [
-                            .color(.blue()),
-                            .font(.regular(15)),
                             .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
-                        ])
+                        ]).font(.system(size: 15, weight: .regular))
+                            .foregroundColor(viewModel.resources.buttonBackground)
                             .frame(height: 64)
                             .padding(.leading, 16)
 
@@ -270,7 +268,7 @@ struct SettingsView: View {
                     }
                 }
                 .frame(height: 64)
-                .background(.white())
+                .background(viewModel.resources.background)
                 .onTapGesture {
                     switch action {
                     case .notifications:
@@ -288,30 +286,27 @@ struct SettingsView: View {
             }
 
             Divider()
-                .foreground(.grayE6EAED())
+                .foregroundColor(viewModel.resources.dividerColor)
                 .padding(.top, 16)
         }
     }
 
     private var sectionView: some View {
         HStack(spacing: 0) {
-            Text("УЧАСТНИКИ", [
-                .color(.darkGray()),
-                .font(.semibold(12)),
+            Text(viewModel.resources.channelInfoParticipant.uppercased(), [
                 .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left))
-            ])
-
+            ]).font(.system(size: 12, weight: .semibold))
+                .foregroundColor(viewModel.resources.textColor)
             Spacer()
 
             if !chatData.isDirect {
                 Button {
                     viewModel.send(.onMembers($chatData))
                 } label: {
-                    Text("ОТКРЫТЬ", [
-                        .color(.blue()),
-                        .font(.semibold(12)),
+                    Text(viewModel.resources.channelInfoOpen.uppercased(), [
                         .paragraph(.init(lineHeightMultiple: 1.54, alignment: .right))
-                    ])
+                    ]).font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(viewModel.resources.buttonBackground)
                     .frame(height: 22)
                 }
                 .frame(height: 22)
@@ -328,21 +323,21 @@ struct SettingsView: View {
 //                .onTapGesture {
 //                    viewModel.send(.onFriendProfile(contact: contact))
 //                }
-                    .background(.white())
+                    .background(viewModel.resources.background)
 //                    .swipeActions(edge: .trailing) {
 //                        Button {
 //                            chatData.contacts.removeAll { $0.id == contact.id }
 //                        } label: {
 //                            R.image.chat.reaction.delete.image
 //                                .renderingMode(.original)
-//                                .foreground(.blue())
+//                                .foreground(viewModel.resources.buttonBackground)
 //                        }
-//                        .tint(.red.opacity(0.1))
+//                        .tint(viewModel.resources.negativeTintColor)
 //                    }
             }
 
             Divider()
-                .foreground(.grayE6EAED())
+                .foregroundColor(viewModel.resources.dividerColor)
                 .padding(.top, 16)
         }
     }

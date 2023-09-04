@@ -20,7 +20,7 @@ struct ReactionsSelectView: View {
                         Circle()
                             .frame(width: 40,
                                    height: 40)
-                            .foreground(.blue(0.1))
+                            .foregroundColor(.dodgerTransBlue)
                         Text(item)
                             .frame(width: 24,
                                    height: 33)
@@ -35,7 +35,7 @@ struct ReactionsSelectView: View {
                     Circle()
                         .frame(width: 40,
                                height: 40)
-                        .foreground(.blue(0.1))
+                        .foregroundColor(.dodgerTransBlue)
                     R.image.chat.reaction.pickEmoji.image
                         .frame(width: 22,
                                height: 22)

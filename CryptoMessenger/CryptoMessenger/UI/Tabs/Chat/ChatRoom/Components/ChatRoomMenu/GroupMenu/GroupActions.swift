@@ -40,7 +40,7 @@ enum GroupAction: CaseIterable, Identifiable {
         }
     }
 
-    var color: Palette { self == .delete || self == .blacklist ? .red() : .blue() }
+    var color: Color { self == .delete || self == .blacklist ? .spanishCrimson : .dodgerBlue }
 
     var image: Image {
         switch self {

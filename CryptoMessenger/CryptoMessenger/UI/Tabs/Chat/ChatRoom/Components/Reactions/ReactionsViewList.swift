@@ -31,7 +31,7 @@ struct ReactionsViewList: View {
                 ForEach(0 ..< viewModel.reactions.count, id: \.self) { item in
                     ZStack {
                         Rectangle()
-                            .fill(Color(.blue(0.1)))
+                            .fill(viewModel.resoures.avatarBackground)
                             .frame(width: 58, height: 42)
                             .cornerRadius(radius: 30, corners: .allCorners)
                         HStack(spacing: 4) {

@@ -26,7 +26,7 @@ final class CallViewModel {
 
 	let userName: String
     let roomId: String
-    var userAvatarImage = UIImage.imageFrom(color: .black)
+    var userAvatarImage = UIImage.imageFrom(color: .chineseBlack)
     var avatarOpacity: Double = .zero
 	lazy var screenTitle: String = sources.endToEndEncrypted
     var callDuration: String = ""
@@ -204,7 +204,7 @@ final class CallViewModel {
             callState.rawValue > P2PCallState.createAnswer.rawValue {
             actionButtons = [
                 CallActionButton(
-                    backColor: .red,
+                    backColor: .spanishCrimson,
                     imageName: sources.endCallImgName,
                     imageColor: .white,
                     action: didTapEndCallButton
@@ -215,13 +215,13 @@ final class CallViewModel {
 
         actionButtons = [
             CallActionButton(
-                backColor: .green,
+                backColor: .greenCrayola,
                 imageName: sources.answerCallImgName,
                 imageColor: .white,
                 action: didTapAcceptCallButton
             ),
             CallActionButton(
-                backColor: .red,
+                backColor: .spanishCrimson,
                 imageName: sources.endCallImgName,
                 imageColor: .white,
                 action: didTapEndCallButton
@@ -240,7 +240,7 @@ final class CallViewModel {
                 imageName: p2pCallUseCase.isVideoEnabled ?
                 sources.videoEnabledImgName : sources.videoDisabledImgName,
                 imageColor: p2pCallUseCase.isVideoEnabled ?
-                    .black : .white,
+                    .chineseBlack : .white,
                 action: didTapVideo
             ),
 
@@ -252,7 +252,7 @@ final class CallViewModel {
                 imageName: p2pCallUseCase.isMicEnabled ?
                 sources.micEnabledImgName : sources.micDisabledImgName,
                 imageColor: p2pCallUseCase.isMicEnabled ?
-                    .black : .white,
+                    .chineseBlack : .white,
                 action: didTapMic
             ),
 
@@ -264,7 +264,7 @@ final class CallViewModel {
                 imageName: p2pCallUseCase.isSpeakerEnabled ?
                 sources.speakerEnabledImgName : sources.speakerDisabledImgName,
                 imageColor: p2pCallUseCase.isSpeakerEnabled ?
-                    .black : .white,
+                    .chineseBlack : .white,
                 action: didTapSpeaker
             )
         ]

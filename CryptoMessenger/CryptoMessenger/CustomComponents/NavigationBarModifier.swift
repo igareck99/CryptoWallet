@@ -7,8 +7,8 @@ extension View {
     // MARK: - Internal Methods
 
     func navigationBarColor(
-        _ backgroundColor: Palette?,
-        titleColor: Palette? = nil,
+        _ backgroundColor: Color?,
+        titleColor: Color? = nil,
         isBlured: Bool = true
     ) -> some View {
         modifier(NavigationBarModifier(backgroundColor: backgroundColor, titleColor: titleColor, isBlured: isBlured))
@@ -21,13 +21,13 @@ struct NavigationBarModifier: ViewModifier {
 
     // MARK: - Internal Properties
 
-    var backgroundColor: Palette?
-    var titleColor: Palette?
+    var backgroundColor: Color?
+    var titleColor: Color?
     var isBlured: Bool
 
     // MARK: - Lifecycle
 
-    init(backgroundColor: Palette?, titleColor: Palette?, isBlured: Bool) {
+    init(backgroundColor: Color?, titleColor: Color?, isBlured: Bool) {
         self.backgroundColor = backgroundColor
         self.isBlured = isBlured
 
@@ -35,7 +35,7 @@ struct NavigationBarModifier: ViewModifier {
         standardAppearance.backgroundColor = .white
         let backImage: UIImage?
         if let titleColor = titleColor {
-            backImage = R.image.navigation.backButton()?.withTintColor(titleColor.uiColor, renderingMode: .alwaysTemplate)
+            backImage = R.image.navigation.backButton()?.withTintColor(titleColor, renderingMode: .alwaysTemplate)
         } else {
             backImage = R.image.navigation.backButton()?.withRenderingMode(.alwaysOriginal)
         }
@@ -43,14 +43,14 @@ struct NavigationBarModifier: ViewModifier {
         standardAppearance.setBackIndicatorImage(backImage, transitionMaskImage: backImage)
         standardAppearance.titleAttributes(
             [
-                .color(titleColor ?? .black()),
+                .color(titleColor ?? .chineseBlack),
                 .font(.semibold(17)),
                 .kern(-0.5),
                 .paragraph(.init(lineHeightMultiple: 1.08, alignment: .center))
             ]
         )
         standardAppearance.largeTitleAttributes(
-            [.color(titleColor ?? .black()),
+            [.color(titleColor ?? .chineseBlack),
              .font(.bold(34)),
              .kern(-1),
              .paragraph(.init(lineHeightMultiple: 0.93, alignment: .left))
@@ -81,7 +81,7 @@ struct NavigationBarModifier: ViewModifier {
                                 .frame(height: geometry.safeAreaInsets.top)
                                 .edgesIgnoringSafeArea(.top)
                         } else {
-                            Color(backgroundColor)
+                            Color(.white)
                                 .frame(height: geometry.safeAreaInsets.top)
                                 .edgesIgnoringSafeArea(.top)
                         }

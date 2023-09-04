@@ -23,7 +23,7 @@ struct TransactionView: View {
                 ForEach(filterTypeTransaction()) { item in
                     TransactionInfoView(transaction: item)
                         .listRowBackground(tappedTransaction == item && showTransactionDetail ?
-                                           Color(.lightGray()) : Color(.white()))
+                                           viewModel.resources.textColor : viewModel.resources.background)
                         .listRowSeparator(.hidden)
                         .onTapGesture {
                             if showTransactionDetail {
@@ -39,8 +39,8 @@ struct TransactionView: View {
                         }
                     if tappedTransaction == item && showTransactionDetail {
                         TransactionInfoDetailView(transaction: item)
-                            .background(.lightGray())
-                            .listRowBackground(Color(.lightGray()))
+                            .background(viewModel.resources.textColor)
+                            .listRowBackground(viewModel.resources.textColor)
                 }
             }
         }
@@ -51,8 +51,8 @@ struct TransactionView: View {
     }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text(R.string.localizable.transactionTitleAll())
-                    .font(.bold(15))
+                Text(viewModel.resources.transactionTitleAll)
+                    .font(.system(size: 15, weight: .bold))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -69,14 +69,14 @@ struct TransactionView: View {
                position: .bottom,
                closeOnTap: false,
                closeOnTapOutside: true,
-               backgroundColor: Color(.black(0.3))) {
+               backgroundColor: viewModel.resources.backgroundFodding) {
             FilterTransactionView(viewModel: viewModel,
                                   selectorFilterIndex: $selectorFilterIndex,
                                   selectorTokenIndex: $selectorTokenIndex,
                                   presentFilter: $presentFilter)
                 .frame(width: UIScreen.main.bounds.width,
                        height: 375, alignment: .center)
-                .background(.white())
+                .background(viewModel.resources.background)
                 .cornerRadius(16)
         }
     }
@@ -141,15 +141,15 @@ struct TransactionInfoDetailView: View {
                    spacing: 2) {
                 ForEach(titles, id: \.self) { item in
                     Text(item)
-                        .font(.bold(13))
+                        .font(.system(size: 13, weight: .bold))
                 }
             }
             VStack(alignment: .leading,
                    spacing: 2) {
                 ForEach(data, id: \.self) { item in
                     Text(item)
-                        .foregroundColor(.gray)
-                        .font(.regular(12))
+                        .foregroundColor(.romanSilver)
+                        .font(.system(size: 12, weight: .regular))
                 }
             }
         }

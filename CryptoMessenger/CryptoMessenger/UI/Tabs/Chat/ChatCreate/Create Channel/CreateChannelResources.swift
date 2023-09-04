@@ -13,6 +13,12 @@ protocol CreateChannelResourcable {
     
     static var profileDetailRightButton: String { get }
     
+    static var createChannelDescription: String { get }
+    
+    static var createActionCreateChannel: String { get }
+    
+    static var createChannelChannelType: String { get }
+    
     
     static var buttonBackground: Color { get }
     
@@ -46,6 +52,18 @@ enum CrateChannelResources : CreateChannelResourcable {
     
     static var profileDetailRightButton: String {
         R.string.localizable.profileDetailRightButton()
+    }
+    
+    static var createChannelDescription: String {
+        R.string.localizable.createChannelDescription()
+    }
+    
+    static var createActionCreateChannel: String {
+        R.string.localizable.createActionCreateChannel()
+    }
+    
+    static var createChannelChannelType: String {
+        R.string.localizable.createChannelChannelType()
     }
     
     

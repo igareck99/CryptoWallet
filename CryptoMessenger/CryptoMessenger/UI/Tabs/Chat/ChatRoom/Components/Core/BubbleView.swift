@@ -53,7 +53,7 @@ struct BubbleView<Content>: View where Content: View {
 			return .clear
 		}
 
-		return direction == .right ? Color.hawkesBlueApprox : Color.alabasterSolid
+		return direction == .right ? Color.aliceBlue : Color.royalOrange
 	}
 
 	@ViewBuilder
@@ -67,7 +67,7 @@ struct BubbleView<Content>: View where Content: View {
 		} else {
 			BubbleShape(direction: direction)
 				.stroke(Color.pigeonPostApprox, lineWidth: 0.5)
-				.foregroundColor(.hawkesBlueApprox)
+				.foregroundColor(.aliceBlue)
 		}
 	}
 }

@@ -73,6 +73,11 @@ protocol ChatRoomSourcesable {
 	static var groupCallActiveConference: String { get }
 
 	static var groupCallInactiveConference: String { get }
+    
+    //Colors
+    static var backgroundFodding: Color { get }
+    
+    static var background: Color { get }
 }
 
 // MARK: - ChatRoomResources(ChatRoomSourcesable)
@@ -216,5 +221,15 @@ enum ChatRoomResources: ChatRoomSourcesable {
     
     static var chatRoomViewJoined: String {
         "присоединился к комнате"
+    }
+    
+    
+    //Colors
+    static var backgroundFodding: Color {
+        .chineseBlack04
+    }
+    
+    static var background: Color {
+        .white 
     }
 }

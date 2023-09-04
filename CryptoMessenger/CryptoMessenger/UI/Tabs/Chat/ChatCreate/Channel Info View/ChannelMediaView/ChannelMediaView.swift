@@ -54,7 +54,7 @@ struct ChannelMediaView: View {
             .navigationViewStyle(.stack)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("Медиа и документы")
+                    Text(viewModel.resources.channelInfoChannelMedia)
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundColor(viewModel.resources.titleColor)
                 }

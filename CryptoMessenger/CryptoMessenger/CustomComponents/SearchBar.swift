@@ -30,8 +30,8 @@ struct SearchBar: View {
                         searching = false
                     }
                 }
-				.font(.regular(17))
-				.foregroundColor(.black)
+                .font(.system(size: 17, weight: .regular))
+				.foregroundColor(.chineseBlack)
 				.padding(.leading, 6)
                 .placeholder(when: !searching && searchText.isEmpty) {
 					Text(placeholder)
