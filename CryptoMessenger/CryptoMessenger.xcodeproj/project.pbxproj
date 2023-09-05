@@ -128,10 +128,6 @@
 		5AA6410926822C3A008922B4 /* ViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640FC26822C39008922B4 /* ViewStyle.swift */; };
 		5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640FD26822C3A008922B4 /* ButtonStyle.swift */; };
 		5AA6410C268233CA008922B4 /* ButtonDecor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA6410B268233CA008922B4 /* ButtonDecor.swift */; };
-		5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6410F26825E6A008922B4 /* Rubik-Light.ttf */; };
-		5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411026825E6A008922B4 /* Rubik-Bold.ttf */; };
-		5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */; };
-		5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */; };
 		5AABB77B2739816C004D6107 /* ChatHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AABB77A2739816C004D6107 /* ChatHistoryView.swift */; };
 		5AABB7832739821D004D6107 /* ChatHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AABB77F2739821C004D6107 /* ChatHistoryViewModel.swift */; };
 		5AABB7852739821D004D6107 /* ChatHistoryFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AABB7812739821C004D6107 /* ChatHistoryFlow.swift */; };
@@ -1078,10 +1074,6 @@
 		5AA640FC26822C39008922B4 /* ViewStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewStyle.swift; sourceTree = "<group>"; };
 		5AA640FD26822C3A008922B4 /* ButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
 		5AA6410B268233CA008922B4 /* ButtonDecor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDecor.swift; sourceTree = "<group>"; };
-		5AA6410F26825E6A008922B4 /* Rubik-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Light.ttf"; sourceTree = "<group>"; };
-		5AA6411026825E6A008922B4 /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
-		5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
-		5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
 		5AABB77A2739816C004D6107 /* ChatHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryView.swift; sourceTree = "<group>"; };
 		5AABB77F2739821C004D6107 /* ChatHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryViewModel.swift; sourceTree = "<group>"; };
 		5AABB7812739821C004D6107 /* ChatHistoryFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryFlow.swift; sourceTree = "<group>"; };
@@ -2666,10 +2658,6 @@
 		5AA6410D26825C38008922B4 /* Typography */ = {
 			isa = PBXGroup;
 			children = (
-				5AA6410F26825E6A008922B4 /* Rubik-Light.ttf */,
-				5AA6411226825E6A008922B4 /* Rubik-Regular.ttf */,
-				5AA6411126825E6A008922B4 /* Rubik-Medium.ttf */,
-				5AA6411026825E6A008922B4 /* Rubik-Bold.ttf */,
 			);
 			path = Typography;
 			sourceTree = "<group>";
@@ -5042,12 +5030,8 @@
 			files = (
 				5A187DCB26806EF9001957D3 /* LaunchScreen.storyboard in Resources */,
 				782047B4283D1DED0065E0E9 /* GoogleService-Info.plist in Resources */,
-				5AA6411626825E6A008922B4 /* Rubik-Regular.ttf in Resources */,
-				5AA6411426825E6A008922B4 /* Rubik-Bold.ttf in Resources */,
 				5A42680F26A8393A000C51DD /* Localizable.strings in Resources */,
-				5AA6411326825E6A008922B4 /* Rubik-Light.ttf in Resources */,
 				5AD6E37E2753FFEF00CEFCE2 /* Assets.xcassets in Resources */,
-				5AA6411526825E6A008922B4 /* Rubik-Medium.ttf in Resources */,
 				8BBCBCD628F74AF800E42F0C /* RemoteVideos.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
