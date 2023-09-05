@@ -58,7 +58,7 @@ protocol RoomEventsFactoryProtocol {
 }
 
 enum RoomEventsFactory: RoomEventsFactoryProtocol {
-
+    
     static func makeSystemEventItem(
         date: String,
         text: String,
@@ -72,7 +72,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             onTap: onTap
         )
     }
-
+    
     static func makeReplyItem(
         date: String,
         repliedItemId: String,
@@ -92,7 +92,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             onReplyTap: onReplyTap
         )
     }
-
+    
     static func makeLocationItem(
         date: String,
         coordinate: Coordinate,
@@ -108,7 +108,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             onTap: onTap
         )
     }
-
+    
     static func makeAudioItem(
         date: String,
         url: URL,
@@ -124,7 +124,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             onTap: onTap
         )
     }
-
+    
     static func makeVideoItem(
         date: String,
         url: URL,
@@ -140,7 +140,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             onTap: onTap
         )
     }
-
+    
     static func makeImageItem(
         date: String,
         url: URL,
@@ -156,7 +156,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             onTap: onTap
         )
     }
-
+    
     static func makeEventView(events: [RoomEvent]) -> [any ViewGeneratable] {
         var data: [any ViewGeneratable] = []
         events.map {
@@ -167,6 +167,9 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 } else {
                     data.append(makeAnotherUserText($0, string))
                 }
+            case let .image(url):
+                guard let url = url else { return }
+                data.append(makeImageMessage($0, url))
             default:
                 break
             }
@@ -174,18 +177,65 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         return data
     }
     
+    static func makeImageMessage(_ event: RoomEvent, _ url: URL) -> any ViewGeneratable {
+        let imageItem = ImageItem(date: event.shortDate,
+                                  url: url,
+                                  reactionItems: [],
+                                  readStatus: .read) {
+        }
+        return imageItem
+    }
+    
     static func makeCurrentUserText(_ event: RoomEvent, _ text: String) -> any ViewGeneratable {
         let reactionColor: Color = event.isFromCurrentUser ? .brilliantAzure: .aliceBlue
-        let reactionItems = [ReactionTextsItem(texts: [ReactionTextItem(text: "😎")], backgroundColor: reactionColor)]
-        let reactionsGrid = ReactionsGridModel(reactionItems: reactionItems)
+        let items: [ReactionNewEvent] = [.init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "😎",
+                                               color: reactionColor,
+                                               emojiCount: 10, onTap: { _ in
+            
+        }),
+                                         .init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "😚",
+                                               color: reactionColor,
+                                               emojiCount: 2, onTap: { _ in
+            
+        }),
+                                         .init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "🎃",
+                                               color: reactionColor,
+                                               emojiCount: 134, onTap: { _ in
+            
+        }),
+                                         .init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "😺",
+                                               color: reactionColor,  onTap: { _ in
+            
+        }),
+                                         .init(eventId: "",
+                                               sender: "",
+                                               timestamp: Date(),
+                                               emoji: "👵",
+                                               color: reactionColor, onTap: { _ in
+            
+        })]
+        let viewModel = ReactionsNewViewModel(width: calculateWidth(text, items.count),
+                                              views: items)
         let textEvent = TextEvent(
             userId: event.sender, isFromCurrentUser: event.isFromCurrentUser, avatarUrl: event.senderAvatar,
-            text: text, width: calculateWidth(text),
+            text: text, width: calculateWidth(text, items.count),
             eventData: EventData(
                 date: event.shortDate,
                 readData: ReadData(readImageName: R.image.chat.readCheckWhite.name)
             ),
-            reactionsGrid: reactionsGrid
+            reactionsGrid: viewModel
         )
         let bubbleContainer = BubbleContainer(
             fillColor: .water,
@@ -198,46 +248,47 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             centralContent: bubbleContainer
         )
     }
-    
+
     static func makeAnotherUserText(_ event: RoomEvent, _ text: String) -> any ViewGeneratable {
         let reactionColor: Color = event.isFromCurrentUser ? .brilliantAzure: .aliceBlue
         let items: [ReactionNewEvent] = [.init(eventId: "",
                                                sender: "",
                                                timestamp: Date(),
                                                emoji: "😎",
-                                               color: reactionColor),
+                                               color: reactionColor,
+                                               emojiCount: 10, onTap: { _ in
+        }),
                                          .init(eventId: "",
                                                sender: "",
                                                timestamp: Date(),
                                                emoji: "😚",
-                                               color: reactionColor),
+                                               color: reactionColor,
+                                               emojiCount: 2, onTap: { _ in
+        }),
                                          .init(eventId: "",
                                                sender: "",
                                                timestamp: Date(),
                                                emoji: "🎃",
-                                               color: reactionColor),
+                                               color: reactionColor,
+                                               emojiCount: 134, onTap: { _ in
+        }),
                                          .init(eventId: "",
                                                sender: "",
                                                timestamp: Date(),
                                                emoji: "😺",
-                                               color: reactionColor),
+                                               color: reactionColor,  onTap: { _ in
+        }),
                                          .init(eventId: "",
                                                sender: "",
                                                timestamp: Date(),
                                                emoji: "👵",
-                                               color: reactionColor)]
-        let viewModel = ReactionsNewViewModel(width: 218,
+                                               color: reactionColor, onTap: { _ in
+        })]
+        let viewModel = ReactionsNewViewModel(width: calculateWidth(text, items.count),
                                               views: items)
-        let reactionItems = [ReactionTextsItem(texts: [ReactionTextItem(text: "😎:1015")], backgroundColor: reactionColor),
-                             ReactionTextsItem(texts: [ReactionTextItem(text: "😚:182")], backgroundColor: reactionColor),
-                             ReactionTextsItem(texts: [ReactionTextItem(text: "🤖:34")], backgroundColor: reactionColor),
-                             ReactionTextsItem(texts: [ReactionTextItem(text: "🎃")], backgroundColor: reactionColor),
-                             ReactionTextsItem(texts: [ReactionTextItem(text: "😺")], backgroundColor: reactionColor),
-                             ReactionTextsItem(texts: [ReactionTextItem(text: "👵")], backgroundColor: reactionColor)]
-        let reactionsGrid = ReactionsGridModel(reactionItems: reactionItems)
         let textEvent = TextEvent(
             userId: event.sender, isFromCurrentUser: event.isFromCurrentUser, avatarUrl: event.senderAvatar,
-            text: text, width: calculateWidth(text, reactionItems.count),
+            text: text, width: calculateWidth(text, items.count),
             eventData: EventData(
                 date: event.shortDate,
                 readData: ZeroViewModel()
@@ -259,13 +310,12 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
     }
 }
 
-
 func calculateWidth(_ text: String, _ reactions: Int = 0) -> CGFloat {
     let dateWidth = CGFloat(32)
     let reactionsWidth = CGFloat(38 * reactions)
-    // TODO: - Добавить реакции
+    // TODO: - Добавить Остаток от деления, а не саму длину текста
     var textWidth = CGFloat(0)
-    if reactionsWidth > text.width(font: .systemFont(ofSize: 17)) {
+    if reactionsWidth > text.width(font: .systemFont(ofSize: 17)).truncatingRemainder(dividingBy: 228) {
         textWidth = reactionsWidth + 8 + dateWidth
     } else {
         textWidth = text.width(font: .systemFont(ofSize: 17)) + 8 + dateWidth

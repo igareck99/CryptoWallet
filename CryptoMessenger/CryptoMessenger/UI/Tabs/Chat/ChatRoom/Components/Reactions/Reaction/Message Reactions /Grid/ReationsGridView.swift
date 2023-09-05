@@ -10,7 +10,7 @@ struct ReationsGridView: View {
     let items: [any ViewGeneratable]
     var body: some View {
         LazyVGrid(columns: columns) {
-            ForEach(items, id:\ .id) { value in
+            ForEach(items, id:\.id) { value in
                 value.view()
             }
         }

@@ -11,10 +11,12 @@ struct ReactionNewEvent: Identifiable, ViewGeneratable {
     let sender: String
     let timestamp: Date
     let emoji: String
-    let width: CGFloat
+    var width: CGFloat
     let color: Color
+    let textColor: Color
     let emojiCount: Int
     let isFromCurrentUser: Bool
+    let onTap: (ReactionNewEvent) -> Void
 
     // MARK: - Life Cycle
 
@@ -25,23 +27,29 @@ struct ReactionNewEvent: Identifiable, ViewGeneratable {
         emoji: String,
         color: Color,
         emojiCount: Int = 1,
-        isFromCurrentUser: Bool = false
+        isFromCurrentUser: Bool = false,
+        onTap: @escaping (ReactionNewEvent) -> Void
     ) {
         self.eventId = eventId
         self.sender = sender
         self.timestamp = timestamp
         self.emoji = emoji
         self.color = color
-        self.width = CGFloat(43 + String(emojiCount).count * 7)
+        self.width = 38
+        if emojiCount > 1 {
+            self.width += CGFloat(String(emojiCount).count * 7 + 7)
+        }
         self.isFromCurrentUser = isFromCurrentUser
-        self.emojiCount = 1
+        self.emojiCount = emojiCount
+        self.textColor = .brilliantAzure
+        self.onTap = onTap
     }
-    
+
     func view() -> AnyView {
         return ReactionNewView(value: self)
             .anyView()
     }
-    
+
     func getItemWidth() -> CGFloat {
         return self.width
     }
