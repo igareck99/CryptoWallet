@@ -5,6 +5,7 @@ extension RoomEventsFactory {
         event: RoomEvent,
         lat: Double,
         lon: Double,
+        delegate: ChatEventsDelegate,
         onLongPressTap: @escaping (RoomEvent) -> Void,
         onReactionTap: @escaping (ReactionNewEvent) -> Void
     ) -> any ViewGeneratable {
@@ -13,7 +14,7 @@ extension RoomEventsFactory {
             isFromCurrentUser: event.isFromCurrentUser,
             dateColor: .white,
             backColor: .osloGrayApprox,
-            readData: ReadData(readImageName: R.image.chat.readCheck.name)
+            readData: readData(isFromCurrentUser: event.isFromCurrentUser)
         )
         let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
         let reactions = prepareReaction(event, onReactionTap: { reaction in
@@ -23,14 +24,17 @@ extension RoomEventsFactory {
                                               views: reactions,
                                               backgroundColor: reactionColor)
 
+        let place = Place(name: "Name", latitude: lat, longitude: lon)
         let mapEventItem = MapEvent(
             place: Place(name: "Name", latitude: lat, longitude: lon),
             eventData: eventData
         ) {
             debugPrint("onTap MapEvent")
+            delegate.onMapEventTap(place: place)
         }
 
         let bubbleContainer = BubbleContainer(
+            offset: .zero,
             fillColor: .diamond,
             cornerRadius: event.isFromCurrentUser ? .right : .left,
             content: mapEventItem

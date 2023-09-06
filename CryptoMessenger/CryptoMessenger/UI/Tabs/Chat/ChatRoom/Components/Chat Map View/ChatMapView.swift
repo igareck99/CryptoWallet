@@ -72,7 +72,6 @@ struct ChatMapView: View {
 					)
 				)
 				.navigationBarTitleDisplayMode(.inline)
-				.navigationBarColor(.white)
 			}
 		}
 		.onTapGesture {

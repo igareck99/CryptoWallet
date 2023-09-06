@@ -120,9 +120,11 @@ struct ChatRoomRow: View {
                                             default:
                                                 break
                                             }
-                                            self.documentViewmodel = DocumentViewerViewModel(url: fileUrl,
-                                                                                             isUploadFinished: $isUploadFinished,
-                                                                                             fileName: name)
+                                            self.documentViewmodel = DocumentViewerViewModel(
+                                                url: fileUrl,
+                                                isUploadFinished: $isUploadFinished,
+                                                fileName: name
+                                            )
                                             showFile = true
                                         }
                                     }
@@ -172,7 +174,10 @@ struct ChatRoomRow: View {
             }
         })
         .sheet(isPresented: $showContactInfo, content: {
-            ContactInfoView(data: chatContactInfo)
+            ContactInfoView(
+                viewModel: ContactInfoViewModel(),
+                data: chatContactInfo
+            )
         })
         .onAppear {
             if !isAnimating {

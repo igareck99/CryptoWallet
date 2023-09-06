@@ -6,13 +6,15 @@ extension RoomEventsFactory {
         name: String?,
         phone: String?,
         url: URL?,
+        delegate: ChatEventsDelegate,
         onLongPressTap: @escaping (RoomEvent) -> Void,
         onReactionTap: @escaping (ReactionNewEvent) -> Void
     ) -> any ViewGeneratable {
+
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
-            readData: ReadData(readImageName: R.image.chat.readCheck.name)
+            readData: readData(isFromCurrentUser: event.isFromCurrentUser)
         )
         let reactions = prepareReaction(event, onReactionTap: { reaction in
             onReactionTap(reaction)
@@ -33,6 +35,12 @@ extension RoomEventsFactory {
             avatar: userAvatar
         ) {
             debugPrint("onTap ContactItem")
+            let contactInfo = ChatContactInfo(
+                name: name ?? "",
+                phone: phone,
+                url: url
+            )
+            delegate.onContactEventTap(contactInfo: contactInfo)
         }
 
         let bubbleContainer = BubbleContainer(

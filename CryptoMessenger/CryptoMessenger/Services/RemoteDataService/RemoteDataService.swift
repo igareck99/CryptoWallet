@@ -36,6 +36,8 @@ protocol RemoteDataServiceProtocol {
     func downloadData(withUrl url: URL,
                       httpMethod: RemoteDataRequestType,
                       completion: @escaping ((_ filePath: Data?) -> Void))
+
+    func downloadDataRequest(url: URL) async -> (URL, URLResponse)?
 }
 
 // MARK: - RemoteDataService
@@ -63,7 +65,8 @@ final class RemoteDataService: NSObject, RemoteDataServiceProtocol, ObservableOb
         let task = URLSession.shared.dataTask(with: request) { _, response, error in
             guard error == nil,
                   let response = response as? HTTPURLResponse,
-                  let contentLength = response.allHeaderFields[RemoteDataHeaderFields.contentLength.rawValue] as? String else {
+                  let contentLength = response
+                .allHeaderFields[RemoteDataHeaderFields.contentLength.rawValue] as? String else {
                 completion(nil)
                 return
             }
@@ -74,6 +77,12 @@ final class RemoteDataService: NSObject, RemoteDataServiceProtocol, ObservableOb
             completion(result)
         }
         task.resume()
+    }
+
+    func downloadDataRequest(url: URL) async -> (URL, URLResponse)? {
+        let request = URLRequest(url: url)
+        let result = try? await URLSession.shared.download(for: request)
+        return result
     }
 
     func downloadData(withUrl url: URL,

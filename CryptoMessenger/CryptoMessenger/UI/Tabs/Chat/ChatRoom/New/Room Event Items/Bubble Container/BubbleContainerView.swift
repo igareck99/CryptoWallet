@@ -11,7 +11,7 @@ struct BubbleContainerView<
     var body: some View {
         VStack(spacing: .zero) {
             HStack(spacing: .zero) {
-                content.padding(.all, 8)
+                content.padding(model.edges, model.offset)
             }
             .background(model.fillColor)
             .cornerRadius(

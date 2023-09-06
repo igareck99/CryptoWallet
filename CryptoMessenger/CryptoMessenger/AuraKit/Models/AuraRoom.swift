@@ -75,14 +75,18 @@ final class AuraRoom: ObservableObject {
             roomAvatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
         }
         let enumerator = room.enumeratorForStoredMessages // WithType(in: Self.displayedMessageTypes)
-		let currentBatch = enumerator?.nextEventsBatch(200, threadId: nil) ?? []
+		let currentBatch = enumerator?.nextEventsBatch(250, threadId: nil) ?? []
 
         eventCache.append(contentsOf: currentBatch)
     }
 
     // MARK: - Internal Methods
 
-    func add(event: MXEvent, direction: MXTimelineDirection, roomState: MXRoomState?) {
+    func add(
+        event: MXEvent,
+        direction: MXTimelineDirection,
+        roomState: MXRoomState?
+    ) {
         switch direction {
         case .backwards:
             eventCache.insert(event, at: 0)

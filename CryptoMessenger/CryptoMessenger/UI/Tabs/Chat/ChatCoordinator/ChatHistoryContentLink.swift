@@ -34,7 +34,7 @@ enum ChatHistoryContentLink: Hashable, Identifiable {
         onCancel: VoidBlock?,
         onDocumentsPicked: GenericBlock<[URL]>
     )
-    
+
     case newChat(
         room: AuraRoomData,
         coordinator: ChatHistoryFlowCoordinatorProtocol
@@ -45,78 +45,6 @@ enum ChatHistoryContentLink: Hashable, Identifiable {
     }
 
     static func == (lhs: ChatHistoryContentLink, rhs: ChatHistoryContentLink) -> Bool {
-        return rhs.id == lhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
-// MARK: - ChatHistorySheetLink
-
-enum ChatHistorySheetLink: Hashable, Identifiable {
-
-    case notifications(_ roomId: String)
-    case galleryPicker(sourceType: UIImagePickerController.SourceType,
-                       galleryContent: GalleryPickerContent,
-                       onSelectImage: (UIImage?) -> Void,
-                       onSelectVideo: (URL?) -> Void)
-    case channelPatricipants(viewModel: ChannelInfoViewModel,
-                             showParticipantsView: Binding<Bool>)
-    case createChat(_ view: any View)
-    case chatActions(_ room: ChatActionsList, _ onSelect: GenericBlock<ChatActions>)
-    case documentPicker(
-        onCancel: VoidBlock?,
-        onDocumentsPicked: GenericBlock<[URL]>
-    )
-    case messageReactions(isCurrentUser: Bool,
-                          isChannel: Bool,
-                          userRole: ChannelRole,
-                          onAction: GenericBlock<QuickActionCurrentUser>,
-                          onReaction: GenericBlock<String>)
-
-    case locationPicker(
-        place: Binding<Place?>,
-        sendLocation: Binding<Bool>
-    )
-
-    case selectContact(
-        mode: ContactViewMode,
-        chatData: Binding<ChatData>,
-        contactsLimit: Int? = nil,
-        coordinator: ChatHistoryFlowCoordinatorProtocol,
-        onUsersSelected: ([Contact]) -> Void
-    )
-
-    var id: String {
-        String(describing: self)
-    }
-
-    static func == (lhs: ChatHistorySheetLink, rhs: ChatHistorySheetLink) -> Bool {
-        return rhs.id == lhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
-// MARK: - ChatHistorySheetLink
-
-enum ChatCreateSheetContentLink: Hashable, Identifiable {
-
-    case selectContact(ChatCreateFlowCoordinatorProtocol)
-    case createContact(ChatCreateFlowCoordinatorProtocol)
-    case createChannel(ChatCreateFlowCoordinatorProtocol)
-    case createGroupChat(ChatData, ChatCreateFlowCoordinatorProtocol)
-    case createChat(coordinator: ChatCreateFlowCoordinatorProtocol)
-
-    var id: String {
-        String(describing: self)
-    }
-
-    static func == (lhs: ChatCreateSheetContentLink, rhs: ChatCreateSheetContentLink) -> Bool {
         return rhs.id == lhs.id
     }
 

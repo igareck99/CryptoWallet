@@ -11,15 +11,15 @@ enum SelectContactAssembly {
         chatHistoryCoordinator: ChatHistoryFlowCoordinatorProtocol? = nil,
         onUsersSelected: @escaping ([Contact]) -> Void
     ) -> some View {
-        let viewModel = SelectContactViewModel(mode: mode, contactsLimit: contactsLimit,
-                                               onUsersSelected: { value in
+        let viewModel = SelectContactViewModel(
+            mode: mode,
+            contactsLimit: contactsLimit
+        ) { value in
             onUsersSelected(value)
-        })
+        }
         viewModel.coordinator = coordinator
         viewModel.chatHistoryCoordinator = chatHistoryCoordinator
-        let view = SelectContactView(
-            viewModel: viewModel
-        )
+        let view = SelectContactView(viewModel: viewModel)
         return view
     }
 }

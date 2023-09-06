@@ -18,6 +18,9 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
 
     var body: some View {
         content
+            .onAppear {
+                viewModel.onAppear()
+            }
     }
 
     // MARK: - Body Properties

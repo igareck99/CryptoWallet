@@ -1,5 +1,6 @@
 import Combine
 import UIKit
+import SwiftUI
 
 // MARK: - ImageLoader
 
@@ -19,7 +20,7 @@ final class ImageLoader: ObservableObject {
 	// MARK: - Lifecycle
 
 	init(
-		url: URL?,
+		url: URL? = nil,
 		cache: ImageCacheServiceProtocol = ImageCacheService.shared
 	) {
 		self.url = url
@@ -32,6 +33,24 @@ final class ImageLoader: ObservableObject {
 		guard let urlString = imageUrl?.absoluteString else { return nil }
 		return cache.imageFromCache(urlKey: urlString)
 	}
+
+    func loadImage(url: URL?) async -> Image? {
+
+        if let image = imageFromCache(imageUrl: url) {
+            return Image(uiImage: image)
+        }
+
+        guard let imageURL = url else { return nil }
+
+        let result = await withCheckedContinuation { continuation in
+            ImageCacheService.shared.loadImage(atUrl: imageURL) { url, image in
+                debugPrint("image url withCheckedContinuation: \(url)")
+                continuation.resume(returning: image)
+            }
+        }
+        guard let uiImage = result else { return nil }
+        return Image(uiImage: uiImage)
+    }
 
 	func loadImage(imageUrl: URL?) -> UIImage? {
 		guard let image = imageFromCache(imageUrl: imageUrl) else {

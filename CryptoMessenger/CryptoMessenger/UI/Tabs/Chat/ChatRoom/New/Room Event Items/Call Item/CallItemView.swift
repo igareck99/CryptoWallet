@@ -23,5 +23,8 @@ struct CallItemView: View {
                 }
             }
         }
+        .onTapGesture {
+            model.onTap()
+        }
     }
 }

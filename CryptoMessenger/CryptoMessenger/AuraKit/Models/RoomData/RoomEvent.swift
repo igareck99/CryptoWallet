@@ -20,6 +20,7 @@ struct RoomEvent {
     let replyDescription: String
     let reactions: [Reaction]
     let content: [String: Any]
+    let eventSubType: String
 
     // MARK: - Lifecycle
 
@@ -36,6 +37,7 @@ struct RoomEvent {
         replyDescription: String,
         reactions: [Reaction],
         content: [String: Any],
+        eventSubType: String,
         senderAvatar: URL? = nil
     ) {
         self.eventId = eventId
@@ -49,13 +51,14 @@ struct RoomEvent {
         self.isFromCurrentUser = isFromCurrentUser
         self.isReply = isReply
         self.replyDescription = replyDescription
+        self.eventSubType = eventSubType
         self.reactions = reactions
         self.content = content
     }
 }
 
 extension RoomEvent {
-    
+
     var audioDuration: String {
         var data = content["info"] as? [String: Any]
         let msc = content["org.matrix.msc1767.audio"] as? [String: Any]

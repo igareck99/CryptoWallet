@@ -2,14 +2,18 @@ import Foundation
 
 extension RoomEventsFactory {
 
-    static func makeCallItem(event: RoomEvent,
-                             onLongPressTap: @escaping (RoomEvent) -> Void) -> any ViewGeneratable {
+    static func makeCallItem(
+        event: RoomEvent,
+        delegate: ChatEventsDelegate,
+        onLongPressTap: @escaping (RoomEvent) -> Void
+    ) -> any ViewGeneratable {
 
         let callItem = CallItem(
             subtitle: event.shortDate,
             type: event.isFromCurrentUser ? .outcomeAnswered : .incomeAnswered
         ) {
             debugPrint("onTap CallItem")
+            delegate.onCallTap(roomId: event.roomId)
         }
 
         let bubbleContainer = BubbleContainer(
