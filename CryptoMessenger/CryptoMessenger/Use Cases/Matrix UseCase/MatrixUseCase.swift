@@ -478,7 +478,8 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
     }
     
     func sendReply(_ event: RoomEvent,
-                   _ text: String) {
+                   _ text: String,
+                   completion: @escaping (Result <String?, MXErrors>) -> Void) {
         guard !text.isEmpty else { return }
         var rootMessage = ""
         if text.contains(">") {
@@ -501,8 +502,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
                                 event.roomId,
                                 event.eventId,
                                 customParameters) { result in
-            print("slaslsallas  \(result)")
-            
+            completion(result)
         }
     }
 

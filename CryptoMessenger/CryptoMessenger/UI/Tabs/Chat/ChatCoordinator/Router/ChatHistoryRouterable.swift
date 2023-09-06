@@ -135,4 +135,7 @@ protocol ChatHistoryRouterable: View {
     func chatMenu(_ tappedAction: @escaping (AttachAction) -> Void,
                   _ onCamera: @escaping () -> Void,
                   _ onSendPhoto: @escaping (UIImage) -> Void)
+    
+    func notSendedMessageMenu(_ event: RoomEvent,
+                              _ onTapItem: @escaping (NotSendedMessage, RoomEvent) -> Void) 
 }

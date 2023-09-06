@@ -340,7 +340,14 @@ extension MatrixService {
         var localEcho: MXEvent?
         do {
             let content = try LocationEvent(location: unwrappedLocation).encodeContent()
-            room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
+            room.sendMessage(withContent: content, localEcho: &localEcho) { result in
+                switch result {
+                case .success(let text):
+                    completion(.success(text))
+                case .failure(_):
+                    completion(.failure(.sendGeoError))
+                }
+            }
         } catch {
             debugPrint("Error create LocationEvent")
         }

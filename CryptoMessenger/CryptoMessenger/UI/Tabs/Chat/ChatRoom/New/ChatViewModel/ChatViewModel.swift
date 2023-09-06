@@ -6,7 +6,11 @@ import SwiftUI
 final internal class ChatViewModel: ObservableObject, ChatViewModelProtocol {
 
     @Published var displayItems = [any ViewGeneratable]()
+    @Published var itemsFromMatrix = [any ViewGeneratable]()
     @Published var inputText = ""
+    @Published var scroolString = UUID()
+    var scrollId: Published<UUID> { _scroolString }
+    var scrollIdPublisher: Published<UUID>.Publisher { $scroolString }
     @Published var activeEditMessage: RoomEvent?
     @Published var quickAction: QuickActionCurrentUser?
     @Published private(set) var room: AuraRoomData
@@ -17,6 +21,8 @@ final internal class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     let mediaService = MediaService()
     @Injectable var matrixUseCase: MatrixUseCaseProtocol
     @Published var eventSubject = PassthroughSubject<ChatRoomFlow.Event, Never>()
+    @Published var sendingEvents: [RoomEvent] = []
+    @Published var sendingEventsView: [any ViewGeneratable] = []
 
     // MARK: - Private Properties
 
@@ -26,7 +32,6 @@ final internal class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     private var subscriptions = Set<AnyCancellable>()
     private let channelFactory: ChannelUsersFactoryProtocol.Type
     private var roomPowerLevels: MXRoomPowerLevels?
-    @Published private var outputMessages: [RoomEvent] = []
 
     // MARK: - To replace
     @Published var location = Place(name: "", latitude: 0, longitude: 0)
@@ -87,113 +92,47 @@ final internal class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 else {
                     return
                 }
-                self.displayItems = self.factory.makeEventView(
+                self.itemsFromMatrix = self.factory.makeEventView(
                     events: room.events,
                     delegate: self,
                     onLongPressMessage: { event in
                     self.onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     self.onRemoveReaction(reaction)
+                }, onTapNotSendedMessage: { event in
+                    self.onTapNotSendedMessage(event)
+                })
+                self.displayItems = self.itemsFromMatrix
+                if !self.itemsFromMatrix.isEmpty {
+                    self.scroolString = self.displayItems.last?.id ?? UUID()
+                }
+            }
+            .store(in: &subscriptions)
+        $sendingEvents
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] value in
+                guard let self = self else { return }
+                self.sendingEventsView = self.factory.makeEventView(events: value,
+                                                                    delegate: self,
+                                                                    onLongPressMessage: { _ in },
+                                                                    onReactionTap: { _ in }, onTapNotSendedMessage: { event in
+                    self.onTapNotSendedMessage(event)
                 })
             }
             .store(in: &subscriptions)
     }
 
-    func showChatRoomMenu() {
-        self.coordinator.chatMenu({ result in
-            switch result {
-            case .media:
-                self.coordinator.galleryPickerSheet(sourceType: .photoLibrary,
-                                                    galleryContent: .all) { image in
-                    guard let image = image else { return }
-                    self.sendPhoto(image)
-                } onSelectVideo: { url in
-                    guard let url = url else { return }
-                    self.makeOutputEventView(.video(url))
-                    self.sendVideo(url)
-                }
-            case .contact:
-                self.coordinator.showSelectContact(mode: .send,
-                                                   chatData: Binding(get: {
-                                                       self.chatData
-                                                   }, set: { value in
-                                                       self.chatData = value
-                                                   }),
-                                                   contactsLimit: 1) { contacts in
-                    contacts.map {
-                        self.makeOutputEventView(.contact(name: $0.name, phone: $0.phone, url: nil))
-                        self.sendContact($0)
-                    }
-                }
-            case .document:
-                self.coordinator.presentDocumentPicker(onCancel: {
-                    self.coordinator.dismissCurrentSheet()
-                }, onDocumentsPicked: { url in
-                    url.map {
-                        self.makeOutputEventView(.file("", $0))
-                        self.sendFile($0)
-                    }
-                })
-            case .location:
-                self.coordinator.presentLocationPicker(
-                    place: Binding(get: {
-                        self.location
-                    }, set: { value in
-                        self.location = value ?? Place(name: "", latitude: 0, longitude: 0)
-                    }),
-                    sendLocation: Binding(get: {
-                        self.isSendLocation
-                    }, set: { value in
-                        self.isSendLocation = value
-                    }), onSendPlace: { place in
-                        let data = LocationData(lat: place.latitude,
-                                                long: place.longitude)
-                        self.makeOutputEventView(.location((lat: data.lat, long: data.long)))
-                        self.sendMap(data)
-                    })
-            default:
+    private func onTapNotSendedMessage(_ event: RoomEvent) {
+        self.coordinator.notSendedMessageMenu(event, { type, event in
+            self.coordinator.dismissCurrentSheet()
+            switch type {
+            case .delete:
+                self.sendingEvents.removeAll(where: { $0.eventId == event.eventId })
+                self.displayItems.removeLast()
+            case .resend:
                 break
             }
-        }, {
-            self.coordinator.galleryPickerSheet(sourceType: .camera,
-                                                galleryContent: .all) { image in
-                guard let image = image else { return }
-                self.sendPhoto(image)
-            } onSelectVideo: { url in
-                guard let url = url else { return }
-                self.makeOutputEventView(.video(url))
-                self.sendVideo(url)
-            }
-        }, { image in
-            self.sendPhoto(image)
-            self.coordinator.dismissCurrentSheet()
         })
-    }
-
-    func sendText() {
-        switch quickAction {
-        case .reply:
-            guard let activeEditMessage = activeEditMessage else { return }
-            self.makeOutputEventView(.text(inputText), true)
-            matrixUseCase.sendReply(activeEditMessage, inputText)
-            self.matrixUseCase.objectChangePublisher.send()
-        case .edit:
-            guard let activeEditMessage = activeEditMessage else { return }
-            matrixUseCase.edit(roomId: room.roomId, text: inputText,
-                               eventId: activeEditMessage.eventId)
-            self.matrixUseCase.objectChangePublisher.send()
-        default:
-            self.makeOutputEventView(.text(inputText))
-            matrixUseCase.sendText(room.roomId,
-                                   inputText,
-                                   completion: { _ in
-                self.inputText = ""
-                self.matrixUseCase.objectChangePublisher.send()
-            })
-        }
-        activeEditMessage = nil
-        quickAction = nil
-        self.inputText = ""
     }
 
     private func onLongPressMessage(_ event: RoomEvent) {
@@ -216,25 +155,151 @@ final internal class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             self.matrixUseCase.objectChangePublisher.send()
         })
     }
-    
-    private func makeOutputEventView(_ type: MessageType,
-                                     _ isReply: Bool = false) {
-        let sender = matrixUseCase.getUserId()
-        let event = factory.makeChatOutputEvent(type, room.roomId,
-                                                sender,
-                                                matrixUseCase.fromCurrentSender(sender),
-                                                isReply)
-        guard let view = factory.makeEventView(events: [event], delegate: self, onLongPressMessage: { _ in
-        }, onReactionTap: { _ in  }).first else { return }
-        displayItems.append(view)
-    }
-    
+
     private func onRemoveReaction(_ event: ReactionNewEvent) {
         guard let userId = event.sendersIds.first(where: { $0 == matrixUseCase.getUserId() }) else { return }
         matrixUseCase.removeReaction(roomId: room.roomId,
                                      text: event.emoji,
                                      eventId: event.relatedEvent) { _ in
             self.matrixUseCase.objectChangePublisher.send()
+        }
+    }
+
+    // MARK: - Internal Methods
+
+    @discardableResult
+    func makeOutputEventView(_ type: MessageType,
+                             _ isReply: Bool = false) -> RoomEvent {
+        let sender = matrixUseCase.getUserId()
+        let eventId = UUID().uuidString
+        let event = factory.makeChatOutputEvent(eventId,
+                                                type, room.roomId,
+                                                sender,
+                                                matrixUseCase.fromCurrentSender(sender),
+                                                isReply)
+        sendingEvents.append(event)
+        return event
+    }
+
+    func changeSedingEvent(_ event: RoomEvent,
+                           _ state: RoomSentState = .sent,
+                           _ eventId: String = "") {
+        if state == .sent {
+            guard let index = self.sendingEvents.firstIndex(where: { $0.eventId == event.eventId }) else { return }
+            self.sendingEvents.remove(at: index)
+            self.displayItems = self.itemsFromMatrix + self.sendingEventsView
+        } else if state == .failToSend {
+            guard let index = self.sendingEvents.firstIndex(where: { $0.eventId == event.eventId }) else { return }
+            self.sendingEvents[index].sentState = .failToSend
+        }
+    }
+
+    func showChatRoomMenu() {
+        self.coordinator.chatMenu({ result in
+            switch result {
+            case .media:
+                self.coordinator.galleryPickerSheet(sourceType: .photoLibrary,
+                                                    galleryContent: .all) { image in
+                    guard let image = image else { return }
+                    self.sendMessage(.image, image: image)
+                } onSelectVideo: { url in
+                    guard let url = url else { return }
+                    self.sendMessage(.video, url: url)
+                }
+            case .contact:
+                self.coordinator.showSelectContact(mode: .send,
+                                                   chatData: Binding(get: {
+                                                       self.chatData
+                                                   }, set: { value in
+                                                       self.chatData = value
+                                                   }),
+                                                   contactsLimit: 1) { contacts in
+                    contacts.map {
+                        self.sendMessage(.contact, contact: $0)
+                    }
+                }
+            case .document:
+                self.coordinator.presentDocumentPicker(onCancel: {
+                    self.coordinator.dismissCurrentSheet()
+                }, onDocumentsPicked: { url in
+                    url.map {
+                        self.sendMessage(.file, url: $0)
+                    }
+                })
+            case .location:
+                self.coordinator.presentLocationPicker(
+                    place: Binding(get: {
+                        self.location
+                    }, set: { value in
+                        self.location = value ?? Place(name: "", latitude: 0, longitude: 0)
+                    }),
+                    sendLocation: Binding(get: {
+                        self.isSendLocation
+                    }, set: { value in
+                        self.isSendLocation = value
+                    }), onSendPlace: { place in
+                        let data = LocationData(lat: place.latitude,
+                                                long: place.longitude)
+                        self.sendMessage(.location, location: data)
+                    })
+            default:
+                break
+            }
+        }, {
+            self.coordinator.galleryPickerSheet(sourceType: .camera,
+                                                galleryContent: .all) { image in
+                guard let image = image else { return }
+                self.sendMessage(.image, image: image)
+            } onSelectVideo: { url in
+                guard let url = url else { return }
+                self.sendMessage(.video, url: url)
+                self.sendVideo(url, self.makeOutputEventView(.video(url)))
+            }
+        }, { image in
+            self.sendMessage(.image, image: image)
+            self.coordinator.dismissCurrentSheet()
+        })
+    }
+
+    func sendMessage(_ type: MessageSendType,
+                     image: UIImage? = nil,
+                     url: URL? = nil,
+                     record: RecordingDataModel? = nil,
+                     location: LocationData? = nil,
+                     contact: Contact? = nil) {
+        switch type {
+        case .text:
+            self.sendText()
+        case .image:
+            guard let image = image else { return }
+            let url = URL(fileURLWithPath: "")
+            let event = self.makeOutputEventView(.image(url))
+            self.sendPhoto(image, event)
+        case .video:
+            guard let url = url else { return }
+            let event = self.makeOutputEventView(.video(url))
+            self.sendVideo(url, event)
+        case .file:
+            guard let url = url else { return }
+            let event = self.makeOutputEventView(.file("", url))
+            self.sendFile(url, event)
+        case .audio:
+            guard let record = record else { return }
+            let event = self.makeOutputEventView(.audio(record.fileURL))
+            self.sendAudio(record, event)
+        case .location:
+            guard let location = location else { return }
+            let event = self.makeOutputEventView(.location((lat: location.lat,
+                                                             long: location.long)))
+            self.sendMap(location, event)
+        case .contact:
+            guard let contact = contact else { return }
+            let event = self.makeOutputEventView(.contact(name: contact.name,
+                                                          phone: contact.phone,
+                                                          url: contact.avatar))
+            self.sendContact(contact, event)
+        default:
+            break
         }
     }
 }

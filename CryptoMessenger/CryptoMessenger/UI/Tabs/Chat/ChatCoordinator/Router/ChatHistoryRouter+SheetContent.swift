@@ -96,6 +96,10 @@ extension ChatHistoryRouter {
                                           onReaction)
             .presentationDetents([.height(CGFloat(QiuckMenyViewSize.size(isCurrentUser, isChannel, userRole)))])
             .anyView()
+        case let .sendingMessageMenu(event, onTapItem):
+            NotSendedMessageMenuAssembly.build(event, onTapItem)
+                .presentationDetents([.height(CGFloat(166))])
+                .anyView()
         }
     }
 }

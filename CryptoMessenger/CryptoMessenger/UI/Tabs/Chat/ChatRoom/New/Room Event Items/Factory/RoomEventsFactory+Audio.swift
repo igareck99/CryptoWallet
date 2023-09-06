@@ -6,12 +6,13 @@ extension RoomEventsFactory {
                               onLongPressTap: @escaping (RoomEvent) -> Void,
                               onReactionTap: @escaping (ReactionNewEvent) -> Void) -> any ViewGeneratable {
         guard let url = url else { return ZeroViewModel() }
+        
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
             dateColor: .white,
             backColor: .osloGrayApprox,
-            readData: ReadData(readImageName: R.image.chat.readCheck.name)
+            readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState)
         )
         let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
         let reactions = prepareReaction(event, onReactionTap: { reaction in

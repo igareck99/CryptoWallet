@@ -15,25 +15,31 @@ protocol MediaServiceProtocol {
     func addPhotoFeed(image: UIImage, userId: String, completion: @escaping (URL?) -> Void)
     func deletePhotoFeed(url: String, completion: @escaping (URL?) -> Void)
     func getPhotoFeedPhotos(userId: String, completion: @escaping ([URL]) -> Void)
-    func uploadChatPhoto(roomId: String, image: UIImage, completion: @escaping (String?) -> Void)
-    func uploadChatFile(roomId: String, url: URL, completion: @escaping (String?) -> Void)
+    func uploadChatPhoto(roomId: String, image: UIImage,
+                         completion: @escaping (Result <String?, MediaServiceError>) -> Void)
+    func uploadChatFile(roomId: String, url: URL,
+                        completion: @escaping (Result <String?, MediaServiceError>) -> Void)
     func uploadChatContact(roomId: String, contact: Contact,
-                           completion: @escaping (String?) -> Void)
-    func uploadVoiceMessage(roomId: String, audio: URL, duration: UInt, completion: @escaping (String?) -> Void)
-    func uploadVideoMessage(for roomId: String,
-                            url: URL,
-                            thumbnail: MXImage?,
-                            completion: @escaping (String?) -> Void)
+                           completion: @escaping (Result <String?, MediaServiceError>) -> Void)
+    func uploadVoiceMessage(roomId: String, audio: URL, duration: UInt, completion: @escaping (Result <String?, MediaServiceError>) -> Void)
+    func uploadVideoMessage(for roomId: String, url: URL, thumbnail: MXImage?,
+                            completion: @escaping (Result <String?, MediaServiceError>) -> Void)
     func downloadData(_ url: URL?, completion: @escaping (Data?) -> Void)
 }
 
 enum MediaServiceError: Error {
     case roomError
+    case audioUploadError
+    case videoUploadError
+    case contactUploadError
+    case fileUploadError
+    case photoUploadError
 }
 
 // MARK: - MediaService
 
 final class MediaService: ObservableObject, MediaServiceProtocol {
+    
 
     // MARK: - Private Properties
 
@@ -215,56 +221,56 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
     func uploadVoiceMessage(roomId: String,
                             audio: URL,
                             duration: UInt,
-                            completion: @escaping (String?) -> Void) {
+                            completion: @escaping (Result <String?, MediaServiceError>) -> Void) {
         matrixService.uploadVoiceMessage(for: roomId,
                                          url: audio,
                                          duration: duration) { result in
             switch result {
             case let .success(eventId):
-                completion(eventId)
+                completion(.success(eventId))
             case let .failure(error):
-                completion(nil)
+                completion(.failure(.audioUploadError))
             }
         }
     }
 
     func uploadChatPhoto(roomId: String,
                          image: UIImage,
-                         completion: @escaping (String?) -> Void) {
+                         completion: @escaping (Result <String?, MediaServiceError>) -> Void) {
         matrixService.uploadImage(for: roomId,
                                   image: image) { result in
             switch result {
             case let .success(eventId):
-                completion(eventId)
-            default:
-                break
+                completion(.success(eventId))
+            case .failure(_):
+                completion(.failure(.photoUploadError))
             }
         }
     }
 
     func uploadChatFile(roomId: String,
                         url: URL,
-                        completion: @escaping (String?) -> Void) {
+                        completion: @escaping (Result <String?, MediaServiceError>) -> Void) {
         matrixService.uploadFile(for: roomId,
                                  url: url) { result in
             switch result {
             case let .success(eventId):
-                completion(eventId)
-            default:
-                break
+                completion(.success(eventId))
+            case .failure(_):
+                completion(.failure(.fileUploadError))
             }
         }
     }
 
     func uploadChatContact(roomId: String, contact: Contact,
-                           completion: @escaping (String?) -> Void) {
+                           completion: @escaping (Result <String?, MediaServiceError>) -> Void) {
         matrixService.uploadContact(for: roomId,
                                     contact: contact) { result in
             switch result {
             case let .success(eventId):
-                completion(eventId)
-            default:
-                break
+                completion(.success(eventId))
+            case .failure(_):
+                completion(.failure(.contactUploadError))
             }
         }
     }
@@ -272,15 +278,15 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
     func uploadVideoMessage(for roomId: String,
                             url: URL,
                             thumbnail: MXImage?,
-                            completion: @escaping (String?) -> Void) {
+                            completion: @escaping (Result <String?, MediaServiceError>) -> Void) {
         matrixService.uploadVideoMessage(for: roomId,
                                          url: url,
                                          thumbnail: thumbnail) { result in
             switch result {
             case let .success(eventId):
-                completion(eventId)
-            default:
-                break
+                completion(.success(eventId))
+            case .failure(_):
+                completion(.failure(.videoUploadError))
             }
         }
     }

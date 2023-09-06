@@ -56,6 +56,8 @@ enum ChatHistorySheetLink: Hashable, Identifiable {
     case chatRoomMenu(_ tappedAction: (AttachAction) -> Void,
                       _ onCamera: () -> Void,
                       _ onSendPhoto: (UIImage) -> Void)
+    case sendingMessageMenu(_ event: RoomEvent,
+                            _ onTapItem: (NotSendedMessage, RoomEvent) -> Void)
 
     var id: String {
         String(describing: self)

@@ -3,50 +3,127 @@ import Foundation
 // MARK: - ChatViewModel
 
 extension ChatViewModel {
-    func sendAudio(_ record: RecordingDataModel) {
-        mediaService.uploadVoiceMessage(roomId: room.roomId,
-                                        audio: record.fileURL,
-                                        duration: UInt(record.duration)) { _ in
-            self.matrixUseCase.objectChangePublisher.send()
-        }
-    }
 
-    func sendPhoto(_ image: UIImage) {
+    func sendPhoto(_ image: UIImage, _ event: RoomEvent) {
         inputText = ""
         mediaService.uploadChatPhoto(roomId: room.roomId,
-                                     image: image) { _ in
-            self.matrixUseCase.objectChangePublisher.send()
+                                     image: image) { result in
+            switch result {
+            case let .success(eventId):
+                debugPrint("Sended Event \(eventId)")
+                guard let eventId = eventId else { return }
+                self.changeSedingEvent(event, .sent, eventId)
+            case .failure(_):
+                self.changeSedingEvent(event, .failToSend)
+            }
         }
     }
 
-    func sendVideo(_ url: URL) {
+    func sendVideo(_ url: URL, _ event: RoomEvent) {
         let mxImage = MXImage(systemName: "eraser")
         self.mediaService.uploadVideoMessage(for: room.roomId,
                                              url: url,
-                                             thumbnail: mxImage,
-                                             completion: { _ in
-            self.matrixUseCase.objectChangePublisher.send()
-        })
+                                             thumbnail: mxImage) { result in
+            switch result {
+            case let .success(eventId):
+                debugPrint("Sended Event \(eventId)")
+                self.changeSedingEvent(event, .sent)
+            case .failure(_):
+                self.changeSedingEvent(event, .failToSend)
+            }
+        }
     }
     
-    func sendContact(_ contact: Contact) {
+    func sendContact(_ contact: Contact, _ event: RoomEvent) {
         self.mediaService.uploadChatContact(roomId: room.roomId,
-                                            contact: contact) { _ in
-            self.matrixUseCase.objectChangePublisher.send()
+                                            contact: contact) { result in
+            switch result {
+            case let .success(eventId):
+                debugPrint("Sended Event \(eventId)")
+                self.changeSedingEvent(event, .sent)
+            case .failure(_):
+                self.changeSedingEvent(event, .failToSend)
+            }
         }
     }
     
-    func sendMap(_ location: LocationData?) {
+    func sendMap(_ location: LocationData?, _ event: RoomEvent) {
         self.matrixUseCase.sendLocation(roomId: room.roomId,
-                                        location: location) { _ in
-            self.matrixUseCase.objectChangePublisher.send()
+                                        location: location) { result in
+            switch result {
+            case let .success(eventId):
+                debugPrint("Sended Event \(eventId)")
+                self.changeSedingEvent(event, .sent)
+            case .failure(_):
+                self.changeSedingEvent(event, .failToSend)
+            }
         }
     }
     
-    func sendFile(_ url: URL) {
+    func sendFile(_ url: URL, _ event: RoomEvent) {
         self.mediaService.uploadChatFile(roomId: self.room.roomId,
-                                         url: url) { _ in
-            
+                                         url: url) { result in
+            switch result {
+            case let .success(eventId):
+                debugPrint("Sended Event \(eventId)")
+                self.changeSedingEvent(event, .sent)
+            case .failure(_):
+                self.changeSedingEvent(event, .failToSend)
+            }
+        }
+    }
+    
+    func sendText() {
+        switch quickAction {
+        case .reply:
+            guard let activeEditMessage = activeEditMessage else { return }
+            let event = self.makeOutputEventView(.text(inputText), true)
+            matrixUseCase.sendReply(activeEditMessage, inputText, completion: { result in
+                switch result {
+                case let .success(eventId):
+                    debugPrint("Sended Event \(eventId)")
+                    guard let eventId = eventId else { return }
+                    self.changeSedingEvent(event, .sent, eventId)
+                case .failure(_):
+                    self.changeSedingEvent(event, .failToSend)
+                }
+            })
+        case .edit:
+            guard let activeEditMessage = activeEditMessage else { return }
+            matrixUseCase.edit(roomId: room.roomId, text: inputText,
+                               eventId: activeEditMessage.eventId)
+        default:
+            let event = self.makeOutputEventView(.text(inputText))
+            matrixUseCase.sendText(room.roomId,
+                                   inputText,
+                                   completion: { result in
+                switch result {
+                case let .success(eventId):
+                    debugPrint("Sended Event \(eventId)")
+                    guard let eventId = eventId else { return }
+                    self.changeSedingEvent(event, .sent, eventId)
+                case .failure(_):
+                    self.changeSedingEvent(event, .failToSend)
+                }
+            })
+        }
+        activeEditMessage = nil
+        quickAction = nil
+        self.inputText = ""
+    }
+
+    func sendAudio(_ record: RecordingDataModel,
+                   _ event: RoomEvent) {
+        mediaService.uploadVoiceMessage(roomId: room.roomId,
+                                        audio: record.fileURL,
+                                        duration: UInt(record.duration)) { result in
+            switch result {
+            case let .success(eventId):
+                debugPrint("Sended Event \(eventId)")
+                self.changeSedingEvent(event, .sent)
+            case .failure(_):
+                self.changeSedingEvent(event, .failToSend)
+            }
         }
     }
 }
