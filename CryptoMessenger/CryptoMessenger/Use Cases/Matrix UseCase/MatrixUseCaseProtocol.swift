@@ -76,6 +76,8 @@ protocol MatrixUseCaseProtocol {
     func react(eventId: String, roomId: String, emoji: String)
     func redact(roomId: String,
                 eventId: String, reason: String?)
+    func sendReply(_ event: RoomEvent,
+                   _ text: String)
     
     // MARK: - Pusher
     func createPusher(pushToken: Data, completion: @escaping (Bool) -> Void)

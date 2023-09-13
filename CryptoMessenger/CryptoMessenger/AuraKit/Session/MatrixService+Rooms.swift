@@ -297,6 +297,38 @@ extension MatrixService {
         }
     }
     
+    func sendReply(_ text: String,
+                   _ roomId: String,
+                   _ eventId: String,
+                   _ customParameters: [String : Any],
+                   completion: @escaping (Result <String?, MXErrors>) -> Void) {
+        guard let matrixRoom = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            completion(.failure(.sendReplyError))
+            return
+        }
+        var localEcho: MXEvent?
+        matrixSession?.event(withEventId: eventId,
+                             inRoom: roomId, { result in
+            switch result {
+            case let .success(event):
+                if let longitude = event.content["longitude"],
+                   let latitude = event.content["latitude"] {
+                    event.wireContent["geo_uri"] = "geo:\(latitude),\(longitude)"
+                }
+                matrixRoom.sendReply(to: event,
+                                     textMessage: text,
+                                     formattedTextMessage: nil,
+                                     stringLocalizations: nil,
+                                     localEcho: &localEcho,
+                                     customParameters: customParameters) { _ in
+                    completion(.success("Reply Send"))
+                }
+            case let .failure(error):
+                completion(.failure(.sendReplyError))
+            }
+        })
+    }
+    
     func sendLocation(roomId: String,
                       location: LocationData?,
                       completion: @escaping (Result <String?, MXErrors>) -> Void) {

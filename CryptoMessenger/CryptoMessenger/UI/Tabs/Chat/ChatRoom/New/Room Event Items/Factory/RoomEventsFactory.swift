@@ -16,11 +16,13 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         for reaction in event.reactions {
             if !emojiList.contains(reaction.emoji) {
                 emojiList.append(reaction.emoji)
+                
                 data.append(ReactionNewEvent(eventId: "",
                                              sender: "",
                                              timestamp: Date(),
                                              emoji: reaction.emoji,
                                              color: event.isFromCurrentUser ? .azureRadianceApprox : reactionColor,
+                                             emojiString: "",
                                              onTap: { _ in
                 }))
             } else {
@@ -31,6 +33,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                                                    timestamp: Date(),
                                                    emoji: reaction.emoji,
                                                    color: event.isFromCurrentUser ? .azureRadianceApprox : reactionColor,
+                                                   emojiString: emojiCount.value,
                                                    emojiCount: emojiCount,
                                                    onTap: { _ in
                     })

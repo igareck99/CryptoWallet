@@ -115,6 +115,29 @@ final class AuraRoom: ObservableObject {
         }
         self.objectWillChange.send()
     }
+    
+    func sendReply(_ event: RoomEvent,
+                   _room: AuraRoomData,
+                   _ text: String) {
+        var rootMessage = ""
+        if text.contains(">") {
+            let startIndex = text.index(text.lastIndex(of: ">") ?? text.startIndex, offsetBy: 2)
+            rootMessage = String(text.suffix(from: startIndex))
+            let rootMessageAll = rootMessage.split(separator: "\n")
+            rootMessage = String(rootMessageAll[0])
+        } else {
+            rootMessage = text
+        }
+        let customParameters: [String: Any] = [
+            "m.reply_to": ReplyCustomContent(
+                rootUserId: event.sender,
+                rootMessage: rootMessage,
+                rootEventId: event.eventId,
+                rootLink: ""
+            ).content
+        ]
+        
+    }
 
     func reply(text: String, eventId: String) {
         guard !text.isEmpty else { return }
