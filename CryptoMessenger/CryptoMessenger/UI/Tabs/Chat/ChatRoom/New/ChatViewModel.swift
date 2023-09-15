@@ -63,7 +63,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 else {
                     return
                 }
-                self.displayItems = factory.makeEventView(events: room.events)
+                self.displayItems = self.factory.makeEventView(events: room.events)
                 self.objectWillChange.send()
             }
             .store(in: &subscriptions)

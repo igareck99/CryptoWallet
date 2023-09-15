@@ -178,18 +178,19 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                     guard let mxRoom = self.matrixUseCase.getRoomInfo(roomId: room) else { return }
                     let roomFactory = RoomEventObjectFactory()
                     guard let auraRoom = matrixObjectFactoryProtocol.makeAuraRooms(mxRooms: [mxRoom],
+                                                                                   isMakeEvents: false,
                                                                                    config: Configuration.shared,
                                                                                    eventsFactory: roomFactory,
                                                                                    matrixUseCase: self.matrixUseCase) { [weak self] _ in
                         true
                     }.first else { return }
-                    self.coordinator?.chatRoom(auraRoom)
                     // self.coordinator?.firstAction(AuraRoom(mxRoom))
+                    self.coordinator?.chatRoom(auraRoom)
                 case let .onDeleteRoom(roomId):
                     self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in
                         self?.matrixUseCase.objectChangePublisher.send()
                     })
-                case let .onCreateChat:
+                case .onCreateChat:
                     self?.coordinator?.showCreateChat()
                 case let .onRoomActions(room):
                     let data = ChatActionsList(isLeaveAvailable: !(room.isAdmin && room.isChannel),
@@ -260,7 +261,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
-                self.auraRooms = self.matrixUseCase.auraRooms
+                self.auraRooms = self.matrixUseCase.auraNoEventsRooms
                 self.chatHistoryRooms = self.chatObjectFactory.makeChatHistoryRooms(mxRooms: self.auraRooms,
                                                                                     viewModel: self)
                 if !self.isSearching {

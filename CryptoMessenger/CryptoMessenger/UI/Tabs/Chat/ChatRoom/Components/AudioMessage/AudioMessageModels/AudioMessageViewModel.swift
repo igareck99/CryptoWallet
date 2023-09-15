@@ -1,4 +1,3 @@
-import SwiftUI
 import AVFoundation
 import Combine
 
@@ -22,6 +21,8 @@ final class AudioMessageViewModel: ObservableObject {
                                              on: .main, in: .common).autoconnect()
     @Published var time: Double = 0
     @Published var playingAudioId = ""
+    
+    // MARK: - Private Properties
 
     // MARK: - Lifecycle
 
@@ -50,6 +51,12 @@ final class AudioMessageViewModel: ObservableObject {
             audioPlayer?.play()
             isPlaying = true
         }
+    }
+    
+    func onSlide(_ value: Double) {
+        time = value
+        audioPlayer?.currentTime = Double(time) * (audioPlayer?.duration ?? 0)
+        audioPlayer?.play()
     }
     
     func onTimerChange() {
@@ -112,6 +119,19 @@ final class AudioMessageViewModel: ObservableObject {
         } else {
             debugPrint("file doesnt exist")
             completion(nil)
+        }
+    }
+    
+    func start() {
+        setupAudioNew { url in
+            do {
+                guard let unwrappedUrl = url else { return }
+                self.audioPlayer = try AVAudioPlayer(contentsOf: unwrappedUrl)
+                self.audioPlayer?.numberOfLoops = .zero
+            } catch {
+                debugPrint("Error URL")
+                return
+            }
         }
     }
 

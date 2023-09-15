@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - Image Event
+
 struct ImageEvent: Identifiable, ViewGeneratable {
     let id = UUID()
     let imageUrl: URL?

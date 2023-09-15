@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 extension RoomEventsFactory {
     static func makeImageItem(
@@ -7,16 +7,16 @@ extension RoomEventsFactory {
     ) -> any ViewGeneratable {
         let eventData = EventData(
             date: event.shortDate,
+            isFromCurrentUser: event.isFromCurrentUser,
             dateColor: .white,
             backColor: .osloGrayApprox,
             readData: ReadData(readImageName: R.image.chat.readCheck.name)
         )
-        let reactionItems = [
-            ReactionTextsItem(texts: [ReactionTextItem(text: "😎")], backgroundColor: .brilliantAzure),
-            ReactionTextsItem(texts: [ReactionTextItem(text: "😎")], backgroundColor: .brilliantAzure),
-            ReactionTextsItem(texts: [ReactionTextItem(text: "😎")], backgroundColor: .brilliantAzure)
-        ]
-        let reactionsGrid = ReactionsGridModel(reactionItems: reactionItems)
+        let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
+        let items: [ReactionNewEvent] = prepareReaction(event)
+        let viewModel = ReactionsNewViewModel(width: calculateEventWidth(StaticRoomEventsSizes.image.size, items.count),
+                                              views: items,
+                                              backgroundColor: reactionColor)
         
         let loadInfo = LoadInfo(
             url: .mock,
@@ -40,13 +40,15 @@ extension RoomEventsFactory {
         if event.isFromCurrentUser {
             return EventContainer(
                 leadingContent: PaddingModel(),
-                centralContent: bubbleContainer
+                centralContent: bubbleContainer,
+                bottomContent: viewModel
             )
         }
-        
+
         return EventContainer(
             centralContent: bubbleContainer,
-            trailingContent: PaddingModel()
+            trailingContent: PaddingModel(),
+            bottomContent: viewModel
         )
     }
 }

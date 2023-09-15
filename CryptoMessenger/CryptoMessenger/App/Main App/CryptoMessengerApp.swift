@@ -8,7 +8,6 @@ struct CryptoMessengerApp: App {
     var body: some Scene {
         WindowGroup {
             rootCoordinator.rootView.anyView()
-            //ChatView(viewModel: ChatViewModel())
         }
     }
 }

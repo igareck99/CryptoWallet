@@ -10,6 +10,7 @@ protocol MatrixServiceProtocol {
 	var rooms: [AuraRoom] { get }
     var auraRooms: [AuraRoomData] { get }
 	var matrixSession: MXSession? { get }
+    var auraNoEventsRooms: [AuraRoomData] { get }
 
 	func closeSessionAndClearData()
 
@@ -76,8 +77,6 @@ protocol MatrixServiceProtocol {
               eventId: String)
     func redact(roomId: String,
                 eventId: String, reason: String?)
-    func react(roomId: String,
-               toEventId eventId: String, emoji: String)
 
 	// MARK: - Users
 	func currentlyActive(_ userId: String) -> Bool

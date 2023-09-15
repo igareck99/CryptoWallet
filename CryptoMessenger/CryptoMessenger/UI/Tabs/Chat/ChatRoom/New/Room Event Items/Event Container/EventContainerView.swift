@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - EventContainerView
+
 struct EventContainerView<
     LeadingContent: View,
     CentralContent: View,
@@ -13,13 +15,13 @@ struct EventContainerView<
     let bottomContent: BottomContent
 
     var body: some View {
-        VStack(spacing: 8) {
-            HStack(spacing: 8) {
-                leadingContent
+        HStack(spacing: 8) {
+            leadingContent
+            VStack(alignment: .leading, spacing: 8) {
                 centralContent
-                trailingContent
+                bottomContent
             }
-            bottomContent
+            trailingContent
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 8)

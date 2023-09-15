@@ -10,6 +10,7 @@ protocol MatrixObjectFactoryProtocol {
 		isRoomUserActive: @escaping (String) -> Bool
     ) -> [AuraRoom]
     func makeAuraRooms(mxRooms: [MXRoom]?,
+                       isMakeEvents: Bool,
                        config: ConfigType,
                        eventsFactory: RoomEventObjectFactoryProtocol,
                        matrixUseCase: MatrixUseCaseProtocol,
@@ -41,6 +42,7 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
 	}
     
     func makeAuraRooms(mxRooms: [MXRoom]?,
+                       isMakeEvents: Bool,
                        config: ConfigType,
                        eventsFactory: RoomEventObjectFactoryProtocol,
                        matrixUseCase: MatrixUseCaseProtocol,
@@ -64,15 +66,18 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                 }
                 
                 let enumerator = mxRoom.enumeratorForStoredMessages
-                let currentBatch = enumerator?.nextEventsBatch(50, threadId: nil) ?? []
+                let currentBatch = enumerator?.nextEventsBatch(100, threadId: nil) ?? []
                 var messageType = MessageType.text("")
                 let lastMessageEvent = currentBatch.last { $0.type == kMXEventTypeStringRoomMessage }
                 let callEvent = currentBatch.last
                 if callEvent?.type == "m.call.hangup" {
                     messageType = .call
                 }
-
-                let events = eventsFactory.makeChatHistoryRoomEvents(events: currentBatch, matrixUseCase: matrixUseCase)
+                var events: [RoomEvent] = []
+                if isMakeEvents {
+                    events = eventsFactory.makeChatHistoryRoomEvents(eventCollections: EventCollection(currentBatch),
+                                                                     matrixUseCase: matrixUseCase)
+                }
                 let summary = RoomSummary(mxRoom.summary)
                 let unreadedEvents = summary.summary.localUnreadEventCount
                 messageType = lastMessageEvent?.messageType ?? MessageType.text("")
@@ -90,7 +95,8 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                                         numberUsers: Int(summary.summary.membersCount.joined),
                                         topic: summary.summary.topic ?? "",
                                         roomId: roomId,
-                                        events: events)
+                                        events: events,
+                                        eventCollections: EventCollection(currentBatch))
                 return room
             }
             .compactMap { $0 }

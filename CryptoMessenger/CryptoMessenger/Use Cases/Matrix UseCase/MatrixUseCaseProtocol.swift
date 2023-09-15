@@ -9,6 +9,7 @@ protocol MatrixUseCaseProtocol {
 	var devicesPublisher: Published<[MXDevice]>.Publisher { get }
 	var rooms: [AuraRoom] { get }
     var auraRooms: [AuraRoomData] { get }
+    var auraNoEventsRooms: [AuraRoomData] { get }
 
 	// MARK: - Session
 	var matrixSession: MXSession? { get }
@@ -73,11 +74,8 @@ protocol MatrixUseCaseProtocol {
     func edit(roomId: String, text: String,
               eventId: String)
     func react(eventId: String, roomId: String, emoji: String)
-    func react(roomId: String,
-               toEventId eventId: String, emoji: String)
     func redact(roomId: String,
                 eventId: String, reason: String?)
-    func getReactions(eventId: String, roomId: String)
     
     // MARK: - Pusher
     func createPusher(pushToken: Data, completion: @escaping (Bool) -> Void)

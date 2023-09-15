@@ -293,7 +293,6 @@ extension ChatComponentsFactory {
 		message: RoomMessage,
 		onEmojiTap: @escaping GenericBlock<(emoji: String, messageId: String)>
 	) -> [ReactionTextsItem] {
-
 		// Есть ли реакции пользователя в секции '+'
 		var hasReactionInExtraSpace = false
 

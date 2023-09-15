@@ -50,6 +50,18 @@ final class MatrixService: MatrixServiceProtocol {
     var auraRooms: [AuraRoomData] {
         let rooms = matrixObjectsFactory
             .makeAuraRooms(mxRooms: session?.rooms,
+                           isMakeEvents: true,
+                                  config: Configuration.shared,
+                                  eventsFactory: RoomEventObjectFactory(),
+                                  matrixUseCase: MatrixUseCase.shared) { [weak self] directUserId in
+                self?.currentlyActive(directUserId) == true
+            }
+        return rooms
+    }
+    var auraNoEventsRooms: [AuraRoomData] {
+        let rooms = matrixObjectsFactory
+            .makeAuraRooms(mxRooms: session?.rooms,
+                           isMakeEvents: false,
                                   config: Configuration.shared,
                                   eventsFactory: RoomEventObjectFactory(),
                                   matrixUseCase: MatrixUseCase.shared) { [weak self] directUserId in

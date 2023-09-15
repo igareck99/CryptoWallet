@@ -19,4 +19,5 @@ struct AuraRoomData: Identifiable {
     var topic: String
     var roomId: String
     var events: [RoomEvent]
+    var eventCollections: EventCollection
 }

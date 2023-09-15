@@ -7,18 +7,19 @@ struct RoomEvent {
 
     // MARK: - Internal Properties
 
-    var eventId: String
-    var roomId: String
-    var sender: String
-    var senderAvatar: URL?
-    var sentState: RoomSentState
-    var eventType: MessageType
-    var shortDate: String
-    var fullDate: String
-    var isFromCurrentUser: Bool
-    var reactions: [ReactionTextItem]
-//    let content: [String: Any]
-//    let eventType: String
+    let eventId: String
+    let roomId: String
+    let sender: String
+    let senderAvatar: URL?
+    let sentState: RoomSentState
+    let eventType: MessageType
+    let shortDate: String
+    let fullDate: String
+    let isFromCurrentUser: Bool
+    let isReply: Bool
+    let replyDescription: String
+    let reactions: [Reaction]
+    let content: [String: Any]
 
     // MARK: - Lifecycle
 
@@ -31,7 +32,10 @@ struct RoomEvent {
         shortDate: String,
         fullDate: String,
         isFromCurrentUser: Bool,
-        reactions: [ReactionTextItem] = [],
+        isReply: Bool,
+        replyDescription: String,
+        reactions: [Reaction],
+        content: [String: Any],
         senderAvatar: URL? = nil
     ) {
         self.eventId = eventId
@@ -43,6 +47,27 @@ struct RoomEvent {
         self.shortDate = shortDate
         self.fullDate = fullDate
         self.isFromCurrentUser = isFromCurrentUser
+        self.isReply = isReply
+        self.replyDescription = replyDescription
         self.reactions = reactions
+        self.content = content
+    }
+}
+
+extension RoomEvent {
+    
+    var audioDuration: String {
+        var data = content["info"] as? [String: Any]
+        let msc = content["org.matrix.msc1767.audio"] as? [String: Any]
+        if msc != nil {
+            data = msc
+        }
+        if data != nil {
+            let duration = data?["duration"] as? Int ?? 0
+            let time = intToDate(duration)
+            return time
+        } else {
+            return ""
+        }
     }
 }
