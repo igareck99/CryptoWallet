@@ -27,9 +27,6 @@ struct ReactionNewView: View {
             }
         }
         .frame(width: value.width, height: 28)
-        .onAppear {
-            print("slalskaslklaks  \(value.emojiString)")
-        }
         .onTapGesture {
             value.onTap(value)
         }

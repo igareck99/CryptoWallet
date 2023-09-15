@@ -113,6 +113,11 @@ protocol MatrixServiceProtocol {
     func sendText(_ roomId: String,
                   _ text: String,
                   completion: @escaping (Result <String?, MXErrors>) -> Void)
+    func sendReply(_ text: String,
+                   _ roomId: String,
+                   _ eventId: String,
+                   _ customParameters: [String : Any],
+                   completion: @escaping (Result <String?, MXErrors>) -> Void)
 
 	// MARK: - Pagination
 	func paginate(room: AuraRoom, event: MXEvent)

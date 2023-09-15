@@ -462,6 +462,35 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
             debugPrint(result)
         }
     }
+    
+    func sendReply(_ event: RoomEvent,
+                   _ text: String) {
+        guard !text.isEmpty else { return }
+        var rootMessage = ""
+        if text.contains(">") {
+            let startIndex = text.index(text.lastIndex(of: ">") ?? text.startIndex, offsetBy: 2)
+            rootMessage = String(text.suffix(from: startIndex))
+            let rootMessageAll = rootMessage.split(separator: "\n")
+            rootMessage = String(rootMessageAll[0])
+        } else {
+            rootMessage = text
+        }
+        let customParameters: [String: Any] = [
+            "m.reply_to": ReplyCustomContent(
+                rootUserId: event.sender,
+                rootMessage: rootMessage,
+                rootEventId: event.eventId,
+                rootLink: ""
+            ).content
+        ]
+        matrixService.sendReply(rootMessage,
+                                event.roomId,
+                                event.eventId,
+                                customParameters) { result in
+            print("slaslsallas  \(result)")
+            
+        }
+    }
 
 	// MARK: - Remove device by ID
 	func getDevicesWithActiveSessions(completion: @escaping (Result<[MXDevice], Error>) -> Void) {

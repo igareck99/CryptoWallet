@@ -11,15 +11,12 @@ extension RoomEventsFactory {
             isFromCurrentUser: event.isFromCurrentUser,
             readData: ReadData(readImageName: R.image.chat.readCheckWhite.name)
         )
-        let items: [ReactionNewEvent] = []
-        let viewModel = ReactionsNewViewModel(width: calculateWidth("", items.count),
-                                              views: items, backgroundColor: .brilliantAzure)
         let docItem = DocumentItem(
             imageName: "paperclip.circle.fill",
             title: name ?? "", // "Экран для Aura.docx",
             subtitle: "2.8MB",
             url: .mock,
-            reactionsGrid: viewModel, // reactionsGrid,
+            reactionsGrid: ZeroViewModel(), // reactionsGrid,
             eventData: eventData
         ) {
             debugPrint("onTap DocumentItem")

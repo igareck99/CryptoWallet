@@ -486,15 +486,9 @@ final class ChatRoomViewModel: ObservableObject {
 						self?.updateToggles()
                     }
                 case let .onReply(text, eventId):
-                    guard
-                        let self = self,
-                        let room = self.matrixUseCase.rooms.first(where: { $0.room.id == self.room.id })
-                    else {
-                        return
-                    }
-                    room.reply(text: text, eventId: eventId)
-                    self.matrixUseCase.objectChangePublisher.send()
-                    self.fetchChatData()
+                    // self.matrixUseCase.sendReply(eventId, text)
+                    self?.matrixUseCase.objectChangePublisher.send()
+                    self?.fetchChatData()
                 case let .onDelete(eventId):
                     guard let self = self else { return }
                     self.matrixUseCase.redact(roomId: self.room.room.roomId,

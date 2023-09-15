@@ -28,6 +28,7 @@ enum MXErrors: Error {
 	case syncFailure
 }
 
+
 enum MatrixState {
 	case none
 	case loggedOut

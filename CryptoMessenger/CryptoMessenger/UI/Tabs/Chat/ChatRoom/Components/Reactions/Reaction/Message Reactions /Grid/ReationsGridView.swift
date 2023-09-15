@@ -31,14 +31,13 @@ struct ReationsGridView: View {
     private func getView() -> [any ViewGeneratable] {
         if data.views.count - data.firstRow.count > 0 && !showAll {
             let emojiString = "+" + (data.views.count - data.firstRow.count).value
-            print("slasklsakl  \(emojiString)")
             let object = ReactionNewEvent(eventId: "",
                                           sender: "",
                                           timestamp: Date(),
-                                          emoji: "",
+                                          emoji: "+",
                                           color: data.backgroundColor,
                                           emojiString: emojiString,
-                                          textColor: .brilliantAzure,
+                                          textColor: .white,
                                           emojiCount: data.views.count - 4,
                                           type: .add) { _ in
                 showAll = true
