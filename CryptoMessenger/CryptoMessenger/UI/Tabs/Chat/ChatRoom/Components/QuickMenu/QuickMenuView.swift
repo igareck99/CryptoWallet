@@ -1,14 +1,11 @@
 import SwiftUI
 
-// swiftlint:disable all
-
 // MARK: - QuickMenuView
 
 struct QuickMenuView: View {
 
     // MARK: - Internal Properties
 
-    @Binding var cardPosition: CardPosition
     var isCurrentUser: Bool
     var isChannel: Bool
     var userRole: ChannelRole
@@ -23,14 +20,16 @@ struct QuickMenuView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ReactionsSelectView(cardPosition: $cardPosition,
-                                onReaction: onReaction)
+            ReactionsSelectView(onReaction: onReaction)
             .padding(.leading, 16)
             .padding(.trailing, 13)
             Divider()
                 .padding(.top, 16)
             generateItems()
         }.id(UUID())
+            .onAppear {
+                print("gtijroepwqkjsdfdso")
+            }
     }
 
     private func generateItems() -> some View {
@@ -45,7 +44,7 @@ struct QuickMenuView: View {
 
                 Text(item.action.title)
                     .font(.system(size: 17, weight: .regular))
-                    //.foregroundColor(item.action == .delete ? .spanishCrimson : .dodgerBlue)
+                    .foregroundColor(item.action == .delete ? .spanishCrimson : .dodgerBlue)
                     .padding(.leading, 16)
 
                 Spacer()
@@ -55,7 +54,6 @@ struct QuickMenuView: View {
             .onTapGesture {
                 vibrate()
                 onAction(item.action)
-                cardPosition = .bottom
             }
         }
     }
@@ -63,9 +61,9 @@ struct QuickMenuView: View {
     private func getItems() -> [QuickActionItem] {
         if isChannel {
             switch userRole {
-            case .owner, .admin:
-                return [QuickActionCurrentUser.copy, QuickActionCurrentUser.reaction,
-                        QuickActionCurrentUser.reply, QuickActionCurrentUser.edit,
+            case .owner:
+                return [QuickActionCurrentUser.reply, QuickActionCurrentUser.edit,
+                        QuickActionCurrentUser.copy, QuickActionCurrentUser.reaction,
                         QuickActionCurrentUser.delete].map { .init(action: $0) }
             case .admin:
                 return [QuickActionCurrentUser.copy, QuickActionCurrentUser.reaction,
@@ -77,11 +75,12 @@ struct QuickMenuView: View {
             }
         }
         if isCurrentUser {
-            return QuickActionCurrentUser.allCases.map { .init(action: $0) }
+            return [QuickActionCurrentUser.reply, QuickActionCurrentUser.edit,
+                           QuickActionCurrentUser.copy, QuickActionCurrentUser.reaction,
+                           QuickActionCurrentUser.delete].map { .init(action: $0) }
         } else {
-            return QuickActionCurrentUser.allCases.filter({ item in
-                item != .edit
-            }).map { .init(action: $0) }
+            return [QuickActionCurrentUser.reply, QuickActionCurrentUser.copy,
+                    QuickActionCurrentUser.reaction].map { .init(action: $0) }
         }
     }
 }
@@ -149,6 +148,36 @@ enum QuickActionCurrentUser: CaseIterable {
             return R.image.chat.reaction.reaction.image
         case .delete:
             return R.image.chat.reaction.delete.image
+        }
+    }
+}
+
+// MARK: - QiuckMenyViewSize
+
+enum QiuckMenyViewSize {
+
+    case fromCurrentUser
+    case fromAnotherUser
+    case channel
+
+    static func size(_ isFromCurrentUser: Bool,
+                     _ isChannel: Bool,
+                     _ channelRole: ChannelRole) -> CGFloat {
+        if isChannel {
+            switch channelRole {
+            case .owner:
+                return 393
+            case .admin:
+                return 336
+            case .user:
+                return 279
+            case .unknown:
+                return 0
+            }
+        } else if isFromCurrentUser && !isChannel {
+            return 393
+        } else {
+            return 279
         }
     }
 }

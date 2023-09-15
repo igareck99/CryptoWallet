@@ -4,7 +4,9 @@ extension RoomEventsFactory {
     static func makeMapItem(
         event: RoomEvent,
         lat: Double,
-        lon: Double
+        lon: Double,
+        onLongPressTap: @escaping (RoomEvent) -> Void,
+        onReactionTap: @escaping (ReactionNewEvent) -> Void
     ) -> any ViewGeneratable {
         let eventData = EventData(
             date: event.shortDate,
@@ -14,7 +16,9 @@ extension RoomEventsFactory {
             readData: ReadData(readImageName: R.image.chat.readCheck.name)
         )
         let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
-        let reactions = prepareReaction(event)
+        let reactions = prepareReaction(event, onReactionTap: { reaction in
+            onReactionTap(reaction)
+        })
         let viewModel = ReactionsNewViewModel(width: calculateEventWidth(StaticRoomEventsSizes.map.size,  reactions.count),
                                               views: reactions,
                                               backgroundColor: reactionColor)
@@ -31,18 +35,23 @@ extension RoomEventsFactory {
             cornerRadius: event.isFromCurrentUser ? .right : .left,
             content: mapEventItem
         )
-        let resultView = EventBubbleItem(bubbleView: bubbleContainer.view(),
-                                         reactions: viewModel.view(),
-                                         leadingContent: ZeroViewModel(),
-                                         trailingContent: ZeroViewModel())
         
         if event.isFromCurrentUser {
-            return EventBubbleItem(bubbleView: bubbleContainer.view(),
-                                   reactions: viewModel.view(),
-                                   leadingContent: PaddingModel())
+            return EventContainer(
+                leadingContent: PaddingModel(),
+                centralContent: bubbleContainer,
+                bottomContent: viewModel, onLongPress: {
+                    onLongPressTap(event)
+                }
+            )
         }
-        return EventBubbleItem(bubbleView: bubbleContainer.view(),
-                               reactions: viewModel.view(),
-                               trailingContent: PaddingModel())
+
+        return EventContainer(
+            centralContent: bubbleContainer,
+            trailingContent: PaddingModel(),
+            bottomContent: viewModel, onLongPress: {
+                onLongPressTap(event)
+            }
+        )
     }
 }

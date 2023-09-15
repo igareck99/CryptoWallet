@@ -353,8 +353,7 @@ extension MatrixService {
         room.markAllAsRead()
     }
     
-    func edit(roomId: String, text: String,
-              eventId: String) {
+    func edit(roomId: String, text: String, eventId: String) {
         guard !text.isEmpty else { return }
         guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
             return
@@ -364,6 +363,27 @@ extension MatrixService {
         let content = try! EditEvent(eventId: eventId, text: text).encodeContent()
         // TODO: Use localEcho to show sent message until it actually comes back
         room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
+    }
+    
+    func removeReaction(roomId: String, text: String,
+                        eventId: String,
+                        completion: @escaping (Result <String?, MXErrors>) -> Void) {
+        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            return
+        }
+        var localEcho: MXEvent?
+        // swiftlint:disable:next force_try
+        let content = try! EditEvent(eventId: eventId, text: text).encodeContent()
+        // TODO: Use localEcho to show sent message until it actually comes back
+        
+        room.sendMessage(withContent: content, localEcho: &localEcho) { response in
+            switch response {
+            case let .success(result):
+                completion(.success(result))
+            case .failure(_):
+                completion(.failure(.removeReactionFailure))
+            }
+        }
     }
 
     func redact(roomId: String,

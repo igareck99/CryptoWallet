@@ -56,6 +56,11 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
         place: Binding<Place?>,
         sendLocation: Binding<Bool>
     )
+    func messageReactions(_ isCurrentUser: Bool,
+                          _ isChannel: Bool,
+                          _ userRole: ChannelRole,
+                          _ onAction: @escaping GenericBlock<QuickActionCurrentUser>,
+                          _ onReaction: @escaping GenericBlock<String>)
 }
 
 // MARK: - ChatHistoryFlowCoordinator
@@ -228,5 +233,14 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
     
     func chatRoom(_ room: AuraRoomData) {
         router.chatRoom(room, self)
+    }
+    
+    func messageReactions(_ isCurrentUser: Bool,
+                          _ isChannel: Bool,
+                          _ userRole: ChannelRole,
+                          _ onAction: @escaping GenericBlock<QuickActionCurrentUser>,
+                          _ onReaction: @escaping GenericBlock<String>) {
+        router.messageReactions(isCurrentUser, isChannel, userRole,
+                                onAction, onReaction)
     }
 }

@@ -5,14 +5,18 @@ extension RoomEventsFactory {
         event: RoomEvent,
         name: String?,
         phone: String?,
-        url: URL?
+        url: URL?,
+        onLongPressTap: @escaping (RoomEvent) -> Void,
+        onReactionTap: @escaping (ReactionNewEvent) -> Void
     ) -> any ViewGeneratable {
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
             readData: ReadData(readImageName: R.image.chat.readCheck.name)
         )
-        let reactions = prepareReaction(event)
+        let reactions = prepareReaction(event, onReactionTap: { reaction in
+            onReactionTap(reaction)
+        })
         let viewModel = ReactionsNewViewModel(width: calculateWidth("", reactions.count),
                                               views: reactions,
                                               backgroundColor: .brilliantAzure)
@@ -40,13 +44,17 @@ extension RoomEventsFactory {
         if event.isFromCurrentUser {
             return EventContainer(
                 leadingContent: PaddingModel(),
-                centralContent: bubbleContainer
+                centralContent: bubbleContainer, onLongPress: {
+                    onLongPressTap(event)
+                }
             )
         }
 
         return EventContainer(
             centralContent: bubbleContainer,
-            trailingContent: PaddingModel()
+            trailingContent: PaddingModel(), onLongPress: {
+                onLongPressTap(event)
+            }
         )
     }
 }

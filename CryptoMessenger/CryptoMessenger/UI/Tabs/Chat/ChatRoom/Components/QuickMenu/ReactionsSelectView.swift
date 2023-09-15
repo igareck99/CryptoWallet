@@ -6,7 +6,6 @@ struct ReactionsSelectView: View {
 
     // MARK: Internal Properties
 
-    @Binding var cardPosition: CardPosition
     let onReaction: GenericBlock<String>
     var emotions = ["👍", "👎", "😘", "😢", "😱"]
 
@@ -28,7 +27,6 @@ struct ReactionsSelectView: View {
                     .onTapGesture {
                         vibrate()
                         onReaction(item)
-                        cardPosition = .bottom
                     }
                 }
                 ZStack {

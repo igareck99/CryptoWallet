@@ -73,15 +73,17 @@ protocol MatrixServiceProtocol {
                       location: LocationData?,
                       completion: @escaping (Result <String?, MXErrors>) -> Void)
     func markAllAsRead(roomId: String)
-    func edit(roomId: String, text: String,
-              eventId: String)
+    func edit(roomId: String, text: String, eventId: String)
     func redact(roomId: String,
                 eventId: String, reason: String?)
-
-	// MARK: - Users
-	func currentlyActive(_ userId: String) -> Bool
-	func fromCurrentSender(_ userId: String) -> Bool
-	func getUser(_ id: String) -> MXUser?
+    func removeReaction(roomId: String, text: String,
+                        eventId: String,
+                        completion: @escaping (Result <String?, MXErrors>) -> Void)
+    
+    // MARK: - Users
+    func currentlyActive(_ userId: String) -> Bool
+    func fromCurrentSender(_ userId: String) -> Bool
+    func getUser(_ id: String) -> MXUser?
 	func getUserId() -> String
 	func getDisplayName() -> String
 	func getStatus() -> String

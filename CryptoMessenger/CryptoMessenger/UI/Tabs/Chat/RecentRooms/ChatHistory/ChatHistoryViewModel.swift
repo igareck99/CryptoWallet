@@ -184,7 +184,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                                                                                    matrixUseCase: self.matrixUseCase) { [weak self] _ in
                         true
                     }.first else { return }
-                    // self.coordinator?.firstAction(AuraRoom(mxRoom))
+                    //self.coordinator?.firstAction(AuraRoom(mxRoom))
                     self.coordinator?.chatRoom(auraRoom)
                 case let .onDeleteRoom(roomId):
                     self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in

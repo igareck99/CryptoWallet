@@ -72,6 +72,11 @@ protocol ChatHistoryRouterable: View {
         place: Binding<Place?>,
         sendLocation: Binding<Bool>
     )
+    func messageReactions(_ isCurrentUser: Bool,
+                          _ isChannel: Bool,
+                          _ userRole: ChannelRole,
+                          _ onAction: @escaping GenericBlock<QuickActionCurrentUser>,
+                          _ onReaction: @escaping GenericBlock<String>) 
 }
 
 // MARK: - ChatHistoryRouter
@@ -215,6 +220,18 @@ struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View
                     }
                 )
                 .anyView()
+        case let .messageReactions(isCurrentUser: isCurrentUser,
+                                   isChannel: isChannel,
+                                   userRole: userRole,
+                                   onAction: onAction,
+                                   onReaction: onReaction):
+            return RoomMessageMenuAssembly.build(isCurrentUser,
+                                                 isChannel,
+                                                 userRole,
+                                                 onAction,
+                                                 onReaction)
+            .presentationDetents([.height(CGFloat(QiuckMenyViewSize.size(isCurrentUser, isChannel, userRole)))])
+            .anyView()
         }
     }
 }
@@ -340,13 +357,6 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
             coordinator: coordinator,
             onUsersSelected: onUsersSelected
         )
-//        state.path.append(ChatHistoryContentLink.selectContact(
-//            mode: mode,
-//            chatData: chatData,
-//            contactsLimit: contactsLimit,
-//            coordinator: coordinator,
-//            onUsersSelected: onUsersSelected
-//        ))
     }
 
     func dismissCurrentSheet() {
@@ -388,5 +398,17 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
     func chatRoom(_ room: AuraRoomData, _ coordinator: ChatHistoryFlowCoordinatorProtocol) {
         state.path.append(ChatHistoryContentLink.newChat(room: room,
                                                          coordinator: coordinator))
+    }
+    
+    func messageReactions(_ isCurrentUser: Bool,
+                          _ isChannel: Bool,
+                          _ userRole: ChannelRole,
+                          _ onAction: @escaping GenericBlock<QuickActionCurrentUser>,
+                          _ onReaction: @escaping GenericBlock<String>) {
+        state.presentedItem = .messageReactions(isCurrentUser: isCurrentUser,
+                                                isChannel: isChannel,
+                                                userRole: userRole,
+                                                onAction: onAction,
+                                                onReaction: onReaction)
     }
 }

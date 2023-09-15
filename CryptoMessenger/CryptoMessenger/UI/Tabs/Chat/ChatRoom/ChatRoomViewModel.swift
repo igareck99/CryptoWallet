@@ -535,14 +535,14 @@ final class ChatRoomViewModel: ObservableObject {
                     guard let self = self else { return }
                     self.matrixUseCase.edit(roomId: self.room.room.roomId,
                                              text: "",
-                                             eventId: messageId)
+                                            eventId: messageId)
                     guard let index = self.messages.firstIndex(where: { $0.id == messageId }) else { return }
                     self.messages[index].reactions.removeAll(where: { $0.id == reactionId })
                     self.matrixUseCase.objectChangePublisher.send()
                 case let .onEdit(text, eventId):
                     guard let self = self else { return }
                     self.matrixUseCase.edit(roomId: self.room.room.roomId,
-                                             text: text, eventId: eventId)
+                                            text: text, eventId: eventId)
                 case let .onSettings(chatData: chatData, saveData: saveData,
                                      room: room, isLeaveChannel: isLeaveChannel):
                     guard let isChannel = self?.isChannel else { return }
