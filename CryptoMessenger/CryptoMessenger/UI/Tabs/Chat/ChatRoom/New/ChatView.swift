@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
-    @ObservedObject var viewModel: ViewModel
+    @StateObject var viewModel: ViewModel
 
     var body: some View {
         List {

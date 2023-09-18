@@ -4,9 +4,12 @@ import SwiftUI
 // MARK: - RoomEventsFactoryProtocol
 
 protocol RoomEventsFactoryProtocol {
-    static func makeEventView(events: [RoomEvent],
-                              onLongPressMessage: @escaping (RoomEvent) -> Void,
-                              onReactionTap: @escaping (ReactionNewEvent) -> Void) -> [any ViewGeneratable]
+    static func makeEventView(
+      events: [RoomEvent],
+      delegate: ChatEventsDelegate,
+      onLongPressMessage: @escaping (RoomEvent) -> Void,
+      onReactionTap: @escaping (ReactionNewEvent) -> Void
+    ) -> [any ViewGeneratable]
 }
 
 enum RoomEventsFactory: RoomEventsFactoryProtocol {
@@ -54,25 +57,14 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         data = data.sorted(by: { $0.emojiCount > $1.emojiCount })
         return data
     }
-
-    static func makeSystemEventItem(
-        date: String,
-        text: String,
-        type: SystemEventType,
-        onTap: @escaping () -> Void
-    ) -> SystemEventItem {
-        SystemEventItem(
-            date: date,
-            text: text,
-            type: type,
-            onTap: onTap
-        )
-    }
     
-    static func makeEventView(events: [RoomEvent],
-                              onLongPressMessage: @escaping (RoomEvent) -> Void,
-                              onReactionTap: @escaping (ReactionNewEvent) -> Void) -> [any ViewGeneratable] {
-        
+    static func makeEventView(
+      events: [RoomEvent],
+      delegate: ChatEventsDelegate,
+      onLongPressMessage: @escaping (RoomEvent) -> Void,
+      onReactionTap: @escaping (ReactionNewEvent) -> Void
+    ) -> [any ViewGeneratable] {
+
         let data: [any ViewGeneratable] = events.compactMap {
             switch $0.eventType {
             case let .text(string):
@@ -82,29 +74,52 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                  onReactionTap(reaction)
                 })
             case .call:
-                return makeCallItem(event: $0, onLongPressTap: { event in
+                return makeCallItem(
+                  event: $0, 
+                  delegate: delegate
+                ) { event in
                     onLongPressMessage(event)
-                })
+                }
             case let .contact(name, phone, url):
-                return makeContactItem(event: $0, name: name, phone: phone, url: url, onLongPressTap: { event in
+                return makeContactItem(
+                  event: $0, 
+                  name: name, 
+                  phone: phone, 
+                  url: url, 
+                  delegate: delegate,
+                  onLongPressTap: { event in
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
                 })
             case let .file(name, url):
-                return makeDocumentItem(event: $0, name: name, url: url, onLongPressTap: { event in
+                return makeDocumentItem(
+                  event: $0, 
+                  name: name, 
+                  url: url, 
+                  delegate: delegate,
+                  onLongPressTap: { event in
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
                 })
             case let .location((lat, lon)):
-                return makeMapItem(event: $0, lat: lat, lon: lon, onLongPressTap: { event in
+                return makeMapItem(
+                  event: $0, 
+                  lat: lat, 
+                  lon: lon, 
+                  delegate: delegate,
+                  onLongPressTap: { event in
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
                 })
             case let .image(url):
-                return makeImageItem(event: $0, url: url, onLongPressTap: { event in
+                return makeImageItem(
+                  event: $0, 
+                  url: url, 
+                  delegate: delegate,
+                  onLongPressTap: { event in
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
@@ -115,18 +130,30 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
                 })
+            case let .video(url):
+                return makeVideoItem(
+                    event: $0,
+                    url: url,
+                    delegate: delegate,
+                    onLongPressTap: { event in
+                        onLongPressMessage(event)
+                    }
+                )
             default:
+                debugPrint("$0.eventType: \($0.eventSubType)")
+                debugPrint("$0.eventType: \($0.eventType)")
+                debugPrint("$0.eventType: \($0.content)")
                 return nil
             }
         }
         return data
     }
-    
+
     static func makeTextView(_ event: RoomEvent,
                              _ text: String,
                              onLongPressTap: @escaping (RoomEvent) -> Void,
                              onReactionTap: @escaping (ReactionNewEvent) -> Void) -> any ViewGeneratable {
-        let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
+        let reactionColor: Color = event.isFromCurrentUser ? .diamond : .aliceBlue
         let reactions = prepareReaction(event, onReactionTap: { reaction in
             onReactionTap(reaction)
         })
@@ -172,6 +199,13 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 }
             )
         }
+    }
+
+    static func readData(isFromCurrentUser: Bool) -> any ViewGeneratable {
+        if isFromCurrentUser {
+            return ReadData(readImageName: R.image.chat.readCheck.name)
+        }
+        return ZeroViewModel()
     }
 }
 

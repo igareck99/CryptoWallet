@@ -5,17 +5,22 @@ extension RoomEventsFactory {
         event: RoomEvent,
         name: String?,
         url: URL?,
+        delegate: ChatEventsDelegate,
         onLongPressTap: @escaping (RoomEvent) -> Void,
         onReactionTap: @escaping (ReactionNewEvent) -> Void
     ) -> any ViewGeneratable {
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
-            readData: ReadData(readImageName: R.image.chat.readCheckWhite.name)
+            readData: readData(isFromCurrentUser: event.isFromCurrentUser)
         )
+
         let items: [ReactionNewEvent] = []
-        let viewModel = ReactionsNewViewModel(width: calculateWidth("", items.count),
-                                              views: items, backgroundColor: .brilliantAzure)
+        let viewModel = ReactionsNewViewModel(
+            width: calculateWidth("", items.count),
+            views: items,
+            backgroundColor: .brilliantAzure
+        )
         let docItem = DocumentItem(
             imageName: "paperclip.circle.fill",
             title: name ?? "", // "Экран для Aura.docx",
@@ -24,7 +29,11 @@ extension RoomEventsFactory {
             reactionsGrid: viewModel, // reactionsGrid,
             eventData: eventData
         ) {
-            debugPrint("onTap DocumentItem")
+            guard let fileUrl = url, let fileName = name else {
+                return
+            }
+            debugPrint("onTap DocumentItem fileUrl: \(fileUrl) fileName: \(fileName)")
+            delegate.onDocumentTap(fileUrl: fileUrl, fileName: fileName)
         }
 
         let bubbleContainer = BubbleContainer(

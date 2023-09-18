@@ -169,6 +169,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
                 self?.matrixService.updateUnkownDeviceWarn(isEnabled: false)
                 self?.matrixService.startListeningForRoomEvents()
                 completion(.success)
+                self?.serverSyncWithServerTimeout()
             }
         }
     }

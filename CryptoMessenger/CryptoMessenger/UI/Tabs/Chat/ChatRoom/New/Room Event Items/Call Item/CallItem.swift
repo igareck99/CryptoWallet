@@ -8,7 +8,7 @@ struct CallItem: Identifiable, ViewGeneratable {
     let onTap: () -> Void
 
     init(
-        phoneImageName: String = "phone.circle.fill",
+        phoneImageName: String = CallItemSources.phoneImage,
         subtitle: String,
         type: CallItemType,
         onTap: @escaping () -> Void
@@ -31,27 +31,29 @@ struct CallItemType {
     let imageName: String
     let imageColor: Color
 
+    static let sources: CallItemSourcesable.Type = CallItemSources.self
+
     static let incomeAnswered = CallItemType(
-        title: "Входящий звонок",
-        imageName: "arrow.down.left",
+        title: sources.incomingCall,
+        imageName: sources.incomingCallImage,
         imageColor: .dodgerBlue
     )
 
     static let incomeUnanswered = CallItemType(
-        title: "Входящий звонок",
-        imageName: "arrow.down.left",
+        title: sources.incomingCall,
+        imageName: sources.incomingCallImage,
         imageColor: .spanishCrimson
     )
 
     static let outcomeAnswered = CallItemType(
-        title: "Исходящий звонок",
-        imageName: "arrow.up.right",
+        title: sources.outcomingCall,
+        imageName: sources.outcomingCallImage,
         imageColor: .dodgerBlue
     )
 
     static let outcomeUnanswered = CallItemType(
-        title: "Исходящий звонок",
-        imageName: "arrow.up.right",
+        title: sources.outcomingCall,
+        imageName: sources.outcomingCallImage,
         imageColor: .spanishCrimson
     )
 }

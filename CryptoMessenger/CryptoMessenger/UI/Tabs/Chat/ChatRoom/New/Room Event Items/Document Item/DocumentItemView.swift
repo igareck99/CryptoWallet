@@ -32,5 +32,8 @@ struct DocumentItemView<
             eventData
         }
         .fixedSize(horizontal: true, vertical: false)
+        .onTapGesture {
+            model.onTap()
+        }
     }
 }

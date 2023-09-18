@@ -29,6 +29,7 @@ enum GeoService: CaseIterable {
 struct Place: Identifiable, Equatable {
 
     static let Moscow = Place(name: "Moscow", latitude: 37.628797, longitude: 55.741850)
+    static let zero = Place(name: "Default place", latitude: .zero, longitude: .zero)
 
     // MARK: - Internal Properties
 

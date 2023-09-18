@@ -16,7 +16,7 @@ struct RoomEventObjectFactory {}
 // MARK: - RoomDataObjectFactory(RoomEventObjectFactoryFactoryProtocol)
 
 extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
-    
+
     func makeChatHistoryRoomEvents(
         eventCollections: EventCollection,
         matrixUseCase: MatrixUseCaseProtocol
@@ -46,7 +46,8 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                     isReply: event.isReply(),
                     replyDescription: event.replyDescription,
                     reactions: reactions,
-                    content: event.content
+                    content: event.content,
+                    eventSubType: event.type
                 )
                 return value
             }

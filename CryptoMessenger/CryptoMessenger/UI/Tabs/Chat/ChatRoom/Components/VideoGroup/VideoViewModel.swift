@@ -1,14 +1,14 @@
-import SwiftUI
-import Combine
 import AVFoundation
+import Combine
 import CoreMedia
+import SwiftUI
 
 // MARK: - VideoViewModel
 
 final class VideoViewModel: ObservableObject {
 
     // MARK: - Internal Properties
-
+    
     @Published var videoUrl: URL?
     @Published var thumbnailUrl: URL?
     @Published var dataUrl: URL?

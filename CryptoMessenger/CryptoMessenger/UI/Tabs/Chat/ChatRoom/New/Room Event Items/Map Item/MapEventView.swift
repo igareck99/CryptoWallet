@@ -12,24 +12,17 @@ struct MapEventView<EventData: View>: View {
 
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $viewModel.region,
-                interactionModes: .all,
-                showsUserLocation: false,
-                annotationItems: [viewModel.place]
-            ) { place in
-                MapAnnotation(
-                    coordinate: .init(latitude: place.latitude, longitude: place.longitude),
-                    anchorPoint: CGPoint(x: 0.1, y: 0.1)
-                ) {
-                    R.image.chat.location.marker.image
-                }
-            }
+            MapSnapshotView(
+                latitude: model.place.latitude,
+                longitude: model.place.longitude
+            )
             .frame(width: 247, height: 142)
             .onTapGesture {
                 model.onTap()
             }
             .overlay(alignment: .bottomTrailing) {
                 eventData
+                    .padding([.trailing, .bottom], 8)
             }
         }
         .frame(width: 247, height: 142)

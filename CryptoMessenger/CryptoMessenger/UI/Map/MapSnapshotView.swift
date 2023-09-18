@@ -10,7 +10,7 @@ struct MapSnapshotView: View {
     let latitude: Double
     let longitude: Double
     var span: CLLocationDegrees = 0.01
-    private var viewModel: MapSnapshotViewModel
+    @StateObject var viewModel = MapSnapshotViewModel()
 
     // MARK: - Private Properties
 
@@ -19,7 +19,6 @@ struct MapSnapshotView: View {
     // MARK: - Lifecycle
 
     init(latitude: Double, longitude: Double) {
-        viewModel = MapSnapshotViewModel()
         self.latitude = latitude
         self.longitude = longitude
     }

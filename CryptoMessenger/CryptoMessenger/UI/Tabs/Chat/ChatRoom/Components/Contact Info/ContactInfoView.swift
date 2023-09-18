@@ -2,11 +2,11 @@ import SwiftUI
 
 // MARK: - ContactInfoView
 
-struct ContactInfoView: View {
+struct ContactInfoView<ViewModel: ContactInfoViewDelegate>: View {
 
     // MARK: - Internal Properties
 
-    var viewModel = ContactInfoViewModel()
+    @StateObject var viewModel: ViewModel
     var data: ChatContactInfo
 
     // MARK: - Private Properties
@@ -14,56 +14,52 @@ struct ContactInfoView: View {
     @Environment(\.presentationMode) private var presentationMode
     @State private var showUploadImage = false
 
-    // MARK: - Lifecycle
-
-    init(data: ChatContactInfo) {
-        self.data = data
-    }
-
     // MARK: - Body
 
     var body: some View {
-        content
+        NavigationView {
+            VStack(alignment: .leading, spacing: 40) {
+                HStack(spacing: 16) {
+                    avatarView
+                    Text(data.name)
+                        .font(.system(size: 17, weight: .semibold))
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(viewModel.resources.phoneText)
+                        .font(.system(size: 13, weight: .medium))
+                    Text(data.phone ?? "")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(viewModel.resources.buttonBackground)
+                    Divider()
+                }
+                .padding(.leading, 24)
+                Spacer()
+            }
+            .toolbar {
+                makeToolBar()
+            }
+        }
     }
 
-    // MARK: - Private Properties
-
-    private var content: some View {
-        VStack(alignment: .leading, spacing: 40) {
-            HStack(alignment: .center) {
-                Text(viewModel.resources.closeText)
-                    .font(.system(size: 15, weight: .bold))                    .foreground(.dodgerBlue)
-                    .onTapGesture {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                Spacer()
-                Text(viewModel.resources.phoneText)
-                    .font(.system(size: 15, weight: .bold))
-                    .foregroundColor(viewModel.resources.titleColor)
-                Spacer()
-                Text("")
-                    .frame(width: 40)
-            }
-            .padding(.horizontal, 16)
-            HStack(spacing: 16) {
-                avatarView
-                Text(data.name)
-                    .font(.system(size: 17, weight: .semibold))
-                Spacer()
-            }
-            .padding(.horizontal, 24)
-            VStack(alignment: .leading, spacing: 4) {
-                Text(viewModel.resources.phoneText)
-                    .font(.system(size: 13, weight: .medium))
-                Text(data.phone ?? "")
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(viewModel.resources.buttonBackground)
-                Divider()
-            }
-            .padding(.leading, 24)
-            Spacer()
+    @ToolbarContentBuilder
+    private func makeToolBar() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Text(viewModel.resources.closeText)
+                .font(.system(size: 15, weight: .bold))
+                .foreground(.dodgerBlue)
+                .onTapGesture {
+//                    presentationMode.wrappedValue.dismiss()
+                    viewModel.onCloseTap()
+                }
         }
-        .padding(.top, 40)
+
+        ToolbarItem(placement: .principal) {
+            Text(viewModel.resources.phoneText)
+                .font(.system(size: 15, weight: .bold))
+                .foregroundColor(viewModel.resources.titleColor)
+        }
     }
 
     private var avatarView: some View {
@@ -106,12 +102,4 @@ struct ContactInfoView: View {
             }
         })
     }
-}
-
-// MARK: - ChatContactInfo
-
-struct ChatContactInfo {
-    var name: String
-    var phone: String?
-    var url: URL?
 }

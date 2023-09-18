@@ -3,6 +3,7 @@ import SwiftUI
 // MARK: - ChatHistoryFlowCoordinatorProtocol
 
 protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
+    func showImageViewer(imageUrl: URL?)
     func chatRoom(_ room: AuraRoomData)
     func firstAction(_ room: AuraRoom)
     func showCreateChat()
@@ -39,7 +40,7 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
         onCancel: VoidBlock?,
         onDocumentsPicked: @escaping GenericBlock<[URL]>
     )
-    
+
     func showSelectContact(
         mode: ContactViewMode,
         chatData: Binding<ChatData>,
@@ -56,11 +57,17 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
         place: Binding<Place?>,
         sendLocation: Binding<Bool>
     )
+
     func messageReactions(_ isCurrentUser: Bool,
                           _ isChannel: Bool,
                           _ userRole: ChannelRole,
                           _ onAction: @escaping GenericBlock<QuickActionCurrentUser>,
                           _ onReaction: @escaping GenericBlock<String>)
+
+    func onContactTap(contactInfo: ChatContactInfo)
+    func onMapTap(place: Place)
+    func onDocumentTap(name: String, fileUrl: URL)
+    func onVideoTap(url: URL)
 }
 
 // MARK: - ChatHistoryFlowCoordinator
@@ -80,13 +87,32 @@ final class ChatHistoryFlowCoordinator<Router: ChatHistoryRouterable> {
 // MARK: - ChatHistoryFlowCoordinator(Coordinator)
 
 extension ChatHistoryFlowCoordinator: Coordinator {
-    func start() {
-    }
+    func start() {}
 }
 
 // MARK: - ContentFlowCoordinatorProtocol
 
 extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
+
+    func onVideoTap(url: URL) {
+        router.showVideo(url: url)
+    }
+
+    func onDocumentTap(name: String, fileUrl: URL) {
+        router.showFile(name: name, fileUrl: fileUrl)
+    }
+
+    func showImageViewer(imageUrl: URL?) {
+        router.showImageViewer(imageUrl: imageUrl)
+    }
+
+    func onMapTap(place: Place) {
+        router.showMap(place: place, delegate: self)
+    }
+
+    func onContactTap(contactInfo: ChatContactInfo) {
+        router.showContactInfo(contactInfo: contactInfo, delegate: self)
+    }
 
     func firstAction(_ room: AuraRoom) {
         router.routeToFirstAction(room, coordinator: self)
@@ -240,7 +266,31 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
                           _ userRole: ChannelRole,
                           _ onAction: @escaping GenericBlock<QuickActionCurrentUser>,
                           _ onReaction: @escaping GenericBlock<String>) {
-        router.messageReactions(isCurrentUser, isChannel, userRole,
-                                onAction, onReaction)
+        router.messageReactions(
+            isCurrentUser,
+            isChannel,
+            userRole,
+            onAction,
+            onReaction
+        )
+    }
+}
+
+// MARK: - ContactInfoViewModelDelegate
+
+extension ChatHistoryFlowCoordinator: ContactInfoViewModelDelegate {
+    func didTapClose() {
+        router.dismissCurrentSheet()
+    }
+}
+
+// MARK: - AuraMapViewModelDelegate
+
+extension ChatHistoryFlowCoordinator: AuraMapViewModelDelegate {
+    func didTapOpenOtherAppView(place: Place, showLocationTransition: Binding<Bool>) {
+        router.showOpenOtherApp(
+            place: place,
+            showLocationTransition: showLocationTransition
+        )
     }
 }

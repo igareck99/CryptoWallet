@@ -21,9 +21,9 @@ struct AnotherAppTransitionView: View {
         .onTapGesture {
             showLocationTransition.toggle()
         }
-        .sheet(isPresented: $showShareView, content: {
+        .sheet(isPresented: $showShareView) {
             ShareTextView(text: viewModel.getLocationToShare())
-                })
+        }
     }
 
     // MARK: - Private Properties

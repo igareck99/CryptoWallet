@@ -166,7 +166,8 @@ struct ChatRoomView: View {
                                                     .onDeleteReaction(messageId: message.id, reactionId: reactionId)
                                                 )
                                             },
-                                            onSelectPhoto: { selectedPhoto = $0
+                                            onSelectPhoto: {
+                                                selectedPhoto = $0
                                                 showImageViewer = true
                                                 hideKeyboard()
                                             },

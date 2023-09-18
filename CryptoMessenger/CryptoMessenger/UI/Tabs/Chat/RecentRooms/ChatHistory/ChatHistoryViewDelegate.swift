@@ -1,12 +1,12 @@
-import SwiftUI
 import Combine
+import SwiftUI
 
 // MARK: - ChatHistoryViewDelegate
 
 protocol ChatHistoryViewDelegate: ObservableObject {
 
     var isLoading: Bool { get set }
-    
+
     var isSearching: Bool { get set }
 
     var groupAction: GroupAction? { get set }
@@ -28,15 +28,17 @@ protocol ChatHistoryViewDelegate: ObservableObject {
 
     var searchText: String { get set }
 
-    var gloabalSearch: [any ViewGeneratable] { get }  
+    var gloabalSearch: [any ViewGeneratable] { get }
 
     var viewState: ChatHistoryViewState { get set }
 
     var chatSections: [any ViewGeneratable] { get set }
 
     func didTapChat(_ data: ChatHistoryData)
-    
+
     func didSettingsCall(_ data: ChatHistoryData)
-    
+
     func didTapFindedCell(_ data: MatrixChannel)
+
+    func onAppear()
 }
