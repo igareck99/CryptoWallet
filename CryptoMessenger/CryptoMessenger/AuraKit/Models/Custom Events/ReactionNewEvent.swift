@@ -9,6 +9,7 @@ struct ReactionNewEvent: Identifiable, ViewGeneratable {
     var id = UUID()
     var eventId: String
     let sender: String
+    let relatedEvent: String
     let timestamp: Date
     let emoji: String
     var width: CGFloat
@@ -26,6 +27,7 @@ struct ReactionNewEvent: Identifiable, ViewGeneratable {
     init(
         eventId: String,
         sender: String,
+        relatedEvent: String,
         timestamp: Date,
         emoji: String,
         color: Color,
@@ -39,6 +41,7 @@ struct ReactionNewEvent: Identifiable, ViewGeneratable {
     ) {
         self.eventId = eventId
         self.sender = sender
+        self.relatedEvent = relatedEvent
         self.timestamp = timestamp
         self.emoji = emoji
         self.color = color

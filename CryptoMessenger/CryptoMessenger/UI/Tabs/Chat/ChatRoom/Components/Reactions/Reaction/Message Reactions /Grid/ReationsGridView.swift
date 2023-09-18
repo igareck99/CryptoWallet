@@ -32,7 +32,7 @@ struct ReationsGridView: View {
         if data.views.count - data.firstRow.count > 0 && !showAll {
             let emojiString = "+" + (data.views.count - data.firstRow.count).value
             let object = ReactionNewEvent(eventId: "",
-                                          sender: "",
+                                          sender: "", relatedEvent: "",
                                           timestamp: Date(),
                                           emoji: "",
                                           color: data.backgroundColor,

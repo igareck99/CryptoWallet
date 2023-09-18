@@ -6,6 +6,9 @@ extension ChatHistoryRouter {
     @ViewBuilder
     func sheetContent(item: ChatHistorySheetLink) -> some View {
         switch item {
+        case let .chatRoomMenu(action, onCamera, onSendPhoto):
+            ActionSheetViewAssembly.build(action, onCamera, onSendPhoto)
+                .presentationDetents([.height(435)])
         case let .createChat(view):
             view.toolbar(.hidden, for: .navigationBar).anyView()
         case let .notifications(roomId):
@@ -46,10 +49,11 @@ extension ChatHistoryRouter {
                 onCancel: onCancel,
                 onDocumentsPicked: onDocumentsPicked
             )
-        case let .locationPicker(place, sendLocation):
+        case let .locationPicker(place, sendLocation, onSendPlace):
             LocationPickerAssembly.build(
                 place: place,
-                sendLocation: sendLocation
+                sendLocation: sendLocation,
+                onSendPlace: onSendPlace
             )
         case let .selectContact(
             mode,

@@ -22,7 +22,7 @@ struct ChatRoomView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ChatRoomViewModel
-    @StateObject var attachViewModel = AttachActionViewModel()
+    @StateObject var attachViewModel = AttachActionViewModel(tappedAction: { _ in  }, onCamera: {  }, onSendPhoto: { _ in  } )
     @State var photosToSend: [UIImage] = []
     @State var playingAudioId = ""
     @State var sendPhotos = false
@@ -296,7 +296,6 @@ struct ChatRoomView: View {
                 ActionSheetView(
                     showActionSheet: $showActionSheet,
                     attachAction: $viewModel.attachAction,
-                    cameraFrame: $viewModel.cameraFrame,
                     sendPhotos: $sendPhotos,
                     imagesToSend: $photosToSend,
                     onCamera: {
@@ -459,7 +458,10 @@ struct ChatRoomView: View {
                                                   blockAudioRecord: $blockAudioRecord,
                                                   textDragPadding: $textDragPadding,
                                                   blockDragPadding: $blockDragPadding,
-                                                  resetAudio: $resetAudio)
+                                                  resetAudio: $resetAudio,
+                                                  sendAudio: $resetAudio, recordOnSend: { _ in
+                                
+                            })
                             .ignoresSafeArea()
                             .padding(.leading, 12)
                             .padding(.trailing, 8)
@@ -521,8 +523,7 @@ struct ChatRoomView: View {
                                               blockDragPadding: $blockDragPadding,
                                               blockAudioRecord: $blockAudioRecord,
                                               textDragPadding: $textDragPadding,
-                                              resetAudio: $resetAudio,
-                                              record: $record)
+                                              resetAudio: $resetAudio, sendAudio: $resetAudio)
                         .frame(width: 24,
                                height: 24)
                     }

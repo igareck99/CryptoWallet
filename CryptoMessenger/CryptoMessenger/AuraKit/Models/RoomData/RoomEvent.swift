@@ -11,7 +11,7 @@ struct RoomEvent {
     let roomId: String
     let sender: String
     let senderAvatar: URL?
-    let sentState: RoomSentState
+    var sentState: RoomSentState
     let eventType: MessageType
     let shortDate: String
     let fullDate: String

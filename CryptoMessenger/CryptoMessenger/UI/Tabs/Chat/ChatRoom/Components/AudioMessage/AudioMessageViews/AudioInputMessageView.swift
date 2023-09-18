@@ -12,6 +12,8 @@ struct AudioInputMessageView: View {
     @Binding var textDragPadding: CGFloat
     @Binding var blockDragPadding: CGFloat
     @Binding var resetAudio: Bool
+    @Binding var sendAudio : Bool
+    let recordOnSend: (RecordingDataModel) -> Void
 
     // MARK: - Private Properties
 
@@ -31,8 +33,10 @@ struct AudioInputMessageView: View {
                 if !flag {
                     audioRecord.stopRecording()
                     audioRecord.fetchRecordings { record in
-                        if !resetAudio {
-                            audioUrl = record
+                        guard let record = record else {  return}
+                        if sendAudio {
+                            recordOnSend(record)
+                            sendAudio = false
                         } else {
                             audioUrl = nil
                         }
@@ -51,11 +55,14 @@ struct AudioInputMessageView: View {
             timerView
             HStack {
                 Spacer()
-                textView
-                    .padding(.leading, textDragPadding)
+                if blockAudioRecord {
+                    canceText
+                } else {
+                    textView
+                        .padding(.leading, textDragPadding)
+                }
                 Spacer()
             }
-            .gesture(cancelDrag)
         }
     }
 
@@ -75,6 +82,15 @@ struct AudioInputMessageView: View {
         HStack(spacing: 8) {
             Text(R.string.localizable.chatRoomViewAudioCancel())
             R.image.chat.audio.leftblueArrow.image
+        }
+    }
+    
+    private var canceText: some View {
+        Button {
+            resetRecordAudio()
+        } label: {
+            Text("Отмена")
+                .foregroundColor(.spanishCrimson)
         }
     }
 
@@ -111,15 +127,21 @@ struct AudioInputMessageView: View {
                 if value.startLocation.x > value.location.x {
                     textDragPadding = value.translation.width
                     if abs(value.translation.width) > 75 {
-                        resetAudio = true
-                        showAudioView = false
-                        blockDragPadding = 0
-                        textDragPadding = 0
+                        resetRecordAudio()
                     }
                 }
             }
             .onEnded { _ in
                 textDragPadding = 0
             }
+    }
+    
+    private func resetRecordAudio() {
+        withAnimation(.easeIn(duration: 0.25)) {
+            resetAudio = true
+            showAudioView = false
+            blockDragPadding = 0
+            textDragPadding = 0
+        }
     }
 }

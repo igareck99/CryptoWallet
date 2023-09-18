@@ -55,7 +55,8 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
     )
     func presentLocationPicker(
         place: Binding<Place?>,
-        sendLocation: Binding<Bool>
+        sendLocation: Binding<Bool>,
+        onSendPlace: @escaping (Place) -> Void
     )
 
     func messageReactions(_ isCurrentUser: Bool,
@@ -68,6 +69,9 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
     func onMapTap(place: Place)
     func onDocumentTap(name: String, fileUrl: URL)
     func onVideoTap(url: URL)
+    func chatMenu(_ tappedAction: @escaping (AttachAction) -> Void,
+                  _ onCamera: @escaping () -> Void,
+                  _ onSendPhoto: @escaping (UIImage) -> Void)
 }
 
 // MARK: - ChatHistoryFlowCoordinator
@@ -234,11 +238,13 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
 
     func presentLocationPicker(
         place: Binding<Place?>,
-        sendLocation: Binding<Bool>
+        sendLocation: Binding<Bool>,
+        onSendPlace: @escaping (Place) -> Void
     ) {
         router.presentLocationPicker(
             place: place,
-            sendLocation: sendLocation
+            sendLocation: sendLocation,
+            onSendPlace: onSendPlace
         )
     }
 
@@ -273,6 +279,12 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
             onAction,
             onReaction
         )
+    }
+    
+    func chatMenu(_ tappedAction: @escaping (AttachAction) -> Void,
+                  _ onCamera: @escaping () -> Void,
+                  _ onSendPhoto: @escaping (UIImage) -> Void) {
+        router.chatMenu(tappedAction, onCamera, onSendPhoto)
     }
 }
 

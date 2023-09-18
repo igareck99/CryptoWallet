@@ -574,7 +574,7 @@ final class ChatRoomViewModel: ObservableObject {
                             self.sendLocationFlag
                         }, set: { value in
                             self.sendLocationFlag = value
-                        })
+                        }), onSendPlace: { _ in }
                     )
                 case .media:
                     self.coordinator?.galleryPickerSheet(

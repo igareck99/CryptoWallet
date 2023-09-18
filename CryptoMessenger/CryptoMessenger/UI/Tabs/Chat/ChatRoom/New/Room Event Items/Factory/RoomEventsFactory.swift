@@ -10,6 +10,11 @@ protocol RoomEventsFactoryProtocol {
       onLongPressMessage: @escaping (RoomEvent) -> Void,
       onReactionTap: @escaping (ReactionNewEvent) -> Void
     ) -> [any ViewGeneratable]
+    static func makeChatOutputEvent(_ type: MessageType,
+                                    _ roomId: String,
+                                    _ sender: String,
+                                    _ isFromCurrentUser: Bool,
+                                    _ isReply: Bool) -> RoomEvent
 }
 
 enum RoomEventsFactory: RoomEventsFactoryProtocol {
@@ -24,6 +29,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 emojiList.append(reaction.emoji)
                 data.append(ReactionNewEvent(eventId: reaction.id,
                                              sender: "",
+                                             relatedEvent: event.eventId,
                                              timestamp: Date(),
                                              emoji: reaction.emoji,
                                              color: event.isFromCurrentUser ? .azureRadianceApprox : reactionColor,
@@ -41,6 +47,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     senders.append(reaction.sender)
                     data[index] = ReactionNewEvent(eventId: reaction.id,
                                                    sender: "",
+                                                   relatedEvent: event.eventId,
                                                    timestamp: Date(),
                                                    emoji: reaction.emoji,
                                                    color: event.isFromCurrentUser ? .azureRadianceApprox : reactionColor,
@@ -140,9 +147,6 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     }
                 )
             default:
-                debugPrint("$0.eventType: \($0.eventSubType)")
-                debugPrint("$0.eventType: \($0.eventType)")
-                debugPrint("$0.eventType: \($0.content)")
                 return nil
             }
         }
@@ -206,6 +210,22 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             return ReadData(readImageName: R.image.chat.readCheck.name)
         }
         return ZeroViewModel()
+    }
+    
+    static func makeChatOutputEvent(_ type: MessageType,
+                                    _ roomId: String,
+                                    _ sender: String,
+                                    _ isFromCurrentUser: Bool,
+                                    _ isReply: Bool) -> RoomEvent {
+        let date = Date().timeIntervalSince1970
+        let event = RoomEvent(eventId: UUID().uuidString, roomId: roomId,
+                              sender: sender, sentState: .sending,
+                              eventType: type, shortDate:  Date().hoursAndMinutes,
+                              fullDate: "", isFromCurrentUser: isFromCurrentUser,
+                              isReply: isReply, replyDescription: "",
+                              reactions: [], content: [:],
+                              eventSubType: "")
+        return event
     }
 }
 

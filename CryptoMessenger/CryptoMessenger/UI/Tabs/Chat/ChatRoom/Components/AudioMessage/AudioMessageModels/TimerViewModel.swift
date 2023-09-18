@@ -14,9 +14,10 @@ final class TimerViewModel: ObservableObject {
     // MARK: - Internal Methods
 
     func getTime() {
-        timerString = String(Int(Date().timeIntervalSince(startTime) / 60)) + ":"
-        timerString += Date().timeIntervalSince(startTime).truncatingRemainder(dividingBy: 60) > 10 ?
-        String(format: "%.2f", (Date().timeIntervalSince(startTime).truncatingRemainder(dividingBy: 60))) :
-        "0" + String(format: "%.2f", (Date().timeIntervalSince(startTime).truncatingRemainder(dividingBy: 60)))
+        let t =  Date().timeIntervalSince(startTime)
+        let minutes = (Int(Date().timeIntervalSince(startTime) / 60))
+        let seconds =  Int(Date().timeIntervalSince(startTime).truncatingRemainder(dividingBy: 60))
+        timerString = String(minutes < 10 ? "0" + String(minutes) : String(minutes)) + ":"
+        + String(seconds < 10 ? "0" + String(seconds): String(seconds))
     }
 }

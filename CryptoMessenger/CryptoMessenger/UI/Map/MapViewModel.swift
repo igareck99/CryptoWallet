@@ -14,12 +14,14 @@ final class MapViewModel: ObservableObject {
     let sources: MapSourcesable.Type
 
     var place: Place
+    var onSendPlace: (Place) -> Void
 
     // MARK: - Lifecycle
 
     init(
         locationUseCase: LocationManagerUseCaseProtocol = LocationManagerUseCase(),
         place: Place = Place(name: "", latitude: 0, longitude: 0),
+        onSendPlace: @escaping (Place) -> Void,
         sources: MapSourcesable.Type = MapResources.self
     ) {
         self.region = MKCoordinateRegion(
@@ -29,6 +31,7 @@ final class MapViewModel: ObservableObject {
         )
         self.sources = sources
         self.place = place
+        self.onSendPlace = onSendPlace
         self.locationUseCase = locationUseCase
         configPlace()
     }
