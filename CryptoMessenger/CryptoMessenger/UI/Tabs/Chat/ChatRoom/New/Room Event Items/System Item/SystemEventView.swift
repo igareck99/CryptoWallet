@@ -7,6 +7,7 @@ struct SystemEventView: View {
         HStack(alignment: .center, spacing: .zero) {
             Spacer()
             Text(model.text)
+                .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .font(.system(size: 14, weight: .regular))
                 .foregroundColor(model.textColor)

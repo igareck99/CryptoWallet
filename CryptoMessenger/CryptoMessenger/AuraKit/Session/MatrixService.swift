@@ -170,6 +170,15 @@ extension MatrixService {
 	func updateState(with state: MatrixState) {
 		loginState = state
 	}
+    
+    private func notifyTokenExpiration() {
+        NotificationCenter
+            .default
+            .post(
+                name: .didExpireMatrixSessionToken,
+                object: nil
+            )
+    }
 
 	func updateService(credentials: MXCredentials) {
 
@@ -181,7 +190,12 @@ extension MatrixService {
 		}
 
 		let unauthenticatedHandler: MXRestClientUnauthenticatedHandler = {
-            error, isSoftLogout, isRefreshTokenAuth, logoutCompletion in
+            [weak self] error, isSoftLogout, isRefreshTokenAuth, logoutCompletion in
+            
+//            if String(describing: error).contains("M_UNKNOWN_TOKEN") {
+                self?.notifyTokenExpiration()
+//            }
+            
             debugPrint("error: \(String(describing: error))")
 			debugPrint("isSoftLogout: \(isSoftLogout)")
 			debugPrint("isRefreshTokenAuth: \(isRefreshTokenAuth)")

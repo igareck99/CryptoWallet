@@ -16,7 +16,9 @@ protocol ChatRoomTogglesFacadeProtocol {
 final class ChatRoomTogglesFacade {
 	private let remoteConfigUseCase: RemoteConfigFacade
 
-	init(remoteConfigUseCase: RemoteConfigFacade) {
+	init(
+        remoteConfigUseCase: RemoteConfigFacade = RemoteConfigUseCaseAssembly.useCase
+    ) {
 		self.remoteConfigUseCase = remoteConfigUseCase
 	}
 }

@@ -43,7 +43,10 @@ protocol MatrixUseCaseProtocol {
     func avatarUrlForUser(_ userId: String, completion: @escaping (URL?) -> Void)
     func getRoomInfo(roomId: String) -> MXRoom?
 	func isDirectRoomExists(userId: String) -> Bool
-    func isRoomEncrypted(roomId: String) -> Bool
+    func isRoomEncrypted(
+        roomId: String,
+        completion: @escaping (Bool?) -> Void
+    )
 	func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
 	func joinRoom(roomId: String, completion: @escaping (MXResponse<MXRoom>) -> Void)
 	func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void)
@@ -82,7 +85,7 @@ protocol MatrixUseCaseProtocol {
     func removeReaction(roomId: String, text: String,
                         eventId: String,
                         completion: @escaping (Result <String?, MXErrors>) -> Void)
-    
+
     // MARK: - Pusher
     func createPusher(pushToken: Data, completion: @escaping (Bool) -> Void)
     func deletePusher(appId: String, pushToken: Data, completion: @escaping (Bool) -> Void)
@@ -122,4 +125,10 @@ protocol MatrixUseCaseProtocol {
 	func getDevicesWithActiveSessions(completion: @escaping (Result<[MXDevice], Error>) -> Void)
 	func logoutDevices(completion: @escaping EmptyResultBlock)
 	func clearCredentials()
+
+    // MARK: - Jitsi Widget
+    func makeWidget(event: MXEvent) -> JitsiWidget?
+
+    // MARK: - Calls
+    func getCallIn(roomId: String) -> MXCall?
 }

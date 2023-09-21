@@ -17,7 +17,7 @@ protocol APIClientManager {
 final class APIClient: NSObject, APIClientManager {
 
     static let shared = APIClient()
-    
+
     // MARK: - Internal Properties
 
     var logLevel: APILogLevel = .debug {
@@ -35,16 +35,31 @@ final class APIClient: NSObject, APIClientManager {
     // MARK: - Life Cycle
 
     required init(configuration: URLSessionConfiguration = .default) {
-		let keychainService = KeychainService.shared
-		self.authenticator = Authenticator(
-			keychainService: keychainService,
-			session: session
-		)
+		self.authenticator = Authenticator(session: session)
         super.init()
-        session = URLSession(configuration: configuration)
+        self.session = URLSession(configuration: configuration)
+        configureSession()
+        observeTokenExpiration()
+    }
+
+    private func configureSession() {
         session.configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         session.configuration.timeoutIntervalForRequest = 120
         session.configuration.timeoutIntervalForResource = 120
+    }
+
+    private func observeTokenExpiration() {
+        NotificationCenter.default
+            .addObserver(
+                self,
+                selector: #selector(didExpireMatrixSessionToken),
+                name: .didExpireMatrixSessionToken,
+                object: nil
+            )
+    }
+
+    @objc func didExpireMatrixSessionToken() {
+        _ = self.authenticator.validToken(forceRefresh: true)
     }
 
     // MARK: - Internal Methods
@@ -58,31 +73,42 @@ final class APIClient: NSObject, APIClientManager {
         return authenticator.validToken()
             .flatMap { token in
                 // we can now use this token to authenticate the request
-                self.session.dataTaskPublisher(for: httpRequest, token: token.isUserAuthenticated ? token : nil)
+                self.session.dataTaskPublisher(
+                    for: httpRequest,
+                    token: token.isUserAuthenticated ? token : nil
+                )
             }
             .tryCatch { error -> AnyPublisher<Data, Error> in
-                if let error = error as? URLError, error.code == .notConnectedToInternet {
+
+                guard (error as? URLError)?.code != .notConnectedToInternet
+                else {
                     throw APIError.notConnectedToInternet
-                } else if let error = error as? APIError {
-                    switch error {
-                    case .apiError(let statusCode, _):
-                        if 500...599 ~= statusCode {
-                            throw APIError.serverError
-                        } else if statusCode == 401 {
-                            return self.authenticator.validToken(forceRefresh: true)
-                                .flatMap { token in
-                                    // we can now use this new token to authenticate the second attempt at making this request
-                                    self.session.dataTaskPublisher(for: httpRequest, token: token)
-                                }
-                                .eraseToAnyPublisher()
-                        } else if statusCode == 400 {
-                            throw APIError.apiError(4, nil)
-                        } else {
-                            throw error as Error
+                }
+                guard let error = error as? APIError
+                else {
+                    throw error
+                }
+
+                guard case let .apiError(statusCode, _) = error
+                else {
+                    throw APIError.serverError
+                }
+
+                if 500...599 ~= statusCode {
+                    throw APIError.serverError
+                }
+
+                if statusCode == 401 || statusCode == 403 {
+                    return self.authenticator.validToken(forceRefresh: true)
+                        .flatMap { token in
+                            // we can now use this new token to authenticate the second attempt at making this request
+                            self.session.dataTaskPublisher(for: httpRequest, token: token)
                         }
-                    default:
-                        throw APIError.serverError
-                    }
+                        .eraseToAnyPublisher()
+                }
+
+                if statusCode == 400 {
+                    throw APIError.apiError(4, nil)
                 }
 
                 throw error

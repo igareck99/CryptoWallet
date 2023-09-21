@@ -127,12 +127,20 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                 var secondSection: [Contact] = []
                 if !text.isEmpty {
                     var findedContacts: [Contact] = []
+                    group.enter()
                     self.matrixUseCase.searchUser(text) { name in
-                        guard let name = name else { return }
-                        findedContacts = [.init(mxId: text, avatar: nil, name: name,
-                                                status: "", type: .existing, onTap: { value in
-                            self.onTapUser(value)
-                        })]
+                        findedContacts = [
+                            .init(
+                                mxId: text,
+                                avatar: nil,
+                                name: name ?? "",
+                                status: "",
+                                type: .existing,
+                                onTap: { value in
+                                    self.onTapUser(value)
+                                }
+                            )
+                        ]
                         group.leave()
                     }
                     group.notify(queue: .main) {
@@ -219,10 +227,10 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
             }
         }
     }
-    
+
     private func onTapUser(_ contact: Contact) {
         switch contact.type {
-        case .lastUsers:
+            case .lastUsers:
             matrixUseCase.createDirectRoom([contact.mxId]) { result in
                 switch result {
                 case .roomCreateError:

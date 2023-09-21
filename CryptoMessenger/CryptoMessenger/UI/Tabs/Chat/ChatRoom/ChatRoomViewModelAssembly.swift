@@ -14,7 +14,7 @@ enum ChatRoomViewModelAssembly {
 	}
 
     static func make(_ room: AuraRoom) -> some View {
-        let groupCallsUseCase = GroupCallsUseCase(room: room.room)
+        let groupCallsUseCase = GroupCallsUseCase(roomId: room.room.roomId)
         let toggleFacade: MainFlowTogglesFacadeProtocol = MainFlowTogglesFacade.shared
         let viewModel = ChatRoomViewModel(
             room: room,

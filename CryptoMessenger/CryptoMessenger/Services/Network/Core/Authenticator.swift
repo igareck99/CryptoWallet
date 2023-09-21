@@ -35,8 +35,8 @@ final class Authenticator {
     // MARK: - Life Cycle
 
     init(
-		keychainService: KeychainServiceProtocol,
-		session: URLSession = .shared
+        session: URLSession = .shared,
+        keychainService: KeychainServiceProtocol = KeychainService.shared
 	) {
         self.session = session
 		self.keychainService = keychainService
@@ -69,34 +69,54 @@ final class Authenticator {
                     .eraseToAnyPublisher()
             }
 
-            let requestConvertible = Endpoints.Session.refresh(self?.keychainService.apiRefreshToken ?? "")
+            guard let refreshToken = self?.keychainService.apiRefreshToken
+            else {
+                return Fail(error: APIError.noRefreshToken as Error)
+                    .eraseToAnyPublisher()
+            }
+
+            let requestConvertible = Endpoints.Session.refresh(refreshToken)
             guard let httpRequest = try? requestConvertible.asURLRequest() else {
                 return Fail(error: APIError.apiError(-1, nil) as Error)
                     .eraseToAnyPublisher()
             }
 
             // scenario 4: we need a new token
-            let publisher = session
+            let publisher = self?.session
                 .dataTaskPublisher(for: httpRequest, token: nil)
                 .share()
                 .decode(type: AuthResponse.self, decoder: JSONDecoder())
                 .map {
                     Token(isUserAuthenticated: true, access: $0.accessToken, refresh: $0.refreshToken)
                 }
-                .handleEvents(receiveOutput: { token in
+                .handleEvents(receiveOutput: { [weak self] token in
                     self?.keychainService.apiAccessToken = token.access
                     self?.keychainService.apiRefreshToken = token.refresh
                     self?.keychainService.isApiUserAuthenticated = token.isUserAuthenticated
-                }, receiveCompletion: { _ in
-                    self?.queue.sync {
+                    self?.notifyTokenUpdate()
+                }, receiveCompletion: { [weak self] _ in
+                    self?.queue.sync { [weak self] in
                         self?.refreshPublisher = nil
                     }
                 })
                 .eraseToAnyPublisher()
 
-            self?.refreshPublisher = publisher
-
-            return publisher
+            guard let unwrappedPublisher = publisher
+            else {
+                return Fail(error: APIError.publisherCreationFailure as Error)
+                    .eraseToAnyPublisher()
+            }
+            self?.refreshPublisher = unwrappedPublisher
+            return unwrappedPublisher
         }
+    }
+
+    private func notifyTokenUpdate() {
+        NotificationCenter
+            .default
+            .post(
+                name: .didRefreshToken,
+                object: nil
+            )
     }
 }

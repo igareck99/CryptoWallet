@@ -1,50 +1,9 @@
 import Foundation
 
-protocol WalletNetworkFacadeProtocol {
-    func getTokens(
-        params: NetworkTokensRequestParams,
-        completion: @escaping GenericBlock<EmptyFailureResult<NetworkTokensResponse>>
-    )
-
-	func getNetworks(
-		completion: @escaping GenericBlock<EmptyFailureResult<WalletNetworkResponse>>
-	)
-
-	func getAddress(
-		params: AddressRequestParams,
-		completion: @escaping GenericBlock<EmptyFailureResult<AddressResponse>>
-	)
-
-    func getBalances(
-        params: BalanceRequestParams,
-        completion: @escaping GenericBlock<EmptyFailureResult<BalancesResponse>>
-    )
-
-	func getTransactions(
-		params: TransactionsRequestParams,
-		completion: @escaping GenericBlock<EmptyFailureResult<WalletsTransactionsResponse>>
-	)
-
-	func getFee(
-		params: FeeRequestParams,
-		completion: @escaping GenericBlock<EmptyFailureResult<FeeResponse>>
-	)
-
-	func makeTransactionTemplate(
-		params: TransactionTemplateRequestParams,
-		completion: @escaping GenericBlock<EmptyFailureResult<TransactionTemplateResponse>>
-	)
-
-	func makeTransactionSend(
-		params: TransactionSendRequestParams,
-		completion: @escaping GenericBlock<EmptyFailureResult<TransactionSendResponse>>
-	)
-}
-
 final class WalletNetworkFacade {
 
+    let networkService: BaseNetworkServiceProtocol
 	private let walletRequestsFactory: WalletRequestsFactoryProtocol
-	private let networkService: BaseNetworkServiceProtocol
 	private let networkRequestFactory: BaseNetworkRequestFactoryProtocol
 
 	init(
@@ -71,7 +30,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
         let paramsDict: [String: Any] = params.dictionary
         let request = walletRequestsFactory.buildTokens(parameters: paramsDict)
         let urlRequest = networkRequestFactory.makePostRequest(from: request)
-        networkService.send(request: urlRequest) { [weak self] data, response, error in
+        send(request: urlRequest) { [weak self] data, response, error in
             guard let self = self else { return }
             self.logReponse("getTokens", data, response, error)
             guard
@@ -90,7 +49,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 	func getNetworks(completion: @escaping GenericBlock<EmptyFailureResult<WalletNetworkResponse>>) {
 		let request = walletRequestsFactory.buildNetworks(parameters: [:])
 		let urlRequest = networkRequestFactory.makeGetRequest(from: request)
-		networkService.send(request: urlRequest) { [weak self] data, response, error in
+		send(request: urlRequest) { [weak self] data, response, error in
 			guard let self = self else { return }
 			self.logReponse("getNetworks", data, response, error)
 			guard
@@ -113,7 +72,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		let paramsDict: [String: Any] = params.dictionary
 		let request = walletRequestsFactory.buildAddress(parameters: paramsDict)
 		let urlRequest = networkRequestFactory.makePostRequest(from: request)
-		networkService.send(request: urlRequest) { [weak self] data, response, error in
+		send(request: urlRequest) { [weak self] data, response, error in
 			guard let self = self else { return }
 			self.logReponse("getAddress", data, response, error)
 			guard
@@ -136,7 +95,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
         let paramsDict: [String: Any] = params.makeParamsDict()
         let request = walletRequestsFactory.buildBalances(parameters: paramsDict)
         let urlRequest = networkRequestFactory.makePostRequest(from: request)
-        networkService.send(request: urlRequest) { [weak self] data, response, error in
+        send(request: urlRequest) { [weak self] data, response, error in
             guard let self = self else { return }
             self.logReponse("getBalances", data, response, error)
             guard
@@ -159,7 +118,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		let paramsDict: [String: Any] = params.makeRequestDict()
 		let request = walletRequestsFactory.buildTransactions(parameters: paramsDict)
 		let urlRequest = networkRequestFactory.makePostRequest(from: request)
-		networkService.send(request: urlRequest) { [weak self] data, response, error in
+		send(request: urlRequest) { [weak self] data, response, error in
 			guard let self = self else { return }
 			self.logReponse("getTransactions", data, response, error)
 			guard
@@ -182,7 +141,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		let paramsDict: [String: Any] = params.dictionary
 		let request = walletRequestsFactory.buildFee(parameters: paramsDict)
 		let urlRequest = networkRequestFactory.makePostRequest(from: request)
-		networkService.send(request: urlRequest) { [weak self] data, response, error in
+		send(request: urlRequest) { [weak self] data, response, error in
 			guard let self = self else { return }
 			self.logReponse("getFee", data, response, error)
 			guard
@@ -205,7 +164,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		let paramsDict: [String: Any] = params.dictionary
 		let request = walletRequestsFactory.buildTransactionTemplate(parameters: paramsDict)
 		let urlRequest = networkRequestFactory.makePostRequest(from: request)
-		networkService.send(request: urlRequest) { [weak self] data, response, error in
+		send(request: urlRequest) { [weak self] data, response, error in
 			guard let self = self else { return }
 			self.logReponse("makeTransactionTemplate", data, response, error)
 			guard
@@ -228,7 +187,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		let paramsDict: [String: Any] = params.dictionary
 		let request = walletRequestsFactory.buildTransactionSend(parameters: paramsDict)
 		let urlRequest = networkRequestFactory.makePostRequest(from: request)
-		networkService.send(request: urlRequest) { [weak self] data, response, error in
+		send(request: urlRequest) { [weak self] data, response, error in
 			guard let self = self else { return }
 			self.logReponse("makeTransactionSend", data, response, error)
 			guard let data = data,
@@ -266,4 +225,13 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		debugPrint("response: \(String(describing: response)) \\n")
 		debugPrint("error: \(String(describing: error)) \\n")
 	}
+
+    func send(
+        request: URLRequest,
+        completion: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) {
+        networkService.send(request: request) { [weak self] data, response, error in
+            completion(data, response, error)
+        }
+    }
 }

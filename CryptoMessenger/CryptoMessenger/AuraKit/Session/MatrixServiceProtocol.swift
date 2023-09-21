@@ -74,8 +74,18 @@ protocol MatrixServiceProtocol {
                       completion: @escaping (Result <String?, MXErrors>) -> Void)
     func markAllAsRead(roomId: String)
     func edit(roomId: String, text: String, eventId: String)
-    func redact(roomId: String,
-                eventId: String, reason: String?)
+    func redact(
+        roomId: String,
+        eventId: String,
+        reason: String?
+    )
+    
+    func removeReaction(
+        roomId: String,
+        text: String,
+        eventId: String,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
     
     // MARK: - Users
     func currentlyActive(_ userId: String) -> Bool
@@ -109,14 +119,18 @@ protocol MatrixServiceProtocol {
         powerLevel: Int,
         completion: @escaping EmptyResultBlock
     )
-    func sendText(_ roomId: String,
-                  _ text: String,
-                  completion: @escaping (Result <String?, MXErrors>) -> Void)
-    func sendReply(_ text: String,
-                   _ roomId: String,
-                   _ eventId: String,
-                   _ customParameters: [String : Any],
-                   completion: @escaping (Result <String?, MXErrors>) -> Void)
+    func sendText(
+        _ roomId: String,
+        _ text: String,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+    func sendReply(
+        _ text: String,
+        _ roomId: String,
+        _ eventId: String,
+        _ customParameters: [String : Any],
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
 
 	// MARK: - Pagination
 	func paginate(room: AuraRoom, event: MXEvent)
