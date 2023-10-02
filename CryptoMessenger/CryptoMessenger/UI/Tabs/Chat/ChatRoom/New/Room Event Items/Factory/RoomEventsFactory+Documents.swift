@@ -12,7 +12,7 @@ extension RoomEventsFactory {
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
-            readData: readData(isFromCurrentUser: event.isFromCurrentUser)
+            readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState)
         )
 
         let items: [ReactionNewEvent] = []

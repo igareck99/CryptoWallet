@@ -7,14 +7,15 @@ extension RoomEventsFactory {
         lon: Double,
         delegate: ChatEventsDelegate,
         onLongPressTap: @escaping (RoomEvent) -> Void,
-        onReactionTap: @escaping (ReactionNewEvent) -> Void
+        onReactionTap: @escaping (ReactionNewEvent) -> Void,
+        onNotSentTap: @escaping (RoomEvent) -> Void
     ) -> any ViewGeneratable {
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
             dateColor: .white,
             backColor: .osloGrayApprox,
-            readData: readData(isFromCurrentUser: event.isFromCurrentUser)
+            readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState)
         )
         let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
         let reactions = prepareReaction(event, onReactionTap: { reaction in
@@ -41,6 +42,19 @@ extension RoomEventsFactory {
         )
         
         if event.isFromCurrentUser {
+            if event.sentState == .failToSend {
+                let notSentModel = NotSentModel {
+                    onNotSentTap(event)
+                }
+                return EventContainer(
+                    leadingContent: PaddingModel(),
+                    centralContent: bubbleContainer,
+                    trailingContent: notSentModel,
+                    bottomContent: viewModel, onLongPress: {
+                        onLongPressTap(event)
+                    }
+                )
+            }
             return EventContainer(
                 leadingContent: PaddingModel(),
                 centralContent: bubbleContainer,

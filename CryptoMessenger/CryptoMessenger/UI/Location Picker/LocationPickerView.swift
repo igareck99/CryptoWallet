@@ -29,10 +29,11 @@ struct LocationPickerView: View {
     init(
 		place: Binding<Place?>,
         sendLocation: Binding<Bool>,
+        viewModel: MapViewModel,
 		isInteractionModesDisabled: Bool = false,
 		locationPickerBaidu: LocationPickerBaidu = LocationPickerBaidu()
 	) {
-        self._viewModel = StateObject(wrappedValue: MapViewModel())
+        self._viewModel = StateObject(wrappedValue: viewModel)
 		self.locationPickerBaidu = locationPickerBaidu
         self._place = place
         self._sendLocation = sendLocation
@@ -132,6 +133,7 @@ struct LocationPickerView: View {
                     Button(action: {
                         self.sendLocation = true
                         self.place = locationTemp
+                        viewModel.onSendPlace(locationTemp)
                         dismiss()
                     }) {
                         Label(viewModel.sources.locationPickerViewLocation,

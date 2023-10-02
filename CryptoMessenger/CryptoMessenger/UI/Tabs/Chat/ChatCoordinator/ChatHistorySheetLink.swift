@@ -18,7 +18,8 @@ enum ChatHistorySheetLink: Hashable, Identifiable {
 
     case locationPicker(
         place: Binding<Place?>,
-        sendLocation: Binding<Bool>
+        sendLocation: Binding<Bool>,
+        onSendPlace: (Place) -> Void
     )
 
     case selectContact(
@@ -51,6 +52,12 @@ enum ChatHistorySheetLink: Hashable, Identifiable {
                           userRole: ChannelRole,
                           onAction: GenericBlock<QuickActionCurrentUser>,
                           onReaction: GenericBlock<String>)
+    
+    case chatRoomMenu(_ tappedAction: (AttachAction) -> Void,
+                      _ onCamera: () -> Void,
+                      _ onSendPhoto: (UIImage) -> Void)
+    case sendingMessageMenu(_ event: RoomEvent,
+                            _ onTapItem: (NotSendedMessage, RoomEvent) -> Void)
 
     var id: String {
         String(describing: self)

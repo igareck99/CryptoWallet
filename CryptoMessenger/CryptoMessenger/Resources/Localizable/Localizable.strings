@@ -586,6 +586,7 @@
 "ChatMenuView.ShareContact" = "Поделиться контактом";
 "ChatMenuView.BlockUser" = "Заблокировать пользователя";
 "ChatMenuView.CleatChat" = "Очистить историю";
+"ChatMenuView.Resend" = "Отправить повторно";
 
 "NoteView.Placeholder" = "Напишите заметку по данному пользователю";
 "NoteView.WhoSee" = "Эту заметку видите только вы";

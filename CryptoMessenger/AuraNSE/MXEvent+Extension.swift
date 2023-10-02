@@ -5,7 +5,6 @@ extension MXEvent {
     // MARK: - Internal Properties
 
     var messageType: MessageType {
-        debugPrint("messageType \(content)")
         let messageType = content[.messageType] as? String
         var type: MessageType
         let homeServer = Configuration.shared.matrixURL

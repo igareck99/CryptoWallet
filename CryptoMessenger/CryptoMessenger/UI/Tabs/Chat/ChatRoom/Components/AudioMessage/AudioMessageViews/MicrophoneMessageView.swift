@@ -11,7 +11,7 @@ struct MicrophoneMessageView: View {
     @Binding var blockAudioRecord: Bool
     @Binding var textDragPadding: CGFloat
     @Binding var resetAudio: Bool
-    @Binding var record: RecordingDataModel?
+    @Binding var sendAudio: Bool
 
     // MARK: - Private Properties
 
@@ -38,37 +38,40 @@ struct MicrophoneMessageView: View {
 
     private var microphoneStartView: some View {
         ZStack {
-            VStack {
-                recordView
-                Button(action: {
-                    if showAudioView {
-                        showAudioView = false
+            if showAudioView {
+                VStack {
+                    recordView
+                    Button(action: {
+                        if showAudioView {
+                            showAudioView = false
+                        }
+                    }, label: {
+                        ZStack {
+                            Circle()
+                                .frame(width: 48, height: 48)
+                                .foreground(.dodgerBlue)
+                            !blockAudioRecord ? R.image.chat.audio.buttonVoice.image :
+                            R.image.chat.audio.approveVoiceMessage.image
+                        }
+                    })
+                }
+                .padding(.leading, textDragPadding)
+                .padding(.bottom, blockAudioRecord ? 55 : 70)
+                .onDisappear {
+                    withAnimation(.easeIn(duration: 0.5)) {
+                        blockAudioRecord = false
+                        blockDragPadding = 0
+                        textDragPadding = 0
                     }
-                }, label: {
-                    ZStack {
-                        Circle()
-                            .frame(width: 48, height: 48)
-                            .foreground(.dodgerBlue)
-                        !blockAudioRecord ? R.image.chat.audio.whitemicrofoneImage.image :
-                        R.image.chat.audio.approveWhite.image
-                    }
-                })
+                }
+                .padding(.top, blockDragPadding)
+            } else {
+                R.image.chat.audio.microfoneImage.image
+                    .foregroundColor(.dodgerBlue)
+                    .frame(width: 24, height: 24)
+                    .clipShape(Circle())
+                    .padding(.trailing, 16)
             }
-            .padding(.leading, textDragPadding)
-            .padding(.bottom, blockAudioRecord ? 55 : 70)
-            .onDisappear {
-                blockAudioRecord = false
-                blockDragPadding = 0
-                textDragPadding = 0
-            }
-            .opacity(showAudioView ? 1 : 0)
-            .padding(.top, blockDragPadding)
-            R.image.chat.audio.microfoneImage.image
-                .foregroundColor(.dodgerBlue)
-                .frame(width: 24, height: 24)
-                .clipShape(Circle())
-                .opacity(!showAudioView ? 1 : 0)
-                .padding(.trailing, 16)
         }
         .padding(.trailing, 6)
     }
@@ -78,6 +81,10 @@ struct MicrophoneMessageView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 45)
                     .fill(Color.white)
+                    .overlay(content: {
+                        RoundedRectangle(cornerRadius: 45)
+                            .stroke(Color.gray, lineWidth: 1)
+                    })
                     .frame(width: blockAudioRecord ? 34 : 73 - blockDragPadding,
                            height: 34)
                     .rotationEffect(Angle(degrees: 90))
@@ -101,14 +108,12 @@ struct MicrophoneMessageView: View {
                 showAudioView = true
                 if !blockAudioRecord {
                     if value.startLocation.x > value.location.x {
+                        guard abs(value.translation.width) < 75 else {
+                            finishRecord()
+                            return
+                        }
                         microphonePadding = value.translation.width
                         textDragPadding = value.translation.width
-                        if microphonePadding > 75 {
-                            resetAudio = true
-                            showAudioView = false
-                            microphonePadding = 0
-                            textDragPadding = 0
-                        }
                     }
                     if value.startLocation.y > value.location.y {
                         blockDragPadding = abs(value.translation.height)
@@ -119,21 +124,24 @@ struct MicrophoneMessageView: View {
                             return
                         }
                     }
-                    if value.startLocation.x > value.location.x {
-                        textDragPadding = value.translation.width
-                        if abs(value.translation.width) > 75 {
-                            resetAudio = true
-                            showAudioView = false
-                            return
-                        }
-                    }
                 }
             }
-            .onEnded { _ in
+            .onEnded { value in
                 textDragPadding = 0
                 if !blockAudioRecord {
-                    showAudioView = false
+                    finishRecord()
                 }
+                guard abs(value.translation.width) < 75 else { return }
+                sendAudio = true
             }
+    }
+    
+    private func finishRecord() {
+        withAnimation(.easeIn(duration: 0.25)) {
+            textDragPadding = 0
+            microphonePadding = 0
+            resetAudio = true
+            showAudioView = false
+        }
     }
 }

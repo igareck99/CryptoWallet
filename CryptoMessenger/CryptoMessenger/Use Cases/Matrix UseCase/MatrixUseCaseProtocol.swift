@@ -77,7 +77,8 @@ protocol MatrixUseCaseProtocol {
     func redact(roomId: String,
                 eventId: String, reason: String?)
     func sendReply(_ event: RoomEvent,
-                   _ text: String)
+                   _ text: String,
+                   completion: @escaping (Result <String?, MXErrors>) -> Void)
     func removeReaction(roomId: String, text: String,
                         eventId: String,
                         completion: @escaping (Result <String?, MXErrors>) -> Void)

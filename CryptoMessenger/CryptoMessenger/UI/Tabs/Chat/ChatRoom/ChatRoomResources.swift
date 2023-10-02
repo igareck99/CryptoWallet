@@ -74,6 +74,10 @@ protocol ChatRoomSourcesable {
 
 	static var groupCallInactiveConference: String { get }
     
+    static var noRightsToWriteChannel: String { get }
+    
+    static var inputViewPlaceholder: String { get }
+    
     //Colors
     static var backgroundFodding: Color { get }
     
@@ -222,7 +226,13 @@ enum ChatRoomResources: ChatRoomSourcesable {
     static var chatRoomViewJoined: String {
         "присоединился к комнате"
     }
+    static var noRightsToWriteChannel: String {
+        "У вас нет разрешения на публикацию в этом канале"
+    }
     
+    static var inputViewPlaceholder: String {
+        "Сообщение..."
+    }
     
     //Colors
     static var backgroundFodding: Color {

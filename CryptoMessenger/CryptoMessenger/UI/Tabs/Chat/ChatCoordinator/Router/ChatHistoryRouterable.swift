@@ -122,7 +122,8 @@ protocol ChatHistoryRouterable: View {
 
     func presentLocationPicker(
         place: Binding<Place?>,
-        sendLocation: Binding<Bool>
+        sendLocation: Binding<Bool>,
+        onSendPlace: @escaping (Place) -> Void
     )
 
     func messageReactions(_ isCurrentUser: Bool,
@@ -130,4 +131,11 @@ protocol ChatHistoryRouterable: View {
                           _ userRole: ChannelRole,
                           _ onAction: @escaping GenericBlock<QuickActionCurrentUser>,
                           _ onReaction: @escaping GenericBlock<String>)
+    
+    func chatMenu(_ tappedAction: @escaping (AttachAction) -> Void,
+                  _ onCamera: @escaping () -> Void,
+                  _ onSendPhoto: @escaping (UIImage) -> Void)
+    
+    func notSendedMessageMenu(_ event: RoomEvent,
+                              _ onTapItem: @escaping (NotSendedMessage, RoomEvent) -> Void) 
 }

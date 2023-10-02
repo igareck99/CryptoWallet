@@ -8,8 +8,15 @@ protocol RoomEventsFactoryProtocol {
       events: [RoomEvent],
       delegate: ChatEventsDelegate,
       onLongPressMessage: @escaping (RoomEvent) -> Void,
-      onReactionTap: @escaping (ReactionNewEvent) -> Void
+      onReactionTap: @escaping (ReactionNewEvent) -> Void,
+      onTapNotSendedMessage: @escaping (RoomEvent) -> Void
     ) -> [any ViewGeneratable]
+    static func makeChatOutputEvent(_ eventId: String,
+                                    _ type: MessageType,
+                                    _ roomId: String,
+                                    _ sender: String,
+                                    _ isFromCurrentUser: Bool,
+                                    _ isReply: Bool) -> RoomEvent
 }
 
 enum RoomEventsFactory: RoomEventsFactoryProtocol {
@@ -24,6 +31,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 emojiList.append(reaction.emoji)
                 data.append(ReactionNewEvent(eventId: reaction.id,
                                              sender: "",
+                                             relatedEvent: event.eventId,
                                              timestamp: Date(),
                                              emoji: reaction.emoji,
                                              color: event.isFromCurrentUser ? .azureRadianceApprox : reactionColor,
@@ -41,6 +49,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     senders.append(reaction.sender)
                     data[index] = ReactionNewEvent(eventId: reaction.id,
                                                    sender: "",
+                                                   relatedEvent: event.eventId,
                                                    timestamp: Date(),
                                                    emoji: reaction.emoji,
                                                    color: event.isFromCurrentUser ? .azureRadianceApprox : reactionColor,
@@ -62,7 +71,8 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
       events: [RoomEvent],
       delegate: ChatEventsDelegate,
       onLongPressMessage: @escaping (RoomEvent) -> Void,
-      onReactionTap: @escaping (ReactionNewEvent) -> Void
+      onReactionTap: @escaping (ReactionNewEvent) -> Void,
+      onTapNotSendedMessage: @escaping (RoomEvent) -> Void
     ) -> [any ViewGeneratable] {
 
         let data: [any ViewGeneratable] = events.compactMap {
@@ -113,6 +123,8 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
+                }, onNotSentTap: { event in
+                    onTapNotSendedMessage(event)
                 })
             case let .image(url):
                 return makeImageItem(
@@ -160,6 +172,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         let viewModel = ReactionsNewViewModel(width: calculateWidth("", reactions.count),
                                               views: reactions,
                                               backgroundColor: reactionColor)
+        let checkReadImage = event.sentState == .sent ? R.image.chat.sendedCheck.image : R.image.chat.sendingCheck.image
         let textEvent = TextEvent(
             userId: event.sender, isFromCurrentUser: event.isFromCurrentUser, avatarUrl: event.senderAvatar,
             text: text, isReply: event.isReply,
@@ -169,7 +182,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             eventData: EventData(
                 date: event.shortDate,
                 isFromCurrentUser: event.isFromCurrentUser,
-                readData: ReadData(readImageName: R.image.chat.readCheckWhite.name)
+                readData: ReadData(readImageName: checkReadImage)
             ),
             reactionsGrid: viewModel
         )
@@ -201,11 +214,29 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         }
     }
 
-    static func readData(isFromCurrentUser: Bool) -> any ViewGeneratable {
+    static func readData(isFromCurrentUser: Bool, eventSendType: RoomSentState) -> any ViewGeneratable {
+        let checkReadImage = eventSendType == .sent ? R.image.chat.sendedCheck.image : R.image.chat.sendingCheck.image
         if isFromCurrentUser {
-            return ReadData(readImageName: R.image.chat.readCheck.name)
+            return ReadData(readImageName: checkReadImage)
         }
         return ZeroViewModel()
+    }
+    
+    static func makeChatOutputEvent(_ eventId: String,
+                                    _ type: MessageType,
+                                    _ roomId: String,
+                                    _ sender: String,
+                                    _ isFromCurrentUser: Bool,
+                                    _ isReply: Bool) -> RoomEvent {
+        let date = Date().timeIntervalSince1970
+        let event = RoomEvent(eventId: eventId, roomId: roomId,
+                              sender: sender, sentState: .sending,
+                              eventType: type, shortDate:  Date().hoursAndMinutes,
+                              fullDate: "", isFromCurrentUser: isFromCurrentUser,
+                              isReply: isReply, replyDescription: "",
+                              reactions: [], content: [:],
+                              eventSubType: "")
+        return event
     }
 }
 

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ReadData: Identifiable, ViewGeneratable {
     let id = UUID()
-    let readImageName: String
+    let readImageName: Image
 
     // MARK: - ViewGeneratable
 

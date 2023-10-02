@@ -13,7 +13,7 @@ extension RoomEventsFactory {
             isFromCurrentUser: event.isFromCurrentUser,
             dateColor: .white,
             backColor: .osloGrayApprox,
-            readData: readData(isFromCurrentUser: event.isFromCurrentUser)
+            readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState)
         )
 
         let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue

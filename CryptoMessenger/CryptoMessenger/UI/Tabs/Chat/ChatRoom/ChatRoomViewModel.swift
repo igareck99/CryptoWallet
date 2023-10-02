@@ -428,8 +428,8 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.inputText = ""
                     guard let id = self?.room.room.roomId else { return }
                     self?.mediaService.uploadChatPhoto(roomId: id,
-                                                       image: image) { eventId in
-                        self?.room.updateEvents(eventId: eventId)
+                                                       image: image) { _ in
+                        // self?.room.updateEvents(eventId: eventId)
                     }
                     self?.matrixUseCase.objectChangePublisher.send()
                 case let .onSendVideo(url):
@@ -440,8 +440,8 @@ final class ChatRoomViewModel: ObservableObject {
                         self.mediaService.uploadVideoMessage(for: id,
                                                               url: url,
                                                               thumbnail: mxImage,
-                                                              completion: { eventId in
-                            self.room.updateEvents(eventId: eventId)
+                                                              completion: { _ in
+                                // self.room.updateEvents(eventId: eventId)
                         })
                     }
                 case let .onSendLocation(location):
@@ -457,8 +457,13 @@ final class ChatRoomViewModel: ObservableObject {
                     guard let id = self?.room.room.roomId else { return }
                     DispatchQueue.global(qos: .background).async {
                         self?.mediaService.uploadChatFile(roomId: id,
-                                                          url: url) { eventId in
-                            self?.room.updateEvents(eventId: eventId)
+                                                          url: url) { result in
+                            switch result {
+                            case .success(let success):
+                                self?.room.updateEvents(eventId: success)
+                            default:
+                                break
+                            }
                         }
                         self?.matrixUseCase.objectChangePublisher.send()
                     }
@@ -468,15 +473,25 @@ final class ChatRoomViewModel: ObservableObject {
                     self?.mediaService.uploadVoiceMessage(roomId: id,
                                                           audio: url,
                                                           duration: UInt(duration),
-                                                          completion: { eventId in
-                        self?.room.updateEvents(eventId: eventId)
+                                                          completion: { result in
+                        switch result {
+                        case .success(let success):
+                            self?.room.updateEvents(eventId: success)
+                        default:
+                            break
+                        }
                     })
                     self?.matrixUseCase.objectChangePublisher.send()
                 case let .onSendContact(contact):
                     guard let id = self?.room.room.roomId else { return }
                     self?.mediaService.uploadChatContact(roomId: id,
-                                                         contact: contact) { eventId in
-                        self?.room.updateEvents(eventId: eventId)
+                                                         contact: contact) { result in
+                        switch result {
+                        case .success(let success):
+                            self?.room.updateEvents(eventId: success)
+                        default:
+                            break
+                        }
                     }
                     self?.matrixUseCase.objectChangePublisher.send()
                 case .onJoinRoom:
@@ -574,7 +589,7 @@ final class ChatRoomViewModel: ObservableObject {
                             self.sendLocationFlag
                         }, set: { value in
                             self.sendLocationFlag = value
-                        })
+                        }), onSendPlace: { _ in }
                     )
                 case .media:
                     self.coordinator?.galleryPickerSheet(

@@ -171,11 +171,13 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
 
     func presentLocationPicker(
         place: Binding<Place?>,
-        sendLocation: Binding<Bool>
+        sendLocation: Binding<Bool>,
+        onSendPlace: @escaping (Place) -> Void
     ) {
         state.presentedItem = .locationPicker(
             place: place,
-            sendLocation: sendLocation
+            sendLocation: sendLocation,
+            onSendPlace: onSendPlace
         )
     }
 
@@ -206,5 +208,15 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
                                                 userRole: userRole,
                                                 onAction: onAction,
                                                 onReaction: onReaction)
+    }
+    func chatMenu(_ tappedAction: @escaping (AttachAction) -> Void,
+                  _ onCamera: @escaping () -> Void,
+                  _ onSendPhoto: @escaping (UIImage) -> Void) {
+        state.presentedItem = .chatRoomMenu(tappedAction, onCamera, onSendPhoto)
+    }
+    
+    func notSendedMessageMenu(_ event: RoomEvent,
+                              _ onTapItem: @escaping (NotSendedMessage, RoomEvent) -> Void) {
+        state.presentedItem = .sendingMessageMenu(event, onTapItem)
     }
 }

@@ -76,9 +76,6 @@ protocol MatrixServiceProtocol {
     func edit(roomId: String, text: String, eventId: String)
     func redact(roomId: String,
                 eventId: String, reason: String?)
-    func removeReaction(roomId: String, text: String,
-                        eventId: String,
-                        completion: @escaping (Result <String?, MXErrors>) -> Void)
     
     // MARK: - Users
     func currentlyActive(_ userId: String) -> Bool

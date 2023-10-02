@@ -373,11 +373,14 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
     func removeReaction(roomId: String, text: String,
               eventId: String,
                         completion: @escaping (Result <String?, MXErrors>) -> Void) {
-        matrixService.removeReaction(roomId: roomId,
-                                     text: text,
-                                     eventId: eventId) { result in
-            completion(result)
-        }
+        print("sksaklsalkklas  \(matrixSession?.aggregations.aggregatedReactions(onEvent: eventId, inRoom: roomId)?.reactions)")
+        print("slaslsalsla  \(text)")
+        matrixSession?.aggregations.removeReaction(text,
+                                                   forEvent: eventId, inRoom: roomId, success: {
+            completion(.success("Reaction Removed"))
+        }, failure: { _ in
+            completion(.failure(.removeReactionFailure))
+        })
     }
 
     func react(eventId: String, roomId: String, emoji: String) {
@@ -475,7 +478,8 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
     }
     
     func sendReply(_ event: RoomEvent,
-                   _ text: String) {
+                   _ text: String,
+                   completion: @escaping (Result <String?, MXErrors>) -> Void) {
         guard !text.isEmpty else { return }
         var rootMessage = ""
         if text.contains(">") {
@@ -498,8 +502,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
                                 event.roomId,
                                 event.eventId,
                                 customParameters) { result in
-            print("slaslsallas  \(result)")
-            
+            completion(result)
         }
     }
 

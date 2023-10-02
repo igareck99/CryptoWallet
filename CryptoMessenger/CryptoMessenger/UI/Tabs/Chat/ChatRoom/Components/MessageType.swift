@@ -16,3 +16,15 @@ enum MessageType {
     case call
     case none
 }
+
+// MARK: - MessageSendType
+
+enum MessageSendType {
+    case text
+    case image
+    case video
+    case file
+    case audio
+    case location
+    case contact
+}

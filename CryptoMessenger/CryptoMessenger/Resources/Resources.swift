@@ -3,14 +3,14 @@ import SwiftUI
 
 // MARK: - ImageResource ()
 
-extension ImageResource {
+extension RswiftResources.ImageResource {
     var image: Image { Image(name) }
 	var imageNamed: UIImage? { UIImage(named: name) }
 }
 
 // MARK: - ColorResource ()
 
-extension ColorResource {
+extension RswiftResources.ColorResource {
     var color: Color { Color(name) }
 }
 

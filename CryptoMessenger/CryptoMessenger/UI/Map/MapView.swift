@@ -23,7 +23,7 @@ struct MapView: View {
         showLocationTransition: Binding<Bool>
     ) {
         self.isInteractionModesDisabled = isInteractionModesDisabled
-        self._viewModel = StateObject(wrappedValue: MapViewModel(place: place))
+        self._viewModel = StateObject(wrappedValue: MapViewModel(place: place, onSendPlace: { _ in }))
         self._showLocationTransition = showLocationTransition
     }
 

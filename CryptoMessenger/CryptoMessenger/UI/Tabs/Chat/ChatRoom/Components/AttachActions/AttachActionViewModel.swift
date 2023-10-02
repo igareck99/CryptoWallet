@@ -11,11 +11,23 @@ final class AttachActionViewModel: ObservableObject {
 
     @Published var isTransactionAvailable = false
     @Published var images: [UIImage] = []
+    @Published var actions: [ActionItem] = AttachAction.allCases.map { .init(action: $0) }
+    var tappedAction: (AttachAction) -> Void
+    var onCamera: () -> Void
+    var onSendPhoto: (UIImage) -> Void
+
+    // MARK: - Private Properties
+
     @Injectable private(set) var togglesFacade: MainFlowTogglesFacade
 
     // MARK: - Lifecycle
 
-    init() {
+    init(tappedAction: @escaping (AttachAction) -> Void,
+         onCamera: @escaping () -> Void,
+         onSendPhoto: @escaping (UIImage) -> Void) {
+        self.tappedAction = tappedAction
+        self.onCamera = onCamera
+        self.onSendPhoto = onSendPhoto
         fetchChatData()
         fetchPhotos()
     }
@@ -55,6 +67,7 @@ final class AttachActionViewModel: ObservableObject {
                 self.fetchPhotoAtIndex(index + 1, totalImageCountNeeded, fetchResult)
             } else {
                 debugPrint("Completed array: \(self.images)")
+                self.objectWillChange.send()
             }
         })
     }

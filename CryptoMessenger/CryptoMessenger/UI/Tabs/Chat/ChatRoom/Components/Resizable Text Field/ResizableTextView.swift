@@ -9,7 +9,7 @@ struct ResizeableTextView: UIViewRepresentable {
 	@Binding var text: String
 	@Binding var height: CGFloat
 	@State var editing = false
-    @State var fieldBackgroundColor = UIColor.romanSilver
+    @State var fieldBackgroundColor = UIColor.aliceBlue
 	var placeholderText: String
 
     // MARK: - Internal Methods
@@ -32,7 +32,6 @@ struct ResizeableTextView: UIViewRepresentable {
                 textView.textColor = self.editing ? .chineseBlack : .romanSilver
             }
 		}
-
         self.height = textView.contentSize.height > 36 ? textView.contentSize.height : 36
         textView.backgroundColor = fieldBackgroundColor
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 6, bottom: 6, right: 6)
