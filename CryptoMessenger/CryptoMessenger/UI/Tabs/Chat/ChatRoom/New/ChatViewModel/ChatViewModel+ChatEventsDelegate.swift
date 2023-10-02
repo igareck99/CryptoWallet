@@ -3,6 +3,7 @@ import Foundation
 // MARK: - ChatViewModel(ChatEventsDelegate)
 
 extension ChatViewModel: ChatEventsDelegate {
+
     func onContactEventTap(contactInfo: ChatContactInfo) {
         coordinator.onContactTap(contactInfo: contactInfo)
     }
@@ -29,5 +30,13 @@ extension ChatViewModel: ChatEventsDelegate {
 
     func onVideoTap(url: URL) {
         coordinator.onVideoTap(url: url)
+    }
+
+    func onGroupCallTap(eventId: String) {
+        self.groupCallsUseCase.joinGroupCallInRoom(
+            eventId: eventId,
+            roomId: self.room.roomId
+        )
+        self.updateToggles()
     }
 }

@@ -5,7 +5,7 @@ struct SystemEventItem: Identifiable, Equatable, Hashable, ViewGeneratable {
     let id = UUID()
     let date: String
     let text: String
-    let type: SystemEventType
+    let type: MessageType
     let onTap: () -> Void
 
     // MARK: - ViewGeneratable
@@ -13,9 +13,4 @@ struct SystemEventItem: Identifiable, Equatable, Hashable, ViewGeneratable {
     func view() -> AnyView {
         EmptyView().anyView()
     }
-}
-
-enum SystemEventType {
-    case date
-    case groupCall
 }

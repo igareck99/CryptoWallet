@@ -151,6 +151,35 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                         onLongPressMessage(event)
                     }
                 )
+            case let .date(dateStr):
+                return makeSystemEventItem(text: dateStr) {
+                    debugPrint("onTap date SystemEventItem")
+                }
+            case let .groupCall(eventId, text):
+                return makeSystemEventItem(text: text) {
+                    debugPrint("onTap groupCall SystemEventItem")
+                    delegate.onGroupCallTap(eventId: eventId)
+                }
+            case let .encryption(text):
+                return makeSystemEventItem(text: text) {
+                    debugPrint("onTap encryption SystemEventItem")
+                }
+            case let .avatarChange(text):
+                return makeSystemEventItem(text: text) {
+                    debugPrint("onTap avatarChange SystemEventItem")
+                }
+            case let .joinRoom(text):
+                return makeSystemEventItem(text: text) {
+                    debugPrint("onTap joinRoom SystemEventItem")
+                }
+            case let .leaveRoom(text):
+                return makeSystemEventItem(text: text) {
+                    debugPrint("onTap leaveRoom SystemEventItem")
+                }
+            case let .inviteToRoom(text):
+                return makeSystemEventItem(text: text) {
+                    debugPrint("onTap inviteToRoom SystemEventItem")
+                }
             default:
                 debugPrint("$0.eventType: \($0.eventSubType)")
                 debugPrint("$0.eventType: \($0.eventType)")

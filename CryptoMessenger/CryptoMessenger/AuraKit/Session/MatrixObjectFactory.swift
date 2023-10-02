@@ -40,7 +40,7 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
 			.sorted { $0.summary.lastMessageDate > $1.summary.lastMessageDate }
 		return auraRooms
 	}
-    
+
     func makeAuraRooms(mxRooms: [MXRoom]?,
                        isMakeEvents: Bool,
                        config: ConfigType,
@@ -57,14 +57,14 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                     powerLevels = state?.powerLevels?.eventsDefault == 50
                     isAdmin = state?.powerLevels?.powerLevelOfUser(withUserID: matrixUseCase.getUserId()) == 100
                 }
-                
+
                 let roomName = mxRoom.summary.displayName ?? ""
                 var roomAvatar: URL?
                 if let avatar = mxRoom.summary.avatar {
                     let homeServer = config.matrixURL
                     roomAvatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
                 }
-                
+
                 let enumerator = mxRoom.enumeratorForStoredMessages
                 let currentBatch = enumerator?.nextEventsBatch(100, threadId: nil) ?? []
                 var messageType = MessageType.text("")
@@ -75,8 +75,10 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                 }
                 var events: [RoomEvent] = []
                 if isMakeEvents {
-                    events = eventsFactory.makeChatHistoryRoomEvents(eventCollections: EventCollection(currentBatch),
-                                                                     matrixUseCase: matrixUseCase)
+                    events = eventsFactory.makeChatHistoryRoomEvents(
+                        eventCollections: EventCollection(currentBatch),
+                        matrixUseCase: matrixUseCase
+                    )
                 }
                 let summary = RoomSummary(mxRoom.summary)
                 let unreadedEvents = summary.summary.localUnreadEventCount

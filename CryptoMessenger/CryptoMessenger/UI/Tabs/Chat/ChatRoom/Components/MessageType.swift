@@ -6,6 +6,7 @@ enum MessageType {
 
     // MARK: - Types
 
+    // message types
     case text(String)
     case image(URL?)
     case video(URL?)
@@ -13,7 +14,16 @@ enum MessageType {
     case audio(URL?)
     case location((lat: Double, long: Double))
     case contact(name: String, phone: String?, url: URL?)
+
+    // system event types
     case call
+    case date(String)
+    case groupCall(eventId: String, text: String)
+    case encryption(String)
+    case avatarChange(String)
+    case joinRoom(String)
+    case leaveRoom(String)
+    case inviteToRoom(String)
     case none
 }
 

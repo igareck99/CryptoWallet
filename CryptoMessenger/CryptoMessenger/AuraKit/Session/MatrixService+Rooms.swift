@@ -79,8 +79,8 @@ extension MatrixService {
             completion(nil)
             return
         }
-        room.state { _ in
-            completion(true)
+        room.state { state in
+            completion(state?.isEncrypted)
         }
     }
 
@@ -370,6 +370,23 @@ extension MatrixService {
         let content = try! EditEvent(eventId: eventId, text: text).encodeContent()
         // TODO: Use localEcho to show sent message until it actually comes back
         room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
+    }
+    
+    func removeReaction(
+        roomId: String,
+        text: String,
+        eventId: String,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    ) {
+        matrixSession?.aggregations.removeReaction(
+            text,
+            forEvent: eventId,
+            inRoom: roomId,
+            success: {
+                completion(.success("Reaction Removed"))
+            }, failure: { _ in
+                completion(.failure(.removeReactionFailure))
+            })
     }
 
     func redact(roomId: String,

@@ -10,7 +10,7 @@ enum ChatRoomAssembly {
 		room: AuraRoom,
 		coordinator: ChatHistoryFlowCoordinatorProtocol?
 	) -> some View {
-		let groupCallsUseCase = GroupCallsUseCase(room: room.room)
+        let groupCallsUseCase = GroupCallsUseCase(roomId: room.room.roomId)
         let facade = MainFlowTogglesFacade()
 		let viewModel = ChatRoomViewModel(
 			room: room,

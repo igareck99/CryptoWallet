@@ -17,4 +17,7 @@ extension Notification.Name {
     
     static let photoAccessLevelDidChange = Notification.Name("PhotoAccessLevelDidChange")
     static let locationAccessLevelDidChange = Notification.Name("LocationAccessLevelDidChange")
+    
+    static let didRefreshToken = Notification.Name("SessionTokensDidRefresh")
+    static let didExpireMatrixSessionToken = Notification.Name("MatrixSessionTokensDidExpire")
 }

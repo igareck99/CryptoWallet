@@ -8,8 +8,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
 
     @StateObject var viewModel: ViewModel
     @StateObject private var keyboardHandler = KeyboardHandler()
-
-    // MARK: - Body
+    @State var isLeaveChannel = false
 
     var body: some View {
         VStack {
@@ -42,8 +41,115 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
         .onTapGesture {
             hideKeyboard()
         }
+        .listStyle(.plain)
+        .onAppear {
+            viewModel.eventSubject.send(.onAppear)
+        }
+        .toolbarRole(.editor)
         .toolbar(.hidden, for: .tabBar)
         .toolbar(.visible, for: .navigationBar)
+        .toolbar {
+            createToolBar()
+        }
+    }
+
+    @ToolbarContentBuilder
+    private func createToolBar() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            HStack(spacing: 0) {
+                AsyncImage(
+                    defaultUrl: viewModel.roomAvatarUrl,
+                    updatingPhoto: true,
+                    url: $viewModel.roomAvatarUrl,
+                    isAvatarLoading: $viewModel.isAvatarLoading,
+                    placeholder: {
+                        ZStack {
+                            Color.diamond
+                            Text(viewModel.roomName.firstLetter.uppercased())
+                                .foregroundColor(.white)
+                                .font(.system(size: 20, weight: .medium))
+                        }
+                    },
+                    result: {
+                        Image(uiImage: $0).resizable()
+                    }
+                )
+                .frame(width: 36, height: 36)
+                .cornerRadius(18)
+                .padding(.trailing, 12)
+
+                VStack(spacing: 0) {
+                    Text(viewModel.roomName)
+                        .lineLimit(1)
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(.chineseBlack)
+
+                    HStack(spacing: 0) {
+                        if viewModel.isDirect {
+                            Text(
+                                viewModel.isOnline ?
+                                viewModel.resources.chatOnline :
+                                    viewModel.resources.chatOffline
+                            )
+                            .lineLimit(1)
+                            .font(.system(size: 13, weight: .regular))
+                            .foregroundColor(viewModel.isOnline ? .dodgerBlue : .chineseBlack04)
+                        } else {
+                            Text("Участники (\(viewModel.participants.count))")
+                                .lineLimit(1)
+                                .font(.system(size: 13, weight: .regular))
+                                .foregroundColor(.chineseBlack04)
+                        }
+                        Spacer()
+                    }
+                }
+            }
+            .background(Color.clear)
+            .onTapGesture {
+                viewModel.onNavBarTap(
+                    chatData: $viewModel.chatData,
+                    saveData: $viewModel.saveData,
+                    isLeaveChannel: $isLeaveChannel
+                )
+            }
+        }
+
+        ToolbarItem(placement: .navigationBarTrailing) {
+            HStack(spacing: 8) {
+                if viewModel.isVideoCallAvailable {
+                    Button(action: {
+                        viewModel.p2pVideoCallPublisher.send()
+                    }, label: {
+                        viewModel.resources.videoFill.tint(.chineseBlack)
+                    }).disabled(!$viewModel.isVideoCallAvailablility.wrappedValue)
+                }
+                if viewModel.isVoiceCallAvailable {
+                    Button(action: {
+                        viewModel.p2pVoiceCallPublisher.send()
+                    }, label: {
+                        viewModel.resources.phoneFill.tint(.chineseBlack)
+                    }).disabled(!$viewModel.isVoiceCallAvailablility.wrappedValue)
+                }
+                if viewModel.isGroupCall {
+                    Button(action: {
+                        viewModel.groupCallPublisher.send()
+                    }, label: {
+                        viewModel.resources.videoFill.tint(.chineseBlack)
+                    })
+                }
+                /*
+                if viewModel.getMenuStatus() {
+                    Button(action: {
+                        hideKeyboard()
+                        cardGroupPosition = .custom(UIScreen.main.bounds.height - 250)
+                    }, label: {
+                        viewModel.resources.settingsButton
+                    })
+                    .padding(.trailing, 6)
+                }
+                */
+            }
+        }
     }
 
     private var inputView: some View {

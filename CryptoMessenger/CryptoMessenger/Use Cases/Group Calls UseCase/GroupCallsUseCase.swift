@@ -1,12 +1,12 @@
 import CallKit
 import Foundation
-import SwiftUI
-import MatrixSDK
 import JitsiMeetSDK
+import MatrixSDK
+import SwiftUI
 
 protocol GroupCallsUseCaseProtocol {
-	func placeGroupCall(in room: MXRoom)
-	func joinGroupCall(in event: MXEvent)
+    func placeGroupCallInRoom(roomId: String)
+    func joinGroupCallInRoom(eventId: String, roomId: String)
 }
 
 final class GroupCallsUseCase {
@@ -15,8 +15,8 @@ final class GroupCallsUseCase {
 	private var jitsiCalls: [UUID: JitsiWidget] = [:]
 	/// Utilized sessions
 	private var sessions: [MXSession] = []
-	private let room: MXRoom
-	private let viewModel: AURGroupCallsViewModel
+    private var roomId: String
+	private var viewModel: AURGroupCallsViewModel?
 	private let jingleCallStackConfigurator = MXJingleCallAudioSessionConfigurator()
 
 	private var conferenceId: String?
@@ -24,6 +24,7 @@ final class GroupCallsUseCase {
 	private var serverUrl: URL?
 	private var currentCallWidget: JitsiWidget?
     private let config: ConfigType
+    private let matrixUseCase: MatrixUseCaseProtocol
 
 	private var navigationController: UINavigationController? {
 		(UIApplication.shared.connectedScenes.first as? UIWindowScene)?
@@ -31,27 +32,49 @@ final class GroupCallsUseCase {
 	}
 
 	init(
-        room: MXRoom,
+        roomId: String,
+        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         config: ConfigType = Configuration.shared
     ) {
-		self.room = room
+        self.roomId = roomId
+        self.matrixUseCase = matrixUseCase
         self.config = config
-		self.viewModel = AURGroupCallsViewModel(room: room)
+        configureRoom(roomID: roomId)
 	}
+
+    private func configureRoom(roomID: String) {
+        guard let room = matrixUseCase.getRoomInfo(roomId: roomID) else { return }
+        self.viewModel = AURGroupCallsViewModel(room: room)
+    }
 }
 
 // MARK: - GroupCallsUseCaseProtocol
 
 extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 
-	func joinGroupCall(in event: MXEvent) {
+    func placeGroupCallInRoom(roomId: String) {
+        guard let room = matrixUseCase.getRoomInfo(roomId: roomId) else { return }
+        placeGroupCall(in: room)
+    }
+
+    func joinGroupCallInRoom(eventId: String, roomId: String) {
+        guard
+            let room = matrixUseCase.getRoomInfo(roomId: roomId),
+            let event = AuraRoom(room).events()
+            .renderableEvents.first(where: { eventId == $0.eventId }) else {
+            return
+        }
+        joinGroupCall(in: event, room: room)
+    }
+
+    func joinGroupCall(in event: MXEvent, room: MXRoom) {
 		guard
 			let widget = JitsiWidget(event: event, session: room.mxSession),
 			widget.isActive
 		else { return }
 
 		self.currentCallWidget = widget
-		self.viewModel.open(widget, withVideo: false) { conferenceId, jwtToken, serverUrl in
+		self.viewModel?.open(widget, withVideo: false) { conferenceId, jwtToken, serverUrl in
 
 			DispatchQueue.main.async {
 				self.conferenceId = conferenceId
@@ -68,14 +91,15 @@ extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 
 	func placeGroupCall(in room: MXRoom) {
 
-		viewModel.createJitsiWidget(in: room, withVideo: false) { widget in
+		viewModel?.createJitsiWidget(in: room, withVideo: false) { [weak self] widget in
 
-			guard self.currentCallWidget == nil ||
+			guard let self = self,
+                self.currentCallWidget == nil ||
 					self.currentCallWidget?.widgetId != widget.widgetId else { return }
 
 			self.currentCallWidget = widget
 			debugPrint("success widget: \(widget)")
-			self.viewModel.open(widget, withVideo: false) { conferenceId, jwtToken, serverUrl in
+			self.viewModel?.open(widget, withVideo: false) { conferenceId, jwtToken, serverUrl in
 
 				DispatchQueue.main.async {
 					self.conferenceId = conferenceId
@@ -93,9 +117,10 @@ extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 		}
 	}
 
-	private func startJitsiCall(withWidget widget: JitsiWidget) {
+    private func startJitsiCall(withWidget widget: JitsiWidget) {
 
 		guard
+            let room: MXRoom = matrixUseCase.getRoomInfo(roomId: roomId),
 			jitsiCalls.first(where: { $0.value.widgetId == widget.widgetId })?.key == nil,
 			let session = room.mxSession,
 			let room = session.room(withRoomId: widget.roomId)
@@ -132,12 +157,21 @@ extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 			builder.serverURL = serverUrl
 			builder.room = conferenceId
 			builder.setVideoMuted(true)
-			builder.setSubject(self?.room.summary.displayName ?? self?.room.roomId ?? "")
-			builder.userInfo = .init(
-				displayName: self?.room.mxSession.myUser.displayname ?? self?.room.mxSession.myUser.userId ?? "",
-				andEmail: "",
-				andAvatar: nil
-			)
+            if let room: MXRoom = self?.matrixUseCase.getRoomInfo(roomId: self?.roomId ?? "") {
+                builder.setSubject(room.summary.displayName ?? room.roomId ?? "")
+                builder.userInfo = .init(
+                    displayName: room.mxSession.myUser.displayname ?? room.mxSession.myUser.userId ?? "",
+                    andEmail: "",
+                    andAvatar: nil
+                )
+            } else {
+                builder.setSubject("Group Call")
+                builder.userInfo = .init(
+                    displayName: self?.roomId ?? "",
+                    andEmail: "",
+                    andAvatar: nil
+                )
+            }
 			builder.token = jwtToken
 			builder.setFeatureFlag("chat.enabled", withValue: false)
 		}

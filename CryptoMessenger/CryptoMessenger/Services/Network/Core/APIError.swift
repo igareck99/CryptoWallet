@@ -13,6 +13,8 @@ enum APIError: Error, Equatable {
     case apiError(Int, Data?)
     case invalidToken
     case invalidCode
+    case noRefreshToken
+    case publisherCreationFailure
 }
 
 // MARK: - APIError (LocalizedError)
@@ -33,6 +35,8 @@ extension APIError: LocalizedError {
             return "Срок жизни токена истек. Обновляем.."
         case .invalidCode:
             return "Неверный код"
+        case .noRefreshToken:
+            return "Нет refresh token, нечем обновить сессию"
 		default: return "Что-то пошло не так"
         }
     }

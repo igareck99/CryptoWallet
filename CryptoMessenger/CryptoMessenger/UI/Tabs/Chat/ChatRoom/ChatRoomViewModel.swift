@@ -41,8 +41,8 @@ final class ChatRoomViewModel: ObservableObject {
     @Published var cameraFrame: CGImage?
     @Published var roomUsers = [MXUser]()
     @Published var sendLocationFlag = false
-	var p2pVideoCallPublisher = ObservableObjectPublisher()
     @Published var audioUrl: RecordingDataModel?
+	var p2pVideoCallPublisher = ObservableObjectPublisher()
 	var p2pVoiceCallPublisher = ObservableObjectPublisher()
 	var groupCallPublisher = ObservableObjectPublisher()
 
@@ -66,12 +66,11 @@ final class ChatRoomViewModel: ObservableObject {
 		availabilityFacade.isCallAvailable && room.room.isDirect && !self.isChannel
 	}
 
-    let resources: ChatRoomSourcesable.Type
-
 	var isVideoCallAvailable: Bool {
 		availabilityFacade.isVideoCallAvailable && room.room.isDirect && !self.isChannel
 	}
-    
+
+    let resources: ChatRoomSourcesable.Type
     var userHasAccessToMessage: Bool = true
     var isChannel: Bool = false
     
@@ -893,7 +892,7 @@ final class ChatRoomViewModel: ObservableObject {
 				guard let self = self else { return }
 
 				if self.isGroupCall {
-					self.groupCallsUseCase.placeGroupCall(in: self.room.room)
+                    self.groupCallsUseCase.placeGroupCallInRoom(roomId: self.room.room.roomId)
 					return
 				}
 				// TODO: Handle failure case
@@ -908,7 +907,7 @@ final class ChatRoomViewModel: ObservableObject {
 			.sink { [weak self] _ in
 				debugPrint("Place_Call: groupCallPublisher")
 				guard let self = self else { return }
-				self.groupCallsUseCase.placeGroupCall(in: self.room.room)
+				self.groupCallsUseCase.placeGroupCallInRoom(roomId: self.room.room.roomId)
 				self.updateToggles()
 			}.store(in: &subscriptions)
 
@@ -981,7 +980,8 @@ final class ChatRoomViewModel: ObservableObject {
                     return new
                 }
                 
-                self?.chatData.contacts = items.filter { $0.isAdmin } + items.filter { !$0.isAdmin }}
+                self?.chatData.contacts = items.filter { $0.isAdmin } + items.filter { !$0.isAdmin }
+            }
         }
         
         matrixUseCase.getRoomState(roomId: room.room.roomId) { [weak self] result in
@@ -1008,12 +1008,18 @@ final class ChatRoomViewModel: ObservableObject {
 		if let mxEvent = room.events().renderableEvents.first(where: { renderableEvent in
 			event.eventId == renderableEvent.eventId
 		}) {
-			self.groupCallsUseCase.joinGroupCall(in: mxEvent)
+            self.groupCallsUseCase.joinGroupCallInRoom(
+                eventId: mxEvent.eventId,
+                roomId: mxEvent.roomId
+            )
 		} else if let mxRoom = matrixUseCase.rooms.first(where: { $0.room.id == self.room.id }),
 			let mxEvent = mxRoom.eventCache.first(where: { cachedEvent in
 			cachedEvent.eventId == event.eventId
 		}) {
-			self.groupCallsUseCase.joinGroupCall(in: mxEvent)
+            self.groupCallsUseCase.joinGroupCallInRoom(
+                eventId: mxEvent.eventId,
+                roomId: mxEvent.roomId
+            )
 		}
 	}
     

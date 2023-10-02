@@ -13,7 +13,7 @@ enum SettingsAssembly {
         room: AuraRoom,
         coordinator: ChatHistoryFlowCoordinatorProtocol
     ) -> some View {
-        let groupCallsUseCase = GroupCallsUseCase(room: room.room)
+        let groupCallsUseCase = GroupCallsUseCase(roomId: room.room.roomId)
         let viewModel = SettingsViewModel(room: room)
         viewModel.coordinator = coordinator
         return SettingsView(isLeaveRoom: isLeaveRoom,

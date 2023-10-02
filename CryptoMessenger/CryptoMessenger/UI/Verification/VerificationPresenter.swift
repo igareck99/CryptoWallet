@@ -5,8 +5,6 @@ import SwiftUI
 // swiftlint:disable all
 
 protocol VerificationSceneDelegate: AnyObject {
-//    func handleNextScene(_ scene: AuthCoordinator.Scene)
-    
     func onVerificationSuccess()
 }
 
@@ -192,6 +190,7 @@ private extension VerificationPresenter  {
                             self?.verificationState = .wrongOTP
                             return
                         }
+                        debugPrint("logInWithJWT: \(String(describing: err))")
                         self?.verificationState = .wrongOTP
                     default:
                         break
@@ -232,7 +231,8 @@ private extension VerificationPresenter  {
             token: token,
             deviceId: deviceId,
             userId: userId,
-            homeServer: homeServer) { [weak self] result in
+            homeServer: homeServer
+        ) { [weak self] result in
                 
                 // TODO: Обработать case failure
                 guard case .success = result else {
