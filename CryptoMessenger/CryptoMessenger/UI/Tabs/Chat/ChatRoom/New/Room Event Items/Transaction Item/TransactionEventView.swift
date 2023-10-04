@@ -11,10 +11,10 @@ struct TransactionEventView<
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(model.title)
-                .font(.system(size: 16))
+                .font(.bodyRegular17)
                 .foregroundColor(.chineseBlack)
             Text(model.subtitle)
-                .font(.system(size: 13))
+                .font(.footnoteRegular13)
                 .foregroundColor(.dodgerBlue)
             RoundedRectangle(cornerRadius: 4)
                 .fill(model.amountBackColor)
@@ -25,7 +25,7 @@ struct TransactionEventView<
                 .padding(.vertical, 8)
                 .overlay {
                     Text(model.amount)
-                        .font(.system(size: 22, weight: .regular))
+                        .font(.title2Regular22)
                         .foregroundColor(.chineseBlack)
                 }
                 .onTapGesture {

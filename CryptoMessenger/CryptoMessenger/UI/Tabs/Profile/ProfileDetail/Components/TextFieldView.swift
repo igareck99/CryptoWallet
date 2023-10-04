@@ -19,7 +19,7 @@ struct TextFieldView: View {
                 Text(title, [
                     .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left))
                 ])
-                .font(.system(size: 12, weight: .semibold))
+                .font(.caption1Medium12)
                 .foregroundColor(.romanSilver)
                 .frame(height: 22)
             }
@@ -28,7 +28,7 @@ struct TextFieldView: View {
                     .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
                     .foregroundColor(.chineseBlack)
                     .frame(height: 44)
-                    .font(.system(size: 15, weight: .regular))
+                    .font(.subheadlineRegular15)
                     .background(Color.white
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                     )

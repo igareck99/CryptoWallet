@@ -25,7 +25,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 VStack(alignment: .leading) {
                     Text(R.string.localizable.createChannelAdding())
                         .foregroundColor(.romanSilver)
-                        .font(.system(size: 17, weight: .regular))
+                        .font(.bodyRegular17)
                         .padding(.leading, 16)
                     Divider()
                         .padding(.top, 11)
@@ -139,7 +139,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
         }
         ToolbarItem(placement: .principal) {
             Text(R.string.localizable.createChannelAllUsers())
-                .font(.system(size: 17, weight: .bold))
+                .font(.bodySemibold17)
                 .lineLimit(1)
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -148,7 +148,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
-                    .font(.system(size: 15,weight: .bold))
+                    .font(.subheadlineMedium15)
                     .foregroundColor(.dodgerBlue)
             })
         }

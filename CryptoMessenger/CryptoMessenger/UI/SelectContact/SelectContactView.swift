@@ -51,7 +51,7 @@ struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewMode
     private func createToolBar() -> some ToolbarContent {
             ToolbarItem(placement: .principal) {
                 Text(viewModel.contactsLimit == nil ? "Групповой чат" : "Выберите контакт")
-                    .font(.system(size: 15, weight: .bold))
+                    .font(.bodySemibold17)
                     .foregroundColor(viewModel.resources.titleColor)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -59,7 +59,7 @@ struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewMode
                     viewModel.onFinish()
                 }, label: {
                     Text("Готово")
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.bodyRegular17)
                         .foregroundColor(viewModel.getButtonColor())
                 })
                 .disabled(viewModel.isButtonAvailable)
@@ -70,7 +70,7 @@ struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewMode
     private func createToolBarSend() -> some ToolbarContent {
         ToolbarItem(placement: .principal) {
             Text(viewModel.contactsLimit == nil ? viewModel.resources.createActionGroupChat : viewModel.resources.transferChooseContact)
-                .font(.system(size: 15, weight: .bold))
+                .font(.bodySemibold17)
                 .foregroundColor(viewModel.resources.titleColor)
         }
         ToolbarItem(placement: .navigationBarLeading) {
@@ -78,7 +78,7 @@ struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewMode
                 viewModel.dismissSheet()
             }, label: {
                 Text(viewModel.resources.profileDetailRightButton)
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.bodyRegular17)
                     .foregroundColor(viewModel.resources.buttonBackground)
             })
         }

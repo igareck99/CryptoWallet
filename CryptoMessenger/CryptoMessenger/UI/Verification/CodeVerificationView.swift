@@ -9,13 +9,13 @@ struct CodeVerificationView<ViewModel: VerificationPresenterProtocol>: View {
             ScrollView {
                 Text(viewModel.resources.typeCode)
                     .multilineTextAlignment(.center)
-                    .font(.system(size: 22))
+                    .font(.title2Regular22)
                     .foregroundColor(viewModel.colors.titleColor.wrappedValue)
                     .padding(.horizontal, 24)
 
                 Text(viewModel.resources.codeSentOn + " " + viewModel.phoneNumber)
                     .multilineTextAlignment(.center)
-                    .font(.system(size: 15))
+                    .font(.subheadlineRegular15)
                     .foregroundColor(viewModel.colors.subtitleColor.wrappedValue)
                     .padding(.horizontal, 24)
                     .padding(.top, 12)
@@ -35,7 +35,7 @@ struct CodeVerificationView<ViewModel: VerificationPresenterProtocol>: View {
                     .padding(.top, 50)
 
                 Text(viewModel.resources.wrongOTP)
-                    .font(.system(size: 12))
+                    .font(.caption1Regular12)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 32)
@@ -45,7 +45,7 @@ struct CodeVerificationView<ViewModel: VerificationPresenterProtocol>: View {
 
                 Text(viewModel.resources.resendText + " (\(viewModel.seconds) " + viewModel.resources.seconds + ")")
                     .multilineTextAlignment(.center)
-                    .font(.system(size: 15))
+                    .font(.subheadlineRegular15)
                     .foregroundColor(viewModel.colors.resendTextColor.wrappedValue)
                     .padding(.horizontal, 47)
                     .padding(.top, 80)

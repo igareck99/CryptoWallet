@@ -53,11 +53,11 @@ struct TransactionSpeedSelectView: View {
 		_ text: String
 	) -> some View {
 		Text(title)
-			.font(.system(size: 12, weight: .medium))
+			.font(.caption1Medium12)
 			.lineLimit(1)
 			.truncationMode(.middle)
 		Text(text)
-			.font(.system(size: 12))
+			.font(.caption1Regular12)
 			.lineLimit(1)
 			.truncationMode(.middle)
 	}

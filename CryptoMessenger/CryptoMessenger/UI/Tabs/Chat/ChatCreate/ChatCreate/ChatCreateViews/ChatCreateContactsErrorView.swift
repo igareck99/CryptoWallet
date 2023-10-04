@@ -11,7 +11,7 @@ struct ChatCreateContactsErrorView: View {
             Spacer()
             Text(R.string.localizable.chatContactEror())
                 .multilineTextAlignment(.center)
-                .font(.system(size: 15, weight: .regular))
+                .font(.subheadlineRegular15)
                 .foregroundColor(.chineseBlack)
                 .padding(.init(top: 8, leading: 16, bottom: 16, trailing: 16))
             Button(action: {
@@ -19,7 +19,7 @@ struct ChatCreateContactsErrorView: View {
             }, label: {
                 Text(R.string.localizable.chatOpenSettings())
                     .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                    .font(.system(size: 15, weight: .regular))
+                    .font(.subheadlineRegular15)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.dodgerBlue, lineWidth: 1)

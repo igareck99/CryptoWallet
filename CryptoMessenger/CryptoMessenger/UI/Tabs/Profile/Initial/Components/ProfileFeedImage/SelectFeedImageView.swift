@@ -17,7 +17,7 @@ struct SelectFeedImageView: View {
                     HStack(spacing: 16) {
                         type.image
                         Text(type.text)
-                            .font(.system(size: 16, weight: .regular))
+                            .font(.calloutRegular16)
                     }
                     Spacer()
                 })

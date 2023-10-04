@@ -76,7 +76,7 @@ enum SettingsAction: CaseIterable, Identifiable {
             Text(title, [
                 .paragraph(.init(lineHeightMultiple: 1.09, alignment: .left))
             ])
-            .font(.system(size: 15, weight: .regular))
+            .font(.subheadlineRegular15)
             .foregroundColor(.chineseBlack)
                 .frame(height: 64)
                 .padding(.leading, 16)

@@ -18,7 +18,7 @@ struct CheckReadView: View {
                     Spacer()
                     HStack(alignment: .center, spacing: 4) {
                         Text(time)
-                            .font(.system(size: 12, weight: .light))
+                            .font(.caption1Regular12)
                             .foregroundColor(.white)
                         Image(R.image.chat.readCheckWhite.name)
                     }

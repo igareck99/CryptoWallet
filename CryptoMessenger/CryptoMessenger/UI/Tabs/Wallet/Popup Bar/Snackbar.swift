@@ -24,7 +24,7 @@ struct Snackbar: View {
 	var body: some View {
 		VStack(alignment: .leading) {
 			Text(text)
-				.font(.system(size: 15))
+				.font(.subheadlineRegular15)
 				.foregroundColor(.white)
 				.padding()
 				.frame(maxWidth: .infinity, alignment: .leading)

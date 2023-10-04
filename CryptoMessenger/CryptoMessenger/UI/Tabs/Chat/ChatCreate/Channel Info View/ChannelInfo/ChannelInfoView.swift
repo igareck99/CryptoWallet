@@ -279,7 +279,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                             viewModel.resources.textBoxBackground
                             Text(viewModel.roomDisplayName)
                                 .foregroundColor(viewModel.resources.background)
-                                .font(.system(size: 20, weight: .medium))
+                                .font(.title2Regular22)
                         }
                     },
                     result: {
@@ -310,13 +310,13 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                         buttons: [
                             .cancel(),
                             .default(
-                                Text(viewModel.resources.profileFromGallery),
+                                Text(viewModel.resources.profileFromGallery).font(.bodyRegular17),
                                 action: {
                                     viewModel.selectPhoto(.photoLibrary)
                                 }
                             ),
                             .default(
-                                Text(viewModel.resources.profileFromCamera),
+                                Text(viewModel.resources.profileFromCamera).font(.bodyRegular17),
                                 action: {
                                     let isAvailable = viewModel.onCameraPickerTap()
                                     if isAvailable {
@@ -358,7 +358,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
                 .background(viewModel.resources.background)
                 .foregroundColor(viewModel.resources.titleColor)
-                .font(.system(size: 17))
+                .font(.bodyRegular17)
                 .frame(height: 134)
                 .cornerRadius(8)
         }
@@ -383,7 +383,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                             viewModel.resources.textBoxBackground
                             Text(viewModel.roomDisplayName)
                                 .foregroundColor(viewModel.resources.background)
-                                .font(.system(size: 20, weight: .medium))
+                                .font(.title2Regular22)
                         }
                     },
                     result: {
@@ -398,18 +398,18 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             
             
             Text(viewModel.channelNameText)
-                .font(.system(size: 22))
+                .font(.title2Regular22)
                 .foregroundColor(viewModel.resources.titleColor)
                 .padding(.bottom, 4)
             Text("\(viewModel.getChannelUsers().count) \(resources.participant)")
-                .font(.system(size: 15))
+                .font(.subheadlineRegular15)
                 .foregroundColor(viewModel.resources.textColor)
         }
     }
     
     private func channelDescriptionView() -> some View {
         Text(viewModel.channelTopicText)
-            .font(.system(size: 17))
+            .font(.bodyRegular17)
             .foregroundColor(viewModel.resources.titleColor)
     }
     
@@ -491,11 +491,11 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func participantsHeader() -> some View {
         HStack {
             Text(resources.participants)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.bodySemibold17)
                 .foregroundColor(viewModel.resources.titleColor)
             Spacer()
             Text(resources.add)
-                .font(.system(size: 17))
+                .font(.bodyRegular17)
                 .foregroundColor(viewModel.resources.buttonBackground)
                 .onTapGesture {
                     print("sdklaslaslkas")
@@ -523,7 +523,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     private func participantsFooter() -> some View {
         return Text("\(resources.lookAll) ( \(viewModel.getChannelUsers().count) \(resources.participant) )")
-            .font(.system(size: 17, weight: .semibold))
+            .font(.bodySemibold17)
             .foregroundColor(viewModel.resources.textBoxBackground)
             .onTapGesture {
                 viewModel.showParticipantsView(viewModel as! ChannelInfoViewModel,
@@ -546,7 +546,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     changeScreen(isEdit: true)
                 }, label: {
                     Text(resources.change)
-                        .font(.system(size: 17))
+                        .font(.bodyRegular17)
                         .foregroundColor(viewModel.resources.textBoxBackground)
                 })
             }
@@ -563,7 +563,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 }
             }, label: {
                 Text(resources.presentationCancel)
-                    .font(.system(size: 17))
+                    .font(.bodyRegular17)
                     .foregroundColor(viewModel.resources.textBoxBackground)
             })
         }
@@ -573,7 +573,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 changeScreen(isEdit: false)
             }, label: {
                 Text(resources.rightButton)
-                    .font(.system(size: 17, weight: .bold))
+                    .font(.bodyRegular17)
                     .foregroundColor(viewModel.resources.textBoxBackground)
             })
         }

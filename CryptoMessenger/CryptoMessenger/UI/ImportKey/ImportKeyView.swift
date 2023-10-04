@@ -63,7 +63,7 @@ struct ImportKeyView: View {
                    .toolbar {
                        ToolbarItem(placement: .principal) {
                            Text(viewModel.resources.importTitle)
-                               .font(.system(size: 17, weight: .semibold))
+                               .font(.bodySemibold17)
                        }
                    }
     }
@@ -73,7 +73,7 @@ struct ImportKeyView: View {
     private var content: some View {
         VStack(spacing: 0) {
             Text(viewModel.resources.keyImportTitle)
-                .font(.system(size: 22))
+                .font(.title2Regular22)
                 .padding(.top, 59)
 
             ZStack(alignment: .topLeading) {
@@ -82,7 +82,7 @@ struct ImportKeyView: View {
                     .padding(.leading, 16)
                     .background(viewModel.resources.textBoxBackground)
                     .foregroundColor(viewModel.resources.titleColor)
-                    .font(.system(size: 17))
+                    .font(.bodyRegular17)
                     .frame(height: 160)
                     .frame(maxWidth: .infinity)
                     .cornerRadius(8)
@@ -91,7 +91,7 @@ struct ImportKeyView: View {
                 if viewModel.newKey.isEmpty {
                     Text(viewModel.resources.importEnterPrivateKey)
                         .foregroundColor(viewModel.resources.textColor)
-                        .font(.system(size: 17))
+                        .font(.bodyRegular17)
                         .padding(.leading, 20)
                         .padding(.top, 12)
                         .disabled(true)
@@ -110,7 +110,7 @@ struct ImportKeyView: View {
             HStack {
                 Text(viewModel.resources.generatePhraseErrorKey)
                     .foregroundColor(viewModel.resources.negativeColor)
-                    .font(.system(size: 12, weight: .light))
+                    .font(.caption1Regular12)
                     .opacity(viewModel.isErrorState ? 1 : 0)
                     .padding(.top, 4)
                     .padding(.leading, 16)
@@ -118,7 +118,7 @@ struct ImportKeyView: View {
             }
 
             Text(viewModel.resources.importHowImportKey)
-                .font(.system(size: 15))
+                .font(.bodySemibold17)
                 .foregroundColor(viewModel.resources.buttonBackground)
                 .padding(.top, 8)
 
@@ -140,7 +140,7 @@ struct ImportKeyView: View {
             }
                 Text(isSelectedWalletType ? choosedWalletType.currency :
                         viewModel.resources.importChooseWalletType)
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.bodySemibold17)
         }
             Spacer()
             viewModel.resources.downSideArrowImage
@@ -168,7 +168,7 @@ struct ImportKeyView: View {
             switch showButtonAnimation {
             case false:
                 Text(viewModel.resources.importImport)
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(.bodySemibold17)
                     .foregroundColor(viewModel.isPhraseValid ? viewModel.resources.background : viewModel.resources.textColor)
                     .padding()
             case true:

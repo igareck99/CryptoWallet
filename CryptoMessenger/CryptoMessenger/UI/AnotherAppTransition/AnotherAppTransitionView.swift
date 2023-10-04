@@ -43,7 +43,7 @@ struct AnotherAppTransitionView: View {
                     vibrate(.soft)
                     showLocationTransition.toggle()
                 }
-                .font(.system(size: 17, weight: .regular))
+                .font(.bodyRegular17)
                 .foregroundColor(viewModel.resources.negativeColor)
                 .frame(maxWidth: .infinity, idealHeight: 60, maxHeight: 60)
                 .background(viewModel.resources.background)
@@ -58,7 +58,7 @@ struct AnotherAppTransitionView: View {
     private var dataView: some View {
         VStack {
             Text(viewModel.resources.openWith)
-                .font(.system(size: 17, weight: .bold))
+                .font(.bodySemibold17)
             ScrollView(.horizontal) {
                 LazyHGrid(rows: hGridLayout) {
                     ForEach(viewModel.resultAppList) { value in
@@ -80,7 +80,7 @@ struct AnotherAppTransitionView: View {
             } label: {
                 Text(viewModel.resources.shareWith)
                     .foregroundColor(viewModel.resources.buttonBackground)
-                    .font(.system(size: 19, weight: .semibold))
+                    .font(.bodySemibold17)
             }
             .padding(.bottom, 10)
         }

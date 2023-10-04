@@ -22,15 +22,15 @@ struct ContactInfoView<ViewModel: ContactInfoViewDelegate>: View {
                 HStack(spacing: 16) {
                     avatarView
                     Text(data.name)
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.bodySemibold17)
                     Spacer()
                 }
                 .padding(.horizontal, 24)
                 VStack(alignment: .leading, spacing: 4) {
                     Text(viewModel.resources.phoneText)
-                        .font(.system(size: 13, weight: .medium))
+                        .font(.footnoteSemibold13)
                     Text(data.phone ?? "")
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.subheadlineMedium15)
                         .foregroundColor(viewModel.resources.buttonBackground)
                     Divider()
                 }
@@ -47,7 +47,7 @@ struct ContactInfoView<ViewModel: ContactInfoViewDelegate>: View {
     private func makeToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Text(viewModel.resources.closeText)
-                .font(.system(size: 15, weight: .bold))
+                .font(.subheadlineMedium15)
                 .foreground(.dodgerBlue)
                 .onTapGesture {
 //                    presentationMode.wrappedValue.dismiss()
@@ -57,7 +57,7 @@ struct ContactInfoView<ViewModel: ContactInfoViewDelegate>: View {
 
         ToolbarItem(placement: .principal) {
             Text(viewModel.resources.phoneText)
-                .font(.system(size: 15, weight: .bold))
+                .font(.subheadlineMedium15)
                 .foregroundColor(viewModel.resources.titleColor)
         }
     }

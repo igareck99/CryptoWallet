@@ -13,7 +13,7 @@ struct AnswerCellView: View {
     var body: some View {
         HStack {
             Text(item.title)
-                .font(.regular(15))
+                .font(.subheadlineRegular15)
                 .frame(height: 24, alignment: .leading)
             Spacer()
             item.tapped ? R.image.answers.upsideArrow.image : R.image.answers.downsideArrow.image
@@ -55,7 +55,7 @@ struct AnswerView: View {
                         withAnimation(.linear(duration: 0.15)) {
                             ForEach(viewModel.listData[index].details) { item in
                                 Text(item.text)
-                                    .font(.system(size: 16, weight: .regular))
+                                    .font(.calloutRegular16)
                                     .frame(minHeight: 24,
                                            maxHeight: 44,
                                            alignment: .leading)
@@ -71,7 +71,7 @@ struct AnswerView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(viewModel.resources.additionalMenuQuestions)
-                    .font(.system(size: 16, weight: .regular))
+                    .font(.bodySemibold17)
             }
         }
     }

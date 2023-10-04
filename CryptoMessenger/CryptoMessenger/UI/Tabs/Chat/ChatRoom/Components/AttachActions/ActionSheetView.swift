@@ -58,7 +58,7 @@ struct ActionSheetView: View {
                     vibrate(.soft)
                     showActionSheet.toggle()
                 }
-                .font(.system(size: 17, weight: .regular))
+                .font(.bodyRegular17)
                 .foregroundColor(.spanishCrimson)
                 .frame(maxWidth: .infinity, idealHeight: 60, maxHeight: 60)
                 .background(.white)
@@ -78,12 +78,12 @@ struct ActionSheetView: View {
                 .frame(width: 24, height: 24)
 
             Text("0.50 AUR")
-                .font(.system(size: 16, weight: .regular))
+                .font(.bodyRegular17)
                 .foregroundColor(.chineseBlack)
 
             Spacer()
             Text(R.string.localizable.actionSheetSendFoto())
-                .font(.system(size: 17, weight: .semibold))
+                .font(.bodySemibold17)
                 .foregroundColor(.dodgerBlue)
                 .opacity(imagesToSend.isEmpty ? 0 : 1)
                 .onTapGesture {
@@ -162,8 +162,7 @@ struct ActionSheetView: View {
                 .cornerRadius(20)
 
                 Text(item.action.title)
-                    .font(.system(size: 17, weight: .regular))
-                    .font(.regular(17))
+                    .font(.bodyRegular17)
                     .foregroundColor(.dodgerBlue)
 
                 Spacer()

@@ -13,14 +13,14 @@ struct ErrorView: View {
     var body: some View {
         VStack {
             Text("What do you think could go wrong? 🤔")
-                .font(.bold(15))
+                .font(.headlineBold17)
                 .padding()
             Button {
                 presentationMode.wrappedValue.dismiss()
             }
         label: {
             Text("Dismiss")
-                .font(.bold(15))
+                .font(.headlineBold17)
         }
         }
     }

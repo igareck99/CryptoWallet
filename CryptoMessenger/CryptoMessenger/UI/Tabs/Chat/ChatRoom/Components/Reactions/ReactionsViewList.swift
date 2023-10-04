@@ -57,7 +57,7 @@ struct ReactionsViewList: View {
                         .cornerRadius(radius: 45, corners: .allCorners)
                         .frame(width: 40, height: 40)
                     Text(item.name)
-                        .font(.bold(15))
+                        .font(.headlineBold17)
                     Spacer()
                 }
             }

@@ -16,10 +16,10 @@ struct ReceiverRowView: View {
                 defaultUrl: data.url,
                 placeholder: {
                     ZStack {
-                        Color(.lightBlue())
+                        Color.aliceBlue
                         Text(data.name.firstLetter.uppercased())
                             .foreground(.white)
-                            .font(.medium(22))
+                            .font(.title2Bold22)
                     }
                 },
                 result: {
@@ -31,13 +31,14 @@ struct ReceiverRowView: View {
             .cornerRadius(20)
             VStack(alignment: .leading) {
                 Text(data.name)
-                    .font(.regular(17))
+                    .foregroundColor(.chineseBlack)
+                    .font(.bodyRegular17)
                 Text(textDescription())
-                    .foregroundColor(.gray)
-                    .font(.regular(13))
+                    .foregroundColor(.romanSilver)
+                    .font(.caption1Regular12)
             }
         }
-        .background(.white())
+        .background(.white)
         .onTapGesture {
             data.onTap(data)
         }

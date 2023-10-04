@@ -152,8 +152,8 @@ extension CountryCodePickerViewController {
         header.background(.aliceBlue)
         let title = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.frame.width - 16, height: 24))
         title.text = countries[section].first?.name.firstLetter
-        title.font(.medium(15))
-        title.textColor(.chineseBlack)
+        title.font = UIFont.init(size: 15, weight: .medium)
+        title.textColor = .chineseBlack
         title.textAlignment = .left
         header.addSubview(title)
 
@@ -236,8 +236,8 @@ extension CountryCodePickerViewController {
 
         private func addNameLabel() {
             nameLabel.snap(parent: contentView) {
-                $0.font(.regular(15))
-                $0.textColor(.chineseBlack)
+                $0.font = UIFont.init(size: 15)
+                $0.textColor = .chineseBlack
                 $0.textAlignment = .left
             } layout: {
                 $0.centerY.equalTo($1)

@@ -13,10 +13,10 @@ struct SessionInfoView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(sessionInfoItem.title)
-                .font(.system(size: 12, weight: .regular))
+                .font(.caption1Regular12)
                 .foregroundColor(.romanSilver)
             Text(sessionInfoItem.info)
-                .font(.system(size: 15, weight: .bold))
+                .font(.bodySemibold17)
                 .foregroundColor(.chineseBlack)
             Spacer()
         }
@@ -56,7 +56,7 @@ struct SessionDetailView: View {
                 })
                 Spacer()
                 Text(R.string.localizable.sessionAdditionalTitle())
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.callout2Semibold16)
                 Spacer()
                 Text("")
                     .frame(width: 40)
@@ -79,7 +79,7 @@ struct SessionDetailView: View {
                         self.showModal.toggle()
                     }, label: {
                         Text(R.string.localizable.sessionFinishOne())
-                            .font(.system(size: 15, weight: .bold))
+                            .font(.bodySemibold17)
                             .foregroundColor(.white)
                     }).frame(width: 225, height: 44)
                         .background(Color.dodgerBlue)

@@ -15,10 +15,10 @@ struct PrivacyCellView: View {
         HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(item.result.title)
-                    .font(.system(size: 17, weight: .regular))
+                    .font(.bodyRegular17)
                 if !item.result.state.isEmpty {
                     Text(item.result.state)
-                        .font(.system(size: 12, weight: .regular))
+                        .font(.caption1Regular12)
                         .foregroundColor(.chineseBlack)
                         .lineLimit(2)
                 }

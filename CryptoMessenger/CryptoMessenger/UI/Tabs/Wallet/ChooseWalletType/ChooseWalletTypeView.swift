@@ -17,7 +17,7 @@ struct ChooseWalletTypeView: View {
         VStack(spacing: 0) {
 
             Text(R.string.localizable.transferChooseCurrency())
-                .font(.system(size: 17, weight: .semibold))
+                .font(.bodySemibold17)
                 .foregroundColor(.chineseBlack)
                 .frame(height: 24)
                 .padding(.vertical, 24)

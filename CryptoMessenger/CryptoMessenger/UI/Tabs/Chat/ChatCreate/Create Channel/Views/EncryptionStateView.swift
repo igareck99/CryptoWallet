@@ -11,7 +11,7 @@ struct EncryptionStateView: View {
             
             HStack(spacing: 0) {
                 Text(title)
-                    .font(.system(size: 17))
+                    .font(.bodyRegular17)
                     .foregroundColor(.chineseBlack)
                 
                 Spacer()
@@ -20,7 +20,7 @@ struct EncryptionStateView: View {
             }
             
             Text(text)
-                .font(.system(size: 12))
+                .font(.caption1Regular12)
                 .foregroundColor(.romanSilver)
                 .padding(.top, 8)
         }

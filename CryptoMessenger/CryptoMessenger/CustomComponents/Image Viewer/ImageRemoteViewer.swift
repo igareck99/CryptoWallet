@@ -57,7 +57,7 @@ public struct ImageViewerRemote: View {
                             Button(action: { self.viewerShown = false }) {
                                 Image(systemName: "xmark")
                                     .foregroundColor(Color(UIColor.white))
-                                    .font(.system(size: UIFontMetrics.default.scaledValue(for: 24)))
+                                    .font(.title2Regular22)
                             }
                             .padding(.top, 64)
                             .padding(.trailing, 16)
@@ -144,7 +144,7 @@ public struct ImageViewerRemote: View {
                                 Button(action: { onShare() }) {
                                     R.image.photoEditor.share.image
                                         .foregroundColor(Color(UIColor.white))
-                                        .font(.system(size: UIFontMetrics.default.scaledValue(for: 24)))
+                                        .font(.title2Regular22)
                                 }
                                 .padding(.leading, 16)
                                 .padding(.bottom, 16)
@@ -154,7 +154,7 @@ public struct ImageViewerRemote: View {
                                 Button(action: { onDelete() }) {
                                     R.image.photoEditor.brush.image
                                         .foregroundColor(Color(UIColor.white))
-                                        .font(.system(size: UIFontMetrics.default.scaledValue(for: 24)))
+                                        .font(.title2Regular22)
                                 }
                                 .padding(.trailing, 16)
                                 .padding(.bottom, 16)

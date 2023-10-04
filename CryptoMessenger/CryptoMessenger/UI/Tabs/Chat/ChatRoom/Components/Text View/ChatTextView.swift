@@ -56,7 +56,7 @@ struct ChatTextView: View {
                                     .paragraph(.init(lineHeightMultiple: 1.19, alignment: .left))
                                  ]
                             )
-                            .font(.system(size: 13, weight: .medium))
+                            .font(.footnoteSemibold13)
                             .foregroundColor(.chineseBlack)
                             .padding(.top, 8)
                             Text(message.replyDescription,
@@ -64,7 +64,7 @@ struct ChatTextView: View {
                                     .paragraph(.init(lineHeightMultiple: 1.2,
                                                      alignment: .left))
                                  ]
-                            ) .font(.system(size: 13, weight: .regular))
+                            ) .font(.footnoteRegular13)
                                 .foregroundColor(.chineseBlack)
                         }
                         .frame(minWidth: 0, maxWidth: 70)
@@ -75,7 +75,7 @@ struct ChatTextView: View {
                 }
                 Text(text)
                     .lineLimit(nil)
-                    .font(.system(size: 17, weight: .regular))
+                    .font(.bodyRegular17)
                     .foregroundColor(.chineseBlack)
                     .padding(.top, 8)
                     .padding(.bottom, reactionItem.isEmpty ? 8 : 0)
@@ -95,7 +95,7 @@ struct ChatTextView: View {
                     Spacer()
                     Text(shortDate)
                         .frame(width: 40, height: 10)
-                        .font(.system(size: 12, weight: .light))
+                        .font(.caption1Regular12)
                         .foregroundColor(.chineseBlack04)
                         .fixedSize()
                     if isFromCurrentUser {

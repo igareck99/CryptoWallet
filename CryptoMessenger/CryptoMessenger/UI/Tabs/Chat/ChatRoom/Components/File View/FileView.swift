@@ -59,13 +59,13 @@ struct FileView: View {
 						.paragraph(.init(lineHeightMultiple: 1.21, alignment: .left))
 					])
                     .foregroundColor(.dodgerBlue)
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.calloutMedium16)
 					.frame(height: 23)
 					Text(viewModel.sizeOfFile, [
 						.paragraph(.init(lineHeightMultiple: 1.21, alignment: .left))
 					])
                     .foregroundColor(.ashGray)
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.footnoteSemibold13)
 					.frame(height: 23)
 				}
 			}

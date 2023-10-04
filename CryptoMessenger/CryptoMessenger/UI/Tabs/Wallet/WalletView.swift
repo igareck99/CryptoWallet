@@ -32,7 +32,7 @@ struct WalletView: View {
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(viewModel.resources.tabWallet)
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.bodySemibold17)
                 }
             }
     }
@@ -143,13 +143,13 @@ struct WalletView: View {
                 .frame(minHeight: 140)
 
             Text(viewModel.resources.walletNoData)
-                .font(.system(size: 22))
+                .font(.title2Regular22)
                 .foregroundColor(viewModel.resources.titleColor)
                 .frame(alignment: .center)
                 .padding(.bottom, 6)
 
             Text(viewModel.resources.walletAddWalletLong)
-                .font(.system(size: 15))
+                .font(.subheadlineRegular15)
                 .foregroundColor(viewModel.resources.textColor)
                 .frame(alignment: .center)
                 .multilineTextAlignment(.center)
@@ -159,7 +159,7 @@ struct WalletView: View {
                 viewModel.showAddSeed()
             } label: {
                 Text(viewModel.resources.walletAddWalletShort)
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(.bodySemibold17)
                     .foregroundColor(viewModel.resources.background)
                     .padding([.leading, .trailing], 40)
                     .padding([.bottom, .top], 13)
@@ -195,9 +195,9 @@ struct WalletView: View {
             }
             VStack(alignment: .leading, spacing: 8) {
                 Text(viewModel.totalBalance)
-                    .font(.system(size: 22, weight: .regular))
+                    .font(.title2Regular22)
                 Text(viewModel.resources.tabOverallBalance)
-                    .font(.system(size: 13, weight: .regular))
+                    .font(.footnoteRegular13)
                     .foregroundColor(viewModel.resources.innactiveButtonBackground)
             }
         }
@@ -206,7 +206,7 @@ struct WalletView: View {
     private var transactionTitleView: some View {
         HStack {
             Text(viewModel.resources.walletTransaction)
-                .font(.system(size: 16, weight: .semibold))
+                .font(.callout2Semibold16)
                 .padding(.leading, 16)
             Spacer()
         }
@@ -218,7 +218,7 @@ struct WalletView: View {
             viewModel.send(.onTransfer(walletIndex: pageIndex))
         } label: {
             Text(viewModel.resources.walletSend)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.bodySemibold17)
                 .frame(maxWidth: .infinity)
                 .foregroundColor(viewModel.resources.background)
                 .padding()
@@ -271,12 +271,12 @@ struct WalletView: View {
             R.image.wallet.emptyTransactions.image
                 .padding(.bottom, 4)
             Text(viewModel.resources.walletNoData)
-                .font(.system(size: 22))
+                .font(.title2Regular22)
                 .foregroundColor(viewModel.resources.titleColor)
                 .padding(.bottom, 4)
             Text(viewModel.resources.walletManagerMakeYourFirstTransaction)
                 .multilineTextAlignment(.center)
-                .font(.system(size: 15))
+                .font(.subheadlineRegular15)
                 .foregroundColor(viewModel.resources.textColor)
 
             Spacer()

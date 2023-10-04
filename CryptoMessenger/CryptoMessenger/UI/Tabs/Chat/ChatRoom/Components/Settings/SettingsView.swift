@@ -63,7 +63,7 @@ struct SettingsView: View {
                 }
                 ToolbarItem(placement: .principal) {
                     Text(viewModel.resources.settings)
-                        .font(.system(size: 15, weight: .bold))
+                        .font(.subheadlineMedium15)
                         .foregroundColor(viewModel.resources.titleColor)
                 }
 
@@ -75,7 +75,7 @@ struct SettingsView: View {
                         presentationMode.wrappedValue.dismiss()
                     }, label: {
                         Text(viewModel.resources.profileDetailRightButton)
-                            .font(.system(size: 15, weight: .semibold))
+                            .font(.subheadlineMedium15)
                             .foregroundColor(viewModel.resources.buttonBackground)
                     })
                 }
@@ -195,7 +195,7 @@ struct SettingsView: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 Text(viewModel.resources.contactChatDetailInfo.uppercased())
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.caption1Medium12)
                     .foregroundColor(viewModel.resources.textColor)
                 Spacer()
             }
@@ -246,7 +246,7 @@ struct SettingsView: View {
                     case .media:
                         Text(chatData.media.count.description, [
                             .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
-                        ]).font(.system(size: 15, weight: .regular))
+                        ]).font(.subheadlineRegular15)
                             .foregroundColor(viewModel.resources.buttonBackground)
                             .frame(height: 64)
                             .padding(.leading, 16)
@@ -256,7 +256,7 @@ struct SettingsView: View {
                     case .admins:
                         Text(chatData.admins.count.description, [
                             .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
-                        ]).font(.system(size: 15, weight: .regular))
+                        ]).font(.subheadlineRegular15)
                             .foregroundColor(viewModel.resources.buttonBackground)
                             .frame(height: 64)
                             .padding(.leading, 16)
@@ -295,7 +295,7 @@ struct SettingsView: View {
         HStack(spacing: 0) {
             Text(viewModel.resources.channelInfoParticipant.uppercased(), [
                 .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left))
-            ]).font(.system(size: 12, weight: .semibold))
+            ]).font(.caption1Medium12)
                 .foregroundColor(viewModel.resources.textColor)
             Spacer()
 
@@ -305,7 +305,7 @@ struct SettingsView: View {
                 } label: {
                     Text(viewModel.resources.channelInfoOpen.uppercased(), [
                         .paragraph(.init(lineHeightMultiple: 1.54, alignment: .right))
-                    ]).font(.system(size: 12, weight: .semibold))
+                    ]).font(.caption1Medium12)
                         .foregroundColor(viewModel.resources.buttonBackground)
                     .frame(height: 22)
                 }

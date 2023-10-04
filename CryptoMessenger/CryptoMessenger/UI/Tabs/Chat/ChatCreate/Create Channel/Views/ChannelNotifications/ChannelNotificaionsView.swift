@@ -21,7 +21,7 @@ struct ChannelNotificaionsView: View {
                     cellStatus
                 } header: {
                     Text(viewModel.resouces.channelNotificationsPopUpAlerts)
-                        .font(.system(size: 12, weight: .regular))
+                        .font(.caption1Regular12)
                         .foregroundColor(viewModel.resouces.textColor)
                 }
                 .listStyle(.insetGrouped)
@@ -40,7 +40,7 @@ struct ChannelNotificaionsView: View {
         ForEach(ChannelNotificationsStatus.allCases, id: \.self) { item in
             HStack {
                 Text(item.rawValue)
-                    .font(.system(size: 17 , weight: .regular))
+                    .font(.bodyRegular17)
                 Spacer()
                 viewModel.resouces.checkmarkImage
                     .frame(width: 14.3, height: 14.2)
@@ -67,7 +67,7 @@ struct ChannelNotificaionsView: View {
         }
         ToolbarItem(placement: .principal) {
             Text(viewModel.resouces.channelNotificationsAlerts)
-                .font(.system(size: 17, weight: .bold))
+                .font(.bodySemibold17)
         }
     }
 }

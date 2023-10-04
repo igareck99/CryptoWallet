@@ -26,7 +26,7 @@ struct ScalableButtonView: View {
             delay(0.2) { didTap?() }
         } label: {
             Text(title)
-                .font(.bold(16))
+                .font(.callout2Semibold16)
                 .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, alignment: .center)
                 //.background(isDisabled ? .lightGray() : .blue())
                 .foreground(isDisabled ? .romanSilver : .dodgerBlue)

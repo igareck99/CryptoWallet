@@ -8,7 +8,7 @@ struct AvatarLetterView: View {
             .fill(model.backColor)
             .overlay(
                 Text(model.letter)
-                    .font(.bold(17))
+                    .font(.bodyRegular17)
                     .foregroundColor(.white)
             )
     }

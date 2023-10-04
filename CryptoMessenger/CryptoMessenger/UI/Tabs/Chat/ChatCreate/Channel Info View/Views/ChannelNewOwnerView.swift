@@ -45,7 +45,7 @@ struct ChannelNewOwnerView: View {
                                         Color.aliceBlue
                                         Text(contact.name.firstLetter.uppercased())
                                             .foregroundColor(.white)
-                                            .font(.system(size: 22, weight: .medium))
+                                            .font(.title2Regular22)
                                     }
                                 },
                                 result: {
@@ -57,7 +57,7 @@ struct ChannelNewOwnerView: View {
                             .cornerRadius(20)
                             
                             Text(contact.name)
-                                .font(.system(size: 15, weight: .semibold))
+                                .font(.subheadlineRegular15)
                                 .foregroundColor(.chineseBlack)
                                 .padding(.top, 12)
                         }
@@ -92,7 +92,7 @@ struct ChannelNewOwnerView: View {
         }
         ToolbarItem(placement: .principal) {
             Text(R.string.localizable.channelSettingsSelectOwner())
-                .font(.system(size: 17, weight: .bold))
+                .font(.bodyRegular17)
                 .lineLimit(1)
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -101,7 +101,7 @@ struct ChannelNewOwnerView: View {
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
-                    .font(.system(size: 15, weight: .bold))
+                    .font(.bodyRegular17)
                     .foregroundColor(.dodgerBlue)
             })
         }

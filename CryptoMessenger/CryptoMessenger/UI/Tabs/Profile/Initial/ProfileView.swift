@@ -73,7 +73,7 @@ struct ProfileView: View {
                         avatarView
                         VStack(alignment: .leading, spacing: 10) {
                             Text(viewModel.profile.name)
-                                .font(.system(size: 15, weight: .medium))
+                                .font(.subheadlineMedium15)
                                 .foregroundColor(viewModel.resources.title)
                             switch viewModel.socialListEmpty {
                             case false:
@@ -137,7 +137,7 @@ struct ProfileView: View {
                                     viewModel.send(.onSocial)
                                 }, label: {
                                     Text(viewModel.resources.profileAddSocial)
-                                        .font(.system(size: 15, weight: .regular))
+                                        .font(.subheadlineRegular15)
                                         .foregroundColor(viewModel.resources.buttonBackground)
                                 })
                                     .frame(width: 160, height: 32)
@@ -155,7 +155,7 @@ struct ProfileView: View {
                     if !viewModel.profile.status.isEmpty {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(viewModel.profile.status)
-                                .font(.system(size: 15, weight: .regular))
+                                .font(.subheadlineRegular15)
                                 .foregroundColor(viewModel.resources.title)
                         }.padding(.leading, 16)
                     }
@@ -280,7 +280,7 @@ struct ProfileView: View {
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Text(viewModel.profile.nickname)
-                .font(.system(size: 15, weight: .bold))
+                .font(.subheadlineRegular15)
                 .lineLimit(1)
                 .frame(minWidth: 0,
                        maxWidth: 0.78 * UIScreen.main.bounds.width)

@@ -19,7 +19,7 @@ struct NotSendedMessageMenu: View {
                     .frame(width: 30, height: 30)
                 Text(value.text)
                     .foreground(value.textColor)
-                    .font(.regular(16))
+                    .font(.calloutRegular16)
                 Spacer()
             }
             .frame(height: 57)

@@ -25,9 +25,9 @@ struct ChatHistorySearchRow: View {
             avatarView.padding(.init(top: 2, leading: 14, bottom: 0, trailing: 0))
             VStack(alignment: .leading, spacing: 2) {
                 Text(data.name)
-                    .font(.system(size: 17, weight: .regular))
+                    .font(.bodyRegular17)
                 Text("\(data.numJoinedMembers) участника")
-                    .font(.system(size: 12, weight: .regular))
+                    .font(.caption1Regular12)
                     .foreground(.romanSilver)
             }.padding(.init(top: 10, leading: 10, bottom: 0, trailing: 0))
             Spacer()
@@ -44,10 +44,10 @@ struct ChatHistorySearchRow: View {
             url: $url,
             placeholder: {
                 ZStack {
-                    Color(.lightBlue())
+                    Color(.aliceBlue)
                     Text(data.name.firstLetter.uppercased() ?? "?")
                         .foreground(.white)
-                        .font(.system(size: 20, weight: .medium))
+                        .font(.title3Semibold20)
                 }
             },
             result: {

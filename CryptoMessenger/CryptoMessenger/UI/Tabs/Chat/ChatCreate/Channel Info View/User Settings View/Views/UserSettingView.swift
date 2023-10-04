@@ -12,7 +12,7 @@ struct UserSettingView: View {
                 .foregroundColor(model.imageColor)
             
             Text(model.title)
-                .font(.system(size: 16))
+                .font(.calloutRegular16)
                 .foregroundColor(model.titleColor)
             
             Spacer()

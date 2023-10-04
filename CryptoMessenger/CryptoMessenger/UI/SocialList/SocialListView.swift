@@ -17,12 +17,12 @@ struct SocialListView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
 			Text(viewModel.resources.detailMain)
-                .font(.system(size: 12, weight: .bold))
+                .font(.caption1Medium12)
                 .foregroundColor(viewModel.resources.textColor)
                 .padding(.top, 24)
                 .padding(.leading)
 			Text(viewModel.resources.detailMessage)
-                .font(.system(size: 12, weight: .regular))
+                .font(.caption1Regular12)
                 .foregroundColor(viewModel.resources.textColor)
                 .padding(.leading)
             List {
@@ -50,7 +50,7 @@ struct SocialListView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
 				Text(viewModel.resources.detailTitle)
-                    .font(.system(size: 15, weight: .bold))
+                    .font(.bodySemibold17)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -58,7 +58,7 @@ struct SocialListView: View {
                     presentationMode.wrappedValue.dismiss()
                 }, label: {
 					Text(viewModel.resources.rightButton)
-                        .font(.system(size: 15, weight: .bold))
+                        .font(.bodySemibold17)
                         .foregroundColor(viewModel.resources.buttonBackround)
                         .onTapGesture {
                             viewModel.saveSocialData()

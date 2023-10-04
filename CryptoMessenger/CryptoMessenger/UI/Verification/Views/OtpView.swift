@@ -49,7 +49,7 @@ struct OtpView<Colors: OtpViewColorable>: View {
                 ForEach(0..<numberOfInputs) { index in
                     ZStack {
                         Text(getPin(index))
-                            .font(.system(size: 17))
+                            .font(.bodyRegular17)
                             .frame(width: 58, height: 46)
                             .foregroundColor(colors.codeTextColor.wrappedValue)
                             .background(

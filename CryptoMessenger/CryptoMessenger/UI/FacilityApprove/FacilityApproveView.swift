@@ -44,7 +44,7 @@ struct FacilityApproveView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(viewModel.resources.facilityApproveValidateTransaction)
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(.bodySemibold17)
             }
         }
     }
@@ -55,7 +55,7 @@ struct FacilityApproveView: View {
 		ScrollView {
 			VStack(alignment: .leading) {
                 Text(viewModel.resources.facilityApproveReceiver.uppercased())
-					.font(.system(size: 12))
+					.font(.caption1Regular12)
                     .foregroundColor(viewModel.resources.textColor)
 					.lineLimit(1)
 					.truncationMode(.middle)
@@ -69,7 +69,7 @@ struct FacilityApproveView: View {
 				}
 
                 Text(viewModel.resources.facilityApproveCheck)
-					.font(.system(size: 16))
+					.font(.calloutRegular16)
                     .foregroundColor(viewModel.resources.checkTextColor)
 					.multilineTextAlignment(.leading)
 			}
@@ -87,7 +87,7 @@ struct FacilityApproveView: View {
 			viewModel.send(.onTransaction)
 		} label: {
             Text(viewModel.resources.walletSend)
-				.font(.system(size: 17, weight: .semibold))
+				.font(.bodySemibold17)
 				.padding()
                 .foregroundColor(viewModel.resources.background)
 		}
@@ -104,7 +104,7 @@ struct FacilityApproveView: View {
                 .frame(width: 40, height: 40)
             VStack(alignment: .leading, spacing: 0) {
                 Text(viewModel.transaction.reciverName ?? viewModel.resources.facilityApproveToAddress)
-                    .font(.system(size: 17))
+                    .font(.bodyRegular17)
                     .foregroundColor(viewModel.resources.titleColor)
                     .lineLimit(1)
                     .truncationMode(.middle)

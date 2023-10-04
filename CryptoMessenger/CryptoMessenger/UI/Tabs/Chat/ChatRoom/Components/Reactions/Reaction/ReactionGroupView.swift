@@ -23,10 +23,10 @@ struct ReactionGroupView: View {
     var body: some View {
         HStack(spacing: 2) {
             Text(text)
-                .font(.system(size: 15, weight: .regular))
+                .font(.subheadlineRegular15)
 
             Text(count.description)
-                .font(.system(size: 12, weight: .regular))
+                .font(.caption1Regular12)
                 .foreground(Color(.custom(#colorLiteral(red: 0.1019607843, green: 0.1803921569, blue: 0.2078431373, alpha: 1))))
         }
         .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))

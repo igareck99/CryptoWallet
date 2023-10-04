@@ -23,7 +23,7 @@ struct TransactionInfoView: View {
 					VStack(alignment: .leading, spacing: 6) {
 						HStack {
 							Text(transaction.transactionResult)
-								.font(.system(size: 17))
+								.font(.bodyRegular17)
 								.foregroundColor(.romanSilver)
 							Spacer()
 							transactionAmount()
@@ -36,7 +36,7 @@ struct TransactionInfoView: View {
 						)
 						.lineLimit(1)
 						.truncationMode(.tail)
-						.font(.system(size: 12))
+						.font(.caption1Regular12)
 						.foregroundColor(.romanSilver)
 					}
 				}
@@ -46,7 +46,7 @@ struct TransactionInfoView: View {
 	@ViewBuilder
 	private func transactionAmount() -> some View {
         Text("\(transaction.sign) \(transaction.amount) \(transaction.transactionCoin.currency)")
-            .font(.system(size: 17))
+            .font(.bodyRegular17)
             .foregroundColor(
                 transaction.type == .send ?
                     .romanSilver : .greenCrayola

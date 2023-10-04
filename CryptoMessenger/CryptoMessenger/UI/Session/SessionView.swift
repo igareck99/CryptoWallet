@@ -18,10 +18,10 @@ struct SessionView: View {
                     .scaledToFill()
                 VStack(alignment: .leading) {
                     Text(session.device + R.string.localizable.sessingAura())
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.bodyRegular17)
                         .lineLimit(1)
                     Text(session.place + " • " + session.date)
-                        .font(.system(size: 12, weight: .regular))
+                        .font(.caption1Regular12)
                         .foregroundColor(.chineseBlack)
                         .lineLimit(1)
                         .offset(y: 2)
@@ -52,7 +52,7 @@ struct SessionListView: View {
             Text(viewModel.resources.sessionDescription)
                 .lineLimit(nil)
                 .multilineTextAlignment(.leading)
-                .font(.system(size: 13, weight: .regular))
+                .font(.calloutRegular16)
                 .foregroundColor(viewModel.resources.title)
                 .padding(.horizontal, 16)
             List {
@@ -73,7 +73,7 @@ struct SessionListView: View {
                 viewModel.send(.onDeleteAll)
             }, label: {
                 Text(viewModel.resources.sessionFinishAll)
-                    .font(.system(size: 15, weight: .bold))
+                    .font(.bodySemibold17)
                     .foregroundColor(viewModel.resources.background)
             }).frame(width: 225, height: 44, alignment: .center)
                 .background(viewModel.resources.buttonBackground)
@@ -98,7 +98,7 @@ struct SessionListView: View {
                .toolbar {
                    ToolbarItem(placement: .principal) {
                        Text(viewModel.resources.sessionFinishOne)
-                           .font(.system(size: 15, weight: .bold))
+                           .font(.bodySemibold17)
                    }
                }
                .toolbar(.hidden, for: .tabBar)

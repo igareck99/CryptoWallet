@@ -34,10 +34,10 @@ struct AboutAppView<ViewModel>: View where ViewModel: AboutAppViewModelDelegate 
                 .resizable()
                 .frame(width: 64, height: 64)
             Text(viewModel.resources.nameApp)
-                .font(.system(size: 22, weight: .regular))
+                .font(.title2Regular22)
                 .foregroundColor(viewModel.resources.titleColor)
             Text(viewModel.appVersion)
-                .font(.system(size: 16, weight: .regular))
+                .font(.calloutRegular16)
                 .foregroundColor(viewModel.resources.textColor)
         }
     }
@@ -54,7 +54,7 @@ struct AboutAppView<ViewModel>: View where ViewModel: AboutAppViewModelDelegate 
             viewModel.onPoliticTap()
         } label: {
             Text(viewModel.resources.politicConfidence)
-                .font(.system(size: 16, weight: .regular))
+                .font(.calloutRegular16)
                 .foregroundColor(viewModel.resources.buttonBackground)
         }
     }
@@ -64,7 +64,7 @@ struct AboutAppView<ViewModel>: View where ViewModel: AboutAppViewModelDelegate 
             viewModel.onUsageTap()
         } label: {
             Text(viewModel.resources.uasgeConditions)
-                .font(.system(size: 16, weight: .regular))
+                .font(.calloutRegular16)
                 .foregroundColor(viewModel.resources.buttonBackground)
         }
     }
@@ -73,7 +73,7 @@ struct AboutAppView<ViewModel>: View where ViewModel: AboutAppViewModelDelegate 
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .principal) {
             Text(viewModel.resources.aboutApp)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.bodySemibold17)
                 .lineLimit(1)
         }
     }

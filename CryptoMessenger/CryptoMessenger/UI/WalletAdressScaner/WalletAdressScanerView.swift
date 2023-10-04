@@ -17,7 +17,7 @@ struct WalletAddressScanerView: View {
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(viewModel.resources.qrCodeTitle)
-                        .font(.system(size: 15, weight: .bold))
+                        .font(.bodySemibold17)
                 }
             }
             .onChange(of: scannedCode) { newValue in

@@ -24,7 +24,7 @@ struct OnboardingCellView: View {
                 .padding(.horizontal, 16)
                     .padding(.top, data.imagePadding)
                 Text(data.text)
-                    .font(.system(size: 22, weight: .regular))
+                    .font(.title2Regular22)
                     .multilineTextAlignment(.center)
             }
             Spacer()

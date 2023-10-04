@@ -24,7 +24,7 @@ struct AnotherAppDataView: View {
                            height: 48)
             }
             Text(appData.name)
-                .font(.system(size: 15, weight: .regular))
+                .font(.subheadlineRegular15)
         }
     }
 }

@@ -20,7 +20,8 @@ struct NotesView: View {
                     }
                 Spacer()
                 Text(R.string.localizable.noteViewAddNote())
-                    .font(.system(size: 15, weight: .bold))
+                    .font(.subheadlineMedium15)
+                    .foregroundColor(.chineseBlack)
                 Spacer()
             }
             .padding(.top, 16)
@@ -45,7 +46,7 @@ struct NotesView: View {
                 .padding(.leading, 16)
                 .background(Color.aliceBlue)
                 .foregroundColor(.chineseBlack)
-                .font(.system(size: 15, weight: .regular))
+                .font(.subheadlineRegular15)
                 .frame(width: UIScreen.main.bounds.width - 32,
                        height: 132)
                 .cornerRadius(8)
@@ -53,6 +54,7 @@ struct NotesView: View {
                 .padding(.top, 32)
             if newKey.isEmpty {
                 Text(R.string.localizable.noteViewPlaceholder())
+                    .font(.subheadlineRegular15)
                     .foregroundColor(.romanSilver)
                     .padding(.leading, 17)
                     .padding(.top, 12)
@@ -65,11 +67,11 @@ struct NotesView: View {
     private var info: some View {
         HStack {
             Text(R.string.localizable.noteViewWhoSee())
-                .font(.system(size: 12, weight: .regular))
+                .font(.caption1Regular12)
                 .foregroundColor(.romanSilver)
             Spacer()
             Text("\(newKey.count)/160")
-                .font(.system(size: 12, weight: .regular))
+                .font(.caption1Regular12)
                 .foregroundColor(.romanSilver)
         }
     }
@@ -78,7 +80,7 @@ struct NotesView: View {
         Button {
         } label: {
             Text(R.string.localizable.noteViewApprove())
-                .font(.system(size: 15, weight: .semibold))
+                .font(.subheadlineMedium15)
                 .foregroundColor(newKey.isEmpty ? .romanSilver : .white)
                 .frame(width: 185,
                        height: 44)

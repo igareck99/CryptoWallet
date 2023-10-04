@@ -44,14 +44,14 @@ struct NavigationBarModifier: ViewModifier {
         standardAppearance.titleAttributes(
             [
                 .color(titleColor ?? .chineseBlack),
-                .font(.semibold(17)),
+                .font(.bodySemibold17),
                 .kern(-0.5),
                 .paragraph(.init(lineHeightMultiple: 1.08, alignment: .center))
             ]
         )
         standardAppearance.largeTitleAttributes(
             [.color(titleColor ?? .chineseBlack),
-             .font(.bold(34)),
+             .font(.largeTitleRegular34),
              .kern(-1),
              .paragraph(.init(lineHeightMultiple: 0.93, alignment: .left))
             ]

@@ -22,7 +22,7 @@ struct ContactRow: View {
                             Color.aliceBlue
                             Text(contact.name.firstLetter.uppercased())
                                 .foregroundColor(.white)
-                                .font(.system(size: 22, weight: .medium))
+                                .font(.title2Regular22)
                         }
                     },
                     result: {
@@ -37,7 +37,7 @@ struct ContactRow: View {
                     HStack(alignment: .center, spacing: 0) {
                         Text(contact.name)
                             .lineLimit(1)
-                            .font(.system(size: 15, weight: .semibold))
+                            .font(.bodyRegular17)
                             .foregroundColor(.chineseBlack)
                         
                         Spacer()
@@ -46,19 +46,19 @@ struct ContactRow: View {
                             Text(R.string.localizable.chatCreateAdmin(), [
                                 .paragraph(.init(lineHeightMultiple: 1, alignment: .right))
                             ]).foregroundColor(.romanSilver)
-                                .font(.system(size: 13, weight: .regular))
+                                .font(.footnoteRegular13)
                         }
                     }
                     
                     switch contact.type {
                     case .sendContact:
                         Text(contact.phone)
-                            .font(.regular(13))
-                            .foregroundColor(.gray)
+                            .font(.caption1Regular12)
+                            .foregroundColor(.romanSilver)
                     default:
                         Text(contact.status)
                             .lineLimit(1)
-                            .font(.system(size: 13, weight: .regular))
+                            .font(.caption1Regular12)
                             .foregroundColor(.romanSilver)
                     }
                 }
@@ -72,7 +72,7 @@ struct ContactRow: View {
                         contact.onTap(contact)
                     } label: {
                         Text(R.string.localizable.chatCreateInvite())
-                            .font(.system(size: 15, weight: .regular))
+                            .font(.subheadlineRegular15)
                             .foregroundColor(.dodgerBlue)
                             .frame(width: 115, height: 32, alignment: .center)
                     }

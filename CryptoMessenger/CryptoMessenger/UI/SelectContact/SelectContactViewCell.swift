@@ -28,7 +28,7 @@ struct SelectContactViewCell: View {
                             Color.aliceBlue
                             Text(data.name.firstLetter.uppercased())
                                 .foreground(.white)
-                                .font(.system(size: 22, weight: .medium))
+                                .font(.title2Bold22)
                         }
                     },
                     result: {
@@ -40,7 +40,7 @@ struct SelectContactViewCell: View {
                 .cornerRadius(20)
                 Text(data.name)
                     .lineLimit(1)
-                    .font(.system(size: 17, weight: .regular))
+                    .font(.bodyRegular17)
                     .foreground(.chineseBlack)
                 Spacer()
             }

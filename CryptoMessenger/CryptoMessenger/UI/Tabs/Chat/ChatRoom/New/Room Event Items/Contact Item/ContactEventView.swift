@@ -19,10 +19,10 @@ struct ContactEventView<
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(model.title)
-                        .font(.system(size: 16))
+                        .font(.bodyRegular17)
                         .foregroundColor(.chineseBlack)
                     Text(model.subtitle)
-                        .font(.system(size: 13))
+                        .font(.footnoteRegular13)
                         .foregroundColor(.dodgerBlue)
                 }
                 Spacer()
@@ -36,7 +36,7 @@ struct ContactEventView<
                 .padding(.vertical, 8)
                 .overlay {
                     Text("Профиль AURA")
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.bodyRegular17)
                         .foregroundColor(.dodgerBlue)
                         .frame(maxWidth: .infinity)
                 }

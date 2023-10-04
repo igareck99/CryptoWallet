@@ -21,7 +21,7 @@ struct CountryCodeView: View {
                spacing: 8) {
             Text(R.string.localizable.profileDetailPhonePlaceholder())
                 .padding(.leading, 16)
-                .font(.bold(15))
+                .font(.subheadlineRegular15)
                 .foregroundColor(.romanSilver)
             HStack {
                 countryField

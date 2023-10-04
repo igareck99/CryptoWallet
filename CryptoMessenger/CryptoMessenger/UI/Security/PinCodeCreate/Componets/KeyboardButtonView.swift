@@ -20,7 +20,7 @@ struct KeyboardButtonView: View {
                     .fill(Color.dodgerTransBlue)
                     .frame(width: 80, height: 80)
                 Text(String(value))
-                    .font(.system(size: 24, weight: .regular))
+                    .font(.title2Regular22)
             }
         case .faceId:
             ZStack(alignment: .center) {

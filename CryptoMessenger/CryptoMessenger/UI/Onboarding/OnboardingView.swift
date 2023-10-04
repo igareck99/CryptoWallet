@@ -29,7 +29,7 @@ struct OnboardingView<ViewModel>: View where ViewModel: OnboardingViewModelDeleg
                                 .resizable()
                                 .scaledToFit()
                             Text(value.text)
-                                .font(.system(size: 22, weight: .regular))
+                                .font(.title2Regular22)
                                 .multilineTextAlignment(.center)
                         }.padding()
                         Spacer()
@@ -77,7 +77,7 @@ struct OnboardingView<ViewModel>: View where ViewModel: OnboardingViewModelDeleg
             viewModel.handleContinueButtonTap()
         } label: {
             Text(viewModel.continueText)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.bodySemibold17)
                 .frame(maxWidth: .infinity)
                 .foregroundColor(viewModel.resources.background)
                 .padding()

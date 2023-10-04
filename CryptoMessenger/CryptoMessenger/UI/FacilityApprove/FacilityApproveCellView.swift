@@ -19,10 +19,10 @@ struct FacilityApproveCellView: View {
             }
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.title)
-                    .font(.system(size: 12))
+                    .font(.caption1Regular12)
                     .foregroundColor(.chineseBlack)
                 Text(item.text)
-                    .font(.system(size: 17))
+                    .font(.bodyRegular17)
                     .foregroundColor(.romanSilver)
                     .lineLimit(1)
                     .truncationMode(.middle)

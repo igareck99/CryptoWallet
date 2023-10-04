@@ -16,9 +16,9 @@ struct SecurityAdvancedCellView: View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .font(.system(size: 15, weight: .regular))
+                    .font(.bodyRegular17)
                 Text(description)
-                    .font(.system(size: 12, weight: .regular))
+                    .font(.caption1Regular12)
                     .foregroundColor(.romanSilver)
             }
             Spacer()

@@ -103,14 +103,14 @@ struct VideoView: View {
             if viewModel.isVideoUpload {
                 Text("\(viewModel.videoDuration)")
                     .foregroundColor(.white)
-                    .font(.system(size: 12, weight: .regular))
+                    .font(.caption1Regular12)
                 RoundedRectangle(cornerRadius: 13, style: .continuous)
                     .fill(Color.chineseBlack04)
                     .frame(width: 32, height: 14)
             } else {
                 Text("\(viewModel.videoSize)")
                     .foregroundColor(.white)
-                    .font(.system(size: 12, weight: .regular))
+                    .font(.caption1Regular12)
                     .lineLimit(1)
                 RoundedRectangle(cornerRadius: 13, style: .continuous)
                     .fill(Color.chineseBlack04)

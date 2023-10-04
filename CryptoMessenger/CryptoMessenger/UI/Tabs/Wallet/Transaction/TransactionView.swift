@@ -52,7 +52,7 @@ struct TransactionView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(viewModel.resources.transactionTitleAll)
-                    .font(.system(size: 15, weight: .bold))
+                    .font(.callout2Semibold16)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -141,7 +141,7 @@ struct TransactionInfoDetailView: View {
                    spacing: 2) {
                 ForEach(titles, id: \.self) { item in
                     Text(item)
-                        .font(.system(size: 13, weight: .bold))
+                        .font(.footnoteRegular13)
                 }
             }
             VStack(alignment: .leading,
@@ -149,7 +149,7 @@ struct TransactionInfoDetailView: View {
                 ForEach(data, id: \.self) { item in
                     Text(item)
                         .foregroundColor(.romanSilver)
-                        .font(.system(size: 12, weight: .regular))
+                        .font(.subheadlineRegular15)
                 }
             }
         }

@@ -71,7 +71,7 @@ struct CreateActionView: View {
             HStack(spacing: 12) {
                 action.data.image
                 action.data.text
-                    .font(.system(size: 17))
+                    .font(.bodyRegular17)
                     .foregroundColor(.chineseBlack)
                     .frame(height: 57)
 

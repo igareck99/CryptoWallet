@@ -17,7 +17,7 @@ struct SearchTypeView: View {
                  [
                     .paragraph(.init(lineHeightMultiple: 1.21, alignment: .center))
                  ])
-                .font(.system(size: 16, weight: .regular))
+                .font(.bodyRegular17)
                 .foregroundColor(searchTypeCell == selectedSearchType ? .dodgerBlue: .romanSilver)
             Divider()
                 .frame(width: UIScreen.main.bounds.width / 2, height: 2)

@@ -24,7 +24,7 @@ struct TransactionResultView: View {
 				.padding(.bottom, 16)
 
 			Text(model.title)
-				.font(.system(size: 17, weight: .semibold))
+				.font(.bodySemibold17)
 				.foregroundColor(.chineseBlack)
 
 			Image(model.resultImageName)
@@ -36,7 +36,7 @@ struct TransactionResultView: View {
 				.lineLimit(1)
 				.truncationMode(.middle)
 				.frame(alignment: .center)
-				.font(.system(size: 34))
+				.font(.largeTitleRegular34)
 				.foregroundColor(.chineseBlack)
 				.padding(.top, 8)
 
@@ -44,7 +44,7 @@ struct TransactionResultView: View {
 				.lineLimit(1)
 				.truncationMode(.middle)
 				.frame(alignment: .center)
-				.font(.system(size: 22))
+				.font(.title2Regular22)
 				.foregroundColor(.chineseBlack)
 				.padding(.top, 22)
 
@@ -52,7 +52,7 @@ struct TransactionResultView: View {
 				.lineLimit(1)
 				.truncationMode(.middle)
 				.frame(alignment: .center)
-				.font(.system(size: 15))
+				.font(.subheadlineRegular15)
 				.foregroundColor(.romanSilver)
 				.padding(.top, 4)
 				.padding(.horizontal, 32)
