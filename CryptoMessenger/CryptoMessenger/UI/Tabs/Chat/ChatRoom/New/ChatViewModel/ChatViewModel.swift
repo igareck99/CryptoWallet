@@ -53,7 +53,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     var isDirect: Bool { room.isDirect }
     var isOnline: Bool { room.isOnline }
     var userHasAccessToMessage = true
-    var isChannel = false
+    @Published var isChannel = false
 
     var isGroupCall: Bool {
         room.isDirect == false && availabilityFacade.isGroupCallsAvailable && !self.isChannel
@@ -98,6 +98,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         self.availabilityFacade = availabilityFacade
         bindInput()
         updateData()
+        joinRoom(roomId: room.roomId)
     }
 
     deinit {
@@ -133,11 +134,14 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 case .onAppear:
                     self.matrixUseCase.getRoomState(roomId: self.room.roomId) { [weak self] result in
                         guard let self = self else { return }
-                        guard case let .success(state) = result else { return }
-                        self.roomPowerLevels = state.powerLevels
-                        self.isAccessToWrite = state.powerLevels.powerLevelOfUser(
+                        guard case let .success(state) = result,
+                              let pLevels = state.powerLevels else { return }
+                        self.roomPowerLevels = pLevels
+                        self.isAccessToWrite = pLevels.powerLevelOfUser(
                             withUserID: self.matrixUseCase.getUserId()
                         ) >= 50 ? true : false
+                        self.isChannel = pLevels.eventsDefault == 50
+                        debugPrint("self?.isChannel: pLevels.eventsDefault == 50 \(self.isChannel)")
                         self.matrixUseCase.objectChangePublisher.send()
                     }
                 default:
@@ -149,6 +153,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         matrixUseCase.objectChangePublisher
             .receive(on: DispatchQueue.global(qos: .background))
             .sink { [weak self] _ in
+                self?.updateToggles()
                 guard
                     let self = self,
                     let room = self.matrixUseCase.auraRooms.first(where: { $0.roomId == self.room.roomId })
@@ -187,14 +192,14 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     })
             }
             .store(in: &subscriptions)
-        
+
         p2pVideoCallPublisher
             .subscribe(on: RunLoop.main)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 debugPrint("Place_Call: p2pVideoCallPublisher")
                 guard let self = self else { return }
-                
+
                 if self.isGroupCall {
                     self.groupCallsUseCase.placeGroupCallInRoom(roomId: self.room.roomId)
                     return
@@ -205,7 +210,22 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 )
                 self.updateToggles()
             }.store(in: &subscriptions)
-        
+
+        p2pVoiceCallPublisher
+            .subscribe(on: RunLoop.main)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                debugPrint("Place_Call: p2pVoiceCallPublisher")
+                // TODO: Handle failure case
+                guard let self = self else { return }
+                let roomId = self.room.roomId
+                self.p2pCallsUseCase.placeVoiceCall(
+                    roomId: roomId,
+                    contacts: self.chatData.contacts
+                )
+                self.updateToggles()
+            }.store(in: &subscriptions)
+
         groupCallPublisher
             .subscribe(on: RunLoop.main)
             .receive(on: RunLoop.main)
@@ -216,7 +236,17 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 self.updateToggles()
             }.store(in: &subscriptions)
     }
-    
+
+    func joinRoom(roomId: String) {
+        self.matrixUseCase.joinRoom(roomId: roomId) { _ in
+            guard let newRoom = self.matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {
+                return
+            }
+            debugPrint("joinRoom(roomId: \(roomId)")
+            debugPrint("joinRoom(roomId")
+        }
+    }
+
     func updateData() {
         getRoomPowerLevels()
         getChatData()
@@ -290,19 +320,27 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             guard let self = self else { return }
             guard case let .success(state) = result else { return }
             self.roomPowerLevels = state.powerLevels
-            
+
             if state.powerLevels == nil {
-                self.userHasAccessToMessage = false
-                self.isChannel = true
+                DispatchQueue.main.async { [weak self] in
+                    self?.userHasAccessToMessage = false
+                    self?.isChannel = true
+                    debugPrint("self?.isChannel: state.powerLevels == nil \(self?.isChannel)")
+                    self?.objectWillChange.send()
+                }
                 return
             }
-            
+
             let currentUserId = matrixUseCase.getUserId()
-            
+
             DispatchQueue.main.async { [weak self] in
                 let currentUserPowerLevel = state.powerLevels.powerLevelOfUser(withUserID: currentUserId)
                 self?.userHasAccessToMessage = currentUserPowerLevel >= state.powerLevels.eventsDefault
                 self?.isChannel = state.powerLevels.eventsDefault == 50
+                debugPrint("self?.isChannel: state.powerLevels.eventsDefault == 50 \(self?.isChannel)")
+                if self?.isChannel == false {
+                    debugPrint("self?.isChannel: state.powerLevels.eventsDefault == 50 \(self?.isChannel)")
+                }
                 self?.objectWillChange.send()
             }
         }

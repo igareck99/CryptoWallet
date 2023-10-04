@@ -60,7 +60,7 @@ NSString *const kMXReplySwizzledSelector = @"swizzled_getReplyContentBodiesWithE
     class_replaceMethod(class,
             originalSelector,
             swizzledImp,
-            method_getTypeEncoding(swizzledSelector));
+            method_getTypeEncoding(swizzledMethod));
 }
 
 - (BOOL)swizzled_canReplyToEvent:(MXEvent *)eventToReply {

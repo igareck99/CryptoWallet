@@ -695,6 +695,10 @@
 		D4533A1E28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */; };
 		D455F732287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D455F731287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift */; };
 		D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46187D2282D093200CA2836 /* ChatHistorySources.swift */; };
+		D46625F72ACD3BE500F3CAEE /* PassThroughWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46625F62ACD3BE500F3CAEE /* PassThroughWindow.swift */; };
+		D46625F92ACD3D6000F3CAEE /* P2PCallUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46625F82ACD3D6000F3CAEE /* P2PCallUseCaseProtocol.swift */; };
+		D46625FB2ACD3D9600F3CAEE /* P2PCallUseCaseDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46625FA2ACD3D9600F3CAEE /* P2PCallUseCaseDelegate.swift */; };
+		D46625FD2ACD3EF800F3CAEE /* AppSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46625FC2ACD3EF800F3CAEE /* AppSceneDelegate.swift */; };
 		D46B7C65297E935100BA4A9B /* CustomConfirmDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B7C64297E935100BA4A9B /* CustomConfirmDialog.swift */; };
 		D46B7C68297E93A600BA4A9B /* ConfirmDialogActionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B7C67297E93A600BA4A9B /* ConfirmDialogActionModel.swift */; };
 		D46B7C6A297E93BB00BA4A9B /* ConfirmDialogActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B7C69297E93BB00BA4A9B /* ConfirmDialogActionView.swift */; };
@@ -1664,6 +1668,10 @@
 		D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		D455F731287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteConfigUseCase+Toggles.swift"; sourceTree = "<group>"; };
 		D46187D2282D093200CA2836 /* ChatHistorySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySources.swift; sourceTree = "<group>"; };
+		D46625F62ACD3BE500F3CAEE /* PassThroughWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughWindow.swift; sourceTree = "<group>"; };
+		D46625F82ACD3D6000F3CAEE /* P2PCallUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallUseCaseProtocol.swift; sourceTree = "<group>"; };
+		D46625FA2ACD3D9600F3CAEE /* P2PCallUseCaseDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallUseCaseDelegate.swift; sourceTree = "<group>"; };
+		D46625FC2ACD3EF800F3CAEE /* AppSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSceneDelegate.swift; sourceTree = "<group>"; };
 		D46B7C64297E935100BA4A9B /* CustomConfirmDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomConfirmDialog.swift; sourceTree = "<group>"; };
 		D46B7C67297E93A600BA4A9B /* ConfirmDialogActionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogActionModel.swift; sourceTree = "<group>"; };
 		D46B7C69297E93BB00BA4A9B /* ConfirmDialogActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialogActionView.swift; sourceTree = "<group>"; };
@@ -1982,11 +1990,13 @@
 		5A187DD926806F4A001957D3 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				D4C8CF532A45C891007CC925 /* AppDelegateApplicationLifeCycle.swift */,
 				D46FC16129A3906B00D65C99 /* App Config */,
 				D4FD928F2A57CF31008EA8A2 /* Main App */,
 				5A187DBE26806EF8001957D3 /* AppDelegate.swift */,
+				D46625FC2ACD3EF800F3CAEE /* AppSceneDelegate.swift */,
 				5A187DDA26806F62001957D3 /* AppHelpers.swift */,
-				D4C8CF532A45C891007CC925 /* AppDelegateApplicationLifeCycle.swift */,
+				D46625F62ACD3BE500F3CAEE /* PassThroughWindow.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -4796,10 +4806,12 @@
 		D4D439E92836084D00AC0DEF /* P2P Call UseCase */ = {
 			isa = PBXGroup;
 			children = (
-				D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */,
+				D46625FA2ACD3D9600F3CAEE /* P2PCallUseCaseDelegate.swift */,
+				D46625F82ACD3D6000F3CAEE /* P2PCallUseCaseProtocol.swift */,
 				D4D439EA2836086900AC0DEF /* P2PCallUseCase.swift */,
 				D4D439FC283BEEC300AC0DEF /* P2PCallUseCase+Notifications.swift */,
 				D423A0A1285E2860004A8228 /* P2PCallState.swift */,
+				D4014D50283FB2CE00AAD70C /* P2PCallsRouter.swift */,
 			);
 			path = "P2P Call UseCase";
 			sourceTree = "<group>";
@@ -5354,6 +5366,7 @@
 				D4A26E2529368DB300FEADC2 /* EmptyStateViewModifier.swift in Sources */,
 				5A4BE516271DD86A00D03D09 /* AuraRoom.swift in Sources */,
 				5A187EC1268070B3001957D3 /* CGSize+Transform.swift in Sources */,
+				D46625F92ACD3D6000F3CAEE /* P2PCallUseCaseProtocol.swift in Sources */,
 				D44D61D42894CFB1004F5301 /* SocialNetworkType.swift in Sources */,
 				5A187E9E2680708D001957D3 /* ObservableArray.swift in Sources */,
 				D4C8CF502A45C0AC007CC925 /* AppTimeService.swift in Sources */,
@@ -5438,6 +5451,7 @@
 				D49FAD952A776F4100B26C8B /* AddSeedViewModel.swift in Sources */,
 				8BDBD92428FDA5BF00388C3D /* VideoViewModel.swift in Sources */,
 				D4A514B0295187BF007A87BF /* TransactionInfoApprove.swift in Sources */,
+				D46625FB2ACD3D9600F3CAEE /* P2PCallUseCaseDelegate.swift in Sources */,
 				8B75B3EB2A6EDB03008FE6DD /* RadioGroup.swift in Sources */,
 				5A3928322741A9EA00378ACA /* MXURL.swift in Sources */,
 				D4A514B629518922007A87BF /* FacilityApproveModel.swift in Sources */,
@@ -5606,6 +5620,7 @@
 				D4137B182A974D66001241B6 /* TextEventView.swift in Sources */,
 				8B34A9F428D46BAC0097ED9E /* DirectMenuView.swift in Sources */,
 				8BBCBCC828F73D9C00E42F0C /* VideoErrorView.swift in Sources */,
+				D46625F72ACD3BE500F3CAEE /* PassThroughWindow.swift in Sources */,
 				8B0353F72A9695330033965D /* SelectContactViewCell.swift in Sources */,
 				8B432CC427C394F10025D62B /* WalletFlow.swift in Sources */,
 				8BADB3D6284A0B51004A48AA /* MediaService.swift in Sources */,
@@ -5915,6 +5930,7 @@
 				8BE122C228253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift in Sources */,
 				D49FAD9B2A77726E00B26C8B /* AddSeedTransitions.swift in Sources */,
 				D4E9790B2A1E0D8000771232 /* ConnectedEdges.swift in Sources */,
+				D46625FD2ACD3EF800F3CAEE /* AppSceneDelegate.swift in Sources */,
 				8B971E1028B5894E00F111D9 /* ImageCacheService.swift in Sources */,
 				D4E7A184298A237800398F93 /* UserSettingsFactory.swift in Sources */,
 				8B0353E42A8EBB2F0033965D /* ContactsObjectFactory.swift in Sources */,
@@ -6268,7 +6284,7 @@
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6301,7 +6317,7 @@
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

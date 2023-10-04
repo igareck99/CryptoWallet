@@ -1,7 +1,9 @@
+import SwiftUI
 import UIKit
 
 // MARK: - AppDelegate
 
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private var notificationsUseCase: NotificationsUseCaseProtocol = {
@@ -18,25 +20,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func application(
 		_ application: UIApplication,
 		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-	) -> Bool {
+    ) -> Bool {
 
-		DependenciesService().configureDependencies()
-		notificationsUseCase.start()
+        DependenciesService().configureDependencies()
+        notificationsUseCase.start()
 
-		// UseCase app delegate'а должен вызываться после всех кейсов проверок флага isAppNotFirstStart
-		// т.к. он его изменяет
+        // UseCase app delegate'а должен вызываться после всех кейсов проверок флага isAppNotFirstStart
+        // т.к. он его изменяет
         AppCoordinatorAssembly.coordinator.start()
-        configureCalls()
-		return true
-	}
-
-    func configureCalls() {
-        guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else {
-            debugPrint("configureCalls AppDelegate: FAILED")
-            return
-        }
-        debugPrint("configureCalls AppDelegate: SUCCESS")
-        StatusBarCallUseCase.shared.configure(window: window)
+        return true
     }
 
 	func applicationWillTerminate(_ application: UIApplication) {
@@ -81,4 +73,18 @@ extension AppDelegate {
     ) {
 		notificationsUseCase.applicationDidFailRegisterForRemoteNotifications()
 	}
+}
+
+// MARK: - Scene
+
+extension AppDelegate {
+    func application(
+        _ application: UIApplication,
+        configurationForConnecting connectingSceneSession: UISceneSession,
+        options: UIScene.ConnectionOptions
+    ) -> UISceneConfiguration {
+        let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+        sceneConfig.delegateClass = AppSceneDelegate.self
+        return sceneConfig
+    }
 }

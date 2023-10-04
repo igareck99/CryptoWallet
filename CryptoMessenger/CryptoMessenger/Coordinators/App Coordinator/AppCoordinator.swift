@@ -11,12 +11,15 @@ protocol AppCoordinatorProtocol {
 }
 
 protocol RootCoordinatable: ObservableObject {
-    var rootView: any View { get }
+    var hostController: UIViewController { get }
 }
 
 final class AppCoordinator: RootCoordinatable {
-
-    @Published var rootView: any View = Text("")
+    @Published var rootView: AnyView = Text("").anyView()
+    
+    var hostController: UIViewController {
+        UIHostingController(rootView: rootView)
+    }
     
     var childCoordinators: [String: Coordinator] = [:]
     var statusBarUseCase = StatusBarCallUseCase.shared
@@ -49,7 +52,7 @@ final class AppCoordinator: RootCoordinatable {
         let authFlowCoordinator = factory.makeAuthCoordinator(
             delegate: self,
             renderView: { [weak self] view in
-                self?.rootView = view
+                self?.rootView = view.anyView()
             }
         )
         addChildCoordinator(authFlowCoordinator)
@@ -67,7 +70,7 @@ final class AppCoordinator: RootCoordinatable {
         mainFlowCoordinator = factory.makeMainCoordinator(
             delegate: self,
             renderView: { [weak self] view in
-                self?.rootView = view
+                self?.rootView = view.anyView()
             },
             onlogout: onlogout
         )
@@ -80,7 +83,7 @@ final class AppCoordinator: RootCoordinatable {
         let pinCodeFlowCoordinator = factory.makePinCoordinator(
             delegate: self,
             renderView: { view in
-                self.rootView = view
+                self.rootView = view.anyView()
             }, onLogin: {
                 self.showMainFlow()
             }

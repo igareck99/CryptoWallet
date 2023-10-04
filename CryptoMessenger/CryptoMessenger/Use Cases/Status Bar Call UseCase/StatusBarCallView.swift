@@ -3,15 +3,15 @@ import UIKit
 // MARK: - StatusBarCallViewDelegate
 
 protocol StatusBarCallViewDelegate: AnyObject {
-
 	func didTapCallStatusView()
-
 }
 
 // MARK: - StatusBarCallViewProtocol
 
 protocol StatusBarCallViewProtocol {
 
+    var rect: CGRect { get }
+    
 	func animateStatusView(show: Bool)
 
 }
@@ -21,6 +21,10 @@ protocol StatusBarCallViewProtocol {
 final class StatusBarCallView: UIView {
 
     // MARK: - Private Properties
+    
+    var rect: CGRect {
+        frame
+    }
 
 	private let callLabel: UILabel = {
 		let label = UILabel()
@@ -81,8 +85,19 @@ final class StatusBarCallView: UIView {
 
 extension StatusBarCallView: StatusBarCallViewProtocol {
 	func animateStatusView(show: Bool) {
-		self.coloredViewHeightConstraint?.constant = show ? 30 : 0
-		self.heightConstraint?.constant = show ? statusBarHeight + 30 : 0
+        func showAnimatable(show: Bool) {
+            self.coloredViewHeightConstraint?.constant = show ? 30 : 0
+            self.heightConstraint?.constant = show ? statusBarHeight + 30 : 0
+        }
+        if !Thread.isMainThread {
+            debugPrint("showAnimatable(show: \(show) NOT MAIN THREAD")
+            DispatchQueue.main.async {
+                showAnimatable(show: show)
+            }
+        } else {
+            debugPrint("showAnimatable(show: \(show) MAIN THREAD")
+            showAnimatable(show: show)
+        }
 	}
 }
 

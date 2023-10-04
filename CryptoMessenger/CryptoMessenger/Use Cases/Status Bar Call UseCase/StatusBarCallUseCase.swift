@@ -4,7 +4,17 @@ final class StatusBarCallUseCase {
     static let shared = StatusBarCallUseCase()
 	private var isCallEnded = false
 	private var underStatusView: StatusBarCallViewProtocol?
+    private var aboveStatusView: StatusBarCallViewProtocol?
     weak var appWindow: UIWindow?
+    weak var upperWindow: UIWindow?
+
+    var underStatusViewRect: CGRect {
+        underStatusView?.rect ?? .zero
+    }
+
+    var aboveStatusViewRect: CGRect {
+        aboveStatusView?.rect ?? .zero
+    }
 
 	init() {
 		configureNotifications()
@@ -78,13 +88,14 @@ final class StatusBarCallUseCase {
 	private func animateStatusView(show: Bool) {
         debugPrint("animateStatusView(show: \(show)")
 		underStatusView?.animateStatusView(show: show)
+        aboveStatusView?.animateStatusView(show: show)
 	}
 }
 
 extension StatusBarCallUseCase {
 
 	func configure(window: UIWindow) {
-
+        guard appWindow == nil else { return }
         guard let rootViewController = window.rootViewController else {
             return
         }
@@ -101,6 +112,25 @@ extension StatusBarCallUseCase {
 			rootViewController.view.bottomAnchor.constraint(equalTo: window.bottomAnchor)
 		])
 	}
+
+    func configure(upWindow: UIWindow) {
+        guard upperWindow == nil else { return }
+        guard let rootViewController = upWindow.rootViewController else {
+            return
+        }
+        self.upperWindow = upWindow
+        aboveStatusView = StatusBarCallView(
+            appWindow: upWindow,
+            delegate: self
+        )
+
+        rootViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            rootViewController.view.leadingAnchor.constraint(equalTo: upWindow.leadingAnchor),
+            rootViewController.view.trailingAnchor.constraint(equalTo: upWindow.trailingAnchor),
+            rootViewController.view.bottomAnchor.constraint(equalTo: upWindow.bottomAnchor)
+        ])
+    }
 }
 
 // MARK: - StatusBarCallViewDelegate

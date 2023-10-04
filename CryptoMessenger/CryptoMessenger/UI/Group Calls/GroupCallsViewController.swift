@@ -24,11 +24,19 @@ final class GroupCallsViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.navigationBar.backgroundColor = .black
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.barStyle = .black  // gives you light content status bar
 	}
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationController?.navigationBar.barStyle = .default // gives you dark Content status bar
     }
 }
 

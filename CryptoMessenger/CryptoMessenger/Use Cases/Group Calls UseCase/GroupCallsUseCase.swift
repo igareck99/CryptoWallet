@@ -25,20 +25,18 @@ final class GroupCallsUseCase {
 	private var currentCallWidget: JitsiWidget?
     private let config: ConfigType
     private let matrixUseCase: MatrixUseCaseProtocol
-
-	private var navigationController: UINavigationController? {
-		(UIApplication.shared.connectedScenes.first as? UIWindowScene)?
-			.keyWindow?.rootViewController as? UINavigationController
-	}
+    private let router: GroupCallsRouterable
 
 	init(
         roomId: String,
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
-        config: ConfigType = Configuration.shared
+        config: ConfigType = Configuration.shared,
+        router: GroupCallsRouterable = GroupCallsRouter()
     ) {
         self.roomId = roomId
         self.matrixUseCase = matrixUseCase
         self.config = config
+        self.router = router
         configureRoom(roomID: roomId)
 	}
 
@@ -80,9 +78,7 @@ extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 				self.conferenceId = conferenceId
 				self.jwtToken = jwtToken
 				self.serverUrl = serverUrl
-                let controller = GroupCallsAssembly.build(delegate: self)
-
-				self.navigationController?.pushViewController(controller, animated: true)
+                self.router.showGroupCall(delegate: self)
 			}
 		} failure: { result in
 			debugPrint("Error joinGroupCall  \(result)")
@@ -105,9 +101,7 @@ extension GroupCallsUseCase: GroupCallsUseCaseProtocol {
 					self.conferenceId = conferenceId
 					self.jwtToken = jwtToken
 					self.serverUrl = serverUrl
-                    let controller = GroupCallsAssembly.build(delegate: self)
-
-					self.navigationController?.pushViewController(controller, animated: true)
+                    self.router.showGroupCall(delegate: self)
 				}
 			} failure: { error in
 				debugPrint("Error in placeGroupCall \(error)")
@@ -186,8 +180,7 @@ extension GroupCallsUseCase: GroupCallsViewControllerDelegate {
 	func conferenceDidTerminated(controller: UIViewController) {
 		(controller.view as? JitsiMeetView)?.hangUp()
         if let vc = controller.navigationController?.viewControllers[safe: 1] {
-            controller.navigationController?.popToViewController(vc,
-                                                                 animated: true)
+            controller.navigationController?.popToViewController(vc, animated: true)
         } else {
             controller.navigationController?.popViewController(animated: true)
             jingleCallStackConfigurator.configureAudioSessionAfterCallEnds()

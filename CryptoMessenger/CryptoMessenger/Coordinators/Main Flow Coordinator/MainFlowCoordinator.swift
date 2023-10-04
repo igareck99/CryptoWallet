@@ -41,15 +41,5 @@ final class MainFlowCoordinator: Coordinator {
     func makeTabBarView() {
         let view = TabItemsViewAssembly.build(onlogout: onlogout)
         renderView(view)
-        configureCalls()
-    }
-
-    private func configureCalls() {
-        guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else {
-            debugPrint("configureCalls ChatHistoryViewModel: FAILED")
-            return
-        }
-        debugPrint("configureCalls ChatHistoryViewModel: SUCCESS")
-        StatusBarCallUseCase.shared.configure(window: window)
     }
 }
