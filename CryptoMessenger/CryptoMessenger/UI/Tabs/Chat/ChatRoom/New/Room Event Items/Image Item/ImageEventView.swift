@@ -1,54 +1,84 @@
 import SwiftUI
 
+// MARK: - ImageEventView
+
 struct ImageEventView<
-    Placeholder: View,
     EventData: View,
     LoadData: View
 >: View {
     let loadData: LoadData
-    let placeholder: Placeholder
     let eventData: EventData
-    var model: ImageEvent {
-        didSet {
-            viewModel.update(url: model.imageUrl)
-        }
-    }
-
-    @StateObject var viewModel = ImageEventViewModel()
+    @StateObject var viewModel: ImageEventViewModel
 
     var body: some View {
         ZStack {
-            AsyncImage(
-                defaultUrl: model.imageUrl,
-                placeholder: {
-                    placeholder
-                        .frame(width: 245, height: 152)
-                        .cornerRadius(16)
-                },
-                resultView: {
-                    Image(uiImage: $0)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 245, height: 152)
-                        .cornerRadius(16)
+            ImageContentView(image: $viewModel.image,
+                             thumbnailImage: $viewModel.thumbnailImage,
+                             state: $viewModel.state)
+                .overlay {
+                    DocumentImageStateView(state: $viewModel.state,
+                                           circleColor: .chineseBlack.opacity(0.4))
+                    .onTapGesture {
+                        switch viewModel.state {
+                        case .download:
+                            viewModel.state = .loading
+                            viewModel.getImage()
+                        case .loading:
+                            viewModel.state = .download
+                        case .hasBeenDownloadPhoto:
+                            break
+                        case .hasBeenDownloaded:
+                            break
+                        }
+                    }
                 }
+                .overlay(alignment: .bottomTrailing) {
+                    eventData.padding([.trailing, .bottom], 8)
+                }
+                .overlay(alignment: .topLeading) {
+                    if viewModel.state == .loading || viewModel.state == .download {
+                        DownloadImageView(data: $viewModel.size)
+                            .padding([.top, .leading], 8)
+                    }
+                }
+        }
+    }
+}
+
+struct DownloadImageView: View {
+    
+    @Binding var data: String
+    
+    var body: some View {
+            HStack {
+                Text(data)
+                    .font(.regular(12))
+                    .foregroundColor(.white)
+                }
+            .padding(.horizontal, 12)
+            .background(Color.osloGrayApprox)
+            .clipShape(
+                RoundedRectangle(cornerRadius: 30)
             )
-            .overlay(alignment: .bottomTrailing) {
-                eventData.padding([.trailing, .bottom], 8)
-            }
-            .overlay(alignment: .topLeading) {
-                // TODO: Нужно реализовать логику загрузки по тапу
-                // пока грузится автоматом
-                loadData.opacity(.zero)
-            }
-            // TODO: Нужно реализовать логику загрузки по тапу
-            // пока грузится автоматом
-            Image(systemName: "arrow.down.circle.fill")
+    }
+}
+
+
+struct ImageContentView: View {
+    @Binding var image: Image
+    @Binding var thumbnailImage: Image
+    @Binding var state: DocumentImageState
+    
+    var body: some View {
+        if state == .hasBeenDownloadPhoto {
+            image
                 .resizable()
-                .frame(width: 44, height: 44)
-                .foregroundColor(.osloGrayApprox)
-                .background(Circle().fill(Color.white))
-                .opacity(.zero)
+                .frame(width: 245, height: 152)
+                .cornerRadius(16)
+        } else {
+            thumbnailImage
+                .frame(width: 245, height: 152)
+                .cornerRadius(16)
         }
     }
 }

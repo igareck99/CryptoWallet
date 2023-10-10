@@ -13,35 +13,29 @@ struct TextEventView<
     var body: some View {
         VStack(alignment: .leading, spacing: .zero) {
             if model.isReply {
-                HStack(spacing: 0) {
-                    RoundedRectangle(cornerRadius: 1)
+                HStack(spacing: 8) {
+                    Rectangle()
                         .frame(width: 2)
                         .foregroundColor(.dodgerBlue)
                         .padding(.top, 8)
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("",
-                             [
-                                .paragraph(.init(lineHeightMultiple: 1.19, alignment: .left))
-                             ]
-                        )
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(model.userId)
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundColor(.chineseBlack)
+                        .foregroundColor(.dodgerBlue)
                         .padding(.top, 8)
-                        Text(model.replyDescription,
-                             [
-                                .paragraph(.init(lineHeightMultiple: 1.2,
-                                                 alignment: .left))
-                             ]
-                        ) .font(.system(size: 13, weight: .regular))
+                        Text(model.replyDescription)
+                            .font(.system(size: 13, weight: .regular))
                             .foregroundColor(.chineseBlack)
                     }
-                    .frame(minWidth: 0, maxWidth: 70)
+                    Spacer()
                 }
-                .frame(height: 40)
+                .frame(minWidth: 0, maxWidth: 289)
+                .frame(height: 39)
             }
             Text(model.text)
                 .font(.system(size: 17, weight: .regular))
                 .foregroundColor(.chineseBlack)
+                .padding(.top, model.isReply ? 13 : 0)
             VStack(spacing: 2) {
                 HStack {
                     reactions

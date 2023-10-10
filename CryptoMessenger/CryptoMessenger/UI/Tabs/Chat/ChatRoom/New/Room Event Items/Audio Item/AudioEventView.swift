@@ -10,7 +10,6 @@ struct AudioEventView<EventData: View,
     // MARK: - Internal Properties
 
     @StateObject var viewModel: AudioMessageViewModel
-    let data: AudioEventItem
     let eventData: EventData
     let reactions: Reactions
     @State private var activateShowCard = false
@@ -18,17 +17,19 @@ struct AudioEventView<EventData: View,
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .center, spacing: 12) {
-                Button(action: viewModel.play) {
-                    ZStack {
-                        Circle()
-                            .foregroundColor(.accentColor)
-                            .frame(width: 48, height: 48)
-                            .cornerRadius(24)
-                        !viewModel.isPlaying ?
-                        R.image.chat.audio.audioPlay.image :
-                        R.image.chat.audio.audioStop.image
+                AudioEventStateView(state: $viewModel.state)
+                    .onTapGesture {
+                        switch viewModel.state {
+                        case .download:
+                            viewModel.start()
+                        case .play:
+                            viewModel.play()
+                        case .stop:
+                            viewModel.stop()
+                        default: 
+                            break
+                        }
                     }
-                }
                 VStack(alignment: .leading, spacing: 10) {
                     SliderAudioView(
                         value: Binding(get: { viewModel.time }, set: { newValue in
@@ -38,7 +39,7 @@ struct AudioEventView<EventData: View,
                     )
                     .padding(.trailing, 8)
                     .frame(height: 1)
-                    Text(data.audioDuration)
+                    Text(viewModel.data.audioDuration)
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.romanSilver)
                 }
@@ -50,9 +51,6 @@ struct AudioEventView<EventData: View,
                 }
                 eventData
             }
-        }
-        .onAppear {
-            viewModel.start()
         }
         .onReceive(viewModel.timer, perform: { _ in
             viewModel.onTimerChange()

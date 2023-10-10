@@ -60,7 +60,7 @@ extension RoomEventsFactory {
             backColor: .osloGrayApprox
         )
         let imageEventItem = ImageEvent(
-            placeholder: ShimmerModel(),
+            size: 0,
             eventData: eventData,
             loadData: loadInfo
         ) {

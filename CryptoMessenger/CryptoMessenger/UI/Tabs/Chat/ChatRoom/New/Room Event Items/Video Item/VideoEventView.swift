@@ -6,13 +6,7 @@ struct VideoEventView<
     LoadData: View
 >: View {
 
-    @StateObject var viewModel = VideoEventViewModel()
-
-    var model: VideoEvent {
-        didSet {
-            viewModel.update(url: model.videoUrl)
-        }
-    }
+    @StateObject var viewModel: VideoEventViewModel
 
     let loadData: LoadData
     let placeholder: Placeholder
@@ -20,29 +14,45 @@ struct VideoEventView<
     
     var body: some View {
         ZStack {
-            viewModel.thumbnailImage
-                .frame(width: 208, height: 250)
-                .onTapGesture {
-                    model.onTap()
+            VideoContentView(image: $viewModel.thumbnailImage,
+                             thumbnailImage: $viewModel.thumbnailImage,
+                             state: $viewModel.state)
+                .overlay {
+                    DocumentImageStateView(state: $viewModel.state,
+                                           circleColor: .chineseBlack.opacity(0.4))
                 }
                 .overlay(alignment: .bottomTrailing) {
-                    eventData
+                    eventData.padding([.trailing, .bottom], 8)
                 }
                 .overlay(alignment: .topLeading) {
-                    loadData.opacity(.zero)
+                    if viewModel.state == .loading || viewModel.state == .download {
+                        DownloadImageView(data: $viewModel.size)
+                            .padding([.top, .leading], 8)
+                    }
                 }
-            Image(systemName: "arrow.down.circle.fill")
-                .resizable()
-                .frame(width: 44, height: 44)
-                .foregroundColor(.osloGrayApprox)
-                .background(Circle().fill(Color.white)).opacity(.zero)
+                .onTapGesture {
+                    viewModel.onTapView()
+                }
         }
         .frame(width: 208, height: 250)
-        .onTapGesture {
-            model.onTap()
-        }
-        .onAppear {
-            viewModel.update(url: model.videoUrl)
+    }
+}
+
+struct VideoContentView: View {
+    @Binding var image: Image
+    @Binding var thumbnailImage: Image
+    @Binding var state: DocumentImageState
+    
+    var body: some View {
+        if state == .hasBeenDownloadPhoto {
+            image
+                .resizable()
+                .frame(width: 208, height: 250)
+                .cornerRadius(16)
+        } else {
+            thumbnailImage
+                .frame(width: 208, height: 250)
+                .cornerRadius(16)
         }
     }
 }

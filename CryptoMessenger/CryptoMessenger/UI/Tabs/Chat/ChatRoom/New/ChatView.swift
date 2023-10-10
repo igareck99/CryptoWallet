@@ -156,7 +156,8 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
         ChatInputViewModel(isWriteEnable: $viewModel.isAccessToWrite,
                            inputText: $viewModel.inputText,
                            activeEditMessage: $viewModel.activeEditMessage,
-                           quickAction: $viewModel.quickAction) {
+                           quickAction: $viewModel.quickAction,
+                           replyDescriptionText: $viewModel.replyDescriptionText) {
             viewModel.sendMessage(.text, image: nil, url: nil,
                                   record: nil, location: nil, contact: nil)
         } onChatRoomMenu: {

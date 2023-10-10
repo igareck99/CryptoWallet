@@ -9,56 +9,67 @@ final class AudioMessageViewModel: ObservableObject {
 
     // MARK: - Internal properties
 
-    var url: URL?
-    var messageId: String
-
-    @Published var downloadError = false
-    @Published var isUpload = false
-    @Published var endPlaying = false
+    let data: AudioEventItem
+    
+    @Published var state: AudioEventItemState
     @Published var isPlaying = false
     @Published var audioPlayer: AVAudioPlayer?
     @Published var timer = Timer.publish(every: 0.01,
                                              on: .main, in: .common).autoconnect()
     @Published var time: Double = 0
     @Published var playingAudioId = ""
+    let remoteDataService: RemoteDataServiceProtocol
+    let fileService: FileManagerProtocol
     
     // MARK: - Private Properties
 
     // MARK: - Lifecycle
 
-    init(url: URL?, messageId: String) {
-        self.url = url
-        self.messageId = messageId
+    init(data: AudioEventItem,
+         state: AudioEventItemState = .download,
+         remoteDataService: RemoteDataServiceProtocol = RemoteDataService.shared,
+         fileService: FileManagerProtocol = FileManagerService.shared) {
+        self.data = data
+        self.state = state
+        self.remoteDataService = remoteDataService
+        self.fileService = fileService
+        self.initData()
     }
     
     // MARK: - Internal Methods
-    
+
     func stop() {
         playingAudioId = ""
         audioPlayer?.pause()
         isPlaying = false
         timer.upstream.connect().cancel()
     }
-    
+
     func play() {
         if self.isPlaying {
             stop()
+            DispatchQueue.main.async {
+                self.state = .play
+            }
         } else {
-            playingAudioId = messageId
+            playingAudioId = data.messageId
             try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try? AVAudioSession.sharedInstance().setActive(true)
             timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
             audioPlayer?.play()
             isPlaying = true
+            DispatchQueue.main.async {
+                self.state = .stop
+            }
         }
     }
-    
+
     func onSlide(_ value: Double) {
         time = value
         audioPlayer?.currentTime = Double(time) * (audioPlayer?.duration ?? 0)
         audioPlayer?.play()
     }
-    
+
     func onTimerChange() {
         if audioPlayer?.isPlaying == true {
             audioPlayer?.updateMeters()
@@ -73,104 +84,40 @@ final class AudioMessageViewModel: ObservableObject {
     }
 
     // MARK: - Private Methods
+    
+    private func initData() {
+        let (isExist, path) = fileService.checkFileExist(name: getFileName(),
+                                                         pathExtension: "mp4")
+        if isExist {
+            guard let path = path else { return }
+            self.audioPlayer = try? AVAudioPlayer(contentsOf: path)
+            self.audioPlayer?.numberOfLoops = .zero
+            state = .play
+        }
+    }
 
-    private func downloadFile(withUrl url: URL,
-                              andFilePath filePath: URL,
-                              completion: @escaping ((_ filePath: URL?) -> Void)) {
-        do {
-            let data = try Data(contentsOf: url)
-            try data.write(to: filePath, options: .noFileProtection)
-            completion(filePath)
-        } catch {
-            debugPrint("an error happened while downloading or saving the file")
-            completion(nil)
-        }
-    }
-    
-    private func checkBookFileExists(withLink link: String,
-                                     completion: @escaping ((_ filePath: URL?) -> Void)) {
-        let urlString = link.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-        if let url = URL(string: urlString ?? "") {
-            let fileManager = FileManager.default
-            if let documentDirectory = try? fileManager.url(for: .documentDirectory,
-                                                            in: .userDomainMask,
-                                                            appropriateFor: nil,
-                                                            create: false) {
-                let filePath = documentDirectory.appendingPathComponent(url.lastPathComponent + ".m4a", isDirectory: false)
-                do {
-                    if try filePath.checkResourceIsReachable() {
-                        debugPrint("file exist")
-                        deleteRecording(urlsToDelete: [filePath])
-                        downloadFile(withUrl: url, andFilePath: filePath, completion: completion)
-                    } else {
-                        debugPrint("file doesnt exist")
-                        debugPrint(filePath)
-                        downloadFile(withUrl: url, andFilePath: filePath, completion: completion)
-                    }
-                } catch {
-                    debugPrint("file doesnt exist")
-                    debugPrint(filePath)
-                    downloadFile(withUrl: url, andFilePath: filePath, completion: completion)
-                }
-            } else {
-                debugPrint("file doesnt exist")
-                completion(nil)
-            }
-        } else {
-            debugPrint("file doesnt exist")
-            completion(nil)
-        }
-    }
-    
     func start() {
-        setupAudioNew { url in
-            do {
-                guard let unwrappedUrl = url else { return }
-                self.audioPlayer = try AVAudioPlayer(contentsOf: unwrappedUrl)
-                self.audioPlayer?.numberOfLoops = .zero
-            } catch {
-                debugPrint("Error URL")
+        Task {
+            state = .loading
+            let result = await remoteDataService.downloadRequest(url: data.url)
+            guard let data = result?.0,
+                  let savedUrl = self.fileService.saveFile(name: getFileName(),
+                                                           data: data,
+                                                           pathExtension: "mp4") else {
+                debugPrint("downloadDataRequest FAILED")
                 return
             }
-        }
-    }
-
-    func setupAudioNew(completion: @escaping ((_ filePath: URL?) -> Void)) {
-        isUpload = true
-        guard let downloadUrl = url else {
-            debugPrint("Ошибка загрузки аудио файла")
-            downloadError = true
-            completion(nil)
-            return
-        }
-        checkBookFileExists(withLink: downloadUrl.absoluteString) { filePath in
-            completion(filePath)
-        }
-    }
-
-    private func clearData() {
-        let fileManager = FileManager.default
-        let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        do {
-            let directoryContents = try fileManager
-                                    .contentsOfDirectory(at: documentDirectory, includingPropertiesForKeys: nil)
-            for item in directoryContents {
-                deleteRecording(urlsToDelete: [item])
-            }
-        } catch {
-            debugPrint("Error while clear directory")
-        }
-    }
-
-    private func deleteRecording(urlsToDelete: [URL]) {
-        for url in urlsToDelete {
-            do {
-               try FileManager.default.removeItem(at: url)
-            } catch {
-                debugPrint("File could not be deleted!")
+            await MainActor.run {
+                self.audioPlayer = try? AVAudioPlayer(contentsOf: savedUrl)
+                self.audioPlayer?.numberOfLoops = .zero
+                state = .play
             }
         }
     }
-    
-    
+
+    private func getFileName() -> String {
+        let fileadressName = data.url.absoluteString.components(separatedBy: "/").last ?? ""
+        let finalFileName = fileadressName
+        return finalFileName
+    }
 }

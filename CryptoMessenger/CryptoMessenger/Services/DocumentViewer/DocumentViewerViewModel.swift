@@ -17,7 +17,7 @@ final class DocumentViewerViewModel: ObservableObject {
         url: URL,
         isUploadFinished: Binding<Bool>,
         fileName: String,
-        remoteDataService: RemoteDataServiceProtocol = RemoteDataService()
+        remoteDataService:  RemoteDataServiceProtocol = RemoteDataService()
     ) {
         self.url = url
         self._isUploadFinished = isUploadFinished

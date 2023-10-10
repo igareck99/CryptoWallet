@@ -78,7 +78,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         let data: [any ViewGeneratable] = events.compactMap {
             switch $0.eventType {
             case let .text(string):
-                return makeTextView($0, string, onLongPressTap: { eventId in
+                return makeTextView($0, events,  string, onLongPressTap: { eventId in
                     onLongPressMessage(eventId)
                 }, onReactionTap: { reaction in
                  onReactionTap(reaction)
@@ -191,9 +191,15 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
     }
 
     static func makeTextView(_ event: RoomEvent,
+                             _ events: [RoomEvent],
                              _ text: String,
                              onLongPressTap: @escaping (RoomEvent) -> Void,
                              onReactionTap: @escaping (ReactionNewEvent) -> Void) -> any ViewGeneratable {
+        var eventReply = ""
+        if event.isReply {
+            let eventReplyEvent = events.first(where: { $0.eventId == event.rootEventId })
+            eventReply = makeReplyDescription(eventReplyEvent)
+        }
         let reactionColor: Color = event.isFromCurrentUser ? .diamond : .aliceBlue
         let reactions = prepareReaction(event, onReactionTap: { reaction in
             onReactionTap(reaction)
@@ -205,8 +211,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         let textEvent = TextEvent(
             userId: event.sender, isFromCurrentUser: event.isFromCurrentUser, avatarUrl: event.senderAvatar,
             text: text, isReply: event.isReply,
-            replyDescription:
-              event.replyDescription,
+            replyDescription: eventReply,
             width: calculateWidth(text, reactions.count),
             eventData: EventData(
                 date: event.shortDate,
@@ -242,9 +247,39 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             )
         }
     }
+    
+    static func makeReplyDescription(_ event: RoomEvent?) -> String {
+        guard let event = event else { return "" }
+        switch event.eventType {
+        case .text(let string):
+            return string
+        case .image(_):
+            return "send to image"
+        case .video(_):
+            return "send to video"
+        case .file(_, _):
+            return "send to video"
+        case .audio(_):
+            return "send to audio"
+        case .location(_):
+            return "send to location"
+        case .contact(_, _, _):
+            return "send to contact"
+        default:
+            return ""
+        }
+    }
 
-    static func readData(isFromCurrentUser: Bool, eventSendType: RoomSentState) -> any ViewGeneratable {
-        let checkReadImage = eventSendType == .sent ? R.image.chat.sendedCheck.image : R.image.chat.sendingCheck.image
+    static func readData(isFromCurrentUser: Bool, eventSendType: RoomSentState,
+                         messageType: MessageType) -> any ViewGeneratable {
+        var checkReadImage: Image
+        switch messageType {
+        case .video(_), .image(_):
+            // TODO: - Тут добавить одну белую галочку
+            checkReadImage = eventSendType == .sent ? R.image.chat.whiteChecked.image : R.image.chat.whiteSending.image
+        default:
+            checkReadImage = eventSendType == .sent ? R.image.chat.sendedCheck.image : R.image.chat.sendingCheck.image
+        }
         if isFromCurrentUser {
             return ReadData(readImageName: checkReadImage)
         }
@@ -262,7 +297,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                               sender: sender, sentState: .sending,
                               eventType: type, shortDate:  Date().hoursAndMinutes,
                               fullDate: "", isFromCurrentUser: isFromCurrentUser,
-                              isReply: isReply, replyDescription: "",
+                              isReply: isReply,
                               reactions: [], content: [:],
                               eventSubType: "")
         return event

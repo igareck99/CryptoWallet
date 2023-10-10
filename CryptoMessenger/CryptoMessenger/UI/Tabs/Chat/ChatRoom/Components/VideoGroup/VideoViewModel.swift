@@ -38,7 +38,7 @@ final class VideoViewModel: ObservableObject {
     private func configVideo() {
         if let url = videoUrl {
             fileService.checkBookFileExists(withLink: url.absoluteString,
-                                            fileExtension: ".mp4") { state in
+                                            fileExtension: "mp4") { state in
                 switch state {
                 case .exist(let url):
                     self.isVideoUpload = true
@@ -64,8 +64,8 @@ final class VideoViewModel: ObservableObject {
         dataService.dataSizePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] value in
-                self?.videoSize = "\(value.saved) / \(value.expect)"
+            .sink { [weak self] _ in
+//                self?.videoSize = "\(value.saved) / \(value.expect)"
                 self?.objectWillChange.send()
             }
             .store(in: &subscriptions)

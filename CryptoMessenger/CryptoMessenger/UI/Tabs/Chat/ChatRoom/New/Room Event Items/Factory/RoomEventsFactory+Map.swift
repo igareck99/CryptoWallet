@@ -10,12 +10,21 @@ extension RoomEventsFactory {
         onReactionTap: @escaping (ReactionNewEvent) -> Void,
         onNotSentTap: @escaping (RoomEvent) -> Void
     ) -> any ViewGeneratable {
+        var color: Color = .clear
+        var textColor: Color = .chineseShadow
+        switch event.eventType {
+        case .video(_), .image(_), .location(_):
+            color = .osloGrayApprox
+            textColor = .white
+        default:
+            break
+        }
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
-            dateColor: .white,
-            backColor: .osloGrayApprox,
-            readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState)
+            dateColor: textColor,
+            backColor: color,
+            readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState, messageType: event.eventType)
         )
         let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
         let reactions = prepareReaction(event, onReactionTap: { reaction in
