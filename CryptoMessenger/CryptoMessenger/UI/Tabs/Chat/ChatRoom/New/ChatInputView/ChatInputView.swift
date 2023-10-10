@@ -21,7 +21,7 @@ struct ChatInputView: View {
             VStack(spacing: 0) {
                 if data.quickAction == .reply {
                     ReplyView(
-                        text: data.activeEditMessage?.replyDescription ?? "",
+                        text: data.replyDescriptionText ?? "",
                         onReset: {
                             data.activeEditMessage = nil
                             data.quickAction = nil
@@ -30,7 +30,7 @@ struct ChatInputView: View {
                 }
                 if data.quickAction == .edit {
                     EditView(
-                        text: data.activeEditMessage?.replyDescription ?? "",
+                        text: data.replyDescriptionText ?? "",
                         onReset: {
                             data.activeEditMessage = nil
                             data.quickAction = nil

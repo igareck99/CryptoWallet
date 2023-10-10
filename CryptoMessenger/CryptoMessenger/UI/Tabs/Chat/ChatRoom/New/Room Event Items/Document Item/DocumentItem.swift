@@ -1,10 +1,12 @@
 import SwiftUI
 
+// MARK: - DocumentItem
+
 struct DocumentItem: Identifiable, ViewGeneratable {
     let id = UUID()
     let imageName: String
     let title: String
-    let subtitle: String
+    let size: Int
     let url: URL
     let reactionsGrid: any ViewGeneratable
     let eventData: any ViewGeneratable
@@ -14,9 +16,9 @@ struct DocumentItem: Identifiable, ViewGeneratable {
 
     func view() -> AnyView {
         DocumentItemView(
-            model: self,
             eventData: eventData.view(),
-            reactions: reactionsGrid.view()
+            reactions: reactionsGrid.view(),
+            viewModel: DocumentItemViewModel(model: self)
         ).anyView()
     }
 }

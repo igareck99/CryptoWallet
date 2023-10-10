@@ -247,22 +247,7 @@ extension ChatComponentsFactory {
                 ),
                 sheetPresenting: onFileTapHandler))
         case let .audio(url):
-            return AnyView(AudioView(
-                messageId: message.id,
-                shortDate: message.shortDate,
-                audioDuration: message.audioDuration,
-                isCurrentUser: message.isCurrentUser,
-				isFromCurrentUser: message.isCurrentUser,
-				reactionItems: makeReactionTextsItems(
-					message: message,
-					onEmojiTap: onEmojiTap
-				),
-                activateShowCard: activateShowCard,
-                playingAudioId: playingAudioId,
-                audioViewModel: StateObject(
-                    wrappedValue: AudioMessageViewModel(url: url, messageId: message.id)
-                )
-            ))
+            return AnyView(EmptyView())
 		case let .video(url):
 			return AnyView(
 				VideoView(

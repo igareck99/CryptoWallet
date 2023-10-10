@@ -12,7 +12,7 @@ extension RoomEventsFactory {
             isFromCurrentUser: event.isFromCurrentUser,
             dateColor: .white,
             backColor: .osloGrayApprox,
-            readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState)
+            readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState, messageType: event.eventType)
         )
         let loadInfo = LoadInfo(
             url: .mock,
@@ -21,17 +21,18 @@ extension RoomEventsFactory {
         )
         let videoEventItem = VideoEvent(
             videoUrl: url ?? .mock,
+            thumbnailurl: event.videoThumbnail,
+            size: event.videoSize,
             placeholder: ShimmerModel(),
             eventData: eventData,
             loadData: loadInfo
-        ) {
-            guard let videoUrl = url else { return }
+        ) { videoUrl in
             delegate.onVideoTap(url: videoUrl)
         }
 
         let bubbleContainer = BubbleContainer(
-            fillColor: .diamond,
-            cornerRadius: event.isFromCurrentUser ? .right : .left,
+            offset: 0, fillColor: .diamond,
+            cornerRadius: .equal,
             content: videoEventItem
         )
 

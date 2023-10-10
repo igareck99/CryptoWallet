@@ -13,7 +13,7 @@ extension RoomEventsFactory {
             isFromCurrentUser: event.isFromCurrentUser,
             dateColor: .white,
             backColor: .osloGrayApprox,
-            readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState)
+            readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState, messageType: event.eventType)
         )
 
         let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
@@ -31,7 +31,7 @@ extension RoomEventsFactory {
         )
         let transactionItem = ImageEvent(
             imageUrl: url,
-            placeholder: ShimmerModel(),
+            size: event.dataSize,
             eventData: eventData,
             loadData: loadInfo
         ) {
@@ -42,7 +42,7 @@ extension RoomEventsFactory {
         let bubbleContainer = BubbleContainer(
             offset: .zero,
             fillColor: .diamond,
-            cornerRadius: event.isFromCurrentUser ? .right : .left,
+            cornerRadius: .equal,
             content: transactionItem
         )
 

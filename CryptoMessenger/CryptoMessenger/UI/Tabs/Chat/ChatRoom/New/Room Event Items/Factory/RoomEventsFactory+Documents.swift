@@ -12,9 +12,8 @@ extension RoomEventsFactory {
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
-            readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState)
+            readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState, messageType: event.eventType)
         )
-
         let items: [ReactionNewEvent] = []
         let viewModel = ReactionsNewViewModel(
             width: calculateWidth("", items.count),
@@ -24,8 +23,8 @@ extension RoomEventsFactory {
         let docItem = DocumentItem(
             imageName: "paperclip.circle.fill",
             title: name ?? "", // "Экран для Aura.docx",
-            subtitle: "2.8MB",
-            url: .mock,
+            size: event.dataSize,
+            url: url ?? .mock,
             reactionsGrid: viewModel, // reactionsGrid,
             eventData: eventData
         ) {

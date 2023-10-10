@@ -1,6 +1,8 @@
 import Foundation
 import Combine
 
+// swiftlint: disable: all
+
 // MARK: - RemoteDataRequestType
 
 enum RemoteDataRequestType: String {
@@ -26,6 +28,8 @@ protocol RemoteDataServiceProtocol {
     // MARK: - Properties
 
     var dataSizePublisher: Published<SavedExpectData>.Publisher { get }
+    var dataState: SavedExpectData { get }
+    var changeStatePublisher: ObservableObjectPublisher { get }
     var isFinishedLaunch: Published<URL?>.Publisher { get }
 
     // MARK: - Methods
@@ -38,6 +42,10 @@ protocol RemoteDataServiceProtocol {
                       completion: @escaping ((_ filePath: Data?) -> Void))
 
     func downloadDataRequest(url: URL) async -> (URL, URLResponse)?
+    func downloadRequest(url: URL) async -> (Data, URLResponse)?
+    func fetchContentLength(url: URL) -> Int?
+    func downloadWithBytes(url: URL) async -> (Data,
+                                               URLResponse)?
 }
 
 // MARK: - RemoteDataService
@@ -45,10 +53,12 @@ protocol RemoteDataServiceProtocol {
 final class RemoteDataService: NSObject, RemoteDataServiceProtocol, ObservableObject {
 
     // MARK: - Internal properties
-
+    
+    
     var dataSizePublisher: Published<SavedExpectData>.Publisher { $dataState }
     var isFinishedLaunch: Published<URL?>.Publisher { $isUploadFinished }
-    @Published var dataState = SavedExpectData(saved: "", expect: "")
+    var changeStatePublisher = ObservableObjectPublisher()
+    @Published var dataState = SavedExpectData()
     @Published var isUploadFinished: URL?
 
     // MARK: - Static Properties
@@ -78,10 +88,52 @@ final class RemoteDataService: NSObject, RemoteDataServiceProtocol, ObservableOb
         }
         task.resume()
     }
+    
+    func downloadWithBytes(url: URL) async -> (Data,
+                                               URLResponse)? {
+        let request = URLRequest(url: url)
+        let result = try? await URLSession.shared.bytes(for: request)
+        let (asyncBytes, urlResponse) = (result?.0, result?.1)
+        let length = Int(urlResponse?.expectedContentLength ?? 0)
+        var bytes: [UInt8] = []
+        if let asyncBytes = asyncBytes {
+            do {
+                for try await byte in asyncBytes {
+                    bytes.append(byte)
+                    if Int(bytes.count / self.dataState.savedBytes) > 32 {
+                        self.dataState = SavedExpectData(savedBytes: bytes.count,
+                                                         expectBytes: length)
+                    }
+                }
+            } catch {
+                debugPrint("Error in AsyncBytes  \(error)")
+            }
+        }
+        guard let response = urlResponse else { return nil }
+        let resultData = Data(bytes)
+        return (resultData, response)
+    }
 
     func downloadDataRequest(url: URL) async -> (URL, URLResponse)? {
         let request = URLRequest(url: url)
         let result = try? await URLSession.shared.download(for: request)
+        return result
+    }
+    
+    func downloadRequest(url: URL) async -> (Data, URLResponse)? {
+        let request = URLRequest(url: url)
+        let result = try? await URLSession.shared.data(for: request)
+        return result
+    }
+    
+    func fetchContentLength(url: URL) -> Int? {
+        var request = URLRequest(url: url)
+        request.httpMethod = RemoteDataRequestType.get.rawValue
+        let result = URLSession.shared.dataTask(with: request)
+        guard let size = result.currentRequest?.allHTTPHeaderFields?[RemoteDataHeaderFields.contentLength.rawValue] else { return nil  }
+        guard let result = Int(size) else {
+            return nil
+        }
         return result
     }
 
@@ -92,7 +144,10 @@ final class RemoteDataService: NSObject, RemoteDataServiceProtocol, ObservableOb
         request.httpMethod = httpMethod.rawValue
         let dataTask = URLSession.shared.dataTask(with: request) {  data, _, _ in
             do {
-                let data = try Data(contentsOf: url)
+                guard let data = data else { 
+                    completion(nil)
+                    return
+                }
                 completion(data)
             } catch {
                 debugPrint("An error happened while downloading or saving the file")
@@ -136,29 +191,6 @@ extension RemoteDataService: URLSessionDownloadDelegate {
                     didWriteData bytesWritten: Int64,
                     totalBytesWritten: Int64,
                     totalBytesExpectedToWrite: Int64) {
-        DispatchQueue.main.async {
-            var bytesWritten = round(10 * Double(totalBytesWritten) / 1024) / 10
-            var resultWritten = ""
-            var bytesExpect = round(10 * Double(totalBytesWritten) / 1024) / 10
-            var resultExpect = ""
-            if bytesWritten < 1000 {
-                resultWritten = String(bytesWritten) + " KB"
-            } else {
-                bytesWritten = round(10 * Double(bytesWritten) / 1024 / 1000) / 10
-                resultWritten = String(bytesWritten) + " MB"
-            }
-            if bytesExpect < 1000 {
-                resultExpect = String(bytesExpect) + " KB"
-            } else {
-                bytesExpect = round(10 * Double(bytesExpect) / 1024 / 1000) / 10
-                resultExpect = String(bytesExpect) + " MB"
-            }
-            let result = SavedExpectData(saved: resultWritten,
-                                         expect: resultExpect,
-                                         savedBytes: Int(totalBytesWritten),
-                                         expectBytes: Int(totalBytesExpectedToWrite))
-            self.dataState = result
-        }
     }
 }
 
@@ -168,8 +200,6 @@ struct SavedExpectData {
 
     // MARK: - Internal Properties
 
-    var saved: String
-    var expect: String
-    var savedBytes: Int = 0
+    var savedBytes: Int = 1
     var expectBytes: Int = 1
 }

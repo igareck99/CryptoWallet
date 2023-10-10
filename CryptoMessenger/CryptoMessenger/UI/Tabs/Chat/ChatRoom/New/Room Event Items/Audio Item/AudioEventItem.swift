@@ -19,9 +19,8 @@ struct AudioEventItem: Identifiable, ViewGeneratable {
     // MARK: - ViewGeneratable
 
     func view() -> AnyView {
-        let viewModel = AudioMessageViewModel(url: url, messageId: messageId)
+        let viewModel = AudioMessageViewModel(data: self)
         return AudioEventView(viewModel: viewModel,
-                              data: self,
                               eventData: eventData.view(),
                               reactions: reactions.view()).anyView()
     }

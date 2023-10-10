@@ -23,7 +23,7 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
     ) -> [RoomEvent] {
         let roomEvents = eventCollections.wrapped
         var events = [RoomEvent]()
-
+        
         if let currentEvent = roomEvents.first {
             events.append(
                 RoomEvent(
@@ -36,7 +36,6 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                     fullDate: currentEvent.timestamp.dayAndMonthAndYear,
                     isFromCurrentUser: false,
                     isReply: false,
-                    replyDescription: "",
                     reactions: [],
                     content: [:],
                     eventSubType: ""
@@ -71,7 +70,6 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                         fullDate: event.timestamp.dayAndMonthAndYear,
                         isFromCurrentUser: false,
                         isReply: false,
-                        replyDescription: "",
                         reactions: [],
                         content: [:],
                         eventSubType: ""
@@ -89,10 +87,10 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                 fullDate: event.timestamp.dayAndMonthAndYear,
                 isFromCurrentUser: event.sender == matrixUseCase.getUserId(),
                 isReply: event.isReply(),
-                replyDescription: event.replyDescription,
                 reactions: reactions,
                 content: event.content,
-                eventSubType: event.type
+                eventSubType: event.type,
+                videoThumbnail: videoThumbnail(event: event)
             )
             events.append(value)
         }

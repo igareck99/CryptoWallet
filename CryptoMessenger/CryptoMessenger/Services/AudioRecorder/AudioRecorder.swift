@@ -71,28 +71,4 @@ final class AudioRecorder: ObservableObject {
         completion(recording)
         objectWillChange.send(self)
     }
-
-    func clearData() {
-        let fileManager = FileManager.default
-        let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        do {
-            let directoryContents = try fileManager
-                                    .contentsOfDirectory(at: documentDirectory, includingPropertiesForKeys: nil)
-            for item in directoryContents {
-                deleteRecording(urlsToDelete: [item])
-            }
-        } catch {
-            debugPrint("Error while clear directory")
-        }
-    }
-
-    func deleteRecording(urlsToDelete: [URL]) {
-        for url in urlsToDelete {
-            do {
-               try FileManager.default.removeItem(at: url)
-            } catch {
-                debugPrint("File could not be deleted!")
-            }
-        }
-    }
 }

@@ -41,6 +41,8 @@ protocol ChatViewModelProtocol: ObservableObject {
     
     var saveData: Bool { get set }
     
+    var replyDescriptionText: String { get set }
+    
     var resources: ChatRoomSourcesable.Type { get }
     
     var isChatDirectMenuAvailable: Bool { get set }

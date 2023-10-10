@@ -111,16 +111,7 @@ struct AudioView: View {
 			$playingAudioId.wrappedValue = value
 		})
 		.onAppear {
-			audioViewModel.setupAudioNew { url in
-				do {
-					guard let unwrappedUrl = url else { return }
-					audioViewModel.audioPlayer = try AVAudioPlayer(contentsOf: unwrappedUrl)
-					audioViewModel.audioPlayer?.numberOfLoops = .zero
-				} catch {
-					debugPrint("Error URL")
-					return
-				}
-			}
+            audioViewModel.start()
 		}
 		.onChange(of: playingAudioId, perform: { _ in
 			if messageId != playingAudioId {

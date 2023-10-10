@@ -1,39 +1,52 @@
 import SwiftUI
 
+// MARK: - DocumentItemView
+
 struct DocumentItemView<
     EventData: View,
     Reactions: View
 >: View {
-    let model: DocumentItem
+
+    // MARK: - Internal Properties
+
     let eventData: EventData
     let reactions: Reactions
+    @StateObject var viewModel: DocumentItemViewModel
+
+    // MARK: - Body
 
     var body: some View {
         VStack(spacing: .zero) {
             HStack(spacing: 8) {
-                Image(systemName: model.imageName)
-                    .resizable()
-                    .frame(width: 44, height: 44)
-                    .foregroundColor(.dodgerBlue)
-
+                DocumentImageStateView(state: $viewModel.state)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(model.title)
-                        .font(.system(size: 16))
+                    Text(viewModel.model.title)
+                        .font(.callout)
                         .foregroundColor(.chineseBlack)
-                    Text(model.subtitle)
-                        .font(.system(size: 12))
+                    Text(viewModel.size)
+                        .font(.system(size: 13))
                         .foregroundColor(.manatee)
                 }
             }
-            .frame(maxWidth: .infinity)
-
+            .frame(maxWidth: 254)
             reactions
-
             eventData
         }
         .fixedSize(horizontal: true, vertical: false)
         .onTapGesture {
-            model.onTap()
+            withAnimation(.easeOut(duration: 0.15)) {
+                switch viewModel.state {
+                case .download:
+                    viewModel.state = .loading
+                    viewModel.dowloadData()
+                case .loading:
+                    viewModel.state = .download
+                case .hasBeenDownloaded:
+                    viewModel.model.onTap()
+                case .hasBeenDownloadPhoto:
+                    break
+                }
+            }
         }
     }
 }

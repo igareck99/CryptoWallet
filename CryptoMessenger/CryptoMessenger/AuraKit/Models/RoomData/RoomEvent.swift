@@ -16,10 +16,10 @@ struct RoomEvent {
     let fullDate: String
     let isFromCurrentUser: Bool
     let isReply: Bool
-    let replyDescription: String
     let reactions: [Reaction]
     let content: [String: Any]
     let eventSubType: String
+    let videoThumbnail: URL?
 
     // MARK: - Lifecycle
 
@@ -33,11 +33,11 @@ struct RoomEvent {
         fullDate: String,
         isFromCurrentUser: Bool,
         isReply: Bool,
-        replyDescription: String,
         reactions: [Reaction],
         content: [String: Any],
         eventSubType: String,
-        senderAvatar: URL? = nil
+        senderAvatar: URL? = nil,
+        videoThumbnail: URL? = nil
     ) {
         self.eventId = eventId
         self.roomId = roomId
@@ -49,10 +49,10 @@ struct RoomEvent {
         self.fullDate = fullDate
         self.isFromCurrentUser = isFromCurrentUser
         self.isReply = isReply
-        self.replyDescription = replyDescription
         self.eventSubType = eventSubType
         self.reactions = reactions
         self.content = content
+        self.videoThumbnail = videoThumbnail
     }
 }
 
@@ -71,5 +71,24 @@ extension RoomEvent {
         } else {
             return ""
         }
+    }
+    
+    var dataSize: Int {
+        guard let data = content["info"] as? [String: Any] else { return 0 }
+        guard let size = data["size"] as? Int else { return 0 }
+        return size
+    }
+    
+    var videoSize: Int {
+        guard let data = content["info"] as? [String: Any] else { return 0 }
+        guard let info = data["thumbnail_info"] as? [String: Any] else { return 0 }
+        guard let size = info["size"] as? Int else { return 0 }
+        return size
+    }
+    
+    var rootEventId: String {
+        guard let data = content["m.reply_to"] as? [String: Any] else { return "" }
+        guard let text = data["root_event_id"] as? String else { return "" }
+        return text
     }
 }

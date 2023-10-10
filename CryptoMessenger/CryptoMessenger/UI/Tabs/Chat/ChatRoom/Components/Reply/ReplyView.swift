@@ -37,7 +37,7 @@ struct ReplyView: View {
                 Spacer()
 
                 Button(action: onReset, label: {
-                    R.image.chat.reply.close.image
+                    R.image.chat.cancelReply.image
                         .padding(.trailing, 8)
                 })
             }
@@ -66,14 +66,12 @@ struct EditView: View {
             HStack(spacing: 0) {
                 R.image.chat.reaction.edit.image
                     .padding(.leading, 16)
-
                 VStack(alignment: .leading, spacing: 0) {
                     Text(R.string.localizable.editViewEdit(), [
                         .paragraph(.init(lineHeightMultiple: 1.12, alignment: .left))
                     ]).font(.system(size: 12, weight: .regular))
                         .foregroundColor(.dodgerBlue)
                         .frame(height: 13)
-
                     Text(text, [
                         .paragraph(.init(lineHeightMultiple: 1.09, alignment: .left))
                     ]).font(.system(size: 15, weight: .regular))
@@ -83,11 +81,9 @@ struct EditView: View {
                 }
                 .padding(.leading, 20)
                 .padding(.trailing, 24)
-
                 Spacer()
-
                 Button(action: onReset, label: {
-                    R.image.chat.reply.close.image
+                    R.image.chat.cancelReply.image
                         .padding(.trailing, 8)
                 })
             }

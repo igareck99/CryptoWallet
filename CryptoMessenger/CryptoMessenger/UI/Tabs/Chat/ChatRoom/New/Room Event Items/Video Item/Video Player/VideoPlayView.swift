@@ -18,6 +18,7 @@ struct VideoPlayView: View {
                 }
                 .toolbarBackground(Color.black, for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
+                .ignoresSafeArea()
                 .toolbar {
                     makeToolBar()
                 }

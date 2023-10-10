@@ -1,12 +1,19 @@
 import SwiftUI
 
+// MARK: - EventData
+
 struct EventData: Identifiable, ViewGeneratable {
+
+    // MARK: - Internal Properties
+
     let id = UUID()
     let date: String
     let dateColor: Color
     let backColor: Color
     let isFromCurrentUser: Bool
     let readData: any ViewGeneratable
+
+    // MARK: - Lifecycle
 
     init(
         date: String,

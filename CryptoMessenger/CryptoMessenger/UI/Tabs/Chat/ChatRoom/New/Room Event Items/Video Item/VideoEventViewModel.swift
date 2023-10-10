@@ -1,60 +1,81 @@
 import AVKit
-import Foundation
+import Combine
 import SwiftUI
+
+// MARK: - VideoEventViewModel
 
 final class VideoEventViewModel: ObservableObject {
 
-    @Published var thumbnailImage: Image?
-    private var videoUrl: URL?
+    // MARK: - Internal Properties
+
+    @Published var thumbnailImage = Image("")
+    @Published var image = Image("")
+    @Published var size = ""
+    @Published var sizeOfFile = ""
+    @Published var state: DocumentImageState = .download
+    var downloadedUrl: URL?
+    var model: VideoEvent
+
+    // MARK: - Private Properties
+
     private let fileManager: FileManagerProtocol
     private let remoteDataService: RemoteDataServiceProtocol
+    private var subscriptions = Set<AnyCancellable>()
+
+    // MARK: - Lifecycle
 
     init(
+        model: VideoEvent,
         fileManager: FileManagerProtocol = FileManagerService.shared,
         remoteDataService: RemoteDataServiceProtocol = RemoteDataService.shared
     ) {
+        self.model = model
         self.fileManager = fileManager
         self.remoteDataService = remoteDataService
+        self.bindInput()
+        self.initData()
     }
-
-    func update(url: URL?) {
-        debugPrint("url: \(String(describing: url))")
-        guard videoUrl == nil else { return }
-        guard let vUrl = url else { return }
-        self.videoUrl = vUrl
-        self.load(url: vUrl)
-    }
-
-    func load(url: URL) {
-        Task {
-            let result = await remoteDataService.downloadDataRequest(url: url)
-            debugPrint("downloadDataRequest url: \(String(describing: result?.0))")
-            debugPrint("downloadDataRequest request: \(String(describing: result?.1))")
-
-            let fileName = "\(DateFormatter.underscoredDate()).mp4"
-            guard let fileUrl = result?.0,
-                  let savedUrl = self.saveFile(fileUrl: fileUrl, name: fileName) else {
-                debugPrint("downloadDataRequest FAILED")
-                return
-            }
-            debugPrint("downloadDataRequest savedUrl: \(savedUrl)")
-            self.generatePreviewImage(url: savedUrl)
+    
+    func onTapView() {
+        switch state {
+        case .download:
+            state = .loading
+            getData()
+        case .loading:
+            state = .download
+        case .hasBeenDownloadPhoto:
+            guard let url = downloadedUrl else { return }
+            model.onTap(url)
+        default:
+            break
         }
     }
-
-    private func saveFile(fileUrl: URL, name: String) -> URL? {
-        let fileManager = FileManager.default
-        let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let filePath = documentDirectory.appendingPathComponent(name, isDirectory: false)
-        debugPrint("downloadDataRequest savedUrl: \(filePath)")
-        guard let data = try? Data(contentsOf: fileUrl) else { return nil }
-        try? data.write(to: filePath, options: .noFileProtection)
-        return filePath
+    
+    func getData() {
+        guard let url = model.videoUrl else { return }
+        let name = model.videoUrl?.absoluteString.components(separatedBy: "/").last ?? ""
+        Task {
+            let result = await remoteDataService.downloadWithBytes(url: url)
+            guard let data = result?.0,
+                  let savedUrl = self.fileManager.saveFile(name: name,
+                                                           data: data,
+                                                           pathExtension: "mp4") else {
+                debugPrint("downloadDataRequest FAILED")
+                await MainActor.run {
+                    self.state = .download
+                }
+                return
+            }
+            await MainActor.run {
+                self.size = savedUrl.fileSize()
+                self.downloadedUrl = savedUrl
+                self.state = .hasBeenDownloadPhoto
+            }
+        }
     }
-
-    func loadPreviewImage() {
-        guard let vUrl = videoUrl else { return }
-        videoUrl?.getThumbnailImage { image in
+    
+    func loadPreviewImage(url: URL) {
+        url.getThumbnailImage { image in
             guard let previewImage = image else { return }
             Task {
                 await MainActor.run {
@@ -64,15 +85,42 @@ final class VideoEventViewModel: ObservableObject {
         }
     }
 
-    func generatePreviewImage(url: URL) {
-        AVAsset(url: url).generateThumbnail { [weak self] image in
-            guard let self = self, let previewImage = image else { return }
-            Task {
-                await MainActor.run {
-                    self.thumbnailImage = Image(uiImage: previewImage)
+    // MARK: - Private Methods
+
+    private func convertToBytes(_ value: Int) -> String {
+        return Units(bytes: Int64(value)).getReadableUnit()
+    }
+
+    private func initData() {
+        guard let vUrl = model.thumbnailurl else { return }
+        self.loadPreviewImage(url: vUrl)
+        let name = model.videoUrl?.absoluteString.components(separatedBy: "/").last ?? ""
+        let (isExist, path) = fileManager.checkFileExist(name: name, pathExtension: "mp4")
+        if isExist {
+            DispatchQueue.main.async {
+                guard let url = self.model.videoUrl else { return }
+                self.downloadedUrl = path
+                self.state = .hasBeenDownloadPhoto
+            }
+        } else {
+            self.sizeOfFile = self.convertToBytes(model.size)
+            self.size = self.sizeOfFile
+        }
+    }
+
+    private func bindInput() {
+        remoteDataService.dataSizePublisher
+            .subscribe(on: DispatchQueue.global(qos: .default))
+            .receive(on: DispatchQueue.global(qos: .default))
+            .sink { [weak self] value in
+                guard let self = self else { return }
+                if self.state == .loading {
+                    DispatchQueue.main.async {
+                        self.size = "\(self.convertToBytes(value.savedBytes))/\(self.sizeOfFile)"
+                    }
                 }
             }
-        }
+            .store(in: &subscriptions)
     }
 }
 

@@ -5,20 +5,20 @@ import SwiftUI
 struct ImageEvent: Identifiable, ViewGeneratable {
     let id = UUID()
     let imageUrl: URL?
-    let placeholder: any ViewGeneratable
+    let size: Int
     let eventData: any ViewGeneratable
     let loadData: any ViewGeneratable
     let onTap: () -> Void
 
     init(
         imageUrl: URL? = nil,
-        placeholder: any ViewGeneratable,
+        size: Int,
         eventData: any ViewGeneratable,
         loadData: any ViewGeneratable,
         onTap: @escaping () -> Void
     ) {
         self.imageUrl = imageUrl
-        self.placeholder = placeholder
+        self.size = size
         self.eventData = eventData
         self.loadData = loadData
         self.onTap = onTap
@@ -29,9 +29,8 @@ struct ImageEvent: Identifiable, ViewGeneratable {
     func view() -> AnyView {
         ImageEventView(
             loadData: loadData.view(),
-            placeholder: placeholder.view(),
             eventData: eventData.view(),
-            model: self
+            viewModel: ImageEventViewModel(model: self)
         ).anyView()
     }
 }

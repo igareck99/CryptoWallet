@@ -3,14 +3,15 @@ import SwiftUI
 
 // MARK: - ChatViewModel
 
-final internal class ChatViewModel: ObservableObject, ChatViewModelProtocol {
+final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
+
     @Published var saveData = false
     @Published var isAvatarLoading = false
     @Published var roomAvatarUrl: URL?
     @Published var chatData = ChatData()
     @Published var participants: [ChannelParticipantsData] = []
     @Published var displayItems = [any ViewGeneratable]()
-    @Published var itemsFromMatrix = [any ViewGeneratable]()
+    var itemsFromMatrix = [any ViewGeneratable]()
     @Published var inputText = ""
     @Published var scroolString = UUID()
     var scrollId: Published<UUID> { _scroolString }
@@ -18,6 +19,7 @@ final internal class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     @Published var activeEditMessage: RoomEvent?
     @Published var quickAction: QuickActionCurrentUser?
     @Published private(set) var room: AuraRoomData
+    @Published var replyDescriptionText = ""
     @Published var isAccessToWrite = true
     var sources: ChatRoomSourcesable.Type = ChatRoomResources.self
     var coordinator: ChatHistoryFlowCoordinatorProtocol
@@ -145,7 +147,7 @@ final internal class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             .store(in: &subscriptions)
 
         matrixUseCase.objectChangePublisher
-            .receive(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.global(qos: .background))
             .sink { [weak self] _ in
                 guard
                     let self = self,
@@ -163,9 +165,11 @@ final internal class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 }, onTapNotSendedMessage: { event in
                     self.onTapNotSendedMessage(event)
                 })
-                self.displayItems = self.itemsFromMatrix
-                if !self.itemsFromMatrix.isEmpty {
-                    self.scroolString = self.displayItems.last?.id ?? UUID()
+                DispatchQueue.main.async {
+                    self.displayItems = self.itemsFromMatrix
+                    if !self.itemsFromMatrix.isEmpty {
+                        self.scroolString = self.displayItems.last?.id ?? UUID()
+                    }
                 }
             }
             .store(in: &subscriptions)
@@ -358,6 +362,7 @@ final internal class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             withAnimation(.easeIn(duration: 0.25)) {
                 self.activeEditMessage = event
                 self.quickAction = action
+                self.replyDescriptionText = self.makeReplyDescription(self.activeEditMessage)
                 self.coordinator.dismissCurrentSheet()
             }
             debugPrint("Message Action  \(action)")
@@ -368,6 +373,28 @@ final internal class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                                      emoji: reaction)
             self.matrixUseCase.objectChangePublisher.send()
         })
+    }
+    
+    private func makeReplyDescription(_ event: RoomEvent?) -> String {
+        guard let event = event else { return "" }
+        switch event.eventType {
+        case .text(let string):
+            return string
+        case .image(_):
+            return "send to image"
+        case .video(_):
+            return "send to video"
+        case .file(_, _):
+            return "send to video"
+        case .audio(_):
+            return "send to audio"
+        case .location(_):
+            return "send to location"
+        case .contact(_, _, _):
+            return "send to contact"
+        default:
+            return ""
+        }
     }
 
     private func onRemoveReaction(_ event: ReactionNewEvent) {

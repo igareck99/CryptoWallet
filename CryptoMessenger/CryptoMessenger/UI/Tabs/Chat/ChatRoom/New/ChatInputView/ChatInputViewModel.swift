@@ -8,6 +8,7 @@ struct ChatInputViewModel: ViewGeneratable {
     @Binding var inputText: String
     @Binding var activeEditMessage: RoomEvent?
     @Binding var quickAction: QuickActionCurrentUser?
+    @Binding var replyDescriptionText: String
     var sendText: () -> Void
     var onChatRoomMenu: () -> Void
     var sendAudio: (RecordingDataModel) -> Void
