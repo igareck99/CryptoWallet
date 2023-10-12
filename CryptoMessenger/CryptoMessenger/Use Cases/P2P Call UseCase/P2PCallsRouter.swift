@@ -15,7 +15,10 @@ protocol P2PCallsRouterable {
 final class P2PCallsRouter: NSObject {
 	private weak var callController: UIViewController?
     private var rootController: UIViewController? {
-        StatusBarCallUseCase.shared.appWindow?.rootViewController
+        guard let scene = UIApplication.shared.connectedScenes.first?.delegate as? AppSceneDelegate else {
+            return nil
+        }
+        return scene.upWindow?.rootViewController
     }
 }
 

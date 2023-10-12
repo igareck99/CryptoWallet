@@ -192,9 +192,9 @@ extension MatrixService {
 		let unauthenticatedHandler: MXRestClientUnauthenticatedHandler = {
             [weak self] error, isSoftLogout, isRefreshTokenAuth, logoutCompletion in
             
-//            if String(describing: error).contains("M_UNKNOWN_TOKEN") {
+            if String(describing: error).contains("M_UNKNOWN_TOKEN") {
                 self?.notifyTokenExpiration()
-//            }
+            }
             
             debugPrint("error: \(String(describing: error))")
 			debugPrint("isSoftLogout: \(isSoftLogout)")
@@ -214,6 +214,7 @@ extension MatrixService {
 		let callStack: MXCallStack = MXJingleCallStack()
 		session?.enableVoIP(with: callStack)
 		self.session = session
+        MXFileStore.setPreloadOptions([.roomAccountData, .roomState, .roomMessages])
 		self.fileStore = MXFileStore(credentials: credentials)
 		self.uploader = MXMediaLoader(forUploadWithMatrixSession: session, initialRange: 0, andRange: 1)
 		configureCallKitAdapter()

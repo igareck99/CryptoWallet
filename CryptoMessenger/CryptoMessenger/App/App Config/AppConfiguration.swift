@@ -189,7 +189,7 @@ final class Configuration: ConfigType {
         bundle: Bundle = .main,
         locale: Locale = .current,
         parser: Parsable.Type = Parser.self,
-        stand: Stand = .dev
+        stand: Stand = .prod
     ) {
         self.bundle = bundle
         self.locale = locale

@@ -3,59 +3,6 @@ import Combine
 import Foundation
 import MatrixSDK
 
-protocol P2PCallUseCaseProtocol: AnyObject {
-
-    var router: P2PCallsRouterable { get }
-
-    var isActiveCallExist: Bool { get }
-
-	var delegate: P2PCallUseCaseDelegate? { get set }
-
-	func placeVoiceCall(roomId: String, contacts: [Contact])
-
-	func placeVideoCall(roomId: String, contacts: [Contact])
-
-	func answerCall()
-
-	func endCall()
-
-	func holdCall()
-
-	func changeHoldCall()
-
-    var isVideoEnabled: Bool { get }
-
-    func toggleVideoState()
-
-    var isMicEnabled: Bool { get }
-
-	func toggleMuteState()
-
-	var isSpeakerEnabled: Bool { get }
-
-	var isHoldEnabled: Bool { get }
-
-	func changeVoiceSpeaker()
-
-	var duration: UInt { get }
-
-	var callType: P2PCallType { get }
-
-	var activeCallStateSubject: CurrentValueSubject<P2PCallState, Never> { get }
-
-	var callModelSubject: PassthroughSubject<P2PCall, Never> { get }
-
-	var holdCallEnabledSubject: CurrentValueSubject<Bool, Never> { get }
-
-	var changeHoldedCallEnabledSubject: CurrentValueSubject<Bool, Never> { get }
-
-	var changeHoldedCallEnabledPublisher: AnyPublisher<Bool, Never> { get }
-}
-
-protocol P2PCallUseCaseDelegate: AnyObject {
-	func callDidChange(state: P2PCallState)
-}
-
 final class P2PCallUseCase: NSObject {
 
 	lazy var activeCallStateSubject = CurrentValueSubject<P2PCallState, Never>(activeCallState)
@@ -188,6 +135,8 @@ final class P2PCallUseCase: NSObject {
 		   activeCall?.callUUID != call.callUUID,
 		   calls[call.callUUID] != call {
 			debugPrint("Place_Call: callStateChanged ANOTHER_INCOMING_CALL: \(call.callUUID) state: \(call.state)")
+            call.hangup()
+            return
 		}
 
 		if calls.isEmpty,
@@ -235,7 +184,7 @@ final class P2PCallUseCase: NSObject {
             guard call.endReason != .answeredElseWhere else { return } // MXCallEndReasonAnsweredElseWhere
 
 			debugPrint("Place_Call: callStateChanged callId: \(call.callId) state: \(call.state) end reason: \(call.endReason)")
-//			call.hangup()
+			call.hangup()
 			updateControllerOnEndOf(endedCall: call)
 			settings.set(false, forKey: .isCallInprogressExists)
 		default:
@@ -496,7 +445,7 @@ extension P2PCallUseCase: P2PCallUseCaseProtocol {
 		calls[call.callUUID] = nil
 		activeCall?.hangup()
 		activeCall = nil
-        
+
 //        call.room.mxSession.callManager.remove
 
 		guard onHoldCall == nil else { return }

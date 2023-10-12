@@ -19,7 +19,7 @@ struct UrlsConfig: Codable {
 
     static let defaultDebug = UrlsConfig(
         cryptoWallet: "https://crypto.auramsg.co/",
-        jitsiMeet: "https://meet.auramsg.co/",
+        jitsiMeet: "https://meet.auramsg.ms/",
         matrixUrl: "https://matrix.auramsg.co/",
         apiUrl: "https://api.auramsg.co/",
         apiVersion: "v0",
