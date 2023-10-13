@@ -6,6 +6,7 @@ enum ChatHistoryEmpty {
 
     case noData
     case emptySearch
+    case noChats
 
     var image: Image {
         switch self {
@@ -13,6 +14,8 @@ enum ChatHistoryEmpty {
            return R.image.chatHistory.nodata.image
         case .emptySearch:
             return R.image.chatHistory.emptyState.image
+        case .noChats:
+            return R.image.chatHistory.noChats.image
         }
     }
 
@@ -22,6 +25,8 @@ enum ChatHistoryEmpty {
             return R.string.localizable.chatHistoryNoResult()
         case .emptySearch:
             return R.string.localizable.chatHistorySearchEmpty()
+        case .noChats:
+            return R.string.localizable.chatHistoryNoMessages()
         }
     }
 
@@ -31,6 +36,8 @@ enum ChatHistoryEmpty {
             return R.string.localizable.chatHistoryNothingFind()
         case .emptySearch:
             return R.string.localizable.chatHistoryEnterData()
+        case .noChats:
+            return R.string.localizable.chatHistoryNoActiveChats()
         }
     }
 }

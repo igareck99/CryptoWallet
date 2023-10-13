@@ -43,13 +43,14 @@ final class AudioMessageViewModel: ObservableObject {
         audioPlayer?.pause()
         isPlaying = false
         timer.upstream.connect().cancel()
+        self.state = .play
     }
 
     func play() {
         if self.isPlaying {
             stop()
             DispatchQueue.main.async {
-                self.state = .play
+                self.state = .stop
             }
         } else {
             playingAudioId = data.messageId
@@ -75,6 +76,9 @@ final class AudioMessageViewModel: ObservableObject {
             audioPlayer?.updateMeters()
             isPlaying = true
             time = Double((audioPlayer?.currentTime ?? 0) / (audioPlayer?.duration ?? 1))
+            if audioPlayer?.currentTime == audioPlayer?.duration {
+                self.state = .play
+            }
         } else {
             isPlaying = false
             playingAudioId = ""

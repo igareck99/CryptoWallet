@@ -544,7 +544,8 @@ final class ChatRoomViewModel: ObservableObject {
 					)
 					self?.messages[index].reactions.append(reaction)
                 case let .onMedia(room):
-                    self?.coordinator?.chatMedia(room)
+                    break
+                    //self?.coordinator?.chatMedia(room)
                 case .onDeleteReaction(let messageId, let reactionId):
                     guard let self = self else { return }
                     self.matrixUseCase.edit(roomId: self.room.room.roomId,
@@ -560,14 +561,14 @@ final class ChatRoomViewModel: ObservableObject {
                 case let .onSettings(chatData: chatData, saveData: saveData,
                                      room: room, isLeaveChannel: isLeaveChannel):
                     guard let isChannel = self?.isChannel else { return }
-                    if let coordinator = self?.coordinator {
-                        self?.coordinator?.roomSettings(isChannel: isChannel,
-                                                        chatData: chatData,
-                                                        saveData: saveData,
-                                                        room: room,
-                                                        isLeaveChannel: isLeaveChannel,
-                                                        coordinator: coordinator)
-                    }
+//                    if let coordinator = self?.coordinator {
+//                        self?.coordinator?.roomSettings(isChannel: isChannel,
+//                                                        chatData: chatData,
+//                                                        saveData: saveData,
+//                                                        room: nil,
+//                                                        isLeaveChannel: isLeaveChannel,
+//                                                        coordinator: coordinator)
+//                    }
                 }
             }
             .store(in: &subscriptions)

@@ -323,12 +323,18 @@
 "ChatSettings.DeleteAlertTitle" = "Удаление чатов";
 "ChatSettings.ClearAlertText" = "Вы действительно хотите удалить все сообщения в чатах?";
 "ChatSettings.DeleteAlertText" = "Вы действительно хотите удалить все чаты?";
+"ChatSettings.BlockUser" = "Заблокировать";
+"ChatSettings.RemoveChatDescription" = "Удалить чат без возможности восстановления?";
+"ChatSettings.BlockUserDescription" = "Вы точно хотите заблокировать";
 
 "ChatHistory.SearchPlaceholder" = "Поиск по чатам и каналам";
 "ChatHistory.Decline" = "Отменить";
 "ChatHistory.ReadAll" = "Прочитать все";
 "ChatHistory.AUR" = "AUR";
 "ChatHistory.Chats" = "Чаты";
+"ChatHistory.NoMessages" = "Нет сообщений";
+"ChatHistory.NoActiveChats" = "У вас нет активных чатов";
+"ChatHistory.InviteFriends" = "Пригласить друзей";
 
 "ReserveCopy.Created" = "Резервная копия создана";
 "ReserveCopy.CreateCopy" = "Создать резервную копию";
@@ -614,8 +620,11 @@
 "ChannelSettings.TurnedNotifications" = "Включены";
 "ChannelSettings.OffedNotifications" = "Отключены";
 "ChannelSettings.LeaveChannel" = "Покинуть канал";
+"ChannelSettings.LeaveChat" = "Покинуть чат";
+"ChannelSettings.EncryptionIsUsed" = "Используется сквозное шифрование";
 "ChannelSettings.SelectRole" = "Выберите роль для участника";
 "ChannelSettings.SelectOwner" = "Выбрать владельца";
+"ChannelSettings.LeaveFromChat" = "Выйти из чата";
 
 "ChannelInfo.DocsWillBe" = "Здесь будут документы канала";
 "ChannelInfo.NoDocs" = "Нет документов";

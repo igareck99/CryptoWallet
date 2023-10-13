@@ -11,15 +11,12 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     @StateObject var viewModel: ViewModel
 
     // MARK: - Private Properties
-    
-    @Binding var isLeaveChannel: Bool
+
     @Environment(\.presentationMode) private var presentationMode
     @State private var showNotificationsView = false
     @State private var showParticipantsView = false
-    @State private var showChannelChangeType = false
     @State private var showAddUser = false
     @State var textViewHeight: CGFloat = 120
-    @State var changeViewEdit: Bool = false
     @State private var showImagePicker = false
     @State private var showCameraPicker = false
     @State private var showActionImageAlert = false
@@ -31,28 +28,31 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     var body: some View {
         Group {
-            if changeViewEdit {
+            if viewModel.changeViewEdit {
                 changeView
             } else {
                 mainView
             }
+        }
+        .onAppear {
+            viewModel.setData()
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarHidden(false)
         .navigationBarTitleDisplayMode(.inline)
         .navigationViewStyle(.stack)
         .toolbar {
-            if changeViewEdit {
+            if viewModel.changeViewEdit {
                 createChangeToolBar()
             } else {
                 createToolBar()
             }
         }
-        .sheet(isPresented: $showChannelChangeType, content: {
+        .sheet(isPresented: $viewModel.showChannelChangeType, content: {
             NavigationView {
                 SelectChannelTypeView(
-                    viewModel: SelectChannelTypeViewModel(roomId: viewModel.roomId),
-                    showChannelChangeType: $showChannelChangeType
+                    viewModel: SelectChannelTypeViewModel(roomId: viewModel.room.roomId),
+                    showChannelChangeType: $viewModel.showChannelChangeType
                 ) { value in
                     switch value {
                     case .publicChannel:
@@ -73,7 +73,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 }))
             }
         })
-        .sheet(isPresented: viewModel.showSelectOwner, content: {
+        .sheet(isPresented: $viewModel.showSelectOwner, content: {
             NavigationView {
                 ChannelNewOwnerView(users: viewModel.getChannelUsers().filter({
                     viewModel.getUserRole($0.matrixId) != .owner
@@ -83,7 +83,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 }
             }
         })
-        .sheet(isPresented: viewModel.showSelectCurrentUserRole, content: {
+        .sheet(isPresented: $viewModel.showSelectCurrentUserRole, content: {
             NavigationView {
                 ChannelNewOwnerView(users: viewModel.getChannelUsers().filter({
                     viewModel.getUserRole($0.matrixId) != .owner
@@ -94,47 +94,41 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 }
             }
         })
-        .onChange(of: viewModel.dissappearScreen, perform: { value in
-            if value {
-                isLeaveChannel = true
-                presentationMode.wrappedValue.dismiss()
-            }
-        })
-        .sheet(isPresented: viewModel.showUserSettings, content: {
-            UserSettingsAssembly.build(userId: viewModel.tappedUserId,
-                                       showBottomSheet: viewModel.showChangeRole,
-                                       showUserProfile: viewModel.showUserProfile,
-                                       roomId: viewModel.roomId,
+        .sheet(isPresented: $viewModel.showUserSettings, content: {
+            UserSettingsAssembly.build(userId: $viewModel.tappedUserId,
+                                       showBottomSheet: $viewModel.showChangeRole,
+                                       showUserProfile: $viewModel.showUserProfile,
+                                       roomId: viewModel.room.roomId,
                                        roleCompare: viewModel.compareRoles()) {
-                viewModel.showUserSettings.wrappedValue = false
+                viewModel.showUserSettings = false
                 viewModel.onUserRemoved()
             } onUserProfile: {
-                viewModel.showUserSettings.wrappedValue = false
+                viewModel.showUserSettings = false
                 viewModel.dismissSheet()
             }
             .presentationDetents([.height(computeSizeOfUserMenu(viewModel.compareRoles()))])
         })
         .customConfirmDialog(
-            isPresented: viewModel.showMakeRole,
+            isPresented: $viewModel.showMakeRole,
             actionsAlignment: .center,
             actions: {
                 TextActionViewModel
                     .MakeRole
-                    .actions(viewModel.showMakeRole) {
+                    .actions($viewModel.showMakeRole) {
                         viewModel.onMakeRoleTap()
                     }
             }, cancelActions: {
                 TextActionViewModel
                     .MakeRole
-                    .cancelActions(viewModel.showMakeRole)
+                    .cancelActions($viewModel.showMakeRole)
             })
         .customConfirmDialog(
-            isPresented: viewModel.showMakeNewRole,
+            isPresented: $viewModel.showMakeNewRole,
             actionsAlignment: .center,
             actions: {
                 TextActionViewModel
                     .MakeNewRole
-                    .actions(viewModel.showMakeNewRole) {
+                    .actions($viewModel.showMakeNewRole) {
                         if !showParticipantsView {
                             viewModel.onMakeCurrentUserRoleTap()
                         }
@@ -142,15 +136,15 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }, cancelActions: {
                 TextActionViewModel
                     .MakeNewRole
-                    .cancelActions(viewModel.showMakeNewRole)
+                    .cancelActions($viewModel.showMakeNewRole)
             })
         .customConfirmDialog(
-            isPresented: viewModel.showChangeRole,
+            isPresented: $viewModel.showChangeRole,
             actionsAlignment: .center,
             actions: {
                 TextActionViewModel
                     .SelectRole
-                    .actions(viewModel.showChangeRole,
+                    .actions($viewModel.showChangeRole,
                              viewModel.getCurrentUserRole()) {
                         selectedRole = $0
                         viewModel.onRoleSelected(role: $0, ownerCheck: true)
@@ -158,16 +152,16 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }, cancelActions: {
                 TextActionViewModel
                     .SelectRole
-                    .cancelActions(viewModel.showChangeRole)
+                    .cancelActions($viewModel.showChangeRole)
             })
         .customConfirmDialog(
-            isPresented: viewModel.showDeleteChannel,
+            isPresented: $viewModel.showDeleteChannel,
             actionsAlignment: .center,
             actions: {
                 TextActionViewModel
                     .DeleteChannel
-                    .actions(viewModel.showDeleteChannel) {
-                        viewModel.showLeaveChannel.wrappedValue = true
+                    .actions($viewModel.showDeleteChannel) {
+                        viewModel.showLeaveChannel = true
                     } onDeleteAllUsers: {
                         viewModel.onDeleteAllUsers()
                     }
@@ -175,22 +169,22 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }, cancelActions: {
                 TextActionViewModel
                     .DeleteChannel
-                    .cancelActions(viewModel.showDeleteChannel)
+                    .cancelActions($viewModel.showDeleteChannel)
             })
         .customConfirmDialog(
-            isPresented: viewModel.showLeaveChannel,
+            isPresented: $viewModel.showLeaveChannel,
             actionsAlignment: .center,
             actions: {
                 TextActionViewModel
                     .LeaveChannel
-                    .actions(viewModel.showLeaveChannel,
+                    .actions($viewModel.showLeaveChannel,
                              viewModel.isRoomPublicValue) {
                         viewModel.onLeaveChannel()
                     }
             }, cancelActions: {
                 TextActionViewModel
                     .LeaveChannel
-                    .cancelActions(viewModel.showLeaveChannel)
+                    .cancelActions($viewModel.showLeaveChannel)
             })
         .popup(
             isPresented: viewModel.isSnackbarPresented,
@@ -213,12 +207,12 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     .frame(maxWidth: .infinity)
                     .listRowInsets(.none)
                     .listRowBackground(Color.clear)
-                
             }
             if viewModel.shouldShowDescription {
                 Section {
                     channelDescriptionView()
                 }
+                
             }
             Section {
                 attachmentsView()
@@ -234,6 +228,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                             .listRowSeparator(.hidden)
                             .frame(maxWidth: .infinity)
                             .listRowInsets(.none)
+                            .padding(.top, 6)
                     }
                 }
             }
@@ -251,10 +246,12 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .frame(maxWidth: .infinity)
                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 .listRowBackground(Color.clear)
-            Section {
-                changeChannelTypeView()
-                if viewModel.getCurrentUserRole() == .owner {
-                    deleteChannelView()
+            if viewModel.isChannel {
+                Section {
+                    changeChannelTypeView()
+                    if viewModel.getCurrentUserRole() == .owner {
+                        deleteChannelView()
+                    }
                 }
             }
         }
@@ -264,45 +261,39 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     // MARK: - Private Methods
     
     private func changeAvatarView() -> some View {
-        ZStack(alignment: .center) {
-            
-            if let img = viewModel.selectedImg {
-                Image(uiImage: img)
+        VStack(alignment: .center, spacing: 10) {
+            ZStack(alignment: .center) {
+                if let img = viewModel.selectedImg {
+                    Image(uiImage: img)
+                        .scaledToFill()
+                        .frame(width: 80, height: 80)
+                        .cornerRadius(40)
+                } else {
+                    AsyncImage(
+                        defaultUrl: viewModel.roomImageUrl,
+                        placeholder: {
+                            ZStack {
+                                Color.diamond
+                                Text(viewModel.roomDisplayName.firstLetter)
+                                    .foregroundColor(viewModel.resources.background)
+                                    .font(.system(size: 20, weight: .medium))
+                            }
+                        },
+                        result: {
+                            Image(uiImage: $0).resizable()
+                        }
+                    )
                     .scaledToFill()
                     .frame(width: 80, height: 80)
                     .cornerRadius(40)
-            } else {
-                AsyncImage(
-                    defaultUrl: viewModel.roomImageUrl,
-                    placeholder: {
-                        ZStack {
-                            viewModel.resources.textBoxBackground
-                            Text(viewModel.roomDisplayName)
-                                .foregroundColor(viewModel.resources.background)
-                                .font(.system(size: 20, weight: .medium))
-                        }
-                    },
-                    result: {
-                        Image(uiImage: $0).resizable()
-                    }
-                )
-                .scaledToFill()
-                .frame(width: 80, height: 80)
-                .cornerRadius(40)
+                }
             }
-            
-            ZStack(alignment: .center) {
-                Circle()
-                    .foregroundColor(viewModel.resources.logoBackground)
-                    .frame(width: 24, height: 24)
-                R.image.profileDetail.whiteCamera.image
-                    .resizable()
-                    .frame(width: 10.5, height: 8.2)
-            }
-            .padding([.top, .leading], 56)
-        }
-        .onTapGesture {
-            showActionImageAlert = true
+            Text("Изменить фотографию")
+                .font(.semibold(17))
+                .foregroundColor(.dodgerBlue)
+                .onTapGesture {
+                    showActionImageAlert = true
+                }
         }
         .actionSheet(isPresented: $showActionImageAlert) {
             ActionSheet(title: Text(""),
@@ -345,7 +336,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             changeAvatarView()
             TextFieldView(
                 title: "",
-                text: viewModel.channelName,
+                text: $viewModel.roomDisplayName,
                 placeholder: "",
                 color: viewModel.resources.background
             )
@@ -353,8 +344,9 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(viewModel.resources.background)
             )
-            
-            TextEditor(text: viewModel.channelTopic)
+            .padding(.top, 24)
+            TextEditor(text: $viewModel.channelTopic)
+                .placeholder("Описание", when: viewModel.channelTopic.isEmpty, alignment: .topLeading)
                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
                 .background(viewModel.resources.background)
                 .foregroundColor(viewModel.resources.titleColor)
@@ -368,7 +360,6 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         VStack(alignment: .center, spacing: 0) {
             Spacer()
                 .frame(height: 1)
-            
             if let img = viewModel.selectedImg {
                 Image(uiImage: img)
                     .scaledToFill()
@@ -380,7 +371,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                     defaultUrl: viewModel.roomImageUrl,
                     placeholder: {
                         ZStack {
-                            viewModel.resources.textBoxBackground
+                            Color.dodgerTransBlue
                             Text(viewModel.roomDisplayName)
                                 .foregroundColor(viewModel.resources.background)
                                 .font(.system(size: 20, weight: .medium))
@@ -395,9 +386,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .cornerRadius(40)
                 .padding(.bottom, 16)
             }
-            
-            
-            Text(viewModel.channelNameText)
+            Text(viewModel.roomDisplayName)
                 .font(.system(size: 22))
                 .foregroundColor(viewModel.resources.titleColor)
                 .padding(.bottom, 4)
@@ -408,9 +397,14 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     }
     
     private func channelDescriptionView() -> some View {
-        Text(viewModel.channelTopicText)
-            .font(.system(size: 17))
-            .foregroundColor(viewModel.resources.titleColor)
+        ZStack {
+            TextEditor(text: .constant(viewModel.channelTopic))
+                .background(viewModel.resources.background)
+                .foregroundColor(viewModel.resources.titleColor)
+                .font(.system(size: 17))
+                .cornerRadius(8)
+            Text(viewModel.channelTopic).opacity(0).padding([.leading, .trailing, .top], 8)
+        }
     }
     
     private func attachmentsView() -> some View {
@@ -420,7 +414,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             accessoryImageName: "chevron.right"
         )
         .onTapGesture {
-            viewModel.nextScene(.onMedia(viewModel.roomId))
+            viewModel.nextScene(.onMedia(viewModel.room.roomId))
         }
     }
 
@@ -442,21 +436,21 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             accessoryImageName: ""
         )
         .onTapGesture {
-            UIPasteboard.general.string = viewModel.roomId
+            UIPasteboard.general.string = viewModel.room.roomId
             viewModel.onChannelLinkCopy()
         }
     }
 
     private func leaveChannelView() -> some View {
         ChannelSettingsView(
-            title: resources.leaveChannel,
+            title: viewModel.leaveChannelText,
             titleColor: .amaranthApprox,
             imageName: "rectangle.portrait.and.arrow.right",
             imageColor: viewModel.resources.negativeColor,
             accessoryImageName: ""
         )
         .onTapGesture {
-            viewModel.showLeaveChannel.wrappedValue = true
+            viewModel.showLeaveChannel = true
         }
     }
 
@@ -470,7 +464,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         )
         .onTapGesture {
             if viewModel.getCurrentUserRole() == .owner {
-                showChannelChangeType = true
+                viewModel.showChannelChangeType = true
             }
         }
     }
@@ -484,7 +478,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             accessoryImageName: ""
         )
         .onTapGesture {
-            viewModel.showDeleteChannel.wrappedValue = true
+            viewModel.showDeleteChannel = true
         }
     }
 
@@ -498,7 +492,6 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 .font(.system(size: 17))
                 .foregroundColor(viewModel.resources.buttonBackground)
                 .onTapGesture {
-                    print("sdklaslaslkas")
                     showAddUser = true
                 }
         }
@@ -508,15 +501,20 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
     private func channelParticipantsView() -> some View {
         ForEach(viewModel.getChannelUsers(), id: \.self) { item in
             if viewModel.getChannelUsers().firstIndex(of: item) ?? 2 < 2 {
-                ChannelParticipantView(
-                    title: item.name,
-                    subtitle: item.role.text
-                )
-                .background(.white)
-                .onTapGesture {
-                    viewModel.tappedUserId.wrappedValue = item.matrixId
-                    viewModel.showUserSettings.wrappedValue = true
+                VStack {
+                    ChannelParticipantView(
+                        title: item.name,
+                        subtitle: viewModel.isChannel ? item.role.text : item.matrixId
+                    )
+                    .background(.white)
+                    .frame(height: 64)
+                    .onTapGesture {
+                        viewModel.tappedUserId = item.matrixId
+                        viewModel.showUserSettings = true
+                    }
                 }
+                Divider()
+                    .padding(.leading, 52)
             }
         }
     }
@@ -572,8 +570,8 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 viewModel.shouldChange = true
                 changeScreen(isEdit: false)
             }, label: {
-                Text(resources.rightButton)
-                    .font(.system(size: 17, weight: .bold))
+                Text("Сохранить")
+                    .font(.regular(17))
                     .foregroundColor(viewModel.resources.textBoxBackground)
             })
         }
@@ -591,7 +589,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     private func changeScreen(isEdit: Bool) {
         withAnimation(.linear(duration: 0.35)) {
-            changeViewEdit = isEdit
+            viewModel.changeViewEdit = isEdit
         }
     }
 }

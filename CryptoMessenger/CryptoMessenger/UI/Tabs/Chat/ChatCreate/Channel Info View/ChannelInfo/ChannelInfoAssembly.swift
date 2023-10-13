@@ -8,21 +8,20 @@ enum ChannelInfoAssembly {
     // MARK: - Static Properties
 
     static func build(
-        roomId: String,
+        room: AuraRoomData,
         coordinator: ChatHistoryFlowCoordinatorProtocol,
         isLeaveChannel: Binding<Bool>,
         chatData: Binding<ChatData>,
         saveData: Binding<Bool>
     ) -> some View {
         let viewModel = ChannelInfoViewModel(
-            roomId: roomId,
+            room: room,
             chatData: chatData,
             saveData: saveData
         )
         viewModel.coordinator = coordinator
         let view = ChannelInfoView(
             viewModel: viewModel,
-            isLeaveChannel: isLeaveChannel,
             resources: ChannelInfoResources.self
         )
         return view

@@ -4,6 +4,7 @@ import SwiftUI
 // MARK: - ChatHistoryRouterable
 
 extension ChatHistoryRouter: ChatHistoryRouterable {
+    
 
     func showContactInfo(contactInfo: ChatContactInfo, delegate: ContactInfoViewModelDelegate) {
         state.presentedItem = .contactInfo(contactInfo: contactInfo, delegate: delegate)
@@ -44,7 +45,7 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
 
     func chatSettings(chatData: Binding<ChatData>,
                       saveData: Binding<Bool>,
-                      room: AuraRoom,
+                      room: AuraRoomData,
                       isLeaveChannel: Binding<Bool>,
                       coordinator: ChatHistoryFlowCoordinatorProtocol) {
         state.path.append(ChatHistoryContentLink.chatSettings(chatData, saveData, isLeaveChannel, room, coordinator))
@@ -52,16 +53,16 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
 
     func channelSettings(chatData: Binding<ChatData>,
                          saveData: Binding<Bool>,
-                         room: AuraRoom,
+                         room: AuraRoomData,
                          isLeaveChannel: Binding<Bool>,
                          coordinator: ChatHistoryFlowCoordinatorProtocol) {
-        state.path.append(ChatHistoryContentLink.channelSettings(roomId: room.room.roomId,
+        state.path.append(ChatHistoryContentLink.channelSettings(room: room,
                                                                  isLeaveChannel: saveData,
                                                                  chatData: chatData,
                                                                  saveData: isLeaveChannel, coordinator: coordinator))
     }
 
-    func chatMedia(_ room: AuraRoom) {
+    func chatMedia(_ room: AuraRoomData) {
         state.path.append(ChatHistoryContentLink.chatMedia(room: room))
     }
 

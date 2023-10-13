@@ -45,10 +45,13 @@ struct AvatarView: View {
             if data.isDirect {
                 ZStack {
                     Circle().fill(.white).frame(width: 16, height: 16)
-                    Circle().fill( Color(data.isOnline ? .init(39, 174, 96) : .init(216, 216, 216)))
+                    Circle().fill( Color(data.isOnline ? .greenCrayola : .gainsboro))
                         .frame(width: 12, height: 12)
                 }.padding([.leading, .top], 48)
             }
         }.frame(width: 62, height: 62)
+            .onAppear {
+                print("saslaslaslas  \(data.isOnline)")
+            }
     }
 }

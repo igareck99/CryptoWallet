@@ -15,7 +15,7 @@ struct AudioEventView<EventData: View,
     @State private var activateShowCard = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 2) {
             HStack(alignment: .center, spacing: 12) {
                 AudioEventStateView(state: $viewModel.state)
                     .onTapGesture {
@@ -30,7 +30,7 @@ struct AudioEventView<EventData: View,
                             break
                         }
                     }
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: 8) {
                     SliderAudioView(
                         value: Binding(get: { viewModel.time }, set: { newValue in
                             viewModel.onSlide(newValue)

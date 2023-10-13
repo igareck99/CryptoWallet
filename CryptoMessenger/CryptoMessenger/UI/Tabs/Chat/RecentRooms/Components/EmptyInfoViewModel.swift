@@ -24,18 +24,41 @@ struct EmptyInfoViewModelView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(alignment: .center) {
+        Group {
             Spacer()
-            VStack(spacing: 4) {
+            VStack {
                 data.value.image
                 Text(data.value.title)
                     .font(.system(size: 22, weight: .regular))
+                    .padding(.top, 4)
                 Text(data.value.description)
-                    .multilineTextAlignment(.center)
                     .font(.system(size: 15, weight: .regular))
                     .foreground(.romanSilver)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                if data.value == .noChats {
+                    sendButton
+                        .padding(.top, 80)
+                }
             }
             Spacer()
         }
+    }
+    
+    private var sendButton: some View {
+        Button {
+        } label: {
+            Text("Пригласить друзей")
+                .font(.system(size: 17, weight: .semibold))
+                .foreground(.white)
+                .padding()
+                .frame(width: 237, height: 48)
+                .background(
+                    Rectangle()
+                        .fill(Color.dodgerBlue)
+                        .cornerRadius(8)
+                )
+        }
+        .frame(maxWidth: .infinity, idealHeight: 48)
     }
 }

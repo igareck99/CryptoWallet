@@ -21,16 +21,21 @@ struct ChatHistorySearchRow: View {
     // MARK: - Body
 
     var body: some View {
-        HStack(alignment: .center, spacing: 0) {
-            avatarView.padding(.init(top: 2, leading: 14, bottom: 0, trailing: 0))
-            VStack(alignment: .leading, spacing: 2) {
-                Text(data.name)
-                    .font(.system(size: 17, weight: .regular))
-                Text("\(data.numJoinedMembers) участника")
-                    .font(.system(size: 12, weight: .regular))
-                    .foreground(.romanSilver)
-            }.padding(.init(top: 10, leading: 10, bottom: 0, trailing: 0))
-            Spacer()
+        VStack {
+            HStack(alignment: .center, spacing: 10) {
+                avatarView.padding(.leading, 16)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(data.name)
+                        .font(.system(size: 17, weight: .regular))
+                    Text("\(data.numJoinedMembers) участника")
+                        .font(.system(size: 12, weight: .regular))
+                        .foreground(.romanSilver)
+                }
+                Spacer()
+            }
+            .padding(.bottom, 12)
+            Divider()
+                .padding(.leading, 66)
         }.frame(height: 64)
             .onTapGesture {
                 data.onTap(data)

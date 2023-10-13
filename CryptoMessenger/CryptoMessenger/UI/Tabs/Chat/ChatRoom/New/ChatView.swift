@@ -7,6 +7,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ViewModel
+    @Environment(\.presentationMode) private var presentationMode
     @StateObject private var keyboardHandler = KeyboardHandler()
     @State var isLeaveChannel = false
 
@@ -38,6 +39,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
             Spacer()
             inputView
         }
+        .navigationBarBackButtonHidden(true)
         .onTapGesture {
             hideKeyboard()
         }
@@ -55,6 +57,13 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
 
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                R.image.navigation.backButton.image
+            })
+        }
         ToolbarItem(placement: .navigationBarLeading) {
             HStack(spacing: 0) {
                 AsyncImage(
@@ -78,7 +87,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                 .cornerRadius(18)
                 .padding(.trailing, 12)
 
-                VStack(spacing: 0) {
+                VStack(alignment: .leading, spacing: 0) {
                     Text(viewModel.roomName)
                         .lineLimit(1)
                         .font(.system(size: 15, weight: .semibold))

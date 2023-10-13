@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - EventDataView
+
 struct EventDataView<ReadData: View>: View {
     let model: EventData
     let readData: ReadData
@@ -8,14 +10,14 @@ struct EventDataView<ReadData: View>: View {
             Spacer()
             HStack(spacing: 4) {
                 Text(model.date)
-                    .font(.system(size: 11, weight: .regular))
+                    .font(.system(size: 12, weight: .regular))
                     .foregroundColor(model.dateColor)
-                    .padding(.leading, 4)
                 if model.isFromCurrentUser {
                     readData
-                        .padding(.trailing, 4)
                 }
             }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 2)
             .background(model.backColor)
             .clipShape(
                 RoundedRectangle(cornerRadius: 30)

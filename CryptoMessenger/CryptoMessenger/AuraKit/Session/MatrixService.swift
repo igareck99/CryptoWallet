@@ -55,9 +55,7 @@ final class MatrixService: MatrixServiceProtocol {
                            isMakeEvents: true,
                                   config: Configuration.shared,
                                   eventsFactory: RoomEventObjectFactory(),
-                                  matrixUseCase: MatrixUseCase.shared) { [weak self] directUserId in
-                self?.currentlyActive(directUserId) == true
-            }
+                                  matrixUseCase: MatrixUseCase.shared)
         return rooms
     }
     var auraNoEventsRooms: [AuraRoomData] {
@@ -66,9 +64,7 @@ final class MatrixService: MatrixServiceProtocol {
                            isMakeEvents: false,
                                   config: Configuration.shared,
                                   eventsFactory: RoomEventObjectFactory(),
-                                  matrixUseCase: MatrixUseCase.shared) { [weak self] directUserId in
-                self?.currentlyActive(directUserId) == true
-            }
+                                  matrixUseCase: MatrixUseCase.shared)
         return rooms
     }
 	var rooms: [AuraRoom] {

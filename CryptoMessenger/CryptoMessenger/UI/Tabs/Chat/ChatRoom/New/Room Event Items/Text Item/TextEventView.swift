@@ -18,13 +18,13 @@ struct TextEventView<
                         .frame(width: 2)
                         .foregroundColor(.dodgerBlue)
                         .padding(.top, 8)
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 2) {
                         Text(model.userId)
-                        .font(.system(size: 13, weight: .medium))
+                        .font(.system(size: 15, weight: .medium))
                         .foregroundColor(.dodgerBlue)
                         .padding(.top, 8)
                         Text(model.replyDescription)
-                            .font(.system(size: 13, weight: .regular))
+                            .font(.system(size: 17, weight: .regular))
                             .foregroundColor(.chineseBlack)
                     }
                     Spacer()
@@ -43,6 +43,9 @@ struct TextEventView<
                 }
                 eventData
             }
+        }
+        .onAppear {
+            print("slaslasl  \(model.width)")
         }
         .padding(.leading, 4)
         .frame(width: model.width)

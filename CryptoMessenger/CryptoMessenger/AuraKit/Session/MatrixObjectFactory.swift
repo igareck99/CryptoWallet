@@ -13,8 +13,7 @@ protocol MatrixObjectFactoryProtocol {
                        isMakeEvents: Bool,
                        config: ConfigType,
                        eventsFactory: RoomEventObjectFactoryProtocol,
-                       matrixUseCase: MatrixUseCaseProtocol,
-                       isRoomUserActive: @escaping (String) -> Bool) -> [AuraRoomData]
+                       matrixUseCase: MatrixUseCaseProtocol) -> [AuraRoomData]
 }
 
 struct MatrixObjectFactory {}
@@ -45,8 +44,7 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                        isMakeEvents: Bool,
                        config: ConfigType,
                        eventsFactory: RoomEventObjectFactoryProtocol,
-                       matrixUseCase: MatrixUseCaseProtocol,
-                       isRoomUserActive: @escaping (String) -> Bool) -> [AuraRoomData] {
+                       matrixUseCase: MatrixUseCaseProtocol) -> [AuraRoomData] {
         guard let matrixRooms = mxRooms else { return [] }
         let auraRooms: [AuraRoomData] = matrixRooms
             .map { mxRoom in
@@ -57,7 +55,7 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                     powerLevels = state?.powerLevels?.eventsDefault == 50
                     isAdmin = state?.powerLevels?.powerLevelOfUser(withUserID: matrixUseCase.getUserId()) == 100
                 }
-
+                
                 let roomName = mxRoom.summary.displayName ?? ""
                 var roomAvatar: URL?
                 if let avatar = mxRoom.summary.avatar {
@@ -98,7 +96,8 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                                         topic: summary.summary.topic ?? "",
                                         roomId: roomId,
                                         events: events,
-                                        eventCollections: EventCollection(currentBatch))
+                                        eventCollections: EventCollection(currentBatch),
+                                        participants: [])
                 return room
             }
             .compactMap { $0 }

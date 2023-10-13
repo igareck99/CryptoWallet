@@ -49,10 +49,18 @@ struct ChannelMediaView: View {
                 }, onShare: {
                 })
             })
+            .navigationBarBackButtonHidden(true)
             .toolbar(.visible, for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(.stack)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        R.image.navigation.backButton.image
+                    })
+                }
                 ToolbarItem(placement: .principal) {
                     Text(viewModel.resources.channelInfoChannelMedia)
                         .font(.system(size: 17, weight: .semibold))
@@ -94,11 +102,9 @@ struct ChannelMediaView: View {
                                                                          file: viewModel.files[index]))
                         }
                     }
-                    .ignoresSafeArea()
                     .listStyle(.plain)
                     .background(viewModel.resources.backgroundFodding)
                     .padding(.bottom, 8)
-                    Spacer()
                 }
             case .links:
                 EmptyView()
