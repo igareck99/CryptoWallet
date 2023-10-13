@@ -17,7 +17,7 @@ struct UserAvatarView<AvatarPlaceholder: View>: View {
                 }
             )
             .frame(width: model.size.width, height: model.size.height)
-            .cornerRadius(20)
+            .cornerRadius(24)
         }
         .fixedSize(horizontal: false, vertical: false)
     }

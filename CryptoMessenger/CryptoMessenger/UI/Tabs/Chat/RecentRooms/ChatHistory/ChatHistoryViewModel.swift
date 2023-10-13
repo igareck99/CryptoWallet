@@ -24,6 +24,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
         get {
             if isLoading {
                 return .loading
+            } else if !isSearching && auraRooms.isEmpty {
+                return .noChats
             } else if !isSearching {
                 return .chatsData
             } else if isSearching && searchText.isEmpty {
@@ -170,9 +172,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                                                                                    isMakeEvents: false,
                                                                                    config: Configuration.shared,
                                                                                    eventsFactory: roomFactory,
-                                                                                   matrixUseCase: self.matrixUseCase) { [weak self] _ in
-                        true
-                    }.first else { return }
+                                                                                   matrixUseCase: self.matrixUseCase).first else { return }
                     self.coordinator?.chatRoom(auraRoom)
                 case let .onDeleteRoom(roomId):
                     self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in

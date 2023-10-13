@@ -53,6 +53,16 @@ protocol ChannelInfoResourcable {
     
     static var snackbarBackground: Color { get }
     
+    static var blockUserDescription: String { get }
+    
+    static var blockUser: String { get }
+    
+    static var blockTitle: String { get }
+    
+    static var removeChat: String { get }
+    
+    static var removeChatDescription: String { get }
+    
     static var background: Color { get }
     
     static var textBoxBackground: Color { get }
@@ -108,6 +118,10 @@ enum ChannelInfoResources: ChannelInfoResourcable {
     
     static var publicChannel: String {
         return "Публичный"
+    }
+    
+    static var blockUser: String {
+        R.string.localizable.chatSettingsBlockUser()
     }
     
     static var deleteChannel: String {
@@ -172,7 +186,7 @@ enum ChannelInfoResources: ChannelInfoResourcable {
     }
     
     static var textBoxBackground: Color {
-        .aliceBlue
+        .dodgerBlue
     }
     
     static var logoBackground: Color {
@@ -193,5 +207,21 @@ enum ChannelInfoResources: ChannelInfoResourcable {
     
     static var buttonBackground: Color {
         .dodgerBlue
+    }
+    
+    static var blockUserDescription: String {
+        R.string.localizable.chatSettingsBlockUserDescription()
+    }
+    
+    static var blockTitle: String {
+        R.string.localizable.chatSettingsBlockUser()
+    }
+    
+    static var removeChat: String {
+        R.string.localizable.chatHistoryRemove()
+    }
+    
+    static var removeChatDescription: String {
+        R.string.localizable.chatSettingsRemoveChatDescription()
     }
 }

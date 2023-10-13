@@ -10,17 +10,22 @@ extension RoomEventsFactory {
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
-            dateColor: .white,
-            backColor: .osloGrayApprox,
+            dateColor: .osloGrayApprox,
+            backColor: .clear,
             readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState, messageType: event.eventType)
         )
         let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
         let reactions = prepareReaction(event, onReactionTap: { reaction in
             onReactionTap(reaction)
         })
-        let viewModel = ReactionsNewViewModel(width: calculateEventWidth(StaticRoomEventsSizes.audio.size,  reactions.count),
-                                              views: reactions,
-                                              backgroundColor: reactionColor)
+        var viewModel: any ViewGeneratable
+        if !reactions.isEmpty {
+            viewModel = ReactionsNewViewModel(width: calculateEventWidth(StaticRoomEventsSizes.image.size, reactions.count),
+                                                  views: reactions,
+                                                  backgroundColor: reactionColor)
+        } else {
+            viewModel = ZeroViewModel()
+        }
         let audioItem = AudioEventItem(shortDate: event.shortDate,
                                        messageId: event.eventId,
                                        isCurrentUser: event.isFromCurrentUser,

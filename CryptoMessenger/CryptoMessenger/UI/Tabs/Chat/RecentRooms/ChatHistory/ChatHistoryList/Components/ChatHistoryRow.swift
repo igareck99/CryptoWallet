@@ -19,7 +19,7 @@ struct ChatHistoryRow: View {
                     room.messageView.view()
                     Spacer()
                 }.padding(.init(top: 10, leading: 10, bottom: 0, trailing: 0))
-            }.frame(height: 76)
+            }
             Divider()
                 .foregroundColor(Color(.init(216, 216, 217)))
                 .frame(height: 0.5)

@@ -9,6 +9,7 @@ struct ChannelSettingsView: View {
     let title: String
     let titleColor: Color
     let imageName: String
+    let image: Image?
     let imageColor: Color
     let accessoryImageName: String
     let value: String
@@ -20,7 +21,8 @@ struct ChannelSettingsView: View {
         titleColor: Color = .chineseBlack,
         imageName: String,
         imageColor: Color = .dodgerBlue,
-        accessoryImageName: String,
+        accessoryImageName: String = "",
+        image: Image? = nil,
         value: String = ""
     ) {
         self.title = title
@@ -28,6 +30,7 @@ struct ChannelSettingsView: View {
         self.imageName = imageName
         self.imageColor = imageColor
         self.accessoryImageName = accessoryImageName
+        self.image = image
         self.value = value
     }
 
@@ -35,8 +38,15 @@ struct ChannelSettingsView: View {
 
     var body: some View {
         HStack {
-            Image(systemName: imageName)
-                .foregroundColor(imageColor)
+            if !imageName.isEmpty {
+                Image(systemName: imageName)
+                    .foregroundColor(imageColor)
+                    .frame(width: 30, height: 30)
+            } else {
+                image?
+                    .resizable()
+                    .frame(width: 30, height: 30)
+            }
             Text(title)
                 .font(.bodyRegular17)
                 .foregroundColor(titleColor)
@@ -47,7 +57,8 @@ struct ChannelSettingsView: View {
                     .foregroundColor(.dodgerBlue)
             } else {
                 Image(systemName: accessoryImageName)
-                    .foregroundColor(.dodgerBlue)
+                    .foregroundColor(Color.ashGray)
+                    .frame(width: 7.16, height: 12.3)
             }
         }
         .background(.white)

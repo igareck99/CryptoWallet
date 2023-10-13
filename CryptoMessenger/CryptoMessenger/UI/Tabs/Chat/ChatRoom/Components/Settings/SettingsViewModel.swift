@@ -61,7 +61,7 @@ final class SettingsViewModel: ObservableObject {
                     self?.coordinator?.friendProfile(contact)
                 case .onMedia:
                     guard let auraRoom = self?.room else { return }
-                    self?.coordinator?.chatMedia(auraRoom)
+                    // self?.coordinator?.chatMedia(auraRoom)
                 case .onLeave:
                     self?.leaveRoom()
                 case let .onAdmin(chatData):

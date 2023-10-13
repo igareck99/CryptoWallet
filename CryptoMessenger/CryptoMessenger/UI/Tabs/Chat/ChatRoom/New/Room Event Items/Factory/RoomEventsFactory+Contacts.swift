@@ -10,7 +10,6 @@ extension RoomEventsFactory {
         onLongPressTap: @escaping (RoomEvent) -> Void,
         onReactionTap: @escaping (ReactionNewEvent) -> Void
     ) -> any ViewGeneratable {
-
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
@@ -30,6 +29,7 @@ extension RoomEventsFactory {
         let contactItem = ContactItem(
             title: name ?? "",
             subtitle: phone ?? "",
+            mxId: event.contactMxId,
             reactionsGrid: viewModel,
             eventData: eventData,
             avatar: userAvatar
@@ -44,6 +44,7 @@ extension RoomEventsFactory {
         }
 
         let bubbleContainer = BubbleContainer(
+            edges: [.leading, .trailing],
             fillColor: .water,
             cornerRadius: event.isFromCurrentUser ? .right : .left,
             content: contactItem

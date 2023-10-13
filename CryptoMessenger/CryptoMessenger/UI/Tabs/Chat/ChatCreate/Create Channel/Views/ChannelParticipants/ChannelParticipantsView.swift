@@ -31,6 +31,12 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                         .padding(.top, 11)
                     cellStatus
                 }
+                Divider()
+                cellStatus
+                    .searchable(text: $viewModel.searchText)
+            }
+            .onDisappear {
+                viewModel.searchText = ""
             }
             .navigationBarHidden(false)
             .navigationBarTitle("", displayMode: .inline)
@@ -38,12 +44,12 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 createToolBar()
             }
             .customConfirmDialog(
-                isPresented: viewModel.showMakeNewRole,
+                isPresented: $viewModel.showMakeNewRole,
                 actionsAlignment: .center,
                 actions: {
                     TextActionViewModel
                         .MakeNewRole
-                        .actions(viewModel.showMakeNewRole) {
+                        .actions($viewModel.showMakeNewRole) {
                             if showParticipantsView {
                                 viewModel.onMakeCurrentUserRoleTap()
                             }
@@ -51,9 +57,9 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 }, cancelActions: {
                     TextActionViewModel
                         .MakeNewRole
-                        .cancelActions(viewModel.showMakeNewRole)
+                        .cancelActions($viewModel.showMakeNewRole)
                 })
-            .sheet(isPresented: viewModel.showSelectCurrentUserRole, content: {
+            .sheet(isPresented: $viewModel.showSelectCurrentUserRole, content: {
                 NavigationView {
                     ChannelNewOwnerView(users: viewModel.getChannelUsers().filter({
                         viewModel.getUserRole($0.matrixId) != .owner
@@ -65,12 +71,12 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 }
             })
             .customConfirmDialog(
-                isPresented: viewModel.showChangeRole,
+                isPresented: $viewModel.showChangeRole,
                 actionsAlignment: .center,
                 actions: {
                     TextActionViewModel
                         .SelectRole
-                        .actions(viewModel.showChangeRole,
+                        .actions($viewModel.showChangeRole,
                                  viewModel.getCurrentUserRole()) {
                             selectedRole = $0
                             viewModel.onRoleSelected(role: $0, ownerCheck: true)
@@ -78,20 +84,20 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 }, cancelActions: {
                     TextActionViewModel
                         .SelectRole
-                        .cancelActions(viewModel.showChangeRole)
+                        .cancelActions($viewModel.showChangeRole)
                 })
-            .sheet(isPresented: viewModel.showUserSettings, content: {
-                UserSettingsAssembly.build(userId: viewModel.tappedUserId,
-                                           showBottomSheet: viewModel.showChangeRole,
-                                           showUserProfile: viewModel.showUserProfile,
-                                           roomId: viewModel.roomId,
+            .sheet(isPresented: $viewModel.showUserSettings, content: {
+                UserSettingsAssembly.build(userId: $viewModel.tappedUserId,
+                                           showBottomSheet: $viewModel.showChangeRole,
+                                           showUserProfile: $viewModel.showUserProfile,
+                                           roomId: viewModel.room.roomId,
                                            roleCompare: viewModel.compareRoles()) {
-                    viewModel.showUserSettings.wrappedValue = false
+                    viewModel.showUserSettings = false
                     viewModel.onUserRemoved()
                 } onUserProfile: {
                     showParticipantsView = false
                     presentationMode.wrappedValue.dismiss()
-                    viewModel.showUserSettings.wrappedValue = false
+                    viewModel.showUserSettings = false
                 }
                 .presentationDetents([.height(computeSizeOfUserMenu(viewModel.compareRoles()))])
             })
@@ -102,7 +108,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
 
     private var cellStatus: some View {
         LazyVStack(spacing: 0) {
-            ForEach(viewModel.getChannelUsers(), id: \.self) { item in
+            ForEach(viewModel.getChannelUsersFiltered(), id: \.self) { item in
                 VStack {
                     HStack {
                         ChannelParticipantView(
@@ -110,19 +116,21 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                             subtitle: item.role.text
                         )
                         .onTapGesture {
-                            viewModel.tappedUserId.wrappedValue = item.matrixId
-                            viewModel.showUserSettings.wrappedValue = true
+                            viewModel.tappedUserId = item.matrixId
+                            viewModel.showUserSettings = true
                         }
                         Spacer()
                     }
                     Divider()
-                        .padding(.leading, 64)
+                        .padding(.leading, 56)
+                        .ignoresSafeArea(.all)
                 }
                 .background(.white)
                 .frame(height: 64)
                 .padding(.horizontal, 16)
             }
         }
+        .ignoresSafeArea(.all)
     }
 
     // MARK: - Private methods
@@ -153,7 +161,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
             })
         }
     }
-    
+
     private func computeSizeOfUserMenu(_ value: ChannelUserActions) -> CGFloat {
         if value.delete && value.changeRole {
             return CGFloat(223)

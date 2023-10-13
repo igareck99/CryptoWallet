@@ -61,6 +61,7 @@ final class DocumentItemViewModel: ObservableObject {
         let (isExist, path) = fileService.checkFileExist(name: getFileName(), pathExtension: fileFormat)
         if isExist {
             DispatchQueue.main.async {
+                print("slaslaslasl   \(path)")
                 self.dataUrl = path
                 self.state = .hasBeenDownloaded
             }

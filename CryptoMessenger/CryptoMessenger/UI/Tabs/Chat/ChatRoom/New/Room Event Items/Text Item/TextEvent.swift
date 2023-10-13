@@ -9,6 +9,7 @@ struct TextEvent: Identifiable, ViewGeneratable {
     let isReply: Bool
     let replyDescription: String
     let width: CGFloat
+    let isEmptyReactions: Bool
     let eventData: any ViewGeneratable
     let reactionsGrid: any ViewGeneratable
 
