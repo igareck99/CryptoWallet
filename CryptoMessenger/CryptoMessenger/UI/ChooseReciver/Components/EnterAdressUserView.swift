@@ -15,7 +15,7 @@ struct EnterAdressUserView: View {
                     Color.dodgerTransBlue
                     Text("A")
                         .foregroundColor(.white)
-                        .font(.system(size: 22, weight: .medium))
+                        .font(.title2Regular22)
                 }
                 .scaledToFill()
                 .frame(width: 40, height: 40)
@@ -24,12 +24,12 @@ struct EnterAdressUserView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 0) {
                         Text(R.string.localizable.enterAdressEnterAdress())
-                            .font(.system(size: 15, weight: .semibold))
+                            .font(.subheadlineMedium15)
                             .foregroundColor(.chineseBlack)
                             .padding(.top, 12)
                     }
                     Text(adress)
-                        .font(.system(size: 13, weight: .regular))
+                        .font(.footnoteRegular13)
                         .foregroundColor(.romanSilver)
                         .padding(.bottom, 12)
                 }

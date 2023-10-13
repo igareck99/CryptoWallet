@@ -20,11 +20,11 @@ struct TextEventView<
                         .padding(.top, 8)
                     VStack(alignment: .leading, spacing: 8) {
                         Text(model.userId)
-                        .font(.system(size: 13, weight: .medium))
+                        .font(.footnoteSemibold13)
                         .foregroundColor(.dodgerBlue)
                         .padding(.top, 8)
                         Text(model.replyDescription)
-                            .font(.system(size: 13, weight: .regular))
+                            .font(.footnoteRegular13)
                             .foregroundColor(.chineseBlack)
                     }
                     Spacer()
@@ -33,7 +33,7 @@ struct TextEventView<
                 .frame(height: 39)
             }
             Text(model.text)
-                .font(.system(size: 17, weight: .regular))
+                .font(.bodyRegular17)
                 .foregroundColor(.chineseBlack)
                 .padding(.top, model.isReply ? 13 : 0)
             VStack(spacing: 2) {

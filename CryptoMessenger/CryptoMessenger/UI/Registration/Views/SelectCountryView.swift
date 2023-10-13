@@ -9,13 +9,13 @@ struct SelectCountryView<Colors: RegistrationColorable>: View {
     var body: some View {
         HStack(spacing: 0) {
             Text(selectCountry.wrappedValue)
-                .font(.system(size: 17))
+                .font(.bodyRegular17)
                 .foregroundColor(colors.selectCountryTextColor.wrappedValue)
                 .padding(.leading, 16)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             Image(systemName: "chevron.forward")
-                .font(.system(size: 17))
+                .font(.bodyRegular17)
                 .foregroundColor(colors.selectCountryChevronColor.wrappedValue)
                 .padding(.trailing, 16)
                 .frame(maxWidth: .infinity, alignment: .trailing)

@@ -41,7 +41,7 @@ struct SelectChannelTypeView: View {
             }
             ToolbarItem(placement: .principal) {
                 Text(R.string.localizable.createChannelChannelType())
-                    .font(.system(size: 17, weight: .bold))
+                    .font(.bodySemibold17)
                     .foregroundColor(viewModel.resources.titleColor)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -50,7 +50,7 @@ struct SelectChannelTypeView: View {
                     showChannelChangeType = false
                 }, label: {
                     Text(R.string.localizable.profileDetailRightButton())
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.subheadlineMedium15)
                         .foregroundColor(viewModel.resources.buttonBackground)
                 })
             }

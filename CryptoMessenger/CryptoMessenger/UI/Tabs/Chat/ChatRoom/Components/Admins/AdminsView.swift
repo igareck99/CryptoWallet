@@ -46,7 +46,7 @@ struct AdminsView<ViewModel>: View where ViewModel: AdminsViewModelDelegate {
 
         ToolbarItem(placement: .principal) {
             Text(viewModel.resources.channelInfoAdmins)
-                .font(.system(size: 15, weight: .bold))
+                .font(.subheadlineMedium15)
                 .foregroundColor(viewModel.resources.titleColor)
         }
     }

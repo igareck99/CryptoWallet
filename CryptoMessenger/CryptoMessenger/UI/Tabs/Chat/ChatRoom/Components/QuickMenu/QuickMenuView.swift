@@ -43,7 +43,7 @@ struct QuickMenuView: View {
                 .cornerRadius(20)
 
                 Text(item.action.title)
-                    .font(.system(size: 17, weight: .regular))
+                    .font(.bodyRegular17)
                     .foregroundColor(item.action == .delete ? .spanishCrimson : .dodgerBlue)
                     .padding(.leading, 16)
 

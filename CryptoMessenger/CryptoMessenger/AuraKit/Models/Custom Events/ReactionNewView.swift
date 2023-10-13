@@ -18,10 +18,10 @@ struct ReactionNewView: View {
                 .cornerRadius(30)
             HStack(spacing: 4) {
                 Text(value.emoji)
-                    .font(.regular(20))
+                    .font(.title3Regular20)
                 if value.emojiCount != 1 || value.emojiString.contains("+") {
                     Text(value.emojiString)
-                        .font(.semibold(13))
+                        .font(.caption2Semibold11)
                         .foregroundColor(value.textColor)
                 }
             }

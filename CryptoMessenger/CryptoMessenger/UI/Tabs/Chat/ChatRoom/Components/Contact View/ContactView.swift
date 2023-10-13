@@ -47,7 +47,7 @@ struct ContactView: View {
 							Color.dodgerTransBlue
 							Text(name.firstLetter.uppercased())
 								.foregroundColor(.white)
-                                .font(.system(size: 22, weight: .medium))
+                                .font(.title2Bold22)
 						}
 					},
 					result: { Image(uiImage: $0).resizable() }
@@ -58,10 +58,10 @@ struct ContactView: View {
 
 				VStack(alignment: .leading, spacing: 4) {
 					Text(name)
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.bodyRegular17)
                         .foregroundColor(.chineseBlack)
 					Text(phone ?? "-")
-                        .font(.system(size: 13, weight: .regular))
+                        .font(.footnoteRegular13)
 						.foregroundColor(.romanSilver)
 				}
 				.padding(.leading, 10)
@@ -70,7 +70,7 @@ struct ContactView: View {
 
             Text(R.string.localizable.chatContactView)
 				.frame(width: 220, height: 44)
-                .font(.system(size: 15, weight: .bold))
+                .font(.bodySemibold17)
 				.foregroundColor(.dodgerBlue)
 				.overlay(
 					RoundedRectangle(cornerRadius: 8)

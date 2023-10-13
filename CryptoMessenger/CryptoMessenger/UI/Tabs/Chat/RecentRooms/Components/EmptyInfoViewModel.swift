@@ -29,10 +29,10 @@ struct EmptyInfoViewModelView: View {
             VStack(spacing: 4) {
                 data.value.image
                 Text(data.value.title)
-                    .font(.system(size: 22, weight: .regular))
+                    .font(.title2Regular22)
                 Text(data.value.description)
                     .multilineTextAlignment(.center)
-                    .font(.system(size: 15, weight: .regular))
+                    .font(.subheadlineRegular15)
                     .foreground(.romanSilver)
             }
             Spacer()

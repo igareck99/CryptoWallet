@@ -46,7 +46,7 @@ struct SuccessFacilityView: View {
                 }
             Spacer()
             Text(sources.successFacilityViewTitle)
-                .font(.system(size: 15, weight: .bold))
+                .font(.bodySemibold17)
             Spacer()
         }
     }
@@ -63,10 +63,10 @@ struct SuccessFacilityView: View {
     private var coinDataView: some View {
 		VStack(spacing: 12) {
 			Text(transaction.transferAmount + " " + transaction.transferCurrency)
-                .font(.system(size: 32, weight: .regular))
+                .font(.largeTitleRegular34)
 
 			Text(transaction.comissionAmount + " " + transaction.comissionCurrency)
-                .font(.system(size: 15, weight: .regular))
+                .font(.bodyRegular17)
                 .foregroundColor(sources.textColor)
 		}
 	}
@@ -83,16 +83,16 @@ struct SuccessFacilityView: View {
                     .frame(width: 40, height: 40)
                 VStack(spacing: 6) {
                     Text(transaction.reciverName ?? "")
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.title2Regular22)
                     Text(transaction.reciverAddress ?? "")
                         .foregroundColor(sources.textColor)
-                        .font(.system(size: 12, weight: .regular))
+                        .font(.subheadlineRegular15)
                 }
                 Button {
                 } label: {
                     Text(sources.successFacilityViewAddFavorites)
                         .frame(minWidth: 0, maxWidth: .infinity)
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.bodySemibold17)
                         .padding()
                         .foregroundColor(sources.buttonBackground)
                         .overlay(
@@ -116,7 +116,7 @@ struct SuccessFacilityView: View {
             } label: {
                 Text(sources.successFacilityViewOKClose)
                     .frame(minWidth: 0, maxWidth: .infinity)
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.bodySemibold17)
                     .padding()
                     .foregroundColor(sources.background)
                     .overlay(
@@ -131,7 +131,7 @@ struct SuccessFacilityView: View {
             } label: {
                 Text(sources.successFacilityViewShowTransaction)
                     .frame(minWidth: 0, maxWidth: .infinity)
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.bodySemibold17)
                     .padding()
                     .foregroundColor(sources.buttonBackground)
             }

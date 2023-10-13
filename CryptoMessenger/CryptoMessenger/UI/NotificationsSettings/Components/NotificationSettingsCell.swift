@@ -14,10 +14,10 @@ struct NotificationSettingsCell: View {
         HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(field.item.title)
-                    .font(.system(size: 15, weight: .regular))
+                    .font(.subheadlineRegular15)
                 if !field.item.description.isEmpty {
                     Text(field.item.description)
-                        .font(.system(size: 12, weight: .regular))
+                        .font(.caption1Regular12)
                         .foregroundColor(.romanSilver)
                         .padding(.top, 4)
                 }

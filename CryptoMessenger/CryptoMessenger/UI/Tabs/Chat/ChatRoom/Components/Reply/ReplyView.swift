@@ -20,13 +20,13 @@ struct ReplyView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(R.string.localizable.replyViewReply(), [
                         .paragraph(.init(lineHeightMultiple: 1.12, alignment: .left))
-                    ]).font(.system(size: 12, weight: .regular))
+                    ]).font(.caption1Regular12)
                         .foregroundColor(.dodgerBlue)
                         .frame(height: 13)
 
                     Text(text, [
                         .paragraph(.init(lineHeightMultiple: 1.09, alignment: .left))
-                    ]).font(.system(size: 15, weight: .regular))
+                    ]).font(.subheadlineRegular15)
                         .foregroundColor(.chineseBlack)
                         .frame(height: 20)
                         .padding(.top, 3)
@@ -69,12 +69,12 @@ struct EditView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(R.string.localizable.editViewEdit(), [
                         .paragraph(.init(lineHeightMultiple: 1.12, alignment: .left))
-                    ]).font(.system(size: 12, weight: .regular))
+                    ]).font(.caption1Regular12)
                         .foregroundColor(.dodgerBlue)
                         .frame(height: 13)
                     Text(text, [
                         .paragraph(.init(lineHeightMultiple: 1.09, alignment: .left))
-                    ]).font(.system(size: 15, weight: .regular))
+                    ]).font(.subheadlineRegular15)
                         .foregroundColor(.chineseBlack)
                         .frame(height: 20)
                         .padding(.top, 3)

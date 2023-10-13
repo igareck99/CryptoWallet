@@ -55,10 +55,10 @@ struct AddSelectorTokenCellView: View {
                 }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(address.address)
-                        .font(.system(size: 15, weight: .medium))
+                        .font(.subheadlineMedium15)
                         .frame(height: 22)
                     Text(String(address.coinAmount) + " \(address.result.currency)")
-                        .font(.system(size: 12, weight: .regular))
+                        .font(.caption1Regular12)
                         .foreground(.romanSilver)
                         .frame(height: 20)
                 }

@@ -49,7 +49,7 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
     private func toolBarContent() -> some ToolbarContent {
         ToolbarItem(placement: .principal) {
             Text(viewModel.resources.chooseReceiverTitle)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.bodySemibold17)
         }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {

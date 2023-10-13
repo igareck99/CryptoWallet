@@ -36,7 +36,7 @@ struct ChatGroupView: View {
                 
                 ToolbarItem(placement: .principal) {
                     Text(viewModel.resources.chatMenuViewGroupName)
-                        .font(.system(size: 15, weight: .bold))
+                        .font(.bodySemibold17)
                         .foregroundColor(viewModel.resources.titleColor)
                 }
                 
@@ -45,7 +45,7 @@ struct ChatGroupView: View {
                         viewModel.createChat()
                     }, label: {
                         Text(viewModel.resources.profileDetailRightButton)
-                            .font(.system(size: 15, weight: .semibold))
+                            .font(.bodySemibold17)
                             .foregroundColor(viewModel.titleText.isEmpty ? viewModel.resources.textColor : viewModel.resources.buttonBackground)
                     })
                     .disabled(viewModel.titleText.isEmpty)
@@ -57,11 +57,11 @@ struct ChatGroupView: View {
                             buttons: [
                                 .cancel(),
                                 .default(
-                                    Text(viewModel.resources.profileFromGallery),
+                                    Text(viewModel.resources.profileFromGallery).font(.calloutRegular16),
                                     action: switchImagePicker
                                 ),
                                 .default(
-                                    Text(viewModel.resources.profileFromCamera),
+                                    Text(viewModel.resources.profileFromCamera).font(.calloutRegular16),
                                     action: switchCameraPicker
                                 )
                             ]
@@ -113,12 +113,14 @@ struct ChatGroupView: View {
 
                     ZStack(alignment: .topLeading) {
                         TextField("", text: $viewModel.titleText)
+                            .font(.bodyRegular17)
                             .frame(height: 44)
                             .background(viewModel.resources.textBoxBackground)
                             .padding(.horizontal, 16)
 
                         if viewModel.titleText.isEmpty {
                             Text(viewModel.resources.createChannelTitle)
+                                .font(.bodyRegular17)
                                 .foregroundColor(viewModel.resources.titleColor)
                                 .padding(.top, 12)
                                 .padding(.horizontal, 16)
@@ -145,6 +147,7 @@ struct ChatGroupView: View {
 
                 ZStack(alignment: .topLeading) {
                     TextEditor(text: $viewModel.descriptionText)
+                        .font(.bodyRegular17)
                         .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 132, alignment: .leading)
                         .padding(.horizontal, 16)
                         .padding(.top, 2)
@@ -152,6 +155,7 @@ struct ChatGroupView: View {
 
                     if viewModel.descriptionText.isEmpty {
                         Text(viewModel.resources.createChannelDescription)
+                            .font(.bodyRegular17)
                             .foregroundColor(viewModel.resources.textColor)
                             .padding(.top, 12)
                             .padding(.horizontal, 19)
@@ -166,7 +170,7 @@ struct ChatGroupView: View {
                 HStack(spacing: 0) {
                     Text(viewModel.resources.createChannelDescription)
                         .lineLimit(nil)
-                        .font(.system(size: 12, weight: .regular))
+                        .font(.caption1Regular12)
                         .foregroundColor(viewModel.resources.textColor)
                         .padding(.top, 8)
                         .padding(.horizontal, 16)

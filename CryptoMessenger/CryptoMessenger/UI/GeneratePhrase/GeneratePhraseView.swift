@@ -54,11 +54,11 @@ struct GeneratePhraseView: View {
         VStack(alignment: .center, spacing: 0) {
             
             Text(viewModel.resources.generatePhraseTitle)
-                .font(.system(size: 22, weight: .regular))
+                .font(.title2Regular22)
                 .padding(.top, 47)
            
             Text(viewModel.resources.generatePhraseDescription)
-                .font(.system(size: 15, weight: .regular))
+                .font(.subheadlineRegular15)
                 .foregroundColor(viewModel.resources.textColor)
                 .lineLimit(4)
                 .multilineTextAlignment(.center)
@@ -71,7 +71,7 @@ struct GeneratePhraseView: View {
             } label: {
                 Text(viewModel.resources.generatePhraseQuestion)
                     .frame(maxWidth: .infinity)
-                    .font(.system(size: 15))
+                    .font(.subheadlineRegular15)
                     .padding(.horizontal, 16)
                     .foregroundColor(viewModel.resources.buttonBackground)
             }
@@ -98,11 +98,11 @@ struct GeneratePhraseView: View {
         VStack(alignment: .center, spacing: 0) {
             
             Text(viewModel.resources.generatePhraseWarning)
-                .font(.system(size: 22))
+                .font(.title2Regular22)
                 .padding(.top, 47)
             
             Text(viewModel.resources.generatePhraseWarningDescription)
-                .font(.system(size: 15))
+                .font(.subheadlineRegular15)
                 .foregroundColor(viewModel.resources.textColor)
                 .multilineTextAlignment(.center)
                 .frame(width: 295)
@@ -131,7 +131,7 @@ struct GeneratePhraseView: View {
         } label: {
             Text(viewModel.resources.generatePhraseImportKey)
                 .frame(width: 237)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.bodySemibold17)
                 .padding()
                 .foregroundColor(viewModel.resources.buttonBackground)
         }
@@ -154,7 +154,7 @@ struct GeneratePhraseView: View {
                         viewModel.resources.keyGenerationCreateButton)
                 .foregroundColor(viewModel.resources.background)
                 .frame(width: 237)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.bodySemibold17)
                 .padding()
             case true:
                 ProgressView()
@@ -171,15 +171,15 @@ struct GeneratePhraseView: View {
         VStack(alignment: .center, spacing: 0) {
             
             Text(viewModel.resources.generatePhraseGeneratedTitle)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.bodySemibold17)
                 .padding(.top, 12)
             
             Text(viewModel.resources.phraseManagerYourSecretPhrase)
-                .font(.system(size: 22))
+                .font(.title2Regular22)
                 .padding(.top, 59)
             
             Text(viewModel.resources.generatePhraseGeneratedDescription)
-                .font(.system(size: 15))
+                .font(.subheadlineRegular15)
                 .lineLimit(2)
                 .foregroundColor(viewModel.resources.textColor)
                 .multilineTextAlignment(.center)
@@ -205,7 +205,7 @@ struct GeneratePhraseView: View {
                     .frame(minHeight: 160)
             )
             .foregroundColor(viewModel.resources.titleColor)
-            .font(.system(size: 17))
+            .font(.bodyRegular17)
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 16)
             .frame(height: 160)

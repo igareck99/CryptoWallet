@@ -20,7 +20,7 @@ struct FriendProfileMenuRow: View {
                     .frame(width: 20, height: 20)
             }
             Text(item.result.title)
-                .font(.system(size: 15, weight: .regular))
+                .font(.subheadlineRegular15)
                 .foregroundColor(item == .block || item == .complain ? Color.spanishCrimson : Color.dodgerBlue)
                 .padding(.leading, 16)
 

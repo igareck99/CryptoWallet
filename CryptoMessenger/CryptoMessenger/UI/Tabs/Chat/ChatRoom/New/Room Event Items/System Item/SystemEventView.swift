@@ -9,7 +9,7 @@ struct SystemEventView: View {
             Text(model.text)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
-                .font(.system(size: 14, weight: .regular))
+                .font(.subheadline2Regular14)
                 .foregroundColor(model.textColor)
                 .foregroundColor(.white)
                 .padding(.horizontal, 8)

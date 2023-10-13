@@ -16,7 +16,7 @@ struct ChannelAddUserView: View {
         VStack(alignment: .leading,
                spacing: 0) {
             Text(R.string.localizable.createChannelAdding())
-                .font(.system(size: 17, weight: .regular))
+                .font(.bodyRegular17)
                 .padding(.leading, 16)
                 .foregroundColor(.romanSilver)
             Divider()
@@ -62,7 +62,7 @@ struct ChannelAddUserView: View {
         }
         ToolbarItem(placement: .principal) {
             Text(R.string.localizable.createChannelAllUsers())
-                .font(.system(size: 17, weight: .bold))
+                .font(.bodySemibold17)
                 .lineLimit(1)
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -71,7 +71,7 @@ struct ChannelAddUserView: View {
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
-                    .font(.system(size: 15, weight: .bold))
+                    .font(.subheadlineMedium15)
                     .foregroundColor(.dodgerBlue)
             })
         }

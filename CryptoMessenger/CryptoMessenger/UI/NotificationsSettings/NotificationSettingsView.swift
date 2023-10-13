@@ -43,7 +43,7 @@ struct NotificationSettingsView: View {
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .principal) {
             Text(viewModel.sources.additionalMenuNotification)
-                .font(.system(size: 15, weight: .bold))
+                .font(.bodySemibold17)
                 .lineLimit(1)
         }
     }

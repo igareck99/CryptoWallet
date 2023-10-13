@@ -15,7 +15,7 @@ struct ChooseWalletTypeCell: View {
             Spacer()
             Text(walletType.compositeTitle)
                 .lineLimit(1)
-                .font(.system(size: 17))
+                .font(.bodyRegular17)
                 .padding(.trailing, 16)
             Spacer()
             Divider()

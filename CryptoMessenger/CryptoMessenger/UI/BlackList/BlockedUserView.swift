@@ -19,10 +19,11 @@ struct BlockedUserView: View {
                 .cornerRadius(20)
             VStack(alignment: .leading) {
                 Text(item.name)
-                    .font(.system(size: 15, weight: .bold))
+                    .foregroundColor(.chineseBlack)
+                    .font(.bodyRegular17)
                     .lineLimit(1)
                 Text(item.status)
-                    .font(.system(size: 12, weight: .regular))
+                    .font(.caption1Regular12)
                     .foregroundColor(.romanSilver)
                     .lineLimit(1)
                 Spacer()
@@ -74,7 +75,7 @@ struct BlockedUserContentView: View {
         .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(viewModel.resources.blackListTitle)
-                        .font(.system(size: 15, weight: .bold))
+                        .font(.bodySemibold17)
                 }
             }
         .listStyle(.inset)

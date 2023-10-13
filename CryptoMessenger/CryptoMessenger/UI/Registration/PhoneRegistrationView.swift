@@ -10,13 +10,13 @@ struct PhoneRegistrationView<ViewModel: RegistrationPresenterProtocol>: View {
             ScrollView {
                 Text(viewModel.sources.typeYourPhone)
                     .multilineTextAlignment(.center)
-                    .font(.system(size: 22))
+                    .font(.title2Regular22)
                     .foregroundColor(viewModel.colors.titleColor.wrappedValue)
                     .padding(.horizontal, 24)
 
                 Text(viewModel.sources.registrationInfo)
                     .multilineTextAlignment(.center)
-                    .font(.system(size: 15))
+                    .font(.subheadlineRegular15)
                     .foregroundColor(viewModel.colors.subtitleColor.wrappedValue)
                     .padding(.horizontal, 24)
                     .padding(.top, 12)
@@ -43,7 +43,7 @@ struct PhoneRegistrationView<ViewModel: RegistrationPresenterProtocol>: View {
                 .padding(.top, 24)
 
                 Text(viewModel.sources.inavlidCountryCode)
-                    .font(.system(size: 12))
+                    .font(.caption1Regular12)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 16)
@@ -75,7 +75,7 @@ struct PhoneRegistrationView<ViewModel: RegistrationPresenterProtocol>: View {
                     .tint(viewModel.colors.buttonLoaderColor.wrappedValue)
                     .opacity(viewModel.buttonLoaderOpacity.wrappedValue)
                 Text(viewModel.sources.sendCode)
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(.bodySemibold17)
                     .foregroundColor(viewModel.colors.buttonTextColor.wrappedValue)
                     .opacity(viewModel.buttonTextOpacity.wrappedValue)
             }

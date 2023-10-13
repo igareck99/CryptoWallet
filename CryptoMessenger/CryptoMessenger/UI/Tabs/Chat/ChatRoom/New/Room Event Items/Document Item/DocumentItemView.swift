@@ -21,10 +21,10 @@ struct DocumentItemView<
                 DocumentImageStateView(state: $viewModel.state)
                 VStack(alignment: .leading, spacing: 4) {
                     Text(viewModel.model.title)
-                        .font(.callout)
+                        .font(.bodyRegular17)
                         .foregroundColor(.chineseBlack)
                     Text(viewModel.size)
-                        .font(.system(size: 13))
+                        .font(.caption1Regular12)
                         .foregroundColor(.manatee)
                 }
             }

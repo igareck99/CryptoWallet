@@ -17,7 +17,7 @@ struct PhoneView: View {
         HStack {
             phoneField
                 .foregroundColor(.chineseBlack)
-                .font(.system(size: 15, weight: .regular))
+                .font(.subheadlineRegular15)
                 .background(Color.aliceBlue)
                 .frame(height: 44)
                 .padding([.leading, .trailing], 16)

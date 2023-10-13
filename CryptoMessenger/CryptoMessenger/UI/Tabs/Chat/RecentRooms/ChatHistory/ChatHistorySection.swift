@@ -47,7 +47,7 @@ struct ChatHistorySectionView: View {
                     HStack {
                         Text(model.data.text)
                             .padding(16)
-                            .font(.regular(13))
+                            .font(.footnoteRegular13)
                         Spacer()
                     }
                     .frame(width: UIScreen.main.bounds.width, height: 36)

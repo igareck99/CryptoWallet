@@ -16,7 +16,7 @@ struct ChannelMediaTypeView: View {
             Text(searchTypeCell.title,
                  [
                     .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center))
-                 ]).font(.system(size: 16, weight: .regular))
+                 ]).font(.calloutRegular16)
                 .foregroundColor(searchTypeCell == selectedSearchType ? .dodgerBlue : .romanSilver)
             Divider()
                 .frame(width: UIScreen.main.bounds.width / 2,

@@ -69,7 +69,6 @@
 		5A42680526A83554000C51DD /* RegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */; };
 		5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42680326A83554000C51DD /* RegistrationConfigurator.swift */; };
 		5A42680F26A8393A000C51DD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5A42680E26A8393A000C51DD /* Localizable.strings */; };
-		5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681026A8B73A000C51DD /* TextFieldStyle.swift */; };
 		5A42681526A8BE9E000C51DD /* CountryCodePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681426A8BE9E000C51DD /* CountryCodePickerViewController.swift */; };
 		5A42681726A988B9000C51DD /* UITableViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681626A988B9000C51DD /* UITableViewCell+Extensions.swift */; };
 		5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A42681926A9C079000C51DD /* PhoneHelper.swift */; };
@@ -118,11 +117,9 @@
 		5AA640FE26822C3A008922B4 /* NavigationBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F126822C39008922B4 /* NavigationBarStyle.swift */; };
 		5AA640FF26822C3A008922B4 /* ImageStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F226822C39008922B4 /* ImageStyle.swift */; };
 		5AA6410026822C3A008922B4 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F326822C39008922B4 /* Palette.swift */; };
-		5AA6410126822C3A008922B4 /* TextViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F426822C39008922B4 /* TextViewStyle.swift */; };
 		5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F526822C39008922B4 /* TextAttributes.swift */; };
 		5AA6410326822C3A008922B4 /* CGContextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F626822C39008922B4 /* CGContextStyle.swift */; };
 		5AA6410426822C3A008922B4 /* SwitchStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F726822C39008922B4 /* SwitchStyle.swift */; };
-		5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F826822C39008922B4 /* LabelStyle.swift */; };
 		5AA6410626822C3A008922B4 /* FontDecor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640F926822C39008922B4 /* FontDecor.swift */; };
 		5AA6410726822C3A008922B4 /* CALayerStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640FA26822C39008922B4 /* CALayerStyle.swift */; };
 		5AA6410926822C3A008922B4 /* ViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA640FC26822C39008922B4 /* ViewStyle.swift */; };
@@ -1028,7 +1025,6 @@
 		5A4267FF26A83554000C51DD /* RegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPresenter.swift; sourceTree = "<group>"; };
 		5A42680326A83554000C51DD /* RegistrationConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationConfigurator.swift; sourceTree = "<group>"; };
 		5A42680E26A8393A000C51DD /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		5A42681026A8B73A000C51DD /* TextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStyle.swift; sourceTree = "<group>"; };
 		5A42681426A8BE9E000C51DD /* CountryCodePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodePickerViewController.swift; sourceTree = "<group>"; };
 		5A42681626A988B9000C51DD /* UITableViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extensions.swift"; sourceTree = "<group>"; };
 		5A42681926A9C079000C51DD /* PhoneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneHelper.swift; sourceTree = "<group>"; };
@@ -1075,11 +1071,9 @@
 		5AA640F126822C39008922B4 /* NavigationBarStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarStyle.swift; sourceTree = "<group>"; };
 		5AA640F226822C39008922B4 /* ImageStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageStyle.swift; sourceTree = "<group>"; };
 		5AA640F326822C39008922B4 /* Palette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
-		5AA640F426822C39008922B4 /* TextViewStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewStyle.swift; sourceTree = "<group>"; };
 		5AA640F526822C39008922B4 /* TextAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAttributes.swift; sourceTree = "<group>"; };
 		5AA640F626822C39008922B4 /* CGContextStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGContextStyle.swift; sourceTree = "<group>"; };
 		5AA640F726822C39008922B4 /* SwitchStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchStyle.swift; sourceTree = "<group>"; };
-		5AA640F826822C39008922B4 /* LabelStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelStyle.swift; sourceTree = "<group>"; };
 		5AA640F926822C39008922B4 /* FontDecor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontDecor.swift; sourceTree = "<group>"; };
 		5AA640FA26822C39008922B4 /* CALayerStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CALayerStyle.swift; sourceTree = "<group>"; };
 		5AA640FC26822C39008922B4 /* ViewStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewStyle.swift; sourceTree = "<group>"; };
@@ -2666,12 +2660,9 @@
 				5AA6410B268233CA008922B4 /* ButtonDecor.swift */,
 				5AA640F126822C39008922B4 /* NavigationBarStyle.swift */,
 				5AA640F226822C39008922B4 /* ImageStyle.swift */,
-				5AA640F426822C39008922B4 /* TextViewStyle.swift */,
 				5AA640F526822C39008922B4 /* TextAttributes.swift */,
 				5AA640F626822C39008922B4 /* CGContextStyle.swift */,
 				5AA640F726822C39008922B4 /* SwitchStyle.swift */,
-				5AA640F826822C39008922B4 /* LabelStyle.swift */,
-				5A42681026A8B73A000C51DD /* TextFieldStyle.swift */,
 				5AA640FA26822C39008922B4 /* CALayerStyle.swift */,
 				5AA640FC26822C39008922B4 /* ViewStyle.swift */,
 				5AA640FD26822C3A008922B4 /* ButtonStyle.swift */,
@@ -5400,7 +5391,6 @@
 				8BDE0FAF2A6C9E0E008B5D1F /* GalleryPickerAssembly.swift in Sources */,
 				8B985D102A5C480900F25D8C /* ChannelNotificationsAssembly.swift in Sources */,
 				5AB30F1727078B5300838AFC /* UIButton+Extensions.swift in Sources */,
-				5A42681126A8B73A000C51DD /* TextFieldStyle.swift in Sources */,
 				D49C89CB290A6AF6005B4F64 /* ReactionTextItem.swift in Sources */,
 				D49F8AF5297FA4F000405749 /* Resources.swift in Sources */,
 				D4E8785F28CE02EA00063762 /* GroupCallsViewModel.swift in Sources */,
@@ -5680,7 +5670,6 @@
 				D413F10329BF3E69005B7532 /* AccessLevels.swift in Sources */,
 				D49FAD9F2A77743500B26C8B /* AddSeedState.swift in Sources */,
 				8B6B70782A2F592F00D99156 /* PinCodeDotes.swift in Sources */,
-				5AA6410526822C3A008922B4 /* LabelStyle.swift in Sources */,
 				8B1564F328AA782A00A69B85 /* AnotherAppTransitionViewModel.swift in Sources */,
 				D46C9018294775A000DD0B01 /* SegmentedControlNamespaceKey.swift in Sources */,
 				D4BC1EC02955B59E00D99F1A /* TransactionResultView.swift in Sources */,
@@ -5734,7 +5723,6 @@
 				D4A8535F295C796400F2B944 /* TrackableScroll.swift in Sources */,
 				7857B5A1286190980006D2D3 /* LocationEvent.swift in Sources */,
 				D445C84328462B46003C3D5C /* P2PCallsAssembly.swift in Sources */,
-				5AA6410126822C3A008922B4 /* TextViewStyle.swift in Sources */,
 				8B24FDD627A820A30021177C /* SessionFlow.swift in Sources */,
 				D46FC16529A3924800D65C99 /* RawInitializable.swift in Sources */,
 				D400B6872A8F4D4A00D5CAD3 /* SystemEventItem.swift in Sources */,

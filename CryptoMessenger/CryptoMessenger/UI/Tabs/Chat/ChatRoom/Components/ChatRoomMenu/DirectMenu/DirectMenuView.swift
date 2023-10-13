@@ -50,7 +50,7 @@ struct DirectMenuView: View {
                         .background(Color.chineseShadow)
                         .cornerRadius(20)
                         Text(act.title)
-                            .font(.system(size: 17, weight: .regular))
+                            .font(.bodyRegular17)
                             .foregroundColor(act == .delete || act == .blockUser || act == .clearHistory ? .spanishCrimson : .dodgerBlue)
                             .padding(.leading, 16)
                         Spacer()

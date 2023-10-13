@@ -31,13 +31,13 @@ struct WalletCardView: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(wallet.result.networkTitle)
-                        .font(.system(size: 15))
+                        .font(.subheadlineRegular15)
                         .foregroundColor(.white)
                     Text(String(wallet.coinAmount) + " \(wallet.result.currency)")
-                        .font(.system(size: 22))
+                        .font(.title2Regular22)
                         .foregroundColor(.white)
                     Text(String(wallet.result.fiatAmount) + " USD")
-                        .font(.system(size: 15))
+                        .font(.subheadlineRegular15)
                         .foregroundColor(.transWhite)
                 }
                 Spacer()
@@ -49,7 +49,7 @@ struct WalletCardView: View {
             HStack {
                 Spacer()
                 Text(address)
-                    .font(.system(size: 16))
+                    .font(.calloutRegular16)
                     .foregroundColor(.white)
                     .lineLimit(1)
                     .truncationMode(.middle)

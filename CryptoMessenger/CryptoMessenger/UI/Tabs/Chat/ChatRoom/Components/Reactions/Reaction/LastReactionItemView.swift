@@ -15,7 +15,7 @@ struct LastReactionItemView: View {
         HStack {
             if !isLastButton {
                 Text(emoji)
-                    .font(.system(size: 22, weight: .regular))
+                    .font(.title2Regular22)
             } else {
                 R.image.chat.reaction.pickEmoji.image
             }

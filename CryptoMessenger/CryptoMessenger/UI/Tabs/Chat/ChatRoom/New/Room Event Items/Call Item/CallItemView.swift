@@ -11,14 +11,14 @@ struct CallItemView: View {
 
             VStack(alignment: .leading, spacing: 8) {
                 Text(model.type.title)
-                    .font(.system(size: 16))
+                    .font(.bodyRegular17)
                     .foregroundColor(.chineseBlack)
                 HStack(spacing: 8) {
                     Image(systemName: model.type.imageName)
                         .frame(width: 14, height: 14)
                         .foregroundColor(model.type.imageColor)
                     Text(model.subtitle)
-                        .font(.system(size: 12))
+                        .font(.caption1Regular12)
                         .foregroundColor(.manatee)
                 }
             }

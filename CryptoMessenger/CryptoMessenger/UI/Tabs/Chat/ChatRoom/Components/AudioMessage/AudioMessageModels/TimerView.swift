@@ -15,7 +15,7 @@ struct TimerView: View {
 
     var body: some View {
         Text(viewModel.timerString)
-            .font(.system(size: 15, weight: .regular))
+            .font(.subheadlineRegular15)
             .foregroundColor(.chineseBlack)
             .onReceive(viewModel.timer) { _ in
                 if self.isTimerRunning {

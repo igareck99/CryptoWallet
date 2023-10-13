@@ -24,7 +24,7 @@ struct AuraMapView<ViewModel: AuraMapViewModelProtocol>: View {
             .onTapGesture {
                 viewModel.didTapAnnotation()
             }
-            .navigationBarTitle(Text(R.string.localizable.chatGeoposition()))
+            .navigationBarTitle(Text(R.string.localizable.chatGeoposition()).font(.bodySemibold17))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 makeToolBar()

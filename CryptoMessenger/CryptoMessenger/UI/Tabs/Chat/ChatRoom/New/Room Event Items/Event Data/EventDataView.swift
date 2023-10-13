@@ -8,7 +8,7 @@ struct EventDataView<ReadData: View>: View {
             Spacer()
             HStack(spacing: 4) {
                 Text(model.date)
-                    .font(.system(size: 11, weight: .regular))
+                    .font(.caption2Regular11)
                     .foregroundColor(model.dateColor)
                     .padding(.leading, 4)
                 if model.isFromCurrentUser {

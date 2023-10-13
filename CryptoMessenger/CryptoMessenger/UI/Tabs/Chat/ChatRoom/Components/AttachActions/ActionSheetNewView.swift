@@ -92,7 +92,7 @@ struct ActionSheetNewView: View {
                 }
                 .cornerRadius(20)
                 Text(item.action.title)
-                    .font(.regular(16))
+                    .font(.calloutRegular16)
                     .foregroundColor(.chineseBlack)
                 Spacer()
             }

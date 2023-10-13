@@ -53,7 +53,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
                     .frame(width: 20, height: 20)
                     .foregroundColor(Color(.init(r: 14, g: 142, b: 243)))
                 Text("0.50 \(viewModel.resources.AUR)")
-                    .font(.system(size: 15, weight: .regular))
+                    .font(.subheadlineRegular15)
                     .foreground(.chineseBlack)
             }
         }
@@ -61,7 +61,7 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
             HStack(spacing: 4) {
                 Text(viewModel.resources.chats)
                     .multilineTextAlignment(.center)
-                    .font(.bold(17))
+                    .font(.bodySemibold17)
                     .foreground(viewModel.resources.titleColor)
                     .accessibilityAddTraits(.isHeader)
             }

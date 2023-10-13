@@ -74,7 +74,7 @@ struct AudioView: View {
 						.padding(.trailing, 8)
 						.frame(height: 1)
 						Text(audioDuration)
-                            .font(.system(size: 12, weight: .regular))
+                            .font(.caption1Regular12)
 							.foregroundColor(.romanSilver)
 					}
 					.padding(.top, 20)

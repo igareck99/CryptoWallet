@@ -39,7 +39,7 @@ struct LastMessageDataView: View {
     func content() -> some View {
         switch data.messageType {
         case let .text(text):
-            Text(text, [.font(.regular(15)),
+            Text(text, [.font(.subheadlineRegular15),
                         .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
                         .color(Color(.custom(.init( 133, 135, 141)))) ] ).lineLimit(2)
         case let .image(url):
@@ -60,7 +60,7 @@ struct LastMessageDataView: View {
                     Text(
                         "Фото",
                         [
-                            .font(.regular(15)),
+                            .font(.subheadlineRegular15),
                             .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
                             .color(Color(.custom(.init( 133, 135, 141))))
                         ]
@@ -81,7 +81,7 @@ struct LastMessageDataView: View {
                     }
                     
                     Text(fileName, [
-                        .font(.regular(15)),
+                        .font(.subheadlineRegular15),
                         .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
                         .color(Color(.custom(.init( 133, 135, 141))))
                     ])
@@ -106,7 +106,7 @@ struct LastMessageDataView: View {
                     Text(
                         "Контакт",
                         [
-                            .font(.regular(15)),
+                            .font(.subheadlineRegular15),
                             .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
                             .color(Color(.custom(.init( 133, 135, 141))))
                         ]
@@ -126,7 +126,7 @@ struct LastMessageDataView: View {
                     Text(
                         "Мес",
                         [
-                            .font(.regular(15)),
+                            .font(.subheadlineRegular15),
                             .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
                             .color(Color(.custom(.init( 133, 135, 141))))
                         ]
@@ -142,7 +142,7 @@ struct LastMessageDataView: View {
                     Text(
                         "Голосовое сообщение",
                         [
-                            .font(.regular(15)),
+                            .font(.subheadlineRegular15),
                             .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
                             .color(Color(.custom(.init(133, 135, 141))))
                         ]
@@ -160,7 +160,7 @@ struct LastMessageDataView: View {
                         "Видео",
                         [
                             .paragraph(.init(lineHeightMultiple: 1.21, alignment: .left)),
-                            .font(.regular(15)),
+                            .font(.subheadlineRegular15),
                             .color(Color(.custom(.init( 133, 135, 141))))
                         ])
                 }
@@ -174,7 +174,7 @@ struct LastMessageDataView: View {
                 Text(
                     "Звонок",
                     [
-                        .font(.regular(15)),
+                        .font(.subheadlineRegular15),
                         .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
                         .color(Color(.custom(.init(133, 135, 141))))
                     ]
@@ -195,7 +195,7 @@ struct LastMessageDataView: View {
                     .foregroundColor(Color(.init(222, 38, 100)))
                     .cornerRadius(10)
                 Text(data.unreadedEvents.description)
-                    .font(.regular(14))
+                    .font(.subheadline2Regular14)
                     .foreground(.white)
             }
         } else {

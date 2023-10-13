@@ -75,7 +75,7 @@ struct ChatRoomRow: View {
                                     Color.dodgerBlue
                                     Text(message.name.firstLetter.uppercased())
                                         .foregroundColor(.white)
-                                        .font(.system(size: 12, weight: .medium))
+                                        .font(.caption1Medium12)
                                 }
                             },
                             result: {
@@ -148,7 +148,7 @@ struct ChatRoomRow: View {
                                     Color.dodgerBlue
                                     Text(message.name.firstLetter.uppercased())
                                         .foregroundColor(.white)
-                                        .font(.system(size: 12, weight: .medium))
+                                        .font(.caption1Medium12)
                                 }
                             },
                             result: {

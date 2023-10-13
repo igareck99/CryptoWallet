@@ -14,7 +14,7 @@ struct InputPhoneView<Colors: RegistrationColorable>: View {
         HStack(spacing: 8) {
             Text(countryCode.wrappedValue)
                 .multilineTextAlignment(.center)
-                .font(.system(size: 17))
+                .font(.bodyRegular17)
                 .foregroundColor(colors.phoneSignColor.wrappedValue)
                 .frame(width: 64, height: 46)
                 .background(

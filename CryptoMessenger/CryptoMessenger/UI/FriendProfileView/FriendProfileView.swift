@@ -98,7 +98,7 @@ struct FriendProfileView: View {
                         avatarView
                         VStack(alignment: .leading, spacing: 11) {
                             Text(viewModel.profile.nickname)
-                                .font(.system(size: 15, weight: .medium))
+                                .font(.callout2Semibold16)
                             switch viewModel.socialListEmpty {
                             case false:
                                 ScrollView(!showAllSocial ? [] : .horizontal, showsIndicators: false) {
@@ -160,10 +160,10 @@ struct FriendProfileView: View {
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(viewModel.profile.status)
-                            .font(.system(size: 15, weight: .regular))
+                            .font(.calloutRegular16)
                             .foregroundColor(viewModel.sources.titleColor)
                         Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
-                            .font(.system(size: 15, weight: .regular))
+                            .font(.calloutRegular16)
                             .foregroundColor(viewModel.sources.buttonBackground)
                             .onTapGesture {
                                 safariAddress = "https://www.ikea.com/ru/ru/" +
@@ -192,7 +192,7 @@ struct FriendProfileView: View {
                            minHeight: 44,
                            idealHeight: 44,
                            maxHeight: 44)
-                    .font(.system(size: 15, weight: .regular))
+                    .font(.bodySemibold17)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(viewModel.sources.buttonBackground, lineWidth: 1)
@@ -208,7 +208,7 @@ struct FriendProfileView: View {
                            minHeight: 44,
                            idealHeight: 44,
                            maxHeight: 44)
-                    .font(.system(size: 15, weight: .regular))
+                    .font(.bodySemibold17)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(viewModel.sources.buttonBackground, lineWidth: 1)
@@ -284,7 +284,7 @@ struct FriendProfileView: View {
         }
         ToolbarItem(placement: .principal) {
             Text(viewModel.userId.mxId)
-                .font(.system(size: 15, weight: .bold))
+                .font(.bodyRegular17)
                 .lineLimit(1)
                 .onTapGesture {
                     UIPasteboard.general.string = viewModel.userId.mxId

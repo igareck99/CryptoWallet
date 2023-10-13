@@ -43,13 +43,13 @@ struct ChatCreateView<ViewModel>: View where ViewModel: ChatCreateViewModelProto
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                Text("Отмена")
-                    .font(.regular(17))
-                    .foregroundColor(.azureRadianceApprox)
+                    .font(.bodyRegular17)
+                    .foregroundColor(.dodgerBlue)
             })
         }
         ToolbarItem(placement: .principal) {
             Text("Чаты")
-                .font(.semibold(17))
+                .font(.bodySemibold17)
         }
     }
 }

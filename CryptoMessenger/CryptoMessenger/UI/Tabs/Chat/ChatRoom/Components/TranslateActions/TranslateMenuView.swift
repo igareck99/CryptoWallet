@@ -126,11 +126,11 @@ struct TranslateMenuView: View {
                         }
                     VStack(alignment: .leading) {
                             Text(act.title)
-                                .font(.system(size: 15, weight: .bold))
+                                .font(.subheadlineMedium15)
                                 .foregroundColor(.chineseBlack)
                                 .padding(.leading, 16)
                             Text(act.description)
-                                .font(.system(size: 13, weight: .regular))
+                                .font(.footnoteRegular13)
                                 .foregroundColor(.chineseBlack)
                                 .padding(.leading, 16)
                         }

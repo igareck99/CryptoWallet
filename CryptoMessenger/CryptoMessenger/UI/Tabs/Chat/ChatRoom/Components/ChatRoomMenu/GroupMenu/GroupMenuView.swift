@@ -39,7 +39,7 @@ struct GroupMenuView: View {
                         .background(Color.chineseShadow)
                         .cornerRadius(20)
                         Text(act.title)
-                            .font(.system(size: 17, weight: .regular))
+                            .font(.bodyRegular17)
                             .foreground(act == .delete || act == .blacklist ? .spanishCrimson : .dodgerBlue)
                             .padding(.leading, 16)
                         Spacer()

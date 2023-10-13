@@ -43,7 +43,7 @@ struct TransferView: View {
                     .toolbar {
                         ToolbarItem(placement: .principal) {
                             Text(viewModel.resources.transferTransfer)
-								.font(.system(size: 17, weight: .semibold))
+								.font(.bodySemibold17)
 						}
 					}
 			}
@@ -66,7 +66,7 @@ struct TransferView: View {
         VStack(alignment: .center, spacing: 24) {
             VStack(alignment: .leading, spacing: 0) {
                 Text(viewModel.resources.transferYourAdress.uppercased())
-					.font(.system(size: 12))
+					.font(.caption1Regular12)
                     .foregroundColor(viewModel.resources.textColor)
                     .padding(.leading, 16)
 					.padding(.top, 16)
@@ -77,7 +77,7 @@ struct TransferView: View {
                     .padding(.horizontal, 16)
 
                 Text(viewModel.resources.transferToWhom.uppercased())
-					.font(.system(size: 12))
+					.font(.caption1Regular12)
                     .foregroundColor(viewModel.resources.textColor)
                     .padding(.leading, 16)
 					.padding(.top, 32)
@@ -95,7 +95,7 @@ struct TransferView: View {
 					})
 
                 Text(viewModel.resources.transferSum.uppercased())
-					.font(.system(size: 12))
+					.font(.caption1Regular12)
                     .foregroundColor(viewModel.resources.textColor)
                     .padding(.leading, 16)
 					.padding(.top, 32)
@@ -132,13 +132,13 @@ struct TransferView: View {
                 }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(viewModel.currentWallet.address)
-						.font(.system(size: 17))
+						.font(.bodyRegular17)
                         .foregroundColor(viewModel.resources.titleColor)
                         .frame(height: 22)
 						.lineLimit(1)
 						.truncationMode(.middle)
                     Text(String(viewModel.currentWallet.coinAmount) + " \(viewModel.currentWallet.result.currency)")
-						.font(.system(size: 12))
+						.font(.caption1Regular12)
                         .foregroundColor(viewModel.resources.textColor)
                         .frame(height: 20)
                 }
@@ -157,12 +157,12 @@ struct TransferView: View {
                 }
                 if receiverData.adress.isEmpty {
                     Text(viewModel.resources.transferChooseContact)
-                        .font(.system(size: 17))
+                        .font(.bodyRegular17)
                         .foregroundColor(viewModel.resources.titleColor)
                         .frame(height: 22)
                 } else {
                     Text(receiverData.adress)
-                        .font(.system(size: 17))
+                        .font(.bodyRegular17)
                         .foregroundColor(viewModel.resources.titleColor)
                         .frame(height: 22)
                 }
@@ -178,7 +178,7 @@ struct TransferView: View {
 			VStack(alignment: .leading) {
                 TextField("0\(Locale.current.decimalSeparator ?? ",")0", text: $viewModel.transferAmountProxy)
                     .keyboardType(.decimalPad)
-                    .font(.system(size: 20))
+                    .font(.title3Regular20)
                     .foregroundColor(viewModel.resources.titleColor)
                     .frame(maxWidth: .infinity, maxHeight: 47)
 
@@ -194,7 +194,7 @@ struct TransferView: View {
 			VStack(alignment: .trailing) {
 				HStack(spacing: 12) {
                     Text(viewModel.currentWallet.walletType.currency)
-						.font(.system(size: 20))
+						.font(.title3Regular20)
 						.foregroundColor(viewModel.resources.titleColor)
 					R.image.answers.downsideArrow.image
 						.foregroundColor(viewModel.resources.titleColor)
@@ -219,7 +219,7 @@ struct TransferView: View {
             viewModel.send(.onApprove)
         } label: {
             Text(viewModel.resources.walletSend)
-				.font(.system(size: 17, weight: .semibold))
+				.font(.bodySemibold17)
 				.foregroundColor(
                     viewModel.isTransferButtonEnabled ?
                     viewModel.resources.background : viewModel.resources.inactiveButtonTextColor

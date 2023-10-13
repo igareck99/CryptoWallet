@@ -30,11 +30,11 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                             buttons: [
                                 .cancel(),
                                 .default(
-                                    Text(viewModel.resources.profileFromGallery),
+                                    Text(viewModel.resources.profileFromGallery).font(.calloutRegular16),
                                     action: switchImagePicker
                                 ),
                                 .default(
-                                    Text(viewModel.resources.profileFromCamera),
+                                    Text(viewModel.resources.profileFromCamera).font(.calloutRegular16),
                                     action: switchCameraPicker
                                 )
                             ]
@@ -115,7 +115,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                     .foregroundColor(viewModel.resources.dividerColor)
                     .padding(.top, 24)
                 Text(viewModel.resources.createChannelChannelType.uppercased())
-                    .font(.system(size: 12))
+                    .font(.caption1Regular12)
                     .foregroundColor(viewModel.resources.textColor)
                     .padding(.leading, 16)
                 publicChannelView()
@@ -154,7 +154,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                 .background(viewModel.resources.textBoxBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             Text(viewModel.resources.createChannelDescription)
-                .font(.system(size: 12))
+                .font(.caption1Regular12)
                 .foregroundColor(viewModel.resources.textColor)
                 .padding(.top, 6)
         }
@@ -208,7 +208,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
         }
         ToolbarItem(placement: .principal) {
             Text(viewModel.resources.createActionCreateChannel)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.bodySemibold17)
                 .foregroundColor(viewModel.resources.titleColor)
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -216,7 +216,7 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                 viewModel.onChannelCreate()
             }, label: {
                 Text(viewModel.resources.profileDetailRightButton)
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(.bodySemibold17)
                     .foregroundColor(viewModel.isCreateButtonEnabled() ? viewModel.resources.buttonBackground : viewModel.resources.textColor)
             })
             .disabled(!viewModel.isCreateButtonEnabled())

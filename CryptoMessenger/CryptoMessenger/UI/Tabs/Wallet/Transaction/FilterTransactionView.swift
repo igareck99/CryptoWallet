@@ -34,7 +34,7 @@ struct FilterTransactionView: View {
                 Text(R.string.localizable.transactionFilter().uppercased(), [
                     .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left))
                 ])
-                .font(.system(size: 12, weight: .bold))
+                .font(.caption1Medium12)
                 .foregroundColor(.romanSilver)
                 Spacer()
             }
@@ -55,7 +55,7 @@ struct FilterTransactionView: View {
                 Text(R.string.localizable.transactionTokenFilter(), [
                     .paragraph(.init(lineHeightMultiple: 1.22, alignment: .left))
                 ])
-                .font(.system(size: 12, weight: .bold))
+                .font(.caption1Medium12)
                 .foregroundColor(.romanSilver)
                 Spacer()
             }

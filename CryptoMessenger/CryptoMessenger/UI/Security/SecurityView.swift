@@ -45,7 +45,7 @@ struct SecurityView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(viewModel.resources.securityTitle)
-                    .font(.system(size: 15, weight: .bold))
+                    .font(.bodySemibold17)
             }
         }
     }

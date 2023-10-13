@@ -53,7 +53,7 @@ struct ChatHeaderView: View {
 							Color.aliceBlue
 							Text(displayname?.firstLetter.uppercased() ?? "?")
 								.foregroundColor(.white)
-                                .font(.system(size: 20, weight: .medium))
+                                .font(.title3Regular20)
 						}
 					},
 					result: {
@@ -69,11 +69,11 @@ struct ChatHeaderView: View {
 				VStack(alignment: .leading) {
 					Text(displayname ?? "")
 						.lineLimit(1)
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.bodySemibold17)
 						.foregroundColor(.chineseBlack)
 					Text(isOnline ? chatOnline : chatOffline)
 					.lineLimit(1)
-                    .font(.system(size: 13, weight: .regular))
+                    .font(.footnoteRegular13)
 					.foregroundColor(messageStatus == .online ? .dodgerBlue : .chineseBlack04)
 				}
 

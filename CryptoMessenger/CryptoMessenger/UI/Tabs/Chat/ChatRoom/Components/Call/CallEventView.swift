@@ -38,13 +38,13 @@ struct CallEventView: View {
 					.padding([.top, .bottom], 8)
 				VStack(alignment: .leading) {
 					Text(eventTitle)
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(.subheadline2Regular14)
 						.foregroundColor(.chineseBlack)
 						.padding(.trailing, 8)
 						.padding(.bottom, 4)
 					HStack(spacing: 8) {
 						Text(eventDateTime)
-                            .font(.system(size: 12, weight: .regular))
+                            .font(.caption1Regular12)
 							.foregroundColor(.romanSilver)
 					}
 				}.padding([.bottom, .top], 8)

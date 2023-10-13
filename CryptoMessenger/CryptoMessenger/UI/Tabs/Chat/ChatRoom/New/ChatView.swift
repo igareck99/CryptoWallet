@@ -64,10 +64,10 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                     isAvatarLoading: $viewModel.isAvatarLoading,
                     placeholder: {
                         ZStack {
-                            Color.diamond
+                            Color.aliceBlue
                             Text(viewModel.roomName.firstLetter.uppercased())
                                 .foregroundColor(.white)
-                                .font(.system(size: 20, weight: .medium))
+                                .font(.title3Semibold20)
                         }
                     },
                     result: {
@@ -81,7 +81,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                 VStack(spacing: 0) {
                     Text(viewModel.roomName)
                         .lineLimit(1)
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.callout2Semibold16)
                         .foregroundColor(.chineseBlack)
 
                     HStack(spacing: 0) {
@@ -92,12 +92,12 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                                     viewModel.resources.chatOffline
                             )
                             .lineLimit(1)
-                            .font(.system(size: 13, weight: .regular))
+                            .font(.footnoteRegular13)
                             .foregroundColor(viewModel.isOnline ? .dodgerBlue : .chineseBlack04)
                         } else {
                             Text("Участники (\(viewModel.participants.count))")
                                 .lineLimit(1)
-                                .font(.system(size: 13, weight: .regular))
+                                .font(.footnoteRegular13)
                                 .foregroundColor(.chineseBlack04)
                         }
                         Spacer()

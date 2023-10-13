@@ -94,7 +94,7 @@ struct TokenInfoView: View {
             Text(viewModel.address.address)
 				.lineLimit(1)
 				.truncationMode(.middle)
-				.font(.system(size: 16))
+				.font(.calloutRegular16)
                 .foregroundColor(viewModel.resources.textColor)
 				.padding(.horizontal, 16)
 
@@ -124,10 +124,10 @@ struct TokenInfoView: View {
                 }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(viewModel.address.address)
-                        .font(.system(size: 15, weight: .medium))
+                        .font(.subheadlineMedium15)
                         .frame(height: 22)
                     Text(String(viewModel.address.coinAmount) + " \(viewModel.address.result.currency)")
-                        .font(.system(size: 12, weight: .regular))
+                        .font(.caption1Regular12)
                         .foregroundColor(viewModel.resources.textColor)
                         .frame(height: 20)
                 }
@@ -144,7 +144,7 @@ struct TokenInfoView: View {
 		Button(action: actionSheet) {
             Text(viewModel.resources.tokenInfoShareAddress)
 				.frame(width: 225, height: 48)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.bodySemibold17)
 				.padding()
                 .foregroundColor(viewModel.resources.background)
 				.background(

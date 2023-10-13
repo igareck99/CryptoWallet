@@ -22,11 +22,11 @@ struct ChannelDocumentView: View {
                 .cornerRadius(radius: 8, corners: .allCorners)
             VStack(alignment: .leading, spacing: 2) {
                 Text(file.fileName)
-                    .font(.system(size: 16, weight: .regular))
+                    .font(.calloutRegular16)
                 HStack(alignment: .center, spacing: 3) {
                     R.image.mediaChatData.downBlueArrow.image
                     Text(viewModel.sizeOfFile + ", " + viewModel.date)
-                        .font(.system(size: 13, weight: .regular))
+                        .font(.footnoteRegular13)
                         .foregroundColor(.romanSilver)
                 }
             }

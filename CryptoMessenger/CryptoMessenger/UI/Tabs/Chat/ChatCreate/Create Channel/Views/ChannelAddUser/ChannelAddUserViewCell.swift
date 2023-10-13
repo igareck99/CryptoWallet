@@ -21,7 +21,7 @@ struct ChannelAddUserViewCell: View {
                         ZStack {
                             Color.aliceBlue
                             Text(name.firstLetter.uppercased())
-                                .font(.system(size: 22, weight: .medium))
+                                .font(.title2Bold22)
                                 .foregroundColor(.white)
                         }
                     },
@@ -34,7 +34,7 @@ struct ChannelAddUserViewCell: View {
                 .cornerRadius(20)
 
                 Text(name)
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.title2Regular22)
                     .foregroundColor(.chineseBlack)
                     .padding(.top, 12)
             }

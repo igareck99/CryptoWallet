@@ -79,14 +79,14 @@ struct ProfileDetailView: View {
                    spacing: 10) {
                 Text(R.string.localizable.profileAboutUser())
                     .foregroundColor(.romanSilver)
-                    .font(.system(size: 16, weight: .regular))
+                    .font(.calloutRegular16)
                 TextEditor(text: $viewModel.profile.status)
                     .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
                     .background(Color.white)
                     .placeholder(R.string.localizable.createChannelDescription(),
                                  when: viewModel.profile.status.isEmpty)
                     .foregroundColor(.chineseBlack)
-                    .font(.system(size: 17))
+                    .font(.bodyRegular17)
                     .frame(height: 134)
                     .cornerRadius(8)
             }
@@ -230,7 +230,7 @@ struct ProfileDetailView: View {
                 .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
                 .foregroundColor(.chineseBlack)
                 .frame(height: 46)
-                .font(.system(size: 15, weight: .regular))
+                .font(.subheadlineRegular15)
                 .background(Color.white
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 )
@@ -241,20 +241,20 @@ struct ProfileDetailView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(title.uppercased(), [
                     .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left))
-                ]).font(.system(size: 12, weight: .semibold))
+                ]).font(.caption1Medium12)
                     .frame(height: 22)
                     .foregroundColor(.romanSilver)
                 ZStack(alignment: .leading) {
                     if viewModel.profile.info.isEmpty {
                         Text(title.firstUppercased)
                             .foregroundColor(.romanSilver07)
-                            .font(.system(size: 15, weight: .regular))
+                            .font(.subheadlineRegular15)
                             .padding([.leading, .trailing], 16)
                     }
 
                     TextEditor(text: $viewModel.profile.info)
                         .foregroundColor(.chineseBlack)
-                        .font(.system(size: 15, weight: .regular))
+                        .font(.subheadlineRegular15)
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 140)
                         .padding([.leading, .trailing], 14)
                 }
@@ -267,14 +267,14 @@ struct ProfileDetailView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title, [
                 .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left))
-            ]).font(.system(size: 12, weight: .semibold))
+            ]).font(.caption1Regular12)
                 .frame(height: 22)
                 .foregroundColor(.romanSilver)
             HStack(spacing: 0) {
                 Text(R.string.localizable.profileDetailPhoneExample())
                     .foregroundColor(.chineseBlack)
                     .frame(height: 44)
-                    .font(.system(size: 15, weight: .regular))
+                    .font(.subheadlineRegular15)
                     .padding(.leading, 16)
                 Spacer()
                 R.image.profileDetail.arrow.image
@@ -287,7 +287,7 @@ struct ProfileDetailView: View {
                 Text(viewModel.profile.phone)
                     .foregroundColor(.chineseBlack)
                     .frame(height: 44)
-                    .font(.system(size: 15, weight: .regular))
+                    .font(.subheadlineRegular15)
                     .padding(.leading, 16)
                 Spacer()
             }
@@ -312,7 +312,7 @@ struct ProfileDetailView: View {
             Text(R.string.localizable.tabProfile(), [
                 .paragraph(.init(lineHeightMultiple: 1.09, alignment: .center))
             ])
-            .font(.system(size: 15, weight: .bold))
+            .font(.bodySemibold17)
             .foregroundColor(.chineseBlack)
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -321,7 +321,7 @@ struct ProfileDetailView: View {
                 viewModel.send(.onDone)
             }, label: {
                 Text(R.string.localizable.profileDetailRightButton())
-                    .font(.system(size: 15, weight: .regular))
+                    .font(.bodySemibold17)
                     .foregroundColor(.dodgerBlue)
             }).disabled(isSaving)
         }

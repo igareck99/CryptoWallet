@@ -66,7 +66,7 @@ struct P2PCallView<ViewModel: CallViewModelProtocol>: View {
                     viewModel.didTapBackButton()
                 } label: {
                     Text(Image(systemName: "chevron.left"))
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.bodySemibold17)
                         .foregroundColor(.white)
                         .frame(width: 44, height: 44)
                 }
@@ -75,22 +75,22 @@ struct P2PCallView<ViewModel: CallViewModelProtocol>: View {
                 Spacer()
                 Text(viewModel.sources.endToEndEncrypted)
                     .foregroundColor(.white)
-                    .font(.system(size: 15))
+                    .font(.subheadlineRegular15)
                 Spacer()
             }
             Text(viewModel.userName)
-                .font(.system(size: 21))
+                .font(.title2Bold22)
                 .foregroundColor(viewModel.sources.background)
                 .padding(.horizontal, 8)
             
             
             Text(viewModel.callStateText)
-                .font(.system(size: 15))
+                .font(.subheadlineRegular15)
                 .foregroundColor(viewModel.sources.background)
                 .padding(.horizontal, 8)
             
             Text(viewModel.callDuration)
-                .font(.system(size: 15))
+                .font(.subheadlineRegular15)
                 .foregroundColor(viewModel.sources.background)
                 .padding(.horizontal, 8)
             
@@ -121,7 +121,7 @@ struct P2PCallView<ViewModel: CallViewModelProtocol>: View {
                             .frame(width: 68, height: 68)
                         
                         Text(model.text)
-                            .font(.system(size: 11))
+                            .font(.caption2Regular11)
                             .foregroundColor(viewModel.sources.background)
                     }
                 }
@@ -169,7 +169,7 @@ struct P2PCallView<ViewModel: CallViewModelProtocol>: View {
         }
         ToolbarItem(placement: .principal) {
             Text(viewModel.sources.endToEndEncrypted)
-                .font(.system(size: 15))
+                .font(.subheadlineRegular15)
                 .foregroundColor(viewModel.sources.background)
         }
     }

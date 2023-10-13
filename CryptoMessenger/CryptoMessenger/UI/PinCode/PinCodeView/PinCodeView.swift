@@ -64,7 +64,7 @@ struct PinCodeView<ViewModel>: View where ViewModel: PinCodeViewModelDelegate {
                 .frame(width: 60,
                        height: 60)
             Text(viewModel.title)
-                .font(.system(size: 22, weight: .regular))
+                .font(.title2Regular22)
                 .padding(.top, 24)
             PinCodeDotes(colors: $viewModel.colors,
                          dotesAnimation: $viewModel.animation)

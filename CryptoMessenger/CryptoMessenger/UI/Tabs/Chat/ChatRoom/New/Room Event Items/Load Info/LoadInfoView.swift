@@ -13,7 +13,7 @@ struct LoadInfoView: View {
     var body: some View {
         HStack(spacing: .zero) {
             Text(viewModel.state)
-                .font(.system(size: 12, weight: .regular))
+                .font(.caption1Regular12)
                 .foregroundColor(model.textColor)
                 .padding(.horizontal, 4)
                 .background(model.backColor)

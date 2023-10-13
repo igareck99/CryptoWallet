@@ -437,7 +437,7 @@ struct ChatRoomView: View {
     private var accessDeniedView: some View {
         HStack(alignment: .center, spacing: 0) {
             Text("У вас нет разрешения на публикацию в этом канале")
-                .font(.system(size: 15))
+                .font(.subheadlineRegular15)
                 .foregroundColor(.romanSilver)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 16)
@@ -563,7 +563,7 @@ struct ChatRoomView: View {
                             Color.aliceBlue
                             Text(viewModel.room.summary.displayName?.firstLetter.uppercased() ?? "?")
                                 .foregroundColor(.white)
-                                .font(.system(size: 20, weight: .medium))
+                                .font(.title3Semibold20)
                         }
                     },
                     result: {
@@ -579,7 +579,7 @@ struct ChatRoomView: View {
                     HStack(spacing: 0) {
                         Text(viewModel.room.summary.displayName ?? "")
                             .lineLimit(1)
-                            .font(.system(size: 15, weight: .semibold))
+                            .font(.subheadlineMedium15)
                             .foregroundColor(.chineseBlack)
                         Spacer()
                     }
@@ -588,12 +588,12 @@ struct ChatRoomView: View {
                             Text(viewModel.room.isOnline ?  viewModel.resources.chatOnline :
                                     viewModel.resources.chatOffline)
                             .lineLimit(1)
-                            .font(.system(size: 13, weight: .regular))
+                            .font(.footnoteRegular13)
                             .foregroundColor(viewModel.room.isOnline ? .dodgerBlue : .chineseBlack04)
                         } else {
                             Text("Участники (\(viewModel.participants.count))")
                                 .lineLimit(1)
-                                .font(.system(size: 13, weight: .regular))
+                                .font(.footnoteRegular13)
                                 .foregroundColor(.chineseBlack04)
                         }
                         Spacer()

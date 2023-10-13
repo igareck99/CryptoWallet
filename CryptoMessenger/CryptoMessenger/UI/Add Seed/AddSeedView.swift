@@ -18,7 +18,7 @@ struct AddSeedView<ViewModel: AddSeedViewModelProtocol>: View {
                     R.image.transaction.bluePlus.image
                 }
                 Text(R.string.localizable.transactionAddWallet())
-                    .font(.system(size: 17, weight: .regular))
+                    .font(.bodyRegular17)
                     .foregroundColor(.dodgerBlue)
                 Spacer()
             }

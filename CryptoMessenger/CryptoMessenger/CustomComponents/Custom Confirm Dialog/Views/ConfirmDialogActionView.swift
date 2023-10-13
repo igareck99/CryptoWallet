@@ -9,7 +9,7 @@ struct ConfirmDialogActionView: View {
 		} label: {
 			HStack {
 				Text(model.text)
-					.font(.system(size: 20))
+					.font(.title3Regular20)
 					.foregroundColor(.chineseBlack)
 				Spacer()
 				Image(systemName: model.imageName)
