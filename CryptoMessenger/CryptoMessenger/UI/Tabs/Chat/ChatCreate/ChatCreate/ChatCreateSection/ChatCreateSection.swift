@@ -33,11 +33,15 @@ struct ChatCreateSectionView: View {
     var body: some View {
             Section {
                 ForEach(model.views, id: \.id) { value in
-                    value.view()
-                        .background(.white())
-                        .frame(height: 76)
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets())
+                    Group {
+                        value.view()
+                            .background(.white())
+                            .frame(height: 64)
+                            .listRowSeparator(.hidden)
+                        Divider()
+                            .padding(.leading, 66)
+                            .frame(height: 0.5)
+                    }
                 }
             } header: {
                 HStack {
@@ -75,9 +79,9 @@ enum ChatCreateSectionCases {
 
     var color: Color {
         switch self {
-        case .contacts:
+        case .contacts, .invite:
             return .aliceBlue
-        case .invite, .emptySection:
+        case .emptySection:
             return .clear
         }
     }

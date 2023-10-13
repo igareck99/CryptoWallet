@@ -18,12 +18,21 @@ struct ChatCreateContentView: View {
             case .contactsAccessFailure:
                 ChatCreateContactsErrorView()
             case .showContent:
-                List {
-                    ForEach(actions, id: \.id) { action in
-                        action.view()
-                    }
-                    ForEach(views, id: \.id) { section in
-                        section.view()
+                Divider()
+                ScrollView(.vertical) {
+                    VStack(spacing: 0) {
+                        ForEach(actions, id: \.id) { action in
+                            Group {
+                                action.view()
+                                    .frame(idealHeight: 57)
+                                Divider()
+                                    .padding(.leading, 54)
+                                    .frame(height: 0.5)
+                            }
+                        }
+                        ForEach(views, id: \.id) { section in
+                                section.view()
+                        }
                     }
                 }
             default:

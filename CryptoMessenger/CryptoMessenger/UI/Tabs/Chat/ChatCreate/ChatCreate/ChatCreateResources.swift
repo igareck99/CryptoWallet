@@ -18,6 +18,10 @@ protocol ChatCreateResourcable {
     
     static var tabChat: String { get }
     
+    static var cancel: String { get }
+    
+    static var search: String { get }
+    
     
     static var buttonBackground: Color { get }
     
@@ -65,8 +69,16 @@ enum ChatCreateResources: ChatCreateResourcable {
         R.string.localizable.createActionContactsSection()
     }
     
+    static var cancel: String {
+        R.string.localizable.personalizationCancel()
+    }
+    
     static var tabChat: String {
         R.string.localizable.tabChat()
+    }
+    
+    static var search: String {
+        R.string.localizable.countryCodePickerSearch()
     }
     
     

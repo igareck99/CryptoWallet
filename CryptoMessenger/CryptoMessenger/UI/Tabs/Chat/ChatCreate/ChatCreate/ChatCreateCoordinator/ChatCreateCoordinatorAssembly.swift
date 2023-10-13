@@ -6,7 +6,7 @@ enum ChatCreateCoordinatorAssembly {
     static func buld(
         onCoordinatorEnd: @escaping (Coordinator) -> Void
     ) -> Coordinator {
-        let state = ChatCreateFlowState.shared
+        let state = ChatCreateFlowState()
         let viewModel = ChatCreateViewModel()
         let view = ChatCreateView(viewModel: viewModel)
         let router = ChatCreateRouter(state: state) {

@@ -582,7 +582,7 @@
 "ChatMenuView.NotificationsTurnOff" = "Отключить уведомления";
 "ChatMenuView.Users" = "Пользователи группы";
 "ChatMenuView.ShareChat" = "Поделиться чатом";
-"ChatMenuView.GroupName" = "Название группы";
+"ChatMenuView.GroupName" = "Создать групповой чат";
 "ChatMenuView.Search" = "Поиск сообщений";
 "ChatMenuView.Translate" = "Редактировать";
 "ChatMenuView.RemoveChat" = "Удалить чат";
@@ -650,6 +650,7 @@
 
 "ChatCreate.Admin" = "Админ";
 "ChatCreate.Invite" = "Пригласить";
+"ChatCreate.GroupAdditionalInfoTitle" = "Можете указать дополнительное описание чата.";
 
 "ChatHistory.SearchEmpty" = "Поиск пуст";
 "ChatHistory.EnterData" = "Введите данные, которые хотите найти";

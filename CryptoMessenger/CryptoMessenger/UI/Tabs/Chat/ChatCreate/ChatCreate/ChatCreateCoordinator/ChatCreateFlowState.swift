@@ -12,5 +12,4 @@ protocol ChatCreateFlowStateProtocol: ObservableObject {
 class ChatCreateFlowState: ChatCreateFlowStateProtocol {
     @Published var createPath = NavigationPath()
     @Published var presentedItem: ChatHistorySheetLink?
-    static let shared = ChatCreateFlowState()
 }

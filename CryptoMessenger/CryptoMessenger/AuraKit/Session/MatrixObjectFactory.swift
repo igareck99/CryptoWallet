@@ -81,6 +81,10 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                 let summary = RoomSummary(mxRoom.summary)
                 let unreadedEvents = summary.summary.localUnreadEventCount
                 messageType = lastMessageEvent?.messageType ?? MessageType.text("")
+                var members: Int = 1
+                if summary.summary.membersCount != nil {
+                    members = Int(summary.summary.membersCount.members)
+                }
                 let room = AuraRoomData(isChannel: powerLevels,
                                         isAdmin: isAdmin,
                                         isPinned: false,
@@ -92,7 +96,7 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                                         lastMessageTime: summary.lastMessageDate,
                                         roomAvatar: roomAvatar,
                                         roomName: roomName,
-                                        numberUsers: Int(summary.summary.membersCount.joined),
+                                        numberUsers: members,
                                         topic: summary.summary.topic ?? "",
                                         roomId: roomId,
                                         events: events,

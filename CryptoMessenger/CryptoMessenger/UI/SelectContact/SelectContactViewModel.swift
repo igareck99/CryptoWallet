@@ -13,6 +13,9 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
     @Published var users: [SelectContact] = []
     @Published var userForSend: [Contact] = []
     @Published var usersViews: [any ViewGeneratable] = []
+    @Published var text = ""
+    @Published var usersForCreate: [any ViewGeneratable] = []
+    var usersForCreateItems: [SelectContactChipsItem] = []
     var mode: ContactViewMode
     @Published var searchText = ""
     var contactsLimit: Int?
@@ -77,7 +80,7 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
         let result: [Contact] = data.map {
             let contact = Contact(mxId: $0.mxId,
                                   name: $0.name,
-                                  status: "", onTap: { _ in
+                                  status: "", phone: $0.phone, onTap: { _ in
             })
             return contact
         }
@@ -91,7 +94,7 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
             let result: [Contact] = data.map {
                 let contact = Contact(mxId: $0.mxId,
                                       name: $0.name,
-                                      status: "", onTap: { _ in
+                                      status: "", phone: $0.phone, onTap: { _ in
                 })
                 return contact
             }
@@ -109,7 +112,19 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.syncContacts()
+                    guard let self = self else { return }
+                    self.syncContacts()
+                    if mode == .groupCreate {
+                        self.usersForCreateItems = self.chatData.contacts.map {
+                            let result = SelectContactChipsItem(mxId: $0.mxId,
+                                                                name: $0.name)
+                            return result
+                        }
+                        withAnimation(.easeOut(duration: 0.25)) {
+                            
+                            self.usersForCreate = self.usersForCreateItems
+                        }
+                    }
                 }
             }
             .store(in: &subscriptions)
@@ -129,6 +144,17 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
                     self.usersViews = self.userForSend.filter({ $0.name.contains(value) || $0.phone.contains(value) })
                 } else {
                     self.usersViews = self.userForSend
+                }
+            }
+            .store(in: &subscriptions)
+        $text
+            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .receive(on: DispatchQueue.main)
+            .sink { [self] value in
+                if !value.isEmpty {
+                    self.usersViews = self.users.filter({ $0.name.contains(value) || $0.mxId.contains(value) })
+                } else {
+                    self.usersViews = self.users
                 }
             }
             .store(in: &subscriptions)
@@ -216,5 +242,15 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
         }
         self.users[index] = newObject
         self.usersViews = self.users
+        if mode == .groupCreate {
+            usersForCreateItems = self.users.filter({ $0.isSelected == true }).map {
+                let result = SelectContactChipsItem(mxId: $0.mxId,
+                                                    name: $0.name)
+                return result
+            }
+            withAnimation(.easeOut(duration: 0.25)) {
+                self.usersForCreate = usersForCreateItems
+            }
+        }
     }
 }

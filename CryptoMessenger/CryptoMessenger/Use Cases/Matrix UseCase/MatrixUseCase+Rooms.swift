@@ -39,7 +39,7 @@ extension MatrixUseCase {
             let userId = ids.first,
             !self.isDirectRoomExists(userId: userId)
         else {
-            completion(.roomCreateError)
+            completion(.roomAlreadyExist)
             return
         }
         let parameters = MXRoomCreationParameters()

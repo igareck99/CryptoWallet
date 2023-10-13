@@ -49,9 +49,9 @@ struct ChatSettingsView: View {
                 .foreground(.romanSilver)
         }
     }
-
+    
     // MARK: - Private Methods
-
+    
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
@@ -67,7 +67,6 @@ struct ChatSettingsView: View {
         VStack(alignment: .center, spacing: 4) {
             Spacer()
                 .frame(height: 1)
-
             if let img = viewModel.selectedImg {
                 Image(uiImage: img)
                     .scaledToFill()
@@ -95,9 +94,11 @@ struct ChatSettingsView: View {
             Text(viewModel.roomName)
                 .font(.regular(22))
                 .foregroundColor(viewModel.resources.titleColor)
+                .lineLimit(1)
                 .padding(.top, 6)
             Text(viewModel.roomTopic)
                 .font(.regular(15))
+                .lineLimit(1)
                 .foregroundColor(viewModel.resources.textColor)
             if viewModel.roomIsEncrypted {
                 encryptionView

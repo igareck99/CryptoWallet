@@ -8,14 +8,14 @@ struct ImageEvent: Identifiable, ViewGeneratable {
     let size: Int
     let eventData: any ViewGeneratable
     let loadData: any ViewGeneratable
-    let onTap: () -> Void
+    let onTap: (URL?) -> Void
 
     init(
         imageUrl: URL? = nil,
         size: Int,
         eventData: any ViewGeneratable,
         loadData: any ViewGeneratable,
-        onTap: @escaping () -> Void
+        onTap: @escaping (URL?) -> Void
     ) {
         self.imageUrl = imageUrl
         self.size = size

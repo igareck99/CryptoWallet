@@ -21,8 +21,5 @@ enum ChatCreateFlow {
         // MARK: - Types
 
         case onAppear
-        case onNextScene
-        case onCreateDirect([String])
-        case onCreateGroup(ChatData)
     }
 }

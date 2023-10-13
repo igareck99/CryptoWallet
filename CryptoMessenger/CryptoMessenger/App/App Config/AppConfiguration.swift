@@ -178,7 +178,7 @@ final class Configuration: ConfigType {
     let keychainServiceName = "ru.aura.app.keychain.service"
 
     private var debugConfig: UrlsConfig = .defaultDebug
-    private var releaseConfig: UrlsConfig = .defaultRelease
+    private var releaseConfig: UrlsConfig = .defaultRelease1
     private let bundle: Bundle
     private let parser: Parsable.Type
 

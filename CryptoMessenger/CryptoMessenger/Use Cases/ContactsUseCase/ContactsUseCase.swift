@@ -33,6 +33,7 @@ final class ContactsUseCase: ContactsUseCaseProtocol {
                 avatar: nil,
                 name: $0.displayname ?? "",
                 status: $0.statusMsg ?? "",
+                phone: "",
                 type: .existing, onTap: { _ in
                     
                 }

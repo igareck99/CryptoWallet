@@ -296,7 +296,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
 
     func onShowUserProfile() {
         guard let user = participants.first(where: { $0.matrixId == tappedUserId }) else { return }
-        let contact = Contact(mxId: user.matrixId, avatar: user.avatar, name: user.name, status: user.status, onTap: { _ in
+        let contact = Contact(mxId: user.matrixId, avatar: user.avatar, name: user.name, status: user.status, phone: "", onTap: { _ in
         })
         coordinator?.friendProfile(contact)
     }

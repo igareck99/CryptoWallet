@@ -44,6 +44,8 @@ extension AuthCoordinator: OnboardingSceneDelegate {
     func onFinishOnboarding() {
         router.showRegistrationScene(delegate: self)
     }
+    
+    
 }
 
 // MARK: - RegistrationSceneDelegate

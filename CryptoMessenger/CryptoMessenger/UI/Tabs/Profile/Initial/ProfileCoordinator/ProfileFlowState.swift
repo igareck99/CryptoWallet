@@ -11,6 +11,4 @@ class ProfileCoordinatorBase: ObservableObject {
 
 // MARK: - ProfileFlowState
 
-final class ProfileFlowState: ProfileCoordinatorBase {
-    static var shared = ProfileFlowState()
-}
+final class ProfileFlowState: ProfileCoordinatorBase { }

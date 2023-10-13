@@ -15,6 +15,11 @@ struct ImageEventView<
             ImageContentView(image: $viewModel.image,
                              thumbnailImage: $viewModel.thumbnailImage,
                              state: $viewModel.state)
+            .onTapGesture {
+                if viewModel.state == .hasBeenDownloadPhoto {
+                    viewModel.model.onTap(viewModel.model.imageUrl)
+                }
+            }
                 .overlay {
                     DocumentImageStateView(state: $viewModel.state,
                                            circleColor: .chineseBlack.opacity(0.4))
@@ -25,9 +30,7 @@ struct ImageEventView<
                             viewModel.getImage()
                         case .loading:
                             viewModel.state = .download
-                        case .hasBeenDownloadPhoto:
-                            break
-                        case .hasBeenDownloaded:
+                        default:
                             break
                         }
                     }
@@ -73,6 +76,7 @@ struct ImageContentView: View {
         if state == .hasBeenDownloadPhoto {
             image
                 .resizable()
+                .scaledToFill()
                 .frame(width: 245, height: 152)
                 .cornerRadius(16)
         } else {

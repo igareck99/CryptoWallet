@@ -7,6 +7,10 @@ protocol ChooseReceiverViewModelProtocol: ObservableObject {
     var searchText: String { get set }
     
     var scannedText: String { get set }
+    
+    var isSnackbarPresented: Bool { get set }
+    
+    var messageText: String { get set }
 
     func send(_ event: ChooseReceiverFlow.Event)
 
@@ -17,10 +21,6 @@ protocol ChooseReceiverViewModelProtocol: ObservableObject {
     var userWalletsViews: [any ViewGeneratable] { get }
     
     func onScanner(_ text: Binding<String>)
-    
-    var isSnackbarPresented: Bool { get set }
-    
-    var messageText: String { get set}
 }
 
 // MARK: - ChooseReceiverNewViewModel
@@ -31,6 +31,8 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
 
     @Published var searchText = ""
     @Published var scannedText = ""
+    @Published var messageText = ""
+    @Published var isSnackbarPresented = false
     @Published var searchType = SearchType.telephone
     @Published var contacts: [Contact] = []
     @Published var userWalletsData: [UserWallletData] = []
@@ -38,8 +40,6 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
     @Binding var receiverData: UserReceiverData
     let resources: ChooseReciverSourcable.Type = ChooseReciverSources.self
     var coordinator: TransferViewCoordinatable
-    var isSnackbarPresented = false
-    var messageText: String = ""
 
     // MARK: - Private Properties
 
@@ -204,18 +204,18 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
     }
     
     func showSnackBar(text: String) {
-            DispatchQueue.main.async { [weak self] in
-                self?.messageText = text
-                self?.isSnackbarPresented = true
-                self?.objectWillChange.send()
-            }
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-                self?.messageText = ""
-                self?.isSnackbarPresented = false
-                self?.objectWillChange.send()
-            }
+        DispatchQueue.main.async { [weak self] in
+            self?.messageText = text
+            self?.isSnackbarPresented = true
+            self?.objectWillChange.send()
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.messageText = ""
+            self?.isSnackbarPresented = false
+            self?.objectWillChange.send()
+        }
+    }
 
     private func bindOutput() {
         stateValueSubject
@@ -229,7 +229,8 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
             case .allowed:
                 self.contactsUseCase.reuqestUserContacts { contact in
                     self.contactsUseCase.matchServerContacts(contact, .groupCreate) { result in
-                        self.contacts = result.filter({ $0.type == .lastUsers })
+                        self.contacts = result.filter({ $0.type == .lastUsers || $0.type == .existing  })
+                        print("slsalasas  \(self.contacts)")
                         self.checkUserWallet(self.contacts)
                     } onTap: { _ in
                     }

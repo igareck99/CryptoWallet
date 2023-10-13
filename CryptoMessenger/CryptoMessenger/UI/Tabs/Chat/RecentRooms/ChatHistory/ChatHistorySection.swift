@@ -46,7 +46,6 @@ struct ChatHistorySectionView: View {
                 default:
                     HStack {
                         Text(model.data.text)
-                            .padding(16)
                             .padding(.leading, 16)
                             .font(.regular(13))
                             .foreground(.chineseBlack)

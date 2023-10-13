@@ -25,17 +25,18 @@ struct ResizeableTextView: UIViewRepresentable {
 		return textView
 	}
 
-	func updateUIView(_ textView: UITextView, context: Context) {
-		if self.text.isEmpty {
+    func updateUIView(_ textView: UITextView, context: Context) {
+        if self.text.isEmpty {
             DispatchQueue.main.async {
                 textView.text = self.editing ? "" : self.placeholderText
                 textView.textColor = self.editing ? .chineseBlack : .romanSilver
             }
 		}
-        self.height = textView.contentSize.height > 36 ? textView.contentSize.height : 36
-        textView.backgroundColor = fieldBackgroundColor
-        textView.textContainerInset = UIEdgeInsets(top: 10, left: 6, bottom: 6, right: 6)
-        
+        DispatchQueue.main.async {
+            self.height = textView.contentSize.height > 36 ? textView.contentSize.height : 36
+            textView.backgroundColor = fieldBackgroundColor
+            textView.textContainerInset = UIEdgeInsets(top: 10, left: 6, bottom: 6, right: 6)
+        }
 	}
 
 	func makeCoordinator() -> Coordinator {

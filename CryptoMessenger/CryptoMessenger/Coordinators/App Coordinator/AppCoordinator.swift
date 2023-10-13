@@ -55,6 +55,7 @@ final class AppCoordinator: RootCoordinatable {
 	private func showAuthenticationFlow() {
         let authFlowCoordinator = factory.makeAuthCoordinator(
             delegate: self,
+            isOnboardingFinish: userSettings.isOnboardingFlowFinished,
             renderView: { [weak self] view in
                 guard let self = self else { return }
                 self.rootView = view.anyView()

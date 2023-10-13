@@ -35,7 +35,7 @@ struct Contact: Identifiable, ViewGeneratable {
     var avatar: URL?
     let name: String
     let status: String
-    var phone = ""
+    var phone: String
     var isAdmin = false
     var type: ChatCreateListType?
     var onTap: (Contact) -> Void

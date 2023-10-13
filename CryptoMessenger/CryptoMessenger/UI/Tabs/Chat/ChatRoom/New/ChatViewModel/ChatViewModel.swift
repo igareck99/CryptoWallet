@@ -130,7 +130,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
 
     private func bindInput() {
         eventSubject
-            .receive(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.global(qos: .userInitiated))
             .sink { value in
                 switch value {
                 case .onAppear:
@@ -138,14 +138,16 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         guard let self = self else { return }
                         guard case let .success(state) = result,
                               let pLevels = state.powerLevels else { return }
-                        self.roomPowerLevels = pLevels
-                        self.isAccessToWrite = pLevels.powerLevelOfUser(
-                            withUserID: self.matrixUseCase.getUserId()
-                        ) >= 50 ? true : false
-                        self.isChannel = pLevels.eventsDefault == 50
+                        DispatchQueue.main.async {
+                            self.roomPowerLevels = pLevels
+                            self.isAccessToWrite = pLevels.powerLevelOfUser(
+                                withUserID: self.matrixUseCase.getUserId()
+                            ) >= 50 ? true : false
+                            self.isChannel = pLevels.eventsDefault == 50
+                        }
                         debugPrint("self?.isChannel: pLevels.eventsDefault == 50 \(self.isChannel)")
-                        self.matrixUseCase.objectChangePublisher.send()
                     }
+                    self.loadUsers()
                     guard let mxRoom = self.matrixUseCase.getRoomInfo(roomId: self.room.roomId) else { return }
                     guard let auraRoom = self.matrixobjectFactory
                         .makeAuraRooms(mxRooms: [mxRoom],
@@ -153,10 +155,12 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                                        config: self.config,
                                        eventsFactory: RoomEventObjectFactory(),
                                        matrixUseCase: self.matrixUseCase).first else { return }
-                    let events = self.room.events
-                    self.room = auraRoom
-                    self.roomAvatarUrl = auraRoom.roomAvatar
-                    self.room.events = events
+                    DispatchQueue.main.async {
+                        self.updateToggles()
+                        self.room = auraRoom
+                        self.roomAvatarUrl = auraRoom.roomAvatar
+                    }
+                    self.matrixUseCase.objectChangePublisher.send()
                 default:
                     break
                 }
@@ -166,15 +170,14 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         matrixUseCase.objectChangePublisher
             .receive(on: DispatchQueue.global(qos: .background))
             .sink { [weak self] _ in
-                self?.updateToggles()
                 guard
                     let self = self,
-                    let room = self.matrixUseCase.auraRooms.first(where: { $0.roomId == self.room.roomId })
+                    let currentRoom = self.matrixUseCase.auraRooms.first(where: { $0.roomId == self.room.roomId })
                 else {
                     return
                 }
                 self.itemsFromMatrix = self.factory.makeEventView(
-                    events: room.events,
+                    events: currentRoom.events,
                     delegate: self,
                     onLongPressMessage: { event in
                     self.onLongPressMessage(event)
@@ -188,6 +191,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     if !self.itemsFromMatrix.isEmpty {
                         self.scroolString = self.displayItems.last?.id ?? UUID()
                     }
+                    self.objectWillChange.send()
                 }
             }
             .store(in: &subscriptions)
@@ -290,6 +294,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     avatar: nil,
                     name: $0.displayname ?? "",
                     status: "Привет, теперь я в Aura",
+                    phone: "",
                     type: .lastUsers, onTap: { _ in
                     }
                 )

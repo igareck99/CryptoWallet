@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - VideoEventView
+
 struct VideoEventView<
     Placeholder: View,
     EventData: View,
@@ -49,6 +51,14 @@ struct VideoContentView: View {
                 .resizable()
                 .frame(width: 208, height: 250)
                 .cornerRadius(16)
+                .overlay {
+                    ZStack(alignment: .center) {
+                        Circle()
+                            .frame(width: 44, height: 44)
+                            .foreground(.chineseBlack04)
+                        R.image.chat.audio.audioPlay.image
+                    }
+                }
         } else {
             thumbnailImage
                 .frame(width: 208, height: 250)

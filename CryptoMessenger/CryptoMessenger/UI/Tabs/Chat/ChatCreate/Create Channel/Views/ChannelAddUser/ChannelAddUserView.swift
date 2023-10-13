@@ -15,6 +15,7 @@ struct ChannelAddUserView: View {
     var body: some View {
         VStack(alignment: .leading,
                spacing: 0) {
+            Divider()
             HStack {
                 Text(R.string.localizable.createChannelAdding())
                     .font(.system(size: 17, weight: .regular))

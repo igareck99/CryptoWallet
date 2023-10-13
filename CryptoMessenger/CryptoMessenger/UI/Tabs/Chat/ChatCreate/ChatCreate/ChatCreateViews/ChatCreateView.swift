@@ -26,6 +26,15 @@ struct ChatCreateView<ViewModel>: View where ViewModel: ChatCreateViewModelProto
             .onAppear {
                 viewModel.send(.onAppear)
             }
+            .popup(
+                isPresented: viewModel.isSnackbarPresented,
+                alignment: .bottom
+            ) {
+                Snackbar(
+                    text: viewModel.snackBarText,
+                    color: viewModel.shackBarColor
+                )
+            }
     }
 
     private var content: some View {
@@ -33,22 +42,22 @@ struct ChatCreateView<ViewModel>: View where ViewModel: ChatCreateViewModelProto
                               views: $viewModel.lastUsersSections,
                               viewState: $viewModel.state,
                               isSearchingState: $viewModel.isSearching)
-        .searchable(text: $viewModel.searchText)
+        .searchable(text: $viewModel.searchText, prompt: viewModel.resources.search)
     }
 
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Button(action: {
-                presentationMode.wrappedValue.dismiss()
+                viewModel.dismissCurrentCoodinator()
             }, label: {
-               Text("Отмена")
+                Text(viewModel.resources.cancel)
                     .font(.bodyRegular17)
                     .foregroundColor(.dodgerBlue)
             })
         }
         ToolbarItem(placement: .principal) {
-            Text("Чаты")
+            Text(viewModel.resources.tabChat)
                 .font(.bodySemibold17)
         }
     }
