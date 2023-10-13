@@ -27,6 +27,13 @@ protocol VerificationPresenterProtocol: ObservableObject {
     func strokeColor(_ index: Int) -> Color
 }
 
+struct AuraMatrixCredentials {
+    let homeServer: String
+    let userId: String
+    let accessToken: String
+    let deviceId: String
+}
+
 final class VerificationPresenter<Colors: VerificationColorable> {
     
     enum VerifiacationState: Int {
@@ -73,6 +80,7 @@ final class VerificationPresenter<Colors: VerificationColorable> {
     private var subscriptions = Set<AnyCancellable>()
     private let keychainService: KeychainServiceProtocol
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
+    private let privateDataCleaner: PrivateDataCleanerProtocol
     private let secondsConstant: Int = 30
     private var timer: Timer?
     var seconds: Int = 30
@@ -86,7 +94,8 @@ final class VerificationPresenter<Colors: VerificationColorable> {
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         resources: CodeVerificationResourcable.Type = CodeVerificationResources.self,
         colors: Colors = VerificationColors(),
-        delegate: VerificationSceneDelegate? = nil
+        delegate: VerificationSceneDelegate? = nil,
+        privateDataCleaner: PrivateDataCleanerProtocol = PrivateDataCleaner()
     ) {
         self.apiClient = apiClient
         self.configuration = configuration
@@ -96,6 +105,7 @@ final class VerificationPresenter<Colors: VerificationColorable> {
         self.colors = colors
         self.userSettings = userSettings
         self.delegate = delegate
+        self.privateDataCleaner = privateDataCleaner
         startTimer()
     }
     
@@ -235,11 +245,12 @@ private extension VerificationPresenter  {
         ) { [weak self] result in
                 
                 // TODO: Обработать case failure
-                guard case .success = result else {
+                guard case let .success(auraMxCredentials) = result else {
                     self?.verificationState = .wrongOTP;
                     return
                 }
                 self?.saveLogInState(
+                    userId: auraMxCredentials.userId,
                     accessToken: accessToken,
                     refreshToken: refreshToken
                 )
@@ -247,7 +258,12 @@ private extension VerificationPresenter  {
             }
     }
     
-    func saveLogInState(accessToken: String, refreshToken: String) {
+    func saveLogInState(
+        userId: String,
+        accessToken: String,
+        refreshToken: String
+    ) {
+        userSettings.userId = userId
         userSettings.isLocalAuth = true
         keychainService.isApiUserAuthenticated = true
         keychainService.apiAccessToken = accessToken

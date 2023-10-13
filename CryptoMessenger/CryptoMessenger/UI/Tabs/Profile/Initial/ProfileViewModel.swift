@@ -40,7 +40,8 @@ final class ProfileViewModel: ObservableObject {
     // MARK: - Internal Properties
 
     var coordinator: ProfileFlowCoordinatorProtocol?
-
+    var isSnackbarPresented = false
+    var messageText: String = ""
     @Published var selectedImage: UIImage?
     @Published var selectedVideo: URL?
     @Published var changedImage: UIImage?
@@ -137,71 +138,97 @@ final class ProfileViewModel: ObservableObject {
                     self?.coordinator?.onSocialList()
                 case .onFeedImageAdd:
                     guard let self = self else { return }
-                    self.coordinator?.showFeedPicker({ value in
-                        self.coordinator?.galleryPickerFullScreen(sourceType: value,
-                                                                  galleryContent: .all, onSelectImage: { image in
-                            if let image = image {
-                                self.selectedImage = image
-                            }
-                        }, onSelectVideo: { _ in
-                        })
+                    self.coordinator?.showFeedPicker({ [weak self] value in
+                        self?.coordinator?.galleryPickerFullScreen(
+                            sourceType: value,
+                            galleryContent: .all,
+                            onSelectImage: { [weak self] image in
+                                guard let image = image else {
+                                    self?.showSnackBar(text: "Не удалось выбрать картинку")
+                                    return
+                                }
+                                self?.selectedImage = image
+                            }, onSelectVideo: { _ in })
                     })
                 case let .onSettings(image):
-                    guard let self = self else { return }
-                    if let coordinator = coordinator {
-                        self.coordinator?.showSettings({ result in
-                            self.coordinator?.settingsScreens(result,
-                                                              coordinator,
-                                                              image)
-                        })
+                    guard let self = self, let coordinator = coordinator else { return }
+                    coordinator.showSettings { [weak self] result in
+                        self?.coordinator?.settingsScreens(
+                            result,
+                            coordinator,
+                            image
+                        )
                     }
                 case let .onGallery(type):
                     guard let self = self else { return }
-                    self.coordinator?.galleryPickerFullScreen(sourceType: type,
-                                                              galleryContent: .all, onSelectImage: { image in
-                        if let image = image {
-                            self.selectedImage = image
-                        }
-                    }, onSelectVideo: { _ in
-                    })
-                case let .onImageEditor(isShowing: isShowing,
-                                        image: image,
-                                        viewModel: viewModel):
-                    self?.coordinator?.imageEditor(isShowing: isShowing,
-                                                   image: image,
-                                                   viewModel: viewModel)
+                    self.coordinator?.galleryPickerFullScreen(
+                        sourceType: type,
+                        galleryContent: .all,
+                        onSelectImage: { [weak self] image in
+                            guard let image = image else {
+                                self?.showSnackBar(text: "Не удалось выбрать картинку")
+                                return
+                            }
+                            self?.selectedImage = image
+                        },
+                        onSelectVideo: { _ in }
+                    )
+                case let .onImageEditor(
+                    isShowing: isShowing,
+                    image: image,
+                    viewModel: viewModel
+                ):
+                    self?.coordinator?.imageEditor(
+                        isShowing: isShowing,
+                        image: image,
+                        viewModel: viewModel
+                    )
                 case let .onAddPhoto(image):
-                    guard let userId = self?.matrixUseCase.getUserId() else { return }
-                    self?.mediaService.addPhotoFeed(image: image,
-                                                    userId: userId) { url in
-                        guard let realUrl = url else { return }
+                    guard let userId = self?.matrixUseCase.getUserId() else {
+                        self?.showSnackBar(text: "Не удалось получить идентификатор пользователя")
+                        return
+                    }
+                    self?.mediaService.addPhotoFeed(
+                        image: image,
+                        userId: userId
+                    ) { [weak self] url in
+                        guard let realUrl = url else {
+                            self?.showSnackBar(text: "Не удалось добавить фото")
+                            return
+                        }
                         self?.profile.photosUrls.insert(realUrl, at: 0)
                         self?.objectWillChange.send()
                     }
                 }
             }
             .store(in: &subscriptions)
+
         $changedImage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
-                guard let image = image else { return }
+                guard let image = image else {
+                    self?.showSnackBar(text: "Не удалось поменять картинку")
+                    return
+                }
                 self?.send(.onAddPhoto(image))
             }
             .store(in: &subscriptions)
+
         $selectedPhoto
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-            }
+            .sink { [weak self] _ in }
             .store(in: &subscriptions)
+
         matrixUseCase.loginStatePublisher.sink { [weak self] status in
             switch status {
             case .loggedOut:
                 self?.userSettings.isAuthFlowFinished = false
                 self?.userSettings.isOnboardingFlowFinished = false
                 self?.keychainService.removeObject(forKey: .apiUserPinCode)
-                //self?.coordinator?.restartFlow()
-            default:
-                break
+                // self?.coordinator?.restartFlow()
+            case .failure(_):
+                self?.showSnackBar(text: "Не удалось разлогиниться")
+            default: break
             }
         }
         .store(in: &subscriptions)
@@ -212,9 +239,25 @@ final class ProfileViewModel: ObservableObject {
             .sink { _ in }
             .store(in: &subscriptions)
     }
-    
+
+    func showSnackBar(text: String) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.messageText = text
+            self?.isSnackbarPresented = true
+            self?.objectWillChange.send()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.messageText = ""
+            self?.isSnackbarPresented = false
+            self?.objectWillChange.send()
+        }
+    }
+
     func deleteImageByUrl(completion: @escaping () -> Void ) {
-        guard let url = self.selectedPhoto else { return }
+        guard let url = self.selectedPhoto else {
+            return
+        }
         self.mediaService.deletePhotoFeed(url: url.absoluteString) { _ in
             self.mediaService.getPhotoFeedPhotos(userId: self.matrixUseCase.getUserId()) { urls in
                 self.profile.photosUrls = urls
@@ -223,7 +266,7 @@ final class ProfileViewModel: ObservableObject {
             }
         }
     }
-    
+
     func shareImage(completion: @escaping () -> Void) {
         DispatchQueue.global().async { [weak self] in
             guard let uploadUrl = self?.selectedPhoto else { return }

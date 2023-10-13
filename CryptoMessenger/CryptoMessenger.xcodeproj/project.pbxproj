@@ -926,6 +926,12 @@
 		D4FD92AD2A5D5D21008EA8A2 /* WalletRouterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FD92AC2A5D5D21008EA8A2 /* WalletRouterState.swift */; };
 		D4FD92AF2A5D5D89008EA8A2 /* WalletTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FD92AE2A5D5D89008EA8A2 /* WalletTransitions.swift */; };
 		D4FDA497284D05C600322A0F /* StatusBarCallUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDA496284D05C600322A0F /* StatusBarCallUseCase.swift */; };
+		D4FE587A2AD91422006498D1 /* MatrixUseCase+Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE58792AD91422006498D1 /* MatrixUseCase+Credentials.swift */; };
+		D4FE587B2AD9301C006498D1 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC92280FECC80080AE8A /* UserDefaultsService.swift */; };
+		D4FE587C2AD93032006498D1 /* UserDefaultsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41553B8288AC819003FDADC /* UserDefaultsServiceProtocol.swift */; };
+		D4FE587D2AD93037006498D1 /* UserDefaultsService+Calls.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41553B6288AC780003FDADC /* UserDefaultsService+Calls.swift */; };
+		D4FE587E2AD9303C006498D1 /* UserDefaultsService+UserFlowStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC93280FECC80080AE8A /* UserDefaultsService+UserFlowStorage.swift */; };
+		D4FE587F2AD93040006498D1 /* UserDefaultsService+UserCredentialsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44BDC94280FECC80080AE8A /* UserDefaultsService+UserCredentialsStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1138,7 +1144,6 @@
 		8B0353F82A9764530033965D /* SelectViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectViewModelDelegate.swift; sourceTree = "<group>"; };
 		8B0C4FF92890613500671BA3 /* ChatRoomResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomResources.swift; sourceTree = "<group>"; };
 		8B0C4FFB2891806000671BA3 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
-		8B0C573E2A636D3F00D456FF /* ProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
 		8B0C57442A64541E00D456FF /* ProfileContentLlink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContentLlink.swift; sourceTree = "<group>"; };
 		8B0C57482A64551700D456FF /* ProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
 		8B0C574A2A64570600D456FF /* SocialListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialListAssembly.swift; sourceTree = "<group>"; };
@@ -1891,6 +1896,7 @@
 		D4FD92AC2A5D5D21008EA8A2 /* WalletRouterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletRouterState.swift; sourceTree = "<group>"; };
 		D4FD92AE2A5D5D89008EA8A2 /* WalletTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletTransitions.swift; sourceTree = "<group>"; };
 		D4FDA496284D05C600322A0F /* StatusBarCallUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCallUseCase.swift; sourceTree = "<group>"; };
+		D4FE58792AD91422006498D1 /* MatrixUseCase+Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatrixUseCase+Credentials.swift"; sourceTree = "<group>"; };
 		FB557DABB153E02C3F319940 /* Pods-CryptoMessengerPods-CryptoMessenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CryptoMessengerPods-CryptoMessenger.debug.xcconfig"; path = "Target Support Files/Pods-CryptoMessengerPods-CryptoMessenger/Pods-CryptoMessengerPods-CryptoMessenger.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -3021,7 +3027,6 @@
 				8B75B3F62A7032B0008FE6DD /* ProfileFlowState.swift */,
 				8B234ED22A4337330064ACD3 /* ProfileFlowCoordinator.swift */,
 				8B234ED42A4337700064ACD3 /* ProfileAssembly.swift */,
-				8B0C573E2A636D3F00D456FF /* ProfileRouter.swift */,
 				8B0C57442A64541E00D456FF /* ProfileContentLlink.swift */,
 				8B0C57482A64551700D456FF /* ProfileRouter.swift */,
 			);
@@ -4716,6 +4721,7 @@
 				D4FB6C6D2AC4070F00E9E6D9 /* MatrixUseCase+Devices.swift */,
 				D4FB6C6F2AC4087400E9E6D9 /* MatrixUseCase+Jitsi.swift */,
 				D447D4F82AC6BCAD007225B4 /* MatrixUseCase+Calls.swift */,
+				D4FE58792AD91422006498D1 /* MatrixUseCase+Credentials.swift */,
 			);
 			path = "Matrix UseCase";
 			sourceTree = "<group>";
@@ -5788,6 +5794,7 @@
 				D4F322742AA0EFAA0021AFAE /* LoadInfo.swift in Sources */,
 				5A2181EB26D8563D0093AD60 /* MapView.swift in Sources */,
 				D4F322962AA1C31A0021AFAE /* SystemEventView.swift in Sources */,
+				D4FE587A2AD91422006498D1 /* MatrixUseCase+Credentials.swift in Sources */,
 				D4D439EB2836086900AC0DEF /* P2PCallUseCase.swift in Sources */,
 				D4E979142A1F30CB00771232 /* PushKitService.swift in Sources */,
 				5A9318D626C5AAF100645365 /* ChatRoomView.swift in Sources */,
@@ -6098,11 +6105,16 @@
 				8B3E0D292A0414DA005E8E3C /* KeychainService+Credentials.swift in Sources */,
 				8B3E0D2A2A0414DA005E8E3C /* KeychainWrapper.swift in Sources */,
 				8B3E0D2B2A0414DA005E8E3C /* KeychainWrapperSubscript.swift in Sources */,
+				D4FE587E2AD9303C006498D1 /* UserDefaultsService+UserFlowStorage.swift in Sources */,
 				8B3E0D2C2A0414DA005E8E3C /* KeychainItemAccessibility.swift in Sources */,
 				D4E978FB2A1E082400771232 /* AppConfigurationEnums.swift in Sources */,
 				D4E9790C2A1E0D8000771232 /* ConnectedEdges.swift in Sources */,
 				8B3E0D022A0401FE005E8E3C /* NotificationService.swift in Sources */,
+				D4FE587D2AD93037006498D1 /* UserDefaultsService+Calls.swift in Sources */,
+				D4FE587B2AD9301C006498D1 /* UserDefaultsService.swift in Sources */,
 				D4E979052A1E091800771232 /* RoomSummary.swift in Sources */,
+				D4FE587F2AD93040006498D1 /* UserDefaultsService+UserCredentialsStorage.swift in Sources */,
+				D4FE587C2AD93032006498D1 /* UserDefaultsServiceProtocol.swift in Sources */,
 				D4E978F72A1E01DA00771232 /* KeychainServiceAssembly.swift in Sources */,
 				8B3E0D212A041430005E8E3C /* AuraRoom.swift in Sources */,
 				D4E979032A1E08A300771232 /* MessageType.swift in Sources */,

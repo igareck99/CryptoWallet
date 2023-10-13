@@ -11,6 +11,7 @@ final class UserDefaultsService {
         case isVoipPusherCreated
 		case roomList
 		case isCallInprogressExists
+        case userId
 
 		// UserFlowsStorage
 		case isAuthFlowFinished

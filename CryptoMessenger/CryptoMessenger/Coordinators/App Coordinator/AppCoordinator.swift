@@ -11,15 +11,19 @@ protocol AppCoordinatorProtocol {
 }
 
 protocol RootCoordinatable: ObservableObject {
-    var hostController: UIViewController { get }
+    var controller: UIViewController { get }
 }
 
 final class AppCoordinator: RootCoordinatable {
     @Published var rootView: AnyView = Text("").anyView()
     
-    var hostController: UIViewController {
-        UIHostingController(rootView: rootView)
+    var controller: UIViewController {
+        hostController
     }
+    
+    lazy var hostController: UIHostingController = {
+        UIHostingController(rootView: rootView)
+    }()
     
     var childCoordinators: [String: Coordinator] = [:]
     var statusBarUseCase = StatusBarCallUseCase.shared
@@ -52,7 +56,9 @@ final class AppCoordinator: RootCoordinatable {
         let authFlowCoordinator = factory.makeAuthCoordinator(
             delegate: self,
             renderView: { [weak self] view in
-                self?.rootView = view.anyView()
+                guard let self = self else { return }
+                self.rootView = view.anyView()
+                hostController.rootView = self.rootView
             }
         )
         addChildCoordinator(authFlowCoordinator)
@@ -70,7 +76,9 @@ final class AppCoordinator: RootCoordinatable {
         mainFlowCoordinator = factory.makeMainCoordinator(
             delegate: self,
             renderView: { [weak self] view in
-                self?.rootView = view.anyView()
+                guard let self = self else { return }
+                self.rootView = view.anyView()
+                hostController.rootView = self.rootView
             },
             onlogout: onlogout
         )
@@ -82,8 +90,10 @@ final class AppCoordinator: RootCoordinatable {
 	private func showPinCodeFlow() {
         let pinCodeFlowCoordinator = factory.makePinCoordinator(
             delegate: self,
-            renderView: { view in
+            renderView: { [weak self] view in
+                guard let self = self else { return }
                 self.rootView = view.anyView()
+                hostController.rootView = self.rootView
             }, onLogin: {
                 self.showMainFlow()
             }
@@ -117,10 +127,19 @@ extension AppCoordinator: Coordinator {
         
         if userSettings[.isAppNotFirstStart] == false {
             privateDataCleaner.resetPrivateData()
-            keychainService.isPinCodeEnabled = true
+            keychainService.isPinCodeEnabled = false
         }
+
         userSettings[.isAppNotFirstStart] = true
         userSettings.isLocalAuth = keychainService.isPinCodeEnabled == true
+        let userId = UserDefaultsService.shared.userId
+        let accServiceName = keychainService.getAccServiceName()
+        let accServiceNameId = keychainService.getAccServiceNameId()
+        
+        debugPrint("keychainService: UD userId \(userId)")
+        debugPrint("keychainService: KC accServiceName \(accServiceName)")
+        debugPrint("keychainService: KC accServiceNameId \(accServiceNameId)")
+        debugPrint("keychainService")
 
 		let flow = AppLaunchInstructor.configure(
 			isAuthorized: userSettings.isAuthFlowFinished,

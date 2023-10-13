@@ -3,12 +3,14 @@ import Foundation
 enum KeychainServiceAssembly {
     static func build() -> KeychainServiceProtocol {
         let config: ConfigType = Configuration.shared
-        let serviceName = config.keychainServiceName
+        let serviceNameId = config.keychainServiceName
         let accessGroup = config.keychainAccessGroup
         let wrapper = KeychainWrapper(
-            serviceName: serviceName,
+            serviceNameId: serviceNameId,
             accessGroup: accessGroup
-        )
+        ) {
+            UserDefaultsService.shared.userId ?? ""
+        }
         let service = KeychainService(wrapper: wrapper)
         return service
     }

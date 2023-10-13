@@ -9,7 +9,7 @@ extension KeychainService {
 		get { string(forKey: .apiAccessToken) }
 		set { set(newValue, forKey: .apiAccessToken) }
 	}
-    
+
     var secretPhrase: String? {
         get { string(forKey: .secretPhrase) }
         set { set(newValue, forKey: .secretPhrase) }
@@ -18,16 +18,6 @@ extension KeychainService {
 	var apiRefreshToken: String? {
 		get { string(forKey: .apiRefreshToken) }
 		set { set(newValue, forKey: .apiRefreshToken) }
-	}
-
-	var apiUserId: String? {
-		get { string(forKey: .apiUserId) }
-		set { set(newValue, forKey: .apiUserId) }
-	}
-
-	var apiUserMatrixId: String? {
-		get { string(forKey: .apiUserMatrixId) }
-		set { set(newValue, forKey: .apiUserMatrixId) }
 	}
 
 	var apiUserPhoneNumber: String? {

@@ -7,6 +7,7 @@ class NotificationService: UNNotificationServiceExtension {
     var bestAttemptContent: UNMutableNotificationContent?
     var testBody: String = ""
     let keychainService = KeychainService.shared
+    let userDefaultsService = UserDefaultsService.shared
     let config: ConfigType = Configuration.shared
     
     var matrixSession: MXSession?
@@ -87,10 +88,11 @@ class NotificationService: UNNotificationServiceExtension {
     }
 
     private func getCredentials() -> MXCredentials? {
-        guard let userId: String = keychainService[.userId],
+        guard let userId: String = userDefaultsService.userId,
               let accessToken: String = keychainService[.accessToken],
               let homeServer: String = keychainService[.homeServer],
-              let deviceId: String = keychainService[.deviceId]  else {
+              let deviceId: String = keychainService[.deviceId]
+        else {
             return nil
         }
         let credentials = MXCredentials(

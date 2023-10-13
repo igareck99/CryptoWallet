@@ -37,7 +37,6 @@ final class ProfileDetailViewModel: ObservableObject {
     private let keychainService: KeychainServiceProtocol
     private let privateDataCleaner: PrivateDataCleanerProtocol
     private let config: ConfigType
-    
 
     // MARK: - Lifecycle
 
@@ -106,6 +105,7 @@ final class ProfileDetailViewModel: ObservableObject {
                         self?.matrixUseCase.closeSession()
                         self?.matrixUseCase.clearCredentials()
                         self?.keychainService.isApiUserAuthenticated = false
+                        self?.keychainService.isPinCodeEnabled = false
                         self?.privateDataCleaner.resetPrivateData()
                         NotificationCenter.default.post(name: .userDidLoggedOut, object: nil)
                         debugPrint("ProfileDetailViewModel: LOGOUT")
@@ -119,6 +119,7 @@ final class ProfileDetailViewModel: ObservableObject {
             case .loggedOut:
                 self?.userSettings.isAuthFlowFinished = false
                 self?.userSettings.isOnboardingFlowFinished = false
+                self?.keychainService.isPinCodeEnabled = false
                 self?.keychainService.removeObject(forKey: .apiUserPinCode)
                 self?.coordinator?.onLogout()
             default:
@@ -133,7 +134,7 @@ final class ProfileDetailViewModel: ObservableObject {
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
     }
-    
+
     private func updateAvatar() {
         if let image = self.selectedImg?.fixOrientation(),
            let data = image.jpeg(.medium) {

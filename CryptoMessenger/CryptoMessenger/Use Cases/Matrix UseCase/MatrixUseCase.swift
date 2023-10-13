@@ -14,8 +14,8 @@ final class MatrixUseCase {
     let config: ConfigType
     let cache: ImageCacheServiceProtocol
     let jitsiFactory: JitsiWidgetFactoryProtocol.Type
-	private let keychainService: KeychainServiceProtocol
-	private let userSettings: UserDefaultsServiceProtocol
+    let keychainService: KeychainServiceProtocol
+    let userSettings: UserDefaultsServiceProtocol & UserCredentialsStorage
 	private var roomsTimer: AnyPublisher<Date, Never>?
 	private var subscriptions = Set<AnyCancellable>()
 	private let toggles: MatrixUseCaseTogglesProtocol
@@ -29,7 +29,7 @@ final class MatrixUseCase {
     init(
         matrixService: MatrixServiceProtocol = MatrixService.shared,
         keychainService: KeychainServiceProtocol = KeychainService.shared,
-        userSettings: UserDefaultsServiceProtocol = UserDefaultsService.shared,
+        userSettings: UserDefaultsServiceProtocol & UserCredentialsStorage = UserDefaultsService.shared,
         toggles: MatrixUseCaseTogglesProtocol = MatrixUseCaseToggles(),
         config: ConfigType = Configuration.shared,
         cache: ImageCacheServiceProtocol = ImageCacheService.shared,
@@ -59,11 +59,9 @@ final class MatrixUseCase {
     }
     
     @objc func tokenRefreshed() {
-        guard
-            let apiToken: String = keychainService.apiAccessToken,
-//            let homeServer: String = keychainService[.homeServer],
-            let userId: String = keychainService[.userId],
-            let deviceId: String = keychainService[.deviceId]
+        guard let apiToken: String = keychainService.apiAccessToken,
+              let userId: String = userSettings.userId,
+              let deviceId: String = keychainService[.deviceId]
         else {
             return
         }
@@ -95,7 +93,7 @@ final class MatrixUseCase {
 	}
 
 	@objc func userDidLoggedIn() {
-		matrixService.updateState(with: .loggedIn(userId: matrixService.getUserId()))
+ 		matrixService.updateState(with: .loggedIn(userId: matrixService.getUserId()))
 		updateCredentialsIfAvailable()
 		guard toggles.isRoomsUpdateTimerAvailable else { return }
 
@@ -164,7 +162,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
         deviceId: String,
         userId: String,
         homeServer: URL,
-        completion: @escaping EmptyResultBlock
+        completion: @escaping EmptyFailureBlock<AuraMatrixCredentials>
     ) {
         matrixService.updateClient(with: homeServer)
         matrixService.loginByJWT(
@@ -179,7 +177,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
     
     private func handleLogin(
         response: Result<MXCredentials, Error>,
-        completion: @escaping EmptyResultBlock
+        completion: @escaping EmptyFailureBlock<AuraMatrixCredentials>
     ) {
         guard case .success(let credentials) = response else {
             matrixService.updateState(with: .failure(.loginFailure))
@@ -208,8 +206,24 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
                 self?.matrixService.updateState(with: .loggedIn(userId: userId))
                 self?.matrixService.updateUnkownDeviceWarn(isEnabled: false)
                 self?.matrixService.startListeningForRoomEvents()
-                completion(.success)
                 self?.serverSyncWithServerTimeout()
+
+                guard let homeServer = credentials.homeServer,
+                      let userId = credentials.userId,
+                      let accessToken = credentials.accessToken,
+                      let deviceId = credentials.deviceId
+                else {
+                    completion(.failure)
+                    return
+                }
+                
+                let auraMxCredentials = AuraMatrixCredentials(
+                    homeServer: homeServer,
+                    userId: userId,
+                    accessToken: accessToken,
+                    deviceId: deviceId
+                )
+                completion(.success(auraMxCredentials))
             }
         }
     }
@@ -226,49 +240,4 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
         })
         
     }  
-}
-
-// MARK: - Credentials
-
-extension MatrixUseCase {
-
-	private func save(credentials: MXCredentials) {
-		guard let homeServer = credentials.homeServer,
-			  let userId = credentials.userId,
-			  let accessToken = credentials.accessToken,
-			  let deviceId = credentials.deviceId else { return }
-
-		keychainService[.homeServer] = homeServer
-		keychainService[.userId] = userId
-		keychainService[.accessToken] = accessToken
-		keychainService[.deviceId] = deviceId
-		debugPrint("Credetials saved")
-	}
-
-    func clearCredentials() {
-		debugPrint("Credetials clearCredentials START")
-		keychainService.removeObject(forKey: .homeServer)
-		keychainService.removeObject(forKey: .userId)
-		keychainService.removeObject(forKey: .accessToken)
-		keychainService.removeObject(forKey: .deviceId)
-		debugPrint("Credetials clearCredentials END")
-	}
-
-	private func retrievCredentials() -> MXCredentials? {
-		guard
-			let homeServer: String = keychainService[.homeServer],
-			let userId: String = keychainService[.userId],
-			let accessToken: String = keychainService[.accessToken],
-			let deviceId: String = keychainService[.deviceId]
-		else {
-			return nil
-		}
-		let credentials = MXCredentials(
-			homeServer: homeServer,
-			userId: userId,
-			accessToken: accessToken
-		)
-		credentials.deviceId = deviceId
-		return credentials
-	}
 }

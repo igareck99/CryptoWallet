@@ -7,13 +7,15 @@ protocol KeychainServiceProtocol: AnyObject {
 	var apiAccessToken: String? { get set }
     var secretPhrase: String? { get set }
 	var apiRefreshToken: String? { get set }
-	var apiUserId: String? { get set }
-	var apiUserMatrixId: String? { get set }
 	var apiUserPhoneNumber: String? { get set }
 	var apiUserPinCode: String? { get set }
 	var isPinCodeEnabled: Bool? { get set }
 	var apiUserFalsePinCode: String? { get set }
 	var isApiUserAuthenticated: Bool? { get set }
+
+    func getAccServiceName() -> String
+
+    func getAccServiceNameId() -> String
 
 	// MARK: - Getters Wrappers
 

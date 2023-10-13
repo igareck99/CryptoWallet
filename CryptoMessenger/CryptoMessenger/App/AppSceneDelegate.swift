@@ -42,7 +42,7 @@ final class AppSceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func configureMainWindow(wScene: UIWindowScene) {
         let window = UIWindow(windowScene: wScene)
-        window.rootViewController = AppCoordinatorAssembly.coordinator.hostController
+        window.rootViewController = AppCoordinatorAssembly.coordinator.controller
         self.keyWindow = window
         window.makeKeyAndVisible()
         StatusBarCallUseCase.shared.configure(window: window)

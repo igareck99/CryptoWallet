@@ -17,18 +17,27 @@ private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
 final class KeychainWrapper {
     
     /// ServiceName is used for the kSecAttrService property to uniquely identify this keychain accessor. If no service name is specified, KeychainWrapper will default to using the bundleIdentifier.
-    private (set) public var serviceName: String
+    var serviceName: String {
+        serviceNameId + "." + accServiceName()
+    }
+    let serviceNameId: String
+    let accServiceName: () -> String
     
     /// AccessGroup is used for the kSecAttrAccessGroup property to identify which Keychain Access Group this entry belongs to. This allows you to use the KeychainWrapper with shared keychain access between different applications.
-    private (set) public var accessGroup: String
+    var accessGroup: String
     
     /// Create a custom instance of KeychainWrapper with a custom Service Name and optional custom access group.
     ///
     /// - parameter serviceName: The ServiceName for this instance. Used to uniquely identify all keys stored using this keychain wrapper instance.
     /// - parameter accessGroup: Optional unique AccessGroup for this instance. Use a matching AccessGroup between applications to allow shared keychain access.
-    public init(serviceName: String, accessGroup: String) {
-        self.serviceName = serviceName
+    init(
+        serviceNameId: String,
+        accessGroup: String,
+        accServiceName: @escaping () -> String
+    ) {
+        self.serviceNameId = serviceNameId
         self.accessGroup = accessGroup
+        self.accServiceName = accServiceName
     }
 
     // MARK:- Public Methods
