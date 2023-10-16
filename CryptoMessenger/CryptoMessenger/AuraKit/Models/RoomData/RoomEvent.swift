@@ -91,4 +91,9 @@ extension RoomEvent {
         guard let text = data["root_event_id"] as? String else { return "" }
         return text
     }
+    
+    var contactMxId: String {
+        guard let text = content["mxId"] as? String else { return "" }
+        return text
+    }
 }

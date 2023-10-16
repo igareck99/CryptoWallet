@@ -36,20 +36,18 @@ protocol ChatHistoryRouterable: View {
 
     func start()
 
-    func chatMedia(_ room: AuraRoom)
+    func chatMedia(_ room: AuraRoomData)
 
     func channelSettings(
         chatData: Binding<ChatData>,
-        saveData: Binding<Bool>,
-        room: AuraRoom,
+        room: AuraRoomData,
         isLeaveChannel: Binding<Bool>,
         coordinator: ChatHistoryFlowCoordinatorProtocol
     )
 
     func chatSettings(
         chatData: Binding<ChatData>,
-        saveData: Binding<Bool>,
-        room: AuraRoom,
+        room: AuraRoomData,
         isLeaveChannel: Binding<Bool>,
         coordinator: ChatHistoryFlowCoordinatorProtocol
     )

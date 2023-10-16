@@ -20,9 +20,14 @@ extension RoomEventsFactory {
         let items: [ReactionNewEvent] = prepareReaction(event, onReactionTap: { reaction in
             onReactionTap(reaction)
         })
-        let viewModel = ReactionsNewViewModel(width: calculateEventWidth(StaticRoomEventsSizes.image.size, items.count),
-                                              views: items,
-                                              backgroundColor: reactionColor)
+        var viewModel: any ViewGeneratable
+        if !items.isEmpty {
+            viewModel = ReactionsNewViewModel(width: calculateEventWidth(StaticRoomEventsSizes.image.size, items.count),
+                                                  views: items,
+                                                  backgroundColor: reactionColor)
+        } else {
+            viewModel = ZeroViewModel()
+        }
 
         let loadInfo = LoadInfo(
             url: .mock,

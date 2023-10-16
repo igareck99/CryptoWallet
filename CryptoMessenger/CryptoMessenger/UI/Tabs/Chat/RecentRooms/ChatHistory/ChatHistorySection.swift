@@ -47,11 +47,13 @@ struct ChatHistorySectionView: View {
                     HStack {
                         Text(model.data.text)
                             .padding(16)
-                            .font(.footnoteRegular13)
+                            .padding(.leading, 16)
+                            .font(.regular(13))
+                            .foreground(.chineseBlack)
                         Spacer()
                     }
                     .frame(width: UIScreen.main.bounds.width, height: 36)
-                    .background(.paleBlue())
+                    .background(Color.aliceBlue)
                 }
             }
     }

@@ -10,7 +10,7 @@ protocol ChatMediaDelegate: ObservableObject {
 
 }
 
-// MARK: - ChatMediaViewModel
+// MARK: - ChannelMediaViewModel
 
 final class ChannelMediaViewModel: ObservableObject {
 
@@ -24,7 +24,7 @@ final class ChannelMediaViewModel: ObservableObject {
     @Published var selectedPhoto: URL?
     @Published var selectedFile: FileData
     @Published var documentViewModel: DocumentViewerViewModel?
-    var room: AuraRoom
+    var room: AuraRoomData
 
     // MARK: - Private Properties
 
@@ -34,7 +34,7 @@ final class ChannelMediaViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(room: AuraRoom,
+    init(room: AuraRoomData,
          resources: ChannelMediaSourcesable.Type = ChannelMediaSources.self,
          mediaService: MediaServiceProtocol = MediaService()) {
         self.resources = resources
@@ -52,14 +52,13 @@ final class ChannelMediaViewModel: ObservableObject {
     // MARK: - Private Methods
 
     private func updateData() {
-        guard let id = room.room.roomId else { return }
-        mediaService.downloadChatImages(roomId: id) { urls in
+        mediaService.downloadChatImages(roomId: room.roomId) { urls in
             self.photos = urls
         }
-        mediaService.downloadChatFiles(roomId: id) { files in
+        mediaService.downloadChatFiles(roomId: room.roomId) { files in
             self.files = files
         }
-        mediaService.downloadChatUrls(roomId: id) { urls in
+        mediaService.downloadChatUrls(roomId: room.roomId) { urls in
             self.links = urls
         }
     }

@@ -26,7 +26,6 @@ struct SelectChannelTypeView: View {
                     .listRowSeparator(.hidden)
             }
         }
-        .padding(.top, 9)
         .listStyle(.plain)
         .navigationBarTitle("", displayMode: .inline)
         .scrollDisabled(true)

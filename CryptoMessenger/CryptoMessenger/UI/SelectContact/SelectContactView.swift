@@ -4,9 +4,13 @@ import SwiftUI
 
 struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewModelDelegate {
 
-    // MARK: - Private Properties
+    // MARK: - Internal Properties
 
     @StateObject var viewModel: ViewModel
+
+    // MARK: - Private Properties
+
+    @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
 
@@ -45,25 +49,33 @@ struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewMode
             .onAppear {
                 viewModel.send(.onAppear)
             }
+            .navigationBarBackButtonHidden(true)
     }
 
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
-            ToolbarItem(placement: .principal) {
-                Text(viewModel.contactsLimit == nil ? "Групповой чат" : "Выберите контакт")
-                    .font(.bodySemibold17)
-                    .foregroundColor(viewModel.resources.titleColor)
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    viewModel.onFinish()
-                }, label: {
-                    Text("Готово")
-                        .font(.bodyRegular17)
-                        .foregroundColor(viewModel.getButtonColor())
-                })
-                .disabled(viewModel.isButtonAvailable)
-            }
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                R.image.navigation.backButton.image
+            })
+        }
+        ToolbarItem(placement: .principal) {
+            Text(viewModel.contactsLimit == nil ? "Групповой чат" : "Выберите контакт")
+                .font(.bodySemibold17)
+                .foregroundColor(viewModel.resources.titleColor)
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button(action: {
+                viewModel.onFinish()
+            }, label: {
+                Text("Готово")
+                    .font(.bodyRegular17)
+                    .foregroundColor(viewModel.getButtonColor())
+            })
+            .disabled(viewModel.isButtonAvailable)
+        }
     }
     
     @ToolbarContentBuilder

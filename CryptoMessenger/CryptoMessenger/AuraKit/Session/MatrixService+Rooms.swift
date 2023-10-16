@@ -227,6 +227,7 @@ extension MatrixService {
         content[.name] = contact.name
         content[.phone] = contact.phone
         content[.avatar] = contact.avatar?.absoluteString ?? ""
+        content[.mxId] = contact.mxId
         content[.body] = ""
         room.sendMessage(withContent: content, localEcho: &localEcho) { response in
             switch response {

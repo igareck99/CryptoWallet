@@ -20,6 +20,10 @@ struct ChatHistoryEmptyState: View {
                 .frame(width: 248)
         case .loading:
             loadingStateView()
+        case .noChats:
+            VStack {
+                EmptyInfoViewModel(value: ChatHistoryEmpty.noChats).view()
+            }
         default:
             EmptyView()
         }

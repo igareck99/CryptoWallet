@@ -33,8 +33,10 @@ enum MXEventEventKey: String {
     case longitude
     case body
     case avatar
+    case userId
     case name
     case phone
+    case mxId
     case info
     case thumbnailUrl = "thumbnail_url"
     case thumbnailInfo = "thumbnail_info"

@@ -9,7 +9,7 @@ final class SelectChannelTypeViewModel: ObservableObject {
     var roomId: String
     var isRoomPublic = false
     @Published var isPublicSelected = false
-    @Published var isPrivateSelected = false
+    @Published var isPrivateSelected = true
     @Published var isEncryptionEnabled = false
     let resources: SelectChannelTypeResourcable.Type
 

@@ -18,14 +18,15 @@ struct TextEventView<
                         .frame(width: 2)
                         .foregroundColor(.dodgerBlue)
                         .padding(.top, 8)
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 2) {
                         Text(model.userId)
                         .font(.footnoteSemibold13)
                         .foregroundColor(.dodgerBlue)
                         .padding(.top, 8)
                         Text(model.replyDescription)
-                            .font(.footnoteRegular13)
-                            .foregroundColor(.chineseBlack)
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundColor(.dodgerBlue)
+                        .padding(.top, 8)
                     }
                     Spacer()
                 }

@@ -27,6 +27,8 @@ final class DocumentViewerViewModel: ObservableObject {
     }
 
     private func load() {
+        remoteDataService.fetchContentLength(for: url, httpMethod: .get, completion: { _ in
+        })
         Task {
             let result = await remoteDataService.downloadDataRequest(url: url)
             self.isUploadFinished = true

@@ -9,16 +9,13 @@ extension ChatHistoryRouter {
             case let .chatRoom(room, coordinator):
                 ChatRoomAssembly.build(room: room,
                                        coordinator: coordinator)
-            case let .chatSettings(chatData, saveData, isLeaveChannel, room, coordinator):
-                SettingsAssembly.build(chatData: chatData,
-                                       isLeaveRoom: isLeaveChannel,
-                                       saveData: saveData, room: room, coordinator: coordinator)
-            case let .channelSettings(roomId, isLeaveChannel, chatData, saveData, coordinator):
-                ChannelInfoAssembly.build(roomId: roomId,
+            case let .chatSettings(chatData, isLeaveChannel, room, coordinator):
+                ChatSettingsAssembly.build(room, coordinator)
+            case let .channelSettings(room, isLeaveChannel, chatData, coordinator):
+                ChannelInfoAssembly.build(room: room,
                                           coordinator: coordinator,
                                           isLeaveChannel: isLeaveChannel,
-                                          chatData: chatData,
-                                          saveData: saveData)
+                                          chatData: chatData)
             case let .chatMedia(room):
                 ChannelMediaAssembly.build(room: room)
             case let .friendProfile(contact):
