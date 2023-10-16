@@ -6,7 +6,12 @@ struct PopupBar<T: View>: ViewModifier {
 	let direction: Direction
 	let isPresented: Bool
 
-	init(isPresented: Bool, alignment: Alignment, direction: Direction, @ViewBuilder content: () -> T) {
+	init(
+        isPresented: Bool,
+        alignment: Alignment,
+        direction: Direction,
+        @ViewBuilder content: () -> T
+    ) {
 		self.isPresented = isPresented
 		self.alignment = alignment
 		self.direction = direction
@@ -55,7 +60,14 @@ extension View {
 		direction: PopupBar<T>.Direction = .bottom,
 		@ViewBuilder content: () -> T
 	) -> some View {
-		return modifier(PopupBar(isPresented: isPresented, alignment: alignment, direction: direction, content: content))
+		return modifier(
+            PopupBar(
+                isPresented: isPresented,
+                alignment: alignment,
+                direction: direction,
+                content: content
+            )
+        )
 	}
 }
 

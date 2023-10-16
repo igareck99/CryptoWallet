@@ -86,7 +86,7 @@ final class MatrixService: MatrixServiceProtocol {
 	var listenReference: Any? // MXSessionEventListener
 	var listenReferenceRoom: Any?
 	let keychainService: KeychainServiceProtocol
-	let userSettings: UserDefaultsServiceProtocol
+	let userSettings: UserDefaultsServiceProtocol & UserCredentialsStorage
 	private(set) var session: MXSession?
 	private(set) var fileStore: MXFileStore
 	private(set) var uploader: MXMediaLoader?
@@ -102,7 +102,7 @@ final class MatrixService: MatrixServiceProtocol {
 		uploader: MXMediaLoader? = nil,
         config: ConfigType = Configuration.shared,
 		keychainService: KeychainServiceProtocol = KeychainService.shared,
-		userSettings: UserDefaultsServiceProtocol = UserDefaultsService.shared,
+		userSettings: UserDefaultsServiceProtocol & UserCredentialsStorage = UserDefaultsService.shared,
 		matrixObjectsFactory: MatrixObjectFactoryProtocol = MatrixObjectFactory()
 	) {
 		self.client = client
@@ -123,7 +123,7 @@ final class MatrixService: MatrixServiceProtocol {
 	private func getCedentials() -> MXCredentials? {
 		guard
 			let homeServer: String = keychainService[.homeServer],
-			let userId: String = keychainService[.userId],
+            let userId: String = userSettings.userId,
 			let accessToken: String = keychainService[.accessToken],
 			let deviceId: String = keychainService[.deviceId]
 		else {

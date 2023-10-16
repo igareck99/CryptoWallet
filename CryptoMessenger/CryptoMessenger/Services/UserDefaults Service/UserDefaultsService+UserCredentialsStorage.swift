@@ -12,11 +12,17 @@ protocol UserCredentialsStorage: UserDefaultsServiceProtocol {
 	var geopositionState: String? { get set }
 	var reserveCopyTime: String? { get set }
     var isRoomNotificationsEnable: Bool { get set }
+    var userId: String? { get set }
 }
 
 // MARK: - UserCredentialsStorage
 
 extension UserDefaultsService: UserCredentialsStorage {
+    
+    var userId: String? {
+        get { string(forKey: .userId) }
+        set { set(newValue, forKey: .userId) }
+    }
 
 	var typography: String? {
 		get { string(forKey: .typography) }

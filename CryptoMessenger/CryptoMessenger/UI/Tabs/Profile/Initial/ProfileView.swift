@@ -29,9 +29,18 @@ struct ProfileView: View {
     @State private var tabBarVisibility: Visibility = .visible
 
     // MARK: - Body
-    
+
     var body: some View {
         content
+            .popup(
+                isPresented: viewModel.isSnackbarPresented,
+                alignment: .bottom
+            ) {
+                Snackbar(
+                    text: viewModel.messageText,
+                    color: .spanishCrimson
+                )
+            }
             .onAppear {
                 viewModel.send(.onProfileAppear)
             }

@@ -46,6 +46,7 @@ class ImageEditorCoordinator: NSObject, CropViewControllerDelegate {
                                    cropInfo: CropInfo) {
         viewModel.changedImage = cropped
         isShowing = false
+        cropViewController.navigationController?.popViewController(animated: true)
     }
 
     func cropViewControllerDidFailToCrop(_ cropViewController: CropViewController,
@@ -55,7 +56,7 @@ class ImageEditorCoordinator: NSObject, CropViewControllerDelegate {
     func cropViewControllerDidCancel(_ cropViewController: CropViewController,
                                      original: UIImage) {
         isShowing = false
-        cropViewController.dismiss(animated: true)
+        cropViewController.navigationController?.popViewController(animated: true)
     }
 
     func cropViewControllerDidBeginResize(_ cropViewController: CropViewController) {

@@ -21,7 +21,7 @@ protocol MatrixUseCaseProtocol {
         deviceId: String,
         userId: String,
         homeServer: URL,
-        completion: @escaping EmptyResultBlock
+        completion: @escaping EmptyFailureBlock<AuraMatrixCredentials>
     )
 
 	func closeSession()

@@ -4,7 +4,6 @@ final class KeychainService {
 
 	enum Keys: String {
 		case homeServer
-		case userId
 		case accessToken
 		case deviceId
 		case pushToken
@@ -16,11 +15,9 @@ final class KeychainService {
         case secretPhrase
         case password
 		case apiRefreshToken
-		case apiUserId
 		case apiUserPhoneNumber
 		case apiUserPinCode
 		case isPinCodeEnabled
-		case apiUserMatrixId
 		case apiIsUserAuthenticated
 
 		// Wallets
@@ -43,6 +40,14 @@ final class KeychainService {
 // MARK: - KeychainServiceProtocol
 
 extension KeychainService: KeychainServiceProtocol {
+
+    func getAccServiceName() -> String {
+        keychainWrapper.serviceName
+    }
+
+    func getAccServiceNameId() -> String {
+        keychainWrapper.serviceNameId
+    }
 
 	// MARK: - Getters
 
