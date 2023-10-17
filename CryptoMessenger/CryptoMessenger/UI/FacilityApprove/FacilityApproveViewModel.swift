@@ -14,6 +14,8 @@ final class FacilityApproveViewModel: ObservableObject {
 	// MARK: - Internal Properties
 
 	var transaction: FacilityApproveModel
+    var isSnackbarPresented = false
+    var messageText: String = ""
 	@Published var cellType: [ApproveFacilityCellTitle] = []
 
 	// MARK: - Private Properties
@@ -96,6 +98,20 @@ final class FacilityApproveViewModel: ObservableObject {
 			}
 			.store(in: &subscriptions)
 	}
+    
+    func showSnackBar(text: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.messageText = text
+            self?.isSnackbarPresented = true
+            self?.objectWillChange.send()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.messageText = ""
+            self?.isSnackbarPresented = false
+            self?.objectWillChange.send()
+        }
+    }
 
 	private func bindOutput() {
 		stateValueSubject
@@ -144,11 +160,15 @@ extension FacilityApproveViewModel {
                         failDescription: "Транзакция не удалась"
                     )
                 }
+                self?.showSnackBar(text: "Транзакция не удалась")
                 return
             }
 			debugPrint("Transaction Send: RESPONSE: \(response)")
 			DispatchQueue.main.async { [weak self] in
-				guard let self = self else { return }
+				guard let self = self else {
+                    self?.showSnackBar(text: "Транзакция не удалась")
+                    return
+                }
                 self.transactionresult(
                     title: R.string.localizable.facilityApproveTransactionDone(),
                     imageName: R.image.transaction.successOperation.name

@@ -46,6 +46,7 @@ final class TransferViewModel: ObservableObject {
 	var walletTypes = [WalletType]()
 
 	var isSnackbarPresented = false
+    var messageText: String = ""
 
 	var isTransferButtonEnabled: Bool {
 		transferAmount.isEmpty == false &&
@@ -217,7 +218,7 @@ final class TransferViewModel: ObservableObject {
     }
 
 	private func displayErrorSnackBar() {
-		DispatchQueue.main.async { [weak self] in
+        DispatchQueue.main.async{ [weak self] in
 			self?.isSnackbarPresented = true
 			self?.objectWillChange.send()
 		}
@@ -227,10 +228,27 @@ final class TransferViewModel: ObservableObject {
 			self?.objectWillChange.send()
 		}
 	}
+    
+    func showSnackBar(text: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.messageText = text
+            self?.isSnackbarPresented = true
+            self?.objectWillChange.send()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.messageText = ""
+            self?.isSnackbarPresented = false
+            self?.objectWillChange.send()
+        }
+    }
 
 	private func transactionTemplate() {
 
-		guard isTransferAmountValid() else { return }
+		guard isTransferAmountValid() else {
+            self.showSnackBar(text: "Ошибка перевода")
+            return
+        }
 
 		let walletPublicKey: String
 		let walletPrivateKey: String
@@ -274,7 +292,8 @@ final class TransferViewModel: ObservableObject {
 				speed.mode == self?.currentSpeed
 			})?.feeValue
 		else {
-			return
+            self.showSnackBar(text: "Ошибка начисления комиссии")
+            return
 		}
 
         let amount = transferAmount.replacingOccurrences(of: ",", with: ".")
@@ -336,7 +355,11 @@ final class TransferViewModel: ObservableObject {
 			debugPrint("getFees: \(result)")
 
 			guard let self = self,
-                  case let .success(response) = result else { return }
+                  case let .success(response) = result
+            else {
+                self?.showSnackBar(text: "Ошибка начисления комиссии")
+                return
+            }
 			
             self.fees = self.feeItemsFactory.make(
                 feesModel: response,
