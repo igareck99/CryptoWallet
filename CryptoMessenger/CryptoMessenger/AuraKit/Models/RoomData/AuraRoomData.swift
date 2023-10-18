@@ -20,4 +20,5 @@ struct AuraRoomData: Identifiable {
     var roomId: String
     var events: [RoomEvent]
     var eventCollections: EventCollection
+    var participants: [ChannelParticipantsData]
 }

@@ -41,6 +41,7 @@ extension TextActionViewModel {
                     debugPrint("confirmationDialog Change Role Button")
                     shouldShow.wrappedValue = false
                     onDeleteChannel()
+                    print("slkawklaklksalakls")
                 },
                 TextActionViewModel(
                     text: Text("Удалить для всех подписчиков")
@@ -51,6 +52,7 @@ extension TextActionViewModel {
                     debugPrint("confirmationDialog Change Role Button")
                     shouldShow.wrappedValue = false
                     onDeleteAllUsers()
+                    print("vmmczxm,mx,,mxzm,zx")
                 }
             ]
         }

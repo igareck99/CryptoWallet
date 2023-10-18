@@ -1,11 +1,11 @@
 import Combine
 import SwiftUI
+import MatrixSDK
 
 // MARK: - ChatViewModel
 
 final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
 
-    @Published var saveData = false
     @Published var isAvatarLoading = false
     @Published var roomAvatarUrl: URL?
     @Published var chatData = ChatData()
@@ -24,6 +24,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     var sources: ChatRoomSourcesable.Type = ChatRoomResources.self
     var coordinator: ChatHistoryFlowCoordinatorProtocol
     let mediaService = MediaService()
+    let matrixobjectFactory: MatrixObjectFactoryProtocol = MatrixObjectFactory()
     @Injectable var matrixUseCase: MatrixUseCaseProtocol
     @Published var eventSubject = PassthroughSubject<ChatRoomFlow.Event, Never>()
     @Published var sendingEvents: [RoomEvent] = []
@@ -41,6 +42,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     let groupCallsUseCase: GroupCallsUseCaseProtocol
     private let config: ConfigType
     private let availabilityFacade: ChatRoomTogglesFacadeProtocol
+    @Injectable private var apiClient: APIClientManager
 
     // MARK: - To replace
     @Published var location = Place(name: "", latitude: 0, longitude: 0)
@@ -144,6 +146,17 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         debugPrint("self?.isChannel: pLevels.eventsDefault == 50 \(self.isChannel)")
                         self.matrixUseCase.objectChangePublisher.send()
                     }
+                    guard let mxRoom = self.matrixUseCase.getRoomInfo(roomId: self.room.roomId) else { return }
+                    guard let auraRoom = self.matrixobjectFactory
+                        .makeAuraRooms(mxRooms: [mxRoom],
+                                       isMakeEvents: false,
+                                       config: self.config,
+                                       eventsFactory: RoomEventObjectFactory(),
+                                       matrixUseCase: self.matrixUseCase).first else { return }
+                    let events = self.room.events
+                    self.room = auraRoom
+                    self.roomAvatarUrl = auraRoom.roomAvatar
+                    self.room.events = events
                 default:
                     break
                 }
@@ -267,6 +280,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.participants = users
+                self.room.participants = users
                 self.room.numberUsers = participants.count
             }
 
@@ -353,26 +367,23 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 let users: [ChannelParticipantsData] = self.channelFactory.makeUsersData(
-                    users: roomMembers.members,
+                    users: roomMembers.members(with: .invite) + roomMembers.members(with: .join),
                     roomPowerLevels: self.roomPowerLevels
                 )
                 self.participants = users
+                self.room.participants = users
             }
         }
     }
 
     func onNavBarTap(
         chatData: Binding<ChatData>,
-        saveData: Binding<Bool>,
         isLeaveChannel: Binding<Bool>
     ) {
-        guard let mxRoom = matrixUseCase.getRoomInfo(roomId: room.roomId) else { return }
-        let auraRoom = AuraRoom(mxRoom)
         coordinator.roomSettings(
             isChannel: isChannel,
             chatData: chatData,
-            saveData: saveData,
-            room: auraRoom,
+            room: self.room,
             isLeaveChannel: isLeaveChannel,
             coordinator: coordinator
         )
@@ -576,7 +587,14 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                                                              long: location.long)))
             self.sendMap(location, event)
         case .contact:
-            guard let contact = contact else { return }
+            guard var contact = contact else { return }
+            // TODO: - поиск id/номера телефона
+            apiClient.publisher(Endpoints.Users.users([contact.phone]))
+                .replaceError(with: [:])
+                .sink { response in
+                    debugPrint("Response in  \(response)")
+                }
+                .store(in: &subscriptions)
             let event = self.makeOutputEventView(.contact(name: contact.name,
                                                           phone: contact.phone,
                                                           url: contact.avatar))

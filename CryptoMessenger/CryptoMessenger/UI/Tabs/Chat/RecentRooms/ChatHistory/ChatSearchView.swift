@@ -14,12 +14,12 @@ struct ChatSearchView: View {
     var body: some View {
         VStack {
             switch viewState {
-            case .loading, .noData, .emptySearch:
+            case .loading, .noData, .emptySearch, .noChats:
                 ChatHistoryEmptyState(viewState: $viewState)
             case .chatsData, .chatsFinded:
                 List {
                     ForEach(views, id: \.id) { section in
-                        section.view()
+                            section.view()
                     }
                 }
             }

@@ -29,7 +29,8 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
         ChatSearchView(views: $viewModel.chatSections,
                        viewState: $viewModel.viewState,
                        isSearchingState: $viewModel.isSearching)
-            .searchable(text: $viewModel.searchText)
+        .searchable(text: $viewModel.searchText,
+                    prompt: "Поиск по чатам и каналам")
             .confirmationDialog("", isPresented: $showReadAll) {
                 Button(viewModel.resources.readAll, action: {
                     viewModel.markAllAsRead()
@@ -44,19 +45,6 @@ struct ChatHistoryView<ViewModel>: View where ViewModel: ChatHistoryViewDelegate
 
     @ToolbarContentBuilder
     private func toolbarItems() -> some ToolbarContent {
-        ToolbarItem(placement: .navigationBarLeading) {
-            HStack(spacing: 8) {
-                viewModel.resources.chatLogo
-                    .renderingMode(.original)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(Color(.init(r: 14, g: 142, b: 243)))
-                Text("0.50 \(viewModel.resources.AUR)")
-                    .font(.subheadlineRegular15)
-                    .foreground(.chineseBlack)
-            }
-        }
         ToolbarItem(placement: .principal) {
             HStack(spacing: 4) {
                 Text(viewModel.resources.chats)

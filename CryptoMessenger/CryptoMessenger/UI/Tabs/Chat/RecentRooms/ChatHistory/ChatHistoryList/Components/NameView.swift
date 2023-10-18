@@ -36,12 +36,10 @@ struct NameView: View {
             Calendar.current.isDateInYesterday(data.lastMessageTime)
             || data.lastMessageTime.is24HoursHavePassed
             ? data.lastMessageTime.dayAndMonthAndYear
-            : data.lastMessageTime.hoursAndMinutes,
-            [
-                .font(.subheadline2Regular14),
-                .color(Color(.custom(.init( 133, 135, 141))))
-            ]
+            : data.lastMessageTime.hoursAndMinutes
         )
+        .font(.regular(14))
+        .foreground(Color.romanSilver)
     }
     
     private func displayNameView() -> some View {

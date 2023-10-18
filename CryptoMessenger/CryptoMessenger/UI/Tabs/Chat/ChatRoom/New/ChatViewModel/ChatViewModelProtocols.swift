@@ -39,8 +39,6 @@ protocol ChatViewModelProtocol: ObservableObject {
     
     var chatData: ChatData { get set }
     
-    var saveData: Bool { get set }
-    
     var replyDescriptionText: String { get set }
     
     var resources: ChatRoomSourcesable.Type { get }
@@ -80,7 +78,6 @@ protocol ChatViewModelProtocol: ObservableObject {
             
     func onNavBarTap(
         chatData: Binding<ChatData>,
-        saveData: Binding<Bool>,
         isLeaveChannel: Binding<Bool>
     )
 }

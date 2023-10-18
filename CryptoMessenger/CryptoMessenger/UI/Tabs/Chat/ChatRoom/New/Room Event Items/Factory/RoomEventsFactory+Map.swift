@@ -30,9 +30,14 @@ extension RoomEventsFactory {
         let reactions = prepareReaction(event, onReactionTap: { reaction in
             onReactionTap(reaction)
         })
-        let viewModel = ReactionsNewViewModel(width: calculateEventWidth(StaticRoomEventsSizes.map.size,  reactions.count),
-                                              views: reactions,
-                                              backgroundColor: reactionColor)
+        var viewModel: any ViewGeneratable
+        if !reactions.isEmpty {
+            viewModel = ReactionsNewViewModel(width: calculateEventWidth(StaticRoomEventsSizes.image.size, reactions.count),
+                                                  views: reactions,
+                                                  backgroundColor: reactionColor)
+        } else {
+            viewModel = ZeroViewModel()
+        }
 
         let place = Place(name: "Name", latitude: lat, longitude: lon)
         let mapEventItem = MapEvent(

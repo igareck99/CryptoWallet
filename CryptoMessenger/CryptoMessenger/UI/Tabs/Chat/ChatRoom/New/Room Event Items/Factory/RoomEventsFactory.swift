@@ -207,16 +207,16 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         let viewModel = ReactionsNewViewModel(width: calculateWidth("", reactions.count),
                                               views: reactions,
                                               backgroundColor: reactionColor)
-        let checkReadImage = event.sentState == .sent ? R.image.chat.sendedCheck.image : R.image.chat.sendingCheck.image
         let textEvent = TextEvent(
             userId: event.sender, isFromCurrentUser: event.isFromCurrentUser, avatarUrl: event.senderAvatar,
             text: text, isReply: event.isReply,
             replyDescription: eventReply,
             width: calculateWidth(text, reactions.count),
+            isEmptyReactions: reactions.isEmpty,
             eventData: EventData(
                 date: event.shortDate,
                 isFromCurrentUser: event.isFromCurrentUser,
-                readData: ReadData(readImageName: checkReadImage)
+                readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState, messageType: event.eventType)
             ),
             reactionsGrid: viewModel
         )
@@ -274,8 +274,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                          messageType: MessageType) -> any ViewGeneratable {
         var checkReadImage: Image
         switch messageType {
-        case .video(_), .image(_):
-            // TODO: - Тут добавить одну белую галочку
+        case .video(_), .image(_), .location((_, _)):
             checkReadImage = eventSendType == .sent ? R.image.chat.whiteChecked.image : R.image.chat.whiteSending.image
         default:
             checkReadImage = eventSendType == .sent ? R.image.chat.sendedCheck.image : R.image.chat.sendingCheck.image
@@ -306,14 +305,14 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
 
 func calculateWidth(_ text: String, _ reactions: Int = 0) -> CGFloat {
 
-    let dateWidth = CGFloat(32)
+    let dateWidth = CGFloat(64)
     let reactionsWidth = CGFloat(38 * reactions)
     var textWidth = CGFloat(0)
-    if reactionsWidth > text.width(font: .systemFont(ofSize: 17)).truncatingRemainder(dividingBy: 228) {
+    if reactionsWidth > text.width(font: .systemFont(ofSize: 17)).truncatingRemainder(dividingBy: 289) {
         textWidth = reactionsWidth + 8 + dateWidth
     } else {
-        textWidth = text.width(font: .systemFont(ofSize: 17)) + 8 + dateWidth
+        textWidth = text.width(font: .systemFont(ofSize: 17)) + 12 + dateWidth
     }
-    let maxWidth = UIScreen.main.bounds.width - UIScreen.main.bounds.width * 0.3
+    let maxWidth = CGFloat(289)
     return textWidth < maxWidth ? textWidth : maxWidth
 }

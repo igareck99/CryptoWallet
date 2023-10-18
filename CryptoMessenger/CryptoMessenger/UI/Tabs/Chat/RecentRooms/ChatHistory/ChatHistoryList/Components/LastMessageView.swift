@@ -39,9 +39,12 @@ struct LastMessageDataView: View {
     func content() -> some View {
         switch data.messageType {
         case let .text(text):
-            Text(text, [.font(.subheadlineRegular15),
-                        .paragraph(.init(lineHeightMultiple: 1.17, alignment: .left)),
-                        .color(Color(.custom(.init( 133, 135, 141)))) ] ).lineLimit(2)
+            Text(text)
+                .font(.regular(15))
+                .lineLimit(2)
+                .foreground(.romanSilver)
+                .multilineTextAlignment(.leading)
+                .padding(.bottom, 10)
         case let .image(url):
             AnyView(
                 HStack(spacing: 6) {
@@ -192,7 +195,7 @@ struct LastMessageDataView: View {
             ZStack(alignment: .center) {
                 Circle()
                     .frame(height: 20, alignment: .center)
-                    .foregroundColor(Color(.init(222, 38, 100)))
+                    .foregroundColor(Color.spanishCrimson)
                     .cornerRadius(10)
                 Text(data.unreadedEvents.description)
                     .font(.subheadline2Regular14)

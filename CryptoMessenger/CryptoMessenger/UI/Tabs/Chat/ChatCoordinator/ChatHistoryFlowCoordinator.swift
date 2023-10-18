@@ -9,11 +9,10 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
     func showCreateChat()
     func roomSettings(isChannel: Bool,
                       chatData: Binding<ChatData>,
-                      saveData: Binding<Bool>,
-                      room: AuraRoom,
+                      room: AuraRoomData,
                       isLeaveChannel: Binding<Bool>,
                       coordinator: ChatHistoryFlowCoordinatorProtocol)
-    func chatMedia(_ room: AuraRoom)
+    func chatMedia(_ room: AuraRoomData)
     func friendProfile(_ contact: Contact)
     func adminsView( _ chatData: Binding<ChatData>,
                      _ coordinator: ChatHistoryFlowCoordinatorProtocol)
@@ -124,25 +123,22 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
         router.routeToFirstAction(room, coordinator: self)
     }
 
-    func chatMedia(_ room: AuraRoom) {
+    func chatMedia(_ room: AuraRoomData) {
         router.chatMedia(room)
     }
 
     func roomSettings(isChannel: Bool,
                       chatData: Binding<ChatData>,
-                      saveData: Binding<Bool>,
-                      room: AuraRoom,
+                      room: AuraRoomData,
                       isLeaveChannel: Binding<Bool>,
                       coordinator: ChatHistoryFlowCoordinatorProtocol) {
-        if isChannel {
+        if isChannel || !room.isDirect {
             router.channelSettings(chatData: chatData,
-                                   saveData: saveData,
                                    room: room,
                                    isLeaveChannel: isLeaveChannel,
                                    coordinator: coordinator)
         } else {
             router.chatSettings(chatData: chatData,
-                                saveData: saveData,
                                 room: room,
                                 isLeaveChannel: isLeaveChannel,
                                 coordinator: coordinator)

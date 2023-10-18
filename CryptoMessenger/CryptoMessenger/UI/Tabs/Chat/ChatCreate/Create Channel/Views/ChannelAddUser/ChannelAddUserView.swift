@@ -15,10 +15,13 @@ struct ChannelAddUserView: View {
     var body: some View {
         VStack(alignment: .leading,
                spacing: 0) {
-            Text(R.string.localizable.createChannelAdding())
-                .font(.bodyRegular17)
-                .padding(.leading, 16)
-                .foregroundColor(.romanSilver)
+            HStack {
+                Text(R.string.localizable.createChannelAdding())
+                    .font(.system(size: 17, weight: .regular))
+                    .padding(.leading, 16)
+                    .foregroundColor(.romanSilver)
+            }
+            .frame(height: 44)
             Divider()
             content
                 .padding(.top, 11)
@@ -39,13 +42,11 @@ struct ChannelAddUserView: View {
         List {
             ForEach(viewModel.usersViews, id: \.id) { value in
                 value.view()
+                    .frame(height: 64)
             }
+            .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
-    }
-
-    private func sectionView(_ title: String) -> some View {
-        EmptyView()
     }
 
     // MARK: - Private Methods

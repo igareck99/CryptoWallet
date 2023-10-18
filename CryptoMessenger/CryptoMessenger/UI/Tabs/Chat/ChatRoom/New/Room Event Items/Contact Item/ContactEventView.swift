@@ -13,10 +13,9 @@ struct ContactEventView<
     let avatar: Avatar
 
     var body: some View {
-        VStack(spacing: .zero) {
-            HStack(spacing: 8) {
+        VStack {
+            HStack(alignment: .center, spacing: 8) {
                 avatar
-
                 VStack(alignment: .leading, spacing: 4) {
                     Text(model.title)
                         .font(.bodyRegular17)
@@ -25,32 +24,33 @@ struct ContactEventView<
                         .font(.footnoteRegular13)
                         .foregroundColor(.dodgerBlue)
                 }
+                .frame(height: 39)
                 Spacer()
             }
-
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.dodgerBlue, lineWidth: 2.0)
-                .frame(height: 44.0)
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal, 4)
-                .padding(.vertical, 8)
-                .overlay {
-                    Text("Профиль AURA")
-                        .font(.bodyRegular17)
-                        .foregroundColor(.dodgerBlue)
-                        .frame(maxWidth: .infinity)
-                }
-                .onTapGesture {
-                    model.onTap()
-                }
-
+            if !model.mxId.isEmpty {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.dodgerBlue, lineWidth: 2.0)
+                    .frame(height: 44.0)
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 4)
+                    .padding(.vertical, 8)
+                    .overlay {
+                        Text("Профиль AURA")
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundColor(.dodgerBlue)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .onTapGesture {
+                        model.onTap()
+                    }
+            }
             HStack {
                 reactions
                 Spacer()
             }
             eventData
         }
-        .frame(width: 238)
+        .frame(minWidth: 238, idealWidth: 238, maxWidth: 238, minHeight: 82, maxHeight: 202)
         .fixedSize(horizontal: true, vertical: false)
     }
 }

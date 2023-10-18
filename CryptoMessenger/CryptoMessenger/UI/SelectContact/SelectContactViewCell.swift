@@ -43,13 +43,14 @@ struct SelectContactViewCell: View {
                     .font(.bodyRegular17)
                     .foreground(.chineseBlack)
                 Spacer()
+                Divider()
+                    .padding(.leading, 93)
             }
+            .onTapGesture {
+                data.onTap(data)
+            }
+            .frame(height: 64)
+            .background(.white)
         }
-        .onTapGesture {
-            data.onTap(data)
-        }
-        .frame(height: 64)
-        .background(.white)
-        .padding(.horizontal, 16)
     }
 }

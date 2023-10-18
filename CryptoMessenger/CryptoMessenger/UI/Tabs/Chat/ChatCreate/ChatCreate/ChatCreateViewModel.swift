@@ -45,6 +45,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
         config: ConfigType = Configuration.shared,
         resources: ChatCreateResourcable.Type = ChatCreateResources.self
     ) {
+        print("slaslaslkaskl")
         self.config = config
         bindInput()
         bindOutput()
@@ -90,6 +91,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                         return value
                     }
                 case let .onCreateDirect(ids):
+                    print("sklaslaslkask")
                     self?.matrixUseCase.createDirectRoom(ids,
                                                          completion: { result in
                         switch result {
@@ -230,7 +232,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
 
     private func onTapUser(_ contact: Contact) {
         switch contact.type {
-            case .lastUsers:
+        case .lastUsers, .existing:
             matrixUseCase.createDirectRoom([contact.mxId]) { result in
                 switch result {
                 case .roomCreateError:
