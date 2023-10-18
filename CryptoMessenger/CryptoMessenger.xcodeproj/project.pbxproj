@@ -695,6 +695,14 @@
 		D4533A1C28335A6700B956B2 /* RemoteConfigServiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */; };
 		D4533A1E28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */; };
 		D455F732287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D455F731287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift */; };
+		D458B38A2ADE6A4200F8F573 /* TransactionStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D458B3892ADE6A4200F8F573 /* TransactionStatusView.swift */; };
+		D459E4392ADF9D7F00211D6E /* TransactionStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459E4382ADF9D7F00211D6E /* TransactionStatusViewModel.swift */; };
+		D459E43C2ADFA43700211D6E /* TransactionStatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459E43B2ADFA43700211D6E /* TransactionStatusItem.swift */; };
+		D459E43E2ADFA5C800211D6E /* TransactionStatusItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459E43D2ADFA5C800211D6E /* TransactionStatusItemView.swift */; };
+		D459E4402ADFA8DF00211D6E /* SheetDragItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459E43F2ADFA8DF00211D6E /* SheetDragItem.swift */; };
+		D459E4422ADFA8F100211D6E /* SheetDragItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459E4412ADFA8F100211D6E /* SheetDragItemView.swift */; };
+		D459E4442ADFACE100211D6E /* TransactionStatusViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459E4432ADFACE100211D6E /* TransactionStatusViewFactory.swift */; };
+		D459E4462ADFB72900211D6E /* TransactionStatusViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459E4452ADFB72900211D6E /* TransactionStatusViewAssembly.swift */; };
 		D46187D3282D093200CA2836 /* ChatHistorySources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46187D2282D093200CA2836 /* ChatHistorySources.swift */; };
 		D46625F72ACD3BE500F3CAEE /* PassThroughWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46625F62ACD3BE500F3CAEE /* PassThroughWindow.swift */; };
 		D46625F92ACD3D6000F3CAEE /* P2PCallUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46625F82ACD3D6000F3CAEE /* P2PCallUseCaseProtocol.swift */; };
@@ -1674,6 +1682,14 @@
 		D4533A1B28335A6700B956B2 /* RemoteConfigServiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceAssembly.swift; sourceTree = "<group>"; };
 		D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlowCoordinatorAssembly.swift; sourceTree = "<group>"; };
 		D455F731287D9656005BA303 /* RemoteConfigUseCase+Toggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteConfigUseCase+Toggles.swift"; sourceTree = "<group>"; };
+		D458B3892ADE6A4200F8F573 /* TransactionStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionStatusView.swift; sourceTree = "<group>"; };
+		D459E4382ADF9D7F00211D6E /* TransactionStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionStatusViewModel.swift; sourceTree = "<group>"; };
+		D459E43B2ADFA43700211D6E /* TransactionStatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionStatusItem.swift; sourceTree = "<group>"; };
+		D459E43D2ADFA5C800211D6E /* TransactionStatusItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionStatusItemView.swift; sourceTree = "<group>"; };
+		D459E43F2ADFA8DF00211D6E /* SheetDragItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetDragItem.swift; sourceTree = "<group>"; };
+		D459E4412ADFA8F100211D6E /* SheetDragItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetDragItemView.swift; sourceTree = "<group>"; };
+		D459E4432ADFACE100211D6E /* TransactionStatusViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionStatusViewFactory.swift; sourceTree = "<group>"; };
+		D459E4452ADFB72900211D6E /* TransactionStatusViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionStatusViewAssembly.swift; sourceTree = "<group>"; };
 		D46187D2282D093200CA2836 /* ChatHistorySources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistorySources.swift; sourceTree = "<group>"; };
 		D46625F62ACD3BE500F3CAEE /* PassThroughWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughWindow.swift; sourceTree = "<group>"; };
 		D46625F82ACD3D6000F3CAEE /* P2PCallUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = P2PCallUseCaseProtocol.swift; sourceTree = "<group>"; };
@@ -2033,6 +2049,7 @@
 		5A187DF72680708D001957D3 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D4A85376295DA2F800F2B944 /* Popup Bar */,
 				D401A9AB2AAEE68600D347F2 /* Aura Map */,
 				8BE24FA929490204009A3734 /* SelectContact */,
 				D400B69C2A8F528400D5CAD3 /* Location Picker */,
@@ -3179,7 +3196,6 @@
 			children = (
 				8B234ECC2A432F7F0064ACD3 /* WalletCoordinator */,
 				8BC517FE296CC89B0033B30F /* ChooseWalletType */,
-				D4A85376295DA2F800F2B944 /* Popup Bar */,
 				D4E0B30929429B9800AEDF85 /* Models */,
 				8BC06B0A27C7DFAF005A28A1 /* Transaction */,
 				8B432CC127C394E00025D62B /* WalletView.swift */,
@@ -3612,6 +3628,7 @@
 		8BC06B0A27C7DFAF005A28A1 /* Transaction */ = {
 			isa = PBXGroup;
 			children = (
+				D458B3882ADE6A2500F8F573 /* Transaction Status */,
 				D4BC1EC12955B5D400D99F1A /* Trasaction Result */,
 				D4A26E262937117E00FEADC2 /* TransactionInfoView.swift */,
 				9A681FD32A7956360093E253 /* TransactionResources.swift */,
@@ -4408,6 +4425,29 @@
 				8B451FDE299EBFA700BF4646 /* ChannelNewOwnerView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		D458B3882ADE6A2500F8F573 /* Transaction Status */ = {
+			isa = PBXGroup;
+			children = (
+				D459E43A2ADFA3F300211D6E /* Items */,
+				D458B3892ADE6A4200F8F573 /* TransactionStatusView.swift */,
+				D459E4382ADF9D7F00211D6E /* TransactionStatusViewModel.swift */,
+				D459E4432ADFACE100211D6E /* TransactionStatusViewFactory.swift */,
+				D459E4452ADFB72900211D6E /* TransactionStatusViewAssembly.swift */,
+			);
+			path = "Transaction Status";
+			sourceTree = "<group>";
+		};
+		D459E43A2ADFA3F300211D6E /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				D459E43B2ADFA43700211D6E /* TransactionStatusItem.swift */,
+				D459E43D2ADFA5C800211D6E /* TransactionStatusItemView.swift */,
+				D459E43F2ADFA8DF00211D6E /* SheetDragItem.swift */,
+				D459E4412ADFA8F100211D6E /* SheetDragItemView.swift */,
+			);
+			path = Items;
 			sourceTree = "<group>";
 		};
 		D46B7C63297E934500BA4A9B /* Custom Confirm Dialog */ = {
@@ -5238,6 +5278,7 @@
 				9AE8CAF42A6F205600968564 /* CreateContactResources.swift in Sources */,
 				8B55D23028A1AE43000506D7 /* LocationData.swift in Sources */,
 				8B38D13928C0F007002733D7 /* ProfileSettingsMenu.swift in Sources */,
+				D458B38A2ADE6A4200F8F573 /* TransactionStatusView.swift in Sources */,
 				D4137B2C2A9B2750001241B6 /* EventData.swift in Sources */,
 				8B451FE829A4389500BF4646 /* FriendProfileSourcable.swift in Sources */,
 				D4137AF72A947BF2001241B6 /* ChatView.swift in Sources */,
@@ -5477,6 +5518,7 @@
 				D4857D0A28AFAB6600C904EC /* ChatComponentsFactory.swift in Sources */,
 				5AA6410226822C3A008922B4 /* TextAttributes.swift in Sources */,
 				D4137B2F2A9B2A0A001241B6 /* PaddingView.swift in Sources */,
+				D459E43C2ADFA43700211D6E /* TransactionStatusItem.swift in Sources */,
 				D48AF446292601C10044CFAE /* CoreDataService.swift in Sources */,
 				D43A7E5C28CB259400A807EC /* Base32.swift in Sources */,
 				D4506988297A4ACA009515C8 /* ChannelInfoView.swift in Sources */,
@@ -5580,6 +5622,7 @@
 				8B38868E2A4DEDDD00C8A54C /* ChatGroupAssembly.swift in Sources */,
 				8B1564F528AA782A00A69B85 /* AnotherAppData.swift in Sources */,
 				8BC6F2DD2A78330100F7451B /* ChatActions.swift in Sources */,
+				D459E4402ADFA8DF00211D6E /* SheetDragItem.swift in Sources */,
 				D4F5DB3929F1202100772AC5 /* CoreDataService+Tokens.swift in Sources */,
 				D4442B4C2811996F0033D07A /* KeychainService.swift in Sources */,
 				D4857D0E28AFB38400C904EC /* ChatRoomRowViewModel.swift in Sources */,
@@ -5614,6 +5657,7 @@
 				8B6B70802A30D83900D99156 /* AboutAppView.swift in Sources */,
 				D451006D2893BF860018A935 /* MatrixObjectFactory.swift in Sources */,
 				8BDE0FB12A6C9E66008B5D1F /* GalleryPickerView.swift in Sources */,
+				D459E4422ADFA8F100211D6E /* SheetDragItemView.swift in Sources */,
 				5A42680926A83554000C51DD /* RegistrationConfigurator.swift in Sources */,
 				8B55D22E28A14FF9000506D7 /* LocationServiceProtocol.swift in Sources */,
 				8B964F6F28E2277A0012DA92 /* FriendProfileSettingsView.swift in Sources */,
@@ -5690,6 +5734,7 @@
 				8B1C92822A4B84F400937460 /* ChatCreateAssembly.swift in Sources */,
 				D413F10329BF3E69005B7532 /* AccessLevels.swift in Sources */,
 				D49FAD9F2A77743500B26C8B /* AddSeedState.swift in Sources */,
+				D459E4462ADFB72900211D6E /* TransactionStatusViewAssembly.swift in Sources */,
 				8B6B70782A2F592F00D99156 /* PinCodeDotes.swift in Sources */,
 				8B1564F328AA782A00A69B85 /* AnotherAppTransitionViewModel.swift in Sources */,
 				D46C9018294775A000DD0B01 /* SegmentedControlNamespaceKey.swift in Sources */,
@@ -5824,6 +5869,7 @@
 				8BE6673D280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift in Sources */,
 				8B34292B29786EC800F63DE1 /* SecurityCellItem.swift in Sources */,
 				D4137B572A9C8242001241B6 /* ImageEvent.swift in Sources */,
+				D459E4392ADF9D7F00211D6E /* TransactionStatusViewModel.swift in Sources */,
 				D401A9B52AAEEC4200D347F2 /* AuraMapViewAssembly.swift in Sources */,
 				8B23C76F28E0A1B300418F2D /* FriendProfileAssembly.swift in Sources */,
 				D46FC16029A3903900D65C99 /* Bundle+Extensions.swift in Sources */,
@@ -5955,6 +6001,7 @@
 				8B3A816A275AC25D00E736E4 /* ProfileDetailView.swift in Sources */,
 				D4E7A186298A2AD200398F93 /* UserIdValidator.swift in Sources */,
 				5AA6410A26822C3A008922B4 /* ButtonStyle.swift in Sources */,
+				D459E43E2ADFA5C800211D6E /* TransactionStatusItemView.swift in Sources */,
 				8BEA3D8C2A26A17A00CC4E2F /* PinCodeView.swift in Sources */,
 				8BAFF38128650A460082E24C /* MicrophoneMessageView.swift in Sources */,
 				D47113CB291CC2C100D1C39E /* ReactionsGrid.swift in Sources */,
@@ -6034,6 +6081,7 @@
 				D413F10529BF76A6005B7532 /* AccessService+AccessLevels.swift in Sources */,
 				D401A9C12AB0446900D347F2 /* SimpleImageViewer.swift in Sources */,
 				8B75B3ED2A6EDB03008FE6DD /* RadioButton.swift in Sources */,
+				D459E4442ADFACE100211D6E /* TransactionStatusViewFactory.swift in Sources */,
 				D44B4E96294AFB0A00D64F5E /* Encodable+Extensions.swift in Sources */,
 				8B5A338427D89CAE0064C7DC /* TransferView.swift in Sources */,
 				5AC8C4F227C4112C008B1744 /* MembersView.swift in Sources */,

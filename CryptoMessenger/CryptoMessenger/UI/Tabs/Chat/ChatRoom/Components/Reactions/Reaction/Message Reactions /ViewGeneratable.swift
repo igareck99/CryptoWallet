@@ -7,13 +7,15 @@ protocol ViewGeneratable: Equatable, Hashable, Identifiable {
     // MARK: - Types
 
 	var id: UUID { get }
-    
+
     // MARK: - Internal Methods
 
 	@ViewBuilder
 	func view() -> AnyView
 
     func getItemWidth() -> CGFloat
+
+    func getItemHeight() -> CGFloat
 }
 
 // MARK: - Default Impl
@@ -23,6 +25,10 @@ extension ViewGeneratable {
 	func getItemWidth() -> CGFloat {
 		.zero
 	}
+
+    func getItemHeight() -> CGFloat {
+        .zero
+    }
 
 	// MARK: - Hashable
 
