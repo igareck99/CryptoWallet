@@ -62,6 +62,15 @@ struct PhoneRegistrationView<ViewModel: RegistrationPresenterProtocol>: View {
             .padding(.top, 24)
             .clipped()
         }
+        .popup(
+            isPresented: viewModel.isSnackbarPresented,
+            alignment: .bottom
+        ) {
+            Snackbar(
+                text: viewModel.messageText,
+                color: .spanishCrimson
+            )
+        }
         .navigationBarHidden(false)
         .navigationBarTitleDisplayMode(.inline)
     }

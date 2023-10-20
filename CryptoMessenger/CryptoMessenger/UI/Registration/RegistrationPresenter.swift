@@ -17,6 +17,8 @@ protocol RegistrationPresenterProtocol: ObservableObject {
     associatedtype Colors: RegistrationColorable
     var colors: Colors { get }
     
+    var isSnackbarPresented: Bool { get set}
+    var messageText: String { get set }
     var errorTextOpacity: Binding<Double> { get }
     var buttonLoaderOpacity: Binding<Double> { get }
     var buttonTextOpacity: Binding<Double> { get }
@@ -78,6 +80,8 @@ final class RegistrationPresenter<Colors: RegistrationColorable> {
     let onCountryPhoneUpdate = PassthroughSubject<String, Never>()
     let sources: RegistrationResourcable.Type
     let colors: Colors
+    var isSnackbarPresented = false
+    var messageText: String = ""
     weak var delegate: RegistrationSceneDelegate?
     private var apiClient: APIClientManager
     private let userCredentials: UserCredentialsStorage
@@ -134,6 +138,7 @@ private extension RegistrationPresenter {
                 switch completion {
                     case .failure(let error):
                         guard let err = error as? APIError else {
+                            self?.showSnackBar(text: "Ошибка API")
                             // TODO: Обработать этот кейс
                             // self?.state = .error(message: APIError.serverError.localizedDescription)
                             return
@@ -157,6 +162,20 @@ private extension RegistrationPresenter {
         self.selectedCountry = .constant(selectedCountry.name)
         self.updateColors()
         self.updateSelectCountry()
+    }
+    
+    func showSnackBar(text: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.messageText = text
+            self?.isSnackbarPresented = true
+            self?.objectWillChange.send()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.messageText = ""
+            self?.isSnackbarPresented = false
+            self?.objectWillChange.send()
+        }
     }
 }
 
