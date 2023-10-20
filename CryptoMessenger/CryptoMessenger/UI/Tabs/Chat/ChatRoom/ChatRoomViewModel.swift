@@ -561,14 +561,6 @@ final class ChatRoomViewModel: ObservableObject {
                 case let .onSettings(chatData: chatData, saveData: saveData,
                                      room: room, isLeaveChannel: isLeaveChannel):
                     guard let isChannel = self?.isChannel else { return }
-//                    if let coordinator = self?.coordinator {
-//                        self?.coordinator?.roomSettings(isChannel: isChannel,
-//                                                        chatData: chatData,
-//                                                        saveData: saveData,
-//                                                        room: nil,
-//                                                        isLeaveChannel: isLeaveChannel,
-//                                                        coordinator: coordinator)
-//                    }
                 }
             }
             .store(in: &subscriptions)
@@ -956,6 +948,7 @@ final class ChatRoomViewModel: ObservableObject {
                     avatar: nil,
                     name: $0.displayname ?? "",
                     status: "Привет, теперь я в Aura",
+                    phone: "",
                     type: .lastUsers, onTap: { _ in
                     }
                 )

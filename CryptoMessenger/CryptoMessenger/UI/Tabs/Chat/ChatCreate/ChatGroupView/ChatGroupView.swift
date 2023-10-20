@@ -18,11 +18,16 @@ struct ChatGroupView: View {
     @State private var showImagePicker = false
     @State private var showCameraPicker = false
     @State private var showLocationPicker = false
+    @State private var isPrivateSelected = false
+    @State private var isPublicSelected = true
+    @State private var bottomPadding: CGFloat = 0
 
     // MARK: - Body
 
     var body: some View {
         content
+            .ignoresSafeArea(.keyboard, edges: .bottom)
+            .hideKeyboardOnTap()
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -33,19 +38,17 @@ struct ChatGroupView: View {
                         R.image.navigation.backButton.image
                     })
                 }
-                
                 ToolbarItem(placement: .principal) {
-                    Text(viewModel.resources.chatMenuViewGroupName)
+                    Text(viewModel.navBarTitle)
                         .font(.bodySemibold17)
                         .foregroundColor(viewModel.resources.titleColor)
                 }
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        viewModel.createChat()
+                        viewModel.onCreate()
                     }, label: {
                         Text(viewModel.resources.profileDetailRightButton)
-                            .font(.bodySemibold17)
+                            .font(.bodyRegular17)
                             .foregroundColor(viewModel.titleText.isEmpty ? viewModel.resources.textColor : viewModel.resources.buttonBackground)
                     })
                     .disabled(viewModel.titleText.isEmpty)
@@ -75,109 +78,69 @@ struct ChatGroupView: View {
             })
             .fullScreenCover(isPresented: $showImagePicker,
                              content: {
-                ImagePickerView(selectedImage: $viewModel.chatData.image)
+                ImagePickerView(selectedImage: $viewModel.selectedImg)
                     .navigationBarTitle(Text(viewModel.resources.photoEditorTitle))
                     .navigationBarTitleDisplayMode(.inline)
                     .ignoresSafeArea()
             })
-            .onAppear {
-                UITextView.appearance()
-            }.background(viewModel.resources.textBoxBackground)
     }
 
     private var content: some View {
-        ZStack {
-            viewModel.resources.background.ignoresSafeArea()
-
-            VStack(spacing: 0) {
-                HStack(spacing: 12) {
-                    Button {
-                        showActionImageAlert.toggle()
-                    } label: {
-                        if let image = viewModel.chatData.image {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 60, height: 60, alignment: .center)
-                                .cornerRadius(30)
-                        } else {
-                            RoundedRectangle(cornerRadius: 30)
-                                .background(viewModel.resources.buttonBackground)
-                                .cornerRadius(30)
-                                .frame(width: 60, height: 60, alignment: .center)
-                                .overlay(
-                                    R.image.chat.group.photo.image
-                                )
-                        }
+        ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false) {
+            HStack(spacing: 16) {
+                Button {
+                    showActionImageAlert.toggle()
+                } label: {
+                    if let image = viewModel.selectedImg {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 68, height: 68, alignment: .center)
+                            .cornerRadius(34)
+                    } else {
+                        RoundedRectangle(cornerRadius: 30)
+                            .background(viewModel.resources.buttonBackground)
+                            .cornerRadius(34)
+                            .frame(width: 68, height: 68, alignment: .center)
+                            .overlay(
+                                R.image.chat.group.photo.image
+                            )
                     }
-
-                    ZStack(alignment: .topLeading) {
-                        TextField("", text: $viewModel.titleText)
-                            .font(.bodyRegular17)
-                            .frame(height: 44)
-                            .background(viewModel.resources.textBoxBackground)
-                            .padding(.horizontal, 16)
-
-                        if viewModel.titleText.isEmpty {
-                            Text(viewModel.resources.createChannelTitle)
-                                .font(.bodyRegular17)
-                                .foregroundColor(viewModel.resources.titleColor)
-                                .padding(.top, 12)
-                                .padding(.horizontal, 16)
-                                .disabled(true)
-                                .allowsHitTesting(false)
-                        }
-                    }
-                    .frame(height: 44)
-                    .background(viewModel.resources.textBoxBackground)
-                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 }
+                TextField("Название", text: $viewModel.titleText)
+                    .textFieldStyle(OvalTextFieldStyle())
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+            TextEditorWithPlaceholder(text: $viewModel.descriptionText)
+                .frame(maxWidth: .infinity, idealHeight: 134, alignment: .leading)
                 .padding(.horizontal, 16)
                 .padding(.top, 24)
-
-                HStack(spacing: 0) {
-                    Text(viewModel.resources.contactChatDetailInfo.uppercased())
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(viewModel.resources.textColor)
-                        .padding(.top, 24)
-                        .padding(.horizontal, 16)
-                        .padding(.bottom, 12)
-                    Spacer()
-                }
-
-                ZStack(alignment: .topLeading) {
-                    TextEditor(text: $viewModel.descriptionText)
-                        .font(.bodyRegular17)
-                        .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 132, alignment: .leading)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 2)
-						.scrollContentBackground(.hidden)
-
-                    if viewModel.descriptionText.isEmpty {
-                        Text(viewModel.resources.createChannelDescription)
-                            .font(.bodyRegular17)
-                            .foregroundColor(viewModel.resources.textColor)
-                            .padding(.top, 12)
-                            .padding(.horizontal, 19)
-                            .disabled(true)
-                            .allowsHitTesting(false)
-                    }
-                }
-                .background(viewModel.resources.textBoxBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                .padding(.horizontal, 16)
-
-                HStack(spacing: 0) {
-                    Text(viewModel.resources.createChannelDescription)
-                        .lineLimit(nil)
-                        .font(.caption1Regular12)
-                        .foregroundColor(viewModel.resources.textColor)
-                        .padding(.top, 8)
-                        .padding(.horizontal, 16)
-                    Spacer()
-                }
+            HStack(spacing: 0) {
+                Text(viewModel.textEditorDescription)
+                    .lineLimit(nil)
+                    .font(.caption1Regular12)
+                    .foregroundColor(viewModel.resources.textColor)
+                    .padding(.top, 4)
+                    .padding(.leading, 16)
                 Spacer()
             }
+            Divider()
+                .frame(height: 0.5)
+                .padding(.top, 24)
+            VStack(alignment: .leading) {
+                Text("тип канала".uppercased())
+                    .font(.caption1Regular12)
+                    .padding(.leading, 15)
+                    .foreground(.romanSilver)
+                if viewModel.type == .channel {
+                    channelSettingsView
+                } else {
+                    encrytionView
+                }
+            }
+            .padding(.top, 16.5)
+            Spacer()
         }
     }
 
@@ -189,5 +152,55 @@ struct ChatGroupView: View {
 
     private func switchCameraPicker() {
         showCameraPicker = true
+    }
+
+    private var channelSettingsView: some View {
+        VStack {
+            publicChannelView()
+                .padding(.top, 8)
+            Divider()
+                .padding(.top, 9)
+            privateChannelView()
+                .padding(.top, 8)
+            encrytionView
+                .padding(.top, 8)
+        }
+    }
+    
+    private var encrytionView: some View {
+        EncryptionStateView(
+            title: "Шифрование",
+            text: "Обратите внимание, что если вы включите шифрование, в дальнейшем его нельзя будет отключить",
+            isEncrypted: $viewModel.isEncryptionEnable
+        )
+        .padding(.horizontal, 16)
+    }
+    
+    private func publicChannelView() -> some View {
+        ChannelTypeView(
+            title: "Публичный канал",
+            text: "Публичные каналы можно найти через поиск, подписаться на них может любой пользователь.",
+            channelType: .publicChannel,
+            isSelected: $isPublicSelected
+        ) { channelType in
+            debugPrint("Channel type seledted: \(channelType)")
+            viewModel.channelType = channelType
+            isPrivateSelected = false
+        }
+        .padding(.horizontal, 16)
+    }
+
+    private func privateChannelView() -> some View {
+        ChannelTypeView(
+            title: "Частный канал",
+            text: "На частные каналы можно подписаться только по ссылке-приглашению.",
+            channelType: .privateChannel,
+            isSelected: $isPrivateSelected
+        ) { channelType in
+            debugPrint("Channel type seledted: \(channelType)")
+            viewModel.channelType = channelType
+            isPublicSelected = false
+        }
+        .padding(.horizontal, 16)
     }
 }

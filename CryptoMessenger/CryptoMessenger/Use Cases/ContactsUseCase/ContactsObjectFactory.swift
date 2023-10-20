@@ -43,6 +43,7 @@ extension ContactsObjectFactory: ContactsObjectFactoryProtocol {
                     avatar: nil,
                     name: $0.displayname ?? $0.userId ?? "",
                     status: $0.statusMsg ?? "Привет, теперь я в Aura",
+                    phone: "",
                     type: .lastUsers, onTap: { value in
                         onTap(value)
                     }

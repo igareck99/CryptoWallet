@@ -48,6 +48,7 @@ extension MatrixUseCase {
         parameters.visibility = MXRoomDirectoryVisibility.private.identifier
         parameters.preset = MXRoomPreset.privateChat.identifier
         createRoom(parameters: parameters, completion: { result in
+            print("llaslaslas  \(result)")
             completion(result)
         })
         self.objectChangePublisher.send()

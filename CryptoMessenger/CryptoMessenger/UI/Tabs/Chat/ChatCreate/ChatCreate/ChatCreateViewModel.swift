@@ -4,11 +4,16 @@ import SwiftUI
 
 protocol ChatCreateViewModelProtocol: ObservableObject {
     var actions: [any ViewGeneratable] { get set }
+
     func send(_ event: ChatCreateFlow.Event)
+
     var state: ChatCreateFlow.ViewState { get set }
     var resources: ChatCreateResourcable.Type { get }
+
     var searchText: String { get set }
+
     func onTapCreateCell(_ action: CreateAction)
+
     var lastUsersSections: [any ViewGeneratable] { get set }
     var isSearching: Bool { get set }
 }
@@ -45,7 +50,6 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
         config: ConfigType = Configuration.shared,
         resources: ChatCreateResourcable.Type = ChatCreateResources.self
     ) {
-        print("slaslaslkaskl")
         self.config = config
         bindInput()
         bindOutput()
@@ -91,7 +95,6 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                         return value
                     }
                 case let .onCreateDirect(ids):
-                    print("sklaslaslkask")
                     self?.matrixUseCase.createDirectRoom(ids,
                                                          completion: { result in
                         switch result {
@@ -131,19 +134,23 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                     var findedContacts: [Contact] = []
                     group.enter()
                     self.matrixUseCase.searchUser(text) { name in
-                        findedContacts = [
-                            .init(
-                                mxId: text,
-                                avatar: nil,
-                                name: name ?? "",
-                                status: "",
-                                type: .existing,
-                                onTap: { value in
-                                    self.onTapUser(value)
-                                }
-                            )
-                        ]
-                        group.leave()
+                        if let name = name {
+                            findedContacts = [
+                                .init(
+                                    mxId: text,
+                                    avatar: nil,
+                                    name: name ?? "",
+                                    status: "", phone: "",
+                                    type: .existing,
+                                    onTap: { value in
+                                        self.onTapUser(value)
+                                    }
+                                )
+                            ]
+                            group.leave()
+                        } else {
+                            group.leave()
+                        }
                     }
                     group.notify(queue: .main) {
                         var existing = self.existingContacts.filter({
@@ -155,6 +162,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                             || $0.phone.removeCharacters(from: "- ()").contains(text)
                             || $0.mxId.lowercased().contains(text.lowercased()) })
                         existing = findedContacts + existing
+                        
                         self.lastUsersSections = [ChatCreateSection(data: .contacts,
                                                                     views: existing),
                                                   ChatCreateSection(data: .invite,
@@ -187,15 +195,26 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
             switch state {
             case .allowed:
                 self.contactsUseCase.reuqestUserContacts { contact in
+                    self.waitingContacts = contact.map {
+                        return Contact(mxId: "",
+                                       avatar: nil,
+                                       name: $0.firstName + "  " + $0.lastName,
+                                       status: "",
+                                       phone: $0.phoneNumber,
+                                       isAdmin: false, type: .waitingContacts) { _ in
+                            
+                        }
+                    }
                     self.contactsUseCase.matchServerContacts(contact,
                                                              .send) { result in
                                                                  self.existingContacts = result.filter { $0.type == .lastUsers }
-                                                                 self.waitingContacts = result.filter { $0.type == .waitingContacts }
                                                                  self.lastUsersSections = []
-                                                                 self.lastUsersSections.append(ChatCreateSection(data: .contacts,
-                                                                                                                 views: self.existingContacts))
+                                                                 if !self.existingContacts.isEmpty {
+                                                                     self.lastUsersSections.append(ChatCreateSection(data: .contacts,
+                                                                                                                     views: self.existingContacts))
+                                                                 }
                                                                  self.lastUsersSections.append(ChatCreateSection(data: .invite,
-                                                                                                                 views: self.waitingContacts))
+                                                                                                                     views: self.waitingContacts))
                                                                  self.state = .showContent
                                                              } onTap: { value in
                                                                  self.onTapUser(value)

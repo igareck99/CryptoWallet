@@ -4,9 +4,13 @@ import SwiftUI
 
 struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewModelDelegate {
 
-    // MARK: - Private Properties
+    // MARK: - Internal Properties
 
     @StateObject var viewModel: ViewModel
+    
+    // MARK: - Private Properties
+    
+    @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
 
@@ -28,6 +32,25 @@ struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewMode
                     .searchable(text: $viewModel.searchText)
                     .listStyle(.plain)
                 }
+            case .groupCreate:
+                VStack {
+                    ContactsForSendView(views: $viewModel.usersForCreate,
+                                        text: $viewModel.text)
+                    List {
+                        ForEach(viewModel.usersViews, id: \.id) { value in
+                            value.view()
+                        }
+                    }
+                    .listRowSeparator(.hidden)
+                    .listStyle(.plain)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar(.visible, for: .navigationBar)
+                    .toolbar {
+                        createToolBar()
+                    }
+
+                }
+                .navigationBarBackButtonHidden(true)
             default:
                 List {
                     ForEach(viewModel.usersViews, id: \.id) { value in
@@ -49,21 +72,28 @@ struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewMode
 
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
-            ToolbarItem(placement: .principal) {
-                Text(viewModel.contactsLimit == nil ? "Групповой чат" : "Выберите контакт")
-                    .font(.bodySemibold17)
-                    .foregroundColor(viewModel.resources.titleColor)
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    viewModel.onFinish()
-                }, label: {
-                    Text("Готово")
-                        .font(.bodyRegular17)
-                        .foregroundColor(viewModel.getButtonColor())
-                })
-                .disabled(viewModel.isButtonAvailable)
-            }
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                R.image.navigation.backButton.image
+            })
+        }
+        ToolbarItem(placement: .principal) {
+            Text(viewModel.contactsLimit == nil ? "Групповой чат" : "Выберите контакт")
+                .font(.bodySemibold17)
+                .foregroundColor(viewModel.resources.titleColor)
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button(action: {
+                viewModel.onFinish()
+            }, label: {
+                Text("Готово")
+                    .font(.bodyRegular17)
+                    .foregroundColor(viewModel.getButtonColor())
+            })
+            .disabled(viewModel.isButtonAvailable)
+        }
     }
     
     @ToolbarContentBuilder

@@ -7,11 +7,11 @@ struct SelectContactViewCell: View {
     // MARK: - Internal Properties
 
     let data: SelectContact
-    
+
     // MARK: - Body
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack(alignment: .center) {
                 if data.isSelected {
                     R.image.chat.group.check.image
@@ -45,13 +45,11 @@ struct SelectContactViewCell: View {
                 }
                 .padding(.leading, 19)
             }
-            Divider()
-                .padding(.leading, 93)
+            .onTapGesture {
+                data.onTap(data)
+            }
+            .frame(height: 64)
+            .background(.white)
         }
-        .onTapGesture {
-            data.onTap(data)
-        }
-        .frame(height: 64)
-        .background(.white)
     }
 }

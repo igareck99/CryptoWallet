@@ -33,7 +33,7 @@ struct ChatCreateView<ViewModel>: View where ViewModel: ChatCreateViewModelProto
                               views: $viewModel.lastUsersSections,
                               viewState: $viewModel.state,
                               isSearchingState: $viewModel.isSearching)
-        .searchable(text: $viewModel.searchText)
+        .searchable(text: $viewModel.searchText, prompt: viewModel.resources.search)
     }
 
     @ToolbarContentBuilder
@@ -42,13 +42,13 @@ struct ChatCreateView<ViewModel>: View where ViewModel: ChatCreateViewModelProto
             Button(action: {
                 presentationMode.wrappedValue.dismiss()
             }, label: {
-               Text("Отмена")
+                Text(viewModel.resources.cancel)
                     .font(.bodyRegular17)
                     .foregroundColor(.dodgerBlue)
             })
         }
         ToolbarItem(placement: .principal) {
-            Text("Чаты")
+            Text(viewModel.resources.tabChat)
                 .font(.bodySemibold17)
         }
     }

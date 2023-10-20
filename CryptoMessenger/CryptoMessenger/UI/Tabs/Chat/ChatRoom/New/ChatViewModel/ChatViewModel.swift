@@ -147,7 +147,6 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         debugPrint("self?.isChannel: pLevels.eventsDefault == 50 \(self.isChannel)")
                         self.matrixUseCase.objectChangePublisher.send()
                     }
-                    self.loadUsers()
                     guard let mxRoom = self.matrixUseCase.getRoomInfo(roomId: self.room.roomId) else { return }
                     guard let auraRoom = self.matrixobjectFactory
                         .makeAuraRooms(mxRooms: [mxRoom],
@@ -293,6 +292,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     avatar: nil,
                     name: $0.displayname ?? "",
                     status: "Привет, теперь я в Aura",
+                    phone: "",
                     type: .lastUsers, onTap: { _ in
                     }
                 )

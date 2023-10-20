@@ -59,7 +59,7 @@ enum ChatGroupResources: ChatGroupResourcable {
     }
     
     static var createChannelDescription: String {
-        R.string.localizable.createChannelDescription()
+        R.string.localizable.chatCreateGroupAdditionalInfoTitle()
     }
 
     static var titleColor: Color {

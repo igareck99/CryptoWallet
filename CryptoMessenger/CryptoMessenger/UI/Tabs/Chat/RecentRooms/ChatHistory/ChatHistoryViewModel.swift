@@ -194,7 +194,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                                         $0.userId != self?.matrixUseCase.getUserId() }) else { return }
                                     let contact = Contact(mxId: user.userId,
                                                           name: user.displayname,
-                                                          status: "", type: .lastUsers, onTap: { _ in
+                                                          status: "", phone: "", type: .lastUsers, onTap: { _ in
                                     })
                                     self?.coordinator?.dismissCurrentSheet()
                                     self?.coordinator?.friendProfile(contact)
