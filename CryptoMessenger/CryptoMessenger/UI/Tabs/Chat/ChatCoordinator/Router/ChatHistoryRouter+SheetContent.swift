@@ -100,6 +100,8 @@ extension ChatHistoryRouter {
             NotSendedMessageMenuAssembly.build(event, onTapItem)
                 .presentationDetents([.height(CGFloat(166))])
                 .anyView()
+        case .transactionStatus:
+            TransactionStatusViewAssemlby.build().anyView()
         }
     }
 }

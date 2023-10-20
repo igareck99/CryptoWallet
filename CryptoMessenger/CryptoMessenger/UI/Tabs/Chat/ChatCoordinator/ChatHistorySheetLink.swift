@@ -59,6 +59,8 @@ enum ChatHistorySheetLink: Hashable, Identifiable {
     case sendingMessageMenu(_ event: RoomEvent,
                             _ onTapItem: (NotSendedMessage, RoomEvent) -> Void)
 
+    case transactionStatus
+
     var id: String {
         String(describing: self)
     }

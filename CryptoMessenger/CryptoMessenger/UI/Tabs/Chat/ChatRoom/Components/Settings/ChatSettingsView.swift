@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - ChatSettingsView
 
 struct ChatSettingsView: View {
-    
+
     @StateObject var viewModel: ChatSettingsViewModel
 
     // MARK: - Private Properties
@@ -16,37 +16,14 @@ struct ChatSettingsView: View {
     var body: some View {
         content
             .actionSheet(isPresented: $viewModel.showActionSheet) {
-                switch viewModel.actionState {
-                case .blockUser:
-                    ActionSheet(title: Text("\(viewModel.resources.blockTitle)?"),
-                                message: Text("\(viewModel.resources.blockUserDescription) Марина Антоненко?"),
-                                buttons: [
-                                    .cancel(),
-                                    .destructive(
-                                        Text(viewModel.resources.blockTitle),
-                                        action: viewModel.blockUser
-                                    )
-                                ]
-                    )
-                case .leaveChat:
-                    ActionSheet(title: Text("\(viewModel.resources.removeChat)?"),
-                                message: Text(viewModel.resources.removeChatDescription),
-                                buttons: [
-                                    .cancel(),
-                                    .destructive(
-                                        Text(viewModel.resources.removeChat),
-                                        action: viewModel.onLeaveRoom
-                                    )
-                                ]
-                    )
-                }
+                makeActionSheet()
             }
             .toolbar {
                     createToolBar()
             }
             .navigationBarBackButtonHidden(true)
     }
-    
+
     private var content: some View {
         List {
             screenHeaderView()
@@ -63,7 +40,7 @@ struct ChatSettingsView: View {
             }
         }
     }
-    
+
     private var encryptionView: some View {
         HStack(alignment: .center, spacing: 12) {
             R.image.chatSettings.chatSettingsLock.image
@@ -72,9 +49,9 @@ struct ChatSettingsView: View {
                 .foreground(.romanSilver)
         }
     }
-    
+
     // MARK: - Private Methods
-    
+
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
@@ -85,12 +62,12 @@ struct ChatSettingsView: View {
             })
         }
     }
-    
+
     private func screenHeaderView() -> some View {
         VStack(alignment: .center, spacing: 4) {
             Spacer()
                 .frame(height: 1)
-            
+
             if let img = viewModel.selectedImg {
                 Image(uiImage: img)
                     .scaledToFill()
@@ -128,7 +105,7 @@ struct ChatSettingsView: View {
             }
         }
     }
-    
+
     private func attachmentsView() -> some View {
         ChannelSettingsView(
             title: viewModel.resources.attachments,
@@ -150,7 +127,7 @@ struct ChatSettingsView: View {
             viewModel.onNotifications()
         }
     }
-    
+
     private func leaveChatView() -> some View {
         ChannelSettingsView(
             title: viewModel.resources.removeChat,
@@ -179,7 +156,7 @@ struct ChatSettingsView: View {
             viewModel.actionState = .blockUser
         }
     }
-    
+
     private var changeGroupInfoView: some View {
         VStack(spacing: 10) {
             changeAvatarView()
@@ -202,7 +179,7 @@ struct ChatSettingsView: View {
                 .cornerRadius(8)
         }
     }
-    
+
     private func changeAvatarView() -> some View {
         ZStack(alignment: .center) {
             if let img = viewModel.selectedImg {
@@ -276,6 +253,35 @@ struct ChatSettingsView: View {
             } label: {
                 Text("Настройки")
             }
+        }
+    }
+
+    func makeActionSheet() -> ActionSheet {
+        switch viewModel.actionState {
+        case .blockUser:
+            return ActionSheet(
+                title: Text("\(viewModel.resources.blockTitle)?"),
+                message: Text("\(viewModel.resources.blockUserDescription) Марина Антоненко?"),
+                buttons: [
+                    .cancel(),
+                    .destructive(
+                        Text(viewModel.resources.blockTitle),
+                        action: viewModel.blockUser
+                    )
+                ]
+            )
+        case .leaveChat:
+            return ActionSheet(
+                title: Text("\(viewModel.resources.removeChat)?"),
+                message: Text(viewModel.resources.removeChatDescription),
+                buttons: [
+                    .cancel(),
+                    .destructive(
+                        Text(viewModel.resources.removeChat),
+                        action: viewModel.onLeaveRoom
+                    )
+                ]
+            )
         }
     }
 }
