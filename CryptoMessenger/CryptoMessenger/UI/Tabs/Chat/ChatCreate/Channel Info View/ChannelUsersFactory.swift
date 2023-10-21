@@ -31,7 +31,7 @@ enum ChannelUsersFactory: ChannelUsersFactoryProtocol {
             debugPrint("membership: \($0.membership)")
             if $0.membership == .join || $0.membership == .invite {
                 return ChannelParticipantsData(
-                    name: $0.displayname,
+                    name: $0.displayname ?? $0.userId,
                     matrixId: $0.userId,
                     role: detectUserRole(userId: $0.userId, roomPowerLevels: roomPowerLevels),
                     avatar: URL(string: $0.avatarUrl),

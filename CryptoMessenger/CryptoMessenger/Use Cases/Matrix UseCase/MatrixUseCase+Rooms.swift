@@ -39,7 +39,7 @@ extension MatrixUseCase {
             let userId = ids.first,
             !self.isDirectRoomExists(userId: userId)
         else {
-            completion(.roomCreateError)
+            completion(.roomAlreadyExist)
             return
         }
         let parameters = MXRoomCreationParameters()
@@ -48,7 +48,6 @@ extension MatrixUseCase {
         parameters.visibility = MXRoomDirectoryVisibility.private.identifier
         parameters.preset = MXRoomPreset.privateChat.identifier
         createRoom(parameters: parameters, completion: { result in
-            print("llaslaslas  \(result)")
             completion(result)
         })
         self.objectChangePublisher.send()

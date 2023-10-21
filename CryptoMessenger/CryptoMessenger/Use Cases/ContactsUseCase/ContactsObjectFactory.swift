@@ -66,8 +66,10 @@ extension ContactsObjectFactory: ContactsObjectFactoryProtocol {
         let existing: [Contact] = sorted
             .filter { data.keys.contains($0.phoneNumber.numbers) }
             .map {
-                .init(
-                    mxId: data[$0.phoneNumber] ?? "",
+                let suffix = $0.phoneNumber.replaceCharacters(characters: "+()  -", toSeparator: "").substring(fromIndex: 1)
+                let mxId = data[data.keys.first(where: { $0.contains(suffix) }) ?? ""]
+                return Contact(
+                    mxId: mxId ?? "",
                     avatar: nil,
                     name: $0.firstName + " " + $0.lastName,
                     status: "Привет, теперь я в Aura",

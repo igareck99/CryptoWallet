@@ -26,6 +26,15 @@ struct ChatCreateView<ViewModel>: View where ViewModel: ChatCreateViewModelProto
             .onAppear {
                 viewModel.send(.onAppear)
             }
+            .popup(
+                isPresented: viewModel.isSnackbarPresented,
+                alignment: .bottom
+            ) {
+                Snackbar(
+                    text: viewModel.snackBarText,
+                    color: viewModel.shackBarColor
+                )
+            }
     }
 
     private var content: some View {

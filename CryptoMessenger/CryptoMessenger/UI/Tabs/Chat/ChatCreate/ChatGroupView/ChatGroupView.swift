@@ -30,6 +30,15 @@ struct ChatGroupView: View {
             .hideKeyboardOnTap()
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
+            .popup(
+                isPresented: viewModel.isSnackbarPresented,
+                alignment: .bottom
+            ) {
+                Snackbar(
+                    text: viewModel.snackBarText,
+                    color: viewModel.shackBarColor
+                )
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
