@@ -1,3 +1,4 @@
+import SwiftUI
 import Combine
 
 // MARK: - ChatGroupViewModel
@@ -8,7 +9,12 @@ final class ChatGroupViewModel: ObservableObject {
     var navBarTitle = ""
     var textEditorDescription = ""
     @Published var titleText = ""
+    @Published var isSnackbarPresented = false
+    @Published var snackBarText = ""
+    @Published var shackBarColor: Color = .green
     @Published var descriptionText = ""
+    @Published var isPrivateSelected = false
+    @Published var isPublicSelected = true
     @Published var isEncryptionEnable = false
     @Published var selectedImg: UIImage?
     @Published var channelType: ChannelType = .publicChannel
@@ -26,7 +32,6 @@ final class ChatGroupViewModel: ObservableObject {
     ) {
         self.type = type
         self.initLabels()
-        self.bindInput()
     }
 
     func onCreate() {
@@ -38,6 +43,18 @@ final class ChatGroupViewModel: ObservableObject {
     }
 
     // MARK: - Internal Methods
+    
+    private func showSnackBar(_ text: String,
+                              _ color: Color) {
+        snackBarText = text
+        shackBarColor = color
+        isSnackbarPresented = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            withAnimation(.linear(duration: 0.25)) {
+                self?.isSnackbarPresented = false
+            }
+        }
+    }
 
     private func createChat() {
         chatData.title = titleText
@@ -45,28 +62,27 @@ final class ChatGroupViewModel: ObservableObject {
         chatData.image = selectedImg
         matrixUseCase.createGroupRoom(chatData) { result in
             switch result {
-            case .roomCreateError:
-                break
+            case .roomCreateError, .roomAlreadyExist:
+                self.showSnackBar(result.rawValue,
+                                  result.color)
             case .roomCreateSucces:
                 self.coordinator?.toParentCoordinator()
             }
         }
     }
 
-    private func onChannelCreate() { 
+    private func onChannelCreate() {
         matrixUseCase.createChannel(name: titleText, topic: descriptionText,
                                     channelType: channelType, roomAvatar: selectedImg) { result in
             switch result {
-            case .roomCreateError:
-                break
+            case .roomCreateError, .roomAlreadyExist:
+                self.showSnackBar(result.rawValue,
+                                  result.color)
             case .roomCreateSucces:
                 self.coordinator?.toParentCoordinator()
                 self.coordinator = nil
             }
         }
-    }
-    
-    private func bindInput() {
     }
 
     // MARK: - Private Methods

@@ -6,11 +6,19 @@ protocol ChatCreateViewModelProtocol: ObservableObject {
     var actions: [any ViewGeneratable] { get set }
 
     func send(_ event: ChatCreateFlow.Event)
+    
+    func dismissCurrentCoodinator()
 
     var state: ChatCreateFlow.ViewState { get set }
     var resources: ChatCreateResourcable.Type { get }
+    
+    var isSnackbarPresented: Bool { get set }
 
     var searchText: String { get set }
+    
+    var snackBarText: String { get set }
+
+    var shackBarColor: Color { get set }
 
     func onTapCreateCell(_ action: CreateAction)
 
@@ -25,10 +33,13 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
     // MARK: - Internal Properties
 
     @Published var searchText = ""
+    @Published var isSnackbarPresented = false
     @Published private(set) var contacts: [Contact] = []
     @Published var state: ChatCreateFlow.ViewState = .idle
     @Published var existingContacts: [Contact] = []
     @Published var waitingContacts: [Contact] = []
+    @Published var snackBarText = ""
+    @Published var shackBarColor: Color = .green
     var actions: [any ViewGeneratable] = []
     var lastUsersSections: [any ViewGeneratable] = []
     @Published var isSearching = false
@@ -66,6 +77,10 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
     func send(_ event: ChatCreateFlow.Event) {
         eventSubject.send(event)
     }
+    
+    func dismissCurrentCoodinator() {
+        self.coordinator?.toParentCoordinator()
+    }
 
     func onTapCreateCell(_ action: CreateAction) {
         vibrate()
@@ -94,31 +109,9 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                         }
                         return value
                     }
-                case let .onCreateDirect(ids):
-                    self?.matrixUseCase.createDirectRoom(ids,
-                                                         completion: { result in
-                        switch result {
-                        case .roomCreateError:
-                            break
-                        case .roomCreateSucces:
-                            self?.coordinator?.toParentCoordinator()
-                        }
-                    })
-                case let .onCreateGroup(info):
-                    self?.matrixUseCase.createGroupRoom(info, completion: { result in
-                        switch result {
-                        case .roomCreateError:
-                            break
-                        case .roomCreateSucces:
-                            self?.coordinator?.toParentCoordinator()
-                        }
-                    })
-                case .onNextScene:
-                    ()
                 }
             }
             .store(in: &subscriptions)
-
 		matrixUseCase.objectChangePublisher
             .receive(on: DispatchQueue.main)
             .sink { _ in }
@@ -128,8 +121,6 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
             .sink { [weak self] text in
                 guard let self = self else { return }
                 let group = DispatchGroup()
-                var firstSection: [Contact] = []
-                var secondSection: [Contact] = []
                 if !text.isEmpty {
                     var findedContacts: [Contact] = []
                     group.enter()
@@ -139,7 +130,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                                 .init(
                                     mxId: text,
                                     avatar: nil,
-                                    name: name ?? "",
+                                    name: name ,
                                     status: "", phone: "",
                                     type: .existing,
                                     onTap: { value in
@@ -189,75 +180,78 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
     private func getContacts(_ users: [MXUser]) {
         contacts = contactsUseCase.getContacts()
     }
+    
+    private func setContacts() {
+        self.contactsUseCase.reuqestUserContacts { contact in
+            self.waitingContacts = contact.map {
+                return Contact(mxId: "",
+                               avatar: nil,
+                               name: $0.firstName + "  " + $0.lastName,
+                               status: "",
+                               phone: $0.phoneNumber,
+                               isAdmin: false, type: .waitingContacts) { _ in
+                    
+                }
+            }.sorted { $1.name > $0.name }
+            self.contactsUseCase.matchServerContacts(contact,
+                                                     .groupCreate) { result in
+                                                         self.existingContacts = result.filter { $0.type == .lastUsers || $0.type == .existing }
+                                                         self.lastUsersSections = []
+                                                         if !self.existingContacts.isEmpty {
+                                                             self.lastUsersSections.append(ChatCreateSection(data: .contacts,
+                                                                                                             views: self.existingContacts))
+                                                         }
+                                                         self.lastUsersSections.append(ChatCreateSection(data: .invite,
+                                                                                                         views: self.waitingContacts))
+                                                         self.state = .showContent
+                                                     } onTap: { value in
+                                                         self.onTapUser(value)
+                                                     }
+        }
+    }
 
     private func syncContacts() {
         contactsUseCase.syncContacts { state in
             switch state {
             case .allowed:
-                self.contactsUseCase.reuqestUserContacts { contact in
-                    self.waitingContacts = contact.map {
-                        return Contact(mxId: "",
-                                       avatar: nil,
-                                       name: $0.firstName + "  " + $0.lastName,
-                                       status: "",
-                                       phone: $0.phoneNumber,
-                                       isAdmin: false, type: .waitingContacts) { _ in
-                            
-                        }
-                    }
-                    self.contactsUseCase.matchServerContacts(contact,
-                                                             .send) { result in
-                                                                 self.existingContacts = result.filter { $0.type == .lastUsers }
-                                                                 self.lastUsersSections = []
-                                                                 if !self.existingContacts.isEmpty {
-                                                                     self.lastUsersSections.append(ChatCreateSection(data: .contacts,
-                                                                                                                     views: self.existingContacts))
-                                                                 }
-                                                                 self.lastUsersSections.append(ChatCreateSection(data: .invite,
-                                                                                                                     views: self.waitingContacts))
-                                                                 self.state = .showContent
-                                                             } onTap: { value in
-                                                                 self.onTapUser(value)
-                                                             }
-                }
-                return
+                self.setContacts()
             case .notDetermined:
                 self.contactsUseCase.requestContactsAccess { isAllowed in
                     if isAllowed {
-                        self.contactsUseCase.reuqestUserContacts { contact in
-                            self.contactsUseCase.matchServerContacts(contact,
-                                                                     .send) { result in
-                                                                         self.existingContacts = result.filter { $0.type == .lastUsers }
-                                                                         self.waitingContacts = result.filter { $0.type == .waitingContacts }
-                                                                         self.lastUsersSections = []
-                                                                         self.lastUsersSections.append(ChatCreateSection(data: .contacts,
-                                                                                                                         views:
-                                                                                                                            self.existingContacts))
-                                                                         self.lastUsersSections.append(ChatCreateSection(data: .invite,
-                                                                                                                         views: self.waitingContacts))
-                                                                         self.state = .showContent
-                                                                     } onTap: { value in
-                                                                         self.onTapUser(value)
-                                                                     }
-                        }
+                        self.setContacts()
+                    } else {
+                        self.state = .contactsAccessFailure
                     }
                 }
-                return
             case .restricted, .denied, .unknown:
                 self.state = .contactsAccessFailure
             }
         }
     }
+    
+    private func showSnackBar(_ text: String,
+                              _ color: Color) {
+        snackBarText = text
+        shackBarColor = color
+        isSnackbarPresented = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            withAnimation(.linear(duration: 0.25)) {
+                self?.isSnackbarPresented = false
+            }
+        }
+    }
+
 
     private func onTapUser(_ contact: Contact) {
         switch contact.type {
         case .lastUsers, .existing:
             matrixUseCase.createDirectRoom([contact.mxId]) { result in
                 switch result {
-                case .roomCreateError:
-                    break
+                case .roomAlreadyExist, .roomCreateError:
+                    self.showSnackBar(result.rawValue,
+                                      result.color)
                 case .roomCreateSucces:
-                    self.coordinator?.toParentCoordinator()
+                    self.dismissCurrentCoodinator()
                 }
             }
         default:

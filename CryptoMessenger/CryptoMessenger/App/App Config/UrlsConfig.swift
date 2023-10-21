@@ -26,6 +26,13 @@ struct UrlsConfig: Codable {
         apiStand: .dev
     )
 
+    static let space = UrlsConfig(cryptoWallet: "https://stage.auradev.space/",
+                                  jitsiMeet: "https://meet.auramsg.ms/",
+                                  matrixUrl: "https://matrix.auramsg.co/",
+                                  apiUrl: "https://api.auramsg.co/",
+                                  apiVersion: "v0",
+                                  apiStand: .dev)
+
     enum CodingKeys: String, CodingKey {
         case cryptoWallet = "CryptoWallet"
         case jitsiMeet = "JitsiMeet"

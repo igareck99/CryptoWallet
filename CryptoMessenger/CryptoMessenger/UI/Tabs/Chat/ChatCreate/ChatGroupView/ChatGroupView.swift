@@ -18,8 +18,6 @@ struct ChatGroupView: View {
     @State private var showImagePicker = false
     @State private var showCameraPicker = false
     @State private var showLocationPicker = false
-    @State private var isPrivateSelected = false
-    @State private var isPublicSelected = true
     @State private var bottomPadding: CGFloat = 0
 
     // MARK: - Body
@@ -30,6 +28,15 @@ struct ChatGroupView: View {
             .hideKeyboardOnTap()
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
+            .popup(
+                isPresented: viewModel.isSnackbarPresented,
+                alignment: .bottom
+            ) {
+                Snackbar(
+                    text: viewModel.snackBarText,
+                    color: viewModel.shackBarColor
+                )
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
@@ -112,18 +119,19 @@ struct ChatGroupView: View {
             }
             .padding(.horizontal, 16)
             .padding(.top, 16)
-            TextEditorWithPlaceholder(text: $viewModel.descriptionText)
-                .frame(maxWidth: .infinity, idealHeight: 134, alignment: .leading)
-                .padding(.horizontal, 16)
-                .padding(.top, 24)
-            HStack(spacing: 0) {
-                Text(viewModel.textEditorDescription)
-                    .lineLimit(nil)
-                    .font(.caption1Regular12)
-                    .foregroundColor(viewModel.resources.textColor)
-                    .padding(.top, 4)
-                    .padding(.leading, 16)
-                Spacer()
+            VStack(alignment: .leading, spacing: 0) {
+                TextEditorWithPlaceholder(text: $viewModel.descriptionText)
+                    .frame(maxWidth: .infinity, idealHeight: 134, alignment: .leading)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 24)
+                HStack(spacing: 0) {
+                    Text(viewModel.textEditorDescription)
+                        .lineLimit(nil)
+                        .font(.caption1Regular12)
+                        .foregroundColor(.manatee)
+                        .padding(.leading, 22)
+                    Spacer()
+                }
             }
             Divider()
                 .frame(height: 0.5)
@@ -162,8 +170,10 @@ struct ChatGroupView: View {
                 .padding(.top, 9)
             privateChannelView()
                 .padding(.top, 8)
-            encrytionView
-                .padding(.top, 8)
+            if viewModel.channelType == .privateChannel {
+                encrytionView
+                    .padding(.top, 8)
+            }
         }
     }
     
@@ -181,11 +191,13 @@ struct ChatGroupView: View {
             title: "Публичный канал",
             text: "Публичные каналы можно найти через поиск, подписаться на них может любой пользователь.",
             channelType: .publicChannel,
-            isSelected: $isPublicSelected
+            isSelected: $viewModel.isPublicSelected
         ) { channelType in
             debugPrint("Channel type seledted: \(channelType)")
-            viewModel.channelType = channelType
-            isPrivateSelected = false
+            withAnimation(.easeInOut(duration: 0.25)) {
+                viewModel.channelType = channelType
+                viewModel.isPrivateSelected = false
+            }
         }
         .padding(.horizontal, 16)
     }
@@ -195,11 +207,13 @@ struct ChatGroupView: View {
             title: "Частный канал",
             text: "На частные каналы можно подписаться только по ссылке-приглашению.",
             channelType: .privateChannel,
-            isSelected: $isPrivateSelected
+            isSelected: $viewModel.isPrivateSelected
         ) { channelType in
             debugPrint("Channel type seledted: \(channelType)")
-            viewModel.channelType = channelType
-            isPublicSelected = false
+            withAnimation(.easeInOut(duration: 0.25)) {
+                viewModel.channelType = channelType
+                viewModel.isPublicSelected = false
+            }
         }
         .padding(.horizontal, 16)
     }

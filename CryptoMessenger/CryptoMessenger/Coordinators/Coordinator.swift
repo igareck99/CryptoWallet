@@ -33,4 +33,10 @@ extension Coordinator {
         let name = String(describing: coordinator)
         childCoordinators[name] = nil
     }
+    
+//    let name = String(describing: coordinator).replaceCharacters(characters: "<.", toSeparator: " ").split(separator: " ")[1]
+//    let key = String(name)
+//    print("slaslaslk  \(key)")
+//    childCoordinators[key] = nil
+//    print("skasklaslk  \(childCoordinators)")
 }

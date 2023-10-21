@@ -41,6 +41,7 @@ struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewMode
                             value.view()
                         }
                     }
+                    .hideKeyboardOnTap()
                     .listRowSeparator(.hidden)
                     .listStyle(.plain)
                     .navigationBarTitleDisplayMode(.inline)

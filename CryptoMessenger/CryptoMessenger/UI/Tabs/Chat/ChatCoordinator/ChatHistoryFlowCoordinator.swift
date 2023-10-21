@@ -88,6 +88,10 @@ final class ChatHistoryFlowCoordinator<Router: ChatHistoryRouterable> {
     ) {
         self.router = router
     }
+    
+    deinit {
+        print("ChatHistoryFlowCoordinator was deinit")
+    }
 }
 
 // MARK: - ChatHistoryFlowCoordinator(Coordinator)
@@ -167,7 +171,10 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
         }
         addChildCoordinator(coordinator)
         coordinator.startWithView { [weak self] router in
-            self?.router.chatCreate(router)
+            self?.router.chatCreate(router) {
+                self?.removeChildCoordinator(coordinator)
+                self?.router.dismissCurrentSheet()
+            }
         }
     }
 

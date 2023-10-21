@@ -9,8 +9,12 @@ extension ChatHistoryRouter {
         case let .chatRoomMenu(action, onCamera, onSendPhoto):
             ActionSheetViewAssembly.build(action, onCamera, onSendPhoto)
                 .presentationDetents([.height(435)])
-        case let .createChat(view):
-            view.toolbar(.hidden, for: .navigationBar).anyView()
+        case let .createChat(view, onDisappear):
+            view.toolbar(.hidden, for: .navigationBar)
+                .onDisappear {
+                    onDisappear()
+                }
+                .anyView()
         case let .notifications(roomId):
             ChannelNotificationsAssembly.build(roomId)
         case let .galleryPicker(

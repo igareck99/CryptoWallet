@@ -9,7 +9,7 @@ enum ChatHistorySheetLink: Hashable, Identifiable {
                        onSelectVideo: (URL?) -> Void)
     case channelPatricipants(viewModel: ChannelInfoViewModel,
                              showParticipantsView: Binding<Bool>)
-    case createChat(_ view: any View)
+    case createChat(_ view: any View, _ onDisappear: () -> Void)
     case chatActions(_ room: ChatActionsList, _ onSelect: GenericBlock<ChatActions>)
     case documentPicker(
         onCancel: VoidBlock?,
