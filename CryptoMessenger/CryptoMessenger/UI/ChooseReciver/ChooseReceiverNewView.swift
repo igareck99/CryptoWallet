@@ -21,6 +21,15 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
             }
             .listStyle(.plain)
         }
+        .popup(
+                    isPresented: viewModel.isSnackbarPresented,
+                    alignment: .bottom
+                ) {
+                    Snackbar(
+                        text: viewModel.messageText,
+                        color: .spanishCrimson
+                    )
+                }
         .searchable(text: $viewModel.searchText, prompt: "Поиск")
         .onSubmit(of: .search) {
         }

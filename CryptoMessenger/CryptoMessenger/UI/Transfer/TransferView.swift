@@ -57,6 +57,15 @@ struct TransferView: View {
 					alignment: .bottom
                 ) { Snackbar(text: viewModel.resources.transferTransferError) }
 		}
+        .popup(
+            isPresented: viewModel.isSnackbarPresented,
+            alignment: .bottom
+        ) {
+            Snackbar(
+                text: viewModel.messageText,
+                color: .spanishCrimson
+            )
+        }
 		.ignoresSafeArea(.keyboard)
 	}
 

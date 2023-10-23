@@ -23,6 +23,15 @@ struct FacilityApproveView: View {
             }
         })
         .popup(
+            isPresented: viewModel.isSnackbarPresented,
+            alignment: .bottom
+        ) {
+            Snackbar(
+                text: viewModel.messageText,
+                color: .spanishCrimson
+            )
+        }
+        .popup(
             isPresented: $showSuccessFacility,
             type: .toast,
             position: .bottom,

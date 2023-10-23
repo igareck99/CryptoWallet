@@ -17,6 +17,10 @@ protocol ChooseReceiverViewModelProtocol: ObservableObject {
     var userWalletsViews: [any ViewGeneratable] { get }
     
     func onScanner(_ text: Binding<String>)
+    
+    var isSnackbarPresented: Bool { get set }
+    
+    var messageText: String { get set}
 }
 
 // MARK: - ChooseReceiverNewViewModel
@@ -34,6 +38,8 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
     @Binding var receiverData: UserReceiverData
     let resources: ChooseReciverSourcable.Type = ChooseReciverSources.self
     var coordinator: TransferViewCoordinatable
+    var isSnackbarPresented = false
+    var messageText: String = ""
 
     // MARK: - Private Properties
 
@@ -196,6 +202,20 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
         }
         coordinator.previousScreen()
     }
+    
+    func showSnackBar(text: String) {
+            DispatchQueue.main.async { [weak self] in
+                self?.messageText = text
+                self?.isSnackbarPresented = true
+                self?.objectWillChange.send()
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                self?.messageText = ""
+                self?.isSnackbarPresented = false
+                self?.objectWillChange.send()
+            }
+        }
 
     private func bindOutput() {
         stateValueSubject
@@ -239,6 +259,7 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
+                    self?.showSnackBar(text: "Ошибка загрузки профиля")
                     debugPrint("Error in Get user data Api  \(error)")
                 default:
                     break
@@ -257,6 +278,7 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
                 .sink { [weak self] completion in
                     switch completion {
                     case .failure(let error):
+                        self?.showSnackBar(text: "Ошибка загрузки кошелька")
                         debugPrint("Error in checkUserWallet  \(error)")
                     default:
                         break
