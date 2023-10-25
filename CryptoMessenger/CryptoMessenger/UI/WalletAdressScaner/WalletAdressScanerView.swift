@@ -20,11 +20,6 @@ struct WalletAddressScanerView: View {
                         .font(.bodySemibold17)
                 }
             }
-            .onChange(of: scannedCode) { newValue in
-                if !newValue.isEmpty {
-                    presentationMode.wrappedValue.dismiss()
-                }
-            }
     }
 
     // MARK: - Private Properties
@@ -35,10 +30,11 @@ struct WalletAddressScanerView: View {
                 if case let .success(result) = response {
                     if scannedCode != result.string {
                         scannedCode = result.string
+                        self.presentationMode.wrappedValue.dismiss()
                     }
                 }
             }
-            .ignoresSafeArea()
+            .ignoresSafeArea(.container, edges: /*@START_MENU_TOKEN@*/.bottom/*@END_MENU_TOKEN@*/)
         }
     }
 }

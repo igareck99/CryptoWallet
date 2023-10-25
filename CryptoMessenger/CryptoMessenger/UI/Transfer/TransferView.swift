@@ -221,7 +221,7 @@ struct TransferView: View {
             Text(viewModel.resources.walletSend)
 				.font(.bodySemibold17)
 				.foregroundColor(
-                    viewModel.isTransferButtonEnabled ?
+                    !viewModel.isTransferButtonEnabled ?
                     viewModel.resources.background : viewModel.resources.inactiveButtonTextColor
                 )
                 .padding()
@@ -229,7 +229,7 @@ struct TransferView: View {
 				.background(
 					Rectangle()
 						.fill(
-							viewModel.isTransferButtonEnabled ?
+							!viewModel.isTransferButtonEnabled ?
                             viewModel.resources.inactiveButtonBackground : viewModel.resources.buttonColor
 						)
 						.cornerRadius(8)

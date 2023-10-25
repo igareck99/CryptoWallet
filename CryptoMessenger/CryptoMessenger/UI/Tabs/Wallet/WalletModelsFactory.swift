@@ -81,6 +81,15 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
                 .map { .init(accountAddress: binanceAddress, tokenAddress: $0.address) }
             addresses[.binance] = [WalletBalanceAddress(accountAddress: binanceAddress)] + tokenAddresses
         }
+        
+        if let auraAddress = wallets
+            .first(where: { $0.cryptoType == CryptoType.aura.rawValue })?.address,
+           auraAddress.isEmpty == false {
+            let tokenAddresses: [WalletBalanceAddress] = networkTokens
+                .filter { $0.network == CryptoType.aura.rawValue }
+                .map { .init(accountAddress: auraAddress, tokenAddress: $0.address) }
+            addresses[.aura] = [WalletBalanceAddress(accountAddress: auraAddress)] + tokenAddresses
+        }
 
         let params = BalanceRequestParams(currency: .usd, addresses: addresses)
         return params
@@ -90,7 +99,6 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
         wallets: [WalletNetwork],
         tokens: [NetworkToken]
     ) -> [WalletInfo] {
-
         var cards = [WalletInfo]()
         wallets.forEach { wallet in
             guard let address = wallet.address,
@@ -99,9 +107,10 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
             else {
                 return
             }
-
             let fiat = wallet.fiatPrice * ((wallet.balance as? NSString)?.doubleValue ?? 1)
+            
             let fiatAmount = String(format: "%.2f", fiat)
+            
             let walletCard = WalletInfo(
                 decimals: Int(wallet.decimals),
                 walletType: walletType,
@@ -154,11 +163,17 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
         if let publicKey: String = keychainService[.binancePublicKey] {
             binance.append(WalletPublic(publicKey: publicKey))
         }
+        
+        var aura = [WalletPublic]()
+        if let publicKey: String = keychainService[.auraPublicKey] {
+            aura.append(WalletPublic(publicKey: publicKey))
+        }
 
         let params = AddressRequestParams(
             ethereum: ethereum,
             bitcoin: bitcoin,
-            binance: binance
+            binance: binance,
+            aura: aura
         )
 
         return params
@@ -171,11 +186,14 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
             .first(where: { $0.cryptoType == CryptoType.bitcoin.rawValue })?.address    // BTC
         let bncAddress = wallets
             .first(where: { $0.cryptoType == CryptoType.binance.rawValue })?.address    // BNB, USDT, USDC
+        let aurAddress = wallets
+            .first(where: { $0.cryptoType == CryptoType.aura.rawValue })?.address    // BNB, US
 
         let adressesData = AdressesData(
             eth: ethAddress,
             btc: btcAddress,
-            bnc: bncAddress
+            bnc: bncAddress,
+            aur: aurAddress
         ).getDataForPatchAssets()
 
         return adressesData
@@ -186,7 +204,7 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
         model: WalletsTransactionsResponse
     ) -> TransactionSections {
 
-        let walletSections: [TransactionSection] = [model.ethereum, model.bitcoin, model.binance]
+        let walletSections: [TransactionSection] = [model.ethereum, model.bitcoin, model.binance, model.aura]
             .reduce(into: [TransactionSection](), { partialResult, sections in
                 sections?.forEach { address, transactions in
                     let transactionsBatch = makeTransactionSection(
@@ -325,7 +343,8 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
         [
             (key: CryptoType.binance, values: response.binance),
             (key: CryptoType.bitcoin, values: response.bitcoin),
-            (key: CryptoType.ethereum, values: response.ethereum)
+            (key: CryptoType.ethereum, values: response.ethereum),
+            (key: CryptoType.aura, values: response.aura)
         ]
             .forEach { obj in
                 guard let tokens = obj.values else { return }

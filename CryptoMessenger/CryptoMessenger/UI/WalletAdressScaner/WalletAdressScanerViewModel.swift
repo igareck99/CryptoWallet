@@ -6,8 +6,8 @@ import Combine
 final class WalletAddressScanerViewModel: ObservableObject {
 
     // MARK: - Internal Properties
-    let resources: WalletAdressScanerResourcable.Type
 
+    let resources: WalletAdressScanerResourcable.Type
 
     // MARK: - Private Properties
     
@@ -21,11 +21,11 @@ final class WalletAddressScanerViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-		userSettings: UserFlowsStorage & UserCredentialsStorage,
+        userSettings: UserFlowsStorage & UserCredentialsStorage,
         resources: WalletAdressScanerResourcable.Type = WalletAdressScanerResources.self
-	) {
+    ) {
         self.resources = resources
-		self.userSettings = userSettings
+        self.userSettings = userSettings
         bindInput()
         bindOutput()
     }
@@ -48,8 +48,7 @@ final class WalletAddressScanerViewModel: ObservableObject {
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.updateData()
-                    self?.objectWillChange.send()
+                    ()
                 }
             }
             .store(in: &subscriptions)
@@ -59,8 +58,5 @@ final class WalletAddressScanerViewModel: ObservableObject {
         stateValueSubject
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
-    }
-
-    private func updateData() {
     }
 }

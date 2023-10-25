@@ -38,7 +38,7 @@ struct WalletInfo: Identifiable, Equatable, Hashable, Comparable {
                 currency: walletType.currency,
                 networkTitle: walletType.networkTitle
             )
-		case .aur:
+		case .aura:
             return .init(
                 image: R.image.wallet.auraCard.image,
                 fiatAmount: fiatAmount,

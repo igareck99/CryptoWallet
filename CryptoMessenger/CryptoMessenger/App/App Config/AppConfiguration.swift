@@ -116,15 +116,16 @@ final class Configuration: ConfigType {
     }
 
     var netType: NetType {
-        return stand == .dev ? .testnet : .mainnet
+        currentConfig.netType
     }
 
     private var currentConfig: UrlsConfig {
-        if stand == .dev {
-            return debugConfig
-        } else {
-            return releaseConfig
-        }
+        return releaseConfig
+//        if stand == .dev {
+//            return debugConfig
+//        } else {
+//            return releaseConfig
+//        }
     }
 
     var devTeamId: String {
@@ -179,6 +180,7 @@ final class Configuration: ConfigType {
 
     private var debugConfig: UrlsConfig = .defaultDebug
     private var releaseConfig: UrlsConfig = .defaultRelease
+    private var spaceConfig: UrlsConfig = .space
     private let bundle: Bundle
     private let parser: Parsable.Type
 
@@ -189,7 +191,7 @@ final class Configuration: ConfigType {
         bundle: Bundle = .main,
         locale: Locale = .current,
         parser: Parsable.Type = Parser.self,
-        stand: Stand = .prod
+        stand: Stand = .dev
     ) {
         self.bundle = bundle
         self.locale = locale

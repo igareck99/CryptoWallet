@@ -30,6 +30,8 @@ final class KeychainService {
         case binancePublicKey
 		case bitcoinPrivateKey
 		case bitcoinPublicKey
+        case auraPrivateKey
+        case auraPublicKey
 	}
 
 	private let keychainWrapper: KeychainWrapper

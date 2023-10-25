@@ -60,7 +60,6 @@ final class WalletViewModel: ObservableObject {
     }
 
 	func tryToLoadNextTransactions(offset: CGFloat, pageIndex: Int) {
-
         guard let currentWallet = cardsList[safe: pageIndex],
               let currentTransactions = transactions[currentWallet.walletType],
               let lastTransaction = currentTransactions.last,
@@ -77,7 +76,6 @@ final class WalletViewModel: ObservableObject {
             address: currentWallet.address,
             date: lastTransaction.info.date
         )
-
         let params = TransactionsRequestParams(walletTransactions: [transaction])
 		walletNetworks.getTransactions(params: params) { [weak self] response in
 
@@ -179,6 +177,12 @@ final class WalletViewModel: ObservableObject {
                    wallet.address = binanceAddress
                    self.coreDataService.updateWalletNetwork(model: wallet)
                }
+            if let auraAddress = addresses.aura?.first?.address,
+               let wallet: WalletNetwork = savedWallets
+                .first(where: { $0.cryptoType == CryptoType.aura.rawValue }) {
+                wallet.address = auraAddress
+                self.coreDataService.updateWalletNetwork(model: wallet)
+            }
             group.leave()
 		}
         group.notify(queue: .main) {
@@ -210,7 +214,8 @@ final class WalletViewModel: ObservableObject {
             let balances: [CryptoType: [Balance]] = [
                 .ethereum: balance.ethereum,
                 .bitcoin: balance.bitcoin,
-                .binance: balance.binance
+                .binance: balance.binance,
+                .aura: balance.aura
             ]
 
             balances.forEach { balancePair in
@@ -255,7 +260,6 @@ final class WalletViewModel: ObservableObject {
 	}
 
 	func updateWallets() {
-
 		guard let seed = keychainService.secretPhrase else {
 			// Empty state remains
 			viewState = .empty
@@ -282,15 +286,15 @@ final class WalletViewModel: ObservableObject {
         let group = DispatchGroup()
         group.enter()
 		walletNetworks.getNetworks { [weak self] networksResponse in
-
 			guard let self = self, case let .success(walletsResponse) = networksResponse else { return }
 
             let wallets: [WalletNetworkModel] = [
                 walletsResponse.binance,
                 walletsResponse.bitcoin,
-                walletsResponse.ethereum
+                walletsResponse.ethereum,
+                walletsResponse.aura
             ].compactMap { $0 }
-
+            
 			let dbWallets = self.coreDataService.getWalletNetworks()
 
 			var isAddressesAvailable = false
@@ -368,6 +372,16 @@ final class WalletViewModel: ObservableObject {
                     }
 					self.keychainService.set(keys.privateKey, forKey: .bitcoinPrivateKey)
 					self.keychainService.set(keys.publicKey, forKey: .bitcoinPublicKey)
+                case .aura:
+                    guard let keys = self.keysService.makeEthereumKeys(
+                        seed: seed,
+                        derivation: wallet.derivePath
+                    ) else {
+                        // TODO: Обработать неудачное создание ключей
+                        return
+                    }
+                    self.keychainService.set(keys.privateKey, forKey: .auraPrivateKey)
+                    self.keychainService.set(keys.publicKey, forKey: .auraPublicKey)
                 default:
                     debugPrint("Unlnown result")
 				}

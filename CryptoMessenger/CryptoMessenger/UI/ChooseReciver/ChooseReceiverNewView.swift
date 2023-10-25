@@ -12,6 +12,32 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
     // MARK: - Body
     
     var body: some View {
+        legacyContent
+            .hideKeyboardOnTap()
+            .onAppear {
+                viewModel.send(.onAppear)
+            }
+    }
+    
+    private var legacyContent: some View {
+        VStack {
+            SearchBar(placeholder: "Поиск", searchText: $viewModel.searchText, searching: $viewModel.isSearching)
+                .padding(.horizontal, 16)
+            searchSelectView
+                .padding(.top, 12)
+            List {
+                ForEach(viewModel.userWalletsViews, id: \.id) { value in
+                    value.view()
+                }
+            }
+            .listStyle(.plain)
+        }
+        .toolbar {
+            toolBarContent()
+        }
+    }
+    
+    private var content: some View {
         VStack {
             searchSelectView
             List {
@@ -22,11 +48,6 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
             .listStyle(.plain)
         }
         .searchable(text: $viewModel.searchText, prompt: "Поиск")
-        .onSubmit(of: .search) {
-        }
-        .onAppear {
-            viewModel.send(.onAppear)
-        }
         .toolbar {
             toolBarContent()
         }
@@ -53,7 +74,7 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
         }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {
-                viewModel.onScanner($viewModel.scannedText)
+                viewModel.onScanner($viewModel.searchText)
             } label: {
                 viewModel.resources.qrcode
             }
