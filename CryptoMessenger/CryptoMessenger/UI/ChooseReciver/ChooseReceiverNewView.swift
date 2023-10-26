@@ -57,14 +57,14 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
             )
         }
         .searchable(text: $viewModel.searchText, prompt: "Поиск")
-//      .navigationBarBackButtonHidden(true)
-//      .onSubmit(of: .search) {}
-//      .onAppear { viewModel.send(.onAppear) }
+        .navigationBarBackButtonHidden(true)
+        .onSubmit(of: .search) {}
+        .onAppear { viewModel.send(.onAppear) }
         .toolbar {
             toolBarContent()
         }
     }
-    
+
     // MARK: - Private Properties
 
     private var searchSelectView: some View {
@@ -80,13 +80,13 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
 
     @ToolbarContentBuilder
     private func toolBarContent() -> some ToolbarContent {
-        ToolbarItem(placement: .navigationBarLeading) {
-            Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }, label: {
-                R.image.navigation.backButton.image
-            })
-        }
+//        ToolbarItem(placement: .navigationBarLeading) {
+//            Button(action: {
+//                presentationMode.wrappedValue.dismiss()
+//            }, label: {
+//                R.image.navigation.backButton.image
+//            })
+//        }
         ToolbarItem(placement: .principal) {
             Text(viewModel.resources.chooseReceiverTitle)
                 .font(.bodySemibold17)
