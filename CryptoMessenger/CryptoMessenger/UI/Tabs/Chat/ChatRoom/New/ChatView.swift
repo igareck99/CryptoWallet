@@ -165,7 +165,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
     }
 
     private var inputView: some View {
-        ChatInputViewModel(isWriteEnable: $viewModel.isAccessToWrite,
+        ChatInputViewModel(isWriteEnable: $viewModel.userHasAccessToMessage,
                            inputText: $viewModel.inputText,
                            activeEditMessage: $viewModel.activeEditMessage,
                            quickAction: $viewModel.quickAction,

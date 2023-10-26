@@ -97,10 +97,12 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
         switch item {
         case let .settings(result):
             ProfileSettingsMenuAssembly.build(onSelect: result)
-                .presentationDetents([.large, .height(337)])
+//                .presentationDetents([.custom(MyDetent.self)])
+//                .presentationDragIndicator(.visible)
         case let .sheetPicker(sourceType):
             ProfileFeedImageAssembly.build(sourceType)
-                .presentationDetents([.large, .height(166)])
+//                .presentationDetents([.custom(MyDetentProfileFeedImage.self)])
+//                .presentationDragIndicator(.visible)
         }
     }
 }
@@ -172,5 +174,19 @@ extension ProfileRouter: ProfileRouterable {
 
     func blockList() {
         state.path.append(ProfileContentLlink.blockList)
+    }
+}
+
+struct MyDetent: CustomPresentationDetent {
+    static func height(in context: Context) -> CGFloat? {
+        // 2
+        return 337
+    }
+}
+
+struct MyDetentProfileFeedImage: CustomPresentationDetent {
+    static func height(in context: Context) -> CGFloat? {
+        // 2
+        return 166
     }
 }

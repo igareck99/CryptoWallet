@@ -50,7 +50,6 @@ extension MatrixUseCase {
         createRoom(parameters: parameters, completion: { result in
             completion(result)
         })
-        self.objectChangePublisher.send()
     }
 
     func createRoom(

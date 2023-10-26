@@ -39,6 +39,9 @@ struct ReceiverRowView: View {
                     .font(.caption1Regular12)
             }
         }
+        .onAppear {
+            print("slaslsa;lasl  \(data.name)")
+        }
         .background(.white)
         .onTapGesture {
             data.onTap(data)

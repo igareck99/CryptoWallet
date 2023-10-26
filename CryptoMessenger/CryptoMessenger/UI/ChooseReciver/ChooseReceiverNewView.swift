@@ -17,6 +17,7 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
             .onAppear {
                 viewModel.send(.onAppear)
             }
+            .navigationBarBackButtonHidden(true)
     }
     
     private var legacyContent: some View {
@@ -80,13 +81,13 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
 
     @ToolbarContentBuilder
     private func toolBarContent() -> some ToolbarContent {
-//        ToolbarItem(placement: .navigationBarLeading) {
-//            Button(action: {
-//                presentationMode.wrappedValue.dismiss()
-//            }, label: {
-//                R.image.navigation.backButton.image
-//            })
-//        }
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                R.image.navigation.backButton.image
+            })
+        }
         ToolbarItem(placement: .principal) {
             Text(viewModel.resources.chooseReceiverTitle)
                 .font(.bodySemibold17)

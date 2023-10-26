@@ -18,9 +18,8 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     var scrollIdPublisher: Published<UUID>.Publisher { $scroolString }
     @Published var activeEditMessage: RoomEvent?
     @Published var quickAction: QuickActionCurrentUser?
-    @Published private(set) var room: AuraRoomData
+    @Published var room: AuraRoomData
     @Published var replyDescriptionText = ""
-    @Published var isAccessToWrite = true
     var sources: ChatRoomSourcesable.Type = ChatRoomResources.self
     var coordinator: ChatHistoryFlowCoordinatorProtocol
     let mediaService = MediaService()
@@ -54,7 +53,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     var roomName: String { room.roomName }
     var isDirect: Bool { room.isDirect }
     var isOnline: Bool { room.isOnline }
-    var userHasAccessToMessage = true
+    @Published var userHasAccessToMessage = true
     @Published var isChannel = false
 
     private var scrollProxy: ScrollViewProxy?
@@ -154,16 +153,8 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         guard let self = self else { return }
                         guard case let .success(state) = result,
                               let pLevels = state.powerLevels else { return }
-                        DispatchQueue.main.async {
-                            self.roomPowerLevels = pLevels
-                            self.isAccessToWrite = pLevels.powerLevelOfUser(
-                                withUserID: self.matrixUseCase.getUserId()
-                            ) >= 50 ? true : false
-                            self.isChannel = pLevels.eventsDefault == 50
-                        }
                         debugPrint("self?.isChannel: pLevels.eventsDefault == 50 \(self.isChannel)")
                     }
-                    self.loadUsers()
                     guard let mxRoom = self.matrixUseCase.getRoomInfo(roomId: self.room.roomId) else { return }
                     guard let auraRoom = self.matrixobjectFactory
                         .makeAuraRooms(mxRooms: [mxRoom],
@@ -392,6 +383,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     users: roomMembers.members(with: .invite) + roomMembers.members(with: .join),
                     roomPowerLevels: self.roomPowerLevels
                 )
+                debugPrint("getRoomMembers result: \(users)")
                 self.participants = users
                 self.room.participants = users
             }
@@ -402,6 +394,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         chatData: Binding<ChatData>,
         isLeaveChannel: Binding<Bool>
     ) {
+        self.room.participants = participants
         coordinator.roomSettings(
             isChannel: isChannel,
             chatData: chatData,
