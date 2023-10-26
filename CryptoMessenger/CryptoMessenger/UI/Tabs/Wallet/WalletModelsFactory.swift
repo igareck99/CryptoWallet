@@ -99,7 +99,6 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
         wallets: [WalletNetwork],
         tokens: [NetworkToken]
     ) -> [WalletInfo] {
-
         var cards = [WalletInfo]()
         wallets.forEach { wallet in
             guard let address = wallet.address,
@@ -108,9 +107,11 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
             else {
                 return
             }
-
+            print("slaslsal  \(wallet.fiatPrice)  \(wallet.balance)  \(wallet.cryptoType)")
             let fiat = wallet.fiatPrice * ((wallet.balance as? NSString)?.doubleValue ?? 1)
+            
             let fiatAmount = String(format: "%.2f", fiat)
+            
             let walletCard = WalletInfo(
                 decimals: Int(wallet.decimals),
                 walletType: walletType,

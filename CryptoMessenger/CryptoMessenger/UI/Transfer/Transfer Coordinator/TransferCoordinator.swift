@@ -30,7 +30,6 @@ extension TransferCoordinator: Coordinator {
 
 extension TransferCoordinator: TransferViewCoordinatable {
     func showAdressScanner(_ value: Binding<String>) {
-        print("slkaslkasklaskl")
         router.showAdressScanner(value)
     }
     
