@@ -4,6 +4,7 @@ struct BalancesResponse: Codable {
 	let ethereum: [Balance]
 	let bitcoin: [Balance]
     let binance: [Balance]
+    let aura: [Balance]
 }
 
 struct Balance: Codable {

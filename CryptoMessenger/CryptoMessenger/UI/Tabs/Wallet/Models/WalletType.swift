@@ -1,23 +1,23 @@
 import Foundation
 
 enum WalletType: String {
-    
+
     case bitcoin
     case ethereum
-    case aur
+    case aura
     case binance
     case binanceUSDT
     case binanceBUSD
     case ethereumUSDT
     case ethereumUSDC
-    
+
     var order: Int {
         switch self {
         case .bitcoin:
             return 0
         case .ethereum:
             return 1
-        case .aur:
+        case .aura:
             return 2
         case .binance:
             return 5
@@ -36,7 +36,7 @@ enum WalletType: String {
 		switch self {
 		case .ethereum, .ethereumUSDT, .ethereumUSDC:
 			return R.string.localizable.walletEthereum()
-		case .aur:
+		case .aura:
 			return R.string.localizable.walletAura()
 		case .bitcoin:
 			return R.string.localizable.walletBitcoin()
@@ -55,7 +55,7 @@ enum WalletType: String {
             return R.string.localizable.walletBUSD()
 		case .ethereum:
             return R.string.localizable.walletETH()
-		case .aur:
+		case .aura:
             return R.string.localizable.walletAUR()
 		case .bitcoin:
             return R.string.localizable.walletBTC()
@@ -70,7 +70,7 @@ enum WalletType: String {
             return R.string.localizable.walletETH()
         case .binance, .binanceUSDT, .binanceBUSD:
             return R.string.localizable.walletBNB()
-        case .aur:
+        case .aura:
             return R.string.localizable.walletAUR()
         case .bitcoin:
             return R.string.localizable.walletBTC()
@@ -83,7 +83,7 @@ enum WalletType: String {
             return R.string.localizable.walletEthereum()
         case .binance, .binanceUSDT, .binanceBUSD:
             return R.string.localizable.walletBinance()
-        case .aur:
+        case .aura:
             return R.string.localizable.walletAura()
         case .bitcoin:
             return R.string.localizable.walletBitcoin()
@@ -92,7 +92,7 @@ enum WalletType: String {
 
     var compositeTitle: String {
         switch self {
-        case .aur:
+        case .aura:
             return R.string.localizable.walletAuraAUR()
         case .bitcoin:
             return R.string.localizable.walletBitcoinBTC()

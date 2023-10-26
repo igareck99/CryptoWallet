@@ -287,7 +287,6 @@
 		8B3A816A275AC25D00E736E4 /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3A8169275AC25D00E736E4 /* ProfileDetailView.swift */; };
 		8B3E0D022A0401FE005E8E3C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D012A0401FE005E8E3C /* NotificationService.swift */; };
 		8B3E0D072A0401FE005E8E3C /* AuraNSE.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8B3E0CFF2A0401FE005E8E3C /* AuraNSE.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		8B3E0D212A041430005E8E3C /* AuraRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D142A041430005E8E3C /* AuraRoom.swift */; };
 		8B3E0D232A041430005E8E3C /* MXEvent+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D162A041430005E8E3C /* MXEvent+Extension.swift */; };
 		8B3E0D272A0414DA005E8E3C /* KeychainServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4728113C7A0033D07A /* KeychainServiceProtocol.swift */; };
 		8B3E0D282A0414DA005E8E3C /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4442B4B2811996F0033D07A /* KeychainService.swift */; };
@@ -630,6 +629,9 @@
 		D413F10129BF3458005B7532 /* AccessService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413F10029BF3458005B7532 /* AccessService.swift */; };
 		D413F10329BF3E69005B7532 /* AccessLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413F10229BF3E69005B7532 /* AccessLevels.swift */; };
 		D413F10529BF76A6005B7532 /* AccessService+AccessLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413F10429BF76A6005B7532 /* AccessService+AccessLevels.swift */; };
+		D414000C2AE8FD2E00E18720 /* ConfigType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D414000B2AE8FD2E00E18720 /* ConfigType.swift */; };
+		D414000F2AE902C000E18720 /* ConfigType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D414000B2AE8FD2E00E18720 /* ConfigType.swift */; };
+		D41400102AE9032700E18720 /* AuraRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3E0D142A041430005E8E3C /* AuraRoom.swift */; };
 		D415081C28A5199C00C92CEC /* CheckReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415081B28A5199C00C92CEC /* CheckReadView.swift */; };
 		D415081F28A52C6600C92CEC /* CheckTextReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415081E28A52C6600C92CEC /* CheckTextReadView.swift */; };
 		D415082228A52E6400C92CEC /* ReactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D415082128A52E6400C92CEC /* ReactionsView.swift */; };
@@ -1624,6 +1626,7 @@
 		D413F10029BF3458005B7532 /* AccessService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessService.swift; sourceTree = "<group>"; };
 		D413F10229BF3E69005B7532 /* AccessLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessLevels.swift; sourceTree = "<group>"; };
 		D413F10429BF76A6005B7532 /* AccessService+AccessLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccessService+AccessLevels.swift"; sourceTree = "<group>"; };
+		D414000B2AE8FD2E00E18720 /* ConfigType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigType.swift; sourceTree = "<group>"; };
 		D415081B28A5199C00C92CEC /* CheckReadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckReadView.swift; sourceTree = "<group>"; };
 		D415081E28A52C6600C92CEC /* CheckTextReadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTextReadView.swift; sourceTree = "<group>"; };
 		D415082128A52E6400C92CEC /* ReactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsView.swift; sourceTree = "<group>"; };
@@ -4546,6 +4549,7 @@
 				D46FC16229A3907A00D65C99 /* AppConfiguration.swift */,
 				D46FC16629A392D000D65C99 /* AppConfigurationEnums.swift */,
 				D46FC16829A397BA00D65C99 /* UrlsConfig.swift */,
+				D414000B2AE8FD2E00E18720 /* ConfigType.swift */,
 			);
 			path = "App Config";
 			sourceTree = "<group>";
@@ -6008,6 +6012,7 @@
 				5A187F2D2680CF49001957D3 /* HTTPURLResponse+StatusOk.swift in Sources */,
 				D44BDC832809A2EE0080AE8A /* MatrixNotification.swift in Sources */,
 				8B82988F2982E3550038C546 /* ChannelAddUserView.swift in Sources */,
+				D414000C2AE8FD2E00E18720 /* ConfigType.swift in Sources */,
 				D4FD92AB2A5D5989008EA8A2 /* WalletRouter.swift in Sources */,
 				D4220D502A7242DB008B158C /* ProfileResources.swift in Sources */,
 				8B0C57572A660E7200D456FF /* ImagePickerView.swift in Sources */,
@@ -6228,15 +6233,16 @@
 				D4FE587E2AD9303C006498D1 /* UserDefaultsService+UserFlowStorage.swift in Sources */,
 				8B3E0D2C2A0414DA005E8E3C /* KeychainItemAccessibility.swift in Sources */,
 				D4E978FB2A1E082400771232 /* AppConfigurationEnums.swift in Sources */,
+				D41400102AE9032700E18720 /* AuraRoom.swift in Sources */,
 				D4E9790C2A1E0D8000771232 /* ConnectedEdges.swift in Sources */,
 				8B3E0D022A0401FE005E8E3C /* NotificationService.swift in Sources */,
 				D4FE587D2AD93037006498D1 /* UserDefaultsService+Calls.swift in Sources */,
 				D4FE587B2AD9301C006498D1 /* UserDefaultsService.swift in Sources */,
 				D4E979052A1E091800771232 /* RoomSummary.swift in Sources */,
+				D414000F2AE902C000E18720 /* ConfigType.swift in Sources */,
 				D4FE587F2AD93040006498D1 /* UserDefaultsService+UserCredentialsStorage.swift in Sources */,
 				D4FE587C2AD93032006498D1 /* UserDefaultsServiceProtocol.swift in Sources */,
 				D4E978F72A1E01DA00771232 /* KeychainServiceAssembly.swift in Sources */,
-				8B3E0D212A041430005E8E3C /* AuraRoom.swift in Sources */,
 				D4E979032A1E08A300771232 /* MessageType.swift in Sources */,
 				D4E978FD2A1E082F00771232 /* RawInitializable.swift in Sources */,
 				D4E978F92A1E07F300771232 /* AppConfiguration.swift in Sources */,

@@ -28,7 +28,7 @@ enum PlistKey {
     }
 }
 
-enum NetType: String {
+enum NetType: String, Codable, RawInitializable {
     case mainnet
     case testnet
 }

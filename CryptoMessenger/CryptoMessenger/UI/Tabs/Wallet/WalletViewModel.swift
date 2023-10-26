@@ -179,6 +179,13 @@ final class WalletViewModel: ObservableObject {
                    wallet.address = binanceAddress
                    self.coreDataService.updateWalletNetwork(model: wallet)
                }
+            
+            if let auraAddress = addresses.aura?.first?.address,
+               let wallet: WalletNetwork = savedWallets
+                .first(where: { $0.cryptoType == CryptoType.aura.rawValue }) {
+                wallet.address = auraAddress
+                self.coreDataService.updateWalletNetwork(model: wallet)
+            }
             group.leave()
 		}
         group.notify(queue: .main) {
@@ -210,7 +217,8 @@ final class WalletViewModel: ObservableObject {
             let balances: [CryptoType: [Balance]] = [
                 .ethereum: balance.ethereum,
                 .bitcoin: balance.bitcoin,
-                .binance: balance.binance
+                .binance: balance.binance,
+                .aura: balance.aura
             ]
 
             balances.forEach { balancePair in
@@ -279,8 +287,6 @@ final class WalletViewModel: ObservableObject {
 		objectWillChange.send()
 
 		// Update wallets in background
-        let group = DispatchGroup()
-        group.enter()
 		walletNetworks.getNetworks { [weak self] networksResponse in
 
 			guard let self = self, case let .success(walletsResponse) = networksResponse else { return }
@@ -288,7 +294,8 @@ final class WalletViewModel: ObservableObject {
             let wallets: [WalletNetworkModel] = [
                 walletsResponse.binance,
                 walletsResponse.bitcoin,
-                walletsResponse.ethereum
+                walletsResponse.ethereum,
+                walletsResponse.aura
             ].compactMap { $0 }
 
 			let dbWallets = self.coreDataService.getWalletNetworks()
@@ -368,15 +375,22 @@ final class WalletViewModel: ObservableObject {
                     }
 					self.keychainService.set(keys.privateKey, forKey: .bitcoinPrivateKey)
 					self.keychainService.set(keys.publicKey, forKey: .bitcoinPublicKey)
+                case .aura:
+                    guard let keys = self.keysService.makeEthereumKeys(
+                        seed: seed,
+                        derivation: wallet.derivePath
+                    ) else {
+                        // TODO: Обработать неудачное создание ключей
+                        return
+                    }
+                    self.keychainService.set(keys.privateKey, forKey: .auraPrivateKey)
+                    self.keychainService.set(keys.publicKey, forKey: .auraPublicKey)
                 default:
                     debugPrint("Unlnown result")
 				}
 			}
-            group.leave()
-		}
-        group.notify(queue: .main) {
             self.getTokens()
-        }
+		}
 	}
 
     func getTokens() {

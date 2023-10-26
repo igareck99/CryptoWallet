@@ -14,7 +14,7 @@ struct WalletCardView: View {
 
 	var body: some View {
 		switch wallet.walletType {
-		case .aur:
+		case .aura:
 			VStack(alignment: .leading) {
 				wallet.result.image.resizable()
 			}

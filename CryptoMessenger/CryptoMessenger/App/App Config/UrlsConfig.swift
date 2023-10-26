@@ -7,23 +7,26 @@ struct UrlsConfig: Codable {
     let apiUrl: String
     let apiVersion: String
     let apiStand: Stand
+    let netType: NetType
 
-    static let defaultRelease = UrlsConfig(
+    static let defaultStage = UrlsConfig(
         cryptoWallet: "https://crypto.stage.auradev.space/",
         jitsiMeet: "https://meet.stage.auradev.space/",
         matrixUrl: "https://matrix.stage.auradev.space/",
         apiUrl: "https://api.stage.auradev.space/",
         apiVersion: "v0",
-        apiStand: .prod
+        apiStand: .dev,
+        netType: .testnet
     )
-    
-    static let defaultRelease1 = UrlsConfig(
+
+    static let defaultRelease = UrlsConfig(
         cryptoWallet: "https://crypto.aura.ms/",
         jitsiMeet: "https://meet.aura.ms/",
         matrixUrl: "https://matrix.aura.ms/",
         apiUrl: "https://api.aura.ms/",
         apiVersion: "v0",
-        apiStand: .prod
+        apiStand: .prod,
+        netType: .mainnet
     )
 
     static let defaultDebug = UrlsConfig(
@@ -32,15 +35,9 @@ struct UrlsConfig: Codable {
         matrixUrl: "https://matrix.auramsg.co/",
         apiUrl: "https://api.auramsg.co/",
         apiVersion: "v0",
-        apiStand: .dev
+        apiStand: .dev,
+        netType: .testnet
     )
-
-    static let space = UrlsConfig(cryptoWallet: "https://stage.auradev.space/",
-                                  jitsiMeet: "https://meet.auramsg.ms/",
-                                  matrixUrl: "https://matrix.auramsg.co/",
-                                  apiUrl: "https://api.auramsg.co/",
-                                  apiVersion: "v0",
-                                  apiStand: .dev)
 
     enum CodingKeys: String, CodingKey {
         case cryptoWallet = "CryptoWallet"
@@ -49,6 +46,7 @@ struct UrlsConfig: Codable {
         case apiUrl = "API"
         case apiVersion = "API Version"
         case apiStand = "apiStand"
+        case netType = "netType"
     }
 
     init(
@@ -57,7 +55,8 @@ struct UrlsConfig: Codable {
         matrixUrl: String,
         apiUrl: String,
         apiVersion: String,
-        apiStand: Stand
+        apiStand: Stand,
+        netType: NetType
     ) {
         self.cryptoWallet = cryptoWallet
         self.jitsiMeet = jitsiMeet
@@ -65,6 +64,7 @@ struct UrlsConfig: Codable {
         self.apiUrl = apiUrl
         self.apiVersion = apiVersion
         self.apiStand = apiStand
+        self.netType = netType
     }
 
     init(dictionary: [String: Any]) throws {
