@@ -12,12 +12,14 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
     @State var isLeaveChannel = false
 
     var body: some View {
-        VStack {
+        ScrollViewReader { proxy in
+            VStack {
                 List {
                     ForEach(viewModel.displayItems, id: \.id) { item in
                         item.view()
                             .listRowSeparator(.hidden)
                             .listRowInsets(EdgeInsets())
+                            .id(item.id)
                     }
                     ForEach(viewModel.sendingEventsView, id: \.id) { item in
                         item.view()
@@ -25,12 +27,24 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                             .listRowInsets(EdgeInsets())
                     }
                 }
-                .listStyle(.inset)
-                .onAppear {
-                    viewModel.eventSubject.send(.onAppear)
+                .listStyle(.inset) // scrollId
+                .onChange(of: viewModel.scroolString) { newValue in
+                    debugPrint("scrollToBottom viewModel.scroolString: \(newValue)")
+                    withAnimation {
+                        proxy.scrollTo(viewModel.scroolString, anchor: .bottom)
+                    }
                 }
-            Spacer()
-            inputView
+                .onAppear {
+                    viewModel.eventSubject.send(.onAppear(proxy))
+                    debugPrint("scrollToBottom displayItems last: \(viewModel.displayItems.last?.id)")
+                    debugPrint("scrollToBottom scroolString last: \(viewModel.scroolString)")
+                    withAnimation {
+                        proxy.scrollTo(viewModel.scroolString, anchor: .bottom)
+                    }
+                }
+                Spacer()
+                inputView
+            }
         }
         .navigationBarBackButtonHidden(true)
         .onTapGesture {

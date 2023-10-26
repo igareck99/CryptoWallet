@@ -9,6 +9,8 @@ protocol ChatViewModelProtocol: ObservableObject {
 
     var isAccessToWrite: Bool { get set }
     
+    var scroolString: UUID { get set }
+    
     var scrollId: Published<UUID> { get }
     
     var scrollIdPublisher: Published<UUID>.Publisher { get }

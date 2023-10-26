@@ -23,7 +23,7 @@ enum ChatRoomFlow {
 
         // MARK: - Types
 
-        case onAppear
+        case onAppear(ScrollViewProxy?)
         case onSendText(String)
         case onSendImage(UIImage)
         case onSendFile(URL)
