@@ -94,10 +94,12 @@ final class ProfileViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
+        coordinator: ProfileFlowCoordinatorProtocol? = nil,
         userSettings: UserCredentialsStorage & UserFlowsStorage,
         keychainService: KeychainServiceProtocol,
         resources: ProfileResourcable.Type = ProfileResources.self
     ) {
+        self.coordinator = coordinator
         self.userSettings = userSettings
         self.keychainService = keychainService
         self.resources = resources

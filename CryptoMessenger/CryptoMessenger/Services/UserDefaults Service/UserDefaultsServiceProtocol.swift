@@ -18,7 +18,7 @@ protocol UserDefaultsServiceProtocol: AnyObject {
 	func float(forKey key: UserDefaultsService.Keys) -> Float?
 
 	// Delete
-	func remoVeObject(forKey key: UserDefaultsService.Keys)
+	func removeObject(forKey key: UserDefaultsService.Keys)
 
 	// Subscripts
 	subscript(key: UserDefaultsService.Keys) -> String? { get set }

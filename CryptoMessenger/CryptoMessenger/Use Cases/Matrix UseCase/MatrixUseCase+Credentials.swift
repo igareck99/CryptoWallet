@@ -11,8 +11,8 @@ extension MatrixUseCase {
             return
         }
 
-        keychainService[.homeServer] = homeServer
         userSettings.userId = userId
+        keychainService[.homeServer] = homeServer
         keychainService[.accessToken] = accessToken
         keychainService[.deviceId] = deviceId
         debugPrint("Credetials saved")
@@ -21,10 +21,10 @@ extension MatrixUseCase {
     func clearCredentials() {
         debugPrint("Credetials clearCredentials START")
         keychainService.removeObject(forKey: .homeServer)
-        userSettings.remoVeObject(forKey: .userId)
         keychainService.removeObject(forKey: .accessToken)
         keychainService.removeObject(forKey: .apiRefreshToken)
         keychainService.removeObject(forKey: .deviceId)
+        userSettings.removeObject(forKey: .userId)
         debugPrint("Credetials clearCredentials END")
     }
 

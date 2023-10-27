@@ -16,7 +16,7 @@ enum ProfileAssembly {
             keychainService: keychainService
         )
         let view = ProfileView(viewModel: viewModel)
-        let router = ProfileRouter(state: ProfileFlowState()) {
+        let router = ProfileRouter(state: ProfileFlowState.shared) {
             view
         }
         let coordinator = ProfileFlowCoordinator(

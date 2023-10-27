@@ -7,7 +7,10 @@ extension MatrixUseCase {
 
     func logoutDevices(completion: @escaping EmptyResultBlock) {
         matrixService.getDevicesWithActiveSessions { [weak self] result in
-            guard case .success(let userDevices) = result else { return }
+            guard case .success(let userDevices) = result else {
+                completion(.failure)
+                return
+            }
             self?.matrixService.remove(userDevices: userDevices, completion: completion)
         }
     }

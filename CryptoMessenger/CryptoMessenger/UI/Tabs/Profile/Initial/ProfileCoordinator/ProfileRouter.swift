@@ -2,9 +2,9 @@ import Foundation
 import SwiftUI
 
 protocol ProfileRouterable {
-    
+
     func socialList()
-    
+
     func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
                                  galleryContent: GalleryPickerContent,
                                  onSelectImage: @escaping (UIImage?) -> Void,
@@ -37,7 +37,7 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
 
     // MARK: - Internal Properties
 
-    @ObservedObject var state: State
+    @StateObject var state: State
     let content: () -> Content
 
     var body: some View {
@@ -91,7 +91,7 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
             BlockedListAssembly.build()
         }
     }
-    
+
     @ViewBuilder
     private func sheetContent(item: ProfileSheetLlink) -> some View {
         switch item {
@@ -111,7 +111,7 @@ extension ProfileRouter: ProfileRouterable {
     func socialList() {
         state.path.append(ProfileContentLlink.socialList)
     }
-    
+
     func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
                                  galleryContent: GalleryPickerContent,
                                  onSelectImage: @escaping (UIImage?) -> Void,
@@ -122,7 +122,7 @@ extension ProfileRouter: ProfileRouterable {
                                                             onSelectImage: onSelectImage,
                                                             onSelectVideo: onSelectVideo))
     }
-    
+
     func imageEditor(isShowing: Binding<Bool>,
                      image: Binding<UIImage?>,
                      viewModel: ProfileViewModel) {
@@ -131,45 +131,45 @@ extension ProfileRouter: ProfileRouterable {
                                                           image: image,
                                                           viewModel: viewModel))
     }
-    
+
     func profileDetail(_ coordinator: ProfileFlowCoordinatorProtocol,
                        _ image: Binding<UIImage?>) {
         state.presentedItem = nil
         state.path.append(ProfileContentLlink.profileDetail(coordinator,
                                                             image))
     }
-    
+
     func security(_ coordinator: ProfileFlowCoordinatorProtocol) {
         state.presentedItem = nil
         state.path.append(ProfileContentLlink.security(coordinator))
     }
-    
+
     func notifications(_ coordinator: ProfileFlowCoordinatorProtocol) {
         state.presentedItem = nil
         state.path.append(ProfileContentLlink.notifications(coordinator))
     }
-    
+
     func aboutApp(_ coordinator: ProfileFlowCoordinatorProtocol) {
         state.presentedItem = nil
         state.path.append(ProfileContentLlink.aboutApp(coordinator))
     }
-    
+
     func pinCode(_ pinCodeScreen: PinCodeScreenType) {
         state.path.append(ProfileContentLlink.pinCode(pinCodeScreen))
     }
-    
+
     func sessions(_ coordinator: ProfileFlowCoordinatorProtocol) {
         state.path.append(ProfileContentLlink.sessions(coordinator))
     }
-    
+
     func showSettings(_ result: @escaping GenericBlock<ProfileSettingsMenu>) {
         state.presentedItem = .settings(result)
     }
-    
+
     func sheetPicker(_ sourceType: @escaping (UIImagePickerController.SourceType) -> Void) {
         state.presentedItem = .sheetPicker(sourceType)
     }
-    
+
     func blockList() {
         state.path.append(ProfileContentLlink.blockList)
     }
