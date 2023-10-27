@@ -206,10 +206,7 @@ final class ProfileViewModel: ObservableObject {
         $changedImage
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
-                guard let image = image else {
-                    self?.showSnackBar(text: "Не удалось поменять картинку")
-                    return
-                }
+                guard let image = image else {return}
                 self?.send(.onAddPhoto(image))
             }
             .store(in: &subscriptions)

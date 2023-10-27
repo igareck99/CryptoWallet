@@ -205,8 +205,9 @@ struct ProfileView: View {
                                 .cornerRadius(50)
                                 .frame(width: 100, height: 100)
                                 .foregroundColor(viewModel.resources.buttonBackground)
-                            ProgressView()
-                                .tint(viewModel.resources.buttonBackground)
+                            Text(viewModel.profile.name.firstLetter.uppercased())
+                                .foregroundColor(.white)
+                                .font(.largeTitleRegular34)
                                 .frame(width: 50,
                                        height: 50)
                         }
