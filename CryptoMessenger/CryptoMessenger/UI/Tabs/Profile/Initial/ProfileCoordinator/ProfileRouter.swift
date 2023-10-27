@@ -29,6 +29,10 @@ protocol ProfileRouterable {
     func sheetPicker(_ sourceType: @escaping (UIImagePickerController.SourceType) -> Void)
 
     func blockList()
+
+    func removePresentedItem()
+
+    func clearPath()
 }
 
 // MARK: - ChatHistoryRouter
@@ -37,7 +41,7 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var state: State
+    @ObservedObject var state: State
     let content: () -> Content
 
     var body: some View {
@@ -52,7 +56,7 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
             )
         }
     }
-    
+
     @ViewBuilder
     private func linkDestination(link: ProfileContentLlink) -> some View {
         switch link {
@@ -83,7 +87,6 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
             AboutAppAssembly.build()
         case let .pinCode(screenType):
             PinCodeAssembly.build(screenType: screenType) {
-                
             }
         case let .sessions(coordinator):
             SessionAssembly.build(coordinator)
@@ -97,12 +100,10 @@ struct ProfileRouter<Content: View, State: ProfileCoordinatorBase>: View {
         switch item {
         case let .settings(result):
             ProfileSettingsMenuAssembly.build(onSelect: result)
-//                .presentationDetents([.custom(MyDetent.self)])
-//                .presentationDragIndicator(.visible)
+                    .presentationDetents([.large, .height(337)])
         case let .sheetPicker(sourceType):
             ProfileFeedImageAssembly.build(sourceType)
-//                .presentationDetents([.custom(MyDetentProfileFeedImage.self)])
-//                .presentationDragIndicator(.visible)
+                    .presentationDetents([.large, .height(166)])
         }
     }
 }
@@ -174,6 +175,14 @@ extension ProfileRouter: ProfileRouterable {
 
     func blockList() {
         state.path.append(ProfileContentLlink.blockList)
+    }
+
+    func removePresentedItem() {
+        state.presentedItem = nil
+    }
+    
+    func clearPath() {
+        state.path = NavigationPath()
     }
 }
 
