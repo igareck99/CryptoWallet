@@ -4,7 +4,7 @@ import SwiftUI
 
 struct ReactionsNewViewModel: ViewGeneratable {
 
-    var id = UUID()
+    var id: UUID
     var width: CGFloat
     var views: [any ViewGeneratable]
     var firstRow: [any ViewGeneratable] = []
@@ -13,9 +13,11 @@ struct ReactionsNewViewModel: ViewGeneratable {
     
     // MARK: - Lifecycle
 
-    init(width: CGFloat,
+    init(id: UUID = UUID(),
+         width: CGFloat,
          views: [any ViewGeneratable],
          backgroundColor: Color) {
+        self.id = id
         self.width = width
         self.views = views
         self.backgroundColor = backgroundColor

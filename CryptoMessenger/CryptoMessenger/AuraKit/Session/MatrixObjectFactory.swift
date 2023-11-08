@@ -60,12 +60,6 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                     let homeServer = config.matrixURL
                     roomAvatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
                 }
-                // MARK: - ?????
-                /*
-                if mxRoom.isDirect {
-                    print("slaslkaslkas  \(mxRoom.summary)")
-                }
-                 */
 
                 let enumerator = mxRoom.enumeratorForStoredMessages
                 let currentBatch = enumerator?.nextEventsBatch(100, threadId: nil) ?? []
@@ -87,6 +81,10 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                 messageType = lastMessageEvent?.messageType ?? MessageType.text("")
                 var members: Int = 1
                 var roomName = ""
+                if summary.summary.avatar != nil {
+                    let homeServer = config.matrixURL
+                    roomAvatar = MXURL(mxContentURI: summary.summary.avatar)?.contentURL(on: homeServer)
+                }
                 if summary.summary.membersCount != nil {
                     members = Int(summary.summary.membersCount.members)
                     roomName = mxRoom.summary.displayName ?? ""

@@ -2,12 +2,21 @@ import SwiftUI
 
 extension RoomEventsFactory {
 
-    static func makeAudioItem(event: RoomEvent, url: URL?,
+    static func makeAudioItem(event: RoomEvent,
+                              oldEvents: [RoomEvent],
+                              oldViews: [any ViewGeneratable],
+                              url: URL?,
                               onLongPressTap: @escaping (RoomEvent) -> Void,
                               onReactionTap: @escaping (ReactionNewEvent) -> Void,
-                              onSwipeReply: @escaping (RoomEvent) -> Void) -> any ViewGeneratable {
+                              onSwipeReply: @escaping (RoomEvent) -> Void) -> (any ViewGeneratable)? {
         guard let url = url else { return ZeroViewModel() }
-        
+        if event.sentState == .sent {
+            let oldEvent = oldEvents.first(where: { $0.eventId == event.eventId })
+            if oldEvent == event {
+                guard let view = oldViews.first(where: { $0.id == event.id }) else { return nil }
+                return view
+            }
+        }
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
@@ -45,6 +54,7 @@ extension RoomEventsFactory {
 
         if event.isFromCurrentUser {
             return EventContainer(
+                id: event.id,
                 leadingContent: PaddingModel(),
                 centralContent: bubbleContainer, onLongPress: {
                     onLongPressTap(event)
@@ -53,6 +63,7 @@ extension RoomEventsFactory {
         }
 
         return EventContainer(
+            id: event.id,
             centralContent: bubbleContainer,
             trailingContent: PaddingModel(), onLongPress: {
                 onLongPressTap(event)

@@ -3,6 +3,8 @@ import SwiftUI
 extension RoomEventsFactory {
     static func makeMapItem(
         event: RoomEvent,
+        oldEvents: [RoomEvent],
+        oldViews: [any ViewGeneratable],
         lat: Double,
         lon: Double,
         delegate: ChatEventsDelegate,
@@ -10,7 +12,14 @@ extension RoomEventsFactory {
         onReactionTap: @escaping (ReactionNewEvent) -> Void,
         onNotSentTap: @escaping (RoomEvent) -> Void,
         onSwipeReply: @escaping (RoomEvent) -> Void
-    ) -> any ViewGeneratable {
+    ) -> (any ViewGeneratable)? {
+        if event.sentState == .sent {
+            let oldEvent = oldEvents.first(where: { $0.eventId == event.eventId })
+            if oldEvent == event {
+                guard let view = oldViews.first(where: { $0.id == event.id }) else { return nil }
+                return view
+            }
+        }
         var color: Color = .clear
         var textColor: Color = .chineseShadow
         switch event.eventType {
@@ -39,7 +48,6 @@ extension RoomEventsFactory {
         } else {
             viewModel = ZeroViewModel()
         }
-
         let place = Place(name: "Name", latitude: lat, longitude: lon)
         let mapEventItem = MapEvent(
             place: Place(name: "Name", latitude: lat, longitude: lon),
@@ -64,6 +72,7 @@ extension RoomEventsFactory {
                     onNotSentTap(event)
                 }
                 return EventContainer(
+                    id: event.id,
                     leadingContent: PaddingModel(),
                     centralContent: bubbleContainer,
                     trailingContent: notSentModel,
@@ -73,6 +82,7 @@ extension RoomEventsFactory {
                 )
             }
             return EventContainer(
+                id: event.id,
                 leadingContent: PaddingModel(),
                 centralContent: bubbleContainer,
                 bottomContent: viewModel, onLongPress: {
@@ -82,6 +92,7 @@ extension RoomEventsFactory {
         }
 
         return EventContainer(
+            id: event.id,
             centralContent: bubbleContainer,
             trailingContent: PaddingModel(),
             bottomContent: viewModel, onLongPress: {

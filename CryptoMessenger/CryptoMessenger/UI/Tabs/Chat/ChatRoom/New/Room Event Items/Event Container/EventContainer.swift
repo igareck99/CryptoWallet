@@ -3,7 +3,7 @@ import SwiftUI
 // swiftlint:disable void_return
 
 struct EventContainer: Identifiable, ViewGeneratable {
-    let id = UUID()
+    let id: UUID
     let leadingContent: any ViewGeneratable
     let centralContent: any ViewGeneratable
     let trailingContent: any ViewGeneratable
@@ -11,12 +11,14 @@ struct EventContainer: Identifiable, ViewGeneratable {
     var onLongPress: () -> Void
 
     init(
+        id: UUID = UUID(),
         leadingContent: any ViewGeneratable = ZeroViewModel(),
         centralContent: any ViewGeneratable = ZeroViewModel(),
         trailingContent: any ViewGeneratable = ZeroViewModel(),
         bottomContent: any ViewGeneratable = ZeroViewModel(),
         onLongPress: @escaping () -> Void
     ) {
+        self.id = id
         self.leadingContent = leadingContent
         self.centralContent = centralContent
         self.trailingContent = trailingContent

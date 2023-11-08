@@ -107,7 +107,6 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
             else {
                 return
             }
-
             let fiat = wallet.fiatPrice * ((wallet.balance as? NSString)?.doubleValue ?? 1)
             let fiatAmount = String(format: "%.2f", fiat)
             let walletCard = WalletInfo(

@@ -13,15 +13,15 @@ final class AudioMessageViewModel: ObservableObject {
     
     @Published var state: AudioEventItemState
     @Published var isPlaying = false
-    @Published var audioPlayer: AVAudioPlayer?
+    @Published var audioPlayer = AVAudioPlayer()
+    var audioPlayerDelegate: AVAudioPlayerDelegate? = nil
     @Published var timer = Timer.publish(every: 0.01,
                                              on: .main, in: .common).autoconnect()
     @Published var time: Double = 0
     @Published var playingAudioId = ""
+    var songDidEnd = PassthroughSubject<Void, Never>()
     let remoteDataService: RemoteDataServiceProtocol
     let fileService: FileManagerProtocol
-    
-    // MARK: - Private Properties
 
     // MARK: - Lifecycle
 
@@ -40,7 +40,7 @@ final class AudioMessageViewModel: ObservableObject {
 
     func stop() {
         playingAudioId = ""
-        audioPlayer?.pause()
+        audioPlayer.pause()
         isPlaying = false
         timer.upstream.connect().cancel()
         self.state = .play
@@ -57,7 +57,7 @@ final class AudioMessageViewModel: ObservableObject {
             try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try? AVAudioSession.sharedInstance().setActive(true)
             timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
-            audioPlayer?.play()
+            audioPlayer.play()
             isPlaying = true
             DispatchQueue.main.async {
                 self.state = .stop
@@ -67,16 +67,16 @@ final class AudioMessageViewModel: ObservableObject {
 
     func onSlide(_ value: Double) {
         time = value
-        audioPlayer?.currentTime = Double(time) * (audioPlayer?.duration ?? 0)
-        audioPlayer?.play()
+        audioPlayer.currentTime = Double(time) * (audioPlayer.duration)
+        audioPlayer.play()
     }
 
     func onTimerChange() {
-        if audioPlayer?.isPlaying == true {
-            audioPlayer?.updateMeters()
+        if audioPlayer.isPlaying == true {
+            audioPlayer.updateMeters()
             isPlaying = true
-            time = Double((audioPlayer?.currentTime ?? 0) / (audioPlayer?.duration ?? 1))
-            if audioPlayer?.currentTime == audioPlayer?.duration {
+            time = Double((audioPlayer.currentTime ?? 0) / (audioPlayer.duration ?? 1))
+            if audioPlayer.currentTime == audioPlayer.duration {
                 self.state = .play
             }
         } else {
@@ -94,15 +94,33 @@ final class AudioMessageViewModel: ObservableObject {
                                                          pathExtension: "mp4")
         if isExist {
             guard let path = path else { return }
-            self.audioPlayer = try? AVAudioPlayer(contentsOf: path)
-            self.audioPlayer?.numberOfLoops = .zero
+            let item = AVPlayerItem(url: path)
+            guard let player = try? AVAudioPlayer(contentsOf: path) else { return }
+            self.audioPlayer = player
+            self.audioPlayerDelegate = AudioPlayerDelegate(endCompletion: { [weak self] in
+                guard let self = self else { return }
+                self.isPlaying = false
+                self.state = .play
+                self.playingAudioId = ""
+                self.timer.upstream.connect().cancel()
+                self.time = .zero
+            })
+            player.delegate = self.audioPlayerDelegate
+            self.audioPlayer.numberOfLoops = .zero
             state = .play
         }
+    }
+    
+    @objc func playerDidFinishPlaying(sender: Notification) {
+        state = .stop
+        audioPlayer.stop()
     }
 
     func start() {
         Task {
-            state = .loading
+            DispatchQueue.main.async {
+                self.state = .loading
+            }
             let result = await remoteDataService.downloadRequest(url: data.url)
             guard let data = result?.0,
                   let savedUrl = self.fileService.saveFile(name: getFileName(),
@@ -112,8 +130,18 @@ final class AudioMessageViewModel: ObservableObject {
                 return
             }
             await MainActor.run {
-                self.audioPlayer = try? AVAudioPlayer(contentsOf: savedUrl)
-                self.audioPlayer?.numberOfLoops = .zero
+                guard let player = try? AVAudioPlayer(contentsOf: savedUrl) else { return }
+                self.audioPlayer = player
+                self.audioPlayerDelegate = AudioPlayerDelegate(endCompletion: { [weak self] in
+                    guard let self = self else { return }
+                    self.isPlaying = false
+                    self.state = .play
+                    self.playingAudioId = ""
+                    self.timer.upstream.connect().cancel()
+                    self.time = .zero
+                })
+                player.delegate = self.audioPlayerDelegate
+                self.audioPlayer.numberOfLoops = .zero
                 state = .play
             }
         }
@@ -124,4 +152,45 @@ final class AudioMessageViewModel: ObservableObject {
         let finalFileName = fileadressName
         return finalFileName
     }
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+       print("slaslsal;sa")
+    }
+
+    //Called when the AVAudioPlayer has encountered an error in the file.
+
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        if let error: Error = error {
+            print("audioPlayerDecodeErrorDidOccur: \(error)");
+        } else {
+            print("audioPlayerDecodeErrorDidOccur");
+        }
+    }
+}
+
+
+class AudioPlayerDelegate: NSObject, AVAudioPlayerDelegate {
+    
+    var endCompletion: () -> Void
+    
+    init(endCompletion: @escaping () -> Void) {
+        self.endCompletion = endCompletion
+    }
+    
+    //Called when the AVAudioPlayer has finished playing the file.
+
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+       endCompletion()
+    }
+
+    //Called when the AVAudioPlayer has encountered an error in the file.
+
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        if let error: Error = error {
+            print("audioPlayerDecodeErrorDidOccur: \(error)");
+        } else {
+            print("audioPlayerDecodeErrorDidOccur");
+        }
+    }
+
 }

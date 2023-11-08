@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TextEvent: Identifiable, ViewGeneratable {
-    let id = UUID()
+    let id: UUID
     let userId: String
     let isFromCurrentUser: Bool
     let avatarUrl: URL?

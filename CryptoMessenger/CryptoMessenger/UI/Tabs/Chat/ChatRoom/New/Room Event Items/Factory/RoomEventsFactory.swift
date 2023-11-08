@@ -4,21 +4,23 @@ import SwiftUI
 // MARK: - RoomEventsFactoryProtocol
 
 protocol RoomEventsFactoryProtocol {
-    static func makeEventView(
-      events: [RoomEvent],
-      existingEvents: [RoomEvent],
-      delegate: ChatEventsDelegate,
-      onLongPressMessage: @escaping (RoomEvent) -> Void,
-      onReactionTap: @escaping (ReactionNewEvent) -> Void,
-      onTapNotSendedMessage: @escaping (RoomEvent) -> Void,
-      onSwipeReply: @escaping (RoomEvent) -> Void
-    ) -> [any ViewGeneratable]
-    static func makeChatOutputEvent(_ eventId: String,
+    static func makeChatOutputEvent(_ id: UUID,
+                                    _ eventId: String,
                                     _ type: MessageType,
                                     _ roomId: String,
                                     _ sender: String,
                                     _ isFromCurrentUser: Bool,
                                     _ isReply: Bool) -> RoomEvent
+    static func makeOneEventView(
+        value: RoomEvent,
+        events: [RoomEvent],
+        oldViews: [any ViewGeneratable],
+        delegate: ChatEventsDelegate,
+        onLongPressMessage: @escaping (RoomEvent) -> Void,
+        onReactionTap: @escaping (ReactionNewEvent) -> Void,
+        onTapNotSendedMessage: @escaping (RoomEvent) -> Void,
+        onSwipeReply: @escaping (RoomEvent) -> Void
+    ) -> (any ViewGeneratable)?
 }
 
 enum RoomEventsFactory: RoomEventsFactoryProtocol {
@@ -69,68 +71,72 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         return data
     }
     
-    static func makeEventView(
+    static func makeOneEventView(
+      value: RoomEvent,
       events: [RoomEvent],
-      existingEvents: [RoomEvent],
+      oldViews: [any ViewGeneratable],
       delegate: ChatEventsDelegate,
       onLongPressMessage: @escaping (RoomEvent) -> Void,
       onReactionTap: @escaping (ReactionNewEvent) -> Void,
       onTapNotSendedMessage: @escaping (RoomEvent) -> Void,
       onSwipeReply: @escaping (RoomEvent) -> Void
-    ) -> [any ViewGeneratable] {
-
-        let data: [any ViewGeneratable] = events.compactMap { value in
-            let oldEvent = existingEvents.first(where: { $0.eventId == value.eventId })
-            switch value.eventType {
-            case let .text(string):
-                return makeTextView(value, events, string, onLongPressTap: { eventId in
-                    onLongPressMessage(eventId)
+    ) -> (any ViewGeneratable)? {
+        switch value.eventType {
+        case let .text(string):
+            return makeTextView(value, events, oldViews, string, onLongPressTap: { eventId in
+                onLongPressMessage(eventId)
+            }, onReactionTap: { reaction in
+                onReactionTap(reaction)
+            }, onSwipeReply: { value in
+                onSwipeReply(value)
+            })
+        case .call:
+            return makeCallItem(
+                event: value,
+                delegate: delegate
+            ) { event in
+                onLongPressMessage(event)
+            }
+        case let .contact(name, phone, url):
+            return makeContactItem(
+                event: value,
+                oldEvents: events,
+                oldViews: oldViews,
+                name: name,
+                phone: phone,
+                url: url,
+                delegate: delegate,
+                onLongPressTap: { event in
+                    onLongPressMessage(event)
                 }, onReactionTap: { reaction in
-                 onReactionTap(reaction)
+                    onReactionTap(reaction)
                 }, onSwipeReply: { value in
                     onSwipeReply(value)
                 })
-            case .call:
-                return makeCallItem(
-                  event: value,
-                  delegate: delegate
-                ) { event in
-                    onLongPressMessage(event)
-                }
-            case let .contact(name, phone, url):
-                return makeContactItem(
-                  event: value,
-                  name: name,
-                  phone: phone, 
-                  url: url, 
-                  delegate: delegate,
-                  onLongPressTap: { event in
+        case let .file(name, url):
+            return makeDocumentItem(
+                event: value,
+                oldEvents: events,
+                oldViews: oldViews,
+                name: name,
+                url: url,
+                delegate: delegate,
+                onLongPressTap: { event in
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
                 }, onSwipeReply: { value in
                     onSwipeReply(value)
                 })
-            case let .file(name, url):
-                return makeDocumentItem(
-                  event: value,
-                  name: name,
-                  url: url, 
-                  delegate: delegate,
-                  onLongPressTap: { event in
-                    onLongPressMessage(event)
-                }, onReactionTap: { reaction in
-                    onReactionTap(reaction)
-                }, onSwipeReply: { value in
-                  onSwipeReply(value)
-                })
-            case let .location((lat, lon)):
-                return makeMapItem(
-                  event: value,
-                  lat: lat,
-                  lon: lon, 
-                  delegate: delegate,
-                  onLongPressTap: { event in
+        case let .location((lat, lon)):
+            return makeMapItem(
+                event: value,
+                oldEvents: events,
+                oldViews: oldViews,
+                lat: lat,
+                lon: lon,
+                delegate: delegate,
+                onLongPressTap: { event in
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
@@ -139,42 +145,40 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 }, onSwipeReply: { value in
                     onSwipeReply(value)
                 })
-            case let .image(url):
-                return makeImageItem(
-                    event: value,
-                    oldEvent: oldEvent,
-                    url: url,
-                    delegate: delegate,
-                    onLongPressTap: { event in
+        case let .image(url):
+            return makeImageItem(
+                event: value, oldEvents: events, oldViews: oldViews,
+                url: url,
+                delegate: delegate,
+                onLongPressTap: { event in
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
                 }, onSwipeReply: { value in
                     onSwipeReply(value)
                 })
-            case let .audio(url):
-                return makeAudioItem(event: value, url: url, onLongPressTap: { event in
+        case let .audio(url):
+            return makeAudioItem(event: value, oldEvents: events,
+                                 oldViews: oldViews,
+                                 url: url, onLongPressTap: { event in
+                onLongPressMessage(event)
+            }, onReactionTap: { reaction in
+                onReactionTap(reaction)
+            }, onSwipeReply: { value in
+                onSwipeReply(value)
+            })
+        case let .video(url):
+            return makeVideoItem(
+                event: value,
+                oldEvents: events,
+                oldViews: oldViews,
+                url: url,
+                delegate: delegate,
+                onLongPressTap: { event in
                     onLongPressMessage(event)
-                }, onReactionTap: { reaction in
-                    onReactionTap(reaction)
                 }, onSwipeReply: { value in
                     onSwipeReply(value)
                 })
-            case let .video(url):
-                return makeVideoItem(
-                    event: value,
-                    url: url,
-                    delegate: delegate,
-                    onLongPressTap: { event in
-                        onLongPressMessage(event)
-                    }, onSwipeReply: { value in
-                        onSwipeReply(value)
-                    }
-                )
-            case let .date(dateStr):
-                return makeSystemEventItem(text: dateStr) {
-                    debugPrint("onTap date SystemEventItem")
-                }
             case let .groupCall(eventId, text):
                 return makeSystemEventItem(text: text) {
                     debugPrint("onTap groupCall SystemEventItem")
@@ -208,31 +212,44 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                  debugPrint("$0.eventType: \(value.content)")
                 */
                 return nil
-            }
         }
-        return data
     }
 
     static func makeTextView(_ event: RoomEvent,
-                             _ events: [RoomEvent],
+                             _ oldEvents: [RoomEvent],
+                             _ oldViews: [any ViewGeneratable],
                              _ text: String,
                              onLongPressTap: @escaping (RoomEvent) -> Void,
                              onReactionTap: @escaping (ReactionNewEvent) -> Void,
-                             onSwipeReply: @escaping (RoomEvent) -> Void) -> any ViewGeneratable {
+                             onSwipeReply: @escaping (RoomEvent) -> Void) -> (any ViewGeneratable)? {
+        let oldEvent = oldEvents.first(where: { $0.eventId == event.eventId })
+        if event.sentState == .sent {
+            if oldEvent == event {
+                guard let view = oldViews.first(where: { $0.id == event.id }) else { return nil }
+                return view
+            }
+        }
         var eventReply = ""
         if event.isReply {
-            let eventReplyEvent = events.first(where: { $0.eventId == event.rootEventId })
+            let eventReplyEvent = oldEvents.first(where: { $0.eventId == event.rootEventId })
             eventReply = makeReplyDescription(eventReplyEvent)
         }
         let reactionColor: Color = event.isFromCurrentUser ? .diamond : .aliceBlue
         let reactions = prepareReaction(event, onReactionTap: { reaction in
             onReactionTap(reaction)
         })
-        let viewModel = ReactionsNewViewModel(width: calculateWidth("", reactions.count),
+        var viewModel: ReactionsNewViewModel
+        if oldEvent?.reactions == event.reactions {
+            viewModel = ReactionsNewViewModel(id: event.id, width: calculateWidth("", reactions.count), views: reactions,
+                                              backgroundColor: reactionColor)
+        } else {
+            viewModel = ReactionsNewViewModel(width: calculateWidth("", reactions.count),
                                               views: reactions,
                                               backgroundColor: reactionColor)
+        }
+        // @u259748845085:matrix.aura.ms
         let textEvent = TextEvent(
-            userId: event.sender, isFromCurrentUser: event.isFromCurrentUser, avatarUrl: event.senderAvatar,
+            id: event.id, userId: event.sender, isFromCurrentUser: event.isFromCurrentUser, avatarUrl: event.senderAvatar,
             text: text, isReply: event.isReply,
             replyDescription: eventReply,
             width: calculateWidth(text, reactions.count),
@@ -254,6 +271,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 }, swipeEdge: event.isFromCurrentUser ? .trailing : .leading
             )
             return EventContainer(
+                id: event.id,
                 leadingContent: PaddingModel(),
                 centralContent: contatiner, onLongPress: {
                     onLongPressTap(event)
@@ -268,6 +286,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 }, swipeEdge: event.isFromCurrentUser ? .trailing : .leading
             )
             return EventContainer(
+                id: event.id,
                 centralContent: contatiner,
                 trailingContent: PaddingModel(), onLongPress: {
                     onLongPressTap(event)
@@ -303,9 +322,11 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         var checkReadImage: Image
         switch messageType {
         case .video(_), .image(_), .location((_, _)):
-            checkReadImage = eventSendType == .sent ? R.image.chat.whiteChecked.image : R.image.chat.whiteSending.image
+            checkReadImage = (eventSendType == .sent || eventSendType == .sentLocaly)
+            ? R.image.chat.whiteChecked.image : R.image.chat.whiteSending.image
         default:
-            checkReadImage = eventSendType == .sent ? R.image.chat.sendedCheck.image : R.image.chat.sendingCheck.image
+            checkReadImage = (eventSendType == .sent || eventSendType == .sentLocaly)
+            ? R.image.chat.sendedCheck.image : R.image.chat.sendingCheck.image
         }
         if isFromCurrentUser {
             return ReadData(readImageName: checkReadImage)
@@ -313,20 +334,21 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         return ZeroViewModel()
     }
     
-    static func makeChatOutputEvent(_ eventId: String,
+    static func makeChatOutputEvent(_ id: UUID,
+                                    _ eventId: String,
                                     _ type: MessageType,
                                     _ roomId: String,
                                     _ sender: String,
                                     _ isFromCurrentUser: Bool,
                                     _ isReply: Bool) -> RoomEvent {
         let date = Date().timeIntervalSince1970
-        let event = RoomEvent(eventId: eventId, roomId: roomId,
+        let event = RoomEvent(id: id, eventId: eventId, roomId: roomId,
                               sender: sender, sentState: .sending,
                               eventType: type, shortDate:  Date().hoursAndMinutes,
                               fullDate: "", isFromCurrentUser: isFromCurrentUser,
                               isReply: isReply,
                               reactions: [], content: [:],
-                              eventSubType: "")
+                              eventSubType: "", eventDate: Date())
         return event
     }
 }
