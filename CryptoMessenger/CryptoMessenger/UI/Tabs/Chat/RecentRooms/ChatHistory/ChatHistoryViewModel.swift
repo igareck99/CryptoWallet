@@ -202,7 +202,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                                             displayname = String(user.userId.prefix(index))
                                         }
                                     }
-                                    print("skasklaskl  \(user)")
                                     let contact = Contact(mxId: user.userId,
                                                           name: user.displayname,
                                                           status: "", phone: "", type: .lastUsers, onTap: { _ in

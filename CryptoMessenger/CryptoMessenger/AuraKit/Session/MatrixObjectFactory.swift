@@ -56,11 +56,16 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                     isAdmin = state?.powerLevels?.powerLevelOfUser(withUserID: matrixUseCase.getUserId()) == 100
                 }
                 var roomAvatar: URL?
-                if let avatar = mxRoom.summary.avatar {
+                var summary: RoomSummary
+                do {
+                    try summary = RoomSummary(mxRoom.summary)
+                } catch {
+                    summary = RoomSummary(MXRoomSummary())
+                }
+                if let avatar = summary.avatar {
                     let homeServer = config.matrixURL
                     roomAvatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
                 }
-
                 let enumerator = mxRoom.enumeratorForStoredMessages
                 let currentBatch = enumerator?.nextEventsBatch(100, threadId: nil) ?? []
                 var messageType = MessageType.text("")
@@ -76,18 +81,20 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                         matrixUseCase: matrixUseCase
                     )
                 }
-                let summary = RoomSummary(mxRoom.summary)
                 let unreadedEvents = summary.summary.localUnreadEventCount
                 messageType = lastMessageEvent?.messageType ?? MessageType.text("")
                 var members: Int = 1
                 var roomName = ""
-                if summary.summary.avatar != nil {
-                    let homeServer = config.matrixURL
-                    roomAvatar = MXURL(mxContentURI: summary.summary.avatar)?.contentURL(on: homeServer)
+                let homeServer = config.matrixURL
+                do {
+                    try members = Int(summary.summary.membersCount.members)
+                } catch {
+                    members = 0
                 }
-                if summary.summary.membersCount != nil {
-                    members = Int(summary.summary.membersCount.members)
-                    roomName = mxRoom.summary.displayName ?? ""
+                do {
+                    try roomName = summary.summary.displayName
+                } catch {
+                    roomName = ""
                 }
                 let room = AuraRoomData(isChannel: powerLevels,
                                         isAdmin: isAdmin,

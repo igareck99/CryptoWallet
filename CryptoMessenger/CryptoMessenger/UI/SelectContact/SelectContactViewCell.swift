@@ -46,6 +46,7 @@ struct SelectContactViewCell: View {
                 .padding(.leading, 19)
                 Spacer()
             }
+            .background(.white)
             .onTapGesture {
                 data.onTap(data)
             }

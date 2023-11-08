@@ -46,6 +46,8 @@ final class MatrixService: MatrixServiceProtocol {
 	var loginStatePublisher: Published<MatrixState>.Publisher { $loginState }
 	@Published var devices = [MXDevice]()
 	var devicesPublisher: Published<[MXDevice]>.Publisher { $devices }
+    @Published var currentRoomState = MXRoomState()
+    var roomStatePublisher: Published<MXRoomState>.Publisher { $currentRoomState }
 
 	private let matrixObjectsFactory: MatrixObjectFactoryProtocol
 	var roomListDataFetcher: MXRoomListDataFetcher?

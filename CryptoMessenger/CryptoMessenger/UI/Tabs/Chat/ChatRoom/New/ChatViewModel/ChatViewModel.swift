@@ -98,8 +98,6 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         self.resources = resources
         self.availabilityFacade = availabilityFacade
         bindInput()
-        updateData()
-        joinRoom(roomId: room.roomId)
     }
 
     deinit {
@@ -260,21 +258,8 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 switch value {
                 case let .onAppear(proxy):
                     self.scrollProxy = proxy
-//                        scrollToBottom()
-                    self.matrixUseCase.getRoomState(
-                        roomId: self.room.roomId
-                    ) { [weak self] result in
-                        guard let self = self, case let .success(state) = result,
-                              let pLevels = state.powerLevels else { return }
-                        DispatchQueue.main.async {
-                            self.roomPowerLevels = pLevels
-                            self.userHasAccessToMessage = pLevels.powerLevelOfUser(
-                                withUserID: self.matrixUseCase.getUserId()
-                            ) >= 50 ? true : false
-                            self.isChannel = pLevels.eventsDefault == 50
-                        }
-                        debugPrint("self?.isChannel: pLevels.eventsDefault == 50 \(self.isChannel)")
-                    }
+                    //                        scrollToBottom()
+                    self.matrixUseCase.objectChangePublisher.send()
                     self.loadUsers()
                     guard let mxRoom = self.matrixUseCase.getRoomInfo(
                         roomId: self.room.roomId
@@ -295,16 +280,13 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         self.roomAvatarUrl = auraRoom.roomAvatar
                     }
                     self.matrixUseCase.markAllAsRead(roomId: self.room.roomId)
-                    self.matrixUseCase.objectChangePublisher.send()
-                    self.getRoomPowerLevels()
                     self.updateData()
-                    self.matrixUseCase.objectChangePublisher.send()
                 default:
                     break
                 }
             }
             .store(in: &subscriptions)
-
+        
         matrixUseCase.objectChangePublisher
             .receive(on: DispatchQueue.global(qos: .background))
             .sink { [weak self] _ in
@@ -314,6 +296,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 else {
                     return
                 }
+                self.updateRoomPowerLevel()
                 let currentEvents: [RoomEvent] = self.getCurrentEvents(currentRoom)
                 var currentViews: [any ViewGeneratable] = self.getCurrentViews(currentEvents)
                 currentViews = self.makeDisplayItems(currentViews)
@@ -375,16 +358,13 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             }.store(in: &subscriptions)
     }
 
-    func joinRoom(roomId: String) {
+    func joinRoom(roomId: String, completion: @escaping () -> Void) {
         self.matrixUseCase.joinRoom(roomId: roomId) { _ in
-            guard let newRoom = self.matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {
-                return
-            }
+            completion()
         }
     }
 
     func updateData() {
-        getRoomPowerLevels()
         getChatData()
         getRoomAvatarUrl()
         updateToggles()
@@ -429,6 +409,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
 
             self.matrixUseCase.getRoomState(roomId: self.room.roomId) { [weak self] response in
                 guard case let .success(roomState) = response else { return }
+                self?.setRoomPowerLevel(roomState)
                 let ids = roomState.powerLevels?.users.keys
                     .map { $0 as? String }
                     .compactMap { $0 } ?? []
@@ -445,6 +426,13 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             }
         }
     }
+    
+    private func updateRoomPowerLevel() {
+        self.matrixUseCase.getRoomState(roomId: self.room.roomId) { [weak self] response in
+            guard case let .success(roomState) = response else { return }
+            self?.setRoomPowerLevel(roomState)
+        }
+    }
 
     func getRoomAvatarUrl() {
         guard let url = self.matrixUseCase.getRoomAvatarUrl(roomId: self.room.roomId) else { return }
@@ -454,26 +442,20 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             self.roomAvatarUrl = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
         }
     }
-
-    func getRoomPowerLevels() {
-        matrixUseCase.getRoomState(roomId: room.roomId) { [weak self] result in
-            guard let self = self else { return }
-            guard case let .success(state) = result else { return }
-            self.roomPowerLevels = state.powerLevels
-
-            DispatchQueue.main.async {
-                if state.powerLevels == nil {
-                    self.userHasAccessToMessage = false
-                    self.isChannel = true
-                    return
-                }
-
-                let currentUserId = self.matrixUseCase.getUserId()
-                let currentUserPowerLevel = state.powerLevels.powerLevelOfUser(withUserID: currentUserId)
-                self.userHasAccessToMessage = currentUserPowerLevel >= state.powerLevels.eventsDefault
-                self.isChannel = state.powerLevels.eventsDefault == 50
-                self.objectWillChange.send()
+    
+    private func setRoomPowerLevel(_ state: MXRoomState) {
+        DispatchQueue.main.async {
+            if state.powerLevels == nil {
+                self.userHasAccessToMessage = false
+                self.isChannel = true
+                return
             }
+            self.roomPowerLevels = state.powerLevels
+            let currentUserId = self.matrixUseCase.getUserId()
+            let currentUserPowerLevel = state.powerLevels.powerLevelOfUser(withUserID: currentUserId)
+            self.userHasAccessToMessage = currentUserPowerLevel >= state.powerLevels.eventsDefault
+            self.isChannel = state.powerLevels.eventsDefault == 50
+            self.objectWillChange.send()
         }
     }
 

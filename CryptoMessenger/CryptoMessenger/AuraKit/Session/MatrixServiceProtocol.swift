@@ -7,6 +7,7 @@ protocol MatrixServiceProtocol {
 	var objectChangePublisher: ObservableObjectPublisher { get }
 	var loginStatePublisher: Published<MatrixState>.Publisher { get }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { get }
+    var roomStatePublisher: Published<MXRoomState>.Publisher { get }
 	var rooms: [AuraRoom] { get }
     var auraRooms: [AuraRoomData] { get }
 	var matrixSession: MXSession? { get }
