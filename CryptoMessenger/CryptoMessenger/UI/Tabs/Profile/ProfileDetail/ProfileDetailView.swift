@@ -197,11 +197,13 @@ struct ProfileDetailView: View {
                     defaultUrl: url,
                     placeholder: {
                         ZStack {
-                            ProgressView()
-                                .tint(.dodgerBlue)
-                                .frame(width: 34,
-                                       height: 34)
-                                .background(Color.dodgerTransBlue)
+                            Circle()
+                                .foregroundColor(.diamond)
+                                .frame(width: 50, height: 50)
+                            Text(viewModel.profile.name.firstLetter.uppercased())
+                                .foregroundColor(.white)
+                                .font(.title1Bold28)
+                                .frame(width: 68, height: 68)
                         }
                     },
                     result: {
@@ -214,7 +216,7 @@ struct ProfileDetailView: View {
             }
             ZStack(alignment: .center) {
                 Circle()
-                    .foregroundColor(.dodgerTransBlue)
+                    .foregroundColor(.dodgerBlue)
                     .frame(width: 24, height: 24)
                 R.image.profileDetail.whiteCamera.image
                     .resizable()
