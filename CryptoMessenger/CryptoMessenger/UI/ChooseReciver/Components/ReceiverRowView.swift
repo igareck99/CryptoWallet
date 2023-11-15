@@ -55,7 +55,7 @@ struct ReceiverRowView: View {
             switch data.walletType {
             case .binance:
                 return data.binance
-            case .ethereum:
+            case .ethereum, .aura:
                 return data.ethereum
             case .bitcoin:
                 return data.bitcoin
