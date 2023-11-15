@@ -49,6 +49,7 @@ extension ProfileFlowCoordinator: ProfileFlowCoordinatorProtocol {
 
     func onLogout() {
         onlogout()
+        router.clearPath()
     }
 
     func onSocialList() {
