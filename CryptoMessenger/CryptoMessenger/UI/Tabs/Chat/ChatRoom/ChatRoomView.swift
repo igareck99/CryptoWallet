@@ -79,7 +79,7 @@ struct ChatRoomView: View {
         content
             .toolbar(.hidden, for: .tabBar)
             .onAppear {
-                viewModel.send(.onAppear)
+                viewModel.send(.onAppear(nil))
                 UITextView.appearance().background(.ashGray)
             }
             .onChange(of: showActionSheet, perform: { _ in

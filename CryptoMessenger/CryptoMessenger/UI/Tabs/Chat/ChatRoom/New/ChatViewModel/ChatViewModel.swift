@@ -57,6 +57,8 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     var userHasAccessToMessage = true
     @Published var isChannel = false
 
+    private var scrollProxy: ScrollViewProxy?
+
     var isGroupCall: Bool {
         room.isDirect == false && availabilityFacade.isGroupCallsAvailable && !self.isChannel
     }
@@ -128,12 +130,26 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             .store(in: &subscriptions)
     }
 
+    func scrollToBottom() {
+        DispatchQueue.main.async {
+            debugPrint("scrollToBottom scrollProxy: \(self.scrollProxy)")
+            debugPrint("scrollToBottom last: \(self.displayItems.last)")
+            if let last = self.displayItems.last {
+                debugPrint("scrollToBottom last.id: \(last.id)")
+                self.scrollProxy?.scrollTo(last.id, anchor: .bottom)
+            }
+        }
+    }
+
     private func bindInput() {
         eventSubject
             .receive(on: DispatchQueue.global(qos: .userInitiated))
-            .sink { value in
+            .sink {[weak self] value in
+                guard let self = self else { return }
                 switch value {
-                case .onAppear:
+                case let .onAppear(proxy):
+                        self.scrollProxy = proxy
+//                        scrollToBottom()
                     self.matrixUseCase.getRoomState(roomId: self.room.roomId) { [weak self] result in
                         guard let self = self else { return }
                         guard case let .success(state) = result,
@@ -188,7 +204,8 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 })
                 DispatchQueue.main.async {
                     self.displayItems = self.itemsFromMatrix
-                    if !self.itemsFromMatrix.isEmpty {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        guard !self.itemsFromMatrix.isEmpty else { return }
                         self.scroolString = self.displayItems.last?.id ?? UUID()
                     }
                     self.objectWillChange.send()
