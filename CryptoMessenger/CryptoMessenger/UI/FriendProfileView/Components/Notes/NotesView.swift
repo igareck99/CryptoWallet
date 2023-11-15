@@ -70,7 +70,7 @@ struct NotesView: View {
         } label: {
             Text(R.string.localizable.noteViewApprove())
                 .font(.subheadlineMedium15)
-                .foregroundColor(viewModel.newKey.isEmpty ? .romanSilver : .white)
+                .foregroundColor(viewModel.buttonState ? .romanSilver : .white)
                 .frame(width: 185,
                        height: 44)
                 .frame(minWidth: 185,
@@ -79,9 +79,9 @@ struct NotesView: View {
                        minHeight: 44,
                        idealHeight: 44,
                        maxHeight: 44)
-                .background(viewModel.newKey.isEmpty ? Color.lightGrayApprox : Color.dodgerBlue )
+                .background(viewModel.buttonState ? Color.lightGrayApprox : Color.dodgerBlue )
                 .cornerRadius(8)
         }
-        .disabled(viewModel.newKey.isEmpty)
+        .disabled(viewModel.buttonState)
     }
 }

@@ -157,7 +157,6 @@ final class FriendProfileViewModel: ObservableObject {
         profile.name = contact.name
         profile.nickname = contact.name
         profile.phone = contact.phone
-        profile.status = contact.status
         profile.avatar = contact.avatar
         loadUserNote()
     }
@@ -216,6 +215,8 @@ final class FriendProfileViewModel: ObservableObject {
                 }
             }
             .store(in: &subscriptions)
+        let status = matrixUseCase.allUsers().first(where: { $0.userId == self.userId })?.statusMsg ?? ""
+        profile.status = status
     }
 
     private func fetchData() {

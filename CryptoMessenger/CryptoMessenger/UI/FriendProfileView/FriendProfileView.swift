@@ -83,6 +83,7 @@ struct FriendProfileView: View {
                     HStack(alignment: .center, spacing: 16) {
                         avatarView
                         VStack(alignment: .leading, spacing: 0) {
+                            Spacer()
                             Text(viewModel.profile.name)
                                 .font(.callout2Semibold16)
                                 .lineLimit(1)

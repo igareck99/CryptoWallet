@@ -7,6 +7,7 @@ struct BubbleContainerView<
     let model: BubbleContainer
     let content: BubbleContent
     let bottomContent: BottomContent
+    var onSwipe: () -> Void
 
     var body: some View {
         VStack(spacing: .zero) {
@@ -24,6 +25,18 @@ struct BubbleContainerView<
             )
             bottomContent
         }
+        .addSwipeAction(
+            menu: .swiped,
+            edge: .trailing,
+            isSwiped: .constant(false),
+            action: {
+                onSwipe()
+            }, {
+                Rectangle()
+                    .frame(width: 70, alignment: .center)
+                    .frame(maxHeight: .infinity)
+                    .foregroundColor(.clear)
+            })
         .fixedSize(horizontal: true, vertical: false)
     }
 }

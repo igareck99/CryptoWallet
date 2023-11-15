@@ -54,7 +54,8 @@ extension ChatViewModel {
             case let .success(eventId):
                 debugPrint("Sended Event \(eventId)")
                 self.changeSedingEvent(event, .sent)
-            case .failure(_):
+            case .failure(let error):
+                print("slcmklmekop3kqedkl  \(error)")
                 self.changeSedingEvent(event, .failToSend)
             }
         }
@@ -88,10 +89,16 @@ extension ChatViewModel {
                     self.changeSedingEvent(event, .failToSend)
                 }
             })
+            self.activeEditMessage = nil
+            quickAction = nil
+            self.inputText = ""
         case .edit:
             guard let activeEditMessage = activeEditMessage else { return }
             matrixUseCase.edit(roomId: room.roomId, text: inputText,
                                eventId: activeEditMessage.eventId)
+            self.activeEditMessage = nil
+            quickAction = nil
+            self.inputText = ""
         default:
             let event = self.makeOutputEventView(.text(inputText))
             matrixUseCase.sendText(room.roomId,

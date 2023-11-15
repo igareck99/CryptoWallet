@@ -8,7 +8,8 @@ extension RoomEventsFactory {
         delegate: ChatEventsDelegate,
         onLongPressTap: @escaping (RoomEvent) -> Void,
         onReactionTap: @escaping (ReactionNewEvent) -> Void,
-        onNotSentTap: @escaping (RoomEvent) -> Void
+        onNotSentTap: @escaping (RoomEvent) -> Void,
+        onSwipeReply: @escaping (RoomEvent) -> Void
     ) -> any ViewGeneratable {
         var color: Color = .clear
         var textColor: Color = .chineseShadow
@@ -52,7 +53,9 @@ extension RoomEventsFactory {
             offset: .zero,
             fillColor: .diamond,
             cornerRadius: event.isFromCurrentUser ? .right : .left,
-            content: mapEventItem
+            content: mapEventItem, onSwipe: {
+                onSwipeReply(event)
+            }, swipeEdge: event.isFromCurrentUser ? .trailing : .leading
         )
         
         if event.isFromCurrentUser {

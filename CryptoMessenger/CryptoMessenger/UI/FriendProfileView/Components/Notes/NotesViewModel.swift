@@ -9,7 +9,14 @@ final class NotesViewModel: ObservableObject {
     
     let userId: String
     @Published var newKey = ""
+    @Published var isKeyNotExist = false
     var notes: [String: String] = [:]
+    var buttonState: Bool {
+        if !isKeyNotExist || !newKey.isEmpty {
+            return false
+        }
+        return true
+    }
 
     // MARK: - Internal Properties
 
@@ -37,5 +44,6 @@ final class NotesViewModel: ObservableObject {
         guard let result = userDefaults.dict(forKey: .userNotes) as? [String: String] else { return }
         notes = result
         newKey = result[userId] ?? ""
+        isKeyNotExist = newKey.isEmpty
     }
 }
