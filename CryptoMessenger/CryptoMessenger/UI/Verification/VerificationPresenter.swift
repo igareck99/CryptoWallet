@@ -263,8 +263,11 @@ private extension VerificationPresenter  {
         accessToken: String,
         refreshToken: String
     ) {
+        let userPhoneNumber = keychainService.apiUserPhoneNumber
         userSettings.userId = userId
         userSettings.isLocalAuth = true
+        // Пересохраняем телефон под новым service name (serviceName + userMatrixId)
+        keychainService.apiUserPhoneNumber = userPhoneNumber
         keychainService.isApiUserAuthenticated = true
         keychainService.apiAccessToken = accessToken
         keychainService.apiRefreshToken = refreshToken
