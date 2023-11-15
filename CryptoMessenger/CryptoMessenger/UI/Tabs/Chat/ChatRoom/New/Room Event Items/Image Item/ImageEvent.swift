@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - Image Event
 
 struct ImageEvent: Identifiable, ViewGeneratable {
-    let id: UUID
+    let id = UUID()
     let imageUrl: URL?
     let size: Int
     let eventData: any ViewGeneratable
@@ -11,14 +11,12 @@ struct ImageEvent: Identifiable, ViewGeneratable {
     let onTap: (URL?) -> Void
 
     init(
-        id: UUID = UUID(),
         imageUrl: URL? = nil,
         size: Int,
         eventData: any ViewGeneratable,
         loadData: any ViewGeneratable,
         onTap: @escaping (URL?) -> Void
     ) {
-        self.id = id
         self.imageUrl = imageUrl
         self.size = size
         self.eventData = eventData

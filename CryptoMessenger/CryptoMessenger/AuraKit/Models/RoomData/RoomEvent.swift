@@ -2,17 +2,15 @@ import Foundation
 
 // MARK: - RoomEvent
 
-struct RoomEvent: Equatable, Hashable {
+struct RoomEvent: Equatable {
     static func == (lhs: RoomEvent, rhs: RoomEvent) -> Bool {
         lhs.roomId == rhs.roomId && lhs.eventId == rhs.eventId
         && NSDictionary(dictionary: lhs.content).isEqual(to: rhs.content)
         && lhs.sentState == rhs.sentState 
-        && lhs.reactions == rhs.reactions
     }
 
     // MARK: - Internal Properties
 
-    let id: UUID
     let eventId: String
     let roomId: String
     let sender: String
@@ -25,21 +23,12 @@ struct RoomEvent: Equatable, Hashable {
     let isReply: Bool
     let reactions: [Reaction]
     let content: [String: Any]
-    let timestamp: Date
     let eventSubType: String
     let videoThumbnail: URL?
-    
-    func hash(into hasher: inout Hasher) {
-        let jsonData = try? JSONSerialization.data(withJSONObject: content)
-        hasher.combine(eventId)
-        hasher.combine(sentState)
-        hasher.combine(jsonData)
-    }
 
     // MARK: - Lifecycle
 
     init(
-        id: UUID = UUID(),
         eventId: String,
         roomId: String,
         sender: String,
@@ -52,11 +41,9 @@ struct RoomEvent: Equatable, Hashable {
         reactions: [Reaction],
         content: [String: Any],
         eventSubType: String,
-        timestamp: Date,
         senderAvatar: URL? = nil,
         videoThumbnail: URL? = nil
     ) {
-        self.id = id
         self.eventId = eventId
         self.roomId = roomId
         self.sender = sender
@@ -71,7 +58,7 @@ struct RoomEvent: Equatable, Hashable {
         self.reactions = reactions
         self.content = content
         self.videoThumbnail = videoThumbnail
-        self.timestamp = timestamp
+        print("slsalsalsls  \(eventSubType)")
     }
 }
 

@@ -257,6 +257,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
         let group = DispatchGroup()
         group.enter()
         if let auraRoom = matrixUseCase.customCheckRoomExist(contact.mxId) {
+            print("lskasklsakl  \(auraRoom)")
             coordinator?.onFriendProfile(auraRoom)
             group.leave()
         } else {

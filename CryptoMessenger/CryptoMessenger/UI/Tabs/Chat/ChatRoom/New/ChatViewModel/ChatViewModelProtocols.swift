@@ -16,6 +16,8 @@ protocol ChatViewModelProtocol: ObservableObject {
     var scrollIdPublisher: Published<UUID>.Publisher { get }
 
     var displayItems: [any ViewGeneratable] { get }
+    
+    var sendingEventsView: [any ViewGeneratable] { get }
 
     var sources: ChatRoomSourcesable.Type { get }
 

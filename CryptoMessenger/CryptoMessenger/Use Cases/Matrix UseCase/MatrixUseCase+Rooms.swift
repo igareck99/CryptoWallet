@@ -272,11 +272,10 @@ extension MatrixUseCase {
 
         let matrixRoom = matrixService.rooms.first(where: { $0.room.roomId == roomId })?.room
         guard let room = matrixRoom else { completion(.failure); return }
-        DispatchQueue.main.async {
-            room.liveTimeline { timeline in
-                guard let state = timeline?.state else { completion(.failure); return }
-                completion(.success(state))
-            }
+
+        room.liveTimeline { timeline in
+            guard let state = timeline?.state else { completion(.failure); return }
+            completion(.success(state))
         }
     }
 
