@@ -99,7 +99,6 @@ extension WalletModelsFactory: WalletModelsFactoryProtocol {
         wallets: [WalletNetwork],
         tokens: [NetworkToken]
     ) -> [WalletInfo] {
-
         var cards = [WalletInfo]()
         wallets.forEach { wallet in
             guard let address = wallet.address,

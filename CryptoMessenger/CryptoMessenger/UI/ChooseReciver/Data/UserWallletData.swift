@@ -11,6 +11,7 @@ struct UserWallletData: Identifiable, Hashable, ViewGeneratable {
     let bitcoin: String
     let ethereum: String
     let binance: String
+    let aura: String
     let url: URL?
     let phone: String
     let searchType: SearchType
@@ -21,6 +22,7 @@ struct UserWallletData: Identifiable, Hashable, ViewGeneratable {
 
     init(name: String, bitcoin: String,
          ethereum: String, binance: String,
+         aura: String,
          url: URL?, phone: String, searchType: SearchType = .telephone,
          walletType: WalletType,
          onTap: @escaping (UserWallletData) -> Void) {
@@ -28,6 +30,7 @@ struct UserWallletData: Identifiable, Hashable, ViewGeneratable {
         self.bitcoin = bitcoin
         self.ethereum = ethereum
         self.binance = binance
+        self.aura = aura
         self.url = url
         self.phone = phone
         self.searchType = searchType

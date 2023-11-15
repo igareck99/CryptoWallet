@@ -15,9 +15,7 @@ struct WalletCardView: View {
 	var body: some View {
 		switch wallet.walletType {
 		case .aura:
-			VStack(alignment: .leading) {
-				wallet.result.image.resizable()
-			}
+            makeWalletCard(address: wallet.tokenAddress ?? wallet.address)
         case .ethereum, .bitcoin, .binance:
             makeWalletCard(address: wallet.address)
         case .binanceUSDT, .binanceBUSD,

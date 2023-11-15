@@ -115,7 +115,7 @@ extension WalletNetworkFacade: WalletNetworkFacadeProtocol {
 		params: TransactionsRequestParams,
 		completion: @escaping GenericBlock<EmptyFailureResult<WalletsTransactionsResponse>>
 	) {
-		let paramsDict: [String: Any] = params.makeRequestDict()
+		var paramsDict: [String: Any] = params.makeRequestDict()
 		let request = walletRequestsFactory.buildTransactions(parameters: paramsDict)
 		let urlRequest = networkRequestFactory.makePostRequest(from: request)
 		send(request: urlRequest) { [weak self] data, response, error in
