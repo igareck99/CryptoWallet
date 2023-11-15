@@ -233,7 +233,7 @@ final class P2PCallUseCase: NSObject {
 	private func callerName(for call: MXCall) -> String {
 
 		if call.isIncoming == false,
-			let callerName = roomContacts.first(where: { call.callerId.contains($0.name) == false })?.name {
+			let callerName = roomContacts.first?.name {
 			return callerName
 		}
 		return call.callerName ?? call.room.roomId
