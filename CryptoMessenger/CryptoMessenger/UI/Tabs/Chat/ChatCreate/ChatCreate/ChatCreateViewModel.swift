@@ -43,6 +43,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
     var actions: [any ViewGeneratable] = []
     var lastUsersSections: [any ViewGeneratable] = []
     @Published var isSearching = false
+    @Published var isTappedCreateDirectChat = false
     var coordinator: ChatCreateFlowCoordinatorProtocol?
     let resources: ChatCreateResourcable.Type = ChatCreateResources.self
 
@@ -114,7 +115,8 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
             .store(in: &subscriptions)
 		matrixUseCase.objectChangePublisher
             .receive(on: DispatchQueue.main)
-            .sink { _ in }
+            .sink { _ in
+            }
             .store(in: &subscriptions)
         $searchText
             .debounce(for: 0.05, scheduler: DispatchQueue.main)
@@ -195,7 +197,6 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
             self.contactsUseCase.matchServerContacts(contact,
                                                      .groupCreate) { result in
                                                          self.existingContacts = result.filter { $0.type == .lastUsers || $0.type == .existing }
-                                                         print("saslksaklas  \(self.existingContacts)")
                                                          self.lastUsersSections = []
                                                          if !self.existingContacts.isEmpty {
                                                              self.lastUsersSections.append(ChatCreateSection(data: .contacts,
@@ -243,6 +244,12 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
 
 
     private func onTapUser(_ contact: Contact) {
+        if isTappedCreateDirectChat {
+            return
+        }
+        isTappedCreateDirectChat = true
+        let group = DispatchGroup()
+        group.enter()
         switch contact.type {
         case .lastUsers, .existing:
             matrixUseCase.createDirectRoom([contact.mxId]) { result in
@@ -252,10 +259,14 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                                       result.color)
                 case .roomCreateSucces:
                     self.dismissCurrentCoodinator()
+                    group.leave()
                 }
             }
         default:
             break
+        }
+        group.notify(queue: .main) {
+            self.isTappedCreateDirectChat = false
         }
     }
 }

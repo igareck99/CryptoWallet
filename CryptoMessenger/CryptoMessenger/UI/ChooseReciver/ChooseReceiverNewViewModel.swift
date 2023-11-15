@@ -306,7 +306,8 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
                         guard let eth = response[item.mxId]?["ethereum"]?["address"] else { return }
                         guard let binance = response[item.mxId]?["binance"]?["address"] else { return }
                         if !btc.isEmpty && !eth.isEmpty && !binance.isEmpty {
-                            self.userWalletsData.append(UserWallletData(name: name ?? item.name,
+                            let userName = name ?? ""
+                            self.userWalletsData.append(UserWallletData(name: item.name.isEmpty ? userName: item.name,
                                                                         bitcoin: btc,
                                                                         ethereum: eth,
                                                                         binance: binance,
