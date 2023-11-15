@@ -97,10 +97,8 @@ struct ProfileRouter<Content: View, State: ProfileFlowStatable>: View {
         switch item {
         case let .settings(result):
             ProfileSettingsMenuAssembly.build(onSelect: result)
-                .presentationDetents([.large, .height(337)])
         case let .sheetPicker(sourceType):
             ProfileFeedImageAssembly.build(sourceType)
-                .presentationDetents([.large, .height(166)])
         }
     }
 }

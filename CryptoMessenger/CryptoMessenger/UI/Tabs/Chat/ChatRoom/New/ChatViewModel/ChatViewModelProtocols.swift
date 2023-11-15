@@ -7,7 +7,7 @@ protocol ChatViewModelProtocol: ObservableObject {
 
     associatedtype MessageSendable = ChatViewModelSendable
 
-    var isAccessToWrite: Bool { get set }
+    var userHasAccessToMessage: Bool { get set }
     
     var scroolString: UUID { get set }
     
