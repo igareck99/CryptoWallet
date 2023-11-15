@@ -106,7 +106,7 @@ struct TransactionView: View {
             }
         case 1:
             resultTransaction = resultTransaction.filter { item in
-                item.transactionCoin == .aur
+                item.transactionCoin == .aura
             }
         default:
             return resultTransaction

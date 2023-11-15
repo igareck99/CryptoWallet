@@ -4,6 +4,7 @@ struct NetworkTokensResponse: Codable {
     let binance: [NetworkTokenModel]?
     let ethereum: [NetworkTokenModel]?
     let bitcoin: [NetworkTokenModel]?
+    let aura: [NetworkTokenModel]?
 }
 
 struct NetworkTokenModel: Codable {

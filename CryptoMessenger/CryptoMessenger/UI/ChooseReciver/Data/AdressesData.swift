@@ -9,6 +9,7 @@ struct AdressesData {
     var eth: String?
     var btc: String?
     var bnc: String?
+    var aur: String?
 
     // MARK: - Internal Methods
 
@@ -22,6 +23,9 @@ struct AdressesData {
         }
         if let bncAddress = bnc {
             params["binance"] = ["address": bncAddress]
+        }
+        if let aurAddress = aur {
+            params["aura"] = ["address": aurAddress]
         }
         debugPrint("AdressesData.getDataForPatchAssets: \(params)")
         return params

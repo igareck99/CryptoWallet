@@ -4,12 +4,14 @@ enum CryptoType: String, Codable {
 	case ethereum
 	case bitcoin
     case binance
+    case aura
 }
 
 struct WalletNetworkResponse: Codable {
 	let ethereum: WalletNetworkModel?
 	let bitcoin: WalletNetworkModel?
     let binance: WalletNetworkModel?
+    let aura: WalletNetworkModel?
 }
 
 struct WalletNetworkModel: Codable {

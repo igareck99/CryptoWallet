@@ -9,7 +9,8 @@ struct NetworkTokensRequestParams: Codable {
     "cryptoTypes": [
         "binance",
         "ethereum",
-        "bitcoin"
+        "bitcoin",
+        "aura"
     ]
 }
 */
