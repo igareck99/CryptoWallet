@@ -219,6 +219,7 @@ struct ProfileDetailView: View {
                 R.image.profileDetail.whiteCamera.image
                     .resizable()
                     .frame(width: 10.5, height: 8.2)
+                    .onTapGesture {showActionImageAlert.toggle()}
             }
         }
     }
