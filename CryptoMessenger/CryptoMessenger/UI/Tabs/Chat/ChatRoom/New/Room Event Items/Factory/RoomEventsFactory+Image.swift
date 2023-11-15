@@ -3,7 +3,8 @@ import SwiftUI
 extension RoomEventsFactory {
     static func makeImageItem(
         event: RoomEvent,
-        oldEvent: RoomEvent?,
+        oldEvents: [RoomEvent],
+        oldViews: [any ViewGeneratable],
         url: URL?,
         delegate: ChatEventsDelegate,
         onLongPressTap: @escaping (RoomEvent) -> Void,
@@ -25,8 +26,8 @@ extension RoomEventsFactory {
         var viewModel: any ViewGeneratable
         if !items.isEmpty {
             viewModel = ReactionsNewViewModel(width: calculateEventWidth(StaticRoomEventsSizes.image.size, items.count),
-                                                  views: items,
-                                                  backgroundColor: reactionColor)
+                                              views: items,
+                                              backgroundColor: reactionColor)
         } else {
             viewModel = ZeroViewModel()
         }
@@ -36,7 +37,15 @@ extension RoomEventsFactory {
             textColor: .white,
             backColor: .osloGrayApprox
         )
+        let oldEvent = oldEvents.first(where: { $0.eventId == event.eventId })
+        if oldEvent == event {
+            print("slkasklaskl  \(event.id)")
+            print("slasllas;  \(oldViews)")
+            let view = oldViews.first(where: { $0.id == event.id }) ?? ZeroViewModel()
+            return view
+        }
         let transactionItem = ImageEvent(
+            id: event.id,
             imageUrl: url,
             size: event.dataSize,
             eventData: eventData,
@@ -57,6 +66,7 @@ extension RoomEventsFactory {
 
         if event.isFromCurrentUser {
             return EventContainer(
+                id: event.id,
                 leadingContent: PaddingModel(),
                 centralContent: bubbleContainer,
                 bottomContent: viewModel, onLongPress: {
@@ -66,6 +76,7 @@ extension RoomEventsFactory {
         }
 
         return EventContainer(
+            id: event.id,
             centralContent: bubbleContainer,
             trailingContent: PaddingModel(),
             bottomContent: viewModel, onLongPress: {
