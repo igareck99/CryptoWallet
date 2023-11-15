@@ -43,7 +43,7 @@ enum FriendProfileResources: FriendProfileResourcable {
     }
     
     static var buttonBackground: Color {
-        .dodgerBlue
+        .dodgerTransBlue
     }
     
     static var background: Color {

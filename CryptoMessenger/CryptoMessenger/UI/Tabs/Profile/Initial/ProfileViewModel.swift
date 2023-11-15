@@ -22,9 +22,12 @@ struct ProfileItem: Identifiable {
 
     let id = UUID()
     var avatar: URL?
+    var mxId: String = ""
     var name = "Имя не заполнено"
     var nickname = ""
+    var nicknameDisplay = ""
     var status = "Всем привет! Я использую AURA!"
+    var note = ""
     var info = ""
     var phone = "Номер не заполнен"
     var photos: [Image] = []
@@ -73,6 +76,9 @@ final class ProfileViewModel: ObservableObject {
     @Published var menuHeight: CGFloat = 0
     @Published var deleteImage = false
     @Published var isEmptyFeed = true
+    @Published var urlToOpen: URL?
+    @Published var showWebView = false
+    var safari: SFSafariViewWrapper?
 
     // MARK: - Private Properties
 
@@ -123,6 +129,14 @@ final class ProfileViewModel: ObservableObject {
         profile.photosUrls = profile.photosUrls.filter { $0 != unwrappedUrl }
         self.isEmptyFeed = self.profile.photosUrls.isEmpty
         self.objectWillChange.send()
+    }
+    
+    func onSafari(_ url: String) {
+        print("slasl;asl;s  \(url)")
+        guard let url = URL(string: url) else { return }
+        urlToOpen = url
+        self.safari = SFSafariViewWrapper(link: url)
+        showWebView = true
     }
 
     // MARK: - Private Methods
@@ -180,11 +194,16 @@ final class ProfileViewModel: ObservableObject {
                     image: image,
                     viewModel: viewModel
                 ):
-                    self?.coordinator?.imageEditor(
-                        isShowing: isShowing,
-                        image: image,
-                        viewModel: viewModel
-                    )
+//                    self?.coordinator?.imageEditor(
+//                        isShowing: isShowing,
+//                        image: image,
+//                        viewModel: viewModel
+//                    )
+                    guard let image = image.wrappedValue else { 
+                        self?.showSnackBar(text: "Не удалось загрузить фото в ленту")
+                        return
+                    }
+                    self?.eventSubject.send(.onAddPhoto(image))
                 case let .onAddPhoto(image):
                     guard let userId = self?.matrixUseCase.getUserId() else {
                         self?.showSnackBar(text: "Не удалось получить идентификатор пользователя")

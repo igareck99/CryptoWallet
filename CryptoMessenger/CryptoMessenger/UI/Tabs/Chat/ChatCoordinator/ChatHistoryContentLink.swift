@@ -12,7 +12,7 @@ enum ChatHistoryContentLink: Hashable, Identifiable {
                          coordinator: ChatHistoryFlowCoordinatorProtocol)
     case chatSettings(Binding<ChatData>, Binding<Bool>, AuraRoomData, ChatHistoryFlowCoordinatorProtocol)
     case chatMedia(room: AuraRoomData)
-    case friendProfile(contact: Contact)
+    case friendProfile(userId: String, roomId: String, coordinator: ChatHistoryFlowCoordinatorProtocol)
     case adminList(chatData: Binding<ChatData>,
                    coordinator: ChatHistoryFlowCoordinatorProtocol)
     case chatMembers(chatData: Binding<ChatData>,

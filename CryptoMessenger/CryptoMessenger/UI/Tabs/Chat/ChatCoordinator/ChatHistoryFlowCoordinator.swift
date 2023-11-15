@@ -13,7 +13,8 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
                       isLeaveChannel: Binding<Bool>,
                       coordinator: ChatHistoryFlowCoordinatorProtocol)
     func chatMedia(_ room: AuraRoomData)
-    func friendProfile(_ contact: Contact)
+    func friendProfile(_ userId: String,
+                       _ roomId: String)
     func adminsView( _ chatData: Binding<ChatData>,
                      _ coordinator: ChatHistoryFlowCoordinatorProtocol)
     func chatMembersView(_ chatData: Binding<ChatData>,
@@ -149,8 +150,9 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
         }
     }
 
-    func friendProfile(_ contact: Contact) {
-        router.friendProfile(contact)
+    func friendProfile(_ userId: String,
+                       _ roomId: String) {
+        router.friendProfile(userId, roomId, self)
     }
 
     func adminsView(

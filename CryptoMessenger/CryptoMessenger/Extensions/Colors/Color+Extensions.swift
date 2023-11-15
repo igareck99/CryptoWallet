@@ -29,6 +29,7 @@ extension Color {
     static let spanishCrimson01 = Color(uiColor: .spanishCrimson01)
     static let royalOrange = Color(uiColor: .royalOrange)
     static let osloGrayApprox = Color(uiColor: .osloGrayApprox)
+    static let lightGrayApprox = Color(uiColor: .lightGrayApprox)
     // Shadow collors
     static let outerSpace = Color(uiColor: .outerSpace)
     static let auroMetalSaurus = Color(uiColor: .auroMetalSaurus)

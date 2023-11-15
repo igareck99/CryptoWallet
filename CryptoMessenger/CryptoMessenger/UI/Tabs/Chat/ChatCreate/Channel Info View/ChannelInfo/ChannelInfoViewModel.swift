@@ -99,11 +99,9 @@ final class ChannelInfoViewModel {
     }
     
     private func updateRoomParams() {
-        print("lsaslaslasl  \(shouldChange)")
         guard shouldChange else {
             channelTopic = timeRoomDescription
             roomDisplayName = timeRoomName
-            print("slaslaskl  \(roomDisplayName)  \(channelTopic)")
             return
         }
         if let imgData = self.selectedImg?.jpeg(.medium) {
@@ -298,7 +296,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
         guard let user = participants.first(where: { $0.matrixId == tappedUserId }) else { return }
         let contact = Contact(mxId: user.matrixId, avatar: user.avatar, name: user.name, status: user.status, phone: "", onTap: { _ in
         })
-        coordinator?.friendProfile(contact)
+        coordinator?.friendProfile(contact.mxId, self.room.roomId)
     }
     
     func onDeleteChannel() {

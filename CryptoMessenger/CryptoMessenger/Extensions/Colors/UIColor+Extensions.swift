@@ -57,7 +57,9 @@ extension UIColor {
     static let royalOrange = UIColor(red: 236.0 / 255.0, green: 155.0 / 255.0, blue: 60.0 / 255.0, alpha: 1.0)
     // #8E9298
     static let osloGrayApprox = UIColor(red: 142.0 / 255.0, green: 146.0 / 255.0, blue: 152.0 / 255.0, alpha: 1.0)
-
+    // #F5F6F8
+    static let lightGrayApprox = UIColor(red: 245 / 255.0, green: 246.0 / 255.0, blue: 248.0 / 255.0, alpha: 1.0)
+    
     // Shadow collors
     // #40454c
     static let outerSpace = UIColor(red: 64.0 / 255.0, green: 69.0 / 255.0, blue: 76.0 / 255.0, alpha: 1.0)

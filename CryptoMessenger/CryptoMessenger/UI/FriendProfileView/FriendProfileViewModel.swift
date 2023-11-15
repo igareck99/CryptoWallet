@@ -1,4 +1,5 @@
 import Combine
+import MatrixSDK
 import Foundation
 
 // MARK: - FriendProfileViewModel
@@ -7,61 +8,49 @@ final class FriendProfileViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    weak var delegate: FriendProfileSceneDelegate?
-
     @Published var selectedPhoto: URL?
-    @Published var imageToShare: UIImage?
-    @Published var listData: [SocialListItem] = [
-        SocialListItem(url: "",
-                       sortOrder: 1,
-                       socialType: .instagram),
-        SocialListItem(url: "",
-                       sortOrder: 2,
-                       socialType: .facebook),
-        SocialListItem(url: "",
-                       sortOrder: 3,
-                       socialType: .twitter),
-        SocialListItem(url: "",
-                       sortOrder: 4,
-                       socialType: .vk),
-        SocialListItem(url: "",
-                       sortOrder: 5,
-                       socialType: .tiktok),
-        SocialListItem(url: "",
-                       sortOrder: 6,
-                       socialType: .linkedin)
-    ]
     @Published var profile = ProfileItem()
-    @Published var existringUrls: [String] = []
-    var p2pVideoCallPublisher = ObservableObjectPublisher()
     let mediaService = MediaService()
     let sources: FriendProfileResourcable.Type = FriendProfileResources.self
-    @Published var userId: Contact
+    @Published var userId: String
+    @Published var roomId: String
+    @Published var contact: Contact?
+    @Published var isSnackbarPresented = false
+    @Published var messageText: String = ""
+    @Published var urlToOpen: URL?
+    @Published var showWebView = false
+    var safari: SFSafariViewWrapper?
 
     // MARK: - Private Properties
 
     @Published private(set) var state: FriendProfileFlow.ViewState = .idle
-    @Published private(set) var socialList = SocialListViewModel()
-    @Published private(set) var socialListEmpty = true
     private let eventSubject = PassthroughSubject<FriendProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<FriendProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
 
     @Injectable private var apiClient: APIClientManager
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
-    private let userSettings: UserCredentialsStorage & UserFlowsStorage
+    private let userDefaults: UserDefaultsService
     private let keychainService: KeychainServiceProtocol
+    private let channelFactory: ChannelUsersFactoryProtocol.Type
+    private let chatHistoryCoordinator: ChatHistoryFlowCoordinatorProtocol
 
     // MARK: - Lifecycle
 
     init(
-        userId: Contact,
-        userSettings: UserCredentialsStorage & UserFlowsStorage,
-        keychainService: KeychainServiceProtocol
+        userId: String,
+        roomId: String,
+        chatHistoryCoordinator: ChatHistoryFlowCoordinatorProtocol,
+        userDefaults: UserDefaultsService = UserDefaultsService.shared,
+        keychainService: KeychainServiceProtocol,
+        channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self
     ) {
         self.userId = userId
-        self.userSettings = userSettings
+        self.roomId = roomId
+        self.chatHistoryCoordinator = chatHistoryCoordinator
+        self.userDefaults = userDefaults
         self.keychainService = keychainService
+        self.channelFactory = channelFactory
         bindInput()
         bindOutput()
     }
@@ -76,7 +65,24 @@ final class FriendProfileViewModel: ObservableObject {
     func send(_ event: FriendProfileFlow.Event) {
         eventSubject.send(event)
     }
-
+    
+    func onImageViewer(_ url: URL) {
+        selectedPhoto = url
+        chatHistoryCoordinator.showImageViewer(imageUrl: selectedPhoto)
+    }
+    
+    func onSafari(_ url: String) {
+        guard let url = URL(string: url) else { return }
+        urlToOpen = url
+        self.safari = SFSafariViewWrapper(link: url)
+        showWebView = true
+    }
+    
+    func loadUserNote() {
+        guard let result = userDefaults.dict(forKey: .userNotes) as? [String: String] else { return }
+        profile.note = result[userId] ?? ""
+    }
+    
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -110,71 +116,110 @@ final class FriendProfileViewModel: ObservableObject {
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
     }
-
-    private func getSocialList() {
-        apiClient.publisher(Endpoints.Social.getSocial(matrixUseCase.getUserId()))
+    
+    private func loadUsers() {
+        matrixUseCase.getRoomMembers(roomId: roomId) { [weak self] result in
+            guard case let .success(roomMembers) = result else { return }
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                let users: [ChannelParticipantsData] = self.channelFactory.makeUsersData(
+                    users: roomMembers.members(with: .invite) + roomMembers.members(with: .join),
+                    roomPowerLevels: MXRoomPowerLevels()
+                )
+                let contact = users.first(where: { $0.matrixId == self.userId }).map {
+                    var displayname = ""
+                    if let i = $0.matrixId.lastIndex(of: ":") {
+                        let index: Int = $0.matrixId.distance(from: $0.matrixId.startIndex,
+                                                              to: i)
+                        self.profile.nicknameDisplay = String($0.matrixId.prefix(index))
+                        displayname = String($0.matrixId.prefix(index)).removeCharacters(from: "@")
+                    }
+                    if $0.matrixId != $0.name {
+                        displayname = $0.name
+                    }
+                    let contact = Contact(mxId: $0.matrixId,
+                                          avatar: $0.avatar,
+                                          name: displayname,
+                                          status: $0.status,
+                                          phone: $0.phone) { _ in
+                    }
+                    return contact
+                }
+                if let contact = contact {
+                    self.setData(contact)
+                }
+            }
+        }
+    }
+    
+    private func setData(_ contact: Contact) {
+        profile.mxId = contact.mxId
+        profile.name = contact.name
+        profile.nickname = contact.name
+        profile.phone = contact.phone
+        profile.status = contact.status
+        profile.avatar = contact.avatar
+        loadUserNote()
+    }
+    
+    private func showSnackBar(text: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.messageText = text
+            self?.isSnackbarPresented = true
+            self?.objectWillChange.send()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.messageText = ""
+            self?.isSnackbarPresented = false
+            self?.objectWillChange.send()
+        }
+    }
+    
+    private func getUserData() {
+        self.apiClient.publisher(Endpoints.Users.getProfile(userId))
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
-                    if let err = error as? APIError, err == .invalidToken {
-                        self?.matrixUseCase.logoutDevices { _ in
-                            // TODO: Обработать результат
-                        }
-                    }
+                    self?.showSnackBar(text: "Ошибка загрузки профиля")
+                    debugPrint("Error in Get user data Api  \(error)")
                 default:
                     break
                 }
             } receiveValue: { [weak self] response in
-                for x in response {
-                    let newList = self?.listData.filter { $0.socialType.description != x.socialType } ?? []
-                    if newList.count != self?.listData.count {
-                        self?.listData = newList
-                        self?.listData.append(
-                            .init(
-                                url: x.url,
-                                sortOrder: x.sortOrder,
-                                socialType: SocialNetworkType.networkType(item: x.socialType)
-                            )
-                        )
-                    }
+                if let phone = response["phone"] as? String {
+                    self?.profile.phone = phone
                 }
-                guard let sortedList = self?.listData.sorted(by: { $0.sortOrder < $1.sortOrder })
-                else { return }
-                self?.profile.socialNetwork = sortedList
-                self?.existringUrls = []
-                for item in sortedList.filter({ !$0.url.isEmpty }) {
-                    self?.existringUrls.append(item.url)
-                }
-                for x in sortedList {
-                    if !x.url.isEmpty {
-                        self?.socialListEmpty = false
-                        break
-                    } else {
-                        self?.socialListEmpty = true
+                let urls = (response["media"] as? Array ?? [])
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: urls, options: [])
+                    let mediaResponseList = try JSONDecoder().decode([MediaResponse].self, from: jsonData)
+                    self?.profile.photosUrls = mediaResponseList.compactMap {
+                        return $0.original
                     }
+                } catch {
+                    debugPrint("Ошибка при декодировании Ленты: \(error)")
+                }
+                let socials = (response["social"] as? Array ?? [])
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: socials, options: [])
+                    let socialResponseList = try JSONDecoder().decode([SocialResponse].self, from: jsonData)
+                    self?.profile.socialNetwork = socialResponseList.flatMap {
+                        if !$0.url.isEmpty {
+                            let item = SocialListItem(url: $0.url, sortOrder: $0.sortOrder,
+                                                      socialType: SocialNetworkType(rawValue: $0.socialType) ?? .facebook)
+                            return item
+                        }
+                        return nil
+                    }
+                } catch {
+                    debugPrint("Ошибка при декодировании Социальных сетей: \(error)")
                 }
             }
             .store(in: &subscriptions)
     }
 
     private func fetchData() {
-        self.profile.avatar = self.userId.avatar
-        profile.name = self.userId.name
-        profile.nickname = self.userId.name
-        profile.phone = self.userId.phone
-        profile.status = self.userId.status
-        if !matrixUseCase.getDisplayName().isEmpty {
-            profile.name = matrixUseCase.getDisplayName()
-        }
-        if !matrixUseCase.getStatus().isEmpty {
-            profile.status = matrixUseCase.getStatus()
-        }
-        mediaService.getPhotoFeedPhotos(userId: self.userId.mxId) { urls in
-            self.profile.photosUrls = urls
-        }
-        getSocialList()
-        if let phoneNumber = keychainService.apiUserPhoneNumber {
-            profile.phone = phoneNumber
-        }
+        loadUsers()
+        getUserData()
     }
 }

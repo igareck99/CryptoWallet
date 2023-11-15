@@ -125,6 +125,7 @@ final class MediaService: ObservableObject, MediaServiceProtocol {
                     break
                 }
             } receiveValue: { response in
+                print("slaslaslkaslk  \(response)")
                 let urls: [URL] = response.compactMap { $0.original }
                 completion(urls)
             }

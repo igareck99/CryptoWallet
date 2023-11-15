@@ -6,62 +6,49 @@ struct NotesView: View {
 
     // MARK: - Internal Properties
 
-    @Binding var showNotes: Bool
-    @State private var newKey = ""
+    @StateObject var viewModel: NotesViewModel
+    @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack {
                 R.image.buyCellsMenu.close.image
                     .onTapGesture {
-                        showNotes = false
+                        presentationMode.wrappedValue.dismiss()
                     }
                 Spacer()
                 Text(R.string.localizable.noteViewAddNote())
                     .font(.subheadlineMedium15)
                     .foregroundColor(.chineseBlack)
                 Spacer()
+                Circle()
+                    .frame(width: 32, height: 32)
+                    .foreground(.white)
             }
-            .padding(.top, 16)
-            .padding(.horizontal, 20)
-            textInput
-            info
             .padding(.horizontal, 16)
-            Divider()
-                .padding(.top, 48)
+            textInput
+                .padding(.top, 32)
+            info
+                .padding(.horizontal, 16)
             importButton
-                .padding([.top, .bottom], 8)
-        }
-        .onAppear {
-            UITextView.appearance().backgroundColor = UIColor.aliceBlue
-            UITextView.appearance().textContainerInset = .init(top: 12, left: 0, bottom: 12, right: 0)
+                .padding(.bottom, 8)
+                .padding(.top, 48)
         }
     }
 
     private var textInput: some View {
-        ZStack(alignment: .topLeading) {
-        TextEditor(text: $newKey)
-                .padding(.leading, 16)
-                .background(Color.aliceBlue)
-                .foregroundColor(.chineseBlack)
-                .font(.subheadlineRegular15)
-                .frame(width: UIScreen.main.bounds.width - 32,
-                       height: 132)
-                .cornerRadius(8)
-                .keyboardType(.alphabet)
-                .padding(.top, 32)
-            if newKey.isEmpty {
-                Text(R.string.localizable.noteViewPlaceholder())
-                    .font(.subheadlineRegular15)
-                    .foregroundColor(.romanSilver)
-                    .padding(.leading, 17)
-                    .padding(.top, 12)
-                    .disabled(true)
-                    .allowsHitTesting(false)
+        TextEditorWithPlaceholder(text: $viewModel.newKey,
+                                  placeholder: R.string.localizable.noteViewPlaceholder())
+            .frame(width: UIScreen.main.bounds.width - 32,
+                   height: 132)
+            .padding(.horizontal, 16)
+            .onChange(of: viewModel.newKey) { value in
+                if value.count > 160 {
+                    viewModel.newKey = String(viewModel.newKey.prefix(160))
+                }
             }
-        }
     }
 
     private var info: some View {
@@ -70,7 +57,7 @@ struct NotesView: View {
                 .font(.caption1Regular12)
                 .foregroundColor(.romanSilver)
             Spacer()
-            Text("\(newKey.count)/160")
+            Text("\(viewModel.newKey.count)/160")
                 .font(.caption1Regular12)
                 .foregroundColor(.romanSilver)
         }
@@ -78,21 +65,23 @@ struct NotesView: View {
 
     private var importButton: some View {
         Button {
+            viewModel.setUserNote()
+            presentationMode.wrappedValue.dismiss()
         } label: {
             Text(R.string.localizable.noteViewApprove())
                 .font(.subheadlineMedium15)
-                .foregroundColor(newKey.isEmpty ? .romanSilver : .white)
+                .foregroundColor(viewModel.newKey.isEmpty ? .romanSilver : .white)
                 .frame(width: 185,
                        height: 44)
-                .disabled(newKey.isEmpty)
                 .frame(minWidth: 185,
                        idealWidth: 185,
                        maxWidth: 185,
                        minHeight: 44,
                        idealHeight: 44,
                        maxHeight: 44)
-                .background(newKey.isEmpty ? Color.ashGray : Color.dodgerBlue )
+                .background(viewModel.newKey.isEmpty ? Color.lightGrayApprox : Color.dodgerBlue )
                 .cornerRadius(8)
         }
+        .disabled(viewModel.newKey.isEmpty)
     }
 }

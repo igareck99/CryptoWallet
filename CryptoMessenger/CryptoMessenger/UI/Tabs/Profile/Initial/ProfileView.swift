@@ -16,11 +16,9 @@ struct ProfileView: View {
     @State private var popupSelected = false
     @State private var showProfileDetail = false
     @State private var showAlert = false
-    @State private var showSafari = false
     @State private var showImagePicker = false
     @State private var showCameraPicker = false
     @State private var showLocationPicker = false
-    @State private var safariAddress = ""
     @State private var showDeletePhotoAlert = false
     @State private var photoUrlForDelete = ""
     @State private var showAllSocial = false
@@ -43,6 +41,9 @@ struct ProfileView: View {
             }
             .onAppear {
                 viewModel.send(.onProfileAppear)
+            }
+            .fullScreenCover(isPresented: $viewModel.showWebView) {
+                viewModel.safari
             }
             .onChange(of: viewModel.selectedImage, perform: { _ in
                 viewModel.send(.onImageEditor(isShowing: $showImageEdtior,
@@ -77,7 +78,8 @@ struct ProfileView: View {
     private var content: some View {
         NavigationView {
             ScrollView(popupSelected ? [] : .vertical, showsIndicators: true) {
-                VStack(alignment: .leading, spacing: 24) {
+                VStack(alignment: .leading, spacing: 16) {
+                    Divider()
                     HStack(spacing: 16) {
                         avatarView
                         VStack(alignment: .leading, spacing: 10) {
@@ -92,16 +94,16 @@ struct ProfileView: View {
                                     case false:
                                         if viewModel.existringUrls.count < 4 {
                                             ForEach(viewModel.profile.socialNetwork.filter({ !$0.url.isEmpty })) { item in
-                                                SocialNetworkView(safariAddress: $safariAddress,
-                                                                  showSafari: $showSafari,
-                                                                  item: item)
+                                                SocialNetworkView(item: item, onSocialTap: {
+                                                    viewModel.onSafari(item.url)
+                                                })
                                             }
                                         } else {
                                             ForEach(viewModel.profile.socialNetwork.filter({ !$0.url.isEmpty })[0...2]) { item in
                                                 if !item.url.isEmpty {
-                                                    SocialNetworkView(safariAddress: $safariAddress,
-                                                                      showSafari: $showSafari,
-                                                                      item: item)
+                                                    SocialNetworkView(item: item) {
+                                                        viewModel.onSafari(item.url)
+                                                    }
                                                 }
                                             }
                                             Button(action: {
@@ -119,9 +121,9 @@ struct ProfileView: View {
                                     case true:
                                         ForEach(viewModel.profile.socialNetwork) { item in
                                             if !item.url.isEmpty {
-                                                SocialNetworkView(safariAddress: $safariAddress,
-                                                                  showSafari: $showSafari,
-                                                                  item: item)
+                                                SocialNetworkView(item: item) {
+                                                    viewModel.onSafari(item.url)
+                                                }
                                             }
                                         }
                                         Button(action: {
@@ -159,7 +161,6 @@ struct ProfileView: View {
                                 .padding(.top, 1)
                         }
                     }
-                    .padding(.top, 27)
                     .padding(.leading, 16)
                     if !viewModel.profile.status.isEmpty {
                         VStack(alignment: .leading, spacing: 2) {
@@ -293,25 +294,25 @@ struct ProfileView: View {
                 .font(.subheadlineRegular15)
                 .lineLimit(1)
                 .frame(minWidth: 0,
-                       maxWidth: 0.78 * UIScreen.main.bounds.width)
+                       maxWidth: 0.65 * UIScreen.main.bounds.width)
                 .onTapGesture {
                     UIPasteboard.general.string = viewModel.profile.nickname
                     showAlert = true
                 }
         }
         ToolbarItem(placement: .navigationBarTrailing) {
-            R.image.profile.camera.image
-                .onTapGesture {
-                    vibrate()
-                    viewModel.send(.onFeedImageAdd)
-                }
-        }
-        ToolbarItem(placement: .navigationBarTrailing) {
-            R.image.profile.settings.image
-                .onTapGesture {
-                    vibrate()
-                    viewModel.send(.onSettings($selectedAvatarImage))
-                }
+            HStack(spacing: 16) {
+                R.image.profile.camera.image
+                    .onTapGesture {
+                        vibrate()
+                        viewModel.send(.onFeedImageAdd)
+                    }
+                R.image.profile.settings.image
+                    .onTapGesture {
+                        vibrate()
+                        viewModel.send(.onSettings($selectedAvatarImage))
+                    }
+            }
         }
     }
 }

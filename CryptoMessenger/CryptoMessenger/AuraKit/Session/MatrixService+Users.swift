@@ -16,7 +16,7 @@ extension MatrixService {
 	}
 
 	func getUser(_ id: String) -> MXUser? {
-		session?.user(withUserId: id)
+        session?.user(withUserId: id)
 	}
 	func getUserId() -> String {
 		session?.myUser?.userId ?? ""

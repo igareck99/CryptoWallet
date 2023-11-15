@@ -52,7 +52,9 @@ protocol ChatHistoryRouterable: View {
         coordinator: ChatHistoryFlowCoordinatorProtocol
     )
 
-    func friendProfile(_ contact: Contact)
+    func friendProfile(_ userId: String,
+                       _ roomId: String,
+                       _ coordinator: ChatHistoryFlowCoordinatorProtocol)
 
     func adminsView(
         _ chatData: Binding<ChatData>,
