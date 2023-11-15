@@ -37,7 +37,7 @@ struct AvatarView: View {
                     }.frame(width: 60, height: 60)
                 },
                 result: {
-                    Image(uiImage: $0)
+                    Image(uiImage: $0).resizable()
                 }
             )
             .frame(width: 60, height: 60)
