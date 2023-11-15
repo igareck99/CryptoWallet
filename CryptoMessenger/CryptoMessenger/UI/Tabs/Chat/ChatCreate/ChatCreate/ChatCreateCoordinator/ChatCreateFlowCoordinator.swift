@@ -5,9 +5,10 @@ import SwiftUI
 protocol ChatCreateFlowCoordinatorProtocol {
     func selectContact()
     func createContact()
-    func createChannel()
-    func createGroupChat(_ chatData: ChatData)
+    func createChannel(_ contacts: [SelectContact])
+    func createGroupChat(_ chatData: ChatData, _ contacts: [Contact])
     func toParentCoordinator()
+    func onFriendProfile(_ room: AuraRoomData)
 }
 
 // MARK: - ChatCreateFlowCoordinator
@@ -18,11 +19,14 @@ final class ChatCreateFlowCoordinator<Router: ChatCreateRouterable> {
     var navigationController = UINavigationController()
     private var router: Router
     private let onCoordinatorEnd: (Coordinator) -> Void
+    private let onFriendProfile: (AuraRoomData) -> Void
 
     init(router: Router,
-         onCoordinatorEnd: @escaping (Coordinator) -> Void) {
+         onCoordinatorEnd: @escaping (Coordinator) -> Void,
+         onFriendProfile: @escaping (AuraRoomData) -> Void) {
         self.router = router
         self.onCoordinatorEnd = onCoordinatorEnd
+        self.onFriendProfile = onFriendProfile
     }
 }
 
@@ -41,8 +45,8 @@ extension ChatCreateFlowCoordinator: Coordinator {
 
 extension ChatCreateFlowCoordinator: ChatCreateFlowCoordinatorProtocol {
 
-    func createChannel() {
-        router.createChannel(self)
+    func createChannel(_ contacts: [SelectContact]) {
+        router.createChannel(self, contacts)
     }
 
     func selectContact() {
@@ -53,8 +57,12 @@ extension ChatCreateFlowCoordinator: ChatCreateFlowCoordinatorProtocol {
         router.createContact(self)
     }
     
-    func createGroupChat(_ chatData: ChatData) {
-        router.createGroupChat(chatData, self)
+    func createGroupChat(_ chatData: ChatData, _ contacts: [Contact]) {
+        router.createGroupChat(chatData, self, contacts)
+    }
+    
+    func onFriendProfile(_ room: AuraRoomData) {
+        onFriendProfile(room)
     }
     
     func toParentCoordinator() {

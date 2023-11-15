@@ -6,10 +6,12 @@ protocol ChatCreateRouterable: View {
     func selectContact(_ coordinator: ChatCreateFlowCoordinatorProtocol)
     func createContact(_ coordinator: ChatCreateFlowCoordinatorProtocol)
 
-    func createChannel(_ coordinator: ChatCreateFlowCoordinatorProtocol)
+    func createChannel(_ coordinator: ChatCreateFlowCoordinatorProtocol,
+                       _ contacts: [SelectContact])
 
     func createGroupChat(_ chatData: ChatData,
-                         _ coordinator: ChatCreateFlowCoordinatorProtocol)
+                         _ coordinator: ChatCreateFlowCoordinatorProtocol,
+                         _ contacts: [Contact])
     func createChat(_ coordinator: ChatCreateFlowCoordinatorProtocol)
 }
 
@@ -40,12 +42,12 @@ struct ChatCreateRouter<Content: View, State: ChatCreateFlowStateProtocol>: View
             ChatCreateAssembly.build(coordinator)
         case let .createContact(coordinator):
             CreateContactsAssembly.build(coordinator)
-        case let .createChannel(coordinator):
+        case let .createChannel(coordinator, contacts):
             ChatGroupAssembly.build(type: .channel, coordinator: coordinator)
         case let .selectContact(coordinator):
             GroupChatSelectContactAssembly.build(coordinator: coordinator)
-        case let .createGroupChat(chatData, coordinator):
-            ChatGroupAssembly.build(type: .groupChat, coordinator: coordinator)
+        case let .createGroupChat(chatData, coordinator, contacts):
+            ChatGroupAssembly.build(type: .groupChat, users: contacts, coordinator: coordinator)
         }
     }
 }
@@ -56,8 +58,9 @@ extension ChatCreateRouter: ChatCreateRouterable {
         state.createPath.append(ChatCreateSheetContentLink.selectContact(coordinator))
     }
 
-    func createChannel(_ coordinator: ChatCreateFlowCoordinatorProtocol) {
-        state.createPath.append(ChatCreateSheetContentLink.createChannel(coordinator))
+    func createChannel(_ coordinator: ChatCreateFlowCoordinatorProtocol,
+                       _ contacts: [SelectContact]) {
+        state.createPath.append(ChatCreateSheetContentLink.createChannel(coordinator, contacts))
     }
 
     func createContact(_ coordinator: ChatCreateFlowCoordinatorProtocol) {
@@ -65,8 +68,9 @@ extension ChatCreateRouter: ChatCreateRouterable {
     }
 
     func createGroupChat(_ chatData: ChatData,
-                         _ coordinator: ChatCreateFlowCoordinatorProtocol) {
-        state.createPath.append(ChatCreateSheetContentLink.createGroupChat(chatData, coordinator))
+                         _ coordinator: ChatCreateFlowCoordinatorProtocol,
+                         _ contacts: [Contact]) {
+        state.createPath.append(ChatCreateSheetContentLink.createGroupChat(chatData, coordinator, contacts))
     }
     
     func createChat(_ coordinator: ChatCreateFlowCoordinatorProtocol) {

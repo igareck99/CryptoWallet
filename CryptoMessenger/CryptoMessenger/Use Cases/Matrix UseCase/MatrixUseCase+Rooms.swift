@@ -45,9 +45,11 @@ extension MatrixUseCase {
         let parameters = MXRoomCreationParameters()
         parameters.inviteArray = ids
         parameters.isDirect = true
-        parameters.visibility = MXRoomDirectoryVisibility.private.identifier
-        parameters.preset = MXRoomPreset.privateChat.identifier
+        parameters.visibility = kMXRoomDirectoryVisibilityPrivate
+        // parameters.preset = MXRoomPreset.privateChat.identifier
+        parameters.preset = kMXRoomPresetTrustedPrivateChat
         createRoom(parameters: parameters, completion: { result in
+            self.objectChangePublisher.send()
             completion(result)
         })
     }
@@ -64,7 +66,6 @@ extension MatrixUseCase {
                 guard let data = roomAvatar else {
                     return
                 }
-
                 self?.setRoomAvatar(data: data, for: room) { _ in
                     // TODO: Обработать case failure
                     // self?.closeScreen = true
@@ -308,6 +309,30 @@ extension MatrixUseCase {
             guard let state = timeline?.state else { completion(.failure); return }
             completion(.success(state.members))
         }
+    }
+    
+    func customCheckRoomExist(_ mxId: String) -> AuraRoomData? {
+        var room: AuraRoomData?
+        let rooms = self.auraNoEventsRooms
+        let channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self
+        rooms.forEach { value in
+            if value.isDirect {
+                self.getRoomMembers(roomId: value.roomId,
+                                    completion: { result in
+                    guard case let .success(roomMembers) = result else { return }
+                    let users: [ChannelParticipantsData] =  channelFactory.makeUsersData(
+                        users: roomMembers.members(with: .invite) + roomMembers.members(with: .join),
+                        roomPowerLevels: MXRoomPowerLevels()
+                    )
+                    if let user = users.first(where: { $0.matrixId != self.getUserId() }) {
+                        if user.matrixId == mxId {
+                            room = value
+                        }
+                    }
+                })
+            }
+        }
+        return room
     }
 
     func enableEncryptionWithAlgorithm(roomId: String) {

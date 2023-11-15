@@ -19,6 +19,7 @@ final class ChatGroupViewModel: ObservableObject {
     @Published var selectedImg: UIImage?
     @Published var channelType: ChannelType = .publicChannel
     var type: CreateGroupCases
+    var contacts: [Contact]
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
     var coordinator: ChatCreateFlowCoordinatorProtocol?
     let resources: ChatGroupResourcable.Type = ChatGroupResources.self
@@ -27,10 +28,12 @@ final class ChatGroupViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-        type: CreateGroupCases = .groupChat,
+        type: CreateGroupCases,
+        contacts: [Contact],
         resources: ChatGroupResourcable.Type = ChatGroupResources.self
     ) {
         self.type = type
+        self.contacts = contacts
         self.initLabels()
     }
 
@@ -60,6 +63,7 @@ final class ChatGroupViewModel: ObservableObject {
         chatData.title = titleText
         chatData.description = descriptionText
         chatData.image = selectedImg
+        chatData.contacts = contacts
         matrixUseCase.createGroupRoom(chatData) { result in
             switch result {
             case .roomCreateError, .roomAlreadyExist:

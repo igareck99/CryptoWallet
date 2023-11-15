@@ -4,8 +4,8 @@ enum ChatCreateSheetContentLink: Hashable, Identifiable {
 
     case selectContact(ChatCreateFlowCoordinatorProtocol)
     case createContact(ChatCreateFlowCoordinatorProtocol)
-    case createChannel(ChatCreateFlowCoordinatorProtocol)
-    case createGroupChat(ChatData, ChatCreateFlowCoordinatorProtocol)
+    case createChannel(ChatCreateFlowCoordinatorProtocol, [SelectContact])
+    case createGroupChat(ChatData, ChatCreateFlowCoordinatorProtocol, [Contact])
     case createChat(coordinator: ChatCreateFlowCoordinatorProtocol)
 
     var id: String {

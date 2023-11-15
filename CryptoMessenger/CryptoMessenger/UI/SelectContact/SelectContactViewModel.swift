@@ -99,7 +99,7 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
                 return contact
             }
             chatData.contacts = result
-            self.coordinator?.createGroupChat(chatData)
+            self.coordinator?.createGroupChat(chatData, result)
         case .admins:
             break
         }
@@ -117,7 +117,8 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
                     if mode == .groupCreate {
                         self.usersForCreateItems = self.chatData.contacts.map {
                             let result = SelectContactChipsItem(mxId: $0.mxId,
-                                                                name: $0.name)
+                                                                name: $0.name, onTap: {
+                            })
                             return result
                         }
                         withAnimation(.easeOut(duration: 0.25)) {
@@ -245,7 +246,8 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
         if mode == .groupCreate {
             usersForCreateItems = self.users.filter({ $0.isSelected == true }).map {
                 let result = SelectContactChipsItem(mxId: $0.mxId,
-                                                    name: $0.name)
+                                                    name: $0.name, onTap: {
+                })
                 return result
             }
             withAnimation(.easeOut(duration: 0.25)) {

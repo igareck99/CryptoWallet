@@ -37,6 +37,7 @@ protocol MatrixUseCaseProtocol {
                           completion: @escaping (RoomCreateState) -> Void)
     func createRoom(parameters: MXRoomCreationParameters, roomAvatar: Data?,
                     completion: @escaping (RoomCreateState) -> Void)
+    func customCheckRoomExist(_ mxId: String) -> AuraRoomData?
     func createGroupRoom(_ info: ChatData, completion: @escaping (RoomCreateState) -> Void)
     func getRoomAvatarUrl(roomId: String) -> URL?
     func getUserAvatar(avatarString: String, completion: @escaping EmptyFailureBlock<UIImage>)

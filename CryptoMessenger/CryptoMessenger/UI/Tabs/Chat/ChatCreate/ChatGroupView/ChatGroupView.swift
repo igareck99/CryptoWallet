@@ -195,7 +195,7 @@ struct ChatGroupView: View {
             isSelected: $viewModel.isPublicSelected
         ) { channelType in
             debugPrint("Channel type seledted: \(channelType)")
-            withAnimation(.easeInOut(duration: 0.25)) {
+            withAnimation(.easeInOut(duration: 0.15)) {
                 viewModel.channelType = channelType
                 viewModel.isPrivateSelected = false
             }
@@ -211,7 +211,7 @@ struct ChatGroupView: View {
             isSelected: $viewModel.isPrivateSelected
         ) { channelType in
             debugPrint("Channel type seledted: \(channelType)")
-            withAnimation(.easeInOut(duration: 0.25)) {
+            withAnimation(.easeInOut(duration: 0.15)) {
                 viewModel.channelType = channelType
                 viewModel.isPublicSelected = false
             }
