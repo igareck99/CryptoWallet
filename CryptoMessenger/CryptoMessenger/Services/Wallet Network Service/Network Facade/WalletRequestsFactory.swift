@@ -69,7 +69,7 @@ struct WalletRequestsFactory: WalletRequestsFactoryProtocol {
         netType: NetType = Configuration.shared.netType,
         apiVersion: ApiVersion = .v0
     ) {
-		self.netType = netType
+        self.netType = .testnet
         self.apiVersion = apiVersion
 	}
 

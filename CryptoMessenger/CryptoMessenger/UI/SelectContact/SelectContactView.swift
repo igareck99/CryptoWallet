@@ -32,6 +32,26 @@ struct SelectContactView<ViewModel>: View where ViewModel: SelectContactViewMode
                     .searchable(text: $viewModel.searchText)
                     .listStyle(.plain)
                 }
+            case .groupCreate:
+                VStack {
+                    ContactsForSendView(views: $viewModel.usersForCreate,
+                                        text: $viewModel.text)
+                    List {
+                        ForEach(viewModel.usersViews, id: \.id) { value in
+                            value.view()
+                        }
+                    }
+                    .hideKeyboardOnTap()
+                    .listRowSeparator(.hidden)
+                    .listStyle(.plain)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar(.visible, for: .navigationBar)
+                    .toolbar {
+                        createToolBar()
+                    }
+
+                }
+                .navigationBarBackButtonHidden(true)
             default:
                 List {
                     ForEach(viewModel.usersViews, id: \.id) { value in

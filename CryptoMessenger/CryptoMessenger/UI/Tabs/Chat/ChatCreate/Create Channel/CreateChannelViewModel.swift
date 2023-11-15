@@ -111,6 +111,8 @@ extension CreateChannelViewModel: CreateChannelViewModelProtocol {
                 break
             case .roomCreateSucces:
                 self.coordinator.toParentCoordinator()
+            default:
+                break
             }
         }
     }

@@ -29,6 +29,7 @@ struct EmptyInfoViewModelView: View {
             VStack {
                 data.value.image
                 Text(data.value.title)
+                    .multilineTextAlignment(.center)
                     .font(.system(size: 22, weight: .regular))
                     .padding(.top, 4)
                 Text(data.value.description)

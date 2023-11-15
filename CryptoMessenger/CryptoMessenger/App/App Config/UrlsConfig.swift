@@ -9,6 +9,15 @@ struct UrlsConfig: Codable {
     let apiStand: Stand
 
     static let defaultRelease = UrlsConfig(
+        cryptoWallet: "https://crypto.stage.auradev.space/",
+        jitsiMeet: "https://meet.stage.auradev.space/",
+        matrixUrl: "https://matrix.stage.auradev.space/",
+        apiUrl: "https://api.stage.auradev.space/",
+        apiVersion: "v0",
+        apiStand: .prod
+    )
+    
+    static let defaultRelease1 = UrlsConfig(
         cryptoWallet: "https://crypto.aura.ms/",
         jitsiMeet: "https://meet.aura.ms/",
         matrixUrl: "https://matrix.aura.ms/",
@@ -25,6 +34,13 @@ struct UrlsConfig: Codable {
         apiVersion: "v0",
         apiStand: .dev
     )
+
+    static let space = UrlsConfig(cryptoWallet: "https://stage.auradev.space/",
+                                  jitsiMeet: "https://meet.auramsg.ms/",
+                                  matrixUrl: "https://matrix.auramsg.co/",
+                                  apiUrl: "https://api.auramsg.co/",
+                                  apiVersion: "v0",
+                                  apiStand: .dev)
 
     enum CodingKeys: String, CodingKey {
         case cryptoWallet = "CryptoWallet"

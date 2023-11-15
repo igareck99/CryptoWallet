@@ -12,6 +12,10 @@ protocol SelectContactViewModelDelegate: ObservableObject {
 
     var contactsLimit: Int? { get }
     
+    var text: String { get set }
+    
+    var usersForCreate: [any ViewGeneratable] { get set }
+    
     var resources: SelectContactResourcable.Type { get }
     
     var isButtonAvailable: Bool { get }

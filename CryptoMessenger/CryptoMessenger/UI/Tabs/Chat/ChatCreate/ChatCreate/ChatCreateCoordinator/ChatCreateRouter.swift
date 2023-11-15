@@ -41,16 +41,11 @@ struct ChatCreateRouter<Content: View, State: ChatCreateFlowStateProtocol>: View
         case let .createContact(coordinator):
             CreateContactsAssembly.build(coordinator)
         case let .createChannel(coordinator):
-            CreateChannelAssemby.make(coordinator: coordinator)
+            ChatGroupAssembly.build(type: .channel, coordinator: coordinator)
         case let .selectContact(coordinator):
-                SelectContactAssembly.build(
-                    mode: .groupCreate,
-                    coordinator: coordinator, onUsersSelected: { _ in
-                    }
-                )
+            GroupChatSelectContactAssembly.build(coordinator: coordinator)
         case let .createGroupChat(chatData, coordinator):
-            ChatGroupAssembly.build(chatData,
-                                    coordinator: coordinator)
+            ChatGroupAssembly.build(type: .groupChat, coordinator: coordinator)
         }
     }
 }

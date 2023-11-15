@@ -111,7 +111,8 @@ protocol ChatHistoryRouterable: View {
 
     func presentedItem() -> Binding<ChatHistorySheetLink?>
 
-    func chatCreate(_ view: any View)
+    func chatCreate(_ view: any View,
+                    _ onDisappear: @escaping () -> Void)
 
     func chatActions(
         _ room: ChatActionsList,

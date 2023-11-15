@@ -7,7 +7,7 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
     // MARK: - Internal Properties
 
     @StateObject var viewModel: ViewModel
-    @State private var testView = false
+    @Environment(\.presentationMode) private var presentationMode
     
     // MARK: - Body
     
@@ -22,15 +22,16 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
             .listStyle(.plain)
         }
         .popup(
-                    isPresented: viewModel.isSnackbarPresented,
-                    alignment: .bottom
-                ) {
-                    Snackbar(
-                        text: viewModel.messageText,
-                        color: .spanishCrimson
-                    )
-                }
+            isPresented: viewModel.isSnackbarPresented,
+            alignment: .bottom
+        ) {
+            Snackbar(
+                text: viewModel.messageText,
+                color: .spanishCrimson
+            )
+        }
         .searchable(text: $viewModel.searchText, prompt: "Поиск")
+        .navigationBarBackButtonHidden(true)
         .onSubmit(of: .search) {
         }
         .onAppear {
@@ -56,6 +57,13 @@ struct ChooseReceiverNewView<ViewModel>: View where ViewModel: ChooseReceiverVie
 
     @ToolbarContentBuilder
     private func toolBarContent() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }, label: {
+                R.image.navigation.backButton.image
+            })
+        }
         ToolbarItem(placement: .principal) {
             Text(viewModel.resources.chooseReceiverTitle)
                 .font(.bodySemibold17)

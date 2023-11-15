@@ -1,6 +1,7 @@
 import SwiftUI
 import Foundation
 
+// MARK: - SelectContactResourcable
 
 protocol SelectContactResourcable {
     static var createActionGroupChat: String { get }
@@ -8,6 +9,9 @@ protocol SelectContactResourcable {
     static var transferChooseContact: String { get }
     
     static var profileDetailRightButton: String { get }
+    
+    
+    static var backImage: Image { get }
     
     
     
@@ -33,6 +37,10 @@ enum SelectContactResources: SelectContactResourcable {
     
     static var profileDetailRightButton: String {
         R.string.localizable.profileDetailRightButton()
+    }
+    
+    static var backImage: Image {
+        R.image.navigation.backButton.image
     }
     
     

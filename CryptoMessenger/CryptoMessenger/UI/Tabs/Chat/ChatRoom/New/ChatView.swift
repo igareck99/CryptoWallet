@@ -13,7 +13,6 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
 
     var body: some View {
         VStack {
-            ScrollViewReader { scrollView in
                 List {
                     ForEach(viewModel.displayItems, id: \.id) { item in
                         item.view()
@@ -30,12 +29,6 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                 .onAppear {
                     viewModel.eventSubject.send(.onAppear)
                 }
-                .onReceive(viewModel.scrollIdPublisher, perform: { value in
-                    withAnimation {
-                        scrollView.scrollTo(value, anchor: .bottom)
-                    }
-                })
-            }
             Spacer()
             inputView
         }
@@ -44,9 +37,6 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
             hideKeyboard()
         }
         .listStyle(.plain)
-        .onAppear {
-            viewModel.eventSubject.send(.onAppear)
-        }
         .toolbarRole(.editor)
         .toolbar(.hidden, for: .tabBar)
         .toolbar(.visible, for: .navigationBar)

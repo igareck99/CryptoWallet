@@ -27,6 +27,17 @@ extension String {
         return String(self[start ..< end])
     }
     
+    func replaceCharacters(characters: String, toSeparator: String) -> String {
+        let characterSet = CharacterSet(charactersIn: characters)
+        let components = components(separatedBy: characterSet)
+        let result = components.joined(separator: toSeparator)
+        return result
+    }
+    
+    func wipeCharacters(characters: String) -> String {
+        return self.replaceCharacters(characters: characters, toSeparator: "")
+    }
+    
     func removeCharacters(from forbiddenChars: CharacterSet) -> String {
         let passed = self.unicodeScalars.filter { !forbiddenChars.contains($0) }
         return String(String.UnicodeScalarView(passed))

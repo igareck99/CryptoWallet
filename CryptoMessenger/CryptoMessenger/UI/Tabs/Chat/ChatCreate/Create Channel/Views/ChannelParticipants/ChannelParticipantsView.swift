@@ -22,6 +22,15 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
     var body: some View {
         NavigationView {
             ScrollView {
+                VStack(alignment: .leading) {
+                    Text(R.string.localizable.createChannelAdding())
+                        .foregroundColor(.romanSilver)
+                        .font(.bodyRegular17)
+                        .padding(.leading, 16)
+                    Divider()
+                        .padding(.top, 11)
+                    cellStatus
+                }
                 Divider()
                 cellStatus
                     .searchable(text: $viewModel.searchText)
