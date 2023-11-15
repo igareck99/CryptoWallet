@@ -103,6 +103,7 @@ struct ChannelMediaView: View {
                         }
                     }
                     .listStyle(.plain)
+                    .background(viewModel.resources.backgroundFodding)
                     .padding(.bottom, 8)
                 }
             case .links:
