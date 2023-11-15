@@ -123,7 +123,9 @@ final class ProfileDetailViewModel: ObservableObject {
                 self?.keychainService.removeObject(forKey: .apiUserPinCode)
                 self?.privateDataCleaner.resetPrivateData()
                 self?.matrixUseCase.clearCredentials()
-                self?.coordinator?.onLogout()
+                DispatchQueue.main.async {
+                    self?.coordinator?.onLogout()
+                }
             default:
                 break
             }

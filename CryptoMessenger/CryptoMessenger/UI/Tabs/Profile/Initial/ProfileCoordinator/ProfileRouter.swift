@@ -29,6 +29,10 @@ protocol ProfileRouterable {
     func sheetPicker(_ sourceType: @escaping (UIImagePickerController.SourceType) -> Void)
 
     func blockList()
+
+    func removePresentedItem()
+
+    func clearPath()
 }
 
 // MARK: - ChatHistoryRouter
@@ -37,7 +41,7 @@ struct ProfileRouter<Content: View, State: ProfileFlowStatable>: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var state: State
+    @ObservedObject var state: State
     let content: () -> Content
 
     var body: some View {
@@ -52,7 +56,7 @@ struct ProfileRouter<Content: View, State: ProfileFlowStatable>: View {
             )
         }
     }
-    
+
     @ViewBuilder
     private func linkDestination(link: ProfileContentLlink) -> some View {
         switch link {
@@ -83,7 +87,6 @@ struct ProfileRouter<Content: View, State: ProfileFlowStatable>: View {
             AboutAppAssembly.build()
         case let .pinCode(screenType):
             PinCodeAssembly.build(screenType: screenType) {
-                
             }
         case let .sessions(coordinator):
             SessionAssembly.build(coordinator)
@@ -99,6 +102,7 @@ struct ProfileRouter<Content: View, State: ProfileFlowStatable>: View {
             ProfileSettingsMenuAssembly.build(onSelect: result)
         case let .sheetPicker(sourceType):
             ProfileFeedImageAssembly.build(sourceType)
+                    .presentationDetents([.large, .height(337)])
         }
     }
 }
@@ -170,5 +174,13 @@ extension ProfileRouter: ProfileRouterable {
 
     func blockList() {
         state.path.append(ProfileContentLlink.blockList)
+    }
+
+    func removePresentedItem() {
+        state.presentedItem = nil
+    }
+    
+    func clearPath() {
+        state.path = NavigationPath()
     }
 }

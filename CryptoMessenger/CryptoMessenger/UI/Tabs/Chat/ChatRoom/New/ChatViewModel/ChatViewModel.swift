@@ -110,17 +110,19 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     }
 
     func updateToggles() {
-        let isP2PChat = room.isDirect == true && roomUsersCount == 2
-        let call = matrixUseCase.matrixSession?.callManager.call(inRoom: room.roomId)
-        let isCallInProgress = p2pCallsUseCase.isActiveCallExist && (call != nil)
-        let isCallAvailable = availabilityFacade.isCallAvailable
-        self.isVoiceCallAvailablility = isCallAvailable && isP2PChat && !isCallInProgress
-        self.isChatDirectMenuAvailable = availabilityFacade.isChatDirectMenuAvailable
-        self.isChatGroupMenuAvailable = availabilityFacade.isChatGroupMenuAvailable
-        let isVideoCallAvailable = availabilityFacade.isVideoCallAvailable
-        self.isVideoCallAvailablility = isVideoCallAvailable && isP2PChat && !isCallInProgress
-        //        self.isReactionsAvailable = availabilityFacade.isReactionsAvailable
-        //        self.isVideoMessageAvailable = availabilityFacade.isVideoMessageAvailable
+        DispatchQueue.main.async {
+            let isP2PChat = self.room.isDirect == true && self.roomUsersCount == 2
+            let call = self.matrixUseCase.matrixSession?.callManager.call(inRoom: self.room.roomId)
+            let isCallInProgress = self.p2pCallsUseCase.isActiveCallExist && (call != nil)
+            let isCallAvailable = self.availabilityFacade.isCallAvailable
+            self.isVoiceCallAvailablility = isCallAvailable && isP2PChat && !isCallInProgress
+            self.isChatDirectMenuAvailable = self.availabilityFacade.isChatDirectMenuAvailable
+            self.isChatGroupMenuAvailable = self.availabilityFacade.isChatGroupMenuAvailable
+            let isVideoCallAvailable = self.availabilityFacade.isVideoCallAvailable
+            self.isVideoCallAvailablility = isVideoCallAvailable && isP2PChat && !isCallInProgress
+//            self.isReactionsAvailable = availabilityFacade.isReactionsAvailable
+//            self.isVideoMessageAvailable = availabilityFacade.isVideoMessageAvailable
+        }
     }
 
     private func bindOutput() {
@@ -168,6 +170,8 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         self.roomAvatarUrl = auraRoom.roomAvatar
                     }
                     self.matrixUseCase.objectChangePublisher.send()
+                    self.getRoomPowerLevels()
+                    self.updateData()
                 default:
                     break
                 }
@@ -338,8 +342,10 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     func getRoomAvatarUrl() {
         guard let url = self.matrixUseCase.getRoomAvatarUrl(roomId: self.room.roomId) else { return }
         let homeServer = self.config.matrixURL
-        self.room.roomAvatar = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
-        self.roomAvatarUrl = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
+        DispatchQueue.main.async {
+            self.room.roomAvatar = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
+            self.roomAvatarUrl = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
+        }
     }
 
     func getRoomPowerLevels() {
@@ -348,27 +354,18 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             guard case let .success(state) = result else { return }
             self.roomPowerLevels = state.powerLevels
 
-            if state.powerLevels == nil {
-                DispatchQueue.main.async { [weak self] in
-                    self?.userHasAccessToMessage = false
-                    self?.isChannel = true
-                    debugPrint("self?.isChannel: state.powerLevels == nil \(self?.isChannel)")
-                    self?.objectWillChange.send()
+            DispatchQueue.main.async {
+                if state.powerLevels == nil {
+                    self.userHasAccessToMessage = false
+                    self.isChannel = true
+                    return
                 }
-                return
-            }
 
-            let currentUserId = matrixUseCase.getUserId()
-
-            DispatchQueue.main.async { [weak self] in
+                let currentUserId = self.matrixUseCase.getUserId()
                 let currentUserPowerLevel = state.powerLevels.powerLevelOfUser(withUserID: currentUserId)
-                self?.userHasAccessToMessage = currentUserPowerLevel >= state.powerLevels.eventsDefault
-                self?.isChannel = state.powerLevels.eventsDefault == 50
-                debugPrint("self?.isChannel: state.powerLevels.eventsDefault == 50 \(self?.isChannel)")
-                if self?.isChannel == false {
-                    debugPrint("self?.isChannel: state.powerLevels.eventsDefault == 50 \(self?.isChannel)")
-                }
-                self?.objectWillChange.send()
+                self.userHasAccessToMessage = currentUserPowerLevel >= state.powerLevels.eventsDefault
+                self.isChannel = state.powerLevels.eventsDefault == 50
+                self.objectWillChange.send()
             }
         }
     }
