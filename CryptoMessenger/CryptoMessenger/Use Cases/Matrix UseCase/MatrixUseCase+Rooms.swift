@@ -70,7 +70,7 @@ extension MatrixUseCase {
                     // TODO: Обработать case failure
                     // self?.closeScreen = true
                 }
-            case.failure:
+            case let .failure(error):
                 completion(.roomCreateError)
             }
         }

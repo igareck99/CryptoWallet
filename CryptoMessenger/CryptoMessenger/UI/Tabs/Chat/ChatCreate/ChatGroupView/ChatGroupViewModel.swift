@@ -63,7 +63,8 @@ final class ChatGroupViewModel: ObservableObject {
         chatData.title = titleText
         chatData.description = descriptionText
         chatData.image = selectedImg
-        chatData.contacts = contacts
+//      chatData.contacts = contacts
+        chatData.contacts = contacts.filter({ $0.mxId != matrixUseCase.getUserId() })
         matrixUseCase.createGroupRoom(chatData) { result in
             switch result {
             case .roomCreateError, .roomAlreadyExist:
