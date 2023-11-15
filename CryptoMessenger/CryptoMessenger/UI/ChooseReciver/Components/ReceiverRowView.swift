@@ -31,6 +31,7 @@ struct ReceiverRowView: View {
             .cornerRadius(20)
             VStack(alignment: .leading) {
                 Text(data.name)
+                    .lineLimit(1)
                     .foregroundColor(.chineseBlack)
                     .font(.bodyRegular17)
                 Text(textDescription())

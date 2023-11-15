@@ -60,7 +60,6 @@ final class WalletViewModel: ObservableObject {
     }
 
 	func tryToLoadNextTransactions(offset: CGFloat, pageIndex: Int) {
-
         guard let currentWallet = cardsList[safe: pageIndex],
               let currentTransactions = transactions[currentWallet.walletType],
               let lastTransaction = currentTransactions.last,
@@ -77,7 +76,6 @@ final class WalletViewModel: ObservableObject {
             address: currentWallet.address,
             date: lastTransaction.info.date
         )
-
         let params = TransactionsRequestParams(walletTransactions: [transaction])
 		walletNetworks.getTransactions(params: params) { [weak self] response in
 
@@ -173,19 +171,19 @@ final class WalletViewModel: ObservableObject {
 				   self.coreDataService.updateWalletNetwork(model: wallet)
 			   }
 
-            if let binanceAddress = addresses.binance?.first?.address,
-               let wallet: WalletNetwork = savedWallets
-                .first(where: { $0.cryptoType == CryptoType.binance.rawValue }) {
-                   wallet.address = binanceAddress
-                   self.coreDataService.updateWalletNetwork(model: wallet)
-               }
-            
-            if let auraAddress = addresses.aura?.first?.address,
-               let wallet: WalletNetwork = savedWallets
-                .first(where: { $0.cryptoType == CryptoType.aura.rawValue }) {
-                wallet.address = auraAddress
-                self.coreDataService.updateWalletNetwork(model: wallet)
-            }
+      if let binanceAddress = addresses.binance?.first?.address,
+          let wallet: WalletNetwork = savedWallets
+          .first(where: { $0.cryptoType == CryptoType.binance.rawValue }) {
+              wallet.address = binanceAddress
+              self.coreDataService.updateWalletNetwork(model: wallet)
+          }
+
+      if let auraAddress = addresses.aura?.first?.address,
+          let wallet: WalletNetwork = savedWallets
+          .first(where: { $0.cryptoType == CryptoType.aura.rawValue }) {
+          wallet.address = auraAddress
+          self.coreDataService.updateWalletNetwork(model: wallet)
+      }
             group.leave()
 		}
         group.notify(queue: .main) {
@@ -263,7 +261,6 @@ final class WalletViewModel: ObservableObject {
 	}
 
 	func updateWallets() {
-
 		guard let seed = keychainService.secretPhrase else {
 			// Empty state remains
 			viewState = .empty
@@ -288,7 +285,6 @@ final class WalletViewModel: ObservableObject {
 
 		// Update wallets in background
 		walletNetworks.getNetworks { [weak self] networksResponse in
-
 			guard let self = self, case let .success(walletsResponse) = networksResponse else { return }
 
             let wallets: [WalletNetworkModel] = [
@@ -297,7 +293,7 @@ final class WalletViewModel: ObservableObject {
                 walletsResponse.ethereum,
                 walletsResponse.aura
             ].compactMap { $0 }
-
+            
 			let dbWallets = self.coreDataService.getWalletNetworks()
 
 			var isAddressesAvailable = false

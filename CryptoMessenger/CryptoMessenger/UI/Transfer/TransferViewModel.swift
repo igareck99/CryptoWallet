@@ -279,6 +279,12 @@ final class TransferViewModel: ObservableObject {
             walletPublicKey = publicKey
             walletPrivateKey = privateKey
             cryptoType = WalletType.binance.rawValue
+        } else if (currentWalletType == .aura),
+                  let publicKey: String = keychainService[.auraPublicKey],
+                  let privateKey: String = keychainService[.auraPrivateKey] {
+            walletPublicKey = publicKey
+            walletPrivateKey = privateKey
+            cryptoType = WalletType.aura.rawValue
         } else {
             addressTo = ""
             cryptoType = ""

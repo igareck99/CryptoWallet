@@ -7,10 +7,12 @@ protocol ChooseReceiverViewModelProtocol: ObservableObject {
     var searchText: String { get set }
     
     var scannedText: String { get set }
-    
+
     var isSnackbarPresented: Bool { get set }
     
     var messageText: String { get set }
+
+    var isSearching: Bool { get set }
 
     func send(_ event: ChooseReceiverFlow.Event)
 
@@ -18,7 +20,7 @@ protocol ChooseReceiverViewModelProtocol: ObservableObject {
 
     var searchType: SearchType { get set }
     
-    var userWalletsViews: [any ViewGeneratable] { get }
+    var userWalletsViews: [any ViewGeneratable] { get set }
     
     func onScanner(_ text: Binding<String>)
 }
@@ -35,8 +37,11 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
     @Published var isSnackbarPresented = false
     @Published var searchType = SearchType.telephone
     @Published var contacts: [Contact] = []
+    @Published var isSearching = false
+    @Published var isSearchBarPresented = true
     @Published var userWalletsData: [UserWallletData] = []
     @Published var userWalletsViews: [any ViewGeneratable] = []
+    @Published var isUpdate = true
     @Binding var receiverData: UserReceiverData
     let resources: ChooseReciverSourcable.Type = ChooseReciverSources.self
     var coordinator: TransferViewCoordinatable
@@ -59,7 +64,7 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
         self.coordinator = coordinator
         self.contactsUseCase = contactsUseCase
         bindInput()
-        bindInput()
+        self.syncContacts()
     }
 
     deinit {
@@ -72,7 +77,7 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
     func send(_ event: ChooseReceiverFlow.Event) {
         eventSubject.send(event)
     }
-    
+
     func onScanner(_ text: Binding<String>) {
         self.coordinator.showAdressScanner(text)
     }
@@ -85,7 +90,7 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
             .sink { [weak self] event in
                 switch event {
                 case .onAppear:
-                    self?.syncContacts()
+                    ()
                 }
             }
             .store(in: &subscriptions)
@@ -125,7 +130,8 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
                             let data = UserWallletData(name: $0.name,
                                                        bitcoin: $0.bitcoin,
                                                        ethereum: $0.ethereum,
-                                                       binance: $0.binance,
+                                                       binance: $0.binance, 
+                                                       aura: $0.aura,
                                                        url: $0.url,
                                                        phone: $0.phone,
                                                        searchType: searchType,
@@ -133,38 +139,31 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
                                 self.setAdress(value)
                             }
                             return data
+                        }
+                        if result.isEmpty && !value.isEmpty {
+                            self.searchType == .wallet
+                            let data = UserWallletData(name: "По адресу",
+                                                       bitcoin: value,
+                                                       ethereum: value,
+                                                       binance: value,
+                                                       aura: value,
+                                                       url: nil,
+                                                       phone: "",
+                                                       searchType: self.searchType,
+                                                       walletType: self.receiverData.walletType) { value in
+                                self.setAdress(value)
+                            }
+                            self.userWalletsViews = [data]
+                            return
                         }
                         self.userWalletsViews = result
                     case .telephone:
                         var result = self.userWalletsData.filter({ $0.phone.contains(value) })
-                        result = result.map {
-                            let data = UserWallletData(name: $0.name,
-                                                       bitcoin: $0.bitcoin,
-                                                       ethereum: $0.ethereum,
-                                                       binance: $0.binance,
-                                                       url: $0.url,
-                                                       phone: $0.phone,
-                                                       searchType: searchType,
-                                                       walletType: self.receiverData.walletType) { value in
-                                self.setAdress(value)
-                            }
-                            return data
-                        }
                         self.userWalletsViews = result
-                        self.objectWillChange.send()
                     }
                 } else {
-                    self.searchType = self.searchType
+                    self.userWalletsViews = self.prepareDataView(self.userWalletsData)
                 }
-            }
-            .store(in: &subscriptions)
-        $scannedText
-            .receive(on: DispatchQueue.main)
-            .sink { [self] value in
-                self.searchText = value
-                self.receiverData.adress = value
-                // TODO: - Сделать ячейку для введенного текста
-                self.objectWillChange.send()
             }
             .store(in: &subscriptions)
         $searchType
@@ -175,7 +174,7 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
                     let data = UserWallletData(name: $0.name,
                                                bitcoin: $0.bitcoin,
                                                ethereum: $0.ethereum,
-                                               binance: $0.binance,
+                                               binance: $0.binance, aura: $0.aura,
                                                url: $0.url,
                                                phone: $0.phone,
                                                searchType: value,
@@ -185,22 +184,24 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
                     return data
                 }
                 self.userWalletsViews = result
+                
             }
             .store(in: &subscriptions)
     }
 
     private func setAdress(_ value: UserWallletData) {
+        searchText = ""
         switch receiverData.walletType {
         case .bitcoin:
             self.receiverData.adress = value.bitcoin
-        case .ethereum:
+        case .ethereum, .aura:
             self.receiverData.adress = value.ethereum
         case .binance:
             self.receiverData.adress = value.binance
         default:
             break
         }
-        coordinator.previousScreen()
+        self.coordinator.previousScreen()
     }
     
     func showSnackBar(text: String) {
@@ -223,34 +224,46 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
             .store(in: &subscriptions)
     }
     
+    private func prepareDataView(_ data: [UserWallletData]) -> [UserWallletData] {
+        let result = data.map {
+            let data = UserWallletData(name: $0.name,
+                                       bitcoin: $0.bitcoin,
+                                       ethereum: $0.ethereum,
+                                       binance: $0.binance, aura: $0.aura,
+                                       url: $0.url,
+                                       phone: $0.phone,
+                                       searchType: self.searchType,
+                                       walletType: self.receiverData.walletType) { value in
+                self.setAdress(value)
+            }
+            return data
+        }
+        return result
+    }
+    
     private func syncContacts() {
         contactsUseCase.syncContacts { state in
             switch state {
             case .allowed:
-                self.contactsUseCase.reuqestUserContacts { contact in
-                    self.contactsUseCase.matchServerContacts(contact, .groupCreate) { result in
-                        self.contacts = result.filter({ $0.type == .lastUsers || $0.type == .existing  })
-                        print("slsalasas  \(self.contacts)")
-                        self.checkUserWallet(self.contacts)
-                    } onTap: { _ in
-                    }
-                }
-                return
+                self.filterContacts()
             case .notDetermined:
                 self.contactsUseCase.requestContactsAccess { isAllowed in
                     if isAllowed {
-                        self.contactsUseCase.reuqestUserContacts { contact in
-                            self.contactsUseCase.matchServerContacts(contact, .groupCreate) { result in
-                                self.contacts = result.filter({ $0.type == .lastUsers })
-                                self.checkUserWallet(self.contacts)
-                            } onTap: { _ in
-                            }
-                        }
+                        self.filterContacts()
                     }
                 }
-                return
             case .restricted, .denied, .unknown:
                 break
+            }
+        }
+    }
+    
+    private func filterContacts() {
+        self.contactsUseCase.reuqestUserContacts { contact in
+            self.contactsUseCase.matchServerContacts(contact, .groupCreate) { result in
+                self.contacts = result.filter({ $0.type == .lastUsers || $0.type == .existing })
+                self.checkUserWallet(self.contacts)
+            } onTap: { _ in
             }
         }
     }
@@ -290,11 +303,12 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
                         guard let btc = response[item.mxId]?["bitcoin"]?["address"] else { return }
                         guard let eth = response[item.mxId]?["ethereum"]?["address"] else { return }
                         guard let binance = response[item.mxId]?["binance"]?["address"] else { return }
-                        if !btc.isEmpty && !eth.isEmpty {
+                        if !btc.isEmpty && !eth.isEmpty && !binance.isEmpty {
                             self.userWalletsData.append(UserWallletData(name: name ?? item.name,
                                                                         bitcoin: btc,
                                                                         ethereum: eth,
                                                                         binance: binance,
+                                                                        aura: eth,
                                                                         url: item.avatar,
                                                                         phone: phone ?? "",
                                                                         walletType: self.receiverData.walletType,
@@ -303,7 +317,6 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
                             }))
                             self.userWalletsViews = self.userWalletsData
                         }
-                        
                     }
                 }
                 .store(in: &subscriptions)

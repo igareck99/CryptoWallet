@@ -112,7 +112,7 @@ struct WalletView: View {
                     RoundedRectangle(cornerRadius: 32)
                         .foregroundColor(.dodgerBlue)
                         .frame(width: 24, height: 8)
-                }else {
+                } else {
                     Circle()
                         .frame(width: 8, height: 8)
                         .foregroundColor(.gainsboro)
@@ -138,23 +138,19 @@ struct WalletView: View {
     @ViewBuilder
     private func emptyStateView() -> some View {
         VStack(alignment: .center, spacing: 0) {
-
             Image(R.image.wallet.walletEmptyState.name)
                 .frame(minHeight: 140)
-
             Text(viewModel.resources.walletNoData)
                 .font(.title2Regular22)
                 .foregroundColor(viewModel.resources.titleColor)
                 .frame(alignment: .center)
                 .padding(.bottom, 6)
-
             Text(viewModel.resources.walletAddWalletLong)
                 .font(.subheadlineRegular15)
                 .foregroundColor(viewModel.resources.textColor)
                 .frame(alignment: .center)
                 .multilineTextAlignment(.center)
                 .padding(.bottom, 70)
-
             Button {
                 viewModel.showAddSeed()
             } label: {
