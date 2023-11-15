@@ -4,7 +4,7 @@ import Foundation
 
 // MARK: - Reaction
 
-struct Reaction: Identifiable {
+struct Reaction: Identifiable, Hashable {
 
     // MARK: - Internal Properties
 
@@ -21,7 +21,7 @@ struct Reaction: Identifiable {
         sender: String,
         timestamp: Date,
         emoji: String,
-		isFromCurrentUser: Bool = false
+        isFromCurrentUser: Bool = false
     ) {
         self.id = id
         self.sender = sender
@@ -29,28 +29,9 @@ struct Reaction: Identifiable {
         self.emoji = emoji
 		self.isFromCurrentUser = isFromCurrentUser
     }
-}
 
-// MARK: - ReactionGroup
-
-struct ReactionGroup: Identifiable {
-
-    // MARK: - Internal Properties
-
-    let reaction: String
-    let count: Int
-    let reactions: [Reaction]
-    var id: String { reaction }
-
-    // MARK: - Life Cycle
-
-    init(reaction: String, count: Int, reactions: [Reaction]) {
-        self.reaction = reaction
-        self.count = count
-        self.reactions = reactions
+    static func == (lhs: Reaction, rhs: Reaction) -> Bool {
+        (lhs.sender == rhs.sender) && (lhs.timestamp == rhs.timestamp) &&
+        (lhs.emoji == rhs.emoji) && (lhs.isFromCurrentUser == rhs.isFromCurrentUser)
     }
-
-    // MARK: - Internal Methods
-
-    func containsReaction(from sender: String) -> Bool { reactions.contains { $0.sender == sender } }
 }

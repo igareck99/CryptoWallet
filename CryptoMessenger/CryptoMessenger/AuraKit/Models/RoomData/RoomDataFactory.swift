@@ -23,7 +23,6 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
     ) -> [RoomEvent] {
         let roomEvents = eventCollections.wrapped
         var events = [RoomEvent]()
-        
         if let currentEvent = roomEvents.first {
             events.append(
                 RoomEvent(
@@ -38,7 +37,8 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                     isReply: false,
                     reactions: [],
                     content: [:],
-                    eventSubType: ""
+                    eventSubType: "",
+                    timestamp: currentEvent.timestamp
                 )
             )
         }
@@ -49,16 +49,9 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
             var reactions: [Reaction] = []
             let isFromCurrentUser = event.sender == matrixUseCase.getUserId()
             reactions = eventCollections.reactions(for: event)
-            if !isFromCurrentUser {
-                // закоментировал т.к. почему-то бомбардирует сервер запросами на загрузку аватарок
-//                matrixUseCase.avatarUrlForUser(event.sender) { value in
-//                    url = value
-//                }
-            }
-
+            
             if let nextEvent = roomEvents[safe: model.offset + 1],
                nextEvent.timestamp.dayAndMonthAndYear != event.timestamp.dayAndMonthAndYear {
-
                 events.append(
                     RoomEvent(
                         eventId: UUID().uuidString,
@@ -72,7 +65,8 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                         isReply: false,
                         reactions: [],
                         content: [:],
-                        eventSubType: ""
+                        eventSubType: "",
+                        timestamp: event.timestamp
                     )
                 )
             }
@@ -90,6 +84,7 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                 reactions: reactions,
                 content: event.content,
                 eventSubType: event.type,
+                timestamp: event.timestamp,
                 videoThumbnail: videoThumbnail(event: event)
             )
             events.append(value)

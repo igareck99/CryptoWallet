@@ -15,16 +15,13 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
         ScrollViewReader { proxy in
             VStack {
                 ScrollView(.vertical) {
-                    ForEach(viewModel.displayItems, id: \.id) { item in
-                        item.view()
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(EdgeInsets())
-                            .id(item.id)
-                    }
-                    ForEach(viewModel.sendingEventsView, id: \.id) { item in
-                        item.view()
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(EdgeInsets())
+                    LazyVStack {
+                        ForEach(viewModel.displayItems, id: \.id) { item in
+                            item.view()
+                                .listRowSeparator(.hidden)
+                                .listRowInsets(EdgeInsets())
+                                .id(item.id)
+                        }
                     }
                 }
                 //.listStyle(.inset) // scrollId
