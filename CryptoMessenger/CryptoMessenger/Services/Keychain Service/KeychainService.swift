@@ -21,6 +21,8 @@ final class KeychainService {
 		case apiIsUserAuthenticated
 
 		// Wallets
+        case auraPrivateKey
+        case auraPublicKey
 		case ethereumPrivateKey
 		case ethereumPublicKey
         case binancePrivateKey

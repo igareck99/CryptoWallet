@@ -18,7 +18,7 @@ struct FilterTransactionView: View {
 
     @State private var tokenFilters = [
         WalletType.ethereum.currency,
-        WalletType.aur.currency
+        WalletType.aura.currency
     ]
 
     // MARK: - Body

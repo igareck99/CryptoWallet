@@ -4,6 +4,7 @@ struct WalletsTransactionsResponse: Codable {
 	let ethereum: [String: [CryptoTransaction]]?
 	let bitcoin: [String: [CryptoTransaction]]?
     let binance: [String: [CryptoTransaction]]?
+    let aura: [String: [CryptoTransaction]]?
 }
 
 

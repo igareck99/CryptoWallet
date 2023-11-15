@@ -17,13 +17,18 @@ struct BalanceRequestParams: Codable {
             "accountAddress": $0.accountAddress,
             "tokenAddress": $0.tokenAddress
         ] })
+        let aurAddress: Array<[String: Any]> = (addresses[.aura] ?? []).map({ [
+            "accountAddress": $0.accountAddress,
+            "tokenAddress": $0.tokenAddress
+        ] })
 
         let paramsDict: [String: Any] = [
             "currency": currency.rawValue,
             "addresses": [
                 "ethereum": ethAddress,
                 "bitcoin": btcAddress,
-                "binance": bncAddress
+                "binance": bncAddress,
+                "aura": aurAddress
             ]
         ]
         return paramsDict
@@ -52,4 +57,5 @@ enum NetworkAddress: String, Codable {
     case ethereum
     case bitcoin
     case binance
+    case aura
 }
