@@ -44,4 +44,9 @@ extension KeychainService {
 		get { string(forKey: .apiUserPinCode) }
 		set { set(newValue, forKey: .apiUserPinCode) }
 	}
+    
+    var homeServer: String? {
+        get { string(forKey: .homeServer) }
+        set { set(newValue, forKey: .homeServer) }
+    }
 }
