@@ -6,6 +6,7 @@ import SwiftUI
 protocol RoomEventsFactoryProtocol {
     static func makeEventView(
       events: [RoomEvent],
+      existingEvents: [RoomEvent],
       delegate: ChatEventsDelegate,
       onLongPressMessage: @escaping (RoomEvent) -> Void,
       onReactionTap: @escaping (ReactionNewEvent) -> Void,
@@ -70,6 +71,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
     
     static func makeEventView(
       events: [RoomEvent],
+      existingEvents: [RoomEvent],
       delegate: ChatEventsDelegate,
       onLongPressMessage: @escaping (RoomEvent) -> Void,
       onReactionTap: @escaping (ReactionNewEvent) -> Void,
@@ -77,10 +79,11 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
       onSwipeReply: @escaping (RoomEvent) -> Void
     ) -> [any ViewGeneratable] {
 
-        let data: [any ViewGeneratable] = events.compactMap {
-            switch $0.eventType {
+        let data: [any ViewGeneratable] = events.compactMap { value in
+            let oldEvent = existingEvents.first(where: { $0.eventId == value.eventId })
+            switch value.eventType {
             case let .text(string):
-                return makeTextView($0, events, string, onLongPressTap: { eventId in
+                return makeTextView(value, events, string, onLongPressTap: { eventId in
                     onLongPressMessage(eventId)
                 }, onReactionTap: { reaction in
                  onReactionTap(reaction)
@@ -89,15 +92,15 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 })
             case .call:
                 return makeCallItem(
-                  event: $0, 
+                  event: value,
                   delegate: delegate
                 ) { event in
                     onLongPressMessage(event)
                 }
             case let .contact(name, phone, url):
                 return makeContactItem(
-                  event: $0, 
-                  name: name, 
+                  event: value,
+                  name: name,
                   phone: phone, 
                   url: url, 
                   delegate: delegate,
@@ -110,8 +113,8 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 })
             case let .file(name, url):
                 return makeDocumentItem(
-                  event: $0, 
-                  name: name, 
+                  event: value,
+                  name: name,
                   url: url, 
                   delegate: delegate,
                   onLongPressTap: { event in
@@ -123,8 +126,8 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 })
             case let .location((lat, lon)):
                 return makeMapItem(
-                  event: $0, 
-                  lat: lat, 
+                  event: value,
+                  lat: lat,
                   lon: lon, 
                   delegate: delegate,
                   onLongPressTap: { event in
@@ -138,10 +141,11 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 })
             case let .image(url):
                 return makeImageItem(
-                  event: $0, 
-                  url: url, 
-                  delegate: delegate,
-                  onLongPressTap: { event in
+                    event: value,
+                    oldEvent: oldEvent,
+                    url: url,
+                    delegate: delegate,
+                    onLongPressTap: { event in
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
@@ -149,7 +153,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     onSwipeReply(value)
                 })
             case let .audio(url):
-                return makeAudioItem(event: $0, url: url, onLongPressTap: { event in
+                return makeAudioItem(event: value, url: url, onLongPressTap: { event in
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
@@ -158,7 +162,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 })
             case let .video(url):
                 return makeVideoItem(
-                    event: $0,
+                    event: value,
                     url: url,
                     delegate: delegate,
                     onLongPressTap: { event in
@@ -197,9 +201,9 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     debugPrint("onTap inviteToRoom SystemEventItem")
                 }
             default:
-                debugPrint("$0.eventType: \($0.eventSubType)")
-                debugPrint("$0.eventType: \($0.eventType)")
-                debugPrint("$0.eventType: \($0.content)")
+                debugPrint("$0.eventType: \(value.eventSubType)")
+                debugPrint("$0.eventType: \(value.eventType)")
+                debugPrint("$0.eventType: \(value.content)")
                 return nil
             }
         }

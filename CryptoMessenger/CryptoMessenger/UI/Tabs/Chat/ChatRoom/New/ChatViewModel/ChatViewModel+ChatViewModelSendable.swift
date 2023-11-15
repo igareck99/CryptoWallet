@@ -110,7 +110,6 @@ extension ChatViewModel {
                     guard let eventId = eventId else { return }
                     self.changeSedingEvent(event, .sent, eventId)
                 case let .failure(result):
-                    print("slaslals;alsk  \(result)")
                     self.changeSedingEvent(event, .failToSend)
                 }
             })

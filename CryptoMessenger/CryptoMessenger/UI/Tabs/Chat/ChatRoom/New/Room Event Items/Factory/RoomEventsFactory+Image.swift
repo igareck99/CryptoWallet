@@ -3,6 +3,7 @@ import SwiftUI
 extension RoomEventsFactory {
     static func makeImageItem(
         event: RoomEvent,
+        oldEvent: RoomEvent?,
         url: URL?,
         delegate: ChatEventsDelegate,
         onLongPressTap: @escaping (RoomEvent) -> Void,

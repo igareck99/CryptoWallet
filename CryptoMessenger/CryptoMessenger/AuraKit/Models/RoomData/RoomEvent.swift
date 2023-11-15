@@ -2,7 +2,12 @@ import Foundation
 
 // MARK: - RoomEvent
 
-struct RoomEvent {
+struct RoomEvent: Equatable {
+    static func == (lhs: RoomEvent, rhs: RoomEvent) -> Bool {
+        lhs.roomId == rhs.roomId && lhs.eventId == rhs.eventId
+        && NSDictionary(dictionary: lhs.content).isEqual(to: rhs.content)
+        && lhs.sentState == rhs.sentState 
+    }
 
     // MARK: - Internal Properties
 
@@ -53,6 +58,7 @@ struct RoomEvent {
         self.reactions = reactions
         self.content = content
         self.videoThumbnail = videoThumbnail
+        print("slsalsalsls  \(eventSubType)")
     }
 }
 

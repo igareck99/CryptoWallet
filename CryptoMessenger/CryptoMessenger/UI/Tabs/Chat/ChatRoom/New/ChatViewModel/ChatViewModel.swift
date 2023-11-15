@@ -191,6 +191,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 }
                 self.itemsFromMatrix = self.factory.makeEventView(
                     events: currentRoom.events,
+                    existingEvents: self.room.events,
                     delegate: self,
                     onLongPressMessage: { event in
                     self.onLongPressMessage(event)
@@ -203,6 +204,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     self.quickAction = .reply
                     self.replyDescriptionText = self.makeReplyDescription(self.activeEditMessage)
                 })
+                self.room = currentRoom
                 DispatchQueue.main.async {
                     self.displayItems = self.itemsFromMatrix
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -220,6 +222,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 guard let self = self else { return }
                 self.sendingEventsView = self.factory.makeEventView(
                     events: value,
+                    existingEvents: self.room.events,
                     delegate: self,
                     onLongPressMessage: { _ in },
                     onReactionTap: { _ in },
