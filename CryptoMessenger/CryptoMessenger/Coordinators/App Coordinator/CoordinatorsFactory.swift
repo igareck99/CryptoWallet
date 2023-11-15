@@ -9,6 +9,7 @@ protocol CoordinatorsFactoryProtocol {
 
     static func makeAuthCoordinator(
         delegate: AuthCoordinatorDelegate,
+        isOnboardingFinish: Bool,
         renderView: @escaping RootViewBuilder
     ) -> Coordinator
 
@@ -46,10 +47,12 @@ enum CoordinatorsFactory: CoordinatorsFactoryProtocol {
 
     static func makeAuthCoordinator(
         delegate: AuthCoordinatorDelegate,
+        isOnboardingFinish: Bool,
         renderView: @escaping RootViewBuilder
     ) -> Coordinator {
         AuthCoordinatorAssembly.build(
             delegate: delegate,
+            isOnboardingFinish: isOnboardingFinish,
             renderView: renderView
         )
     }

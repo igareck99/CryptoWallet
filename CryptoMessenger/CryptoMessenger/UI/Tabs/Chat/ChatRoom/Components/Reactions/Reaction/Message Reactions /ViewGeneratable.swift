@@ -18,7 +18,7 @@ protocol ViewGeneratable: Equatable, Hashable, Identifiable {
     func getItemHeight() -> CGFloat
 }
 
-// MARK: - Default Impl
+// MARK: - Default Implementation
 
 extension ViewGeneratable {
 

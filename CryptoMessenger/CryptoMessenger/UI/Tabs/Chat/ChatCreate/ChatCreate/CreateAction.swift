@@ -65,24 +65,22 @@ struct CreateActionView: View {
     let action: CreateActionViewModel
 
     // MARK: - Body
-
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 12) {
-                action.data.image
-                action.data.text
-                    .font(.bodyRegular17)
-                    .foregroundColor(.chineseBlack)
-                    .frame(height: 57)
-
-                Spacer()
-            }
+        HStack(alignment: .center, spacing: 8) {
+            action.data.image
+                .resizable()
+                .frame(width: 30, height: 30)
+            action.data.text
+                .font(.bodyRegular17)
+                .foregroundColor(.chineseBlack)
+            Spacer()
         }
+        .padding(.leading, 16)
         .background(.white())
-        .padding([.leading, .trailing], 16)
-        .frame(height: 48)
         .onTapGesture {
             action.onTap(action.data)
         }
+        .frame(height: 57)
     }
 }

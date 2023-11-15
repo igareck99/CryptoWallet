@@ -3,6 +3,7 @@ import SwiftUI
 enum AuthCoordinatorAssembly {
     static func build(
         delegate: AuthCoordinatorDelegate,
+        isOnboardingFinish: Bool,
         renderView: @escaping (any View) -> Void
     ) -> Coordinator {
         let userFlows = UserDefaultsService.shared
@@ -21,6 +22,9 @@ enum AuthCoordinatorAssembly {
             userFlows: userFlows,
             renderView: renderView
         )
+        if isOnboardingFinish {
+            coordinator.onFinishOnboarding()
+        }
         coordinator.delegate = delegate
         viewModel.delegate = coordinator
         return coordinator

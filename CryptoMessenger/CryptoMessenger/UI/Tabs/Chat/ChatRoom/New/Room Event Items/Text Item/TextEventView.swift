@@ -24,9 +24,8 @@ struct TextEventView<
                         .foregroundColor(.dodgerBlue)
                         .padding(.top, 8)
                         Text(model.replyDescription)
-                        .font(.system(size: 15, weight: .medium))
-                        .foregroundColor(.dodgerBlue)
-                        .padding(.top, 8)
+                            .foregroundColor(.dodgerBlue)
+                            .padding(.top, 8)
                     }
                     Spacer()
                 }

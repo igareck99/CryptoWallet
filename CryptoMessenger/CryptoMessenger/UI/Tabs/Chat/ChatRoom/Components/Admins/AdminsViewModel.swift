@@ -41,7 +41,7 @@ final class AdminsViewModel: ObservableObject, AdminsViewModelDelegate {
 
     private func configView() {
         membersViews = chatData.contacts.filter({ $0.isAdmin == true }).map {
-            let data = Contact(mxId: $0.mxId, name: $0.name, status: $0.status) { contact in
+            let data = Contact(mxId: $0.mxId, name: $0.name, status: $0.status, phone: "") { contact in
                 self.onProfile(contact)
             }
             return data

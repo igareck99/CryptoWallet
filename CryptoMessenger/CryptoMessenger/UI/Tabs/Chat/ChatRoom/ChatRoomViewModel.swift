@@ -948,6 +948,7 @@ final class ChatRoomViewModel: ObservableObject {
                     avatar: nil,
                     name: $0.displayname ?? "",
                     status: "Привет, теперь я в Aura",
+                    phone: "",
                     type: .lastUsers, onTap: { _ in
                     }
                 )

@@ -59,8 +59,6 @@ final class SettingsViewModel: ObservableObject {
                     self?.objectWillChange.send()
                 case let .onFriendProfile(contact):
                     self?.coordinator?.friendProfile(contact)
-                case .onMedia:
-                    guard let auraRoom = self?.room else { return }
                 case .onLeave:
                     self?.leaveRoom()
                 case let .onAdmin(chatData):
@@ -85,6 +83,8 @@ final class SettingsViewModel: ObservableObject {
                         }
                     }, onSelectVideo: { _ in
                     })
+                default:
+                    break
                 }
             }
             .store(in: &subscriptions)

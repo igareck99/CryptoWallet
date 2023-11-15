@@ -4,7 +4,6 @@ import SwiftUI
 // MARK: - ChatHistoryRouterable
 
 extension ChatHistoryRouter: ChatHistoryRouterable {
-    
 
     func showContactInfo(contactInfo: ChatContactInfo, delegate: ContactInfoViewModelDelegate) {
         state.presentedItem = .contactInfo(contactInfo: contactInfo, delegate: delegate)
@@ -159,8 +158,9 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
         $state.presentedItem
     }
 
-    func chatCreate(_ view: any View) {
-        state.presentedItem = .createChat(view)
+    func chatCreate(_ view: any View,
+                    _ onDisappear: @escaping () -> Void) {
+        state.presentedItem = .createChat(view, onDisappear)
     }
 
     func chatActions(_ room: ChatActionsList, onSelect: @escaping GenericBlock<ChatActions>) {

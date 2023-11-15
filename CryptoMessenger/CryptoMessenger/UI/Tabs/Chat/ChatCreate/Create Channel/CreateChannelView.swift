@@ -126,11 +126,9 @@ struct CreateChannelView<ViewModel: CreateChannelViewModelProtocol>: View {
                     .padding(.leading, 16)
                 privateChannelView()
                     .padding(.top, 8)
-                if isPrivateSelected {
-                    encrytionView()
-                        .padding(.top, 4)
-                        .padding(.bottom, 16)
-                }
+                encrytionView()
+                    .padding(.top, 4)
+                    .padding(.bottom, 16)
                 Spacer()
             }
         }

@@ -51,7 +51,7 @@ struct ContactRow: View {
                     }
                     
                     switch contact.type {
-                    case .sendContact:
+                    case .sendContact, .waitingContacts:
                         Text(contact.phone)
                             .font(.caption1Regular12)
                             .foregroundColor(.romanSilver)
