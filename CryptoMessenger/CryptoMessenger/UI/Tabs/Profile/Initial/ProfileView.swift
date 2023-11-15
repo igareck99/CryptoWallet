@@ -30,6 +30,7 @@ struct ProfileView: View {
 
     var body: some View {
         content
+            .accentColor(.black)
             .popup(
                 isPresented: viewModel.isSnackbarPresented,
                 alignment: .bottom
