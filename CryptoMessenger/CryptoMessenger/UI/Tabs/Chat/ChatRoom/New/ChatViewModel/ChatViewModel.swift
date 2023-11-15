@@ -234,6 +234,24 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             }
             .store(in: &subscriptions)
 
+        $sendingEvents
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] value in
+                guard let self = self else { return }
+                self.sendingEventsView = self.factory.makeEventView(
+                    events: value,
+                    existingEvents: self.room.events,
+                    delegate: self,
+                    onLongPressMessage: { _ in },
+                    onReactionTap: { _ in },
+                    onTapNotSendedMessage: { [weak self] event in
+                        self?.onTapNotSendedMessage(event)
+                    }, onSwipeReply: { _ in
+                    }
+                )
+            }
+            .store(in: &subscriptions)
+
         p2pVideoCallPublisher
             .subscribe(on: RunLoop.main)
             .receive(on: RunLoop.main)
@@ -452,7 +470,6 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         guard let event = event else { return "" }
         switch event.eventType {
         case .text(let string):
-            print("sklasklaskl  \(string)")
             return string
         case .image(_):
             return "send to image"

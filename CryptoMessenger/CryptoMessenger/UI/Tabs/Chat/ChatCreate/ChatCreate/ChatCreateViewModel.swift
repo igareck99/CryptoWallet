@@ -184,33 +184,44 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
     private func getContacts(_ users: [MXUser]) {
         contacts = contactsUseCase.getContacts()
     }
-    
+
     private func setContacts() {
         self.contactsUseCase.reuqestUserContacts { contact in
             self.waitingContacts = contact.map {
-                return Contact(mxId: "",
-                               avatar: nil,
-                               name: $0.firstName + "  " + $0.lastName,
-                               status: "",
-                               phone: $0.phoneNumber,
-                               isAdmin: false, type: .waitingContacts) { _ in
-                    
-                }
+                return Contact(
+                    mxId: "",
+                    avatar: nil,
+                    name: $0.firstName + "  " + $0.lastName,
+                    status: "",
+                    phone: $0.phoneNumber,
+                    isAdmin: false,
+                    type: .waitingContacts
+                ) { _ in }
             }.sorted { $1.name > $0.name }
-            self.contactsUseCase.matchServerContacts(contact,
-                                                     .groupCreate) { result in
-                                                         self.existingContacts = result.filter { $0.type == .lastUsers || $0.type == .existing }
-                                                         self.lastUsersSections = []
-                                                         if !self.existingContacts.isEmpty {
-                                                             self.lastUsersSections.append(ChatCreateSection(data: .contacts,
-                                                                                                             views: self.existingContacts))
-                                                         }
-                                                         self.lastUsersSections.append(ChatCreateSection(data: .invite,
-                                                                                                         views: self.waitingContacts))
-                                                         self.state = .showContent
-                                                     } onTap: { value in
-                                                         self.onTapUser(value)
-                                                     }
+            self.contactsUseCase.matchServerContacts(
+                contact, .groupCreate
+            ) { result in
+                self.existingContacts = result.filter { $0.type == .lastUsers || $0.type == .existing }
+                self.lastUsersSections = []
+                if !self.existingContacts.isEmpty {
+                    self.lastUsersSections.append(
+                        ChatCreateSection(
+                            data: .contacts,
+                            views: self.existingContacts
+                        )
+                    )
+                }
+                // ELSE ????????
+                self.lastUsersSections.append(
+                    ChatCreateSection(
+                        data: .invite,
+                        views: self.waitingContacts
+                    )
+                )
+                self.state = .showContent
+            } onTap: { value in
+                self.onTapUser(value)
+            }
         }
     }
 
@@ -244,7 +255,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
             }
         }
     }
-    
+
     private func openRoom(_ room: AuraRoomData) {
         coordinator?.onFriendProfile(room)
     }
