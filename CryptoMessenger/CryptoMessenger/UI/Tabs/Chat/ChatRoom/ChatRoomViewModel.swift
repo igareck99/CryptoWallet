@@ -448,7 +448,7 @@ final class ChatRoomViewModel: ObservableObject {
                     guard let id = self?.room.room.roomId else { return }
                     self?.matrixUseCase.sendLocation(roomId: id,
                                                      location: location, completion: { _ in
-                        self?.send(.onAppear)
+                        self?.send(.onAppear(nil))
                         self?.matrixUseCase.objectChangePublisher.send()
                     })
                 case let .onSendFile(url):
@@ -496,7 +496,7 @@ final class ChatRoomViewModel: ObservableObject {
                 case .onJoinRoom:
                     guard let roomId = self?.room.room.roomId else { return }
                     self?.matrixUseCase.joinRoom(roomId: roomId) { _ in
-                        self?.send(.onAppear)
+                        self?.send(.onAppear(nil))
 						self?.updateToggles()
                     }
                 case let .onReply(text, eventId):
@@ -757,7 +757,7 @@ final class ChatRoomViewModel: ObservableObject {
                         guard let id = self?.room.room.roomId else { return }
                         self?.matrixUseCase.sendLocation(roomId: id,
                                                          location: LocationData(lat: location.latitude, long: location.longitude), completion: { _ in
-                            self?.send(.onAppear)
+                            self?.send(.onAppear(nil))
                             self?.matrixUseCase.objectChangePublisher.send()
                         })
                     }
