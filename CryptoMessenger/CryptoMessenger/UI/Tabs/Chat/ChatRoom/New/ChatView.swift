@@ -14,7 +14,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
     var body: some View {
         ScrollViewReader { proxy in
             VStack {
-                List {
+                ScrollView(.vertical) {
                     ForEach(viewModel.displayItems, id: \.id) { item in
                         item.view()
                             .listRowSeparator(.hidden)
@@ -27,7 +27,7 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                             .listRowInsets(EdgeInsets())
                     }
                 }
-                .listStyle(.inset) // scrollId
+                //.listStyle(.inset) // scrollId
                 .onChange(of: viewModel.scroolString) { newValue in
                     debugPrint("scrollToBottom viewModel.scroolString: \(newValue)")
                     withAnimation {

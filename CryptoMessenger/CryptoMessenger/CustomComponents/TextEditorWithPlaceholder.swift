@@ -6,6 +6,7 @@ struct TextEditorWithPlaceholder: View {
 
     @Binding var text: String
     var placeholder: String
+    @FocusState var isFocused: Bool
 
     // MARK: - Body
 
@@ -17,6 +18,7 @@ struct TextEditorWithPlaceholder: View {
                     .background(Color.aliceBlue)
                     .font(.bodyRegular17)
                     .cornerRadius(8)
+                    .focused($isFocused)
                 Spacer()
             }
             if text.isEmpty {
@@ -27,6 +29,9 @@ struct TextEditorWithPlaceholder: View {
                         .foregroundColor(.manatee)
                         .opacity(0.5)
                     Spacer()
+                }
+                .onTapGesture {
+                    isFocused = true
                 }
             }
         }

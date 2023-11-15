@@ -166,6 +166,10 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
         let coordinator = ChatCreateCoordinatorAssembly.buld() { coordinator in
             self.removeChildCoordinator(coordinator)
             self.router.dismissCurrentSheet()
+        } onFriendProfile: { room in
+            self.router.dismissCurrentSheet()
+            print("slaslsalas  \(self.childCoordinators)")
+            self.chatRoom(room)
         }
         addChildCoordinator(coordinator)
         coordinator.startWithView { [weak self] router in

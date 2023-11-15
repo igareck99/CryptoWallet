@@ -45,6 +45,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
     @Published var isSearching = false
     @Published var isTappedCreateDirectChat = false
     var coordinator: ChatCreateFlowCoordinatorProtocol?
+    var rooms: [AuraRoomData] = []
     let resources: ChatCreateResourcable.Type = ChatCreateResources.self
 
     // MARK: - Private Properties
@@ -52,7 +53,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
     private let eventSubject = PassthroughSubject<ChatCreateFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ChatCreateFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
-    @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
+    private let matrixUseCase: MatrixUseCaseProtocol
     private(set) var contactsUseCase = ContactsUseCase.shared
     private let config: ConfigType
 
@@ -60,9 +61,11 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
 
     init(
         config: ConfigType = Configuration.shared,
+        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         resources: ChatCreateResourcable.Type = ChatCreateResources.self
     ) {
         self.config = config
+        self.matrixUseCase = matrixUseCase
         bindInput()
         bindOutput()
         getContacts(matrixUseCase.allUsers())
@@ -91,7 +94,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
         case .newContact:
             coordinator?.createContact()
         case .createChannel:
-            coordinator?.createChannel()
+            coordinator?.createChannel([])
         }
     }
 
@@ -229,7 +232,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
             }
         }
     }
-    
+
     private func showSnackBar(_ text: String,
                               _ color: Color) {
         snackBarText = text
@@ -241,7 +244,10 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
             }
         }
     }
-
+    
+    private func openRoom(_ room: AuraRoomData) {
+        coordinator?.onFriendProfile(room)
+    }
 
     private func onTapUser(_ contact: Contact) {
         if isTappedCreateDirectChat {
@@ -250,20 +256,30 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
         isTappedCreateDirectChat = true
         let group = DispatchGroup()
         group.enter()
-        switch contact.type {
-        case .lastUsers, .existing:
-            matrixUseCase.createDirectRoom([contact.mxId]) { result in
-                switch result {
-                case .roomAlreadyExist, .roomCreateError:
-                    self.showSnackBar(result.rawValue,
-                                      result.color)
-                case .roomCreateSucces:
-                    self.dismissCurrentCoodinator()
-                    group.leave()
+        if let auraRoom = matrixUseCase.customCheckRoomExist(contact.mxId) {
+            print("lskasklsakl  \(auraRoom)")
+            coordinator?.onFriendProfile(auraRoom)
+            group.leave()
+        } else {
+            switch contact.type {
+            case .lastUsers, .existing:
+                matrixUseCase.createDirectRoom([contact.mxId]) { result in
+                    switch result {
+                    case .roomCreateError:
+                        self.showSnackBar(result.rawValue,
+                                          result.color)
+                        group.leave()
+                    case .roomCreateSucces:
+                        self.matrixUseCase.objectChangePublisher.send()
+                        self.dismissCurrentCoodinator()
+                        group.leave()
+                    case .roomAlreadyExist:
+                        break
+                    }
                 }
+            default:
+                break
             }
-        default:
-            break
         }
         group.notify(queue: .main) {
             self.isTappedCreateDirectChat = false

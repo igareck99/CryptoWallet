@@ -7,6 +7,7 @@ final class GroupChatSelectContactViewModel: ObservableObject {
 
     @Published var isButtonAvailable = false
     @Published var users: [SelectContact] = []
+    @Published var findedUsers: [SelectContact] = []
     @Published var usersViews: [any ViewGeneratable] = []
     @Published var text = ""
     @Published var usersForCreate: [any ViewGeneratable] = []
@@ -15,6 +16,7 @@ final class GroupChatSelectContactViewModel: ObservableObject {
     let resources: SelectContactResourcable.Type
     var coordinator: ChatCreateFlowCoordinatorProtocol?
     private let config: ConfigType
+    private let matrixUseCase: MatrixUseCaseProtocol
     private(set) var contactsUseCase = ContactsUseCase.shared
     private var subscriptions = Set<AnyCancellable>()
 
@@ -22,11 +24,13 @@ final class GroupChatSelectContactViewModel: ObservableObject {
 
     init(coordinator: ChatCreateFlowCoordinatorProtocol?,
          config: ConfigType = Configuration.shared,
+         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
          resources: SelectContactResourcable.Type = SelectContactResources.self) {
         self.coordinator = coordinator
         self.resources = resources
         self.config = config
         self.chatData = ChatData.emptyObject()
+        self.matrixUseCase = matrixUseCase
         self.syncContacts()
         self.bindInput()
     }
@@ -46,7 +50,7 @@ final class GroupChatSelectContactViewModel: ObservableObject {
             return contact
         }
         chatData.contacts = result
-        self.coordinator?.createGroupChat(chatData)
+        self.coordinator?.createGroupChat(chatData, result)
     }
 
     func getButtonColor() -> Color {
@@ -60,13 +64,41 @@ final class GroupChatSelectContactViewModel: ObservableObject {
     
     private func bindInput() {
         $text
-            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
+            .subscribe(on: DispatchQueue.main)
             .receive(on: DispatchQueue.main)
             .sink { [self] value in
                 if !value.isEmpty {
-                    self.usersViews = self.users.filter({ $0.name.contains(value) || $0.mxId.contains(value) })
+                    let group = DispatchGroup()
+                    group.enter()
+                    self.matrixUseCase.searchUser(text) { name in
+                        if let name = name {
+                            let contact = SelectContact(mxId: text,
+                                                        avatar: nil,
+                                                        name: name,
+                                                        phone: "",
+                                                        isSelected: false,
+                                                        sourceType: .finded) { value in
+                                self.onChangeState(value)
+                            }
+                            let ids = self.users.map {
+                                return $0.mxId
+                            }
+                            if ids.contains(contact.mxId) {
+                                return
+                            }
+                            self.users.append(contact)
+                            self.usersViews = self.users
+                        } else {
+                            self.usersViews = self.users.filter({ $0.sourceType != .finded })
+                        }
+                        group.leave()
+                    }
+                    group.notify(queue: .main) {
+                        self.usersViews = self.users.filter({ $0.name.contains(value) || $0.mxId.contains(value) })
+                    }
                 } else {
-                    self.usersViews = self.users
+                    print("slkaslaslasl  \(self.users)")
+                    self.usersViews = self.users.filter({ $0.sourceType != .finded  })
                 }
             }
             .store(in: &subscriptions)
@@ -79,14 +111,13 @@ final class GroupChatSelectContactViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
     }
-    
+
     private func syncContacts() {
         contactsUseCase.syncContacts { state in
             switch state {
             case .allowed:
                 self.contactsUseCase.reuqestUserContacts { contact in
                     self.contactsUseCase.matchServerContacts(contact, .groupCreate) { result in
-                        print("s,asklaklsalks  \(result)")
                         self.setData(result)
                     } onTap: { _ in
                     }
@@ -117,7 +148,6 @@ final class GroupChatSelectContactViewModel: ObservableObject {
                                      name: $0.name,
                                      phone: $0.phone,
                                      isSelected: false, onTap: { value in
-                vibrate()
                 self.onChangeState(value)
             })
             return data
@@ -126,23 +156,41 @@ final class GroupChatSelectContactViewModel: ObservableObject {
     }
     
     private func onChangeState(_ data: SelectContact) {
-        guard let index = self.users.firstIndex(where: { $0.mxId == data.mxId }) else { return }
+        guard let index = self.users.firstIndex(where: { $0.mxId == data.mxId }) else {
+            return
+        }
         let newObject = SelectContact(mxId: data.mxId, avatar: data.avatar,
                                       name: data.name, phone: data.phone,
-                                      isSelected: !data.isSelected) { value in
+                                      isSelected: !data.isSelected, sourceType: data.sourceType) { value in
             vibrate()
             self.onChangeState(value)
         }
         self.users[index] = newObject
-        self.usersViews = self.users
-        self.text = self.text
-        usersForCreateItems = self.users.filter({ $0.isSelected == true }).map {
-            let result = SelectContactChipsItem(mxId: $0.mxId,
-                                                name: $0.name)
+        if text.isEmpty {
+            self.usersViews = self.users.filter({ $0.sourceType != .finded })
+        } else {
+            self.usersViews = self.users.filter({ $0.name.contains(text) || $0.mxId.contains(text) })
+        }
+        usersForCreateItems = self.users.filter({ $0.isSelected == true }).map { value in
+            let result = SelectContactChipsItem(mxId: value.mxId,
+                                                name: value.name) {
+                self.removeChips(value)
+            }
             return result
         }
         withAnimation(.easeOut(duration: 0.25)) {
             self.usersForCreate = usersForCreateItems
         }
+    }
+    
+    private func removeChips(_ data: SelectContact) {
+        guard let item = self.users.first(where: { $0.mxId == data.mxId && $0.name == data.name }) else {
+            return
+        }
+        let newObject = SelectContact(mxId: item.mxId, avatar: item.avatar,
+                                      name: item.name, phone: item.phone,
+                                      isSelected: true, sourceType: item.sourceType) { _ in
+        }
+        self.onChangeState(newObject)
     }
 }

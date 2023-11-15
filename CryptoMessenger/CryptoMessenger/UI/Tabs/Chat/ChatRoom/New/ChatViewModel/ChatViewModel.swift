@@ -209,6 +209,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         guard !self.itemsFromMatrix.isEmpty else { return }
                         self.scroolString = self.displayItems.last?.id ?? UUID()
                     }
+                    self.matrixUseCase.markAllAsRead(roomId: self.room.roomId)
                     self.objectWillChange.send()
                 }
             }

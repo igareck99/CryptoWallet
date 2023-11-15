@@ -17,5 +17,8 @@ struct SelectContactChipsItemView: View {
                 .foreground(.white)
                 .frame(width: data.getItemWidth())
         }
+        .onTapGesture {
+            data.onTap()
+        }
     }
 }

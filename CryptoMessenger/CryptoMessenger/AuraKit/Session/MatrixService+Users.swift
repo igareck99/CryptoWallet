@@ -126,6 +126,7 @@ extension MatrixService {
             guard case .success = response else { completion(.failure); return }
             completion(.success)
         }
+        
     }
     
     func updateUsersPowerLevel(

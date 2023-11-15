@@ -8,39 +8,54 @@ struct NotesView: View {
 
     @StateObject var viewModel: NotesViewModel
     @Environment(\.presentationMode) private var presentationMode
+    @FocusState var isFocused: Bool
 
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                R.image.buyCellsMenu.close.image
-                    .onTapGesture {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                Spacer()
-                Text(R.string.localizable.noteViewAddNote())
-                    .font(.subheadlineMedium15)
-                    .foregroundColor(.chineseBlack)
-                Spacer()
-                Circle()
-                    .frame(width: 32, height: 32)
+        GeometryReader { geometry in
+            ZStack {
+                Rectangle()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
                     .foreground(.white)
+                    .onTapGesture {
+                        isFocused = false
+                    }
+                VStack(spacing: 0) {
+                    HStack {
+                        R.image.buyCellsMenu.close.image
+                            .onTapGesture {
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        Spacer()
+                        Text(R.string.localizable.noteViewAddNote())
+                            .font(.subheadlineMedium15)
+                            .foregroundColor(.chineseBlack)
+                        Spacer()
+                        Circle()
+                            .frame(width: 32, height: 32)
+                            .foreground(.white)
+                    }
+                    .padding(.horizontal, 16)
+                    textInput
+                        .padding(.top, 32)
+                    info
+                        .padding(.horizontal, 16)
+                    importButton
+                        .padding(.bottom, 8)
+                        .padding(.top, 48)
+                }
+                .onTapGesture {
+                    isFocused = false
+                }
             }
-            .padding(.horizontal, 16)
-            textInput
-                .padding(.top, 32)
-            info
-                .padding(.horizontal, 16)
-            importButton
-                .padding(.bottom, 8)
-                .padding(.top, 48)
         }
     }
 
     private var textInput: some View {
         TextEditorWithPlaceholder(text: $viewModel.newKey,
-                                  placeholder: R.string.localizable.noteViewPlaceholder())
+                                  placeholder: R.string.localizable.noteViewPlaceholder(),
+                                  isFocused: _isFocused)
             .frame(width: UIScreen.main.bounds.width - 32,
                    height: 132)
             .padding(.horizontal, 16)
@@ -49,6 +64,7 @@ struct NotesView: View {
                     viewModel.newKey = String(viewModel.newKey.prefix(160))
                 }
             }
+            
     }
 
     private var info: some View {

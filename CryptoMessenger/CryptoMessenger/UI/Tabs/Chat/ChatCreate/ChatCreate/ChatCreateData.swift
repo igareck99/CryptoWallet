@@ -59,9 +59,16 @@ struct SelectContact: Identifiable, ViewGeneratable {
     let name: String
     let phone: String
     var isSelected: Bool
+    var sourceType: SelectContactSourceType = .exist
     var onTap: (SelectContact) -> Void
 
     func view() -> AnyView {
         return SelectContactViewCell(data: self).anyView()
     }
+}
+
+
+enum SelectContactSourceType {
+    case finded
+    case exist
 }

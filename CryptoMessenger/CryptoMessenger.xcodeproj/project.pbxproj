@@ -3094,7 +3094,6 @@
 		8B23C76B28E0A16C00418F2D /* FriendProfileView */ = {
 			isa = PBXGroup;
 			children = (
-				8B75B3E52A6ED78E008FE6DD /* ChatSettings */,
 				8B964F7028E229E40012DA92 /* Components */,
 				8B23C76C28E0A19E00418F2D /* FriendProfileView.swift */,
 				8B23C76E28E0A1B300418F2D /* FriendProfileAssembly.swift */,
@@ -3410,13 +3409,6 @@
 				8B0353DC2A8D147B0033965D /* EmptyInfoViewModel.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		8B75B3E52A6ED78E008FE6DD /* ChatSettings */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ChatSettings;
 			sourceTree = "<group>";
 		};
 		8B75B3E72A6EDB03008FE6DD /* RadioButton */ = {

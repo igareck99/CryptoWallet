@@ -22,8 +22,9 @@ extension MatrixService {
 
 	func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void) {
 		session?.createRoom(parameters: parameters) { [weak self] response in
+            self?.objectChangePublisher.send()
+            self?.session?.updateClientInformation()
 			completion(response)
-			self?.objectChangePublisher.send()
 		}
 	}
 
@@ -71,8 +72,21 @@ extension MatrixService {
 	}
 
 	func isDirectRoomExists(userId: String) -> Bool {
-		session?.directJoinedRoom(withUserId: userId) != nil
+        let ids = session?.directRooms[userId]
+        ids?.forEach {
+            let mxRoom = getRoomInfo(roomId: $0)
+        }
+		return session?.directJoinedRoom(withUserId: userId) != nil
 	}
+    
+    func getRoomInfo(roomId: String) -> MXRoom? {
+        guard let room = matrixSession?.rooms.first(where: {
+            $0.roomId == roomId
+        }) else {
+            return nil
+        }
+        return room
+    }
 
     func isRoomEncrypted(roomId: String, completion: @escaping (Bool?) -> Void) {
         guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
