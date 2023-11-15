@@ -65,7 +65,7 @@ final class FriendProfileViewModel: ObservableObject {
     func send(_ event: FriendProfileFlow.Event) {
         eventSubject.send(event)
     }
-    
+
     func onImageViewer(_ url: URL) {
         selectedPhoto = url
         chatHistoryCoordinator.showImageViewer(imageUrl: selectedPhoto)
@@ -77,7 +77,7 @@ final class FriendProfileViewModel: ObservableObject {
         self.safari = SFSafariViewWrapper(link: url)
         showWebView = true
     }
-    
+
     func loadUserNote() {
         guard let result = userDefaults.dict(forKey: .userNotes) as? [String: String] else { return }
         profile.note = result[userId] ?? ""

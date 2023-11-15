@@ -48,6 +48,17 @@ struct FriendProfileView: View {
                     color: .spanishCrimson
                 )
             }
+            .sheet(isPresented: $showNotesView, content: {
+                NotesView(viewModel: NotesViewModel(userId: viewModel.userId))
+                .background(
+                    CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
+                        .fill(viewModel.sources.background)
+                )
+                .presentationDetents([.height(341)])
+                .onDisappear {
+                    viewModel.loadUserNote()
+                }
+            })
             .fullScreenCover(isPresented: $viewModel.showWebView) {
                 viewModel.safari
             }
@@ -72,7 +83,6 @@ struct FriendProfileView: View {
                     HStack(alignment: .center, spacing: 16) {
                         avatarView
                         VStack(alignment: .leading, spacing: 0) {
-                            Spacer()
                             Text(viewModel.profile.name)
                                 .font(.callout2Semibold16)
                                 .lineLimit(1)
@@ -156,8 +166,9 @@ struct FriendProfileView: View {
                         }
                                     .padding(.top, 16)
                     }
+                    Divider()
+                        .padding(.top, 16)
                     VStack(alignment: .center, spacing: 0) {
-                        Divider()
                         if viewModel.profile.photosUrls.isEmpty {
                             VStack {
                                 Spacer()
