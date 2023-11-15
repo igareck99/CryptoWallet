@@ -7,7 +7,8 @@ extension RoomEventsFactory {
         url: URL?,
         delegate: ChatEventsDelegate,
         onLongPressTap: @escaping (RoomEvent) -> Void,
-        onReactionTap: @escaping (ReactionNewEvent) -> Void
+        onReactionTap: @escaping (ReactionNewEvent) -> Void,
+        onSwipeReply: @escaping (RoomEvent) -> Void
     ) -> any ViewGeneratable {
         let eventData = EventData(
             date: event.shortDate,
@@ -38,7 +39,9 @@ extension RoomEventsFactory {
         let bubbleContainer = BubbleContainer(
             fillColor: .water,
             cornerRadius: event.isFromCurrentUser ? .right : .left,
-            content: docItem
+            content: docItem, onSwipe: {
+                onSwipeReply(event)
+            }, swipeEdge: event.isFromCurrentUser ? .trailing : .leading
         )
 
         if event.isFromCurrentUser {

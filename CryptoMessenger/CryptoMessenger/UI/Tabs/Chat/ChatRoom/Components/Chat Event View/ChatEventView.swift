@@ -14,13 +14,13 @@ struct ChatEventView: View {
     // MARK: - Lifecycle
 
 	init(
-		text: String,
+        text: String,
         font: Font = .system(size: 14, weight: .regular),
-		backgroundColor: Color = Color(red: 242 / 255, green: 160 / 255, blue: 76 / 255),
-		foregroundColor: Color? = nil
-	) {
-		self.text = text
-		self.font = font
+        backgroundColor: Color = Color(red: 242 / 255, green: 160 / 255, blue: 76 / 255),
+        foregroundColor: Color? = nil
+    ) {
+        self.text = text
+        self.font = font
 		self.backgroundColor = backgroundColor
 		self.foregroundColor = foregroundColor
 	}

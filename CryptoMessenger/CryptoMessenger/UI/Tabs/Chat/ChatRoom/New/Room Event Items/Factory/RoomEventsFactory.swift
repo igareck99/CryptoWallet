@@ -9,7 +9,8 @@ protocol RoomEventsFactoryProtocol {
       delegate: ChatEventsDelegate,
       onLongPressMessage: @escaping (RoomEvent) -> Void,
       onReactionTap: @escaping (ReactionNewEvent) -> Void,
-      onTapNotSendedMessage: @escaping (RoomEvent) -> Void
+      onTapNotSendedMessage: @escaping (RoomEvent) -> Void,
+      onSwipeReply: @escaping (RoomEvent) -> Void
     ) -> [any ViewGeneratable]
     static func makeChatOutputEvent(_ eventId: String,
                                     _ type: MessageType,
@@ -72,16 +73,19 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
       delegate: ChatEventsDelegate,
       onLongPressMessage: @escaping (RoomEvent) -> Void,
       onReactionTap: @escaping (ReactionNewEvent) -> Void,
-      onTapNotSendedMessage: @escaping (RoomEvent) -> Void
+      onTapNotSendedMessage: @escaping (RoomEvent) -> Void,
+      onSwipeReply: @escaping (RoomEvent) -> Void
     ) -> [any ViewGeneratable] {
 
         let data: [any ViewGeneratable] = events.compactMap {
             switch $0.eventType {
             case let .text(string):
-                return makeTextView($0, events,  string, onLongPressTap: { eventId in
+                return makeTextView($0, events, string, onLongPressTap: { eventId in
                     onLongPressMessage(eventId)
                 }, onReactionTap: { reaction in
                  onReactionTap(reaction)
+                }, onSwipeReply: { value in
+                    onSwipeReply(value)
                 })
             case .call:
                 return makeCallItem(
@@ -101,6 +105,8 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
+                }, onSwipeReply: { value in
+                    onSwipeReply(value)
                 })
             case let .file(name, url):
                 return makeDocumentItem(
@@ -112,6 +118,8 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
+                }, onSwipeReply: { value in
+                  onSwipeReply(value)
                 })
             case let .location((lat, lon)):
                 return makeMapItem(
@@ -125,6 +133,8 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     onReactionTap(reaction)
                 }, onNotSentTap: { event in
                     onTapNotSendedMessage(event)
+                }, onSwipeReply: { value in
+                    onSwipeReply(value)
                 })
             case let .image(url):
                 return makeImageItem(
@@ -135,12 +145,16 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
+                }, onSwipeReply: { value in
+                    onSwipeReply(value)
                 })
             case let .audio(url):
                 return makeAudioItem(event: $0, url: url, onLongPressTap: { event in
                     onLongPressMessage(event)
                 }, onReactionTap: { reaction in
                     onReactionTap(reaction)
+                }, onSwipeReply: { value in
+                    onSwipeReply(value)
                 })
             case let .video(url):
                 return makeVideoItem(
@@ -149,6 +163,8 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     delegate: delegate,
                     onLongPressTap: { event in
                         onLongPressMessage(event)
+                    }, onSwipeReply: { value in
+                        onSwipeReply(value)
                     }
                 )
             case let .date(dateStr):
@@ -194,7 +210,8 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                              _ events: [RoomEvent],
                              _ text: String,
                              onLongPressTap: @escaping (RoomEvent) -> Void,
-                             onReactionTap: @escaping (ReactionNewEvent) -> Void) -> any ViewGeneratable {
+                             onReactionTap: @escaping (ReactionNewEvent) -> Void,
+                             onSwipeReply: @escaping (RoomEvent) -> Void) -> any ViewGeneratable {
         var eventReply = ""
         if event.isReply {
             let eventReplyEvent = events.first(where: { $0.eventId == event.rootEventId })
@@ -225,7 +242,9 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             contatiner = BubbleContainer(
                 fillColor: .water,
                 cornerRadius: .right,
-                content: textEvent
+                content: textEvent, onSwipe: {
+                    onSwipeReply(event)
+                }, swipeEdge: event.isFromCurrentUser ? .trailing : .leading
             )
             return EventContainer(
                 leadingContent: PaddingModel(),
@@ -237,7 +256,9 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             contatiner = BubbleContainer(
                 fillColor: .water,
                 cornerRadius: .left,
-                content: textEvent
+                content: textEvent, onSwipe: {
+                    onSwipeReply(event)
+                }, swipeEdge: event.isFromCurrentUser ? .trailing : .leading
             )
             return EventContainer(
                 centralContent: contatiner,

@@ -27,9 +27,6 @@ struct QuickMenuView: View {
                 .padding(.top, 16)
             generateItems()
         }.id(UUID())
-            .onAppear {
-                print("gtijroepwqkjsdfdso")
-            }
     }
 
     private func generateItems() -> some View {

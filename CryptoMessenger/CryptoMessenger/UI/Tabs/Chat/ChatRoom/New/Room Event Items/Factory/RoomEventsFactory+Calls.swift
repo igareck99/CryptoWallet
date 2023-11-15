@@ -19,7 +19,9 @@ extension RoomEventsFactory {
         let bubbleContainer = BubbleContainer(
             fillColor: .water,
             cornerRadius: event.isFromCurrentUser ? .right : .left,
-            content: callItem
+            content: callItem, onSwipe: {
+                debugPrint("SwipeActionCall")
+            }, swipeEdge: event.isFromCurrentUser ? .trailing : .leading
         )
 
         if event.isFromCurrentUser {

@@ -198,6 +198,10 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     self.onRemoveReaction(reaction)
                 }, onTapNotSendedMessage: { event in
                     self.onTapNotSendedMessage(event)
+                }, onSwipeReply: { value in
+                    self.activeEditMessage = value
+                    self.quickAction = .reply
+                    self.replyDescriptionText = self.makeReplyDescription(self.activeEditMessage)
                 })
                 DispatchQueue.main.async {
                     self.displayItems = self.itemsFromMatrix
@@ -220,7 +224,9 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     onReactionTap: { _ in },
                     onTapNotSendedMessage: { [weak self] event in
                         self?.onTapNotSendedMessage(event)
-                    })
+                    }, onSwipeReply: { _ in
+                    }
+                )
             }
             .store(in: &subscriptions)
 
@@ -442,6 +448,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         guard let event = event else { return "" }
         switch event.eventType {
         case .text(let string):
+            print("sklasklaskl  \(string)")
             return string
         case .image(_):
             return "send to image"

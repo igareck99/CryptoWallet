@@ -8,6 +8,8 @@ struct BubbleContainer: Identifiable, ViewGeneratable {
     let cornerRadius: CornersRadius
     let content: any ViewGeneratable
     let bottomContent: any ViewGeneratable
+    var onSwipe: () -> Void
+    var swipeEdge: Edge
 
     init(
         edges: Edge.Set = .all,
@@ -15,7 +17,9 @@ struct BubbleContainer: Identifiable, ViewGeneratable {
         fillColor: Color,
         cornerRadius: CornersRadius,
         content: any ViewGeneratable,
-        bottomContent: any ViewGeneratable = ZeroViewModel()
+        bottomContent: any ViewGeneratable = ZeroViewModel(),
+        onSwipe: @escaping () -> Void,
+        swipeEdge: Edge
     ) {
         self.edges = edges
         self.offset = offset
@@ -23,6 +27,8 @@ struct BubbleContainer: Identifiable, ViewGeneratable {
         self.cornerRadius = cornerRadius
         self.content = content
         self.bottomContent = bottomContent
+        self.onSwipe = onSwipe
+        self.swipeEdge = swipeEdge
     }
 
     // MARK: - ViewGeneratable
@@ -31,7 +37,8 @@ struct BubbleContainer: Identifiable, ViewGeneratable {
         BubbleContainerView(
             model: self,
             content: content.view(),
-            bottomContent: bottomContent.view()
+            bottomContent: bottomContent.view(),
+            onSwipe: onSwipe
         ).anyView()
     }
 }

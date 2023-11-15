@@ -4,7 +4,8 @@ extension RoomEventsFactory {
 
     static func makeAudioItem(event: RoomEvent, url: URL?,
                               onLongPressTap: @escaping (RoomEvent) -> Void,
-                              onReactionTap: @escaping (ReactionNewEvent) -> Void) -> any ViewGeneratable {
+                              onReactionTap: @escaping (ReactionNewEvent) -> Void,
+                              onSwipeReply: @escaping (RoomEvent) -> Void) -> any ViewGeneratable {
         guard let url = url else { return ZeroViewModel() }
         
         let eventData = EventData(
@@ -37,7 +38,9 @@ extension RoomEventsFactory {
         let bubbleContainer = BubbleContainer(
             fillColor: .water,
             cornerRadius: event.isFromCurrentUser ? .right : .left,
-            content: audioItem
+            content: audioItem, onSwipe: {
+                onSwipeReply(event)
+            }, swipeEdge: event.isFromCurrentUser ? .trailing : .leading
         )
 
         if event.isFromCurrentUser {

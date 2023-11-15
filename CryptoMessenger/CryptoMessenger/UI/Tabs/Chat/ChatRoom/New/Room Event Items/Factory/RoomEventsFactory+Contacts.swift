@@ -8,7 +8,8 @@ extension RoomEventsFactory {
         url: URL?,
         delegate: ChatEventsDelegate,
         onLongPressTap: @escaping (RoomEvent) -> Void,
-        onReactionTap: @escaping (ReactionNewEvent) -> Void
+        onReactionTap: @escaping (ReactionNewEvent) -> Void,
+        onSwipeReply: @escaping (RoomEvent) -> Void
     ) -> any ViewGeneratable {
         let eventData = EventData(
             date: event.shortDate,
@@ -47,7 +48,9 @@ extension RoomEventsFactory {
             edges: [.leading, .trailing],
             fillColor: .water,
             cornerRadius: event.isFromCurrentUser ? .right : .left,
-            content: contactItem
+            content: contactItem, onSwipe: {
+                onSwipeReply(event)
+            }, swipeEdge: event.isFromCurrentUser ? .trailing : .leading
         )
 
         if event.isFromCurrentUser {

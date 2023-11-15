@@ -6,7 +6,8 @@ extension RoomEventsFactory {
         url: URL?,
         delegate: ChatEventsDelegate,
         onLongPressTap: @escaping (RoomEvent) -> Void,
-        onReactionTap: @escaping (ReactionNewEvent) -> Void
+        onReactionTap: @escaping (ReactionNewEvent) -> Void,
+        onSwipeReply: @escaping (RoomEvent) -> Void
     ) -> any ViewGeneratable {
         let eventData = EventData(
             date: event.shortDate,
@@ -48,7 +49,9 @@ extension RoomEventsFactory {
             offset: .zero,
             fillColor: .diamond,
             cornerRadius: .equal,
-            content: transactionItem
+            content: transactionItem, onSwipe: {
+                onSwipeReply(event)
+            }, swipeEdge: event.isFromCurrentUser ? .trailing : .leading
         )
 
         if event.isFromCurrentUser {
