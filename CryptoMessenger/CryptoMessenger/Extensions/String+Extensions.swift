@@ -52,4 +52,18 @@ extension String {
         let size = self.size(withAttributes: fontAttributes)
         return size.width
     }
+    
+    func validateUserId(homeServer: String) -> String {
+        
+        let cleanedServer = homeServer
+            .replacingOccurrences(of: "https://", with: "")
+            .replacingOccurrences(of: "http://", with: "")
+            .replacingOccurrences(of: "/", with: "")
+        
+        if contains(cleanedServer), starts(with: "@") {
+            return self
+        }
+        
+        return "@" + self + ":" + cleanedServer
+    }
 }

@@ -103,10 +103,10 @@ final class ProfileDetailViewModel: ObservableObject {
                     self?.matrixUseCase.logoutDevices { [weak self] _ in
                         // TODO: Обработать результат
                         self?.matrixUseCase.closeSession()
+                        self?.privateDataCleaner.resetPrivateData()
                         self?.matrixUseCase.clearCredentials()
                         self?.keychainService.isApiUserAuthenticated = false
                         self?.keychainService.isPinCodeEnabled = false
-                        self?.privateDataCleaner.resetPrivateData()
                         NotificationCenter.default.post(name: .userDidLoggedOut, object: nil)
                         debugPrint("ProfileDetailViewModel: LOGOUT")
                     }
@@ -121,6 +121,8 @@ final class ProfileDetailViewModel: ObservableObject {
                 self?.userSettings.isOnboardingFlowFinished = false
                 self?.keychainService.isPinCodeEnabled = false
                 self?.keychainService.removeObject(forKey: .apiUserPinCode)
+                self?.privateDataCleaner.resetPrivateData()
+                self?.matrixUseCase.clearCredentials()
                 self?.coordinator?.onLogout()
             default:
                 break

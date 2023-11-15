@@ -109,7 +109,7 @@ extension UserDefaultsService: UserDefaultsServiceProtocol {
 
 	// MARK: - Delete
 
-	func remoVeObject(forKey key: UserDefaultsService.Keys) {
+	func removeObject(forKey key: UserDefaultsService.Keys) {
 		storage.removeObject(forKey: key.rawValue)
 	}
 }

@@ -212,6 +212,9 @@ extension MatrixService {
 		self.session = session
         MXFileStore.setPreloadOptions([.roomAccountData, .roomState, .roomMessages])
 		self.fileStore = MXFileStore(credentials: credentials)
+        if let user = MXMyUser(userId: credentials.userId) {
+            self.fileStore.store(user)
+        }
 		self.uploader = MXMediaLoader(forUploadWithMatrixSession: session, initialRange: 0, andRange: 1)
 		configureCallKitAdapter()
 	}

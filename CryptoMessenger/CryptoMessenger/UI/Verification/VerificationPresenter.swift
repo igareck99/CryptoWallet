@@ -181,11 +181,14 @@ private extension VerificationPresenter  {
     // MARK: - JWT Auth
     
     func logInWithJWT(code: String) {
+    
+        let phone = keychainService.apiUserPhoneNumber?.numbers ?? ""
+        debugPrint("logInWithJWT(code: phone \(phone)")
         
         let endpoint = Endpoints.Registration.jwtAuth(
             .init(
                 device: .init(name: configuration.deviceName, unique: configuration.deviceId),
-                phone: keychainService.apiUserPhoneNumber?.numbers ?? "",
+                phone: phone,
                 sms: code
             )
         )
@@ -218,6 +221,7 @@ private extension VerificationPresenter  {
                 }
                 
                 self?.loginMatrixWithJWT(
+                    phone: phone,
                     token: accessToken,
                     deviceId: deviceId,
                     userId: userId,
@@ -230,6 +234,7 @@ private extension VerificationPresenter  {
     }
     
     func loginMatrixWithJWT(
+        phone: String,
         token: String,
         deviceId: String,
         userId: String,
@@ -250,27 +255,31 @@ private extension VerificationPresenter  {
                     return
                 }
                 self?.saveLogInState(
+                    phone: phone,
                     userId: auraMxCredentials.userId,
                     accessToken: accessToken,
-                    refreshToken: refreshToken
+                    refreshToken: refreshToken,
+                    homeServer: homeServer.absoluteString
                 )
                 self?.delegate?.onVerificationSuccess()
             }
     }
     
     func saveLogInState(
+        phone: String,
         userId: String,
         accessToken: String,
-        refreshToken: String
+        refreshToken: String,
+        homeServer: String
     ) {
-        let userPhoneNumber = keychainService.apiUserPhoneNumber
         userSettings.userId = userId
         userSettings.isLocalAuth = true
         // Пересохраняем телефон под новым service name (serviceName + userMatrixId)
-        keychainService.apiUserPhoneNumber = userPhoneNumber
+        keychainService.apiUserPhoneNumber = phone
         keychainService.isApiUserAuthenticated = true
         keychainService.apiAccessToken = accessToken
         keychainService.apiRefreshToken = refreshToken
+        keychainService.homeServer = homeServer
         userSettings.isAuthFlowFinished = true
         keychainService.isPinCodeEnabled = false
     }
