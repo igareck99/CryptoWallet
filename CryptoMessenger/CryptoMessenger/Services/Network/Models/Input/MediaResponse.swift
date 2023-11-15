@@ -8,6 +8,10 @@ struct MediaResponse: Codable {
 
     var original: URL?
     var preview: URL?
+    
+    private enum CodingKeys : String, CodingKey {
+        case original = "original", preview = "preview"
+    }
 }
 
 // MARK: - SocialResponse

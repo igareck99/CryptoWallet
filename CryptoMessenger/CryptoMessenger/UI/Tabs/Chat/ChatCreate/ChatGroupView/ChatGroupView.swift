@@ -120,7 +120,8 @@ struct ChatGroupView: View {
             .padding(.horizontal, 16)
             .padding(.top, 16)
             VStack(alignment: .leading, spacing: 0) {
-                TextEditorWithPlaceholder(text: $viewModel.descriptionText)
+                TextEditorWithPlaceholder(text: $viewModel.descriptionText,
+                                          placeholder: "Описание")
                     .frame(maxWidth: .infinity, idealHeight: 134, alignment: .leading)
                     .padding(.horizontal, 16)
                     .padding(.top, 24)

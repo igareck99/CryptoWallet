@@ -21,11 +21,13 @@ struct FriendProfileView: View {
     @State private var showLocationPicker = false
     @State private var safariAddress = ""
     @State private var showAllSocial = false
+    @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
 
     var body: some View {
         content
+            .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 createToolBar()
@@ -38,85 +40,82 @@ struct FriendProfileView: View {
                 Alert(title: Text(viewModel.sources.profileCopied))
             }
             .popup(
-                isPresented: $showMenu,
-                type: .toast,
-                position: .bottom,
-                closeOnTap: true,
-                closeOnTapOutside: true,
-                backgroundColor: viewModel.sources.backgroundFodding,
-                view: {
-                    FriendProfileSettingsView(viewModel: viewModel,
-                                              onSelect: { type  in
-                        vibrate()
-                        switch type {
-                        case .addNote:
-                            showNotesView = true
-                        case .addContact:
-                            showCreateContact = true
-                        default:
-                            break
-                        }
-                    })
-                    .background(
-                        CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                            .fill(viewModel.sources.background)
-                    )
-                    .frame(height: 482)
-                }
-            )
-            .popup(
-                isPresented: $showNotesView,
-                type: .toast,
-                position: .bottom,
-                closeOnTap: false,
-                closeOnTapOutside: true,
-                backgroundColor: viewModel.sources.backgroundFodding,
-                view: {
-                    NotesView(showNotes: $showNotesView)
-                    .background(
-                        CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                            .fill(viewModel.sources.background)
-                    )
-                    .frame(height: 375)
-                }
-            )
-            .overlay(
-                EmptyNavigationLink(
-                    destination: CreateContactView(viewModel: CreateContactViewModel(),
-                                                   nameSurnameText: viewModel.userId.name,
-                                                   numberText: viewModel.profile.phone),
-                    isActive: $showCreateContact
+                isPresented: viewModel.isSnackbarPresented,
+                alignment: .bottom
+            ) {
+                Snackbar(
+                    text: viewModel.messageText,
+                    color: .spanishCrimson
                 )
-            )
+            }
+            .fullScreenCover(isPresented: $viewModel.showWebView) {
+                viewModel.safari
+            }
+            .sheet(isPresented: $showNotesView, content: {
+                NotesView(viewModel: NotesViewModel(userId: viewModel.userId))
+                .background(
+                    CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
+                        .fill(viewModel.sources.background)
+                )
+                .presentationDetents([.height(341)])
+                .onDisappear {
+                    viewModel.loadUserNote()
+                }
+            })
     }
 
     private var content: some View {
-        ZStack {
+        GeometryReader { geometry in
             ScrollView(popupSelected ? [] : .vertical, showsIndicators: true) {
-                VStack(alignment: .leading, spacing: 24) {
-                    HStack(spacing: 16) {
+                VStack(alignment: .leading, spacing: 0) {
+                    Divider()
+                    HStack(alignment: .center, spacing: 16) {
                         avatarView
-                        VStack(alignment: .leading, spacing: 11) {
-                            Text(viewModel.profile.nickname)
+                        VStack(alignment: .leading, spacing: 0) {
+                            Spacer()
+                            Text(viewModel.profile.name)
                                 .font(.callout2Semibold16)
-                            switch viewModel.socialListEmpty {
+                                .lineLimit(1)
+                            Text(viewModel.profile.phone)
+                                .padding(.top, 2)
+                                .lineLimit(1)
+                                .font(.subheadlineRegular15)
+                            switch viewModel.profile.socialNetwork.isEmpty {
                             case false:
                                 ScrollView(!showAllSocial ? [] : .horizontal, showsIndicators: false) {
-                                HStack(spacing: 8) {
-                                    switch showAllSocial {
-                                    case false:
-                                        if viewModel.existringUrls.count < 4 {
-                                            ForEach(viewModel.profile.socialNetwork.filter({ !$0.url.isEmpty })) { item in
-                                                SocialNetworkView(safariAddress: $safariAddress,
-                                                                  showSafari: $showSafari,
-                                                                  item: item)
+                                    HStack(spacing: 8) {
+                                        switch showAllSocial {
+                                        case false:
+                                            if viewModel.profile.socialNetwork.count < 4 {
+                                                ForEach(viewModel.profile.socialNetwork.filter({ !$0.url.isEmpty })) { item in
+                                                    SocialNetworkView(item: item) {
+                                                        viewModel.onSafari(item.url)
+                                                    }
+                                                }
+                                            } else {
+                                                ForEach(viewModel.profile.socialNetwork) { item in
+                                                    if !item.url.isEmpty {
+                                                        SocialNetworkView(item: item) {
+                                                            viewModel.onSafari(item.url)
+                                                        }
+                                                    }
+                                                }
+                                                Button(action: {
+                                                    showAllSocial.toggle()
+                                                }, label: {
+                                                    viewModel.sources.settingsButton.resizable()
+                                                        .frame(width: 16,
+                                                               height: 15)
+                                                }).frame(width: 32, height: 32, alignment: .center)
+                                                    .background(viewModel.sources.buttonBackground)
+                                                    .cornerRadius(16)
                                             }
-                                        } else {
-                                            ForEach(viewModel.profile.socialNetwork.filter({ !$0.url.isEmpty })[0...2]) { item in
+                                        case true:
+                                            ForEach(viewModel.profile.socialNetwork) { item in
                                                 if !item.url.isEmpty {
-                                                    SocialNetworkView(safariAddress: $safariAddress,
-                                                                      showSafari: $showSafari,
-                                                                      item: item)
+                                                    SocialNetworkView(item: item) {
+                                                        viewModel.onSafari(item.url)
+                                                    }
                                                 }
                                             }
                                             Button(action: {
@@ -129,93 +128,66 @@ struct FriendProfileView: View {
                                                 .background(viewModel.sources.buttonBackground)
                                                 .cornerRadius(16)
                                         }
-                                    case true:
-                                        ForEach(viewModel.profile.socialNetwork) { item in
-                                            if !item.url.isEmpty {
-                                                SocialNetworkView(safariAddress: $safariAddress,
-                                                                  showSafari: $showSafari,
-                                                                  item: item)
-                                            }
-                                        }
-                                        Button(action: {
-                                            showAllSocial.toggle()
-                                        }, label: {
-                                            viewModel.sources.settingsButton.resizable()
-                                                .frame(width: 16,
-                                                       height: 15)
-                                        }).frame(width: 32, height: 32, alignment: .center)
-                                            .background(viewModel.sources.buttonBackground)
-                                            .cornerRadius(16)
                                     }
-                                }
+                                    .padding(.top, 12)
                                 }
                             case true:
                                 EmptyView()
                             }
-                            Text(viewModel.profile.phone)
+                            Spacer()
                         }
                     }
-                    .padding(.top, 27)
-                    .padding(.leading, 16)
-
-                    VStack(alignment: .leading, spacing: 2) {
+                    .padding([.leading, .top], 16)
+                    if !viewModel.profile.status.isEmpty {
                         Text(viewModel.profile.status)
                             .font(.calloutRegular16)
                             .foregroundColor(viewModel.sources.titleColor)
-                        Text("https://www.ikea.com/ru/ru/campaigns/actual-information-pub21f86b70")
-                            .font(.calloutRegular16)
-                            .foregroundColor(viewModel.sources.buttonBackground)
-                            .onTapGesture {
-                                safariAddress = "https://www.ikea.com/ru/ru/" +
-                                "campaigns/actual-information-pub21f86b70"
-                                showSafari = true
+                            .padding(.top, 20)
+                            .padding(.leading, 16)
+                    }
+                    if !viewModel.profile.note.isEmpty {
+                        notesView.padding(.top, 10)
+                    }
+                    if !viewModel.profile.mxId.isEmpty {
+                        LargeButton(title: R.string.localizable.friendProfileWrite(),
+                                    backgroundColor: .white,
+                                    foregroundColor: .dodgerBlue) {
+                            print("Hello World")
+                        }
+                                    .padding(.top, 16)
+                    }
+                    VStack(alignment: .center, spacing: 0) {
+                        Divider()
+                        if viewModel.profile.photosUrls.isEmpty {
+                            VStack {
+                                Spacer()
+                                HStack {
+                                    Spacer()
+                                    ChannelMediaEmptyState(image: R.image.media.noMedia.image,
+                                                           title: "Пока нет публикаций",
+                                                           description: "")
+                                    Spacer()
+                                }
+                                Spacer()    
                             }
-                    }.padding(.leading, 16)
-                    buttonsView
-                        .padding(.top, 24)
-                        .padding(.horizontal, 16)
-
-                    photosView
+                        } else {
+                            photosView
+                        }
+                    }
+                    .frame(maxHeight: geometry.size.height)
+                    .padding(.top, 16)
                 }
-            }
+            }.frame(width: geometry.size.width)
         }
     }
-
-    private var buttonsView: some View {
-        HStack(spacing: 12) {
-            Button(action: {
-                viewModel.p2pVideoCallPublisher.send()
-            }, label: {
-                Text(R.string.localizable.friendProfileWrite())
-                    .frame(idealWidth: (UIScreen.main.bounds.width - 44) / 2,
-                           maxWidth: (UIScreen.main.bounds.width - 44) / 2,
-                           minHeight: 44,
-                           idealHeight: 44,
-                           maxHeight: 44)
-                    .font(.bodySemibold17)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(viewModel.sources.buttonBackground, lineWidth: 1)
-                    )
-            })
-                .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                .background(viewModel.sources.background)
-            Button(action: {
-            }, label: {
-                Text(R.string.localizable.friendProfileCall())
-                    .frame(idealWidth: (UIScreen.main.bounds.width - 44) / 2,
-                           maxWidth: (UIScreen.main.bounds.width - 44) / 2,
-                           minHeight: 44,
-                           idealHeight: 44,
-                           maxHeight: 44)
-                    .font(.bodySemibold17)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(viewModel.sources.buttonBackground, lineWidth: 1)
-                    )
-            })
-                .frame(maxWidth: .infinity, minHeight: 44, idealHeight: 44, maxHeight: 44)
-                .background(viewModel.sources.background)
+    
+    private var placeholderPhotoView: some View {
+        ZStack(alignment: .center) {
+            Circle()
+                .cornerRadius(50)
+                .frame(width: 100, height: 100)
+                .foregroundColor(Color.aliceBlue)
+            R.image.chatHistory.personAvatar.image
         }
     }
 
@@ -225,19 +197,28 @@ struct FriendProfileView: View {
             updatingPhoto: false,
             url: nil,
             placeholder: {
-                ZStack {
-                    Circle()
-                        .background(viewModel.sources.avatarBackground)
-                    viewModel.sources.avatarThumbnail
-                }
+                placeholderPhotoView
             },
             result: {
                 Image(uiImage: $0).resizable()
             }
         )
         .scaledToFill()
+        .clipShape(Circle())
         .frame(width: 100, height: 100)
-        .cornerRadius(50)
+    }
+    
+    private var notesView: some View {
+        ZStack(alignment: .topLeading) {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.ghostWhite)
+                .frame(minHeight: 60)
+                .padding(.horizontal, 16)
+            Text(viewModel.profile.note)
+                .padding(.leading, 24)
+                .padding(.trailing, 53)
+                .padding([.bottom, .top], 10)
+        }
     }
 
     private var photosView: some View {
@@ -262,8 +243,7 @@ struct FriendProfileView: View {
                             .frame(width: width, height: width)
                             .clipped()
                             .onTapGesture {
-                                showImageViewer = true
-                                viewModel.selectedPhoto = url
+                                viewModel.onImageViewer(url)
                             }
                     }
                 }
@@ -275,21 +255,29 @@ struct FriendProfileView: View {
 
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            HStack(spacing: 16) {
+                R.image.navigation.backButton.image
+                    .onTapGesture {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                Text(viewModel.profile.nicknameDisplay)
+                    .font(.bodyRegular17)
+                    .lineLimit(1)
+                    .frame(minWidth: 0,
+                           maxWidth: 0.5 * UIScreen.main.bounds.width)
+                    .onTapGesture {
+                        UIPasteboard.general.string = viewModel.profile.nickname
+                        showAlert = true
+                    }
+            }
+        }
         ToolbarItem(placement: .navigationBarTrailing) {
             Button(action: {
-                showMenu.toggle()
+                showNotesView.toggle()
             }, label: {
-                viewModel.sources.settingsButton
+                R.image.profile.friendProfileWrite.image
             })
-        }
-        ToolbarItem(placement: .principal) {
-            Text(viewModel.userId.mxId)
-                .font(.bodyRegular17)
-                .lineLimit(1)
-                .onTapGesture {
-                    UIPasteboard.general.string = viewModel.userId.mxId
-                    showAlert = true
-                }
         }
     }
 }

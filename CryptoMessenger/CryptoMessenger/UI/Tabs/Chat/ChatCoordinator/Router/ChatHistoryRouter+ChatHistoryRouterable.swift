@@ -68,8 +68,12 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
                                                              coordinator: coordinator))
     }
 
-    func friendProfile(_ contact: Contact) {
-        state.path.append(ChatHistoryContentLink.friendProfile(contact: contact))
+    func friendProfile(_ userId: String,
+                       _ roomId: String,
+                       _ coordinator: ChatHistoryFlowCoordinatorProtocol) {
+        state.path.append(ChatHistoryContentLink.friendProfile(userId: userId,
+                                                               roomId: roomId,
+                                                               coordinator: coordinator))
     }
 
     func adminsView( _ chatData: Binding<ChatData>,

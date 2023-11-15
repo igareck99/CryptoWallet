@@ -33,16 +33,16 @@ final class AdminsViewModel: ObservableObject, AdminsViewModelDelegate {
 
     // MARK: - Internal Methods
 
-    func onProfile(_ contact: Contact) {
-        coordinator.friendProfile(contact)
+    func onProfile(userId: String, roomId: String) {
+        coordinator.friendProfile(userId, roomId)
     }
 
     // MARK: - Private Methods
 
     private func configView() {
         membersViews = chatData.contacts.filter({ $0.isAdmin == true }).map {
-            let data = Contact(mxId: $0.mxId, name: $0.name, status: $0.status, phone: "") { contact in
-                self.onProfile(contact)
+            let data = Contact(mxId: $0.mxId, name: $0.name, status: $0.status, phone: "") { _ in
+//                self.onProfile(chatData.,data.mxId)
             }
             return data
         }

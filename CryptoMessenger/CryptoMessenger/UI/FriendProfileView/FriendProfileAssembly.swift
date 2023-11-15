@@ -6,12 +6,14 @@ enum FriendProfileAssembly {
 
     // MARK: - Static Methods
 
-    static func build(userId: Contact) -> some View {
-        let userSettings = UserDefaultsService.shared
+    static func build(userId: String,
+                      roomId: String,
+                      coordinator: ChatHistoryFlowCoordinatorProtocol) -> some View {
         let keychainService = KeychainService.shared
         let viewModel = FriendProfileViewModel(
             userId: userId,
-            userSettings: userSettings,
+            roomId: roomId,
+            chatHistoryCoordinator: coordinator,
             keychainService: keychainService
         )
         let view = FriendProfileView(viewModel: viewModel)

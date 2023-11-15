@@ -192,12 +192,23 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                                 case let .success(roomMembers):
                                     guard let user = roomMembers.members.first(where: {
                                         $0.userId != self?.matrixUseCase.getUserId() }) else { return }
+                                    var displayname = ""
+                                    if let name = user.displayname {
+                                        displayname = name
+                                    } else {
+                                        if let i = user.userId.lastIndex(of: ":") {
+                                            let index: Int = user.userId.distance(from: user.userId.startIndex,
+                                                                                  to: i)
+                                            displayname = String(user.userId.prefix(index))
+                                        }
+                                    }
+                                    print("skasklaskl  \(user)")
                                     let contact = Contact(mxId: user.userId,
-                                                          name: user.displayname,
+                                                          name: displayname,
                                                           status: "", phone: "", type: .lastUsers, onTap: { _ in
                                     })
                                     self?.coordinator?.dismissCurrentSheet()
-                                    self?.coordinator?.friendProfile(contact)
+                                    self?.coordinator?.friendProfile(contact.mxId, room.roomId)
                                 default:
                                     break
                                 }

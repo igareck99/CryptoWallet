@@ -157,6 +157,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                               let pLevels = state.powerLevels else { return }
                         debugPrint("self?.isChannel: pLevels.eventsDefault == 50 \(self.isChannel)")
                     }
+                    self.loadUsers()
                     guard let mxRoom = self.matrixUseCase.getRoomInfo(roomId: self.room.roomId) else { return }
                     guard let auraRoom = self.matrixobjectFactory
                         .makeAuraRooms(mxRooms: [mxRoom],
@@ -169,6 +170,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         self.room = auraRoom
                         self.roomAvatarUrl = auraRoom.roomAvatar
                     }
+                    self.matrixUseCase.markAllAsRead(roomId: self.room.roomId)
                     self.matrixUseCase.objectChangePublisher.send()
                     self.getRoomPowerLevels()
                     self.updateData()

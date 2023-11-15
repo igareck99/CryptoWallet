@@ -58,7 +58,8 @@ final class SettingsViewModel: ObservableObject {
                 case .onAppear:
                     self?.objectWillChange.send()
                 case let .onFriendProfile(contact):
-                    self?.coordinator?.friendProfile(contact)
+                    ()
+                    //self?.coordinator?.friendProfile(contact)
                 case .onLeave:
                     self?.leaveRoom()
                 case let .onAdmin(chatData):

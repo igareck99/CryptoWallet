@@ -33,7 +33,7 @@ final class MembersViewModel: ObservableObject, MembersViewModelDelegate {
     // MARK: - Internal Methods
 
     func onProfile(_ contact: Contact) {
-        coordinator.friendProfile(contact)
+        // coordinator.friendProfile(contact)
     }
 
     private func configView() {

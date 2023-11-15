@@ -12,6 +12,7 @@ final class UserDefaultsService {
 		case roomList
 		case isCallInprogressExists
         case userId
+        case userNotes
 
 		// UserFlowsStorage
 		case isAuthFlowFinished
@@ -60,6 +61,10 @@ extension UserDefaultsService: UserDefaultsServiceProtocol {
 	func data(forKey key: UserDefaultsService.Keys) -> Data? {
 		storage.data(forKey: key.rawValue)
 	}
+    
+    func dict(forKey key: UserDefaultsService.Keys) -> [String: Any]? {
+        storage.dictionary(forKey: key.rawValue)
+    }
 
 	func bool(forKey key: UserDefaultsService.Keys) -> Bool {
 		storage.bool(forKey: key.rawValue)
@@ -86,6 +91,10 @@ extension UserDefaultsService: UserDefaultsServiceProtocol {
 	func set(_ data: Data, forKey key: UserDefaultsService.Keys) {
 		storage.set(data, forKey: key.rawValue)
 	}
+    
+    func set(_ dict: [String: Any], forKey key: UserDefaultsService.Keys) {
+        storage.set(dict, forKey: key.rawValue)
+    }
 
 	func set(_ bool: Bool, forKey key: UserDefaultsService.Keys) {
 		storage.set(bool, forKey: key.rawValue)
@@ -125,6 +134,14 @@ extension UserDefaultsService {
 			set(value, forKey: key)
 		}
 	}
+
+    subscript(key: UserDefaultsService.Keys) -> [String: Any]? {
+        get { dict(forKey: key) }
+        set {
+            guard let value = newValue else { return }
+            set(value, forKey: key)
+        }
+    }
 
 	subscript(key: UserDefaultsService.Keys) -> Bool? {
 		get { bool(forKey: key) }

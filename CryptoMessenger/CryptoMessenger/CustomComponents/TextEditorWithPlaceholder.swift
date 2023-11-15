@@ -5,6 +5,7 @@ import SwiftUI
 struct TextEditorWithPlaceholder: View {
 
     @Binding var text: String
+    var placeholder: String
 
     // MARK: - Body
 
@@ -20,7 +21,7 @@ struct TextEditorWithPlaceholder: View {
             }
             if text.isEmpty {
                 VStack {
-                    Text("Описание")
+                    Text(placeholder)
                         .padding(.top, 11)
                         .padding(.leading, 16)
                         .foregroundColor(.manatee)

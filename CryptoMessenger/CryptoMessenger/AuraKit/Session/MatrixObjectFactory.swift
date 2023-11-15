@@ -55,8 +55,6 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                     powerLevels = state?.powerLevels?.eventsDefault == 50
                     isAdmin = state?.powerLevels?.powerLevelOfUser(withUserID: matrixUseCase.getUserId()) == 100
                 }
-                
-                let roomName = mxRoom.summary.displayName ?? ""
                 var roomAvatar: URL?
                 if let avatar = mxRoom.summary.avatar {
                     let homeServer = config.matrixURL
@@ -82,8 +80,10 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                 let unreadedEvents = summary.summary.localUnreadEventCount
                 messageType = lastMessageEvent?.messageType ?? MessageType.text("")
                 var members: Int = 1
+                var roomName = ""
                 if summary.summary.membersCount != nil {
                     members = Int(summary.summary.membersCount.members)
+                    roomName = mxRoom.summary.displayName ?? ""
                 }
                 let room = AuraRoomData(isChannel: powerLevels,
                                         isAdmin: isAdmin,
