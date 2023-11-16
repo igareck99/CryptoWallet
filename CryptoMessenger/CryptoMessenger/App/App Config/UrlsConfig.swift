@@ -20,6 +20,16 @@ struct UrlsConfig: Codable {
     )
 
     static let defaultRelease = UrlsConfig(
+        cryptoWallet: "https://crypto.stage.auradev.space/",
+        jitsiMeet: "https://meet.stage.auradev.space/",
+        matrixUrl: "https://matrix.stage.auradev.space/",
+        apiUrl: "https://api.stage.auradev.space/",
+        apiVersion: "v0",
+        apiStand: .prod,
+        netType: .mainnet
+    )
+
+    static let defaultRelease1 = UrlsConfig(
         cryptoWallet: "https://crypto.aura.ms/",
         jitsiMeet: "https://meet.aura.ms/",
         matrixUrl: "https://matrix.aura.ms/",
@@ -31,6 +41,16 @@ struct UrlsConfig: Codable {
 
     static let defaultDebug = UrlsConfig(
         cryptoWallet: "https://crypto.auramsg.co/",
+        jitsiMeet: "https://meet.auramsg.ms/",
+        matrixUrl: "https://matrix.auramsg.co/",
+        apiUrl: "https://api.auramsg.co/",
+        apiVersion: "v0",
+        apiStand: .dev,
+        netType: .testnet
+    )
+
+    static let space = UrlsConfig(
+        cryptoWallet: "https://stage.auradev.space/",
         jitsiMeet: "https://meet.auramsg.ms/",
         matrixUrl: "https://matrix.auramsg.co/",
         apiUrl: "https://api.auramsg.co/",

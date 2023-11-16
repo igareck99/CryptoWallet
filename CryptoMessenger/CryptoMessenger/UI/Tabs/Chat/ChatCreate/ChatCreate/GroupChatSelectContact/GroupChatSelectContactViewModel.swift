@@ -21,11 +21,13 @@ final class GroupChatSelectContactViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     // MARK: - Lifecycle
-
-    init(coordinator: ChatCreateFlowCoordinatorProtocol?,
-         config: ConfigType = Configuration.shared,
-         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
-         resources: SelectContactResourcable.Type = SelectContactResources.self) {
+    
+    init(
+        coordinator: ChatCreateFlowCoordinatorProtocol?,
+        config: ConfigType = Configuration.shared,
+        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
+        resources: SelectContactResourcable.Type = SelectContactResources.self
+    ) {
         self.coordinator = coordinator
         self.resources = resources
         self.config = config
@@ -115,41 +117,45 @@ final class GroupChatSelectContactViewModel: ObservableObject {
     private func syncContacts() {
         contactsUseCase.syncContacts { state in
             switch state {
-            case .allowed:
-                self.contactsUseCase.reuqestUserContacts { contact in
-                    self.contactsUseCase.matchServerContacts(contact, .groupCreate) { result in
-                        self.setData(result)
-                    } onTap: { _ in
+                case .allowed:
+                    self.contactsUseCase.reuqestUserContacts { contact in
+                        self.contactsUseCase.matchServerContacts(contact, .groupCreate) { result in
+                            self.setData(result)
+                        } onTap: { _ in
+                        }
                     }
-                }
-                return
-            case .notDetermined:
-                self.contactsUseCase.requestContactsAccess { isAllowed in
-                    if isAllowed {
-                        self.contactsUseCase.reuqestUserContacts { contact in
-                            self.contactsUseCase.matchServerContacts(contact, .groupCreate) { result in
-                                self.setData(result)
-                            } onTap: { _ in
+                    return
+                case .notDetermined:
+                    self.contactsUseCase.requestContactsAccess { isAllowed in
+                        if isAllowed {
+                            self.contactsUseCase.reuqestUserContacts { contact in
+                                self.contactsUseCase.matchServerContacts(contact, .groupCreate) { result in
+                                    self.setData(result)
+                                } onTap: { _ in
+                                }
                             }
                         }
                     }
-                }
-                return
-            case .restricted, .denied, .unknown:
-                break
+                    return
+                case .restricted, .denied, .unknown:
+                    break
             }
         }
     }
     
     private func setData(_ result: [Contact]) {
         self.users = result.map {
-            let data = SelectContact(mxId: $0.mxId,
-                                     avatar: $0.avatar,
-                                     name: $0.name,
-                                     phone: $0.phone,
-                                     isSelected: false, onTap: { value in
-                self.onChangeState(value)
-            })
+            let data = SelectContact(
+                mxId: $0.mxId,
+                avatar: $0.avatar,
+                name: $0.name,
+                phone: $0.phone,
+                isSelected: false, 
+                onTap: { value in
+                    vibrate()
+                    self.onChangeState(value)
+                }
+            )
             return data
         }
         self.usersViews = self.users

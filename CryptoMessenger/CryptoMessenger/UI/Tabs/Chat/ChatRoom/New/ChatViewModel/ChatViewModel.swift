@@ -155,6 +155,13 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         guard let self = self else { return }
                         guard case let .success(state) = result,
                               let pLevels = state.powerLevels else { return }
+                        DispatchQueue.main.async {
+                            self.roomPowerLevels = pLevels
+                            self.userHasAccessToMessage = pLevels.powerLevelOfUser(
+                                withUserID: self.matrixUseCase.getUserId()
+                            ) >= 50 ? true : false
+                            self.isChannel = pLevels.eventsDefault == 50
+                        }
                         debugPrint("self?.isChannel: pLevels.eventsDefault == 50 \(self.isChannel)")
                     }
                     self.loadUsers()
@@ -174,6 +181,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     self.matrixUseCase.objectChangePublisher.send()
                     self.getRoomPowerLevels()
                     self.updateData()
+                    self.matrixUseCase.objectChangePublisher.send()
                 default:
                     break
                 }
