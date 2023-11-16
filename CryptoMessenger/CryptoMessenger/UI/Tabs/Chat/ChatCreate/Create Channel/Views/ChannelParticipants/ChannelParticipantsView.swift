@@ -29,6 +29,7 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                         .padding(.leading, 16)
                     Divider()
                         .padding(.top, 11)
+                    cellStatus
                 }
                 Divider()
                 cellStatus

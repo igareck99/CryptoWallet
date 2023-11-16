@@ -120,8 +120,10 @@ struct ChatGroupView: View {
             .padding(.horizontal, 16)
             .padding(.top, 16)
             VStack(alignment: .leading, spacing: 0) {
-                TextEditorWithPlaceholder(text: $viewModel.descriptionText,
-                                          placeholder: "Описание")
+                TextEditorWithPlaceholder(
+                    text: $viewModel.descriptionText,
+                    placeholder: "Описание"
+                )
                     .frame(maxWidth: .infinity, idealHeight: 134, alignment: .leading)
                     .padding(.horizontal, 16)
                     .padding(.top, 24)
@@ -195,7 +197,7 @@ struct ChatGroupView: View {
             isSelected: $viewModel.isPublicSelected
         ) { channelType in
             debugPrint("Channel type seledted: \(channelType)")
-            withAnimation(.easeInOut(duration: 0.15)) {
+            withAnimation(.easeInOut(duration: 0.25)) {
                 viewModel.channelType = channelType
                 viewModel.isPrivateSelected = false
             }
@@ -211,7 +213,7 @@ struct ChatGroupView: View {
             isSelected: $viewModel.isPrivateSelected
         ) { channelType in
             debugPrint("Channel type seledted: \(channelType)")
-            withAnimation(.easeInOut(duration: 0.15)) {
+            withAnimation(.easeInOut(duration: 0.25)) {
                 viewModel.channelType = channelType
                 viewModel.isPublicSelected = false
             }

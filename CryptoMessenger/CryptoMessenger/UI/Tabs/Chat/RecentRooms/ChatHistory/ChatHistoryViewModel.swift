@@ -204,7 +204,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                                     }
                                     print("skasklaskl  \(user)")
                                     let contact = Contact(mxId: user.userId,
-                                                          name: displayname,
+                                                          name: user.displayname,
                                                           status: "", phone: "", type: .lastUsers, onTap: { _ in
                                     })
                                     self?.coordinator?.dismissCurrentSheet()
