@@ -229,6 +229,7 @@ final class ProfileViewModel: ObservableObject {
             .sink { [weak self] image in
                 guard let image = image else {return}
                 self?.send(.onAddPhoto(image))
+                self?.objectWillChange.send()
             }
             .store(in: &subscriptions)
 
