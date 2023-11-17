@@ -58,7 +58,6 @@ struct RoomEvent: Equatable {
         self.reactions = reactions
         self.content = content
         self.videoThumbnail = videoThumbnail
-        print("slsalsalsls  \(eventSubType)")
     }
 }
 
@@ -78,26 +77,26 @@ extension RoomEvent {
             return ""
         }
     }
-    
+
     var dataSize: Int {
         guard let data = content["info"] as? [String: Any] else { return 0 }
         guard let size = data["size"] as? Int else { return 0 }
         return size
     }
-    
+
     var videoSize: Int {
         guard let data = content["info"] as? [String: Any] else { return 0 }
         guard let info = data["thumbnail_info"] as? [String: Any] else { return 0 }
         guard let size = info["size"] as? Int else { return 0 }
         return size
     }
-    
+
     var rootEventId: String {
         guard let data = content["m.reply_to"] as? [String: Any] else { return "" }
         guard let text = data["root_event_id"] as? String else { return "" }
         return text
     }
-    
+
     var contactMxId: String {
         guard let text = content["mxId"] as? String else { return "" }
         return text

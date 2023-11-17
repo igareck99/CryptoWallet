@@ -28,6 +28,7 @@ final class AppSceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController(rootViewController: rootViewController)
         navigationController.view.backgroundColor = .clear
         navigationController.navigationBar.backgroundColor = .clear
+        navigationController.navigationBar.isHidden = true
 
         let upperWindow = PassThroughWindow(windowScene: wScene)
         upperWindow.rootViewController = navigationController

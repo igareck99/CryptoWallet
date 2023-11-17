@@ -44,28 +44,28 @@ protocol CallViewSourcesable {
     static var micEnabledImgName: String { get }
 
     static var micDisabledImgName: String { get }
-    
+
     static var titleColor: Color { get }
-    
+
     static var background: Color { get }
 
-//	static var changeInterlocutor: String { get }
-//
-//	static var turnOnSound: String { get }
-//
-//	static var turnOffSound: String { get }
-//    
-//    static var callIsHoldedImage: UIImage? { get }
-//    
-//    static var soundOnImage: UIImage? { get }
-//    
-//    static var soundOffImage: UIImage? { get }
-//    
-//    static var dynamicSoundOff: UIImage? { get }
-//    
-//    static var dynamicSoundOn: UIImage? { get }
-//    
-//    static var endCall: UIImage? { get }
+	static var changeInterlocutor: String { get }
+
+	static var turnOnSound: String { get }
+
+	static var turnOffSound: String { get }
+
+    static var callIsHoldedImage: UIImage? { get }
+
+    static var soundOnImage: UIImage? { get }
+
+    static var soundOffImage: UIImage? { get }
+
+    static var dynamicSoundOff: UIImage? { get }
+
+    static var dynamicSoundOn: UIImage? { get }
+
+    static var endCall: UIImage? { get }
 }
 
 enum CallViewSources: CallViewSourcesable {
@@ -122,15 +122,15 @@ enum CallViewSources: CallViewSourcesable {
     static var sound: String {
         R.string.localizable.callsSound()
     }
-    
+
     static var backButtonImgName: String {
         "chevron.left"
     }
-    
+
     static var endCallImgName: String {
         "phone.down.fill"
     }
-    
+
     static var answerCallImgName: String {
         "phone.fill"
     }
@@ -170,13 +170,13 @@ enum CallViewSources: CallViewSourcesable {
 	static var turnOffSound: String {
 		R.string.localizable.callsTurnOffSound()
 	}
-    
+
     static var titleColor: Color {
         .chineseBlack
     }
-    
+
     static var background: Color {
-        .white 
+        .white
     }
 
     static var soundOnImage: UIImage? {

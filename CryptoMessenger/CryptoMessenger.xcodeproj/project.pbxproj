@@ -881,6 +881,7 @@
 		D4E0B30F29429DAD00AEDF85 /* WalletType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E0B30E29429DAD00AEDF85 /* WalletType.swift */; };
 		D4E10E5D2AA84A3600CCCB03 /* ChatContactInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E10E5C2AA84A3600CCCB03 /* ChatContactInfo.swift */; };
 		D4E10E5F2AA84C9300CCCB03 /* ContactInfoViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E10E5E2AA84C9300CCCB03 /* ContactInfoViewAssembly.swift */; };
+		D4E663912B076EFA00425B32 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E663902B076EFA00425B32 /* UIViewController+Extensions.swift */; };
 		D4E7A17A298814B400398F93 /* MXRestClient+SendStateEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A179298814B400398F93 /* MXRestClient+SendStateEvent.m */; };
 		D4E7A17C2988D50600398F93 /* CreateChannelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A17B2988D50600398F93 /* CreateChannelAssembly.swift */; };
 		D4E7A180298A151700398F93 /* UserSettingsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7A17F298A151700398F93 /* UserSettingsAssembly.swift */; };
@@ -1884,6 +1885,7 @@
 		D4E0B30E29429DAD00AEDF85 /* WalletType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletType.swift; sourceTree = "<group>"; };
 		D4E10E5C2AA84A3600CCCB03 /* ChatContactInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatContactInfo.swift; sourceTree = "<group>"; };
 		D4E10E5E2AA84C9300CCCB03 /* ContactInfoViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfoViewAssembly.swift; sourceTree = "<group>"; };
+		D4E663902B076EFA00425B32 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		D4E7A178298814B400398F93 /* MXRestClient+SendStateEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MXRestClient+SendStateEvent.h"; sourceTree = "<group>"; };
 		D4E7A179298814B400398F93 /* MXRestClient+SendStateEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MXRestClient+SendStateEvent.m"; sourceTree = "<group>"; };
 		D4E7A17B2988D50600398F93 /* CreateChannelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelAssembly.swift; sourceTree = "<group>"; };
@@ -2180,6 +2182,7 @@
 				D401A9AE2AAEE87800D347F2 /* MKCoordinateRegion+Extensions.swift */,
 				D401A9B02AAEE95900D347F2 /* Place+Extensions.swift */,
 				8B9B19A62ACB7627004CEBFC /* FileManager.swift */,
+				D4E663902B076EFA00425B32 /* UIViewController+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -5672,6 +5675,7 @@
 				8BAAB3792A24EBA90062D5B2 /* OnboardingView.swift in Sources */,
 				8B12263927C53121008DC048 /* SlideCardsView.swift in Sources */,
 				8B38868E2A4DEDDD00C8A54C /* ChatGroupAssembly.swift in Sources */,
+				D4E663912B076EFA00425B32 /* UIViewController+Extensions.swift in Sources */,
 				8B1564F528AA782A00A69B85 /* AnotherAppData.swift in Sources */,
 				8BC6F2DD2A78330100F7451B /* ChatActions.swift in Sources */,
 				D459E4402ADFA8DF00211D6E /* SheetDragItem.swift in Sources */,
