@@ -189,6 +189,7 @@ struct ProfileDetailView: View {
         ZStack(alignment: .bottomTrailing) {
             if let img = viewModel.selectedImg {
                 Image(uiImage: img)
+                    .resizable()
                     .scaledToFill()
                     .frame(width: 68, height: 68)
                     .cornerRadius(34)
