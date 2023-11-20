@@ -201,9 +201,12 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     debugPrint("onTap inviteToRoom SystemEventItem")
                 }
             default:
-                debugPrint("$0.eventType: \(value.eventSubType)")
-                debugPrint("$0.eventType: \(value.eventType)")
-                debugPrint("$0.eventType: \(value.content)")
+                // MARK: - Оставил в целях отладки
+                /*
+                 debugPrint("$0.eventType: \(value.eventSubType)")
+                 debugPrint("$0.eventType: \(value.eventType)")
+                 debugPrint("$0.eventType: \(value.content)")
+                */
                 return nil
             }
         }

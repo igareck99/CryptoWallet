@@ -309,8 +309,6 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             guard let newRoom = self.matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {
                 return
             }
-            debugPrint("joinRoom(roomId: \(roomId)")
-            debugPrint("joinRoom(roomId")
         }
     }
 

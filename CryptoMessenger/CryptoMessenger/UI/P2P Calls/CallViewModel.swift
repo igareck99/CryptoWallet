@@ -3,6 +3,7 @@ import Foundation
 import UIKit
 
 protocol CallViewModelProtocol: ObservableObject {
+    var isVideoCall: Bool { get }
 	var userName: String { get }
     var callStateText: String { get }
     var userAvatarImage: UIImage { get }
@@ -23,7 +24,7 @@ protocol CallViewModelProtocol: ObservableObject {
 }
 
 final class CallViewModel {
-
+    var isVideoCall: Bool
 	let userName: String
     let roomId: String
     var userAvatarImage = UIImage.imageFrom(color: .chineseBlack)
@@ -58,7 +59,6 @@ final class CallViewModel {
 
 	private var subscribtions: Set<AnyCancellable> = []
 	private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    private var isVideoCall: Bool
 
     init(
         userName: String,

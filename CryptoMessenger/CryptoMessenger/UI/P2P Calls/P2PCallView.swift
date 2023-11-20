@@ -9,52 +9,40 @@ struct P2PCallView<ViewModel: CallViewModelProtocol>: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-
-                viewModel.sources.titleColor
-                
-                Image(uiImage: viewModel.userAvatarImage)
-                    .resizable()
-                    .scaledToFill()
-                    .opacity(viewModel.avatarOpacity)
-                
-                CallsVideoView(view: viewModel.interlocutorCallView)
-                    .foregroundColor(.clear)
-                HStack(alignment: .top) {
-                    Spacer()
-                    VStack(alignment: .trailing) {
-                        CallsVideoView(view: viewModel.selfyCallView)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .frame(width: 120, height: 180)
-                            .foregroundColor(.clear)
-                            .padding(.bottom, 32)
-                            .padding(.trailing, 140)
+            VStack(spacing: .zero) {
+                if viewModel.isVideoCall {
+                    CallsVideoView(view: viewModel.interlocutorCallView)
+                        .foregroundColor(.clear)
+                } else {
+                    GeometryReader { proxy in
+                        Image(uiImage: viewModel.userAvatarImage)
+                            .resizable()
+                            .scaledToFill()
+                            .opacity(viewModel.avatarOpacity)
+                            .frame(width: proxy.size.width, height: proxy.size.height)
                     }
-                    .frame(maxHeight: .infinity)
                 }
-                .frame(maxWidth: .infinity)
-            }
-        }
-        .safeAreaInset(edge: .bottom) {
-            VStack(spacing: 36) {
-                mediaButtons
-                controlButtons
-            }
-            .padding(.bottom, 30)
-        }
-        .safeAreaInset(edge: .top) {
-            callInformation
-                .padding(.top, 24)
+            }.background(Color.black)
+            
+                .overlay(alignment: .bottom) {
+                    VStack(spacing: 36) {
+                        HStack {
+                            Spacer()
+                            selfyView.padding(.trailing, 16)
+                        }
+                        mediaButtons
+                        controlButtons
+                    }
+                    .padding(.bottom, 30)
+                }.overlay(alignment: .top) {
+                    callInformation.padding(.top, 24)
+                }
         }
         .onAppear {
             viewModel.controllerDidAppear()
         }
         .onDisappear {
             viewModel.controllerDidDisappear()
-        }
-        .toolbar {
-            // TODO: После переделки навбара
-//            createToolBar()
         }
     }
     
@@ -154,6 +142,13 @@ struct P2PCallView<ViewModel: CallViewModelProtocol>: View {
                 Spacer()
             }
         }
+    }
+    
+    var selfyView: some View {
+        CallsVideoView(view: viewModel.selfyCallView)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .frame(width: 120, height: 180)
+            .foregroundColor(.clear)
     }
     
     // Пока не используется, нужно переделать навбар
