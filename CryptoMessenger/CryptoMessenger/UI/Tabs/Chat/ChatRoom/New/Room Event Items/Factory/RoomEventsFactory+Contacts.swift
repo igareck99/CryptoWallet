@@ -1,8 +1,10 @@
-import Foundation
+import SwiftUI
 
 extension RoomEventsFactory {
     static func makeContactItem(
         event: RoomEvent,
+        oldEvents: [RoomEvent],
+        oldViews: [any ViewGeneratable],
         name: String?,
         phone: String?,
         url: URL?,
@@ -10,24 +12,38 @@ extension RoomEventsFactory {
         onLongPressTap: @escaping (RoomEvent) -> Void,
         onReactionTap: @escaping (ReactionNewEvent) -> Void,
         onSwipeReply: @escaping (RoomEvent) -> Void
-    ) -> any ViewGeneratable {
+    ) -> (any ViewGeneratable)? {
+        let oldEvent = oldEvents.first(where: { $0.eventId == event.eventId })
+        if event.sentState == .sent {
+            if oldEvent == event {
+                guard let view = oldViews.first(where: { $0.id == event.id }) else { return nil }
+                return view
+            }
+        }
         let eventData = EventData(
             date: event.shortDate,
             isFromCurrentUser: event.isFromCurrentUser,
             readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState, messageType: event.eventType)
         )
-        let reactions = prepareReaction(event, onReactionTap: { reaction in
+        let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
+        let reactions: [ReactionNewEvent] = prepareReaction(event, onReactionTap: { reaction in
             onReactionTap(reaction)
         })
-        let viewModel = ReactionsNewViewModel(width: calculateWidth("", reactions.count),
+        var viewModel: ReactionsNewViewModel
+        if oldEvent?.reactions == event.reactions {
+            viewModel = ReactionsNewViewModel(id: event.id, width: calculateWidth("", reactions.count), views: reactions,
+                                              backgroundColor: reactionColor)
+        } else {
+            viewModel = ReactionsNewViewModel(width: calculateWidth("", reactions.count),
                                               views: reactions,
-                                              backgroundColor: .brilliantAzure)
+                                              backgroundColor: reactionColor)
+        }
         let userAvatar = UserAvatar(
             size: CGSize(width: 48.0, height: 48.0),
             placeholder: AvatarLetter(letter: "TK", backColor: .dodgerTransBlue)
         )
-
         let contactItem = ContactItem(
+            id: event.id,
             title: name ?? "",
             subtitle: phone ?? "",
             mxId: event.contactMxId,
@@ -55,6 +71,7 @@ extension RoomEventsFactory {
 
         if event.isFromCurrentUser {
             return EventContainer(
+                id: event.id,
                 leadingContent: PaddingModel(),
                 centralContent: bubbleContainer, onLongPress: {
                     onLongPressTap(event)
@@ -63,6 +80,7 @@ extension RoomEventsFactory {
         }
 
         return EventContainer(
+            id: event.id,
             centralContent: bubbleContainer,
             trailingContent: PaddingModel(), onLongPress: {
                 onLongPressTap(event)

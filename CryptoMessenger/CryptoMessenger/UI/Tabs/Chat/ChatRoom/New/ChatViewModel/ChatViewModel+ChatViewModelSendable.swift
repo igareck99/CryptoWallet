@@ -10,9 +10,8 @@ extension ChatViewModel {
                                      image: image) { result in
             switch result {
             case let .success(eventId):
-                debugPrint("Sended Event \(eventId)")
                 guard let eventId = eventId else { return }
-                self.changeSedingEvent(event, .sent, eventId)
+                self.changeSedingEvent(event, .sentLocaly, eventId)
             case .failure(_):
                 self.changeSedingEvent(event, .failToSend)
             }
@@ -26,8 +25,8 @@ extension ChatViewModel {
                                              thumbnail: mxImage) { result in
             switch result {
             case let .success(eventId):
-                debugPrint("Sended Event \(eventId)")
-                self.changeSedingEvent(event, .sent)
+                guard let eventId = eventId else { return }
+                self.changeSedingEvent(event, .sentLocaly, eventId)
             case .failure(_):
                 self.changeSedingEvent(event, .failToSend)
             }
@@ -39,8 +38,8 @@ extension ChatViewModel {
                                             contact: contact) { result in
             switch result {
             case let .success(eventId):
-                debugPrint("Sended Event \(eventId)")
-                self.changeSedingEvent(event, .sent)
+                guard let eventId = eventId else { return }
+                self.changeSedingEvent(event, .sentLocaly, eventId)
             case .failure(_):
                 self.changeSedingEvent(event, .failToSend)
             }
@@ -52,10 +51,9 @@ extension ChatViewModel {
                                         location: location) { result in
             switch result {
             case let .success(eventId):
-                debugPrint("Sended Event \(eventId)")
-                self.changeSedingEvent(event, .sent)
+                guard let eventId = eventId else { return }
+                self.changeSedingEvent(event, .sentLocaly, eventId)
             case .failure(let error):
-                print("slcmklmekop3kqedkl  \(error)")
                 self.changeSedingEvent(event, .failToSend)
             }
         }
@@ -66,8 +64,8 @@ extension ChatViewModel {
                                          url: url) { result in
             switch result {
             case let .success(eventId):
-                debugPrint("Sended Event \(eventId)")
-                self.changeSedingEvent(event, .sent)
+                guard let eventId = eventId else { return }
+                self.changeSedingEvent(event, .sentLocaly, eventId)
             case .failure(_):
                 self.changeSedingEvent(event, .failToSend)
             }
@@ -82,9 +80,8 @@ extension ChatViewModel {
             matrixUseCase.sendReply(activeEditMessage, inputText, completion: { result in
                 switch result {
                 case let .success(eventId):
-                    debugPrint("Sended Event \(eventId)")
                     guard let eventId = eventId else { return }
-                    self.changeSedingEvent(event, .sent, eventId)
+                    self.changeSedingEvent(event, .sentLocaly, eventId)
                 case .failure(_):
                     self.changeSedingEvent(event, .failToSend)
                 }
@@ -106,9 +103,8 @@ extension ChatViewModel {
                                    completion: { result in
                 switch result {
                 case let .success(eventId):
-                    debugPrint("Sended Event \(eventId)")
                     guard let eventId = eventId else { return }
-                    self.changeSedingEvent(event, .sent, eventId)
+                    self.changeSedingEvent(event, .sentLocaly, eventId)
                 case let .failure(result):
                     self.changeSedingEvent(event, .failToSend)
                 }
@@ -126,8 +122,8 @@ extension ChatViewModel {
                                         duration: UInt(record.duration)) { result in
             switch result {
             case let .success(eventId):
-                debugPrint("Sended Event \(eventId)")
-                self.changeSedingEvent(event, .sent)
+                guard let eventId = eventId else { return }
+                self.changeSedingEvent(event, .sentLocaly, eventId)
             case .failure(_):
                 self.changeSedingEvent(event, .failToSend)
             }

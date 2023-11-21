@@ -65,9 +65,9 @@ struct AudioView: View {
 						SliderAudioView(
 							value: Binding(get: { audioViewModel.time }, set: { newValue in
 								audioViewModel.time = newValue
-								audioViewModel.audioPlayer?.currentTime =
-								Double(audioViewModel.time) * (audioViewModel.audioPlayer?.duration ?? 0)
-								audioViewModel.audioPlayer?.play()
+								audioViewModel.audioPlayer.currentTime =
+								Double(audioViewModel.time) * (audioViewModel.audioPlayer.duration ?? 0)
+								audioViewModel.audioPlayer.play()
 							}),
 							activateShowCard: $activateShowCard
 						)

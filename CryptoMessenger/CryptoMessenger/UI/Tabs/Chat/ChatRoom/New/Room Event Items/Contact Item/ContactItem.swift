@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - ContactItem
 
 struct ContactItem: Identifiable, Equatable, Hashable, ViewGeneratable {
-    let id = UUID()
+    let id: UUID
     let title: String
     let subtitle: String
     let mxId: String

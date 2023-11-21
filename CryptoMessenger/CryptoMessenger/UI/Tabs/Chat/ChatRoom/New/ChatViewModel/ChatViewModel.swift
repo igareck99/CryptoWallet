@@ -26,8 +26,6 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     let matrixobjectFactory: MatrixObjectFactoryProtocol = MatrixObjectFactory()
     @Injectable var matrixUseCase: MatrixUseCaseProtocol
     @Published var eventSubject = PassthroughSubject<ChatRoomFlow.Event, Never>()
-    @Published var sendingEvents: [RoomEvent] = []
-    @Published var sendingEventsView: [any ViewGeneratable] = []
 
     // MARK: - Private Properties
 
@@ -141,6 +139,107 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             }
         }
     }
+    
+    private func getCurrentEvents(_ currentRoom: AuraRoomData) -> [RoomEvent] {
+        var currentEvents: [RoomEvent] = []
+        currentRoom.events.forEach { [weak self] value in
+            guard let self = self else { return }
+            let item = self.room.events.first(where: { $0.eventId == value.eventId })
+            var currentEvent = value
+            if item != nil {
+                let id = value == item ? item?.id : value.id
+                currentEvent = RoomEvent(id: id ?? UUID(),
+                                         eventId: value.eventId,
+                                         roomId: value.roomId,
+                                         sender: value.sender,
+                                         sentState: value.sentState,
+                                         eventType: value.eventType,
+                                         shortDate: value.shortDate,
+                                         fullDate: value.fullDate,
+                                         isFromCurrentUser: value.isFromCurrentUser,
+                                         isReply: value.isReply,
+                                         reactions: value.reactions,
+                                         content: value.content,
+                                         eventSubType: value.eventSubType,
+                                         eventDate: value.eventDate)
+                currentEvents.append(currentEvent)
+            } else if value.sentState == .sending {
+                currentEvents.append(value)
+            } else {
+                currentEvents.append(currentEvent)
+            }
+        }
+        return currentEvents
+    }
+    
+    private func getCurrentViews(_ currentEvents: [RoomEvent]) -> [any ViewGeneratable] {
+        var currentViews: [any ViewGeneratable] = []
+        currentEvents.sorted(by: { $1.eventDate > $0.eventDate }).forEach { [weak self] value in
+            guard let self = self else { return }
+            if value.sentState == .sent || value.sentState == .sentLocaly {
+                let view = self.factory.makeOneEventView(value: value,
+                                                         events: self.room.events,
+                                                         oldViews: self.itemsFromMatrix,
+                                                         delegate: self,
+                                                         onLongPressMessage: { event in
+                    self.onLongPressMessage(event)
+                }, onReactionTap: { reaction in
+                    self.onRemoveReaction(reaction)
+                }, onTapNotSendedMessage: { event in
+                    self.onTapNotSendedMessage(event)
+                }, onSwipeReply: { value in
+                    self.activeEditMessage = value
+                    self.quickAction = .reply
+                    self.replyDescriptionText = self.makeReplyDescription(self.activeEditMessage)
+                })
+                if let view = view {
+                    currentViews.append(view)
+                }
+            } else if value.sentState == .sending {
+                let sendingView = self.displayItems.first(where: { $0.id == value.id })
+                currentViews.append(sendingView ?? ZeroViewModel())
+            }
+        }
+        return currentViews
+    }
+    
+    private func makeDisplayItems(_ views: [any ViewGeneratable]) -> [any ViewGeneratable] {
+        var currentViews: [any ViewGeneratable] = views
+        var outputEvents: [RoomEvent] = self.room.events.filter({ $0.sentState == .failToSend }).map {
+                let event = RoomEvent(id: $0.id,
+                                      eventId: $0.eventId,
+                                      roomId: $0.roomId,
+                                      sender: $0.sender,
+                                      sentState: $0.sentState,
+                                      eventType: $0.eventType,
+                                      shortDate: $0.shortDate,
+                                      fullDate: $0.fullDate,
+                                      isFromCurrentUser: $0.isFromCurrentUser,
+                                      isReply: $0.isReply,
+                                      reactions: [],
+                                      content: $0.content,
+                                      eventSubType: $0.eventSubType,
+                                      eventDate: Date(),
+                                      senderAvatar: $0.senderAvatar,
+                                      videoThumbnail: $0.videoThumbnail)
+                return event
+            }
+        outputEvents.forEach { [weak self] value in
+            guard let self = self else { return }
+            let view = self.factory.makeOneEventView(value: value, events: [],
+                                          oldViews: [],
+                                          delegate: self) { _ in
+            } onReactionTap: { _ in
+            } onTapNotSendedMessage: { event in
+                self.onTapNotSendedMessage(event)
+            } onSwipeReply: { _ in
+            }
+            if let view = view {
+                currentViews.append(view)
+            }
+        }
+        return currentViews
+    }
 
     private func bindInput() {
         eventSubject
@@ -197,66 +296,20 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 else {
                     return
                 }
-                self.itemsFromMatrix = self.factory.makeEventView(
-                    events: currentRoom.events,
-                    existingEvents: self.room.events,
-                    delegate: self,
-                    onLongPressMessage: { event in
-                    self.onLongPressMessage(event)
-                }, onReactionTap: { reaction in
-                    self.onRemoveReaction(reaction)
-                }, onTapNotSendedMessage: { event in
-                    self.onTapNotSendedMessage(event)
-                }, onSwipeReply: { value in
-                    self.activeEditMessage = value
-                    self.quickAction = .reply
-                    self.replyDescriptionText = self.makeReplyDescription(self.activeEditMessage)
-                })
-                self.room = currentRoom
+                let currentEvents: [RoomEvent] = self.getCurrentEvents(currentRoom)
+                var currentViews: [any ViewGeneratable] = self.getCurrentViews(currentEvents)
+                currentViews = self.makeDisplayItems(currentViews)
                 DispatchQueue.main.async {
+                    self.itemsFromMatrix = currentViews
+                    self.room = currentRoom
+                    self.room.events = currentEvents
                     self.displayItems = self.itemsFromMatrix
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         guard !self.itemsFromMatrix.isEmpty else { return }
                         self.scroolString = self.displayItems.last?.id ?? UUID()
                     }
-                    self.matrixUseCase.markAllAsRead(roomId: self.room.roomId)
                     self.objectWillChange.send()
                 }
-            }
-            .store(in: &subscriptions)
-        $sendingEvents
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] value in
-                guard let self = self else { return }
-                self.sendingEventsView = self.factory.makeEventView(
-                    events: value,
-                    existingEvents: self.room.events,
-                    delegate: self,
-                    onLongPressMessage: { _ in },
-                    onReactionTap: { _ in },
-                    onTapNotSendedMessage: { [weak self] event in
-                        self?.onTapNotSendedMessage(event)
-                    }, onSwipeReply: { _ in
-                    }
-                )
-            }
-            .store(in: &subscriptions)
-
-        $sendingEvents
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] value in
-                guard let self = self else { return }
-                self.sendingEventsView = self.factory.makeEventView(
-                    events: value,
-                    existingEvents: self.room.events,
-                    delegate: self,
-                    onLongPressMessage: { _ in },
-                    onReactionTap: { _ in },
-                    onTapNotSendedMessage: { [weak self] event in
-                        self?.onTapNotSendedMessage(event)
-                    }, onSwipeReply: { _ in
-                    }
-                )
             }
             .store(in: &subscriptions)
 
@@ -442,8 +495,8 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             self.coordinator.dismissCurrentSheet()
             switch type {
             case .delete:
-                self.sendingEvents.removeAll(where: { $0.eventId == event.eventId })
-                self.displayItems.removeLast()
+                self.room.events = self.room.events.filter({ $0.eventId != event.eventId })
+                self.displayItems = self.displayItems.filter({  $0.id != event.id })
             case .resend:
                 break
             }
@@ -509,26 +562,77 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     func makeOutputEventView(_ type: MessageType,
                              _ isReply: Bool = false) -> RoomEvent {
         let sender = matrixUseCase.getUserId()
-        let eventId = UUID().uuidString
+        let eventId = UUID()
         let event = factory.makeChatOutputEvent(eventId,
+                                                eventId.uuidString,
                                                 type, room.roomId,
                                                 sender,
                                                 matrixUseCase.fromCurrentSender(sender),
                                                 isReply)
-        sendingEvents.append(event)
         return event
+    }
+    
+    private func updateSendedEvent(_ event: RoomEvent) {
+        let newEvent = RoomEvent(id: event.id,
+                                 eventId: event.eventId,
+                                 roomId: event.roomId,
+                                 sender: event.sender,
+                                 sentState: event.sentState,
+                                 eventType: event.eventType,
+                                 shortDate: event.shortDate,
+                                 fullDate: event.fullDate,
+                                 isFromCurrentUser: event.isFromCurrentUser,
+                                 isReply: event.isReply,
+                                 reactions: event.reactions,
+                                 content: event.content,
+                                 eventSubType: event.eventSubType,
+                                 eventDate: event.eventDate)
+        guard let view = factory.makeOneEventView(value: event,
+                                                  events: [],
+                                                  oldViews: [],
+                                                  delegate: self, onLongPressMessage: { _ in
+        }, onReactionTap: { _ in
+        }, onTapNotSendedMessage: { event in
+            self.onTapNotSendedMessage(event)
+        }, onSwipeReply: { _ in
+        }) else { return }
     }
 
     func changeSedingEvent(_ event: RoomEvent,
-                           _ state: RoomSentState = .sent,
+                           _ state: RoomSentState = .sentLocaly,
                            _ eventId: String = "") {
-        if state == .sent {
-            guard let index = self.sendingEvents.firstIndex(where: { $0.eventId == event.eventId }) else { return }
-            self.sendingEvents.remove(at: index)
-            self.displayItems = self.itemsFromMatrix + self.sendingEventsView
-        } else if state == .failToSend {
-            guard let index = self.sendingEvents.firstIndex(where: { $0.eventId == event.eventId }) else { return }
-            self.sendingEvents[index].sentState = .failToSend
+        guard let index = self.room.events.firstIndex(of: event) else { return }
+        self.room.events.remove(at: index)
+        let newEvent = RoomEvent(id: event.id,
+                                 eventId: eventId,
+                                 roomId: event.roomId,
+                                 sender: event.sender,
+                                 sentState: state,
+                                 eventType: event.eventType,
+                                 shortDate: event.shortDate,
+                                 fullDate: event.fullDate,
+                                 isFromCurrentUser: event.isFromCurrentUser,
+                                 isReply: event.isReply,
+                                 reactions: event.reactions,
+                                 content: event.content,
+                                 eventSubType: event.eventSubType,
+                                 eventDate: event.eventDate)
+        guard let view = factory.makeOneEventView(value: newEvent,
+                                                  events: room.events,
+                                                  oldViews: displayItems,
+                                                  delegate: self, onLongPressMessage: { _ in
+        }, onReactionTap: { _ in
+        }, onTapNotSendedMessage: { event in
+            self.onTapNotSendedMessage(event)
+        }, onSwipeReply: { _ in
+        }) else { return }
+        guard let existingViewIndex = self.displayItems.firstIndex(where: { $0.id == newEvent.id }) else { return }
+        if state == .sentLocaly {
+            self.displayItems.append(view)
+            self.room.events.append(newEvent)
+        } else {
+            self.displayItems[existingViewIndex] = view
+            self.room.events.insert(newEvent, at: index)
         }
     }
 
@@ -611,28 +715,41 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                      contact: Contact? = nil) {
         switch type {
         case .text:
+            let event = self.makeOutputEventView(.text(inputText))
+            self.addOutputEvent(event)
+            self.scrollToBottom()
             self.sendText()
         case .image:
             guard let image = image else { return }
             let url = URL(fileURLWithPath: "")
             let event = self.makeOutputEventView(.image(url))
+            self.addOutputEvent(event)
+            self.scrollToBottom()
             self.sendPhoto(image, event)
         case .video:
             guard let url = url else { return }
             let event = self.makeOutputEventView(.video(url))
+            self.addOutputEvent(event)
+            self.scrollToBottom()
             self.sendVideo(url, event)
         case .file:
             guard let url = url else { return }
             let event = self.makeOutputEventView(.file("", url))
+            self.addOutputEvent(event)
+            self.scrollToBottom()
             self.sendFile(url, event)
         case .audio:
             guard let record = record else { return }
             let event = self.makeOutputEventView(.audio(record.fileURL))
+            self.addOutputEvent(event)
+            self.scrollToBottom()
             self.sendAudio(record, event)
         case .location:
             guard let location = location else { return }
             let event = self.makeOutputEventView(.location((lat: location.lat,
                                                              long: location.long)))
+            self.addOutputEvent(event)
+            self.scrollToBottom()
             self.sendMap(location, event)
         case .contact:
             guard var contact = contact else { return }
@@ -646,9 +763,24 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             let event = self.makeOutputEventView(.contact(name: contact.name,
                                                           phone: contact.phone,
                                                           url: contact.avatar))
+            self.addOutputEvent(event)
+            self.scrollToBottom()
             self.sendContact(contact, event)
         default:
             break
         }
+    }
+    
+    private func addOutputEvent(_ event: RoomEvent) {
+        let view = self.factory.makeOneEventView(value: event,
+                                                 events: self.room.events,
+                                                 oldViews: self.displayItems,
+                                                 delegate: self) { _ in
+        } onReactionTap: { _ in
+        } onTapNotSendedMessage: { _ in
+        } onSwipeReply: { _ in
+        } ?? ZeroViewModel()
+        self.room.events.append(event)
+        self.displayItems.append(view)
     }
 }

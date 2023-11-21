@@ -261,17 +261,8 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.auraRooms = self.matrixUseCase.auraNoEventsRooms
-                self.chatHistoryRooms = self.chatObjectFactory.makeChatHistoryRooms(
-                    mxRooms: self.auraRooms,
-                    viewModel: self
-                )
-                // MARK: ??????
-//                self.chatHistoryRooms.map {
-//                    if $0.isDirect {
-//                        print("sl;aslasl  \($0.roomName)")
-//                        print("sl;aslasl  \($0.roomId)")
-//                    }
-//                }
+                self.chatHistoryRooms = self.chatObjectFactory.makeChatHistoryRooms(mxRooms: self.auraRooms,
+                                                                                    viewModel: self)
                 if !self.isSearching {
                     chatSections = [ChatHistorySection(data: .emptySection, views: self.chatHistoryRooms)]
                 }
