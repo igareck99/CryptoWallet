@@ -67,7 +67,7 @@ final class Configuration: ConfigType {
     }
 
     private var currentConfig: UrlsConfig {
-        releaseConfig
+        stageConfig
     }
 
     var devTeamId: String {
@@ -122,7 +122,7 @@ final class Configuration: ConfigType {
 
     private var debugConfig: UrlsConfig = .defaultDebug
     private var releaseConfig: UrlsConfig = .defaultRelease
-    private var spaceConfig: UrlsConfig = .defaultStage
+    private var stageConfig: UrlsConfig = .defaultStage
     private let bundle: Bundle
     private let parser: Parsable.Type
 
