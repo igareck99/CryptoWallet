@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - AdminsViewModelDelegate
 
 protocol AdminsViewModelDelegate: ObservableObject {
-    
+
     var membersViews: [any ViewGeneratable] { get }
     var resources: AdminsResourcable.Type { get }
 }
@@ -11,7 +11,7 @@ protocol AdminsViewModelDelegate: ObservableObject {
 // MARK: - AdminsViewModel
 
 final class AdminsViewModel: ObservableObject, AdminsViewModelDelegate {
-    
+
     // MARK: - Internal Properties
 
     @Binding var chatData: ChatData
@@ -33,8 +33,14 @@ final class AdminsViewModel: ObservableObject, AdminsViewModelDelegate {
 
     // MARK: - Internal Methods
 
-    func onProfile(userId: String, roomId: String) {
-        coordinator.friendProfile(userId, roomId)
+    func onProfile(
+        userId: String,
+        roomId: String
+    ) {
+        coordinator.friendProfile(
+            userId: userId,
+            roomId: roomId
+        )
     }
 
     // MARK: - Private Methods

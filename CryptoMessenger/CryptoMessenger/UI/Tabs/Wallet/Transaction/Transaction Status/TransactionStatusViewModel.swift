@@ -5,6 +5,7 @@ protocol TransactionStatusViewModelProtocol: ObservableObject {
     var height: CGFloat { get }
 
     func didTapOpenWalletButton()
+    func onAppear()
 }
 
 final class TransactionStatusViewModel: ObservableObject {
@@ -29,6 +30,10 @@ final class TransactionStatusViewModel: ObservableObject {
 // MARK: - TransactionStatusViewProtocol
 
 extension TransactionStatusViewModel: TransactionStatusViewModelProtocol {
+    func onAppear() {
+        makeItems()
+    }
+
     func didTapOpenWalletButton() {
         debugPrint("didTapOpenWalletButton")
     }

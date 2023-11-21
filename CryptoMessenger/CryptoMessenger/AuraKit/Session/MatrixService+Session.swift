@@ -71,8 +71,6 @@ extension MatrixService {
                 accessToken: accessToken
             )
             credentials.deviceId = mDeviceId
-            debugPrint("credentials: \(credentials)")
-            debugPrint("credentials")
             self?.loginState = .loggedIn(userId: credentials.userId ?? "")
             completion(.success(credentials))
         }

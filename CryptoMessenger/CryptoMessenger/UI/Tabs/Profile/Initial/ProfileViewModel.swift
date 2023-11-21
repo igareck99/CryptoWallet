@@ -307,7 +307,16 @@ final class ProfileViewModel: ObservableObject {
     }
 
     private func getSocialList() {
-        apiClient.publisher(Endpoints.Social.getSocial(matrixUseCase.getUserId()))
+        guard let userId = userSettings.userId,
+            !userId.isEmpty
+        else {
+            return
+        }
+
+        apiClient.publisher(Endpoints.Social.getSocial(
+//            matrixUseCase.getUserId()
+            userId
+        ))
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):

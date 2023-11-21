@@ -6,13 +6,12 @@ enum ChatActionsAssembly {
 
     // MARK: - Static Methods
 
-    static func build(_ room: ChatActionsList,
-                      onSelect: @escaping GenericBlock<ChatActions>,
-                      viewHeight: @escaping GenericBlock<CGFloat>) -> some View {
+    static func build(
+        _ room: ChatActionsList,
+        onSelect: @escaping GenericBlock<ChatActions>
+    ) -> some View {
         let view = ChatActionsView(room: room, onSelect: { value in
             onSelect(value)
-        }, viewHeight: { value in
-            viewHeight(value)
         })
         return view
     }

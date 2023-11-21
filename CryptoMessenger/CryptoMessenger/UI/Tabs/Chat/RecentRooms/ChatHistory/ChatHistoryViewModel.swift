@@ -173,7 +173,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                                                                                    config: Configuration.shared,
                                                                                    eventsFactory: roomFactory,
                                                                                    matrixUseCase: self.matrixUseCase).first else { return }
-                    self.coordinator?.chatRoom(auraRoom)
+                        self.coordinator?.chatRoom(room: auraRoom)
                 case let .onDeleteRoom(roomId):
                     self?.matrixUseCase.leaveRoom(roomId: roomId, completion: { _ in
                         self?.matrixUseCase.objectChangePublisher.send()
@@ -184,7 +184,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                     let data = ChatActionsList(isLeaveAvailable: !(room.isAdmin && room.isChannel),
                                                isWatchProfileAvailable: room.isDirect,
                                                isPinned: room.isPinned)
-                    self?.coordinator?.chatActions(data, onSelect: { value in
+                        self?.coordinator?.chatActions(room: data, onSelect: { value in
                         switch value {
                         case .watchProfile:
                             self?.matrixUseCase.getRoomMembers(roomId: room.roomId) { [weak self] result in
@@ -208,7 +208,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                                                           status: "", phone: "", type: .lastUsers, onTap: { _ in
                                     })
                                     self?.coordinator?.dismissCurrentSheet()
-                                    self?.coordinator?.friendProfile(contact.mxId, room.roomId)
+                                        self?.coordinator?.friendProfile(userId: contact.mxId, roomId: room.roomId)
                                 default:
                                     break
                                 }

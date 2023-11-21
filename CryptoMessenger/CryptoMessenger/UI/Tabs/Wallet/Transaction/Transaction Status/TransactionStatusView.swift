@@ -8,7 +8,14 @@ struct TransactionStatusView<ViewModel: TransactionStatusViewModelProtocol>: Vie
         VStack(alignment: .center, spacing: .zero) {
             List(viewModel.displayItems, id: \.hashValue) {
                 $0.view()
+                    .padding(.horizontal, 16)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets())
             }
+            .listStyle(.inset)
+        }
+        .onAppear {
+            viewModel.onAppear()
         }
         .safeAreaInset(edge: .bottom) {
             sendCodeButton

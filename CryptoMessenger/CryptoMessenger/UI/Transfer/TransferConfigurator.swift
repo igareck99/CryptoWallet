@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 // MARK: - TransferConfigurator
 
@@ -9,7 +9,7 @@ enum TransferConfigurator {
     static func build(
         wallet: WalletInfo,
         coordinator: TransferViewCoordinatable
-    ) -> TransferView {
+    ) -> some View {
         let viewModel = TransferViewModel(
             wallet: wallet,
             coordinator: coordinator

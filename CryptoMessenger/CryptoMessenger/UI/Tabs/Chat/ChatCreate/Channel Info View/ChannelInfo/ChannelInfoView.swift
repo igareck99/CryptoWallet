@@ -76,7 +76,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         .sheet(isPresented: $viewModel.showSelectOwner, content: {
             NavigationView {
                 ChannelNewOwnerView(users: viewModel.getChannelUsers().filter({
-                    viewModel.getUserRole($0.matrixId) != .owner
+                    viewModel.getUserRole(userId: $0.matrixId) != .owner
                 })) { selectedContacts in
                     viewModel.onAssignNewOwners(users: selectedContacts) {
                     }
@@ -86,7 +86,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
         .sheet(isPresented: $viewModel.showSelectCurrentUserRole, content: {
             NavigationView {
                 ChannelNewOwnerView(users: viewModel.getChannelUsers().filter({
-                    viewModel.getUserRole($0.matrixId) != .owner
+                    viewModel.getUserRole(userId: $0.matrixId) != .owner
                 })) { selectedContacts in
                     viewModel.onAssignAnotherOwners(users: selectedContacts,
                                                     newRole: selectedRole) {
@@ -95,11 +95,13 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             }
         })
         .sheet(isPresented: $viewModel.showUserSettings, content: {
-            UserSettingsAssembly.build(userId: $viewModel.tappedUserId,
-                                       showBottomSheet: $viewModel.showChangeRole,
-                                       showUserProfile: $viewModel.showUserProfile,
-                                       roomId: viewModel.room.roomId,
-                                       roleCompare: viewModel.compareRoles()) {
+            UserSettingsAssembly.build(
+                userId: $viewModel.tappedUserId,
+                showBottomSheet: $viewModel.showChangeRole,
+                showUserProfile: $viewModel.showUserProfile,
+                roomId: viewModel.room.roomId,
+                roleCompare: viewModel.compareRoles()
+            ) {
                 viewModel.showUserSettings = false
                 viewModel.onUserRemoved()
             } onUserProfile: {
@@ -303,7 +305,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                             .default(
                                 Text(viewModel.resources.profileFromGallery).font(.bodyRegular17),
                                 action: {
-                                    viewModel.selectPhoto(.photoLibrary)
+                                    viewModel.selectPhoto(sourceType: .photoLibrary)
                                 }
                             ),
                             .default(
@@ -311,7 +313,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
                                 action: {
                                     let isAvailable = viewModel.onCameraPickerTap()
                                     if isAvailable {
-                                        viewModel.selectPhoto(.camera)
+                                        viewModel.selectPhoto(sourceType: .camera)
                                     } else {
                                         showSettingsAlert = true
                                     }
@@ -414,7 +416,7 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             accessoryImageName: "chevron.right"
         )
         .onTapGesture {
-            viewModel.nextScene(.onMedia(viewModel.room.roomId))
+            viewModel.nextScene(scene: .onMedia(viewModel.room.roomId))
         }
     }
 
@@ -524,8 +526,11 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             .font(.bodySemibold17)
             .foregroundColor(viewModel.resources.textBoxBackground)
             .onTapGesture {
-                viewModel.showParticipantsView(viewModel as! ChannelInfoViewModel,
-                                               $showParticipantsView)
+                guard let channelViewModel = viewModel as? ChannelInfoViewModel else { return }
+                channelViewModel.showParticipantsView(
+                    viewModel: channelViewModel,
+                    showParticipants: $showParticipantsView
+                )
             }
     }
 

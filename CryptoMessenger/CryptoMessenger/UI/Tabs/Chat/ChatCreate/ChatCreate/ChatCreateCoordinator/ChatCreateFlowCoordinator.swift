@@ -5,10 +5,17 @@ import SwiftUI
 protocol ChatCreateFlowCoordinatorProtocol {
     func selectContact()
     func createContact()
-    func createChannel(_ contacts: [SelectContact])
-    func createGroupChat(_ chatData: ChatData, _ contacts: [Contact])
+    func createChannel(
+        contacts: [SelectContact]
+    )
+    func createGroupChat(
+        chatData: ChatData,
+        contacts: [Contact]
+    )
     func toParentCoordinator()
-    func onFriendProfile(_ room: AuraRoomData)
+    func onFriendProfile(
+        room: AuraRoomData
+    )
 }
 
 // MARK: - ChatCreateFlowCoordinator
@@ -21,9 +28,11 @@ final class ChatCreateFlowCoordinator<Router: ChatCreateRouterable> {
     private let onCoordinatorEnd: (Coordinator) -> Void
     private let onFriendProfile: (AuraRoomData) -> Void
 
-    init(router: Router,
-         onCoordinatorEnd: @escaping (Coordinator) -> Void,
-         onFriendProfile: @escaping (AuraRoomData) -> Void) {
+    init(
+        router: Router,
+        onCoordinatorEnd: @escaping (Coordinator) -> Void,
+        onFriendProfile: @escaping (AuraRoomData) -> Void
+    ) {
         self.router = router
         self.onCoordinatorEnd = onCoordinatorEnd
         self.onFriendProfile = onFriendProfile
@@ -34,8 +43,9 @@ final class ChatCreateFlowCoordinator<Router: ChatCreateRouterable> {
 
 extension ChatCreateFlowCoordinator: Coordinator {
     func start() {
-        router.createChat(self)
+        router.createChat(coordinator: self)
     }
+
     func startWithView(completion: @escaping RootViewBuilder) {
         completion(router)
     }
@@ -45,26 +55,36 @@ extension ChatCreateFlowCoordinator: Coordinator {
 
 extension ChatCreateFlowCoordinator: ChatCreateFlowCoordinatorProtocol {
 
-    func createChannel(_ contacts: [SelectContact]) {
-        router.createChannel(self, contacts)
+    func createChannel(contacts: [SelectContact]) {
+        router.createChannel(
+            coordinator: self,
+            contacts: contacts
+        )
     }
 
     func selectContact() {
-        router.selectContact(self)
+        router.selectContact(coordinator: self)
     }
 
     func createContact() {
-        router.createContact(self)
+        router.createContact(coordinator: self)
     }
-    
-    func createGroupChat(_ chatData: ChatData, _ contacts: [Contact]) {
-        router.createGroupChat(chatData, self, contacts)
+
+    func createGroupChat(
+        chatData: ChatData,
+        contacts: [Contact]
+    ) {
+        router.createGroupChat(
+            chatData: chatData,
+            coordinator: self,
+            contacts: contacts
+        )
     }
-    
-    func onFriendProfile(_ room: AuraRoomData) {
+
+    func onFriendProfile(room: AuraRoomData) {
         onFriendProfile(room)
     }
-    
+
     func toParentCoordinator() {
         onCoordinatorEnd(self)
     }

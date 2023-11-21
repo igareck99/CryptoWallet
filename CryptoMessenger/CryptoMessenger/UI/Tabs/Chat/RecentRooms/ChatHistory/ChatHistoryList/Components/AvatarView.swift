@@ -31,7 +31,7 @@ struct AvatarView: View {
                 placeholder: {
                     ZStack {
                         Color(.aliceBlue)
-                        Text(data.roomName.firstLetter.uppercased() ?? "?")
+                        Text(data.roomName.firstLetter.uppercased())
                             .foreground(.white)
                             .font(.title1Bold28)
                     }.frame(width: 60, height: 60)
@@ -50,5 +50,6 @@ struct AvatarView: View {
                 }.padding([.leading, .top], 48)
             }
         }.frame(width: 62, height: 62)
+        .onAppear {}
     }
 }

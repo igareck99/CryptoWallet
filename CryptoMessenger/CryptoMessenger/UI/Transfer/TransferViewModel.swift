@@ -42,7 +42,7 @@ final class TransferViewModel: ObservableObject {
 
     private let feeItemsFactory: FeeItemsFactoryProtocol.Type
 	let resources: TransferViewSourcable.Type
-	var fees = [TransactionSpeed]()
+    @Published var fees = [TransactionSpeed]()
 	var walletTypes = [WalletType]()
 
 	var isSnackbarPresented = false
@@ -363,19 +363,20 @@ final class TransferViewModel: ObservableObject {
 			guard let self = self,
                   case let .success(response) = result
             else {
-                self?.showSnackBar(text: "Ошибка начисления комиссии")
+                self?.showSnackBar(text: "Ошибка получения комиссии")
                 return
             }
 			
-            self.fees = self.feeItemsFactory.make(
-                feesModel: response,
-                sources: self.resources,
-                currency: feeCurrency
-            )
+            Task {
+                await MainActor.run {
+                    self.fees = self.feeItemsFactory.make(
+                        feesModel: response,
+                        sources: self.resources,
+                        currency: feeCurrency
+                    )
+                }
+            }
             
-			DispatchQueue.main.async {
-				self.objectWillChange.send()
-			}
 		}
 	}
 

@@ -1,10 +1,10 @@
 import SwiftUI
 
 enum TransferCoordinatorAssembly {
-    static func buld(
+    static func build(
         wallet: WalletInfo,
         path: Binding<NavigationPath>,
-        presentedItem: Binding<WalletSheetLink?>,
+        presentedItem: Binding<BaseSheetLink?>,
         onFinish: @escaping (Coordinator) -> Void
     ) -> Coordinator {
         let state = TransferState(path: path, presentedItem: presentedItem)

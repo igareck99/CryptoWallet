@@ -4,8 +4,8 @@ import SwiftUI
 
 protocol ChatHistoryCoordinatorBase: ObservableObject {
     var path: NavigationPath { get set }
-    var presentedItem: ChatHistorySheetLink? { get set }
-    var coverItem: ChatHistoryFullCoverLink? { get set }
+    var presentedItem: BaseSheetLink? { get set }
+    var coverItem: BaseFullCoverLink? { get set }
     var sheetHeight: CGFloat { get set }
 }
 
@@ -15,7 +15,7 @@ final class ChatHistoryFlowState: ChatHistoryCoordinatorBase {
 
     static var shared = ChatHistoryFlowState()
     @Published var path = NavigationPath()
-    @Published var presentedItem: ChatHistorySheetLink?
-    @Published var coverItem: ChatHistoryFullCoverLink?
+    @Published var presentedItem: BaseSheetLink?
+    @Published var coverItem: BaseFullCoverLink?
     @Published var sheetHeight: CGFloat = 223
 }

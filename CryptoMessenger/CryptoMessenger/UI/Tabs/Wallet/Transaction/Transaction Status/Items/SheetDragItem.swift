@@ -15,4 +15,8 @@ struct SheetDragItem: ViewGeneratable {
     func view() -> AnyView {
         SheetDragItemView(model: self).anyView()
     }
+
+    func getItemHeight() -> CGFloat {
+        18
+    }
 }

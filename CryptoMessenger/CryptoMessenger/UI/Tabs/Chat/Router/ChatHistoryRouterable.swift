@@ -25,18 +25,18 @@ protocol ChatHistoryRouterable: View {
     )
 
     func chatRoom(
-        _ room: AuraRoomData,
-        _ coordinator: ChatHistoryFlowCoordinatorProtocol
+        room: AuraRoomData,
+        coordinator: ChatHistoryFlowCoordinatorProtocol
     )
 
     func routeToFirstAction(
-        _ room: AuraRoom,
+        room: AuraRoom,
         coordinator: ChatHistoryFlowCoordinatorProtocol
     )
 
     func start()
 
-    func chatMedia(_ room: AuraRoomData)
+    func chatMedia(room: AuraRoomData)
 
     func channelSettings(
         chatData: Binding<ChatData>,
@@ -52,18 +52,20 @@ protocol ChatHistoryRouterable: View {
         coordinator: ChatHistoryFlowCoordinatorProtocol
     )
 
-    func friendProfile(_ userId: String,
-                       _ roomId: String,
-                       _ coordinator: ChatHistoryFlowCoordinatorProtocol)
+    func friendProfile(
+        userId: String,
+        roomId: String,
+        coordinator: ChatHistoryFlowCoordinatorProtocol
+    )
 
     func adminsView(
-        _ chatData: Binding<ChatData>,
-        _ coordinator: ChatHistoryFlowCoordinatorProtocol
+        chatData: Binding<ChatData>,
+        coordinator: ChatHistoryFlowCoordinatorProtocol
     )
 
     func chatMembersView(
-        _ chatData: Binding<ChatData>,
-        _ coordinator: ChatHistoryFlowCoordinatorProtocol
+        chatData: Binding<ChatData>,
+        coordinator: ChatHistoryFlowCoordinatorProtocol
     )
 
     func notifications(_ roomId: String)
@@ -103,7 +105,7 @@ protocol ChatHistoryRouterable: View {
     )
 
     func channelPatricipantsView(
-        _ viewModel: ChannelInfoViewModel,
+        viewModel: ChannelInfoViewModel,
         showParticipantsView: Binding<Bool>
     )
 
@@ -111,13 +113,15 @@ protocol ChatHistoryRouterable: View {
 
     func routePath() -> Binding<NavigationPath>
 
-    func presentedItem() -> Binding<ChatHistorySheetLink?>
+    func presentedItem() -> Binding<BaseSheetLink?>
 
-    func chatCreate(_ view: any View,
-                    _ onDisappear: @escaping () -> Void)
+    func chatCreate(
+        view: any View,
+        onDisappear: @escaping () -> Void
+    )
 
     func chatActions(
-        _ room: ChatActionsList,
+        room: ChatActionsList,
         onSelect: @escaping GenericBlock<ChatActions>
     )
 
@@ -127,16 +131,24 @@ protocol ChatHistoryRouterable: View {
         onSendPlace: @escaping (Place) -> Void
     )
 
-    func messageReactions(_ isCurrentUser: Bool,
-                          _ isChannel: Bool,
-                          _ userRole: ChannelRole,
-                          _ onAction: @escaping GenericBlock<QuickActionCurrentUser>,
-                          _ onReaction: @escaping GenericBlock<String>)
-    
-    func chatMenu(_ tappedAction: @escaping (AttachAction) -> Void,
-                  _ onCamera: @escaping () -> Void,
-                  _ onSendPhoto: @escaping (UIImage) -> Void)
-    
-    func notSendedMessageMenu(_ event: RoomEvent,
-                              _ onTapItem: @escaping (NotSendedMessage, RoomEvent) -> Void) 
+    func messageReactions(
+        isCurrentUser: Bool,
+        isChannel: Bool,
+        userRole: ChannelRole,
+        onAction: @escaping GenericBlock<QuickActionCurrentUser>,
+        onReaction: @escaping GenericBlock<String>
+    )
+
+    func chatMenu(
+        tappedAction: @escaping (AttachAction) -> Void,
+        onCamera: @escaping () -> Void,
+        onSendPhoto: @escaping (UIImage) -> Void
+    )
+
+    func notSendedMessageMenu(
+        event: RoomEvent,
+        onTapItem: @escaping (NotSendedMessage, RoomEvent) -> Void
+    )
+
+    func showTransactionStatus()
 }

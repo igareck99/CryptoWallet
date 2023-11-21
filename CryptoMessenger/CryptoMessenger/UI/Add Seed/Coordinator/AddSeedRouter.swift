@@ -41,7 +41,7 @@ struct AddSeedRouter<
 extension AddSeedRouter: AddSeedRouterable {
 
     func showStart() {
-        parentState.presentedItem = WalletSheetLink.addSeed {
+        parentState.presentedItem = BaseSheetLink.addSeed {
             self as? AddSeedRouter<GeneratePhraseView, AddSeedState, WalletRouterState>
         }
     }

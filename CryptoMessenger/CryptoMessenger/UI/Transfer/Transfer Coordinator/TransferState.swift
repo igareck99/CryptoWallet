@@ -3,19 +3,19 @@ import SwiftUI
 
 protocol TransferStatable: ObservableObject {
     var path: NavigationPath { get set }
-    var presentedItem: WalletSheetLink? { get set }
+    var presentedItem: BaseSheetLink? { get set }
 
     func update(path: Binding<NavigationPath>)
-    func update(presentedItem: Binding<WalletSheetLink?>)
+    func update(presentedItem: Binding<BaseSheetLink?>)
 }
 
 final class TransferState: TransferStatable {
     @Binding var path: NavigationPath
-    @Binding var presentedItem: WalletSheetLink?
+    @Binding var presentedItem: BaseSheetLink?
 
     init(
         path: Binding<NavigationPath>,
-        presentedItem: Binding<WalletSheetLink?>
+        presentedItem: Binding<BaseSheetLink?>
     ) {
         self._path = path
         self._presentedItem = presentedItem
@@ -25,7 +25,7 @@ final class TransferState: TransferStatable {
         _path = path
     }
 
-    func update(presentedItem: Binding<WalletSheetLink?>) {
+    func update(presentedItem: Binding<BaseSheetLink?>) {
         _presentedItem = presentedItem
     }
 }

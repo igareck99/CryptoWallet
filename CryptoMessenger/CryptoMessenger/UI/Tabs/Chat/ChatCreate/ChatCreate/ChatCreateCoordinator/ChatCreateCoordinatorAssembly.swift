@@ -13,9 +13,11 @@ enum ChatCreateCoordinatorAssembly {
         let router = ChatCreateRouter(state: state) {
             view
         }
-        let coordinator = ChatCreateFlowCoordinator(router: router,
-                                                    onCoordinatorEnd: onCoordinatorEnd,
-                                                    onFriendProfile: onFriendProfile)
+        let coordinator = ChatCreateFlowCoordinator(
+            router: router,
+            onCoordinatorEnd: onCoordinatorEnd,
+            onFriendProfile: onFriendProfile
+        )
         viewModel.coordinator = coordinator
         return coordinator
     }
