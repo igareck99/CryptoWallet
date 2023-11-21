@@ -6,55 +6,95 @@ extension ChatViewModel {
 
     func sendPhoto(_ image: UIImage, _ event: RoomEvent) {
         inputText = ""
-        mediaService.uploadChatPhoto(roomId: room.roomId,
-                                     image: image) { result in
+        mediaService.uploadChatPhoto(
+            roomId: room.roomId,
+            image: image
+        ) { [weak self] result in
+            guard let self = self else { return }
             switch result {
-            case let .success(eventId):
-                guard let eventId = eventId else { return }
-                self.changeSedingEvent(event, .sentLocaly, eventId)
-            case .failure(_):
-                self.changeSedingEvent(event, .failToSend)
+                case let .success(eventId):
+                    guard let eventId = eventId else { return }
+                    self.changeSedingEvent(
+                        event: event,
+                        state: .sentLocaly,
+                        eventId: eventId
+                    )
+                case .failure(_):
+                    self.changeSedingEvent(
+                        event: event,
+                        state: .failToSend
+                    )
             }
         }
     }
 
     func sendVideo(_ url: URL, _ event: RoomEvent) {
         let mxImage = MXImage(systemName: "eraser")
-        self.mediaService.uploadVideoMessage(for: room.roomId,
+        self.mediaService.uploadVideoMessage(
+            for: room.roomId,
                                              url: url,
-                                             thumbnail: mxImage) { result in
+                                             thumbnail: mxImage
+        ) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case let .success(eventId):
                 guard let eventId = eventId else { return }
-                self.changeSedingEvent(event, .sentLocaly, eventId)
+                self.changeSedingEvent(
+                    event: event,
+                    state: .sentLocaly,
+                    eventId: eventId
+                )
             case .failure(_):
-                self.changeSedingEvent(event, .failToSend)
-            }
+                self.changeSedingEvent(
+                    event: event,
+                    state: .failToSend
+                )
+        }
         }
     }
     
     func sendContact(_ contact: Contact, _ event: RoomEvent) {
-        self.mediaService.uploadChatContact(roomId: room.roomId,
-                                            contact: contact) { result in
+        self.mediaService.uploadChatContact(
+            roomId: room.roomId,
+            contact: contact
+        ) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case let .success(eventId):
                 guard let eventId = eventId else { return }
-                self.changeSedingEvent(event, .sentLocaly, eventId)
+                self.changeSedingEvent(
+                    event: event,
+                    state: .sentLocaly,
+                    eventId: eventId
+                )
             case .failure(_):
-                self.changeSedingEvent(event, .failToSend)
+                self.changeSedingEvent(
+                    event: event,
+                    state: .failToSend
+                )
             }
         }
     }
     
     func sendMap(_ location: LocationData?, _ event: RoomEvent) {
-        self.matrixUseCase.sendLocation(roomId: room.roomId,
-                                        location: location) { result in
+        self.matrixUseCase.sendLocation(
+            roomId: room.roomId,
+            location: location
+        ) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case let .success(eventId):
                 guard let eventId = eventId else { return }
-                self.changeSedingEvent(event, .sentLocaly, eventId)
+                self.changeSedingEvent(
+                    event: event,
+                    state: .sentLocaly,
+                    eventId: eventId
+                )
             case .failure(let error):
-                self.changeSedingEvent(event, .failToSend)
+                self.changeSedingEvent(
+                    event: event,
+                    state: .failToSend
+                )
             }
         }
     }
@@ -65,9 +105,16 @@ extension ChatViewModel {
             switch result {
             case let .success(eventId):
                 guard let eventId = eventId else { return }
-                self.changeSedingEvent(event, .sentLocaly, eventId)
+                self.changeSedingEvent(
+                    event: event,
+                    state: .sentLocaly,
+                    eventId: eventId
+                )
             case .failure(_):
-                self.changeSedingEvent(event, .failToSend)
+                self.changeSedingEvent(
+                    event: event,
+                    state: .failToSend
+                )
             }
         }
     }
@@ -77,15 +124,27 @@ extension ChatViewModel {
         case .reply:
             guard let activeEditMessage = activeEditMessage else { return }
             let event = self.makeOutputEventView(.text(inputText), true)
-            matrixUseCase.sendReply(activeEditMessage, inputText, completion: { result in
-                switch result {
-                case let .success(eventId):
-                    guard let eventId = eventId else { return }
-                    self.changeSedingEvent(event, .sentLocaly, eventId)
-                case .failure(_):
-                    self.changeSedingEvent(event, .failToSend)
+            matrixUseCase.sendReply(
+                activeEditMessage,
+                inputText,
+                completion: { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case let .success(eventId):
+                        guard let eventId = eventId else { return }
+                        self.changeSedingEvent(
+                            event: event,
+                            state: .sentLocaly,
+                            eventId: eventId
+                        )
+                    case .failure(_):
+                        self.changeSedingEvent(
+                            event: event,
+                            state: .failToSend
+                        )
+                    }
                 }
-            })
+            )
             self.activeEditMessage = nil
             quickAction = nil
             self.inputText = ""
@@ -98,34 +157,56 @@ extension ChatViewModel {
             self.inputText = ""
         default:
             let event = self.makeOutputEventView(.text(inputText))
-            matrixUseCase.sendText(room.roomId,
-                                   inputText,
-                                   completion: { result in
-                switch result {
-                case let .success(eventId):
+            matrixUseCase.sendText(
+                room.roomId,
+                inputText,
+                completion: { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case let .success(eventId):
                     guard let eventId = eventId else { return }
-                    self.changeSedingEvent(event, .sentLocaly, eventId)
-                case let .failure(result):
-                    self.changeSedingEvent(event, .failToSend)
+                    self.changeSedingEvent(
+                        event: event,
+                        state: .sentLocaly,
+                        eventId: eventId
+                    )
+                    case let .failure(result):
+                    self.changeSedingEvent(
+                        event: event,
+                        state: .failToSend
+                    )
+                    }
                 }
-            })
+            )
         }
         activeEditMessage = nil
         quickAction = nil
         self.inputText = ""
     }
 
-    func sendAudio(_ record: RecordingDataModel,
-                   _ event: RoomEvent) {
-        mediaService.uploadVoiceMessage(roomId: room.roomId,
-                                        audio: record.fileURL,
-                                        duration: UInt(record.duration)) { result in
+    func sendAudio(
+        record: RecordingDataModel,
+        event: RoomEvent
+    ) {
+        mediaService.uploadVoiceMessage(
+            roomId: room.roomId,
+            audio: record.fileURL,
+            duration: UInt(record.duration)
+        ) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case let .success(eventId):
                 guard let eventId = eventId else { return }
-                self.changeSedingEvent(event, .sentLocaly, eventId)
+                self.changeSedingEvent(
+                    event: event,
+                    state: .sentLocaly,
+                    eventId: eventId
+                )
             case .failure(_):
-                self.changeSedingEvent(event, .failToSend)
+                self.changeSedingEvent(
+                    event: event,
+                    state: .failToSend
+                )
             }
         }
     }

@@ -1,13 +1,13 @@
-import SwiftUI
 import Combine
 import MatrixSDK
+import SwiftUI
 
 // MARK: - SettingsViewModel
 
 final class SettingsViewModel: ObservableObject {
-    
+
     // MARK: - Internal Properties
-    
+
     var room: AuraRoom
     var coordinator: ChatHistoryFlowCoordinatorProtocol?
     @Published var topActions: [SettingsAction] = [.media, .notifications, .admins]
@@ -15,17 +15,17 @@ final class SettingsViewModel: ObservableObject {
     @Published var isEnabled = false
     @State private var selectedVideo: URL?
     let resources: SettingsResourcable.Type
-    
+
     // MARK: - Private Properties
-    
+
     private let eventSubject = PassthroughSubject<SettingsFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<SettingsFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
     @Injectable var matrixUseCase: MatrixUseCaseProtocol
     private let pushNotifications: PushNotificationsServiceProtocol
-    
+
     // MARK: - Lifecycle
-    
+
     init(room: AuraRoom,
          pushNotifications: PushNotificationsServiceProtocol = PushNotificationsService.shared,
          resources: SettingsResourcable.Type = SettingsResources.self
@@ -36,15 +36,15 @@ final class SettingsViewModel: ObservableObject {
         self.isEnabled = !self.room.room.isMuted
         bindInput()
     }
-    
+
     deinit {
         subscriptions.forEach { $0.cancel() }
         subscriptions.removeAll()
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     // MARK: - Internal Methods
-    
+
     func send(_ event: SettingsFlow.Event) {
         eventSubject.send(event)
     }
@@ -58,23 +58,28 @@ final class SettingsViewModel: ObservableObject {
                 case .onAppear:
                     self?.objectWillChange.send()
                 case let .onFriendProfile(contact):
+                    // MARK: - ?????
                     ()
-                    //self?.coordinator?.friendProfile(contact)
+                    // self?.coordinator?.friendProfile(contact)
                 case .onLeave:
                     self?.leaveRoom()
                 case let .onAdmin(chatData):
-                    if let coordinator = self?.coordinator {
-                        self?.coordinator?.adminsView(chatData,
-                                                      coordinator)
-                    }
+                    guard let coordinator = self?.coordinator else { return }
+                    coordinator.adminsView(
+                        chatData: chatData,
+                        coordinator: coordinator
+                    )
                 case let .onMembers(chatData):
-                    if let coordinator = self?.coordinator {
-                        self?.coordinator?.chatMembersView(chatData,
-                                                           coordinator)
-                    }
+                    guard let coordinator = self?.coordinator else { return }
+                    coordinator.chatMembersView(
+                        chatData: chatData,
+                        coordinator: coordinator
+                    )
                 case .onNotifications:
-                    guard let auraRoom = self?.room else { return }
-                    self?.coordinator?.notifications(auraRoom.room.roomId)
+                    guard let roomId = self?.room.room.roomId else { return }
+                    self?.coordinator?.notifications(
+                        roomId: roomId
+                    )
                 case let .onImagePicker(image):
                     guard let self = self else { return }
                     self.coordinator?.galleryPickerSheet(sourceType: .photoLibrary,

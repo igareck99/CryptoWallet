@@ -52,7 +52,10 @@ final class GroupChatSelectContactViewModel: ObservableObject {
             return contact
         }
         chatData.contacts = result
-        self.coordinator?.createGroupChat(chatData, result)
+        self.coordinator?.createGroupChat(
+            chatData: chatData,
+            contacts: result
+        )
     }
 
     func getButtonColor() -> Color {
@@ -61,9 +64,9 @@ final class GroupChatSelectContactViewModel: ObservableObject {
         }
         return resources.buttonBackground
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func bindInput() {
         $text
             .subscribe(on: DispatchQueue.main)
@@ -74,12 +77,14 @@ final class GroupChatSelectContactViewModel: ObservableObject {
                     group.enter()
                     self.matrixUseCase.searchUser(text) { name in
                         if let name = name {
-                            let contact = SelectContact(mxId: text,
+                            let contact = SelectContact(
+                                mxId: text,
                                                         avatar: nil,
                                                         name: name,
                                                         phone: "",
                                                         isSelected: false,
-                                                        sourceType: .finded) { value in
+                                                        sourceType: .finded
+                            ) { value in
                                 self.onChangeState(value)
                             }
                             let ids = self.users.map {
@@ -142,7 +147,7 @@ final class GroupChatSelectContactViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func setData(_ result: [Contact]) {
         self.users = result.map {
             let data = SelectContact(
@@ -160,7 +165,7 @@ final class GroupChatSelectContactViewModel: ObservableObject {
         }
         self.usersViews = self.users
     }
-    
+
     private func onChangeState(_ data: SelectContact) {
         guard let index = self.users.firstIndex(where: { $0.mxId == data.mxId }) else {
             return
@@ -188,15 +193,19 @@ final class GroupChatSelectContactViewModel: ObservableObject {
             self.usersForCreate = usersForCreateItems
         }
     }
-    
+
     private func removeChips(_ data: SelectContact) {
         guard let item = self.users.first(where: { $0.mxId == data.mxId && $0.name == data.name }) else {
             return
         }
-        let newObject = SelectContact(mxId: item.mxId, avatar: item.avatar,
-                                      name: item.name, phone: item.phone,
-                                      isSelected: true, sourceType: item.sourceType) { _ in
-        }
+        let newObject = SelectContact(
+            mxId: item.mxId,
+            avatar: item.avatar,
+            name: item.name,
+            phone: item.phone,
+            isSelected: true,
+            sourceType: item.sourceType
+        ) { _ in }
         self.onChangeState(newObject)
     }
 }

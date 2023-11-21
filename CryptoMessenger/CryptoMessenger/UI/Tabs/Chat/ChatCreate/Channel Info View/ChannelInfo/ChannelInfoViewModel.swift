@@ -70,7 +70,6 @@ final class ChannelInfoViewModel {
     private var subscriptions = Set<AnyCancellable>()
     private var timeRoomName = ""
     private var timeRoomDescription = ""
-    
     var chatData: Binding<ChatData>
 
     init(
@@ -91,13 +90,12 @@ final class ChannelInfoViewModel {
         self.loadUsers()
         self.isRoomPublic()
         self.listenEvents()
-        
     }
-    
+
     func onAvatarChange() {
         chatData.wrappedValue.image = selectedImg
     }
-    
+
     private func updateRoomParams() {
         guard shouldChange else {
             channelTopic = timeRoomDescription
@@ -115,40 +113,40 @@ final class ChannelInfoViewModel {
         }
         shouldChange = false
     }
-    
+
     private func getRoomInfo() {
         if let room = matrixUseCase.getRoomInfo(roomId: room.roomId) {
             roomDisplayName = room.summary?.displayName ?? ""
             channelTopic = room.summary?.topic ?? ""
             objectWillChange.send()
         }
-        
+
         matrixUseCase.getRoomState(roomId: room.roomId) { [weak self] result in
-            
             guard let self = self else { return }
             guard case let .success(state) = result else { return }
 
             debugPrint("roomState result: \(state)")
             debugPrint("roomState power levels result: \(String(describing: state.powerLevels))")
-            
             self.roomPowerLevels = state.powerLevels
         }
     }
-    
+
     private func loadUsers() {
         debugPrint("loadUsers")
         matrixUseCase.getRoomMembers(roomId: room.roomId) { [weak self] result in
             guard case let .success(roomMembers) = result else { return }
-            debugPrint("getRoomMembers result: \(String(describing:roomMembers.members))")
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                let users: [ChannelParticipantsData] = self.factory.makeUsersData(users: roomMembers.members, roomPowerLevels: self.roomPowerLevels)
+                let users: [ChannelParticipantsData] = self.factory.makeUsersData(
+                    users: roomMembers.members,
+                    roomPowerLevels: self.roomPowerLevels
+                )
                 self.participants = users
                 self.objectWillChange.send()
             }
         }
     }
-    
+
     private func setParametrsBeforeChange() {
         timeRoomName = roomDisplayName
         timeRoomDescription = channelTopic
@@ -159,7 +157,10 @@ final class ChannelInfoViewModel {
             guard case let .success(roomMembers) = result else { return }
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                let users: [ChannelParticipantsData] = self.factory.makeUsersData(users: roomMembers.members, roomPowerLevels: self.roomPowerLevels)
+                let users: [ChannelParticipantsData] = self.factory.makeUsersData(
+                    users: roomMembers.members,
+                    roomPowerLevels: self.roomPowerLevels
+                )
                 self.participants = users
                 self.objectWillChange.send()
                 completion()
@@ -173,14 +174,14 @@ final class ChannelInfoViewModel {
             self.onShowUserProfile()
         }
     }
-    
+
     func listenEvents() {
         let room = matrixUseCase.getRoomInfo(roomId: room.roomId)
         room?.liveTimeline { [weak self] liveTimeLine in
             let listener = liveTimeLine?.listenToEvents { [weak self] event, direction, roomState in
                 debugPrint("liveTimeLine.listenToEvents: \(event) \(direction) \(String(describing: roomState))")
                 debugPrint("liveTimeLine.listenToEvents event.type: \(String(describing: event.type))")
-                
+
                 if event.type == "m.room.avatar",
                    let rId = self?.room.roomId {
                     debugPrint("roomImageUrl: \(String(describing: self?.roomImageUrl?.absoluteString))")
@@ -206,7 +207,7 @@ final class ChannelInfoViewModel {
             self?.eventsListener = listener
         }
     }
-    
+
     private func getRoomAvatarUrl() {
         guard let url = self.matrixUseCase.getRoomAvatarUrl(roomId: self.room.roomId) else { return }
         let config = Configuration.shared
@@ -222,7 +223,6 @@ final class ChannelInfoViewModel {
 // MARK: - ChannelInfoViewModelProtocol
 
 extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
-    
 
     func onOpenSettingsTap() {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
@@ -249,23 +249,26 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
                guard case let .success(state) = result else { return }
                debugPrint("roomState result: \(state)")
                debugPrint("roomState power levels result: \(String(describing: state.powerLevels))")
-               guard
-                   let currentUserPowerLevel: Int = state.powerLevels?.powerLevelOfUser(withUserID: currentUserId) else {
+               guard let currentUserPowerLevel: Int = state.powerLevels?.powerLevelOfUser(
+                withUserID: currentUserId
+               ) else {
                    return
                }
                let isOwner: Bool = currentUserPowerLevel == 100
                // Если текущий пользователь не является владельцем канала
                if !isOwner {
-                   self.matrixUseCase.updateUserPowerLevel(userId: currentUserId,
-                                                           roomId: self.room.roomId,
-                                                           powerLevel: 0) { [weak self] _ in
+                   self.matrixUseCase.updateUserPowerLevel(
+                    userId: currentUserId,
+                    roomId: self.room.roomId,
+                    powerLevel: 0
+                   ) { [weak self] _ in
                        self?.onLeaveRoom()
                    }
                    return
                }
                let ownersList = state.members.members
                    .filter { state.powerLevels.powerLevelOfUser(withUserID: $0.userId) == 100 }
-               
+
                let isOnlyOneOwner = ownersList.count == 1
                // Если текущий пользователь не является единственным владельцем канала
                if !isOnlyOneOwner {
@@ -281,30 +284,46 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
            }
        }
 
-    
-    func nextScene(_ scene: ChannelInfoFlow.Event) {
+    func nextScene(scene: ChannelInfoFlow.Event) {
         switch scene {
         case let .onMedia(roomId):
-            guard let auraRoom = matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else { return }
-            self.coordinator?.chatMedia(room)
+            guard let auraRoom = matrixUseCase.rooms.first(
+                where: { $0.room.roomId == roomId }
+            ) else {
+                return
+            }
+            self.coordinator?.chatMedia(room: room)
         default:
             break
         }
     }
 
     func onShowUserProfile() {
-        guard let user = participants.first(where: { $0.matrixId == tappedUserId }) else { return }
-        let contact = Contact(mxId: user.matrixId, avatar: user.avatar, name: user.name, status: user.status, phone: "", onTap: { _ in
-        })
-        coordinator?.friendProfile(contact.mxId, self.room.roomId)
+        guard let user = participants.first(
+            where: { $0.matrixId == tappedUserId }
+        ) else {
+            return
+        }
+        let contact = Contact(
+            mxId: user.matrixId,
+            avatar: user.avatar,
+            name: user.name,
+            status: user.status,
+            phone: "",
+            onTap: { _ in }
+        )
+        coordinator?.friendProfile(
+            userId: contact.mxId,
+            roomId: self.room.roomId
+        )
     }
-    
+
     func onDeleteChannel() {
         matrixUseCase.leaveRoom(roomId: room.roomId) { result in
             debugPrint("leaveRoom result:\(result)")
         }
     }
-    
+
     func onDeleteAllUsers() {
         let currentUserId: String = matrixUseCase.getUserId()
         participants.forEach {
@@ -324,14 +343,20 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
             }
         }
     }
-    
-    func onRoleSelected(role: ChannelRole,
-                        ownerCheck: Bool) {
-        guard let matrixId = UserIdValidator.makeValidId(userId: tappedUserId) else { return }
+
+    func onRoleSelected(
+        role: ChannelRole,
+        ownerCheck: Bool
+    ) {
+        guard let matrixId = UserIdValidator.makeValidId(
+            userId: tappedUserId
+        ) else {
+            return
+        }
         let adminAmount = participants.filter({ $0.role == .owner }).count
         if ownerCheck {
             if tappedUserId == matrixUseCase.getUserId() && adminAmount == 1 &&
-                getUserRole(matrixUseCase.getUserId()) == .owner {
+                getUserRole(userId: matrixUseCase.getUserId()) == .owner {
                 showMakeNewRole = true
                 return
             }
@@ -349,7 +374,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
             self.loadUsers()
         }
     }
-    
+
     private func assignTexts() {
         roomDisplayName = room.roomName
         if room.isChannel {
@@ -358,10 +383,12 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
             leaveChannelText = "Выйти из чата"
         }
     }
-    
-    func onAssignAnotherOwners(users: [ChannelParticipantsData],
-                               newRole: ChannelRole?,
-                               completion: @escaping () -> Void) {
+
+    func onAssignAnotherOwners(
+        users: [ChannelParticipantsData],
+        newRole: ChannelRole?,
+        completion: @escaping () -> Void
+    ) {
         guard let role = newRole else { return }
         let group = DispatchGroup()
         if users.count > 1 {
@@ -374,9 +401,11 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
                 }
             }
             userIds = userIds.filter({ !$0.isEmpty })
-            matrixUseCase.updateUsersPowerLevel(userIds: userIds,
-                                                roomId: self.room.roomId,
-                                                powerLevel: ChannelRole.owner.powerLevel) { [weak self] _ in
+            matrixUseCase.updateUsersPowerLevel(
+                userIds: userIds,
+                roomId: self.room.roomId,
+                powerLevel: ChannelRole.owner.powerLevel
+            ) { [weak self] _ in
                 group.leave()
             }
         } else {
@@ -401,21 +430,20 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     }
 
     func showNotifications() {
-        self.coordinator?.notifications(room.roomId)
+        self.coordinator?.notifications(roomId: room.roomId)
     }
 
     func onInviteUsersToChannel(users: [Contact]) {
-        
         for user in users {
             onInviteUsersToChannelGroup.enter()
             matrixUseCase.inviteUser(userId: user.mxId, roomId: room.roomId) { [weak self] result in
                 // TODO: Обработать failure case
-               
                 guard let self = self, case .success = result else { return }
-                
-                self.matrixUseCase.updateUserPowerLevel(userId: user.mxId,
-                                                        roomId: self.room.roomId,
-                                                        powerLevel: 0) { [weak self] _ in
+                self.matrixUseCase.updateUserPowerLevel(
+                    userId: user.mxId,
+                    roomId: self.room.roomId,
+                    powerLevel: 0 // ???
+                ) { [weak self] _ in
                     self?.onInviteUsersToChannelGroup.leave()
                 }
             }
@@ -456,9 +484,11 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
             debugPrint("onInviteUserToChannel: \(result)")
         }
     }
-    
-    func onAssignNewOwners(users: [ChannelParticipantsData],
-                           completion: @escaping () -> Void) {
+
+    func onAssignNewOwners(
+        users: [ChannelParticipantsData],
+        completion: @escaping () -> Void
+    ) {
         let group = DispatchGroup()
         if users.isEmpty {
             return
@@ -513,25 +543,33 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     func getChannelUsers() -> [ChannelParticipantsData] {
         participants
     }
-    
+
     func getChannelUsersFiltered() -> [ChannelParticipantsData] {
         if searchText.isEmpty {
             return participants
         }
         return participants.filter({ $0.name.contains(self.searchText) })
     }
-    
+
     func getCurrentUserRole() -> ChannelRole {
-        return factory.detectUserRole(userId: matrixUseCase.getUserId(),
-                                          roomPowerLevels: roomPowerLevels)
+        factory.detectUserRole(
+            userId: matrixUseCase.getUserId(),
+            roomPowerLevels: roomPowerLevels
+        )
     }
-    
-    func getUserRole(_ userId: String) -> ChannelRole {
-        return factory.detectUserRole(userId: userId,
-                                      roomPowerLevels: roomPowerLevels)
+
+    func getUserRole(userId: String) -> ChannelRole {
+        factory.detectUserRole(
+            userId: userId,
+            roomPowerLevels: roomPowerLevels
+        )
     }
-    
-    func updateUserRole(mxId: String, userRole: ChannelRole) {
+
+    func updateUserRole(
+        mxId: String,
+        userRole: ChannelRole
+    ) {
+        // ???
         debugPrint("Role of \(mxId)  is updated to \(userRole)")
     }
     
@@ -546,43 +584,53 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
             self.objectWillChange.send()
         }
     }
-    
+
     func compareRoles() -> ChannelUserActions {
-        let selectedUserRole = factory.detectUserRole(userId: tappedUserId,
-                                                      roomPowerLevels: roomPowerLevels)
-        let currentUserRole = factory.detectUserRole(userId: matrixUseCase.getUserId(),
-                                                      roomPowerLevels: roomPowerLevels)
+        let selectedUserRole = factory.detectUserRole(
+            userId: tappedUserId,
+            roomPowerLevels: roomPowerLevels
+        )
+        let currentUserRole = factory.detectUserRole(
+            userId: matrixUseCase.getUserId(),
+            roomPowerLevels: roomPowerLevels
+        )
         if tappedUserId == matrixUseCase.getUserId() {
-            return ChannelUserActions(true, false)
+            return ChannelUserActions(changeRole: true, delete: false)
         }
         if selectedUserRole == .owner && currentUserRole == .owner {
-            return ChannelUserActions(false, false)
+            return ChannelUserActions(changeRole: false, delete: false)
         }
         if currentUserRole.powerLevel > selectedUserRole.powerLevel {
-            return ChannelUserActions(true, true)
+            return ChannelUserActions(changeRole: true, delete: true)
         } else {
-            return ChannelUserActions(false, false)
+            return ChannelUserActions(changeRole: false, delete: false)
         }
     }
-    
-    func showParticipantsView(_ viewModel: ChannelInfoViewModel,
-                              _ showParticipants: Binding<Bool>) {
-        self.coordinator?.channelPatricipantsView(viewModel,
-                                                  showParticipantsView: showParticipants)
+
+    func showParticipantsView(
+        viewModel: ChannelInfoViewModel,
+        showParticipants: Binding<Bool>
+    ) {
+        self.coordinator?.channelPatricipantsView(
+            viewModel: viewModel,
+            showParticipantsView: showParticipants
+        )
     }
-    
+
     func dismissSheet() {
         self.coordinator?.dismissCurrentSheet()
     }
-    
-    func selectPhoto(_ sourceType: UIImagePickerController.SourceType) {
-        self.coordinator?.galleryPickerFullScreen(sourceType: sourceType,
-                                                   galleryContent: .all, onSelectImage: { image in
-            if let image = image {
+
+    func selectPhoto(sourceType: UIImagePickerController.SourceType) {
+        self.coordinator?.galleryPickerFullScreen(
+            sourceType: sourceType,
+            galleryContent: .all,
+            onSelectImage: { image in
+                guard let image = image else { return }
                 self.selectedImg = image
-            }
-        }, onSelectVideo: { _ in
-        })
+            },
+            onSelectVideo: { _ in }
+        )
     }
 }
 
@@ -594,9 +642,11 @@ struct ChannelUserActions {
     let delete: Bool
 
     // MARK: - Lifecycle
-    
-    init(_ changeRole: Bool,
-         _ delete: Bool) {
+
+    init(
+        changeRole: Bool,
+        delete: Bool
+    ) {
         self.changeRole = changeRole
         self.delete = delete
     }

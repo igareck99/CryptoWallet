@@ -94,7 +94,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
         case .newContact:
             coordinator?.createContact()
         case .createChannel:
-            coordinator?.createChannel([])
+            coordinator?.createChannel(contacts: [])
         }
     }
 
@@ -257,7 +257,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
     }
 
     private func openRoom(_ room: AuraRoomData) {
-        coordinator?.onFriendProfile(room)
+        coordinator?.onFriendProfile(room: room)
     }
 
     private func onTapUser(_ contact: Contact) {
@@ -268,8 +268,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
         let group = DispatchGroup()
         group.enter()
         if let auraRoom = matrixUseCase.customCheckRoomExist(contact.mxId) {
-            print("lskasklsakl  \(auraRoom)")
-            coordinator?.onFriendProfile(auraRoom)
+            coordinator?.onFriendProfile(room: auraRoom)
             group.leave()
         } else {
             switch contact.type {

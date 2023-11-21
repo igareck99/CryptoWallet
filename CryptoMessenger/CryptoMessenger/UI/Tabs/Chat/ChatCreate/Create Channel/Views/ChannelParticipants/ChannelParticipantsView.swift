@@ -61,11 +61,16 @@ struct ChannelParticipantsView<ViewModel: ChannelInfoViewModelProtocol>: View {
                 })
             .sheet(isPresented: $viewModel.showSelectCurrentUserRole, content: {
                 NavigationView {
-                    ChannelNewOwnerView(users: viewModel.getChannelUsers().filter({
-                        viewModel.getUserRole($0.matrixId) != .owner
+                    ChannelNewOwnerView(
+                        // TODO: Вынести в метод ViewModel
+                        users: viewModel.getChannelUsers().filter({
+                        viewModel.getUserRole(userId: $0.matrixId) != .owner
                     })) { selectedContacts in
-                        viewModel.onAssignAnotherOwners(users: selectedContacts,
-                                                        newRole: selectedRole) {
+                        viewModel.onAssignAnotherOwners(
+                            users: selectedContacts,
+                            newRole: selectedRole
+                        ) {
+                            // ???
                         }
                     }
                 }

@@ -6,6 +6,8 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    weak var window: UIWindow?
+
     private var notificationsUseCase: NotificationsUseCaseProtocol = {
         NotificationsUseCaseAssembly
             .build(

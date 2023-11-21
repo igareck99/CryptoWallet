@@ -8,10 +8,10 @@ struct ChatActionsView: View {
 
     let room: ChatActionsList
     let onSelect: GenericBlock<ChatActions>
-    let viewHeight: GenericBlock<CGFloat>
+    @State var sheetHeight: CGFloat = 223
 
     // MARK: - Body
-    
+
     private var content: some View {
         ForEach(ChatActions.getAvailableActions(room.isWatchProfileAvailable,
                                                 room.isLeaveAvailable), id: \.self) { value in
@@ -26,13 +26,17 @@ struct ChatActionsView: View {
                 .padding(.horizontal, 16)
         }
     }
-    
+
     var body: some View {
         content
+            .presentationDetents([.large, .height(sheetHeight)])
             .onAppear {
-                let value = ChatActions.getSheetHeight(room.isWatchProfileAvailable,
-                                                            room.isLeaveAvailable)
-                viewHeight(value)
+                let value = ChatActions.getSheetHeight(
+                    room.isWatchProfileAvailable,
+                    room.isLeaveAvailable
+                )
+                guard sheetHeight != value else { return }
+                sheetHeight = value
             }
     }
 }

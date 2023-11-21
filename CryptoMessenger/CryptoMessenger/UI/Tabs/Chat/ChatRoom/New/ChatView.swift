@@ -162,20 +162,37 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
     }
 
     private var inputView: some View {
-        ChatInputViewModel(isWriteEnable: $viewModel.userHasAccessToMessage,
-                           inputText: $viewModel.inputText,
-                           activeEditMessage: $viewModel.activeEditMessage,
-                           quickAction: $viewModel.quickAction,
-                           replyDescriptionText: $viewModel.replyDescriptionText) {
-            viewModel.sendMessage(.text, image: nil, url: nil,
-                                  record: nil, location: nil, contact: nil)
-        } onChatRoomMenu: {
-            hideKeyboard()
-            viewModel.showChatRoomMenu()
-        } sendAudio: { record in
-            viewModel.sendMessage(.audio, image: nil, url: nil,
-                                  record: record, location: nil, contact: nil)
-        }
+        ChatInputViewModel(
+            isWriteEnable: $viewModel.userHasAccessToMessage,
+            inputText: $viewModel.inputText,
+            activeEditMessage: $viewModel.activeEditMessage,
+            quickAction: $viewModel.quickAction,
+            replyDescriptionText: $viewModel.replyDescriptionText,
+            sendText: {
+                viewModel.sendMessage(
+                    type: .text,
+                    image: nil,
+                    url: nil,
+                    record: nil,
+                    location: nil,
+                    contact: nil
+                )
+            },
+            onChatRoomMenu: {
+                hideKeyboard()
+                viewModel.showChatRoomMenu()
+            },
+            sendAudio: { record in
+                viewModel.sendMessage(
+                    type: .audio,
+                    image: nil,
+                    url: nil,
+                    record: record,
+                    location: nil,
+                    contact: nil
+                )
+            }
+        )
         .view()
     }
 }

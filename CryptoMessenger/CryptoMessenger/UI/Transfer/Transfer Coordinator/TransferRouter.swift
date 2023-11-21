@@ -15,13 +15,13 @@ protocol TransferRoutable: ObservableObject {
         transaction: FacilityApproveModel,
         coordinator: FacilityApproveViewCoordinatable
     )
-    
+
     func showAdressScanner(_ value: Binding<String>)
 
     func showTransactionResult(model: TransactionResult)
 
     func popToRoot()
-    
+
     func previousScreen()
 }
 
@@ -43,7 +43,7 @@ extension TransferRouter: TransferRoutable {
         coordinator: TransferViewCoordinatable
     ) {
         state.path.append(
-            WalletContentLink.transfer(
+            BaseContentLink.transfer(
                 wallet: wallet,
                 coordinator: coordinator
             )
@@ -55,7 +55,7 @@ extension TransferRouter: TransferRoutable {
         coordinator: TransferViewCoordinatable
     ) {
         state.path.append(
-            WalletContentLink.chooseReceiver(
+            BaseContentLink.chooseReceiver(
                 address: address,
                 coordinator: coordinator
             )
@@ -67,28 +67,28 @@ extension TransferRouter: TransferRoutable {
         coordinator: FacilityApproveViewCoordinatable
     ) {
         state.path.append(
-            WalletContentLink.facilityApprove(
+            BaseContentLink.facilityApprove(
                 transaction: transaction,
                 coordinator: coordinator
             )
         )
     }
-    
+
     func showAdressScanner(_ value: Binding<String>) {
         state.path.append(
-            WalletContentLink.adressScanner(value: value)
+            BaseContentLink.adressScanner(value: value)
         )
     }
 
     func showTransactionResult(model: TransactionResult) {
-        state.presentedItem = WalletSheetLink.transactionResult(model: model)
+        state.presentedItem = BaseSheetLink.transactionResult(model: model)
     }
 
     func popToRoot() {
         state.path = NavigationPath()
         state.presentedItem = nil
     }
-    
+
     func previousScreen() {
         state.path.removeLast()
     }

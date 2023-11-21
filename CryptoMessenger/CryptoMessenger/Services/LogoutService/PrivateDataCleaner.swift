@@ -15,8 +15,10 @@ final class PrivateDataCleaner: PrivateDataCleanerProtocol {
 
     // MARK: - Lifecycle
 
-    init(keychainService: KeychainServiceProtocol = KeychainService.shared,
-         coreDataService: CoreDataServiceProtocol = CoreDataService.shared) {
+    init(
+        keychainService: KeychainServiceProtocol = KeychainService.shared,
+        coreDataService: CoreDataServiceProtocol = CoreDataService.shared
+    ) {
         self.keychainService = keychainService
         self.coreDataService = coreDataService
     }

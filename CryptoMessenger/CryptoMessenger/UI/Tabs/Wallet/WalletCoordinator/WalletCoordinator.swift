@@ -56,7 +56,7 @@ extension WalletCoordinator: WalletCoordinatable {
     }
 
     func onTransfer(_ wallet: WalletInfo) {
-        let transferCoordinator = TransferCoordinatorAssembly.buld(
+        let transferCoordinator = TransferCoordinatorAssembly.build(
             wallet: wallet,
             path: router.routePath(),
             presentedItem: router.presentedItem()

@@ -99,7 +99,10 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
                 return contact
             }
             chatData.contacts = result
-            self.coordinator?.createGroupChat(chatData, result)
+                self.coordinator?.createGroupChat(
+                    chatData: chatData,
+                    contacts: result
+                )
         case .admins:
             break
         }
@@ -219,25 +222,31 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
         default:
             let contacts = result.filter({ $0.type == .lastUsers })
             self.users = contacts.map {
-                let data = SelectContact(mxId: $0.mxId,
-                                         avatar: $0.avatar,
-                                         name: $0.name,
-                                         phone: $0.phone,
-                                         isSelected: false, onTap: { value in
-                    vibrate()
-                    self.onChangeState(value)
-                })
+                let data = SelectContact(
+                    mxId: $0.mxId,
+                    avatar: $0.avatar,
+                    name: $0.name,
+                    phone: $0.phone,
+                    isSelected: false,
+                    onTap: { value in
+                        vibrate()
+                        self.onChangeState(value)
+                    })
                 return data
             }
             self.usersViews = self.users
-        }
     }
+}
 
     private func onChangeState(_ data: SelectContact) {
         guard let index = self.users.firstIndex(where: { $0.mxId == data.mxId }) else { return }
-        let newObject = SelectContact(mxId: data.mxId, avatar: data.avatar,
-                                      name: data.name, phone: data.phone,
-                                      isSelected: !data.isSelected) { value in
+        let newObject = SelectContact(
+            mxId: data.mxId,
+            avatar: data.avatar,
+            name: data.name,
+            phone: data.phone,
+            isSelected: !data.isSelected
+        ) { value in
             vibrate()
             self.onChangeState(value)
         }

@@ -1,6 +1,6 @@
 import Combine
-import SwiftUI
 import MatrixSDK
+import SwiftUI
 
 // MARK: - ChatViewModel
 
@@ -139,7 +139,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             }
         }
     }
-    
+
     private func getCurrentEvents(_ currentRoom: AuraRoomData) -> [RoomEvent] {
         var currentEvents: [RoomEvent] = []
         currentRoom.events.forEach { [weak self] value in
@@ -148,20 +148,22 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             var currentEvent = value
             if item != nil {
                 let id = value == item ? item?.id : value.id
-                currentEvent = RoomEvent(id: id ?? UUID(),
-                                         eventId: value.eventId,
-                                         roomId: value.roomId,
-                                         sender: value.sender,
-                                         sentState: value.sentState,
-                                         eventType: value.eventType,
-                                         shortDate: value.shortDate,
-                                         fullDate: value.fullDate,
-                                         isFromCurrentUser: value.isFromCurrentUser,
-                                         isReply: value.isReply,
-                                         reactions: value.reactions,
-                                         content: value.content,
-                                         eventSubType: value.eventSubType,
-                                         eventDate: value.eventDate)
+                currentEvent = RoomEvent(
+                    id: id ?? UUID(),
+                    eventId: value.eventId,
+                    roomId: value.roomId,
+                    sender: value.sender,
+                    sentState: value.sentState,
+                    eventType: value.eventType,
+                    shortDate: value.shortDate,
+                    fullDate: value.fullDate,
+                    isFromCurrentUser: value.isFromCurrentUser,
+                    isReply: value.isReply,
+                    reactions: value.reactions,
+                    content: value.content,
+                    eventSubType: value.eventSubType,
+                    eventDate: value.eventDate
+                )
                 currentEvents.append(currentEvent)
             } else if value.sentState == .sending {
                 currentEvents.append(value)
@@ -171,27 +173,36 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         }
         return currentEvents
     }
-    
+
     private func getCurrentViews(_ currentEvents: [RoomEvent]) -> [any ViewGeneratable] {
         var currentViews: [any ViewGeneratable] = []
         currentEvents.sorted(by: { $1.eventDate > $0.eventDate }).forEach { [weak self] value in
             guard let self = self else { return }
             if value.sentState == .sent || value.sentState == .sentLocaly {
-                let view = self.factory.makeOneEventView(value: value,
-                                                         events: self.room.events,
-                                                         oldViews: self.itemsFromMatrix,
-                                                         delegate: self,
-                                                         onLongPressMessage: { event in
-                    self.onLongPressMessage(event)
-                }, onReactionTap: { reaction in
-                    self.onRemoveReaction(reaction)
-                }, onTapNotSendedMessage: { event in
-                    self.onTapNotSendedMessage(event)
-                }, onSwipeReply: { value in
-                    self.activeEditMessage = value
-                    self.quickAction = .reply
-                    self.replyDescriptionText = self.makeReplyDescription(self.activeEditMessage)
-                })
+                let view = self.factory.makeOneEventView(
+                    value: value,
+                    events: self.room.events,
+                    oldViews: self.itemsFromMatrix,
+                    delegate: self,
+                    onLongPressMessage: { [weak self] event in
+                        guard let self = self else { return }
+                        self.onLongPressMessage(event)
+                    },
+                    onReactionTap: { [weak self] reaction in
+                        guard let self = self else { return }
+                        self.onRemoveReaction(reaction)
+                    },
+                    onTapNotSendedMessage: { [weak self] event in
+                        guard let self = self else { return }
+                        self.onTapNotSendedMessage(event)
+                    },
+                    onSwipeReply: { [weak self] value in
+                        guard let self = self else { return }
+                        self.activeEditMessage = value
+                        self.quickAction = .reply
+                        self.replyDescriptionText = self.makeReplyDescription(self.activeEditMessage)
+                    }
+                )
                 if let view = view {
                     currentViews.append(view)
                 }
@@ -202,7 +213,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         }
         return currentViews
     }
-    
+
     private func makeDisplayItems(_ views: [any ViewGeneratable]) -> [any ViewGeneratable] {
         var currentViews: [any ViewGeneratable] = views
         var outputEvents: [RoomEvent] = self.room.events.filter({ $0.sentState == .failToSend }).map {
@@ -248,11 +259,12 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 guard let self = self else { return }
                 switch value {
                 case let .onAppear(proxy):
-                        self.scrollProxy = proxy
+                    self.scrollProxy = proxy
 //                        scrollToBottom()
-                    self.matrixUseCase.getRoomState(roomId: self.room.roomId) { [weak self] result in
-                        guard let self = self else { return }
-                        guard case let .success(state) = result,
+                    self.matrixUseCase.getRoomState(
+                        roomId: self.room.roomId
+                    ) { [weak self] result in
+                        guard let self = self, case let .success(state) = result,
                               let pLevels = state.powerLevels else { return }
                         DispatchQueue.main.async {
                             self.roomPowerLevels = pLevels
@@ -264,13 +276,19 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         debugPrint("self?.isChannel: pLevels.eventsDefault == 50 \(self.isChannel)")
                     }
                     self.loadUsers()
-                    guard let mxRoom = self.matrixUseCase.getRoomInfo(roomId: self.room.roomId) else { return }
-                    guard let auraRoom = self.matrixobjectFactory
-                        .makeAuraRooms(mxRooms: [mxRoom],
-                                       isMakeEvents: false,
-                                       config: self.config,
-                                       eventsFactory: RoomEventObjectFactory(),
-                                       matrixUseCase: self.matrixUseCase).first else { return }
+                    guard let mxRoom = self.matrixUseCase.getRoomInfo(
+                        roomId: self.room.roomId
+                    ),
+                          let auraRoom = self.matrixobjectFactory.makeAuraRooms(
+                            mxRooms: [mxRoom],
+                            isMakeEvents: false,
+                            config: self.config,
+                            eventsFactory: RoomEventObjectFactory(),
+                            matrixUseCase: self.matrixUseCase
+                          ).first
+                    else {
+                        return
+                    }
                     DispatchQueue.main.async {
                         self.updateToggles()
                         self.room = auraRoom
@@ -491,7 +509,9 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     }
 
     private func onTapNotSendedMessage(_ event: RoomEvent) {
-        self.coordinator.notSendedMessageMenu(event, { type, event in
+        self.coordinator.notSendedMessageMenu(
+            event: event,
+            onTapItem: { type, event in
             self.coordinator.dismissCurrentSheet()
             switch type {
             case .delete:
@@ -504,11 +524,15 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     }
 
     private func onLongPressMessage(_ event: RoomEvent) {
-        let role = channelFactory.detectUserRole(userId: event.sender,
-                                                 roomPowerLevels: roomPowerLevels)
-        coordinator.messageReactions(event.isFromCurrentUser,
-                                     room.isChannel,
-                                     role, { action in
+        let role = channelFactory.detectUserRole(
+            userId: event.sender,
+            roomPowerLevels: roomPowerLevels
+        )
+        coordinator.messageReactions(
+            isCurrentUser: event.isFromCurrentUser,
+            isChannel: room.isChannel,
+            userRole: role,
+            onAction: { action in
             withAnimation(.easeIn(duration: 0.25)) {
                 self.activeEditMessage = event
                 self.quickAction = action
@@ -516,15 +540,17 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 self.coordinator.dismissCurrentSheet()
             }
             debugPrint("Message Action  \(action)")
-        }, { reaction in
+        }, onReaction: { reaction in
             self.coordinator.dismissCurrentSheet()
-            self.matrixUseCase.react(eventId: event.eventId,
-                                     roomId: self.room.roomId,
-                                     emoji: reaction)
+            self.matrixUseCase.react(
+                eventId: event.eventId,
+                roomId: self.room.roomId,
+                emoji: reaction
+            )
             self.matrixUseCase.objectChangePublisher.send()
         })
     }
-    
+
     private func makeReplyDescription(_ event: RoomEvent?) -> String {
         guard let event = event else { return "" }
         switch event.eventType {
@@ -549,9 +575,12 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
 
     private func onRemoveReaction(_ event: ReactionNewEvent) {
         guard let userId = event.sendersIds.first(where: { $0 == matrixUseCase.getUserId() }) else { return }
-        matrixUseCase.removeReaction(roomId: room.roomId,
-                                     text: event.emoji,
-                                     eventId: event.relatedEvent) { _ in
+        matrixUseCase.removeReaction(
+            roomId: room.roomId,
+            text: event.emoji,
+            eventId: event.relatedEvent
+        ) { [weak self] _ in
+            guard let self = self else { return }
             self.matrixUseCase.objectChangePublisher.send()
         }
     }
@@ -571,61 +600,44 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                                                 isReply)
         return event
     }
-    
-    private func updateSendedEvent(_ event: RoomEvent) {
-        let newEvent = RoomEvent(id: event.id,
-                                 eventId: event.eventId,
-                                 roomId: event.roomId,
-                                 sender: event.sender,
-                                 sentState: event.sentState,
-                                 eventType: event.eventType,
-                                 shortDate: event.shortDate,
-                                 fullDate: event.fullDate,
-                                 isFromCurrentUser: event.isFromCurrentUser,
-                                 isReply: event.isReply,
-                                 reactions: event.reactions,
-                                 content: event.content,
-                                 eventSubType: event.eventSubType,
-                                 eventDate: event.eventDate)
-        guard let view = factory.makeOneEventView(value: event,
-                                                  events: [],
-                                                  oldViews: [],
-                                                  delegate: self, onLongPressMessage: { _ in
-        }, onReactionTap: { _ in
-        }, onTapNotSendedMessage: { event in
-            self.onTapNotSendedMessage(event)
-        }, onSwipeReply: { _ in
-        }) else { return }
-    }
 
-    func changeSedingEvent(_ event: RoomEvent,
-                           _ state: RoomSentState = .sentLocaly,
-                           _ eventId: String = "") {
+    func changeSedingEvent(
+        event: RoomEvent,
+        state: RoomSentState = .sentLocaly,
+        eventId: String = ""
+    ) {
         guard let index = self.room.events.firstIndex(of: event) else { return }
         self.room.events.remove(at: index)
-        let newEvent = RoomEvent(id: event.id,
-                                 eventId: eventId,
-                                 roomId: event.roomId,
-                                 sender: event.sender,
-                                 sentState: state,
-                                 eventType: event.eventType,
-                                 shortDate: event.shortDate,
-                                 fullDate: event.fullDate,
-                                 isFromCurrentUser: event.isFromCurrentUser,
-                                 isReply: event.isReply,
-                                 reactions: event.reactions,
-                                 content: event.content,
-                                 eventSubType: event.eventSubType,
-                                 eventDate: event.eventDate)
-        guard let view = factory.makeOneEventView(value: newEvent,
-                                                  events: room.events,
-                                                  oldViews: displayItems,
-                                                  delegate: self, onLongPressMessage: { _ in
-        }, onReactionTap: { _ in
-        }, onTapNotSendedMessage: { event in
-            self.onTapNotSendedMessage(event)
-        }, onSwipeReply: { _ in
-        }) else { return }
+        let newEvent = RoomEvent(
+            id: event.id,
+            eventId: eventId,
+            roomId: event.roomId,
+            sender: event.sender,
+            sentState: state,
+            eventType: event.eventType,
+            shortDate: event.shortDate,
+            fullDate: event.fullDate,
+            isFromCurrentUser: event.isFromCurrentUser,
+            isReply: event.isReply,
+            reactions: event.reactions,
+            content: event.content,
+            eventSubType: event.eventSubType,
+            eventDate: event.eventDate
+        )
+        guard let view = factory.makeOneEventView(
+            value: newEvent,
+            events: room.events,
+            oldViews: displayItems,
+            delegate: self,
+            onLongPressMessage: { _ in },
+            onReactionTap: { _ in },
+            onTapNotSendedMessage: { [weak self] event in
+                self?.onTapNotSendedMessage(event)
+            },
+            onSwipeReply: { _ in }
+        ) else {
+            return
+        }
         guard let existingViewIndex = self.displayItems.firstIndex(where: { $0.id == newEvent.id }) else { return }
         if state == .sentLocaly {
             self.displayItems.append(view)
@@ -637,122 +649,153 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     }
 
     func showChatRoomMenu() {
-        self.coordinator.chatMenu({ result in
+        self.coordinator.chatMenu(
+            tappedAction: { [weak self] result in
+                guard let self = self else { return }
             switch result {
-            case .media:
+                case .media:
                 self.coordinator.galleryPickerSheet(
                     sourceType: .photoLibrary,
-                    galleryContent: .all
-                ) { [weak self] image in
-                    guard let image = image else { return }
-                    self?.sendMessage(.image, image: image)
-                } onSelectVideo: { [weak self] url in
-                    guard let url = url else { return }
-                    self?.sendMessage(.video, url: url)
-                }
-            case .contact:
+                    galleryContent: .all,
+                    onSelectImage: { [weak self] image in
+                        guard let self = self, let image = image else { return }
+                        self.sendMessage(type: .image, image: image)
+                    },
+                    onSelectVideo: { [weak self] url in
+                        guard let self = self, let url = url else { return }
+                        self.sendMessage(type: .video, url: url)
+                    }
+                )
+                case .contact:
                 self.coordinator.showSelectContact(
                     mode: .send,
-                    chatData: Binding(get: {
-                        self.chatData
-                    }, set: { value in
-                        self.chatData = value
-                    }),
-                    contactsLimit: 1
-                ) { contacts in
-                    contacts.forEach {
-                        self.sendMessage(.contact, contact: $0)
+                    chatData: Binding(
+                        get: { self.chatData },
+                        set: { value in self.chatData = value }
+                    ),
+                    contactsLimit: 1,
+                    onUsersSelected: { [weak self] contacts in
+                        guard let self = self else { return }
+                        contacts.forEach {
+                            self.sendMessage(type: .contact, contact: $0)
+                        }
                     }
-                }
-            case .document:
-                self.coordinator.presentDocumentPicker(onCancel: { [weak self] in
-                    self?.coordinator.dismissCurrentSheet()
-                }, onDocumentsPicked: { [weak self] url in
-                    url.forEach {
-                        self?.sendMessage(.file, url: $0)
+                )
+                case .document:
+                self.coordinator.presentDocumentPicker(
+                    onCancel: { [weak self] in
+                        guard let self = self else { return }
+                        self.coordinator.dismissCurrentSheet()
+                    },
+                    onDocumentsPicked: { [weak self] url in
+                        guard let self = self else { return }
+                        url.forEach {
+                            self.sendMessage(type: .file, url: $0)
+                        }
                     }
-                })
-            case .location:
+                )
+                case .location:
                 self.coordinator.presentLocationPicker(
-                    place: Binding(get: {
-                        self.location
-                    }, set: { value in
-                        self.location = value ?? .zero
-                    }),
-                    sendLocation: Binding(get: {
-                        self.isSendLocation
-                    }, set: { value in
-                        self.isSendLocation = value
-                    }), onSendPlace: { [weak self] place in
-                        let data = LocationData(lat: place.latitude,
-                                                long: place.longitude)
-                        self?.sendMessage(.location, location: data)
-                    })
-            default:
-                break
+                    place: Binding(
+                        get: { self.location },
+                        set: { value in self.location = value ?? .zero }
+                    ),
+                    sendLocation: Binding(
+                        get: { self.isSendLocation },
+                        set: { value in self.isSendLocation = value }
+                    ),
+                    onSendPlace: { [weak self] place in
+                        guard let self = self else { return }
+                        let data = LocationData(lat: place.latitude, long: place.longitude)
+                        self.sendMessage(type: .location, location: data)
+                    }
+                )
+                default:
+                    break
             }
-        }, {
-            self.coordinator.galleryPickerSheet(sourceType: .camera,
-                                                galleryContent: .all) { image in
-                guard let image = image else { return }
-                self.sendMessage(.image, image: image)
-            } onSelectVideo: { url in
-                guard let url = url else { return }
-                self.sendMessage(.video, url: url)
-                self.sendVideo(url, self.makeOutputEventView(.video(url)))
+        },
+            onCamera: { [weak self] in
+                guard let self = self else { return }
+                self.coordinator.galleryPickerSheet(
+                    sourceType: .camera,
+                    galleryContent: .all,
+                    onSelectImage: { [weak self] image in
+                        guard let image = image else { return }
+                        self?.sendMessage(type: .image, image: image)
+                    },
+                    onSelectVideo: { [weak self] url in
+                        guard let self = self, let url = url else { return }
+                        self.sendMessage(type: .video, url: url)
+                        self.sendVideo(
+                            url,
+                            self.makeOutputEventView(.video(url))
+                        )
+                    }
+                )
+            },
+            onSendPhoto: { [weak self] image in
+                guard let self = self else { return }
+                self.sendMessage(type: .image, image: image)
+                self.coordinator.dismissCurrentSheet()
             }
-        }, { image in
-            self.sendMessage(.image, image: image)
-            self.coordinator.dismissCurrentSheet()
-        })
+        )
     }
 
-    func sendMessage(_ type: MessageSendType,
-                     image: UIImage? = nil,
-                     url: URL? = nil,
-                     record: RecordingDataModel? = nil,
-                     location: LocationData? = nil,
-                     contact: Contact? = nil) {
+    func sendMessage(
+        type: MessageSendType,
+        image: UIImage? = nil,
+        url: URL? = nil,
+        record: RecordingDataModel? = nil,
+        location: LocationData? = nil,
+        contact: Contact? = nil
+    ) {
         switch type {
         case .text:
             let event = self.makeOutputEventView(.text(inputText))
-            self.addOutputEvent(event)
+            self.addOutputEvent(event: event)
             self.scrollToBottom()
             self.sendText()
         case .image:
             guard let image = image else { return }
             let url = URL(fileURLWithPath: "")
             let event = self.makeOutputEventView(.image(url))
-            self.addOutputEvent(event)
+            self.addOutputEvent(event: event)
             self.scrollToBottom()
             self.sendPhoto(image, event)
         case .video:
             guard let url = url else { return }
             let event = self.makeOutputEventView(.video(url))
-            self.addOutputEvent(event)
+            self.addOutputEvent(event: event)
             self.scrollToBottom()
             self.sendVideo(url, event)
         case .file:
             guard let url = url else { return }
             let event = self.makeOutputEventView(.file("", url))
-            self.addOutputEvent(event)
+            self.addOutputEvent(event: event)
             self.scrollToBottom()
             self.sendFile(url, event)
         case .audio:
             guard let record = record else { return }
             let event = self.makeOutputEventView(.audio(record.fileURL))
-            self.addOutputEvent(event)
+            self.addOutputEvent(event: event)
             self.scrollToBottom()
-            self.sendAudio(record, event)
+            self.sendAudio(
+                record: record,
+                event: event
+            )
         case .location:
             guard let location = location else { return }
-            let event = self.makeOutputEventView(.location((lat: location.lat,
-                                                             long: location.long)))
-            self.addOutputEvent(event)
+                let event = self.makeOutputEventView(
+                    .location(
+                        (lat: location.lat,
+                               long: location.long)
+                    )
+                )
+            self.addOutputEvent(event: event)
             self.scrollToBottom()
             self.sendMap(location, event)
         case .contact:
-            guard var contact = contact else { return }
+            guard let contact = contact else { return }
             // TODO: - поиск id/номера телефона
             apiClient.publisher(Endpoints.Users.users([contact.phone]))
                 .replaceError(with: [:])
@@ -760,26 +803,35 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     debugPrint("Response in  \(response)")
                 }
                 .store(in: &subscriptions)
-            let event = self.makeOutputEventView(.contact(name: contact.name,
-                                                          phone: contact.phone,
-                                                          url: contact.avatar))
-            self.addOutputEvent(event)
+
+                let event = self.makeOutputEventView(
+                    .contact(
+                        name: contact.name,
+                        phone: contact.phone,
+                        url: contact.avatar
+                    )
+                )
+            self.addOutputEvent(event: event)
             self.scrollToBottom()
             self.sendContact(contact, event)
         default:
             break
         }
     }
-    
-    private func addOutputEvent(_ event: RoomEvent) {
-        let view = self.factory.makeOneEventView(value: event,
-                                                 events: self.room.events,
-                                                 oldViews: self.displayItems,
-                                                 delegate: self) { _ in
-        } onReactionTap: { _ in
-        } onTapNotSendedMessage: { _ in
-        } onSwipeReply: { _ in
-        } ?? ZeroViewModel()
+
+    private func addOutputEvent(event: RoomEvent) {
+        guard let view = self.factory.makeOneEventView(
+            value: event,
+            events: self.room.events,
+            oldViews: self.displayItems,
+            delegate: self,
+            onLongPressMessage: { _ in },
+            onReactionTap: { _ in },
+            onTapNotSendedMessage: { _ in },
+            onSwipeReply: { _ in }
+        ) else {
+            return
+        }
         self.room.events.append(event)
         self.displayItems.append(view)
     }

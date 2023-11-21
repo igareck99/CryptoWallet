@@ -200,19 +200,17 @@ final class ChatRoomViewModel: ObservableObject {
         }
         if existingRoom.room.roomId != self.room.room.roomId {
             if let coordinator = coordinator {
-                self.coordinator?.firstAction(existingRoom)
+                self.coordinator?.firstAction(room: existingRoom)
             }
         }
     }
     
     func joinRoom(_ roomId: String) {
-        self.matrixUseCase.joinRoom(roomId: roomId) { _ in
-            guard let newRoom = self.matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {
+        self.matrixUseCase.joinRoom(roomId: roomId) { [weak self] _ in
+            guard let newRoom = self?.matrixUseCase.rooms.first(where: { $0.room.roomId == roomId }) else {
                 return
             }
-            if let coordinator = self.coordinator {
-                self.coordinator?.firstAction(newRoom)
-            }
+            self?.coordinator?.firstAction(room: newRoom)
         }
     }
 

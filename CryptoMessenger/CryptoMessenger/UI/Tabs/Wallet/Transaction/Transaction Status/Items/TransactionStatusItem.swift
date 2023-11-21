@@ -26,4 +26,8 @@ struct TransactionStatusItem: ViewGeneratable {
             model: self
         ).anyView()
     }
+
+    func getItemHeight() -> CGFloat {
+        54
+    }
 }

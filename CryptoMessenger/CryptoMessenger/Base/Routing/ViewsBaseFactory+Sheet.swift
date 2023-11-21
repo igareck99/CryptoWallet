@@ -1,16 +1,18 @@
-import Foundation
 import SwiftUI
 
-extension ChatHistoryRouter {
-
+extension ViewsBaseFactory {
     @ViewBuilder
-    func sheetContent(item: ChatHistorySheetLink) -> some View {
-        switch item {
+    static func makeSheet(link: BaseSheetLink) -> some View {
+        switch link {
+        case let .transactionResult(model):
+            TransactionResultAssembly.build(model: model)
+        case let .addSeed(addSeedView):
+            addSeedView()
         case let .chatRoomMenu(action, onCamera, onSendPhoto):
             ActionSheetViewAssembly.build(action, onCamera, onSendPhoto)
                 .presentationDetents([.height(435)])
         case let .createChat(view, onDisappear):
-            view.toolbar(.hidden, for: .navigationBar)
+            view().toolbar(.hidden, for: .navigationBar)
                 .onDisappear {
                     onDisappear()
                 }
@@ -40,11 +42,8 @@ extension ChatHistoryRouter {
         case let .chatActions(room, onSelect):
             ChatActionsAssembly.build(
                 room,
-                onSelect: onSelect,
-                viewHeight: { value in
-                    state.sheetHeight = value
-                })
-            .presentationDetents([.large, .height(state.sheetHeight)]).anyView()
+                onSelect: onSelect
+            ).anyView()
         case let .documentPicker(
             onCancel,
             onDocumentsPicked
@@ -59,7 +58,7 @@ extension ChatHistoryRouter {
                 sendLocation: sendLocation,
                 onSendPlace: onSendPlace
             )
-        case let .selectContact(
+        case let .selectContacts(
             mode,
             chatData,
             contactsLimit,
@@ -88,17 +87,23 @@ extension ChatHistoryRouter {
                 url: fileUrl,
                 fileName: fileName
             )
-        case let .messageReactions(isCurrentUser: isCurrentUser,
-                                   isChannel: isChannel,
-                                   userRole: userRole,
-                                   onAction: onAction,
-                                   onReaction: onReaction):
-            RoomMessageMenuAssembly.build(isCurrentUser,
-                                          isChannel,
-                                          userRole,
-                                          onAction,
-                                          onReaction)
-            .presentationDetents([.height(CGFloat(QiuckMenyViewSize.size(isCurrentUser, isChannel, userRole)))])
+        case let .messageReactions(
+            isCurrentUser: isCurrentUser,
+            isChannel: isChannel,
+            userRole: userRole,
+            onAction: onAction,
+            onReaction: onReaction
+        ):
+            RoomMessageMenuAssembly.build(
+                isCurrentUser,
+                isChannel,
+                userRole,
+                onAction,
+                onReaction
+            )
+            .presentationDetents(
+                [.height(CGFloat(QiuckMenyViewSize.size(isCurrentUser, isChannel, userRole)))]
+            )
             .anyView()
         case let .sendingMessageMenu(event, onTapItem):
             NotSendedMessageMenuAssembly.build(event, onTapItem)

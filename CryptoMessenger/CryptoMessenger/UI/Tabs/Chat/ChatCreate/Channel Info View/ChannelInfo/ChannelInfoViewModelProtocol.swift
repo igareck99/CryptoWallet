@@ -68,8 +68,10 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
 
     func onInviteUsersToChannel(users: [Contact])
     
-    func onAssignNewOwners(users: [ChannelParticipantsData],
-                           completion: @escaping () -> Void)
+    func onAssignNewOwners(
+        users: [ChannelParticipantsData],
+        completion: @escaping () -> Void
+    )
 
     func onBanUserFromChannel()
 
@@ -93,7 +95,7 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     
     func onLeaveChannel()
     
-    func nextScene(_ scene: ChannelInfoFlow.Event)
+    func nextScene(scene: ChannelInfoFlow.Event)
     
     func onMakeRoleTap()
     
@@ -101,7 +103,7 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     
     func getCurrentUserRole() -> ChannelRole
     
-    func getUserRole(_ userId: String) -> ChannelRole
+    func getUserRole(userId: String) -> ChannelRole
     
     func compareRoles() -> ChannelUserActions
     
@@ -117,14 +119,20 @@ protocol ChannelInfoViewModelProtocol: ObservableObject {
     
     func getChannelUsersFiltered() -> [ChannelParticipantsData]
     
-    func onAssignAnotherOwners(users: [ChannelParticipantsData],
-                               newRole: ChannelRole?,
-                               completion: @escaping () -> Void)
+    func onAssignAnotherOwners(
+        users: [ChannelParticipantsData],
+        newRole: ChannelRole?,
+        completion: @escaping () -> Void
+    )
     
-    func showParticipantsView(_ viewModel: ChannelInfoViewModel,
-                              _ showParticipants: Binding<Bool>)
+    func showParticipantsView(
+        viewModel: ChannelInfoViewModel,
+        showParticipants: Binding<Bool>
+    )
     
     func dismissSheet()
     
-    func selectPhoto(_ sourceType: UIImagePickerController.SourceType)
+    func selectPhoto(
+        sourceType: UIImagePickerController.SourceType
+    )
 }

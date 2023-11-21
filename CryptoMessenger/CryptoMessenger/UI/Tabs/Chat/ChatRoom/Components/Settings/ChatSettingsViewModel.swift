@@ -88,11 +88,11 @@ final class ChatSettingsViewModel: ObservableObject {
     }
 
     func onMedia() {
-        coordinator.chatMedia(room)
+        coordinator.chatMedia(room: room)
     }
 
     func onNotifications() {
-        coordinator.notifications(room.roomId)
+        coordinator.notifications(roomId: room.roomId)
     }
 
     func onLeaveRoom() {
@@ -101,7 +101,7 @@ final class ChatSettingsViewModel: ObservableObject {
             self.coordinator.popToRoot()
         }
     }
-    
+
     private func getRoomAvatarUrl(_ url: URL?) {
         guard let url = self.matrixUseCase.getRoomAvatarUrl(roomId: url?.absoluteString ?? "") else { return }
         let homeServer = self.config.matrixURL
@@ -118,7 +118,6 @@ final class ChatSettingsViewModel: ObservableObject {
         self.roomImageUrl = user.avatar
     }
 }
-
 
 enum ChatSettingsActionState {
     case blockUser
