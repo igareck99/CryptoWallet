@@ -15,6 +15,7 @@ struct NotificationSettingsView: View {
         content
         .navigationBarHidden(false)
         .toolbar(.hidden, for: .tabBar)
+        .navigationBarBackButtonHidden(true)
         .toolbar {
             createToolBar()
         }
@@ -46,6 +47,12 @@ struct NotificationSettingsView: View {
                 .font(.bodySemibold17)
                 .lineLimit(1)
         }
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button {
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                R.image.navigation.backButton.image
+            }
+        }
     }
-
 }

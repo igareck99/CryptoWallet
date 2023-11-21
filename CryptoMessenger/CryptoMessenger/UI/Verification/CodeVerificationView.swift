@@ -3,6 +3,7 @@ import SwiftUI
 struct CodeVerificationView<ViewModel: VerificationPresenterProtocol>: View {
 
     @StateObject var viewModel: ViewModel
+    @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
         NavigationView {
@@ -58,5 +59,20 @@ struct CodeVerificationView<ViewModel: VerificationPresenterProtocol>: View {
         }
         .navigationBarHidden(false)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            createToolBar()
+        }
+    }
+    
+    @ToolbarContentBuilder
+    private func createToolBar() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button {
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                R.image.navigation.backButton.image
+            }
+        }
     }
 }
