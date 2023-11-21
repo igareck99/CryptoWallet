@@ -71,15 +71,15 @@ enum BaseSheetLink: Hashable, Identifiable {
         onAction: GenericBlock<QuickActionCurrentUser>,
         onReaction: GenericBlock<String>
     )
-    case chatRoomMenu(
-        tappedAction: (AttachAction) -> Void,
-        onCamera: () -> Void,
-        onSendPhoto: (UIImage) -> Void
-    )
+
+    case chatRoomMenu(model: ActionsViewModel)
+
     case sendingMessageMenu(
         event: RoomEvent,
         onTapItem: (NotSendedMessage, RoomEvent) -> Void
     )
+
+    // Transaction
 
     case transactionStatus(model: TransactionStatus)
 

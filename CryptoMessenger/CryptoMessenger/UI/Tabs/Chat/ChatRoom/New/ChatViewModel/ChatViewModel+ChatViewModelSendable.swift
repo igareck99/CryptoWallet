@@ -12,18 +12,18 @@ extension ChatViewModel {
         ) { [weak self] result in
             guard let self = self else { return }
             switch result {
-                case let .success(eventId):
-                    guard let eventId = eventId else { return }
-                    self.changeSedingEvent(
-                        event: event,
-                        state: .sentLocaly,
-                        eventId: eventId
-                    )
-                case .failure(_):
-                    self.changeSedingEvent(
-                        event: event,
-                        state: .failToSend
-                    )
+            case let .success(eventId):
+                guard let eventId = eventId else { return }
+                self.changeSedingEvent(
+                    event: event,
+                    state: .sentLocaly,
+                    eventId: eventId
+                )
+            case .failure(_):
+                self.changeSedingEvent(
+                    event: event,
+                    state: .failToSend
+                )
             }
         }
     }
@@ -32,8 +32,8 @@ extension ChatViewModel {
         let mxImage = MXImage(systemName: "eraser")
         self.mediaService.uploadVideoMessage(
             for: room.roomId,
-                                             url: url,
-                                             thumbnail: mxImage
+            url: url,
+            thumbnail: mxImage
         ) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -52,7 +52,7 @@ extension ChatViewModel {
         }
         }
     }
-    
+
     func sendContact(_ contact: Contact, _ event: RoomEvent) {
         self.mediaService.uploadChatContact(
             roomId: room.roomId,
@@ -75,7 +75,7 @@ extension ChatViewModel {
             }
         }
     }
-    
+
     func sendMap(_ location: LocationData?, _ event: RoomEvent) {
         self.matrixUseCase.sendLocation(
             roomId: room.roomId,
@@ -98,7 +98,7 @@ extension ChatViewModel {
             }
         }
     }
-    
+
     func sendFile(_ url: URL, _ event: RoomEvent) {
         self.mediaService.uploadChatFile(roomId: self.room.roomId,
                                          url: url) { result in
@@ -208,37 +208,6 @@ extension ChatViewModel {
                     state: .failToSend
                 )
             }
-        }
-    }
-
-    // MARK: - Send Crypto
-
-    func sendCrypto() {
-        guard !isCryptoSending else { return }
-        isCryptoSending = true
-        let currentUserId: String = matrixUseCase.getUserId()
-        guard !currentUserId.isEmpty, let receiverUserId: String = participants.first(
-            where: { $0.matrixId != currentUserId }
-        )?.matrixId else {
-            return
-        }
-
-        let model = TransferCryptoEvent(
-            amount: "0.000002",
-            currency: "ETH",
-            date: Date().timeIntervalSince1970,
-            receiver: receiverUserId,
-            sender: currentUserId,
-            hash: "hash",
-            block: "block",
-            status: "status"
-        )
-        matrixUseCase.sendTransferCryptoEvent(
-            roomId: room.roomId,
-            model: model
-        ) { [weak self] in
-            debugPrint("sendTransferCryptoEvent Result: \($0)")
-            debugPrint("sendTransferCryptoEvent Result")
         }
     }
 }

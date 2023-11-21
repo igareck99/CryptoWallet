@@ -255,16 +255,8 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
         )
     }
 
-    func chatMenu(
-        tappedAction: @escaping (AttachAction) -> Void,
-        onCamera: @escaping () -> Void,
-        onSendPhoto: @escaping (UIImage) -> Void
-    ) {
-        router.chatMenu(
-            tappedAction: tappedAction,
-            onCamera: onCamera,
-            onSendPhoto: onSendPhoto
-        )
+    func chatMenu(model: ActionsViewModel) {
+        router.chatMenu(model: model)
     }
 
     func notSendedMessageMenu(
@@ -281,13 +273,19 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
         router.showTransactionStatus(model: model)
     }
 
-    func transferCrypto(wallet: WalletInfo) {
+    func transferCrypto(
+        wallet: WalletInfo,
+        receiverData: UserReceiverData?,
+        onTransferCompletion: @escaping (TransactionSendResponse?) -> Void
+    ) {
         let transferCoordinator = TransferCoordinatorAssembly.build(
             wallet: wallet,
+            receiverData: receiverData,
             path: router.routePath(),
             presentedItem: router.presentedItem()
-        ) { [weak self] coordinator in
+        ) { [weak self] coordinator, rawTransaction in
             self?.removeChildCoordinator(coordinator)
+            onTransferCompletion(rawTransaction)
         }
         addChildCoordinator(transferCoordinator)
         transferCoordinator.start()

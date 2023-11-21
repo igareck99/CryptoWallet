@@ -3,7 +3,8 @@ import SwiftUI
 protocol TransferRoutable: ObservableObject {
     func transfer(
         wallet: WalletInfo,
-        coordinator: TransferViewCoordinatable
+        coordinator: TransferViewCoordinatable,
+        receiverData: UserReceiverData?
     )
 
     func chooseReceiver(
@@ -40,12 +41,14 @@ extension TransferRouter: TransferRoutable {
 
     func transfer(
         wallet: WalletInfo,
-        coordinator: TransferViewCoordinatable
+        coordinator: TransferViewCoordinatable,
+        receiverData: UserReceiverData?
     ) {
         state.path.append(
             BaseContentLink.transfer(
                 wallet: wallet,
-                coordinator: coordinator
+                coordinator: coordinator,
+                receiverData: receiverData
             )
         )
     }

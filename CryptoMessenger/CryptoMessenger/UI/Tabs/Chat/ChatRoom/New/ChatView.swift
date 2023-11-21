@@ -41,6 +41,15 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                 Spacer()
                 inputView
             }
+            .popup(
+                isPresented: viewModel.isSnackbarPresented,
+                alignment: .bottom
+            ) {
+                Snackbar(
+                    text: viewModel.messageText,
+                    color: .spanishCrimson
+                )
+            }
         }
         .navigationBarBackButtonHidden(true)
         .onTapGesture {

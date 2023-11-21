@@ -98,12 +98,20 @@ final class TransferViewModel: ObservableObject {
     @Injectable private var apiClient: APIClientManager
     @Injectable private var contactsStore: ContactsManager
     @Injectable private(set) var matrixUseCase: MatrixUseCaseProtocol
+    
+    @Published var receiverData: UserReceiverData = UserReceiverData(
+        name: "",
+        url: URL(string: ""),
+        adress: "",
+        walletType: .ethereum
+    )
 
     // MARK: - Lifecycle
 
     init(
 		wallet: WalletInfo,
         coordinator: TransferViewCoordinatable,
+        receiverData: UserReceiverData? = nil,
 		keychainService: KeychainServiceProtocol = KeychainService.shared,
 		keysService: KeysServiceProtocol = KeysService(),
 		walletNetworks: WalletNetworkFacadeProtocol = WalletNetworkFacade(),
@@ -114,6 +122,11 @@ final class TransferViewModel: ObservableObject {
 	) {
 		self.currentWallet = wallet
         self.coordinator = coordinator
+        if let rData = receiverData {
+            self.receiverData = rData
+            self.addressTo = rData.adress
+            self.currentWalletType = rData.walletType
+        }
 		self.currentWalletType = wallet.walletType
 		self.keychainService = keychainService
 		self.keysService = keysService
@@ -197,15 +210,22 @@ final class TransferViewModel: ObservableObject {
     private func bindInput() {
         eventSubject
             .sink { [weak self] event in
+                guard let self = self else { return }
                 switch event {
                 case .onAppear:
-                    self?.objectWillChange.send()
+                    self.objectWillChange.send()
                 case .onApprove:
-					self?.transactionTemplate()
-                case let .onChooseReceiver(address):
-                    self?.coordinator.chooseReceiver(address: address)
+					self.transactionTemplate()
+                case .onChooseReceiver:
+                    self.receiverData.walletType = self.currentWallet.walletType
+                        self.coordinator.chooseReceiver(address: Binding(get: {
+                            self.receiverData
+                        }, set: { value, transaction in
+                            debugPrint("TransferViewModel bindInput transaction: \(transaction)")
+                            self.receiverData = value
+                        }))
 				case let .onAddressChange(address):
-					self?.addressTo = address
+					self.addressTo = address
                 }
             }
             .store(in: &subscriptions)

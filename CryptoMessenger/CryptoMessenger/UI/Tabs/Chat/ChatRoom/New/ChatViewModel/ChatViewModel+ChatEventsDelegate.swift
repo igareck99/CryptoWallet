@@ -22,6 +22,7 @@ extension ChatViewModel: ChatEventsDelegate {
             roomId: roomId,
             contacts: contacts
         )
+        self.updateToggles()
     }
 
     func onDocumentTap(fileUrl: URL, fileName: String) {

@@ -28,20 +28,18 @@ enum ChannelUsersFactory: ChannelUsersFactoryProtocol {
         roomPowerLevels: MXRoomPowerLevels?
     ) -> [ChannelParticipantsData] {
         users.compactMap {
-            debugPrint("membership: \($0.membership)")
-            if $0.membership == .join || $0.membership == .invite {
-                return ChannelParticipantsData(
-                    name: $0.displayname ?? $0.userId,
-                    matrixId: $0.userId,
-                    role: detectUserRole(userId: $0.userId, roomPowerLevels: roomPowerLevels),
-                    avatar: URL(string: $0.avatarUrl),
-                    status: "",
-                    phone: "",
-                    isAdmin: false
-                )
-            } else {
+            guard $0.membership == .join || $0.membership == .invite else {
                 return nil
             }
+            return ChannelParticipantsData(
+                name: $0.displayname ?? $0.userId,
+                matrixId: $0.userId,
+                role: detectUserRole(userId: $0.userId, roomPowerLevels: roomPowerLevels),
+                avatar: URL(string: $0.avatarUrl),
+                status: "",
+                phone: "",
+                isAdmin: false
+            )
         }
     }
     

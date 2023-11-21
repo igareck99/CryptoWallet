@@ -57,9 +57,11 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
 
     // MARK: - Lifecycle
 
-    init(receiverData: Binding<UserReceiverData>,
-         coordinator: TransferViewCoordinatable,
-         contactsUseCase: ContactsUseCaseProtocol = ContactsUseCase.shared) {
+    init(
+        receiverData: Binding<UserReceiverData>,
+        coordinator: TransferViewCoordinatable,
+        contactsUseCase: ContactsUseCaseProtocol = ContactsUseCase.shared
+    ) {
         self._receiverData = receiverData
         self.coordinator = coordinator
         self.contactsUseCase = contactsUseCase
@@ -123,34 +125,45 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
                                 }
                                 return nil
                             }
+                        case .aura:
+                            result = self.userWalletsData.compactMap {
+                                if $0.aura.contains(value) {
+                                    return $0
+                                }
+                                return nil
+                            }
                         default:
                             break
                         }
                         result = result.map {
-                            let data = UserWallletData(name: $0.name,
-                                                       bitcoin: $0.bitcoin,
-                                                       ethereum: $0.ethereum,
-                                                       binance: $0.binance, 
-                                                       aura: $0.aura,
-                                                       url: $0.url,
-                                                       phone: $0.phone,
-                                                       searchType: searchType,
-                                                       walletType: self.receiverData.walletType) { value in
+                            let data = UserWallletData(
+                                name: $0.name,
+                                bitcoin: $0.bitcoin,
+                                ethereum: $0.ethereum,
+                                binance: $0.binance,
+                                aura: $0.aura,
+                                url: $0.url,
+                                phone: $0.phone,
+                                searchType: searchType,
+                                walletType: self.receiverData.walletType
+                            ) { value in
                                 self.setAdress(value)
                             }
                             return data
                         }
                         if result.isEmpty && !value.isEmpty {
-                            self.searchType == .wallet
-                            let data = UserWallletData(name: "По адресу",
-                                                       bitcoin: value,
-                                                       ethereum: value,
-                                                       binance: value,
-                                                       aura: value,
-                                                       url: nil,
-                                                       phone: "",
-                                                       searchType: self.searchType,
-                                                       walletType: self.receiverData.walletType) { value in
+                            self.searchType = .wallet
+                            let data = UserWallletData(
+                                name: "По адресу",
+                                bitcoin: value,
+                                ethereum: value,
+                                binance: value,
+                                aura: value,
+                                url: nil,
+                                phone: "",
+                                searchType: self.searchType,
+                                walletType: self.receiverData.walletType
+                            ) { value in
                                 self.setAdress(value)
                             }
                             self.userWalletsViews = [data]
@@ -158,8 +171,7 @@ final class ChooseReceiverNewViewModel: ObservableObject, ChooseReceiverViewMode
                         }
                         self.userWalletsViews = result
                     case .telephone:
-                        var result = self.userWalletsData.filter({ $0.phone.contains(value) })
-                        self.userWalletsViews = result
+                        self.userWalletsViews = self.userWalletsData.filter({ $0.phone.contains(value) })
                     }
                 } else {
                     self.userWalletsViews = self.prepareDataView(self.userWalletsData)

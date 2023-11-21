@@ -5,15 +5,18 @@ final class TransferCoordinator<Router: TransferRoutable> {
     var navigationController = UINavigationController()
     private var router: Router
     private let wallet: WalletInfo
-    private let onFinish: (Coordinator) -> Void
+    private let onFinish: (Coordinator, TransactionSendResponse?) -> Void
+    private var receiverData: UserReceiverData?
 
     init(
         wallet: WalletInfo,
         router: Router,
-        onFinish: @escaping (Coordinator) -> Void
+        receiverData: UserReceiverData? = nil,
+        onFinish: @escaping (Coordinator, TransactionSendResponse?) -> Void
     ) {
         self.wallet = wallet
         self.router = router
+        self.receiverData = receiverData
         self.onFinish = onFinish
     }
 }
@@ -22,7 +25,11 @@ final class TransferCoordinator<Router: TransferRoutable> {
 
 extension TransferCoordinator: Coordinator {
     func start() {
-        router.transfer(wallet: wallet, coordinator: self)
+        router.transfer(
+            wallet: wallet,
+            coordinator: self,
+            receiverData: receiverData
+        )
     }
 }
 
@@ -32,7 +39,7 @@ extension TransferCoordinator: TransferViewCoordinatable {
     func showAdressScanner(_ value: Binding<String>) {
         router.showAdressScanner(value)
     }
-    
+
     func chooseReceiver(address: Binding<UserReceiverData>) {
         router.chooseReceiver(address: address, coordinator: self)
     }
@@ -40,7 +47,7 @@ extension TransferCoordinator: TransferViewCoordinatable {
     func didCreateTemplate(transaction: FacilityApproveModel) {
         router.facilityApprove(transaction: transaction, coordinator: self)
     }
-    
+
     func previousScreen() {
         router.previousScreen()
     }
@@ -49,12 +56,15 @@ extension TransferCoordinator: TransferViewCoordinatable {
 // MARK: - FacilityApproveViewCoordinatable
 
 extension TransferCoordinator: FacilityApproveViewCoordinatable {
-    func onTransactionEnd(model: TransactionResult) {
+    func onTransactionEnd(
+        model: TransactionResult,
+        rawTransaction: TransactionSendResponse?
+    ) {
         router.popToRoot()
         delay(0.7) { [weak self] in
             guard let self = self else { return }
             self.router.showTransactionResult(model: model)
-            self.onFinish(self)
+            self.onFinish(self, rawTransaction)
         }
     }
 }

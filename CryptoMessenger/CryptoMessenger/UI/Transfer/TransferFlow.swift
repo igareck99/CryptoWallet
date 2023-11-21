@@ -24,7 +24,7 @@ enum TransferFlow {
         // MARK: - Types
 
         case onAppear
-        case onChooseReceiver(Binding<UserReceiverData>)
+        case onChooseReceiver
         case onApprove
 		case onAddressChange(String)
     }

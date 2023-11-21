@@ -5,10 +5,14 @@ import SwiftUI
 protocol WalletCoordinatable: Coordinator {
 
     // ????
-    func onTransaction(_ selectorFilterIndex: Int, _ selectorTokenIndex: Int, _ address: String)
+    func onTransaction(
+        selectorFilterIndex: Int,
+        selectorTokenIndex: Int,
+        address: String
+    )
 
     // Переход на экран перевода
-    func onTransfer(_ wallet: WalletInfo)
+    func onTransfer(wallet: WalletInfo)
 
     // Переход на экран импорта ключа
     func onImportKey(onComplete: @escaping () -> Void)
@@ -35,7 +39,11 @@ final class WalletCoordinator<Router: WalletRouterable> {
 
 extension WalletCoordinator: WalletCoordinatable {
 
-    func onTransaction(_ selectorFilterIndex: Int, _ selectorTokenIndex: Int, _ address: String) {
+    func onTransaction(
+        selectorFilterIndex: Int,
+        selectorTokenIndex: Int,
+        address: String
+    ) {
         router.transaction(
             filterIndex: selectorFilterIndex,
             tokenIndex: selectorTokenIndex,
@@ -55,12 +63,13 @@ extension WalletCoordinator: WalletCoordinatable {
         coordinator.start()
     }
 
-    func onTransfer(_ wallet: WalletInfo) {
+    func onTransfer(wallet: WalletInfo) {
         let transferCoordinator = TransferCoordinatorAssembly.build(
             wallet: wallet,
             path: router.routePath(),
             presentedItem: router.presentedItem()
-        ) { [weak self] coordinator in
+        ) { [weak self] coordinator, rawTransaction in
+            debugPrint("func onTransfer(wallet: WalletInfo) rawTransaction \(rawTransaction)")
             self?.removeChildCoordinator(coordinator)
         }
         addChildCoordinator(transferCoordinator)

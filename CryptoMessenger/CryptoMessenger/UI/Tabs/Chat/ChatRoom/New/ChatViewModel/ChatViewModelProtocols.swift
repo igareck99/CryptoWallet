@@ -7,6 +7,10 @@ protocol ChatViewModelProtocol: ObservableObject {
 
     associatedtype MessageSendable = ChatViewModelSendable
 
+    var isSnackbarPresented: Bool { get set }
+
+    var messageText: String { get set }
+
     var userHasAccessToMessage: Bool { get set }
 
     var scroolString: UUID { get set }
