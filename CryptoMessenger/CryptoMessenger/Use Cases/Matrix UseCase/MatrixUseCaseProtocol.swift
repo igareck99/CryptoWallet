@@ -75,6 +75,11 @@ protocol MatrixUseCaseProtocol {
     func sendLocation(roomId: String,
                       location: LocationData?,
                       completion: @escaping (Result <String?, MXErrors>) -> Void)
+    func sendTransferCryptoEvent(
+        roomId: String,
+        model: TransferCryptoEvent,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
     func markAllAsRead(roomId: String)
     func edit(roomId: String, text: String,
               eventId: String)

@@ -150,5 +150,5 @@ protocol ChatHistoryRouterable: View {
         onTapItem: @escaping (NotSendedMessage, RoomEvent) -> Void
     )
 
-    func showTransactionStatus()
+    func showTransactionStatus(model: TransactionStatus)
 }

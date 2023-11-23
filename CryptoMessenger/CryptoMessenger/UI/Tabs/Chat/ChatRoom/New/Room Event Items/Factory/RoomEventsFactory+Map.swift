@@ -76,7 +76,8 @@ extension RoomEventsFactory {
                     leadingContent: PaddingModel(),
                     centralContent: bubbleContainer,
                     trailingContent: notSentModel,
-                    bottomContent: viewModel, onLongPress: {
+                    bottomContent: viewModel,
+                    onLongPress: {
                         onLongPressTap(event)
                     }
                 )
@@ -85,7 +86,8 @@ extension RoomEventsFactory {
                 id: event.id,
                 leadingContent: PaddingModel(),
                 centralContent: bubbleContainer,
-                bottomContent: viewModel, onLongPress: {
+                bottomContent: viewModel,
+                onLongPress: {
                     onLongPressTap(event)
                 }
             )
@@ -95,7 +97,8 @@ extension RoomEventsFactory {
             id: event.id,
             centralContent: bubbleContainer,
             trailingContent: PaddingModel(),
-            bottomContent: viewModel, onLongPress: {
+            bottomContent: viewModel,
+            onLongPress: {
                 onLongPressTap(event)
             }
         )

@@ -42,6 +42,7 @@ enum MessageType: Equatable {
     case audio(URL?)
     case location((lat: Double, long: Double))
     case contact(name: String, phone: String?, url: URL?)
+    case sendCrypto
 
     // system event types
     case call

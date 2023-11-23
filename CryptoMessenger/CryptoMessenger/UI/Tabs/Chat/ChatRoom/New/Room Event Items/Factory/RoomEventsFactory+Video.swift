@@ -41,12 +41,12 @@ extension RoomEventsFactory {
         }
 
         let bubbleContainer = BubbleContainer(
-            offset: 0, fillColor: .diamond,
+            offset: 0,
+            fillColor: .diamond,
             cornerRadius: .equal,
             content: videoEventItem,
-            onSwipe: {
-                onSwipeReply(event)
-            }, swipeEdge: event.isFromCurrentUser ? .trailing : .leading
+            onSwipe: { onSwipeReply(event) },
+            swipeEdge: event.isFromCurrentUser ? .trailing : .leading
         )
 
         if event.isFromCurrentUser {

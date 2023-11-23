@@ -19,6 +19,7 @@ enum MXErrors: Error {
     case contactUploadError
     case videoUploadError
     case sendTextError
+    case sendCryptoError
     case sendReplyError
     case sendGeoError
     case publicRoomError
@@ -41,6 +42,7 @@ enum MatrixState {
 final class MatrixService: MatrixServiceProtocol {
 
 	var objectChangePublisher = ObservableObjectPublisher()
+    var currentOperation: MXHTTPOperation?
 
 	@Published var loginState: MatrixState = .none
 	var loginStatePublisher: Published<MatrixState>.Publisher { $loginState }

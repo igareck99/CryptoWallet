@@ -24,7 +24,6 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                         }
                     }
                 }
-                //.listStyle(.inset) // scrollId
                 .onChange(of: viewModel.scroolString) { newValue in
                     debugPrint("scrollToBottom viewModel.scroolString: \(newValue)")
                     withAnimation {

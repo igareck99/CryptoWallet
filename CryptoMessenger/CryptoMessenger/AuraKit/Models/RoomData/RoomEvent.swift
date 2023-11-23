@@ -5,7 +5,7 @@ import Foundation
 struct RoomEvent: Equatable, Hashable {
 
     // MARK: - Internal Properties
-    
+
     let id: UUID
     let eventId: String
     let roomId: String
@@ -22,14 +22,14 @@ struct RoomEvent: Equatable, Hashable {
     let eventDate: Date
     let eventSubType: String
     let videoThumbnail: URL?
-    
+
     func hash(into hasher: inout Hasher) {
         let jsonData = try? JSONSerialization.data(withJSONObject: content)
         hasher.combine(eventId)
         hasher.combine(sentState)
         hasher.combine(jsonData)
     }
-    
+
     static func == (lhs: RoomEvent, rhs: RoomEvent) -> Bool {
         lhs.roomId == rhs.roomId && lhs.eventId == rhs.eventId
         && NSDictionary(dictionary: lhs.content).isEqual(to: rhs.content)
@@ -115,5 +115,17 @@ extension RoomEvent {
     var contactMxId: String {
         guard let text = content["mxId"] as? String else { return "" }
         return text
+    }
+
+    var formattedDate: String {
+        let dateStr: String
+        if let date: String = content[.date] as? String,
+           let timeInterval: TimeInterval = try? TimeInterval(value: date) {
+            let date = Date(timeIntervalSince1970: timeInterval)
+            dateStr = date.dayAndMonthAndYear
+        } else {
+            dateStr = Date().dayAndMonthAndYear
+        }
+        return dateStr
     }
 }

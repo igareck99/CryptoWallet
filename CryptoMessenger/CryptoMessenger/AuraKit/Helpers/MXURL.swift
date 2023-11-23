@@ -1,3 +1,5 @@
+import Foundation
+
 struct MXURL {
 
     // MARK: - Internal Properties

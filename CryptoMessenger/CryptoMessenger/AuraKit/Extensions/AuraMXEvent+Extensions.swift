@@ -10,6 +10,7 @@ enum MXEventCustomEvent {
     // MARK: - Types
 
     case contactInfo
+    case cryptoSend
 
     // MARK: - Internal Properties
 
@@ -17,6 +18,8 @@ enum MXEventCustomEvent {
         switch self {
         case .contactInfo:
             return "ms.aura.contact"
+        case .cryptoSend:
+            return "ms.aura.pay"
         }
     }
 }
@@ -49,6 +52,14 @@ enum MXEventEventKey: String {
     case rootMessage = "root_message"
     case rootEventId = "root_event_id"
     case rootLink = "root_link"
+    case amount
+    case date
+    case receiver
+    case sender
+    case hash
+    case block
+    case status
+    case currency
 }
 
 // swiftlint:disable all

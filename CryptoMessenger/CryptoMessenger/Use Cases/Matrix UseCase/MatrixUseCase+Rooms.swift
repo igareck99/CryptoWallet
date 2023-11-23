@@ -242,8 +242,23 @@ extension MatrixUseCase {
         location: LocationData?,
         completion: @escaping (Result <String?, MXErrors>) -> Void
     ) {
-        matrixService.sendLocation(roomId: roomId,
-                                   location: location, completion: completion)
+        matrixService.sendLocation(
+            roomId: roomId,
+            location: location,
+            completion: completion
+        )
+    }
+
+    func sendTransferCryptoEvent(
+        roomId: String,
+        model: TransferCryptoEvent,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    ) {
+        matrixService.sendTransferCryptoEvent(
+            roomId: roomId,
+            model: model,
+            completion: completion
+        )
     }
 
     func setRoomAvatar(

@@ -846,6 +846,9 @@
 		D4B1011F2A668DFA00F3C856 /* TokenInfoAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B1011E2A668DFA00F3C856 /* TokenInfoAssembly.swift */; };
 		D4B30A02297923760067EB06 /* CreateChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B30A01297923760067EB06 /* CreateChannelView.swift */; };
 		D4B30A042979287E0067EB06 /* CreateChannelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B30A032979287E0067EB06 /* CreateChannelViewModel.swift */; };
+		D4B313D42B0E295100B4A374 /* RoomEventsFactory+Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B313D32B0E295100B4A374 /* RoomEventsFactory+Crypto.swift */; };
+		D4B313D62B0F2E1100B4A374 /* TransactionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B313D52B0F2E1100B4A374 /* TransactionStatus.swift */; };
+		D4B313D82B0F35C500B4A374 /* TransactionStatusFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B313D72B0F35C500B4A374 /* TransactionStatusFactory.swift */; };
 		D4B39AFE289BE271006F2D99 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */; };
 		D4B39B01289C3B50006F2D99 /* CallEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B39B00289C3B50006F2D99 /* CallEventView.swift */; };
 		D4BC1EC02955B59E00D99F1A /* TransactionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BC1EBF2955B59E00D99F1A /* TransactionResultView.swift */; };
@@ -1849,6 +1852,9 @@
 		D4B1011E2A668DFA00F3C856 /* TokenInfoAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenInfoAssembly.swift; sourceTree = "<group>"; };
 		D4B30A01297923760067EB06 /* CreateChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelView.swift; sourceTree = "<group>"; };
 		D4B30A032979287E0067EB06 /* CreateChannelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChannelViewModel.swift; sourceTree = "<group>"; };
+		D4B313D32B0E295100B4A374 /* RoomEventsFactory+Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RoomEventsFactory+Crypto.swift"; sourceTree = "<group>"; };
+		D4B313D52B0F2E1100B4A374 /* TransactionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionStatus.swift; sourceTree = "<group>"; };
+		D4B313D72B0F35C500B4A374 /* TransactionStatusFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionStatusFactory.swift; sourceTree = "<group>"; };
 		D4B39AFD289BE271006F2D99 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
 		D4B39B00289C3B50006F2D99 /* CallEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallEventView.swift; sourceTree = "<group>"; };
 		D4BC1EBF2955B59E00D99F1A /* TransactionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResultView.swift; sourceTree = "<group>"; };
@@ -2537,6 +2543,7 @@
 		5A4BE505271DD86A00D03D09 /* Custom Events */ = {
 			isa = PBXGroup;
 			children = (
+				D433F13E2AE25FAA0054EE77 /* TransferCryptoEvent.swift */,
 				5A4BE506271DD86A00D03D09 /* EditEvent.swift */,
 				5A4BE507271DD86A00D03D09 /* ReactionEvent.swift */,
 				5A4BE508271DD86A00D03D09 /* CustomEvent.swift */,
@@ -2544,7 +2551,6 @@
 				8BD4BBE72AA4DCC200075F76 /* ReactionNewEvent.swift */,
 				8BD4BBE92AA4E4F300075F76 /* ReactionNewView.swift */,
 				8BD4BBEB2AA4E7DE00075F76 /* ReactionsNewViewModel.swift */,
-				D433F13E2AE25FAA0054EE77 /* TransferCryptoEvent.swift */,
 			);
 			path = "Custom Events";
 			sourceTree = "<group>";
@@ -4147,8 +4153,9 @@
 				D4F322A32AA20DB20021AFAE /* RoomEventsFactory+Image.swift */,
 				D48DBE452AB2EBDA00D671E1 /* RoomEventsFactory+SystemEvents.swift */,
 				D48DBE482AB45EB800D671E1 /* RoomEventsFactory+Video.swift */,
-				D4137B3E2A9B80D4001241B6 /* Mocks */,
+				D4B313D32B0E295100B4A374 /* RoomEventsFactory+Crypto.swift */,
 				8BC723FE2AAA0A33004C7D44 /* StaticRoomEventsSizes.swift */,
+				D4137B3E2A9B80D4001241B6 /* Mocks */,
 			);
 			path = Factory;
 			sourceTree = "<group>";
@@ -4496,6 +4503,8 @@
 				D459E4382ADF9D7F00211D6E /* TransactionStatusViewModel.swift */,
 				D459E4432ADFACE100211D6E /* TransactionStatusViewFactory.swift */,
 				D459E4452ADFB72900211D6E /* TransactionStatusViewAssembly.swift */,
+				D4B313D52B0F2E1100B4A374 /* TransactionStatus.swift */,
+				D4B313D72B0F35C500B4A374 /* TransactionStatusFactory.swift */,
 			);
 			path = "Transaction Status";
 			sourceTree = "<group>";
@@ -5501,6 +5510,7 @@
 				5ABF08CD27D950BF0016CC6F /* GroupMenuView.swift in Sources */,
 				8BC517FD296CC87E0033B30F /* ChooseWalletTypeView.swift in Sources */,
 				5A187DD826806F35001957D3 /* Dependency.swift in Sources */,
+				D4B313D62B0F2E1100B4A374 /* TransactionStatus.swift in Sources */,
 				8B3886902A4E15D900C8A54C /* ChatGroupViewModel.swift in Sources */,
 				8B5F0C9A297539E7002AE81E /* PrivateDataCleaner.swift in Sources */,
 				D49FAD9D2A77727E00B26C8B /* AddSeedRouter.swift in Sources */,
@@ -5547,6 +5557,7 @@
 				D425C7E628071C6500E61607 /* AppCoordinatorAssembly.swift in Sources */,
 				8BAAB3822A24FD840062D5B2 /* OnboardingCellView.swift in Sources */,
 				D46C8FDB2942C9DC00DD0B01 /* TransactionDetails.swift in Sources */,
+				D4B313D42B0E295100B4A374 /* RoomEventsFactory+Crypto.swift in Sources */,
 				8B2532C028AA429400285133 /* BaiduView.swift in Sources */,
 				D43A7E6828CB2EC400A807EC /* SerializationService.swift in Sources */,
 				5A44FEDD276681BD006F9D92 /* ProfileFlow.swift in Sources */,
@@ -5915,6 +5926,7 @@
 				D44BDC852809A3CD0080AE8A /* PushNotificationCoordinatorAssembly.swift in Sources */,
 				5A3721D5272F0A290097ABED /* ContactRow.swift in Sources */,
 				8BC06B0C27C7DFC4005A28A1 /* TransactionView.swift in Sources */,
+				D4B313D82B0F35C500B4A374 /* TransactionStatusFactory.swift in Sources */,
 				8B4B50ED2ABDEBD00049C822 /* ChatInputView.swift in Sources */,
 				D4137B282A9B2202001241B6 /* ReadDataView.swift in Sources */,
 				8B4810FB27CF9BA600831589 /* ImportKeyFlow.swift in Sources */,

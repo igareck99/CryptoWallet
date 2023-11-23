@@ -210,4 +210,35 @@ extension ChatViewModel {
             }
         }
     }
+
+    // MARK: - Send Crypto
+
+    func sendCrypto() {
+        guard !isCryptoSending else { return }
+        isCryptoSending = true
+        let currentUserId: String = matrixUseCase.getUserId()
+        guard !currentUserId.isEmpty, let receiverUserId: String = participants.first(
+            where: { $0.matrixId != currentUserId }
+        )?.matrixId else {
+            return
+        }
+
+        let model = TransferCryptoEvent(
+            amount: "0.000002",
+            currency: "ETH",
+            date: Date().timeIntervalSince1970,
+            receiver: receiverUserId,
+            sender: currentUserId,
+            hash: "hash",
+            block: "block",
+            status: "status"
+        )
+        matrixUseCase.sendTransferCryptoEvent(
+            roomId: room.roomId,
+            model: model
+        ) { [weak self] in
+            debugPrint("sendTransferCryptoEvent Result: \($0)")
+            debugPrint("sendTransferCryptoEvent Result")
+        }
+    }
 }

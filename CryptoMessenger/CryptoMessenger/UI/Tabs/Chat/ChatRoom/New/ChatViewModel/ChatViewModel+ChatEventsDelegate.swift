@@ -39,4 +39,9 @@ extension ChatViewModel: ChatEventsDelegate {
         )
         self.updateToggles()
     }
+
+    func didTapCryptoSend(event: RoomEvent) {
+        let model: TransactionStatus = transactionStatusFactory.makeModel(event: event)
+        coordinator.showTransactionStatus(model: model)
+    }
 }
