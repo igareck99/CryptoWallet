@@ -26,8 +26,10 @@ protocol RoomEventsFactoryProtocol {
 
 enum RoomEventsFactory: RoomEventsFactoryProtocol {
 
-    static func prepareReaction(_ event: RoomEvent,
-                                onReactionTap: @escaping (ReactionNewEvent) -> Void) -> [ReactionNewEvent] {
+    static func prepareReaction(
+        _ event: RoomEvent,
+        onReactionTap: @escaping (ReactionNewEvent) -> Void
+    ) -> [ReactionNewEvent] {
         let reactionColor: Color = event.isFromCurrentUser ? .diamond : .aliceBlue
         var data: [ReactionNewEvent] = []
         var emojiList: [String] = []
@@ -71,7 +73,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         data = data.sorted(by: { $0.emojiCount > $1.emojiCount })
         return data
     }
-    
+
     static func makeOneEventView(
       value: RoomEvent,
       events: [RoomEvent],
@@ -159,15 +161,15 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                     onSwipeReply(value)
                 })
         case let .audio(url):
-            return makeAudioItem(event: value, oldEvents: events,
-                                 oldViews: oldViews,
-                                 url: url, onLongPressTap: { event in
-                onLongPressMessage(event)
-            }, onReactionTap: { reaction in
-                onReactionTap(reaction)
-            }, onSwipeReply: { value in
-                onSwipeReply(value)
-            })
+            return makeAudioItem(
+                event: value,
+                oldEvents: events,
+                oldViews: oldViews,
+                url: url,
+                onLongPressTap: { event in onLongPressMessage(event) },
+                onReactionTap: { reaction in onReactionTap(reaction) },
+                onSwipeReply: { value in onSwipeReply(value) }
+            )
         case let .video(url):
             return makeVideoItem(
                 event: value,
@@ -175,11 +177,9 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 oldViews: oldViews,
                 url: url,
                 delegate: delegate,
-                onLongPressTap: { event in
-                    onLongPressMessage(event)
-                }, onSwipeReply: { value in
-                    onSwipeReply(value)
-                })
+                onLongPressTap: { event in onLongPressMessage(event) },
+                onSwipeReply: { value in onSwipeReply(value) }
+            )
             case let .groupCall(eventId, text):
                 return makeSystemEventItem(text: text) {
                     debugPrint("onTap groupCall SystemEventItem")
@@ -205,6 +205,14 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 return makeSystemEventItem(text: text) {
                     debugPrint("onTap inviteToRoom SystemEventItem")
                 }
+            case let .sendCrypto:
+                return makeTransactionItem(
+                    delegate: delegate,
+                    event: value,
+                    onLongPressTap: onLongPressMessage,
+                    onSwipeReply: onSwipeReply,
+                    onReactionTap: onReactionTap
+                )
             default:
                 // MARK: - Оставил в целях отладки
                 /*
@@ -236,19 +244,28 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
             eventReply = makeReplyDescription(eventReplyEvent)
         }
         let reactionColor: Color = event.isFromCurrentUser ? .diamond : .aliceBlue
-        let reactions = prepareReaction(event, onReactionTap: { reaction in
-            onReactionTap(reaction)
-        })
+        let reactions = prepareReaction(
+            event,
+            onReactionTap: { reaction in
+                onReactionTap(reaction)
+            }
+        )
         var viewModel: ReactionsNewViewModel
         if oldEvent?.reactions == event.reactions {
-            viewModel = ReactionsNewViewModel(id: event.id, width: calculateWidth("", reactions.count), views: reactions,
-                                              backgroundColor: reactionColor)
+            viewModel = ReactionsNewViewModel(
+                id: event.id,
+                width: calculateWidth("", reactions.count),
+                views: reactions,
+                backgroundColor: reactionColor
+            )
         } else {
-            viewModel = ReactionsNewViewModel(width: calculateWidth("", reactions.count),
-                                              views: reactions,
-                                              backgroundColor: reactionColor)
+            viewModel = ReactionsNewViewModel(
+                width: calculateWidth("", reactions.count),
+                views: reactions,
+                backgroundColor: reactionColor
+            )
         }
-        // @u259748845085:matrix.aura.ms
+
         let textEvent = TextEvent(
             id: event.id, userId: event.sender, isFromCurrentUser: event.isFromCurrentUser, avatarUrl: event.senderAvatar,
             text: text, isReply: event.isReply,
@@ -318,8 +335,11 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
         }
     }
 
-    static func readData(isFromCurrentUser: Bool, eventSendType: RoomSentState,
-                         messageType: MessageType) -> any ViewGeneratable {
+    static func readData(
+        isFromCurrentUser: Bool,
+        eventSendType: RoomSentState,
+        messageType: MessageType
+    ) -> any ViewGeneratable {
         var checkReadImage: Image
         switch messageType {
         case .video(_), .image(_), .location((_, _)):
@@ -343,13 +363,22 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                                     _ isFromCurrentUser: Bool,
                                     _ isReply: Bool) -> RoomEvent {
         let date = Date().timeIntervalSince1970
-        let event = RoomEvent(id: id, eventId: eventId, roomId: roomId,
-                              sender: sender, sentState: .sending,
-                              eventType: type, shortDate:  Date().hoursAndMinutes,
-                              fullDate: "", isFromCurrentUser: isFromCurrentUser,
-                              isReply: isReply,
-                              reactions: [], content: [:],
-                              eventSubType: "", eventDate: Date())
+        let event = RoomEvent(
+            id: id,
+            eventId: eventId,
+            roomId: roomId,
+            sender: sender,
+            sentState: .sending,
+            eventType: type,
+            shortDate:  Date().hoursAndMinutes,
+            fullDate: "",
+            isFromCurrentUser: isFromCurrentUser,
+            isReply: isReply,
+            reactions: [],
+            content: [:],
+            eventSubType: "",
+            eventDate: Date()
+        )
         return event
     }
 }

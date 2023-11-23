@@ -292,7 +292,7 @@ extension MatrixService {
             }
         }
     }
-    
+
     func sendText(_ roomId: String,
                   _ text: String,
                   completion: @escaping (Result <String?, MXErrors>) -> Void) {
@@ -311,11 +311,11 @@ extension MatrixService {
             }
         }
     }
-    
+
     func sendReply(_ text: String,
                    _ roomId: String,
                    _ eventId: String,
-                   _ customParameters: [String : Any],
+                   _ customParameters: [String: Any],
                    completion: @escaping (Result <String?, MXErrors>) -> Void) {
         guard let matrixRoom = rooms.first(where: { $0.room.roomId == roomId })?.room else {
             completion(.failure(.sendReplyError))
@@ -343,15 +343,18 @@ extension MatrixService {
             }
         })
     }
-    
-    func sendLocation(roomId: String,
-                      location: LocationData?,
-                      completion: @escaping (Result <String?, MXErrors>) -> Void) {
-        guard let unwrappedLocation = location else { return }
-        guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
-            completion(.failure(.sendTextError)); return
+
+    func sendLocation(
+        roomId: String,
+        location: LocationData?,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    ) {
+        guard let unwrappedLocation = location,
+              let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
+            completion(.failure(.sendGeoError))
+            return
         }
-        
+
         var localEcho: MXEvent?
         do {
             let content = try LocationEvent(location: unwrappedLocation).encodeContent()
@@ -367,14 +370,41 @@ extension MatrixService {
             debugPrint("Error create LocationEvent")
         }
     }
-    
+
+    func sendTransferCryptoEvent(
+        roomId: String,
+        model: TransferCryptoEvent,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    ) {
+        guard let room = rooms.first(
+            where: { $0.room.roomId == roomId }
+        )?.room else {
+            completion(.failure(.sendCryptoError))
+            return
+        }
+        let content = model.encodeContent()
+        var localEcho: MXEvent?
+        let operation = room.sendMessage(
+            withContent: content,
+            localEcho: &localEcho
+        ) { result in
+            switch result {
+            case .success(let text):
+                completion(.success(text))
+            case .failure(_):
+                completion(.failure(.sendCryptoError))
+            }
+        }
+        currentOperation = operation
+    }
+
     func markAllAsRead(roomId: String) {
         guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
             return
         }
         room.markAllAsRead()
     }
-    
+
     func edit(roomId: String, text: String, eventId: String) {
         guard !text.isEmpty else { return }
         guard let room = rooms.first(where: { $0.room.roomId == roomId })?.room else {
@@ -386,7 +416,7 @@ extension MatrixService {
         // TODO: Use localEcho to show sent message until it actually comes back
         room.sendMessage(withContent: content, localEcho: &localEcho) { _ in }
     }
-    
+
     func removeReaction(
         roomId: String,
         text: String,

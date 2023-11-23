@@ -32,6 +32,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     @Published private(set) var state: ChatRoomFlow.ViewState = .idle
     private let stateValueSubject = CurrentValueSubject<ChatRoomFlow.ViewState, Never>(.idle)
     private let factory: RoomEventsFactory.Type
+    let transactionStatusFactory: TransactionStatusFactoryProtocol.Type
     private var subscriptions = Set<AnyCancellable>()
     private let channelFactory: ChannelUsersFactoryProtocol.Type
     private var roomPowerLevels: MXRoomPowerLevels?
@@ -39,7 +40,10 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     let groupCallsUseCase: GroupCallsUseCaseProtocol
     private let config: ConfigType
     private let availabilityFacade: ChatRoomTogglesFacadeProtocol
+    private let coreDataService: CoreDataServiceProtocol
+    private let walletModelsFactory: WalletModelsFactoryProtocol.Type
     @Injectable private var apiClient: APIClientManager
+    var isCryptoSending = false
 
     // MARK: - To replace
     @Published var location = Place(name: "", latitude: 0, longitude: 0)
@@ -80,7 +84,10 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     init(
         room: AuraRoomData,
         coordinator: ChatHistoryFlowCoordinatorProtocol,
+        coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
+        walletModelsFactory: WalletModelsFactoryProtocol.Type = WalletModelsFactory.self,
         factory: RoomEventsFactory.Type = RoomEventsFactory.self,
+        transactionStatusFactory: TransactionStatusFactoryProtocol.Type = TransactionStatusFactory.self,
         channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
         p2pCallsUseCase: P2PCallUseCaseProtocol = P2PCallUseCase.shared,
         groupCallsUseCase: GroupCallsUseCaseProtocol,
@@ -90,8 +97,11 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     ) {
         self.room = room
         self.coordinator = coordinator
+        self.coreDataService = coreDataService
+        self.walletModelsFactory = walletModelsFactory
         self.channelFactory = channelFactory
         self.factory = factory
+        self.transactionStatusFactory = transactionStatusFactory
         self.p2pCallsUseCase = p2pCallsUseCase
         self.config = config
         self.groupCallsUseCase = groupCallsUseCase
@@ -235,14 +245,19 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             }
         outputEvents.forEach { [weak self] value in
             guard let self = self else { return }
-            let view = self.factory.makeOneEventView(value: value, events: [],
-                                          oldViews: [],
-                                          delegate: self) { _ in
-            } onReactionTap: { _ in
-            } onTapNotSendedMessage: { event in
-                self.onTapNotSendedMessage(event)
-            } onSwipeReply: { _ in
-            }
+            let view = self.factory.makeOneEventView(
+                value: value,
+                events: [],
+                oldViews: [],
+                delegate: self,
+                onLongPressMessage: { _ in },
+                onReactionTap: { _ in },
+                onTapNotSendedMessage: { [weak self] event in
+                    guard let self = self else { return }
+                    self.onTapNotSendedMessage(event)
+                },
+                onSwipeReply: { _ in }
+            )
             if let view = view {
                 currentViews.append(view)
             }
@@ -514,23 +529,27 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             isCurrentUser: event.isFromCurrentUser,
             isChannel: room.isChannel,
             userRole: role,
-            onAction: { action in
-            withAnimation(.easeIn(duration: 0.25)) {
-                self.activeEditMessage = event
-                self.quickAction = action
-                self.replyDescriptionText = self.makeReplyDescription(self.activeEditMessage)
+            onAction: { [weak self] action in
+                guard let self = self else { return }
+                withAnimation(.easeIn(duration: 0.25)) {
+                    self.activeEditMessage = event
+                    self.quickAction = action
+                    self.replyDescriptionText = self.makeReplyDescription(self.activeEditMessage)
+                    self.coordinator.dismissCurrentSheet()
+                }
+                debugPrint("Message Action  \(action)")
+            },
+            onReaction: { [weak self] reaction in
+                guard let self = self else { return }
                 self.coordinator.dismissCurrentSheet()
+                self.matrixUseCase.react(
+                    eventId: event.eventId,
+                    roomId: self.room.roomId,
+                    emoji: reaction
+                )
+                self.matrixUseCase.objectChangePublisher.send()
             }
-            debugPrint("Message Action  \(action)")
-        }, onReaction: { reaction in
-            self.coordinator.dismissCurrentSheet()
-            self.matrixUseCase.react(
-                eventId: event.eventId,
-                roomId: self.room.roomId,
-                emoji: reaction
-            )
-            self.matrixUseCase.objectChangePublisher.send()
-        })
+        )
     }
 
     private func makeReplyDescription(_ event: RoomEvent?) -> String {

@@ -17,7 +17,7 @@ extension ReactionEvent: CustomEvent {
 
     // MARK: - Internal Methods
 
-    func encodeContent() throws -> [String: Any] {
+    func encodeContent() -> [String: Any] {
         [
             "m.relates_to": [
                 "event_id": eventId,

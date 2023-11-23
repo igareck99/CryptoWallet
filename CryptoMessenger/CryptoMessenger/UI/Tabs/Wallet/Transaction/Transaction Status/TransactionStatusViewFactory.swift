@@ -1,7 +1,7 @@
 import Foundation
 
 protocol TransactionStatusViewFactoryProtocol {
-    static func makeItems() -> [any ViewGeneratable]
+    static func makeItems(model: TransactionStatus) -> [any ViewGeneratable]
 }
 
 enum TransactionStatusViewFactory {}
@@ -9,8 +9,20 @@ enum TransactionStatusViewFactory {}
 // MARK: - TransactionStatusViewFactoryProtocol
 
 extension TransactionStatusViewFactory: TransactionStatusViewFactoryProtocol {
-    static func makeItems() -> [any ViewGeneratable] {
-        mockItems()
+    static func makeItems(model: TransactionStatus) -> [any ViewGeneratable] {
+        [ SheetDragItem() ] + model.keysAndValues.map {
+            makeItem(leadingText: $0.leftText, trailingText: $0.rightText)
+        }
+    }
+
+    static func makeItem(
+        leadingText: String,
+        trailingText: String
+    ) -> any ViewGeneratable {
+        TransactionStatusItem(
+            leadingText: leadingText,
+            trailingText: trailingText
+        )
     }
 }
 

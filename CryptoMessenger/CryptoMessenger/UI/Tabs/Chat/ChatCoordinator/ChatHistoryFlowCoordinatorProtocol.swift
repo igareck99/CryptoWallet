@@ -133,7 +133,7 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
         onTapItem: @escaping (NotSendedMessage, RoomEvent) -> Void
     )
 
-    func showTransactionStatus()
+    func showTransactionStatus(model: TransactionStatus)
 
     func transferCrypto(
         wallet: WalletInfo

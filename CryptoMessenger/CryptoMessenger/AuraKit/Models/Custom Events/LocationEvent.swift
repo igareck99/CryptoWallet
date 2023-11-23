@@ -15,7 +15,7 @@ extension LocationEvent: CustomEvent {
 
     // MARK: - Internal Methods
 
-    func encodeContent() throws -> [String: Any] {
+    func encodeContent() -> [String: Any] {
         [
             "body": "" + text,
             "latitude": "\(location.lat)",

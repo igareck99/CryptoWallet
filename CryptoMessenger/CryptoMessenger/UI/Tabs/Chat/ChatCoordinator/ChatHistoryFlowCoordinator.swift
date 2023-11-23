@@ -277,8 +277,8 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
         )
     }
 
-    func showTransactionStatus() {
-        router.showTransactionStatus()
+    func showTransactionStatus(model: TransactionStatus) {
+        router.showTransactionStatus(model: model)
     }
 
     func transferCrypto(wallet: WalletInfo) {

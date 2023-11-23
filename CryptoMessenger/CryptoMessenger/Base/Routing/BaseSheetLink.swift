@@ -81,7 +81,7 @@ enum BaseSheetLink: Hashable, Identifiable {
         onTapItem: (NotSendedMessage, RoomEvent) -> Void
     )
 
-    case transactionStatus
+    case transactionStatus(model: TransactionStatus)
 
     var id: String {
         String(reflecting: self)

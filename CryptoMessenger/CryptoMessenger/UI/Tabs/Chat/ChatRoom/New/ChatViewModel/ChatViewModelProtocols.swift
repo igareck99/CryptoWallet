@@ -92,6 +92,7 @@ protocol ChatEventsDelegate {
     func onDocumentTap(fileUrl: URL, fileName: String)
     func onVideoTap(url: URL)
     func onGroupCallTap(eventId: String)
+    func didTapCryptoSend(event: RoomEvent)
 }
 
 protocol ChatViewModelSendable {

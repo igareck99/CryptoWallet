@@ -318,7 +318,7 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
         state.presentedItem = .sendingMessageMenu(event: event, onTapItem: onTapItem)
     }
 
-    func showTransactionStatus() {
-        state.presentedItem = .transactionStatus
+    func showTransactionStatus(model: TransactionStatus) {
+        state.presentedItem = .transactionStatus(model: model)
     }
 }

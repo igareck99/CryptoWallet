@@ -80,14 +80,20 @@ protocol MatrixServiceProtocol {
         eventId: String,
         reason: String?
     )
-    
+
     func removeReaction(
         roomId: String,
         text: String,
         eventId: String,
         completion: @escaping (Result <String?, MXErrors>) -> Void
     )
-    
+
+    func sendTransferCryptoEvent(
+        roomId: String,
+        model: TransferCryptoEvent,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
     // MARK: - Users
     func currentlyActive(_ userId: String) -> Bool
     func fromCurrentSender(_ userId: String) -> Bool

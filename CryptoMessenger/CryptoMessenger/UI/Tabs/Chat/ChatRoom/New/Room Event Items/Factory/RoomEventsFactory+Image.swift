@@ -32,12 +32,18 @@ extension RoomEventsFactory {
         })
         var viewModel: ReactionsNewViewModel
         if oldEvent?.reactions == event.reactions {
-            viewModel = ReactionsNewViewModel(id: event.id, width: calculateWidth("", reactions.count), views: reactions,
-                                              backgroundColor: reactionColor)
+            viewModel = ReactionsNewViewModel(
+                id: event.id,
+                width: calculateWidth("", reactions.count),
+                views: reactions,
+                backgroundColor: reactionColor
+            )
         } else {
-            viewModel = ReactionsNewViewModel(width: calculateWidth("", reactions.count),
-                                              views: reactions,
-                                              backgroundColor: reactionColor)
+            viewModel = ReactionsNewViewModel(
+                width: calculateWidth("", reactions.count),
+                views: reactions,
+                backgroundColor: reactionColor
+            )
         }
         let loadInfo = LoadInfo(
             url: .mock,
@@ -59,7 +65,8 @@ extension RoomEventsFactory {
             offset: .zero,
             fillColor: .diamond,
             cornerRadius: .equal,
-            content: transactionItem, onSwipe: {
+            content: transactionItem,
+            onSwipe: {
                 onSwipeReply(event)
             }, swipeEdge: event.isFromCurrentUser ? .trailing : .leading
         )
@@ -69,7 +76,8 @@ extension RoomEventsFactory {
                 id: event.id,
                 leadingContent: PaddingModel(),
                 centralContent: bubbleContainer,
-                bottomContent: viewModel, onLongPress: {
+                bottomContent: viewModel,
+                onLongPress: {
                    onLongPressTap(event)
                 }
             )
@@ -79,7 +87,8 @@ extension RoomEventsFactory {
             id: event.id,
             centralContent: bubbleContainer,
             trailingContent: PaddingModel(),
-            bottomContent: viewModel, onLongPress: {
+            bottomContent: viewModel,
+            onLongPress: {
                 onLongPressTap(event)
             }
         )

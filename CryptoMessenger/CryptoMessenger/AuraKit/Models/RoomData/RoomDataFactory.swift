@@ -76,7 +76,7 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                 roomId: event.roomId,
                 sender: event.sender,
                 sentState: .sent,
-                eventType: makeEventType(event: event, matrixUseCase: matrixUseCase),
+                eventType: makeEventType(event: event),
                 shortDate: event.timestamp.hoursAndMinutes,
                 fullDate: event.timestamp.dayAndMonthAndYear,
                 isFromCurrentUser: event.sender == matrixUseCase.getUserId(),
@@ -92,10 +92,7 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
         return events
     }
 
-    func makeEventType(
-        event: MXEvent,
-        matrixUseCase: MatrixUseCaseProtocol
-    ) -> MessageType {
+    func makeEventType(event: MXEvent) -> MessageType {
         let messageType = event.content[.messageType] as? String
 
         var type: MessageType = .none
@@ -142,6 +139,8 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                 let phone = event.content[.phone] as? String ?? ""
                 let url = MXURL(mxContentURI: link)?.contentURL(on: homeServer)
                 type = .contact(name: name, phone: phone, url: url)
+            case MXEventCustomEvent.cryptoSend.identifier:
+                type = .sendCrypto
             default:
                 type = makeSystemEventType(event: event)
         }

@@ -16,7 +16,7 @@ extension EditEvent: CustomEvent {
 
     // MARK: - Internal Methods
 
-    func encodeContent() throws -> [String: Any] {
+    func encodeContent() -> [String: Any] {
         [
             "body": "*" + text,
             "m.new_content": [

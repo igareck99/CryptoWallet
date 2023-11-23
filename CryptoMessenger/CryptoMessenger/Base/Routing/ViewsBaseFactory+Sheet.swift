@@ -109,8 +109,9 @@ extension ViewsBaseFactory {
             NotSendedMessageMenuAssembly.build(event, onTapItem)
                 .presentationDetents([.height(CGFloat(166))])
                 .anyView()
-        case .transactionStatus:
-            TransactionStatusViewAssemlby.build().anyView()
+        case let .transactionStatus(model):
+                TransactionStatusViewAssemlby
+                    .build(model: model).anyView()
         }
     }
 }

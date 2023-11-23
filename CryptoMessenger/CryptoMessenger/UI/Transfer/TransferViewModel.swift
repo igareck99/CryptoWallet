@@ -376,7 +376,6 @@ final class TransferViewModel: ObservableObject {
                     )
                 }
             }
-            
 		}
 	}
 
