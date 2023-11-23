@@ -25,7 +25,7 @@ extension RoomEventsFactory {
             isFromCurrentUser: event.isFromCurrentUser,
             readData: readData(isFromCurrentUser: event.isFromCurrentUser, eventSendType: event.sentState, messageType: event.eventType)
         )
-        let reactionColor: Color = event.isFromCurrentUser ? .diamond: .aliceBlue
+        let reactionColor: Color = event.isFromCurrentUser ? .diamond : .aliceBlue
         let reactions: [ReactionNewEvent] = prepareReaction(event, onReactionTap: { reaction in
             onReactionTap(reaction)
         })
@@ -38,9 +38,17 @@ extension RoomEventsFactory {
                                               views: reactions,
                                               backgroundColor: reactionColor)
         }
+        let nameWithoutSpaces = Array(name?.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() ?? "")
+        var userAvatarLetters = ""
+        if let firstLetter = nameWithoutSpaces[safe: 0] {
+            userAvatarLetters += firstLetter.description
+        }
+        if let secondLetter = nameWithoutSpaces[safe: 1] {
+            userAvatarLetters += secondLetter.description
+        }
         let userAvatar = UserAvatar(
             size: CGSize(width: 48.0, height: 48.0),
-            placeholder: AvatarLetter(letter: "TK", backColor: .dodgerTransBlue)
+            placeholder: AvatarLetter(letter: userAvatarLetters, backColor: .dodgerTransBlue)
         )
         let contactItem = ContactItem(
             id: event.id,

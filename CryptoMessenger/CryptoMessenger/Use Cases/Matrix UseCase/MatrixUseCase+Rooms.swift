@@ -1,6 +1,7 @@
 import Foundation
 
 extension MatrixUseCase {
+    
     func createChannel(
         name: String,
         topic: String,
@@ -333,6 +334,7 @@ extension MatrixUseCase {
                 })
             }
         }
+        print("sklaslkasklsa  \(room)")
         return room
     }
 

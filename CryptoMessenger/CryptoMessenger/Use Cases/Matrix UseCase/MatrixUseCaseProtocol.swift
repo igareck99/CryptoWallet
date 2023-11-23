@@ -5,6 +5,7 @@ import MatrixSDK
 protocol MatrixUseCaseProtocol {
 
 	var objectChangePublisher: ObservableObjectPublisher { get }
+    var roomStatePublisher: Published<MXRoomState>.Publisher { get }
 	var loginStatePublisher: Published<MatrixState>.Publisher { get }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { get }
 	var rooms: [AuraRoom] { get }

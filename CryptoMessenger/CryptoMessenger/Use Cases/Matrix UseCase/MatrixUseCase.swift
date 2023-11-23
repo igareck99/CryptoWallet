@@ -149,6 +149,7 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
 	var objectChangePublisher: ObservableObjectPublisher { matrixService.objectChangePublisher }
 	var loginStatePublisher: Published<MatrixState>.Publisher { matrixService.loginStatePublisher }
 	var devicesPublisher: Published<[MXDevice]>.Publisher { matrixService.devicesPublisher }
+    var roomStatePublisher: Published<MXRoomState>.Publisher { matrixService.roomStatePublisher }
 	var rooms: [AuraRoom] { matrixService.rooms }
     var auraRooms: [AuraRoomData] { matrixService.auraRooms }
     var auraNoEventsRooms: [AuraRoomData] { matrixService.auraNoEventsRooms }

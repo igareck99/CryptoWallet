@@ -200,8 +200,10 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
             }.sorted { $1.name > $0.name }
             self.contactsUseCase.matchServerContacts(
                 contact, .groupCreate
-            ) { result in
-                self.existingContacts = result.filter { $0.type == .lastUsers || $0.type == .existing }
+            ) { [weak self] result in
+                guard let self = self else { return }
+                self.existingContacts = result.filter { ($0.type == .lastUsers || $0.type == .existing)
+                    && $0.mxId != self.matrixUseCase.getUserId() }
                 self.lastUsersSections = []
                 if !self.existingContacts.isEmpty {
                     self.lastUsersSections.append(

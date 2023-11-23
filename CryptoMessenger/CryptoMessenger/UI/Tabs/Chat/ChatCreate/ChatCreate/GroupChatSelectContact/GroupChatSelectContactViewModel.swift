@@ -104,7 +104,6 @@ final class GroupChatSelectContactViewModel: ObservableObject {
                         self.usersViews = self.users.filter({ $0.name.contains(value) || $0.mxId.contains(value) })
                     }
                 } else {
-                    print("slkaslaslasl  \(self.users)")
                     self.usersViews = self.users.filter({ $0.sourceType != .finded  })
                 }
             }

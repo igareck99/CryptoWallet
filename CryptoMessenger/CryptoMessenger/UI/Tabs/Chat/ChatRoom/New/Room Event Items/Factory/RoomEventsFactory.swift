@@ -4,6 +4,7 @@ import SwiftUI
 // MARK: - RoomEventsFactoryProtocol
 
 protocol RoomEventsFactoryProtocol {
+
     static func makeChatOutputEvent(_ id: UUID,
                                     _ eventId: String,
                                     _ type: MessageType,
