@@ -100,17 +100,17 @@ struct FriendProfileView: View {
                                             if viewModel.profile.socialNetwork.count < 4 {
                                                 ForEach(viewModel.profile.socialNetwork.filter({ !$0.url.isEmpty })) { item in
                                                     SocialNetworkView(item: item) {
-                                                        viewModel.onSafari(item.url)
+                                                        viewModel.onSafari(item.fullUrl)
                                                     }
-                                                }
+                                                }.foreground(Color.dodgerBlue)
                                             } else {
                                                 ForEach(viewModel.profile.socialNetwork) { item in
                                                     if !item.url.isEmpty {
                                                         SocialNetworkView(item: item) {
-                                                            viewModel.onSafari(item.url)
+                                                            viewModel.onSafari(item.fullUrl)
                                                         }
                                                     }
-                                                }
+                                                }.foreground(Color.dodgerBlue)
                                                 Button(action: {
                                                     showAllSocial.toggle()
                                                 }, label: {
