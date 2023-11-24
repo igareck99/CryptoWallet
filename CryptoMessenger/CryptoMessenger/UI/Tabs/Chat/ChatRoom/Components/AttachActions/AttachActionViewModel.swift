@@ -1,5 +1,5 @@
 // swiftlint:disable all
-
+import Combine
 import SwiftUI
 import Photos
 
@@ -11,31 +11,88 @@ final class AttachActionViewModel: ObservableObject {
 
     @Published var isTransactionAvailable = false
     @Published var images: [UIImage] = []
-    @Published var actions: [ActionItem] = AttachAction.allCases.map { .init(action: $0) }
+    @Published var actions = [ActionItem]()
     var tappedAction: (AttachAction) -> Void
     var onCamera: () -> Void
     var onSendPhoto: (UIImage) -> Void
+    var cancellables = Set<AnyCancellable>()
 
     // MARK: - Private Properties
 
     @Injectable private(set) var togglesFacade: MainFlowTogglesFacade
+    let apiClient: APIClientManager
+    let matrixUseCase: MatrixUseCaseProtocol
+    let coreDataService: CoreDataServiceProtocol
+    var interlocutorId: String?
+    var receiverWalletData: UserWallletData? = nil
 
     // MARK: - Lifecycle
 
-    init(tappedAction: @escaping (AttachAction) -> Void,
-         onCamera: @escaping () -> Void,
-         onSendPhoto: @escaping (UIImage) -> Void) {
+    init(
+        apiClient: APIClientManager = APIClient.shared,
+        matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
+        coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
+        interlocutorId: String? = nil,
+        tappedAction: @escaping (AttachAction) -> Void,
+        onCamera: @escaping () -> Void,
+        onSendPhoto: @escaping (UIImage) -> Void
+    ) {
+        self.apiClient = apiClient
+        self.matrixUseCase = matrixUseCase
+        self.coreDataService = coreDataService
+        self.interlocutorId = interlocutorId
         self.tappedAction = tappedAction
         self.onCamera = onCamera
         self.onSendPhoto = onSendPhoto
         fetchChatData()
+        updateActions()
         fetchPhotos()
+        fetchCryptoSendData()
+    }
+    
+    func didTap(action: AttachAction) {
+        guard case let .moneyTransfer(_) = action else {
+            tappedAction(action)
+            return
+        }
+    
+        guard let rData = receiverWalletData else { return }
+        
+        let receiverWallet = UserWallletData(
+            name: rData.name,
+            bitcoin: rData.bitcoin,
+            ethereum: rData.ethereum,
+            binance: rData.binance,
+            aura: rData.aura,
+            url: rData.url,
+            phone: rData.phone,
+            walletType: .aura,
+            onTap: {_ in }
+        )
+        let moneyAction = AttachAction.moneyTransfer(receiverWallet: receiverWallet)
+        tappedAction(moneyAction)
     }
 
     // MARK: - Private Methods
 
+    private func updateActions() {
+        actions = AttachAction.allCases.compactMap {
+            guard case let .moneyTransfer(_) = $0 else { return ActionItem(action: $0) }
+            if isTransactionAvailable && receiverWalletData != nil {
+                return ActionItem(action: $0)
+            }
+            return nil
+        }
+    }
+
     private func fetchChatData() {
-        isTransactionAvailable = togglesFacade.isTransactionAvailable
+        // TODO: Отключил для тестов
+        // TODO: нужно включить флаг в Firebase
+        isTransactionAvailable = true //  togglesFacade.isTransactionAvailable
+        
+        // Есть ли созданные кошельки у текущего пользователя
+        let wallets = coreDataService.getWalletNetworks()
+        isTransactionAvailable = wallets.isEmpty == false
     }
 
     private func fetchPhotos() {
@@ -70,5 +127,75 @@ final class AttachActionViewModel: ObservableObject {
                 self.objectWillChange.send()
             }
         })
+    }
+    
+    func fetchCryptoSendData() {
+        guard let receiverUserId: String = interlocutorId else { return }
+        requestUserData(userId: receiverUserId) { [weak self] result in
+            guard let self = self,
+                  case let .success(model) = result else {
+                return
+            }
+            self.receiverWalletData = model
+            DispatchQueue.main.async {
+                self.updateActions()
+                self.objectWillChange.send()
+            }
+            debugPrint("getUserData: \(model)")
+        }
+    }
+    
+    func requestUserData(
+        userId: String,
+        completion: @escaping EmptyFailureBlock<UserWallletData>
+    ) {
+        Publishers.Zip(
+            apiClient.publisher(Endpoints.Wallet.getAssetsByUserName(userId)),
+            apiClient.publisher(Endpoints.Users.getProfile(userId))
+        ).sink { result in
+            debugPrint("getUserData completion: \(result)")
+            guard case let .failure(error) = result else {
+                return
+            }
+            debugPrint("getUserData error: \(error)")
+            completion(.failure)
+        } receiveValue: { [weak self] response in
+            guard let self = self else {
+                completion(.failure)
+                return
+            }
+            debugPrint("getUserData response: \(response)")
+            let phone: String
+            if let userPhone = response.1["phone"] as? String {
+                phone = userPhone
+            } else {
+                phone = ""
+            }
+
+            guard let userWallets = response.0[userId],
+                  let aura = userWallets["aura"]?["address"],
+                  let btc = userWallets["bitcoin"]?["address"],
+                  let eth = userWallets["ethereum"]?["address"],
+                  let binance = userWallets["binance"]?["address"] else {
+                completion(.failure)
+                return
+            }
+
+            let userWallletData = UserWallletData(
+                name: userId,
+                bitcoin: btc,
+                ethereum: eth,
+                binance: binance,
+                aura: aura,
+                url: nil,
+                phone: phone,
+                walletType: .aura,
+                onTap: { value in debugPrint("\(value)") }
+            )
+
+            debugPrint("getUserData userWallletData: \(userWallletData)")
+            completion(.success(userWallletData))
+        }
+        .store(in: &cancellables)
     }
 }

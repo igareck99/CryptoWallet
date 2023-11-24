@@ -139,11 +139,7 @@ protocol ChatHistoryRouterable: View {
         onReaction: @escaping GenericBlock<String>
     )
 
-    func chatMenu(
-        tappedAction: @escaping (AttachAction) -> Void,
-        onCamera: @escaping () -> Void,
-        onSendPhoto: @escaping (UIImage) -> Void
-    )
+    func chatMenu(model: ActionsViewModel)
 
     func notSendedMessageMenu(
         event: RoomEvent,

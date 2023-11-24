@@ -84,22 +84,20 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                 let unreadedEvents = summary.summary.localUnreadEventCount
                 messageType = lastMessageEvent?.messageType ?? MessageType.text("")
                 var members: Int = 1
-                var roomName = ""
+                var roomName = "roomName"
                 let homeServer = config.matrixURL
                 do {
                     try members = Int(summary.summary.membersCount.members)
                 } catch {
                     members = 0
                 }
-                do {
-                    try roomName = summary.summary.displayName
-                } catch {
-                    roomName = ""
+                if summary.summary.displayName != nil {
+                    roomName = summary.summary.displayName
                 }
                 let room = AuraRoomData(isChannel: powerLevels,
                                         isAdmin: isAdmin,
                                         isPinned: false,
-                                        //                                           isOnline: isRoomUserActive(mxRoom.directUserId),
+//                                           isOnline: isRoomUserActive(mxRoom.directUserId),
                                         isOnline: false,
                                         isDirect: mxRoom.isDirect,
                                         unreadedEvents: Int(unreadedEvents),

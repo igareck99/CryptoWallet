@@ -6,7 +6,7 @@ struct ActionSheetNewView: View {
 
     // MARK: - Internal Properties
 
-    var viewModel: AttachActionViewModel
+    @StateObject var viewModel: AttachActionViewModel
 
     // MARK: - Private Properties
 
@@ -23,26 +23,16 @@ struct ActionSheetNewView: View {
     }
 
     private var content: some View {
-        ZStack {
+        ScrollView {
             VStack(spacing: 8) {
-                Spacer()
-                VStack {
-                    mediaFeedView
-                    ForEach(viewModel.actions, id: \.id) { item in
-                        if item.action == .moneyTransfer {
-                            if viewModel.isTransactionAvailable {
-                                cellAction(item: item)
-                            } else {
-                                EmptyView()
-                            }
-                        } else {
-                            cellAction(item: item)
-                        }
-                    }
+                mediaFeedView
+                ForEach(viewModel.actions, id: \.id) { item in
+                    cellAction(item: item)
                 }
-                .background(.white)
-                .cornerRadius(14)
             }
+            .padding(.top, 16)
+            .background(.white)
+            .cornerRadius(14)
         }
     }
 
@@ -84,7 +74,7 @@ struct ActionSheetNewView: View {
     private func cellAction(item: ActionItem) -> some View {
         return Button(action: {
             vibrate()
-            viewModel.tappedAction(item.action)
+            viewModel.didTap(action: item.action)
         }, label: {
             HStack(spacing: 16) {
                 HStack {

@@ -4,7 +4,10 @@ import SwiftUI
 // swiftlint:disable all
 
 protocol FacilityApproveViewCoordinatable {
-    func onTransactionEnd(model: TransactionResult)
+    func onTransactionEnd(
+        model: TransactionResult,
+        rawTransaction: TransactionSendResponse?
+    )
 }
 
 // MARK: - FacilityApproveViewModel
@@ -150,7 +153,7 @@ extension FacilityApproveViewModel {
 			guard let self = self,
 				  case let .success(response) = result else {
                 // MARK: - Пока добавил для того чтобы был переход в кошелек
-                // нужно бдует обновить, когда будем прорабатывать ошибки
+                // нужно будет обновить, когда будем прорабатывать ошибки
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     self.transactionresult(
@@ -171,7 +174,8 @@ extension FacilityApproveViewModel {
                 }
                 self.transactionresult(
                     title: R.string.localizable.facilityApproveTransactionDone(),
-                    imageName: R.image.transaction.successOperation.name
+                    imageName: R.image.transaction.successOperation.name,
+                    rawTransaction: response
                 )
 			}
 		}
@@ -181,7 +185,8 @@ extension FacilityApproveViewModel {
         title: String,
         imageName: String,
         isSuccess: Bool = true,
-        failDescription: String? = nil
+        failDescription: String? = nil,
+        rawTransaction: TransactionSendResponse? = nil
     ) {
         let receiverName: String = self.transaction.reciverName ?? R.string.localizable.facilityApproveReceiver()
         let model = TransactionResult(
@@ -192,6 +197,9 @@ extension FacilityApproveViewModel {
             receiversWallet: self.transaction.reciverAddress ?? "",
             result: isSuccess ? .success : .fail(failDescription ?? "failed")
         )
-        self.coordinator.onTransactionEnd(model: model)
+        self.coordinator.onTransactionEnd(
+            model: model,
+            rawTransaction: rawTransaction
+        )
     }
 }

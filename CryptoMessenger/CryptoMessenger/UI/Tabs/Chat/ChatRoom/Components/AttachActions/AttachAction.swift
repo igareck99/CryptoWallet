@@ -3,6 +3,13 @@ import SwiftUI
 // MARK: - AttachAction
 
 enum AttachAction: CaseIterable, Identifiable {
+    static var allCases: [AttachAction] = [
+        .media,
+        .document,
+        .location,
+        .contact,
+        .moneyTransfer(receiverWallet: .mock)
+    ]
 
     // MARK: - Types
 
@@ -10,7 +17,7 @@ enum AttachAction: CaseIterable, Identifiable {
     case document
     case location
     case contact
-    case moneyTransfer
+    case moneyTransfer(receiverWallet: UserWallletData)
 
     // MARK: - Internal Properties
 

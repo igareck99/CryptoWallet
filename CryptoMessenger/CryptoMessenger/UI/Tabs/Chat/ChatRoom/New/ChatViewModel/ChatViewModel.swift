@@ -6,6 +6,8 @@ import SwiftUI
 
 final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
 
+    @Published var messageText = ""
+    @Published var isSnackbarPresented = false
     @Published var isAvatarLoading = false
     @Published var roomAvatarUrl: URL?
     @Published var chatData = ChatData()
@@ -33,17 +35,16 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     private let stateValueSubject = CurrentValueSubject<ChatRoomFlow.ViewState, Never>(.idle)
     private let factory: RoomEventsFactory.Type
     let transactionStatusFactory: TransactionStatusFactoryProtocol.Type
-    private var subscriptions = Set<AnyCancellable>()
+    var subscriptions = Set<AnyCancellable>()
     private let channelFactory: ChannelUsersFactoryProtocol.Type
     private var roomPowerLevels: MXRoomPowerLevels?
     let p2pCallsUseCase: P2PCallUseCaseProtocol
     let groupCallsUseCase: GroupCallsUseCaseProtocol
     private let config: ConfigType
     private let availabilityFacade: ChatRoomTogglesFacadeProtocol
-    private let coreDataService: CoreDataServiceProtocol
-    private let walletModelsFactory: WalletModelsFactoryProtocol.Type
-    @Injectable private var apiClient: APIClientManager
-    var isCryptoSending = false
+    let coreDataService: CoreDataServiceProtocol
+    let walletModelsFactory: WalletModelsFactoryProtocol.Type
+    @Injectable var apiClient: APIClientManager
 
     // MARK: - To replace
     @Published var location = Place(name: "", latitude: 0, longitude: 0)
@@ -301,9 +302,9 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 }
             }
             .store(in: &subscriptions)
-        
+
         matrixUseCase.objectChangePublisher
-            .receive(on: DispatchQueue.global(qos: .background))
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard
                     let self = self,
@@ -441,7 +442,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             }
         }
     }
-    
+
     private func updateRoomPowerLevel() {
         self.matrixUseCase.getRoomState(roomId: self.room.roomId) { [weak self] response in
             guard case let .success(roomState) = response else { return }
@@ -457,7 +458,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             self.roomAvatarUrl = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
         }
     }
-    
+
     private func setRoomPowerLevel(_ state: MXRoomState) {
         DispatchQueue.main.async {
             if state.powerLevels == nil {
@@ -649,99 +650,6 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         }
     }
 
-    func showChatRoomMenu() {
-        self.coordinator.chatMenu(
-            tappedAction: { [weak self] result in
-                guard let self = self else { return }
-            switch result {
-                case .media:
-                self.coordinator.galleryPickerSheet(
-                    sourceType: .photoLibrary,
-                    galleryContent: .all,
-                    onSelectImage: { [weak self] image in
-                        guard let self = self, let image = image else { return }
-                        self.sendMessage(type: .image, image: image)
-                    },
-                    onSelectVideo: { [weak self] url in
-                        guard let self = self, let url = url else { return }
-                        self.sendMessage(type: .video, url: url)
-                    }
-                )
-                case .contact:
-                self.coordinator.showSelectContact(
-                    mode: .send,
-                    chatData: Binding(
-                        get: { self.chatData },
-                        set: { value in self.chatData = value }
-                    ),
-                    contactsLimit: 1,
-                    onUsersSelected: { [weak self] contacts in
-                        guard let self = self else { return }
-                        contacts.forEach {
-                            self.sendMessage(type: .contact, contact: $0)
-                        }
-                    }
-                )
-                case .document:
-                self.coordinator.presentDocumentPicker(
-                    onCancel: { [weak self] in
-                        guard let self = self else { return }
-                        self.coordinator.dismissCurrentSheet()
-                    },
-                    onDocumentsPicked: { [weak self] url in
-                        guard let self = self else { return }
-                        url.forEach {
-                            self.sendMessage(type: .file, url: $0)
-                        }
-                    }
-                )
-                case .location:
-                self.coordinator.presentLocationPicker(
-                    place: Binding(
-                        get: { self.location },
-                        set: { value in self.location = value ?? .zero }
-                    ),
-                    sendLocation: Binding(
-                        get: { self.isSendLocation },
-                        set: { value in self.isSendLocation = value }
-                    ),
-                    onSendPlace: { [weak self] place in
-                        guard let self = self else { return }
-                        let data = LocationData(lat: place.latitude, long: place.longitude)
-                        self.sendMessage(type: .location, location: data)
-                    }
-                )
-                default:
-                    break
-            }
-        },
-            onCamera: { [weak self] in
-                guard let self = self else { return }
-                self.coordinator.galleryPickerSheet(
-                    sourceType: .camera,
-                    galleryContent: .all,
-                    onSelectImage: { [weak self] image in
-                        guard let image = image else { return }
-                        self?.sendMessage(type: .image, image: image)
-                    },
-                    onSelectVideo: { [weak self] url in
-                        guard let self = self, let url = url else { return }
-                        self.sendMessage(type: .video, url: url)
-                        self.sendVideo(
-                            url,
-                            self.makeOutputEventView(.video(url))
-                        )
-                    }
-                )
-            },
-            onSendPhoto: { [weak self] image in
-                guard let self = self else { return }
-                self.sendMessage(type: .image, image: image)
-                self.coordinator.dismissCurrentSheet()
-            }
-        )
-    }
-
     func sendMessage(
         type: MessageSendType,
         image: UIImage? = nil,
@@ -835,5 +743,19 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         }
         self.room.events.append(event)
         self.displayItems.append(view)
+    }
+    
+    func showSnackBar(text: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.messageText = text
+            self?.isSnackbarPresented = true
+            self?.objectWillChange.send()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.messageText = ""
+            self?.isSnackbarPresented = false
+            self?.objectWillChange.send()
+        }
     }
 }

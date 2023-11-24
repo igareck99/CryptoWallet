@@ -153,6 +153,7 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
     }
 
     func onAppear() {
+//        self.coordinator?.showTransactionStatus()
     }
 
     // MARK: - Private Methods
@@ -184,7 +185,9 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                     let data = ChatActionsList(isLeaveAvailable: !(room.isAdmin && room.isChannel),
                                                isWatchProfileAvailable: room.isDirect,
                                                isPinned: room.isPinned)
-                        self?.coordinator?.chatActions(room: data, onSelect: { value in
+                        self?.coordinator?.chatActions(
+                            room: data,
+                            onSelect: { value in
                         switch value {
                         case .watchProfile:
                             self?.matrixUseCase.getRoomMembers(roomId: room.roomId) { [weak self] result in
@@ -207,7 +210,10 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                                                           status: "", phone: "", type: .lastUsers, onTap: { _ in
                                     })
                                     self?.coordinator?.dismissCurrentSheet()
-                                        self?.coordinator?.friendProfile(userId: contact.mxId, roomId: room.roomId)
+                                    self?.coordinator?.friendProfile(
+                                        userId: contact.mxId,
+                                        roomId: room.roomId
+                                    )
                                 default:
                                     break
                                 }

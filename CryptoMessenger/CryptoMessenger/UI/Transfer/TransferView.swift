@@ -10,10 +10,6 @@ struct TransferView: View {
 	@State var showCoinSelector = false
 	@State var isSelectedWalletType = false
 	@State var address: String = ""
-	@State var receiverData: UserReceiverData = UserReceiverData(name: "",
-																 url: URL(string: ""),
-																 adress: "",
-																 walletType: .ethereum)
 
 
 	// MARK: - Body
@@ -90,16 +86,15 @@ struct TransferView: View {
                     .foregroundColor(viewModel.resources.textColor)
                     .padding(.leading, 16)
 					.padding(.top, 32)
-                
+
                 chooseContactCell
                     .background(viewModel.resources.background)
 					.padding(.top, 14)
                     .padding(.horizontal, 16)
                     .onTapGesture {
-                        self.receiverData.walletType = viewModel.currentWallet.walletType
-                        viewModel.send(.onChooseReceiver($receiverData))
+                        viewModel.send(.onChooseReceiver)
                     }
-					.onChange(of: receiverData, perform: { data in
+                    .onChange(of: viewModel.receiverData, perform: { data in
 						viewModel.send(.onAddressChange(data.adress))
 					})
 
@@ -108,7 +103,7 @@ struct TransferView: View {
                     .foregroundColor(viewModel.resources.textColor)
                     .padding(.leading, 16)
 					.padding(.top, 32)
-                
+
                 transferCell
 					.frame(height: 47)
 					.padding(.top, 8)
@@ -164,13 +159,13 @@ struct TransferView: View {
                         .frame(width: 40, height: 40)
                     viewModel.resources.contact
                 }
-                if receiverData.adress.isEmpty {
+                if viewModel.receiverData.adress.isEmpty {
                     Text(viewModel.resources.transferChooseContact)
                         .font(.bodyRegular17)
                         .foregroundColor(viewModel.resources.titleColor)
                         .frame(height: 22)
                 } else {
-                    Text(receiverData.adress)
+                    Text(viewModel.receiverData.adress)
                         .font(.bodyRegular17)
                         .foregroundColor(viewModel.resources.titleColor)
                         .frame(height: 22)

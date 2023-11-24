@@ -293,7 +293,7 @@ final class WalletViewModel: ObservableObject {
                 walletsResponse.ethereum,
                 walletsResponse.aura
             ].compactMap { $0 }
-            
+
 			let dbWallets = self.coreDataService.getWalletNetworks()
 
 			var isAddressesAvailable = false
@@ -450,11 +450,23 @@ final class WalletViewModel: ObservableObject {
                     self?.updateUserWallet()
                     self?.objectWillChange.send()
                 case let .onTransactionAddress(selectorTokenIndex, address):
-                    self?.coordinator?.onTransaction(0, selectorTokenIndex, address)
+                    self?.coordinator?.onTransaction(
+                        selectorFilterIndex: 0,
+                        selectorTokenIndex: selectorTokenIndex,
+                        address: address
+                    )
                 case let .onTransactionType(selectorFilterIndex):
-                    self?.coordinator?.onTransaction(selectorFilterIndex, 0, "")
+                    self?.coordinator?.onTransaction(
+                        selectorFilterIndex: selectorFilterIndex,
+                        selectorTokenIndex: 0,
+                        address: ""
+                    )
                 case let .onTransactionToken(selectorTokenIndex):
-                    self?.coordinator?.onTransaction(0, selectorTokenIndex, "")
+                    self?.coordinator?.onTransaction(
+                        selectorFilterIndex: 0,
+                        selectorTokenIndex: selectorTokenIndex,
+                        address: ""
+                    )
                 case .onImportKey:
                     self?.coordinator?.onImportKey { [weak self] in
                         self?.updateWallets()
@@ -463,7 +475,7 @@ final class WalletViewModel: ObservableObject {
                     }
 				case .onTransfer(walletIndex: let walletIndex):
 					guard let wallet = self?.cardsList[safe: walletIndex] else { return }
-                    self?.coordinator?.onTransfer(wallet)
+                    self?.coordinator?.onTransfer(wallet: wallet)
 				}
             }
             .store(in: &subscriptions)

@@ -11,7 +11,7 @@ struct ActionSheetView: View {
     @Binding var sendPhotos: Bool
     @Binding var imagesToSend: [UIImage]
     var onCamera: VoidBlock?
-    var viewModel: AttachActionViewModel
+    @StateObject var viewModel: AttachActionViewModel
 
     // MARK: - Private Properties
 
@@ -39,16 +39,8 @@ struct ActionSheetView: View {
                 Spacer()
                 VStack {
                     mediaFeedView
-                    ForEach(actions, id: \.id) { item in
-                        if item.action == .moneyTransfer {
-                            if viewModel.isTransactionAvailable {
-                                cellAction(item: item)
-                            } else {
-                                EmptyView()
-                            }
-                        } else {
-                            cellAction(item: item)
-                        }
+                    ForEach(viewModel.actions, id: \.id) { item in
+                        cellAction(item: item)
                     }
                 }
                 .background(.white)

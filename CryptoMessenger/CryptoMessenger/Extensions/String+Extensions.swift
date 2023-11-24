@@ -3,6 +3,8 @@ import Foundation
 // MARK: - String ()
 
 extension String {
+    
+    static let empty = ""
 
     // MARK: - Internal Properties
 

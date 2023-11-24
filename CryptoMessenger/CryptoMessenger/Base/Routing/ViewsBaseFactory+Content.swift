@@ -16,10 +16,11 @@ extension ViewsBaseFactory {
                 address: address,
                 coordinator: coordinator
             )
-        case let .transfer(wallet, coordinator):
+        case let .transfer(wallet, coordinator, receiverData):
             TransferConfigurator.build(
                 wallet: wallet,
-                coordinator: coordinator
+                coordinator: coordinator,
+                receiverData: receiverData
             )
         case let .chooseReceiver(address, coordinator):
             ChooseReceiverAssembly.build(

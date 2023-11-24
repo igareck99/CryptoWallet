@@ -8,9 +8,9 @@ extension ViewsBaseFactory {
             TransactionResultAssembly.build(model: model)
         case let .addSeed(addSeedView):
             addSeedView()
-        case let .chatRoomMenu(action, onCamera, onSendPhoto):
-            ActionSheetViewAssembly.build(action, onCamera, onSendPhoto)
-                .presentationDetents([.height(435)])
+        case let .chatRoomMenu(model):
+            ActionSheetViewAssembly.build(model: model)
+                    .presentationDetents([.height(435)])
         case let .createChat(view, onDisappear):
             view().toolbar(.hidden, for: .navigationBar)
                 .onDisappear {

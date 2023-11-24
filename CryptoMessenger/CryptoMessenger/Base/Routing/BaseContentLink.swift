@@ -84,7 +84,8 @@ enum BaseContentLink: Hashable, Identifiable {
 
     case transfer(
         wallet: WalletInfo,
-        coordinator: TransferViewCoordinatable
+        coordinator: TransferViewCoordinatable,
+        receiverData: UserReceiverData?
     )
 
     case chooseReceiver(

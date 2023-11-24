@@ -299,16 +299,8 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
         )
     }
 
-    func chatMenu(
-        tappedAction: @escaping (AttachAction) -> Void,
-        onCamera: @escaping () -> Void,
-        onSendPhoto: @escaping (UIImage) -> Void
-    ) {
-        state.presentedItem = .chatRoomMenu(
-            tappedAction: tappedAction,
-            onCamera: onCamera,
-            onSendPhoto: onSendPhoto
-        )
+    func chatMenu(model: ActionsViewModel) {
+        state.presentedItem = .chatRoomMenu(model: model)
     }
 
     func notSendedMessageMenu(

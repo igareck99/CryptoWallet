@@ -22,7 +22,7 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
         isLeaveChannel: Binding<Bool>,
         coordinator: ChatHistoryFlowCoordinatorProtocol
     )
-    
+
     func chatMedia(
         room: AuraRoomData
     )
@@ -36,7 +36,7 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
         chatData: Binding<ChatData>,
         coordinator: ChatHistoryFlowCoordinatorProtocol
     )
-    
+
     func chatMembersView(
         chatData: Binding<ChatData>,
         coordinator: ChatHistoryFlowCoordinatorProtocol
@@ -122,11 +122,7 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
         url: URL
     )
 
-    func chatMenu(
-        tappedAction: @escaping (AttachAction) -> Void,
-        onCamera: @escaping () -> Void,
-        onSendPhoto: @escaping (UIImage) -> Void
-    )
+    func chatMenu(model: ActionsViewModel)
 
     func notSendedMessageMenu(
         event: RoomEvent,
@@ -136,6 +132,8 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
     func showTransactionStatus(model: TransactionStatus)
 
     func transferCrypto(
-        wallet: WalletInfo
+        wallet: WalletInfo,
+        receiverData: UserReceiverData?,
+        onTransferCompletion: @escaping (TransactionSendResponse?) -> Void
     )
 }
