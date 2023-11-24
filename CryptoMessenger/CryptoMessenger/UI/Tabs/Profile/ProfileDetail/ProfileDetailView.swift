@@ -3,14 +3,14 @@ import SwiftUI
 // MARK: - ProfileDetailView
 
 struct ProfileDetailView: View {
-
+    
     // MARK: - Internal Properties
-
+    
     @StateObject var viewModel: ProfileDetailViewModel
     @Binding var selectedAvatarImage: UIImage?
-
+    
     // MARK: - Private Properties
-
+    
     @State private var descriptionHeight = CGFloat(100)
     @State private var showLogoutAlert = false
     @State private var showActionImageAlert = false
@@ -18,12 +18,13 @@ struct ProfileDetailView: View {
     @State private var showCameraPicker = false
     @State private var isSaving = false
     @Environment(\.presentationMode) private var presentationMode
-
+    
     // MARK: - Body
-
+    
     var body: some View {
         content
             .navigationBarHidden(false)
+            .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .hideKeyboardOnTap()
             .onReceive(viewModel.$closeScreen) { closed in
@@ -118,72 +119,72 @@ struct ProfileDetailView: View {
             }
         }.listStyle(.insetGrouped)
     }
-
-//    var content: some View {
-//        ZStack {
-//            List {
-//                ForEach(0..<ProfileDetailType.allCases.count, id: \.self) { index in
-//                    let type = ProfileDetailType.allCases[index]
-//                    switch type {
-//                    case .avatar:
-//                        mainView
-//                            .padding(.horizontal, 16)
-//                            .frame(height: 64)
-//                    case .status:
-//                        TextFieldView(
-//                            title: type.title.uppercased(),
-//                            text: $viewModel.profile.status,
-//                            placeholder: type.title
-//                        )
-//                        .padding(.top, 24)
-//                        .padding([.leading, .trailing], 16)
-//                    case .phone:
-//                        phone(type.title.uppercased())
-//                            .padding(.top, 24)
-//                            .padding([.leading, .trailing], 16)
-//                    case .socialNetwork:
-//                        ProfileDetailActionRow(
-//                            title: "Ваши социальные сети",
-//                            color: .white,
-//                            image: R.image.profileDetail.socialNetwork.image
-//                        )
-//                        .onTapGesture {
-//                            viewModel.send(.onSocial)
-//                        }
-//                        .background(.white)
-//                        .frame(height: 64)
-//                        .padding(.top, 24)
-//                        .padding([.leading, .trailing], 16)
-//                    case .exit:
-//                        ProfileDetailActionRow(
-//                            title: "Выход",
-//                            color: .white,
-//                            image: R.image.profileDetail.exit.image
-//                        )
-//                        .background(.white)
-//                        .frame(height: 64)
-//                        .padding(.top, 16)
-//                        .padding([.leading, .trailing], 16)
-//                        .onTapGesture {
-//                            vibrate()
-//                            showLogoutAlert.toggle()
-//                        }
-//                    }
-//                }
-//            }
-//            .listStyle(.insetGrouped)
-//
-//            if isSaving {
-//                ZStack {
-//                    ProgressView()
-//                        .tint(.dodgerBlue)
-//                        .frame(width: 12, height: 12)
-//                }
-//            }
-//        }
-//        .background(isSaving ? Color.chineseBlackLoad : .ghostWhite)
-//        .ignoresSafeArea()
-//    }
+    
+    //    var content: some View {
+    //        ZStack {
+    //            List {
+    //                ForEach(0..<ProfileDetailType.allCases.count, id: \.self) { index in
+    //                    let type = ProfileDetailType.allCases[index]
+    //                    switch type {
+    //                    case .avatar:
+    //                        mainView
+    //                            .padding(.horizontal, 16)
+    //                            .frame(height: 64)
+    //                    case .status:
+    //                        TextFieldView(
+    //                            title: type.title.uppercased(),
+    //                            text: $viewModel.profile.status,
+    //                            placeholder: type.title
+    //                        )
+    //                        .padding(.top, 24)
+    //                        .padding([.leading, .trailing], 16)
+    //                    case .phone:
+    //                        phone(type.title.uppercased())
+    //                            .padding(.top, 24)
+    //                            .padding([.leading, .trailing], 16)
+    //                    case .socialNetwork:
+    //                        ProfileDetailActionRow(
+    //                            title: "Ваши социальные сети",
+    //                            color: .white,
+    //                            image: R.image.profileDetail.socialNetwork.image
+    //                        )
+    //                        .onTapGesture {
+    //                            viewModel.send(.onSocial)
+    //                        }
+    //                        .background(.white)
+    //                        .frame(height: 64)
+    //                        .padding(.top, 24)
+    //                        .padding([.leading, .trailing], 16)
+    //                    case .exit:
+    //                        ProfileDetailActionRow(
+    //                            title: "Выход",
+    //                            color: .white,
+    //                            image: R.image.profileDetail.exit.image
+    //                        )
+    //                        .background(.white)
+    //                        .frame(height: 64)
+    //                        .padding(.top, 16)
+    //                        .padding([.leading, .trailing], 16)
+    //                        .onTapGesture {
+    //                            vibrate()
+    //                            showLogoutAlert.toggle()
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //            .listStyle(.insetGrouped)
+    //
+    //            if isSaving {
+    //                ZStack {
+    //                    ProgressView()
+    //                        .tint(.dodgerBlue)
+    //                        .frame(width: 12, height: 12)
+    //                }
+    //            }
+    //        }
+    //        .background(isSaving ? Color.chineseBlackLoad : .ghostWhite)
+    //        .ignoresSafeArea()
+    //    }
     
     private var avatarView: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -240,33 +241,33 @@ struct ProfileDetailView: View {
                 )
         }
     }
-
+    
     private func info(_ title: String) -> some View {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(title.uppercased(), [
-                    .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left))
-                ]).font(.caption1Medium12)
-                    .frame(height: 22)
-                    .foregroundColor(.romanSilver)
-                ZStack(alignment: .leading) {
-                    if viewModel.profile.info.isEmpty {
-                        Text(title.firstUppercased)
-                            .foregroundColor(.romanSilver07)
-                            .font(.subheadlineRegular15)
-                            .padding([.leading, .trailing], 16)
-                    }
-
-                    TextEditor(text: $viewModel.profile.info)
-                        .foregroundColor(.chineseBlack)
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title.uppercased(), [
+                .paragraph(.init(lineHeightMultiple: 1.54, alignment: .left))
+            ]).font(.caption1Medium12)
+                .frame(height: 22)
+                .foregroundColor(.romanSilver)
+            ZStack(alignment: .leading) {
+                if viewModel.profile.info.isEmpty {
+                    Text(title.firstUppercased)
+                        .foregroundColor(.romanSilver07)
                         .font(.subheadlineRegular15)
-                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 140)
-                        .padding([.leading, .trailing], 14)
+                        .padding([.leading, .trailing], 16)
                 }
-                .background(.white)
-                .cornerRadius(8)
+                
+                TextEditor(text: $viewModel.profile.info)
+                    .foregroundColor(.chineseBlack)
+                    .font(.subheadlineRegular15)
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 44, maxHeight: 140)
+                    .padding([.leading, .trailing], 14)
             }
+            .background(.white)
+            .cornerRadius(8)
         }
-
+    }
+    
     private func phone(_ title: String) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title, [
@@ -286,7 +287,7 @@ struct ProfileDetailView: View {
             }
             .background(.white)
             .cornerRadius(8)
-
+            
             HStack(spacing: 0) {
                 Text(viewModel.profile.phone)
                     .foregroundColor(.chineseBlack)
@@ -299,13 +300,13 @@ struct ProfileDetailView: View {
             .cornerRadius(8)
         }
     }
-
+    
     // MARK: - Private Methods
-
+    
     private func switchImagePicker() {
         viewModel.send(.onGallery(.photoLibrary))
     }
-
+    
     private func switchCameraPicker() {
         viewModel.send(.onGallery(.camera))
     }
@@ -328,6 +329,13 @@ struct ProfileDetailView: View {
                     .font(.bodySemibold17)
                     .foregroundColor(.dodgerBlue)
             }).disabled(isSaving)
+        }
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button {
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                R.image.navigation.backButton.image
+            }
         }
     }
 }

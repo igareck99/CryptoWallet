@@ -13,6 +13,7 @@ struct SecurityView: View {
     // MARK: - Private Properties
 
     @State private var activateBiometry = false
+    @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
 
@@ -21,6 +22,10 @@ struct SecurityView: View {
         .background(viewModel.resources.innactiveBackground)
         .navigationBarHidden(false)
         .toolbar(.hidden, for: .tabBar)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            createToolBar()
+        }
         .onAppear {
             viewModel.send(.onAppear)
         }
@@ -42,12 +47,6 @@ struct SecurityView: View {
                 },
                 onCreate: { })
         })
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text(viewModel.resources.securityTitle)
-                    .font(.bodySemibold17)
-            }
-        }
     }
 
     private var content: some View {
@@ -150,6 +149,24 @@ struct SecurityView: View {
                 }
             default:
                 EmptyView()
+            }
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    @ToolbarContentBuilder
+    private func createToolBar() -> some ToolbarContent {
+        ToolbarItem(placement: .principal) {
+            Text(viewModel.resources.securityTitle)
+            .font(.bodySemibold17)
+            .foregroundColor(.chineseBlack)
+        }
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button {
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                R.image.navigation.backButton.image
             }
         }
     }

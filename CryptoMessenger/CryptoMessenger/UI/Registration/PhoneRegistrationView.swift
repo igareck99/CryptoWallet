@@ -4,6 +4,7 @@ struct PhoneRegistrationView<ViewModel: RegistrationPresenterProtocol>: View {
 
     @StateObject var viewModel: ViewModel
     @FocusState private var keyboardFoucsed: Bool
+    @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
         NavigationView {
@@ -73,6 +74,10 @@ struct PhoneRegistrationView<ViewModel: RegistrationPresenterProtocol>: View {
         }
         .navigationBarHidden(false)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            createToolBar()
+        }
     }
 
     private var sendCodeButton: some View {
@@ -95,5 +100,16 @@ struct PhoneRegistrationView<ViewModel: RegistrationPresenterProtocol>: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(viewModel.colors.sendButtonColor.wrappedValue)
         )
+    }
+    
+    @ToolbarContentBuilder
+    private func createToolBar() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button {
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                R.image.navigation.backButton.image
+            }
+        }
     }
 }

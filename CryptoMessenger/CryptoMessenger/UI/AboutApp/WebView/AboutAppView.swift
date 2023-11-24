@@ -5,6 +5,7 @@ import SwiftUI
 struct AboutAppView<ViewModel>: View where ViewModel: AboutAppViewModelDelegate {
 
     @StateObject var viewModel: ViewModel
+    @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
 
@@ -17,6 +18,7 @@ struct AboutAppView<ViewModel>: View where ViewModel: AboutAppViewModelDelegate 
                 .padding()
         }
         .navigationBarHidden(false)
+        .navigationBarBackButtonHidden(true)
         .toolbar {
             createToolBar()
         }
@@ -76,5 +78,14 @@ struct AboutAppView<ViewModel>: View where ViewModel: AboutAppViewModelDelegate 
                 .font(.bodySemibold17)
                 .lineLimit(1)
         }
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button {
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                R.image.navigation.backButton.image
+                
+            }
+        }
     }
+    
 }

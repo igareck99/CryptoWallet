@@ -11,6 +11,7 @@ struct TokenInfoView: View {
     @State var showAddresses = false
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
+    @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
 
@@ -39,7 +40,10 @@ struct TokenInfoView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarHidden(false)
-            .navigationBarTitle(viewModel.resources.tokenInfoTitle)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                createToolBar()
+            }
         }
         .popup(
             isPresented: viewModel.isSnackbarPresented,
@@ -192,4 +196,23 @@ struct TokenInfoView: View {
 			completion: nil
 		)
 	}
+    
+    // MARK: - Private Methods
+        
+        @ToolbarContentBuilder
+        private func createToolBar() -> some ToolbarContent {
+            ToolbarItem(placement: .principal) {
+                Text(viewModel.resources.tokenInfoTitle)
+                    .font(.bodySemibold17)
+                    .foregroundColor(.chineseBlack)
+            }
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    R.image.navigation.backButton.image
+                }
+            }
+        }
+
 }

@@ -7,6 +7,7 @@ struct TransferView: View {
 	// MARK: - Internal Properties
 
 	@StateObject var viewModel: TransferViewModel
+    @Environment(\.presentationMode) private var presentationMode
 	@State var showCoinSelector = false
 	@State var isSelectedWalletType = false
 	@State var address: String = ""
@@ -35,13 +36,11 @@ struct TransferView: View {
                         .presentationDragIndicator(.visible)
                     }
                     .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarBackButtonHidden(true)
                     .navigationBarHidden(false)
                     .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            Text(viewModel.resources.transferTransfer)
-								.font(.bodySemibold17)
-						}
-					}
+                        createToolBar()
+                    }
 			}
 			.scrollDismissesKeyboard(.interactively)
             .toolbar(.hidden, for: .tabBar)
@@ -242,4 +241,23 @@ struct TransferView: View {
 		.disabled(!viewModel.isTransferButtonEnabled)
 		.frame(maxWidth: .infinity, idealHeight: 48)
     }
+    
+    // MARK: - Private Methods
+    
+    @ToolbarContentBuilder
+    private func createToolBar() -> some ToolbarContent {
+        ToolbarItem(placement: .principal) {
+            Text(viewModel.resources.transferTransfer)
+            .font(.bodySemibold17)
+            .foregroundColor(.chineseBlack)
+        }
+        ToolbarItem(placement: .navigationBarLeading) {
+            Button {
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                R.image.navigation.backButton.image
+            }
+        }
+    }
+
 }
