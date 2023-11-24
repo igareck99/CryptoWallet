@@ -218,6 +218,7 @@ final class ProfileViewModel: ObservableObject {
                             return
                         }
                         self?.profile.photosUrls.insert(realUrl, at: 0)
+                        self?.fetchData()
                         self?.objectWillChange.send()
                     }
                 }
