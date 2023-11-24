@@ -390,7 +390,7 @@ final class ProfileViewModel: ObservableObject {
         }
         getSocialList()
         if let phoneNumber = keychainService.apiUserPhoneNumber {
-            profile.phone = phoneNumber
+            profile.phone = PhoneHelper.formatToNationalNumber(phoneNumber, forRegion: PhoneHelper.userRegionCode) ?? ""
         }
     }
 
