@@ -22,6 +22,8 @@ struct SocialListItemView: View {
                 debugPrint("SocialListItemView onEditingChanged: \(self.item.url)")
 				self.viewModel.socialNetworkDidEdited(item: item, isEditing: isEditing)
 			})
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled(true)
             .onChange(of: self.item.url, perform: { newValue in
                 debugPrint("SocialListItemView onSubmit: \(self.item.url) \(newValue)")
                 self.viewModel.socialNetworkDidSubmitted(item: item)
