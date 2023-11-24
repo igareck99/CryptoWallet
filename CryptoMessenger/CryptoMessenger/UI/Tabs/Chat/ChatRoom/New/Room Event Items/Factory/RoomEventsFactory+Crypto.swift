@@ -66,9 +66,17 @@ extension RoomEventsFactory {
             swipeEdge: event.isFromCurrentUser ? .trailing : .leading
         )
 
+        if event.isFromCurrentUser {
+            return EventContainer(
+                leadingContent: PaddingModel(),
+                centralContent: bubbleContainer,
+                onLongPress: { onLongPressTap(event) }
+            )
+        }
+
         return EventContainer(
-            leadingContent: PaddingModel(),
             centralContent: bubbleContainer,
+            trailingContent: PaddingModel(),
             onLongPress: { onLongPressTap(event) }
         )
     }
