@@ -1,9 +1,18 @@
 import SwiftUI
 
-typealias AddSeedViewType = AddSeedRouter<AddSeedView<AddSeedViewModel>, AddSeedState, WalletRouterState>
-typealias AddSeedViewBuilder = () -> (AddSeedRouter<GeneratePhraseView, AddSeedState, WalletRouterState>)?
+typealias AddSeedViewBuilder = () -> (
+    AddSeedRouter<
+    GeneratePhraseView,
+    AddSeedState,
+    WalletRouterState,
+    ViewsBaseFactory
+    >
+)?
 
 enum BaseContentLink: Hashable, Identifiable {
+
+    // Import seed
+    case importKey(coordinator: ImportKeyCoordinatable)
 
     // Chat history
 

@@ -12,9 +12,9 @@ protocol AuhtRouterable: View {
     func showVerificationScene(delegate: VerificationSceneDelegate?)
 
     func showCountryCodeScene(delegate: CountryCodePickerDelegate)
-    
+
     func resetState()
-    
+
     func popToRoot()
 
 }

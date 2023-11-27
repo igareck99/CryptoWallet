@@ -1,21 +1,16 @@
 import SwiftUI
 
-enum GeneratePhraseAssembly {
-    static func build() -> some View {
+enum GeneratePhraseViewAssembly {
+    static func build(
+        onSelect: @escaping GenericBlock<GeneratePhraseState>,
+        onCreate: @escaping VoidBlock
+    ) -> some View {
         let viewModel = GeneratePhraseViewModel()
         let view = GeneratePhraseView(
-            viewModel: viewModel
-        ) { type in
-            switch type {
-            case .importKey:
-                debugPrint("")
-                viewModel.onImport()
-            default:
-                break
-            }
-            } onCreate: {
-                viewModel.send(.onAppear)
-            }
+            viewModel: viewModel,
+            onSelect: onSelect,
+            onCreate: onCreate
+        )
         return view
     }
 }

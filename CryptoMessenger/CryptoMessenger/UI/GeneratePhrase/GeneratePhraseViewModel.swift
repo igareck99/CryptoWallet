@@ -72,10 +72,10 @@ final class GeneratePhraseViewModel: ObservableObject {
         } else if generatePhraseState == .warning {
             if state == .create {
                 isAnimated = true
-                self.phraseService.createMnemonicPhrase() { value in
-                    self.generatedKey = value
-                    self.keychainService.secretPhrase = value
-                }
+                let phrase = self.phraseService.createMnemonicPhrase()
+                self.generatedKey = phrase
+                self.keychainService.secretPhrase = phrase
+                
                 delay(2) {
                     self.isAnimated = false
                     self.generatePhraseState = .watchKey

@@ -10,7 +10,10 @@ enum ChatCreateCoordinatorAssembly {
         let state = ChatCreateFlowState.shared
         let viewModel = ChatCreateViewModel()
         let view = ChatCreateView(viewModel: viewModel)
-        let router = ChatCreateRouter(state: state) {
+        let router = ChatCreateRouter(
+            state: state,
+            factory: ViewsBaseFactory.self
+        ) {
             view
         }
         let coordinator = ChatCreateFlowCoordinator(

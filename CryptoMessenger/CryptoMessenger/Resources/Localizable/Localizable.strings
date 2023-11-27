@@ -600,7 +600,9 @@
 "NoteView.Approve" = "Подтвердить";
 
 "GeneratePhrase.Title" = "Генерация ключа";
+"GeneratePhrase.SecretPhraseTitle" = "Секретная фраза";
 "GeneratePhrase.Description" = "Ключ - это доступ к Вашему кошельку Aura и его балансу. Только вы можете его использовать.";
+"GeneratePhrase.SecretDescription" = "Ключ - это доступ к Вашему кошельку Aura и его балансу. Только вы можете его использовать.";
 "GeneratePhrase.Warning" = "Предупреждение!";
 "GeneratePhrase.WarningDescription" = "Ваша предыдущая переписка не расшифрована, вы можете продолжить или вернуться назад и ввести другую фразу?";
 "GeneratePhrase.Question" = "Что такое ключ и секретная фраза?";
@@ -611,7 +613,7 @@
 "GeneratePhrase.ErrorKey" = "Неверный ключ";
 "GeneratePhrase.Copied" = "Фраза скопирована";
 "GeneratePhrase.Saved" = "Фраза сохранена";
-"GeneratePhrase.Question" = "generatePhraseQuestion";
+"GeneratePhrase.Question" = "Она шифрует вашу переписку, обеспечивая конфиденциальность, и позволяет восстанавливать доступ к вашим крипто активам, гарантируя их сохранность.";
 
 "ChannelSettings.OpenProfile" = "Открыть профиль";
 "ChannelSettings.ChangeRole" = "Изменить роль";

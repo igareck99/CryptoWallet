@@ -13,6 +13,7 @@ struct WalletView: View {
     @State var showAddWallet = false
     @State var pageIndex: Int = 0
     @State private var isRotating = 0.0
+    @State private var scrollViewContentOffset = CGFloat.zero
 
     // MARK: - Body
     var body: some View {
@@ -37,8 +38,6 @@ struct WalletView: View {
             }
     }
 
-    @State private var scrollViewContentOffset = CGFloat(0)
-
     var content: some View {
         GeometryReader { outsideProxy in
             ScrollView {
@@ -56,12 +55,12 @@ struct WalletView: View {
                         .tabViewStyle(.page(indexDisplayMode: .never))
                     }
                     .frame(minHeight: 220)
-                
+
                 cardsViews()
-                
+
                 sendButton
                     .padding(.horizontal, 16)
-                
+
                 transactionTitleView
                     .padding(.top, 24)
 
@@ -103,7 +102,7 @@ struct WalletView: View {
     }
 
     // MARK: - Private Properties
-    
+
     @ViewBuilder
     func cardsViews() -> some View {
         HStack(spacing: 8) {

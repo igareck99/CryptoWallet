@@ -7,7 +7,10 @@ import SwiftUI
 protocol GeneratePhraseResourcable {
     static var generatePhraseCopied: String { get }
     static var generatePhraseTitle: String { get }
+    static var generatePhraseSecretPhraseTitle: String { get }
+    static var secretPhraseDescription: String { get }
     static var generatePhraseDescription: String { get }
+    static var generatePhraseSecretDescription: String { get }
     static var generatePhraseQuestion: String { get }
     static var generatePhraseWarning: String { get }
     static var generatePhraseWarningDescription: String { get }
@@ -17,9 +20,7 @@ protocol GeneratePhraseResourcable {
     static var keyGenerationCreateButton: String { get }
     static var phraseManagerYourSecretPhrase: String { get }
     static var generatePhraseGeneratedDescription: String { get }
-    
-    
-    
+
     static var puzzle: Image { get }
     static var person: Image { get }
 
@@ -42,8 +43,20 @@ enum GeneratePhraseResources: GeneratePhraseResourcable {
         R.string.localizable.generatePhraseTitle()
     }
 
+    static var generatePhraseSecretPhraseTitle: String {
+        R.string.localizable.generatePhraseSecretPhraseTitle()
+    }
+
+    static var secretPhraseDescription: String {
+        generatePhraseSecretDescription + "\n\n" + generatePhraseQuestion
+    }
+
     static var generatePhraseDescription: String {
         R.string.localizable.generatePhraseDescription()
+    }
+
+    static var generatePhraseSecretDescription: String {
+        R.string.localizable.generatePhraseSecretDescription()
     }
 
     static var generatePhraseQuestion: String {
@@ -70,7 +83,6 @@ enum GeneratePhraseResources: GeneratePhraseResourcable {
         R.string.localizable.keyGenerationCreateButton()
     }
 
-
     static var generatePhraseGeneratedTitle: String {
         R.string.localizable.generatePhraseGeneratedTitle()
     }
@@ -94,18 +106,23 @@ enum GeneratePhraseResources: GeneratePhraseResourcable {
     static var titleColor: Color {
         .chineseBlack
     }
+
     static var snackbarBackground: Color {
         .greenCrayola
     }
+
     static var textColor: Color {
         .romanSilver
     }
+
     static var buttonBackground: Color {
         .dodgerBlue
     }
+
     static var background: Color {
         .white 
     }
+
     static var textBoxBackground: Color {
         .aliceBlue
     }

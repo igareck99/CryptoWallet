@@ -305,7 +305,6 @@
 		8B451FF029A442D400BF4646 /* ChooseReciverResourcable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B451FEF29A442D400BF4646 /* ChooseReciverResourcable.swift */; };
 		8B45FA392A4F405300D1F3B0 /* AdminsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B45FA382A4F405300D1F3B0 /* AdminsViewModel.swift */; };
 		8B45FA3B2A4F40EB00D1F3B0 /* AdminsViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B45FA3A2A4F40EB00D1F3B0 /* AdminsViewAssembly.swift */; };
-		8B4810F627CF81F000831589 /* AddSeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810F527CF81F000831589 /* AddSeedView.swift */; };
 		8B4810F927CF98BB00831589 /* ImportKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810F827CF98BB00831589 /* ImportKeyView.swift */; };
 		8B4810FB27CF9BA600831589 /* ImportKeyFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FA27CF9BA600831589 /* ImportKeyFlow.swift */; };
 		8B4810FD27CF9BC400831589 /* ImportKeyProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4810FC27CF9BC400831589 /* ImportKeyProtocols.swift */; };
@@ -808,10 +807,7 @@
 		D49F8AF5297FA4F000405749 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEB80FA26DCEA49009A1944 /* Resources.swift */; };
 		D49F8AF7297FA59500405749 /* TextActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49F8AF6297FA59500405749 /* TextActionView.swift */; };
 		D49F8AF9297FA5AF00405749 /* TextActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49F8AF8297FA5AF00405749 /* TextActionViewModel.swift */; };
-		D49FAD952A776F4100B26C8B /* AddSeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49FAD942A776F4100B26C8B /* AddSeedViewModel.swift */; };
-		D49FAD972A77708500B26C8B /* AddSeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49FAD962A77708500B26C8B /* AddSeedAssembly.swift */; };
 		D49FAD992A77723200B26C8B /* AddSeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49FAD982A77723200B26C8B /* AddSeedCoordinator.swift */; };
-		D49FAD9B2A77726E00B26C8B /* AddSeedTransitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49FAD9A2A77726E00B26C8B /* AddSeedTransitions.swift */; };
 		D49FAD9D2A77727E00B26C8B /* AddSeedRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49FAD9C2A77727E00B26C8B /* AddSeedRouter.swift */; };
 		D49FAD9F2A77743500B26C8B /* AddSeedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49FAD9E2A77743500B26C8B /* AddSeedState.swift */; };
 		D49FADA22A77757B00B26C8B /* AddSeedCoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49FADA12A77757B00B26C8B /* AddSeedCoordinatorAssembly.swift */; };
@@ -1298,7 +1294,6 @@
 		8B451FEF29A442D400BF4646 /* ChooseReciverResourcable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseReciverResourcable.swift; sourceTree = "<group>"; };
 		8B45FA382A4F405300D1F3B0 /* AdminsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminsViewModel.swift; sourceTree = "<group>"; };
 		8B45FA3A2A4F40EB00D1F3B0 /* AdminsViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminsViewAssembly.swift; sourceTree = "<group>"; };
-		8B4810F527CF81F000831589 /* AddSeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeedView.swift; sourceTree = "<group>"; };
 		8B4810F827CF98BB00831589 /* ImportKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyView.swift; sourceTree = "<group>"; };
 		8B4810FA27CF9BA600831589 /* ImportKeyFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyFlow.swift; sourceTree = "<group>"; };
 		8B4810FC27CF9BC400831589 /* ImportKeyProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportKeyProtocols.swift; sourceTree = "<group>"; };
@@ -1817,10 +1812,7 @@
 		D49E8B3929E8217000EE26D1 /* NetworkTokensRequestParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTokensRequestParams.swift; sourceTree = "<group>"; };
 		D49F8AF6297FA59500405749 /* TextActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextActionView.swift; sourceTree = "<group>"; };
 		D49F8AF8297FA5AF00405749 /* TextActionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextActionViewModel.swift; sourceTree = "<group>"; };
-		D49FAD942A776F4100B26C8B /* AddSeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeedViewModel.swift; sourceTree = "<group>"; };
-		D49FAD962A77708500B26C8B /* AddSeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeedAssembly.swift; sourceTree = "<group>"; };
 		D49FAD982A77723200B26C8B /* AddSeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeedCoordinator.swift; sourceTree = "<group>"; };
-		D49FAD9A2A77726E00B26C8B /* AddSeedTransitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeedTransitions.swift; sourceTree = "<group>"; };
 		D49FAD9C2A77727E00B26C8B /* AddSeedRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeedRouter.swift; sourceTree = "<group>"; };
 		D49FAD9E2A77743500B26C8B /* AddSeedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeedState.swift; sourceTree = "<group>"; };
 		D49FADA12A77757B00B26C8B /* AddSeedCoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSeedCoordinatorAssembly.swift; sourceTree = "<group>"; };
@@ -2100,12 +2092,12 @@
 				8B1564EF28AA782A00A69B85 /* AnotherAppTransition */,
 				5A24B25226F289DF00EFC5E2 /* Map */,
 				5ABAD39827BDA6BD0067DFC1 /* DocumentPicker */,
+				8B2D40ED295D0B09009D9581 /* GeneratePhrase */,
 				8B4810F727CF987600831589 /* ImportKey */,
 				D49FAD932A776F2700B26C8B /* Add Seed */,
 				5A42681326A8BE85000C51DD /* CountryCodePicker */,
 				D4752E9228BFC47E006B650A /* Group Calls */,
 				D4014D4D283FA7B200AAD70C /* P2P Calls */,
-				8B2D40ED295D0B09009D9581 /* GeneratePhrase */,
 				8BBF9082293514B000936F4D /* NotificationsSettings */,
 				8B23C76B28E0A16C00418F2D /* FriendProfileView */,
 				8B4E9C4B27E3ADE10057E4C9 /* SuccessFacility */,
@@ -4777,9 +4769,6 @@
 			isa = PBXGroup;
 			children = (
 				D49FADA02A77755C00B26C8B /* Coordinator */,
-				D49FAD962A77708500B26C8B /* AddSeedAssembly.swift */,
-				8B4810F527CF81F000831589 /* AddSeedView.swift */,
-				D49FAD942A776F4100B26C8B /* AddSeedViewModel.swift */,
 			);
 			path = "Add Seed";
 			sourceTree = "<group>";
@@ -4790,7 +4779,6 @@
 				D49FAD982A77723200B26C8B /* AddSeedCoordinator.swift */,
 				D49FAD9C2A77727E00B26C8B /* AddSeedRouter.swift */,
 				D49FAD9E2A77743500B26C8B /* AddSeedState.swift */,
-				D49FAD9A2A77726E00B26C8B /* AddSeedTransitions.swift */,
 				D49FADA12A77757B00B26C8B /* AddSeedCoordinatorAssembly.swift */,
 			);
 			path = Coordinator;
@@ -5589,7 +5577,6 @@
 				D49E8B3A29E8217000EE26D1 /* NetworkTokensRequestParams.swift in Sources */,
 				8BC06B1427C8F6B6005A28A1 /* TransactionConfigurator.swift in Sources */,
 				5A40A2D82769FB2B003AAA79 /* SearchBar.swift in Sources */,
-				D49FAD952A776F4100B26C8B /* AddSeedViewModel.swift in Sources */,
 				8BD731082AD4C24300E1855E /* ChatSettingsView.swift in Sources */,
 				8BB0B87A2AF19B4F008D3424 /* NotesViewModel.swift in Sources */,
 				8BDBD92428FDA5BF00388C3D /* VideoViewModel.swift in Sources */,
@@ -5859,7 +5846,6 @@
 				D49FAD992A77723200B26C8B /* AddSeedCoordinator.swift in Sources */,
 				8BAAB3842A2643670062D5B2 /* OboardingPageData.swift in Sources */,
 				D448152D2877342400E9CAEF /* KeychainService+Credentials.swift in Sources */,
-				8B4810F627CF81F000831589 /* AddSeedView.swift in Sources */,
 				8B2AE33F29E585C500C9AC0E /* ChannelMediaTypeView.swift in Sources */,
 				8B0353D92A8BE1430033965D /* ChatHistoryRow.swift in Sources */,
 				8BB9E6242ACCC57A00C02EF2 /* AudioEventStateView.swift in Sources */,
@@ -6005,7 +5991,6 @@
 				8B1E295528EC9A20000E8019 /* ReactionsViewModel.swift in Sources */,
 				D400612D2A4D5919004D5F35 /* AuthRouter.swift in Sources */,
 				5A187EBC268070B3001957D3 /* UIView+SnapKit.swift in Sources */,
-				D49FAD972A77708500B26C8B /* AddSeedAssembly.swift in Sources */,
 				8B4E9C3727E0A7900057E4C9 /* WalletAddressScannerAssembly.swift in Sources */,
 				D4857CFE28AF4AAE00C904EC /* Font+Extensions.swift in Sources */,
 				5A42681A26A9C079000C51DD /* PhoneHelper.swift in Sources */,
@@ -6082,7 +6067,6 @@
 				8BFF387B27D91092005D88C9 /* NumberTextField.swift in Sources */,
 				D450698F297A65FA009515C8 /* ChannelParticipantView.swift in Sources */,
 				8BE122C228253F9C00F7707E /* RemoteConfigUseCaseAssembly.swift in Sources */,
-				D49FAD9B2A77726E00B26C8B /* AddSeedTransitions.swift in Sources */,
 				D4E9790B2A1E0D8000771232 /* ConnectedEdges.swift in Sources */,
 				D46625FD2ACD3EF800F3CAEE /* AppSceneDelegate.swift in Sources */,
 				8B971E1028B5894E00F111D9 /* ImageCacheService.swift in Sources */,

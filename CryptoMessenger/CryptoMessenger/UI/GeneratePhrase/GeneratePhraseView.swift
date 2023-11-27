@@ -52,41 +52,29 @@ struct GeneratePhraseView: View {
 
     private var generateView: some View {
         VStack(alignment: .center, spacing: 0) {
-            
-            Text(viewModel.resources.generatePhraseTitle)
+
+            Text(viewModel.resources.generatePhraseSecretPhraseTitle)
                 .font(.title2Regular22)
                 .padding(.top, 47)
-           
-            Text(viewModel.resources.generatePhraseDescription)
+
+            Text(viewModel.resources.secretPhraseDescription)
                 .font(.subheadlineRegular15)
                 .foregroundColor(viewModel.resources.textColor)
-                .lineLimit(4)
                 .multilineTextAlignment(.center)
                 .frame(minHeight: 60)
-                .padding(.horizontal, 24)
+                .padding(.horizontal, 18)
                 .padding(.top, 24)
-           
-            Button {
-                debugPrint(viewModel.resources.generatePhraseQuestion)
-            } label: {
-                Text(viewModel.resources.generatePhraseQuestion)
-                    .frame(maxWidth: .infinity)
-                    .font(.subheadlineRegular15)
-                    .padding(.horizontal, 16)
-                    .foregroundColor(viewModel.resources.buttonBackground)
-            }
-            .padding(.vertical, 48)
-           
+
             viewModel.resources.puzzle
                 .padding(.top, 32)
                 .foregroundColor(viewModel.resources.buttonBackground)
                 .frame(alignment: .center)
                 .scaledToFill()
                 .padding(.horizontal, 2)
-            
+
             createKeyButton
                 .padding(.top, 60)
-            
+
             importKeyButton
                 .padding(.top, 21)
                 .padding(.bottom, 48)
@@ -96,27 +84,27 @@ struct GeneratePhraseView: View {
 
     private var warningView: some View {
         VStack(alignment: .center, spacing: 0) {
-            
+
             Text(viewModel.resources.generatePhraseWarning)
                 .font(.title2Regular22)
                 .padding(.top, 47)
-            
+
             Text(viewModel.resources.generatePhraseWarningDescription)
                 .font(.subheadlineRegular15)
                 .foregroundColor(viewModel.resources.textColor)
                 .multilineTextAlignment(.center)
                 .frame(width: 295)
                 .padding(.top, 12)
-            
+
             viewModel.resources.person
                 .padding(.top, 32)
                 .frame(alignment: .center)
                 .scaledToFill()
                 .padding(.horizontal, 2)
-            
+
             createKeyButton
                 .padding(.top, 60)
-            
+
             importKeyButton
                 .padding(.top, 21)
                 .padding(.bottom, 48)
@@ -125,7 +113,7 @@ struct GeneratePhraseView: View {
     }
 
     private var importKeyButton: some View {
-        
+
         Button {
             viewModel.toggleState(.importing)
         } label: {
@@ -169,15 +157,15 @@ struct GeneratePhraseView: View {
 
     private var watchKeyView: some View {
         VStack(alignment: .center, spacing: 0) {
-            
+
             Text(viewModel.resources.generatePhraseGeneratedTitle)
                 .font(.bodySemibold17)
                 .padding(.top, 12)
-            
+
             Text(viewModel.resources.phraseManagerYourSecretPhrase)
                 .font(.title2Regular22)
                 .padding(.top, 59)
-            
+
             Text(viewModel.resources.generatePhraseGeneratedDescription)
                 .font(.subheadlineRegular15)
                 .lineLimit(2)
@@ -185,13 +173,13 @@ struct GeneratePhraseView: View {
                 .multilineTextAlignment(.center)
                 .frame(width: 295)
                 .padding(.top, 16)
-            
+
             textView
                 .padding(.top, 24)
-            
+
             createKeyButton
                 .padding(.top, 84)
-            
+
             Spacer()
         }
     }
@@ -200,7 +188,8 @@ struct GeneratePhraseView: View {
         TextEditor(text: $viewModel.generatedKey)
             .cornerRadius(8)
             .padding(.leading, 16)
-            .background(viewModel.resources.textBoxBackground
+            .background(
+                viewModel.resources.textBoxBackground
                     .cornerRadius(8)
                     .frame(minHeight: 160)
             )

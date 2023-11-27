@@ -9,7 +9,10 @@ enum ChatHistoryAssembly {
         let viewModel = ChatHistoryViewModel()
         let view = ChatHistoryView(viewModel: viewModel)
         let state = ChatHistoryFlowState.shared
-        let router = ChatHistoryRouter(state: state) {
+        let router = ChatHistoryRouter(
+            state: state,
+            factory: ViewsBaseFactory.self
+        ) {
             view
         }
 

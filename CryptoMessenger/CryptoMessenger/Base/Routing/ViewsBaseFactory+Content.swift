@@ -4,6 +4,8 @@ extension ViewsBaseFactory {
     @ViewBuilder
     static func makeContent(link: BaseContentLink) -> some View {
         switch link {
+        case let .importKey(coordinator):
+            ImportKeyViewAssembly.build(coordinator: coordinator)
         case let .transaction(
             filterIndex,
             tokenIndex,
