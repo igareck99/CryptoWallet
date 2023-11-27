@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 // MARK: - ChatViewModel(ChatEventsDelegate)
 
@@ -12,8 +13,8 @@ extension ChatViewModel: ChatEventsDelegate {
         coordinator.onMapTap(place: place)
     }
 
-    func onImageTap(imageUrl: URL?) {
-        coordinator.showImageViewer(imageUrl: imageUrl)
+    func onImageTap(image: Image) {
+        coordinator.showImageViewer(image: image)
     }
 
     func onCallTap(roomId: String) {

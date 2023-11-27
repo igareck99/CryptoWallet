@@ -191,6 +191,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 let view = self.factory.makeOneEventView(
                     value: value,
                     events: self.room.events,
+                    currentEvents: currentEvents,
                     oldViews: self.itemsFromMatrix,
                     delegate: self,
                     onLongPressMessage: { [weak self] event in
@@ -209,7 +210,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                         guard let self = self else { return }
                         self.activeEditMessage = value
                         self.quickAction = .reply
-                        self.replyDescriptionText = self.makeReplyDescription(self.activeEditMessage)
+                        self.replyDescriptionText = self.factory.makeReplyDescription(self.activeEditMessage)
                     }
                 )
                 if let view = view {
@@ -249,6 +250,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             let view = self.factory.makeOneEventView(
                 value: value,
                 events: [],
+                currentEvents: self.room.events,
                 oldViews: [],
                 delegate: self,
                 onLongPressMessage: { _ in },
@@ -532,11 +534,23 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             userRole: role,
             onAction: { [weak self] action in
                 guard let self = self else { return }
-                withAnimation(.easeIn(duration: 0.25)) {
-                    self.activeEditMessage = event
-                    self.quickAction = action
-                    self.replyDescriptionText = self.makeReplyDescription(self.activeEditMessage)
+                switch action {
+                case .reply:
+                    self.setEditedOrReplyEvent(event, action)
+                case .edit:
+                    switch event.eventType {
+                    case .text(_):
+                        self.setEditedOrReplyEvent(event, action)
+                    default:
+                        self.coordinator.dismissCurrentSheet()
+                    }
+                case .delete:
+                    self.removeMessage(event.eventId)
+                    self.matrixUseCase.redact(roomId: self.room.roomId,
+                                              eventId: event.eventId, reason: nil)
                     self.coordinator.dismissCurrentSheet()
+                default:
+                    break
                 }
                 debugPrint("Message Action  \(action)")
             },
@@ -548,31 +562,23 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     roomId: self.room.roomId,
                     emoji: reaction
                 )
-                self.matrixUseCase.objectChangePublisher.send()
             }
         )
     }
-
-    private func makeReplyDescription(_ event: RoomEvent?) -> String {
-        guard let event = event else { return "" }
-        switch event.eventType {
-        case .text(let string):
-            return string
-        case .image(_):
-            return "send to image"
-        case .video(_):
-            return "send to video"
-        case .file(_, _):
-            return "send to video"
-        case .audio(_):
-            return "send to audio"
-        case .location(_):
-            return "send to location"
-        case .contact(_, _, _):
-            return "send to contact"
-        default:
-            return ""
+    
+    private func setEditedOrReplyEvent(_ event: RoomEvent, _ action: QuickActionCurrentUser) {
+        withAnimation(.easeIn(duration: 0.25)) {
+            self.activeEditMessage = event
+            self.quickAction = action
+            self.replyDescriptionText = self.factory.makeReplyDescription(self.activeEditMessage)
+            self.coordinator.dismissCurrentSheet()
         }
+    }
+    
+    private func removeMessage(_ eventId: String) {
+        guard let event = self.room.events.first(where: { $0.eventId == eventId }) else { return }
+        self.room.events = self.room.events.filter({ $0.eventId != eventId })
+        self.displayItems = self.displayItems.filter({ $0.id != event.id })
     }
 
     private func onRemoveReaction(_ event: ReactionNewEvent) {
@@ -629,6 +635,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         guard let view = factory.makeOneEventView(
             value: newEvent,
             events: room.events,
+            currentEvents: room.events,
             oldViews: displayItems,
             delegate: self,
             onLongPressMessage: { _ in },
@@ -732,6 +739,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         guard let view = self.factory.makeOneEventView(
             value: event,
             events: self.room.events,
+            currentEvents: self.room.events,
             oldViews: self.displayItems,
             delegate: self,
             onLongPressMessage: { _ in },

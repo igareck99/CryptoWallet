@@ -3,7 +3,7 @@ import SwiftUI
 enum BaseFullCoverLink: Hashable, Identifiable {
     
     // Chat history
-    case imageViewer(imageUrl: URL?)
+    case imageViewer(imageUrl: Image)
     
     case video(url: URL)
     

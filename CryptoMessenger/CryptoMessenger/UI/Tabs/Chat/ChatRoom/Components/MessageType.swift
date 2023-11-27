@@ -27,6 +27,8 @@ enum MessageType: Equatable {
             return lhsString == rhsString
         case (.call, .call), (.date(_),  .date(_)), ( .joinRoom(_),  .joinRoom(_)), ( .leaveRoom(_),  .leaveRoom(_)):
             return true
+        case (.none, .none):
+            return true
         default:
             return false
         }

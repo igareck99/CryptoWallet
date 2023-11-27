@@ -17,7 +17,7 @@ struct ImageEventView<
                              state: $viewModel.state)
             .onTapGesture {
                 if viewModel.state == .hasBeenDownloadPhoto {
-                    viewModel.model.onTap(viewModel.model.imageUrl)
+                    viewModel.model.onTap(viewModel.image)
                 }
             }
                 .overlay {
@@ -26,7 +26,6 @@ struct ImageEventView<
                     .onTapGesture {
                         switch viewModel.state {
                         case .download:
-                            viewModel.state = .loading
                             viewModel.getImage()
                         case .loading:
                             viewModel.state = .download

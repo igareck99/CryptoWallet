@@ -6,21 +6,24 @@ struct ImageEvent: Identifiable, ViewGeneratable {
     let id: UUID
     let imageUrl: URL?
     let size: Int
+    let sentState: RoomSentState
     let eventData: any ViewGeneratable
     let loadData: any ViewGeneratable
-    let onTap: (URL?) -> Void
+    let onTap: (Image) -> Void
 
     init(
         id: UUID = UUID(),
         imageUrl: URL? = nil,
         size: Int,
+        sentState: RoomSentState,
         eventData: any ViewGeneratable,
         loadData: any ViewGeneratable,
-        onTap: @escaping (URL?) -> Void
+        onTap: @escaping (Image) -> Void
     ) {
         self.id = id
         self.imageUrl = imageUrl
         self.size = size
+        self.sentState = sentState
         self.eventData = eventData
         self.loadData = loadData
         self.onTap = onTap

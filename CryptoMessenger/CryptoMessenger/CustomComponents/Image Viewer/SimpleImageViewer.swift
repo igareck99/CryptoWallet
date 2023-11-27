@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SimpleImageViewer: View {
 
-    let imageUrl: URL?
+    let imageUrl: URL? = nil
     @StateObject var loader = ImageLoader()
     @State var image: Image?
     @State private var scale: CGFloat = 1
@@ -31,10 +31,12 @@ struct SimpleImageViewer: View {
                 }
             }
             .task {
-                let result = await loader.loadImage(url: imageUrl)
-                guard let img = result else { return }
-                await MainActor.run {
-                    image = img
+                if imageUrl != nil {
+                    let result = await loader.loadImage(url: imageUrl)
+                    guard let img = result else { return }
+                    await MainActor.run {
+                        image = img
+                    }
                 }
             }
         }
