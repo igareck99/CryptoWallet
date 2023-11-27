@@ -25,7 +25,6 @@ final class CountryCodePickerViewController: UITableViewController {
     private lazy var searchController = UISearchController(searchResultsController: nil)
     private let phoneNumberKit = PhoneNumberKit()
     private let commonCountryCodes: [String] = PhoneNumberKit.CountryCodePicker.commonCountryCodes
-    private var selectedCountryCode: Country?
     private var filteredCountries: [Country] = []
 
     private lazy var allCountries = phoneNumberKit

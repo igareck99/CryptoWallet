@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum SimpleImageViewerAssembly {
-    static func build(imageUrl: URL?) -> some View {
-        SimpleImageViewer(imageUrl: imageUrl)
+    static func build(image: Image) -> some View {
+        SimpleImageViewer(image: image)
     }
 }

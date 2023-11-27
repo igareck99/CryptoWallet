@@ -36,8 +36,8 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
         router.showFile(name: name, fileUrl: fileUrl)
     }
 
-    func showImageViewer(imageUrl: URL?) {
-        router.showImageViewer(imageUrl: imageUrl)
+    func showImageViewer(image: Image) {
+        router.showImageViewer(image: image)
     }
 
     func onMapTap(place: Place) {

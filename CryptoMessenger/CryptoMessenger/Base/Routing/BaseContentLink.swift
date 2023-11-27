@@ -135,6 +135,7 @@ enum BaseContentLink: Hashable, Identifiable {
     case createChat(
         coordinator: ChatCreateFlowCoordinatorProtocol
     )
+    case countryCodeScene(delegate: CountryCodePickerDelegate)
 
     var id: String {
         String(describing: self)

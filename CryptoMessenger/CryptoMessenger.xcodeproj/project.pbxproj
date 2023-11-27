@@ -313,6 +313,8 @@
 		8B4B50ED2ABDEBD00049C822 /* ChatInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B50EC2ABDEBD00049C822 /* ChatInputView.swift */; };
 		8B4B50EF2ABDEC050049C822 /* ChatInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B50EE2ABDEC050049C822 /* ChatInputViewModel.swift */; };
 		8B4C28C32A4BAAE800802DD0 /* SelectContactAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4C28C22A4BAAE800802DD0 /* SelectContactAssembly.swift */; };
+		8B4DB07F2B16B3EB00073CCA /* SelectContactCountryForCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4DB07E2B16B3EB00073CCA /* SelectContactCountryForCreateView.swift */; };
+		8B4DB0812B16B6F500073CCA /* InputPhoneCreateContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4DB0802B16B6F500073CCA /* InputPhoneCreateContactView.swift */; };
 		8B4E9C2E27DFF60B0057E4C9 /* CodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C2D27DFF60B0057E4C9 /* CodeScanner.swift */; };
 		8B4E9C3027DFF6320057E4C9 /* ScannerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */; };
 		8B4E9C3227DFF6700057E4C9 /* ScanerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4E9C3127DFF6700057E4C9 /* ScanerViewController.swift */; };
@@ -525,8 +527,6 @@
 		8BE64D9B2AC6EC8B00919EE1 /* ChatHistoryFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE64D9A2AC6EC8B00919EE1 /* ChatHistoryFlowCoordinator.swift */; };
 		8BE66738280F1C4600D41A3C /* CreateContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE66737280F1C4600D41A3C /* CreateContactView.swift */; };
 		8BE6673B280F4A4A00D41A3C /* UIFont+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6673A280F4A4A00D41A3C /* UIFont+Init.swift */; };
-		8BE6673D280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6673C280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift */; };
-		8BE6673F280F4ACD00D41A3C /* iPhoneNumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6673E280F4ACD00D41A3C /* iPhoneNumberField.swift */; };
 		8BE6DAE32771EC2D00FB4C6C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE6DAE22771EC2C00FB4C6C /* WebView.swift */; };
 		8BE85B5A2AB9DCC700833A6C /* ChatViewModelProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE85B592AB9DCC700833A6C /* ChatViewModelProtocols.swift */; };
 		8BE85B5C2ABA467300833A6C /* ActionSheetViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE85B5B2ABA467300833A6C /* ActionSheetViewAssembly.swift */; };
@@ -1302,6 +1302,8 @@
 		8B4B50EC2ABDEBD00049C822 /* ChatInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputView.swift; sourceTree = "<group>"; };
 		8B4B50EE2ABDEC050049C822 /* ChatInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputViewModel.swift; sourceTree = "<group>"; };
 		8B4C28C22A4BAAE800802DD0 /* SelectContactAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactAssembly.swift; sourceTree = "<group>"; };
+		8B4DB07E2B16B3EB00073CCA /* SelectContactCountryForCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactCountryForCreateView.swift; sourceTree = "<group>"; };
+		8B4DB0802B16B6F500073CCA /* InputPhoneCreateContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPhoneCreateContactView.swift; sourceTree = "<group>"; };
 		8B4DC640274D7939001B3998 /* BlockListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockListViewModel.swift; sourceTree = "<group>"; };
 		8B4E9C2D27DFF60B0057E4C9 /* CodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScanner.swift; sourceTree = "<group>"; };
 		8B4E9C2F27DFF6320057E4C9 /* ScannerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerCoordinator.swift; sourceTree = "<group>"; };
@@ -1518,8 +1520,6 @@
 		8BE64D9A2AC6EC8B00919EE1 /* ChatHistoryFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryFlowCoordinator.swift; sourceTree = "<group>"; };
 		8BE66737280F1C4600D41A3C /* CreateContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateContactView.swift; sourceTree = "<group>"; };
 		8BE6673A280F4A4A00D41A3C /* UIFont+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Init.swift"; sourceTree = "<group>"; };
-		8BE6673C280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iPhoneNumberField+ViewModifiers.swift"; sourceTree = "<group>"; };
-		8BE6673E280F4ACD00D41A3C /* iPhoneNumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneNumberField.swift; sourceTree = "<group>"; };
 		8BE6DAE22771EC2C00FB4C6C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		8BE85B592AB9DCC700833A6C /* ChatViewModelProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModelProtocols.swift; sourceTree = "<group>"; };
 		8BE85B5B2ABA467300833A6C /* ActionSheetViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewAssembly.swift; sourceTree = "<group>"; };
@@ -3839,6 +3839,8 @@
 				8BF0FCD5281174F900FF7C6F /* CreateContactViewModel.swift */,
 				8B75B3FF2A7299D2008FE6DD /* CreateContactsAssembly.swift */,
 				9AE8CAF32A6F205600968564 /* CreateContactResources.swift */,
+				8B4DB07E2B16B3EB00073CCA /* SelectContactCountryForCreateView.swift */,
+				8B4DB0802B16B6F500073CCA /* InputPhoneCreateContactView.swift */,
 			);
 			path = CreateContact;
 			sourceTree = "<group>";
@@ -3900,8 +3902,6 @@
 			isa = PBXGroup;
 			children = (
 				8BE6673A280F4A4A00D41A3C /* UIFont+Init.swift */,
-				8BE6673C280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift */,
-				8BE6673E280F4ACD00D41A3C /* iPhoneNumberField.swift */,
 			);
 			path = IphoneNumberTextField;
 			sourceTree = "<group>";
@@ -5519,7 +5519,6 @@
 				D4C8AADC2A612D7C009B4492 /* TransactionResultAssembly.swift in Sources */,
 				5A4BE520271DD86A00D03D09 /* MX+Identifiable.swift in Sources */,
 				8B1E8AC627DF4FA80036C301 /* ChooseReceiverProtocols.swift in Sources */,
-				8BE6673F280F4ACD00D41A3C /* iPhoneNumberField.swift in Sources */,
 				8B5D83F3283B7DFF0035815B /* ContactInfoResources.swift in Sources */,
 				D491820029233FA7009F8C33 /* UINavigationController+Extensions.swift in Sources */,
 				D400CF912A6949CA002CF15C /* TransferViewResources.swift in Sources */,
@@ -5652,6 +5651,7 @@
 				8B4C28C32A4BAAE800802DD0 /* SelectContactAssembly.swift in Sources */,
 				D4AB8FFA282671BB00E6FAB5 /* MatrixService+Session.swift in Sources */,
 				D4220D522A725617008B158C /* CountryCodePicker.swift in Sources */,
+				8B4DB0812B16B6F500073CCA /* InputPhoneCreateContactView.swift in Sources */,
 				8B0353E22A8EB9AA0033965D /* ContactsUseCase.swift in Sources */,
 				5A9B472126EA81F5001CC627 /* QuickMenuView.swift in Sources */,
 				8B2D40F5295D0CFD009D9581 /* GeneratePhraseFlow.swift in Sources */,
@@ -5716,6 +5716,7 @@
 				D4137B0B2A94DFD7001241B6 /* AvatarLetterView.swift in Sources */,
 				D48884152ABD7808002B4D3A /* EventTypeKeys.swift in Sources */,
 				8BC518032970AF290033B30F /* PhraseService.swift in Sources */,
+				8B4DB07F2B16B3EB00073CCA /* SelectContactCountryForCreateView.swift in Sources */,
 				8B0C574B2A64570600D456FF /* SocialListAssembly.swift in Sources */,
 				8B2AE34329E5864900C9AC0E /* ChannelMediaResources.swift in Sources */,
 				D4752EA028C2247F006B650A /* AURGroupCallsViewModel.m in Sources */,
@@ -5950,7 +5951,6 @@
 				D49C89CD290A6B1A005B4F64 /* Color+Utilities.swift in Sources */,
 				D4FB6C6C2AC4044500E9E6D9 /* MatrixUseCase+Users.swift in Sources */,
 				D4DF2B3C28F589090057499A /* MeasureSizeModifier.swift in Sources */,
-				8BE6673D280F4A9C00D41A3C /* iPhoneNumberField+ViewModifiers.swift in Sources */,
 				8B34292B29786EC800F63DE1 /* SecurityCellItem.swift in Sources */,
 				D4137B572A9C8242001241B6 /* ImageEvent.swift in Sources */,
 				D459E4392ADF9D7F00211D6E /* TransactionStatusViewModel.swift in Sources */,
@@ -6434,7 +6434,7 @@
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6467,7 +6467,7 @@
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = CryptoMessenger/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

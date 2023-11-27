@@ -255,7 +255,7 @@ struct FriendProfileView: View {
                             .frame(width: width, height: width)
                             .clipped()
                             .onTapGesture {
-                                viewModel.onImageViewer(url)
+                                // viewModel.onImageViewer(url)
                             }
                     }
                 }

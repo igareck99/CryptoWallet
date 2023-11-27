@@ -83,6 +83,7 @@ final class ImageEventViewModel: ObservableObject {
     
     private func initData() {
         guard let url = model.imageUrl else { return }
+        self.state = .loading
         self.generatePreviewImage(url: url)
         self.sizeOfFile = self.convertToBytes(model.size)
         self.size = self.sizeOfFile
@@ -94,6 +95,8 @@ final class ImageEventViewModel: ObservableObject {
                 self.image = result
                 self.state = .hasBeenDownloadPhoto
             }
+        } else {
+            self.getImage()
         }
     }
     

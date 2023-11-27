@@ -2,7 +2,7 @@ import SwiftUI
 
 protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
     func showImageViewer(
-        imageUrl: URL?
+        image: Image
     )
     
     func chatRoom(

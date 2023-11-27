@@ -8,6 +8,7 @@ protocol ChatCreateFlowCoordinatorProtocol {
     func createChannel(
         contacts: [SelectContact]
     )
+    func onCountryCodeScene(_ delegate: CountryCodePickerDelegate)
     func createGroupChat(
         chatData: ChatData,
         contacts: [Contact]
@@ -83,6 +84,10 @@ extension ChatCreateFlowCoordinator: ChatCreateFlowCoordinatorProtocol {
 
     func onFriendProfile(room: AuraRoomData) {
         onFriendProfile(room)
+    }
+    
+    func onCountryCodeScene(_ delegate: CountryCodePickerDelegate) {
+        router.onCountryCodeScene(delegate)
     }
 
     func toParentCoordinator() {

@@ -143,6 +143,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                                     }
                                 )
                             ]
+                            print("slaslsal  \(findedContacts)")
                             group.leave()
                         } else {
                             group.leave()
@@ -153,6 +154,12 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                             $0.name.lowercased().contains(text.lowercased())
                             || $0.phone.removeCharacters(from: "- ()").contains(text)
                             || $0.mxId.lowercased().contains(text.lowercased()) })
+                        findedContacts.forEach { value in
+                            let index = self.existingContacts.firstIndex(where: { $0.mxId == value.mxId })
+                            if index != nil {
+                                findedContacts.remove(at: index ?? 0)
+                            }
+                        }
                         let waitingFilteredContacts = self.waitingContacts.filter({
                             $0.name.lowercased().contains(text.lowercased())
                             || $0.phone.removeCharacters(from: "- ()").contains(text)

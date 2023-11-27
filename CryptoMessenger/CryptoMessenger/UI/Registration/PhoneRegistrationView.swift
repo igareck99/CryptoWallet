@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - 
+
 struct PhoneRegistrationView<ViewModel: RegistrationPresenterProtocol>: View {
 
     @StateObject var viewModel: ViewModel

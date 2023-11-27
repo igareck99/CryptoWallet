@@ -142,6 +142,9 @@ extension ViewsBaseFactory {
                 users: contacts,
                 coordinator: coordinator
             )
+        case let .countryCodeScene(delegate: delegate):
+            CountryCodePicker(delegate: delegate)
+                .navigationBarHidden(true)
         case .chatHistory:
             // TODO: ?????
             EmptyView()

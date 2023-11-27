@@ -1,6 +1,7 @@
 import Combine
 import MatrixSDK
 import Foundation
+import SwiftUI
 
 // MARK: - FriendProfileViewModel
 
@@ -66,9 +67,9 @@ final class FriendProfileViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
-    func onImageViewer(_ url: URL) {
-        selectedPhoto = url
-        chatHistoryCoordinator.showImageViewer(imageUrl: selectedPhoto)
+    func onImageViewer(_ image: Image) {
+//        selectedPhoto = url
+//        chatHistoryCoordinator.showImageViewer(image: image)
     }
     
     func onSafari(_ url: String) {

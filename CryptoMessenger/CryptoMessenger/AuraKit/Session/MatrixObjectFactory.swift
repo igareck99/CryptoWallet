@@ -86,13 +86,16 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                 var members: Int = 1
                 var roomName = "roomName"
                 let homeServer = config.matrixURL
-                do {
-                    try members = Int(summary.summary.membersCount.members)
-                } catch {
-                    members = 0
+                if summary.summary.membersCount != nil {
+                    members = Int(summary.summary.membersCount.members)
+                } else {
+                    members = 2
                 }
                 if summary.summary.displayName != nil {
                     roomName = summary.summary.displayName
+                    if roomName.contains("others") && roomName.contains("&") {
+                        roomName = String(roomName.split(separator: "&")[0])
+                    }
                 }
                 let room = AuraRoomData(isChannel: powerLevels,
                                         isAdmin: isAdmin,
