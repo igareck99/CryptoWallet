@@ -87,26 +87,35 @@ final class ContactsManager {
 extension ContactsManager: ContactsStore {
 
 	func fetchContacts(completion: @escaping ContactsRequestCompletion) {
-		var contacts: [ContactInfo] = []
-		let request = CNContactFetchRequest(keysToFetch: keysToFetch)
-		do {
-			try contactStore.enumerateContacts(with: request) { info, _ in
-				var contact = ContactInfo(
-					firstName: info.givenName,
-					lastName: info.familyName,
-					phoneNumber: info.phoneNumbers.first?.value.stringValue ?? ""
-				)
-				if info.imageData != nil, let imageData = info.imageData {
-					contact.imageData = imageData
-				}
-				contacts.append(contact)
-			}
-		} catch {
-			completion(.failure(.requestFailed))
-		}
-		completion(.success(contacts))
+        Task {
+            guard let contacts = try? await requestContacts() else {
+                await MainActor.run {
+                    completion(.failure(.requestFailed))
+                }
+                return
+            }
+            await MainActor.run {
+                completion(.success(contacts))
+            }
+        }
 	}
 
+    private func requestContacts() async throws -> [ContactInfo] {
+        var contacts: [ContactInfo] = []
+        let request = CNContactFetchRequest(keysToFetch: keysToFetch)
+        try contactStore.enumerateContacts(with: request) { info, _ in
+            var contact = ContactInfo(
+                firstName: info.givenName,
+                lastName: info.familyName,
+                phoneNumber: info.phoneNumbers.first?.value.stringValue ?? ""
+            )
+            if info.imageData != nil, let imageData = info.imageData {
+                contact.imageData = imageData
+            }
+            contacts.append(contact)
+        }
+        return contacts
+    }
 
     func fetch(completion: @escaping GenericBlock<([ContactInfo], Error?)>) {
         checkAuthorization { [weak self] isAuthorized in
