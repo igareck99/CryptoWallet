@@ -460,7 +460,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     func onChannelLinkCopy() {
         isSnackbarPresented = true
         objectWillChange.send()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+        delay(3) { [weak self] in
             self?.isSnackbarPresented = false
             self?.objectWillChange.send()
         }

@@ -171,7 +171,7 @@ private extension RegistrationPresenter {
             self?.objectWillChange.send()
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+        delay(3) { [weak self] in
             self?.messageText = ""
             self?.isSnackbarPresented = false
             self?.objectWillChange.send()

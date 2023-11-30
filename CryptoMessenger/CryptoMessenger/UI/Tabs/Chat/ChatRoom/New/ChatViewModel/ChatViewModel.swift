@@ -321,7 +321,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     self.room = currentRoom
                     self.room.events = currentEvents
                     self.displayItems = self.itemsFromMatrix
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    delay(0.1) {
                         guard !self.itemsFromMatrix.isEmpty else { return }
                         self.scroolString = self.displayItems.last?.id ?? UUID()
                     }
@@ -752,7 +752,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             self?.objectWillChange.send()
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+        delay(3) { [weak self] in
             self?.messageText = ""
             self?.isSnackbarPresented = false
             self?.objectWillChange.send()

@@ -442,6 +442,16 @@ final class WalletViewModel: ObservableObject {
     // MARK: - Private Methods
 
     private func bindInput() {
+        
+        keychainService.seedPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] seed in
+                guard seed != nil, seed?.isEmpty == false else { return }
+                self?.updateWallets()
+                self?.updateUserWallet()
+                self?.objectWillChange.send()
+            }.store(in: &subscriptions)
+        
         eventSubject
             .sink { [weak self] event in
                 switch event {

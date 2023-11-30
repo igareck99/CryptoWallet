@@ -12,7 +12,10 @@ extension KeychainService {
 
     var secretPhrase: String? {
         get { string(forKey: .secretPhrase) }
-        set { set(newValue, forKey: .secretPhrase) }
+        set {
+            set(newValue, forKey: .secretPhrase)
+            seedPublisher.send(newValue)
+        }
     }
 
 	var apiRefreshToken: String? {

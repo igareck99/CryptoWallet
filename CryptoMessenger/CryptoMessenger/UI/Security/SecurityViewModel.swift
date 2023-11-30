@@ -1,9 +1,11 @@
 import Combine
 import Foundation
 
-// MARK: - SecurityViewModel
+protocol SecurityViewModelProtocol: ObservableObject {
+    
+}
 
-final class SecurityViewModel: ObservableObject {
+final class SecurityViewModel: SecurityViewModelProtocol {
 
     // MARK: - Internal Properties
 
@@ -160,33 +162,38 @@ final class SecurityViewModel: ObservableObject {
                 case .onBlockList:
                     self?.coordinator?.blockList()
                 case .onCreatePassword:
-                    self?.coordinator?.pinCode(.pinCodeCreate)
+                    self?.coordinator?.pinCode(pinCodeScreen: .pinCodeCreate)
                 case .onFalsePassword:
-                    self?.coordinator?.pinCode(.falsePinCode)
+                    self?.coordinator?.pinCode(pinCodeScreen: .falsePinCode)
                 case .onSession:
-                    if let coordinator = self?.coordinator {
-                        self?.coordinator?.sessions(coordinator)
-                    }
+                    self?.coordinator?.sessions()
                 case .onApprovePassword:
-                    self?.coordinator?.pinCode(.approvePinCode)
+                    self?.coordinator?.pinCode(pinCodeScreen: .approvePinCode)
                 case .onImportKey:
-                    ()
-                    //self?.coordinator?.handleNextScene(.importKey)
+                    self?.showPhraseView()
                 case .onPhrase:
-                    ()
-                    //self?.coordinator?.pinCode(.reservePhraseCopy)
+                    self?.showPhraseView()
                 case .onRemovePassword:
-                    self?.coordinator?.pinCode(.pinCodeRemove)
+                    self?.coordinator?.pinCode(pinCodeScreen: .pinCodeRemove)
                 case .biometryActivate:
                     guard let value = self?.biometryService.checkIfBioMetricAvailable() else { return }
                     if value {
-                        self?.coordinator?.pinCode(.biometry)
+                        self?.coordinator?.pinCode(pinCodeScreen: .biometry)
                     } else {
                         self?.isBiometryOn = false
                     }
                 }
             }
             .store(in: &subscriptions)
+    }
+
+    private func showPhraseView() {
+        if let phrase = keychainService.secretPhrase {
+            coordinator?.showPhrase(seed: phrase)
+            return
+        }
+
+        coordinator?.generatePhrase()
     }
 
     private func bindOutput() {

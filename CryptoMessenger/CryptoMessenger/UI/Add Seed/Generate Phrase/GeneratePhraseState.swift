@@ -1,12 +1,13 @@
+import Combine
 import SwiftUI
 
-protocol AddSeedStatable: ObservableObject {
+protocol GeneratePhraseStatable: ObservableObject {
     var path: NavigationPath { get set }
     var presentedItem: BaseSheetLink? { get set }
 }
 
-final class AddSeedState: AddSeedStatable {
-    static let shared = AddSeedState()
+final class GeneratePhraseState: GeneratePhraseStatable {
+    static let shared = GeneratePhraseState()
     @Published var path = NavigationPath()
     @Published var presentedItem: BaseSheetLink?
 }

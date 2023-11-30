@@ -35,7 +35,7 @@ struct OtpView<Colors: OtpViewColorable>: View {
             }
             .focused($focusedField, equals: .field)
             .task {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                delay(0.5) {
                     self.focusedField = .field
                 }
             }

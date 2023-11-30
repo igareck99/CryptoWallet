@@ -6,8 +6,8 @@ extension ViewsBaseFactory {
         switch link {
         case let .transactionResult(model):
             TransactionResultAssembly.build(model: model)
-        case let .addSeed(addSeedView):
-            addSeedView()
+        case let .addSeed(coordinator):
+            GeneratePhraseViewAssembly.build(coordinator: coordinator)
         case let .chatRoomMenu(model):
             ActionSheetViewAssembly.build(model: model)
                     .presentationDetents([.height(435)])
@@ -112,6 +112,11 @@ extension ViewsBaseFactory {
         case let .transactionStatus(model):
                 TransactionStatusViewAssemlby
                     .build(model: model).anyView()
+        case let .settings(result):
+            ProfileSettingsMenuAssembly.build(onSelect: result)
+        case let .sheetPicker(sourceType):
+            ProfileFeedImageAssembly.build(sourceType)
+                .presentationDetents([.large, .height(337)])
         }
     }
 }

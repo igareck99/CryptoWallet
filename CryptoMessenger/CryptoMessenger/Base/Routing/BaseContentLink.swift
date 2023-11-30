@@ -1,18 +1,16 @@
 import SwiftUI
 
-typealias AddSeedViewBuilder = () -> (
-    AddSeedRouter<
-    GeneratePhraseView,
-    AddSeedState,
-    WalletRouterState,
-    ViewsBaseFactory
-    >
-)?
-
 enum BaseContentLink: Hashable, Identifiable {
 
     // Import seed
     case importKey(coordinator: ImportKeyCoordinatable)
+
+    case addSeed(coordinator: PhraseGeneratable)
+
+    case showPhrase(
+        seed: String,
+        coordinator: WatchKeyViewModelDelegate
+    )
 
     // Chat history
 
@@ -135,6 +133,33 @@ enum BaseContentLink: Hashable, Identifiable {
     case createChat(
         coordinator: ChatCreateFlowCoordinatorProtocol
     )
+    
+    // Profile
+    case socialList
+
+    case imageEditor(
+        isShowing: Binding<Bool>,
+        image: Binding<UIImage?>,
+        viewModel: ProfileViewModel
+    )
+    case profileDetail(
+        _ coordinator: ProfileFlowCoordinatorProtocol,
+        _ image: Binding<UIImage?>
+    )
+    case security(
+        _ coordinator: ProfileFlowCoordinatorProtocol
+    )
+    case notifications(
+        _ coordinator: ProfileFlowCoordinatorProtocol
+    )
+    case aboutApp(
+        _ coordinator: ProfileFlowCoordinatorProtocol
+    )
+    case pinCode(PinCodeScreenType)
+    case sessions(
+        _ coordinator: ProfileFlowCoordinatorProtocol
+    )
+    case blockList
 
     var id: String {
         String(describing: self)

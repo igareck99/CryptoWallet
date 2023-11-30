@@ -1,6 +1,9 @@
+import Combine
 import Foundation
 
 protocol KeychainServiceProtocol: AnyObject {
+
+    var seedPublisher: PassthroughSubject<String?, Never> { get }
 
 	// MARK: - User Credentials
 

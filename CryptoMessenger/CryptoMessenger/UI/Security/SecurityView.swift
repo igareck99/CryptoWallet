@@ -7,8 +7,6 @@ struct SecurityView: View {
     // MARK: - Internal Properties
 
     @StateObject var viewModel: SecurityViewModel
-    @StateObject var generateViewModel = GeneratePhraseViewModel()
-    @State private var showAddWallet = false
 
     // MARK: - Private Properties
 
@@ -29,24 +27,16 @@ struct SecurityView: View {
         .onAppear {
             viewModel.send(.onAppear)
         }
-		.alert(isPresented: $viewModel.showBiometryErrorAlert, content: {
-            Alert(title: Text(viewModel.resources.securityBiometryEror), message: nil,
-                  dismissButton: .default(Text("OK")))
-        })
-        .sheet(isPresented: $showAddWallet, content: {
-            GeneratePhraseView(
-                viewModel: generateViewModel,
-                onSelect: { type in
-                    switch type {
-                    case .importKey:
-                        viewModel.send(.onImportKey)
-                        showAddWallet = false
-                    default:
-                        break
-                    }
-                },
-                onCreate: { })
-        })
+        .alert(
+            isPresented: $viewModel.showBiometryErrorAlert,
+            content: {
+                Alert(
+                    title: Text(viewModel.resources.securityBiometryEror),
+                    message: nil,
+                    dismissButton: .default(Text("OK"))
+                )
+            }
+        )
     }
 
     private var content: some View {
@@ -118,18 +108,16 @@ struct SecurityView: View {
         ForEach(SecurityCellItem.allCases, id: \.self) { type in
             switch type {
             case .seedPhrase:
-                PrivacyCellView(item: type,
-                                phraseStatus: viewModel.isPhraseExist())
+                PrivacyCellView(
+                    item: type,
+                    phraseStatus: viewModel.isPhraseExist()
+                )
                 .background(viewModel.resources.background)
                 .listRowSeparator(.visible,
                                   edges: .bottom)
                 .frame(height: 73)
                 .onTapGesture {
-                    if viewModel.isPhraseExist() {
-                        viewModel.send(.onPhrase)
-                    } else {
-                        showAddWallet = true
-                    }
+                    viewModel.send(.onPhrase)
                 }
             case .session:
                 PrivacyCellView(item: type)
@@ -152,7 +140,7 @@ struct SecurityView: View {
             }
         }
     }
-    
+
     // MARK: - Private Methods
     
     @ToolbarContentBuilder

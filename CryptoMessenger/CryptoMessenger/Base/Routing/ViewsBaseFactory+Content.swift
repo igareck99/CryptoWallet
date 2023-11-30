@@ -4,8 +4,15 @@ extension ViewsBaseFactory {
     @ViewBuilder
     static func makeContent(link: BaseContentLink) -> some View {
         switch link {
+        case let .addSeed(coordinator):
+            GeneratePhraseViewAssembly.make(coordinator: coordinator)
         case let .importKey(coordinator):
             ImportKeyViewAssembly.build(coordinator: coordinator)
+        case let .showPhrase(seed,coordinator):
+            WatchKeyViewAssembly.make(
+                seed: seed,
+                coordinator: coordinator
+            )
         case let .transaction(
             filterIndex,
             tokenIndex,
@@ -142,6 +149,32 @@ extension ViewsBaseFactory {
                 users: contacts,
                 coordinator: coordinator
             )
+        case .socialList:
+            SocialListAssembly.build()
+        case let .imageEditor(
+            isShowing: isShowing,
+            image: image,
+            viewModel: viewModel
+        ):
+            ImageEditorAssembly.build(
+                isShowing: isShowing,
+                image: image,
+                viewModel: viewModel
+            )
+        case let .profileDetail(coordinator, image):
+            ProfileDetailAssembly.build(coordinator, image)
+        case let .security(coordinator):
+            SecurityAssembly.configuredView(coordinator)
+        case let .notifications(coordinator):
+            NotificationSettingsAssembly.build(coordinator)
+        case .aboutApp(_):
+            AboutAppAssembly.build()
+        case let .pinCode(screenType):
+            PinCodeAssembly.build(screenType: screenType) {}
+        case let .sessions(coordinator):
+            SessionAssembly.build(coordinator)
+        case .blockList:
+            BlockedListAssembly.build()
         case .chatHistory:
             // TODO: ?????
             EmptyView()

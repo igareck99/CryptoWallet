@@ -34,7 +34,7 @@ extension ChatViewModel {
     func onCryptoSendTap(receiverWallet: UserWallletData) {
         coordinator.dismissCurrentSheet()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        delay(0.5) {
             let wallets = self.coreDataService.getWalletNetworks()
             let tokens = self.coreDataService.getNetworksTokens()
             let cards: [WalletInfo] = self.walletModelsFactory.makeDisplayCards(
