@@ -29,11 +29,15 @@ protocol ChatCreateRouterable: View {
 
 // MARK: - ChatCreateRouter(ChatCreateFlowStateProtocol)
 
-struct ChatCreateRouter<Content: View, State: ChatCreateFlowStateProtocol>: View {
+struct ChatCreateRouter<
+    Content: View,
+    State: ChatCreateFlowStateProtocol,
+    Factory: ViewsBaseFactoryProtocol
+>: View {
 
     @ObservedObject var state: State
+    let factory: Factory.Type
     let content: () -> Content
-    private let factory = ViewsBaseFactory.self
 
     var body: some View {
         NavigationStack(path: $state.createPath) {

@@ -41,7 +41,7 @@ struct ProfileRouter<Content: View, State: ProfileFlowStatable>: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var state: State
+    @ObservedObject var state: State
     let content: () -> Content
 
     var body: some View {

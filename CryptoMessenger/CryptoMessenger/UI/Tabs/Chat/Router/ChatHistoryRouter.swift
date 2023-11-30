@@ -3,11 +3,16 @@ import SwiftUI
 
 // MARK: - ChatHistoryRouter
 
-struct ChatHistoryRouter<Content: View, State: ChatHistoryCoordinatorBase>: View {
+struct ChatHistoryRouter<
+    Content: View,
+    State: ChatHistoryCoordinatorBase,
+    Factory: ViewsBaseFactoryProtocol
+>: View {
 
     // MARK: - Internal Properties
-    private let factory = ViewsBaseFactory.self
+
     @ObservedObject var state: State
+    let factory: Factory.Type
     let content: () -> Content
 
     var body: some View {

@@ -12,7 +12,6 @@ protocol ChatHistoryCoordinatorBase: ObservableObject {
 // MARK: - ChatHistoryFlowState
 
 final class ChatHistoryFlowState: ChatHistoryCoordinatorBase {
-
     static var shared = ChatHistoryFlowState()
     @Published var path = NavigationPath()
     @Published var presentedItem: BaseSheetLink?

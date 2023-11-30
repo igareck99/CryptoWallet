@@ -9,29 +9,22 @@ protocol AddSeedRouterable {
 struct AddSeedRouter<
     Content: View,
     State: AddSeedStatable,
-    ParentState: WalletRouterStatable
+    ParentState: WalletRouterStatable,
+    Factory: ViewsBaseFactoryProtocol
 >: View {
 
     @ObservedObject var state: State
     @ObservedObject var parentState: ParentState
-
+    let factory: Factory.Type
     let content: () -> Content
 
     var body: some View {
         NavigationStack(path: $state.path) {
             content()
                 .navigationDestination(
-                    for: AddSeedContentLink.self,
-                    destination: linkDestination
+                    for: BaseContentLink.self,
+                    destination: factory.makeContent
                 )
-        }
-    }
-
-    @ViewBuilder
-    private func linkDestination(link: AddSeedContentLink) -> some View {
-        switch link {
-        case let .importKey(coordinator):
-            ImportKeyViewAssembly.build(coordinator: coordinator)
         }
     }
 }
@@ -42,12 +35,12 @@ extension AddSeedRouter: AddSeedRouterable {
 
     func showStart() {
         parentState.presentedItem = BaseSheetLink.addSeed {
-            self as? AddSeedRouter<GeneratePhraseView, AddSeedState, WalletRouterState>
+            self as? AddSeedRouter<GeneratePhraseView, AddSeedState, WalletRouterState, ViewsBaseFactory>
         }
     }
 
     func importKey(coordinator: ImportKeyCoordinatable) {
-        state.path.append(AddSeedContentLink.importKey(coordinator: coordinator))
+        state.path.append(BaseContentLink.importKey(coordinator: coordinator))
     }
 
     func popToRoot() {

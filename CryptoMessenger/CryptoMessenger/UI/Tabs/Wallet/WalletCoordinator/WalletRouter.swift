@@ -18,12 +18,14 @@ protocol WalletRouterable {
     func showTokenInfo(wallet: WalletInfo)
 }
 
-struct WalletRouter<Content: View, State: WalletRouterStatable>: View {
+struct WalletRouter<
+    Content: View,
+    State: WalletRouterStatable,
+    Factory: ViewsBaseFactoryProtocol
+>: View {
 
     @ObservedObject var state: State
-
-    private let factory = ViewsBaseFactory.self
-
+    let factory: Factory.Type
     var content: () -> Content
 
     var body: some View {
