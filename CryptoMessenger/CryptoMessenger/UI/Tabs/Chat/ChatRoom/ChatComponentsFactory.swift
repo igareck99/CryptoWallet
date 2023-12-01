@@ -59,7 +59,7 @@ extension ChatComponentsFactory: ChatComponentsFactoryProtocol {
 	) -> AnyView {
         let displayName: String = (event.content["displayname"] as? String) ?? ""
         if viewModel.next(event)?.fullDate != event.fullDate {
-            if viewModel.room.summary.membership != .invite {
+            if viewModel.room.summary.summary?.membership != .invite {
                 return AnyView(ChatEventView(
                     text: event.fullDate,
                     backgroundColor: .romanSilver

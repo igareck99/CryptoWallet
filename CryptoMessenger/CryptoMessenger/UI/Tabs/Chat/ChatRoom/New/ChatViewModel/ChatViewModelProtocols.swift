@@ -91,7 +91,7 @@ protocol ChatViewModelProtocol: ObservableObject {
 protocol ChatEventsDelegate {
     func onContactEventTap(contactInfo: ChatContactInfo)
     func onMapEventTap(place: Place)
-    func onImageTap(image: Image)
+    func onImageTap(image: Image?, imageUrl: URL?)
     func onCallTap(roomId: String)
     func onDocumentTap(fileUrl: URL, fileName: String)
     func onVideoTap(url: URL)

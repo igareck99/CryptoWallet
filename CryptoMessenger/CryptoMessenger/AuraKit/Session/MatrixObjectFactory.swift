@@ -56,15 +56,15 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                     isAdmin = state?.powerLevels?.powerLevelOfUser(withUserID: matrixUseCase.getUserId()) == 100
                 }
                 var roomAvatar: URL?
-                var summary: RoomSummary
-                do {
-                    try summary = RoomSummary(mxRoom.summary)
-                } catch {
+                let summary: RoomSummary
+
+                if let rSummary = mxRoom.summary {
+                    summary = RoomSummary(mxRoom.summary)
+                } else {
                     summary = RoomSummary(MXRoomSummary())
                 }
-                if let avatar = summary.avatar {
-                    let homeServer = config.matrixURL
-                    roomAvatar = MXURL(mxContentURI: avatar)?.contentURL(on: homeServer)
+                if let avatarUrl: URL = MXURL(mxContentURI: summary.avatar)?.contentURL(on: config.matrixURL) {
+                    roomAvatar = avatarUrl
                 }
                 let enumerator = mxRoom.enumeratorForStoredMessages
                 let currentBatch = enumerator?.nextEventsBatch(100, threadId: nil) ?? []
@@ -81,22 +81,16 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                         matrixUseCase: matrixUseCase
                     )
                 }
-                let unreadedEvents = summary.summary.localUnreadEventCount
+                let unreadedEvents = summary.localUnreadEventCount
                 messageType = lastMessageEvent?.messageType ?? MessageType.text("")
-                var members: Int = 1
-                var roomName = "roomName"
+                let members = summary.membersCount
                 let homeServer = config.matrixURL
-                if summary.summary.membersCount != nil {
-                    members = Int(summary.summary.membersCount.members)
-                } else {
-                    members = 2
+                var roomName = summary.displayName
+                if roomName.contains("others") && roomName.contains("&"),
+                   let rName = roomName.split(separator: "&")[safe: 0] {
+                    roomName = String(rName)
                 }
-                if summary.summary.displayName != nil {
-                    roomName = summary.summary.displayName
-                    if roomName.contains("others") && roomName.contains("&") {
-                        roomName = String(roomName.split(separator: "&")[0])
-                    }
-                }
+
                 let room = AuraRoomData(isChannel: powerLevels,
                                         isAdmin: isAdmin,
                                         isPinned: false,
@@ -108,8 +102,8 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                                         lastMessageTime: summary.lastMessageDate,
                                         roomAvatar: roomAvatar,
                                         roomName: roomName,
-                                        numberUsers: members,
-                                        topic: summary.summary.topic ?? "",
+                                        numberUsers: Int(members),
+                                        topic: summary.summary?.topic ?? "",
                                         roomId: roomId,
                                         events: events,
                                         eventCollections: EventCollection(currentBatch),

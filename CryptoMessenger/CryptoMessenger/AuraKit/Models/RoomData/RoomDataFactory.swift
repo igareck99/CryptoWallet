@@ -70,7 +70,13 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                     )
                 )
             }
-
+            let messageType = makeEventType(event: event)
+            switch messageType {
+            case .image(_):
+                print("slals;la;sla;sl;as  \(event)")
+            default:
+                break
+            }
             let value = RoomEvent(
                 eventId: event.eventId,
                 roomId: event.roomId,

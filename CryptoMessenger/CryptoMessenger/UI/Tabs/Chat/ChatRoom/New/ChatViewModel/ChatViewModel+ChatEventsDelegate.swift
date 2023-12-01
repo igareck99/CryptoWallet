@@ -13,8 +13,8 @@ extension ChatViewModel: ChatEventsDelegate {
         coordinator.onMapTap(place: place)
     }
 
-    func onImageTap(image: Image) {
-        coordinator.showImageViewer(image: image)
+    func onImageTap(image: Image?, imageUrl: URL?) {
+        coordinator.showImageViewer(image: image, imageUrl: imageUrl)
     }
 
     func onCallTap(roomId: String) {

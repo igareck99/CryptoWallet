@@ -59,7 +59,7 @@ extension RoomEventsFactory {
             loadData: loadInfo
         ) { image in
             debugPrint("onTap ImageEvent")
-            delegate.onImageTap(image: image)
+            delegate.onImageTap(image: image, imageUrl: nil)
         }
 
         let bubbleContainer = BubbleContainer(

@@ -67,9 +67,10 @@ final class FriendProfileViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
-    func onImageViewer(_ image: Image) {
-//        selectedPhoto = url
-//        chatHistoryCoordinator.showImageViewer(image: image)
+    func onImageViewer(_ url: URL?) {
+        selectedPhoto = url
+        print("sklasklaklas  \(url)")
+        chatHistoryCoordinator.showImageViewer(image: nil, imageUrl: selectedPhoto)
     }
     
     func onSafari(_ url: String) {
