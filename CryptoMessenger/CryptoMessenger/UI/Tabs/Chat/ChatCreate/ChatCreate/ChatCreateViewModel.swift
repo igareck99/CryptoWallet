@@ -201,22 +201,53 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                     && $0.mxId != self.matrixUseCase.getUserId() }
                 self.lastUsersSections = []
                 self.waitingContacts = result.filter({ $0.type == .waitingContacts })
-                if !self.existingContacts.isEmpty {
+                let usersWithoutName = self.existingContacts.filter({ $0.mxId == $0.name })
+                let group = DispatchGroup()
+                if !usersWithoutName.isEmpty {
+                    group.enter()
+                }
+                usersWithoutName.forEach { value in
+                    self.matrixUseCase.searchUser(value.mxId) { result in
+                        if result != nil {
+                            let user = Contact(mxId: value.mxId,
+                                               avatar: value.avatar,
+                                               name: result ?? value.mxId,
+                                               status: value.status,
+                                               phone: value.phone,
+                                               isAdmin: value.isAdmin,
+                                               type: value.type) { contact in
+                                self.onTapUser(contact)
+                            }
+                            if let index = self.existingContacts.firstIndex(where: { $0.mxId == value.mxId }) {
+                                self.existingContacts[index] = user
+                            }
+                            if usersWithoutName.last == value {
+                                group.leave()
+                            }
+                        } else {
+                            if usersWithoutName.last == value {
+                                group.leave()
+                            }
+                        }
+                    }
+                }
+                group.notify(queue: .main) {
+                    if !self.existingContacts.isEmpty {
+                        self.lastUsersSections.append(
+                            ChatCreateSection(
+                                data: .contacts,
+                                views: self.existingContacts
+                            )
+                        )
+                    }
                     self.lastUsersSections.append(
                         ChatCreateSection(
-                            data: .contacts,
-                            views: self.existingContacts
+                            data: .invite,
+                            views: self.waitingContacts
                         )
                     )
+                    self.state = .showContent
                 }
-                // ELSE ????????
-                self.lastUsersSections.append(
-                    ChatCreateSection(
-                        data: .invite,
-                        views: self.waitingContacts
-                    )
-                )
-                self.state = .showContent
             } onTap: { value in
                 self.onTapUser(value)
             }

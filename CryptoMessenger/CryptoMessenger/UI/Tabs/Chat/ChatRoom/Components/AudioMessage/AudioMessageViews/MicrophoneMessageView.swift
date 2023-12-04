@@ -17,6 +17,7 @@ struct MicrophoneMessageView: View {
 
     @State private var bottomPadding: CGFloat = 0
     @State private var microphonePadding: CGFloat = 0
+    @State var isSwiped = false
 
     // MARK: - Body
 
@@ -27,7 +28,7 @@ struct MicrophoneMessageView: View {
     // MARK: - Private properties
 
     private var content: some View {
-        VStack(spacing: blockDragPadding) {
+        VStack {
             microphoneStartView
                 .gesture(drag)
                 .onChange(of: showAudioView) { _ in
@@ -39,26 +40,21 @@ struct MicrophoneMessageView: View {
     private var microphoneStartView: some View {
         ZStack {
             if showAudioView {
-                VStack {
+                VStack(alignment: .center, spacing: 16) {
                     recordView
                     Button(action: {
                         if showAudioView {
                             showAudioView = false
                         }
                     }, label: {
-                        ZStack {
-                            Circle()
-                                .frame(width: 48, height: 48)
-                                .foreground(.dodgerBlue)
-                            !blockAudioRecord ? R.image.chat.audio.buttonVoice.image :
-                            R.image.chat.audio.approveVoiceMessage.image
-                        }
+                        blockAudioRecord ? R.image.chat.audio.approveVoiceMessage.image :
+                        R.image.chat.audio.buttonVoice.image
                     })
                 }
                 .padding(.leading, textDragPadding)
-                .padding(.bottom, blockAudioRecord ? 55 : 70)
+                .padding(.bottom, 80)
                 .onDisappear {
-                    withAnimation(.easeIn(duration: 0.5)) {
+                    withAnimation(.easeIn(duration: 0.25)) {
                         blockAudioRecord = false
                         blockDragPadding = 0
                         textDragPadding = 0
@@ -73,7 +69,7 @@ struct MicrophoneMessageView: View {
                     .padding(.trailing, 16)
             }
         }
-        .padding(.trailing, 6)
+        .padding(.trailing, showAudioView ? 52 : 8)
     }
 
     private var recordView: some View {
@@ -103,7 +99,7 @@ struct MicrophoneMessageView: View {
     // MARK: - Private Properties
 
     private var drag: some Gesture {
-        DragGesture(minimumDistance: 0)
+        DragGesture(minimumDistance: 0, coordinateSpace: .global)
             .onChanged { value in
                 showAudioView = true
                 if !blockAudioRecord {

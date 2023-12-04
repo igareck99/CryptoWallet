@@ -63,6 +63,7 @@ extension MatrixUseCase {
         self.createRoom(parameters: parameters) { [weak self] response in
             switch response {
             case let .success(room):
+                print("sklasklsakl  \(room)")
                 completion(.roomCreateSucces)
                 guard let data = roomAvatar else {
                     return
