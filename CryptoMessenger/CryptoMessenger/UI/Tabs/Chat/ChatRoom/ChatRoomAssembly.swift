@@ -1,11 +1,6 @@
 import SwiftUI
 
-// MARK: - ChatRoomAssembly
-
 enum ChatRoomAssembly {
-
-    // MARK: - Static Methods
-
     static func build(
 		room: AuraRoom,
 		coordinator: ChatHistoryFlowCoordinatorProtocol?

@@ -1,7 +1,5 @@
 import SwiftUI
 
-// MARK: - SelectContactAssembly
-
 enum SelectContactAssembly {
     static func build(
         mode: ContactViewMode,

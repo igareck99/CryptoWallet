@@ -1,14 +1,11 @@
 import Foundation
 import SwiftUI
 
-// MARK: - ProfileDetailAssembly
-
 enum ProfileDetailAssembly {
-
-    // MARK: - Static Methods
-    
-    static func build(_ coordinator: ProfileFlowCoordinatorProtocol,
-                      _ image: Binding<UIImage?>) -> some View {
+    static func build(
+        coordinator: ProfileFlowCoordinatorProtocol,
+        image: Binding<UIImage?>
+    ) -> some View {
         let userSettings = UserDefaultsService.shared
         let keychainService = KeychainService.shared
         let coreDataService = CoreDataService.shared

@@ -236,18 +236,6 @@ final class TransferViewModel: ObservableObject {
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
     }
-
-	private func displayErrorSnackBar() {
-        DispatchQueue.main.async{ [weak self] in
-			self?.isSnackbarPresented = true
-			self?.objectWillChange.send()
-		}
-
-        delay(3) { [weak self] in
-			self?.isSnackbarPresented = false
-			self?.objectWillChange.send()
-		}
-	}
     
     func showSnackBar(text: String) {
         DispatchQueue.main.async { [weak self] in
@@ -338,7 +326,7 @@ final class TransferViewModel: ObservableObject {
 				let self = self,
 				case .success(let template) = response
 			else {
-				self?.displayErrorSnackBar()
+                self?.showSnackBar(text: "Не удалось создать template")
 				return
 			}
 

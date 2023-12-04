@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - MatrixObjectFactoryProtocol
 
 protocol ChatHistoryRowComponentsFactoryProtocol {
-    
+
     func makeAvatarView(_ avatarUrl: URL?,
                         _ roomName: String,
                         _ isDirect: Bool,
@@ -13,7 +13,7 @@ protocol ChatHistoryRowComponentsFactoryProtocol {
                              _ unreadedEvents: Int,
                              _ isPinned: Bool,
                              _ isFromCurrentUser: Bool) -> any ViewGeneratable
-    
+
     func makeNameView(_ lastMessageTime: Date,
                       _ roomName: String) -> any ViewGeneratable
 }
@@ -28,8 +28,12 @@ extension ChatHistoryRowComponentsFactory: ChatHistoryRowComponentsFactoryProtoc
                         _ roomName: String,
                         _ isDirect: Bool,
                         _ isOnline: Bool) -> any ViewGeneratable {
-        let view =  AvatarViewData(avatarUrl: avatarUrl, roomName: roomName,
-                                   isDirect: isDirect, isOnline: isOnline)
+        let view = AvatarViewData(
+            avatarUrl: avatarUrl,
+            roomName: roomName,
+            isDirect: isDirect,
+            isOnline: isOnline
+        )
         return view
     }
 

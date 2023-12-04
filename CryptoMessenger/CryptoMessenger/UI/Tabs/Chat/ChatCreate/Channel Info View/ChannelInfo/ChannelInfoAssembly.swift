@@ -1,12 +1,7 @@
 import SwiftUI
 import UIKit
 
-// MARK: - ChannelInfoAssembly
-
 enum ChannelInfoAssembly {
-
-    // MARK: - Static Properties
-
     static func build(
         room: AuraRoomData,
         coordinator: ChatHistoryFlowCoordinatorProtocol,

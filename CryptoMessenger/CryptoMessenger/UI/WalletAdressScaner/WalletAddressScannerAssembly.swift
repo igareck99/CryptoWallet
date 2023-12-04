@@ -1,11 +1,6 @@
 import SwiftUI
 
-// MARK: - WalletAddressScannerAssembly
-
 enum WalletAddressScannerAssembly {
-
-    // MARK: - Static Methods
-
     static func build(
         scannedCode: Binding<String>
     ) -> WalletAddressScanerView {

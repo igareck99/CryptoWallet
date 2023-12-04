@@ -1,11 +1,6 @@
 import SwiftUI
 
-// MARK: - FriendProfileAssembly
-
 enum FriendProfileAssembly {
-
-    // MARK: - Static Methods
-
     static func build(
         userId: String,
         roomId: String,

@@ -1,9 +1,6 @@
 import SwiftUI
 
-// MARK: - GalleryPickerAssembly
-
 enum GalleryPickerAssembly {
-    
     static func build(
         sourceType: UIImagePickerController.SourceType = .photoLibrary,
         galleryContent: GalleryPickerContent = .photos,
@@ -14,7 +11,9 @@ enum GalleryPickerAssembly {
                                      galleryContent: galleryContent,
                                      onSelectImage: onSelectImage,
                                      onSelectVideo: onSelectVideo
-        ).ignoresSafeArea()
+        )
+        // TODO: Выпилить это отсюда
+            .ignoresSafeArea()
             .toolbar(.hidden,
                      for: .tabBar)
             .toolbar(.hidden,

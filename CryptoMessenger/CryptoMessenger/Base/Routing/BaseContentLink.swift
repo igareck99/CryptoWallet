@@ -2,6 +2,10 @@ import SwiftUI
 
 enum BaseContentLink: Hashable, Identifiable {
 
+    // Auth
+    case registration(delegate: RegistrationSceneDelegate?)
+    case verification(delegate: VerificationSceneDelegate?)
+
     // Import seed
     case importKey(coordinator: ImportKeyCoordinatable)
 

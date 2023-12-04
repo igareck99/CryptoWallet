@@ -1,11 +1,6 @@
 import SwiftUI
 
-// MARK: - RemoteConfigUseCaseAssembly
-
 enum OnboardingAssembly {
-
-    // MARK: - Static Methods
-
     static func build(delegate: OnboardingSceneDelegate?) -> some View {
         let userFlows = UserDefaultsService.shared
         let resources = OnboardingResources.self

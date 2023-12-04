@@ -71,11 +71,11 @@ extension MXEvent {
     // MARK: - Internal Properties
 
     var messageType: MessageType {
-        let messageType = content[.messageType] as? String
+        let mType = content[.messageType] as? String
         var type: MessageType
         let homeServer = Configuration.shared.matrixURL
 
-        switch messageType {
+        switch mType {
         case kMXMessageTypeText:
             if isReply() {
                 let reply = MXReplyEventParser().parse(self)
@@ -121,6 +121,8 @@ extension MXEvent {
                     eventType == .callHangup ||
                     eventType == .callReject {
                     type = .call
+                } else if mType == "ms.aura.pay" {
+                    type = .sendCrypto
                 } else {
                     type = .none
                 }

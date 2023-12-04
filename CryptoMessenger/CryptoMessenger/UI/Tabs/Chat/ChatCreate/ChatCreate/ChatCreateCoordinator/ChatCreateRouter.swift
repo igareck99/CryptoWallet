@@ -43,13 +43,11 @@ struct ChatCreateRouter<
 
     var body: some View {
         NavigationStack(path: $state.createPath) {
-            ZStack {
-                content()
-            }
-            .navigationDestination(
-                for: BaseContentLink.self,
-                destination: factory.makeContent
-            )
+            content()
+                .navigationDestination(
+                    for: BaseContentLink.self,
+                    destination: factory.makeContent
+                )
         }
     }
 }

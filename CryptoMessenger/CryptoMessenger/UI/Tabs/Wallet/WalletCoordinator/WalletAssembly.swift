@@ -1,8 +1,6 @@
 import Foundation
 import SwiftUI
 
-// MARK: - WalletAssembly
-
 enum WalletAssembly {
     static func build() -> some View {
         let viewModel = WalletViewModel()
