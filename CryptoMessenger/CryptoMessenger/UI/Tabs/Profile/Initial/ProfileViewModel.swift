@@ -154,7 +154,7 @@ final class ProfileViewModel: ObservableObject {
                     self?.coordinator?.onSocialList()
                 case .onFeedImageAdd:
                     guard let self = self else { return }
-                    self.coordinator?.showFeedPicker({ [weak self] value in
+                    self.coordinator?.showFeedPicker { [weak self] value in
                         self?.coordinator?.galleryPickerFullScreen(
                             sourceType: value,
                             galleryContent: .all,
@@ -164,15 +164,17 @@ final class ProfileViewModel: ObservableObject {
                                     return
                                 }
                                 self?.selectedImage = image
-                            }, onSelectVideo: { _ in })
-                    })
+                            },
+                            onSelectVideo: { _ in }
+                        )
+                    }
                 case let .onSettings(image):
                     guard let self = self, let coordinator = coordinator else { return }
                     coordinator.showSettings { [weak self] result in
                         self?.coordinator?.settingsScreens(
-                            result,
-                            coordinator,
-                            image
+                            type: result,
+                            cooordinator: coordinator,
+                            image: image
                         )
                     }
                 case let .onGallery(type):
@@ -194,6 +196,7 @@ final class ProfileViewModel: ObservableObject {
                     image: image,
                     viewModel: viewModel
                 ):
+                // TODO: ?????
 //                    self?.coordinator?.imageEditor(
 //                        isShowing: isShowing,
 //                        image: image,
@@ -261,13 +264,13 @@ final class ProfileViewModel: ObservableObject {
     }
 
     func showSnackBar(text: String) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        delay(0.5) { [weak self] in
             self?.messageText = text
             self?.isSnackbarPresented = true
             self?.objectWillChange.send()
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+        delay(3) { [weak self] in
             self?.messageText = ""
             self?.isSnackbarPresented = false
             self?.objectWillChange.send()

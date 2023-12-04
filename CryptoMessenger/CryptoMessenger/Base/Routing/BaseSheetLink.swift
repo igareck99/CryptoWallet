@@ -4,7 +4,7 @@ enum BaseSheetLink: Hashable, Identifiable {
 
     // Wallet
     case transactionResult(model: TransactionResult)
-    case addSeed(AddSeedViewBuilder)
+    case addSeed(coordinator: PhraseGeneratable)
 
     // Chat history
     case notifications(
@@ -82,6 +82,10 @@ enum BaseSheetLink: Hashable, Identifiable {
     // Transaction
 
     case transactionStatus(model: TransactionStatus)
+
+    // Profile
+    case settings(GenericBlock<ProfileSettingsMenu>)
+    case sheetPicker((UIImagePickerController.SourceType) -> Void)
 
     var id: String {
         String(reflecting: self)

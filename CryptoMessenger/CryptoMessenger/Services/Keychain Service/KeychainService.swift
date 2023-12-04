@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 
 final class KeychainService {
@@ -31,6 +32,7 @@ final class KeychainService {
 		case bitcoinPublicKey
 	}
 
+    let seedPublisher = PassthroughSubject<String?, Never>()
 	private let keychainWrapper: KeychainWrapper
     static let shared = KeychainServiceAssembly.build()
 

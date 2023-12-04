@@ -54,7 +54,8 @@ extension WalletCoordinator: WalletCoordinatable {
 
     func onImportKey(onComplete: @escaping () -> Void) {
         let coordinator = AddSeedCoordinatorAssembly.make(
-            state: router.navState()
+            path: router.routePath(),
+            presentedItem: router.presentedItem()
         ) { [weak self] coordinator in
             self?.removeChildCoordinator(coordinator)
             onComplete()
@@ -69,7 +70,7 @@ extension WalletCoordinator: WalletCoordinatable {
             path: router.routePath(),
             presentedItem: router.presentedItem()
         ) { [weak self] coordinator, rawTransaction in
-            debugPrint("func onTransfer(wallet: WalletInfo) rawTransaction \(rawTransaction)")
+            debugPrint("rawTransaction \(String(describing: rawTransaction))")
             self?.removeChildCoordinator(coordinator)
         }
         addChildCoordinator(transferCoordinator)

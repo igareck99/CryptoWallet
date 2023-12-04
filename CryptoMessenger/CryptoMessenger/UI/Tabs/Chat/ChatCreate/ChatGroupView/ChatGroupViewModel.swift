@@ -52,7 +52,7 @@ final class ChatGroupViewModel: ObservableObject {
         snackBarText = text
         shackBarColor = color
         isSnackbarPresented = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+        delay(3) { [weak self] in
             withAnimation(.linear(duration: 0.25)) {
                 self?.isSnackbarPresented = false
             }

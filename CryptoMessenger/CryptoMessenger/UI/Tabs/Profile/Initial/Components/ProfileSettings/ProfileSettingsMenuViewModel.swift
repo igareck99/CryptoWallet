@@ -1,28 +1,50 @@
 import Foundation
 
+protocol ProfileSettingsMenuProtocol: ObservableObject {
+    var isPhraseAvailable: Bool { get }
+
+    func viewHeight() -> CGFloat
+    func settingsTypes() -> [ProfileSettingsMenu]
+    func onTapItem(type: ProfileSettingsMenu)
+}
+
 // MARK: - ProfileSettingsMenuViewModel
 
-final class ProfileSettingsMenuViewModel: ObservableObject {
-
-    // MARK: - Internal Properties
-
+final class ProfileSettingsMenuViewModel {
     var isPhraseAvailable: Bool
+    let remoteConfigUseCase: RemoteConfigFacade
+    let onSelect: GenericBlock<ProfileSettingsMenu>
 
-    // MARK: - Private Properties
-
-    let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase
-
-    // MARK: - Lifecycle
-
-    init() {
+    init(
+        remoteConfigUseCase: RemoteConfigFacade = RemoteConfigUseCaseAssembly.useCase,
+        onSelect: @escaping GenericBlock<ProfileSettingsMenu>
+    ) {
+        self.remoteConfigUseCase = remoteConfigUseCase
+        self.onSelect = onSelect
         self.isPhraseAvailable = remoteConfigUseCase.isPhraseV1Available
     }
+}
 
-    // MARK: - Internal Methods
+// MARK: - ProfileSettingsMenuProtocol
 
-	func settingsTypes() -> [ProfileSettingsMenu] {
+extension ProfileSettingsMenuViewModel: ProfileSettingsMenuProtocol {
 
-		let types = ProfileSettingsMenu.allCases
-		return types
-	}
+    func onTapItem(type: ProfileSettingsMenu) {
+        onSelect(type)
+    }
+
+    func viewHeight() -> CGFloat {
+        CGFloat(settingsTypes().count) * CGFloat(70)
+    }
+
+    func settingsTypes() -> [ProfileSettingsMenu] {
+        [
+            .profile,
+            // TODO: ???? почему-то нет перехода в координаторе
+//            .personalization,
+            .security,
+            .notifications,
+            .about
+        ]
+    }
 }

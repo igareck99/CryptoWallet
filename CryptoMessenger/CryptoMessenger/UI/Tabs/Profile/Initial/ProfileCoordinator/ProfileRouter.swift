@@ -3,106 +3,83 @@ import SwiftUI
 
 protocol ProfileRouterable {
 
+    func routePath() -> Binding<NavigationPath>
+
+    func presentedItem() -> Binding<BaseSheetLink?>
+
     func socialList()
 
-    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent,
-                                 onSelectImage: @escaping (UIImage?) -> Void,
-                                 onSelectVideo: @escaping (URL?) -> Void)
-    func imageEditor(isShowing: Binding<Bool>,
-                     image: Binding<UIImage?>,
-                     viewModel: ProfileViewModel)
-    func profileDetail(_ coordinator: ProfileFlowCoordinatorProtocol,
-                       _ image: Binding<UIImage?>)
-    func security(_ coordinator: ProfileFlowCoordinatorProtocol)
+    func galleryPickerFullScreen(
+        sourceType: UIImagePickerController.SourceType,
+        galleryContent: GalleryPickerContent,
+        onSelectImage: @escaping (UIImage?) -> Void,
+        onSelectVideo: @escaping (URL?) -> Void
+    )
 
-    func notifications(_ coordinator: ProfileFlowCoordinatorProtocol)
+    func imageEditor(
+        isShowing: Binding<Bool>,
+        image: Binding<UIImage?>,
+        viewModel: ProfileViewModel
+    )
 
-    func aboutApp(_ coordinator: ProfileFlowCoordinatorProtocol)
+    func profileDetail(
+        coordinator: ProfileFlowCoordinatorProtocol,
+        image: Binding<UIImage?>
+    )
 
-    func pinCode(_ pinCodeScreen: PinCodeScreenType)
+    func security(coordinator: ProfileFlowCoordinatorProtocol)
 
-    func sessions(_ coordinator: ProfileFlowCoordinatorProtocol)
+    func notifications(coordinator: ProfileFlowCoordinatorProtocol)
 
-    func showSettings(_ result: @escaping GenericBlock<ProfileSettingsMenu>)
+    func aboutApp(coordinator: ProfileFlowCoordinatorProtocol)
 
-    func sheetPicker(_ sourceType: @escaping (UIImagePickerController.SourceType) -> Void)
+    func pinCode(pinCodeScreen: PinCodeScreenType)
+
+    func sessions(coordinator: ProfileFlowCoordinatorProtocol)
+
+    func showSettings(result: @escaping GenericBlock<ProfileSettingsMenu>)
+
+    func sheetPicker(
+        sourceType: @escaping GenericBlock<UIImagePickerController.SourceType>
+    )
 
     func blockList()
 
     func removePresentedItem()
 
     func clearPath()
+
+    func showPhrase(
+        seed: String,
+        coordinator: WatchKeyViewModelDelegate
+    )
 }
 
 // MARK: - ChatHistoryRouter
 
-struct ProfileRouter<Content: View, State: ProfileFlowStatable>: View {
+struct ProfileRouter<
+    Content: View,
+    State: ProfileFlowStatable,
+    Factory: ViewsBaseFactoryProtocol
+>: View {
 
     // MARK: - Internal Properties
 
     @ObservedObject var state: State
+    let factory: Factory.Type
     let content: () -> Content
 
     var body: some View {
         NavigationStack(path: $state.path) {
-            ZStack {
-                content()
-                    .sheet(item: $state.presentedItem, content: sheetContent)
-            }
-            .navigationDestination(
-                for: ProfileContentLlink.self,
-                destination: linkDestination
-            )
-        }
-    }
-
-    @ViewBuilder
-    private func linkDestination(link: ProfileContentLlink) -> some View {
-        switch link {
-        case .socialList:
-            SocialListAssembly.build()
-        case let .galleryPicker(sourceType: sourceType,
-                                galleryContent: galleryContent,
-                                onSelectImage: onSelectImage,
-                                onSelectVideo: onSelectVideo):
-            GalleryPickerAssembly.build(sourceType: sourceType,
-                                        galleryContent: galleryContent,
-                                        onSelectImage: onSelectImage,
-                                        onSelectVideo: onSelectVideo)
-        case let .imageEditor(isShowing: isShowing,
-                              image: image,
-                              viewModel: viewModel):
-            ImageEditorAssembly.build(isShowing: isShowing,
-                                      image: image,
-                                      viewModel: viewModel)
-        case let .profileDetail(coordinator, image):
-            ProfileDetailAssembly.build(coordinator,
-                                        image)
-        case let .security(coordinator):
-            SecurityAssembly.configuredView(coordinator)
-        case let .notifications(coordinator):
-            NotificationSettingsAssembly.build(coordinator)
-        case .aboutApp(_):
-            AboutAppAssembly.build()
-        case let .pinCode(screenType):
-            PinCodeAssembly.build(screenType: screenType) {
-            }
-        case let .sessions(coordinator):
-            SessionAssembly.build(coordinator)
-        case .blockList:
-            BlockedListAssembly.build()
-        }
-    }
-
-    @ViewBuilder
-    private func sheetContent(item: ProfileSheetLlink) -> some View {
-        switch item {
-        case let .settings(result):
-            ProfileSettingsMenuAssembly.build(onSelect: result)
-        case let .sheetPicker(sourceType):
-            ProfileFeedImageAssembly.build(sourceType)
-                    .presentationDetents([.large, .height(337)])
+            content()
+                .sheet(
+                    item: $state.presentedItem,
+                    content: factory.makeSheet
+                )
+                .navigationDestination(
+                    for: BaseContentLink.self,
+                    destination: factory.makeContent
+                )
         }
     }
 }
@@ -110,76 +87,131 @@ struct ProfileRouter<Content: View, State: ProfileFlowStatable>: View {
 // MARK: - ProfileRouter(ProfileRouterable)
 
 extension ProfileRouter: ProfileRouterable {
+
+    func routePath() -> Binding<NavigationPath> {
+        $state.path
+    }
+
+    func presentedItem() -> Binding<BaseSheetLink?> {
+        $state.presentedItem
+    }
+
+    func showPhrase(
+        seed: String,
+        coordinator: WatchKeyViewModelDelegate
+    ) {
+        state.path.append(
+            BaseContentLink.showPhrase(
+                seed: seed,
+                coordinator: coordinator
+            )
+        )
+    }
+
     func socialList() {
-        state.path.append(ProfileContentLlink.socialList)
+        state.path.append(
+            BaseContentLink.socialList
+        )
     }
 
-    func galleryPickerFullScreen(sourceType: UIImagePickerController.SourceType,
-                                 galleryContent: GalleryPickerContent,
-                                 onSelectImage: @escaping (UIImage?) -> Void,
-                                 onSelectVideo: @escaping (URL?) -> Void) {
+    func galleryPickerFullScreen(
+        sourceType: UIImagePickerController.SourceType,
+        galleryContent: GalleryPickerContent,
+        onSelectImage: @escaping (UIImage?) -> Void,
+        onSelectVideo: @escaping (URL?) -> Void
+    ) {
         state.presentedItem = nil
-        state.path.append(ProfileContentLlink.galleryPicker(sourceType: sourceType,
-                                                            galleryContent: galleryContent,
-                                                            onSelectImage: onSelectImage,
-                                                            onSelectVideo: onSelectVideo))
+        state.path.append(
+            BaseContentLink.galleryPicker(
+                sourceType: sourceType,
+                galleryContent: galleryContent,
+                onSelectImage: onSelectImage,
+                onSelectVideo: onSelectVideo
+            )
+        )
     }
 
-    func imageEditor(isShowing: Binding<Bool>,
-                     image: Binding<UIImage?>,
-                     viewModel: ProfileViewModel) {
+    func imageEditor(
+        isShowing: Binding<Bool>,
+        image: Binding<UIImage?>,
+        viewModel: ProfileViewModel
+    ) {
         state.presentedItem = nil
-        state.path.append(ProfileContentLlink.imageEditor(isShowing: isShowing,
-                                                          image: image,
-                                                          viewModel: viewModel))
+        state.path.append(
+            BaseContentLink.imageEditor(
+                isShowing: isShowing,
+                image: image,
+                viewModel: viewModel
+            )
+        )
     }
 
-    func profileDetail(_ coordinator: ProfileFlowCoordinatorProtocol,
-                       _ image: Binding<UIImage?>) {
+    func profileDetail(
+        coordinator: ProfileFlowCoordinatorProtocol,
+        image: Binding<UIImage?>
+    ) {
         state.presentedItem = nil
-        state.path.append(ProfileContentLlink.profileDetail(coordinator,
-                                                            image))
+        state.path.append(
+            BaseContentLink.profileDetail(
+                coordinator,
+                image
+            )
+        )
     }
 
-    func security(_ coordinator: ProfileFlowCoordinatorProtocol) {
+    func security(coordinator: ProfileFlowCoordinatorProtocol) {
         state.presentedItem = nil
-        state.path.append(ProfileContentLlink.security(coordinator))
+        state.path.append(
+            BaseContentLink.security(coordinator)
+        )
     }
 
-    func notifications(_ coordinator: ProfileFlowCoordinatorProtocol) {
+    func notifications(coordinator: ProfileFlowCoordinatorProtocol) {
         state.presentedItem = nil
-        state.path.append(ProfileContentLlink.notifications(coordinator))
+        state.path.append(
+            BaseContentLink.notifications(coordinator)
+        )
     }
 
-    func aboutApp(_ coordinator: ProfileFlowCoordinatorProtocol) {
+    func aboutApp(coordinator: ProfileFlowCoordinatorProtocol) {
         state.presentedItem = nil
-        state.path.append(ProfileContentLlink.aboutApp(coordinator))
+        state.path.append(
+            BaseContentLink.aboutApp(coordinator)
+        )
     }
 
-    func pinCode(_ pinCodeScreen: PinCodeScreenType) {
-        state.path.append(ProfileContentLlink.pinCode(pinCodeScreen))
+    func pinCode(pinCodeScreen: PinCodeScreenType) {
+        state.path.append(
+            BaseContentLink.pinCode(pinCodeScreen)
+        )
     }
 
-    func sessions(_ coordinator: ProfileFlowCoordinatorProtocol) {
-        state.path.append(ProfileContentLlink.sessions(coordinator))
+    func sessions(coordinator: ProfileFlowCoordinatorProtocol) {
+        state.path.append(
+            BaseContentLink.sessions(coordinator)
+        )
     }
 
-    func showSettings(_ result: @escaping GenericBlock<ProfileSettingsMenu>) {
+    func showSettings(result: @escaping GenericBlock<ProfileSettingsMenu>) {
         state.presentedItem = .settings(result)
     }
 
-    func sheetPicker(_ sourceType: @escaping (UIImagePickerController.SourceType) -> Void) {
+    func sheetPicker(
+        sourceType: @escaping GenericBlock<UIImagePickerController.SourceType>
+    ) {
         state.presentedItem = .sheetPicker(sourceType)
     }
 
     func blockList() {
-        state.path.append(ProfileContentLlink.blockList)
+        state.path.append(
+            BaseContentLink.blockList
+        )
     }
 
     func removePresentedItem() {
         state.presentedItem = nil
     }
-    
+
     func clearPath() {
         state.path = NavigationPath()
     }
