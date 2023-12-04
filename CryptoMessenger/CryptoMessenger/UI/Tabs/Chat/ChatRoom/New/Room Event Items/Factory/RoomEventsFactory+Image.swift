@@ -54,11 +54,11 @@ extension RoomEventsFactory {
             id: event.id,
             imageUrl: url,
             size: event.dataSize,
+            sentState: event.sentState,
             eventData: eventData,
             loadData: loadInfo
-        ) { resultUrl in
-            debugPrint("onTap ImageEvent")
-            delegate.onImageTap(imageUrl: resultUrl)
+        ) { image, imageUrl in
+            delegate.onImageTap(image: image, imageUrl: imageUrl)
         }
 
         let bubbleContainer = BubbleContainer(

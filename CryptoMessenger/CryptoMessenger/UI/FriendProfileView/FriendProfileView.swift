@@ -192,7 +192,7 @@ struct FriendProfileView: View {
             }.frame(width: geometry.size.width)
         }
     }
-    
+
     private var placeholderPhotoView: some View {
         ZStack(alignment: .center) {
             Circle()
@@ -219,7 +219,7 @@ struct FriendProfileView: View {
         .clipShape(Circle())
         .frame(width: 100, height: 100)
     }
-    
+
     private var notesView: some View {
         ZStack(alignment: .topLeading) {
             RoundedRectangle(cornerRadius: 8)
@@ -251,12 +251,12 @@ struct FriendProfileView: View {
                                 Image(uiImage: $0).resizable()
                             }
                         )
-                            .scaledToFill()
-                            .frame(width: width, height: width)
-                            .clipped()
-                            .onTapGesture {
-                                viewModel.onImageViewer(url)
-                            }
+                        .scaledToFill()
+                        .frame(width: width, height: width)
+                        .clipped()
+                        .onTapGesture {
+                            viewModel.onImageViewer(imageUrl: url)
+                        }
                     }
                 }
             }

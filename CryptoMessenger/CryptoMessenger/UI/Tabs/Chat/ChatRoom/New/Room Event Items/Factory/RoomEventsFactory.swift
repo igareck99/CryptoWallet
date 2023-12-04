@@ -15,6 +15,7 @@ protocol RoomEventsFactoryProtocol {
     static func makeOneEventView(
         value: RoomEvent,
         events: [RoomEvent],
+        currentEvents: [RoomEvent],
         oldViews: [any ViewGeneratable],
         delegate: ChatEventsDelegate,
         onLongPressMessage: @escaping (RoomEvent) -> Void,
@@ -77,6 +78,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
     static func makeOneEventView(
       value: RoomEvent,
       events: [RoomEvent],
+      currentEvents: [RoomEvent] = [],
       oldViews: [any ViewGeneratable],
       delegate: ChatEventsDelegate,
       onLongPressMessage: @escaping (RoomEvent) -> Void,
@@ -86,7 +88,7 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
     ) -> (any ViewGeneratable)? {
         switch value.eventType {
         case let .text(string):
-            return makeTextView(value, events, oldViews, string, onLongPressTap: { eventId in
+            return makeTextView(value, events, currentEvents, oldViews, string, onLongPressTap: { eventId in
                 onLongPressMessage(eventId)
             }, onReactionTap: { reaction in
                 onReactionTap(reaction)
@@ -226,22 +228,65 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
 
     static func makeTextView(_ event: RoomEvent,
                              _ oldEvents: [RoomEvent],
+                             _ currentEvents: [RoomEvent],
                              _ oldViews: [any ViewGeneratable],
                              _ text: String,
                              onLongPressTap: @escaping (RoomEvent) -> Void,
                              onReactionTap: @escaping (ReactionNewEvent) -> Void,
                              onSwipeReply: @escaping (RoomEvent) -> Void) -> (any ViewGeneratable)? {
+        var event = event
+        var eventReply = ""
         let oldEvent = oldEvents.first(where: { $0.eventId == event.eventId })
         if event.sentState == .sent {
-            if oldEvent == event {
+            if oldEvent == event && !event.isReply {
                 guard let view = oldViews.first(where: { $0.id == event.id }) else { return nil }
                 return view
+            } else if oldEvent == event {
+                let eventReplyEvent = currentEvents.first(where: { $0.eventId == event.rootEventId })
+                if eventReplyEvent == nil {
+                    event = RoomEvent(id: event.id,
+                                      eventId: event.eventId,
+                                      roomId: event.roomId,
+                                      sender: event.sender,
+                                      sentState: event.sentState,
+                                      eventType: event.eventType,
+                                      shortDate: event.shortDate,
+                                      fullDate: event.fullDate,
+                                      isFromCurrentUser: event.isFromCurrentUser,
+                                      isReply: false,
+                                      reactions: event.reactions,
+                                      content: event.content,
+                                      eventSubType: event.eventSubType,
+                                      eventDate: event.eventDate,
+                                      senderAvatar: event.senderAvatar,
+                                      videoThumbnail: event.videoThumbnail)
+                } else {
+                    eventReply = makeReplyDescription(eventReplyEvent)
+                }
             }
         }
-        var eventReply = ""
-        if event.isReply {
-            let eventReplyEvent = oldEvents.first(where: { $0.eventId == event.rootEventId })
-            eventReply = makeReplyDescription(eventReplyEvent)
+        if event.isReply && eventReply.isEmpty {
+            let eventReplyEvent = currentEvents.first(where: { $0.eventId == event.rootEventId })
+            if eventReplyEvent == nil || eventReplyEvent?.eventType == MessageType.none {
+                event = RoomEvent(id: event.id,
+                                  eventId: event.eventId,
+                                  roomId: event.roomId,
+                                  sender: event.sender,
+                                  sentState: event.sentState,
+                                  eventType: event.eventType,
+                                  shortDate: event.shortDate,
+                                  fullDate: event.fullDate,
+                                  isFromCurrentUser: event.isFromCurrentUser,
+                                  isReply: false,
+                                  reactions: event.reactions,
+                                  content: event.content,
+                                  eventSubType: event.eventSubType,
+                                  eventDate: event.eventDate,
+                                  senderAvatar: event.senderAvatar,
+                                  videoThumbnail: event.videoThumbnail)
+            } else {
+                eventReply = makeReplyDescription(eventReplyEvent)
+            }
         }
         let reactionColor: Color = event.isFromCurrentUser ? .diamond : .aliceBlue
         let reactions = prepareReaction(

@@ -42,3 +42,9 @@ extension View {
 		AnyView(self)
 	}
 }
+
+extension View {
+    func pinchToZoom() -> some View {
+        self.modifier(PinchToZoom())
+    }
+}

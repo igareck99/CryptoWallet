@@ -153,6 +153,12 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
                             $0.name.lowercased().contains(text.lowercased())
                             || $0.phone.removeCharacters(from: "- ()").contains(text)
                             || $0.mxId.lowercased().contains(text.lowercased()) })
+                        findedContacts.forEach { value in
+                            let index = self.existingContacts.firstIndex(where: { $0.mxId == value.mxId })
+                            if index != nil {
+                                findedContacts.remove(at: index ?? 0)
+                            }
+                        }
                         let waitingFilteredContacts = self.waitingContacts.filter({
                             $0.name.lowercased().contains(text.lowercased())
                             || $0.phone.removeCharacters(from: "- ()").contains(text)
@@ -187,24 +193,14 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
 
     private func setContacts() {
         self.contactsUseCase.reuqestUserContacts { contact in
-            self.waitingContacts = contact.map {
-                return Contact(
-                    mxId: "",
-                    avatar: nil,
-                    name: $0.firstName + "  " + $0.lastName,
-                    status: "",
-                    phone: $0.phoneNumber,
-                    isAdmin: false,
-                    type: .waitingContacts
-                ) { _ in }
-            }.sorted { $1.name > $0.name }
             self.contactsUseCase.matchServerContacts(
-                contact, .groupCreate
+                contact, .send
             ) { [weak self] result in
                 guard let self = self else { return }
                 self.existingContacts = result.filter { ($0.type == .lastUsers || $0.type == .existing)
                     && $0.mxId != self.matrixUseCase.getUserId() }
                 self.lastUsersSections = []
+                self.waitingContacts = result.filter({ $0.type == .waitingContacts })
                 if !self.existingContacts.isEmpty {
                     self.lastUsersSections.append(
                         ChatCreateSection(

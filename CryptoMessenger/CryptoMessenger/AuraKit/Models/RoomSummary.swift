@@ -3,14 +3,30 @@ import MatrixSDK
 
 // MARK: - RoomSummary
 
-@dynamicMemberLookup final class RoomSummary: ObservableObject {
+final class RoomSummary: ObservableObject {
 
     // MARK: - Internal Properties
 
-    var summary: MXRoomSummary
+    var summary: MXRoomSummary?
 
     var lastMessageDate: Date {
-		.init(timeIntervalSince1970: Double(summary.lastMessage?.originServerTs ?? .zero) / 1000)
+		.init(timeIntervalSince1970: Double(summary?.lastMessage?.originServerTs ?? .zero) / 1000)
+    }
+
+    var displayName: String {
+        summary?.displayName ?? "roomName"
+    }
+
+    var localUnreadEventCount: UInt {
+        summary?.localUnreadEventCount ?? .zero
+    }
+
+    var membersCount: UInt {
+        summary?.membersCount?.members ?? 1
+    }
+
+    var avatar: String {
+        summary?.avatar ?? ""
     }
 
     // MARK: - Life Cycle
@@ -18,8 +34,4 @@ import MatrixSDK
     init(_ summary: MXRoomSummary) {
         self.summary = summary
     }
-
-    // MARK: - Subscript
-
-    subscript<T>(dynamicMember keyPath: KeyPath<MXRoomSummary, T>) -> T { summary[keyPath: keyPath] }
 }

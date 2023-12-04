@@ -47,7 +47,7 @@ final class AuraRoom: ObservableObject {
 	}
     
     var lastMessageEvent: MessageType {
-        if summary.membership == .invite {
+        if summary.summary?.membership == .invite {
             let inviteEvent = eventCache.last {
                 $0.type == kMXEventTypeStringRoomMember && $0.stateKey == room.mxSession.myUserId
             }

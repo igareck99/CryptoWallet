@@ -175,6 +175,9 @@ extension ViewsBaseFactory {
             SessionAssembly.build(coordinator)
         case .blockList:
             BlockedListAssembly.build()
+        case let .countryCodeScene(delegate: delegate):
+            CountryCodePicker(delegate: delegate)
+                .navigationBarHidden(true)
         case .chatHistory:
             // TODO: ?????
             EmptyView()

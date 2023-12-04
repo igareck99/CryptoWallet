@@ -1,6 +1,7 @@
 import Combine
-import MatrixSDK
 import Foundation
+import MatrixSDK
+import SwiftUI
 
 // MARK: - FriendProfileViewModel
 
@@ -8,7 +9,6 @@ final class FriendProfileViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    @Published var selectedPhoto: URL?
     @Published var profile = ProfileItem()
     let mediaService = MediaService()
     let sources: FriendProfileResourcable.Type = FriendProfileResources.self
@@ -66,11 +66,10 @@ final class FriendProfileViewModel: ObservableObject {
         eventSubject.send(event)
     }
 
-    func onImageViewer(_ url: URL) {
-        selectedPhoto = url
-        chatHistoryCoordinator.showImageViewer(imageUrl: selectedPhoto)
+    func onImageViewer(imageUrl: URL) {
+        chatHistoryCoordinator.showImageViewer(image: nil, imageUrl: imageUrl)
     }
-    
+
     func onSafari(_ url: String) {
         guard let url = URL(string: url) else { return }
         urlToOpen = url
@@ -82,7 +81,7 @@ final class FriendProfileViewModel: ObservableObject {
         guard let result = userDefaults.dict(forKey: .userNotes) as? [String: String] else { return }
         profile.note = result[userId] ?? ""
     }
-    
+
     // MARK: - Private Methods
 
     private func bindInput() {
@@ -116,7 +115,7 @@ final class FriendProfileViewModel: ObservableObject {
             .assign(to: \.state, on: self)
             .store(in: &subscriptions)
     }
-    
+
     private func loadUsers() {
         matrixUseCase.getRoomMembers(roomId: roomId) { [weak self] result in
             guard case let .success(roomMembers) = result else { return }
@@ -151,7 +150,7 @@ final class FriendProfileViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func setData(_ contact: Contact) {
         profile.mxId = contact.mxId
         profile.name = contact.name
@@ -160,7 +159,7 @@ final class FriendProfileViewModel: ObservableObject {
         profile.avatar = contact.avatar
         loadUserNote()
     }
-    
+
     private func showSnackBar(text: String) {
         DispatchQueue.main.async { [weak self] in
             self?.messageText = text
@@ -173,8 +172,9 @@ final class FriendProfileViewModel: ObservableObject {
             self?.objectWillChange.send()
         }
     }
-    
+
     private func getUserData() {
+        // TODO: Отрефачить логику обработки запроса
         self.apiClient.publisher(Endpoints.Users.getProfile(userId))
             .sink { [weak self] completion in
                 switch completion {
@@ -202,13 +202,14 @@ final class FriendProfileViewModel: ObservableObject {
                 do {
                     let jsonData = try JSONSerialization.data(withJSONObject: socials, options: [])
                     let socialResponseList = try JSONDecoder().decode([SocialResponse].self, from: jsonData)
-                    self?.profile.socialNetwork = socialResponseList.flatMap {
-                        if !$0.url.isEmpty {
-                            let item = SocialListItem(url: $0.url, sortOrder: $0.sortOrder,
-                                                      socialType: SocialNetworkType(rawValue: $0.socialType) ?? .facebook)
-                            return item
-                        }
-                        return nil
+                    self?.profile.socialNetwork = socialResponseList.compactMap {
+                        guard !$0.url.isEmpty else { return nil }
+                        let item = SocialListItem(
+                            url: $0.url,
+                            sortOrder: $0.sortOrder,
+                            socialType: SocialNetworkType(rawValue: $0.socialType) ?? .facebook
+                        )
+                        return item
                     }
                 } catch {
                     debugPrint("Ошибка при декодировании Социальных сетей: \(error)")

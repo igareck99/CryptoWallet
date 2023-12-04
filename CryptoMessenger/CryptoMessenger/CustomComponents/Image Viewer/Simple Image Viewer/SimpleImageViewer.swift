@@ -1,10 +1,8 @@
 import SwiftUI
 
-struct SimpleImageViewer: View {
+struct SimpleImageViewer<ViewModel: SimpleImageViewerModelProtocol>: View {
 
-    let imageUrl: URL?
-    @StateObject var loader = ImageLoader()
-    @State var image: Image?
+    @StateObject var viewModel: ViewModel
     @State private var scale: CGFloat = 1
     @State private var lastScale: CGFloat = 1
     @State private var offset: CGPoint = .zero
@@ -16,7 +14,7 @@ struct SimpleImageViewer: View {
             GeometryReader { proxy in
                 ZStack {
                     Color.black
-                    image?
+                    viewModel.image?
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .scaleEffect(scale)
@@ -28,13 +26,6 @@ struct SimpleImageViewer: View {
                 .edgesIgnoringSafeArea(.all)
                 .toolbar {
                     makeToolBar()
-                }
-            }
-            .task {
-                let result = await loader.loadImage(url: imageUrl)
-                guard let img = result else { return }
-                await MainActor.run {
-                    image = img
                 }
             }
         }

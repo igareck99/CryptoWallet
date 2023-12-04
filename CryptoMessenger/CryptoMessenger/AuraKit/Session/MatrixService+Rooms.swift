@@ -10,7 +10,7 @@ extension MatrixService {
 		listenReference = session?.listenToEvents { [weak self] event, direction, roomState in
 			guard let self = self else { return }
 			let affectedRooms = self.rooms
-				.filter { $0.summary.roomId == event.roomId }
+                .filter { $0.summary.summary?.roomId == event.roomId }
 
 			affectedRooms.forEach {
 				$0.add(event: event, direction: direction, roomState: roomState as? MXRoomState)
