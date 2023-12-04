@@ -1,11 +1,6 @@
 import SwiftUI
 
-// MARK: - FacilityApproveConfigurator
-
-enum FacilityApproveConfigurator {
-
-    // MARK: - Static Methods
-
+enum FacilityApproveAssembly {
     static func build(
         transaction: FacilityApproveModel,
         coordinator: FacilityApproveViewCoordinatable

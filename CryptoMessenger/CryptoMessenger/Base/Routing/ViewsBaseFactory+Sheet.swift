@@ -4,21 +4,26 @@ extension ViewsBaseFactory {
     @ViewBuilder
     static func makeSheet(link: BaseSheetLink) -> some View {
         switch link {
+        case let .countryCodeScene(delegate):
+            CountryCodePicker(delegate: delegate)
         case let .transactionResult(model):
             TransactionResultAssembly.build(model: model)
         case let .addSeed(coordinator):
             GeneratePhraseViewAssembly.build(coordinator: coordinator)
         case let .chatRoomMenu(model):
             ActionSheetViewAssembly.build(model: model)
+                // TODO: Удалить это отсюда
                     .presentationDetents([.height(435)])
         case let .createChat(view, onDisappear):
-            view().toolbar(.hidden, for: .navigationBar)
+            view()
+            // TODO: Удалить это отсюда
+                .toolbar(.hidden, for: .navigationBar)
                 .onDisappear {
                     onDisappear()
                 }
                 .anyView()
         case let .notifications(roomId):
-            ChannelNotificationsAssembly.build(roomId)
+            ChannelNotificationsAssembly.build(roomId: roomId)
         case let .galleryPicker(
             sourceType: sourceType,
             galleryContent: galleryContent,
@@ -41,7 +46,7 @@ extension ViewsBaseFactory {
             )
         case let .chatActions(room, onSelect):
             ChatActionsAssembly.build(
-                room,
+                room: room,
                 onSelect: onSelect
             ).anyView()
         case let .documentPicker(
@@ -95,18 +100,20 @@ extension ViewsBaseFactory {
             onReaction: onReaction
         ):
             RoomMessageMenuAssembly.build(
-                isCurrentUser,
-                isChannel,
-                userRole,
-                onAction,
-                onReaction
+                isCurrentUser: isCurrentUser,
+                isChannel: isChannel,
+                userRole: userRole,
+                onAction: onAction,
+                onReaction: onReaction
             )
+            // TODO: Удалить это отсюда
             .presentationDetents(
                 [.height(CGFloat(QiuckMenyViewSize.size(isCurrentUser, isChannel, userRole)))]
             )
             .anyView()
         case let .sendingMessageMenu(event, onTapItem):
             NotSendedMessageMenuAssembly.build(event, onTapItem)
+                // TODO: Удалить это отсюда
                 .presentationDetents([.height(CGFloat(166))])
                 .anyView()
         case let .transactionStatus(model):
@@ -115,7 +122,8 @@ extension ViewsBaseFactory {
         case let .settings(result):
             ProfileSettingsMenuAssembly.build(onSelect: result)
         case let .sheetPicker(sourceType):
-            ProfileFeedImageAssembly.build(sourceType)
+            ProfileFeedImageAssembly.build(sourceType: sourceType)
+                // TODO: Убрать это отсюда
                 .presentationDetents([.large, .height(337)])
         }
     }

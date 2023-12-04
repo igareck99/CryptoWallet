@@ -14,7 +14,10 @@ enum AuthCoordinatorAssembly {
         )
         let view = OnboardingView(viewModel: viewModel)
         let state = AuthState.shared
-        let router = AuhtRouter(state: state) {
+        let router = AuhtRouter(
+            state: state,
+            factory: ViewsBaseFactory.self
+        ) {
             view
         }
         let coordinator = AuthCoordinator(

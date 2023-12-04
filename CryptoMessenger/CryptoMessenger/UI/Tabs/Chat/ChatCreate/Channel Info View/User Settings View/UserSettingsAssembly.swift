@@ -1,11 +1,6 @@
 import SwiftUI
 
-// MARK: - UserSettingsAssembly
-
 enum UserSettingsAssembly {
-
-    // MARK: - Static Methods
-
     static func build(
         userId: Binding<String>,
         showBottomSheet: Binding<Bool>,

@@ -1,8 +1,6 @@
 import Foundation
 import SwiftUI
 
-// MARK: - ChatHistoryAssembly
-
 enum ChatHistoryAssembly {
 
     static func build() -> some View {

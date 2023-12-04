@@ -1,13 +1,10 @@
 import SwiftUI
 
-// MARK: - PinCodeAssembly
-
 enum PinCodeAssembly {
-
-    // MARK: - Static Methods
-
-    static func build(screenType: PinCodeScreenType,
-                      onLogin: @escaping () -> Void) -> some View {
+    static func build(
+        screenType: PinCodeScreenType,
+        onLogin: @escaping () -> Void
+    ) -> some View {
         let userSettings = UserDefaultsService.shared
         let keychainService = KeychainService.shared
         let biometryService = BiometryService()

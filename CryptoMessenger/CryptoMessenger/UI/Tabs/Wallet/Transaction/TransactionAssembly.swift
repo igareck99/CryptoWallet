@@ -1,11 +1,6 @@
 import SwiftUI
 
-// MARK: - TransactionConfigurator
-
-enum TransactionConfigurator {
-
-    // MARK: - Static Methods
-
+enum TransactionAssembly {
     static func build(
         selectorFilterIndex: Int,
         selectorTokenIndex: Int,

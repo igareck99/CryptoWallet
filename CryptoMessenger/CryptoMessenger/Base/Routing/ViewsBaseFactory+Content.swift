@@ -4,6 +4,10 @@ extension ViewsBaseFactory {
     @ViewBuilder
     static func makeContent(link: BaseContentLink) -> some View {
         switch link {
+        case let .registration(delegate):
+            RegistrationAssembly.build(delegate: delegate)
+        case let .verification(delegate):
+            VerificationAssembly.build(delegate: delegate)
         case let .addSeed(coordinator):
             GeneratePhraseViewAssembly.make(coordinator: coordinator)
         case let .importKey(coordinator):
@@ -19,14 +23,14 @@ extension ViewsBaseFactory {
             address,
             coordinator
         ):
-            TransactionConfigurator.build(
+            TransactionAssembly.build(
                 selectorFilterIndex: filterIndex,
                 selectorTokenIndex: tokenIndex,
                 address: address,
                 coordinator: coordinator
             )
         case let .transfer(wallet, coordinator, receiverData):
-            TransferConfigurator.build(
+            TransferViewAssembly.build(
                 wallet: wallet,
                 coordinator: coordinator,
                 receiverData: receiverData
@@ -37,7 +41,7 @@ extension ViewsBaseFactory {
                 coordinator: coordinator
             )
         case let .facilityApprove(transaction, coordinator):
-            FacilityApproveConfigurator.build(
+            FacilityApproveAssembly.build(
                 transaction: transaction,
                 coordinator: coordinator
             )
@@ -56,7 +60,10 @@ extension ViewsBaseFactory {
             room,
             coordinator
         ):
-            ChatSettingsAssembly.build(room, coordinator)
+            ChatSettingsAssembly.build(
+                room: room,
+                coordinator: coordinator
+            )
         case let .channelSettings(
             room,
             isLeaveChannel,
@@ -128,11 +135,11 @@ extension ViewsBaseFactory {
                 }
             )
         case let .newChat(room: room, coordinator: coordinator):
-            ChatViewAssembly.build(room, coordinator)
+            ChatViewAssembly.build(room: room, coordinator: coordinator)
         case let .createChat(coordinator):
-            ChatCreateAssembly.build(coordinator)
+            ChatCreateAssembly.build(coordinator: coordinator)
         case let .createContact(coordinator):
-            CreateContactsAssembly.build(coordinator)
+            CreateContactsAssembly.build(coordinator: coordinator)
         case let .createChannel(coordinator, contacts):
             CreateChannelAssemby.make(coordinator: coordinator)
         case let .selectContact(coordinator):
@@ -162,9 +169,12 @@ extension ViewsBaseFactory {
                 viewModel: viewModel
             )
         case let .profileDetail(coordinator, image):
-            ProfileDetailAssembly.build(coordinator, image)
+            ProfileDetailAssembly.build(
+                coordinator: coordinator,
+                image: image
+            )
         case let .security(coordinator):
-            SecurityAssembly.configuredView(coordinator)
+            SecurityAssembly.configuredView(coordinator: coordinator)
         case let .notifications(coordinator):
             NotificationSettingsAssembly.build(coordinator)
         case .aboutApp(_):
@@ -172,11 +182,12 @@ extension ViewsBaseFactory {
         case let .pinCode(screenType):
             PinCodeAssembly.build(screenType: screenType) {}
         case let .sessions(coordinator):
-            SessionAssembly.build(coordinator)
+            SessionAssembly.build(coordinator: coordinator)
         case .blockList:
             BlockedListAssembly.build()
         case let .countryCodeScene(delegate: delegate):
             CountryCodePicker(delegate: delegate)
+                // TODO: Удалить это отсюда
                 .navigationBarHidden(true)
         case .chatHistory:
             // TODO: ?????

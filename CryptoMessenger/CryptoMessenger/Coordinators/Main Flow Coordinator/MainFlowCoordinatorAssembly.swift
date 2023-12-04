@@ -1,8 +1,6 @@
 import UIKit
 import SwiftUI
 
-// MARK: - MainFlowCoordinatorAssembly
-
 enum MainFlowCoordinatorAssembly {
 	static func build(
         delegate: MainFlowCoordinatorDelegate,

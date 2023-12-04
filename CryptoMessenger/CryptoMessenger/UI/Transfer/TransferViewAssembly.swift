@@ -1,11 +1,6 @@
 import SwiftUI
 
-// MARK: - TransferConfigurator
-
-enum TransferConfigurator {
-
-    // MARK: - Static Methods
-
+enum TransferViewAssembly {
     static func build(
         wallet: WalletInfo,
         coordinator: TransferViewCoordinatable,

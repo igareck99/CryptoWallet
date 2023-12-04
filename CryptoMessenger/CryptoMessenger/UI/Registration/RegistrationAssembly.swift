@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-enum RegistrationConfigurator {
+enum RegistrationAssembly {
 
     static func build(delegate: RegistrationSceneDelegate?) -> some View {
         let viewModel = RegistrationPresenter(

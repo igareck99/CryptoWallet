@@ -3,11 +3,11 @@ import SwiftUI
 // MARK: - NameViewModel
 
 struct NameViewModel: Identifiable, ViewGeneratable {
-    
+
     var id = UUID()
     let lastMessageTime: Date
     let roomName: String
-    
+
     // MARK: - ViewGeneratable
 
     @ViewBuilder
@@ -19,9 +19,9 @@ struct NameViewModel: Identifiable, ViewGeneratable {
 // MARK: - NameView
 
 struct NameView: View {
-    
+
     let data: NameViewModel
-    
+
     var body: some View {
         HStack(alignment: .center) {
             displayNameView()
@@ -41,7 +41,7 @@ struct NameView: View {
         .font(.regular(14))
         .foreground(Color.romanSilver)
     }
-    
+
     private func displayNameView() -> some View {
         AnyView(
             Text(

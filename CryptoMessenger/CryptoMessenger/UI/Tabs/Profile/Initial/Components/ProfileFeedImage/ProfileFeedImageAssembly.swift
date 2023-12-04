@@ -1,13 +1,9 @@
 import SwiftUI
 
-// MARK: - ProfileFeedImageAssembly
-
 enum ProfileFeedImageAssembly {
-
-    // MARK: - Static Methods
-
-    static func build(_ sourceType: @escaping (UIImagePickerController.SourceType) -> Void)
-    -> some View {
+    static func build(
+        sourceType: @escaping GenericBlock<UIImagePickerController.SourceType>
+    ) -> some View {
         let view = SelectFeedImageView { type in
             sourceType(type)
         }

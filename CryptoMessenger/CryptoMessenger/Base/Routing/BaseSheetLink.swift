@@ -2,6 +2,9 @@ import SwiftUI
 
 enum BaseSheetLink: Hashable, Identifiable {
 
+    // Auth
+    case countryCodeScene(delegate: CountryCodePickerDelegate)
+
     // Wallet
     case transactionResult(model: TransactionResult)
     case addSeed(coordinator: PhraseGeneratable)

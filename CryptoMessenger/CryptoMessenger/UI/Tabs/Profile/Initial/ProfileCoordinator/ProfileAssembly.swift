@@ -1,14 +1,7 @@
 import SwiftUI
 
-// MARK: - ProfileAssembly
-
 enum ProfileAssembly {
-
-    // MARK: - Static Methods
-
-    static func build(
-        onlogout: @escaping () -> Void
-    ) -> some View {
+    static func build(onlogout: @escaping VoidBlock) -> some View {
         let userSettings = UserDefaultsService.shared
         let keychainService = KeychainService.shared
         let viewModel = ProfileViewModel(

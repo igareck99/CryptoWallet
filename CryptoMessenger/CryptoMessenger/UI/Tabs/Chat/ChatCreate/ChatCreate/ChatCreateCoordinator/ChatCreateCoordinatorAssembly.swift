@@ -1,7 +1,5 @@
 import SwiftUI
 
-// MARK: - ChatCreateCoordinatorAssembly
-
 enum ChatCreateCoordinatorAssembly {
     static func buld(
         onCoordinatorEnd: @escaping (Coordinator) -> Void,

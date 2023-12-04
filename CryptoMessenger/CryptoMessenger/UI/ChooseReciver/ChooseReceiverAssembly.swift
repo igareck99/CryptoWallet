@@ -1,11 +1,6 @@
 import SwiftUI
 
-// MARK: - ChooseReceiverAssembly
-
 enum ChooseReceiverAssembly {
-
-    // MARK: - Static Methods
-
     static func build(
         receiverData: Binding<UserReceiverData>,
         coordinator: TransferViewCoordinatable

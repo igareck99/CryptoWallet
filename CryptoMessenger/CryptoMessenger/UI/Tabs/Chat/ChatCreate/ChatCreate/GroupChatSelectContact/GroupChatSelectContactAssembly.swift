@@ -1,7 +1,5 @@
 import SwiftUI
 
-// MARK: - SelectContactAssembly
-
 enum GroupChatSelectContactAssembly {
     static func build(
         coordinator: ChatCreateFlowCoordinatorProtocol?

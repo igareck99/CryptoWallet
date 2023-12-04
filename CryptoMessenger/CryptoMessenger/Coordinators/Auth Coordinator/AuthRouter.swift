@@ -5,7 +5,7 @@ protocol AuhtRouterable: View {
 
     associatedtype Content: View
 
-    var content: () -> Content { get set }
+    var content: () -> Content { get }
 
     func showRegistrationScene(delegate: RegistrationSceneDelegate?)
 
@@ -19,39 +19,27 @@ protocol AuhtRouterable: View {
 
 }
 
-struct AuhtRouter<Content: View, State: AuthStatable>: View {
+struct AuhtRouter<
+    Content: View,
+    State: AuthStatable,
+    Factory: ViewsBaseFactoryProtocol
+>: View {
 
     @ObservedObject var state: State
-
-    var content: () -> Content
+    let factory: Factory.Type
+    let content: () -> Content
 
     var body: some View {
         NavigationStack(path: $state.path) {
             content()
-                .sheet(item: $state.presentedItem, content: sheetContent)
-                .navigationDestination(for: AuthContentLink.self, destination: linkDestination)
-        }
-    }
-
-    @ViewBuilder
-    private func linkDestination(link: AuthContentLink) -> some View {
-        switch link {
-            case let .registration(delegate):
-                RegistrationConfigurator.build(delegate: delegate)
-            case let .verification(delegate):
-                VerificationConfigurator.build(delegate: delegate)
-            default:
-                EmptyView()
-        }
-    }
-
-    @ViewBuilder
-    private func sheetContent(item: AuthSheetLink) -> some View {
-        switch item {
-            case let .countryCodeScene(delegate):
-                CountryCodePicker(delegate: delegate)
-            default:
-                EmptyView()
+                .sheet(
+                    item: $state.presentedItem,
+                    content: factory.makeSheet
+                )
+                .navigationDestination(
+                    for: BaseContentLink.self,
+                    destination: factory.makeContent
+                )
         }
     }
 }
@@ -62,18 +50,18 @@ extension AuhtRouter: AuhtRouterable {
 
     func showRegistrationScene(delegate: RegistrationSceneDelegate?) {
         state.path.append(
-            AuthContentLink.registration(delegate: delegate)
+            BaseContentLink.registration(delegate: delegate)
         )
     }
 
     func showVerificationScene(delegate: VerificationSceneDelegate?) {
         state.path.append(
-            AuthContentLink.verification(delegate: delegate)
+            BaseContentLink.verification(delegate: delegate)
         )
     }
 
     func showCountryCodeScene(delegate: CountryCodePickerDelegate) {
-        state.presentedItem = AuthSheetLink.countryCodeScene(delegate: delegate)
+        state.presentedItem = BaseSheetLink.countryCodeScene(delegate: delegate)
     }
 
     func popToRoot() {
