@@ -271,8 +271,8 @@ extension ChatHistoryRouter: ChatHistoryRouterable {
         )
     }
 
-    func showImageViewer(imageUrl: URL?) {
-        state.coverItem = .imageViewer(imageUrl: imageUrl)
+    func showImageViewer(image: Image?, imageUrl: URL?) {
+        state.coverItem = .imageViewer(imageUrl: imageUrl, image: image)
     }
 
     func showFile(name: String, fileUrl: URL) {

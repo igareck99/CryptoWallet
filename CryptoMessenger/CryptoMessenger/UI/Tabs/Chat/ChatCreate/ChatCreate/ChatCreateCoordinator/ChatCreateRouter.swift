@@ -2,6 +2,8 @@ import Foundation
 import SwiftUI
 
 protocol ChatCreateRouterable: View {
+    
+    func onCountryCodeScene(_ countryCode: CountryCodePickerDelegate)
 
     func selectContact(
         coordinator: ChatCreateFlowCoordinatorProtocol
@@ -107,6 +109,12 @@ extension ChatCreateRouter: ChatCreateRouterable {
             BaseContentLink.createChat(
                 coordinator: coordinator
             )
+        )
+    }
+    
+    func onCountryCodeScene(_ countryCode: CountryCodePickerDelegate) {
+        state.createPath.append(
+            BaseContentLink.countryCodeScene(delegate: countryCode)
         )
     }
 }

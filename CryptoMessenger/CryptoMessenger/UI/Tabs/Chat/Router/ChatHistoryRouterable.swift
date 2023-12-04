@@ -7,7 +7,7 @@ protocol ChatHistoryRouterable: View {
 
     func showFile(name: String, fileUrl: URL)
 
-    func showImageViewer(imageUrl: URL?)
+    func showImageViewer(image: Image?, imageUrl: URL?)
 
     func showOpenOtherApp(
         place: Place,

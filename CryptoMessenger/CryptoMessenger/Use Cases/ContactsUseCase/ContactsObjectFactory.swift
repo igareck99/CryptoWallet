@@ -20,6 +20,10 @@ protocol ContactsObjectFactoryProtocol {
                              lastUsers: [Contact],
                              data: [String: String],
                              onTap: @escaping (Contact) -> Void) -> [Contact]
+    func makeContactFromId(_ mxid: String,
+                           _ contact: ContactInfo,
+                           matrixUseCase: MatrixUseCaseProtocol,
+                           onTap: @escaping (Contact) -> Void) -> Contact?
 }
 
 struct ContactsObjectFactory {}
@@ -27,6 +31,25 @@ struct ContactsObjectFactory {}
 // MARK: - ContactsObjectFactory(ContactsObjectFactoryProtocol)
 
 extension ContactsObjectFactory: ContactsObjectFactoryProtocol {
+    
+    func makeContactFromId(_ mxid: String,
+                           _ contact: ContactInfo,
+                           matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
+                           onTap: @escaping (Contact) -> Void) -> Contact? {
+        let users: [MXUser] = matrixUseCase.allUsers()
+        guard let user = users.first(where: { $0.userId == mxid }) else { return nil }
+        let contact = Contact(
+            mxId: user.userId ?? "",
+            avatar: nil,
+            name: contact.firstName + contact.lastName,
+            status: user.statusMsg ?? "Привет, теперь я в Aura",
+            phone: "",
+            type: .lastUsers, onTap: { value in
+                onTap(value)
+            }
+        )
+        return contact
+    }
     
     func makeLastUsersContacts(contacts: [ContactInfo],
                                matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,

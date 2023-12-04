@@ -75,13 +75,25 @@ final class ContactsUseCase: ContactsUseCaseProtocol {
         apiClient.publisher(Endpoints.Users.users(phones))
             .replaceError(with: [:])
             .sink { response in
+                var userWithPhone: [Contact] = []
+                response.forEach { value in
+                    if let contactExisting = contacts.first(where: { $0.phoneNumber.numbers == value.key.numbers }) {
+                        let contact = self.contactsFactory.makeContactFromId(value.value, contactExisting,
+                                                                             matrixUseCase: self.matrixUseCase) { value in
+                            onTap(value)
+                        }
+                        if contact != nil {
+                            userWithPhone.append(contact!)
+                        }
+                    }
+                }
+                let idsWithPhones = userWithPhone.map { $0.mxId }
                 let lastUsers = self.contactsFactory.makeLastUsersContacts(contacts: contacts,
                                                                       matrixUseCase: self.matrixUseCase,
                                                                       config: self.config,
                                                                            data: response, onTap: { value in
                     onTap(value)
                 })
-
                 let existing = self.contactsFactory.makeExisitingContacts(contacts: contacts,
                                                                      config: self.config,
                                                                      lastUsers: lastUsers,
@@ -89,12 +101,23 @@ final class ContactsUseCase: ContactsUseCaseProtocol {
                     onTap(value)
                 })
                 var existingContacts = lastUsers + existing
+                if !userWithPhone.isEmpty {
+                    existingContacts = existingContacts.filter({ !idsWithPhones.contains($0.mxId) })
+                    existingContacts += userWithPhone
+                }
                 if mode == .send {
-                    let waitingContacts = self.contactsFactory.makeWaitingContacts(contacts: contacts,
+                    var waitingContacts = self.contactsFactory.makeWaitingContacts(contacts: contacts,
                                                                               lastUsers: lastUsers,
                                                                               data: response, onTap: { value in
                         onTap(value)
                     })
+                    if !waitingContacts.isEmpty {
+                        let phones = userWithPhone.map { $0.phone }
+                        waitingContacts.map {
+                            print("sl;asl;asl  \($0.phone.numbers)")
+                        }
+                        waitingContacts = waitingContacts.filter({ !phones.contains($0.phone.numbers) })
+                    }
                     existingContacts += waitingContacts
                 }
                 completion(existingContacts)
