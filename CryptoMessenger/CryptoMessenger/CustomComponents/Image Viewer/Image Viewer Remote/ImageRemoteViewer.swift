@@ -54,6 +54,7 @@ struct ImageViewerRemote: View {
                                 Image(systemName: "xmark")
                                     .foregroundColor(Color(UIColor.white))
                                     .font(.title2Regular22)
+                                    .padding()
                             }
                             .padding(.top, 64)
                             .padding(.trailing, 16)
