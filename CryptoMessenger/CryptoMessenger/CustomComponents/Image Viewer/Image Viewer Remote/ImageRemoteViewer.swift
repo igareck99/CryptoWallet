@@ -80,6 +80,7 @@ struct ImageViewerRemote: View {
                                             }
                                         )
                                         .aspectRatio(contentMode: .fit)
+                                        .padding([.top, .bottom], 50)
                                         .offset(y: self.dragOffset.height)
                                         .pinchToZoom()
                                     }
