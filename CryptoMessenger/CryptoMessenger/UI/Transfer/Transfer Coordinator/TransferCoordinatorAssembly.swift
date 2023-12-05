@@ -6,7 +6,7 @@ enum TransferCoordinatorAssembly {
         receiverData: UserReceiverData? = nil,
         path: Binding<NavigationPath>,
         presentedItem: Binding<BaseSheetLink?>,
-        onFinish: @escaping (Coordinator, TransactionSendResponse?) -> Void
+        onFinish: @escaping (Coordinator, TransactionResult) -> Void
     ) -> Coordinator {
         let state = TransferState(path: path, presentedItem: presentedItem)
         let router = TransferRouter(state: state)

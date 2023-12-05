@@ -12,9 +12,10 @@ extension ViewsBaseFactory {
             GeneratePhraseViewAssembly.make(coordinator: coordinator)
         case let .importKey(coordinator):
             ImportKeyViewAssembly.build(coordinator: coordinator)
-        case let .showPhrase(seed,coordinator):
+        case let .showPhrase(seed,type,coordinator):
             WatchKeyViewAssembly.make(
                 seed: seed,
+                type: type,
                 coordinator: coordinator
             )
         case let .transaction(

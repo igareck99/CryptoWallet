@@ -5,14 +5,14 @@ final class TransferCoordinator<Router: TransferRoutable> {
     var navigationController = UINavigationController()
     private var router: Router
     private let wallet: WalletInfo
-    private let onFinish: (Coordinator, TransactionSendResponse?) -> Void
+    private let onFinish: (Coordinator, TransactionResult) -> Void
     private var receiverData: UserReceiverData?
 
     init(
         wallet: WalletInfo,
         router: Router,
         receiverData: UserReceiverData? = nil,
-        onFinish: @escaping (Coordinator, TransactionSendResponse?) -> Void
+        onFinish: @escaping (Coordinator, TransactionResult) -> Void
     ) {
         self.wallet = wallet
         self.router = router
@@ -56,15 +56,12 @@ extension TransferCoordinator: TransferViewCoordinatable {
 // MARK: - FacilityApproveViewCoordinatable
 
 extension TransferCoordinator: FacilityApproveViewCoordinatable {
-    func onTransactionEnd(
-        model: TransactionResult,
-        rawTransaction: TransactionSendResponse?
-    ) {
+    func onTransactionEnd(model: TransactionResult) {
         router.popToRoot()
         delay(0.7) { [weak self] in
             guard let self = self else { return }
             self.router.showTransactionResult(model: model)
-            self.onFinish(self, rawTransaction)
+            self.onFinish(self, model)
         }
     }
 }

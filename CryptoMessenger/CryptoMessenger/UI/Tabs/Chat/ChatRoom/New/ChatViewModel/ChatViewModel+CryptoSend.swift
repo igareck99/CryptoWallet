@@ -6,21 +6,21 @@ import SwiftUI
 
 extension ChatViewModel {
 
-    func sendCryptoEvent(rawTransaction: TransactionSendResponse) {
+    func sendCryptoEvent(rawTransaction: TransactionResult) {
         let currentUserId: String = matrixUseCase.getUserId()
-        guard let receiverUserId: String = opponentId() else {
-            return
-        }
 
         let model = TransferCryptoEvent(
-            amount: "0.000002",
-            currency: "ETH",
+            amount: rawTransaction.transferAmount,
+            currency: rawTransaction.transferCurrency,
+            fee: rawTransaction.comissionAmount,
+            feeCurrency: rawTransaction.comissionCurrency,
             date: Date().timeIntervalSince1970,
-            receiver: receiverUserId,
+            receiver: rawTransaction.receiverName,
             sender: currentUserId,
-            hash: rawTransaction.hash,
+            hash: rawTransaction.txHash ?? "",
             block: "block",
-            status: "status"
+            status: "status",
+            cryptoType: rawTransaction.cryptoType
         )
         matrixUseCase.sendTransferCryptoEvent(
             roomId: room.roomId,
@@ -56,8 +56,8 @@ extension ChatViewModel {
                 wallet: wallet,
                 receiverData: receiverData
             ) { [weak self] rawTransaction in
-                guard let self = self, let rawTx = rawTransaction else { return }
-                self.sendCryptoEvent(rawTransaction: rawTx)
+                guard let self = self else { return }
+                self.sendCryptoEvent(rawTransaction: rawTransaction)
             }
         }
     }

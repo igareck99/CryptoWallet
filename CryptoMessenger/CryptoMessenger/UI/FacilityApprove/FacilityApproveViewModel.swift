@@ -4,10 +4,7 @@ import SwiftUI
 // swiftlint:disable all
 
 protocol FacilityApproveViewCoordinatable {
-    func onTransactionEnd(
-        model: TransactionResult,
-        rawTransaction: TransactionSendResponse?
-    )
+    func onTransactionEnd(model: TransactionResult)
 }
 
 // MARK: - FacilityApproveViewModel
@@ -195,11 +192,14 @@ extension FacilityApproveViewModel {
             amount: self.transaction.transferAmount + " " + self.transaction.transferCurrency,
             receiverName: receiverName,
             receiversWallet: self.transaction.reciverAddress ?? "",
-            result: isSuccess ? .success : .fail(failDescription ?? "failed")
+            result: isSuccess ? .success : .fail(failDescription ?? "failed"),
+            transferAmount: transaction.transferAmount,
+            transferCurrency: transaction.transferCurrency,
+            comissionAmount: transaction.comissionAmount,
+            comissionCurrency: transaction.comissionCurrency,
+            cryptoType: transaction.cryptoType,
+            txHash: rawTransaction?.hash
         )
-        self.coordinator.onTransactionEnd(
-            model: model,
-            rawTransaction: rawTransaction
-        )
+        self.coordinator.onTransactionEnd(model: model)
     }
 }

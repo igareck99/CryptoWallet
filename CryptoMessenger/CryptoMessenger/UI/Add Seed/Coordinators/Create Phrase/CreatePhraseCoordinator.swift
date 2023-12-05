@@ -17,9 +17,7 @@ final class CreatePhraseCoordinator<Router: CreatePhraseRouterable> {
 
     func finishFlow() {
         router.popToRoot()
-        DispatchQueue.main.async {
-            self.onFinish(self)
-        }
+        onFinish(self)
     }
 }
 
@@ -58,6 +56,7 @@ extension CreatePhraseCoordinator: WatchKeyViewModelDelegate {
     func showPhrase(seed: String) {
         router.showPhrase(
             seed: seed,
+            type: .endOfSeedCreation,
             coordinator: self
         )
     }
@@ -69,6 +68,7 @@ extension CreatePhraseCoordinator: WarningViewModelDelegate {
     func showSeedPhrase(seed: String) {
         router.showPhrase(
             seed: seed,
+            type: .endOfSeedCreation,
             coordinator: self
         )
     }

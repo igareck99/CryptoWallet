@@ -91,7 +91,11 @@ struct ImageViewer: View {
                             viewModel.imageScale = 1
                         }
                     }
-                        .simultaneously(with: DragGesture(minimumDistance: viewModel.imageScale == 1 ? .infinity : .zero))
+                        .simultaneously(
+                            with: DragGesture(
+                                minimumDistance: viewModel.imageScale == 1 ? .infinity : .zero
+                            )
+                        )
                         .simultaneously(with: TapGesture(count: 2).onEnded {
                             withAnimation {
                                 viewModel.imageScale = viewModel.imageScale > 1 ? 1 : 4

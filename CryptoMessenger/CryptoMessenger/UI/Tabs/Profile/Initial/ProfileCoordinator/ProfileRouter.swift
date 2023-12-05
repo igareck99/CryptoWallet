@@ -51,6 +51,7 @@ protocol ProfileRouterable {
 
     func showPhrase(
         seed: String,
+        type: WatchKeyViewType,
         coordinator: WatchKeyViewModelDelegate
     )
 }
@@ -98,11 +99,13 @@ extension ProfileRouter: ProfileRouterable {
 
     func showPhrase(
         seed: String,
+        type: WatchKeyViewType,
         coordinator: WatchKeyViewModelDelegate
     ) {
         state.path.append(
             BaseContentLink.showPhrase(
                 seed: seed,
+                type: type,
                 coordinator: coordinator
             )
         )

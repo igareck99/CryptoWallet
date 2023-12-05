@@ -163,16 +163,13 @@ struct ImportKeyView<ViewModel: ImportKeyViewModelProtocol>: View {
                 .foregroundColor(viewModel.resources.titleColor)
         }
         ToolbarItem(placement: .navigationBarLeading) {
-            Button(
-                action: {
-                    presentationMode.wrappedValue.dismiss()
-                },
-                label: {
-                    Text(viewModel.resources.backButtonImage)
-                        .font(.bodyRegular17)
-                        .foregroundColor(viewModel.resources.titleColor)
-                }
-            )
+            Button {
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                Text(viewModel.resources.backButtonImage)
+                    .font(.bodyRegular17)
+                    .foregroundColor(viewModel.resources.titleColor)
+            }
         }
     }
 }

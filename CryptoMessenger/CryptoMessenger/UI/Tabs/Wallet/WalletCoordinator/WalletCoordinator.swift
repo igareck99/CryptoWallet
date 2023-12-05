@@ -53,7 +53,8 @@ extension WalletCoordinator: WalletCoordinatable {
     }
 
     func onImportKey(onComplete: @escaping () -> Void) {
-        let coordinator = AddSeedCoordinatorAssembly.make(
+
+        let coordinator = CreatePhraseCoordinatorAssembly.build(
             path: router.routePath(),
             presentedItem: router.presentedItem()
         ) { [weak self] coordinator in

@@ -173,17 +173,21 @@ struct ProfileView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 if viewModel.isEmptyFeed {
-                    ChannelMediaEmptyState(image: viewModel.resources.emptyFeedImage,
-                                           title: "Пока нет публикаций",
-                                           description: "")
+                    ChannelMediaEmptyState(
+                        image: viewModel.resources.emptyFeedImage,
+                        title: "Пока нет публикаций",
+                        description: ""
+                    )
                 } else {
                     photosView
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                createToolBar()
-            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            createToolBar()
         }
     }
 

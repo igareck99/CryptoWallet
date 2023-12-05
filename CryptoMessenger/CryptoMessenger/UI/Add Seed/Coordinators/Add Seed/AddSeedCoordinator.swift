@@ -71,6 +71,7 @@ extension AddSeedCoordinator: WatchKeyViewModelDelegate {
     func showPhrase(seed: String) {
         router?.showPhrase(
             seed: seed,
+            type: .endOfSeedCreation,
             coordinator: self
         )
     }
@@ -82,6 +83,7 @@ extension AddSeedCoordinator: WarningViewModelDelegate {
     func showSeedPhrase(seed: String) {
         router?.showPhrase(
             seed: seed,
+            type: .endOfSeedCreation,
             coordinator: self
         )
     }
