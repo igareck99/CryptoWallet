@@ -100,6 +100,7 @@ final class ChatRoomViewModel: ObservableObject {
     var toggleFacade: MainFlowTogglesFacadeProtocol
     
     private let eventsFactory: RoomEventsFactoryProtocol.Type
+    private let pasteboardService: PasteboardServiceProtocol
     
     // MARK: - Lifecycle
 
@@ -116,7 +117,8 @@ final class ChatRoomViewModel: ObservableObject {
 		groupCallsUseCase: GroupCallsUseCaseProtocol,
         factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
         config: ConfigType = Configuration.shared,
-        eventsFactory: RoomEventsFactoryProtocol.Type = RoomEventsFactory.self
+        eventsFactory: RoomEventsFactoryProtocol.Type = RoomEventsFactory.self,
+        pasteboardService: PasteboardServiceProtocol = PasteboardService()
 	) {
         self.resources = resources
         self.room = room
@@ -129,6 +131,7 @@ final class ChatRoomViewModel: ObservableObject {
         self.userSettings = userSettings
         self.factory = factory
         self.eventsFactory = eventsFactory
+        self.pasteboardService = pasteboardService
         self.config = config
 		self.locationManager = locationManager
 		updateToggles()
@@ -212,6 +215,10 @@ final class ChatRoomViewModel: ObservableObject {
             }
             self?.coordinator?.firstAction(room: newRoom)
         }
+    }
+    
+    func onCopyTap(text: String) {
+        pasteboardService.copyToPasteboard(text: text)
     }
 
     func send(_ event: ChatRoomFlow.Event) {

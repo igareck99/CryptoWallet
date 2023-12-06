@@ -95,6 +95,7 @@ final class ProfileViewModel: ObservableObject {
     @Injectable private var matrixUseCase: MatrixUseCaseProtocol
     private let userSettings: UserCredentialsStorage & UserFlowsStorage
     private let keychainService: KeychainServiceProtocol
+    private let pasteboardService: PasteboardServiceProtocol
     let resources: ProfileResourcable.Type
 
     // MARK: - Lifecycle
@@ -103,12 +104,14 @@ final class ProfileViewModel: ObservableObject {
         coordinator: ProfileFlowCoordinatorProtocol? = nil,
         userSettings: UserCredentialsStorage & UserFlowsStorage,
         keychainService: KeychainServiceProtocol,
-        resources: ProfileResourcable.Type = ProfileResources.self
+        resources: ProfileResourcable.Type = ProfileResources.self,
+        pasteboardService: PasteboardServiceProtocol = PasteboardService()
     ) {
         self.coordinator = coordinator
         self.userSettings = userSettings
         self.keychainService = keychainService
         self.resources = resources
+        self.pasteboardService = pasteboardService
         bindInput()
         bindOutput()
     }
@@ -130,13 +133,16 @@ final class ProfileViewModel: ObservableObject {
         self.isEmptyFeed = self.profile.photosUrls.isEmpty
         self.objectWillChange.send()
     }
-    
+
     func onSafari(_ url: String) {
-        print("slasl;asl;s  \(url)")
         guard let url = URL(string: url) else { return }
         urlToOpen = url
         self.safari = SFSafariViewWrapper(link: url)
         showWebView = true
+    }
+
+    func onUserIdCopyTap() {
+        pasteboardService.copyToPasteboard(text: profile.nickname)
     }
 
     // MARK: - Private Methods

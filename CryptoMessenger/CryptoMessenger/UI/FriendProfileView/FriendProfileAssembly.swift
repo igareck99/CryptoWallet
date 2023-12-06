@@ -6,12 +6,10 @@ enum FriendProfileAssembly {
         roomId: String,
         coordinator: ChatHistoryFlowCoordinatorProtocol
     ) -> some View {
-        let keychainService = KeychainService.shared
         let viewModel = FriendProfileViewModel(
             userId: userId,
             roomId: roomId,
-            chatHistoryCoordinator: coordinator,
-            keychainService: keychainService
+            chatHistoryCoordinator: coordinator
         )
         let view = FriendProfileView(viewModel: viewModel)
         return view

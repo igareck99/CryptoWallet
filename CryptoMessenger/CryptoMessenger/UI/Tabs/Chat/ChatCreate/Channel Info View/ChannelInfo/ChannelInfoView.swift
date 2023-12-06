@@ -438,7 +438,6 @@ struct ChannelInfoView<ViewModel: ChannelInfoViewModelProtocol>: View {
             accessoryImageName: ""
         )
         .onTapGesture {
-            UIPasteboard.general.string = viewModel.room.roomId
             viewModel.onChannelLinkCopy()
         }
     }

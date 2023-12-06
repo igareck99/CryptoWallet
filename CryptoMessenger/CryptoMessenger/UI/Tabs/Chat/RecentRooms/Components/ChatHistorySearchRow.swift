@@ -50,7 +50,7 @@ struct ChatHistorySearchRow: View {
             placeholder: {
                 ZStack {
                     Color(.aliceBlue)
-                    Text(data.name.firstLetter.uppercased() ?? "?")
+                    Text(data.name.firstLetter.uppercased())
                         .foreground(.white)
                         .font(.title3Semibold20)
                 }

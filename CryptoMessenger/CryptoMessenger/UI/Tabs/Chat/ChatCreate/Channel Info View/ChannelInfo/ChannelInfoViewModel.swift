@@ -64,6 +64,7 @@ final class ChannelInfoViewModel {
     private let onInviteUsersToChannelGroup = DispatchGroup()
     private let matrixUseCase: MatrixUseCaseProtocol
     private let factory: ChannelUsersFactoryProtocol.Type
+    private let pasteboardService: PasteboardServiceProtocol
     private var roomPowerLevels: MXRoomPowerLevels?
     private var eventsListener: MXEventListener?
     private let accessService: MediaAccessProtocol & PhotosAccessProtocol
@@ -78,13 +79,15 @@ final class ChannelInfoViewModel {
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
         factory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
         accessService: MediaAccessProtocol & PhotosAccessProtocol = AccessService.shared,
-        resources: ChannelInfoResourcable.Type = ChannelInfoResources.self
+        resources: ChannelInfoResourcable.Type = ChannelInfoResources.self,
+        pasteboardService: PasteboardServiceProtocol = PasteboardService()
     ) {
         self.room = room
         self.chatData = chatData
         self.matrixUseCase = matrixUseCase
         self.factory = factory
         self.accessService = accessService
+        self.pasteboardService = pasteboardService
         self.assignTexts()
         self.getRoomInfo()
         self.loadUsers()
@@ -458,6 +461,7 @@ extension ChannelInfoViewModel: ChannelInfoViewModelProtocol {
     }
 
     func onChannelLinkCopy() {
+        pasteboardService.copyToPasteboard(text: room.roomId)
         isSnackbarPresented = true
         objectWillChange.send()
         delay(3) { [weak self] in
