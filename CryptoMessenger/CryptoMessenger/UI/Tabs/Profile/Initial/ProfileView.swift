@@ -301,7 +301,7 @@ struct ProfileView: View {
                 .frame(minWidth: 0,
                        maxWidth: 0.65 * UIScreen.main.bounds.width)
                 .onTapGesture {
-                    UIPasteboard.general.string = viewModel.profile.nickname
+                    viewModel.onUserIdCopyTap()
                     showAlert = true
                 }
         }

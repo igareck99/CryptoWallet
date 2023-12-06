@@ -3,15 +3,25 @@ import Foundation
 import MatrixSDK
 import SwiftUI
 
-// MARK: - FriendProfileViewModel
+protocol FriendProfileViewModelProtocol: ObservableObject {
+    var profile: ProfileItem { get set }
+    var userId: String { get set }
+    var messageText: String { get set }
+    var isSnackbarPresented: Bool { get set }
+    var sources: FriendProfileResourcable.Type { get }
+    var showWebView: Bool { get set }
+    var safari: SFSafariViewWrapper? { get set }
 
-final class FriendProfileViewModel: ObservableObject {
+    func send(_ event: FriendProfileFlow.Event)
+    func loadUserNote()
+    func onImageViewer(imageUrl: URL)
+    func onSafari(url: String)
+    func onUserIdTap()
+}
 
-    // MARK: - Internal Properties
+final class FriendProfileViewModel: FriendProfileViewModelProtocol {
 
     @Published var profile = ProfileItem()
-    let mediaService = MediaService()
-    let sources: FriendProfileResourcable.Type = FriendProfileResources.self
     @Published var userId: String
     @Published var roomId: String
     @Published var contact: Contact?
@@ -19,6 +29,8 @@ final class FriendProfileViewModel: ObservableObject {
     @Published var messageText: String = ""
     @Published var urlToOpen: URL?
     @Published var showWebView = false
+    let mediaService = MediaService()
+    let sources: FriendProfileResourcable.Type
     var safari: SFSafariViewWrapper?
 
     // MARK: - Private Properties
@@ -34,6 +46,7 @@ final class FriendProfileViewModel: ObservableObject {
     private let keychainService: KeychainServiceProtocol
     private let channelFactory: ChannelUsersFactoryProtocol.Type
     private let chatHistoryCoordinator: ChatHistoryFlowCoordinatorProtocol
+    private let pasteboardService: PasteboardServiceProtocol
 
     // MARK: - Lifecycle
 
@@ -42,8 +55,10 @@ final class FriendProfileViewModel: ObservableObject {
         roomId: String,
         chatHistoryCoordinator: ChatHistoryFlowCoordinatorProtocol,
         userDefaults: UserDefaultsService = UserDefaultsService.shared,
-        keychainService: KeychainServiceProtocol,
-        channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self
+        keychainService: KeychainServiceProtocol = KeychainService.shared,
+        channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
+        pasteboardService: PasteboardServiceProtocol = PasteboardService.shared,
+        sources: FriendProfileResourcable.Type = FriendProfileResources.self
     ) {
         self.userId = userId
         self.roomId = roomId
@@ -51,6 +66,8 @@ final class FriendProfileViewModel: ObservableObject {
         self.userDefaults = userDefaults
         self.keychainService = keychainService
         self.channelFactory = channelFactory
+        self.pasteboardService = pasteboardService
+        self.sources = sources
         bindInput()
         bindOutput()
     }
@@ -70,11 +87,15 @@ final class FriendProfileViewModel: ObservableObject {
         chatHistoryCoordinator.showImageViewer(image: nil, imageUrl: imageUrl)
     }
 
-    func onSafari(_ url: String) {
+    func onSafari(url: String) {
         guard let url = URL(string: url) else { return }
         urlToOpen = url
         self.safari = SFSafariViewWrapper(link: url)
         showWebView = true
+    }
+
+    func onUserIdTap() {
+        pasteboardService.copyToPasteboard(text: profile.nickname)
     }
 
     func loadUserNote() {

@@ -2,11 +2,11 @@ import SwiftUI
 
 // MARK: - FriendProfileView
 
-struct FriendProfileView: View {
+struct FriendProfileView<ViewModel: FriendProfileViewModelProtocol>: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel: FriendProfileViewModel
+    @StateObject var viewModel: ViewModel
     @State var showImageViewer = false
     @State var showNotesView = false
     @State var showCreateContact = false
@@ -62,17 +62,6 @@ struct FriendProfileView: View {
             .fullScreenCover(isPresented: $viewModel.showWebView) {
                 viewModel.safari
             }
-            .sheet(isPresented: $showNotesView, content: {
-                NotesView(viewModel: NotesViewModel(userId: viewModel.userId))
-                .background(
-                    CornerRadiusShape(radius: 16, corners: [.topLeft, .topRight])
-                        .fill(viewModel.sources.background)
-                )
-                .presentationDetents([.height(341)])
-                .onDisappear {
-                    viewModel.loadUserNote()
-                }
-            })
     }
 
     private var content: some View {
@@ -100,14 +89,14 @@ struct FriendProfileView: View {
                                             if viewModel.profile.socialNetwork.count < 4 {
                                                 ForEach(viewModel.profile.socialNetwork.filter({ !$0.url.isEmpty })) { item in
                                                     SocialNetworkView(item: item) {
-                                                        viewModel.onSafari(item.fullUrl)
+                                                        viewModel.onSafari(url: item.fullUrl)
                                                     }
                                                 }.foreground(Color.dodgerBlue)
                                             } else {
                                                 ForEach(viewModel.profile.socialNetwork) { item in
                                                     if !item.url.isEmpty {
                                                         SocialNetworkView(item: item) {
-                                                            viewModel.onSafari(item.fullUrl)
+                                                            viewModel.onSafari(url: item.fullUrl)
                                                         }
                                                     }
                                                 }.foreground(Color.dodgerBlue)
@@ -125,7 +114,7 @@ struct FriendProfileView: View {
                                             ForEach(viewModel.profile.socialNetwork) { item in
                                                 if !item.url.isEmpty {
                                                     SocialNetworkView(item: item) {
-                                                        viewModel.onSafari(item.url)
+                                                        viewModel.onSafari(url: item.url)
                                                     }
                                                 }
                                             }
@@ -276,10 +265,12 @@ struct FriendProfileView: View {
                 Text(viewModel.profile.nicknameDisplay)
                     .font(.bodyRegular17)
                     .lineLimit(1)
-                    .frame(minWidth: 0,
-                           maxWidth: 0.5 * UIScreen.main.bounds.width)
+                    .frame(
+                        minWidth: 0,
+                        maxWidth: 0.5 * UIScreen.main.bounds.width
+                    )
                     .onTapGesture {
-                        UIPasteboard.general.string = viewModel.profile.nickname
+                        viewModel.onUserIdTap()
                         showAlert = true
                     }
             }

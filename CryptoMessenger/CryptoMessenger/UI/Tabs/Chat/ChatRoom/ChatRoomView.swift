@@ -345,7 +345,7 @@ struct ChatRoomView: View {
                             onAction: {
                                 switch $0 {
                                 case .copy:
-                                    UIPasteboard.general.string = message.description
+                                    viewModel.onCopyTap(text: message.description)
                                 case .delete:
                                     viewModel.send(.onDelete(messageId))
                                 case .edit:

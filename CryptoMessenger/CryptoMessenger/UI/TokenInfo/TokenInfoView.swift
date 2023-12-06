@@ -1,86 +1,55 @@
 import SwiftUI
-import CoreImage.CIFilterBuiltins
 
-// MARK: - TokenInfoView
+struct TokenInfoView<ViewModel: TokenInfoViewModelProtocol>: View {
 
-struct TokenInfoView: View {
-
-    // MARK: - Internal Properties
-
-    @StateObject var viewModel: TokenInfoViewModel
-    @State var showAddresses = false
-    let context = CIContext()
-    let filter = CIFilter.qrCodeGenerator()
+    @StateObject var viewModel: ViewModel
     @Environment(\.presentationMode) private var presentationMode
 
     // MARK: - Body
 
     var body: some View {
-        ScrollView {
-            content.popup(
-                isPresented: $showAddresses,
-                type: .toast,
-                position: .bottom,
-                closeOnTap: false,
-                closeOnTapOutside: true,
-                backgroundColor: viewModel.resources.backgroundFodding
-            ) {
-                SelectTokenView(
-                    showSelectToken: $showAddresses,
-                    address: $viewModel.address,
-                    viewModel: viewModel
-                )
-                .frame(
-                    width: UIScreen.main.bounds.width,
-                    height: CGFloat(viewModel.addresses.count * 64 + 50),
-                    alignment: .center
-                )
-                .background(viewModel.resources.background)
-                .cornerRadius(16)
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarHidden(false)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                createToolBar()
-            }
-        }
-        .popup(
-            isPresented: viewModel.isSnackbarPresented,
-            alignment: .bottom
-        ) {
-            Snackbar(
-                text: viewModel.resources.tokenInfoAddressCopied,
-                color: viewModel.resources.buttonBackground
-            )
-        }
-    }
-
-    // MARK: - Private Properties
-
-    private var content: some View {
-        VStack(alignment: .center) {
-            Spacer()
-                .frame(height: 50)
-
-            QRCodeView
-                .padding(.bottom, 20)
-
-			copyAddressButton
-				.padding(.bottom, 32)
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .center) {
+                    Spacer()
+                        .frame(height: 50)
+                    
+                    QRCodeView
+                        .padding(.bottom, 20)
+                    
+                    copyAddressButton
+                        .padding(.bottom, 32)
+                        .padding(.horizontal, 16)
+                    
+                    shareButton
+                        .frame(height: 48)
+                    
+                    Spacer()
+                }
                 .padding(.horizontal, 16)
-
-            shareButton
-                .frame(height: 48)
-
-            Spacer()
+            }
+            .popup(
+                isPresented: viewModel.isSnackbarPresented,
+                alignment: .bottom
+            ) {
+                Snackbar(
+                    text: viewModel.resources.tokenInfoAddressCopied,
+                    color: viewModel.resources.buttonBackground
+                )
+            }
         }
-        .padding(.horizontal, 16)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarHidden(false)
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .tabBar)
+        .toolbar {
+            createToolBar()
+        }
     }
 
     private var QRCodeView: some View {
         ZStack {
-            generateQRCode(from: "\(viewModel.address.address)")
+            viewModel.generateQRCode()
                 .resizable()
                 .scaledToFit()
                 .frame(width: UIScreen.main.bounds.width - 66,
@@ -106,7 +75,6 @@ struct TokenInfoView: View {
                 .foregroundColor(viewModel.resources.titleColor)
 				.padding(.trailing, 8)
 				.onTapGesture {
-                    UIPasteboard.general.string = viewModel.address.address
 					viewModel.onAddressCopy()
 				}
 		}
@@ -163,18 +131,6 @@ struct TokenInfoView: View {
     }
 
     // MARK: - Private Methods
-
-    private func generateQRCode(from string: String) -> Image {
-        filter.message = Data(string.utf8)
-        if let outputImage = filter.outputImage {
-            if let image = context.createCGImage(outputImage, from: outputImage.extent) {
-                return Image(uiImage: UIImage(cgImage: image))
-                    .interpolation(.none)
-            }
-        }
-        return viewModel.resources.xmarkCircle
-            .interpolation(.none)
-    }
 
 	private func actionSheet() {
 

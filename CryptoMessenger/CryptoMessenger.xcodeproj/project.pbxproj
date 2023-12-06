@@ -806,6 +806,13 @@
 		D491820029233FA7009F8C33 /* UINavigationController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49181FF29233FA7009F8C33 /* UINavigationController+Extensions.swift */; };
 		D494D62F2A2DE7830029D222 /* CodeVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D494D62E2A2DE7830029D222 /* CodeVerificationView.swift */; };
 		D494D6312A2DE80E0029D222 /* CodeVerificationResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D494D6302A2DE80E0029D222 /* CodeVerificationResources.swift */; };
+		D4985B862B206DF800033BEE /* SelectTokenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4985B852B206DF800033BEE /* SelectTokenViewModel.swift */; };
+		D4985B882B206E8200033BEE /* TokenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4985B872B206E8200033BEE /* TokenView.swift */; };
+		D4985B8A2B206EB600033BEE /* SelectTokenViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4985B892B206EB600033BEE /* SelectTokenViewAssembly.swift */; };
+		D4985B8D2B20744500033BEE /* TokenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4985B8C2B20744500033BEE /* TokenViewModel.swift */; };
+		D4985B8F2B20759600033BEE /* SelectTokenViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4985B8E2B20759600033BEE /* SelectTokenViewFactory.swift */; };
+		D4985B912B207F2600033BEE /* SelectTokenResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4985B902B207F2600033BEE /* SelectTokenResources.swift */; };
+		D4985B942B20804D00033BEE /* QRCodeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4985B932B20804D00033BEE /* QRCodeService.swift */; };
 		D49C89C6290A6AF6005B4F64 /* ReactionTextsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C0290A6AF5005B4F64 /* ReactionTextsItem.swift */; };
 		D49C89C7290A6AF6005B4F64 /* ReactionsGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C1290A6AF5005B4F64 /* ReactionsGroupViewModel.swift */; };
 		D49C89C8290A6AF6005B4F64 /* ViewGeneratable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49C89C2290A6AF5005B4F64 /* ViewGeneratable.swift */; };
@@ -1826,6 +1833,13 @@
 		D49181FF29233FA7009F8C33 /* UINavigationController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extensions.swift"; sourceTree = "<group>"; };
 		D494D62E2A2DE7830029D222 /* CodeVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeVerificationView.swift; sourceTree = "<group>"; };
 		D494D6302A2DE80E0029D222 /* CodeVerificationResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeVerificationResources.swift; sourceTree = "<group>"; };
+		D4985B852B206DF800033BEE /* SelectTokenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTokenViewModel.swift; sourceTree = "<group>"; };
+		D4985B872B206E8200033BEE /* TokenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenView.swift; sourceTree = "<group>"; };
+		D4985B892B206EB600033BEE /* SelectTokenViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTokenViewAssembly.swift; sourceTree = "<group>"; };
+		D4985B8C2B20744500033BEE /* TokenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenViewModel.swift; sourceTree = "<group>"; };
+		D4985B8E2B20759600033BEE /* SelectTokenViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTokenViewFactory.swift; sourceTree = "<group>"; };
+		D4985B902B207F2600033BEE /* SelectTokenResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTokenResources.swift; sourceTree = "<group>"; };
+		D4985B932B20804D00033BEE /* QRCodeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeService.swift; sourceTree = "<group>"; };
 		D49C89C0290A6AF5005B4F64 /* ReactionTextsItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionTextsItem.swift; sourceTree = "<group>"; };
 		D49C89C1290A6AF5005B4F64 /* ReactionsGroupViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionsGroupViewModel.swift; sourceTree = "<group>"; };
 		D49C89C2290A6AF5005B4F64 /* ViewGeneratable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewGeneratable.swift; sourceTree = "<group>"; };
@@ -2127,6 +2141,7 @@
 				8BBF9082293514B000936F4D /* NotificationsSettings */,
 				8B23C76B28E0A16C00418F2D /* FriendProfileView */,
 				8B4E9C4B27E3ADE10057E4C9 /* SuccessFacility */,
+				D4985B842B206DC100033BEE /* Select Token */,
 				8BE3798D27E9C44900AB6B6E /* TokenInfo */,
 				8B4E9C4027E1E21F0057E4C9 /* FacilityApprove */,
 				8B5A338227D89C9F0064C7DC /* Transfer */,
@@ -2255,6 +2270,7 @@
 		5A187EDA2680CF49001957D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D4985B922B20803B00033BEE /* QR Code Service */,
 				D4584A462B1DB75900BCB15A /* Pasteboard Service */,
 				D4C8CF4E2A45C09A007CC925 /* App Time Service */,
 				D413F0FF29BF3441005B7532 /* Access Service */,
@@ -3858,7 +3874,6 @@
 			children = (
 				8BE3798E27E9C47C00AB6B6E /* TokenInfoView.swift */,
 				8BE3799227E9C4A200AB6B6E /* TokenInfoViewModel.swift */,
-				8BE3799827EA133700AB6B6E /* SelectTokenView.swift */,
 				D400CF8E2A69492C002CF15C /* TokenInfoResources.swift */,
 				D4B1011E2A668DFA00F3C856 /* TokenInfoAssembly.swift */,
 			);
@@ -4810,6 +4825,36 @@
 			path = "Video Player";
 			sourceTree = "<group>";
 		};
+		D4985B842B206DC100033BEE /* Select Token */ = {
+			isa = PBXGroup;
+			children = (
+				D4985B8B2B20741300033BEE /* Views */,
+				D4985B892B206EB600033BEE /* SelectTokenViewAssembly.swift */,
+				8BE3799827EA133700AB6B6E /* SelectTokenView.swift */,
+				D4985B852B206DF800033BEE /* SelectTokenViewModel.swift */,
+				D4985B8E2B20759600033BEE /* SelectTokenViewFactory.swift */,
+				D4985B902B207F2600033BEE /* SelectTokenResources.swift */,
+			);
+			path = "Select Token";
+			sourceTree = "<group>";
+		};
+		D4985B8B2B20741300033BEE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D4985B872B206E8200033BEE /* TokenView.swift */,
+				D4985B8C2B20744500033BEE /* TokenViewModel.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D4985B922B20803B00033BEE /* QR Code Service */ = {
+			isa = PBXGroup;
+			children = (
+				D4985B932B20804D00033BEE /* QRCodeService.swift */,
+			);
+			path = "QR Code Service";
+			sourceTree = "<group>";
+		};
 		D49C89BF290A6ADF005B4F64 /* Message Reactions  */ = {
 			isa = PBXGroup;
 			children = (
@@ -5507,6 +5552,7 @@
 				5A3C9412274AE93100818060 /* FlippedModifier.swift in Sources */,
 				D414FD802AE7A5D200E18720 /* ViewsBaseFactory+Content.swift in Sources */,
 				5ABAD3A027C286CF0067DFC1 /* SettingsView.swift in Sources */,
+				D4985B882B206E8200033BEE /* TokenView.swift in Sources */,
 				8B717A8E28AB946F0078833B /* AnotherAppDataView.swift in Sources */,
 				8B009A572A72A85A000C650F /* ProfileFeedImageType.swift in Sources */,
 				8BCE67B72ADDBCB4004F02F6 /* SelectContactChips.swift in Sources */,
@@ -5753,6 +5799,8 @@
 				D46C901A294775F900DD0B01 /* EnvironmentValues+Extensions.swift in Sources */,
 				D447D4F92AC6BCAD007225B4 /* MatrixUseCase+Calls.swift in Sources */,
 				D4137B312A9B2A36001241B6 /* PaddingModel.swift in Sources */,
+				D4985B8D2B20744500033BEE /* TokenViewModel.swift in Sources */,
+				D4985B942B20804D00033BEE /* QRCodeService.swift in Sources */,
 				5A1D265C275973940085324F /* CornerRadiusStyle.swift in Sources */,
 				8B1C927E2A4B49A400937460 /* ChatCreateFlowState.swift in Sources */,
 				5A7EDE74275402ED0049DC4A /* BlockListViewModel.swift in Sources */,
@@ -5865,6 +5913,7 @@
 				D4584A482B1DB77000BCB15A /* PasteboardService.swift in Sources */,
 				78EDCAF9286AAEAC00D3CBC5 /* MapViewModel.swift in Sources */,
 				8B6C18C6279ABB1200B85F2A /* SecurityFlow.swift in Sources */,
+				D4985B8F2B20759600033BEE /* SelectTokenViewFactory.swift in Sources */,
 				D414FD7E2AE7A58E00E18720 /* ViewsBaseFactory+Sheet.swift in Sources */,
 				8B7E290429C20AEF001A11C6 /* AsyncImage.swift in Sources */,
 				8BCE67B92ADDC0CA004F02F6 /* ContactsForSendView.swift in Sources */,
@@ -5959,6 +6008,7 @@
 				D401A9BA2AAEF2B000D347F2 /* ChatHistoryRouter+ChatHistoryRouterable.swift in Sources */,
 				D4B39AFE289BE271006F2D99 /* Dictionary+Extensions.swift in Sources */,
 				8B6B707E2A30BBAE00D99156 /* GroupCallsAssembly.swift in Sources */,
+				D4985B912B207F2600033BEE /* SelectTokenResources.swift in Sources */,
 				D4A8535F295C796400F2B944 /* TrackableScroll.swift in Sources */,
 				7857B5A1286190980006D2D3 /* LocationEvent.swift in Sources */,
 				D445C84328462B46003C3D5C /* P2PCallsAssembly.swift in Sources */,
@@ -6117,6 +6167,7 @@
 				8BAC812729F1BF3900316A8E /* MXRoomNotificationSettingsService.swift in Sources */,
 				8BF0FCD6281174F900FF7C6F /* CreateContactViewModel.swift in Sources */,
 				8B5A338C27D89D6D0064C7DC /* TransferFlow.swift in Sources */,
+				D4985B8A2B206EB600033BEE /* SelectTokenViewAssembly.swift in Sources */,
 				8B32FEB7298AC8480017082A /* ChannelUsersFactory.swift in Sources */,
 				8B985D0C2A5C400A00F25D8C /* MembersViewAssembly.swift in Sources */,
 				D40061612A53E192004D5F35 /* Image+Extensions.swift in Sources */,
@@ -6158,6 +6209,7 @@
 				D494D6312A2DE80E0029D222 /* CodeVerificationResources.swift in Sources */,
 				D4FA3F74281A7374000246D8 /* TimeInterval+Extensions.swift in Sources */,
 				D4A8537A295DA50800F2B944 /* Snackbar.swift in Sources */,
+				D4985B862B206DF800033BEE /* SelectTokenViewModel.swift in Sources */,
 				D4137B412A9B82D7001241B6 /* DocumentItemView.swift in Sources */,
 				8BFF387B27D91092005D88C9 /* NumberTextField.swift in Sources */,
 				D450698F297A65FA009515C8 /* ChannelParticipantView.swift in Sources */,
