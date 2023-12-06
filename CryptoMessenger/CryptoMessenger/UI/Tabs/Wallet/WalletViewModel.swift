@@ -148,49 +148,49 @@ final class WalletViewModel: ObservableObject {
         let params = walletModelsFactory.makeAddressRequestParams(keychainService: keychainService)
         let group = DispatchGroup()
         group.enter()
-		walletNetworks.getAddress(params: params) { [weak self] response in
+        walletNetworks.getAddress(params: params) { [weak self] response in
             guard
                 let self = self, case let .success(addresses) = response
             else {
                 return
             }
 
-			let savedWallets: [WalletNetwork] = self.coreDataService.getWalletNetworks()
+            let savedWallets: [WalletNetwork] = self.coreDataService.getWalletNetworks()
 
-			if let ethereumAddress: String = addresses.ethereum?.first?.address,
-			   let wallet: WalletNetwork = savedWallets
-				.first(where: { $0.cryptoType == CryptoType.ethereum.rawValue }) {
-				   wallet.address = ethereumAddress
-				   self.coreDataService.updateWalletNetwork(model: wallet)
-			   }
+            if let ethereumAddress: String = addresses.ethereum?.first?.address,
+               let wallet: WalletNetwork = savedWallets
+                .first(where: { $0.cryptoType == CryptoType.ethereum.rawValue }) {
+                wallet.address = ethereumAddress
+                self.coreDataService.updateWalletNetwork(model: wallet)
+            }
 
-			if let bitcoinAddress = addresses.bitcoin?.first?.address,
-			   let wallet: WalletNetwork = savedWallets
-				.first(where: { $0.cryptoType == CryptoType.bitcoin.rawValue }) {
-				   wallet.address = bitcoinAddress
-				   self.coreDataService.updateWalletNetwork(model: wallet)
-			   }
+            if let bitcoinAddress = addresses.bitcoin?.first?.address,
+               let wallet: WalletNetwork = savedWallets
+                .first(where: { $0.cryptoType == CryptoType.bitcoin.rawValue }) {
+                wallet.address = bitcoinAddress
+                self.coreDataService.updateWalletNetwork(model: wallet)
+            }
 
-      if let binanceAddress = addresses.binance?.first?.address,
-          let wallet: WalletNetwork = savedWallets
-          .first(where: { $0.cryptoType == CryptoType.binance.rawValue }) {
-              wallet.address = binanceAddress
-              self.coreDataService.updateWalletNetwork(model: wallet)
-          }
+            if let binanceAddress = addresses.binance?.first?.address,
+               let wallet: WalletNetwork = savedWallets
+                .first(where: { $0.cryptoType == CryptoType.binance.rawValue }) {
+                wallet.address = binanceAddress
+                self.coreDataService.updateWalletNetwork(model: wallet)
+            }
 
-      if let auraAddress = addresses.aura?.first?.address,
-          let wallet: WalletNetwork = savedWallets
-          .first(where: { $0.cryptoType == CryptoType.aura.rawValue }) {
-          wallet.address = auraAddress
-          self.coreDataService.updateWalletNetwork(model: wallet)
-      }
+            if let auraAddress = addresses.aura?.first?.address,
+               let wallet: WalletNetwork = savedWallets
+                .first(where: { $0.cryptoType == CryptoType.aura.rawValue }) {
+                wallet.address = auraAddress
+                self.coreDataService.updateWalletNetwork(model: wallet)
+            }
             group.leave()
-		}
+        }
         group.notify(queue: .main) {
             self.updateUserWallet()
             self.getBalance()
         }
-	}
+    }
 
 	func getBalance() {
 
@@ -402,9 +402,19 @@ final class WalletViewModel: ObservableObject {
             guard let self = self,
                   case let .success(networkTokens) = result else { return }
 
+            let nTokens: [NetworkToken] = self.coreDataService.getNetworksTokens()
+            let nTokensAddrs: Set<String> = nTokens
+                .map { $0.address }
+                .compactMap { $0 }
+                .asSet
+
             walletModelsFactory
                 .networkTokenResponseParse(response: networkTokens)
                 .forEach {
+
+                    guard let addrs = $0.networkTokenModel.address,
+                          nTokensAddrs.contains(addrs) == false else { return }
+
                     self.coreDataService.createNetworkToken(
                         token: $0.networkTokenModel,
                         network: $0.cryptoType.rawValue
@@ -442,16 +452,23 @@ final class WalletViewModel: ObservableObject {
     // MARK: - Private Methods
 
     private func bindInput() {
-        
+
         keychainService.seedPublisher
             .receive(on: DispatchQueue.main)
+            .removeDuplicates()
             .sink { [weak self] seed in
-                guard seed != nil, seed?.isEmpty == false else { return }
+                guard let newSeed: String = seed,
+                      let phrase: String = self?.keychainService.secretPhrase,
+                      newSeed != phrase,
+                      newSeed.isEmpty == false else {
+                    debugPrint("SEED EXISTS !!!")
+                    return
+                }
                 self?.updateWallets()
                 self?.updateUserWallet()
                 self?.objectWillChange.send()
             }.store(in: &subscriptions)
-        
+
         eventSubject
             .sink { [weak self] event in
                 switch event {
@@ -483,7 +500,7 @@ final class WalletViewModel: ObservableObject {
                         self?.updateUserWallet()
                         self?.objectWillChange.send()
                     }
-				case .onTransfer(walletIndex: let walletIndex):
+				case let .onTransfer(walletIndex):
 					guard let wallet = self?.cardsList[safe: walletIndex] else { return }
                     self?.coordinator?.onTransfer(wallet: wallet)
 				}
