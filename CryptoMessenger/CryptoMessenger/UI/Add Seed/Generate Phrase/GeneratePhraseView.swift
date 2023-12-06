@@ -26,6 +26,7 @@ struct GeneratePhraseView<ViewModel: GeneratePhraseViewModelProtocol>: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             createToolBar()
@@ -34,8 +35,6 @@ struct GeneratePhraseView<ViewModel: GeneratePhraseViewModelProtocol>: View {
 
     private var generateView: some View {
         VStack(alignment: .center, spacing: 0) {
-
-
             Text(viewModel.resources.secretPhraseDescription)
                 .font(.subheadlineRegular15)
                 .foregroundColor(viewModel.resources.textColor)
@@ -93,24 +92,6 @@ struct GeneratePhraseView<ViewModel: GeneratePhraseViewModelProtocol>: View {
         .frame(width: 237, height: 48)
         .background(viewModel.resources.buttonBackground)
         .cornerRadius(8)
-    }
-
-    private var textView: some View {
-        TextEditor(text: $viewModel.generatedKey)
-            .cornerRadius(8)
-            .padding(.leading, 16)
-            .background(
-                viewModel.resources.textBoxBackground
-                    .cornerRadius(8)
-                    .frame(minHeight: 160)
-            )
-            .foregroundColor(viewModel.resources.titleColor)
-            .font(.bodyRegular17)
-            .frame(maxWidth: .infinity)
-            .padding(.horizontal, 16)
-            .frame(height: 160)
-            .disabled(true)
-            .scrollContentBackground(.hidden)
     }
 
     @ToolbarContentBuilder

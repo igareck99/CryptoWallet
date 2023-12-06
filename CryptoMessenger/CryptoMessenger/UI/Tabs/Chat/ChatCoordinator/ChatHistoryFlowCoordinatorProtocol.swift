@@ -132,6 +132,6 @@ protocol ChatHistoryFlowCoordinatorProtocol: Coordinator {
     func transferCrypto(
         wallet: WalletInfo,
         receiverData: UserReceiverData?,
-        onTransferCompletion: @escaping (TransactionSendResponse?) -> Void
+        onTransferCompletion: @escaping (TransactionResult) -> Void
     )
 }

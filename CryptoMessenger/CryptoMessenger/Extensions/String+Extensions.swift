@@ -1,19 +1,13 @@
 import Foundation
 
-// MARK: - String ()
-
 extension String {
     
     static let empty = ""
-
-    // MARK: - Internal Properties
 
     var firstUppercased: String { prefix(1).uppercased() + dropFirst() }
     var firstCapitalized: String { prefix(1).capitalized + dropFirst() }
     var firstLetter: String { first.map(String.init) ?? "" }
     var numbers: String { filter { "0"..."9" ~= $0 } }
-
-    // MARK: - Internal Methods
 
     subscript(i: Int) -> String { self[i ..< i + 1] }
 
@@ -68,4 +62,17 @@ extension String {
         
         return "@" + self + ":" + cleanedServer
     }
+}
+
+// MARK: - Last Event Image Names
+
+extension String {
+    static let cameraFill = "camera.fill"
+    static let docFill = "doc.fill"
+    static let userCropCircle = "person.crop.circle"
+    static let locationFill = "location.fill"
+    static let micFill = "mic.fill"
+    static let videoFill = "video.fill"
+    static let phoneUpRightFill = "phone.arrow.up.right.fill"
+    static let phoneDownLeftFill = "phone.arrow.down.left.fill"
 }

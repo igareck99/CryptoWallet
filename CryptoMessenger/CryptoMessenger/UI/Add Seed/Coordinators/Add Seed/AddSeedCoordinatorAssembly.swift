@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum AddSeedCoordinatorAssembly {
-    static func make(
+    static func build(
         path: Binding<NavigationPath>,
         presentedItem: Binding<BaseSheetLink?>,
         onFinish: @escaping (Coordinator) -> Void

@@ -18,12 +18,6 @@ struct SecurityView: View {
     var body: some View {
         content
         .background(viewModel.resources.innactiveBackground)
-        .navigationBarHidden(false)
-        .toolbar(.hidden, for: .tabBar)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            createToolBar()
-        }
         .onAppear {
             viewModel.send(.onAppear)
         }
@@ -40,22 +34,30 @@ struct SecurityView: View {
     }
 
     private var content: some View {
-        List {
-            Section {
-                securitySection
-            } header: {
-                Text(viewModel.resources.securityTitle)
-            }
-            if viewModel.isPrivacyAvailable {
+        NavigationView {
+            List {
                 Section {
-                    privacySection
+                    securitySection
                 } header: {
-                    Text(viewModel.resources.securityPrivacy)
-                        .foregroundColor(viewModel.resources.textColor)
+                    Text(viewModel.resources.securityTitle)
+                }
+                if viewModel.isPrivacyAvailable {
+                    Section {
+                        privacySection
+                    } header: {
+                        Text(viewModel.resources.securityPrivacy)
+                            .foregroundColor(viewModel.resources.textColor)
+                    }
                 }
             }
+            .listStyle(.insetGrouped)
         }
-        .listStyle(.insetGrouped)
+        .toolbar(.hidden, for: .tabBar)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            createToolBar()
+        }
     }
 
     private var securitySection: some View {

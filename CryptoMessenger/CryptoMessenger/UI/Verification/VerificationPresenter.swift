@@ -274,6 +274,7 @@ private extension VerificationPresenter  {
     ) {
         userSettings.userId = userId
         userSettings.isLocalAuth = true
+        privateDataCleaner.resetPrivateData()
         // Пересохраняем телефон под новым service name (serviceName + userMatrixId)
         keychainService.apiUserPhoneNumber = phone
         keychainService.isApiUserAuthenticated = true

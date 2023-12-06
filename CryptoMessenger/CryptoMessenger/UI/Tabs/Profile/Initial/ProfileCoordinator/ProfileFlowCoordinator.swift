@@ -150,6 +150,7 @@ extension ProfileFlowCoordinator: ProfileFlowCoordinatorProtocol {
     func showPhrase(seed: String) {
         router.showPhrase(
             seed: seed,
+            type: .showSeed,
             coordinator: self
         )
     }

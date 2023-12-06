@@ -12,6 +12,7 @@ protocol CreatePhraseRouterable: ObservableObject {
 
     func showPhrase(
         seed: String,
+        type: WatchKeyViewType,
         coordinator: WatchKeyViewModelDelegate
     )
 }
@@ -52,11 +53,13 @@ extension CreatePhraseRouter: CreatePhraseRouterable {
 
     func showPhrase(
         seed: String,
+        type: WatchKeyViewType,
         coordinator: WatchKeyViewModelDelegate
     ) {
         state.path.append(
             BaseContentLink.showPhrase(
                 seed: seed,
+                type: type,
                 coordinator: coordinator
             )
         )

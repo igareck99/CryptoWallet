@@ -10,9 +10,10 @@ protocol WatchKeyViewModelProtocol: ObservableObject {
     var isSnackbarPresented: Bool { get set }
     var generatedKey: String { get }
     var resources: WatchKeyResourcable.Type { get }
+    var type: WatchKeyViewType { get }
 
     func onCopyKeyTap()
-    func onAddDidTap()
+    func onCloseTap()
 }
 
 final class WatchKeyViewModel {
@@ -23,16 +24,19 @@ final class WatchKeyViewModel {
     @Published var generatedKey: String
     let resources: WatchKeyResourcable.Type
     let coordinator: WatchKeyViewModelDelegate
+    let type: WatchKeyViewType
     let pasteboardService: PasteboardServiceProtocol
 
     init (
         generatedKey: String,
         coordinator: WatchKeyViewModelDelegate,
+        type: WatchKeyViewType = .showSeed,
         pasteboardService: PasteboardServiceProtocol = PasteboardService.shared,
         resources: WatchKeyResourcable.Type = WatchKeyResources.self
     ) {
         self.generatedKey = generatedKey
         self.coordinator = coordinator
+        self.type = type
         self.pasteboardService = pasteboardService
         self.resources = resources
     }
@@ -49,7 +53,7 @@ extension WatchKeyViewModel: WatchKeyViewModelProtocol {
         }
     }
 
-    func onAddDidTap() {
+    func onCloseTap() {
         coordinator.didFinishShowPhrase()
     }
 }

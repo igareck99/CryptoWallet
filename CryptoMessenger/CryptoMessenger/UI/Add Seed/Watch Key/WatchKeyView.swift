@@ -29,7 +29,8 @@ struct WatchKeyView<ViewModel: WatchKeyViewModelProtocol>: View {
 
                     Spacer()
                 }
-            }.popup(
+            }
+            .popup(
                 isPresented: viewModel.isSnackbarPresented,
                 alignment: .bottom
             ) {
@@ -76,19 +77,34 @@ struct WatchKeyView<ViewModel: WatchKeyViewModelProtocol>: View {
 
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
-        ToolbarItem(placement: .navigationBarLeading) {
-            Button {
-                presentationMode.wrappedValue.dismiss()
-            } label: {
-                Text(viewModel.resources.backButtonImage)
-                    .font(.bodyRegular17)
-                    .foregroundColor(viewModel.resources.titleColor)
+        if viewModel.type == .showSeed {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Text(viewModel.resources.backButtonImage)
+                        .font(.bodyRegular17)
+                        .foregroundColor(viewModel.resources.titleColor)
+                }
             }
         }
+
         ToolbarItem(placement: .principal) {
             Text("Секретная фраза")
                 .font(.bodySemibold17)
                 .foregroundColor(viewModel.resources.titleColor)
+        }
+
+        if viewModel.type == .endOfSeedCreation {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    viewModel.onCloseTap()
+                } label: {
+                    Text(Image(systemName: "xmark"))
+                        .font(.bodyRegular17)
+                        .foregroundColor(viewModel.resources.titleColor)
+                }
+            }
         }
     }
 }

@@ -56,21 +56,27 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
         router.chatMedia(room: room)
     }
 
-    func roomSettings(isChannel: Bool,
-                      chatData: Binding<ChatData>,
-                      room: AuraRoomData,
-                      isLeaveChannel: Binding<Bool>,
-                      coordinator: ChatHistoryFlowCoordinatorProtocol) {
+    func roomSettings(
+        isChannel: Bool,
+        chatData: Binding<ChatData>,
+        room: AuraRoomData,
+        isLeaveChannel: Binding<Bool>,
+        coordinator: ChatHistoryFlowCoordinatorProtocol
+    ) {
         if isChannel || !room.isDirect {
-            router.channelSettings(chatData: chatData,
-                                   room: room,
-                                   isLeaveChannel: isLeaveChannel,
-                                   coordinator: coordinator)
+            router.channelSettings(
+                chatData: chatData,
+                room: room,
+                isLeaveChannel: isLeaveChannel,
+                coordinator: coordinator
+            )
         } else {
-            router.chatSettings(chatData: chatData,
-                                room: room,
-                                isLeaveChannel: isLeaveChannel,
-                                coordinator: coordinator)
+            router.chatSettings(
+                chatData: chatData,
+                room: room,
+                isLeaveChannel: isLeaveChannel,
+                coordinator: coordinator
+            )
         }
     }
 
@@ -276,7 +282,7 @@ extension ChatHistoryFlowCoordinator: ChatHistoryFlowCoordinatorProtocol {
     func transferCrypto(
         wallet: WalletInfo,
         receiverData: UserReceiverData?,
-        onTransferCompletion: @escaping (TransactionSendResponse?) -> Void
+        onTransferCompletion: @escaping (TransactionResult) -> Void
     ) {
         let transferCoordinator = TransferCoordinatorAssembly.build(
             wallet: wallet,

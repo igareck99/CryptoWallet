@@ -13,6 +13,7 @@ enum BaseContentLink: Hashable, Identifiable {
 
     case showPhrase(
         seed: String,
+        type: WatchKeyViewType,
         coordinator: WatchKeyViewModelDelegate
     )
 

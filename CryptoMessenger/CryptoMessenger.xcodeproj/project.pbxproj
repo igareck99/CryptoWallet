@@ -766,6 +766,7 @@
 		D47657D02A418C95001E8D7C /* CallActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47657CF2A418C95001E8D7C /* CallActionButton.swift */; };
 		D47657D22A41CF42001E8D7C /* CallsVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47657D12A41CF42001E8D7C /* CallsVideoView.swift */; };
 		D47674112B1E10B1005E77B9 /* ActionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47674102B1E10B1005E77B9 /* ActionsViewModel.swift */; };
+		D47674132B1F7E73005E77B9 /* WatchKeyViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47674122B1F7E73005E77B9 /* WatchKeyViewType.swift */; };
 		D477F3192B10ABB300BFB9B0 /* TransactionInfoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D477F3182B10ABB300BFB9B0 /* TransactionInfoDetailView.swift */; };
 		D47987CD284CBBAF00ACEE64 /* StatusBarCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */; };
 		D48110262AC1683E00A709EA /* JitsiWidgetFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48110252AC1683E00A709EA /* JitsiWidgetFactory.swift */; };
@@ -1785,6 +1786,7 @@
 		D47657CF2A418C95001E8D7C /* CallActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallActionButton.swift; sourceTree = "<group>"; };
 		D47657D12A41CF42001E8D7C /* CallsVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsVideoView.swift; sourceTree = "<group>"; };
 		D47674102B1E10B1005E77B9 /* ActionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsViewModel.swift; sourceTree = "<group>"; };
+		D47674122B1F7E73005E77B9 /* WatchKeyViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchKeyViewType.swift; sourceTree = "<group>"; };
 		D477F3182B10ABB300BFB9B0 /* TransactionInfoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInfoDetailView.swift; sourceTree = "<group>"; };
 		D47987CC284CBBAF00ACEE64 /* StatusBarCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarCallView.swift; sourceTree = "<group>"; };
 		D48110252AC1683E00A709EA /* JitsiWidgetFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JitsiWidgetFactory.swift; sourceTree = "<group>"; };
@@ -2237,7 +2239,6 @@
 				5AEB80FA26DCEA49009A1944 /* Resources.swift */,
 				5A42680B26A838B1000C51DD /* Localizable */,
 				5AA6410E26825C79008922B4 /* Assets */,
-				5AA6410D26825C38008922B4 /* Typography */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2770,13 +2771,6 @@
 				5A9318E126C5B15F00645365 /* ColorStyle.swift */,
 			);
 			path = StyleGuide;
-			sourceTree = "<group>";
-		};
-		5AA6410D26825C38008922B4 /* Typography */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Typography;
 			sourceTree = "<group>";
 		};
 		5AA6410E26825C79008922B4 /* Assets */ = {
@@ -4515,6 +4509,7 @@
 				D4584A272B18D3E700BCB15A /* WatchKeyView.swift */,
 				D4584A292B18D41F00BCB15A /* WatchKeyViewModel.swift */,
 				D4584A2B2B18D7CB00BCB15A /* WatchKeyResources.swift */,
+				D47674122B1F7E73005E77B9 /* WatchKeyViewType.swift */,
 			);
 			path = "Watch Key";
 			sourceTree = "<group>";
@@ -5787,6 +5782,7 @@
 				8B8812702922818000EDB348 /* MXRoom+Notifications.swift in Sources */,
 				D4752EA428C22502006B650A /* Base32Encoder.m in Sources */,
 				D40BCE9D2A3C2A3600056725 /* P2PCallView.swift in Sources */,
+				D47674132B1F7E73005E77B9 /* WatchKeyViewType.swift in Sources */,
 				8B451FDF299EBFA700BF4646 /* ChannelNewOwnerView.swift in Sources */,
 				8B34293129787A5F00F63DE1 /* PrivacyCellView.swift in Sources */,
 				D4533A182833567D00B956B2 /* RemoteConfigValues.swift in Sources */,
