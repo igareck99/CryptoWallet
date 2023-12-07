@@ -3,7 +3,7 @@ import SwiftUI
 
 enum ProfileDetailAssembly {
     static func build(
-        coordinator: ProfileFlowCoordinatorProtocol,
+        coordinator: ProfileCoordinatable,
         image: Binding<UIImage?>
     ) -> some View {
         let userSettings = UserDefaultsService.shared

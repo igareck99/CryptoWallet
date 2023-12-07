@@ -2,7 +2,7 @@ import SwiftUI
 
 enum NotificationSettingsAssembly {
     static func build(
-        _ coordinator: ProfileFlowCoordinatorProtocol
+        _ coordinator: ProfileCoordinatable
     ) -> some View {
         let userSettings = UserDefaultsService.shared
         let viewModel = NotificationSettingsViewModel(userSettings: userSettings)

@@ -174,14 +174,6 @@ extension AppCoordinator: AppCoordinatorProtocol {
             notification: notification,
             delegate: self
         )
-        // TODO: - Переделать для нового координатора
-//            guard
-//                let chatRoomDelegate = self?.childCoordinators
-//                    .values.first(where: { $0 is ChatRoomSceneDelegate }) as? ChatRoomSceneDelegate
-//            else {
-//                return nil
-//            }
-//            return chatRoomDelegate
 
 		if !userSettings.isLocalAuth && userSettings.isAuthFlowFinished {
 			addChildCoordinator(pushCoordinator)

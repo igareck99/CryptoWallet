@@ -7,7 +7,7 @@ final class ProfileDetailViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    var coordinator: ProfileFlowCoordinatorProtocol?
+    var coordinator: ProfileCoordinatable?
 
     @Published var profile = ProfileItem()
     @Published var closeScreen = false

@@ -21,7 +21,7 @@ enum BaseContentLink: Hashable, Identifiable {
 
     case chatRoom(
         room: AuraRoom,
-        coordinator: ChatHistoryFlowCoordinatorProtocol
+        coordinator: ChatsCoordinatable
     )
 
     case chatHistory
@@ -30,14 +30,14 @@ enum BaseContentLink: Hashable, Identifiable {
         room: AuraRoomData,
         isLeaveChannel: Binding<Bool>,
         chatData: Binding<ChatData>,
-        coordinator: ChatHistoryFlowCoordinatorProtocol
+        coordinator: ChatsCoordinatable
     )
 
     case chatSettings(
         Binding<ChatData>,
         Binding<Bool>,
         AuraRoomData,
-        ChatHistoryFlowCoordinatorProtocol
+        ChatsCoordinatable
     )
 
     case chatMedia(
@@ -47,17 +47,17 @@ enum BaseContentLink: Hashable, Identifiable {
     case friendProfile(
         userId: String,
         roomId: String,
-        coordinator: ChatHistoryFlowCoordinatorProtocol
+        coordinator: ChatsCoordinatable
     )
 
     case adminList(
         chatData: Binding<ChatData>,
-        coordinator: ChatHistoryFlowCoordinatorProtocol
+        coordinator: ChatsCoordinatable
     )
 
     case chatMembers(
         chatData: Binding<ChatData>,
-        coordinator: ChatHistoryFlowCoordinatorProtocol
+        coordinator: ChatsCoordinatable
     )
 
     case galleryPicker(
@@ -71,7 +71,7 @@ enum BaseContentLink: Hashable, Identifiable {
         mode: ContactViewMode,
         chatData: Binding<ChatData>,
         contactsLimit: Int? = nil,
-        coordinator: ChatHistoryFlowCoordinatorProtocol,
+        coordinator: ChatsCoordinatable,
         onUsersSelected: ([Contact]) -> Void
     )
 
@@ -82,7 +82,7 @@ enum BaseContentLink: Hashable, Identifiable {
 
     case newChat(
         room: AuraRoomData,
-        coordinator: ChatHistoryFlowCoordinatorProtocol
+        coordinator: ChatsCoordinatable
     )
 
     // Wallet
@@ -149,26 +149,26 @@ enum BaseContentLink: Hashable, Identifiable {
     )
 
     case profileDetail(
-        _ coordinator: ProfileFlowCoordinatorProtocol,
+        _ coordinator: ProfileCoordinatable,
         _ image: Binding<UIImage?>
     )
 
     case security(
-        _ coordinator: ProfileFlowCoordinatorProtocol
+        _ coordinator: ProfileCoordinatable
     )
 
     case notifications(
-        _ coordinator: ProfileFlowCoordinatorProtocol
+        _ coordinator: ProfileCoordinatable
     )
 
     case aboutApp(
-        _ coordinator: ProfileFlowCoordinatorProtocol
+        _ coordinator: ProfileCoordinatable
     )
 
     case pinCode(PinCodeScreenType)
 
     case sessions(
-        _ coordinator: ProfileFlowCoordinatorProtocol
+        _ coordinator: ProfileCoordinatable
     )
 
     case blockList

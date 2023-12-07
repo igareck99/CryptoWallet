@@ -6,7 +6,7 @@ enum SelectContactAssembly {
         chatData: Binding<ChatData> = .constant(.init()),
         contactsLimit: Int? = nil,
         coordinator: ChatCreateFlowCoordinatorProtocol? = nil,
-        chatHistoryCoordinator: ChatHistoryFlowCoordinatorProtocol? = nil,
+        chatHistoryCoordinator: ChatsCoordinatable? = nil,
         onUsersSelected: @escaping ([Contact]) -> Void
     ) -> some View {
         let viewModel = SelectContactViewModel(

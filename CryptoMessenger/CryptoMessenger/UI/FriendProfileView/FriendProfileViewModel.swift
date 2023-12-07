@@ -45,7 +45,7 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
     private let userDefaults: UserDefaultsService
     private let keychainService: KeychainServiceProtocol
     private let channelFactory: ChannelUsersFactoryProtocol.Type
-    private let chatHistoryCoordinator: ChatHistoryFlowCoordinatorProtocol
+    private let chatHistoryCoordinator: ChatsCoordinatable
     private let pasteboardService: PasteboardServiceProtocol
 
     // MARK: - Lifecycle
@@ -53,7 +53,7 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
     init(
         userId: String,
         roomId: String,
-        chatHistoryCoordinator: ChatHistoryFlowCoordinatorProtocol,
+        chatHistoryCoordinator: ChatsCoordinatable,
         userDefaults: UserDefaultsService = UserDefaultsService.shared,
         keychainService: KeychainServiceProtocol = KeychainService.shared,
         channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,

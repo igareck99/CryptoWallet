@@ -4,9 +4,8 @@ enum ProfileFeedImageAssembly {
     static func build(
         sourceType: @escaping GenericBlock<UIImagePickerController.SourceType>
     ) -> some View {
-        let view = SelectFeedImageView { type in
-            sourceType(type)
-        }
+        let viewModel = SelectFeedImageViewModel(sourceType: sourceType)
+        let view = SelectFeedImageView(viewModel: viewModel)
         return view
     }
 }

@@ -2,11 +2,11 @@ import SwiftUI
 
 // MARK: - ProfileView
 
-struct ProfileView: View {
+struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel: ProfileViewModel
+    @StateObject var viewModel: ViewModel
     @State var showImageEdtior = false
     @State var showImageViewer = false
     @State var selectedAvatarImage: UIImage?
@@ -47,28 +47,30 @@ struct ProfileView: View {
                 viewModel.safari
             }
             .onChange(of: viewModel.selectedImage, perform: { _ in
-                viewModel.send(.onImageEditor(isShowing: $showImageEdtior,
-                                              image: $viewModel.selectedImage,
-                                              viewModel: viewModel))
+                viewModel.send(
+                    .onImageEditor(
+                        isShowing: $showImageEdtior,
+                        image: $viewModel.selectedImage
+                    )
+                )
             })
-            .fullScreenCover(isPresented: self.$showImageViewer,
-                             content: {
-                ImageViewerRemote(selectedItem: getTagItem(),
-                                  imageURL: self.$viewModel.selectedPhoto,
-                                  viewerShown: self.$showImageViewer,
-                                  urls: viewModel.profile.photosUrls, onDelete: {
-                    viewModel.deleteImageByUrl {
-                        showImageViewer = false
+            .fullScreenCover(isPresented: $showImageViewer, content: {
+                ImageViewerRemote(
+                    selectedItem: getTagItem(),
+                    imageURL: $viewModel.selectedPhoto,
+                    viewerShown: $showImageViewer,
+                    urls: viewModel.profile.photosUrls,
+                    onDelete: {
+                        viewModel.deleteImageByUrl { showImageViewer = false }
+                    },
+                    onShare: {
+                        viewModel.shareImage { showShareImage = true }
                     }
-                }, onShare: {
-                    viewModel.shareImage {
-                        showShareImage = true
-                    }
+                )
+                .ignoresSafeArea()
+                .sheet(isPresented: $showShareImage, content: {
+                    FeedShareSheet(image: viewModel.imageToShare)
                 })
-                    .ignoresSafeArea()
-                    .sheet(isPresented: $showShareImage, content: {
-                        FeedShareSheet(image: viewModel.imageToShare)
-                            })
             })
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(viewModel.resources.profileCopied))

@@ -4,7 +4,7 @@ enum FriendProfileAssembly {
     static func build(
         userId: String,
         roomId: String,
-        coordinator: ChatHistoryFlowCoordinatorProtocol
+        coordinator: ChatsCoordinatable
     ) -> some View {
         let viewModel = FriendProfileViewModel(
             userId: userId,

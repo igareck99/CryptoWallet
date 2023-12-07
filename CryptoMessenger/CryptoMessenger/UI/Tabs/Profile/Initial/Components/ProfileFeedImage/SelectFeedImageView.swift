@@ -1,18 +1,12 @@
 import SwiftUI
 
-// MARK: - SelectFeedImageView
+struct SelectFeedImageView<ViewModel: SelectFeedImageViewModelProtocol>: View {
 
-struct SelectFeedImageView: View {
-
-    // MARK: - Internal Properties
-
-    let sourceType: (UIImagePickerController.SourceType) -> Void
-
-    // MARK: - Body
+    @StateObject var viewModel: ViewModel
 
     var body: some View {
         LazyVStack {
-            ForEach(SelectFeedImageType.allCases, id: \.self) { type in
+            ForEach(viewModel.displayItems, id: \.self) { type in
                 HStack(alignment: .center, content: {
                     HStack(spacing: 16) {
                         type.image
@@ -24,10 +18,11 @@ struct SelectFeedImageView: View {
                 .padding(.horizontal, 16)
                 .frame(height: 57)
                 .onTapGesture {
-                    sourceType(type.systemType)
+                    viewModel.onSourceTypeTap(type: type.systemType)
                 }
             }
         }
+        .presentationDetents([.height(viewModel.itemsHeight())])
         .toolbar(.visible, for: .tabBar)
         .listStyle(.plain)
     }

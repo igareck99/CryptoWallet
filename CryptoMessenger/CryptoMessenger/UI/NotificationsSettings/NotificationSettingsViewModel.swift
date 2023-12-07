@@ -8,7 +8,7 @@ final class NotificationSettingsViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    var coordinator: ProfileFlowCoordinatorProtocol?
+    var coordinator: ProfileCoordinatable?
     @Published var isNotificationDevice = false
     @Published var allMessages = NotificationSettings(item: NotificationSettingsItems.allMessages,
                                                       state: false)

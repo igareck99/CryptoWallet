@@ -46,7 +46,7 @@ enum BaseSheetLink: Hashable, Identifiable {
         mode: ContactViewMode,
         chatData: Binding<ChatData>,
         contactsLimit: Int? = nil,
-        coordinator: ChatHistoryFlowCoordinatorProtocol,
+        coordinator: ChatsCoordinatable,
         onUsersSelected: ([Contact]) -> Void
     )
 

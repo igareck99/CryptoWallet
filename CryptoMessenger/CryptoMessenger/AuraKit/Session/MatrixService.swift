@@ -55,20 +55,24 @@ final class MatrixService: MatrixServiceProtocol {
 	var roomListDataFetcher: MXRoomListDataFetcher?
     var auraRooms: [AuraRoomData] {
         let rooms = matrixObjectsFactory
-            .makeAuraRooms(mxRooms: session?.rooms,
-                           isMakeEvents: true,
-                                  config: Configuration.shared,
-                                  eventsFactory: RoomEventObjectFactory(),
-                                  matrixUseCase: MatrixUseCase.shared)
+            .makeAuraRooms(
+                mxRooms: session?.rooms,
+                isMakeEvents: true,
+                config: Configuration.shared,
+                eventsFactory: RoomEventObjectFactory(),
+                matrixUseCase: MatrixUseCase.shared
+            )
         return rooms
     }
     var auraNoEventsRooms: [AuraRoomData] {
         let rooms = matrixObjectsFactory
-            .makeAuraRooms(mxRooms: session?.rooms,
-                           isMakeEvents: false,
-                                  config: Configuration.shared,
-                                  eventsFactory: RoomEventObjectFactory(),
-                                  matrixUseCase: MatrixUseCase.shared)
+            .makeAuraRooms(
+                mxRooms: session?.rooms,
+                isMakeEvents: false,
+                config: Configuration.shared,
+                eventsFactory: RoomEventObjectFactory(),
+                matrixUseCase: MatrixUseCase.shared
+            )
         return rooms
     }
 	var rooms: [AuraRoom] {
@@ -296,6 +300,8 @@ extension MatrixService {
         guard let userId = client?.credentials.userId else { completion(false); return }
 
         let pushKey = pushToken.base64EncodedString()
+        // MARK: - оставил для тестирования
+//        let token = pushToken.map { String(format: "%02.2hhx", $0) }.joined()
         
         let pushData: [String: Any] = [
             "url": config.pusherUrl,

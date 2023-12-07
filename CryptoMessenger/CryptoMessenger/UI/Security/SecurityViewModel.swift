@@ -9,7 +9,7 @@ final class SecurityViewModel: SecurityViewModelProtocol {
 
     // MARK: - Internal Properties
 
-    var coordinator: ProfileFlowCoordinatorProtocol?
+    var coordinator: ProfileCoordinatable?
 
     @Published private(set) var state: SecurityFlow.ViewState = .idle
     @Published var profileObserveState = ""
