@@ -9,11 +9,14 @@ protocol MatrixObjectFactoryProtocol {
 		mxRooms: [MXRoom]?,
 		isRoomUserActive: @escaping (String) -> Bool
     ) -> [AuraRoom]
-    func makeAuraRooms(mxRooms: [MXRoom]?,
-                       isMakeEvents: Bool,
-                       config: ConfigType,
-                       eventsFactory: RoomEventObjectFactoryProtocol,
-                       matrixUseCase: MatrixUseCaseProtocol) -> [AuraRoomData]
+
+    func makeAuraRooms(
+        mxRooms: [MXRoom]?,
+        isMakeEvents: Bool,
+        config: ConfigType,
+        eventsFactory: RoomEventObjectFactoryProtocol,
+        matrixUseCase: MatrixUseCaseProtocol
+    ) -> [AuraRoomData]
 }
 
 struct MatrixObjectFactory {}
@@ -40,11 +43,13 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
 		return auraRooms
 	}
 
-    func makeAuraRooms(mxRooms: [MXRoom]?,
-                       isMakeEvents: Bool,
-                       config: ConfigType,
-                       eventsFactory: RoomEventObjectFactoryProtocol,
-                       matrixUseCase: MatrixUseCaseProtocol) -> [AuraRoomData] {
+    func makeAuraRooms(
+        mxRooms: [MXRoom]?,
+        isMakeEvents: Bool,
+        config: ConfigType,
+        eventsFactory: RoomEventObjectFactoryProtocol,
+        matrixUseCase: MatrixUseCaseProtocol
+    ) -> [AuraRoomData] {
         guard let matrixRooms = mxRooms else { return [] }
         let auraRooms: [AuraRoomData] = matrixRooms
             .map { mxRoom in
@@ -90,23 +95,25 @@ extension MatrixObjectFactory: MatrixObjectFactoryProtocol {
                     roomName = String(rName)
                 }
 
-                let room = AuraRoomData(isChannel: powerLevels,
-                                        isAdmin: isAdmin,
-                                        isPinned: false,
-//                                           isOnline: isRoomUserActive(mxRoom.directUserId),
-                                        isOnline: false,
-                                        isDirect: mxRoom.isDirect,
-                                        unreadedEvents: Int(unreadedEvents),
-                                        lastMessage: messageType,
-                                        lastMessageTime: summary.lastMessageDate,
-                                        roomAvatar: roomAvatar,
-                                        roomName: roomName,
-                                        numberUsers: Int(members),
-                                        topic: summary.summary?.topic ?? "",
-                                        roomId: roomId,
-                                        events: events,
-                                        eventCollections: EventCollection(currentBatch),
-                                        participants: [])
+                let room = AuraRoomData(
+                    isChannel: powerLevels,
+                    isAdmin: isAdmin,
+                    isPinned: false,
+//                    isOnline: isRoomUserActive(mxRoom.directUserId),
+                    isOnline: false,
+                    isDirect: mxRoom.isDirect,
+                    unreadedEvents: Int(unreadedEvents),
+                    lastMessage: messageType,
+                    lastMessageTime: summary.lastMessageDate,
+                    roomAvatar: roomAvatar,
+                    roomName: roomName,
+                    numberUsers: Int(members),
+                    topic: summary.summary?.topic ?? "",
+                    roomId: roomId,
+                    events: events,
+                    eventCollections: EventCollection(currentBatch),
+                    participants: []
+                )
                 return room
             }
             .compactMap { $0 }

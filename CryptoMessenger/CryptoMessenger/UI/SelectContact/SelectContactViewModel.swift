@@ -23,7 +23,7 @@ final class SelectContactViewModel: ObservableObject, SelectContactViewModelDele
     var onUsersSelected: ([Contact]) -> Void
     let resources: SelectContactResourcable.Type = SelectContactResources.self
     var coordinator: ChatCreateFlowCoordinatorProtocol?
-    var chatHistoryCoordinator: ChatHistoryFlowCoordinatorProtocol?
+    var chatHistoryCoordinator: ChatsCoordinatable?
     private let config: ConfigType
 
     // MARK: - Private Properties

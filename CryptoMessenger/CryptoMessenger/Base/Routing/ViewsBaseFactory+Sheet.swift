@@ -123,8 +123,6 @@ extension ViewsBaseFactory {
             ProfileSettingsMenuAssembly.build(onSelect: result)
         case let .sheetPicker(sourceType):
             ProfileFeedImageAssembly.build(sourceType: sourceType)
-                // TODO: Убрать это отсюда
-                .presentationDetents([.large, .height(337)])
         }
     }
 }

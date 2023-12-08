@@ -11,9 +11,8 @@ protocol MainFlowTogglesFacadeProtocol {
 // MARK: - MainFlowTogglesFacade
 
 final class MainFlowTogglesFacade {
-
-    private let remoteConfigUseCase: RemoteConfigToggles
     static let shared = MainFlowTogglesFacade()
+    private let remoteConfigUseCase: RemoteConfigToggles
 
     init(
         remoteConfigUseCase: RemoteConfigToggles = RemoteConfigUseCaseAssembly.useCase

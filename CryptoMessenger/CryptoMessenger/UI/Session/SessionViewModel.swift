@@ -8,7 +8,7 @@ final class SessionViewModel: ObservableObject {
 
     // MARK: - Internal Properties
 
-    var coordinator: ProfileFlowCoordinatorProtocol?
+    var coordinator: ProfileCoordinatable?
 
     @Published var sessionsList: [SessionItem] = []
     @Published var selectedSession = SessionItem.sessionsInfo()
@@ -28,7 +28,7 @@ final class SessionViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-		userSettings: UserCredentialsStorage & UserFlowsStorage,
+        userSettings: UserCredentialsStorage & UserFlowsStorage,
         resources: SessionResourcable.Type = SessionResources.self
 	) {
         self.resources = resources

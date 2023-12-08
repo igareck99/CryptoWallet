@@ -25,6 +25,8 @@ protocol CoordinatorsFactoryProtocol {
     ) -> Coordinator
 }
 
+// MARK: - CoordinatorsFactoryProtocol
+
 enum CoordinatorsFactory: CoordinatorsFactoryProtocol {
 
     static func makePinCoordinator(
@@ -74,12 +76,9 @@ enum CoordinatorsFactory: CoordinatorsFactoryProtocol {
         notification: UNNotificationResponse,
         delegate: PushNotificationCoordinatorDelegate
     ) -> Coordinator {
-        let remoteConfigUseCase = RemoteConfigUseCaseAssembly.useCase
-        let togglesFacade = MainFlowTogglesFacade(remoteConfigUseCase: remoteConfigUseCase)
         let coordinator = PushNotificationCoordinatorAssembly.build(
             notificationResponse: notification,
-            delegate: delegate,
-            toggleFacade: togglesFacade
+            delegate: delegate
         )
         return coordinator
     }

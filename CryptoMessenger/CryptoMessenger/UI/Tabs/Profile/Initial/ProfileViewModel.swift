@@ -1,50 +1,34 @@
 import Combine
 import SwiftUI
 
-// MARK: - SocialKey
+protocol ProfileViewModelProtocol: ObservableObject {
+    var isEmptyFeed: Bool { get set }
+    var showWebView: Bool { get set }
+    var isSnackbarPresented: Bool { get set }
+    var messageText: String { get set }
+    var selectedImage: UIImage? { get set }
+    var safari: SFSafariViewWrapper? { get set }
+    var selectedPhoto: URL? { get set }
+    var existringUrls: [String] { get set }
+    var imageToShare: UIImage? { get set }
+    var socialListEmpty: Bool { get set }
+    var profile: ProfileItem { get set }
+    var resources: ProfileResourcable.Type { get }
 
-enum SocialKey: String, Identifiable, CaseIterable {
-
-    // MARK: - Internal Properties
-
-    var id: UUID { UUID() }
-
-    // MARK: - Types
-
-    case facebook, vk, twitter, instagram
+    func deleteImageByUrl(completion: @escaping () -> Void)
+    func shareImage(completion: @escaping () -> Void)
+    func send(_ event: ProfileFlow.Event)
+    func onUserIdCopyTap()
+    func onSafari(_ url: String)
 }
 
-// MARK: - ProfileItem
-
-struct ProfileItem: Identifiable {
+final class ProfileViewModel: ProfileViewModelProtocol {
 
     // MARK: - Internal Properties
 
-    let id = UUID()
-    var avatar: URL?
-    var mxId: String = ""
-    var name = "Имя не заполнено"
-    var nickname = ""
-    var nicknameDisplay = ""
-    var status = "Всем привет! Я использую AURA!"
-    var note = ""
-    var info = ""
-    var phone = "Номер не заполнен"
-    var photos: [Image] = []
-    var photosUrls: [URL] = []
-    var socialNetwork: [SocialListItem] = []
-
-}
-
-// MARK: - ProfileViewModel
-
-final class ProfileViewModel: ObservableObject {
-
-    // MARK: - Internal Properties
-
-    var coordinator: ProfileFlowCoordinatorProtocol?
-    var isSnackbarPresented = false
-    var messageText: String = ""
+    var coordinator: ProfileCoordinatable?
+    @Published var isSnackbarPresented = false
+    @Published var messageText: String = ""
     @Published var selectedImage: UIImage?
     @Published var selectedVideo: URL?
     @Published var changedImage: UIImage?
@@ -84,7 +68,7 @@ final class ProfileViewModel: ObservableObject {
 
     @Published private(set) var state: ProfileFlow.ViewState = .idle
     @Published private(set) var socialList = SocialListViewModel()
-    @Published private(set) var socialListEmpty = true
+    @Published var socialListEmpty = true
     private let eventSubject = PassthroughSubject<ProfileFlow.Event, Never>()
     private let stateValueSubject = CurrentValueSubject<ProfileFlow.ViewState, Never>(.idle)
     private var subscriptions = Set<AnyCancellable>()
@@ -101,7 +85,7 @@ final class ProfileViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     init(
-        coordinator: ProfileFlowCoordinatorProtocol? = nil,
+        coordinator: ProfileCoordinatable? = nil,
         userSettings: UserCredentialsStorage & UserFlowsStorage,
         keychainService: KeychainServiceProtocol,
         resources: ProfileResourcable.Type = ProfileResources.self,
@@ -199,14 +183,13 @@ final class ProfileViewModel: ObservableObject {
                     )
                 case let .onImageEditor(
                     isShowing: isShowing,
-                    image: image,
-                    viewModel: viewModel
+                    image: image
                 ):
                 // TODO: ?????
 //                    self?.coordinator?.imageEditor(
 //                        isShowing: isShowing,
 //                        image: image,
-//                        viewModel: viewModel
+//                        viewModel: self
 //                    )
                     guard let image = image.wrappedValue else { 
                         self?.showSnackBar(text: "Не удалось загрузить фото в ленту")
@@ -283,7 +266,7 @@ final class ProfileViewModel: ObservableObject {
         }
     }
 
-    func deleteImageByUrl(completion: @escaping () -> Void ) {
+    func deleteImageByUrl(completion: @escaping () -> Void) {
         guard let url = self.selectedPhoto else {
             return
         }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum SecurityAssembly {
-    static func configuredView(coordinator: ProfileFlowCoordinatorProtocol) -> some View {
+    static func configuredView(coordinator: ProfileCoordinatable) -> some View {
 		let userSettings = UserDefaultsService.shared
         let togglesFacade = MainFlowTogglesFacade.shared
         let viewModel = SecurityViewModel(userSettings: userSettings, togglesFacade: togglesFacade)

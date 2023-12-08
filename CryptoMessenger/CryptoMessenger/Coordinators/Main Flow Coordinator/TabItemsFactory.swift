@@ -13,16 +13,16 @@ protocol TabItemsFactoryProtocol {
 // MARK: - TabItemsFactory(TabItemsFactoryProtocol)
 
 enum TabItemsFactory: TabItemsFactoryProtocol {
-    
+
     // MARK: - Static Methods
-    
+
     static func makeChatTabModel() -> TabItemModel {
         TabItemModel(
             title: MainTabs.chat.text,
             icon: MainTabs.chat.image,
             tabType: .chat
         ) {
-            ChatHistoryAssembly.build().anyView()
+            ChatsViewAssemlby.build().anyView()
         }
     }
 
