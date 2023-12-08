@@ -73,9 +73,9 @@ struct ChatInputView: View {
                                               sendAudio: $sendAudio, recordOnSend: { value in
                             data.sendAudio(value)
                         })
-                        .ignoresSafeArea()
                         .padding(.leading, 12)
                         .padding(.trailing, 8)
+                        Spacer()
                     }
                 } else {
                     Button(action: {
@@ -126,7 +126,6 @@ struct ChatInputView: View {
                 }
             }
             .padding(.top, 8)
-            Spacer()
         }
         .frame(height: min(18 + textViewHeight, 160))
         .background(Color.white)

@@ -11,6 +11,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
     @Published var isAvatarLoading = false
     @Published var roomAvatarUrl: URL?
     @Published var chatData = ChatData()
+    @Published var isKeyboardVisible = false
     @Published var participants: [ChannelParticipantsData] = []
     @Published var displayItems = [any ViewGeneratable]()
     var itemsFromMatrix = [any ViewGeneratable]()
@@ -275,7 +276,6 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                 guard let self = self else { return }
                 switch value {
                 case let .onAppear(proxy):
-                    print("sklasklaskl  \(self.room.isDirect)")
                     self.scrollProxy = proxy
                     //                        scrollToBottom()
                     self.matrixUseCase.objectChangePublisher.send()
@@ -734,6 +734,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         default:
             break
         }
+        isKeyboardVisible = true
     }
 
     private func addOutputEvent(event: RoomEvent) {

@@ -10,6 +10,8 @@ protocol ChatViewModelProtocol: ObservableObject {
     var isSnackbarPresented: Bool { get set }
 
     var messageText: String { get set }
+    
+    var isKeyboardVisible: Bool { get set }
 
     var userHasAccessToMessage: Bool { get set }
 

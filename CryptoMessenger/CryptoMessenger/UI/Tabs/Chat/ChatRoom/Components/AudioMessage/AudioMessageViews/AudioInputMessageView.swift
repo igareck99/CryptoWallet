@@ -12,13 +12,15 @@ struct AudioInputMessageView: View {
     @Binding var textDragPadding: CGFloat
     @Binding var blockDragPadding: CGFloat
     @Binding var resetAudio: Bool
-    @Binding var sendAudio : Bool
+    @Binding var sendAudio: Bool
     let recordOnSend: (RecordingDataModel) -> Void
 
     // MARK: - Private Properties
 
     @StateObject var audioRecord = AudioRecorder()
     @State private var bottomPadding: CGFloat = 0
+    @State private var leadingCancel: CGFloat = UIScreen.main.bounds.width - 342
+    @State private var leadingLeftPadding: CGFloat = UIScreen.main.bounds.width - 305
 
     // MARK: - Body
 
@@ -54,14 +56,13 @@ struct AudioInputMessageView: View {
         HStack(alignment: .center) {
             timerView
             HStack {
-                Spacer()
                 if blockAudioRecord {
                     canceText
+                        .padding(.leading, leadingLeftPadding)
                 } else {
                     textView
-                        .padding(.leading, textDragPadding)
+                        .padding(.leading, leadingCancel + textDragPadding)
                 }
-                Spacer()
             }
         }
     }
@@ -76,69 +77,33 @@ struct AudioInputMessageView: View {
                 .frame(minWidth: 44,
                        maxWidth: 60)
         }
+        .frame(width: 73, height: 21, alignment: .leading)
     }
 
     private var textView: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: .zero) {
+            R.image.chat.audio.leftGrayArrow.image
             Text(R.string.localizable.chatRoomViewAudioCancel())
-            R.image.chat.audio.leftblueArrow.image
+                .lineLimit(1)
+                .font(.regular(15))
+                .foreground(Color(.init(r: 138, g: 145, b: 156)))
         }
     }
-    
+
     private var canceText: some View {
         Button {
             resetRecordAudio()
         } label: {
             Text("Отмена")
-                .foregroundColor(.spanishCrimson)
+                .font(.regular(15))
+                .foregroundColor(.brilliantAzure)
         }
-    }
-
-    private var lockDrag: some Gesture {
-        DragGesture()
-            .onChanged { value in
-                if !blockAudioRecord {
-                    if value.startLocation.y > value.location.y {
-                        blockDragPadding = abs(value.translation.height)
-                        bottomPadding = blockDragPadding
-                        if blockDragPadding >= 20 {
-                            blockAudioRecord = true
-                            blockDragPadding = 20
-                        }
-                    }
-                    if value.startLocation.x > value.location.x {
-                        textDragPadding = value.translation.width
-                        if abs(value.translation.width) > 75 {
-                            resetAudio = true
-                            showAudioView = false
-                        }
-                    }
-                }
-            }
-            .onEnded { _ in
-                textDragPadding = 0
-                bottomPadding = 0
-            }
-    }
-
-    private var cancelDrag: some Gesture {
-        DragGesture()
-            .onChanged { value in
-                if value.startLocation.x > value.location.x {
-                    textDragPadding = value.translation.width
-                    if abs(value.translation.width) > 75 {
-                        resetRecordAudio()
-                    }
-                }
-            }
-            .onEnded { _ in
-                textDragPadding = 0
-            }
     }
     
     private func resetRecordAudio() {
-        withAnimation(.easeIn(duration: 0.25)) {
+        withAnimation(.easeIn(duration: 0.15)) {
             resetAudio = true
+            sendAudio = false
             showAudioView = false
             blockDragPadding = 0
             textDragPadding = 0

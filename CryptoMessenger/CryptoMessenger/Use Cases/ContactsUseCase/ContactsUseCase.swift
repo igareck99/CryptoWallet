@@ -113,9 +113,6 @@ final class ContactsUseCase: ContactsUseCaseProtocol {
                     })
                     if !waitingContacts.isEmpty {
                         let phones = userWithPhone.map { $0.phone }
-                        waitingContacts.map {
-                            print("sl;asl;asl  \($0.phone.numbers)")
-                        }
                         waitingContacts = waitingContacts.filter({ !phones.contains($0.phone.numbers) })
                     }
                     existingContacts += waitingContacts

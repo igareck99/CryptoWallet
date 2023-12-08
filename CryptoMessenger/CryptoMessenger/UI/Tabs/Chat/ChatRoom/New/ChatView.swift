@@ -1,4 +1,5 @@
 import SwiftUI
+// swiftlint:disable all
 
 // MARK: - ChatView
 
@@ -24,21 +25,27 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
                         }
                     }
                 }
+                .onChange(of: viewModel.isKeyboardVisible) { newValue in
+                    withAnimation {
+                        if newValue {
+                            DispatchQueue.main.async {
+                                withAnimation(.linear(duration: 0.1)) {
+                                    proxy.scrollTo(viewModel.displayItems.last?.id, anchor: .bottom)
+                                }
+                            }
+                        }
+                        viewModel.isKeyboardVisible = false
+                    }
+                }
                 .onChange(of: viewModel.scroolString) { newValue in
                     debugPrint("scrollToBottom viewModel.scroolString: \(newValue)")
-                    withAnimation {
+                    DispatchQueue.main.async {
                         proxy.scrollTo(viewModel.scroolString, anchor: .bottom)
                     }
                 }
                 .onAppear {
                     viewModel.eventSubject.send(.onAppear(proxy))
-                    debugPrint("scrollToBottom displayItems last: \(viewModel.displayItems.last?.id)")
-                    debugPrint("scrollToBottom scroolString last: \(viewModel.scroolString)")
-                    withAnimation {
-                        proxy.scrollTo(viewModel.scroolString, anchor: .bottom)
-                    }
                 }
-                Spacer()
                 inputView
             }
             .popup(
@@ -55,7 +62,6 @@ struct ChatView<ViewModel>: View where ViewModel: ChatViewModelProtocol {
         .onTapGesture {
             hideKeyboard()
         }
-        .listStyle(.plain)
         .toolbarRole(.editor)
         .toolbar(.hidden, for: .tabBar)
         .toolbar(.visible, for: .navigationBar)
