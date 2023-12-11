@@ -11,10 +11,13 @@ final class KeychainService {
         case pushVoipToken
 		case gmtZeroTimeInterval
 
+        case walletAccessToken
+        case walletRefreshToken
+
         case lastCallEvent
-		case apiAccessToken
         case secretPhrase
         case password
+        case apiAccessToken
 		case apiRefreshToken
 		case apiUserPhoneNumber
 		case apiUserPinCode

@@ -1,13 +1,13 @@
 import Foundation
 
 extension MatrixUseCase {
-    
+
     func createChannel(
         name: String,
         topic: String,
         channelType: ChannelType,
         roomAvatar: UIImage?,
-        completion: @escaping (RoomCreateState) -> Void
+        completion: @escaping (RoomCreateState, String?) -> Void
     ) {
         let parameters = MXRoomCreationParameters()
         parameters.inviteArray = []
@@ -26,45 +26,44 @@ extension MatrixUseCase {
         powerLevelOverride.usersDefault = 0
         powerLevelOverride.invite = 50
         parameters.powerLevelContentOverride = powerLevelOverride
-        self.createRoom(parameters: parameters, roomAvatar: roomAvatar?.jpeg(.medium)) { result in
-            completion(result)
+        self.createRoom(
+            parameters: parameters,
+            roomAvatar: roomAvatar?.jpeg(.medium)
+        ) { state, mxRoom in
+            completion(state, mxRoom?.roomId)
         }
     }
 
     func createDirectRoom(
-        _ ids: [String],
-        completion: @escaping (RoomCreateState) -> Void
+        userId: String,
+        completion: @escaping (RoomCreateState, String?) -> Void
     ) {
-        guard
-            ids.count == 1,
-            let userId = ids.first,
-            !self.isDirectRoomExists(userId: userId)
-        else {
-            completion(.roomAlreadyExist)
+        if let roomId: String = isDirectRoomExists(userId: userId) {
+            completion(.roomAlreadyExist, roomId)
             return
         }
+
         let parameters = MXRoomCreationParameters()
-        parameters.inviteArray = ids
+        parameters.inviteArray = [userId]
         parameters.isDirect = true
         parameters.visibility = kMXRoomDirectoryVisibilityPrivate
         // parameters.preset = MXRoomPreset.privateChat.identifier
         parameters.preset = kMXRoomPresetTrustedPrivateChat
-        createRoom(parameters: parameters, completion: { result in
+        createRoom(parameters: parameters) { state, mxRoom in
             self.objectChangePublisher.send()
-            completion(result)
-        })
+            completion(state, mxRoom?.roomId)
+        }
     }
 
     func createRoom(
         parameters: MXRoomCreationParameters,
         roomAvatar: Data? = nil,
-        completion: @escaping (RoomCreateState) -> Void
+        completion: @escaping (RoomCreateState, MXRoom?) -> Void
     ) {
         self.createRoom(parameters: parameters) { [weak self] response in
             switch response {
             case let .success(room):
-                print("sklasklsakl  \(room)")
-                completion(.roomCreateSucces)
+                completion(.roomCreateSucces, room)
                 guard let data = roomAvatar else {
                     return
                 }
@@ -73,12 +72,15 @@ extension MatrixUseCase {
                     // self?.closeScreen = true
                 }
             case let .failure(error):
-                completion(.roomCreateError)
+                completion(.roomCreateError, nil)
             }
         }
     }
 
-    func createGroupRoom(_ info: ChatData, completion: @escaping (RoomCreateState) -> Void) {
+    func createGroupRoom(
+        _ info: ChatData,
+        completion: @escaping (RoomCreateState, String?) -> Void
+    ) {
         let parameters = MXRoomCreationParameters()
         parameters.inviteArray = info.contacts.map({ $0.mxId })
         parameters.isDirect = false
@@ -86,9 +88,12 @@ extension MatrixUseCase {
         parameters.topic = info.description
         parameters.visibility = MXRoomDirectoryVisibility.private.identifier
         parameters.preset = MXRoomPreset.privateChat.identifier
-        self.createRoom(parameters: parameters, roomAvatar: info.image?.jpeg(.medium), completion: { result in
-            completion(result)
-        })
+        self.createRoom(
+            parameters: parameters,
+            roomAvatar: info.image?.jpeg(.medium)
+        ) { state, mxRoom in
+            completion(state, mxRoom?.roomId)
+        }
     }
 
     func getRoomAvatarUrl(roomId: String) -> URL? {
@@ -125,8 +130,16 @@ extension MatrixUseCase {
         matrixService.matrixSession?.matrixRestClient?
             .setTopic(ofRoom: roomId, topic: topic, completion: completion)
     }
+    
+    func isInvitedToRoom(roomId: String) -> Bool? {
+        matrixService.isInvitedToRoom(roomId: roomId)
+    }
 
-    func isDirectRoomExists(userId: String) -> Bool {
+    func isAlreadyJoinedRoom(roomId: String) -> Bool? {
+        matrixService.isAlreadyJoinedRoom(roomId: roomId)
+    }
+
+    func isDirectRoomExists(userId: String) -> String? {
         matrixService.isDirectRoomExists(userId: userId)
     }
 
@@ -324,33 +337,22 @@ extension MatrixUseCase {
         guard let room = matrixRoom else { completion(.failure); return }
 
         room.liveTimeline { timeline in
-            guard let state = timeline?.state else { completion(.failure); return }
+            guard let state: MXRoomState = timeline?.state else { completion(.failure); return }
             completion(.success(state.members))
         }
     }
-    
-    func customCheckRoomExist(_ mxId: String) -> AuraRoomData? {
-        var room: AuraRoomData?
-        let rooms = self.auraNoEventsRooms
-        let channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self
-        rooms.forEach { value in
-            if value.isDirect {
-                self.getRoomMembers(roomId: value.roomId,
-                                    completion: { result in
-                    guard case let .success(roomMembers) = result else { return }
-                    let users: [ChannelParticipantsData] =  channelFactory.makeUsersData(
-                        users: roomMembers.members(with: .invite) + roomMembers.members(with: .join),
-                        roomPowerLevels: MXRoomPowerLevels()
-                    )
-                    if let user = users.first(where: { $0.matrixId != self.getUserId() }) {
-                        if user.matrixId == mxId {
-                            room = value
-                        }
-                    }
-                })
-            }
+
+    func customCheckRoomExist(mxId: String) -> AuraRoomData? {
+        guard let roomId: String = matrixService.isDirectRoomExists(
+            userId: mxId
+        ) else {
+            return nil
         }
-        print("sklaslkasklsa  \(room)")
+        guard let room: AuraRoomData = auraNoEventsRooms.first(
+            where: { $0.roomId == roomId }
+        ) else {
+            return nil
+        }
         return room
     }
 

@@ -32,7 +32,6 @@ final class AppCoordinator: RootCoordinatable {
 	private let keychainService: KeychainServiceProtocol
     private let router: AppCoordinatorRouterable
     private let factory: CoordinatorsFactoryProtocol.Type
-    private let privateDataCleaner: PrivateDataCleanerProtocol
     let userSettings: UserFlowsStorage
     let timeService: AppTimeServiceProtocol
 
@@ -41,14 +40,12 @@ final class AppCoordinator: RootCoordinatable {
         userSettings: UserFlowsStorage,
         router: AppCoordinatorRouterable,
         factory: CoordinatorsFactoryProtocol.Type,
-        privateDataCleaner: PrivateDataCleanerProtocol,
         timeService: AppTimeServiceProtocol
 	) {
 		self.keychainService = keychainService
 		self.userSettings = userSettings
         self.router = router
         self.factory = factory
-        self.privateDataCleaner = privateDataCleaner
         self.timeService = timeService
     }
 
@@ -125,22 +122,13 @@ final class AppCoordinator: RootCoordinatable {
 extension AppCoordinator: Coordinator {
 
 	func start() {
-        
+
         if userSettings[.isAppNotFirstStart] == false {
-            privateDataCleaner.resetPrivateData()
             keychainService.isPinCodeEnabled = false
         }
 
         userSettings[.isAppNotFirstStart] = true
         userSettings.isLocalAuth = keychainService.isPinCodeEnabled == true
-        let userId = UserDefaultsService.shared.userId
-        let accServiceName = keychainService.getAccServiceName()
-        let accServiceNameId = keychainService.getAccServiceNameId()
-        
-        debugPrint("keychainService: UD userId \(userId)")
-        debugPrint("keychainService: KC accServiceName \(accServiceName)")
-        debugPrint("keychainService: KC accServiceNameId \(accServiceNameId)")
-        debugPrint("keychainService")
 
 		let flow = AppLaunchInstructor.configure(
 			isAuthorized: userSettings.isAuthFlowFinished,

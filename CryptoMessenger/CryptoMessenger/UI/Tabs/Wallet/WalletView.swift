@@ -29,7 +29,9 @@ struct WalletView: View {
                 viewModel.send(.onAppear)
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarHidden(false)
+            .toolbar(.visible, for: .navigationBar)
+            .toolbar(.visible, for: .tabBar)
+            .toolbarBackground(.visible, for: .tabBar)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(viewModel.resources.tabWallet)

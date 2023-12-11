@@ -15,7 +15,11 @@ protocol MatrixUseCaseProtocol {
 	// MARK: - Session
 	var matrixSession: MXSession? { get }
 
+    func userDidLoggedIn()
+
     func updateCredentialsIfAvailable()
+
+    func logout(completion: @escaping (Result<MatrixState, Error>) -> Void)
 
     func loginByJWT(
         token: String,
@@ -29,22 +33,28 @@ protocol MatrixUseCaseProtocol {
     func serverSyncWithServerTimeout()
 
 	// MARK: - Rooms
-    func createChannel(name: String,
-                       topic: String,
-                       channelType: ChannelType,
-                       roomAvatar: UIImage?,
-                       completion: @escaping (RoomCreateState) -> Void)
-    func createDirectRoom(_ ids: [String],
-                          completion: @escaping (RoomCreateState) -> Void)
-    func createRoom(parameters: MXRoomCreationParameters, roomAvatar: Data?,
-                    completion: @escaping (RoomCreateState) -> Void)
-    func customCheckRoomExist(_ mxId: String) -> AuraRoomData?
-    func createGroupRoom(_ info: ChatData, completion: @escaping (RoomCreateState) -> Void)
+    func createChannel(
+        name: String,
+        topic: String,
+        channelType: ChannelType,
+        roomAvatar: UIImage?,
+        completion: @escaping (RoomCreateState, String?) -> Void
+    )
+
+    func createDirectRoom(
+        userId: String,
+        completion: @escaping (RoomCreateState, String?) -> Void
+    )
+
+    func customCheckRoomExist(mxId: String) -> AuraRoomData?
+    func createGroupRoom(_ info: ChatData, completion: @escaping (RoomCreateState, String?) -> Void)
     func getRoomAvatarUrl(roomId: String) -> URL?
     func getUserAvatar(avatarString: String, completion: @escaping EmptyFailureBlock<UIImage>)
     func avatarUrlForUser(_ userId: String, completion: @escaping (URL?) -> Void)
     func getRoomInfo(roomId: String) -> MXRoom?
-	func isDirectRoomExists(userId: String) -> Bool
+	func isDirectRoomExists(userId: String) -> String?
+    func isAlreadyJoinedRoom(roomId: String) -> Bool?
+    func isInvitedToRoom(roomId: String) -> Bool?
     func isRoomEncrypted(
         roomId: String,
         completion: @escaping (Bool?) -> Void
@@ -61,37 +71,63 @@ protocol MatrixUseCaseProtocol {
     func setRoomTopic(topic: String, roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
     func enableEncryptionWithAlgorithm(roomId: String)
     func isRoomPublic(roomId: String, completion: @escaping (Bool?) -> Void)
-    func setRoomState(roomId: String,
-                      isPublic: Bool,
-                      completion: @escaping (MXResponse<Void>?) -> Void)
-    func setJoinRule(roomId: String, isPublic: Bool,
-                     completion: @escaping (MXResponse<Void>?) -> Void)
-    func getPublicRooms(filter: String,
-                        onTapCell: @escaping (MatrixChannel) -> Void,
-                        completion: @escaping ([MatrixChannel]) -> Void)
-    func sendText(_ roomId: String,
-                  _ text: String,
-                  completion: @escaping (Result <String?, MXErrors>) -> Void)
-    func sendLocation(roomId: String,
-                      location: LocationData?,
-                      completion: @escaping (Result <String?, MXErrors>) -> Void)
+
+    func setRoomState(
+        roomId: String,
+        isPublic: Bool,
+        completion: @escaping (MXResponse<Void>?) -> Void
+    )
+
+    func setJoinRule(
+        roomId: String,
+        isPublic: Bool,
+        completion: @escaping (MXResponse<Void>?) -> Void
+    )
+
+    func getPublicRooms(
+        filter: String,
+        onTapCell: @escaping (MatrixChannel) -> Void,
+        completion: @escaping ([MatrixChannel]) -> Void
+    )
+
+    func sendText(
+        _ roomId: String,
+        _ text: String,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    func sendLocation(
+        roomId: String,
+        location: LocationData?,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
     func sendTransferCryptoEvent(
         roomId: String,
         model: TransferCryptoEvent,
         completion: @escaping (Result <String?, MXErrors>) -> Void
     )
+
     func markAllAsRead(roomId: String)
-    func edit(roomId: String, text: String,
-              eventId: String)
+
+    func edit(roomId: String, text: String, eventId: String)
+
     func react(eventId: String, roomId: String, emoji: String)
-    func redact(roomId: String,
-                eventId: String, reason: String?)
-    func sendReply(_ event: RoomEvent,
-                   _ text: String,
-                   completion: @escaping (Result <String?, MXErrors>) -> Void)
-    func removeReaction(roomId: String, text: String,
-                        eventId: String,
-                        completion: @escaping (Result <String?, MXErrors>) -> Void)
+
+    func redact(roomId: String, eventId: String, reason: String?)
+
+    func sendReply(
+        _ event: RoomEvent,
+        _ text: String,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
+
+    func removeReaction(
+        roomId: String,
+        text: String,
+        eventId: String,
+        completion: @escaping (Result <String?, MXErrors>) -> Void
+    )
 
     // MARK: - Pusher
     func createPusher(pushToken: Data, completion: @escaping (Bool) -> Void)

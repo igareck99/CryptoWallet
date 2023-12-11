@@ -39,17 +39,24 @@ protocol MatrixServiceProtocol {
 	// MARK: - Rooms
     func isRoomEncrypted(roomId: String, completion: @escaping (Bool?) -> Void)
     func isRoomPublic(roomId: String, completion: @escaping (Bool?) -> Void)
-    func setRoomState(roomId: String,
-                      isPublic: Bool,
-                      completion: @escaping (MXResponse<Void>?) -> Void)
-    func setJoinRule(roomId: String, isPublic: Bool,
-                     completion: @escaping (MXResponse<Void>?) -> Void)
+    func setRoomState(
+        roomId: String,
+        isPublic: Bool,
+        completion: @escaping (MXResponse<Void>?) -> Void
+    )
+    func setJoinRule(
+        roomId: String,
+        isPublic: Bool,
+        completion: @escaping (MXResponse<Void>?) -> Void
+    )
 	func startListeningForRoomEvents()
 	func createRoom(parameters: MXRoomCreationParameters, completion: @escaping (MXResponse<MXRoom>) -> Void)
 	func uploadData(data: Data, for room: MXRoom, completion: @escaping GenericBlock<URL?>)
 	func leaveRoom(roomId: String, completion: @escaping (MXResponse<Void>) -> Void)
 	func joinRoom(roomId: String, completion: @escaping (MXResponse<MXRoom>) -> Void)
-	func isDirectRoomExists(userId: String) -> Bool
+    func isAlreadyJoinedRoom(roomId: String) -> Bool?
+    func isInvitedToRoom(roomId: String) -> Bool?
+    func isDirectRoomExists(userId: String) -> String?
 	func placeVoiceCall(roomId: String, completion: @escaping (Result<MXCall, MXErrors>) -> Void)
 	func placeVideoCall(roomId: String, completion: @escaping (Result<MXCall, MXErrors>) -> Void)
     func uploadImage(for roomId: String, image: UIImage,

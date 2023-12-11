@@ -65,11 +65,14 @@ final class ChatGroupViewModel: ObservableObject {
         chatData.image = selectedImg
 //      chatData.contacts = contacts
         chatData.contacts = contacts.filter({ $0.mxId != matrixUseCase.getUserId() })
-        matrixUseCase.createGroupRoom(chatData) { result in
-            switch result {
+        matrixUseCase.createGroupRoom(chatData) { state, mxRoomId in
+            debugPrint("MATRIX DEBUG matrixUseCase.createGroupRoom: \(mxRoomId)")
+            switch state {
             case .roomCreateError, .roomAlreadyExist:
-                self.showSnackBar(result.rawValue,
-                                  result.color)
+                self.showSnackBar(
+                    state.text,
+                    state.color
+                )
             case .roomCreateSucces:
                 self.coordinator?.toParentCoordinator()
             }
@@ -77,12 +80,19 @@ final class ChatGroupViewModel: ObservableObject {
     }
 
     private func onChannelCreate() {
-        matrixUseCase.createChannel(name: titleText, topic: descriptionText,
-                                    channelType: channelType, roomAvatar: selectedImg) { result in
-            switch result {
+        matrixUseCase.createChannel(
+            name: titleText,
+            topic: descriptionText,
+            channelType: channelType,
+            roomAvatar: selectedImg
+        ) { state, mxRoomId in
+            debugPrint("MATRIX DEBUG matrixUseCase.createChannel: \(mxRoomId)")
+            switch state {
             case .roomCreateError, .roomAlreadyExist:
-                self.showSnackBar(result.rawValue,
-                                  result.color)
+                self.showSnackBar(
+                    state.text,
+                    state.color
+                )
             case .roomCreateSucces:
                 self.coordinator?.toParentCoordinator()
                 self.coordinator = nil

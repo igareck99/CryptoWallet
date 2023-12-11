@@ -110,6 +110,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
         self.resources = resources
         self.availabilityFacade = availabilityFacade
         bindInput()
+        joinRoom(roomId: room.roomId)
     }
 
     deinit {
@@ -339,6 +340,7 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             .sink { [weak self] _ in
                 debugPrint("Place_Call: p2pVideoCallPublisher")
                 guard let self = self else { return }
+                self.updateToggles()
 
                 if self.isGroupCall {
                     self.groupCallsUseCase.placeGroupCallInRoom(roomId: self.room.roomId)
@@ -348,7 +350,6 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
                     roomId: self.room.roomId,
                     contacts: self.chatData.contacts
                 )
-                self.updateToggles()
             }.store(in: &subscriptions)
 
         p2pVoiceCallPublisher
@@ -377,9 +378,9 @@ final class ChatViewModel: ObservableObject, ChatViewModelProtocol {
             }.store(in: &subscriptions)
     }
 
-    func joinRoom(roomId: String, completion: @escaping () -> Void) {
-        self.matrixUseCase.joinRoom(roomId: roomId) { _ in
-            completion()
+    func joinRoom(roomId: String) {
+        self.matrixUseCase.joinRoom(roomId: roomId) { result in
+            debugPrint("MATRIX DEBUG ChatViewModel joinRoom: \(result) : \(roomId)")
         }
     }
 

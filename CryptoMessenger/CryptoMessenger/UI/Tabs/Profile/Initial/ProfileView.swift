@@ -13,7 +13,6 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
 
     // MARK: - Private Properties
 
-    @State private var popupSelected = false
     @State private var showProfileDetail = false
     @State private var showAlert = false
     @State private var showImagePicker = false
@@ -24,27 +23,13 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
     @State private var showAllSocial = false
     @State private var countUrlItems = 0
     @State private var showShareImage = false
-    @State private var tabBarVisibility: Visibility = .visible
 
     // MARK: - Body
 
     var body: some View {
         content
-            .accentColor(.black)
-            .popup(
-                isPresented: viewModel.isSnackbarPresented,
-                alignment: .bottom
-            ) {
-                Snackbar(
-                    text: viewModel.messageText,
-                    color: .spanishCrimson
-                )
-            }
             .onAppear {
                 viewModel.send(.onProfileAppear)
-            }
-            .fullScreenCover(isPresented: $viewModel.showWebView) {
-                viewModel.safari
             }
             .onChange(of: viewModel.selectedImage, perform: { _ in
                 viewModel.send(
@@ -54,6 +39,18 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
                     )
                 )
             })
+            .popup(
+                isPresented: viewModel.isSnackbarPresented,
+                alignment: .bottom
+            ) {
+                Snackbar(
+                    text: viewModel.messageText,
+                    color: .spanishCrimson
+                )
+            }
+            .fullScreenCover(isPresented: $viewModel.showWebView) {
+                viewModel.safari
+            }
             .fullScreenCover(isPresented: $showImageViewer, content: {
                 ImageViewerRemote(
                     selectedItem: getTagItem(),
@@ -75,23 +72,20 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(viewModel.resources.profileCopied))
             }
-            .toolbar(.visible, for: .tabBar)
     }
 
     private var content: some View {
-        NavigationView {
-            ScrollView(popupSelected ? [] : .vertical, showsIndicators: true) {
-                VStack(alignment: .leading, spacing: 16) {
-                    Divider()
-                    HStack(spacing: 16) {
-                        avatarView
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text(viewModel.profile.name)
-                                .font(.subheadlineMedium15)
-                                .foregroundColor(viewModel.resources.title)
-                            switch viewModel.socialListEmpty {
-                            case false:
-                                ScrollView(!showAllSocial ? [] : .horizontal, showsIndicators: false) {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                HStack(spacing: 16) {
+                    avatarView
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(viewModel.profile.name)
+                            .font(.subheadlineMedium15)
+                            .foregroundColor(viewModel.resources.title)
+                        switch viewModel.socialListEmpty {
+                        case false:
+                            ScrollView(!showAllSocial ? [] : .horizontal, showsIndicators: false) {
                                 HStack(spacing: 8) {
                                     switch showAllSocial {
                                     case false:
@@ -142,52 +136,52 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
                                             .cornerRadius(16)
                                     }
                                 }
-                                }
-                                .frame(minHeight: 32,
-                                       idealHeight: 32,
-                                       maxHeight: 32)
-                            case true:
-                                Button(action: {
-                                    viewModel.send(.onSocial)
-                                }, label: {
-                                    Text(viewModel.resources.profileAddSocial)
-                                        .font(.subheadlineRegular15)
-                                        .foregroundColor(viewModel.resources.buttonBackground)
-                                })
-                                    .frame(width: 160, height: 32)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 61)
-                                            .stroke(viewModel.resources.buttonBackground, lineWidth: 1)
-                                    )
                             }
-                            Text(viewModel.profile.phone)
-                                .padding(.top, 1)
+                            .frame(minHeight: 32,
+                                   idealHeight: 32,
+                                   maxHeight: 32)
+                        case true:
+                            Button(action: {
+                                viewModel.send(.onSocial)
+                            }, label: {
+                                Text(viewModel.resources.profileAddSocial)
+                                    .font(.subheadlineRegular15)
+                                    .foregroundColor(viewModel.resources.buttonBackground)
+                            })
+                            .frame(width: 160, height: 32)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 61)
+                                    .stroke(viewModel.resources.buttonBackground, lineWidth: 1)
+                            )
                         }
-                    }
-                    .padding(.leading, 16)
-                    if !viewModel.profile.status.isEmpty {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(viewModel.profile.status)
-                                .font(.subheadlineRegular15)
-                                .foregroundColor(viewModel.resources.title)
-                        }.padding(.leading, 16)
+                        Text(viewModel.profile.phone)
+                            .padding(.top, 1)
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                if viewModel.isEmptyFeed {
-                    ChannelMediaEmptyState(
-                        image: viewModel.resources.emptyFeedImage,
-                        title: "Пока нет публикаций",
-                        description: ""
-                    )
-                } else {
-                    photosView
+                .padding(.leading, 16)
+                if !viewModel.profile.status.isEmpty {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(viewModel.profile.status)
+                            .font(.subheadlineRegular15)
+                            .foregroundColor(viewModel.resources.title)
+                    }.padding(.leading, 16)
                 }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            if viewModel.isEmptyFeed {
+                ChannelMediaEmptyState(
+                    image: viewModel.resources.emptyFeedImage,
+                    title: "Пока нет публикаций",
+                    description: ""
+                )
+            } else {
+                photosView
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.visible, for: .navigationBar)
+        .toolbar(.visible, for: .tabBar)
+        .toolbarBackground(.visible, for: .tabBar)
         .toolbar {
             createToolBar()
         }
@@ -293,15 +287,17 @@ struct ProfileView<ViewModel: ProfileViewModelProtocol>: View {
         }
         return index
     }
-    
+
     @ToolbarContentBuilder
     private func createToolBar() -> some ToolbarContent {
         ToolbarItem(placement: .navigationBarLeading) {
             Text(viewModel.profile.nickname)
                 .font(.subheadlineRegular15)
                 .lineLimit(1)
-                .frame(minWidth: 0,
-                       maxWidth: 0.65 * UIScreen.main.bounds.width)
+                .frame(
+                    minWidth: 0,
+                    maxWidth: 0.65 * UIScreen.main.bounds.width
+                )
                 .onTapGesture {
                     viewModel.onUserIdCopyTap()
                     showAlert = true

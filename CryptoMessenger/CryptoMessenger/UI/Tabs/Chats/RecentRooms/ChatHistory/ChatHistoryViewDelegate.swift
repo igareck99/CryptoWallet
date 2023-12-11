@@ -19,10 +19,12 @@ protocol ChatHistoryViewDelegate: ObservableObject {
 
     func fromCurrentSender(room: AuraRoom) -> Bool
 
-    func joinRoom(_ roomId: String, _ openChat: Bool)
+    func joinRoom(roomId: String, openChat: Bool)
 
-    func findRooms(with filter: String,
-                   completion: @escaping ([MatrixChannel]) -> Void)
+    func findRooms(
+        with filter: String,
+        completion: @escaping ([MatrixChannel]) -> Void
+    )
 
     var chatHistoryRooms: [ChatHistoryData] { get }
 

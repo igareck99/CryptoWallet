@@ -126,10 +126,10 @@ final class MatrixService: MatrixServiceProtocol {
 
 	private func getCedentials() -> MXCredentials? {
 		guard
-			let homeServer: String = keychainService[.homeServer],
+			let homeServer: String = keychainService.homeServer,
             let userId: String = userSettings.userId,
-			let accessToken: String = keychainService[.accessToken],
-			let deviceId: String = keychainService[.deviceId]
+			let accessToken: String = keychainService.accessToken,
+			let deviceId: String = keychainService.deviceId
 		else {
 			return nil
 		}

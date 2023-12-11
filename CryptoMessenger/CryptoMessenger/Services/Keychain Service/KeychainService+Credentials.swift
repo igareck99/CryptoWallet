@@ -1,9 +1,18 @@
 import Foundation
 
-// Приставка api означает, что эти поля раньше хранились в User Defaults
 // apiAccessToken - для https://api.aura...
 // accessToken - для https://matrix.aura...
 extension KeychainService {
+
+    var walletRefreshToken: String? {
+        get { string(forKey: .walletRefreshToken) }
+        set { set(newValue, forKey: .walletRefreshToken) }
+    }
+
+    var walletAccessToken: String? {
+        get { string(forKey: .walletAccessToken) }
+        set { set(newValue, forKey: .walletAccessToken) }
+    }
 
 	var apiAccessToken: String? {
 		get { string(forKey: .apiAccessToken) }
@@ -47,9 +56,26 @@ extension KeychainService {
 		get { string(forKey: .apiUserPinCode) }
 		set { set(newValue, forKey: .apiUserPinCode) }
 	}
-    
+
     var homeServer: String? {
         get { string(forKey: .homeServer) }
         set { set(newValue, forKey: .homeServer) }
+    }
+
+    var accessToken: String? {
+        get {
+            let aToken = string(forKey: .accessToken)
+            debugPrint("MATRIX DEBUG KeychainService get accessToken \(aToken)")
+            return aToken
+        }
+        set {
+            debugPrint("MATRIX DEBUG KeychainService set accessToken \(newValue)")
+            set(newValue, forKey: .accessToken)
+        }
+    }
+
+    var deviceId: String? {
+        get { string(forKey: .deviceId) }
+        set { set(newValue, forKey: .deviceId) }
     }
 }

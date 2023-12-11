@@ -28,14 +28,14 @@ struct AuthJWTResponse: Codable {
 
     let userId: String?
     let isNewUser: Bool?
-    let accessToken: String?
-    let refreshToken: String?
+    let apiAccessToken: String?
+    let apiRefreshToken: String?
 
     enum CodingKeys: String, CodingKey {
         case userId = "user_id"
-        case accessToken = "jwt"
+        case apiAccessToken = "jwt"
+        case apiRefreshToken = "refresh_token"
         case isNewUser = "new_user"
-        case refreshToken = "refresh_token"
     }
 }
 

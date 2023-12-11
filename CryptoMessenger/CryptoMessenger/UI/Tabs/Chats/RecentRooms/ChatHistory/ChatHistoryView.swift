@@ -26,21 +26,27 @@ struct ChatHistoryView<ViewModel: ChatHistoryViewDelegate>: View {
     // MARK: - Body Properties
 
     var content: some View {
-        ChatSearchView(views: $viewModel.chatSections,
-                       viewState: $viewModel.viewState,
-                       isSearchingState: $viewModel.isSearching)
-        .searchable(text: $viewModel.searchText,
-                    prompt: "Поиск по чатам и каналам")
-            .confirmationDialog("", isPresented: $showReadAll) {
-                Button(viewModel.resources.readAll, action: {
-                    viewModel.markAllAsRead()
-                })
-            }
-            .toolbar(.visible, for: .navigationBar)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                toolbarItems()
-            }
+        ChatSearchView(
+            views: $viewModel.chatSections,
+            viewState: $viewModel.viewState,
+            isSearchingState: $viewModel.isSearching
+        )
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.visible, for: .navigationBar)
+        .toolbar(.visible, for: .tabBar)
+        .toolbarBackground(.visible, for: .tabBar)
+        .toolbar {
+            toolbarItems()
+        }
+        .searchable(
+            text: $viewModel.searchText,
+            prompt: "Поиск по чатам и каналам"
+        )
+        .confirmationDialog("", isPresented: $showReadAll) {
+            Button(viewModel.resources.readAll, action: {
+                viewModel.markAllAsRead()
+            })
+        }
     }
 
     @ToolbarContentBuilder

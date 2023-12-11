@@ -15,6 +15,7 @@ enum APIError: Error, Equatable {
     case invalidCode
     case noRefreshToken
     case publisherCreationFailure
+    case noAllApiTokens
 }
 
 // MARK: - APIError (LocalizedError)
@@ -37,6 +38,8 @@ extension APIError: LocalizedError {
             return "Неверный код"
         case .noRefreshToken:
             return "Нет refresh token, нечем обновить сессию"
+        case .noAllApiTokens:
+            return "Отсутствуют apiToken и apiRefreshtoken"
 		default: return "Что-то пошло не так"
         }
     }

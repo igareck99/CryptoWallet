@@ -47,7 +47,7 @@ final class CreateChannelViewModel: ObservableObject {
             self.objectWillChange.send()
         }
     }
-    
+
     lazy var channelName: Binding<String> = .init(
         get: {
             self.channelNameText
@@ -56,13 +56,13 @@ final class CreateChannelViewModel: ObservableObject {
             self.channelNameText = newValue
         }
     )
-    
+
     private var channelDescriptionText: String = "" {
         didSet {
             self.objectWillChange.send()
         }
     }
-    
+
     lazy var channelDescription: Binding<String> = .init(
         get: {
             self.channelDescriptionText
@@ -71,13 +71,11 @@ final class CreateChannelViewModel: ObservableObject {
             self.channelDescriptionText = newValue
         }
     )
-    
+
     var coordinator: ChatCreateFlowCoordinatorProtocol
+    let resources: CreateChannelResourcable.Type
     private let matrixUseCase: MatrixUseCaseProtocol
 
-    let resources: CreateChannelResourcable.Type
-    
-    
     init(
         channelType: ChannelType = .publicChannel,
         matrixUseCase: MatrixUseCaseProtocol = MatrixUseCase.shared,
@@ -94,19 +92,24 @@ final class CreateChannelViewModel: ObservableObject {
 // MARK: - CreateChannelViewModelProtocol
 
 extension CreateChannelViewModel: CreateChannelViewModelProtocol {
-    
+
     func isCreateButtonEnabled() -> Bool {
         !channelNameText.isEmpty
     }
-    
+
     func isDescriptionPlaceholderEnabled() -> Bool {
         !channelDescriptionText.isEmpty
     }
 
     func onChannelCreate() {
-        matrixUseCase.createChannel(name: channelNameText, topic: channelDescriptionText,
-                                    channelType: channelType, roomAvatar: selectedImg) { result in
-            switch result {
+        matrixUseCase.createChannel(
+            name: channelNameText,
+            topic: channelDescriptionText,
+            channelType: channelType,
+            roomAvatar: selectedImg
+        ) { state, mxRoomId in
+            debugPrint("MATRIX DEBUG matrixUseCase.createGroupRoom: \(mxRoomId)")
+            switch state {
             case .roomCreateError:
                 break
             case .roomCreateSucces:

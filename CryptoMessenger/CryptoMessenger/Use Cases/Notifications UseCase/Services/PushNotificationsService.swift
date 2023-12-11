@@ -103,8 +103,10 @@ extension PushNotificationsService: PushNotificationsServiceProtocol {
         )
     }
 
-    func allMessages(room: AuraRoom,
-                     completion: @escaping (NotificationsActionState) -> Void) {
+    func allMessages(
+        room: AuraRoom,
+        completion: @escaping (NotificationsActionState) -> Void
+    ) {
         if !room.room.isMuted {
             completion(NotificationsActionState.isAlreadyEnable)
             return

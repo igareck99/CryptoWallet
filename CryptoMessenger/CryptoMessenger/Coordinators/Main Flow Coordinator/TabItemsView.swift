@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct TabItemsView<ViewModel: TabItemsViewModelProtocol>: View {
-    @State private var hideTabBar = false
     @State private var selectedItem = MainTabs.chat
     @StateObject var viewModel: ViewModel
 
@@ -17,13 +16,5 @@ struct TabItemsView<ViewModel: TabItemsViewModelProtocol>: View {
                 }.tag(tab.tabType)
             }
         }
-        .onAppear {
-            hideTabBar = true
-        }
-        .onDisappear {
-            hideTabBar = false
-        }
-        .toolbar(.visible, for: .navigationBar)
-        .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
     }
 }

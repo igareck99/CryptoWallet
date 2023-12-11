@@ -101,9 +101,11 @@ final class ProfileDetailViewModel: ObservableObject {
                     }
                 case .onLogout:
                     self?.matrixUseCase.logoutDevices { [weak self] _ in
+                        debugPrint("MATRIX DEBUG ProfileDetailViewModel matrixUseCase.logoutDevices")
                         // TODO: Обработать результат
                         self?.matrixUseCase.closeSession()
-                        self?.privateDataCleaner.resetPrivateData()
+                        self?.privateDataCleaner.clearWalletPrivateData()
+                        self?.privateDataCleaner.clearMatrixPrivateData()
                         self?.matrixUseCase.clearCredentials()
                         self?.keychainService.isApiUserAuthenticated = false
                         self?.keychainService.isPinCodeEnabled = false
@@ -115,13 +117,15 @@ final class ProfileDetailViewModel: ObservableObject {
             .store(in: &subscriptions)
 
         matrixUseCase.loginStatePublisher.sink { [weak self] status in
+            debugPrint("MATRIX DEBUG ProfileDetailViewModel loginStatePublisher \(status)")
             switch status {
             case .loggedOut:
                 self?.userSettings.isAuthFlowFinished = false
                 self?.userSettings.isOnboardingFlowFinished = false
                 self?.keychainService.isPinCodeEnabled = false
                 self?.keychainService.removeObject(forKey: .apiUserPinCode)
-                self?.privateDataCleaner.resetPrivateData()
+                self?.privateDataCleaner.clearWalletPrivateData()
+                self?.privateDataCleaner.clearMatrixPrivateData()
                 self?.matrixUseCase.clearCredentials()
                 DispatchQueue.main.async {
                     self?.coordinator?.onLogout()
