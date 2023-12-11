@@ -39,4 +39,36 @@ protocol WalletNetworkFacadeProtocol {
         params: TransactionSendRequestParams,
         completion: @escaping GenericBlock<EmptyFailureResult<TransactionSendResponse>>
     )
+    
+    // MARK: - ASYNC
+
+    func requestTokens(
+        params: NetworkTokensRequestParams
+    ) async -> GenericResponse<NetworkTokensResponse?>
+
+    func requestNetworks() async -> GenericResponse<WalletNetworkResponse?>
+
+    func requestAddress(
+        params: AddressRequestParams
+    ) async -> GenericResponse<AddressResponse?>
+
+    func requestBalances(
+        params: BalanceRequestParams
+    ) async -> GenericResponse<BalancesResponse?>
+
+    func requestTransactions(
+        params: TransactionsRequestParams
+    ) async -> GenericResponse<WalletsTransactionsResponse?>
+
+    func requestFee(
+        params: FeeRequestParams
+    ) async -> GenericResponse<FeeResponse?>
+
+    func requestTransactionTemplate(
+        params: TransactionTemplateRequestParams
+    ) async -> GenericResponse<TransactionTemplateResponse?>
+
+    func requestTransactionSend(
+        params: TransactionSendRequestParams
+    ) async -> GenericResponse<TransactionSendResponse?>
 }

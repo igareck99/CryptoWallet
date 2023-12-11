@@ -17,7 +17,7 @@ enum ProfileDetailFlow {
 
     // MARK: - Event
 
-    enum Event {
+    enum Event: Equatable {
 
         // MARK: - Types
 

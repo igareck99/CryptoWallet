@@ -31,7 +31,7 @@ enum MXErrors: Error {
 }
 
 
-enum MatrixState {
+enum MatrixState: Equatable {
 	case none
 	case loggedOut
 	case authenticating
@@ -185,6 +185,8 @@ extension MatrixService {
     }
 
 	func updateService(credentials: MXCredentials) {
+        
+        debugPrint("MATRIX DEBUG MatrixService updateService credentials \(credentials)")
 
 		let persistTokenDataHandler: MXRestClientPersistTokenDataHandler = { inputCredentialsHandler in
             debugPrint("inputCredentialsHandler: \(String(describing: inputCredentialsHandler))")

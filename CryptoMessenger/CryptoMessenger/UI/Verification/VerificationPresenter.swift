@@ -271,22 +271,24 @@ private extension VerificationPresenter  {
             userId: userId,
             homeServer: homeServer
         ) { [weak self] result in
-                
-                // TODO: Обработать case failure
-                guard case let .success(auraMxCredentials) = result else {
-                    self?.verificationState = .wrongOTP;
-                    return
-                }
-                self?.saveLogInState(
-                    phone: phone,
-                    userId: auraMxCredentials.userId,
-                    apiAccessToken: apiAccessToken,
-                    apiRefreshToken: apiRefreshToken,
-                    homeServer: homeServer.absoluteString,
-                    mxCredentials: auraMxCredentials
-                )
-                self?.delegate?.onVerificationSuccess()
+            // TODO: Обработать case failure
+            guard let self = self, case let .success(auraMxCredentials) = result else {
+                self?.verificationState = .wrongOTP;
+                return
             }
+            self.saveLogInState(
+                phone: phone,
+                userId: auraMxCredentials.userId,
+                apiAccessToken: apiAccessToken,
+                apiRefreshToken: apiRefreshToken,
+                homeServer: homeServer.absoluteString,
+                mxCredentials: auraMxCredentials
+            )
+            DispatchQueue.main.async {
+                debugPrint("MATRIX DEBUG VerificationPresenter saveLogInState onVerificationSuccess")
+                self.delegate?.onVerificationSuccess()
+            }
+        }
     }
     
     func saveLogInState(
@@ -312,6 +314,7 @@ private extension VerificationPresenter  {
         keychainService.homeServer = homeServer
         userSettings.isAuthFlowFinished = true
         keychainService.isPinCodeEnabled = false
+        debugPrint("MATRIX DEBUG VerificationPresenter saveLogInState FINISHED")
     }
 }
 

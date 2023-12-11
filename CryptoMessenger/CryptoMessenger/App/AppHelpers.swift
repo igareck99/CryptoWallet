@@ -8,6 +8,7 @@ typealias VoidBlock = () -> Void
 typealias GenericBlock<T> = (T) -> Void
 typealias StringBlock = (String) -> Void
 typealias NotificationBlock = (NSNotification) -> Void
+typealias GenericResponse<T> = (model: T?, error: Error?)
 
 // MARK: - Global Methods
 

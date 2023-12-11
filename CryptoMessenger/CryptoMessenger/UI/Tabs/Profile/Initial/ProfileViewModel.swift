@@ -241,23 +241,18 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         
         matrixUseCase.loginStatePublisher.sink { [weak self] status in
             debugPrint("MATRIX DEBUG ProfileDetailViewModel loginStatePublisher \(status)")
-            switch status {
-                case .loggedOut:
-                    self?.userSettings.isAuthFlowFinished = false
-                    self?.userSettings.isOnboardingFlowFinished = false
-                    self?.keychainService.isPinCodeEnabled = false
-                    self?.keychainService.removeObject(forKey: .apiUserPinCode)
-                    self?.privateDataCleaner.clearWalletPrivateData()
-                    self?.privateDataCleaner.clearMatrixPrivateData()
-                    self?.matrixUseCase.clearCredentials()
-                    DispatchQueue.main.async {
-                        self?.coordinator?.onLogout()
-                    }
-                default:
-                    break
+            guard let self = self, case .loggedOut = status else { return }
+            self.userSettings.isAuthFlowFinished = false
+            self.userSettings.isOnboardingFlowFinished = false
+            self.keychainService.isPinCodeEnabled = false
+            self.keychainService.removeObject(forKey: .apiUserPinCode)
+            self.privateDataCleaner.clearWalletPrivateData()
+            DispatchQueue.main.async {
+                self.privateDataCleaner.clearMatrixPrivateData()
+                self.matrixUseCase.clearCredentials()
+                self.coordinator?.onLogout()
             }
-        }
-        .store(in: &subscriptions)
+        }.store(in: &subscriptions)
 
         matrixUseCase.objectChangePublisher
             .subscribe(on: DispatchQueue.global(qos: .userInteractive))
@@ -432,14 +427,18 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     private func logout() {
         self.matrixUseCase.logoutDevices { [weak self] _ in
             debugPrint("MATRIX DEBUG ProfileDetailViewModel matrixUseCase.logoutDevices")
+            guard let self = self else { return }
             // TODO: Обработать результат
-            self?.matrixUseCase.closeSession()
-            self?.privateDataCleaner.clearWalletPrivateData()
-            self?.privateDataCleaner.clearMatrixPrivateData()
-            self?.matrixUseCase.clearCredentials()
-            self?.keychainService.isApiUserAuthenticated = false
-            self?.keychainService.isPinCodeEnabled = false
-            NotificationCenter.default.post(name: .userDidLoggedOut, object: nil)
+            self.matrixUseCase.closeSession()
+            self.privateDataCleaner.clearWalletPrivateData()
+            self.privateDataCleaner.clearMatrixPrivateData()
+            self.matrixUseCase.clearCredentials()
+            self.keychainService.isApiUserAuthenticated = false
+            self.keychainService.isPinCodeEnabled = false
+            NotificationCenter.default.post(
+                name: .userDidLoggedOut,
+                object: nil
+            )
             debugPrint("ProfileDetailViewModel: LOGOUT")
         }
     }

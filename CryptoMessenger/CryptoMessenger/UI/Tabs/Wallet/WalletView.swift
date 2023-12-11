@@ -2,11 +2,11 @@ import SwiftUI
 
 // MARK: - WalletView
 
-struct WalletView: View {
+struct WalletView<ViewModel: WalletViewModelProtocol>: View {
 
     // MARK: - Internal Properties
 
-    @StateObject var viewModel: WalletViewModel
+    @StateObject var viewModel: ViewModel
     @State var contentWidth = CGFloat(0)
     @State var offset = CGFloat(16)
     @State var index = 0
@@ -26,7 +26,7 @@ struct WalletView: View {
                     loadingStateView()
                 })
             .onAppear {
-                viewModel.send(.onAppear)
+                viewModel.onAppear()
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(.visible, for: .navigationBar)
@@ -182,24 +182,6 @@ struct WalletView: View {
         }
     }
 
-    private var balanceView: some View {
-        HStack(spacing: 12) {
-            ZStack {
-                Circle()
-                    .frame(width: 60, height: 60)
-                    .foregroundColor(viewModel.resources.avatarBackground)
-                R.image.wallet.wallet.image
-            }
-            VStack(alignment: .leading, spacing: 8) {
-                Text(viewModel.totalBalance)
-                    .font(.title2Regular22)
-                Text(viewModel.resources.tabOverallBalance)
-                    .font(.footnoteRegular13)
-                    .foregroundColor(viewModel.resources.innactiveButtonBackground)
-            }
-        }
-    }
-
     private var transactionTitleView: some View {
         HStack {
             Text(viewModel.resources.walletTransaction)
@@ -212,7 +194,7 @@ struct WalletView: View {
 
     private var sendButton: some View {
         Button {
-            viewModel.send(.onTransfer(walletIndex: pageIndex))
+            viewModel.onTransfer(walletIndex: pageIndex)
         } label: {
             Text(viewModel.resources.walletSend)
                 .font(.bodySemibold17)
