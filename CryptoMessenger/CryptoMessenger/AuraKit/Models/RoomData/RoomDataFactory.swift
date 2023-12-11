@@ -163,9 +163,10 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
                 R.string.localizable.chatRoomViewEncryptedMessagesNotify()
             )
         }
-
+        
+        let displayName: String = (event.content["displayname"] as? String) ?? ""
         if event.type == EventTypeKeys.roomAvatar {
-            return .avatarChange(
+            return .avatarChange( " \(displayName) " +
                 R.string.localizable.chatRoomViewSelfAvatarChangeNotify()
             )
         }
@@ -173,12 +174,6 @@ extension RoomEventObjectFactory: RoomEventObjectFactoryProtocol {
         guard event.type == EventTypeKeys.roomMember,
            let membership = event.content["membership"] as? String else {
                return .none
-        }
-
-        let displayName: String = (event.content["displayname"] as? String) ?? ""
-
-        if membership == EventTypeKeys.roomJoin {
-            return .joinRoom("\(displayName) " + "присоединился к комнате")
         }
 
         if membership == EventTypeKeys.roomLeave {

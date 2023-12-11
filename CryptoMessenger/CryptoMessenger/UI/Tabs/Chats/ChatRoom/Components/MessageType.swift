@@ -25,7 +25,7 @@ enum MessageType: Equatable {
             return lhsEventId == rhsEventId && lhstext == rhstext
         case (let .encryption(lhsString), let .encryption(rhsString)):
             return lhsString == rhsString
-        case (.call, .call), (.date(_),  .date(_)), ( .joinRoom(_),  .joinRoom(_)), ( .leaveRoom(_),  .leaveRoom(_)):
+        case (.call, .call), (.date(_),  .date(_)), ( .leaveRoom(_),  .leaveRoom(_)):
             return true
         case (.none, .none):
             return true
@@ -52,7 +52,6 @@ enum MessageType: Equatable {
     case groupCall(eventId: String, text: String)
     case encryption(String)
     case avatarChange(String)
-    case joinRoom(String)
     case leaveRoom(String)
     case inviteToRoom(String)
     case none

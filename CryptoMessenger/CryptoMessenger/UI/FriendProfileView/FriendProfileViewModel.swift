@@ -47,6 +47,7 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
     private let channelFactory: ChannelUsersFactoryProtocol.Type
     private let chatHistoryCoordinator: ChatsCoordinatable
     private let pasteboardService: PasteboardServiceProtocol
+    private let config: ConfigType
 
     // MARK: - Lifecycle
 
@@ -58,6 +59,7 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
         keychainService: KeychainServiceProtocol = KeychainService.shared,
         channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self,
         pasteboardService: PasteboardServiceProtocol = PasteboardService.shared,
+        config: ConfigType = Configuration.shared,
         sources: FriendProfileResourcable.Type = FriendProfileResources.self
     ) {
         self.userId = userId
@@ -67,6 +69,7 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
         self.keychainService = keychainService
         self.channelFactory = channelFactory
         self.pasteboardService = pasteboardService
+        self.config = config
         self.sources = sources
         bindInput()
         bindOutput()
@@ -112,7 +115,7 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
                 case .onProfileAppear:
                     self?.fetchData()
                 case .onAppear:
-                    debugPrint("onAppear")
+                    ()
                 case let .onShow(type):
                     switch type {
                     default:
@@ -122,12 +125,6 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
                     debugPrint("onSocial")
                 }
             }
-            .store(in: &subscriptions)
-
-        matrixUseCase.objectChangePublisher
-            .subscribe(on: DispatchQueue.global(qos: .userInteractive))
-            .receive(on: DispatchQueue.main)
-            .sink { _ in }
             .store(in: &subscriptions)
     }
 
@@ -177,7 +174,11 @@ final class FriendProfileViewModel: FriendProfileViewModelProtocol {
         profile.name = contact.name
         profile.nickname = contact.name
         profile.phone = contact.phone
-        profile.avatar = contact.avatar
+        if let url = contact.avatar {
+            let homeServer = self.config.matrixURL
+            let avatarUrl = MXURL(mxContentURI: url.absoluteString)?.contentURL(on: homeServer)
+            profile.avatar = avatarUrl
+        }
         loadUserNote()
     }
 

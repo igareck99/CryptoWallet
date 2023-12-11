@@ -549,7 +549,7 @@
 
 // Chat Room View
 
-"ChatRoomView.SelfAvatarChangeNotify" = "Вы сменили свой аватар";
+"ChatRoomView.SelfAvatarChangeNotify" = "изменил(а) аватар чата";
 "ChatRoomView.EncryptedMessagesNotify" = "Сообщения в этой комнате зашифрованы сквозным шифрованием";
 "ChatRoomView.AvatarChangeNotify" = "сменил аватарку";
 "ChatRoomView.RoomEntryNotify" = "вошел(ла) в комнату";

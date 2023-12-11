@@ -195,10 +195,6 @@ enum RoomEventsFactory: RoomEventsFactoryProtocol {
                 return makeSystemEventItem(text: text) {
                     debugPrint("onTap avatarChange SystemEventItem")
                 }
-            case let .joinRoom(text):
-                return makeSystemEventItem(text: text) {
-                    debugPrint("onTap joinRoom SystemEventItem")
-                }
             case let .leaveRoom(text):
                 return makeSystemEventItem(text: text) {
                     debugPrint("onTap leaveRoom SystemEventItem")

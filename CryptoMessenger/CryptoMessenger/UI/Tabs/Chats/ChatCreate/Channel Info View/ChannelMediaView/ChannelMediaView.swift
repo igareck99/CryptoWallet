@@ -114,10 +114,30 @@ struct ChannelMediaView: View {
 
     private var searchSelectView: some View {
         HStack(spacing: 0) {
-            ChannelMediaTypeView(selectedSearchType: $searchType,
-                                 searchTypeCell: ChannelMediaTabs.media)
-            ChannelMediaTypeView(selectedSearchType: $searchType,
-                                 searchTypeCell: ChannelMediaTabs.documents )
+            createChannelMediaTypeView(ChannelMediaTabs.media)
+            createChannelMediaTypeView(ChannelMediaTabs.documents)
+        }
+    }
+    
+    @ViewBuilder
+    private func createChannelMediaTypeView(_ type: ChannelMediaTabs) -> some View {
+        VStack(spacing: 9) {
+            Text(type.title,
+                 [
+                    .paragraph(.init(lineHeightMultiple: 1.15, alignment: .center))
+                 ]).font(.calloutRegular16)
+                .foregroundColor(type == searchType ? .dodgerBlue : .romanSilver)
+            Divider()
+                .frame(width: UIScreen.main.bounds.width / 2,
+                       height: type == searchType ? 2 : 1)
+                .background(type == searchType ? Color.dodgerBlue : Color.gainsboro)
+        }
+        .frame(height: 44, alignment: .bottom)
+        .background(.white)
+        .onTapGesture {
+            withAnimation(.linear(duration: 0.15)) {
+                searchType = type
+            }
         }
     }
 
