@@ -71,14 +71,56 @@ extension MatrixService {
 		session?.joinRoom(roomId, completion: completion)
 	}
 
-	func isDirectRoomExists(userId: String) -> Bool {
-        let ids = session?.directRooms[userId]
-        ids?.forEach {
-            let mxRoom = getRoomInfo(roomId: $0)
+    // Вступил ли пользователь в комнату (p2p, group chat, channel)
+    func isAlreadyJoinedRoom(roomId: String) -> Bool? {
+        // session?.rooms - это все типы комнат
+        guard let room = session?.rooms.first(where: {
+            $0.roomId == roomId
+        }) else {
+            return nil
         }
-		return session?.directJoinedRoom(withUserId: userId) != nil
+        let isAlreadyJoined = room.summary?.membership == .join
+        return isAlreadyJoined
+    }
+
+    // Был ли пользователь приглашен в комнату (p2p, group chat, channel)
+    func isInvitedToRoom(roomId: String) -> Bool? {
+        // session?.rooms - это все типы комнат
+        guard let room = session?.rooms.first(where: {
+            $0.roomId == roomId
+        }) else {
+            return nil
+        }
+        let isInvited = room.summary?.membership == .invite
+        let isFailedJoining = room.summary?.membershipTransitionState == .failedJoining
+        let isJoining = room.summary?.membershipTransitionState == .joining
+        let isJoined = room.summary?.membershipTransitionState == .joined
+        // MARK: - Оставил для дебага
+//        debugPrint("MATRIX DEBUG isInvitedToRoom ================================================")
+//        debugPrint("MATRIX DEBUG isInvitedToRoom roomId: \(roomId)")
+//        debugPrint("MATRIX DEBUG isInvitedToRoom isInvited: \(isInvited)")
+//        debugPrint("MATRIX DEBUG isInvitedToRoom tState: \(room.summary?.membershipTransitionState.rawValue)")
+//        debugPrint("MATRIX DEBUG isInvitedToRoom room.summary?.membership: \(room.summary?.membership.rawValue)")
+//        debugPrint("MATRIX DEBUG isInvitedToRoom ================================================")
+        return isInvited && !isFailedJoining && !isJoining && !isJoined
+    }
+
+    // Проверяем есть ли комната (p2p) с ползователем
+	func isDirectRoomExists(userId: String) -> String? {
+        // session?.directRooms - это только p2p комнаты
+        // вытаскиваем все идентификаторы p2p комнат, которые есть с этим пользователем
+        let ids: Set<String> = Set(session?.directRooms[userId] ?? [])
+        let mxRooms: [MXRoom] = (session?.rooms ?? [])
+            .filter { ids.contains($0.roomId) }
+        let room: MXRoom? = mxRooms.first(where: { mxRoom in
+            // проверяем membership в каждой комнате
+            // если есть хотя бы одна комната с membership == .join,
+            // то комната уже есть и пользователь ее еще не покинул
+            mxRoom.summary?.membership == .join
+        })
+        return room?.roomId
 	}
-    
+
     func getRoomInfo(roomId: String) -> MXRoom? {
         guard let room = matrixSession?.rooms.first(where: {
             $0.roomId == roomId

@@ -89,9 +89,9 @@ class NotificationService: UNNotificationServiceExtension {
 
     private func getCredentials() -> MXCredentials? {
         guard let userId: String = userDefaultsService.userId,
-              let accessToken: String = keychainService[.accessToken],
-              let homeServer: String = keychainService[.homeServer],
-              let deviceId: String = keychainService[.deviceId]
+              let accessToken: String = keychainService.accessToken,
+              let homeServer: String = keychainService.homeServer,
+              let deviceId: String = keychainService.deviceId
         else {
             return nil
         }

@@ -47,7 +47,7 @@ extension WalletNetworkFacade {
                 completion()
                 return
             }
-            
+
             guard
                 let self = self,
                 response?.isRefreshNeeded == false,
@@ -58,9 +58,9 @@ extension WalletNetworkFacade {
                 self?.checkIfRefreshNeeded(response: response, completion: completion)
                 return
             }
-            self.keychainService.accessToken = accessToken
+            self.keychainService.walletAccessToken = accessToken
             if let refreshToken = model.data?.refreshToken {
-                self.keychainService.refreshToken = refreshToken
+                self.keychainService.walletRefreshToken = refreshToken
             }
             completion()
         }

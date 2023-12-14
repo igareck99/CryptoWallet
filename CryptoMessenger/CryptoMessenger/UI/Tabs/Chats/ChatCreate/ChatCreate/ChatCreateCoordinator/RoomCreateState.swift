@@ -2,10 +2,10 @@ import SwiftUI
 
 // MARK: - RoomCreateState
 
-enum RoomCreateState: String {
-    case roomCreateError = "Ошибка при создании комнаты"
-    case roomAlreadyExist = "Такой чат уже существует"
-    case roomCreateSucces = "Комната успешно создана"
+enum RoomCreateState {
+    case roomCreateError
+    case roomAlreadyExist
+    case roomCreateSucces
     
     
     var color: Color {
@@ -16,6 +16,17 @@ enum RoomCreateState: String {
             return .spanishCrimson
         case .roomCreateSucces:
             return .greenCrayola
+        }
+    }
+
+    var text: String {
+        switch self {
+        case .roomCreateError:
+            return "Ошибка при создании комнаты"
+        case .roomAlreadyExist:
+            return "Такой чат уже существует"
+        case .roomCreateSucces:
+            return "Комната успешно создана"
         }
     }
 }

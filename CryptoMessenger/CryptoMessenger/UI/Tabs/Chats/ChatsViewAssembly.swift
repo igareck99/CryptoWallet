@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-typealias ChatsCoordinatorType = ChatsCoordinator<ChatsRouter<ChatHistoryView<ChatHistoryViewModel>,ChatsRouterState, ViewsBaseFactory>>
+typealias ChatsCoordinatorType = ChatsCoordinator<ChatsRouter<ChatHistoryView<ChatHistoryViewModel>, ChatsRouterState, ViewsBaseFactory>>
 
 enum ChatsViewAssemlby {
 

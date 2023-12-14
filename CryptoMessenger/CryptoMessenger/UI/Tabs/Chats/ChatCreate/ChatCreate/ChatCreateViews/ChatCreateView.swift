@@ -38,11 +38,16 @@ struct ChatCreateView<ViewModel>: View where ViewModel: ChatCreateViewModelProto
     }
 
     private var content: some View {
-        ChatCreateContentView(actions: $viewModel.actions,
-                              views: $viewModel.lastUsersSections,
-                              viewState: $viewModel.state,
-                              isSearchingState: $viewModel.isSearching)
-        .searchable(text: $viewModel.searchText, prompt: viewModel.resources.search)
+        ChatCreateContentView(
+            actions: $viewModel.actions,
+            views: $viewModel.lastUsersSections,
+            viewState: $viewModel.state,
+            isSearchingState: $viewModel.isSearching
+        )
+        .searchable(
+            text: $viewModel.searchText,
+            prompt: viewModel.resources.search
+        )
     }
 
     @ToolbarContentBuilder

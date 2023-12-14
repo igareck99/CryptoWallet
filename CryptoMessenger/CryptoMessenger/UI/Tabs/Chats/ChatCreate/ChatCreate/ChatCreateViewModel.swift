@@ -273,8 +273,7 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
         }
     }
 
-    private func showSnackBar(_ text: String,
-                              _ color: Color) {
+    private func showSnackBar(text: String, color: Color) {
         snackBarText = text
         shackBarColor = color
         isSnackbarPresented = true
@@ -294,34 +293,36 @@ final class ChatCreateViewModel: ObservableObject, ChatCreateViewModelProtocol {
             return
         }
         isTappedCreateDirectChat = true
-        let group = DispatchGroup()
-        group.enter()
-        if let auraRoom = matrixUseCase.customCheckRoomExist(contact.mxId) {
-            coordinator?.onFriendProfile(room: auraRoom)
-            group.leave()
+        if let auraRoomData: AuraRoomData = matrixUseCase.customCheckRoomExist(mxId: contact.mxId) {
+            isTappedCreateDirectChat = false
+            coordinator?.onFriendProfile(room: auraRoomData)
         } else {
-            switch contact.type {
-            case .lastUsers, .existing:
-                matrixUseCase.createDirectRoom([contact.mxId]) { result in
-                    switch result {
-                    case .roomCreateError:
-                        self.showSnackBar(result.rawValue,
-                                          result.color)
-                        group.leave()
-                    case .roomCreateSucces:
-                        self.matrixUseCase.objectChangePublisher.send()
+            guard contact.type == .existing || contact.type == .lastUsers else {
+                isTappedCreateDirectChat = false
+                return
+            }
+            matrixUseCase.createDirectRoom(userId: contact.mxId) { [weak self] state, roomId in
+                guard let self = self else { return }
+                self.isTappedCreateDirectChat = false
+                switch state {
+                case .roomCreateError:
+                    self.showSnackBar(
+                        text: state.text,
+                        color: state.color
+                    )
+                case .roomCreateSucces, .roomAlreadyExist:
+                    self.matrixUseCase.objectChangePublisher.send()
+
+                    if let mxRoomId = roomId,
+                       let auraRoomData: AuraRoomData = matrixUseCase.auraNoEventsRooms.first(
+                        where: { $0.roomId == mxRoomId }
+                       ) {
+                        coordinator?.onFriendProfile(room: auraRoomData)
+                    } else {
                         self.dismissCurrentCoodinator()
-                        group.leave()
-                    case .roomAlreadyExist:
-                        break
                     }
                 }
-            default:
-                break
             }
-        }
-        group.notify(queue: .main) {
-            self.isTappedCreateDirectChat = false
         }
     }
 }

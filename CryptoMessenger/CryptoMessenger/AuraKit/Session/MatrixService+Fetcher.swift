@@ -4,6 +4,7 @@ import MatrixSDK
 extension MatrixService {
 
 	func configureFetcher() {
+        debugPrint("MATRIX DEBUG MatrixService configureFetcher")
 		let sortOptions = MXRoomListDataSortOptions(
 			missedNotificationsFirst: true,
 			unreadMessagesFirst: true
@@ -29,7 +30,7 @@ extension MatrixService: MXRoomListDataFetcherDelegate {
 		_ fetcher: MXRoomListDataFetcher,
 		totalCountsChanged: Bool
 	) {
-		debugPrint("MXRoomListDataFetcherDelegate fetcherDidChangeData")
+		debugPrint("MATRIX DEBUG MatrixService fetcherDidChangeData")
 		debugPrint("fetcher: \(String(describing: fetcher.data))")
 	}
 }

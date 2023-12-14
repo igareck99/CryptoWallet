@@ -13,6 +13,9 @@ protocol KeychainServiceProtocol: AnyObject {
 	var apiUserPhoneNumber: String? { get set }
 	var apiUserPinCode: String? { get set }
     var homeServer: String? { get set }
+    var accessToken: String? { get set }
+    var walletAccessToken: String? { get set }
+    var deviceId: String? { get set }
 	var isPinCodeEnabled: Bool? { get set }
 	var apiUserFalsePinCode: String? { get set }
 	var isApiUserAuthenticated: Bool? { get set }

@@ -1,31 +1,34 @@
 import Foundation
 
-// MARK: - PrivateDataCleaner
+protocol PrivateDataCleanerProtocol {
+    func clearWalletPrivateData()
+    func clearMatrixPrivateData()
+}
 
-final class PrivateDataCleaner: PrivateDataCleanerProtocol {
-
-    // MARK: - Static Properties
-
+final class PrivateDataCleaner {
     static let shared = PrivateDataCleaner()
-
-    // MARK: - Private Properties
 
     private let keychainService: KeychainServiceProtocol
     private let coreDataService: CoreDataServiceProtocol
-
-    // MARK: - Lifecycle
+    private let userDefaultsService: UserDefaultsServiceProtocol
 
     init(
         keychainService: KeychainServiceProtocol = KeychainService.shared,
-        coreDataService: CoreDataServiceProtocol = CoreDataService.shared
+        coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
+        userDefaultsService: UserDefaultsServiceProtocol = UserDefaultsService.shared
     ) {
         self.keychainService = keychainService
         self.coreDataService = coreDataService
+        self.userDefaultsService = userDefaultsService
     }
+}
 
-    // MARK: - Internal Methods
+// MARK: - PrivateDataCleanerProtocol
 
-    func resetPrivateData() {
+extension PrivateDataCleaner: PrivateDataCleanerProtocol {
+
+    func clearWalletPrivateData() {
+        debugPrint("MATRIX DEBUG PrivateDataCleaner clearWalletPrivateData")
         coreDataService.deleteAllWalletNetworks()
         coreDataService.deleteAllNetworksTokens()
         keychainService.removeObject(forKey: .secretPhrase)
@@ -35,11 +38,19 @@ final class PrivateDataCleaner: PrivateDataCleanerProtocol {
         keychainService.removeObject(forKey: .bitcoinPrivateKey)
         keychainService.removeObject(forKey: .binancePublicKey)
         keychainService.removeObject(forKey: .binancePrivateKey)
+        keychainService.removeObject(forKey: .auraPublicKey)
+        keychainService.removeObject(forKey: .auraPrivateKey)
     }
-}
 
-// MARK: - PrivateDataCleanerProtocol
-
-protocol PrivateDataCleanerProtocol {
-    func resetPrivateData()
+    func clearMatrixPrivateData() {
+        debugPrint("MATRIX DEBUG PrivateDataCleaner clearMatrixPrivateData")
+        keychainService.removeObject(forKey: .homeServer)
+        keychainService.removeObject(forKey: .accessToken)
+        keychainService.removeObject(forKey: .apiAccessToken)
+        keychainService.removeObject(forKey: .apiRefreshToken)
+        keychainService.removeObject(forKey: .walletAccessToken)
+        keychainService.removeObject(forKey: .walletRefreshToken)
+        keychainService.removeObject(forKey: .deviceId)
+        userDefaultsService.removeObject(forKey: .userId)
+    }
 }

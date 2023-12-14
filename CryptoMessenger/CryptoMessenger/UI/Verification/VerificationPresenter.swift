@@ -212,8 +212,8 @@ private extension VerificationPresenter  {
                 
                 // TODO: Обработать отсутсвие userId
                 guard let userId = response.userId,
-                      let accessToken = response.accessToken,
-                      let refreshToken = response.refreshToken,
+                      let apiAccessToken = response.apiAccessToken,
+                      let apiRefreshToken = response.apiRefreshToken,
                       let homeServer = self?.configuration.matrixURL,
                       let deviceId = self?.configuration.deviceId else {
                     self?.verificationState = .wrongOTP
@@ -222,12 +222,11 @@ private extension VerificationPresenter  {
                 
                 self?.loginMatrixWithJWT(
                     phone: phone,
-                    token: accessToken,
                     deviceId: deviceId,
                     userId: userId,
                     homeServer: homeServer,
-                    accessToken: accessToken,
-                    refreshToken: refreshToken
+                    apiAccessToken: apiAccessToken,
+                    apiRefreshToken: apiRefreshToken
                 )
             }
             .store(in: &subscriptions)
@@ -235,15 +234,14 @@ private extension VerificationPresenter  {
     
     func loginMatrixWithJWT(
         phone: String,
-        token: String,
         deviceId: String,
         userId: String,
         homeServer: URL,
-        accessToken: String,
-        refreshToken: String
+        apiAccessToken: String,
+        apiRefreshToken: String
     ) {
         matrixUseCase.loginByJWT(
-            token: token,
+            token: apiAccessToken,
             deviceId: deviceId,
             userId: userId,
             homeServer: homeServer
@@ -257,9 +255,10 @@ private extension VerificationPresenter  {
                 self?.saveLogInState(
                     phone: phone,
                     userId: auraMxCredentials.userId,
-                    accessToken: accessToken,
-                    refreshToken: refreshToken,
-                    homeServer: homeServer.absoluteString
+                    apiAccessToken: apiAccessToken,
+                    apiRefreshToken: apiRefreshToken,
+                    homeServer: homeServer.absoluteString,
+                    mxCredentials: auraMxCredentials
                 )
                 self?.delegate?.onVerificationSuccess()
             }
@@ -268,18 +267,23 @@ private extension VerificationPresenter  {
     func saveLogInState(
         phone: String,
         userId: String,
-        accessToken: String,
-        refreshToken: String,
-        homeServer: String
+        apiAccessToken: String,
+        apiRefreshToken: String,
+        homeServer: String,
+        mxCredentials: AuraMatrixCredentials
     ) {
+        debugPrint("MATRIX DEBUG VerificationPresenter saveLogInState")
+        privateDataCleaner.clearWalletPrivateData()
+        privateDataCleaner.clearMatrixPrivateData()
         userSettings.userId = userId
         userSettings.isLocalAuth = true
-        privateDataCleaner.resetPrivateData()
         // Пересохраняем телефон под новым service name (serviceName + userMatrixId)
         keychainService.apiUserPhoneNumber = phone
         keychainService.isApiUserAuthenticated = true
-        keychainService.apiAccessToken = accessToken
-        keychainService.apiRefreshToken = refreshToken
+        keychainService.apiAccessToken = apiAccessToken
+        keychainService.apiRefreshToken = apiRefreshToken
+        keychainService.accessToken = mxCredentials.accessToken
+        keychainService.deviceId = mxCredentials.deviceId
         keychainService.homeServer = homeServer
         userSettings.isAuthFlowFinished = true
         keychainService.isPinCodeEnabled = false

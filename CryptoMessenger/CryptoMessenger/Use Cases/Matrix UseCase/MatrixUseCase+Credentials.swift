@@ -4,17 +4,20 @@ import MatrixSDK
 extension MatrixUseCase {
 
     func save(credentials: MXCredentials) {
-        guard let homeServer = credentials.homeServer,
-              let userId = credentials.userId,
-              let accessToken = credentials.accessToken,
-              let deviceId = credentials.deviceId else {
-            return
-        }
+        debugPrint("MATRIX DEBUG MatrixUseCase save(credentials: MXCredentials) \(credentials)")
+        // MARK: - Пока оставил для отладки
+//        guard
+//            let userId = credentials.userId,
+//            let homeServer = credentials.homeServer,
+//            let accessToken = credentials.accessToken,
+//            let deviceId = credentials.deviceId else {
+//            return
+//        }
 
-        userSettings.userId = userId
-        keychainService[.homeServer] = homeServer
-        keychainService[.accessToken] = accessToken
-        keychainService[.deviceId] = deviceId
+//        userSettings.userId = userId
+//        keychainService.homeServer = homeServer
+//        keychainService.accessToken = accessToken
+//        keychainService.deviceId = deviceId
         debugPrint("Credetials saved")
     }
 
@@ -30,10 +33,10 @@ extension MatrixUseCase {
 
     func retrievCredentials() -> MXCredentials? {
         guard
-            let homeServer: String = keychainService[.homeServer],
             let userId: String = userSettings.userId,
-            let accessToken: String = keychainService[.accessToken],
-            let deviceId: String = keychainService[.deviceId]
+            let homeServer: String = keychainService.homeServer,
+            let accessToken: String = keychainService.accessToken,
+            let deviceId: String = keychainService.deviceId
         else {
             return nil
         }

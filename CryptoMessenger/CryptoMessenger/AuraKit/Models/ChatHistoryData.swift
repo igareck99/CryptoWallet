@@ -28,7 +28,9 @@ struct ChatHistoryData: Identifiable, ViewGeneratable {
 
     @ViewBuilder
     func view() -> AnyView {
-        ChatHistoryRow(room: self,
-                       isFromCurrentUser: true).anyView()
+        ChatHistoryRow(
+            room: self,
+            isFromCurrentUser: true
+        ).anyView()
     }
 }

@@ -10,7 +10,7 @@ extension MatrixService {
 	var matrixSession: MXSession? { session }
 
 	func initializeSessionStore(completion: @escaping (EmptyResult) -> Void) {
-
+        debugPrint("MATRIX DEBUG MatrixService initializeSessionStore")
 		session?.setStore(fileStore) { response in
 			switch response {
 			case .failure(let error):
@@ -23,6 +23,7 @@ extension MatrixService {
 	}
 
 	func startSession(completion: @escaping (Result<MatrixState, MXErrors>) -> Void) {
+        debugPrint("MATRIX DEBUG MatrixService startSession")
 		session?.start { [weak self] response in
 			switch response {
 			case .failure(_):
@@ -58,7 +59,6 @@ extension MatrixService {
                 case let .success(dict) = response,
                 let model = Parser.parse(dictionary: dict, to: AuthMatrixJWTResponse.self),
                 let accessToken = model.accessToken,
-                let hServer = model.homeServer,
                 let mUserId = model.userId,
                 let mDeviceId = model.deviceId
             else {
@@ -82,8 +82,10 @@ extension MatrixService {
 		homeServer: URL,
 		completion: @escaping LoginCompletion
 	) {
+        debugPrint("MATRIX DEBUG MatrixService login()")
 		loginState = .authenticating
 		client?.login(username: userId, password: password) { [weak self] response in
+            debugPrint("MATRIX DEBUG MatrixService client?.login response: \(response)")
 			switch response {
 			case .failure(let error):
 				self?.loginState = .failure(.loginFailure)
@@ -96,10 +98,16 @@ extension MatrixService {
 	}
 
 	func logout(completion: @escaping (Result<MatrixState, Error>) -> Void) {
-//		clearCredentials()
+        debugPrint("MATRIX DEBUG MatrixService logout()")
 		// TODO: Пока непонятно в какой момент нужно вызывать этот метод
-		//		client?.logout { _ in }
+/*
+        client?.logout { response in
+            debugPrint("MATRIX DEBUG MatrixService client?.logout response: \(response)")
+        }
+ */
+
 		session?.logout { response in
+            debugPrint("MATRIX DEBUG MatrixService session?.logout response: \(response)")
 			switch response {
 			case let .failure(error):
 				completion(.failure(error))

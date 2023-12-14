@@ -16,7 +16,7 @@ final class MatrixUseCase {
     let jitsiFactory: JitsiWidgetFactoryProtocol.Type
     let keychainService: KeychainServiceProtocol
     let userSettings: UserDefaultsServiceProtocol & UserCredentialsStorage
-	private var roomsTimer: AnyPublisher<Date, Never>?
+    let channelFactory: ChannelUsersFactoryProtocol.Type
 	private var subscriptions = Set<AnyCancellable>()
 	private let toggles: MatrixUseCaseTogglesProtocol
 
@@ -33,18 +33,20 @@ final class MatrixUseCase {
         toggles: MatrixUseCaseTogglesProtocol = MatrixUseCaseToggles(),
         config: ConfigType = Configuration.shared,
         cache: ImageCacheServiceProtocol = ImageCacheService.shared,
-        jitsiFactory: JitsiWidgetFactoryProtocol.Type = JitsiWidgetFactory.self
+        jitsiFactory: JitsiWidgetFactoryProtocol.Type = JitsiWidgetFactory.self,
+        channelFactory: ChannelUsersFactoryProtocol.Type = ChannelUsersFactory.self
     ) {
-      self.matrixService = matrixService
-      self.keychainService = keychainService
-      self.userSettings = userSettings
-      self.toggles = toggles
-      self.config = config
-      self.cache = cache
-      self.jitsiFactory = jitsiFactory
-      observeLoginState()
-      observeSessionToken()
-	}
+        self.matrixService = matrixService
+        self.keychainService = keychainService
+        self.userSettings = userSettings
+        self.toggles = toggles
+        self.config = config
+        self.cache = cache
+        self.jitsiFactory = jitsiFactory
+        self.channelFactory = channelFactory
+        observeLoginState()
+        observeSessionToken()
+    }
 
     // MARK: - Private Methods
     
@@ -95,25 +97,6 @@ final class MatrixUseCase {
 	@objc func userDidLoggedIn() {
  		matrixService.updateState(with: .loggedIn(userId: matrixService.getUserId()))
 		updateCredentialsIfAvailable()
-		guard toggles.isRoomsUpdateTimerAvailable else { return }
-
-		debugPrint("makeAndBindTimer CALLED")
-		makeAndBindTimer()
-	}
-
-    // MARK: - Костыль для принудительного обнровления списка комнат
-	private func makeAndBindTimer() {
-		roomsTimer = Timer
-			.publish(every: 0.5, on: RunLoop.main, in: .default)
-			.autoconnect()
-			.prefix(untilOutputFrom: Just(()).delay(for: 30, scheduler: RunLoop.main))
-			.eraseToAnyPublisher()
-
-		roomsTimer?
-			.receive(on: RunLoop.main)
-			.sink(receiveValue: { [weak self] _ in
-				self?.objectChangePublisher.send()
-			}).store(in: &subscriptions)
 	}
 
 	// TODO: Отрефачить логику входа по пин коду
@@ -228,12 +211,21 @@ extension MatrixUseCase: MatrixUseCaseProtocol {
             }
         }
     }
+    
+    func logout(completion: @escaping (Result<MatrixState, Error>) -> Void) {
+        matrixService.logout { [weak self] in
+            completion($0)
+            self?.closeSession()
+        }
+    }
 
 	func closeSession() {
+        debugPrint("MATRIX DEBUG MatrixUseCase closeSession")
 		matrixService.closeSessionAndClearData()
 	}
     
     // MARK: - Sync
+    
     func serverSyncWithServerTimeout() {
         // TODO: Trigger storage sync with server
         matrixService.matrixSession?.backgroundSync(completion: { response in
