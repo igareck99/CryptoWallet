@@ -22,10 +22,6 @@ extension ChatViewModel {
                     onSelectVideo: { [weak self] url in
                         guard let self = self, let url = url else { return }
                         self.sendMessage(type: .video, url: url)
-                        self.sendVideo(
-                            url,
-                            self.makeOutputEventView(.video(url))
-                        )
                     }
                 )
             },

@@ -194,9 +194,9 @@ struct FriendProfileView<ViewModel: FriendProfileViewModelProtocol>: View {
 
     private var avatarView: some View {
         AsyncImage(
-            defaultUrl: viewModel.profile.avatar,
-            updatingPhoto: false,
-            url: nil,
+            defaultUrl: nil,
+            updatingPhoto: true,
+            url: $viewModel.profile.avatar,
             placeholder: {
                 placeholderPhotoView
             },

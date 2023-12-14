@@ -235,7 +235,6 @@
 		8B28B535276347AA00C3E486 /* ProfileDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B28B534276347AA00C3E486 /* ProfileDetailViewModel.swift */; };
 		8B2AE33B29E5857E00C9AC0E /* ChannelMediaTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE33A29E5857E00C9AC0E /* ChannelMediaTabs.swift */; };
 		8B2AE33D29E585A400C9AC0E /* ChannelDocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE33C29E585A400C9AC0E /* ChannelDocumentView.swift */; };
-		8B2AE33F29E585C500C9AC0E /* ChannelMediaTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE33E29E585C500C9AC0E /* ChannelMediaTypeView.swift */; };
 		8B2AE34129E5860E00C9AC0E /* ChannelMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE34029E5860E00C9AC0E /* ChannelMediaViewModel.swift */; };
 		8B2AE34329E5864900C9AC0E /* ChannelMediaResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE34229E5864900C9AC0E /* ChannelMediaResources.swift */; };
 		8B2AE34529E5869200C9AC0E /* ChannelMediaProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2AE34429E5869200C9AC0E /* ChannelMediaProtocols.swift */; };
@@ -1262,7 +1261,6 @@
 		8B28B534276347AA00C3E486 /* ProfileDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewModel.swift; sourceTree = "<group>"; };
 		8B2AE33A29E5857E00C9AC0E /* ChannelMediaTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaTabs.swift; sourceTree = "<group>"; };
 		8B2AE33C29E585A400C9AC0E /* ChannelDocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDocumentView.swift; sourceTree = "<group>"; };
-		8B2AE33E29E585C500C9AC0E /* ChannelMediaTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaTypeView.swift; sourceTree = "<group>"; };
 		8B2AE34029E5860E00C9AC0E /* ChannelMediaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaViewModel.swift; sourceTree = "<group>"; };
 		8B2AE34229E5864900C9AC0E /* ChannelMediaResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaResources.swift; sourceTree = "<group>"; };
 		8B2AE34429E5869200C9AC0E /* ChannelMediaProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMediaProtocols.swift; sourceTree = "<group>"; };
@@ -3198,7 +3196,6 @@
 				8B32FEB2298860F40017082A /* ChannelMediaAssembly.swift */,
 				8B2AE33A29E5857E00C9AC0E /* ChannelMediaTabs.swift */,
 				8B2AE33C29E585A400C9AC0E /* ChannelDocumentView.swift */,
-				8B2AE33E29E585C500C9AC0E /* ChannelMediaTypeView.swift */,
 				8B2AE34029E5860E00C9AC0E /* ChannelMediaViewModel.swift */,
 				8B2AE34229E5864900C9AC0E /* ChannelMediaResources.swift */,
 				8B2AE34429E5869200C9AC0E /* ChannelMediaProtocols.swift */,
@@ -6026,7 +6023,6 @@
 				D49FAD992A77723200B26C8B /* AddSeedCoordinator.swift in Sources */,
 				8BAAB3842A2643670062D5B2 /* OboardingPageData.swift in Sources */,
 				D448152D2877342400E9CAEF /* KeychainService+Credentials.swift in Sources */,
-				8B2AE33F29E585C500C9AC0E /* ChannelMediaTypeView.swift in Sources */,
 				8B0353D92A8BE1430033965D /* ChatHistoryRow.swift in Sources */,
 				8BB9E6242ACCC57A00C02EF2 /* AudioEventStateView.swift in Sources */,
 				D4AAD74F2948615E00A26515 /* TransactionSpeed.swift in Sources */,
