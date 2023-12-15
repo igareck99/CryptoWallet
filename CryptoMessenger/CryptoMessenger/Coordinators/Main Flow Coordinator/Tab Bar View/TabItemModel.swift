@@ -5,20 +5,18 @@ struct TabItemModel: Identifiable, ViewGeneratable {
     let title: String
     let icon: Image
     let tabType: MainTabs
-    @ViewBuilder
-    var viewContent: () -> AnyView
+    let tabView: AnyView
 
     init(
         title: String,
         icon: Image,
         tabType: MainTabs,
-        @ViewBuilder
-        viewContent: @escaping () -> AnyView
+        tabView: AnyView
     ) {
         self.title = title
         self.icon = icon
         self.tabType = tabType
-        self.viewContent = viewContent
+        self.tabView = tabView
     }
 
     @ViewBuilder
@@ -30,7 +28,9 @@ struct TabItemModel: Identifiable, ViewGeneratable {
             .anyView()
     }
 
+    // MARK: - ViewGeneratable
+
     func view() -> AnyView {
-        viewContent()
+        tabView
     }
 }
