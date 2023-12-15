@@ -3834,15 +3834,10 @@
 		8BE122BD28242E7000F7707E /* Main Flow Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				D472B1DC2B2C3E8A00029466 /* Tab Bar View */,
 				D4533A1D28335BD300B956B2 /* MainFlowCoordinatorAssembly.swift */,
 				5AF8636F26ADD9BB004A417C /* MainFlowCoordinator.swift */,
 				8BE122BE28242EB500F7707E /* MainFlowTogglesFacade.swift */,
-				8B234ED62A43448C0064ACD3 /* TabItemsView.swift */,
-				D48FA57B2A4ABF660002C07F /* TabItemsViewModel.swift */,
-				D48FA57D2A4ADCF80002C07F /* MainTabs.swift */,
-				D48FA57F2A4ADDAD0002C07F /* TabItemModel.swift */,
-				D48FA5812A4B01900002C07F /* TabItemsViewAssembly.swift */,
-				D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */,
 			);
 			path = "Main Flow Coordinator";
 			sourceTree = "<group>";
@@ -4666,6 +4661,19 @@
 				D414000B2AE8FD2E00E18720 /* ConfigType.swift */,
 			);
 			path = "App Config";
+			sourceTree = "<group>";
+		};
+		D472B1DC2B2C3E8A00029466 /* Tab Bar View */ = {
+			isa = PBXGroup;
+			children = (
+				8B234ED62A43448C0064ACD3 /* TabItemsView.swift */,
+				D48FA57B2A4ABF660002C07F /* TabItemsViewModel.swift */,
+				D48FA57D2A4ADCF80002C07F /* MainTabs.swift */,
+				D48FA57F2A4ADDAD0002C07F /* TabItemModel.swift */,
+				D48FA5812A4B01900002C07F /* TabItemsViewAssembly.swift */,
+				D40060F02A4B2F65004D5F35 /* TabItemsFactory.swift */,
+			);
+			path = "Tab Bar View";
 			sourceTree = "<group>";
 		};
 		D4752E9228BFC47E006B650A /* Group Calls */ = {

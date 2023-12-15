@@ -10,7 +10,6 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
 
     @Published private(set) var auraRooms: [AuraRoomData] = []
     @Published private(set) var chatHistoryRooms: [ChatHistoryData] = []
-    @Published private(set) var state: ChatHistoryFlow.ViewState = .idle
     @Published var groupAction: GroupAction?
     @Published var isFromCurrentUser = false
     @Published var isLoading = false
@@ -375,11 +374,5 @@ final class ChatHistoryViewModel: ObservableObject, ChatHistoryViewDelegate {
                 debugPrint("pushService.allMessages result: \(result)")
             }
         }
-    }
-
-    private func bindOutput() {
-        stateValueSubject
-            .assign(to: \.state, on: self)
-            .store(in: &subscriptions)
     }
 }
