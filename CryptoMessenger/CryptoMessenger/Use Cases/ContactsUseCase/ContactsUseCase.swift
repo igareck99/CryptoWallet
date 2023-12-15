@@ -1,4 +1,5 @@
 import Combine
+import PhoneNumberKit
 
 // MARK: - ContactsUseCase
 
@@ -71,7 +72,15 @@ final class ContactsUseCase: ContactsUseCaseProtocol {
                              completion: @escaping ([Contact]) -> Void,
                              onTap: @escaping (Contact) -> Void) {
         guard !contacts.isEmpty else { return }
-        let phones = contacts.map { $0.phoneNumber.numbers }
+        let phoneNumberKit = PhoneNumberKit()
+        let contacts = contacts.map {
+            let phoneObject = phoneNumberKit.parse([$0.phoneNumber]).first
+            let phone = String(phoneObject?.countryCode ?? 0) + String(phoneObject?.nationalNumber ?? 0)
+            let contact = ContactInfo(firstName: $0.firstName, lastName: $0.lastName,
+                                      phoneNumber: phone, imageData: $0.imageData)
+            return contact
+        }
+        var phones = contacts.map { $0.phoneNumber.numbers }
         apiClient.publisher(Endpoints.Users.users(phones))
             .replaceError(with: [:])
             .sink { response in

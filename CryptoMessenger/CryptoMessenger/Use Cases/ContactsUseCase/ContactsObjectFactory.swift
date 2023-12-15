@@ -41,7 +41,7 @@ extension ContactsObjectFactory: ContactsObjectFactoryProtocol {
         let contact = Contact(
             mxId: user.userId ?? "",
             avatar: nil,
-            name: contact.firstName + contact.lastName,
+            name: contact.firstName + "  " + contact.lastName,
             status: user.statusMsg ?? "Привет, теперь я в Aura",
             phone: "",
             type: .lastUsers, onTap: { value in
